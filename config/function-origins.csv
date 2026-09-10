@@ -562,7 +562,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042BE40,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042C180,authored_game,FileSystem,authored,high,file-system-decrypt-vc71-exact-2026-09-10
 0x0042C290,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042C370,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042C370,authored_game,FileSystem,authored,high,file-system-encrypt-vc71-exact-2026-09-10
 0x0042C480,authored_game,FileSystem,authored,high,file-system-check-exists-vc71-exact-2026-09-10
 0x0042C4E0,authored_game,FileSystem,authored,high,file-system-write-data-vc71-exact-2026-09-10
 0x0042C5C0,authored_game,GameErrorContext,authored,high,game-error-context-log-vc71-exact-2026-09-10

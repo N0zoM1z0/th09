@@ -446,6 +446,16 @@ The nineteenth reviewed packet closes the lower-level FileSystem decrypt transfo
 
 The next evidence-connected packet should inspect `FileSystem::Encrypt @ 0x0042C370` and its relationship to exact Decrypt before returning to the unresolved TryDecryptFromTable register-allocation shape. This can establish whether the encrypt/decrypt pair shares a natural optimized source/TU profile without importing TH08 data ownership.
 
+The twentieth reviewed packet closes the inverse FileSystem encryption transform at `0x0042C370`.
+
+- `FileSystem::Encrypt @ 0x0042C370-0x0042C47A` has the same `/Gr` six-argument ABI as exact Decrypt: ECX carries the input pointer, EDX the size, and four encryption/chunk parameters are stack arguments consumed by `ret 0x10`. Its transform is the natural inverse: each bounded chunk is read from alternating backward positions and written sequentially while the XOR value advances; any unencrypted tail is copied unchanged.
+- The only target callee is the ZunMemory allocator at `0x00401340`. The same `"./system\\global.h"` literal at `0x0048E474` is passed as allocation debug text. One TH09 caller at `0x004221C6` uses the candidate; the caller's broader ownership remains outside this packet.
+- Natural maintained source replays 267/267 bytes with three relocations under `/O2 /Ob1 /Oy-`; `/O2 /Ob0` and `/Ox /Ob1` are also exact, while `/O1` produces 256 bytes and `/Od` 439. Exact Encrypt and Decrypt therefore share an observed optimized profile family, but original TU co-location and global flags remain unknown.
+- Stable committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` supplied the broad inverse-transform source hypothesis only. TH09 independently establishes the ABI, boundary, allocator/string dependencies, and exact codegen.
+- Five `CC` bytes at `0x0042C47B-0x0042C47F` remain outside Encrypt with physical ownership unassigned before exact CheckIfFileAlreadyExists.
+
+The next evidence-connected packet should inspect the release-build ZunMemory wrapper cohort at `0x00401340`, `0x00401360`, and `0x00401380`. Exact OpenFile/Decrypt/Encrypt call the allocator/free wrappers, while exact Chain::CreateElem calls the registry wrapper, so their extents, release semantics, origins, and natural VC7.1 shapes can be evaluated together without broadening into unrelated memory code.
+
 ## Restart commands
 
 ```bash
@@ -469,9 +479,9 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Twenty-two authored functions
+  deleting destructor are reviewed as exclusions. Twenty-three authored functions
   are source-present and repository-canonical exact: four GameErrorContext
-  methods, five FileSystem helpers, two Supervisor lock wrappers, seven Chain
+  methods, six FileSystem helpers, two Supervisor lock wrappers, seven Chain
   methods, three ChainElem lifecycle/callback methods, and
   Controller::GetJoystickCaps. All other imported origins remain pending.
   Factory acceptance remains
@@ -481,4 +491,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Inspect `0x0042C370` next as the FileSystem encrypt counterpart to exact Decrypt. Establish its TH09-local ABI, complete extent, allocator dependency, and natural VC7.1 source shape before deciding exactness. Preserve the unresolved TryDecryptFromTable register-allocation issue, all reviewed `CC` gaps, and crypt-table data ownership. Commit stable local checkpoints; do not push from GPT-web.
+Inspect the ZunMemory release-wrapper cohort at `0x00401340`, `0x00401360`, and `0x00401380` next. Reconcile complete extents, callers, release-build semantics, and origin independently before source or exactness promotion. Preserve the unresolved TryDecryptFromTable register-allocation issue and crypt-table data ownership. Commit stable local checkpoints; do not push from GPT-web.

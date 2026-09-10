@@ -20,3 +20,4 @@ Chain::RunDrawChain
 Controller::GetJoystickCaps
 FileSystem::OpenFile
 FileSystem::Decrypt
+FileSystem::Encrypt
