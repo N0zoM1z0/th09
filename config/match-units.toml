@@ -745,3 +745,17 @@ relocations = [
   { offset = 0x39, type = "REL32", symbol = "?PreloadAnm@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z", target = 0x0043C7A0 },
   { offset = 0x50, type = "REL32", symbol = "?Reset@AsciiManager@@QAEXXZ", target = 0x004343E0 },
 ]
+
+[units.ascii-manager-reset]
+source = "src/AsciiManagerReset.cpp"
+object = "build/matching/AsciiManagerReset.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AsciiManager::Reset"]
+symbol = "?Reset@AsciiManager@@QAEXXZ"
+target_address = 0x004343E0
+size = 0xFB
+relocations = [
+  { offset = 0xCD, type = "REL32", symbol = "?InitializeAndSetSprite@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00412800 },
+  { offset = 0xDB, type = "REL32", symbol = "?InitializeAndSetSprite@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00412800 },
+  { offset = 0xF4, type = "REL32", symbol = "?SetSpaceWidth@AsciiManager@@QAEXH@Z", target = 0x004343C0 },
+]

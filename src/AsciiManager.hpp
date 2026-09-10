@@ -11,6 +11,24 @@ struct Float3
 
 typedef char Float3SizeIs0C[(sizeof(Float3) == 0x0C) ? 1 : -1];
 
+struct AnmVm
+{
+    unsigned char unknown_0000[0x1F8];
+    union {
+        unsigned int flagsWord;
+        struct {
+            unsigned int unknownFlags0 : 11;
+            unsigned int anchor : 2;
+            unsigned int unknownFlags13 : 19;
+        };
+    };
+    unsigned char unknown_01FC[0x0C];
+    Float3 pos;
+    unsigned char unknown_0214[0x2A4 - 0x214];
+};
+
+typedef char AnmVmSizeIs2A4[(sizeof(AnmVm) == 0x2A4) ? 1 : -1];
+
 struct AsciiManagerString
 {
     char text[64];
@@ -36,7 +54,10 @@ class AsciiManager
     void Reset();
     void SetSpaceWidth(int spaceWidth);
 
-    unsigned char unknown_0000[0x2264];
+    AnmVm largeText;
+    AnmVm smallScoreText;
+    AnmVm popupText;
+    unsigned char unknown_07EC[0x2264 - 0x7EC];
     AsciiManagerString strings[256];
     int numStrings;
     unsigned long color;
@@ -49,7 +70,15 @@ class AsciiManager
     unsigned char unknown_8284[4];
     AnmLoaded *asciiAnm;
     AnmLoaded *captureAnm;
-    unsigned char unknown_8290[0xE0AC - 0x8290];
+    int resetField8290;
+    int resetField8294;
+    int unknown_8298;
+    int resetField829C;
+    unsigned char opaque_82A0[0x1528];
+    unsigned char opaque_97C8[0x0FE0];
+    unsigned char unknown_A7A8[0x0A98];
+    unsigned char opaque_B240[0x15E0];
+    unsigned char unknown_C820[0xE0AC - 0xC820];
 };
 
 typedef char AsciiManagerSizeIsE0AC[(sizeof(AsciiManager) == 0xE0AC) ? 1 : -1];

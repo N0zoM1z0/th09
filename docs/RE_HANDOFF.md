@@ -571,6 +571,18 @@ The thirtieth reviewed packet canonically reconstructs two AsciiManager setup he
 
 The next evidence-connected packet is `AsciiManager::Reset @ 0x004343E0-0x004344DA`. Its TH09-local state ranges, constants, callers, SetSpaceWidth call, and two calls to candidate `0x00412800` are now bounded; recover only the fields/source shape required for a natural VC7.1 replay, retaining unknown array/subobject ownership where the target does not decide it.
 
+The thirty-first reviewed packet canonically reconstructs `AsciiManager::Reset @ 0x004343E0-0x004344DA` without assigning unobserved manager regions to adjacent-game types.
+
+- Reset clears exactly three 0x2A4-byte VM records at manager offsets `+0`, `+0x2A4`, and `+0x548`; the 0x6000-byte text queue at `+0x2264`; and three additional opaque spans at `+0x82A0` size 0x1528, `+0x97C8` size 0x0FE0, and `+0xB240` size 0x15E0. The intervals not touched by target code remain opaque in the maintained layout.
+- It clears the observed queue count, GUI/selected state, fields `+0x8290/+0x8294/+0x829C`, sets color to `0xFFFFFFFF` and both scales to 1.0f, while target field `+0x8298` is not written and therefore remains explicitly unknown.
+- The second and third VM flag words at manager `+0x49C/+0x740` receive anchor value 3 (`|=0x1800`); the VM-local flag word offset is `+0x1F8`. The second VM receives sprite 97 and the first sprite 32 through candidate `0x00412800`; second-VM `pos.z` at manager `+0x4B4` is set to 0.1f. Reset finishes with exact `SetSpaceWidth(9)`.
+- `0x00412800` independently has ECX as a loaded-ANM object, VM pointer and sprite index as two stack arguments, and `ret 8`. Declaring it `AnmLoaded::InitializeAndSetSprite(AnmVm *, int)` produces both exact Reset relocations and matches committed TH08 naming, but this remains only a callee hypothesis. No origin, source, or exactness was promoted for `0x00412800`.
+- Clean committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` corroborates the first-three-VM roles and the VM anchor/position field names after TH09 fixed their sizes and offsets. TH09 values differ materially: sprite 97 replaces TH08's 136 popup setup path, the target initializes only the observed two VMs here, and TH09 default space width is 9 rather than 13. Target behavior is authoritative. No TH095 uncommitted content was consulted.
+- Natural maintained source replays all 251 bytes with three relocations twice; it remains exact under the tested O2/Ox family, while `/O1` emits 226 and `/Od` 379 bytes. No compiler wrapper, padding, target bytes, assembly, volatile trick, or register-directed source is used. Reset is canonical `authored_game/AsciiManager`, taking totals from 35 functions / 3,609 bytes to 36 functions / 3,860 bytes.
+- The maintained layout deliberately leaves manager `+0x7EC-0x2264`, the three later memset region types, other gaps, and `+0x8298` semantically unknown. Shared IDA comment at Reset records the same constraints. `0x004344DB-0x004344DF` is five bytes of physically unassigned `CC`.
+
+The next evidence-connected packet should inspect `0x00434540-0x00434694` and its immediate callers/callees/field accesses. It is adjacent to Reset/AddedCallback but must earn AsciiManager ownership from TH09-local object and call evidence before any adjacent-game name is adopted.
+
 ## Restart commands
 
 ```bash
@@ -594,11 +606,11 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Thirty-five authored functions
+  deleting destructor are reviewed as exclusions. Thirty-six authored functions
   are source-present and repository-canonical exact: four GameErrorContext
   methods, six FileSystem helpers, two Supervisor lock wrappers, seven Chain
   methods, three ChainElem lifecycle/callback methods, Controller::GetJoystickCaps,
-  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, and six AsciiManager lifecycle/text/setup helpers. All other imported origins remain pending.
+  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, and seven AsciiManager lifecycle/text/setup/reset methods. All other imported origins remain pending.
   Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -606,4 +618,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The immediate post-LZSS candidates `0x00434260` and `0x00434280` are now canonical exact AsciiManager lifecycle helpers. The AsciiManager text helpers plus SetSpaceWidth and AddedCallback are now canonical exact. The address-adjacent `0x00434370/80/90/B0/D0` candidates remain unknown rather than inheriting AsciiManager ownership. Continue with bounded `AsciiManager::Reset @ 0x004343E0-0x004344DA`. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.
+Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The immediate post-LZSS candidates `0x00434260` and `0x00434280` are now canonical exact AsciiManager lifecycle helpers. The AsciiManager text helpers plus SetSpaceWidth and AddedCallback are now canonical exact. The address-adjacent `0x00434370/80/90/B0/D0` candidates remain unknown rather than inheriting AsciiManager ownership. Reset at `0x004343E0` is now canonical exact. Continue by independently classifying candidate `0x00434540-0x00434694` from TH09-local callers/callees/field accesses before adopting any AsciiManager name. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.

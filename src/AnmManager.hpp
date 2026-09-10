@@ -1,6 +1,12 @@
 #pragma once
 
-class AnmLoaded;
+struct AnmVm;
+
+class AnmLoaded
+{
+  public:
+    void InitializeAndSetSprite(AnmVm *vm, int spriteIndex);
+};
 
 enum AnmFileSlot
 {

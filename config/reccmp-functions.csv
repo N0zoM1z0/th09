@@ -34,3 +34,4 @@ AsciiManager::AddString,0x004342A0,function
 AsciiManager::AddFormatText,0x00434330,function
 AsciiManager::SetSpaceWidth,0x004343C0,function
 AsciiManager::AddedCallback,0x004344E0,function
+AsciiManager::Reset,0x004343E0,function
