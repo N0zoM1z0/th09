@@ -531,3 +531,32 @@ relocations = [
   { offset = 0x192, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
   { offset = 0x1A1, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
 ]
+
+[units.lzss-init-tree]
+source = "src/LzssInit.cpp"
+object = "build/matching/LzssInit.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Lzss::InitTree"]
+symbol = "?InitTree@Lzss@@SIXH@Z"
+target_address = 0x00433C80
+size = 0x25
+relocations = [
+  { offset = 0x02, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x10, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x1A, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x20, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+]
+
+[units.lzss-init-encoder-state]
+source = "src/LzssInit.cpp"
+object = "build/matching/LzssInit.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Lzss::InitEncoderState"]
+symbol = "?InitEncoderState@Lzss@@SIXXZ"
+target_address = 0x00433CB0
+size = 0x2A
+relocations = [
+  { offset = 0x09, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
+  { offset = 0x10, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x23, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+]

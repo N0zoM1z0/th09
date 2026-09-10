@@ -501,6 +501,17 @@ The twenty-fourth reviewed packet establishes exact code generation for the LZSS
 
 The next evidence-connected packet should inspect `0x00433C80` and `0x00433CB0` as the small initialization cohort that also references the shared LZSS state. Reconcile their exact extents, the apparent 0x2001-node 12-byte tree view rooted around `0x004B4420`, and dictionary-clearing behavior before selecting names or source. Keep LZSS origin and all compression-state data ownership independent from codegen identity.
 
+The twenty-fifth reviewed packet establishes exact code generation for the two small LZSS initialization helpers without promoting LZSS origin or state ownership.
+
+- `0x00433C80-0x00433CA4` has the exact source shape reconstructed as `Lzss::InitTree(int root)`. Root arrives in ECX under `/Gr`; the routine stores it into the sentinel node's `right` field, sets the selected node's parent to 0x2000, and clears that node's left/right links. Four relocation addends all solve to one neutral tree base at `0x004B4420`.
+- `0x00433CB0-0x00433CD9` has the exact source shape reconstructed as `Lzss::InitEncoderState()`. VC7.1 emits a `rep stosd` that clears exactly 0x2000 dictionary bytes at `0x004CC430`, followed by a 12-byte-stride loop clearing 0x2001 tree records. The comparison relocation `tree + 0x18010` lands exactly on the dictionary address, while the tree array itself occupies 0x1800C bytes; this geometry is target-observed but does not assign the four-byte intervening storage or either array definition to a source owner.
+- Both helpers are called from `0x00434020`, the larger encoder-side candidate: InitEncoderState at `0x00434066` and InitTree at `0x004340AA`. This connects the helpers to the same compression subsystem but does not settle whether the LZSS implementation is game-authored or incorporated code. Both candidates remain `unknown/review` with source-present exact codegen only.
+- Natural source replays 37/37 and 42/42 bytes under `/O2 /Ob1 /Oy-`; `/O2 /Ob0` and `/Ox /Ob1` are also exact. `/O1` changes InitTree while leaving InitEncoderState exact; `/Od` expands both.
+- Eleven `CC` bytes at `0x00433CA5-0x00433CAF` and six at `0x00433CDA-0x00433CDF` remain physically unassigned. The bytes starting at `0x00433CE0` are code associated by native IDA with another function chunk and are explicitly not absorbed into the InitEncoderState gap.
+- No `matches.csv`, `implemented.csv`, or authored-total changes follow from these codegen results. Canonical authored exact totals remain 29 functions / 3,259 bytes.
+
+The next evidence-connected packet should map the tree-manipulation helpers around `0x00433CE0`, `0x00433D40`, `0x00433DC0`, `0x00433E00`, and `0x00433FC0` before source promotion. Reconcile IDA function chunks first, because `0x00433CE0` is already associated with the candidate named from `0x00433FC0`; then use callers and tree-field dataflow to distinguish ContractNode, DeleteString, FindNextNode, AddString, and ReplaceNode hypotheses.
+
 ## Restart commands
 
 ```bash
@@ -536,4 +547,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Inspect `0x00433C80` and `0x00433CB0` next as the LZSS initialization cohort connected to the reviewed decoder and shared dictionary. Reconcile their boundaries, tree/dictionary storage view, callers, and natural VC7.1 source shape before promotion. Preserve LZSS origin and compression-state ownership as unknown, keep TryDecryptFromTable unresolved, and do not push from GPT-web.
+Map the LZSS tree-helper cohort around `0x00433CE0`, `0x00433D40`, `0x00433DC0`, `0x00433E00`, and `0x00433FC0` next. Reconcile native function chunks before assigning helper names, then use target-local callers/tree dataflow and focused VC7.1 replays. Preserve LZSS origin and all compression-state data ownership as unknown, keep TryDecryptFromTable unresolved, and do not push from GPT-web.
