@@ -220,9 +220,37 @@ The eighth reviewed packet closes the direct path helper at
   not a codegen mismatch. No Factory Truth Kernel acceptance is claimed for any
   repository exact row.
 
-The next evidence-connected packet should inspect caller `0x0042C480`, which
-uses ResolvePath immediately before a small Win32 file query, and determine its
-full boundary/error semantics before testing a natural VC7.1 source shape.
+The ninth reviewed packet closes the small file-presence helper at
+`0x0042C480-0x0042C4DB`.
+
+- Target-local ABI is the `/Gr` free-function shape: the path enters in ECX and
+  no stack arguments are present. IDA's provisional `this` label is therefore
+  not used as type evidence.
+- The function acquires supervisor lock 2, evaluates `ResolvePath(path)` as the
+  first argument of `CreateFileA`, requests `GENERIC_READ | FILE_SHARE_READ`
+  with `OPEN_EXISTING` and `FILE_FLAG_SEQUENTIAL_SCAN | FILE_ATTRIBUTE_NORMAL`,
+  then returns 1 after closing a valid handle or 0 on `INVALID_HANDLE_VALUE`.
+- Committed TH08 source at HEAD
+  `a45e99fb1942714e6edded20847e32a654d56f97` supplied the semantic-name
+  hypothesis `FileSystem::CheckIfFileAlreadyExists`. TH09 independently differs
+  by resolving the path inside the CreateFileA argument evaluation; the TH08
+  body was not copied verbatim. TH095 committed source was also searched only
+  as hypothesis material; its pre-existing dirty work was not consulted.
+- The natural TH09-specific expression `CreateFileA(ResolvePath(path), ...)`
+  under the existing exact-producing VC7.1 profile emits exactly 0x5C bytes.
+  Canonical replay matches all 92 bytes with nine relocations to ResolvePath,
+  supervisor storage/wrappers, CreateFileA, and CloseHandle.
+- Four target callers (`0x00429662`, `0x0042D900`, `0x0042DB50`, and
+  `0x004324C0` function bodies) use this candidate, but none is promoted by this
+  result. Four `CC` bytes at `0x0042C4DC-0x0042C4DF` retain unknown physical
+  ownership.
+- An IDA evidence comment at `0x0042C480` was written and read back through the
+  attested native provider. No target bytes or function names were modified.
+
+The next evidence-connected packet should inspect the supervisor lock wrappers
+at `0x0042B130` and `0x0042B160`, which are direct dependencies of all exact
+FileSystem/ErrorContext functions in this cohort. Their object layout and lock
+counter offsets must be recovered before any source/exact claim.
 
 ## Restart commands
 
@@ -246,9 +274,10 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - VC7.1 build 3077 is observed; all detailed build-shape fields remain unknown.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
-- Seven CRT/library candidates are reviewed as exclusions. Six authored
+- Seven CRT/library candidates are reviewed as exclusions. Seven authored
   functions are source-present and repository-canonical exact: four
-  GameErrorContext methods plus FileSystem::WriteDataToFile and ResolvePath.
+  GameErrorContext methods plus FileSystem::WriteDataToFile, ResolvePath, and
+  CheckIfFileAlreadyExists.
   All other imported origins remain pending. Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -256,8 +285,10 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Inspect ResolvePath caller `0x0042C480` next; it is a small, evidence-connected
-FileSystem candidate and should be bounded before source work. Keep storage at
-`0x004ACD08` and `0x004ACC00` externally declared until physical/TU ownership
-is proven. Preserve unknown ownership at `0x0042D290` and all reviewed `CC`
-gaps. Commit stable local checkpoints; do not push from GPT-web.
+Inspect the supervisor lock wrappers at `0x0042B130` and `0x0042B160` next.
+Recover only layout offsets and counter semantics established by TH09 target
+accesses; do not infer the rest of the supervisor object from adjacent games.
+Keep path storage at `0x004ACD08` and `0x004ACC00` externally declared until
+physical/TU ownership is proven. Preserve unknown ownership at `0x0042D290` and
+all reviewed `CC` gaps. Commit stable local checkpoints; do not push from
+GPT-web.
