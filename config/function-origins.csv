@@ -340,7 +340,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041A796,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041A7C3,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041A827,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041A889,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041A889,authored_game,Chain,authored,high,chain-elem-set-callback-vc71-exact-2026-09-10
 0x0041A89E,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041A8A2,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041A98B,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -533,7 +533,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042ABE0,authored_game,Chain,authored,high,chain-elem-constructor-vc71-exact-2026-09-10
 0x0042AC00,authored_game,Chain,authored,high,chain-elem-destructor-vc71-exact-2026-09-10
 0x0042AC30,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042AC50,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042AC50,compiler_generated,Chain,exclude,high,chain-elem-scalar-deleting-destructor-vc71-2026-09-10
 0x0042AC80,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042ACB0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042ACE0,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -554,7 +554,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042B190,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042B1E0,authored_game,Chain,authored,high,chain-add-calc-vc71-exact-2026-09-10
 0x0042B270,authored_game,Chain,authored,high,chain-add-draw-vc71-exact-2026-09-10
-0x0042B300,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042B300,authored_game,Chain,authored,high,chain-create-elem-vc71-exact-2026-09-10
 0x0042B350,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042B410,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042B740,unknown,,review,unknown,ida-1.50a-initial-inventory

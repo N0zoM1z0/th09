@@ -10,6 +10,7 @@ class ChainElem
   public:
     ChainElem();
     ~ChainElem();
+    void SetCallback(ChainCallback callback);
 
     short priority;
     unsigned short isHeapAllocated : 1;
@@ -38,6 +39,7 @@ class Chain
 
     int AddToCalcChain(ChainElem *elem, int priority);
     int AddToDrawChain(ChainElem *elem, int priority);
+    ChainElem *CreateElem(ChainCallback callback);
 };
 
 typedef char ChainSizeIs40[(sizeof(Chain) == 0x40) ? 1 : -1];

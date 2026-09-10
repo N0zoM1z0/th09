@@ -204,7 +204,7 @@ def solved_relocations(
 
 
 def compare(path: Path, symbol: str, address: int, expected_size: int) -> dict[str, object]:
-    code, relocations = object_function(path, symbol)
+    code, relocations = object_function(path, symbol, expected_size)
     target = pe_bytes_at(verified_target(), address, expected_size)
     if len(code) != expected_size:
         return {

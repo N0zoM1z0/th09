@@ -12,3 +12,5 @@ address,name,size,status,match_percent,unit,evidence
 0x0042B270,Chain::AddToDrawChain,143,matching,100.00,chain-add-draw,python3 scripts/build-match-unit.py --unit chain-add-draw && python3 scripts/compare-coff-function.py --unit chain-add-draw --json
 0x0042ABE0,ChainElem::ChainElem,30,matching,100.00,chain-elem-constructor,python3 scripts/build-match-unit.py --unit chain-elem-constructor && python3 scripts/compare-coff-function.py --unit chain-elem-constructor --json
 0x0042AC00,ChainElem::~ChainElem,36,matching,100.00,chain-elem-destructor,python3 scripts/build-match-unit.py --unit chain-elem-destructor && python3 scripts/compare-coff-function.py --unit chain-elem-destructor --json
+0x0041A889,ChainElem::SetCallback,21,matching,100.00,chain-elem-set-callback,python3 scripts/build-match-unit.py --unit chain-elem-set-callback && python3 scripts/compare-coff-function.py --unit chain-elem-set-callback --json
+0x0042B300,Chain::CreateElem,71,matching,100.00,chain-create-elem,python3 scripts/build-match-unit.py --unit chain-create-elem && python3 scripts/compare-coff-function.py --unit chain-create-elem --json

@@ -379,6 +379,18 @@ paired allocator-side candidate `0x0042B300` only if target-local evidence shows
 that they form a bounded compiler-helper cohort. Keep origin classification
 separate from codegen identity.
 
+The fourteenth reviewed packet separates authored Chain creation helpers from a compiler-generated deleting destructor.
+
+- `ChainElem::SetCallback @ 0x0041A889-0x0041A89D` is a normal `__thiscall` member. TH09 stores the supplied callback at `+0x4`, clears added/deleted callbacks at `+0x8/+0xC`, and returns with `ret 4`. The separate 4-byte candidate at `0x0041A89E` begins immediately, so no padding is assigned to SetCallback.
+- `Chain::CreateElem @ 0x0042B300-0x0042B346` is authored game logic rather than a generic compiler helper: target-local code allocates 0x20 bytes, invokes the exact ChainElem constructor, passes the pointer through the release-build registry hook at `0x00401380` with the application literal `"funcChainInf"`, calls exact SetCallback, sets the heap-allocation bit at `+0x2`, and returns the node. A nine-byte `CC` gap through `0x0042B34F` remains physically unowned.
+- Stable committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` supplied the `SetCallback`/`CreateElem` naming and natural source-shape hypothesis. TH09 bytes, ABI, app-specific literal, callees, compiler output, and relocations independently decide both results. TH095 changed concurrently during this packet and is treated as volatile hypothesis material; no uncommitted TH095 content was used.
+- SetCallback replays 21/21 bytes with no relocations under one exact-producing `/O1 /Ob1 /Oy-` profile. Tested `/O2`/`/Ox` variants preserve the 0x15-byte extent but select different instructions, so no global optimization claim follows.
+- CreateElem replays 71/71 bytes with six relocations under a separate-TU probe in which SetCallback's definition is not visible and C++ EH is disabled with `/GX-`. With EH enabled the same natural source grows substantially; with SetCallback visible the no-EH body is four bytes shorter. These observations constrain this match unit only. In particular, the exact Chain destructor requires EH code generation, so `/GX-` is not promoted to a Chain-TU or project-wide fact.
+- A normal C++ `delete ChainElem *` probe causes VC7.1 to emit the auxiliary COMDAT `??_GChainElem@@QAEPAXI@Z`. Its 33-byte body matches `0x0042AC50-0x0042AC70` across all 25 non-relocation bytes, and the two relocations resolve to the exact ordinary destructor and operator delete. The target candidate is therefore classified `compiler_generated` / `exclude`, not authored; no canonical exact row is claimed for it. Fifteen following `CC` bytes through `0x0042AC7F` remain physically unowned before the separate candidate at `0x0042AC80`.
+- `scripts/compare-coff-function.py` now passes an explicit expected size through its already-guarded aux-less COFF-symbol path, allowing bounded comparison of compiler-generated COMDAT helpers without weakening target or section validation.
+
+The next evidence-connected packet should inspect `0x0042B350`, one of the two direct callers of the scalar deleting destructor and the natural Chain removal seam. Reconcile it with the exact lock wrappers and ChainElem layout before deciding whether it is `Chain::CutImpl`, `Chain::Cut`, or another target-local routine.
+
 ## Restart commands
 
 ```bash
@@ -401,19 +413,16 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - VC7.1 build 3077 is observed; all detailed build-shape fields remain unknown.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
-- Seven CRT/library candidates are reviewed as exclusions. Thirteen authored
-  functions are source-present and repository-canonical exact: four
-  GameErrorContext methods, three FileSystem helpers, two Supervisor lock
-  wrappers, two Chain insertion methods, and the ChainElem lifecycle pair.
-  All other imported origins remain pending. Factory acceptance remains
+- Seven CRT/library candidates plus one compiler-generated ChainElem scalar
+  deleting destructor are reviewed as exclusions. Fifteen authored functions
+  are source-present and repository-canonical exact: four GameErrorContext
+  methods, three FileSystem helpers, two Supervisor lock wrappers, two Chain
+  insertion methods, `Chain::CreateElem`, and three ChainElem lifecycle/callback
+  methods. All other imported origins remain pending. Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
 - `config/build.toml` exists from day one but correctly reports an open graph.
 
 ## Next bounded work
 
-Inspect `0x0042AC50` next as a likely deleting-destructor helper for ChainElem,
-and inspect `0x0042B300` only if the target shows a directly connected allocator
-or construction role. Classify compiler helpers independently from authored game
-functions. Preserve all reviewed `CC` gaps and unrelated ownership unknowns.
-Commit stable local checkpoints; do not push from GPT-web.
+Inspect `0x0042B350` next as the Chain removal seam that directly invokes the classified scalar deleting destructor. Reconcile its lock behavior, list mutation, callbacks, and boundary before source work. Preserve all reviewed `CC` gaps and unrelated ownership unknowns. Commit stable local checkpoints; do not push from GPT-web.

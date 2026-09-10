@@ -229,3 +229,30 @@ relocations = [
   { offset = 0x38, type = "REL32", symbol = "??1ChainElem@@QAE@XZ", target = 0x0042AC00 },
   { offset = 0x43, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
 ]
+
+[units.chain-elem-set-callback]
+source = "src/ChainElemCallback.cpp"
+object = "build/matching/ChainElemCallback.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ChainElem::SetCallback"]
+symbol = "?SetCallback@ChainElem@@QAEXP6IHPAX@Z@Z"
+target_address = 0x0041A889
+size = 0x15
+relocations = []
+
+[units.chain-create-elem]
+source = "src/ChainCreate.cpp"
+object = "build/matching/ChainCreate.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Chain::CreateElem"]
+symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z"
+target_address = 0x0042B300
+size = 0x47
+relocations = [
+  { offset = 0x06, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x14, type = "REL32", symbol = "??0ChainElem@@QAE@XZ", target = 0x0042ABE0 },
+  { offset = 0x1E, type = "DIR32", symbol = "??_C@_0N@INNNCBMI@funcChainInf?$AA@", target = 0x0048FB84 },
+  { offset = 0x26, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x2B, type = "REL32", symbol = "?AddToRegistry@ZunMemory@@QAEPAXPAXIPAD@Z", target = 0x00401380 },
+  { offset = 0x38, type = "REL32", symbol = "?SetCallback@ChainElem@@QAEXP6IHPAX@Z@Z", target = 0x0041A889 },
+]

@@ -11,3 +11,5 @@ Chain::AddToCalcChain
 Chain::AddToDrawChain
 ChainElem::ChainElem
 ChainElem::~ChainElem
+ChainElem::SetCallback
+Chain::CreateElem
