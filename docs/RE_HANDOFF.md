@@ -313,10 +313,33 @@ The eleventh reviewed packet closes the paired Chain insertion helpers at
   back through attested `th09-ida` after transient Factory transport failures.
   No target bytes or function names were modified.
 
-The next evidence-connected packet should review the ChainElem lifecycle pair at
-`0x0042ABE0` and `0x0042AC00`, then use that evidence to decide whether the
-small Chain constructor/destructor candidates at `0x0042AC30` and `0x0042B190`
-can be handled in the same bounded subsystem cohort.
+The twelfth reviewed packet closes the ChainElem lifecycle pair at
+`0x0042ABE0-0x0042AC23`.
+
+- `ChainElem::ChainElem @ 0x0042ABE0-0x0042ABFD` is a 30-byte `__thiscall`
+  constructor. It clears bit 0 at `+0x2`, prev/next at `+0x10/+0x14`, callback
+  fields at `+0x4/+0x8/+0xC`, sets releaseTarget at `+0x18` to `this`, and
+  clears the signed 16-bit priority at `+0x0`.
+- `ChainElem::~ChainElem @ 0x0042AC00-0x0042AC23` is a 36-byte `__thiscall`
+  destructor. If the deleted callback at `+0xC` is non-null, it receives the
+  argument at `+0x1C` through the `/Gr` callback ABI; the destructor then clears
+  prev/next and callback/added/deleted callback fields.
+- The natural lifecycle source matches the committed TH08 hypothesis but was
+  validated entirely against TH09: both pinned-VC7.1 units replay twice with
+  complete zero differences and no relocations. TH095 committed layout remains
+  hypothesis-only and its unrelated dirty work was not consulted.
+- The constructor is called by the still-unreviewed Chain constructor candidate
+  at `0x0042AC30`, by `0x0042B300`, and by other TH09 allocation paths. The
+  destructor is called by still-unreviewed `0x0042AC50` and Chain destructor
+  candidate `0x0042B190`; none of those callers is promoted here.
+- `0x0042ABFE-0x0042ABFF` and `0x0042AC24-0x0042AC2F` remain unowned `CC`
+  gaps. IDA evidence comments at both lifecycle entries were written and read
+  back through attested `th09-ida`; no target bytes or function names changed.
+
+The next evidence-connected packet should test the small Chain constructor at
+`0x0042AC30` and destructor at `0x0042B190` now that both embedded ChainElem
+lifecycles are exact. Reconcile compiler-emitted member-construction/destruction
+shape and boundaries before promotion.
 
 ## Restart commands
 
@@ -340,10 +363,10 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - VC7.1 build 3077 is observed; all detailed build-shape fields remain unknown.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
-- Seven CRT/library candidates are reviewed as exclusions. Eleven authored
+- Seven CRT/library candidates are reviewed as exclusions. Thirteen authored
   functions are source-present and repository-canonical exact: four
   GameErrorContext methods, three FileSystem helpers, two Supervisor lock
-  wrappers, and two Chain insertion methods.
+  wrappers, two Chain insertion methods, and the ChainElem lifecycle pair.
   All other imported origins remain pending. Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -351,10 +374,7 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Review the ChainElem lifecycle pair at `0x0042ABE0` and `0x0042AC00` next.
-Their target accesses already constrain the 0x20-byte node layout; reconcile
-callbacks, constructor/destructor boundaries, and source shape before promotion.
-Then consider the adjacent small Chain constructor/destructor only if the
-lifecycle evidence remains connected. Preserve all reviewed `CC` gaps and
-unrelated ownership unknowns. Commit stable local checkpoints; do not push from
-GPT-web.
+Test the Chain constructor at `0x0042AC30` and destructor at `0x0042B190`
+next, using only the now-exact ChainElem lifecycle and TH09 target call order as
+evidence. Preserve all reviewed `CC` gaps and unrelated ownership unknowns.
+Commit stable local checkpoints; do not push from GPT-web.

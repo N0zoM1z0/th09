@@ -10,3 +10,5 @@ Supervisor::EnterCriticalSectionWrapper,0x0042B130,function
 Supervisor::LeaveCriticalSectionWrapper,0x0042B160,function
 Chain::AddToCalcChain,0x0042B1E0,function
 Chain::AddToDrawChain,0x0042B270,function
+ChainElem::ChainElem,0x0042ABE0,function
+ChainElem::~ChainElem,0x0042AC00,function

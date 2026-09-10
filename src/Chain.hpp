@@ -8,6 +8,9 @@ typedef int (*ChainLifetimeCallback)(void *);
 class ChainElem
 {
   public:
+    ChainElem();
+    ~ChainElem();
+
     short priority;
     unsigned short isHeapAllocated : 1;
     ChainCallback callback;

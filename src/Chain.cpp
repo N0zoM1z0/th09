@@ -1,6 +1,30 @@
 #include "Chain.hpp"
 #include "Supervisor.hpp"
 
+ChainElem::ChainElem()
+{
+    this->prev = NULL;
+    this->next = NULL;
+    this->callback = NULL;
+    this->releaseTarget = this;
+    this->addedCallback = NULL;
+    this->deletedCallback = NULL;
+    this->priority = 0;
+    this->isHeapAllocated = false;
+}
+
+ChainElem::~ChainElem()
+{
+    if (this->deletedCallback != NULL)
+        this->deletedCallback(this->arg);
+
+    this->prev = NULL;
+    this->next = NULL;
+    this->callback = NULL;
+    this->addedCallback = NULL;
+    this->deletedCallback = NULL;
+}
+
 int Chain::AddToCalcChain(ChainElem *elem, int priority)
 {
     ChainElem *current = &this->calcChain;

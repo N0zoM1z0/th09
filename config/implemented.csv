@@ -9,3 +9,5 @@ Supervisor::EnterCriticalSectionWrapper
 Supervisor::LeaveCriticalSectionWrapper
 Chain::AddToCalcChain
 Chain::AddToDrawChain
+ChainElem::ChainElem
+ChainElem::~ChainElem

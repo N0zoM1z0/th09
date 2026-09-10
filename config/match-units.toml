@@ -179,3 +179,23 @@ relocations = [
   { offset = 0x7D, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x82, type = "REL32", symbol = "?LeaveCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B160 },
 ]
+
+[units.chain-elem-constructor]
+source = "src/Chain.cpp"
+object = "build/matching/Chain.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Oy-", "/I", "src"]
+functions = ["ChainElem::ChainElem"]
+symbol = "??0ChainElem@@QAE@XZ"
+target_address = 0x0042ABE0
+size = 0x1E
+relocations = []
+
+[units.chain-elem-destructor]
+source = "src/Chain.cpp"
+object = "build/matching/Chain.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Oy-", "/I", "src"]
+functions = ["ChainElem::~ChainElem"]
+symbol = "??1ChainElem@@QAE@XZ"
+target_address = 0x0042AC00
+size = 0x24
+relocations = []

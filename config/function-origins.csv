@@ -530,8 +530,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042A45B,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042A7D1,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042AB13,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042ABE0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042AC00,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042ABE0,authored_game,Chain,authored,high,chain-elem-constructor-vc71-exact-2026-09-10
+0x0042AC00,authored_game,Chain,authored,high,chain-elem-destructor-vc71-exact-2026-09-10
 0x0042AC30,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042AC50,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042AC80,unknown,,review,unknown,ida-1.50a-initial-inventory

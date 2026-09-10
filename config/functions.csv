@@ -530,8 +530,8 @@ address,size,span_end,current_name,proposed_name,module,status,match_percent,cal
 0x0042A45B,886,0x0042A7D0,sub_42A45B,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042A7D1,506,0x0042A9CA,sub_42A7D1,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042AB13,201,0x0042ABDB,sub_42AB13,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x0042ABE0,30,0x0042ABFD,sub_42ABE0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x0042AC00,36,0x0042AC23,sub_42AC00,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
+0x0042ABE0,30,0x0042ABFD,sub_42ABE0,ChainElem::ChainElem,Chain,matching,100.00,__thiscall,ChainElem::ChainElem(),false,src/Chain.cpp,Canonical VC7.1 comparison: 30/30 bytes exact with no relocations,authored,Initializes the target-observed 0x20-byte ChainElem layout including releaseTarget=this and bit0 clear at +0x2; reviewed extent ends RET at 0x0042ABFD; 0x0042ABFE-0x0042ABFF padding remains separately unowned
+0x0042AC00,36,0x0042AC23,sub_42AC00,ChainElem::~ChainElem,Chain,matching,100.00,__thiscall,ChainElem::~ChainElem(),false,src/Chain.cpp,Canonical VC7.1 comparison: 36/36 bytes exact with no relocations,authored,"Calls deletedCallback at +0xC with arg +0x1C when non-null, then clears prev/next and callback fields; reviewed extent ends RET at 0x0042AC23; 0x0042AC24-0x0042AC2F padding remains separately unowned"
 0x0042AC30,18,0x0042AC41,sub_42AC30,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042AC50,33,0x0042AC70,sub_42AC50,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042AC80,37,0x0042ACA4,sub_42AC80,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,

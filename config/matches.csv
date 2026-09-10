@@ -10,3 +10,5 @@ address,name,size,status,match_percent,unit,evidence
 0x0042B160,Supervisor::LeaveCriticalSectionWrapper,40,matching,100.00,supervisor-leave-critical-section,python3 scripts/build-match-unit.py --unit supervisor-leave-critical-section && python3 scripts/compare-coff-function.py --unit supervisor-leave-critical-section --json
 0x0042B1E0,Chain::AddToCalcChain,143,matching,100.00,chain-add-calc,python3 scripts/build-match-unit.py --unit chain-add-calc && python3 scripts/compare-coff-function.py --unit chain-add-calc --json
 0x0042B270,Chain::AddToDrawChain,143,matching,100.00,chain-add-draw,python3 scripts/build-match-unit.py --unit chain-add-draw && python3 scripts/compare-coff-function.py --unit chain-add-draw --json
+0x0042ABE0,ChainElem::ChainElem,30,matching,100.00,chain-elem-constructor,python3 scripts/build-match-unit.py --unit chain-elem-constructor && python3 scripts/compare-coff-function.py --unit chain-elem-constructor --json
+0x0042AC00,ChainElem::~ChainElem,36,matching,100.00,chain-elem-destructor,python3 scripts/build-match-unit.py --unit chain-elem-destructor && python3 scripts/compare-coff-function.py --unit chain-elem-destructor --json
