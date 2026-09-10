@@ -697,7 +697,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00433130,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00433140,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00433160,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004331C0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004331C0,authored_game,PbgArchive,authored,high,pbg-archive-read-decompress-entry-vc71-exact-2026-09-10
 0x00433290,authored_game,PbgArchive,authored,high,pbg-archive-get-entry-size-vc71-exact-2026-09-10
 0x004332B0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004333B0,unknown,,review,unknown,ida-1.50a-initial-inventory

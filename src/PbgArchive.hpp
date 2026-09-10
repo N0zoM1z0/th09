@@ -2,7 +2,13 @@
 
 #include <windows.h>
 
-struct PbgArchiveEntry;
+struct PbgArchiveEntry
+{
+    char *filename;
+    DWORD dataOffset;
+    DWORD decompressedSize;
+    DWORD fieldC;
+};
 
 class PbgArchive
 {

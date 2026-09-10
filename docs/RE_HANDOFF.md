@@ -477,6 +477,18 @@ The twenty-second reviewed packet closes the archive entry lookup and decompress
 
 The next evidence-connected packet should inspect `PbgArchive::ReadDecompressEntry @ 0x004331C0`, already called by exact FileSystem::OpenFile and now connected to exact FindEntry. Recover only the file-backend ABI, entry offsets, temporary allocation/free path, and LZSS call needed for this 193-byte routine; keep backend implementation and full archive layout independent.
 
+The twenty-third reviewed packet closes `PbgArchive::ReadDecompressEntry @ 0x004331C0-0x00433280` without claiming the complete archive or file-backend layouts.
+
+- TH09 extends the archive prefix needed by this routine to `archiveFilename @ this+8` and a polymorphic file backend at `this+0xC`. Combined with the exact query packet, the currently proven prefix is entries `+0`, entryCount `+4`, archiveFilename `+8`, backend `+0xC`; this is still not a total-class-size or source-ownership claim.
+- The backend calls actually observed here are vtable Open at `+0`, Read at `+8`, and Seek at `+0x18`. The maintained TU uses `UnknownSlot*` declarations for the intervening virtual positions rather than importing TH08 names that TH09 has not independently established. Open receives the archive filename plus open-mode element 0; Seek receives entry `dataOffset` plus seek-mode element 0.
+- Target data establishes open-mode storage at `0x004A1EC8` with its first pointer targeting `"r" @ 0x00490F1C`; seek-mode storage begins at `0x00490F08` with first value zero. The entry `+4` field is passed to Seek and `entry[1].dataOffset - entry.dataOffset` determines the temporary compressed byte count; entry `+8` supplies decompressed size.
+- Temporary compressed storage uses `GlobalAlloc(0, compressedSize)`. Only after allocation do Seek/Read failures flow through `GlobalFree`; earlier file/entry/open/allocation failures return through a shared null block without freeing a NULL placeholder. This two-level error layout is required for the target CFG. Successful reads call `Lzss::Decode @ 0x00433AA0` with compressed data in ECX, compressed size in EDX, and `(outBuffer, decompressedSize)` on the stack, then GlobalFree the temporary data. Decode remains declaration-only/unpromoted.
+- Stable committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` supplied API and broad decompression-flow hypotheses. Its current `compressedData = NULL` plus common error-cleanup shape compiles to 196 bytes under the tested TH09 profile, whereas the TH09-shaped two-level labels replay the target at 193/193 with seven relocations. TH09 source shape therefore wins.
+- Natural TH09-shaped source is exact under `/O2 /Ob1 /Oy-`, `/O2 /Ob0 /Oy-`, and `/Ox /Ob1 /Oy-`; `/O1` produces 174 bytes and `/Od` 270. No project-wide compiler flag or original TU claim follows.
+- Fifteen `CC` bytes at `0x00433281-0x0043328F` remain outside the reviewed function with physical ownership unassigned.
+
+The next evidence-connected packet should inspect `Lzss::Decode @ 0x00433AA0`, now a direct declaration-only dependency of exact ReadDecompressEntry. Recover its true four-argument `/Gr` ABI, 0x2000-byte dictionary storage at `0x004CC430`, output-allocation behavior when `out == NULL`, and complete boundary before considering source exactness. The unresolved `FileSystem::TryDecryptFromTable @ 0x0042C290` register-allocation mismatch also remains a separate blocker and must not be promoted from semantic similarity.
+
 ## Restart commands
 
 ```bash
@@ -500,11 +512,11 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Twenty-eight authored functions
+  deleting destructor are reviewed as exclusions. Twenty-nine authored functions
   are source-present and repository-canonical exact: four GameErrorContext
   methods, six FileSystem helpers, two Supervisor lock wrappers, seven Chain
   methods, three ChainElem lifecycle/callback methods, Controller::GetJoystickCaps,
-  three ZunMemory release wrappers, and two PbgArchive query methods. All other imported origins remain pending.
+  three ZunMemory release wrappers, two PbgArchive query methods, and PbgArchive::ReadDecompressEntry. All other imported origins remain pending.
   Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -512,4 +524,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Inspect `PbgArchive::ReadDecompressEntry @ 0x004331C0` next as the remaining archive method directly called by exact OpenFile. Recover its target-local backend ABI, entry offsets, allocation/free behavior, LZSS dependency, and complete extent before source work. Preserve full PbgArchive/backend ownership, the unresolved TryDecryptFromTable register-allocation issue, and all reviewed gaps. Commit stable local checkpoints; do not push from GPT-web.
+Inspect `Lzss::Decode @ 0x00433AA0` next as a declaration-only dependency of exact PbgArchive::ReadDecompressEntry. Recover its four-argument `/Gr` ABI, dictionary storage and allocation behavior, and complete extent before source work. Preserve full PbgArchive/backend ownership, the unresolved TryDecryptFromTable register-allocation issue, and all reviewed gaps. Commit stable local checkpoints; do not push from GPT-web.

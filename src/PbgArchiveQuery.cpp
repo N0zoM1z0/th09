@@ -3,15 +3,9 @@
 #include <stddef.h>
 #include <string.h>
 
-struct PbgArchiveEntry
-{
-    char *filename;
-    DWORD field4;
-    DWORD decompressedSize;
-    DWORD fieldC;
-};
-
 typedef char PbgArchiveEntrySizeIs10[(sizeof(PbgArchiveEntry) == 0x10) ? 1 : -1];
+typedef char PbgArchiveEntryDataOffsetAt4[
+    (offsetof(PbgArchiveEntry, dataOffset) == 0x4) ? 1 : -1];
 typedef char PbgArchiveEntryDecompressedSizeAt8[
     (offsetof(PbgArchiveEntry, decompressedSize) == 0x8) ? 1 : -1];
 

@@ -26,3 +26,4 @@ ZunMemory::Free
 ZunMemory::AddToRegistry
 PbgArchive::FindEntry
 PbgArchive::GetEntryDecompressedSize
+PbgArchive::ReadDecompressEntry

@@ -498,3 +498,21 @@ size = 0x1D
 relocations = [
   { offset = 0x08, type = "REL32", symbol = "?FindEntry@PbgArchive@@QAEPAUPbgArchiveEntry@@PBD@Z", target = 0x00433050 },
 ]
+
+[units.pbg-archive-read-decompress-entry]
+source = "src/PbgArchiveRead.cpp"
+object = "build/matching/PbgArchiveRead.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgArchive::ReadDecompressEntry"]
+symbol = "?ReadDecompressEntry@PbgArchive@@QAEPAEPBDPAE@Z"
+target_address = 0x004331C0
+size = 0xC1
+relocations = [
+  { offset = 0x23, type = "REL32", symbol = "?FindEntry@PbgArchive@@QAEPAUPbgArchiveEntry@@PBD@Z", target = 0x00433050 },
+  { offset = 0x2E, type = "DIR32", symbol = "?g_PbgFileOpenModes@@3PAPADA", target = 0x004A1EC8 },
+  { offset = 0x55, type = "DIR32", symbol = "__imp__GlobalAlloc@8", target = 0x0048E0C4 },
+  { offset = 0x67, type = "DIR32", symbol = "?g_PbgFileSeekModes@@3PAHA", target = 0x00490F08 },
+  { offset = 0x8D, type = "DIR32", symbol = "__imp__GlobalFree@4", target = 0x0048E05C },
+  { offset = 0xA9, type = "REL32", symbol = "?Decode@Lzss@@SIPAEPAEH0H@Z", target = 0x00433AA0 },
+  { offset = 0xB2, type = "DIR32", symbol = "__imp__GlobalFree@4", target = 0x0048E05C },
+]
