@@ -18,6 +18,9 @@ this repository.
 | CRT-004 | observed / corroborated | `__finite` at `0x0047D634-0x0047D648` is a 21-byte CRT/library helper. | Verified TH09 target body matches VC7.1 `libcmt.lib` `ieeemisc.obj` byte-for-byte; COFF extent is `0x15` with no relocations |
 | CRT-005 | observed / corroborated | `__fpclass` at `0x0047D649-0x0047D6E4` is a 156-byte CRT/library helper. | Verified TH09 target body and VC7.1 `libcmt.lib` `ieeemisc.obj` match across all 148 non-relocation bytes after masking two COFF relocation fields |
 | BOUNDARY-001 | observed | `0x0047D6E5-0x0047D6E7` is a three-byte `CC CC CC` gap between `__fpclass` and `_longjmp`; physical ownership remains unassigned. | Verified TH09 target bytes plus attested function starts at `0x0047D649` and `0x0047D6E8` |
+| CRT-006 | observed / corroborated | `_longjmp` at `0x0047D6E8-0x0047D760` is a 121-byte CRT/library helper; the imported IDA inventory incorrectly split its final `ret` at `0x0047D760` into `nullsub_10`. | Verified TH09 target and VC7.1 `libcmt.lib` `longjmp.obj` match across all 101 non-relocation bytes after masking five COFF relocation fields; COFF extent is `0x79` |
+| CRT-007 | observed / corroborated | `__setjmp3` at `0x0047D764-0x0047D7DE` is a 123-byte CRT/library helper. | Verified TH09 target and VC7.1 `libcmt.lib` `setjmp3.obj` match across all 119 non-relocation bytes after masking the COFF relocation at `+0x28`; COFF extent is `0x7B` |
+| BOUNDARY-002 | observed | `0x0047D761-0x0047D763` is a three-byte `CC CC CC` gap between the corrected `_longjmp` extent and `__setjmp3`; physical ownership remains unassigned. | Verified TH09 target bytes plus corrected archive-backed function extents |
 
 Do not turn cross-game similarity, a decompiler type, or an attractive reused
 name into a TH09 fact without target-local evidence.

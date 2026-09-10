@@ -4,7 +4,7 @@
 
 Exact reconstruction: the target and native IDA provider are attested, the
 provisional function inventory is initialized, and boundary/origin review has
-started with five CRT/library exclusions. No authored source, exact function,
+started with seven CRT/library exclusions. No authored source, exact function,
 closed Windows i386 product, runtime semantic result, or port is claimed.
 
 ## Latest exact-phase checkpoints
@@ -71,8 +71,29 @@ The third reviewed packet covers the adjacent CRT floating-point helpers at
   source/runtime scratch changes. Adjacent-game state remains hypothesis/tooling
   material only; all classifications above are grounded in the TH09 target.
 
-The next connected packet is `_longjmp` / `__setjmp3` around
-`0x0047D6E8-0x0047D7DE`, including intervening null/padding candidates.
+The fourth reviewed packet covers `_longjmp`, the imported `nullsub_10`
+split, and `__setjmp3` at `0x0047D6E8-0x0047D7DE`.
+
+- VC7.1 `libcmt.lib` `longjmp.obj` defines `_longjmp` at `0x79` bytes. The
+  verified TH09 target matches all 101 non-relocation bytes after masking five
+  COFF relocation fields. The correct target extent is therefore
+  `0x0047D6E8-0x0047D760`, not the imported `0x78`-byte IDA extent.
+- The target byte at `0x0047D760` is the object function's final `ret`; the
+  imported `nullsub_10` candidate at that address was removed from the durable
+  function inventory rather than retained as an overlapping false function.
+- `0x0047D761-0x0047D763` is `CC CC CC` padding with physical ownership left
+  unknown. `__setjmp3` begins at `0x0047D764`.
+- VC7.1 `libcmt.lib` `setjmp3.obj` defines `__setjmp3` at exactly `0x7B` bytes;
+  the verified target matches all 119 non-relocation bytes after masking its
+  single COFF relocation at `+0x28`.
+- IDA comments at `0x0047D6E8`, `0x0047D760`, and `0x0047D764` document the
+  correction and were read back. The native provider exposes no safe atomic
+  function-extent delete/resize operation, so the IDA function split itself was
+  not mutated. No target bytes were modified.
+
+The next connected packet should leave the runtime tail and enter an authored
+root or a small direct callee of `_WinMain@16` at `0x0042E3B0`, with focused
+VC7.1 compile/diff feedback before any exactness claim.
 
 ## Restart commands
 
