@@ -1853,7 +1853,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0047D3F4,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0047D416,library,CRT,exclude,high,crt-wincrt0-structural-review-2026-09-10
 0x0047D43B,library,CRT,exclude,high,crt-wincrt0-structural-review-2026-09-10
-0x0047D45F,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0047D45F,library,CRT,exclude,high,crt-winmain-startup-structural-review-2026-09-10
 0x0047D634,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0047D649,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0047D6E8,unknown,,review,unknown,ida-1.50a-initial-inventory

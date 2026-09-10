@@ -4,10 +4,10 @@
 
 Exact reconstruction: the target and native IDA provider are attested, the
 provisional function inventory is initialized, and boundary/origin review has
-started with two CRT/library exclusions. No authored source, exact function,
+started with three CRT/library exclusions. No authored source, exact function,
 closed Windows i386 product, runtime semantic result, or port is claimed.
 
-## Latest exact-phase checkpoint
+## Latest exact-phase checkpoints
 
 The first reviewed packet covers the CRT startup error helpers at
 `0x0047D416-0x0047D45E`.
@@ -25,15 +25,35 @@ The first reviewed packet covers the CRT startup error helpers at
 - The native `th09-ida` provider remained strongly attested to
   `target:th09-main`; an IDA comment at `0x0047D43B` records the corrected tail
   and was read back successfully.
-- Repository-local target-dependent preflights remain unavailable because the
-  private `th09.exe` is not mounted at `resources/th09.exe` and
-  `TH09_TARGET_PATH` is unset in the repository runner. Target-independent
-  `validate-tracking.py`, `build.py --check`, `ci.py`, progress regeneration,
-  status reporting, and `git diff --check` pass.
+- At the time of the first checkpoint, repository-local target-dependent
+  preflights were unavailable because the private target had not yet been
+  provisioned in the repository runner. Target-independent validation passed.
 
-The next connected packet is the PE entry-point CRT startup function at
-`0x0047D45F-0x0047D633`. Reconcile its complete `wincrt0.obj` contribution and
-origin before moving into the authored `_WinMain@16` chain.
+The second reviewed packet covers the PE entry-point CRT startup contribution at
+`0x0047D45F-0x0047D633`.
+
+- The target PE entry point has no callers and is exactly `0x1D5` bytes, ending
+  in `ret` at `0x0047D633`; the next candidate starts at `0x0047D634`.
+- VC7.1 `libcmt.lib` `wincrt0.obj` defines `_WinMainCRTStartup` with the same
+  `0x1D5`-byte extent. A repository-local, target-verified structural comparison
+  masks its 37 explicit i386 COFF relocation fields and matches all 321
+  remaining bytes with zero differences. Both normalized bodies hash to
+  `30849bbbd7773bbe50c5988f45b09d15a2b2793a7c097ab3481cd3cd624b0e47`.
+- The function is therefore reviewed as `library` / `CRT` and excluded from the
+  authored denominator. This does not claim reconstructed source or canonical
+  codegen exactness.
+- The operator has now provisioned the ignored, read-only `resources/th09.exe`.
+  `verify-target.py` and `validate-tracking.py --require-target` pass against
+  the manifest SHA-256/MD5/PE identity. Factory-native `th09-ida` `get_metadata`
+  independently passes attestation for `target:th09-main` over
+  `factory-native-stdio`.
+- Concurrent operator edits to `.gitignore`, `AGENTS.md`, and `docs/TOOLS.md`
+  appeared during this packet. They are preserved unstaged and are not part of
+  the reconstruction checkpoint.
+
+The next connected packet is the adjacent CRT floating-point pair
+`__finite` / `__fpclass` at `0x0047D634-0x0047D6E4`, including the transition
+from the startup contribution and the gap before `_longjmp`.
 
 ## Restart commands
 
@@ -41,22 +61,24 @@ origin before moving into the authored `_WinMain@16` chain.
 git status --short --branch
 git diff --stat
 python3 scripts/verify-target.py
-python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
 ```
 
-If `TH09_TARGET_PATH` is not already set, point it at the user's legal original
-1.50a executable. Stop if the disk target or active IDA database differs.
+From GPT-web, discover `th09-ida` through the Factory and call native
+`get_metadata`; require `attestation.status=passed`, target
+`target:th09-main`, and transport `factory-native-stdio`. The normal Factory
+repository target is the ignored, operator-supplied `resources/th09.exe`; do
+not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Verified baseline
 
 - Exact target identity and PE layout are recorded in `config/target.toml`.
 - VC7.1 build 3077 is observed; all detailed build-shape fields remain unknown.
-- The IDA MCP at Windows localhost `13337` is reachable through the registered
-  local stdio client and is bound to the exact target.
-- Every imported function origin is `unknown`, every disposition is `review`,
-  and exact ledgers are empty.
+- Factory-native `th09-ida` is strongly attested to the exact target over
+  `factory-native-stdio`; its semantic output remains provisional evidence.
+- Three startup CRT/library candidates are reviewed as exclusions; all other
+  imported origins remain pending and the exact ledgers are empty.
 - `config/build.toml` exists from day one but correctly reports an open graph.
 
 ## Next bounded work
