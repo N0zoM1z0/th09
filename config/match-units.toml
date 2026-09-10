@@ -355,3 +355,21 @@ relocations = [
   { offset = 0xCC, type = "DIR32", symbol = "$L409", target = 0x0042C877 },
   { offset = 0xD0, type = "DIR32", symbol = "$L414", target = 0x0042C882 },
 ]
+
+[units.controller-get-joystick-caps]
+source = "src/ControllerJoystick.cpp"
+object = "build/matching/ControllerJoystick.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Controller::GetJoystickCaps"]
+symbol = "?GetJoystickCaps@Controller@@YIGXZ"
+target_address = 0x0042C8F0
+size = 0x78
+relocations = [
+  { offset = 0x09, type = "DIR32", symbol = "__imp__joyGetPosEx@8", target = 0x0048E23C },
+  { offset = 0x34, type = "DIR32", symbol = "?g_NoPadFoundMessage@@3QBDB", target = 0x0048FB94 },
+  { offset = 0x39, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x3E, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+  { offset = 0x50, type = "DIR32", symbol = "__imp__joyGetDevCapsA@12", target = 0x0048E240 },
+  { offset = 0x5A, type = "DIR32", symbol = "?g_JoystickCaps@Controller@@3PAUtagJOYCAPSA@@A", target = 0x004AC8D8 },
+  { offset = 0x68, type = "DIR32", symbol = "?g_JoystickCaps@Controller@@3PAUtagJOYCAPSA@@A", target = 0x004AC8D8, addend = 0x194 },
+]

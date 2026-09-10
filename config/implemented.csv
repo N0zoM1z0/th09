@@ -17,3 +17,4 @@ Chain::CutImpl
 Chain::Cut
 Chain::RunCalcChain
 Chain::RunDrawChain
+Controller::GetJoystickCaps

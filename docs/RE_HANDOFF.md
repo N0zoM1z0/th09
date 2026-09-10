@@ -413,6 +413,16 @@ The sixteenth reviewed packet closes the calc/draw run-chain pair while correcti
 
 The next evidence-connected packet should inspect `0x0042C8F0`, immediately following the now-exact run/cut cohort, before broadening. Determine whether its `0x78` body is a Chain release helper or an unrelated seam from TH09-local callers/callees and only then select source hypotheses.
 
+The seventeenth reviewed packet establishes that the immediate post-Chain candidate is a separate Controller/WinMM startup helper, not Chain release logic.
+
+- `Controller::GetJoystickCaps @ 0x0042C8F0-0x0042C967` has one TH09 caller, `_WinMain@16 +0x178`. It initializes a 0x34-byte `JOYINFOEX` with `JOY_RETURNALL`, probes joystick 0 and only if that fails probes joystick 1. If both probes fail it calls exact `GameErrorContext::Log` with external message storage at `0x0048FB94` and returns 1. Otherwise it queries capabilities for both IDs and returns 0.
+- Two capability destinations at `0x004AC8D8` and `0x004ACA6C` are exactly 0x194 bytes apart. The exact object expresses them as one `JOYCAPSA[2]` relocation base plus addend `0x194`, independently establishing the contiguous function-level layout. The committed source leaves the array definition, GameErrorContext object definition, and message data as extern dependencies because their TU/physical ownership is unresolved.
+- Stable committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` supplied the `Controller::GetJoystickCaps` naming and single-joystick source-shape hypothesis. TH09 independently differs by checking both joystick IDs and filling two JOYCAPSA records; TH08 source was not copied verbatim. No volatile TH095 content was used.
+- Canonical pinned-VC7.1 replay matches all 120 bytes with seven relocations. Tested `/O2 /Ob0`, `/O2 /Ob1`, and `/Ox /Ob1` variants are all exact, while `/O1 /Ob1` emits only 0x71 bytes; no project-wide profile claim follows.
+- Eight `CC` bytes at `0x0042C968-0x0042C96F` remain outside the reviewed function with physical ownership unassigned. The native provider does not expose `read_string` in its allowlist, so the external message contents were not inferred from remembered or adjacent output.
+
+The next evidence-connected packet should inspect `0x0042C970`, which directly follows this Controller helper and already references the same GameErrorContext object. Determine from TH09-local Win32/DirectInput calls whether it is another Controller routine before consulting adjacent source.
+
 ## Restart commands
 
 ```bash
@@ -436,15 +446,15 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Nineteen authored functions
-  are source-present and repository-canonical exact: four GameErrorContext
-  methods, three FileSystem helpers, two Supervisor lock wrappers, seven Chain
-  methods, and three ChainElem lifecycle/callback methods. All other imported
-  origins remain pending. Factory acceptance remains
+  deleting destructor are reviewed as exclusions. Twenty authored functions are
+  source-present and repository-canonical exact: four GameErrorContext methods,
+  three FileSystem helpers, two Supervisor lock wrappers, seven Chain methods,
+  three ChainElem lifecycle/callback methods, and Controller::GetJoystickCaps.
+  All other imported origins remain pending. Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
 - `config/build.toml` exists from day one but correctly reports an open graph.
 
 ## Next bounded work
 
-Inspect `0x0042C8F0` next as the immediate post-Chain-run candidate. Establish its TH09-local callers/callees and boundary before deciding whether it belongs to Chain release logic or another subsystem. Preserve all reviewed `CC` gaps and unrelated ownership unknowns. Commit stable local checkpoints; do not push from GPT-web.
+Inspect `0x0042C970` next. Establish its TH09-local imports, global accesses, calling convention, and boundary before deciding whether it is another Controller routine. Preserve all reviewed `CC` gaps and unresolved Controller data ownership. Commit stable local checkpoints; do not push from GPT-web.

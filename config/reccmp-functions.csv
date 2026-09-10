@@ -18,3 +18,4 @@ Chain::CutImpl,0x0042B350,function
 Chain::Cut,0x0042C8C0,function
 Chain::RunCalcChain,0x0042C700,function
 Chain::RunDrawChain,0x0042C7E0,function
+Controller::GetJoystickCaps,0x0042C8F0,function
