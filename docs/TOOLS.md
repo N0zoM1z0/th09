@@ -14,8 +14,12 @@
 
 The operator-managed IDA plugin listens on Windows localhost port `13337`.
 Local Codex reaches it through the registered `ida-pro-mcp` stdio process. The
-Factory Web service uses a separate loopback bridge and re-attests this same
-target before forwarding semantic reads.
+shared Factory MCP also owns an `ida-pro-mcp` stdio client directly; TH09 does
+not run a second MCP server or use `mcp_for_gptweb`. Before every Web analysis
+operation, the Factory re-attests the repository target, private executable,
+active IDA metadata and entry point, and distributed mapped `.text` bytes.
+GPT-web keeps using the one Factory URL and selects repository `th09` plus
+provider `th09-ida`.
 
 Build tools are shared provider installations where practical; target
 selection, source graph, Wine prefix, runtime scenarios, IDA database, and
