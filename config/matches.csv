@@ -22,3 +22,6 @@ address,name,size,status,match_percent,unit,evidence
 0x0042C970,FileSystem::OpenFile,355,matching,100.00,file-system-open-file,python3 scripts/build-match-unit.py --unit file-system-open-file && python3 scripts/compare-coff-function.py --unit file-system-open-file --json
 0x0042C180,FileSystem::Decrypt,259,matching,100.00,file-system-decrypt,python3 scripts/build-match-unit.py --unit file-system-decrypt && python3 scripts/compare-coff-function.py --unit file-system-decrypt --json
 0x0042C370,FileSystem::Encrypt,267,matching,100.00,file-system-encrypt,python3 scripts/build-match-unit.py --unit file-system-encrypt && python3 scripts/compare-coff-function.py --unit file-system-encrypt --json
+0x00401340,ZunMemory::Alloc,19,matching,100.00,zun-memory-alloc,python3 scripts/build-match-unit.py --unit zun-memory-alloc && python3 scripts/compare-coff-function.py --unit zun-memory-alloc --json
+0x00401360,ZunMemory::Free,19,matching,100.00,zun-memory-free,python3 scripts/build-match-unit.py --unit zun-memory-free && python3 scripts/compare-coff-function.py --unit zun-memory-free --json
+0x00401380,ZunMemory::AddToRegistry,10,matching,100.00,zun-memory-add-to-registry,python3 scripts/build-match-unit.py --unit zun-memory-add-to-registry && python3 scripts/compare-coff-function.py --unit zun-memory-add-to-registry --json

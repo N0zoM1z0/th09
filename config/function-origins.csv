@@ -15,9 +15,9 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004012C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004012E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00401300,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00401340,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00401360,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00401380,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00401340,authored_game,ZunMemory,authored,high,zun-memory-alloc-vc71-exact-2026-09-10
+0x00401360,authored_game,ZunMemory,authored,high,zun-memory-free-vc71-exact-2026-09-10
+0x00401380,authored_game,ZunMemory,authored,high,zun-memory-add-to-registry-vc71-exact-2026-09-10
 0x00401390,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004013E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00401410,unknown,,review,unknown,ida-1.50a-initial-inventory

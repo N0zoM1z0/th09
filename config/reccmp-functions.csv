@@ -22,3 +22,6 @@ Controller::GetJoystickCaps,0x0042C8F0,function
 FileSystem::OpenFile,0x0042C970,function
 FileSystem::Decrypt,0x0042C180,function
 FileSystem::Encrypt,0x0042C370,function
+ZunMemory::Alloc,0x00401340,function
+ZunMemory::Free,0x00401360,function
+ZunMemory::AddToRegistry,0x00401380,function

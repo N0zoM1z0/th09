@@ -456,6 +456,16 @@ The twentieth reviewed packet closes the inverse FileSystem encryption transform
 
 The next evidence-connected packet should inspect the release-build ZunMemory wrapper cohort at `0x00401340`, `0x00401360`, and `0x00401380`. Exact OpenFile/Decrypt/Encrypt call the allocator/free wrappers, while exact Chain::CreateElem calls the registry wrapper, so their extents, release semantics, origins, and natural VC7.1 shapes can be evaluated together without broadening into unrelated memory code.
 
+The twenty-first reviewed packet closes the release-build ZunMemory wrapper cohort at `0x00401340`, `0x00401360`, and `0x00401380`.
+
+- `ZunMemory::Alloc @ 0x00401340-0x00401352` is a 19-byte release façade over CRT `malloc`. Target callers place the shared ZunMemory object in ECX and pass `size` plus debug text on the stack; the body uses only size and returns with `ret 8`. `ZunMemory::Free @ 0x00401360-0x00401372` analogously forwards its sole pointer to CRT `free` and returns with `ret 4`.
+- `ZunMemory::AddToRegistry @ 0x00401380-0x00401389` is the release no-op registry path: it returns the first explicit `ptr` argument and consumes `(ptr, size, name)` with `ret 0x0C`. Exact Chain::CreateElem independently supplies the app-specific `"funcChainInf"` label, tying this façade to game code rather than CRT implementation. Nothing here reconstructs or claims a DEBUG registry implementation.
+- Natural bodies replay 19/19, 19/19, and 10/10 bytes under `/O2 /Ob1 /Oy-`; `/O2 /Ob0` and `/Ox /Ob1` are also exact. `/O1` shortens Alloc/Free to 16 bytes while AddToRegistry remains 10/10, and `/Od` lengthens all three. No global profile claim follows.
+- Stable committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` supplied the ZunMemory API/name hypothesis. TH09 independently establishes each release body, ABI, CRT destination, broad caller use of `g_ZunMemory`, and the registry passthrough. The maintained reconstruction deliberately places these definitions out of line to avoid changing already-exact caller inlining. Original TH09 inline/header form, emitting translation unit, and source ownership remain unknown.
+- Thirteen-byte `CC` gaps at `0x00401353-0x0040135F` and `0x00401373-0x0040137F`, plus six bytes at `0x0040138A-0x0040138F`, remain physically unassigned.
+
+The next evidence-connected packet should inspect `PbgArchive::GetEntryDecompressedSize @ 0x00433290`, an ABI-only dependency already called by exact FileSystem::OpenFile. Reconcile its 27-byte extent and the entry-lookup callee before deciding whether the simple archive query can be promoted independently of the larger decompression path.
+
 ## Restart commands
 
 ```bash
@@ -479,11 +489,11 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Twenty-three authored functions
+  deleting destructor are reviewed as exclusions. Twenty-six authored functions
   are source-present and repository-canonical exact: four GameErrorContext
   methods, six FileSystem helpers, two Supervisor lock wrappers, seven Chain
-  methods, three ChainElem lifecycle/callback methods, and
-  Controller::GetJoystickCaps. All other imported origins remain pending.
+  methods, three ChainElem lifecycle/callback methods, Controller::GetJoystickCaps,
+  and three ZunMemory release wrappers. All other imported origins remain pending.
   Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -491,4 +501,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Inspect the ZunMemory release-wrapper cohort at `0x00401340`, `0x00401360`, and `0x00401380` next. Reconcile complete extents, callers, release-build semantics, and origin independently before source or exactness promotion. Preserve the unresolved TryDecryptFromTable register-allocation issue and crypt-table data ownership. Commit stable local checkpoints; do not push from GPT-web.
+Inspect `PbgArchive::GetEntryDecompressedSize @ 0x00433290` next as an exact OpenFile dependency. Reconcile its entry-lookup callee, complete extent, object ABI, and natural VC7.1 source shape before promotion. Preserve the unresolved TryDecryptFromTable register-allocation issue, crypt-table data ownership, and ZunMemory original TU/header ownership. Commit stable local checkpoints; do not push from GPT-web.
