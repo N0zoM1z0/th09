@@ -525,6 +525,17 @@ The twenty-sixth reviewed packet reconstructs the LZSS tree-manipulation cohort 
 
 The next evidence-connected packet should inspect `0x00434020-0x0043425A`, the 571-byte encoder-side caller of InitEncoderState, InitTree, AddString, and DeleteString. Recover its `/Gr` ABI, allocation/output contract, bit-packing state, checksum behavior, and full boundary first; use the now-exact-codegen helper call graph to test the natural `Lzss::Encode` hypothesis without promoting LZSS origin.
 
+The twenty-seventh reviewed packet recovers the LZSS encoder semantics and maintained source, but stops short of exact codegen because the remaining compiler shape is not justified by target-local evidence.
+
+- `0x00434020-0x0043425A` is a `/Gr` candidate reconstructed as `Lzss::Encode(unsigned char *in, int inSize, int *outSize)`. TH09 callers pass input in ECX, size in EDX, and an output-size pointer on the stack; the target consumes that pointer with `ret 4`. It allocates `inSize * 2` bytes through `GlobalAlloc(0, ...)`, returns NULL on allocation failure, zeroes `*outSize`, and invokes the now replayable InitEncoderState, InitTree, DeleteString, and AddString helper cohort.
+- The target preloads up to 18 bytes into the dictionary from index 1, then emits MSB-first bit fields. Match lengths of two bytes or less become literal tokens (`1` plus eight data bits); longer matches become `0` plus a 13-bit offset and four-bit `(length - 3)`. The sliding dictionary/tree window advances through DeleteString/AddString, and the stream terminates with `0` plus thirteen zero offset bits. The final byte count is `outCursor - out` stored through `outSize`.
+- Stable committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` supplied the broad Encode source-shape hypothesis. The maintained TH09 source removes the adjacent dead checksum accumulation because a focused probe shows it has no target-observable effect and no codegen effect. Target callers/callees, ABI, dictionary accesses, token packing, allocation path, and final size write independently establish the maintained semantics.
+- Exact code generation remains blocked. Natural stock-VC7.1 source is 570 bytes under `/O2 /Ob0`, `/O2 /Ob1`, `/O2 /Ob2`, and `/Ox /Ob1`, while the target is 571. `/O1` emits 469 and `/Od` 965. The optimized relocation graph contains the expected eight dependencies, but register assignment differs broadly: the candidate keeps `outBits` in EBX and spills `outBitMask`, while the target keeps `outBitMask` in BL and spills the 32-bit accumulator at `[ebp-4]`; input-size and cursor homes differ correspondingly.
+- Reordering actual C++ declarations into the order listed by TH08's `#pragma var_order` does not alter stock VC7.1 output. Inspection of committed TH08 tooling confirms that `var_order` is implemented by a reconstruction-specific wrapper that replaces `C1XX.DLL`; it is not an observed original TH09 compiler feature. No such wrapper, identifier-bucket search, artificial volatile, padding, inline assembly, or register-directed source is introduced here. The candidate remains non-exact and no match unit is configured.
+- LZSS origin remains `unknown/review`; maintained source presence does not change canonical authored totals. Five `CC` bytes at `0x0043425B-0x0043425F` remain physically unassigned.
+
+This is a concrete source/compiler-evidence boundary for the LZSS packet. Revisit Encode only if new TH09-local source-identifier, TU, or compiler-front-end evidence appears. Otherwise the next bounded seam can begin at `0x00434260`/`0x00434280`, immediately after the LZSS encoder, first classifying whether those short candidates belong to the same subsystem before selecting any adjacent-game hypothesis. The independent `FileSystem::TryDecryptFromTable @ 0x0042C290` optimized-register-allocation blocker also remains unresolved.
+
 ## Restart commands
 
 ```bash
@@ -560,4 +571,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Inspect `0x00434020-0x0043425A` next as the encoder-side LZSS candidate connected to InitEncoderState, InitTree, AddString, and DeleteString. Recover its ABI, output allocation/bit-packing/checksum behavior, complete extent, and natural VC7.1 source shape before promotion. Preserve LZSS origin and compression-state data ownership as unknown, keep TryDecryptFromTable unresolved, and do not push from GPT-web.
+Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. For a fresh packet, classify the immediate post-LZSS candidates at `0x00434260` and `0x00434280` before assigning subsystem names. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.
