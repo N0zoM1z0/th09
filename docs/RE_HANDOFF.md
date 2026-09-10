@@ -4,7 +4,7 @@
 
 Exact reconstruction: the target and native IDA provider are attested, the
 provisional function inventory is initialized, and boundary/origin review has
-started with three CRT/library exclusions. No authored source, exact function,
+started with five CRT/library exclusions. No authored source, exact function,
 closed Windows i386 product, runtime semantic result, or port is claimed.
 
 ## Latest exact-phase checkpoints
@@ -51,9 +51,28 @@ The second reviewed packet covers the PE entry-point CRT startup contribution at
   appeared during this packet. They are preserved unstaged and are not part of
   the reconstruction checkpoint.
 
-The next connected packet is the adjacent CRT floating-point pair
-`__finite` / `__fpclass` at `0x0047D634-0x0047D6E4`, including the transition
-from the startup contribution and the gap before `_longjmp`.
+The third reviewed packet covers the adjacent CRT floating-point helpers at
+`0x0047D634-0x0047D6E4` and the following alignment gap.
+
+- VC7.1 `libcmt.lib` `ieeemisc.obj` defines `__finite` at exactly `0x15` bytes
+  with no relocations. The verified TH09 target matches all 21 bytes exactly.
+- The same object defines `__fpclass` at exactly `0x9C` bytes with two COFF
+  relocation fields. After masking offsets `+0x1D` and `+0x6E`, all 148
+  remaining target bytes match. The normalized target/object SHA-256 is
+  `f7fcb0d2114c273ccfdbf3584b173e2c90f2d2b0aa2f5c7ad67a5736d82d188b`.
+- The three target bytes at `0x0047D6E5-0x0047D6E7` are `CC CC CC` and are
+  outside both reviewed function extents; `_longjmp` starts at `0x0047D6E8`.
+  Their physical owner is intentionally left unknown.
+- IDA comments at `0x0047D634` and `0x0047D649` record these origin/boundary
+  conclusions and were read back successfully. No target bytes were modified.
+- The VC7.1 archive was accessed through the read-only TH095 tool root. TH08
+  committed HEAD `a45e99fb1942714e6edded20847e32a654d56f97` was clean when consulted;
+  TH095 committed HEAD `0e6f0ef251c0a222737ce2729b22d0fabaac80e7` had unrelated pre-existing
+  source/runtime scratch changes. Adjacent-game state remains hypothesis/tooling
+  material only; all classifications above are grounded in the TH09 target.
+
+The next connected packet is `_longjmp` / `__setjmp3` around
+`0x0047D6E8-0x0047D7DE`, including intervening null/padding candidates.
 
 ## Restart commands
 
