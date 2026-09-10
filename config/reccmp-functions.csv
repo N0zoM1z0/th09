@@ -14,3 +14,5 @@ ChainElem::ChainElem,0x0042ABE0,function
 ChainElem::~ChainElem,0x0042AC00,function
 ChainElem::SetCallback,0x0041A889,function
 Chain::CreateElem,0x0042B300,function
+Chain::CutImpl,0x0042B350,function
+Chain::Cut,0x0042C8C0,function

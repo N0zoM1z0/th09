@@ -14,3 +14,5 @@ address,name,size,status,match_percent,unit,evidence
 0x0042AC00,ChainElem::~ChainElem,36,matching,100.00,chain-elem-destructor,python3 scripts/build-match-unit.py --unit chain-elem-destructor && python3 scripts/compare-coff-function.py --unit chain-elem-destructor --json
 0x0041A889,ChainElem::SetCallback,21,matching,100.00,chain-elem-set-callback,python3 scripts/build-match-unit.py --unit chain-elem-set-callback && python3 scripts/compare-coff-function.py --unit chain-elem-set-callback --json
 0x0042B300,Chain::CreateElem,71,matching,100.00,chain-create-elem,python3 scripts/build-match-unit.py --unit chain-create-elem && python3 scripts/compare-coff-function.py --unit chain-create-elem --json
+0x0042B350,Chain::CutImpl,188,matching,100.00,chain-cut-impl,python3 scripts/build-match-unit.py --unit chain-cut-impl && python3 scripts/compare-coff-function.py --unit chain-cut-impl --json
+0x0042C8C0,Chain::Cut,46,matching,100.00,chain-cut,python3 scripts/build-match-unit.py --unit chain-cut && python3 scripts/compare-coff-function.py --unit chain-cut --json

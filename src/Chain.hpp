@@ -33,6 +33,8 @@ class Chain
     ChainElem calcChain;
     ChainElem drawChain;
 
+    void CutImpl(ChainElem *toRemove);
+
   public:
     Chain();
     ~Chain();
@@ -40,6 +42,7 @@ class Chain
     int AddToCalcChain(ChainElem *elem, int priority);
     int AddToDrawChain(ChainElem *elem, int priority);
     ChainElem *CreateElem(ChainCallback callback);
+    void Cut(ChainElem *toRemove);
 };
 
 typedef char ChainSizeIs40[(sizeof(Chain) == 0x40) ? 1 : -1];

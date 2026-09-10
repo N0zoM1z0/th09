@@ -391,6 +391,17 @@ The fourteenth reviewed packet separates authored Chain creation helpers from a 
 
 The next evidence-connected packet should inspect `0x0042B350`, one of the two direct callers of the scalar deleting destructor and the natural Chain removal seam. Reconcile it with the exact lock wrappers and ChainElem layout before deciding whether it is `Chain::CutImpl`, `Chain::Cut`, or another target-local routine.
 
+The fifteenth reviewed packet closes the Chain node-removal seam at `0x0042B350` and its public wrapper at `0x0042C8C0`.
+
+- `Chain::CutImpl @ 0x0042B350-0x0042B40B` is entered with Supervisor lock 0 already held. It searches the calc root followed by the draw root, requires a non-null `prev` before unlinking, clears the callback and links, then either deletes a heap-owned node or invokes its deleted callback. Both external actions occur with lock 0 temporarily released and are followed by reacquisition.
+- All three TH09 callers satisfy that precondition: the small `0x0042C8C0` wrapper explicitly acquires/releases lock 0, while the run-chain paths at `0x0042C700` and `0x0042C7E0` hold lock 0 across traversal and call CutImpl after saving the next pointer. This target-local contract establishes the internal-helper role independently from adjacent names.
+- `Chain::Cut @ 0x0042C8C0-0x0042C8ED` is exactly the public acquire-CutImpl-release wrapper. Two following `CC` bytes through `0x0042C8EF` remain physically unowned; four `CC` bytes at `0x0042B40C-0x0042B40F` similarly separate CutImpl from `0x0042B410`.
+- Stable committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` supplied the Cut/CutImpl naming and source-shape hypothesis. Its release source contains a `ZunMemory::RemoveFromRegistry` call before heap deletion, but the TH09 target has no observable registry call. The reconstruction omits an unobservable operation; whether original TH09 source contained an empty release-only inline cleanup remains unknown.
+- Natural CutImpl source under `/O2 /Ob0 /Oy-` replays all 188 target bytes with nine relocations. `/Ob0` is compiler-sensitive here because it preserves the scalar deleting-destructor call; tested `/Ob1`/`/Ob2` expand destructor plus operator delete and produce 195-byte bodies. This is a match-unit fact, not a Chain-TU or project-wide inlining claim.
+- The same source/TU and profile reproduce Cut at 46/46 bytes with five relocations.
+
+The next evidence-connected packet should inspect the run-chain pair at `0x0042C700` and `0x0042C7E0`, which are the remaining direct callers of exact CutImpl and already expose callback return-state handling. Keep the two loops separate until TH09 proves their calc/draw ownership and exact source shape.
+
 ## Restart commands
 
 ```bash
@@ -414,15 +425,15 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Fifteen authored functions
+  deleting destructor are reviewed as exclusions. Seventeen authored functions
   are source-present and repository-canonical exact: four GameErrorContext
-  methods, three FileSystem helpers, two Supervisor lock wrappers, two Chain
-  insertion methods, `Chain::CreateElem`, and three ChainElem lifecycle/callback
-  methods. All other imported origins remain pending. Factory acceptance remains
+  methods, three FileSystem helpers, two Supervisor lock wrappers, five Chain
+  methods, and three ChainElem lifecycle/callback methods. All other imported
+  origins remain pending. Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
 - `config/build.toml` exists from day one but correctly reports an open graph.
 
 ## Next bounded work
 
-Inspect `0x0042B350` next as the Chain removal seam that directly invokes the classified scalar deleting destructor. Reconcile its lock behavior, list mutation, callbacks, and boundary before source work. Preserve all reviewed `CC` gaps and unrelated ownership unknowns. Commit stable local checkpoints; do not push from GPT-web.
+Inspect the run-chain pair at `0x0042C700` and `0x0042C7E0` next. Recover callback return-state semantics, root selection, CutImpl interaction, and exact compiler shape independently for calc and draw traversal. Preserve all reviewed `CC` gaps and unrelated ownership unknowns. Commit stable local checkpoints; do not push from GPT-web.

@@ -13,3 +13,5 @@ ChainElem::ChainElem
 ChainElem::~ChainElem
 ChainElem::SetCallback
 Chain::CreateElem
+Chain::CutImpl
+Chain::Cut
