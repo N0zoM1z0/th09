@@ -29,3 +29,5 @@ PbgArchive::GetEntryDecompressedSize
 PbgArchive::ReadDecompressEntry
 AsciiManager::DeletedCallback
 AsciiManager::CutChain
+AsciiManager::AddString
+AsciiManager::AddFormatText

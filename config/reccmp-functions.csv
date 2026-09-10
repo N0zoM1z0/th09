@@ -30,3 +30,5 @@ PbgArchive::GetEntryDecompressedSize,0x00433290,function
 PbgArchive::ReadDecompressEntry,0x004331C0,function
 AsciiManager::DeletedCallback,0x00434260,function
 AsciiManager::CutChain,0x00434280,function
+AsciiManager::AddString,0x004342A0,function
+AsciiManager::AddFormatText,0x00434330,function

@@ -548,6 +548,17 @@ The twenty-eighth reviewed packet classifies and canonically reconstructs the tw
 
 The next evidence-connected packet should inspect `0x004342A0-0x00434321` and its immediate caller/callee/data neighborhood. It is adjacent to AsciiManager lifecycle code but must not inherit AsciiManager ownership merely by address. First reconcile its complete boundary, ABI, callers, strings/globals, and scheduler/resource links; only then consult committed adjacent source if TH09 evidence points to a recognizable AsciiManager method. Preserve the LZSS Encode and FileSystem::TryDecryptFromTable register-allocation blockers as independent open issues.
 
+The twenty-ninth reviewed packet canonically reconstructs the AsciiManager text queue append and formatted-text wrapper.
+
+- `AsciiManager::AddString @ 0x004342A0-0x00434321` is a normal non-variadic member (`this` in ECX, position/string on the stack, `ret 8`). It bounds the queue at 256 entries and indexes a 0x60-byte record array rooted at `this+0x2264`; the algebraic end of that array is exactly `this+0x8264`, the queue count. Records hold 64 bytes of text, three position dwords at `+0x40`, color/scales at `+0x4C/+0x50/+0x54`, selected state at `+0x58`, and GUI state at `+0x5C`. Current manager values come from `+0x8268/+0x826C/+0x8270/+0x8274`. TH09 unconditionally writes selected state zero.
+- `AsciiManager::AddFormatText @ 0x00434330-0x00434366` is a variadic member and therefore lowers with `this` at stack `+8`, position at `+0xC`, and format string at `+0x10`. It passes the varargs to `vsprintf @ 0x0047C335` using a 512-byte local buffer, then calls exact AddString. Native IDA finds 35 call sites across gameplay/HUD code.
+- Stable clean TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` was consulted only after TH09 established the queue layout and ABI. It corroborates the AddString/AddFormatText names and 0x60 record shape, but its AddString conditionally propagates selected state based on software texturing. TH09 has no such branch and instead always clears the record selected field, so TH09 target behavior is authoritative. No TH095 uncommitted content was consulted.
+- The maintained `AsciiManager` declaration exposes only target-proven layout: unknown bytes to `+0x2264`, the 256-entry 0x60 queue, count/style fields through `+0x8274`, and an unknown tail to the lifecycle-proven object extent `0xE0AC`. Those unknown byte ranges are not constituent-field ownership claims.
+- Natural tracked source replays AddString 130/130 bytes with zero relocations and AddFormatText 55/55 with two relocations, twice. Tested `/O2 /Ob0`, `/O2 /Ob1`, `/O2 /Ob2`, and `/Ox /Ob1` are exact for both; `/O1` and `/Od` differ. No `var_order` wrapper is needed. Both functions are canonical `authored_game/AsciiManager`. Totals rise from 31 functions / 3,319 bytes to 33 functions / 3,504 bytes.
+- Fourteen `CC` bytes at `0x00434322-0x0043432F` and nine at `0x00434367-0x0043436F` remain physically unassigned. Shared IDA comments at both entries record the reconstructed identities and exact replay without claiming original symbols.
+
+The next evidence-connected packet should inspect `0x00434370` and the immediately following AsciiManager-adjacent candidates, beginning with target-local callers/field accesses rather than inheriting ownership by address.
+
 ## Restart commands
 
 ```bash
@@ -571,11 +582,11 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Thirty-one authored functions
+  deleting destructor are reviewed as exclusions. Thirty-three authored functions
   are source-present and repository-canonical exact: four GameErrorContext
   methods, six FileSystem helpers, two Supervisor lock wrappers, seven Chain
   methods, three ChainElem lifecycle/callback methods, Controller::GetJoystickCaps,
-  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, and two AsciiManager lifecycle helpers. All other imported origins remain pending.
+  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, and four AsciiManager lifecycle/text helpers. All other imported origins remain pending.
   Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -583,4 +594,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The immediate post-LZSS candidates `0x00434260` and `0x00434280` are now canonical exact AsciiManager lifecycle helpers. Continue with `0x004342A0-0x00434321` by recovering its TH09-local boundary/ABI/caller/data seam before assigning AsciiManager ownership. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.
+Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The immediate post-LZSS candidates `0x00434260` and `0x00434280` are now canonical exact AsciiManager lifecycle helpers. The text helpers at `0x004342A0` and `0x00434330` are now canonical exact. Continue with `0x00434370` and its immediate data/caller neighborhood before assigning any additional AsciiManager ownership. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.
