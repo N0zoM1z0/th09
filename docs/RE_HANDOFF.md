@@ -155,9 +155,41 @@ The sixth reviewed packet closes the variadic error-context logging pair at
   provider. Function names were deliberately not rewritten because no original
   target symbol-name evidence exists. No target bytes were modified.
 
-The next evidence-connected packet should follow the exact Flush relocation to
-`FileSystem::WriteDataToFile @ 0x0042C4E0`, reconcile its boundary and error
-paths, and test a natural VC7.1 implementation before any source/exact claim.
+The seventh reviewed packet follows the exact Flush relocation into the file
+write helper at `0x0042C4E0-0x0042C5B1`.
+
+- The target ABI is fastcall-shaped: path enters in ECX, data in EDX, the 32-bit
+  size is the sole stack argument, and each return executes `ret 4`.
+- The function first calls the unresolved TH09 path helper at `0x0042ADC0`, then
+  acquires supervisor lock 2 and calls `CreateFileA` with `GENERIC_WRITE`,
+  `FILE_SHARE_READ`, `CREATE_ALWAYS`, and `FILE_ATTRIBUTE_NORMAL`.
+- Open failure formats and frees the Win32 error string, releases lock 2, and
+  returns `-1`. A short write closes the handle, releases the lock, and returns
+  `-2`; a complete write closes/releases and returns `0`. Unlike the committed
+  TH08/TH095 hypotheses, the TH09 target has no debug-print calls in these
+  paths, so those adjacent calls were not copied.
+- A first natural probe with the error-message local hoisted to function scope
+  produced a 0xD4-byte body. Limiting that local to the open-failure branch lets
+  VC7.1 reuse the dead incoming size stack slot and produces the target 0xD2
+  body. The canonical unit then replays all 210 bytes with sixteen explicit
+  target-bound relocations.
+- TH08 committed HEAD `a45e99fb1942714e6edded20847e32a654d56f97` and TH095
+  committed HEAD `619624ff99fe9d71360b9d9797066bec0d8b5f7a` were consulted only
+  for source-shape hypotheses; their debug logging conflicts with TH09 and was
+  rejected. Previously recorded adjacent dirty-state classification is
+  unchanged, and no adjacent uncommitted content was used.
+- Four GameErrorContext units were replayed after shared FileSystem/Supervisor
+  declarations were factored into headers and remain exact. The semantic name
+  `ResolvePath` is only a reconstructed declaration for the relocation to
+  `0x0042ADC0`; that callee is not source-present or exact yet.
+- Fourteen `CC` bytes at `0x0042C5B2-0x0042C5BF` remain outside the reviewed
+  function with physical ownership unassigned. An evidence comment at
+  `0x0042C4E0` was written and read back through attested `th09-ida`; no target
+  bytes or function names were modified.
+
+The next evidence-connected packet should recover the direct path dependency at
+`0x0042ADC0`, including its shared path buffers/data ownership and complete
+boundary, before deciding whether a natural source unit is exactable.
 
 ## Restart commands
 
@@ -181,17 +213,19 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - VC7.1 build 3077 is observed; all detailed build-shape fields remain unknown.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
-- Seven CRT/library candidates are reviewed as exclusions. Four authored
-  GameErrorContext functions are source-present and repository-canonical exact;
-  all other imported origins remain pending. Factory acceptance remains a
-  separate cold-replay state.
+- Seven CRT/library candidates are reviewed as exclusions. Five authored
+  functions are source-present and repository-canonical exact: four
+  GameErrorContext methods plus FileSystem::WriteDataToFile. All other imported
+  origins remain pending. Factory acceptance remains a separate cold-replay
+  state.
 - `config/build.toml` exists from day one but correctly reports an open graph.
 
 ## Next bounded work
 
-Follow the exact Flush relocation to `FileSystem::WriteDataToFile @
-0x0042C4E0` before broadening to other architecture roots. Keep the supervisor
-wrappers at `0x0042B130`/`0x0042B160` as evidence-connected follow-up candidates
-without assuming their full object layout. Preserve unknown ownership at
-`0x0042D290` until target-local boundary evidence resolves it. Commit stable
-local checkpoints; do not push from GPT-web.
+Recover the direct path dependency at `0x0042ADC0` next. Reconcile the shared
+path buffers and any base-path data before assigning ownership or a durable
+name. Keep the supervisor wrappers at `0x0042B130`/`0x0042B160` as
+evidence-connected follow-up candidates without assuming their full object
+layout. Preserve unknown ownership at `0x0042D290` until target-local boundary
+evidence resolves it. Commit stable local checkpoints; do not push from
+GPT-web.

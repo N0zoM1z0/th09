@@ -1,18 +1,11 @@
 #include "GameErrorContext.hpp"
+#include "FileSystem.hpp"
+#include "Supervisor.hpp"
 
 #include <windows.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
-
-class Supervisor
-{
-  public:
-    void EnterCriticalSectionWrapper(int id);
-    void LeaveCriticalSectionWrapper(int id);
-};
-
-extern Supervisor g_Supervisor;
 
 void GameErrorContext::ResetContext()
 {

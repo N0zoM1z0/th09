@@ -15,8 +15,3 @@ class GameErrorContext
     char *bufferEnd;
     char showMessageBox;
 };
-
-namespace FileSystem
-{
-int WriteDataToFile(const char *path, void *data, size_t size);
-}
