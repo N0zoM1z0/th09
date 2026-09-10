@@ -3,3 +3,4 @@ GameErrorContext::Flush
 GameErrorContext::Log
 GameErrorContext::Fatal
 FileSystem::WriteDataToFile
+FileSystem::ResolvePath

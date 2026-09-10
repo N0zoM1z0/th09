@@ -538,7 +538,7 @@ address,size,span_end,current_name,proposed_name,module,status,match_percent,cal
 0x0042ACB0,47,0x0042ACDE,sub_42ACB0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042ACE0,131,0x0042AD62,sub_42ACE0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042AD70,65,0x0042ADB0,sub_42AD70,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x0042ADC0,90,0x0042AE19,sub_42ADC0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
+0x0042ADC0,90,0x0042AE19,sub_42ADC0,FileSystem::ResolvePath,FileSystem,matching,100.00,__stdcall,char *FileSystem::ResolvePath(const char *path),false,src/FilePath.cpp,Canonical relocation-aware VC7.1 comparison: 90/90 bytes exact including four replayed data relocations,authored,Copies executable-directory storage at 0x004ACD08 into shared resolved-path storage at 0x004ACC00 and appends path; storage definition/TU ownership remains unresolved; reviewed extent ends 0x0042AE19; 0x0042AE1A-0x0042AE1F padding remains separately unowned
 0x0042AE20,39,0x0042AE46,sub_42AE20,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042AE50,24,0x0042AE67,sub_42AE50,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042AE70,35,0x0042AE92,sub_42AE70,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,

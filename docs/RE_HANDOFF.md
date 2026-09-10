@@ -187,9 +187,42 @@ write helper at `0x0042C4E0-0x0042C5B1`.
   `0x0042C4E0` was written and read back through attested `th09-ida`; no target
   bytes or function names were modified.
 
-The next evidence-connected packet should recover the direct path dependency at
-`0x0042ADC0`, including its shared path buffers/data ownership and complete
-boundary, before deciding whether a natural source unit is exactable.
+The eighth reviewed packet closes the direct path helper at
+`0x0042ADC0-0x0042AE19` while deliberately leaving its data ownership open.
+
+- Target bytes and the exact object show a `__stdcall` single-argument helper:
+  it copies the NUL-terminated directory string at `0x004ACD08` into shared
+  scratch at `0x004ACC00`, appends the supplied path, returns the scratch
+  address, and executes `ret 4`.
+- TH09-local xrefs show `0x004ACD08` is also used by `_WinMain@16` startup.
+  WinMain fills it with `GetModuleFileNameA(..., 0x104)`, trims the executable
+  name to a slash-terminated directory, and falls back to `"./"` on failure.
+  `0x004ACC00` has only the three direct references inside this helper in the
+  current IDA database.
+- The committed source therefore declares both storage objects as unresolved
+  `extern` dependencies instead of defining or assigning them to this source
+  file. The reconstructed names `g_ExecutableDirectory` and `g_ResolvedPath`
+  are source names only; no original target data-symbol names are claimed.
+- The natural `strcpy` + `strcat` implementation under the existing exact-
+  producing VC7.1 `/O2 /Oy-` profile emits exactly 0x5A bytes. Canonical replay
+  matches all 90 bytes with four DIR32 relocations: one to `0x004ACD08` and
+  three to `0x004ACC00`.
+- Callers at `0x0042C480`, exact `WriteDataToFile @ 0x0042C4E0`, and
+  `0x0042C970` establish that the helper participates in multiple FileSystem
+  paths. No caller is promoted by this result.
+- Six `CC` bytes at `0x0042AE1A-0x0042AE1F` remain outside the reviewed extent
+  with physical ownership unassigned. An IDA evidence comment at `0x0042ADC0`
+  was written and read back through attested `th09-ida`; no target bytes or
+  function names were modified.
+- Factory imported the first five repository codegen-exact claims, but cold
+  replay is currently unavailable: submitting the `0x0042C4E0` claim reports
+  zero registered replay drivers. This is an acceptance-infrastructure boundary,
+  not a codegen mismatch. No Factory Truth Kernel acceptance is claimed for any
+  repository exact row.
+
+The next evidence-connected packet should inspect caller `0x0042C480`, which
+uses ResolvePath immediately before a small Win32 file query, and determine its
+full boundary/error semantics before testing a natural VC7.1 source shape.
 
 ## Restart commands
 
@@ -213,19 +246,18 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - VC7.1 build 3077 is observed; all detailed build-shape fields remain unknown.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
-- Seven CRT/library candidates are reviewed as exclusions. Five authored
+- Seven CRT/library candidates are reviewed as exclusions. Six authored
   functions are source-present and repository-canonical exact: four
-  GameErrorContext methods plus FileSystem::WriteDataToFile. All other imported
-  origins remain pending. Factory acceptance remains a separate cold-replay
-  state.
+  GameErrorContext methods plus FileSystem::WriteDataToFile and ResolvePath.
+  All other imported origins remain pending. Factory acceptance remains
+  unavailable because the current TH09 adapter has no codegen-exact replay
+  driver; no Truth Kernel acceptance is claimed.
 - `config/build.toml` exists from day one but correctly reports an open graph.
 
 ## Next bounded work
 
-Recover the direct path dependency at `0x0042ADC0` next. Reconcile the shared
-path buffers and any base-path data before assigning ownership or a durable
-name. Keep the supervisor wrappers at `0x0042B130`/`0x0042B160` as
-evidence-connected follow-up candidates without assuming their full object
-layout. Preserve unknown ownership at `0x0042D290` until target-local boundary
-evidence resolves it. Commit stable local checkpoints; do not push from
-GPT-web.
+Inspect ResolvePath caller `0x0042C480` next; it is a small, evidence-connected
+FileSystem candidate and should be bounded before source work. Keep storage at
+`0x004ACD08` and `0x004ACC00` externally declared until physical/TU ownership
+is proven. Preserve unknown ownership at `0x0042D290` and all reviewed `CC`
+gaps. Commit stable local checkpoints; do not push from GPT-web.

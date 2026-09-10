@@ -538,7 +538,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042ACB0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042ACE0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042AD70,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042ADC0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042ADC0,authored_game,FileSystem,authored,high,file-system-resolve-path-vc71-exact-2026-09-10
 0x0042AE20,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042AE50,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042AE70,unknown,,review,unknown,ida-1.50a-initial-inventory

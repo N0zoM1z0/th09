@@ -4,3 +4,4 @@ GameErrorContext::Flush,0x0042D240,function
 GameErrorContext::Log,0x0042C5C0,function
 GameErrorContext::Fatal,0x0042C660,function
 FileSystem::WriteDataToFile,0x0042C4E0,function
+FileSystem::ResolvePath,0x0042ADC0,function
