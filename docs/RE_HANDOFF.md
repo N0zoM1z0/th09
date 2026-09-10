@@ -423,6 +423,18 @@ The seventeenth reviewed packet establishes that the immediate post-Chain candid
 
 The next evidence-connected packet should inspect `0x0042C970`, which directly follows this Controller helper and already references the same GameErrorContext object. Determine from TH09-local Win32/DirectInput calls whether it is another Controller routine before consulting adjacent source.
 
+The eighteenth reviewed packet closes the high-fanout FileSystem read entry at `0x0042C970-0x0042CAD2`.
+
+- `FileSystem::OpenFile` is a `/Gr` free function: path enters in ECX, the optional output-size pointer in EDX, and `isExternalResource` is the sole stack argument; every return executes `ret 4`. The function holds Supervisor lock 2 across both read modes and releases it on all success/error exits.
+- Archive mode strips the final backslash and then slash component using two CRT `strrchr` calls, queries the archive object at `0x004AD008`, optionally stores decompressed size, calls exact `GameErrorContext::Fatal` when the entry is absent, allocates through the ZunMemory object, reads/decompresses the entry, then calls the common post-process. TH09 target contains no debug-print calls present in the committed TH08 hypothesis.
+- External-resource mode first calls exact `FileSystem::ResolvePath`, opens with `GENERIC_READ | FILE_SHARE_READ | OPEN_EXISTING | FILE_FLAG_SEQUENTIAL_SCAN | FILE_ATTRIBUTE_NORMAL`, allocates using the resolved path as debug text, reads and optionally reports the byte count, closes the handle, and reaches the same post-process.
+- Stable committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` supplied the `FileSystem::OpenFile` naming and broad branch/source-shape hypothesis. TH09 independently establishes the `/Gr` ABI, removal of debug logging, ResolvePath use, branch order, exact call destinations, error flow, and final bytes. No volatile TH095 content was used.
+- The natural TH09-adjusted source under `/O2 /Ob1 /Oy-` replays 355/355 bytes with 28 relocations. `/O2 /Ob0` and `/Ox /Ob1` are also exact, while `/O1 /Ob1` emits 0x12F bytes; no project-wide profile claim follows.
+- Four direct dependencies remain declaration-only and unpromoted: `ZunMemory::Alloc @ 0x00401340`, `FileSystem::TryDecryptFromTable @ 0x0042C290`, `PbgArchive::ReadDecompressEntry @ 0x004331C0`, and `PbgArchive::GetEntryDecompressedSize @ 0x00433290`. The exact call sites constrain their ABI but do not establish implementation, source presence, origin, or exactness.
+- Thirteen `CC` bytes at `0x0042CAD3-0x0042CADF` remain outside the reviewed function with physical ownership unassigned.
+
+The next evidence-connected packet should inspect the common post-process `0x0042C290`, because exact OpenFile calls it from both archive and external modes with `(data, fileSize, size)` and its current decompiler omits the unused EDX parameter. Recover its signature/table dependencies before attempting its decrypt source.
+
 ## Restart commands
 
 ```bash
@@ -446,15 +458,16 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Twenty authored functions are
-  source-present and repository-canonical exact: four GameErrorContext methods,
-  three FileSystem helpers, two Supervisor lock wrappers, seven Chain methods,
-  three ChainElem lifecycle/callback methods, and Controller::GetJoystickCaps.
-  All other imported origins remain pending. Factory acceptance remains
+  deleting destructor are reviewed as exclusions. Twenty-one authored functions
+  are source-present and repository-canonical exact: four GameErrorContext
+  methods, four FileSystem helpers, two Supervisor lock wrappers, seven Chain
+  methods, three ChainElem lifecycle/callback methods, and
+  Controller::GetJoystickCaps. All other imported origins remain pending.
+  Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
 - `config/build.toml` exists from day one but correctly reports an open graph.
 
 ## Next bounded work
 
-Inspect `0x0042C970` next. Establish its TH09-local imports, global accesses, calling convention, and boundary before deciding whether it is another Controller routine. Preserve all reviewed `CC` gaps and unresolved Controller data ownership. Commit stable local checkpoints; do not push from GPT-web.
+Inspect `0x0042C290` next as the exact OpenFile post-process dependency. Recover its true three-argument `/Gr` ABI, table/data references, memory ownership effects, and full boundary before source work. Preserve all reviewed `CC` gaps and unresolved archive/ZunMemory data ownership. Commit stable local checkpoints; do not push from GPT-web.

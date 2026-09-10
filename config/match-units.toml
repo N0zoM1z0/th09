@@ -373,3 +373,42 @@ relocations = [
   { offset = 0x5A, type = "DIR32", symbol = "?g_JoystickCaps@Controller@@3PAUtagJOYCAPSA@@A", target = 0x004AC8D8 },
   { offset = 0x68, type = "DIR32", symbol = "?g_JoystickCaps@Controller@@3PAUtagJOYCAPSA@@A", target = 0x004AC8D8, addend = 0x194 },
 ]
+
+[units.file-system-open-file]
+source = "src/FileOpen.cpp"
+object = "build/matching/FileOpen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FileSystem::OpenFile"]
+symbol = "?OpenFile@FileSystem@@YIPAEPBDPAHH@Z"
+target_address = 0x0042C970
+size = 0x163
+relocations = [
+  { offset = 0x0C, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x13, type = "REL32", symbol = "?EnterCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B130 },
+  { offset = 0x26, type = "REL32", symbol = "_strrchr", target = 0x0047CAF0 },
+  { offset = 0x3A, type = "REL32", symbol = "_strrchr", target = 0x0047CAF0 },
+  { offset = 0x4E, type = "DIR32", symbol = "?g_PbgArchive@@3VPbgArchive@@A", target = 0x004AD008 },
+  { offset = 0x53, type = "REL32", symbol = "?GetEntryDecompressedSize@PbgArchive@@QAEKPBD@Z", target = 0x00433290 },
+  { offset = 0x66, type = "DIR32", symbol = "??_C@_0CG@PJBLPAAL@error?5?3?5?$CFs?5is?5not?5found?5in?5arcfi@", target = 0x0048FBC0 },
+  { offset = 0x6B, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x70, type = "REL32", symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C660 },
+  { offset = 0x7A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x7F, type = "REL32", symbol = "?LeaveCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B160 },
+  { offset = 0x91, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x96, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0xA3, type = "DIR32", symbol = "?g_PbgArchive@@3VPbgArchive@@A", target = 0x004AD008 },
+  { offset = 0xA8, type = "REL32", symbol = "?ReadDecompressEntry@PbgArchive@@QAEPAEPBDPAE@Z", target = 0x004331C0 },
+  { offset = 0xB9, type = "REL32", symbol = "?ResolvePath@FileSystem@@YGPADPBD@Z", target = 0x0042ADC0 },
+  { offset = 0xD4, type = "DIR32", symbol = "__imp__CreateFileA@28", target = 0x0048E068 },
+  { offset = 0xE4, type = "DIR32", symbol = "__imp__GetFileSize@8", target = 0x0048E094 },
+  { offset = 0xEB, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0xF3, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0x100, type = "DIR32", symbol = "__imp__CloseHandle@4", target = 0x0048E060 },
+  { offset = 0x107, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x10C, type = "REL32", symbol = "?LeaveCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B160 },
+  { offset = 0x129, type = "DIR32", symbol = "__imp__ReadFile@20", target = 0x0048E090 },
+  { offset = 0x139, type = "DIR32", symbol = "__imp__CloseHandle@4", target = 0x0048E060 },
+  { offset = 0x146, type = "REL32", symbol = "?TryDecryptFromTable@FileSystem@@YIPAEPAEPAHH@Z", target = 0x0042C290 },
+  { offset = 0x14D, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x154, type = "REL32", symbol = "?LeaveCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B160 },
+]

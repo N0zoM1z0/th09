@@ -19,3 +19,4 @@ address,name,size,status,match_percent,unit,evidence
 0x0042C700,Chain::RunCalcChain,182,matching,100.00,chain-run-calc,python3 scripts/build-match-unit.py --unit chain-run-calc && python3 scripts/compare-coff-function.py --unit chain-run-calc --json
 0x0042C7E0,Chain::RunDrawChain,186,matching,100.00,chain-run-draw,python3 scripts/build-match-unit.py --unit chain-run-draw && python3 scripts/compare-coff-function.py --unit chain-run-draw --json
 0x0042C8F0,Controller::GetJoystickCaps,120,matching,100.00,controller-get-joystick-caps,python3 scripts/build-match-unit.py --unit controller-get-joystick-caps && python3 scripts/compare-coff-function.py --unit controller-get-joystick-caps --json
+0x0042C970,FileSystem::OpenFile,355,matching,100.00,file-system-open-file,python3 scripts/build-match-unit.py --unit file-system-open-file && python3 scripts/compare-coff-function.py --unit file-system-open-file --json
