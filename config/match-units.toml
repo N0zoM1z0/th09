@@ -560,3 +560,105 @@ relocations = [
   { offset = 0x10, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
   { offset = 0x23, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
 ]
+
+[units.lzss-contract-node]
+source = "src/LzssTree.cpp"
+object = "build/matching/LzssTree.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Lzss::ContractNode"]
+symbol = "?ContractNode@Lzss@@SIXHH@Z"
+target_address = 0x00433CE0
+size = 0x53
+relocations = [
+  { offset = 0x08, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x12, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x19, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x25, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x2D, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x35, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x41, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x49, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+]
+
+[units.lzss-replace-node]
+source = "src/LzssTree.cpp"
+object = "build/matching/LzssTree.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Lzss::ReplaceNode"]
+symbol = "?ReplaceNode@Lzss@@SIXHH@Z"
+target_address = 0x00433D40
+size = 0x73
+relocations = [
+  { offset = 0x08, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x17, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x1F, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x33, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x4B, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x55, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x5B, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x66, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+]
+
+[units.lzss-find-next-node]
+source = "src/LzssTree.cpp"
+object = "build/matching/LzssTree.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Lzss::FindNextNode"]
+symbol = "?FindNextNode@Lzss@@SIHH@Z"
+target_address = 0x00433DC0
+size = 0x31
+relocations = [
+  { offset = 0x06, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x10, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x28, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+]
+
+[units.lzss-add-string]
+source = "src/LzssTree.cpp"
+object = "build/matching/LzssTree.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Lzss::AddString"]
+symbol = "?AddString@Lzss@@SIHHPAH@Z"
+target_address = 0x00433E00
+size = 0x1B6
+relocations = [
+  { offset = 0x16, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x3F, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
+  { offset = 0x4C, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
+  { offset = 0x69, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
+  { offset = 0x76, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
+  { offset = 0x93, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
+  { offset = 0xA0, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
+  { offset = 0xBD, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
+  { offset = 0xCA, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
+  { offset = 0xE3, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
+  { offset = 0xF0, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
+  { offset = 0x109, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
+  { offset = 0x116, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
+  { offset = 0x161, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x16A, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x180, type = "REL32", symbol = "?ReplaceNode@Lzss@@SIXHH@Z", target = 0x00433D40 },
+  { offset = 0x199, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x19F, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x1A9, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+]
+
+[units.lzss-delete-string]
+source = "src/LzssTree.cpp"
+object = "build/matching/LzssTree.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Lzss::DeleteString"]
+symbol = "?DeleteString@Lzss@@SIXH@Z"
+target_address = 0x00433FC0
+size = 0x53
+relocations = [
+  { offset = 0x0B, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x15, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x1F, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x27, type = "REL32", symbol = "?ContractNode@Lzss@@SIXHH@Z", target = 0x00433CE0 },
+  { offset = 0x2D, type = "DIR32", symbol = "?g_LzssTree@@3PAULzssTreeNode@@A", target = 0x004B4420 },
+  { offset = 0x39, type = "REL32", symbol = "?FindNextNode@Lzss@@SIHH@Z", target = 0x00433DC0 },
+  { offset = 0x42, type = "REL32", symbol = "?DeleteString@Lzss@@SIXH@Z", target = 0x00433FC0 },
+  { offset = 0x4D, type = "REL32", symbol = "?ReplaceNode@Lzss@@SIXHH@Z", target = 0x00433D40 },
+]

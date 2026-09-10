@@ -5,8 +5,8 @@ their boundaries and origins must be reviewed independently.
 
 | Measure | Count |
 | --- | ---: |
-| Tracked 1.50a function candidates | 2,158 |
-| Origin/boundary review pending | 2,121 |
+| Tracked 1.50a function candidates | 2,159 |
+| Origin/boundary review pending | 2,122 |
 | Confirmed authored functions | 29 |
 | Confirmed authored code bytes | 3,259 |
 | Classified exclusions | 8 |
