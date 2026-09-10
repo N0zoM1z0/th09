@@ -4,6 +4,7 @@ resources/private/
 .tools/
 reference/
 *.exe
+/resources/th09.exe
 *.dll
 *.dat
 *.cfg

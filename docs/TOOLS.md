@@ -3,7 +3,8 @@
 | Need | Command or provider | Authority |
 | --- | --- | --- |
 | Verify the private target | `python3 scripts/verify-target.py` | target identity and PE structure |
-| Attest live IDA | `python3 scripts/check-ida-mcp.py` | provisional semantic provider |
+| Attest live IDA from GPT-web | Discover `th09-ida`, then call Factory-native `get_metadata` | target-bound provisional semantic provider; require passed attestation |
+| Attest live IDA from local Codex | `python3 scripts/check-ida-mcp.py` | host-only preflight; do not run inside the Factory shell |
 | Discover/call IDA tools | `python3 scripts/ida-mcp-call.py --search ...` / `--call ...` | target-attested; metadata writes explicit |
 | Inspect adjacent source | `git -C /home/pentester/coding/codex_ida/th08-reconstruction/th08 log ...`; likewise `/home/pentester/coding/codex_ida/th095-reconstruction/th095` | read-only hypotheses; TH095 semantic state is provisional; never TH09 proof |
 | Initialize IDA ledger | `python3 scripts/export-ida-inventory.py --initialize` | one-time provisional inventory only |
@@ -32,3 +33,9 @@ output, and target bytes.
 Build tools are shared provider installations where practical; target
 selection, source graph, Wine prefix, runtime scenarios, IDA database, and
 receipts remain per-game. Do not copy a tool installation into tracked source.
+
+The canonical target used by repository tools is the ignored, operator-supplied
+`resources/th09.exe`. It is copied once from the Windows installation into WSL,
+verified against `config/target.toml`, and kept out of Git. Normal Factory work
+does not mount or inspect the Windows game directory and does not need
+`TH09_TARGET_PATH`.

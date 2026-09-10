@@ -5,6 +5,14 @@ executable identified by SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Never substitute a localized, modified, Steam, trial, or earlier executable.
 
+The canonical private game file is
+`/home/pentester/coding/codex_ida/th09-reconstruction/th09/resources/th09.exe`
+(`resources/th09.exe` from the repository root). It is a read-only, ignored
+operator input copied into WSL from the Windows game directory; it must never be
+committed. Repository tools use this path by default. Do not search `/mnt`, add
+a Windows game-directory mount, or set `TH09_TARGET_PATH` during normal Factory
+work. That environment variable is only an explicit local override.
+
 ## Mandatory session recovery
 
 Before changing anything:
@@ -15,10 +23,16 @@ Before changing anything:
    review the diff. A previous Web session may have disconnected while leaving
    valuable dirty work. Understand, recover, finish, or deliberately supersede
    it; do not silently work around it.
-3. Run `python3 scripts/verify-target.py`, `python3 scripts/check-ida-mcp.py`,
+3. In the repository shell, run `python3 scripts/verify-target.py`,
    `python3 scripts/validate-tracking.py --require-target`, and
    `python3 scripts/report-reconstruction-status.py` before target-dependent
-   work. Stop on identity or provider mismatch.
+   work. From GPT-web, attest IDA separately through the Factory-native
+   `th09-ida` provider: discover its operation schemas, then call
+   `get_metadata` and require a passed attestation for `target:th09-main` with
+   `attestation.provider_transport=factory-native-stdio`. The preflight call's
+   arguments are exactly `{}`. Do not run `scripts/check-ida-mcp.py` inside the
+   Factory repository shell; that script is a local-Codex host preflight and
+   depends on host MCP registration.
 4. Work on one bounded unit or one coherent infrastructure batch and leave a
    reviewable local checkpoint.
 
