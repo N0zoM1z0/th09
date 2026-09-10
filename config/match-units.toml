@@ -199,3 +199,33 @@ symbol = "??1ChainElem@@QAE@XZ"
 target_address = 0x0042AC00
 size = 0x24
 relocations = []
+
+[units.chain-constructor]
+source = "src/Chain.cpp"
+object = "build/matching/Chain.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Chain::Chain"]
+symbol = "??0Chain@@QAE@XZ"
+target_address = 0x0042AC30
+size = 0x12
+relocations = [
+  { offset = 0x03, type = "REL32", symbol = "??0ChainElem@@QAE@XZ", target = 0x0042ABE0 },
+  { offset = 0x0B, type = "REL32", symbol = "??0ChainElem@@QAE@XZ", target = 0x0042ABE0 },
+]
+
+[units.chain-destructor]
+source = "src/Chain.cpp"
+object = "build/matching/Chain.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Chain::~Chain"]
+symbol = "??1Chain@@QAE@XZ"
+target_address = 0x0042B190
+size = 0x4B
+relocations = [
+  { offset = 0x06, type = "DIR32", symbol = "__ehhandler$??1Chain@@QAE@XZ", target = 0x0048D348 },
+  { offset = 0x0C, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x14, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x2A, type = "REL32", symbol = "??1ChainElem@@QAE@XZ", target = 0x0042AC00 },
+  { offset = 0x38, type = "REL32", symbol = "??1ChainElem@@QAE@XZ", target = 0x0042AC00 },
+  { offset = 0x43, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+]

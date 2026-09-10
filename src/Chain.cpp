@@ -25,6 +25,14 @@ ChainElem::~ChainElem()
     this->deletedCallback = NULL;
 }
 
+Chain::Chain()
+{
+}
+
+Chain::~Chain()
+{
+}
+
 int Chain::AddToCalcChain(ChainElem *elem, int priority)
 {
     ChainElem *current = &this->calcChain;

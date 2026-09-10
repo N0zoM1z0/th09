@@ -336,10 +336,48 @@ The twelfth reviewed packet closes the ChainElem lifecycle pair at
   gaps. IDA evidence comments at both lifecycle entries were written and read
   back through attested `th09-ida`; no target bytes or function names changed.
 
-The next evidence-connected packet should test the small Chain constructor at
-`0x0042AC30` and destructor at `0x0042B190` now that both embedded ChainElem
-lifecycles are exact. Reconcile compiler-emitted member-construction/destruction
-shape and boundaries before promotion.
+The thirteenth reviewed packet tests the Chain container special members at
+`0x0042AC30` and `0x0042B190` but deliberately does not promote their origin.
+
+- `0x0042AC30-0x0042AC41` has the exact 18-byte code shape of an empty
+  `Chain::Chain()`: construct the first exact ChainElem, construct the second at
+  `this+0x20`, return `this`. `0x0042B190-0x0042B1DA` has the exact 75-byte
+  primary code shape of an empty `Chain::~Chain()`, destroying the second member
+  then the first under VC7.1 EH registration.
+- The destructor's non-contiguous compiler artifacts were reconciled instead of
+  being silently ignored. The associated `.text$x` at `0x0048D340` replays
+  18/18 bytes with relocations to exact `ChainElem::~ChainElem`, xdata at
+  `0x0049DC10`, and `___CxxFrameHandler @ 0x0047B2E5`. The associated
+  `.xdata$x` at `0x0049DC08` replays 36/36 bytes with relocations to the cleanup
+  funclet and its own frame data. These are compiler EH artifacts, not separate
+  authored-function extents; `.sxdata`/whole-link placement is not claimed.
+- Source-shape probes explain why the constructor is unusually small. With the
+  exact ChainElem definitions visible, `/O2 /Ob0 /Oy-` and `/O2 /Ob1 /Oy-`
+  both emit the target 0x12-byte constructor and 0x4B-byte destructor. Tested
+  `/O2 /Ob2 /Oy-` inlines the members and mismatches at 0x3A/0x72;
+  `/O1 /Ob1 /Oy-` leaves the destructor short at 0x35. The configured candidate
+  units use one exact-producing `/O2 /Ob1 /Oy-` profile without claiming it was
+  the original TU-wide setting.
+- TH08 committed HEAD `a45e99fb1942714e6edded20847e32a654d56f97` and TH095
+  committed HEAD `f22604da05d5f6c91850be475568b5e8a8575e5b` both contain
+  explicit empty Chain constructor/destructor definitions, which strengthens
+  the source-shape hypothesis but cannot prove TH09 authorship. TH08 was clean;
+  TH095 was ahead of origin and had unrelated untracked reconstruction/runtime
+  files. Only committed adjacent content was consulted.
+- Because stripped TH09 evidence cannot currently distinguish explicitly authored
+  empty special members from implicitly compiler-generated ones, both candidates
+  remain `origin=unknown, disposition=review`. Their natural source and replayable
+  match units are present, but `matches.csv`, `implemented.csv`, canonical exact
+  totals, and authored totals are intentionally unchanged.
+- Fourteen `CC` bytes at `0x0042AC42-0x0042AC4F` and five at
+  `0x0042B1DB-0x0042B1DF` remain physically unowned. IDA comments at both
+  entries were written and read back; no target bytes or function names changed.
+
+The next evidence-connected packet should inspect `0x0042AC50`, which directly
+calls the exact ChainElem destructor and conditionally frees the object, and the
+paired allocator-side candidate `0x0042B300` only if target-local evidence shows
+that they form a bounded compiler-helper cohort. Keep origin classification
+separate from codegen identity.
 
 ## Restart commands
 
@@ -374,7 +412,8 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Test the Chain constructor at `0x0042AC30` and destructor at `0x0042B190`
-next, using only the now-exact ChainElem lifecycle and TH09 target call order as
-evidence. Preserve all reviewed `CC` gaps and unrelated ownership unknowns.
+Inspect `0x0042AC50` next as a likely deleting-destructor helper for ChainElem,
+and inspect `0x0042B300` only if the target shows a directly connected allocator
+or construction role. Classify compiler helpers independently from authored game
+functions. Preserve all reviewed `CC` gaps and unrelated ownership unknowns.
 Commit stable local checkpoints; do not push from GPT-web.

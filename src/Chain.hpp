@@ -33,6 +33,9 @@ class Chain
     ChainElem drawChain;
 
   public:
+    Chain();
+    ~Chain();
+
     int AddToCalcChain(ChainElem *elem, int priority);
     int AddToDrawChain(ChainElem *elem, int priority);
 };
