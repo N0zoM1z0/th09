@@ -12,6 +12,8 @@ this repository.
 | TOOLCHAIN-002 | unknown | Compiler flags, TU partition, libraries, resources, and link order are not yet established. | Explicit open fields in `config/build.toml` |
 | ANALYSIS-001 | observed | The live IDA database matches target hashes, mapped size, image base, entry, and distributed target bytes. | `python3 scripts/check-ida-mcp.py` |
 | INVENTORY-001 | inferred | IDA currently supplies a provisional navigation inventory; individual boundaries and origins remain unreviewed. | `config/functions.csv`; `config/function-origins.csv` |
+| CRT-001 | observed / corroborated | `__amsg_exit` at `0x0047D416-0x0047D43A` is a 37-byte CRT/library helper. | Attested TH09 control flow and bytes; VC7.1 `libcmt.lib` `wincrt0.obj` structural comparison with relocation fields excluded |
+| CRT-002 | observed / corroborated | `_fast_error_exit` starts at `0x0047D43B` and continues through `0x0047D45E`; the imported IDA candidate omitted the final `pop ecx; pop ecx; ret`. | Attested TH09 bytes and adjacent entry at `0x0047D45F`; VC7.1 `libcmt.lib` `wincrt0.obj` structural comparison with relocation fields excluded |
 
 Do not turn cross-game similarity, a decompiler type, or an attractive reused
 name into a TH09 fact without target-local evidence.

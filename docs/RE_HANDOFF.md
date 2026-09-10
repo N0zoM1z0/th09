@@ -2,10 +2,38 @@
 
 ## Current phase
 
-Bootstrap: exact target and IDA provider attested; provisional function
-inventory initialized; boundary/origin review has not started. No authored
-source, exact function, closed Windows i386 product, runtime semantic result, or
-port is claimed.
+Exact reconstruction: the target and native IDA provider are attested, the
+provisional function inventory is initialized, and boundary/origin review has
+started with two CRT/library exclusions. No authored source, exact function,
+closed Windows i386 product, runtime semantic result, or port is claimed.
+
+## Latest exact-phase checkpoint
+
+The first reviewed packet covers the CRT startup error helpers at
+`0x0047D416-0x0047D45E`.
+
+- `__amsg_exit` is retained at `0x0047D416-0x0047D43A` (37 bytes).
+- `_fast_error_exit` is corrected from the imported 33-byte IDA candidate to
+  `0x0047D43B-0x0047D45E` (36 bytes). Attested target bytes show the omitted
+  tail as `pop ecx; pop ecx; ret`, immediately before the PE entry point at
+  `0x0047D45F`.
+- Both functions structurally match the corresponding VC7.1 `libcmt.lib`
+  `wincrt0.obj` functions across every non-relocation byte, so their origin is
+  reviewed as `library` / `CRT` and excluded from authored reconstruction.
+- This is boundary/origin evidence only. No source-presence, codegen-exact,
+  ownership, whole-build, runtime, or Factory-acceptance claim is made.
+- The native `th09-ida` provider remained strongly attested to
+  `target:th09-main`; an IDA comment at `0x0047D43B` records the corrected tail
+  and was read back successfully.
+- Repository-local target-dependent preflights remain unavailable because the
+  private `th09.exe` is not mounted at `resources/th09.exe` and
+  `TH09_TARGET_PATH` is unset in the repository runner. Target-independent
+  `validate-tracking.py`, `build.py --check`, `ci.py`, progress regeneration,
+  status reporting, and `git diff --check` pass.
+
+The next connected packet is the PE entry-point CRT startup function at
+`0x0047D45F-0x0047D633`. Reconcile its complete `wincrt0.obj` contribution and
+origin before moving into the authored `_WinMain@16` chain.
 
 ## Restart commands
 

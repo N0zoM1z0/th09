@@ -1851,8 +1851,8 @@ address,size,span_end,current_name,proposed_name,module,status,match_percent,cal
 0x0047D350,104,0x0047D3B7,__aulldiv,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0047D3C0,52,0x0047D3F3,__allmul,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0047D3F4,34,0x0047D415,_rand,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x0047D416,37,0x0047D43A,__amsg_exit,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x0047D43B,33,0x0047D45B,_fast_error_exit,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
+0x0047D416,37,0x0047D43A,__amsg_exit,,CRT,excluded,0.00,,,false,,Boundary ends at RET 0x0047D43A; attested target bytes match the VC7.1 libcmt wincrt0.obj __amsg_exit shape across all 21 non-relocation bytes,,Reviewed CRT/library helper; exactness is not claimed
+0x0047D43B,36,0x0047D45E,_fast_error_exit,,CRT,excluded,0.00,,,false,,Attested target tail at 0x0047D45C-0x0047D45E is pop ecx; pop ecx; ret; 36-byte target body matches the VC7.1 libcmt wincrt0.obj _fast_error_exit shape across all 20 non-relocation bytes,,Corrected imported IDA boundary; next function starts at 0x0047D45F; exactness is not claimed
 0x0047D45F,469,0x0047D633,start,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0047D634,21,0x0047D648,__finite,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0047D649,156,0x0047D6E4,__fpclass,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
