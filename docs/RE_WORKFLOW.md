@@ -17,14 +17,22 @@ disk target, IDA target, ledgers, and live status using the commands in
    library, import thunk, data, padding, or still unknown.
 4. For authored code, recover ABI, types, object layout, globals, constants,
    side effects, and error behavior using bounded IDA queries and raw target
-   evidence. Keep hypotheses explicitly falsifiable.
+   evidence. Keep hypotheses explicitly falsifiable. When useful, inspect the
+   read-only TH08 reconstruction at
+   `/home/pentester/coding/codex_ida/th08-reconstruction/th08` or TH095 at
+   `/home/pentester/coding/codex_ida/th095-reconstruction/th095` for an
+   analogous implementation, naming pattern, or compiler experiment. TH095's
+   ongoing semantic work is provisional. Treat everything learned from either
+   repository as a candidate hypothesis until independent TH09 evidence
+   confirms it.
 5. Place natural C/C++ in a candidate translation unit. Mark source presence
    without claiming exactness.
 6. Compile the smallest useful VC7.1 probe with an explicit candidate profile.
    Compare the complete owned extent and every relocation; distinguish source,
    profile, boundary, ownership, and library mismatches.
 7. Add a canonical match unit and exact ledger row only after repeatable zero
-   difference against the verified target.
+   difference against the verified TH09 target. Similar adjacent-game source,
+   even when it compiles plausibly, never substitutes for this comparison.
 8. Replay affected accepted units, regenerate progress, update the handoff and
    per-game knowledge, inspect the final diff, and commit one coherent local
    checkpoint.

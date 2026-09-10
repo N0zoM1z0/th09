@@ -29,6 +29,23 @@ When available, also read the Factory guidance at
 These explicit paths are authoritative even when a client does not inject a
 plugin skill.
 
+## Adjacent-game hypothesis sources
+
+The Factory mounts two adjacent reconstructions read-only for TH09 work:
+
+- `/home/pentester/coding/codex_ida/th08-reconstruction/th08`
+- `/home/pentester/coding/codex_ida/th095-reconstruction/th095`
+
+Inspect their source, history, scripts, and game-local knowledge when a TH09
+subsystem has a plausible analogue. They may suggest source shape, names, engine
+structure, compiler idioms, and useful probes, but they are hypothesis material
+only. TH095 is itself undergoing semantic reconstruction, so its semantic names,
+owners, layouts, and abstractions are especially provisional. Neither adjacent
+game's addresses, bytes, layouts, ownership, behavior, or exactness claims are
+TH09 evidence. Accept every TH09 conclusion only from TH09-local target, IDA,
+xref, ABI, compiler, exact-byte, build, or runtime evidence. When the games
+differ or the comparison is inconclusive, keep the TH09 fact unknown.
+
 ## Evidence and state
 
 - Keep target observations, IDA observations, compiler observations, runtime

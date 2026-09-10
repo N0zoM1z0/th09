@@ -5,6 +5,7 @@
 | Verify the private target | `python3 scripts/verify-target.py` | target identity and PE structure |
 | Attest live IDA | `python3 scripts/check-ida-mcp.py` | provisional semantic provider |
 | Discover/call IDA tools | `python3 scripts/ida-mcp-call.py --search ...` / `--call ...` | target-attested; metadata writes explicit |
+| Inspect adjacent source | `git -C /home/pentester/coding/codex_ida/th08-reconstruction/th08 log ...`; likewise `/home/pentester/coding/codex_ida/th095-reconstruction/th095` | read-only hypotheses; TH095 semantic state is provisional; never TH09 proof |
 | Initialize IDA ledger | `python3 scripts/export-ida-inventory.py --initialize` | one-time provisional inventory only |
 | Validate ledger graph | `python3 scripts/validate-tracking.py` | consistency, never exactness |
 | Inspect status | `python3 scripts/report-reconstruction-status.py` | derived from ledgers |
@@ -20,6 +21,13 @@ operation, the Factory re-attests the repository target, private executable,
 active IDA metadata and entry point, and distributed mapped `.text` bytes.
 GPT-web keeps using the one Factory URL and selects repository `th09` plus
 provider `th09-ida`.
+
+The Factory repository runner exposes both adjacent checkouts above as
+immutable reference roots. Use focused reads rather than copying their trees or
+generated artifacts into TH09. Record the adjacent repository HEAD when a
+comparison materially shapes a hypothesis. Any proposed reuse must be
+reconciled against TH09-local boundaries, xrefs, ABI, data ownership, compiler
+output, and target bytes.
 
 Build tools are shared provider installations where practical; target
 selection, source graph, Wine prefix, runtime scenarios, IDA database, and
