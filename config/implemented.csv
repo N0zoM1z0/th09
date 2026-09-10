@@ -19,3 +19,4 @@ Chain::RunCalcChain
 Chain::RunDrawChain
 Controller::GetJoystickCaps
 FileSystem::OpenFile
+FileSystem::Decrypt

@@ -435,6 +435,17 @@ The eighteenth reviewed packet closes the high-fanout FileSystem read entry at `
 
 The next evidence-connected packet should inspect the common post-process `0x0042C290`, because exact OpenFile calls it from both archive and external modes with `(data, fileSize, size)` and its current decompiler omits the unused EDX parameter. Recover its signature/table dependencies before attempting its decrypt source.
 
+The nineteenth reviewed packet closes the lower-level FileSystem decrypt transform while deliberately leaving its table-driven wrapper unpromoted.
+
+- `FileSystem::Decrypt @ 0x0042C180-0x0042C282` is a `/Gr` free function with `inData` in ECX, `size` in EDX, and `xorValue`, `xorValueInc`, `chunkSize`, and `maxBytes` on the stack; all returns use `ret 0x10`. The target allocates an output buffer through the ZunMemory object, reverses alternating output positions within each bounded chunk while advancing the XOR byte, copies any undecrypted tail, and returns either the new allocation or the original input when allocation fails.
+- The target-only allocation debug string is `"./system\\global.h"` at `0x0048E474`. Natural maintained source replays 259/259 bytes with three relocations under the configured `/O2 /Ob1 /Oy-` profile; `/O2 /Ob0` and `/Ox /Ob1` are also exact, while `/O1` emits 244 bytes and `/Od` 446 bytes. No project-wide optimization claim follows.
+- Stable committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` supplied the broad Decrypt algorithm hypothesis. TH09 independently establishes the ABI, exact control flow, allocator call, string, and output behavior. The maintained TH09 source omits TH08's unused reconstruction local because a focused probe proves its removal leaves the target-exact optimized body unchanged.
+- The adjacent crypt data is explicitly not copied. TH09 has eight 12-byte records at `0x004A1E60` followed by signature bytes `85 A4 DA` at `0x004A1EC0`; current committed TH08 differs in at least its third and fourth record values. TH09 wins, and the TH09 data definition/TU owner remains unknown.
+- `TryDecryptFromTable @ 0x0042C290-0x0042C36B` is now boundary- and ABI-reviewed but remains `unknown/review`. A natural source with the correct TH09 table view, call to exact Decrypt, and ZunMemory free path produces the same 220-byte extent under `/O2`, but its optimized register allocation differs. `/GB` and `/G6` do not change that mismatch, `/G7` emits 222 bytes, `/O1` is shorter, and `/Od` is longer. The repository compiler invocation does not load TH08's nonstandard `var_order` C1XX wrapper; no such wrapper was introduced merely to force equality.
+- Thirteen `CC` bytes at `0x0042C283-0x0042C28F` and four at `0x0042C36C-0x0042C36F` remain outside the reviewed logical functions with physical ownership unassigned.
+
+The next evidence-connected packet should inspect `FileSystem::Encrypt @ 0x0042C370` and its relationship to exact Decrypt before returning to the unresolved TryDecryptFromTable register-allocation shape. This can establish whether the encrypt/decrypt pair shares a natural optimized source/TU profile without importing TH08 data ownership.
+
 ## Restart commands
 
 ```bash
@@ -458,9 +469,9 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Twenty-one authored functions
+  deleting destructor are reviewed as exclusions. Twenty-two authored functions
   are source-present and repository-canonical exact: four GameErrorContext
-  methods, four FileSystem helpers, two Supervisor lock wrappers, seven Chain
+  methods, five FileSystem helpers, two Supervisor lock wrappers, seven Chain
   methods, three ChainElem lifecycle/callback methods, and
   Controller::GetJoystickCaps. All other imported origins remain pending.
   Factory acceptance remains
@@ -470,4 +481,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Inspect `0x0042C290` next as the exact OpenFile post-process dependency. Recover its true three-argument `/Gr` ABI, table/data references, memory ownership effects, and full boundary before source work. Preserve all reviewed `CC` gaps and unresolved archive/ZunMemory data ownership. Commit stable local checkpoints; do not push from GPT-web.
+Inspect `0x0042C370` next as the FileSystem encrypt counterpart to exact Decrypt. Establish its TH09-local ABI, complete extent, allocator dependency, and natural VC7.1 source shape before deciding exactness. Preserve the unresolved TryDecryptFromTable register-allocation issue, all reviewed `CC` gaps, and crypt-table data ownership. Commit stable local checkpoints; do not push from GPT-web.
