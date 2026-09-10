@@ -1,10 +1,12 @@
 #pragma once
 
 struct AnmVm;
+class AnmLoadedSprite;
 
 class AnmLoaded
 {
   public:
+    AnmLoadedSprite *GetSprite(int spriteIndex);
     void InitializeAndSetSprite(AnmVm *vm, int spriteIndex);
 };
 
@@ -17,6 +19,8 @@ enum AnmFileSlot
 class AnmManager
 {
   public:
+    void FlushVertexBuffer();
+    int DrawNoRotation(AnmVm *vm);
     AnmLoaded *PreloadAnm(int anmIdx, const char *filename);
     void ReleaseAnm(int anmIdx);
 };

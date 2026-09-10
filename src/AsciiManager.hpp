@@ -1,6 +1,15 @@
 #pragma once
 
 class AnmLoaded;
+class AnmLoadedSprite;
+
+struct Float2
+{
+    float x;
+    float y;
+};
+
+typedef char Float2SizeIs08[(sizeof(Float2) == 0x08) ? 1 : -1];
 
 struct Float3
 {
@@ -13,18 +22,25 @@ typedef char Float3SizeIs0C[(sizeof(Float3) == 0x0C) ? 1 : -1];
 
 struct AnmVm
 {
-    unsigned char unknown_0000[0x1F8];
+    unsigned char unknown_0000[0x18];
+    Float2 scale;
+    unsigned char unknown_0020[0x1F0 - 0x20];
+    unsigned long color1;
+    unsigned char unknown_01F4[4];
     union {
         unsigned int flagsWord;
         struct {
-            unsigned int unknownFlags0 : 11;
+            unsigned int visible : 1;
+            unsigned int unknownFlags1 : 10;
             unsigned int anchor : 2;
             unsigned int unknownFlags13 : 19;
         };
     };
     unsigned char unknown_01FC[0x0C];
     Float3 pos;
-    unsigned char unknown_0214[0x2A4 - 0x214];
+    unsigned char unknown_0214[0x10];
+    AnmLoadedSprite *loadedSprite;
+    unsigned char unknown_0228[0x2A4 - 0x228];
 };
 
 typedef char AnmVmSizeIs2A4[(sizeof(AnmVm) == 0x2A4) ? 1 : -1];
@@ -51,6 +67,7 @@ class AsciiManager
 
     void AddString(Float3 *position, const char *string);
     void AddFormatText(Float3 *position, const char *fmt, ...);
+    void DrawStrings();
     void Reset();
     void SetSpaceWidth(int spaceWidth);
 

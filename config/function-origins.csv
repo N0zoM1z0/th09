@@ -740,7 +740,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004343D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004343E0,authored_game,AsciiManager,authored,high,ascii-manager-reset-vc71-exact-2026-09-10
 0x004344E0,authored_game,AsciiManager,authored,high,ascii-manager-added-callback-vc71-exact-2026-09-10
-0x00434540,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00434540,authored_game,AsciiManager,authored,high,ascii-manager-draw-strings-vc71-exact-2026-09-10
 0x004346A0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00434740,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00434E30,unknown,,review,unknown,ida-1.50a-initial-inventory

@@ -34,3 +34,4 @@ AsciiManager::AddFormatText
 AsciiManager::SetSpaceWidth
 AsciiManager::AddedCallback
 AsciiManager::Reset
+AsciiManager::DrawStrings

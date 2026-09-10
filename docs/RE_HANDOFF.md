@@ -583,6 +583,19 @@ The thirty-first reviewed packet canonically reconstructs `AsciiManager::Reset @
 
 The next evidence-connected packet should inspect `0x00434540-0x00434694` and its immediate callers/callees/field accesses. It is adjacent to Reset/AddedCallback but must earn AsciiManager ownership from TH09-local object and call evidence before any adjacent-game name is adopted.
 
+The thirty-second reviewed packet canonically reconstructs `AsciiManager::DrawStrings @ 0x00434540-0x00434694` and adds only the VM/render declarations required by target-local evidence.
+
+- TH09 callers independently establish AsciiManager ownership: `0x00431540` first queues `"Press Shot Button"` through exact AddFormatText on `g_AsciiManager @ 0x004CE458` and then invokes `0x00434540`; `0x00435C00` calls the same method while operating the same manager-sized state. The method directly consumes the already exact queue/count/spaceWidth/asciiAnm offsets.
+- The loop sets `largeText` visible plus anchor 3, copies queue position and scale, computes `spaceWidth * scaleX`, flushes and selects gameplay viewport mode 0 for GUI records or 2 for non-GUI records when mode changes, and restores mode 2 at exit when necessary. Newline increments Y by TH09-specific 14.0f and resets X; space advances X only; other unsigned bytes use sprite index `byte - 0x20`, copy queue color, draw the VM, then advance X.
+- DrawStrings proves only the extra AnmVm fields it touches: two-float scale at `+0x18`, 32-bit color at `+0x1F0`, visible bit 0 in the existing `+0x1F8` flag word, and loaded-sprite pointer at `+0x224`. Other VM bytes remain opaque.
+- Four callee declarations are source hypotheses backed by TH09 behavior and exact caller relocations, not callee exactness: `Supervisor::ConfigureGameplayViewport(int) @ 0x00401390`, `AnmLoaded::GetSprite(int) @ 0x00434390`, `AnmManager::FlushVertexBuffer() @ 0x004396A0`, and `AnmManager::DrawNoRotation(AnmVm *) @ 0x0043A950`. All four ledger rows remain `unknown/review`. Shared IDA comments record the same distinction.
+- Clean committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` corroborates the older low-priority text renderer shape only. Committed-only TH095 HEAD `6103aff975e3f416ccce318c16c4bcdd56f78747` corroborates the `DrawStrings` and `ConfigureGameplayViewport` naming and the unselected glyph path, but TH095 is still semantically provisional and its dirty worktree was not read. TH09 differs from both where observed: line height is 14.0f and glyph mapping is exactly unsigned byte minus 0x20.
+- Natural source replays 341/341 bytes with twelve relocations and is exact under tested O2/Ox profiles; `/O1` emits 328 and `/Od` 500 bytes. No target bytes, padding, assembly, volatile/register trick, `var_order`, or identifier-bucket wrapper is used. DrawStrings is canonical `authored_game/AsciiManager`, taking totals from 36 functions / 3,860 bytes to 37 functions / 4,201 bytes.
+- Adding the target-supported Supervisor member declaration changes no existing ChainRun code or solved relocation destination, but VC7.1 renumbers compiler-internal COFF `$L...` labels by +2. The calc/draw match manifests were updated only to the observed new local symbol names; both functions remain 212/212 exact, and all 27 configured Supervisor/Ascii header consumers replayed exact before DrawStrings promotion.
+- `0x00434695-0x0043469F` is eleven bytes of physically unassigned `CC`.
+
+The next evidence-connected packet should classify `0x004346A0` and its immediate candidate/caller/data neighborhood. It is address-adjacent to DrawStrings but must independently prove AsciiManager ownership and method role; do not transfer TH08/TH095 names until TH09-local state and call evidence agree.
+
 ## Restart commands
 
 ```bash
@@ -606,11 +619,11 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Thirty-six authored functions
+  deleting destructor are reviewed as exclusions. Thirty-seven authored functions
   are source-present and repository-canonical exact: four GameErrorContext
   methods, six FileSystem helpers, two Supervisor lock wrappers, seven Chain
   methods, three ChainElem lifecycle/callback methods, Controller::GetJoystickCaps,
-  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, and seven AsciiManager lifecycle/text/setup/reset methods. All other imported origins remain pending.
+  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, and eight AsciiManager lifecycle/text/setup/reset/draw methods. All other imported origins remain pending.
   Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -618,4 +631,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The immediate post-LZSS candidates `0x00434260` and `0x00434280` are now canonical exact AsciiManager lifecycle helpers. The AsciiManager text helpers plus SetSpaceWidth and AddedCallback are now canonical exact. The address-adjacent `0x00434370/80/90/B0/D0` candidates remain unknown rather than inheriting AsciiManager ownership. Reset at `0x004343E0` is now canonical exact. Continue by independently classifying candidate `0x00434540-0x00434694` from TH09-local callers/callees/field accesses before adopting any AsciiManager name. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.
+Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The immediate post-LZSS candidates `0x00434260` and `0x00434280` are now canonical exact AsciiManager lifecycle helpers. The AsciiManager text helpers plus SetSpaceWidth and AddedCallback are now canonical exact. The address-adjacent `0x00434370/80/90/B0/D0` candidates remain unknown rather than inheriting AsciiManager ownership. Reset and DrawStrings through `0x00434694` are now canonical exact. Continue by independently classifying candidate `0x004346A0` from TH09-local callers/callees/field accesses before adopting any adjacent-game name. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.
