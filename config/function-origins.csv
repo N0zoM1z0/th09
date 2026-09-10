@@ -549,8 +549,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042B010,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042B0D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042B110,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042B130,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042B160,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042B130,authored_game,Supervisor,authored,high,supervisor-enter-critical-section-vc71-exact-2026-09-10
+0x0042B160,authored_game,Supervisor,authored,high,supervisor-leave-critical-section-vc71-exact-2026-09-10
 0x0042B190,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042B1E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042B270,unknown,,review,unknown,ida-1.50a-initial-inventory

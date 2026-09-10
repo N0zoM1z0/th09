@@ -4,10 +4,10 @@
 
 Exact reconstruction: the target and native IDA provider are attested, the
 provisional function inventory is initialized, and boundary/origin review has
-started with seven CRT/library exclusions and two exact authored
-GameErrorContext functions. The faithful Windows i386 whole-build graph is
-still open; runtime semantic
-validation and portability work have not started.
+advanced through seven CRT/library exclusions and nine repository-canonical
+exact authored functions in the GameErrorContext, FileSystem, and Supervisor
+cohort. The faithful Windows i386 whole-build graph is still open; runtime
+semantic validation and portability work have not started.
 
 ## Latest exact-phase checkpoints
 
@@ -247,10 +247,43 @@ The ninth reviewed packet closes the small file-presence helper at
 - An IDA evidence comment at `0x0042C480` was written and read back through the
   attested native provider. No target bytes or function names were modified.
 
-The next evidence-connected packet should inspect the supervisor lock wrappers
-at `0x0042B130` and `0x0042B160`, which are direct dependencies of all exact
-FileSystem/ErrorContext functions in this cohort. Their object layout and lock
-counter offsets must be recovered before any source/exact claim.
+The tenth reviewed packet closes the Supervisor lock-wrapper pair at
+`0x0042B130-0x0042B187` while keeping the rest of the Supervisor layout opaque.
+
+- `Supervisor::EnterCriticalSectionWrapper @ 0x0042B130-0x0042B157` and
+  `Supervisor::LeaveCriticalSectionWrapper @ 0x0042B160-0x0042B187` are normal
+  `__thiscall` members with ECX carrying `this`, one stack `int id`, and `ret 4`.
+- TH09 target arithmetic establishes `CRITICAL_SECTION` storage at object offset
+  `+0x6C0` with 0x18-byte stride. Five such slots end at `+0x738`, where the
+  wrappers index a byte counter by the same id; Enter increments it after the
+  Win32 call and Leave decrements it after the Win32 call. Direct target caller
+  sites exercise ids 0, 2, 3, and 4; dynamic-id callers are not used to infer
+  any wider array.
+- Committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` supplied the
+  same wrapper source-shape hypothesis including lock counts. TH095 committed
+  HEAD `8c79bc63280d4ea496e52cbf4ad6549f3e8a94d1` currently omits those count
+  updates, so TH09 target instructions decide the result. TH08 remained clean;
+  TH095 had unrelated pre-existing EclExtended/runtime scratch changes and only
+  committed content was consulted.
+- The maintained source uses a private `SupervisorLockLayout` overlay with an
+  explicitly unknown prefix rather than claiming unrelated Supervisor fields.
+  Both canonical units replay 40/40 target bytes twice under pinned VC7.1; each
+  has one DIR32 relocation, to `EnterCriticalSection` or `LeaveCriticalSection`.
+- Eight `CC` bytes at `0x0042B158-0x0042B15F` and another eight at
+  `0x0042B188-0x0042B18F` remain outside the reviewed extents with physical
+  ownership unassigned. The next IDA candidate begins at `0x0042B190`.
+- IDA evidence comments at `0x0042B130` and `0x0042B160` were written and read
+  back through the attested native provider. Function names were not rewritten;
+  no target bytes were modified.
+- The production build skeleton still validates as target-bound/open. Running the
+  actual whole-build command returns rc 2 with compile flags, TU partition,
+  libraries, resources, and link order explicitly unresolved; no whole-build or
+  runtime closure is claimed from these exact units.
+
+The next evidence-connected packet should follow wrapper callers at
+`0x0042B1E0` and `0x0042B270`, which are paired 0x8F-byte candidates using lock
+0 and share the same local subsystem seam. Reconcile their callees and complete
+extents before assigning semantics or source.
 
 ## Restart commands
 
@@ -274,10 +307,10 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - VC7.1 build 3077 is observed; all detailed build-shape fields remain unknown.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
-- Seven CRT/library candidates are reviewed as exclusions. Seven authored
+- Seven CRT/library candidates are reviewed as exclusions. Nine authored
   functions are source-present and repository-canonical exact: four
-  GameErrorContext methods plus FileSystem::WriteDataToFile, ResolvePath, and
-  CheckIfFileAlreadyExists.
+  GameErrorContext methods, three FileSystem helpers, and two Supervisor lock
+  wrappers.
   All other imported origins remain pending. Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -285,10 +318,9 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Inspect the supervisor lock wrappers at `0x0042B130` and `0x0042B160` next.
-Recover only layout offsets and counter semantics established by TH09 target
-accesses; do not infer the rest of the supervisor object from adjacent games.
-Keep path storage at `0x004ACD08` and `0x004ACC00` externally declared until
-physical/TU ownership is proven. Preserve unknown ownership at `0x0042D290` and
-all reviewed `CC` gaps. Commit stable local checkpoints; do not push from
-GPT-web.
+Inspect the paired wrapper callers at `0x0042B1E0` and `0x0042B270` next.
+Use their shared lock-0 dependency and target-local callees to recover only a
+bounded subsystem seam. Keep the remainder of the Supervisor object, path
+storage at `0x004ACD08`/`0x004ACC00`, `0x0042D290`, and all reviewed `CC` gaps
+unowned until direct evidence resolves them. Commit stable local checkpoints;
+do not push from GPT-web.

@@ -5,3 +5,5 @@ GameErrorContext::Fatal
 FileSystem::WriteDataToFile
 FileSystem::ResolvePath
 FileSystem::CheckIfFileAlreadyExists
+Supervisor::EnterCriticalSectionWrapper
+Supervisor::LeaveCriticalSectionWrapper

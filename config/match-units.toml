@@ -125,3 +125,27 @@ relocations = [
   { offset = 0x50, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x55, type = "REL32", symbol = "?LeaveCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B160 },
 ]
+
+[units.supervisor-enter-critical-section]
+source = "src/Supervisor.cpp"
+object = "build/matching/Supervisor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Oy-", "/I", "src"]
+functions = ["Supervisor::EnterCriticalSectionWrapper"]
+symbol = "?EnterCriticalSectionWrapper@Supervisor@@QAEXH@Z"
+target_address = 0x0042B130
+size = 0x28
+relocations = [
+  { offset = 0x17, type = "DIR32", symbol = "__imp__EnterCriticalSection@4", target = 0x0048E07C },
+]
+
+[units.supervisor-leave-critical-section]
+source = "src/Supervisor.cpp"
+object = "build/matching/Supervisor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Oy-", "/I", "src"]
+functions = ["Supervisor::LeaveCriticalSectionWrapper"]
+symbol = "?LeaveCriticalSectionWrapper@Supervisor@@QAEXH@Z"
+target_address = 0x0042B160
+size = 0x28
+relocations = [
+  { offset = 0x17, type = "DIR32", symbol = "__imp__LeaveCriticalSection@4", target = 0x0048E080 },
+]

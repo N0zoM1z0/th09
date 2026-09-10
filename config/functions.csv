@@ -549,8 +549,8 @@ address,size,span_end,current_name,proposed_name,module,status,match_percent,cal
 0x0042B010,182,0x0042B0C5,sub_42B010,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042B0D0,13,0x0042B0DC,sub_42B0D0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042B110,19,0x0042B122,sub_42B110,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x0042B130,40,0x0042B157,sub_42B130,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x0042B160,40,0x0042B187,sub_42B160,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
+0x0042B130,40,0x0042B157,sub_42B130,Supervisor::EnterCriticalSectionWrapper,Supervisor,matching,100.00,__thiscall,void Supervisor::EnterCriticalSectionWrapper(int id),false,src/Supervisor.cpp,Canonical relocation-aware VC7.1 comparison: 40/40 bytes exact including EnterCriticalSection IAT relocation,authored,CRITICAL_SECTION base +0x6C0 with 0x18 stride; lockCounts base +0x738; reviewed extent ends with RET 4 at 0x0042B155-0x0042B157; 0x0042B158-0x0042B15F padding remains separately unowned; earlier Supervisor fields remain unknown
+0x0042B160,40,0x0042B187,sub_42B160,Supervisor::LeaveCriticalSectionWrapper,Supervisor,matching,100.00,__thiscall,void Supervisor::LeaveCriticalSectionWrapper(int id),false,src/Supervisor.cpp,Canonical relocation-aware VC7.1 comparison: 40/40 bytes exact including LeaveCriticalSection IAT relocation,authored,CRITICAL_SECTION base +0x6C0 with 0x18 stride; lockCounts base +0x738; reviewed extent ends with RET 4 at 0x0042B185-0x0042B187; 0x0042B188-0x0042B18F padding remains separately unowned; earlier Supervisor fields remain unknown
 0x0042B190,75,0x0042B1DA,sub_42B190,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042B1E0,143,0x0042B26E,sub_42B1E0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042B270,143,0x0042B2FE,sub_42B270,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
