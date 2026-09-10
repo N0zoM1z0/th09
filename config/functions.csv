@@ -26,9 +26,9 @@ address,size,span_end,current_name,proposed_name,module,status,match_percent,cal
 0x00401470,38,0x00401495,sub_401470,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x004014A0,15,0x004014AE,sub_4014A0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x004014B0,28,0x004014CB,sub_4014B0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x004014D0,25,0x004014E8,sub_4014D0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
+0x004014D0,25,0x004014E8,sub_4014D0,ZunTimer::SetCurrent,ZunTimer,matching,100.00,__thiscall,void ZunTimer::SetCurrent(int value),false,src/ZunTimer.cpp,Canonical pinned-VC7.1 comparison: 25/25 bytes exact with no relocations,authored,"ZunTimer::SetCurrent stores current=value at +8, converts the same integer to float at +4, writes previous=-999999 at +0, and returns with RET 4; reviewed extent 0x004014D0-0x004014E8; 0x004014E9-0x004014EF remains unowned CC before independent 0x004014F0"
 0x004014F0,4,0x004014F3,sub_4014F0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x00401500,9,0x00401508,sub_401500,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
+0x00401500,9,0x00401508,sub_401500,ZunTimer::operator=,ZunTimer,matching,100.00,__thiscall,void ZunTimer::operator=(int value),false,src/ZunTimer.cpp,Canonical relocation-aware VC7.1 comparison: 9/9 bytes exact including one REL32 relocation,authored,ZunTimer::operator=(int) is a 9-byte wrapper whose sole relocation tail-jumps to exact SetCurrent @ 0x004014D0; reviewed extent 0x00401500-0x00401508; 0x00401509-0x0040150F is unowned CC before independent 0x00401510; widespread callers establish generic timer use
 0x00401510,8,0x00401517,sub_401510,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x00401520,20,0x00401533,sub_401520,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x00401540,20,0x00401553,sub_401540,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,

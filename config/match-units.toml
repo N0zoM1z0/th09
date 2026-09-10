@@ -794,3 +794,25 @@ size = 0x9A
 relocations = [
   { offset = 0x6F, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
 ]
+
+[units.zun-timer-set-current]
+source = "src/ZunTimer.cpp"
+object = "build/matching/ZunTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::SetCurrent"]
+symbol = "?SetCurrent@ZunTimer@@QAEXH@Z"
+target_address = 0x004014D0
+size = 0x19
+relocations = []
+
+[units.zun-timer-assign-int]
+source = "src/ZunTimer.cpp"
+object = "build/matching/ZunTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::operator="]
+symbol = "??4ZunTimer@@QAEXH@Z"
+target_address = 0x00401500
+size = 0x09
+relocations = [
+  { offset = 0x05, type = "REL32", symbol = "?SetCurrent@ZunTimer@@QAEXH@Z", target = 0x004014D0 },
+]

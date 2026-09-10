@@ -36,3 +36,5 @@ AsciiManager::AddedCallback
 AsciiManager::Reset
 AsciiManager::DrawStrings
 AsciiManager::CreateScorePopup
+ZunTimer::SetCurrent
+ZunTimer::operator=

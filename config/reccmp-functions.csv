@@ -37,3 +37,5 @@ AsciiManager::AddedCallback,0x004344E0,function
 AsciiManager::Reset,0x004343E0,function
 AsciiManager::DrawStrings,0x00434540,function
 AsciiManager::CreateScorePopup,0x004346A0,function
+ZunTimer::SetCurrent,0x004014D0,function
+ZunTimer::operator=,0x00401500,function

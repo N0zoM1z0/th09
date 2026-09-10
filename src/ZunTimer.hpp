@@ -6,6 +6,7 @@ struct ZunTimer
     float subFrame;
     int current;
 
+    void SetCurrent(int value);
     void operator=(int value);
 };
 

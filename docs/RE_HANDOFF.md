@@ -608,6 +608,17 @@ The thirty-third reviewed packet canonically reconstructs `AsciiManager::CreateS
 
 The next evidence-connected packet is the timer callee pair `0x004014D0` and `0x00401500`. Recover their exact extents, xrefs, origin, natural `ZunTimer::SetCurrent(int)` / assignment source shape, and compiler profile independently before converting the current declaration-only timer type into definitions.
 
+The thirty-fourth reviewed packet canonically reconstructs `ZunTimer::SetCurrent @ 0x004014D0-0x004014E8` and `ZunTimer::operator=(int) @ 0x00401500-0x00401508`, while preserving the two intervening/adjacent timer candidates as unknown.
+
+- TH09 itself fixes the SetCurrent source shape: current `+8` receives the integer argument, subFrame `+4` receives `(float)value`, and previous `+0` receives `-999999`. A first probe using TH08's `subFrame=0/-999` semantics emitted 26 bytes rather than the 25-byte target and was rejected.
+- A committed-only TH095 ZunTimer at observed HEAD `b9937d8194520f645ff0b6f81140b78025b19988` proposed the TH09-compatible `subFrame=(float)value/-999999` form after target evidence already showed the differing stores. TH095's worktree remained dirty and uncommitted content was not read; this is corroboration only. Clean committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` is explicitly conflicting evidence for this version and was not transferred.
+- Natural maintained SetCurrent replays 25/25 with no relocation; natural assignment replays 9/9 with one REL32 tail jump to exact SetCurrent. The exact CreateScorePopup caller remains 154/154 with the now-defined assignment method. Two focused passes across all ZunTimer/AsciiManager header consumers stayed exact before promotion.
+- Profile probes show SetCurrent remains exact under tested optimized O1/O2/Ox profiles. Assignment requires an out-of-line call shape: `/Ob0` and `/Ob1` reproduce the 9-byte wrapper, while `/O2 /Ob2` inlines SetCurrent to 25 bytes; `/Od` mismatches both. These are local facts, not project-wide flag claims.
+- `0x004014F0-0x004014F3` is a separate candidate that only loads timer float field `+4`; `0x00401510-0x00401517` is another separate candidate calling `0x004014B0`. Both remain `unknown/review`. The three separating CC gaps remain physically unassigned.
+- Shared IDA comments were written at SetCurrent and assignment with reconstructed identity and boundary limitations; target-byte metadata was never writable or requested. The two canonical functions take totals from 38 functions / 4,355 bytes to 40 functions / 4,389 bytes.
+
+The next evidence-connected packet is the remaining small ZunTimer-adjacent cohort `0x004014B0`, `0x004014F0`, and `0x00401510`. Start from target-local xrefs and ABI rather than assuming TH095 method names; promote only the subset whose exact natural source and origin can be independently demonstrated.
+
 ## Restart commands
 
 ```bash
@@ -631,11 +642,11 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Thirty-seven authored functions
+  deleting destructor are reviewed as exclusions. Forty authored functions
   are source-present and repository-canonical exact: four GameErrorContext
   methods, six FileSystem helpers, two Supervisor lock wrappers, seven Chain
   methods, three ChainElem lifecycle/callback methods, Controller::GetJoystickCaps,
-  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, and eight AsciiManager lifecycle/text/setup/reset/draw methods. All other imported origins remain pending.
+  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, nine AsciiManager lifecycle/text/setup/reset/draw/popup methods, and two ZunTimer assignment-state methods. All other imported origins remain pending.
   Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -643,4 +654,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The immediate post-LZSS candidates `0x00434260` and `0x00434280` are now canonical exact AsciiManager lifecycle helpers. The AsciiManager text helpers plus SetSpaceWidth and AddedCallback are now canonical exact. The address-adjacent `0x00434370/80/90/B0/D0` candidates remain unknown rather than inheriting AsciiManager ownership. Reset and DrawStrings through `0x00434694` are now canonical exact. Continue by independently classifying candidate `0x004346A0` from TH09-local callers/callees/field accesses before adopting any adjacent-game name. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.
+Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The AsciiManager path through `CreateScorePopup @ 0x004346A0` is now canonical exact, while address-adjacent generic/VM candidates remain independently unknown. `ZunTimer::SetCurrent @ 0x004014D0` and integer assignment @ `0x00401500` are canonical exact. Continue with the remaining small timer-adjacent cohort `0x004014B0`, `0x004014F0`, and `0x00401510`, starting from TH09-local xrefs/ABI and preserving any undecidable member name as unknown. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.
