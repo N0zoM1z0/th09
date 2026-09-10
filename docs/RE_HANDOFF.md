@@ -489,6 +489,18 @@ The twenty-third reviewed packet closes `PbgArchive::ReadDecompressEntry @ 0x004
 
 The next evidence-connected packet should inspect `Lzss::Decode @ 0x00433AA0`, now a direct declaration-only dependency of exact ReadDecompressEntry. Recover its true four-argument `/Gr` ABI, 0x2000-byte dictionary storage at `0x004CC430`, output-allocation behavior when `out == NULL`, and complete boundary before considering source exactness. The unresolved `FileSystem::TryDecryptFromTable @ 0x0042C290` register-allocation mismatch also remains a separate blocker and must not be promoted from semantic similarity.
 
+The twenty-fourth reviewed packet establishes exact code generation for the LZSS decoder while deliberately leaving its origin and dictionary owner unresolved.
+
+- `0x00433AA0-0x00433C75` has the target-exact source shape reconstructed as `Lzss::Decode`. The `/Gr` ABI carries compressed input in ECX and input size in EDX; `out` and `outSize` are stack arguments consumed by `ret 8`. If `out` is NULL, TH09 calls `GlobalAlloc(0, outSize)` and returns NULL on allocation failure.
+- The decoder uses a 0x2000-byte circular dictionary at `0x004CC430` with a `0x1FFF` mask. It decodes MSB-first literal or 13-bit-offset/4-bit-length tokens, stops on zero offset, writes every output byte back into the ring, and drains residual bits through the normal fetch/checksum path. The checksum is maintained but has no returned observable.
+- The ring is not assigned to this source unit. Target xrefs also reach `0x004CC430` from `0x00433CB0`, `0x00433E00`, and `0x00434020`, so data definition, source owner, object owner, and complete compression-state layout remain unknown. The maintained source declares only an external 8192-byte dictionary dependency.
+- Stable committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` and committed TH095 HEAD `58ab994b157057a454bd236bb5b9bd3e692557bf` supplied the LZSS source-shape hypothesis. TH08 was clean. TH095 was ahead of origin with four unrelated/unknown untracked files that were preserved and not consulted. TH095's exact decoder uses target-specific identifier-bucket aliases; TH09 needs none of those techniques.
+- Natural TH09 source replays 470/470 bytes with four relocations under `/O2 /Ob1 /Oy-`; tested `/O2 /Ob0`, `/O2 /Ob2`, and `/Ox /Ob1` are also exact, while `/O1` emits 436 bytes and `/Od` 852. A discarded 461-byte probe was traced to missing braces around a multi-statement macro in the trailing-bit loop; it produced a self-loop and was not retained as source evidence.
+- Exact code generation does not settle origin. There is currently no TH09-local evidence distinguishing authored game code from incorporated third-party LZSS code, so `function-origins.csv` remains `unknown/review`, no canonical `matches.csv` or `implemented.csv` row is added, and authored exact totals remain 29 functions / 3,259 bytes.
+- Ten `CC` bytes at `0x00433C76-0x00433C7F` remain outside the reviewed decoder extent with physical ownership unassigned.
+
+The next evidence-connected packet should inspect `0x00433C80` and `0x00433CB0` as the small initialization cohort that also references the shared LZSS state. Reconcile their exact extents, the apparent 0x2001-node 12-byte tree view rooted around `0x004B4420`, and dictionary-clearing behavior before selecting names or source. Keep LZSS origin and all compression-state data ownership independent from codegen identity.
+
 ## Restart commands
 
 ```bash
@@ -524,4 +536,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Inspect `Lzss::Decode @ 0x00433AA0` next as a declaration-only dependency of exact PbgArchive::ReadDecompressEntry. Recover its four-argument `/Gr` ABI, dictionary storage and allocation behavior, and complete extent before source work. Preserve full PbgArchive/backend ownership, the unresolved TryDecryptFromTable register-allocation issue, and all reviewed gaps. Commit stable local checkpoints; do not push from GPT-web.
+Inspect `0x00433C80` and `0x00433CB0` next as the LZSS initialization cohort connected to the reviewed decoder and shared dictionary. Reconcile their boundaries, tree/dictionary storage view, callers, and natural VC7.1 source shape before promotion. Preserve LZSS origin and compression-state ownership as unknown, keep TryDecryptFromTable unresolved, and do not push from GPT-web.

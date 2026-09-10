@@ -1,4 +1,5 @@
 #include "PbgArchive.hpp"
+#include "Lzss.hpp"
 
 class PbgFileBackend
 {
@@ -14,13 +15,6 @@ class PbgFileBackend
 
 extern char *g_PbgFileOpenModes[3];
 extern int g_PbgFileSeekModes[3];
-
-class Lzss
-{
-  public:
-    static unsigned char *Decode(unsigned char *in, int inSize,
-                                 unsigned char *out, int outSize);
-};
 
 struct PbgArchiveReadStatePrefix
 {

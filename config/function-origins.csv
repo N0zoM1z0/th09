@@ -719,7 +719,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00433960,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00433980,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00433A70,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00433AA0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00433AA0,unknown,,review,unknown,lzss-decode-codegen-origin-open-2026-09-10
 0x00433C80,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00433CB0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00433D40,unknown,,review,unknown,ida-1.50a-initial-inventory
