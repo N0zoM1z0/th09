@@ -23,6 +23,19 @@ active IDA metadata and entry point, and distributed mapped `.text` bytes.
 GPT-web keeps using the one Factory URL and selects repository `th09` plus
 provider `th09-ida`.
 
+If an older running Factory release reports a null discovery schema, do not
+guess or probe with `{}`. The core read-loop argument objects are:
+`get_metadata {}`, `get_entry_points {}`,
+`get_function_by_address {"address":"0x..."}`,
+`decompile_function {"address":"0x..."}`,
+`disassemble_function {"start_address":"0x..."}`,
+`get_callers`/`get_callees {"function_address":"0x..."}`,
+`get_xrefs_to {"address":"0x..."}`, and
+`read_memory_bytes {"memory_address":"0x...","size":N}` with `1 <= N <= 256`.
+Use `list_functions {"offset":N,"count":N}` with `count` from 1 through 200.
+The compatibility fallback may be removed after discovery returns non-null
+schemas from the deployed Factory.
+
 The Factory repository runner exposes both adjacent checkouts above as
 immutable reference roots. Use focused reads rather than copying their trees or
 generated artifacts into TH09. Record the adjacent repository HEAD when a
