@@ -15,3 +15,5 @@ ChainElem::SetCallback
 Chain::CreateElem
 Chain::CutImpl
 Chain::Cut
+Chain::RunCalcChain
+Chain::RunDrawChain

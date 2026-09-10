@@ -402,6 +402,17 @@ The fifteenth reviewed packet closes the Chain node-removal seam at `0x0042B350`
 
 The next evidence-connected packet should inspect the run-chain pair at `0x0042C700` and `0x0042C7E0`, which are the remaining direct callers of exact CutImpl and already expose callback return-state handling. Keep the two loops separate until TH09 proves their calc/draw ownership and exact source shape.
 
+The sixteenth reviewed packet closes the calc/draw run-chain pair while correcting their physical owned extents beyond the IDA logical function bodies.
+
+- `Chain::RunCalcChain` executes a 182-byte logical body at `0x0042C700-0x0042C7B5`. It acquires Supervisor lock 0, invokes each non-null callback with the lock released, reacquires it to interpret the result, removes result-0 nodes through exact CutImpl after first saving `next`, repeats result 2, maps results 3/4/5 to `1/0/-1`, and uniquely treats result 6 as a restart from the calc root.
+- `Chain::RunDrawChain` executes a 186-byte body at `0x0042C7E0-0x0042C899` against the draw root at `this+0x20`. Results 0-5 mirror the calc path, but result 6 is outside its switch and therefore follows the default continue/count path rather than restarting.
+- Initial compile feedback appeared to make `/O2` too large (`0xD4` versus IDA sizes `0xB6/0xBA`). Physical reconciliation showed that VC7.1 includes each switch table in the function COMDAT: calc owns an exact tail `0x0042C7B6-0x0042C7D3` (two-byte alignment plus seven 32-bit case targets), and draw owns `0x0042C89A-0x0042C8B3` (two-byte alignment plus six targets). The table-base xref for each tail comes only from its corresponding Run function.
+- The canonical `/O2 /Ob1 /Oy-` units therefore compare the complete 0xD4 owned extents. Calc replays 212/212 bytes with 21 relocations; draw replays 212/212 with 20. Canonical authored-byte progress still counts only the logical C++ function bodies (182 and 186 bytes); the alignment/table tails are associated compiler-generated codegen, analogous to already separated compiler artifacts.
+- The true padding gaps are `0x0042C7D4-0x0042C7DF` and `0x0042C8B4-0x0042C8BF`, twelve `CC` bytes each, and retain unknown physical ownership.
+- Stable committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` supplied the RunCalcChain/RunDrawChain naming and callback-result source-shape hypothesis. TH09 independently establishes root offsets, lock behavior, result handling, CutImpl calls, code bytes, COMDAT sizes, and switch-table targets. No volatile TH095 content was used.
+
+The next evidence-connected packet should inspect `0x0042C8F0`, immediately following the now-exact run/cut cohort, before broadening. Determine whether its `0x78` body is a Chain release helper or an unrelated seam from TH09-local callers/callees and only then select source hypotheses.
+
 ## Restart commands
 
 ```bash
@@ -425,9 +436,9 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Seventeen authored functions
+  deleting destructor are reviewed as exclusions. Nineteen authored functions
   are source-present and repository-canonical exact: four GameErrorContext
-  methods, three FileSystem helpers, two Supervisor lock wrappers, five Chain
+  methods, three FileSystem helpers, two Supervisor lock wrappers, seven Chain
   methods, and three ChainElem lifecycle/callback methods. All other imported
   origins remain pending. Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
@@ -436,4 +447,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Inspect the run-chain pair at `0x0042C700` and `0x0042C7E0` next. Recover callback return-state semantics, root selection, CutImpl interaction, and exact compiler shape independently for calc and draw traversal. Preserve all reviewed `CC` gaps and unrelated ownership unknowns. Commit stable local checkpoints; do not push from GPT-web.
+Inspect `0x0042C8F0` next as the immediate post-Chain-run candidate. Establish its TH09-local callers/callees and boundary before deciding whether it belongs to Chain release logic or another subsystem. Preserve all reviewed `CC` gaps and unrelated ownership unknowns. Commit stable local checkpoints; do not push from GPT-web.

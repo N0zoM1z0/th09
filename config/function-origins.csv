@@ -567,8 +567,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042C4E0,authored_game,FileSystem,authored,high,file-system-write-data-vc71-exact-2026-09-10
 0x0042C5C0,authored_game,GameErrorContext,authored,high,game-error-context-log-vc71-exact-2026-09-10
 0x0042C660,authored_game,GameErrorContext,authored,high,game-error-context-fatal-vc71-exact-2026-09-10
-0x0042C700,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042C7E0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042C700,authored_game,Chain,authored,high,chain-run-calc-vc71-exact-2026-09-10
+0x0042C7E0,authored_game,Chain,authored,high,chain-run-draw-vc71-exact-2026-09-10
 0x0042C8C0,authored_game,Chain,authored,high,chain-cut-vc71-exact-2026-09-10
 0x0042C8F0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042C970,unknown,,review,unknown,ida-1.50a-initial-inventory

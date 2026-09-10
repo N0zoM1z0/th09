@@ -16,3 +16,5 @@ address,name,size,status,match_percent,unit,evidence
 0x0042B300,Chain::CreateElem,71,matching,100.00,chain-create-elem,python3 scripts/build-match-unit.py --unit chain-create-elem && python3 scripts/compare-coff-function.py --unit chain-create-elem --json
 0x0042B350,Chain::CutImpl,188,matching,100.00,chain-cut-impl,python3 scripts/build-match-unit.py --unit chain-cut-impl && python3 scripts/compare-coff-function.py --unit chain-cut-impl --json
 0x0042C8C0,Chain::Cut,46,matching,100.00,chain-cut,python3 scripts/build-match-unit.py --unit chain-cut && python3 scripts/compare-coff-function.py --unit chain-cut --json
+0x0042C700,Chain::RunCalcChain,182,matching,100.00,chain-run-calc,python3 scripts/build-match-unit.py --unit chain-run-calc && python3 scripts/compare-coff-function.py --unit chain-run-calc --json
+0x0042C7E0,Chain::RunDrawChain,186,matching,100.00,chain-run-draw,python3 scripts/build-match-unit.py --unit chain-run-draw && python3 scripts/compare-coff-function.py --unit chain-run-draw --json
