@@ -1,0 +1,25 @@
+schema_version = 1
+target_sha256 = "10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822"
+
+[product]
+format = "pe32-i386-windows-gui"
+output = "build/windows-i386/th09.exe"
+status = "skeleton"
+
+[toolchain]
+provider = "msvc71"
+compiler_version = "13.10.3077"
+linker_version = "7.10.3077"
+compile_profile_state = "unknown"
+link_profile_state = "unknown"
+
+[graph]
+translation_unit_partition_state = "unknown"
+link_order_state = "unknown"
+sources = []
+libraries = []
+resources = []
+
+[acceptance]
+whole_build_closed = false
+windows_i386_runtime_validated = false

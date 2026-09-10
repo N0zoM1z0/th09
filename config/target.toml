@@ -1,0 +1,89 @@
+[target]
+title = "東方花映塚 ～ Phantasmagoria of Flower View"
+version = "1.50a"
+region = "original-japanese"
+filename = "th09.exe"
+size = 685056
+sha256 = "10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822"
+sha1 = "89c8fdef84d25b2ee8bbd2026f8a343d7ef57c03"
+md5 = "cf634df46e05552e104fa97a971aaac0"
+
+[provenance]
+classification = "original"
+version_database_url = "https://github.com/thpatch/thcrap-tsa/blob/f08b582ce57bce800955dd371fc9a68dbad5b324/base_tsa/versions.js"
+version_database_commit = "f08b582ce57bce800955dd371fc9a68dbad5b324"
+version_database_file_sha256 = "9ac6c0247b9c53129429f9522f66e035a7880d15082f8d519990ac7ed82c14e1"
+official_update_post = "https://kourindou.exblog.jp/1327589/"
+evidence = "The pinned thcrap version database classifies both this SHA-256 and size as TH09 v1.50a (original), while listing the English-patched executable under a different digest. The PE timestamp aligns with the official 1.50a release date."
+
+[pe]
+machine = "i386"
+machine_id = 332
+image_base = "0x00400000"
+entry_point = "0x0047D45F"
+entry_rva = "0x0007D45F"
+timestamp_utc = "2005-10-07T18:08:59Z"
+timestamp_unix = 1128708539
+linker_version = "7.10"
+section_count = 5
+size_of_image = 946176
+headers_raw_size = 1024
+text_start = "0x00401000"
+text_end = "0x0048DAD9"
+text_virtual_size = 576218
+text_raw_offset = "0x00000400"
+text_raw_size = 576512
+relocations_stripped = true
+
+[[pe.sections]]
+name = ".text"
+rva = "0x00001000"
+virtual_size = 576218
+raw_offset = "0x00000400"
+raw_size = 576512
+
+[[pe.sections]]
+name = ".rdata"
+rva = "0x0008E000"
+virtual_size = 69668
+raw_offset = "0x0008D000"
+raw_size = 70144
+
+[[pe.sections]]
+name = ".data"
+rva = "0x000A0000"
+virtual_size = 279036
+raw_offset = "0x0009E200"
+raw_size = 32256
+
+[[pe.sections]]
+name = ".data1"
+rva = "0x000E5000"
+virtual_size = 2272
+raw_offset = "0x000A6000"
+raw_size = 2560
+
+[[pe.sections]]
+name = ".rsrc"
+rva = "0x000E6000"
+virtual_size = 2400
+raw_offset = "0x000A6A00"
+raw_size = 2560
+
+[rich_header]
+checksum = "0xC758BC09"
+clear_data_size = 152
+build_3077_product_15_count = 40
+build_3077_product_95_count = 138
+build_3077_product_96_count = 88
+evidence = "The build-3077 product records and the complete product/build family match the independently reconstructed TH095 VC7.1 target family, with game-specific object counts."
+
+[toolchain]
+family = "Microsoft Visual C++ .NET 2003 (VC7.1)"
+compiler_version = "13.10.3077"
+linker_version = "7.10.3077"
+rich_build = 3077
+profile_state = "unknown"
+translation_unit_partition_state = "unknown"
+link_order_state = "unknown"
+evidence = "PE linker 7.10 plus Rich-header build-3077 product records identify the VC7.1 build used by the target. Compiler flags, source boundaries, library selection, resource recipe, and link order remain unknown."

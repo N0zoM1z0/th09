@@ -1,0 +1,17 @@
+# TH09 verified knowledge
+
+This file stores durable TH09-scoped facts and important negative results.
+Cross-game promotion is a later Factory review, never an automatic action from
+this repository.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| TARGET-001 | observed / corroborated | The supported executable is original Japanese TH09 v1.50a, size 685,056, SHA-256 `10350095...fce6822`. | Direct hash/PE inspection plus pinned thcrap version database |
+| PE-001 | observed | The target is relocation-stripped PE32 i386 at image base `0x00400000`, entry `0x0047D45F`, with five sections. | `scripts/verify-target.py`; `config/target.toml` |
+| TOOLCHAIN-001 | observed / corroborated | The target belongs to the VC7.1 build-3077 family. | PE linker 7.10 and Rich-header product/build records; TH095 provider-family comparison |
+| TOOLCHAIN-002 | unknown | Compiler flags, TU partition, libraries, resources, and link order are not yet established. | Explicit open fields in `config/build.toml` |
+| ANALYSIS-001 | observed | The live IDA database matches target hashes, mapped size, image base, entry, and distributed target bytes. | `python3 scripts/check-ida-mcp.py` |
+| INVENTORY-001 | inferred | IDA currently supplies a provisional navigation inventory; individual boundaries and origins remain unreviewed. | `config/functions.csv`; `config/function-origins.csv` |
+
+Do not turn cross-game similarity, a decompiler type, or an attractive reused
+name into a TH09 fact without target-local evidence.

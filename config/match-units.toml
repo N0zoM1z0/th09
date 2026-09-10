@@ -1,0 +1,5 @@
+schema_version = 1
+target_sha256 = "10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822"
+
+# Add a unit only after its IDA candidate boundary is reconciled against the
+# exact target control flow and a reproducible VC7.1 COFF object exists.

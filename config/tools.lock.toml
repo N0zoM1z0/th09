@@ -1,0 +1,23 @@
+[msvc71]
+repository = "https://github.com/archaic-msvc/msvc710.git"
+commit = "2932d76fe417b0bc49010b26d4be2e5b743cc4be"
+compiler_version = "13.10.3077"
+compiler_sha256 = "2ecf86a3edfd3deae498e08298e210e984537ce9e11759930561e43f40bd2515"
+linker_version = "7.10.3077"
+linker_sha256 = "0d5f9712d0da843d787bf4ce4e678abc6b737940996706b2c86101eac9df3e3c"
+
+[ida_analysis]
+application_version = "9.3"
+ida_pro_mcp_package_version = "1.4.0"
+mcp_client_version = "1.26.0"
+transport = "operator-managed-stdio-to-localhost-13337"
+authority = "provisional-semantic-analysis"
+
+[reccmp]
+version = "0.1.6"
+
+[objdiff]
+version = "3.8.0"
+asset = "objdiff-cli-linux-x86_64"
+sha256 = "bc1e047126f9c6914bd1695798175234642ab9eaf45e886f841b59a4231e1a81"
+url = "https://github.com/encounter/objdiff/releases/download/v3.8.0/objdiff-cli-linux-x86_64"
