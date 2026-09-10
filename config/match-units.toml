@@ -717,3 +717,31 @@ relocations = [
   { offset = 0x19, type = "REL32", symbol = "_vsprintf", target = 0x0047C335 },
   { offset = 0x2F, type = "REL32", symbol = "?AddString@AsciiManager@@QAEXPAUFloat3@@PBD@Z", target = 0x004342A0 },
 ]
+
+[units.ascii-manager-set-space-width]
+source = "src/AsciiManagerSetup.cpp"
+object = "build/matching/AsciiManagerSetup.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AsciiManager::SetSpaceWidth"]
+symbol = "?SetSpaceWidth@AsciiManager@@QAEXH@Z"
+target_address = 0x004343C0
+size = 0x10
+relocations = []
+
+[units.ascii-manager-added-callback]
+source = "src/AsciiManagerSetup.cpp"
+object = "build/matching/AsciiManagerSetup.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AsciiManager::AddedCallback"]
+symbol = "?AddedCallback@AsciiManager@@SIHPAV1@@Z"
+target_address = 0x004344E0
+size = 0x59
+relocations = [
+  { offset = 0x0E, type = "DIR32", symbol = "??_C@_09OLLOAFOI@ascii?4anm?$AA@", target = 0x00490F2C },
+  { offset = 0x16, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x1D, type = "REL32", symbol = "?PreloadAnm@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z", target = 0x0043C7A0 },
+  { offset = 0x2D, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x32, type = "DIR32", symbol = "??_C@_0M@LJLFOLAN@capture?4anm?$AA@", target = 0x00490F20 },
+  { offset = 0x39, type = "REL32", symbol = "?PreloadAnm@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z", target = 0x0043C7A0 },
+  { offset = 0x50, type = "REL32", symbol = "?Reset@AsciiManager@@QAEXXZ", target = 0x004343E0 },
+]

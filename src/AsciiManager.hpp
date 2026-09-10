@@ -1,5 +1,7 @@
 #pragma once
 
+class AnmLoaded;
+
 struct Float3
 {
     float x;
@@ -25,11 +27,14 @@ typedef char AsciiManagerStringSizeIs60[(sizeof(AsciiManagerString) == 0x60) ? 1
 class AsciiManager
 {
   public:
+    static int AddedCallback(AsciiManager *ascii);
     static int DeletedCallback(AsciiManager *ascii);
     static void CutChain();
 
     void AddString(Float3 *position, const char *string);
     void AddFormatText(Float3 *position, const char *fmt, ...);
+    void Reset();
+    void SetSpaceWidth(int spaceWidth);
 
     unsigned char unknown_0000[0x2264];
     AsciiManagerString strings[256];
@@ -38,7 +43,13 @@ class AsciiManager
     float scaleX;
     float scaleY;
     int isGui;
-    unsigned char unknown_8278[0xE0AC - 0x8278];
+    int isSelected;
+    unsigned char unknown_827C[4];
+    int spaceWidth;
+    unsigned char unknown_8284[4];
+    AnmLoaded *asciiAnm;
+    AnmLoaded *captureAnm;
+    unsigned char unknown_8290[0xE0AC - 0x8290];
 };
 
 typedef char AsciiManagerSizeIsE0AC[(sizeof(AsciiManager) == 0xE0AC) ? 1 : -1];

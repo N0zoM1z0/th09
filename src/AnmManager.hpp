@@ -1,5 +1,7 @@
 #pragma once
 
+class AnmLoaded;
+
 enum AnmFileSlot
 {
     ANM_FILE_SLOT_ASCII = 1,
@@ -9,6 +11,7 @@ enum AnmFileSlot
 class AnmManager
 {
   public:
+    AnmLoaded *PreloadAnm(int anmIdx, const char *filename);
     void ReleaseAnm(int anmIdx);
 };
 

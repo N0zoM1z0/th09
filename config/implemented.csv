@@ -31,3 +31,5 @@ AsciiManager::DeletedCallback
 AsciiManager::CutChain
 AsciiManager::AddString
 AsciiManager::AddFormatText
+AsciiManager::SetSpaceWidth
+AsciiManager::AddedCallback

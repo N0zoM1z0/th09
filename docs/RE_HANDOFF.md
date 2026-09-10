@@ -559,6 +559,18 @@ The twenty-ninth reviewed packet canonically reconstructs the AsciiManager text 
 
 The next evidence-connected packet should inspect `0x00434370` and the immediately following AsciiManager-adjacent candidates, beginning with target-local callers/field accesses rather than inheriting ownership by address.
 
+The thirtieth reviewed packet canonically reconstructs two AsciiManager setup helpers while deliberately leaving neighboring generic candidates and Reset unpromoted.
+
+- `AsciiManager::SetSpaceWidth @ 0x004343C0-0x004343CF` stores its sole stack argument at manager `+0x8280`; `Reset @ 0x004343E0` calls it with TH09 value 9. It has no relocation and no owned padding after the function; `0x004343D0` is a separate candidate.
+- `AsciiManager::AddedCallback @ 0x004344E0-0x00434538` clears the lifecycle-proven 0xE0AC-byte manager state, preloads `"ascii.anm"` slot 1 into `+0x8288` and `"capture.anm"` slot 3 into `+0x828C`, returns -1 on either null result, otherwise calls Reset and returns zero. Seven relocations bind both target strings, `g_AnmManager`, candidate `0x0043C7A0`, and Reset. Registration independently installs this function as the calc ChainElem added callback.
+- `0x0043C7A0` behaves like an asynchronous ANM preload wrapper and the exact caller compiles naturally when declared `AnmManager::PreloadAnm(int, const char *)`, matching clean committed TH08 naming. This is still only a callee hypothesis: its own extent, origin, source, and exactness were not promoted.
+- Clean committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` corroborates AddedCallback's two preload operations and failure behavior, but TH09 target code calls only Reset on success and does not call TH08's separate InitializeVms. TH09 target control flow wins. No TH095 uncommitted content was consulted.
+- Natural tracked source replays SetSpaceWidth 16/16 and AddedCallback 89/89 twice without disturbing the four previously exact AsciiManager functions. Tested optimized O2/Ox profiles are exact for both; `/O1` shrinks AddedCallback to 88 bytes and `/Od` expands both. Both are canonical `authored_game/AsciiManager`, taking totals from 33 functions / 3,504 bytes to 35 functions / 3,609 bytes.
+- Shared IDA comments at both entries record the canonical replay and limitations. `0x00434539-0x0043453F` remains seven bytes of unassigned `CC` padding.
+- The candidates at `0x00434370`, `0x00434380`, `0x00434390`, `0x004343B0`, and `0x004343D0` were not assigned to AsciiManager by address. In particular, `0x00434370/80` operate on an object flag at `+0x1F8`; Reset's second and third 0x2A4-byte VM blocks place the same offset at manager `+0x49C/+0x740`, supporting a generic VM-method hypothesis rather than AsciiManager ownership. They remain `unknown/review`.
+
+The next evidence-connected packet is `AsciiManager::Reset @ 0x004343E0-0x004344DA`. Its TH09-local state ranges, constants, callers, SetSpaceWidth call, and two calls to candidate `0x00412800` are now bounded; recover only the fields/source shape required for a natural VC7.1 replay, retaining unknown array/subobject ownership where the target does not decide it.
+
 ## Restart commands
 
 ```bash
@@ -582,11 +594,11 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Thirty-three authored functions
+  deleting destructor are reviewed as exclusions. Thirty-five authored functions
   are source-present and repository-canonical exact: four GameErrorContext
   methods, six FileSystem helpers, two Supervisor lock wrappers, seven Chain
   methods, three ChainElem lifecycle/callback methods, Controller::GetJoystickCaps,
-  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, and four AsciiManager lifecycle/text helpers. All other imported origins remain pending.
+  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, and six AsciiManager lifecycle/text/setup helpers. All other imported origins remain pending.
   Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -594,4 +606,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The immediate post-LZSS candidates `0x00434260` and `0x00434280` are now canonical exact AsciiManager lifecycle helpers. The text helpers at `0x004342A0` and `0x00434330` are now canonical exact. Continue with `0x00434370` and its immediate data/caller neighborhood before assigning any additional AsciiManager ownership. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.
+Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The immediate post-LZSS candidates `0x00434260` and `0x00434280` are now canonical exact AsciiManager lifecycle helpers. The AsciiManager text helpers plus SetSpaceWidth and AddedCallback are now canonical exact. The address-adjacent `0x00434370/80/90/B0/D0` candidates remain unknown rather than inheriting AsciiManager ownership. Continue with bounded `AsciiManager::Reset @ 0x004343E0-0x004344DA`. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.
