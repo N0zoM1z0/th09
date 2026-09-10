@@ -28,3 +28,5 @@ ZunMemory::AddToRegistry,0x00401380,function
 PbgArchive::FindEntry,0x00433050,function
 PbgArchive::GetEntryDecompressedSize,0x00433290,function
 PbgArchive::ReadDecompressEntry,0x004331C0,function
+AsciiManager::DeletedCallback,0x00434260,function
+AsciiManager::CutChain,0x00434280,function

@@ -27,3 +27,5 @@ ZunMemory::AddToRegistry
 PbgArchive::FindEntry
 PbgArchive::GetEntryDecompressedSize
 PbgArchive::ReadDecompressEntry
+AsciiManager::DeletedCallback
+AsciiManager::CutChain

@@ -728,8 +728,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00433E00,unknown,,review,unknown,lzss-add-string-codegen-origin-open-2026-09-10
 0x00433FC0,unknown,,review,unknown,lzss-delete-string-codegen-origin-open-2026-09-10
 0x00434020,unknown,,review,unknown,lzss-encode-source-codegen-blocked-2026-09-10
-0x00434260,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00434280,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00434260,authored_game,AsciiManager,authored,high,ascii-manager-deleted-callback-vc71-exact-2026-09-10
+0x00434280,authored_game,AsciiManager,authored,high,ascii-manager-cut-chain-vc71-exact-2026-09-10
 0x004342A0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00434330,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00434370,unknown,,review,unknown,ida-1.50a-initial-inventory

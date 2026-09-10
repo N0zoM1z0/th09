@@ -536,6 +536,18 @@ The twenty-seventh reviewed packet recovers the LZSS encoder semantics and maint
 
 This is a concrete source/compiler-evidence boundary for the LZSS packet. Revisit Encode only if new TH09-local source-identifier, TU, or compiler-front-end evidence appears. Otherwise the next bounded seam can begin at `0x00434260`/`0x00434280`, immediately after the LZSS encoder, first classifying whether those short candidates belong to the same subsystem before selecting any adjacent-game hypothesis. The independent `FileSystem::TryDecryptFromTable @ 0x0042C290` optimized-register-allocation blocker also remains unresolved.
 
+The twenty-eighth reviewed packet classifies and canonically reconstructs the two short AsciiManager lifecycle helpers immediately after the LZSS encoder.
+
+- `AsciiManager::DeletedCallback @ 0x00434260-0x0043427C` is the calc ChainElem deleted callback. TH09 registration at `0x00435CA0` stores this address in the deleted-callback field of the ChainElem at `0x004DC504`; the function releases AnmManager slots 1 and 3 through `g_AnmManager @ 0x004DC550` and returns zero. The TH09 added callback at `0x004344E0` independently binds slot 1 to `"ascii.anm"` and slot 3 to `"capture.anm"`, closing the resource identity without relying on adjacent addresses.
+- `AsciiManager::CutChain @ 0x00434280-0x0043429E` cuts the calc ChainElem at `0x004DC504` and low-priority draw ChainElem at `0x004CE438` through exact `Chain::Cut @ 0x0042C8C0`; it intentionally has no reference to the high-priority draw ChainElem at `0x004DC524`. The broad shutdown routine at `0x00431B70` calls this helper after other Ascii/ANM cleanup.
+- TH09 target layout further constrains the AsciiManager state: all three registered ChainElem `arg` fields point to `0x004CE458`; the added callback clears exactly `0xE0AC` bytes there; and `0x004CE458 + 0xE0AC == 0x004DC504`, immediately reaching the calc ChainElem. Registration uses calc priority 1 and draw priorities 34 and 23. Complete field layout, definitions, translation-unit partition, and static-data physical ownership remain unknown.
+- Clean committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` contains the analogous `AsciiManager::DeletedCallback` and `AsciiManager::CutChain`, with resource slots 1/3 and the same omission of the high-priority draw chain in CutChain. It was used only after TH09 established the callback/resource seam, as naming/source-shape corroboration. TH08 priorities differ, so TH09 target values remain authoritative. No TH095 uncommitted content was consulted.
+- Natural maintained source replays DeletedCallback 29/29 bytes with four relocations and CutChain 31/31 with six relocations, twice from the tracked source. Tested `/O2 /Ob0`, `/O2 /Ob1`, `/O2 /Ob2`, and `/Ox /Ob1` are exact for both; `/O1` makes CutChain 32 bytes and `/Od` expands both. This does not establish project-wide flags or original TU colocation.
+- Both functions are classified `authored_game/AsciiManager` independently from codegen because they are directly wired into the game-owned Chain scheduler and TH09-specific `ascii.anm`/`capture.anm` resource lifecycle; after repeatable exact replay they are canonical. Authored exact totals rise from 29 functions / 3,259 bytes to 31 functions / 3,319 bytes. Factory Truth Kernel acceptance is still a separate state.
+- Three `CC` bytes at `0x0043427D-0x0043427F` and one `CC` byte at `0x0043429F` remain physically unassigned. Shared IDA comments at both function entries record exact replay, lifecycle identity, and the fact that reconstructed names are not original-symbol claims.
+
+The next evidence-connected packet should inspect `0x004342A0-0x00434321` and its immediate caller/callee/data neighborhood. It is adjacent to AsciiManager lifecycle code but must not inherit AsciiManager ownership merely by address. First reconcile its complete boundary, ABI, callers, strings/globals, and scheduler/resource links; only then consult committed adjacent source if TH09 evidence points to a recognizable AsciiManager method. Preserve the LZSS Encode and FileSystem::TryDecryptFromTable register-allocation blockers as independent open issues.
+
 ## Restart commands
 
 ```bash
@@ -559,11 +571,11 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Twenty-nine authored functions
+  deleting destructor are reviewed as exclusions. Thirty-one authored functions
   are source-present and repository-canonical exact: four GameErrorContext
   methods, six FileSystem helpers, two Supervisor lock wrappers, seven Chain
   methods, three ChainElem lifecycle/callback methods, Controller::GetJoystickCaps,
-  three ZunMemory release wrappers, two PbgArchive query methods, and PbgArchive::ReadDecompressEntry. All other imported origins remain pending.
+  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, and two AsciiManager lifecycle helpers. All other imported origins remain pending.
   Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -571,4 +583,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. For a fresh packet, classify the immediate post-LZSS candidates at `0x00434260` and `0x00434280` before assigning subsystem names. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.
+Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The immediate post-LZSS candidates `0x00434260` and `0x00434280` are now canonical exact AsciiManager lifecycle helpers. Continue with `0x004342A0-0x00434321` by recovering its TH09-local boundary/ABI/caller/data seam before assigning AsciiManager ownership. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.
