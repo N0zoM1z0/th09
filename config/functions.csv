@@ -689,7 +689,7 @@ address,size,span_end,current_name,proposed_name,module,status,match_percent,cal
 0x00432EB0,183,0x00432F66,sub_432EB0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x00432F70,200,0x00433037,sub_432F70,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x00433040,16,0x0043304F,sub_433040,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x00433050,74,0x00433099,sub_433050,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
+0x00433050,74,0x00433099,sub_433050,PbgArchive::FindEntry,PbgArchive,matching,100.00,__thiscall,PbgArchiveEntry *PbgArchive::FindEntry(const char *filename),false,src/PbgArchiveQuery.cpp,Canonical relocation-aware VC7.1 comparison: 74/74 bytes exact including the _stricmp relocation,authored,Uses target-proven archive prefix entries@+0 and entryCount@+4; walks 0x10-byte entry records comparing filename@+0 case-insensitively; returns matching entry or NULL; reviewed extent ends 0x00433099; 0x0043309A-0x0043309F remains unowned CC padding; full PbgArchive layout/source ownership remains unresolved
 0x004330A0,64,0x004330DF,sub_4330A0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x004330E0,18,0x004330F1,sub_4330E0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x00433100,12,0x0043310B,sub_433100,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
@@ -698,7 +698,7 @@ address,size,span_end,current_name,proposed_name,module,status,match_percent,cal
 0x00433140,24,0x00433157,sub_433140,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x00433160,88,0x004331B7,sub_433160,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x004331C0,193,0x00433280,sub_4331C0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x00433290,29,0x004332AC,sub_433290,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
+0x00433290,29,0x004332AC,sub_433290,PbgArchive::GetEntryDecompressedSize,PbgArchive,matching,100.00,__thiscall,DWORD PbgArchive::GetEntryDecompressedSize(const char *filename),false,src/PbgArchiveQuery.cpp,Canonical relocation-aware VC7.1 comparison: 29/29 bytes exact including the FindEntry relocation,authored,"Calls exact FindEntry on the same this object, returns entry DWORD at +0x8 when non-NULL, otherwise 0; reviewed extent ends 0x004332AC; 0x004332AD-0x004332AF remains unowned CC padding; prior 27-byte handoff estimate was corrected from target bytes"
 0x004332B0,254,0x004333AD,sub_4332B0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x004333B0,61,0x004333EC,sub_4333B0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x004333F0,467,0x004335C2,sub_4333F0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,

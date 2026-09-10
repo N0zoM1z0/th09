@@ -474,3 +474,27 @@ symbol = "?AddToRegistry@ZunMemory@@QAEPAXPAXIPAD@Z"
 target_address = 0x00401380
 size = 0x0A
 relocations = []
+
+[units.pbg-archive-find-entry]
+source = "src/PbgArchiveQuery.cpp"
+object = "build/matching/PbgArchiveQuery.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgArchive::FindEntry"]
+symbol = "?FindEntry@PbgArchive@@QAEPAUPbgArchiveEntry@@PBD@Z"
+target_address = 0x00433050
+size = 0x4A
+relocations = [
+  { offset = 0x25, type = "REL32", symbol = "__stricmp", target = 0x004895F9 },
+]
+
+[units.pbg-archive-get-entry-size]
+source = "src/PbgArchiveQuery.cpp"
+object = "build/matching/PbgArchiveQuery.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgArchive::GetEntryDecompressedSize"]
+symbol = "?GetEntryDecompressedSize@PbgArchive@@QAEKPBD@Z"
+target_address = 0x00433290
+size = 0x1D
+relocations = [
+  { offset = 0x08, type = "REL32", symbol = "?FindEntry@PbgArchive@@QAEPAUPbgArchiveEntry@@PBD@Z", target = 0x00433050 },
+]

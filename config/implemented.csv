@@ -24,3 +24,5 @@ FileSystem::Encrypt
 ZunMemory::Alloc
 ZunMemory::Free
 ZunMemory::AddToRegistry
+PbgArchive::FindEntry
+PbgArchive::GetEntryDecompressedSize

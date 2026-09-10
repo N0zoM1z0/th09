@@ -689,7 +689,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00432EB0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00432F70,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00433040,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00433050,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00433050,authored_game,PbgArchive,authored,high,pbg-archive-find-entry-vc71-exact-2026-09-10
 0x004330A0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004330E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00433100,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -698,7 +698,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00433140,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00433160,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004331C0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00433290,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00433290,authored_game,PbgArchive,authored,high,pbg-archive-get-entry-size-vc71-exact-2026-09-10
 0x004332B0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004333B0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004333F0,unknown,,review,unknown,ida-1.50a-initial-inventory

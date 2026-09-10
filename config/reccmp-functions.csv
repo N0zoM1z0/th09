@@ -25,3 +25,5 @@ FileSystem::Encrypt,0x0042C370,function
 ZunMemory::Alloc,0x00401340,function
 ZunMemory::Free,0x00401360,function
 ZunMemory::AddToRegistry,0x00401380,function
+PbgArchive::FindEntry,0x00433050,function
+PbgArchive::GetEntryDecompressedSize,0x00433290,function

@@ -464,7 +464,18 @@ The twenty-first reviewed packet closes the release-build ZunMemory wrapper coho
 - Stable committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` supplied the ZunMemory API/name hypothesis. TH09 independently establishes each release body, ABI, CRT destination, broad caller use of `g_ZunMemory`, and the registry passthrough. The maintained reconstruction deliberately places these definitions out of line to avoid changing already-exact caller inlining. Original TH09 inline/header form, emitting translation unit, and source ownership remain unknown.
 - Thirteen-byte `CC` gaps at `0x00401353-0x0040135F` and `0x00401373-0x0040137F`, plus six bytes at `0x0040138A-0x0040138F`, remain physically unassigned.
 
-The next evidence-connected packet should inspect `PbgArchive::GetEntryDecompressedSize @ 0x00433290`, an ABI-only dependency already called by exact FileSystem::OpenFile. Reconcile its 27-byte extent and the entry-lookup callee before deciding whether the simple archive query can be promoted independently of the larger decompression path.
+The next evidence-connected packet should inspect `PbgArchive::GetEntryDecompressedSize @ 0x00433290`, an ABI-only dependency already called by exact FileSystem::OpenFile. Reconcile its 29-byte extent and the entry-lookup callee before deciding whether the simple archive query can be promoted independently of the larger decompression path.
+
+The twenty-second reviewed packet closes the archive entry lookup and decompressed-size query while correcting the prior accessor extent estimate.
+
+- `PbgArchive::FindEntry @ 0x00433050-0x00433099` is a 74-byte `__thiscall` search. TH09 itself proves the state prefix used by this routine: entry-array pointer at `this+0`, signed entry count at `this+4`, 0x10-byte record stride, and filename pointer at record `+0`. It returns the first case-insensitive `_stricmp` match or NULL.
+- `PbgArchive::GetEntryDecompressedSize @ 0x00433290-0x004332AC` is 29 bytes, not the earlier handoff's 27-byte estimate. It preserves `this`, calls FindEntry with the filename, and returns the record DWORD at `+0x8` or zero. Exact FileSystem::OpenFile is its sole current target caller.
+- The maintained implementation deliberately uses a TU-local `PbgArchiveStatePrefix` instead of declaring a complete PbgArchive object layout. The 0x10-byte `PbgArchiveEntry` view names only filename and decompressedSize; the `+4` and `+0xC` fields stay generic. No total class size, backend type, data-definition ownership, or original TU is claimed.
+- Stable committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` supplied `FindEntry`/`GetEntryDecompressedSize` naming and broad source-shape hypotheses. TH09 independently establishes the state prefix, record stride/field offset, branch behavior, `_stricmp` destination, and both exact bodies.
+- Natural source replays 74/74 and 29/29 bytes under `/O2 /Ob1 /Oy-`; `/O2 /Ob0` and `/Ox /Ob1` are also exact, while `/O1` and `/Od` produce different sizes. No project-wide flag claim follows.
+- Six `CC` bytes at `0x0043309A-0x0043309F` and three at `0x004332AD-0x004332AF` remain physically unassigned.
+
+The next evidence-connected packet should inspect `PbgArchive::ReadDecompressEntry @ 0x004331C0`, already called by exact FileSystem::OpenFile and now connected to exact FindEntry. Recover only the file-backend ABI, entry offsets, temporary allocation/free path, and LZSS call needed for this 193-byte routine; keep backend implementation and full archive layout independent.
 
 ## Restart commands
 
@@ -489,11 +500,11 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Twenty-six authored functions
+  deleting destructor are reviewed as exclusions. Twenty-eight authored functions
   are source-present and repository-canonical exact: four GameErrorContext
   methods, six FileSystem helpers, two Supervisor lock wrappers, seven Chain
   methods, three ChainElem lifecycle/callback methods, Controller::GetJoystickCaps,
-  and three ZunMemory release wrappers. All other imported origins remain pending.
+  three ZunMemory release wrappers, and two PbgArchive query methods. All other imported origins remain pending.
   Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -501,4 +512,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Inspect `PbgArchive::GetEntryDecompressedSize @ 0x00433290` next as an exact OpenFile dependency. Reconcile its entry-lookup callee, complete extent, object ABI, and natural VC7.1 source shape before promotion. Preserve the unresolved TryDecryptFromTable register-allocation issue, crypt-table data ownership, and ZunMemory original TU/header ownership. Commit stable local checkpoints; do not push from GPT-web.
+Inspect `PbgArchive::ReadDecompressEntry @ 0x004331C0` next as the remaining archive method directly called by exact OpenFile. Recover its target-local backend ABI, entry offsets, allocation/free behavior, LZSS dependency, and complete extent before source work. Preserve full PbgArchive/backend ownership, the unresolved TryDecryptFromTable register-allocation issue, and all reviewed gaps. Commit stable local checkpoints; do not push from GPT-web.
