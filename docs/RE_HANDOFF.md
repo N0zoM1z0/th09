@@ -596,6 +596,18 @@ The thirty-second reviewed packet canonically reconstructs `AsciiManager::DrawSt
 
 The next evidence-connected packet should classify `0x004346A0` and its immediate candidate/caller/data neighborhood. It is address-adjacent to DrawStrings but must independently prove AsciiManager ownership and method role; do not transfer TH08/TH095 names until TH09-local state and call evidence agree.
 
+The thirty-third reviewed packet canonically reconstructs `AsciiManager::CreateScorePopup @ 0x004346A0-0x00434739` while keeping its timer callee and unobserved manager tail independent.
+
+- TH09 callers fix AsciiManager ownership and score-popup semantics. `0x0041D150` calls the method while updating/clamping score and derives the first argument from the active player-side state; the same state participates in nearby `1 - index` player selection. `0x0040F640` independently calls it for point-like values and colors.
+- The target uses a shared ring index at manager `+0x8290`, wrapping at 100, and computes `(playerIndex * 100 + ringIndex) * 0x38` from base `+0xB240`. This establishes two 100-record player banks for observed callers. The 0x38 record contains text[12], Float3 position, color, a 0x0C timer, two-float scale, in-use byte, character-count byte, and otherwise unknown tail bytes. Manager bytes from `+0xDE00` onward remain opaque.
+- Natural source encodes positive numbers as reversed decimal digits, zero as digit 0, and negatives as sentinel 10, then stores character count/color, executes `popup->timer = 0`, copies position, and increments the ring index. The exact Reset source was updated only from opaque storage to `scorePopups[0]`; it still clears exactly one 0x15E0 bank and remains 251/251 exact.
+- `popup->timer = 0` produces the sole relocation to candidate `ZunTimer::operator=(int) @ 0x00401500`. That 9-byte wrapper tail-jumps candidate `0x004014D0`, whose stores support `SetCurrent(int)` and the 0x0C timer layout. Both timer candidates remain `unknown/review`; caller exactness does not promote them.
+- Clean committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` corroborates the popup record and ZunTimer naming/source shape only. TH095 changed concurrently throughout this packet and remained dirty; only explicit committed `HEAD` reads were used, and no uncommitted TH095 content was consulted.
+- The maintained CreateScorePopup source replays 154/154 bytes with one relocation twice alongside all eight prior AsciiManager units. O2/Ox profiles tested exact; O1/Od are size mismatches. It is canonical `authored_game/AsciiManager`, taking totals from 37 functions / 4,201 bytes to 38 functions / 4,355 bytes.
+- Shared IDA comment at `0x004346A0` records the reconstruction and independent callee limitation. `0x0043473A-0x0043473F` remains six bytes of unassigned `CC`.
+
+The next evidence-connected packet is the timer callee pair `0x004014D0` and `0x00401500`. Recover their exact extents, xrefs, origin, natural `ZunTimer::SetCurrent(int)` / assignment source shape, and compiler profile independently before converting the current declaration-only timer type into definitions.
+
 ## Restart commands
 
 ```bash

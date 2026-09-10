@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ZunTimer.hpp"
+
 class AnmLoaded;
 class AnmLoadedSprite;
 
@@ -58,6 +60,21 @@ struct AsciiManagerString
 
 typedef char AsciiManagerStringSizeIs60[(sizeof(AsciiManagerString) == 0x60) ? 1 : -1];
 
+struct AsciiManagerPopup
+{
+    char text[12];
+    Float3 position;
+    unsigned long color;
+    ZunTimer timer;
+    Float2 scale;
+    unsigned char inUse;
+    unsigned char characterCount;
+    unsigned char unknown_0032[2];
+    unsigned int unknown_0034;
+};
+
+typedef char AsciiManagerPopupSizeIs38[(sizeof(AsciiManagerPopup) == 0x38) ? 1 : -1];
+
 class AsciiManager
 {
   public:
@@ -68,6 +85,7 @@ class AsciiManager
     void AddString(Float3 *position, const char *string);
     void AddFormatText(Float3 *position, const char *fmt, ...);
     void DrawStrings();
+    void CreateScorePopup(int playerIndex, Float3 *position, int number, unsigned long color);
     void Reset();
     void SetSpaceWidth(int spaceWidth);
 
@@ -87,15 +105,15 @@ class AsciiManager
     unsigned char unknown_8284[4];
     AnmLoaded *asciiAnm;
     AnmLoaded *captureAnm;
-    int resetField8290;
+    int nextScorePopupIndex;
     int resetField8294;
     int unknown_8298;
     int resetField829C;
     unsigned char opaque_82A0[0x1528];
     unsigned char opaque_97C8[0x0FE0];
     unsigned char unknown_A7A8[0x0A98];
-    unsigned char opaque_B240[0x15E0];
-    unsigned char unknown_C820[0xE0AC - 0xC820];
+    AsciiManagerPopup scorePopups[2][100];
+    unsigned char unknown_DE00[0xE0AC - 0xDE00];
 };
 
 typedef char AsciiManagerSizeIsE0AC[(sizeof(AsciiManager) == 0xE0AC) ? 1 : -1];

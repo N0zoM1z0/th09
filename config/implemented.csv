@@ -35,3 +35,4 @@ AsciiManager::SetSpaceWidth
 AsciiManager::AddedCallback
 AsciiManager::Reset
 AsciiManager::DrawStrings
+AsciiManager::CreateScorePopup

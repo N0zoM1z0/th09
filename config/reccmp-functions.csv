@@ -36,3 +36,4 @@ AsciiManager::SetSpaceWidth,0x004343C0,function
 AsciiManager::AddedCallback,0x004344E0,function
 AsciiManager::Reset,0x004343E0,function
 AsciiManager::DrawStrings,0x00434540,function
+AsciiManager::CreateScorePopup,0x004346A0,function
