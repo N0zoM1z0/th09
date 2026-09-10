@@ -280,10 +280,43 @@ The tenth reviewed packet closes the Supervisor lock-wrapper pair at
   libraries, resources, and link order explicitly unresolved; no whole-build or
   runtime closure is claimed from these exact units.
 
-The next evidence-connected packet should follow wrapper callers at
-`0x0042B1E0` and `0x0042B270`, which are paired 0x8F-byte candidates using lock
-0 and share the same local subsystem seam. Reconcile their callees and complete
-extents before assigning semantics or source.
+The eleventh reviewed packet closes the paired Chain insertion helpers at
+`0x0042B1E0-0x0042B2FE`.
+
+- `Chain::AddToCalcChain @ 0x0042B1E0-0x0042B26E` and
+  `Chain::AddToDrawChain @ 0x0042B270-0x0042B2FE` are normal `__thiscall`
+  members with a stack `ChainElem *` and 32-bit priority. Each returns the
+  32-bit result from a pending added callback, or zero when none exists.
+- TH09 target accesses establish the relevant 0x20-byte ChainElem layout:
+  signed 16-bit priority `+0x0`, callback `+0x4`, added/deleted callbacks
+  `+0x8/+0xC`, prev/next `+0x10/+0x14`, release-target storage `+0x18`, and
+  callback argument `+0x1C`. Attested TH09 constructor/destructor candidates at
+  `0x0042ABE0`/`0x0042AC00` independently corroborate these offsets but remain
+  `unknown/review` and are not promoted by this packet.
+- Both methods invoke and clear `addedCallback` before locking, then insert by
+  ascending signed priority under exact Supervisor lock 0. AddToCalcChain uses
+  the first embedded root; AddToDrawChain uses the second root at `this+0x20`.
+- Committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` supplied the
+  Chain/ChainElem naming and source-shape hypothesis. TH095 committed HEAD
+  `8c79bc63280d4ea496e52cbf4ad6549f3e8a94d1` has similar insertion code but
+  separately mutates lock counts; those extra mutations conflict with TH09's
+  exact wrapper semantics and were rejected. Only committed adjacent content
+  was consulted.
+- Natural TH09 source without `#pragma var_order` emits exactly 0x8F bytes for
+  each method under the existing pinned VC7.1 profile. Canonical replay matches
+  all 143 bytes for each function with four target-bound relocations to
+  `g_Supervisor` and the exact Enter/Leave wrappers.
+- `0x0042B26F` and `0x0042B2FF` are single-byte `CC` gaps outside the reviewed
+  extents; physical ownership remains unknown. `0x0042B300` begins a separate
+  candidate.
+- IDA evidence comments at `0x0042B1E0` and `0x0042B270` were written and read
+  back through attested `th09-ida` after transient Factory transport failures.
+  No target bytes or function names were modified.
+
+The next evidence-connected packet should review the ChainElem lifecycle pair at
+`0x0042ABE0` and `0x0042AC00`, then use that evidence to decide whether the
+small Chain constructor/destructor candidates at `0x0042AC30` and `0x0042B190`
+can be handled in the same bounded subsystem cohort.
 
 ## Restart commands
 
@@ -307,10 +340,10 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - VC7.1 build 3077 is observed; all detailed build-shape fields remain unknown.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
-- Seven CRT/library candidates are reviewed as exclusions. Nine authored
+- Seven CRT/library candidates are reviewed as exclusions. Eleven authored
   functions are source-present and repository-canonical exact: four
-  GameErrorContext methods, three FileSystem helpers, and two Supervisor lock
-  wrappers.
+  GameErrorContext methods, three FileSystem helpers, two Supervisor lock
+  wrappers, and two Chain insertion methods.
   All other imported origins remain pending. Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -318,9 +351,10 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Inspect the paired wrapper callers at `0x0042B1E0` and `0x0042B270` next.
-Use their shared lock-0 dependency and target-local callees to recover only a
-bounded subsystem seam. Keep the remainder of the Supervisor object, path
-storage at `0x004ACD08`/`0x004ACC00`, `0x0042D290`, and all reviewed `CC` gaps
-unowned until direct evidence resolves them. Commit stable local checkpoints;
-do not push from GPT-web.
+Review the ChainElem lifecycle pair at `0x0042ABE0` and `0x0042AC00` next.
+Their target accesses already constrain the 0x20-byte node layout; reconcile
+callbacks, constructor/destructor boundaries, and source shape before promotion.
+Then consider the adjacent small Chain constructor/destructor only if the
+lifecycle evidence remains connected. Preserve all reviewed `CC` gaps and
+unrelated ownership unknowns. Commit stable local checkpoints; do not push from
+GPT-web.

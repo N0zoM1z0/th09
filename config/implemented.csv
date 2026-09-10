@@ -7,3 +7,5 @@ FileSystem::ResolvePath
 FileSystem::CheckIfFileAlreadyExists
 Supervisor::EnterCriticalSectionWrapper
 Supervisor::LeaveCriticalSectionWrapper
+Chain::AddToCalcChain
+Chain::AddToDrawChain

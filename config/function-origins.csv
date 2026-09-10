@@ -552,8 +552,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042B130,authored_game,Supervisor,authored,high,supervisor-enter-critical-section-vc71-exact-2026-09-10
 0x0042B160,authored_game,Supervisor,authored,high,supervisor-leave-critical-section-vc71-exact-2026-09-10
 0x0042B190,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042B1E0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042B270,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042B1E0,authored_game,Chain,authored,high,chain-add-calc-vc71-exact-2026-09-10
+0x0042B270,authored_game,Chain,authored,high,chain-add-draw-vc71-exact-2026-09-10
 0x0042B300,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042B350,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042B410,unknown,,review,unknown,ida-1.50a-initial-inventory
