@@ -565,8 +565,8 @@ address,size,span_end,current_name,proposed_name,module,status,match_percent,cal
 0x0042C370,267,0x0042C47A,sub_42C370,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042C480,92,0x0042C4DB,sub_42C480,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042C4E0,210,0x0042C5B1,sub_42C4E0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x0042C5C0,153,0x0042C658,sub_42C5C0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x0042C660,153,0x0042C6F8,sub_42C660,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
+0x0042C5C0,153,0x0042C658,sub_42C5C0,GameErrorContext::Log,GameErrorContext,matching,100.00,__cdecl,"const char *GameErrorContext::Log(const char *fmt, ...)",false,src/GameErrorContext.cpp,Canonical relocation-aware VC7.1 comparison: 153/153 bytes exact including six replayed relocations,authored,Variadic member passes reconstructed this on stack with caller cleanup; reviewed extent ends at RET 0x0042C658; 0x0042C659-0x0042C65F padding remains separately unowned
+0x0042C660,153,0x0042C6F8,sub_42C660,GameErrorContext::Fatal,GameErrorContext,matching,100.00,__cdecl,"const char *GameErrorContext::Fatal(const char *fmt, ...)",false,src/GameErrorContext.cpp,Canonical relocation-aware VC7.1 comparison: 153/153 bytes exact including five replayed relocations,authored,Variadic member passes reconstructed this on stack with caller cleanup; sets showMessageBox at +0x2004; reviewed extent ends at RET 0x0042C6F8; 0x0042C6F9-0x0042C6FF padding remains separately unowned
 0x0042C700,182,0x0042C7B5,sub_42C700,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042C7E0,186,0x0042C899,sub_42C7E0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042C8C0,46,0x0042C8ED,sub_42C8C0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,

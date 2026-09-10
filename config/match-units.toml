@@ -7,7 +7,7 @@ target_sha256 = "10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce682
 [units.game-error-context-reset]
 source = "src/GameErrorContext.cpp"
 object = "build/matching/GameErrorContext.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Oy-", "/I", "src"]
 functions = ["GameErrorContext::ResetContext"]
 symbol = "?ResetContext@GameErrorContext@@QAEXXZ"
 target_address = 0x0042D230
@@ -17,7 +17,7 @@ relocations = []
 [units.game-error-context-flush]
 source = "src/GameErrorContext.cpp"
 object = "build/matching/GameErrorContext.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Oy-", "/I", "src"]
 functions = ["GameErrorContext::Flush"]
 symbol = "?Flush@GameErrorContext@@QAEXXZ"
 target_address = 0x0042D240
@@ -29,4 +29,37 @@ relocations = [
   { offset = 0x2F, type = "DIR32", symbol = "__imp__MessageBoxA@16", target = 0x0048E210 },
   { offset = 0x45, type = "DIR32", symbol = "??_C@_09HEPPHMDG@?4?1log?4txt?$AA@", target = 0x00490194 },
   { offset = 0x4A, type = "REL32", symbol = "?WriteDataToFile@FileSystem@@YIHPBDPAXI@Z", target = 0x0042C4E0 },
+]
+
+[units.game-error-context-log]
+source = "src/GameErrorContext.cpp"
+object = "build/matching/GameErrorContext.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Oy-", "/I", "src"]
+functions = ["GameErrorContext::Log"]
+symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ"
+target_address = 0x0042C5C0
+size = 0x99
+relocations = [
+  { offset = 0x09, type = "REL32", symbol = "__chkstk", target = 0x0047CAB0 },
+  { offset = 0x10, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x15, type = "REL32", symbol = "?EnterCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B130 },
+  { offset = 0x29, type = "REL32", symbol = "_vsprintf", target = 0x0047C335 },
+  { offset = 0x87, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x8C, type = "REL32", symbol = "?LeaveCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B160 },
+]
+
+[units.game-error-context-fatal]
+source = "src/GameErrorContext.cpp"
+object = "build/matching/GameErrorContext.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Oy-", "/I", "src"]
+functions = ["GameErrorContext::Fatal"]
+symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ"
+target_address = 0x0042C660
+size = 0x99
+relocations = [
+  { offset = 0x0C, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x11, type = "REL32", symbol = "?EnterCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B130 },
+  { offset = 0x25, type = "REL32", symbol = "_vsprintf", target = 0x0047C335 },
+  { offset = 0x80, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x8C, type = "REL32", symbol = "?LeaveCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B160 },
 ]

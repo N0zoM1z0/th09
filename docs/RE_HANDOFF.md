@@ -113,8 +113,8 @@ GameErrorContext lifecycle helpers at `0x0042D230-0x0042D28F`.
 - A focused pinned-VC7.1 matrix rejected the adjacent TH095 `/Od /Ob1` code
   shape for TH09. `/O1` reaches the 10-byte Reset body but leaves Flush two
   bytes short; tested `/O2`/`/Ox` variants produce both target extents. The
-  canonical TH09 units use one exact-producing `/O2` profile without claiming
-  that `/O2` was the original project-wide flag.
+  canonical GameErrorContext source now uses one exact-producing `/O2 /Oy-`
+  profile without claiming either switch as an original project-wide flag.
 - Repository-local `game-error-context-reset` replays 10/10 bytes with no
   relocations. `game-error-context-flush` replays 80/80 bytes with six explicit
   target-bound relocations: three strings, `GameErrorContext::Log @ 0x0042C5C0`,
@@ -127,10 +127,37 @@ GameErrorContext lifecycle helpers at `0x0042D230-0x0042D28F`.
   current IDA database does not define a function there. It is deliberately not
   merged into `Flush` and remains an ownership/boundary follow-up.
 
-The next evidence-connected packet should continue through the error-context
-call seam: recover `GameErrorContext::Log @ 0x0042C5C0` and the neighboring
-`0x0042C660` candidate, then validate their ABI, complete extents, relocations,
-and optimized VC7.1 source shape before any exact promotion.
+The sixth reviewed packet closes the variadic error-context logging pair at
+`0x0042C5C0-0x0042C6F8`.
+
+- `GameErrorContext::Log @ 0x0042C5C0-0x0042C658` and
+  `GameErrorContext::Fatal @ 0x0042C660-0x0042C6F8` are variadic member
+  functions whose reconstructed object pointer is stack-passed and caller
+  cleaned. Their semantic names are reconstruction names, not recovered target
+  symbol strings.
+- Both call the TH09-local supervisor wrappers at `0x0042B130` and
+  `0x0042B160` around formatting and bounded append logic. TH09's wrappers
+  themselves maintain the lock-active count, so the committed adjacent TH095
+  source's separate counter increments were not copied into TH09 source.
+- Log uses an 8 KiB temporary buffer and replays 153/153 bytes with six
+  relocations: `__chkstk`, two supervisor-storage references, both wrapper calls,
+  and `vsprintf`. Fatal uses a 512-byte temporary buffer, sets the object byte at
+  `+0x2004`, and replays 153/153 bytes with five relocations.
+- A focused compiler probe found the source shape is not exact under tested
+  `/O2` with frame-pointer omission (0xA9/0xA0 bytes). `/O2 /Oy-` and
+  `/Ox /Oy-` both produce the target 0x99/0x99 functions exactly; `/O1 /Oy-`
+  remains short. The canonical unit uses `/O2 /Oy-`, but the original global
+  optimization flags remain unknown.
+- Seven `CC` bytes follow each reviewed extent at `0x0042C659-0x0042C65F` and
+  `0x0042C6F9-0x0042C6FF`; their physical ownership remains unknown.
+- IDA evidence comments were written at `0x0042C5C0`, `0x0042C660`,
+  `0x0042D230`, and `0x0042D240` and read back through the attested native
+  provider. Function names were deliberately not rewritten because no original
+  target symbol-name evidence exists. No target bytes were modified.
+
+The next evidence-connected packet should follow the exact Flush relocation to
+`FileSystem::WriteDataToFile @ 0x0042C4E0`, reconcile its boundary and error
+paths, and test a natural VC7.1 implementation before any source/exact claim.
 
 ## Restart commands
 
@@ -154,16 +181,17 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - VC7.1 build 3077 is observed; all detailed build-shape fields remain unknown.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
-- Seven CRT/library candidates are reviewed as exclusions. Two authored
-  GameErrorContext functions are source-present and canonical exact; all other
-  imported origins remain pending.
+- Seven CRT/library candidates are reviewed as exclusions. Four authored
+  GameErrorContext functions are source-present and repository-canonical exact;
+  all other imported origins remain pending. Factory acceptance remains a
+  separate cold-replay state.
 - `config/build.toml` exists from day one but correctly reports an open graph.
 
 ## Next bounded work
 
-Continue the error-context seam from `0x0042C5C0`/`0x0042C660` before
-broadening to other architecture roots. Use the exact Reset/Flush relocation
-graph to recover the logging ABI and object lifecycle, then follow the file-write
-dependency at `0x0042C4E0` if it remains evidence-connected. Preserve unknown
-ownership at `0x0042D290` until target-local boundary evidence resolves it.
-Commit stable local checkpoints; do not push from GPT-web.
+Follow the exact Flush relocation to `FileSystem::WriteDataToFile @
+0x0042C4E0` before broadening to other architecture roots. Keep the supervisor
+wrappers at `0x0042B130`/`0x0042B160` as evidence-connected follow-up candidates
+without assuming their full object layout. Preserve unknown ownership at
+`0x0042D290` until target-local boundary evidence resolves it. Commit stable
+local checkpoints; do not push from GPT-web.

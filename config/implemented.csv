@@ -1,2 +1,4 @@
 GameErrorContext::ResetContext
 GameErrorContext::Flush
+GameErrorContext::Log
+GameErrorContext::Fatal

@@ -1,3 +1,5 @@
 address,name,size,status,match_percent,unit,evidence
 0x0042D230,GameErrorContext::ResetContext,10,matching,100.00,game-error-context-reset,python3 scripts/build-match-unit.py --unit game-error-context-reset && python3 scripts/compare-coff-function.py --unit game-error-context-reset --json
 0x0042D240,GameErrorContext::Flush,80,matching,100.00,game-error-context-flush,python3 scripts/build-match-unit.py --unit game-error-context-flush && python3 scripts/compare-coff-function.py --unit game-error-context-flush --json
+0x0042C5C0,GameErrorContext::Log,153,matching,100.00,game-error-context-log,python3 scripts/build-match-unit.py --unit game-error-context-log && python3 scripts/compare-coff-function.py --unit game-error-context-log --json
+0x0042C660,GameErrorContext::Fatal,153,matching,100.00,game-error-context-fatal,python3 scripts/build-match-unit.py --unit game-error-context-fatal && python3 scripts/compare-coff-function.py --unit game-error-context-fatal --json

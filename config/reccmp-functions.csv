@@ -1,3 +1,5 @@
 name,address,type
 GameErrorContext::ResetContext,0x0042D230,function
 GameErrorContext::Flush,0x0042D240,function
+GameErrorContext::Log,0x0042C5C0,function
+GameErrorContext::Fatal,0x0042C660,function
