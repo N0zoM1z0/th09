@@ -4,8 +4,10 @@
 
 Exact reconstruction: the target and native IDA provider are attested, the
 provisional function inventory is initialized, and boundary/origin review has
-started with seven CRT/library exclusions. No authored source, exact function,
-closed Windows i386 product, runtime semantic result, or port is claimed.
+started with seven CRT/library exclusions and two exact authored
+GameErrorContext functions. The faithful Windows i386 whole-build graph is
+still open; runtime semantic
+validation and portability work have not started.
 
 ## Latest exact-phase checkpoints
 
@@ -91,9 +93,44 @@ split, and `__setjmp3` at `0x0047D6E8-0x0047D7DE`.
   function-extent delete/resize operation, so the IDA function split itself was
   not mutated. No target bytes were modified.
 
-The next connected packet should leave the runtime tail and enter an authored
-root or a small direct callee of `_WinMain@16` at `0x0042E3B0`, with focused
-VC7.1 compile/diff feedback before any exactness claim.
+
+The fifth reviewed packet enters the authored `_WinMain@16` chain through the
+GameErrorContext lifecycle helpers at `0x0042D230-0x0042D28F`.
+
+- `GameErrorContext::ResetContext @ 0x0042D230-0x0042D239` has one TH09 caller,
+  `_WinMain@16 +0x456`, and ends in `ret`; six following `CC` bytes are kept out
+  of the function and retain unknown physical ownership.
+- `GameErrorContext::Flush @ 0x0042D240-0x0042D28F` has one TH09 caller,
+  `_WinMain@16 +0x4F6`. Target-local field accesses establish an 8 KiB buffer,
+  a buffer-end pointer at `+0x2000`, and a message-box flag byte at `+0x2004`.
+  Its separator, `"log"`, `"./log.txt"`, logging call, MessageBox import, and
+  file-write call are all target-local references.
+- Committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` and TH095
+  HEAD `619624ff99fe9d71360b9d9797066bec0d8b5f7a` supplied only a naming/source-shape
+  hypothesis for the same error-context layout. TH08 was clean; TH095 had
+  unrelated pre-existing EnemyManager/runtime scratch changes. Only committed
+  adjacent content was consulted.
+- A focused pinned-VC7.1 matrix rejected the adjacent TH095 `/Od /Ob1` code
+  shape for TH09. `/O1` reaches the 10-byte Reset body but leaves Flush two
+  bytes short; tested `/O2`/`/Ox` variants produce both target extents. The
+  canonical TH09 units use one exact-producing `/O2` profile without claiming
+  that `/O2` was the original project-wide flag.
+- Repository-local `game-error-context-reset` replays 10/10 bytes with no
+  relocations. `game-error-context-flush` replays 80/80 bytes with six explicit
+  target-bound relocations: three strings, `GameErrorContext::Log @ 0x0042C5C0`,
+  imported `MessageBoxA`, and `FileSystem::WriteDataToFile @ 0x0042C4E0`.
+- Source presence and canonical exactness are established only for these two
+  functions. `config/build.toml` remains honestly open because TU partition,
+  global flags, libraries, resources, and link order are still unknown. No
+  whole-build or runtime claim follows from the two exact match units.
+- `0x0042D290` begins code that has a code xref from `0x0048D8E5`, but the
+  current IDA database does not define a function there. It is deliberately not
+  merged into `Flush` and remains an ownership/boundary follow-up.
+
+The next evidence-connected packet should continue through the error-context
+call seam: recover `GameErrorContext::Log @ 0x0042C5C0` and the neighboring
+`0x0042C660` candidate, then validate their ABI, complete extents, relocations,
+and optimized VC7.1 source shape before any exact promotion.
 
 ## Restart commands
 
@@ -117,14 +154,16 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - VC7.1 build 3077 is observed; all detailed build-shape fields remain unknown.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
-- Three startup CRT/library candidates are reviewed as exclusions; all other
-  imported origins remain pending and the exact ledgers are empty.
+- Seven CRT/library candidates are reviewed as exclusions. Two authored
+  GameErrorContext functions are source-present and canonical exact; all other
+  imported origins remain pending.
 - `config/build.toml` exists from day one but correctly reports an open graph.
 
 ## Next bounded work
 
-Review high-information architecture roots and target ownership before writing
-source: entry/startup, main loop, supervisor chains, archive loading, ANM/ECL
-dispatch, player/opponent state, networking, audio, and shutdown. Select work by
-references and subsystem closure, not just small candidate size. Commit stable
-local checkpoints; do not push from GPT-web.
+Continue the error-context seam from `0x0042C5C0`/`0x0042C660` before
+broadening to other architecture roots. Use the exact Reset/Flush relocation
+graph to recover the logging ABI and object lifecycle, then follow the file-write
+dependency at `0x0042C4E0` if it remains evidence-connected. Preserve unknown
+ownership at `0x0042D290` until target-local boundary evidence resolves it.
+Commit stable local checkpoints; do not push from GPT-web.

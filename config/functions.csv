@@ -583,8 +583,8 @@ address,size,span_end,current_name,proposed_name,module,status,match_percent,cal
 0x0042CD90,809,0x0042D0B8,sub_42CD90,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042D0C0,124,0x0042D13B,sub_42D0C0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042D140,225,0x0042D220,sub_42D140,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x0042D230,10,0x0042D239,sub_42D230,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x0042D240,80,0x0042D28F,sub_42D240,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
+0x0042D230,10,0x0042D239,sub_42D230,GameErrorContext::ResetContext,GameErrorContext,matching,100.00,__thiscall,void GameErrorContext::ResetContext(),false,src/GameErrorContext.cpp,Canonical relocation-aware VC7.1 comparison: 10/10 bytes exact,authored,Reviewed 10-byte extent ends at RET 0x0042D239; 0x0042D23A-0x0042D23F padding remains separately unowned
+0x0042D240,80,0x0042D28F,sub_42D240,GameErrorContext::Flush,GameErrorContext,matching,100.00,__thiscall,void GameErrorContext::Flush(),false,src/GameErrorContext.cpp,Canonical relocation-aware VC7.1 comparison: 80/80 bytes exact including six replayed relocations,authored,Reviewed extent ends at RET 0x0042D28F; code beginning at 0x0042D290 remains separate unknown ownership
 0x0042D2B0,10,0x0042D2B9,sub_42D2B0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042D2C0,12,0x0042D2CB,sub_42D2C0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042D2D0,8,0x0042D2D7,sub_42D2D0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,

@@ -1,1 +1,2 @@
-
+GameErrorContext::ResetContext
+GameErrorContext::Flush

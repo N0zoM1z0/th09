@@ -583,8 +583,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042CD90,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042D0C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042D140,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042D230,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042D240,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042D230,authored_game,GameErrorContext,authored,high,game-error-context-vc71-exact-2026-09-10
+0x0042D240,authored_game,GameErrorContext,authored,high,game-error-context-vc71-exact-2026-09-10
 0x0042D2B0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042D2C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042D2D0,unknown,,review,unknown,ida-1.50a-initial-inventory

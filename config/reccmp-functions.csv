@@ -1,1 +1,3 @@
 name,address,type
+GameErrorContext::ResetContext,0x0042D230,function
+GameErrorContext::Flush,0x0042D240,function
