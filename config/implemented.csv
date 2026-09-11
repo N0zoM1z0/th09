@@ -63,3 +63,4 @@ Supervisor::AddedCallback
 SupervisorCheckFps
 SupervisorRegisterChain
 SupervisorDeletedCallback
+SupervisorDrawFps

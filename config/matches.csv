@@ -64,3 +64,4 @@ address,name,size,status,match_percent,unit,evidence
 0x0042F1A0,SupervisorCheckFps,517,matching,100.00,supervisor-check-fps,python3 scripts/build-match-unit.py --unit supervisor-check-fps && python3 scripts/compare-coff-function.py --unit supervisor-check-fps --json
 0x00432180,SupervisorRegisterChain,182,matching,100.00,supervisor-register-chain,python3 scripts/build-match-unit.py --unit supervisor-register-chain && python3 scripts/compare-coff-function.py --unit supervisor-register-chain --json
 0x00431B70,SupervisorDeletedCallback,405,matching,100.00,supervisor-deleted-callback,python3 scripts/build-match-unit.py --unit supervisor-deleted-callback && python3 scripts/compare-coff-function.py --unit supervisor-deleted-callback --json
+0x00431B30,SupervisorDrawFps,59,matching,100.00,supervisor-draw-fps,python3 scripts/build-match-unit.py --unit supervisor-draw-fps && python3 scripts/compare-coff-function.py --unit supervisor-draw-fps --json

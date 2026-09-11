@@ -24,7 +24,7 @@ typedef char SupervisorRegisterCurrentAt590[
 
 extern Chain g_Chain;
 extern int __fastcall SupervisorDeletedCallback(Supervisor *supervisor);
-extern int __fastcall SupervisorDrawFpsNeutral(Supervisor *supervisor);
+extern int __fastcall SupervisorDrawFps(Supervisor *supervisor);
 extern int __fastcall SupervisorDrawMainNeutral(Supervisor *supervisor);
 extern int __fastcall SupervisorDrawLoadingNeutral(Supervisor *supervisor);
 
@@ -46,7 +46,7 @@ int SupervisorRegisterChain()
     if (result != 0)
         return result;
 
-    elem = g_Chain.CreateElem((ChainCallback)SupervisorDrawFpsNeutral);
+    elem = g_Chain.CreateElem((ChainCallback)SupervisorDrawFps);
     elem->arg = &g_Supervisor;
     g_Chain.AddToDrawChain(elem, 31);
 
