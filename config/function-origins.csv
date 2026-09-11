@@ -6,9 +6,9 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00401090,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004010B0,authored_game,Math,authored,high,float3-constructor-origin-2026-09-11
 0x004010D0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00401100,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00401140,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00401180,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00401100,authored_game,Math,authored,high,float3-add-origin-2026-09-11
+0x00401140,authored_game,Math,authored,high,float3-subtract-origin-2026-09-11
+0x00401180,authored_game,Math,authored,high,float3-multiply-origin-2026-09-11
 0x004011C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004011D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00401290,unknown,,review,unknown,ida-1.50a-initial-inventory

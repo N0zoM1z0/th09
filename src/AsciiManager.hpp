@@ -16,6 +16,9 @@ typedef char Float2SizeIs08[(sizeof(Float2) == 0x08) ? 1 : -1];
 struct Float3
 {
     Float3(float x, float y, float z);
+    Float3 operator+(const Float3 &other) const;
+    Float3 operator-(const Float3 &other) const;
+    Float3 operator*(float scalar) const;
 
     float x;
     float y;

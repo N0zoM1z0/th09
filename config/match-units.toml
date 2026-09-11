@@ -909,3 +909,39 @@ relocations = [
   { offset = 0x46, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
   { offset = 0x79, type = "REL32", symbol = "?SetAndExecuteScript@AnmLoaded@@QAEXPAUAnmVm@@PAUAnmRawInstr@@@Z", target = 0x004395A0 },
 ]
+
+[units.float3-add]
+source = "src/Float3.cpp"
+object = "build/matching/Float3.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Float3::operator+"]
+symbol = "??HFloat3@@QBE?AU0@ABU0@@Z"
+target_address = 0x00401100
+size = 0x36
+relocations = [
+  { offset = 0x2B, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+]
+
+[units.float3-subtract]
+source = "src/Float3.cpp"
+object = "build/matching/Float3.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Float3::operator-"]
+symbol = "??GFloat3@@QBE?AU0@ABU0@@Z"
+target_address = 0x00401140
+size = 0x36
+relocations = [
+  { offset = 0x2B, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+]
+
+[units.float3-multiply]
+source = "src/Float3.cpp"
+object = "build/matching/Float3.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Float3::operator*"]
+symbol = "??DFloat3@@QBE?AU0@M@Z"
+target_address = 0x00401180
+size = 0x34
+relocations = [
+  { offset = 0x29, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+]

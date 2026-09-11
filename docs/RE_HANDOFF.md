@@ -3,7 +3,7 @@
 ## Current phase
 
 Exact reconstruction: the target and native IDA provider are attested, the
-provisional function inventory is initialized, and boundary/origin review has advanced through reviewed CRT/library and compiler-generated exclusions plus 48 repository-canonical exact authored functions across the currently reconstructed subsystems. The faithful Windows i386 whole-build graph is still open; runtime
+provisional function inventory is initialized, and boundary/origin review has advanced through reviewed CRT/library and compiler-generated exclusions plus 51 repository-canonical exact authored functions across the currently reconstructed subsystems. The faithful Windows i386 whole-build graph is still open; runtime
 semantic validation and portability work have not started.
 
 ## Latest exact-phase checkpoints
@@ -665,6 +665,18 @@ The thirty-eighth reviewed packet corrects the queued `0x00401560` ownership hyp
 
 The next evidence-connected packet should exploit the newly established target-local Float3 seam as one bounded arithmetic cohort: inspect `0x00401100`, `0x00401140`, and `0x00401180` together, recover hidden-return ABI and exact source signatures rather than assuming C++ operators from TH08. This is not a smallest-function queue: the preceding packet attacked a 134-byte central broad-fanout ANM owner boundary and disproved the queued timer-adjacency hypothesis. After at most this one compact Float3 cohort, return to a harder frontier such as the 543-byte candidate `0x0042F540` immediately after exact Supervisor::TickTimer, or another evidence-connected central boundary if TH09 data redirects the work.
 
+The thirty-ninth reviewed packet closes the connected Float3 arithmetic cohort at `0x00401100/0x00401140/0x00401180` without inferring the operators from address order or adjacent-game source.
+
+- TH09 first fixed the machine-level contract independently. All three functions are value-returning `__thiscall` helpers: ECX carries the left/source Float3, stack slot 1 is a hidden 12-byte return-object pointer, stack slot 2 is either a right-operand pointer/reference or a float scalar, and `ret 8` consumes the hidden/result operand pair. `0x00401100` adds x/y/z, `0x00401140` subtracts x/y/z, and `0x00401180` multiplies x/y/z by the scalar; each constructs the hidden result through exact `Float3::Float3 @ 0x004010B0`. Broad TH09 caller sets establish their generic math-helper role.
+- Only after those target-local operations and ABI were established, committed adjacent source was consulted. Clean TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` and committed TH095 HEAD `27eee6327f1c65dee113a09cadc30e22ec03ca78` both suggest the signatures `Float3::operator+(const Float3 &) const`, `operator-(const Float3 &) const`, and `operator*(float) const`. TH095 also had four unrelated untracked runtime/semantic files; none were read. Adjacent source supplied a naming/signature hypothesis only.
+- A pinned VC7.1 natural-source probe produced the expected decorated symbols and exact target sizes: plus `??HFloat3@@QBE?AU0@ABU0@@Z` at 54 bytes, minus `??GFloat3@@QBE?AU0@ABU0@@Z` at 54 bytes, and multiply `??DFloat3@@QBE?AU0@M@Z` at 52 bytes. Structural comparison matched every non-relocation byte and solved the sole REL32 relocation in each function to exact constructor `0x004010B0`.
+- The maintained `src/Float3.cpp` and `src/AsciiManager.hpp` forms then replayed all three functions canonically exact. Two complete tracked-source passes also rebuilt the exact constructor, exact `AnmLoaded::ExecuteAnmIdx`, and all nine existing exact direct AsciiManager users of the shared Float3 header; every affected unit remained exact. The cohort contributes 160 exact authored bytes, raising totals from 48 functions / 4,700 bytes to 51 functions / 4,860 bytes.
+- Logical boundaries are `0x00401100-0x00401135`, `0x00401140-0x00401175`, and `0x00401180-0x004011B3`. The following `CC` runs (`0x00401136-0x0040113F`, `0x00401176-0x0040117F`, and `0x004011B4-0x004011BF`) remain physically unassigned.
+- Shared IDA comments and conservative hidden-result prototypes were written at all three entry points and read back under passed `target:th09-main` / `factory-native-stdio` attestation. No IDA function rename and no target-byte edit was performed.
+- Final checkpoint validation reran the three new match units, target-bound tracking, generated-progress checks, `scripts/ci.py`, and `git diff --check` successfully. `python3 scripts/build.py` remains deliberately unavailable with rc 2 because compile flags, TU partition, libraries, resources, and link order are unresolved. `.analysis/` remains approximately 18 MiB; this packet added only reproducible `Float3ArithmeticProbe.cpp` (627 bytes) and `Float3ArithmeticProbe.obj` (3,026 bytes) under the inherited campaign. Older scratch and the inherited stale manifest were retained, with no bulk deletion.
+
+Packet-selection balance now requires a hard frontier: packet 38 was the 134-byte central ANM owner/boundary correction, and packet 39 intentionally used the one permitted compact connected Float3 cohort. The next packet must not be chosen for size/ease. Prefer the immediately connected 543-byte candidate `0x0042F540` after exact `Supervisor::TickTimer`, reconciling its full boundary, owner/call graph, control flow, data dependencies, and source shape before any exactness claim. A documented unknown or non-exact source-present result is acceptable if the target evidence does not close.
+
 ## Restart commands
 
 ```bash
@@ -688,11 +700,11 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Forty-eight authored functions
+  deleting destructor are reviewed as exclusions. Fifty-one authored functions
   are source-present and repository-canonical exact: four GameErrorContext
   methods, six FileSystem helpers, three Supervisor methods (the two lock wrappers plus TickTimer), seven Chain
   methods, three ChainElem lifecycle/callback methods, Controller::GetJoystickCaps,
-  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, nine AsciiManager lifecycle/text/setup/reset/draw/popup methods, seven ZunTimer methods, `Float3::Float3`, and `AnmLoaded::ExecuteAnmIdx`. All other imported origins remain pending.
+  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, nine AsciiManager lifecycle/text/setup/reset/draw/popup methods, seven ZunTimer methods, four Float3 methods (constructor plus three arithmetic operators), and `AnmLoaded::ExecuteAnmIdx`. All other imported origins remain pending.
   Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -700,4 +712,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. `0x00401560` has now been target-locally corrected from a timer-adjacent unknown to exact `AnmLoaded::ExecuteAnmIdx`, with exact `Float3::Float3 @ 0x004010B0` as a dependency. Continue with the connected Float3 arithmetic cohort at `0x00401100/0x00401140/0x00401180`, recovering the hidden-return ABI and source signatures from TH09 rather than transferring adjacent-game operators. Because the just-finished ANM packet was the hard-frontier attempt, one compact connected cohort is permitted next; afterward prefer a materially harder candidate such as `0x0042F540` (543 bytes) or another central owner/boundary selected by new evidence. Preserve `0x004395A0`, LZSS origin/state ownership, and TryDecryptFromTable as unresolved; do not push from GPT-web.
+Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The connected Float3 constructor/add/subtract/multiply seam and `AnmLoaded::ExecuteAnmIdx` are now canonical exact. The compact-cohort allowance has been consumed, so the next packet must attack a hard frontier rather than another small helper: start with candidate `0x0042F540` (543 bytes), immediately after exact `Supervisor::TickTimer`, and recover its complete target-local boundary, owner/call graph, ABI, control flow, and data dependencies before adopting an adjacent-game name or source shape. Preserve `0x004395A0`, LZSS origin/state ownership, and TryDecryptFromTable as unresolved; do not push from GPT-web.
