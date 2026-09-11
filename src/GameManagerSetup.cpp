@@ -3,6 +3,7 @@
 // they do not claim the complete original GameManager or Supervisor layouts.
 // Provisional helper names describe observed call-site roles only.
 
+#include "AsciiManager.hpp"
 #include "GameConfiguration.hpp"
 #include "Supervisor.hpp"
 
@@ -89,6 +90,7 @@ struct GameManagerSetupLayout
 
     void UpdateProgress();
     void AdvanceTimedState();
+    static void CleanupGameplayState();
 };
 
 struct SetupEventManager
@@ -124,6 +126,16 @@ extern unsigned char g_SetupBuffer;
 extern int g_SetupStatus;
 extern unsigned short g_SetupSeedSource;
 extern SetupEventManager g_SetupEventManager;
+extern AsciiManager g_AsciiManager;
+extern void __fastcall ReleaseGameSubsystem(void *object);
+extern void __fastcall ReleaseSecondarySubsystem(void *object);
+extern void __fastcall ReleaseSubsystem0(void *object);
+extern void __fastcall ReleaseSubsystem1(void *object);
+extern void __fastcall ReleaseSubsystem2(void *object);
+extern void __fastcall ReleaseSubsystem3(void *object);
+extern void __fastcall ReleaseSubsystem4(void *object);
+extern void __fastcall ReleaseSubsystem5(void *object);
+extern void __fastcall ReleaseSubsystem6(void *object);
 
 extern void __fastcall ResetGameManager(GameManagerSetupLayout *manager);
 extern void __fastcall ResetSetupBuffer(void *buffer);
@@ -171,6 +183,84 @@ void GameManagerSetupLayout::AdvanceTimedState()
     {
         thresholdState->phase10 = 99999;
     }
+}
+
+
+void GameManagerSetupLayout::CleanupGameplayState()
+{
+    ResetGameManager(&g_GameManager);
+    g_AsciiManager.Reset();
+    ReleaseGameSubsystem(g_GameManager.gameSubsystem);
+    ReleaseSecondarySubsystem(g_GameManager.secondarySubsystem);
+
+    for (int sideIndex = 0; sideIndex < 2; sideIndex++)
+    {
+        SetupSideState *side = &g_GameManager.sides[sideIndex];
+        side->flags &= ~1u;
+        ReleaseSubsystem0(side->subsystem0);
+        ReleaseSubsystem1(side->subsystem1);
+        ReleaseSubsystem2(side->subsystem2);
+        ReleaseSubsystem3(side->subsystem3);
+        ReleaseSubsystem4(side->subsystem4);
+        ReleaseSubsystem5(side->subsystem5);
+        ReleaseSubsystem6(side->subsystem6);
+    }
+
+    ReleaseSubsystem3(g_GameManager.sharedSubsystem);
+
+    if (g_GameManager.gameMode == 2)
+    {
+        g_GameManager.limitB4 -= 8;
+        if (g_GameManager.limitB4 < g_GameManager.value100)
+            g_GameManager.limitB4 = g_GameManager.value100;
+    }
+    else
+    {
+        int stageValue = g_GameManager.value100;
+        int newLimit;
+
+        switch (g_GameManager.setupMode)
+        {
+        case 4:
+            newLimit = 18;
+            g_GameManager.valueC8 = 22;
+            g_GameManager.valueC4 = 600 * (stageValue + 1);
+            break;
+        case 3:
+            newLimit = g_GameManager.counterFC + 6;
+            g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 17;
+            g_GameManager.valueC4 = 600 * stageValue + 900;
+            break;
+        case 2:
+            newLimit = g_GameManager.counterFC + 3;
+            g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 15;
+            g_GameManager.valueC4 = 600 * stageValue + 900;
+            break;
+        case 1:
+            newLimit = g_GameManager.counterFC + 1;
+            g_GameManager.valueC8 = g_GameManager.counterFC + 10;
+            g_GameManager.valueC4 = 600 * (stageValue + 2);
+            break;
+        case 0:
+            newLimit = g_GameManager.counterFC / 3 + 1;
+            g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 6;
+            g_GameManager.valueC4 = 600 * (stageValue + 3);
+            break;
+        default:
+            newLimit = g_GameManager.limitB4;
+            break;
+        }
+
+        g_GameManager.limitB4 = newLimit - 2 * stageValue;
+        if (g_GameManager.limitB4 < 1)
+            g_GameManager.limitB4 = 1;
+    }
+
+    g_GameManager.valueB0 = 0;
+    g_GameManager.value348 = 0;
+    g_GameManager.valueCC -= 1000;
+    if (g_GameManager.valueCC < 0)
+        g_GameManager.valueCC = 0;
 }
 
 void __fastcall GameplaySetupThread(void *unused)
