@@ -4,6 +4,7 @@
 // Provisional helper names describe observed call-site roles only.
 
 #include "AsciiManager.hpp"
+#include "Chain.hpp"
 #include "GameConfiguration.hpp"
 #include "Supervisor.hpp"
 
@@ -126,8 +127,11 @@ struct GameManagerSetupLayout
 
     void UpdateProgress();
     void AdvanceTimedState();
+    static int OnUpdate(GameManagerSetupLayout *gameManager);
+    static int OnDraw(GameManagerSetupLayout *gameManager);
     static int AddedCallback(GameManagerSetupLayout *gameManager);
     static int DeletedCallback(GameManagerSetupLayout *gameManager);
+    static int RegisterChain();
     static void CleanupGameplayState();
 };
 
@@ -167,6 +171,9 @@ struct SupervisorSetupLayout
 };
 
 extern GameManagerSetupLayout g_GameManager;
+extern Chain g_Chain;
+extern ChainElem g_GameManagerCalcChain;
+extern ChainElem g_GameManagerDrawChain;
 extern GameConfiguration *g_GameConfiguration;
 extern unsigned char g_SetupBuffer;
 extern int g_SetupStatus;
@@ -206,6 +213,31 @@ extern void *__fastcall RegisterSharedSubsystem(int side, int size, int kind);
 extern void *__fastcall RegisterSecondarySubsystem();
 extern void __fastcall FinalizeSubsystems(void *unused);
 extern void __fastcall GameplaySetupThread(void *unused);
+int GameManagerSetupLayout::RegisterChain()
+{
+    GameManagerSetupLayout *manager = &g_GameManager;
+
+    g_GameManager.value348 = 0;
+    g_GameManagerCalcChain.callback =
+        (ChainCallback)GameManagerSetupLayout::OnUpdate;
+    g_GameManagerCalcChain.addedCallback =
+        (ChainLifetimeCallback)GameManagerSetupLayout::AddedCallback;
+    g_GameManagerCalcChain.deletedCallback =
+        (ChainLifetimeCallback)GameManagerSetupLayout::DeletedCallback;
+    g_GameManagerCalcChain.arg = manager;
+    if (g_Chain.AddToCalcChain(&g_GameManagerCalcChain, 2))
+        return -1;
+
+    g_GameManagerDrawChain.callback =
+        (ChainCallback)GameManagerSetupLayout::OnDraw;
+    g_GameManagerDrawChain.addedCallback = NULL;
+    g_GameManagerDrawChain.deletedCallback = NULL;
+    g_GameManagerDrawChain.arg = manager;
+    g_Chain.AddToDrawChain(&g_GameManagerDrawChain, 5);
+    return 0;
+}
+
+
 int GameManagerSetupLayout::AddedCallback(GameManagerSetupLayout *gameManager)
 {
     SupervisorSetupLayout *supervisor =

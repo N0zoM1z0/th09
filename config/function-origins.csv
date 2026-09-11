@@ -353,7 +353,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041B5C6,authored_game,GameManager,authored,high,game-manager-cleanup-source-codegen-blocked-2026-09-11
 0x0041B76F,authored_game,GameManager,authored,high,game-manager-added-callback-vc71-exact-2026-09-11
 0x0041B82A,authored_game,GameManager,authored,high,game-manager-deleted-callback-vc71-exact-2026-09-11
-0x0041B9D0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041B9D0,authored_game,GameManager,authored,high,game-manager-register-chain-vc71-exact-2026-09-11
 0x0041BA4F,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041BA80,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041BB00,unknown,,review,unknown,ida-1.50a-initial-inventory
