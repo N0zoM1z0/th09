@@ -15,12 +15,12 @@ typedef char SupervisorDrawFpsFieldAt478[
     (offsetof(SupervisorDrawFpsLayout, drawFpsVm) == 0x478) ? 1 : -1];
 }
 
-extern int __fastcall SupervisorUpdateFpsNeutral(void *drawText);
+extern void __fastcall SupervisorCalculateFps(int shouldDraw);
 extern AnmVm *g_SupervisorFpsVm;
 
 int __fastcall SupervisorDrawFps(Supervisor *supervisor)
 {
-    SupervisorUpdateFpsNeutral(reinterpret_cast<void *>(1));
+    SupervisorCalculateFps(1);
 
     SupervisorDrawFpsLayout *layout =
         reinterpret_cast<SupervisorDrawFpsLayout *>(supervisor);

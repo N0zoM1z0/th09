@@ -66,3 +66,4 @@ SupervisorDeletedCallback
 SupervisorDrawFps
 SupervisorDrawMain
 SupervisorDrawLoading
+SupervisorCalculateFps

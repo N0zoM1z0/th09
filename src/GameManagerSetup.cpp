@@ -280,7 +280,7 @@ extern void *__fastcall RegisterSubsystem5(int side);
 extern void *__fastcall RegisterSubsystem6(int side);
 extern void *__fastcall RegisterSharedSubsystem(int side, int size, int kind);
 extern void *__fastcall RegisterSecondarySubsystem();
-extern void __fastcall FinalizeSubsystems(void *unused);
+extern void __fastcall SupervisorCalculateFps(int shouldDraw);
 extern void __fastcall GameplaySetupThread(void *unused);
 int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
 {
@@ -1072,7 +1072,7 @@ mode_ready:
         break;
     }
 
-    FinalizeSubsystems(NULL);
+    SupervisorCalculateFps(0);
     FinishLoading(&g_Supervisor);
     while ((manager->flags & 0x60u) != 0)
         Sleep(17);
