@@ -69,3 +69,4 @@ SupervisorDrawMain,0x00431540,function
 SupervisorDrawLoading,0x0042ED80,function
 SupervisorCalculateFps,0x004316B0,function
 SupervisorSetupDInputInternal,0x0042EEF0,function
+StartupEnumControllers,0x0042EDD0,function
