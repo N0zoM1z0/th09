@@ -65,3 +65,4 @@ SupervisorCheckFps,0x0042F1A0,function
 SupervisorRegisterChain,0x00432180,function
 SupervisorDeletedCallback,0x00431B70,function
 SupervisorDrawFps,0x00431B30,function
+SupervisorDrawMain,0x00431540,function

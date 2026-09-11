@@ -64,3 +64,4 @@ SupervisorCheckFps
 SupervisorRegisterChain
 SupervisorDeletedCallback
 SupervisorDrawFps
+SupervisorDrawMain

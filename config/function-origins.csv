@@ -664,7 +664,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00430AA0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00431110,authored_game,Supervisor,authored,high,supervisor-onupdate-source-codegen-blocked-2026-09-11
 0x00431500,authored_game,Supervisor,authored,high,supervisor-constructor-source-codegen-blocked-2026-09-11
-0x00431540,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00431540,authored_game,Supervisor,authored,high,supervisor-draw-main-vc71-exact-2026-09-11
 0x00431680,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004316B0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00431930,unknown,,review,unknown,ida-1.50a-initial-inventory
