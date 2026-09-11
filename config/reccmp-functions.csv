@@ -78,3 +78,4 @@ ReplayManagerView::PlaybackInputAndFps,0x004204B0,function
 ReplayManagerView::Create,0x00421670,function
 ReleaseReplayManagerCore,0x00420A60,function
 ReplayManagerView::Release,0x00420AD0,function
+AppendReplayFormat,0x004200C0,function

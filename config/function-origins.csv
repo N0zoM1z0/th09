@@ -424,7 +424,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041F760,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041F810,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041FCD0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004200C0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004200C0,authored_game,ReplayManager,authored,high,replay-append-format-vc71-exact-2026-09-11
 0x004200F0,authored_game,Input,authored,high,replay-input-update-vc71-exact-2026-09-11
 0x00420160,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00420170,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -439,7 +439,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00420AD0,authored_game,ReplayManager,authored,high,replay-manager-release-vc71-exact-2026-09-11
 0x00420C10,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00420C40,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00420C60,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00420C60,authored_game,ReplayManager,authored,high,replay-manager-save-replay-source-nearmatch-2026-09-11
 0x00421140,authored_game,ReplayManager,authored,high,replay-manager-begin-recording-stage-source-nearmatch-2026-09-11
 0x00421670,authored_game,ReplayManager,authored,high,replay-manager-create-vc71-exact-2026-09-11
 0x004217E0,unknown,,review,unknown,ida-1.50a-initial-inventory

@@ -77,3 +77,4 @@ ReplayManagerView::PlaybackInputAndFps
 ReplayManagerView::Create
 ReleaseReplayManagerCore
 ReplayManagerView::Release
+AppendReplayFormat

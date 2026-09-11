@@ -4,6 +4,9 @@
 #include <stddef.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <windows.h>
 #include "Chain.hpp"
 
 typedef unsigned char u8;
@@ -39,9 +42,7 @@ typedef char ReplayInputHistoryAt2C[(offsetof(ReplayInputState, historyCurrent) 
 
 struct ReplayBufferLink
 {
-    u16 *input0;
-    u16 *input1;
-    u16 *input2;
+    u16 *input[3];
     u8 *fps;
     i32 frameCount;
     ReplayBufferLink *next;
@@ -86,16 +87,17 @@ struct ReplayDataView
     i32 decompressedSize;
     ReplayFrameDataStartView *frameStart[3][10];
     u8 *fpsStart[10];
-    u8 unknown0C0;
+    u8 randomPayloadByte;
     u8 value0C1;
     u16 value0C2;
-    u8 unknown0C4[0x0A];
+    char playTime[10];
     char playerName[8];
     u8 unknown0D6;
     u8 value0D7;
     u8 unknown0D8[4];
     u8 configSnapshot[0xCC];
-    u8 unknown1A8[0x2C];
+    u8 unknown1A8[0x28];
+    u32 value1D0;
     u32 value1D4;
     u32 value1D8;
     char exeVersion[6];
@@ -134,6 +136,7 @@ struct ReplayRngView
     u16 GetSeed();
     void SetSeed(u16 seed);
     void ResetGenerationCount();
+    int GetRandomU16InRange(u16 max);
 };
 
 struct ReplayInputGateView
@@ -144,7 +147,9 @@ struct ReplayInputGateView
 
 struct GameManagerReplaySideView
 {
-    u8 unknown00[0x28];
+    u8 unknown00[0x20];
+    i32 character;
+    u8 unknown24[4];
     i32 selector;
     u8 unknown2C[0x0C];
 };
@@ -158,14 +163,17 @@ struct GameManagerReplayView
     GameManagerReplaySideView sides[2];
     u8 unknown070[0x78];
     ReplayInputGateView *inputGate;
-    u8 unknown0EC[0x2C];
+    u8 unknown0EC[0x28];
+    i32 mode114;
     i32 playbackState118;
-    u8 unknown11C[0x14];
+    i32 difficulty11C;
+    u8 unknown120[0x10];
     i32 replayPauseRecorded;
     u32 flags;
     int IsPlaybackStateZero();
     int IsPlaybackStateOne();
     int IsReplayNeutral();
+    int IsReplayStateTwo();
 };
 
 typedef char GameManagerInputGateAtE8[(offsetof(GameManagerReplayView, inputGate) == 0xE8) ? 1 : -1];
@@ -195,7 +203,18 @@ struct ZunMemoryReplayView
 struct LzssReplayView
 {
     static u8 *Decode(u8 *in, i32 inSize, u8 *out, i32 outSize);
+    static u8 *Encode(u8 *in, i32 inSize, i32 *outSize);
 };
+
+struct ReplayUserDataHeaderView
+{
+    u32 magic;
+    i32 size;
+    u8 type;
+    u8 unknown09[3];
+};
+
+typedef char ReplayUserDataHeaderSizeIs0C[(sizeof(ReplayUserDataHeaderView) == 0x0C) ? 1 : -1];
 
 struct ReplayManagerView
 {
@@ -221,6 +240,7 @@ struct ReplayManagerView
     u16 frameEventFlags;
 
     static ReplayManagerView *Create(i32 replayMode, const char *replayPath);
+    static int SaveReplay(ReplayManagerView *replayManager, const char *replayPath, const char *replayName);
     void Release();
     static ReplayDataView *LoadReplayData(ReplayDataView *data, i32 fileSize);
     static int RecordInputAndFps(ReplayManagerView *replayManager);
@@ -274,6 +294,22 @@ extern ReplaySideStateView *g_ReplaySideState1;
 extern u32 g_ReplayFrame0Value0C;
 extern i32 g_ReplayFrame0Value09;
 extern u8 g_ReplayStageSeen[];
+
+extern char g_ReplayPlayTimeText[];
+extern i32 g_ReplayInitialHealth0;
+extern i32 g_ReplayInitialHealth1;
+extern const char *g_ReplayDifficultyNames[];
+extern const char *g_ReplayModeNames[];
+extern const char *g_ReplayCharacterNames[];
+extern const char g_ReplayInfoPlayerNameFormat[];
+extern const char g_ReplayInfoPlayTimeFormat[];
+extern const char g_ReplayInfoDifficultyFormat[];
+extern const char g_ReplayInfoModeFormat[];
+extern const char g_ReplayInfoCharacterFormat[];
+extern const char g_ReplayInfoVersusCharactersFormat[];
+extern const char g_ReplayInfoInitialHealthFormat[];
+extern const char g_ReplayInfoVersionFormat[];
+extern const char g_ReplayVersionText[];
 
 namespace FileSystem
 {
@@ -482,9 +518,9 @@ int ReplayManagerView::RecordInputAndFps(ReplayManagerView *replayManager)
             replayManager->inputCursor2 = (u16 *)g_ZunMemory.Alloc(0x1C20, "rep data");
             replayManager->fpsCursor = (u8 *)g_ZunMemory.Alloc(0x79, "rep data");
 
-            replayManager->currentBuffer->input0 = replayManager->inputCursor0;
-            replayManager->currentBuffer->input1 = replayManager->inputCursor1;
-            replayManager->currentBuffer->input2 = replayManager->inputCursor2;
+            replayManager->currentBuffer->input[0] = replayManager->inputCursor0;
+            replayManager->currentBuffer->input[1] = replayManager->inputCursor1;
+            replayManager->currentBuffer->input[2] = replayManager->inputCursor2;
             replayManager->currentBuffer->fps = replayManager->fpsCursor;
             replayManager->currentBuffer->next = NULL;
             replayManager->currentBuffer->frameCount = 0;
@@ -600,12 +636,12 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
         do
         {
             ReplayBufferLink *current = link;
-            if (current->input0 != NULL)
-                g_ZunMemory.Free(current->input0);
-            if (current->input1 != NULL)
-                g_ZunMemory.Free(current->input1);
-            if (current->input2 != NULL)
-                g_ZunMemory.Free(current->input2);
+            if (current->input[0] != NULL)
+                g_ZunMemory.Free(current->input[0]);
+            if (current->input[1] != NULL)
+                g_ZunMemory.Free(current->input[1]);
+            if (current->input[2] != NULL)
+                g_ZunMemory.Free(current->input[2]);
             if (current->fps != NULL)
                 g_ZunMemory.Free(current->fps);
             link = current->next;
@@ -615,9 +651,9 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
         } while (link != NULL);
     }
 
-    replayManager->currentBuffer->input0 = replayManager->inputCursor0;
-    replayManager->currentBuffer->input1 = replayManager->inputCursor1;
-    replayManager->currentBuffer->input2 = replayManager->inputCursor2;
+    replayManager->currentBuffer->input[0] = replayManager->inputCursor0;
+    replayManager->currentBuffer->input[1] = replayManager->inputCursor1;
+    replayManager->currentBuffer->input[2] = replayManager->inputCursor2;
     replayManager->currentBuffer->fps = replayManager->fpsCursor;
     replayManager->currentBuffer->next = NULL;
     replayManager->currentBuffer->frameCount = 0;
@@ -803,12 +839,12 @@ void ReplayManagerView::Release()
         while (link != NULL)
         {
             ReplayBufferLink *current = link;
-            if (current->input0 != NULL)
-                g_ZunMemory.Free(current->input0);
-            if (current->input1 != NULL)
-                g_ZunMemory.Free(current->input1);
-            if (current->input2 != NULL)
-                g_ZunMemory.Free(current->input2);
+            if (current->input[0] != NULL)
+                g_ZunMemory.Free(current->input[0]);
+            if (current->input[1] != NULL)
+                g_ZunMemory.Free(current->input[1]);
+            if (current->input[2] != NULL)
+                g_ZunMemory.Free(current->input[2]);
             if (current->fps != NULL)
                 g_ZunMemory.Free(current->fps);
             link = current->next;
@@ -834,4 +870,153 @@ void ReplayManagerView::Release()
     ReleaseReplayManagerCore(this);
     g_Chain.Cut(this->mainChain);
     free(this);
+}
+
+
+static char *AppendReplayFormat(char *buffer, const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    vsprintf(buffer, format, args);
+    va_end(args);
+    return buffer + strlen(buffer);
+}
+
+int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *replayPath, const char *replayName)
+{
+    if (replayManager == NULL || replayPath == NULL)
+        return 0;
+
+    ReplayDataView replayCopy;
+    int allocationSize = 0x101EC;
+    {
+        int stage = 0;
+        ReplayBufferLink *stageRoot = &replayManager->stageBuffers[0];
+        for (; stage < 10; stage++, stageRoot++)
+        {
+            if (replayCopy.frameStart[0][stage] != NULL)
+            {
+                allocationSize += 0x60;
+                for (ReplayBufferLink *link = stageRoot; link != NULL; link = link->next)
+                    allocationSize += 0x54D9;
+            }
+        }
+    }
+
+    u8 *tempBuffer = (u8 *)g_ZunMemory.Alloc(allocationSize, "rep tmp");
+    replayCopy = *replayManager->replayData;
+    int currentOffset = sizeof(ReplayDataView);
+
+    for (int stream = 0; stream < 3; stream++)
+    {
+        for (int stage = 0; stage < 10; stage++)
+        {
+            if (replayCopy.frameStart[stream][stage] != NULL)
+            {
+                memcpy(tempBuffer + currentOffset - 0xC0, replayCopy.frameStart[stream][stage], sizeof(ReplayFrameDataStartView));
+                replayCopy.frameStart[stream][stage] = (ReplayFrameDataStartView *)currentOffset;
+                currentOffset += sizeof(ReplayFrameDataStartView);
+                for (ReplayBufferLink *link = &replayManager->stageBuffers[stage]; link != NULL; link = link->next)
+                {
+                    int streamSize = 2 * link->frameCount;
+                    memcpy(tempBuffer + currentOffset - 0xC0, link->input[stream], streamSize);
+                    currentOffset += streamSize;
+                }
+            }
+        }
+    }
+
+    for (int stage = 0; stage < 10; stage++)
+    {
+        if (replayCopy.fpsStart[stage] != NULL)
+        {
+            replayCopy.fpsStart[stage] = (u8 *)currentOffset;
+            for (ReplayBufferLink *link = &replayManager->stageBuffers[stage]; link != NULL; link = link->next)
+            {
+                int fpsSize = link->frameCount / 30;
+                memcpy(tempBuffer + currentOffset - 0xC0, link->fps, fpsSize);
+                currentOffset += fpsSize;
+            }
+        }
+    }
+
+    ReplayUserDataHeaderView infoHeader;
+    infoHeader.magic = 0x52455355;
+    infoHeader.type = 0;
+    char infoBuffer[1024];
+    memset(infoBuffer, 0, sizeof(infoBuffer));
+    char *infoCursor = infoBuffer;
+    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoPlayerNameFormat, replayName);
+    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoPlayTimeFormat, g_ReplayPlayTimeText);
+    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoDifficultyFormat, g_ReplayDifficultyNames[g_GameManager.difficulty11C]);
+    int mode = g_GameManager.playbackState118;
+    if (mode == 2)
+        mode = g_GameManager.mode114 + 2;
+    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoModeFormat, g_ReplayModeNames[mode]);
+    if (!g_GameManager.IsReplayStateTwo())
+    {
+        infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoCharacterFormat,
+            g_ReplayCharacterNames[g_GameManager.sides[0].character]);
+    }
+    else
+    {
+        infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoVersusCharactersFormat,
+            g_ReplayCharacterNames[g_GameManager.sides[0].character],
+            g_ReplayCharacterNames[g_GameManager.sides[1].character]);
+    }
+    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoInitialHealthFormat,
+        g_ReplayInitialHealth0 * 0.5f, g_ReplayInitialHealth1 * 0.5f);
+    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoVersionFormat, g_ReplayVersionText);
+    infoHeader.size = (int)strlen(infoBuffer) + 13;
+    infoHeader.size += infoHeader.size & 1;
+
+    replayCopy.value07 = 1;
+    strcpy(replayCopy.playerName, replayName);
+    strcpy(replayCopy.playTime, g_ReplayPlayTimeText);
+    replayCopy.obfuscationKey = (u8)(g_ReplayRng.GetRandomU16InRange(0x80) + 0x40);
+    replayCopy.value1D0 = 30;
+    replayCopy.randomPayloadByte = (u8)g_ReplayRng.GetRandomU16InRange(0x100);
+    replayCopy.unknown14 = (u8)g_ReplayRng.GetRandomU16InRange(0x100);
+    memcpy(tempBuffer, (u8 *)&replayCopy + 0xC0, sizeof(ReplayDataView) - 0xC0);
+
+    replayCopy.decompressedSize = currentOffset - 0xC0;
+    u8 *compressedData = LzssReplayView::Encode(tempBuffer, replayCopy.decompressedSize, &replayCopy.compressedSize);
+    g_ZunMemory.Free(tempBuffer);
+    int compressedSize = replayCopy.compressedSize;
+
+    u32 checksum = 0x3F000318;
+    u8 *checksumCursor = &replayCopy.obfuscationKey;
+    for (int i = 0; i < 0xAB; i++, checksumCursor++)
+        checksum += *checksumCursor;
+    for (int i = 0; i < compressedSize; i++)
+        checksum += compressedData[i];
+    replayCopy.checksum = checksum;
+
+    u8 obfuscationOffset = replayCopy.obfuscationKey;
+    u8 *obfuscationCursor = (u8 *)&replayCopy.compressedSize;
+    for (int i = 0; i < 0xA8; i++, obfuscationCursor++)
+    {
+        *obfuscationCursor += obfuscationOffset;
+        obfuscationOffset += 7;
+    }
+    obfuscationCursor = compressedData;
+    for (int i = 0; i < compressedSize; i++, obfuscationCursor++)
+    {
+        *obfuscationCursor += obfuscationOffset;
+        obfuscationOffset += 7;
+    }
+    replayCopy.fileSize = compressedSize + 0xC0;
+
+    replayName = NULL;
+    HANDLE file = CreateFileA(replayPath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (file != INVALID_HANDLE_VALUE)
+    {
+        WriteFile(file, &replayCopy, 0xC0, (LPDWORD)&replayName, NULL);
+        WriteFile(file, compressedData, compressedSize, (LPDWORD)&replayName, NULL);
+        WriteFile(file, &infoHeader, sizeof(infoHeader), (LPDWORD)&replayName, NULL);
+        WriteFile(file, infoBuffer, infoHeader.size - sizeof(infoHeader), (LPDWORD)&replayName, NULL);
+        CloseHandle(file);
+        GlobalFree(compressedData);
+    }
+    return 0;
 }
