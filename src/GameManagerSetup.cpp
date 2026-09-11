@@ -4,6 +4,7 @@
 // Provisional helper names describe observed call-site roles only.
 
 #include "AsciiManager.hpp"
+#include "AnmManager.hpp"
 #include "Chain.hpp"
 #include "GameConfiguration.hpp"
 #include "Supervisor.hpp"
@@ -12,6 +13,8 @@
 #include <mmsystem.h>
 #include <stdlib.h>
 #include <string.h>
+
+struct SetupStateBuffer;
 
 struct SetupSideState
 {
@@ -22,7 +25,7 @@ struct SetupSideState
     void *subsystem4;
     void *subsystem5;
     void *subsystem6;
-    void *state;
+    SetupStateBuffer *state;
     int value20;
     int value24;
     int selector;
@@ -35,9 +38,9 @@ typedef char SetupSideStateSizeCheck[(sizeof(SetupSideState) == 0x38) ? 1 : -1];
 struct SetupStateBuffer
 {
     float value00;
-    unsigned int elapsed04;
-    int value08;
-    int value0C;
+    unsigned int value04;
+    unsigned int value08;
+    unsigned int value0C;
     int phase10;
     unsigned char value14;
     unsigned char unknown_15[0x8B];
@@ -54,6 +57,54 @@ struct SetupLoadingPosition
 
 typedef char SetupLoadingPositionSizeCheck[
     (sizeof(SetupLoadingPosition) == 0x0C) ? 1 : -1];
+
+struct SetupInputSnapshot
+{
+    unsigned short word00;
+    unsigned short word02;
+    unsigned short word04;
+    unsigned short buttons06;
+    unsigned short word08;
+};
+
+typedef char SetupInputSnapshotSizeCheck[
+    (sizeof(SetupInputSnapshot) == 0x0A) ? 1 : -1];
+
+
+struct SpawnedSideObjectView
+{
+    unsigned char unknown0000[0x335C];
+    int selector335C;
+    unsigned char unknown3360[0x20];
+    unsigned int flags3380;
+};
+
+struct SideSpawnerSetupView
+{
+    SpawnedSideObjectView *Spawn(
+        short type, SetupLoadingPosition *position, int sprite, signed char variant,
+        int lifetime, int mirror, int unknown);
+};
+
+struct SideAuxSetupView
+{
+    void Trigger(int index);
+};
+
+struct GameSubsystemSetupView
+{
+    int IsActive();
+};
+
+struct SetupRngView
+{
+    int Next();
+};
+
+struct AnmManagerOnUpdateView
+{
+    void ReleaseSurface(int index);
+};
 
 struct SetupScoreRecordView
 {
@@ -84,12 +135,12 @@ struct GameManagerSetupLayout
     unsigned char unknown_80[0x28];
     void *gameSubsystem;
     void *secondarySubsystem;
-    int valueB0;
+    unsigned int valueB0;
     int limitB4;
     int valueB8;
     unsigned char unknown_BC[4];
-    int valueC0;
-    int valueC4;
+    unsigned int valueC0;
+    unsigned int valueC4;
     int valueC8;
     int valueCC;
     int valueD0;
@@ -110,10 +161,16 @@ struct GameManagerSetupLayout
     int setupMode;
     int value120;
     int gameplaySetupState;
-    unsigned char unknown_128[0x0C];
+    int gameplaySetupWaitFrames;
+    int playtimeFrames;
+    int replayPauseRecorded;
     unsigned int flags;
-    unsigned char unknown_138[8];
-    int value140;
+    unsigned char unknown_138[4];
+    unsigned char inGameMenu;
+    unsigned char menuBlock13D;
+    unsigned char menuBlock13E;
+    unsigned char unknown_13F;
+    int demoFrameCount;
     unsigned char unknown_144;
     unsigned char modeByte145;
     unsigned short seed146;
@@ -123,7 +180,7 @@ struct GameManagerSetupLayout
     unsigned char unknown_34C[0x28];
     int value374;
     unsigned char unknown_378[0x14];
-    int value38C;
+    int stageStartupMode;
 
     void UpdateProgress();
     void AdvanceTimedState();
@@ -137,6 +194,7 @@ struct GameManagerSetupLayout
 
 struct SoundPlayerSetupView
 {
+    void QueueCommand(int opcode, int argument, char *path);
     void PlaySoundByIdx(int soundIndex, int pan);
     int ProcessQueues();
 };
@@ -159,13 +217,17 @@ struct SupervisorSetupLayout
     unsigned char unknown_6B0[4];
     int subthreadCloseRequestActive;
     int subthreadActive;
-    unsigned char unknown_6BC[0xDC];
+    unsigned char unknown_6BC[0x84];
+    int loadingVmsHaveBeenSetup;
+    unsigned char unknown_744[0x54];
     unsigned int totalPlayTime;
     unsigned int systemTime;
 
     void SetupLoadingVmsAndInitCapture(SetupLoadingPosition *position);
     void StartEffect(int index);
     int ThreadStart(LPTHREAD_START_ROUTINE startFunction, void *startParam);
+    int StartStageAudio(int mode, int index);
+    int FadeOutMusic(float seconds);
     void UpdatePlayTime();
     void UpdateGameTime();
 };
@@ -183,6 +245,13 @@ extern AsciiManager g_AsciiManager;
 extern SetupScoreRecordView g_DeletedScoreRecord;
 extern unsigned char g_DeletedScratch[0x2BC0];
 extern int g_GameManagerChainState;
+extern SetupInputSnapshot g_CurrentInputSnapshot;
+extern SetupInputSnapshot g_SideInputSnapshot0;
+extern SetupInputSnapshot g_SideInputSnapshot1;
+extern SetupRngView g_SetupRng;
+extern int g_LastSpawnLane;
+extern void *__fastcall RegisterScreenEffect(
+    int type, int duration, int x, int y, int unknown, int priority, int argument);
 extern void __fastcall ReleaseGameSubsystem(void *object);
 extern void __fastcall ReleaseSecondarySubsystem(void *object);
 extern void __fastcall ReleaseSubsystem0(void *object);
@@ -213,6 +282,238 @@ extern void *__fastcall RegisterSharedSubsystem(int side, int size, int kind);
 extern void *__fastcall RegisterSecondarySubsystem();
 extern void __fastcall FinalizeSubsystems(void *unused);
 extern void __fastcall GameplaySetupThread(void *unused);
+int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
+{
+    SupervisorSetupLayout *supervisor =
+        reinterpret_cast<SupervisorSetupLayout *>(&g_Supervisor);
+
+    g_GameManager.playtimeFrames++;
+
+    if (g_GameManager.gameMode != 2 ||
+        g_GameManager.sides[0].selector != 0 ||
+        g_GameManager.sides[1].selector != 0)
+    {
+        unsigned short input00 = g_CurrentInputSnapshot.word00;
+        unsigned short input02 = g_CurrentInputSnapshot.word02;
+        unsigned short input04 = g_CurrentInputSnapshot.word04;
+        unsigned short input06 = g_CurrentInputSnapshot.buttons06;
+        unsigned short input08 = g_CurrentInputSnapshot.word08;
+
+        g_SideInputSnapshot0.word00 = input00;
+        g_SideInputSnapshot0.word02 = input02;
+        g_SideInputSnapshot0.word04 = input04;
+        g_SideInputSnapshot0.buttons06 = input06;
+        g_SideInputSnapshot0.word08 = input08;
+        g_SideInputSnapshot1.word00 = input00;
+        g_SideInputSnapshot1.word02 = input02;
+        g_SideInputSnapshot1.word04 = input04;
+        g_SideInputSnapshot1.buttons06 = input06;
+        g_SideInputSnapshot1.word08 = input08;
+    }
+
+    if (g_GameManager.gameplaySetupState != 0)
+    {
+        if (g_GameManager.gameplaySetupState == 2)
+            return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
+        gameManager->gameplaySetupWaitFrames++;
+        return CHAIN_CALLBACK_RESULT_BREAK;
+    }
+
+    if (g_GameManager.stageStartupMode != 0)
+    {
+        reinterpret_cast<AnmManagerOnUpdateView *>(g_AnmManager)->ReleaseSurface(8);
+        supervisor->loadingVmsHaveBeenSetup = 0;
+        if (g_GameManager.stageStartupMode == 1)
+            supervisor->StartStageAudio(0, 0);
+        g_GameManager.stageStartupMode = 0;
+    }
+
+    if (gameManager->menuBlock13D == 0 &&
+        gameManager->menuBlock13E == 0 &&
+        gameManager->inGameMenu == 0 &&
+        (gameManager->flags & 2u) == 0 &&
+        (g_CurrentInputSnapshot.buttons06 & 8u) != 0)
+    {
+        gameManager->inGameMenu = 1;
+        gameManager->replayPauseRecorded = 1;
+        g_SoundPlayer.QueueCommand(6, 0, "Pause");
+        g_SoundPlayer.PlaySoundByIdx(0x22, 0);
+        supervisor->UpdateGameTime();
+    }
+
+    if ((gameManager->flags & 2u) != 0)
+    {
+        if (g_CurrentInputSnapshot.buttons06 != 0)
+            supervisor->state590 = 1;
+
+        gameManager->demoFrameCount++;
+        if (gameManager->demoFrameCount == 6000)
+        {
+            RegisterScreenEffect(4, 120, 0, 0, 0, 0x23, 2);
+            supervisor->FadeOutMusic(3.0f);
+        }
+        if (gameManager->demoFrameCount == 6120)
+        {
+            supervisor->state590 = 1;
+            return CHAIN_CALLBACK_RESULT_BREAK;
+        }
+    }
+
+    if (gameManager->inGameMenu == 1 ||
+        gameManager->inGameMenu == 2 ||
+        gameManager->menuBlock13D != 0 ||
+        gameManager->menuBlock13E != 0)
+    {
+        return CHAIN_CALLBACK_RESULT_BREAK;
+    }
+
+    if (!reinterpret_cast<GameSubsystemSetupView *>(g_GameManager.gameSubsystem)->IsActive())
+    {
+        g_GameManager.valueD0++;
+
+        if (++g_GameManager.valueB0 % g_GameManager.valueC4 ==
+            g_GameManager.valueC4 - 1 &&
+            ++g_GameManager.limitB4 > g_GameManager.valueC8)
+        {
+            g_GameManager.limitB4 = g_GameManager.valueC8;
+        }
+
+        g_GameManager.valueC0++;
+        if (g_GameManager.valueB0 % 3600u == 3599u)
+        {
+            if (g_GameManager.sides[0].state->valueA0 < 16)
+                g_GameManager.sides[0].state->valueA0++;
+            if (g_GameManager.sides[0].state->valueA4 < 16)
+                g_GameManager.sides[0].state->valueA4++;
+            if (g_GameManager.sides[1].state->valueA0 < 16)
+                g_GameManager.sides[1].state->valueA0++;
+            if (g_GameManager.sides[1].state->valueA4 < 16)
+                g_GameManager.sides[1].state->valueA4++;
+        }
+
+        if (g_GameManager.valueB8 < 6 &&
+            g_GameManager.valueC0 % 720u == 719u)
+        {
+            g_GameManager.valueB8++;
+        }
+
+        if ((g_GameManager.flags & 0x1800u) == 0 &&
+            (g_GameManager.sides[0].flags & 1u) == 0)
+        {
+            unsigned int elapsed = gameManager->valueB0;
+            int increase;
+            if (elapsed < 1800u)
+                increase = 3;
+            else if (elapsed < 3600u)
+                increase = 4;
+            else
+                increase = elapsed < 5400u ? 6 : 7;
+            g_GameManager.valueCC += increase;
+        }
+
+        if (g_GameManager.valueCC > 10000)
+        {
+            int lane = static_cast<unsigned short>(g_SetupRng.Next()) % 4;
+            if (lane == g_LastSpawnLane)
+            {
+                lane++;
+                if (lane >= 4)
+                    lane = 0;
+            }
+
+            g_GameManager.valueCC -= 10000;
+            SetupLoadingPosition position;
+            position.x = 0.0f;
+            position.z = 0.0f;
+            g_LastSpawnLane = lane;
+            position.y = -32.0f;
+
+            SpawnedSideObjectView *object =
+                reinterpret_cast<SideSpawnerSetupView *>(g_GameManager.sides[0].subsystem4)
+                    ->Spawn(19, &position, 830, -2, 10000, 0, 0);
+            object->selector335C = lane;
+            object->flags3380 |= 0x2000u;
+
+            object =
+                reinterpret_cast<SideSpawnerSetupView *>(g_GameManager.sides[1].subsystem4)
+                    ->Spawn(19, &position, 830, -2, 10000, 0, 0);
+            object->flags3380 |= 0x2000u;
+            object->selector335C = lane;
+
+            g_SoundPlayer.PlaySoundByIdx(0x33, 0);
+            reinterpret_cast<SideAuxSetupView *>(g_GameManager.sides[0].subsystem6)->Trigger(1);
+            reinterpret_cast<SideAuxSetupView *>(g_GameManager.sides[1].subsystem6)->Trigger(1);
+        }
+    }
+
+    for (int sideIndex = 0; sideIndex < 2; sideIndex++)
+    {
+        if (g_GameManager.sides[sideIndex].state->value08 >= 1000000000u)
+            g_GameManager.sides[sideIndex].state->value08 = 999999999u;
+
+        if (g_GameManager.sides[sideIndex].state->value04 !=
+            g_GameManager.sides[sideIndex].state->value08)
+        {
+            if (g_GameManager.sides[sideIndex].state->value08 <
+                g_GameManager.sides[sideIndex].state->value04)
+            {
+                g_GameManager.sides[sideIndex].state->value08 =
+                    g_GameManager.sides[sideIndex].state->value04;
+            }
+
+            unsigned int step =
+                (g_GameManager.sides[sideIndex].state->value08 -
+                 g_GameManager.sides[sideIndex].state->value04) /
+                15u;
+            if (step >= 578910u)
+                step = 578910u;
+            else if (step == 0)
+                step = 1;
+
+            if (g_GameManager.sides[sideIndex].state->value0C < step)
+                g_GameManager.sides[sideIndex].state->value0C = step;
+            if (g_GameManager.sides[sideIndex].state->value04 +
+                    g_GameManager.sides[sideIndex].state->value0C >
+                g_GameManager.sides[sideIndex].state->value08)
+            {
+                g_GameManager.sides[sideIndex].state->value0C =
+                    g_GameManager.sides[sideIndex].state->value08 -
+                    g_GameManager.sides[sideIndex].state->value04;
+            }
+            g_GameManager.sides[sideIndex].state->value04 +=
+                g_GameManager.sides[sideIndex].state->value0C;
+            if (g_GameManager.sides[sideIndex].state->value04 >=
+                g_GameManager.sides[sideIndex].state->value08)
+            {
+                g_GameManager.sides[sideIndex].state->value0C = 0;
+                g_GameManager.sides[sideIndex].state->value04 =
+                    g_GameManager.sides[sideIndex].state->value08;
+            }
+        }
+    }
+
+    if (g_GameManager.gameMode == 0)
+    {
+        if (g_GameManager.sides[0].state->value04 >=
+            static_cast<unsigned int>(
+                2000000 * g_GameManager.sides[0].state->phase10 + 1000000))
+        {
+            g_GameManager.AdvanceTimedState();
+        }
+    }
+    if (g_GameManager.gameMode == 1 &&
+        g_GameManager.sides[0].state->value04 >=
+            static_cast<unsigned int>(
+                500000 * (g_GameManager.sides[0].state->phase10 + 1)))
+    {
+        g_GameManager.AdvanceTimedState();
+    }
+
+    gameManager->value348++;
+    return CHAIN_CALLBACK_RESULT_CONTINUE;
+}
+
+
 int GameManagerSetupLayout::RegisterChain()
 {
     GameManagerSetupLayout *manager = &g_GameManager;
@@ -498,12 +799,12 @@ void __fastcall GameplaySetupThread(void *unused)
     previousMode = manager->gameMode;
     manager->valueD0 = 0;
     manager->value348 = 0;
-    manager->value38C = 1;
+    manager->stageStartupMode = 1;
     manager->value120 = 0xff;
     manager->valueB8 = 2;
     manager->valueCC = 0;
     manager->valueC0 = 0;
-    manager->value140 = 0;
+    manager->demoFrameCount = 0;
     manager->value100 = 0;
     manager->value104 = (previousMode == 2) + 1;
     manager->flags &= ~0x4000u;
@@ -558,7 +859,7 @@ mode_ready:
                 free(manager->sides[sideIndex].state);
                 manager->sides[sideIndex].state = NULL;
             }
-            manager->sides[sideIndex].state = operator new(0xA0);
+            manager->sides[sideIndex].state = static_cast<SetupStateBuffer *>(operator new(0xA0));
             memset(manager->sides[sideIndex].state, 0, 0xA0);
         }
 
@@ -589,14 +890,14 @@ mode_ready:
         {
             SetupStateBuffer *state =
                 reinterpret_cast<SetupStateBuffer *>(manager->sides[0].state);
-            if (state->elapsed04 >= 2000000u * state->phase10 + 1000000u)
+            if (state->value04 >= 2000000u * state->phase10 + 1000000u)
                 g_GameManager.AdvanceTimedState();
         }
         if (manager->gameMode == 1)
         {
             SetupStateBuffer *state =
                 reinterpret_cast<SetupStateBuffer *>(manager->sides[0].state);
-            if (state->elapsed04 >= 500000u * (state->phase10 + 1))
+            if (state->value04 >= 500000u * (state->phase10 + 1))
                 g_GameManager.AdvanceTimedState();
         }
 
