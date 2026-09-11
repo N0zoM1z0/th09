@@ -1884,3 +1884,42 @@ relocations = [
   { offset = 0x10C, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorReplayView@@A", target = 0x004B3100 },
   { offset = 0x11B, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorReplayView@@A", target = 0x004B3100 },
 ]
+
+[units.replay-manager-create]
+source = "src/ReplayInput.cpp"
+object = "build/matching/ReplayInputNoEh.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ReplayManagerView::Create"]
+symbol = "?Create@ReplayManagerView@@SIPAU1@HPBD@Z"
+target_address = 0x00421670
+size = 0x169
+relocations = [
+  { offset = 0x012, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x020, type = "REL32", symbol = "??0ReplayManagerView@@QAE@XZ", target = 0x004343D0 },
+  { offset = 0x029, type = "DIR32", symbol = "??_C@_09PHLONBOL@ReplayInf?$AA@", target = 0x0048F1E0 },
+  { offset = 0x034, type = "DIR32", symbol = "?g_ZunMemory@@3UZunMemoryReplayView@@A", target = 0x004AD018 },
+  { offset = 0x039, type = "REL32", symbol = "?AddToRegistry@ZunMemoryReplayView@@QAEPAXPAXIPAD@Z", target = 0x00401380 },
+  { offset = 0x068, type = "DIR32", symbol = "?PlaybackInputAndFps@ReplayManagerView@@SIHPAU1@@Z", target = 0x004204B0 },
+  { offset = 0x06D, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x078, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0x085, type = "DIR32", symbol = "?BeginPlaybackStage@ReplayManagerView@@SIHPAU1@@Z", target = 0x00420840 },
+  { offset = 0x09C, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x0A1, type = "REL32", symbol = "?AddToCalcChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B1E0 },
+  { offset = 0x0B3, type = "DIR32", symbol = "?ControlPlaybackFrameAdvance@ReplayManagerView@@SIHPAU1@@Z", target = 0x00420470 },
+  { offset = 0x0B8, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x0BD, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0x0D4, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x0D9, type = "REL32", symbol = "?AddToCalcChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B1E0 },
+  { offset = 0x0ED, type = "DIR32", symbol = "?RecordInputAndFps@ReplayManagerView@@SIHPAU1@@Z", target = 0x004202A0 },
+  { offset = 0x0F2, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x0F7, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0x104, type = "DIR32", symbol = "?BeginRecordingStage@ReplayManagerView@@SIHPAU1@@Z", target = 0x00421140 },
+  { offset = 0x11B, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x120, type = "REL32", symbol = "?AddToCalcChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B1E0 },
+  { offset = 0x129, type = "DIR32", symbol = "?CaptureFrameSyncState@ReplayManagerView@@SIHPAU1@@Z", target = 0x00420190 },
+  { offset = 0x12E, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x139, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0x150, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x155, type = "REL32", symbol = "?AddToCalcChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B1E0 },
+  { offset = 0x15C, type = "REL32", symbol = "?CaptureFrameSyncState@ReplayManagerView@@SIHPAU1@@Z", target = 0x00420190 },
+]

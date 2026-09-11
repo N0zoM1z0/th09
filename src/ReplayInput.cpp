@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <string.h>
+#include "Chain.hpp"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -198,6 +199,7 @@ struct LzssReplayView
 
 struct ReplayManagerView
 {
+    ReplayManagerView();
     i32 frameCounter;
     i32 inputDelay;
     ReplayDataView *replayData;
@@ -210,16 +212,22 @@ struct ReplayManagerView
     i32 unknown110;
     i32 replayMode;
     const char *replayPath;
-    u8 unknown11C[0x44];
+    u8 unknown11C[0x34];
+    ChainElem *mainChain;
+    u32 unknown154;
+    ChainElem *playbackControlChain;
+    ChainElem *frameSyncChain;
     u16 frameRngSeed;
     u16 frameEventFlags;
 
+    static ReplayManagerView *Create(i32 replayMode, const char *replayPath);
     static ReplayDataView *LoadReplayData(ReplayDataView *data, i32 fileSize);
     static int RecordInputAndFps(ReplayManagerView *replayManager);
     static int PlaybackInputAndFps(ReplayManagerView *replayManager);
     static int BeginPlaybackStage(ReplayManagerView *replayManager);
     static int BeginRecordingStage(ReplayManagerView *replayManager);
     static int CaptureFrameSyncState(ReplayManagerView *replayManager);
+    static int ControlPlaybackFrameAdvance(ReplayManagerView *replayManager);
 };
 
 typedef char ReplayManagerInput0At0C[(offsetof(ReplayManagerView, inputCursor0) == 0x0C) ? 1 : -1];
@@ -229,10 +237,14 @@ typedef char ReplayManagerCurrentBufferAt10C[(offsetof(ReplayManagerView, curren
 typedef char ReplayManagerUnknown110At110[(offsetof(ReplayManagerView, unknown110) == 0x110) ? 1 : -1];
 typedef char ReplayManagerModeAt114[(offsetof(ReplayManagerView, replayMode) == 0x114) ? 1 : -1];
 typedef char ReplayManagerPathAt118[(offsetof(ReplayManagerView, replayPath) == 0x118) ? 1 : -1];
+typedef char ReplayManagerMainChainAt150[(offsetof(ReplayManagerView, mainChain) == 0x150) ? 1 : -1];
+typedef char ReplayManagerPlaybackControlAt158[(offsetof(ReplayManagerView, playbackControlChain) == 0x158) ? 1 : -1];
+typedef char ReplayManagerFrameSyncAt15C[(offsetof(ReplayManagerView, frameSyncChain) == 0x15C) ? 1 : -1];
 typedef char ReplayManagerFrameSeedAt160[(offsetof(ReplayManagerView, frameRngSeed) == 0x160) ? 1 : -1];
 typedef char ReplayManagerFrameEventsAt162[(offsetof(ReplayManagerView, frameEventFlags) == 0x162) ? 1 : -1];
 typedef char ReplayManagerSizeIs164[(sizeof(ReplayManagerView) == 0x164) ? 1 : -1];
 
+extern Chain g_Chain;
 extern ReplayRngView g_ReplayRng;
 extern ReplayInputState g_ReplayInputStates[3];
 extern GameManagerReplayView g_GameManager;
@@ -713,4 +725,48 @@ int ReplayManagerView::CaptureFrameSyncState(ReplayManagerView *replayManager)
     }
 
     return 1;
+}
+
+
+ReplayManagerView *ReplayManagerView::Create(i32 replayMode, const char *replayPath)
+{
+    ReplayManagerView *replayManager = (ReplayManagerView *)g_ZunMemory.AddToRegistry(
+        new ReplayManagerView, sizeof(ReplayManagerView), "ReplayInf");
+    memset(replayManager, 0, sizeof(ReplayManagerView));
+    replayManager->replayMode = replayMode;
+    replayManager->replayData = NULL;
+
+    switch (replayMode)
+    {
+    case 0:
+        replayManager->mainChain = g_Chain.CreateElem((ChainCallback)RecordInputAndFps);
+        replayManager->mainChain->addedCallback = (ChainLifetimeCallback)BeginRecordingStage;
+        replayManager->mainChain->arg = replayManager;
+        if (g_Chain.AddToCalcChain(replayManager->mainChain, 26))
+            return NULL;
+
+        replayManager->playbackControlChain = NULL;
+        replayManager->frameSyncChain = g_Chain.CreateElem((ChainCallback)CaptureFrameSyncState);
+        replayManager->frameSyncChain->arg = replayManager;
+        g_Chain.AddToCalcChain(replayManager->frameSyncChain, 7);
+        CaptureFrameSyncState(replayManager);
+        break;
+
+    case 1:
+        replayManager->replayPath = replayPath;
+        replayManager->mainChain = g_Chain.CreateElem((ChainCallback)PlaybackInputAndFps);
+        replayManager->mainChain->addedCallback = (ChainLifetimeCallback)BeginPlaybackStage;
+        replayManager->mainChain->arg = replayManager;
+        if (g_Chain.AddToCalcChain(replayManager->mainChain, 6))
+            return NULL;
+
+        replayManager->playbackControlChain =
+            g_Chain.CreateElem((ChainCallback)ControlPlaybackFrameAdvance);
+        replayManager->playbackControlChain->arg = replayManager;
+        g_Chain.AddToCalcChain(replayManager->playbackControlChain, 27);
+        replayManager->frameSyncChain = NULL;
+        break;
+    }
+
+    return replayManager;
 }
