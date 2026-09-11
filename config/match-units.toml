@@ -1851,3 +1851,36 @@ relocations = [
   { offset = 0x146, type = "DIR32", symbol = "?g_ZunMemory@@3UZunMemoryReplayView@@A", target = 0x004AD018 },
   { offset = 0x14E, type = "REL32", symbol = "?Alloc@ZunMemoryReplayView@@QAEPAXIPBD@Z", target = 0x00401340 },
 ]
+
+[units.replay-manager-playback-input]
+source = "src/ReplayInput.cpp"
+object = "build/matching/ReplayInput.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ReplayManagerView::PlaybackInputAndFps"]
+symbol = "?PlaybackInputAndFps@ReplayManagerView@@SIHPAU1@@Z"
+target_address = 0x004204B0
+size = 0x12B
+relocations = [
+  { offset = 0x1, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerReplayView@@A", target = 0x004A7D90 },
+  { offset = 0x1C, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
+  { offset = 0x22, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
+  { offset = 0x29, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
+  { offset = 0x30, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
+  { offset = 0x36, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
+  { offset = 0x3D, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
+  { offset = 0x4A, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
+  { offset = 0x56, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
+  { offset = 0x63, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
+  { offset = 0x6A, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
+  { offset = 0x6F, type = "REL32", symbol = "?Update@ReplayInputState@@QAEXXZ", target = 0x004200F0 },
+  { offset = 0x74, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
+  { offset = 0x79, type = "REL32", symbol = "?Update@ReplayInputState@@QAEXXZ", target = 0x004200F0 },
+  { offset = 0x7E, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
+  { offset = 0x83, type = "REL32", symbol = "?Update@ReplayInputState@@QAEXXZ", target = 0x004200F0 },
+  { offset = 0x89, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerReplayView@@A", target = 0x004A7D90 },
+  { offset = 0x94, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
+  { offset = 0xA3, type = "REL32", symbol = "?IsHeld@ReplayInputState@@QAEGH@Z", target = 0x00415CB0 },
+  { offset = 0xCA, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
+  { offset = 0x10C, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorReplayView@@A", target = 0x004B3100 },
+  { offset = 0x11B, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorReplayView@@A", target = 0x004B3100 },
+]

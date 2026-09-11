@@ -74,7 +74,14 @@ struct ReplayDataView
     u16 formatVersion;
     u8 value06;
     u8 value07;
-    u8 unknown008[0x18];
+    u8 unknown008[4];
+    i32 fileSize;
+    u32 checksum;
+    u8 unknown14;
+    u8 obfuscationKey;
+    u8 unknown16[2];
+    i32 compressedSize;
+    i32 decompressedSize;
     ReplayFrameDataStartView *frameStart0[10];
     ReplayFrameDataStartView *frameStart1[10];
     ReplayFrameDataStartView *frameStart2[10];
@@ -125,6 +132,7 @@ struct ReplayRngView
     u16 unknown02;
     i32 generationCount;
     u16 GetSeed();
+    void SetSeed(u16 seed);
     void ResetGenerationCount();
 };
 
@@ -150,9 +158,13 @@ struct GameManagerReplayView
     GameManagerReplaySideView sides[2];
     u8 unknown070[0x78];
     ReplayInputGateView *inputGate;
-    u8 unknown0EC[0x44];
+    u8 unknown0EC[0x2C];
+    i32 playbackState118;
+    u8 unknown11C[0x14];
     i32 replayPauseRecorded;
     u32 flags;
+    int IsPlaybackStateZero();
+    int IsPlaybackStateOne();
 };
 
 typedef char GameManagerInputGateAtE8[(offsetof(GameManagerReplayView, inputGate) == 0xE8) ? 1 : -1];
@@ -162,17 +174,26 @@ typedef char GameManagerReplayFlagsAt134[(offsetof(GameManagerReplayView, flags)
 struct SupervisorReplayView
 {
     int IsSpeedhackDetected();
+    int CheckVersion(char *versionString, int exeSize, int exeChecksum);
     u8 unknown000[0x5C8];
     short recordedFps;
+    u8 unknown5CA[0x1B6];
+    i32 playbackFpsWarning;
 };
 
 typedef char SupervisorReplayFpsAt5C8[(offsetof(SupervisorReplayView, recordedFps) == 0x5C8) ? 1 : -1];
+typedef char SupervisorPlaybackWarningAt780[(offsetof(SupervisorReplayView, playbackFpsWarning) == 0x780) ? 1 : -1];
 
 struct ZunMemoryReplayView
 {
     void *Alloc(size_t size, const char *debugText);
     void Free(void *ptr);
     void *AddToRegistry(void *ptr, size_t size, char *name);
+};
+
+struct LzssReplayView
+{
+    static u8 *Decode(u8 *in, i32 inSize, u8 *out, i32 outSize);
 };
 
 struct ReplayManagerView
@@ -187,11 +208,16 @@ struct ReplayManagerView
     ReplayBufferLink stageBuffers[10];
     ReplayBufferLink *currentBuffer;
     i32 unknown110;
-    u8 unknown114[0x4C];
+    i32 replayMode;
+    const char *replayPath;
+    u8 unknown11C[0x44];
     u16 frameRngSeed;
     u16 frameEventFlags;
 
+    static ReplayDataView *LoadReplayData(ReplayDataView *data, i32 fileSize);
     static int RecordInputAndFps(ReplayManagerView *replayManager);
+    static int PlaybackInputAndFps(ReplayManagerView *replayManager);
+    static int BeginPlaybackStage(ReplayManagerView *replayManager);
     static int BeginRecordingStage(ReplayManagerView *replayManager);
     static int CaptureFrameSyncState(ReplayManagerView *replayManager);
 };
@@ -201,6 +227,8 @@ typedef char ReplayManagerFpsAt18[(offsetof(ReplayManagerView, fpsCursor) == 0x1
 typedef char ReplayManagerStageBuffersAt1C[(offsetof(ReplayManagerView, stageBuffers) == 0x1C) ? 1 : -1];
 typedef char ReplayManagerCurrentBufferAt10C[(offsetof(ReplayManagerView, currentBuffer) == 0x10C) ? 1 : -1];
 typedef char ReplayManagerUnknown110At110[(offsetof(ReplayManagerView, unknown110) == 0x110) ? 1 : -1];
+typedef char ReplayManagerModeAt114[(offsetof(ReplayManagerView, replayMode) == 0x114) ? 1 : -1];
+typedef char ReplayManagerPathAt118[(offsetof(ReplayManagerView, replayPath) == 0x118) ? 1 : -1];
 typedef char ReplayManagerFrameSeedAt160[(offsetof(ReplayManagerView, frameRngSeed) == 0x160) ? 1 : -1];
 typedef char ReplayManagerFrameEventsAt162[(offsetof(ReplayManagerView, frameEventFlags) == 0x162) ? 1 : -1];
 typedef char ReplayManagerSizeIs164[(sizeof(ReplayManagerView) == 0x164) ? 1 : -1];
@@ -214,24 +242,156 @@ extern i32 g_ReplayStageIndex;
 extern u8 *g_ReplayConfigSnapshot;
 extern u32 g_ReplayHeaderValue1D4;
 extern u32 g_ReplayHeaderValue1D8;
-extern u8 g_ReplayHeaderValue0D7;
+extern u32 g_ReplayHeaderValue0D7;
 extern u8 g_ReplayHeaderValue1E4;
 extern u8 g_ReplayHeaderValue1E5;
-extern u8 g_ReplayHeaderValue1E6;
-extern u8 g_ReplayHeaderValue1E7;
-extern u8 g_ReplayHeaderValue1E8;
-extern u8 g_ReplayHeaderValue1E9;
+extern u32 g_ReplayHeaderValue1E6;
+extern u32 g_ReplayHeaderValue1E7;
+extern u32 g_ReplayHeaderValue1E8;
+extern u32 g_ReplayHeaderValue1E9;
 extern u16 g_ReplayStageSeed;
-extern u8 g_ReplayFrame0Value06;
-extern u8 g_ReplayFrame1Value06;
-extern u8 g_ReplayFrame0Value07;
-extern u8 g_ReplayFrame1Value07;
-extern u16 g_ReplayFrame0Value0A;
-extern u16 g_ReplayFrame1Value0A;
+extern u32 g_ReplayFrame0Value06;
+extern u32 g_ReplayFrame1Value06;
+extern u32 g_ReplayFrame0Value07;
+extern u32 g_ReplayFrame1Value07;
+extern u32 g_ReplayFrame0Value0A;
+extern u32 g_ReplayFrame1Value0A;
 extern ReplaySideStateView *g_ReplaySideState0;
 extern ReplaySideStateView *g_ReplaySideState1;
-extern u8 g_ReplayFrame0Value0C;
-extern u8 g_ReplayFrame0Value09;
+extern u32 g_ReplayFrame0Value0C;
+extern i32 g_ReplayFrame0Value09;
+extern u8 g_ReplayStageSeen[];
+
+namespace FileSystem
+{
+unsigned char *OpenFile(const char *path, int *fileSize, int isExternalResource);
+}
+
+
+int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
+{
+    if ((g_GameManager.flags & 4) != 0 && (g_GameManager.flags & 0x200) == 0)
+    {
+        g_ReplayInputStates[0].historyPrevious = g_ReplayInputStates[0].historyCurrent;
+        g_ReplayInputStates[1].historyPrevious = g_ReplayInputStates[1].historyCurrent;
+        g_ReplayInputStates[2].historyPrevious = g_ReplayInputStates[2].historyCurrent;
+
+        g_ReplayInputStates[0].historyCurrent = *replayManager->inputCursor0;
+        g_ReplayInputStates[1].historyCurrent = *replayManager->inputCursor1;
+        g_ReplayInputStates[2].historyCurrent = *replayManager->inputCursor2;
+
+        g_ReplayInputStates[0].Update();
+        g_ReplayInputStates[1].Update();
+        g_ReplayInputStates[2].Update();
+
+        u8 *sideMode = g_GameManager.inputGate->sideMode;
+        for (int side = 0; side < 2; side++, sideMode++)
+        {
+            if (*sideMode == 1)
+            {
+                if (g_ReplayInputStates[side].IsHeld(1))
+                {
+                    g_ReplayInputStates[side].auxiliary2A++;
+                    if (g_ReplayInputStates[side].auxiliary2A >= 8)
+                        g_ReplayInputStates[side].auxiliary2A = 8;
+                }
+                else
+                {
+                    g_ReplayInputStates[side].auxiliary2A = 0;
+                }
+            }
+        }
+
+        replayManager->inputCursor0++;
+        replayManager->inputCursor1++;
+        replayManager->inputCursor2++;
+
+        if (replayManager->frameCounter % 30 == 0)
+        {
+            g_Supervisor.recordedFps = (char)replayManager->fpsCursor[1] & 0x7F;
+            g_Supervisor.playbackFpsWarning = (char)replayManager->fpsCursor[1] >> 7;
+            replayManager->fpsCursor++;
+        }
+        replayManager->frameCounter++;
+    }
+    return 1;
+}
+
+ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 fileSize)
+{
+    u8 *obfuscateCursor;
+    u8 obfuscateOffset;
+    u8 *checksumCursor;
+    u32 checksum;
+    i32 i;
+    ReplayDataView *decodedReplay;
+    ReplayDataView *replayData = data;
+
+    if (replayData == NULL)
+        goto err1;
+    if (replayData->magic != 0x50523954)
+        goto err1;
+    if (replayData->formatVersion != 2)
+        goto err1;
+    if (replayData->value06 != 0)
+        goto err1;
+
+    obfuscateCursor = (u8 *)replayData + 0x18;
+    obfuscateOffset = replayData->obfuscationKey;
+    for (i = 0; i < replayData->fileSize - 0x18; i++, obfuscateCursor++)
+    {
+        *obfuscateCursor -= obfuscateOffset;
+        obfuscateOffset += 7;
+    }
+
+    checksumCursor = (u8 *)replayData + 0x15;
+    checksum = 0x3F000318;
+    for (i = 0; i < replayData->fileSize - 0x15; i++, checksumCursor++)
+        checksum += *checksumCursor;
+
+    if (checksum != replayData->checksum)
+        goto err1;
+
+    decodedReplay = (ReplayDataView *)g_ZunMemory.Alloc(
+        replayData->decompressedSize - replayData->fileSize + fileSize + 0xC0,
+        "./system\\global.h");
+    memcpy(decodedReplay, replayData, 0xC0);
+    LzssReplayView::Decode(
+        (u8 *)replayData + 0xC0, replayData->compressedSize,
+        (u8 *)decodedReplay + 0xC0, replayData->decompressedSize);
+    memcpy(
+        (u8 *)decodedReplay + replayData->decompressedSize + 0xC0,
+        (u8 *)replayData + replayData->fileSize,
+        fileSize - replayData->fileSize);
+
+    if (g_Supervisor.CheckVersion(
+            decodedReplay->exeVersion, decodedReplay->value1D4, decodedReplay->value1D8))
+        goto err2;
+
+    for (i = 0; i < 10; i++)
+    {
+        if (decodedReplay->frameStart0[i] != NULL)
+            decodedReplay->frameStart0[i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + (u32)decodedReplay->frameStart0[i]);
+        if (decodedReplay->frameStart1[i] != NULL)
+            decodedReplay->frameStart1[i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + (u32)decodedReplay->frameStart1[i]);
+        if (decodedReplay->frameStart2[i] != NULL)
+            decodedReplay->frameStart2[i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + (u32)decodedReplay->frameStart2[i]);
+        if (decodedReplay->fpsStart[i] != NULL)
+            decodedReplay->fpsStart[i] = (u8 *)decodedReplay + (u32)decodedReplay->fpsStart[i];
+    }
+
+    g_ZunMemory.Free(data);
+    return decodedReplay;
+
+err1:
+    g_ZunMemory.Free(data);
+    return NULL;
+
+err2:
+    g_ZunMemory.Free(data);
+    g_ZunMemory.Free(decodedReplay);
+    return NULL;
+}
 
 void ReplayInputState::Update()
 {
@@ -456,6 +616,62 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
     return 0;
 }
 
+
+
+int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
+{
+    i32 fileSize;
+    replayManager->frameCounter = 0;
+    if (replayManager->replayData == NULL)
+    {
+        replayManager->replayData = (ReplayDataView *)FileSystem::OpenFile(
+            replayManager->replayPath, &fileSize, (g_GameManager.flags & 2) == 0);
+        replayManager->replayData = LoadReplayData(replayManager->replayData, fileSize);
+        if (replayManager->replayData == NULL)
+            return -1;
+        replayManager->unknown110 = 0;
+    }
+    i32 stage = g_ReplayStageIndex;
+    if (replayManager->replayData->frameStart0 + stage * 10 == NULL)
+        return -1;
+    if ((g_GameManager.IsPlaybackStateZero() || g_GameManager.IsPlaybackStateOne()) && stage > 0)
+    {
+        for (i32 i = 0; i < stage; i++)
+            g_ReplayStageSeen[replayManager->replayData->frameStart1[i]->value06] = 1;
+    }
+    ReplayFrameDataStartView *frame1 = replayManager->replayData->frameStart1[stage];
+    ReplayFrameDataStartView *frame0 = replayManager->replayData->frameStart0[stage];
+    ReplayFrameDataStartView *frame2 = replayManager->replayData->frameStart2[stage];
+    u8 *fpsStart = replayManager->replayData->fpsStart[stage];
+    g_ReplayFrame0Value06 = frame0->value06;
+    g_ReplayFrame1Value06 = frame1->value06;
+    g_ReplayFrame0Value07 = frame0->value07;
+    g_ReplayFrame1Value07 = frame1->value07;
+    g_ReplayFrame0Value0A = frame0->value0A;
+    g_ReplayFrame1Value0A = frame1->value0A;
+    g_ReplayFrame0Value0C = frame0->value0C;
+    g_ReplayFrame0Value09 = (signed char)frame0->value09;
+    g_ReplayHeaderValue0D7 = replayManager->replayData->value0D7;
+    g_ReplayHeaderValue1E6 = replayManager->replayData->value1E6;
+    g_ReplayHeaderValue1E7 = replayManager->replayData->value1E7;
+    g_ReplayHeaderValue1E8 = replayManager->replayData->value1E8;
+    g_ReplayHeaderValue1E9 = replayManager->replayData->value1E9;
+    g_ReplaySideState0->value08 = frame0->value00;
+    g_ReplaySideState1->value08 = frame1->value00;
+    g_ReplaySideState0->unknown04 = frame0->value00;
+    g_ReplaySideState1->unknown04 = frame1->value00;
+    g_ReplaySideState0->value00 = (float)frame0->value08;
+    g_ReplaySideState1->value00 = (float)frame1->value08;
+    g_ReplaySideState0->value10 = frame0->value10;
+    replayManager->inputCursor1 = (u16 *)((u8 *)frame1 + 0x20);
+    replayManager->fpsCursor = fpsStart;
+    replayManager->inputCursor0 = (u16 *)((u8 *)frame0 + 0x20);
+    replayManager->inputCursor2 = (u16 *)((u8 *)frame2 + 0x20);
+    memcpy(g_ReplayConfigSnapshot, replayManager->replayData->configSnapshot, 0xCC);
+    g_ReplayRng.SetSeed(frame0->stageSeed);
+    replayManager->inputDelay = 0;
+    return 0;
+}
 
 int ReplayManagerView::CaptureFrameSyncState(ReplayManagerView *replayManager)
 {

@@ -74,3 +74,4 @@ StartupEnumObjects0,0x0042EE30,function
 StartupEnumObjects1,0x0042EE90,function
 ReplayInputState::Update,0x004200F0,function
 ReplayManagerView::RecordInputAndFps,0x004202A0,function
+ReplayManagerView::PlaybackInputAndFps,0x004204B0,function

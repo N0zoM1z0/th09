@@ -73,3 +73,4 @@ StartupEnumObjects0
 StartupEnumObjects1
 ReplayInputState::Update
 ReplayManagerView::RecordInputAndFps
+ReplayManagerView::PlaybackInputAndFps
