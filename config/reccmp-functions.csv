@@ -68,3 +68,4 @@ SupervisorDrawFps,0x00431B30,function
 SupervisorDrawMain,0x00431540,function
 SupervisorDrawLoading,0x0042ED80,function
 SupervisorCalculateFps,0x004316B0,function
+SupervisorSetupDInputInternal,0x0042EEF0,function

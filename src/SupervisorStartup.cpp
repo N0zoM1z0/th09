@@ -165,14 +165,19 @@ static int SetupDInputInternal(Supervisor *supervisor)
 
     if (DirectInput8Create(instance, 0x800, IID_IDirectInput8A,
                            (void **)&s->directInput, NULL) < 0)
-        goto create_error;
+    {
+        s->directInput = NULL;
+        g_GameErrorContext.Log(g_DirectInputCreateError);
+        return -1;
+    }
 
     if (s->directInput->CreateDevice(g_KeyboardDeviceGuid, &s->keyboard, NULL) < 0)
     {
         if (s->directInput != NULL)
+        {
             s->directInput->Release();
-    create_error:
-        s->directInput = NULL;
+            s->directInput = NULL;
+        }
         g_GameErrorContext.Log(g_DirectInputCreateError);
         return -1;
     }
@@ -217,8 +222,8 @@ static int SetupDInputInternal(Supervisor *supervisor)
     {
         s->controller0->SetDataFormat(&g_ControllerDataFormat);
         s->controller0->SetCooperativeLevel(s->window, 10);
-        s->controllerCaps[0].dwSize = sizeof(DIDEVCAPS);
-        s->controller0->GetCapabilities(&s->controllerCaps[0]);
+        reinterpret_cast<SupervisorDirectInputPrefix *>(&g_Supervisor)->controllerCaps[0].dwSize = sizeof(DIDEVCAPS);
+        s->controller0->GetCapabilities(&reinterpret_cast<SupervisorDirectInputPrefix *>(&g_Supervisor)->controllerCaps[0]);
         s->controller0->EnumObjects(StartupEnumObjects0, NULL, 0);
         g_GameErrorContext.Log(g_Controller0ConfiguredMessage);
     }
@@ -227,8 +232,8 @@ static int SetupDInputInternal(Supervisor *supervisor)
     {
         s->controller1->SetDataFormat(&g_ControllerDataFormat);
         s->controller1->SetCooperativeLevel(s->window, 10);
-        s->controllerCaps[1].dwSize = sizeof(DIDEVCAPS);
-        s->controller1->GetCapabilities(&s->controllerCaps[1]);
+        reinterpret_cast<SupervisorDirectInputPrefix *>(&g_Supervisor)->controllerCaps[1].dwSize = sizeof(DIDEVCAPS);
+        s->controller1->GetCapabilities(&reinterpret_cast<SupervisorDirectInputPrefix *>(&g_Supervisor)->controllerCaps[1]);
         s->controller1->EnumObjects(StartupEnumObjects1, NULL, 0);
         g_GameErrorContext.Log(g_Controller1ConfiguredMessage);
     }
