@@ -69,3 +69,5 @@ SupervisorDrawLoading
 SupervisorCalculateFps
 SupervisorSetupDInputInternal
 StartupEnumControllers
+StartupEnumObjects0
+StartupEnumObjects1

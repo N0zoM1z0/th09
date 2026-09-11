@@ -40,3 +40,45 @@ BOOL CALLBACK StartupEnumControllers(const DIDEVICEINSTANCEA *instance, void *un
     return supervisor->directInput->CreateDevice(
                instance->guidInstance, &supervisor->controller1, NULL) < 0;
 }
+
+BOOL CALLBACK StartupEnumObjects0(const DIDEVICEOBJECTINSTANCEA *instance, void *unused)
+{
+    SupervisorEnumControllerLayout *supervisor =
+        reinterpret_cast<SupervisorEnumControllerLayout *>(&g_Supervisor);
+
+    if ((instance->dwType & DIDFT_AXIS) != 0)
+    {
+        DIPROPRANGE range;
+        range.diph.dwSize = sizeof(DIPROPRANGE);
+        range.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+        range.diph.dwObj = instance->dwType;
+        range.diph.dwHow = DIPH_BYID;
+        range.lMin = -1000;
+        range.lMax = 1000;
+        if (supervisor->controller0->SetProperty(DIPROP_RANGE, &range.diph) < 0)
+            return FALSE;
+    }
+
+    return TRUE;
+}
+
+BOOL CALLBACK StartupEnumObjects1(const DIDEVICEOBJECTINSTANCEA *instance, void *unused)
+{
+    SupervisorEnumControllerLayout *supervisor =
+        reinterpret_cast<SupervisorEnumControllerLayout *>(&g_Supervisor);
+
+    if ((instance->dwType & DIDFT_AXIS) != 0)
+    {
+        DIPROPRANGE range;
+        range.diph.dwSize = sizeof(DIPROPRANGE);
+        range.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+        range.diph.dwObj = instance->dwType;
+        range.diph.dwHow = DIPH_BYID;
+        range.lMin = -1000;
+        range.lMax = 1000;
+        if (supervisor->controller1->SetProperty(DIPROP_RANGE, &range.diph) < 0)
+            return FALSE;
+    }
+
+    return TRUE;
+}
