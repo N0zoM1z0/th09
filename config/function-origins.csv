@@ -440,7 +440,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00420C10,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00420C40,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00420C60,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00421140,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00421140,authored_game,ReplayManager,authored,high,replay-manager-begin-recording-stage-source-nearmatch-2026-09-11
 0x00421670,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004217E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00421800,unknown,,review,unknown,ida-1.50a-initial-inventory
