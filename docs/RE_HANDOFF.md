@@ -631,6 +631,18 @@ The thirty-fifth reviewed packet canonically reconstructs the remaining small Zu
 
 The next evidence-connected packet should inspect the adjacent small candidates beginning at `0x00401520` and `0x00401540`, which operate on the same timer object but must independently earn operator names and exactness from TH09-local ABI/xrefs before adjacent-game source is consulted. `Supervisor::TickTimer @ 0x0042F4F0` remains a separate larger callee packet.
 
+The thirty-sixth reviewed packet recovers an interrupted dirty worktree and canonically reconstructs the next two ZunTimer comparison operators: `operator>= @ 0x00401520-0x00401533` and `operator< @ 0x00401540-0x00401553`.
+
+- Session recovery found eleven pre-existing unstaged tracked paths at unchanged HEAD `0x0f611e876bf7f32d7290dfb8cceb0039c7768c72`. The complete diff was confined to these two comparison operators, their canonical ledgers/progress, and a correction marking the preliminary ZUNTIMER-001 TH08-shaped field interpretation as superseded. The committed handoff already named `0x00401520/0x00401540` as the next packet, so the paths were classified `recoverable-current-work` and finished before any unrelated edits.
+- TH09 target code independently fixes both operations and ABI. Each is a 20-byte `__thiscall` member with one stack `int` consumed by `ret 4`; both load signed `current @ +8`. `0x00401520` uses `setnl` after the signed comparison, establishing `current >= value`; `0x00401540` uses `setl`, establishing `current < value`. Reconstructed operator names are not original-symbol claims.
+- Natural maintained source replays both functions 20/20 bytes with no relocations. The recovered match units were replayed directly, then all 55 configured units were replayed twice from the dirty source with zero mismatches. Target identity, tracking, progress, public CI, and `git diff --check` all pass.
+- Exactness and origin remain separate: both methods are classified `authored_game/ZunTimer` from the already-established game timer type, widespread target use, target-local comparison semantics, and natural VC7.1 generation. Clean committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` and committed-only TH095 HEAD `2060b0bcfb54b4d850471e33161a31454d671db7` corroborate the operator names/source shape only; no adjacent address, extent, or exactness was transferred. TH095 had four untracked scratch files and no uncommitted content was consulted.
+- Profile evidence retained by the recovered packet shows both methods exact under tested `/O2 /Ob0`, `/O2 /Ob1`, `/O2 /Ob2`, and `/Ox /Ob1` with `/Oy-`; `/O1 /Ob1` emits 18 bytes and `/Od /Ob0` 27. These remain local compiler facts only.
+- Shared IDA comments at both entries record signed semantics, exact replay, reconstructed-name limits, and boundaries; both comments were read back under passed `target:th09-main` / `factory-native-stdio` attestation. `0x00401534-0x0040153F` and `0x00401554-0x0040155F` are twelve-byte unassigned `CC` gaps.
+- The actual whole-build command still returns rc 2 because compile flags, TU partition, libraries, resources, and link order remain unknown. No runtime, whole-image, semantic-stage, or Factory-acceptance claim follows. The two functions add 40 canonical authored bytes, taking totals from 43 functions / 4,429 bytes to 45 functions / 4,469 bytes.
+
+The next evidence-connected packet should inspect `0x00401560` and its immediate timer-adjacent neighborhood from TH09-local callers, callees, ABI, and complete boundary before selecting an operator/helper name. Do not infer ownership solely from address adjacency.
+
 ## Restart commands
 
 ```bash
@@ -654,11 +666,11 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Forty-three authored functions
+  deleting destructor are reviewed as exclusions. Forty-five authored functions
   are source-present and repository-canonical exact: four GameErrorContext
   methods, six FileSystem helpers, two Supervisor lock wrappers, seven Chain
   methods, three ChainElem lifecycle/callback methods, Controller::GetJoystickCaps,
-  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, nine AsciiManager lifecycle/text/setup/reset/draw/popup methods, and five ZunTimer methods. All other imported origins remain pending.
+  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, nine AsciiManager lifecycle/text/setup/reset/draw/popup methods, and seven ZunTimer methods. All other imported origins remain pending.
   Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -666,4 +678,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The AsciiManager path through `CreateScorePopup @ 0x004346A0` and five ZunTimer methods through postfix increment are now canonical exact. Continue with the timer-adjacent candidates beginning `0x00401520`/`0x00401540`, using TH09-local ABI/xrefs before adopting any operator names; keep `Supervisor::TickTimer @ 0x0042F4F0` as an independent larger candidate whose exactness was not inherited. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.
+Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The AsciiManager path through `CreateScorePopup @ 0x004346A0` and five ZunTimer methods through postfix increment are now canonical exact. The ZunTimer comparison operators at `0x00401520`/`0x00401540` are now canonical exact after recovery of the interrupted packet. Continue with `0x00401560` and its immediate timer-adjacent neighborhood from TH09-local ABI/xrefs before adopting another operator/helper name; keep `Supervisor::TickTimer @ 0x0042F4F0` as an independent larger candidate whose exactness was not inherited. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.

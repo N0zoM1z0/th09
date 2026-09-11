@@ -41,3 +41,5 @@ ZunTimer::operator=
 ZunTimer::Tick
 ZunTimer::operator float
 ZunTimer::operator++
+ZunTimer::operator>=
+ZunTimer::operator<

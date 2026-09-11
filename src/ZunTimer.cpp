@@ -29,3 +29,13 @@ void ZunTimer::operator++(int)
 {
     this->Tick();
 }
+
+unsigned int ZunTimer::operator>=(int value)
+{
+    return this->current >= value;
+}
+
+unsigned int ZunTimer::operator<(int value)
+{
+    return this->current < value;
+}
