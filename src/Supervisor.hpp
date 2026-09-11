@@ -3,6 +3,7 @@
 class Supervisor
 {
   public:
+    static int OnUpdate(Supervisor *supervisor);
     void TickTimer(int *current, float *subFrame);
     int TakeSnapshot(const char *filePath);
     int LoadConfig(char *configFile);
