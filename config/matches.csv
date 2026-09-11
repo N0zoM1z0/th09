@@ -44,3 +44,4 @@ address,name,size,status,match_percent,unit,evidence
 0x00401510,ZunTimer::operator++,8,matching,100.00,zun-timer-post-increment,python3 scripts/build-match-unit.py --unit zun-timer-post-increment && python3 scripts/compare-coff-function.py --unit zun-timer-post-increment --json
 0x00401520,ZunTimer::operator>=,20,matching,100.00,zun-timer-greater-equal,python3 scripts/build-match-unit.py --unit zun-timer-greater-equal && python3 scripts/compare-coff-function.py --unit zun-timer-greater-equal --json
 0x00401540,ZunTimer::operator<,20,matching,100.00,zun-timer-less,python3 scripts/build-match-unit.py --unit zun-timer-less && python3 scripts/compare-coff-function.py --unit zun-timer-less --json
+0x0042F4F0,Supervisor::TickTimer,71,matching,100.00,supervisor-tick-timer,python3 scripts/build-match-unit.py --unit supervisor-tick-timer && python3 scripts/compare-coff-function.py --unit supervisor-tick-timer --json

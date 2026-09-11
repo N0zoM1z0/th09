@@ -631,7 +631,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042F400,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042F420,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042F490,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042F4F0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042F4F0,authored_game,Supervisor,authored,high,supervisor-tick-timer-origin-2026-09-11
 0x0042F540,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042F760,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042F770,unknown,,review,unknown,ida-1.50a-initial-inventory

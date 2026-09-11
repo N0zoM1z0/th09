@@ -631,7 +631,7 @@ address,size,span_end,current_name,proposed_name,module,status,match_percent,cal
 0x0042F400,17,0x0042F410,sub_42F400,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042F420,101,0x0042F484,sub_42F420,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042F490,93,0x0042F4EC,sub_42F490,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x0042F4F0,71,0x0042F536,sub_42F4F0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
+0x0042F4F0,71,0x0042F536,sub_42F4F0,Supervisor::TickTimer,Supervisor,matching,100.00,__thiscall,"void Supervisor::TickTimer(int *current, float *subFrame)",false,src/SupervisorTimer.cpp,Canonical relocation-aware VC7.1 comparison: 71/71 bytes exact including three replayed relocations,authored,TickTimer updates current/subFrame from Supervisor speed at +0x5B8: speed <= 0.99f accumulates subFrame and writes current=(int)subFrame; otherwise increments current and adds 1.0f to subFrame; reviewed extent ends 0x0042F536; 0x0042F537-0x0042F53F is unowned CC padding; public Supervisor layout and original TU remain unknown
 0x0042F540,543,0x0042F75E,sub_42F540,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042F760,15,0x0042F76E,sub_42F760,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0042F770,74,0x0042F7B9,sub_42F770,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,

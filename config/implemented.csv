@@ -43,3 +43,4 @@ ZunTimer::operator float
 ZunTimer::operator++
 ZunTimer::operator>=
 ZunTimer::operator<
+Supervisor::TickTimer

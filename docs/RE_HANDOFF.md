@@ -3,10 +3,7 @@
 ## Current phase
 
 Exact reconstruction: the target and native IDA provider are attested, the
-provisional function inventory is initialized, and boundary/origin review has
-advanced through seven CRT/library exclusions and nine repository-canonical
-exact authored functions in the GameErrorContext, FileSystem, and Supervisor
-cohort. The faithful Windows i386 whole-build graph is still open; runtime
+provisional function inventory is initialized, and boundary/origin review has advanced through reviewed CRT/library and compiler-generated exclusions plus 46 repository-canonical exact authored functions across the currently reconstructed subsystems. The faithful Windows i386 whole-build graph is still open; runtime
 semantic validation and portability work have not started.
 
 ## Latest exact-phase checkpoints
@@ -643,6 +640,18 @@ The thirty-sixth reviewed packet recovers an interrupted dirty worktree and cano
 
 The next evidence-connected packet should inspect `0x00401560` and its immediate timer-adjacent neighborhood from TH09-local callers, callees, ABI, and complete boundary before selecting an operator/helper name. Do not infer ownership solely from address adjacency.
 
+The thirty-seventh reviewed packet recovers the interrupted Supervisor timer callee and canonically reconstructs `Supervisor::TickTimer @ 0x0042F4F0-0x0042F536`.
+
+- Session recovery found eight unstaged tracked paths plus untracked `src/SupervisorTimer.cpp` at unchanged HEAD `1d1d34e0dd99b709eb8222c56c508d7dde533594`. The complete diff was confined to TickTimer source, canonical match/origin ledgers, and generated progress. The prior handoff already named TickTimer as an independent larger callee frontier, so all nine paths were classified `recoverable-current-work` and completed before a new packet.
+- Native `th09-ida` independently reports a 0x47-byte function at `0x0042F4F0`. Its only direct caller is exact `ZunTimer::Tick @ 0x004014B0`; its only callee is `__ftol2 @ 0x0047B1D4`. Attested target bytes show nine `CC` bytes at `0x0042F537-0x0042F53F`, so those bytes remain outside the reviewed function with physical ownership unresolved.
+- The target ABI is normal `__thiscall`: ECX carries the Supervisor object, two stack pointer arguments are consumed by `ret 8`, and Supervisor `+0x5B8` is the observed speed float. The function compares it with 0.99f, accumulates fractional time and converts through `__ftol2` on the slow path, or increments integer/fractional time by one on the fast path. Public Supervisor layout outside this field remains opaque.
+- Natural maintained source replays 71/71 bytes twice under the configured pinned VC7.1 `/O2 /Ob1 /Oy-` unit, with three relocations to 0.99f, `__ftol2`, and 1.0f. This establishes repository-canonical codegen exactness for the function only; original translation-unit partition and project-wide flags remain unknown.
+- Clean committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` corroborates the `Supervisor::TickTimer` naming/source-shape hypothesis. TH095 HEAD `2060b0bcfb54b4d850471e33161a31454d671db7` had unrelated pre-existing semantic/runtime work; only committed TickTimer references were consulted and no uncommitted TH095 content was read. TH09 target evidence and replay decide the result.
+- The shared IDA comment at `0x0042F4F0` was updated from the earlier provisional-callee state to the reviewed boundary/exactness limitations, and the function prototype was corrected to `void __thiscall sub_42F4F0(void *this, int *current, float *subFrame)`. Decompilation readback confirmed both metadata edits under passed `target:th09-main` / `factory-native-stdio` attestation. No function rename or target-byte edit was performed.
+- The production skeleton remains deliberately open. `python3 scripts/build.py` returns rc 2 because compile flags, TU partition, libraries, resources, and link order are unresolved; no whole-build or runtime closure follows from this exact unit. The new function raises canonical authored totals from 45 functions / 4,469 bytes to 46 functions / 4,540 bytes. Factory Truth Kernel acceptance remains separate and unclaimed.
+
+The next evidence-connected packet should return to the timer-adjacent candidate at `0x00401560`, which was already queued by the prior handoff. Establish its complete extent, signed/unsigned semantics, callers, and ABI from TH09 before adopting an operator/helper name. The just-finished TickTimer packet is the required harder frontier after the two small comparison operators; the next selection is therefore continuity-driven rather than a smallest-function queue.
+
 ## Restart commands
 
 ```bash
@@ -666,9 +675,9 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Forty-five authored functions
+  deleting destructor are reviewed as exclusions. Forty-six authored functions
   are source-present and repository-canonical exact: four GameErrorContext
-  methods, six FileSystem helpers, two Supervisor lock wrappers, seven Chain
+  methods, six FileSystem helpers, three Supervisor methods (the two lock wrappers plus TickTimer), seven Chain
   methods, three ChainElem lifecycle/callback methods, Controller::GetJoystickCaps,
   three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, nine AsciiManager lifecycle/text/setup/reset/draw/popup methods, and seven ZunTimer methods. All other imported origins remain pending.
   Factory acceptance remains
@@ -678,4 +687,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The AsciiManager path through `CreateScorePopup @ 0x004346A0` and five ZunTimer methods through postfix increment are now canonical exact. The ZunTimer comparison operators at `0x00401520`/`0x00401540` are now canonical exact after recovery of the interrupted packet. Continue with `0x00401560` and its immediate timer-adjacent neighborhood from TH09-local ABI/xrefs before adopting another operator/helper name; keep `Supervisor::TickTimer @ 0x0042F4F0` as an independent larger candidate whose exactness was not inherited. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.
+Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The AsciiManager path through `CreateScorePopup @ 0x004346A0` and five ZunTimer methods through postfix increment are now canonical exact. The ZunTimer comparison operators at `0x00401520`/`0x00401540` are now canonical exact after recovery of the interrupted packet. Continue with `0x00401560` and its immediate timer-adjacent neighborhood from TH09-local ABI/xrefs before adopting another operator/helper name. `Supervisor::TickTimer @ 0x0042F4F0` is now independently canonical exact; that result was established separately from the exact Tick caller and does not change the remaining timer-adjacent candidates. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.

@@ -871,3 +871,17 @@ symbol = "??MZunTimer@@QAEIH@Z"
 target_address = 0x00401540
 size = 0x14
 relocations = []
+
+[units.supervisor-tick-timer]
+source = "src/SupervisorTimer.cpp"
+object = "build/matching/SupervisorTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Supervisor::TickTimer"]
+symbol = "?TickTimer@Supervisor@@QAEXPAHPAM@Z"
+target_address = 0x0042F4F0
+size = 0x47
+relocations = [
+  { offset = 0x0B, type = "DIR32", symbol = "__real@3f7d70a4", target = 0x004907E4 },
+  { offset = 0x24, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x3D, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+]
