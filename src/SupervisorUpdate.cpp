@@ -239,6 +239,7 @@ UPDATE_FRAME:
                 GameManager_CutChain();
                 if (GameManager_RegisterChain() != 0)
                     return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
+            SET_GAME_MANAGER_STATE2:
                 s->curState = SUPERVISOR_STATE_2;
                 break;
 
@@ -259,8 +260,7 @@ UPDATE_FRAME:
                 GameManager_CutChain();
                 if (GameManager_RegisterChain() != 0)
                     return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
-                s->curState = SUPERVISOR_STATE_2;
-                break;
+                goto SET_GAME_MANAGER_STATE2;
 
             case SUPERVISOR_STATE_11:
                 globalSupervisor->value59C = 1;
