@@ -56,3 +56,4 @@ GameConfiguration::Initialize,0x0041A8A2,function
 GameConfiguration::GameConfiguration,0x0041A98B,function
 GameManagerSetupLayout::AdvanceTimedState,0x0041AA07,function
 GameManagerSetupLayout::AddedCallback,0x0041B76F,function
+GameManagerSetupLayout::DeletedCallback,0x0041B82A,function

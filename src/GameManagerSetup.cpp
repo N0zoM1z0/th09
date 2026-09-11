@@ -22,7 +22,8 @@ struct SetupSideState
     void *subsystem5;
     void *subsystem6;
     void *state;
-    unsigned char unknown_20[8];
+    int value20;
+    int value24;
     int selector;
     unsigned char unknown_2C[8];
     unsigned int flags;
@@ -34,9 +35,11 @@ struct SetupStateBuffer
 {
     float value00;
     unsigned int elapsed04;
-    unsigned char unknown_08[8];
+    int value08;
+    int value0C;
     int phase10;
-    unsigned char unknown_14[0x8C];
+    unsigned char value14;
+    unsigned char unknown_15[0x8B];
     int valueA0;
     int valueA4;
 };
@@ -50,6 +53,27 @@ struct SetupLoadingPosition
 
 typedef char SetupLoadingPositionSizeCheck[
     (sizeof(SetupLoadingPosition) == 0x0C) ? 1 : -1];
+
+struct SetupScoreRecordView
+{
+    unsigned int magic;
+    unsigned short chapterSize;
+    unsigned short chapterSizeCopy;
+    unsigned char version;
+    unsigned char runtimeMarker;
+    unsigned char unknown0A[2];
+    int value0C;
+    float value10;
+    unsigned char sideValue14;
+    unsigned char setupMode15;
+    unsigned char unknown16;
+    unsigned char zero17;
+    unsigned char unknown18[0x13];
+    unsigned char stateValue2B;
+};
+
+typedef char SetupScoreRecordViewSizeCheck[
+    (sizeof(SetupScoreRecordView) == 0x2C) ? 1 : -1];
 
 struct GameManagerSetupLayout
 {
@@ -70,9 +94,11 @@ struct GameManagerSetupLayout
     int valueD0;
     void *stageObject;
     unsigned char clearD8[0x10];
-    unsigned char unknown_E8[4];
+    void *heapE8;
     float speedEC;
-    unsigned char unknown_F0[0x0C];
+    unsigned char unknown_F0[4];
+    int valueF4;
+    int valueF8;
     int counterFC;
     int value100;
     int value104;
@@ -101,12 +127,14 @@ struct GameManagerSetupLayout
     void UpdateProgress();
     void AdvanceTimedState();
     static int AddedCallback(GameManagerSetupLayout *gameManager);
+    static int DeletedCallback(GameManagerSetupLayout *gameManager);
     static void CleanupGameplayState();
 };
 
-struct SetupEventManager
+struct SoundPlayerSetupView
 {
-    void Emit(int eventId, int argument);
+    void PlaySoundByIdx(int soundIndex, int pan);
+    int ProcessQueues();
 };
 
 struct SupervisorSetupLayout
@@ -143,8 +171,11 @@ extern GameConfiguration *g_GameConfiguration;
 extern unsigned char g_SetupBuffer;
 extern int g_SetupStatus;
 extern unsigned short g_SetupSeedSource;
-extern SetupEventManager g_SetupEventManager;
+extern SoundPlayerSetupView g_SoundPlayer;
 extern AsciiManager g_AsciiManager;
+extern SetupScoreRecordView g_DeletedScoreRecord;
+extern unsigned char g_DeletedScratch[0x2BC0];
+extern int g_GameManagerChainState;
 extern void __fastcall ReleaseGameSubsystem(void *object);
 extern void __fastcall ReleaseSecondarySubsystem(void *object);
 extern void __fastcall ReleaseSubsystem0(void *object);
@@ -221,6 +252,97 @@ int GameManagerSetupLayout::AddedCallback(GameManagerSetupLayout *gameManager)
 
 
 
+int GameManagerSetupLayout::DeletedCallback(GameManagerSetupLayout *gameManager)
+{
+    SupervisorSetupLayout *supervisor =
+        reinterpret_cast<SupervisorSetupLayout *>(&g_Supervisor);
+
+    g_GameManager.sides[0].value24 = g_GameManager.sides[0].value20;
+    g_GameManager.sides[1].value24 = g_GameManager.sides[1].value20;
+    g_GameManager.valueF8 = g_GameManager.valueF4;
+    gameManager->flags &= ~4u;
+
+    if (supervisor->state590 != 3 &&
+        supervisor->state590 != 12 &&
+        supervisor->state590 != 10)
+    {
+        supervisor->value598 = 1;
+    }
+    else
+    {
+        supervisor->value598 = 0;
+    }
+
+    memset(g_DeletedScratch, 0, sizeof(g_DeletedScratch));
+
+    SetupStateBuffer *state =
+        reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].state);
+    if (state != NULL)
+    {
+        g_DeletedScoreRecord.value0C = state->value08;
+        g_DeletedScoreRecord.sideValue14 =
+            static_cast<unsigned char>(g_GameManager.sides[0].value20);
+        g_DeletedScoreRecord.setupMode15 =
+            static_cast<unsigned char>(g_GameManager.setupMode);
+        g_DeletedScoreRecord.stateValue2B = state->value14;
+        g_DeletedScoreRecord.value10 = 0.0f;
+        g_DeletedScoreRecord.magic = 0x52435348u;
+        g_DeletedScoreRecord.zero17 = 0;
+        g_DeletedScoreRecord.chapterSizeCopy = sizeof(g_DeletedScoreRecord);
+        g_DeletedScoreRecord.chapterSize = sizeof(g_DeletedScoreRecord);
+        g_DeletedScoreRecord.version = 2;
+        g_DeletedScoreRecord.runtimeMarker = 0;
+    }
+
+    if ((g_GameManager.flags & 8u) != 0 && supervisor->value598 != 0)
+    {
+        ReleaseStageObject(gameManager->stageObject);
+        gameManager->stageObject = NULL;
+    }
+
+    SetupSideState *side = &gameManager->sides[0];
+    int sideCount = 2;
+    do
+    {
+        ReleaseSubsystem0(side->subsystem0);
+        side->subsystem0 = NULL;
+        ReleaseSubsystem1(side->subsystem1);
+        side->subsystem1 = NULL;
+        ReleaseSubsystem2(side->subsystem2);
+        side->subsystem2 = NULL;
+        ReleaseSubsystem3(side->subsystem3);
+        side->subsystem3 = NULL;
+        ReleaseSubsystem4(side->subsystem4);
+        side->subsystem4 = NULL;
+        ReleaseSubsystem5(side->subsystem5);
+        side->subsystem5 = NULL;
+        ReleaseSubsystem6(side->subsystem6);
+        side->subsystem6 = NULL;
+        side++;
+    } while (--sideCount != 0);
+
+    ReleaseGameSubsystem(gameManager->gameSubsystem);
+    gameManager->gameSubsystem = NULL;
+    ReleaseSecondarySubsystem(gameManager->secondarySubsystem);
+    gameManager->secondarySubsystem = NULL;
+    ReleaseSubsystem3(gameManager->sharedSubsystem);
+    gameManager->sharedSubsystem = NULL;
+
+    if (gameManager->heapE8 != NULL)
+    {
+        free(gameManager->heapE8);
+        gameManager->heapE8 = NULL;
+    }
+
+    while (g_SoundPlayer.ProcessQueues())
+    {
+    }
+
+    g_GameManagerChainState = 0;
+    return 0;
+}
+
+
 void GameManagerSetupLayout::AdvanceTimedState()
 {
     SetupStateBuffer *state =
@@ -229,7 +351,7 @@ void GameManagerSetupLayout::AdvanceTimedState()
     if (state->value00 < 7.0f)
     {
         state->value00 += 1.0f;
-        g_SetupEventManager.Emit(0x1C, 0);
+        g_SoundPlayer.PlaySoundByIdx(0x1C, 0);
         state = reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].state);
     }
 

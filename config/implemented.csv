@@ -55,3 +55,4 @@ GameConfiguration::Initialize
 GameConfiguration::GameConfiguration
 GameManagerSetupLayout::AdvanceTimedState
 GameManagerSetupLayout::AddedCallback
+GameManagerSetupLayout::DeletedCallback
