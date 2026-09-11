@@ -61,3 +61,4 @@ GameManagerSetupLayout::OnDraw
 Supervisor::StartupThread
 Supervisor::AddedCallback
 SupervisorCheckFps
+SupervisorRegisterChain

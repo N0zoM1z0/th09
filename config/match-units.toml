@@ -1487,3 +1487,40 @@ relocations = [
   { offset = 0x1DF, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
   { offset = 0x1EA, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
 ]
+
+[units.supervisor-register-chain]
+source = "src/SupervisorRegisterChain.cpp"
+object = "build/matching/SupervisorRegisterChain.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorRegisterChain"]
+symbol = "?SupervisorRegisterChain@@YIHXZ"
+target_address = 0x00432180
+size = 0xB6
+relocations = [
+  { offset = 0x2, type = "DIR32", symbol = "?OnUpdate@Supervisor@@SIHPAV1@@Z", target = 0x00431110 },
+  { offset = 0x7, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xD, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x17, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x21, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x2A, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0x31, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x41, type = "DIR32", symbol = "?AddedCallback@Supervisor@@SIHPAV1@@Z", target = 0x00432090 },
+  { offset = 0x48, type = "DIR32", symbol = "?SupervisorDeletedCallbackNeutral@@YIHPAVSupervisor@@@Z", target = 0x00431B70 },
+  { offset = 0x4D, type = "REL32", symbol = "?AddToCalcChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B1E0 },
+  { offset = 0x56, type = "DIR32", symbol = "?SupervisorDrawFpsNeutral@@YIHPAVSupervisor@@@Z", target = 0x00431B30 },
+  { offset = 0x5B, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x60, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0x68, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x70, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
+  { offset = 0x75, type = "DIR32", symbol = "?SupervisorDrawMainNeutral@@YIHPAVSupervisor@@@Z", target = 0x00431540 },
+  { offset = 0x7A, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x7F, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0x87, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x8F, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
+  { offset = 0x94, type = "DIR32", symbol = "?SupervisorDrawLoadingNeutral@@YIHPAVSupervisor@@@Z", target = 0x0042ED80 },
+  { offset = 0x99, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x9E, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0xA6, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xAE, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
+]
