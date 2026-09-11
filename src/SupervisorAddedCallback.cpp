@@ -46,7 +46,7 @@ typedef char SupervisorAddedStartupStateAt6BC[
 
 extern SupervisorAddedGameManagerView g_GameManager;
 extern int SupervisorAddedLoadDat();
-extern int SupervisorAddedCheckFps();
+extern int SupervisorCheckFps();
 extern int SupervisorAddedCreateTextBuffer();
 
 int Supervisor::AddedCallback(Supervisor *supervisor)
@@ -74,7 +74,7 @@ int Supervisor::AddedCallback(Supervisor *supervisor)
     }
 
     globalSupervisor->suppressFpsDisplay = 1;
-    if (!globalSupervisor->disableVsync && SupervisorAddedCheckFps() != 0)
+    if (!globalSupervisor->disableVsync && SupervisorCheckFps() != 0)
     {
         reinterpret_cast<SupervisorAddedAnmManagerView *>(g_AnmManager)->ReleaseSurface(0);
         return -2;

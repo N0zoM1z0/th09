@@ -61,3 +61,4 @@ GameManagerSetupLayout::RegisterChain,0x0041B9D0,function
 GameManagerSetupLayout::OnDraw,0x0041A75F,function
 Supervisor::StartupThread,0x00431D10,function
 Supervisor::AddedCallback,0x00432090,function
+SupervisorCheckFps,0x0042F1A0,function

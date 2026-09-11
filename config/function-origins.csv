@@ -624,7 +624,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042EE90,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042EEF0,authored_game,Supervisor,authored,high,supervisor-setup-dinput-source-codegen-blocked-2026-09-11
 0x0042F100,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042F1A0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042F1A0,authored_game,Supervisor,authored,high,supervisor-check-fps-vc71-exact-2026-09-11
 0x0042F3B0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042F3D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042F3F0,unknown,,review,unknown,ida-1.50a-initial-inventory

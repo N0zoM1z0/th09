@@ -1428,7 +1428,7 @@ relocations = [
   { offset = 0x5C, type = "REL32", symbol = "?ReleaseSurface@SupervisorAddedAnmManagerView@@QAEXH@Z", target = 0x0043BF30 },
   { offset = 0x69, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x71, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x7C, type = "REL32", symbol = "?SupervisorAddedCheckFps@@YIHXZ", target = 0x0042F1A0 },
+  { offset = 0x7C, type = "REL32", symbol = "?SupervisorCheckFps@@YIHXZ", target = 0x0042F1A0 },
   { offset = 0x86, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x8D, type = "REL32", symbol = "?ReleaseSurface@SupervisorAddedAnmManagerView@@QAEXH@Z", target = 0x0043BF30 },
   { offset = 0x9D, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
@@ -1441,4 +1441,49 @@ relocations = [
   { offset = 0xD4, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0xDA, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0xE3, type = "REL32", symbol = "?ThreadStart@SupervisorAddedLayout@@QAEHP6GKPAX@Z0@Z", target = 0x00431AE0 },
+]
+
+[units.supervisor-check-fps]
+source = "src/SupervisorCheckFps.cpp"
+object = "build/matching/SupervisorCheckFps.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorCheckFps"]
+symbol = "?SupervisorCheckFps@@YIHXZ"
+target_address = 0x0042F1A0
+size = 0x205
+relocations = [
+  { offset = 0x1A, type = "DIR32", symbol = "__imp__timeBeginPeriod@4", target = 0x0048E270 },
+  { offset = 0x20, type = "DIR32", symbol = "__imp__timeGetTime@0", target = 0x0048E238 },
+  { offset = 0x2A, type = "DIR32", symbol = "__imp__timeEndPeriod@4", target = 0x0048E244 },
+  { offset = 0x3A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x49, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x58, type = "REL32", symbol = "?CopySurfaceToBackbuffer@SupervisorCheckFpsAnmManagerView@@QAEHHHHHH@Z", target = 0x0043BFA0 },
+  { offset = 0x5D, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x6B, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x82, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x89, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x9C, type = "DIR32", symbol = "__imp__timeBeginPeriod@4", target = 0x0048E270 },
+  { offset = 0xA2, type = "DIR32", symbol = "__imp__timeGetTime@0", target = 0x0048E238 },
+  { offset = 0xAC, type = "DIR32", symbol = "__imp__timeEndPeriod@4", target = 0x0048E244 },
+  { offset = 0xCE, type = "DIR32", symbol = "__real@447a0000", target = 0x004907DC },
+  { offset = 0xD7, type = "DIR32", symbol = "__real@42640000", target = 0x004907D8 },
+  { offset = 0x109, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x10E, type = "REL32", symbol = "?IsVsyncDisabled@Supervisor@@QAEHXZ", target = 0x0042ED50 },
+  { offset = 0x11F, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
+  { offset = 0x174, type = "DIR32", symbol = "__real@43200000", target = 0x0048F548 },
+  { offset = 0x180, type = "DIR32", symbol = "?g_VsyncHighRefreshMessageNoPeriod@@3QBDB", target = 0x0049079C },
+  { offset = 0x187, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x18C, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+  { offset = 0x191, type = "DIR32", symbol = "?g_Force60FpsMessage@@3QBDB", target = 0x00490774 },
+  { offset = 0x196, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x19B, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+  { offset = 0x1A6, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x1BA, type = "DIR32", symbol = "__real@42820000", target = 0x00490770 },
+  { offset = 0x1C6, type = "DIR32", symbol = "?g_VsyncHighRefreshMessage@@3QBDB", target = 0x00490734 },
+  { offset = 0x1CB, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x1D0, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+  { offset = 0x1D5, type = "DIR32", symbol = "?g_Force60FpsMessage@@3QBDB", target = 0x00490774 },
+  { offset = 0x1DA, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x1DF, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+  { offset = 0x1EA, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
 ]
