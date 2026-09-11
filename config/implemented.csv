@@ -38,3 +38,6 @@ AsciiManager::DrawStrings
 AsciiManager::CreateScorePopup
 ZunTimer::SetCurrent
 ZunTimer::operator=
+ZunTimer::Tick
+ZunTimer::operator float
+ZunTimer::operator++

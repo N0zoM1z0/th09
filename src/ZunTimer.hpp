@@ -7,6 +7,9 @@ struct ZunTimer
     int current;
 
     void SetCurrent(int value);
+    int Tick();
+    operator float();
+    void operator++(int);
     void operator=(int value);
 };
 

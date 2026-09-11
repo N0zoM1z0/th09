@@ -619,6 +619,18 @@ The thirty-fourth reviewed packet canonically reconstructs `ZunTimer::SetCurrent
 
 The next evidence-connected packet is the remaining small ZunTimer-adjacent cohort `0x004014B0`, `0x004014F0`, and `0x00401510`. Start from target-local xrefs and ABI rather than assuming TH095 method names; promote only the subset whose exact natural source and origin can be independently demonstrated.
 
+The thirty-fifth reviewed packet canonically reconstructs the remaining small ZunTimer cohort: `Tick @ 0x004014B0-0x004014CB`, float conversion `0x004014F0-0x004014F3`, and postfix increment `0x00401510-0x00401517`.
+
+- TH09 Tick copies current to previous, passes `&current` and `&subFrame` to `g_Supervisor` candidate `0x0042F4F0`, then returns current. Declaring that callee `Supervisor::TickTimer(int *, float *)` produces exact relocations to `g_Supervisor @ 0x004B3100` and `0x0042F4F0`. The callee itself remains `unknown/review`; exactness is not inherited.
+- TH09 float conversion is exactly `return subFrame`: the entire function is `fld [ecx+4]; ret`. This explicitly rejects TH08's `current + subFrame` implementation. Committed-only TH095 HEAD `b9937d8194520f645ff0b6f81140b78025b19988` corroborates the subFrame-only conversion, but its dirty worktree was not read.
+- Postfix increment is an eight-byte wrapper that calls Tick and returns with `ret 4` for the dummy postfix argument. Natural `void ZunTimer::operator++(int) { Tick(); }` replays exactly.
+- Focused profile probes keep Tick 28 bytes under tested O2/Ox but emit 27 under O1; float conversion is stable under optimized profiles; `/O2 /Ob2` inlines postfix increment into 26 bytes while `/Ob0`/`/Ob1` keep the target 8-byte wrapper. These remain local profile facts only.
+- Adding `Supervisor::TickTimer` to the shared class declaration renumbers compiler-internal ChainRun COFF local labels by +3 without changing any code byte, relocation offset, or solved target destination. After updating only those internal manifest names, both ChainRun functions replay 212/212 and all 25 affected Supervisor/ZunTimer consumers replay exact in two passes.
+- Shared IDA comments at all three reconstructed timer entries record exactness/boundaries; a separate comment at `0x0042F4F0` records its provisional callee role. No target-byte patching was requested or possible. The three functions add 40 canonical authored bytes, taking totals from 40 functions / 4,389 bytes to 43 functions / 4,429 bytes.
+- Physical gaps remain unowned: `0x004014CC-0x004014CF` (4 CC), `0x004014F4-0x004014FF` (12 CC), and `0x00401518-0x0040151F` (8 CC).
+
+The next evidence-connected packet should inspect the adjacent small candidates beginning at `0x00401520` and `0x00401540`, which operate on the same timer object but must independently earn operator names and exactness from TH09-local ABI/xrefs before adjacent-game source is consulted. `Supervisor::TickTimer @ 0x0042F4F0` remains a separate larger callee packet.
+
 ## Restart commands
 
 ```bash
@@ -642,11 +654,11 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Forty authored functions
+  deleting destructor are reviewed as exclusions. Forty-three authored functions
   are source-present and repository-canonical exact: four GameErrorContext
   methods, six FileSystem helpers, two Supervisor lock wrappers, seven Chain
   methods, three ChainElem lifecycle/callback methods, Controller::GetJoystickCaps,
-  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, nine AsciiManager lifecycle/text/setup/reset/draw/popup methods, and two ZunTimer assignment-state methods. All other imported origins remain pending.
+  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, nine AsciiManager lifecycle/text/setup/reset/draw/popup methods, and five ZunTimer methods. All other imported origins remain pending.
   Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -654,4 +666,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The AsciiManager path through `CreateScorePopup @ 0x004346A0` is now canonical exact, while address-adjacent generic/VM candidates remain independently unknown. `ZunTimer::SetCurrent @ 0x004014D0` and integer assignment @ `0x00401500` are canonical exact. Continue with the remaining small timer-adjacent cohort `0x004014B0`, `0x004014F0`, and `0x00401510`, starting from TH09-local xrefs/ABI and preserving any undecidable member name as unknown. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.
+Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. The AsciiManager path through `CreateScorePopup @ 0x004346A0` and five ZunTimer methods through postfix increment are now canonical exact. Continue with the timer-adjacent candidates beginning `0x00401520`/`0x00401540`, using TH09-local ABI/xrefs before adopting any operator names; keep `Supervisor::TickTimer @ 0x0042F4F0` as an independent larger candidate whose exactness was not inherited. Preserve LZSS origin/state ownership and TryDecryptFromTable as unresolved; do not push from GPT-web.

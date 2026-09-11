@@ -39,3 +39,6 @@ AsciiManager::DrawStrings,0x00434540,function
 AsciiManager::CreateScorePopup,0x004346A0,function
 ZunTimer::SetCurrent,0x004014D0,function
 ZunTimer::operator=,0x00401500,function
+ZunTimer::Tick,0x004014B0,function
+ZunTimer::operator float,0x004014F0,function
+ZunTimer::operator++,0x00401510,function
