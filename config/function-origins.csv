@@ -349,7 +349,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041A9B8,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041AA07,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041AA5F,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041AF2D,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041AF2D,unknown,GameManager,review,unknown,gameplay-setup-thread-source-codegen-blocked-2026-09-11
 0x0041B5C6,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041B76F,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041B82A,unknown,,review,unknown,ida-1.50a-initial-inventory
