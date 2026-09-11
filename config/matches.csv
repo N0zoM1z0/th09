@@ -51,3 +51,4 @@ address,name,size,status,match_percent,unit,evidence
 0x00401140,Float3::operator-,54,matching,100.00,float3-subtract,python3 scripts/build-match-unit.py --unit float3-subtract && python3 scripts/compare-coff-function.py --unit float3-subtract --json
 0x00401180,Float3::operator*,52,matching,100.00,float3-multiply,python3 scripts/build-match-unit.py --unit float3-multiply && python3 scripts/compare-coff-function.py --unit float3-multiply --json
 0x0042F540,Supervisor::TakeSnapshot,543,matching,100.00,supervisor-take-snapshot,python3 scripts/build-match-unit.py --unit supervisor-take-snapshot && python3 scripts/compare-coff-function.py --unit supervisor-take-snapshot --json
+0x0042F7C0,Supervisor::LoadConfig,1054,matching,100.00,supervisor-load-config,python3 scripts/build-match-unit.py --unit supervisor-load-config && python3 scripts/compare-coff-function.py --unit supervisor-load-config --json

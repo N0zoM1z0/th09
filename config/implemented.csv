@@ -50,3 +50,4 @@ Float3::operator+
 Float3::operator-
 Float3::operator*
 Supervisor::TakeSnapshot
+Supervisor::LoadConfig
