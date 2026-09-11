@@ -72,3 +72,4 @@ SupervisorSetupDInputInternal,0x0042EEF0,function
 StartupEnumControllers,0x0042EDD0,function
 StartupEnumObjects0,0x0042EE30,function
 StartupEnumObjects1,0x0042EE90,function
+ReplayInputState::Update,0x004200F0,function

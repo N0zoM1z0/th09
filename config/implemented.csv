@@ -71,3 +71,4 @@ SupervisorSetupDInputInternal
 StartupEnumControllers
 StartupEnumObjects0
 StartupEnumObjects1
+ReplayInputState::Update

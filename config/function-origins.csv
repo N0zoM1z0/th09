@@ -425,11 +425,11 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041F810,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041FCD0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004200C0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004200F0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004200F0,authored_game,Input,authored,high,replay-input-update-vc71-exact-2026-09-11
 0x00420160,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00420170,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00420180,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00420190,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00420190,authored_game,ReplayManager,authored,high,replay-frame-sync-source-nearmatch-2026-09-11
 0x004202A0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004204B0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004205E0,unknown,,review,unknown,ida-1.50a-initial-inventory
