@@ -3,7 +3,7 @@
 ## Current phase
 
 Exact reconstruction: the target and native IDA provider are attested, the
-provisional function inventory is initialized, and boundary/origin review has advanced through reviewed CRT/library and compiler-generated exclusions plus 52 repository-canonical exact authored functions across the currently reconstructed subsystems. The faithful Windows i386 whole-build graph is still open; runtime
+provisional function inventory is initialized, and boundary/origin review has advanced through reviewed CRT/library and compiler-generated exclusions plus 55 repository-canonical exact authored functions across the currently reconstructed subsystems. The faithful Windows i386 whole-build graph is still open; runtime
 semantic validation and portability work have not started.
 
 ## Latest exact-phase checkpoints
@@ -692,6 +692,25 @@ The fortieth reviewed packet satisfies the scheduled hard-frontier requirement b
 
 Packet-selection balance is reset by this hard-frontier result. The next evidence-connected packet should stay in the same Supervisor neighborhood but must not become a one-function smallest queue: inspect `0x0042F760` (15 bytes), `0x0042F770` (74 bytes), and the materially larger `0x0042F7C0` (1,054 bytes) together as one post-snapshot cohort. Establish boundaries, caller/callee relationships, owner/data seams, and whether the small entries are initialization/wrapper pieces of the larger subsystem before choosing maintained source. The 1,054-byte member is the hard anchor; a small exact helper may be included only if it is genuinely part of that connected cohort.
 
+The forty-first reviewed packet closes the post-snapshot Supervisor cohort while correcting two address-adjacent ownership assumptions.
+
+- `Supervisor::LoadConfig @ 0x0042F7C0-0x0042FBDD` is repository-canonical exact at 1,054 bytes. `_WinMain@16` supplies `g_Supervisor @ 0x004B3100` as ECX and `"th09.cfg"`; two no-pragma cold replays match 1,054/1,054 bytes with 131 relocations.
+- The exact source shape is target-driven: whole-struct controller copies produced a 702-byte body, while field-by-field copies produced the target body. The inherited unsupported `#pragma var_order` was removed without affecting exactness.
+- `0x0042F760` and `0x0042F770` are not Supervisor methods merely because they are adjacent. The sole external call to `0x0042F770` passes `g_AnmManager @ 0x004DC550` as ECX; both rows are corrected only to the AnmManager subsystem with origin/name/source/exactness left `unknown/review`.
+- Adding the new Supervisor declarations shifted only compiler-internal ChainRun local COFF names. Relocation offset/type/target maps remained identical; after refreshing only those replay names, all 53 then-canonical exact units rebuilt and replayed exact.
+- Shared IDA received evidence comments at all three cohort addresses and a conservative LoadConfig prototype; no IDA rename or target-byte edit was performed. Local checkpoint `c06b723c3f19e64b80efa72ad93df497c08d484e` is `gpt-web: reconstruct Supervisor LoadConfig`; GPT-web did not push it.
+
+The forty-second reviewed packet follows LoadConfig into the 0xCC GameConfiguration data/constructor seam and corrects the controller-data ownership model.
+
+- `GameConfiguration::Initialize @ 0x0041A8A2-0x0041A98A` is exact at 233 bytes with six relocations. `GameConfiguration::GameConfiguration @ 0x0041A98B-0x0041A996` is exact at 12 bytes with one relocation to Initialize; independent function `0x0041A997` begins immediately afterward.
+- TH09-local callers establish both an actual 0xCC allocation path and an embedded-config path; every observed caller ignores the initializer return value. Maintained source therefore uses `void Initialize()` without claiming the original return contract, and the exact ledger intentionally leaves that signature field blank.
+- The two temporary 0x36 globals from the first LoadConfig source are replaced by one target-supported 0xC4 controller layout rooted at `0x004ACE70`: three 0x12 bindings, an opaque 0x58-byte middle span, then three more 0x12 bindings at `+0x8E`. Refactored LoadConfig remains exact 1,054/1,054 and all affected relocations solve to the single base plus object addends. The original target identifier and opaque-middle semantics remain unknown.
+- Natural Initialize is 444 bytes under `/O2 /Ob1 /Oy-`, but exactly 233 bytes under both `/O1 /Ob1 /Oy-` and `/O2 /Os /Ob1 /Oy-`; the latter is canonical. Exact LoadConfig instead becomes 957 bytes under `/O2 /Os`, so project-wide flags, original TU partition, and any local optimization pragma remain unknown.
+- Canonical authored totals rise to 55 functions / 6,702 bytes. Whole-build closure remains open; runtime validation and Factory Truth Kernel acceptance remain separate and unclaimed.
+- Checkpoint validation passes target-bound tracking (2,159 candidates / 55 mappings / 55 exact), generated-progress checks, public CI, `git diff --check`, and a complete cold rebuild/replay of all 55 canonical exact units. `scripts/build.py` remains rc 2 with compile flags, TU partition, libraries, resources, and link order explicitly unresolved.
+
+Packet-selection balance now favors a harder connected frontier rather than the 21-byte neighbor at `0x0041A997`: inspect the 1,689-byte direct caller `0x0041AF2D-0x0041B5C5` next. It allocates a 0xCC GameConfiguration, calls the exact initializer, copies live Supervisor configuration, and coordinates several central subsystems. The measurable stop condition is to establish its full extent/owner/control flow and enough ABI/data/callee context for an honest maintained-source or documented non-exact/unknown result.
+
 ## Restart commands
 
 ```bash
@@ -715,11 +734,11 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 - Factory-native `th09-ida` is strongly attested to the exact target over
   `factory-native-stdio`; its semantic output remains provisional evidence.
 - Seven CRT/library candidates plus one compiler-generated ChainElem scalar
-  deleting destructor are reviewed as exclusions. Fifty-two authored functions
+  deleting destructor are reviewed as exclusions. Fifty-five authored functions
   are source-present and repository-canonical exact: four GameErrorContext
-  methods, six FileSystem helpers, four Supervisor methods (the two lock wrappers, TickTimer, and TakeSnapshot), seven Chain
+  methods, six FileSystem helpers, five Supervisor methods (the two lock wrappers, TickTimer, TakeSnapshot, and LoadConfig), seven Chain
   methods, three ChainElem lifecycle/callback methods, Controller::GetJoystickCaps,
-  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, nine AsciiManager lifecycle/text/setup/reset/draw/popup methods, seven ZunTimer methods, four Float3 methods (constructor plus three arithmetic operators), and `AnmLoaded::ExecuteAnmIdx`. All other imported origins remain pending.
+  three ZunMemory release wrappers, two PbgArchive query methods, PbgArchive::ReadDecompressEntry, nine AsciiManager lifecycle/text/setup/reset/draw/popup methods, seven ZunTimer methods, four Float3 methods (constructor plus three arithmetic operators), two GameConfiguration methods, and `AnmLoaded::ExecuteAnmIdx`. All other imported origins remain pending.
   Factory acceptance remains
   unavailable because the current TH09 adapter has no codegen-exact replay
   driver; no Truth Kernel acceptance is claimed.
@@ -727,4 +746,4 @@ not set `TH09_TARGET_PATH` for ordinary Factory work.
 
 ## Next bounded work
 
-Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. `Supervisor::TakeSnapshot @ 0x0042F540` is now independently canonical exact after the required hard-frontier pass. Continue with the connected post-snapshot Supervisor cohort `0x0042F760` / `0x0042F770` / `0x0042F7C0` as one evidence packet rather than selecting the two short entries in isolation; the 1,054-byte candidate is the structural anchor. Preserve `0x004395A0`, LZSS origin/state ownership, and TryDecryptFromTable as unresolved; do not push from GPT-web.
+Treat `Lzss::Encode @ 0x00434020` as source-present but codegen-blocked until new TH09-local compiler/source-identifier evidence appears. `Supervisor::TakeSnapshot @ 0x0042F540` is now independently canonical exact after the required hard-frontier pass. The post-snapshot Supervisor cohort is now closed: LoadConfig is exact and the two smaller address-adjacent entries were corrected to an AnmManager ownership seam without false promotion. Continue with the connected hard caller `0x0041AF2D` rather than the tiny `0x0041A997` neighbor. Preserve `0x004395A0`, LZSS origin/state ownership, and TryDecryptFromTable as unresolved; do not push from GPT-web.

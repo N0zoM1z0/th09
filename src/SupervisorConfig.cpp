@@ -5,59 +5,7 @@
 
 #include <windows.h>
 
-#pragma pack(push, 1)
-struct ControllerMapping54
-{
-    unsigned int v00;
-    unsigned int v04;
-    unsigned int v08;
-    unsigned int v0C;
-    unsigned short v10;
-    unsigned int v12;
-    unsigned int v16;
-    unsigned int v1A;
-    unsigned int v1E;
-    unsigned short v22;
-    unsigned int v24;
-    unsigned int v28;
-    unsigned int v2C;
-    unsigned int v30;
-    unsigned short v34;
-};
-
-struct GameConfiguration
-{
-    ControllerMapping54 player1Mapping;
-    ControllerMapping54 player2Mapping;
-    unsigned char unknown_006C[0x38];
-    unsigned int version;
-    short padXAxis;
-    short padYAxis;
-    unsigned char valueAC;
-    unsigned char valueAD;
-    unsigned char musicMode;
-    unsigned char valueAF;
-    unsigned char difficulty;
-    unsigned char windowed;
-    unsigned char valueB2;
-    unsigned char valueB3;
-    unsigned char valueB4;
-    unsigned char valueB5;
-    unsigned char valueB6;
-    unsigned char valueB7;
-    unsigned char valueB8;
-    unsigned char valueB9;
-    unsigned char musicVolume;
-    unsigned char sfxVolume;
-    unsigned char unknown_00BC[0x0C];
-    unsigned int options;
-
-    char Initialize();
-};
-#pragma pack(pop)
-
-typedef char ConfigSizeCheck[(sizeof(GameConfiguration) == 0xCC) ? 1 : -1];
-typedef char MappingSizeCheck[(sizeof(ControllerMapping54) == 0x36) ? 1 : -1];
+#include "GameConfiguration.hpp"
 
 struct SupervisorConfigLayout
 {
@@ -68,8 +16,6 @@ struct SupervisorConfigLayout
 };
 
 extern GameErrorContext g_GameErrorContext;
-extern ControllerMapping54 g_ControllerMapping1;
-extern ControllerMapping54 g_ControllerMapping2;
 extern const char g_ConfigNotFoundMessage[];
 extern const char g_ConfigAbnormalMessage[];
 extern const char g_BgmVersionMismatchMessage[];
@@ -143,37 +89,36 @@ int Supervisor::LoadConfig(char *configFile)
             goto SET_DEFAULT;
         }
 
-        g_ControllerMapping1.v00 = globalSupervisor->config.player1Mapping.v00;
-        g_ControllerMapping1.v04 = globalSupervisor->config.player1Mapping.v04;
-        g_ControllerMapping1.v08 = globalSupervisor->config.player1Mapping.v08;
-        g_ControllerMapping1.v0C = globalSupervisor->config.player1Mapping.v0C;
-        g_ControllerMapping1.v10 = globalSupervisor->config.player1Mapping.v10;
-        g_ControllerMapping1.v12 = globalSupervisor->config.player1Mapping.v12;
-        g_ControllerMapping1.v16 = globalSupervisor->config.player1Mapping.v16;
-        g_ControllerMapping1.v1A = globalSupervisor->config.player1Mapping.v1A;
-        g_ControllerMapping1.v1E = globalSupervisor->config.player1Mapping.v1E;
-        g_ControllerMapping1.v22 = globalSupervisor->config.player1Mapping.v22;
-        g_ControllerMapping1.v24 = globalSupervisor->config.player1Mapping.v24;
-        g_ControllerMapping1.v28 = globalSupervisor->config.player1Mapping.v28;
-        g_ControllerMapping1.v2C = globalSupervisor->config.player1Mapping.v2C;
-        g_ControllerMapping1.v30 = globalSupervisor->config.player1Mapping.v30;
-        g_ControllerMapping1.v34 = globalSupervisor->config.player1Mapping.v34;
-
-        g_ControllerMapping2.v00 = globalSupervisor->config.player2Mapping.v00;
-        g_ControllerMapping2.v04 = globalSupervisor->config.player2Mapping.v04;
-        g_ControllerMapping2.v08 = globalSupervisor->config.player2Mapping.v08;
-        g_ControllerMapping2.v0C = globalSupervisor->config.player2Mapping.v0C;
-        g_ControllerMapping2.v10 = globalSupervisor->config.player2Mapping.v10;
-        g_ControllerMapping2.v12 = globalSupervisor->config.player2Mapping.v12;
-        g_ControllerMapping2.v16 = globalSupervisor->config.player2Mapping.v16;
-        g_ControllerMapping2.v1A = globalSupervisor->config.player2Mapping.v1A;
-        g_ControllerMapping2.v1E = globalSupervisor->config.player2Mapping.v1E;
-        g_ControllerMapping2.v22 = globalSupervisor->config.player2Mapping.v22;
-        g_ControllerMapping2.v24 = globalSupervisor->config.player2Mapping.v24;
-        g_ControllerMapping2.v28 = globalSupervisor->config.player2Mapping.v28;
-        g_ControllerMapping2.v2C = globalSupervisor->config.player2Mapping.v2C;
-        g_ControllerMapping2.v30 = globalSupervisor->config.player2Mapping.v30;
-        g_ControllerMapping2.v34 = globalSupervisor->config.player2Mapping.v34;
+        g_ControllerMapping.primaryBindings[0].v00 = globalSupervisor->config.controllerMapping.bindings[0].v00;
+        g_ControllerMapping.primaryBindings[0].v04 = globalSupervisor->config.controllerMapping.bindings[0].v04;
+        g_ControllerMapping.primaryBindings[0].v08 = globalSupervisor->config.controllerMapping.bindings[0].v08;
+        g_ControllerMapping.primaryBindings[0].v0C = globalSupervisor->config.controllerMapping.bindings[0].v0C;
+        g_ControllerMapping.primaryBindings[0].v10 = globalSupervisor->config.controllerMapping.bindings[0].v10;
+        g_ControllerMapping.primaryBindings[1].v00 = globalSupervisor->config.controllerMapping.bindings[1].v00;
+        g_ControllerMapping.primaryBindings[1].v04 = globalSupervisor->config.controllerMapping.bindings[1].v04;
+        g_ControllerMapping.primaryBindings[1].v08 = globalSupervisor->config.controllerMapping.bindings[1].v08;
+        g_ControllerMapping.primaryBindings[1].v0C = globalSupervisor->config.controllerMapping.bindings[1].v0C;
+        g_ControllerMapping.primaryBindings[1].v10 = globalSupervisor->config.controllerMapping.bindings[1].v10;
+        g_ControllerMapping.primaryBindings[2].v00 = globalSupervisor->config.controllerMapping.bindings[2].v00;
+        g_ControllerMapping.primaryBindings[2].v04 = globalSupervisor->config.controllerMapping.bindings[2].v04;
+        g_ControllerMapping.primaryBindings[2].v08 = globalSupervisor->config.controllerMapping.bindings[2].v08;
+        g_ControllerMapping.primaryBindings[2].v0C = globalSupervisor->config.controllerMapping.bindings[2].v0C;
+        g_ControllerMapping.primaryBindings[2].v10 = globalSupervisor->config.controllerMapping.bindings[2].v10;
+        g_ControllerMapping.secondaryBindings[0].v00 = globalSupervisor->config.controllerMapping.bindings[3].v00;
+        g_ControllerMapping.secondaryBindings[0].v04 = globalSupervisor->config.controllerMapping.bindings[3].v04;
+        g_ControllerMapping.secondaryBindings[0].v08 = globalSupervisor->config.controllerMapping.bindings[3].v08;
+        g_ControllerMapping.secondaryBindings[0].v0C = globalSupervisor->config.controllerMapping.bindings[3].v0C;
+        g_ControllerMapping.secondaryBindings[0].v10 = globalSupervisor->config.controllerMapping.bindings[3].v10;
+        g_ControllerMapping.secondaryBindings[1].v00 = globalSupervisor->config.controllerMapping.bindings[4].v00;
+        g_ControllerMapping.secondaryBindings[1].v04 = globalSupervisor->config.controllerMapping.bindings[4].v04;
+        g_ControllerMapping.secondaryBindings[1].v08 = globalSupervisor->config.controllerMapping.bindings[4].v08;
+        g_ControllerMapping.secondaryBindings[1].v0C = globalSupervisor->config.controllerMapping.bindings[4].v0C;
+        g_ControllerMapping.secondaryBindings[1].v10 = globalSupervisor->config.controllerMapping.bindings[4].v10;
+        g_ControllerMapping.secondaryBindings[2].v00 = globalSupervisor->config.controllerMapping.bindings[5].v00;
+        g_ControllerMapping.secondaryBindings[2].v04 = globalSupervisor->config.controllerMapping.bindings[5].v04;
+        g_ControllerMapping.secondaryBindings[2].v08 = globalSupervisor->config.controllerMapping.bindings[5].v08;
+        g_ControllerMapping.secondaryBindings[2].v0C = globalSupervisor->config.controllerMapping.bindings[5].v0C;
+        g_ControllerMapping.secondaryBindings[2].v10 = globalSupervisor->config.controllerMapping.bindings[5].v10;
     }
 
     supervisor->disableVsync = 0;

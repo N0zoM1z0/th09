@@ -342,8 +342,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041A827,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041A889,authored_game,Chain,authored,high,chain-elem-set-callback-vc71-exact-2026-09-10
 0x0041A89E,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041A8A2,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041A98B,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041A8A2,authored_game,GameConfiguration,authored,high,game-configuration-initialize-vc71-exact-2026-09-11
+0x0041A98B,authored_game,GameConfiguration,authored,high,game-configuration-constructor-vc71-exact-2026-09-11
 0x0041A997,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041A9AC,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041A9B8,unknown,,review,unknown,ida-1.50a-initial-inventory
