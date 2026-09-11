@@ -336,7 +336,7 @@ address,size,span_end,current_name,proposed_name,module,status,match_percent,cal
 0x0041A490,307,0x0041A5C2,sub_41A490,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0041A5D0,283,0x0041A6EA,sub_41A5D0,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0041A6EB,116,0x0041A75E,sub_41A6EB,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
-0x0041A75F,55,0x0041A795,sub_41A75F,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
+0x0041A75F,55,0x0041A795,sub_41A75F,GameManagerSetupLayout::OnDraw,GameManager,matching,100.00,__fastcall,int GameManagerSetupLayout::OnDraw(GameManagerSetupLayout *gameManager),false,src/GameManagerSetup.cpp,Two repeatable pinned-VC7.1 canonical replays: 55/55 bytes exact with one reviewed DIR32 relocation to g_Supervisor @ 0x004B3100; exact RegisterChain installs this routine as the GameManager draw callback,authored,"Reviewed extent 0x0041A75F-0x0041A795; advances nonzero menu state +0x13C to 2, returns Chain BREAK when Supervisor +0x590 is not 2 or GameManager flags +0x134 transition bits equal 0x20, otherwise returns BREAK while gameplaySetupState +0x124 is nonzero and CONTINUE when it is zero; independent 0x0041A796 begins at the next byte"
 0x0041A796,45,0x0041A7C2,sub_41A796,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0041A7C3,100,0x0041A826,sub_41A7C3,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,
 0x0041A827,98,0x0041A888,sub_41A827,,,unclassified,0.00,,,false,,Attested IDA 1.50a initial candidate; boundary unreviewed,,

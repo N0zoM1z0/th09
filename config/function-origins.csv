@@ -336,7 +336,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041A490,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041A5D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041A6EB,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041A75F,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041A75F,authored_game,GameManager,authored,high,game-manager-on-draw-vc71-exact-2026-09-11
 0x0041A796,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041A7C3,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041A827,unknown,,review,unknown,ida-1.50a-initial-inventory

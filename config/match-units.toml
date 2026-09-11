@@ -1275,3 +1275,15 @@ relocations = [
   { offset = 0x71, type = "DIR32", symbol = "?g_GameManagerDrawChain@@3VChainElem@@A", target = 0x004A8140 },
   { offset = 0x76, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
 ]
+
+[units.game-manager-on-draw]
+source = "src/GameManagerSetup.cpp"
+object = "build/matching/GameManagerSetup.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Os", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["GameManagerSetupLayout::OnDraw"]
+symbol = "?OnDraw@GameManagerSetupLayout@@SIHPAU1@@Z"
+target_address = 0x0041A75F
+size = 0x37
+relocations = [
+  { offset = 0x10, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+]

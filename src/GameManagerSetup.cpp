@@ -514,6 +514,26 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
 }
 
 
+int GameManagerSetupLayout::OnDraw(GameManagerSetupLayout *gameManager)
+{
+    SupervisorSetupLayout *supervisor =
+        reinterpret_cast<SupervisorSetupLayout *>(&g_Supervisor);
+
+    if (gameManager->inGameMenu != 0)
+        gameManager->inGameMenu = 2;
+
+    if (supervisor->state590 != 2)
+        return CHAIN_CALLBACK_RESULT_BREAK;
+
+    if ((gameManager->flags & 0x60u) == 0x20u)
+        return CHAIN_CALLBACK_RESULT_BREAK;
+
+    if (gameManager->gameplaySetupState != 0)
+        return CHAIN_CALLBACK_RESULT_BREAK;
+
+    return CHAIN_CALLBACK_RESULT_CONTINUE;
+}
+
 int GameManagerSetupLayout::RegisterChain()
 {
     GameManagerSetupLayout *manager = &g_GameManager;
