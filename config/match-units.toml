@@ -1518,7 +1518,7 @@ relocations = [
   { offset = 0x7F, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
   { offset = 0x87, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
   { offset = 0x8F, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
-  { offset = 0x94, type = "DIR32", symbol = "?SupervisorDrawLoadingNeutral@@YIHPAVSupervisor@@@Z", target = 0x0042ED80 },
+  { offset = 0x94, type = "DIR32", symbol = "?SupervisorDrawLoading@@YIHPAVSupervisor@@@Z", target = 0x0042ED80 },
   { offset = 0x99, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
   { offset = 0x9E, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
   { offset = 0xA6, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
@@ -1627,4 +1627,20 @@ relocations = [
   { offset = 0x114, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x11D, type = "REL32", symbol = "?GetSurface@SupervisorDrawMainAnmManagerView@@QAEPAXH@Z", target = 0x0042F400 },
   { offset = 0x12A, type = "REL32", symbol = "?ReleaseSurface@SupervisorDrawMainAnmManagerView@@QAEXH@Z", target = 0x0043BF30 },
+]
+
+[units.supervisor-draw-loading]
+source = "src/SupervisorDrawLoading.cpp"
+object = "build/matching/SupervisorDrawLoading.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorDrawLoading"]
+symbol = "?SupervisorDrawLoading@@YIHPAVSupervisor@@@Z"
+target_address = 0x0042ED80
+size = 0x47
+relocations = [
+  { offset = 0x4, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUSupervisorLoadingVmView@@A", target = 0x004B38B0 },
+  { offset = 0x17, type = "REL32", symbol = "??YSupervisorLoadingFloat3View@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
+  { offset = 0x1D, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x29, type = "REL32", symbol = "?Draw2D@SupervisorDrawLoadingAnmManagerView@@QAEHPAX@Z", target = 0x0043AB50 },
+  { offset = 0x31, type = "REL32", symbol = "??ZSupervisorLoadingFloat3View@@QAEAAU0@ABU0@@Z", target = 0x004125B0 },
 ]

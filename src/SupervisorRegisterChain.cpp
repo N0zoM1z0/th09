@@ -26,7 +26,7 @@ extern Chain g_Chain;
 extern int __fastcall SupervisorDeletedCallback(Supervisor *supervisor);
 extern int __fastcall SupervisorDrawFps(Supervisor *supervisor);
 extern int __fastcall SupervisorDrawMain(Supervisor *supervisor);
-extern int __fastcall SupervisorDrawLoadingNeutral(Supervisor *supervisor);
+extern int __fastcall SupervisorDrawLoading(Supervisor *unused);
 
 int SupervisorRegisterChain()
 {
@@ -54,7 +54,7 @@ int SupervisorRegisterChain()
     elem->arg = &g_Supervisor;
     g_Chain.AddToDrawChain(elem, 0);
 
-    elem = g_Chain.CreateElem((ChainCallback)SupervisorDrawLoadingNeutral);
+    elem = g_Chain.CreateElem((ChainCallback)SupervisorDrawLoading);
     elem->arg = &g_Supervisor;
     g_Chain.AddToDrawChain(elem, 2);
 

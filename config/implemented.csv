@@ -65,3 +65,4 @@ SupervisorRegisterChain
 SupervisorDeletedCallback
 SupervisorDrawFps
 SupervisorDrawMain
+SupervisorDrawLoading
