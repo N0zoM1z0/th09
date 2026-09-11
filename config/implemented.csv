@@ -62,3 +62,4 @@ Supervisor::StartupThread
 Supervisor::AddedCallback
 SupervisorCheckFps
 SupervisorRegisterChain
+SupervisorDeletedCallback

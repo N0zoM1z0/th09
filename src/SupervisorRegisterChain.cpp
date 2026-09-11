@@ -23,7 +23,7 @@ typedef char SupervisorRegisterCurrentAt590[
 }
 
 extern Chain g_Chain;
-extern int __fastcall SupervisorDeletedCallbackNeutral(Supervisor *supervisor);
+extern int __fastcall SupervisorDeletedCallback(Supervisor *supervisor);
 extern int __fastcall SupervisorDrawFpsNeutral(Supervisor *supervisor);
 extern int __fastcall SupervisorDrawMainNeutral(Supervisor *supervisor);
 extern int __fastcall SupervisorDrawLoadingNeutral(Supervisor *supervisor);
@@ -40,7 +40,7 @@ int SupervisorRegisterChain()
     ChainElem *elem = g_Chain.CreateElem((ChainCallback)Supervisor::OnUpdate);
     elem->arg = &g_Supervisor;
     elem->addedCallback = (ChainLifetimeCallback)Supervisor::AddedCallback;
-    elem->deletedCallback = (ChainLifetimeCallback)SupervisorDeletedCallbackNeutral;
+    elem->deletedCallback = (ChainLifetimeCallback)SupervisorDeletedCallback;
 
     int result = g_Chain.AddToCalcChain(elem, 0);
     if (result != 0)

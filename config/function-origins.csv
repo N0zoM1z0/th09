@@ -671,7 +671,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00431A30,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00431AE0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00431B30,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00431B70,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00431B70,authored_game,Supervisor,authored,high,supervisor-deleted-callback-vc71-exact-2026-09-11
 0x00431D10,authored_game,Supervisor,authored,high,supervisor-startup-thread-vc71-exact-2026-09-11
 0x00432090,authored_game,Supervisor,authored,high,supervisor-added-callback-vc71-exact-2026-09-11
 0x00432180,authored_game,Supervisor,authored,high,supervisor-chain-registration-vc71-exact-2026-09-11

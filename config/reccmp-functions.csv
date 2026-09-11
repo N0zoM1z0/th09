@@ -63,3 +63,4 @@ Supervisor::StartupThread,0x00431D10,function
 Supervisor::AddedCallback,0x00432090,function
 SupervisorCheckFps,0x0042F1A0,function
 SupervisorRegisterChain,0x00432180,function
+SupervisorDeletedCallback,0x00431B70,function
