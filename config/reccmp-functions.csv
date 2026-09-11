@@ -45,3 +45,5 @@ ZunTimer::operator++,0x00401510,function
 ZunTimer::operator>=,0x00401520,function
 ZunTimer::operator<,0x00401540,function
 Supervisor::TickTimer,0x0042F4F0,function
+Float3::Float3,0x004010B0,function
+AnmLoaded::ExecuteAnmIdx,0x00401560,function

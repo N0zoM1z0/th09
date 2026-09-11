@@ -1,6 +1,7 @@
 #pragma once
 
 struct AnmVm;
+struct AnmRawInstr;
 class AnmLoadedSprite;
 
 class AnmLoaded
@@ -8,6 +9,8 @@ class AnmLoaded
   public:
     AnmLoadedSprite *GetSprite(int spriteIndex);
     void InitializeAndSetSprite(AnmVm *vm, int spriteIndex);
+    void ExecuteAnmIdx(AnmVm *vm, int scriptIndex);
+    void SetAndExecuteScript(AnmVm *vm, AnmRawInstr *beginningOfScript);
 };
 
 enum AnmFileSlot

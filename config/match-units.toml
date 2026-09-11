@@ -885,3 +885,27 @@ relocations = [
   { offset = 0x24, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
   { offset = 0x3D, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
 ]
+
+[units.float3-constructor]
+source = "src/Float3.cpp"
+object = "build/matching/Float3.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Float3::Float3"]
+symbol = "??0Float3@@QAE@MMM@Z"
+target_address = 0x004010B0
+size = 0x1A
+relocations = []
+
+[units.anm-loaded-execute-anm-idx]
+source = "src/AnmLoadedExecute.cpp"
+object = "build/matching/AnmLoadedExecute.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmLoaded::ExecuteAnmIdx"]
+symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z"
+target_address = 0x00401560
+size = 0x86
+relocations = [
+  { offset = 0x22, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+  { offset = 0x46, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+  { offset = 0x79, type = "REL32", symbol = "?SetAndExecuteScript@AnmLoaded@@QAEXPAUAnmVm@@PAUAnmRawInstr@@@Z", target = 0x004395A0 },
+]

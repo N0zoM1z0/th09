@@ -45,3 +45,5 @@ address,name,size,status,match_percent,unit,evidence
 0x00401520,ZunTimer::operator>=,20,matching,100.00,zun-timer-greater-equal,python3 scripts/build-match-unit.py --unit zun-timer-greater-equal && python3 scripts/compare-coff-function.py --unit zun-timer-greater-equal --json
 0x00401540,ZunTimer::operator<,20,matching,100.00,zun-timer-less,python3 scripts/build-match-unit.py --unit zun-timer-less && python3 scripts/compare-coff-function.py --unit zun-timer-less --json
 0x0042F4F0,Supervisor::TickTimer,71,matching,100.00,supervisor-tick-timer,python3 scripts/build-match-unit.py --unit supervisor-tick-timer && python3 scripts/compare-coff-function.py --unit supervisor-tick-timer --json
+0x004010B0,Float3::Float3,26,matching,100.00,float3-constructor,python3 scripts/build-match-unit.py --unit float3-constructor && python3 scripts/compare-coff-function.py --unit float3-constructor --json
+0x00401560,AnmLoaded::ExecuteAnmIdx,134,matching,100.00,anm-loaded-execute-anm-idx,python3 scripts/build-match-unit.py --unit anm-loaded-execute-anm-idx && python3 scripts/compare-coff-function.py --unit anm-loaded-execute-anm-idx --json

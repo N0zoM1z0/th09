@@ -44,3 +44,5 @@ ZunTimer::operator++
 ZunTimer::operator>=
 ZunTimer::operator<
 Supervisor::TickTimer
+Float3::Float3
+AnmLoaded::ExecuteAnmIdx
