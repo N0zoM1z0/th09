@@ -76,3 +76,5 @@ ReplayInputState::Update,0x004200F0,function
 ReplayManagerView::RecordInputAndFps,0x004202A0,function
 ReplayManagerView::PlaybackInputAndFps,0x004204B0,function
 ReplayManagerView::Create,0x00421670,function
+ReleaseReplayManagerCore,0x00420A60,function
+ReplayManagerView::Release,0x00420AD0,function

@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <string.h>
+#include <stdlib.h>
 #include "Chain.hpp"
 
 typedef unsigned char u8;
@@ -83,9 +84,7 @@ struct ReplayDataView
     u8 unknown16[2];
     i32 compressedSize;
     i32 decompressedSize;
-    ReplayFrameDataStartView *frameStart0[10];
-    ReplayFrameDataStartView *frameStart1[10];
-    ReplayFrameDataStartView *frameStart2[10];
+    ReplayFrameDataStartView *frameStart[3][10];
     u8 *fpsStart[10];
     u8 unknown0C0;
     u8 value0C1;
@@ -111,9 +110,9 @@ struct ReplayDataView
 };
 
 typedef char ReplayDataSizeIs1EC[(sizeof(ReplayDataView) == 0x1EC) ? 1 : -1];
-typedef char ReplayDataFrame0At20[(offsetof(ReplayDataView, frameStart0) == 0x20) ? 1 : -1];
-typedef char ReplayDataFrame1At48[(offsetof(ReplayDataView, frameStart1) == 0x48) ? 1 : -1];
-typedef char ReplayDataFrame2At70[(offsetof(ReplayDataView, frameStart2) == 0x70) ? 1 : -1];
+typedef char ReplayDataFrame0At20[(offsetof(ReplayDataView, frameStart) == 0x20) ? 1 : -1];
+typedef char ReplayDataFrame1At48[(offsetof(ReplayDataView, frameStart) + sizeof(((ReplayDataView *)0)->frameStart[0]) == 0x48) ? 1 : -1];
+typedef char ReplayDataFrame2At70[(offsetof(ReplayDataView, frameStart) + 2 * sizeof(((ReplayDataView *)0)->frameStart[0]) == 0x70) ? 1 : -1];
 typedef char ReplayDataFpsAt98[(offsetof(ReplayDataView, fpsStart) == 0x98) ? 1 : -1];
 typedef char ReplayDataConfigAtDC[(offsetof(ReplayDataView, configSnapshot) == 0xDC) ? 1 : -1];
 typedef char ReplayDataVersionAt1DC[(offsetof(ReplayDataView, exeVersion) == 0x1DC) ? 1 : -1];
@@ -166,6 +165,7 @@ struct GameManagerReplayView
     u32 flags;
     int IsPlaybackStateZero();
     int IsPlaybackStateOne();
+    int IsReplayNeutral();
 };
 
 typedef char GameManagerInputGateAtE8[(offsetof(GameManagerReplayView, inputGate) == 0xE8) ? 1 : -1];
@@ -209,7 +209,7 @@ struct ReplayManagerView
     u8 *fpsCursor;
     ReplayBufferLink stageBuffers[10];
     ReplayBufferLink *currentBuffer;
-    i32 unknown110;
+    void *unknown110;
     i32 replayMode;
     const char *replayPath;
     u8 unknown11C[0x34];
@@ -221,6 +221,7 @@ struct ReplayManagerView
     u16 frameEventFlags;
 
     static ReplayManagerView *Create(i32 replayMode, const char *replayPath);
+    void Release();
     static ReplayDataView *LoadReplayData(ReplayDataView *data, i32 fileSize);
     static int RecordInputAndFps(ReplayManagerView *replayManager);
     static int PlaybackInputAndFps(ReplayManagerView *replayManager);
@@ -382,12 +383,12 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
 
     for (i = 0; i < 10; i++)
     {
-        if (decodedReplay->frameStart0[i] != NULL)
-            decodedReplay->frameStart0[i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + (u32)decodedReplay->frameStart0[i]);
-        if (decodedReplay->frameStart1[i] != NULL)
-            decodedReplay->frameStart1[i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + (u32)decodedReplay->frameStart1[i]);
-        if (decodedReplay->frameStart2[i] != NULL)
-            decodedReplay->frameStart2[i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + (u32)decodedReplay->frameStart2[i]);
+        if (decodedReplay->frameStart[0][i] != NULL)
+            decodedReplay->frameStart[0][i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + (u32)decodedReplay->frameStart[0][i]);
+        if (decodedReplay->frameStart[1][i] != NULL)
+            decodedReplay->frameStart[1][i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + (u32)decodedReplay->frameStart[1][i]);
+        if (decodedReplay->frameStart[2][i] != NULL)
+            decodedReplay->frameStart[2][i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + (u32)decodedReplay->frameStart[2][i]);
         if (decodedReplay->fpsStart[i] != NULL)
             decodedReplay->fpsStart[i] = (u8 *)decodedReplay + (u32)decodedReplay->fpsStart[i];
     }
@@ -531,35 +532,35 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
         memcpy(replayData->configSnapshot, g_ReplayConfigSnapshot, sizeof(replayData->configSnapshot));
         for (int i = 0; i < 10; i++)
         {
-            replayData->frameStart0[i] = NULL;
-            replayData->frameStart1[i] = NULL;
-            replayData->frameStart2[i] = NULL;
+            replayData->frameStart[0][i] = NULL;
+            replayData->frameStart[1][i] = NULL;
+            replayData->frameStart[2][i] = NULL;
             replayData->fpsStart[i] = NULL;
         }
     }
 
     int stage = g_ReplayStageIndex;
-    if (replayData->frameStart0[stage] != NULL)
-        g_ZunMemory.Free(replayData->frameStart0[stage]);
-    if (replayData->frameStart1[stage] != NULL)
-        g_ZunMemory.Free(replayData->frameStart1[stage]);
-    if (replayData->frameStart2[stage] != NULL)
-        g_ZunMemory.Free(replayData->frameStart2[stage]);
+    if (replayData->frameStart[0][stage] != NULL)
+        g_ZunMemory.Free(replayData->frameStart[0][stage]);
+    if (replayData->frameStart[1][stage] != NULL)
+        g_ZunMemory.Free(replayData->frameStart[1][stage]);
+    if (replayData->frameStart[2][stage] != NULL)
+        g_ZunMemory.Free(replayData->frameStart[2][stage]);
     if (replayData->fpsStart[stage] != NULL)
         g_ZunMemory.Free(replayData->fpsStart[stage]);
 
     ReplayFrameDataStartView *frame0 = (ReplayFrameDataStartView *)g_ZunMemory.AddToRegistry(
         (ReplayFrameDataStartView *)operator new(sizeof(ReplayFrameDataStartView)),
         sizeof(ReplayFrameDataStartView), "ReplayFrameDataStartInf");
-    replayData->frameStart0[stage] = frame0;
+    replayData->frameStart[0][stage] = frame0;
     ReplayFrameDataStartView *frame1 = (ReplayFrameDataStartView *)g_ZunMemory.AddToRegistry(
         (ReplayFrameDataStartView *)operator new(sizeof(ReplayFrameDataStartView)),
         sizeof(ReplayFrameDataStartView), "ReplayFrameDataStartInf");
-    replayData->frameStart1[stage] = frame1;
+    replayData->frameStart[1][stage] = frame1;
     ReplayFrameDataStartView *frame2 = (ReplayFrameDataStartView *)g_ZunMemory.AddToRegistry(
         (ReplayFrameDataStartView *)operator new(sizeof(ReplayFrameDataStartView)),
         sizeof(ReplayFrameDataStartView), "ReplayFrameDataStartInf");
-    replayData->frameStart2[stage] = frame2;
+    replayData->frameStart[2][stage] = frame2;
     u8 *fpsStart = (u8 *)g_ZunMemory.AddToRegistry(
         (u8 *)operator new(1), 1, "ReplayFPSTblStartInf");
     replayData->fpsStart[stage] = fpsStart;
@@ -644,16 +645,16 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
         replayManager->unknown110 = 0;
     }
     i32 stage = g_ReplayStageIndex;
-    if (replayManager->replayData->frameStart0 + stage * 10 == NULL)
+    if (replayManager->replayData->frameStart[0] + stage * 10 == NULL)
         return -1;
     if ((g_GameManager.IsPlaybackStateZero() || g_GameManager.IsPlaybackStateOne()) && stage > 0)
     {
         for (i32 i = 0; i < stage; i++)
-            g_ReplayStageSeen[replayManager->replayData->frameStart1[i]->value06] = 1;
+            g_ReplayStageSeen[replayManager->replayData->frameStart[1][i]->value06] = 1;
     }
-    ReplayFrameDataStartView *frame1 = replayManager->replayData->frameStart1[stage];
-    ReplayFrameDataStartView *frame0 = replayManager->replayData->frameStart0[stage];
-    ReplayFrameDataStartView *frame2 = replayManager->replayData->frameStart2[stage];
+    ReplayFrameDataStartView *frame1 = replayManager->replayData->frameStart[1][stage];
+    ReplayFrameDataStartView *frame0 = replayManager->replayData->frameStart[0][stage];
+    ReplayFrameDataStartView *frame2 = replayManager->replayData->frameStart[2][stage];
     u8 *fpsStart = replayManager->replayData->fpsStart[stage];
     g_ReplayFrame0Value06 = frame0->value06;
     g_ReplayFrame1Value06 = frame1->value06;
@@ -769,4 +770,68 @@ ReplayManagerView *ReplayManagerView::Create(i32 replayMode, const char *replayP
     }
 
     return replayManager;
+}
+
+
+static int ReleaseReplayManagerCore(ReplayManagerView *replayManager)
+{
+    if (replayManager->playbackControlChain != NULL)
+    {
+        g_Chain.Cut(replayManager->playbackControlChain);
+        replayManager->playbackControlChain = NULL;
+    }
+    if (replayManager->frameSyncChain != NULL)
+    {
+        g_Chain.Cut(replayManager->frameSyncChain);
+        replayManager->frameSyncChain = NULL;
+    }
+    g_ZunMemory.Free(replayManager->replayData);
+    if (replayManager->unknown110 != NULL)
+        g_ZunMemory.Free(replayManager->unknown110);
+    return 0;
+}
+
+void ReplayManagerView::Release()
+{
+    if (this == NULL)
+        return;
+
+    for (int stage = 0; stage < 10; stage++)
+    {
+        ReplayBufferLink *first = &this->stageBuffers[stage];
+        ReplayBufferLink *link = first;
+        while (link != NULL)
+        {
+            ReplayBufferLink *current = link;
+            if (current->input0 != NULL)
+                g_ZunMemory.Free(current->input0);
+            if (current->input1 != NULL)
+                g_ZunMemory.Free(current->input1);
+            if (current->input2 != NULL)
+                g_ZunMemory.Free(current->input2);
+            if (current->fps != NULL)
+                g_ZunMemory.Free(current->fps);
+            link = current->next;
+            memset(current, 0, sizeof(ReplayBufferLink));
+            if (current != first)
+                g_ZunMemory.Free(current);
+        }
+
+        if (!g_GameManager.IsReplayNeutral())
+        {
+            for (int stream = 0; stream < 3; stream++)
+            {
+                if (this->replayData->frameStart[stream][stage] != NULL)
+                    g_ZunMemory.Free(this->replayData->frameStart[stream][stage]);
+                this->replayData->frameStart[stream][stage] = NULL;
+            }
+            if (this->replayData->fpsStart[stage] != NULL)
+                g_ZunMemory.Free(this->replayData->fpsStart[stage]);
+            this->replayData->fpsStart[stage] = NULL;
+        }
+    }
+
+    ReleaseReplayManagerCore(this);
+    g_Chain.Cut(this->mainChain);
+    free(this);
 }

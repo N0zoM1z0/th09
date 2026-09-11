@@ -75,3 +75,5 @@ ReplayInputState::Update
 ReplayManagerView::RecordInputAndFps
 ReplayManagerView::PlaybackInputAndFps
 ReplayManagerView::Create
+ReleaseReplayManagerCore
+ReplayManagerView::Release
