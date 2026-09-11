@@ -54,3 +54,4 @@ Supervisor::LoadConfig
 GameConfiguration::Initialize
 GameConfiguration::GameConfiguration
 GameManagerSetupLayout::AdvanceTimedState
+GameManagerSetupLayout::AddedCallback

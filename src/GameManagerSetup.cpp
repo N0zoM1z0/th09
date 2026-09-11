@@ -41,6 +41,16 @@ struct SetupStateBuffer
     int valueA4;
 };
 
+struct SetupLoadingPosition
+{
+    float x;
+    float y;
+    float z;
+};
+
+typedef char SetupLoadingPositionSizeCheck[
+    (sizeof(SetupLoadingPosition) == 0x0C) ? 1 : -1];
+
 struct GameManagerSetupLayout
 {
     SetupSideState sides[2];
@@ -90,6 +100,7 @@ struct GameManagerSetupLayout
 
     void UpdateProgress();
     void AdvanceTimedState();
+    static int AddedCallback(GameManagerSetupLayout *gameManager);
     static void CleanupGameplayState();
 };
 
@@ -116,8 +127,15 @@ struct SupervisorSetupLayout
     unsigned char unknown_6B0[4];
     int subthreadCloseRequestActive;
     int subthreadActive;
-    unsigned char unknown_6BC[0xE0];
+    unsigned char unknown_6BC[0xDC];
+    unsigned int totalPlayTime;
     unsigned int systemTime;
+
+    void SetupLoadingVmsAndInitCapture(SetupLoadingPosition *position);
+    void StartEffect(int index);
+    int ThreadStart(LPTHREAD_START_ROUTINE startFunction, void *startParam);
+    void UpdatePlayTime();
+    void UpdateGameTime();
 };
 
 extern GameManagerSetupLayout g_GameManager;
@@ -156,6 +174,51 @@ extern void *__fastcall RegisterSubsystem6(int side);
 extern void *__fastcall RegisterSharedSubsystem(int side, int size, int kind);
 extern void *__fastcall RegisterSecondarySubsystem();
 extern void __fastcall FinalizeSubsystems(void *unused);
+extern void __fastcall GameplaySetupThread(void *unused);
+int GameManagerSetupLayout::AddedCallback(GameManagerSetupLayout *gameManager)
+{
+    SupervisorSetupLayout *supervisor =
+        reinterpret_cast<SupervisorSetupLayout *>(&g_Supervisor);
+
+    if (supervisor->state590 != 3 &&
+        supervisor->state590 != 12 &&
+        supervisor->state590 != 10)
+    {
+        supervisor->flags |= 0x200;
+    }
+    else
+    {
+        supervisor->flags &= ~0x200u;
+    }
+
+    SetupLoadingPosition position;
+    position.z = 0.0f;
+    g_GameManager.gameplaySetupState = 1;
+
+    if (supervisor->value594 == 1)
+    {
+        position.x = 500.0f;
+        position.y = 440.0f;
+        supervisor->SetupLoadingVmsAndInitCapture(&position);
+        supervisor->StartEffect(0);
+    }
+    else
+    {
+        position.x = 280.0f;
+        position.y = 430.0f;
+        supervisor->SetupLoadingVmsAndInitCapture(&position);
+    }
+
+    if ((gameManager->flags & 0x60u) >= 0x40u)
+        gameManager->flags = (gameManager->flags & ~0x40u) | 0x20u;
+
+    supervisor->ThreadStart((LPTHREAD_START_ROUTINE)GameplaySetupThread, NULL);
+    supervisor->UpdateGameTime();
+    supervisor->UpdatePlayTime();
+    return 0;
+}
+
+
 
 
 void GameManagerSetupLayout::AdvanceTimedState()

@@ -1169,3 +1169,27 @@ relocations = [
   { offset = 0x38, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerSetupLayout@@A", target = 0x004A7D90 },
   { offset = 0x3E, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerSetupLayout@@A", target = 0x004A7D90 },
 ]
+
+[units.game-manager-added-callback]
+source = "src/GameManagerSetup.cpp"
+object = "build/matching/GameManagerSetup.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Os", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["GameManagerSetupLayout::AddedCallback"]
+symbol = "?AddedCallback@GameManagerSetupLayout@@SIHPAU1@@Z"
+target_address = 0x0041B76F
+size = 0xBB
+relocations = [
+  { offset = 0x07, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x20, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x29, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x38, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x3D, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerSetupLayout@@A", target = 0x004A7D90 },
+  { offset = 0x42, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x5D, type = "REL32", symbol = "?SetupLoadingVmsAndInitCapture@SupervisorSetupLayout@@QAEXPAUSetupLoadingPosition@@@Z", target = 0x004303C0 },
+  { offset = 0x66, type = "REL32", symbol = "?StartEffect@SupervisorSetupLayout@@QAEXH@Z", target = 0x00430500 },
+  { offset = 0x7B, type = "REL32", symbol = "?SetupLoadingVmsAndInitCapture@SupervisorSetupLayout@@QAEXPAUSetupLoadingPosition@@@Z", target = 0x004303C0 },
+  { offset = 0x9C, type = "DIR32", symbol = "?GameplaySetupThread@@YIXPAX@Z", target = 0x0041AF2D },
+  { offset = 0xA3, type = "REL32", symbol = "?ThreadStart@SupervisorSetupLayout@@QAEHP6GKPAX@Z0@Z", target = 0x00431AE0 },
+  { offset = 0xAA, type = "REL32", symbol = "?UpdateGameTime@SupervisorSetupLayout@@QAEXXZ", target = 0x00430060 },
+  { offset = 0xB1, type = "REL32", symbol = "?UpdatePlayTime@SupervisorSetupLayout@@QAEXXZ", target = 0x0042FF70 },
+]
