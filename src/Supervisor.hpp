@@ -19,6 +19,7 @@ class Supervisor
   public:
     Supervisor();
     static int OnUpdate(Supervisor *supervisor);
+    static int AddedCallback(Supervisor *supervisor);
     static void StartupThread(Supervisor *unused);
     void TickTimer(int *current, float *subFrame);
     int TakeSnapshot(const char *filePath);

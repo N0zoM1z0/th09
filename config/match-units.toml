@@ -308,7 +308,7 @@ relocations = [
   { offset = 0x33, type = "REL32", symbol = "?LeaveCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B160 },
   { offset = 0x40, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x47, type = "REL32", symbol = "?EnterCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B130 },
-  { offset = 0x53, type = "DIR32", symbol = "$L553", target = 0x0042C7B8 },
+  { offset = 0x53, type = "DIR32", symbol = "$L555", target = 0x0042C7B8 },
   { offset = 0x5A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x5F, type = "REL32", symbol = "?LeaveCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B160 },
   { offset = 0x6C, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
@@ -316,13 +316,13 @@ relocations = [
   { offset = 0x8C, type = "REL32", symbol = "?CutImpl@Chain@@AAEXPAVChainElem@@@Z", target = 0x0042B350 },
   { offset = 0xA4, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0xA9, type = "REL32", symbol = "?LeaveCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B160 },
-  { offset = 0xB8, type = "DIR32", symbol = "$L499", target = 0x0042C782 },
-  { offset = 0xBC, type = "DIR32", symbol = "$L509", target = 0x0042C77C },
-  { offset = 0xC0, type = "DIR32", symbol = "$L500", target = 0x0042C757 },
-  { offset = 0xC4, type = "DIR32", symbol = "$L504", target = 0x0042C797 },
-  { offset = 0xC8, type = "DIR32", symbol = "$L501", target = 0x0042C793 },
-  { offset = 0xCC, type = "DIR32", symbol = "$L506", target = 0x0042C79E },
-  { offset = 0xD0, type = "DIR32", symbol = "$restart_from_first_job$488", target = 0x0042C716 },
+  { offset = 0xB8, type = "DIR32", symbol = "$L501", target = 0x0042C782 },
+  { offset = 0xBC, type = "DIR32", symbol = "$L511", target = 0x0042C77C },
+  { offset = 0xC0, type = "DIR32", symbol = "$L502", target = 0x0042C757 },
+  { offset = 0xC4, type = "DIR32", symbol = "$L506", target = 0x0042C797 },
+  { offset = 0xC8, type = "DIR32", symbol = "$L503", target = 0x0042C793 },
+  { offset = 0xCC, type = "DIR32", symbol = "$L508", target = 0x0042C79E },
+  { offset = 0xD0, type = "DIR32", symbol = "$restart_from_first_job$490", target = 0x0042C716 },
 ]
 
 [units.chain-run-draw]
@@ -340,7 +340,7 @@ relocations = [
   { offset = 0x31, type = "REL32", symbol = "?LeaveCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B160 },
   { offset = 0x3E, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x45, type = "REL32", symbol = "?EnterCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B130 },
-  { offset = 0x53, type = "DIR32", symbol = "$L562", target = 0x0042C89C },
+  { offset = 0x53, type = "DIR32", symbol = "$L564", target = 0x0042C89C },
   { offset = 0x5A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x5F, type = "REL32", symbol = "?LeaveCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B160 },
   { offset = 0x6C, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
@@ -348,12 +348,12 @@ relocations = [
   { offset = 0x90, type = "REL32", symbol = "?CutImpl@Chain@@AAEXPAVChainElem@@@Z", target = 0x0042B350 },
   { offset = 0xA9, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0xAE, type = "REL32", symbol = "?LeaveCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B160 },
-  { offset = 0xBC, type = "DIR32", symbol = "$L527", target = 0x0042C866 },
-  { offset = 0xC0, type = "DIR32", symbol = "$L536", target = 0x0042C85C },
-  { offset = 0xC4, type = "DIR32", symbol = "$L528", target = 0x0042C837 },
-  { offset = 0xC8, type = "DIR32", symbol = "$L532", target = 0x0042C87B },
-  { offset = 0xCC, type = "DIR32", symbol = "$L529", target = 0x0042C877 },
-  { offset = 0xD0, type = "DIR32", symbol = "$L534", target = 0x0042C882 },
+  { offset = 0xBC, type = "DIR32", symbol = "$L529", target = 0x0042C866 },
+  { offset = 0xC0, type = "DIR32", symbol = "$L538", target = 0x0042C85C },
+  { offset = 0xC4, type = "DIR32", symbol = "$L530", target = 0x0042C837 },
+  { offset = 0xC8, type = "DIR32", symbol = "$L534", target = 0x0042C87B },
+  { offset = 0xCC, type = "DIR32", symbol = "$L531", target = 0x0042C877 },
+  { offset = 0xD0, type = "DIR32", symbol = "$L536", target = 0x0042C882 },
 ]
 
 [units.controller-get-joystick-caps]
@@ -1403,4 +1403,42 @@ relocations = [
   { offset = 0x356, type = "DIR32", symbol = "?g_GameManager@@3UStartupGameManager@@A", target = 0x004A7D90 },
   { offset = 0x35F, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x36A, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+]
+
+[units.supervisor-added-callback]
+source = "src/SupervisorAddedCallback.cpp"
+object = "build/matching/SupervisorAddedCallback.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Supervisor::AddedCallback"]
+symbol = "?AddedCallback@Supervisor@@SIHPAV1@@Z"
+target_address = 0x00432090
+size = 0xEE
+relocations = [
+  { offset = 0xA, type = "DIR32", symbol = "?g_GameManager@@3USupervisorAddedGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x10, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x19, type = "REL32", symbol = "?ResetForSupervisorAdded@SupervisorAddedGameManagerView@@QAEXXZ", target = 0x0041BA4F },
+  { offset = 0x1E, type = "REL32", symbol = "?SupervisorAddedLoadDat@@YIHXZ", target = 0x0042F100 },
+  { offset = 0x28, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x2D, type = "DIR32", symbol = "??_C@_0BD@HAJIDIDH@title?1th09logo?4jpg?$AA@", target = 0x00490C28 },
+  { offset = 0x34, type = "REL32", symbol = "?LoadSurface@SupervisorAddedAnmManagerView@@QAEHHPBD@Z", target = 0x0043CAE0 },
+  { offset = 0x3A, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x3F, type = "DIR32", symbol = "??_C@_0P@CFNMFNBF@nowloading?4anm?$AA@", target = 0x00490C18 },
+  { offset = 0x46, type = "REL32", symbol = "?LoadAnm@SupervisorAddedAnmManagerView@@QAEPAXHPBD@Z", target = 0x0043CF90 },
+  { offset = 0x56, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x5C, type = "REL32", symbol = "?ReleaseSurface@SupervisorAddedAnmManagerView@@QAEXH@Z", target = 0x0043BF30 },
+  { offset = 0x69, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x71, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x7C, type = "REL32", symbol = "?SupervisorAddedCheckFps@@YIHXZ", target = 0x0042F1A0 },
+  { offset = 0x86, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x8D, type = "REL32", symbol = "?ReleaseSurface@SupervisorAddedAnmManagerView@@QAEXH@Z", target = 0x0043BF30 },
+  { offset = 0x9D, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0xA2, type = "REL32", symbol = "?SetupVertexBuffer@SupervisorAddedAnmManagerView@@QAEHXZ", target = 0x0043B9C0 },
+  { offset = 0xA7, type = "REL32", symbol = "?SupervisorAddedCreateTextBuffer@@YIHXZ", target = 0x004362C0 },
+  { offset = 0xBB, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+  { offset = 0xC4, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0xC9, type = "REL32", symbol = "?SetupLoadingVms@SupervisorAddedLayout@@QAEXPAUFloat3@@@Z", target = 0x004302B0 },
+  { offset = 0xCF, type = "DIR32", symbol = "?StartupThread@Supervisor@@SIXPAV1@@Z", target = 0x00431D10 },
+  { offset = 0xD4, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0xDA, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0xE3, type = "REL32", symbol = "?ThreadStart@SupervisorAddedLayout@@QAEHP6GKPAX@Z0@Z", target = 0x00431AE0 },
 ]
