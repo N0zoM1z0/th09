@@ -50,3 +50,4 @@ AnmLoaded::ExecuteAnmIdx,0x00401560,function
 Float3::operator+,0x00401100,function
 Float3::operator-,0x00401140,function
 Float3::operator*,0x00401180,function
+Supervisor::TakeSnapshot,0x0042F540,function

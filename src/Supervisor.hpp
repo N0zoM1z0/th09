@@ -4,6 +4,7 @@ class Supervisor
 {
   public:
     void TickTimer(int *current, float *subFrame);
+    int TakeSnapshot(const char *filePath);
     void ConfigureGameplayViewport(int index);
     void EnterCriticalSectionWrapper(int id);
     void LeaveCriticalSectionWrapper(int id);
