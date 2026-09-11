@@ -58,3 +58,4 @@ GameManagerSetupLayout::AddedCallback
 GameManagerSetupLayout::DeletedCallback
 GameManagerSetupLayout::RegisterChain
 GameManagerSetupLayout::OnDraw
+Supervisor::StartupThread

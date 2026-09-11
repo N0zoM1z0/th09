@@ -59,3 +59,4 @@ GameManagerSetupLayout::AddedCallback,0x0041B76F,function
 GameManagerSetupLayout::DeletedCallback,0x0041B82A,function
 GameManagerSetupLayout::RegisterChain,0x0041B9D0,function
 GameManagerSetupLayout::OnDraw,0x0041A75F,function
+Supervisor::StartupThread,0x00431D10,function
