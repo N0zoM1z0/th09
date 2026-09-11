@@ -53,3 +53,4 @@ Supervisor::TakeSnapshot
 Supervisor::LoadConfig
 GameConfiguration::Initialize
 GameConfiguration::GameConfiguration
+GameManagerSetupLayout::AdvanceTimedState

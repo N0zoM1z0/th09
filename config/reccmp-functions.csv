@@ -54,3 +54,4 @@ Supervisor::TakeSnapshot,0x0042F540,function
 Supervisor::LoadConfig,0x0042F7C0,function
 GameConfiguration::Initialize,0x0041A8A2,function
 GameConfiguration::GameConfiguration,0x0041A98B,function
+GameManagerSetupLayout::AdvanceTimedState,0x0041AA07,function

@@ -34,7 +34,7 @@ struct SetupStateBuffer
     float value00;
     unsigned int elapsed04;
     unsigned char unknown_08[8];
-    unsigned int phase10;
+    int phase10;
     unsigned char unknown_14[0x8C];
     int valueA0;
     int valueA4;
@@ -91,6 +91,11 @@ struct GameManagerSetupLayout
     void AdvanceTimedState();
 };
 
+struct SetupEventManager
+{
+    void Emit(int eventId, int argument);
+};
+
 struct SupervisorSetupLayout
 {
     unsigned char unknown_000[0x388];
@@ -118,6 +123,7 @@ extern GameConfiguration *g_GameConfiguration;
 extern unsigned char g_SetupBuffer;
 extern int g_SetupStatus;
 extern unsigned short g_SetupSeedSource;
+extern SetupEventManager g_SetupEventManager;
 
 extern void __fastcall ResetGameManager(GameManagerSetupLayout *manager);
 extern void __fastcall ResetSetupBuffer(void *buffer);
@@ -138,6 +144,34 @@ extern void *__fastcall RegisterSubsystem6(int side);
 extern void *__fastcall RegisterSharedSubsystem(int side, int size, int kind);
 extern void *__fastcall RegisterSecondarySubsystem();
 extern void __fastcall FinalizeSubsystems(void *unused);
+
+
+void GameManagerSetupLayout::AdvanceTimedState()
+{
+    SetupStateBuffer *state =
+        reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].state);
+
+    if (state->value00 < 7.0f)
+    {
+        state->value00 += 1.0f;
+        g_SetupEventManager.Emit(0x1C, 0);
+        state = reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].state);
+    }
+
+    state->phase10++;
+
+    SetupStateBuffer *thresholdState =
+        reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].state);
+    if (g_GameManager.gameMode == 1)
+    {
+        if (thresholdState->phase10 >= 8)
+            thresholdState->phase10 = 99999;
+    }
+    else if (thresholdState->phase10 >= 5)
+    {
+        thresholdState->phase10 = 99999;
+    }
+}
 
 void __fastcall GameplaySetupThread(void *unused)
 {
