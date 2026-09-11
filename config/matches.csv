@@ -73,3 +73,4 @@ address,name,size,status,match_percent,unit,evidence
 0x0042EE30,StartupEnumObjects0,94,matching,100.00,supervisor-enum-objects0,python3 scripts/build-match-unit.py --unit supervisor-enum-objects0 && python3 scripts/compare-coff-function.py --unit supervisor-enum-objects0 --json
 0x0042EE90,StartupEnumObjects1,94,matching,100.00,supervisor-enum-objects1,python3 scripts/build-match-unit.py --unit supervisor-enum-objects1 && python3 scripts/compare-coff-function.py --unit supervisor-enum-objects1 --json
 0x004200F0,ReplayInputState::Update,111,matching,100.00,replay-input-update,python3 scripts/build-match-unit.py --unit replay-input-update && python3 scripts/compare-coff-function.py --unit replay-input-update --json
+0x004202A0,ReplayManagerView::RecordInputAndFps,460,matching,100.00,replay-manager-record-input,python3 scripts/build-match-unit.py --unit replay-manager-record-input && python3 scripts/compare-coff-function.py --unit replay-manager-record-input --json
