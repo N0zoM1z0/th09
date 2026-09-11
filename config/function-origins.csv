@@ -348,7 +348,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041A9AC,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041A9B8,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041AA07,authored_game,GameManager,authored,high,game-manager-advance-timed-state-vc71-exact-2026-09-11
-0x0041AA5F,authored_game,GameManager,authored,high,game-manager-onupdate-source-codegen-blocked-2026-09-11
+0x0041AA5F,authored_game,GameManager,authored,high,game-manager-onupdate-hard-recheck-2026-09-11
 0x0041AF2D,authored_game,GameManager,authored,high,gameplay-setup-thread-authored-codegen-blocked-2026-09-11
 0x0041B5C6,authored_game,GameManager,authored,high,game-manager-cleanup-return-contract-open-2026-09-11
 0x0041B76F,authored_game,GameManager,authored,high,game-manager-added-callback-vc71-exact-2026-09-11
