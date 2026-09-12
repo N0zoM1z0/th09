@@ -111,3 +111,4 @@ PbgFileView::~PbgFileView
 PbgFileView::Open
 AnmVm::IsVisible
 AnmVm::SetInvisible
+AsciiMenuState4::OnUpdate

@@ -11,9 +11,21 @@ struct AsciiInputView
     unsigned short WasPressed(unsigned int buttons);
 };
 
+struct AsciiGameSideRuntimeView
+{
+    float value00;
+    int value04;
+    int value08;
+    int value0C;
+    unsigned char unknown10[4];
+    unsigned char counter14;
+};
+
 struct AsciiGameManagerSideView
 {
-    unsigned char unknown00[0x34];
+    unsigned char unknown00[0x1C];
+    AsciiGameSideRuntimeView *runtime;
+    unsigned char unknown20[0x14];
     unsigned int flags;
 };
 
@@ -23,7 +35,13 @@ typedef char AsciiGameManagerSideViewSizeIs38[
 struct AsciiGameManagerView
 {
     AsciiGameManagerSideView sides[2];
-    unsigned char unknown070[0xAC];
+    unsigned char unknown070[0x8C];
+    int field0FC;
+    unsigned char unknown100[8];
+    int field108;
+    int field10C;
+    unsigned char unknown110[8];
+    int gameMode;
     int difficulty;
     unsigned char unknown120[0x14];
     unsigned int flags;
@@ -33,10 +51,17 @@ struct AsciiGameManagerView
     unsigned char menuStateA7A8Active;
     unsigned char unknown13F;
 
+    int IsGameMode1();
     int IsReplayNeutral();
     int HasFlagBit0();
 };
 
+typedef char AsciiGameManagerSideRuntimeAt1C[
+    (offsetof(AsciiGameManagerSideView, runtime) == 0x1C) ? 1 : -1];
+typedef char AsciiGameManagerField0FC[
+    (offsetof(AsciiGameManagerView, field0FC) == 0x0FC) ? 1 : -1];
+typedef char AsciiGameManagerGameModeAt118[
+    (offsetof(AsciiGameManagerView, gameMode) == 0x118) ? 1 : -1];
 typedef char AsciiGameManagerDifficultyAt11C[
     (offsetof(AsciiGameManagerView, difficulty) == 0x11C) ? 1 : -1];
 typedef char AsciiGameManagerFlagsAt134[
@@ -54,7 +79,9 @@ struct AsciiSupervisorView
 {
     unsigned char unknown000[0x590];
     int state590;
-    unsigned char unknown594[0x24];
+    unsigned char unknown594[0x10];
+    int field5A4;
+    unsigned char unknown5A8[0x10];
     float frameScalar5B8;
     unsigned char unknown5BC[0x18];
     unsigned int flags5D4;
@@ -62,8 +89,11 @@ struct AsciiSupervisorView
     unsigned int systemTime79C;
 
     int PrepareResultScreen();
+    int FinalizeResultScreen();
 };
 
+typedef char AsciiSupervisorField5A4[
+    (offsetof(AsciiSupervisorView, field5A4) == 0x5A4) ? 1 : -1];
 typedef char AsciiSupervisorFrameScalarAt5B8[
     (offsetof(AsciiSupervisorView, frameScalar5B8) == 0x5B8) ? 1 : -1];
 typedef char AsciiSupervisorFlagsAt5D4[
@@ -75,6 +105,12 @@ extern AsciiInputView g_AsciiInput;
 extern AsciiGameManagerView g_GameManager;
 extern AsciiSoundPlayerView g_SoundPlayer;
 extern AsciiManager g_AsciiManager;
+extern unsigned char *g_AsciiMenuConfig;
+
+struct GameManagerSetupLayout
+{
+    static void CleanupGameplayState();
+};
 
 static inline AsciiSupervisorView *AsciiSupervisor()
 {
@@ -341,6 +377,295 @@ int PauseMenu::OnUpdate()
     }
     if (AsciiSupervisor()->flags5D4 & 2) {
         g_AnmManager->ExecuteScript(&this->menuBackground);
+    }
+    this->frames++;
+    return 0;
+}
+
+int AsciiMenuState5::OnUpdate()
+{
+    unsigned int i;
+
+    if (g_GameManager.IsReplayNeutral()) {
+        g_GameManager.menuState97C8Active = 0;
+        AsciiSupervisor()->state590 = 1;
+        return 1;
+    }
+
+    if (g_GameManager.sides[0].runtime->counter14 >= 3) {
+        g_GameManager.menuState97C8Active = 0;
+        AsciiSupervisor()->state590 = 6;
+        return 1;
+    }
+
+    switch (this->state) {
+    case 0:
+        if (!g_GameManager.IsGameMode1()) {
+            for (i = 0; i < 5; i++) {
+                g_AsciiManager.asciiAnm->ExecuteAnmIdx(&this->menuSprites[i], i + 8);
+            }
+            for (i = 0; i < 5; i++) {
+                this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
+            }
+            g_AsciiManager.asciiAnm->SetSprite(
+                &this->menuSprites[4],
+                120 - g_GameManager.sides[0].runtime->counter14);
+        } else {
+            for (i = 0; i < 3; i++) {
+                g_AsciiManager.asciiAnm->ExecuteAnmIdx(&this->menuSprites[i], i + 17);
+            }
+            for (i = 0; i < 3; i++) {
+                this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
+            }
+        }
+        this->state++;
+        this->frames = 0;
+        // fallthrough
+
+    case 1:
+        this->menuSprites[1].color1 = COLOR_MENU_ITEM_NORMAL;
+        this->menuSprites[2].color1 = COLOR_MENU_ITEM_SELECTED;
+        this->menuSprites[1].pos2 = Float3(0.0f, 0.0f, 0.0f);
+        this->menuSprites[2].pos2 = Float3(-4.0f, -4.0f, 0.0f);
+
+        if (this->frames >= 4) {
+            if (g_AsciiInput.WasPressed(0x10) || g_AsciiInput.WasPressed(0x20)) {
+                this->state = 2;
+                g_SoundPlayer.PlaySoundByIdx(0, 0);
+            }
+            if (g_AsciiInput.WasPressed(0x1001)) {
+                g_SoundPlayer.PlaySoundByIdx(10, 0);
+                for (i = 0; i < 5; i++) {
+                    this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
+                }
+                this->state = 4;
+                this->frames = 0;
+            }
+        }
+        break;
+
+    case 2:
+        this->menuSprites[2].color1 = COLOR_MENU_ITEM_NORMAL;
+        this->menuSprites[1].color1 = COLOR_MENU_ITEM_SELECTED;
+        this->menuSprites[2].pos2 = Float3(0.0f, 0.0f, 0.0f);
+        this->menuSprites[1].pos2 = Float3(-4.0f, -4.0f, 0.0f);
+
+        if (this->frames >= 4) {
+            if (g_AsciiInput.WasPressed(0x10) || g_AsciiInput.WasPressed(0x20)) {
+                this->state = 1;
+                g_SoundPlayer.PlaySoundByIdx(0, 0);
+            }
+            if (g_AsciiInput.WasPressed(0x1001)) {
+                g_SoundPlayer.PlaySoundByIdx(10, 0);
+                for (i = 0; i < 5; i++) {
+                    this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
+                }
+                this->state = 3;
+                this->frames = 0;
+            }
+        }
+        break;
+
+    case 3:
+        if (this->frames >= 20) {
+            this->state = 0;
+            this->frames = 0;
+            g_GameManager.menuState97C8Active = 0;
+
+            if (g_GameManager.IsGameMode1()) {
+                AsciiSupervisor()->state590 = 13;
+                g_GameManager.field0FC = 0;
+                AsciiSupervisor()->systemTime79C = timeGetTime();
+                return 1;
+            }
+
+            for (i = 0; i < 5; i++) {
+                this->menuSprites[i].SetInvisible();
+            }
+            g_GameManager.sides[0].runtime->counter14++;
+            g_GameManager.flags |= 0x2000u;
+            g_GameManager.sides[0].runtime->value04 = 0;
+            g_GameManager.sides[0].runtime->value08 = 0;
+            g_GameManager.sides[0].runtime->value0C = 0;
+            g_GameManager.sides[1].runtime->value04 = 0;
+            g_GameManager.sides[1].runtime->value08 = 0;
+            g_GameManager.sides[1].runtime->value0C = 0;
+            AsciiSupervisor()->field5A4 = 8;
+            AsciiSupervisor()->systemTime79C = timeGetTime();
+            AsciiSupervisor()->PrepareResultScreen();
+            AsciiSupervisor()->FinalizeResultScreen();
+            GameManagerSetupLayout::CleanupGameplayState();
+            g_GameManager.field108 = 0;
+            g_GameManager.field10C = 0;
+            g_GameManager.sides[0].runtime->value00 =
+                (float)g_AsciiMenuConfig[0xAC] + 2.0f;
+            g_GameManager.flags |= 0x4000u;
+            return 1;
+        }
+        break;
+
+    case 4:
+        if (this->frames >= 20) {
+            this->state = 0;
+            this->frames = 0;
+            g_GameManager.menuState97C8Active = 0;
+            AsciiSupervisor()->state590 = 6;
+            for (i = 0; i < 5; i++) {
+                this->menuSprites[i].SetInvisible();
+            }
+            AsciiSupervisor()->systemTime79C = timeGetTime();
+            return 1;
+        }
+        break;
+    }
+
+    for (i = 0; i < 5; i++) {
+        g_AnmManager->ExecuteScript(&this->menuSprites[i]);
+    }
+    if (AsciiSupervisor()->flags5D4 & 2) {
+        g_AnmManager->ExecuteScript(&this->menuBackground);
+    }
+    this->frames++;
+    return 0;
+}
+
+int AsciiMenuState4::OnUpdate()
+{
+    unsigned int i;
+
+    if (g_GameManager.IsReplayNeutral()) {
+        g_GameManager.menuStateA7A8Active = 0;
+        AsciiSupervisor()->state590 = 1;
+        return 1;
+    }
+
+    switch (this->state) {
+    case 0:
+        for (i = 0; i < 3; i++) {
+            g_AsciiManager.asciiAnm->ExecuteAnmIdx(&this->menuSprites[i], i + 13);
+            this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
+        }
+        this->state++;
+        this->frames = 0;
+        // fallthrough
+
+    case 1:
+        this->menuSprites[0].color1 = COLOR_WHITE;
+        this->menuSprites[2].color1 = COLOR_MENU_ITEM_NORMAL;
+        this->menuSprites[1].color1 = COLOR_MENU_ITEM_NORMAL;
+        this->menuSprites[0].pos2 = Float3(-4.0f, -4.0f, 0.0f);
+        this->menuSprites[2].pos2 = Float3(0.0f, 0.0f, 0.0f);
+        this->menuSprites[1].pos2 = this->menuSprites[2].pos2;
+
+        if (this->frames >= 4) {
+            if (g_AsciiInput.WasPressed(0x10)) {
+                this->state = 3;
+                g_SoundPlayer.PlaySoundByIdx(0, 0);
+            }
+            if (g_AsciiInput.WasPressed(0x20)) {
+                this->state = 2;
+                g_SoundPlayer.PlaySoundByIdx(0, 0);
+            }
+            if (g_AsciiInput.WasPressed(0x1001)) {
+                g_SoundPlayer.PlaySoundByIdx(10, 0);
+                for (i = 0; i < 3; i++) {
+                    this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                }
+                this->state = 4;
+                this->frames = 0;
+            }
+        }
+        break;
+
+    case 2:
+        this->menuSprites[2].color1 = COLOR_MENU_ITEM_NORMAL;
+        this->menuSprites[0].color1 = COLOR_MENU_ITEM_NORMAL;
+        this->menuSprites[1].color1 = COLOR_WHITE;
+        this->menuSprites[2].pos2 = Float3(0.0f, 0.0f, 0.0f);
+        this->menuSprites[0].pos2 = this->menuSprites[2].pos2;
+        this->menuSprites[1].pos2 = Float3(-4.0f, -4.0f, 0.0f);
+
+        if (this->frames >= 4) {
+            if (g_AsciiInput.WasPressed(0x10)) {
+                this->state = 1;
+                g_SoundPlayer.PlaySoundByIdx(0, 0);
+            }
+            if (g_AsciiInput.WasPressed(0x20)) {
+                this->state = 3;
+                g_SoundPlayer.PlaySoundByIdx(0, 0);
+            }
+            if (g_AsciiInput.WasPressed(0x1001)) {
+                g_SoundPlayer.PlaySoundByIdx(10, 0);
+                for (i = 0; i < 3; i++) {
+                    this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                }
+                this->state = 5;
+                this->frames = 0;
+            }
+        }
+        break;
+
+    case 3:
+        this->menuSprites[1].color1 = COLOR_MENU_ITEM_NORMAL;
+        this->menuSprites[0].color1 = COLOR_MENU_ITEM_NORMAL;
+        this->menuSprites[2].color1 = COLOR_WHITE;
+        this->menuSprites[1].pos2 = Float3(0.0f, 0.0f, 0.0f);
+        this->menuSprites[0].pos2 = this->menuSprites[1].pos2;
+        this->menuSprites[2].pos2 = Float3(-4.0f, -4.0f, 0.0f);
+
+        if (this->frames >= 4) {
+            if (g_AsciiInput.WasPressed(0x10)) {
+                this->state = 2;
+                g_SoundPlayer.PlaySoundByIdx(0, 0);
+            }
+            if (g_AsciiInput.WasPressed(0x20)) {
+                this->state = 1;
+                g_SoundPlayer.PlaySoundByIdx(0, 0);
+            }
+            if (g_AsciiInput.WasPressed(0x1001)) {
+                g_SoundPlayer.PlaySoundByIdx(10, 0);
+                for (i = 0; i < 3; i++) {
+                    this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                }
+                this->state = 6;
+                this->frames = 0;
+            }
+        }
+        break;
+
+    case 5:
+        if (this->frames >= 20) {
+            this->state = 0;
+            AsciiSupervisor()->state590 = 1;
+            g_GameManager.menuStateA7A8Active = 0;
+            AsciiSupervisor()->systemTime79C = timeGetTime();
+            return 1;
+        }
+        break;
+
+    case 4:
+        if (this->frames >= 20) {
+            this->state = 0;
+            AsciiSupervisor()->state590 = 10;
+            g_GameManager.menuStateA7A8Active = 0;
+            AsciiSupervisor()->systemTime79C = timeGetTime();
+            return 1;
+        }
+        break;
+
+    case 6:
+        if (this->frames >= 20) {
+            this->state = 0;
+            AsciiSupervisor()->state590 = 6;
+            g_GameManager.menuStateA7A8Active = 0;
+            AsciiSupervisor()->systemTime79C = timeGetTime();
+            return 1;
+        }
+        break;
+    }
+
+    for (i = 0; i < 3; i++) {
+        g_AnmManager->ExecuteScript(&this->menuSprites[i]);
     }
     this->frames++;
     return 0;
