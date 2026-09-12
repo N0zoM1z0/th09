@@ -97,3 +97,16 @@ PbgArchiveEntry::PbgArchiveEntry,0x00433130,function
 PbgArchiveEntry::~PbgArchiveEntry,0x00433140,function
 PbgArchive::AllocEntries,0x004332B0,function
 PbgArchive::Release,0x004333B0,function
+PbgFileView::Close,0x004336A0,function
+PbgFileView::Read,0x004336D0,function
+PbgFileView::Write,0x00433710,function
+PbgFileView::Tell,0x00433760,function
+PbgFileView::GetSize,0x00433780,function
+PbgFileView::Seek,0x004337A0,function
+PbgFileView::ReadWholeFile,0x004337D0,function
+PbgFileView::GetFullFilePath,0x00433870,function
+PbgFileBackend::PbgFileBackend,0x004338F0,function
+PbgFileBackend::~PbgFileBackend,0x00433900,function
+PbgFileView::PbgFileView,0x00433940,function
+PbgFileView::~PbgFileView,0x00433960,function
+PbgFileView::Open,0x00433980,function

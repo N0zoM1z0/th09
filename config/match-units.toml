@@ -2551,3 +2551,170 @@ relocations = [
   { offset = 0x10, type = "DIR32", symbol = "__imp__GlobalFree@4", target = 0x0048E05C },
   { offset = 0x20, type = "REL32", symbol = "??_EPbgArchiveEntry@@QAEPAXI@Z", target = 0x00433160 },
 ]
+
+[units.pbg-file-backend-constructor]
+source = "src/PbgFileBackend.cpp"
+object = "build/matching/PbgFileBackend.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgFileBackend::PbgFileBackend"]
+symbol = "??0PbgFileBackend@@QAE@XZ"
+target_address = 0x004338F0
+size = 9
+relocations = [
+  { offset = 0x4, type = "DIR32", symbol = "??_7PbgFileBackend@@6B@", target = 0x00490EC4 },
+]
+
+[units.pbg-file-backend-destructor]
+source = "src/PbgFileBackend.cpp"
+object = "build/matching/PbgFileBackend.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgFileBackend::~PbgFileBackend"]
+symbol = "??1PbgFileBackend@@UAE@XZ"
+target_address = 0x00433900
+size = 7
+relocations = [
+  { offset = 0x2, type = "DIR32", symbol = "??_7PbgFileBackend@@6B@", target = 0x00490EC4 },
+]
+
+[units.pbg-file-close]
+source = "src/PbgFile.cpp"
+object = "build/matching/PbgFile.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgFileView::Close"]
+symbol = "?Close@PbgFileView@@UAEXXZ"
+target_address = 0x004336A0
+size = 34
+relocations = [
+  { offset = 0xE, type = "DIR32", symbol = "__imp__CloseHandle@4", target = 0x0048E060 },
+]
+
+[units.pbg-file-read]
+source = "src/PbgFile.cpp"
+object = "build/matching/PbgFile.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgFileView::Read"]
+symbol = "?Read@PbgFileView@@UAEKPAXK@Z"
+target_address = 0x004336D0
+size = 61
+relocations = [
+  { offset = 0x30, type = "DIR32", symbol = "__imp__ReadFile@20", target = 0x0048E090 },
+]
+
+[units.pbg-file-write]
+source = "src/PbgFile.cpp"
+object = "build/matching/PbgFile.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgFileView::Write"]
+symbol = "?Write@PbgFileView@@UAE_NPAXK@Z"
+target_address = 0x00433710
+size = 66
+relocations = [
+  { offset = 0x31, type = "DIR32", symbol = "__imp__WriteFile@20", target = 0x0048E064 },
+]
+
+[units.pbg-file-tell]
+source = "src/PbgFile.cpp"
+object = "build/matching/PbgFile.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgFileView::Tell"]
+symbol = "?Tell@PbgFileView@@UAEKXZ"
+target_address = 0x00433760
+size = 25
+relocations = [
+  { offset = 0x14, type = "DIR32", symbol = "__imp__SetFilePointer@16", target = 0x0048E0C8 },
+]
+
+[units.pbg-file-get-size]
+source = "src/PbgFile.cpp"
+object = "build/matching/PbgFile.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgFileView::GetSize"]
+symbol = "?GetSize@PbgFileView@@UAEKXZ"
+target_address = 0x00433780
+size = 21
+relocations = [
+  { offset = 0x10, type = "DIR32", symbol = "__imp__GetFileSize@8", target = 0x0048E094 },
+]
+
+[units.pbg-file-seek]
+source = "src/PbgFile.cpp"
+object = "build/matching/PbgFile.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgFileView::Seek"]
+symbol = "?Seek@PbgFileView@@UAE_NKK@Z"
+target_address = 0x004337A0
+size = 40
+relocations = [
+  { offset = 0x1E, type = "DIR32", symbol = "__imp__SetFilePointer@16", target = 0x0048E0C8 },
+]
+
+[units.pbg-file-read-whole-file]
+source = "src/PbgFile.cpp"
+object = "build/matching/PbgFile.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgFileView::ReadWholeFile"]
+symbol = "?ReadWholeFile@PbgFileView@@UAEPAXK@Z"
+target_address = 0x004337D0
+size = 146
+relocations = [
+  { offset = 0x33, type = "DIR32", symbol = "__imp__GlobalAlloc@8", target = 0x0048E0C4 },
+  { offset = 0x46, type = "DIR32", symbol = "?g_PbgFileSeekModes@@3PAHA", target = 0x00490F08 },
+  { offset = 0x6A, type = "DIR32", symbol = "__imp__GlobalFree@4", target = 0x0048E05C },
+  { offset = 0x79, type = "DIR32", symbol = "?g_PbgFileSeekModes@@3PAHA", target = 0x00490F08 },
+]
+
+[units.pbg-file-get-full-file-path]
+source = "src/PbgFile.cpp"
+object = "build/matching/PbgFile.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgFileView::GetFullFilePath"]
+symbol = "?GetFullFilePath@PbgFileView@@SIXPADPBD@Z"
+target_address = 0x00433870
+size = 121
+relocations = [
+  { offset = 0xA, type = "REL32", symbol = "_strchr", target = 0x0047CB30 },
+  { offset = 0x37, type = "DIR32", symbol = "__imp__GetModuleFileNameA@12", target = 0x0048E0A8 },
+  { offset = 0x3F, type = "REL32", symbol = "_strrchr", target = 0x0047CAF0 },
+]
+
+[units.pbg-file-constructor]
+source = "src/PbgFile.cpp"
+object = "build/matching/PbgFile.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgFileView::PbgFileView"]
+symbol = "??0PbgFileView@@QAE@XZ"
+target_address = 0x00433940
+size = 32
+relocations = [
+  { offset = 0x4, type = "REL32", symbol = "??0PbgFileBackend@@QAE@XZ", target = 0x004338F0 },
+  { offset = 0xA, type = "DIR32", symbol = "??_7PbgFileView@@6B@", target = 0x00490EE4 },
+]
+
+[units.pbg-file-destructor]
+source = "src/PbgFile.cpp"
+object = "build/matching/PbgFile.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgFileView::~PbgFileView"]
+symbol = "??1PbgFileView@@UAE@XZ"
+target_address = 0x00433960
+size = 22
+relocations = [
+  { offset = 0x5, type = "DIR32", symbol = "??_7PbgFileView@@6B@", target = 0x00490EE4 },
+  { offset = 0xA, type = "REL32", symbol = "?Close@PbgFileView@@UAEXXZ", target = 0x004336A0 },
+  { offset = 0x12, type = "REL32", symbol = "??1PbgFileBackend@@UAE@XZ", target = 0x00433900 },
+]
+
+[units.pbg-file-open]
+source = "src/PbgFile.cpp"
+object = "build/matching/PbgFile.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgFileView::Open"]
+symbol = "?Open@PbgFileView@@UAE_NPBDPAD@Z"
+target_address = 0x00433980
+size = 226
+relocations = [
+  { offset = 0x56, type = "DIR32", symbol = "__imp__DeleteFileA@4", target = 0x0048E0CC },
+  { offset = 0x8F, type = "REL32", symbol = "?GetFullFilePath@PbgFileView@@SIXPADPBD@Z", target = 0x00433870 },
+  { offset = 0xAC, type = "DIR32", symbol = "__imp__CreateFileA@28", target = 0x0048E068 },
+  { offset = 0xD3, type = "DIR32", symbol = "__imp__SetFilePointer@16", target = 0x0048E0C8 },
+]

@@ -5,6 +5,7 @@
 class PbgFileBackend
 {
   public:
+    PbgFileBackend();
     virtual bool Open(const char *filename, char *mode) = 0;
     virtual void Close() = 0;
     virtual DWORD Read(void *data, DWORD dataLen) = 0;
@@ -29,6 +30,8 @@ class PbgFileView : public PbgFileBackend
     virtual DWORD Tell();
     virtual DWORD GetSize();
     virtual bool Seek(DWORD offset, DWORD seekFrom);
+    virtual HGLOBAL ReadWholeFile(DWORD maxSize);
+    static void GetFullFilePath(char *buffer, const char *filename);
 
   private:
     HANDLE handle;

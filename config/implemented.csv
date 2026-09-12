@@ -96,3 +96,16 @@ PbgArchiveEntry::PbgArchiveEntry
 PbgArchiveEntry::~PbgArchiveEntry
 PbgArchive::AllocEntries
 PbgArchive::Release
+PbgFileView::Close
+PbgFileView::Read
+PbgFileView::Write
+PbgFileView::Tell
+PbgFileView::GetSize
+PbgFileView::Seek
+PbgFileView::ReadWholeFile
+PbgFileView::GetFullFilePath
+PbgFileBackend::PbgFileBackend
+PbgFileBackend::~PbgFileBackend
+PbgFileView::PbgFileView
+PbgFileView::~PbgFileView
+PbgFileView::Open
