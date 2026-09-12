@@ -1,5 +1,6 @@
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
+#include "AsciiGameManagerView.hpp"
 #include "Supervisor.hpp"
 
 #include <stddef.h>
@@ -21,6 +22,7 @@ typedef char VertexTex1DiffuseXyzrhwSizeIs1C[
     (sizeof(VertexTex1DiffuseXyzrhw) == 0x1C) ? 1 : -1];
 
 extern VertexTex1DiffuseXyzrhw g_AnmRenderQuad[4];
+static const float g_AnmHalfPixel = 0.5f;
 
 struct SupervisorRenderDeviceView
 {
@@ -47,7 +49,6 @@ struct AnmManagerRenderView
     VertexTex1DiffuseXyzrhw *vertexBufferEndPtr;
     VertexTex1DiffuseXyzrhw *vertexBufferStartPtr;
 
-    int DrawInner(AnmVm *vm, int roundToPixels);
 };
 
 typedef char AnmManagerFlushesAt18[
@@ -123,5 +124,209 @@ int AnmManager::DrawNoRotation(AnmVm *vm)
     g_AnmRenderQuad[0].z = g_AnmRenderQuad[1].z =
         g_AnmRenderQuad[2].z = g_AnmRenderQuad[3].z = vm->pos.z;
 
-    return anm->DrawInner(vm, 1);
+    return this->DrawInner(vm, 1);
+}
+
+union AnmRenderColor
+{
+    unsigned long value;
+    struct
+    {
+        unsigned char b;
+        unsigned char g;
+        unsigned char r;
+        unsigned char a;
+    };
+};
+
+struct AnmVmDrawInnerLayout
+{
+    unsigned char unknown000[0x1F0];
+    AnmRenderColor color1;
+    AnmRenderColor color2;
+    unsigned int flagsWord;
+    unsigned char unknown1FC[0x28];
+    AnmLoadedSprite *loadedSprite;
+};
+
+typedef char AnmVmDrawInnerColor1At1F0[
+    (offsetof(AnmVmDrawInnerLayout, color1) == 0x1F0) ? 1 : -1];
+typedef char AnmVmDrawInnerColor2At1F4[
+    (offsetof(AnmVmDrawInnerLayout, color2) == 0x1F4) ? 1 : -1];
+typedef char AnmVmDrawInnerFlagsAt1F8[
+    (offsetof(AnmVmDrawInnerLayout, flagsWord) == 0x1F8) ? 1 : -1];
+typedef char AnmVmDrawInnerSpriteAt224[
+    (offsetof(AnmVmDrawInnerLayout, loadedSprite) == 0x224) ? 1 : -1];
+
+struct AnmManagerDrawInnerView
+{
+    AnmRenderColor color;
+    int useMixColor;
+    unsigned char unknown008[0x1C - 0x08];
+    Float2 screenShakeOffset;
+    unsigned char unknown024[0x12880 - 0x24];
+    void *currentTexture;
+    unsigned char unknown12884[2];
+    unsigned char currentVertexShader;
+    unsigned char unknown12887[0x128E4 - 0x12887];
+    int spritesToDraw;
+    unsigned char unknown128E8[0x2B28E8 - 0x128E8];
+    VertexTex1DiffuseXyzrhw *vertexBufferEndPtr;
+    VertexTex1DiffuseXyzrhw *vertexBufferStartPtr;
+};
+
+typedef char AnmManagerDrawInnerShakeAt1C[
+    (offsetof(AnmManagerDrawInnerView, screenShakeOffset) == 0x1C) ? 1 : -1];
+typedef char AnmManagerDrawInnerTextureAt12880[
+    (offsetof(AnmManagerDrawInnerView, currentTexture) == 0x12880) ? 1 : -1];
+typedef char AnmManagerDrawInnerShaderAt12886[
+    (offsetof(AnmManagerDrawInnerView, currentVertexShader) == 0x12886) ? 1 : -1];
+
+struct AnmManagerRenderMethodView
+{
+    void ApplyVmRenderState(AnmVm *vm);
+};
+
+unsigned char MixRenderColor(unsigned char first, unsigned char second);
+
+int AnmManager::AddSpriteToDrawBuffer(VertexTex1DiffuseXyzrhw *vertices)
+{
+    AnmManagerDrawInnerView *anm =
+        reinterpret_cast<AnmManagerDrawInnerView *>(this);
+
+    anm->vertexBufferEndPtr[0] = vertices[0];
+    anm->vertexBufferEndPtr[1] = vertices[1];
+    anm->vertexBufferEndPtr[2] = vertices[2];
+    anm->vertexBufferEndPtr[3] = vertices[1];
+    anm->vertexBufferEndPtr[4] = vertices[2];
+    anm->vertexBufferEndPtr[5] = vertices[3];
+    anm->vertexBufferEndPtr += 6;
+    anm->spritesToDraw++;
+    return 0;
+}
+
+int AnmManager::DrawInner(AnmVm *vm, int flags)
+{
+    AnmManagerDrawInnerView *anm =
+        reinterpret_cast<AnmManagerDrawInnerView *>(this);
+    AnmVmDrawInnerLayout *drawVm =
+        reinterpret_cast<AnmVmDrawInnerLayout *>(vm);
+    SupervisorRenderDeviceView *supervisor =
+        reinterpret_cast<SupervisorRenderDeviceView *>(&g_Supervisor);
+    AnmRenderColor color;
+    float triangleX1;
+    float triangleX2;
+    float triangleY1;
+    float triangleY2;
+
+    g_AnmRenderQuad[0].x += anm->screenShakeOffset.x;
+    g_AnmRenderQuad[0].y += anm->screenShakeOffset.y;
+    g_AnmRenderQuad[1].x += anm->screenShakeOffset.x;
+    g_AnmRenderQuad[1].y += anm->screenShakeOffset.y;
+    g_AnmRenderQuad[2].x += anm->screenShakeOffset.x;
+    g_AnmRenderQuad[2].y += anm->screenShakeOffset.y;
+    g_AnmRenderQuad[3].x += anm->screenShakeOffset.x;
+    g_AnmRenderQuad[3].y += anm->screenShakeOffset.y;
+
+    if ((flags & 1) != 0) {
+#if defined(_MSC_VER) && defined(_M_IX86)
+        __asm {
+            fld g_AnmRenderQuad[0 * TYPE g_AnmRenderQuad].x
+            frndint
+            fsub g_AnmHalfPixel
+            fld g_AnmRenderQuad[1 * TYPE g_AnmRenderQuad].x
+            frndint
+            fsub g_AnmHalfPixel
+            fld g_AnmRenderQuad[0 * TYPE g_AnmRenderQuad].y
+            frndint
+            fsub g_AnmHalfPixel
+            fld g_AnmRenderQuad[2 * TYPE g_AnmRenderQuad].y
+            frndint
+            fsub g_AnmHalfPixel
+            fst g_AnmRenderQuad[2 * TYPE g_AnmRenderQuad].y
+            fstp g_AnmRenderQuad[3 * TYPE g_AnmRenderQuad].y
+            fst g_AnmRenderQuad[0 * TYPE g_AnmRenderQuad].y
+            fstp g_AnmRenderQuad[1 * TYPE g_AnmRenderQuad].y
+            fst g_AnmRenderQuad[1 * TYPE g_AnmRenderQuad].x
+            fstp g_AnmRenderQuad[3 * TYPE g_AnmRenderQuad].x
+            fst g_AnmRenderQuad[0 * TYPE g_AnmRenderQuad].x
+            fstp g_AnmRenderQuad[2 * TYPE g_AnmRenderQuad].x
+        }
+#endif
+    }
+
+    g_AnmRenderQuad[0].u = g_AnmRenderQuad[2].u =
+        drawVm->loadedSprite->uvStartX + vm->uvScrollPos.x;
+    g_AnmRenderQuad[1].u = g_AnmRenderQuad[3].u =
+        drawVm->loadedSprite->uvEndX + vm->uvScrollPos.x;
+    g_AnmRenderQuad[0].v = g_AnmRenderQuad[1].v =
+        drawVm->loadedSprite->uvStartY + vm->uvScrollPos.y;
+    g_AnmRenderQuad[2].v = g_AnmRenderQuad[3].v =
+        drawVm->loadedSprite->uvEndY + vm->uvScrollPos.y;
+
+    triangleX1 = g_AnmRenderQuad[0].x > g_AnmRenderQuad[1].x
+        ? g_AnmRenderQuad[0].x : g_AnmRenderQuad[1].x;
+    triangleX1 = g_AnmRenderQuad[2].x > triangleX1
+        ? g_AnmRenderQuad[2].x : triangleX1;
+    triangleX1 = g_AnmRenderQuad[3].x > triangleX1
+        ? g_AnmRenderQuad[3].x : triangleX1;
+
+    triangleY1 = g_AnmRenderQuad[0].y > g_AnmRenderQuad[1].y
+        ? g_AnmRenderQuad[0].y : g_AnmRenderQuad[1].y;
+    triangleY1 = g_AnmRenderQuad[2].y > triangleY1
+        ? g_AnmRenderQuad[2].y : triangleY1;
+    triangleY1 = g_AnmRenderQuad[3].y > triangleY1
+        ? g_AnmRenderQuad[3].y : triangleY1;
+
+    triangleX2 = g_AnmRenderQuad[0].x < g_AnmRenderQuad[1].x
+        ? g_AnmRenderQuad[0].x : g_AnmRenderQuad[1].x;
+    triangleX2 = g_AnmRenderQuad[2].x < triangleX2
+        ? g_AnmRenderQuad[2].x : triangleX2;
+    triangleX2 = g_AnmRenderQuad[3].x < triangleX2
+        ? g_AnmRenderQuad[3].x : triangleX2;
+
+    triangleY2 = g_AnmRenderQuad[0].y < g_AnmRenderQuad[1].y
+        ? g_AnmRenderQuad[0].y : g_AnmRenderQuad[1].y;
+    triangleY2 = g_AnmRenderQuad[2].y < triangleY2
+        ? g_AnmRenderQuad[2].y : triangleY2;
+    triangleY2 = g_AnmRenderQuad[3].y < triangleY2
+        ? g_AnmRenderQuad[3].y : triangleY2;
+
+    if (triangleX1 < (float)g_RenderCoordinateOrigin->x ||
+        triangleY1 < (float)g_RenderCoordinateOrigin->y ||
+        triangleX2 > (float)(g_RenderCoordinateOrigin->x + g_RenderCoordinateOrigin->width) ||
+        triangleY2 > (float)(g_RenderCoordinateOrigin->y + g_RenderCoordinateOrigin->height)) {
+        return 0;
+    }
+
+    if (anm->currentTexture != drawVm->loadedSprite->texture) {
+        anm->currentTexture = drawVm->loadedSprite->texture;
+        this->FlushVertexBuffer();
+        supervisor->d3dDevice->SetTexture(
+            0, reinterpret_cast<IDirect3DBaseTexture8 *>(anm->currentTexture));
+    }
+
+    if (anm->currentVertexShader != 1) {
+        this->FlushVertexBuffer();
+        anm->currentVertexShader = 1;
+    }
+
+    if ((flags & 2) == 0) {
+        color.value = (drawVm->flagsWord & 0x20000) != 0
+            ? drawVm->color2.value : drawVm->color1.value;
+        if (anm->useMixColor != 0) {
+            color.r = MixRenderColor(color.r, anm->color.r);
+            color.g = MixRenderColor(color.g, anm->color.g);
+            color.b = MixRenderColor(color.b, anm->color.b);
+            color.a = MixRenderColor(color.a, anm->color.a);
+        }
+        g_AnmRenderQuad[0].diffuse = color.value;
+        g_AnmRenderQuad[1].diffuse = color.value;
+        g_AnmRenderQuad[2].diffuse = color.value;
+        g_AnmRenderQuad[3].diffuse = color.value;
+    }
+
+    reinterpret_cast<AnmManagerRenderMethodView *>(this)->ApplyVmRenderState(vm);
+    this->AddSpriteToDrawBuffer(g_AnmRenderQuad);
+    return 0;
 }

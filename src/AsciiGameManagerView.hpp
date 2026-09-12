@@ -82,3 +82,14 @@ typedef char AsciiGameManagerCoordinateYAt354[
     (offsetof(AsciiGameManagerView, coordinateOffsetY) == 0x354) ? 1 : -1];
 
 extern AsciiGameManagerView g_GameManager;
+
+struct RenderCoordinateOriginView
+{
+    unsigned char unknown000[0xCC];
+    unsigned int x;
+    unsigned int y;
+    unsigned int width;
+    unsigned int height;
+};
+
+extern RenderCoordinateOriginView *g_RenderCoordinateOrigin;

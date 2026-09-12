@@ -2752,7 +2752,7 @@ relocations = [
   { offset = 0xF, type = "REL32", symbol = "?IsReplayNeutral@AsciiGameManagerView@@QAEHXZ", target = 0x00415D20 },
   { offset = 0x1E, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x24, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x3D, type = "DIR32", symbol = "$L56476", target = 0x00435A68 },
+  { offset = 0x3D, type = "DIR32", symbol = "$L56503", target = 0x00435A68 },
   { offset = 0x5D, type = "DIR32", symbol = "?g_AsciiManager@@3VAsciiManager@@A", target = 0x004CE458 },
   { offset = 0x62, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
   { offset = 0xAB, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
@@ -2805,13 +2805,13 @@ relocations = [
   { offset = 0x45C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x463, type = "DIR32", symbol = "__imp__timeGetTime@0", target = 0x0048E238 },
   { offset = 0x46A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x478, type = "DIR32", symbol = "$L56106", target = 0x00435631 },
-  { offset = 0x47C, type = "DIR32", symbol = "$L56469", target = 0x00435670 },
-  { offset = 0x480, type = "DIR32", symbol = "$L56120", target = 0x004357B9 },
-  { offset = 0x484, type = "DIR32", symbol = "$L56130", target = 0x004358D8 },
-  { offset = 0x488, type = "DIR32", symbol = "$L56142", target = 0x00435A14 },
-  { offset = 0x48C, type = "DIR32", symbol = "$L56140", target = 0x004359F8 },
-  { offset = 0x490, type = "DIR32", symbol = "$L56144", target = 0x00435A30 },
+  { offset = 0x478, type = "DIR32", symbol = "$L56133", target = 0x00435631 },
+  { offset = 0x47C, type = "DIR32", symbol = "$L56496", target = 0x00435670 },
+  { offset = 0x480, type = "DIR32", symbol = "$L56147", target = 0x004357B9 },
+  { offset = 0x484, type = "DIR32", symbol = "$L56157", target = 0x004358D8 },
+  { offset = 0x488, type = "DIR32", symbol = "$L56169", target = 0x00435A14 },
+  { offset = 0x48C, type = "DIR32", symbol = "$L56167", target = 0x004359F8 },
+  { offset = 0x490, type = "DIR32", symbol = "$L56171", target = 0x00435A30 },
 ]
 
 [units.ascii-menu-state5-draw]
@@ -3119,5 +3119,17 @@ relocations = [
   { offset = 0xE3, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
   { offset = 0xE9, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
   { offset = 0xEF, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
-  { offset = 0xF4, type = "REL32", symbol = "?DrawInner@AnmManagerRenderView@@QAEHPAUAnmVm@@H@Z", target = 0x0043A0F0 },
+  { offset = 0xF4, type = "REL32", symbol = "?DrawInner@AnmManager@@QAEHPAUAnmVm@@H@Z", target = 0x0043A0F0 },
+]
+
+
+[units.anm-manager-add-sprite-to-draw-buffer]
+source = "src/AnmManagerRender.cpp"
+object = "build/matching/AnmManagerRender.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::AddSpriteToDrawBuffer"]
+symbol = "?AddSpriteToDrawBuffer@AnmManager@@QAEHPAUVertexTex1DiffuseXyzrhw@@@Z"
+target_address = 0x00439730
+size = 0xA5
+relocations = [
 ]

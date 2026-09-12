@@ -130,3 +130,4 @@ PauseMenu::OnDraw,0x00434E30,function
 Supervisor::ConfigureGameplayViewport,0x00401390,function
 AnmManager::FlushVertexBuffer,0x004396A0,function
 AnmManager::DrawNoRotation,0x0043A950,function
+AnmManager::AddSpriteToDrawBuffer,0x00439730,function

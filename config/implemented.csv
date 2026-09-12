@@ -129,3 +129,4 @@ PauseMenu::OnDraw
 Supervisor::ConfigureGameplayViewport
 AnmManager::FlushVertexBuffer
 AnmManager::DrawNoRotation
+AnmManager::AddSpriteToDrawBuffer

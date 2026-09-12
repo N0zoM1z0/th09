@@ -35,9 +35,10 @@ struct AnmVm
     Float2 scale;
     unsigned char unknown_0020[8];
     Float2 spriteSize;
-    unsigned char unknown_0030[0x1F0 - 0x30];
+    Float2 uvScrollPos;
+    unsigned char unknown_0038[0x1F0 - 0x38];
     unsigned long color1;
-    unsigned char unknown_01F4[4];
+    unsigned long color2;
     union {
         unsigned int flagsWord;
         struct {

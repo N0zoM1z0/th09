@@ -2,10 +2,18 @@
 
 struct AnmVm;
 struct AnmRawInstr;
+struct VertexTex1DiffuseXyzrhw;
 class AnmLoadedSprite
 {
   public:
-    unsigned char unknown000[0x34];
+    unsigned char unknown000[0x04];
+    void *texture;
+    unsigned char unknown008[0x18];
+    float uvStartX;
+    float uvStartY;
+    float uvEndX;
+    float uvEndY;
+    unsigned char unknown030[0x04];
     float widthPx;
     unsigned char unknown038[0x0C];
 };
@@ -32,6 +40,8 @@ class AnmManager
 {
   public:
     void FlushVertexBuffer();
+    int AddSpriteToDrawBuffer(VertexTex1DiffuseXyzrhw *vertices);
+    int DrawInner(AnmVm *vm, int flags);
     int DrawNoRotation(AnmVm *vm);
     int ExecuteScript(AnmVm *vm);
     AnmLoaded *PreloadAnm(int anmIdx, const char *filename);
