@@ -245,7 +245,7 @@ extern char g_ReplayName[];
 extern TitleNameRecordView g_TitleNameTable[][5][5];
 extern i32 g_TitleNameTableIndex;
 extern TitleScoreRecordView g_TitleScoreRecord;
-extern TitleScoreRecordView g_TitleScoreTable[5][5][5];
+extern TitleScoreRecordView g_TitleScoreTable[16][5][5];
 extern i32 g_GameMode;
 extern u32 g_TitleGameFlags;
 extern void **g_OptionPointers;

@@ -444,9 +444,9 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00421670,authored_game,ReplayManager,authored,high,replay-manager-create-vc71-exact-2026-09-11
 0x004217E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00421800,authored_game,ScoreData,authored,high,score-record-insert-vc71-exact-2026-09-12
-0x004218E0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00421AA0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00421B80,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004218E0,authored_game,ScoreData,authored,high,score-file-load-score-records-source-nearmatch-2026-09-12
+0x00421AA0,authored_game,ScoreData,authored,high,score-file-load-last-name-source-nearmatch-2026-09-12
+0x00421B80,authored_game,ScoreData,authored,high,score-file-load-play-stats-vc71-exact-2026-09-12
 0x00421C40,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00421C60,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00421C80,unknown,,review,unknown,ida-1.50a-initial-inventory

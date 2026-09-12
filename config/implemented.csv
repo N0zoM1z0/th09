@@ -81,3 +81,4 @@ AppendReplayFormat
 TitleScreenView::OnUpdateModeSelect
 TitleScreenView::OnUpdateResultNameEntry
 TitleScoreRecordView::InsertIntoTable
+ScoreFileView::LoadPlayStats
