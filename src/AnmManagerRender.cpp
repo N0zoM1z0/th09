@@ -489,3 +489,137 @@ int AnmManager::DrawInnerFlippedX(AnmVm *vm, int flags)
     this->AddSpriteToDrawBuffer(g_AnmRenderQuad);
     return 0;
 }
+
+
+struct AnmVmRotationZView
+{
+    unsigned char unknown000[0x08];
+    float rotationZ;
+};
+
+typedef char AnmVmRotationZAt08[
+    (offsetof(AnmVmRotationZView, rotationZ) == 0x08) ? 1 : -1];
+
+// Neutral reconstruction name; original TH09 method spelling is not proven.
+int AnmManager::DrawNoRotationFlippedX(AnmVm *vm)
+{
+    float spriteHalfWidth;
+    float spriteHalfHeight;
+    AnmVmDrawAlphaView *drawVm = reinterpret_cast<AnmVmDrawAlphaView *>(vm);
+
+    if (!vm->IsVisible()) {
+        return -1;
+    }
+    if ((vm->flagsWord & 2) == 0) {
+        return -1;
+    }
+    if (drawVm->colorAlpha == 0) {
+        return -1;
+    }
+
+    spriteHalfWidth = (vm->spriteSize.x * vm->scale.x) / 2.0f;
+    spriteHalfHeight = (vm->spriteSize.y * vm->scale.y) / 2.0f;
+
+    if ((vm->anchor & 1) == 0) {
+        g_AnmRenderQuad[0].x = g_AnmRenderQuad[2].x = vm->pos.x - spriteHalfWidth;
+        g_AnmRenderQuad[1].x = g_AnmRenderQuad[3].x = spriteHalfWidth + vm->pos.x;
+    } else {
+        g_AnmRenderQuad[0].x = g_AnmRenderQuad[2].x = vm->pos.x;
+        g_AnmRenderQuad[1].x = g_AnmRenderQuad[3].x =
+            spriteHalfWidth + vm->pos.x + spriteHalfWidth;
+    }
+
+    if ((vm->anchor & 2) == 0) {
+        g_AnmRenderQuad[0].y = g_AnmRenderQuad[1].y = vm->pos.y - spriteHalfHeight;
+        g_AnmRenderQuad[2].y = g_AnmRenderQuad[3].y = spriteHalfHeight + vm->pos.y;
+    } else {
+        g_AnmRenderQuad[0].y = g_AnmRenderQuad[1].y = vm->pos.y;
+        g_AnmRenderQuad[2].y = g_AnmRenderQuad[3].y =
+            spriteHalfHeight + vm->pos.y + spriteHalfHeight;
+    }
+
+    g_AnmRenderQuad[0].z = g_AnmRenderQuad[1].z =
+        g_AnmRenderQuad[2].z = g_AnmRenderQuad[3].z = vm->pos.z;
+
+    return this->DrawInnerFlippedX(vm, 1);
+}
+
+void AnmManager::TranslateRotation(
+    VertexTex1DiffuseXyzrhw *vertex,
+    float x,
+    float y,
+    float sine,
+    float cosine,
+    float xOffset,
+    float yOffset)
+{
+    vertex->x = x * cosine - y * sine + xOffset;
+    vertex->y = x * sine + y * cosine + yOffset;
+}
+
+int AnmManager::Draw2D(AnmVm *vm)
+{
+    float sine;
+    float cosine;
+    float rotation;
+    float xOffset;
+    float yOffset;
+    float x;
+    float y;
+    AnmVmRotationZView *rotationVm = reinterpret_cast<AnmVmRotationZView *>(vm);
+    AnmVmDrawAlphaView *drawVm = reinterpret_cast<AnmVmDrawAlphaView *>(vm);
+
+    if (rotationVm->rotationZ == 0.0f) {
+        return this->DrawNoRotation(vm);
+    }
+    if (!vm->IsVisible()) {
+        return -1;
+    }
+    if ((vm->flagsWord & 2) == 0) {
+        return -1;
+    }
+    if (drawVm->colorAlpha == 0) {
+        return -1;
+    }
+
+    rotation = rotationVm->rotationZ;
+// TH09 target uses one inline x87 FSINCOS here; ordinary C sin/cos calls do not reproduce it.
+#if defined(_MSC_VER) && defined(_M_IX86)
+    __asm {
+        fld rotation
+        fsincos
+        fstp cosine
+        fstp sine
+    }
+#else
+#error TH09 exact Draw2D requires the target's x87 FSINCOS sequence.
+#endif
+
+    xOffset = vm->pos.x;
+    yOffset = vm->pos.y;
+    x = (vm->spriteSize.x * vm->scale.x) / 2.0f;
+    y = (vm->spriteSize.y * vm->scale.y) / 2.0f;
+
+    this->TranslateRotation(&g_AnmRenderQuad[0], -x, -y, sine, cosine, xOffset, yOffset);
+    this->TranslateRotation(&g_AnmRenderQuad[1], x, -y, sine, cosine, xOffset, yOffset);
+    this->TranslateRotation(&g_AnmRenderQuad[2], -x, y, sine, cosine, xOffset, yOffset);
+    this->TranslateRotation(&g_AnmRenderQuad[3], x, y, sine, cosine, xOffset, yOffset);
+
+    g_AnmRenderQuad[0].z = g_AnmRenderQuad[1].z =
+        g_AnmRenderQuad[2].z = g_AnmRenderQuad[3].z = vm->pos.z;
+
+    if ((vm->anchor & 1) != 0) {
+        g_AnmRenderQuad[0].x += x;
+        g_AnmRenderQuad[1].x += x;
+        g_AnmRenderQuad[2].x += x;
+        g_AnmRenderQuad[3].x += x;
+    }
+    if ((vm->anchor & 2) != 0) {
+        g_AnmRenderQuad[0].y += y;
+        g_AnmRenderQuad[1].y += y;
+        g_AnmRenderQuad[2].y += y;
+        g_AnmRenderQuad[3].y += y;
+    }
+
+    return this->DrawInner(vm, 0);
+}

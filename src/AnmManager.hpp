@@ -45,6 +45,9 @@ class AnmManager
     int DrawInnerFlippedX(AnmVm *vm, int flags);
     void SetRenderStateForVm(AnmVm *vm);
     int DrawNoRotation(AnmVm *vm);
+    int DrawNoRotationFlippedX(AnmVm *vm);
+    void TranslateRotation(VertexTex1DiffuseXyzrhw *vertex, float x, float y, float sine, float cosine, float xOffset, float yOffset);
+    int Draw2D(AnmVm *vm);
     int ExecuteScript(AnmVm *vm);
     AnmLoaded *PreloadAnm(int anmIdx, const char *filename);
     void ReleaseAnm(int anmIdx);

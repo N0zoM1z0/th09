@@ -131,3 +131,5 @@ AnmManager::FlushVertexBuffer
 AnmManager::DrawNoRotation
 AnmManager::AddSpriteToDrawBuffer
 AnmManager::SetRenderStateForVm
+AnmManager::TranslateRotation
+AnmManager::DrawNoRotationFlippedX
