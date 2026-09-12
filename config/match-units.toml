@@ -2254,3 +2254,19 @@ relocations = [
   { offset = 0x38F, type = "REL32", symbol = "_strcpy", target = 0x0047C4E0 },
   { offset = 0x3C0, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
 ]
+
+[units.score-record-insert]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScoreRecord.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScoreRecordView::InsertIntoTable"]
+symbol = "?InsertIntoTable@TitleScoreRecordView@@QAEHXZ"
+target_address = 0x00421800
+size = 216
+relocations = [
+  { offset = 0x1E, type = "DIR32", symbol = "?g_TitleScoreTable@@3PAY144UTitleScoreRecordView@@A", target = 0x004A8380 },
+  { offset = 0x67, type = "DIR32", symbol = "?g_TitleScoreTable@@3PAY144UTitleScoreRecordView@@A", target = 0x004A8380 },
+  { offset = 0x8C, type = "DIR32", symbol = "?g_TitleScoreTable@@3PAY144UTitleScoreRecordView@@A", target = 0x004A8380 },
+  { offset = 0xAE, type = "DIR32", symbol = "?g_TitleScoreTable@@3PAY144UTitleScoreRecordView@@A", target = 0x004A8380 },
+  { offset = 0xD2, type = "DIR32", symbol = "?g_TitleScoreTable@@3PAY144UTitleScoreRecordView@@A", target = 0x004A8380 },
+]

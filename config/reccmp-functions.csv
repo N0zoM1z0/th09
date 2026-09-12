@@ -81,3 +81,4 @@ ReplayManagerView::Release,0x00420AD0,function
 AppendReplayFormat,0x004200C0,function
 TitleScreenView::OnUpdateModeSelect,0x0042A7D1,function
 TitleScreenView::OnUpdateResultNameEntry,0x0042929C,function
+TitleScoreRecordView::InsertIntoTable,0x00421800,function

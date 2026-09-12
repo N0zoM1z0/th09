@@ -80,3 +80,4 @@ ReplayManagerView::Release
 AppendReplayFormat
 TitleScreenView::OnUpdateModeSelect
 TitleScreenView::OnUpdateResultNameEntry
+TitleScoreRecordView::InsertIntoTable

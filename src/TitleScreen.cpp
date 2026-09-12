@@ -105,11 +105,25 @@ struct TitleMidiOutputView {
 };
 
 struct TitleScoreRecordView {
-    u8 bytes[0x2C];
+    u8 unknown00[0x0C];
+    u32 score;
+    u8 unknown10[4];
+    u8 category0;
+    u8 category1;
+    u8 rank;
+    u8 unknown17;
+    char name[9];
+    u8 unknown21[0x0B];
+
     int InsertIntoTable();
 };
 
 typedef char TitleScoreRecordSizeIs2C[(sizeof(TitleScoreRecordView) == 0x2C) ? 1 : -1];
+typedef char TitleScoreRecordScoreAt0C[(offsetof(TitleScoreRecordView, score) == 0x0C) ? 1 : -1];
+typedef char TitleScoreRecordCategory0At14[(offsetof(TitleScoreRecordView, category0) == 0x14) ? 1 : -1];
+typedef char TitleScoreRecordCategory1At15[(offsetof(TitleScoreRecordView, category1) == 0x15) ? 1 : -1];
+typedef char TitleScoreRecordRankAt16[(offsetof(TitleScoreRecordView, rank) == 0x16) ? 1 : -1];
+typedef char TitleScoreRecordNameAt18[(offsetof(TitleScoreRecordView, name) == 0x18) ? 1 : -1];
 
 struct TitleConfigSnapshotView {
     u32 words[0x33];
@@ -231,6 +245,7 @@ extern char g_ReplayName[];
 extern TitleNameRecordView g_TitleNameTable[][5][5];
 extern i32 g_TitleNameTableIndex;
 extern TitleScoreRecordView g_TitleScoreRecord;
+extern TitleScoreRecordView g_TitleScoreTable[5][5][5];
 extern i32 g_GameMode;
 extern u32 g_TitleGameFlags;
 extern void **g_OptionPointers;
@@ -271,6 +286,33 @@ extern TitleSelectionRandomView g_TitleSelectionRandom;
 extern void __fastcall PrepareTitleMode4Network(void *optionState);
 extern void __fastcall ResetTitleMode4Supervisor(TitleSupervisorView *supervisor);
 extern int SaveTitleScoreData();
+
+
+int TitleScoreRecordView::InsertIntoTable()
+{
+    i32 rankIndex;
+    for (rankIndex = 0; rankIndex < 5; rankIndex++)
+    {
+        if (score >= g_TitleScoreTable[category0][category1][rankIndex].score)
+            break;
+    }
+
+    if (rankIndex < 5)
+    {
+        for (i32 index = 4; index > rankIndex; index--)
+        {
+            g_TitleScoreTable[category0][category1][index] =
+                g_TitleScoreTable[category0][category1][index - 1];
+            g_TitleScoreTable[category0][category1][index].rank = (u8)index;
+        }
+
+        g_TitleScoreTable[category0][category1][rankIndex] = *this;
+        g_TitleScoreTable[category0][category1][rankIndex].rank = (u8)rankIndex;
+        return rankIndex;
+    }
+
+    return 99;
+}
 
 
 int TitleScreenView::OnUpdateCharacterSelect()
