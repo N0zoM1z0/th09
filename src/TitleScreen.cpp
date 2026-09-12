@@ -97,11 +97,19 @@ struct TitleSelectionRandomView {
 
 struct TitleSupervisorView {
     void PlayMusic(i32 track, i32 unused);
+    int PrepareResultScreen();
 };
 
 struct TitleMidiOutputView {
     void PlayFile(i32 track);
 };
+
+struct TitleScoreRecordView {
+    u8 bytes[0x2C];
+    int InsertIntoTable();
+};
+
+typedef char TitleScoreRecordSizeIs2C[(sizeof(TitleScoreRecordView) == 0x2C) ? 1 : -1];
 
 struct TitleConfigSnapshotView {
     u32 words[0x33];
@@ -174,6 +182,7 @@ struct TitleScreenView {
     int SetMenuSelectionSprites(i32 selected, i32 start, i32 count);
     int OnUpdateOptions();
     int OnUpdateCharacterSelect();
+    int OnUpdateResultNameEntry();
     int MoveCharacterCursor(i32 side, i32 direction, char *order, i32 count);
     int MoveCharacterCursorHorizontal(i32 side, i32 count);
     int SetCharacterCursorActive(i32 selectedCharacter, i32 start, i32 count, i32 stride);
@@ -221,6 +230,7 @@ extern char *g_TitleAlphabet;
 extern char g_ReplayName[];
 extern TitleNameRecordView g_TitleNameTable[][5][5];
 extern i32 g_TitleNameTableIndex;
+extern TitleScoreRecordView g_TitleScoreRecord;
 extern i32 g_GameMode;
 extern u32 g_TitleGameFlags;
 extern void **g_OptionPointers;
@@ -260,6 +270,7 @@ extern TitleSideInputView g_TitleSide1Input;
 extern TitleSelectionRandomView g_TitleSelectionRandom;
 extern void __fastcall PrepareTitleMode4Network(void *optionState);
 extern void __fastcall ResetTitleMode4Supervisor(TitleSupervisorView *supervisor);
+extern int SaveTitleScoreData();
 
 
 int TitleScreenView::OnUpdateCharacterSelect()
@@ -547,6 +558,168 @@ int TitleScreenView::OnUpdateCharacterSelect()
     stateTimer2++;
     return 1;
 }
+
+int TitleScreenView::OnUpdateResultNameEntry()
+{
+    switch (currentScreenState)
+    {
+    case 0:
+        if (stateTimer2 == 0)
+        {
+            g_TitleSupervisor.PrepareResultScreen();
+            if (g_TitleAnmManager->LoadSurface(0, "title/result00.png"))
+                return 0;
+
+            if (vmCount == 0)
+            {
+                vmCount = 223;
+                vms = new AnmVmView[vmCount];
+                titleAnm->ExecuteAnmIdxArray(vms, 0, vmCount);
+            }
+
+            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 16);
+            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+
+            if (g_GameMode == 2)
+            {
+                stateTimer = 0;
+                ChangeCurrentScreen(15);
+                return 1;
+            }
+
+            nameBankIndex = g_GameSide0Value20;
+            replayNameCursor = 0;
+            SetCharacterCursorInactive(nameBankIndex, 60, 16, 2);
+            keyboardSelection = 95;
+            currentScreenState = 0;
+            stateTimer = 0;
+            uiAux = 0;
+            nameSlotIndex = g_TitleScoreRecord.InsertIntoTable();
+            if (nameSlotIndex >= 5)
+            {
+                keyboardSelection = 95;
+            }
+            else
+            {
+                strcpy(
+                    g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name,
+                    g_ReplayName);
+            }
+        }
+
+        if (stateTimer2 == 8)
+            currentScreenState = 1;
+        break;
+
+    case 1:
+        if (nameSlotIndex < 5)
+        {
+            if (g_TitleInput.IsPressedScrolling(0x10))
+            {
+                g_SoundPlayer.PlaySoundByIdx(12, 0);
+                keyboardSelection -= 16;
+                if (keyboardSelection < 0)
+                    keyboardSelection += 96;
+                if (keyboardSelection == 93)
+                    keyboardSelection = 77;
+                stateTimer = 0;
+            }
+
+            if (g_TitleInput.IsPressedScrolling(0x20))
+            {
+                g_SoundPlayer.PlaySoundByIdx(12, 0);
+                keyboardSelection += 16;
+                if (keyboardSelection >= 96)
+                    keyboardSelection -= 96;
+                if (keyboardSelection == 93)
+                    keyboardSelection = 13;
+                stateTimer = 0;
+            }
+
+            if (g_TitleInput.IsPressedScrolling(0x40))
+            {
+                g_SoundPlayer.PlaySoundByIdx(12, 0);
+                if (keyboardSelection % 16 == 0)
+                    keyboardSelection += 15;
+                else
+                {
+                    keyboardSelection--;
+                    if (keyboardSelection == 93)
+                        keyboardSelection = 92;
+                }
+                stateTimer = 0;
+            }
+
+            if (g_TitleInput.IsPressedScrolling(0x80))
+            {
+                g_SoundPlayer.PlaySoundByIdx(12, 0);
+                if (keyboardSelection % 16 == 15)
+                    keyboardSelection -= 15;
+                else
+                {
+                    keyboardSelection++;
+                    if (keyboardSelection == 93)
+                        keyboardSelection = 94;
+                }
+                stateTimer = 0;
+            }
+        }
+
+        if (g_TitleInputFlags & 0x1001)
+        {
+            if (keyboardSelection == 95)
+            {
+                SaveTitleScoreData();
+                PlayMenuSound(11, 0);
+                stateTimer = 0;
+                ChangeCurrentScreen(15);
+                if (nameSlotIndex < 5)
+                {
+                    strcpy(
+                        g_ReplayName,
+                        g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name);
+                }
+                return 1;
+            }
+
+            char value;
+            if (keyboardSelection == 94)
+                value = ' ';
+            else
+                value = g_TitleAlphabet[keyboardSelection];
+            g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[replayNameCursor] = value;
+            PlayMenuSound(10, 0);
+            if (replayNameCursor < 7)
+                replayNameCursor++;
+            else
+                keyboardSelection = 95;
+            stateTimer = 0;
+        }
+
+        if (g_TitleInputFlags & 0xA)
+        {
+            PlayMenuSound(11, 0);
+            if (replayNameCursor == 7 &&
+                g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[7] != ' ')
+            {
+                g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[7] = ' ';
+            }
+            else if (replayNameCursor > 0)
+            {
+                replayNameCursor--;
+                g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[replayNameCursor] = ' ';
+            }
+            stateTimer = 0;
+        }
+        break;
+    }
+
+    stateTimer++;
+    screenFrameCounter++;
+    stateTimer2++;
+    return 1;
+}
+
 
 int TitleScreenView::UpdateReplaySave()
 {

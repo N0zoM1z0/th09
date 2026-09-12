@@ -79,3 +79,4 @@ ReleaseReplayManagerCore
 ReplayManagerView::Release
 AppendReplayFormat
 TitleScreenView::OnUpdateModeSelect
+TitleScreenView::OnUpdateResultNameEntry

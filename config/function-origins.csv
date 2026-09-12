@@ -523,7 +523,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004276EB,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00427EE8,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004289DB,authored_game,TitleScreen,authored,high,title-screen-character-select-source-nearmatch-2026-09-12
-0x0042929C,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042929C,authored_game,TitleScreen,authored,high,title-screen-result-name-entry-exact-2026-09-12
 0x00429662,authored_game,TitleScreen,authored,high,title-screen-replay-flow-owner-corrected-2026-09-12
 0x00429D83,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00429E23,authored_game,TitleScreen,authored,high,title-screen-start-menu-source-nearmatch-2026-09-12
