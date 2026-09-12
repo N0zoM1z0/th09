@@ -92,7 +92,7 @@ extern DeletedPbgArchiveView g_PbgArchive;
 extern DeletedReplayStateView *g_DeletedReplayState;
 
 extern void SupervisorDeletedReleaseTextBuffer();
-extern void SupervisorDeletedReleaseSubsystemA();
+extern int SaveTitleScoreData();
 extern void SupervisorDeletedReleaseSubsystemB();
 extern void SupervisorDeletedReleaseSubsystemC();
 
@@ -177,7 +177,7 @@ int SupervisorDeletedCallback(Supervisor *supervisor)
         globalSupervisor->dummyMidiTimer = NULL;
     }
 
-    SupervisorDeletedReleaseSubsystemA();
+    SaveTitleScoreData();
     SupervisorDeletedReleaseSubsystemB();
     SupervisorDeletedReleaseSubsystemC();
     return 0;

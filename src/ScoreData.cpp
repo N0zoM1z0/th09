@@ -5,6 +5,9 @@
 #include "GameErrorContext.hpp"
 #include "Lzss.hpp"
 #include "ZunMemory.hpp"
+#include "Supervisor.hpp"
+
+#include <windows.h>
 
 #include <stddef.h>
 
@@ -92,10 +95,12 @@ struct ScoreChapterView {
 typedef char ScoreChapterViewSizeIs0C[(sizeof(ScoreChapterView) == 0x0C) ? 1 : -1];
 
 struct ScoreFileView {
-    u8 unknown00[2];
+    u8 unknown00;
+    u8 rngValue1;
     u16 checksum;
     u16 version;
-    u16 unknown06;
+    u8 rngValue2;
+    u8 unknown07;
     u32 headerSize;
     u32 totalSize;
     u32 decompressedPayloadSize;
@@ -110,10 +115,147 @@ struct ScoreFileView {
 typedef char ScoreFileViewHeaderSizeAt08[(offsetof(ScoreFileView, headerSize) == 0x08) ? 1 : -1];
 typedef char ScoreFileViewTotalSizeAt0C[(offsetof(ScoreFileView, totalSize) == 0x0C) ? 1 : -1];
 
+typedef char ScoreFileViewRngValue1At01[(offsetof(ScoreFileView, rngValue1) == 0x01) ? 1 : -1];
+typedef char ScoreFileViewChecksumAt02[(offsetof(ScoreFileView, checksum) == 0x02) ? 1 : -1];
+typedef char ScoreFileViewVersionAt04[(offsetof(ScoreFileView, version) == 0x04) ? 1 : -1];
+typedef char ScoreFileViewRngValue2At06[(offsetof(ScoreFileView, rngValue2) == 0x06) ? 1 : -1];
+typedef char ScoreFileViewSizeIs18[(sizeof(ScoreFileView) == 0x18) ? 1 : -1];
+
+struct ScoreVersionRecordView {
+    ScoreChapterView base;
+    char version[8];
+    u32 exeSize;
+    u32 exeChecksum;
+};
+
+typedef char ScoreVersionRecordSizeIs1C[(sizeof(ScoreVersionRecordView) == 0x1C) ? 1 : -1];
+
+struct ReplayRngView {
+    u16 seed;
+    u16 unknown02;
+    i32 generationCount;
+    int GetRandomU16InRange(u16 max);
+    u32 GetRandomU32InRange(u32 max);
+};
+
+struct ScoreSupervisorView {
+    u8 unknown000[0x7A0];
+    i32 exeChecksum;
+    i32 exeSize;
+    void UpdatePlayTime();
+};
+
+extern ReplayRngView g_ReplayRng;
+extern ScoreFileView g_ScoreFileHeader;
+
 extern ScoreRecordView g_ScoreTable[16][5][5];
 extern ScoreRecordView g_CurrentScoreRecord;
 extern LastNameRecordView g_LastNameRecord;
 extern PlayStatsRecordView g_PlayStatsRecord;
+
+
+int SaveTitleScoreData()
+{
+    int pendingMask = 7;
+    if (g_ScoreFileHeader.version == 0)
+        return 1;
+
+    u8 *scoreData = static_cast<u8 *>(g_ZunMemory.Alloc(0x640000, "scoretmp"));
+    int currentOffset = 0;
+    memcpy(scoreData + currentOffset, &g_ScoreFileHeader, sizeof(g_ScoreFileHeader));
+    currentOffset += sizeof(g_ScoreFileHeader);
+
+    {
+        ScoreChapterView th9k;
+        th9k.magic = 0x4B394854u;
+        th9k.chapterSizeCopy = sizeof(th9k);
+        th9k.chapterSize = sizeof(th9k);
+        th9k.version = 1;
+        memcpy(scoreData + currentOffset, &th9k, sizeof(th9k));
+        currentOffset += sizeof(th9k);
+    }
+
+    do
+    {
+        u32 recordType = g_ReplayRng.GetRandomU32InRange(3);
+        if ((pendingMask & 1) && recordType == 0)
+        {
+            memcpy(scoreData + currentOffset, g_ScoreTable, sizeof(g_ScoreTable));
+            currentOffset += sizeof(g_ScoreTable);
+            pendingMask ^= 1;
+        }
+        else if ((pendingMask & 2) && recordType == 1)
+        {
+            memcpy(scoreData + currentOffset, &g_LastNameRecord, sizeof(g_LastNameRecord));
+            currentOffset += sizeof(g_LastNameRecord);
+            pendingMask ^= 2;
+        }
+        else if ((pendingMask & 4) && recordType == 2)
+        {
+            reinterpret_cast<ScoreSupervisorView *>(&g_Supervisor)->UpdatePlayTime();
+            if (g_PlayStatsRecord.version != 0)
+            {
+                memcpy(scoreData + currentOffset, &g_PlayStatsRecord, sizeof(g_PlayStatsRecord));
+                currentOffset += sizeof(g_PlayStatsRecord);
+                pendingMask ^= 4;
+            }
+        }
+    } while (pendingMask != 0);
+
+    ScoreVersionRecordView vrsm;
+    vrsm.base.magic = 0x4D535256u;
+    vrsm.base.chapterSizeCopy = sizeof(vrsm);
+    vrsm.base.chapterSize = sizeof(vrsm);
+    vrsm.base.version = 1;
+    vrsm.base.runtimeMarker = 0;
+    strcpy(vrsm.version, "0150a");
+    ScoreSupervisorView *supervisor = reinterpret_cast<ScoreSupervisorView *>(&g_Supervisor);
+    vrsm.exeSize = supervisor->exeSize;
+    vrsm.exeChecksum = supervisor->exeChecksum;
+    memcpy(scoreData + currentOffset, &vrsm, sizeof(vrsm));
+    currentOffset += sizeof(vrsm);
+
+    ScoreFileView *header = reinterpret_cast<ScoreFileView *>(scoreData);
+    header->decompressedPayloadSize = currentOffset - sizeof(ScoreFileView);
+    header->totalSize = currentOffset;
+    u8 *compressedData = Lzss::Encode(
+        scoreData + sizeof(ScoreFileView), header->decompressedPayloadSize,
+        reinterpret_cast<int *>(&header->compressedSize));
+    memcpy(scoreData + sizeof(ScoreFileView), compressedData, header->compressedSize);
+    GlobalFree(compressedData);
+
+    currentOffset = header->compressedSize + sizeof(ScoreFileView);
+    header->headerSize = sizeof(ScoreFileView);
+    header->checksum = 0;
+    header->rngValue1 = static_cast<u8>(g_ReplayRng.GetRandomU16InRange(0x100));
+    header->rngValue2 = static_cast<u8>(g_ReplayRng.GetRandomU16InRange(0x100));
+    header->version = 4;
+
+    int byteIdx;
+    for (byteIdx = offsetof(ScoreFileView, version); byteIdx < currentOffset; byteIdx++)
+        header->checksum += scoreData[byteIdx];
+
+    u8 *bytes = scoreData + 1;
+    byteIdx = currentOffset - offsetof(ScoreFileView, checksum);
+    u8 xorValue = *bytes;
+    u8 byteValue;
+    while (byteIdx > 0)
+    {
+        byteValue = bytes[1];
+        xorValue = static_cast<u8>((xorValue & 0xE0) >> 5 | (xorValue & 0x1F) << 3);
+        bytes[1] ^= xorValue;
+        xorValue += byteValue;
+        bytes++;
+        byteIdx--;
+    }
+
+    u8 *encryptedData = FileSystem::Encrypt(
+        scoreData, currentOffset, 0x3A, 0xCD, 0x100, 0xC00);
+    FileSystem::WriteDataToFile("score.dat", encryptedData, currentOffset);
+    g_ZunMemory.Free(scoreData);
+    g_ZunMemory.Free(encryptedData);
+    return 0;
+}
 
 ScoreFileView *ScoreFileView::OpenScore(const char *filename)
 {

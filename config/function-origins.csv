@@ -452,7 +452,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00421C80,authored_game,ScoreData,authored,high,score-file-open-source-nearmatch-2026-09-12
 0x00421E90,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00421EA0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00421F10,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00421F10,authored_game,ScoreData,authored,high,score-file-save-source-nearmatch-2026-09-12
 0x00422200,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00422290,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004222C0,unknown,,review,unknown,ida-1.50a-initial-inventory

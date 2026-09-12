@@ -1575,7 +1575,7 @@ relocations = [
   { offset = 0x16C, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x177, type = "REL32", symbol = "?DeleteObject@DeletedDummyMidiTimerView@?A0x4471bc32@@QAEXH@Z", target = 0x00431680 },
   { offset = 0x17D, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x182, type = "REL32", symbol = "?SupervisorDeletedReleaseSubsystemA@@YIXXZ", target = 0x00421F10 },
+  { offset = 0x182, type = "REL32", symbol = "?SaveTitleScoreData@@YIHXZ", target = 0x00421F10 },
   { offset = 0x187, type = "REL32", symbol = "?SupervisorDeletedReleaseSubsystemB@@YIXXZ", target = 0x00412600 },
   { offset = 0x18C, type = "REL32", symbol = "?SupervisorDeletedReleaseSubsystemC@@YIXXZ", target = 0x00415C50 },
 ]
