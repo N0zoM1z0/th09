@@ -623,3 +623,104 @@ int AnmManager::Draw2D(AnmVm *vm)
 
     return this->DrawInner(vm, 0);
 }
+
+
+// Adjacent-family reconstruction name; original TH09 method spelling is not independently proven.
+int AnmManager::Draw2DRotatedOrAxisAligned(AnmVm *vm)
+{
+    float rotation;
+    float sine;
+    float cosine;
+    float halfWidth;
+    float halfHeight;
+    float xOffset;
+    float yOffset;
+    float zeroHalfWidth;
+    float zeroHalfHeight;
+    AnmVmRotationZView *rotationVm = reinterpret_cast<AnmVmRotationZView *>(vm);
+    AnmVmDrawAlphaView *drawVm = reinterpret_cast<AnmVmDrawAlphaView *>(vm);
+
+    if (!vm->IsVisible()) {
+        return -1;
+    }
+    if ((vm->flagsWord & 2) == 0) {
+        return -1;
+    }
+    if (drawVm->colorAlpha == 0) {
+        return -1;
+    }
+
+    rotation = rotationVm->rotationZ;
+    if (rotation != 0.0f) {
+#if defined(_MSC_VER) && defined(_M_IX86)
+        __asm {
+            fld rotation
+            fsincos
+            fstp cosine
+            fstp sine
+        }
+#else
+#error TH09 Draw2DRotatedOrAxisAligned requires the target's x87 FSINCOS sequence.
+#endif
+        xOffset = vm->pos.x;
+        yOffset = vm->pos.y;
+        halfWidth = (vm->spriteSize.x * vm->scale.x) / 2.0f;
+        halfHeight = (vm->spriteSize.y * vm->scale.y) / 2.0f;
+
+        this->TranslateRotation(&g_AnmRenderQuad[0], -halfWidth, -halfHeight,
+                                sine, cosine, xOffset, yOffset);
+        this->TranslateRotation(&g_AnmRenderQuad[1], halfWidth, -halfHeight,
+                                sine, cosine, xOffset, yOffset);
+        this->TranslateRotation(&g_AnmRenderQuad[2], -halfWidth, halfHeight,
+                                sine, cosine, xOffset, yOffset);
+        this->TranslateRotation(&g_AnmRenderQuad[3], halfWidth, halfHeight,
+                                sine, cosine, xOffset, yOffset);
+
+        g_AnmRenderQuad[3].z = vm->pos.z;
+        g_AnmRenderQuad[2].z = g_AnmRenderQuad[3].z;
+        g_AnmRenderQuad[1].z = g_AnmRenderQuad[2].z;
+        g_AnmRenderQuad[0].z = g_AnmRenderQuad[1].z;
+
+        if ((vm->anchor & 1) != 0) {
+            g_AnmRenderQuad[0].x += halfWidth;
+            g_AnmRenderQuad[1].x += halfWidth;
+            g_AnmRenderQuad[2].x += halfWidth;
+            g_AnmRenderQuad[3].x += halfWidth;
+        }
+        if ((vm->anchor & 2) != 0) {
+            g_AnmRenderQuad[0].y += halfHeight;
+            g_AnmRenderQuad[1].y += halfHeight;
+            g_AnmRenderQuad[2].y += halfHeight;
+            g_AnmRenderQuad[3].y += halfHeight;
+        }
+    } else {
+        zeroHalfWidth = (vm->spriteSize.x * vm->scale.x) / 2.0f;
+        zeroHalfHeight = (vm->spriteSize.y * vm->scale.y) / 2.0f;
+
+        if ((vm->anchor & 1) == 0) {
+            g_AnmRenderQuad[2].x = vm->pos.x - zeroHalfWidth;
+            g_AnmRenderQuad[0].x = g_AnmRenderQuad[2].x;
+            g_AnmRenderQuad[3].x = zeroHalfWidth + vm->pos.x;
+            g_AnmRenderQuad[1].x = g_AnmRenderQuad[3].x;
+        } else {
+            g_AnmRenderQuad[2].x = vm->pos.x;
+            g_AnmRenderQuad[0].x = g_AnmRenderQuad[2].x;
+            g_AnmRenderQuad[3].x = zeroHalfWidth + vm->pos.x + zeroHalfWidth;
+            g_AnmRenderQuad[1].x = g_AnmRenderQuad[3].x;
+        }
+
+        if ((vm->anchor & 2) == 0) {
+            g_AnmRenderQuad[1].y = vm->pos.y - zeroHalfHeight;
+            g_AnmRenderQuad[0].y = g_AnmRenderQuad[1].y;
+            g_AnmRenderQuad[3].y = zeroHalfHeight + vm->pos.y;
+            g_AnmRenderQuad[2].y = g_AnmRenderQuad[3].y;
+        } else {
+            g_AnmRenderQuad[1].y = vm->pos.y;
+            g_AnmRenderQuad[0].y = g_AnmRenderQuad[1].y;
+            g_AnmRenderQuad[3].y = zeroHalfHeight + vm->pos.y + zeroHalfHeight;
+            g_AnmRenderQuad[2].y = g_AnmRenderQuad[3].y;
+        }
+    }
+
+    return this->DrawInner(vm, 0);
+}

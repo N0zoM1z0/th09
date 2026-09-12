@@ -805,7 +805,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043A950,authored_game,AnmManager,authored,high,packet98-render-primitives-vc71-exact-2026-09-13
 0x0043AA50,authored_game,AnmManager,authored,high,packet101-anm-draw-geometry-vc71-2026-09-13
 0x0043AB50,authored_game,AnmManager,authored,high,packet101-anm-draw-geometry-vc71-2026-09-13
-0x0043AD40,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0043AD40,authored_game,AnmManager,authored,high,packet102-anm-draw-rotated-axis-aligned-2026-09-13
 0x0043AFE0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043B0E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043B140,unknown,,review,unknown,ida-1.50a-initial-inventory
