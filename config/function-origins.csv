@@ -702,9 +702,9 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00433290,authored_game,PbgArchive,authored,high,pbg-archive-get-entry-size-vc71-exact-2026-09-10
 0x004332B0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004333B0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004333F0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004333F0,authored_game,PbgArchive,authored,high,pbg-archive-parse-header-vc71-exact-2026-09-12
 0x004335D0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004335E0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004335E0,authored_game,PbgArchive,authored,high,pbg-archive-load-vc71-exact-2026-09-12
 0x004336A0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004336D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00433710,unknown,,review,unknown,ida-1.50a-initial-inventory

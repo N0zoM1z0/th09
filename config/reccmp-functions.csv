@@ -87,3 +87,5 @@ ScoreSupervisorView::UpdatePlayTime,0x0042FF70,function
 ScoreSupervisorView::UpdateGameTime,0x00430060,function
 SupervisorVersionView::CheckVersion,0x00430150,function
 SupervisorAddedLoadDat,0x0042F100,function
+PbgArchive::ParseHeader,0x004333F0,function
+PbgArchive::Load,0x004335E0,function

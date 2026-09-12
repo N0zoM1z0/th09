@@ -2,6 +2,8 @@
 
 #include <windows.h>
 
+class PbgFileBackend;
+
 struct PbgArchiveEntry
 {
     char *filename;
@@ -13,9 +15,22 @@ struct PbgArchiveEntry
 class PbgArchive
 {
   public:
+    bool Load(const char *filename);
+    void Release();
     unsigned char *ReadDecompressEntry(const char *filename, unsigned char *outBuffer);
     DWORD GetEntryDecompressedSize(const char *filename);
     PbgArchiveEntry *FindEntry(const char *filename);
+    bool ParseHeader(const char *filename);
+    PbgArchiveEntry *AllocEntries(void *entryBuffer, int count, unsigned int dataOffset);
+    char *CopyFileName(const char *filename);
+
+  private:
+    PbgArchiveEntry *entries;
+    int entryCount;
+    char *archiveFilename;
+    PbgFileBackend *file;
 };
+
+typedef char PbgArchiveSizeIs10[(sizeof(PbgArchive) == 0x10) ? 1 : -1];
 
 extern PbgArchive g_PbgArchive;

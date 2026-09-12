@@ -86,3 +86,5 @@ ScoreSupervisorView::UpdatePlayTime
 ScoreSupervisorView::UpdateGameTime
 SupervisorVersionView::CheckVersion
 SupervisorAddedLoadDat
+PbgArchive::ParseHeader
+PbgArchive::Load

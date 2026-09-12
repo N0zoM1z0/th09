@@ -2395,3 +2395,57 @@ relocations = [
   { offset = 0x7E, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
   { offset = 0x83, type = "REL32", symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C660 },
 ]
+
+
+[units.pbg-archive-load]
+source = "src/PbgArchiveLoad.cpp"
+object = "build/matching/PbgArchiveLoad.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgArchive::Load"]
+symbol = "?Load@PbgArchive@@QAE_NPBD@Z"
+target_address = 0x004335E0
+size = 179
+relocations = [
+  { offset = 0x06, type = "DIR32", symbol = "__ehhandler$?Load@PbgArchive@@QAE_NPBD@Z", target = 0x0048D3DB },
+  { offset = 0x0C, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x14, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x1D, type = "REL32", symbol = "?Release@PbgArchive@@QAEXXZ", target = 0x004333B0 },
+  { offset = 0x24, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x3C, type = "REL32", symbol = "??0PbgFileView@@QAE@XZ", target = 0x00433940 },
+  { offset = 0x5B, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x6D, type = "REL32", symbol = "?ParseHeader@PbgArchive@@QAE_NPBD@Z", target = 0x004333F0 },
+  { offset = 0x79, type = "REL32", symbol = "?CopyFileName@PbgArchive@@QAEPADPBD@Z", target = 0x004330A0 },
+  { offset = 0x8E, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x9B, type = "REL32", symbol = "?Release@PbgArchive@@QAEXXZ", target = 0x004333B0 },
+  { offset = 0xA9, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+]
+
+[units.pbg-archive-parse-header]
+source = "src/PbgArchiveLoad.cpp"
+object = "build/matching/PbgArchiveLoad.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgArchive::ParseHeader"]
+symbol = "?ParseHeader@PbgArchive@@QAE_NPBD@Z"
+target_address = 0x004333F0
+size = 467
+relocations = [
+  { offset = 0x1F, type = "DIR32", symbol = "?g_PbgFileOpenModes@@3PAPADA", target = 0x004A1EC8 },
+  { offset = 0x3C, type = "REL32", symbol = "?ReadInt@PbgFileBackend@@QAEKPAH@Z", target = 0x004330E0 },
+  { offset = 0x7F, type = "REL32", symbol = "?Decrypt@FileSystem@@YIPAEPAEHEEHH@Z", target = 0x0042C180 },
+  { offset = 0x98, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x9D, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0xE3, type = "DIR32", symbol = "?g_PbgFileSeekModes@@3PAHA", target = 0x00490F08 },
+  { offset = 0xF8, type = "DIR32", symbol = "__imp__GlobalAlloc@8", target = 0x0048E0C4 },
+  { offset = 0x126, type = "REL32", symbol = "?Decrypt@FileSystem@@YIPAEPAEHEEHH@Z", target = 0x0042C180 },
+  { offset = 0x130, type = "DIR32", symbol = "__imp__GlobalFree@4", target = 0x0048E05C },
+  { offset = 0x142, type = "REL32", symbol = "?Decode@Lzss@@SIPAEPAEH0H@Z", target = 0x00433AA0 },
+  { offset = 0x15C, type = "REL32", symbol = "?AllocEntries@PbgArchive@@QAEPAUPbgArchiveEntry@@PAXHI@Z", target = 0x004332B0 },
+  { offset = 0x16B, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x170, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x17B, type = "DIR32", symbol = "__imp__GlobalFree@4", target = 0x0048E05C },
+  { offset = 0x199, type = "DIR32", symbol = "?g_PbgArchiveCorruptedError@@3QBDB", target = 0x00490E90 },
+  { offset = 0x19E, type = "REL32", symbol = "?PbgDebugPrint@@YAXPBDZZ", target = 0x0043D2B0 },
+  { offset = 0x1B5, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x1BA, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x1C4, type = "DIR32", symbol = "__imp__GlobalFree@4", target = 0x0048E05C },
+]

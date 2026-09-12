@@ -1,20 +1,7 @@
 #include "PbgArchive.hpp"
 #include "Lzss.hpp"
 
-class PbgFileBackend
-{
-  public:
-    virtual bool Open(const char *filename, char *mode) = 0;
-    virtual void UnknownSlot4() = 0;
-    virtual DWORD Read(void *data, DWORD dataLen) = 0;
-    virtual void UnknownSlotC() = 0;
-    virtual void UnknownSlot10() = 0;
-    virtual void UnknownSlot14() = 0;
-    virtual bool Seek(DWORD offset, DWORD seekFrom) = 0;
-};
-
-extern char *g_PbgFileOpenModes[3];
-extern int g_PbgFileSeekModes[3];
+#include "PbgFileBackend.hpp"
 
 struct PbgArchiveReadStatePrefix
 {
