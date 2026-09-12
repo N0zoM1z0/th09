@@ -747,7 +747,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00434E30,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00434E90,authored_game,AsciiManager,authored,high,packet94-ascii-menu-state5-owner-2026-09-13
 0x00435370,authored_game,AsciiManager,authored,high,packet95-ascii-draw-registration-vc71-exact-2026-09-13
-0x004353F0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004353F0,authored_game,AsciiManager,authored,high,packet96-ascii-popup-renderer-vc71-exact-2026-09-13
 0x004355F0,authored_game,AsciiManager,authored,high,ascii-menu-state4-vc71-exact-2026-09-13
 0x00435A90,authored_game,AsciiManager,authored,high,packet95-ascii-draw-registration-vc71-exact-2026-09-13
 0x00435AF0,unknown,,review,unknown,ida-1.50a-initial-inventory

@@ -11,6 +11,12 @@ struct AsciiInputView
     unsigned short WasPressed(unsigned int buttons);
 };
 
+struct AsciiPlayerPopupPositionView
+{
+    unsigned char unknown0000[0x1B88];
+    Float3 position;
+};
+
 struct AsciiGameSideRuntimeView
 {
     float value00;
@@ -23,7 +29,9 @@ struct AsciiGameSideRuntimeView
 
 struct AsciiGameManagerSideView
 {
-    unsigned char unknown00[0x1C];
+    unsigned char unknown00[4];
+    AsciiPlayerPopupPositionView *player;
+    unsigned char unknown08[0x14];
     AsciiGameSideRuntimeView *runtime;
     unsigned char unknown20[0x14];
     unsigned int flags;
@@ -51,11 +59,15 @@ struct AsciiGameManagerView
     unsigned char menuStateA7A8Active;
     unsigned char unknown13F;
 
+    float TransformPopupX(float value);
+    float TransformPopupY(float value);
     int IsGameMode1();
     int IsReplayNeutral();
     int HasFlagBit0();
 };
 
+typedef char AsciiGameManagerSidePlayerAt04[
+    (offsetof(AsciiGameManagerSideView, player) == 0x04) ? 1 : -1];
 typedef char AsciiGameManagerSideRuntimeAt1C[
     (offsetof(AsciiGameManagerSideView, runtime) == 0x1C) ? 1 : -1];
 typedef char AsciiGameManagerField0FC[
@@ -88,6 +100,9 @@ struct AsciiSupervisorView
     unsigned char unknown5D8[0x1C4];
     unsigned int systemTime79C;
 
+    int IsFogDisabled();
+    int DisableFog();
+    int SetRenderState(int state, int value);
     int PrepareResultScreen();
     int FinalizeResultScreen();
 };
@@ -115,6 +130,15 @@ struct GameManagerSetupLayout
 {
     static void CleanupGameplayState();
 };
+
+struct AsciiAnmLoadedSpriteView
+{
+    unsigned char unknown00[0x34];
+    float widthPx;
+};
+
+typedef char AsciiAnmLoadedSpriteWidthAt34[
+    (offsetof(AsciiAnmLoadedSpriteView, widthPx) == 0x34) ? 1 : -1];
 
 static inline AsciiSupervisorView *AsciiSupervisor()
 {
@@ -807,4 +831,73 @@ int RegisterAsciiManagerStartup()
     g_AsciiManagerDrawChainHighPrio.arg = ascii;
     g_Chain.AddToDrawChain(&g_AsciiManagerDrawChainHighPrio, 23);
     return 0;
+}
+
+void AsciiManager::OnDrawHighPrioImpl(int playerIndex)
+{
+    AsciiManagerPopup *popup;
+    unsigned char *character;
+    int alpha;
+    float dx;
+    float dy;
+    int i;
+    int j;
+
+    popup = &this->scorePopups[playerIndex][0];
+
+    if (!AsciiSupervisor()->IsFogDisabled()) {
+        AsciiSupervisor()->DisableFog();
+    }
+    AsciiSupervisor()->SetRenderState(23, 8);
+
+    for (j = 0; j < 100; j++, popup++) {
+        if (!popup->inUse) {
+            continue;
+        }
+
+        this->smallScoreText.pos.x =
+            g_GameManager.TransformPopupX(
+                popup->position.x - (float)(popup->characterCount * 4));
+        this->smallScoreText.pos.y =
+            g_GameManager.TransformPopupY(popup->position.y);
+        this->smallScoreText.color1 = popup->color;
+
+        dx = g_GameManager.sides[playerIndex].player->position.x - popup->position.x;
+        dy = g_GameManager.sides[playerIndex].player->position.y - popup->position.y;
+        alpha = (int)(dx * dx + dy * dy);
+        if (alpha > 4096) {
+            alpha = 208;
+        } else if (alpha > 1024) {
+            alpha = ((alpha - 1024) << 7) / 3072 + 80;
+        } else {
+            alpha = 80;
+        }
+
+        character = reinterpret_cast<unsigned char *>(
+            &popup->text[popup->characterCount - 1]);
+        for (i = popup->characterCount; i > 0; i--) {
+            if (popup->timer < 52) {
+                this->smallScoreText.loadedSprite =
+                    this->asciiAnm->GetSprite(*character + 97);
+                reinterpret_cast<unsigned char *>(&this->smallScoreText.color1)[3] =
+                    (unsigned char)alpha;
+            } else if (popup->timer < 56) {
+                this->smallScoreText.loadedSprite =
+                    this->asciiAnm->GetSprite(*character + 97);
+                reinterpret_cast<unsigned char *>(&this->smallScoreText.color1)[3] =
+                    (unsigned char)alpha;
+            } else {
+                this->smallScoreText.loadedSprite =
+                    this->asciiAnm->GetSprite(*character + 97);
+                reinterpret_cast<unsigned char *>(&this->smallScoreText.color1)[3] =
+                    (unsigned char)alpha;
+            }
+            this->smallScoreText.spriteSize.x =
+                reinterpret_cast<AsciiAnmLoadedSpriteView *>(
+                    this->smallScoreText.loadedSprite)->widthPx;
+            g_AnmManager->DrawNoRotation(&this->smallScoreText);
+            this->smallScoreText.pos.x += 8.0f;
+            character--;
+        }
+    }
 }

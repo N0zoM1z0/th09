@@ -118,3 +118,4 @@ AsciiMenuState4::OnDraw,0x00435A90,function
 AsciiManager::OnDrawLowPrio,0x00435C00,function
 AsciiManager::OnDrawHighPrio,0x00435C60,function
 RegisterAsciiManagerStartup,0x00435CA0,function
+AsciiManager::OnDrawHighPrioImpl,0x004353F0,function

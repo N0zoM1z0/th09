@@ -33,7 +33,9 @@ struct AnmVm
 {
     unsigned char unknown_0000[0x18];
     Float2 scale;
-    unsigned char unknown_0020[0x1F0 - 0x20];
+    unsigned char unknown_0020[8];
+    Float2 spriteSize;
+    unsigned char unknown_0030[0x1F0 - 0x30];
     unsigned long color1;
     unsigned char unknown_01F4[4];
     union {
@@ -63,6 +65,7 @@ struct AnmVm
 };
 
 typedef char AnmVmSizeIs2A4[(sizeof(AnmVm) == 0x2A4) ? 1 : -1];
+typedef char AnmVmSpriteSizeAt28[(offsetof(AnmVm, spriteSize) == 0x28) ? 1 : -1];
 typedef char AnmVmAnmFileAt204[(offsetof(AnmVm, anmFile) == 0x204) ? 1 : -1];
 typedef char AnmVmScriptIndexAt21A[(offsetof(AnmVm, scriptIndex) == 0x21A) ? 1 : -1];
 

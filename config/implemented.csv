@@ -117,3 +117,4 @@ AsciiMenuState4::OnDraw
 AsciiManager::OnDrawLowPrio
 AsciiManager::OnDrawHighPrio
 RegisterAsciiManagerStartup
+AsciiManager::OnDrawHighPrioImpl
