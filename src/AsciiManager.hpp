@@ -43,9 +43,13 @@ struct AnmVm
         unsigned int flagsWord;
         struct {
             unsigned int visible : 1;
-            unsigned int unknownFlags1 : 10;
+            unsigned int drawEnabled : 1;
+            unsigned int unknownFlags2_3 : 2;
+            unsigned int blendMode : 2;
+            unsigned int unknownFlags6_10 : 5;
             unsigned int anchor : 2;
-            unsigned int unknownFlags13 : 19;
+            unsigned int disableZWrite : 1;
+            unsigned int unknownFlags14 : 18;
         };
     };
     unsigned char unknown_01FC[2];

@@ -131,3 +131,4 @@ Supervisor::ConfigureGameplayViewport,0x00401390,function
 AnmManager::FlushVertexBuffer,0x004396A0,function
 AnmManager::DrawNoRotation,0x0043A950,function
 AnmManager::AddSpriteToDrawBuffer,0x00439730,function
+AnmManager::SetRenderStateForVm,0x0043A030,function

@@ -42,6 +42,8 @@ class AnmManager
     void FlushVertexBuffer();
     int AddSpriteToDrawBuffer(VertexTex1DiffuseXyzrhw *vertices);
     int DrawInner(AnmVm *vm, int flags);
+    int DrawInnerFlippedX(AnmVm *vm, int flags);
+    void SetRenderStateForVm(AnmVm *vm);
     int DrawNoRotation(AnmVm *vm);
     int ExecuteScript(AnmVm *vm);
     AnmLoaded *PreloadAnm(int anmIdx, const char *filename);
