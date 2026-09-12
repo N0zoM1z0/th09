@@ -6,6 +6,9 @@ class PbgFileBackend;
 
 struct PbgArchiveEntry
 {
+    PbgArchiveEntry();
+    ~PbgArchiveEntry();
+
     char *filename;
     DWORD dataOffset;
     DWORD decompressedSize;
@@ -23,6 +26,8 @@ class PbgArchive
     bool ParseHeader(const char *filename);
     PbgArchiveEntry *AllocEntries(void *entryBuffer, int count, unsigned int dataOffset);
     char *CopyFileName(const char *filename);
+    static int SeekPastInt(void **ptr);
+    static void *SeekPastString(void **ptr);
 
   private:
     PbgArchiveEntry *entries;

@@ -89,3 +89,11 @@ SupervisorVersionView::CheckVersion,0x00430150,function
 SupervisorAddedLoadDat,0x0042F100,function
 PbgArchive::ParseHeader,0x004333F0,function
 PbgArchive::Load,0x004335E0,function
+PbgArchive::CopyFileName,0x004330A0,function
+PbgFileBackend::ReadInt,0x004330E0,function
+PbgArchive::SeekPastInt,0x00433100,function
+PbgArchive::SeekPastString,0x00433110,function
+PbgArchiveEntry::PbgArchiveEntry,0x00433130,function
+PbgArchiveEntry::~PbgArchiveEntry,0x00433140,function
+PbgArchive::AllocEntries,0x004332B0,function
+PbgArchive::Release,0x004333B0,function
