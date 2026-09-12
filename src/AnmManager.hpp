@@ -49,6 +49,11 @@ class AnmManager
     void TranslateRotation(VertexTex1DiffuseXyzrhw *vertex, float x, float y, float sine, float cosine, float xOffset, float yOffset);
     int Draw2D(AnmVm *vm);
     int Draw2DRotatedOrAxisAligned(AnmVm *vm);
+    int DrawNoRotationNoRound(AnmVm *vm);
+    int ProjectCameraFacingQuad(AnmVm *vm);
+    int DrawCameraFacingQuad(AnmVm *vm);
+    void Project3DQuad(AnmVm *vm);
+    int DrawProjected3DQuad(AnmVm *vm);
     int ExecuteScript(AnmVm *vm);
     AnmLoaded *PreloadAnm(int anmIdx, const char *filename);
     void ReleaseAnm(int anmIdx);

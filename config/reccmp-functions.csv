@@ -134,3 +134,6 @@ AnmManager::AddSpriteToDrawBuffer,0x00439730,function
 AnmManager::SetRenderStateForVm,0x0043A030,function
 AnmManager::TranslateRotation,0x004397E0,function
 AnmManager::DrawNoRotationFlippedX,0x0043AA50,function
+AnmManager::DrawNoRotationNoRound,0x0043AFE0,function
+AnmManager::DrawCameraFacingQuad,0x0043B0E0,function
+AnmManager::DrawProjected3DQuad,0x0043B140,function

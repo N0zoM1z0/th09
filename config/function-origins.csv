@@ -794,8 +794,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004396A0,authored_game,AnmManager,authored,high,packet98-render-primitives-vc71-exact-2026-09-13
 0x00439730,authored_game,AnmManager,authored,high,packet99-anm-render-core-vc71-exact-2026-09-13
 0x004397E0,authored_game,AnmManager,authored,high,packet101-anm-draw-geometry-vc71-2026-09-13
-0x00439820,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00439A90,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00439820,authored_game,AnmManager,authored,high,packet103-anm-remaining-draw-modes-2026-09-13
+0x00439A90,authored_game,AnmManager,authored,high,packet103-anm-remaining-draw-modes-2026-09-13
 0x00439CF0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00439DC0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00439E90,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -806,9 +806,9 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043AA50,authored_game,AnmManager,authored,high,packet101-anm-draw-geometry-vc71-2026-09-13
 0x0043AB50,authored_game,AnmManager,authored,high,packet101-anm-draw-geometry-vc71-2026-09-13
 0x0043AD40,authored_game,AnmManager,authored,high,packet102-anm-draw-rotated-axis-aligned-2026-09-13
-0x0043AFE0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0043B0E0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0043B140,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0043AFE0,authored_game,AnmManager,authored,high,packet103-anm-remaining-draw-modes-2026-09-13
+0x0043B0E0,authored_game,AnmManager,authored,high,packet103-anm-remaining-draw-modes-2026-09-13
+0x0043B140,authored_game,AnmManager,authored,high,packet103-anm-remaining-draw-modes-2026-09-13
 0x0043B1A0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043B4D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043B5C0,unknown,,review,unknown,ida-1.50a-initial-inventory

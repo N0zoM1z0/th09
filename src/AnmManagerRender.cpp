@@ -724,3 +724,52 @@ int AnmManager::Draw2DRotatedOrAxisAligned(AnmVm *vm)
 
     return this->DrawInner(vm, 0);
 }
+
+
+int AnmManager::DrawNoRotationNoRound(AnmVm *vm)
+{
+    float spriteHalfWidth;
+    float spriteHalfHeight;
+    AnmVmDrawAlphaView *drawVm = reinterpret_cast<AnmVmDrawAlphaView *>(vm);
+    if (!vm->IsVisible()) return -1;
+    if ((vm->flagsWord & 2) == 0) return -1;
+    if (drawVm->colorAlpha == 0) return -1;
+    spriteHalfWidth = (vm->spriteSize.x * vm->scale.x) / 2.0f;
+    spriteHalfHeight = (vm->spriteSize.y * vm->scale.y) / 2.0f;
+    if ((vm->anchor & 1) == 0) {
+        g_AnmRenderQuad[0].x = g_AnmRenderQuad[2].x = vm->pos.x - spriteHalfWidth;
+        g_AnmRenderQuad[1].x = g_AnmRenderQuad[3].x = spriteHalfWidth + vm->pos.x;
+    } else {
+        g_AnmRenderQuad[0].x = g_AnmRenderQuad[2].x = vm->pos.x;
+        g_AnmRenderQuad[1].x = g_AnmRenderQuad[3].x = spriteHalfWidth + vm->pos.x + spriteHalfWidth;
+    }
+    if ((vm->anchor & 2) == 0) {
+        g_AnmRenderQuad[0].y = g_AnmRenderQuad[1].y = vm->pos.y - spriteHalfHeight;
+        g_AnmRenderQuad[2].y = g_AnmRenderQuad[3].y = spriteHalfHeight + vm->pos.y;
+    } else {
+        g_AnmRenderQuad[0].y = g_AnmRenderQuad[1].y = vm->pos.y;
+        g_AnmRenderQuad[2].y = g_AnmRenderQuad[3].y = spriteHalfHeight + vm->pos.y + spriteHalfHeight;
+    }
+    g_AnmRenderQuad[0].z = g_AnmRenderQuad[1].z = g_AnmRenderQuad[2].z = g_AnmRenderQuad[3].z = vm->pos.z;
+    return this->DrawInner(vm, 0);
+}
+
+int AnmManager::DrawCameraFacingQuad(AnmVm *vm)
+{
+    AnmVmDrawAlphaView *drawVm = reinterpret_cast<AnmVmDrawAlphaView *>(vm);
+    if (!vm->IsVisible()) return -1;
+    if ((vm->flagsWord & 2) == 0) return -1;
+    if (drawVm->colorAlpha == 0) return -1;
+    if (this->ProjectCameraFacingQuad(vm) != 0) return -1;
+    return this->DrawInner(vm, 0);
+}
+
+int AnmManager::DrawProjected3DQuad(AnmVm *vm)
+{
+    AnmVmDrawAlphaView *drawVm = reinterpret_cast<AnmVmDrawAlphaView *>(vm);
+    if (!vm->IsVisible()) return -1;
+    if ((vm->flagsWord & 2) == 0) return -1;
+    if (drawVm->colorAlpha == 0) return -1;
+    this->Project3DQuad(vm);
+    return this->DrawInner(vm, 0);
+}

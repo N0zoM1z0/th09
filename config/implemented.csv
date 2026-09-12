@@ -133,3 +133,6 @@ AnmManager::AddSpriteToDrawBuffer
 AnmManager::SetRenderStateForVm
 AnmManager::TranslateRotation
 AnmManager::DrawNoRotationFlippedX
+AnmManager::DrawNoRotationNoRound
+AnmManager::DrawCameraFacingQuad
+AnmManager::DrawProjected3DQuad

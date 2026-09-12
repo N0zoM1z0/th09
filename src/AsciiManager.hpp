@@ -21,6 +21,7 @@ struct Float3
     Float3 operator+(const Float3 &other) const;
     Float3 operator-(const Float3 &other) const;
     Float3 operator*(float scalar) const;
+    operator float *();
 
     float x;
     float y;
