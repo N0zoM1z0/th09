@@ -18,7 +18,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00401340,authored_game,ZunMemory,authored,high,zun-memory-alloc-vc71-exact-2026-09-10
 0x00401360,authored_game,ZunMemory,authored,high,zun-memory-free-vc71-exact-2026-09-10
 0x00401380,authored_game,ZunMemory,authored,high,zun-memory-add-to-registry-vc71-exact-2026-09-10
-0x00401390,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00401390,authored_game,Supervisor,authored,high,packet98-render-primitives-vc71-exact-2026-09-13
 0x004013E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00401410,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00401440,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -791,7 +791,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004395A0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00439630,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00439680,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004396A0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004396A0,authored_game,AnmManager,authored,high,packet98-render-primitives-vc71-exact-2026-09-13
 0x00439730,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004397E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00439820,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -802,7 +802,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043A030,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043A0F0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043A520,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0043A950,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0043A950,authored_game,AnmManager,authored,high,packet98-render-primitives-vc71-exact-2026-09-13
 0x0043AA50,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043AB50,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043AD40,unknown,,review,unknown,ida-1.50a-initial-inventory

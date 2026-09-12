@@ -3063,3 +3063,61 @@ target_address = 0x00434390
 size = 0x12
 relocations = [
 ]
+
+[units.supervisor-configure-gameplay-viewport]
+source = "src/SupervisorViewport.cpp"
+object = "build/matching/SupervisorViewport.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Supervisor::ConfigureGameplayViewport"]
+symbol = "?ConfigureGameplayViewport@Supervisor@@QAEXH@Z"
+target_address = 0x00401390
+size = 0x47
+relocations = [
+  { offset = 0x1E, type = "REL32", symbol = "?ApplyGameplayViewport@SupervisorViewportView@@QAEXPAUSupervisorViewportConfiguration@@@Z", target = 0x004306B0 },
+]
+
+[units.anm-manager-flush-vertex-buffer]
+source = "src/AnmManagerRender.cpp"
+object = "build/matching/AnmManagerRender.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::FlushVertexBuffer"]
+symbol = "?FlushVertexBuffer@AnmManager@@QAEXXZ"
+target_address = 0x004396A0
+size = 0x89
+relocations = [
+  { offset = 0x0E, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x22, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x36, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x4F, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+]
+
+[units.anm-manager-draw-no-rotation]
+source = "src/AnmManagerRender.cpp"
+object = "build/matching/AnmManagerRender.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::DrawNoRotation"]
+symbol = "?DrawNoRotation@AnmManager@@QAEHPAUAnmVm@@@Z"
+target_address = 0x0043A950
+size = 0xFE
+relocations = [
+  { offset = 0x0D, type = "REL32", symbol = "?IsVisible@AnmVm@@QAEHXZ", target = 0x00434370 },
+  { offset = 0x3D, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x49, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x5C, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x62, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x6A, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x70, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x7E, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x84, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x9E, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0xA4, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0xAF, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0xB5, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0xCB, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0xD1, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0xDD, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0xE3, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0xE9, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0xEF, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0xF4, type = "REL32", symbol = "?DrawInner@AnmManagerRenderView@@QAEHPAUAnmVm@@H@Z", target = 0x0043A0F0 },
+]

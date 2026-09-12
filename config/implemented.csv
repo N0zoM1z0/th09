@@ -126,3 +126,6 @@ Supervisor::SetRenderState
 AsciiManager::ResetStrings
 AnmLoaded::GetSprite
 PauseMenu::OnDraw
+Supervisor::ConfigureGameplayViewport
+AnmManager::FlushVertexBuffer
+AnmManager::DrawNoRotation
