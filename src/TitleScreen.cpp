@@ -115,7 +115,9 @@ struct TitleScreenView {
     i32 selectedReplay;                       // +0x0C908
     i32 unknown0C90C;
     union { i32 replayUiFrameCounter; i32 screenFrameCounter; }; // +0x0C910
-    u8 unknown0C914[0x0C];
+    u8 unknown0C914[4];
+    i32 unknown0C918;                        // +0x0C918
+    u8 unknown0C91C[4];
     i32 optionResetCounter;                   // +0x0C920
     u8 unknown0C924[0x526C];
     TitleAnmView *titleAnm;                   // +0x11B90
@@ -137,6 +139,7 @@ struct TitleScreenView {
 
     int UpdateReplaySave();
     int OnUpdateStartMenu();
+    int OnUpdateDifficultySelect();
     int PlayMenuSound(i32 soundId, i32 unused);
     int ChangeCurrentScreen(i32 screen);
     int MoveTwoChoiceCursor(i32 count);
@@ -144,6 +147,9 @@ struct TitleScreenView {
     int UpdateMenuSelection();
     int SetMenuSelectionSprites(i32 selected, i32 start, i32 count);
     int OnUpdateOptions();
+    int OnUpdateCharacterSelect();
+    int UpdateScreen8Mode0();
+    int UpdateScreen8Mode123();
 };
 
 typedef char TitleStateAt28[(offsetof(TitleScreenView, replaySaveState) == 0x28) ? 1 : -1];
@@ -151,6 +157,7 @@ typedef char TitleReplayNameAt8C[(offsetof(TitleScreenView, replayName) == 0x8C)
 typedef char TitleReplayPathsAt28C[(offsetof(TitleScreenView, replayPaths) == 0x28C) ? 1 : -1];
 typedef char TitleReplaysAt68E4[(offsetof(TitleScreenView, replays) == 0x68E4) ? 1 : -1];
 typedef char TitleSelectedReplayAtC908[(offsetof(TitleScreenView, selectedReplay) == 0xC908) ? 1 : -1];
+typedef char TitleUnknownC918AtC918[(offsetof(TitleScreenView, unknown0C918) == 0xC918) ? 1 : -1];
 typedef char TitleUiVmAt11B98[(offsetof(TitleScreenView, uiVm) == 0x11B98) ? 1 : -1];
 typedef char TitleUiScriptAt1B224[(offsetof(TitleScreenView, uiScript) == 0x1B224) ? 1 : -1];
 typedef char TitlePhaseAt1B230[(offsetof(TitleScreenView, phaseTimer) == 0x1B230) ? 1 : -1];
@@ -182,7 +189,8 @@ extern TitleAnmManagerView *g_TitleAnmManager;
 extern TitleSupervisorView g_TitleSupervisor;
 extern TitleMidiOutputView *g_TitleMidiOutput;
 extern u8 g_TitleLockedMenuItem;
-extern i32 g_TitleDefaultCursor;
+extern i32 g_TitleModeSelection;
+extern u8 g_TitleDifficulty;
 extern const char *g_DemoReplayPaths[3];
 extern u8 g_DemoReplayIndex;
 extern char g_SelectedReplayPath[];
@@ -559,7 +567,7 @@ int TitleScreenView::OnUpdateStartMenu()
             if (resumeState != 0)
             {
                 g_TitleGameFlags &= ~8u;
-                keyboardSelection = g_TitleDefaultCursor;
+                keyboardSelection = g_TitleModeSelection;
                 ChangeCurrentScreen(6);
                 g_TitleAnmManager->SetInterruptArray(vms, vmCount, 5);
                 return 1;
@@ -666,7 +674,7 @@ int TitleScreenView::OnUpdateStartMenu()
                 case 2:
                     g_TitleGameFlags &= ~8u;
                     PlayMenuSound(10, 0);
-                    keyboardSelection = g_TitleDefaultCursor;
+                    keyboardSelection = g_TitleModeSelection;
                     ChangeCurrentScreen(6);
                     g_TitleAnmManager->SetInterruptArray(vms, vmCount, 5);
                     g_TitleTransitionCounter0 = 10;
@@ -754,6 +762,165 @@ int TitleScreenView::OnUpdateStartMenu()
 
     screenFrameCounter++;
     stateTimer++;
+    stateTimer2++;
+    return 1;
+}
+
+
+int TitleScreenView::OnUpdateDifficultySelect()
+{
+    i32 oldScreen;
+
+    switch (currentScreenState)
+    {
+    case 0:
+        if (stateTimer2 == 0)
+        {
+            if (g_TitleAnmManager->LoadSurface(0, "title/select00.png"))
+                return 0;
+
+            if (currentScreen == 4)
+                g_TitleAnmManager->SetInterruptArray(vms, vmCount, 25);
+            else
+                g_TitleAnmManager->SetInterruptArray(vms, vmCount, 12);
+            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+
+            if (currentScreen == 7)
+            {
+                vms[131 + g_TitleModeSelection].pendingInterrupt = 9;
+                if (resumeState == 1)
+                {
+                    ChangeCurrentScreen(8);
+                    switch (g_TitleModeSelection)
+                    {
+                    case 0:
+                        UpdateScreen8Mode0();
+                        break;
+                    case 1:
+                    case 2:
+                    case 3:
+                        UpdateScreen8Mode123();
+                        break;
+                    case 4:
+                    default:
+                        break;
+                    }
+                    vms[136 + g_TitleDifficulty].pendingInterrupt = 10;
+                    resumeState = 0;
+                    return 1;
+                }
+                if (resumeState == 2)
+                {
+                    UpdateScreen8Mode0();
+                    vms[136 + g_TitleDifficulty].pendingInterrupt = 10;
+                    resumeState = 0;
+                    ChangeCurrentScreen(8);
+                    return 1;
+                }
+            }
+
+            keyboardSelection = g_TitleDifficulty;
+            if (currentScreen == 4)
+                keyboardSelection = 4;
+            else if (keyboardSelection >= 4)
+                keyboardSelection = 1;
+
+            menuVmStart = 136;
+            menuItemCount = 4;
+            UpdateMenuSelection();
+            unknown0C918 = 1;
+            currentScreenState = 0;
+            stateTimer = 0;
+            currentHelpTextVm = 0;
+        }
+        if (stateTimer2 == 8)
+            currentScreenState = 1;
+        break;
+
+    case 1:
+        if (currentScreen != 4)
+        {
+            if (MoveCursorVertical(4))
+                UpdateMenuSelection();
+        }
+        else if (g_TitleInputFlags & 0x30)
+        {
+            PlayMenuSound(12, 0);
+        }
+
+        if (g_TitleInputFlags & 0x1001)
+        {
+            g_TitleDifficulty = (u8)keyboardSelection;
+            PlayMenuSound(10, 0);
+            if (currentScreen == 7)
+            {
+                ChangeCurrentScreen(8);
+                switch (g_TitleModeSelection)
+                {
+                case 0:
+                case 4:
+                    UpdateScreen8Mode0();
+                    break;
+                case 1:
+                case 2:
+                case 3:
+                    UpdateScreen8Mode123();
+                    break;
+                }
+                vms[136 + g_TitleDifficulty].pendingInterrupt = 10;
+                return 1;
+            }
+
+            if (currentScreen == 2)
+                ChangeCurrentScreen(3);
+            else
+                ChangeCurrentScreen(5);
+            OnUpdateCharacterSelect();
+            vms[136 + g_TitleDifficulty].pendingInterrupt = 9;
+            return 1;
+        }
+
+        if (g_TitleModeSelection == 4 && g_OptionPointers[42] == 0)
+        {
+            PlayMenuSound(11, 0);
+            stateTimer = 0;
+            if (currentScreen == 7)
+            {
+                ChangeCurrentScreen(6);
+                return 1;
+            }
+            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 6);
+            currentScreenState = 3;
+        }
+
+        if (g_OptionPointers[42] == 0 && (g_TitleInputFlags & 0xA))
+        {
+            g_TitleDifficulty = (u8)keyboardSelection;
+            PlayMenuSound(11, 0);
+            stateTimer = 0;
+            if (currentScreen == 7)
+            {
+                ChangeCurrentScreen(6);
+                return 1;
+            }
+            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 6);
+            currentScreenState = 3;
+        }
+        break;
+
+    case 3:
+        if (stateTimer >= 20)
+        {
+            oldScreen = currentScreen;
+            ChangeCurrentScreen(1);
+            keyboardSelection = oldScreen != 2;
+            return 1;
+        }
+        break;
+    }
+
+    stateTimer++;
+    screenFrameCounter++;
     stateTimer2++;
     return 1;
 }

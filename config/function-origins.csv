@@ -527,7 +527,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00429662,authored_game,TitleScreen,authored,high,title-screen-replay-flow-owner-corrected-2026-09-12
 0x00429D83,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00429E23,authored_game,TitleScreen,authored,high,title-screen-start-menu-source-nearmatch-2026-09-12
-0x0042A45B,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042A45B,authored_game,TitleScreen,authored,high,title-screen-difficulty-select-source-nearmatch-2026-09-12
 0x0042A7D1,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042AB13,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042ABE0,authored_game,Chain,authored,high,chain-elem-constructor-vc71-exact-2026-09-10
