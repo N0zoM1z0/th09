@@ -2370,3 +2370,28 @@ relocations = [
   { offset = 0x7D, type = "REL32", symbol = "_sscanf", target = 0x0047CBEE },
   { offset = 0x9C, type = "REL32", symbol = "_strchr", target = 0x0047CB30 },
 ]
+
+[units.supervisor-load-version-data]
+source = "src/SupervisorVersion.cpp"
+object = "build/matching/SupervisorVersionLoad.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorAddedLoadDat"]
+symbol = "?SupervisorAddedLoadDat@@YIHXZ"
+target_address = 0x0042F100
+size = 145
+relocations = [
+  { offset = 0x0A, type = "DIR32", symbol = "??_C@_08PEFCNNGF@th09?4dat?$AA@", target = 0x00490728 },
+  { offset = 0x0F, type = "DIR32", symbol = "?g_PbgArchive@@3USupervisorVersionPbgArchiveView@@A", target = 0x004AD008 },
+  { offset = 0x14, type = "REL32", symbol = "?Load@SupervisorVersionPbgArchiveView@@QAE_NPBD@Z", target = 0x004335E0 },
+  { offset = 0x2A, type = "DIR32", symbol = "??_C@_0BA@CKBDLIAG@th09_?$CF?44x?$CFc?4ver?$AA@", target = 0x00490718 },
+  { offset = 0x30, type = "REL32", symbol = "_sprintf", target = 0x0047C47B },
+  { offset = 0x43, type = "REL32", symbol = "?OpenFile@FileSystem@@YIPAEPBDPAHH@Z", target = 0x0042C970 },
+  { offset = 0x4D, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorVersionView@@A", target = 0x004B3100 },
+  { offset = 0x53, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorVersionView@@A", target = 0x004B3100 },
+  { offset = 0x5A, type = "DIR32", symbol = "?g_DatVersionError@@3QBDB", target = 0x004906F0 },
+  { offset = 0x5F, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x64, type = "REL32", symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C660 },
+  { offset = 0x79, type = "DIR32", symbol = "?g_DatNotFoundError@@3QBDB", target = 0x004906C8 },
+  { offset = 0x7E, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x83, type = "REL32", symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C660 },
+]

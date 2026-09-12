@@ -85,3 +85,4 @@ ScoreFileView::LoadPlayStats
 ScoreSupervisorView::UpdatePlayTime
 ScoreSupervisorView::UpdateGameTime
 SupervisorVersionView::CheckVersion
+SupervisorAddedLoadDat

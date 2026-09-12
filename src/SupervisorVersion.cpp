@@ -1,3 +1,6 @@
+#include "FileSystem.hpp"
+#include "GameErrorContext.hpp"
+
 #include <stdio.h>
 #include <string.h>
 #include <stddef.h>
@@ -15,6 +18,40 @@ struct SupervisorVersionView {
 
 typedef char VersionDataSizeAt7A8[(offsetof(SupervisorVersionView, versionDataSize) == 0x7A8) ? 1 : -1];
 typedef char VersionDataAt7AC[(offsetof(SupervisorVersionView, versionData) == 0x7AC) ? 1 : -1];
+
+struct SupervisorVersionPbgArchiveView {
+    bool Load(const char *path);
+};
+
+extern SupervisorVersionView g_Supervisor;
+extern SupervisorVersionPbgArchiveView g_PbgArchive;
+extern GameErrorContext g_GameErrorContext;
+extern const char g_DatNotFoundError[];
+extern const char g_DatVersionError[];
+
+int SupervisorAddedLoadDat()
+{
+    if (g_PbgArchive.Load("th09.dat"))
+    {
+        int fileSize;
+        char versionFileName[128];
+        sprintf(versionFileName, "th09_%.4x%c.ver", 0x150, 'a');
+        g_Supervisor.versionData = reinterpret_cast<char *>(
+            FileSystem::OpenFile(versionFileName, &fileSize, 0));
+        g_Supervisor.versionDataSize = fileSize;
+        if (g_Supervisor.versionData == NULL)
+        {
+            g_GameErrorContext.Fatal(g_DatVersionError);
+            return -1;
+        }
+    }
+    else
+    {
+        g_GameErrorContext.Fatal(g_DatNotFoundError);
+        return -1;
+    }
+    return 0;
+}
 
 int SupervisorVersionView::CheckVersion(const char *version, i32 exeSize, i32 exeChecksum)
 {
