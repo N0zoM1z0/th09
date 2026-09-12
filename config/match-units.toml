@@ -1985,3 +1985,204 @@ size = 0x2D
 relocations = [
   { offset = 0x00D, type = "REL32", symbol = "_vsprintf", target = 0x0047C335 },
 ]
+
+[units.title-screen-mode-select]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::OnUpdateModeSelect"]
+symbol = "?OnUpdateModeSelect@TitleScreenView@@QAEHXZ"
+target_address = 0x0042A7D1
+size = 506
+
+[[units.title-screen-mode-select.relocations]]
+offset = 45
+type = "REL32"
+symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z"
+target = 0x00422F39
+
+[[units.title-screen-mode-select.relocations]]
+offset = 61
+type = "REL32"
+symbol = "?MoveCursorVertical@TitleScreenView@@QAEHH@Z"
+target = 0x0042457A
+
+[[units.title-screen-mode-select.relocations]]
+offset = 72
+type = "REL32"
+symbol = "?UpdateMenuSelection@TitleScreenView@@QAEHXZ"
+target = 0x004276D7
+
+[[units.title-screen-mode-select.relocations]]
+offset = 77
+type = "DIR32"
+symbol = "?g_TitleInputFlags@@3IA"
+target = 0x004ACF3A
+
+[[units.title-screen-mode-select.relocations]]
+offset = 93
+type = "DIR32"
+symbol = "?g_TitleModeSelection@@3HA"
+target = 0x004A7EA4
+
+[[units.title-screen-mode-select.relocations]]
+offset = 101
+type = "DIR32"
+symbol = "?g_OptionPointers@@3PAPAXA"
+target = 0x004B42D0
+
+[[units.title-screen-mode-select.relocations]]
+offset = 106
+type = "REL32"
+symbol = "?PrepareTitleMode4Network@@YIXPAX@Z"
+target = 0x004324C0
+
+[[units.title-screen-mode-select.relocations]]
+offset = 111
+type = "DIR32"
+symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A"
+target = 0x004B3100
+
+[[units.title-screen-mode-select.relocations]]
+offset = 116
+type = "REL32"
+symbol = "?ResetTitleMode4Supervisor@@YIXPAUTitleSupervisorView@@@Z"
+target = 0x0042EC30
+
+[[units.title-screen-mode-select.relocations]]
+offset = 122
+type = "DIR32"
+symbol = "?g_TitleDifficulty@@3EA"
+target = 0x004B3538
+
+[[units.title-screen-mode-select.relocations]]
+offset = 129
+type = "DIR32"
+symbol = "?g_GameSide0Value20@@3HA"
+target = 0x004A7DB0
+
+[[units.title-screen-mode-select.relocations]]
+offset = 135
+type = "DIR32"
+symbol = "?g_GameSide1Value20@@3HA"
+target = 0x004A7DE8
+
+[[units.title-screen-mode-select.relocations]]
+offset = 149
+type = "REL32"
+symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z"
+target = 0x00422F17
+
+[[units.title-screen-mode-select.relocations]]
+offset = 158
+type = "REL32"
+symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z"
+target = 0x00422F39
+
+[[units.title-screen-mode-select.relocations]]
+offset = 165
+type = "REL32"
+symbol = "?OnUpdateDifficultySelect@TitleScreenView@@QAEHXZ"
+target = 0x0042A45B
+
+[[units.title-screen-mode-select.relocations]]
+offset = 170
+type = "DIR32"
+symbol = "?g_TitleModeSelection@@3HA"
+target = 0x004A7EA4
+
+[[units.title-screen-mode-select.relocations]]
+offset = 217
+type = "DIR32"
+symbol = "?g_TitleModeSelection@@3HA"
+target = 0x004A7EA4
+
+[[units.title-screen-mode-select.relocations]]
+offset = 222
+type = "REL32"
+symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z"
+target = 0x00422F17
+
+[[units.title-screen-mode-select.relocations]]
+offset = 252
+type = "DIR32"
+symbol = "?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A"
+target = 0x004DC550
+
+[[units.title-screen-mode-select.relocations]]
+offset = 257
+type = "REL32"
+symbol = "?SetInterruptArray@TitleAnmManagerView@@QAEXPAUAnmVmView@@HH@Z"
+target = 0x00436DE0
+
+[[units.title-screen-mode-select.relocations]]
+offset = 289
+type = "DIR32"
+symbol = "?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A"
+target = 0x004DC550
+
+[[units.title-screen-mode-select.relocations]]
+offset = 294
+type = "DIR32"
+symbol = "??_C@_0BD@IOBGKAJC@title?1select00?4png?$AA@"
+target = 0x0048FB68
+
+[[units.title-screen-mode-select.relocations]]
+offset = 300
+type = "REL32"
+symbol = "?LoadSurface@TitleAnmManagerView@@QAEHHPBD@Z"
+target = 0x0043CAE0
+
+[[units.title-screen-mode-select.relocations]]
+offset = 317
+type = "DIR32"
+symbol = "?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A"
+target = 0x004DC550
+
+[[units.title-screen-mode-select.relocations]]
+offset = 338
+type = "REL32"
+symbol = "?SetInterruptArray@TitleAnmManagerView@@QAEXPAUAnmVmView@@HH@Z"
+target = 0x00436DE0
+
+[[units.title-screen-mode-select.relocations]]
+offset = 346
+type = "DIR32"
+symbol = "?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A"
+target = 0x004DC550
+
+[[units.title-screen-mode-select.relocations]]
+offset = 357
+type = "REL32"
+symbol = "?ExecuteScriptArray@TitleAnmManagerView@@QAEXPAUAnmVmView@@H@Z"
+target = 0x00439560
+
+[[units.title-screen-mode-select.relocations]]
+offset = 374
+type = "REL32"
+symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z"
+target = 0x00422F39
+
+[[units.title-screen-mode-select.relocations]]
+offset = 381
+type = "REL32"
+symbol = "?OnUpdateDifficultySelect@TitleScreenView@@QAEHXZ"
+target = 0x0042A45B
+
+[[units.title-screen-mode-select.relocations]]
+offset = 386
+type = "DIR32"
+symbol = "?g_TitleModeSelection@@3HA"
+target = 0x004A7EA4
+
+[[units.title-screen-mode-select.relocations]]
+offset = 415
+type = "DIR32"
+symbol = "?g_TitleModeSelection@@3HA"
+target = 0x004A7EA4
+
+[[units.title-screen-mode-select.relocations]]
+offset = 442
+type = "REL32"
+symbol = "?UpdateMenuSelection@TitleScreenView@@QAEHXZ"
+target = 0x004276D7

@@ -79,3 +79,4 @@ ReplayManagerView::Create,0x00421670,function
 ReleaseReplayManagerCore,0x00420A60,function
 ReplayManagerView::Release,0x00420AD0,function
 AppendReplayFormat,0x004200C0,function
+TitleScreenView::OnUpdateModeSelect,0x0042A7D1,function

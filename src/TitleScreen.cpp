@@ -140,6 +140,7 @@ struct TitleScreenView {
     int UpdateReplaySave();
     int OnUpdateStartMenu();
     int OnUpdateDifficultySelect();
+    int OnUpdateModeSelect();
     int PlayMenuSound(i32 soundId, i32 unused);
     int ChangeCurrentScreen(i32 screen);
     int MoveTwoChoiceCursor(i32 count);
@@ -207,6 +208,10 @@ extern u8 g_OptionC;
 extern u8 g_OptionD;
 extern const char *g_TitleHelpText[8];
 extern TitleConfigSnapshotView g_TitleConfigSnapshot;
+extern i32 g_GameSide0Value20;
+extern i32 g_GameSide1Value20;
+extern void __fastcall PrepareTitleMode4Network(void *optionState);
+extern void __fastcall ResetTitleMode4Supervisor(TitleSupervisorView *supervisor);
 
 int TitleScreenView::UpdateReplaySave()
 {
@@ -914,6 +919,94 @@ int TitleScreenView::OnUpdateDifficultySelect()
             oldScreen = currentScreen;
             ChangeCurrentScreen(1);
             keyboardSelection = oldScreen != 2;
+            return 1;
+        }
+        break;
+    }
+
+    stateTimer++;
+    screenFrameCounter++;
+    stateTimer2++;
+    return 1;
+}
+
+
+int TitleScreenView::OnUpdateModeSelect()
+{
+    switch (currentScreenState)
+    {
+    case 0:
+        if (stateTimer2 == 0)
+        {
+            if (previousScreen != 7 && g_TitleAnmManager->LoadSurface(0, "title/select00.png"))
+                return 0;
+
+            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 11);
+            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+
+            if (resumeState != 0)
+            {
+                ChangeCurrentScreen(7);
+                OnUpdateDifficultySelect();
+                vms[131 + g_TitleModeSelection].pendingInterrupt = 9;
+                return 1;
+            }
+
+            keyboardSelection = g_TitleModeSelection;
+            menuVmStart = 131;
+            menuItemCount = 5;
+            UpdateMenuSelection();
+            unknown0C918 = 1;
+            currentScreenState = 0;
+            stateTimer = 0;
+            currentHelpTextVm = 0;
+        }
+
+        if (stateTimer2 == 8)
+            currentScreenState = 1;
+        break;
+
+    case 1:
+        if (MoveCursorVertical(5))
+            UpdateMenuSelection();
+
+        {
+            u32 inputFlags = g_TitleInputFlags;
+            if (inputFlags & 0x1001)
+            {
+                g_TitleModeSelection = keyboardSelection;
+                if (g_TitleModeSelection == 4)
+                {
+                    PrepareTitleMode4Network(g_OptionPointers);
+                    ResetTitleMode4Supervisor(&g_TitleSupervisor);
+                    g_TitleDifficulty = 1;
+                    g_GameSide0Value20 = 0;
+                    g_GameSide1Value20 = 1;
+                }
+
+                PlayMenuSound(10, 0);
+                ChangeCurrentScreen(7);
+                OnUpdateDifficultySelect();
+                vms[131 + g_TitleModeSelection].pendingInterrupt = 9;
+                return 1;
+            }
+
+            if (inputFlags & 0xA)
+            {
+                g_TitleModeSelection = keyboardSelection;
+                PlayMenuSound(11, 0);
+                currentScreenState = 3;
+                stateTimer = 0;
+                g_TitleAnmManager->SetInterruptArray(vms, vmCount, 6);
+            }
+        }
+        break;
+
+    case 3:
+        if (stateTimer >= 20)
+        {
+            ChangeCurrentScreen(1);
+            keyboardSelection = 2;
             return 1;
         }
         break;
