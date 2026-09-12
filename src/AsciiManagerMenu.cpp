@@ -106,6 +106,10 @@ extern AsciiGameManagerView g_GameManager;
 extern AsciiSoundPlayerView g_SoundPlayer;
 extern AsciiManager g_AsciiManager;
 extern unsigned char *g_AsciiMenuConfig;
+extern Chain g_Chain;
+extern ChainElem g_AsciiManagerCalcChain;
+extern ChainElem g_AsciiManagerDrawChainLowPrio;
+extern ChainElem g_AsciiManagerDrawChainHighPrio;
 
 struct GameManagerSetupLayout
 {
@@ -717,4 +721,90 @@ int AsciiManager::OnUpdate(AsciiManager *ascii)
 
     ascii->frameCounter++;
     return CHAIN_CALLBACK_RESULT_CONTINUE;
+}
+
+void AsciiMenuState5::OnDraw()
+{
+    unsigned int i;
+
+    if (!g_GameManager.menuState97C8Active) {
+        return;
+    }
+
+    g_AnmManager->FlushVertexBuffer();
+    g_Supervisor.ConfigureGameplayViewport(2);
+    if ((AsciiSupervisor()->flags5D4 & 2) && (this->state != 0 || this->frames > 2)) {
+        g_AnmManager->DrawNoRotation(&this->menuBackground);
+    }
+    for (i = 0; i < 5; i++) {
+        if (this->menuSprites[i].IsVisible()) {
+            g_AnmManager->DrawNoRotation(&this->menuSprites[i]);
+        }
+    }
+}
+
+void AsciiMenuState4::OnDraw()
+{
+    unsigned int i;
+
+    if (!g_GameManager.menuStateA7A8Active) {
+        return;
+    }
+
+    g_AnmManager->FlushVertexBuffer();
+    g_Supervisor.ConfigureGameplayViewport(2);
+    for (i = 0; i < 3; i++) {
+        if (this->menuSprites[i].IsVisible()) {
+            g_AnmManager->DrawNoRotation(&this->menuSprites[i]);
+        }
+    }
+}
+
+int AsciiManager::OnDrawLowPrio(AsciiManager *ascii)
+{
+    ascii->DrawStrings();
+    ascii->ResetStrings();
+    ascii->pauseMenu.OnDraw();
+    ascii->menuState97C8.OnDraw();
+    ascii->menuStateA7A8.OnDraw();
+    if (ascii->menuStateA7A8.menuSprites[3].scriptIndex != 0) {
+        g_AnmManager->DrawNoRotation(&ascii->menuStateA7A8.menuSprites[3]);
+    }
+    return CHAIN_CALLBACK_RESULT_CONTINUE;
+}
+
+int AsciiManager::OnDrawHighPrio(AsciiManager *ascii)
+{
+    g_Supervisor.ConfigureGameplayViewport(0);
+    ascii->OnDrawHighPrioImpl(0);
+    g_Supervisor.ConfigureGameplayViewport(1);
+    ascii->OnDrawHighPrioImpl(1);
+    return CHAIN_CALLBACK_RESULT_CONTINUE;
+}
+
+int RegisterAsciiManagerStartup()
+{
+    AsciiManager *ascii = &g_AsciiManager;
+
+    g_AsciiManagerCalcChain.SetCallback(
+        reinterpret_cast<ChainCallback>(AsciiManager::OnUpdate));
+    g_AsciiManagerCalcChain.addedCallback =
+        reinterpret_cast<ChainLifetimeCallback>(AsciiManager::AddedCallback);
+    g_AsciiManagerCalcChain.deletedCallback =
+        reinterpret_cast<ChainLifetimeCallback>(AsciiManager::DeletedCallback);
+    g_AsciiManagerCalcChain.arg = ascii;
+    if (g_Chain.AddToCalcChain(&g_AsciiManagerCalcChain, 1) != 0) {
+        return -1;
+    }
+
+    g_AsciiManagerDrawChainLowPrio.SetCallback(
+        reinterpret_cast<ChainCallback>(AsciiManager::OnDrawLowPrio));
+    g_AsciiManagerDrawChainLowPrio.arg = ascii;
+    g_Chain.AddToDrawChain(&g_AsciiManagerDrawChainLowPrio, 34);
+
+    g_AsciiManagerDrawChainHighPrio.SetCallback(
+        reinterpret_cast<ChainCallback>(AsciiManager::OnDrawHighPrio));
+    g_AsciiManagerDrawChainHighPrio.arg = ascii;
+    g_Chain.AddToDrawChain(&g_AsciiManagerDrawChainHighPrio, 23);
+    return 0;
 }

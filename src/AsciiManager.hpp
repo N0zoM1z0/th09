@@ -47,9 +47,12 @@ struct AnmVm
     };
     unsigned char unknown_01FC[2];
     short pendingInterrupt;
-    unsigned char unknown_0200[8];
+    unsigned char unknown_0200[4];
+    AnmLoaded *anmFile;
     Float3 pos;
-    unsigned char unknown_0214[0x10];
+    unsigned char unknown_0214[6];
+    short scriptIndex;
+    unsigned char unknown_021C[8];
     AnmLoadedSprite *loadedSprite;
     unsigned char unknown_0228[0x60];
     Float3 pos2;
@@ -60,6 +63,8 @@ struct AnmVm
 };
 
 typedef char AnmVmSizeIs2A4[(sizeof(AnmVm) == 0x2A4) ? 1 : -1];
+typedef char AnmVmAnmFileAt204[(offsetof(AnmVm, anmFile) == 0x204) ? 1 : -1];
+typedef char AnmVmScriptIndexAt21A[(offsetof(AnmVm, scriptIndex) == 0x21A) ? 1 : -1];
 
 struct AsciiManagerString
 {
@@ -98,6 +103,7 @@ struct PauseMenu
     AnmVm menuBackground;
 
     int OnUpdate();
+    void OnDraw();
 };
 
 typedef char PauseMenuSizeIs1528[(sizeof(PauseMenu) == 0x1528) ? 1 : -1];
@@ -110,6 +116,7 @@ struct AsciiMenuState5
     AnmVm menuBackground;
 
     int OnUpdate();
+    void OnDraw();
 };
 
 typedef char AsciiMenuState5SizeIs0FE0[(sizeof(AsciiMenuState5) == 0x0FE0) ? 1 : -1];
@@ -121,6 +128,7 @@ struct AsciiMenuState4
     AnmVm menuSprites[4];
 
     int OnUpdate();
+    void OnDraw();
 };
 
 typedef char AsciiMenuState4SizeIs0A98[(sizeof(AsciiMenuState4) == 0x0A98) ? 1 : -1];
@@ -129,6 +137,8 @@ class AsciiManager
 {
   public:
     static int OnUpdate(AsciiManager *ascii);
+    static int OnDrawLowPrio(AsciiManager *ascii);
+    static int OnDrawHighPrio(AsciiManager *ascii);
     static int AddedCallback(AsciiManager *ascii);
     static int DeletedCallback(AsciiManager *ascii);
     static void CutChain();
@@ -136,6 +146,8 @@ class AsciiManager
     void AddString(Float3 *position, const char *string);
     void AddFormatText(Float3 *position, const char *fmt, ...);
     void DrawStrings();
+    void ResetStrings();
+    void OnDrawHighPrioImpl(int playerIndex);
     void CreateScorePopup(int playerIndex, Float3 *position, int number, unsigned long color);
     void Reset();
     void SetSpaceWidth(int spaceWidth);

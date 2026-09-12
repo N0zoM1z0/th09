@@ -112,3 +112,8 @@ PbgFileView::Open
 AnmVm::IsVisible
 AnmVm::SetInvisible
 AsciiMenuState4::OnUpdate
+AsciiMenuState5::OnDraw
+AsciiMenuState4::OnDraw
+AsciiManager::OnDrawLowPrio
+AsciiManager::OnDrawHighPrio
+RegisterAsciiManagerStartup

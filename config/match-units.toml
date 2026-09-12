@@ -2752,7 +2752,7 @@ relocations = [
   { offset = 0xF, type = "REL32", symbol = "?IsReplayNeutral@AsciiGameManagerView@@QAEHXZ", target = 0x00415D20 },
   { offset = 0x1E, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x24, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x3D, type = "DIR32", symbol = "$L56328", target = 0x00435A68 },
+  { offset = 0x3D, type = "DIR32", symbol = "$L56392", target = 0x00435A68 },
   { offset = 0x5D, type = "DIR32", symbol = "?g_AsciiManager@@3VAsciiManager@@A", target = 0x004CE458 },
   { offset = 0x62, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
   { offset = 0xAB, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
@@ -2805,11 +2805,126 @@ relocations = [
   { offset = 0x45C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x463, type = "DIR32", symbol = "__imp__timeGetTime@0", target = 0x0048E238 },
   { offset = 0x46A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x478, type = "DIR32", symbol = "$L56036", target = 0x00435631 },
-  { offset = 0x47C, type = "DIR32", symbol = "$L56321", target = 0x00435670 },
-  { offset = 0x480, type = "DIR32", symbol = "$L56050", target = 0x004357B9 },
-  { offset = 0x484, type = "DIR32", symbol = "$L56060", target = 0x004358D8 },
-  { offset = 0x488, type = "DIR32", symbol = "$L56072", target = 0x00435A14 },
-  { offset = 0x48C, type = "DIR32", symbol = "$L56070", target = 0x004359F8 },
-  { offset = 0x490, type = "DIR32", symbol = "$L56074", target = 0x00435A30 },
+  { offset = 0x478, type = "DIR32", symbol = "$L56059", target = 0x00435631 },
+  { offset = 0x47C, type = "DIR32", symbol = "$L56385", target = 0x00435670 },
+  { offset = 0x480, type = "DIR32", symbol = "$L56073", target = 0x004357B9 },
+  { offset = 0x484, type = "DIR32", symbol = "$L56083", target = 0x004358D8 },
+  { offset = 0x488, type = "DIR32", symbol = "$L56095", target = 0x00435A14 },
+  { offset = 0x48C, type = "DIR32", symbol = "$L56093", target = 0x004359F8 },
+  { offset = 0x490, type = "DIR32", symbol = "$L56097", target = 0x00435A30 },
+]
+
+[units.ascii-menu-state5-draw]
+source = "src/AsciiManagerMenu.cpp"
+object = "build/matching/AsciiManagerMenu.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AsciiMenuState5::OnDraw"]
+symbol = "?OnDraw@AsciiMenuState5@@QAEXXZ"
+target_address = 0x00435370
+size = 0x75
+relocations = [
+  { offset = 0x1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0xE, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x13, type = "REL32", symbol = "?FlushVertexBuffer@AnmManager@@QAEXXZ", target = 0x004396A0 },
+  { offset = 0x1A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x1F, type = "REL32", symbol = "?ConfigureGameplayViewport@Supervisor@@QAEXH@Z", target = 0x00401390 },
+  { offset = 0x25, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x39, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x45, type = "REL32", symbol = "?DrawNoRotation@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043A950 },
+  { offset = 0x55, type = "REL32", symbol = "?IsVisible@AnmVm@@QAEHXZ", target = 0x00434370 },
+  { offset = 0x5F, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x65, type = "REL32", symbol = "?DrawNoRotation@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043A950 },
+]
+
+[units.ascii-menu-state4-draw]
+source = "src/AsciiManagerMenu.cpp"
+object = "build/matching/AsciiManagerMenu.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AsciiMenuState4::OnDraw"]
+symbol = "?OnDraw@AsciiMenuState4@@QAEXXZ"
+target_address = 0x00435A90
+size = 0x53
+relocations = [
+  { offset = 0x1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0xE, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x14, type = "REL32", symbol = "?FlushVertexBuffer@AnmManager@@QAEXXZ", target = 0x004396A0 },
+  { offset = 0x1B, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x20, type = "REL32", symbol = "?ConfigureGameplayViewport@Supervisor@@QAEXH@Z", target = 0x00401390 },
+  { offset = 0x33, type = "REL32", symbol = "?IsVisible@AnmVm@@QAEHXZ", target = 0x00434370 },
+  { offset = 0x3D, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x43, type = "REL32", symbol = "?DrawNoRotation@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043A950 },
+]
+
+[units.ascii-manager-draw-low-prio]
+source = "src/AsciiManagerMenu.cpp"
+object = "build/matching/AsciiManagerMenu.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AsciiManager::OnDrawLowPrio"]
+symbol = "?OnDrawLowPrio@AsciiManager@@SIHPAV1@@Z"
+target_address = 0x00435C00
+size = 0x53
+relocations = [
+  { offset = 0x4, type = "REL32", symbol = "?DrawStrings@AsciiManager@@QAEXXZ", target = 0x00434540 },
+  { offset = 0xB, type = "REL32", symbol = "?ResetStrings@AsciiManager@@QAEXXZ", target = 0x00430220 },
+  { offset = 0x16, type = "REL32", symbol = "?OnDraw@PauseMenu@@QAEXXZ", target = 0x00434E30 },
+  { offset = 0x21, type = "REL32", symbol = "?OnDraw@AsciiMenuState5@@QAEXXZ", target = 0x00435370 },
+  { offset = 0x2C, type = "REL32", symbol = "?OnDraw@AsciiMenuState4@@QAEXXZ", target = 0x00435A90 },
+  { offset = 0x3C, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x48, type = "REL32", symbol = "?DrawNoRotation@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043A950 },
+]
+
+[units.ascii-manager-draw-high-prio]
+source = "src/AsciiManagerMenu.cpp"
+object = "build/matching/AsciiManagerMenu.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AsciiManager::OnDrawHighPrio"]
+symbol = "?OnDrawHighPrio@AsciiManager@@SIHPAV1@@Z"
+target_address = 0x00435C60
+size = 0x34
+relocations = [
+  { offset = 0x6, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0xB, type = "REL32", symbol = "?ConfigureGameplayViewport@Supervisor@@QAEXH@Z", target = 0x00401390 },
+  { offset = 0x14, type = "REL32", symbol = "?OnDrawHighPrioImpl@AsciiManager@@QAEXH@Z", target = 0x004353F0 },
+  { offset = 0x1B, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x20, type = "REL32", symbol = "?ConfigureGameplayViewport@Supervisor@@QAEXH@Z", target = 0x00401390 },
+  { offset = 0x29, type = "REL32", symbol = "?OnDrawHighPrioImpl@AsciiManager@@QAEXH@Z", target = 0x004353F0 },
+]
+
+[units.ascii-manager-register-startup]
+source = "src/AsciiManagerMenu.cpp"
+object = "build/matching/AsciiManagerMenu.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["RegisterAsciiManagerStartup"]
+symbol = "?RegisterAsciiManagerStartup@@YIHXZ"
+target_address = 0x00435CA0
+size = 0x9D
+relocations = [
+  { offset = 0x1, type = "DIR32", symbol = "?OnUpdate@AsciiManager@@SIHPAV1@@Z", target = 0x00435B00 },
+  { offset = 0x6, type = "DIR32", symbol = "?g_AsciiManagerCalcChain@@3VChainElem@@A", target = 0x004DC504 },
+  { offset = 0xB, type = "REL32", symbol = "?SetCallback@ChainElem@@QAEXP6IHPAX@Z@Z", target = 0x0041A889 },
+  { offset = 0x12, type = "DIR32", symbol = "?g_AsciiManagerCalcChain@@3VChainElem@@A", target = 0x004DC504 },
+  { offset = 0x17, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x1D, type = "DIR32", symbol = "?g_AsciiManagerCalcChain@@3VChainElem@@A", target = 0x004DC504 },
+  { offset = 0x21, type = "DIR32", symbol = "?AddedCallback@AsciiManager@@SIHPAV1@@Z", target = 0x004344E0 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_AsciiManagerCalcChain@@3VChainElem@@A", target = 0x004DC504 },
+  { offset = 0x2B, type = "DIR32", symbol = "?DeletedCallback@AsciiManager@@SIHPAV1@@Z", target = 0x00434260 },
+  { offset = 0x31, type = "DIR32", symbol = "?g_AsciiManagerCalcChain@@3VChainElem@@A", target = 0x004DC504 },
+  { offset = 0x35, type = "DIR32", symbol = "?g_AsciiManager@@3VAsciiManager@@A", target = 0x004CE458 },
+  { offset = 0x3A, type = "REL32", symbol = "?AddToCalcChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B1E0 },
+  { offset = 0x47, type = "DIR32", symbol = "?OnDrawLowPrio@AsciiManager@@SIHPAV1@@Z", target = 0x00435C00 },
+  { offset = 0x4C, type = "DIR32", symbol = "?g_AsciiManagerDrawChainLowPrio@@3VChainElem@@A", target = 0x004CE438 },
+  { offset = 0x51, type = "REL32", symbol = "?SetCallback@ChainElem@@QAEXP6IHPAX@Z@Z", target = 0x0041A889 },
+  { offset = 0x58, type = "DIR32", symbol = "?g_AsciiManagerDrawChainLowPrio@@3VChainElem@@A", target = 0x004CE438 },
+  { offset = 0x5D, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x63, type = "DIR32", symbol = "?g_AsciiManagerDrawChainLowPrio@@3VChainElem@@A", target = 0x004CE438 },
+  { offset = 0x67, type = "DIR32", symbol = "?g_AsciiManager@@3VAsciiManager@@A", target = 0x004CE458 },
+  { offset = 0x6C, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
+  { offset = 0x71, type = "DIR32", symbol = "?OnDrawHighPrio@AsciiManager@@SIHPAV1@@Z", target = 0x00435C60 },
+  { offset = 0x76, type = "DIR32", symbol = "?g_AsciiManagerDrawChainHighPrio@@3VChainElem@@A", target = 0x004DC524 },
+  { offset = 0x7B, type = "REL32", symbol = "?SetCallback@ChainElem@@QAEXP6IHPAX@Z@Z", target = 0x0041A889 },
+  { offset = 0x82, type = "DIR32", symbol = "?g_AsciiManagerDrawChainHighPrio@@3VChainElem@@A", target = 0x004DC524 },
+  { offset = 0x87, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x8D, type = "DIR32", symbol = "?g_AsciiManagerDrawChainHighPrio@@3VChainElem@@A", target = 0x004DC524 },
+  { offset = 0x91, type = "DIR32", symbol = "?g_AsciiManager@@3VAsciiManager@@A", target = 0x004CE458 },
+  { offset = 0x96, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
 ]

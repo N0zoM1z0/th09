@@ -113,3 +113,8 @@ PbgFileView::Open,0x00433980,function
 AnmVm::IsVisible,0x00434370,function
 AnmVm::SetInvisible,0x00434380,function
 AsciiMenuState4::OnUpdate,0x004355F0,function
+AsciiMenuState5::OnDraw,0x00435370,function
+AsciiMenuState4::OnDraw,0x00435A90,function
+AsciiManager::OnDrawLowPrio,0x00435C00,function
+AsciiManager::OnDrawHighPrio,0x00435C60,function
+RegisterAsciiManagerStartup,0x00435CA0,function
