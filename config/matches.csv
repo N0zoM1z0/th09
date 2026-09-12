@@ -110,3 +110,5 @@ address,name,size,status,match_percent,unit,evidence
 0x00433940,PbgFileView::PbgFileView,32,matching,100.00,pbg-file-constructor,python3 scripts/build-match-unit.py --unit pbg-file-constructor && python3 scripts/compare-coff-function.py --unit pbg-file-constructor --json
 0x00433960,PbgFileView::~PbgFileView,22,matching,100.00,pbg-file-destructor,python3 scripts/build-match-unit.py --unit pbg-file-destructor && python3 scripts/compare-coff-function.py --unit pbg-file-destructor --json
 0x00433980,PbgFileView::Open,226,matching,100.00,pbg-file-open,python3 scripts/build-match-unit.py --unit pbg-file-open && python3 scripts/compare-coff-function.py --unit pbg-file-open --json
+0x00434370,AnmVm::IsVisible,10,matching,100.00,anm-vm-is-visible,python3 scripts/build-match-unit.py --unit anm-vm-is-visible && python3 scripts/compare-coff-function.py --unit anm-vm-is-visible --json
+0x00434380,AnmVm::SetInvisible,8,matching,100.00,anm-vm-set-invisible,python3 scripts/build-match-unit.py --unit anm-vm-set-invisible && python3 scripts/compare-coff-function.py --unit anm-vm-set-invisible --json

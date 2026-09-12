@@ -10,6 +10,7 @@ class AnmLoaded
     AnmLoadedSprite *GetSprite(int spriteIndex);
     void InitializeAndSetSprite(AnmVm *vm, int spriteIndex);
     void ExecuteAnmIdx(AnmVm *vm, int scriptIndex);
+    void SetSprite(AnmVm *vm, int spriteIndex);
     void SetAndExecuteScript(AnmVm *vm, AnmRawInstr *beginningOfScript);
 };
 
@@ -24,6 +25,7 @@ class AnmManager
   public:
     void FlushVertexBuffer();
     int DrawNoRotation(AnmVm *vm);
+    int ExecuteScript(AnmVm *vm);
     AnmLoaded *PreloadAnm(int anmIdx, const char *filename);
     void ReleaseAnm(int anmIdx);
 };

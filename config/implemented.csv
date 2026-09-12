@@ -109,3 +109,5 @@ PbgFileBackend::~PbgFileBackend
 PbgFileView::PbgFileView
 PbgFileView::~PbgFileView
 PbgFileView::Open
+AnmVm::IsVisible
+AnmVm::SetInvisible

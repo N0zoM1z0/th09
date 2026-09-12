@@ -9,8 +9,8 @@ void AsciiManager::Reset()
     memset(&this->popupText, 0, sizeof(AnmVm));
     memset(&this->largeText, 0, sizeof(AnmVm));
     memset(&this->strings, 0, sizeof(this->strings));
-    memset(&this->opaque_82A0, 0, sizeof(this->opaque_82A0));
-    memset(&this->opaque_97C8, 0, sizeof(this->opaque_97C8));
+    memset(&this->pauseMenu, 0, sizeof(this->pauseMenu));
+    memset(&this->menuState97C8, 0, sizeof(this->menuState97C8));
     memset(&this->scorePopups[0], 0, sizeof(this->scorePopups[0]));
 
     this->numStrings = 0;

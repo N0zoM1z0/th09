@@ -110,3 +110,5 @@ PbgFileBackend::~PbgFileBackend,0x00433900,function
 PbgFileView::PbgFileView,0x00433940,function
 PbgFileView::~PbgFileView,0x00433960,function
 PbgFileView::Open,0x00433980,function
+AnmVm::IsVisible,0x00434370,function
+AnmVm::SetInvisible,0x00434380,function

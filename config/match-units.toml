@@ -2718,3 +2718,23 @@ relocations = [
   { offset = 0xAC, type = "DIR32", symbol = "__imp__CreateFileA@28", target = 0x0048E068 },
   { offset = 0xD3, type = "DIR32", symbol = "__imp__SetFilePointer@16", target = 0x0048E0C8 },
 ]
+
+[units.anm-vm-is-visible]
+source = "src/AsciiManagerMenu.cpp"
+object = "build/matching/AsciiManagerMenu.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmVm::IsVisible"]
+symbol = "?IsVisible@AnmVm@@QAEHXZ"
+target_address = 0x00434370
+size = 0x0A
+relocations = []
+
+[units.anm-vm-set-invisible]
+source = "src/AsciiManagerMenu.cpp"
+object = "build/matching/AsciiManagerMenu.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmVm::SetInvisible"]
+symbol = "?SetInvisible@AnmVm@@QAEXXZ"
+target_address = 0x00434380
+size = 0x08
+relocations = []

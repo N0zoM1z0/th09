@@ -2,6 +2,8 @@
 
 #include "ZunTimer.hpp"
 
+#include <stddef.h>
+
 class AnmLoaded;
 class AnmLoadedSprite;
 
@@ -43,11 +45,18 @@ struct AnmVm
             unsigned int unknownFlags13 : 19;
         };
     };
-    unsigned char unknown_01FC[0x0C];
+    unsigned char unknown_01FC[2];
+    short pendingInterrupt;
+    unsigned char unknown_0200[8];
     Float3 pos;
     unsigned char unknown_0214[0x10];
     AnmLoadedSprite *loadedSprite;
-    unsigned char unknown_0228[0x2A4 - 0x228];
+    unsigned char unknown_0228[0x60];
+    Float3 pos2;
+    unsigned char unknown_0294[0x10];
+
+    int IsVisible();
+    void SetInvisible();
 };
 
 typedef char AnmVmSizeIs2A4[(sizeof(AnmVm) == 0x2A4) ? 1 : -1];
@@ -80,9 +89,46 @@ struct AsciiManagerPopup
 
 typedef char AsciiManagerPopupSizeIs38[(sizeof(AsciiManagerPopup) == 0x38) ? 1 : -1];
 
+
+struct PauseMenu
+{
+    int state;
+    int frames;
+    AnmVm menuSprites[7];
+    AnmVm menuBackground;
+
+    int OnUpdate();
+};
+
+typedef char PauseMenuSizeIs1528[(sizeof(PauseMenu) == 0x1528) ? 1 : -1];
+
+struct AsciiMenuState5
+{
+    int state;
+    int frames;
+    AnmVm menuSprites[5];
+    AnmVm menuBackground;
+
+    int OnUpdate();
+};
+
+typedef char AsciiMenuState5SizeIs0FE0[(sizeof(AsciiMenuState5) == 0x0FE0) ? 1 : -1];
+
+struct AsciiMenuState4
+{
+    int state;
+    int frames;
+    AnmVm menuSprites[4];
+
+    int OnUpdate();
+};
+
+typedef char AsciiMenuState4SizeIs0A98[(sizeof(AsciiMenuState4) == 0x0A98) ? 1 : -1];
+
 class AsciiManager
 {
   public:
+    static int OnUpdate(AsciiManager *ascii);
     static int AddedCallback(AsciiManager *ascii);
     static int DeletedCallback(AsciiManager *ascii);
     static void CutChain();
@@ -107,18 +153,23 @@ class AsciiManager
     int isSelected;
     unsigned char unknown_827C[4];
     int spaceWidth;
-    unsigned char unknown_8284[4];
+    int frameCounter;
     AnmLoaded *asciiAnm;
     AnmLoaded *captureAnm;
     int nextScorePopupIndex;
     int resetField8294;
     int unknown_8298;
     int resetField829C;
-    unsigned char opaque_82A0[0x1528];
-    unsigned char opaque_97C8[0x0FE0];
-    unsigned char unknown_A7A8[0x0A98];
+    PauseMenu pauseMenu;
+    AsciiMenuState5 menuState97C8;
+    AsciiMenuState4 menuStateA7A8;
     AsciiManagerPopup scorePopups[2][100];
     unsigned char unknown_DE00[0xE0AC - 0xDE00];
 };
 
 typedef char AsciiManagerSizeIsE0AC[(sizeof(AsciiManager) == 0xE0AC) ? 1 : -1];
+typedef char AsciiManagerFrameCounterAt8284[(offsetof(AsciiManager, frameCounter) == 0x8284) ? 1 : -1];
+typedef char AsciiManagerPauseMenuAt82A0[(offsetof(AsciiManager, pauseMenu) == 0x82A0) ? 1 : -1];
+typedef char AsciiManagerMenuState97C8[(offsetof(AsciiManager, menuState97C8) == 0x97C8) ? 1 : -1];
+typedef char AsciiManagerMenuStateA7A8[(offsetof(AsciiManager, menuStateA7A8) == 0xA7A8) ? 1 : -1];
+typedef char AsciiManagerScorePopupsAtB240[(offsetof(AsciiManager, scorePopups) == 0xB240) ? 1 : -1];
