@@ -2,7 +2,15 @@
 
 struct AnmVm;
 struct AnmRawInstr;
-class AnmLoadedSprite;
+class AnmLoadedSprite
+{
+  public:
+    unsigned char unknown000[0x34];
+    float widthPx;
+    unsigned char unknown038[0x0C];
+};
+
+typedef char AnmLoadedSpriteSizeIs44[(sizeof(AnmLoadedSprite) == 0x44) ? 1 : -1];
 
 class AnmLoaded
 {

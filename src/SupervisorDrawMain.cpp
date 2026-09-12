@@ -61,7 +61,7 @@ int __fastcall SupervisorDrawMain(Supervisor *supervisor)
             g_AsciiManager.AddFormatText(&position, "Press Shot Button");
             ascii->SetScale(1.0f, 1.0f);
             g_AsciiManager.DrawStrings();
-            ascii->ResetStrings();
+            g_AsciiManager.ResetStrings();
 
             if (layout->loadingState >= 65)
                 layout->loadingState = 5;

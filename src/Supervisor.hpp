@@ -25,6 +25,8 @@ class Supervisor
     int TakeSnapshot(const char *filePath);
     int LoadConfig(char *configFile);
     int IsFogDisabled();
+    int DisableFog();
+    void SetRenderState(int state, int value);
     int Is16BitTexturesForced();
     int IsWindowed();
     int IsReferenceRasterizerForced();

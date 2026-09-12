@@ -1,6 +1,7 @@
 #include "AnmManager.hpp"
 #include "Chain.hpp"
 #include "AsciiManager.hpp"
+#include "AsciiGameManagerView.hpp"
 #include "Supervisor.hpp"
 
 #include <windows.h>
@@ -10,76 +11,6 @@ struct AsciiInputView
 {
     unsigned short WasPressed(unsigned int buttons);
 };
-
-struct AsciiPlayerPopupPositionView
-{
-    unsigned char unknown0000[0x1B88];
-    Float3 position;
-};
-
-struct AsciiGameSideRuntimeView
-{
-    float value00;
-    int value04;
-    int value08;
-    int value0C;
-    unsigned char unknown10[4];
-    unsigned char counter14;
-};
-
-struct AsciiGameManagerSideView
-{
-    unsigned char unknown00[4];
-    AsciiPlayerPopupPositionView *player;
-    unsigned char unknown08[0x14];
-    AsciiGameSideRuntimeView *runtime;
-    unsigned char unknown20[0x14];
-    unsigned int flags;
-};
-
-typedef char AsciiGameManagerSideViewSizeIs38[
-    (sizeof(AsciiGameManagerSideView) == 0x38) ? 1 : -1];
-
-struct AsciiGameManagerView
-{
-    AsciiGameManagerSideView sides[2];
-    unsigned char unknown070[0x8C];
-    int field0FC;
-    unsigned char unknown100[8];
-    int field108;
-    int field10C;
-    unsigned char unknown110[8];
-    int gameMode;
-    int difficulty;
-    unsigned char unknown120[0x14];
-    unsigned int flags;
-    unsigned char unknown138[4];
-    unsigned char inGameMenu;
-    unsigned char menuState97C8Active;
-    unsigned char menuStateA7A8Active;
-    unsigned char unknown13F;
-
-    float TransformPopupX(float value);
-    float TransformPopupY(float value);
-    int IsGameMode1();
-    int IsReplayNeutral();
-    int HasFlagBit0();
-};
-
-typedef char AsciiGameManagerSidePlayerAt04[
-    (offsetof(AsciiGameManagerSideView, player) == 0x04) ? 1 : -1];
-typedef char AsciiGameManagerSideRuntimeAt1C[
-    (offsetof(AsciiGameManagerSideView, runtime) == 0x1C) ? 1 : -1];
-typedef char AsciiGameManagerField0FC[
-    (offsetof(AsciiGameManagerView, field0FC) == 0x0FC) ? 1 : -1];
-typedef char AsciiGameManagerGameModeAt118[
-    (offsetof(AsciiGameManagerView, gameMode) == 0x118) ? 1 : -1];
-typedef char AsciiGameManagerDifficultyAt11C[
-    (offsetof(AsciiGameManagerView, difficulty) == 0x11C) ? 1 : -1];
-typedef char AsciiGameManagerFlagsAt134[
-    (offsetof(AsciiGameManagerView, flags) == 0x134) ? 1 : -1];
-typedef char AsciiGameManagerMenuAt13C[
-    (offsetof(AsciiGameManagerView, inGameMenu) == 0x13C) ? 1 : -1];
 
 struct AsciiSoundPlayerView
 {
@@ -100,9 +31,6 @@ struct AsciiSupervisorView
     unsigned char unknown5D8[0x1C4];
     unsigned int systemTime79C;
 
-    int IsFogDisabled();
-    int DisableFog();
-    int SetRenderState(int state, int value);
     int PrepareResultScreen();
     int FinalizeResultScreen();
 };
@@ -117,7 +45,6 @@ typedef char AsciiSupervisorSystemTimeAt79C[
     (offsetof(AsciiSupervisorView, systemTime79C) == 0x79C) ? 1 : -1];
 
 extern AsciiInputView g_AsciiInput;
-extern AsciiGameManagerView g_GameManager;
 extern AsciiSoundPlayerView g_SoundPlayer;
 extern AsciiManager g_AsciiManager;
 extern unsigned char *g_AsciiMenuConfig;
@@ -130,15 +57,6 @@ struct GameManagerSetupLayout
 {
     static void CleanupGameplayState();
 };
-
-struct AsciiAnmLoadedSpriteView
-{
-    unsigned char unknown00[0x34];
-    float widthPx;
-};
-
-typedef char AsciiAnmLoadedSpriteWidthAt34[
-    (offsetof(AsciiAnmLoadedSpriteView, widthPx) == 0x34) ? 1 : -1];
 
 static inline AsciiSupervisorView *AsciiSupervisor()
 {
@@ -845,10 +763,10 @@ void AsciiManager::OnDrawHighPrioImpl(int playerIndex)
 
     popup = &this->scorePopups[playerIndex][0];
 
-    if (!AsciiSupervisor()->IsFogDisabled()) {
-        AsciiSupervisor()->DisableFog();
+    if (!g_Supervisor.IsFogDisabled()) {
+        g_Supervisor.DisableFog();
     }
-    AsciiSupervisor()->SetRenderState(23, 8);
+    g_Supervisor.SetRenderState(23, 8);
 
     for (j = 0; j < 100; j++, popup++) {
         if (!popup->inUse) {
@@ -893,8 +811,7 @@ void AsciiManager::OnDrawHighPrioImpl(int playerIndex)
                     (unsigned char)alpha;
             }
             this->smallScoreText.spriteSize.x =
-                reinterpret_cast<AsciiAnmLoadedSpriteView *>(
-                    this->smallScoreText.loadedSprite)->widthPx;
+                this->smallScoreText.loadedSprite->widthPx;
             g_AnmManager->DrawNoRotation(&this->smallScoreText);
             this->smallScoreText.pos.x += 8.0f;
             character--;

@@ -118,3 +118,11 @@ AsciiManager::OnDrawLowPrio
 AsciiManager::OnDrawHighPrio
 RegisterAsciiManagerStartup
 AsciiManager::OnDrawHighPrioImpl
+Supervisor::IsFogDisabled
+AsciiGameManagerView::TransformPopupX
+AsciiGameManagerView::TransformPopupY
+Supervisor::DisableFog
+Supervisor::SetRenderState
+AsciiManager::ResetStrings
+AnmLoaded::GetSprite
+PauseMenu::OnDraw

@@ -22,7 +22,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004013E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00401410,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00401440,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00401460,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00401460,authored_game,Supervisor,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13
 0x00401470,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004014A0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004014B0,authored_game,ZunTimer,authored,high,zun-timer-tick-vc71-exact-2026-09-11
@@ -39,8 +39,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00401620,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00401640,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00401660,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00401680,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004016B0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00401680,authored_game,GameManager,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13
+0x004016B0,authored_game,GameManager,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13
 0x004016E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004018A0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004018F0,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -643,12 +643,12 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042FD90,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042FE20,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042FEC0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042FF00,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042FF40,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042FF00,authored_game,Supervisor,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13
+0x0042FF40,authored_game,Supervisor,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13
 0x0042FF70,authored_game,Supervisor,authored,high,supervisor-timekeeping-vc71-exact-2026-09-12
 0x00430060,authored_game,Supervisor,authored,high,supervisor-timekeeping-vc71-exact-2026-09-12
 0x00430150,authored_game,Supervisor,authored,high,supervisor-check-version-vc71-exact-2026-09-12
-0x00430220,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00430220,authored_game,AsciiManager,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13
 0x00430230,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004302A0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004302B0,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -735,7 +735,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00434330,authored_game,AsciiManager,authored,high,ascii-manager-add-format-text-vc71-exact-2026-09-10
 0x00434370,authored_game,AnmManager,authored,high,anm-vm-is-visible-vc71-exact-2026-09-12
 0x00434380,authored_game,AnmManager,authored,high,anm-vm-set-invisible-vc71-exact-2026-09-12
-0x00434390,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00434390,authored_game,AnmManager,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13
 0x004343B0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004343C0,authored_game,AsciiManager,authored,high,ascii-manager-set-space-width-vc71-exact-2026-09-10
 0x004343D0,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -744,7 +744,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00434540,authored_game,AsciiManager,authored,high,ascii-manager-draw-strings-vc71-exact-2026-09-10
 0x004346A0,authored_game,AsciiManager,authored,high,ascii-manager-create-score-popup-vc71-exact-2026-09-11
 0x00434740,authored_game,AsciiManager,authored,high,packet93-pause-menu-owner-2026-09-12
-0x00434E30,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00434E30,authored_game,AsciiManager,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13
 0x00434E90,authored_game,AsciiManager,authored,high,packet94-ascii-menu-state5-owner-2026-09-13
 0x00435370,authored_game,AsciiManager,authored,high,packet95-ascii-draw-registration-vc71-exact-2026-09-13
 0x004353F0,authored_game,AsciiManager,authored,high,packet96-ascii-popup-renderer-vc71-exact-2026-09-13

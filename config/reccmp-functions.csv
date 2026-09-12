@@ -119,3 +119,11 @@ AsciiManager::OnDrawLowPrio,0x00435C00,function
 AsciiManager::OnDrawHighPrio,0x00435C60,function
 RegisterAsciiManagerStartup,0x00435CA0,function
 AsciiManager::OnDrawHighPrioImpl,0x004353F0,function
+Supervisor::IsFogDisabled,0x00401460,function
+AsciiGameManagerView::TransformPopupX,0x00401680,function
+AsciiGameManagerView::TransformPopupY,0x004016B0,function
+Supervisor::DisableFog,0x0042FF00,function
+Supervisor::SetRenderState,0x0042FF40,function
+AsciiManager::ResetStrings,0x00430220,function
+AnmLoaded::GetSprite,0x00434390,function
+PauseMenu::OnDraw,0x00434E30,function
