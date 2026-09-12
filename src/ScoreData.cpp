@@ -1,6 +1,11 @@
 // Target-bound TH09 score.dat reconstruction views. These names describe
 // observed behavior; original identifier spelling and TU partition remain unknown.
 
+#include "FileSystem.hpp"
+#include "GameErrorContext.hpp"
+#include "Lzss.hpp"
+#include "ZunMemory.hpp"
+
 #include <stddef.h>
 
 // Keep these local while score-data ownership is still being reconciled.
@@ -11,6 +16,9 @@ typedef int i32;
 
 extern "C" char *__cdecl strcpy(char *, const char *);
 extern "C" void *__cdecl memset(void *, int, size_t);
+extern "C" void *__cdecl memcpy(void *, const void *, size_t);
+
+extern GameErrorContext g_GameErrorContext;
 
 struct ScoreRecordView {
     u32 magic;
@@ -72,12 +80,28 @@ typedef char PlayStatsRecordSizeIs1FC[(sizeof(PlayStatsRecordView) == 0x1FC) ? 1
 typedef char PlayStatsRecordBgmUnlockedAt2C[(offsetof(PlayStatsRecordView, bgmUnlocked) == 0x2C) ? 1 : -1];
 typedef char PlayStatsRecordCharacterUnlockedAt4C[(offsetof(PlayStatsRecordView, characterUnlocked) == 0x4C) ? 1 : -1];
 
+struct ScoreChapterView {
+    u32 magic;
+    u16 chapterSize;
+    u16 chapterSizeCopy;
+    u8 version;
+    u8 runtimeMarker;
+    u8 unknown0A[2];
+};
+
+typedef char ScoreChapterViewSizeIs0C[(sizeof(ScoreChapterView) == 0x0C) ? 1 : -1];
+
 struct ScoreFileView {
-    u8 unknown00[8];
+    u8 unknown00[2];
+    u16 checksum;
+    u16 version;
+    u16 unknown06;
     u32 headerSize;
     u32 totalSize;
-    u8 unknown10[8];
+    u32 decompressedPayloadSize;
+    u32 compressedSize;
 
+    static ScoreFileView *OpenScore(const char *filename);
     int LoadScoreRecords();
     int LoadLastName();
     int LoadPlayStats();
@@ -90,6 +114,136 @@ extern ScoreRecordView g_ScoreTable[16][5][5];
 extern ScoreRecordView g_CurrentScoreRecord;
 extern LastNameRecordView g_LastNameRecord;
 extern PlayStatsRecordView g_PlayStatsRecord;
+
+ScoreFileView *ScoreFileView::OpenScore(const char *filename)
+{
+    ScoreFileView *expandedScoreFile;
+    ScoreFileView *scoreFile;
+    u32 fileSize;
+    ScoreFileView *decryptedScoreFile;
+    u16 checksum;
+    u8 xorValue;
+    i32 bytesShifted;
+    i32 bytesToShift;
+    u8 *bytes;
+    i32 bytesToRead;
+    ScoreChapterView *chapter;
+    ScoreChapterView *th9kChapter;
+    int hasFoundTH9K;
+
+    g_GameErrorContext.Log("info : score load\r\n");
+
+    scoreFile = reinterpret_cast<ScoreFileView *>(
+        FileSystem::OpenFile(filename, reinterpret_cast<int *>(&fileSize), 1));
+
+    if (scoreFile == NULL)
+    {
+    recreateScoreFile:
+        g_GameErrorContext.Log("info : score recreate\r\n");
+        if (scoreFile != NULL)
+            g_ZunMemory.Free(scoreFile);
+
+        scoreFile = reinterpret_cast<ScoreFileView *>(
+            g_ZunMemory.Alloc(sizeof(ScoreFileView), "scorefile"));
+        scoreFile->headerSize = sizeof(ScoreFileView);
+        scoreFile->totalSize = sizeof(ScoreFileView);
+        scoreFile->version = 4;
+        return scoreFile;
+    }
+
+    if (fileSize < sizeof(ScoreFileView))
+    {
+        g_GameErrorContext.Log("warning : score.dat size is short\r\n");
+        g_ZunMemory.Free(scoreFile);
+        goto recreateScoreFile;
+    }
+
+    decryptedScoreFile = reinterpret_cast<ScoreFileView *>(
+        FileSystem::Decrypt(reinterpret_cast<u8 *>(scoreFile), fileSize,
+                            0x3A, 0xCD, 0x100, 0xC00));
+    g_ZunMemory.Free(scoreFile);
+    scoreFile = decryptedScoreFile;
+
+    bytesToShift = fileSize - 2;
+    checksum = 0;
+    xorValue = 0;
+    bytesShifted = 0;
+    bytes = reinterpret_cast<u8 *>(scoreFile) + 1;
+
+    while (bytesToShift > 0)
+    {
+        xorValue += *bytes;
+        xorValue = (u8)((xorValue & 0xE0) >> 5 | (xorValue & 0x1F) << 3);
+        bytes[1] ^= xorValue;
+
+        if (bytesShifted >= 2)
+            checksum += bytes[1];
+
+        bytes++;
+        bytesToShift--;
+        bytesShifted++;
+    }
+
+    if (scoreFile->checksum != checksum)
+    {
+        g_GameErrorContext.Log("warning : score.dat chksum error\r\n");
+        goto recreateScoreFile;
+    }
+
+    if (scoreFile->headerSize != sizeof(ScoreFileView))
+    {
+        g_GameErrorContext.Log("warning : header size is mismatch\r\n");
+        goto recreateScoreFile;
+    }
+
+    if (scoreFile->version != 4)
+    {
+        g_GameErrorContext.Log("warning : score.dat version mismatch\r\n");
+        goto recreateScoreFile;
+    }
+
+    expandedScoreFile = reinterpret_cast<ScoreFileView *>(
+        g_ZunMemory.Alloc(sizeof(ScoreFileView) + 0xA0000, "scorefile2"));
+    memcpy(expandedScoreFile, scoreFile, sizeof(ScoreFileView));
+    Lzss::Decode(reinterpret_cast<u8 *>(scoreFile) + sizeof(ScoreFileView),
+                 scoreFile->compressedSize,
+                 reinterpret_cast<u8 *>(expandedScoreFile) + sizeof(ScoreFileView),
+                 scoreFile->decompressedPayloadSize);
+    g_ZunMemory.Free(scoreFile);
+    scoreFile = expandedScoreFile;
+
+    bytesToRead = (i32)(scoreFile->totalSize - scoreFile->headerSize);
+    chapter = reinterpret_cast<ScoreChapterView *>(
+        reinterpret_cast<u8 *>(scoreFile) + scoreFile->headerSize);
+    hasFoundTH9K = 0;
+
+    while (bytesToRead > 0)
+    {
+        if (chapter->magic == 0x4B394854u)
+        {
+            hasFoundTH9K = 1;
+            th9kChapter = chapter;
+        }
+
+        if (chapter->chapterSize == 0)
+        {
+            g_GameErrorContext.Log("warning : score.dat chapter size is ZERO\r\n");
+            goto recreateScoreFile;
+        }
+
+        bytesToRead -= chapter->chapterSize;
+        chapter = reinterpret_cast<ScoreChapterView *>(
+            reinterpret_cast<u8 *>(chapter) + chapter->chapterSize);
+    }
+
+    if (!hasFoundTH9K || th9kChapter->version != 1)
+    {
+        g_GameErrorContext.Log("warning : score.dat version mismatch\r\n");
+        goto recreateScoreFile;
+    }
+
+    return scoreFile;
+}
 
 int ScoreFileView::LoadScoreRecords()
 {
