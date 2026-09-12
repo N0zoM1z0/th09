@@ -85,3 +85,4 @@ TitleScoreRecordView::InsertIntoTable,0x00421800,function
 ScoreFileView::LoadPlayStats,0x00421B80,function
 ScoreSupervisorView::UpdatePlayTime,0x0042FF70,function
 ScoreSupervisorView::UpdateGameTime,0x00430060,function
+SupervisorVersionView::CheckVersion,0x00430150,function

@@ -2351,3 +2351,22 @@ relocations = [
   { offset = 0xD6, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
   { offset = 0xDC, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
 ]
+
+[units.supervisor-check-version]
+source = "src/SupervisorVersion.cpp"
+object = "build/matching/SupervisorVersion.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorVersionView::CheckVersion"]
+symbol = "?CheckVersion@SupervisorVersionView@@QAEHPBDHH@Z"
+target_address = 0x00430150
+size = 199
+relocations = [
+  { offset = 0x1D, type = "DIR32", symbol = "??_C@_05GFCDIDHO@debug?$AA@", target = 0x00490A80 },
+  { offset = 0x26, type = "REL32", symbol = "_strncmp", target = 0x0047CC30 },
+  { offset = 0x3D, type = "DIR32", symbol = "??_C@_05GFCDIDHO@debug?$AA@", target = 0x00490A80 },
+  { offset = 0x42, type = "DIR32", symbol = "??_C@_05EJHOHPCC@0150a?$AA@", target = 0x0048F1C4 },
+  { offset = 0x60, type = "REL32", symbol = "_strncmp", target = 0x0047CC30 },
+  { offset = 0x77, type = "DIR32", symbol = "??_C@_05OKMLJOMC@?$CFd?5?$CFd?$AA@", target = 0x00490A78 },
+  { offset = 0x7D, type = "REL32", symbol = "_sscanf", target = 0x0047CBEE },
+  { offset = 0x9C, type = "REL32", symbol = "_strchr", target = 0x0047CB30 },
+]
