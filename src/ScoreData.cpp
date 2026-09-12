@@ -73,13 +73,24 @@ struct PlayStatsRecordView {
     u8 version;
     u8 runtimeMarker;
     u8 unknown0A[2];
-    u8 unknown0C[0x20];
+    u32 totalHours;
+    u32 totalMinutes;
+    u32 totalSeconds;
+    u32 totalMilliseconds;
+    u32 gameHours;
+    u32 gameMinutes;
+    u32 gameSeconds;
+    u32 gameMilliseconds;
     u8 bgmUnlocked[32];
     u8 characterUnlocked[2][16];
     u8 unknown6C[0x190];
 };
 
 typedef char PlayStatsRecordSizeIs1FC[(sizeof(PlayStatsRecordView) == 0x1FC) ? 1 : -1];
+typedef char PlayStatsRecordTotalHoursAt0C[(offsetof(PlayStatsRecordView, totalHours) == 0x0C) ? 1 : -1];
+typedef char PlayStatsRecordTotalMillisecondsAt18[(offsetof(PlayStatsRecordView, totalMilliseconds) == 0x18) ? 1 : -1];
+typedef char PlayStatsRecordGameHoursAt1C[(offsetof(PlayStatsRecordView, gameHours) == 0x1C) ? 1 : -1];
+typedef char PlayStatsRecordGameMillisecondsAt28[(offsetof(PlayStatsRecordView, gameMilliseconds) == 0x28) ? 1 : -1];
 typedef char PlayStatsRecordBgmUnlockedAt2C[(offsetof(PlayStatsRecordView, bgmUnlocked) == 0x2C) ? 1 : -1];
 typedef char PlayStatsRecordCharacterUnlockedAt4C[(offsetof(PlayStatsRecordView, characterUnlocked) == 0x4C) ? 1 : -1];
 
@@ -139,11 +150,18 @@ struct ReplayRngView {
 };
 
 struct ScoreSupervisorView {
-    u8 unknown000[0x7A0];
+    u8 unknown000[0x798];
+    u32 totalPlayTime;
+    u32 systemTime;
     i32 exeChecksum;
     i32 exeSize;
     void UpdatePlayTime();
+    void UpdateGameTime();
 };
+
+typedef char ScoreSupervisorTotalPlayTimeAt798[(offsetof(ScoreSupervisorView, totalPlayTime) == 0x798) ? 1 : -1];
+typedef char ScoreSupervisorSystemTimeAt79C[(offsetof(ScoreSupervisorView, systemTime) == 0x79C) ? 1 : -1];
+typedef char ScoreSupervisorExeChecksumAt7A0[(offsetof(ScoreSupervisorView, exeChecksum) == 0x7A0) ? 1 : -1];
 
 extern ReplayRngView g_ReplayRng;
 extern ScoreFileView g_ScoreFileHeader;
@@ -153,6 +171,65 @@ extern ScoreRecordView g_CurrentScoreRecord;
 extern LastNameRecordView g_LastNameRecord;
 extern PlayStatsRecordView g_PlayStatsRecord;
 
+void ScoreSupervisorView::UpdatePlayTime()
+{
+    DWORD playTime = timeGetTime();
+    if (playTime < totalPlayTime)
+        totalPlayTime = playTime;
+
+    DWORD difference = playTime - totalPlayTime;
+    g_PlayStatsRecord.totalHours += difference / 3600000;
+    difference %= 3600000;
+    g_PlayStatsRecord.totalMinutes += difference / 60000;
+    difference %= 60000;
+    g_PlayStatsRecord.totalSeconds += difference / 1000;
+    difference %= 1000;
+    g_PlayStatsRecord.totalMilliseconds += difference;
+
+    if (g_PlayStatsRecord.totalMilliseconds >= 1000) {
+        g_PlayStatsRecord.totalSeconds += g_PlayStatsRecord.totalMilliseconds / 1000;
+        g_PlayStatsRecord.totalMilliseconds %= 1000;
+    }
+    if (g_PlayStatsRecord.totalSeconds >= 60) {
+        g_PlayStatsRecord.totalMinutes += g_PlayStatsRecord.totalSeconds / 60;
+        g_PlayStatsRecord.totalSeconds %= 60;
+    }
+    if (g_PlayStatsRecord.totalMinutes >= 60) {
+        g_PlayStatsRecord.totalHours += g_PlayStatsRecord.totalMinutes / 60;
+        g_PlayStatsRecord.totalMinutes %= 60;
+    }
+    totalPlayTime = playTime;
+}
+
+void ScoreSupervisorView::UpdateGameTime()
+{
+    DWORD gameTime = timeGetTime();
+    if (gameTime < systemTime)
+        systemTime = 0;
+
+    DWORD difference = gameTime - systemTime;
+    g_PlayStatsRecord.gameHours += difference / 3600000;
+    difference %= 3600000;
+    g_PlayStatsRecord.gameMinutes += difference / 60000;
+    difference %= 60000;
+    g_PlayStatsRecord.gameSeconds += difference / 1000;
+    difference %= 1000;
+    g_PlayStatsRecord.gameMilliseconds += difference;
+
+    if (g_PlayStatsRecord.gameMilliseconds >= 1000) {
+        g_PlayStatsRecord.gameSeconds += g_PlayStatsRecord.gameMilliseconds / 1000;
+        g_PlayStatsRecord.gameMilliseconds %= 1000;
+    }
+    if (g_PlayStatsRecord.gameSeconds >= 60) {
+        g_PlayStatsRecord.gameMinutes += g_PlayStatsRecord.gameSeconds / 60;
+        g_PlayStatsRecord.gameSeconds %= 60;
+    }
+    if (g_PlayStatsRecord.gameMinutes >= 60) {
+        g_PlayStatsRecord.gameHours += g_PlayStatsRecord.gameMinutes / 60;
+        g_PlayStatsRecord.gameMinutes %= 60;
+    }
+    systemTime = gameTime;
+}
 
 int SaveTitleScoreData()
 {

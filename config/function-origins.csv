@@ -645,8 +645,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042FEC0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042FF00,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042FF40,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042FF70,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00430060,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042FF70,authored_game,Supervisor,authored,high,supervisor-timekeeping-vc71-exact-2026-09-12
+0x00430060,authored_game,Supervisor,authored,high,supervisor-timekeeping-vc71-exact-2026-09-12
 0x00430150,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00430220,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00430230,unknown,,review,unknown,ida-1.50a-initial-inventory
