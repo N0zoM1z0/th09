@@ -5,6 +5,7 @@
 #include "ZunMemory.hpp"
 #include "GameErrorContext.hpp"
 #include "FileSystem.hpp"
+#include "SoundManager.hpp"
 
 struct ThBgmFormatProcessView
 {
@@ -60,43 +61,6 @@ typedef char StreamingSoundIsLockedAt78[
     (offsetof(StreamingSoundProcessView, isLocked) == 0x78) ? 1 : -1];
 
 
-class SoundManagerProcessView
-{
-  public:
-    LPDIRECTSOUND8 directSound;
-
-    SoundManagerProcessView();
-    ~SoundManagerProcessView();
-    int Initialize(
-        HWND window,
-        DWORD cooperativeLevel,
-        DWORD primaryChannels,
-        DWORD primaryFrequency,
-        DWORD primaryBitRate);
-    LPDIRECTSOUND GetDirectSound();
-
-    int CreateStreaming(
-        StreamingSoundProcessView **streamingSound,
-        char *path,
-        DWORD creationFlags,
-        GUID algorithm,
-        DWORD bufferCount,
-        DWORD notifySize,
-        HANDLE notifyEvent,
-        ThBgmFormatProcessView *format);
-    int CreateStreamingFromMemory(
-        StreamingSoundProcessView **streamingSound,
-        BYTE *data,
-        ULONG dataSize,
-        ThBgmFormatProcessView *format,
-        DWORD creationFlags,
-        GUID algorithm,
-        DWORD bufferCount,
-        DWORD notifySize,
-        HANDLE notifyEvent);
-};
-
-typedef char SoundManagerProcessViewSize[(sizeof(SoundManagerProcessView) == 4) ? 1 : -1];
 
 struct SoundPlayerCommand
 {

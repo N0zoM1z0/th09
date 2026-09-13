@@ -695,7 +695,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004330E0,authored_game,PbgFile,authored,high,pbg-file-read-int-vc71-exact-2026-09-12
 0x00433100,authored_game,PbgArchive,authored,high,pbg-archive-seek-past-int-vc71-exact-2026-09-12
 0x00433110,authored_game,PbgArchive,authored,high,pbg-archive-seek-past-string-vc71-exact-2026-09-12
-0x00433130,authored_game,PbgArchive,authored,high,pbg-archive-entry-constructor-vc71-exact-2026-09-12
+0x00433130,unknown,,review,high,packet117-shared-folded-constructor-ownership-2026-09-13
 0x00433140,authored_game,PbgArchive,authored,high,pbg-archive-entry-destructor-vc71-exact-2026-09-12
 0x00433160,compiler_generated,PbgArchive,exclude,high,pbg-archive-entry-vector-deleting-destructor-vc71-2026-09-12
 0x004331C0,authored_game,PbgArchive,authored,high,pbg-archive-read-decompress-entry-vc71-exact-2026-09-10
@@ -896,8 +896,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043EFA0,authored_game,SoundPlayer,authored,high,packet114-soundplayer-start-bgm-vc71-exact-2026-09-13
 0x0043F0A0,authored_game,SoundPlayer,authored,high,packet112-soundplayer-load-bgm-vc71-exact-2026-09-13
 0x0043F1F0,authored_game,SoundPlayer,authored,high,packet111-soundplayer-processqueues-source-present-2026-09-13
-0x0043F7A0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0043F7C0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0043F7A0,third_party,SoundManager,exclude,high,microsoft-dx8-dsutil-soundmanager-provenance-2026-09-13
+0x0043F7C0,third_party,SoundManager,exclude,high,microsoft-dx8-dsutil-soundmanager-provenance-2026-09-13
 0x0043F890,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043F9F0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043FA70,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -916,7 +916,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043FE10,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043FEF0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043FFD0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00440000,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00440000,third_party,SoundManager,exclude,high,microsoft-dx8-dsutil-soundmanager-provenance-2026-09-13
 0x00440060,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004401D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00440270,unknown,,review,unknown,ida-1.50a-initial-inventory

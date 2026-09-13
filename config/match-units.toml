@@ -3852,3 +3852,36 @@ relocations = [
   { offset = 0xC5, type = "REL32", symbol = "??_GSoundManagerProcessView@@QAEPAXI@Z", target = 0x0043E170 },
   { offset = 0xD5, type = "REL32", symbol = "?FreePreloadedBGM@SoundPlayer@@QAEXH@Z", target = 0x0043E4A0 },
 ]
+
+[units.soundmanager-destructor]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SoundManagerProcessView::~SoundManagerProcessView"]
+symbol = "??1SoundManagerProcessView@@QAE@XZ"
+target_address = 0x0043F7A0
+size = 0x17
+relocations = []
+
+[units.soundmanager-set-primary-buffer-format]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SoundManagerProcessView::SetPrimaryBufferFormat"]
+symbol = "?SetPrimaryBufferFormat@SoundManagerProcessView@@QAEHKKK@Z"
+target_address = 0x0043F7C0
+size = 0xC8
+relocations = []
+
+[units.soundmanager-initialize]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SoundManagerProcessView::Initialize"]
+symbol = "?Initialize@SoundManagerProcessView@@QAEHPAUHWND__@@KKKK@Z"
+target_address = 0x00440000
+size = 0x54
+relocations = [
+  { offset = 0x1E, type = "REL32", symbol = "_DirectSoundCreate8@12", target = 0x0044E5A6 },
+  { offset = 0x49, type = "REL32", symbol = "?SetPrimaryBufferFormat@SoundManagerProcessView@@QAEHKKK@Z", target = 0x0043F7C0 },
+]

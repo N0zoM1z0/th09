@@ -92,7 +92,6 @@ PbgArchive::CopyFileName
 PbgFileBackend::ReadInt
 PbgArchive::SeekPastInt
 PbgArchive::SeekPastString
-PbgArchiveEntry::PbgArchiveEntry
 PbgArchiveEntry::~PbgArchiveEntry
 PbgArchive::AllocEntries
 PbgArchive::Release

@@ -93,7 +93,6 @@ PbgArchive::CopyFileName,0x004330A0,function
 PbgFileBackend::ReadInt,0x004330E0,function
 PbgArchive::SeekPastInt,0x00433100,function
 PbgArchive::SeekPastString,0x00433110,function
-PbgArchiveEntry::PbgArchiveEntry,0x00433130,function
 PbgArchiveEntry::~PbgArchiveEntry,0x00433140,function
 PbgArchive::AllocEntries,0x004332B0,function
 PbgArchive::Release,0x004333B0,function
