@@ -141,3 +141,4 @@ Supervisor::ApplyCameraMode0,0x004013E0,function
 Supervisor::ApplyCameraMode1,0x00401410,function
 SupervisorViewportView::ApplyScreenCamera,0x00430590,function
 SupervisorViewportView::ApplyGameplayViewport,0x004306B0,function
+Supervisor::InitializeViewports,0x004307C0,function

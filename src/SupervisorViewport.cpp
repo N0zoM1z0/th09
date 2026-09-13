@@ -174,6 +174,63 @@ void SupervisorViewportView::ApplyGameplayViewport(
     }
 }
 
+void Supervisor::InitializeViewports()
+{
+    SupervisorViewportView *supervisor =
+        reinterpret_cast<SupervisorViewportView *>(&g_Supervisor);
+
+    supervisor->configurations[2].cameraPosition =
+        Float3(0.0f, 0.0f, 1000.0f);
+    supervisor->configurations[2].cameraLookAtOffset =
+        Float3(0.0f, 0.0f, 0.0f);
+    supervisor->configurations[2].cameraUp =
+        Float3(0.0f, 1.0f, 0.0f);
+    supervisor->configurations[2].fieldOfView = 3.1415927f / 6.0f;
+    supervisor->configurations[2].viewport.X = 0;
+    supervisor->configurations[2].viewport.Y = 0;
+    supervisor->configurations[2].viewport.Width = 640;
+    supervisor->configurations[2].viewport.Height = 480;
+    supervisor->configurations[2].viewport.MinZ = 0.0f;
+    supervisor->configurations[2].viewport.MaxZ = 1.0f;
+    supervisor->configurations[2].viewportMode = 2;
+    supervisor->configurations[2].cameraPositionOffset =
+        Float3(0.0f, 0.0f, 0.0f);
+
+    supervisor->configurations[0].cameraPosition =
+        Float3(0.0f, 0.0f, 1000.0f);
+    supervisor->configurations[0].cameraLookAtOffset =
+        Float3(0.0f, 0.0f, 0.0f);
+    supervisor->configurations[0].cameraUp =
+        Float3(0.0f, 1.0f, 0.0f);
+    supervisor->configurations[0].fieldOfView = 3.1415927f / 6.0f;
+    supervisor->configurations[0].viewport.X = 16;
+    supervisor->configurations[0].viewport.Y = 16;
+    supervisor->configurations[0].viewport.Width = 288;
+    supervisor->configurations[0].viewport.Height = 448;
+    supervisor->configurations[0].viewport.MinZ = 0.0f;
+    supervisor->configurations[0].viewport.MaxZ = 1.0f;
+    supervisor->configurations[0].viewportMode = 0;
+    supervisor->configurations[0].cameraPositionOffset =
+        Float3(0.0f, 0.0f, 0.0f);
+
+    supervisor->configurations[1].cameraPosition =
+        Float3(0.0f, 0.0f, 1000.0f);
+    supervisor->configurations[1].cameraLookAtOffset =
+        Float3(0.0f, 0.0f, 0.0f);
+    supervisor->configurations[1].cameraUp =
+        Float3(0.0f, 1.0f, 0.0f);
+    supervisor->configurations[1].fieldOfView = 3.1415927f / 6.0f;
+    supervisor->configurations[1].viewport.X = 336;
+    supervisor->configurations[1].viewport.Y = 16;
+    supervisor->configurations[1].viewport.Width = 288;
+    supervisor->configurations[1].viewport.Height = 448;
+    supervisor->configurations[1].viewport.MinZ = 0.0f;
+    supervisor->configurations[1].viewport.MaxZ = 1.0f;
+    supervisor->configurations[1].viewportMode = 1;
+    supervisor->configurations[1].cameraPositionOffset =
+        Float3(0.0f, 0.0f, 0.0f);
+}
+
 void Supervisor::ConfigureGameplayViewport(int index)
 {
     SupervisorViewportView *supervisor =

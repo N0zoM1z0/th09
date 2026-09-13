@@ -140,3 +140,4 @@ Supervisor::ApplyCameraMode0
 Supervisor::ApplyCameraMode1
 SupervisorViewportView::ApplyScreenCamera
 SupervisorViewportView::ApplyGameplayViewport
+Supervisor::InitializeViewports

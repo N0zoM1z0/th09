@@ -660,7 +660,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00430560,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00430590,authored_game,Supervisor,authored,high,packet106-camera-viewport-vc71-exact-2026-09-13
 0x004306B0,authored_game,Supervisor,authored,high,packet106-camera-viewport-vc71-exact-2026-09-13
-0x004307C0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004307C0,authored_game,Supervisor,authored,high,packet107-supervisor-initialize-viewports-vc71-exact-2026-09-13
 0x00430AA0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00431110,authored_game,Supervisor,authored,high,supervisor-onupdate-source-improved-codegen-blocked-2026-09-11
 0x00431500,authored_game,Supervisor,authored,high,supervisor-constructor-source-codegen-blocked-2026-09-11

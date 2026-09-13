@@ -34,6 +34,7 @@ class Supervisor
     int IsMusicPreloaded();
     int IsVsyncDisabled();
     int IsTextBackgroundDetectionDisabled();
+    void InitializeViewports();
     void ConfigureGameplayViewport(int index);
     void ApplyCameraMode0();
     void ApplyCameraMode1();
