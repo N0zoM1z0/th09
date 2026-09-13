@@ -637,10 +637,10 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042F770,unknown,AnmManager,review,high,anm-manager-owner-callsite-2026-09-11
 0x0042F7C0,authored_game,Supervisor,authored,high,supervisor-load-config-vc71-exact-2026-09-11
 0x0042FBE0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042FC20,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042FCF0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042FC20,authored_game,Supervisor,authored,high,packet110-supervisor-load-music-vc71-exact-2026-09-13
+0x0042FCF0,authored_game,Supervisor,authored,high,packet110-supervisor-start-loaded-music-vc71-exact-2026-09-13
 0x0042FD30,authored_game,Supervisor,authored,high,packet109-supervisor-stop-audio-vc71-exact-2026-09-13
-0x0042FD90,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042FD90,authored_game,Supervisor,authored,high,packet110-supervisor-release-music-vc71-exact-2026-09-13
 0x0042FE20,authored_game,Supervisor,authored,high,packet109-supervisor-fade-out-music-vc71-exact-2026-09-13
 0x0042FEC0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042FF00,authored_game,Supervisor,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13

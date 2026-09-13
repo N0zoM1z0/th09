@@ -34,6 +34,9 @@ class Supervisor
     int IsMusicPreloaded();
     int PlayMusic(int trackId, int unused);
     int PlayAudio(char *path, int bgmUnlockIndex);
+    int LoadMusic(int trackId);
+    int StartLoadedMusic();
+    int ReleaseMusic(int trackId);
     int StopAudio();
     int FadeOutMusic(float durationSeconds);
     int IsVsyncDisabled();

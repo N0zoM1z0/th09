@@ -146,3 +146,6 @@ Supervisor::PlayAudio
 Supervisor::IsMusicPreloaded
 Supervisor::StopAudio
 Supervisor::FadeOutMusic
+Supervisor::LoadMusic
+Supervisor::StartLoadedMusic
+Supervisor::ReleaseMusic

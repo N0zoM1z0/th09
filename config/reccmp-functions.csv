@@ -147,3 +147,6 @@ Supervisor::PlayAudio,0x00431A30,function
 Supervisor::IsMusicPreloaded,0x0042ED40,function
 Supervisor::StopAudio,0x0042FD30,function
 Supervisor::FadeOutMusic,0x0042FE20,function
+Supervisor::LoadMusic,0x0042FC20,function
+Supervisor::StartLoadedMusic,0x0042FCF0,function
+Supervisor::ReleaseMusic,0x0042FD90,function

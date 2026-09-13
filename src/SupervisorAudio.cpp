@@ -9,6 +9,9 @@ struct SupervisorAudioMidiOutputView
 {
     void PlayTrack(int trackId);
     void PlayPath(const char *path);
+    int ReadFileData(int trackId, const char *path);
+    void ReleaseFileData(int trackId);
+    int Play();
     void StopPlayback();
     void SetFadeOut(unsigned int milliseconds);
 };
@@ -39,7 +42,7 @@ struct SupervisorAudioLayout
 struct SupervisorMusicTrackRecord
 {
     int trackId;
-    int unknown04;
+    char *path;
     int soundPlayerValue;
     int unlockIndex;
 };
@@ -137,6 +140,106 @@ int Supervisor::PlayAudio(char *path, int bgmUnlockIndex)
 
         if (!g_GameManager.IsReplayMode() && !g_GameManager.HasFlagBit1())
             g_MusicUnlocked[bgmUnlockIndex] = 1;
+    }
+    else
+    {
+        return -1;
+    }
+
+    return 0;
+}
+
+int Supervisor::LoadMusic(int trackId)
+{
+    char wavPathBuf[256];
+    char *periodLoc;
+    unsigned int index = 0;
+    SupervisorMusicTrackRecord *track = g_SupervisorMusicTracks;
+    SupervisorAudioLayout *supervisor =
+        reinterpret_cast<SupervisorAudioLayout *>(&g_Supervisor);
+
+    do
+    {
+        if (track->trackId == trackId)
+            break;
+        ++index;
+        ++track;
+    } while (index < 19);
+
+    if (index >= 19)
+        return 1;
+
+    if (supervisor->musicMode == 2)
+    {
+        if (supervisor->midiOutput != NULL)
+            supervisor->midiOutput->ReadFileData(
+                g_SupervisorMusicTracks[index].trackId,
+                g_SupervisorMusicTracks[index].path);
+        return 0;
+    }
+    else if (supervisor->musicMode == 1)
+    {
+        strcpy(wavPathBuf, g_SupervisorMusicTracks[index].path);
+        periodLoc = strrchr(wavPathBuf, '.');
+        periodLoc[1] = 'w';
+        periodLoc[2] = 'a';
+        periodLoc[3] = 'v';
+        g_SoundPlayer.QueueCommand(
+            1, g_SupervisorMusicTracks[index].trackId, wavPathBuf);
+    }
+
+    return 1;
+}
+
+int Supervisor::StartLoadedMusic()
+{
+    SupervisorAudioLayout *supervisor =
+        reinterpret_cast<SupervisorAudioLayout *>(&g_Supervisor);
+
+    if (supervisor->musicMode == 2)
+    {
+        if (supervisor->midiOutput != NULL)
+            supervisor->midiOutput->Play();
+        return 0;
+    }
+    else if (supervisor->musicMode == 1)
+    {
+        g_SoundPlayer.QueueCommand(10, 0, "dummy");
+    }
+
+    return 0;
+}
+
+int Supervisor::ReleaseMusic(int trackId)
+{
+    unsigned int index = 0;
+    SupervisorMusicTrackRecord *track = g_SupervisorMusicTracks;
+    SupervisorAudioLayout *supervisor =
+        reinterpret_cast<SupervisorAudioLayout *>(&g_Supervisor);
+
+    do
+    {
+        if (track->trackId == trackId)
+            break;
+        ++index;
+        ++track;
+    } while (index < 19);
+
+    if (index >= 19)
+        return 1;
+
+    int resolvedTrackId = g_SupervisorMusicTracks[index].trackId;
+    if (supervisor->musicMode == 2)
+    {
+        if (supervisor->midiOutput != NULL)
+        {
+            supervisor->midiOutput->ReleaseFileData(resolvedTrackId);
+            return 0;
+        }
+    }
+    else if (supervisor->musicMode == 1)
+    {
+        g_SoundPlayer.QueueCommand(9, resolvedTrackId, "dummy");
     }
     else
     {
