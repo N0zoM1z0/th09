@@ -157,3 +157,5 @@ SoundPlayer::GetFmtIndexByName
 SoundPlayer::FreePreloadedBGM
 SoundPlayer::ReopenBGM
 SoundPlayer::BGMPlayerThread
+SoundPlayer::InitSoundBuffers
+SoundPlayer::StartBGM

@@ -158,3 +158,5 @@ SoundPlayer::GetFmtIndexByName,0x0043E1F0,function
 SoundPlayer::FreePreloadedBGM,0x0043E4A0,function
 SoundPlayer::ReopenBGM,0x0043E9E0,function
 SoundPlayer::BGMPlayerThread,0x0043ED80,function
+SoundPlayer::InitSoundBuffers,0x0043EC80,function
+SoundPlayer::StartBGM,0x0043EFA0,function

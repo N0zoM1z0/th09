@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "ZunMemory.hpp"
+#include "GameErrorContext.hpp"
 
 struct ThBgmFormatProcessView
 {
@@ -61,6 +62,17 @@ typedef char StreamingSoundIsLockedAt78[
 class SoundManagerProcessView
 {
   public:
+    ~SoundManagerProcessView();
+
+    int CreateStreaming(
+        StreamingSoundProcessView **streamingSound,
+        char *path,
+        DWORD creationFlags,
+        GUID algorithm,
+        DWORD bufferCount,
+        DWORD notifySize,
+        HANDLE notifyEvent,
+        ThBgmFormatProcessView *format);
     int CreateStreamingFromMemory(
         StreamingSoundProcessView **streamingSound,
         BYTE *data,
@@ -107,7 +119,10 @@ typedef char SupervisorProcessQueuesPlaySoundsAt437[
     (offsetof(SupervisorProcessQueuesView, playSounds) == 0x437) ? 1 : -1];
 
 extern SupervisorProcessQueuesView g_Supervisor;
-extern SoundBufferIdxVolume g_SoundBufferIdxVol[];
+extern SoundBufferIdxVolume g_SoundBufferIdxVol[54];
+extern char *g_SfxList[39];
+extern const char g_SoundLoadErrorMessage[];
+extern GameErrorContext g_GameErrorContext;
 
 enum SoundPlayerCommandOpcode
 {
@@ -158,6 +173,10 @@ class SoundPlayer
     int sfxVolume;
     int unconsumedBgmAttenuation;
 
+    int InitSoundBuffers();
+    int Release();
+    int StartBGM(char *path);
+    int LoadSound(int index, char *path);
     int ProcessQueues();
     void QueueCommand(int opcode, int argument, char *path);
     int PreloadBGM(int index, char *path);
@@ -171,6 +190,136 @@ class SoundPlayer
 };
 
 extern SoundPlayer g_SoundPlayer;
+
+int SoundPlayer::InitSoundBuffers()
+{
+    int i;
+
+    if (this->manager == NULL)
+        return -1;
+
+    if (this->dsoundHdl == NULL)
+        return 0;
+
+    for (i = 0; i < 12; ++i)
+        this->soundQueue[i] = -1;
+
+    for (i = 0; i < 39; ++i)
+    {
+        if (this->LoadSound(i, g_SfxList[i]) != 0)
+        {
+            g_GameErrorContext.Log(g_SoundLoadErrorMessage, g_SfxList[i]);
+            return -1;
+        }
+    }
+
+    for (i = 0; i < sizeof(g_SoundBufferIdxVol) / sizeof(g_SoundBufferIdxVol[0]); ++i)
+    {
+        this->dsoundHdl->DuplicateSoundBuffer(
+            this->soundBuffers[g_SoundBufferIdxVol[i].bufferIdx],
+            &this->duplicateSoundBuffers[i]);
+        this->duplicateSoundBuffers[i]->SetCurrentPosition(0);
+        this->duplicateSoundBuffers[i]->SetVolume(g_SoundBufferIdxVol[i].volume);
+    }
+
+    return 0;
+}
+
+int SoundPlayer::Release()
+{
+    int i;
+
+    if (this->bgmFmtData != NULL)
+        g_ZunMemory.Free(this->bgmFmtData);
+
+    for (i = 0; i < 128; ++i)
+    {
+        if (this->duplicateSoundBuffers[i] != NULL)
+        {
+            this->duplicateSoundBuffers[i]->Release();
+            this->duplicateSoundBuffers[i] = NULL;
+        }
+        if (this->soundBuffers[i] != NULL)
+        {
+            this->soundBuffers[i]->Release();
+            this->soundBuffers[i] = NULL;
+        }
+    }
+
+    if (this->manager == NULL)
+        return 0;
+
+    KillTimer(this->gameWindow, 1);
+    this->StopBGM();
+    this->dsoundHdl = NULL;
+    this->initSoundBuffer->Stop();
+    if (this->initSoundBuffer != NULL)
+    {
+        this->initSoundBuffer->Release();
+        this->initSoundBuffer = NULL;
+    }
+    if (this->bgm != NULL)
+    {
+        delete this->bgm;
+        this->bgm = NULL;
+    }
+    if (this->manager != NULL)
+    {
+        delete this->manager;
+        this->manager = NULL;
+    }
+
+    for (i = 0; i < 19; ++i)
+        this->FreePreloadedBGM(i);
+
+    return 0;
+}
+
+int SoundPlayer::StartBGM(char *path)
+{
+    int result;
+    ThBgmFormatProcessView *format;
+    DWORD blockAlign;
+    DWORD samplesPerSecond;
+    DWORD notifySize;
+
+    strcpy(this->currentBgmFileName, path);
+
+    if (this->manager == NULL)
+        return -1;
+
+    if (this->dsoundHdl == NULL)
+        return -1;
+
+    this->StopBGM();
+
+    format = this->bgmFmtData;
+    blockAlign = format->format.nBlockAlign;
+    samplesPerSecond = format->format.nSamplesPerSec;
+    notifySize = samplesPerSecond * 4 * blockAlign / 16;
+    notifySize -= notifySize % blockAlign;
+    this->bgmUpdateEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
+    this->bgmThreadHandle = CreateThread(
+        NULL,
+        0,
+        SoundPlayer::BGMPlayerThread,
+        g_Supervisor.window,
+        0,
+        &this->bgmThreadId);
+    result = this->manager->CreateStreaming(
+        &this->bgm,
+        path,
+        DSBCAPS_GETCURRENTPOSITION2 | DSBCAPS_CTRLPOSITIONNOTIFY,
+        GUID_NULL,
+        16,
+        notifySize,
+        this->bgmUpdateEvent,
+        format);
+    if (result < 0)
+        return -1;
+
+    return 0;
+}
 
 int SoundPlayer::GetFmtIndexByName(char *name)
 {

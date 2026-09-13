@@ -889,11 +889,11 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043E9E0,authored_game,SoundPlayer,authored,high,packet113-soundplayer-reopen-bgm-vc71-exact-2026-09-13
 0x0043EA30,authored_game,SoundPlayer,authored,high,packet112-soundplayer-preload-bgm-vc71-exact-2026-09-13
 0x0043EBC0,authored_game,SoundPlayer,authored,high,packet112-soundplayer-stop-bgm-vc71-exact-2026-09-13
-0x0043EC80,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0043EC80,authored_game,SoundPlayer,authored,high,packet114-soundplayer-init-buffers-vc71-exact-2026-09-13
 0x0043ED80,authored_game,SoundPlayer,authored,high,packet113-soundplayer-bgm-thread-vc71-exact-2026-09-13
 0x0043EE40,authored_game,SoundPlayer,authored,high,packet112-soundplayer-queue-command-vc71-exact-2026-09-13
-0x0043EEB0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0043EFA0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0043EEB0,authored_game,SoundPlayer,authored,high,packet114-soundplayer-release-source-present-2026-09-13
+0x0043EFA0,authored_game,SoundPlayer,authored,high,packet114-soundplayer-start-bgm-vc71-exact-2026-09-13
 0x0043F0A0,authored_game,SoundPlayer,authored,high,packet112-soundplayer-load-bgm-vc71-exact-2026-09-13
 0x0043F1F0,authored_game,SoundPlayer,authored,high,packet111-soundplayer-processqueues-source-present-2026-09-13
 0x0043F7A0,unknown,,review,unknown,ida-1.50a-initial-inventory
