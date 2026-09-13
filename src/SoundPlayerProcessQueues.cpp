@@ -4,6 +4,7 @@
 
 #include "ZunMemory.hpp"
 #include "GameErrorContext.hpp"
+#include "FileSystem.hpp"
 
 struct ThBgmFormatProcessView
 {
@@ -122,7 +123,15 @@ extern SupervisorProcessQueuesView g_Supervisor;
 extern SoundBufferIdxVolume g_SoundBufferIdxVol[54];
 extern char *g_SfxList[39];
 extern const char g_SoundLoadErrorMessage[];
+extern const char g_NotWavRiffMessage[];
+extern const char g_NotWavMessage[];
 extern GameErrorContext g_GameErrorContext;
+
+static WAVEFORMATEX *GetWavFormatData(
+    unsigned char *soundData,
+    char *formatString,
+    int *formatSize,
+    unsigned int fileSizeExcludingFormat);
 
 enum SoundPlayerCommandOpcode
 {
@@ -223,6 +232,123 @@ int SoundPlayer::InitSoundBuffers()
     }
 
     return 0;
+}
+
+int SoundPlayer::LoadSound(int index, char *path)
+{
+    unsigned char *soundFileData;
+    unsigned char *soundFileCursor;
+    int fileSize;
+    WAVEFORMATEX *wavDataPtr;
+    WAVEFORMATEX *audioPtr1;
+    WAVEFORMATEX *audioPtr2;
+    DWORD audioSize1;
+    DWORD audioSize2;
+    WAVEFORMATEX wavData;
+    int formatSize;
+    DSBUFFERDESC soundBufferDesc;
+
+    if (this->manager == NULL)
+        return 0;
+
+    if (this->soundBuffers[index] != NULL)
+    {
+        this->soundBuffers[index]->Release();
+        this->soundBuffers[index] = NULL;
+    }
+
+    soundFileData = FileSystem::OpenFile(path, NULL, 0);
+    soundFileCursor = soundFileData;
+    if (soundFileCursor == NULL)
+        return -1;
+
+    if (strncmp(reinterpret_cast<char *>(soundFileCursor), "RIFF", 4) != 0)
+    {
+        g_GameErrorContext.Log(g_NotWavRiffMessage, path);
+        g_ZunMemory.Free(soundFileData);
+        return -1;
+    }
+    soundFileCursor += 4;
+
+    fileSize = *reinterpret_cast<int *>(soundFileCursor);
+    soundFileCursor += 4;
+
+    if (strncmp(reinterpret_cast<char *>(soundFileCursor), "WAVE", 4) != 0)
+    {
+        g_GameErrorContext.Log(g_NotWavMessage, path);
+        g_ZunMemory.Free(soundFileData);
+        return -1;
+    }
+    soundFileCursor += 4;
+
+    wavDataPtr = GetWavFormatData(soundFileCursor, "fmt ", &formatSize, fileSize - 12);
+    if (wavDataPtr == NULL)
+    {
+        g_GameErrorContext.Log(g_NotWavMessage, path);
+        g_ZunMemory.Free(soundFileData);
+        return -1;
+    }
+    wavData = *wavDataPtr;
+
+    wavDataPtr = GetWavFormatData(soundFileCursor, "data", &formatSize, fileSize - 12);
+    if (wavDataPtr == NULL)
+    {
+        g_GameErrorContext.Log(g_NotWavMessage, path);
+        g_ZunMemory.Free(soundFileData);
+        return -1;
+    }
+
+    ZeroMemory(&soundBufferDesc, sizeof(soundBufferDesc));
+    soundBufferDesc.dwSize = sizeof(soundBufferDesc);
+    soundBufferDesc.dwFlags =
+        DSBCAPS_GLOBALFOCUS | DSBCAPS_CTRLVOLUME | DSBCAPS_CTRLPAN | DSBCAPS_LOCSOFTWARE;
+    soundBufferDesc.dwBufferBytes = formatSize;
+    soundBufferDesc.lpwfxFormat = &wavData;
+    if (FAILED(this->dsoundHdl->CreateSoundBuffer(
+            &soundBufferDesc, &this->soundBuffers[index], NULL)))
+    {
+        g_ZunMemory.Free(soundFileData);
+        return -1;
+    }
+
+    if (FAILED(this->soundBuffers[index]->Lock(
+            0,
+            formatSize,
+            reinterpret_cast<LPVOID *>(&audioPtr1),
+            reinterpret_cast<LPDWORD>(&audioSize1),
+            reinterpret_cast<LPVOID *>(&audioPtr2),
+            reinterpret_cast<LPDWORD>(&audioSize2),
+            0)))
+    {
+        g_ZunMemory.Free(soundFileData);
+        return -1;
+    }
+
+    CopyMemory(audioPtr1, wavDataPtr, audioSize1);
+    if (audioSize2 != 0)
+        CopyMemory(audioPtr2, reinterpret_cast<char *>(wavDataPtr) + audioSize1, audioSize2);
+
+    this->soundBuffers[index]->Unlock(audioPtr1, audioSize1, audioPtr2, audioSize2);
+    g_ZunMemory.Free(soundFileData);
+    return 0;
+}
+
+static WAVEFORMATEX *GetWavFormatData(
+    unsigned char *soundData,
+    char *formatString,
+    int *formatSize,
+    unsigned int fileSizeExcludingFormat)
+{
+    while (fileSizeExcludingFormat > 0)
+    {
+        *formatSize = *reinterpret_cast<int *>(soundData + 4);
+        if (strncmp(reinterpret_cast<char *>(soundData), formatString, 4) == 0)
+            return reinterpret_cast<WAVEFORMATEX *>(soundData + 8);
+
+        fileSizeExcludingFormat -= *formatSize + 8;
+        soundData += *formatSize + 8;
+    }
+    return NULL;
 }
 
 int SoundPlayer::Release()

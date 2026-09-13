@@ -6,13 +6,13 @@ their boundaries and origins must be reviewed independently.
 | Measure | Count |
 | --- | ---: |
 | Tracked 1.50a function candidates | 2,160 |
-| Origin/boundary review pending | 1,948 |
-| Confirmed authored functions | 192 |
-| Confirmed authored code bytes | 53,623 |
+| Origin/boundary review pending | 1,946 |
+| Confirmed authored functions | 194 |
+| Confirmed authored code bytes | 54,311 |
 | Classified exclusions | 20 |
-| Source-present authored mappings | 161 |
-| Canonical exact functions | 161 |
-| Canonical exact authored bytes | 26,420 |
+| Source-present authored mappings | 163 |
+| Canonical exact functions | 163 |
+| Canonical exact authored bytes | 27,108 |
 
 While review remains pending, the authored exact denominator is unknown. A
 mapped name, maintained source, successful compilation, or IDA similarity does

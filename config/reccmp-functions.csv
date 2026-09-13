@@ -160,3 +160,5 @@ SoundPlayer::ReopenBGM,0x0043E9E0,function
 SoundPlayer::BGMPlayerThread,0x0043ED80,function
 SoundPlayer::InitSoundBuffers,0x0043EC80,function
 SoundPlayer::StartBGM,0x0043EFA0,function
+SoundPlayer::LoadSound,0x0043E770,function
+GetWavFormatData,0x0043E1A0,function

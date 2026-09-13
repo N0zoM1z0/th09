@@ -159,3 +159,5 @@ SoundPlayer::ReopenBGM
 SoundPlayer::BGMPlayerThread
 SoundPlayer::InitSoundBuffers
 SoundPlayer::StartBGM
+SoundPlayer::LoadSound
+GetWavFormatData

@@ -3753,3 +3753,56 @@ relocations = [
   { offset = 0xC4, type = "DIR32", symbol = "_GUID_NULL", target = 0x004953D0, addend = 0xC },
   { offset = 0xE5, type = "REL32", symbol = "?CreateStreaming@SoundManagerProcessView@@QAEHPAPAUStreamingSoundProcessView@@PADKU_GUID@@KKPAXPAUThBgmFormatProcessView@@@Z", target = 0x004407A0 },
 ]
+
+[units.soundplayer-load-sound]
+source = "src/SoundPlayerProcessQueues.cpp"
+object = "build/matching/SoundPlayerLoadSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SoundPlayer::LoadSound"]
+symbol = "?LoadSound@SoundPlayer@@QAEHHPAD@Z"
+target_address = 0x0043E770
+size = 0x266
+relocations = [
+  { offset = 0x43, type = "REL32", symbol = "?OpenFile@FileSystem@@YIPAEPBDPAHH@Z", target = 0x0042C970 },
+  { offset = 0x53, type = "DIR32", symbol = "??_C@_04EPCGJKAP@RIFF?$AA@", target = 0x00491558 },
+  { offset = 0x59, type = "REL32", symbol = "_strncmp", target = 0x0047CC30 },
+  { offset = 0x66, type = "DIR32", symbol = "?g_NotWavRiffMessage@@3QBDB", target = 0x0049153C },
+  { offset = 0x6B, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x70, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+  { offset = 0x79, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x7E, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x9A, type = "DIR32", symbol = "??_C@_04HFHJMNCD@WAVE?$AA@", target = 0x00491534 },
+  { offset = 0xA0, type = "REL32", symbol = "_strncmp", target = 0x0047CC30 },
+  { offset = 0xB0, type = "DIR32", symbol = "?g_NotWavMessage@@3QBDB", target = 0x00491518 },
+  { offset = 0xB5, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0xBA, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+  { offset = 0xC3, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0xC8, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0xDF, type = "DIR32", symbol = "??_C@_04CAJPEBPP@fmt?5?$AA@", target = 0x00491510 },
+  { offset = 0xEB, type = "REL32", symbol = "?GetWavFormatData@@YIPAUtWAVEFORMATEX@@PAEPADPAHI@Z", target = 0x0043E1A0 },
+  { offset = 0xF8, type = "DIR32", symbol = "?g_NotWavMessage@@3QBDB", target = 0x00491518 },
+  { offset = 0xFD, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x102, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+  { offset = 0x10E, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x113, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x13F, type = "DIR32", symbol = "??_C@_04PJOLNDGD@data?$AA@", target = 0x00491508 },
+  { offset = 0x14F, type = "REL32", symbol = "?GetWavFormatData@@YIPAUtWAVEFORMATEX@@PAEPADPAHI@Z", target = 0x0043E1A0 },
+  { offset = 0x1AE, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x1B3, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x1E9, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x1EE, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x252, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x257, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+]
+
+[units.soundplayer-get-wav-format-data]
+source = "src/SoundPlayerProcessQueues.cpp"
+object = "build/matching/SoundPlayerLoadSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["GetWavFormatData"]
+symbol = "?GetWavFormatData@@YIPAUtWAVEFORMATEX@@PAEPADPAHI@Z"
+target_address = 0x0043E1A0
+size = 0x4A
+relocations = [
+  { offset = 0x1D, type = "REL32", symbol = "_strncmp", target = 0x0047CC30 },
+]
