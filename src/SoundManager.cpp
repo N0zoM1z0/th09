@@ -149,6 +149,145 @@ int WaveFileProcessView::OpenFromMemory(
     return S_OK;
 }
 
+
+struct SoundPlayerBgmStorageView
+{
+    unsigned char unknown000[0x6214];
+    unsigned int bgmFileBaseOffset;
+};
+
+extern SoundPlayerBgmStorageView g_SoundPlayer;
+
+int WaveFileProcessView::Close()
+{
+    if (flags == 1)
+    {
+        CloseHandle(waveFile);
+        waveFile = INVALID_HANDLE_VALUE;
+    }
+    return S_OK;
+}
+
+WaveFileProcessView::~WaveFileProcessView()
+{
+    Close();
+}
+
+int WaveFileProcessView::ResetFile(bool loop)
+{
+    DWORD seekResult;
+
+    if (isReadingFromMemory)
+    {
+        dataCursor = data;
+        if (format->totalLength > 0)
+            dataSize = format->totalLength;
+        if (loop && format->introLength > 0)
+            dataCursor += format->introLength;
+    }
+    else
+    {
+        if (waveFile == NULL)
+            return CO_E_NOTINITIALIZED;
+
+        if (loop && format->introLength > 0)
+        {
+            seekResult = SetFilePointer(
+                waveFile,
+                g_SoundPlayer.bgmFileBaseOffset + format->introLength + format->startOffset,
+                NULL,
+                FILE_BEGIN);
+            chunkSize = format->totalLength - format->introLength;
+        }
+        else
+        {
+            seekResult = SetFilePointer(
+                waveFile,
+                g_SoundPlayer.bgmFileBaseOffset + format->startOffset,
+                NULL,
+                FILE_BEGIN);
+            chunkSize = format->totalLength;
+        }
+    }
+    return S_OK;
+}
+
+int WaveFileProcessView::Reopen(ThBgmFormatProcessView *newFormat)
+{
+    if (isReadingFromMemory)
+        return E_FAIL;
+    if (waveFile == INVALID_HANDLE_VALUE)
+        return E_FAIL;
+
+    format = newFormat;
+    ResetFile(false);
+    fileSize = chunkSize;
+    return S_OK;
+}
+
+SoundProcessView::SoundProcessView(
+    LPDIRECTSOUNDBUFFER *soundBuffers,
+    DWORD newBufferSize,
+    DWORD newBufferCount,
+    WaveFileProcessView *newWaveFile)
+{
+    DWORD i;
+
+    buffers = new LPDIRECTSOUNDBUFFER[newBufferCount];
+    for (i = 0; i < newBufferCount; ++i)
+        buffers[i] = soundBuffers[i];
+
+    bufferSize = newBufferSize;
+    bufferCount = newBufferCount;
+    waveFile = newWaveFile;
+    unknown30 = 0;
+
+    FillBufferWithSound(buffers[0], FALSE);
+    for (i = 0; i < newBufferCount; ++i)
+        buffers[i]->SetCurrentPosition(0);
+    isPlaying = FALSE;
+}
+
+SoundProcessView::~SoundProcessView()
+{
+    for (DWORD i = 0; i < bufferCount; ++i)
+    {
+        if (buffers[i] != NULL)
+        {
+            buffers[i]->Release();
+            buffers[i] = NULL;
+        }
+    }
+    if (buffers != NULL)
+    {
+        delete[] buffers;
+        buffers = NULL;
+    }
+    if (waveFile != NULL)
+    {
+        delete waveFile;
+        waveFile = NULL;
+    }
+}
+
+StreamingSoundProcessView::StreamingSoundProcessView(
+    LPDIRECTSOUNDBUFFER buffer,
+    DWORD newBufferSize,
+    WaveFileProcessView *newWaveFile,
+    DWORD newNotifySize)
+    : SoundProcessView(&buffer, newBufferSize, 1, newWaveFile)
+{
+    lastPlayPosition = 0;
+    playProgress = 0;
+    notifySize = newNotifySize;
+    nextWriteOffset = 0;
+    fillNextNotificationWithSilence = FALSE;
+}
+
+StreamingSoundProcessView::~StreamingSoundProcessView()
+{
+}
+
 int SoundManagerProcessView::CreateStreaming(
     StreamingSoundProcessView **streamingSound,
     char *path,

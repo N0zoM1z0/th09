@@ -51,6 +51,7 @@ struct WaveFileProcessView
         ULONG newDataSize,
         ThBgmFormatProcessView *newFormat,
         DWORD newFlags);
+    int Close();
     int ResetFile(bool loop);
     ThBgmFormatProcessView *GetFormat();
     int Reopen(ThBgmFormatProcessView *newFormat);
@@ -72,14 +73,46 @@ typedef char WaveFileProcessViewFormatAt90[
 
 class SoundManagerProcessView;
 
-struct StreamingSoundProcessView
+struct SoundProcessView
 {
-    virtual ~StreamingSoundProcessView();
+    virtual ~SoundProcessView();
 
-    unsigned char unknown004[0x34 - 0x04];
-    int isPlaying;
+    LPDIRECTSOUNDBUFFER *buffers;
+    DWORD bufferSize;
+    WaveFileProcessView *waveFile;
+    DWORD bufferCount;
+    int unknown14;
+    int unknown18;
+    int unknown1C;
+    DWORD unknown20;
+    DWORD unknown24;
+    DWORD unknown28;
+    DWORD unknown2C;
+    DWORD unknown30;
+    BOOL isPlaying;
     DSBUFFERDESC bufferDescription;
     SoundManagerProcessView *manager;
+
+    SoundProcessView(
+        LPDIRECTSOUNDBUFFER *soundBuffers,
+        DWORD newBufferSize,
+        DWORD newBufferCount,
+        WaveFileProcessView *newWaveFile);
+    int FillBufferWithSound(LPDIRECTSOUNDBUFFER buffer, int looped);
+};
+
+typedef char SoundProcessViewSize[(sizeof(SoundProcessView) == 0x60) ? 1 : -1];
+typedef char SoundProcessBuffersAt04[(offsetof(SoundProcessView, buffers) == 0x04) ? 1 : -1];
+typedef char SoundProcessBufferSizeAt08[(offsetof(SoundProcessView, bufferSize) == 0x08) ? 1 : -1];
+typedef char SoundProcessWaveFileAt0C[(offsetof(SoundProcessView, waveFile) == 0x0C) ? 1 : -1];
+typedef char SoundProcessBufferCountAt10[(offsetof(SoundProcessView, bufferCount) == 0x10) ? 1 : -1];
+typedef char SoundProcessUnknown30At30[(offsetof(SoundProcessView, unknown30) == 0x30) ? 1 : -1];
+typedef char SoundProcessIsPlayingAt34[(offsetof(SoundProcessView, isPlaying) == 0x34) ? 1 : -1];
+typedef char SoundProcessDsbdAt38[(offsetof(SoundProcessView, bufferDescription) == 0x38) ? 1 : -1];
+typedef char SoundProcessManagerAt5C[(offsetof(SoundProcessView, manager) == 0x5C) ? 1 : -1];
+
+struct StreamingSoundProcessView : SoundProcessView
+{
     DWORD lastPlayPosition;
     DWORD playProgress;
     DWORD nextWriteOffset;
@@ -93,11 +126,11 @@ struct StreamingSoundProcessView
         DWORD bufferSize,
         WaveFileProcessView *waveFile,
         DWORD notifySize);
+    virtual ~StreamingSoundProcessView();
 
     LPDIRECTSOUNDBUFFER GetBuffer(unsigned int index);
     WaveFileProcessView *GetWaveFile();
     int Reset();
-    int FillBufferWithSound(LPDIRECTSOUNDBUFFER buffer, int looped);
     void InitSoundBuffers();
     void Play(unsigned int priority, unsigned int flags);
     void Stop();

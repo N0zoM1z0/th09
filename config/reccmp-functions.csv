@@ -168,3 +168,7 @@ WaveFileProcessView::OpenFromMemory,0x0043FDC0,function
 WaveFileProcessView::Open,0x00440560,function
 SoundManagerProcessView::CreateStreaming,0x004407A0,function
 SoundManagerProcessView::CreateStreamingFromMemory,0x004409F0,function
+WaveFileProcessView::ResetFile,0x0043FE10,function
+WaveFileProcessView::Close,0x0043FFD0,function
+WaveFileProcessView::Reopen,0x004405E0,function
+SoundProcessView::SoundProcessView,0x00440650,function

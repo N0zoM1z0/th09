@@ -167,3 +167,7 @@ WaveFileProcessView::OpenFromMemory
 WaveFileProcessView::Open
 SoundManagerProcessView::CreateStreaming
 SoundManagerProcessView::CreateStreamingFromMemory
+WaveFileProcessView::ResetFile
+WaveFileProcessView::Close
+WaveFileProcessView::Reopen
+SoundProcessView::SoundProcessView
