@@ -873,7 +873,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043E090,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043E0D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043E130,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0043E170,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0043E170,compiler_generated,SoundPlayer,exclude,high,packet116-soundmanager-scalar-deleting-destructor-vc71-2026-09-13
 0x0043E1A0,authored_game,SoundPlayer,authored,high,packet115-soundplayer-wav-helper-vc71-exact-2026-09-13
 0x0043E1F0,authored_game,SoundPlayer,authored,high,packet113-soundplayer-get-fmt-index-vc71-exact-2026-09-13
 0x0043E2C0,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -884,7 +884,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043E440,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043E4A0,authored_game,SoundPlayer,authored,high,packet113-soundplayer-free-preload-vc71-exact-2026-09-13
 0x0043E4E0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0043E500,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0043E500,authored_game,SoundPlayer,authored,high,packet116-soundplayer-initialize-dsound-vc71-exact-2026-09-13
 0x0043E770,authored_game,SoundPlayer,authored,high,packet115-soundplayer-load-sound-vc71-exact-2026-09-13
 0x0043E9E0,authored_game,SoundPlayer,authored,high,packet113-soundplayer-reopen-bgm-vc71-exact-2026-09-13
 0x0043EA30,authored_game,SoundPlayer,authored,high,packet112-soundplayer-preload-bgm-vc71-exact-2026-09-13

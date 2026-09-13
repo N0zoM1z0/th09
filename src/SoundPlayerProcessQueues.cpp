@@ -63,7 +63,17 @@ typedef char StreamingSoundIsLockedAt78[
 class SoundManagerProcessView
 {
   public:
+    LPDIRECTSOUND8 directSound;
+
+    SoundManagerProcessView();
     ~SoundManagerProcessView();
+    int Initialize(
+        HWND window,
+        DWORD cooperativeLevel,
+        DWORD primaryChannels,
+        DWORD primaryFrequency,
+        DWORD primaryBitRate);
+    LPDIRECTSOUND GetDirectSound();
 
     int CreateStreaming(
         StreamingSoundProcessView **streamingSound,
@@ -85,6 +95,8 @@ class SoundManagerProcessView
         DWORD notifySize,
         HANDLE notifyEvent);
 };
+
+typedef char SoundManagerProcessViewSize[(sizeof(SoundManagerProcessView) == 4) ? 1 : -1];
 
 struct SoundPlayerCommand
 {
@@ -125,6 +137,8 @@ extern char *g_SfxList[39];
 extern const char g_SoundLoadErrorMessage[];
 extern const char g_NotWavRiffMessage[];
 extern const char g_NotWavMessage[];
+extern const char g_DirectSoundInitializeErrorMessage[];
+extern const char g_DirectSoundInitializeSuccessMessage[];
 extern GameErrorContext g_GameErrorContext;
 
 static WAVEFORMATEX *GetWavFormatData(
@@ -182,6 +196,7 @@ class SoundPlayer
     int sfxVolume;
     int unconsumedBgmAttenuation;
 
+    int InitializeDSound(HWND gameWindow);
     int InitSoundBuffers();
     int Release();
     int StartBGM(char *path);
@@ -198,7 +213,85 @@ class SoundPlayer
     static DWORD WINAPI BGMPlayerThread(LPVOID parameter);
 };
 
+typedef char SoundPlayerProcessViewSize[(sizeof(SoundPlayer) == 0x6224) ? 1 : -1];
+
 extern SoundPlayer g_SoundPlayer;
+
+int SoundPlayer::InitializeDSound(HWND gameWindow)
+{
+    DSBUFFERDESC bufferDescription;
+    WAVEFORMATEX waveFormat;
+    LPVOID audioBuffer1Start;
+    DWORD audioBuffer1Length;
+    LPVOID audioBuffer2Start;
+    DWORD audioBuffer2Length;
+    int i;
+
+    ZeroMemory(this, sizeof(SoundPlayer));
+
+    for (i = 0; i < 128; ++i)
+        this->unconsumedMetadataBySound[i] = -1;
+    for (i = 0; i < 12; ++i)
+        this->soundQueue[i] = -1;
+
+    this->manager = new SoundManagerProcessView();
+    if (this->manager->Initialize(gameWindow, 2, 2, 44100, 16) < 0)
+    {
+        g_GameErrorContext.Log(g_DirectSoundInitializeErrorMessage);
+        if (this->manager != NULL)
+        {
+            delete this->manager;
+            this->manager = NULL;
+        }
+        return -1;
+    }
+
+    this->dsoundHdl = this->manager->GetDirectSound();
+    this->bgmThreadHandle = NULL;
+
+    ZeroMemory(&bufferDescription, sizeof(bufferDescription));
+    bufferDescription.dwSize = sizeof(bufferDescription);
+    bufferDescription.dwFlags = DSBCAPS_GLOBALFOCUS | DSBCAPS_LOCSOFTWARE;
+    bufferDescription.dwBufferBytes = 0x8000;
+
+    ZeroMemory(&waveFormat, sizeof(waveFormat));
+    waveFormat.cbSize = 0;
+    waveFormat.wFormatTag = WAVE_FORMAT_PCM;
+    waveFormat.nChannels = 2;
+    waveFormat.nSamplesPerSec = 44100;
+    waveFormat.nAvgBytesPerSec = 176400;
+    waveFormat.nBlockAlign = 4;
+    waveFormat.wBitsPerSample = 16;
+    bufferDescription.lpwfxFormat = &waveFormat;
+
+    if (this->dsoundHdl->CreateSoundBuffer(
+            &bufferDescription, &this->initSoundBuffer, NULL) < 0)
+        return -1;
+
+    if (this->initSoundBuffer->Lock(
+            0,
+            0x8000,
+            &audioBuffer1Start,
+            &audioBuffer1Length,
+            &audioBuffer2Start,
+            &audioBuffer2Length,
+            0) < 0)
+        return -1;
+
+    ZeroMemory(audioBuffer1Start, 0x8000);
+    this->initSoundBuffer->Unlock(
+        audioBuffer1Start,
+        audioBuffer1Length,
+        audioBuffer2Start,
+        audioBuffer2Length);
+    this->initSoundBuffer->Play(0, 0, 1);
+    this->bgmVolume = 100;
+    this->sfxVolume = 100;
+    SetTimer(gameWindow, 0, 250, NULL);
+    this->gameWindow = gameWindow;
+    g_GameErrorContext.Log(g_DirectSoundInitializeSuccessMessage);
+    return 0;
+}
 
 int SoundPlayer::InitSoundBuffers()
 {

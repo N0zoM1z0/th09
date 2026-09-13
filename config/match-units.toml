@@ -3806,3 +3806,49 @@ size = 0x4A
 relocations = [
   { offset = 0x1D, type = "REL32", symbol = "_strncmp", target = 0x0047CC30 },
 ]
+
+[units.soundplayer-initialize-dsound]
+source = "src/SoundPlayerProcessQueues.cpp"
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["SoundPlayer::InitializeDSound"]
+symbol = "?InitializeDSound@SoundPlayer@@QAEHPAUHWND__@@@Z"
+target_address = 0x0043E500
+size = 0x265
+relocations = [
+  { offset = 0x6, type = "DIR32", symbol = "__ehhandler$?InitializeDSound@SoundPlayer@@QAEHPAUHWND__@@@Z", target = 0x0048D41B },
+  { offset = 0xC, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x14, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x88, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x9E, type = "REL32", symbol = "??0SoundManagerProcessView@@QAE@XZ", target = 0x00433130 },
+  { offset = 0xC5, type = "REL32", symbol = "?Initialize@SoundManagerProcessView@@QAEHPAUHWND__@@KKKK@Z", target = 0x00440000 },
+  { offset = 0xCE, type = "DIR32", symbol = "?g_DirectSoundInitializeErrorMessage@@3QBDB", target = 0x004914D8 },
+  { offset = 0xD3, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0xD8, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+  { offset = 0xEC, type = "REL32", symbol = "??_GSoundManagerProcessView@@QAEPAXI@Z", target = 0x0043E170 },
+  { offset = 0x101, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x113, type = "REL32", symbol = "?GetDirectSound@SoundManagerProcessView@@QAEPAUIDirectSound@@XZ", target = 0x00435EC0 },
+  { offset = 0x1B5, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x234, type = "DIR32", symbol = "__imp__SetTimer@16", target = 0x0048E1D4 },
+  { offset = 0x239, type = "DIR32", symbol = "?g_DirectSoundInitializeSuccessMessage@@3QBDB", target = 0x004914B0 },
+  { offset = 0x23E, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x249, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+  { offset = 0x25B, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+]
+
+[units.soundplayer-release]
+source = "src/SoundPlayerProcessQueues.cpp"
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["SoundPlayer::Release"]
+symbol = "?Release@SoundPlayer@@QAEHXZ"
+target_address = 0x0043EEB0
+size = 0xE8
+relocations = [
+  { offset = 0x17, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x1C, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x73, type = "DIR32", symbol = "__imp__KillTimer@8", target = 0x0048E1C8 },
+  { offset = 0x7A, type = "REL32", symbol = "?StopBGM@SoundPlayer@@QAEXXZ", target = 0x0043EBC0 },
+  { offset = 0xC5, type = "REL32", symbol = "??_GSoundManagerProcessView@@QAEPAXI@Z", target = 0x0043E170 },
+  { offset = 0xD5, type = "REL32", symbol = "?FreePreloadedBGM@SoundPlayer@@QAEXH@Z", target = 0x0043E4A0 },
+]

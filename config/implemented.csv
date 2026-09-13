@@ -161,3 +161,5 @@ SoundPlayer::InitSoundBuffers
 SoundPlayer::StartBGM
 SoundPlayer::LoadSound
 GetWavFormatData
+SoundPlayer::InitializeDSound
+SoundPlayer::Release
