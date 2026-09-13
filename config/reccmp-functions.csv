@@ -163,3 +163,8 @@ SoundPlayer::LoadSound,0x0043E770,function
 GetWavFormatData,0x0043E1A0,function
 SoundPlayer::InitializeDSound,0x0043E500,function
 SoundPlayer::Release,0x0043EEB0,function
+WaveFileProcessView::WaveFileProcessView,0x0043FDA0,function
+WaveFileProcessView::OpenFromMemory,0x0043FDC0,function
+WaveFileProcessView::Open,0x00440560,function
+SoundManagerProcessView::CreateStreaming,0x004407A0,function
+SoundManagerProcessView::CreateStreamingFromMemory,0x004409F0,function

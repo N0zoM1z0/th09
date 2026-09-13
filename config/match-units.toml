@@ -3885,3 +3885,94 @@ relocations = [
   { offset = 0x1E, type = "REL32", symbol = "_DirectSoundCreate8@12", target = 0x0044E5A6 },
   { offset = 0x49, type = "REL32", symbol = "?SetPrimaryBufferFormat@SoundManagerProcessView@@QAEHKKK@Z", target = 0x0043F7C0 },
 ]
+
+[units.soundmanager-wave-file-constructor]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerStreaming.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["WaveFileProcessView::WaveFileProcessView"]
+symbol = "??0WaveFileProcessView@@QAE@XZ"
+target_address = 0x0043FDA0
+size = 0x13
+relocations = [
+]
+
+[units.soundmanager-wave-file-open-memory]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerStreaming.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["WaveFileProcessView::OpenFromMemory"]
+symbol = "?OpenFromMemory@WaveFileProcessView@@QAEHPAEKPAUThBgmFormatProcessView@@K@Z"
+target_address = 0x0043FDC0
+size = 0x3C
+relocations = [
+]
+
+[units.soundmanager-wave-file-open]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerStreaming.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["WaveFileProcessView::Open"]
+symbol = "?Open@WaveFileProcessView@@QAEHPADPAUThBgmFormatProcessView@@K@Z"
+target_address = 0x00440560
+size = 0x76
+relocations = [
+  { offset = 0x3E, type = "DIR32", symbol = "__imp__CreateFileA@28", target = 0x0048E068 },
+  { offset = 0x65, type = "REL32", symbol = "?ResetFile@WaveFileProcessView@@QAEH_N@Z", target = 0x0043FE10 },
+]
+
+[units.soundmanager-create-streaming]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerStreaming.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["SoundManagerProcessView::CreateStreaming"]
+symbol = "?CreateStreaming@SoundManagerProcessView@@QAEHPAPAUStreamingSoundProcessView@@PADKU_GUID@@KKPAXPAUThBgmFormatProcessView@@@Z"
+target_address = 0x004407A0
+size = 0x242
+relocations = [
+  { offset = 0x6, type = "DIR32", symbol = "__ehhandler$?CreateStreaming@SoundManagerProcessView@@QAEHPAPAUStreamingSoundProcessView@@PADKU_GUID@@KKPAXPAUThBgmFormatProcessView@@@Z", target = 0x0048D43B },
+  { offset = 0xC, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x14, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x33, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x4A, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x58, type = "REL32", symbol = "??0WaveFileProcessView@@QAE@XZ", target = 0x0043FDA0 },
+  { offset = 0x75, type = "REL32", symbol = "?Open@WaveFileProcessView@@QAEHPADPAUThBgmFormatProcessView@@K@Z", target = 0x00440560 },
+  { offset = 0x86, type = "REL32", symbol = "??_GWaveFileProcessView@@QAEPAXI@Z", target = 0x00440620 },
+  { offset = 0x97, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x12E, type = "DIR32", symbol = "_IID_IDirectSoundNotify", target = 0x004952E0 },
+  { offset = 0x142, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x15D, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x1A4, type = "REL32", symbol = "??3@YAXPAX@Z", target = 0x0047B249 },
+  { offset = 0x1B9, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x1D2, type = "REL32", symbol = "??3@YAXPAX@Z", target = 0x0047B249 },
+  { offset = 0x1D9, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x1FA, type = "REL32", symbol = "??0StreamingSoundProcessView@@QAE@PAUIDirectSoundBuffer@@KPAUWaveFileProcessView@@K@Z", target = 0x00440750 },
+  { offset = 0x238, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+]
+
+[units.soundmanager-create-streaming-memory]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerStreaming.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["SoundManagerProcessView::CreateStreamingFromMemory"]
+symbol = "?CreateStreamingFromMemory@SoundManagerProcessView@@QAEHPAPAUStreamingSoundProcessView@@PAEKPAUThBgmFormatProcessView@@KU_GUID@@KKPAX@Z"
+target_address = 0x004409F0
+size = 0x222
+relocations = [
+  { offset = 0x6, type = "DIR32", symbol = "__ehhandler$?CreateStreamingFromMemory@SoundManagerProcessView@@QAEHPAPAUStreamingSoundProcessView@@PAEKPAUThBgmFormatProcessView@@KU_GUID@@KKPAX@Z", target = 0x0048D45B },
+  { offset = 0xC, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x14, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x37, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x4D, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x5B, type = "REL32", symbol = "??0WaveFileProcessView@@QAE@XZ", target = 0x0043FDA0 },
+  { offset = 0x7A, type = "REL32", symbol = "?OpenFromMemory@WaveFileProcessView@@QAEHPAEKPAUThBgmFormatProcessView@@K@Z", target = 0x0043FDC0 },
+  { offset = 0x107, type = "DIR32", symbol = "_IID_IDirectSoundNotify", target = 0x004952E0 },
+  { offset = 0x11B, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x136, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x184, type = "REL32", symbol = "??3@YAXPAX@Z", target = 0x0047B249 },
+  { offset = 0x199, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x1B2, type = "REL32", symbol = "??3@YAXPAX@Z", target = 0x0047B249 },
+  { offset = 0x1B9, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x1DA, type = "REL32", symbol = "??0StreamingSoundProcessView@@QAE@PAUIDirectSoundBuffer@@KPAUWaveFileProcessView@@K@Z", target = 0x00440750 },
+  { offset = 0x218, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+]

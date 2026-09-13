@@ -162,3 +162,8 @@ SoundPlayer::LoadSound
 GetWavFormatData
 SoundPlayer::InitializeDSound
 SoundPlayer::Release
+WaveFileProcessView::WaveFileProcessView
+WaveFileProcessView::OpenFromMemory
+WaveFileProcessView::Open
+SoundManagerProcessView::CreateStreaming
+SoundManagerProcessView::CreateStreamingFromMemory

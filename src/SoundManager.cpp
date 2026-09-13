@@ -1,8 +1,9 @@
 #include "SoundManager.hpp"
 
-// Provenance: Microsoft DirectX SDK DSUtil.cpp sample family. This maintained
-// subset is reconstructed against the TH09 target and keeps only target-backed
-// behavior; provenance does not imply authored-game ownership.
+// Provenance: this translation unit descends from the Microsoft DirectX SDK
+// DSUtil.cpp sample family. Packet 117 classifies the unchanged manager core as
+// third-party; the target-backed WaveFile and streaming-creation extensions below
+// materially consume TH09/ZUN state and are classified independently as game code.
 
 SoundManagerProcessView::SoundManagerProcessView()
 {
@@ -90,5 +91,213 @@ int SoundManagerProcessView::SetPrimaryBufferFormat(
         primaryBuffer->Release();
         primaryBuffer = NULL;
     }
+    return S_OK;
+}
+
+WaveFileProcessView::WaveFileProcessView()
+{
+    format = NULL;
+    mmio = NULL;
+    fileSize = 0;
+    isReadingFromMemory = FALSE;
+}
+
+int WaveFileProcessView::Open(
+    char *path,
+    ThBgmFormatProcessView *newFormat,
+    DWORD newFlags)
+{
+    flags = newFlags;
+    isReadingFromMemory = FALSE;
+
+    if (flags == 1)
+    {
+        if (path == NULL)
+            return E_INVALIDARG;
+
+        waveFile = CreateFileA(
+            path,
+            GENERIC_READ,
+            FILE_SHARE_READ,
+            NULL,
+            OPEN_EXISTING,
+            FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN,
+            NULL);
+        if (waveFile == INVALID_HANDLE_VALUE)
+            return E_FAIL;
+
+        format = newFormat;
+        ResetFile(false);
+        fileSize = chunkSize;
+    }
+    return S_OK;
+}
+
+int WaveFileProcessView::OpenFromMemory(
+    BYTE *newData,
+    ULONG newDataSize,
+    ThBgmFormatProcessView *newFormat,
+    DWORD newFlags)
+{
+    format = newFormat;
+    dataSize = newDataSize;
+    data = newData;
+    dataCursor = data;
+    isReadingFromMemory = TRUE;
+    if (newFlags != 1)
+        return E_NOTIMPL;
+    return S_OK;
+}
+
+int SoundManagerProcessView::CreateStreaming(
+    StreamingSoundProcessView **streamingSound,
+    char *path,
+    DWORD creationFlags,
+    GUID algorithm,
+    DWORD bufferCount,
+    DWORD notifySize,
+    HANDLE notifyEvent,
+    ThBgmFormatProcessView *format)
+{
+    int result;
+
+    if (directSound == NULL)
+        return CO_E_NOTINITIALIZED;
+
+    LPDIRECTSOUNDBUFFER soundBuffer = NULL;
+    WaveFileProcessView *waveFile = NULL;
+    DSBPOSITIONNOTIFY *notifications = NULL;
+    LPDIRECTSOUNDNOTIFY notify = NULL;
+
+    waveFile = new WaveFileProcessView();
+    if (waveFile->Open(path, format, 1) != S_OK)
+    {
+        delete waveFile;
+        return E_FAIL;
+    }
+
+    DWORD bufferSize = notifySize * bufferCount;
+    DSBUFFERDESC bufferDescription;
+    ZeroMemory(&bufferDescription, sizeof(bufferDescription));
+    bufferDescription.dwSize = sizeof(bufferDescription);
+    bufferDescription.dwFlags = creationFlags | DSBCAPS_CTRLPOSITIONNOTIFY | DSBCAPS_GLOBALFOCUS |
+                                DSBCAPS_GETCURRENTPOSITION2 | DSBCAPS_CTRLVOLUME | DSBCAPS_LOCSOFTWARE;
+    bufferDescription.dwBufferBytes = bufferSize;
+    bufferDescription.guid3DAlgorithm = algorithm;
+    bufferDescription.lpwfxFormat = &waveFile->format->format;
+
+    if (FAILED(directSound->CreateSoundBuffer(&bufferDescription, &soundBuffer, NULL)) ||
+        FAILED(soundBuffer->QueryInterface(IID_IDirectSoundNotify, (VOID **)&notify)))
+        return E_FAIL;
+
+    notifications = new DSBPOSITIONNOTIFY[bufferCount];
+    if (notifications == NULL)
+        return E_OUTOFMEMORY;
+
+    for (DWORD i = 0; i < bufferCount; ++i)
+    {
+        notifications[i].dwOffset = notifySize * i + notifySize - 1;
+        notifications[i].hEventNotify = notifyEvent;
+    }
+
+    result = notify->SetNotificationPositions(bufferCount, notifications);
+    if (FAILED(result))
+    {
+        if (notify != NULL)
+        {
+            notify->Release();
+            notify = NULL;
+        }
+        delete notifications;
+        return E_FAIL;
+    }
+
+    if (notify != NULL)
+    {
+        notify->Release();
+        notify = NULL;
+    }
+    delete notifications;
+
+    *streamingSound = new StreamingSoundProcessView(soundBuffer, bufferSize, waveFile, notifySize);
+    CopyMemory(&(*streamingSound)->bufferDescription, &bufferDescription, sizeof(bufferDescription));
+    (*streamingSound)->manager = this;
+    (*streamingSound)->notifyEvent = notifyEvent;
+    (*streamingSound)->isLocked = FALSE;
+    return S_OK;
+}
+
+int SoundManagerProcessView::CreateStreamingFromMemory(
+    StreamingSoundProcessView **streamingSound,
+    BYTE *data,
+    ULONG dataSize,
+    ThBgmFormatProcessView *format,
+    DWORD creationFlags,
+    GUID algorithm,
+    DWORD bufferCount,
+    DWORD notifySize,
+    HANDLE notifyEvent)
+{
+    int result;
+
+    if (directSound == NULL)
+        return CO_E_NOTINITIALIZED;
+
+    LPDIRECTSOUNDBUFFER soundBuffer = NULL;
+    WaveFileProcessView *waveFile = NULL;
+    DSBPOSITIONNOTIFY *notifications = NULL;
+    LPDIRECTSOUNDNOTIFY notify = NULL;
+
+    waveFile = new WaveFileProcessView();
+    waveFile->OpenFromMemory(data, dataSize, format, 0);
+
+    DWORD bufferSize = notifySize * bufferCount;
+    DSBUFFERDESC bufferDescription;
+    ZeroMemory(&bufferDescription, sizeof(bufferDescription));
+    bufferDescription.dwSize = sizeof(bufferDescription);
+    bufferDescription.dwFlags = creationFlags | DSBCAPS_CTRLPOSITIONNOTIFY | DSBCAPS_GLOBALFOCUS |
+                                DSBCAPS_GETCURRENTPOSITION2 | DSBCAPS_CTRLVOLUME | DSBCAPS_LOCSOFTWARE;
+    bufferDescription.dwBufferBytes = bufferSize;
+    bufferDescription.guid3DAlgorithm = algorithm;
+    bufferDescription.lpwfxFormat = &waveFile->format->format;
+
+    if (FAILED(directSound->CreateSoundBuffer(&bufferDescription, &soundBuffer, NULL)) ||
+        FAILED(soundBuffer->QueryInterface(IID_IDirectSoundNotify, (VOID **)&notify)))
+        return E_FAIL;
+
+    notifications = new DSBPOSITIONNOTIFY[bufferCount];
+    if (notifications == NULL)
+        return E_OUTOFMEMORY;
+
+    for (DWORD i = 0; i < bufferCount; ++i)
+    {
+        notifications[i].dwOffset = notifySize * i + notifySize - 1;
+        notifications[i].hEventNotify = notifyEvent;
+    }
+
+    result = notify->SetNotificationPositions(bufferCount, notifications);
+    if (FAILED(result))
+    {
+        if (notify != NULL)
+        {
+            notify->Release();
+            notify = NULL;
+        }
+        delete notifications;
+        return E_FAIL;
+    }
+
+    if (notify != NULL)
+    {
+        notify->Release();
+        notify = NULL;
+    }
+    delete notifications;
+
+    *streamingSound = new StreamingSoundProcessView(soundBuffer, bufferSize, waveFile, notifySize);
+    CopyMemory(&(*streamingSound)->bufferDescription, &bufferDescription, sizeof(bufferDescription));
+    (*streamingSound)->manager = this;
+    (*streamingSound)->notifyEvent = notifyEvent;
+    (*streamingSound)->isLocked = FALSE;
     return S_OK;
 }

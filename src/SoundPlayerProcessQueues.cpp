@@ -7,61 +7,6 @@
 #include "FileSystem.hpp"
 #include "SoundManager.hpp"
 
-struct ThBgmFormatProcessView
-{
-    char name[16];
-    int startOffset;
-    DWORD preloadAllocSize;
-    int introLength;
-    int totalLength;
-    WAVEFORMATEX format;
-};
-
-typedef char ThBgmFormatProcessViewSize[(sizeof(ThBgmFormatProcessView) == 0x34) ? 1 : -1];
-typedef char ThBgmFormatProcessViewStartOffsetAt10[
-    (offsetof(ThBgmFormatProcessView, startOffset) == 0x10) ? 1 : -1];
-typedef char ThBgmFormatProcessViewPreloadSizeAt14[
-    (offsetof(ThBgmFormatProcessView, preloadAllocSize) == 0x14) ? 1 : -1];
-typedef char ThBgmFormatProcessViewSamplesAt24[
-    (offsetof(ThBgmFormatProcessView, format.nSamplesPerSec) == 0x24) ? 1 : -1];
-typedef char ThBgmFormatProcessViewBlockAlignAt2C[
-    (offsetof(ThBgmFormatProcessView, format.nBlockAlign) == 0x2C) ? 1 : -1];
-
-struct WaveFileProcessView
-{
-    ThBgmFormatProcessView *GetFormat();
-    int Reopen(ThBgmFormatProcessView *format);
-};
-
-struct StreamingSoundProcessView
-{
-    virtual ~StreamingSoundProcessView();
-
-    unsigned char unknown004[0x34 - 0x4];
-    int isPlaying;
-    unsigned char unknown038[0x78 - 0x38];
-    int isLocked;
-
-    LPDIRECTSOUNDBUFFER GetBuffer(unsigned int index);
-    WaveFileProcessView *GetWaveFile();
-    int Reset();
-    int FillBufferWithSound(LPDIRECTSOUNDBUFFER buffer, int looped);
-    void InitSoundBuffers();
-    void Play(unsigned int priority, unsigned int flags);
-    void Stop();
-    void Pause();
-    void Unpause();
-    void SetVolume(int volume);
-    int HandleWaveStreamNotification(int looped);
-};
-
-typedef char StreamingSoundIsPlayingAt34[
-    (offsetof(StreamingSoundProcessView, isPlaying) == 0x34) ? 1 : -1];
-typedef char StreamingSoundIsLockedAt78[
-    (offsetof(StreamingSoundProcessView, isLocked) == 0x78) ? 1 : -1];
-
-
-
 struct SoundPlayerCommand
 {
     int opcode;
