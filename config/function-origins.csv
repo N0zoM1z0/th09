@@ -895,7 +895,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043EEB0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043EFA0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043F0A0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0043F1F0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0043F1F0,authored_game,SoundPlayer,authored,high,packet111-soundplayer-processqueues-source-present-2026-09-13
 0x0043F7A0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043F7C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043F890,unknown,,review,unknown,ida-1.50a-initial-inventory
