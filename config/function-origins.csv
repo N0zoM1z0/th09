@@ -798,7 +798,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00439A90,authored_game,AnmManager,authored,high,packet103-anm-remaining-draw-modes-2026-09-13
 0x00439CF0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00439DC0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00439E90,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00439E90,authored_game,AnmManager,authored,high,packet105-anm-render-state-3d-source-2026-09-13
 0x0043A030,authored_game,AnmManager,authored,high,packet100-anm-render-state-and-flipped-core-2026-09-13
 0x0043A0F0,authored_game,AnmManager,authored,high,packet99-anm-render-core-source-present-2026-09-13
 0x0043A520,authored_game,AnmManager,authored,high,packet100-anm-render-state-and-flipped-core-2026-09-13

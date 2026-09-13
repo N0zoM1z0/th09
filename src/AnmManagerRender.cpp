@@ -30,6 +30,12 @@ struct SupervisorRenderDeviceView
     IDirect3DDevice8 *d3dDevice;
 };
 
+struct SupervisorAnmCameraView
+{
+    void ApplyCameraMode0();
+    void ApplyCameraMode1();
+};
+
 struct AnmVmDrawAlphaView
 {
     unsigned char unknown000[0x1F3];
@@ -166,13 +172,15 @@ struct AnmManagerDrawInnerView
     int renderStateChangesThisFrame;
     unsigned char unknown018[0x1C - 0x18];
     Float2 screenShakeOffset;
-    unsigned char unknown024[0x12880 - 0x24];
+    unsigned char unknown024[0x1287C - 0x24];
+    unsigned long currentTextureFactor;
     void *currentTexture;
     unsigned char currentBlendMode;
     unsigned char unknown12885;
     unsigned char currentVertexShader;
     unsigned char disableZWrite;
-    unsigned char unknown12888[0x128E4 - 0x12888];
+    unsigned char cameraMode;
+    unsigned char unknown12889[0x128E4 - 0x12889];
     int spritesToDraw;
     unsigned char unknown128E8[0x2B28E8 - 0x128E8];
     VertexTex1DiffuseXyzrhw *vertexBufferEndPtr;
@@ -181,12 +189,85 @@ struct AnmManagerDrawInnerView
 
 typedef char AnmManagerDrawInnerShakeAt1C[
     (offsetof(AnmManagerDrawInnerView, screenShakeOffset) == 0x1C) ? 1 : -1];
+typedef char AnmManagerDrawInnerTextureFactorAt1287C[
+    (offsetof(AnmManagerDrawInnerView, currentTextureFactor) == 0x1287C) ? 1 : -1];
 typedef char AnmManagerDrawInnerTextureAt12880[
     (offsetof(AnmManagerDrawInnerView, currentTexture) == 0x12880) ? 1 : -1];
 typedef char AnmManagerDrawInnerShaderAt12886[
     (offsetof(AnmManagerDrawInnerView, currentVertexShader) == 0x12886) ? 1 : -1];
+typedef char AnmManagerDrawInnerCameraModeAt12888[
+    (offsetof(AnmManagerDrawInnerView, cameraMode) == 0x12888) ? 1 : -1];
 
 unsigned char MixRenderColor(unsigned char first, unsigned char second);
+
+void AnmManager::SetRenderStateForVm3D(AnmVm *vm)
+{
+    AnmManagerDrawInnerView *anm =
+        reinterpret_cast<AnmManagerDrawInnerView *>(this);
+    AnmVmDrawInnerLayout *drawVm =
+        reinterpret_cast<AnmVmDrawInnerLayout *>(vm);
+    SupervisorRenderDeviceView *supervisor =
+        reinterpret_cast<SupervisorRenderDeviceView *>(&g_Supervisor);
+    SupervisorAnmCameraView *camera =
+        reinterpret_cast<SupervisorAnmCameraView *>(&g_Supervisor);
+
+    if (anm->currentBlendMode != vm->blendMode) {
+        this->FlushVertexBuffer();
+        anm->currentBlendMode = (unsigned char)vm->blendMode;
+        switch (anm->currentBlendMode) {
+        case 0:
+            supervisor->d3dDevice->SetRenderState(
+                D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+            break;
+        case 1:
+            supervisor->d3dDevice->SetRenderState(
+                D3DRS_DESTBLEND, D3DBLEND_ONE);
+            break;
+        }
+    }
+
+    {
+        AnmRenderColor color;
+        color.value = (drawVm->flagsWord & 0x20000) != 0
+            ? drawVm->color2.value : drawVm->color1.value;
+        if (anm->useMixColor != 0) {
+            color.r = MixRenderColor(color.r, anm->color.r);
+            color.g = MixRenderColor(color.g, anm->color.g);
+            color.b = MixRenderColor(color.b, anm->color.b);
+            color.a = MixRenderColor(color.a, anm->color.a);
+        }
+
+        if (anm->currentTextureFactor != color.value) {
+            this->FlushVertexBuffer();
+            anm->currentTextureFactor = color.value;
+            supervisor->d3dDevice->SetRenderState(
+                D3DRS_TEXTUREFACTOR, anm->currentTextureFactor);
+        }
+    }
+
+    if (anm->disableZWrite != ((drawVm->flagsWord >> 13) & 1)) {
+        this->FlushVertexBuffer();
+        anm->disableZWrite =
+            (unsigned char)((drawVm->flagsWord >> 13) & 1);
+        if (!anm->disableZWrite) {
+            supervisor->d3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+        } else {
+            supervisor->d3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+        }
+    }
+
+    if (anm->cameraMode != ((drawVm->flagsWord >> 15) & 1)) {
+        this->FlushVertexBuffer();
+        anm->cameraMode = (unsigned char)((drawVm->flagsWord >> 15) & 1);
+        if (!anm->cameraMode) {
+            camera->ApplyCameraMode0();
+        } else {
+            camera->ApplyCameraMode1();
+        }
+    }
+
+    anm->renderStateChangesThisFrame++;
+}
 
 void AnmManager::SetRenderStateForVm(AnmVm *vm)
 {
