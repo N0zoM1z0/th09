@@ -19,8 +19,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00401360,authored_game,ZunMemory,authored,high,zun-memory-free-vc71-exact-2026-09-10
 0x00401380,authored_game,ZunMemory,authored,high,zun-memory-add-to-registry-vc71-exact-2026-09-10
 0x00401390,authored_game,Supervisor,authored,high,packet98-render-primitives-vc71-exact-2026-09-13
-0x004013E0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00401410,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004013E0,authored_game,Supervisor,authored,high,packet106-camera-viewport-vc71-exact-2026-09-13
+0x00401410,authored_game,Supervisor,authored,high,packet106-camera-viewport-vc71-exact-2026-09-13
 0x00401440,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00401460,authored_game,Supervisor,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13
 0x00401470,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -658,8 +658,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00430500,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00430530,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00430560,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00430590,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004306B0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00430590,authored_game,Supervisor,authored,high,packet106-camera-viewport-vc71-exact-2026-09-13
+0x004306B0,authored_game,Supervisor,authored,high,packet106-camera-viewport-vc71-exact-2026-09-13
 0x004307C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00430AA0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00431110,authored_game,Supervisor,authored,high,supervisor-onupdate-source-improved-codegen-blocked-2026-09-11

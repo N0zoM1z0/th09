@@ -3251,3 +3251,79 @@ relocations = [
   { offset = 0x40, type = "REL32", symbol = "?Project3DQuad@AnmManager@@QAEXPAUAnmVm@@@Z", target = 0x00439A90 },
   { offset = 0x4A, type = "REL32", symbol = "?DrawInner@AnmManager@@QAEHPAUAnmVm@@H@Z", target = 0x0043A0F0 },
 ]
+
+[units.supervisor-apply-camera-mode0]
+source = "src/SupervisorViewport.cpp"
+object = "build/matching/SupervisorViewport.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Supervisor::ApplyCameraMode0"]
+symbol = "?ApplyCameraMode0@Supervisor@@QAEXXZ"
+target_address = 0x004013E0
+size = 0x2A
+relocations = [
+  { offset = 0xB, type = "REL32", symbol = "?ApplyScreenCamera@SupervisorViewportView@@QAEXPAUSupervisorViewportConfiguration@@@Z", target = 0x00430590 },
+]
+
+[units.supervisor-apply-camera-mode1]
+source = "src/SupervisorViewport.cpp"
+object = "build/matching/SupervisorViewport.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Supervisor::ApplyCameraMode1"]
+symbol = "?ApplyCameraMode1@Supervisor@@QAEXXZ"
+target_address = 0x00401410
+size = 0x2A
+relocations = [
+  { offset = 0xB, type = "REL32", symbol = "?ApplyGameplayViewport@SupervisorViewportView@@QAEXPAUSupervisorViewportConfiguration@@@Z", target = 0x004306B0 },
+]
+
+[units.supervisor-apply-screen-camera]
+source = "src/SupervisorViewport.cpp"
+object = "build/matching/SupervisorViewport.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorViewportView::ApplyScreenCamera"]
+symbol = "?ApplyScreenCamera@SupervisorViewportView@@QAEXPAUSupervisorViewportConfiguration@@@Z"
+target_address = 0x00430590
+size = 0x11D
+relocations = [
+  { offset = 0x8, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x11, type = "REL32", symbol = "?FlushVertexBuffer@AnmManager@@QAEXXZ", target = 0x004396A0 },
+  { offset = 0x2D, type = "DIR32", symbol = "__real@4f800000", target = 0x0048E2A8 },
+  { offset = 0x33, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x4E, type = "DIR32", symbol = "__real@4f800000", target = 0x0048E2A8 },
+  { offset = 0x54, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x76, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+  { offset = 0x89, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+  { offset = 0x94, type = "REL32", symbol = "?SupervisorCameraTan@@YAMM@Z", target = 0x0042E910 },
+  { offset = 0xA7, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+  { offset = 0xAE, type = "REL32", symbol = "?D3DXMatrixLookAtLH@@YGPAUD3DXMATRIX@@PAU1@PBUD3DXVECTOR3@@11@Z", target = 0x00450013 },
+  { offset = 0xCD, type = "REL32", symbol = "?D3DXMatrixPerspectiveFovLH@@YGPAUD3DXMATRIX@@PAU1@MMMM@Z", target = 0x0045015B },
+  { offset = 0xD2, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0xE3, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0xF4, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x10D, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+]
+
+[units.supervisor-apply-gameplay-viewport]
+source = "src/SupervisorViewport.cpp"
+object = "build/matching/SupervisorViewport.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorViewportView::ApplyGameplayViewport"]
+symbol = "?ApplyGameplayViewport@SupervisorViewportView@@QAEXPAUSupervisorViewportConfiguration@@@Z"
+target_address = 0x004306B0
+size = 0x101
+relocations = [
+  { offset = 0x8, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x11, type = "REL32", symbol = "?FlushVertexBuffer@AnmManager@@QAEXXZ", target = 0x004396A0 },
+  { offset = 0x26, type = "REL32", symbol = "??HFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0x33, type = "REL32", symbol = "??HFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0x48, type = "REL32", symbol = "?D3DXMatrixLookAtLH@@YGPAUD3DXMATRIX@@PAU1@PBUD3DXVECTOR3@@11@Z", target = 0x00450013 },
+  { offset = 0x6E, type = "DIR32", symbol = "__real@4f800000", target = 0x0048E2A8 },
+  { offset = 0x84, type = "DIR32", symbol = "__real@4f800000", target = 0x0048E2A8 },
+  { offset = 0x94, type = "REL32", symbol = "?D3DXMatrixPerspectiveFovLH@@YGPAUD3DXMATRIX@@PAU1@MMMM@Z", target = 0x0045015B },
+  { offset = 0x99, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0xAB, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0xCD, type = "REL32", symbol = "?D3DXVec3Cross@@YIPAUD3DXVECTOR3@@PAU1@PBU1@1@Z", target = 0x0042E920 },
+  { offset = 0xD4, type = "REL32", symbol = "?D3DXVec3Normalize@@YGPAUD3DXVECTOR3@@PAU1@PBU1@@Z", target = 0x0044E823 },
+  { offset = 0xD9, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0xF1, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+]

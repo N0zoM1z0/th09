@@ -35,6 +35,8 @@ class Supervisor
     int IsVsyncDisabled();
     int IsTextBackgroundDetectionDisabled();
     void ConfigureGameplayViewport(int index);
+    void ApplyCameraMode0();
+    void ApplyCameraMode1();
     void EnterCriticalSectionWrapper(int id);
     void LeaveCriticalSectionWrapper(int id);
 

@@ -30,12 +30,6 @@ struct SupervisorRenderDeviceView
     IDirect3DDevice8 *d3dDevice;
 };
 
-struct SupervisorAnmCameraView
-{
-    void ApplyCameraMode0();
-    void ApplyCameraMode1();
-};
-
 struct AnmVmDrawAlphaView
 {
     unsigned char unknown000[0x1F3];
@@ -208,8 +202,6 @@ void AnmManager::SetRenderStateForVm3D(AnmVm *vm)
         reinterpret_cast<AnmVmDrawInnerLayout *>(vm);
     SupervisorRenderDeviceView *supervisor =
         reinterpret_cast<SupervisorRenderDeviceView *>(&g_Supervisor);
-    SupervisorAnmCameraView *camera =
-        reinterpret_cast<SupervisorAnmCameraView *>(&g_Supervisor);
 
     if (anm->currentBlendMode != vm->blendMode) {
         this->FlushVertexBuffer();
@@ -260,9 +252,9 @@ void AnmManager::SetRenderStateForVm3D(AnmVm *vm)
         this->FlushVertexBuffer();
         anm->cameraMode = (unsigned char)((drawVm->flagsWord >> 15) & 1);
         if (!anm->cameraMode) {
-            camera->ApplyCameraMode0();
+            g_Supervisor.ApplyCameraMode0();
         } else {
-            camera->ApplyCameraMode1();
+            g_Supervisor.ApplyCameraMode1();
         }
     }
 

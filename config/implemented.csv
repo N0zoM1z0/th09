@@ -136,3 +136,7 @@ AnmManager::DrawNoRotationFlippedX
 AnmManager::DrawNoRotationNoRound
 AnmManager::DrawCameraFacingQuad
 AnmManager::DrawProjected3DQuad
+Supervisor::ApplyCameraMode0
+Supervisor::ApplyCameraMode1
+SupervisorViewportView::ApplyScreenCamera
+SupervisorViewportView::ApplyGameplayViewport
