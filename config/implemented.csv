@@ -144,3 +144,5 @@ Supervisor::InitializeViewports
 Supervisor::PlayMusic
 Supervisor::PlayAudio
 Supervisor::IsMusicPreloaded
+Supervisor::StopAudio
+Supervisor::FadeOutMusic

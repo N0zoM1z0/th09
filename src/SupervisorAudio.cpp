@@ -9,6 +9,8 @@ struct SupervisorAudioMidiOutputView
 {
     void PlayTrack(int trackId);
     void PlayPath(const char *path);
+    void StopPlayback();
+    void SetFadeOut(unsigned int milliseconds);
 };
 
 struct SupervisorAudioSoundPlayerView
@@ -29,7 +31,8 @@ struct SupervisorAudioLayout
 {
     unsigned char unknown000[0x436];
     unsigned char musicMode;
-    unsigned char unknown437[0x5BC - 0x437];
+    unsigned char unknown437[0x5B8 - 0x437];
+    float framerateMultiplier;
     SupervisorAudioMidiOutputView *midiOutput;
 };
 
@@ -43,6 +46,8 @@ struct SupervisorMusicTrackRecord
 
 typedef char SupervisorAudioMusicModeAt436[
     (offsetof(SupervisorAudioLayout, musicMode) == 0x436) ? 1 : -1];
+typedef char SupervisorAudioFramerateMultiplierAt5B8[
+    (offsetof(SupervisorAudioLayout, framerateMultiplier) == 0x5B8) ? 1 : -1];
 typedef char SupervisorAudioMidiAt5BC[
     (offsetof(SupervisorAudioLayout, midiOutput) == 0x5BC) ? 1 : -1];
 typedef char SupervisorMusicTrackRecordSizeIs10[
@@ -132,6 +137,64 @@ int Supervisor::PlayAudio(char *path, int bgmUnlockIndex)
 
         if (!g_GameManager.IsReplayMode() && !g_GameManager.HasFlagBit1())
             g_MusicUnlocked[bgmUnlockIndex] = 1;
+    }
+    else
+    {
+        return -1;
+    }
+
+    return 0;
+}
+
+int Supervisor::StopAudio()
+{
+    SupervisorAudioLayout *supervisor =
+        reinterpret_cast<SupervisorAudioLayout *>(&g_Supervisor);
+
+    if (supervisor->musicMode == 2)
+    {
+        if (supervisor->midiOutput != NULL)
+            supervisor->midiOutput->StopPlayback();
+    }
+    else if (supervisor->musicMode == 1)
+    {
+        if (g_Supervisor.IsMusicPreloaded())
+            g_SoundPlayer.QueueCommand(4, 0, "dummy");
+        else
+            g_SoundPlayer.QueueCommand(3, 0, "dummy");
+    }
+    else
+    {
+        return -1;
+    }
+
+    return 0;
+}
+
+int Supervisor::FadeOutMusic(float durationSeconds)
+{
+    float fadeTime;
+    SupervisorAudioLayout *supervisor =
+        reinterpret_cast<SupervisorAudioLayout *>(&g_Supervisor);
+    SupervisorAudioLayout *self =
+        reinterpret_cast<SupervisorAudioLayout *>(this);
+
+    if (supervisor->musicMode == 2)
+    {
+        if (supervisor->midiOutput != NULL)
+            supervisor->midiOutput->SetFadeOut(
+                (unsigned int)(1000.0f * durationSeconds));
+    }
+    else if (supervisor->musicMode == 1)
+    {
+        if (self->framerateMultiplier == 0.0f)
+            fadeTime = durationSeconds;
+        else if (self->framerateMultiplier > 1.0f)
+            fadeTime = durationSeconds;
+        else
+            fadeTime = durationSeconds / self->framerateMultiplier;
+
+        g_SoundPlayer.QueueCommand(5, (int)fadeTime, "");
     }
     else
     {

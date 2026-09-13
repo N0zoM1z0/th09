@@ -145,3 +145,5 @@ Supervisor::InitializeViewports,0x004307C0,function
 Supervisor::PlayMusic,0x00431930,function
 Supervisor::PlayAudio,0x00431A30,function
 Supervisor::IsMusicPreloaded,0x0042ED40,function
+Supervisor::StopAudio,0x0042FD30,function
+Supervisor::FadeOutMusic,0x0042FE20,function
