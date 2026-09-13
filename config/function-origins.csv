@@ -614,7 +614,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042EC30,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042ECF0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042ED30,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042ED40,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042ED40,authored_game,Supervisor,authored,high,packet108-supervisor-is-music-preloaded-vc71-exact-2026-09-13
 0x0042ED50,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042ED60,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042ED70,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -667,8 +667,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00431540,authored_game,Supervisor,authored,high,supervisor-draw-main-vc71-exact-2026-09-11
 0x00431680,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004316B0,authored_game,Supervisor,authored,high,supervisor-calculate-fps-vc71-exact-2026-09-11
-0x00431930,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00431A30,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00431930,authored_game,Supervisor,authored,high,packet108-supervisor-play-music-vc71-exact-2026-09-13
+0x00431A30,authored_game,Supervisor,authored,high,packet108-supervisor-play-audio-vc71-exact-2026-09-13
 0x00431AE0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00431B30,authored_game,Supervisor,authored,high,supervisor-draw-fps-vc71-exact-2026-09-11
 0x00431B70,authored_game,Supervisor,authored,high,supervisor-deleted-callback-vc71-exact-2026-09-11

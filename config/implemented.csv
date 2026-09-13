@@ -141,3 +141,6 @@ Supervisor::ApplyCameraMode1
 SupervisorViewportView::ApplyScreenCamera
 SupervisorViewportView::ApplyGameplayViewport
 Supervisor::InitializeViewports
+Supervisor::PlayMusic
+Supervisor::PlayAudio
+Supervisor::IsMusicPreloaded

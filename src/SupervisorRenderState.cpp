@@ -23,6 +23,11 @@ int Supervisor::IsFogDisabled()
     return (this->config388.options >> 2) & 1;
 }
 
+int Supervisor::IsMusicPreloaded()
+{
+    return (this->config388.options >> 4) & 1;
+}
+
 int Supervisor::DisableFog()
 {
     SupervisorRenderStateLayout *supervisor =

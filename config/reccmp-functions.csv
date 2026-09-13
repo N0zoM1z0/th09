@@ -142,3 +142,6 @@ Supervisor::ApplyCameraMode1,0x00401410,function
 SupervisorViewportView::ApplyScreenCamera,0x00430590,function
 SupervisorViewportView::ApplyGameplayViewport,0x004306B0,function
 Supervisor::InitializeViewports,0x004307C0,function
+Supervisor::PlayMusic,0x00431930,function
+Supervisor::PlayAudio,0x00431A30,function
+Supervisor::IsMusicPreloaded,0x0042ED40,function

@@ -32,6 +32,8 @@ class Supervisor
     int IsReferenceRasterizerForced();
     int IsDirectInputDisabled();
     int IsMusicPreloaded();
+    int PlayMusic(int trackId, int unused);
+    int PlayAudio(char *path, int bgmUnlockIndex);
     int IsVsyncDisabled();
     int IsTextBackgroundDetectionDisabled();
     void InitializeViewports();
