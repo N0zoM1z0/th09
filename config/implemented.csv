@@ -149,3 +149,7 @@ Supervisor::FadeOutMusic
 Supervisor::LoadMusic
 Supervisor::StartLoadedMusic
 Supervisor::ReleaseMusic
+SoundPlayer::PreloadBGM
+SoundPlayer::StopBGM
+SoundPlayer::QueueCommand
+SoundPlayer::LoadBGM

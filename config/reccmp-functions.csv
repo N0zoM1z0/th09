@@ -150,3 +150,7 @@ Supervisor::FadeOutMusic,0x0042FE20,function
 Supervisor::LoadMusic,0x0042FC20,function
 Supervisor::StartLoadedMusic,0x0042FCF0,function
 Supervisor::ReleaseMusic,0x0042FD90,function
+SoundPlayer::PreloadBGM,0x0043EA30,function
+SoundPlayer::StopBGM,0x0043EBC0,function
+SoundPlayer::QueueCommand,0x0043EE40,function
+SoundPlayer::LoadBGM,0x0043F0A0,function

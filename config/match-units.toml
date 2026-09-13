@@ -3580,3 +3580,77 @@ relocations = [
   { offset = 0x7C, type = "DIR32", symbol = "?g_SoundPlayer@@3USupervisorAudioSoundPlayerView@?A0xfb5c156d@@A", target = 0x004DC698 },
   { offset = 0x81, type = "REL32", symbol = "?QueueCommand@SupervisorAudioSoundPlayerView@?A0xfb5c156d@@QAEXHHPAD@Z", target = 0x0043EE40 },
 ]
+
+
+[units.soundplayer-preload-bgm]
+source = "src/SoundPlayerProcessQueues.cpp"
+object = "build/matching/SoundPlayerLifecycle.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SoundPlayer::PreloadBGM"]
+symbol = "?PreloadBGM@SoundPlayer@@QAEHHPAD@Z"
+target_address = 0x0043EA30
+size = 0x184
+relocations = [
+  { offset = 0x63, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0x7B, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorProcessQueuesView@@A", target = 0x004B3100 },
+  { offset = 0x80, type = "REL32", symbol = "?IsMusicPreloaded@SupervisorProcessQueuesView@@QAEHXZ", target = 0x0042ED40 },
+  { offset = 0x9E, type = "REL32", symbol = "?FreePreloadedBGM@SoundPlayer@@QAEXH@Z", target = 0x0043E4A0 },
+  { offset = 0xBD, type = "DIR32", symbol = "__imp__CreateFileA@28", target = 0x0048E068 },
+  { offset = 0xD2, type = "REL32", symbol = "?GetFmtIndexByName@SoundPlayer@@QAEHPAD@Z", target = 0x0043E1F0 },
+  { offset = 0xED, type = "DIR32", symbol = "__imp__SetFilePointer@16", target = 0x0048E0C8 },
+  { offset = 0xFC, type = "DIR32", symbol = "??_C@_0BC@BLCFCAKG@?4?1system?2global?4h?$AA@", target = 0x0048E474 },
+  { offset = 0x102, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x107, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0x117, type = "DIR32", symbol = "__imp__CloseHandle@4", target = 0x0048E060 },
+  { offset = 0x13F, type = "DIR32", symbol = "__imp__ReadFile@20", target = 0x0048E090 },
+  { offset = 0x149, type = "DIR32", symbol = "__imp__CloseHandle@4", target = 0x0048E060 },
+]
+
+[units.soundplayer-stop-bgm]
+source = "src/SoundPlayerProcessQueues.cpp"
+object = "build/matching/SoundPlayerLifecycle.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SoundPlayer::StopBGM"]
+symbol = "?StopBGM@SoundPlayer@@QAEXXZ"
+target_address = 0x0043EBC0
+size = 0xB1
+relocations = [
+  { offset = 0x12, type = "REL32", symbol = "?Stop@StreamingSoundProcessView@@QAEXXZ", target = 0x0043FB80 },
+  { offset = 0x2A, type = "DIR32", symbol = "__imp__PostThreadMessageA@16", target = 0x0048E1D0 },
+  { offset = 0x3F, type = "DIR32", symbol = "__imp__WaitForSingleObject@8", target = 0x0048E0B4 },
+  { offset = 0x79, type = "DIR32", symbol = "__imp__CloseHandle@4", target = 0x0048E060 },
+]
+
+[units.soundplayer-queue-command]
+source = "src/SoundPlayerProcessQueues.cpp"
+object = "build/matching/SoundPlayerLifecycle.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SoundPlayer::QueueCommand"]
+symbol = "?QueueCommand@SoundPlayer@@QAEXHHPAD@Z"
+target_address = 0x0043EE40
+size = 0x69
+relocations = []
+
+[units.soundplayer-load-bgm]
+source = "src/SoundPlayerProcessQueues.cpp"
+object = "build/matching/SoundPlayerLifecycle.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SoundPlayer::LoadBGM"]
+symbol = "?LoadBGM@SoundPlayer@@QAEHH@Z"
+target_address = 0x0043F0A0
+size = 0x147
+relocations = [
+  { offset = 0x17, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorProcessQueuesView@@A", target = 0x004B3100 },
+  { offset = 0x35, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorProcessQueuesView@@A", target = 0x004B3100 },
+  { offset = 0x3A, type = "REL32", symbol = "?IsMusicPreloaded@SupervisorProcessQueuesView@@QAEHXZ", target = 0x0042ED40 },
+  { offset = 0x53, type = "REL32", symbol = "?ReopenBGM@SoundPlayer@@QAEHPAD@Z", target = 0x0043E9E0 },
+  { offset = 0x94, type = "DIR32", symbol = "__imp__CreateEventA@16", target = 0x0048E170 },
+  { offset = 0xA8, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorProcessQueuesView@@A", target = 0x004B3100 },
+  { offset = 0xAE, type = "DIR32", symbol = "?BGMPlayerThread@SoundPlayer@@SGKPAX@Z", target = 0x0043ED80 },
+  { offset = 0xB8, type = "DIR32", symbol = "__imp__CreateThread@24", target = 0x0048E0C0 },
+  { offset = 0xD0, type = "DIR32", symbol = "_GUID_NULL", target = 0x004953D0 },
+  { offset = 0xD7, type = "DIR32", symbol = "_GUID_NULL", target = 0x004953D0 },
+  { offset = 0xE8, type = "DIR32", symbol = "_GUID_NULL", target = 0x004953D0 },
+  { offset = 0xF1, type = "DIR32", symbol = "_GUID_NULL", target = 0x004953D0 },
+  { offset = 0x126, type = "REL32", symbol = "?CreateStreamingFromMemory@SoundManagerProcessView@@QAEHPAPAUStreamingSoundProcessView@@PAEKPAUThBgmFormatProcessView@@KU_GUID@@KKPAX@Z", target = 0x004409F0 },
+]
