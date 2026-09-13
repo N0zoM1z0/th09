@@ -809,7 +809,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043AFE0,authored_game,AnmManager,authored,high,packet103-anm-remaining-draw-modes-2026-09-13
 0x0043B0E0,authored_game,AnmManager,authored,high,packet103-anm-remaining-draw-modes-2026-09-13
 0x0043B140,authored_game,AnmManager,authored,high,packet103-anm-remaining-draw-modes-2026-09-13
-0x0043B1A0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0043B1A0,authored_game,AnmManager,authored,high,packet104-anm-draw3d-source-2026-09-13
 0x0043B4D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043B5C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043B670,unknown,,review,unknown,ida-1.50a-initial-inventory

@@ -54,6 +54,8 @@ class AnmManager
     int DrawCameraFacingQuad(AnmVm *vm);
     void Project3DQuad(AnmVm *vm);
     int DrawProjected3DQuad(AnmVm *vm);
+    void SetRenderStateForVm3D(AnmVm *vm);
+    int Draw3D(AnmVm *vm);
     int ExecuteScript(AnmVm *vm);
     AnmLoaded *PreloadAnm(int anmIdx, const char *filename);
     void ReleaseAnm(int anmIdx);
