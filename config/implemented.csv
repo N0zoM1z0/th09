@@ -153,3 +153,7 @@ SoundPlayer::PreloadBGM
 SoundPlayer::StopBGM
 SoundPlayer::QueueCommand
 SoundPlayer::LoadBGM
+SoundPlayer::GetFmtIndexByName
+SoundPlayer::FreePreloadedBGM
+SoundPlayer::ReopenBGM
+SoundPlayer::BGMPlayerThread

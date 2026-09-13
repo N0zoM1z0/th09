@@ -154,3 +154,7 @@ SoundPlayer::PreloadBGM,0x0043EA30,function
 SoundPlayer::StopBGM,0x0043EBC0,function
 SoundPlayer::QueueCommand,0x0043EE40,function
 SoundPlayer::LoadBGM,0x0043F0A0,function
+SoundPlayer::GetFmtIndexByName,0x0043E1F0,function
+SoundPlayer::FreePreloadedBGM,0x0043E4A0,function
+SoundPlayer::ReopenBGM,0x0043E9E0,function
+SoundPlayer::BGMPlayerThread,0x0043ED80,function

@@ -34,7 +34,9 @@ struct StreamingSoundProcessView
 {
     virtual ~StreamingSoundProcessView();
 
-    unsigned char unknown004[0x78 - 0x4];
+    unsigned char unknown004[0x34 - 0x4];
+    int isPlaying;
+    unsigned char unknown038[0x78 - 0x38];
     int isLocked;
 
     LPDIRECTSOUNDBUFFER GetBuffer(unsigned int index);
@@ -47,7 +49,13 @@ struct StreamingSoundProcessView
     void Pause();
     void Unpause();
     void SetVolume(int volume);
+    int HandleWaveStreamNotification(int looped);
 };
+
+typedef char StreamingSoundIsPlayingAt34[
+    (offsetof(StreamingSoundProcessView, isPlaying) == 0x34) ? 1 : -1];
+typedef char StreamingSoundIsLockedAt78[
+    (offsetof(StreamingSoundProcessView, isLocked) == 0x78) ? 1 : -1];
 
 
 class SoundManagerProcessView
@@ -163,6 +171,91 @@ class SoundPlayer
 };
 
 extern SoundPlayer g_SoundPlayer;
+
+int SoundPlayer::GetFmtIndexByName(char *name)
+{
+    char *position;
+    int index = 0;
+    char buffer[128];
+
+    position = strrchr(name, '/');
+    if (position == NULL)
+        position = strrchr(name, '\\');
+
+    if (position == NULL)
+        strcpy(buffer, name);
+    else
+        strcpy(buffer, position + 1);
+
+    while (this->bgmFmtData[index].name[0] != '\0')
+    {
+        if (strcmp(this->bgmFmtData[index].name, buffer) == 0)
+            break;
+        ++index;
+    }
+
+    if (this->bgmFmtData[index].name[0] == '\0')
+        index = 0;
+    return index;
+}
+
+void SoundPlayer::FreePreloadedBGM(int index)
+{
+    if (this->bgmPreloadAllocations[index] != NULL)
+    {
+        g_ZunMemory.Free(this->bgmPreloadAllocations[index]);
+        this->bgmPreloadAllocations[index] = NULL;
+    }
+}
+
+int SoundPlayer::ReopenBGM(char *path)
+{
+    if (this->bgm == NULL)
+        return -1;
+
+    int index = this->GetFmtIndexByName(path);
+    this->bgm->GetWaveFile()->Reopen(&this->bgmFmtData[index]);
+    return 0;
+}
+
+DWORD WINAPI SoundPlayer::BGMPlayerThread(LPVOID parameter)
+{
+    DWORD waitResult;
+    MSG message;
+    int stopped = 0;
+
+    do
+    {
+        waitResult = MsgWaitForMultipleObjects(
+            1, &g_SoundPlayer.bgmUpdateEvent, FALSE, INFINITE, QS_ALLEVENTS);
+        if (g_SoundPlayer.bgm == NULL)
+            stopped = 1;
+
+        switch (waitResult)
+        {
+        case WAIT_OBJECT_0:
+            if (g_SoundPlayer.bgm != NULL && g_SoundPlayer.bgm->isPlaying)
+            {
+                g_SoundPlayer.bgm->isLocked = TRUE;
+                g_SoundPlayer.bgm->HandleWaveStreamNotification(1);
+                g_SoundPlayer.bgm->isLocked = FALSE;
+            }
+            break;
+        case WAIT_OBJECT_0 + 1:
+            if (PeekMessageA(&message, NULL, 0, 0, PM_REMOVE))
+            {
+                do
+                {
+                    if (message.message == WM_QUIT)
+                        stopped = 1;
+                } while (PeekMessageA(&message, NULL, 0, 0, PM_REMOVE));
+            }
+            break;
+        }
+    } while (!stopped);
+
+    return 0;
+}
 
 int SoundPlayer::PreloadBGM(int index, char *path)
 {
