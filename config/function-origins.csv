@@ -879,11 +879,11 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043E2C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043E2F0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043E380,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0043E420,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0043E430,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0043E440,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0043E420,authored_game,SoundManager,authored,high,packet123-zun-audio-accessors-vc71-exact-2026-09-14
+0x0043E430,authored_game,SoundManager,authored,high,packet123-zun-audio-accessors-vc71-exact-2026-09-14
+0x0043E440,authored_game,SoundManager,authored,high,packet123-zun-streaming-fade-vc71-exact-2026-09-14
 0x0043E4A0,authored_game,SoundPlayer,authored,high,packet113-soundplayer-free-preload-vc71-exact-2026-09-13
-0x0043E4E0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0043E4E0,authored_game,SoundPlayer,authored,high,packet123-soundplayer-fade-vc71-exact-2026-09-14
 0x0043E500,authored_game,SoundPlayer,authored,high,packet116-soundplayer-initialize-dsound-vc71-exact-2026-09-13
 0x0043E770,authored_game,SoundPlayer,authored,high,packet115-soundplayer-load-sound-vc71-exact-2026-09-13
 0x0043E9E0,authored_game,SoundPlayer,authored,high,packet113-soundplayer-reopen-bgm-vc71-exact-2026-09-13

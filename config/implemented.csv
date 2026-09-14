@@ -185,3 +185,7 @@ StreamingSoundProcessView::UpdateFadeOut
 StreamingSoundProcessView::UpdateFadeIn
 StreamingSoundProcessView::UpdatePartialFadeIn
 StreamingSoundProcessView::UpdatePartialFadeOut
+WaveFileProcessView::GetFormat
+SoundProcessView::GetWaveFile
+StreamingSoundProcessView::FadeOut
+SoundPlayer::FadeOut

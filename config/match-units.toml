@@ -3692,7 +3692,7 @@ target_address = 0x0043E9E0
 size = 0x48
 relocations = [
   { offset = 0x1F, type = "REL32", symbol = "?GetFmtIndexByName@SoundPlayer@@QAEHPAD@Z", target = 0x0043E1F0 },
-  { offset = 0x36, type = "REL32", symbol = "?GetWaveFile@StreamingSoundProcessView@@QAEPAUWaveFileProcessView@@XZ", target = 0x0043E430 },
+  { offset = 0x36, type = "REL32", symbol = "?GetWaveFile@SoundProcessView@@QAEPAUWaveFileProcessView@@XZ", target = 0x0043E430 },
   { offset = 0x3D, type = "REL32", symbol = "?Reopen@WaveFileProcessView@@QAEHPAUThBgmFormatProcessView@@@Z", target = 0x004405E0 },
 ]
 
@@ -4350,4 +4350,49 @@ relocations = [
   { offset = 0x19, type = "REL32", symbol = "?UpdateFadeIn@StreamingSoundProcessView@@QAEHXZ", target = 0x0043FCE0 },
   { offset = 0x24, type = "REL32", symbol = "?UpdatePartialFadeOut@StreamingSoundProcessView@@QAEHXZ", target = 0x0043FD60 },
   { offset = 0x30, type = "REL32", symbol = "?UpdatePartialFadeIn@StreamingSoundProcessView@@QAEHXZ", target = 0x0043FD20 },
+]
+
+[units.soundmanager-wave-file-get-format]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerControl.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["WaveFileProcessView::GetFormat"]
+symbol = "?GetFormat@WaveFileProcessView@@QAEPAUThBgmFormatProcessView@@XZ"
+target_address = 0x0043E420
+size = 0x7
+relocations = []
+
+[units.soundmanager-sound-get-wave-file]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerControl.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["SoundProcessView::GetWaveFile"]
+symbol = "?GetWaveFile@SoundProcessView@@QAEPAUWaveFileProcessView@@XZ"
+target_address = 0x0043E430
+size = 0x4
+relocations = []
+
+[units.soundmanager-streaming-fade-out]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerControl.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["StreamingSoundProcessView::FadeOut"]
+symbol = "?FadeOut@StreamingSoundProcessView@@QAEXM@Z"
+target_address = 0x0043E440
+size = 0x26
+relocations = [
+  { offset = 0x9, type = "DIR32", symbol = "__real@42700000", target = 0x0048E4A4 },
+  { offset = 0x17, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+]
+
+[units.soundplayer-fade-out]
+source = "src/SoundPlayerProcessQueues.cpp"
+object = "build/matching/SoundPlayerFades.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SoundPlayer::FadeOut"]
+symbol = "?FadeOut@SoundPlayer@@QAEXM@Z"
+target_address = 0x0043E4E0
+size = 0x17
+relocations = [
+  { offset = 0xF, type = "REL32", symbol = "?FadeOut@StreamingSoundProcessView@@QAEXM@Z", target = 0x0043E440 },
 ]

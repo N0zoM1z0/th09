@@ -104,6 +104,7 @@ struct SoundProcessView
     int FillBufferWithSound(LPDIRECTSOUNDBUFFER buffer, int looped);
     LPDIRECTSOUNDBUFFER GetFreeBuffer();
     LPDIRECTSOUNDBUFFER GetBuffer(DWORD index);
+    WaveFileProcessView *GetWaveFile();
     int Play(DWORD newPriority, DWORD newFlags);
     int SetVolume(int volume);
     int Stop();
@@ -145,13 +146,13 @@ struct StreamingSoundProcessView : SoundProcessView
         DWORD notifySize);
     virtual ~StreamingSoundProcessView();
 
-    WaveFileProcessView *GetWaveFile();
     int Reset();
     int InitSoundBuffers();
     int UpdateFadeOut();
     int UpdateFadeIn();
     int UpdatePartialFadeIn();
     int UpdatePartialFadeOut();
+    void FadeOut(float seconds);
     int HandleWaveStreamNotification(int looped);
 };
 

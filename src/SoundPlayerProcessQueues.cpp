@@ -977,3 +977,9 @@ loop:
 
     return this->commandQueue[0].opcode;
 }
+
+void SoundPlayer::FadeOut(float seconds)
+{
+    if (this->bgm != NULL)
+        this->bgm->FadeOut(seconds);
+}

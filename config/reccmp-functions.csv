@@ -186,3 +186,7 @@ StreamingSoundProcessView::UpdateFadeOut,0x0043FC90,function
 StreamingSoundProcessView::UpdateFadeIn,0x0043FCE0,function
 StreamingSoundProcessView::UpdatePartialFadeIn,0x0043FD20,function
 StreamingSoundProcessView::UpdatePartialFadeOut,0x0043FD60,function
+WaveFileProcessView::GetFormat,0x0043E420,function
+SoundProcessView::GetWaveFile,0x0043E430,function
+StreamingSoundProcessView::FadeOut,0x0043E440,function
+SoundPlayer::FadeOut,0x0043E4E0,function

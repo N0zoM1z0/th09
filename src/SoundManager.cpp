@@ -960,3 +960,19 @@ int SoundManagerProcessView::CreateStreamingFromMemory(
     (*streamingSound)->isLocked = FALSE;
     return S_OK;
 }
+
+ThBgmFormatProcessView *WaveFileProcessView::GetFormat()
+{
+    return this->format;
+}
+
+WaveFileProcessView *SoundProcessView::GetWaveFile()
+{
+    return this->waveFile;
+}
+
+void StreamingSoundProcessView::FadeOut(float seconds)
+{
+    this->fadeType = 1;
+    this->totalFade = this->currentFadeProgress = (int)(seconds * 60.0f);
+}
