@@ -177,3 +177,12 @@ SoundProcessView::SetVolume,0x0043FB10,function
 WaveFileProcessView::Read,0x0043FEF0,function
 SoundProcessView::Play,0x004401D0,function
 StreamingSoundProcessView::HandleWaveStreamNotification,0x00440270,function
+SoundPlayer::UpdateFades,0x0042FBE0,function
+StreamingSoundProcessView::InitSoundBuffers,0x0043F890,function
+SoundProcessView::Stop,0x0043FB80,function
+SoundProcessView::Pause,0x0043FBE0,function
+SoundProcessView::Unpause,0x0043FC10,function
+StreamingSoundProcessView::UpdateFadeOut,0x0043FC90,function
+StreamingSoundProcessView::UpdateFadeIn,0x0043FCE0,function
+StreamingSoundProcessView::UpdatePartialFadeIn,0x0043FD20,function
+StreamingSoundProcessView::UpdatePartialFadeOut,0x0043FD60,function

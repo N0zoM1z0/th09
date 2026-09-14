@@ -176,3 +176,12 @@ SoundProcessView::SetVolume
 WaveFileProcessView::Read
 SoundProcessView::Play
 StreamingSoundProcessView::HandleWaveStreamNotification
+SoundPlayer::UpdateFades
+StreamingSoundProcessView::InitSoundBuffers
+SoundProcessView::Stop
+SoundProcessView::Pause
+SoundProcessView::Unpause
+StreamingSoundProcessView::UpdateFadeOut
+StreamingSoundProcessView::UpdateFadeIn
+StreamingSoundProcessView::UpdatePartialFadeIn
+StreamingSoundProcessView::UpdatePartialFadeOut

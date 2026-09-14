@@ -111,6 +111,7 @@ class SoundPlayer
     int StartBGM(char *path);
     int LoadSound(int index, char *path);
     int ProcessQueues();
+    void UpdateFades();
     void QueueCommand(int opcode, int argument, char *path);
     int PreloadBGM(int index, char *path);
     int LoadBGM(int index);
@@ -687,6 +688,17 @@ int SoundPlayer::LoadBGM(int index)
 
     this->loadedBgmSlot = index;
     return 0;
+}
+
+void SoundPlayer::UpdateFades()
+{
+    if (this->bgm != NULL)
+    {
+        this->bgm->UpdateFadeOut();
+        this->bgm->UpdateFadeIn();
+        this->bgm->UpdatePartialFadeOut();
+        this->bgm->UpdatePartialFadeIn();
+    }
 }
 
 int SoundPlayer::ProcessQueues()

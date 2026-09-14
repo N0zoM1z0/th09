@@ -380,6 +380,15 @@ LPDIRECTSOUNDBUFFER SoundProcessView::GetFreeBuffer()
     return buffers[rand() % bufferCount];
 }
 
+LPDIRECTSOUNDBUFFER SoundProcessView::GetBuffer(DWORD index)
+{
+    if (buffers == NULL)
+        return NULL;
+    if (index >= bufferCount)
+        return NULL;
+    return buffers[index];
+}
+
 int SoundProcessView::Play(DWORD newPriority, DWORD newFlags)
 {
     int result;
@@ -424,6 +433,46 @@ int SoundProcessView::SetVolume(int volume)
         return buffers[0]->SetVolume((int)((volume + 5000) * volumeScale) - 5000);
     }
     return buffers[0]->SetVolume(DSBVOLUME_MIN);
+}
+
+int SoundProcessView::Stop()
+{
+    if (buffers == NULL)
+        return CO_E_NOTINITIALIZED;
+
+    int result = 0;
+    isPlaying = FALSE;
+    unknown30 = 0;
+    for (DWORD i = 0; i < bufferCount; ++i)
+    {
+        result |= buffers[i]->Stop();
+        result |= buffers[i]->SetCurrentPosition(0);
+    }
+    fadeType = 0;
+    return result;
+}
+
+int SoundProcessView::Pause()
+{
+    if (buffers == NULL)
+        return CO_E_NOTINITIALIZED;
+    if (!unknown30)
+        return S_OK;
+
+    isPlaying = FALSE;
+    return buffers[0]->Stop();
+}
+
+int SoundProcessView::Unpause()
+{
+    if (buffers == NULL)
+        return CO_E_NOTINITIALIZED;
+    if (!unknown30)
+        return S_OK;
+
+    LPDIRECTSOUNDBUFFER buffer = buffers[0];
+    isPlaying = TRUE;
+    return buffer->Play(0, priority, flags);
 }
 
 int SoundProcessView::Reset()
@@ -498,6 +547,130 @@ StreamingSoundProcessView::StreamingSoundProcessView(
 
 StreamingSoundProcessView::~StreamingSoundProcessView()
 {
+}
+
+int StreamingSoundProcessView::InitSoundBuffers()
+{
+    DWORD i;
+
+    isPlaying = FALSE;
+    for (i = 0; i < bufferCount; ++i)
+    {
+        if (buffers[i] != NULL)
+        {
+            buffers[i]->Release();
+            buffers[i] = NULL;
+        }
+    }
+    if (buffers != NULL)
+    {
+        delete buffers;
+        buffers = NULL;
+    }
+
+    DSBPOSITIONNOTIFY *notifications = NULL;
+    LPDIRECTSOUNDNOTIFY notify = NULL;
+    buffers = new LPDIRECTSOUNDBUFFER[bufferCount];
+
+    for (i = 0; i < bufferCount; ++i)
+    {
+        if (FAILED(manager->directSound->CreateSoundBuffer(
+                &bufferDescription, &buffers[i], NULL)))
+            return E_FAIL;
+        if (FAILED(buffers[i]->QueryInterface(
+                IID_IDirectSoundNotify, (VOID **)&notify)))
+            return E_FAIL;
+
+        notifications = new DSBPOSITIONNOTIFY[16];
+        if (notifications == NULL)
+            return E_OUTOFMEMORY;
+
+        for (DWORD j = 0; j < 16; ++j)
+        {
+            notifications[j].dwOffset = notifySize * j + notifySize - 1;
+            notifications[j].hEventNotify = notifyEvent;
+        }
+
+        if (FAILED(notify->SetNotificationPositions(16, notifications)))
+        {
+            if (notify != NULL)
+            {
+                notify->Release();
+                notify = NULL;
+            }
+            delete notifications;
+            return E_FAIL;
+        }
+
+        if (notify != NULL)
+        {
+            notify->Release();
+            notify = NULL;
+        }
+        delete notifications;
+    }
+    return S_OK;
+}
+
+int StreamingSoundProcessView::UpdateFadeOut()
+{
+    if (fadeType == 1)
+    {
+        if (--currentFadeProgress <= 0)
+        {
+            fadeType = 0;
+            buffers[0]->Stop();
+            return S_FALSE;
+        }
+        int newVolume = currentFadeProgress * 5000 / totalFade - 5000;
+        int result = SetVolume(newVolume);
+    }
+    return S_OK;
+}
+
+int StreamingSoundProcessView::UpdateFadeIn()
+{
+    if (fadeType == 2)
+    {
+        if (--currentFadeProgress <= 0)
+        {
+            fadeType = 0;
+            return S_FALSE;
+        }
+        int newVolume = 0 - currentFadeProgress * 5000 / totalFade;
+        int result = SetVolume(newVolume);
+    }
+    return S_OK;
+}
+
+int StreamingSoundProcessView::UpdatePartialFadeIn()
+{
+    if (fadeType == 3)
+    {
+        if (--currentFadeProgress <= 0)
+        {
+            fadeType = 0;
+            return S_FALSE;
+        }
+        int newVolume = 0 - currentFadeProgress * 1000 / totalFade;
+        int result = SetVolume(newVolume);
+    }
+    return S_OK;
+}
+
+int StreamingSoundProcessView::UpdatePartialFadeOut()
+{
+    if (fadeType == 4)
+    {
+        if (--currentFadeProgress <= 0)
+        {
+            fadeType = 0;
+            return S_FALSE;
+        }
+        int newVolume = currentFadeProgress * 1000 / totalFade - 1000;
+        int result = SetVolume(newVolume);
+    }
+    return S_OK;
 }
 
 int StreamingSoundProcessView::HandleWaveStreamNotification(int looped)

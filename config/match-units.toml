@@ -3615,7 +3615,7 @@ symbol = "?StopBGM@SoundPlayer@@QAEXXZ"
 target_address = 0x0043EBC0
 size = 0xB1
 relocations = [
-  { offset = 0x12, type = "REL32", symbol = "?Stop@StreamingSoundProcessView@@QAEXXZ", target = 0x0043FB80 },
+  { offset = 0x12, type = "REL32", symbol = "?Stop@SoundProcessView@@QAEHXZ", target = 0x0043FB80 },
   { offset = 0x2A, type = "DIR32", symbol = "__imp__PostThreadMessageA@16", target = 0x0048E1D0 },
   { offset = 0x3F, type = "DIR32", symbol = "__imp__WaitForSingleObject@8", target = 0x0048E0B4 },
   { offset = 0x79, type = "DIR32", symbol = "__imp__CloseHandle@4", target = 0x0048E060 },
@@ -4230,4 +4230,124 @@ relocations = [
   { offset = 0x189, type = "REL32", symbol = "?ResetFile@WaveFileProcessView@@QAEH_N@Z", target = 0x0043FE10 },
   { offset = 0x1AA, type = "REL32", symbol = "?Read@WaveFileProcessView@@QAEHPAEKPAK@Z", target = 0x0043FEF0 },
   { offset = 0x21F, type = "REL32", symbol = "?GetSize@WaveFileProcessView@@QAEKXZ", target = 0x0043FE00 },
+]
+
+[units.soundmanager-streaming-init-sound-buffers]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerControl.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["StreamingSoundProcessView::InitSoundBuffers"]
+symbol = "?InitSoundBuffers@StreamingSoundProcessView@@QAEHXZ"
+target_address = 0x0043F890
+size = 0x156
+relocations = [
+  { offset = 0x43, type = "REL32", symbol = "??3@YAXPAX@Z", target = 0x0047B249 },
+  { offset = 0x58, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0xA3, type = "DIR32", symbol = "_IID_IDirectSoundNotify", target = 0x004952E0 },
+  { offset = 0xB8, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x108, type = "REL32", symbol = "??3@YAXPAX@Z", target = 0x0047B249 },
+  { offset = 0x143, type = "REL32", symbol = "??3@YAXPAX@Z", target = 0x0047B249 },
+]
+
+[units.soundmanager-sound-get-buffer]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerControl.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["SoundProcessView::GetBuffer"]
+symbol = "?GetBuffer@SoundProcessView@@QAEPAUIDirectSoundBuffer@@K@Z"
+target_address = 0x0043FAF0
+size = 0x1F
+relocations = []
+
+[units.soundmanager-sound-stop]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerControl.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["SoundProcessView::Stop"]
+symbol = "?Stop@SoundProcessView@@QAEHXZ"
+target_address = 0x0043FB80
+size = 0x56
+relocations = []
+
+[units.soundmanager-sound-pause]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerControl.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["SoundProcessView::Pause"]
+symbol = "?Pause@SoundProcessView@@QAEHXZ"
+target_address = 0x0043FBE0
+size = 0x27
+relocations = []
+
+[units.soundmanager-sound-unpause]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerControl.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["SoundProcessView::Unpause"]
+symbol = "?Unpause@SoundProcessView@@QAEHXZ"
+target_address = 0x0043FC10
+size = 0x33
+relocations = []
+
+[units.soundmanager-streaming-update-fade-out]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerControl.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["StreamingSoundProcessView::UpdateFadeOut"]
+symbol = "?UpdateFadeOut@StreamingSoundProcessView@@QAEHXZ"
+target_address = 0x0043FC90
+size = 0x41
+relocations = [
+  { offset = 0x3A, type = "REL32", symbol = "?SetVolume@SoundProcessView@@QAEHH@Z", target = 0x0043FB10 },
+]
+
+[units.soundmanager-streaming-update-fade-in]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerControl.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["StreamingSoundProcessView::UpdateFadeIn"]
+symbol = "?UpdateFadeIn@StreamingSoundProcessView@@QAEHXZ"
+target_address = 0x0043FCE0
+size = 0x31
+relocations = [
+  { offset = 0x2A, type = "REL32", symbol = "?SetVolume@SoundProcessView@@QAEHH@Z", target = 0x0043FB10 },
+]
+
+[units.soundmanager-streaming-update-partial-fade-in]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerControl.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["StreamingSoundProcessView::UpdatePartialFadeIn"]
+symbol = "?UpdatePartialFadeIn@StreamingSoundProcessView@@QAEHXZ"
+target_address = 0x0043FD20
+size = 0x31
+relocations = [
+  { offset = 0x2A, type = "REL32", symbol = "?SetVolume@SoundProcessView@@QAEHH@Z", target = 0x0043FB10 },
+]
+
+[units.soundmanager-streaming-update-partial-fade-out]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerControl.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["StreamingSoundProcessView::UpdatePartialFadeOut"]
+symbol = "?UpdatePartialFadeOut@StreamingSoundProcessView@@QAEHXZ"
+target_address = 0x0043FD60
+size = 0x36
+relocations = [
+  { offset = 0x2F, type = "REL32", symbol = "?SetVolume@SoundProcessView@@QAEHH@Z", target = 0x0043FB10 },
+]
+
+[units.soundplayer-update-fades]
+source = "src/SoundPlayerProcessQueues.cpp"
+object = "build/matching/SoundPlayerFades.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SoundPlayer::UpdateFades"]
+symbol = "?UpdateFades@SoundPlayer@@QAEXXZ"
+target_address = 0x0042FBE0
+size = 0x36
+relocations = [
+  { offset = 0xE, type = "REL32", symbol = "?UpdateFadeOut@StreamingSoundProcessView@@QAEHXZ", target = 0x0043FC90 },
+  { offset = 0x19, type = "REL32", symbol = "?UpdateFadeIn@StreamingSoundProcessView@@QAEHXZ", target = 0x0043FCE0 },
+  { offset = 0x24, type = "REL32", symbol = "?UpdatePartialFadeOut@StreamingSoundProcessView@@QAEHXZ", target = 0x0043FD60 },
+  { offset = 0x30, type = "REL32", symbol = "?UpdatePartialFadeIn@StreamingSoundProcessView@@QAEHXZ", target = 0x0043FD20 },
 ]
