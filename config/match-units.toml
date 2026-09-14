@@ -2752,7 +2752,7 @@ relocations = [
   { offset = 0xF, type = "REL32", symbol = "?IsReplayNeutral@AsciiGameManagerView@@QAEHXZ", target = 0x00415D20 },
   { offset = 0x1E, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x24, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x3D, type = "DIR32", symbol = "$L56503", target = 0x00435A68 },
+  { offset = 0x3D, type = "DIR32", symbol = "$L56558", target = 0x00435A68 },
   { offset = 0x5D, type = "DIR32", symbol = "?g_AsciiManager@@3VAsciiManager@@A", target = 0x004CE458 },
   { offset = 0x62, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
   { offset = 0xAB, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
@@ -2805,13 +2805,13 @@ relocations = [
   { offset = 0x45C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x463, type = "DIR32", symbol = "__imp__timeGetTime@0", target = 0x0048E238 },
   { offset = 0x46A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x478, type = "DIR32", symbol = "$L56133", target = 0x00435631 },
-  { offset = 0x47C, type = "DIR32", symbol = "$L56496", target = 0x00435670 },
-  { offset = 0x480, type = "DIR32", symbol = "$L56147", target = 0x004357B9 },
-  { offset = 0x484, type = "DIR32", symbol = "$L56157", target = 0x004358D8 },
-  { offset = 0x488, type = "DIR32", symbol = "$L56169", target = 0x00435A14 },
-  { offset = 0x48C, type = "DIR32", symbol = "$L56167", target = 0x004359F8 },
-  { offset = 0x490, type = "DIR32", symbol = "$L56171", target = 0x00435A30 },
+  { offset = 0x478, type = "DIR32", symbol = "$L56188", target = 0x00435631 },
+  { offset = 0x47C, type = "DIR32", symbol = "$L56551", target = 0x00435670 },
+  { offset = 0x480, type = "DIR32", symbol = "$L56202", target = 0x004357B9 },
+  { offset = 0x484, type = "DIR32", symbol = "$L56212", target = 0x004358D8 },
+  { offset = 0x488, type = "DIR32", symbol = "$L56224", target = 0x00435A14 },
+  { offset = 0x48C, type = "DIR32", symbol = "$L56222", target = 0x004359F8 },
+  { offset = 0x490, type = "DIR32", symbol = "$L56226", target = 0x00435A30 },
 ]
 
 [units.ascii-menu-state5-draw]
@@ -4864,4 +4864,105 @@ relocations = [
   { offset = 0x5BC, type = "DIR32", symbol = "$L55995", target = 0x0043DB6D },
   { offset = 0x5C0, type = "DIR32", symbol = "$L55996", target = 0x0043DB7F },
   { offset = 0x5C4, type = "DIR32", symbol = "$L55986", target = 0x0043DC79 },
+]
+
+[units.anm-vm-get-int-var]
+source = "src/AnmManagerExecuteScript.cpp"
+object = "build/matching/AnmManagerExecute.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmVm::GetIntVar"]
+symbol = "?GetIntVar@AnmVm@@QAEHH@Z"
+target_address = 0x00436B80
+size = 0x90
+compare_size = 0xB8
+relocations = [
+  { offset = 0x14, type = "DIR32", symbol = "$L1736", target = 0x00436C10 },
+  { offset = 0x47, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x56, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x65, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x74, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x90, type = "DIR32", symbol = "$L1302", target = 0x00436B98 },
+  { offset = 0x94, type = "DIR32", symbol = "$L1303", target = 0x00436BA2 },
+  { offset = 0x98, type = "DIR32", symbol = "$L1304", target = 0x00436BAC },
+  { offset = 0x9C, type = "DIR32", symbol = "$L1305", target = 0x00436BB6 },
+  { offset = 0xA0, type = "DIR32", symbol = "$L1306", target = 0x00436BC0 },
+  { offset = 0xA4, type = "DIR32", symbol = "$L1307", target = 0x00436BCF },
+  { offset = 0xA8, type = "DIR32", symbol = "$L1308", target = 0x00436BDE },
+  { offset = 0xAC, type = "DIR32", symbol = "$L1309", target = 0x00436BED },
+  { offset = 0xB0, type = "DIR32", symbol = "$L1310", target = 0x00436BFC },
+  { offset = 0xB4, type = "DIR32", symbol = "$L1311", target = 0x00436C06 },
+]
+
+[units.anm-vm-get-float-var-ptr]
+source = "src/AnmManagerExecuteScript.cpp"
+object = "build/matching/AnmManagerExecute.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmVm::GetFloatVarPtr"]
+symbol = "?GetFloatVarPtr@AnmVm@@QAEPAMPAMGI@Z"
+target_address = 0x00436C40
+size = 0x74
+compare_size = 0x84
+relocations = [
+  { offset = 0x27, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x38, type = "DIR32", symbol = "$L1740", target = 0x00436CB4 },
+  { offset = 0x74, type = "DIR32", symbol = "$L1325", target = 0x00436C7C },
+  { offset = 0x78, type = "DIR32", symbol = "$L1326", target = 0x00436C88 },
+  { offset = 0x7C, type = "DIR32", symbol = "$L1327", target = 0x00436C94 },
+  { offset = 0x80, type = "DIR32", symbol = "$L1328", target = 0x00436CA0 },
+]
+
+[units.anm-vm-get-int-var-ptr]
+source = "src/AnmManagerExecuteScript.cpp"
+object = "build/matching/AnmManagerExecute.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmVm::GetIntVarPtr"]
+symbol = "?GetIntVarPtr@AnmVm@@QAEPAHPAHGI@Z"
+target_address = 0x00436CD0
+size = 0x6A
+compare_size = 0x94
+relocations = [
+  { offset = 0x2A, type = "DIR32", symbol = "$L1743", target = 0x00436D3C },
+  { offset = 0x6C, type = "DIR32", symbol = "$L1341", target = 0x00436CFE },
+  { offset = 0x70, type = "DIR32", symbol = "$L1342", target = 0x00436D08 },
+  { offset = 0x74, type = "DIR32", symbol = "$L1343", target = 0x00436D12 },
+  { offset = 0x78, type = "DIR32", symbol = "$L1344", target = 0x00436D1C },
+  { offset = 0x7C, type = "DIR32", symbol = "$L1338", target = 0x00436D36 },
+  { offset = 0x80, type = "DIR32", symbol = "$L1338", target = 0x00436D36 },
+  { offset = 0x84, type = "DIR32", symbol = "$L1338", target = 0x00436D36 },
+  { offset = 0x88, type = "DIR32", symbol = "$L1338", target = 0x00436D36 },
+  { offset = 0x8C, type = "DIR32", symbol = "$L1345", target = 0x00436D26 },
+  { offset = 0x90, type = "DIR32", symbol = "$L1346", target = 0x00436D30 },
+]
+
+[units.anm-vm-get-float-var]
+source = "src/AnmManagerExecuteScript.cpp"
+object = "build/matching/AnmManagerExecute.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmVm::GetFloatVar"]
+symbol = "?GetFloatVar@AnmVm@@QAEMM@Z"
+target_address = 0x00436E30
+size = 0xCB
+compare_size = 0x100
+relocations = [
+  { offset = 0xA, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x1F, type = "DIR32", symbol = "$L1746", target = 0x00436EFC },
+  { offset = 0x92, type = "DIR32", symbol = "?g_ReplayRng@@3UReplayRngAnmView@@A", target = 0x004ACE0C },
+  { offset = 0x97, type = "REL32", symbol = "?GetRandomF32@ReplayRngAnmView@@QAEMXZ", target = 0x0042AE70 },
+  { offset = 0xA1, type = "DIR32", symbol = "?g_ReplayRng@@3UReplayRngAnmView@@A", target = 0x004ACE0C },
+  { offset = 0xA6, type = "REL32", symbol = "?GetRandomF32Signed@ReplayRngAnmView@@QAEMXZ", target = 0x0042AEA0 },
+  { offset = 0xB5, type = "DIR32", symbol = "?g_ReplayRng@@3UReplayRngAnmView@@A", target = 0x004ACE0C },
+  { offset = 0xBA, type = "REL32", symbol = "?GetRandomF32InRange@ReplayRngAnmView@@QAEMM@Z", target = 0x00406200 },
+  { offset = 0xCC, type = "DIR32", symbol = "$L1357", target = 0x00436E53 },
+  { offset = 0xD0, type = "DIR32", symbol = "$L1359", target = 0x00436E5E },
+  { offset = 0xD4, type = "DIR32", symbol = "$L1361", target = 0x00436E69 },
+  { offset = 0xD8, type = "DIR32", symbol = "$L1363", target = 0x00436E74 },
+  { offset = 0xDC, type = "DIR32", symbol = "$L1365", target = 0x00436E7F },
+  { offset = 0xE0, type = "DIR32", symbol = "$L1366", target = 0x00436E8A },
+  { offset = 0xE4, type = "DIR32", symbol = "$L1367", target = 0x00436E95 },
+  { offset = 0xE8, type = "DIR32", symbol = "$L1368", target = 0x00436EA0 },
+  { offset = 0xEC, type = "DIR32", symbol = "$L1369", target = 0x00436EAB },
+  { offset = 0xF0, type = "DIR32", symbol = "$L1371", target = 0x00436EB6 },
+  { offset = 0xF4, type = "DIR32", symbol = "$L1373", target = 0x00436EDF },
+  { offset = 0xF8, type = "DIR32", symbol = "$L1374", target = 0x00436EC1 },
+  { offset = 0xFC, type = "DIR32", symbol = "$L1375", target = 0x00436ED0 },
 ]

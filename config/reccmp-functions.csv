@@ -221,3 +221,7 @@ MidiOutput::~MidiOutput,0x0043E090,function
 MidiOutput::ReadFileData,0x0043E0D0,function
 MidiOutput::LoadFile,0x0043E130,function
 MidiOutput::ProcessMsg,0x0043D7F0,function
+AnmVm::GetIntVar,0x00436B80,function
+AnmVm::GetFloatVarPtr,0x00436C40,function
+AnmVm::GetIntVarPtr,0x00436CD0,function
+AnmVm::GetFloatVar,0x00436E30,function

@@ -220,3 +220,7 @@ MidiOutput::~MidiOutput
 MidiOutput::ReadFileData
 MidiOutput::LoadFile
 MidiOutput::ProcessMsg
+AnmVm::GetIntVar
+AnmVm::GetFloatVarPtr
+AnmVm::GetIntVarPtr
+AnmVm::GetFloatVar
