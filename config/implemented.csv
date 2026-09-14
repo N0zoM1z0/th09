@@ -245,3 +245,11 @@ AnmManager::ReleaseAnm
 AnmManager::PostloadAnmEntry
 AnmManager::ServicePreloadedAnims
 AnmManager::LoadAnm
+AnmManager::DrawTextInner
+AnmManager::DrawTextLeft
+AnmManager::DrawTextCentered
+AnmManager::ReleaseSurface
+AnmManager::CopySurfaceToBackbuffer
+AnmManager::CopySurfaceToBackbuffer2
+AnmManager::CaptureToTexture
+AnmManager::CaptureToSurface

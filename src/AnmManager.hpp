@@ -80,6 +80,14 @@ class AnmManager
     int ServicePreloadedAnims();
     void ReleaseAnm(int anmIdx);
     void ReleaseAnmEntry(AnmEntry *entry);
+    void DrawTextInner(IDirect3DTexture8 *outTexture, int x, int y, int width, int height, int fontWidth, int fontHeight, unsigned long textColor, unsigned long outlineColor, const char *buffer, float scaleFactorX, float scaleFactorY);
+    void DrawTextLeft(AnmVm *vm, unsigned long textColor, unsigned long shadowColor, const char *format, ...);
+    void DrawTextCentered(AnmVm *vm, unsigned long textColor, unsigned long shadowColor, const char *format, ...);
+    void ReleaseSurface(int surfaceIndex);
+    void CopySurfaceToBackbuffer(int surfaceIndex, int left, int top, int x, int y);
+    void CopySurfaceToBackbuffer2(int surfaceIndex, int rectX, int rectY, int rectLeft, int rectTop, int width, int height);
+    void CaptureToTexture(int captureAnmIndex, int srcX, int srcY, int srcW, int srcH, int dstX, int dstY, int dstW, int dstH);
+    void CaptureToSurface(int captureSurfaceIndex, int srcX, int srcY, int srcW, int srcH, int dstX, int dstY, int dstW, int dstH);
 };
 
 extern AnmManager *g_AnmManager;
