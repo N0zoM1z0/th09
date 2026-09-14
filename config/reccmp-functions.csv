@@ -225,3 +225,10 @@ AnmVm::GetIntVar,0x00436B80,function
 AnmVm::GetFloatVarPtr,0x00436C40,function
 AnmVm::GetIntVarPtr,0x00436CD0,function
 AnmVm::GetFloatVar,0x00436E30,function
+AnmVm::SetInterrupt,0x00406790,function
+AnmManager::SpriteHasTexture,0x00423469,function
+AnmManager::DrawPlayerBullet,0x00436D70,function
+AnmManager::SetInterruptArray,0x00436DE0,function
+AnmManager::ExecuteScriptArray,0x00439560,function
+AnmLoaded::SetAndExecuteScript,0x004395A0,function
+AnmLoaded::ExecuteAnmIdxArray,0x00439630,function

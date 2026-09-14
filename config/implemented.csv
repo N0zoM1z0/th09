@@ -224,3 +224,10 @@ AnmVm::GetIntVar
 AnmVm::GetFloatVarPtr
 AnmVm::GetIntVarPtr
 AnmVm::GetFloatVar
+AnmVm::SetInterrupt
+AnmManager::SpriteHasTexture
+AnmManager::DrawPlayerBullet
+AnmManager::SetInterruptArray
+AnmManager::ExecuteScriptArray
+AnmLoaded::SetAndExecuteScript
+AnmLoaded::ExecuteAnmIdxArray

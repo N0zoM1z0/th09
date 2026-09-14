@@ -6,7 +6,7 @@ struct VertexTex1DiffuseXyzrhw;
 class AnmLoadedSprite
 {
   public:
-    unsigned char unknown000[0x04];
+    int anmIdx;
     void *texture;
     unsigned char unknown008[0x18];
     float uvStartX;
@@ -28,6 +28,7 @@ class AnmLoaded
     void ExecuteAnmIdx(AnmVm *vm, int scriptIndex);
     void SetSprite(AnmVm *vm, int spriteIndex);
     void SetAndExecuteScript(AnmVm *vm, AnmRawInstr *beginningOfScript);
+    void ExecuteAnmIdxArray(AnmVm *vm, int scriptIndex, int count);
 };
 
 enum AnmFileSlot
@@ -57,6 +58,10 @@ class AnmManager
     void SetRenderStateForVm3D(AnmVm *vm);
     int Draw3D(AnmVm *vm);
     int ExecuteScript(AnmVm *vm);
+    void ExecuteScriptArray(AnmVm *vm, int count);
+    void SetInterruptArray(AnmVm *vm, int count, short interrupt);
+    int SpriteHasTexture(AnmVm *vm);
+    void DrawPlayerBullet(AnmVm *vm);
     AnmLoaded *PreloadAnm(int anmIdx, const char *filename);
     void ReleaseAnm(int anmIdx);
 };

@@ -102,7 +102,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00406680,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00406720,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00406740,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00406790,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00406790,authored_game,AnmManager,authored,high,packet128-anm-runtime-vc71-exact-2026-09-15
 0x004067B0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004067D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004067F0,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -485,7 +485,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00423382,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004233A3,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004233F4,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00423469,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00423469,authored_game,AnmManager,authored,high,packet128-anm-runtime-vc71-exact-2026-09-15
 0x00423498,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004234A7,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004234DD,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -783,13 +783,13 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00436B80,authored_game,AnmManager,authored,high,packet127-anm-operand-helper-vc71-exact-2026-09-14
 0x00436C40,authored_game,AnmManager,authored,high,packet127-anm-operand-helper-vc71-exact-2026-09-14
 0x00436CD0,authored_game,AnmManager,authored,high,packet127-anm-operand-helper-vc71-exact-2026-09-14
-0x00436D70,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00436DE0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00436D70,authored_game,AnmManager,authored,high,packet128-anm-runtime-vc71-exact-2026-09-15
+0x00436DE0,authored_game,AnmManager,authored,high,packet128-anm-runtime-vc71-exact-2026-09-15
 0x00436E30,authored_game,AnmManager,authored,high,packet127-anm-operand-helper-vc71-exact-2026-09-14
 0x00436F30,authored_game,AnmManager,authored,high,packet127-anm-execute-source-nonexact-2026-09-14
-0x00439560,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004395A0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00439630,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00439560,authored_game,AnmManager,authored,high,packet128-anm-runtime-vc71-exact-2026-09-15
+0x004395A0,authored_game,AnmManager,authored,high,packet128-anm-runtime-vc71-exact-2026-09-15
+0x00439630,authored_game,AnmManager,authored,high,packet128-anm-runtime-vc71-exact-2026-09-15
 0x00439680,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004396A0,authored_game,AnmManager,authored,high,packet98-render-primitives-vc71-exact-2026-09-13
 0x00439730,authored_game,AnmManager,authored,high,packet99-anm-render-core-vc71-exact-2026-09-13
