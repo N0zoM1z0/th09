@@ -518,7 +518,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00426334,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004266B5,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042689A,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00426E05,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00426E05,authored_game,TitleScreen,authored,high,packet126-title-music-room-source-2026-09-14
 0x004276D7,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004276EB,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00427EE8,unknown,,review,unknown,ida-1.50a-initial-inventory
