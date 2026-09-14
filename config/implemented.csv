@@ -253,3 +253,13 @@ AnmManager::CopySurfaceToBackbuffer
 AnmManager::CopySurfaceToBackbuffer2
 AnmManager::CaptureToTexture
 AnmManager::CaptureToSurface
+AnmManager::ClearBlendMode
+AnmManager::ClearVertexShader
+AnmManager::ClearColorOp
+AnmManager::ClearZWrite
+AnmManager::DrawVertices
+AnmManager::QueueSpriteQuad
+AnmManager::DrawTriangleStrip
+AnmManager::DrawTriangleFan
+AnmManager::DrawTexturedTriangleFan
+AnmManager::SetupVertexBuffer

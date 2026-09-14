@@ -7,6 +7,7 @@ struct AnmRawEntry;
 struct AnmTextureHeader;
 struct IDirect3DTexture8;
 struct VertexTex1DiffuseXyzrhw;
+struct VertexDiffuseXyzrhw;
 class AnmLoadedSprite
 {
   public:
@@ -63,6 +64,16 @@ class AnmManager
     int DrawProjected3DQuad(AnmVm *vm);
     void SetRenderStateForVm3D(AnmVm *vm);
     int Draw3D(AnmVm *vm);
+    int DrawVertices(AnmVm *vm, VertexTex1DiffuseXyzrhw *vertices, int vertexCount);
+    int QueueSpriteQuad(AnmVm *vm, VertexTex1DiffuseXyzrhw *vertices);
+    int DrawTriangleStrip(AnmVm *vm, VertexDiffuseXyzrhw *vertices, int vertexCount);
+    int DrawTriangleFan(AnmVm *vm, VertexDiffuseXyzrhw *vertices, int vertexCount);
+    int DrawTexturedTriangleFan(AnmVm *vm, VertexTex1DiffuseXyzrhw *vertices, int vertexCount);
+    void SetupVertexBuffer();
+    void ClearBlendMode();
+    void ClearColorOp();
+    void ClearVertexShader();
+    void ClearZWrite();
     int ExecuteScript(AnmVm *vm);
     void ExecuteScriptArray(AnmVm *vm, int count);
     void SetInterruptArray(AnmVm *vm, int count, short interrupt);

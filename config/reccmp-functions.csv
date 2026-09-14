@@ -254,3 +254,13 @@ AnmManager::CopySurfaceToBackbuffer,0x0043BFA0,function
 AnmManager::CopySurfaceToBackbuffer2,0x0043C0D0,function
 AnmManager::CaptureToTexture,0x0043C200,function
 AnmManager::CaptureToSurface,0x0043C2D0,function
+AnmManager::ClearBlendMode,0x0040E370,function
+AnmManager::ClearVertexShader,0x0040E380,function
+AnmManager::ClearColorOp,0x00415D00,function
+AnmManager::ClearZWrite,0x00415D10,function
+AnmManager::DrawVertices,0x0043B4D0,function
+AnmManager::QueueSpriteQuad,0x0043B5C0,function
+AnmManager::DrawTriangleStrip,0x0043B670,function
+AnmManager::DrawTriangleFan,0x0043B7B0,function
+AnmManager::DrawTexturedTriangleFan,0x0043B8F0,function
+AnmManager::SetupVertexBuffer,0x0043B9C0,function
