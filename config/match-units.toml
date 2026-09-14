@@ -4396,3 +4396,472 @@ size = 0x17
 relocations = [
   { offset = 0xF, type = "REL32", symbol = "?FadeOut@StreamingSoundProcessView@@QAEXM@Z", target = 0x0043E440 },
 ]
+
+[units.midi-th09-device-ctor]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiDevice::MidiDevice"]
+symbol = "??0MidiDevice@@QAE@XZ"
+target_address = 0x0043CFD0
+size = 0x10
+
+[units.midi-th09-device-close]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiDevice::Close"]
+symbol = "?Close@MidiDevice@@QAE?AW4ZunResult@@XZ"
+target_address = 0x0043CFE0
+size = 0x28
+relocations = [
+  { offset = 0x11, type = "DIR32", symbol = "__imp__midiOutReset@4", target = 0x0048E268 },
+  { offset = 0x1A, type = "DIR32", symbol = "__imp__midiOutClose@4", target = 0x0048E26C },
+]
+
+[units.midi-th09-device-send-long]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiDevice::SendLongMsg"]
+symbol = "?SendLongMsg@MidiDevice@@QAEHPAUmidihdr_tag@@@Z"
+target_address = 0x0043D010
+size = 0x46
+relocations = [
+  { offset = 0x1B, type = "DIR32", symbol = "__imp__midiOutPrepareHeader@12", target = 0x0048E260 },
+  { offset = 0x36, type = "DIR32", symbol = "__imp__midiOutLongMsg@12", target = 0x0048E264 },
+]
+
+[units.midi-th09-device-send-short]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiDevice::SendShortMsg"]
+symbol = "?SendShortMsg@MidiDevice@@QAEHEEE@Z"
+target_address = 0x0043D060
+size = 0x34
+relocations = [
+  { offset = 0x26, type = "DIR32", symbol = "__imp__midiOutShortMsg@8", target = 0x0048E25C },
+]
+
+[units.midi-th09-timer-ctor]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiTimer::MidiTimer"]
+symbol = "??0MidiTimer@@QAE@XZ"
+target_address = 0x0043D0A0
+size = 0x20
+relocations = [
+  { offset = 0xB, type = "DIR32", symbol = "??_7MidiTimer@@6B@", target = 0x004910F0 },
+  { offset = 0x11, type = "DIR32", symbol = "__imp__timeGetDevCaps@8", target = 0x0048E258 },
+]
+
+[units.midi-th09-timer-stop-impl]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiTimer::StopTimerImpl"]
+symbol = "?StopTimerImpl@MidiTimer@@QAEHXZ"
+target_address = 0x0043D0C0
+size = 0x29
+relocations = [
+  { offset = 0xD, type = "DIR32", symbol = "__imp__timeKillEvent@4", target = 0x0048E254 },
+  { offset = 0x17, type = "DIR32", symbol = "__imp__timeEndPeriod@4", target = 0x0048E244 },
+]
+
+[units.midi-th09-timer-default-callback]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiTimer::DefaultTimerCallback"]
+symbol = "?DefaultTimerCallback@MidiTimer@@SGXIIKKK@Z"
+target_address = 0x0043D0F0
+size = 0xE
+
+[units.midi-th09-ntohs]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::Ntohs"]
+symbol = "?Ntohs@MidiOutput@@SIGG@Z"
+target_address = 0x0043D100
+size = 0x12
+
+[units.midi-th09-ntohl]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::Ntohl"]
+symbol = "?Ntohl@MidiOutput@@SIII@Z"
+target_address = 0x0043D120
+size = 0x26
+
+[units.midi-th09-skip-varlen]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::SkipVariableLength"]
+symbol = "?SkipVariableLength@MidiOutput@@SIIPAPAE@Z"
+target_address = 0x0043D150
+size = 0x20
+
+[units.midi-th09-load-tracks]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::LoadTracks"]
+symbol = "?LoadTracks@MidiOutput@@QAEXXZ"
+target_address = 0x0043D170
+size = 0x6E
+relocations = [
+  { offset = 0x55, type = "REL32", symbol = "?SkipVariableLength@MidiOutput@@SIIPAPAE@Z", target = 0x0043D150 },
+]
+
+[units.midi-th09-set-fade-out]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::SetFadeOut"]
+symbol = "?SetFadeOut@MidiOutput@@QAE?AW4ZunResult@@I@Z"
+target_address = 0x0043D1E0
+size = 0x2E
+
+[units.midi-th09-fade-volume]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::FadeOutSetVolume"]
+symbol = "?FadeOutSetVolume@MidiOutput@@QAEXH@Z"
+target_address = 0x0043D210
+size = 0x75
+relocations = [
+  { offset = 0x3A, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x5F, type = "REL32", symbol = "?SendShortMsg@MidiDevice@@QAEHEEE@Z", target = 0x0043D060 },
+]
+
+[units.midi-th09-timer-stop]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiTimer::StopTimer"]
+symbol = "?StopTimer@MidiTimer@@QAEXXZ"
+target_address = 0x0043D2A0
+size = 0x5
+relocations = [
+  { offset = 0x1, type = "REL32", symbol = "?StopTimerImpl@MidiTimer@@QAEHXZ", target = 0x0043D0C0 },
+]
+
+[units.midi-th09-timer-on-elapsed]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiTimer::OnTimerElapsed"]
+symbol = "?OnTimerElapsed@MidiTimer@@UAEXXZ"
+target_address = 0x0043D2B0
+size = 0x1
+
+[units.midi-th09-device-dtor]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiDevice::~MidiDevice"]
+symbol = "??1MidiDevice@@QAE@XZ"
+target_address = 0x0043D2C0
+size = 0x5
+relocations = [
+  { offset = 0x1, type = "REL32", symbol = "?Close@MidiDevice@@QAE?AW4ZunResult@@XZ", target = 0x0043CFE0 },
+]
+
+[units.midi-th09-device-open]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiDevice::OpenDevice"]
+symbol = "?OpenDevice@MidiDevice@@QAEHI@Z"
+target_address = 0x0043D2D0
+size = 0x45
+relocations = [
+  { offset = 0x15, type = "REL32", symbol = "?Close@MidiDevice@@QAE?AW4ZunResult@@XZ", target = 0x0043CFE0 },
+  { offset = 0x24, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x2D, type = "DIR32", symbol = "__imp__midiOutOpen@20", target = 0x0048E250 },
+]
+
+[units.midi-th09-timer-dtor]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiTimer::~MidiTimer"]
+symbol = "??1MidiTimer@@QAE@XZ"
+target_address = 0x0043D320
+size = 0x1A
+relocations = [
+  { offset = 0x5, type = "DIR32", symbol = "??_7MidiTimer@@6B@", target = 0x004910F0 },
+  { offset = 0xA, type = "REL32", symbol = "?StopTimerImpl@MidiTimer@@QAEHXZ", target = 0x0043D0C0 },
+  { offset = 0x14, type = "DIR32", symbol = "__imp__timeEndPeriod@4", target = 0x0048E244 },
+]
+
+[units.midi-th09-timer-start-impl]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiTimer::StartTimerImpl"]
+symbol = "?StartTimerImpl@MidiTimer@@QAEIIP6GXIIKKK@ZK@Z"
+target_address = 0x0043D340
+size = 0x55
+relocations = [
+  { offset = 0x7, type = "REL32", symbol = "?StopTimerImpl@MidiTimer@@QAEHXZ", target = 0x0043D0C0 },
+  { offset = 0x11, type = "DIR32", symbol = "__imp__timeBeginPeriod@4", target = 0x0048E270 },
+  { offset = 0x2D, type = "DIR32", symbol = "__imp__timeSetEvent@20", target = 0x0048E24C },
+  { offset = 0x41, type = "DIR32", symbol = "?DefaultTimerCallback@MidiTimer@@SGXIIKKK@Z", target = 0x0043D0F0 },
+  { offset = 0x49, type = "DIR32", symbol = "__imp__timeSetEvent@20", target = 0x0048E24C },
+]
+
+[units.midi-th09-output-ctor]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::MidiOutput"]
+symbol = "??0MidiOutput@@QAE@XZ"
+target_address = 0x0043D3A0
+size = 0x1A7
+relocations = [
+  { offset = 0x4, type = "REL32", symbol = "??0MidiTimer@@QAE@XZ", target = 0x0043D0A0 },
+  { offset = 0x10, type = "DIR32", symbol = "??_7MidiOutput@@6B@", target = 0x004910F4 },
+  { offset = 0x15, type = "REL32", symbol = "??0MidiDevice@@QAE@XZ", target = 0x0043CFD0 },
+]
+
+[units.midi-th09-release-file-data]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::ReleaseFileData"]
+symbol = "?ReleaseFileData@MidiOutput@@QAEXH@Z"
+target_address = 0x0043D550
+size = 0x2D
+relocations = [
+  { offset = 0x13, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x18, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+]
+
+[units.midi-th09-clear-tracks]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::ClearTracks"]
+symbol = "?ClearTracks@MidiOutput@@QAEXXZ"
+target_address = 0x0043D580
+size = 0x59
+relocations = [
+  { offset = 0x1F, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x24, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x3F, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x44, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+]
+
+[units.midi-th09-parse-file]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::ParseFile"]
+symbol = "?ParseFile@MidiOutput@@QAE?AW4ZunResult@@H@Z"
+target_address = 0x0043D5E0
+size = 0x166
+relocations = [
+  { offset = 0xB, type = "REL32", symbol = "?ClearTracks@MidiOutput@@QAEXXZ", target = 0x0043D580 },
+  { offset = 0x37, type = "REL32", symbol = "?Ntohl@MidiOutput@@SIII@Z", target = 0x0043D120 },
+  { offset = 0x41, type = "REL32", symbol = "?Ntohs@MidiOutput@@SIGG@Z", target = 0x0043D100 },
+  { offset = 0x53, type = "REL32", symbol = "?Ntohs@MidiOutput@@SIGG@Z", target = 0x0043D100 },
+  { offset = 0x65, type = "REL32", symbol = "?Ntohs@MidiOutput@@SIGG@Z", target = 0x0043D100 },
+  { offset = 0x73, type = "DIR32", symbol = "??_C@_04OFLALAIF@midi?$AA@", target = 0x004910F8 },
+  { offset = 0x7C, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x81, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0xD0, type = "REL32", symbol = "?Ntohl@MidiOutput@@SIII@Z", target = 0x0043D120 },
+  { offset = 0xDB, type = "DIR32", symbol = "??_C@_04OFLALAIF@midi?$AA@", target = 0x004910F8 },
+  { offset = 0xE5, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0xED, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+]
+
+[units.midi-th09-play]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::Play"]
+symbol = "?Play@MidiOutput@@QAE?AW4ZunResult@@XZ"
+target_address = 0x0043D750
+size = 0x37
+relocations = [
+  { offset = 0x15, type = "REL32", symbol = "?LoadTracks@MidiOutput@@QAEXXZ", target = 0x0043D170 },
+  { offset = 0x22, type = "REL32", symbol = "?OpenDevice@MidiDevice@@QAEHI@Z", target = 0x0043D2D0 },
+  { offset = 0x2F, type = "REL32", symbol = "?StartTimerImpl@MidiTimer@@QAEIIP6GXIIKKK@ZK@Z", target = 0x0043D340 },
+]
+
+[units.midi-th09-unprepare-header]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::UnprepareHeader"]
+symbol = "?UnprepareHeader@MidiOutput@@QAE?AW4ZunResult@@PAUmidihdr_tag@@@Z"
+target_address = 0x0043D790
+size = 0x5C
+relocations = [
+  { offset = 0x39, type = "DIR32", symbol = "__imp__midiOutUnprepareHeader@12", target = 0x0048E248 },
+  { offset = 0x41, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x46, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x4C, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x51, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+]
+
+[units.midi-th09-timer-start]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiTimer::StartTimer"]
+symbol = "?StartTimer@MidiTimer@@QAEXXZ"
+target_address = 0x0043DE20
+size = 0xC
+relocations = [
+  { offset = 0x7, type = "REL32", symbol = "?StartTimerImpl@MidiTimer@@QAEIIP6GXIIKKK@ZK@Z", target = 0x0043D340 },
+]
+
+[units.midi-th09-stop-playback]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::StopPlayback"]
+symbol = "?StopPlayback@MidiOutput@@QAE?AW4ZunResult@@XZ"
+target_address = 0x0043DE30
+size = 0x53
+relocations = [
+  { offset = 0x2A, type = "REL32", symbol = "?UnprepareHeader@MidiOutput@@QAE?AW4ZunResult@@PAUmidihdr_tag@@@Z", target = 0x0043D790 },
+  { offset = 0x37, type = "REL32", symbol = "?StopTimerImpl@MidiTimer@@QAEHXZ", target = 0x0043D0C0 },
+  { offset = 0x42, type = "REL32", symbol = "?Close@MidiDevice@@QAE?AW4ZunResult@@XZ", target = 0x0043CFE0 },
+]
+
+[units.midi-th09-on-timer]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::OnTimerElapsed"]
+symbol = "?OnTimerElapsed@MidiOutput@@UAEXXZ"
+target_address = 0x0043DE90
+size = 0x1F9
+relocations = [
+  { offset = 0x2A, type = "REL32", symbol = "__allmul", target = 0x0047D3C0 },
+  { offset = 0x38, type = "REL32", symbol = "__allmul", target = 0x0047D3C0 },
+  { offset = 0x4C, type = "REL32", symbol = "__aulldiv", target = 0x0047D350 },
+  { offset = 0x90, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x9C, type = "DIR32", symbol = "__real@43000000", target = 0x0048E3BC },
+  { offset = 0xA1, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0xB2, type = "REL32", symbol = "?FadeOutSetVolume@MidiOutput@@QAEXH@Z", target = 0x0043D210 },
+  { offset = 0xBE, type = "DIR32", symbol = "__real@43000000", target = 0x0048E3BC },
+  { offset = 0xC3, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x12E, type = "REL32", symbol = "?ProcessMsg@MidiOutput@@QAEXPAUMidiTrack@@@Z", target = 0x0043D7F0 },
+  { offset = 0x14A, type = "REL32", symbol = "__allmul", target = 0x0047D3C0 },
+  { offset = 0x158, type = "REL32", symbol = "__allmul", target = 0x0047D3C0 },
+  { offset = 0x16C, type = "REL32", symbol = "__aulldiv", target = 0x0047D350 },
+  { offset = 0x1DD, type = "REL32", symbol = "?LoadTracks@MidiOutput@@QAEXXZ", target = 0x0043D170 },
+]
+
+[units.midi-th09-read-file-data]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::ReadFileData"]
+symbol = "?ReadFileData@MidiOutput@@QAE?AW4ZunResult@@HPBD@Z"
+target_address = 0x0043E0D0
+size = 0x5E
+relocations = [
+  { offset = 0x13, type = "REL32", symbol = "?StopPlayback@MidiOutput@@QAE?AW4ZunResult@@XZ", target = 0x0043DE30 },
+  { offset = 0x1B, type = "REL32", symbol = "?ReleaseFileData@MidiOutput@@QAEXH@Z", target = 0x0043D550 },
+  { offset = 0x29, type = "REL32", symbol = "?OpenFile@FileSystem@@YIPAEPBDPAHH@Z", target = 0x0042C970 },
+  { offset = 0x3A, type = "DIR32", symbol = "??_C@_0CJ@LJPHLLCG@error?5?3?5MIDI?5File?5could?5not?5be?5r@", target = 0x00491118 },
+  { offset = 0x3F, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x44, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+]
+
+[units.midi-th09-load-file]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::LoadFile"]
+symbol = "?LoadFile@MidiOutput@@QAE?AW4ZunResult@@PBD@Z"
+target_address = 0x0043E130
+size = 0x36
+relocations = [
+  { offset = 0xD, type = "REL32", symbol = "?ReadFileData@MidiOutput@@QAE?AW4ZunResult@@HPBD@Z", target = 0x0043E0D0 },
+  { offset = 0x22, type = "REL32", symbol = "?ParseFile@MidiOutput@@QAE?AW4ZunResult@@H@Z", target = 0x0043D5E0 },
+  { offset = 0x2B, type = "REL32", symbol = "?ReleaseFileData@MidiOutput@@QAEXH@Z", target = 0x0043D550 },
+]
+
+[units.midi-th09-output-dtor]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::~MidiOutput"]
+symbol = "??1MidiOutput@@QAE@XZ"
+target_address = 0x0043E090
+size = 0x3A
+relocations = [
+  { offset = 0x6, type = "DIR32", symbol = "??_7MidiOutput@@6B@", target = 0x004910F4 },
+  { offset = 0xB, type = "REL32", symbol = "?StopPlayback@MidiOutput@@QAE?AW4ZunResult@@XZ", target = 0x0043DE30 },
+  { offset = 0x12, type = "REL32", symbol = "?ClearTracks@MidiOutput@@QAEXXZ", target = 0x0043D580 },
+  { offset = 0x1C, type = "REL32", symbol = "?ReleaseFileData@MidiOutput@@QAEXH@Z", target = 0x0043D550 },
+  { offset = 0x2D, type = "REL32", symbol = "??1MidiDevice@@QAE@XZ", target = 0x0043D2C0 },
+  { offset = 0x36, type = "REL32", symbol = "??1MidiTimer@@QAE@XZ", target = 0x0043D320 },
+]
+
+[units.midi-th09-process-msg]
+source = "src/Midi.cpp"
+object = "build/matching/Midi.obj"
+profile = ["/MT", "/GX-", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::ProcessMsg"]
+symbol = "?ProcessMsg@MidiOutput@@QAEXPAUMidiTrack@@@Z"
+target_address = 0x0043D7F0
+size = 0x4CB
+compare_size = 0x626
+relocations = [
+  { offset = 0x4D, type = "DIR32", symbol = "$L56158", target = 0x0043DCCC },
+  { offset = 0x54, type = "DIR32", symbol = "$L56168", target = 0x0043DCBC },
+  { offset = 0x73, type = "REL32", symbol = "?UnprepareHeader@MidiOutput@@QAE?AW4ZunResult@@PAUmidihdr_tag@@@Z", target = 0x0043D790 },
+  { offset = 0x78, type = "DIR32", symbol = "??_C@_07GJOEKOKC@midiHDR?$AA@", target = 0x00491110 },
+  { offset = 0x7F, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x84, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0x9F, type = "REL32", symbol = "?SkipVariableLength@MidiOutput@@SIIPAPAE@Z", target = 0x0043D150 },
+  { offset = 0xB4, type = "DIR32", symbol = "??_C@_0BA@EDDBPPAE@midiHDR?9?$DOlpData?$AA@", target = 0x00491100 },
+  { offset = 0xBA, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0xC2, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0x103, type = "REL32", symbol = "?SendLongMsg@MidiDevice@@QAEHPAUmidihdr_tag@@@Z", target = 0x0043D010 },
+  { offset = 0x10F, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x114, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x11A, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x11F, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x163, type = "DIR32", symbol = "$L56161", target = 0x0043DD54 },
+  { offset = 0x16A, type = "DIR32", symbol = "$L56169", target = 0x0043DD40 },
+  { offset = 0x180, type = "REL32", symbol = "?SkipVariableLength@MidiOutput@@SIIPAPAE@Z", target = 0x0043D150 },
+  { offset = 0x1C2, type = "REL32", symbol = "__allmul", target = 0x0047D3C0 },
+  { offset = 0x1D0, type = "REL32", symbol = "__allmul", target = 0x0047D3C0 },
+  { offset = 0x1E4, type = "REL32", symbol = "__aulldiv", target = 0x0047D350 },
+  { offset = 0x311, type = "DIR32", symbol = "$L56162", target = 0x0043DDB8 },
+  { offset = 0x318, type = "DIR32", symbol = "$L56170", target = 0x0043DD98 },
+  { offset = 0x34D, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x4A2, type = "REL32", symbol = "?SendShortMsg@MidiDevice@@QAEHEEE@Z", target = 0x0043D060 },
+  { offset = 0x4B3, type = "REL32", symbol = "?SkipVariableLength@MidiOutput@@SIIPAPAE@Z", target = 0x0043D150 },
+  { offset = 0x4CC, type = "DIR32", symbol = "$L55972", target = 0x0043DA4D },
+  { offset = 0x4D0, type = "DIR32", symbol = "$L55973", target = 0x0043DA66 },
+  { offset = 0x4D4, type = "DIR32", symbol = "$L55952", target = 0x0043D848 },
+  { offset = 0x4D8, type = "DIR32", symbol = "$L56164", target = 0x0043D93E },
+  { offset = 0x550, type = "DIR32", symbol = "$L55979", target = 0x0043DAAC },
+  { offset = 0x554, type = "DIR32", symbol = "$L55978", target = 0x0043DA7A },
+  { offset = 0x558, type = "DIR32", symbol = "$L55984", target = 0x0043DAF2 },
+  { offset = 0x55C, type = "DIR32", symbol = "$L55983", target = 0x0043DAE0 },
+  { offset = 0x560, type = "DIR32", symbol = "$L55986", target = 0x0043DC79 },
+  { offset = 0x5A8, type = "DIR32", symbol = "$L55989", target = 0x0043DB0C },
+  { offset = 0x5AC, type = "DIR32", symbol = "$L55998", target = 0x0043DBA3 },
+  { offset = 0x5B0, type = "DIR32", symbol = "$L56002", target = 0x0043DC0F },
+  { offset = 0x5B4, type = "DIR32", symbol = "$L55990", target = 0x0043DB1E },
+  { offset = 0x5B8, type = "DIR32", symbol = "$L55997", target = 0x0043DB91 },
+  { offset = 0x5BC, type = "DIR32", symbol = "$L55995", target = 0x0043DB6D },
+  { offset = 0x5C0, type = "DIR32", symbol = "$L55996", target = 0x0043DB7F },
+  { offset = 0x5C4, type = "DIR32", symbol = "$L55986", target = 0x0043DC79 },
+]
