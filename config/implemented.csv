@@ -232,3 +232,16 @@ AnmManager::ExecuteScriptArray
 AnmLoaded::SetAndExecuteScript
 AnmLoaded::ExecuteAnmIdxArray
 AnmManager::Project3DQuad
+AnmManager::CreateEmptyTexture
+AnmManager::LoadExternalTextureData
+AnmManager::ReleaseAnmEntry
+AnmLoaded::LoadSprite
+AnmGetFormat
+AnmManager::CreateTextureFromFile
+AnmManager::CreateTextureFromAnm
+AnmManager::PreloadAnm
+AnmManager::LoadTextureData
+AnmManager::ReleaseAnm
+AnmManager::PostloadAnmEntry
+AnmManager::ServicePreloadedAnims
+AnmManager::LoadAnm

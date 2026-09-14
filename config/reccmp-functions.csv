@@ -233,3 +233,16 @@ AnmManager::ExecuteScriptArray,0x00439560,function
 AnmLoaded::SetAndExecuteScript,0x004395A0,function
 AnmLoaded::ExecuteAnmIdxArray,0x00439630,function
 AnmManager::Project3DQuad,0x00439A90,function
+AnmManager::CreateEmptyTexture,0x0043BBA0,function
+AnmManager::LoadExternalTextureData,0x0043BBE0,function
+AnmManager::ReleaseAnmEntry,0x0043BC80,function
+AnmLoaded::LoadSprite,0x0043BCB0,function
+AnmGetFormat,0x0043C430,function
+AnmManager::CreateTextureFromFile,0x0043C470,function
+AnmManager::CreateTextureFromAnm,0x0043C4C0,function
+AnmManager::PreloadAnm,0x0043C7A0,function
+AnmManager::LoadTextureData,0x0043C800,function
+AnmManager::ReleaseAnm,0x0043CA30,function
+AnmManager::PostloadAnmEntry,0x0043CD40,function
+AnmManager::ServicePreloadedAnims,0x0043CDD0,function
+AnmManager::LoadAnm,0x0043CF90,function

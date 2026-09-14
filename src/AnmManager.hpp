@@ -2,6 +2,10 @@
 
 struct AnmVm;
 struct AnmRawInstr;
+struct AnmEntry;
+struct AnmRawEntry;
+struct AnmTextureHeader;
+struct IDirect3DTexture8;
 struct VertexTex1DiffuseXyzrhw;
 class AnmLoadedSprite
 {
@@ -23,6 +27,7 @@ typedef char AnmLoadedSpriteSizeIs44[(sizeof(AnmLoadedSprite) == 0x44) ? 1 : -1]
 class AnmLoaded
 {
   public:
+    void LoadSprite(int spriteIndex, AnmLoadedSprite *loadedSprite);
     AnmLoadedSprite *GetSprite(int spriteIndex);
     void InitializeAndSetSprite(AnmVm *vm, int spriteIndex);
     void ExecuteAnmIdx(AnmVm *vm, int scriptIndex);
@@ -40,6 +45,7 @@ enum AnmFileSlot
 class AnmManager
 {
   public:
+    AnmManager();
     void FlushVertexBuffer();
     int AddSpriteToDrawBuffer(VertexTex1DiffuseXyzrhw *vertices);
     int DrawInner(AnmVm *vm, int flags);
@@ -62,8 +68,18 @@ class AnmManager
     void SetInterruptArray(AnmVm *vm, int count, short interrupt);
     int SpriteHasTexture(AnmVm *vm);
     void DrawPlayerBullet(AnmVm *vm);
+    AnmLoaded *LoadAnm(int anmIdx, const char *filename);
+    AnmLoaded *ReadAnmEntries(int anmIdx, const char *filename);
+    int CreateEmptyTexture(IDirect3DTexture8 **outTexture, int width, int height, int format);
+    int CreateTextureFromFile(AnmEntry *entry, int format, int colorKey);
+    int CreateTextureFromAnm(IDirect3DTexture8 **outTexture, AnmTextureHeader *textureHeader, int format);
+    int LoadExternalTextureData(AnmLoaded *anmLoaded, int entryNumber, int *sprites, int *scripts, AnmRawEntry *rawEntry);
+    int LoadTextureData(AnmLoaded *anmLoaded, int entryNumber, int currentSpriteNumber, int currentScriptNumber, AnmRawEntry *rawEntry);
     AnmLoaded *PreloadAnm(int anmIdx, const char *filename);
+    AnmLoaded *PostloadAnmEntry(AnmLoaded *anmLoaded);
+    int ServicePreloadedAnims();
     void ReleaseAnm(int anmIdx);
+    void ReleaseAnmEntry(AnmEntry *entry);
 };
 
 extern AnmManager *g_AnmManager;
