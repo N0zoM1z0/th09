@@ -4095,3 +4095,33 @@ relocations = [
   { offset = 0x2, type = "DIR32", symbol = "??_7StreamingSoundProcessView@@6B@", target = 0x0049159C },
   { offset = 0x7, type = "REL32", symbol = "??1SoundProcessView@@UAE@XZ", target = 0x004406E0 },
 ]
+
+[units.soundmanager-fill-buffer-with-sound]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerRefill.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["SoundProcessView::FillBufferWithSound"]
+symbol = "?FillBufferWithSound@SoundProcessView@@QAEHPAUIDirectSoundBuffer@@H@Z"
+target_address = 0x00440060
+size = 0x16D
+relocations = [
+  { offset = 0x30, type = "REL32", symbol = "?RestoreBuffer@SoundProcessView@@QAEHPAUIDirectSoundBuffer@@PAH@Z", target = 0x0043F9F0 },
+  { offset = 0x5F, type = "REL32", symbol = "?ResetFile@WaveFileProcessView@@QAEH_N@Z", target = 0x0043FE10 },
+  { offset = 0x73, type = "REL32", symbol = "?Read@WaveFileProcessView@@QAEHPAEKPAK@Z", target = 0x0043FEF0 },
+  { offset = 0xD6, type = "REL32", symbol = "?ResetFile@WaveFileProcessView@@QAEH_N@Z", target = 0x0043FE10 },
+  { offset = 0xF7, type = "REL32", symbol = "?Read@WaveFileProcessView@@QAEHPAEKPAK@Z", target = 0x0043FEF0 },
+]
+
+[units.soundmanager-streaming-reset]
+source = "src/SoundManager.cpp"
+object = "build/matching/SoundManagerRefill.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["StreamingSoundProcessView::Reset"]
+symbol = "?Reset@StreamingSoundProcessView@@QAEHXZ"
+target_address = 0x004404D0
+size = 0x73
+relocations = [
+  { offset = 0x2E, type = "REL32", symbol = "?RestoreBuffer@SoundProcessView@@QAEHPAUIDirectSoundBuffer@@PAH@Z", target = 0x0043F9F0 },
+  { offset = 0x45, type = "REL32", symbol = "?FillBufferWithSound@SoundProcessView@@QAEHPAUIDirectSoundBuffer@@H@Z", target = 0x00440060 },
+  { offset = 0x52, type = "REL32", symbol = "?ResetFile@WaveFileProcessView@@QAEH_N@Z", target = 0x0043FE10 },
+]

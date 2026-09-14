@@ -225,6 +225,65 @@ int WaveFileProcessView::Reopen(ThBgmFormatProcessView *newFormat)
     return S_OK;
 }
 
+int SoundProcessView::FillBufferWithSound(
+    LPDIRECTSOUNDBUFFER buffer, int repeatIfBufferLarger)
+{
+    int result;
+    VOID *lockedBuffer = NULL;
+    DWORD lockedBufferSize = 0;
+    DWORD waveDataRead = 0;
+
+    if (buffer == NULL)
+        return CO_E_NOTINITIALIZED;
+    if (FAILED(result = RestoreBuffer(buffer, NULL)))
+        return result;
+    if (FAILED(result = buffer->Lock(
+            0, bufferSize, &lockedBuffer, &lockedBufferSize, NULL, NULL, 0)))
+        return result;
+
+    waveFile->ResetFile(false);
+    if (FAILED(result = waveFile->Read(
+            (BYTE *)lockedBuffer, lockedBufferSize, &waveDataRead)))
+        return result;
+
+    if (waveDataRead == 0)
+    {
+        FillMemory(
+            (BYTE *)lockedBuffer,
+            lockedBufferSize,
+            (BYTE)(waveFile->format->format.wBitsPerSample == 8 ? 128 : 0));
+    }
+    else if (waveDataRead < lockedBufferSize)
+    {
+        if (repeatIfBufferLarger)
+        {
+            DWORD readSoFar = waveDataRead;
+            while (readSoFar < lockedBufferSize)
+            {
+                if (FAILED(result = waveFile->ResetFile(false)))
+                    return result;
+                result = waveFile->Read(
+                    (BYTE *)lockedBuffer + readSoFar,
+                    lockedBufferSize - readSoFar,
+                    &waveDataRead);
+                if (FAILED(result))
+                    return result;
+                readSoFar += waveDataRead;
+            }
+        }
+        else
+        {
+            FillMemory(
+                (BYTE *)lockedBuffer + waveDataRead,
+                lockedBufferSize - waveDataRead,
+                (BYTE)(waveFile->format->format.wBitsPerSample == 8 ? 128 : 0));
+        }
+    }
+
+    buffer->Unlock(lockedBuffer, lockedBufferSize, NULL, 0);
+    return S_OK;
+}
+
 SoundProcessView::SoundProcessView(
     LPDIRECTSOUNDBUFFER *soundBuffers,
     DWORD newBufferSize,
@@ -286,6 +345,141 @@ StreamingSoundProcessView::StreamingSoundProcessView(
 
 StreamingSoundProcessView::~StreamingSoundProcessView()
 {
+}
+
+int StreamingSoundProcessView::HandleWaveStreamNotification(int looped)
+{
+    int result;
+    DWORD currentPlayPosition;
+    DWORD playDelta;
+    VOID *lockedBuffer;
+    VOID *lockedBuffer2;
+    DWORD lockedBufferSize;
+    DWORD lockedBufferSize2;
+    DWORD playCursor;
+    DWORD writeCursor;
+
+    if (buffers == NULL || waveFile == NULL)
+        return CO_E_NOTINITIALIZED;
+
+    buffers[0]->GetCurrentPosition(&playCursor, &writeCursor);
+    if ((nextWriteOffset >= writeCursor - notifySize && nextWriteOffset < writeCursor) ||
+        (writeCursor - notifySize < 0 && nextWriteOffset >= bufferSize - notifySize))
+        return CO_E_FIRST;
+
+    {
+        BOOL restored;
+        if (FAILED(result = RestoreBuffer(buffers[0], &restored)))
+            return result;
+        if (restored)
+        {
+            if (FAILED(result = FillBufferWithSound(buffers[0], FALSE)))
+                return result;
+            return S_OK;
+        }
+    }
+
+    {
+        DWORD bytesWritten;
+        lockedBuffer = NULL;
+        lockedBuffer2 = NULL;
+        if (FAILED(result = buffers[0]->Lock(
+                nextWriteOffset,
+                notifySize,
+                &lockedBuffer,
+                &lockedBufferSize,
+                &lockedBuffer2,
+                &lockedBufferSize2,
+                0)))
+            return result;
+        if (lockedBuffer2 != NULL)
+            return E_UNEXPECTED;
+
+        if (!fillNextNotificationWithSilence)
+        {
+            if (FAILED(result = waveFile->Read(
+                    (BYTE *)lockedBuffer, lockedBufferSize, &bytesWritten)))
+                return result;
+        }
+        else
+        {
+            FillMemory(
+                lockedBuffer,
+                lockedBufferSize,
+                (BYTE)(waveFile->format->format.wBitsPerSample == 8 ? 128 : 0));
+            bytesWritten = lockedBufferSize;
+        }
+
+        if (bytesWritten < lockedBufferSize)
+        {
+            if (!looped)
+            {
+                FillMemory(
+                    (BYTE *)lockedBuffer + bytesWritten,
+                    lockedBufferSize - bytesWritten,
+                    (BYTE)(waveFile->format->format.wBitsPerSample == 8 ? 128 : 0));
+                fillNextNotificationWithSilence = TRUE;
+            }
+            else
+            {
+                DWORD readSoFar = bytesWritten;
+                while (readSoFar < lockedBufferSize)
+                {
+                    if (FAILED(result = waveFile->ResetFile(true)))
+                        return result;
+                    if (FAILED(result = waveFile->Read(
+                            (BYTE *)lockedBuffer + readSoFar,
+                            lockedBufferSize - readSoFar,
+                            &bytesWritten)))
+                        return result;
+                    readSoFar += bytesWritten;
+                }
+            }
+        }
+
+        buffers[0]->Unlock(lockedBuffer, lockedBufferSize, NULL, 0);
+        if (FAILED(result = buffers[0]->GetCurrentPosition(&currentPlayPosition, NULL)))
+            return result;
+
+        if (currentPlayPosition < lastPlayPosition)
+            playDelta = bufferSize - lastPlayPosition + currentPlayPosition;
+        else
+            playDelta = currentPlayPosition - lastPlayPosition;
+        playProgress += playDelta;
+        lastPlayPosition = currentPlayPosition;
+
+        if (fillNextNotificationWithSilence && playProgress >= waveFile->GetSize())
+            buffers[0]->Stop();
+
+        nextWriteOffset += lockedBufferSize;
+        nextWriteOffset %= bufferSize;
+        return S_OK;
+    }
+}
+
+int StreamingSoundProcessView::Reset()
+{
+    int result;
+
+    if (buffers[0] == NULL || waveFile == NULL)
+        return CO_E_NOTINITIALIZED;
+
+    lastPlayPosition = 0;
+    playProgress = 0;
+    nextWriteOffset = 0;
+    fillNextNotificationWithSilence = FALSE;
+
+    BOOL restored;
+    if (FAILED(result = RestoreBuffer(buffers[0], &restored)))
+        return result;
+    if (restored)
+    {
+        if (FAILED(result = FillBufferWithSound(buffers[0], FALSE)))
+            return result;
+    }
+
+    waveFile->ResetFile(false);
+    return buffers[0]->SetCurrentPosition(0);
 }
 
 int SoundManagerProcessView::CreateStreaming(

@@ -917,10 +917,10 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043FEF0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043FFD0,authored_game,SoundManager,authored,high,packet119-zun-wave-lifecycle-vc71-exact-2026-09-13
 0x00440000,third_party,SoundManager,exclude,high,microsoft-dx8-dsutil-soundmanager-provenance-2026-09-13
-0x00440060,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00440060,authored_game,SoundManager,authored,high,packet120-zun-fill-buffer-vc71-exact-2026-09-14
 0x004401D0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00440270,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004404D0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00440270,authored_game,SoundManager,authored,high,packet120-zun-stream-notification-source-nonexact-2026-09-14
+0x004404D0,third_party,SoundManager,exclude,high,microsoft-dx8-dsutil-streaming-reset-provenance-2026-09-14
 0x00440550,third_party,SoundManager,exclude,high,microsoft-dx8-dsutil-wave-destructor-provenance-2026-09-13
 0x00440560,authored_game,SoundManager,authored,high,packet118-zun-wave-streaming-vc71-exact-2026-09-13
 0x004405E0,authored_game,SoundManager,authored,high,packet119-zun-wave-lifecycle-vc71-exact-2026-09-13

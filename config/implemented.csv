@@ -171,3 +171,4 @@ WaveFileProcessView::ResetFile
 WaveFileProcessView::Close
 WaveFileProcessView::Reopen
 SoundProcessView::SoundProcessView
+SoundProcessView::FillBufferWithSound

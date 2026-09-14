@@ -53,6 +53,8 @@ struct WaveFileProcessView
         DWORD newFlags);
     int Close();
     int ResetFile(bool loop);
+    int Read(BYTE *buffer, DWORD sizeToRead, DWORD *sizeRead);
+    DWORD GetSize();
     ThBgmFormatProcessView *GetFormat();
     int Reopen(ThBgmFormatProcessView *newFormat);
 };
@@ -98,6 +100,7 @@ struct SoundProcessView
         DWORD newBufferSize,
         DWORD newBufferCount,
         WaveFileProcessView *newWaveFile);
+    int RestoreBuffer(LPDIRECTSOUNDBUFFER buffer, BOOL *restored);
     int FillBufferWithSound(LPDIRECTSOUNDBUFFER buffer, int looped);
 };
 
