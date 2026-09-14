@@ -10,9 +10,9 @@ their boundaries and origins must be reviewed independently.
 | Confirmed authored functions | 266 |
 | Confirmed authored code bytes | 77,208 |
 | Classified exclusions | 35 |
-| Source-present authored mappings | 233 |
-| Canonical exact functions | 233 |
-| Canonical exact authored bytes | 36,988 |
+| Source-present authored mappings | 234 |
+| Canonical exact functions | 234 |
+| Canonical exact authored bytes | 37,583 |
 
 While review remains pending, the authored exact denominator is unknown. A
 mapped name, maintained source, successful compilation, or IDA similarity does

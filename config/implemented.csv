@@ -231,3 +231,4 @@ AnmManager::SetInterruptArray
 AnmManager::ExecuteScriptArray
 AnmLoaded::SetAndExecuteScript
 AnmLoaded::ExecuteAnmIdxArray
+AnmManager::Project3DQuad

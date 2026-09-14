@@ -794,8 +794,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004396A0,authored_game,AnmManager,authored,high,packet98-render-primitives-vc71-exact-2026-09-13
 0x00439730,authored_game,AnmManager,authored,high,packet99-anm-render-core-vc71-exact-2026-09-13
 0x004397E0,authored_game,AnmManager,authored,high,packet101-anm-draw-geometry-vc71-2026-09-13
-0x00439820,authored_game,AnmManager,authored,high,packet103-anm-remaining-draw-modes-2026-09-13
-0x00439A90,authored_game,AnmManager,authored,high,packet103-anm-remaining-draw-modes-2026-09-13
+0x00439820,authored_game,AnmManager,authored,high,packet129-anm-projection-camera-nonexact-2026-09-15
+0x00439A90,authored_game,AnmManager,authored,high,packet129-anm-project3d-canonical-exact-2026-09-15
 0x00439CF0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00439DC0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00439E90,authored_game,AnmManager,authored,high,packet105-anm-render-state-3d-source-2026-09-13

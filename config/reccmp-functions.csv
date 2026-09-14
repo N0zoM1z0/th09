@@ -232,3 +232,4 @@ AnmManager::SetInterruptArray,0x00436DE0,function
 AnmManager::ExecuteScriptArray,0x00439560,function
 AnmLoaded::SetAndExecuteScript,0x004395A0,function
 AnmLoaded::ExecuteAnmIdxArray,0x00439630,function
+AnmManager::Project3DQuad,0x00439A90,function
