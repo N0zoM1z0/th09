@@ -6,9 +6,9 @@ their boundaries and origins must be reviewed independently.
 | Measure | Count |
 | --- | ---: |
 | Tracked 1.50a function candidates | 2,161 |
-| Origin/boundary review pending | 1,905 |
-| Confirmed authored functions | 221 |
-| Confirmed authored code bytes | 58,996 |
+| Origin/boundary review pending | 1,904 |
+| Confirmed authored functions | 222 |
+| Confirmed authored code bytes | 60,629 |
 | Classified exclusions | 35 |
 | Source-present authored mappings | 191 |
 | Canonical exact functions | 191 |
