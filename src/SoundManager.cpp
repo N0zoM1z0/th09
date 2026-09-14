@@ -1,5 +1,7 @@
 #include "SoundManager.hpp"
 
+#include <stdlib.h>
+
 // Provenance: this translation unit descends from the Microsoft DirectX SDK
 // DSUtil.cpp sample family. Packet 117 classifies the unchanged manager core as
 // third-party; the target-backed WaveFile and streaming-creation extensions below
@@ -154,6 +156,7 @@ struct SoundPlayerBgmStorageView
 {
     unsigned char unknown000[0x6214];
     unsigned int bgmFileBaseOffset;
+    int bgmVolume;
 };
 
 extern SoundPlayerBgmStorageView g_SoundPlayer;
@@ -225,6 +228,77 @@ int WaveFileProcessView::Reopen(ThBgmFormatProcessView *newFormat)
     return S_OK;
 }
 
+DWORD WaveFileProcessView::GetSize()
+{
+    return fileSize;
+}
+
+int WaveFileProcessView::Read(BYTE *buffer, DWORD sizeToRead, DWORD *sizeRead)
+{
+    if (isReadingFromMemory)
+    {
+        if (dataCursor == NULL)
+            return CO_E_NOTINITIALIZED;
+        if (sizeRead != NULL)
+            *sizeRead = 0;
+
+        if (dataCursor + sizeToRead > data + dataSize)
+            sizeToRead = dataSize - (DWORD)(dataCursor - data);
+
+        CopyMemory(buffer, dataCursor, sizeToRead);
+        dataCursor += sizeToRead;
+        if (sizeRead != NULL)
+            *sizeRead = sizeToRead;
+        return S_OK;
+    }
+    else
+    {
+        if (waveFile == NULL)
+            return CO_E_NOTINITIALIZED;
+        if (buffer == NULL || sizeRead == NULL)
+            return E_INVALIDARG;
+
+        UINT bytesIn = sizeToRead;
+        if (bytesIn > chunkSize)
+            bytesIn = chunkSize;
+        chunkSize -= bytesIn;
+
+        DWORD actualSize;
+        ReadFile(waveFile, buffer, bytesIn, &actualSize, NULL);
+        if (sizeRead != NULL)
+            *sizeRead = actualSize;
+        return S_OK;
+    }
+}
+
+int SoundProcessView::RestoreBuffer(LPDIRECTSOUNDBUFFER buffer, BOOL *restored)
+{
+    int result;
+
+    if (buffer == NULL)
+        return CO_E_NOTINITIALIZED;
+    if (restored != NULL)
+        *restored = FALSE;
+
+    DWORD status;
+    if (FAILED(result = buffer->GetStatus(&status)))
+        return result;
+    if (status & DSBSTATUS_BUFFERLOST)
+    {
+        do
+        {
+            result = buffer->Restore();
+            if (result == DSERR_BUFFERLOST)
+                Sleep(10);
+        } while (result = buffer->Restore());
+
+        if (restored != NULL)
+            *restored = TRUE;
+        return S_OK;
+    }
+    return S_FALSE;
+}
+
 int SoundProcessView::FillBufferWithSound(
     LPDIRECTSOUNDBUFFER buffer, int repeatIfBufferLarger)
 {
@@ -282,6 +356,85 @@ int SoundProcessView::FillBufferWithSound(
 
     buffer->Unlock(lockedBuffer, lockedBufferSize, NULL, 0);
     return S_OK;
+}
+
+LPDIRECTSOUNDBUFFER SoundProcessView::GetFreeBuffer()
+{
+    if (buffers == NULL)
+        return NULL;
+
+    DWORD i;
+    for (i = 0; i < bufferCount; ++i)
+    {
+        if (buffers[i] != NULL)
+        {
+            DWORD status = 0;
+            buffers[i]->GetStatus(&status);
+            if ((status & DSBSTATUS_PLAYING) == 0)
+                break;
+        }
+    }
+
+    if (i != bufferCount)
+        return buffers[i];
+    return buffers[rand() % bufferCount];
+}
+
+int SoundProcessView::Play(DWORD newPriority, DWORD newFlags)
+{
+    int result;
+    BOOL restored;
+
+    if (buffers == NULL)
+        return CO_E_NOTINITIALIZED;
+
+    LPDIRECTSOUNDBUFFER buffer = GetFreeBuffer();
+    if (buffer == NULL)
+        return E_FAIL;
+    if (FAILED(result = RestoreBuffer(buffer, &restored)))
+        return result;
+    if (restored)
+    {
+        if (FAILED(result = FillBufferWithSound(buffer, FALSE)))
+            return result;
+        Reset();
+    }
+
+    fadeType = 0;
+    currentFadeProgress = 0;
+    totalFade = 0;
+    SetVolume(0);
+    isPlaying = TRUE;
+    priority = newPriority;
+    flags = newFlags;
+    unknown2C = 0;
+    unknown30 = 1;
+    return buffer->Play(0, newPriority, newFlags);
+}
+
+int SoundProcessView::SetVolume(int volume)
+{
+    float volumeScale = g_SoundPlayer.bgmVolume / 100.0f;
+
+    if (g_SoundPlayer.bgmVolume != 0)
+    {
+        volumeScale = 1.0f - volumeScale;
+        volumeScale = volumeScale * volumeScale;
+        volumeScale = 1.0f - volumeScale;
+        return buffers[0]->SetVolume((int)((volume + 5000) * volumeScale) - 5000);
+    }
+    return buffers[0]->SetVolume(DSBVOLUME_MIN);
+}
+
+int SoundProcessView::Reset()
+{
+    if (buffers == NULL)
+        return CO_E_NOTINITIALIZED;
+
+    int result = 0;
+    for (DWORD i = 0; i < bufferCount; ++i)
+        result |= buffers[i]->SetCurrentPosition(0);
+    return result;
 }
 
 SoundProcessView::SoundProcessView(

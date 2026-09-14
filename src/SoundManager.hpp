@@ -83,11 +83,11 @@ struct SoundProcessView
     DWORD bufferSize;
     WaveFileProcessView *waveFile;
     DWORD bufferCount;
-    int unknown14;
-    int unknown18;
-    int unknown1C;
-    DWORD unknown20;
-    DWORD unknown24;
+    int currentFadeProgress;
+    int totalFade;
+    int fadeType;
+    DWORD priority;
+    DWORD flags;
     DWORD unknown28;
     DWORD unknown2C;
     DWORD unknown30;
@@ -102,6 +102,10 @@ struct SoundProcessView
         WaveFileProcessView *newWaveFile);
     int RestoreBuffer(LPDIRECTSOUNDBUFFER buffer, BOOL *restored);
     int FillBufferWithSound(LPDIRECTSOUNDBUFFER buffer, int looped);
+    LPDIRECTSOUNDBUFFER GetFreeBuffer();
+    int Play(DWORD newPriority, DWORD newFlags);
+    int SetVolume(int volume);
+    int Reset();
 };
 
 typedef char SoundProcessViewSize[(sizeof(SoundProcessView) == 0x60) ? 1 : -1];
@@ -109,6 +113,12 @@ typedef char SoundProcessBuffersAt04[(offsetof(SoundProcessView, buffers) == 0x0
 typedef char SoundProcessBufferSizeAt08[(offsetof(SoundProcessView, bufferSize) == 0x08) ? 1 : -1];
 typedef char SoundProcessWaveFileAt0C[(offsetof(SoundProcessView, waveFile) == 0x0C) ? 1 : -1];
 typedef char SoundProcessBufferCountAt10[(offsetof(SoundProcessView, bufferCount) == 0x10) ? 1 : -1];
+typedef char SoundProcessCurrentFadeAt14[
+    (offsetof(SoundProcessView, currentFadeProgress) == 0x14) ? 1 : -1];
+typedef char SoundProcessTotalFadeAt18[(offsetof(SoundProcessView, totalFade) == 0x18) ? 1 : -1];
+typedef char SoundProcessFadeTypeAt1C[(offsetof(SoundProcessView, fadeType) == 0x1C) ? 1 : -1];
+typedef char SoundProcessPriorityAt20[(offsetof(SoundProcessView, priority) == 0x20) ? 1 : -1];
+typedef char SoundProcessFlagsAt24[(offsetof(SoundProcessView, flags) == 0x24) ? 1 : -1];
 typedef char SoundProcessUnknown30At30[(offsetof(SoundProcessView, unknown30) == 0x30) ? 1 : -1];
 typedef char SoundProcessIsPlayingAt34[(offsetof(SoundProcessView, isPlaying) == 0x34) ? 1 : -1];
 typedef char SoundProcessDsbdAt38[(offsetof(SoundProcessView, bufferDescription) == 0x38) ? 1 : -1];
@@ -135,11 +145,9 @@ struct StreamingSoundProcessView : SoundProcessView
     WaveFileProcessView *GetWaveFile();
     int Reset();
     void InitSoundBuffers();
-    void Play(unsigned int priority, unsigned int flags);
     void Stop();
     void Pause();
     void Unpause();
-    void SetVolume(int volume);
     int HandleWaveStreamNotification(int looped);
 };
 

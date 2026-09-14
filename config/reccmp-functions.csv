@@ -173,3 +173,7 @@ WaveFileProcessView::Close,0x0043FFD0,function
 WaveFileProcessView::Reopen,0x004405E0,function
 SoundProcessView::SoundProcessView,0x00440650,function
 SoundProcessView::FillBufferWithSound,0x00440060,function
+SoundProcessView::SetVolume,0x0043FB10,function
+WaveFileProcessView::Read,0x0043FEF0,function
+SoundProcessView::Play,0x004401D0,function
+StreamingSoundProcessView::HandleWaveStreamNotification,0x00440270,function

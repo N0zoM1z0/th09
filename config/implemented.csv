@@ -172,3 +172,7 @@ WaveFileProcessView::Close
 WaveFileProcessView::Reopen
 SoundProcessView::SoundProcessView
 SoundProcessView::FillBufferWithSound
+SoundProcessView::SetVolume
+WaveFileProcessView::Read
+SoundProcessView::Play
+StreamingSoundProcessView::HandleWaveStreamNotification
