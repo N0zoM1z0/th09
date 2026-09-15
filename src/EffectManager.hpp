@@ -48,7 +48,7 @@ struct Effect
     unsigned char unknown084[0x88 - 0x84];
     int value88;
     int value8C;
-    unsigned char unknown090[0x94 - 0x90];
+    int fixedSlotIndex;
     int value94;
     int value98;
     float value9C;
@@ -71,6 +71,7 @@ struct Effect
 };
 typedef char EffectSizeIsD8[(sizeof(Effect) == 0xD8) ? 1 : -1];
 typedef char EffectValue7CAt7C[(offsetof(Effect, value7C) == 0x7C) ? 1 : -1];
+typedef char EffectFixedSlotIndexAt90[(offsetof(Effect, fixedSlotIndex) == 0x90) ? 1 : -1];
 typedef char EffectValue9CAt9C[(offsetof(Effect, value9C) == 0x9C) ? 1 : -1];
 typedef char EffectTimerAtAC[(offsetof(Effect, timer) == 0xAC) ? 1 : -1];
 typedef char EffectUpdateAtBC[(offsetof(Effect, updateCallback) == 0xBC) ? 1 : -1];
@@ -85,6 +86,11 @@ struct EffectManager
     int ResetPool();
     Effect *InitializeEffect(Effect *effect, int effectId, const EffectFloat3 *position,
                              unsigned int color, const EffectFloat3 *velocity);
+    Effect *SpawnEffect(int effectId, const EffectFloat3 *position, int count, unsigned int color);
+    Effect *SpawnEffectWithVelocity(int effectId, const EffectFloat3 *position,
+                                    const EffectFloat3 *velocity, int count, unsigned int color);
+    Effect *SpawnEffectInFixedSlot(int effectId, const EffectFloat3 *position,
+                                   int slotIndex, unsigned int color);
     int ReleasePool();
     static int OnUpdate(EffectManager *effectManager);
     static int OnDraw(EffectManager *effectManager);
@@ -93,7 +99,7 @@ struct EffectManager
     static void Release(EffectManager *effectManager);
     static EffectManager *Create(int sideIndex, int primaryCount, int secondaryCount);
 
-    int unknown000;
+    int nextEffectIndex;
     int unknown004;
     int activeCount;
     int sideIndex;

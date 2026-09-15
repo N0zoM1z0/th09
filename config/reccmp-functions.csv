@@ -302,3 +302,6 @@ Effect::Effect,0x0040D2C0,function
 EffectManager::EffectManager,0x0040D2E0,function
 EffectManager::Create,0x0040D320,function
 EffectUpdateFromVm,0x0040D470,function
+EffectManager::SpawnEffect,0x0040CC00,function
+EffectManager::SpawnEffectWithVelocity,0x0040CCC0,function
+EffectManager::SpawnEffectInFixedSlot,0x0040CD70,function

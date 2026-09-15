@@ -6155,3 +6155,42 @@ target_address = 0x0040D470
 size = 0x57
 relocations = [
 ]
+
+
+[units.effect-manager-spawn-effect]
+source = "src/EffectManager.cpp"
+object = "build/matching/EffectManager.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectManager::SpawnEffect"]
+symbol = "?SpawnEffect@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@HI@Z"
+target_address = 0x0040CC00
+size = 0xB8
+relocations = [
+  { offset = 0x24, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+  { offset = 0x64, type = "REL32", symbol = "?InitializeEffect@EffectManager@@QAEPAUEffect@@PAU2@HPBUEffectFloat3@@I1@Z", target = 0x0040CA60 },
+]
+
+[units.effect-manager-spawn-effect-with-velocity]
+source = "src/EffectManager.cpp"
+object = "build/matching/EffectManager.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectManager::SpawnEffectWithVelocity"]
+symbol = "?SpawnEffectWithVelocity@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@0HI@Z"
+target_address = 0x0040CCC0
+size = 0xAF
+relocations = [
+  { offset = 0x5E, type = "REL32", symbol = "?InitializeEffect@EffectManager@@QAEPAUEffect@@PAU2@HPBUEffectFloat3@@I1@Z", target = 0x0040CA60 },
+]
+
+[units.effect-manager-spawn-effect-fixed-slot]
+source = "src/EffectManager.cpp"
+object = "build/matching/EffectManager.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectManager::SpawnEffectInFixedSlot"]
+symbol = "?SpawnEffectInFixedSlot@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@HI@Z"
+target_address = 0x0040CD70
+size = 0x55
+relocations = [
+  { offset = 0x28, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+  { offset = 0x40, type = "REL32", symbol = "?InitializeEffect@EffectManager@@QAEPAUEffect@@PAU2@HPBUEffectFloat3@@I1@Z", target = 0x0040CA60 },
+]

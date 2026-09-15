@@ -301,3 +301,6 @@ Effect::Effect
 EffectManager::EffectManager
 EffectManager::Create
 EffectUpdateFromVm
+EffectManager::SpawnEffect
+EffectManager::SpawnEffectWithVelocity
+EffectManager::SpawnEffectInFixedSlot

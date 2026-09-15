@@ -143,9 +143,9 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0040C960,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0040C990,authored_game,EffectManager,authored,high,effect-system-module-2026-09-15
 0x0040CA60,authored_game,EffectManager,authored,high,effect-system-module-2026-09-15
-0x0040CC00,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0040CCC0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0040CD70,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0040CC00,authored_game,EffectManager,authored,high,effect-spawn-api-2026-09-15
+0x0040CCC0,authored_game,EffectManager,authored,high,effect-spawn-api-2026-09-15
+0x0040CD70,authored_game,EffectManager,authored,high,effect-spawn-api-2026-09-15
 0x0040CDD0,authored_game,EffectManager,authored,high,effect-system-module-2026-09-15
 0x0040CFB0,authored_game,EffectManager,authored,high,effect-system-module-2026-09-15
 0x0040D070,authored_game,EffectManager,authored,high,effect-system-module-2026-09-15

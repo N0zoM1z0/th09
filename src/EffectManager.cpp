@@ -1,4 +1,5 @@
 #include "EffectManager.hpp"
+#include "AsciiManager.hpp"
 #include "ZunMemory.hpp"
 
 #include <new>
@@ -153,6 +154,87 @@ Effect *EffectManager::InitializeEffect(
     if (g_EffectTemplates[effectId].initializeCallback != NULL &&
         g_EffectTemplates[effectId].initializeCallback(effect) != 0)
         effect->active = 0;
+    return effect;
+}
+
+Effect *EffectManager::SpawnEffect(
+    int effectId, const EffectFloat3 *position, int count, unsigned int color)
+{
+    int effectIndex = this->nextEffectIndex;
+    Effect *effect = this->effects + effectIndex;
+    Float3 velocity(0.0f, 0.0f, 0.0f);
+    int i;
+
+    for (i = 0; i < this->primaryCount; ++i)
+    {
+        effectIndex++;
+        this->nextEffectIndex = effectIndex;
+        if (effectIndex >= this->primaryCount)
+            this->nextEffectIndex = 0;
+
+        if (effect->active == 0)
+        {
+            this->InitializeEffect(
+                effect, effectId, position, color,
+                reinterpret_cast<const EffectFloat3 *>(&velocity));
+            count--;
+            if (count == 0)
+                break;
+        }
+
+        effectIndex = this->nextEffectIndex;
+        if (effectIndex == 0)
+            effect = this->effects;
+        else
+            effect++;
+    }
+
+    return i >= this->primaryCount
+        ? &this->effects[this->primaryCount + this->secondaryCount]
+        : effect;
+}
+
+Effect *EffectManager::SpawnEffectWithVelocity(
+    int effectId, const EffectFloat3 *position, const EffectFloat3 *velocity,
+    int count, unsigned int color)
+{
+    Effect *effect = this->effects + this->nextEffectIndex;
+    int i;
+
+    for (i = 0; i < this->primaryCount; ++i)
+    {
+        this->nextEffectIndex++;
+        if (this->nextEffectIndex >= this->primaryCount)
+            this->nextEffectIndex = 0;
+
+        if (effect->active == 0)
+        {
+            this->InitializeEffect(effect, effectId, position, color, velocity);
+            count--;
+            if (count == 0)
+                break;
+        }
+
+        if (this->nextEffectIndex == 0)
+            effect = this->effects;
+        else
+            effect++;
+    }
+
+    return i >= this->primaryCount
+        ? &this->effects[this->primaryCount + this->secondaryCount]
+        : effect;
+}
+
+Effect *EffectManager::SpawnEffectInFixedSlot(
+    int effectId, const EffectFloat3 *position, int slotIndex, unsigned int color)
+{
+    Effect *effect = &this->effects[this->primaryCount + slotIndex];
+    Float3 velocity(0.0f, 0.0f, 0.0f);
+    this->InitializeEffect(
+        effect, effectId, position, color,
+        reinterpret_cast<const EffectFloat3 *>(&velocity));
+    effect->fixedSlotIndex = slotIndex;
     return effect;
 }
 
