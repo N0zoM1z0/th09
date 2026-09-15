@@ -300,6 +300,7 @@ struct PlayerLifecycleView
     void SetBombMode1();
     void SetBombMode2();
     void UpdateShots();
+    void EnterDeathState();
     void UpdateHeavyState();
     void DrawActiveShots();
     void DrawTailStates();

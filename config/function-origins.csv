@@ -400,9 +400,9 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041DF80,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041DFF0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041E350,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041E420,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041E720,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041E8B0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041E420,authored_game,Player,authored,high,player-death-transition-source-nonexact-2026-09-15
+0x0041E720,authored_game,Player,authored,high,player-death-state-private-abi-2026-09-15
+0x0041E8B0,authored_game,Player,authored,high,player-death-trigger-private-abi-2026-09-15
 0x0041E900,authored_game,Player,authored,high,player-on-update-vc71-exact-2026-09-15
 0x0041EB10,authored_game,Player,authored,high,player-draw-high-prio-vc71-exact-2026-09-15
 0x0041EBC0,authored_game,Player,authored,high,player-initialize-added-state-source-nonexact-2026-09-15
