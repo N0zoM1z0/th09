@@ -6566,3 +6566,141 @@ relocations = [
   { offset = 0x14B, type = "DIR32", symbol = "__real@42400000", target = 0x0048E3B0 },
   { offset = 0x154, type = "DIR32", symbol = "__real@42400000", target = 0x0048E3B0 },
 ]
+
+[units.anm-manager-set-camera-mode]
+source = "src/AnmManagerBackground.cpp"
+object = "build/matching/AnmManagerBackground.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::SetCameraMode"]
+symbol = "?SetCameraMode@AnmManager@@QAEXH@Z"
+target_address = 0x00401600
+size = 0x10
+relocations = []
+
+[units.anm-manager-set-mix-color-default]
+source = "src/AnmManagerBackground.cpp"
+object = "build/matching/AnmManagerBackground.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::SetMixColorDefault"]
+symbol = "?SetMixColorDefault@AnmManager@@QAEXXZ"
+target_address = 0x00401610
+size = 0x0E
+relocations = []
+
+[units.anm-manager-set-mix-color]
+source = "src/AnmManagerBackground.cpp"
+object = "build/matching/AnmManagerBackground.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::SetMixColor"]
+symbol = "?SetMixColor@AnmManager@@QAEXK@Z"
+target_address = 0x00401620
+size = 0x13
+relocations = []
+
+[units.anm-manager-draw-2d-and-flush]
+source = "src/AnmManagerBackground.cpp"
+object = "build/matching/AnmManagerBackground.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::Draw2DAndFlush"]
+symbol = "?Draw2DAndFlush@AnmManager@@QAEXPAUAnmVm@@@Z"
+target_address = 0x00401640
+size = 0x1B
+relocations = [
+  { offset = 0x0B, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
+  { offset = 0x12, type = "REL32", symbol = "?FlushVertexBuffer@AnmManager@@QAEXXZ", target = 0x004396A0 },
+]
+
+[units.anm-manager-get-anm]
+source = "src/AnmManagerBackground.cpp"
+object = "build/matching/AnmManagerBackground.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::GetAnm"]
+symbol = "?GetAnm@AnmManager@@QAEPAVAnmLoaded@@H@Z"
+target_address = 0x00401660
+size = 0x14
+relocations = []
+
+[units.anm-vm-constructor]
+source = "src/AnmVmLifecycle.cpp"
+object = "build/matching/AnmVmLifecycle.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmVm::AnmVm"]
+symbol = "??0AnmVm@@QAE@XZ"
+target_address = 0x00403A10
+size = 0x2D
+relocations = [
+  { offset = 0x05, type = "REL32", symbol = "??0AnmVmBase@@QAE@XZ", target = 0x004033A0 },
+  { offset = 0x10, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+]
+
+[units.background-load-stage-data]
+source = "src/Background.cpp"
+object = "build/matching/Background.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Background::LoadStageData"]
+symbol = "?LoadStageData@Background@@QAEHPBD@Z"
+target_address = 0x00402570
+size = 0x141
+relocations = [
+  { offset = 0x0F, type = "REL32", symbol = "?OpenFile@FileSystem@@YIPAEPBDPAHH@Z", target = 0x0042C970 },
+  { offset = 0x1E, type = "DIR32", symbol = "?g_BackgroundStageMissingMessage@@3PADA", target = 0x0048E2D8 },
+  { offset = 0x23, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x28, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+  { offset = 0xAE, type = "DIR32", symbol = "??_C@_08IKHPBOIG@bgscroll?$AA@", target = 0x0048E2CC },
+  { offset = 0xB4, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0xB9, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0x104, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+]
+
+[units.background-deleted-callback]
+source = "src/Background.cpp"
+object = "build/matching/Background.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Background::DeletedCallback"]
+symbol = "?DeletedCallback@Background@@SIHPAU1@@Z"
+target_address = 0x004024D0
+size = 0x55
+relocations = [
+  { offset = 0x04, type = "REL32", symbol = "?ShouldReleaseStageResources@@YIHXZ", target = 0x00415CF0 },
+  { offset = 0x0E, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x15, type = "REL32", symbol = "?ReleaseAnm@AnmManager@@QAEXH@Z", target = 0x0043CA30 },
+  { offset = 0x22, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x27, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x3E, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x43, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+]
+
+[units.background-clear-spell-state]
+source = "src/Background.cpp"
+object = "build/matching/Background.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Background::ClearSpellBackgroundState"]
+symbol = "?ClearSpellBackgroundState@Background@@QAEXXZ"
+target_address = 0x004011C0
+size = 0x0B
+relocations = []
+
+[units.stage-resource-release-policy]
+source = "src/StageResourcePolicy.cpp"
+object = "build/matching/StageResourcePolicy.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ShouldReleaseStageResources"]
+symbol = "?ShouldReleaseStageResources@@YIHXZ"
+target_address = 0x00415CF0
+size = 0x06
+relocations = [
+  { offset = 0x01, type = "DIR32", symbol = "?g_StageResourceReleasePolicy@@3HA", target = 0x004B3698 },
+]
+
+[units.supervisor-enable-fog]
+source = "src/SupervisorRenderState.cpp"
+object = "build/matching/SupervisorRenderState.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Supervisor::EnableFog"]
+symbol = "?EnableFog@Supervisor@@QAEHXZ"
+target_address = 0x0042FEC0
+size = 0x38
+relocations = [
+  { offset = 0x05, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x0A, type = "REL32", symbol = "?FlushVertexBuffer@AnmManager@@QAEXXZ", target = 0x004396A0 },
+]

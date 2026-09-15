@@ -56,6 +56,10 @@ class AnmManager
     int DrawNoRotationFlippedX(AnmVm *vm);
     void TranslateRotation(VertexTex1DiffuseXyzrhw *vertex, float x, float y, float sine, float cosine, float xOffset, float yOffset);
     int Draw2D(AnmVm *vm);
+    void Draw2DAndFlush(AnmVm *vm);
+    void SetCameraMode(int mode);
+    void SetMixColorDefault();
+    void SetMixColor(unsigned long color);
     int Draw2DRotatedOrAxisAligned(AnmVm *vm);
     int DrawNoRotationNoRound(AnmVm *vm);
     int ProjectCameraFacingQuad(AnmVm *vm);
@@ -82,6 +86,7 @@ class AnmManager
     int SpriteHasTexture(AnmVm *vm);
     void DrawPlayerBullet(AnmVm *vm);
     AnmLoaded *LoadAnm(int anmIdx, const char *filename);
+    AnmLoaded *GetAnm(int anmIdx);
     AnmLoaded *ReadAnmEntries(int anmIdx, const char *filename);
     int CreateEmptyTexture(IDirect3DTexture8 **outTexture, int width, int height, int format);
     int CreateTextureFromFile(AnmEntry *entry, int format, int colorKey);

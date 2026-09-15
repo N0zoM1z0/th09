@@ -28,6 +28,19 @@ int Supervisor::IsMusicPreloaded()
     return (this->config388.options >> 4) & 1;
 }
 
+int Supervisor::EnableFog()
+{
+    SupervisorRenderStateLayout *supervisor =
+        reinterpret_cast<SupervisorRenderStateLayout *>(this);
+
+    g_AnmManager->FlushVertexBuffer();
+    if (supervisor->fogState != 1) {
+        supervisor->fogState = 1;
+        return supervisor->d3dDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
+    }
+    return 0;
+}
+
 int Supervisor::DisableFog()
 {
     SupervisorRenderStateLayout *supervisor =

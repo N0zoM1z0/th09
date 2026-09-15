@@ -26,6 +26,7 @@ class Supervisor
     int LoadConfig(char *configFile);
     int IsFogDisabled();
     int DisableFog();
+    int EnableFog();
     void SetRenderState(int state, int value);
     int Is16BitTexturesForced();
     int IsWindowed();
