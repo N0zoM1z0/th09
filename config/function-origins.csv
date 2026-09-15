@@ -82,7 +82,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00404950,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00404970,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00404980,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004049A0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004049A0,authored_game,Player,authored,high,packet-149-core-boss-owner-triage
 0x00405650,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00405660,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00405700,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -212,7 +212,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004101D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00410250,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004102B0,authored_game,EnemyManager,authored,high,packet-148-enemy-ecl-hard-frontier
-0x00410730,authored_game,EnemyManager,authored,high,packet-148-enemy-ecl-hard-frontier
+0x00410730,authored_game,EnemyManager,authored,high,packet-149-enemy-manager-on-update
 0x00411670,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00411D50,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00411D80,unknown,,review,unknown,ida-1.50a-initial-inventory
