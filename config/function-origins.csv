@@ -125,7 +125,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00408040,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00408180,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00408560,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004086C0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004086C0,authored_game,EclManager,authored,high,packet-148-enemy-ecl-hard-frontier
 0x0040C390,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0040C3C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0040C3F0,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -211,8 +211,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00410110,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004101D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00410250,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004102B0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00410730,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004102B0,authored_game,EnemyManager,authored,high,packet-148-enemy-ecl-hard-frontier
+0x00410730,authored_game,EnemyManager,authored,high,packet-148-enemy-ecl-hard-frontier
 0x00411670,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00411D50,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00411D80,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -226,7 +226,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004120D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00412100,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004121D0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00412240,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00412240,authored_game,EnemyManager,authored,high,packet-148-enemy-ecl-hard-frontier
 0x00412390,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004123C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00412470,unknown,,review,unknown,ida-1.50a-initial-inventory
