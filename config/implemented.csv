@@ -310,3 +310,7 @@ ExAttackController::Register
 PlayerRelease
 PlayerRegisterChain
 PlayerLifecycleView::OnUpdate
+PlayerLifecycleView::OnDrawLowPrio
+ReleasePlayerOwnedResources
+PlayerLifecycleView::OnDrawHighPrio
+PlayerLifecycleView::PlayerLifecycleView

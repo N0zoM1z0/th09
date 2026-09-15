@@ -47,10 +47,35 @@ PlayerLifecycleView *__fastcall PlayerRegisterChain(unsigned char playerType, in
     return player;
 }
 
+
+struct PlayerLifecycleAnmManagerView
+{
+    void ReleaseAnm(int anmIdx);
+};
+
+extern PlayerLifecycleAnmManagerView *g_PlayerLifecycleAnmManager;
+extern PlayerShtFileView *g_PlayerShtFilesBySide[2];
+extern int IsPlayerResourceReleaseRequired();
+
+static int ReleasePlayerOwnedResources(PlayerLifecycleView *player)
+{
+    if (IsPlayerResourceReleaseRequired())
+    {
+        g_PlayerLifecycleAnmManager->ReleaseAnm(player->sideIndex + 5);
+        if (player->primaryShtFile != NULL)
+        {
+            g_ZunMemory.Free(player->primaryShtFile);
+            player->primaryShtFile = NULL;
+            g_PlayerShtFilesBySide[player->sideIndex] = NULL;
+        }
+    }
+    return 0;
+}
+
 void __fastcall PlayerRelease(PlayerLifecycleView *player)
 {
     if (player != NULL) {
-        player->ReleaseOwnedState();
+        ReleasePlayerOwnedResources(player);
         g_Chain.Cut(player->drawChainHighPrio);
         player->drawChainHighPrio = NULL;
         g_Chain.Cut(player->drawChainLowPrio);

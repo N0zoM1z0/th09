@@ -16,6 +16,7 @@ struct PlayerAnmManagerView
 {
     void *GetAnm(int anmIdx);
     int ExecuteScript(void *vm);
+    int DrawNoRotation(void *vm);
 };
 
 extern PlayerAnmManagerView *g_AnmManager;
@@ -98,7 +99,7 @@ resourceReady:
     player->tableValue303F8 = g_PlayerTable303F8[sideState->shotType20];
     player->tableValue303FC = g_PlayerTable303FC[sideState->shotType20];
     player->tableValue30400 = g_PlayerTable30400[sideState->shotType20];
-    player->anmFile = g_AnmManager->GetAnm(player->sideIndex + 5);
+    player->header24.anmFile98 = g_AnmManager->GetAnm(player->sideIndex + 5);
 
     PlayerShtFileView *sht = player->primaryShtFile;
     player->hurtboxHalfSize.y = sht->hurtboxSize * 0.5f;
@@ -112,16 +113,16 @@ resourceReady:
     player->itemCollectionHalfSize.z = 5.0f;
 
     player->scalar30388 = 100.0f;
-    player->owner30410 = player;
-    player->callback30450 = g_PlayerCallback30450[sideState->shotType20];
-    player->state0A0 = 1;
-    player->state0A4 = 1;
-    player->selfLink09C = player;
-    player->selfLink36C = player;
-    player->state0AC = 2;
-    player->state0B0 = 0;
-    player->state0B4 = 0;
-    player->state0B8 = 0;
+    player->ownerState30410.owner00 = player;
+    player->ownerState30410.callback40 = g_PlayerCallback30450[sideState->shotType20];
+    player->header24.state7C = 1;
+    player->header24.state80 = 1;
+    player->header24.selfLink78 = player;
+    player->history36C.selfLink00 = player;
+    player->header24.state88 = 2;
+    player->header24.state8C = 0;
+    player->header24.state90 = 0;
+    player->header24.state94 = 0;
     player->callback30404 = g_PlayerCallback30404[sideState->shotType20];
     player->callback30408 = g_PlayerCallback30408[sideState->shotType20];
     player->InitializeAddedState();
@@ -240,6 +241,7 @@ struct PlayerSharedRuntimeView
     int IsBlocked();
     unsigned char unknown0000[0x1095C];
     int updateBlock1095C;
+    int drawCounter10960;
 };
 extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
 
@@ -315,12 +317,18 @@ static void UpdatePlayerBombState(PlayerLifecycleView *player)
 struct PlayerSupervisorRuntimeView
 {
     void SelectSide(int sideIndex);
+    void PreparePlayerDraw(int sideIndex);
+    void ConfigureGameplayViewport(int sideIndex);
 };
 extern PlayerSupervisorRuntimeView g_PlayerSupervisorRuntime;
 
 struct PlayerGameManagerRuntimeView
 {
     int CheckTimingState();
+    float TransformPopupX(float value);
+    float TransformPopupY(float value);
+    unsigned char unknown000[0x13D];
+    unsigned char suppressPlayerDraw13D;
 };
 extern PlayerGameManagerRuntimeView g_PlayerGameManagerRuntime;
 
@@ -403,12 +411,12 @@ afterTransition:
         player->GetUpdateState() != 1)
         player->UpdateStateValue();
 
-    g_AnmManager->ExecuteScript(player->mainVm);
+    g_AnmManager->ExecuteScript(&player->mainVm);
     player->UpdateAfterAnimation();
 
     if (!g_PlayerSharedRuntime->IsBlocked())
     {
-        ++player->activeFrameCounter3044C;
+        ++player->ownerState30410.activeFrameCounter3C;
         if ((player->flags1B80 & 8) != 0)
         {
             g_SoundPlayer.PlaySoundByIdx(48, player->sideIndex != 0 ? 500 : -500);
@@ -440,8 +448,48 @@ afterTransition:
 
     PlayerUpdateStageD();
     if ((player->sideState->flags34 & 1) == 0)
-        PlayerUpdateOwnerState(reinterpret_cast<unsigned char *>(player) + 0x30410);
+        PlayerUpdateOwnerState(&player->ownerState30410);
 
     player->transient1B70 = 0;
+    return 1;
+}
+
+
+PlayerLifecycleView::PlayerLifecycleView()
+{
+}
+
+int __fastcall PlayerLifecycleView::OnDrawHighPrio(PlayerLifecycleView *player)
+{
+    g_PlayerSupervisorRuntime.PreparePlayerDraw(player->sideIndex);
+    if (player->GetUpdateState() == 5)
+        goto drawOptions;
+
+    player->DrawActiveShots();
+    if (player->header24.state84 == 0)
+    {
+        if (g_PlayerSharedRuntime->updateBlock1095C >= 2)
+            return 1;
+        if (g_PlayerSharedRuntime->drawCounter10960 > 30)
+            return 1;
+    }
+
+    if (g_PlayerGameManagerRuntime.suppressPlayerDraw13D == 0)
+    {
+        player->mainVm.position208.x = g_PlayerGameManagerRuntime.TransformPopupX(player->position1B88.x);
+        player->mainVm.position208.y = g_PlayerGameManagerRuntime.TransformPopupY(player->position1B88.y);
+        player->mainVm.position208.z = 0.1f;
+        g_AnmManager->DrawNoRotation(&player->mainVm);
+    }
+
+drawOptions:
+    player->DrawOptionStates();
+    return 1;
+}
+
+int __fastcall PlayerLifecycleView::OnDrawLowPrio(PlayerLifecycleView *player)
+{
+    g_PlayerSupervisorRuntime.ConfigureGameplayViewport(player->sideIndex);
+    player->DrawHitShots();
     return 1;
 }

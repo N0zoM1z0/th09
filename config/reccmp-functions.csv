@@ -311,3 +311,7 @@ ExAttackController::Register,0x004157D0,function
 PlayerRelease,0x0041CED0,function
 PlayerRegisterChain,0x0041F170,function
 PlayerLifecycleView::OnUpdate,0x0041E900,function
+PlayerLifecycleView::OnDrawLowPrio,0x0041CDC0,function
+ReleasePlayerOwnedResources,0x0041CE60,function
+PlayerLifecycleView::OnDrawHighPrio,0x0041EB10,function
+PlayerLifecycleView::PlayerLifecycleView,0x0041F070,function

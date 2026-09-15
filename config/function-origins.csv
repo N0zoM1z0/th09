@@ -377,9 +377,9 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041CA00,authored_game,Player,authored,high,player-bomb-runtime-source-2026-09-15
 0x0041CB50,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041CC80,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041CDC0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041CDC0,authored_game,Player,authored,high,player-draw-low-prio-vc71-exact-2026-09-15
 0x0041CDE0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041CE60,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041CE60,authored_game,Player,authored,high,player-release-owned-resources-vc71-exact-2026-09-15
 0x0041CEB0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041CED0,authored_game,Player,authored,high,player-release-vc71-exact-2026-09-15
 0x0041CF30,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -404,7 +404,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041E720,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041E8B0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041E900,authored_game,Player,authored,high,player-on-update-vc71-exact-2026-09-15
-0x0041EB10,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041EB10,authored_game,Player,authored,high,player-draw-high-prio-vc71-exact-2026-09-15
 0x0041EBC0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041EE00,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041EE20,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -412,7 +412,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041EE50,authored_game,Player,authored,high,player-added-callback-source-2026-09-15
 0x0041F010,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041F030,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041F070,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041F070,authored_game,Player,authored,high,player-constructor-vc71-exact-2026-09-15
 0x0041F170,authored_game,Player,authored,high,player-register-chain-vc71-exact-2026-09-15
 0x0041F2C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041F300,unknown,,review,unknown,ida-1.50a-initial-inventory
