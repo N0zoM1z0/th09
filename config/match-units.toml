@@ -5634,3 +5634,176 @@ relocations = [
   { offset = 0x1B4, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x1BF, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
 ]
+
+[units.text-helper-get-buffer]
+source = "src/TextHelper.cpp"
+object = "build/matching/TextHelper.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TextHelper::GetBuffer"]
+symbol = "?GetBuffer@TextHelper@@QAEPAEXZ"
+target_address = 0x00435EB0
+size = 0x4
+relocations = [
+]
+
+[units.text-helper-get-hdc]
+source = "src/TextHelper.cpp"
+object = "build/matching/TextHelper.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TextHelper::GetHDC"]
+symbol = "?GetHDC@TextHelper@@QAEPAUHDC__@@XZ"
+target_address = 0x00435ED0
+size = 0x4
+relocations = [
+]
+
+[units.text-helper-get-image-width]
+source = "src/TextHelper.cpp"
+object = "build/matching/TextHelper.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TextHelper::GetImageWidthInBytes"]
+symbol = "?GetImageWidthInBytes@TextHelper@@QAEIXZ"
+target_address = 0x00435EE0
+size = 0x4
+relocations = [
+]
+
+[units.text-helper-get-width]
+source = "src/TextHelper.cpp"
+object = "build/matching/TextHelper.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TextHelper::GetWidth"]
+symbol = "?GetWidth@TextHelper@@QAEHXZ"
+target_address = 0x00435EF0
+size = 0x4
+relocations = [
+]
+
+[units.text-helper-get-height]
+source = "src/TextHelper.cpp"
+object = "build/matching/TextHelper.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TextHelper::GetHeight"]
+symbol = "?GetHeight@TextHelper@@QAEHXZ"
+target_address = 0x00435F00
+size = 0x4
+relocations = [
+]
+
+[units.text-helper-is-allocated]
+source = "src/TextHelper.cpp"
+object = "build/matching/TextHelper.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TextHelper::IsAllocated"]
+symbol = "?IsAllocated@TextHelper@@QAE_NXZ"
+target_address = 0x00435F10
+size = 0xB
+relocations = [
+]
+
+[units.text-helper-constructor]
+source = "src/TextHelper.cpp"
+object = "build/matching/TextHelper.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TextHelper::TextHelper"]
+symbol = "??0TextHelper@@QAE@XZ"
+target_address = 0x00435F20
+size = 0x1D
+relocations = [
+]
+
+[units.text-helper-release-buffer]
+source = "src/TextHelper.cpp"
+object = "build/matching/TextHelper.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TextHelper::ReleaseBuffer"]
+symbol = "?ReleaseBuffer@TextHelper@@QAE_NXZ"
+target_address = 0x00435F40
+size = 0x4E
+relocations = [
+  { offset = 0x14, type = "DIR32", symbol = "__imp__SelectObject@8", target = 0x0048E034 },
+  { offset = 0x1E, type = "DIR32", symbol = "__imp__DeleteDC@4", target = 0x0048E038 },
+  { offset = 0x28, type = "DIR32", symbol = "__imp__DeleteObject@4", target = 0x0048E03C },
+]
+
+[units.text-helper-get-format-info]
+source = "src/TextHelper.cpp"
+object = "build/matching/TextHelper.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TextHelper::GetFormatInfo"]
+symbol = "?GetFormatInfo@TextHelper@@QAEPAUTextHelperFormatInfo@@W4_D3DFORMAT@@@Z"
+target_address = 0x00435F90
+size = 0x42
+relocations = [
+  { offset = 0x4, type = "DIR32", symbol = "?g_TextHelperFormats@@3PAUTextHelperFormatInfo@@A", target = 0x004A1ED8 },
+  { offset = 0x14, type = "DIR32", symbol = "?g_TextHelperFormats@@3PAUTextHelperFormatInfo@@A", target = 0x004A1ED8 },
+  { offset = 0x3A, type = "DIR32", symbol = "?g_TextHelperFormats@@3PAUTextHelperFormatInfo@@A", target = 0x004A1ED8 },
+]
+
+[units.text-helper-create-text-buffer]
+source = "src/TextHelper.cpp"
+object = "build/matching/TextHelper.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TextHelper::CreateTextBuffer"]
+symbol = "?CreateTextBuffer@TextHelper@@SIXXZ"
+target_address = 0x004362C0
+size = 0x1A
+relocations = [
+  { offset = 0x1, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x8, type = "DIR32", symbol = "?g_TextBufferSurface@@3PAUIDirect3DSurface8@@A", target = 0x004DC544 },
+]
+
+[units.text-helper-release-text-buffer]
+source = "src/TextHelper.cpp"
+object = "build/matching/TextHelper.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TextHelper::ReleaseTextBuffer"]
+symbol = "?ReleaseTextBuffer@TextHelper@@SIXXZ"
+target_address = 0x004362E0
+size = 0x1A
+relocations = [
+  { offset = 0x1, type = "DIR32", symbol = "?g_TextBufferSurface@@3PAUIDirect3DSurface8@@A", target = 0x004DC544 },
+  { offset = 0x11, type = "DIR32", symbol = "?g_TextBufferSurface@@3PAUIDirect3DSurface8@@A", target = 0x004DC544 },
+]
+
+[units.text-helper-destructor]
+source = "src/TextHelper.cpp"
+object = "build/matching/TextHelper.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TextHelper::~TextHelper"]
+symbol = "??1TextHelper@@QAE@XZ"
+target_address = 0x00436300
+size = 0x5
+relocations = [
+  { offset = 0x1, type = "REL32", symbol = "?ReleaseBuffer@TextHelper@@QAE_NXZ", target = 0x00435F40 },
+]
+
+[units.text-helper-try-allocate-buffer]
+source = "src/TextHelper.cpp"
+object = "build/matching/TextHelper.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TextHelper::TryAllocateBuffer"]
+symbol = "?TryAllocateBuffer@TextHelper@@QAE_NHHW4_D3DFORMAT@@@Z"
+target_address = 0x00436310
+size = 0x13B
+relocations = [
+  { offset = 0xB, type = "REL32", symbol = "?ReleaseBuffer@TextHelper@@QAE_NXZ", target = 0x00435F40 },
+  { offset = 0x22, type = "REL32", symbol = "?GetFormatInfo@TextHelper@@QAEPAUTextHelperFormatInfo@@W4_D3DFORMAT@@@Z", target = 0x00435F90 },
+  { offset = 0xC3, type = "DIR32", symbol = "__imp__CreateDIBSection@24", target = 0x0048E024 },
+  { offset = 0xF3, type = "DIR32", symbol = "__imp__CreateCompatibleDC@4", target = 0x0048E028 },
+  { offset = 0x100, type = "DIR32", symbol = "__imp__SelectObject@8", target = 0x0048E034 },
+]
+
+[units.text-helper-allocate-buffer-with-fallback]
+source = "src/TextHelper.cpp"
+object = "build/matching/TextHelper.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TextHelper::AllocateBufferWithFallback"]
+symbol = "?AllocateBufferWithFallback@TextHelper@@QAE_NHHW4_D3DFORMAT@@@Z"
+target_address = 0x00436450
+size = 0x65
+relocations = [
+  { offset = 0x15, type = "REL32", symbol = "?TryAllocateBuffer@TextHelper@@QAE_NHHW4_D3DFORMAT@@@Z", target = 0x00436310 },
+  { offset = 0x3F, type = "REL32", symbol = "?TryAllocateBuffer@TextHelper@@QAE_NHHW4_D3DFORMAT@@@Z", target = 0x00436310 },
+  { offset = 0x5A, type = "REL32", symbol = "?TryAllocateBuffer@TextHelper@@QAE_NHHW4_D3DFORMAT@@@Z", target = 0x00436310 },
+]

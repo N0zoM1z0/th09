@@ -1,6 +1,7 @@
 #include "AnmManager.hpp"
 #include "Supervisor.hpp"
 #include "ZunMemory.hpp"
+#include "TextHelper.hpp"
 
 #include <stddef.h>
 #include <stdarg.h>
@@ -9,18 +10,6 @@
 #include <windows.h>
 #include <d3d8.h>
 
-class TextHelper
-{
-  public:
-    static void RenderTextToTextureBold(
-        int x, int y, int width, int height, int fontHeight, int fontWidth,
-        unsigned long textColor, unsigned long outlineColor,
-        const char *text, IDirect3DTexture8 *outTexture);
-    static void RenderTextToTexture(
-        int x, int y, int width, int height, int fontHeight, int fontWidth,
-        unsigned long textColor, unsigned long outlineColor,
-        const char *text, IDirect3DTexture8 *outTexture);
-};
 
 struct Float2UtilityView
 {

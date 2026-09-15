@@ -264,3 +264,17 @@ AnmManager::DrawTriangleStrip,0x0043B670,function
 AnmManager::DrawTriangleFan,0x0043B7B0,function
 AnmManager::DrawTexturedTriangleFan,0x0043B8F0,function
 AnmManager::SetupVertexBuffer,0x0043B9C0,function
+TextHelper::GetBuffer,0x00435EB0,function
+TextHelper::GetHDC,0x00435ED0,function
+TextHelper::GetImageWidthInBytes,0x00435EE0,function
+TextHelper::GetWidth,0x00435EF0,function
+TextHelper::GetHeight,0x00435F00,function
+TextHelper::IsAllocated,0x00435F10,function
+TextHelper::TextHelper,0x00435F20,function
+TextHelper::ReleaseBuffer,0x00435F40,function
+TextHelper::GetFormatInfo,0x00435F90,function
+TextHelper::CreateTextBuffer,0x004362C0,function
+TextHelper::ReleaseTextBuffer,0x004362E0,function
+TextHelper::~TextHelper,0x00436300,function
+TextHelper::TryAllocateBuffer,0x00436310,function
+TextHelper::AllocateBufferWithFallback,0x00436450,function

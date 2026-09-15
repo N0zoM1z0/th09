@@ -263,3 +263,17 @@ AnmManager::DrawTriangleStrip
 AnmManager::DrawTriangleFan
 AnmManager::DrawTexturedTriangleFan
 AnmManager::SetupVertexBuffer
+TextHelper::GetBuffer
+TextHelper::GetHDC
+TextHelper::GetImageWidthInBytes
+TextHelper::GetWidth
+TextHelper::GetHeight
+TextHelper::IsAllocated
+TextHelper::TextHelper
+TextHelper::ReleaseBuffer
+TextHelper::GetFormatInfo
+TextHelper::CreateTextBuffer
+TextHelper::ReleaseTextBuffer
+TextHelper::~TextHelper
+TextHelper::TryAllocateBuffer
+TextHelper::AllocateBufferWithFallback
