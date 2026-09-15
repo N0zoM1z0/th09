@@ -381,7 +381,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041CDE0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041CE60,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041CEB0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041CED0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041CED0,authored_game,Player,authored,high,player-release-vc71-exact-2026-09-15
 0x0041CF30,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041CFA0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041CFE0,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -413,7 +413,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041F010,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041F030,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041F070,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041F170,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041F170,authored_game,Player,authored,high,player-register-chain-vc71-exact-2026-09-15
 0x0041F2C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041F300,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041F310,unknown,,review,unknown,ida-1.50a-initial-inventory

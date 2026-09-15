@@ -308,3 +308,5 @@ EffectManager::SpawnEffectInFixedSlot,0x0040CD70,function
 ReleaseExAttackRecords,0x00415650,function
 ExAttackController::Release,0x004156A0,function
 ExAttackController::Register,0x004157D0,function
+PlayerRelease,0x0041CED0,function
+PlayerRegisterChain,0x0041F170,function

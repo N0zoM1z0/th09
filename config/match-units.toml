@@ -6263,3 +6263,63 @@ relocations = [
   { offset = 0xF2, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
   { offset = 0x100, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
 ]
+
+[units.player-register-chain]
+source = "src/PlayerLifecycle.cpp"
+object = "build/matching/PlayerLifecycle.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerRegisterChain"]
+symbol = "?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z"
+target_address = 0x0041F170
+size = 0x148
+relocations = [
+  { offset = 0x6, type = "DIR32", symbol = "__ehhandler$?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z", target = 0x0048D31B },
+  { offset = 0xC, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x14, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x28, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x40, type = "REL32", symbol = "??0PlayerLifecycleView@@QAE@XZ", target = 0x0041F070 },
+  { offset = 0x4A, type = "DIR32", symbol = "??_C@_09DGFOEGFG@PlayerInf?$AA@", target = 0x0048EFA4 },
+  { offset = 0x55, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x61, type = "REL32", symbol = "?AddToRegistry@ZunMemory@@QAEPAXPAXIPAD@Z", target = 0x00401380 },
+  { offset = 0x7A, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x85, type = "REL32", symbol = "?InitializeType@PlayerLifecycleView@@QAEXE@Z", target = 0x0041BDE0 },
+  { offset = 0x90, type = "DIR32", symbol = "?g_GameManager@@3PAEA", target = 0x004A7D90 },
+  { offset = 0x95, type = "DIR32", symbol = "?g_GameManager@@3PAEA", target = 0x004A7D90, addend = 0x38 },
+  { offset = 0xA2, type = "DIR32", symbol = "?OnUpdate@PlayerLifecycleView@@SIHPAU1@@Z", target = 0x0041E900 },
+  { offset = 0xA7, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xB5, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0xC5, type = "DIR32", symbol = "?AddedCallback@PlayerLifecycleView@@SIHPAU1@@Z", target = 0x0041EE50 },
+  { offset = 0xD2, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xD7, type = "REL32", symbol = "?AddToCalcChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B1E0 },
+  { offset = 0xE1, type = "DIR32", symbol = "?OnDrawHighPrio@PlayerLifecycleView@@SIHPAU1@@Z", target = 0x0041EB10 },
+  { offset = 0xE6, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xEB, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0xF0, type = "DIR32", symbol = "?OnDrawLowPrio@PlayerLifecycleView@@SIHPAU1@@Z", target = 0x0041CDC0 },
+  { offset = 0xF5, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xFD, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0x119, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x11E, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
+  { offset = 0x12B, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x130, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
+  { offset = 0x13E, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+]
+
+
+[units.player-release]
+source = "src/PlayerLifecycle.cpp"
+object = "build/matching/PlayerLifecycle.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerRelease"]
+symbol = "?PlayerRelease@@YIXPAUPlayerLifecycleView@@@Z"
+target_address = 0x0041CED0
+size = 0x56
+relocations = [
+  { offset = 0x8, type = "REL32", symbol = "?ReleaseOwnedState@PlayerLifecycleView@@QAEXXZ", target = 0x0041CE60 },
+  { offset = 0x11, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x16, type = "REL32", symbol = "?Cut@Chain@@QAEXPAVChainElem@@@Z", target = 0x0042C8C0 },
+  { offset = 0x1F, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x2B, type = "REL32", symbol = "?Cut@Chain@@QAEXPAVChainElem@@@Z", target = 0x0042C8C0 },
+  { offset = 0x34, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x40, type = "REL32", symbol = "?Cut@Chain@@QAEXPAVChainElem@@@Z", target = 0x0042C8C0 },
+  { offset = 0x4D, type = "REL32", symbol = "_free", target = 0x0047B249 },
+]

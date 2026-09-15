@@ -307,3 +307,5 @@ EffectManager::SpawnEffectInFixedSlot
 ReleaseExAttackRecords
 ExAttackController::Release
 ExAttackController::Register
+PlayerRelease
+PlayerRegisterChain
