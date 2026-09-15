@@ -55,12 +55,16 @@ EXPECTED_REMOTE_DEFAULT_OPCODES = (83, 84, 85, 90, 91, 92)
 BULLET_OPCODE_MIN = 96
 BULLET_OPCODE_MAX = 123
 EXPECTED_BULLET_DEFAULT_OPCODES = (122, 123)
+STATE_OPCODE_MIN = 124
+STATE_OPCODE_MAX = 157
+EXPECTED_STATE_DEFAULT_OPCODES = (141, 142)
 ROOT = Path(__file__).resolve().parents[1]
 OPCODE_HEADER = ROOT / "src" / "EclOpcodes.hpp"
 CONTROL_SOURCE = ROOT / "src" / "EclRunControl.inl"
 MOVEMENT_SOURCE = ROOT / "src" / "EclRunMovement.inl"
 REMOTE_SOURCE = ROOT / "src" / "EclRunRemote.inl"
 BULLET_SOURCE = ROOT / "src" / "EclRunBullet.inl"
+STATE_SOURCE = ROOT / "src" / "EclRunState.inl"
 ENUM_ENTRY_RE = re.compile(
     r"^\s*(TH09_ECL_OPCODE_[A-Z0-9_]+)\s*=\s*(\d+),?\s*$",
     re.MULTILINE,
@@ -185,6 +189,12 @@ def main() -> int:
             BULLET_OPCODE_MAX,
             "bullet/laser",
         )
+        state_source = audit_source_family(
+            STATE_SOURCE,
+            STATE_OPCODE_MIN,
+            STATE_OPCODE_MAX,
+            "boss/state/effects",
+        )
     except (OSError, KeyError, TypeError, ValueError, struct.error) as exc:
         print(f"invalid target or ECL tables: {exc}", file=sys.stderr)
         return 2
@@ -255,6 +265,19 @@ def main() -> int:
         table_problems.append(
             "bullet/laser default slots "
             + ",".join(f"{value:02X}" for value in bullet_default_opcodes)
+        )
+    state_default_opcodes = tuple(
+        opcode
+        for opcode, destination in enumerate(
+            opcode_entries[STATE_OPCODE_MIN - 1:STATE_OPCODE_MAX],
+            start=STATE_OPCODE_MIN,
+        )
+        if destination == DEFAULT_HANDLER
+    )
+    if state_default_opcodes != EXPECTED_STATE_DEFAULT_OPCODES:
+        table_problems.append(
+            "boss/state/effects default slots "
+            + ",".join(f"{value:02X}" for value in state_default_opcodes)
         )
     if table_problems:
         print("ECL table audit mismatch: " + "; ".join(table_problems), file=sys.stderr)
@@ -347,6 +370,25 @@ def main() -> int:
             ],
             "claim": "complete lexical family coverage; RunEcl source/exactness remain open",
         },
+        "boss_state_effects_family": {
+            **state_source,
+            "active_count": (
+                STATE_OPCODE_MAX
+                - STATE_OPCODE_MIN
+                + 1
+                - len(state_default_opcodes)
+            ),
+            "default_opcodes": [
+                f"0x{value:02X}" for value in state_default_opcodes
+            ],
+            "destinations": [
+                f"0x{value:08X}"
+                for value in opcode_entries[
+                    STATE_OPCODE_MIN - 1:STATE_OPCODE_MAX
+                ]
+            ],
+            "claim": "complete lexical family coverage; RunEcl source/exactness remain open",
+        },
     }
 
     if args.json:
@@ -386,6 +428,11 @@ def main() -> int:
             "bullet/laser family: opcodes 96-123, "
             f"{BULLET_OPCODE_MAX - BULLET_OPCODE_MIN + 1 - len(bullet_default_opcodes)} active, "
             f"{bullet_source['case_count']} source cases"
+        )
+        print(
+            "boss/state/effects family: opcodes 124-157, "
+            f"{STATE_OPCODE_MAX - STATE_OPCODE_MIN + 1 - len(state_default_opcodes)} active, "
+            f"{state_source['case_count']} source cases"
         )
     return 0
 

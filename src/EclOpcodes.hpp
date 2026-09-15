@@ -245,6 +245,7 @@ typedef char Th09EclParameterMaskAt0A[
 struct Th09EclTimerStorageView
 {
     void SetCurrent(int value);
+    void AddCurrent(int value);
 
     unsigned char storage00[0x0C];
 };
