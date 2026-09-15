@@ -316,3 +316,6 @@ PlayerLifecycleView::OnDrawHighPrio
 PlayerLifecycleView::PlayerLifecycleView
 PlayerLifecycleView::DrawActiveShots
 PlayerLifecycleView::DrawHitShots
+PlayerAddedCollisionRegionView::Reset
+PlayerAddedHeaderResetView::Reset
+PlayerAddedOwnerStateView::Reset

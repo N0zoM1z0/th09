@@ -365,8 +365,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041BD60,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041BD70,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041BD90,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041BDA0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041BDC0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041BDA0,authored_game,Player,authored,high,player-added-collision-reset-vc71-exact-2026-09-15
+0x0041BDC0,authored_game,Player,authored,high,player-added-header-reset-vc71-exact-2026-09-15
 0x0041BDE0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041BDF0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041BE70,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -392,7 +392,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041D110,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041D150,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041D760,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041D7E0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041D7E0,authored_game,Player,authored,high,player-added-owner-reset-vc71-exact-2026-09-15
 0x0041D810,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041DA70,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041DB90,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -405,7 +405,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041E8B0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041E900,authored_game,Player,authored,high,player-on-update-vc71-exact-2026-09-15
 0x0041EB10,authored_game,Player,authored,high,player-draw-high-prio-vc71-exact-2026-09-15
-0x0041EBC0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041EBC0,authored_game,Player,authored,high,player-initialize-added-state-source-nonexact-2026-09-15
 0x0041EE00,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041EE20,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041EE30,unknown,,review,unknown,ida-1.50a-initial-inventory

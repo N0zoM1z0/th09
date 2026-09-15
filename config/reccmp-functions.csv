@@ -317,3 +317,6 @@ PlayerLifecycleView::OnDrawHighPrio,0x0041EB10,function
 PlayerLifecycleView::PlayerLifecycleView,0x0041F070,function
 PlayerLifecycleView::DrawActiveShots,0x0041F680,function
 PlayerLifecycleView::DrawHitShots,0x0041F760,function
+PlayerAddedCollisionRegionView::Reset,0x0041BDA0,function
+PlayerAddedHeaderResetView::Reset,0x0041BDC0,function
+PlayerAddedOwnerStateView::Reset,0x0041D7E0,function
