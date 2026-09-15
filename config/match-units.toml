@@ -6534,3 +6534,35 @@ relocations = [
   { offset = 0x12, type = "REL32", symbol = "?ReleaseHandle@PlayerAddedHandleManagerView@@QAEXPAX@Z", target = 0x0040F860 },
   { offset = 0x23, type = "REL32", symbol = "??4PlayerAddedTimerView@@QAEXH@Z", target = 0x00401500 },
 ]
+
+[units.player-calc-item-box-collision]
+source = "src/PlayerCollisionHelpers.cpp"
+object = "build/matching/PlayerCollisionHelpers.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerLifecycleView::CalcItemBoxCollision"]
+symbol = "?CalcItemBoxCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@0@Z"
+target_address = 0x0041BDF0
+size = 0x79
+relocations = []
+
+[units.player-calc-laser-hitbox]
+source = "src/PlayerCollisionHelpers.cpp"
+object = "build/matching/PlayerCollisionHelpers.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerLifecycleView::CalcLaserHitbox"]
+symbol = "?CalcLaserHitbox@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@00MH@Z"
+target_address = 0x0041BFC0
+size = 0x1A6
+relocations = [
+  { offset = 0x19, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x3E, type = "REL32", symbol = "?RotatePlayerCollisionVector@@YIXPAUPlayerPositionView@@0M@Z", target = 0x0042AF40 },
+  { offset = 0x52, type = "REL32", symbol = "??HPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0x76, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x94, type = "REL32", symbol = "??HPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0xB7, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0xD4, type = "REL32", symbol = "??HPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0x136, type = "DIR32", symbol = "__real@42400000", target = 0x0048E3B0 },
+  { offset = 0x13F, type = "DIR32", symbol = "__real@42400000", target = 0x0048E3B0 },
+  { offset = 0x14B, type = "DIR32", symbol = "__real@42400000", target = 0x0048E3B0 },
+  { offset = 0x154, type = "DIR32", symbol = "__real@42400000", target = 0x0048E3B0 },
+]

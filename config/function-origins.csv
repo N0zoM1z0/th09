@@ -368,10 +368,10 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041BDA0,authored_game,Player,authored,high,player-added-collision-reset-vc71-exact-2026-09-15
 0x0041BDC0,authored_game,Player,authored,high,player-added-header-reset-vc71-exact-2026-09-15
 0x0041BDE0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041BDF0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041BE70,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041BDF0,authored_game,Player,authored,high,player-collision-helper-module-2026-09-15
+0x0041BE70,authored_game,Player,authored,high,player-collision-helper-module-2026-09-15
 0x0041BEE0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041BFC0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041BFC0,authored_game,Player,authored,high,player-collision-helper-module-2026-09-15
 0x0041C170,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041C8E0,authored_game,Player,authored,high,player-collision-runtime-source-2026-09-15
 0x0041CA00,authored_game,Player,authored,high,player-bomb-runtime-source-2026-09-15
@@ -394,7 +394,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041D760,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041D7E0,authored_game,Player,authored,high,player-added-owner-reset-vc71-exact-2026-09-15
 0x0041D810,authored_game,Player,authored,high,player-collision-query-source-nonexact-2026-09-15
-0x0041DA70,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041DA70,authored_game,Player,authored,high,player-collision-helper-module-2026-09-15
 0x0041DB90,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041DC20,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041DF80,unknown,,review,unknown,ida-1.50a-initial-inventory

@@ -320,3 +320,5 @@ PlayerLifecycleView::DrawHitShots,0x0041F760,function
 PlayerAddedCollisionRegionView::Reset,0x0041BDA0,function
 PlayerAddedHeaderResetView::Reset,0x0041BDC0,function
 PlayerAddedOwnerStateView::Reset,0x0041D7E0,function
+PlayerLifecycleView::CalcItemBoxCollision,0x0041BDF0,function
+PlayerLifecycleView::CalcLaserHitbox,0x0041BFC0,function

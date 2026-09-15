@@ -166,6 +166,7 @@ struct PlayerCollisionQueryStateView
         const PlayerPositionView &center,
         const PlayerPositionView &halfSize,
         float extraRadius);
+    PlayerCollisionQueryRecordView *FindCollisionAtPlayer();
 };
 typedef char PlayerCollisionQueryStateSizeIs1808[
     (sizeof(PlayerCollisionQueryStateView) == 0x1808) ? 1 : -1];
