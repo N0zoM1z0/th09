@@ -309,3 +309,4 @@ ExAttackController::Release
 ExAttackController::Register
 PlayerRelease
 PlayerRegisterChain
+PlayerLifecycleView::OnUpdate

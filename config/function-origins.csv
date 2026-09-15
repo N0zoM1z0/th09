@@ -359,7 +359,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041BA80,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041BB00,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041BB70,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041BBE0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041BBE0,authored_game,Player,authored,high,player-sht-loader-source-2026-09-15
 0x0041BC90,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041BD40,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041BD60,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -373,8 +373,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041BEE0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041BFC0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041C170,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041C8E0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041CA00,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041C8E0,authored_game,Player,authored,high,player-collision-runtime-source-2026-09-15
+0x0041CA00,authored_game,Player,authored,high,player-bomb-runtime-source-2026-09-15
 0x0041CB50,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041CC80,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041CDC0,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -403,13 +403,13 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041E420,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041E720,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041E8B0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041E900,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041E900,authored_game,Player,authored,high,player-on-update-vc71-exact-2026-09-15
 0x0041EB10,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041EBC0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041EE00,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041EE20,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041EE30,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041EE50,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041EE50,authored_game,Player,authored,high,player-added-callback-source-2026-09-15
 0x0041F010,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041F030,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041F070,unknown,,review,unknown,ida-1.50a-initial-inventory

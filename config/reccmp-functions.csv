@@ -310,3 +310,4 @@ ExAttackController::Release,0x004156A0,function
 ExAttackController::Register,0x004157D0,function
 PlayerRelease,0x0041CED0,function
 PlayerRegisterChain,0x0041F170,function
+PlayerLifecycleView::OnUpdate,0x0041E900,function

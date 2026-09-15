@@ -310,3 +310,4 @@ address,name,size,status,match_percent,unit,evidence
 0x004157D0,ExAttackController::Register,264,matching,100.00,exattack-register,python3 scripts/build-match-unit.py --unit exattack-register && python3 scripts/compare-coff-function.py --unit exattack-register --json
 0x0041CED0,PlayerRelease,86,matching,100.00,player-release,python3 scripts/build-match-unit.py --unit player-release && python3 scripts/compare-coff-function.py --unit player-release --json
 0x0041F170,PlayerRegisterChain,328,matching,100.00,player-register-chain,python3 scripts/build-match-unit.py --unit player-register-chain && python3 scripts/compare-coff-function.py --unit player-register-chain --json
+0x0041E900,PlayerLifecycleView::OnUpdate,522,matching,100.00,player-on-update,python3 scripts/build-match-unit.py --unit player-on-update && python3 scripts/compare-coff-function.py --unit player-on-update --json
