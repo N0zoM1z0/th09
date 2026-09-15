@@ -72,6 +72,8 @@ class AnmManager
     void SetupVertexBuffer();
     void ClearBlendMode();
     void ClearColorOp();
+    void ClearTexture();
+    void ClearSprite();
     void ClearVertexShader();
     void ClearZWrite();
     int ExecuteScript(AnmVm *vm);

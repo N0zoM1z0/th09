@@ -5807,3 +5807,193 @@ relocations = [
   { offset = 0x3F, type = "REL32", symbol = "?TryAllocateBuffer@TextHelper@@QAE_NHHW4_D3DFORMAT@@@Z", target = 0x00436310 },
   { offset = 0x5A, type = "REL32", symbol = "?TryAllocateBuffer@TextHelper@@QAE_NHHW4_D3DFORMAT@@@Z", target = 0x00436310 },
 ]
+
+[units.zun-timer-initialize]
+source = "src/ZunTimer.cpp"
+object = "build/matching/ZunTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::Initialize"]
+symbol = "?Initialize@ZunTimer@@QAEXXZ"
+target_address = 0x004014A0
+size = 0xF
+relocations = []
+
+[units.zun-timer-less-equal]
+source = "src/ZunTimer.cpp"
+object = "build/matching/ZunTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::operator<="]
+symbol = "??NZunTimer@@QAEIH@Z"
+target_address = 0x00406720
+size = 0x14
+relocations = []
+
+[units.anm-manager-clear-texture]
+source = "src/AnmManagerPrimitiveDraw.cpp"
+object = "build/matching/AnmManagerPrimitiveDraw.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::ClearTexture"]
+symbol = "?ClearTexture@AnmManager@@QAEXXZ"
+target_address = 0x004015F0
+size = 0xB
+relocations = []
+
+[units.anm-manager-clear-sprite]
+source = "src/AnmManagerPrimitiveDraw.cpp"
+object = "build/matching/AnmManagerPrimitiveDraw.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::ClearSprite"]
+symbol = "?ClearSprite@AnmManager@@QAEXXZ"
+target_address = 0x0040E390
+size = 0xB
+relocations = []
+
+[units.screen-effect-clear]
+source = "src/ScreenEffect.cpp"
+object = "build/matching/ScreenEffect.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScreenEffect::Clear"]
+symbol = "?Clear@ScreenEffect@@SIXI@Z"
+target_address = 0x00422200
+size = 0x8B
+relocations = [
+  { offset = 0x01, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x20, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x3E, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x47, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x63, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x7B, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x82, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+]
+
+[units.screen-effect-set-viewport]
+source = "src/ScreenEffect.cpp"
+object = "build/matching/ScreenEffect.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScreenEffect::SetViewport"]
+symbol = "?SetViewport@ScreenEffect@@SIXI@Z"
+target_address = 0x00422290
+size = 0x26
+relocations = [
+  { offset = 0x05, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x0E, type = "REL32", symbol = "?FlushVertexBuffer@AnmManager@@QAEXXZ", target = 0x004396A0 },
+  { offset = 0x15, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x1A, type = "REL32", symbol = "?ConfigureGameplayViewport@Supervisor@@QAEXH@Z", target = 0x00401390 },
+  { offset = 0x22, type = "REL32", symbol = "?Clear@ScreenEffect@@SIXI@Z", target = 0x00422200 },
+]
+
+[units.screen-effect-initialize-timer]
+source = "src/ScreenEffect.cpp"
+object = "build/matching/ScreenEffect.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScreenEffect::InitializeTimer"]
+symbol = "?InitializeTimer@ScreenEffect@@SIHPAU1@@Z"
+target_address = 0x004228F0
+size = 0xD
+relocations = [
+  { offset = 0x06, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+]
+
+[units.screen-effect-delete]
+source = "src/ScreenEffect.cpp"
+object = "build/matching/ScreenEffect.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScreenEffect::DeleteScreenEffect"]
+symbol = "?DeleteScreenEffect@ScreenEffect@@SIHPAU1@@Z"
+target_address = 0x00422900
+size = 0x2F
+relocations = [
+  { offset = 0x12, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x17, type = "REL32", symbol = "?Cut@Chain@@QAEXPAVChainElem@@@Z", target = 0x0042C8C0 },
+  { offset = 0x24, type = "REL32", symbol = "??3@YAXPAX@Z", target = 0x0047B249 },
+]
+
+[units.screen-effect-begin-fade-release]
+source = "src/ScreenEffect.cpp"
+object = "build/matching/ScreenEffect.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScreenEffect::BeginFadeRelease"]
+symbol = "?BeginFadeRelease@ScreenEffect@@QAEXXZ"
+target_address = 0x00422930
+size = 0x12
+relocations = [
+  { offset = 0x0D, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+]
+
+[units.screen-effect-constructor]
+source = "src/ScreenEffect.cpp"
+object = "build/matching/ScreenEffect.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScreenEffect::ScreenEffect"]
+symbol = "??0ScreenEffect@@QAE@XZ"
+target_address = 0x00422950
+size = 0xF
+relocations = [
+  { offset = 0x07, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+]
+
+[units.screen-effect-draw-full-fade]
+source = "src/ScreenEffect.cpp"
+object = "build/matching/ScreenEffect.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScreenEffect::DrawFullFade"]
+symbol = "?DrawFullFade@ScreenEffect@@SIHPAU1@@Z"
+target_address = 0x00422B70
+size = 0x59
+relocations = [
+  { offset = 0x0B, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x2C, type = "REL32", symbol = "?FlushVertexBuffer@AnmManager@@QAEXXZ", target = 0x004396A0 },
+  { offset = 0x33, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x38, type = "REL32", symbol = "?ConfigureGameplayViewport@Supervisor@@QAEXH@Z", target = 0x00401390 },
+  { offset = 0x4B, type = "REL32", symbol = "?DrawSquare@ScreenEffect@@SIXPAUScreenEffectRect@@I@Z", target = 0x00422960 },
+]
+
+[units.screen-effect-draw-arcade-fade]
+source = "src/ScreenEffect.cpp"
+object = "build/matching/ScreenEffect.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScreenEffect::DrawArcadeFade"]
+symbol = "?DrawArcadeFade@ScreenEffect@@SIHPAU1@@Z"
+target_address = 0x00422BD0
+size = 0x3E
+relocations = [
+  { offset = 0x31, type = "REL32", symbol = "?DrawSquare@ScreenEffect@@SIXPAUScreenEffectRect@@I@Z", target = 0x00422960 },
+]
+
+[units.screen-effect-draw-partial-fade]
+source = "src/ScreenEffect.cpp"
+object = "build/matching/ScreenEffect.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScreenEffect::DrawPartialFade"]
+symbol = "?DrawPartialFade@ScreenEffect@@SIHPAU1@@Z"
+target_address = 0x00422C10
+size = 0x3E
+relocations = [
+  { offset = 0x31, type = "REL32", symbol = "?DrawSquare@ScreenEffect@@SIXPAUScreenEffectRect@@I@Z", target = 0x00422960 },
+]
+
+[units.screen-effect-draw-split-fade]
+source = "src/ScreenEffect.cpp"
+object = "build/matching/ScreenEffect.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScreenEffect::DrawSplitFade"]
+symbol = "?DrawSplitFade@ScreenEffect@@SIHPAU1@@Z"
+target_address = 0x00422C50
+size = 0x71
+relocations = [
+  { offset = 0x34, type = "REL32", symbol = "?DrawSquare@ScreenEffect@@SIXPAUScreenEffectRect@@I@Z", target = 0x00422960 },
+  { offset = 0x63, type = "REL32", symbol = "?DrawSquare@ScreenEffect@@SIXPAUScreenEffectRect@@I@Z", target = 0x00422960 },
+]
+
+[units.screen-effect-draw-arcade-pulse]
+source = "src/ScreenEffect.cpp"
+object = "build/matching/ScreenEffect.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScreenEffect::DrawArcadePulse"]
+symbol = "?DrawArcadePulse@ScreenEffect@@SIHPAU1@@Z"
+target_address = 0x00422CD0
+size = 0x44
+relocations = [
+  { offset = 0x37, type = "REL32", symbol = "?DrawSquare@ScreenEffect@@SIXPAUScreenEffectRect@@I@Z", target = 0x00422960 },
+]

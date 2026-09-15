@@ -1,6 +1,18 @@
 #include "ZunTimer.hpp"
 #include "Supervisor.hpp"
 
+ZunTimer::ZunTimer()
+{
+    this->Initialize();
+}
+
+void ZunTimer::Initialize()
+{
+    this->current = 0;
+    this->previous = -999999;
+    this->subFrame = 0.0f;
+}
+
 void ZunTimer::SetCurrent(int value)
 {
     this->current = value;
@@ -38,4 +50,9 @@ unsigned int ZunTimer::operator>=(int value)
 unsigned int ZunTimer::operator<(int value)
 {
     return this->current < value;
+}
+
+unsigned int ZunTimer::operator<=(int value)
+{
+    return this->current <= value;
 }

@@ -6,12 +6,15 @@ struct ZunTimer
     float subFrame;
     int current;
 
+    ZunTimer();
+    void Initialize();
     void SetCurrent(int value);
     int Tick();
     operator float();
     void operator++(int);
     unsigned int operator>=(int value);
     unsigned int operator<(int value);
+    unsigned int operator<=(int value);
     void operator=(int value);
 };
 

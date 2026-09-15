@@ -63,7 +63,8 @@ struct AnmManagerPrimitiveView
     unsigned char currentColorOp;
     unsigned char currentVertexShader;
     unsigned char disableZWrite;
-    unsigned char unknown12888[0x12890 - 0x12888];
+    unsigned char unknown12888[0x1288C - 0x12888];
+    void *currentSprite;
     IDirect3DVertexBuffer8 *quadVertexBuffer;
     VertexDiffuseXyzrhw untexturedVector[4];
     int spritesToDraw;
@@ -74,6 +75,7 @@ typedef char PrimitiveBlendAt12884[(offsetof(AnmManagerPrimitiveView, currentBle
 typedef char PrimitiveColorOpAt12885[(offsetof(AnmManagerPrimitiveView, currentColorOp) == 0x12885) ? 1 : -1];
 typedef char PrimitiveShaderAt12886[(offsetof(AnmManagerPrimitiveView, currentVertexShader) == 0x12886) ? 1 : -1];
 typedef char PrimitiveZWriteAt12887[(offsetof(AnmManagerPrimitiveView, disableZWrite) == 0x12887) ? 1 : -1];
+typedef char PrimitiveCurrentSpriteAt1288C[(offsetof(AnmManagerPrimitiveView, currentSprite) == 0x1288C) ? 1 : -1];
 typedef char PrimitiveVertexBufferAt12890[(offsetof(AnmManagerPrimitiveView, quadVertexBuffer) == 0x12890) ? 1 : -1];
 typedef char PrimitiveSoftwareVerticesAt12894[(offsetof(AnmManagerPrimitiveView, untexturedVector) == 0x12894) ? 1 : -1];
 typedef char PrimitiveSpritesToDrawAt128E4[(offsetof(AnmManagerPrimitiveView, spritesToDraw) == 0x128E4) ? 1 : -1];
@@ -92,6 +94,8 @@ static __inline SupervisorPrimitiveView *PrimitiveSupervisor()
 
 void AnmManager::ClearBlendMode() { PrimitiveManager(this)->currentBlendMode = 3; }
 void AnmManager::ClearColorOp() { PrimitiveManager(this)->currentColorOp = 0xff; }
+void AnmManager::ClearTexture() { PrimitiveManager(this)->currentTexture = NULL; }
+void AnmManager::ClearSprite() { PrimitiveManager(this)->currentSprite = NULL; }
 void AnmManager::ClearVertexShader() { PrimitiveManager(this)->currentVertexShader = 0xff; }
 void AnmManager::ClearZWrite() { PrimitiveManager(this)->disableZWrite = 0xff; }
 
