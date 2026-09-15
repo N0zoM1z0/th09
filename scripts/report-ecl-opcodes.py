@@ -46,9 +46,13 @@ EXPECTED_DEFAULT_OPCODES = (
 CONTROL_OPCODE_MIN = 1
 CONTROL_OPCODE_MAX = 53
 EXPECTED_CONTROL_DEFAULT_OPCODES = (3,)
+MOVEMENT_OPCODE_MIN = 54
+MOVEMENT_OPCODE_MAX = 82
+EXPECTED_MOVEMENT_DEFAULT_OPCODES: tuple[int, ...] = ()
 ROOT = Path(__file__).resolve().parents[1]
 OPCODE_HEADER = ROOT / "src" / "EclOpcodes.hpp"
 CONTROL_SOURCE = ROOT / "src" / "EclRunControl.inl"
+MOVEMENT_SOURCE = ROOT / "src" / "EclRunMovement.inl"
 ENUM_ENTRY_RE = re.compile(
     r"^\s*(TH09_ECL_OPCODE_[A-Z0-9_]+)\s*=\s*(\d+),?\s*$",
     re.MULTILINE,
@@ -65,9 +69,14 @@ def decode_table(image: bytes, address: int, count: int) -> tuple[bytes, tuple[i
     return data, entries
 
 
-def audit_control_source() -> dict[str, object]:
+def audit_source_family(
+    source_path: Path,
+    opcode_min: int,
+    opcode_max: int,
+    family_name: str,
+) -> dict[str, object]:
     header_text = OPCODE_HEADER.read_text(encoding="utf-8")
-    source_text = CONTROL_SOURCE.read_text(encoding="utf-8")
+    source_text = source_path.read_text(encoding="utf-8")
     enum_match = re.search(
         r"enum\s+Th09EclOpcode\s*\{(.*?)\};", header_text, re.DOTALL
     )
@@ -80,13 +89,14 @@ def audit_control_source() -> dict[str, object]:
     family_entries = {
         name: value
         for name, value in enum_values.items()
-        if CONTROL_OPCODE_MIN <= value <= CONTROL_OPCODE_MAX
+        if opcode_min <= value <= opcode_max
     }
     observed_values = sorted(family_entries.values())
-    expected_values = list(range(CONTROL_OPCODE_MIN, CONTROL_OPCODE_MAX + 1))
+    expected_values = list(range(opcode_min, opcode_max + 1))
     if observed_values != expected_values:
         raise ValueError(
-            "control enum does not cover every opcode 1-53 exactly once"
+            f"{family_name} enum does not cover every opcode "
+            f"{opcode_min}-{opcode_max} exactly once"
         )
 
     case_labels = CASE_LABEL_RE.findall(source_text)
@@ -109,12 +119,14 @@ def audit_control_source() -> dict[str, object]:
             problems.append(
                 "out-of-family cases " + ",".join(out_of_family_labels)
             )
-        raise ValueError("control source coverage: " + "; ".join(problems))
+        raise ValueError(
+            f"{family_name} source coverage: " + "; ".join(problems)
+        )
 
     return {
-        "source": str(CONTROL_SOURCE.relative_to(ROOT)),
-        "opcode_min": CONTROL_OPCODE_MIN,
-        "opcode_max": CONTROL_OPCODE_MAX,
+        "source": str(source_path.relative_to(ROOT)),
+        "opcode_min": opcode_min,
+        "opcode_max": opcode_max,
         "case_count": len(case_labels),
     }
 
@@ -141,7 +153,18 @@ def main() -> int:
         opcode_data, opcode_entries = decode_table(
             image, OPCODE_TABLE_ADDRESS, OPCODE_TABLE_COUNT
         )
-        control_source = audit_control_source()
+        control_source = audit_source_family(
+            CONTROL_SOURCE,
+            CONTROL_OPCODE_MIN,
+            CONTROL_OPCODE_MAX,
+            "control",
+        )
+        movement_source = audit_source_family(
+            MOVEMENT_SOURCE,
+            MOVEMENT_OPCODE_MIN,
+            MOVEMENT_OPCODE_MAX,
+            "movement",
+        )
     except (OSError, KeyError, TypeError, ValueError, struct.error) as exc:
         print(f"invalid target or ECL tables: {exc}", file=sys.stderr)
         return 2
@@ -173,6 +196,19 @@ def main() -> int:
         table_problems.append(
             "control default slots "
             + ",".join(f"{value:02X}" for value in control_default_opcodes)
+        )
+    movement_default_opcodes = tuple(
+        opcode
+        for opcode, destination in enumerate(
+            opcode_entries[MOVEMENT_OPCODE_MIN - 1:MOVEMENT_OPCODE_MAX],
+            start=MOVEMENT_OPCODE_MIN,
+        )
+        if destination == DEFAULT_HANDLER
+    )
+    if movement_default_opcodes != EXPECTED_MOVEMENT_DEFAULT_OPCODES:
+        table_problems.append(
+            "movement default slots "
+            + ",".join(f"{value:02X}" for value in movement_default_opcodes)
         )
     if table_problems:
         print("ECL table audit mismatch: " + "; ".join(table_problems), file=sys.stderr)
@@ -208,6 +244,25 @@ def main() -> int:
             ],
             "claim": "complete lexical family coverage; RunEcl source/exactness remain open",
         },
+        "movement_family": {
+            **movement_source,
+            "active_count": (
+                MOVEMENT_OPCODE_MAX
+                - MOVEMENT_OPCODE_MIN
+                + 1
+                - len(movement_default_opcodes)
+            ),
+            "default_opcodes": [
+                f"0x{value:02X}" for value in movement_default_opcodes
+            ],
+            "destinations": [
+                f"0x{value:08X}"
+                for value in opcode_entries[
+                    MOVEMENT_OPCODE_MIN - 1:MOVEMENT_OPCODE_MAX
+                ]
+            ],
+            "claim": "complete lexical family coverage; RunEcl source/exactness remain open",
+        },
     }
 
     if args.json:
@@ -232,6 +287,11 @@ def main() -> int:
             "control family: opcodes 1-53, "
             f"{CONTROL_OPCODE_MAX - len(control_default_opcodes)} active, "
             f"{control_source['case_count']} source cases"
+        )
+        print(
+            "movement family: opcodes 54-82, "
+            f"{MOVEMENT_OPCODE_MAX - MOVEMENT_OPCODE_MIN + 1 - len(movement_default_opcodes)} active, "
+            f"{movement_source['case_count']} source cases"
         )
     return 0
 
