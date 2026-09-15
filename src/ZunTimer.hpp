@@ -12,6 +12,7 @@ struct ZunTimer
     int Tick();
     operator float();
     void operator++(int);
+    void operator--(int);
     unsigned int operator>=(int value);
     unsigned int operator<(int value);
     unsigned int operator<=(int value);

@@ -21,6 +21,10 @@ struct Float3
     Float3 operator+(const Float3 &other) const;
     Float3 operator-(const Float3 &other) const;
     Float3 operator*(float scalar) const;
+    Float3 operator/(float scalar) const;
+    Float3 &operator+=(const Float3 &other);
+    Float3 &operator-=(const Float3 &other);
+    Float3 *FromAngleMagnitude(float angle, float magnitude);
     operator float *();
 
     float x;
@@ -58,9 +62,11 @@ struct AnmVm
     unsigned char unknown_0200[4];
     AnmLoaded *anmFile;
     Float3 pos;
-    unsigned char unknown_0214[6];
+    short activeSpriteIndex;
+    unsigned char unknown_0216[4];
     short scriptIndex;
-    unsigned char unknown_021C[8];
+    unsigned char unknown_021C[4];
+    void *currentInstruction;
     AnmLoadedSprite *loadedSprite;
     unsigned char unknown_0228[0x60];
     Float3 pos2;
@@ -68,12 +74,16 @@ struct AnmVm
 
     int IsVisible();
     void SetInvisible();
+    void SetZRotation(float angle);
 };
 
 typedef char AnmVmSizeIs2A4[(sizeof(AnmVm) == 0x2A4) ? 1 : -1];
 typedef char AnmVmSpriteSizeAt28[(offsetof(AnmVm, spriteSize) == 0x28) ? 1 : -1];
 typedef char AnmVmAnmFileAt204[(offsetof(AnmVm, anmFile) == 0x204) ? 1 : -1];
+typedef char AnmVmActiveSpriteIndexAt214[(offsetof(AnmVm, activeSpriteIndex) == 0x214) ? 1 : -1];
 typedef char AnmVmScriptIndexAt21A[(offsetof(AnmVm, scriptIndex) == 0x21A) ? 1 : -1];
+typedef char AnmVmCurrentInstructionAt220[(offsetof(AnmVm, currentInstruction) == 0x220) ? 1 : -1];
+typedef char AnmVmLoadedSpriteAt224[(offsetof(AnmVm, loadedSprite) == 0x224) ? 1 : -1];
 
 struct AsciiManagerString
 {

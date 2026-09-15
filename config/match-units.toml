@@ -6704,3 +6704,121 @@ relocations = [
   { offset = 0x05, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x0A, type = "REL32", symbol = "?FlushVertexBuffer@AnmManager@@QAEXXZ", target = 0x004396A0 },
 ]
+
+[units.etama-controller-clear-draw-buckets]
+source = "src/BulletManager.cpp"
+object = "build/matching/BulletManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EtamaController::ClearDrawBuckets"]
+symbol = "?ClearDrawBuckets@EtamaController@@QAEHXZ"
+target_address = 0x00412390
+size = 0x27
+relocations = []
+
+[units.bullet-copy-anm-vm-core]
+source = "src/BulletManager.cpp"
+object = "build/matching/BulletManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["CopyBulletAnmVmCore"]
+symbol = "?CopyBulletAnmVmCore@@YIPBUAnmVm@@PBU1@PAU1@@Z"
+target_address = 0x004124D0
+size = 0x10
+relocations = []
+
+[units.bullet-deactivate]
+source = "src/BulletManager.cpp"
+object = "build/matching/BulletManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Bullet::Deactivate"]
+symbol = "?Deactivate@Bullet@@QAEXXZ"
+target_address = 0x00412930
+size = 0x28
+relocations = [
+  { offset = 0x15, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x22, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+]
+
+[units.bullet-update-horizontal-wrap]
+source = "src/BulletManager.cpp"
+object = "build/matching/BulletManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["UpdateBulletHorizontalWrap"]
+symbol = "?UpdateBulletHorizontalWrap@@YIXPAUBullet@@@Z"
+target_address = 0x004139F0
+size = 0x71
+relocations = [
+  { offset = 0x08, type = "DIR32", symbol = "__real@0000000000000000", target = 0x0048E818 },
+  { offset = 0x1B, type = "DIR32", symbol = "__real@43c00000", target = 0x0048E45C },
+  { offset = 0x29, type = "DIR32", symbol = "__real@4078000000000000", target = 0x0048E810 },
+  { offset = 0x3C, type = "DIR32", symbol = "__real@43c00000", target = 0x0048E45C },
+  { offset = 0x52, type = "REL32", symbol = "??NZunTimer@@QAEIH@Z", target = 0x00406720 },
+  { offset = 0x6B, type = "REL32", symbol = "??FZunTimer@@QAEXH@Z", target = 0x00406670 },
+]
+
+[units.bullet-update-vertical-wrap]
+source = "src/BulletManager.cpp"
+object = "build/matching/BulletManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["UpdateBulletVerticalWrap"]
+symbol = "?UpdateBulletVerticalWrap@@YIXPAUBullet@@@Z"
+target_address = 0x00413A70
+size = 0x71
+relocations = [
+  { offset = 0x08, type = "DIR32", symbol = "__real@0000000000000000", target = 0x0048E818 },
+  { offset = 0x1B, type = "DIR32", symbol = "__real@43e00000", target = 0x0048E3B8 },
+  { offset = 0x29, type = "DIR32", symbol = "__real@407c000000000000", target = 0x0048E820 },
+  { offset = 0x3C, type = "DIR32", symbol = "__real@43e00000", target = 0x0048E3B8 },
+  { offset = 0x52, type = "REL32", symbol = "??NZunTimer@@QAEIH@Z", target = 0x00406720 },
+  { offset = 0x6B, type = "REL32", symbol = "??FZunTimer@@QAEXH@Z", target = 0x00406670 },
+]
+
+[units.etama-controller-release]
+source = "src/BulletManager.cpp"
+object = "build/matching/BulletManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EtamaController::Release"]
+symbol = "?Release@EtamaController@@SIXPAU1@@Z"
+target_address = 0x00414180
+size = 0x34
+relocations = [
+  { offset = 0x0F, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x14, type = "REL32", symbol = "?Cut@Chain@@QAEXPAVChainElem@@@Z", target = 0x0042C8C0 },
+  { offset = 0x20, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x25, type = "REL32", symbol = "?Cut@Chain@@QAEXPAVChainElem@@@Z", target = 0x0042C8C0 },
+  { offset = 0x2B, type = "REL32", symbol = "??3@YAXPAX@Z", target = 0x0047B249 },
+]
+
+[units.etama-controller-register]
+source = "src/BulletManager.cpp"
+object = "build/matching/BulletManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EtamaController::Register"]
+symbol = "?Register@EtamaController@@SIPAU1@H@Z"
+target_address = 0x004150D0
+size = 0x11B
+relocations = [
+  { offset = 0x06, type = "DIR32", symbol = "__ehhandler$?Register@EtamaController@@SIPAU1@H@Z", target = 0x0048D29B },
+  { offset = 0x0C, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x14, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x23, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x3B, type = "REL32", symbol = "??0EtamaController@@QAE@XZ", target = 0x00415050 },
+  { offset = 0x44, type = "DIR32", symbol = "??_C@_0N@LLNBEIJN@EtamaCtrlInf?$AA@", target = 0x0048E838 },
+  { offset = 0x4F, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x5B, type = "REL32", symbol = "?AddToRegistry@ZunMemory@@QAEPAXPAXIPAD@Z", target = 0x00401380 },
+  { offset = 0x64, type = "REL32", symbol = "?Initialize@EtamaController@@QAEXXZ", target = 0x004123C0 },
+  { offset = 0x6F, type = "DIR32", symbol = "?g_GameManager@@3UBulletGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x74, type = "DIR32", symbol = "?g_GameManager@@3UBulletGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x81, type = "DIR32", symbol = "?OnUpdate@EtamaController@@SIHPAU1@@Z", target = 0x004146F0 },
+  { offset = 0x86, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x97, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0xB0, type = "DIR32", symbol = "?AddedCallback@EtamaController@@SIHPAU1@@Z", target = 0x00413E40 },
+  { offset = 0xBD, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xC2, type = "REL32", symbol = "?AddToCalcChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B1E0 },
+  { offset = 0xD4, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0xDD, type = "DIR32", symbol = "?OnDraw@EtamaController@@SIHPAU1@@Z", target = 0x00413BE0 },
+  { offset = 0xE2, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xE7, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0x100, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x105, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
+  { offset = 0x113, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+]

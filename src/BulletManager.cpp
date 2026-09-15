@@ -1,0 +1,886 @@
+#include "BulletManager.hpp"
+#include "ZunMemory.hpp"
+
+#include <math.h>
+#include <new>
+#include <string.h>
+
+extern Chain g_Chain;
+
+struct BulletLoadedSpriteView
+{
+    unsigned char unknown00[0x30];
+    float widthPx;
+    float heightPx;
+};
+
+struct BulletSoundPlayerView
+{
+    void PlaySoundByIdx(int soundIndex, int pan);
+    void PlaySoundAtPosition(int soundIndex, float x);
+};
+extern BulletSoundPlayerView g_SoundPlayer;
+
+struct BulletRngView
+{
+    float GetRandomF32InRange(float maximum);
+};
+extern BulletRngView g_Rng;
+
+struct BulletSupervisorView
+{
+    void UpdateSideTimer(int sideIndex);
+    unsigned char unknown000[0x5B8];
+    float framerateMultiplier;
+};
+extern BulletSupervisorView g_Supervisor;
+
+struct BulletCancelCollisionView
+{
+    int CheckBulletCancelCollision(Float3 *position, Float3 *collisionSize, Bullet *bullet);
+};
+
+struct BulletPlayerView
+{
+    unsigned char unknown000[0x36C];
+    BulletCancelCollisionView cancelCollision;
+
+    float AngleToPoint(Float3 *point);
+    int CheckGrazeCollision(Float3 *position, Float3 *collisionSize, Bullet *bullet);
+    int CheckBulletCollision(Float3 *position, Float3 *collisionSize, Bullet *bullet);
+    void CalcLaserHitbox(
+        Float3 *center, Float3 *size, Float3 *origin, float angle, int pulse);
+};
+
+struct BulletGameManagerView
+{
+    BulletSideStateView sides[2];
+    unsigned char unknown070[0x134 - 0x70];
+    unsigned int flags;
+
+    int IsWithinPlayfield(float x, float y, float height, float width);
+};
+extern BulletGameManagerView g_GameManager;
+
+struct BulletAnmManagerView
+{
+    int ExecuteScript(AnmVm *vm);
+};
+extern BulletAnmManagerView *g_AnmManager;
+
+extern int g_BulletSpriteOffsetSmall[];
+extern int g_BulletSpriteOffsetMedium[];
+extern float __stdcall AddNormalizeAngle(float angle, float delta);
+
+static const float kPi = 3.1415927f;
+static const float kTwoPi = 6.2831855f;
+
+enum BulletState
+{
+    BULLET_STATE_UNUSED = 0,
+    BULLET_STATE_FIRED = 1,
+    BULLET_STATE_SPAWNING_FAST = 2,
+    BULLET_STATE_SPAWNING_NORMAL = 3,
+    BULLET_STATE_SPAWNING_SLOW = 4,
+    BULLET_STATE_DESPAWNING = 5,
+    BULLET_STATE_SENTINEL = 6,
+};
+
+enum BulletTransformFlags
+{
+    BULLET_TRANSFORM_DECELERATE = 0x1,
+    BULLET_TRANSFORM_SPAWN_FAST = 0x2,
+    BULLET_TRANSFORM_SPAWN_NORMAL = 0x4,
+    BULLET_TRANSFORM_SPAWN_SLOW = 0x8,
+    BULLET_TRANSFORM_ACCELERATE_VECTOR = 0x10,
+    BULLET_TRANSFORM_ACCELERATE_POLAR = 0x20,
+    BULLET_TRANSFORM_CHANGE_DIRECTION_RELATIVE = 0x40,
+    BULLET_TRANSFORM_CHANGE_DIRECTION_AIMED = 0x80,
+    BULLET_TRANSFORM_CHANGE_DIRECTION_ABSOLUTE = 0x100,
+    BULLET_TRANSFORM_PLAY_SPAWN_SOUND = 0x200,
+    BULLET_TRANSFORM_BOUNCE_ALL_EDGES = 0x400,
+    BULLET_TRANSFORM_BOUNCE_EXCEPT_BOTTOM = 0x800,
+    BULLET_TRANSFORM_CANCEL_IMMUNE = 0x1000,
+    BULLET_TRANSFORM_WAIT = 0x20000,
+    BULLET_TRANSFORM_WRAP_X = 0x400000,
+    BULLET_TRANSFORM_WRAP_Y = 0x800000,
+};
+
+enum BulletAimMode
+{
+    BULLET_AIM_FAN_AIMED = 0,
+    BULLET_AIM_FAN = 1,
+    BULLET_AIM_CIRCLE_AIMED = 2,
+    BULLET_AIM_CIRCLE = 3,
+    BULLET_AIM_OFFSET_CIRCLE_AIMED = 4,
+    BULLET_AIM_OFFSET_CIRCLE = 5,
+    BULLET_AIM_RANDOM_ANGLE = 6,
+    BULLET_AIM_RANDOM_SPEED = 7,
+    BULLET_AIM_RANDOM = 8,
+};
+
+static BulletLoadedSpriteView *GetLoadedSprite(const AnmVm *vm)
+{
+    return reinterpret_cast<BulletLoadedSpriteView *>(vm->loadedSprite);
+}
+
+static const AnmVm *CopyBulletAnmVmCore(const AnmVm *src, AnmVm *dst)
+{
+    *dst = *src;
+    return src;
+}
+
+int EtamaController::SelectBulletSprite(
+    AnmVm *dst, const AnmVm *base, const AnmVm *sizeSource, int offset)
+{
+    int baseSprite = base->activeSpriteIndex;
+    int result = dst->activeSpriteIndex;
+    if (result != baseSprite + offset)
+    {
+        float height = GetLoadedSprite(sizeSource)->heightPx;
+        if (height <= 16.0f)
+            return (this->bulletAnm->SetSprite(
+                        dst, baseSprite + g_BulletSpriteOffsetSmall[offset]),
+                    baseSprite + g_BulletSpriteOffsetSmall[offset]);
+        if (height <= 32.0f)
+            return (this->bulletAnm->SetSprite(
+                        dst, baseSprite + g_BulletSpriteOffsetMedium[offset]),
+                    baseSprite + g_BulletSpriteOffsetMedium[offset]);
+        this->bulletAnm->SetSprite(dst, baseSprite + offset);
+        result = baseSprite + offset;
+    }
+    return result;
+}
+
+int EtamaController::ClearDrawBuckets()
+{
+    this->drawBuckets[5] = NULL;
+    this->drawBuckets[4] = NULL;
+    this->drawBuckets[3] = NULL;
+    this->drawBuckets[2] = NULL;
+    this->drawBuckets[1] = NULL;
+    this->drawBuckets[0] = NULL;
+    return 0;
+}
+
+void Bullet::Deactivate()
+{
+    this->state = BULLET_STATE_UNUSED;
+    this->stateTimer = 0;
+    this->activeTimer = 0;
+}
+
+static void UpdateBulletDeceleration(Bullet *bullet)
+{
+    float magnitude;
+    BulletExState &state = bullet->exStates[0];
+    if (state.timer <= 16)
+    {
+        magnitude = 5.0f - ((float)state.timer * 5.0f) / 16.0f;
+        bullet->velocity.FromAngleMagnitude(
+            bullet->angle, (magnitude + bullet->speed) * g_Supervisor.framerateMultiplier);
+    }
+    else
+    {
+        bullet->activeTransformFlags ^= BULLET_TRANSFORM_DECELERATE;
+    }
+    state.timer++;
+}
+
+static void UpdateBulletVectorAcceleration(Bullet *bullet)
+{
+    BulletExState &state = bullet->exStates[1];
+    if (state.timer >= state.durationFrames)
+    {
+        bullet->activeTransformFlags &= ~BULLET_TRANSFORM_ACCELERATE_VECTOR;
+    }
+    else
+    {
+        Float3 delta(
+            state.vector.x * g_Supervisor.framerateMultiplier,
+            state.vector.y * g_Supervisor.framerateMultiplier,
+            state.vector.z * g_Supervisor.framerateMultiplier);
+        bullet->velocity += delta;
+        if (fabsf(bullet->velocity.x) > 0.0001f || fabsf(bullet->velocity.y) > 0.0001f)
+            bullet->angle = (float)atan2(bullet->velocity.y, bullet->velocity.x);
+    }
+    state.timer++;
+}
+
+static void UpdateBulletPolarAcceleration(Bullet *bullet)
+{
+    BulletExState &state = bullet->exStates[2];
+    if (state.timer >= state.durationFrames)
+    {
+        bullet->activeTransformFlags &= ~BULLET_TRANSFORM_ACCELERATE_POLAR;
+    }
+    else
+    {
+        bullet->angle = AddNormalizeAngle(
+            bullet->angle, g_Supervisor.framerateMultiplier * state.angleDelta);
+        bullet->speed += g_Supervisor.framerateMultiplier * state.speedDelta;
+        bullet->velocity.FromAngleMagnitude(
+            bullet->angle, g_Supervisor.framerateMultiplier * bullet->speed);
+    }
+    state.timer++;
+}
+
+static void UpdateBulletRelativeDirectionChange(Bullet *bullet)
+{
+    float magnitude;
+    BulletExState &state = bullet->exStates[3];
+    if (state.timer >= state.directionChangeIntervalFrames)
+    {
+        if (bullet->transformSound >= 0)
+            g_SoundPlayer.PlaySoundByIdx(bullet->transformSound, 0);
+        state.directionChangesCompleted += 1;
+        if (state.directionChangesCompleted >= state.directionChangeRepeatCount)
+            bullet->activeTransformFlags &= ~BULLET_TRANSFORM_CHANGE_DIRECTION_RELATIVE;
+        bullet->angle += state.directionChangeAngle;
+        bullet->speed = state.directionChangeSpeed;
+        magnitude = bullet->speed;
+        state.timer = 0;
+    }
+    else
+    {
+        magnitude = bullet->speed -
+                    ((float)state.timer * bullet->speed) / state.directionChangeIntervalFrames;
+    }
+    bullet->velocity.FromAngleMagnitude(
+        bullet->angle, magnitude * g_Supervisor.framerateMultiplier);
+    state.timer++;
+}
+
+static void UpdateBulletAbsoluteDirectionChange(Bullet *bullet)
+{
+    float magnitude;
+    BulletExState &state = bullet->exStates[3];
+    if (state.timer >= state.directionChangeIntervalFrames)
+    {
+        if (bullet->transformSound >= 0)
+            g_SoundPlayer.PlaySoundByIdx(bullet->transformSound, 0);
+        state.directionChangesCompleted += 1;
+        if (state.directionChangesCompleted >= state.directionChangeRepeatCount)
+            bullet->activeTransformFlags &= ~BULLET_TRANSFORM_CHANGE_DIRECTION_ABSOLUTE;
+        bullet->angle = state.directionChangeAngle;
+        bullet->speed = state.directionChangeSpeed;
+        magnitude = bullet->speed;
+        state.timer = 0;
+    }
+    else
+    {
+        magnitude = bullet->speed -
+                    ((float)state.timer * bullet->speed) / state.directionChangeIntervalFrames;
+    }
+    bullet->velocity.FromAngleMagnitude(
+        bullet->angle, magnitude * g_Supervisor.framerateMultiplier);
+    state.timer++;
+}
+
+static void UpdateBulletAimedDirectionChange(Bullet *bullet)
+{
+    float magnitude;
+    BulletExState &state = bullet->exStates[3];
+    if (state.timer >= state.directionChangeIntervalFrames)
+    {
+        if (bullet->transformSound >= 0)
+            g_SoundPlayer.PlaySoundByIdx(bullet->transformSound, 0);
+        state.directionChangesCompleted += 1;
+        if (state.directionChangesCompleted >= state.directionChangeRepeatCount)
+            bullet->activeTransformFlags &= ~BULLET_TRANSFORM_CHANGE_DIRECTION_AIMED;
+        bullet->angle = AddNormalizeAngle(
+            bullet->controller->sideState->player->AngleToPoint(&bullet->position),
+            state.directionChangeAngle);
+        bullet->speed = state.directionChangeSpeed;
+        magnitude = bullet->speed;
+        state.timer = 0;
+    }
+    else
+    {
+        magnitude = bullet->speed -
+                    ((float)state.timer * bullet->speed) / state.directionChangeIntervalFrames;
+    }
+    bullet->velocity.FromAngleMagnitude(
+        bullet->angle, magnitude * g_Supervisor.framerateMultiplier);
+    state.timer++;
+}
+
+static void UpdateBulletBoundaryBounce(Bullet *bullet)
+{
+    float magnitude;
+    BulletLoadedSpriteView *sprite = GetLoadedSprite(&bullet->sprites.bulletVm);
+    float *position = bullet->position.operator float *();
+    if (!g_GameManager.IsWithinPlayfield(
+            position[0], position[1], sprite->heightPx, sprite->widthPx))
+    {
+        if (bullet->transformSound >= 0)
+            g_SoundPlayer.PlaySoundByIdx(bullet->transformSound, 0);
+        if (bullet->position.x < -144.0f || bullet->position.x >= 144.0f)
+        {
+            bullet->angle = -bullet->angle - kPi;
+            bullet->angle = AddNormalizeAngle(bullet->angle, 0.0f);
+        }
+        if (bullet->position.y < 0.0f ||
+            (bullet->position.y >= 448.0f &&
+             (bullet->activeTransformFlags & BULLET_TRANSFORM_BOUNCE_ALL_EDGES) != 0))
+            bullet->angle = -bullet->angle;
+        bullet->speed = bullet->exStates[4].bounceSpeed;
+        magnitude = bullet->speed;
+        bullet->velocity.FromAngleMagnitude(
+            bullet->angle, magnitude * g_Supervisor.framerateMultiplier);
+        bullet->exStates[4].bouncesCompleted += 1;
+        if (bullet->exStates[4].bouncesCompleted >= bullet->exStates[4].bounceLimit)
+            bullet->activeTransformFlags &=
+                ~(BULLET_TRANSFORM_BOUNCE_ALL_EDGES | BULLET_TRANSFORM_BOUNCE_EXCEPT_BOTTOM);
+    }
+}
+
+static void UpdateBulletHorizontalWrap(Bullet *bullet)
+{
+    if (bullet->position.x < 0.0)
+        bullet->position.x += 384.0f;
+    else if (bullet->position.x > 384.0)
+        bullet->position.x -= 384.0f;
+    if (bullet->exStates[6].timer <= 0)
+        bullet->activeTransformFlags ^= BULLET_TRANSFORM_WRAP_X;
+    else
+        bullet->exStates[6].timer--;
+}
+
+static void UpdateBulletVerticalWrap(Bullet *bullet)
+{
+    if (bullet->position.y < 0.0)
+        bullet->position.y += 448.0f;
+    else if (bullet->position.y > 448.0)
+        bullet->position.y -= 448.0f;
+    if (bullet->exStates[6].timer <= 0)
+        bullet->activeTransformFlags ^= BULLET_TRANSFORM_WRAP_Y;
+    else
+        bullet->exStates[6].timer--;
+}
+
+Bullet *EtamaController::SpawnSingleBullet(
+    BulletSpawnDescriptor *descriptor, int index1, int index2,
+    float angleToPlayer, int poolIndex)
+{
+    Bullet *poolStart = poolIndex == 0 ? this->primaryPoolStart : this->secondaryPoolStart;
+    int poolCount = poolIndex == 0 ? 175 : 360;
+    Bullet *bullet = poolStart;
+    int i;
+    for (i = 0; i < poolCount; ++i)
+    {
+        if (bullet->state == BULLET_STATE_UNUSED)
+            break;
+        ++bullet;
+        if (bullet->state == BULLET_STATE_SENTINEL)
+            bullet = poolStart;
+    }
+    if (i >= poolCount)
+        return bullet;
+
+    float angle = 0.0f;
+    float speed;
+    if (descriptor->count2 > 1)
+        speed = descriptor->speed1 -
+                (descriptor->speed1 - descriptor->speed2) * (float)index2 /
+                    (float)descriptor->count2;
+    else
+        speed = descriptor->speed1;
+
+    switch (descriptor->aimMode)
+    {
+    case BULLET_AIM_FAN_AIMED:
+    case BULLET_AIM_FAN:
+        if ((descriptor->count1 & 1) != 0)
+            angle += (float)((index1 + 1) / 2) * descriptor->angleStep;
+        else
+            angle += (float)(index1 / 2) * descriptor->angleStep + descriptor->angleStep * 0.5f;
+        if ((index1 & 1) != 0)
+            angle *= -1.0f;
+        if (descriptor->aimMode == BULLET_AIM_FAN_AIMED)
+            angle += angleToPlayer;
+        angle += descriptor->angle;
+        break;
+    case BULLET_AIM_CIRCLE_AIMED:
+        angle += angleToPlayer;
+    case BULLET_AIM_CIRCLE:
+        angle += (float)index1 * kTwoPi / (float)descriptor->count1;
+        angle += (float)index2 * descriptor->angleStep + descriptor->angle;
+        break;
+    case BULLET_AIM_OFFSET_CIRCLE_AIMED:
+        angle += angleToPlayer;
+    case BULLET_AIM_OFFSET_CIRCLE:
+        angle += kPi / (float)descriptor->count1;
+        angle += (float)index1 * kTwoPi / (float)descriptor->count1;
+        angle += descriptor->angle;
+        break;
+    case BULLET_AIM_RANDOM_ANGLE:
+        angle = g_Rng.GetRandomF32InRange(descriptor->angle - descriptor->angleStep) +
+                descriptor->angleStep;
+        break;
+    case BULLET_AIM_RANDOM_SPEED:
+        speed = g_Rng.GetRandomF32InRange(descriptor->speed1 - descriptor->speed2) +
+                descriptor->speed2;
+        angle += (float)index1 * kTwoPi / (float)descriptor->count1;
+        angle += (float)index2 * descriptor->angleStep + descriptor->angle;
+        break;
+    case BULLET_AIM_RANDOM:
+        angle = g_Rng.GetRandomF32InRange(descriptor->angle - descriptor->angleStep) +
+                descriptor->angleStep;
+        speed = g_Rng.GetRandomF32InRange(descriptor->speed1 - descriptor->speed2) +
+                descriptor->speed2;
+        break;
+    }
+
+    bullet->controller = this;
+    bullet->state = BULLET_STATE_FIRED;
+    bullet->spawnMarker = 1;
+    bullet->isGrazed = 0;
+    bullet->stateTimer = 0;
+    bullet->collisionDisabled = 0;
+    bullet->activeTimer = 0;
+    bullet->unknown10BE = 0;
+    bullet->speed = speed;
+    bullet->angle = AddNormalizeAngle(angle, 0.0f);
+    bullet->extraAttribute10BD = descriptor->extraAttribute20C;
+    bullet->position = descriptor->position;
+    bullet->position.z = 0.1f;
+    bullet->velocity.FromAngleMagnitude(
+        angle, speed * g_Supervisor.framerateMultiplier);
+    bullet->activeTransformFlags = descriptor->transformFlags;
+    bullet->color = descriptor->color;
+    bullet->transformIndex = 0;
+    bullet->cancelledDuringSpawn = 0;
+
+    CopyBulletAnmVmCore(&descriptor->templateSprites->bulletVm, &bullet->sprites.bulletVm);
+    CopyBulletAnmVmCore(&descriptor->templateSprites->despawnVm, &bullet->sprites.despawnVm);
+    bullet->bulletType = descriptor->bulletType;
+    bullet->color = descriptor->color;
+    bullet->sprites.unknownD44 = descriptor->templateSprites->unknownD44;
+    bullet->sprites.collisionSize = descriptor->templateSprites->collisionSize;
+    bullet->sprites.unknownD40 = descriptor->templateSprites->unknownD40;
+    bullet->sprites.spriteHeightPx = descriptor->templateSprites->spriteHeightPx;
+    bullet->sprites.drawBucketIndex = descriptor->templateSprites->drawBucketIndex;
+    bullet->transformSound = descriptor->transformSound;
+    bullet->offscreenCullDelayFrames = 0;
+
+    if (bullet->sprites.bulletVm.activeSpriteIndex !=
+        descriptor->templateSprites->bulletVm.activeSpriteIndex + descriptor->color)
+        this->bulletAnm->SetSprite(
+            &bullet->sprites.bulletVm,
+            descriptor->templateSprites->bulletVm.activeSpriteIndex + descriptor->color);
+
+    this->SelectBulletSprite(
+        &bullet->sprites.despawnVm, &descriptor->templateSprites->despawnVm,
+        &bullet->sprites.bulletVm, descriptor->color);
+
+    if ((descriptor->transformFlags & BULLET_TRANSFORM_SPAWN_FAST) != 0)
+    {
+        CopyBulletAnmVmCore(
+            &descriptor->templateSprites->spawnFastVm, &bullet->sprites.spawnFastVm);
+        this->SelectBulletSprite(
+            &bullet->sprites.spawnFastVm, &descriptor->templateSprites->spawnFastVm,
+            &bullet->sprites.bulletVm, descriptor->color);
+        bullet->state = BULLET_STATE_SPAWNING_FAST;
+        bullet->position -= bullet->velocity * 4.0f;
+    }
+    else if ((descriptor->transformFlags & BULLET_TRANSFORM_SPAWN_NORMAL) != 0)
+    {
+        CopyBulletAnmVmCore(
+            &descriptor->templateSprites->spawnNormalVm, &bullet->sprites.spawnNormalVm);
+        this->SelectBulletSprite(
+            &bullet->sprites.spawnNormalVm, &descriptor->templateSprites->spawnNormalVm,
+            &bullet->sprites.bulletVm, descriptor->color);
+        bullet->state = BULLET_STATE_SPAWNING_NORMAL;
+        bullet->position -= bullet->velocity * 4.0f;
+    }
+    else if ((descriptor->transformFlags & BULLET_TRANSFORM_SPAWN_SLOW) != 0)
+    {
+        CopyBulletAnmVmCore(
+            &descriptor->templateSprites->spawnSlowVm, &bullet->sprites.spawnSlowVm);
+        this->SelectBulletSprite(
+            &bullet->sprites.spawnSlowVm, &descriptor->templateSprites->spawnSlowVm,
+            &bullet->sprites.bulletVm, descriptor->color);
+        bullet->state = BULLET_STATE_SPAWNING_SLOW;
+        bullet->position -= bullet->velocity * 4.0f;
+    }
+
+    memcpy(bullet->transforms, descriptor->transforms, sizeof(descriptor->transforms));
+    bullet->transformFlags = descriptor->transformFlags;
+    bullet->activeTransformFlags = 0;
+    bullet->transformIndex = descriptor->transformStartIndex;
+    bullet->AdvanceTransformProgram();
+
+    if (this->spawnSuppressionFrames != 0 &&
+        (bullet->transformFlags & BULLET_TRANSFORM_CANCEL_IMMUNE) == 0)
+        bullet->state = BULLET_STATE_DESPAWNING;
+    return bullet;
+}
+
+Bullet *EtamaController::SpawnBulletPatternPrimary(BulletSpawnDescriptor *descriptor)
+{
+    descriptor->templateSprites = &this->bulletTypeSprites[descriptor->bulletType];
+    float angleToPlayer = this->sideState->player->AngleToPoint(&descriptor->position);
+    Bullet *result = NULL;
+    for (int index2 = 0; index2 < descriptor->count2; ++index2)
+    {
+        for (int index1 = 0; index1 < descriptor->count1; ++index1)
+        {
+            result = this->SpawnSingleBullet(descriptor, index1, index2, angleToPlayer, 0);
+            if (result == &this->bullets[175])
+                goto done;
+        }
+    }
+done:
+    if ((descriptor->transformFlags & BULLET_TRANSFORM_PLAY_SPAWN_SOUND) != 0)
+        g_SoundPlayer.PlaySoundAtPosition(descriptor->spawnSound, descriptor->position.x);
+    return result;
+}
+
+Bullet *EtamaController::SpawnBulletPatternSecondary(BulletSpawnDescriptor *descriptor)
+{
+    descriptor->templateSprites = &this->bulletTypeSprites[descriptor->bulletType];
+    float angleToPlayer = this->sideState->player->AngleToPoint(&descriptor->position);
+    Bullet *result = NULL;
+    for (int index2 = 0; index2 < descriptor->count2; ++index2)
+    {
+        for (int index1 = 0; index1 < descriptor->count1; ++index1)
+        {
+            result = this->SpawnSingleBullet(descriptor, index1, index2, angleToPlayer, 1);
+            if (result == &this->bullets[536])
+                goto done;
+        }
+    }
+done:
+    if ((descriptor->transformFlags & BULLET_TRANSFORM_PLAY_SPAWN_SOUND) != 0)
+        g_SoundPlayer.PlaySoundAtPosition(descriptor->spawnSound, descriptor->position.x);
+    return result;
+}
+
+int EtamaController::OnUpdate(EtamaController *controller)
+{
+    if ((g_GameManager.flags & 0x1800) != 0)
+        return 1;
+
+    g_Supervisor.UpdateSideTimer(controller->sideIndex);
+    controller->activePrimaryCount = 0;
+    controller->activeSecondaryCount = 0;
+    controller->activeTotalCount = 0;
+    controller->ClearDrawBuckets();
+
+    Bullet *bullet = &controller->bullets[0];
+    for (int i = 0; i < 536; ++i, ++bullet)
+    {
+        if (bullet->state == BULLET_STATE_UNUSED || bullet->state == BULLET_STATE_SENTINEL)
+            continue;
+
+        Bullet **drawBucket = &controller->drawBuckets[bullet->sprites.drawBucketIndex];
+        if ((controller->sideState->flags & 1) == 0)
+        {
+            ++controller->activeTotalCount;
+            if (i >= 175)
+                ++controller->activeSecondaryCount;
+            else
+                ++controller->activePrimaryCount;
+
+            switch (bullet->state)
+            {
+            case BULLET_STATE_SPAWNING_FAST:
+                bullet->activeTimer--;
+                bullet->position += bullet->velocity / 2.0f;
+                if (g_AnmManager->ExecuteScript(&bullet->sprites.spawnFastVm) == 0)
+                    goto updateTimers;
+                if (bullet->cancelledDuringSpawn != 0)
+                    bullet->state = BULLET_STATE_DESPAWNING;
+                bullet->state = BULLET_STATE_FIRED;
+                bullet->stateTimer = 0;
+                break;
+            case BULLET_STATE_SPAWNING_NORMAL:
+                bullet->activeTimer--;
+                bullet->position += bullet->velocity / 2.5f;
+                if (g_AnmManager->ExecuteScript(&bullet->sprites.spawnNormalVm) == 0)
+                    goto updateTimers;
+                if (bullet->cancelledDuringSpawn != 0)
+                    bullet->state = BULLET_STATE_DESPAWNING;
+                bullet->state = BULLET_STATE_FIRED;
+                bullet->stateTimer = 0;
+                break;
+            case BULLET_STATE_SPAWNING_SLOW:
+                bullet->activeTimer--;
+                bullet->position += bullet->velocity / 3.0f;
+                if (g_AnmManager->ExecuteScript(&bullet->sprites.spawnSlowVm) == 0)
+                    goto updateTimers;
+                if (bullet->cancelledDuringSpawn != 0)
+                    bullet->state = BULLET_STATE_DESPAWNING;
+                bullet->state = BULLET_STATE_FIRED;
+                bullet->stateTimer = 0;
+                break;
+            case BULLET_STATE_DESPAWNING:
+                bullet->position += bullet->velocity / 2.0f;
+                if (g_AnmManager->ExecuteScript(&bullet->sprites.despawnVm) != 0)
+                {
+                    bullet->Deactivate();
+                    continue;
+                }
+                goto updateTimers;
+            case BULLET_STATE_FIRED:
+                break;
+            default:
+                goto updateTimers;
+            }
+
+            bullet->AdvanceTransformProgram();
+            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_DECELERATE) != 0)
+                UpdateBulletDeceleration(bullet);
+            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_ACCELERATE_VECTOR) != 0)
+                UpdateBulletVectorAcceleration(bullet);
+            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_ACCELERATE_POLAR) != 0)
+                UpdateBulletPolarAcceleration(bullet);
+            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_CHANGE_DIRECTION_RELATIVE) != 0)
+                UpdateBulletRelativeDirectionChange(bullet);
+            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_CHANGE_DIRECTION_ABSOLUTE) != 0)
+                UpdateBulletAbsoluteDirectionChange(bullet);
+            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_CHANGE_DIRECTION_AIMED) != 0)
+                UpdateBulletAimedDirectionChange(bullet);
+            if ((bullet->activeTransformFlags &
+                 (BULLET_TRANSFORM_BOUNCE_ALL_EDGES | BULLET_TRANSFORM_BOUNCE_EXCEPT_BOTTOM)) != 0)
+                UpdateBulletBoundaryBounce(bullet);
+            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_WRAP_X) != 0)
+                UpdateBulletHorizontalWrap(bullet);
+            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_WRAP_Y) != 0)
+                UpdateBulletVerticalWrap(bullet);
+            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_WAIT) != 0)
+            {
+                if (bullet->exStates[5].timer <= 0)
+                    bullet->activeTransformFlags ^= BULLET_TRANSFORM_WAIT;
+                else
+                    bullet->exStates[5].timer--;
+            }
+
+            if (bullet->offscreenCullDelayFrames != 0)
+                --bullet->offscreenCullDelayFrames;
+            bullet->position += bullet->velocity;
+
+            if (bullet->offscreenCullDelayFrames == 0)
+            {
+                BulletLoadedSpriteView *sprite = GetLoadedSprite(&bullet->sprites.bulletVm);
+                float *position = bullet->position.operator float *();
+                if (!g_GameManager.IsWithinPlayfield(
+                        position[0], position[1], sprite->heightPx, sprite->widthPx))
+                {
+                    if ((bullet->activeTransformFlags & 0xDC0) != 0)
+                    {
+                        ++bullet->offscreenFrames;
+                        if (bullet->offscreenFrames >= 0x80)
+                        {
+                            bullet->Deactivate();
+                            continue;
+                        }
+                    }
+                    else if (bullet->offscreenFrames == 0)
+                    {
+                        bullet->Deactivate();
+                        continue;
+                    }
+                    else
+                    {
+                        --bullet->offscreenFrames;
+                    }
+                }
+                else
+                {
+                    bullet->offscreenFrames = 0;
+                }
+            }
+
+            if (bullet->collisionDisabled == 0)
+            {
+                BulletPlayerView *player = controller->sideState->player;
+                int collisionResult;
+                if (bullet->isGrazed == 0)
+                {
+                    collisionResult = player->CheckGrazeCollision(
+                        &bullet->position, &bullet->sprites.collisionSize, bullet);
+                    if (collisionResult == 1)
+                    {
+                        bullet->isGrazed = 1;
+                    }
+                    else
+                    {
+                        if (collisionResult == 2 &&
+                            (bullet->transformFlags & BULLET_TRANSFORM_CANCEL_IMMUNE) == 0)
+                            bullet->state = BULLET_STATE_DESPAWNING;
+                        goto executeBulletScript;
+                    }
+                }
+
+                collisionResult = player->CheckBulletCollision(
+                    &bullet->position, &bullet->sprites.collisionSize, bullet);
+                if (collisionResult != 0 &&
+                    (collisionResult != 2 ||
+                     (bullet->transformFlags & BULLET_TRANSFORM_CANCEL_IMMUNE) == 0))
+                {
+                    bullet->state = BULLET_STATE_DESPAWNING;
+                }
+                else
+                {
+                    player->cancelCollision.CheckBulletCancelCollision(
+                        &bullet->position, &bullet->sprites.collisionSize, bullet);
+                }
+            }
+
+executeBulletScript:
+            if (bullet->sprites.bulletVm.currentInstruction != NULL)
+                g_AnmManager->ExecuteScript(&bullet->sprites.bulletVm);
+        }
+
+updateTimers:
+        bullet->stateTimer++;
+        bullet->activeTimer++;
+        bullet->nextInDrawBucket = *drawBucket;
+        *drawBucket = bullet;
+    }
+
+    if ((controller->sideState->flags & 1) != 0)
+        return 1;
+
+    float laserCenter[3];
+    float laserSize[3];
+    Laser *laser = &controller->lasers[0];
+    for (int i = 0; i < 48; ++i, ++laser)
+    {
+        if (laser->inUse == 0)
+            continue;
+
+        laser->endOffset += g_Supervisor.framerateMultiplier * laser->speed;
+        if (laser->endOffset - laser->startOffset > laser->startLength)
+            laser->startOffset = laser->endOffset - laser->startLength;
+        if (laser->startOffset < 0.0f)
+            laser->startOffset = 0.0f;
+
+        laserSize[1] = laser->width / 2.0f;
+        if (laser->startOffset <= 0.0f)
+            laserSize[0] = laser->endOffset - laser->startOffset;
+        else
+            laserSize[0] = (laser->endOffset - laser->startOffset) * 0.7f;
+        laserCenter[0] = (laser->endOffset - laser->startOffset) / 2.0f +
+                         laser->startOffset + laser->position.x;
+        laserCenter[1] = laser->position.y;
+        laser->bodyVm.scale.x = laser->width / GetLoadedSprite(&laser->bodyVm)->widthPx;
+        float currentLength = laser->endOffset - laser->startOffset;
+        laser->bodyVm.scale.y = currentLength / GetLoadedSprite(&laser->bodyVm)->heightPx;
+        laser->bodyVm.SetZRotation(AddNormalizeAngle(kPi / 2.0f + laser->angle, 0.0f));
+
+        switch (laser->state)
+        {
+        case 0:
+            if ((laser->flags & 1) != 0)
+            {
+                int alpha = (int)((float)laser->timer * 255.0f / laser->startTime);
+                if (alpha > 255)
+                    alpha = 255;
+                laser->bodyVm.color1 = (unsigned int)alpha << 24;
+            }
+            else
+            {
+                int rampWindow = laser->startTime > 30 ? 30 : laser->startTime;
+                if (laser->startTime - rampWindow < (int)(float)laser->timer)
+                    laser->currentWidth = (float)laser->timer * laser->width / laser->startTime;
+                else
+                    laser->currentWidth = 1.2f;
+                laser->bodyVm.scale.x = laser->currentWidth / 16.0f;
+                laserSize[0] = laser->currentWidth / 2.0f;
+            }
+            if ((int)(float)laser->timer >= laser->hitboxStartTime)
+                controller->sideState->player->CalcLaserHitbox(
+                    reinterpret_cast<Float3 *>(laserCenter), reinterpret_cast<Float3 *>(laserSize),
+                    &laser->position, laser->angle, 0);
+            if ((int)(float)laser->timer < laser->startTime)
+                break;
+            laser->timer = 0;
+            ++laser->state;
+            laser->currentWidth = laser->width;
+        case 1:
+            controller->sideState->player->CalcLaserHitbox(
+                reinterpret_cast<Float3 *>(laserCenter), reinterpret_cast<Float3 *>(laserSize),
+                &laser->position, laser->angle, 0);
+            if ((int)(float)laser->timer < laser->duration)
+                break;
+            laser->timer = 0;
+            ++laser->state;
+            if (laser->despawnDuration == 0)
+            {
+                laser->inUse = 0;
+                continue;
+            }
+        case 2:
+            if ((laser->flags & 1) != 0)
+            {
+                int alpha = (int)((float)laser->timer * 255.0f / laser->startTime);
+                if (alpha > 255)
+                    alpha = 255;
+                laser->bodyVm.color1 = (unsigned int)alpha << 24;
+            }
+            else if (laser->despawnDuration > 0)
+            {
+                laser->currentWidth = laser->width -
+                    (float)laser->timer * laser->width / laser->despawnDuration;
+                laser->bodyVm.scale.x = laser->currentWidth / 16.0f;
+                laserSize[0] = laser->currentWidth / 2.0f;
+            }
+            if ((int)(float)laser->timer < laser->hitboxEndDelay)
+                controller->sideState->player->CalcLaserHitbox(
+                    reinterpret_cast<Float3 *>(laserCenter), reinterpret_cast<Float3 *>(laserSize),
+                    &laser->position, laser->angle, 0);
+            if ((int)(float)laser->timer < laser->despawnDuration)
+                break;
+            laser->inUse = 0;
+            continue;
+        }
+
+        if (laser->startOffset >= 640.0f)
+            laser->inUse = 0;
+        laser->timer++;
+        g_AnmManager->ExecuteScript(&laser->bodyVm);
+    }
+
+    if (controller->spawnSuppressionFrames != 0)
+        --controller->spawnSuppressionFrames;
+    controller->timer++;
+    ++controller->frameCounter;
+    return 1;
+}
+
+void EtamaController::Release(EtamaController *controller)
+{
+    if (controller == NULL)
+        return;
+    g_Chain.Cut(controller->drawChain);
+    g_Chain.Cut(controller->calcChain);
+    delete controller;
+}
+
+EtamaController *EtamaController::Register(int sideIndex)
+{
+    EtamaController *controller = new EtamaController;
+    controller = static_cast<EtamaController *>(g_ZunMemory.AddToRegistry(
+        controller, sizeof(EtamaController), const_cast<char *>("EtamaCtrlInf")));
+    controller->Initialize();
+    controller->sideState = &g_GameManager.sides[sideIndex];
+    controller->sideIndex = sideIndex;
+    controller->opponentSideState = &g_GameManager.sides[1 - sideIndex];
+
+    controller->calcChain = g_Chain.CreateElem(
+        reinterpret_cast<ChainCallback>(EtamaController::OnUpdate));
+    controller->calcChain->arg = controller;
+    controller->calcChain->addedCallback =
+        reinterpret_cast<ChainLifetimeCallback>(EtamaController::AddedCallback);
+    if (g_Chain.AddToCalcChain(controller->calcChain, sideIndex + 12) != 0)
+        return NULL;
+
+    controller->drawChain = g_Chain.CreateElem(
+        reinterpret_cast<ChainCallback>(EtamaController::OnDraw));
+    controller->drawChain->arg = controller;
+    g_Chain.AddToDrawChain(controller->drawChain, sideIndex + 21);
+    return controller;
+}
