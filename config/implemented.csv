@@ -361,3 +361,4 @@ EtamaController::Register
 TitleScreenView::PlayMenuSound
 TitleScreenView::OnUpdateOptions
 EclManager::RunEcl
+AnmManager::ExecuteScript

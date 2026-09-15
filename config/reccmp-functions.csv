@@ -1,5 +1,6 @@
 name,address,type
 EclManager::RunEcl,0x004086C0,function
+AnmManager::ExecuteScript,0x00436F30,function
 Background::ClearSpellBackgroundState,0x004011C0,function
 AnmManager::SetCameraMode,0x00401600,function
 AnmManager::SetMixColorDefault,0x00401610,function

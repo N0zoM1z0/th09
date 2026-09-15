@@ -42,9 +42,11 @@ struct ZunTimer {
     void operator=(int value);
     unsigned int operator>=(int value);
     unsigned int operator<(int value);
-    ZunBool operator==(int value) { return current == value; }
-    ZunBool operator<=(int value) { return current <= value; }
-    ZunBool operator>(int value) { return current > value; }
+    // These comparisons are out of line in the original ExecuteScript TU.
+    // Their callsites are part of the target-exact Wait/interpolation paths.
+    ZunBool operator==(int value);
+    ZunBool operator<=(int value);
+    ZunBool operator>(int value);
 };
 
 class AnmLoaded;
