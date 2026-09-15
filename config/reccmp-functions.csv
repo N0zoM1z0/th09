@@ -315,3 +315,5 @@ PlayerLifecycleView::OnDrawLowPrio,0x0041CDC0,function
 ReleasePlayerOwnedResources,0x0041CE60,function
 PlayerLifecycleView::OnDrawHighPrio,0x0041EB10,function
 PlayerLifecycleView::PlayerLifecycleView,0x0041F070,function
+PlayerLifecycleView::DrawActiveShots,0x0041F680,function
+PlayerLifecycleView::DrawHitShots,0x0041F760,function

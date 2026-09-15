@@ -72,10 +72,32 @@ struct PlayerPositionView
     float x;
     float y;
     float z;
+
+    operator float *();
 };
 
 typedef char PlayerPositionSizeIsC[(sizeof(PlayerPositionView) == 0x0C) ? 1 : -1];
 typedef PlayerPositionView PlayerHalfSizeView;
+
+struct PlayerColorBgraView
+{
+    unsigned char blue;
+    unsigned char green;
+    unsigned char red;
+    unsigned char alpha;
+};
+typedef char PlayerColorBgraSizeIs4[(sizeof(PlayerColorBgraView) == 4) ? 1 : -1];
+
+struct PlayerLoadedSpriteView
+{
+    unsigned char unknown00[0x30];
+    float extent30;
+    float extent34;
+};
+typedef char PlayerLoadedSpriteExtent30At30[
+    (offsetof(PlayerLoadedSpriteView, extent30) == 0x30) ? 1 : -1];
+typedef char PlayerLoadedSpriteExtent34At34[
+    (offsetof(PlayerLoadedSpriteView, extent34) == 0x34) ? 1 : -1];
 
 struct PlayerHeaderStateView
 {
@@ -96,13 +118,24 @@ typedef char PlayerHeaderStateSizeIs9C[(sizeof(PlayerHeaderStateView) == 0x9C) ?
 
 struct PlayerAnmVmView
 {
-    unsigned char unknown000[0x208];
+    unsigned char unknown000[0x1F0];
+    PlayerColorBgraView color1F0;
+    unsigned char unknown1F4[0x1FC - 0x1F4];
+    short type1FC;
+    unsigned char unknown1FE[0x208 - 0x1FE];
     PlayerPositionView position208;
-    unsigned char unknown214[0x2A4 - 0x214];
+    unsigned char unknown214[0x224 - 0x214];
+    PlayerLoadedSpriteView *loadedSprite224;
+    unsigned char unknown228[0x2A4 - 0x228];
 
     PlayerAnmVmView();
+    void SetZRotation(float angle);
 };
 typedef char PlayerAnmVmSizeIs2A4[(sizeof(PlayerAnmVmView) == 0x2A4) ? 1 : -1];
+typedef char PlayerAnmVmTypeAt1FC[(offsetof(PlayerAnmVmView, type1FC) == 0x1FC) ? 1 : -1];
+typedef char PlayerAnmVmPositionAt208[(offsetof(PlayerAnmVmView, position208) == 0x208) ? 1 : -1];
+typedef char PlayerAnmVmLoadedSpriteAt224[
+    (offsetof(PlayerAnmVmView, loadedSprite224) == 0x224) ? 1 : -1];
 
 struct PlayerHistoryBlockView
 {
@@ -117,6 +150,7 @@ struct PlayerTimerCtorView
 {
     unsigned char storage[0x0C];
     PlayerTimerCtorView();
+    void operator++(int);
 };
 typedef char PlayerTimerCtorSizeIsC[(sizeof(PlayerTimerCtorView) == 0x0C) ? 1 : -1];
 
@@ -136,12 +170,46 @@ struct PlayerOptionStateCtorView
 };
 typedef char PlayerOptionStateCtorSizeIs2F4[(sizeof(PlayerOptionStateCtorView) == 0x2F4) ? 1 : -1];
 
+struct PlayerLifecycleView;
+struct PlayerShotCtorView;
+typedef int (__fastcall *PlayerShotUpdateCallback)(
+    PlayerLifecycleView *player, PlayerShotCtorView *shot);
+typedef int (__fastcall *PlayerShotDrawCallback)(
+    PlayerLifecycleView *player, PlayerShotCtorView *shot);
+
 struct PlayerShotCtorView
 {
-    unsigned char storage[0x484];
+    PlayerAnmVmView vm;
+    PlayerPositionView position2A4;
+    unsigned char unknown2B0[0x43C - 0x2B0];
+    PlayerPositionView velocity43C;
+    float auxiliary448;
+    float speed44C;
+    float angle450;
+    PlayerTimerCtorView timer454;
+    short unknown460;
+    short state462;
+    short shotType464;
+    unsigned char unknown466[0x46E - 0x466];
+    unsigned char tintFlag46E;
+    unsigned char unknown46F[0x474 - 0x46F];
+    PlayerShotUpdateCallback updateCallback474;
+    PlayerShotDrawCallback drawCallback478;
+    unsigned char unknown47C[0x484 - 0x47C];
+
     PlayerShotCtorView();
 };
 typedef char PlayerShotCtorSizeIs484[(sizeof(PlayerShotCtorView) == 0x484) ? 1 : -1];
+typedef char PlayerShotPositionAt2A4[(offsetof(PlayerShotCtorView, position2A4) == 0x2A4) ? 1 : -1];
+typedef char PlayerShotVelocityAt43C[(offsetof(PlayerShotCtorView, velocity43C) == 0x43C) ? 1 : -1];
+typedef char PlayerShotTimerAt454[(offsetof(PlayerShotCtorView, timer454) == 0x454) ? 1 : -1];
+typedef char PlayerShotStateAt462[(offsetof(PlayerShotCtorView, state462) == 0x462) ? 1 : -1];
+typedef char PlayerShotTypeAt464[(offsetof(PlayerShotCtorView, shotType464) == 0x464) ? 1 : -1];
+typedef char PlayerShotTintAt46E[(offsetof(PlayerShotCtorView, tintFlag46E) == 0x46E) ? 1 : -1];
+typedef char PlayerShotUpdateCallbackAt474[
+    (offsetof(PlayerShotCtorView, updateCallback474) == 0x474) ? 1 : -1];
+typedef char PlayerShotDrawCallbackAt478[
+    (offsetof(PlayerShotCtorView, drawCallback478) == 0x478) ? 1 : -1];
 
 struct PlayerState3031CView
 {
@@ -231,10 +299,10 @@ struct PlayerLifecycleView
     void SetBombMode0();
     void SetBombMode1();
     void SetBombMode2();
-    void UpdateAfterAnimation();
+    void UpdateShots();
     void UpdateHeavyState();
     void DrawActiveShots();
-    void DrawOptionStates();
+    void DrawTailStates();
     void DrawHitShots();
 
     static int __fastcall OnUpdate(PlayerLifecycleView *player);

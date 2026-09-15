@@ -314,3 +314,5 @@ PlayerLifecycleView::OnDrawLowPrio
 ReleasePlayerOwnedResources
 PlayerLifecycleView::OnDrawHighPrio
 PlayerLifecycleView::PlayerLifecycleView
+PlayerLifecycleView::DrawActiveShots
+PlayerLifecycleView::DrawHitShots

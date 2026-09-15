@@ -420,9 +420,9 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041F350,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041F490,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041F4C0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041F580,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041F680,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041F760,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041F580,authored_game,Player,authored,high,player-update-shots-source-nonexact-2026-09-15
+0x0041F680,authored_game,Player,authored,high,player-draw-active-shots-vc71-exact-2026-09-15
+0x0041F760,authored_game,Player,authored,high,player-draw-hit-shots-vc71-exact-2026-09-15
 0x0041F810,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041FCD0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004200C0,authored_game,ReplayManager,authored,high,replay-append-format-vc71-exact-2026-09-11

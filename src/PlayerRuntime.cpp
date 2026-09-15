@@ -17,6 +17,8 @@ struct PlayerAnmManagerView
     void *GetAnm(int anmIdx);
     int ExecuteScript(void *vm);
     int DrawNoRotation(void *vm);
+    int Draw2D(void *vm);
+    void DrawPlayerBullet(void *vm);
 };
 
 extern PlayerAnmManagerView *g_AnmManager;
@@ -319,12 +321,18 @@ struct PlayerSupervisorRuntimeView
     void SelectSide(int sideIndex);
     void PreparePlayerDraw(int sideIndex);
     void ConfigureGameplayViewport(int sideIndex);
+
+    unsigned char unknown000[0x5B8];
+    float framerateMultiplier5B8;
 };
+typedef char PlayerSupervisorFramerateAt5B8[
+    (offsetof(PlayerSupervisorRuntimeView, framerateMultiplier5B8) == 0x5B8) ? 1 : -1];
 extern PlayerSupervisorRuntimeView g_PlayerSupervisorRuntime;
 
 struct PlayerGameManagerRuntimeView
 {
     int CheckTimingState();
+    int IsWithinPlayfield(float x, float y, float extent34, float extent30);
     float TransformPopupX(float value);
     float TransformPopupY(float value);
     unsigned char unknown000[0x13D];
@@ -412,7 +420,7 @@ afterTransition:
         player->UpdateStateValue();
 
     g_AnmManager->ExecuteScript(&player->mainVm);
-    player->UpdateAfterAnimation();
+    player->UpdateShots();
 
     if (!g_PlayerSharedRuntime->IsBlocked())
     {
@@ -483,7 +491,7 @@ int __fastcall PlayerLifecycleView::OnDrawHighPrio(PlayerLifecycleView *player)
     }
 
 drawOptions:
-    player->DrawOptionStates();
+    player->DrawTailStates();
     return 1;
 }
 
@@ -492,4 +500,87 @@ int __fastcall PlayerLifecycleView::OnDrawLowPrio(PlayerLifecycleView *player)
     g_PlayerSupervisorRuntime.ConfigureGameplayViewport(player->sideIndex);
     player->DrawHitShots();
     return 1;
+}
+
+void PlayerLifecycleView::UpdateShots()
+{
+    if ((this->sideState->flags34 & 1) != 0)
+        return;
+
+    PlayerShotCtorView *shot = this->shots;
+    for (int i = 0; i < 128; ++i, ++shot)
+    {
+        if (shot->state462 == 0)
+            continue;
+
+        if (shot->updateCallback474 != NULL && shot->updateCallback474(this, shot) != 0)
+        {
+            shot->state462 = 0;
+            continue;
+        }
+
+        float *position = shot->position2A4.operator float *();
+        position[0] += g_PlayerSupervisorRuntime.framerateMultiplier5B8 * shot->velocity43C.x;
+        position[1] += g_PlayerSupervisorRuntime.framerateMultiplier5B8 * shot->velocity43C.y;
+
+        if (shot->shotType464 != 2 &&
+            !g_PlayerGameManagerRuntime.IsWithinPlayfield(
+                position[0], position[1], shot->vm.loadedSprite224->extent34,
+                shot->vm.loadedSprite224->extent30))
+            shot->state462 = 0;
+
+        if (g_AnmManager->ExecuteScript(&shot->vm) != 0)
+            shot->state462 = 0;
+        shot->timer454++;
+    }
+}
+
+void PlayerLifecycleView::DrawActiveShots()
+{
+    PlayerShotCtorView *shot = this->shots;
+    for (int i = 0; i < 128; ++i, ++shot)
+    {
+        if (shot->state462 != 1)
+            continue;
+        if (shot->vm.type1FC != 0)
+            shot->vm.SetZRotation(shot->angle450);
+
+        shot->vm.position208.x = g_PlayerGameManagerRuntime.TransformPopupX(shot->position2A4.x);
+        shot->vm.position208.y = g_PlayerGameManagerRuntime.TransformPopupY(shot->position2A4.y);
+        shot->vm.position208.z = 0.4f;
+        if (shot->tintFlag46E != 0)
+        {
+            shot->vm.color1F0.red = 0xff;
+            shot->vm.color1F0.green = 0x40;
+            shot->vm.color1F0.blue = 0x40;
+        }
+
+        if (shot->drawCallback478 != NULL)
+            shot->drawCallback478(this, shot);
+        else
+            g_AnmManager->Draw2D(&shot->vm);
+    }
+}
+
+void PlayerLifecycleView::DrawHitShots()
+{
+    PlayerShotCtorView *shot = this->shots;
+    for (int i = 0; i < 128; ++i, ++shot)
+    {
+        if (shot->state462 != 2)
+            continue;
+        if (shot->vm.type1FC != 0)
+            shot->vm.SetZRotation(shot->angle450);
+
+        shot->vm.position208.x = g_PlayerGameManagerRuntime.TransformPopupX(shot->position2A4.x);
+        shot->vm.position208.y = g_PlayerGameManagerRuntime.TransformPopupY(shot->position2A4.y);
+        shot->vm.position208.z = 0.2f;
+        if (shot->tintFlag46E != 0)
+        {
+            shot->vm.color1F0.red = 0xff;
+            shot->vm.color1F0.green = 0x40;
+            shot->vm.color1F0.blue = 0x40;
+        }
+        g_AnmManager->DrawPlayerBullet(&shot->vm);
+    }
 }
