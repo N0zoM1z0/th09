@@ -73,6 +73,8 @@ struct PlayerPositionView
     float y;
     float z;
 
+    PlayerPositionView operator+(const PlayerPositionView &other) const;
+    PlayerPositionView operator-(const PlayerPositionView &other) const;
     operator float *();
 };
 
@@ -137,14 +139,38 @@ typedef char PlayerAnmVmPositionAt208[(offsetof(PlayerAnmVmView, position208) ==
 typedef char PlayerAnmVmLoadedSpriteAt224[
     (offsetof(PlayerAnmVmView, loadedSprite224) == 0x224) ? 1 : -1];
 
-struct PlayerHistoryBlockView
-{
-    void *selfLink00;
-    unsigned char unknown004[0x1800];
+struct PlayerLifecycleView;
 
-    PlayerHistoryBlockView();
+struct PlayerCollisionQueryRecordView
+{
+    PlayerPositionView position00;
+    PlayerPositionView origin0C;
+    PlayerPositionView halfSize18;
+    float radius24;
+    float angle28;
+    int unknown2C;
+
+    PlayerCollisionQueryRecordView();
 };
-typedef char PlayerHistoryBlockSizeIs1804[(sizeof(PlayerHistoryBlockView) == 0x1804) ? 1 : -1];
+typedef char PlayerCollisionQueryRecordSizeIs30[
+    (sizeof(PlayerCollisionQueryRecordView) == 0x30) ? 1 : -1];
+
+struct PlayerCollisionQueryStateView
+{
+    PlayerLifecycleView *player00;
+    PlayerCollisionQueryRecordView records[128];
+    int count1804;
+
+    PlayerCollisionQueryStateView();
+    PlayerCollisionQueryRecordView *FindCollision(
+        const PlayerPositionView &center,
+        const PlayerPositionView &halfSize,
+        float extraRadius);
+};
+typedef char PlayerCollisionQueryStateSizeIs1808[
+    (sizeof(PlayerCollisionQueryStateView) == 0x1808) ? 1 : -1];
+typedef char PlayerCollisionQueryCountAt1804[
+    (offsetof(PlayerCollisionQueryStateView, count1804) == 0x1804) ? 1 : -1];
 
 struct PlayerTimerCtorView
 {
@@ -249,15 +275,16 @@ struct PlayerLifecycleView
     PlayerHeaderStateView header24;
     PlayerAnmVmView mainVm;
     unsigned char unknown0364[0x08];
-    PlayerHistoryBlockView history36C;
-    int transient1B70;
+    PlayerCollisionQueryStateView collisionQuery36C;
     PlayerTimerCtorView timer1B74;
     unsigned int flags1B80;
     unsigned int unknown1B84;
     PlayerPositionView position1B88;
     PlayerPositionView position1B94;
     PlayerConstructedVector3View positions1BA0[16];
-    unsigned char unknown1C60[0x1CA8 - 0x1C60];
+    PlayerPositionView collisionBoundsMin1C60;
+    PlayerPositionView collisionBoundsMax1C6C;
+    unsigned char unknown1C78[0x1CA8 - 0x1C78];
     PlayerHalfSizeView hurtboxHalfSize;
     PlayerHalfSizeView grazeHalfSize;
     PlayerHalfSizeView itemCollectionHalfSize;
@@ -299,6 +326,14 @@ struct PlayerLifecycleView
     void SetBombMode0();
     void SetBombMode1();
     void SetBombMode2();
+    int CalcItemBoxCollision(PlayerPositionView *position, PlayerPositionView *halfSize);
+    int CalcCircleCollision(PlayerPositionView *position, float radius);
+    int CalcLaserHitbox(
+        PlayerPositionView *position,
+        PlayerPositionView *halfSize,
+        PlayerPositionView *origin,
+        float angle,
+        int expandForGraze);
     void UpdateShots();
     void EnterDeathState();
     void UpdateHeavyState();
@@ -316,7 +351,14 @@ typedef char PlayerLifecycleSizeIs30F70[(sizeof(PlayerLifecycleView) == 0x30F70)
 typedef char PlayerLifecycleSideIndexAt08[(offsetof(PlayerLifecycleView, sideIndex) == 0x08) ? 1 : -1];
 typedef char PlayerLifecycleHeaderAt24[(offsetof(PlayerLifecycleView, header24) == 0x24) ? 1 : -1];
 typedef char PlayerLifecycleMainVmAtC0[(offsetof(PlayerLifecycleView, mainVm) == 0xC0) ? 1 : -1];
-typedef char PlayerLifecycleHistoryAt36C[(offsetof(PlayerLifecycleView, history36C) == 0x36C) ? 1 : -1];
+typedef char PlayerLifecycleCollisionQueryAt36C[
+    (offsetof(PlayerLifecycleView, collisionQuery36C) == 0x36C) ? 1 : -1];
+typedef char PlayerLifecycleTimerAt1B74[
+    (offsetof(PlayerLifecycleView, timer1B74) == 0x1B74) ? 1 : -1];
+typedef char PlayerLifecycleBoundsMinAt1C60[
+    (offsetof(PlayerLifecycleView, collisionBoundsMin1C60) == 0x1C60) ? 1 : -1];
+typedef char PlayerLifecycleBoundsMaxAt1C6C[
+    (offsetof(PlayerLifecycleView, collisionBoundsMax1C6C) == 0x1C6C) ? 1 : -1];
 typedef char PlayerLifecycleFlagsAt1B80[(offsetof(PlayerLifecycleView, flags1B80) == 0x1B80) ? 1 : -1];
 typedef char PlayerLifecyclePositionAt1B88[(offsetof(PlayerLifecycleView, position1B88) == 0x1B88) ? 1 : -1];
 typedef char PlayerLifecycleOptionsAt1CEC[(offsetof(PlayerLifecycleView, optionStates) == 0x1CEC) ? 1 : -1];

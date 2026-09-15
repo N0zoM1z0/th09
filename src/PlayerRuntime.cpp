@@ -120,7 +120,7 @@ resourceReady:
     player->header24.state7C = 1;
     player->header24.state80 = 1;
     player->header24.selfLink78 = player;
-    player->history36C.selfLink00 = player;
+    player->collisionQuery36C.player00 = player;
     player->header24.state88 = 2;
     player->header24.state8C = 0;
     player->header24.state90 = 0;
@@ -458,7 +458,7 @@ afterTransition:
     if ((player->sideState->flags34 & 1) == 0)
         PlayerUpdateOwnerState(&player->ownerState30410);
 
-    player->transient1B70 = 0;
+    player->collisionQuery36C.count1804 = 0;
     return 1;
 }
 

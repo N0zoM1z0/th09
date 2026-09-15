@@ -6441,7 +6441,7 @@ size = 0xF3
 relocations = [
   { offset = 0x7, type = "REL32", symbol = "??0PlayerHeaderStateView@@QAE@XZ", target = 0x0041EE00 },
   { offset = 0x12, type = "REL32", symbol = "??0PlayerAnmVmView@@QAE@XZ", target = 0x00403A10 },
-  { offset = 0x1D, type = "REL32", symbol = "??0PlayerHistoryBlockView@@QAE@XZ", target = 0x0041CEB0 },
+  { offset = 0x1D, type = "REL32", symbol = "??0PlayerCollisionQueryStateView@@QAE@XZ", target = 0x0041CEB0 },
   { offset = 0x28, type = "REL32", symbol = "??0PlayerTimerCtorView@@QAE@XZ", target = 0x00403390 },
   { offset = 0x2D, type = "DIR32", symbol = "??0PlayerConstructedVector3View@@QAE@XZ", target = 0x004343D0 },
   { offset = 0x3D, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
