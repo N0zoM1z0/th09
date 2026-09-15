@@ -304,3 +304,6 @@ EffectUpdateFromVm
 EffectManager::SpawnEffect
 EffectManager::SpawnEffectWithVelocity
 EffectManager::SpawnEffectInFixedSlot
+ReleaseExAttackRecords
+ExAttackController::Release
+ExAttackController::Register

@@ -305,3 +305,6 @@ EffectUpdateFromVm,0x0040D470,function
 EffectManager::SpawnEffect,0x0040CC00,function
 EffectManager::SpawnEffectWithVelocity,0x0040CCC0,function
 EffectManager::SpawnEffectInFixedSlot,0x0040CD70,function
+ReleaseExAttackRecords,0x00415650,function
+ExAttackController::Release,0x004156A0,function
+ExAttackController::Register,0x004157D0,function

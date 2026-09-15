@@ -6194,3 +6194,72 @@ relocations = [
   { offset = 0x28, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
   { offset = 0x40, type = "REL32", symbol = "?InitializeEffect@EffectManager@@QAEPAUEffect@@PAU2@HPBUEffectFloat3@@I1@Z", target = 0x0040CA60 },
 ]
+
+[units.exattack-release-records]
+source = "src/ExAttackController.cpp"
+object = "build/matching/ExAttackController.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ReleaseExAttackRecords"]
+symbol = "?ReleaseExAttackRecords@@YIHPAUExAttackController@@@Z"
+target_address = 0x00415650
+size = 0x46
+relocations = [
+  { offset = 0x2B, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x30, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+]
+
+[units.exattack-release]
+source = "src/ExAttackController.cpp"
+object = "build/matching/ExAttackController.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ExAttackController::Release"]
+symbol = "?Release@ExAttackController@@SIXPAU1@@Z"
+target_address = 0x004156A0
+size = 0x42
+relocations = [
+  { offset = 0x0A, type = "REL32", symbol = "?ReleaseExAttackRecords@@YIHPAUExAttackController@@@Z", target = 0x00415650 },
+  { offset = 0x13, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x18, type = "REL32", symbol = "?Cut@Chain@@QAEXPAVChainElem@@@Z", target = 0x0042C8C0 },
+  { offset = 0x21, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x26, type = "REL32", symbol = "?Cut@Chain@@QAEXPAVChainElem@@@Z", target = 0x0042C8C0 },
+  { offset = 0x2E, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x33, type = "REL32", symbol = "?Cut@Chain@@QAEXPAVChainElem@@@Z", target = 0x0042C8C0 },
+  { offset = 0x39, type = "REL32", symbol = "??3@YAXPAX@Z", target = 0x0047B249 },
+]
+
+[units.exattack-register]
+source = "src/ExAttackController.cpp"
+object = "build/matching/ExAttackController.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ExAttackController::Register"]
+symbol = "?Register@ExAttackController@@SIPAU1@XZ"
+target_address = 0x004157D0
+size = 0x108
+relocations = [
+  { offset = 0x06, type = "DIR32", symbol = "__ehhandler$?Register@ExAttackController@@SIPAU1@XZ", target = 0x0048D2BB },
+  { offset = 0x0C, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x14, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x1F, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x37, type = "REL32", symbol = "??0ExAttackController@@QAE@XZ", target = 0x004157B0 },
+  { offset = 0x42, type = "DIR32", symbol = "??_C@_0BA@EIFCOAIN@ExAttackCtrlInf?$AA@", target = 0x0048E848 },
+  { offset = 0x4D, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x59, type = "REL32", symbol = "?AddToRegistry@ZunMemory@@QAEPAXPAXIPAD@Z", target = 0x00401380 },
+  { offset = 0x6B, type = "DIR32", symbol = "?OnUpdate@ExAttackController@@SIHPAU1@@Z", target = 0x00415340 },
+  { offset = 0x70, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x75, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0x83, type = "DIR32", symbol = "?AddedCallback@ExAttackController@@SIHPAU1@@Z", target = 0x00415750 },
+  { offset = 0x8D, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x92, type = "REL32", symbol = "?AddToCalcChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B1E0 },
+  { offset = 0xA4, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0xAD, type = "DIR32", symbol = "?OnDraw0@ExAttackController@@SIHPAU1@@Z", target = 0x00415460 },
+  { offset = 0xB2, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xB7, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0xC8, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xCD, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
+  { offset = 0xD2, type = "DIR32", symbol = "?OnDraw1@ExAttackController@@SIHPAU1@@Z", target = 0x00415580 },
+  { offset = 0xD7, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xDC, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0xED, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xF2, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
+  { offset = 0x100, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+]
