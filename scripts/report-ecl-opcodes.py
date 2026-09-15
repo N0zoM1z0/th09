@@ -49,10 +49,14 @@ EXPECTED_CONTROL_DEFAULT_OPCODES = (3,)
 MOVEMENT_OPCODE_MIN = 54
 MOVEMENT_OPCODE_MAX = 82
 EXPECTED_MOVEMENT_DEFAULT_OPCODES: tuple[int, ...] = ()
+REMOTE_OPCODE_MIN = 83
+REMOTE_OPCODE_MAX = 95
+EXPECTED_REMOTE_DEFAULT_OPCODES = (83, 84, 85, 90, 91, 92)
 ROOT = Path(__file__).resolve().parents[1]
 OPCODE_HEADER = ROOT / "src" / "EclOpcodes.hpp"
 CONTROL_SOURCE = ROOT / "src" / "EclRunControl.inl"
 MOVEMENT_SOURCE = ROOT / "src" / "EclRunMovement.inl"
+REMOTE_SOURCE = ROOT / "src" / "EclRunRemote.inl"
 ENUM_ENTRY_RE = re.compile(
     r"^\s*(TH09_ECL_OPCODE_[A-Z0-9_]+)\s*=\s*(\d+),?\s*$",
     re.MULTILINE,
@@ -165,6 +169,12 @@ def main() -> int:
             MOVEMENT_OPCODE_MAX,
             "movement",
         )
+        remote_source = audit_source_family(
+            REMOTE_SOURCE,
+            REMOTE_OPCODE_MIN,
+            REMOTE_OPCODE_MAX,
+            "remote/spawn",
+        )
     except (OSError, KeyError, TypeError, ValueError, struct.error) as exc:
         print(f"invalid target or ECL tables: {exc}", file=sys.stderr)
         return 2
@@ -209,6 +219,19 @@ def main() -> int:
         table_problems.append(
             "movement default slots "
             + ",".join(f"{value:02X}" for value in movement_default_opcodes)
+        )
+    remote_default_opcodes = tuple(
+        opcode
+        for opcode, destination in enumerate(
+            opcode_entries[REMOTE_OPCODE_MIN - 1:REMOTE_OPCODE_MAX],
+            start=REMOTE_OPCODE_MIN,
+        )
+        if destination == DEFAULT_HANDLER
+    )
+    if remote_default_opcodes != EXPECTED_REMOTE_DEFAULT_OPCODES:
+        table_problems.append(
+            "remote/spawn default slots "
+            + ",".join(f"{value:02X}" for value in remote_default_opcodes)
         )
     if table_problems:
         print("ECL table audit mismatch: " + "; ".join(table_problems), file=sys.stderr)
@@ -263,6 +286,25 @@ def main() -> int:
             ],
             "claim": "complete lexical family coverage; RunEcl source/exactness remain open",
         },
+        "remote_spawn_family": {
+            **remote_source,
+            "active_count": (
+                REMOTE_OPCODE_MAX
+                - REMOTE_OPCODE_MIN
+                + 1
+                - len(remote_default_opcodes)
+            ),
+            "default_opcodes": [
+                f"0x{value:02X}" for value in remote_default_opcodes
+            ],
+            "destinations": [
+                f"0x{value:08X}"
+                for value in opcode_entries[
+                    REMOTE_OPCODE_MIN - 1:REMOTE_OPCODE_MAX
+                ]
+            ],
+            "claim": "complete lexical family coverage; RunEcl source/exactness remain open",
+        },
     }
 
     if args.json:
@@ -292,6 +334,11 @@ def main() -> int:
             "movement family: opcodes 54-82, "
             f"{MOVEMENT_OPCODE_MAX - MOVEMENT_OPCODE_MIN + 1 - len(movement_default_opcodes)} active, "
             f"{movement_source['case_count']} source cases"
+        )
+        print(
+            "remote/spawn family: opcodes 83-95, "
+            f"{REMOTE_OPCODE_MAX - REMOTE_OPCODE_MIN + 1 - len(remote_default_opcodes)} active, "
+            f"{remote_source['case_count']} source cases"
         )
     return 0
 
