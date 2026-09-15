@@ -30,6 +30,7 @@ namespace Th09EclRunControl
 struct RngView
 {
     unsigned short NextU16();
+    unsigned int GetRandomU32InRange(unsigned int maximum);
 };
 
 extern RngView g_Rng;

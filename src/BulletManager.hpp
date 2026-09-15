@@ -285,6 +285,7 @@ struct EtamaController
         float angleToPlayer, int poolIndex);
     Bullet *SpawnBulletPatternPrimary(BulletSpawnDescriptor *descriptor);
     Bullet *SpawnBulletPatternSecondary(BulletSpawnDescriptor *descriptor);
+    Laser *SpawnLaserPattern(BulletSpawnDescriptor *descriptor);
     int SelectBulletSprite(
         AnmVm *dst, const AnmVm *base, const AnmVm *sizeSource, int offset);
 
