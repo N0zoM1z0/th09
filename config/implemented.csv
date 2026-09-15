@@ -358,3 +358,5 @@ UpdateBulletVerticalWrap
 EtamaController::Release
 EtamaController::OnUpdate
 EtamaController::Register
+TitleScreenView::PlayMenuSound
+TitleScreenView::OnUpdateOptions

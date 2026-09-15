@@ -6822,3 +6822,17 @@ relocations = [
   { offset = 0x105, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
   { offset = 0x113, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
 ]
+
+[units.title-screen-play-menu-sound]
+source = "src/TitleScreenOptions.cpp"
+object = "build/matching/TitleScreenOptions.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::PlayMenuSound"]
+symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z"
+target_address = 0x00422F17
+size = 0x22
+relocations = [
+  { offset = 0x08, type = "DIR32", symbol = "?g_SoundPlayer@@3USoundPlayerView@@A", target = 0x004DC698 },
+  { offset = 0x12, type = "REL32", symbol = "?PlaySoundByIdx@SoundPlayerView@@QAEXHH@Z", target = 0x0043E2F0 },
+  { offset = 0x19, type = "REL32", symbol = "?ProcessQueues@SoundPlayerView@@QAEHXZ", target = 0x0043F1F0 },
+]

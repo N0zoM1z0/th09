@@ -474,7 +474,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00422C50,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15
 0x00422CD0,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15
 0x00422D20,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15
-0x00422F17,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00422F17,authored_game,TitleScreen,authored,high,packet156-title-options-recovery-2026-09-15
 0x00422F39,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00422F67,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00422FD1,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -522,7 +522,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042689A,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00426E05,authored_game,TitleScreen,authored,high,packet126-title-music-room-source-2026-09-14
 0x004276D7,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004276EB,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004276EB,authored_game,TitleScreen,authored,high,packet156-title-options-recovery-2026-09-15
 0x00427EE8,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004289DB,authored_game,TitleScreen,authored,high,title-screen-character-select-source-nearmatch-2026-09-12
 0x0042929C,authored_game,TitleScreen,authored,high,title-screen-result-name-entry-exact-2026-09-12

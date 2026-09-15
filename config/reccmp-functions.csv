@@ -36,6 +36,8 @@ UpdateBulletVerticalWrap,0x00413A70,function
 EtamaController::Release,0x00414180,function
 EtamaController::OnUpdate,0x004146F0,function
 EtamaController::Register,0x004150D0,function
+TitleScreenView::PlayMenuSound,0x00422F17,function
+TitleScreenView::OnUpdateOptions,0x004276EB,function
 GameErrorContext::ResetContext,0x0042D230,function
 GameErrorContext::Flush,0x0042D240,function
 GameErrorContext::Log,0x0042C5C0,function
