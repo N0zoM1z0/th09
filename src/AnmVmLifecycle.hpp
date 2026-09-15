@@ -21,6 +21,7 @@ typedef char AnmVmBaseSizeIs228[(sizeof(AnmVmBase) == 0x228) ? 1 : -1];
 struct AnmVm : AnmVmBase
 {
     AnmVm();
+    void SetInterrupt(short interrupt);
 
     ZunTimer interruptReturnTime;
     unsigned char unknown234[0x2A4 - 0x234];

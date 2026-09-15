@@ -363,3 +363,13 @@ PlayerAddedHeaderResetView::Reset,0x0041BDC0,function
 PlayerAddedOwnerStateView::Reset,0x0041D7E0,function
 PlayerLifecycleView::CalcItemBoxCollision,0x0041BDF0,function
 PlayerLifecycleView::CalcLaserHitbox,0x0041BFC0,function
+Ending::ReadScriptParameter,0x0040E0D0,function
+Ending::DrawFade,0x0040E130,function
+Ending::UpdateFade,0x0040E170,function
+Ending::DeletedCallback,0x0040E2F0,function
+Ending::OnDraw,0x0040E480,function
+Ending::LoadEndingScript,0x0040E4F0,function
+Ending::RunEndingScript,0x0040E8A0,function
+Ending::Ending,0x0040EF60,function
+Ending::OnUpdate,0x0040EFE0,function
+Ending::RegisterChain,0x0040F080,function

@@ -362,3 +362,13 @@ TitleScreenView::PlayMenuSound
 TitleScreenView::OnUpdateOptions
 EclManager::RunEcl
 AnmManager::ExecuteScript
+Ending::ReadScriptParameter
+Ending::DrawFade
+Ending::UpdateFade
+Ending::DeletedCallback
+Ending::OnDraw
+Ending::LoadEndingScript
+Ending::RunEndingScript
+Ending::Ending
+Ending::OnUpdate
+Ending::RegisterChain

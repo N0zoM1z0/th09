@@ -7216,3 +7216,178 @@ relocations = [
   { offset = 0x12, type = "REL32", symbol = "?PlaySoundByIdx@SoundPlayerView@@QAEXHH@Z", target = 0x0043E2F0 },
   { offset = 0x19, type = "REL32", symbol = "?ProcessQueues@SoundPlayerView@@QAEHXZ", target = 0x0043F1F0 },
 ]
+
+
+# Ending owner/lifecycle reconstruction. Logical function coverage remains the
+# IDA-reviewed candidate size; ending-update-fade additionally replays the
+# same-COMDAT alignment byte and five-entry switch table through compare_size.
+[units.ending-read-script-parameter]
+source = "src/Ending.cpp"
+object = "build/matching/Ending.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Ending::ReadScriptParameter"]
+symbol = "?ReadScriptParameter@Ending@@QAEHXZ"
+target_address = 0x0040E0D0
+size = 0x54
+relocations = [
+  { offset = 0xB, type = "REL32", symbol = "_atol", target = 0x0047B7EA },
+]
+
+[units.ending-draw-fade]
+source = "src/Ending.cpp"
+object = "build/matching/Ending.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Ending::DrawFade"]
+symbol = "?DrawFade@Ending@@QAEXXZ"
+target_address = 0x0040E130
+size = 0x3C
+relocations = [
+  { offset = 0x34, type = "REL32", symbol = "?DrawSquare@ScreenEffect@@SIXPAUScreenEffectRect@@I@Z", target = 0x00422960 },
+]
+
+[units.ending-update-fade]
+source = "src/Ending.cpp"
+object = "build/matching/Ending.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Ending::UpdateFade"]
+symbol = "?UpdateFade@Ending@@QAEXXZ"
+target_address = 0x0040E170
+size = 0x11F
+compare_size = 0x134
+relocations = [
+  { offset = 0x14, type = "DIR32", symbol = "$L2202", target = 0x0040E290 },
+  { offset = 0x120, type = "DIR32", symbol = "$L1974", target = 0x0040E282 },
+  { offset = 0x124, type = "DIR32", symbol = "$L1958", target = 0x0040E188 },
+  { offset = 0x128, type = "DIR32", symbol = "$L1962", target = 0x0040E1BD },
+  { offset = 0x12C, type = "DIR32", symbol = "$L1966", target = 0x0040E1F8 },
+  { offset = 0x130, type = "DIR32", symbol = "$L1970", target = 0x0040E242 },
+]
+
+[units.ending-deleted-callback]
+source = "src/Ending.cpp"
+object = "build/matching/Ending.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Ending::DeletedCallback"]
+symbol = "?DeletedCallback@Ending@@SIHPAU1@@Z"
+target_address = 0x0040E2F0
+size = 0x73
+relocations = [
+  { offset = 0x5, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0xC, type = "REL32", symbol = "?ReleaseAnm@AnmManager@@QAEXH@Z", target = 0x0043CA30 },
+  { offset = 0x12, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x1A, type = "DIR32", symbol = "?g_EndingLifecycleState@@3HA", target = 0x004B3690 },
+  { offset = 0x23, type = "REL32", symbol = "?ReleaseSurface@AnmManager@@QAEXH@Z", target = 0x0043BF30 },
+  { offset = 0x2F, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x34, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x3D, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x42, type = "REL32", symbol = "?Cut@Chain@@QAEXPAVChainElem@@@Z", target = 0x0042C8C0 },
+  { offset = 0x4F, type = "REL32", symbol = "_free", target = 0x0047B249 },
+  { offset = 0x54, type = "DIR32", symbol = "?g_EndingLifecycleFlags@@3IA", target = 0x004B36D4 },
+  { offset = 0x61, type = "DIR32", symbol = "?g_EndingLifecycleFlags@@3IA", target = 0x004B36D4 },
+  { offset = 0x67, type = "DIR32", symbol = "?g_EndingActive@@3HA", target = 0x004B36A8 },
+]
+
+[units.ending-on-draw]
+source = "src/Ending.cpp"
+object = "build/matching/Ending.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Ending::OnDraw"]
+symbol = "?OnDraw@Ending@@SIHPAU1@@Z"
+target_address = 0x0040E480
+size = 0x65
+relocations = [
+  { offset = 0x13, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x1C, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x22, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x2E, type = "REL32", symbol = "?CopySurfaceToBackbuffer2@AnmManager@@QAEXHHHHHHH@Z", target = 0x0043C0D0 },
+  { offset = 0x42, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x48, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
+  { offset = 0x58, type = "REL32", symbol = "?DrawFade@Ending@@QAEXXZ", target = 0x0040E130 },
+]
+
+[units.ending-load-script]
+source = "src/Ending.cpp"
+object = "build/matching/Ending.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Ending::LoadEndingScript"]
+symbol = "?LoadEndingScript@Ending@@QAEHPBD@Z"
+target_address = 0x0040E4F0
+size = 0x85
+relocations = [
+  { offset = 0x15, type = "REL32", symbol = "?OpenFile@FileSystem@@YIPAEPBDPAHH@Z", target = 0x0042C970 },
+  { offset = 0x24, type = "DIR32", symbol = "??_C@_08PMHKJNKP@error?5?3?5?$AA@", target = 0x0048E4C8 },
+  { offset = 0x29, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x34, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+  { offset = 0x5D, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x6A, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x74, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x79, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+]
+
+[units.ending-on-update]
+source = "src/Ending.cpp"
+object = "build/matching/Ending.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Ending::OnUpdate"]
+symbol = "?OnUpdate@Ending@@SIHPAU1@@Z"
+target_address = 0x0040EFE0
+size = 0x91
+relocations = [
+  { offset = 0x11, type = "REL32", symbol = "?RunEndingScript@Ending@@QAEHXZ", target = 0x0040E8A0 },
+  { offset = 0x32, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x38, type = "REL32", symbol = "?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x00436F30 },
+  { offset = 0x55, type = "DIR32", symbol = "?g_AsciiInput@@3UAsciiInputView@@A", target = 0x004ACF34 },
+  { offset = 0x5A, type = "REL32", symbol = "?IsHeld@AsciiInputView@@QAEGI@Z", target = 0x0040E2B0 },
+  { offset = 0x74, type = "REL32", symbol = "?RunEndingScript@Ending@@QAEHXZ", target = 0x0040E8A0 },
+]
+
+[units.ending-register-chain]
+source = "src/Ending.cpp"
+object = "build/matching/Ending.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Ending::RegisterChain"]
+symbol = "?RegisterChain@Ending@@SIHXZ"
+target_address = 0x0040F080
+size = 0xDF
+relocations = [
+  { offset = 0x6, type = "DIR32", symbol = "__ehhandler$?RegisterChain@Ending@@SIHXZ", target = 0x0048D25B },
+  { offset = 0xC, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x14, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x1F, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x37, type = "REL32", symbol = "??0Ending@@QAE@XZ", target = 0x0040EF60 },
+  { offset = 0x41, type = "DIR32", symbol = "??_C@_09DENGFOOH@EndingInf?$AA@", target = 0x0048E5C8 },
+  { offset = 0x4C, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x58, type = "REL32", symbol = "?AddToRegistry@ZunMemory@@QAEPAXPAXIPAD@Z", target = 0x00401380 },
+  { offset = 0x5D, type = "DIR32", symbol = "?OnUpdate@Ending@@SIHPAU1@@Z", target = 0x0040EFE0 },
+  { offset = 0x62, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x69, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0x77, type = "DIR32", symbol = "?AddedCallback@Ending@@SIHPAU1@@Z", target = 0x0040E580 },
+  { offset = 0x80, type = "DIR32", symbol = "?DeletedCallback@Ending@@SIHPAU1@@Z", target = 0x0040E2F0 },
+  { offset = 0x8A, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x8F, type = "REL32", symbol = "?AddToCalcChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B1E0 },
+  { offset = 0xA1, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0xAA, type = "DIR32", symbol = "?OnDraw@Ending@@SIHPAU1@@Z", target = 0x0040E480 },
+  { offset = 0xAF, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xB4, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0xC5, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xCA, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
+  { offset = 0xD7, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+]
+
+[units.ending-constructor]
+source = "src/Ending.cpp"
+object = "build/matching/EndingCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["Ending::Ending"]
+symbol = "??0Ending@@QAE@XZ"
+target_address = 0x0040EF60
+size = 0x77
+relocations = [
+  { offset = 0x4, type = "DIR32", symbol = "??0AnmVm@@QAE@XZ", target = 0x00403A10 },
+  { offset = 0x16, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x23, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x2E, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x39, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x5C, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x64, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+]
