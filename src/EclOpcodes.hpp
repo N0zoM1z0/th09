@@ -235,11 +235,17 @@ typedef char Th09EclRawInstructionHeaderSizeIs0C[
     (sizeof(Th09EclRawInstructionHeaderView) == 0x0C) ? 1 : -1];
 typedef char Th09EclOpcodeAt04[
     (offsetof(Th09EclRawInstructionHeaderView, opcode04) == 0x04) ? 1 : -1];
+typedef char Th09EclNextOffsetAt06[
+    (offsetof(Th09EclRawInstructionHeaderView, nextOffset06) == 0x06) ? 1 : -1];
 typedef char Th09EclDifficultyMaskAt09[
     (offsetof(Th09EclRawInstructionHeaderView, difficultyMask09) == 0x09) ? 1 : -1];
+typedef char Th09EclParameterMaskAt0A[
+    (offsetof(Th09EclRawInstructionHeaderView, parameterMask0A) == 0x0A) ? 1 : -1];
 
 struct Th09EclTimerStorageView
 {
+    void SetCurrent(int value);
+
     unsigned char storage00[0x0C];
 };
 typedef char Th09EclTimerStorageSizeIs0C[

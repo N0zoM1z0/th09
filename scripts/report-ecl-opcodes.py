@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import re
 import struct
 import sys
 
@@ -42,12 +43,80 @@ EXPECTED_DEFAULT_OPCODES = (
     0xB5,
     0xB8,
 )
+CONTROL_OPCODE_MIN = 1
+CONTROL_OPCODE_MAX = 53
+EXPECTED_CONTROL_DEFAULT_OPCODES = (3,)
+ROOT = Path(__file__).resolve().parents[1]
+OPCODE_HEADER = ROOT / "src" / "EclOpcodes.hpp"
+CONTROL_SOURCE = ROOT / "src" / "EclRunControl.inl"
+ENUM_ENTRY_RE = re.compile(
+    r"^\s*(TH09_ECL_OPCODE_[A-Z0-9_]+)\s*=\s*(\d+),?\s*$",
+    re.MULTILINE,
+)
+CASE_LABEL_RE = re.compile(
+    r"^\s*case\s+(TH09_ECL_OPCODE_[A-Z0-9_]+)\s*:",
+    re.MULTILINE,
+)
 
 
 def decode_table(image: bytes, address: int, count: int) -> tuple[bytes, tuple[int, ...]]:
     data = pe_bytes_at(image, address, count * 4)
     entries = struct.unpack(f"<{count}I", data)
     return data, entries
+
+
+def audit_control_source() -> dict[str, object]:
+    header_text = OPCODE_HEADER.read_text(encoding="utf-8")
+    source_text = CONTROL_SOURCE.read_text(encoding="utf-8")
+    enum_match = re.search(
+        r"enum\s+Th09EclOpcode\s*\{(.*?)\};", header_text, re.DOTALL
+    )
+    if enum_match is None:
+        raise ValueError("missing Th09EclOpcode enum")
+    enum_values = {
+        name: int(value)
+        for name, value in ENUM_ENTRY_RE.findall(enum_match.group(1))
+    }
+    family_entries = {
+        name: value
+        for name, value in enum_values.items()
+        if CONTROL_OPCODE_MIN <= value <= CONTROL_OPCODE_MAX
+    }
+    observed_values = sorted(family_entries.values())
+    expected_values = list(range(CONTROL_OPCODE_MIN, CONTROL_OPCODE_MAX + 1))
+    if observed_values != expected_values:
+        raise ValueError(
+            "control enum does not cover every opcode 1-53 exactly once"
+        )
+
+    case_labels = CASE_LABEL_RE.findall(source_text)
+    duplicate_labels = sorted(
+        name for name in set(case_labels) if case_labels.count(name) != 1
+    )
+    missing_labels = sorted(set(family_entries) - set(case_labels))
+    out_of_family_labels = sorted(
+        name
+        for name in case_labels
+        if name not in family_entries
+    )
+    if duplicate_labels or missing_labels or out_of_family_labels:
+        problems = []
+        if duplicate_labels:
+            problems.append("duplicate cases " + ",".join(duplicate_labels))
+        if missing_labels:
+            problems.append("missing cases " + ",".join(missing_labels))
+        if out_of_family_labels:
+            problems.append(
+                "out-of-family cases " + ",".join(out_of_family_labels)
+            )
+        raise ValueError("control source coverage: " + "; ".join(problems))
+
+    return {
+        "source": str(CONTROL_SOURCE.relative_to(ROOT)),
+        "opcode_min": CONTROL_OPCODE_MIN,
+        "opcode_max": CONTROL_OPCODE_MAX,
+        "case_count": len(case_labels),
+    }
 
 
 def main() -> int:
@@ -72,6 +141,7 @@ def main() -> int:
         opcode_data, opcode_entries = decode_table(
             image, OPCODE_TABLE_ADDRESS, OPCODE_TABLE_COUNT
         )
+        control_source = audit_control_source()
     except (OSError, KeyError, TypeError, ValueError, struct.error) as exc:
         print(f"invalid target or ECL tables: {exc}", file=sys.stderr)
         return 2
@@ -91,6 +161,18 @@ def main() -> int:
     if default_opcodes != EXPECTED_DEFAULT_OPCODES:
         table_problems.append(
             "default slots " + ",".join(f"{value:02X}" for value in default_opcodes)
+        )
+    control_default_opcodes = tuple(
+        opcode
+        for opcode, destination in enumerate(
+            opcode_entries[:CONTROL_OPCODE_MAX], start=CONTROL_OPCODE_MIN
+        )
+        if destination == DEFAULT_HANDLER
+    )
+    if control_default_opcodes != EXPECTED_CONTROL_DEFAULT_OPCODES:
+        table_problems.append(
+            "control default slots "
+            + ",".join(f"{value:02X}" for value in control_default_opcodes)
         )
     if table_problems:
         print("ECL table audit mismatch: " + "; ".join(table_problems), file=sys.stderr)
@@ -114,6 +196,18 @@ def main() -> int:
             "default_opcodes": [f"0x{value:02X}" for value in default_opcodes],
             "destinations": [f"0x{value:08X}" for value in opcode_entries],
         },
+        "control_family": {
+            **control_source,
+            "active_count": CONTROL_OPCODE_MAX - len(control_default_opcodes),
+            "default_opcodes": [
+                f"0x{value:02X}" for value in control_default_opcodes
+            ],
+            "destinations": [
+                f"0x{value:08X}"
+                for value in opcode_entries[:CONTROL_OPCODE_MAX]
+            ],
+            "claim": "complete lexical family coverage; RunEcl source/exactness remain open",
+        },
     }
 
     if args.json:
@@ -133,6 +227,11 @@ def main() -> int:
             "default slots: "
             + " ".join(f"{value:02X}" for value in default_opcodes)
             + f" -> 0x{DEFAULT_HANDLER:08X}"
+        )
+        print(
+            "control family: opcodes 1-53, "
+            f"{CONTROL_OPCODE_MAX - len(control_default_opcodes)} active, "
+            f"{control_source['case_count']} source cases"
         )
     return 0
 
