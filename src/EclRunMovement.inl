@@ -217,7 +217,6 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
     int movementInt;
     float movementFloat;
     float playerAngle;
-    void *anmFile;
 
     case TH09_ECL_OPCODE_SET_MAIN_ANM:
         Th09EclRunMovement::SetAndExecuteAnmScript(
@@ -296,14 +295,21 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
         break;
 
     case TH09_ECL_OPCODE_PLAY_SPECIAL_ANM:
-        anmFile = (Th09EclRunMovement::View(enemy)->primaryFlags337C &
-                   Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK)
-                      ? Th09EclRunMovement::AlternateAnm(enemy)
-                      : Th09EclRunMovement::PrimaryAnm(enemy);
-        Th09EclRunMovement::SetAndExecuteAnmScript(
-            anmFile,
-            Th09EclRunMovement::PrimaryAnmVm(enemy),
-            Th09EclRunMovement::View(enemy)->specialAnmScript3394);
+        if ((Th09EclRunMovement::View(enemy)->primaryFlags337C &
+             Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK) != 0)
+        {
+            Th09EclRunMovement::SetAndExecuteAnmScript(
+                Th09EclRunMovement::AlternateAnm(enemy),
+                Th09EclRunMovement::PrimaryAnmVm(enemy),
+                Th09EclRunMovement::View(enemy)->specialAnmScript3394);
+        }
+        else
+        {
+            Th09EclRunMovement::SetAndExecuteAnmScript(
+                Th09EclRunMovement::PrimaryAnm(enemy),
+                Th09EclRunMovement::PrimaryAnmVm(enemy),
+                Th09EclRunMovement::View(enemy)->specialAnmScript3394);
+        }
         break;
 
     case TH09_ECL_OPCODE_SET_POSITION:

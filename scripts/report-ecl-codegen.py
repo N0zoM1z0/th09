@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Report the bounded VC7.1 RunEcl code/table/call-surface oracle."""
+"""Report the bounded VC7.1 RunEcl code/table/aggregate-call oracle."""
 
 from __future__ import annotations
 
@@ -20,6 +20,12 @@ EASING_TABLE_COUNT = 6
 OPCODE_TABLE_COUNT = 187
 TARGET_DIRECT_CALL_COUNT = 376
 TARGET_INDIRECT_CALL_COUNT = 3
+TARGET_STACK_FRAME_SIZE = 0x168
+TARGET_SPAWN_ENEMY_CALL_COUNT = 1
+SPAWN_ENEMY_SYMBOL = (
+    "?SpawnEnemy@EnemyManagerView@@QAEPAUEnemyView@@"
+    "FPAUEnemyFloat3@@HCHPAHH@Z"
+)
 EXPECTED_RESOLVER_CALLS = {
     "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z": 131,
     "?ResolveFloat@Th09EclRunControl@@YIMPAUEnemyView@@M@Z": 100,
@@ -54,6 +60,15 @@ def contiguous_dir32_runs(relocations: list[dict[str, object]]):
     if current:
         runs.append(current)
     return runs
+
+
+def vc71_stack_frame_size(code: bytearray) -> int:
+    prefix = bytes(code[:5])
+    if prefix != b"\x55\x8b\xec\x81\xec":
+        raise ValueError(
+            f"RunEcl candidate has unexpected VC7.1 prologue: {prefix.hex()}"
+        )
+    return int.from_bytes(code[5:9], "little")
 
 
 def report(object_path: Path) -> dict[str, object]:
@@ -92,8 +107,13 @@ def report(object_path: Path) -> dict[str, object]:
     }
     if resolver_calls != EXPECTED_RESOLVER_CALLS:
         raise ValueError(
-            f"RunEcl resolver call surface differs: {resolver_calls!r}"
+            f"RunEcl resolver multiplicities differ: {resolver_calls!r}"
         )
+    if any("AssignFlagField" in symbol for symbol in direct_calls):
+        raise ValueError("RunEcl candidate leaked synthetic AssignFlagField calls")
+
+    stack_frame_size = vc71_stack_frame_size(code)
+    spawn_enemy_calls = direct_calls[SPAWN_ENEMY_SYMBOL]
 
     return {
         "target": {
@@ -101,6 +121,8 @@ def report(object_path: Path) -> dict[str, object]:
             "physical_code_and_tables_size": TARGET_PHYSICAL_SIZE,
             "direct_calls": TARGET_DIRECT_CALL_COUNT,
             "indirect_calls": TARGET_INDIRECT_CALL_COUNT,
+            "stack_frame_size": TARGET_STACK_FRAME_SIZE,
+            "spawn_enemy_call_sites": TARGET_SPAWN_ENEMY_CALL_COUNT,
             "easing_table_entries": EASING_TABLE_COUNT,
             "opcode_table_entries": OPCODE_TABLE_COUNT,
         },
@@ -111,6 +133,9 @@ def report(object_path: Path) -> dict[str, object]:
             "logical_size_gap": TARGET_LOGICAL_SIZE - logical_size,
             "physical_size_gap": TARGET_PHYSICAL_SIZE - len(code),
             "direct_calls": direct_call_count,
+            "stack_frame_size": stack_frame_size,
+            "stack_frame_gap": TARGET_STACK_FRAME_SIZE - stack_frame_size,
+            "spawn_enemy_call_sites": spawn_enemy_calls,
             "relocations": len(relocations),
             "dir32_relocations": sum(
                 relocation["type"] == "DIR32" for relocation in relocations
@@ -124,9 +149,20 @@ def report(object_path: Path) -> dict[str, object]:
             },
         },
         "status": "NON-EXACT",
+        "known_callsite_mismatches": {
+            "SpawnEnemy": {
+                "target": TARGET_SPAWN_ENEMY_CALL_COUNT,
+                "candidate": spawn_enemy_calls,
+                "reason": (
+                    "target opcodes 93/94 fold into one shared member-call tail; "
+                    "candidate emits one member call per lexical handler"
+                ),
+            }
+        },
         "claim": (
-            "target call surface and four operand-resolver multiplicities are "
-            "closed; byte identity and local/code-block layout remain open"
+            "aggregate direct-call count and four operand-resolver "
+            "multiplicities match; callee identity/site folding, stack/local "
+            "layout, code-block order, relocations and bytes remain open"
         ),
     }
 
@@ -154,7 +190,8 @@ def main() -> int:
             f"{candidate['logical_code_size']}/{TARGET_LOGICAL_SIZE} logical, "
             f"{candidate['physical_code_and_tables_size']}/"
             f"{TARGET_PHYSICAL_SIZE} physical, "
-            f"{candidate['direct_calls']}/{TARGET_DIRECT_CALL_COUNT} direct calls"
+            f"{candidate['direct_calls']}/{TARGET_DIRECT_CALL_COUNT} aggregate "
+            "direct calls"
         )
         print(
             "operand resolvers: "
@@ -162,6 +199,13 @@ def main() -> int:
                 f"{symbol.split('@', 1)[0][1:]}={count}"
                 for symbol, count in candidate["resolver_calls"].items()
             )
+        )
+        print(
+            "stack frame: "
+            f"0x{candidate['stack_frame_size']:X}/0x{TARGET_STACK_FRAME_SIZE:X}; "
+            "SpawnEnemy call sites: "
+            f"{candidate['spawn_enemy_call_sites']}/"
+            f"{TARGET_SPAWN_ENEMY_CALL_COUNT}"
         )
         print("compiler tables: 6 easing + 187 opcode entries")
     return 0

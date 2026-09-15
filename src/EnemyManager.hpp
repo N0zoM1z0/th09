@@ -104,6 +104,14 @@ struct EnemyManagerView
     int rewardEnemyCount2AC3B8;
     unsigned char unknown2AC3BC[0x2AC450 - 0x2AC3BC];
 
+    EnemyView *SpawnEnemy(
+        short eclSubroutineId,
+        EnemyFloat3 *position,
+        int argument4,
+        signed char argument5,
+        int argument6,
+        int *initialVariables,
+        int runImmediately);
     static int __fastcall OnUpdate(EnemyManagerView *enemyManager);
 };
 typedef char EnemyManagerViewSizeIs2AC450[

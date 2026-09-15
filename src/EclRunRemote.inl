@@ -103,15 +103,6 @@ __forceinline EnemyFloat3 ResolveSpawnPosition(
 
 // Role names for real target boundaries.  Final source TU/internal ABI remains
 // open until the complete interpreter and its dependencies are compiled.
-EnemyView *SpawnEnemy(
-    EnemyManagerView *manager,
-    short eclSubroutineId,
-    EnemyFloat3 *position,
-    int argument4,
-    signed char argument5,
-    int argument6,
-    int *initialVariables,
-    int runImmediately);
 void KillAllNonBossEnemies(
     EnemyManagerView *manager,
     int transitionValue,
@@ -132,8 +123,6 @@ void AddPosition(EnemyFloat3 *position, const EnemyFloat3 *offset);
     int remoteValue;
     float remoteFloat;
     EnemyView *remoteEnemy;
-    Th09EclRunRemote::SpawnPacket spawnPacket;
-    EnemyFloat3 spawnPosition;
 
     case TH09_ECL_OPCODE_UNHANDLED_53:
     case TH09_ECL_OPCODE_UNHANDLED_54:
@@ -216,6 +205,9 @@ th09_ecl_store_int_result:
         break;
 
     case TH09_ECL_OPCODE_SPAWN_ENEMY_AT_POSITION:
+    {
+        Th09EclRunRemote::SpawnPacket spawnPacket;
+        EnemyFloat3 spawnPosition;
         if (Th09EclRunRemote::Life(enemy) > 0)
         {
             memcpy(
@@ -224,8 +216,7 @@ th09_ecl_store_int_result:
                 sizeof(spawnPacket));
             spawnPosition = Th09EclRunRemote::ResolveSpawnPosition(
                 enemy, instruction, spawnPacket);
-            Th09EclRunRemote::SpawnEnemy(
-                enemy->manager00,
+            enemy->manager00->SpawnEnemy(
                 static_cast<short>(spawnPacket.eclSubroutineId00),
                 &spawnPosition,
                 Th09EclRunControl::ReadInt(enemy, instruction, 4),
@@ -236,8 +227,12 @@ th09_ecl_store_int_result:
                 1);
         }
         break;
+    }
 
     case TH09_ECL_OPCODE_SPAWN_ENEMY_RELATIVE:
+    {
+        Th09EclRunRemote::SpawnPacket spawnPacket;
+        EnemyFloat3 spawnPosition;
         if (Th09EclRunRemote::Life(enemy) > 0)
         {
             memcpy(
@@ -249,8 +244,7 @@ th09_ecl_store_int_result:
             Th09EclRunRemote::AddPosition(
                 &spawnPosition,
                 &Th09EclRunMovement::View(enemy)->position2D74);
-            Th09EclRunRemote::SpawnEnemy(
-                enemy->manager00,
+            enemy->manager00->SpawnEnemy(
                 static_cast<short>(spawnPacket.eclSubroutineId00),
                 &spawnPosition,
                 Th09EclRunControl::ReadInt(enemy, instruction, 4),
@@ -261,6 +255,7 @@ th09_ecl_store_int_result:
                 1);
         }
         break;
+    }
 
     case TH09_ECL_OPCODE_KILL_ALL_NON_BOSS_ENEMIES:
         Th09EclRunRemote::KillAllNonBossEnemies(

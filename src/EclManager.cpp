@@ -43,12 +43,12 @@ int EclManager::RunEcl(EnemyView *enemy)
     unsigned int affectedVariableBits;
     int childIndex;
     int interpolationIndex;
-    bool positionInterpolated;
+    int positionInterpolated;
+    int lhsInt;
     float progress;
     float inverseProgress;
     float deltaX;
     float deltaY;
-    EnemyFloat3 positionBeforeCallbacks;
 
     enemyState = Th09EclRunState::View(enemy);
     savedMainCallStack = enemyState->mainCallStack0A20;
@@ -99,14 +99,14 @@ th09_ecl_instruction_loop:
     context = enemyState->activeContext2CE0;
     *worldPosition = *position + *positionOffset;
 
-    if (context->secondaryTime094.GetCurrent() > 0)
+    if (static_cast<int>(context->secondaryTime094) > 0)
     {
         context->secondaryTime094--;
         context->time008--;
         goto th09_ecl_after_dispatch;
     }
 
-    if (context->time008.current08 != instruction->time00)
+    if (!(context->time008 == instruction->time00))
         goto th09_ecl_after_dispatch;
 
     executionMask = Th09EclRunOwner::g_DifficultyMask |
@@ -117,24 +117,36 @@ th09_ecl_instruction_loop:
 #define TH09_ECL_RUN_SHARED_SWITCH
     switch (instruction->opcode04)
     {
+    {
 #define TH09_ECL_RUN_CONTROL_BODY
 #include "EclRunControl.inl"
 #undef TH09_ECL_RUN_CONTROL_BODY
+    }
+    {
 #define TH09_ECL_RUN_MOVEMENT_BODY
 #include "EclRunMovement.inl"
 #undef TH09_ECL_RUN_MOVEMENT_BODY
+    }
+    {
 #define TH09_ECL_RUN_REMOTE_BODY
 #include "EclRunRemote.inl"
 #undef TH09_ECL_RUN_REMOTE_BODY
+    }
+    {
 #define TH09_ECL_RUN_BULLET_BODY
 #include "EclRunBullet.inl"
 #undef TH09_ECL_RUN_BULLET_BODY
+    }
+    {
 #define TH09_ECL_RUN_STATE_BODY
 #include "EclRunState.inl"
 #undef TH09_ECL_RUN_STATE_BODY
+    }
+    {
 #define TH09_ECL_RUN_LATE_BODY
 #include "EclRunLate.inl"
 #undef TH09_ECL_RUN_LATE_BODY
+    }
     default:
         break;
     }
@@ -152,9 +164,7 @@ th09_ecl_after_dispatch:
     context = enemyState->activeContext2CE0;
     if (enemyState->life2E48 > 0)
     {
-        positionBeforeCallbacks.x = position->x;
-        positionBeforeCallbacks.y = position->y;
-        positionBeforeCallbacks.z = position->z;
+        Float3 positionBeforeCallbacks = *position;
         positionInterpolated = false;
 
         perFrameCallback =
@@ -177,10 +187,10 @@ th09_ecl_after_dispatch:
                 continue;
 
             slot->timer04 += Th09EclRunOwner::g_TimeScale;
-            if (slot->timer04.current08 >= slot->duration10)
-                slot->timer04.SetCurrent(slot->duration10);
+            if (slot->timer04 >= slot->duration10)
+                slot->timer04 = slot->duration10;
 
-            progress = slot->timer04.subFrame04 / slot->duration10;
+            progress = static_cast<float>(slot->timer04) / slot->duration10;
             switch (slot->easing18)
             {
             case 1:
@@ -215,7 +225,7 @@ th09_ecl_after_dispatch:
                     slot->callback00);
             interpolationCallback(enemy, slot, progress);
 
-            if (slot->timer04.current08 >= slot->duration10)
+            if (slot->timer04 >= slot->duration10)
                 slot->callback00 = NULL;
 
             affectedVariableBits =

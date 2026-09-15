@@ -203,7 +203,7 @@ typedef char Th09EclStateChildCallStackAt234[
 struct BossUiView
 {
     void SetBossMarkerState(int slot, int state);
-    void SetBossMarkerPosition(int slot, EnemyFloat3 *position);
+    void SetBossMarkerPosition(int slot, Float3 *position);
 };
 
 struct SoundPlayerView
@@ -258,7 +258,7 @@ inline short &RawShort(
         0x0C + byteOffset);
 }
 
-inline void AssignFlagField(
+__forceinline void AssignFlagField(
     unsigned int &flags,
     unsigned int mask,
     unsigned int shiftedValue)
@@ -283,7 +283,6 @@ inline void AssignFlagField(
     int effectCount;
     unsigned int effectColor;
     Th09EclRunState::ChildEclBlock *childEcl;
-    EnemyFloat3 statePosition;
     EffectFloat3 effectVelocity;
 
     case TH09_ECL_OPCODE_PLAY_POSITIONED_SOUND:
@@ -316,9 +315,7 @@ inline void AssignFlagField(
                 ~Th09EclRunState::ENEMY_STATE_BOSS;
             Th09EclRunState::g_BossUi.SetBossMarkerState(stateIndex, 2);
             Th09EclRunState::ReleaseAttachedEffects(enemy);
-            statePosition.x = -999.0f;
-            statePosition.y = -999.0f;
-            statePosition.z = 0.0f;
+            Float3 statePosition(-999.0f, -999.0f, 0.0f);
             Th09EclRunState::g_BossUi.SetBossMarkerPosition(
                 stateIndex,
                 &statePosition);
@@ -508,8 +505,18 @@ inline void AssignFlagField(
         break;
 
     case TH09_ECL_OPCODE_ADD_TIME:
-        Th09EclRunState::View(enemy)->activeContext2CE0->time008.AddCurrent(
-            Th09EclRunControl::ReadInt(enemy, instruction, 0));
+        if ((instruction->parameterMask0A & 1U) != 0)
+        {
+            Th09EclRunState::View(enemy)->activeContext2CE0->time008.AddCurrent(
+                Th09EclRunControl::ResolveInt(
+                    enemy,
+                    Th09EclRunControl::RawInt(instruction, 0)));
+        }
+        else
+        {
+            Th09EclRunState::View(enemy)->activeContext2CE0->time008.AddCurrent(
+                Th09EclRunControl::RawInt(instruction, 0));
+        }
         break;
 
     case TH09_ECL_OPCODE_SET_BACKGROUND_SCRIPT_LABEL:

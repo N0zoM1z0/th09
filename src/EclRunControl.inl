@@ -110,10 +110,9 @@ __forceinline float ReadFloat(
     Th09EclRawInstructionHeaderView *instruction,
     int operandIndex)
 {
-    const float rawValue = RawFloat(instruction, operandIndex);
     return (instruction->parameterMask0A & (1U << operandIndex))
-               ? ResolveFloat(enemy, rawValue)
-               : rawValue;
+               ? ResolveFloat(enemy, RawFloat(instruction, operandIndex))
+               : RawFloat(instruction, operandIndex);
 }
 
 __forceinline int *WriteInt(
@@ -158,7 +157,6 @@ __forceinline float *WriteFloat(
 //   th09_ecl_restart_context
 //   th09_ecl_select_next_context
 
-    int lhsInt;
     int rhsInt;
     float lhsFloat;
     float rhsFloat;
