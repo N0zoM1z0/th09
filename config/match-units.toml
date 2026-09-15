@@ -5997,3 +5997,161 @@ size = 0x44
 relocations = [
   { offset = 0x37, type = "REL32", symbol = "?DrawSquare@ScreenEffect@@SIXPAUScreenEffectRect@@I@Z", target = 0x00422960 },
 ]
+
+
+[units.effect-manager-clear]
+source = "src/EffectManager.cpp"
+object = "build/matching/EffectManager.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectManager::Clear"]
+symbol = "?Clear@EffectManager@@QAEXXZ"
+target_address = 0x0040C950
+size = 0xE
+relocations = [
+]
+
+[units.effect-manager-draw]
+source = "src/EffectManager.cpp"
+object = "build/matching/EffectManager.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectManager::OnDraw"]
+symbol = "?OnDraw@EffectManager@@SIHPAU1@@Z"
+target_address = 0x0040CFB0
+size = 0xB7
+relocations = [
+  { offset = 0x10, type = "DIR32", symbol = "?g_Supervisor@@3UEffectSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x15, type = "REL32", symbol = "?ConfigureGameplayViewport@EffectSupervisorView@@QAEXH@Z", target = 0x00401390 },
+  { offset = 0x45, type = "DIR32", symbol = "?g_GameManager@@3UEffectGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x50, type = "REL32", symbol = "?TransformPopupX@EffectGameManagerView@@QAEMM@Z", target = 0x00401680 },
+  { offset = 0x5B, type = "DIR32", symbol = "?g_GameManager@@3UEffectGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x60, type = "REL32", symbol = "?TransformPopupY@EffectGameManagerView@@QAEMM@Z", target = 0x004016B0 },
+  { offset = 0x7E, type = "REL32", symbol = "?Add@EffectFloat3@@QAEPAU1@PBU1@@Z", target = 0x00405730 },
+  { offset = 0x84, type = "DIR32", symbol = "?g_AnmManager@@3PAUEffectAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x8A, type = "REL32", symbol = "?Draw2D@EffectAnmManagerView@@QAEHPAUEffectVmView@@@Z", target = 0x0043AB50 },
+]
+
+[units.effect-manager-draw-shared]
+source = "src/EffectManager.cpp"
+object = "build/matching/EffectManager.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectManager::OnDrawShared"]
+symbol = "?OnDrawShared@EffectManager@@SIHPAU1@@Z"
+target_address = 0x0040D070
+size = 0x92
+relocations = [
+  { offset = 0x0C, type = "DIR32", symbol = "?g_Supervisor@@3UEffectSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x11, type = "REL32", symbol = "?ConfigureGameplayViewport@EffectSupervisorView@@QAEXH@Z", target = 0x00401390 },
+  { offset = 0x66, type = "REL32", symbol = "?Add@EffectFloat3@@QAEPAU1@PBU1@@Z", target = 0x00405730 },
+  { offset = 0x6C, type = "DIR32", symbol = "?g_AnmManager@@3PAUEffectAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x72, type = "REL32", symbol = "?Draw2D@EffectAnmManagerView@@QAEHPAUEffectVmView@@@Z", target = 0x0043AB50 },
+]
+
+[units.effect-manager-release-pool]
+source = "src/EffectManager.cpp"
+object = "build/matching/EffectManager.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectManager::ReleasePool"]
+symbol = "?ReleasePool@EffectManager@@QAEHXZ"
+target_address = 0x0040D200
+size = 0x7B
+relocations = [
+  { offset = 0x28, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x2D, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x43, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x48, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x6D, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x72, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+]
+
+[units.effect-manager-release]
+source = "src/EffectManager.cpp"
+object = "build/matching/EffectManager.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectManager::Release"]
+symbol = "?Release@EffectManager@@SIXPAU1@@Z"
+target_address = 0x0040D280
+size = 0x33
+relocations = [
+  { offset = 0x08, type = "REL32", symbol = "?ReleasePool@EffectManager@@QAEHXZ", target = 0x0040D200 },
+  { offset = 0x11, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x16, type = "REL32", symbol = "?Cut@Chain@@QAEXPAVChainElem@@@Z", target = 0x0042C8C0 },
+  { offset = 0x1F, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x24, type = "REL32", symbol = "?Cut@Chain@@QAEXPAVChainElem@@@Z", target = 0x0042C8C0 },
+  { offset = 0x2A, type = "REL32", symbol = "??3@YAXPAX@Z", target = 0x0047B249 },
+]
+
+[units.effect-constructor]
+source = "src/EffectManager.cpp"
+object = "build/matching/EffectManager.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Effect::Effect"]
+symbol = "??0Effect@@QAE@XZ"
+target_address = 0x0040D2C0
+size = 0x12
+relocations = [
+  { offset = 0x0A, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+]
+
+[units.effect-manager-constructor]
+source = "src/EffectManager.cpp"
+object = "build/matching/EffectManager.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectManager::EffectManager"]
+symbol = "??0EffectManager@@QAE@XZ"
+target_address = 0x0040D2E0
+size = 0x3D
+relocations = [
+  { offset = 0x07, type = "REL32", symbol = "??0Effect@@QAE@XZ", target = 0x0040D2C0 },
+  { offset = 0x12, type = "REL32", symbol = "??0Effect@@QAE@XZ", target = 0x0040D2C0 },
+  { offset = 0x1D, type = "REL32", symbol = "??0Effect@@QAE@XZ", target = 0x0040D2C0 },
+  { offset = 0x24, type = "REL32", symbol = "?Clear@EffectManager@@QAEXXZ", target = 0x0040C950 },
+]
+
+[units.effect-manager-create]
+source = "src/EffectManager.cpp"
+object = "build/matching/EffectManager.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectManager::Create"]
+symbol = "?Create@EffectManager@@SIPAU1@HHH@Z"
+target_address = 0x0040D320
+size = 0x147
+relocations = [
+  { offset = 0x10, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x1E, type = "REL32", symbol = "??0EffectManager@@QAE@XZ", target = 0x0040D2E0 },
+  { offset = 0x27, type = "DIR32", symbol = "??_C@_0N@ECINOLOJ@EffectSysInf?$AA@", target = 0x0048E494 },
+  { offset = 0x32, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x37, type = "REL32", symbol = "?AddToRegistry@ZunMemory@@QAEPAXPAXIPAD@Z", target = 0x00401380 },
+  { offset = 0x40, type = "REL32", symbol = "?Clear@EffectManager@@QAEXXZ", target = 0x0040C950 },
+  { offset = 0x52, type = "DIR32", symbol = "?g_GameManager@@3UEffectGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x58, type = "DIR32", symbol = "?g_GameManager@@3UEffectGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x68, type = "DIR32", symbol = "?g_GameManager@@3UEffectGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x83, type = "DIR32", symbol = "??_C@_0BC@BLCFCAKG@?4?1system?2global?4h?$AA@", target = 0x0048E474 },
+  { offset = 0x89, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x91, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0xAF, type = "DIR32", symbol = "?OnUpdate@EffectManager@@SIHPAU1@@Z", target = 0x0040CDD0 },
+  { offset = 0xB4, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xB9, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0xC9, type = "DIR32", symbol = "?AddedCallback@EffectManager@@SIHPAU1@@Z", target = 0x0040D1C0 },
+  { offset = 0xD6, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xDB, type = "REL32", symbol = "?AddToCalcChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B1E0 },
+  { offset = 0xF0, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xF7, type = "DIR32", symbol = "?OnDraw@EffectManager@@SIHPAU1@@Z", target = 0x0040CFB0 },
+  { offset = 0xFC, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0x10C, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x111, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
+  { offset = 0x11F, type = "DIR32", symbol = "?OnDrawShared@EffectManager@@SIHPAU1@@Z", target = 0x0040D070 },
+  { offset = 0x124, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0x135, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x13A, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
+]
+
+[units.effect-update-from-vm]
+source = "src/EffectManager.cpp"
+object = "build/matching/EffectManager.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectUpdateFromVm"]
+symbol = "?EffectUpdateFromVm@@YIHPAUEffect@@@Z"
+target_address = 0x0040D470
+size = 0x57
+relocations = [
+]

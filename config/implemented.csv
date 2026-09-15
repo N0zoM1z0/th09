@@ -292,3 +292,12 @@ ScreenEffect::DrawArcadeFade
 ScreenEffect::DrawPartialFade
 ScreenEffect::DrawSplitFade
 ScreenEffect::DrawArcadePulse
+EffectManager::Clear
+EffectManager::OnDraw
+EffectManager::OnDrawShared
+EffectManager::ReleasePool
+EffectManager::Release
+Effect::Effect
+EffectManager::EffectManager
+EffectManager::Create
+EffectUpdateFromVm
