@@ -78,7 +78,9 @@ inline int *ActiveIntVariables(EnemyView *enemy)
     return reinterpret_cast<int *>(Bytes(ActiveContext(enemy)) + 0x1C);
 }
 
-inline EnemyFloat3 ResolveSpawnPosition(
+// Both spawn handlers inline the three mask tests and keep only the float
+// resolver calls out of line in the target owner.
+__forceinline EnemyFloat3 ResolveSpawnPosition(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction,
     const SpawnPacket &packet)
@@ -144,15 +146,16 @@ void AddPosition(EnemyFloat3 *position, const EnemyFloat3 *offset);
             remoteIndex = Th09EclRunControl::ReadInt(enemy, instruction, 2);
             remoteEnemy =
                 Th09EclRunRemote::RemoteEnemy(enemy, remoteIndex);
-            remoteValue = Th09EclRunControl::ResolveInt(
+            lhsInt = Th09EclRunControl::ResolveInt(
                 remoteEnemy,
                 Th09EclRunControl::RawInt(instruction, 1));
         }
         else
         {
-            remoteValue = Th09EclRunControl::RawInt(instruction, 1);
+            lhsInt = Th09EclRunControl::RawInt(instruction, 1);
         }
-        *Th09EclRunControl::WriteInt(enemy, instruction, 0) = remoteValue;
+th09_ecl_store_int_result:
+        *Th09EclRunControl::WriteInt(enemy, instruction, 0) = lhsInt;
         break;
 
     case TH09_ECL_OPCODE_SET_REMOTE_FLOAT:

@@ -116,7 +116,9 @@ inline int &ConditionResult(EnemyView *enemy)
         reinterpret_cast<unsigned char *>(ActiveContext(enemy)) + 0x64);
 }
 
-inline float ReadLaserFloat(
+// These mixed-offset packet readers are lexical in the target owner: only the
+// scalar resolver remains out of line.
+__forceinline float ReadLaserFloat(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction,
     int byteOffset,
@@ -129,7 +131,7 @@ inline float ReadLaserFloat(
                : value;
 }
 
-inline int ReadLaserInt(
+__forceinline int ReadLaserInt(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction,
     int byteOffset,
@@ -142,7 +144,7 @@ inline int ReadLaserInt(
                : value;
 }
 
-inline short ReadLaserColor(
+__forceinline short ReadLaserColor(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction)
 {
@@ -245,10 +247,9 @@ void ClearBulletsForTransition(EtamaController *controller);
         break;
 
     case TH09_ECL_OPCODE_SHOOT_NOW:
-        Th09EclRunBullet::SetLaserPosition(
-            Th09EclRunBullet::View(enemy)->bulletDescriptor2E74,
-            Th09EclRunBullet::View(enemy)->worldPosition2DD4,
-            Th09EclRunBullet::View(enemy)->shootOffset2E04);
+        Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.position =
+            Th09EclRunBullet::View(enemy)->worldPosition2DD4 +
+            Th09EclRunBullet::View(enemy)->shootOffset2E04;
         Th09EclRunBullet::Controller(enemy)->SpawnBulletPatternSecondary(
             &Th09EclRunBullet::View(enemy)->bulletDescriptor2E74);
         break;
@@ -310,10 +311,9 @@ void ClearBulletsForTransition(EtamaController *controller);
             reinterpret_cast<unsigned char *>(instruction) + 0x0C);
         laserDescriptor =
             &Th09EclRunBullet::View(enemy)->laserDescriptor30C4;
-        Th09EclRunBullet::SetLaserPosition(
-            *laserDescriptor,
-            Th09EclRunBullet::View(enemy)->worldPosition2DD4,
-            Th09EclRunBullet::View(enemy)->shootOffset2E04);
+        laserDescriptor->position =
+            Th09EclRunBullet::View(enemy)->worldPosition2DD4 +
+            Th09EclRunBullet::View(enemy)->shootOffset2E04;
         laserDescriptor->bulletType = laserArgs->bulletType00;
         laserDescriptor->color =
             Th09EclRunBullet::ReadLaserColor(enemy, instruction);

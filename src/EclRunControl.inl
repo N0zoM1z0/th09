@@ -91,7 +91,10 @@ inline float &RawFloat(
         0x0C + operandIndex * 4);
 }
 
-inline int ReadInt(
+// Target RunEcl inlines these four operand wrappers at every call site while
+// preserving the resolver boundaries.  Ordinary VC7.1 /Ob1 declines them, so
+// the explicit inline contract records the observed TU surface.
+__forceinline int ReadInt(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction,
     int operandIndex)
@@ -102,7 +105,7 @@ inline int ReadInt(
                : rawValue;
 }
 
-inline float ReadFloat(
+__forceinline float ReadFloat(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction,
     int operandIndex)
@@ -113,7 +116,7 @@ inline float ReadFloat(
                : rawValue;
 }
 
-inline int *WriteInt(
+__forceinline int *WriteInt(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction,
     int operandIndex)
@@ -125,7 +128,7 @@ inline int *WriteInt(
         operandIndex);
 }
 
-inline float *WriteFloat(
+__forceinline float *WriteFloat(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction,
     int operandIndex)
@@ -189,9 +192,8 @@ inline float *WriteFloat(
         goto th09_ecl_redispatch_instruction;
 
     case TH09_ECL_OPCODE_SET_INT:
-        *Th09EclRunControl::WriteInt(enemy, instruction, 0) =
-            Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        break;
+        lhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        goto th09_ecl_store_int_result;
 
     case TH09_ECL_OPCODE_SET_FLOAT:
         *Th09EclRunControl::WriteFloat(enemy, instruction, 0) =

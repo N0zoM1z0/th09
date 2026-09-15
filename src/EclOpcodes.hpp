@@ -244,6 +244,7 @@ typedef char Th09EclParameterMaskAt0A[
 
 struct Th09EclTimerStorageView
 {
+    int GetCurrent();
     void SetCurrent(int value);
     void AddCurrent(int value);
     void operator+=(float value);

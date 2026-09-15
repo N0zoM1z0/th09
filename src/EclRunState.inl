@@ -88,11 +88,11 @@ struct EnemyStateView
     short subroutineSlots2D30[32];
     short pendingSubroutineId2D70;
     unsigned char unknown2D72[0x02];
-    EnemyFloat3 position2D74;
-    EnemyFloat3 positionOffset2D80;
-    EnemyFloat3 velocity2D8C;
+    Float3 position2D74;
+    Float3 positionOffset2D80;
+    Float3 velocity2D8C;
     unsigned char unknown2D98[0x2DD4 - 0x2D98];
-    EnemyFloat3 worldPosition2DD4;
+    Float3 worldPosition2DD4;
     float movementAngle2DE0;
     unsigned char unknown2DE4[0x2E38 - 0x2DE4];
     float bulletRankSpeedLow2E38;

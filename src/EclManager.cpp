@@ -18,7 +18,10 @@ extern float g_TimeScale;
 void UpdateMotionAfterEcl(EnemyView *enemy);
 void UpdateAnimationAfterEcl(EnemyView *enemy);
 
-typedef void (__fastcall *InterpolationCallback)(EnemyView *enemy, float progress);
+typedef void (__fastcall *InterpolationCallback)(
+    EnemyView *enemy,
+    Th09EclInterpolationSlotView *slot,
+    float progress);
 
 } // namespace Th09EclRunOwner
 
@@ -31,6 +34,9 @@ int EclManager::RunEcl(EnemyView *enemy)
     Th09EclRawInstructionHeaderView *instruction;
     Th09EclRunState::ChildEclBlock *child;
     Th09EclInterpolationSlotView *slot;
+    Float3 *position;
+    Float3 *positionOffset;
+    Float3 *worldPosition;
     Th09EclRunState::ExInstructionCallback perFrameCallback;
     Th09EclRunOwner::InterpolationCallback interpolationCallback;
     unsigned int executionMask;
@@ -55,8 +61,12 @@ int EclManager::RunEcl(EnemyView *enemy)
 th09_ecl_restart_context:
     context = enemyState->activeContext2CE0;
     instruction = context->currentInstruction004;
-    if (enemyState->pendingSubroutineId2D70 < 0)
-        goto th09_ecl_instruction_loop;
+    if (enemyState->pendingSubroutineId2D70 >= 0)
+        goto th09_ecl_enter_pending_subroutine;
+    position = &enemyState->position2D74;
+    positionOffset = &enemyState->positionOffset2D80;
+    worldPosition = &enemyState->worldPosition2DD4;
+    goto th09_ecl_instruction_loop;
 
 th09_ecl_enter_pending_subroutine:
     context->currentInstruction004 =
@@ -87,14 +97,9 @@ th09_ecl_enter_pending_subroutine:
 
 th09_ecl_instruction_loop:
     context = enemyState->activeContext2CE0;
-    enemyState->worldPosition2DD4.x =
-        enemyState->position2D74.x + enemyState->positionOffset2D80.x;
-    enemyState->worldPosition2DD4.y =
-        enemyState->position2D74.y + enemyState->positionOffset2D80.y;
-    enemyState->worldPosition2DD4.z =
-        enemyState->position2D74.z + enemyState->positionOffset2D80.z;
+    *worldPosition = *position + *positionOffset;
 
-    if (context->secondaryTime094.current08 > 0)
+    if (context->secondaryTime094.GetCurrent() > 0)
     {
         context->secondaryTime094--;
         context->time008--;
@@ -147,7 +152,9 @@ th09_ecl_after_dispatch:
     context = enemyState->activeContext2CE0;
     if (enemyState->life2E48 > 0)
     {
-        positionBeforeCallbacks = enemyState->position2D74;
+        positionBeforeCallbacks.x = position->x;
+        positionBeforeCallbacks.y = position->y;
+        positionBeforeCallbacks.z = position->z;
         positionInterpolated = false;
 
         perFrameCallback =
@@ -206,7 +213,7 @@ th09_ecl_after_dispatch:
             interpolationCallback =
                 reinterpret_cast<Th09EclRunOwner::InterpolationCallback>(
                     slot->callback00);
-            interpolationCallback(enemy, progress);
+            interpolationCallback(enemy, slot, progress);
 
             if (slot->timer04.current08 >= slot->duration10)
                 slot->callback00 = NULL;
@@ -223,13 +230,15 @@ th09_ecl_after_dispatch:
 
         if (positionInterpolated)
         {
-            deltaX = enemyState->position2D74.x - positionBeforeCallbacks.x;
-            deltaY = enemyState->position2D74.y - positionBeforeCallbacks.y;
+            deltaX = position->x - positionBeforeCallbacks.x;
+            deltaY = position->y - positionBeforeCallbacks.y;
             enemyState->velocity2D8C.x = deltaX;
             enemyState->velocity2D8C.y = deltaY;
             enemyState->movementAngle2DE0 =
                 Th09EclRunControl::VectorAngle(deltaY, deltaX);
-            enemyState->position2D74 = positionBeforeCallbacks;
+            position->x = positionBeforeCallbacks.x;
+            position->y = positionBeforeCallbacks.y;
+            position->z = positionBeforeCallbacks.z;
         }
     }
 
