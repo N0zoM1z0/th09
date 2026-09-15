@@ -360,3 +360,4 @@ EtamaController::OnUpdate
 EtamaController::Register
 TitleScreenView::PlayMenuSound
 TitleScreenView::OnUpdateOptions
+EclManager::RunEcl

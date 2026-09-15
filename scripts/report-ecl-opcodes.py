@@ -69,6 +69,22 @@ REMOTE_SOURCE = ROOT / "src" / "EclRunRemote.inl"
 BULLET_SOURCE = ROOT / "src" / "EclRunBullet.inl"
 STATE_SOURCE = ROOT / "src" / "EclRunState.inl"
 LATE_SOURCE = ROOT / "src" / "EclRunLate.inl"
+OWNER_SOURCE = ROOT / "src" / "EclManager.cpp"
+OWNER_FRAGMENT_SOURCES = (
+    "EclRunControl.inl",
+    "EclRunMovement.inl",
+    "EclRunRemote.inl",
+    "EclRunBullet.inl",
+    "EclRunState.inl",
+    "EclRunLate.inl",
+)
+OWNER_SHARED_LABELS = (
+    "th09_ecl_advance_instruction",
+    "th09_ecl_redispatch_instruction",
+    "th09_ecl_restart_context",
+    "th09_ecl_select_next_context",
+    "th09_ecl_enter_pending_subroutine",
+)
 ENUM_ENTRY_RE = re.compile(
     r"^\s*(TH09_ECL_OPCODE_[A-Z0-9_]+)\s*=\s*(\d+),?\s*$",
     re.MULTILINE,
@@ -147,6 +163,46 @@ def audit_source_family(
     }
 
 
+def audit_owner_source() -> dict[str, object]:
+    source_text = OWNER_SOURCE.read_text(encoding="utf-8")
+    problems = []
+    if source_text.count("int EclManager::RunEcl(EnemyView *enemy)") != 1:
+        problems.append("missing unique RunEcl definition")
+    missing_fragments = [
+        fragment
+        for fragment in OWNER_FRAGMENT_SOURCES
+        if source_text.count(f'#include "{fragment}"') == 0
+    ]
+    if missing_fragments:
+        problems.append("missing fragments " + ",".join(missing_fragments))
+    missing_labels = [
+        label
+        for label in OWNER_SHARED_LABELS
+        if re.search(rf"^{label}:\s*$", source_text, re.MULTILINE) is None
+    ]
+    if missing_labels:
+        problems.append("missing shared labels " + ",".join(missing_labels))
+    if source_text.count("switch (instruction->opcode04)") != 1:
+        problems.append("missing unique 187-way dispatch switch")
+    if source_text.count("switch (slot->easing18)") != 1:
+        problems.append("missing unique easing switch")
+    if "TH09_ECL_INTERPOLATION_SLOT_COUNT" not in source_text:
+        problems.append("missing eight-slot interpolation traversal")
+    if "TH09_ECL_CHILD_CONTEXT_COUNT" not in source_text:
+        problems.append("missing four-child context traversal")
+    if problems:
+        raise ValueError("RunEcl owner source: " + "; ".join(problems))
+    return {
+        "source": str(OWNER_SOURCE.relative_to(ROOT)),
+        "fragment_count": len(OWNER_FRAGMENT_SOURCES),
+        "shared_label_count": len(OWNER_SHARED_LABELS),
+        "opcode_case_count": OPCODE_TABLE_COUNT,
+        "interpolation_slot_count": 8,
+        "child_context_count": 4,
+        "claim": "complete maintained owner source; exactness remains open",
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("executable", nargs="?", type=Path)
@@ -205,6 +261,7 @@ def main() -> int:
             LATE_OPCODE_MAX,
             "late manager/side",
         )
+        owner_source = audit_owner_source()
     except (OSError, KeyError, TypeError, ValueError, struct.error) as exc:
         print(f"invalid target or ECL tables: {exc}", file=sys.stderr)
         return 2
@@ -334,7 +391,7 @@ def main() -> int:
                 f"0x{value:08X}"
                 for value in opcode_entries[:CONTROL_OPCODE_MAX]
             ],
-            "claim": "complete lexical family coverage; RunEcl source/exactness remain open",
+            "claim": "complete lexical family coverage; RunEcl exactness remains open",
         },
         "movement_family": {
             **movement_source,
@@ -353,7 +410,7 @@ def main() -> int:
                     MOVEMENT_OPCODE_MIN - 1:MOVEMENT_OPCODE_MAX
                 ]
             ],
-            "claim": "complete lexical family coverage; RunEcl source/exactness remain open",
+            "claim": "complete lexical family coverage; RunEcl exactness remains open",
         },
         "remote_spawn_family": {
             **remote_source,
@@ -372,7 +429,7 @@ def main() -> int:
                     REMOTE_OPCODE_MIN - 1:REMOTE_OPCODE_MAX
                 ]
             ],
-            "claim": "complete lexical family coverage; RunEcl source/exactness remain open",
+            "claim": "complete lexical family coverage; RunEcl exactness remains open",
         },
         "bullet_laser_family": {
             **bullet_source,
@@ -391,7 +448,7 @@ def main() -> int:
                     BULLET_OPCODE_MIN - 1:BULLET_OPCODE_MAX
                 ]
             ],
-            "claim": "complete lexical family coverage; RunEcl source/exactness remain open",
+            "claim": "complete lexical family coverage; RunEcl exactness remains open",
         },
         "boss_state_effects_family": {
             **state_source,
@@ -410,7 +467,7 @@ def main() -> int:
                     STATE_OPCODE_MIN - 1:STATE_OPCODE_MAX
                 ]
             ],
-            "claim": "complete lexical family coverage; RunEcl source/exactness remain open",
+            "claim": "complete lexical family coverage; RunEcl exactness remains open",
         },
         "late_manager_side_family": {
             **late_source,
@@ -429,8 +486,9 @@ def main() -> int:
                     LATE_OPCODE_MIN - 1:LATE_OPCODE_MAX
                 ]
             ],
-            "claim": "complete lexical family coverage; outer RunEcl source/exactness remain open",
+            "claim": "complete lexical family coverage; exactness remains open",
         },
+        "owner_source": owner_source,
     }
 
     if args.json:
@@ -480,6 +538,11 @@ def main() -> int:
             "late manager/side family: opcodes 158-187, "
             f"{LATE_OPCODE_MAX - LATE_OPCODE_MIN + 1 - len(late_default_opcodes)} active, "
             f"{late_source['case_count']} source cases"
+        )
+        print(
+            "RunEcl owner: complete maintained source, "
+            f"{owner_source['fragment_count']} fragments, "
+            f"{owner_source['shared_label_count']} shared labels, NON-EXACT"
         )
     return 0
 

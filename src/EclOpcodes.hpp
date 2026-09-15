@@ -246,8 +246,12 @@ struct Th09EclTimerStorageView
 {
     void SetCurrent(int value);
     void AddCurrent(int value);
+    void operator+=(float value);
+    void operator--(int value);
 
-    unsigned char storage00[0x0C];
+    int previous00;
+    float subFrame04;
+    int current08;
 };
 typedef char Th09EclTimerStorageSizeIs0C[
     (sizeof(Th09EclTimerStorageView) == 0x0C) ? 1 : -1];
@@ -281,7 +285,10 @@ struct Th09EclContextView
     unsigned char unknown01C[0x94 - 0x1C];
     Th09EclTimerStorageView secondaryTime094;
     Th09EclInterpolationSlotView interpolationSlots0A0[8];
-    unsigned char unknown220[0x0C];
+    unsigned char unknown220[0x04];
+    int contextOrdinal224;
+    short subroutineId228;
+    unsigned char unknown22A[0x02];
 };
 typedef char Th09EclContextSizeIs22C[
     (sizeof(Th09EclContextView) == 0x22C) ? 1 : -1];
@@ -291,6 +298,10 @@ typedef char Th09EclContextSecondaryTimeAt094[
     (offsetof(Th09EclContextView, secondaryTime094) == 0x94) ? 1 : -1];
 typedef char Th09EclContextInterpolationsAt0A0[
     (offsetof(Th09EclContextView, interpolationSlots0A0) == 0xA0) ? 1 : -1];
+typedef char Th09EclContextOrdinalAt224[
+    (offsetof(Th09EclContextView, contextOrdinal224) == 0x224) ? 1 : -1];
+typedef char Th09EclContextSubroutineAt228[
+    (offsetof(Th09EclContextView, subroutineId228) == 0x228) ? 1 : -1];
 
 enum Th09EclEnemyRuntimeOffset
 {

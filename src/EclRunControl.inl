@@ -3,10 +3,9 @@
 // This file is intentionally a lexical switch fragment.  EclManager::RunEcl
 // is one 14,792-byte owner whose handlers share locals, labels, and a stack
 // frame; splitting this family into a callable replacement would invent a
-// target boundary.  The eventual outer function must include the declarations
-// once and define TH09_ECL_RUN_CONTROL_BODY while including the switch body.
-// Until every family and the outer owner are present, this file is partial
-// interpreter source and does not establish RunEcl source presence or exactness.
+// target boundary.  EclManager.cpp includes the declarations once and defines
+// TH09_ECL_RUN_CONTROL_BODY inside the maintained outer switch.  This fragment
+// alone does not establish exactness for the complete interpreter.
 //
 // Target evidence:
 //   dispatcher/table: 0x0040889B / 0x0040C0A0
@@ -36,9 +35,9 @@ struct RngView
 
 extern RngView g_Rng;
 
-// These maintained names describe target-observed roles.  The whole RunEcl TU
-// and its helper definitions are still needed to settle the compiler's
-// internal calling conventions and exact object partition.
+// These maintained names describe target-observed roles.  Their helper
+// definitions and final TU ABI are still needed to settle exact object
+// partitioning.
 int __fastcall ResolveInt(EnemyView *enemy, int rawValue);
 float __fastcall ResolveFloat(EnemyView *enemy, float rawValue);
 int *__fastcall ResolveIntLValue(

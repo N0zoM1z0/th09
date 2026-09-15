@@ -76,18 +76,25 @@ struct EnemyStateView
     unsigned char unknown0004[0x0008 - 0x0004];
     AnmVm primaryVm0008;
     AnmVm secondaryVms02AC[2];
-    unsigned char unknown07F4[0x2CE0 - 0x07F4];
+    Th09EclContextView mainContext07F4;
+    Th09EclContextView mainCallStack0A20[TH09_ECL_MAIN_CALL_STACK_CAPACITY];
     Th09EclContextView *activeContext2CE0;
-    unsigned char unknown2CE4[0x2D2E - 0x2CE4];
+    Th09EclContextView *activeCallStack2CE4;
+    unsigned char unknown2CE8[0x2D28 - 0x2CE8];
+    short mainCallDepth2D28;
+    short activeCallDepth2D2A;
+    unsigned char unknown2D2C[0x02];
     short deathCallbackSubId2D2E;
     short subroutineSlots2D30[32];
     short pendingSubroutineId2D70;
     unsigned char unknown2D72[0x02];
     EnemyFloat3 position2D74;
     EnemyFloat3 positionOffset2D80;
-    unsigned char unknown2D8C[0x2DD4 - 0x2D8C];
+    EnemyFloat3 velocity2D8C;
+    unsigned char unknown2D98[0x2DD4 - 0x2D98];
     EnemyFloat3 worldPosition2DD4;
-    unsigned char unknown2DE0[0x2E38 - 0x2DE0];
+    float movementAngle2DE0;
+    unsigned char unknown2DE4[0x2E38 - 0x2DE4];
     float bulletRankSpeedLow2E38;
     float bulletRankSpeedHigh2E3C;
     short bulletRankCount1Low2E40;
@@ -112,7 +119,8 @@ struct EnemyStateView
     unsigned int secondaryFlags3380;
     unsigned char unknown3384[0x03];
     unsigned char drawGroup3387;
-    unsigned char unknown3388[0x33A8 - 0x3388];
+    unsigned char difficultyOverride3388;
+    unsigned char unknown3389[0x33A8 - 0x3389];
     float minimumPlayerDistanceSquared33A8;
     int lastDamage33AC;
     int lifeCallbackThresholds33B0[4];
@@ -136,12 +144,25 @@ typedef char Th09EclStateEnemySizeIs5430[
     (sizeof(EnemyStateView) == 0x5430) ? 1 : -1];
 typedef char Th09EclStatePrimaryVmAt008[
     (offsetof(EnemyStateView, primaryVm0008) == 0x0008) ? 1 : -1];
+typedef char Th09EclStateMainContextAt07F4[
+    (offsetof(EnemyStateView, mainContext07F4) == 0x07F4) ? 1 : -1];
+typedef char Th09EclStateMainCallStackAt0A20[
+    (offsetof(EnemyStateView, mainCallStack0A20) == 0x0A20) ? 1 : -1];
+typedef char Th09EclStateActiveContextAt2CE0[
+    (offsetof(EnemyStateView, activeContext2CE0) == 0x2CE0) ? 1 : -1];
+typedef char Th09EclStateActiveCallStackAt2CE4[
+    (offsetof(EnemyStateView, activeCallStack2CE4) == 0x2CE4) ? 1 : -1];
+typedef char Th09EclStateCallDepthsAt2D28[
+    (offsetof(EnemyStateView, mainCallDepth2D28) == 0x2D28 &&
+     offsetof(EnemyStateView, activeCallDepth2D2A) == 0x2D2A) ? 1 : -1];
 typedef char Th09EclStateSubroutineSlotsAt2D30[
     (offsetof(EnemyStateView, subroutineSlots2D30) == 0x2D30) ? 1 : -1];
 typedef char Th09EclStatePendingSubAt2D70[
     (offsetof(EnemyStateView, pendingSubroutineId2D70) == 0x2D70) ? 1 : -1];
 typedef char Th09EclStateWorldPositionAt2DD4[
     (offsetof(EnemyStateView, worldPosition2DD4) == 0x2DD4) ? 1 : -1];
+typedef char Th09EclStateMovementAngleAt2DE0[
+    (offsetof(EnemyStateView, movementAngle2DE0) == 0x2DE0) ? 1 : -1];
 typedef char Th09EclStateBulletRankAt2E38[
     (offsetof(EnemyStateView, bulletRankSpeedLow2E38) == 0x2E38) ? 1 : -1];
 typedef char Th09EclStateBossTimerAt2E64[
@@ -150,6 +171,8 @@ typedef char Th09EclStateLaserSlotsAt32D8[
     (offsetof(EnemyStateView, laserSlots32D8) == 0x32D8) ? 1 : -1];
 typedef char Th09EclStateBossSlotAt336B[
     (offsetof(EnemyStateView, bossSlot336B) == 0x336B) ? 1 : -1];
+typedef char Th09EclStateDifficultyOverrideAt3388[
+    (offsetof(EnemyStateView, difficultyOverride3388) == 0x3388) ? 1 : -1];
 typedef char Th09EclStateLifeCallbacksAt33B0[
     (offsetof(EnemyStateView, lifeCallbackThresholds33B0) == 0x33B0) ? 1 : -1];
 typedef char Th09EclStateChildBlocksAt33D8[
@@ -162,15 +185,20 @@ typedef char Th09EclStateEffectsAt53B4[
 struct ChildEclBlock
 {
     int subroutineId00;
-    int unknown04;
+    short unknown04;
+    short callStackDepth06;
     Th09EclContextView context08;
-    unsigned char unknown0234[0x24F4 - 0x0234];
+    Th09EclContextView callStack0234[TH09_ECL_MAIN_CALL_STACK_CAPACITY];
 };
 typedef char Th09EclStateChildBlockSizeIs24F4[
     (sizeof(ChildEclBlock) == 0x24F4) ? 1 : -1];
 typedef char Th09EclStateChildVariablesAt24[
     (offsetof(ChildEclBlock, context08) +
          offsetof(Th09EclContextView, unknown01C) == 0x24) ? 1 : -1];
+typedef char Th09EclStateChildDepthAt06[
+    (offsetof(ChildEclBlock, callStackDepth06) == 0x06) ? 1 : -1];
+typedef char Th09EclStateChildCallStackAt234[
+    (offsetof(ChildEclBlock, callStack0234) == 0x0234) ? 1 : -1];
 
 struct BossUiView
 {
