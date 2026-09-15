@@ -31,6 +31,7 @@ struct RngView
 {
     unsigned short NextU16();
     unsigned int GetRandomU32InRange(unsigned int maximum);
+    float GetRandomF32InRange(float maximum);
 };
 
 extern RngView g_Rng;

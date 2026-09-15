@@ -58,6 +58,9 @@ EXPECTED_BULLET_DEFAULT_OPCODES = (122, 123)
 STATE_OPCODE_MIN = 124
 STATE_OPCODE_MAX = 157
 EXPECTED_STATE_DEFAULT_OPCODES = (141, 142)
+LATE_OPCODE_MIN = 158
+LATE_OPCODE_MAX = 187
+EXPECTED_LATE_DEFAULT_OPCODES = (158, 164, 168, 174, 176, 179, 180, 181, 184)
 ROOT = Path(__file__).resolve().parents[1]
 OPCODE_HEADER = ROOT / "src" / "EclOpcodes.hpp"
 CONTROL_SOURCE = ROOT / "src" / "EclRunControl.inl"
@@ -65,6 +68,7 @@ MOVEMENT_SOURCE = ROOT / "src" / "EclRunMovement.inl"
 REMOTE_SOURCE = ROOT / "src" / "EclRunRemote.inl"
 BULLET_SOURCE = ROOT / "src" / "EclRunBullet.inl"
 STATE_SOURCE = ROOT / "src" / "EclRunState.inl"
+LATE_SOURCE = ROOT / "src" / "EclRunLate.inl"
 ENUM_ENTRY_RE = re.compile(
     r"^\s*(TH09_ECL_OPCODE_[A-Z0-9_]+)\s*=\s*(\d+),?\s*$",
     re.MULTILINE,
@@ -195,6 +199,12 @@ def main() -> int:
             STATE_OPCODE_MAX,
             "boss/state/effects",
         )
+        late_source = audit_source_family(
+            LATE_SOURCE,
+            LATE_OPCODE_MIN,
+            LATE_OPCODE_MAX,
+            "late manager/side",
+        )
     except (OSError, KeyError, TypeError, ValueError, struct.error) as exc:
         print(f"invalid target or ECL tables: {exc}", file=sys.stderr)
         return 2
@@ -278,6 +288,19 @@ def main() -> int:
         table_problems.append(
             "boss/state/effects default slots "
             + ",".join(f"{value:02X}" for value in state_default_opcodes)
+        )
+    late_default_opcodes = tuple(
+        opcode
+        for opcode, destination in enumerate(
+            opcode_entries[LATE_OPCODE_MIN - 1:LATE_OPCODE_MAX],
+            start=LATE_OPCODE_MIN,
+        )
+        if destination == DEFAULT_HANDLER
+    )
+    if late_default_opcodes != EXPECTED_LATE_DEFAULT_OPCODES:
+        table_problems.append(
+            "late manager/side default slots "
+            + ",".join(f"{value:02X}" for value in late_default_opcodes)
         )
     if table_problems:
         print("ECL table audit mismatch: " + "; ".join(table_problems), file=sys.stderr)
@@ -389,6 +412,25 @@ def main() -> int:
             ],
             "claim": "complete lexical family coverage; RunEcl source/exactness remain open",
         },
+        "late_manager_side_family": {
+            **late_source,
+            "active_count": (
+                LATE_OPCODE_MAX
+                - LATE_OPCODE_MIN
+                + 1
+                - len(late_default_opcodes)
+            ),
+            "default_opcodes": [
+                f"0x{value:02X}" for value in late_default_opcodes
+            ],
+            "destinations": [
+                f"0x{value:08X}"
+                for value in opcode_entries[
+                    LATE_OPCODE_MIN - 1:LATE_OPCODE_MAX
+                ]
+            ],
+            "claim": "complete lexical family coverage; outer RunEcl source/exactness remain open",
+        },
     }
 
     if args.json:
@@ -433,6 +475,11 @@ def main() -> int:
             "boss/state/effects family: opcodes 124-157, "
             f"{STATE_OPCODE_MAX - STATE_OPCODE_MIN + 1 - len(state_default_opcodes)} active, "
             f"{state_source['case_count']} source cases"
+        )
+        print(
+            "late manager/side family: opcodes 158-187, "
+            f"{LATE_OPCODE_MAX - LATE_OPCODE_MIN + 1 - len(late_default_opcodes)} active, "
+            f"{late_source['case_count']} source cases"
         )
     return 0
 

@@ -84,7 +84,10 @@ struct EnemyStateView
     short pendingSubroutineId2D70;
     unsigned char unknown2D72[0x02];
     EnemyFloat3 position2D74;
-    unsigned char unknown2D80[0x2E38 - 0x2D80];
+    EnemyFloat3 positionOffset2D80;
+    unsigned char unknown2D8C[0x2DD4 - 0x2D8C];
+    EnemyFloat3 worldPosition2DD4;
+    unsigned char unknown2DE0[0x2E38 - 0x2DE0];
     float bulletRankSpeedLow2E38;
     float bulletRankSpeedHigh2E3C;
     short bulletRankCount1Low2E40;
@@ -93,7 +96,7 @@ struct EnemyStateView
     short bulletRankCount2High2E46;
     int life2E48;
     int maxLife2E4C;
-    int phaseLife2E50;
+    int phaseStartingLife2E50;
     unsigned char unknown2E54[0x2E64 - 0x2E54];
     Th09EclTimerStorageView bossTimer2E64;
     unsigned char unknown2E70[0x32D8 - 0x2E70];
@@ -123,7 +126,7 @@ struct EnemyStateView
     short trailHistoryLength53A2;
     short trailCollisionLength53A4;
     short trailSampleStride53A6;
-    unsigned char unknown53A8[0x0C];
+    Th09EclTimerStorageView damageReductionTimer53A8;
     void *attachedEffects53B4[24];
     int attachedEffectCount5414;
     float attachedEffectDistance5418;
@@ -137,6 +140,8 @@ typedef char Th09EclStateSubroutineSlotsAt2D30[
     (offsetof(EnemyStateView, subroutineSlots2D30) == 0x2D30) ? 1 : -1];
 typedef char Th09EclStatePendingSubAt2D70[
     (offsetof(EnemyStateView, pendingSubroutineId2D70) == 0x2D70) ? 1 : -1];
+typedef char Th09EclStateWorldPositionAt2DD4[
+    (offsetof(EnemyStateView, worldPosition2DD4) == 0x2DD4) ? 1 : -1];
 typedef char Th09EclStateBulletRankAt2E38[
     (offsetof(EnemyStateView, bulletRankSpeedLow2E38) == 0x2E38) ? 1 : -1];
 typedef char Th09EclStateBossTimerAt2E64[
@@ -329,7 +334,7 @@ inline void AssignFlagField(
         stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         Th09EclRunState::View(enemy)->maxLife2E4C = stateInt;
         Th09EclRunState::View(enemy)->life2E48 = stateInt;
-        Th09EclRunState::View(enemy)->phaseLife2E50 = stateInt;
+        Th09EclRunState::View(enemy)->phaseStartingLife2E50 = stateInt;
         break;
 
     case TH09_ECL_OPCODE_SET_BOSS_TIMER:
