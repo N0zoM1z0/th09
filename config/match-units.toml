@@ -7618,3 +7618,184 @@ size = 0x14
 relocations = [
   { offset = 0x0F, type = "REL32", symbol = "?SetMenuSelectionSprites@TitleScreenView@@QAEXHHH@Z", target = 0x00424DFF },
 ]
+
+
+# TH09 PLST progression helpers and shared GameManager mode predicates.
+# Names are reconstruction aliases; canonical equality does not prove original spelling.
+[units.play-stats-increment-character-stat]
+source = "src/PlayStats.cpp"
+object = "build/matching/PlayStats.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayStatsRecordView::IncrementCharacterStat"]
+symbol = "?IncrementCharacterStat@PlayStatsRecordView@@QAEXDH@Z"
+target_address = 0x0040E3A0
+size = 0x25
+relocations = []
+
+[units.play-stats-set-character-unlocked-0]
+source = "src/PlayStats.cpp"
+object = "build/matching/PlayStats.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayStatsRecordView::SetCharacterUnlocked0"]
+symbol = "?SetCharacterUnlocked0@PlayStatsRecordView@@QAEXD@Z"
+target_address = 0x0040E3D0
+size = 0x10
+relocations = []
+
+[units.play-stats-set-character-unlocked-1]
+source = "src/PlayStats.cpp"
+object = "build/matching/PlayStats.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayStatsRecordView::SetCharacterUnlocked1"]
+symbol = "?SetCharacterUnlocked1@PlayStatsRecordView@@QAEXD@Z"
+target_address = 0x0040E3E0
+size = 0x10
+relocations = []
+
+[units.play-stats-set-character-unlocked-2]
+source = "src/PlayStats.cpp"
+object = "build/matching/PlayStats.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayStatsRecordView::SetCharacterUnlocked2"]
+symbol = "?SetCharacterUnlocked2@PlayStatsRecordView@@QAEXD@Z"
+target_address = 0x0040E3F0
+size = 0x10
+relocations = []
+
+[units.play-stats-has-any-primary-character-stat]
+source = "src/PlayStats.cpp"
+object = "build/matching/PlayStats.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayStatsRecordView::HasAnyPrimaryCharacterStat"]
+symbol = "?HasAnyPrimaryCharacterStat@PlayStatsRecordView@@QAEHD@Z"
+target_address = 0x0040E400
+size = 0x4B
+relocations = []
+
+[units.play-stats-get-character-stat5]
+source = "src/PlayStats.cpp"
+object = "build/matching/PlayStats.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayStatsRecordView::GetCharacterStat5"]
+symbol = "?GetCharacterStat5@PlayStatsRecordView@@QAEHD@Z"
+target_address = 0x0040E450
+size = 0x14
+relocations = []
+
+[units.game-manager-is-game-mode-0]
+source = "src/GameManagerMode.cpp"
+object = "build/matching/GameManagerMode.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["GameManagerModeView::IsGameMode0"]
+symbol = "?IsGameMode0@GameManagerModeView@@QAEHXZ"
+target_address = 0x0040E470
+size = 0xE
+relocations = []
+
+[units.game-manager-is-game-mode-1]
+source = "src/GameManagerMode.cpp"
+object = "build/matching/GameManagerMode.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["GameManagerModeView::IsGameMode1"]
+symbol = "?IsGameMode1@GameManagerModeView@@QAEHXZ"
+target_address = 0x00404970
+size = 0xF
+relocations = []
+
+# The callback is maintained in a separate reconstruction TU so existing Ending
+# switch-table local labels remain stable. Original target TU partition is unknown.
+[units.ending-added-callback]
+source = "src/EndingAddedCallback.cpp"
+object = "build/matching/EndingAddedCallback.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Ending::AddedCallback"]
+symbol = "?AddedCallback@Ending@@SIHPAU1@@Z"
+target_address = 0x0040E580
+size = 0x320
+relocations = [
+  { offset = 0x7, type = "DIR32", symbol = "?g_EndingLifecycleFlags@@3IA", target = 0x004B36D4 },
+  { offset = 0x11, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x1C, type = "DIR32", symbol = "?g_EndingLifecycleFlags@@3IA", target = 0x004B36D4 },
+  { offset = 0x21, type = "REL32", symbol = "?ClearTexture@AnmManager@@QAEXXZ", target = 0x004015F0 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x2C, type = "REL32", symbol = "?ClearSprite@AnmManager@@QAEXXZ", target = 0x0040E390 },
+  { offset = 0x32, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x37, type = "REL32", symbol = "?ClearBlendMode@AnmManager@@QAEXXZ", target = 0x0040E370 },
+  { offset = 0x3D, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x42, type = "REL32", symbol = "?ClearVertexShader@AnmManager@@QAEXXZ", target = 0x0040E380 },
+  { offset = 0x4A, type = "REL32", symbol = "?Clear@ScreenEffect@@SIXI@Z", target = 0x00422200 },
+  { offset = 0x52, type = "DIR32", symbol = "?g_EndingActive@@3HA", target = 0x004B36A8 },
+  { offset = 0x70, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x000005CC },
+  { offset = 0x75, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x81, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
+  { offset = 0x8A, type = "DIR32", symbol = "__real@43c80000", target = 0x0048E3C4 },
+  { offset = 0x97, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+  { offset = 0xBD, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerModeView@@A", target = 0x004A7D90 },
+  { offset = 0xC2, type = "REL32", symbol = "?IsGameMode0@GameManagerModeView@@QAEHXZ", target = 0x0040E470 },
+  { offset = 0xCC, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerModeView@@A", target = 0x004A7D90, addend = 0x0000011C },
+  { offset = 0xD4, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerModeView@@A", target = 0x004A7D90, addend = 0x00000020 },
+  { offset = 0xDD, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerModeView@@A", target = 0x004A7D90 },
+  { offset = 0xE2, type = "REL32", symbol = "?IsGameMode1@GameManagerModeView@@QAEHXZ", target = 0x00404970 },
+  { offset = 0xEB, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerModeView@@A", target = 0x004A7D90, addend = 0x0000011C },
+  { offset = 0xF3, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerModeView@@A", target = 0x004A7D90, addend = 0x00000020 },
+  { offset = 0xFA, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0xFF, type = "REL32", symbol = "?IncrementCharacterStat@PlayStatsRecordView@@QAEXDH@Z", target = 0x0040E3A0 },
+  { offset = 0x112, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x117, type = "REL32", symbol = "?HasAnyPrimaryCharacterStat@PlayStatsRecordView@@QAEHD@Z", target = 0x0040E400 },
+  { offset = 0x12E, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x133, type = "REL32", symbol = "?GetCharacterStat5@PlayStatsRecordView@@QAEHD@Z", target = 0x0040E450 },
+  { offset = 0x13E, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x143, type = "REL32", symbol = "?SetCharacterUnlocked1@PlayStatsRecordView@@QAEXD@Z", target = 0x0040E3E0 },
+  { offset = 0x14A, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x14F, type = "REL32", symbol = "?GetCharacterStat5@PlayStatsRecordView@@QAEHD@Z", target = 0x0040E450 },
+  { offset = 0x15A, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x15F, type = "REL32", symbol = "?SetCharacterUnlocked1@PlayStatsRecordView@@QAEXD@Z", target = 0x0040E3E0 },
+  { offset = 0x172, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x177, type = "REL32", symbol = "?HasAnyPrimaryCharacterStat@PlayStatsRecordView@@QAEHD@Z", target = 0x0040E400 },
+  { offset = 0x18E, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x193, type = "REL32", symbol = "?GetCharacterStat5@PlayStatsRecordView@@QAEHD@Z", target = 0x0040E450 },
+  { offset = 0x19E, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x1A3, type = "REL32", symbol = "?SetCharacterUnlocked1@PlayStatsRecordView@@QAEXD@Z", target = 0x0040E3E0 },
+  { offset = 0x1AA, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x1AF, type = "REL32", symbol = "?GetCharacterStat5@PlayStatsRecordView@@QAEHD@Z", target = 0x0040E450 },
+  { offset = 0x1BA, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x1BF, type = "REL32", symbol = "?SetCharacterUnlocked1@PlayStatsRecordView@@QAEXD@Z", target = 0x0040E3E0 },
+  { offset = 0x1D2, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x1D7, type = "REL32", symbol = "?HasAnyPrimaryCharacterStat@PlayStatsRecordView@@QAEHD@Z", target = 0x0040E400 },
+  { offset = 0x1EE, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x1F3, type = "REL32", symbol = "?GetCharacterStat5@PlayStatsRecordView@@QAEHD@Z", target = 0x0040E450 },
+  { offset = 0x1FE, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x203, type = "REL32", symbol = "?SetCharacterUnlocked1@PlayStatsRecordView@@QAEXD@Z", target = 0x0040E3E0 },
+  { offset = 0x20A, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x20F, type = "REL32", symbol = "?GetCharacterStat5@PlayStatsRecordView@@QAEHD@Z", target = 0x0040E450 },
+  { offset = 0x21A, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x21F, type = "REL32", symbol = "?SetCharacterUnlocked1@PlayStatsRecordView@@QAEXD@Z", target = 0x0040E3E0 },
+  { offset = 0x226, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x22B, type = "REL32", symbol = "?GetCharacterStat5@PlayStatsRecordView@@QAEHD@Z", target = 0x0040E450 },
+  { offset = 0x236, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x23B, type = "REL32", symbol = "?SetCharacterUnlocked1@PlayStatsRecordView@@QAEXD@Z", target = 0x0040E3E0 },
+  { offset = 0x245, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x24A, type = "REL32", symbol = "?HasAnyPrimaryCharacterStat@PlayStatsRecordView@@QAEHD@Z", target = 0x0040E400 },
+  { offset = 0x261, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x266, type = "REL32", symbol = "?SetCharacterUnlocked2@PlayStatsRecordView@@QAEXD@Z", target = 0x0040E3F0 },
+  { offset = 0x26D, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x272, type = "REL32", symbol = "?HasAnyPrimaryCharacterStat@PlayStatsRecordView@@QAEHD@Z", target = 0x0040E400 },
+  { offset = 0x27D, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x282, type = "REL32", symbol = "?SetCharacterUnlocked2@PlayStatsRecordView@@QAEXD@Z", target = 0x0040E3F0 },
+  { offset = 0x289, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x28E, type = "REL32", symbol = "?HasAnyPrimaryCharacterStat@PlayStatsRecordView@@QAEHD@Z", target = 0x0040E400 },
+  { offset = 0x2A2, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x2A7, type = "REL32", symbol = "?SetCharacterUnlocked1@PlayStatsRecordView@@QAEXD@Z", target = 0x0040E3E0 },
+  { offset = 0x2AD, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x2B2, type = "REL32", symbol = "?SetCharacterUnlocked2@PlayStatsRecordView@@QAEXD@Z", target = 0x0040E3F0 },
+  { offset = 0x2BF, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x2C4, type = "REL32", symbol = "?SetCharacterUnlocked0@PlayStatsRecordView@@QAEXD@Z", target = 0x0040E3D0 },
+  { offset = 0x2CB, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
+  { offset = 0x2D0, type = "REL32", symbol = "?SetCharacterUnlocked0@PlayStatsRecordView@@QAEXD@Z", target = 0x0040E3D0 },
+  { offset = 0x2E0, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerModeView@@A", target = 0x004A7D90, addend = 0x00000020 },
+  { offset = 0x2E7, type = "DIR32", symbol = "?g_EndingFilePaths@@3PAPBDA", target = 0x004A0ED8 },
+  { offset = 0x2EF, type = "REL32", symbol = "?LoadEndingScript@Ending@@QAEHPBD@Z", target = 0x0040E4F0 },
+  { offset = 0x303, type = "DIR32", symbol = "?g_TitleFadeReleaseEffect@@3PAUScreenEffect@@A", target = 0x004A7C80 },
+  { offset = 0x30C, type = "REL32", symbol = "?BeginFadeRelease@ScreenEffect@@QAEXXZ", target = 0x00422930 },
+  { offset = 0x312, type = "DIR32", symbol = "?g_TitleFadeReleaseEffect@@3PAUScreenEffect@@A", target = 0x004A7C80 },
+]

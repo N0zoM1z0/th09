@@ -4,6 +4,7 @@
 #include "FileSystem.hpp"
 #include "GameErrorContext.hpp"
 #include "Lzss.hpp"
+#include "PlayStats.hpp"
 #include "ZunMemory.hpp"
 #include "Supervisor.hpp"
 
@@ -65,34 +66,6 @@ struct LastNameRecordView {
 
 typedef char LastNameRecordSizeIs18[(sizeof(LastNameRecordView) == 0x18) ? 1 : -1];
 typedef char LastNameRecordNameAt0C[(offsetof(LastNameRecordView, name) == 0x0C) ? 1 : -1];
-
-struct PlayStatsRecordView {
-    u32 magic;
-    u16 chapterSize;
-    u16 chapterSizeCopy;
-    u8 version;
-    u8 runtimeMarker;
-    u8 unknown0A[2];
-    u32 totalHours;
-    u32 totalMinutes;
-    u32 totalSeconds;
-    u32 totalMilliseconds;
-    u32 gameHours;
-    u32 gameMinutes;
-    u32 gameSeconds;
-    u32 gameMilliseconds;
-    u8 bgmUnlocked[32];
-    u8 characterUnlocked[2][16];
-    u8 unknown6C[0x190];
-};
-
-typedef char PlayStatsRecordSizeIs1FC[(sizeof(PlayStatsRecordView) == 0x1FC) ? 1 : -1];
-typedef char PlayStatsRecordTotalHoursAt0C[(offsetof(PlayStatsRecordView, totalHours) == 0x0C) ? 1 : -1];
-typedef char PlayStatsRecordTotalMillisecondsAt18[(offsetof(PlayStatsRecordView, totalMilliseconds) == 0x18) ? 1 : -1];
-typedef char PlayStatsRecordGameHoursAt1C[(offsetof(PlayStatsRecordView, gameHours) == 0x1C) ? 1 : -1];
-typedef char PlayStatsRecordGameMillisecondsAt28[(offsetof(PlayStatsRecordView, gameMilliseconds) == 0x28) ? 1 : -1];
-typedef char PlayStatsRecordBgmUnlockedAt2C[(offsetof(PlayStatsRecordView, bgmUnlocked) == 0x2C) ? 1 : -1];
-typedef char PlayStatsRecordCharacterUnlockedAt4C[(offsetof(PlayStatsRecordView, characterUnlocked) == 0x4C) ? 1 : -1];
 
 struct ScoreChapterView {
     u32 magic;
@@ -169,7 +142,6 @@ extern ScoreFileView g_ScoreFileHeader;
 extern ScoreRecordView g_ScoreTable[16][5][5];
 extern ScoreRecordView g_CurrentScoreRecord;
 extern LastNameRecordView g_LastNameRecord;
-extern PlayStatsRecordView g_PlayStatsRecord;
 
 void ScoreSupervisorView::UpdatePlayTime()
 {

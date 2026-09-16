@@ -403,3 +403,12 @@ TitleScreenView::Release,0x00424D4B,function
 TitleScreenView::DeletedCallback,0x00424D9F,function
 TitleScreenView::SetMenuSelectionSprites,0x00424DFF,function
 TitleScreenView::UpdateMenuSelection,0x004276D7,function
+GameManagerModeView::IsGameMode1,0x00404970,function
+PlayStatsRecordView::IncrementCharacterStat,0x0040E3A0,function
+PlayStatsRecordView::SetCharacterUnlocked0,0x0040E3D0,function
+PlayStatsRecordView::SetCharacterUnlocked1,0x0040E3E0,function
+PlayStatsRecordView::SetCharacterUnlocked2,0x0040E3F0,function
+PlayStatsRecordView::HasAnyPrimaryCharacterStat,0x0040E400,function
+PlayStatsRecordView::GetCharacterStat5,0x0040E450,function
+GameManagerModeView::IsGameMode0,0x0040E470,function
+Ending::AddedCallback,0x0040E580,function
