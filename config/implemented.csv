@@ -441,3 +441,11 @@ Th09EclRunMovement::SetExtraAnmScript
 Th09EclRunMovement::BeginBoundaryAwareMove
 Th09EclRunLate::MoveRandomBiased
 Th09EclRunBullet::DispatchShotInstruction
+CardAttack::RunEndCallbacks
+CardAttack::RefreshResource
+CardAttack::OnUpdate
+CardAttack::OnDraw
+CardAttack::AddedCallback
+CardAttack::Destroy
+CardAttack::CardAttack
+CardAttack::Create

@@ -442,3 +442,11 @@ Th09EclRunMovement::SetExtraAnmScript,0x00407B20,function
 Th09EclRunMovement::BeginBoundaryAwareMove,0x00407C30,function
 Th09EclRunLate::MoveRandomBiased,0x00407E30,function
 Th09EclRunBullet::DispatchShotInstruction,0x00408040,function
+CardAttack::RunEndCallbacks,0x00403D60,function
+CardAttack::RefreshResource,0x00403D80,function
+CardAttack::OnUpdate,0x004041F0,function
+CardAttack::OnDraw,0x00404410,function
+CardAttack::AddedCallback,0x00404560,function
+CardAttack::Destroy,0x00404570,function
+CardAttack::CardAttack,0x004045B0,function
+CardAttack::Create,0x00404600,function
