@@ -31,6 +31,20 @@ relocations = [
   { offset = 0x4A, type = "REL32", symbol = "?WriteDataToFile@FileSystem@@YIHPBDPAXI@Z", target = 0x0042C4E0 },
 ]
 
+[units.ecl-interpolate-linear]
+source = "src/EclHelpers.cpp"
+object = "build/matching/EclHelpers.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["InterpolateLinear"]
+symbol = "?InterpolateLinear@?A0x2438d675@@YIXPAUEnemyView@@PAUTh09EclInterpolationSlotView@@M@Z"
+target_address = 0x00407450
+size = 0x4A
+relocations = [
+  { offset = 0x11, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
+  { offset = 0x1F, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
+  { offset = 0x30, type = "REL32", symbol = "?ResolveFloatLValue@Th09EclRunControl@@YIPAMPAUEnemyView@@PAMGH@Z", target = 0x00406210 },
+]
+
 [units.game-error-context-log]
 source = "src/GameErrorContext.cpp"
 object = "build/matching/GameErrorContext.obj"

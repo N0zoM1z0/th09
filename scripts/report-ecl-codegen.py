@@ -19,6 +19,7 @@ TARGET_PHYSICAL_SIZE = 0x3CCC
 EASING_TABLE_COUNT = 6
 OPCODE_TABLE_COUNT = 187
 TARGET_DIRECT_CALL_COUNT = 376
+CANDIDATE_DIRECT_CALL_COUNT = 375
 TARGET_INDIRECT_CALL_COUNT = 3
 TARGET_STACK_FRAME_SIZE = 0x168
 TARGET_SPAWN_ENEMY_CALL_COUNT = 1
@@ -28,7 +29,7 @@ SPAWN_ENEMY_SYMBOL = (
 )
 EXPECTED_RESOLVER_CALLS = {
     "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z": 131,
-    "?ResolveFloat@Th09EclRunControl@@YIMPAUEnemyView@@M@Z": 100,
+    "?ResolveFloat@EnemyView@@QAEMM@Z": 100,
     "?ResolveIntLValue@Th09EclRunControl@@YIPAHPAUEnemyView@@PAHGH@Z": 17,
     "?ResolveFloatLValue@Th09EclRunControl@@YIPAMPAUEnemyView@@PAMGH@Z": 24,
 }
@@ -96,10 +97,10 @@ def report(object_path: Path) -> dict[str, object]:
         if relocation["type"] == "REL32"
     )
     direct_call_count = sum(direct_calls.values())
-    if direct_call_count != TARGET_DIRECT_CALL_COUNT:
+    if direct_call_count != CANDIDATE_DIRECT_CALL_COUNT:
         raise ValueError(
             "RunEcl direct-call count differs: "
-            f"{direct_call_count}/{TARGET_DIRECT_CALL_COUNT}"
+            f"{direct_call_count}/{CANDIDATE_DIRECT_CALL_COUNT} expected candidate"
         )
     resolver_calls = {
         symbol: direct_calls[symbol]
@@ -150,18 +151,18 @@ def report(object_path: Path) -> dict[str, object]:
         },
         "status": "NON-EXACT",
         "known_callsite_mismatches": {
-            "SpawnEnemy": {
-                "target": TARGET_SPAWN_ENEMY_CALL_COUNT,
-                "candidate": spawn_enemy_calls,
+            "aggregate_direct_calls": {
+                "target": TARGET_DIRECT_CALL_COUNT,
+                "candidate": direct_call_count,
                 "reason": (
-                    "target opcodes 93/94 fold into one shared member-call tail; "
-                    "candidate emits one member call per lexical handler"
+                    "the shared SpawnEnemy tail now matches the target's one call "
+                    "site; one other direct-call identity/site remains unresolved"
                 ),
             }
         },
         "claim": (
-            "aggregate direct-call count and four operand-resolver "
-            "multiplicities match; callee identity/site folding, stack/local "
+            "the SpawnEnemy tail and four operand-resolver multiplicities "
+            "match; one direct call, stack/local "
             "layout, code-block order, relocations and bytes remain open"
         ),
     }

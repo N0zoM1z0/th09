@@ -123,6 +123,16 @@ void AddPosition(EnemyFloat3 *position, const EnemyFloat3 *offset);
     int remoteValue;
     float remoteFloat;
     EnemyView *remoteEnemy;
+    Th09EclRunRemote::SpawnPacket spawnPacket93;
+    Th09EclRunRemote::SpawnPacket spawnPacket94;
+    EnemyFloat3 spawnPosition93;
+    EnemyFloat3 spawnPosition94;
+    EnemyFloat3 *spawnPosition;
+    int spawnSubroutineId;
+    int spawnLife;
+    signed char spawnItemDrop;
+    int spawnScore;
+    int *spawnContextVariables;
 
     case TH09_ECL_OPCODE_UNHANDLED_53:
     case TH09_ECL_OPCODE_UNHANDLED_54:
@@ -205,57 +215,53 @@ th09_ecl_store_int_result:
         break;
 
     case TH09_ECL_OPCODE_SPAWN_ENEMY_AT_POSITION:
-    {
-        Th09EclRunRemote::SpawnPacket spawnPacket;
-        EnemyFloat3 spawnPosition;
-        if (Th09EclRunRemote::Life(enemy) > 0)
-        {
-            memcpy(
-                &spawnPacket,
-                &Th09EclRunControl::RawInt(instruction, 0),
-                sizeof(spawnPacket));
-            spawnPosition = Th09EclRunRemote::ResolveSpawnPosition(
-                enemy, instruction, spawnPacket);
-            enemy->manager00->SpawnEnemy(
-                static_cast<short>(spawnPacket.eclSubroutineId00),
-                &spawnPosition,
-                Th09EclRunControl::ReadInt(enemy, instruction, 4),
-                static_cast<signed char>(
-                    Th09EclRunControl::ReadInt(enemy, instruction, 5)),
-                Th09EclRunControl::ReadInt(enemy, instruction, 6),
-                Th09EclRunRemote::ActiveIntVariables(enemy),
-                1);
-        }
-        break;
-    }
+        if (Th09EclRunRemote::Life(enemy) <= 0)
+            break;
+        memcpy(
+            &spawnPacket93,
+            &Th09EclRunControl::RawInt(instruction, 0),
+            sizeof(spawnPacket93));
+        spawnPosition93 = Th09EclRunRemote::ResolveSpawnPosition(
+            enemy, instruction, spawnPacket93);
+        spawnSubroutineId = spawnPacket93.eclSubroutineId00;
+        spawnPosition = &spawnPosition93;
+        spawnScore = Th09EclRunControl::ReadInt(enemy, instruction, 6);
+        spawnItemDrop = static_cast<signed char>(
+            Th09EclRunControl::ReadInt(enemy, instruction, 5));
+        spawnLife = Th09EclRunControl::ReadInt(enemy, instruction, 4);
+        spawnContextVariables = Th09EclRunRemote::ActiveIntVariables(enemy);
+        goto th09_ecl_spawn_enemy_tail;
 
     case TH09_ECL_OPCODE_SPAWN_ENEMY_RELATIVE:
-    {
-        Th09EclRunRemote::SpawnPacket spawnPacket;
-        EnemyFloat3 spawnPosition;
-        if (Th09EclRunRemote::Life(enemy) > 0)
-        {
-            memcpy(
-                &spawnPacket,
-                &Th09EclRunControl::RawInt(instruction, 0),
-                sizeof(spawnPacket));
-            spawnPosition = Th09EclRunRemote::ResolveSpawnPosition(
-                enemy, instruction, spawnPacket);
-            Th09EclRunRemote::AddPosition(
-                &spawnPosition,
-                &Th09EclRunMovement::View(enemy)->position2D74);
-            enemy->manager00->SpawnEnemy(
-                static_cast<short>(spawnPacket.eclSubroutineId00),
-                &spawnPosition,
-                Th09EclRunControl::ReadInt(enemy, instruction, 4),
-                static_cast<signed char>(
-                    Th09EclRunControl::ReadInt(enemy, instruction, 5)),
-                Th09EclRunControl::ReadInt(enemy, instruction, 6),
-                Th09EclRunRemote::ActiveIntVariables(enemy),
-                1);
-        }
+        if (Th09EclRunRemote::Life(enemy) <= 0)
+            break;
+        memcpy(
+            &spawnPacket94,
+            &Th09EclRunControl::RawInt(instruction, 0),
+            sizeof(spawnPacket94));
+        spawnPosition94 = Th09EclRunRemote::ResolveSpawnPosition(
+            enemy, instruction, spawnPacket94);
+        Th09EclRunRemote::AddPosition(
+            &spawnPosition94,
+            &Th09EclRunMovement::View(enemy)->position2D74);
+        spawnSubroutineId = spawnPacket94.eclSubroutineId00;
+        spawnPosition = &spawnPosition94;
+        spawnScore = Th09EclRunControl::ReadInt(enemy, instruction, 6);
+        spawnItemDrop = static_cast<signed char>(
+            Th09EclRunControl::ReadInt(enemy, instruction, 5));
+        spawnLife = Th09EclRunControl::ReadInt(enemy, instruction, 4);
+        spawnContextVariables = Th09EclRunRemote::ActiveIntVariables(enemy);
+
+th09_ecl_spawn_enemy_tail:
+        enemy->manager00->SpawnEnemy(
+            static_cast<short>(spawnSubroutineId),
+            spawnPosition,
+            spawnLife,
+            spawnItemDrop,
+            spawnScore,
+            spawnContextVariables,
+            1);
         break;
-    }
 
     case TH09_ECL_OPCODE_KILL_ALL_NON_BOSS_ENEMIES:
         Th09EclRunRemote::KillAllNonBossEnemies(
