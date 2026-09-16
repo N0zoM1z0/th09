@@ -850,6 +850,18 @@ void ReplayManagerView::Release()
 }
 
 
+void __fastcall ReleaseStageObject(void *object)
+{
+    ReplayManagerView *replayManager = static_cast<ReplayManagerView *>(object);
+    if (replayManager != NULL)
+    {
+        ReleaseReplayManagerCore(replayManager);
+        g_Chain.Cut(replayManager->mainChain);
+        free(replayManager);
+    }
+}
+
+
 static char *AppendReplayFormat(char *buffer, const char *format, ...)
 {
     va_list args;

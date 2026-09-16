@@ -552,3 +552,6 @@ TitleChangeScreenView::ChangeCurrentScreen,0x00422F39,function
 SupervisorThreadStartView::ThreadStart,0x00431AE0,function
 ResetExAttackRecords,0x004156F0,function
 ExAttackController::AddedCallback,0x00415750,function
+ReleaseSubsystem0,0x00402530,function
+ReleaseGameSubsystem,0x004182A0,function
+ReleaseStageObject,0x00420C10,function

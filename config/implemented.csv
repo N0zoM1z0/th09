@@ -551,3 +551,6 @@ TitleChangeScreenView::ChangeCurrentScreen
 SupervisorThreadStartView::ThreadStart
 ResetExAttackRecords
 ExAttackController::AddedCallback
+ReleaseSubsystem0
+ReleaseGameSubsystem
+ReleaseStageObject

@@ -46,7 +46,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004018F0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00402350,authored_game,Background,authored,high,packet154-background-recovery-2026-09-15
 0x004024D0,authored_game,Background,authored,high,packet154-background-recovery-2026-09-15
-0x00402530,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00402530,authored_game,Background,authored,high,background-release-subsystem0-vc71-exact-2026-09-17
 0x00402570,authored_game,Background,authored,high,packet154-background-recovery-2026-09-15
 0x004026C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00403390,authored_game,ZunTimer,authored,high,zun-timer-screen-effect-dependencies-2026-09-15
@@ -312,7 +312,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00417C10,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004181E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00418270,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004182A0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004182A0,authored_game,Front,authored,high,front-release-game-subsystem-vc71-exact-2026-09-17
 0x004182E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00418480,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00418750,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -438,7 +438,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00420840,authored_game,ReplayManager,authored,high,replay-manager-begin-playback-source-nearmatch-2026-09-11
 0x00420A60,authored_game,ReplayManager,authored,high,replay-manager-release-core-vc71-exact-2026-09-11
 0x00420AD0,authored_game,ReplayManager,authored,high,replay-manager-release-vc71-exact-2026-09-11
-0x00420C10,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00420C10,authored_game,ReplayManager,authored,high,replay-release-stage-object-vc71-exact-2026-09-17
 0x00420C40,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00420C60,authored_game,ReplayManager,authored,high,replay-manager-save-replay-source-nearmatch-2026-09-11
 0x00421140,authored_game,ReplayManager,authored,high,replay-manager-begin-recording-stage-source-nearmatch-2026-09-11
