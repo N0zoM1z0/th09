@@ -204,7 +204,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0040F8C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0040F8E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0040F9B0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0040FA70,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0040FA70,authored_game,EnemyManager,authored,high,packet-171-enemy-manager-lifecycle
 0x0040FCA0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0040FCC0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004100E0,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -216,7 +216,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00411670,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00411D50,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00411D80,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00411DB0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00411DB0,authored_game,EnemyManager,authored,high,packet-171-enemy-manager-lifecycle
 0x00411F30,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00411F80,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00411FD0,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -225,8 +225,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004120C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004120D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00412100,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004121D0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00412240,authored_game,EnemyManager,authored,high,packet-148-enemy-ecl-hard-frontier
+0x004121D0,authored_game,EnemyManager,authored,high,packet-171-enemy-manager-lifecycle
+0x00412240,authored_game,EnemyManager,authored,high,packet-171-enemy-manager-lifecycle
 0x00412390,authored_game,BulletManager,authored,high,packet155-etama-recovery-2026-09-15
 0x004123C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00412470,unknown,,review,unknown,ida-1.50a-initial-inventory

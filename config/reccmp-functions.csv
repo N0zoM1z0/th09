@@ -412,3 +412,7 @@ PlayStatsRecordView::HasAnyPrimaryCharacterStat,0x0040E400,function
 PlayStatsRecordView::GetCharacterStat5,0x0040E450,function
 GameManagerModeView::IsGameMode0,0x0040E470,function
 Ending::AddedCallback,0x0040E580,function
+EnemyManagerView::Initialize,0x0040FA70,function
+EnemyManagerView::AddedCallback,0x00411DB0,function
+EnemyManagerView::EnemyManagerView,0x004121D0,function
+EnemyManagerView::Create,0x00412240,function

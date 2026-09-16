@@ -411,3 +411,7 @@ PlayStatsRecordView::HasAnyPrimaryCharacterStat
 PlayStatsRecordView::GetCharacterStat5
 GameManagerModeView::IsGameMode0
 Ending::AddedCallback
+EnemyManagerView::Initialize
+EnemyManagerView::AddedCallback
+EnemyManagerView::EnemyManagerView
+EnemyManagerView::Create
