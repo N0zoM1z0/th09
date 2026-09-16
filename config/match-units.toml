@@ -910,6 +910,18 @@ relocations = [
   { offset = 0x79, type = "REL32", symbol = "?SetAndExecuteScript@AnmLoaded@@QAEXPAUAnmVm@@PAUAnmRawInstr@@@Z", target = 0x004395A0 },
 ]
 
+[units.anm-loaded-set-and-execute-script-idx]
+source = "src/AnmLoadedExecute.cpp"
+object = "build/matching/AnmLoadedExecute.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmLoaded::SetAndExecuteScriptIdx"]
+symbol = "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z"
+target_address = 0x00403E00
+size = 0x29
+relocations = [
+  { offset = 0x20, type = "REL32", symbol = "?SetAndExecuteScript@AnmLoaded@@QAEXPAUAnmVm@@PAUAnmRawInstr@@@Z", target = 0x004395A0 },
+]
+
 [units.float3-add]
 source = "src/Float3.cpp"
 object = "build/matching/Float3.obj"
@@ -7861,4 +7873,35 @@ relocations = [
   { offset = 0x4B, type = "REL32", symbol = "??0EnemyScheduleRuntimeView@@QAE@XZ", target = 0x004120A0 },
   { offset = 0x56, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
   { offset = 0x5D, type = "REL32", symbol = "?Initialize@EnemyManagerView@@QAEXXZ", target = 0x0040FA70 },
+]
+
+# EnemyManager draw wrappers are exact while the connected 1,758-byte shared
+# draw body remains source-present/non-exact.  The file-static helper's private
+# EDX/ECX/EAX transport is emitted naturally by VC7.1 and is not a public ABI claim.
+[units.enemy-manager-draw-high-prio]
+source = "src/EnemyManagerDraw.cpp"
+object = "build/matching/EnemyManagerDraw.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyManagerView::OnDrawHighPrio"]
+symbol = "?OnDrawHighPrio@EnemyManagerView@@SIHPAU1@@Z"
+target_address = 0x00411D50
+size = 0x23
+relocations = [
+  { offset = 0x0B, type = "DIR32", symbol = "?g_Supervisor@@3UEnemyDrawSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x10, type = "REL32", symbol = "?PrepareEnemyDraw@EnemyDrawSupervisorView@@QAEHH@Z", target = 0x00403D90 },
+  { offset = 0x1F, type = "REL32", symbol = "?EnemyManagerDrawImpl@@YIHPAUEnemyManagerView@@HH@Z", target = 0x00411670 },
+]
+
+[units.enemy-manager-draw-low-prio]
+source = "src/EnemyManagerDraw.cpp"
+object = "build/matching/EnemyManagerDraw.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyManagerView::OnDrawLowPrio"]
+symbol = "?OnDrawLowPrio@EnemyManagerView@@SIHPAU1@@Z"
+target_address = 0x00411D80
+size = 0x26
+relocations = [
+  { offset = 0x0B, type = "DIR32", symbol = "?g_Supervisor@@3UEnemyDrawSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x10, type = "REL32", symbol = "?PrepareEnemyDraw@EnemyDrawSupervisorView@@QAEHH@Z", target = 0x00403D90 },
+  { offset = 0x22, type = "REL32", symbol = "?EnemyManagerDrawImpl@@YIHPAUEnemyManagerView@@HH@Z", target = 0x00411670 },
 ]

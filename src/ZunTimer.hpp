@@ -13,6 +13,7 @@ struct ZunTimer
     operator float();
     void operator++(int);
     void operator--(int);
+    void operator-=(float value);
     unsigned int operator>=(int value);
     unsigned int operator<(int value);
     unsigned int operator<=(int value);

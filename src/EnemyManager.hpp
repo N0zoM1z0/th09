@@ -127,6 +127,8 @@ struct EnemyView
     unsigned char unknown3384[0x5430 - 0x3384];
 
     EnemyView();
+    void UpdateMovement();
+    void UpdateShotAndAnm();
     void HandleDeathRewards(int hitKind);
 };
 typedef char EnemyViewSizeIs5430[(sizeof(EnemyView) == 0x5430) ? 1 : -1];

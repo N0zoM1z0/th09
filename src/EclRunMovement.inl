@@ -20,6 +20,7 @@
 #ifndef TH09_ECL_RUN_MOVEMENT_DECLARATIONS
 #define TH09_ECL_RUN_MOVEMENT_DECLARATIONS
 
+#include "AnmManager.hpp"
 #include "EclRunControl.inl"
 
 namespace Th09EclRunMovement
@@ -178,7 +179,12 @@ inline EnemySecondaryFlagBits *SecondaryFlagBits(EnemyView *enemy)
 
 // Role names for real target boundaries.  Their final source TU and internal
 // calling conventions remain open after the complete owner compiler probe.
-void SetAndExecuteAnmScript(void *anmFile, void *vm, int scriptIndex);
+__forceinline void SetAndExecuteAnmScript(
+    void *anmFile, void *vm, int scriptIndex)
+{
+    reinterpret_cast<AnmLoaded *>(anmFile)->SetAndExecuteScriptIdx(
+        reinterpret_cast<AnmVm *>(vm), scriptIndex);
+}
 void SetPrimaryAnmScripts(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction,

@@ -15,9 +15,6 @@ namespace Th09EclRunOwner
 extern unsigned int g_DifficultyMask;
 extern float g_TimeScale;
 
-void UpdateMotionAfterEcl(EnemyView *enemy);
-void UpdateAnimationAfterEcl(EnemyView *enemy);
-
 typedef void (__fastcall *InterpolationCallback)(
     EnemyView *enemy,
     Th09EclInterpolationSlotView *slot,
@@ -286,7 +283,7 @@ th09_ecl_select_next_context:
 
     enemyState->activeCallStack2CE4 = savedMainCallStack;
     enemyState->activeContext2CE0 = savedMainContext;
-    Th09EclRunOwner::UpdateMotionAfterEcl(enemy);
-    Th09EclRunOwner::UpdateAnimationAfterEcl(enemy);
+    enemy->UpdateMovement();
+    enemy->UpdateShotAndAnm();
     return 0;
 }

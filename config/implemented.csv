@@ -415,3 +415,9 @@ EnemyManagerView::Initialize
 EnemyManagerView::AddedCallback
 EnemyManagerView::EnemyManagerView
 EnemyManagerView::Create
+AnmLoaded::SetAndExecuteScriptIdx
+EnemyView::UpdateMovement
+EnemyView::UpdateShotAndAnm
+EnemyManagerDrawImpl
+EnemyManagerView::OnDrawHighPrio
+EnemyManagerView::OnDrawLowPrio

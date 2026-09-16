@@ -1,6 +1,9 @@
 name,address,type
 EclManager::RunEcl,0x004086C0,function
 AnmManager::ExecuteScript,0x00436F30,function
+AnmLoaded::SetAndExecuteScriptIdx,0x00403E00,function
+EnemyView::UpdateMovement,0x00408180,function
+EnemyView::UpdateShotAndAnm,0x00408560,function
 Background::ClearSpellBackgroundState,0x004011C0,function
 AnmManager::SetCameraMode,0x00401600,function
 AnmManager::SetMixColorDefault,0x00401610,function
@@ -416,3 +419,6 @@ EnemyManagerView::Initialize,0x0040FA70,function
 EnemyManagerView::AddedCallback,0x00411DB0,function
 EnemyManagerView::EnemyManagerView,0x004121D0,function
 EnemyManagerView::Create,0x00412240,function
+EnemyManagerDrawImpl,0x00411670,function
+EnemyManagerView::OnDrawHighPrio,0x00411D50,function
+EnemyManagerView::OnDrawLowPrio,0x00411D80,function

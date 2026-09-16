@@ -32,6 +32,7 @@ class AnmLoaded
     AnmLoadedSprite *GetSprite(int spriteIndex);
     void InitializeAndSetSprite(AnmVm *vm, int spriteIndex);
     void ExecuteAnmIdx(AnmVm *vm, int scriptIndex);
+    void SetAndExecuteScriptIdx(AnmVm *vm, int scriptIndex);
     int SetSprite(AnmVm *vm, int spriteIndex);
     void SetAndExecuteScript(AnmVm *vm, AnmRawInstr *beginningOfScript);
     void ExecuteAnmIdxArray(AnmVm *vm, int scriptIndex, int count);

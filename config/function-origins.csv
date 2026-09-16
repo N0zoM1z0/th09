@@ -65,7 +65,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00403D80,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00403D90,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00403DE0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00403E00,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00403E00,authored_game,AnmLoaded,authored,high,anm-loaded-set-and-execute-script-idx-vc71-exact-2026-09-16
 0x00403E30,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00403E50,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004041F0,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -123,8 +123,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00407C30,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00407E30,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00408040,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00408180,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00408560,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00408180,authored_game,Enemy,authored,high,packet172-ecl-post-owner-2026-09-16
+0x00408560,authored_game,Enemy,authored,high,packet172-ecl-post-owner-2026-09-16
 0x004086C0,authored_game,EclManager,authored,high,packet-148-enemy-ecl-hard-frontier
 0x0040C390,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0040C3C0,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -213,9 +213,9 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00410250,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004102B0,authored_game,EnemyManager,authored,high,packet-148-enemy-ecl-hard-frontier
 0x00410730,authored_game,EnemyManager,authored,high,packet-149-enemy-manager-on-update
-0x00411670,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00411D50,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00411D80,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00411670,authored_game,EnemyManager,authored,high,packet-172-enemy-manager-draw
+0x00411D50,authored_game,EnemyManager,authored,high,packet-172-enemy-manager-draw
+0x00411D80,authored_game,EnemyManager,authored,high,packet-172-enemy-manager-draw
 0x00411DB0,authored_game,EnemyManager,authored,high,packet-171-enemy-manager-lifecycle
 0x00411F30,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00411F80,unknown,,review,unknown,ida-1.50a-initial-inventory

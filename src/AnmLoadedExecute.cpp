@@ -20,6 +20,16 @@ struct AnmVmExecuteLayout
     unsigned char fontHeight;
 };
 
+void AnmLoaded::SetAndExecuteScriptIdx(AnmVm *vm, int scriptIndex)
+{
+    AnmLoadedExecuteLayout *anm =
+        reinterpret_cast<AnmLoadedExecuteLayout *>(this);
+
+    vm->anmFile = this;
+    vm->scriptIndex = static_cast<short>(scriptIndex);
+    this->SetAndExecuteScript(vm, anm->scripts[scriptIndex]);
+}
+
 void AnmLoaded::ExecuteAnmIdx(AnmVm *vm, int scriptIndex)
 {
     AnmVmExecuteLayout *layout = reinterpret_cast<AnmVmExecuteLayout *>(vm);
