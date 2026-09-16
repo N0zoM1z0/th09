@@ -342,7 +342,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041A7C3,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041A827,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041A889,authored_game,Chain,authored,high,chain-elem-set-callback-vc71-exact-2026-09-10
-0x0041A89E,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041A89E,authored_game,Rng,authored,high,packet184-replay-runtime-leaves-2026-09-16
 0x0041A8A2,authored_game,GameConfiguration,authored,high,game-configuration-initialize-vc71-exact-2026-09-11
 0x0041A98B,authored_game,GameConfiguration,authored,high,game-configuration-constructor-vc71-exact-2026-09-11
 0x0041A997,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -427,9 +427,9 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041FCD0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004200C0,authored_game,ReplayManager,authored,high,replay-append-format-vc71-exact-2026-09-11
 0x004200F0,authored_game,Input,authored,high,replay-input-update-vc71-exact-2026-09-11
-0x00420160,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00420170,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00420180,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00420160,authored_game,Rng,authored,high,packet184-replay-runtime-leaves-2026-09-16
+0x00420170,authored_game,Rng,authored,high,packet184-replay-runtime-leaves-2026-09-16
+0x00420180,authored_game,Supervisor,authored,high,packet184-replay-runtime-leaves-2026-09-16
 0x00420190,authored_game,ReplayManager,authored,high,replay-frame-sync-source-nearmatch-2026-09-11
 0x004202A0,authored_game,ReplayManager,authored,high,replay-manager-record-input-vc71-exact-2026-09-11
 0x004204B0,authored_game,ReplayManager,authored,high,replay-manager-playback-input-vc71-exact-2026-09-11

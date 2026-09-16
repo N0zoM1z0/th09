@@ -9070,3 +9070,43 @@ relocations = [
   { offset = 0x0D, type = "REL32", symbol = "?SampleNetworkInput@@YIFH@Z", target = 0x0042B850 },
   { offset = 0x17, type = "REL32", symbol = "?SampleNetworkInput@@YIFH@Z", target = 0x0042B850 },
 ]
+
+[units.replay-rng-get-seed]
+source = "src/ReplayRuntimeLeaves.cpp"
+object = "build/matching/ReplayRuntimeLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ReplayRngView::GetSeed"]
+symbol = "?GetSeed@ReplayRngView@@QAEGXZ"
+target_address = 0x0041A89E
+size = 0x04
+relocations = []
+
+[units.replay-rng-set-seed]
+source = "src/ReplayRuntimeLeaves.cpp"
+object = "build/matching/ReplayRuntimeLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ReplayRngView::SetSeed"]
+symbol = "?SetSeed@ReplayRngView@@QAEXG@Z"
+target_address = 0x00420160
+size = 0x0E
+relocations = []
+
+[units.replay-rng-reset-generation-count]
+source = "src/ReplayRuntimeLeaves.cpp"
+object = "build/matching/ReplayRuntimeLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ReplayRngView::ResetGenerationCount"]
+symbol = "?ResetGenerationCount@ReplayRngView@@QAEXXZ"
+target_address = 0x00420170
+size = 0x08
+relocations = []
+
+[units.supervisor-replay-is-speedhack-detected]
+source = "src/ReplayRuntimeLeaves.cpp"
+object = "build/matching/ReplayRuntimeLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorReplayView::IsSpeedhackDetected"]
+symbol = "?IsSpeedhackDetected@SupervisorReplayView@@QAEHXZ"
+target_address = 0x00420180
+size = 0x0D
+relocations = []

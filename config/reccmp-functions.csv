@@ -516,3 +516,7 @@ SupervisorNetworkMarkActive,0x0042E9A0,function
 SupervisorNetworkMarkInactive,0x0042E9B0,function
 ResetSupervisorServiceChannels,0x0042E9C0,function
 AnmManager::ResetForSupervisorFrame,0x0042F770,function
+ReplayRngView::GetSeed,0x0041A89E,function
+ReplayRngView::SetSeed,0x00420160,function
+ReplayRngView::ResetGenerationCount,0x00420170,function
+SupervisorReplayView::IsSpeedhackDetected,0x00420180,function

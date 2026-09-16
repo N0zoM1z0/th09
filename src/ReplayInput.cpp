@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <windows.h>
 #include "Chain.hpp"
+#include "ReplayRuntimeLeaves.hpp"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -128,17 +129,6 @@ struct ReplaySideStateView
     u32 value10;
 };
 
-struct ReplayRngView
-{
-    u16 seed;
-    u16 unknown02;
-    i32 generationCount;
-    u16 GetSeed();
-    void SetSeed(u16 seed);
-    void ResetGenerationCount();
-    int GetRandomU16InRange(u16 max);
-};
-
 struct ReplayInputGateView
 {
     u8 unknown000[0xB4];
@@ -179,19 +169,6 @@ struct GameManagerReplayView
 typedef char GameManagerInputGateAtE8[(offsetof(GameManagerReplayView, inputGate) == 0xE8) ? 1 : -1];
 typedef char GameManagerReplayPauseAt130[(offsetof(GameManagerReplayView, replayPauseRecorded) == 0x130) ? 1 : -1];
 typedef char GameManagerReplayFlagsAt134[(offsetof(GameManagerReplayView, flags) == 0x134) ? 1 : -1];
-
-struct SupervisorReplayView
-{
-    int IsSpeedhackDetected();
-    int CheckVersion(char *versionString, int exeSize, int exeChecksum);
-    u8 unknown000[0x5C8];
-    short recordedFps;
-    u8 unknown5CA[0x1B6];
-    i32 playbackFpsWarning;
-};
-
-typedef char SupervisorReplayFpsAt5C8[(offsetof(SupervisorReplayView, recordedFps) == 0x5C8) ? 1 : -1];
-typedef char SupervisorPlaybackWarningAt780[(offsetof(SupervisorReplayView, playbackFpsWarning) == 0x780) ? 1 : -1];
 
 struct ZunMemoryReplayView
 {
