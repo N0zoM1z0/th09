@@ -9146,3 +9146,113 @@ relocations = [
   { offset = 0x53, type = "REL32", symbol = "?LoadPlayStats@ScoreFileView@@QAEHXZ", target = 0x00421B80 },
   { offset = 0x5A, type = "REL32", symbol = "?ReleaseScoreFileBuffer@@YIXPAX@Z", target = 0x00421E90 },
 ]
+
+[units.supervisor-network-get-remote-peer-id]
+source = "src/SupervisorNetworkStateAccessors.cpp"
+object = "build/matching/SupervisorNetworkStateAccessors.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorNetworkState::GetRemotePeerId"]
+symbol = "?GetRemotePeerId@SupervisorNetworkState@@QAEHXZ"
+target_address = 0x0042E980
+size = 0x11
+relocations = []
+
+[units.supervisor-camera-tan]
+source = "src/SupervisorViewportMath.cpp"
+object = "build/matching/SupervisorViewportMath.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorCameraTan"]
+symbol = "?SupervisorCameraTan@@YAMM@Z"
+target_address = 0x0042E910
+size = 0xE
+relocations = [
+  { offset = 0x8, type = "REL32", symbol = "@tanf@4", target = 0x0042E900 },
+]
+
+[units.rng-runtime-next-u16]
+source = "src/RngRuntimeLeaves.cpp"
+object = "build/matching/RngRuntimeLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["RngRuntimeView::NextU16"]
+symbol = "?NextU16@RngRuntimeView@@QAEGXZ"
+target_address = 0x0042AE20
+size = 0x27
+relocations = []
+
+[units.rng-runtime-u32]
+source = "src/RngRuntimeLeaves.cpp"
+object = "build/matching/RngRuntimeLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["RngRuntimeView::GetRandomU32"]
+symbol = "?GetRandomU32@RngRuntimeView@@QAEIXZ"
+target_address = 0x0042AE50
+size = 0x18
+relocations = [
+  { offset = 0x2, type = "REL32", symbol = "?NextU16@RngRuntimeView@@QAEGXZ", target = 0x0042AE20 },
+  { offset = 0xD, type = "REL32", symbol = "?NextU16@RngRuntimeView@@QAEGXZ", target = 0x0042AE20 },
+]
+
+[units.rng-runtime-f32]
+source = "src/RngRuntimeLeaves.cpp"
+object = "build/matching/RngRuntimeLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["RngRuntimeView::GetRandomF32"]
+symbol = "?GetRandomF32@RngRuntimeView@@QAEMXZ"
+target_address = 0x0042AE70
+size = 0x23
+relocations = [
+  { offset = 0x5, type = "REL32", symbol = "?GetRandomU32@RngRuntimeView@@QAEIXZ", target = 0x0042AE50 },
+  { offset = 0x15, type = "DIR32", symbol = "__real@4f800000", target = 0x0048E2A8 },
+  { offset = 0x1B, type = "DIR32", symbol = "__real@2f800000", target = 0x0048FB7C },
+]
+
+[units.rng-runtime-f32-signed]
+source = "src/RngRuntimeLeaves.cpp"
+object = "build/matching/RngRuntimeLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["RngRuntimeView::GetRandomF32Signed"]
+symbol = "?GetRandomF32Signed@RngRuntimeView@@QAEMXZ"
+target_address = 0x0042AEA0
+size = 0x29
+relocations = [
+  { offset = 0x5, type = "REL32", symbol = "?GetRandomU32@RngRuntimeView@@QAEIXZ", target = 0x0042AE50 },
+  { offset = 0x15, type = "DIR32", symbol = "__real@4f800000", target = 0x0048E2A8 },
+  { offset = 0x1B, type = "DIR32", symbol = "__real@30000000", target = 0x0048FB80 },
+  { offset = 0x21, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+]
+
+[units.rng-runtime-u32-range]
+source = "src/RngRuntimeLeaves.cpp"
+object = "build/matching/RngRuntimeLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["RngRuntimeView::GetRandomU32InRange"]
+symbol = "?GetRandomU32InRange@RngRuntimeView@@QAEII@Z"
+target_address = 0x004048E0
+size = 0x22
+relocations = [
+  { offset = 0xC, type = "REL32", symbol = "?GetRandomU32@RngRuntimeView@@QAEIXZ", target = 0x0042AE50 },
+]
+
+[units.rng-runtime-f32-range]
+source = "src/RngRuntimeLeaves.cpp"
+object = "build/matching/RngRuntimeLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["RngRuntimeView::GetRandomF32InRange"]
+symbol = "?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z"
+target_address = 0x00404910
+size = 0xF
+relocations = [
+  { offset = 0x4, type = "REL32", symbol = "?GetRandomF32@RngRuntimeView@@QAEMXZ", target = 0x0042AE70 },
+]
+
+[units.rng-runtime-f32-signed-range]
+source = "src/RngRuntimeLeaves.cpp"
+object = "build/matching/RngRuntimeLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["RngRuntimeView::GetRandomF32SignedInRange"]
+symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z"
+target_address = 0x00406200
+size = 0xF
+relocations = [
+  { offset = 0x4, type = "REL32", symbol = "?GetRandomF32Signed@RngRuntimeView@@QAEMXZ", target = 0x0042AEA0 },
+]

@@ -522,3 +522,12 @@ ReplayRngView::ResetGenerationCount,0x00420170,function
 SupervisorReplayView::IsSpeedhackDetected,0x00420180,function
 ReleaseScoreFileBuffer,0x00421E90,function
 InitializeScoreDataStartup,0x00421EA0,function
+SupervisorNetworkState::GetRemotePeerId,0x0042E980,function
+SupervisorCameraTan,0x0042E910,function
+RngRuntimeView::NextU16,0x0042AE20,function
+RngRuntimeView::GetRandomU32,0x0042AE50,function
+RngRuntimeView::GetRandomF32,0x0042AE70,function
+RngRuntimeView::GetRandomF32Signed,0x0042AEA0,function
+RngRuntimeView::GetRandomU32InRange,0x004048E0,function
+RngRuntimeView::GetRandomF32InRange,0x00404910,function
+RngRuntimeView::GetRandomF32SignedInRange,0x00406200,function

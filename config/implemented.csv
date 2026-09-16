@@ -521,3 +521,12 @@ ReplayRngView::ResetGenerationCount
 SupervisorReplayView::IsSpeedhackDetected
 ReleaseScoreFileBuffer
 InitializeScoreDataStartup
+SupervisorNetworkState::GetRemotePeerId
+SupervisorCameraTan
+RngRuntimeView::NextU16
+RngRuntimeView::GetRandomU32
+RngRuntimeView::GetRandomF32
+RngRuntimeView::GetRandomF32Signed
+RngRuntimeView::GetRandomU32InRange
+RngRuntimeView::GetRandomF32InRange
+RngRuntimeView::GetRandomF32SignedInRange
