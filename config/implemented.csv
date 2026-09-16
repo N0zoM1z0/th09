@@ -393,3 +393,5 @@ TitleScreenView::UpdateScreen16
 TitleScreenView::UpdateScreen8Mode0
 TitleScreenView::MoveCursorVertical
 TitleScreenView::OnUpdateReplayMenu
+TitleScreenView::MoveCursorHorizontal
+TitleScreenView::OnUpdateResult

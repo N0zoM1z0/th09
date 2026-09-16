@@ -267,6 +267,7 @@ struct TitleScreenView {
     u8 unknown1B248[0x74];
     TitleConfigSnapshotView configSnapshot;   // +0x1B2BC
 
+    int OnUpdateResult();
     int OnUpdateReplayMenu();
     int UpdateReplaySave();
     int OnUpdateStartMenu();
@@ -276,6 +277,7 @@ struct TitleScreenView {
     int ChangeCurrentScreen(i32 screen);
     int MoveTwoChoiceCursor(i32 count);
     int MoveCursorVertical(i32 count);
+    int MoveCursorHorizontal(i32 count);
     int MoveCursorFourWay(i32 count);
     int UpdateMenuSelection();
     int SetMenuSelectionSprites(i32 selected, i32 start, i32 count);
@@ -376,7 +378,7 @@ extern i32 g_GameSide0CharacterSetting;
 extern i32 g_GameSide1CharacterSetting;
 extern i32 g_TitleCharacterReturnSelection;
 extern char g_TitleCharacterOrder[16];
-extern char g_TitleCharacterOrder14[14];
+extern char g_TitleCharacterOrder14[16];
 extern char g_TitleCharacterOrderMode123[16];
 extern char g_TitleScreen16Order[16];
 extern char g_TitleScreen16Entries[16];
@@ -385,6 +387,7 @@ extern TitleCharacterConfigView g_TitleCharacterConfig;
 extern u8 g_TitleCharacterUnlocked[16];
 extern u8 g_TitleCharacterUnlockedNormal[16];
 extern u8 g_TitleCharacterUnlockedMode4[16];
+extern i32 g_TitleResultUnlockStep;
 extern TitleSideInputView g_TitleSide0Input;
 extern TitleSideInputView g_TitleSide1Input;
 extern TitleSelectionRandomView g_TitleSelectionRandom;
@@ -421,6 +424,34 @@ int TitleScreenView::MoveCursorVertical(i32 count)
     }
 
     return 0;
+}
+
+
+int TitleScreenView::MoveCursorHorizontal(i32 count)
+{
+    if (count == 0)
+        return 0;
+
+    i32 direction;
+    if (g_TitleInput.IsPressedScrolling(0x40))
+    {
+        if (--keyboardSelection < 0)
+            keyboardSelection += count;
+        direction = -1;
+    }
+    else if (g_TitleInput.IsPressedScrolling(0x80))
+    {
+        if (++keyboardSelection >= count)
+            keyboardSelection -= count;
+        direction = 1;
+    }
+    else
+    {
+        return 0;
+    }
+
+    g_SoundPlayer.PlaySoundByIdx(12, 0);
+    return direction;
 }
 
 
@@ -1924,6 +1955,111 @@ int TitleScreenView::OnUpdateResultNameEntry()
     stateTimer++;
     screenFrameCounter++;
     stateTimer2++;
+    return 1;
+}
+
+
+int TitleScreenView::OnUpdateResult()
+{
+    switch (currentScreenState)
+    {
+    case 0:
+        if (phaseTimer == 0)
+        {
+            if (g_TitleAnmManager->LoadSurface(0, "title/result00.png"))
+                return 0;
+
+            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 16);
+            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+            keyboardSelection = 0;
+            nameBankIndex = 0;
+            SetCharacterCursorInactive(g_TitleCharacterOrder14[0], 60, 16, 2);
+            currentScreenState = 0;
+            stateTimer = 0;
+            currentHelpTextVm = 0;
+            nameSlotIndex = 0;
+        }
+
+        if (phaseTimer == 8)
+            currentScreenState = 1;
+        break;
+
+    case 1:
+    {
+        if (g_TitleResultUnlockStep < 3)
+        {
+            if (g_TitleInputFlags & 0x2000)
+                g_TitleResultUnlockStep++;
+            else if ((u16)g_TitleInputFlags)
+                g_TitleResultUnlockStep = 0;
+        }
+        else if (g_TitleResultUnlockStep < 7)
+        {
+            if (g_TitleInputFlags & 0x400)
+                g_TitleResultUnlockStep++;
+            else if ((u16)g_TitleInputFlags)
+                g_TitleResultUnlockStep = 0;
+        }
+        else if (g_TitleResultUnlockStep < 8)
+        {
+            if (g_TitleInputFlags & 0x200)
+                g_TitleResultUnlockStep++;
+            else if ((u16)g_TitleInputFlags)
+                g_TitleResultUnlockStep = 0;
+        }
+        else if (g_TitleResultUnlockStep < 10)
+        {
+            if (g_TitleInputFlags & 0x4000)
+                g_TitleResultUnlockStep++;
+            else if ((u16)g_TitleInputFlags)
+                g_TitleResultUnlockStep = 0;
+        }
+
+        if (g_TitleResultUnlockStep >= 10)
+        {
+            for (i32 i = 0; i < 16; i++)
+                g_TitleCharacterUnlocked[(char)i] = 1;
+            for (i32 i = 0; i < 14; i++)
+            {
+                g_TitleCharacterUnlockedNormal[(char)i] = 1;
+                g_TitleCharacterUnlockedMode4[(char)i] = 1;
+            }
+            g_SoundPlayer.PlaySoundByIdx(28, 0);
+            g_TitleResultUnlockStep = 0;
+        }
+
+        i32 direction = MoveCursorHorizontal(14);
+        if (direction != 0)
+        {
+            while (!g_TitleCharacterUnlockedNormal[keyboardSelection] &&
+                   !g_TitleCharacterUnlockedMode4[keyboardSelection])
+            {
+                keyboardSelection += direction;
+                if (keyboardSelection < 0)
+                    keyboardSelection += 16;
+                if (keyboardSelection >= 16)
+                    keyboardSelection -= 16;
+            }
+
+            char character = g_TitleCharacterOrder14[keyboardSelection];
+            SetCharacterCursorInactive(character, 60, 16, 2);
+            nameBankIndex = character;
+        }
+
+        if (g_TitleInputFlags & 0xA)
+        {
+            PlayMenuSound(11, 0);
+            stateTimer = 0;
+            ChangeCurrentScreen(1);
+            keyboardSelection = 4;
+        }
+        break;
+    }
+    }
+
+    stateTimer++;
+    screenFrameCounter++;
+    phaseTimer++;
     return 1;
 }
 

@@ -496,7 +496,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00423D16,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004244A9,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042457A,authored_game,TitleScreen,authored,high,packet166-title-replay-menu-2026-09-16
-0x00424601,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00424601,authored_game,TitleScreen,authored,high,packet167-title-result-2026-09-16
 0x00424671,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x0042474A,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x004247F1,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
@@ -518,7 +518,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004254A7,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x00425ACB,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x00426334,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
-0x004266B5,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004266B5,authored_game,TitleScreen,authored,high,packet167-title-result-2026-09-16
 0x0042689A,authored_game,TitleScreen,authored,high,packet166-title-replay-menu-2026-09-16
 0x00426E05,authored_game,TitleScreen,authored,high,packet126-title-music-room-source-2026-09-14
 0x004276D7,unknown,,review,unknown,ida-1.50a-initial-inventory

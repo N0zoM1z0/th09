@@ -394,3 +394,5 @@ TitleScreenView::UpdateScreen16,0x00426334,function
 TitleScreenView::UpdateScreen8Mode0,0x004289DB,function
 TitleScreenView::MoveCursorVertical,0x0042457A,function
 TitleScreenView::OnUpdateReplayMenu,0x0042689A,function
+TitleScreenView::MoveCursorHorizontal,0x00424601,function
+TitleScreenView::OnUpdateResult,0x004266B5,function

@@ -7488,3 +7488,19 @@ relocations = [
   { offset = 0x61, type = "DIR32", symbol = "?g_SoundPlayer@@3USoundPlayerView@@A", target = 0x004DC698 },
   { offset = 0x66, type = "REL32", symbol = "?PlaySoundByIdx@SoundPlayerView@@QAEXHH@Z", target = 0x0043E2F0 },
 ]
+
+[units.title-screen-move-cursor-horizontal]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::MoveCursorHorizontal"]
+symbol = "?MoveCursorHorizontal@TitleScreenView@@QAEHH@Z"
+target_address = 0x00424601
+size = 0x70
+relocations = [
+  { offset = 0x14, type = "DIR32", symbol = "?g_TitleInput@@3UInputView@@A", target = 0x004ACF34 },
+  { offset = 0x1D, type = "REL32", symbol = "?IsPressedScrolling@InputView@@QAEGH@Z", target = 0x00423158 },
+  { offset = 0x3D, type = "REL32", symbol = "?IsPressedScrolling@InputView@@QAEGH@Z", target = 0x00423158 },
+  { offset = 0x5A, type = "DIR32", symbol = "?g_SoundPlayer@@3USoundPlayerView@@A", target = 0x004DC698 },
+  { offset = 0x5F, type = "REL32", symbol = "?PlaySoundByIdx@SoundPlayerView@@QAEXHH@Z", target = 0x0043E2F0 },
+]

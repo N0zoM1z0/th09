@@ -3187,3 +3187,82 @@ Shared IDA metadata was edited only after role/boundary evidence was stable. `0x
 - A second authoritative freshness route, `factory_get_acceptance_registry(detail=summary)`, returned the same operator-path lock error. Repository status was rechecked again and remained clean. No accepted-state head, accepted codegen claim, accepted byte/function count, or acceptance metric is synthesized from these unavailable calls.
 - Packet 166 therefore remains **repository-canonical for the exact helper, with fresh Truth Kernel acceptance unavailable in this session**. The 1,387-byte replay-menu owner remains repository source-present/NON-EXACT independently of Factory acceptance.
 - This audit changes documentation only. It does not change source, ledgers, exact match units, generated progress, target bytes, build state, runtime state, or IDA metadata. Nothing was pushed.
+
+## Packet 167 checkpoint — TitleScreen embedded result view (2026-09-16)
+
+### Recovery and starting state
+
+- Repository / provider / target were re-established as `th09` / `th09-ida` / `target:th09-main`; no remembered-chat state was used as authority.
+- Starting branch/HEAD was `main @ 58a1ca2dd55ab56f1221a21e748baee153fc3976`, upstream `origin/main`, `+6/-0`. Entry Git state was clean: `0 staged / 0 unstaged / 0 untracked / 0 conflicts`; there was no interrupted TH09 source to recover and no unrelated TH09 tracked/untracked work to isolate.
+- The ignored private target remained mode `0444`, size `685056`, SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`, MD5 `cf634df46e05552e104fa97a971aaac0`. It was not modified, moved, replaced, staged, or committed; no `/mnt` search or `TH09_TARGET_PATH` override was used.
+- Entry `.analysis/` inventory was approximately `65,136 KiB`. Existing ignored content outside the current campaign remained legacy/unknown or other-session state and was not deleted or trusted automatically.
+- Adjacent state was recorded before use. TH08 committed HEAD `a45e99fb1942714e6edded20847e32a654d56f97` was clean. TH095 committed HEAD `cad9dd799b1b26bc12410674aee4748d3a939f4c` was live-dirty with unrelated tracked `docs/KNOWLEDGE_BASE.md`, `docs/SEMANTIC_RECONSTRUCTION.md`, and `src/ResultScreen.cpp` plus four unrelated untracked runtime/scratch files. TH095 working-copy content was excluded; only committed `HEAD:` content was eligible, and no direct TH095 implementation materially shaped this packet.
+
+### Mandatory preflights and recovery events
+
+- The eight prompt-required repository/Factory guidance paths plus AGENTS-recommended ontology/semantic/autonomy guidance were read before editing; none was missing.
+- Native `th09-ida` discovery exposed 47 operations with explicit schemas. Discovery and `get_metadata {}` passed attestation for `target:th09-main` with `attestation.provider_transport=factory-native-stdio`; database metadata was writable and target bytes were not writable.
+- `scripts/verify-target.py`, target-bound `scripts/validate-tracking.py --require-target`, reconstruction status, the initial 384-unit graph, generated-progress check, public `scripts/ci.py`, and `git diff --check` all passed before editing. The early whole-build diagnostic returned the expected `rc=2/open` because compile flags, TU partition, libraries, resources, and link order remain unknown.
+- A read-only recovery search first exited `rc=1` because a local Python snippet requested a nonexistent CSV field `source_path`; Factory before/after status remained clean and the corrected bounded search was rerun successfully.
+- Two later repository-shell requests failed at Factory transport before returning a command record. After each failure `factory_get_repository_status(th09)` was used before retrying; live state remained exactly the intended Packet-167 dirty paths. One checkpoint-time `git diff --check` correctly failed on a new blank line at EOF in `config/match-units.toml`; the single formatting issue was removed and all checks then passed. None of these recovery events changed target identity or created unknown work.
+
+### Packet selection and adjacent-source discipline
+
+Packet 166 left the evidence-connected route `0x004266B5 + 0x00424601`. Fresh TH09 analysis retained that route:
+
+- `TitleScreenView::MoveCursorHorizontal @ 0x00424601-0x00424670` is a 112-byte reusable helper called by the result owner and twice by existing `UpdateReplaySave`.
+- `TitleScreenView::OnUpdateResult @ 0x004266B5-0x00426899` is a 485-byte screen-13 owner called only by the TitleScreen calc dispatcher. TH09 Start-menu item 4 enters screen 13; the owner loads `title/result00.png`, operates on the existing 0x1B388 TitleScreen object, and returns to screen 1.
+- This packet therefore combines a broadly reused helper with a medium owner immediately adjacent to the previous 1,387-byte replay hard frontier. It is not a smallest-function packet: both previously unknown candidates are added to the authored denominator, while only the helper ultimately receives exactness credit.
+- Clean committed TH08 ResultScreen code supplied only a source-family hypothesis: its result character selectors and hidden unlock-step logic corroborate a result/cheat family. TH09 independently fixes its embedded owner, addresses, layouts, masks, behavior, ABI, and exactness. TH095 live-dirty ResultScreen source was not consulted.
+
+### TH09-local result-view reconstruction
+
+Fresh target evidence establishes the maintained `TitleScreenView::OnUpdateResult` source:
+
+- Init at screen-state 0 loads `title/result00.png`, sends interrupt 16 to the shared Title VM array, executes the array, selects logical character zero through the established inactive-cursor helper, clears the screen-local cursor/result fields, and enters interactive state at phase timer 8.
+- The dword at `0x004AC8D4` has eight target xrefs, all inside this 485-byte owner. Shared IDA now names it `g_TitleResultUnlockStep`. The target sequence requires input masks `0x2000` for steps 0-2, `0x0400` for 3-6, `0x0200` for step 7, and `0x4000` for steps 8-9. Any other nonzero 16-bit input resets the sequence. Reaching step 10 in the same frame sets all sixteen bytes of the general character-unlock table and the first fourteen bytes of both Normal and Mode4 tables, plays sound 28, then resets the step.
+- Interactive horizontal motion calls the new exact helper with logical count 14. When that physical cursor lands on a character unavailable in both Normal and Mode4 tables, the target advances with wrap over the 16-byte physical index domain until either table allows the index. It then maps through the target table at `0x004A1DAC`, whose observed sixteen bytes are `00 01 02 03 04 05 06 07 08 0A 0B 09 0C 0D 00 00`, updates the inactive selection VM, and stores the mapped character in TitleScreen `+0x08`.
+- Cancel input bits `0x000A` play sound 11, clear the state timer, return to screen 1, and restore cursor 4. The shared state/frame/phase counters advance every non-failing frame.
+- The maintained declaration exposes sixteen physical bytes for `g_TitleCharacterOrder14` because the target can transiently index the 16-byte physical domain; this does not claim that the original source declared a 16-element logical result list or establish static-data definition ownership.
+
+### Exact and negative compiler feedback
+
+`TitleScreenView::MoveCursorHorizontal` is repository-canonical exact:
+
+- reviewed extent `0x00424601-0x00424670`, 112/112 bytes;
+- all 92 ordinary comparable bytes match and five reviewed relocation fields resolve to `g_TitleInput @ 0x004ACF34`, `InputView::IsPressedScrolling @ 0x00423158`, `g_SoundPlayer @ 0x004DC698`, and `SoundPlayer::PlaySoundByIdx @ 0x0043E2F0`;
+- repository unit `title-screen-move-cursor-horizontal` is added to the match graph, which advances to 385 units;
+- two final cold builds/replays independently return `112/112 exact`.
+
+The hard owner remains intentionally NON-EXACT:
+
+- the first natural draft emitted 454 bytes because an abstract `requiredInput` temporary both changed code shape and incorrectly delayed the step-10 unlock by one frame;
+- restoring the four target-observed threshold branches plus same-frame unlock produces 482 bytes;
+- preserving the target-observed 16-bit wrong-input test produces the retained 483-byte candidate versus the 485-byte target;
+- complete target/object instruction alignment confines the remaining two-byte residual to the target's separate materialization/sign-extension of the selected character byte before `SetCharacterCursorInactive`. A focused natural experiment moving that `char` local to function scope does not change codegen, so it was not retained as a special shaping device.
+- No pragma ordering, register/volatile forcing, inert padding, inline assembly, fake return, embedded target bytes, or target patching is used. Close size is not treated as equality.
+
+Connected canonical regressions remain exact after the shared TitleScreen declaration/source changes: `MoveCursorVertical 135/135`, `MoveCursorFourWay 217/217`, `UpdateCharacterSettings 168/168`, and `OnUpdateResultNameEntry 966/966`.
+
+### Ledger, IDA, product, and artifact states
+
+- Repository tracking after promotion is `2163 candidates / 464 authored / 35 excluded / 397 source-present / 359 exact / 1664 origin-or-boundary pending`. Two candidates expand the authored/source denominator; only the 112-byte helper expands canonical exactness.
+- Tracked packet files are `src/TitleScreen.cpp`, `config/function-origins.csv`, `config/functions.csv`, `config/implemented.csv`, `config/reccmp-functions.csv`, `config/matches.csv`, `config/match-units.toml`, `docs/KNOWLEDGE_BASE.md` (`TITLE-008`, `BOUNDARY-142`, `TOOLCHAIN-145`), regenerated `docs/PROGRESS.md` and `resources/progress.svg`, plus this handoff.
+- Shared IDA edits, each under passed native attestation and read back where material, are `0x00424601 -> TitleScreen_MoveCursorHorizontal`, `0x004266B5 -> TitleScreen_OnUpdateResult`, and `0x004AC8D4 -> g_TitleResultUnlockStep`. Entry comments record helper canonical replay and owner 483/485 NON-EXACT state. IDA metadata has `exactness_credit=none`; target bytes remained unwritable.
+- Final repository gates before handoff pass target verification, target-bound tracking, reconstruction status, 385-unit graph validation, generated progress, public CI, and whitespace. `scripts/build.py` was actually rerun and remains `rc=2/open`; runtime was not launched. Semantic reconstruction and portability remain not started.
+- Source presence is 397 mappings; repository-canonical exactness is 359 functions. Whole-build closure is open. Runtime validation is not attempted. Fresh Factory/Truth-Kernel acceptance remains a separate post-commit query and is not inferred here.
+- Current campaign `.analysis/gpt-web/20260916-th09-title-result/` contains 24 files / 1,168,614 bytes, maximum file 339,992 bytes, and no file above 64 MiB. It retains exact helper receipts, the 454/482/483 negative owner comparisons, focused objdumps, whole-build output, and the manifest. No current-session scratch was deleted because the campaign is far below the 256 MiB review threshold and its retained negatives explain the source corrections. No legacy/unknown analysis state, IDB, target, toolchain, Wine prefix, or another process's output was removed.
+- Entry `.analysis/` was approximately `65,136 KiB`; final pre-commit whole-tree inventory is `66352 KiB`. Current campaign is `1216 KiB`; `build/` is approximately `14484 KiB`.
+
+### Remaining unknowns and next evidence-connected packet
+
+- `OnUpdateResult` remains source-present/NON-EXACT at 483/485. The remaining two bytes are a compiler-local selected-character materialization difference, not permission to claim equality or add shaping source.
+- Original TitleScreen TU partition, original class/member/global spellings, and static-data definition ownership remain unresolved. The neutral `g_TitleResultUnlockStep` role is target-local and exclusive, but its original identifier is unknown.
+- The two physical bytes 14-15 in the observed `0x004A1DAC` table are both zero; their original logical meaning is unknown. The result UI calls the cursor helper with logical count 14, while availability correction uses the target's 16-index physical wrap exactly as observed.
+- Packet-selection balance: the immediately prior packet attacked a 1,387-byte replay owner; Packet 167 adds a 485-byte owner plus one exact 112-byte shared helper. The next packet should remain owner/lifecycle-connected rather than harvesting isolated helpers. Preferred next route is the source-absent TitleScreen setup cohort `0x004249E1` (534 bytes) + `0x00424BF7` (335 bytes), first reconciling their worker/callback ownership and resource lifecycle. This route is adjacent-reuse friendly because committed TH08 TitleScreen added/setup lifecycle can accelerate source-shape hypotheses, but TH09 registration/xrefs must establish the actual local owner before migration.
+
+### Checkpoint plan
+
+- Planned primary subject: `gpt-web: reconstruct TitleScreen result view`.
+- Primary checkpoint hash: pending local commit.
+- Nothing has been pushed.
