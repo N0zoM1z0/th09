@@ -3048,7 +3048,7 @@ Entry comments on all four hard owners explicitly record source-present/non-exac
 - Canonical function exactness: `357` exact rows after this packet; five new exact rows are backed by A/B zero-difference target-bound replays.
 - Whole-build closure: **open**; `scripts/build.py` returns `rc=2` for unresolved build inputs.
 - Runtime validation: **not attempted**, gated on a faithful reconstructed executable.
-- Truth Kernel / accepted Factory facts: **not yet audited for this new checkpoint**; repository exact rows and Factory acceptance are separate states.
+- Truth Kernel / accepted Factory facts: a fresh post-checkpoint audit was attempted, but both accepted-snapshot and acceptance-registry queries were unavailable because another Factory operation owned the operator path; no Packet 165 acceptance is claimed.
 - Public target-independent CI: passed.
 
 ### Analysis artifacts
@@ -3068,5 +3068,14 @@ Entry comments on all four hard owners explicitly record source-present/non-exac
 ### Checkpoint
 
 - Planned primary subject: `gpt-web: reconstruct TitleScreen character selection`.
-- Primary checkpoint hash: pending commit; the post-commit acceptance audit below will record it.
+- Primary checkpoint hash: `8667613a3d6ac4c7a5ba4924b08b0de5858624cb` (`gpt-web: reconstruct TitleScreen character selection`).
 - Nothing has been pushed.
+
+
+### Packet 165 post-checkpoint Factory acceptance audit
+
+- The primary repository checkpoint is `8667613a3d6ac4c7a5ba4924b08b0de5858624cb` (`gpt-web: reconstruct TitleScreen character selection`). The live repository was clean at that HEAD before and after the acceptance queries.
+- A fresh `factory_get_accepted_snapshot(th09)` query was attempted after the checkpoint and was rejected before a snapshot could be returned with `ReplayError: another factory operation owns <operator-path>`. Repository status was immediately rechecked and remained clean at the primary checkpoint.
+- A second authoritative route, the acceptance registry summary, was also attempted and returned the same `ReplayError: another factory operation owns <operator-path>`. Repository status was rechecked again and remained clean. No accepted-state freshness, accepted codegen claim, or accepted byte/function metric is synthesized from these unavailable calls.
+- Therefore Packet 165 remains **repository-canonical but fresh Truth Kernel acceptance unavailable in this session**. The earlier handoff documents a pre-Packet-164 accepted snapshot, but it is historical context only and is not treated as a current Packet-165 acceptance result.
+- This audit changes documentation only. It does not change source, ledgers, exact match units, generated progress, target bytes, build state, runtime state, or IDA metadata. Nothing was pushed.
