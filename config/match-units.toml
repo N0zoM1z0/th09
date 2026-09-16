@@ -8317,3 +8317,182 @@ relocations = [
   { offset = 0xF2, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
   { offset = 0x100, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
 ]
+
+
+# FrontSide gameplay HUD lifecycle and Player/GameManager seam.
+# These units cover reviewed authored extents only; the two constructor-shaped
+# candidates remain origin-unknown diagnostics and are intentionally absent.
+[units.front-side-reset]
+source = "src/FrontSide.cpp"
+object = "build/matching/FrontSide.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontSide::Reset"]
+symbol = "?Reset@FrontSide@@QAEHXZ"
+target_address = 0x00418920
+size = 0xe
+relocations = []
+
+[units.front-side-release-optional-anm]
+source = "src/FrontSide.cpp"
+object = "build/matching/FrontSide.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontSide::ReleaseOptionalAnm"]
+symbol = "?ReleaseOptionalAnm@@YIHPAUFrontSide@@@Z"
+target_address = 0x00418930
+size = 0x1a
+relocations = [
+  { offset = 0xc, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004dc550 },
+  { offset = 0x13, type = "REL32", symbol = "?ReleaseAnm@AnmManager@@QAEXH@Z", target = 0x0043ca30 },
+]
+
+[units.front-side-destroy]
+source = "src/FrontSide.cpp"
+object = "build/matching/FrontSide.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontSide::Destroy"]
+symbol = "?Destroy@FrontSide@@SIXPAU1@@Z"
+target_address = 0x0041a1d0
+size = 0x3b
+relocations = [
+  { offset = 0xa, type = "REL32", symbol = "?ReleaseOptionalAnm@@YIHPAUFrontSide@@@Z", target = 0x00418930 },
+  { offset = 0x16, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004acfc8 },
+  { offset = 0x1b, type = "REL32", symbol = "?Cut@Chain@@QAEXPAVChainElem@@@Z", target = 0x0042c8c0 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004acfc8 },
+  { offset = 0x2c, type = "REL32", symbol = "?Cut@Chain@@QAEXPAVChainElem@@@Z", target = 0x0042c8c0 },
+  { offset = 0x32, type = "REL32", symbol = "_free", target = 0x0047b249 },
+]
+
+[units.front-side-load-script-67]
+source = "src/FrontSide.cpp"
+object = "build/matching/FrontSide.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontSide::LoadScript67"]
+symbol = "?LoadScript67@FrontSide@@QAEXXZ"
+target_address = 0x0041a210
+size = 0x15
+relocations = [
+  { offset = 0x10, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+]
+
+[units.front-side-activate-meter-vms]
+source = "src/FrontSide.cpp"
+object = "build/matching/FrontSide.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontSide::ActivateMeterVms"]
+symbol = "?ActivateMeterVms@FrontSide@@QAEXXZ"
+target_address = 0x0041a270
+size = 0x5f
+relocations = [
+  { offset = 0x13, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x27, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x3b, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x4f, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+]
+
+[units.front-side-deactivate-meter-vms]
+source = "src/FrontSide.cpp"
+object = "build/matching/FrontSide.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontSide::DeactivateMeterVms"]
+symbol = "?DeactivateMeterVms@FrontSide@@QAEXXZ"
+target_address = 0x0041a2d0
+size = 0x43
+relocations = [
+  { offset = 0xc, type = "REL32", symbol = "?SetInterrupt@AnmVm@@QAEXF@Z", target = 0x00406790 },
+  { offset = 0x19, type = "REL32", symbol = "?SetInterrupt@AnmVm@@QAEXF@Z", target = 0x00406790 },
+  { offset = 0x26, type = "REL32", symbol = "?SetInterrupt@AnmVm@@QAEXF@Z", target = 0x00406790 },
+  { offset = 0x33, type = "REL32", symbol = "?SetInterrupt@AnmVm@@QAEXF@Z", target = 0x00406790 },
+]
+
+[units.front-side-update-meter-hundreds]
+source = "src/FrontSide.cpp"
+object = "build/matching/FrontSide.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontSide::UpdateMeterHundreds"]
+symbol = "?UpdateMeterHundreds@FrontSide@@QAEHH@Z"
+target_address = 0x0041a320
+size = 0x5c
+relocations = [
+  { offset = 0x17, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x2b, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x3f, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x52, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x00436ac0 },
+]
+
+[units.front-side-clear-state]
+source = "src/FrontSide.cpp"
+object = "build/matching/FrontSide.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontSide::ClearState"]
+symbol = "?ClearState@FrontSide@@QAEXH@Z"
+target_address = 0x0041a380
+size = 0x38
+relocations = [
+  { offset = 0x16, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x2f, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+]
+
+[units.front-side-reset-pattern-timing]
+source = "src/FrontSide.cpp"
+object = "build/matching/FrontSide.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontSide::ResetPatternTiming"]
+symbol = "?ResetPatternTiming@FrontSide@@QAEXXZ"
+target_address = 0x0041a3c0
+size = 0x15
+relocations = [
+  { offset = 0x10, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+]
+
+[units.front-side-set-pattern-timing]
+source = "src/FrontSide.cpp"
+object = "build/matching/FrontSide.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontSide::SetPatternTiming"]
+symbol = "?SetPatternTiming@FrontSide@@QAEHH@Z"
+target_address = 0x0041a3e0
+size = 0x8e
+relocations = [
+  { offset = 0x16, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x2a, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x3e, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x52, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x66, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x7a, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x85, type = "REL32", symbol = "?SetTimingDigits@FrontSide@@QAEHH@Z", target = 0x00418950 },
+]
+
+[units.front-side-create]
+source = "src/FrontSide.cpp"
+object = "build/matching/FrontSide.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontSide::Create"]
+symbol = "?Create@FrontSide@@SIPAU1@H@Z"
+target_address = 0x0041a5d0
+size = 0x11b
+relocations = [
+  { offset = 0x6, type = "DIR32", symbol = "__ehhandler$?Create@FrontSide@@SIPAU1@H@Z", target = 0x0048d2fb },
+  { offset = 0xc, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x14, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x23, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047b24e },
+  { offset = 0x3b, type = "REL32", symbol = "??0FrontSide@@QAE@XZ", target = 0x0041a490 },
+  { offset = 0x44, type = "DIR32", symbol = "??_C@_0N@BEBNFJFK@FrontSideInf?$AA@", target = 0x0048ef34 },
+  { offset = 0x4f, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004ad018 },
+  { offset = 0x5b, type = "REL32", symbol = "?AddToRegistry@ZunMemory@@QAEPAXPAXIPAD@Z", target = 0x00401380 },
+  { offset = 0x64, type = "REL32", symbol = "?Reset@FrontSide@@QAEHXZ", target = 0x00418920 },
+  { offset = 0x6f, type = "DIR32", symbol = "?g_GameManager@@3UFrontSideGameManagerView@@A", target = 0x004a7d90 },
+  { offset = 0x74, type = "DIR32", symbol = "?g_GameManager@@3UFrontSideGameManagerView@@A", target = 0x004a7d90 },
+  { offset = 0x81, type = "DIR32", symbol = "?OnUpdate@FrontSide@@SIHPAU1@@Z", target = 0x00418a90 },
+  { offset = 0x86, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004acfc8 },
+  { offset = 0x97, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042b300 },
+  { offset = 0xb0, type = "DIR32", symbol = "?AddedCallback@FrontSide@@SIHPAU1@@Z", target = 0x0041a000 },
+  { offset = 0xbd, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004acfc8 },
+  { offset = 0xc2, type = "REL32", symbol = "?AddToCalcChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042b1e0 },
+  { offset = 0xd4, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0xdd, type = "DIR32", symbol = "?OnDraw@FrontSide@@SIHPAU1@@Z", target = 0x004193e0 },
+  { offset = 0xe2, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004acfc8 },
+  { offset = 0xe7, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042b300 },
+  { offset = 0x100, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004acfc8 },
+  { offset = 0x105, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042b270 },
+  { offset = 0x113, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+]
