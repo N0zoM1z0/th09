@@ -1010,9 +1010,9 @@ int TitleScreenView::UpdateCharacterSettings(i32 side0Setting, i32 side1Setting)
 
 int TitleScreenView::SetCharacterSettingIndicator(i32 side, i32 value)
 {
-    i32 interrupt = 10 - (value != 0);
-    vms[153 + side].pendingInterrupt = (u16)interrupt;
-    return interrupt;
+    value = value ? 9 : 10;
+    vms[153 + side].pendingInterrupt = (u16)value;
+    return value;
 }
 
 

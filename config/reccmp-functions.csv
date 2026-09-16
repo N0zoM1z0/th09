@@ -568,3 +568,4 @@ PlayerAngleView::AngleToPoint,0x0041BB70,function
 AddNormalizeAngle,0x0042AED0,function
 SoundPlayer::PlaySoundByIdx,0x0043E2F0,function
 SoundPlayer::PlaySoundPositionedByIdx,0x0043E380,function
+SupervisorLoadingSetupView::SetupLoadingVms,0x004302B0,function

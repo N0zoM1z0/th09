@@ -654,7 +654,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00430220,authored_game,AsciiManager,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13
 0x00430230,authored_game,Supervisor,authored,high,supervisor-thread-join-close-vc71-exact-2026-09-17
 0x004302A0,authored_game,AsciiManager,authored,high,packet187-small-support-leaves-2026-09-17
-0x004302B0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004302B0,authored_game,Supervisor,authored,high,supervisor-setup-loading-vms-vc71-exact-2026-09-17
 0x00430360,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004303C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004304A0,unknown,,review,unknown,ida-1.50a-initial-inventory
