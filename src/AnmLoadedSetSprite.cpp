@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "AnmMatrixRuntime.hpp"
 
 #include <stddef.h>
 
@@ -7,15 +8,6 @@ struct AnmSetSpriteFloat2
     float x;
     float y;
 };
-
-struct AnmSetSpriteMatrix
-{
-    float m[4][4];
-    void SetIdentity();
-};
-
-typedef char AnmSetSpriteMatrixSizeIs40[
-    (sizeof(AnmSetSpriteMatrix) == 0x40) ? 1 : -1];
 
 struct AnmSetSpriteLoadedSpriteView
 {
@@ -38,9 +30,9 @@ struct AnmSetSpriteVmView
     unsigned char unknown000[0x28];
     AnmSetSpriteFloat2 spriteSize28;
     unsigned char unknown030[0x130 - 0x30];
-    AnmSetSpriteMatrix matrix1;
-    AnmSetSpriteMatrix matrix2;
-    AnmSetSpriteMatrix matrix3;
+    AnmMatrixRuntime matrix1;
+    AnmMatrixRuntime matrix2;
+    AnmMatrixRuntime matrix3;
     unsigned char unknown1F0[0x204 - 0x1F0];
     AnmLoaded *anmFile204;
     unsigned char unknown208[0x214 - 0x208];

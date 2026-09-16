@@ -481,3 +481,7 @@ GameManager::IsGameMode2,0x00415D30,function
 Front::Reset,0x00415D40,function
 PlayerAnmVmView::SetZRotation,0x0040F840,function
 AnmLoaded::SetSprite,0x00436AC0,function
+Float3::operator/=,0x004010D0,function
+AnmMatrixRuntime::SetIdentity,0x00401300,function
+AnmVm::Initialize,0x004127B0,function
+AnmLoaded::InitializeAndSetSprite,0x00412800,function

@@ -8678,8 +8678,56 @@ symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z"
 target_address = 0x00436AC0
 size = 0xBD
 relocations = [
-  { offset = 0x52, type = "REL32", symbol = "?SetIdentity@AnmSetSpriteMatrix@@QAEXXZ", target = 0x00401300 },
-  { offset = 0x5F, type = "REL32", symbol = "?SetIdentity@AnmSetSpriteMatrix@@QAEXXZ", target = 0x00401300 },
+  { offset = 0x52, type = "REL32", symbol = "?SetIdentity@AnmMatrixRuntime@@QAEPAU1@XZ", target = 0x00401300 },
+  { offset = 0x5F, type = "REL32", symbol = "?SetIdentity@AnmMatrixRuntime@@QAEPAU1@XZ", target = 0x00401300 },
   { offset = 0x6E, type = "DIR32", symbol = "__real@3b800000", target = 0x00490F50 },
   { offset = 0x87, type = "DIR32", symbol = "__real@3b800000", target = 0x00490F50 },
+]
+
+[units.anm-matrix-runtime-set-identity]
+source = "src/AnmMatrixRuntime.cpp"
+object = "build/matching/AnmMatrixRuntime.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmMatrixRuntime::SetIdentity"]
+symbol = "?SetIdentity@AnmMatrixRuntime@@QAEPAU1@XZ"
+target_address = 0x00401300
+size = 0x39
+relocations = []
+
+[units.anm-vm-initialize]
+source = "src/AnmVmInitialize.cpp"
+object = "build/matching/AnmVmInitialize.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmVm::Initialize"]
+symbol = "?Initialize@AnmVm@@QAEXXZ"
+target_address = 0x004127B0
+size = 0x42
+relocations = [
+  { offset = 0x2B, type = "REL32", symbol = "?SetIdentity@AnmMatrixRuntime@@QAEPAU1@XZ", target = 0x00401300 },
+  { offset = 0x3E, type = "REL32", symbol = "?Initialize@ZunTimer@@QAEXXZ", target = 0x004014A0 },
+]
+
+[units.anm-loaded-initialize-and-set-sprite]
+source = "src/AnmVmInitialize.cpp"
+object = "build/matching/AnmVmInitialize.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmLoaded::InitializeAndSetSprite"]
+symbol = "?InitializeAndSetSprite@AnmLoaded@@QAEXPAUAnmVm@@H@Z"
+target_address = 0x00412800
+size = 0x29
+relocations = [
+  { offset = 0x0D, type = "REL32", symbol = "?Initialize@AnmVm@@QAEXXZ", target = 0x004127B0 },
+  { offset = 0x1F, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x00436AC0 },
+]
+
+[units.float3-divide-assign]
+source = "src/Float3.cpp"
+object = "build/matching/Float3.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Float3::operator/="]
+symbol = "??_0Float3@@QAEPAU0@M@Z"
+target_address = 0x004010D0
+size = 0x26
+relocations = [
+  { offset = 0x5, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
 ]

@@ -22,6 +22,7 @@ struct Float3
     Float3 operator-(const Float3 &other) const;
     Float3 operator*(float scalar) const;
     Float3 operator/(float scalar) const;
+    Float3 *operator/=(float scalar);
     Float3 &operator+=(const Float3 &other);
     Float3 &operator-=(const Float3 &other);
     Float3 *FromAngleMagnitude(float angle, float magnitude);
@@ -72,6 +73,7 @@ struct AnmVm
     Float3 pos2;
     unsigned char unknown_0294[0x10];
 
+    void Initialize();
     int IsVisible();
     void SetInvisible();
     void SetZRotation(float angle);

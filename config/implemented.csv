@@ -480,3 +480,7 @@ GameManager::IsGameMode2
 Front::Reset
 PlayerAnmVmView::SetZRotation
 AnmLoaded::SetSprite
+Float3::operator/=
+AnmMatrixRuntime::SetIdentity
+AnmVm::Initialize
+AnmLoaded::InitializeAndSetSprite
