@@ -85,7 +85,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004049A0,authored_game,Player,authored,high,packet-149-core-boss-owner-triage
 0x00405650,authored_game,BulletManager,authored,high,packet182-leaf-exact-target-replay-2026-09-16
 0x00405660,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00405700,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00405700,authored_game,Math,authored,high,vector-angle-vc71-exact-2026-09-17
 0x00405710,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00405730,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00405760,authored_game,EclManager,authored,high,packet-173-ecl-operands-vc71-2026-09-16
@@ -358,7 +358,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041BA4F,authored_game,GameManager,authored,high,packet191-small-exact-leaves-2026-09-17
 0x0041BA80,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041BB00,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041BB70,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041BB70,authored_game,Player,authored,high,player-angle-to-point-vc71-exact-2026-09-17
 0x0041BBE0,authored_game,Player,authored,high,player-sht-loader-source-2026-09-15
 0x0041BC90,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041BD40,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -546,7 +546,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042AE50,authored_game,Rng,authored,high,packet186-runtime-accessor-rng-leaves-2026-09-17
 0x0042AE70,authored_game,Rng,authored,high,packet186-runtime-accessor-rng-leaves-2026-09-17
 0x0042AEA0,authored_game,Rng,authored,high,packet186-runtime-accessor-rng-leaves-2026-09-17
-0x0042AED0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042AED0,authored_game,Math,authored,high,add-normalize-angle-vc71-exact-2026-09-17
 0x0042AF40,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042AF80,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042B010,unknown,,review,unknown,ida-1.50a-initial-inventory

@@ -4309,3 +4309,24 @@ No target bytes were writable or modified. Under passed native attestation, comm
 - Packet scratch is `.analysis/gpt-web/20260917-th09-small-leaves-195/`, retaining frontier inventory, TH09 caller/layout reviews, adjacent committed-source hypothesis notes, first-pass probe receipts, canonical two-round replay, affected regression and boundary seams. Whole faithful Windows i386 build remains independently OPEN; runtime and semantic/port phases remain not started.
 - Planned local checkpoint subject: `gpt-web: close side score and owner reset leaves`. Nothing is pushed.
 - Final validation before staging: Packet-195 new and affected surface replay 5/5 exact; target identity/hash/mode, tracking, generated progress, 522-unit graph, public CI and whitespace all pass. Whole Windows i386 build remains exactly `rc=2/open`. Final campaign scratch remains below the 256 MiB review threshold and no unknown legacy artifact is deleted.
+
+
+## Packet 196 — shared angle-runtime exact leaves (2026-09-17)
+
+### Recovery and bounded scope
+- Base checkpoint is clean `4a85a2d28c56860bbcd194beeb97184a83418e76` (`gpt-web: close side score and owner reset leaves`), `main`, `origin/main +20/-0`. Recovery found only the coherent Packet-196 dirty ledger/source work plus ignored scratch `.analysis/gpt-web/20260917-th09-small-leaves-196/`; no conflicts or unrelated untracked work were adopted. Repository target/tracking/progress/CI preflights and fresh native IDA attestation passed; whole build remains independently `rc=2/open`.
+- Scope is three caller-bound angle helpers rather than shortest-address harvesting: `VectorAngle @ 0x00405700`, `PlayerAngleView::AngleToPoint @ 0x0041BB70`, and `AddNormalizeAngle @ 0x0042AED0`. TH08/TH095 material is hypothesis-only; all ownership/layout/exactness promotion comes from TH09 target/caller/compiler evidence.
+
+### Exact source and replay
+- Added `src/RuntimeAngleMath.cpp`. `Th09EclRunControl::VectorAngle(float y,float x)` naturally lowers to the target 15-byte x87 FPATAN helper. `AddNormalizeAngle(float angle,float delta)` reproduces the 111-byte target, including +/-pi and +/-2pi constant references and the target loop-safety counter behavior.
+- Added `src/PlayerAngleToPoint.cpp`. A neutral Player view fixes only `position +0x1B88`; the 101-byte method gets the float pointer through target-local `0x004343D0`, computes x/y deltas, returns pi/2 for the zero vector, otherwise calls exact VectorAngle.
+- Repository units `runtime-vector-angle`, `runtime-add-normalize-angle`, and `player-angle-to-point` pass two independent cold rounds, 6/6 exact, totaling 227 authored target bytes. Final current-source cold replay repeats 6/6 exact.
+- Affected caller discipline: `AnmManager::ExecuteScript` replays canonical exact. `ecl-resolve-int` still errors only because its manifest stores compiler-local `$L####` names whose numbering changes on cold compile; fresh direct comparison of the same current object over the configured 1,980-byte physical extent is structural-exact with all relocation destinations solved. This packet deliberately does not rewrite those no-semantic local labels.
+
+### Tracking, boundaries, metadata and continuation
+- Tracking moves from clean HEAD `628 authored / 564 source-present / 496 exact / 37 exclusions` to `631 / 567 / 499 / 37`; reviewed authored bytes `171,107 -> 171,334` (+227), canonical exact bytes `71,620 -> 71,847` (+227), pending review `1,499 -> 1,496`, and configured units grow to 525.
+- Reviewed seams: VectorAngle `0x00405700-0x0040570E` + one `CC`; Player AngleToPoint `0x0041BB70-0x0041BBD4` + eleven `CC`; AddNormalizeAngle `0x0042AED0-0x0042AF3E` + one `CC`. No padding is authored.
+- Shared IDA remains provisional (`exactness_credit=none`). Under fresh passed native attestation, neutral names `Runtime_VectorAngle`, `Player_AngleToPoint`, and `Runtime_AddNormalizeAngle` were written and read back at sizes `0x0F`, `0x65`, and `0x6F`. Intermittent transport errors occurred before the final successful writes/readback; no prototype/type/target-byte edit was made.
+- Packet scratch is `.analysis/gpt-web/20260917-th09-small-leaves-196/`, retaining source-family/origin reviews, first-pass/formal compares, two-round replay, affected-caller logs, and fresh current-source ECL physical replay. No unknown legacy analysis state is deleted.
+- Whole faithful Windows i386 build remains OPEN; runtime and semantic/port phases are not started. Next short-leaf routing should continue from canonical relocation-backed authored helpers, while avoiding constructor/compiler/CRT/library bodies and the already-documented input/register-lowering negatives.
+- Planned checkpoint subject: `gpt-web: close angle runtime leaves`. Nothing is pushed.
