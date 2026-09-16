@@ -546,3 +546,9 @@ PreloadFrontStartup,0x00415C30,function
 SupervisorDeletedReleaseSubsystemC,0x00415C50,function
 SupervisorStartEffectView::StartEffect,0x00430500,function
 SoundPlayerLoadFmtView::LoadFmt,0x0043E2C0,function
+GameManagerResetView::InitializeCoordinateBounds,0x0041A9B8,function
+GameManagerResetView::ResetForSupervisorAdded,0x0041BA4F,function
+TitleChangeScreenView::ChangeCurrentScreen,0x00422F39,function
+SupervisorThreadStartView::ThreadStart,0x00431AE0,function
+ResetExAttackRecords,0x004156F0,function
+ExAttackController::AddedCallback,0x00415750,function

@@ -545,3 +545,9 @@ PreloadFrontStartup
 SupervisorDeletedReleaseSubsystemC
 SupervisorStartEffectView::StartEffect
 SoundPlayerLoadFmtView::LoadFmt
+GameManagerResetView::InitializeCoordinateBounds
+GameManagerResetView::ResetForSupervisorAdded
+TitleChangeScreenView::ChangeCurrentScreen
+SupervisorThreadStartView::ThreadStart
+ResetExAttackRecords
+ExAttackController::AddedCallback

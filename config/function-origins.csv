@@ -280,8 +280,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00415580,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00415650,authored_game,ExAttackController,authored,high,exattack-controller-2026-09-15
 0x004156A0,authored_game,ExAttackController,authored,high,exattack-controller-2026-09-15
-0x004156F0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00415750,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004156F0,authored_game,ExAttackController,authored,high,packet191-small-exact-leaves-2026-09-17
+0x00415750,authored_game,ExAttackController,authored,high,packet191-small-exact-leaves-2026-09-17
 0x004157A0,unknown,ExAttackController,review,unknown,exattack-ctor-origin-ambiguous-2026-09-15
 0x004157B0,unknown,ExAttackController,review,unknown,exattack-ctor-origin-ambiguous-2026-09-15
 0x004157D0,authored_game,ExAttackController,authored,high,exattack-controller-2026-09-15
@@ -347,7 +347,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041A98B,authored_game,GameConfiguration,authored,high,game-configuration-constructor-vc71-exact-2026-09-11
 0x0041A997,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041A9AC,authored_game,GameManager,authored,high,packet187-small-support-leaves-2026-09-17
-0x0041A9B8,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041A9B8,authored_game,GameManager,authored,high,packet191-small-exact-leaves-2026-09-17
 0x0041AA07,authored_game,GameManager,authored,high,game-manager-advance-timed-state-vc71-exact-2026-09-11
 0x0041AA5F,authored_game,GameManager,authored,high,game-manager-onupdate-hard-recheck-2026-09-11
 0x0041AF2D,authored_game,GameManager,authored,high,gameplay-setup-thread-authored-codegen-blocked-2026-09-11
@@ -355,7 +355,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041B76F,authored_game,GameManager,authored,high,game-manager-added-callback-vc71-exact-2026-09-11
 0x0041B82A,authored_game,GameManager,authored,high,game-manager-deleted-callback-vc71-exact-2026-09-11
 0x0041B9D0,authored_game,GameManager,authored,high,game-manager-register-chain-vc71-exact-2026-09-11
-0x0041BA4F,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041BA4F,authored_game,GameManager,authored,high,packet191-small-exact-leaves-2026-09-17
 0x0041BA80,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041BB00,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041BB70,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -475,7 +475,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00422CD0,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15
 0x00422D20,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15
 0x00422F17,authored_game,TitleScreen,authored,high,packet156-title-options-recovery-2026-09-15
-0x00422F39,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00422F39,authored_game,TitleScreen,authored,high,packet191-small-exact-leaves-2026-09-17
 0x00422F67,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00422FD1,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042304D,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
@@ -672,7 +672,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004316B0,authored_game,Supervisor,authored,high,supervisor-calculate-fps-vc71-exact-2026-09-11
 0x00431930,authored_game,Supervisor,authored,high,packet108-supervisor-play-music-vc71-exact-2026-09-13
 0x00431A30,authored_game,Supervisor,authored,high,packet108-supervisor-play-audio-vc71-exact-2026-09-13
-0x00431AE0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00431AE0,authored_game,Supervisor,authored,high,packet191-small-exact-leaves-2026-09-17
 0x00431B30,authored_game,Supervisor,authored,high,supervisor-draw-fps-vc71-exact-2026-09-11
 0x00431B70,authored_game,Supervisor,authored,high,supervisor-deleted-callback-vc71-exact-2026-09-11
 0x00431D10,authored_game,Supervisor,authored,high,supervisor-startup-thread-vc71-exact-2026-09-11
