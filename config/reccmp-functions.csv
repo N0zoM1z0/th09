@@ -542,3 +542,7 @@ TitleSupervisorView::ClearRecordingFpsWarningState,0x00423382,function
 MidiOutput::PlayFile,0x00423361,function
 MidiPlaybackPathView::PlayPath,0x0042EC00,function
 AnmManager::ReleaseVertexBuffer,0x0042F3D0,function
+PreloadFrontStartup,0x00415C30,function
+SupervisorDeletedReleaseSubsystemC,0x00415C50,function
+SupervisorStartEffectView::StartEffect,0x00430500,function
+SoundPlayerLoadFmtView::LoadFmt,0x0043E2C0,function

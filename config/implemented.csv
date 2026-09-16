@@ -541,3 +541,7 @@ TitleSupervisorView::ClearRecordingFpsWarningState
 MidiOutput::PlayFile
 MidiPlaybackPathView::PlayPath
 AnmManager::ReleaseVertexBuffer
+PreloadFrontStartup
+SupervisorDeletedReleaseSubsystemC
+SupervisorStartEffectView::StartEffect
+SoundPlayerLoadFmtView::LoadFmt

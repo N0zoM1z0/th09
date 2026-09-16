@@ -287,8 +287,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004157D0,authored_game,ExAttackController,authored,high,exattack-controller-2026-09-15
 0x004158E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00415910,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00415C30,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00415C50,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00415C30,authored_game,Front,authored,high,packet190-small-leaves-2026-09-17
+0x00415C50,authored_game,Front,authored,high,packet190-small-leaves-2026-09-17
 0x00415C60,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00415C90,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00415CB0,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -658,7 +658,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00430360,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004303C0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004304A0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00430500,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00430500,authored_game,Supervisor,authored,high,packet190-small-leaves-2026-09-17
 0x00430530,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00430560,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00430590,authored_game,Supervisor,authored,high,packet106-camera-viewport-vc71-exact-2026-09-13
@@ -879,7 +879,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043E170,compiler_generated,SoundPlayer,exclude,high,packet116-soundmanager-scalar-deleting-destructor-vc71-2026-09-13
 0x0043E1A0,authored_game,SoundPlayer,authored,high,packet115-soundplayer-wav-helper-vc71-exact-2026-09-13
 0x0043E1F0,authored_game,SoundPlayer,authored,high,packet113-soundplayer-get-fmt-index-vc71-exact-2026-09-13
-0x0043E2C0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0043E2C0,authored_game,SoundPlayer,authored,high,packet190-small-leaves-2026-09-17
 0x0043E2F0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043E380,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0043E420,authored_game,SoundManager,authored,high,packet123-zun-audio-accessors-vc71-exact-2026-09-14

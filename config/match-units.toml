@@ -9374,3 +9374,56 @@ symbol = "?ReleaseVertexBuffer@AnmManager@@QAEXXZ"
 target_address = 0x0042F3D0
 size = 0x1F
 relocations = []
+
+[units.preload-front-startup]
+source = "src/FrontStartupLifecycle.cpp"
+object = "build/matching/FrontStartupLifecycle.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PreloadFrontStartup"]
+symbol = "?PreloadFrontStartup@@YIHXZ"
+target_address = 0x00415C30
+size = 0x18
+relocations = [
+  { offset = 0x2, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x7, type = "DIR32", symbol = "??_C@_09DDFJDAFG@front?4anm?$AA@", target = 0x0048EE68 },
+  { offset = 0xE, type = "REL32", symbol = "?PreloadAnm@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z", target = 0x0043C7A0 },
+]
+
+[units.release-front-anm]
+source = "src/FrontStartupLifecycle.cpp"
+object = "build/matching/FrontStartupLifecycle.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorDeletedReleaseSubsystemC"]
+symbol = "?SupervisorDeletedReleaseSubsystemC@@YIXXZ"
+target_address = 0x00415C50
+size = 0xE
+relocations = [
+  { offset = 0x2, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x9, type = "REL32", symbol = "?ReleaseAnm@AnmManager@@QAEXH@Z", target = 0x0043CA30 },
+]
+
+[units.supervisor-start-effect-leaf]
+source = "src/SupervisorEffectLeaf.cpp"
+object = "build/matching/SupervisorEffectLeaf.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorStartEffectView::StartEffect"]
+symbol = "?StartEffect@SupervisorStartEffectView@@QAEXH@Z"
+target_address = 0x00430500
+size = 0x2F
+relocations = [
+  { offset = 0x4, type = "DIR32", symbol = "?g_SupervisorScreenEffect@@3PAUScreenEffect@@A", target = 0x004B30F8 },
+  { offset = 0x22, type = "REL32", symbol = "?RegisterChain@ScreenEffect@@SIPAU1@W4ScreenEffectType@@HHHHHH@Z", target = 0x00422D20 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_SupervisorScreenEffect@@3PAUScreenEffect@@A", target = 0x004B30F8 },
+]
+
+[units.sound-player-load-fmt-leaf]
+source = "src/SoundPlayerLoadFmt.cpp"
+object = "build/matching/SoundPlayerLoadFmt.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SoundPlayerLoadFmtView::LoadFmt"]
+symbol = "?LoadFmt@SoundPlayerLoadFmtView@@QAEHPBD@Z"
+target_address = 0x0043E2C0
+size = 0x27
+relocations = [
+  { offset = 0xE, type = "REL32", symbol = "?OpenFile@FileSystem@@YIPAEPBDPAHH@Z", target = 0x0042C970 },
+]
