@@ -11,9 +11,13 @@ struct GameManagerModeView
     unsigned char unknown024[0xF4];
     int gameMode;
     int difficulty;
+    unsigned char unknown120[0x14];
+    unsigned int flags134;
 
     int IsGameMode0();
     int IsGameMode1();
+    int IsGameMode2();
+    int IsReplayNeutral();
 };
 
 typedef char GameManagerModeSide0CharacterAt20[
@@ -22,5 +26,7 @@ typedef char GameManagerModeGameModeAt118[
     (offsetof(GameManagerModeView, gameMode) == 0x118) ? 1 : -1];
 typedef char GameManagerModeDifficultyAt11C[
     (offsetof(GameManagerModeView, difficulty) == 0x11C) ? 1 : -1];
+typedef char GameManagerModeFlagsAt134[
+    (offsetof(GameManagerModeView, flags134) == 0x134) ? 1 : -1];
 
 extern GameManagerModeView g_GameManager;

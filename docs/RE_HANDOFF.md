@@ -3764,3 +3764,58 @@ No target bytes were writable or modified. Under passed native attestation, comm
 - This packet attacked a genuinely hard subsystem seam: 4,087 newly reviewed authored bytes include the 2,381-byte calc callback plus lifecycle/resource owners, while only 876 bytes were exact-promoted. The next packet is not selected for ease.
 - The strongest evidence-connected continuation is `FrontSide::OnDraw @ 0x004193E0` (3,094 bytes), installed by exact `FrontSide::Create` and sharing the recovered `0xABE8` layout. After that, the parent `FrontInf` owner remains a larger related frontier (`0x1293C` allocation, calc/draw lifecycle rooted at `0x00418840`). Both should reuse committed TH08 GUI / TH095 PhotoFront hypotheses only after fresh TH09 target reconciliation.
 - Planned local checkpoint subject: `gpt-web: reconstruct FrontSide HUD owner`. Nothing is pushed. Truth Kernel acceptance must be queried only after the immutable checkpoint exists and must remain separate from repository canonical exactness.
+
+## Packet 177 — Runtime support-leaf exact closure (2026-09-16)
+
+### Entry and recovery
+- Started from clean `main` at `79f7207d4e60900392f1401d6bb7a039e88543e8`, upstream `origin/main`, ahead/behind `+0/-0`, with `0 staged / 0 unstaged / 0 untracked` paths. No interrupted, unrelated, or unknown dirty path required recovery or exclusion.
+- `.analysis/` was approximately `1,980 KiB` at entry; `build/` approximately `15,616 KiB`. Existing ignored analysis/build state was preserved.
+- Re-read `AGENTS.md`, the complete handoff/workflow/Oracle documents, both required Factory contracts, both required Factory bootstrap/recovery documents, and the AGENTS-linked ontology/semantic/autonomy guidance before editing.
+- Mandatory target/provider preflight passed for repository `th09`, provider `th09-ida`, target `target:th09-main`, transport `factory-native-stdio`. Target SHA-256 remained `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`, mode `0444`.
+- Repository preflight passed target verification, target-bound tracking, status, match-unit graph, generated progress, public CI and whitespace. The real whole-build diagnostic remained `rc=2/open`: compile flags, TU partition, libraries, resources and link order remain unknown; runtime therefore was not launched.
+
+### Packet selection and adjacent hypotheses
+- The operator explicitly requested a small-leaf/exact phase after many hard owners had already been reconstructed. This packet therefore deliberately prioritizes reusable support leaves, but it is not a smallest-function-only count exercise: the 93-byte `ZunTimer` float core, 189-byte `AnmLoaded::SetSprite`, and `FrontInf` `0x1293C` reset/factory seam provide medium structural anchors connected to already reconstructed FrontSide, Player, ANM and gameplay owners.
+- Clean committed TH08 `a45e99fb1942714e6edded20847e32a654d56f97` supplied only broad timer/ANM naming and natural source-family hypotheses. Committed TH095 `7c4036ab7c2144c2fe11fc38cc29ea62152c3bd5` was likewise consulted only as a hypothesis source; its live untracked content was excluded. TH09 target bodies, callers, boundaries and compiler output decided every promoted fact.
+
+### Canonical exact closure
+- Added sixteen authored/source-present/canonical-exact functions totaling `501` target bytes. Two independent repository-defined cold replay passes returned `exact` for all sixteen units:
+  - `ZunTimer::IncrementFloat @ 0x0042F490` — 93 bytes, five relocations.
+  - `ZunTimer::IncrementInt @ 0x00406600` — 19 bytes.
+  - `ZunTimer::DecrementFloat @ 0x004065E0` — 21 bytes.
+  - `ZunTimer::DecrementInt @ 0x00406620` — 18 bytes.
+  - `ZunTimer::AddAssignInt @ 0x00406640` — 9 bytes.
+  - `ZunTimer::AddAssignFloat @ 0x00406650` — 9 bytes.
+  - `ZunTimer::SubtractAssignFloat @ 0x00406660` — 9 bytes.
+  - `ZunTimer::PostDecrement @ 0x00406670` — 10 bytes.
+  - `ZunTimer::Modulo @ 0x0040F830` — 16 bytes.
+  - `ZunTimer::Greater @ 0x00403DE0` — 20 bytes.
+  - `Supervisor::SelectSide @ 0x00401440` — 26 bytes.
+  - `GameManager::IsReplayNeutral @ 0x00415D20` — 13 bytes.
+  - `GameManager::IsGameMode2 @ 0x00415D30` — 15 bytes.
+  - `Front::Reset @ 0x00415D40` — 14 bytes.
+  - `PlayerAnmVmView::SetZRotation @ 0x0040F840` — 20 bytes.
+  - `AnmLoaded::SetSprite @ 0x00436AC0` — 189 bytes, four relocations.
+- The ZunTimer family is target-local: the core updates `previous/current/subFrame` using Supervisor game speed `+0x5B8`, `__ftol2`, and flags `+0x5D4 bit 0x20`; TH08 semantics were not copied. Ledger aliases distinguish overloaded members and explicitly do not claim unresolved original return contracts.
+- `Front::Reset` ownership is direct target evidence, not a size guess: factory `0x00418840` allocates `0x1293C`, registers `"FrontInf"`, and immediately calls `0x00415D40`.
+- `AnmLoaded::SetSprite` remains naturally maintainable target-facing C++. Its two exact relocations to matrix identity helper `0x00401300` do not promote that helper; its provenance stays `unknown/review`.
+
+### Source, ledgers and metadata
+- Source additions/changes: `src/ZunTimer.cpp`, `src/ZunTimer.hpp`, `src/Supervisor.hpp`, `src/SupervisorViewport.cpp`, `src/GameManagerMode.hpp`, `src/GameManagerMode.cpp`, new `src/AnmLoadedSetSprite.cpp`, `src/FrontSupport.hpp`, `src/FrontSupport.cpp`, and `src/PlayerAnmVmRuntime.cpp`.
+- Canonical tracking changes: `config/functions.csv`, `config/function-origins.csv`, `config/implemented.csv`, `config/reccmp-functions.csv`, `config/matches.csv`, and sixteen new units in `config/match-units.toml`.
+- Tracking moved from `530 authored / 466 source-present / 400 exact` and `167,319 authored / 67,923 exact bytes` to `546 / 482 / 416` and `167,820 / 68,424 bytes`. Pending origin/boundary candidates decreased from `1,599` to `1,583`. Reviewed exactness is approximately `76.19%` by authored-function count and `40.77%` by authored bytes; these are moving reviewed-denominator metrics, not whole-game completion claims.
+- Shared IDA metadata edits: renamed all sixteen functions with neutral reconstruction names and added limiting evidence comments at `0x0042F490`, `0x00436AC0`, `0x00401440`, `0x00415D40`, and `0x0040F840`. Readback of the timer core, SetSprite and Front reset succeeded under fresh passed native attestation. No prototype, local type, stack, or target-byte edit was made; useful IDA results retain `exactness_credit=none`.
+
+### Boundary, validation and artifacts
+- Complete PE-aware boundary review leaves only independent `CC` alignment outside the sixteen logical extents. The sole no-gap seam is `ZunTimer::Modulo @ 0x0040F830-0x0040F83F` immediately followed by independent `SetZRotation @ 0x0040F840`. An earlier manual RVA-to-raw-offset byte-dump experiment was recognized as incorrect and discarded before evidence use; the durable boundary receipt uses PE-aware disassembly instead.
+- Existing exact shared-TU regression checks remained exact for `ZunTimer::SetCurrent`, `Supervisor::ConfigureGameplayViewport`, `GameManagerModeView::IsGameMode0`, and `FrontSide::UpdateMeterHundreds`. An additional regression command used the nonexistent unit name `player-update-shots` and therefore was unavailable; the command produced no tracked changes. The new Player rotation unit itself passed both canonical replay passes.
+- `.analysis/gpt-web/20260916-th09-support-leaves/` retains the manifest, compiler objects/PDBs, structural JSON, corrected boundary review, two-pass canonical replay log and regression receipts. At the pre-handoff inventory `.analysis/` was approximately `2,940 KiB`; no campaign file exceeded `64 MiB`. No legacy/unknown artifact, target, IDB, toolchain, Wine prefix or other process output was deleted.
+
+### State separation and continuation
+- Source presence: `482` reviewed functions.
+- Repository canonical exactness: `416` reviewed functions / `68,424` authored bytes.
+- Whole faithful Windows i386 build: still open; no whole-product closure claim.
+- Runtime validation: not run because the whole build remains open.
+- Semantic reconstruction and ports: not started.
+- Factory/Truth-Kernel acceptance: not implied by repository canonical replay or this local checkpoint; query acceptance separately if available.
+- Packet-selection balance: the previous FrontSide packet was a hard owner; Packet 177 intentionally shifts to the operator-requested exact-leaf cleanup while retaining 93-byte/189-byte medium anchors and a `0x1293C` owner boundary. The next packet should remain evidence-connected rather than merely choose the shortest address: first inspect the `0x00401300` matrix-identity caller cohort and nearby ANM matrix helpers to resolve provenance/ownership before any promotion. If TH09 cannot decide that origin, keep it unknown and pivot to another support cohort; `0x0040F860` and `0x00415D50` remain examples that must not be promoted without stronger owner/caller evidence.

@@ -231,6 +231,13 @@ void Supervisor::InitializeViewports()
         Float3(0.0f, 0.0f, 0.0f);
 }
 
+void Supervisor::SelectSide(int index)
+{
+    SupervisorViewportView *supervisor =
+        reinterpret_cast<SupervisorViewportView *>(this);
+    supervisor->current = &supervisor->configurations[index];
+}
+
 void Supervisor::ConfigureGameplayViewport(int index)
 {
     SupervisorViewportView *supervisor =

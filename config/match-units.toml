@@ -8496,3 +8496,190 @@ relocations = [
   { offset = 0x105, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042b270 },
   { offset = 0x113, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
 ]
+
+# Packet 177: reusable runtime support leaves; each unit is target-bound and
+# canonical promotion still requires repository replay.
+[units.zun-timer-increment-float]
+source = "src/ZunTimer.cpp"
+object = "build/matching/ZunTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::Increment"]
+symbol = "?Increment@ZunTimer@@QAEXM@Z"
+target_address = 0x0042F490
+size = 0x5D
+relocations = [
+  { offset = 0xD, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x000005B8 },
+  { offset = 0x13, type = "DIR32", symbol = "__real@3f7d70a4", target = 0x004907E4 },
+  { offset = 0x25, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x000005B8 },
+  { offset = 0x36, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x42, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x000005D4 },
+]
+
+[units.zun-timer-increment-int]
+source = "src/ZunTimer.cpp"
+object = "build/matching/ZunTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::Increment"]
+symbol = "?Increment@ZunTimer@@QAEXH@Z"
+target_address = 0x00406600
+size = 0x13
+relocations = [
+  { offset = 0xB, type = "REL32", symbol = "?Increment@ZunTimer@@QAEXM@Z", target = 0x0042F490 },
+]
+
+[units.zun-timer-decrement-float]
+source = "src/ZunTimer.cpp"
+object = "build/matching/ZunTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::Decrement"]
+symbol = "?Decrement@ZunTimer@@QAEXM@Z"
+target_address = 0x004065E0
+size = 0x15
+relocations = [
+  { offset = 0xD, type = "REL32", symbol = "?Increment@ZunTimer@@QAEXM@Z", target = 0x0042F490 },
+]
+
+[units.zun-timer-decrement-int]
+source = "src/ZunTimer.cpp"
+object = "build/matching/ZunTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::Decrement"]
+symbol = "?Decrement@ZunTimer@@QAEXH@Z"
+target_address = 0x00406620
+size = 0x12
+relocations = [
+  { offset = 0xA, type = "REL32", symbol = "?Increment@ZunTimer@@QAEXH@Z", target = 0x00406600 },
+]
+
+[units.zun-timer-add-assign-int]
+source = "src/ZunTimer.cpp"
+object = "build/matching/ZunTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::operator+="]
+symbol = "??YZunTimer@@QAEXH@Z"
+target_address = 0x00406640
+size = 0x9
+relocations = [
+  { offset = 0x5, type = "REL32", symbol = "?Increment@ZunTimer@@QAEXH@Z", target = 0x00406600 },
+]
+
+[units.zun-timer-add-assign-float]
+source = "src/ZunTimer.cpp"
+object = "build/matching/ZunTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::operator+="]
+symbol = "??YZunTimer@@QAEXM@Z"
+target_address = 0x00406650
+size = 0x9
+relocations = [
+  { offset = 0x5, type = "REL32", symbol = "?Increment@ZunTimer@@QAEXM@Z", target = 0x0042F490 },
+]
+
+[units.zun-timer-subtract-assign-float]
+source = "src/ZunTimer.cpp"
+object = "build/matching/ZunTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::operator-="]
+symbol = "??ZZunTimer@@QAEXM@Z"
+target_address = 0x00406660
+size = 0x9
+relocations = [
+  { offset = 0x5, type = "REL32", symbol = "?Decrement@ZunTimer@@QAEXM@Z", target = 0x004065E0 },
+]
+
+[units.zun-timer-post-decrement]
+source = "src/ZunTimer.cpp"
+object = "build/matching/ZunTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::operator--"]
+symbol = "??FZunTimer@@QAEXH@Z"
+target_address = 0x00406670
+size = 0xA
+relocations = [
+  { offset = 0x3, type = "REL32", symbol = "?Decrement@ZunTimer@@QAEXH@Z", target = 0x00406620 },
+]
+
+[units.zun-timer-modulo]
+source = "src/ZunTimer.cpp"
+object = "build/matching/ZunTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::operator%"]
+symbol = "??LZunTimer@@QAEHH@Z"
+target_address = 0x0040F830
+size = 0x10
+relocations = []
+
+[units.zun-timer-greater]
+source = "src/ZunTimer.cpp"
+object = "build/matching/ZunTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::operator>"]
+symbol = "??OZunTimer@@QAEIH@Z"
+target_address = 0x00403DE0
+size = 0x14
+relocations = []
+
+[units.supervisor-select-side]
+source = "src/SupervisorViewport.cpp"
+object = "build/matching/SupervisorViewport.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Supervisor::SelectSide"]
+symbol = "?SelectSide@Supervisor@@QAEXH@Z"
+target_address = 0x00401440
+size = 0x1A
+relocations = []
+
+[units.game-manager-is-replay-neutral]
+source = "src/GameManagerMode.cpp"
+object = "build/matching/GameManagerMode.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["GameManagerModeView::IsReplayNeutral"]
+symbol = "?IsReplayNeutral@GameManagerModeView@@QAEHXZ"
+target_address = 0x00415D20
+size = 0xD
+relocations = []
+
+[units.game-manager-is-game-mode-2]
+source = "src/GameManagerMode.cpp"
+object = "build/matching/GameManagerMode.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["GameManagerModeView::IsGameMode2"]
+symbol = "?IsGameMode2@GameManagerModeView@@QAEHXZ"
+target_address = 0x00415D30
+size = 0xF
+relocations = []
+
+[units.front-reset]
+source = "src/FrontSupport.cpp"
+object = "build/matching/FrontSupport.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Front::Reset"]
+symbol = "?Reset@Front@@QAEHXZ"
+target_address = 0x00415D40
+size = 0xE
+relocations = []
+
+[units.player-anm-vm-set-z-rotation]
+source = "src/PlayerAnmVmRuntime.cpp"
+object = "build/matching/PlayerAnmVmRuntime.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerAnmVmView::SetZRotation"]
+symbol = "?SetZRotation@PlayerAnmVmView@@QAEXM@Z"
+target_address = 0x0040F840
+size = 0x14
+relocations = []
+
+[units.anm-loaded-set-sprite]
+source = "src/AnmLoadedSetSprite.cpp"
+object = "build/matching/AnmLoadedSetSprite.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmLoaded::SetSprite"]
+symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z"
+target_address = 0x00436AC0
+size = 0xBD
+relocations = [
+  { offset = 0x52, type = "REL32", symbol = "?SetIdentity@AnmSetSpriteMatrix@@QAEXXZ", target = 0x00401300 },
+  { offset = 0x5F, type = "REL32", symbol = "?SetIdentity@AnmSetSpriteMatrix@@QAEXXZ", target = 0x00401300 },
+  { offset = 0x6E, type = "DIR32", symbol = "__real@3b800000", target = 0x00490F50 },
+  { offset = 0x87, type = "DIR32", symbol = "__real@3b800000", target = 0x00490F50 },
+]
