@@ -421,3 +421,7 @@ EnemyView::UpdateShotAndAnm
 EnemyManagerDrawImpl
 EnemyManagerView::OnDrawHighPrio
 EnemyManagerView::OnDrawLowPrio
+Th09EclRunControl::ResolveInt
+Th09EclRunControl::ResolveIntLValue
+Th09EclRunControl::ResolveFloatLValue
+EnemyView::ResolveFloat

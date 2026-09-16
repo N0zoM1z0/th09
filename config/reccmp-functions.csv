@@ -422,3 +422,7 @@ EnemyManagerView::Create,0x00412240,function
 EnemyManagerDrawImpl,0x00411670,function
 EnemyManagerView::OnDrawHighPrio,0x00411D50,function
 EnemyManagerView::OnDrawLowPrio,0x00411D80,function
+Th09EclRunControl::ResolveInt,0x00405760,function
+Th09EclRunControl::ResolveIntLValue,0x00405F20,function
+Th09EclRunControl::ResolveFloatLValue,0x00406210,function
+EnemyView::ResolveFloat,0x004068A0,function

@@ -29,7 +29,10 @@ namespace Th09EclRunControl
 struct RngView
 {
     unsigned short NextU16();
+    unsigned int GetRandomU32();
     unsigned int GetRandomU32InRange(unsigned int maximum);
+    float GetRandomF32();
+    float GetRandomF32Signed();
     float GetRandomF32InRange(float maximum);
 };
 
@@ -39,7 +42,6 @@ extern RngView g_Rng;
 // definitions and final TU ABI are still needed to settle exact object
 // partitioning.
 int __fastcall ResolveInt(EnemyView *enemy, int rawValue);
-float __fastcall ResolveFloat(EnemyView *enemy, float rawValue);
 int *__fastcall ResolveIntLValue(
     EnemyView *enemy,
     int *rawValue,
@@ -50,6 +52,11 @@ float *__fastcall ResolveFloatLValue(
     float *rawValue,
     unsigned short parameterMask,
     int operandIndex);
+
+__forceinline float ResolveFloat(EnemyView *enemy, float rawValue)
+{
+    return enemy->ResolveFloat(rawValue);
+}
 
 float __stdcall Sin(float value);
 float __stdcall Cos(float value);

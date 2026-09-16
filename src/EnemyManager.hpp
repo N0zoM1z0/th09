@@ -127,6 +127,7 @@ struct EnemyView
     unsigned char unknown3384[0x5430 - 0x3384];
 
     EnemyView();
+    float ResolveFloat(float rawValue);
     void UpdateMovement();
     void UpdateShotAndAnm();
     void HandleDeathRewards(int hitKind);

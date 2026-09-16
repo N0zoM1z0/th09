@@ -88,10 +88,10 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00405700,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00405710,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00405730,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00405760,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00405F20,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00405760,authored_game,EclManager,authored,high,packet-173-ecl-operands-vc71-2026-09-16
+0x00405F20,authored_game,EclManager,authored,high,packet-173-ecl-operands-vc71-2026-09-16
 0x00406200,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00406210,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00406210,authored_game,EclManager,authored,high,packet-173-ecl-operands-vc71-2026-09-16
 0x004065E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00406600,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00406620,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -109,7 +109,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00406820,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00406830,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00406850,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004068A0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004068A0,authored_game,Enemy,authored,high,packet-173-ecl-operands-vc71-2026-09-16
 0x004070A0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00407200,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00407320,unknown,,review,unknown,ida-1.50a-initial-inventory
