@@ -451,8 +451,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00421C40,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00421C60,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00421C80,authored_game,ScoreData,authored,high,score-file-open-source-nearmatch-2026-09-12
-0x00421E90,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00421EA0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00421E90,authored_game,ScoreData,authored,high,packet185-score-startup-leaves-2026-09-16
+0x00421EA0,authored_game,ScoreData,authored,high,packet185-score-startup-leaves-2026-09-16
 0x00421F10,authored_game,ScoreData,authored,high,score-file-save-source-nearmatch-2026-09-12
 0x00422200,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15
 0x00422290,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15

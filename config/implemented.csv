@@ -519,3 +519,5 @@ ReplayRngView::GetSeed
 ReplayRngView::SetSeed
 ReplayRngView::ResetGenerationCount
 SupervisorReplayView::IsSpeedhackDetected
+ReleaseScoreFileBuffer
+InitializeScoreDataStartup

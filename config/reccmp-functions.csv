@@ -520,3 +520,5 @@ ReplayRngView::GetSeed,0x0041A89E,function
 ReplayRngView::SetSeed,0x00420160,function
 ReplayRngView::ResetGenerationCount,0x00420170,function
 SupervisorReplayView::IsSpeedhackDetected,0x00420180,function
+ReleaseScoreFileBuffer,0x00421E90,function
+InitializeScoreDataStartup,0x00421EA0,function

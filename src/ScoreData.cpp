@@ -5,6 +5,7 @@
 #include "GameErrorContext.hpp"
 #include "Lzss.hpp"
 #include "PlayStats.hpp"
+#include "ScoreFileView.hpp"
 #include "ZunMemory.hpp"
 #include "Supervisor.hpp"
 
@@ -78,33 +79,6 @@ struct ScoreChapterView {
 
 typedef char ScoreChapterViewSizeIs0C[(sizeof(ScoreChapterView) == 0x0C) ? 1 : -1];
 
-struct ScoreFileView {
-    u8 unknown00;
-    u8 rngValue1;
-    u16 checksum;
-    u16 version;
-    u8 rngValue2;
-    u8 unknown07;
-    u32 headerSize;
-    u32 totalSize;
-    u32 decompressedPayloadSize;
-    u32 compressedSize;
-
-    static ScoreFileView *OpenScore(const char *filename);
-    int LoadScoreRecords();
-    int LoadLastName();
-    int LoadPlayStats();
-};
-
-typedef char ScoreFileViewHeaderSizeAt08[(offsetof(ScoreFileView, headerSize) == 0x08) ? 1 : -1];
-typedef char ScoreFileViewTotalSizeAt0C[(offsetof(ScoreFileView, totalSize) == 0x0C) ? 1 : -1];
-
-typedef char ScoreFileViewRngValue1At01[(offsetof(ScoreFileView, rngValue1) == 0x01) ? 1 : -1];
-typedef char ScoreFileViewChecksumAt02[(offsetof(ScoreFileView, checksum) == 0x02) ? 1 : -1];
-typedef char ScoreFileViewVersionAt04[(offsetof(ScoreFileView, version) == 0x04) ? 1 : -1];
-typedef char ScoreFileViewRngValue2At06[(offsetof(ScoreFileView, rngValue2) == 0x06) ? 1 : -1];
-typedef char ScoreFileViewSizeIs18[(sizeof(ScoreFileView) == 0x18) ? 1 : -1];
-
 struct ScoreVersionRecordView {
     ScoreChapterView base;
     char version[8];
@@ -137,7 +111,6 @@ typedef char ScoreSupervisorSystemTimeAt79C[(offsetof(ScoreSupervisorView, syste
 typedef char ScoreSupervisorExeChecksumAt7A0[(offsetof(ScoreSupervisorView, exeChecksum) == 0x7A0) ? 1 : -1];
 
 extern ReplayRngView g_ReplayRng;
-extern ScoreFileView g_ScoreFileHeader;
 
 extern ScoreRecordView g_ScoreTable[16][5][5];
 extern ScoreRecordView g_CurrentScoreRecord;
