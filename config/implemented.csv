@@ -484,3 +484,14 @@ Float3::operator/=
 AnmMatrixRuntime::SetIdentity
 AnmVm::Initialize
 AnmLoaded::InitializeAndSetSprite
+Float3::operator-=
+PreloadEtamaStartup
+ReleaseEtamaAnm
+Bullet::InstallTransformRecord
+BulletSpawnDescriptor::InstallTransformRecord
+Bullet::InstallVectorAccelerationTransform
+Bullet::InstallWaitTransform
+Bullet::InstallSpriteTransform
+BulletSpawnDescriptor::InstallPolarAccelerationTransform
+BulletSpawnDescriptor::InstallVectorAccelerationTransform
+BulletSpawnDescriptor::InstallWaitTransform

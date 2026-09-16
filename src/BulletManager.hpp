@@ -91,6 +91,17 @@ struct BulletSpawnDescriptor
     unsigned char extraAttribute20C;
     unsigned char unknown20D[3];
     BulletTypeSprites *templateSprites;
+
+    BulletTransformRecord *InstallTransformRecord(
+        int index, int allowWhileActive, unsigned int kind);
+    void InstallPolarAccelerationTransform(
+        int index, int allowWhileActive, int durationFrames,
+        float angleDelta, float speedDelta);
+    void InstallVectorAccelerationTransform(
+        int index, int allowWhileActive, int durationFrames,
+        float magnitude, float angle);
+    void InstallWaitTransform(
+        int index, int allowWhileActive, int durationFrames);
 };
 
 typedef char BulletSpawnDescriptorSizeIs214[(sizeof(BulletSpawnDescriptor) == 0x214) ? 1 : -1];
@@ -219,6 +230,15 @@ struct Bullet
 
     void Deactivate();
     void AdvanceTransformProgram();
+    BulletTransformRecord *InstallTransformRecord(
+        int index, int allowWhileActive, unsigned int kind);
+    void InstallVectorAccelerationTransform(
+        int index, int allowWhileActive, int durationFrames,
+        float magnitude, float angle);
+    void InstallWaitTransform(
+        int index, int allowWhileActive, int durationFrames);
+    void InstallSpriteTransform(
+        int index, int allowWhileActive, int spriteIndex, int color);
 };
 
 typedef char BulletSizeIs10C4[(sizeof(Bullet) == 0x10C4) ? 1 : -1];

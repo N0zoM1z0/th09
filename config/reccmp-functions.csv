@@ -485,3 +485,14 @@ Float3::operator/=,0x004010D0,function
 AnmMatrixRuntime::SetIdentity,0x00401300,function
 AnmVm::Initialize,0x004127B0,function
 AnmLoaded::InitializeAndSetSprite,0x00412800,function
+Float3::operator-=,0x004125B0,function
+PreloadEtamaStartup,0x004125E0,function
+ReleaseEtamaAnm,0x00412600,function
+Bullet::InstallTransformRecord,0x00412610,function
+BulletSpawnDescriptor::InstallTransformRecord,0x00412650,function
+Bullet::InstallVectorAccelerationTransform,0x00412680,function
+Bullet::InstallWaitTransform,0x004126B0,function
+Bullet::InstallSpriteTransform,0x004126D0,function
+BulletSpawnDescriptor::InstallPolarAccelerationTransform,0x00412700,function
+BulletSpawnDescriptor::InstallVectorAccelerationTransform,0x00412730,function
+BulletSpawnDescriptor::InstallWaitTransform,0x00412760,function
