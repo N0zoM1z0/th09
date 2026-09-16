@@ -498,3 +498,5 @@ BulletSpawnDescriptor::InstallVectorAccelerationTransform,0x00412730,function
 BulletSpawnDescriptor::InstallWaitTransform,0x00412760,function
 EtamaController::Initialize,0x004123C0,function
 EtamaController::ResetProjectiles,0x00412470,function
+PlayerCollisionQueryStateView::AppendLaserRecord,0x00412830,function
+EtamaController::EtamaController,0x00415050,function

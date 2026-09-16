@@ -40,6 +40,17 @@ struct BulletCancelCollisionView
     int CheckBulletCancelCollision(Float3 *position, Float3 *collisionSize, Bullet *bullet);
 };
 
+struct PlayerPositionView;
+struct PlayerCollisionQueryStateView
+{
+    void AppendLaserRecord(
+        const PlayerPositionView *position,
+        const PlayerPositionView *size,
+        const PlayerPositionView *origin,
+        float angle,
+        int unknown);
+};
+
 struct BulletPlayerView
 {
     unsigned char unknown000[0x36C];
@@ -527,7 +538,7 @@ Bullet *EtamaController::SpawnBulletPatternPrimary(BulletSpawnDescriptor *descri
         for (int index1 = 0; index1 < descriptor->count1; ++index1)
         {
             result = this->SpawnSingleBullet(descriptor, index1, index2, angleToPlayer, 0);
-            if (result == &this->bullets[175])
+            if (result == &this->primaryBullets[175])
                 goto done;
         }
     }
@@ -547,7 +558,7 @@ Bullet *EtamaController::SpawnBulletPatternSecondary(BulletSpawnDescriptor *desc
         for (int index1 = 0; index1 < descriptor->count1; ++index1)
         {
             result = this->SpawnSingleBullet(descriptor, index1, index2, angleToPlayer, 1);
-            if (result == &this->bullets[536])
+            if (result == &this->secondaryBullets[360])
                 goto done;
         }
     }
@@ -568,7 +579,7 @@ int EtamaController::OnUpdate(EtamaController *controller)
     controller->activeTotalCount = 0;
     controller->ClearDrawBuckets();
 
-    Bullet *bullet = &controller->bullets[0];
+    Bullet *bullet = &controller->primaryBullets[0];
     for (int i = 0; i < 536; ++i, ++bullet)
     {
         if (bullet->state == BULLET_STATE_UNUSED || bullet->state == BULLET_STATE_SENTINEL)
@@ -792,18 +803,28 @@ updateTimers:
                 laserSize[0] = laser->currentWidth / 2.0f;
             }
             if ((int)(float)laser->timer >= laser->hitboxStartTime)
-                controller->sideState->player->CalcLaserHitbox(
-                    reinterpret_cast<Float3 *>(laserCenter), reinterpret_cast<Float3 *>(laserSize),
-                    &laser->position, laser->angle, 0);
+                reinterpret_cast<PlayerCollisionQueryStateView *>(
+                    reinterpret_cast<unsigned char *>(controller->sideState->player) + 0x36C)
+                    ->AppendLaserRecord(
+                        reinterpret_cast<PlayerPositionView *>(laserCenter),
+                        reinterpret_cast<PlayerPositionView *>(laserSize),
+                        reinterpret_cast<PlayerPositionView *>(&laser->position),
+                        laser->angle,
+                        0);
             if ((int)(float)laser->timer < laser->startTime)
                 break;
             laser->timer = 0;
             ++laser->state;
             laser->currentWidth = laser->width;
         case 1:
-            controller->sideState->player->CalcLaserHitbox(
-                reinterpret_cast<Float3 *>(laserCenter), reinterpret_cast<Float3 *>(laserSize),
-                &laser->position, laser->angle, 0);
+            reinterpret_cast<PlayerCollisionQueryStateView *>(
+                    reinterpret_cast<unsigned char *>(controller->sideState->player) + 0x36C)
+                    ->AppendLaserRecord(
+                        reinterpret_cast<PlayerPositionView *>(laserCenter),
+                        reinterpret_cast<PlayerPositionView *>(laserSize),
+                        reinterpret_cast<PlayerPositionView *>(&laser->position),
+                        laser->angle,
+                        0);
             if ((int)(float)laser->timer < laser->duration)
                 break;
             laser->timer = 0;
@@ -829,9 +850,14 @@ updateTimers:
                 laserSize[0] = laser->currentWidth / 2.0f;
             }
             if ((int)(float)laser->timer < laser->hitboxEndDelay)
-                controller->sideState->player->CalcLaserHitbox(
-                    reinterpret_cast<Float3 *>(laserCenter), reinterpret_cast<Float3 *>(laserSize),
-                    &laser->position, laser->angle, 0);
+                reinterpret_cast<PlayerCollisionQueryStateView *>(
+                    reinterpret_cast<unsigned char *>(controller->sideState->player) + 0x36C)
+                    ->AppendLaserRecord(
+                        reinterpret_cast<PlayerPositionView *>(laserCenter),
+                        reinterpret_cast<PlayerPositionView *>(laserSize),
+                        reinterpret_cast<PlayerPositionView *>(&laser->position),
+                        laser->angle,
+                        0);
             if ((int)(float)laser->timer < laser->despawnDuration)
                 break;
             laser->inUse = 0;

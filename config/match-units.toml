@@ -8860,3 +8860,37 @@ symbol = "?ResetProjectiles@EtamaController@@QAEXXZ"
 target_address = 0x00412470
 size = 0x5F
 relocations = []
+
+[units.player-collision-append-laser-record]
+source = "src/PlayerCollisionAppend.cpp"
+object = "build/matching/PlayerCollisionAppend.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerCollisionQueryStateView::AppendLaserRecord"]
+symbol = "?AppendLaserRecord@PlayerCollisionQueryStateView@@QAEXPBUPlayerPositionView@@00MH@Z"
+target_address = 0x00412830
+size = 0xF5
+relocations = [
+  { offset = 0x8E, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0xAB, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+]
+
+[units.etama-controller-constructor]
+source = "src/EtamaControllerCtor.cpp"
+object = "build/matching/EtamaControllerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["EtamaController::EtamaController"]
+symbol = "??0EtamaController@@QAE@XZ"
+target_address = 0x00415050
+size = 0x79
+relocations = [
+  { offset = 0x02, type = "DIR32", symbol = "??0BulletTypeSprites@@QAE@XZ", target = 0x00414FA0 },
+  { offset = 0x11, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x16, type = "DIR32", symbol = "??0Bullet@@QAE@XZ", target = 0x00414FE0 },
+  { offset = 0x2C, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x31, type = "DIR32", symbol = "??0Bullet@@QAE@XZ", target = 0x00414FE0 },
+  { offset = 0x47, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x4C, type = "DIR32", symbol = "??0Laser@@QAE@XZ", target = 0x00415020 },
+  { offset = 0x5F, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x6A, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x71, type = "REL32", symbol = "?Initialize@EtamaController@@QAEXXZ", target = 0x004123C0 },
+]

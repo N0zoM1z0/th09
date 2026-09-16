@@ -248,7 +248,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00412780,library,MathRuntime,exclude,high,math-runtime-fsincos-th08-family-2026-09-16
 0x004127B0,authored_game,AnmManager,authored,high,anm-math-leaf-target-replay-2026-09-16
 0x00412800,authored_game,AnmManager,authored,high,anm-math-leaf-target-replay-2026-09-16
-0x00412830,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00412830,authored_game,Player,authored,high,player-collision-append-target-replay-2026-09-16
 0x00412930,authored_game,BulletManager,authored,high,packet155-etama-recovery-2026-09-15
 0x00412960,authored_game,BulletManager,authored,high,packet155-etama-recovery-2026-09-15
 0x004130F0,authored_game,BulletManager,authored,high,packet155-etama-recovery-2026-09-15
@@ -272,7 +272,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00414FA0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00414FE0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00415020,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00415050,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00415050,authored_game,BulletManager,authored,high,etama-constructor-target-replay-2026-09-16
 0x004150D0,authored_game,BulletManager,authored,high,packet155-etama-recovery-2026-09-15
 0x004151F0,authored_game,ExAttackController,authored,high,exattack-controller-2026-09-15
 0x00415340,unknown,,review,unknown,ida-1.50a-initial-inventory

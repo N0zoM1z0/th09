@@ -167,6 +167,11 @@ struct PlayerCollisionQueryStateView
         const PlayerPositionView &halfSize,
         float extraRadius);
     PlayerCollisionQueryRecordView *FindCollisionAtPlayer();
+    void AppendLaserRecord(
+        const PlayerPositionView *position,
+        const PlayerPositionView *size,
+        const PlayerPositionView *origin,
+        float angle, int unknown);
 };
 typedef char PlayerCollisionQueryStateSizeIs1808[
     (sizeof(PlayerCollisionQueryStateView) == 0x1808) ? 1 : -1];

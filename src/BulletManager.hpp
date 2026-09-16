@@ -109,6 +109,8 @@ typedef char BulletSpawnDescriptorTemplateAt210[(offsetof(BulletSpawnDescriptor,
 
 struct BulletTypeSprites
 {
+    BulletTypeSprites();
+
     AnmVm bulletVm;
     AnmVm spawnFastVm;
     AnmVm spawnNormalVm;
@@ -164,6 +166,8 @@ typedef char BulletExStateSizeIs2C[(sizeof(BulletExState) == 0x2C) ? 1 : -1];
 
 struct Laser
 {
+    Laser();
+
     AnmVm bodyVm;
     AnmVm startCapVm;
     Float3 position;
@@ -228,6 +232,7 @@ struct Bullet
     short bulletType;
     short color;
 
+    Bullet();
     void Deactivate();
     void AdvanceTransformProgram();
     BulletTransformRecord *InstallTransformRecord(
@@ -278,7 +283,8 @@ struct BulletAnmLoadedView
 struct EtamaController
 {
     BulletTypeSprites bulletTypeSprites[32];
-    Bullet bullets[537];
+    Bullet primaryBullets[176];
+    Bullet secondaryBullets[361];
     Laser lasers[48];
     int activePrimaryCount;
     int activeSecondaryCount;
@@ -318,7 +324,8 @@ struct EtamaController
 };
 
 typedef char EtamaControllerSizeIs25E1C0[(sizeof(EtamaController) == 0x25E1C0) ? 1 : -1];
-typedef char EtamaControllerPrimaryAt1A900[(offsetof(EtamaController, bullets) == 0x1A900) ? 1 : -1];
+typedef char EtamaControllerPrimaryAt1A900[(offsetof(EtamaController, primaryBullets) == 0x1A900) ? 1 : -1];
+typedef char EtamaControllerSecondaryAtD2FC0[(offsetof(EtamaController, secondaryBullets) == 0xD2FC0) ? 1 : -1];
 typedef char EtamaControllerLasersAt24D424[(offsetof(EtamaController, lasers) == 0x24D424) ? 1 : -1];
 typedef char EtamaControllerCountsAt25E164[(offsetof(EtamaController, activePrimaryCount) == 0x25E164) ? 1 : -1];
 typedef char EtamaControllerCalcAt25E184[(offsetof(EtamaController, calcChain) == 0x25E184) ? 1 : -1];
