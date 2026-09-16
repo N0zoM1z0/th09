@@ -44,6 +44,7 @@ class Supervisor
     int IsTextBackgroundDetectionDisabled();
     void InitializeViewports();
     void ConfigureGameplayViewport(int index);
+    void ConfigureScreenViewport(int index);
     void SelectSide(int index);
     void ApplyCameraMode0();
     void ApplyCameraMode1();

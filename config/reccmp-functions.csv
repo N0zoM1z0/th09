@@ -555,3 +555,6 @@ ExAttackController::AddedCallback,0x00415750,function
 ReleaseSubsystem0,0x00402530,function
 ReleaseGameSubsystem,0x004182A0,function
 ReleaseStageObject,0x00420C10,function
+Supervisor::ConfigureScreenViewport,0x00403D90,function
+SupervisorThreadCloseView::ThreadClose,0x0041A997,function
+PlayerLifecycleView::DrawTailStates,0x0041DF80,function

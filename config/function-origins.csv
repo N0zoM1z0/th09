@@ -63,7 +63,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00403CF0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00403D60,authored_game,CardAttack,authored,high,card-attack-owner-th09-target-replay-2026-09-16
 0x00403D80,authored_game,CardAttack,authored,high,card-attack-owner-th09-target-replay-2026-09-16
-0x00403D90,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00403D90,authored_game,Supervisor,authored,high,supervisor-configure-screen-viewport-vc71-exact-2026-09-17
 0x00403DE0,authored_game,ZunTimer,authored,high,runtime-support-leaf-target-replay-2026-09-16
 0x00403E00,authored_game,AnmLoaded,authored,high,anm-loaded-set-and-execute-script-idx-vc71-exact-2026-09-16
 0x00403E30,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -345,7 +345,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041A89E,authored_game,Rng,authored,high,packet184-replay-runtime-leaves-2026-09-16
 0x0041A8A2,authored_game,GameConfiguration,authored,high,game-configuration-initialize-vc71-exact-2026-09-11
 0x0041A98B,authored_game,GameConfiguration,authored,high,game-configuration-constructor-vc71-exact-2026-09-11
-0x0041A997,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041A997,authored_game,Supervisor,authored,high,supervisor-startup-thread-close-vc71-exact-2026-09-17
 0x0041A9AC,authored_game,GameManager,authored,high,packet187-small-support-leaves-2026-09-17
 0x0041A9B8,authored_game,GameManager,authored,high,packet191-small-exact-leaves-2026-09-17
 0x0041AA07,authored_game,GameManager,authored,high,game-manager-advance-timed-state-vc71-exact-2026-09-11
@@ -397,7 +397,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041DA70,authored_game,Player,authored,high,player-collision-helper-module-2026-09-15
 0x0041DB90,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041DC20,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041DF80,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041DF80,authored_game,Player,authored,high,player-draw-tail-states-vc71-exact-2026-09-17
 0x0041DFF0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041E350,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041E420,authored_game,Player,authored,high,player-death-transition-source-nonexact-2026-09-15

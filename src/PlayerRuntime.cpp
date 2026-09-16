@@ -12,6 +12,22 @@ struct PlayerResourcePathView
 
 typedef char PlayerResourcePathSizeIs18[(sizeof(PlayerResourcePathView) == 0x18) ? 1 : -1];
 
+struct PlayerTailDrawStateView
+{
+    PlayerPositionView position00;
+    unsigned char unknown00C[0x0C];
+    void *active18;
+    PlayerAnmVmView vm1C;
+    unsigned char trailing2C0[0x04];
+};
+
+typedef char PlayerTailDrawStateSizeIs2C4[
+    (sizeof(PlayerTailDrawStateView) == 0x2C4) ? 1 : -1];
+typedef char PlayerTailDrawStateActiveAt18[
+    (offsetof(PlayerTailDrawStateView, active18) == 0x18) ? 1 : -1];
+typedef char PlayerTailDrawStateVmAt1C[
+    (offsetof(PlayerTailDrawStateView, vm1C) == 0x1C) ? 1 : -1];
+
 struct PlayerAnmManagerView
 {
     void *GetAnm(int anmIdx);
@@ -465,6 +481,23 @@ afterTransition:
 
 PlayerLifecycleView::PlayerLifecycleView()
 {
+}
+
+void PlayerLifecycleView::DrawTailStates()
+{
+    PlayerTailDrawStateView *state = reinterpret_cast<PlayerTailDrawStateView *>(
+        reinterpret_cast<unsigned char *>(this) + 0x30458);
+    for (int i = 0; i < 4; ++i, ++state)
+    {
+        if (state->active18 == NULL)
+            continue;
+        state->vm1C.position208.x =
+            g_PlayerGameManagerRuntime.TransformPopupX(state->position00.x);
+        state->vm1C.position208.y =
+            g_PlayerGameManagerRuntime.TransformPopupY(state->position00.y);
+        state->vm1C.position208.z = 0.15f;
+        g_AnmManager->DrawNoRotation(&state->vm1C);
+    }
 }
 
 int __fastcall PlayerLifecycleView::OnDrawHighPrio(PlayerLifecycleView *player)

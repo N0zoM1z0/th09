@@ -554,3 +554,6 @@ ExAttackController::AddedCallback
 ReleaseSubsystem0
 ReleaseGameSubsystem
 ReleaseStageObject
+Supervisor::ConfigureScreenViewport
+SupervisorThreadCloseView::ThreadClose
+PlayerLifecycleView::DrawTailStates

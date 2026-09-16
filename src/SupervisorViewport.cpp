@@ -238,6 +238,16 @@ void Supervisor::SelectSide(int index)
     supervisor->current = &supervisor->configurations[index];
 }
 
+void Supervisor::ConfigureScreenViewport(int index)
+{
+    SupervisorViewportView *supervisor =
+        reinterpret_cast<SupervisorViewportView *>(this);
+    supervisor->current = &supervisor->configurations[index];
+    supervisor->ApplyScreenCamera(supervisor->current);
+    supervisor->d3dDevice->SetViewport(&supervisor->current->viewport);
+    supervisor->currentIndex = index;
+}
+
 void Supervisor::ConfigureGameplayViewport(int index)
 {
     SupervisorViewportView *supervisor =

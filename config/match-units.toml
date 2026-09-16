@@ -9553,3 +9553,42 @@ relocations = [
   { offset = 0x1B, type = "REL32", symbol = "?Cut@Chain@@QAEXPAVChainElem@@@Z", target = 0x0042C8C0 },
   { offset = 0x21, type = "REL32", symbol = "_free", target = 0x0047B249 },
 ]
+
+[units.supervisor-configure-screen-viewport]
+source = "src/SupervisorViewport.cpp"
+object = "build/matching/SupervisorViewport.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Supervisor::ConfigureScreenViewport"]
+symbol = "?ConfigureScreenViewport@Supervisor@@QAEXH@Z"
+target_address = 0x00403D90
+size = 0x47
+relocations = [
+  { offset = 0x1E, type = "REL32", symbol = "?ApplyScreenCamera@SupervisorViewportView@@QAEXPAUSupervisorViewportConfiguration@@@Z", target = 0x00430590 },
+]
+
+[units.supervisor-thread-close]
+source = "src/SupervisorThreadClose.cpp"
+object = "build/matching/SupervisorThreadClose.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorThreadCloseView::ThreadClose"]
+symbol = "?ThreadClose@SupervisorThreadCloseView@@QAEXXZ"
+target_address = 0x0041A997
+size = 0x15
+relocations = []
+
+[units.player-draw-tail-states]
+source = "src/PlayerRuntime.cpp"
+object = "build/matching/PlayerRuntime.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerLifecycleView::DrawTailStates"]
+symbol = "?DrawTailStates@PlayerLifecycleView@@QAEXXZ"
+target_address = 0x0041DF80
+size = 0x63
+relocations = [
+  { offset = 0x1B, type = "DIR32", symbol = "?g_PlayerGameManagerRuntime@@3UPlayerGameManagerRuntimeView@@A", target = 0x004A7D90 },
+  { offset = 0x20, type = "REL32", symbol = "?TransformPopupX@PlayerGameManagerRuntimeView@@QAEMM@Z", target = 0x00401680 },
+  { offset = 0x2F, type = "DIR32", symbol = "?g_PlayerGameManagerRuntime@@3UPlayerGameManagerRuntimeView@@A", target = 0x004A7D90 },
+  { offset = 0x34, type = "REL32", symbol = "?TransformPopupY@PlayerGameManagerRuntimeView@@QAEMM@Z", target = 0x004016B0 },
+  { offset = 0x4D, type = "DIR32", symbol = "?g_AnmManager@@3PAUPlayerAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x53, type = "REL32", symbol = "?DrawNoRotation@PlayerAnmManagerView@@QAEHPAX@Z", target = 0x0043A950 },
+]
