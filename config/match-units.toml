@@ -8840,3 +8840,23 @@ size = 0x1F
 relocations = [
   { offset = 0x11, type = "REL32", symbol = "?InstallTransformRecord@BulletSpawnDescriptor@@QAEPAUBulletTransformRecord@@HHI@Z", target = 0x00412650 },
 ]
+
+[units.etama-controller-initialize]
+source = "src/EtamaControllerInit.cpp"
+object = "build/matching/EtamaControllerInit.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EtamaController::Initialize"]
+symbol = "?Initialize@EtamaController@@QAEXXZ"
+target_address = 0x004123C0
+size = 0xAD
+relocations = []
+
+[units.etama-controller-reset-projectiles]
+source = "src/EtamaControllerInit.cpp"
+object = "build/matching/EtamaControllerInit.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EtamaController::ResetProjectiles"]
+symbol = "?ResetProjectiles@EtamaController@@QAEXXZ"
+target_address = 0x00412470
+size = 0x5F
+relocations = []

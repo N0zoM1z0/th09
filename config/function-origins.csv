@@ -228,8 +228,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004121D0,authored_game,EnemyManager,authored,high,packet-171-enemy-manager-lifecycle
 0x00412240,authored_game,EnemyManager,authored,high,packet-171-enemy-manager-lifecycle
 0x00412390,authored_game,BulletManager,authored,high,packet155-etama-recovery-2026-09-15
-0x004123C0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00412470,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004123C0,authored_game,BulletManager,authored,high,etama-init-target-replay-2026-09-16
+0x00412470,authored_game,BulletManager,authored,high,etama-init-target-replay-2026-09-16
 0x004124D0,authored_game,BulletManager,authored,high,packet155-etama-recovery-2026-09-15
 0x004124E0,authored_game,BulletManager,authored,high,packet155-etama-recovery-2026-09-15
 0x00412590,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -245,7 +245,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00412700,authored_game,BulletManager,authored,high,packet179-bullet-transform-leaves-2026-09-16
 0x00412730,authored_game,BulletManager,authored,high,packet179-bullet-transform-leaves-2026-09-16
 0x00412760,authored_game,BulletManager,authored,high,packet179-bullet-transform-leaves-2026-09-16
-0x00412780,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00412780,library,MathRuntime,exclude,high,math-runtime-fsincos-th08-family-2026-09-16
 0x004127B0,authored_game,AnmManager,authored,high,anm-math-leaf-target-replay-2026-09-16
 0x00412800,authored_game,AnmManager,authored,high,anm-math-leaf-target-replay-2026-09-16
 0x00412830,unknown,,review,unknown,ida-1.50a-initial-inventory

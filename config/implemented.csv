@@ -495,3 +495,5 @@ Bullet::InstallSpriteTransform
 BulletSpawnDescriptor::InstallPolarAccelerationTransform
 BulletSpawnDescriptor::InstallVectorAccelerationTransform
 BulletSpawnDescriptor::InstallWaitTransform
+EtamaController::Initialize
+EtamaController::ResetProjectiles

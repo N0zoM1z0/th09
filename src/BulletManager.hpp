@@ -299,6 +299,7 @@ struct EtamaController
 
     EtamaController();
     void Initialize();
+    void ResetProjectiles();
     int ClearDrawBuckets();
     Bullet *SpawnSingleBullet(
         BulletSpawnDescriptor *descriptor, int index1, int index2,
