@@ -110,6 +110,8 @@ class SoundPlayer
     int Release();
     int StartBGM(char *path);
     int LoadSound(int index, char *path);
+    void PlaySoundByIdx(int index, int pan);
+    void PlaySoundPositionedByIdx(int index, float positionX);
     int ProcessQueues();
     void UpdateFades();
     void QueueCommand(int opcode, int argument, char *path);
@@ -982,4 +984,60 @@ void SoundPlayer::FadeOut(float seconds)
 {
     if (this->bgm != NULL)
         this->bgm->FadeOut(seconds);
+}
+
+void SoundPlayer::PlaySoundByIdx(int index, int pan)
+{
+    int unconsumedMetadata;
+    int i;
+
+    unconsumedMetadata = g_SoundBufferIdxVol[index].unconsumedMetadata;
+    for (i = 0; i < 12; i++)
+    {
+        if (this->soundQueue[i] < 0)
+            break;
+        if (this->soundQueue[i] == index)
+        {
+            if (this->soundQueueRequestCounts[i] < 0x80)
+                this->soundQueuePanData[i][this->soundQueueRequestCounts[i]++] = pan;
+            return;
+        }
+    }
+
+    if (i >= 12)
+        return;
+
+    this->soundQueue[i] = index;
+    this->unconsumedMetadataBySound[index] = unconsumedMetadata;
+    this->soundQueuePanData[i][0] = pan;
+    this->soundQueueRequestCounts[i]++;
+}
+
+void SoundPlayer::PlaySoundPositionedByIdx(int index, float positionX)
+{
+    int unconsumedMetadata;
+    int pan;
+    int i;
+
+    unconsumedMetadata = g_SoundBufferIdxVol[index].unconsumedMetadata;
+    pan = (int)(positionX * 6.9444447f);
+    for (i = 0; i < 12; i++)
+    {
+        if (this->soundQueue[i] < 0)
+            break;
+        if (this->soundQueue[i] == index)
+        {
+            if (this->soundQueueRequestCounts[i] < 0x80)
+                this->soundQueuePanData[i][this->soundQueueRequestCounts[i]++] = pan;
+            return;
+        }
+    }
+
+    if (i >= 12)
+        return;
+
+    this->soundQueue[i] = index;
+    this->unconsumedMetadataBySound[index] = unconsumedMetadata;
+    this->soundQueuePanData[i][0] = pan;
+    this->soundQueueRequestCounts[i]++;
 }

@@ -4330,3 +4330,24 @@ No target bytes were writable or modified. Under passed native attestation, comm
 - Packet scratch is `.analysis/gpt-web/20260917-th09-small-leaves-196/`, retaining source-family/origin reviews, first-pass/formal compares, two-round replay, affected-caller logs, and fresh current-source ECL physical replay. No unknown legacy analysis state is deleted.
 - Whole faithful Windows i386 build remains OPEN; runtime and semantic/port phases are not started. Next short-leaf routing should continue from canonical relocation-backed authored helpers, while avoiding constructor/compiler/CRT/library bodies and the already-documented input/register-lowering negatives.
 - Planned checkpoint subject: `gpt-web: close angle runtime leaves`. Nothing is pushed.
+
+
+## Packet 197 — SoundPlayer SFX queue exact pair (2026-09-17)
+
+### Recovery, owner choice, and TH09-specific semantics
+- Started from clean checkpoint `db6485ba23d6ed862ca35990faa2cde99fd5542a` (`gpt-web: close angle runtime leaves`), `main`, `origin/main +21/-0`, with zero staged/unstaged/untracked/conflicted paths. Fresh native IDA metadata passed for `target:th09-main` over `factory-native-stdio` before target-dependent work; target bytes remained read-only.
+- Exact-caller routing selected the shared SFX queue entries rather than constructor/CRT/D3DX/math-runtime candidates. `EffectManager::AddedCallback @ 0x0040D1C0` was explicitly left in its existing source-present/NON-EXACT state and not retried with register shaping.
+- During the packet, another Factory operator added a real-class `SoundPlayer::PlaySoundByIdx` definition plus a canonical unit while this session was probing a neutral duplicate view. Live status changed unexpectedly, so work stopped for recovery review. The external diff matched the same TH09 target/source family and already had two cold exact replays. It was adopted as the preferred implementation; this session removed only its own untracked duplicate `SoundPlayerSfx.cpp` and duplicate units, then extended the same real `SoundPlayer` class with the positioned variant. No unrelated/unknown work was overwritten or staged.
+
+### Exact pair and regression
+- `SoundPlayer::PlaySoundByIdx @ 0x0043E2F0`, 140 bytes, one relocation to `g_SoundBufferIdxVol @ 0x004A1F80` with +6 metadata-field addend. TH09 existing class layout independently fixes `unconsumedMetadataBySound +0x408`, `soundQueue[12] +0x620`, `soundQueueRequestCounts[12] +0x650`, and `soundQueuePanData[12][128] +0x680`. Natural source matches clean committed TH08 only at source-family level after TH09 closure.
+- `SoundPlayer::PlaySoundPositionedByIdx @ 0x0043E380`, 153 bytes, three relocations. TH09 target constant `0x004914AC` reads as 0x40DE38E4 = 6.9444447f; current TH09 callers pass gameplay/world-X values. Natural source converts `(int)(positionX * 6.9444447f)` via `__ftol2` before the same queue logic. This is deliberately not the different TH08 pan formula.
+- Both methods pass two independent cold repository-managed rounds, 4/4 exact, totaling 293 authored bytes. A full current-source regression of every configured unit sourced from `SoundPlayerProcessQueues.cpp` passes 18/18 exact across seven compiler/object profile groups, including the two new units.
+
+### Tracking, boundaries, metadata and continuation
+- Tracking moves from Packet-196 `631 authored / 567 source-present / 499 exact / 37 exclusions` to `633 / 569 / 501 / 37`; reviewed authored bytes `171,334 -> 171,627` (+293), canonical exact bytes `71,847 -> 72,140` (+293), pending review `1,496 -> 1,494`, and configured units `525 -> 527`.
+- Reviewed seams are `0x0043E2F0-0x0043E37B` plus four unowned `CC`, then `0x0043E380-0x0043E418` plus seven unowned `CC` before exact `WaveFileProcessView::GetFormat @ 0x0043E420`.
+- Under passed native attestation, neutral IDA names `SoundPlayer_PlaySoundByIdx` and `SoundPlayer_PlaySoundPositionedByIdx` were written and read back at sizes `0x8C` and `0x99`. A transient shared operator-path contention occurred before the final positioned readback. Repository replay remains the only exactness authority; IDA exactness credit is none and no prototype/type/target-byte edit was made.
+- Packet scratch is `.analysis/gpt-web/20260917-th09-small-leaves-197/`, retaining TH09/TH08 owner review, neutral-view probes, the recovered concurrent real-owner replay, positioned TH09 formula probe, two-round final replay, and 18-unit SoundPlayer regression. The removed neutral duplicate was current-session untracked work with no retained tracked reference; unknown legacy analysis state is untouched.
+- Whole faithful Windows i386 build remains independently OPEN; runtime and semantic/port phases remain not started. Continue routing from exact-call relocation targets and keep compiler/library/constructor bodies separate from authored counts.
+- Planned checkpoint subject: `gpt-web: close SoundPlayer SFX queue leaves`. Nothing is pushed.

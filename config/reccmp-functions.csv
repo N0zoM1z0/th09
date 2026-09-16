@@ -566,3 +566,5 @@ PlayerOwnerStateResetView::PrepareReset,0x0040F8C0,function
 Th09EclRunControl::VectorAngle,0x00405700,function
 PlayerAngleView::AngleToPoint,0x0041BB70,function
 AddNormalizeAngle,0x0042AED0,function
+SoundPlayer::PlaySoundByIdx,0x0043E2F0,function
+SoundPlayer::PlaySoundPositionedByIdx,0x0043E380,function

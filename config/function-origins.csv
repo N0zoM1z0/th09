@@ -880,8 +880,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043E1A0,authored_game,SoundPlayer,authored,high,packet115-soundplayer-wav-helper-vc71-exact-2026-09-13
 0x0043E1F0,authored_game,SoundPlayer,authored,high,packet113-soundplayer-get-fmt-index-vc71-exact-2026-09-13
 0x0043E2C0,authored_game,SoundPlayer,authored,high,packet190-small-leaves-2026-09-17
-0x0043E2F0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0043E380,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0043E2F0,authored_game,SoundPlayer,authored,high,soundplayer-play-sound-by-idx-vc71-exact-2026-09-17
+0x0043E380,authored_game,SoundPlayer,authored,high,soundplayer-play-positioned-sound-vc71-exact-2026-09-17
 0x0043E420,authored_game,SoundManager,authored,high,packet123-zun-audio-accessors-vc71-exact-2026-09-14
 0x0043E430,authored_game,SoundManager,authored,high,packet123-zun-audio-accessors-vc71-exact-2026-09-14
 0x0043E440,authored_game,SoundManager,authored,high,packet123-zun-streaming-fade-vc71-exact-2026-09-14

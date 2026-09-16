@@ -565,3 +565,5 @@ PlayerOwnerStateResetView::PrepareReset
 Th09EclRunControl::VectorAngle
 PlayerAngleView::AngleToPoint
 AddNormalizeAngle
+SoundPlayer::PlaySoundByIdx
+SoundPlayer::PlaySoundPositionedByIdx
