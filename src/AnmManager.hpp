@@ -81,6 +81,8 @@ class AnmManager
     void ClearSprite();
     void ClearVertexShader();
     void ClearZWrite();
+    void ResetFrameDebugInfo();
+    void ClearCameraSettings();
     int ExecuteScript(AnmVm *vm);
     void ExecuteScriptArray(AnmVm *vm, int count);
     void SetInterruptArray(AnmVm *vm, int count, short interrupt);

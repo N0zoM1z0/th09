@@ -499,3 +499,15 @@ EtamaController::Initialize
 EtamaController::ResetProjectiles
 PlayerCollisionQueryStateView::AppendLaserRecord
 EtamaController::EtamaController
+EtamaController::ClearBulletsForTransition
+EtamaController::RemoveAllBullets
+EtamaController::RemoveBulletsInRadius
+Supervisor::Is16BitTexturesForced
+Supervisor::IsReferenceRasterizerForced
+Supervisor::IsWindowed
+AnmManager::ClearCameraSettings
+Supervisor::IsDirectInputDisabled
+Supervisor::IsVsyncDisabled
+Supervisor::IsTextBackgroundDetectionDisabled
+SupervisorSubthreadIsRunning
+AnmManager::ResetFrameDebugInfo

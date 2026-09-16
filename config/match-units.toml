@@ -8894,3 +8894,125 @@ relocations = [
   { offset = 0x6A, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
   { offset = 0x71, type = "REL32", symbol = "?Initialize@EtamaController@@QAEXXZ", target = 0x004123C0 },
 ]
+
+[units.etama-controller-remove-all-bullets]
+source = "src/EtamaRemoval.cpp"
+object = "build/matching/EtamaRemoval.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EtamaController::RemoveAllBullets"]
+symbol = "?RemoveAllBullets@EtamaController@@QAEXH@Z"
+target_address = 0x00412590
+size = 0x3
+relocations = []
+
+[units.etama-controller-remove-bullets-in-radius]
+source = "src/EtamaRemoval.cpp"
+object = "build/matching/EtamaRemoval.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EtamaController::RemoveBulletsInRadius"]
+symbol = "?RemoveBulletsInRadius@EtamaController@@QAEXPBUFloat3@@M@Z"
+target_address = 0x004125A0
+size = 0x3
+relocations = []
+
+[units.etama-controller-clear-bullets-for-transition]
+source = "src/EtamaTransition.cpp"
+object = "build/matching/EtamaTransition.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EtamaController::ClearBulletsForTransition"]
+symbol = "?ClearBulletsForTransition@EtamaController@@QAEXXZ"
+target_address = 0x00405650
+size = 0x8
+relocations = [
+  { offset = 0x03, type = "REL32", symbol = "?RemoveAllBullets@EtamaController@@QAEXH@Z", target = 0x00412590 },
+]
+
+[units.supervisor-is-16bit-textures-forced]
+source = "src/SupervisorRenderState.cpp"
+object = "build/matching/SupervisorRenderState.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Supervisor::Is16BitTexturesForced"]
+symbol = "?Is16BitTexturesForced@Supervisor@@QAEHXZ"
+target_address = 0x0042D2B0
+size = 0xA
+relocations = []
+
+[units.supervisor-is-windowed]
+source = "src/SupervisorRenderState.cpp"
+object = "build/matching/SupervisorRenderState.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Supervisor::IsWindowed"]
+symbol = "?IsWindowed@Supervisor@@QAEHXZ"
+target_address = 0x0042D2D0
+size = 0x8
+relocations = []
+
+[units.supervisor-is-reference-rasterizer-forced]
+source = "src/SupervisorRenderState.cpp"
+object = "build/matching/SupervisorRenderState.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Supervisor::IsReferenceRasterizerForced"]
+symbol = "?IsReferenceRasterizerForced@Supervisor@@QAEHXZ"
+target_address = 0x0042D2C0
+size = 0xC
+relocations = []
+
+[units.supervisor-is-direct-input-disabled]
+source = "src/SupervisorRenderState.cpp"
+object = "build/matching/SupervisorRenderState.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Supervisor::IsDirectInputDisabled"]
+symbol = "?IsDirectInputDisabled@Supervisor@@QAEHXZ"
+target_address = 0x0042ED30
+size = 0xD
+relocations = []
+
+[units.supervisor-is-vsync-disabled]
+source = "src/SupervisorRenderState.cpp"
+object = "build/matching/SupervisorRenderState.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Supervisor::IsVsyncDisabled"]
+symbol = "?IsVsyncDisabled@Supervisor@@QAEHXZ"
+target_address = 0x0042ED50
+size = 0xD
+relocations = []
+
+[units.supervisor-is-text-background-detection-disabled]
+source = "src/SupervisorRenderState.cpp"
+object = "build/matching/SupervisorRenderState.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Supervisor::IsTextBackgroundDetectionDisabled"]
+symbol = "?IsTextBackgroundDetectionDisabled@Supervisor@@QAEHXZ"
+target_address = 0x0042ED60
+size = 0xD
+relocations = []
+
+[units.anm-manager-reset-frame-debug-info]
+source = "src/AnmManagerStateReset.cpp"
+object = "build/matching/AnmManagerStateReset.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::ResetFrameDebugInfo"]
+symbol = "?ResetFrameDebugInfo@AnmManager@@QAEXXZ"
+target_address = 0x0042F760
+size = 0xF
+relocations = []
+
+[units.anm-manager-clear-camera-settings]
+source = "src/AnmManagerStateReset.cpp"
+object = "build/matching/AnmManagerStateReset.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::ClearCameraSettings"]
+symbol = "?ClearCameraSettings@AnmManager@@QAEXXZ"
+target_address = 0x0042D2E0
+size = 0x8
+relocations = []
+
+[units.supervisor-subthread-is-running]
+source = "src/SupervisorSubthread.cpp"
+object = "build/matching/SupervisorSubthread.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorSubthreadIsRunning"]
+symbol = "?SupervisorSubthreadIsRunning@@YIHPAVSupervisor@@@Z"
+target_address = 0x0042ED70
+size = 0xE
+relocations = []

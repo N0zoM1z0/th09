@@ -307,6 +307,9 @@ struct EtamaController
     void Initialize();
     void ResetProjectiles();
     int ClearDrawBuckets();
+    void RemoveAllBullets(int mode);
+    void RemoveBulletsInRadius(const Float3 *position, float radius);
+    void ClearBulletsForTransition();
     Bullet *SpawnSingleBullet(
         BulletSpawnDescriptor *descriptor, int index1, int index2,
         float angleToPlayer, int poolIndex);

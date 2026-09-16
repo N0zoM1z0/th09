@@ -28,6 +28,36 @@ int Supervisor::IsMusicPreloaded()
     return (this->config388.options >> 4) & 1;
 }
 
+int Supervisor::Is16BitTexturesForced()
+{
+    return this->config388.options & 1;
+}
+
+int Supervisor::IsWindowed()
+{
+    return this->config388.windowed;
+}
+
+int Supervisor::IsReferenceRasterizerForced()
+{
+    return (this->config388.options >> 1) & 1;
+}
+
+int Supervisor::IsDirectInputDisabled()
+{
+    return (this->config388.options >> 3) & 1;
+}
+
+int Supervisor::IsVsyncDisabled()
+{
+    return (this->config388.options >> 5) & 1;
+}
+
+int Supervisor::IsTextBackgroundDetectionDisabled()
+{
+    return (this->config388.options >> 6) & 1;
+}
+
 int Supervisor::EnableFog()
 {
     SupervisorRenderStateLayout *supervisor =

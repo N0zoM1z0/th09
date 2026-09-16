@@ -500,3 +500,15 @@ EtamaController::Initialize,0x004123C0,function
 EtamaController::ResetProjectiles,0x00412470,function
 PlayerCollisionQueryStateView::AppendLaserRecord,0x00412830,function
 EtamaController::EtamaController,0x00415050,function
+EtamaController::ClearBulletsForTransition,0x00405650,function
+EtamaController::RemoveAllBullets,0x00412590,function
+EtamaController::RemoveBulletsInRadius,0x004125A0,function
+Supervisor::Is16BitTexturesForced,0x0042D2B0,function
+Supervisor::IsReferenceRasterizerForced,0x0042D2C0,function
+Supervisor::IsWindowed,0x0042D2D0,function
+AnmManager::ClearCameraSettings,0x0042D2E0,function
+Supervisor::IsDirectInputDisabled,0x0042ED30,function
+Supervisor::IsVsyncDisabled,0x0042ED50,function
+Supervisor::IsTextBackgroundDetectionDisabled,0x0042ED60,function
+SupervisorSubthreadIsRunning,0x0042ED70,function
+AnmManager::ResetFrameDebugInfo,0x0042F760,function
