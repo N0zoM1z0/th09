@@ -79,7 +79,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004048E0,authored_game,Rng,authored,high,packet186-runtime-accessor-rng-leaves-2026-09-17
 0x00404910,authored_game,Rng,authored,high,packet186-runtime-accessor-rng-leaves-2026-09-17
 0x00404920,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00404950,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00404950,authored_game,ZunTimer,authored,high,packet187-small-support-leaves-2026-09-17
 0x00404970,authored_game,GameManager,authored,high,packet170-ending-playstats-2026-09-16
 0x00404980,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004049A0,authored_game,Player,authored,high,packet-149-core-boss-owner-triage
@@ -346,7 +346,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041A8A2,authored_game,GameConfiguration,authored,high,game-configuration-initialize-vc71-exact-2026-09-11
 0x0041A98B,authored_game,GameConfiguration,authored,high,game-configuration-constructor-vc71-exact-2026-09-11
 0x0041A997,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041A9AC,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041A9AC,authored_game,GameManager,authored,high,packet187-small-support-leaves-2026-09-17
 0x0041A9B8,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041AA07,authored_game,GameManager,authored,high,game-manager-advance-timed-state-vc71-exact-2026-09-11
 0x0041AA5F,authored_game,GameManager,authored,high,game-manager-onupdate-hard-recheck-2026-09-11
@@ -631,7 +631,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042F3B0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042F3D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042F3F0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042F400,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042F400,authored_game,AnmManager,authored,high,packet187-small-support-leaves-2026-09-17
 0x0042F420,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042F490,authored_game,ZunTimer,authored,high,runtime-support-leaf-target-replay-2026-09-16
 0x0042F4F0,authored_game,Supervisor,authored,high,supervisor-tick-timer-origin-2026-09-11
@@ -653,7 +653,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00430150,authored_game,Supervisor,authored,high,supervisor-check-version-vc71-exact-2026-09-12
 0x00430220,authored_game,AsciiManager,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13
 0x00430230,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004302A0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004302A0,authored_game,AsciiManager,authored,high,packet187-small-support-leaves-2026-09-17
 0x004302B0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00430360,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004303C0,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -793,7 +793,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00439560,authored_game,AnmManager,authored,high,packet128-anm-runtime-vc71-exact-2026-09-15
 0x004395A0,authored_game,AnmManager,authored,high,packet128-anm-runtime-vc71-exact-2026-09-15
 0x00439630,authored_game,AnmManager,authored,high,packet128-anm-runtime-vc71-exact-2026-09-15
-0x00439680,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00439680,authored_game,AnmManager,authored,high,packet187-small-support-leaves-2026-09-17
 0x004396A0,authored_game,AnmManager,authored,high,packet98-render-primitives-vc71-exact-2026-09-13
 0x00439730,authored_game,AnmManager,authored,high,packet99-anm-render-core-vc71-exact-2026-09-13
 0x004397E0,authored_game,AnmManager,authored,high,packet101-anm-draw-geometry-vc71-2026-09-13

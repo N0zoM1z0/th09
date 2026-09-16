@@ -75,6 +75,11 @@ unsigned int ZunTimer::operator<=(int value)
     return this->current <= value;
 }
 
+int ZunTimer::operator==(int value)
+{
+    return this->current == value;
+}
+
 void ZunTimer::Increment(float value)
 {
     ZunTimerSupervisorLayout *supervisor =

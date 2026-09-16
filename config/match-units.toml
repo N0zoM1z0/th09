@@ -9256,3 +9256,53 @@ size = 0xF
 relocations = [
   { offset = 0x4, type = "REL32", symbol = "?GetRandomF32Signed@RngRuntimeView@@QAEMXZ", target = 0x0042AEA0 },
 ]
+
+[units.zun-timer-equal-int]
+source = "src/ZunTimer.cpp"
+object = "build/matching/ZunTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::operator=="]
+symbol = "??8ZunTimer@@QAEHH@Z"
+target_address = 0x00404950
+size = 0x14
+relocations = []
+
+[units.supervisor-audio-has-flag-bit1]
+source = "src/SupervisorAudio.cpp"
+object = "build/matching/SupervisorAudio.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorAudioGameManagerView::HasFlagBit1"]
+symbol = "?HasFlagBit1@SupervisorAudioGameManagerView@?A0xfb5c156d@@QAEHXZ"
+target_address = 0x0041A9AC
+size = 0x0C
+relocations = []
+
+[units.supervisor-draw-get-surface]
+source = "src/SupervisorDrawMainLeaves.cpp"
+object = "build/matching/SupervisorDrawMainLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorDrawMainAnmManagerView::GetSurface"]
+symbol = "?GetSurface@SupervisorDrawMainAnmManagerView@@QAEPAXH@Z"
+target_address = 0x0042F400
+size = 0x11
+relocations = []
+
+[units.supervisor-draw-set-alpha]
+source = "src/SupervisorDrawMainLeaves.cpp"
+object = "build/matching/SupervisorDrawMainLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorDrawMainAsciiManagerView::SetAlpha"]
+symbol = "?SetAlpha@SupervisorDrawMainAsciiManagerView@@QAEXH@Z"
+target_address = 0x004302A0
+size = 0x10
+relocations = []
+
+[units.supervisor-draw-reset-state]
+source = "src/SupervisorDrawMainLeaves.cpp"
+object = "build/matching/SupervisorDrawMainLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorDrawMainAnmManagerView::ResetDrawState"]
+symbol = "?ResetDrawState@SupervisorDrawMainAnmManagerView@@QAEXXZ"
+target_address = 0x00439680
+size = 0x1D
+relocations = []

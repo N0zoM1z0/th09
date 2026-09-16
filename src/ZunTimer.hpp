@@ -24,6 +24,7 @@ struct ZunTimer
     unsigned int operator>=(int value);
     unsigned int operator<(int value);
     unsigned int operator<=(int value);
+    int operator==(int value);
     unsigned int operator>(int value);
     void operator=(int value);
 };

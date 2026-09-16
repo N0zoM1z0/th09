@@ -530,3 +530,8 @@ RngRuntimeView::GetRandomF32Signed
 RngRuntimeView::GetRandomU32InRange
 RngRuntimeView::GetRandomF32InRange
 RngRuntimeView::GetRandomF32SignedInRange
+ZunTimer::operator==
+SupervisorAudioGameManagerView::HasFlagBit1
+SupervisorDrawMainAnmManagerView::GetSurface
+SupervisorDrawMainAsciiManagerView::SetAlpha
+SupervisorDrawMainAnmManagerView::ResetDrawState

@@ -63,6 +63,11 @@ extern SupervisorMusicTrackRecord g_SupervisorMusicTracks[];
 extern unsigned char g_MusicUnlocked[];
 extern int g_SoundPlayerBgmValue;
 
+int SupervisorAudioGameManagerView::HasFlagBit1()
+{
+    return (this->flags >> 1) & 1;
+}
+
 int Supervisor::PlayMusic(int trackId, int unused)
 {
     unsigned int index;
