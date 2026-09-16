@@ -483,7 +483,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004230FF,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x00423158,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00423182,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
-0x00423361,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00423361,authored_game,Midi,authored,high,packet189-midi-resource-leaves-2026-09-17
 0x00423382,authored_game,Supervisor,authored,high,packet188-small-accessor-leaves-2026-09-17
 0x004233A3,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004233F4,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -613,7 +613,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042E9E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042EAC0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042EB80,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042EC00,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042EC00,authored_game,Midi,authored,high,packet189-midi-resource-leaves-2026-09-17
 0x0042EC30,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042ECF0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042ED30,authored_game,Supervisor,authored,high,packet182-leaf-exact-target-replay-2026-09-16
@@ -629,7 +629,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042F100,authored_game,Supervisor,authored,high,supervisor-version-data-load-vc71-exact-2026-09-12
 0x0042F1A0,authored_game,Supervisor,authored,high,supervisor-check-fps-vc71-exact-2026-09-11
 0x0042F3B0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042F3D0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042F3D0,authored_game,AnmManager,authored,high,packet189-midi-resource-leaves-2026-09-17
 0x0042F3F0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042F400,authored_game,AnmManager,authored,high,packet187-small-support-leaves-2026-09-17
 0x0042F420,unknown,,review,unknown,ida-1.50a-initial-inventory

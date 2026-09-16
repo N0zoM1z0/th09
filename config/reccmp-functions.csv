@@ -539,3 +539,6 @@ SupervisorDrawMainAnmManagerView::ResetDrawState,0x00439680,function
 PlayerSharedRuntimeView::IsBlocked,0x00404980,function
 PlayerLifecycleView::InitializeType,0x0041BDE0,function
 TitleSupervisorView::ClearRecordingFpsWarningState,0x00423382,function
+MidiOutput::PlayFile,0x00423361,function
+MidiPlaybackPathView::PlayPath,0x0042EC00,function
+AnmManager::ReleaseVertexBuffer,0x0042F3D0,function

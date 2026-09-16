@@ -75,6 +75,7 @@ class AnmManager
     int DrawTriangleFan(AnmVm *vm, VertexDiffuseXyzrhw *vertices, int vertexCount);
     int DrawTexturedTriangleFan(AnmVm *vm, VertexTex1DiffuseXyzrhw *vertices, int vertexCount);
     void SetupVertexBuffer();
+    void ReleaseVertexBuffer();
     void ClearBlendMode();
     void ClearColorOp();
     void ClearTexture();

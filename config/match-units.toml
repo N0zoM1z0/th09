@@ -9336,3 +9336,41 @@ symbol = "?ClearRecordingFpsWarningState@TitleSupervisorView@@QAEHXZ"
 target_address = 0x00423382
 size = 0x21
 relocations = []
+
+[units.midi-play-file-index]
+source = "src/MidiPlaybackLeaves.cpp"
+object = "build/matching/MidiPlaybackLeavesTitle.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiOutput::PlayFile(int)"]
+symbol = "?PlayFile@MidiOutput@@QAEXH@Z"
+target_address = 0x00423361
+size = 0x21
+relocations = [
+  { offset = 0x07, type = "REL32", symbol = "?StopPlayback@MidiOutput@@QAE?AW4ZunResult@@XZ", target = 0x0043DE30 },
+  { offset = 0x11, type = "REL32", symbol = "?ParseFile@MidiOutput@@QAE?AW4ZunResult@@H@Z", target = 0x0043D5E0 },
+  { offset = 0x18, type = "REL32", symbol = "?Play@MidiOutput@@QAE?AW4ZunResult@@XZ", target = 0x0043D750 },
+]
+
+[units.midi-play-file-path]
+source = "src/MidiPlaybackLeaves.cpp"
+object = "build/matching/MidiPlaybackLeavesSupervisor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["MidiPlaybackPathView::PlayPath"]
+symbol = "?PlayPath@MidiPlaybackPathView@@QAEXPBD@Z"
+target_address = 0x0042EC00
+size = 0x22
+relocations = [
+  { offset = 0x07, type = "REL32", symbol = "?StopPlayback@MidiOutput@@QAE?AW4ZunResult@@XZ", target = 0x0043DE30 },
+  { offset = 0x12, type = "REL32", symbol = "?LoadFile@MidiOutput@@QAE?AW4ZunResult@@PBD@Z", target = 0x0043E130 },
+  { offset = 0x19, type = "REL32", symbol = "?Play@MidiOutput@@QAE?AW4ZunResult@@XZ", target = 0x0043D750 },
+]
+
+[units.anm-manager-release-vertex-buffer]
+source = "src/AnmManagerVertexBuffer.cpp"
+object = "build/matching/AnmManagerVertexBuffer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::ReleaseVertexBuffer"]
+symbol = "?ReleaseVertexBuffer@AnmManager@@QAEXXZ"
+target_address = 0x0042F3D0
+size = 0x1F
+relocations = []

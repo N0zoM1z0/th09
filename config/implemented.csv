@@ -538,3 +538,6 @@ SupervisorDrawMainAnmManagerView::ResetDrawState
 PlayerSharedRuntimeView::IsBlocked
 PlayerLifecycleView::InitializeType
 TitleSupervisorView::ClearRecordingFpsWarningState
+MidiOutput::PlayFile
+MidiPlaybackPathView::PlayPath
+AnmManager::ReleaseVertexBuffer
