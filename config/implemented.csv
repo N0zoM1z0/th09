@@ -400,3 +400,5 @@ TitleScreenView::ActualAddedCallback
 TitleScreenView::AddedCallback
 TitleScreenView::Release
 TitleScreenView::DeletedCallback
+TitleScreenView::SetMenuSelectionSprites
+TitleScreenView::UpdateMenuSelection

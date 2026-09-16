@@ -7590,3 +7590,31 @@ relocations = [
   { offset = 0x50, type = "REL32", symbol = "?Release@TitleScreenView@@QAEHXZ", target = 0x00424D4B },
   { offset = 0x56, type = "REL32", symbol = "_free", target = 0x0047B249 },
 ]
+
+
+# TitleScreen shared menu-selection UI helpers. Return type remains source-level
+# reconstruction; target exactness is code/relocation equality only.
+[units.title-screen-set-menu-selection-sprites]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::SetMenuSelectionSprites"]
+symbol = "?SetMenuSelectionSprites@TitleScreenView@@QAEXHHH@Z"
+target_address = 0x00424DFF
+size = 0x96
+relocations = [
+  { offset = 0x3A, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+  { offset = 0x7F, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+]
+
+[units.title-screen-update-menu-selection]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::UpdateMenuSelection"]
+symbol = "?UpdateMenuSelection@TitleScreenView@@QAEXXZ"
+target_address = 0x004276D7
+size = 0x14
+relocations = [
+  { offset = 0x0F, type = "REL32", symbol = "?SetMenuSelectionSprites@TitleScreenView@@QAEXHHH@Z", target = 0x00424DFF },
+]

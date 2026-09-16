@@ -401,3 +401,5 @@ TitleScreenView::ActualAddedCallback,0x00424BF7,function
 TitleScreenView::AddedCallback,0x00424D46,function
 TitleScreenView::Release,0x00424D4B,function
 TitleScreenView::DeletedCallback,0x00424D9F,function
+TitleScreenView::SetMenuSelectionSprites,0x00424DFF,function
+TitleScreenView::UpdateMenuSelection,0x004276D7,function

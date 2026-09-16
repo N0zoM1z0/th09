@@ -3368,3 +3368,75 @@ They total 520 newly exact authored bytes. Two final cold passes independently r
 - The accepted snapshot's current ledger summary is `2164 candidates / 469 authored / 35 excluded / 402 source-present / 363 exact`. Reviewed authored exactness is `363/469` functions (`77.3987206823%`) and `369039/399947` bytes (`92.2718127154%`). Reviewed authored source presence is `402/469` functions (`85.7142857143%`) and `390440/399947` bytes (`97.6229351640%`).
 - Acceptance remains claim-plane specific. It does not promote `TitleScreenView::TitleSetupThread @ 0x004249E1` from its repository `537 candidate / 534 target` NON-EXACT state, does not establish whole-image exactness, and does not close the exact-reconstruction phase. The accepted snapshot explicitly keeps `whole_build_closed=false`, `whole_image_exact=false`, semantic reconstruction not started, runtime validation not started, and portability not started.
 - The snapshot query itself changed no repository source, ledgers, generated progress, target bytes, build state, runtime state, or IDA metadata. This audit is documentation-only. Nothing was pushed.
+
+## Packet 169 checkpoint — TitleScreen shared menu UI and Options correction (2026-09-16)
+
+### Recovery and starting state
+
+- This packet starts from clean `main @ 87e6614d6edeeb82f31665c9c8e4248653b3452e`, upstream `origin/main`, `+10/-0`, after the preceding Packet-168 primary reconstruction and documentation-only acceptance audit were checkpointed. There were `0 staged / 0 unstaged / 0 untracked / 0 conflicts` at Packet-169 selection time.
+- The ignored private `resources/th09.exe` remained mode `0444`, size `685056`, SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`; it was not modified, moved, replaced, staged, or committed. `/mnt` was not searched and `TH09_TARGET_PATH` was not set.
+- TH08 committed HEAD `a45e99fb1942714e6edded20847e32a654d56f97` was clean when consulted. TH095 live state was not used as evidence for this packet. No adjacent address, layout, ownership, or exactness fact was transferred.
+- Native `th09-ida` remained strongly attested to `target:th09-main` over `factory-native-stdio`. Several Factory transport-only `network_error` events occurred during this conversation; after each interruption live Git status was re-inspected and target-dependent IDA work resumed only after a fresh `get_metadata {}` attestation passed.
+
+### Frontier rotation and packet selection
+
+Several candidate routes were challenged before editing rather than accepted from handoff text:
+
+- Fresh IDA disproved the prior `0x00427893` "MenuWatcherThread" hypothesis: the address is inside the already reviewed 2,045-byte `TitleScreenView::OnUpdateOptions` owner, not an independent function. No candidate or ledger row was invented for it.
+- The GameManager calc/draw callback route was already mature: `OnDraw @ 0x0041A75F` is canonical exact while `OnUpdate @ 0x0041AA5F` is a previously probed 1,230-byte hard non-exact owner. It was not repeated as a false new migration.
+- TH08 has a complete ItemManager source family, but TH09 currently exposes no safe target-local manager anchor through names, registration strings, or the reviewed ECL item-drop setters. The route was retained as unknown rather than matching functions by size or familiarity.
+- The selected connected seam is `SetMenuSelectionSprites @ 0x00424DFF` plus its direct wrapper `UpdateMenuSelection @ 0x004276D7`, both previously `unknown/review`, together with a hard-frontier re-audit of the adjacent 2,045-byte `OnUpdateOptions @ 0x004276EB`. These helpers are reused across StartMenu, Options, and other TitleScreen menu states, so the packet improves a shared module surface rather than harvesting unrelated leaves.
+
+### TH09-local source and ABI recovery
+
+Fresh target disassembly fixes the two helper bodies:
+
+- `TitleScreenView::SetMenuSelectionSprites @ 0x00424DFF-0x00424E94` walks `count` VMs from `start`, assigns each non-selected entry the next sprite (`baseSpriteIndex + 1`) and interrupt 8, then restores `start + selected` to its base sprite and interrupt 7.
+- `TitleScreenView::UpdateMenuSelection @ 0x004276D7-0x004276EA` forwards `keyboardSelection`, `menuVmStart`, and `menuItemCount` to that helper.
+
+Neither target function explicitly constructs a return value. The apparent IDA `int` return is register residue (`SetMenuSelectionSprites` ends with a VM-base reload and the wrapper returns directly after the call). Maintained source therefore uses natural `void` declarations/definitions and records the original C++ return-type spelling as unknown. No prototype was forced into IDA.
+
+The connected `OnUpdateOptions` owner received a semantic correction from fresh TH09 target evidence. The previous maintained source performed `SetSprite` on `vms[32]` for the SFX volume ones digit; the target has no corresponding call and proceeds directly from SFX hundreds/tens display handling to `MoveCursorVertical(9)`. That target-absent behavior was removed. This deliberately moves compiler size from the old misleading `2050/2045` near-match to the more accurate `2005/2045` maintained source. Exactness is still false. A single natural function-scope VM-pointer/help-text loop probe was also tried because the target maintains separate VM and text-index traversal; it left the owner at `2005/2045` and was not retained. No register/volatile/pragma/padding/assembly trick was attempted.
+
+### Exactness and regression results
+
+Two new repository-defined canonical units are exact under the established TitleScreen VC7.1 `/MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Gr /O1 /Ob1 /Oy- /I src` profile:
+
+- `TitleScreenView::SetMenuSelectionSprites @ 0x00424DFF`: `150/150` bytes, with two reviewed `SetSprite @ 0x00436AC0` relocations.
+- `TitleScreenView::UpdateMenuSelection @ 0x004276D7`: `20/20` bytes, with one reviewed relocation to `SetMenuSelectionSprites @ 0x00424DFF`.
+
+Each unit was rebuilt and replayed independently in two final cold passes and returned `result=exact` in both. Connected regressions also remain exact in both passes: `MoveCursorHorizontal 112/112`, `MoveCursorVertical 135/135`, `MoveCursorFourWay 217/217`, `UpdateCharacterSettings 168/168`, `OnUpdateResultNameEntry 966/966`, and `PlayMenuSound 34/34`.
+
+`OnUpdateOptions` was independently rebuilt in both final cold passes and remains `2005 candidate / 2045 target`, NON-EXACT. The older `2050/2045` observation is retained only as historical context and is superseded as the maintained baseline because it contained target-absent behavior.
+
+Close-of-packet repository truth before commit is `2164 candidates / 471 authored / 35 excluded / 404 source-present / 365 exact / 1658 pending`; the match-unit graph contains 391 units.
+
+### Shared IDA metadata
+
+No target bytes were writable or modified. Under passed native attestation, comments were written for the two shared helpers and the Options owner. The helper comments record repository replay evidence while explicitly stating that IDA metadata itself has `exactness_credit=none` and original return type remains unresolved. The `OnUpdateOptions @ 0x004276EB` comment was replaced with the Packet-169 correction: target-absent SFX VM-32 behavior removed, maintained source now `2005/2045` NON-EXACT, old numerical near-match superseded. Decompiler readback shows the new Options comment.
+
+### Validation and product-state separation
+
+- Final target verification, target-bound tracking, reconstruction status, the 391-unit graph, generated progress, public CI, and whitespace all pass.
+- `scripts/build.py` was actually rerun after final cold replays and remains `rc=2/open`: project compile flags, TU partition, libraries, resources, and link order are unresolved.
+- Source presence: 404 official mappings. Repository-canonical exactness: 365 functions. Whole Windows i386 build: open. Runtime validation: not attempted. Semantic reconstruction and portability: not started.
+- Factory/Truth-Kernel acceptance remains a separate post-commit query; no Packet-169 acceptance is inferred from repository exact rows or IDA metadata.
+
+### Artifact lifecycle
+
+- Whole `.analysis/` was approximately `65,168 KiB` at the immediately preceding checkpoint and is approximately `67,104 KiB` before Packet-169 commit. The bounded current campaign `.analysis/gpt-web/20260916-th09-title-menu-ui/` is approximately `140 KiB`, 28 files, 52,430 retained file bytes, maximum file 13,751 bytes, and no file above 64 MiB.
+- Only current-session, explicitly owned and reproducible artifacts superseded by final cold evidence were removed: the temporary pre-loop source copy, two loop-probe build logs/comparison files, first-pass structural helper comparisons, initial build logs, and temporary target/object objdump files. Final A/B exact receipts, Options negative receipts, canonical helper receipts, and the whole-build diagnostic are retained and manifest-bound.
+- Any growth outside this campaign remains legacy/unknown or other-session analysis state and was neither trusted nor deleted. No IDB, target, toolchain, Wine prefix, or another process's output was removed.
+
+### Remaining unknowns and next route
+
+- The original C++ return types of `SetMenuSelectionSprites` and `UpdateMenuSelection` remain unknown despite natural `void` source reproducing their target bodies exactly. Exact codegen does not prove declaration spelling.
+- `OnUpdateOptions` remains a materially large hard frontier at `2005/2045`; the current residual is not pursued with compiler-shaping source. The fresh semantic correction is more important than preserving the older five-byte numerical residual.
+- TH09 ItemManager remains an attractive adjacent-game migration target, but no target-local owner anchor has yet been established. Do not identify it by TH08 size/layout similarity; first locate a TH09 spawn/update/draw call or registration/data owner.
+- The next packet should remain reuse-heavy and owner-connected. A useful route is to close another TitleScreen helper/owner cohort only if it challenges a new medium/large owner, or rotate to a different adjacent-game module after target-local registration/callgraph anchoring. Do not immediately return to compiler-shaping the Options owner or harvest isolated tiny helpers.
+
+### Checkpoint plan
+
+- Planned primary subject: `gpt-web: reconstruct TitleScreen menu UI`.
+- Primary checkpoint hash: pending local commit.
+- Nothing has been pushed.

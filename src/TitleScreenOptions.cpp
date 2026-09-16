@@ -118,8 +118,8 @@ struct TitleScreenView {
     int PlayMenuSound(i32 soundId, i32 unused);
     int ChangeCurrentScreen(i32 screen);
     int MoveCursorVertical(i32 count);
-    int UpdateMenuSelection();
-    int SetMenuSelectionSprites(i32 selected, i32 start, i32 count);
+    void UpdateMenuSelection();
+    void SetMenuSelectionSprites(i32 selected, i32 start, i32 count);
     int OnUpdateStartMenu();
     int OnUpdateOptions();
 };
@@ -216,8 +216,6 @@ int TitleScreenView::OnUpdateOptions()
             vms[31].color1Bytes[3] = 0;
             vms[31].flags &= ~2u;
         }
-        titleAnm->SetSprite(&vms[32], vms[32].baseSpriteIndex + (g_TitleSfxVolume % 10) * 2);
-
         if (MoveCursorVertical(9))
             UpdateMenuSelection();
 

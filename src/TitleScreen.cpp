@@ -354,8 +354,8 @@ struct TitleScreenView {
     int MoveCursorVertical(i32 count);
     int MoveCursorHorizontal(i32 count);
     int MoveCursorFourWay(i32 count);
-    int UpdateMenuSelection();
-    int SetMenuSelectionSprites(i32 selected, i32 start, i32 count);
+    void UpdateMenuSelection();
+    void SetMenuSelectionSprites(i32 selected, i32 start, i32 count);
     int OnUpdateOptions();
     int OnUpdateCharacterSelect();
     int OnUpdateResultNameEntry();
@@ -720,6 +720,26 @@ int TitleScreenView::MoveCursorHorizontal(i32 count)
 
     g_SoundPlayer.PlaySoundByIdx(12, 0);
     return direction;
+}
+
+
+void TitleScreenView::SetMenuSelectionSprites(i32 selected, i32 start, i32 count)
+{
+    for (i32 index = start; index < start + count; index++)
+    {
+        titleAnm->SetSprite(&vms[index], vms[index].baseSpriteIndex + 1);
+        vms[index].pendingInterrupt = 8;
+    }
+
+    i32 selectedIndex = selected + start;
+    titleAnm->SetSprite(&vms[selectedIndex], vms[selectedIndex].baseSpriteIndex);
+    vms[selectedIndex].pendingInterrupt = 7;
+}
+
+
+void TitleScreenView::UpdateMenuSelection()
+{
+    SetMenuSelectionSprites(keyboardSelection, menuVmStart, menuItemCount);
 }
 
 
