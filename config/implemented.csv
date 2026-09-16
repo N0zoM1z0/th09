@@ -511,3 +511,7 @@ Supervisor::IsVsyncDisabled
 Supervisor::IsTextBackgroundDetectionDisabled
 SupervisorSubthreadIsRunning
 AnmManager::ResetFrameDebugInfo
+SupervisorNetworkMarkActive
+SupervisorNetworkMarkInactive
+ResetSupervisorServiceChannels
+AnmManager::ResetForSupervisorFrame

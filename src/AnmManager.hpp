@@ -83,6 +83,7 @@ class AnmManager
     void ClearZWrite();
     void ResetFrameDebugInfo();
     void ClearCameraSettings();
+    void ResetForSupervisorFrame();
     int ExecuteScript(AnmVm *vm);
     void ExecuteScriptArray(AnmVm *vm, int count);
     void SetInterruptArray(AnmVm *vm, int count, short interrupt);

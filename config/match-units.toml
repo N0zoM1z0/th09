@@ -9016,3 +9016,57 @@ symbol = "?SupervisorSubthreadIsRunning@@YIHPAVSupervisor@@@Z"
 target_address = 0x0042ED70
 size = 0xE
 relocations = []
+
+[units.anm-manager-reset-for-supervisor-frame]
+source = "src/AnmManagerSupervisorReset.cpp"
+object = "build/matching/AnmManagerSupervisorReset.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::ResetForSupervisorFrame"]
+symbol = "?ResetForSupervisorFrame@AnmManager@@QAEXXZ"
+target_address = 0x0042F770
+size = 0x4A
+relocations = [
+  { offset = 0x04, type = "REL32", symbol = "?ClearVertexShader@AnmManager@@QAEXXZ", target = 0x0040E380 },
+  { offset = 0x0B, type = "REL32", symbol = "?ClearSprite@AnmManager@@QAEXXZ", target = 0x0040E390 },
+  { offset = 0x12, type = "REL32", symbol = "?ClearTexture@AnmManager@@QAEXXZ", target = 0x004015F0 },
+  { offset = 0x19, type = "REL32", symbol = "?ClearColorOp@AnmManager@@QAEXXZ", target = 0x00415D00 },
+  { offset = 0x20, type = "REL32", symbol = "?ClearBlendMode@AnmManager@@QAEXXZ", target = 0x0040E370 },
+  { offset = 0x27, type = "REL32", symbol = "?ClearZWrite@AnmManager@@QAEXXZ", target = 0x00415D10 },
+  { offset = 0x2E, type = "REL32", symbol = "?ResetFrameDebugInfo@AnmManager@@QAEXXZ", target = 0x0042F760 },
+  { offset = 0x35, type = "REL32", symbol = "?ClearCameraSettings@AnmManager@@QAEXXZ", target = 0x0042D2E0 },
+  { offset = 0x3C, type = "REL32", symbol = "?SetMixColorDefault@AnmManager@@QAEXXZ", target = 0x00401610 },
+]
+
+[units.supervisor-network-mark-active]
+source = "src/SupervisorNetworkStateLeaves.cpp"
+object = "build/matching/SupervisorNetworkStateLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorNetworkMarkActive"]
+symbol = "?SupervisorNetworkMarkActive@@YIXPAX@Z"
+target_address = 0x0042E9A0
+size = 0x0B
+relocations = []
+
+[units.supervisor-network-mark-inactive]
+source = "src/SupervisorNetworkStateLeaves.cpp"
+object = "build/matching/SupervisorNetworkStateLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorNetworkMarkInactive"]
+symbol = "?SupervisorNetworkMarkInactive@@YIXPAX@Z"
+target_address = 0x0042E9B0
+size = 0x0B
+relocations = []
+
+[units.reset-supervisor-service-channels]
+source = "src/SupervisorServiceChannels.cpp"
+object = "build/matching/SupervisorServiceChannels.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ResetSupervisorServiceChannels"]
+symbol = "?ResetSupervisorServiceChannels@@YIXXZ"
+target_address = 0x0042E9C0
+size = 0x1B
+relocations = [
+  { offset = 0x03, type = "REL32", symbol = "?SampleNetworkInput@@YIFH@Z", target = 0x0042B850 },
+  { offset = 0x0D, type = "REL32", symbol = "?SampleNetworkInput@@YIFH@Z", target = 0x0042B850 },
+  { offset = 0x17, type = "REL32", symbol = "?SampleNetworkInput@@YIFH@Z", target = 0x0042B850 },
+]

@@ -607,9 +607,9 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042E910,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042E920,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042E980,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042E9A0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042E9B0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042E9C0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042E9A0,authored_game,Supervisor,authored,high,packet183-supervisor-frame-reset-leaves-2026-09-16
+0x0042E9B0,authored_game,Supervisor,authored,high,packet183-supervisor-frame-reset-leaves-2026-09-16
+0x0042E9C0,authored_game,Supervisor,authored,high,packet183-supervisor-frame-reset-leaves-2026-09-16
 0x0042E9E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042EAC0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042EB80,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -637,7 +637,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042F4F0,authored_game,Supervisor,authored,high,supervisor-tick-timer-origin-2026-09-11
 0x0042F540,authored_game,Supervisor,authored,high,supervisor-take-snapshot-vc71-exact-2026-09-11
 0x0042F760,authored_game,AnmManager,authored,high,packet182-leaf-exact-target-replay-2026-09-16
-0x0042F770,unknown,AnmManager,review,high,anm-manager-owner-callsite-2026-09-11
+0x0042F770,authored_game,AnmManager,authored,high,packet183-supervisor-frame-reset-leaves-2026-09-16
 0x0042F7C0,authored_game,Supervisor,authored,high,supervisor-load-config-vc71-exact-2026-09-11
 0x0042FBE0,authored_game,SoundPlayer,authored,high,packet122-soundplayer-update-fades-vc71-exact-2026-09-14
 0x0042FC20,authored_game,Supervisor,authored,high,packet110-supervisor-load-music-vc71-exact-2026-09-13

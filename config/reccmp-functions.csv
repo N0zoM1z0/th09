@@ -512,3 +512,7 @@ Supervisor::IsVsyncDisabled,0x0042ED50,function
 Supervisor::IsTextBackgroundDetectionDisabled,0x0042ED60,function
 SupervisorSubthreadIsRunning,0x0042ED70,function
 AnmManager::ResetFrameDebugInfo,0x0042F760,function
+SupervisorNetworkMarkActive,0x0042E9A0,function
+SupervisorNetworkMarkInactive,0x0042E9B0,function
+ResetSupervisorServiceChannels,0x0042E9C0,function
+AnmManager::ResetForSupervisorFrame,0x0042F770,function

@@ -1,4 +1,5 @@
 #include "Supervisor.hpp"
+#include "SupervisorNetworkState.hpp"
 
 #include <windows.h>
 #include <mmsystem.h>
@@ -35,41 +36,6 @@ struct NetworkFramePacket
     unsigned int packedInput;
 };
 
-struct SupervisorNetworkState
-{
-    void *peer;
-    void *deviceAddress;
-    unsigned char unknown008[0x08];
-    void *hostAddress;
-    unsigned int sendAsyncHandle;
-    unsigned int connectAsyncHandle;
-    unsigned int peerIds[2];
-    char hostname[0x80];
-    unsigned int port;
-    int active;
-    int localSide;
-    int packetReady;
-    int initialFramesQueued;
-    int connectionState;
-    int syncValue;
-    int joinMode;
-    unsigned char syncRate;
-    unsigned char unknown0C5[0x480 - 0x0C5];
-
-    int GetRemotePeerId();
-    void MarkActive();
-    void InsertReceivedFrame(int side, int frame, int packedInput, short seed);
-    void InsertPredictedFrame(int side, int frame, short seed);
-    int PopFrame(int side, unsigned short *seed, unsigned int *predicted);
-    int AreFrameQueuesSynchronized(int side);
-    int SendPacket(void *packet, int size);
-    int CreateDeviceAddress();
-    int CreateHostAddress();
-    unsigned int HostSession();
-    unsigned int ConnectSession();
-    int ResetSession();
-};
-
 struct SupervisorNetworkView
 {
     unsigned char unknown000[0x458];
@@ -93,12 +59,6 @@ typedef char NetworkHandshakePacketSizeIs0C[
     (sizeof(NetworkHandshakePacket) == 0x0C) ? 1 : -1];
 typedef char NetworkFramePacketSizeIs0C[
     (sizeof(NetworkFramePacket) == 0x0C) ? 1 : -1];
-typedef char NetworkStateActiveAtA8[
-    (offsetof(SupervisorNetworkState, active) == 0xA8) ? 1 : -1];
-typedef char NetworkStateSideAtAC[
-    (offsetof(SupervisorNetworkState, localSide) == 0xAC) ? 1 : -1];
-typedef char NetworkStateRateAtC4[
-    (offsetof(SupervisorNetworkState, syncRate) == 0xC4) ? 1 : -1];
 typedef char SupervisorNetworkFrameAt458[
     (offsetof(SupervisorNetworkView, frameCounter) == 0x458) ? 1 : -1];
 typedef char SupervisorNetworkMessageAt584[
@@ -108,7 +68,6 @@ typedef char SupervisorNetworkFlagsAt5D4[
 }
 
 extern ReplayRngNetworkView g_ReplayRng;
-extern SupervisorNetworkState *g_SupervisorNetworkState;
 extern NetworkFramePacket g_NetworkFramePacket;
 extern NetworkHandshakePacket g_NetworkHandshakePacket;
 extern int g_NetworkMessageManager;

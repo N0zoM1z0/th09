@@ -1,6 +1,7 @@
 #include "Supervisor.hpp"
 #include "Chain.hpp"
 #include "AnmManager.hpp"
+#include "SupervisorNetworkState.hpp"
 
 #include <d3d8.h>
 
@@ -54,24 +55,8 @@ struct SupervisorUpdateLayout
 typedef char SupervisorUpdateLayoutSizeCheck[
     (sizeof(SupervisorUpdateLayout) == 0x7A8) ? 1 : -1];
 
-struct SupervisorServiceState
-{
-    unsigned char unknown000[0xA8];
-    int valueA8;
-    int valueAC;
-    int valueB0;
-    int valueB4;
-    int valueB8;
-    int valueBC;
-    int valueC0;
-
-    void Reset432F70();
-    void Reset42E9B0();
-};
-
 struct AnmManagerSupervisorView
 {
-    void ResetForSupervisorFrame();
     void UpdateLoadingVms(void *vms, int count);
     int ServiceSupervisorResources();
 };
@@ -97,7 +82,6 @@ struct SupervisorMethodView
 };
 }
 
-extern SupervisorServiceState *g_SupervisorServiceState;
 extern SoundPlayerSupervisorView g_SoundPlayerSupervisorView;
 extern unsigned char g_SupervisorLoadingVms[];
 extern SupervisorFrameOffset g_SupervisorFrameOffsets[3];
@@ -106,6 +90,7 @@ extern int g_ScreenEffectCounter;
 extern char g_VersionString[];
 
 extern void __fastcall ResetSupervisorServiceChannels();
+extern void __fastcall SupervisorNetworkMarkInactive(void *state);
 extern int __fastcall SupervisorSubthreadIsRunning(Supervisor *supervisor);
 extern int __fastcall SupervisorServiceUpdate(Supervisor *supervisor);
 extern void __fastcall GameManager_CutChain();
@@ -121,7 +106,7 @@ int Supervisor::OnUpdate(Supervisor *supervisor)
         reinterpret_cast<SupervisorUpdateLayout *>(&g_Supervisor);
     s->field478 = 0;
 
-    if (g_SupervisorServiceState->valueA8 == 0)
+    if (g_SupervisorNetworkState->active == 0)
     {
         ResetSupervisorServiceChannels();
         goto UPDATE_FRAME;
@@ -140,14 +125,14 @@ int Supervisor::OnUpdate(Supervisor *supervisor)
                 return CHAIN_CALLBACK_RESULT_BREAK;
 
             case 3:
-                g_SupervisorServiceState->Reset432F70();
-                g_SupervisorServiceState->Reset42E9B0();
-                g_SupervisorServiceState->valueB8 = 0;
+                g_SupervisorNetworkState->ResetSession();
+                SupervisorNetworkMarkInactive(g_SupervisorNetworkState);
+                g_SupervisorNetworkState->connectionState = 0;
                 s->curState = SUPERVISOR_STATE_1;
                 goto UPDATE_FRAME;
 
             case 4:
-                g_SupervisorServiceState->Reset432F70();
+                g_SupervisorNetworkState->ResetSession();
                 return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
 
             default:
@@ -161,8 +146,7 @@ UPDATE_FRAME:
         return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
 
     g_SupervisorState794 = 0xff;
-    reinterpret_cast<AnmManagerSupervisorView *>(g_AnmManager)
-        ->ResetForSupervisorFrame();
+    g_AnmManager->ResetForSupervisorFrame();
     g_SupervisorFrameOffsets[0].x = 0.0f;
     g_SupervisorFrameOffsets[0].y = 0.0f;
     g_SupervisorFrameOffsets[1].x = 0.0f;
