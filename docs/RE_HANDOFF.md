@@ -3177,5 +3177,13 @@ Shared IDA metadata was edited only after role/boundary evidence was stable. `0x
 ### Checkpoint plan
 
 - Planned primary subject: `gpt-web: reconstruct TitleScreen replay menu`.
-- Primary checkpoint hash: pending local commit.
+- Primary checkpoint hash: `7978949ca8ceb0385f046ae11ac65cdcac2a916b` (`gpt-web: reconstruct TitleScreen replay menu`).
 - Nothing has been pushed.
+
+### Packet 166 post-checkpoint Factory acceptance audit
+
+- The primary repository checkpoint is `7978949ca8ceb0385f046ae11ac65cdcac2a916b` (`gpt-web: reconstruct TitleScreen replay menu`). The live repository was clean at that HEAD before and after both acceptance queries.
+- A fresh `factory_get_accepted_snapshot(th09)` request was attempted after the primary checkpoint and returned `ReplayError: another factory operation owns <operator-path>` before any authoritative snapshot was produced. Repository status was immediately rechecked and remained clean at the primary checkpoint.
+- A second authoritative freshness route, `factory_get_acceptance_registry(detail=summary)`, returned the same operator-path lock error. Repository status was rechecked again and remained clean. No accepted-state head, accepted codegen claim, accepted byte/function count, or acceptance metric is synthesized from these unavailable calls.
+- Packet 166 therefore remains **repository-canonical for the exact helper, with fresh Truth Kernel acceptance unavailable in this session**. The 1,387-byte replay-menu owner remains repository source-present/NON-EXACT independently of Factory acceptance.
+- This audit changes documentation only. It does not change source, ledgers, exact match units, generated progress, target bytes, build state, runtime state, or IDA metadata. Nothing was pushed.
