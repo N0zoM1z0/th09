@@ -3440,3 +3440,12 @@ No target bytes were writable or modified. Under passed native attestation, comm
 - Planned primary subject: `gpt-web: reconstruct TitleScreen menu UI`.
 - Primary checkpoint hash: pending local commit.
 - Nothing has been pushed.
+
+### Packet 169 post-checkpoint Factory acceptance audit
+
+- The primary repository checkpoint is `e25c7f91ad99441c82ca63846cac78f5c69f5374` (`gpt-web: reconstruct TitleScreen menu UI`). The live repository was clean at that HEAD when the authoritative acceptance query completed.
+- The first post-checkpoint `factory_get_accepted_snapshot(th09)` attempt encountered a transport-level `network_error` and returned no authoritative state. Live repository status was rechecked and remained clean at the primary checkpoint before retrying.
+- A fresh retry succeeded for `target:th09-main` and reports `head_commit=e25c7f91ad99441c82ca63846cac78f5c69f5374`, `accepted_state_head=e25c7f91ad99441c82ca63846cac78f5c69f5374`, and `accepted_state_is_current=true`.
+- The accepted snapshot ledger is `2164 candidates / 471 authored / 35 excluded / 404 source-present / 365 exact`. Reviewed authored function exactness is `365/471` (`77.4946921444%`) and reviewed authored byte exactness is `369209/400117` (`92.2752534969%`).
+- Acceptance is claim-plane specific. It does not promote `TitleScreenView::OnUpdateOptions @ 0x004276EB` from its maintained `2005 candidate / 2045 target` NON-EXACT state, does not prove the original C++ return-type spelling of the two exact menu helpers, and does not establish whole-image exactness or phase completion. Whole-build closure remains false/open; runtime validation, semantic reconstruction, and portability remain not started.
+- This audit changes documentation only. It does not change source, ledgers, exact match units, generated progress, target bytes, build state, runtime state, or IDA metadata. Nothing was pushed.
