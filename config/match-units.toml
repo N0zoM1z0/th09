@@ -2230,7 +2230,7 @@ relocations = [
   { offset = 0x236, type = "DIR32", symbol = "?g_TitleNameTableIndex@@3HA", target = 0x004A7EAC },
   { offset = 0x24B, type = "DIR32", symbol = "?g_TitleNameTable@@3PAY144UTitleNameRecordView@@A", target = 0x004A8398 },
   { offset = 0x265, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100 },
-  { offset = 0x26A, type = "REL32", symbol = "?PrepareResultScreen@TitleSupervisorView@@QAEHXZ", target = 0x0042FD30 },
+  { offset = 0x26A, type = "REL32", symbol = "?StopAudio@TitleSupervisorView@@QAEHXZ", target = 0x0042FD30 },
   { offset = 0x270, type = "DIR32", symbol = "?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A", target = 0x004DC550 },
   { offset = 0x275, type = "DIR32", symbol = "??_C@_0BD@JGJJAHCD@title?1result00?4png?$AA@", target = 0x0048F640 },
   { offset = 0x27B, type = "REL32", symbol = "?LoadSurface@TitleAnmManagerView@@QAEHHPBD@Z", target = 0x0043CAE0 },
@@ -7390,4 +7390,83 @@ relocations = [
   { offset = 0x39, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
   { offset = 0x5C, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x64, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+]
+
+# TitleScreen character-selection reusable helpers. These units replay only
+# target-bound helper extents; the surrounding character-selection state
+# machines remain independently reviewed source-present/non-exact where noted.
+[units.title-screen-move-character-cursor]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::MoveCharacterCursor"]
+symbol = "?MoveCharacterCursor@TitleScreenView@@QAEPAXHHPADH@Z"
+target_address = 0x0042304D
+size = 0x59
+relocations = [
+  { offset = 0x04, type = "DIR32", symbol = "?g_OptionPointers@@3PAPAXA", target = 0x004B42D0 },
+  { offset = 0x23, type = "DIR32", symbol = "?g_TitleCharacterUnlocked@@3PAEA", target = 0x004A81CC },
+  { offset = 0x4D, type = "DIR32", symbol = "?g_TitleCharacterUnlocked@@3PAEA", target = 0x004A81CC },
+]
+
+[units.title-screen-move-character-cursor-normal]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::MoveCharacterCursorNormal"]
+symbol = "?MoveCharacterCursorNormal@TitleScreenView@@QAEPAXHHPADH@Z"
+target_address = 0x004230A6
+size = 0x59
+relocations = [
+  { offset = 0x04, type = "DIR32", symbol = "?g_OptionPointers@@3PAPAXA", target = 0x004B42D0 },
+  { offset = 0x23, type = "DIR32", symbol = "?g_TitleCharacterUnlockedNormal@@3PAEA", target = 0x004A81DC },
+  { offset = 0x4D, type = "DIR32", symbol = "?g_TitleCharacterUnlockedNormal@@3PAEA", target = 0x004A81DC },
+]
+
+[units.title-screen-move-character-cursor-mode4]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::MoveCharacterCursorMode4"]
+symbol = "?MoveCharacterCursorMode4@TitleScreenView@@QAEPAXHHPADH@Z"
+target_address = 0x004230FF
+size = 0x59
+relocations = [
+  { offset = 0x04, type = "DIR32", symbol = "?g_OptionPointers@@3PAPAXA", target = 0x004B42D0 },
+  { offset = 0x23, type = "DIR32", symbol = "?g_TitleCharacterUnlockedMode4@@3PAEA", target = 0x004A81EC },
+  { offset = 0x4D, type = "DIR32", symbol = "?g_TitleCharacterUnlockedMode4@@3PAEA", target = 0x004A81EC },
+]
+
+[units.title-screen-update-character-settings]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::UpdateCharacterSettings"]
+symbol = "?UpdateCharacterSettings@TitleScreenView@@QAEHHH@Z"
+target_address = 0x00425163
+size = 0xA8
+relocations = [
+  { offset = 0xA4, type = "REL32", symbol = "?SetCharacterSettingSprites@TitleScreenView@@QAEHHH@Z", target = 0x00423182 },
+]
+
+[units.title-screen-move-cursor-four-way]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::MoveCursorFourWay"]
+symbol = "?MoveCursorFourWay@TitleScreenView@@QAEHH@Z"
+target_address = 0x00424671
+size = 0xD9
+relocations = [
+  { offset = 0x17, type = "DIR32", symbol = "?g_TitleInput@@3UInputView@@A", target = 0x004ACF34 },
+  { offset = 0x20, type = "REL32", symbol = "?IsPressedScrolling@InputView@@QAEGH@Z", target = 0x00423158 },
+  { offset = 0x40, type = "REL32", symbol = "?IsPressedScrolling@InputView@@QAEGH@Z", target = 0x00423158 },
+  { offset = 0x5D, type = "DIR32", symbol = "?g_SoundPlayer@@3USoundPlayerView@@A", target = 0x004DC698 },
+  { offset = 0x62, type = "REL32", symbol = "?PlaySoundByIdx@SoundPlayerView@@QAEXHH@Z", target = 0x0043E2F0 },
+  { offset = 0x6F, type = "REL32", symbol = "?IsPressedScrolling@InputView@@QAEGH@Z", target = 0x00423158 },
+  { offset = 0x80, type = "DIR32", symbol = "?g_SoundPlayer@@3USoundPlayerView@@A", target = 0x004DC698 },
+  { offset = 0x85, type = "REL32", symbol = "?PlaySoundByIdx@SoundPlayerView@@QAEXHH@Z", target = 0x0043E2F0 },
+  { offset = 0xA2, type = "REL32", symbol = "?IsPressedScrolling@InputView@@QAEGH@Z", target = 0x00423158 },
+  { offset = 0xB3, type = "DIR32", symbol = "?g_SoundPlayer@@3USoundPlayerView@@A", target = 0x004DC698 },
+  { offset = 0xB8, type = "REL32", symbol = "?PlaySoundByIdx@SoundPlayerView@@QAEXHH@Z", target = 0x0043E2F0 },
 ]

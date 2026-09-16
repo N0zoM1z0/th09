@@ -2949,3 +2949,124 @@ Packet 164 is a local exact-reconstruction checkpoint only. Exact reconstruction
 
 This acceptance audit changes documentation only. It does not alter source, canonical match ledgers, generated progress, target bytes, build state, runtime state, or IDA metadata. GPT-web still does not push.
 - Final post-audit ignored-scratch inventory is 62288 KiB for all `.analysis/` and 928 KiB for `.analysis/gpt-web/20260916-th09-ending-migration/`, with 60 retained campaign files, no file above 64 MiB, and largest retained file `.analysis/gpt-web/20260916-th09-ending-migration/final/staged.diff` at 65886 bytes. The small increase after the first checkpoint inventory is the intentionally retained staged-diff/audit receipt; no legacy or unknown scratch is removed.
+
+## Packet 165 checkpoint — TitleScreen character-selection seam (2026-09-16)
+
+### Recovery and starting state
+
+- Repository / provider / target: `th09` / `th09-ida` / `target:th09-main`.
+- Starting branch/HEAD: `main @ 83d2611dbdee57dce6ad2ba257f74bc739eeb187`, upstream `origin/main`, `+2/-0`.
+- Entry dirty state: `0 staged / 2 unstaged tracked / 0 untracked / 0 conflicts`. The two paths were `src/TitleScreen.cpp` and `config/match-units.toml`; both were classified as recoverable interrupted GPT-web work from the unfinished TitleScreen character-selection packet. No unrelated TH09 tracked/untracked work was present.
+- Ignored `.analysis/` outside this packet was preserved as legacy/unknown state. Entry inventory after mandatory recovery preflights was approximately `64,348 KiB`.
+- Adjacent hypothesis sources: committed TH08 HEAD `a45e99fb1942714e6edded20847e32a654d56f97` was clean and supplied only the broad TitleScreen character-selection state-machine/source family. TH095 committed HEAD `fe8a6a29ef0df6fa9527a25e5884588b5e3ae718` was `main +2` with four unrelated untracked files (`EnemyManagerUpdate.i`, `config/runtime-scenarios.json`, `droid.resume.txt`, `scripts/runtime-diff.py`); those were preserved and not used as TH09 evidence.
+
+### Mandatory preflight state
+
+- `resources/th09.exe` remained operator-supplied, ignored, read-only mode `0444`, size `685056`, SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`, MD5 `cf634df46e05552e104fa97a971aaac0`. It was not modified, moved, replaced, staged, or committed.
+- `python3 scripts/verify-target.py`, `python3 scripts/validate-tracking.py --require-target`, `python3 scripts/report-reconstruction-status.py`, `python3 scripts/build-match-unit.py --check`, `python3 scripts/progress.py --check`, `python3 scripts/ci.py`, and `git diff --check` all passed at recovery and again at close.
+- Native IDA operation discovery reported 47 operations. `get_metadata {}` passed attestation for `target:th09-main` with `attestation.provider_transport=factory-native-stdio`; database metadata was writable and target bytes were not writable.
+- Early whole-build diagnostic remained honestly open: `python3 scripts/build.py` returned `rc=2` with `whole build unavailable: compile flags, TU partition, libraries, resources, and link order remain unknown`.
+
+### Packet selection and reviewed scope
+
+This packet deliberately combined reusable helpers with a hard owner seam rather than optimizing for small-function count. The target-connected cohort is the TitleScreen character-selection path used by DifficultySelect and the screen-16 transition:
+
+- exact helper candidates: `0x0042304D`, `0x004230A6`, `0x004230FF`, `0x00424671`, `0x00425163`;
+- shared source-present helpers: `0x00423182`, `0x004234A7`, `0x0042474A`, `0x004247F1`, `0x00424EDD`, `0x00424FB0`, `0x0042505F`, `0x0042520B`, `0x00425233`, `0x00425390`;
+- hard owners: `0x004254A7` (1,572 bytes), `0x00425ACB` (2,153 bytes), `0x00426334` (897 bytes), and existing `0x004289DB` (2,241 bytes).
+
+TH09 target routing corrects the prior ownership/name hypothesis:
+
+- `0x004254A7` = `TitleScreenView::OnUpdateCharacterSelect` (ordinary 14-entry path);
+- `0x00425ACB` = `TitleScreenView::UpdateScreen8Mode123`;
+- `0x00426334` = `TitleScreenView::UpdateScreen16`;
+- `0x004289DB` = `TitleScreenView::UpdateScreen8Mode0`, superseding the earlier `OnUpdateCharacterSelect` label.
+
+The maintained source also separates `UpdateCharacterSelectionVisuals @ 0x00425233` (four explicit arguments) from `UpdateScreen16SelectionVisuals @ 0x00425390` (three explicit arguments), exposes only the target-observed `AnmVmView::position @ +0x208` physical field, and keeps the 0x8E-strided input aggregate explicitly named as a physical view rather than claiming original C++ ownership.
+
+### Source presence and exactness results
+
+Nineteen target functions totaling `9,611` bytes are now official source mappings under `src/TitleScreen.cpp`; the reviewed authored denominator increases by the previously unknown eighteen functions, while `0x004289DB` receives an ownership/name correction and first official mapping.
+
+Canonical exact promotions are limited to five repeatable repository-defined match units totaling `652` bytes:
+
+- `TitleScreenView::MoveCharacterCursor @ 0x0042304D` — `89/89`, three reviewed relocations;
+- `TitleScreenView::MoveCharacterCursorNormal @ 0x004230A6` — `89/89`, three reviewed relocations;
+- `TitleScreenView::MoveCharacterCursorMode4 @ 0x004230FF` — `89/89`, three reviewed relocations;
+- `TitleScreenView::MoveCursorFourWay @ 0x00424671` — `217/217`, eleven reviewed input/sound relocations;
+- `TitleScreenView::UpdateCharacterSettings @ 0x00425163` — `168/168`, one reviewed relocation to `SetCharacterSettingSprites @ 0x00423182`.
+
+Final cold replay passes A and B independently returned `result=exact` for all five units. Existing `TitleScreenView::OnUpdateResultNameEntry @ 0x0042929C` also replayed `966/966 exact` after correcting its relocation/source spelling from the historical `PrepareResultScreen` alias to target-proved `TitleSupervisorView::StopAudio @ 0x0042FD30`.
+
+All other packet functions remain explicitly NON-EXACT. Final pinned `/O1 /Ob1 /Oy- /Gr` feedback includes:
+
+- horizontal helpers `145/167` and `158/167`;
+- active/reverse/inactive cursor VMs `217/211`, `183/175`, `183/175`;
+- setting sprites `488/479`, setting indicator `43/40`;
+- `TitleCharacterConfigView::GetOptionState` equal-size `54/54` but only `22/54` ordinary comparable bytes;
+- selection visuals `424/349`, screen-16 visuals `307/279`;
+- ordinary owner `1577/1572`;
+- mode-1/2/3 owner `2114/2153`;
+- mode0 owner `2244/2241`;
+- screen16 owner equal-size `897/897` but only `247/653` ordinary comparable bytes after relocation masking.
+
+Equal size is not treated as exactness. No register/volatile forcing, pragma ordering, artificial padding, inline assembly, fake return, target-byte embedding, target patching, or oracle-specific source is retained.
+
+### Ledger and durable knowledge changes
+
+Tracked files in the checkpoint:
+
+- `src/TitleScreen.cpp`;
+- `config/function-origins.csv`;
+- `config/functions.csv`;
+- `config/implemented.csv`;
+- `config/reccmp-functions.csv`;
+- `config/matches.csv`;
+- `config/match-units.toml`;
+- `docs/KNOWLEDGE_BASE.md` (`TITLE-006`, `BOUNDARY-140`, `TOOLCHAIN-143`);
+- regenerated `docs/PROGRESS.md` and `resources/progress.svg`;
+- this handoff.
+
+Close-of-packet repository truth before commit is `2163 candidates / 460 authored / 35 excluded / 393 source-present / 357 exact / 1668 origin-or-boundary pending`. Whole Windows i386 build remains open; semantic/port stages have not started.
+
+### Shared IDA metadata edits
+
+All useful edit results re-attested `target:th09-main` / `factory-native-stdio`; target bytes remained unwritable. Function names written and important edits read back include:
+
+- `0x004289DB -> TitleScreen_UpdateScreen8Mode0`;
+- `0x004254A7 -> TitleScreen_OnUpdateCharacterSelect`;
+- `0x00425ACB -> TitleScreen_UpdateScreen8Mode123`;
+- `0x00426334 -> TitleScreen_UpdateScreen16`;
+- exact helpers `0x0042304D/0x004230A6/0x004230FF/0x00424671/0x00425163`;
+- visual helpers `0x00425233/0x00425390`.
+
+Entry comments on all four hard owners explicitly record source-present/non-exact status and compile diagnostics. Readback confirmed the owner-name correction and the screen16 `897/897`-but-nonexact warning in pseudocode.
+
+### Validation and product-state separation
+
+- Source presence: `393` official mappings after this packet.
+- Canonical function exactness: `357` exact rows after this packet; five new exact rows are backed by A/B zero-difference target-bound replays.
+- Whole-build closure: **open**; `scripts/build.py` returns `rc=2` for unresolved build inputs.
+- Runtime validation: **not attempted**, gated on a faithful reconstructed executable.
+- Truth Kernel / accepted Factory facts: **not yet audited for this new checkpoint**; repository exact rows and Factory acceptance are separate states.
+- Public target-independent CI: passed.
+
+### Analysis artifacts
+
+- `.analysis/` entry/exit inventory: approximately `64,348 KiB -> 64,708 KiB`.
+- Reused campaign: `.analysis/gpt-web/20260916-th09-title-character/`, final size `2,420 KiB`, `129` files, maximum file `254,027` bytes, no file over `64 MiB` and far below the `256 MiB` campaign review threshold.
+- `manifest.json` was recovered/updated with target/starting-HEAD binding and final artifact inventory. All packet receipts are retained; no legacy/unknown analysis state, IDB, toolchain, target, Wine prefix, or other-process output was deleted.
+
+### Remaining unknowns and next packet
+
+- The original TitleScreen TU partition, complete class/data-definition ownership, and project-level VC7.1 flags remain unresolved.
+- `0x004233A3/0x004233F4` are target-observed position/color interpolation callees used by the new visual source, but remain independent `unknown/review` candidates with no source/exactness promotion in this packet.
+- The non-exact helpers and four hard owners retain source/codegen residuals listed above; do not infer exactness from their close or equal sizes.
+- The 0x8E-strided input table is a target-observed physical view; whether the original source used an array, adjacent globals, or another aggregate remains unknown.
+- Packet-selection balance: this packet explicitly attacked three new hard owners plus corrected the existing 2,241-byte mode0 owner while also closing five reusable helpers. The next packet should therefore remain reuse-heavy but not regress to smallest-function harvesting. A strong next evidence-connected candidate is the adjacent TitleScreen result/helper seam around `0x004249E1`, `0x004266B5`, and `0x0042689A`, where TH08/TH095 committed result-screen families can accelerate hypotheses but TH09 must re-establish owner/data/ABI/exactness. Re-attest and re-check those candidates before editing.
+
+### Checkpoint
+
+- Planned primary subject: `gpt-web: reconstruct TitleScreen character selection`.
+- Primary checkpoint hash: pending commit; the post-commit acceptance audit below will record it.
+- Nothing has been pushed.

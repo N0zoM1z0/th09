@@ -33,6 +33,24 @@ struct InputView {
     u16 IsPressedScrolling(i32 mask);
 };
 
+struct TitleInputStatePhysicalView {
+    u16 currentInput;
+    u8 unknown002[0x8C];
+    u16 IsPressedScrolling(i32 mask);
+};
+typedef char TitleInputStatePhysicalViewSize[(sizeof(TitleInputStatePhysicalView) == 0x8E) ? 1 : -1];
+
+struct TitleInputStateTableView {
+    TitleInputStatePhysicalView states[3];
+};
+
+struct TitleCharacterConfigView {
+    u8 unknown000[0x7C];
+    i32 optionValues[16][6];
+
+    int GetOptionState(char character, i32 option);
+};
+
 struct SoundPlayerView {
     void PlaySoundByIdx(i32 soundId, i32 unused);
 };
@@ -50,6 +68,14 @@ struct FileSystemView {
     static void *OpenFile(const char *path, i32 *fileSize, i32 loadFromDisk);
 };
 
+struct TitleFloat3View {
+    float x;
+    float y;
+    float z;
+};
+
+typedef char TitleFloat3ViewSizeIs0C[(sizeof(TitleFloat3View) == 0x0C) ? 1 : -1];
+
 struct AnmVmView {
     AnmVmView();
     u8 unknown000[0x1F0];
@@ -61,26 +87,35 @@ struct AnmVmView {
     u32 flags;
     u8 unknown1FC[2];
     u16 pendingInterrupt;
-    u8 unknown200[0x18];
+    u8 unknown200[0x08];
+    TitleFloat3View position;
+    u8 unknown214[0x04];
     short baseSpriteIndex;
     u8 unknown21A[0x8A];
+
+    char ConfigurePositionInterpolation(i32 duration, char mode,
+                                        TitleFloat3View *start, TitleFloat3View *end);
+    int ConfigureColorInterpolation(i32 duration, char mode,
+                                    u32 startColor, u32 endColor);
 };
 
 typedef char AnmVmSizeIs2A4[(sizeof(AnmVmView) == 0x2A4) ? 1 : -1];
 typedef char AnmVmColorAt1F0[(offsetof(AnmVmView, color1) == 0x1F0) ? 1 : -1];
 typedef char AnmVmFlagsAt1F8[(offsetof(AnmVmView, flags) == 0x1F8) ? 1 : -1];
 typedef char AnmVmInterruptAt1FE[(offsetof(AnmVmView, pendingInterrupt) == 0x1FE) ? 1 : -1];
+typedef char AnmVmPositionAt208[(offsetof(AnmVmView, position) == 0x208) ? 1 : -1];
 typedef char AnmVmSpriteAt218[(offsetof(AnmVmView, baseSpriteIndex) == 0x218) ? 1 : -1];
 
 struct TitleAnmView {
     void ExecuteAnmIdxArray(AnmVmView *vms, i32 start, i32 count);
-    void SetSprite(AnmVmView *vm, i32 spriteIndex);
+    int SetSprite(AnmVmView *vm, i32 spriteIndex);
 };
 
 struct TitleAnmManagerView {
     int LoadSurface(i32 slot, const char *path);
     void SetInterruptArray(AnmVmView *vms, i32 count, i32 interrupt);
     void ExecuteScriptArray(AnmVmView *vms, i32 count);
+    int ExecuteScript(AnmVmView *vm);
 };
 
 struct TitleSideInputView {
@@ -97,7 +132,7 @@ struct TitleSelectionRandomView {
 
 struct TitleSupervisorView {
     void PlayMusic(i32 track, i32 unused);
-    int PrepareResultScreen();
+    int StopAudio();
 };
 
 struct TitleMidiOutputView {
@@ -166,7 +201,7 @@ struct TitleScreenView {
     u8 unknown0C924[0x5260];
     i32 side0CharacterSetting;                // +0x11B84
     i32 side1CharacterSetting;                // +0x11B88
-    u8 unknown11B8C[4];
+    i32 characterSettingInputActive;
     TitleAnmView *titleAnm;                   // +0x11B90
     u8 unknown11B94[4];
     union { i32 uiVm; AnmVmView *vms; };      // +0x11B98
@@ -192,17 +227,25 @@ struct TitleScreenView {
     int ChangeCurrentScreen(i32 screen);
     int MoveTwoChoiceCursor(i32 count);
     int MoveCursorVertical(i32 count);
+    int MoveCursorFourWay(i32 count);
     int UpdateMenuSelection();
     int SetMenuSelectionSprites(i32 selected, i32 start, i32 count);
     int OnUpdateOptions();
     int OnUpdateCharacterSelect();
     int OnUpdateResultNameEntry();
-    int MoveCharacterCursor(i32 side, i32 direction, char *order, i32 count);
+    void *MoveCharacterCursor(i32 side, i32 direction, char *order, i32 count);
+    void *MoveCharacterCursorNormal(i32 side, i32 direction, char *order, i32 count);
+    void *MoveCharacterCursorMode4(i32 side, i32 direction, char *order, i32 count);
     int MoveCharacterCursorHorizontal(i32 side, i32 count);
+    int MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 cursorIndex, i32 count);
     int SetCharacterCursorActive(i32 selectedCharacter, i32 start, i32 count, i32 stride);
     int SetCharacterCursorInactive(i32 selectedCharacter, i32 start, i32 count, i32 stride);
+    int SetCharacterCursorReverse(i32 selectedCharacter, i32 start, i32 count, i32 stride);
+    int SetCharacterSettingSprites(i32 side0Setting, i32 side1Setting);
     int UpdateCharacterSettings(i32 side0Setting, i32 side1Setting);
+    int SetCharacterSettingIndicator(i32 side, i32 value);
     int UpdateCharacterSelectionVisuals(i32 side, i32 selectedCharacter, i32 otherCharacter, char *order);
+    int UpdateScreen16SelectionVisuals(i32 side, i32 selectedCharacter, char *order);
     int UpdateScreen8Mode0();
     int UpdateScreen8Mode123();
     int UpdateScreen16();
@@ -237,6 +280,7 @@ typedef char TitleConfigAt1B2BC[(offsetof(TitleScreenView, configSnapshot) == 0x
 typedef char TitleScreenSizeIs1B388[(sizeof(TitleScreenView) == 0x1B388) ? 1 : -1];
 
 extern InputView g_TitleInput;
+extern TitleInputStateTableView g_TitleInputStateTable;
 extern u32 g_TitleInputFlags;
 extern SoundPlayerView g_SoundPlayer;
 extern ReplayManagerView *g_ReplayManager;
@@ -263,6 +307,7 @@ extern i32 g_GameConfigSelector;
 extern i32 g_GameValueDB8;
 extern i32 g_GameValueDF0;
 extern i32 g_TitleGlobalMode;
+extern i32 g_TitleLaunchState;
 extern i32 g_TitleTransitionCounter0;
 extern i32 g_TitleTransitionCounter1;
 extern u8 g_OptionA;
@@ -279,13 +324,400 @@ extern i32 g_GameSide0CharacterSetting;
 extern i32 g_GameSide1CharacterSetting;
 extern i32 g_TitleCharacterReturnSelection;
 extern char g_TitleCharacterOrder[16];
+extern char g_TitleCharacterOrder14[14];
+extern char g_TitleCharacterOrderMode123[16];
+extern char g_TitleScreen16Order[16];
+extern char g_TitleScreen16Entries[16];
+extern i32 g_TitleScreen16SelectionResult;
+extern TitleCharacterConfigView g_TitleCharacterConfig;
 extern u8 g_TitleCharacterUnlocked[16];
+extern u8 g_TitleCharacterUnlockedNormal[16];
+extern u8 g_TitleCharacterUnlockedMode4[16];
 extern TitleSideInputView g_TitleSide0Input;
 extern TitleSideInputView g_TitleSide1Input;
 extern TitleSelectionRandomView g_TitleSelectionRandom;
 extern void __fastcall PrepareTitleMode4Network(void *optionState);
 extern void __fastcall ResetTitleMode4Supervisor(TitleSupervisorView *supervisor);
 extern int SaveTitleScoreData();
+
+
+
+int TitleScreenView::MoveCursorFourWay(i32 count)
+{
+    if (count == 0)
+        return 0;
+
+    if (g_TitleInput.IsPressedScrolling(0x40))
+    {
+        if (--keyboardSelection < 0)
+            keyboardSelection += count;
+        g_SoundPlayer.PlaySoundByIdx(12, 0);
+        return -1;
+    }
+
+    if (g_TitleInput.IsPressedScrolling(0x80))
+    {
+        if (++keyboardSelection >= count)
+            keyboardSelection -= count;
+        g_SoundPlayer.PlaySoundByIdx(12, 0);
+        return 1;
+    }
+
+    if (g_TitleInput.IsPressedScrolling(0x10))
+    {
+        keyboardSelection--;
+        g_SoundPlayer.PlaySoundByIdx(12, 0);
+        if (keyboardSelection < 0)
+            keyboardSelection = count - 1;
+        if (keyboardSelection >= count)
+            keyboardSelection = 0;
+        return -1;
+    }
+
+    if (g_TitleInput.IsPressedScrolling(0x20))
+    {
+        keyboardSelection++;
+        g_SoundPlayer.PlaySoundByIdx(12, 0);
+        if (keyboardSelection < 0)
+            keyboardSelection = count - 1;
+        if (keyboardSelection >= count)
+            keyboardSelection = 0;
+        return 1;
+    }
+
+    return 0;
+}
+
+
+void *TitleScreenView::MoveCharacterCursor(i32 side, i32 direction, char *order, i32 count)
+{
+    void *result = g_OptionPointers;
+    if (g_OptionPointers[42] == 0)
+    {
+        i32 *cursor = &side0CharacterCursor + side;
+        result = cursor;
+        while (!g_TitleCharacterUnlocked[order[*cursor]])
+        {
+            *cursor += direction;
+            if (*cursor < 0)
+                *cursor += count;
+            if (*cursor >= count)
+                *cursor -= count;
+        }
+    }
+    return result;
+}
+
+
+void *TitleScreenView::MoveCharacterCursorNormal(i32 side, i32 direction, char *order, i32 count)
+{
+    void *result = g_OptionPointers;
+    if (g_OptionPointers[42] == 0)
+    {
+        i32 *cursor = &side0CharacterCursor + side;
+        result = cursor;
+        while (!g_TitleCharacterUnlockedNormal[order[*cursor]])
+        {
+            *cursor += direction;
+            if (*cursor < 0)
+                *cursor += count;
+            if (*cursor >= count)
+                *cursor -= count;
+        }
+    }
+    return result;
+}
+
+
+void *TitleScreenView::MoveCharacterCursorMode4(i32 side, i32 direction, char *order, i32 count)
+{
+    void *result = g_OptionPointers;
+    if (g_OptionPointers[42] == 0)
+    {
+        i32 *cursor = &side0CharacterCursor + side;
+        result = cursor;
+        while (!g_TitleCharacterUnlockedMode4[order[*cursor]])
+        {
+            *cursor += direction;
+            if (*cursor < 0)
+                *cursor += count;
+            if (*cursor >= count)
+                *cursor -= count;
+        }
+    }
+    return result;
+}
+
+
+int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
+{
+    if (count == 0)
+        return 0;
+
+    i32 direction;
+    if (g_TitleInput.IsPressedScrolling(0x40))
+        direction = -1;
+    else if (g_TitleInput.IsPressedScrolling(0x80))
+        direction = 1;
+    else if (g_TitleInput.IsPressedScrolling(0x10))
+        direction = -1;
+    else if (g_TitleInput.IsPressedScrolling(0x20))
+        direction = 1;
+    else
+        return 0;
+
+    i32 *cursor = &side0CharacterCursor + cursorIndex;
+    *cursor += direction;
+    if (*cursor < 0)
+        *cursor += count;
+    if (*cursor >= count)
+        *cursor -= count;
+
+    g_SoundPlayer.PlaySoundByIdx(12, 0);
+    return direction;
+}
+
+
+int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 cursorIndex, i32 count)
+{
+    if (count == 0)
+        return 0;
+
+    TitleInputStatePhysicalView *input = &g_TitleInputStateTable.states[inputIndex];
+    i32 direction;
+    if (input->IsPressedScrolling(0x40))
+        direction = -1;
+    else if (input->IsPressedScrolling(0x80))
+        direction = 1;
+    else if (input->IsPressedScrolling(0x10))
+        direction = -1;
+    else if (input->IsPressedScrolling(0x20))
+        direction = 1;
+    else
+        return 0;
+
+    i32 *cursor = &side0CharacterCursor + cursorIndex;
+    *cursor += direction;
+    if (*cursor < 0)
+        *cursor += count;
+    if (*cursor >= count)
+        *cursor -= count;
+
+    g_SoundPlayer.PlaySoundByIdx(12, 0);
+    return direction;
+}
+
+
+int TitleScreenView::SetCharacterCursorActive(i32 selectedCharacter, i32 start, i32 count, i32 stride)
+{
+    i32 index = start;
+    while (index < start + count * stride)
+    {
+        titleAnm->SetSprite(&vms[index], vms[index].baseSpriteIndex + 1);
+        vms[index].pendingInterrupt = 8;
+        g_TitleAnmManager->ExecuteScript(&vms[index]);
+        index += stride;
+    }
+
+    index = start + stride * selectedCharacter;
+    titleAnm->SetSprite(&vms[index], vms[index].baseSpriteIndex);
+    vms[index].pendingInterrupt = 7;
+    return g_TitleAnmManager->ExecuteScript(&vms[index]);
+}
+
+
+int TitleScreenView::SetCharacterCursorReverse(i32 selectedCharacter, i32 start, i32 count, i32 stride)
+{
+    i32 index = start;
+    while (index < start + count * stride)
+    {
+        titleAnm->SetSprite(&vms[index], vms[index].baseSpriteIndex + 1);
+        vms[index].pendingInterrupt = 15;
+        index += stride;
+    }
+
+    index = start + stride * selectedCharacter;
+    titleAnm->SetSprite(&vms[index], vms[index].baseSpriteIndex);
+    vms[index].pendingInterrupt = 14;
+    return (i32)vms;
+}
+
+
+int TitleScreenView::SetCharacterCursorInactive(i32 selectedCharacter, i32 start, i32 count, i32 stride)
+{
+    i32 index = start;
+    while (index < start + count * stride)
+    {
+        titleAnm->SetSprite(&vms[index], vms[index].baseSpriteIndex + 1);
+        vms[index].pendingInterrupt = 18;
+        index += stride;
+    }
+
+    index = start + stride * selectedCharacter;
+    titleAnm->SetSprite(&vms[index], vms[index].baseSpriteIndex);
+    vms[index].pendingInterrupt = 17;
+    return (i32)vms;
+}
+
+
+int TitleScreenView::SetCharacterSettingSprites(i32 side0Setting, i32 side1Setting)
+{
+    titleAnm->SetSprite(&vms[142], side0Setting == 0 ? 197 : (side0Setting == 1 ? 196 : 195));
+    titleAnm->SetSprite(&vms[143], side0Setting <= 2 ? 197 : (side0Setting == 3 ? 196 : 195));
+    titleAnm->SetSprite(&vms[144], side0Setting <= 4 ? 197 : (side0Setting == 5 ? 196 : 195));
+    titleAnm->SetSprite(&vms[145], side0Setting <= 6 ? 197 : (side0Setting == 7 ? 196 : 195));
+    titleAnm->SetSprite(&vms[146], side0Setting <= 8 ? 197 : (side0Setting == 9 ? 196 : 195));
+
+    titleAnm->SetSprite(&vms[148], side1Setting == 0 ? 197 : (side1Setting == 1 ? 196 : 195));
+    titleAnm->SetSprite(&vms[149], side1Setting <= 2 ? 197 : (side1Setting == 3 ? 196 : 195));
+    titleAnm->SetSprite(&vms[150], side1Setting <= 4 ? 197 : (side1Setting == 5 ? 196 : 195));
+    titleAnm->SetSprite(&vms[151], side1Setting <= 6 ? 197 : (side1Setting == 7 ? 196 : 195));
+    return titleAnm->SetSprite(&vms[152], side1Setting <= 8 ? 197 : (side1Setting == 9 ? 196 : 195));
+}
+
+
+int TitleScreenView::UpdateCharacterSettings(i32 side0Setting, i32 side1Setting)
+{
+    vms[141].pendingInterrupt = 9;
+    vms[147].pendingInterrupt = 9;
+    vms[142].pendingInterrupt = 9;
+    vms[143].pendingInterrupt = 9;
+    vms[144].pendingInterrupt = 9;
+    vms[145].pendingInterrupt = 9;
+    vms[146].pendingInterrupt = 9;
+    vms[148].pendingInterrupt = 9;
+    vms[149].pendingInterrupt = 9;
+    vms[150].pendingInterrupt = 9;
+    vms[151].pendingInterrupt = 9;
+    vms[152].pendingInterrupt = 9;
+    return SetCharacterSettingSprites(side0Setting, side1Setting);
+}
+
+
+int TitleScreenView::SetCharacterSettingIndicator(i32 side, i32 value)
+{
+    i32 interrupt = 10 - (value != 0);
+    vms[153 + side].pendingInterrupt = (u16)interrupt;
+    return interrupt;
+}
+
+
+int TitleCharacterConfigView::GetOptionState(char character, i32 option)
+{
+    if (option < 0)
+    {
+        return optionValues[character][0] |
+               optionValues[character][1] |
+               optionValues[character][2] |
+               optionValues[character][3];
+    }
+    return optionValues[character][option];
+}
+
+
+int TitleScreenView::UpdateCharacterSelectionVisuals(i32 side, i32 selectedCharacter,
+                                                         i32 otherCharacter, char *order)
+{
+    i32 selectedVisibleIndex = 0;
+    for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
+    {
+        i32 character = order[orderIndex];
+        if (character == selectedCharacter)
+            break;
+
+        bool visible;
+        if (currentScreen == 8)
+            visible = g_TitleCharacterUnlocked[character] || g_OptionPointers[42];
+        else if (currentScreen == 3)
+            visible = g_TitleCharacterUnlockedNormal[character] != 0;
+        else
+            visible = g_TitleCharacterUnlockedMode4[character] != 0;
+        if (visible)
+            selectedVisibleIndex++;
+    }
+
+    TitleFloat3View targetPosition = vms[189 + side].position;
+    targetPosition.y = selectedVisibleIndex * 16.0f + 128.0f;
+    targetPosition.z = 0.0f;
+    vms[189 + side].ConfigurePositionInterpolation(
+        8, 4, &vms[189 + side].position, &targetPosition);
+
+    targetPosition.x = vms[190].position.x;
+    vms[190].ConfigurePositionInterpolation(8, 4, &vms[190].position, &targetPosition);
+
+    i32 otherVisibleIndex = 0;
+    for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
+    {
+        i32 character = order[orderIndex];
+        if (character == otherCharacter)
+            break;
+
+        bool visible;
+        if (currentScreen == 8)
+            visible = g_TitleCharacterUnlocked[character] || g_OptionPointers[42];
+        else if (currentScreen == 3)
+            visible = g_TitleCharacterUnlockedNormal[character] != 0;
+        else
+            visible = g_TitleCharacterUnlockedMode4[character] != 0;
+        if (visible)
+            otherVisibleIndex++;
+    }
+
+    i32 visibleIndex = 0;
+    i32 result = 0;
+    for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
+    {
+        i32 character = order[orderIndex];
+        if (g_TitleCharacterUnlocked[character] || g_OptionPointers[42])
+        {
+            AnmVmView *vm = &vms[191 + visibleIndex];
+            u32 targetColor = (selectedVisibleIndex == visibleIndex || otherVisibleIndex == visibleIndex)
+                ? 0xFFFFFFFFu
+                : 0xFFA0A0A0u;
+            result = vm->ConfigureColorInterpolation(8, 4, vm->color1, targetColor);
+            visibleIndex++;
+        }
+    }
+    return result;
+}
+
+
+int TitleScreenView::UpdateScreen16SelectionVisuals(i32 side, i32 selectedCharacter, char *order)
+{
+    i32 selectedVisibleIndex = 0;
+    for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
+    {
+        i32 character = order[orderIndex];
+        if (character == selectedCharacter)
+            break;
+        if (orderIndex > 13 || g_TitleCharacterUnlocked[character] || g_OptionPointers[42])
+            selectedVisibleIndex++;
+    }
+
+    TitleFloat3View targetPosition = vms[189 + side].position;
+    targetPosition.y = selectedVisibleIndex * 16.0f + 128.0f;
+    targetPosition.z = 0.0f;
+    vms[189 + side].ConfigurePositionInterpolation(
+        8, 4, &vms[189 + side].position, &targetPosition);
+
+    targetPosition.x = vms[190].position.x;
+    vms[190].ConfigurePositionInterpolation(8, 4, &vms[190].position, &targetPosition);
+
+    i32 visibleIndex = 0;
+    i32 result = 0;
+    for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
+    {
+        i32 character = order[orderIndex];
+        if (g_TitleCharacterUnlocked[character] || orderIndex > 13 || g_OptionPointers[42])
+        {
+            AnmVmView *vm = &vms[207 + visibleIndex];
+            u32 targetColor = selectedVisibleIndex == visibleIndex ? 0xFFFFFFFFu : 0xFFA0A0A0u;
+            result = vm->ConfigureColorInterpolation(8, 4, vm->color1, targetColor);
+            visibleIndex++;
+        }
+    }
+    return result;
+}
 
 
 int TitleScoreRecordView::InsertIntoTable()
@@ -316,6 +748,243 @@ int TitleScoreRecordView::InsertIntoTable()
 
 
 int TitleScreenView::OnUpdateCharacterSelect()
+{
+    switch (currentScreenState)
+    {
+    case 0:
+        if (stateTimer2 == 0)
+        {
+            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 13);
+            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+
+            i32 visibleCount = 0;
+            for (i32 orderIndex = 0; orderIndex < 14; orderIndex++)
+            {
+                char character = g_TitleCharacterOrder14[orderIndex];
+                bool available = g_TitleDifficulty == 4
+                    ? g_TitleCharacterUnlockedMode4[character] != 0
+                    : g_TitleCharacterUnlockedNormal[character] != 0;
+                if (available)
+                {
+                    titleAnm->SetSprite(&vms[191 + visibleCount], character + 235);
+                    vms[191 + visibleCount].flags |= 2;
+                    visibleCount++;
+                }
+            }
+            for (i32 index = visibleCount; index < 16; index++)
+                vms[191 + index].flags &= ~2u;
+
+            vms[189].flags |= 2;
+            vms[190].flags &= ~2u;
+
+            side0CharacterCursor = 0;
+            while (g_TitleCharacterOrder14[side0CharacterCursor] != g_GameSide0Value20)
+                side0CharacterCursor++;
+
+            if (g_TitleDifficulty == 4)
+                MoveCharacterCursorMode4(0, 1, g_TitleCharacterOrder14, 14);
+            else
+                MoveCharacterCursorNormal(0, 1, g_TitleCharacterOrder14, 14);
+
+            char selectedCharacter = g_TitleCharacterOrder14[side0CharacterCursor];
+            char otherCharacter = g_TitleCharacterOrder14[side1CharacterCursor];
+
+            vms[93 + selectedCharacter * 2].color1Bytes[0] = 0xFF;
+            vms[93 + selectedCharacter * 2].color1Bytes[1] = 0xFF;
+            vms[93 + selectedCharacter * 2].color1Bytes[2] = 0xFF;
+            vms[61 + selectedCharacter * 2].color1Bytes[0] = 0xFF;
+            vms[61 + selectedCharacter * 2].color1Bytes[1] = 0xFF;
+            vms[61 + selectedCharacter * 2].color1Bytes[2] = 0xFF;
+            vms[93 + otherCharacter * 2].color1Bytes[0] = 0xFF;
+            vms[93 + otherCharacter * 2].color1Bytes[1] = 0xFF;
+            vms[93 + otherCharacter * 2].color1Bytes[2] = 0xFF;
+            vms[61 + otherCharacter * 2].color1Bytes[0] = 0xFF;
+            vms[61 + otherCharacter * 2].color1Bytes[1] = 0xFF;
+            vms[61 + otherCharacter * 2].color1Bytes[2] = 0xFF;
+
+            SetCharacterCursorActive(selectedCharacter, 92, 14, 2);
+            SetCharacterCursorActive(selectedCharacter, 60, 14, 2);
+            side0CharacterConfirmed = 0;
+            currentScreenState = 0;
+            stateTimer = 0;
+            uiAux = 0;
+            unknown0C918 = 1;
+            side1CharacterConfirmed = 1;
+            UpdateCharacterSelectionVisuals(0, selectedCharacter, selectedCharacter, g_TitleCharacterOrder14);
+
+            characterSettingInputActive = 0;
+            side0CharacterSetting = 10;
+            side1CharacterSetting = 10;
+            if (g_TitleInput.currentInput & 4)
+            {
+                characterSettingInputActive = 1;
+                UpdateCharacterSettings(10, 10);
+            }
+
+            i32 optionState = g_TitleDifficulty == 4
+                ? g_TitleCharacterConfig.optionValues[selectedCharacter][0]
+                : g_TitleCharacterConfig.GetOptionState(selectedCharacter, g_TitleDifficulty);
+            SetCharacterSettingIndicator(0, optionState);
+        }
+
+        if (stateTimer2 == 8)
+            currentScreenState = 1;
+        break;
+
+    case 1:
+    {
+        if (side0CharacterConfirmed == 0)
+        {
+            if (g_TitleInput.currentInput & 4)
+            {
+                if (characterSettingInputActive)
+                {
+                    if (g_TitleInput.IsPressedScrolling(0x40))
+                    {
+                        if (side0CharacterSetting > 1)
+                            side0CharacterSetting--;
+                        UpdateCharacterSettings(side0CharacterSetting, side1CharacterSetting);
+                    }
+                    if (g_TitleInput.IsPressedScrolling(0x80))
+                    {
+                        if (side0CharacterSetting < 10)
+                            side0CharacterSetting++;
+                        UpdateCharacterSettings(side0CharacterSetting, side1CharacterSetting);
+                    }
+                }
+            }
+            else
+            {
+                i32 direction = MoveCharacterCursorHorizontalForInput(2, 0, 14);
+                if (direction != 0)
+                {
+                    if (g_TitleDifficulty == 4)
+                        MoveCharacterCursorMode4(0, direction, g_TitleCharacterOrder14, 14);
+                    else
+                        MoveCharacterCursorNormal(0, direction, g_TitleCharacterOrder14, 14);
+
+                    char selectedCharacter = g_TitleCharacterOrder14[side0CharacterCursor];
+                    i32 optionState = g_TitleDifficulty == 4
+                        ? g_TitleCharacterConfig.optionValues[selectedCharacter][0]
+                        : g_TitleCharacterConfig.GetOptionState(selectedCharacter, g_TitleDifficulty);
+                    SetCharacterSettingIndicator(0, optionState);
+
+                    if (direction > 0)
+                    {
+                        SetCharacterCursorActive(selectedCharacter, 92, 14, 2);
+                        SetCharacterCursorActive(selectedCharacter, 60, 14, 2);
+                    }
+                    else
+                    {
+                        SetCharacterCursorReverse(selectedCharacter, 92, 14, 2);
+                        SetCharacterCursorReverse(selectedCharacter, 60, 14, 2);
+                    }
+                    UpdateCharacterSelectionVisuals(0, selectedCharacter, selectedCharacter, g_TitleCharacterOrder14);
+                }
+            }
+        }
+
+        char selectedCharacter = g_TitleCharacterOrder14[side0CharacterCursor];
+        if ((g_TitleInputFlags & 0x1001) && side0CharacterConfirmed == 0)
+        {
+            PlayMenuSound(10, 0);
+            side0CharacterConfirmed = 1;
+            vms[92 + selectedCharacter * 2].color1Bytes[0] = 0x80;
+            vms[92 + selectedCharacter * 2].color1Bytes[1] = 0x80;
+            vms[92 + selectedCharacter * 2].color1Bytes[2] = 0x80;
+            vms[60 + selectedCharacter * 2].color1Bytes[0] = 0x80;
+            vms[60 + selectedCharacter * 2].color1Bytes[1] = 0x80;
+            vms[60 + selectedCharacter * 2].color1Bytes[2] = 0x80;
+            g_GameSide0Value30 = (g_TitleInput.currentInput >> 2) & 1;
+        }
+
+        if (side0CharacterConfirmed && side1CharacterConfirmed)
+        {
+            g_TitleSupervisor.StopAudio();
+            g_GameSide0Value20 = selectedCharacter;
+            g_GameSide1Value20 = 0;
+            g_GameSide1Value30 = (g_TitleInput.currentInput >> 14) & 1;
+            g_TitleGlobalMode = 0;
+
+            if (currentScreen == 3)
+            {
+                g_GameValueDB8 = 0;
+                g_GameMode = 0;
+                g_GameValueDF0 = 1;
+                g_TitleLaunchState = 2;
+            }
+            else if (currentScreen == 5)
+            {
+                g_GameValueDB8 = 0;
+                g_GameMode = 1;
+                g_GameValueDF0 = 1;
+                g_TitleLaunchState = 2;
+            }
+            else
+            {
+                switch (g_TitleModeSelection)
+                {
+                case 0:
+                    g_GameValueDB8 = 0;
+                    g_GameValueDF0 = 0;
+                    g_GameMode = 2;
+                    g_TitleLaunchState = 2;
+                    break;
+                case 1:
+                    g_GameValueDB8 = 0;
+                    g_GameMode = 2;
+                    g_GameValueDF0 = 1;
+                    g_TitleLaunchState = 2;
+                    break;
+                case 2:
+                    g_GameValueDB8 = 1;
+                    g_GameValueDF0 = 0;
+                    g_GameMode = 2;
+                    g_TitleLaunchState = 2;
+                    break;
+                case 3:
+                    g_GameValueDB8 = 1;
+                    g_GameMode = 2;
+                    g_GameValueDF0 = 1;
+                    g_TitleLaunchState = 2;
+                    break;
+                default:
+                    break;
+                }
+            }
+
+            g_TitleCharacterReturnSelection = g_TitleDifficulty;
+            g_GameSide0CharacterSetting = side0CharacterSetting;
+            g_GameSide1CharacterSetting = side1CharacterSetting;
+            return 0;
+        }
+
+        if ((g_TitleInputFlags & 0xA) && side0CharacterConfirmed == 0)
+        {
+            g_TitleCharacterReturnSelection = keyboardSelection;
+            PlayMenuSound(11, 0);
+            stateTimer = 0;
+            g_GameSide0Value20 = selectedCharacter;
+            if (currentScreen == 3)
+                ChangeCurrentScreen(2);
+            else if (currentScreen == 5)
+                ChangeCurrentScreen(4);
+            else
+                ChangeCurrentScreen(7);
+            return 1;
+        }
+        break;
+    }
+    }
+
+    stateTimer++;
+    screenFrameCounter++;
+    stateTimer2++;
+    return 1;
+}
+
+
+int TitleScreenView::UpdateScreen8Mode0()
 {
     i32 value;
 
@@ -417,8 +1086,8 @@ int TitleScreenView::OnUpdateCharacterSelect()
                     }
                     else
                     {
-                        SetCharacterCursorInactive(side0Character, 92, 16, 2);
-                        SetCharacterCursorInactive(side0Character, 60, 16, 2);
+                        SetCharacterCursorReverse(side0Character, 92, 16, 2);
+                        SetCharacterCursorReverse(side0Character, 60, 16, 2);
                     }
                     UpdateCharacterSelectionVisuals(0, side0Character, side1Character, g_TitleCharacterOrder);
                 }
@@ -470,8 +1139,8 @@ int TitleScreenView::OnUpdateCharacterSelect()
                     }
                     else
                     {
-                        SetCharacterCursorInactive(side1Character, 93, 16, 2);
-                        SetCharacterCursorInactive(side1Character, 61, 16, 2);
+                        SetCharacterCursorReverse(side1Character, 93, 16, 2);
+                        SetCharacterCursorReverse(side1Character, 61, 16, 2);
                     }
                     UpdateCharacterSelectionVisuals(1, side1Character, side0Character, g_TitleCharacterOrder);
                 }
@@ -601,6 +1270,420 @@ int TitleScreenView::OnUpdateCharacterSelect()
     return 1;
 }
 
+int TitleScreenView::UpdateScreen8Mode123()
+{
+    switch (currentScreenState)
+    {
+    case 0:
+        if (stateTimer2 == 0)
+        {
+            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 13);
+            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+
+            i32 visibleCount = 0;
+            for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
+            {
+                char character = g_TitleCharacterOrderMode123[orderIndex];
+                if (g_TitleCharacterUnlocked[character])
+                {
+                    titleAnm->SetSprite(&vms[191 + visibleCount], character + 235);
+                    vms[191 + visibleCount].flags |= 2;
+                    visibleCount++;
+                }
+            }
+            for (i32 index = visibleCount; index < 16; index++)
+                vms[191 + index].flags &= ~2u;
+
+            vms[189].flags |= 2;
+            vms[190].flags &= ~2u;
+
+            side0CharacterCursor = 0;
+            while (g_TitleCharacterOrderMode123[side0CharacterCursor] != g_GameSide0Value20)
+                side0CharacterCursor++;
+            side1CharacterCursor = 0;
+            while (g_TitleCharacterOrderMode123[side1CharacterCursor] != g_GameSide1Value20)
+                side1CharacterCursor++;
+
+            MoveCharacterCursor(0, 1, g_TitleCharacterOrderMode123, 16);
+            MoveCharacterCursor(1, 1, g_TitleCharacterOrderMode123, 16);
+
+            char side0Character = g_TitleCharacterOrderMode123[side0CharacterCursor];
+            char side1Character = g_TitleCharacterOrderMode123[side1CharacterCursor];
+
+            vms[92 + side0Character * 2].color1Bytes[0] = 0xFF;
+            vms[92 + side0Character * 2].color1Bytes[1] = 0xFF;
+            vms[92 + side0Character * 2].color1Bytes[2] = 0xFF;
+            vms[60 + side0Character * 2].color1Bytes[0] = 0xFF;
+            vms[60 + side0Character * 2].color1Bytes[1] = 0xFF;
+            vms[60 + side0Character * 2].color1Bytes[2] = 0xFF;
+            vms[93 + side1Character * 2].color1Bytes[0] = 0xFF;
+            vms[93 + side1Character * 2].color1Bytes[1] = 0xFF;
+            vms[93 + side1Character * 2].color1Bytes[2] = 0xFF;
+            vms[61 + side1Character * 2].color1Bytes[0] = 0xFF;
+            vms[61 + side1Character * 2].color1Bytes[1] = 0xFF;
+            vms[61 + side1Character * 2].color1Bytes[2] = 0xFF;
+
+            SetCharacterCursorActive(side0Character, 92, 16, 2);
+            SetCharacterCursorActive(side1Character, 93, 16, 2);
+            SetCharacterCursorActive(side0Character, 60, 16, 2);
+            SetCharacterCursorActive(side1Character, 61, 16, 2);
+
+            unknown0C918 = 1;
+            side1CharacterConfirmed = 0;
+            side0CharacterConfirmed = 0;
+            currentScreenState = 0;
+            stateTimer = 0;
+            uiAux = 0;
+            side0CharacterSetting = g_GameSide0CharacterSetting;
+            side1CharacterSetting = g_GameSide1CharacterSetting;
+            UpdateCharacterSettings(side0CharacterSetting, side1CharacterSetting);
+            UpdateCharacterSelectionVisuals(
+                0, side0Character, side0Character, g_TitleCharacterOrderMode123);
+        }
+
+        if (stateTimer2 == 8)
+            currentScreenState = 1;
+        break;
+
+    case 1:
+    {
+        char side0Character = g_TitleCharacterOrderMode123[side0CharacterCursor];
+        char side1Character = g_TitleCharacterOrderMode123[side1CharacterCursor];
+
+        if (side0CharacterConfirmed == 0)
+        {
+            if (g_TitleInput.currentInput & 4)
+            {
+                if (g_TitleInput.IsPressedScrolling(0x40))
+                {
+                    if (side0CharacterSetting > 1)
+                        side0CharacterSetting--;
+                    UpdateCharacterSettings(side0CharacterSetting, side1CharacterSetting);
+                }
+                if (g_TitleInput.IsPressedScrolling(0x80))
+                {
+                    if (side0CharacterSetting < 10)
+                        side0CharacterSetting++;
+                    UpdateCharacterSettings(side0CharacterSetting, side1CharacterSetting);
+                }
+            }
+            else
+            {
+                i32 direction = MoveCharacterCursorHorizontalForInput(2, 0, 16);
+                if (direction != 0)
+                {
+                    MoveCharacterCursor(0, direction, g_TitleCharacterOrderMode123, 16);
+                    side0Character = g_TitleCharacterOrderMode123[side0CharacterCursor];
+                    side1Character = g_TitleCharacterOrderMode123[side1CharacterCursor];
+                    if (direction > 0)
+                    {
+                        SetCharacterCursorActive(side0Character, 92, 16, 2);
+                        SetCharacterCursorActive(side0Character, 60, 16, 2);
+                    }
+                    else
+                    {
+                        SetCharacterCursorReverse(side0Character, 92, 16, 2);
+                        SetCharacterCursorReverse(side0Character, 60, 16, 2);
+                    }
+                    UpdateCharacterSelectionVisuals(
+                        0, side0Character, side0Character, g_TitleCharacterOrderMode123);
+                }
+            }
+        }
+        else if (side1CharacterConfirmed == 0)
+        {
+            if (g_TitleInput.currentInput & 4)
+            {
+                if (g_TitleInput.IsPressedScrolling(0x40))
+                {
+                    if (side1CharacterSetting > 1)
+                        side1CharacterSetting--;
+                    UpdateCharacterSettings(side0CharacterSetting, side1CharacterSetting);
+                }
+                if (g_TitleInput.IsPressedScrolling(0x80))
+                {
+                    if (side1CharacterSetting < 10)
+                        side1CharacterSetting++;
+                    UpdateCharacterSettings(side0CharacterSetting, side1CharacterSetting);
+                }
+            }
+            else
+            {
+                i32 direction = MoveCharacterCursorHorizontalForInput(2, 1, 16);
+                if (direction != 0)
+                {
+                    MoveCharacterCursor(1, direction, g_TitleCharacterOrderMode123, 16);
+                    side0Character = g_TitleCharacterOrderMode123[side0CharacterCursor];
+                    side1Character = g_TitleCharacterOrderMode123[side1CharacterCursor];
+                    if (direction < 0)
+                    {
+                        SetCharacterCursorActive(side1Character, 93, 16, 2);
+                        SetCharacterCursorActive(side1Character, 61, 16, 2);
+                    }
+                    else
+                    {
+                        SetCharacterCursorReverse(side1Character, 93, 16, 2);
+                        SetCharacterCursorReverse(side1Character, 61, 16, 2);
+                    }
+                    UpdateCharacterSelectionVisuals(
+                        1, side1Character, side0Character, g_TitleCharacterOrderMode123);
+                }
+            }
+        }
+
+        if ((g_TitleInputFlags & 0x1001) && side0CharacterConfirmed == 0)
+        {
+            PlayMenuSound(10, 0);
+            side0CharacterConfirmed = 1;
+            vms[92 + side0Character * 2].color1Bytes[0] = 0x80;
+            vms[92 + side0Character * 2].color1Bytes[1] = 0x80;
+            vms[92 + side0Character * 2].color1Bytes[2] = 0x80;
+            vms[60 + side0Character * 2].color1Bytes[0] = 0x80;
+            vms[60 + side0Character * 2].color1Bytes[1] = 0x80;
+            vms[60 + side0Character * 2].color1Bytes[2] = 0x80;
+            g_GameSide0Value30 = (g_TitleInput.currentInput >> 2) & 1;
+            if (side1CharacterConfirmed && side0Character == side1Character)
+                g_GameSide0Value30 = 1 - g_GameSide1Value30;
+            vms[190].flags |= 2;
+            UpdateCharacterSelectionVisuals(
+                1, side1Character, side0Character, g_TitleCharacterOrderMode123);
+        }
+        else if ((g_TitleInputFlags & 0x1001) && side1CharacterConfirmed == 0)
+        {
+            PlayMenuSound(10, 0);
+            side1CharacterConfirmed = 1;
+            vms[93 + side1Character * 2].color1Bytes[0] = 0x80;
+            vms[93 + side1Character * 2].color1Bytes[1] = 0x80;
+            vms[93 + side1Character * 2].color1Bytes[2] = 0x80;
+            vms[61 + side1Character * 2].color1Bytes[0] = 0x80;
+            vms[61 + side1Character * 2].color1Bytes[1] = 0x80;
+            vms[61 + side1Character * 2].color1Bytes[2] = 0x80;
+            g_GameSide1Value30 = (g_TitleInput.currentInput >> 2) & 1;
+            if (side0CharacterConfirmed && side0Character == side1Character)
+                g_GameSide1Value30 = 1 - g_GameSide0Value30;
+        }
+
+        if (side0CharacterConfirmed && side1CharacterConfirmed)
+        {
+            g_GameSide0Value20 = side0Character;
+            g_GameSide1Value20 = side1Character;
+            g_GameSide0CharacterSetting = side0CharacterSetting;
+            g_GameSide1CharacterSetting = side1CharacterSetting;
+            PlayMenuSound(10, 0);
+            ChangeCurrentScreen(16);
+            UpdateScreen16();
+            return 1;
+        }
+
+        if ((g_TitleInputFlags & 0xA) && side0CharacterConfirmed == 0)
+        {
+            g_TitleCharacterReturnSelection = keyboardSelection;
+            PlayMenuSound(11, 0);
+            stateTimer = 0;
+            g_GameSide0Value20 = side0Character;
+            g_GameSide1Value20 = side1Character;
+            if (currentScreen == 3)
+                ChangeCurrentScreen(2);
+            else if (currentScreen == 5)
+                ChangeCurrentScreen(4);
+            else
+                ChangeCurrentScreen(7);
+            return 1;
+        }
+
+        if (g_TitleInputFlags & 0xA)
+        {
+            if (side1CharacterConfirmed)
+            {
+                side1CharacterConfirmed = 0;
+                PlayMenuSound(11, 0);
+                vms[93 + side1Character * 2].color1Bytes[0] = 0xFF;
+                vms[93 + side1Character * 2].color1Bytes[1] = 0xFF;
+                vms[93 + side1Character * 2].color1Bytes[2] = 0xFF;
+                vms[61 + side1Character * 2].color1Bytes[0] = 0xFF;
+                vms[61 + side1Character * 2].color1Bytes[1] = 0xFF;
+                vms[61 + side1Character * 2].color1Bytes[2] = 0xFF;
+            }
+            else if (side0CharacterConfirmed)
+            {
+                side0CharacterConfirmed = 0;
+                PlayMenuSound(11, 0);
+                vms[92 + side0Character * 2].color1Bytes[0] = 0xFF;
+                vms[92 + side0Character * 2].color1Bytes[1] = 0xFF;
+                vms[92 + side0Character * 2].color1Bytes[2] = 0xFF;
+                vms[60 + side0Character * 2].color1Bytes[0] = 0xFF;
+                vms[60 + side0Character * 2].color1Bytes[1] = 0xFF;
+                vms[60 + side0Character * 2].color1Bytes[2] = 0xFF;
+                vms[190].flags &= ~2u;
+                UpdateCharacterSelectionVisuals(
+                    0, side0Character, side0Character, g_TitleCharacterOrderMode123);
+            }
+        }
+        break;
+    }
+    }
+
+    stateTimer++;
+    screenFrameCounter++;
+    stateTimer2++;
+    return 1;
+}
+
+
+int TitleScreenView::UpdateScreen16()
+{
+    switch (currentScreenState)
+    {
+    case 0:
+        if (stateTimer2 == 0)
+        {
+            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 26);
+            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+
+            i32 visibleCount = 0;
+            for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
+            {
+                char character = g_TitleScreen16Order[orderIndex];
+                if (character > 13 || g_TitleCharacterUnlocked[character] || g_OptionPointers[42])
+                {
+                    titleAnm->SetSprite(&vms[207 + visibleCount], character + 251);
+                    vms[207 + visibleCount].flags |= 2;
+                    g_TitleScreen16Entries[visibleCount] = character;
+                    visibleCount++;
+                }
+            }
+
+            keyboardSelection = visibleCount - 2;
+            for (i32 index = visibleCount; index < 16; index++)
+            {
+                vms[207 + index].flags &= ~2u;
+                g_TitleScreen16Entries[index] = -1;
+            }
+
+            vms[189].flags |= 2;
+            vms[190].flags |= 2;
+            currentScreenState = 0;
+            stateTimer = 0;
+            uiAux = 0;
+            unknown0C918 = 1;
+            UpdateScreen16SelectionVisuals(0, g_TitleScreen16Entries[keyboardSelection],
+                                           g_TitleScreen16Order);
+        }
+
+        if (stateTimer2 == 8)
+            currentScreenState = 1;
+        break;
+
+    case 1:
+    {
+        i32 direction = MoveCursorFourWay(16);
+        if (direction != 0)
+        {
+            while (g_TitleScreen16Entries[keyboardSelection] < 0)
+                keyboardSelection = (direction + keyboardSelection) % 16;
+            UpdateScreen16SelectionVisuals(0, g_TitleScreen16Entries[keyboardSelection],
+                                           g_TitleScreen16Order);
+        }
+
+        if (g_TitleInput.currentInput & 0x100)
+        {
+            keyboardSelection += g_TitleSelectionRandom.NextU32() & 0xF;
+            if (keyboardSelection >= 16)
+                keyboardSelection -= 16;
+            UpdateScreen16SelectionVisuals(0, g_TitleScreen16Entries[keyboardSelection],
+                                           g_TitleScreen16Order);
+        }
+
+        if (g_TitleInputFlags & 0x1001)
+        {
+            PlayMenuSound(10, 0);
+            g_TitleSupervisor.StopAudio();
+            g_TitleGlobalMode = 0;
+
+            if (currentScreen == 3)
+            {
+                g_GameValueDF0 = 1;
+                g_TitleLaunchState = 2;
+                g_GameMode = 0;
+                g_GameValueDB8 = 0;
+            }
+            else if (currentScreen == 5)
+            {
+                g_GameValueDF0 = 1;
+                g_TitleLaunchState = 2;
+                g_GameMode = 1;
+                g_GameValueDB8 = 0;
+            }
+            else
+            {
+                switch (g_TitleModeSelection)
+                {
+                case 0:
+                case 4:
+                    g_GameValueDF0 = 0;
+                    g_TitleLaunchState = 2;
+                    g_GameMode = 2;
+                    g_GameValueDB8 = 0;
+                    break;
+                case 1:
+                    g_GameValueDF0 = 1;
+                    g_TitleLaunchState = 2;
+                    g_GameMode = 2;
+                    g_GameValueDB8 = 0;
+                    break;
+                case 2:
+                    g_GameValueDF0 = 0;
+                    g_GameValueDB8 = 1;
+                    g_TitleLaunchState = 2;
+                    g_GameMode = 2;
+                    break;
+                case 3:
+                    g_GameValueDF0 = 1;
+                    g_GameValueDB8 = 1;
+                    g_TitleLaunchState = 2;
+                    g_GameMode = 2;
+                    break;
+                default:
+                    break;
+                }
+            }
+
+            g_TitleCharacterReturnSelection = g_TitleDifficulty;
+            g_GameSide0CharacterSetting = side0CharacterSetting;
+            g_GameSide1CharacterSetting = side1CharacterSetting;
+
+            g_TitleScreen16SelectionResult = g_TitleScreen16Entries[keyboardSelection];
+            if (g_TitleScreen16SelectionResult == 14)
+                g_TitleScreen16SelectionResult = -1;
+            else if (g_TitleScreen16SelectionResult == 15)
+                g_TitleScreen16SelectionResult = -2;
+            else
+                g_TitleScreen16SelectionResult = g_TitleScreen16Entries[keyboardSelection];
+            return 0;
+        }
+
+        if (g_TitleInputFlags & 0xA)
+        {
+            PlayMenuSound(11, 0);
+            stateTimer = 0;
+            ChangeCurrentScreen(8);
+            if (g_TitleModeSelection == 0 || g_TitleModeSelection == 4)
+                UpdateScreen8Mode0();
+            else if (g_TitleModeSelection >= 1 && g_TitleModeSelection <= 3)
+                UpdateScreen8Mode123();
+            return 1;
+        }
+        break;
+    }
+    }
+
+    stateTimer++;
+    screenFrameCounter++;
+    stateTimer2++;
+    return 1;
+}
+
+
 int TitleScreenView::OnUpdateResultNameEntry()
 {
     switch (currentScreenState)
@@ -608,7 +1691,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
     case 0:
         if (stateTimer2 == 0)
         {
-            g_TitleSupervisor.PrepareResultScreen();
+            g_TitleSupervisor.StopAudio();
             if (g_TitleAnmManager->LoadSurface(0, "title/result00.png"))
                 return 0;
 
