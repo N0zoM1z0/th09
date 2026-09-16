@@ -2036,7 +2036,7 @@ target = 0x0042457A
 [[units.title-screen-mode-select.relocations]]
 offset = 72
 type = "REL32"
-symbol = "?UpdateMenuSelection@TitleScreenView@@QAEHXZ"
+symbol = "?UpdateMenuSelection@TitleScreenView@@QAEXXZ"
 target = 0x004276D7
 
 [[units.title-screen-mode-select.relocations]]
@@ -2210,7 +2210,7 @@ target = 0x004A7EA4
 [[units.title-screen-mode-select.relocations]]
 offset = 442
 type = "REL32"
-symbol = "?UpdateMenuSelection@TitleScreenView@@QAEHXZ"
+symbol = "?UpdateMenuSelection@TitleScreenView@@QAEXXZ"
 target = 0x004276D7
 
 [units.title-screen-result-name-entry]
@@ -9305,4 +9305,34 @@ functions = ["SupervisorDrawMainAnmManagerView::ResetDrawState"]
 symbol = "?ResetDrawState@SupervisorDrawMainAnmManagerView@@QAEXXZ"
 target_address = 0x00439680
 size = 0x1D
+relocations = []
+
+[units.player-shared-is-blocked]
+source = "src/PlayerSharedRuntimeLeaves.cpp"
+object = "build/matching/PlayerSharedRuntimeLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerSharedRuntimeView::IsBlocked"]
+symbol = "?IsBlocked@PlayerSharedRuntimeView@@QAEHXZ"
+target_address = 0x00404980
+size = 0x18
+relocations = []
+
+[units.player-lifecycle-initialize-type]
+source = "src/PlayerLifecycleType.cpp"
+object = "build/matching/PlayerLifecycleType.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerLifecycleView::InitializeType"]
+symbol = "?InitializeType@PlayerLifecycleView@@QAEXE@Z"
+target_address = 0x0041BDE0
+size = 0x0D
+relocations = []
+
+[units.title-supervisor-clear-recording-fps-warning]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleSupervisorView::ClearRecordingFpsWarningState"]
+symbol = "?ClearRecordingFpsWarningState@TitleSupervisorView@@QAEHXZ"
+target_address = 0x00423382
+size = 0x21
 relocations = []

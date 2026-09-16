@@ -216,6 +216,13 @@ struct TitleSupervisorView {
     i32 subthreadActive;                       // +0x6B8
     u8 unknown6BC[0x84];
     i32 loadingVmsHaveBeenSetup;               // +0x740
+    u8 unknown744[0x38];
+    i32 recordingFpsWarning77C;                 // +0x77C
+    i32 playbackFpsWarning780;                  // +0x780
+    i32 recordingFpsState784;                   // +0x784
+    i32 recordingFpsState788;                   // +0x788
+    i32 recordingFpsState78C;                   // +0x78C
+    i32 recordingFpsState790;                   // +0x790
 
     int LoadMusic(i32 trackId);
     void PlayMusic(i32 track, i32 unused);
@@ -236,6 +243,12 @@ typedef char TitleSupervisorThreadAt6AC[(offsetof(TitleSupervisorView, runningSu
 typedef char TitleSupervisorCloseAt6B4[(offsetof(TitleSupervisorView, subthreadCloseRequestActive) == 0x6B4) ? 1 : -1];
 typedef char TitleSupervisorActiveAt6B8[(offsetof(TitleSupervisorView, subthreadActive) == 0x6B8) ? 1 : -1];
 typedef char TitleSupervisorLoadingAt740[(offsetof(TitleSupervisorView, loadingVmsHaveBeenSetup) == 0x740) ? 1 : -1];
+typedef char TitleSupervisorRecordingWarningAt77C[
+    (offsetof(TitleSupervisorView, recordingFpsWarning77C) == 0x77C) ? 1 : -1];
+typedef char TitleSupervisorPlaybackWarningAt780[
+    (offsetof(TitleSupervisorView, playbackFpsWarning780) == 0x780) ? 1 : -1];
+typedef char TitleSupervisorRecordingState790[
+    (offsetof(TitleSupervisorView, recordingFpsState790) == 0x790) ? 1 : -1];
 
 struct TitleAsciiManagerView {
     void Reset();
@@ -3404,4 +3417,14 @@ int TitleScreenView::OnUpdateModeSelect()
     screenFrameCounter++;
     stateTimer2++;
     return 1;
+}
+
+int TitleSupervisorView::ClearRecordingFpsWarningState()
+{
+    this->recordingFpsWarning77C = 0;
+    this->recordingFpsState784 = 0;
+    this->recordingFpsState790 = 0;
+    this->recordingFpsState788 = 0;
+    this->recordingFpsState78C = 0;
+    return 0;
 }

@@ -270,7 +270,9 @@ typedef char PlayerTailStateCtorSizeIs2C4[(sizeof(PlayerTailStateCtorView) == 0x
 
 struct PlayerLifecycleView
 {
-    unsigned char unknown0000[0x08];
+    unsigned char unknown0000[0x04];
+    unsigned char playerType04;
+    unsigned char unknown0005[0x03];
     int sideIndex;
     PlayerSideStateView *sideState;
     PlayerSideStateView *opponentState;
@@ -354,6 +356,8 @@ struct PlayerLifecycleView
 };
 
 typedef char PlayerLifecycleSizeIs30F70[(sizeof(PlayerLifecycleView) == 0x30F70) ? 1 : -1];
+typedef char PlayerLifecycleTypeAt04[
+    (offsetof(PlayerLifecycleView, playerType04) == 0x04) ? 1 : -1];
 typedef char PlayerLifecycleSideIndexAt08[(offsetof(PlayerLifecycleView, sideIndex) == 0x08) ? 1 : -1];
 typedef char PlayerLifecycleHeaderAt24[(offsetof(PlayerLifecycleView, header24) == 0x24) ? 1 : -1];
 typedef char PlayerLifecycleMainVmAtC0[(offsetof(PlayerLifecycleView, mainVm) == 0xC0) ? 1 : -1];

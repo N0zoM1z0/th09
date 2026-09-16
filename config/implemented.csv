@@ -535,3 +535,6 @@ SupervisorAudioGameManagerView::HasFlagBit1
 SupervisorDrawMainAnmManagerView::GetSurface
 SupervisorDrawMainAsciiManagerView::SetAlpha
 SupervisorDrawMainAnmManagerView::ResetDrawState
+PlayerSharedRuntimeView::IsBlocked
+PlayerLifecycleView::InitializeType
+TitleSupervisorView::ClearRecordingFpsWarningState

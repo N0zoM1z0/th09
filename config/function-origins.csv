@@ -81,7 +81,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00404920,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00404950,authored_game,ZunTimer,authored,high,packet187-small-support-leaves-2026-09-17
 0x00404970,authored_game,GameManager,authored,high,packet170-ending-playstats-2026-09-16
-0x00404980,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00404980,authored_game,Player,authored,high,packet188-small-accessor-leaves-2026-09-17
 0x004049A0,authored_game,Player,authored,high,packet-149-core-boss-owner-triage
 0x00405650,authored_game,BulletManager,authored,high,packet182-leaf-exact-target-replay-2026-09-16
 0x00405660,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -367,7 +367,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041BD90,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041BDA0,authored_game,Player,authored,high,player-added-collision-reset-vc71-exact-2026-09-15
 0x0041BDC0,authored_game,Player,authored,high,player-added-header-reset-vc71-exact-2026-09-15
-0x0041BDE0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041BDE0,authored_game,Player,authored,high,packet188-small-accessor-leaves-2026-09-17
 0x0041BDF0,authored_game,Player,authored,high,player-collision-helper-module-2026-09-15
 0x0041BE70,authored_game,Player,authored,high,player-collision-helper-module-2026-09-15
 0x0041BEE0,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -484,7 +484,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00423158,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00423182,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x00423361,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00423382,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00423382,authored_game,Supervisor,authored,high,packet188-small-accessor-leaves-2026-09-17
 0x004233A3,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004233F4,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00423469,authored_game,AnmManager,authored,high,packet128-anm-runtime-vc71-exact-2026-09-15

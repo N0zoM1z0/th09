@@ -536,3 +536,6 @@ SupervisorAudioGameManagerView::HasFlagBit1,0x0041A9AC,function
 SupervisorDrawMainAnmManagerView::GetSurface,0x0042F400,function
 SupervisorDrawMainAsciiManagerView::SetAlpha,0x004302A0,function
 SupervisorDrawMainAnmManagerView::ResetDrawState,0x00439680,function
+PlayerSharedRuntimeView::IsBlocked,0x00404980,function
+PlayerLifecycleView::InitializeType,0x0041BDE0,function
+TitleSupervisorView::ClearRecordingFpsWarningState,0x00423382,function
