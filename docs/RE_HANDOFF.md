@@ -3264,5 +3264,13 @@ Connected canonical regressions remain exact after the shared TitleScreen declar
 ### Checkpoint plan
 
 - Planned primary subject: `gpt-web: reconstruct TitleScreen result view`.
-- Primary checkpoint hash: pending local commit.
+- Primary checkpoint hash: `a2183f3f4c32f8e5afb3aed6b797521431d3842e` (`gpt-web: reconstruct TitleScreen result view`).
 - Nothing has been pushed.
+
+### Packet 167 post-checkpoint Factory acceptance audit
+
+- The primary repository checkpoint is `a2183f3f4c32f8e5afb3aed6b797521431d3842e` (`gpt-web: reconstruct TitleScreen result view`). The live repository was clean at that HEAD before and after acceptance queries.
+- A fresh `factory_get_accepted_snapshot(th09)` request returned `ReplayError: another factory operation owns <operator-path>` before any authoritative snapshot was produced.
+- A second freshness route, `factory_get_acceptance_registry(detail=summary)`, returned the same operator-path lock error. No accepted-state head, accepted codegen fact, accepted byte/function count, or acceptance metric is synthesized from these unavailable calls.
+- Packet 167 therefore remains repository-canonical for the 112-byte helper, while fresh Truth Kernel acceptance is unavailable in this session. The 485-byte result owner remains repository source-present/NON-EXACT independently of Factory acceptance.
+- This audit changes documentation only; source, ledgers, exact match units, progress, target bytes, whole-build/runtime state, and IDA metadata are unchanged. Nothing was pushed.
