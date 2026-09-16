@@ -3274,3 +3274,89 @@ Connected canonical regressions remain exact after the shared TitleScreen declar
 - A second freshness route, `factory_get_acceptance_registry(detail=summary)`, returned the same operator-path lock error. No accepted-state head, accepted codegen fact, accepted byte/function count, or acceptance metric is synthesized from these unavailable calls.
 - Packet 167 therefore remains repository-canonical for the 112-byte helper, while fresh Truth Kernel acceptance is unavailable in this session. The 485-byte result owner remains repository source-present/NON-EXACT independently of Factory acceptance.
 - This audit changes documentation only; source, ledgers, exact match units, progress, target bytes, whole-build/runtime state, and IDA metadata are unchanged. Nothing was pushed.
+
+## Packet 168 checkpoint — TitleScreen setup lifecycle and denominator expansion (2026-09-16)
+
+### Starting state and recovery
+
+- Packet 168 starts from the clean Packet-167 audit checkpoint `077296b2037588afc7c0f5d36b83136b55e61d0c` on `main`, upstream `origin/main`, `+8/-0`; entry Git state is `0 staged / 0 unstaged / 0 untracked / 0 conflicts`.
+- The same ignored operator target remains mode `0444`, size `685056`, SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`, MD5 `cf634df46e05552e104fa97a971aaac0`; it is never modified, moved, staged, committed, or replaced.
+- A fresh native `th09-ida get_metadata {}` passed before this packet's target-dependent work. Several later IDA/repository requests encountered transient Factory network/transport failures. Every such failure was followed by live repository-status inspection; target-dependent IDA work resumed only after a fresh passed `get_metadata {}` attestation. One interrupted rename was read back before retry: IDA had auto-renamed the five-byte wrapper to `j_TitleScreen_ActualAddedCallback`, after which it was explicitly renamed to the reviewed semantic role `TitleScreen_AddedCallback`.
+- Packet-168 entry `.analysis/` was approximately `66,352 KiB`. TH08 remains clean committed HEAD `a45e99fb1942714e6edded20847e32a654d56f97`. TH095 remains unrelated live-dirty; no TH095 working-copy content was used. Only committed TH08 TitleScreen lifecycle content materially shaped source-family hypotheses.
+
+### Packet selection and boundary expansion
+
+Fresh TH09 registration/xref evidence turns the former `0x004249E1 / 0x00424BF7` setup lead into a five-function contiguous lifecycle cohort rather than a pair of isolated helpers:
+
+- `TitleScreenView::TitleSetupThread @ 0x004249E1-0x00424BF6` — 534-byte setup worker whose address is passed by the actual added callback to `Supervisor::ThreadStart`;
+- `TitleScreenView::ActualAddedCallback @ 0x00424BF7-0x00424D45` — 335-byte actual lifecycle body;
+- `TitleScreenView::AddedCallback @ 0x00424D46-0x00424D4A` — five-byte registered wrapper that naturally tail-jumps to the actual member body under `/Gr`;
+- `TitleScreenView::Release @ 0x00424D4B-0x00424D9E` — 84-byte replay/VM allocation cleanup helper;
+- `TitleScreenView::DeletedCallback @ 0x00424D9F-0x00424DFE` — 96-byte registered deleted callback that IDA recognized but the repository candidate inventory had omitted entirely.
+
+`TitleScreen::RegisterChain @ 0x0042AB13` independently binds `0x00424D46` as the calc-chain added callback and exact `0x00424D9F` as its deleted callback. Bounded raw bytes around `0x00424D80` show the Release `ret` immediately before `0x00424D9F` and the DeletedCallback `ret` immediately before independent `0x00424DFF`. Packet 168 therefore adds one real authored candidate to the denominator instead of merely consuming the original IDA import.
+
+The packet remains a hard/reuse-balanced unit: a 534-byte worker is kept NON-EXACT, a 335-byte actual owner is solved exactly, and the callback/cleanup boundaries close around it. The five-byte wrapper is not classified as compiler-generated merely because it is a tail jump; natural maintained C++ reproduces the exact wrapper under the pinned `/Gr` profile.
+
+### Reconstructed lifecycle source
+
+Maintained `src/TitleScreen.cpp` now exposes only target-backed physical fields/API needed by the lifecycle:
+
+- `AnmVmView` physical low flags, active sprite index `+0x214`, and text cell width/height `+0x298/+0x299`;
+- TitleScreen `practiceState +0x88`, `currentReplay +0xC8FC`, `resultTextAnm +0x11B94`, `calcChain +0x1B248`, and `drawChain +0x1B24C` while retaining the remaining `+0x1B250..+0x1B2BB` bytes opaque;
+- Supervisor D3D pointer `+0x008`, transition state `+0x594`, frame-rate multiplier `+0x5B8`, text ANM `+0x5CC`, subthread handle/close/active fields `+0x6AC/+0x6B4/+0x6B8`, and loading-VM state `+0x740`;
+- target-backed ANM preload/release, loading-VM, screen-effect, Ascii, Chain, D3D, and Supervisor call surfaces.
+
+An initial layout edit accidentally left the opaque tail at `0x68` bytes instead of `0x6C`; existing `offsetof/sizeof` assertions correctly failed the first VC7.1 compile with `C2118: negative subscript`. The span was corrected to `0x6C`; no ledger/source claim was made from the failed compile.
+
+The worker remains deliberately `__cdecl`. Although IDA recognizes a thread-parameter slot and `ThreadStart` consumes an `LPTHREAD_START_ROUTINE`, target disassembly ends in plain `ret`, not `ret 4`; source performs an explicit cast at the ThreadStart boundary rather than lying about a stdcall ABI.
+
+Worker behavior now has maintained source for target-observed operations: wait until ANM capture surface is free, preload `title01.anm` and `resulttext.anm`, initialize fourteen help/result-text VM pairs, preload `title/title00.png` or `title/result00.png`, start title music/fade when appropriate, publish current help VM, finish loading/fade state, and clear Supervisor subthread state. The source uses the target's 14-entry loop and established 0x2A4 VM geometry.
+
+`ActualAddedCallback` resets ScreenEffect/Ascii state, restores the Supervisor frame-rate multiplier, applies replay/network/registration-context routing, resets title practice flags, sets up loading VMs/effect state, marks the owner loading, and starts the setup worker. Its registration-context handling is deliberately a natural `switch`: the earlier `if / else if` source emitted 330 bytes and did not reproduce the target's `sub/dec` dispatch; the switch reproduces the complete 335-byte body exactly.
+
+`Release` and `DeletedCallback` follow the target lifecycle directly. DeletedCallback discards D3D managed resources, releases ANM slots 15/17 and surface 0, cuts and clears `drawChain`, invokes `Release`, frees the object, and returns zero.
+
+### Compiler and exactness results
+
+Four repository-defined canonical units are new and exact under the established TitleScreen VC7.1 profile `/MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Gr /O1 /Ob1 /Oy- /I src`:
+
+- `ActualAddedCallback @ 0x00424BF7` — 335/335 bytes, 27 reviewed relocations;
+- `AddedCallback @ 0x00424D46` — 5/5 bytes, one relocation to the actual body;
+- `Release @ 0x00424D4B` — 84/84 bytes, three relocations;
+- `DeletedCallback @ 0x00424D9F` — 96/96 bytes, eleven relocations.
+
+They total 520 newly exact authored bytes. Two final cold passes independently replay all four as exact with the same target-bound relocation manifests. Connected exact regressions remain exact for `MoveCursorHorizontal 112/112`, `MoveCursorVertical 135/135`, `MoveCursorFourWay 217/217`, `UpdateCharacterSettings 168/168`, and `OnUpdateResultNameEntry 966/966`.
+
+`TitleSetupThread` remains source-present/NON-EXACT at a stable 537 candidate bytes versus the 534-byte target in both final cold passes. Direct target evidence shows a 0x1C frame with two branch-selected three-float temporaries while the retained simple value source produces a 0x14 frame. A direct two-temporary/pointer source experiment grows to 551 bytes and is rejected. Bringing the wider repository `Float3` constructor into this shared TitleScreen TU is not justified merely to chase three bytes when it risks already-exact owners. No register/volatile forcing, declaration-order pragma, inert padding, inline assembly, fake return, embedded target bytes, or target patching is retained.
+
+### Ledger, IDA, validation, and artifacts
+
+- Repository tracking after the boundary correction is `2164 candidates / 469 authored / 35 excluded / 402 source-present / 363 exact / 1660 origin-or-boundary pending`. Packet 168 changes the denominator by one new candidate, marks five lifecycle functions authored/source-present, and promotes only the four repeatably exact functions.
+- Match-unit graph advances from 385 to 389 units. Canonical match rows exist only for the four exact lifecycle functions; the 534-byte worker has no `matches.csv` row.
+- Shared IDA names written under passed native attestation are `TitleScreen_TitleSetupThread`, `TitleScreen_ActualAddedCallback`, `TitleScreen_AddedCallback`, `TitleScreen_Release`, and `TitleScreen_DeletedCallback`. Worker/actual/deleted entry comments record their exact or NON-EXACT state and were read back for the important endpoints. Target bytes remained unwritable and untouched; no prototype was forced into the database because IDA's heuristic signatures still differ from demonstrated source/ABI details.
+- Final repository gates before handoff pass `verify-target.py`, target-bound tracking, reconstruction status, 389-unit graph validation, generated progress, public CI, and whitespace. The faithful whole-build diagnostic is actually rerun after the exact replays and remains `rc=2/open` because compile flags, TU partition, libraries, resources, and link order are unresolved. Runtime is not launched; semantic reconstruction and portability remain not started.
+- Current Packet-168 campaign `.analysis/gpt-web/20260916-th09-title-lifecycle/` is approximately 684 KiB on disk, 45 files / 554,310 file bytes, maximum file 361,252 bytes, and no file above 64 MiB. It retains structural/canonical exact receipts, 537/551 worker negative probes, objdump evidence, build-failure diagnostics from the corrected layout assertion, whole-build output, and its manifest. No current-session or legacy artifact was deleted. Whole `.analysis/` is approximately `67,036 KiB` at checkpoint versus `66,352 KiB` at Packet-168 entry; `build/` is approximately `14,532 KiB`.
+- Source presence is 402 official mappings; repository-canonical exactness is 363 functions. Whole-build closure remains open; runtime validation is not attempted. Fresh Factory/Truth-Kernel acceptance remains a separate post-commit plane and is not inferred from repository rows.
+
+### Remaining unknowns and next packet
+
+- `TitleSetupThread` remains 537/534 NON-EXACT. The precise original Float3 expression/source-type visibility that selects the target's 0x1C temporary layout remains unknown; no exactness is inferred from the three-byte net residual.
+- Original TitleScreen TU partition, class/member/global spellings, static-data definition ownership, and project-level compiler flags remain unresolved. Neutral lifecycle view names describe target-observed roles only.
+- The setup worker's thread callback ABI is intentionally retained as cdecl-plus-cast because target bytes do not support a stdcall `ret 4`. IDA's current decompiler prototype remains provisional.
+- Packet-selection balance: Packet 167 attacked a 485-byte result owner plus an exact shared helper; Packet 168 attacks a 534-byte worker, a 335-byte lifecycle owner, and discovers a missing 96-byte callback boundary while closing four exact functions. The next route should finish the central TitleScreen lifecycle rather than harvest leaves: review `OnDraw @ 0x00424898` (329 bytes) together with `RegisterChain @ 0x0042AB13` (201 bytes), and explicitly audit the calc dispatcher at `0x0042A9CB`, which registration uses but a direct ledger lookup currently does not find. That route can use committed TH08 TitleScreen draw/register source as hypothesis material while challenging another possible denominator omission in TH09.
+
+### Checkpoint plan
+
+- Planned primary subject: `gpt-web: reconstruct TitleScreen setup lifecycle`.
+- Primary checkpoint hash: pending local commit.
+- Nothing has been pushed.
+
+### Packet 168 recovery-resume closure before checkpoint
+
+- A later recovery trigger found live `main @ 077296b2037588afc7c0f5d36b83136b55e61d0c`, `origin/main +8/-0`, with exactly eleven unstaged tracked paths and no staged, untracked, or conflicted paths. Complete diff review classified all eleven as recoverable Packet-168 setup-lifecycle work; no unrelated or unknown TH09 path was present. The already committed Packet-167 primary/audit checkpoints `a2183f3f4c32f8e5afb3aed6b797521431d3842e` / `077296b2037588afc7c0f5d36b83136b55e61d0c` were preserved as the baseline rather than reset or amended.
+- Factory identity and repository registration were rechecked. All eight required guidance paths remained readable and hashable. Native `th09-ida` discovery again exposed 47 operations and fresh `get_metadata {}` again passed `target:th09-main` with `factory-native-stdio`; readback confirmed `TitleScreen_TitleSetupThread @ 0x004249E1`, `TitleScreen_ActualAddedCallback @ 0x00424BF7`, and `TitleScreen_DeletedCallback @ 0x00424D9F` in the shared IDB. Two transient Factory network errors occurred during recovery reads; each was followed by live status reinspection and a fresh native metadata attestation before further target-dependent IDA work.
+- The first recovery validation shell used an invalid option-form invocation for the positional single-function `compare-coff-function.py` interface and exited after completing cold pass A exact-unit comparisons. Git before/after state was unchanged. The command was corrected from the script's own usage text and the complete validation was rerun from scratch rather than interpreting the invocation error as an Oracle failure.
+- Two independent recovery cold builds each replay `ActualAddedCallback 335/335`, `AddedCallback 5/5`, `Release 84/84`, and `DeletedCallback 96/96` as exact. Connected regressions `MoveCursorHorizontal 112/112`, `MoveCursorVertical 135/135`, `MoveCursorFourWay 217/217`, `UpdateCharacterSettings 168/168`, and `OnUpdateResultNameEntry 966/966` remain exact in both passes. `TitleSetupThread` remains a stable negative in both passes at `537 candidate / 534 target`; no exactness promotion is added.
+- Recovery final gates pass target verification, target-bound tracking, reconstruction status, the 389-unit graph, generated progress, public CI, and whitespace. `scripts/build.py` is rerun and remains `rc=2/open` for unresolved compile flags, TU partition, libraries, resources, and link order; runtime therefore remains unattempted.
+- Recovery artifact inventory is below all review thresholds. The current lifecycle campaign contains only sub-megabyte compiler/replay evidence and no file above 64 MiB. Current-session recovery receipts are retained and manifest-bound because they document the post-interruption exact/negative revalidation; legacy/unknown analysis state remains untouched.

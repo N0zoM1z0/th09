@@ -1,8 +1,12 @@
 // Target-bound TH09 TitleScreen reconstruction views. The physical TitleScreen
 // owner is target-proved; original identifier spelling, TU partition, and data-definition ownership remain unresolved.
 
+#include "Chain.hpp"
+#include "ScreenEffect.hpp"
+
 #include <stddef.h>
 #include <windows.h>
+#include <d3d8.h>
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -129,14 +133,24 @@ struct AnmVmView {
         u8 color1Bytes[4];
     };
     u8 unknown1F4[4];
-    u32 flags;
+    union {
+        u32 flags;
+        struct {
+            u16 flagsLow;
+            u16 flagsHigh;
+        };
+    };
     u8 unknown1FC[2];
     u16 pendingInterrupt;
     u8 unknown200[0x08];
     TitleFloat3View position;
-    u8 unknown214[0x04];
+    short activeSpriteIndex;
+    u8 unknown216[2];
     short baseSpriteIndex;
-    u8 unknown21A[0x8A];
+    u8 unknown21A[0x7E];
+    u8 fontWidth;
+    u8 fontHeight;
+    u8 unknown29A[0x0A];
 
     char ConfigurePositionInterpolation(i32 duration, char mode,
                                         TitleFloat3View *start, TitleFloat3View *end);
@@ -149,18 +163,29 @@ typedef char AnmVmColorAt1F0[(offsetof(AnmVmView, color1) == 0x1F0) ? 1 : -1];
 typedef char AnmVmFlagsAt1F8[(offsetof(AnmVmView, flags) == 0x1F8) ? 1 : -1];
 typedef char AnmVmInterruptAt1FE[(offsetof(AnmVmView, pendingInterrupt) == 0x1FE) ? 1 : -1];
 typedef char AnmVmPositionAt208[(offsetof(AnmVmView, position) == 0x208) ? 1 : -1];
+typedef char AnmVmActiveSpriteAt214[(offsetof(AnmVmView, activeSpriteIndex) == 0x214) ? 1 : -1];
 typedef char AnmVmSpriteAt218[(offsetof(AnmVmView, baseSpriteIndex) == 0x218) ? 1 : -1];
+typedef char AnmVmFontWidthAt298[(offsetof(AnmVmView, fontWidth) == 0x298) ? 1 : -1];
+typedef char AnmVmFontHeightAt299[(offsetof(AnmVmView, fontHeight) == 0x299) ? 1 : -1];
 
 struct TitleAnmView {
+    void ExecuteAnmIdx(AnmVmView *vm, i32 scriptIndex);
     void ExecuteAnmIdxArray(AnmVmView *vms, i32 start, i32 count);
     int SetSprite(AnmVmView *vm, i32 spriteIndex);
 };
 
 struct TitleAnmManagerView {
+    u8 unknown000[8];
+    i32 captureSurfaceIndex;
+
+    TitleAnmView *PreloadAnm(i32 slot, const char *path);
+    int PreloadSurface(i32 slot, const char *path);
     int LoadSurface(i32 slot, const char *path);
     void SetInterruptArray(AnmVmView *vms, i32 count, i32 interrupt);
     void ExecuteScriptArray(AnmVmView *vms, i32 count);
     int ExecuteScript(AnmVmView *vm);
+    void ReleaseAnm(i32 slot);
+    void ReleaseSurface(i32 slot);
 };
 
 struct TitleSideInputView {
@@ -176,8 +201,50 @@ struct TitleSelectionRandomView {
 };
 
 struct TitleSupervisorView {
+    u8 unknown000[8];
+    IDirect3DDevice8 *d3dDevice;               // +0x008
+    u8 unknown00C[0x588];
+    i32 transitionState594;                    // +0x594
+    u8 unknown598[0x20];
+    float frameRateMultiplier;                 // +0x5B8
+    u8 unknown5BC[0x10];
+    TitleAnmView *textAnm;                     // +0x5CC
+    u8 unknown5D0[0xDC];
+    i32 runningSubthreadHandle;                // +0x6AC
+    u8 unknown6B0[4];
+    i32 subthreadCloseRequestActive;           // +0x6B4
+    i32 subthreadActive;                       // +0x6B8
+    u8 unknown6BC[0x84];
+    i32 loadingVmsHaveBeenSetup;               // +0x740
+
+    int LoadMusic(i32 trackId);
     void PlayMusic(i32 track, i32 unused);
     int StopAudio();
+    int ClearRecordingFpsWarningState();
+    void SetupLoadingVms(TitleFloat3View *position);
+    void SetupLoadingVmsAndInitCapture(TitleFloat3View *position);
+    void StartEffect(i32 index);
+    int ThreadStart(LPTHREAD_START_ROUTINE startFunction, void *startParam);
+    int HideLoadingVms();
+};
+
+typedef char TitleSupervisorD3dAt008[(offsetof(TitleSupervisorView, d3dDevice) == 0x008) ? 1 : -1];
+typedef char TitleSupervisorStateAt594[(offsetof(TitleSupervisorView, transitionState594) == 0x594) ? 1 : -1];
+typedef char TitleSupervisorRateAt5B8[(offsetof(TitleSupervisorView, frameRateMultiplier) == 0x5B8) ? 1 : -1];
+typedef char TitleSupervisorTextAnmAt5CC[(offsetof(TitleSupervisorView, textAnm) == 0x5CC) ? 1 : -1];
+typedef char TitleSupervisorThreadAt6AC[(offsetof(TitleSupervisorView, runningSubthreadHandle) == 0x6AC) ? 1 : -1];
+typedef char TitleSupervisorCloseAt6B4[(offsetof(TitleSupervisorView, subthreadCloseRequestActive) == 0x6B4) ? 1 : -1];
+typedef char TitleSupervisorActiveAt6B8[(offsetof(TitleSupervisorView, subthreadActive) == 0x6B8) ? 1 : -1];
+typedef char TitleSupervisorLoadingAt740[(offsetof(TitleSupervisorView, loadingVmsHaveBeenSetup) == 0x740) ? 1 : -1];
+
+struct TitleAsciiManagerView {
+    void Reset();
+    void InitializeVms();
+};
+
+struct TitleNetworkStateView {
+    u8 unknown000[0xA8];
+    i32 activeA8;
 };
 
 struct TitleMidiOutputView {
@@ -229,14 +296,14 @@ struct TitleScreenView {
     i32 stateTimer;                           // +0x0002C
     u8 unknown00030[0x54];
     i32 previousScreen;                       // +0x00084
-    u8 unknown00088[4];
+    i32 practiceState;                         // +0x00088
     char replayName[9];                       // +0x0008C
     u8 unknown00095[0x1F7];
     char replayPaths[50][0x200];              // +0x0028C
     u8 unknown0668C[0x190];
     ReplayDataView *replayAllocations[50];    // +0x0681C
     ReplayDataView replays[50];               // +0x068E4
-    u8 unknown0C8FC[4];
+    ReplayDataView *currentReplay;             // +0x0C8FC
     i32 replayEnumerationResetState;           // +0x0C900
     i32 replaySlotCount;                       // +0x0C904
     i32 selectedReplay;                        // +0x0C908
@@ -251,7 +318,7 @@ struct TitleScreenView {
     i32 side1CharacterSetting;                // +0x11B88
     i32 characterSettingInputActive;
     TitleAnmView *titleAnm;                   // +0x11B90
-    u8 unknown11B94[4];
+    TitleAnmView *resultTextAnm;               // +0x11B94
     union { i32 uiVm; AnmVmView *vms; };      // +0x11B98
     union { i32 uiAux; AnmVmView *currentHelpTextVm; }; // +0x11B9C
     AnmVmView embeddedVms[57];                // +0x11BA0
@@ -264,8 +331,16 @@ struct TitleScreenView {
     union { i32 resultAction; i32 resumeState; }; // +0x1B23C
     union { i32 transitionId; i32 menuVmStart; }; // +0x1B240
     union { i32 transitionMode; i32 menuItemCount; }; // +0x1B244
-    u8 unknown1B248[0x74];
+    ChainElem *calcChain;                      // +0x1B248
+    ChainElem *drawChain;                      // +0x1B24C
+    u8 unknown1B250[0x6C];
     TitleConfigSnapshotView configSnapshot;   // +0x1B2BC
+
+    static void __cdecl TitleSetupThread(void *unused);
+    int ActualAddedCallback();
+    static int AddedCallback(TitleScreenView *titleScreen);
+    int Release();
+    static int DeletedCallback(TitleScreenView *titleScreen);
 
     int OnUpdateResult();
     int OnUpdateReplayMenu();
@@ -310,6 +385,7 @@ typedef char TitleStateAt28[(offsetof(TitleScreenView, replaySaveState) == 0x28)
 typedef char TitleReplayNameAt8C[(offsetof(TitleScreenView, replayName) == 0x8C) ? 1 : -1];
 typedef char TitleReplayPathsAt28C[(offsetof(TitleScreenView, replayPaths) == 0x28C) ? 1 : -1];
 typedef char TitleReplayAllocationsAt681C[(offsetof(TitleScreenView, replayAllocations) == 0x681C) ? 1 : -1];
+typedef char TitleCurrentReplayAtC8FC[(offsetof(TitleScreenView, currentReplay) == 0xC8FC) ? 1 : -1];
 typedef char TitleReplayEnumResetAtC900[(offsetof(TitleScreenView, replayEnumerationResetState) == 0xC900) ? 1 : -1];
 typedef char TitleReplaySlotCountAtC904[(offsetof(TitleScreenView, replaySlotCount) == 0xC904) ? 1 : -1];
 typedef char TitleReplaysAt68E4[(offsetof(TitleScreenView, replays) == 0x68E4) ? 1 : -1];
@@ -320,9 +396,11 @@ typedef char TitleUiScriptAt1B224[(offsetof(TitleScreenView, uiScript) == 0x1B22
 typedef char TitlePhaseAt1B230[(offsetof(TitleScreenView, phaseTimer) == 0x1B230) ? 1 : -1];
 typedef char TitlePrevCursorAt24[(offsetof(TitleScreenView, previousCursor) == 0x24) ? 1 : -1];
 typedef char TitlePrevScreenAt84[(offsetof(TitleScreenView, previousScreen) == 0x84) ? 1 : -1];
+typedef char TitlePracticeStateAt88[(offsetof(TitleScreenView, practiceState) == 0x88) ? 1 : -1];
 typedef char TitleSide0SettingAt11B84[(offsetof(TitleScreenView, side0CharacterSetting) == 0x11B84) ? 1 : -1];
 typedef char TitleSide1SettingAt11B88[(offsetof(TitleScreenView, side1CharacterSetting) == 0x11B88) ? 1 : -1];
 typedef char TitleAnmAt11B90[(offsetof(TitleScreenView, titleAnm) == 0x11B90) ? 1 : -1];
+typedef char TitleResultAnmAt11B94[(offsetof(TitleScreenView, resultTextAnm) == 0x11B94) ? 1 : -1];
 typedef char TitleVmsAt11B98[(offsetof(TitleScreenView, vms) == 0x11B98) ? 1 : -1];
 typedef char TitleHelpAt11BA0[(offsetof(TitleScreenView, embeddedVms) == 0x11BA0) ? 1 : -1];
 typedef char TitleVmCountAt1B224[(offsetof(TitleScreenView, vmCount) == 0x1B224) ? 1 : -1];
@@ -330,6 +408,8 @@ typedef char TitleCurrentScreenAt1B228[(offsetof(TitleScreenView, currentScreen)
 typedef char TitleIdleAt1B234[(offsetof(TitleScreenView, idleFrames) == 0x1B234) ? 1 : -1];
 typedef char TitleMenuStartAt1B240[(offsetof(TitleScreenView, menuVmStart) == 0x1B240) ? 1 : -1];
 typedef char TitleMenuCountAt1B244[(offsetof(TitleScreenView, menuItemCount) == 0x1B244) ? 1 : -1];
+typedef char TitleCalcChainAt1B248[(offsetof(TitleScreenView, calcChain) == 0x1B248) ? 1 : -1];
+typedef char TitleDrawChainAt1B24C[(offsetof(TitleScreenView, drawChain) == 0x1B24C) ? 1 : -1];
 typedef char TitleConfigAt1B2BC[(offsetof(TitleScreenView, configSnapshot) == 0x1B2BC) ? 1 : -1];
 typedef char TitleScreenSizeIs1B388[(sizeof(TitleScreenView) == 0x1B388) ? 1 : -1];
 
@@ -349,6 +429,9 @@ extern u32 g_TitleGameFlags;
 extern void **g_OptionPointers;
 extern TitleAnmManagerView *g_TitleAnmManager;
 extern TitleSupervisorView g_TitleSupervisor;
+extern TitleAsciiManagerView g_AsciiManager;
+extern TitleNetworkStateView *g_SupervisorNetworkState;
+extern Chain g_Chain;
 extern TitleMidiOutputView *g_TitleMidiOutput;
 extern u8 g_TitleLockedMenuItem;
 extern i32 g_TitleModeSelection;
@@ -388,12 +471,197 @@ extern u8 g_TitleCharacterUnlocked[16];
 extern u8 g_TitleCharacterUnlockedNormal[16];
 extern u8 g_TitleCharacterUnlockedMode4[16];
 extern i32 g_TitleResultUnlockStep;
+extern ScreenEffect *g_TitleFadeReleaseEffect;
 extern TitleSideInputView g_TitleSide0Input;
 extern TitleSideInputView g_TitleSide1Input;
 extern TitleSelectionRandomView g_TitleSelectionRandom;
 extern void __fastcall PrepareTitleMode4Network(void *optionState);
 extern void __fastcall ResetTitleMode4Supervisor(TitleSupervisorView *supervisor);
 extern int SaveTitleScoreData();
+
+
+extern TitleScreenView *g_TitleScreen;
+
+void __cdecl TitleScreenView::TitleSetupThread(void *unused)
+{
+    (void)unused;
+
+    while (g_TitleAnmManager->captureSurfaceIndex >= 0)
+        Sleep(1);
+
+    g_TitleScreen->titleAnm = g_TitleAnmManager->PreloadAnm(15, "title01.anm");
+    if (g_TitleScreen->titleAnm == 0)
+    {
+        g_TitleScreen->chainState = 2;
+        return;
+    }
+
+    g_TitleScreen->resultTextAnm = g_TitleAnmManager->PreloadAnm(17, "resulttext.anm");
+    if (g_TitleScreen->resultTextAnm == 0)
+    {
+        g_TitleScreen->chainState = 2;
+        return;
+    }
+
+    if (g_TitleSupervisor.subthreadCloseRequestActive)
+        return;
+
+    for (i32 i = 0; i < 14; i++)
+    {
+        AnmVmView *helpVm = &g_TitleScreen->embeddedVms[i];
+        AnmVmView *infoVm = &g_TitleScreen->embeddedVms[35 + i];
+
+        g_TitleSupervisor.textAnm->ExecuteAnmIdx(helpVm, 5);
+        g_TitleSupervisor.textAnm->SetSprite(helpVm, helpVm->activeSpriteIndex + i);
+        g_TitleSupervisor.textAnm->SetSprite(infoVm, i + 21);
+
+        TitleFloat3View position = {
+            64.0f,
+            (float)i * 16.0f + (i <= 4 ? 352.0f : 362.0f),
+            0.0f,
+        };
+        infoVm->flagsLow |= 0x1802;
+        infoVm->position = position;
+        infoVm->fontWidth = 15;
+        infoVm->fontHeight = 15;
+    }
+
+    if (g_TitleSupervisor.subthreadCloseRequestActive)
+        return;
+
+    const char *surfacePath =
+        g_TitleScreen->currentScreen == 1 ? "title/title00.png" : "title/result00.png";
+    if (g_TitleAnmManager->PreloadSurface(0, surfacePath))
+    {
+        g_TitleScreen->chainState = 2;
+        return;
+    }
+
+    if ((g_TitleGameFlags & 2) == 0)
+    {
+        if (g_TitleSupervisor.transitionState594 != 5)
+            g_TitleSupervisor.LoadMusic(0);
+        ScreenEffect::RegisterChain(SCREEN_EFFECT_FULL_FADE_IN, 70, 0xFFFFFF, 0, 0, 35, 2);
+    }
+
+    g_TitleScreen->currentHelpTextVm = &g_TitleScreen->embeddedVms[0];
+    g_TitleScreen->chainState = 0;
+    if (g_TitleFadeReleaseEffect != 0)
+        g_TitleFadeReleaseEffect->BeginFadeRelease();
+    g_TitleFadeReleaseEffect = 0;
+    g_TitleSupervisor.HideLoadingVms();
+    g_TitleSupervisor.runningSubthreadHandle = 0;
+    g_TitleSupervisor.subthreadCloseRequestActive = 0;
+    g_TitleSupervisor.subthreadActive = 0;
+}
+
+int TitleScreenView::ActualAddedCallback()
+{
+    g_ScreenEffectCounter = 0;
+    g_AsciiManager.Reset();
+    g_AsciiManager.InitializeVms();
+    g_TitleSupervisor.frameRateMultiplier = 1.0f;
+
+    if (g_TitleGameFlags & 8)
+    {
+        g_GameSide0Value20 = 0;
+        g_GameSide1Value20 = 1;
+    }
+    if (g_TitleGameFlags & 2)
+        g_TitleGameFlags &= ~8u;
+
+    ChangeCurrentScreen(1);
+    g_TitleSupervisor.ClearRecordingFpsWarningState();
+
+    if (g_SupervisorNetworkState->activeA8 != 0 && g_GameMode != 2)
+    {
+        resumeState = 2;
+        g_TitleModeSelection = 0;
+        g_TitleDifficulty = 1;
+    }
+
+    switch (registrationContext)
+    {
+    case 0:
+        if ((g_TitleGameFlags & 0xA) == 0)
+        {
+            if (g_GameMode == 0)
+                keyboardSelection = 0;
+            else if (g_GameMode == 1)
+                keyboardSelection = 1;
+            else if (g_GameMode == 2)
+                resumeState = 1;
+        }
+        break;
+    case 1:
+        currentScreen = 14;
+        break;
+    default:
+        keyboardSelection = 0;
+        break;
+    }
+
+    practiceState = 0;
+    g_TitleGameFlags &= ~1u;
+
+    TitleFloat3View loadingPosition = {500.0f, 440.0f, 0.0f};
+    if (g_TitleSupervisor.transitionState594 == 2)
+    {
+        g_TitleSupervisor.SetupLoadingVmsAndInitCapture(&loadingPosition);
+        g_TitleSupervisor.StartEffect(0);
+    }
+    else if (g_TitleSupervisor.transitionState594 != 0)
+    {
+        g_TitleSupervisor.SetupLoadingVms(&loadingPosition);
+    }
+
+    g_TitleGameFlags &= ~2u;
+    chainState = 1;
+    g_TitleSupervisor.ThreadStart(
+        reinterpret_cast<LPTHREAD_START_ROUTINE>(TitleScreenView::TitleSetupThread), 0);
+    return 0;
+}
+
+int TitleScreenView::AddedCallback(TitleScreenView *titleScreen)
+{
+    return titleScreen->ActualAddedCallback();
+}
+
+int TitleScreenView::Release()
+{
+    if (currentReplay != 0)
+    {
+        free(currentReplay);
+        currentReplay = 0;
+    }
+
+    if (vms != 0)
+    {
+        free(vms);
+        vms = 0;
+    }
+
+    for (i32 i = 0; i < 50; i++)
+    {
+        if (replayAllocations[i] != 0)
+            free(replayAllocations[i]);
+        replayAllocations[i] = 0;
+    }
+    return 0;
+}
+
+int TitleScreenView::DeletedCallback(TitleScreenView *titleScreen)
+{
+    g_TitleSupervisor.d3dDevice->ResourceManagerDiscardBytes(0);
+    g_TitleAnmManager->ReleaseAnm(15);
+    g_TitleAnmManager->ReleaseAnm(17);
+    g_TitleAnmManager->ReleaseSurface(0);
+    g_Chain.Cut(titleScreen->drawChain);
+    titleScreen->drawChain = 0;
+    titleScreen->Release();
+    free(titleScreen);
+    return 0;
+}
 
 
 

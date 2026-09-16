@@ -396,3 +396,8 @@ TitleScreenView::MoveCursorVertical,0x0042457A,function
 TitleScreenView::OnUpdateReplayMenu,0x0042689A,function
 TitleScreenView::MoveCursorHorizontal,0x00424601,function
 TitleScreenView::OnUpdateResult,0x004266B5,function
+TitleScreenView::TitleSetupThread,0x004249E1,function
+TitleScreenView::ActualAddedCallback,0x00424BF7,function
+TitleScreenView::AddedCallback,0x00424D46,function
+TitleScreenView::Release,0x00424D4B,function
+TitleScreenView::DeletedCallback,0x00424D9F,function

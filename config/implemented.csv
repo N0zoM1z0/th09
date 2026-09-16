@@ -395,3 +395,8 @@ TitleScreenView::MoveCursorVertical
 TitleScreenView::OnUpdateReplayMenu
 TitleScreenView::MoveCursorHorizontal
 TitleScreenView::OnUpdateResult
+TitleScreenView::TitleSetupThread
+TitleScreenView::ActualAddedCallback
+TitleScreenView::AddedCallback
+TitleScreenView::Release
+TitleScreenView::DeletedCallback

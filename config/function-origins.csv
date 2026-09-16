@@ -501,10 +501,11 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042474A,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x004247F1,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x00424898,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x004249E1,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00424BF7,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00424D46,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00424D4B,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004249E1,authored_game,TitleScreen,authored,high,packet168-title-lifecycle-2026-09-16
+0x00424BF7,authored_game,TitleScreen,authored,high,packet168-title-lifecycle-2026-09-16
+0x00424D46,authored_game,TitleScreen,authored,high,packet168-title-lifecycle-2026-09-16
+0x00424D4B,authored_game,TitleScreen,authored,high,packet168-title-lifecycle-2026-09-16
+0x00424D9F,authored_game,TitleScreen,authored,high,packet168-title-lifecycle-2026-09-16
 0x00424DFF,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00424E95,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00424EDD,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
