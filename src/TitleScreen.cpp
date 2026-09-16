@@ -2,6 +2,7 @@
 // owner is target-proved; original identifier spelling, TU partition, and data-definition ownership remain unresolved.
 
 #include <stddef.h>
+#include <windows.h>
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -10,16 +11,60 @@ typedef int i32;
 
 extern "C" int __cdecl sprintf(char *, const char *, ...);
 extern "C" char *__cdecl strcpy(char *, const char *);
+extern "C" char *__cdecl strcat(char *, const char *);
 extern "C" void *__cdecl memset(void *, int, size_t);
 extern "C" void __cdecl free(void *);
 extern "C" int __cdecl _mkdir(const char *);
+extern "C" int __cdecl _chdir(const char *);
+
+struct ReplayFrameDataStartView {
+    u8 bytes[0x20];
+};
 
 struct ReplayDataView {
     u32 magic;
-    u8 bytes[0x1E8];
+    u16 formatVersion;
+    u8 value06;
+    u8 value07;
+    u8 unknown008[4];
+    i32 fileSize;
+    u32 checksum;
+    u8 unknown14;
+    u8 obfuscationKey;
+    u8 unknown16[2];
+    i32 compressedSize;
+    i32 decompressedSize;
+    ReplayFrameDataStartView *frameStart[3][10];
+    u8 *fpsStart[10];
+    u8 randomPayloadByte;
+    u8 value0C1;
+    u16 value0C2;
+    char playTime[10];
+    char playerName[8];
+    u8 unknown0D6;
+    u8 value0D7;
+    u8 unknown0D8[4];
+    u8 configSnapshot[0xCC];
+    u8 unknown1A8[0x28];
+    u32 value1D0;
+    u32 value1D4;
+    u32 value1D8;
+    char exeVersion[6];
+    u8 unknown1E2[2];
+    u8 value1E4;
+    u8 value1E5;
+    u8 value1E6;
+    u8 value1E7;
+    u8 value1E8;
+    u8 value1E9;
+    u8 unknown1EA[2];
 };
 
 typedef char ReplayDataSizeIs1EC[(sizeof(ReplayDataView) == 0x1EC) ? 1 : -1];
+typedef char ReplayDataFrame0At20[(offsetof(ReplayDataView, frameStart) == 0x20) ? 1 : -1];
+typedef char ReplayDataValueD7AtD7[(offsetof(ReplayDataView, value0D7) == 0xD7) ? 1 : -1];
+typedef char ReplayDataValue1E4At1E4[(offsetof(ReplayDataView, value1E4) == 0x1E4) ? 1 : -1];
+typedef char ReplayDataValue1E5At1E5[(offsetof(ReplayDataView, value1E5) == 0x1E5) ? 1 : -1];
 
 struct TitleNameRecordView {
     char name[9];
@@ -187,11 +232,14 @@ struct TitleScreenView {
     u8 unknown00088[4];
     char replayName[9];                       // +0x0008C
     u8 unknown00095[0x1F7];
-    char replayPaths[25][0x200];              // +0x0028C
-    u8 unknown0348C[0x3458];
+    char replayPaths[50][0x200];              // +0x0028C
+    u8 unknown0668C[0x190];
+    ReplayDataView *replayAllocations[50];    // +0x0681C
     ReplayDataView replays[50];               // +0x068E4
-    u8 unknown0C8FC[0x0C];
-    i32 selectedReplay;                       // +0x0C908
+    u8 unknown0C8FC[4];
+    i32 replayEnumerationResetState;           // +0x0C900
+    i32 replaySlotCount;                       // +0x0C904
+    i32 selectedReplay;                        // +0x0C908
     i32 unknown0C90C;
     union { i32 replayUiFrameCounter; i32 screenFrameCounter; }; // +0x0C910
     u8 unknown0C914[4];
@@ -219,6 +267,7 @@ struct TitleScreenView {
     u8 unknown1B248[0x74];
     TitleConfigSnapshotView configSnapshot;   // +0x1B2BC
 
+    int OnUpdateReplayMenu();
     int UpdateReplaySave();
     int OnUpdateStartMenu();
     int OnUpdateDifficultySelect();
@@ -258,6 +307,9 @@ typedef char TitleSide1ConfirmedAt1C[(offsetof(TitleScreenView, side1CharacterCo
 typedef char TitleStateAt28[(offsetof(TitleScreenView, replaySaveState) == 0x28) ? 1 : -1];
 typedef char TitleReplayNameAt8C[(offsetof(TitleScreenView, replayName) == 0x8C) ? 1 : -1];
 typedef char TitleReplayPathsAt28C[(offsetof(TitleScreenView, replayPaths) == 0x28C) ? 1 : -1];
+typedef char TitleReplayAllocationsAt681C[(offsetof(TitleScreenView, replayAllocations) == 0x681C) ? 1 : -1];
+typedef char TitleReplayEnumResetAtC900[(offsetof(TitleScreenView, replayEnumerationResetState) == 0xC900) ? 1 : -1];
+typedef char TitleReplaySlotCountAtC904[(offsetof(TitleScreenView, replaySlotCount) == 0xC904) ? 1 : -1];
 typedef char TitleReplaysAt68E4[(offsetof(TitleScreenView, replays) == 0x68E4) ? 1 : -1];
 typedef char TitleSelectedReplayAtC908[(offsetof(TitleScreenView, selectedReplay) == 0xC908) ? 1 : -1];
 typedef char TitleUnknownC918AtC918[(offsetof(TitleScreenView, unknown0C918) == 0xC918) ? 1 : -1];
@@ -340,6 +392,36 @@ extern void __fastcall PrepareTitleMode4Network(void *optionState);
 extern void __fastcall ResetTitleMode4Supervisor(TitleSupervisorView *supervisor);
 extern int SaveTitleScoreData();
 
+
+
+int TitleScreenView::MoveCursorVertical(i32 count)
+{
+    if (count == 0)
+        return 0;
+
+    if (g_TitleInput.IsPressedScrolling(0x10))
+    {
+        keyboardSelection--;
+        g_SoundPlayer.PlaySoundByIdx(12, 0);
+        if (keyboardSelection < 0)
+            keyboardSelection = count - 1;
+        if (keyboardSelection >= count)
+            keyboardSelection = 0;
+        return -1;
+    }
+    else if (g_TitleInput.IsPressedScrolling(0x20))
+    {
+        keyboardSelection++;
+        g_SoundPlayer.PlaySoundByIdx(12, 0);
+        if (keyboardSelection < 0)
+            keyboardSelection = count - 1;
+        if (keyboardSelection >= count)
+            keyboardSelection = 0;
+        return 1;
+    }
+
+    return 0;
+}
 
 
 int TitleScreenView::MoveCursorFourWay(i32 count)
@@ -1842,6 +1924,255 @@ int TitleScreenView::OnUpdateResultNameEntry()
     stateTimer++;
     screenFrameCounter++;
     stateTimer2++;
+    return 1;
+}
+
+
+int TitleScreenView::OnUpdateReplayMenu()
+{
+    char fullPath[1024];
+    WIN32_FIND_DATAA findData;
+    char path[64];
+    i32 fileSize;
+    HANDLE findHandle;
+
+    switch (currentScreenState)
+    {
+    case 0:
+        if (phaseTimer == 0)
+        {
+            g_TitleGameFlags &= ~8u;
+            if (previousScreen != 11 && g_TitleAnmManager->LoadSurface(0, "title/replay00.png"))
+                return 0;
+
+            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 22);
+            keyboardSelection = 0;
+            currentScreenState = 0;
+            stateTimer = 0;
+            uiAux = 0;
+            memset(replays, 0, sizeof(replays));
+
+            for (i32 replayIndex = 0; replayIndex < 25; replayIndex++)
+            {
+                sprintf(path, "./replay/th9_%.2d.rpy", replayIndex + 1);
+                ReplayDataView *fileData =
+                    (ReplayDataView *)FileSystemView::OpenFile(path, &fileSize, 1);
+                if (fileData != 0)
+                {
+                    ReplayDataView *loadedReplay =
+                        ReplayManagerView::LoadReplayData(fileData, fileSize);
+                    replayAllocations[replayIndex] = loadedReplay;
+                    if (loadedReplay != 0)
+                    {
+                        replays[replayIndex] = *loadedReplay;
+                        strcpy(replayPaths[replayIndex], path);
+                    }
+                }
+            }
+
+            _mkdir("replay");
+            _chdir("replay");
+            findHandle = FindFirstFileA("th9_ud????.rpy", &findData);
+            if (findHandle != INVALID_HANDLE_VALUE)
+            {
+                for (i32 replayIndex = 0; replayIndex < 25; replayIndex++)
+                {
+                    strcpy(fullPath, "replay/");
+                    strcat(fullPath, findData.cFileName);
+                    ReplayDataView *fileData =
+                        (ReplayDataView *)FileSystemView::OpenFile(fullPath, &fileSize, 1);
+                    if (fileData == 0)
+                        continue;
+
+                    ReplayDataView *loadedReplay =
+                        ReplayManagerView::LoadReplayData(fileData, fileSize);
+                    replayAllocations[25 + replayIndex] = loadedReplay;
+                    if (loadedReplay != 0)
+                    {
+                        replays[25 + replayIndex] = *loadedReplay;
+                        sprintf(replayPaths[25 + replayIndex], "./replay/%s", findData.cFileName);
+                    }
+
+                    if (!FindNextFileA(findHandle, &findData))
+                        break;
+                }
+            }
+            FindClose(findHandle);
+            _chdir("../");
+            replaySlotCount = 50;
+            replayEnumerationResetState = 0;
+        }
+
+        if (phaseTimer >= 8)
+        {
+            currentScreenState = 1;
+            stateTimer = 0;
+        }
+        break;
+
+    case 1:
+        if (g_TitleInput.IsPressedScrolling(0x10))
+        {
+            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            if (--keyboardSelection < 0)
+                keyboardSelection += 50;
+            stateTimer = 0;
+        }
+        if (g_TitleInput.IsPressedScrolling(0x20))
+        {
+            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            if (++keyboardSelection >= 50)
+                keyboardSelection -= 50;
+            stateTimer = 0;
+        }
+        if (g_TitleInput.IsPressedScrolling(0x40))
+        {
+            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            keyboardSelection -= 25;
+            if (keyboardSelection < 0)
+                keyboardSelection += 50;
+            stateTimer = 0;
+        }
+        if (g_TitleInput.IsPressedScrolling(0x80))
+        {
+            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            keyboardSelection += 25;
+            if (keyboardSelection >= 50)
+                keyboardSelection -= 50;
+            stateTimer = 0;
+        }
+
+        if (g_TitleInputFlags & 0xA)
+        {
+            PlayMenuSound(11, 0);
+            stateTimer = 0;
+            ChangeCurrentScreen(1);
+            keyboardSelection = 3;
+            for (i32 replayIndex = 0; replayIndex < 50; replayIndex++)
+            {
+                if (replayAllocations[replayIndex] != 0)
+                    free(replayAllocations[replayIndex]);
+                replayAllocations[replayIndex] = 0;
+            }
+            return 1;
+        }
+
+        if (g_TitleInputFlags & 0x1001)
+        {
+            if (replays[keyboardSelection].magic != 0)
+            {
+                PlayMenuSound(10, 0);
+                selectedReplay = keyboardSelection;
+                currentScreenState = 2;
+                stateTimer = 0;
+                keyboardSelection = 0;
+                phaseTimer = 0;
+                while (replays[selectedReplay].frameStart[0][keyboardSelection] == 0)
+                    keyboardSelection++;
+            }
+            else
+            {
+                PlayMenuSound(39, 0);
+            }
+        }
+        break;
+
+    case 2:
+    {
+        i32 direction = MoveCursorVertical(10);
+        if (direction != 0)
+        {
+            while (replays[selectedReplay].frameStart[0][keyboardSelection] == 0)
+            {
+                keyboardSelection += direction;
+                if (keyboardSelection >= 10)
+                    keyboardSelection -= 10;
+                if (keyboardSelection < 0)
+                    keyboardSelection += 10;
+            }
+        }
+
+        if (g_TitleInputFlags & 0xA)
+        {
+            currentScreenState = 1;
+            stateTimer = 0;
+            keyboardSelection = selectedReplay;
+            break;
+        }
+
+        if (g_TitleInputFlags & 0x1001)
+        {
+            g_GameSide0Value20 = side0CharacterCursor;
+            g_GameSide1Value20 = 0;
+            g_GameCurrentStage = keyboardSelection;
+            g_TitleNameTableIndex = replays[selectedReplay].value0D7;
+            strcpy(g_SelectedReplayPath, replayPaths[selectedReplay]);
+            g_TitleGameFlags |= 8u;
+
+            if (replays[selectedReplay].value1E4 == 0)
+            {
+                g_GameValueDF0 = 1;
+                g_TitleLaunchState = 2;
+                g_GameMode = 0;
+                g_GameValueDB8 = 0;
+            }
+            else if (replays[selectedReplay].value1E4 == 1)
+            {
+                g_GameValueDF0 = 1;
+                g_TitleLaunchState = 2;
+                g_GameMode = 1;
+                g_GameValueDB8 = 0;
+            }
+            else
+            {
+                switch (replays[selectedReplay].value1E5)
+                {
+                case 1:
+                    g_GameValueDF0 = 1;
+                    g_TitleLaunchState = 2;
+                    g_GameMode = 2;
+                    g_GameValueDB8 = 0;
+                    break;
+                case 2:
+                    g_GameValueDF0 = 0;
+                    g_GameValueDB8 = 1;
+                    g_TitleLaunchState = 2;
+                    g_GameMode = 2;
+                    break;
+                case 3:
+                    g_GameValueDF0 = 1;
+                    g_GameValueDB8 = 1;
+                    g_TitleLaunchState = 2;
+                    g_GameMode = 2;
+                    break;
+                case 0:
+                case 4:
+                    g_GameValueDF0 = 0;
+                    g_TitleLaunchState = 2;
+                    g_GameMode = 2;
+                    g_GameValueDB8 = 0;
+                    break;
+                default:
+                    break;
+                }
+            }
+
+            for (i32 replayIndex = 0; replayIndex < 50; replayIndex++)
+            {
+                if (replayAllocations[replayIndex] != 0)
+                    free(replayAllocations[replayIndex]);
+                replayAllocations[replayIndex] = 0;
+            }
+            g_TitleNameTableIndex = g_TitleDifficulty;
+            return 0;
+        }
+        break;
+    }
+    }
+
+    replayUiFrameCounter++;
+    stateTimer++;
+    phaseTimer++;
     return 1;
 }
 

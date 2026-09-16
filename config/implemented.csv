@@ -391,3 +391,5 @@ TitleScreenView::OnUpdateCharacterSelect
 TitleScreenView::UpdateScreen8Mode123
 TitleScreenView::UpdateScreen16
 TitleScreenView::UpdateScreen8Mode0
+TitleScreenView::MoveCursorVertical
+TitleScreenView::OnUpdateReplayMenu

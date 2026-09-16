@@ -392,3 +392,5 @@ TitleScreenView::OnUpdateCharacterSelect,0x004254A7,function
 TitleScreenView::UpdateScreen8Mode123,0x00425ACB,function
 TitleScreenView::UpdateScreen16,0x00426334,function
 TitleScreenView::UpdateScreen8Mode0,0x004289DB,function
+TitleScreenView::MoveCursorVertical,0x0042457A,function
+TitleScreenView::OnUpdateReplayMenu,0x0042689A,function

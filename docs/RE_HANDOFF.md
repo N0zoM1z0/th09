@@ -3079,3 +3079,103 @@ Entry comments on all four hard owners explicitly record source-present/non-exac
 - A second authoritative route, the acceptance registry summary, was also attempted and returned the same `ReplayError: another factory operation owns <operator-path>`. Repository status was rechecked again and remained clean. No accepted-state freshness, accepted codegen claim, or accepted byte/function metric is synthesized from these unavailable calls.
 - Therefore Packet 165 remains **repository-canonical but fresh Truth Kernel acceptance unavailable in this session**. The earlier handoff documents a pre-Packet-164 accepted snapshot, but it is historical context only and is not treated as a current Packet-165 acceptance result.
 - This audit changes documentation only. It does not change source, ledgers, exact match units, generated progress, target bytes, build state, runtime state, or IDA metadata. Nothing was pushed.
+
+## Packet 166 checkpoint — TitleScreen replay-menu migration (2026-09-16)
+
+### Recovery and starting state
+
+- Repository / provider / target are `th09` / `th09-ida` / `target:th09-main`.
+- Starting branch/HEAD was `main @ 76203fbe6926f3ee1a1474cf4987e22557610742`, upstream `origin/main`, `+4/-0`.
+- Entry Git state was clean: `0 staged / 0 unstaged / 0 untracked / 0 conflicts`. There was no recoverable interrupted TH09 source work and no unrelated tracked/untracked TH09 path to preserve.
+- The ignored private target remained mode `0444`, size `685056`, SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`, MD5 `cf634df46e05552e104fa97a971aaac0`; it was not modified, moved, replaced, staged, or committed.
+- Entry `.analysis/` inventory was approximately `64,708 KiB`; existing ignored analysis content outside the current campaign remained legacy/unknown and was not deleted or trusted automatically.
+- Adjacent provenance was fixed before use. TH08 committed HEAD `a45e99fb1942714e6edded20847e32a654d56f97` was clean. TH095 committed HEAD `fe8a6a29ef0df6fa9527a25e5884588b5e3ae718` was `main +2` but its live worktree contained unrelated tracked `src/TextRenderer.cpp/.hpp` edits plus four untracked files; only committed TH095 content was eligible and none of its dirty content was used as evidence.
+
+### Mandatory preflights
+
+- The eight required repository/Factory guidance files plus AGENTS-recommended ontology/semantic/autonomy guidance were read before editing.
+- Native `th09-ida` discovery exposed 47 operations with explicit schemas. Discovery and `get_metadata {}` independently returned `attestation.status=passed`, target `target:th09-main`, and `attestation.provider_transport=factory-native-stdio`; database metadata was writable and target bytes were not writable.
+- `scripts/verify-target.py`, target-bound `scripts/validate-tracking.py --require-target`, `scripts/report-reconstruction-status.py`, `scripts/build-match-unit.py --check`, `scripts/progress.py --check`, public `scripts/ci.py`, and `git diff --check` all passed before target-dependent edits.
+- The early whole-product diagnostic was actually run and returned `rc=2/open`: compile flags, TU partition, libraries, resources, and link order remain unknown. Runtime therefore remained gated.
+
+### Packet selection and triage
+
+Packet 165 left three nearby `unknown/review` candidates at `0x004249E1`, `0x004266B5`, and `0x0042689A`. Fresh TH09 routing corrected the earlier broad “result/helper” hypothesis before source transfer:
+
+- `0x004249E1` is a 534-byte resource/setup worker: its target body preloads title/result ANM resources, loads surfaces/music, drives a ScreenEffect, and participates in the TitleScreen added/setup path. It has no direct code caller in the current IDB and was not source-promoted in this packet.
+- `0x004266B5` is an independent 485-byte dispatcher screen-13 unlock/selection state machine. It was deliberately left `unknown/review` for a separate connected packet.
+- `0x0042689A` is the 1,387-byte TitleScreen screen-11 replay browser/loader reached directly from the calc dispatcher. Its direct dependency `0x0042457A` is a broadly reused 135-byte vertical cursor helper with callers in replay, MusicRoom, Options, start/difficulty/mode screens, and existing replay-save code.
+
+The bounded Packet-166 cohort was therefore `MoveCursorVertical @ 0x0042457A` plus hard owner `OnUpdateReplayMenu @ 0x0042689A`. This combines a reusable adjacent-family helper with a materially larger owner instead of selecting only the easiest leaf.
+
+### TH09-local replay-menu reconstruction
+
+TH08 committed `TitleScreen::OnUpdateReplayMenu` supplied a natural state-machine/source-family hypothesis only. TH09 independently fixes different physical and semantic facts:
+
+- fifty contiguous 0x200 replay-path slots begin at TitleScreen `+0x28C`; the user-replay half begins at `+0x348C`;
+- a still-unknown 0x190-byte gap occupies `+0x668C..+0x681B`;
+- fifty retained decoded `ReplayDataView *` pointers occupy `+0x681C`;
+- fifty 0x1EC replay snapshots occupy `+0x68E4`;
+- enumeration/reset and slot-count fields are `+0xC900/+0xC904`, selected replay is `+0xC908`, and the existing replay UI frame counter is `+0xC910`;
+- the maintained ReplayManager reconstruction already fixes the 0x1EC `ReplayDataView`, including `frameStart[3][10] @ +0x20/+0x48/+0x70`, `value0D7 @ +0xD7`, and launch bytes `value1E4/+1E5`.
+
+Maintained `src/TitleScreen.cpp` now represents the full screen-11 flow with natural C++:
+
+- Init clears replay-active flag bit 3, optionally loads `title/replay00.png`, interrupts the current Title VMs, clears all fifty snapshot records, loads 25 fixed `./replay/th9_%.2d.rpy` records, then enumerates at most 25 `th9_ud????.rpy` files through Win32 find APIs while retaining decoded replay allocations for later cleanup.
+- Replay selection wraps over all fifty slots. Confirming a populated replay enters a ten-stage selector backed by `frameStart[0][stage]`; confirming an empty slot plays sound 39. Cancel returns to screen 1 and frees/nulls all retained decoded headers.
+- Stage confirmation publishes the selected side character, stage, replay metadata byte, path, replay-active flag, and launch-mode globals, then frees/nulls all retained decoded headers. The target-specific `value1E5` default path performs no launch-mode writes; this corrected an earlier 1,377-byte source experiment that was numerically closer but semantically wrong.
+
+No original data-definition owner or complete original TitleScreen class declaration is claimed from these physical views.
+
+### Exactness results
+
+`TitleScreenView::MoveCursorVertical @ 0x0042457A-0x00424600` is repository-canonical exact:
+
+- logical/compared extent: `135/135` bytes;
+- seven reviewed relocations resolve to `g_TitleInput @ 0x004ACF34`, `InputView::IsPressedScrolling @ 0x00423158`, `g_SoundPlayer @ 0x004DC698`, and `SoundPlayer::PlaySoundByIdx @ 0x0043E2F0`;
+- repository unit `title-screen-move-cursor-vertical` returns `result=exact`;
+- two final cold builds/replays independently return `135/135 exact`.
+
+The hard owner remains intentionally NON-EXACT:
+
+- target logical extent: `0x0042689A-0x00426E04`, 1,387 bytes, ending in `ret`; independent `TitleScreenView::OnUpdateMusicRoom @ 0x00426E05` begins at the next byte;
+- maintained natural pinned `/O1 /Ob1 /Oy- /Gr` source uses the same target 0x598-byte stack frame but emits 1,389 bytes;
+- two final cold source builds repeat `1389 candidate / 1387 target`;
+- instruction review shows broader local-lifetime/register and basic-block scheduling drift despite the two-byte net size residual, so no register/volatile/pragma/padding/assembly or other compiler-shaping source is retained.
+
+The exact helper and hard owner are therefore tracked on separate exactness planes. Close-of-packet repository truth before commit is `2163 candidates / 462 authored / 35 excluded / 395 source-present / 358 exact / 1666 pending`, and the match-unit graph contains 384 units.
+
+### Connected regressions and IDA metadata
+
+The expanded ReplayData/TitleScreen physical views do not regress Packet 165 exact code. Fresh connected replays remain exact for:
+
+- `MoveCharacterCursor` 89/89;
+- `MoveCharacterCursorNormal` 89/89;
+- `MoveCharacterCursorMode4` 89/89;
+- `UpdateCharacterSettings` 168/168;
+- `MoveCursorFourWay` 217/217;
+- `OnUpdateResultNameEntry` 966/966.
+
+Shared IDA metadata was edited only after role/boundary evidence was stable. `0x0042457A` is named `TitleScreen_MoveCursorVertical`; `0x0042689A` is named `TitleScreen_OnUpdateReplayMenu`. The replay-menu entry comment records the `1389/1387` source-present/NON-EXACT state and the 25+25/ten-stage protocol. Helper-name readback and owner decompilation/comment readback succeeded under passed native attestation. These IDA changes carry `exactness_credit=none`; no prototype/type was forced and no target byte was writable or patched.
+
+### Validation and artifact state
+
+- Final target verification, target-bound tracking, reconstruction status, 384-unit graph check, generated progress check, public CI, and whitespace all pass.
+- `scripts/build.py` was rerun after the final exact/negative Oracles and again returned `rc=2/open`; runtime was not launched. Semantic reconstruction and portability remain not started.
+- Source presence: 395 official mappings. Repository-canonical exactness: 358 exact functions. Whole-build closure: open. Runtime validation: not attempted. Fresh Factory/Truth-Kernel acceptance is a separate post-commit query and is not inferred from these repository rows.
+- `.analysis/` was observed at approximately `64,708 KiB` on entry and `64,712 KiB` before checkpoint. The single current campaign `.analysis/gpt-web/20260916-th09-title-replay/` is approximately 420 KiB on disk, 21 files / 363,572 file bytes, maximum file 327,122 bytes, and contains no file above 64 MiB. The campaign manifest records the retained exact/negative-Oracle receipts and hard-owner disassembly. No current-session file was deleted; the two tiny preflight whole-build stdout/stderr receipts outside the campaign were also retained. No legacy/unknown analysis state, IDB, target, toolchain, Wine prefix, or another process's output was removed.
+
+### Remaining unknowns and next evidence-connected packet
+
+- `OnUpdateReplayMenu` remains source-present/NON-EXACT at 1389/1387. The residual is structural codegen/lifetime ordering, not a reason to infer equality from close size.
+- The 0x190 bytes at TitleScreen `+0x668C..+0x681B` remain unknown. The physical replay-array/pointer views do not establish original C++ aggregate spelling or data-definition ownership.
+- The target-observed launch globals reuse existing reconstruction view names; this packet does not claim their original source names or production data owner.
+- `0x004266B5` remains a separate 485-byte screen-13 unlock/selection owner. Its direct neighboring helper `0x00424601` is the 112-byte horizontal cursor variant and is a strong next connected candidate, but neither received source or exactness credit here.
+- `0x004249E1` remains a 534-byte setup/resource worker tied by data xref to the TitleScreen added/setup cohort; its actual thread/callback ownership should be closed through `0x00424BF7` before source migration.
+- Packet-selection balance: this packet attacked a 1,387-byte hard owner while closing one highly reused helper, so the next packet should remain owner-connected rather than harvest unrelated small helpers. Preferred next route is `0x004266B5 + 0x00424601` if fresh caller/field evidence still binds the screen-13 state machine; alternate route is the `0x004249E1/0x00424BF7` TitleScreen setup lifecycle cohort.
+
+### Checkpoint plan
+
+- Planned primary subject: `gpt-web: reconstruct TitleScreen replay menu`.
+- Primary checkpoint hash: pending local commit.
+- Nothing has been pushed.
