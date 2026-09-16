@@ -558,3 +558,6 @@ ReleaseStageObject,0x00420C10,function
 Supervisor::ConfigureScreenViewport,0x00403D90,function
 SupervisorThreadCloseView::ThreadClose,0x0041A997,function
 PlayerLifecycleView::DrawTailStates,0x0041DF80,function
+SupervisorThreadStartView::ThreadClose,0x00430230,function
+PlayerUpdateOwnerState,0x0041D760,function
+AsciiManager::SetScale,0x004234DD,function

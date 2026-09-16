@@ -9592,3 +9592,47 @@ relocations = [
   { offset = 0x4D, type = "DIR32", symbol = "?g_AnmManager@@3PAUPlayerAnmManagerView@@A", target = 0x004DC550 },
   { offset = 0x53, type = "REL32", symbol = "?DrawNoRotation@PlayerAnmManagerView@@QAEHPAX@Z", target = 0x0043A950 },
 ]
+
+[units.supervisor-thread-join-close]
+source = "src/SupervisorThreadStart.cpp"
+object = "build/matching/SupervisorThreadStart.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorThreadStartView::ThreadClose"]
+symbol = "?ThreadClose@SupervisorThreadStartView@@QAEXXZ"
+target_address = 0x00430230
+size = 0x6C
+relocations = [
+  { offset = 0x10, type = "DIR32", symbol = "__imp__WaitForSingleObject@8", target = 0x0048E0B4 },
+  { offset = 0x30, type = "DIR32", symbol = "__imp__Sleep@4", target = 0x0048E058 },
+  { offset = 0x57, type = "DIR32", symbol = "__imp__CloseHandle@4", target = 0x0048E060 },
+]
+
+[units.player-update-owner-state]
+source = "src/PlayerRuntime.cpp"
+object = "build/matching/PlayerRuntime.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerUpdateOwnerState"]
+symbol = "?PlayerUpdateOwnerState@@YIXPAX@Z"
+target_address = 0x0041D760
+size = 0x7E
+relocations = [
+  { offset = 0x0E, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0 },
+  { offset = 0x1D, type = "REL32", symbol = "??FZunTimer@@QAEXH@Z", target = 0x00406670 },
+  { offset = 0x25, type = "REL32", symbol = "??NZunTimer@@QAEIH@Z", target = 0x00406720 },
+  { offset = 0x31, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x42, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0 },
+  { offset = 0x4E, type = "REL32", symbol = "??FZunTimer@@QAEXH@Z", target = 0x00406670 },
+  { offset = 0x56, type = "REL32", symbol = "??NZunTimer@@QAEIH@Z", target = 0x00406720 },
+  { offset = 0x68, type = "REL32", symbol = "?AdjustOwnerMetric@PlayerOwnerStateSideView@@QAEXH@Z", target = 0x0040F860 },
+  { offset = 0x76, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+]
+
+[units.ascii-manager-set-scale]
+source = "src/AsciiManagerDrawHelpers.cpp"
+object = "build/matching/AsciiManagerDrawHelpersSetScale.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AsciiManager::SetScale"]
+symbol = "?SetScale@AsciiManager@@QAEXMM@Z"
+target_address = 0x004234DD
+size = 0x19
+relocations = []

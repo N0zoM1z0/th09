@@ -168,6 +168,7 @@ class AsciiManager
     void AddFormatText(Float3 *position, const char *fmt, ...);
     void DrawStrings();
     void ResetStrings();
+    void SetScale(float scaleX, float scaleY);
     void OnDrawHighPrioImpl(int playerIndex);
     void CreateScorePopup(int playerIndex, Float3 *position, int number, unsigned long color);
     void Reset();
@@ -201,6 +202,8 @@ class AsciiManager
 };
 
 typedef char AsciiManagerSizeIsE0AC[(sizeof(AsciiManager) == 0xE0AC) ? 1 : -1];
+typedef char AsciiManagerScaleXAt826C[(offsetof(AsciiManager, scaleX) == 0x826C) ? 1 : -1];
+typedef char AsciiManagerScaleYAt8270[(offsetof(AsciiManager, scaleY) == 0x8270) ? 1 : -1];
 typedef char AsciiManagerFrameCounterAt8284[(offsetof(AsciiManager, frameCounter) == 0x8284) ? 1 : -1];
 typedef char AsciiManagerPauseMenuAt82A0[(offsetof(AsciiManager, pauseMenu) == 0x82A0) ? 1 : -1];
 typedef char AsciiManagerMenuState97C8[(offsetof(AsciiManager, menuState97C8) == 0x97C8) ? 1 : -1];

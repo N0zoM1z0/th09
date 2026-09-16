@@ -1,6 +1,7 @@
 #include "PlayerLifecycleView.hpp"
 #include "FileSystem.hpp"
 #include "ZunMemory.hpp"
+#include "ZunTimer.hpp"
 
 #include <stddef.h>
 
@@ -27,6 +28,39 @@ typedef char PlayerTailDrawStateActiveAt18[
     (offsetof(PlayerTailDrawStateView, active18) == 0x18) ? 1 : -1];
 typedef char PlayerTailDrawStateVmAt1C[
     (offsetof(PlayerTailDrawStateView, vm1C) == 0x1C) ? 1 : -1];
+
+struct PlayerOwnerStateSideView
+{
+    void AdjustOwnerMetric(int value);
+};
+
+struct PlayerOwnerStatePlayerView
+{
+    unsigned char unknown00[0x0C];
+    PlayerOwnerStateSideView *sideState0C;
+};
+
+struct PlayerOwnerStateUpdateView
+{
+    PlayerOwnerStatePlayerView *owner00;
+    int state04;
+    unsigned char unknown08[0x04];
+    int value0C;
+    int value10;
+    ZunTimer timer14;
+    ZunTimer timer20;
+    unsigned char unknown2C[0x0C];
+    int state38;
+    int activeFrameCounter3C;
+    void *callback40;
+};
+
+typedef char PlayerOwnerStateUpdateSizeIs44[
+    (sizeof(PlayerOwnerStateUpdateView) == 0x44) ? 1 : -1];
+typedef char PlayerOwnerStateTimer14At14[
+    (offsetof(PlayerOwnerStateUpdateView, timer14) == 0x14) ? 1 : -1];
+typedef char PlayerOwnerStateTimer20At20[
+    (offsetof(PlayerOwnerStateUpdateView, timer20) == 0x20) ? 1 : -1];
 
 struct PlayerAnmManagerView
 {
@@ -386,7 +420,35 @@ extern void PlayerUpdateStageC();
 extern void PlayerUpdateStageD();
 extern void PlayerUpdateStageE();
 extern void __fastcall PlayerUpdateSelectorState(void *state);
-extern void __fastcall PlayerUpdateOwnerState(void *state);
+void __fastcall PlayerUpdateOwnerState(void *opaqueState)
+{
+    PlayerOwnerStateUpdateView *state =
+        reinterpret_cast<PlayerOwnerStateUpdateView *>(opaqueState);
+
+    if (state->timer20 > 0)
+    {
+        state->activeFrameCounter3C = 0;
+        state->timer20--;
+        if (state->timer20 <= 0)
+        {
+            state->timer20 = 0;
+            state->state04 = 0;
+            state->state38 = 0;
+        }
+    }
+
+    if (state->timer14 > 0)
+    {
+        state->timer14--;
+        if (state->timer14 <= 0)
+        {
+            state->owner00->sideState0C->AdjustOwnerMetric(state->value10);
+            state->value10 = 0;
+            state->value0C = 0;
+            state->timer14 = 0;
+        }
+    }
+}
 
 int __fastcall PlayerLifecycleView::OnUpdate(PlayerLifecycleView *player)
 {

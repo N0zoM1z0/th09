@@ -391,7 +391,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041D0D0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041D110,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0041D150,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0041D760,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0041D760,authored_game,Player,authored,high,player-update-owner-state-vc71-exact-2026-09-17
 0x0041D7E0,authored_game,Player,authored,high,player-added-owner-reset-vc71-exact-2026-09-15
 0x0041D810,authored_game,Player,authored,high,player-collision-query-source-nonexact-2026-09-15
 0x0041DA70,authored_game,Player,authored,high,player-collision-helper-module-2026-09-15
@@ -490,7 +490,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00423469,authored_game,AnmManager,authored,high,packet128-anm-runtime-vc71-exact-2026-09-15
 0x00423498,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004234A7,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
-0x004234DD,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004234DD,authored_game,AsciiManager,authored,high,ascii-manager-set-scale-vc71-exact-2026-09-17
 0x004234F6,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x004239F6,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00423D16,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -652,7 +652,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00430060,authored_game,Supervisor,authored,high,supervisor-timekeeping-vc71-exact-2026-09-12
 0x00430150,authored_game,Supervisor,authored,high,supervisor-check-version-vc71-exact-2026-09-12
 0x00430220,authored_game,AsciiManager,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13
-0x00430230,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00430230,authored_game,Supervisor,authored,high,supervisor-thread-join-close-vc71-exact-2026-09-17
 0x004302A0,authored_game,AsciiManager,authored,high,packet187-small-support-leaves-2026-09-17
 0x004302B0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00430360,unknown,,review,unknown,ida-1.50a-initial-inventory

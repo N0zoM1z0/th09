@@ -8,6 +8,12 @@ void AsciiManager::ResetStrings()
     this->numStrings = 0;
 }
 
+void AsciiManager::SetScale(float scaleX, float scaleY)
+{
+    this->scaleX = scaleX;
+    this->scaleY = scaleY;
+}
+
 void PauseMenu::OnDraw()
 {
     unsigned int i;

@@ -557,3 +557,6 @@ ReleaseStageObject
 Supervisor::ConfigureScreenViewport
 SupervisorThreadCloseView::ThreadClose
 PlayerLifecycleView::DrawTailStates
+SupervisorThreadStartView::ThreadClose
+PlayerUpdateOwnerState
+AsciiManager::SetScale
