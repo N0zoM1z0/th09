@@ -560,3 +560,5 @@ PlayerLifecycleView::DrawTailStates
 SupervisorThreadStartView::ThreadClose
 PlayerUpdateOwnerState
 AsciiManager::SetScale
+GameManagerSideStateView::AddScore
+PlayerOwnerStateResetView::PrepareReset

@@ -198,10 +198,10 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0040F810,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0040F830,authored_game,ZunTimer,authored,high,runtime-support-leaf-target-replay-2026-09-16
 0x0040F840,authored_game,Player,authored,high,runtime-support-leaf-target-replay-2026-09-16
-0x0040F860,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0040F860,authored_game,GameManager,authored,high,game-manager-side-add-score-vc71-exact-2026-09-17
 0x0040F890,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0040F8B0,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0040F8C0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0040F8C0,authored_game,Player,authored,high,player-owner-state-prepare-reset-vc71-exact-2026-09-17
 0x0040F8E0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0040F9B0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0040FA70,authored_game,EnemyManager,authored,high,packet-171-enemy-manager-lifecycle

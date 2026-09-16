@@ -561,3 +561,5 @@ PlayerLifecycleView::DrawTailStates,0x0041DF80,function
 SupervisorThreadStartView::ThreadClose,0x00430230,function
 PlayerUpdateOwnerState,0x0041D760,function
 AsciiManager::SetScale,0x004234DD,function
+GameManagerSideStateView::AddScore,0x0040F860,function
+PlayerOwnerStateResetView::PrepareReset,0x0040F8C0,function

@@ -9636,3 +9636,25 @@ symbol = "?SetScale@AsciiManager@@QAEXMM@Z"
 target_address = 0x004234DD
 size = 0x19
 relocations = []
+
+[units.game-manager-side-add-score]
+source = "src/GameManagerSideScore.cpp"
+object = "build/matching/GameManagerSideScore.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["GameManagerSideStateView::AddScore"]
+symbol = "?AddScore@GameManagerSideStateView@@QAEXH@Z"
+target_address = 0x0040F860
+size = 0x21
+relocations = []
+
+[units.player-owner-state-prepare-reset]
+source = "src/PlayerOwnerStateReset.cpp"
+object = "build/matching/PlayerOwnerStateReset.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerOwnerStateResetView::PrepareReset"]
+symbol = "?PrepareReset@PlayerOwnerStateResetView@@QAEXXZ"
+target_address = 0x0040F8C0
+size = 0x1D
+relocations = [
+  { offset = 0x09, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+]
