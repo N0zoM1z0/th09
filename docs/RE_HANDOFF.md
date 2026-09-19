@@ -4381,3 +4381,16 @@ No target bytes were writable or modified. Under passed native attestation, comm
 - Exactly 680 target rows change in each of `config/functions.csv` and `config/function-origins.csv`; a HEAD comparison confirms every other line is byte-identical. Each promoted row is `library / D3DX8 / exclude / high` with evidence ID `pinned-runtime-origin-audit-2026-09-19`. No source mapping, match unit, or exactness claim is added.
 - Tracking becomes 2,164 candidates / 634 authored / 717 excluded / 813 pending, while source-present/exact stay 570/503. The whole Windows i386 build remains open; runtime, semantic, and port stages remain not started.
 - Next packet applies the separately counted strong CRT/general-library/import findings, then returns to the 49 short shape-only cases and 394 unmatched authored/compiler candidates. Planned checkpoint subject: `gpt-5.6-sol: classify pinned D3DX8 origins`. Nothing is pushed.
+
+
+## Packet 200 — pinned CRT/general-library/import review (2026-09-19)
+
+### Strong exclusions
+- From clean Packet-199 checkpoint `27ec2c1`, the audit applies the remaining strong archive/import findings only: 337 exact COFF function extents, 28 candidates inside complete exact contributions, and five exact PE import thunks. These 370 candidates total 60,862 bytes and span target locations `0x00433130-0x0048D204` because COMDAT and library contributions are not assumed to occupy one contiguous linker range.
+- Classification is 351 `library / CRT`, fourteen `library / Library` for bodies present in multiple pinned archive families, and five `import_thunk / Imports`. The five thunks are DirectInput8Create, DirectSoundCreate8, Direct3DCreate8, WINNLSEnableIME, and RtlUnwind; each complete extent is the six-byte `FF 25` transfer to a target import-directory IAT entry.
+- Exactly 370 rows change in each tracking ledger and all other rows remain byte-identical to Packet-199 HEAD. The updater intentionally preserves untouched historical CSV text rather than normalizing the full files.
+
+### Tracking and next frontier
+- Tracking is now 2,164 candidates / 634 authored / 1,087 excluded / 443 pending; source-present/exact remain 570/503. The two pinned-runtime packets therefore close 1,050 of the original 1,493 pending entries without enlarging the authored denominator.
+- The remaining 443 split cleanly into 49 short/low-stability archive-shape findings and 394 unmatched candidates. The 49 are not accepted merely for resembling one-to-six-byte library bodies; they require address/callgraph/contribution context. The unmatched group contains the principal authored/compiler frontier plus three conspicuous runtime residuals (`__fptrap`, `_abort`, and the 8,943-byte `0x0048A853` body).
+- Whole-build/runtime/semantic/port states remain unchanged. Next work should resolve the 49 low-stability cases by target-local context, then route the 394 unmatched candidates into authored, compiler-generated, or retained-unknown batches. Planned checkpoint subject: `gpt-5.6-sol: classify pinned CRT and import origins`. Nothing is pushed.
