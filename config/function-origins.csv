@@ -390,7 +390,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041D090,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0041D0D0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0041D110,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0041D150,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0041D150,authored_game,Player,authored,high,player-owner-reward-source-2026-09-20
 0x0041D760,authored_game,Player,authored,high,player-update-owner-state-vc71-exact-2026-09-17
 0x0041D7E0,authored_game,Player,authored,high,player-added-owner-reset-vc71-exact-2026-09-15
 0x0041D810,authored_game,Player,authored,high,player-collision-query-source-nonexact-2026-09-15

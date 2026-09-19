@@ -650,3 +650,4 @@ PlayerState4OpsView::AddRespawnResource
 PlayerLifecycleView::CalcItemCollectionCollision
 PlayerLifecycleView::UpdateBeforeState
 PlayerLifecycleView::CheckBulletCollision
+PlayerOwnerStateView::ApplyReward
