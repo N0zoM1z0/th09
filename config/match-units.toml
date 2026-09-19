@@ -8388,6 +8388,19 @@ relocations = [
   { offset = 0x10, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
 ]
 
+[units.front-side-reset-transition-state]
+source = "src/FrontSide.cpp"
+object = "build/matching/FrontSide.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontSide::ResetTransitionState"]
+symbol = "?ResetTransitionState@FrontSide@@QAEXXZ"
+target_address = 0x0041a230
+size = 0x33
+relocations = [
+  { offset = 0x0c, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x2d, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+]
+
 [units.front-side-activate-meter-vms]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"

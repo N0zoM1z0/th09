@@ -22,6 +22,8 @@ struct FrontSideAuxView
 
 typedef char FrontSideAuxVmsAt0C[
     (offsetof(FrontSideAuxView, vms0C) == 0x0C) ? 1 : -1];
+typedef char FrontSideAuxUnknown554At554[
+    (offsetof(FrontSideAuxView, unknown554) == 0x554) ? 1 : -1];
 typedef char FrontSideAuxSizeIs558[
     (sizeof(FrontSideAuxView) == 0x558) ? 1 : -1];
 

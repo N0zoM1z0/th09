@@ -270,9 +270,9 @@ void FrontSide::LoadScript67()
 void FrontSide::ResetTransitionState()
 {
     this->updateTimerABDC = 0;
-    if (this->transitionStateA65C != 0)
+    if (this->auxA678.unknown554 != 0)
     {
-        this->transitionStateA65C = 2;
+        this->auxA678.unknown554 = 2;
         this->transitionTimerABD0 = 30;
     }
 }
