@@ -617,7 +617,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042EB80,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042EC00,authored_game,Midi,authored,high,packet189-midi-resource-leaves-2026-09-17
 0x0042EC30,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0042ECF0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042ECF0,authored_game,Supervisor,authored,high,supervisor-network-queue-sync-exact-2026-09-20
 0x0042ED30,authored_game,Supervisor,authored,high,packet182-leaf-exact-target-replay-2026-09-16
 0x0042ED40,authored_game,Supervisor,authored,high,packet108-supervisor-is-music-preloaded-vc71-exact-2026-09-13
 0x0042ED50,authored_game,Supervisor,authored,high,packet182-leaf-exact-target-replay-2026-09-16

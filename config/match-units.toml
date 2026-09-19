@@ -10679,3 +10679,13 @@ size = 0x05
 relocations = [
   { offset = 0x01, type = "REL32", symbol = "?Release@PbgArchive@@QAEXXZ", target = 0x004333B0 },
 ]
+
+[units.supervisor-network-frame-queues-synchronized]
+source = "src/SupervisorNetworkQueue.cpp"
+object = "build/matching/SupervisorNetworkQueue.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorNetworkState::AreFrameQueuesSynchronized"]
+symbol = "?AreFrameQueuesSynchronized@SupervisorNetworkState@@QAEHH@Z"
+target_address = 0x0042ECF0
+size = 0x31
+relocations = []
