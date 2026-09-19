@@ -638,3 +638,4 @@ PlayerLifecycleView::SpawnRewardTailState
 PlayerLifecycleView::CheckGrazeCollision
 DrawSingleBullet
 EtamaController::OnDraw
+EtamaController::AddedCallback

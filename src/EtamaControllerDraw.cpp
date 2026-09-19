@@ -125,3 +125,143 @@ int EtamaController::OnDraw(EtamaController *controller)
         ->effectManager0C->DrawBulletLayerEffects();
     return 1;
 }
+
+namespace
+{
+
+struct EtamaAnmLoadedStateView
+{
+    unsigned char unknown00[4];
+    void *loaded04;
+};
+
+struct EtamaLoadedSpriteView
+{
+    unsigned char unknown00[0x30];
+    float height30;
+};
+
+static const int kBulletSpriteScripts[23][5] = {
+    {0, 18, 19, 20, 15}, {1, 21, 22, 23, 16}, {2, 21, 22, 23, 16},
+    {3, 21, 22, 23, 16}, {4, 21, 22, 23, 16}, {5, 21, 22, 23, 16},
+    {6, 21, 22, 23, 16}, {7, 24, 24, 24, 17}, {8, 24, 24, 24, 17},
+    {9, 24, 24, 24, 17}, {25, 27, 27, 27, 26}, {96, 21, 22, 23, 16},
+    {97, 21, 22, 23, 16}, {98, 21, 22, 23, 16}, {99, 24, 24, 24, 17},
+    {100, 24, 24, 24, 17}, {101, 21, 22, 23, 16}, {102, 21, 22, 23, 16},
+    {103, 24, 24, 24, 17}, {104, 24, 24, 24, 17}, {105, 24, 24, 24, 17},
+    {106, 21, 22, 23, 16}, {107, 24, 24, 24, 17},
+};
+
+inline short &BaseSpriteIndex(AnmVm *vm)
+{
+    return *reinterpret_cast<short *>(
+        reinterpret_cast<unsigned char *>(vm) + 0x218);
+}
+
+inline EtamaLoadedSpriteView *LoadedSprite(AnmVm *vm)
+{
+    return reinterpret_cast<EtamaLoadedSpriteView *>(vm->loadedSprite);
+}
+
+} // namespace
+
+int EtamaController::AddedCallback(EtamaController *controller)
+{
+    {
+        AnmManager *anmManager = g_AnmManager;
+        AnmLoaded *anm = anmManager->GetAnm(8);
+        if (reinterpret_cast<EtamaAnmLoadedStateView *>(anm)->loaded04 == NULL)
+            anm = anmManager->PreloadAnm(8, const_cast<char *>("etama.anm"));
+        controller->bulletAnm = reinterpret_cast<BulletAnmLoadedView *>(anm);
+        if (anm == NULL)
+            return -1;
+    }
+
+    for (unsigned int i = 0; i < 23; ++i)
+    {
+        BulletTypeSprites *sprites = &controller->bulletTypeSprites[i];
+        reinterpret_cast<AnmLoaded *>(controller->bulletAnm)
+            ->SetAndExecuteScriptIdx(&sprites->bulletVm, kBulletSpriteScripts[i][0]);
+        reinterpret_cast<AnmLoaded *>(controller->bulletAnm)
+            ->SetAndExecuteScriptIdx(&sprites->spawnFastVm, kBulletSpriteScripts[i][1]);
+        reinterpret_cast<AnmLoaded *>(controller->bulletAnm)
+            ->SetAndExecuteScriptIdx(&sprites->spawnNormalVm, kBulletSpriteScripts[i][2]);
+        reinterpret_cast<AnmLoaded *>(controller->bulletAnm)
+            ->SetAndExecuteScriptIdx(&sprites->spawnSlowVm, kBulletSpriteScripts[i][3]);
+        reinterpret_cast<AnmLoaded *>(controller->bulletAnm)
+            ->SetAndExecuteScriptIdx(&sprites->despawnVm, kBulletSpriteScripts[i][4]);
+
+        sprites->bulletVm.flagsWord |= 0x2000;
+        sprites->spawnFastVm.flagsWord |= 0x2000;
+        sprites->spawnNormalVm.flagsWord |= 0x2000;
+        sprites->spawnSlowVm.flagsWord |= 0x2000;
+        sprites->despawnVm.flagsWord |= 0x2000;
+
+        sprites->unknownD44 = sprites->bulletVm.activeSpriteIndex;
+        BaseSpriteIndex(&sprites->bulletVm) = sprites->bulletVm.activeSpriteIndex;
+        sprites->spriteHeightPx =
+            static_cast<unsigned char>(LoadedSprite(&sprites->bulletVm)->height30);
+
+        if (LoadedSprite(&sprites->bulletVm)->height30 <= 8.0f)
+        {
+            sprites->collisionSize.x = 4.0f;
+            sprites->collisionSize.y = 4.0f;
+            sprites->drawBucketIndex = 5;
+        }
+        else if (LoadedSprite(&sprites->bulletVm)->height30 <= 16.0f)
+        {
+            switch (kBulletSpriteScripts[i][0])
+            {
+            case 2: case 4: case 6: case 96: case 97: case 98:
+            case 101: case 102:
+                sprites->collisionSize.x = 4.0f;
+                sprites->collisionSize.y = 4.0f;
+                sprites->drawBucketIndex = 4;
+                break;
+            case 5:
+                sprites->collisionSize.x = 4.0f;
+                sprites->collisionSize.y = 4.0f;
+                sprites->drawBucketIndex = 3;
+            case 106:
+                sprites->collisionSize.x = 4.0f;
+                sprites->collisionSize.y = 4.0f;
+                sprites->drawBucketIndex = 4;
+                break;
+            default:
+                sprites->collisionSize.x = 6.0f;
+                sprites->collisionSize.y = 6.0f;
+                sprites->drawBucketIndex = 3;
+                break;
+            }
+        }
+        else if (LoadedSprite(&sprites->bulletVm)->height30 <= 32.0f)
+        {
+            switch (kBulletSpriteScripts[i][0])
+            {
+            case 8: case 103: case 104: case 105: case 107:
+                sprites->collisionSize.x = 5.0f;
+                sprites->collisionSize.y = 5.0f;
+                sprites->drawBucketIndex = 2;
+                break;
+            case 9: case 99: case 100:
+                sprites->collisionSize.x = 8.0f;
+                sprites->collisionSize.y = 8.0f;
+                sprites->drawBucketIndex = 1;
+                break;
+            default:
+                sprites->collisionSize.x = 10.0f;
+                sprites->collisionSize.y = 10.0f;
+                sprites->drawBucketIndex = 1;
+                break;
+            }
+        }
+        else
+        {
+            sprites->drawBucketIndex = 0;
+            sprites->collisionSize.x = 24.0f;
+            sprites->collisionSize.y = 24.0f;
+        }
+    }
+
+    return 0;
+}

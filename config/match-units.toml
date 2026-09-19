@@ -7292,7 +7292,7 @@ target_address = 0x00413AF0
 size = 0xD7
 compare_size = 0xE8
 relocations = [
-  { offset = 0x17, type = "DIR32", symbol = "$L1782", target = 0x00413BC8 },
+  { offset = 0x17, type = "DIR32", symbol = "$L1857", target = 0x00413BC8 },
   { offset = 0x46, type = "REL32", symbol = "??BFloat3@@QAEPAMXZ", target = 0x004343D0 },
   { offset = 0x54, type = "REL32", symbol = "??BFloat3@@QAEPAMXZ", target = 0x004343D0 },
   { offset = 0x61, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
@@ -9940,4 +9940,47 @@ relocations = [
   { offset = 0x93, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUAnmVm@@A", target = 0x004B38B0, addend = 0x00000750 },
   { offset = 0x9C, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUAnmVm@@A", target = 0x004B38B0, addend = 0x00000754 },
   { offset = 0xA4, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUAnmVm@@A", target = 0x004B38B0, addend = 0x00000758 },
+]
+
+
+[units.etama-controller-added-callback]
+source = "src/EtamaControllerDraw.cpp"
+object = "build/matching/EtamaControllerDraw.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EtamaController::AddedCallback"]
+symbol = "?AddedCallback@EtamaController@@SIHPAU1@@Z"
+target_address = 0x00413E40
+size = 0x256
+compare_size = 0x340
+relocations = [
+  { offset = 0x008, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x016, type = "REL32", symbol = "?GetAnm@AnmManager@@QAEPAVAnmLoaded@@H@Z", target = 0x00401660 },
+  { offset = 0x022, type = "DIR32", symbol = "??_C@_09NMANGJFI@etama?4anm?$AA@", target = 0x0048E488 },
+  { offset = 0x02B, type = "REL32", symbol = "?PreloadAnm@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z", target = 0x0043C7A0 },
+  { offset = 0x052, type = "DIR32", symbol = "_kBulletSpriteScripts", target = 0x0048E628 },
+  { offset = 0x065, type = "REL32", symbol = "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
+  { offset = 0x06B, type = "DIR32", symbol = "_kBulletSpriteScripts", target = 0x0048E628 },
+  { offset = 0x07E, type = "REL32", symbol = "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
+  { offset = 0x084, type = "DIR32", symbol = "_kBulletSpriteScripts", target = 0x0048E628 },
+  { offset = 0x091, type = "REL32", symbol = "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
+  { offset = 0x097, type = "DIR32", symbol = "_kBulletSpriteScripts", target = 0x0048E628 },
+  { offset = 0x0AA, type = "REL32", symbol = "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
+  { offset = 0x0B0, type = "DIR32", symbol = "_kBulletSpriteScripts", target = 0x0048E628 },
+  { offset = 0x0C3, type = "REL32", symbol = "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
+  { offset = 0x133, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x142, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
+  { offset = 0x163, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
+  { offset = 0x170, type = "DIR32", symbol = "_kBulletSpriteScripts", target = 0x0048E628 },
+  { offset = 0x17F, type = "DIR32", symbol = "$L1909", target = 0x004140A4 },
+  { offset = 0x186, type = "DIR32", symbol = "$L1918", target = 0x00414098 },
+  { offset = 0x1CF, type = "DIR32", symbol = "__real@42000000", target = 0x0048E5E0 },
+  { offset = 0x1DC, type = "DIR32", symbol = "_kBulletSpriteScripts", target = 0x0048E628 },
+  { offset = 0x1EB, type = "DIR32", symbol = "$L1910", target = 0x0041411C },
+  { offset = 0x1F2, type = "DIR32", symbol = "$L1919", target = 0x00414110 },
+  { offset = 0x258, type = "DIR32", symbol = "$L1827", target = 0x00413FCA },
+  { offset = 0x25C, type = "DIR32", symbol = "$L1828", target = 0x00413FDB },
+  { offset = 0x260, type = "DIR32", symbol = "$L1830", target = 0x00413FFC },
+  { offset = 0x2D0, type = "DIR32", symbol = "$L1837", target = 0x00414036 },
+  { offset = 0x2D4, type = "DIR32", symbol = "$L1838", target = 0x00414044 },
+  { offset = 0x2D8, type = "DIR32", symbol = "$L1839", target = 0x00414052 },
 ]

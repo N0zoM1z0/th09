@@ -265,7 +265,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00413A70,authored_game,BulletManager,authored,high,packet155-etama-recovery-2026-09-15
 0x00413AF0,authored_game,BulletManager,authored,high,game-code-origin-sweep-2026-09-19
 0x00413BE0,authored_game,BulletManager,authored,high,game-code-origin-sweep-2026-09-19
-0x00413E40,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00413E40,authored_game,BulletManager,authored,high,etama-added-callback-exact-2026-09-20
 0x00414180,authored_game,BulletManager,authored,high,packet155-etama-recovery-2026-09-15
 0x004141C0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004146F0,authored_game,BulletManager,authored,high,packet155-etama-recovery-2026-09-15
