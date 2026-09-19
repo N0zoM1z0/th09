@@ -671,3 +671,4 @@ PlayerUpdateStageD,0x0041BA80,function
 PlayerForwardAngleView::AngleFromPlayerToPoint,0x0041BB00,function
 PlayerBuildAabb,0x0041F2C0,function
 PlayerDamagePlayerView::CalcDamageToEnemy,0x0041FCD0,function
+ZunTimer::HasTicked,0x0040F810,function

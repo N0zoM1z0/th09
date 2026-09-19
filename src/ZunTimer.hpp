@@ -10,6 +10,7 @@ struct ZunTimer
     void Initialize();
     void SetCurrent(int value);
     int Tick();
+    int HasTicked();
     operator float();
     void operator++(int);
     void operator--(int);

@@ -10424,3 +10424,13 @@ relocations = [
   { offset = 0x1F, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0x2C, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
 ]
+
+[units.zun-timer-has-ticked]
+source = "src/ZunTimerHasTicked.cpp"
+object = "build/matching/ZunTimerHasTicked.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::HasTicked"]
+symbol = "?HasTicked@ZunTimer@@QAEHXZ"
+target_address = 0x0040F810
+size = 0x11
+relocations = []
