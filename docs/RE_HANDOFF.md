@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 650 |
+| Source-present authored mappings | 651 |
 | Canonical exact functions | 521 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -75,8 +75,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 650 source-present authored mappings. Of
-these, 521 are canonical exact and 129 retain honest non-exact compiler results.
+`config/implemented.csv` contains 651 source-present authored mappings. Of
+these, 521 are canonical exact and 130 retain honest non-exact compiler results.
 `config/matches.csv` contains 521 complete target-bound VC7.1 matches totaling
 75,573 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 340
-   authored functions / 97,054 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 339
+   authored functions / 96,240 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -126,8 +126,11 @@ generation, or folded ownership.
    allocation. Do not reopen these without genuinely new local/TU/compiler evidence.
    The shared Player math leaf `Float3::operator/ @ 0x0040F5A0` is now canonical exact;
    The small Player helper packet is now closed: `AddRespawnResource @ 0x0041BC90`
-   and `CalcItemCollectionCollision @ 0x0041BEE0` are canonical exact. Revisit
-   the two larger Player owners `0x0041DC20/0x0041DFF0`
+   and `CalcItemCollectionCollision @ 0x0041BEE0` are canonical exact.
+   `PlayerLifecycleView::UpdateBeforeState @ 0x0041DC20` is now source-present
+   NON-EXACT; its remaining natural codegen frontier depends on the source-absent
+   owner-state routine `0x0041D150` and its target-private ST0 float ABI. Next
+   recover `PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0` before
    after their shared layouts/helpers are recovered. These ranges remain routing
    hypotheses; establish every owner, ABI, boundary, and source mapping from
    TH09 evidence.

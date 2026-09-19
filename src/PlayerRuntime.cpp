@@ -3,6 +3,8 @@
 #include "ZunMemory.hpp"
 #include "ZunTimer.hpp"
 #include "AsciiManager.hpp"
+#include "EffectManager.hpp"
+#include "RngRuntimeLeaves.hpp"
 
 #include <stddef.h>
 
@@ -447,6 +449,30 @@ extern PlayerSoundRuntimeView g_SoundPlayer;
 extern unsigned int g_PlayerUpdateGateFlags;
 extern int g_PlayerTimingTable[][7];
 
+extern RngRuntimeView g_ReplayRng;
+extern EffectManager *g_PlayerRewardEffectManager;
+extern int g_PlayerRewardBaseValue;
+extern int g_PlayerRewardModeValue;
+extern float g_PlayerRewardVelocitySpan;
+
+struct PlayerRewardEffectRuntimeView
+{
+    unsigned char unknown000[0x98];
+    float delay98;
+    unsigned char unknown09C[0x04];
+    float scaleA0;
+    short valueA4;
+    short valueA6;
+    short sideA8;
+};
+
+typedef char PlayerRewardEffectDelayAt98[
+    (offsetof(PlayerRewardEffectRuntimeView, delay98) == 0x98) ? 1 : -1];
+typedef char PlayerRewardEffectScaleAtA0[
+    (offsetof(PlayerRewardEffectRuntimeView, scaleA0) == 0xA0) ? 1 : -1];
+typedef char PlayerRewardEffectValueA4[
+    (offsetof(PlayerRewardEffectRuntimeView, valueA4) == 0xA4) ? 1 : -1];
+
 struct PlayerState4TimerCurrentView
 {
     int GetCurrent();
@@ -698,6 +724,139 @@ afterTransition:
 PlayerLifecycleView::PlayerLifecycleView()
 {
 }
+
+void PlayerLifecycleView::UpdateBeforeState()
+{
+    Float3 collectionSize(
+        primaryShtFile->itemCollectionBoxSize,
+        primaryShtFile->itemCollectionBoxSize, 16.0f);
+    targetOverride30F64.x = -1000.0f;
+
+    PlayerRewardTailStateView *state =
+        reinterpret_cast<PlayerRewardTailStateView *>(tailStates30454);
+    int i;
+    for (i = 0; i < 4; ++i, ++state)
+    {
+        if (state->active1C == 0)
+            continue;
+
+        state->position04 += state->velocity10;
+        if (state->position04.y >= 464.0f)
+        {
+            state->active1C = 0;
+            continue;
+        }
+
+        float motionValue = state->velocity10.y;
+        if (motionValue >= 3.0f)
+            state->velocity10.y = 3.0f;
+        else
+        {
+            motionValue = state->velocity10.y + 0.03f;
+            state->velocity10.y = motionValue;
+        }
+
+        if (CalcItemCollectionCollision(
+                &state->position04,
+                reinterpret_cast<PlayerPositionView *>(&collectionSize)))
+        {
+            switch (state->type00)
+            {
+            case 0:
+                reinterpret_cast<PlayerState4OpsView *>(this)
+                    ->AddRespawnResource(400.0f);
+                break;
+            case 1:
+                for (i = 0;
+                     i < g_PlayerRewardBaseValue +
+                             2 * g_PlayerRewardModeValue + 10;
+                     ++i)
+                {
+                    g_PlayerSupervisorRuntime.SelectSide(sideIndex);
+
+                    EffectFloat3 position;
+                    position.x =
+                        g_PlayerGameManagerRuntime.TransformPopupX(position1B88.x) +
+                        g_ReplayRng.GetRandomF32SignedInRange(64.0f);
+                    position.y =
+                        g_PlayerGameManagerRuntime.TransformPopupY(position1B88.y) +
+                        g_ReplayRng.GetRandomF32SignedInRange(64.0f);
+                    position.z = 0.0f;
+
+                    g_PlayerSupervisorRuntime.SelectSide(1 - sideIndex);
+
+                    EffectFloat3 velocity;
+                    velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
+                        g_PlayerRewardVelocitySpan * 0.5f - 8.0f);
+                    velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
+                    velocity.z = 0.0f;
+
+                    Effect *rawEffect =
+                        g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
+                            sideIndex + 1, &position, &velocity, 1,
+                            static_cast<unsigned int>(-1));
+                    PlayerRewardEffectRuntimeView *effect =
+                        reinterpret_cast<PlayerRewardEffectRuntimeView *>(
+                            rawEffect);
+                    effect->valueA4 = 3;
+                    effect->valueA6 = 4;
+
+                    switch (g_PlayerRewardModeValue)
+                    {
+                    case 0:
+                        effect->scaleA0 =
+                            g_PlayerRewardBaseValue * 0.04f + 0.9f;
+                        break;
+                    case 1:
+                        effect->scaleA0 =
+                            g_PlayerRewardBaseValue * 0.05f + 1.1f;
+                        break;
+                    case 2:
+                        effect->scaleA0 =
+                            g_PlayerRewardBaseValue * 0.08f + 1.3f;
+                        break;
+                    case 3:
+                        effect->scaleA0 =
+                            g_PlayerRewardBaseValue * 0.1f + 1.7f;
+                        break;
+                    case 4:
+                        effect->scaleA0 =
+                            g_PlayerRewardBaseValue * 0.08f + 1.5f;
+                        break;
+                    default:
+                        break;
+                    }
+
+                    effect->sideA8 = static_cast<short>(sideIndex);
+                    effect->delay98 = static_cast<float>(i) * 2.0f;
+                }
+                g_PlayerSupervisorRuntime.SelectSide(sideIndex);
+                break;
+            case 2:
+                ownerState30410.ApplyReward(
+                    motionValue, &position1B88, 1, 0, 400, 0);
+                break;
+            case 3:
+                ownerState30410.ApplyReward(
+                    motionValue, &position1B88, 0, 0, 0, 70000);
+                break;
+            default:
+                break;
+            }
+
+            state->active1C = 0;
+            g_SoundPlayer.PlaySoundByIdx(
+                31, sideIndex != 0 ? 500 : -500);
+        }
+        else
+        {
+            targetOverride30F64.x = state->position04.x;
+            targetOverride30F64.y =
+                400.0f - (400.0f - state->position04.y) * 0.5f;
+        }
+    }
+}
+
 
 void PlayerLifecycleView::SpawnRewardTailState(
     int type, PlayerPositionView *position)

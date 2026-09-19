@@ -77,6 +77,7 @@ struct PlayerPositionView
 
     PlayerPositionView operator+(const PlayerPositionView &other) const;
     PlayerPositionView operator-(const PlayerPositionView &other) const;
+    PlayerPositionView &operator+=(const PlayerPositionView &other);
     PlayerPositionView operator/(float scalar) const;
     operator float *();
 };
@@ -261,6 +262,8 @@ struct PlayerOwnerStateView
     void *callback40;
 
     PlayerOwnerStateView();
+    int ApplyReward(float motionValue, PlayerPositionView *position,
+                    int value0, int value1, int value2, int value3);
 };
 typedef char PlayerOwnerStateSizeIs44[(sizeof(PlayerOwnerStateView) == 0x44) ? 1 : -1];
 
@@ -329,7 +332,7 @@ struct PlayerLifecycleView
     unsigned char unknown3040C[0x04];
     PlayerOwnerStateView ownerState30410;
     PlayerTailStateCtorView tailStates30454[4];
-    unsigned char unknown30F64[0x30F70 - 0x30F64];
+    PlayerPositionView targetOverride30F64;
 
     PlayerLifecycleView();
     void InitializeType(unsigned char playerType);
