@@ -967,3 +967,9 @@ name into a TH09 fact without target-local evidence.
 
 - `Float3::operator/(float) const @ 0x0040F5A0-0x0040F5D7` is repository-canonical exact at 56 bytes. TH09 computes `inverse = 1.0f / scalar`, multiplies x/y/z by the inverse, and constructs the hidden return object through exact `Float3::Float3 @ 0x004010B0`. Broad native callers in Player, EnemyManager and EtamaController establish the helper independently of adjacent-game naming; the mangled symbol already resolved by existing call-site manifests is `??KFloat3@@QBE?AU0@M@Z`.
 - Natural VC7.1 `/O2 /Ob1 /Oi /Gr` source reproduces all 56 bytes with exactly two relocations: `1.0f @ 0x0048E2A4` and the constructor call. Clean TH08 source corroborates the source spelling only. This removes an anonymous math dependency from the Player collision/reward helper frontier.
+
+## Packet 218 Player respawn-resource exact leaf
+
+- `PlayerState4OpsView::AddRespawnResource @ 0x0041BC90-0x0041BD31` is repository-canonical exact at 162 bytes. Exact `PlayerCheckState4` already binds this symbol/address, and independent callers include both large Player update owners plus Enemy death rewards, fixing the shared Player resource role.
+- The helper snapshots `int(scalar30388)/100`, adds the requested float, adds another 15% when target-backed `sideState->shotType20 == 1`, clamps the result to 400.0f, then calls exact `FrontSide::UpdateMeterHundreds` through `sideState->frontSide18` only when the hundred-bucket changes. All involved Player/side-state offsets were already maintained before this packet.
+- Natural PlayerRuntime `/O2 /Ob1 /Oy- /Gr` source reproduces 162/162 with five reviewed relocations: two `__ftol2` calls, 0.15f, 400.0f, and the exact FrontSide helper. No register forcing, inline assembly, padding, or profile fishing is used.

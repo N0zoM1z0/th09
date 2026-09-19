@@ -430,6 +430,7 @@ struct PlayerFrontSideRuntimeView
 {
     void ClearState(int value);
     void SetTimingValue(int value);
+    int UpdateMeterHundreds(int level);
 };
 
 struct PlayerMetricRuntimeView
@@ -466,6 +467,27 @@ extern float g_PlayerState4MinX;
 extern float g_PlayerState4MinY;
 extern float g_PlayerState4Width;
 extern float g_PlayerState4Height;
+
+void PlayerState4OpsView::AddRespawnResource(float value)
+{
+    PlayerLifecycleView *player = reinterpret_cast<PlayerLifecycleView *>(this);
+    int previousLevel = static_cast<int>(player->scalar30388) / 100;
+
+    player->scalar30388 += value;
+    PlayerSideStateView *sideState = player->sideState;
+    if (sideState->shotType20 == 1)
+        player->scalar30388 += value * 0.15f;
+
+    if (player->scalar30388 >= 400.0f)
+        player->scalar30388 = 400.0f;
+
+    int currentLevel = static_cast<int>(player->scalar30388) / 100;
+    if (previousLevel != currentLevel)
+    {
+        reinterpret_cast<PlayerFrontSideRuntimeView *>(sideState->frontSide18)
+            ->UpdateMeterHundreds(currentLevel);
+    }
+}
 
 static int PlayerCheckState4(PlayerLifecycleView *player);
 extern int PlayerCheckState2();
