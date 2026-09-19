@@ -634,3 +634,4 @@ ZunMemory::~ZunMemory
 SoundPlayer::SoundPlayer
 PlayerUpdateStageC
 PlayerCheckState4
+PlayerLifecycleView::SpawnRewardTailState

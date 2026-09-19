@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 636 |
-| Canonical exact functions | 511 |
+| Source-present authored mappings | 637 |
+| Canonical exact functions | 512 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 636 source-present authored mappings. Of
-these, 511 are canonical exact and 125 retain honest non-exact compiler results.
-`config/matches.csv` contains 511 complete target-bound VC7.1 matches totaling
-73,194 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 637 source-present authored mappings. Of
+these, 512 are canonical exact and 125 retain honest non-exact compiler results.
+`config/matches.csv` contains 512 complete target-bound VC7.1 matches totaling
+73,332 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,15 +111,15 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 354
-   authored functions / 104,052 bytes without maintained source, all currently
-   using the generic `Game` routing label. The four previously explicit
-   owners are now closed: `PlayerCheckState4 @ 0x0041E720` and
-   `PlayerUpdateStageC @ 0x0041E8B0` through natural same-TU private-ESI
-   codegen, `ZunMemory::~ZunMemory @ 0x0042B0E0`, and
-   `SoundPlayer::SoundPlayer @ 0x0043E470`. Continue with small routing
-   packets: Bullet `0x00413AF0-0x00414095`, Player
-   `0x0041DB90-0x0041E41B`, ANM `0x0043CAE0-0x0043CD35`, and
+2. **Recover authored source in bounded subsystem seams.** There are 353
+   authored functions / 103,914 bytes without maintained source, all currently
+   using the generic `Game` routing label. The explicit owner quartet and
+   Player reward-tail allocator are closed: `PlayerCheckState4 @ 0x0041E720`,
+   `PlayerUpdateStageC @ 0x0041E8B0`, `ZunMemory::~ZunMemory @ 0x0042B0E0`,
+   `SoundPlayer::SoundPlayer @ 0x0043E470`, and
+   `PlayerLifecycleView::SpawnRewardTailState @ 0x0041DB90`. Continue small
+   routing packets in Bullet `0x00413AF0-0x00414095`, the remaining Player
+   seam `0x0041DC20-0x0041E41B`, ANM `0x0043CAE0-0x0043CD35`, and
    Ascii/Title `0x004234F6-0x00424579`. These ranges remain adjacency
    hypotheses; establish every owner, ABI, boundary, and source mapping from
    TH09 evidence.

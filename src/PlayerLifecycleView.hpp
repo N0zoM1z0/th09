@@ -346,6 +346,7 @@ struct PlayerLifecycleView
     void EnterDeathState();
     void UpdateHeavyState();
     void DrawActiveShots();
+    void SpawnRewardTailState(int type, PlayerPositionView *position);
     void DrawTailStates();
     void DrawHitShots();
 

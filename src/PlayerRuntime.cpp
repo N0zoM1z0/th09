@@ -30,6 +30,41 @@ typedef char PlayerTailDrawStateActiveAt18[
 typedef char PlayerTailDrawStateVmAt1C[
     (offsetof(PlayerTailDrawStateView, vm1C) == 0x1C) ? 1 : -1];
 
+struct PlayerRewardAnmView
+{
+    void ExecuteAnmIdx(PlayerAnmVmView *vm, int scriptIndex);
+};
+
+struct PlayerRewardAnmBankView
+{
+    unsigned char unknown000000[0x25E1BC];
+    PlayerRewardAnmView *rewardAnm25E1BC;
+};
+
+struct PlayerRewardSideStateView
+{
+    unsigned char unknown00[0x08];
+    PlayerRewardAnmBankView *anmBank08;
+};
+
+struct PlayerRewardTailStateView
+{
+    int type00;
+    PlayerPositionView position04;
+    PlayerPositionView velocity10;
+    int active1C;
+    PlayerAnmVmView vm20;
+};
+
+typedef char PlayerRewardTailStateSizeIs2C4[
+    (sizeof(PlayerRewardTailStateView) == 0x2C4) ? 1 : -1];
+typedef char PlayerRewardTailPositionAt04[
+    (offsetof(PlayerRewardTailStateView, position04) == 0x04) ? 1 : -1];
+typedef char PlayerRewardTailActiveAt1C[
+    (offsetof(PlayerRewardTailStateView, active1C) == 0x1C) ? 1 : -1];
+typedef char PlayerRewardTailVmAt20[
+    (offsetof(PlayerRewardTailStateView, vm20) == 0x20) ? 1 : -1];
+
 struct PlayerOwnerStateSideView
 {
     void AdjustOwnerMetric(int value);
@@ -641,6 +676,35 @@ afterTransition:
 PlayerLifecycleView::PlayerLifecycleView()
 {
 }
+
+void PlayerLifecycleView::SpawnRewardTailState(
+    int type, PlayerPositionView *position)
+{
+    PlayerRewardTailStateView *state =
+        reinterpret_cast<PlayerRewardTailStateView *>(tailStates30454);
+
+    if (g_PlayerSharedRuntime->updateBlock1095C != 0)
+        return;
+
+    for (int index = 0; index < 4; ++index, ++state)
+    {
+        if (state->active1C == 0)
+        {
+            state->type00 = type;
+            state->position04 = *position;
+            state->velocity10.x = 0.0f;
+            state->velocity10.y = -1.5f;
+            state->velocity10.z = 0.0f;
+            state->active1C = 1;
+
+            reinterpret_cast<PlayerRewardSideStateView *>(sideState)
+                ->anmBank08->rewardAnm25E1BC
+                ->ExecuteAnmIdx(&state->vm20, type + 70);
+            return;
+        }
+    }
+}
+
 
 void PlayerLifecycleView::DrawTailStates()
 {
