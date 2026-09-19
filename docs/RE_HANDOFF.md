@@ -17,7 +17,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
 | Source-present authored mappings | 632 |
-| Canonical exact functions | 503 |
+| Canonical exact functions | 504 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -76,9 +76,9 @@ candidate as already applied.
 ## Exact reconstruction state
 
 `config/implemented.csv` contains 632 source-present authored mappings. Of
-these, 503 are canonical exact and 129 retain honest non-exact compiler results.
-`config/matches.csv` contains 503 complete target-bound VC7.1 matches totaling
-72,353 exact authored bytes. Source presence, origin, exactness, product
+these, 504 are canonical exact and 128 retain honest non-exact compiler results.
+`config/matches.csv` contains 504 complete target-bound VC7.1 matches totaling
+72,500 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -107,7 +107,6 @@ generation, or folded ownership.
 
 1. **Probe the smallest honest exact frontiers first.** These maintained units
    are target-sized or within two bytes and have tightly bounded residuals:
-   `PopContext @ 0x00406680` (one comparable byte/private register ABI),
    `CaptureFrameSyncState @ 0x00420190` (one commutative SIB byte),
    `AsciiManager::OnUpdate @ 0x00435B00` (one signedness branch),
    `FrontSide::ResetTransitionState @ 0x0041A230`, and the transform installers

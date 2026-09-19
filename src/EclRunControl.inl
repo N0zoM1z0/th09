@@ -78,7 +78,7 @@ void __fastcall CallSubroutine(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction,
     int rawSubroutineId);
-int __fastcall PopContext(EnemyView *enemy);
+static int PopContext(EnemyView *enemy);
 
 inline int &RawInt(
     Th09EclRawInstructionHeaderView *instruction,

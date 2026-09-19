@@ -292,25 +292,6 @@ void __fastcall CallSubroutine(
         ++view->activeCallDepth2D2A;
 }
 
-int __fastcall PopContext(EnemyView *enemy)
-{
-    EclHelperEnemyView *view = HelperView(enemy);
-    --view->activeCallDepth2D2A;
-    if (view->activeCallDepth2D2A < 0)
-    {
-        int childIndex = view->activeContext2CE0->contextOrdinal224 - 1;
-        if (view->childEclBlocks33D8[childIndex] != NULL)
-            g_ZunMemory.Free(view->childEclBlocks33D8[childIndex]);
-        view->childEclBlocks33D8[childIndex] = NULL;
-        view->activeCallStack2CE4 = view->mainCallStack0A20;
-        view->activeContext2CE0 = &view->mainContext07F4;
-        view->activeCallDepth2D2A = view->mainCallDepth2D28;
-        return 1;
-    }
-    *view->activeContext2CE0 =
-        view->activeCallStack2CE4[view->activeCallDepth2D2A];
-    return 0;
-}
 
 } // namespace Th09EclRunControl
 

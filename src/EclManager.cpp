@@ -22,6 +22,31 @@ typedef void (__fastcall *InterpolationCallback)(
 
 } // namespace Th09EclRunOwner
 
+namespace Th09EclRunControl
+{
+
+static int PopContext(EnemyView *enemy)
+{
+    Th09EclRunState::EnemyStateView *view = Th09EclRunState::View(enemy);
+    --view->activeCallDepth2D2A;
+    if (view->activeCallDepth2D2A < 0)
+    {
+        int childIndex = view->activeContext2CE0->contextOrdinal224 - 1;
+        if (view->childEclBlocks33D8[childIndex] != NULL)
+            g_ZunMemory.Free(view->childEclBlocks33D8[childIndex]);
+        view->childEclBlocks33D8[childIndex] = NULL;
+        view->activeCallStack2CE4 = view->mainCallStack0A20;
+        view->activeContext2CE0 = &view->mainContext07F4;
+        view->activeCallDepth2D2A = view->mainCallDepth2D28;
+        return 1;
+    }
+    *view->activeContext2CE0 =
+        view->activeCallStack2CE4[view->activeCallDepth2D2A];
+    return 0;
+}
+
+} // namespace Th09EclRunControl
+
 int EclManager::RunEcl(EnemyView *enemy)
 {
     Th09EclRunState::EnemyStateView *enemyState;
