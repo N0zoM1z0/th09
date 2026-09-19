@@ -697,3 +697,4 @@ ScoreRecordCtorView::ScoreRecordCtorView
 PbgArchive::~PbgArchive
 SupervisorFrameQueueView::AreFrameQueuesSynchronized
 BulletSpawnDescriptorCtorView::BulletSpawnDescriptorCtorView
+ResetTitleMode4Supervisor

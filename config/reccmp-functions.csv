@@ -698,3 +698,4 @@ ScoreRecordCtorView::ScoreRecordCtorView,0x00421C60,function
 PbgArchive::~PbgArchive,0x004335D0,function
 SupervisorFrameQueueView::AreFrameQueuesSynchronized,0x0042ECF0,function
 BulletSpawnDescriptorCtorView::BulletSpawnDescriptorCtorView,0x0040D500,function
+ResetTitleMode4Supervisor,0x0042EC30,function
