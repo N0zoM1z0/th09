@@ -636,3 +636,5 @@ PlayerUpdateStageC
 PlayerCheckState4
 PlayerLifecycleView::SpawnRewardTailState
 PlayerLifecycleView::CheckGrazeCollision
+DrawSingleBullet
+EtamaController::OnDraw

@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 638 |
-| Canonical exact functions | 513 |
+| Source-present authored mappings | 640 |
+| Canonical exact functions | 514 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 638 source-present authored mappings. Of
-these, 513 are canonical exact and 125 retain honest non-exact compiler results.
-`config/matches.csv` contains 513 complete target-bound VC7.1 matches totaling
-73,536 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 640 source-present authored mappings. Of
+these, 514 are canonical exact and 126 retain honest non-exact compiler results.
+`config/matches.csv` contains 514 complete target-bound VC7.1 matches totaling
+73,751 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,18 +111,18 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 352
-   authored functions / 103,710 bytes without maintained source, all currently
-   using the generic `Game` routing label. The explicit owner quartet and
-   three Player seam leaves are closed, including `SpawnRewardTailState @
-   0x0041DB90` and `CheckGrazeCollision @ 0x0041E350`. The remaining
-   Player seam has two larger collision owners at `0x0041DC20` (814 bytes)
-   and `0x0041DFF0` (862 bytes). Continue small routing packets in Bullet
-   `0x00413AF0-0x00414095`, ANM `0x0043CAE0-0x0043CD35`, and
-   Ascii/Title `0x004234F6-0x00424579`; revisit the two larger Player
-   collision owners after their shared layouts/helpers are recovered. These
-   ranges remain routing hypotheses; establish every owner, ABI, boundary, and
-   source mapping from TH09 evidence.
+2. **Recover authored source in bounded subsystem seams.** There are 350
+   authored functions / 102,895 bytes without maintained source. The Player
+   helper leaves and the first Etama draw helper are now closed: `DrawSingleBullet
+   @ 0x00413AF0` is canonical exact, while `EtamaController::OnDraw @
+   0x00413BE0` is maintained NON-EXACT at 568/600 and provides the honest
+   same-TU private-EBX caller. The Bullet routing packet now has one no-source
+   owner left at `0x00413E40` (598 bytes). Continue small packets in ANM
+   `0x0043CAE0-0x0043CD35` and Ascii/Title `0x004234F6-0x00424579`;
+   revisit the two larger Player collision owners `0x0041DC20/0x0041DFF0`
+   after their shared layouts/helpers are recovered. These ranges remain routing
+   hypotheses; establish every owner, ABI, boundary, and source mapping from
+   TH09 evidence.
 3. **Then attack coherent large non-exact families, not isolated giant owners.**
    The largest maintained frontiers are TitleScreen (21 functions / 19,899
    bytes), ECL (15 / 19,142), EnemyManager (5 / 7,709), Player (11 / 6,999),

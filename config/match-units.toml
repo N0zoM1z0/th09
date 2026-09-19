@@ -7282,6 +7282,34 @@ relocations = [
   { offset = 0x6B, type = "REL32", symbol = "??FZunTimer@@QAEXH@Z", target = 0x00406670 },
 ]
 
+[units.bullet-draw-single]
+source = "src/EtamaControllerDraw.cpp"
+object = "build/matching/EtamaControllerDraw.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["DrawSingleBullet"]
+symbol = "?DrawSingleBullet@@YIHPAUBullet@@@Z"
+target_address = 0x00413AF0
+size = 0xD7
+compare_size = 0xE8
+relocations = [
+  { offset = 0x17, type = "DIR32", symbol = "$L1782", target = 0x00413BC8 },
+  { offset = 0x46, type = "REL32", symbol = "??BFloat3@@QAEPAMXZ", target = 0x004343D0 },
+  { offset = 0x54, type = "REL32", symbol = "??BFloat3@@QAEPAMXZ", target = 0x004343D0 },
+  { offset = 0x61, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x66, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
+  { offset = 0x74, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x79, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
+  { offset = 0xAE, type = "DIR32", symbol = "__real@3fc90fdb", target = 0x0048E450 },
+  { offset = 0xB7, type = "REL32", symbol = "?AddNormalizeAngle@@YGMMM@Z", target = 0x0042AED0 },
+  { offset = 0xC2, type = "REL32", symbol = "?SetZRotation@AnmVm@@QAEXM@Z", target = 0x0040F840 },
+  { offset = 0xC8, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0xCE, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
+  { offset = 0xD8, type = "DIR32", symbol = "$L1731", target = 0x00413B0B },
+  { offset = 0xDC, type = "DIR32", symbol = "$L1732", target = 0x00413B13 },
+  { offset = 0xE0, type = "DIR32", symbol = "$L1733", target = 0x00413B1B },
+  { offset = 0xE4, type = "DIR32", symbol = "$L1734", target = 0x00413B23 },
+]
+
 [units.etama-controller-release]
 source = "src/BulletManager.cpp"
 object = "build/matching/BulletManager.obj"
