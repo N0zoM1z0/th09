@@ -161,3 +161,24 @@ PlayerCollisionQueryRecordView *PlayerCollisionQueryStateView::FindCollisionAtPl
     }
     return NULL;
 }
+
+
+int PlayerLifecycleView::CalcItemCollectionCollision(
+    PlayerPositionView *position,
+    PlayerPositionView *size)
+{
+    if (updateState00 != 0 && updateState00 != 3)
+        return 0;
+
+    PlayerPositionView itemMin;
+    PlayerPositionView itemMax;
+    itemMin = *position - *size / 2.0f;
+    itemMax = *position + *size / 2.0f;
+
+    if (unknownBoundsMin1C90.x > itemMax.x ||
+        unknownBoundsMax1C9C.x < itemMin.x ||
+        unknownBoundsMin1C90.y > itemMax.y ||
+        unknownBoundsMax1C9C.y < itemMin.y)
+        return 0;
+    return 1;
+}

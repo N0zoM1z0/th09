@@ -370,7 +370,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041BDE0,authored_game,Player,authored,high,packet188-small-accessor-leaves-2026-09-17
 0x0041BDF0,authored_game,Player,authored,high,player-collision-helper-module-2026-09-15
 0x0041BE70,authored_game,Player,authored,high,player-collision-helper-module-2026-09-15
-0x0041BEE0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0041BEE0,authored_game,Player,authored,high,player-item-collection-collision-exact-2026-09-20
 0x0041BFC0,authored_game,Player,authored,high,player-collision-helper-module-2026-09-15
 0x0041C170,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0041C8E0,authored_game,Player,authored,high,player-collision-runtime-source-2026-09-15

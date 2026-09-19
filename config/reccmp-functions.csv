@@ -648,3 +648,4 @@ TitleScreenView::DrawReplayMenu,0x004234F6,function
 TitleScreenView::DrawResult,0x00423D16,function
 Float3::operator/,0x0040F5A0,function
 PlayerState4OpsView::AddRespawnResource,0x0041BC90,function
+PlayerLifecycleView::CalcItemCollectionCollision,0x0041BEE0,function

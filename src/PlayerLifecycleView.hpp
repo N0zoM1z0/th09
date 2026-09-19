@@ -77,6 +77,7 @@ struct PlayerPositionView
 
     PlayerPositionView operator+(const PlayerPositionView &other) const;
     PlayerPositionView operator-(const PlayerPositionView &other) const;
+    PlayerPositionView operator/(float scalar) const;
     operator float *();
 };
 
@@ -272,7 +273,7 @@ typedef char PlayerTailStateCtorSizeIs2C4[(sizeof(PlayerTailStateCtorView) == 0x
 
 struct PlayerLifecycleView
 {
-    unsigned char unknown0000[0x04];
+    int updateState00;
     unsigned char playerType04;
     unsigned char unknown0005[0x03];
     int sideIndex;
@@ -349,6 +350,7 @@ struct PlayerLifecycleView
         Bullet *bullet);
     int CalcItemBoxCollision(PlayerPositionView *position, PlayerPositionView *halfSize);
     int CalcCircleCollision(PlayerPositionView *position, float radius);
+    int CalcItemCollectionCollision(PlayerPositionView *position, PlayerPositionView *size);
     int CalcLaserHitbox(
         PlayerPositionView *position,
         PlayerPositionView *halfSize,

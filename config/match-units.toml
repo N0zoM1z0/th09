@@ -10077,3 +10077,18 @@ relocations = [
   { offset = 0x77, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
   { offset = 0x97, type = "REL32", symbol = "?UpdateMeterHundreds@PlayerFrontSideRuntimeView@@QAEHH@Z", target = 0x0041A320 },
 ]
+
+[units.player-calc-item-collection-collision]
+source = "src/PlayerCollisionHelpers.cpp"
+object = "build/matching/PlayerCollisionHelpers.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerLifecycleView::CalcItemCollectionCollision"]
+symbol = "?CalcItemCollectionCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@0@Z"
+target_address = 0x0041BEE0
+size = 0xD1
+relocations = [
+  { offset = 0x29, type = "REL32", symbol = "??KPlayerPositionView@@QBE?AU0@M@Z", target = 0x0040F5A0 },
+  { offset = 0x38, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x59, type = "REL32", symbol = "??KPlayerPositionView@@QBE?AU0@M@Z", target = 0x0040F5A0 },
+  { offset = 0x65, type = "REL32", symbol = "??HPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+]
