@@ -8796,6 +8796,26 @@ relocations = [
   { offset = 0x09, type = "REL32", symbol = "?ReleaseAnm@AnmManager@@QAEXH@Z", target = 0x0043CA30 },
 ]
 
+[units.bullet-transform-install-record]
+source = "src/BulletTransformCore.cpp"
+object = "build/matching/BulletTransformCore.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Bullet::InstallTransformRecord"]
+symbol = "?InstallTransformRecord@Bullet@@QAEPAUBulletTransformRecord@@HHI@Z"
+target_address = 0x00412610
+size = 0x36
+relocations = []
+
+[units.bullet-spawn-transform-install-record]
+source = "src/BulletTransformCore.cpp"
+object = "build/matching/BulletTransformCore.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["BulletSpawnDescriptor::InstallTransformRecord"]
+symbol = "?InstallTransformRecord@BulletSpawnDescriptor@@QAEPAUBulletTransformRecord@@HHI@Z"
+target_address = 0x00412650
+size = 0x25
+relocations = []
+
 [units.bullet-transform-install-vector-acceleration]
 source = "src/BulletTransformBuilders.cpp"
 object = "build/matching/BulletTransformBuilders.obj"

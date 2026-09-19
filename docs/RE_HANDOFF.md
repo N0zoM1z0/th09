@@ -17,7 +17,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
 | Source-present authored mappings | 632 |
-| Canonical exact functions | 505 |
+| Canonical exact functions | 507 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -76,9 +76,9 @@ candidate as already applied.
 ## Exact reconstruction state
 
 `config/implemented.csv` contains 632 source-present authored mappings. Of
-these, 505 are canonical exact and 127 retain honest non-exact compiler results.
-`config/matches.csv` contains 505 complete target-bound VC7.1 matches totaling
-72,551 exact authored bytes. Source presence, origin, exactness, product
+these, 507 are canonical exact and 125 retain honest non-exact compiler results.
+`config/matches.csv` contains 507 complete target-bound VC7.1 matches totaling
+72,642 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -105,13 +105,12 @@ session re-reviewing the frozen 34-entry origin-unknown set unless genuinely new
 target evidence can distinguish explicit source, implicit special-member
 generation, or folded ownership.
 
-1. **Probe the smallest honest exact frontiers first.** These maintained units
-   are target-sized or within two bytes and have tightly bounded residuals:
-   the transform installers at `0x00412610/0x00412650`. Explore natural ABI,
-   visibility, type, and TU
-   hypotheses; do not retain register forcing, padding, inline assembly, or
-   profile fishing merely to erase a residual. Record a bounded negative and
-   rotate when the natural-source route reaches a plateau.
+1. **The smallest exact-frontier packet is now exhausted.** `PopContext`,
+   `FrontSide::ResetTransitionState`, and both Bullet transform installers are
+   canonical exact. `CaptureFrameSyncState` and `AsciiManager::OnUpdate` have
+   bounded natural-source negative receipts for their one-byte residuals. Do
+   not reopen these without genuinely new ABI/type/TU evidence; rotate to the
+   authored/no-source seams below.
 2. **Recover authored source in bounded subsystem seams.** There are 358
    authored functions / 104,604 bytes without maintained source. Four already
    have bounded owners: Player `0x0041E720/0x0041E8B0`, ZunMemory
