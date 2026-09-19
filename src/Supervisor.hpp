@@ -8,6 +8,8 @@ struct SupervisorCtorArrayElement
 {
     unsigned char unknown000[0xF0];
 
+    // Declaration only: the target callback is a shared/folded three-byte
+    // constructor whose original owner and source mapping remain unresolved.
     SupervisorCtorArrayElement();
 };
 
