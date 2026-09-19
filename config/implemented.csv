@@ -684,3 +684,4 @@ EnemyManagerView::FindActiveEnemyBySideCategory
 AsciiManager::SetBossMarkerState
 PlayerSharedTransitionView::GetTransitionBlockFlag
 PlayerOwnerStateView::ApplyRewardWithStateAdvance
+PlayerState4OpsView::SetUpdateState

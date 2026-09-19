@@ -685,3 +685,4 @@ EnemyManagerView::FindActiveEnemyBySideCategory,0x0040F7D0,function
 AsciiManager::SetBossMarkerState,0x0040F890,function
 PlayerSharedTransitionView::GetTransitionBlockFlag,0x0040D4F0,function
 PlayerOwnerStateView::ApplyRewardWithStateAdvance,0x0040F8B0,function
+PlayerState4OpsView::SetUpdateState,0x00403C20,function

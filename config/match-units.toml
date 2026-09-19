@@ -10564,3 +10564,13 @@ size = 0x0C
 relocations = [
   { offset = 0x08, type = "REL32", symbol = "?ApplyReward@PlayerOwnerStateView@@QAEHPAUPlayerPositionView@@HHHH@Z", target = 0x0041D150 },
 ]
+
+[units.player-set-update-state]
+source = "src/PlayerSetUpdateState.cpp"
+object = "build/matching/PlayerSetUpdateState.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerState4OpsView::SetUpdateState"]
+symbol = "?SetUpdateState@PlayerState4OpsView@@QAEXH@Z"
+target_address = 0x00403C20
+size = 0x0C
+relocations = []
