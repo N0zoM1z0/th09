@@ -10722,3 +10722,39 @@ relocations = [
   { offset = 0x9D, type = "REL32", symbol = "?SupervisorNetworkMarkActive@@YIXPAX@Z", target = 0x0042E9A0 },
   { offset = 0xA3, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
 ]
+
+[units.exattack-on-draw0]
+source = "src/ExAttackDraw.cpp"
+object = "build/matching/ExAttackDraw.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ExAttackController::OnDraw0"]
+symbol = "?OnDraw0@ExAttackController@@SIHPAU1@@Z"
+target_address = 0x00415460
+size = 0x11E
+relocations = [
+  { offset = 0x22, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x27, type = "REL32", symbol = "?ConfigureScreenViewport@Supervisor@@QAEXH@Z", target = 0x00403D90 },
+  { offset = 0x64, type = "REL32", symbol = "?SetZRotation@AnmVm@@QAEXM@Z", target = 0x0040F840 },
+  { offset = 0x77, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x7F, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
+  { offset = 0x9C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0xA4, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
+  { offset = 0xC5, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0xCD, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
+]
+
+[units.exattack-on-draw1]
+source = "src/ExAttackDraw.cpp"
+object = "build/matching/ExAttackDraw.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ExAttackController::OnDraw1"]
+symbol = "?OnDraw1@ExAttackController@@SIHPAU1@@Z"
+target_address = 0x00415580
+size = 0xC1
+relocations = [
+  { offset = 0x06, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x0B, type = "REL32", symbol = "?ConfigureScreenViewport@Supervisor@@QAEXH@Z", target = 0x00403D90 },
+  { offset = 0x46, type = "REL32", symbol = "?SetZRotation@AnmVm@@QAEXM@Z", target = 0x0040F840 },
+  { offset = 0x88, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x90, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
+]

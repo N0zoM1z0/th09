@@ -698,3 +698,5 @@ PbgArchive::~PbgArchive
 SupervisorFrameQueueView::AreFrameQueuesSynchronized
 BulletSpawnDescriptorCtorView::BulletSpawnDescriptorCtorView
 ResetTitleMode4Supervisor
+ExAttackController::OnDraw0
+ExAttackController::OnDraw1
