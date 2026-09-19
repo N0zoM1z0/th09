@@ -690,3 +690,4 @@ AsciiGameManagerView::HasFlagBit0,0x004343B0,function
 AsciiSoundPlayerView::ResumeAfterPause,0x00423498,function
 ZunMemory::ZunMemory,0x0042B0D0,function
 GameErrorContext::GameErrorContext,0x0042B110,function
+ReplayInputState::ReplayInputState,0x0042B010,function

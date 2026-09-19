@@ -31,8 +31,9 @@ struct ReplayInputState
     u16 historyReleased;
     u16 unknown36;
     u16 heldFrames[16];
-    u8 unknown58[0x36];
+    short keyCodes58[27];
 
+    ReplayInputState();
     void Update();
     u16 IsHeld(int mask);
 };
@@ -1008,4 +1009,36 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
         GlobalFree(compressedData);
     }
     return 0;
+}
+
+
+ReplayInputState::ReplayInputState()
+{
+    keyCodes58[0] = 0;
+    keyCodes58[1] = 1;
+    keyCodes58[2] = 2;
+    keyCodes58[3] = 4;
+    keyCodes58[4] = -1;
+    keyCodes58[5] = -1;
+    keyCodes58[6] = -1;
+    keyCodes58[7] = -1;
+    keyCodes58[8] = 3;
+    keyCodes58[9] = 0x5A;
+    keyCodes58[10] = 0x58;
+    keyCodes58[11] = 0x10;
+    keyCodes58[12] = 0x1B;
+    keyCodes58[13] = 0x26;
+    keyCodes58[14] = 0x28;
+    keyCodes58[15] = 0x25;
+    keyCodes58[16] = 0x27;
+    keyCodes58[17] = 0x11;
+    keyCodes58[18] = 0x2C;
+    keyCodes58[19] = 0x2D;
+    keyCodes58[20] = 0x2A;
+    keyCodes58[21] = 1;
+    keyCodes58[22] = 0xC8;
+    keyCodes58[23] = 0xD0;
+    keyCodes58[24] = 0xCB;
+    keyCodes58[25] = 0xCD;
+    keyCodes58[26] = 0x1D;
 }

@@ -689,3 +689,4 @@ AsciiGameManagerView::HasFlagBit0
 AsciiSoundPlayerView::ResumeAfterPause
 ZunMemory::ZunMemory
 GameErrorContext::GameErrorContext
+ReplayInputState::ReplayInputState

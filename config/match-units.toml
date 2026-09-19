@@ -10617,3 +10617,13 @@ symbol = "??0GameErrorContext@@QAE@XZ"
 target_address = 0x0042B110
 size = 0x13
 relocations = []
+
+[units.replay-input-state-constructor]
+source = "src/ReplayInput.cpp"
+object = "build/matching/ReplayInput.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ReplayInputState::ReplayInputState"]
+symbol = "??0ReplayInputState@@QAE@XZ"
+target_address = 0x0042B010
+size = 0xB6
+relocations = []
