@@ -635,3 +635,4 @@ SoundPlayer::SoundPlayer
 PlayerUpdateStageC
 PlayerCheckState4
 PlayerLifecycleView::SpawnRewardTailState
+PlayerLifecycleView::CheckGrazeCollision

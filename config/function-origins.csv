@@ -399,7 +399,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041DC20,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0041DF80,authored_game,Player,authored,high,player-draw-tail-states-vc71-exact-2026-09-17
 0x0041DFF0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0041E350,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0041E350,authored_game,Player,authored,high,player-graze-collision-owner-exact-2026-09-19
 0x0041E420,authored_game,Player,authored,high,player-death-transition-source-nonexact-2026-09-15
 0x0041E720,authored_game,Player,authored,high,player-death-state-private-abi-2026-09-15
 0x0041E8B0,authored_game,Player,authored,high,player-death-trigger-private-abi-2026-09-15

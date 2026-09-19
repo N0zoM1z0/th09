@@ -7027,6 +7027,24 @@ relocations = [
   { offset = 0x23, type = "REL32", symbol = "??4PlayerAddedTimerView@@QAEXH@Z", target = 0x00401500 },
 ]
 
+[units.player-check-graze-collision]
+source = "src/PlayerCollisionHelpers.cpp"
+object = "build/matching/PlayerCollisionHelpers.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerLifecycleView::CheckGrazeCollision"]
+symbol = "?CheckGrazeCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@0PAUBullet@@@Z"
+target_address = 0x0041E350
+size = 0xCC
+relocations = [
+  { offset = 0x18, type = "REL32", symbol = "?CheckBulletCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@0PAUBullet@@@Z", target = 0x0041DFF0 },
+  { offset = 0x32, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x3C, type = "DIR32", symbol = "__real@42700000", target = 0x0048E4A4 },
+  { offset = 0x48, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x53, type = "DIR32", symbol = "__real@42700000", target = 0x0048E4A4 },
+  { offset = 0x60, type = "DIR32", symbol = "__real@42700000", target = 0x0048E4A4 },
+  { offset = 0x6C, type = "DIR32", symbol = "__real@42700000", target = 0x0048E4A4 },
+]
+
 [units.player-calc-item-box-collision]
 source = "src/PlayerCollisionHelpers.cpp"
 object = "build/matching/PlayerCollisionHelpers.obj"

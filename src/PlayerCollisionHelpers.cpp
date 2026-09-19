@@ -17,6 +17,35 @@ void RotatePlayerCollisionVector(
     PlayerPositionView *point,
     float angle);
 
+int PlayerLifecycleView::CheckGrazeCollision(
+    PlayerPositionView *position,
+    PlayerPositionView *collisionSize,
+    Bullet *bullet)
+{
+    if (CheckBulletCollision(position, collisionSize, bullet))
+        return 2;
+
+    PlayerPositionView incomingMin;
+    PlayerPositionView incomingMax;
+    incomingMin.x = position->x - collisionSize->x * 0.5f - 60.0f;
+    incomingMin.y = position->y - collisionSize->y * 0.5f - 60.0f;
+    incomingMax.x = collisionSize->x * 0.5f + position->x + 60.0f;
+    incomingMax.y = collisionSize->y * 0.5f + position->y + 60.0f;
+
+    if (!(grazeBoundsMin1C78.x > incomingMax.x))
+    {
+        if (!(grazeBoundsMax1C84.x < incomingMin.x))
+        {
+            if (!(grazeBoundsMin1C78.y > incomingMax.y))
+            {
+                if (!(grazeBoundsMax1C84.y < incomingMin.y))
+                    return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 int PlayerLifecycleView::CalcItemBoxCollision(
     PlayerPositionView *position,
     PlayerPositionView *halfSize)

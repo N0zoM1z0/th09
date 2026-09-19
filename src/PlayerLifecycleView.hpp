@@ -4,6 +4,8 @@
 
 #include <stddef.h>
 
+struct Bullet;
+
 struct PlayerSideStateView
 {
     unsigned char unknown00[0x04];
@@ -292,7 +294,10 @@ struct PlayerLifecycleView
     PlayerConstructedVector3View positions1BA0[16];
     PlayerPositionView collisionBoundsMin1C60;
     PlayerPositionView collisionBoundsMax1C6C;
-    unsigned char unknown1C78[0x1CA8 - 0x1C78];
+    PlayerPositionView grazeBoundsMin1C78;
+    PlayerPositionView grazeBoundsMax1C84;
+    PlayerPositionView unknownBoundsMin1C90;
+    PlayerPositionView unknownBoundsMax1C9C;
     PlayerHalfSizeView hurtboxHalfSize;
     PlayerHalfSizeView grazeHalfSize;
     PlayerHalfSizeView itemCollectionHalfSize;
@@ -334,6 +339,14 @@ struct PlayerLifecycleView
     void SetBombMode0();
     void SetBombMode1();
     void SetBombMode2();
+    int CheckBulletCollision(
+        PlayerPositionView *position,
+        PlayerPositionView *collisionSize,
+        Bullet *bullet);
+    int CheckGrazeCollision(
+        PlayerPositionView *position,
+        PlayerPositionView *collisionSize,
+        Bullet *bullet);
     int CalcItemBoxCollision(PlayerPositionView *position, PlayerPositionView *halfSize);
     int CalcCircleCollision(PlayerPositionView *position, float radius);
     int CalcLaserHitbox(
@@ -370,6 +383,12 @@ typedef char PlayerLifecycleBoundsMinAt1C60[
     (offsetof(PlayerLifecycleView, collisionBoundsMin1C60) == 0x1C60) ? 1 : -1];
 typedef char PlayerLifecycleBoundsMaxAt1C6C[
     (offsetof(PlayerLifecycleView, collisionBoundsMax1C6C) == 0x1C6C) ? 1 : -1];
+typedef char PlayerLifecycleGrazeBoundsMinAt1C78[
+    (offsetof(PlayerLifecycleView, grazeBoundsMin1C78) == 0x1C78) ? 1 : -1];
+typedef char PlayerLifecycleGrazeBoundsMaxAt1C84[
+    (offsetof(PlayerLifecycleView, grazeBoundsMax1C84) == 0x1C84) ? 1 : -1];
+typedef char PlayerLifecycleGrazeHalfSizeAt1CB4[
+    (offsetof(PlayerLifecycleView, grazeHalfSize) == 0x1CB4) ? 1 : -1];
 typedef char PlayerLifecycleFlagsAt1B80[(offsetof(PlayerLifecycleView, flags1B80) == 0x1B80) ? 1 : -1];
 typedef char PlayerLifecyclePositionAt1B88[(offsetof(PlayerLifecycleView, position1B88) == 0x1B88) ? 1 : -1];
 typedef char PlayerLifecycleOptionsAt1CEC[(offsetof(PlayerLifecycleView, optionStates) == 0x1CEC) ? 1 : -1];

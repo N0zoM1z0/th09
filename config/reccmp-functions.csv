@@ -636,3 +636,4 @@ SoundPlayer::SoundPlayer,0x0043E470,function
 PlayerUpdateStageC,0x0041E8B0,function
 PlayerCheckState4,0x0041E720,function
 PlayerLifecycleView::SpawnRewardTailState,0x0041DB90,function
+PlayerLifecycleView::CheckGrazeCollision,0x0041E350,function
