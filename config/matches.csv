@@ -540,3 +540,4 @@ address,name,size,status,match_percent,unit,evidence
 0x0041BB00,PlayerForwardAngleView::AngleFromPlayerToPoint,101,matching,100.00,player-angle-from-player-to-point,python3 scripts/build-match-unit.py --unit player-angle-from-player-to-point && python3 scripts/compare-coff-function.py --unit player-angle-from-player-to-point --json
 0x0041F2C0,PlayerBuildAabb,55,matching,100.00,player-build-aabb,python3 scripts/build-match-unit.py --unit player-build-aabb && python3 scripts/compare-coff-function.py --unit player-build-aabb --json
 0x0040F810,ZunTimer::HasTicked,17,matching,100.00,zun-timer-has-ticked,python3 scripts/build-match-unit.py --unit zun-timer-has-ticked && python3 scripts/compare-coff-function.py --unit zun-timer-has-ticked --json
+0x0040F1C0,AnmProjectionAbs,12,matching,100.00,anm-projection-abs,python3 scripts/build-match-unit.py --unit anm-projection-abs && python3 scripts/compare-coff-function.py --unit anm-projection-abs --json

@@ -1054,3 +1054,9 @@ name into a TH09 fact without target-local evidence.
 
 - `ZunTimer::HasTicked @ 0x0040F810-0x0040F820` is repository-canonical exact at 17 bytes. TH09 independently fixes the standard 0x0C timer layout with previous `+0x00`, subFrame `+0x04` and current `+0x08`; the body returns current != previous. Player CalcDamageToEnemy uses this entry as its per-tick damage gate.
 - Clean committed TH08 corroborates the method name/source family only: its `ZunTimer::HasTicked()` body is the same comparison. The TH09 target bytes/layout establish ownership and exactness. First natural pinned-VC7.1 build is 17/17 with no relocations; the source lives in a dedicated TU to avoid perturbing already-canonical ZunTimer methods.
+
+## Packet 231 ANM projection absolute-value leaf
+
+- `AnmProjectionAbs @ 0x0040F1C0-0x0040F1CB` is repository-canonical exact at 12 bytes. Exact `AnmManager::Project3DQuad` already carries two reviewed relocations to this physical entry under the local symbol `AnmProjectionAbs`, so ANM ownership/call role is target-backed rather than inferred from adjacency.
+- A plain dedicated-TU wrapper `long double __stdcall AnmProjectionAbs(float value) { return fabs(value); }` makes VC7.1 emit exactly the target x87 `fld / fabs / ret 4` sequence under the standard pinned profile, with no relocations and no asm/intrinsic forcing. Keeping it out-of-line also preserves the already-exact Project3DQuad call shape.
+- The neighboring `0x00401060/0x00401070` entries are instead referenced by exact units as `@cosf@4/@sinf@4` and are not promoted here as authored ANM helpers; compiler/CRT ownership remains a separate question.

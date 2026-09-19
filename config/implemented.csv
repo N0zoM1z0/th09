@@ -671,3 +671,4 @@ PlayerForwardAngleView::AngleFromPlayerToPoint
 PlayerBuildAabb
 PlayerDamagePlayerView::CalcDamageToEnemy
 ZunTimer::HasTicked
+AnmProjectionAbs
