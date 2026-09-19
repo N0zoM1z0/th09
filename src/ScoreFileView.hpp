@@ -4,6 +4,7 @@
 
 struct ScoreFileView
 {
+    ScoreFileView();
     unsigned char unknown00;
     unsigned char rngValue1;
     unsigned short checksum;

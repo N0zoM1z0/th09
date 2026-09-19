@@ -693,3 +693,6 @@ GameErrorContext::GameErrorContext,0x0042B110,function
 ReplayInputState::ReplayInputState,0x0042B010,function
 GameWindowView::GameWindowView,0x0042D290,function
 AnmManager::ReleaseSurfaces,0x0042D2F0,function
+ScoreFileView::ScoreFileView,0x00421C40,function
+ScoreRecordCtorView::ScoreRecordCtorView,0x00421C60,function
+PbgArchive::~PbgArchive,0x004335D0,function

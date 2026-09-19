@@ -10647,3 +10647,35 @@ symbol = "?ReleaseSurfaces@AnmManager@@QAEXXZ"
 target_address = 0x0042D2F0
 size = 0x2B
 relocations = []
+
+[units.score-file-view-constructor]
+source = "src/ScoreGlobalConstructors.cpp"
+object = "build/matching/ScoreGlobalConstructors.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScoreFileView::ScoreFileView"]
+symbol = "??0ScoreFileView@@QAE@XZ"
+target_address = 0x00421C40
+size = 0x18
+relocations = []
+
+[units.score-record-constructor]
+source = "src/ScoreGlobalConstructors.cpp"
+object = "build/matching/ScoreGlobalConstructors.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScoreRecordCtorView::ScoreRecordCtorView"]
+symbol = "??0ScoreRecordCtorView@@QAE@XZ"
+target_address = 0x00421C60
+size = 0x12
+relocations = []
+
+[units.pbg-archive-destructor]
+source = "src/PbgArchiveDtor.cpp"
+object = "build/matching/PbgArchiveDtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PbgArchive::~PbgArchive"]
+symbol = "??1PbgArchive@@QAE@XZ"
+target_address = 0x004335D0
+size = 0x05
+relocations = [
+  { offset = 0x01, type = "REL32", symbol = "?Release@PbgArchive@@QAEXXZ", target = 0x004333B0 },
+]

@@ -18,6 +18,7 @@ struct PbgArchiveEntry
 class PbgArchive
 {
   public:
+    ~PbgArchive();
     bool Load(const char *filename);
     void Release();
     unsigned char *ReadDecompressEntry(const char *filename, unsigned char *outBuffer);

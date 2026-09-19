@@ -448,8 +448,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004218E0,authored_game,ScoreData,authored,high,score-file-load-score-records-source-nearmatch-2026-09-12
 0x00421AA0,authored_game,ScoreData,authored,high,score-file-load-last-name-source-nearmatch-2026-09-12
 0x00421B80,authored_game,ScoreData,authored,high,score-file-load-play-stats-vc71-exact-2026-09-12
-0x00421C40,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00421C60,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00421C40,authored_game,ScoreData,authored,high,score-file-header-constructor-exact-2026-09-20
+0x00421C60,authored_game,ScoreData,authored,high,score-record-constructor-exact-2026-09-20
 0x00421C80,authored_game,ScoreData,authored,high,score-file-open-source-nearmatch-2026-09-12
 0x00421E90,authored_game,ScoreData,authored,high,packet185-score-startup-leaves-2026-09-16
 0x00421EA0,authored_game,ScoreData,authored,high,packet185-score-startup-leaves-2026-09-16
@@ -708,7 +708,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004332B0,authored_game,PbgArchive,authored,high,pbg-archive-alloc-entries-vc71-exact-2026-09-12
 0x004333B0,authored_game,PbgArchive,authored,high,pbg-archive-release-vc71-exact-2026-09-12
 0x004333F0,authored_game,PbgArchive,authored,high,pbg-archive-parse-header-vc71-exact-2026-09-12
-0x004335D0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x004335D0,authored_game,PbgArchive,authored,high,pbg-archive-destructor-exact-2026-09-20
 0x004335E0,authored_game,PbgArchive,authored,high,pbg-archive-load-vc71-exact-2026-09-12
 0x004336A0,authored_game,PbgFile,authored,high,pbg-file-close-vc71-exact-2026-09-12
 0x004336D0,authored_game,PbgFile,authored,high,pbg-file-read-vc71-exact-2026-09-12

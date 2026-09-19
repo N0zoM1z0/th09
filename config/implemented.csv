@@ -692,3 +692,6 @@ GameErrorContext::GameErrorContext
 ReplayInputState::ReplayInputState
 GameWindowView::GameWindowView
 AnmManager::ReleaseSurfaces
+ScoreFileView::ScoreFileView
+ScoreRecordCtorView::ScoreRecordCtorView
+PbgArchive::~PbgArchive
