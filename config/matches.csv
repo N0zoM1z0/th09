@@ -568,3 +568,4 @@ address,name,size,status,match_percent,unit,evidence
 0x0042EC30,ResetTitleMode4Supervisor,177,matching,100.00,supervisor-reset-title-mode4,python3 scripts/build-match-unit.py --unit supervisor-reset-title-mode4 && python3 scripts/compare-coff-function.py --unit supervisor-reset-title-mode4 --json
 0x00415460,ExAttackController::OnDraw0,286,matching,100.00,exattack-on-draw0,python3 scripts/build-match-unit.py --unit exattack-on-draw0 && python3 scripts/compare-coff-function.py --unit exattack-on-draw0 --json
 0x00415580,ExAttackController::OnDraw1,193,matching,100.00,exattack-on-draw1,python3 scripts/build-match-unit.py --unit exattack-on-draw1 && python3 scripts/compare-coff-function.py --unit exattack-on-draw1 --json
+0x00415340,ExAttackController::OnUpdate,279,matching,100.00,exattack-on-update,python3 scripts/build-match-unit.py --unit exattack-on-update && python3 scripts/compare-coff-function.py --unit exattack-on-update --json

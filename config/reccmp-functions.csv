@@ -701,3 +701,4 @@ BulletSpawnDescriptorCtorView::BulletSpawnDescriptorCtorView,0x0040D500,function
 ResetTitleMode4Supervisor,0x0042EC30,function
 ExAttackController::OnDraw0,0x00415460,function
 ExAttackController::OnDraw1,0x00415580,function
+ExAttackController::OnUpdate,0x00415340,function

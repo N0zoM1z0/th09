@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 702 |
-| Canonical exact functions | 569 |
+| Source-present authored mappings | 703 |
+| Canonical exact functions | 570 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 702 source-present authored mappings. Of
-these, 569 are canonical exact and 133 retain honest non-exact compiler results.
-`config/matches.csv` contains 569 complete target-bound VC7.1 matches totaling
-79,502 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 703 source-present authored mappings. Of
+these, 570 are canonical exact and 133 retain honest non-exact compiler results.
+`config/matches.csv` contains 570 complete target-bound VC7.1 matches totaling
+79,781 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 288
-   authored functions / 89,439 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 287
+   authored functions / 89,160 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -246,6 +246,11 @@ generation, or folded ownership.
    fixes the record VM array/count/list/callback fields and controller draw-list
    heads; exact closure uses ordinary VM byte-offset traversal and natural local
    declaration order, with no register or pragma steering.
+   The connected calc callback `ExAttackController::OnUpdate @ 0x00415340`
+   is now canonical exact at 279 bytes as well, closing the update/draw callback
+   trio installed by exact Register. It rebuilds the three draw lists and side
+   counts from the 256-record pool each ungated frame, releases completed records,
+   executes per-record VMs, and advances record timers through exact helpers.
 3. **Then attack coherent large non-exact families, not isolated giant owners.**
    The largest maintained frontiers are TitleScreen (21 functions / 19,899
    bytes), ECL (15 / 19,142), EnemyManager (5 / 7,709), Player (11 / 6,999),

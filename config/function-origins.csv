@@ -275,7 +275,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00415050,authored_game,BulletManager,authored,high,etama-constructor-target-replay-2026-09-16
 0x004150D0,authored_game,BulletManager,authored,high,packet155-etama-recovery-2026-09-15
 0x004151F0,authored_game,ExAttackController,authored,high,exattack-controller-2026-09-15
-0x00415340,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00415340,authored_game,ExAttackController,authored,high,exattack-update-exact-2026-09-20
 0x00415460,authored_game,ExAttackController,authored,high,exattack-draw-callbacks-exact-2026-09-20
 0x00415580,authored_game,ExAttackController,authored,high,exattack-draw-callbacks-exact-2026-09-20
 0x00415650,authored_game,ExAttackController,authored,high,exattack-controller-2026-09-15
