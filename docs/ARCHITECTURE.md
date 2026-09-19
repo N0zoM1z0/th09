@@ -26,20 +26,23 @@ build-3077 product family found in the independently reconstructed TH095
 target, with TH09-specific object counts. This supports Microsoft Visual C++
 .NET 2003 build `13.10.3077` as the compiler provider.
 
-The following remain unknown until compiler and link Oracles reproduce them:
+Pinned VC7.1 D3DX8, CRT, import, DXErr8, and compiler-helper contributions have
+been identified for reviewed target extents. The following whole-product facts
+remain unknown until compiler and link Oracles reproduce them:
 
 - per-translation-unit optimization and debug flags;
 - calling-convention defaults and local overrides;
 - translation-unit partition and source order;
-- static libraries and member selection;
+- the complete static-library set and member selection;
 - resource compilation inputs;
 - linker switches and input order;
 - ownership of compiler-generated, library, padding, and data extents.
 
-## Initial IDA inventory
+## Reviewed candidate inventory
 
-`config/functions.csv` is a navigation inventory exported from the exact
-attested IDA database. Every extent and auto-name is provisional. Shared tails,
-switch tables, EH metadata, thunks, alignment, interleaved data, and remote
-owned chunks can make an IDA function extent incomplete or over-broad. Review
-those surfaces before classifying origin or accepting exact bytes.
+`config/functions.csv` began as a navigation inventory exported from the exact
+attested IDA database. All 2,191 tracked candidates have now received a
+boundary/origin review, including target-derived corrections and additions.
+Auto-names and semantic types remain provisional, and 34 physical bodies retain
+unknown origin because their owner cannot be recovered uniquely. Boundary
+review still does not imply source presence or exact code generation.

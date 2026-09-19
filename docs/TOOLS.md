@@ -1,54 +1,31 @@
 # Tool routing
 
-| Need | Command or provider | Authority |
+| Need | Command or provider | Claim established |
 | --- | --- | --- |
-| Verify the private target | `python3 scripts/verify-target.py` | target identity and PE structure |
-| Attest live IDA from GPT-web | Discover `th09-ida`, then call Factory-native `get_metadata` | target-bound provisional semantic provider; require passed attestation |
-| Attest live IDA from local Codex | `python3 scripts/check-ida-mcp.py` | host-only preflight; do not run inside the Factory shell |
-| Discover/call IDA tools | `python3 scripts/ida-mcp-call.py --search ...` / `--call ...` | target-attested; metadata writes explicit |
-| Inspect adjacent source | `git -C /home/pentester/coding/codex_ida/th08-reconstruction/th08 log ...`; likewise `/home/pentester/coding/codex_ida/th095-reconstruction/th095` | read-only hypotheses; TH095 semantic state is provisional; never TH09 proof |
-| Initialize IDA ledger | `python3 scripts/export-ida-inventory.py --initialize` | one-time provisional inventory only |
-| Validate ledger graph | `python3 scripts/validate-tracking.py` | consistency, never exactness |
-| Inspect status | `python3 scripts/report-reconstruction-status.py` | derived from ledgers |
-| Regenerate progress | `python3 scripts/progress.py` | derived documentation/SVG |
-| Check build skeleton | `python3 scripts/build.py --check` | proves only explicit open/closed state |
-| Public validation | `python3 scripts/ci.py` | target-independent consistency |
+| Verify private target | `python3 scripts/verify-target.py` | exact identity and PE structure |
+| Attest local IDA | registered direct `ida-pro-mcp` provider, or `python3 scripts/check-ida-mcp.py` | active analysis database identity |
+| Call host IDA from shell | `python3 scripts/ida-mcp-call.py --search ...` / `--call ...` | bounded target analysis; metadata writes must be read back |
+| Validate tracking | `python3 scripts/validate-tracking.py --require-target` | ledger consistency only |
+| Report current state | `python3 scripts/report-reconstruction-status.py` | ledger-derived totals |
+| Regenerate progress | `python3 scripts/progress.py` | generated Markdown/SVG |
+| Replay one match | `build-match-unit.py` then `compare-coff-function.py` | bounded VC7.1 codegen comparison |
+| Audit runtime origins | `python3 scripts/audit-runtime-origins.py` | pinned archive/import evidence |
+| Check product graph | `python3 scripts/build.py --check` | explicit open/closed graph state |
+| Run public checks | `python3 scripts/ci.py` | target-independent repository consistency |
 
-The operator-managed IDA plugin listens on Windows localhost port `13337`.
-Local Codex reaches it through the registered `ida-pro-mcp` stdio process. The
-shared Factory MCP also owns an `ida-pro-mcp` stdio client directly; TH09 does
-not run a second MCP server or use `mcp_for_gptweb`. Before every Web analysis
-operation, the Factory re-attests the repository target, private executable,
-active IDA metadata and entry point, and distributed mapped `.text` bytes.
-GPT-web keeps using the one Factory URL and selects repository `th09` plus
-provider `th09-ida`.
+The local IDA plugin is operator-managed and reached through the registered
+stdio provider. Always compare its metadata with `config/target.toml` before
+using semantic results. IDA names, types, decompilation, and function extents do
+not independently establish exactness or source ownership.
 
-If an older running Factory release reports a null discovery schema, do not
-guess or probe with `{}`. The core read-loop argument objects are:
-`get_metadata {}`, `get_entry_points {}`,
-`get_function_by_address {"address":"0x..."}`,
-`decompile_function {"address":"0x..."}`,
-`disassemble_function {"start_address":"0x..."}`,
-`get_callers`/`get_callees {"function_address":"0x..."}`,
-`get_xrefs_to {"address":"0x..."}`, and
-`read_memory_bytes {"memory_address":"0x...","size":N}` with `1 <= N <= 256`.
-Use `list_functions {"offset":N,"count":N}` with `count` from 1 through 200.
-The compatibility fallback may be removed after discovery returns non-null
-schemas from the deployed Factory.
+Factory/Web clients must use their attested `th09-ida` route. Local Codex does
+not need Factory when the direct provider is available. Do not run the host-only
+`check-ida-mcp.py` from inside a Factory repository shell.
 
-The Factory repository runner exposes both adjacent checkouts above as
-immutable reference roots. Use focused reads rather than copying their trees or
-generated artifacts into TH09. Record the adjacent repository HEAD when a
-comparison materially shapes a hypothesis. Any proposed reuse must be
-reconciled against TH09-local boundaries, xrefs, ABI, data ownership, compiler
-output, and target bytes.
+The canonical executable is the ignored `resources/th09.exe`. Normal work must
+not search `/mnt`, mount a Windows game directory, or commit the target, IDA
+database, game data, compiler tools, or generated decompiler output.
 
-Build tools are shared provider installations where practical; target
-selection, source graph, Wine prefix, runtime scenarios, IDA database, and
-receipts remain per-game. Do not copy a tool installation into tracked source.
-
-The canonical target used by repository tools is the ignored, operator-supplied
-`resources/th09.exe`. It is copied once from the Windows installation into WSL,
-verified against `config/target.toml`, and kept out of Git. Normal Factory work
-does not mount or inspect the Windows game directory and does not need
-`TH09_TARGET_PATH`.
+TH08 and TH095 checkouts are read-only hypothesis sources. Their names and
+source shapes can guide a probe, but only TH09-local target, ABI, compiler,
+linker, or runtime evidence can accept a TH09 claim.

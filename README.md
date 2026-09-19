@@ -42,20 +42,25 @@ downloaded tools are private and never committed.
 
 ## Current status
 
-The target and the live IDA database are attested. The initial IDA function
-inventory is intentionally provisional: every candidate begins with unknown
-origin, unreviewed boundaries, no source-presence claim, and no exactness
-credit. The PE and Rich header identify Microsoft Visual C++ .NET 2003 build
-3077; compiler flags, translation-unit boundaries, libraries, resources, and
-link order remain unknown. `config/build.toml` records that open whole-product
-graph instead of pretending the project is buildable.
+The target and live IDA database are attested. All 2,191 tracked candidates have
+received boundary/origin review: 990 are confirmed authored, 1,167 are
+classified exclusions, and 34 remain deliberately origin-unknown after review.
+Maintained source covers 570 authored mappings, of which 503 are canonical
+zero-difference VC7.1 matches.
+
+The PE and Rich header identify Microsoft Visual C++ .NET 2003 build 3077.
+Some runtime-library contributions and compiler-generated helpers are proven,
+but the complete translation-unit graph, resources, data owners, compiler
+profiles, and link order remain open. `config/build.toml` records that state
+instead of pretending the project is buildable.
 
 Run `python3 scripts/progress.py` to regenerate the status card and
 `python3 scripts/ci.py` for the small target-independent validation set.
 
 ## Required phase order
 
-1. Reconcile authored boundaries and recover exact VC7.1 units.
+1. Preserve the reviewed boundary/origin inventory and recover remaining exact
+   VC7.1 authored units.
 2. Close and exercise the faithful Windows i386 product, including static data
    ownership, initializers, resources, libraries, and runtime scenarios.
 3. Perform semantic reconstruction with two independent runtime Oracles: the
