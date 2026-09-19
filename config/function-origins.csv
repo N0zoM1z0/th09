@@ -493,7 +493,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004234DD,authored_game,AsciiManager,authored,high,ascii-manager-set-scale-vc71-exact-2026-09-17
 0x004234F6,authored_game,TitleScreen,authored,high,packet219-title-replay-menu-draw-2026-09-20
 0x004239F6,authored_game,TitleScreen,authored,high,packet218-title-replay-save-draw-2026-09-20
-0x00423D16,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00423D16,authored_game,TitleScreen,authored,high,packet220-title-result-draw-2026-09-20
 0x004244A9,authored_game,TitleScreen,authored,high,title-music-room-draw-exact-2026-09-20
 0x0042457A,authored_game,TitleScreen,authored,high,packet166-title-replay-menu-2026-09-16
 0x00424601,authored_game,TitleScreen,authored,high,packet167-title-result-2026-09-16
