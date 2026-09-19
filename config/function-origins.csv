@@ -488,7 +488,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004233A3,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004233F4,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00423469,authored_game,AnmManager,authored,high,packet128-anm-runtime-vc71-exact-2026-09-15
-0x00423498,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00423498,authored_game,SoundPlayer,authored,high,soundplayer-resume-after-pause-exact-2026-09-20
 0x004234A7,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x004234DD,authored_game,AsciiManager,authored,high,ascii-manager-set-scale-vc71-exact-2026-09-17
 0x004234F6,authored_game,TitleScreen,authored,high,packet219-title-replay-menu-draw-2026-09-20
@@ -741,7 +741,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00434370,authored_game,AnmManager,authored,high,anm-vm-is-visible-vc71-exact-2026-09-12
 0x00434380,authored_game,AnmManager,authored,high,anm-vm-set-invisible-vc71-exact-2026-09-12
 0x00434390,authored_game,AnmManager,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13
-0x004343B0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x004343B0,authored_game,GameManager,authored,high,game-manager-flag-bit0-exact-2026-09-20
 0x004343C0,authored_game,AsciiManager,authored,high,ascii-manager-set-space-width-vc71-exact-2026-09-10
 0x004343D0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004343E0,authored_game,AsciiManager,authored,high,ascii-manager-reset-vc71-exact-2026-09-10

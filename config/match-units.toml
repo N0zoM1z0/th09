@@ -2804,7 +2804,7 @@ relocations = [
   { offset = 0xF, type = "REL32", symbol = "?IsReplayNeutral@AsciiGameManagerView@@QAEHXZ", target = 0x00415D20 },
   { offset = 0x1E, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x24, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x3D, type = "DIR32", symbol = "$L56700", target = 0x00435A68 },
+  { offset = 0x3D, type = "DIR32", symbol = "$L56794", target = 0x00435A68 },
   { offset = 0x5D, type = "DIR32", symbol = "?g_AsciiManager@@3VAsciiManager@@A", target = 0x004CE458 },
   { offset = 0x62, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
   { offset = 0xAB, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
@@ -2857,13 +2857,13 @@ relocations = [
   { offset = 0x45C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x463, type = "DIR32", symbol = "__imp__timeGetTime@0", target = 0x0048E238 },
   { offset = 0x46A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x478, type = "DIR32", symbol = "$L56330", target = 0x00435631 },
-  { offset = 0x47C, type = "DIR32", symbol = "$L56693", target = 0x00435670 },
-  { offset = 0x480, type = "DIR32", symbol = "$L56344", target = 0x004357B9 },
-  { offset = 0x484, type = "DIR32", symbol = "$L56354", target = 0x004358D8 },
-  { offset = 0x488, type = "DIR32", symbol = "$L56366", target = 0x00435A14 },
-  { offset = 0x48C, type = "DIR32", symbol = "$L56364", target = 0x004359F8 },
-  { offset = 0x490, type = "DIR32", symbol = "$L56368", target = 0x00435A30 },
+  { offset = 0x478, type = "DIR32", symbol = "$L56424", target = 0x00435631 },
+  { offset = 0x47C, type = "DIR32", symbol = "$L56787", target = 0x00435670 },
+  { offset = 0x480, type = "DIR32", symbol = "$L56438", target = 0x004357B9 },
+  { offset = 0x484, type = "DIR32", symbol = "$L56448", target = 0x004358D8 },
+  { offset = 0x488, type = "DIR32", symbol = "$L56460", target = 0x00435A14 },
+  { offset = 0x48C, type = "DIR32", symbol = "$L56458", target = 0x004359F8 },
+  { offset = 0x490, type = "DIR32", symbol = "$L56462", target = 0x00435A30 },
 ]
 [units.ascii-menu-state5-draw]
 source = "src/AsciiManagerMenu.cpp"
@@ -10574,3 +10574,26 @@ symbol = "?SetUpdateState@PlayerState4OpsView@@QAEXH@Z"
 target_address = 0x00403C20
 size = 0x0C
 relocations = []
+
+[units.ascii-game-manager-has-flag-bit0]
+source = "src/AsciiManagerMenu.cpp"
+object = "build/matching/AsciiManagerMenu.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AsciiGameManagerView::HasFlagBit0"]
+symbol = "?HasFlagBit0@AsciiGameManagerView@@QAEHXZ"
+target_address = 0x004343B0
+size = 0x0A
+relocations = []
+
+[units.soundplayer-resume-after-pause]
+source = "src/SoundPlayerPause.cpp"
+object = "build/matching/SoundPlayerPause.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AsciiSoundPlayerView::ResumeAfterPause"]
+symbol = "?ResumeAfterPause@AsciiSoundPlayerView@@QAEXXZ"
+target_address = 0x00423498
+size = 0x0F
+relocations = [
+  { offset = 0x01, type = "DIR32", symbol = "??_C@_07BIEIMCKD@unpause?$AA@", target = 0x0048F510 },
+  { offset = 0x0A, type = "REL32", symbol = "?QueueCommand@AsciiSoundPlayerView@@QAEXHHPAD@Z", target = 0x0043EE40 },
+]

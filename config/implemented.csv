@@ -685,3 +685,5 @@ AsciiManager::SetBossMarkerState
 PlayerSharedTransitionView::GetTransitionBlockFlag
 PlayerOwnerStateView::ApplyRewardWithStateAdvance
 PlayerState4OpsView::SetUpdateState
+AsciiGameManagerView::HasFlagBit0
+AsciiSoundPlayerView::ResumeAfterPause

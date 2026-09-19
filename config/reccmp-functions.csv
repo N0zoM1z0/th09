@@ -686,3 +686,5 @@ AsciiManager::SetBossMarkerState,0x0040F890,function
 PlayerSharedTransitionView::GetTransitionBlockFlag,0x0040D4F0,function
 PlayerOwnerStateView::ApplyRewardWithStateAdvance,0x0040F8B0,function
 PlayerState4OpsView::SetUpdateState,0x00403C20,function
+AsciiGameManagerView::HasFlagBit0,0x004343B0,function
+AsciiSoundPlayerView::ResumeAfterPause,0x00423498,function
