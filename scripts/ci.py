@@ -40,6 +40,10 @@ def main() -> int:
     try:
         validate_public_tree()
         run("Compile workflow Python", [sys.executable, "-m", "py_compile", *tracked("scripts/*.py")])
+        run(
+            "Run target-independent tests",
+            [sys.executable, "-m", "unittest", "discover", "-s", "tests"],
+        )
         run("Validate ledgers", [sys.executable, "scripts/validate-tracking.py"])
         run("Validate open whole-build graph", [sys.executable, "scripts/build.py", "--check"])
         run("Check generated progress", [sys.executable, "scripts/progress.py", "--check"])
