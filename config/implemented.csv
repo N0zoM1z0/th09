@@ -701,3 +701,4 @@ ResetTitleMode4Supervisor
 ExAttackController::OnDraw0
 ExAttackController::OnDraw1
 ExAttackController::OnUpdate
+SupervisorFrameQueueView::InsertReceivedFrame
