@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 634 |
-| Canonical exact functions | 509 |
+| Source-present authored mappings | 635 |
+| Canonical exact functions | 510 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 634 source-present authored mappings. Of
-these, 509 are canonical exact and 125 retain honest non-exact compiler results.
-`config/matches.csv` contains 509 complete target-bound VC7.1 matches totaling
-72,720 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 635 source-present authored mappings. Of
+these, 510 are canonical exact and 125 retain honest non-exact compiler results.
+`config/matches.csv` contains 510 complete target-bound VC7.1 matches totaling
+72,794 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,16 +111,18 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 356
-   authored functions / 104,526 bytes without maintained source. The remaining
-   explicitly bounded owner pair is Player `0x0041E720/0x0041E8B0`.
-   `ZunMemory::~ZunMemory @ 0x0042B0E0` and `SoundPlayer::SoundPlayer @ 0x0043E470`
-   are now canonical exact. The other 354 currently use the generic `Game`
-   module. Good routing packets are the Bullet seam `0x00413AF0-0x00414095`,
-   Player seams `0x0041DB90-0x0041E41B`, ANM seam `0x0043CAE0-0x0043CD35`,
-   and Ascii/Title seam `0x004234F6-0x00424579`. These ranges are routing
-   hypotheses from adjacency; establish every owner, ABI, boundary, and source
-   mapping from TH09 evidence.
+2. **Recover authored source in bounded subsystem seams.** There are 355
+   authored functions / 104,452 bytes without maintained source. The remaining
+   explicitly bounded Player owner is `PlayerCheckState4 @ 0x0041E720`;
+   `PlayerUpdateStageC @ 0x0041E8B0` is now canonical exact through a
+   natural same-TU private-ESI ABI. `ZunMemory::~ZunMemory @ 0x0042B0E0`
+   and `SoundPlayer::SoundPlayer @ 0x0043E470` are also canonical exact.
+   The other 354 currently use the generic `Game` module. Good routing
+   packets are the Bullet seam `0x00413AF0-0x00414095`, Player seams
+   `0x0041DB90-0x0041E41B`, ANM seam `0x0043CAE0-0x0043CD35`,
+   and Ascii/Title seam `0x004234F6-0x00424579`. These ranges are
+   routing hypotheses from adjacency; establish every owner, ABI, boundary, and
+   source mapping from TH09 evidence.
 3. **Then attack coherent large non-exact families, not isolated giant owners.**
    The largest maintained frontiers are TitleScreen (21 functions / 19,899
    bytes), ECL (15 / 19,142), EnemyManager (5 / 7,709), Player (11 / 6,999),

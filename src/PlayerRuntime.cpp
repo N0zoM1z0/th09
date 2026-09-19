@@ -416,7 +416,13 @@ extern void PlayerTransitionSpecial();
 extern void PlayerUpdateCommon();
 extern void PlayerUpdateStageA();
 extern void PlayerUpdateStageB();
-extern void PlayerUpdateStageC();
+struct PlayerCollisionOwnerStateView
+{
+    unsigned char unknown000[0xDBE];
+    short stateDBE;
+};
+
+static int PlayerUpdateStageC(PlayerLifecycleView *player);
 extern void PlayerUpdateStageD();
 extern void PlayerUpdateStageE();
 extern void __fastcall PlayerUpdateSelectorState(void *state);
@@ -448,6 +454,29 @@ void __fastcall PlayerUpdateOwnerState(void *opaqueState)
             state->timer14 = 0;
         }
     }
+}
+
+static int PlayerUpdateStageC(PlayerLifecycleView *player)
+{
+    if (!player->GetUpdateState())
+    {
+        if (!reinterpret_cast<ZunTimer *>(&player->timer1B74)->operator>(0))
+        {
+            PlayerCollisionQueryRecordView *record =
+                player->collisionQuery36C.FindCollisionAtPlayer();
+            if (record != NULL)
+            {
+                PlayerCollisionOwnerStateView *owner =
+                    reinterpret_cast<PlayerCollisionOwnerStateView *>(record->unknown2C);
+                if (owner != NULL)
+                    owner->stateDBE = 5;
+
+                player->EnterDeathState();
+                return 1;
+            }
+        }
+    }
+    return 0;
 }
 
 int __fastcall PlayerLifecycleView::OnUpdate(PlayerLifecycleView *player)
@@ -530,7 +559,7 @@ afterTransition:
 
     if ((player->sideState->flags34 & 1) == 0 &&
         g_PlayerSharedRuntime->updateBlock1095C == 0)
-        PlayerUpdateStageC();
+        PlayerUpdateStageC(player);
 
     PlayerUpdateStageD();
     if ((player->sideState->flags34 & 1) == 0)

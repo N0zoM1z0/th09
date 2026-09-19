@@ -632,3 +632,4 @@ AnmManager::AnmManager
 SoundPlayer::ProcessQueues
 ZunMemory::~ZunMemory
 SoundPlayer::SoundPlayer
+PlayerUpdateStageC
