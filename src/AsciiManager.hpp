@@ -173,6 +173,7 @@ class AsciiManager
     void CreateScorePopup(int playerIndex, Float3 *position, int number, unsigned long color);
     void Reset();
     void SetSpaceWidth(int spaceWidth);
+    void SetBossMarkerState(int slot, int state);
 
     AnmVm largeText;
     AnmVm smallScoreText;

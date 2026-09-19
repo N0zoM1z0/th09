@@ -681,3 +681,5 @@ PlayerResourceSubtractView::SubtractResourceClamped,0x0041F310,function
 PlayerShotInitPlayerView::InitializeShot,0x0041F350,function
 PlayerSpawnFrameView::SpawnShotWhenFrameMatches,0x0041F490,function
 PlayerSpawnShotsView::SpawnShots,0x0041F4C0,function
+EnemyManagerView::FindActiveEnemyBySideCategory,0x0040F7D0,function
+AsciiManager::SetBossMarkerState,0x0040F890,function

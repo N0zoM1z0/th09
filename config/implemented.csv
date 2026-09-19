@@ -680,3 +680,5 @@ PlayerResourceSubtractView::SubtractResourceClamped
 PlayerShotInitPlayerView::InitializeShot
 PlayerSpawnFrameView::SpawnShotWhenFrameMatches
 PlayerSpawnShotsView::SpawnShots
+EnemyManagerView::FindActiveEnemyBySideCategory
+AsciiManager::SetBossMarkerState

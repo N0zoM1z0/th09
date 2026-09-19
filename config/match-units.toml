@@ -10522,3 +10522,23 @@ size = 0xBE
 relocations = [
   { offset = 0x52, type = "REL32", symbol = "?SpawnShotWhenFrameMatches@PlayerSpawnShotsView@@QAIHPAUPlayerSpawnShotsShotView@@HPAUPlayerSpawnShotsDescriptorView@@@Z", target = 0x0041F490 },
 ]
+
+[units.enemy-manager-find-active-by-side-category]
+source = "src/EnemyManagerLookup.cpp"
+object = "build/matching/EnemyManagerLookup.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyManagerView::FindActiveEnemyBySideCategory"]
+symbol = "?FindActiveEnemyBySideCategory@EnemyManagerView@@QAEPAUEnemyView@@H@Z"
+target_address = 0x0040F7D0
+size = 0x3E
+relocations = []
+
+[units.ascii-manager-set-boss-marker-state]
+source = "src/AsciiManagerBossMarker.cpp"
+object = "build/matching/AsciiManagerBossMarker.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AsciiManager::SetBossMarkerState"]
+symbol = "?SetBossMarkerState@AsciiManager@@QAEXHH@Z"
+target_address = 0x0040F890
+size = 0x14
+relocations = []

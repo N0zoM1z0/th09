@@ -181,6 +181,7 @@ struct EnemyManagerView
 
     EnemyManagerView();
     void Initialize();
+    EnemyView *FindActiveEnemyBySideCategory(int sideCategory);
     static EnemyManagerView *__fastcall Create(int sideIndex);
     static int __fastcall AddedCallback(EnemyManagerView *enemyManager);
     static int __fastcall OnDrawHighPrio(EnemyManagerView *enemyManager);
