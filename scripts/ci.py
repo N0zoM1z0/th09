@@ -45,6 +45,7 @@ def main() -> int:
             [sys.executable, "-m", "unittest", "discover", "-s", "tests"],
         )
         run("Validate ledgers", [sys.executable, "scripts/validate-tracking.py"])
+        run("Validate documentation", [sys.executable, "scripts/validate-docs.py"])
         run("Validate open whole-build graph", [sys.executable, "scripts/build.py", "--check"])
         run("Check generated progress", [sys.executable, "scripts/progress.py", "--check"])
         run("Check whitespace", ["git", "diff", "--check"])
