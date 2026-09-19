@@ -857,3 +857,24 @@ name into a TH09 fact without target-local evidence.
 - The sweep promotes 353 candidates totaling 104,034 bytes to `authored_game / Game / authored / high`. Positive evidence is nontrivial game-visible policy, state mutation, callback, math, rendering, archive, input, or lifecycle behavior inside the game object-code band after pinned runtime bodies and compiler-generated helpers were independently removed. This grants origin/boundary credit only.
 - Thirty-four candidates are deliberately retained `unknown / review`: member-construction/destruction-only special members for which explicit authored versus implicit VC7.1 generation is not observable, plus shared/folded tiny bodies at `0x0042F3F0`, `0x0043D2B0`, and `0x00435EC0`. Known explicit-initialization bodies such as `0x00421C40`, `0x00421C60`, `0x0042B010`, `0x0042B0D0`, `0x0042B110`, `0x0042CC10`, and `0x004343D0` are authored because their primitive initialization/policy cannot be supplied by an implicit special member.
 - The exact promoted-address set is frozen by SHA-256 `6e7168c5f8cfd8de58cd1ce96f49fa26aa48024a3825fa2e1e42c7a8c111793a`; the updater fails if the cohort changes, so future candidates cannot be silently bulk-promoted. Tracking becomes 2,191 candidates / 990 authored / 1,158 excluded / 43 pending; source-present/exact remain 570/503.
+
+
+## Packet 206 transition-record pseudo-functions
+
+- Four provisional IDA entries at `0x0044E1C4`, `0x0044E1D4`, `0x0044E244`, and `0x0044E254` begin at byte four of complete 16-byte transition records. Their record-index bytes `C2`, `C3`, `CA`, and `CB` accidentally decode as x86 `ret`/`retf`; they are data rather than code boundaries.
+- `scripts/review-transition-data.py` reattests the target and verifies all four complete records before assigning `data / Data / exclude / high`. Tracking becomes 2,191 candidates / 990 authored / 1,162 excluded / 39 origin-unresolved or unreviewed; source-present/exact remain 570/503.
+
+
+## Packet 207 runtime-origin residual closure
+
+- `0x00454650` is an 11-byte non-return D3DX8 exception helper that calls reviewed CRT `longjmp`; its only IDA xref comes from the enclosing reviewed D3DX8 routine. `0x0045E550` is a 266-byte terminal-ret D3DX8 initializer that writes 34 dispatch slots with targets entirely inside the reviewed D3DX8 linker band, and its sole caller is D3DX8.
+- `__fptrap @ 0x004866AD` is the seven-byte CRT helper that calls reviewed `__amsg_exit(2)`. `_abort @ 0x00487119` is the 23-byte canonical CRT sequence `__NMSG_WRITE(10)`, `raise(22)`, `_exit(3)`.
+- `0x0048A853-0x0048CB41` is the complete 8,943-byte terminal-ret4 `DXGetErrorString8A` code extent. It maps DirectX HRESULT families to symbolic names including `E_POINTER`, `DIERR`, `VFW`, and `DMUS`; its sole IDA caller is the game DirectPlay error formatter. The containing 10,672-byte target contribution and representative string references are hash/byte frozen by `scripts/review-runtime-residuals.py`.
+- These five entries become `library / exclude / high` in D3DX8, CRT, or DXErr8. Tracking becomes 2,191 candidates / 990 authored / 1,167 excluded / 34 unresolved; source-present/exact remain 570/503.
+
+
+## Packet 208 reviewed-unknown closure
+
+- Every remaining candidate has now received a target-bound boundary/origin review. The final 34-entry unknown set is frozen by SHA-256 `17bb6cebc7577183c2b339fca631bb1b41c754d3239916995324d9670eb67ef0`; `scripts/apply-game-origin-review.py --group ambiguous` verifies each target extent and records evidence ID `game-special-member-origin-review-2026-09-19` idempotently.
+- Thirty-one are construction/destruction-only special members whose complete bodies are observationally compatible with both explicit out-of-line source and implicit VC7.1 generation. The three remaining physical bodies are shared/folded: the five-byte tail jump at `0x0042F3F0`, the one-byte empty body at `0x0043D2B0`, and the nineteen-caller three-byte getter body at `0x00435EC0`.
+- Reporting now distinguishes review completion from origin resolution: origin/boundary unreviewed is zero, while reviewed-but-origin-unresolved is 34. Those 34 remain `unknown / review` on purpose, so the authored exact denominator remains open. Final inventory for this phase is 2,191 candidates / 990 authored / 1,167 excluded / 34 reviewed unresolved, with source-present/exact still 570/503.

@@ -4449,3 +4449,24 @@ No target bytes were writable or modified. Under passed native attestation, comm
 ### Conservative origin result
 - The 353 selected entries become `authored_game / Game / authored / high` under `game-code-origin-sweep-2026-09-19`, but remain source-absent/non-exact unless independently established elsewhere. The 34 retained entries include the already documented ExAttack, FrontSide, Chain, Enemy child, Etama child, and newly recovered large-constructor ambiguities, plus short/folded destructor/getter bodies whose physical source owner is not uniquely recoverable.
 - Tracking is now 2,191 candidates / 990 authored / 1,158 excluded / 43 pending; source-present/exact remain 570/503. The remaining 43 split into 34 intentionally ambiguous game special-member/folded cases, four transition-band pseudo-functions, two D3DX residuals, and three CRT residuals. Planned checkpoint subject: `gpt-5.6-sol: classify remaining game origins`. Nothing is pushed.
+
+
+## Packet 206 — transition-record data correction (2026-09-19)
+
+- Direct target bytes prove that provisional IDA `nullsub_5` through `nullsub_8` at `0x0044E1C4`, `0x0044E1D4`, `0x0044E244`, and `0x0044E254` are not functions. Each alleged entry is byte four of a complete 16-byte transition record; record indices `C2`, `C3`, `CA`, and `CB` happen to decode as `ret`/`retf` opcodes.
+- `scripts/review-transition-data.py` reattests the target, verifies all four full records, and applies a line-preserving, idempotent ledger correction to `data / Data / exclude / high`. Tracking becomes 2,191 candidates / 990 authored / 1,162 excluded / 39 unresolved or unreviewed. Checkpoint: `b988d52 gpt-5.6-sol: remove transition data pseudo-functions`. Nothing is pushed.
+
+
+## Packet 207 — runtime residual closure (2026-09-19)
+
+- Direct IDA and target-byte review close both D3DX8 residuals. `0x00454650` is an 11-byte non-return longjmp helper referenced as data only by the adjoining reviewed D3DX8 routine. `0x0045E550` is a 266-byte terminal-ret initializer that writes 34 dispatch slots, all pointing into reviewed D3DX8 code; its sole caller is reviewed D3DX8 `0x0045331C`.
+- `__fptrap @ 0x004866AD` is the exact seven-byte CRT helper ending in `__amsg_exit(2)`. `_abort @ 0x00487119` is the exact 23-byte CRT sequence `__NMSG_WRITE(10)`, `raise(22)`, then non-return `_exit(3)`; its sole IDA caller is CRT terminate.
+- The final 8,943-byte entry `0x0048A853` is target-proven `DXGetErrorString8A`: it ends in `ret 4`, maps HRESULT values to `E_POINTER`, `DIERR`, `VFW`, `DMUS`, and other symbolic string families, and has one caller in the game DirectPlay error formatter. Its full code extent, containing 10,672-byte target contribution, and representative string references are frozen in `scripts/review-runtime-residuals.py`.
+- The five entries become high-confidence library exclusions under `runtime-residual-origin-review-2026-09-19`. Tracking becomes 2,191 candidates / 990 authored / 1,167 excluded / 34 unresolved. Checkpoint: `e41119d gpt-5.6-sol: classify runtime origin residuals`. Nothing is pushed.
+
+
+## Packet 208 — all remaining boundaries reviewed (2026-09-19)
+
+- The last 34 rows are individually audited and intentionally remain `unknown / review`; they are not unvisited inventory. `scripts/apply-game-origin-review.py --group ambiguous` reattests the target, verifies every terminal boundary, and freezes the exact set with SHA-256 `17bb6cebc7577183c2b339fca631bb1b41c754d3239916995324d9670eb67ef0`.
+- Thirty-one complete bodies only sequence member/array construction or destruction and therefore cannot distinguish explicit source from implicit VC7.1 special-member generation. Three are shared/folded physical bodies: tail-jump `0x0042F3F0`, empty `ret @ 0x0043D2B0`, and nineteen-caller `mov eax,[ecx]; ret @ 0x00435EC0`. Forcing any of these into authored or compiler-generated ownership would overstate the evidence.
+- Progress reporting now separates review completion from unresolved origin. Origin/boundary unreviewed is zero; reviewed-but-unresolved is 34. The authored exact denominator therefore stays open, and source/exact remain 570/503. No target bytes or IDA database bytes are modified; nothing is pushed.

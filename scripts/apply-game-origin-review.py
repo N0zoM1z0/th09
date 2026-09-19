@@ -26,9 +26,11 @@ SCALAR_DELETING_DESTRUCTORS = {
 }
 COMPILER_GENERATED = {VECTOR_CONSTRUCTOR, *SCALAR_DELETING_DESTRUCTORS}
 AUTHORED_EVIDENCE_ID = "game-code-origin-sweep-2026-09-19"
+AMBIGUOUS_EVIDENCE_ID = "game-special-member-origin-review-2026-09-19"
 GAME_BAND_END = 0x0044E000
 EXPECTED_GAME_COHORT = 387
 EXPECTED_AUTHORED_DIGEST = "6e7168c5f8cfd8de58cd1ce96f49fa26aa48024a3825fa2e1e42c7a8c111793a"
+EXPECTED_AMBIGUOUS_DIGEST = "17bb6cebc7577183c2b339fca631bb1b41c754d3239916995324d9670eb67ef0"
 RETAIN_UNKNOWN = {
     "0x0040FCA0",
     "0x00412090", "0x004120A0", "0x004120C0", "0x004120D0", "0x00412100",
@@ -43,6 +45,10 @@ RETAIN_UNKNOWN = {
     "0x0043D2B0",
     "0x00435AF0", "0x00435D40", "0x00435D70", "0x00435DA0",
     "0x00435DC0", "0x00435EC0",
+}
+SHARED_OR_FOLDED = {"0x0042F3F0", "0x00435EC0", "0x0043D2B0"}
+DETAILED_SPECIAL_MEMBER_EVIDENCE = {
+    "0x004157A0", "0x004157B0", "0x0042AC30", "0x0042B190", "0x00435DC0"
 }
 AUTHORED_TAIL_JUMPS = {
     "0x0040F8B0", "0x00416590", "0x00417130", "0x0041F300",
@@ -287,12 +293,147 @@ def review_authored(write: bool) -> dict[str, object]:
     }
 
 
+def review_ambiguous(write: bool) -> dict[str, object]:
+    tail = load_script("review-static-init-tail.py", "th09_game_ambiguous_target")
+    tail.verify_target_tail()
+    ledger_update = load_script(
+        "apply-runtime-origin-review.py", "th09_game_ambiguous_ledger_update"
+    )
+    function_rows = {row["address"]: row for row in read_rows(FUNCTIONS)}
+    origin_rows = {row["address"]: row for row in read_rows(ORIGINS)}
+    digest = hashlib.sha256(
+        ("\n".join(sorted(RETAIN_UNKNOWN, key=lambda value: int(value, 0))) + "\n").encode()
+    ).hexdigest()
+    if digest != EXPECTED_AMBIGUOUS_DIGEST:
+        raise ValueError(f"reviewed-unknown selection digest changed: {digest}")
+    if not SHARED_OR_FOLDED.issubset(RETAIN_UNKNOWN):
+        raise ValueError("shared/folded subset left reviewed-unknown cohort")
+
+    data = tail.TARGET.read_bytes()
+    _, sections = tail.parse_image(data)
+    for address in RETAIN_UNKNOWN:
+        function = function_rows[address]
+        body = tail.read_va(data, sections, int(address, 0), int(function["size"]))
+        if address == "0x0042F3F0":
+            terminal = len(body) == 5 and body[0] == 0xE9
+        else:
+            terminal = body[-1] == 0xC3 or (len(body) >= 3 and body[-3] == 0xC2)
+        if not terminal:
+            raise ValueError(f"ambiguous candidate boundary changed at {address}")
+
+    pending: set[str] = set()
+    already_applied: set[str] = set()
+    for address in RETAIN_UNKNOWN:
+        function = function_rows[address]
+        origin = origin_rows[address]
+        if (
+            function["status"] == "unclassified"
+            and origin["origin"] == "unknown"
+            and origin["disposition"] == "review"
+            and origin["evidence_id"] != AMBIGUOUS_EVIDENCE_ID
+        ):
+            pending.add(address)
+        elif (
+            function["status"] == "unclassified"
+            and function["owner"] in {"", "unknown"}
+            and origin["origin"] == "unknown"
+            and origin["disposition"] == "review"
+            and origin["confidence"] == "unknown"
+            and origin["evidence_id"] == AMBIGUOUS_EVIDENCE_ID
+        ):
+            already_applied.add(address)
+        else:
+            raise ValueError(f"unexpected reviewed-unknown state at {address}")
+
+    def mutate_origin(row: dict[str, str]) -> None:
+        row["origin"] = "unknown"
+        row["subsystem"] = ""
+        row["disposition"] = "review"
+        row["confidence"] = "unknown"
+        row["evidence_id"] = AMBIGUOUS_EVIDENCE_ID
+
+    def mutate_function(row: dict[str, str]) -> None:
+        address = row["address"]
+        if address == "0x0042F3F0":
+            row["evidence"] = (
+                "Reviewed complete five-byte tail-jump extent. The physical body can "
+                "represent an optimized explicit wrapper, destructor variant, or "
+                "compiler adjustment/alias thunk, so unique origin is not observable."
+            )
+            row["notes"] = (
+                "Boundary is closed; physical owner and authored-versus-generated "
+                "origin remain deliberately unknown."
+            )
+        elif address == "0x0043D2B0":
+            row["evidence"] = (
+                "Reviewed complete one-byte ret extent with three distinct game-code "
+                "callers and a data/vtable reference. An empty folded body cannot "
+                "identify its logical source owner or explicit/implicit origin."
+            )
+            row["notes"] = (
+                "Boundary is closed; shared empty-body ownership remains deliberately unknown."
+            )
+        elif address == "0x00435EC0":
+            row["evidence"] = (
+                "Reviewed complete three-byte mov eax,[ecx]; ret extent. Nineteen IDA "
+                "call sites and independently reproduced source aliases establish a "
+                "shared/folded physical body without a unique source owner."
+            )
+            row["notes"] = (
+                "Known aliases include TextHelper::GetFormat and SoundManager "
+                "GetDirectSound; boundary is closed but physical origin stays unknown."
+            )
+        else:
+            if address not in DETAILED_SPECIAL_MEMBER_EVIDENCE:
+                row["evidence"] = (
+                    "Reviewed complete terminal-ret extent; the body performs only "
+                    "member/array construction or destruction and returns this. Target "
+                    "code cannot distinguish an explicit out-of-line special member "
+                    "from the same VC7.1 implicitly generated body."
+                )
+                row["notes"] = (
+                    "Boundary is closed; explicit authored versus implicit compiler-"
+                    "generated origin remains deliberately unknown."
+                )
+            else:
+                suffix = (
+                    " Boundary/origin disposition remains deliberately unknown because "
+                    "explicit and implicit VC7.1 source forms are observationally equivalent."
+                )
+                if suffix.strip() not in row["notes"]:
+                    row["notes"] = row["notes"].rstrip() + suffix
+
+    origin_count = ledger_update.rewrite_selected_rows(
+        ORIGINS, pending, mutate_origin, write
+    )
+    function_count = ledger_update.rewrite_selected_rows(
+        FUNCTIONS, pending, mutate_function, write
+    )
+    if origin_count != function_count or origin_count != len(pending):
+        raise ValueError("incomplete reviewed-unknown ledger update")
+    return {
+        "write": write,
+        "updated_candidates": function_count,
+        "already_applied": len(already_applied),
+        "special_members": len(RETAIN_UNKNOWN - SHARED_OR_FOLDED),
+        "shared_or_folded": len(SHARED_OR_FOLDED),
+        "selection_digest": digest,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--apply", action="store_true", help="update reviewed ledgers")
-    parser.add_argument("--group", choices=("compiler", "authored"), default="compiler")
+    parser.add_argument(
+        "--group", choices=("compiler", "authored", "ambiguous"), default="compiler"
+    )
     args = parser.parse_args()
-    result = review_compiler(args.apply) if args.group == "compiler" else review_authored(args.apply)
+    if args.group == "compiler":
+        result = review_compiler(args.apply)
+    elif args.group == "authored":
+        result = review_authored(args.apply)
+    else:
+        result = review_ambiguous(args.apply)
     print(json.dumps(result, indent=2))
     return 0
 

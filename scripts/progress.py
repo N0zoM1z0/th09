@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "config"
 OUTPUT = ROOT / "docs" / "PROGRESS.md"
 SVG = ROOT / "resources" / "progress.svg"
+INITIAL_INVENTORY_EVIDENCE = {"", "ida-1.50a-initial-inventory"}
 
 
 def rows(name: str) -> list[dict[str, str]]:
@@ -28,13 +29,20 @@ def measures() -> dict[str, int]:
         implemented = [row[0] for row in csv.reader(stream) if row and row[0]]
     authored = [row for row in functions if origins[row["address"]]["disposition"] == "authored"]
     excluded = [row for row in functions if origins[row["address"]]["disposition"] == "exclude"]
+    unresolved = [
+        row
+        for row in functions
+        if origins[row["address"]]["disposition"] == "review"
+        and origins[row["address"]]["evidence_id"] not in INITIAL_INVENTORY_EVIDENCE
+    ]
     exact_bytes = sum(int(row["size"], 0) for row in matches)
     authored_bytes = sum(int(row["size"], 0) for row in authored)
-    reviewed = len(authored) + len(excluded)
+    reviewed = len(authored) + len(excluded) + len(unresolved)
     return {
         "functions": len(functions),
         "reviewed": reviewed,
         "pending": len(functions) - reviewed,
+        "unresolved": len(unresolved),
         "authored": len(authored),
         "authored_bytes": authored_bytes,
         "excluded": len(excluded),
@@ -54,6 +62,7 @@ their boundaries and origins must be reviewed independently.
 | --- | ---: |
 | Tracked 1.50a function candidates | {values['functions']:,} |
 | Origin/boundary review pending | {values['pending']:,} |
+| Reviewed but origin-unresolved | {values['unresolved']:,} |
 | Confirmed authored functions | {values['authored']:,} |
 | Confirmed authored code bytes | {values['authored_bytes']:,} |
 | Classified exclusions | {values['excluded']:,} |
@@ -61,9 +70,9 @@ their boundaries and origins must be reviewed independently.
 | Canonical exact functions | {values['matches']:,} |
 | Canonical exact authored bytes | {values['exact_bytes']:,} |
 
-While review remains pending, the authored exact denominator is unknown. A
-mapped name, maintained source, successful compilation, or IDA similarity does
-not contribute to the exact totals.
+While review remains pending or origins remain unresolved, the authored exact
+denominator is unknown. A mapped name, maintained source, successful
+compilation, or IDA similarity does not contribute to the exact totals.
 """
 
 
@@ -71,11 +80,11 @@ def render_svg(values: dict[str, int]) -> str:
     total, reviewed = values["functions"], values["reviewed"]
     review_pct = 100 * reviewed / total if total else 0.0
     review_width = 512 * review_pct / 100
-    if values["pending"]:
-        exact_label = "denominator pending"
+    if values["pending"] or values["unresolved"]:
+        exact_label = "denominator open"
         exact_width = 0.0
         exact_detail = f"{values['matches']:,} exact functions · {values['exact_bytes']:,} exact bytes"
-        aria_exact = "authored exact denominator pending"
+        aria_exact = "authored exact denominator open"
     else:
         exact_pct = 100 * values["exact_bytes"] / values["authored_bytes"] if values["authored_bytes"] else 0.0
         exact_label = f"{exact_pct:.2f}%"
@@ -94,7 +103,7 @@ def render_svg(values: dict[str, int]) -> str:
   <text x="536" y="116" fill="#f4f4f5" text-anchor="end" font-family="monospace" font-size="13">{review_pct:.2f}%</text>
   <rect x="24" y="124" width="512" height="12" rx="6" fill="#3b4058"/>
   <rect x="24" y="124" width="{review_width:.2f}" height="12" rx="6" fill="#9b6de3"/>
-  <text x="24" y="153" fill="#c8cad2" font-family="sans-serif" font-size="12">{reviewed:,} / {total:,} candidates · {values['pending']:,} pending</text>
+  <text x="24" y="153" fill="#c8cad2" font-family="sans-serif" font-size="12">{reviewed:,} / {total:,} candidates · {values['pending']:,} pending · {values['unresolved']:,} unresolved</text>
 </svg>
 '''
 
