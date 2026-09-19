@@ -9,7 +9,13 @@ from typing import Callable
 
 def read_rows(path: Path) -> list[dict[str, str]]:
     with path.open(newline="", encoding="utf-8") as stream:
-        return list(csv.DictReader(stream))
+        reader = csv.DictReader(stream)
+        result = []
+        for line_number, row in enumerate(reader, 2):
+            if None in row or any(value is None for value in row.values()):
+                raise ValueError(f"malformed CSV row in {path} at line {line_number}")
+            result.append(row)
+        return result
 
 
 def rows_by_address(path: Path) -> dict[str, dict[str, str]]:

@@ -56,6 +56,13 @@ class TrackingCsvTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 TRACKING.rows_by_address(path)
 
+    def test_read_rows_rejects_extra_columns(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "rows.csv"
+            path.write_text("address,value\n0x1,old,extra\n", encoding="utf-8")
+            with self.assertRaises(ValueError):
+                TRACKING.read_rows(path)
+
 
 if __name__ == "__main__":
     unittest.main()

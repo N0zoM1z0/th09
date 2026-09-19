@@ -10,6 +10,8 @@ from pathlib import Path
 import struct
 import sys
 
+from tracking_csv import rows_by_address
+
 
 ROOT = Path(__file__).resolve().parents[1]
 FUNCTIONS = ROOT / "config" / "functions.csv"
@@ -59,11 +61,6 @@ def load_tail_module():
     return module
 
 
-def read_rows(path: Path) -> list[dict[str, str]]:
-    with path.open(newline="", encoding="utf-8") as stream:
-        return list(csv.DictReader(stream))
-
-
 def review(write: bool) -> dict[str, object]:
     tail = load_tail_module()
     tail.verify_target_tail()
@@ -93,22 +90,28 @@ def review(write: bool) -> dict[str, object]:
             raise ValueError(f"non-CC boundary gap after {tail.canonical(address)}")
 
     selected = {tail.canonical(address) for address in TARGETS}
-    function_rows = {row["address"]: row for row in read_rows(FUNCTIONS)}
-    origin_rows = {row["address"]: row for row in read_rows(ORIGINS)}
+    function_rows = rows_by_address(FUNCTIONS)
+    origin_rows = rows_by_address(ORIGINS)
     if set(function_rows) != set(origin_rows):
         raise ValueError("function and origin ledgers disagree before update")
     existing = selected & set(function_rows)
     for address in existing:
         review_row = TARGETS[int(address, 0)]
+        function = function_rows[address]
         origin = origin_rows[address]
         expected_origin = str(review_row["origin"])
-        expected_disposition = "authored" if expected_origin == "authored_game" else "review"
-        if not (
-            origin["origin"] == expected_origin
-            and origin["disposition"] == expected_disposition
-            and origin["evidence_id"] == EVIDENCE_ID
+        size = int(review_row["size"])
+        if (
+            int(function["size"], 0) != size
+            or int(function["span_end"], 0) != int(address, 0) + size - 1
         ):
-            raise ValueError(f"existing target-derived row changed at {address}")
+            raise ValueError(f"existing target-derived boundary changed at {address}")
+        if expected_origin == "authored_game" and (
+            origin["origin"] != expected_origin
+            or origin["disposition"] != "authored"
+            or function["owner"] != "authored"
+        ):
+            raise ValueError(f"established authored origin changed at {address}")
 
     missing = selected - set(function_rows)
     function_fields = next(csv.reader([FUNCTIONS.read_text(encoding="utf-8").splitlines()[0]]))
