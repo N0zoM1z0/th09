@@ -17,12 +17,23 @@ CONFIG = ROOT / "config"
 
 def rows(name: str) -> list[dict[str, str]]:
     with (CONFIG / name).open(newline="", encoding="utf-8") as stream:
-        return list(csv.DictReader(stream))
+        reader = csv.DictReader(stream)
+        result = []
+        for line_number, row in enumerate(reader, 2):
+            if None in row or any(value is None for value in row.values()):
+                raise ValueError(f"malformed {name} row at line {line_number}")
+            result.append(row)
+        return result
 
 
 def one_column(name: str) -> list[str]:
     with (CONFIG / name).open(newline="", encoding="utf-8") as stream:
-        return [row[0] for row in csv.reader(stream) if row and row[0]]
+        result = []
+        for line_number, row in enumerate(csv.reader(stream), 1):
+            if len(row) != 1 or not row[0]:
+                raise ValueError(f"malformed {name} row at line {line_number}")
+            result.append(row[0])
+        return result
 
 
 def validate() -> dict[str, int]:
@@ -54,6 +65,17 @@ def validate() -> dict[str, int]:
         if address < text_start or end > text_end:
             raise ValueError(f"function extent leaves .text at {row['address']}")
         starts.append(address)
+    mapped_sources = {row["source_file"] for row in functions if row["source_file"]}
+    missing_sources = sorted(path for path in mapped_sources if not (ROOT / path).is_file())
+    if missing_sources:
+        raise ValueError(f"mapped source files do not exist: {', '.join(missing_sources)}")
+    source_units = {
+        path.relative_to(ROOT).as_posix()
+        for path in (ROOT / "src").rglob("*.cpp")
+    }
+    unmapped_sources = sorted(source_units - mapped_sources)
+    if unmapped_sources:
+        raise ValueError(f"source files lack function mappings: {', '.join(unmapped_sources)}")
     if starts != sorted(set(starts)):
         raise ValueError("function addresses must be unique and sorted")
     function_addresses = {row["address"] for row in functions}
@@ -75,6 +97,10 @@ def validate() -> dict[str, int]:
     configured_units = units.get("units", {})
     if not isinstance(configured_units, dict):
         raise ValueError("match units must be a table")
+    for name, unit in configured_units.items():
+        source = unit.get("source")
+        if not isinstance(source, str) or not (ROOT / source).is_file():
+            raise ValueError(f"match unit {name!r} has a missing source file")
     for row in matches:
         if row["unit"] not in configured_units or row["match_percent"] != "100.00":
             raise ValueError(f"unreplayable exact claim at {row['address']}")
