@@ -657,3 +657,4 @@ PlayerAnmVmBlendModeView::SetBlendModeNormal,0x0041BD60,function
 PlayerAnmManagerRawView::GetAnmRawData,0x0041BD70,function
 PlayerCollisionRegionRuntimeView::Deactivate,0x0041BD90,function
 PreloadPlayerAnmResources,0x0041CDE0,function
+PlayerTransitionSpecial,0x0041CB50,function

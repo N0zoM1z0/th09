@@ -517,7 +517,7 @@ void PlayerState4OpsView::AddRespawnResource(float value)
 
 static int PlayerCheckState4(PlayerLifecycleView *player);
 extern int PlayerCheckState2();
-extern void PlayerTransitionSpecial();
+static void PlayerTransitionSpecial(PlayerLifecycleView *player);
 extern void PlayerUpdateCommon();
 extern void PlayerUpdateStageA();
 extern void PlayerUpdateStageB();
@@ -558,6 +558,73 @@ void __fastcall PlayerUpdateOwnerState(void *opaqueState)
             state->value0C = 0;
             state->timer14 = 0;
         }
+    }
+}
+
+
+struct PlayerRespawnVmView
+{
+    unsigned char unknown000[0x18];
+    float scaleX18;
+    float scaleY1C;
+    unsigned char unknown020[0x1F0 - 0x20];
+    unsigned int color1F0;
+};
+
+struct PlayerRespawnBlendView
+{
+    void SetBlendModeAdditive();
+    void SetBlendModeNormal();
+};
+
+static void PlayerTransitionSpecial(PlayerLifecycleView *player)
+{
+    *reinterpret_cast<int *>(
+        reinterpret_cast<unsigned char *>(player) + 0x30334) = 60;
+
+    float value =
+        1.0f -
+        (float)*reinterpret_cast<ZunTimer *>(&player->timer303C8) *
+            0.033333335f;
+
+    reinterpret_cast<PlayerRespawnVmView *>(&player->mainVm)->scaleY1C =
+        value + value + 1.0f;
+    reinterpret_cast<PlayerRespawnVmView *>(&player->mainVm)->scaleX18 =
+        1.0f - value;
+    reinterpret_cast<PlayerRespawnBlendView *>(&player->mainVm)
+        ->SetBlendModeAdditive();
+
+    *reinterpret_cast<float *>(
+        reinterpret_cast<unsigned char *>(player) + 0x1CE0) = 1.0f;
+    *reinterpret_cast<float *>(
+        reinterpret_cast<unsigned char *>(player) + 0x1CDC) = 1.0f;
+
+    int timerCurrent =
+        reinterpret_cast<PlayerState4TimerCurrentView *>(
+            &player->timer303C8)->GetCurrent();
+    reinterpret_cast<PlayerRespawnVmView *>(&player->mainVm)->color1F0 =
+        ((255 * timerCurrent / 30) << 24) | 0x00FFFFFF;
+
+    *reinterpret_cast<int *>(
+        reinterpret_cast<unsigned char *>(player) + 0x3032C) = 0;
+
+    if (player->sideIndex == 0)
+        player->position1B88.x = value * -176.0f;
+    else
+        player->position1B88.x = value * 176.0f;
+    player->position1B88.y = value * 64.0f + 384.0f;
+
+    if (reinterpret_cast<PlayerState4TimerCurrentView *>(
+            &player->timer303C8)->GetCurrent() >= 30)
+    {
+        reinterpret_cast<PlayerState4OpsView *>(player)->SetUpdateState(3);
+        reinterpret_cast<PlayerRespawnVmView *>(&player->mainVm)->scaleX18 = 1.0f;
+        reinterpret_cast<PlayerRespawnVmView *>(&player->mainVm)->scaleY1C = 1.0f;
+        reinterpret_cast<PlayerRespawnVmView *>(&player->mainVm)->color1F0 = 0xFFFFFFFF;
+        reinterpret_cast<PlayerRespawnBlendView *>(&player->mainVm)
+            ->SetBlendModeNormal();
+        player->position1B88.x = 0.0f;
+        player->position1B88.y = 384.0f;
     }
 }
 
@@ -663,7 +730,7 @@ int __fastcall PlayerLifecycleView::OnUpdate(PlayerLifecycleView *player)
         goto afterTransition;
 
 transitionSpecial:
-    PlayerTransitionSpecial();
+    PlayerTransitionSpecial(player);
 afterTransition:
     PlayerUpdateCommon();
     if (player->selector > 0)
