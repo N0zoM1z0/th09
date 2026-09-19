@@ -518,7 +518,7 @@ void PlayerState4OpsView::AddRespawnResource(float value)
 static int PlayerCheckState4(PlayerLifecycleView *player);
 extern int PlayerCheckState2();
 static void PlayerTransitionSpecial(PlayerLifecycleView *player);
-extern void PlayerUpdateCommon();
+static void PlayerUpdateCommon(PlayerLifecycleView *player);
 extern void PlayerUpdateStageA();
 extern void PlayerUpdateStageB();
 struct PlayerCollisionOwnerStateView
@@ -628,6 +628,79 @@ static void PlayerTransitionSpecial(PlayerLifecycleView *player)
     }
 }
 
+
+static __inline Effect *&PlayerStateEffect(PlayerLifecycleView *player)
+{
+    return *reinterpret_cast<Effect **>(
+        reinterpret_cast<unsigned char *>(player) + 0x303E0);
+}
+
+static void PlayerUpdateCommon(PlayerLifecycleView *player)
+{
+    int &transitionCounter =
+        *reinterpret_cast<int *>(
+            reinterpret_cast<unsigned char *>(player) + 0x30334);
+    if (transitionCounter != 0)
+        --transitionCounter;
+
+    if (player->GetUpdateState() == 3)
+    {
+        if (PlayerStateEffect(player) != NULL)
+        {
+            PlayerStateEffect(player)->position =
+                *reinterpret_cast<EffectFloat3 *>(&player->position1B88);
+        }
+
+        reinterpret_cast<ZunTimer *>(&player->timer303C8)->operator--(0);
+        if (reinterpret_cast<PlayerState4TimerCurrentView *>(
+                &player->timer303C8)->GetCurrent() <= 0)
+        {
+            if (PlayerStateEffect(player) != NULL)
+            {
+                PlayerStateEffect(player)->active = 0;
+                PlayerStateEffect(player) = NULL;
+            }
+            reinterpret_cast<PlayerState4OpsView *>(player)->SetUpdateState(0);
+            *reinterpret_cast<ZunTimer *>(&player->timer303C8) = 0;
+            reinterpret_cast<unsigned int &>(player->mainVm.color1F0) =
+                0xFFFFFFFFu;
+        }
+        else
+        {
+            int current =
+                reinterpret_cast<PlayerState4TimerCurrentView *>(
+                    &player->timer303C8)->GetCurrent();
+            reinterpret_cast<unsigned int &>(player->mainVm.color1F0) =
+                current % 8 < 2 ? 0xFFF02020u : 0xFFFFFFFFu;
+        }
+    }
+    else
+    {
+        reinterpret_cast<ZunTimer *>(&player->timer303C8)->operator++(0);
+    }
+
+    if (reinterpret_cast<ZunTimer *>(&player->timer1B74)->operator>(0))
+    {
+        int current =
+            reinterpret_cast<PlayerState4TimerCurrentView *>(
+                &player->timer303C8)->GetCurrent();
+        if (current % 4 < 2)
+            reinterpret_cast<unsigned int &>(player->mainVm.color1F0) =
+                0xFFF02020u;
+        else
+            reinterpret_cast<unsigned int &>(player->mainVm.color1F0) =
+                0xFFFFFFFFu;
+
+        reinterpret_cast<ZunTimer *>(&player->timer1B74)->operator--(0);
+        if (reinterpret_cast<ZunTimer *>(&player->timer1B74)->operator<=(0))
+        {
+            *reinterpret_cast<ZunTimer *>(&player->timer1B74) = 0;
+            reinterpret_cast<unsigned int &>(player->mainVm.color1F0) =
+                0xFFFFFFFFu;
+        }
+    }
+}
+
 static int PlayerCheckState4(PlayerLifecycleView *player)
 {
     ZunTimer *timer =
@@ -732,7 +805,7 @@ int __fastcall PlayerLifecycleView::OnUpdate(PlayerLifecycleView *player)
 transitionSpecial:
     PlayerTransitionSpecial(player);
 afterTransition:
-    PlayerUpdateCommon();
+    PlayerUpdateCommon(player);
     if (player->selector > 0)
         PlayerUpdateSelectorState(reinterpret_cast<unsigned char *>(player) + 0x24);
 

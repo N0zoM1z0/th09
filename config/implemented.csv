@@ -657,3 +657,4 @@ PlayerAnmManagerRawView::GetAnmRawData
 PlayerCollisionRegionRuntimeView::Deactivate
 PreloadPlayerAnmResources
 PlayerTransitionSpecial
+PlayerUpdateCommon

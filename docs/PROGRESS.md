@@ -11,14 +11,14 @@ their boundaries and origins must be reviewed independently.
 | Confirmed authored functions | 990 |
 | Confirmed authored code bytes | 275,930 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 659 |
-| Source-present authored bytes | 182,529 |
+| Source-present authored mappings | 660 |
+| Source-present authored bytes | 182,849 |
 | Source-present but non-exact functions | 131 |
 | Source-present but non-exact bytes | 105,684 |
-| Authored functions without maintained source | 331 |
-| Authored bytes without maintained source | 93,401 |
-| Canonical exact functions | 528 |
-| Canonical exact authored bytes | 76,845 |
+| Authored functions without maintained source | 330 |
+| Authored bytes without maintained source | 93,081 |
+| Canonical exact functions | 529 |
+| Canonical exact authored bytes | 77,165 |
 
 While review remains pending or origins remain unresolved, the authored exact
 denominator is unknown. A mapped name, maintained source, successful
