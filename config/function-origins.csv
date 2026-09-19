@@ -1061,10 +1061,10 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0044C350,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0044C4C0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0044C680,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0044E1C4,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0044E1D4,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0044E244,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0044E254,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0044E1C4,data,Data,exclude,high,transition-record-data-review-2026-09-19
+0x0044E1D4,data,Data,exclude,high,transition-record-data-review-2026-09-19
+0x0044E244,data,Data,exclude,high,transition-record-data-review-2026-09-19
+0x0044E254,data,Data,exclude,high,transition-record-data-review-2026-09-19
 0x0044E5A0,import_thunk,Imports,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x0044E5A6,import_thunk,Imports,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x0044E5AC,import_thunk,Imports,exclude,high,pinned-runtime-origin-audit-2026-09-19
