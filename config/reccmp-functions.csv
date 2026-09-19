@@ -650,3 +650,4 @@ Float3::operator/,0x0040F5A0,function
 PlayerState4OpsView::AddRespawnResource,0x0041BC90,function
 PlayerLifecycleView::CalcItemCollectionCollision,0x0041BEE0,function
 PlayerLifecycleView::UpdateBeforeState,0x0041DC20,function
+PlayerLifecycleView::CheckBulletCollision,0x0041DFF0,function

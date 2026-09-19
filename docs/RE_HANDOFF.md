@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 651 |
+| Source-present authored mappings | 652 |
 | Canonical exact functions | 522 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -75,8 +75,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 651 source-present authored mappings. Of
-these, 522 are canonical exact and 129 retain honest non-exact compiler results.
+`config/implemented.csv` contains 652 source-present authored mappings. Of
+these, 522 are canonical exact and 130 retain honest non-exact compiler results.
 `config/matches.csv` contains 522 complete target-bound VC7.1 matches totaling
 76,387 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 339
-   authored functions / 96,240 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 338
+   authored functions / 95,378 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -130,10 +130,12 @@ generation, or folded ownership.
    `PlayerLifecycleView::UpdateBeforeState @ 0x0041DC20` is now canonical exact
    after TH09 call-site review corrected `PlayerOwnerStateView::ApplyReward` to
    position + four integer arguments (the previously inferred float was spurious).
-   Next recover `PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0` before
-   after their shared layouts/helpers are recovered. These ranges remain routing
-   hypotheses; establish every owner, ABI, boundary, and source mapping from
-   TH09 evidence.
+   `PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0` is now source-present
+   NON-EXACT with a repeatable 849/862 natural candidate and exact 0x34 stack frame;
+   the remaining 13-byte frontier is preserved-register allocation, so do not reopen
+   it without new local/TU evidence. The next Player dependency worth recovering is
+   the shared owner-state reward routine `0x0041D150` (1519 bytes), whose
+   corrected position-plus-four-integers ABI is now proven at multiple TH09 callers.
 3. **Then attack coherent large non-exact families, not isolated giant owners.**
    The largest maintained frontiers are TitleScreen (21 functions / 19,899
    bytes), ECL (15 / 19,142), EnemyManager (5 / 7,709), Player (11 / 6,999),
