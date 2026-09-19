@@ -678,3 +678,4 @@ EnemyEclManagerView::GetSubroutine,0x0040F170,function
 EnemyView::ResetBulletRankInfluence,0x0040F180,function
 ZunTimer::operator-=(int),0x0041F300,function
 PlayerResourceSubtractView::SubtractResourceClamped,0x0041F310,function
+PlayerShotInitPlayerView::InitializeShot,0x0041F350,function

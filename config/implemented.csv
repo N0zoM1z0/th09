@@ -677,3 +677,4 @@ EnemyEclManagerView::GetSubroutine
 EnemyView::ResetBulletRankInfluence
 ZunTimer::operator-=(int)
 PlayerResourceSubtractView::SubtractResourceClamped
+PlayerShotInitPlayerView::InitializeShot

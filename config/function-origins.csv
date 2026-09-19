@@ -417,7 +417,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041F2C0,authored_game,Player,authored,high,player-damage-source-2026-09-20
 0x0041F300,authored_game,ZunTimer,authored,high,zun-timer-subtract-int-exact-2026-09-20
 0x0041F310,authored_game,Player,authored,high,player-resource-subtract-exact-2026-09-20
-0x0041F350,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0041F350,authored_game,Player,authored,high,player-initialize-shot-source-2026-09-20
 0x0041F490,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0041F4C0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0041F580,authored_game,Player,authored,high,player-update-shots-source-nonexact-2026-09-15
