@@ -4406,3 +4406,15 @@ No target bytes were writable or modified. Under passed native attestation, comm
 ### Remaining short cohort and boundary warning
 - Eighteen weak findings remain pending. Seven are game-side short bodies whose identical machine shape occurs in unrelated archives and whose authored/compiler/folded ownership is not yet established. Eleven are target-local global object initializer/terminator wrappers at `0x0048D7B0-0x0048DAD9`; target disassembly proves the wrapper pattern, but a separate boundary review is needed because the initial IDA inventory omits several neighboring constructor wrappers in the same `.text` tail.
 - Tracking is 2,164 candidates / 634 authored / 1,118 excluded / 412 pending; source-present/exact stay 570/503. Next checkpoint reviews the complete `.text` initializer/terminator tail before classifying the eleven tracked wrappers, then returns to the seven ambiguous short bodies and 394 unmatched candidates. Planned checkpoint subject: `gpt-5.6-sol: classify contextual runtime bodies`. Nothing is pushed.
+
+
+## Packet 202 — complete global initializer/terminator tail (2026-09-19)
+
+### Target-derived boundary closure
+- The exact target supplies a stronger boundary oracle than the incomplete IDA auto-function set at the end of `.text`. At `.data:0x004A0000`, a leading NULL and the `___security_init_cookie @ 0x00488291` entry are followed by 24 consecutive initializer-wrapper pointers (`0x0048D7B0-0x0048DA20`) and two terminating NULL dwords.
+- The 24 wrappers have exact extents totaling 443 bytes. Ten contain a unique `push <cleanup-wrapper>; call _atexit` pair targeting the already pinned CRT `_atexit @ 0x0047C323`. The ten cleanup wrappers total 101 bytes at `0x0048DA30-0x0048DAD9`; the last byte is also the last byte of the target `.text` virtual extent. Every internal boundary is independently checked by terminal control flow and all-`CC` gaps.
+- The original ledger knew eleven of these 34 candidates but omitted 23 function starts. `scripts/review-static-init-tail.py` fails closed on the target SHA-256, PE layout, initializer-table contents, wrapper forms, gap bytes, or `_atexit` destinations; it then inserts the missing rows in address order and uses line-preserving replacement for the eleven existing rows.
+
+### Classification and tracking
+- All 34 wrappers are compiler-synthesized global initialization/termination machinery and are classified `compiler_generated / Compiler / exclude / high` under evidence ID `vc71-global-init-tail-review-2026-09-19`. Their calls into game-authored constructors/destructors do not make the wrappers authored functions, and this review grants neither source-presence nor exactness credit.
+- Inventory is now 2,187 candidates: 634 authored, 1,152 excluded, and 401 pending; source-present/exact remain 570/503. The prior 18 weak-shape remainder is reduced to the seven intentionally unresolved game-side short bodies; the other 394 pre-existing unmatched candidates remain the main review frontier. Planned checkpoint subject: `gpt-5.6-sol: close static initializer tail boundaries`. Nothing is pushed.

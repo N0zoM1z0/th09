@@ -826,3 +826,11 @@ name into a TH09 fact without target-local evidence.
 - The reviewed set totals 162 bytes and is classified `library / D3DX8` (28) or `library / CRT` (3), with `exclude / high` disposition. No source-presence or exact-codegen credit is granted. The three CRT cases are the `_free` and `_atol` forwarding entries at `0x0047B249` and `0x0047B7EA`, plus the three-byte helper at `0x004889B8`.
 - `scripts/apply-context-origin-review.py` reproduces the selection conservatively: it requires the weak pinned-COFF audit result, pending ledger state, and reviewed neighboring runtime exclusions before changing a row. Eighteen short findings remain pending: eleven target-local global initializer/terminator wrappers at the end of `.text` and seven genuinely ambiguous game-side short bodies.
 - Tracking becomes 412 pending / 1,118 exclusions; authored/source/exact remain 634/570/503.
+
+
+## Packet 202 complete VC7.1 global-init tail boundaries
+
+- The attested target's `.data` prefix at `0x004A0000` is a NULL-bounded initializer table: after `___security_init_cookie @ 0x00488291`, it contains 24 consecutive function pointers from `0x0048D7B0` through `0x0048DA20`, then two NULL dwords. The pointed wrappers occupy the final generated-code run in `.text`.
+- Ten initializer wrappers each push one cleanup-wrapper address and immediately call the already proven CRT `_atexit @ 0x0047C323`. Those cleanup entries occupy `0x0048DA30-0x0048DAD9`, with `0x0048DADA` exactly equal to the exclusive `.text` end. Function ends are proven by terminal `ret`/tail-`jmp` instructions and intervening `CC` padding, not inferred from the incomplete IDA auto-function list.
+- The complete run is 24 initializer wrappers (443 bytes) plus ten terminator wrappers (101 bytes). The initial IDA-derived ledger contained eleven of the 34 and omitted 23 valid starts; `scripts/review-static-init-tail.py` verifies the target hash, PE sections, full pointer table, all exact extents/padding, and all ten `_atexit` registrations before inserting or classifying anything.
+- All 34 are `compiler_generated / Compiler / exclude / high`. Candidate inventory becomes 2,187, adding the 23 missing boundaries; pending falls from 412 to 401 because the eleven pre-existing candidates are closed. Exclusions become 1,152, while authored/source/exact remain 634/570/503.
