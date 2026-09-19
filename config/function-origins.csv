@@ -1216,7 +1216,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00453EE0,library,D3DX8,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x00454387,library,D3DX8,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x0045460D,library,D3DX8,exclude,high,pinned-runtime-origin-audit-2026-09-19
-0x00454650,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00454650,library,D3DX8,exclude,high,runtime-residual-origin-review-2026-09-19
 0x0045465C,library,D3DX8,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x00454BF2,library,D3DX8,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x00454F33,library,D3DX8,exclude,high,pinned-runtime-origin-audit-2026-09-19
@@ -1383,7 +1383,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0045E414,library,Library,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x0045E430,library,D3DX8,exclude,high,target-context-runtime-origin-review-2026-09-19
 0x0045E440,library,D3DX8,exclude,high,pinned-runtime-origin-audit-2026-09-19
-0x0045E550,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0045E550,library,D3DX8,exclude,high,runtime-residual-origin-review-2026-09-19
 0x0045E660,library,D3DX8,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x0045E735,library,D3DX8,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x0045E95B,library,D3DX8,exclude,high,pinned-runtime-origin-audit-2026-09-19
@@ -2061,7 +2061,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00486510,library,CRT,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x00486587,library,CRT,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x00486641,library,CRT,exclude,high,pinned-runtime-origin-audit-2026-09-19
-0x004866AD,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x004866AD,library,CRT,exclude,high,runtime-residual-origin-review-2026-09-19
 0x004866B6,library,CRT,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x00486748,library,CRT,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x004867D6,library,CRT,exclude,high,pinned-runtime-origin-audit-2026-09-19
@@ -2080,7 +2080,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00486E1B,library,CRT,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x00486FAB,library,CRT,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x004870FB,library,CRT,exclude,high,pinned-runtime-origin-audit-2026-09-19
-0x00487119,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00487119,library,CRT,exclude,high,runtime-residual-origin-review-2026-09-19
 0x00487131,library,CRT,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x00487229,library,CRT,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x004873E3,library,CRT,exclude,high,pinned-runtime-origin-audit-2026-09-19
@@ -2154,7 +2154,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0048A782,library,CRT,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x0048A7AD,library,CRT,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x0048A7D8,library,CRT,exclude,high,pinned-runtime-origin-audit-2026-09-19
-0x0048A853,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0048A853,library,DXErr8,exclude,high,runtime-residual-origin-review-2026-09-19
 0x0048D204,import_thunk,Imports,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x0048D7B0,compiler_generated,Compiler,exclude,high,vc71-global-init-tail-review-2026-09-19
 0x0048D7BA,compiler_generated,Compiler,exclude,high,vc71-global-init-tail-review-2026-09-19
