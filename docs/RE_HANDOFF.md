@@ -4368,3 +4368,16 @@ No target bytes were writable or modified. Under passed native attestation, comm
 - Whole faithful Windows i386 build remains independently OPEN; runtime and semantic/port phases are not started. Packet scratch is `.analysis/gpt-web/20260917-th09-small-leaves-198/`, retaining first-pass compares, two-round replay, and affected regressions.
 - Next caller-bound candidate can be `ResetTitleMode4Supervisor @ 0x0042EC30` only after its Supervisor/network/RNG field ownership is independently reviewed; do not infer owner from adjacency. Otherwise continue the canonical relocation frontier.
 - Planned checkpoint subject: `gpt-web: close loading and title indicator leaves`. Nothing is pushed.
+
+
+## Packet 199 — pinned D3DX8 boundary/origin review (2026-09-19)
+
+### Scope and evidence
+- Started from clean checkpoint `7d1edf1` (`gpt-5.6-sol: add pinned runtime-origin audit`). The disk target and direct IDA metadata independently match original Japanese TH09 v1.50a SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`; no Factory route or target-byte write is used.
+- The new read-only audit parses the pinned VC7.1 D3DX8/libcmt/libcpmt COFF archives, their symbol tables, code sections, associative-section metadata, and explicit i386 relocations. It also parses the target PE import directory. The complete open cohort is 1,493 rows; the audit reports 951 strong complete-function matches, 94 candidates inside complete matched contributions, five exact six-byte import thunks, 49 low-stability shape-only matches, and 394 unmatched candidates.
+- This packet deliberately applies only the D3DX8 subset of strong evidence: 614 whole-function extent matches plus 66 candidates inside complete exact contributions, totaling 680 candidates and 176,461 bytes across `0x00433040-0x0047AD98`. The 49 shape-only findings remain `unknown/review` even when they resemble short D3DX8 bodies.
+
+### Tracking and continuation
+- Exactly 680 target rows change in each of `config/functions.csv` and `config/function-origins.csv`; a HEAD comparison confirms every other line is byte-identical. Each promoted row is `library / D3DX8 / exclude / high` with evidence ID `pinned-runtime-origin-audit-2026-09-19`. No source mapping, match unit, or exactness claim is added.
+- Tracking becomes 2,164 candidates / 634 authored / 717 excluded / 813 pending, while source-present/exact stay 570/503. The whole Windows i386 build remains open; runtime, semantic, and port stages remain not started.
+- Next packet applies the separately counted strong CRT/general-library/import findings, then returns to the 49 short shape-only cases and 394 unmatched authored/compiler candidates. Planned checkpoint subject: `gpt-5.6-sol: classify pinned D3DX8 origins`. Nothing is pushed.
