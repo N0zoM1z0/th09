@@ -667,3 +667,5 @@ PlayerCollisionRegionCreateView::CreateCircleType0,0x0041D050,function
 PlayerCollisionRegionCreateView::CreateRectType4,0x0041D090,function
 PlayerCollisionRegionCreateView::CreateCircleType4,0x0041D0D0,function
 PlayerCollisionRegionCreateView::CreateCircleType2,0x0041D110,function
+PlayerUpdateStageD,0x0041BA80,function
+PlayerForwardAngleView::AngleFromPlayerToPoint,0x0041BB00,function

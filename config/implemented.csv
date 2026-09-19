@@ -666,3 +666,5 @@ PlayerCollisionRegionCreateView::CreateCircleType0
 PlayerCollisionRegionCreateView::CreateRectType4
 PlayerCollisionRegionCreateView::CreateCircleType4
 PlayerCollisionRegionCreateView::CreateCircleType2
+PlayerUpdateStageD
+PlayerForwardAngleView::AngleFromPlayerToPoint

@@ -528,7 +528,7 @@ struct PlayerCollisionOwnerStateView
 };
 
 static int PlayerUpdateStageC(PlayerLifecycleView *player);
-extern void PlayerUpdateStageD();
+static void PlayerUpdateStageD(PlayerLifecycleView *player);
 extern void PlayerUpdateStageE();
 extern void __fastcall PlayerUpdateSelectorState(void *state);
 void __fastcall PlayerUpdateOwnerState(void *opaqueState)
@@ -747,6 +747,23 @@ static int PlayerCheckState4(PlayerLifecycleView *player)
     return 0;
 }
 
+static void PlayerUpdateStageD(PlayerLifecycleView *player)
+{
+    *reinterpret_cast<Float3 *>(
+        reinterpret_cast<unsigned char *>(player) + 0x30364) =
+        Float3(-999.0f, -999.0f, 0.0f);
+    *reinterpret_cast<Float3 *>(
+        reinterpret_cast<unsigned char *>(player) + 0x30370) =
+        Float3(-999.0f, -999.0f, 0.0f);
+
+    *reinterpret_cast<int *>(
+        reinterpret_cast<unsigned char *>(player) + 0x30380) = 0;
+    *reinterpret_cast<float *>(
+        reinterpret_cast<unsigned char *>(player) + 0x1CE8) = 1.0f;
+    *reinterpret_cast<float *>(
+        reinterpret_cast<unsigned char *>(player) + 0x1CE4) = 1.0f;
+}
+
 static int PlayerUpdateStageC(PlayerLifecycleView *player)
 {
     if (!player->GetUpdateState())
@@ -852,7 +869,7 @@ afterTransition:
         g_PlayerSharedRuntime->updateBlock1095C == 0)
         PlayerUpdateStageC(player);
 
-    PlayerUpdateStageD();
+    PlayerUpdateStageD(player);
     if ((player->sideState->flags34 & 1) == 0)
         PlayerUpdateOwnerState(&player->ownerState30410);
 

@@ -356,8 +356,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041B82A,authored_game,GameManager,authored,high,game-manager-deleted-callback-vc71-exact-2026-09-11
 0x0041B9D0,authored_game,GameManager,authored,high,game-manager-register-chain-vc71-exact-2026-09-11
 0x0041BA4F,authored_game,GameManager,authored,high,packet191-small-exact-leaves-2026-09-17
-0x0041BA80,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0041BB00,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0041BA80,authored_game,Player,authored,high,player-tracking-angle-exact-2026-09-20
+0x0041BB00,authored_game,Player,authored,high,player-tracking-angle-exact-2026-09-20
 0x0041BB70,authored_game,Player,authored,high,player-angle-to-point-vc71-exact-2026-09-17
 0x0041BBE0,authored_game,Player,authored,high,player-sht-loader-source-2026-09-15
 0x0041BC90,authored_game,Player,authored,high,player-respawn-resource-exact-2026-09-20
