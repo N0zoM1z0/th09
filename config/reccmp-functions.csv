@@ -673,3 +673,6 @@ PlayerBuildAabb,0x0041F2C0,function
 PlayerDamagePlayerView::CalcDamageToEnemy,0x0041FCD0,function
 ZunTimer::HasTicked,0x0040F810,function
 AnmProjectionAbs,0x0040F1C0,function
+EnemyEclManagerView::GetSubroutineCount,0x0040F160,function
+EnemyEclManagerView::GetSubroutine,0x0040F170,function
+EnemyView::ResetBulletRankInfluence,0x0040F180,function

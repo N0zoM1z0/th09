@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 674 |
-| Canonical exact functions | 542 |
+| Source-present authored mappings | 677 |
+| Canonical exact functions | 545 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 674 source-present authored mappings. Of
-these, 542 are canonical exact and 132 retain honest non-exact compiler results.
-`config/matches.csv` contains 542 complete target-bound VC7.1 matches totaling
-77,948 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 677 source-present authored mappings. Of
+these, 545 are canonical exact and 132 retain honest non-exact compiler results.
+`config/matches.csv` contains 545 complete target-bound VC7.1 matches totaling
+78,022 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 316
-   authored functions / 91,302 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 313
+   authored functions / 91,228 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -167,7 +167,12 @@ generation, or folded ownership.
    Rotate frontier `0x0042AF40` closed unless new external-call/TU evidence appears.
    ANM local `AnmProjectionAbs @ 0x0040F1C0` is now canonical exact at 12 bytes;
    exact Project3DQuad already bound the symbol/owner, and plain `fabs` source emits
-   the target out-of-line x87 wrapper without asm or intrinsic forcing.
+   the target out-of-line x87 wrapper without asm or intrinsic forcing. Three Enemy
+   helper leaves are also canonical exact: `EnemyEclManagerView::GetSubroutineCount`
+   at `0x0040F160` (7 bytes), `GetSubroutine` at `0x0040F170`
+   (16 bytes), and `EnemyView::ResetBulletRankInfluence @ 0x0040F180`
+   (51 bytes). Their raw-ECL table and rank-field offsets are already maintained in
+   EnemyManager/ECL source, so no adjacent-game layout was imported.
 3. **Then attack coherent large non-exact families, not isolated giant owners.**
    The largest maintained frontiers are TitleScreen (21 functions / 19,899
    bytes), ECL (15 / 19,142), EnemyManager (5 / 7,709), Player (11 / 6,999),

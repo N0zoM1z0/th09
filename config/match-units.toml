@@ -10444,3 +10444,33 @@ symbol = "?AnmProjectionAbs@@YGOM@Z"
 target_address = 0x0040F1C0
 size = 0x0C
 relocations = []
+
+[units.enemy-ecl-get-subroutine-count]
+source = "src/EnemySmallLeaves.cpp"
+object = "build/matching/EnemySmallLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyEclManagerView::GetSubroutineCount"]
+symbol = "?GetSubroutineCount@EnemyEclManagerView@@QAEHXZ"
+target_address = 0x0040F160
+size = 0x07
+relocations = []
+
+[units.enemy-ecl-get-subroutine]
+source = "src/EnemySmallLeaves.cpp"
+object = "build/matching/EnemySmallLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyEclManagerView::GetSubroutine"]
+symbol = "?GetSubroutine@EnemyEclManagerView@@QAEPAXH@Z"
+target_address = 0x0040F170
+size = 0x10
+relocations = []
+
+[units.enemy-reset-bullet-rank-influence]
+source = "src/EnemySmallLeaves.cpp"
+object = "build/matching/EnemySmallLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyView::ResetBulletRankInfluence"]
+symbol = "?ResetBulletRankInfluence@EnemyView@@QAEXXZ"
+target_address = 0x0040F180
+size = 0x33
+relocations = []

@@ -672,3 +672,6 @@ PlayerBuildAabb
 PlayerDamagePlayerView::CalcDamageToEnemy
 ZunTimer::HasTicked
 AnmProjectionAbs
+EnemyEclManagerView::GetSubroutineCount
+EnemyEclManagerView::GetSubroutine
+EnemyView::ResetBulletRankInfluence
