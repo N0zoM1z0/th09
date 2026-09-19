@@ -225,9 +225,13 @@ generation, or folded ownership.
    `ScoreRecordCtorView::ScoreRecordCtorView @ 0x00421C60` (18 bytes, used
    for the 400-entry table and current singleton), and `PbgArchive::~PbgArchive @
    0x004335D0` (5-byte natural tail jump to exact Release).
-   Supervisor netplay now also has exact `AreFrameQueuesSynchronized @ 0x0042ECF0`
+   Supervisor netplay now also has exact `SupervisorFrameQueueView::AreFrameQueuesSynchronized @ 0x0042ECF0`
    (49 bytes): TH09 proves two 0x78-stride queue heads at +0x480/+0x4F8, and
    only the natural short-circuit conjunction reproduces the target branch shape.
+   Fresh target ECX review also corrects queue ownership: the frame queues live on
+   the Supervisor callback receiver, while `g_SupervisorNetworkState` is separate
+   DirectPlay/session state; correcting maintained `SupervisorNetwork.cpp` moves its
+   natural candidate from 1,639 to 1,625 bytes versus the 1,633-byte target.
    Bullet/ECL descriptor setup also gains an exact neutral constructor at
    `0x0040D500` (28 bytes): TH09 fixes the 0x214 physical size and
    `transformSound +0x204 = -1` sentinel, while a neutral ctor view avoids

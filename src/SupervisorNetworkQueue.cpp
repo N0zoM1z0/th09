@@ -1,4 +1,4 @@
-#include "SupervisorNetworkState.hpp"
+#include "SupervisorFrameQueueView.hpp"
 #include <stddef.h>
 
 struct NetworkFrameQueueHeadView
@@ -18,7 +18,7 @@ typedef char NetworkFrameQueueHeadSizeIs78[
 typedef char SupervisorNetworkQueuesAt480[
     (offsetof(SupervisorNetworkQueueSyncLayout, queues480) == 0x480) ? 1 : -1];
 
-int SupervisorNetworkState::AreFrameQueuesSynchronized(int side)
+int SupervisorFrameQueueView::AreFrameQueuesSynchronized(int side)
 {
     SupervisorNetworkQueueSyncLayout *view =
         reinterpret_cast<SupervisorNetworkQueueSyncLayout *>(this);

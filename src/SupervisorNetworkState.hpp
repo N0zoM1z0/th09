@@ -24,10 +24,6 @@ struct SupervisorNetworkState
     unsigned char unknown0C5[0x480 - 0x0C5];
 
     int GetRemotePeerId();
-    void InsertReceivedFrame(int side, int frame, int packedInput, short seed);
-    void InsertPredictedFrame(int side, int frame, short seed);
-    int PopFrame(int side, unsigned short *seed, unsigned int *predicted);
-    int AreFrameQueuesSynchronized(int side);
     int SendPacket(void *packet, int size);
     int CreateDeviceAddress();
     int CreateHostAddress();

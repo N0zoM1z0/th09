@@ -695,5 +695,5 @@ AnmManager::ReleaseSurfaces
 ScoreFileView::ScoreFileView
 ScoreRecordCtorView::ScoreRecordCtorView
 PbgArchive::~PbgArchive
-SupervisorNetworkState::AreFrameQueuesSynchronized
+SupervisorFrameQueueView::AreFrameQueuesSynchronized
 BulletSpawnDescriptorCtorView::BulletSpawnDescriptorCtorView
