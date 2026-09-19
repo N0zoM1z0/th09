@@ -98,6 +98,49 @@ do not yet establish all translation units, static data owners, libraries,
 resources, initializers, linker order, or exercised Windows i386 runtime paths.
 Do not open semantic reconstruction or portability until this gate closes.
 
+## Next Web priorities
+
+Phase state is `active-incomplete` exact reconstruction. Do not spend a new
+session re-reviewing the frozen 34-entry origin-unknown set unless genuinely new
+target evidence can distinguish explicit source, implicit special-member
+generation, or folded ownership.
+
+1. **Probe the smallest honest exact frontiers first.** These maintained units
+   are target-sized or within two bytes and have tightly bounded residuals:
+   `PopContext @ 0x00406680` (one comparable byte/private register ABI),
+   `CaptureFrameSyncState @ 0x00420190` (one commutative SIB byte),
+   `AsciiManager::OnUpdate @ 0x00435B00` (one signedness branch),
+   `FrontSide::ResetTransitionState @ 0x0041A230`, and the transform installers
+   at `0x00412610/0x00412650`. Explore natural ABI, visibility, type, and TU
+   hypotheses; do not retain register forcing, padding, inline assembly, or
+   profile fishing merely to erase a residual. Record a bounded negative and
+   rotate when the natural-source route reaches a plateau.
+2. **Recover authored source in bounded subsystem seams.** There are 358
+   authored functions / 104,604 bytes without maintained source. Four already
+   have bounded owners: Player `0x0041E720/0x0041E8B0`, ZunMemory
+   `0x0042B0E0`, and GameManager `0x0043E470`. The other 354 currently use the
+   generic `Game` module. Good routing packets are the Bullet seam
+   `0x00413AF0-0x00414095`, Player seams `0x0041DB90-0x0041E41B`, ANM seam
+   `0x0043CAE0-0x0043CD35`, and Ascii/Title seam
+   `0x004234F6-0x00424579`. These ranges are routing hypotheses from adjacency;
+   establish every owner, ABI, boundary, and source mapping from TH09 evidence.
+3. **Then attack coherent large non-exact families, not isolated giant owners.**
+   The largest maintained frontiers are TitleScreen (21 functions / 19,899
+   bytes), ECL (15 / 19,142), EnemyManager (5 / 7,709), Player (11 / 6,999),
+   BulletManager (14 / 6,125), and AnmManager (10 / 5,920). Prefer helper leaves
+   and shared ABI/layout discoveries before `RunEcl @ 0x004086C0` or another
+   multi-kilobyte dispatcher.
+4. **Prepare product closure only after the exact/source frontier becomes a
+   documented plateau.** `config/build.toml` is still a skeleton: translation
+   units, compile profiles, static-data owners, libraries, resources, linker
+   switches/order, and Windows i386 runtime scenarios are empty or unknown.
+   Populate these from evidence; a clean link alone does not close the gate.
+
+Run `python3 scripts/report-reconstruction-status.py` after each checkpoint; it
+reports the live non-exact and no-source frontier rather than relying on prose.
+Semantic reconstruction and portability remain out of scope until the native
+Windows i386 product has been compiled, linked, owner-audited, and exercised.
+
 ## Durable evidence map
 
 - `config/functions.csv` and `config/function-origins.csv`: candidate boundary
@@ -115,7 +158,14 @@ fact into the maintained ledger or knowledge base.
 
 ## Latest checkpoints
 
-The boundary/origin closure is the eleven-commit series ending at:
+Repository preparation and source-ledger repair end at:
+
+- `57ef025 gpt-5.6-sol: reconcile source presence ledger`
+- `9f132e6 gpt-5.6-sol: make static init review durable`
+- `88a8916 gpt-5.6-sol: enforce ledger consistency`
+- `6f12e9f gpt-5.6-sol: compact live reconstruction docs`
+
+The preceding boundary/origin closure is the eleven-commit series ending at:
 
 - `e0da09e gpt-5.6-sol: close boundary and origin review`
 - `e41119d gpt-5.6-sol: classify runtime origin residuals`

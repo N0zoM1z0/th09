@@ -17,7 +17,7 @@ def main() -> int:
     report = {
         **values,
         "target": "th09-v1.50a-original-japanese",
-        "current_stage": "boundary-and-origin-inventory",
+        "current_stage": "exact-reconstruction",
         "whole_build_closed": False,
         "windows_i386_runtime_validated": False,
         "semantic_reconstruction_started": False,
@@ -33,6 +33,14 @@ def main() -> int:
         print(f"reviewed but unresolved:  {values['unresolved']:>5}")
         print(f"authored / excluded:       {values['authored']} / {values['excluded']}")
         print(f"source-present / exact:    {values['implemented']} / {values['matches']}")
+        print(
+            "source-present non-exact: "
+            f"{values['source_nonexact']} functions / {values['source_nonexact_bytes']} bytes"
+        )
+        print(
+            "authored without source:  "
+            f"{values['without_source']} functions / {values['without_source_bytes']} bytes"
+        )
         print("whole Windows i386 build:  open")
         print("semantic and port stages:  not started")
     return 0

@@ -25,13 +25,13 @@ class ProgressMeasureTests(unittest.TestCase):
             config = Path(directory)
             with (config / "functions.csv").open("w", newline="") as stream:
                 writer = csv.writer(stream)
-                writer.writerow(("address", "size"))
+                writer.writerow(("address", "size", "source_file"))
                 writer.writerows(
                     (
-                        ("0x1", "10"),
-                        ("0x2", "20"),
-                        ("0x3", "30"),
-                        ("0x4", "40"),
+                        ("0x1", "10", "src/example.cpp"),
+                        ("0x2", "20", ""),
+                        ("0x3", "30", ""),
+                        ("0x4", "40", ""),
                     )
                 )
             with (config / "function-origins.csv").open("w", newline="") as stream:
@@ -61,6 +61,9 @@ class ProgressMeasureTests(unittest.TestCase):
         self.assertEqual(values["unresolved"], 1)
         self.assertEqual(values["authored"], 1)
         self.assertEqual(values["excluded"], 1)
+        self.assertEqual(values["source_present_bytes"], 10)
+        self.assertEqual(values["source_nonexact"], 0)
+        self.assertEqual(values["without_source"], 0)
 
 
 if __name__ == "__main__":

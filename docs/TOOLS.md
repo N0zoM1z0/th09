@@ -6,7 +6,7 @@
 | Attest local IDA | registered direct `ida-pro-mcp` provider, or `python3 scripts/check-ida-mcp.py` | active analysis database identity |
 | Call host IDA from shell | `python3 scripts/ida-mcp-call.py --search ...` / `--call ...` | bounded target analysis; metadata writes must be read back |
 | Validate tracking | `python3 scripts/validate-tracking.py --require-target` | ledger consistency only |
-| Report current state | `python3 scripts/report-reconstruction-status.py` | ledger-derived totals |
+| Report current state | `python3 scripts/report-reconstruction-status.py` | ledger-derived totals and exact/source frontier |
 | Regenerate progress | `python3 scripts/progress.py` | generated Markdown/SVG |
 | Replay one match | `build-match-unit.py` then `compare-coff-function.py` | bounded VC7.1 codegen comparison |
 | Audit runtime origins | `python3 scripts/audit-runtime-origins.py` | pinned archive/import evidence |

@@ -28,6 +28,10 @@ def measures() -> dict[str, int]:
     with (CONFIG / "implemented.csv").open(newline="", encoding="utf-8") as stream:
         implemented = [row[0] for row in csv.reader(stream) if row and row[0]]
     authored = [row for row in functions if origins[row["address"]]["disposition"] == "authored"]
+    source_present = [row for row in authored if row.get("source_file")]
+    exact_addresses = {row["address"] for row in matches}
+    source_nonexact = [row for row in source_present if row["address"] not in exact_addresses]
+    without_source = [row for row in authored if not row.get("source_file")]
     excluded = [row for row in functions if origins[row["address"]]["disposition"] == "exclude"]
     unresolved = [
         row
@@ -47,6 +51,11 @@ def measures() -> dict[str, int]:
         "authored_bytes": authored_bytes,
         "excluded": len(excluded),
         "implemented": len(implemented),
+        "source_present_bytes": sum(int(row["size"], 0) for row in source_present),
+        "source_nonexact": len(source_nonexact),
+        "source_nonexact_bytes": sum(int(row["size"], 0) for row in source_nonexact),
+        "without_source": len(without_source),
+        "without_source_bytes": sum(int(row["size"], 0) for row in without_source),
         "matches": len(matches),
         "exact_bytes": exact_bytes,
     }
@@ -67,6 +76,11 @@ their boundaries and origins must be reviewed independently.
 | Confirmed authored code bytes | {values['authored_bytes']:,} |
 | Classified exclusions | {values['excluded']:,} |
 | Source-present authored mappings | {values['implemented']:,} |
+| Source-present authored bytes | {values['source_present_bytes']:,} |
+| Source-present but non-exact functions | {values['source_nonexact']:,} |
+| Source-present but non-exact bytes | {values['source_nonexact_bytes']:,} |
+| Authored functions without maintained source | {values['without_source']:,} |
+| Authored bytes without maintained source | {values['without_source_bytes']:,} |
 | Canonical exact functions | {values['matches']:,} |
 | Canonical exact authored bytes | {values['exact_bytes']:,} |
 
