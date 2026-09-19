@@ -361,10 +361,10 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041BB70,authored_game,Player,authored,high,player-angle-to-point-vc71-exact-2026-09-17
 0x0041BBE0,authored_game,Player,authored,high,player-sht-loader-source-2026-09-15
 0x0041BC90,authored_game,Player,authored,high,player-respawn-resource-exact-2026-09-20
-0x0041BD40,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0041BD60,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0041BD70,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0041BD90,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0041BD40,authored_game,Player,authored,high,player-short-leaves-exact-2026-09-20
+0x0041BD60,authored_game,Player,authored,high,player-short-leaves-exact-2026-09-20
+0x0041BD70,authored_game,Player,authored,high,player-short-leaves-exact-2026-09-20
+0x0041BD90,authored_game,Player,authored,high,player-short-leaves-exact-2026-09-20
 0x0041BDA0,authored_game,Player,authored,high,player-added-collision-reset-vc71-exact-2026-09-15
 0x0041BDC0,authored_game,Player,authored,high,player-added-header-reset-vc71-exact-2026-09-15
 0x0041BDE0,authored_game,Player,authored,high,packet188-small-accessor-leaves-2026-09-17

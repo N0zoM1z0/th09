@@ -652,3 +652,7 @@ PlayerLifecycleView::CalcItemCollectionCollision,0x0041BEE0,function
 PlayerLifecycleView::UpdateBeforeState,0x0041DC20,function
 PlayerLifecycleView::CheckBulletCollision,0x0041DFF0,function
 PlayerOwnerStateView::ApplyReward,0x0041D150,function
+PlayerAnmVmBlendModeView::SetBlendModeAdditive,0x0041BD40,function
+PlayerAnmVmBlendModeView::SetBlendModeNormal,0x0041BD60,function
+PlayerAnmManagerRawView::GetAnmRawData,0x0041BD70,function
+PlayerCollisionRegionRuntimeView::Deactivate,0x0041BD90,function

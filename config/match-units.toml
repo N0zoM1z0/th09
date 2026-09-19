@@ -10171,3 +10171,45 @@ relocations = [
   { offset = 0x34C, type = "DIR32", symbol = "$L2132", target = 0x0041DE45 },
   { offset = 0x350, type = "DIR32", symbol = "$L2133", target = 0x0041DE59 },
 ]
+
+[units.player-set-blend-additive]
+source = "src/PlayerShortLeaves.cpp"
+object = "build/matching/PlayerShortLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerAnmVmBlendModeView::SetBlendModeAdditive"]
+symbol = "?SetBlendModeAdditive@PlayerAnmVmBlendModeView@@QAEXXZ"
+target_address = 0x0041BD40
+size = 0x13
+relocations = []
+
+[units.player-set-blend-normal]
+source = "src/PlayerShortLeaves.cpp"
+object = "build/matching/PlayerShortLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerAnmVmBlendModeView::SetBlendModeNormal"]
+symbol = "?SetBlendModeNormal@PlayerAnmVmBlendModeView@@QAEXXZ"
+target_address = 0x0041BD60
+size = 0x08
+relocations = []
+
+[units.player-get-anm-raw-data]
+source = "src/PlayerShortLeaves.cpp"
+object = "build/matching/PlayerShortLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerAnmManagerRawView::GetAnmRawData"]
+symbol = "?GetAnmRawData@PlayerAnmManagerRawView@@QAEPAXH@Z"
+target_address = 0x0041BD70
+size = 0x13
+relocations = [
+  { offset = 0x08, type = "REL32", symbol = "?GetAnm@PlayerAnmManagerRawView@@QAEPAVAnmLoaded@@H@Z", target = 0x00401660 },
+]
+
+[units.player-collision-region-deactivate]
+source = "src/PlayerShortLeaves.cpp"
+object = "build/matching/PlayerShortLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerCollisionRegionRuntimeView::Deactivate"]
+symbol = "?Deactivate@PlayerCollisionRegionRuntimeView@@QAEXXZ"
+target_address = 0x0041BD90
+size = 0x05
+relocations = []
