@@ -517,3 +517,4 @@ address,name,size,status,match_percent,unit,evidence
 0x0043CAE0,AnmManager::LoadSurface,486,matching,100.00,anm-manager-load-surface,python3 scripts/build-match-unit.py --unit anm-manager-load-surface && python3 scripts/compare-coff-function.py --unit anm-manager-load-surface --json
 0x0043CCD0,AnmManager::PreloadSurface,102,matching,100.00,anm-manager-preload-surface,python3 scripts/build-match-unit.py --unit anm-manager-preload-surface && python3 scripts/compare-coff-function.py --unit anm-manager-preload-surface --json
 0x004244A9,TitleScreenView::DrawMusicRoom,209,matching,100.00,title-screen-draw-music-room,python3 scripts/build-match-unit.py --unit title-screen-draw-music-room && python3 scripts/compare-coff-function.py --unit title-screen-draw-music-room --json
+0x0040F5A0,Float3::operator/,56,matching,100.00,float3-divide,python3 scripts/build-match-unit.py --unit float3-divide && python3 scripts/compare-coff-function.py --unit float3-divide --json

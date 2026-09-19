@@ -646,3 +646,4 @@ TitleScreenView::DrawMusicRoom,0x004244A9,function
 TitleScreenView::DrawReplaySave,0x004239F6,function
 TitleScreenView::DrawReplayMenu,0x004234F6,function
 TitleScreenView::DrawResult,0x00423D16,function
+Float3::operator/,0x0040F5A0,function

@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 647 |
-| Canonical exact functions | 518 |
+| Source-present authored mappings | 648 |
+| Canonical exact functions | 519 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 647 source-present authored mappings. Of
-these, 518 are canonical exact and 129 retain honest non-exact compiler results.
-`config/matches.csv` contains 518 complete target-bound VC7.1 matches totaling
-75,146 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 648 source-present authored mappings. Of
+these, 519 are canonical exact and 129 retain honest non-exact compiler results.
+`config/matches.csv` contains 519 complete target-bound VC7.1 matches totaling
+75,202 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 343
-   authored functions / 97,481 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 342
+   authored functions / 97,425 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -124,7 +124,9 @@ generation, or folded ownership.
    NON-EXACT at 1244/1280; and shared `DrawResult @ 0x00423D16` is maintained
    NON-EXACT at 1941/1939 with the target 0x44 stack frame but different register/slot
    allocation. Do not reopen these without genuinely new local/TU/compiler evidence.
-   revisit the two larger Player collision owners `0x0041DC20/0x0041DFF0`
+   The shared Player math leaf `Float3::operator/ @ 0x0040F5A0` is now canonical exact;
+   next recover the small Player helpers `0x0041BC90/0x0041BEE0` before revisiting
+   the two larger collision owners `0x0041DC20/0x0041DFF0`
    after their shared layouts/helpers are recovered. These ranges remain routing
    hypotheses; establish every owner, ABI, boundary, and source mapping from
    TH09 evidence.

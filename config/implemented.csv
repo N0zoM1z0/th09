@@ -645,3 +645,4 @@ TitleScreenView::DrawMusicRoom
 TitleScreenView::DrawReplaySave
 TitleScreenView::DrawReplayMenu
 TitleScreenView::DrawResult
+Float3::operator/
