@@ -818,3 +818,11 @@ name into a TH09 fact without target-local evidence.
 - The pinned library identities are VC7.1 `libcmt.lib` SHA-256 `6e2b3742e58245de52149137f64281b73db1487a07a31e165fff269fbf9b2ee8` and `libcpmt.lib` SHA-256 `c887292bc98d87ab18d151289c68ade30fa078f680b042911312a42a34d659f5`. Ledger classification is 351 `library / CRT`, fourteen `library / Library` where the identical body occurs in more than one pinned archive family, and five `import_thunk / Imports`; all are excluded from the authored denominator.
 - The exact import-thunk extents are `DirectInput8Create @ 0x0044E5A0`, `DirectSoundCreate8 @ 0x0044E5A6`, `Direct3DCreate8 @ 0x0044E5AC`, `WINNLSEnableIME @ 0x0047B04E`, and `RtlUnwind @ 0x0048D204`. Each is exactly six bytes and names an IAT slot parsed from the attested TH09 image.
 - Tracking becomes 443 pending / 1,087 exclusions. The remaining review cohort is deliberately not bulk-promoted: 49 findings have fewer than five stable non-relocation bytes and 394 candidates are unmatched by the pinned library archives. Authored/source/exact totals stay 634/570/503.
+
+
+## Packet 201 target-context review of short runtime bodies
+
+- Thirty-one of the 49 short shape-only findings are now resolved by independent target context, not by their one-to-six stable bytes alone. Twenty-eight lie inside the contiguous D3DX8 linker run and three lie inside the CRT run; every reviewed extent is bracketed by already proven runtime exclusions, and target xrefs/callees are consistent with that placement.
+- The reviewed set totals 162 bytes and is classified `library / D3DX8` (28) or `library / CRT` (3), with `exclude / high` disposition. No source-presence or exact-codegen credit is granted. The three CRT cases are the `_free` and `_atol` forwarding entries at `0x0047B249` and `0x0047B7EA`, plus the three-byte helper at `0x004889B8`.
+- `scripts/apply-context-origin-review.py` reproduces the selection conservatively: it requires the weak pinned-COFF audit result, pending ledger state, and reviewed neighboring runtime exclusions before changing a row. Eighteen short findings remain pending: eleven target-local global initializer/terminator wrappers at the end of `.text` and seven genuinely ambiguous game-side short bodies.
+- Tracking becomes 412 pending / 1,118 exclusions; authored/source/exact remain 634/570/503.
