@@ -17,7 +17,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
 | Source-present authored mappings | 651 |
-| Canonical exact functions | 521 |
+| Canonical exact functions | 522 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -76,9 +76,9 @@ candidate as already applied.
 ## Exact reconstruction state
 
 `config/implemented.csv` contains 651 source-present authored mappings. Of
-these, 521 are canonical exact and 130 retain honest non-exact compiler results.
-`config/matches.csv` contains 521 complete target-bound VC7.1 matches totaling
-75,573 exact authored bytes. Source presence, origin, exactness, product
+these, 522 are canonical exact and 129 retain honest non-exact compiler results.
+`config/matches.csv` contains 522 complete target-bound VC7.1 matches totaling
+76,387 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -127,10 +127,10 @@ generation, or folded ownership.
    The shared Player math leaf `Float3::operator/ @ 0x0040F5A0` is now canonical exact;
    The small Player helper packet is now closed: `AddRespawnResource @ 0x0041BC90`
    and `CalcItemCollectionCollision @ 0x0041BEE0` are canonical exact.
-   `PlayerLifecycleView::UpdateBeforeState @ 0x0041DC20` is now source-present
-   NON-EXACT; its remaining natural codegen frontier depends on the source-absent
-   owner-state routine `0x0041D150` and its target-private ST0 float ABI. Next
-   recover `PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0` before
+   `PlayerLifecycleView::UpdateBeforeState @ 0x0041DC20` is now canonical exact
+   after TH09 call-site review corrected `PlayerOwnerStateView::ApplyReward` to
+   position + four integer arguments (the previously inferred float was spurious).
+   Next recover `PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0` before
    after their shared layouts/helpers are recovered. These ranges remain routing
    hypotheses; establish every owner, ABI, boundary, and source mapping from
    TH09 evidence.

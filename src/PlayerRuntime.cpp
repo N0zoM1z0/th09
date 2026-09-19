@@ -727,13 +727,13 @@ PlayerLifecycleView::PlayerLifecycleView()
 
 void PlayerLifecycleView::UpdateBeforeState()
 {
+    PlayerRewardTailStateView *state =
+        reinterpret_cast<PlayerRewardTailStateView *>(tailStates30454);
     Float3 collectionSize(
         primaryShtFile->itemCollectionBoxSize,
         primaryShtFile->itemCollectionBoxSize, 16.0f);
     targetOverride30F64.x = -1000.0f;
 
-    PlayerRewardTailStateView *state =
-        reinterpret_cast<PlayerRewardTailStateView *>(tailStates30454);
     int i;
     for (i = 0; i < 4; ++i, ++state)
     {
@@ -748,13 +748,13 @@ void PlayerLifecycleView::UpdateBeforeState()
         }
 
         float motionValue = state->velocity10.y;
-        if (motionValue >= 3.0f)
-            state->velocity10.y = 3.0f;
-        else
+        if (motionValue < 3.0f)
         {
             motionValue = state->velocity10.y + 0.03f;
             state->velocity10.y = motionValue;
         }
+        else
+            state->velocity10.y = 3.0f;
 
         if (CalcItemCollectionCollision(
                 &state->position04,
@@ -834,11 +834,11 @@ void PlayerLifecycleView::UpdateBeforeState()
                 break;
             case 2:
                 ownerState30410.ApplyReward(
-                    motionValue, &position1B88, 1, 0, 400, 0);
+                    &position1B88, 1, 0, 400, 0);
                 break;
             case 3:
                 ownerState30410.ApplyReward(
-                    motionValue, &position1B88, 0, 0, 0, 70000);
+                    &position1B88, 0, 0, 0, 70000);
                 break;
             default:
                 break;

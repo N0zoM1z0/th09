@@ -262,7 +262,7 @@ struct PlayerOwnerStateView
     void *callback40;
 
     PlayerOwnerStateView();
-    int ApplyReward(float motionValue, PlayerPositionView *position,
+    int ApplyReward(PlayerPositionView *position,
                     int value0, int value1, int value2, int value3);
 };
 typedef char PlayerOwnerStateSizeIs44[(sizeof(PlayerOwnerStateView) == 0x44) ? 1 : -1];
