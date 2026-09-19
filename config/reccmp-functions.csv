@@ -676,3 +676,4 @@ AnmProjectionAbs,0x0040F1C0,function
 EnemyEclManagerView::GetSubroutineCount,0x0040F160,function
 EnemyEclManagerView::GetSubroutine,0x0040F170,function
 EnemyView::ResetBulletRankInfluence,0x0040F180,function
+ZunTimer::operator-=(int),0x0041F300,function

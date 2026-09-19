@@ -17,6 +17,7 @@ struct ZunTimer
     int operator%(int value);
     void operator+=(int value);
     void operator+=(float value);
+    void operator-=(int value);
     void operator-=(float value);
     void Increment(int value);
     void Increment(float value);
