@@ -10278,3 +10278,105 @@ relocations = [
   { offset = 0x122, type = "REL32", symbol = "??NZunTimer@@QAEIH@Z", target = 0x00406720 },
   { offset = 0x12F, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
 ]
+
+[units.player-allocate-collision-region]
+source = "src/PlayerCollisionRegionCreate.cpp"
+object = "build/matching/PlayerCollisionRegionCreate.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerCollisionRegionCreateView::AllocateCollisionRegion"]
+symbol = "?AllocateCollisionRegion@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z"
+target_address = 0x0041CF30
+size = 0x6E
+relocations = [
+  { offset = 0x46, type = "REL32", symbol = "?Reset@PlayerCollisionRegionCreateRegionView@@QAEHXZ", target = 0x0041BDA0 },
+]
+
+[units.player-create-rect-type1]
+source = "src/PlayerCollisionRegionCreate.cpp"
+object = "build/matching/PlayerCollisionRegionCreate.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerCollisionRegionCreateView::CreateRectType1"]
+symbol = "?CreateRectType1@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z"
+target_address = 0x0041CFA0
+size = 0x37
+relocations = [
+  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
+  { offset = 0x19, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x2C, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+]
+
+[units.player-create-circle-type1]
+source = "src/PlayerCollisionRegionCreate.cpp"
+object = "build/matching/PlayerCollisionRegionCreate.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerCollisionRegionCreateView::CreateCircleType1"]
+symbol = "?CreateCircleType1@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z"
+target_address = 0x0041CFE0
+size = 0x2B
+relocations = [
+  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
+]
+
+[units.player-create-rect-type0]
+source = "src/PlayerCollisionRegionCreate.cpp"
+object = "build/matching/PlayerCollisionRegionCreate.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerCollisionRegionCreateView::CreateRectType0"]
+symbol = "?CreateRectType0@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z"
+target_address = 0x0041D010
+size = 0x3D
+relocations = [
+  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
+  { offset = 0x19, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x32, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+]
+
+[units.player-create-circle-type0]
+source = "src/PlayerCollisionRegionCreate.cpp"
+object = "build/matching/PlayerCollisionRegionCreate.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerCollisionRegionCreateView::CreateCircleType0"]
+symbol = "?CreateCircleType0@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z"
+target_address = 0x0041D050
+size = 0x31
+relocations = [
+  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
+]
+
+[units.player-create-rect-type4]
+source = "src/PlayerCollisionRegionCreate.cpp"
+object = "build/matching/PlayerCollisionRegionCreate.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerCollisionRegionCreateView::CreateRectType4"]
+symbol = "?CreateRectType4@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z"
+target_address = 0x0041D090
+size = 0x3D
+relocations = [
+  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
+  { offset = 0x19, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x32, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+]
+
+[units.player-create-circle-type4]
+source = "src/PlayerCollisionRegionCreate.cpp"
+object = "build/matching/PlayerCollisionRegionCreate.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerCollisionRegionCreateView::CreateCircleType4"]
+symbol = "?CreateCircleType4@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z"
+target_address = 0x0041D0D0
+size = 0x31
+relocations = [
+  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
+]
+
+[units.player-create-circle-type2]
+source = "src/PlayerCollisionRegionCreate.cpp"
+object = "build/matching/PlayerCollisionRegionCreate.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerCollisionRegionCreateView::CreateCircleType2"]
+symbol = "?CreateCircleType2@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z"
+target_address = 0x0041D110
+size = 0x31
+relocations = [
+  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
+]
