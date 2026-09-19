@@ -644,3 +644,4 @@ AnmManager::LoadSurface,0x0043CAE0,function
 AnmManager::PreloadSurface,0x0043CCD0,function
 TitleScreenView::DrawMusicRoom,0x004244A9,function
 TitleScreenView::DrawReplaySave,0x004239F6,function
+TitleScreenView::DrawReplayMenu,0x004234F6,function

@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 645 |
+| Source-present authored mappings | 646 |
 | Canonical exact functions | 518 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -75,8 +75,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 645 source-present authored mappings. Of
-these, 518 are canonical exact and 127 retain honest non-exact compiler results.
+`config/implemented.csv` contains 646 source-present authored mappings. Of
+these, 518 are canonical exact and 128 retain honest non-exact compiler results.
 `config/matches.csv` contains 518 complete target-bound VC7.1 matches totaling
 75,146 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -111,18 +111,19 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 345
-   authored functions / 100,700 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 344
+   authored functions / 99,420 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
    NON-EXACT at 568/600. The routed ANM surface-load seam
    `0x0043CAE0-0x0043CD35` is now closed with exact LoadSurface/PreloadSurface.
    In Ascii/Title `0x004234F6-0x00424579`, exact `DrawMusicRoom @ 0x004244A9`
-   closes the screen-12 leaf and `DrawReplaySave @ 0x004239F6` is now maintained
-   NON-EXACT at 783/800 after bounded natural compiler-shape probes. The remaining
-   no-source owners are `0x004234F6` (ReplayMenu) and `0x00423D16`
-   (Result/NameEntry). Do not reopen DrawReplaySave without new Float3/local/TU evidence.
+   is closed; `DrawReplaySave @ 0x004239F6` is maintained NON-EXACT at 783/800,
+   and `DrawReplayMenu @ 0x004234F6` is maintained NON-EXACT at 1244/1280 after
+   bounded natural compiler-shape probes. The only remaining no-source owner in this
+   routed seam is `0x00423D16` (Result/NameEntry draw family). Do not reopen the
+   two non-exact draw owners without genuinely new local/TU/compiler evidence.
    revisit the two larger Player collision owners `0x0041DC20/0x0041DFF0`
    after their shared layouts/helpers are recovered. These ranges remain routing
    hypotheses; establish every owner, ABI, boundary, and source mapping from

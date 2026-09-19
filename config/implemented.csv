@@ -643,3 +643,4 @@ AnmManager::LoadSurface
 AnmManager::PreloadSurface
 TitleScreenView::DrawMusicRoom
 TitleScreenView::DrawReplaySave
+TitleScreenView::DrawReplayMenu
