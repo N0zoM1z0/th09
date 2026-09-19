@@ -633,3 +633,4 @@ SoundPlayer::ProcessQueues
 ZunMemory::~ZunMemory
 SoundPlayer::SoundPlayer
 PlayerUpdateStageC
+PlayerCheckState4

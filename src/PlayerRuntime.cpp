@@ -2,6 +2,7 @@
 #include "FileSystem.hpp"
 #include "ZunMemory.hpp"
 #include "ZunTimer.hpp"
+#include "AsciiManager.hpp"
 
 #include <stddef.h>
 
@@ -410,7 +411,28 @@ extern PlayerSoundRuntimeView g_SoundPlayer;
 extern unsigned int g_PlayerUpdateGateFlags;
 extern int g_PlayerTimingTable[][7];
 
-extern int PlayerCheckState4();
+struct PlayerState4TimerCurrentView
+{
+    int GetCurrent();
+};
+
+struct PlayerState4OpsView
+{
+    void AddRespawnResource(float value);
+    void SetUpdateState(int state);
+    void SpawnTransitionA(
+        PlayerPositionView *position, float x, float y, int kind, int zero);
+    void SpawnTransitionB(
+        PlayerPositionView *position, float x, float y,
+        int subtype, int kind, int zero);
+};
+
+extern float g_PlayerState4MinX;
+extern float g_PlayerState4MinY;
+extern float g_PlayerState4Width;
+extern float g_PlayerState4Height;
+
+static int PlayerCheckState4(PlayerLifecycleView *player);
 extern int PlayerCheckState2();
 extern void PlayerTransitionSpecial();
 extern void PlayerUpdateCommon();
@@ -456,6 +478,52 @@ void __fastcall PlayerUpdateOwnerState(void *opaqueState)
     }
 }
 
+static int PlayerCheckState4(PlayerLifecycleView *player)
+{
+    ZunTimer *timer =
+        reinterpret_cast<ZunTimer *>(&player->timer303C8);
+
+    if ((float)*timer < 60.0f)
+    {
+        *reinterpret_cast<Float3 *>(&player->position1B88) +=
+            *reinterpret_cast<Float3 *>(
+                reinterpret_cast<unsigned char *>(player) + 0x1CCC) *
+            (60.0f - (float)*timer) / 20.0f;
+
+        float *position =
+            reinterpret_cast<Float3 *>(&player->position1B88)->operator float *();
+        if (position[0] < g_PlayerState4MinX)
+            position[0] = g_PlayerState4MinX;
+        else if (position[0] > g_PlayerState4MinX + g_PlayerState4Width)
+            position[0] = g_PlayerState4MinX + g_PlayerState4Width;
+
+        if (position[1] < g_PlayerState4MinY)
+            position[1] = g_PlayerState4MinY;
+        else if (position[1] > g_PlayerState4MinY + g_PlayerState4Height)
+            position[1] = g_PlayerState4MinY + g_PlayerState4Height;
+
+        int timerCurrent =
+            reinterpret_cast<PlayerState4TimerCurrentView *>(timer)->GetCurrent();
+        reinterpret_cast<unsigned int &>(player->mainVm.color1F0) =
+            ((255 * timerCurrent / 10) << 24) | 0x00FFFFFF;
+        return 0;
+    }
+
+    float respawnValue;
+    if (player->header24.state84 == 1)
+        respawnValue = 400.0f;
+    else
+        respawnValue = 130.0f - player->header24.state84 * 10.0f;
+
+    PlayerState4OpsView *ops = reinterpret_cast<PlayerState4OpsView *>(player);
+    ops->AddRespawnResource(respawnValue);
+    ops->SetUpdateState(3);
+    *timer = 60;
+    ops->SpawnTransitionA(&player->position1B88, 16.0f, 20.0f, 8, 0);
+    ops->SpawnTransitionB(&player->position1B88, 16.0f, 20.0f, 10, 8, 0);
+    return 0;
+}
+
 static int PlayerUpdateStageC(PlayerLifecycleView *player)
 {
     if (!player->GetUpdateState())
@@ -498,7 +566,7 @@ int __fastcall PlayerLifecycleView::OnUpdate(PlayerLifecycleView *player)
 
     if (player->GetUpdateState() == 4)
     {
-        if (PlayerCheckState4())
+        if (PlayerCheckState4(player))
             goto transitionSpecial;
         goto afterTransition;
     }

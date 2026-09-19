@@ -509,3 +509,4 @@ address,name,size,status,match_percent,unit,evidence
 0x0042B0E0,ZunMemory::~ZunMemory,44,matching,100.00,zun-memory-destructor,python3 scripts/build-match-unit.py --unit zun-memory-destructor && python3 scripts/compare-coff-function.py --unit zun-memory-destructor --json
 0x0043E470,SoundPlayer::SoundPlayer,34,matching,100.00,soundplayer-constructor,python3 scripts/build-match-unit.py --unit soundplayer-constructor && python3 scripts/compare-coff-function.py --unit soundplayer-constructor --json
 0x0041E8B0,PlayerUpdateStageC,74,matching,100.00,player-update-stage-c,python3 scripts/build-match-unit.py --unit player-update-stage-c && python3 scripts/compare-coff-function.py --unit player-update-stage-c --json
+0x0041E720,PlayerCheckState4,400,matching,100.00,player-check-state-4,python3 scripts/build-match-unit.py --unit player-check-state-4 && python3 scripts/compare-coff-function.py --unit player-check-state-4 --json

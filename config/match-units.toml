@@ -6766,6 +6766,41 @@ relocations = [
   { offset = 0x4D, type = "REL32", symbol = "_free", target = 0x0047B249 },
 ]
 
+[units.player-check-state-4]
+source = "src/PlayerRuntime.cpp"
+object = "build/matching/PlayerRuntime.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerCheckState4"]
+symbol = "?PlayerCheckState4@@YIHPAUPlayerLifecycleView@@@Z"
+target_address = 0x0041E720
+size = 0x190
+relocations = [
+  { offset = 0x010, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
+  { offset = 0x016, type = "DIR32", symbol = "__real@42700000", target = 0x0048E4A4 },
+  { offset = 0x038, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
+  { offset = 0x03E, type = "DIR32", symbol = "__real@42700000", target = 0x0048E4A4 },
+  { offset = 0x051, type = "REL32", symbol = "??DFloat3@@QBE?AU0@M@Z", target = 0x00401180 },
+  { offset = 0x058, type = "REL32", symbol = "??KFloat3@@QBE?AU0@M@Z", target = 0x0040F5A0 },
+  { offset = 0x060, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
+  { offset = 0x067, type = "REL32", symbol = "??BFloat3@@QAEPAMXZ", target = 0x004343D0 },
+  { offset = 0x072, type = "DIR32", symbol = "?g_PlayerState4MinX@@3MA", target = 0x004A80F0 },
+  { offset = 0x07F, type = "DIR32", symbol = "?g_PlayerState4MinX@@3MA", target = 0x004A80F0 },
+  { offset = 0x089, type = "DIR32", symbol = "?g_PlayerState4Width@@3MA", target = 0x004A80F8 },
+  { offset = 0x08F, type = "DIR32", symbol = "?g_PlayerState4MinX@@3MA", target = 0x004A80F0 },
+  { offset = 0x0A7, type = "DIR32", symbol = "?g_PlayerState4MinY@@3MA", target = 0x004A80F4 },
+  { offset = 0x0B3, type = "DIR32", symbol = "?g_PlayerState4MinY@@3MA", target = 0x004A80F4 },
+  { offset = 0x0BE, type = "DIR32", symbol = "?g_PlayerState4Height@@3MA", target = 0x004A80FC },
+  { offset = 0x0C4, type = "DIR32", symbol = "?g_PlayerState4MinY@@3MA", target = 0x004A80F4 },
+  { offset = 0x0DC, type = "REL32", symbol = "?GetCurrent@PlayerState4TimerCurrentView@@QAEHXZ", target = 0x00435F00 },
+  { offset = 0x12B, type = "DIR32", symbol = "__real@41200000", target = 0x0048E32C },
+  { offset = 0x131, type = "DIR32", symbol = "__real@43020000", target = 0x0048EFA0 },
+  { offset = 0x13F, type = "REL32", symbol = "?AddRespawnResource@PlayerState4OpsView@@QAEXM@Z", target = 0x0041BC90 },
+  { offset = 0x148, type = "REL32", symbol = "?SetUpdateState@PlayerState4OpsView@@QAEXH@Z", target = 0x00403C20 },
+  { offset = 0x151, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x16D, type = "REL32", symbol = "?SpawnTransitionA@PlayerState4OpsView@@QAEXPAUPlayerPositionView@@MMHH@Z", target = 0x0041CFE0 },
+  { offset = 0x185, type = "REL32", symbol = "?SpawnTransitionB@PlayerState4OpsView@@QAEXPAUPlayerPositionView@@MMHHH@Z", target = 0x0041D0D0 },
+]
+
 [units.player-update-stage-c]
 source = "src/PlayerRuntime.cpp"
 object = "build/matching/PlayerRuntime.obj"
@@ -6796,7 +6831,7 @@ relocations = [
   { offset = 0x46, type = "DIR32", symbol = "?g_PlayerSupervisorRuntime@@3UPlayerSupervisorRuntimeView@@A", target = 0x004B3100 },
   { offset = 0x4B, type = "REL32", symbol = "?SelectSide@PlayerSupervisorRuntimeView@@QAEXH@Z", target = 0x00401440 },
   { offset = 0x52, type = "REL32", symbol = "?GetUpdateState@PlayerLifecycleView@@QAEHXZ", target = 0x00435EC0 },
-  { offset = 0x5C, type = "REL32", symbol = "?PlayerCheckState4@@YIHXZ", target = 0x0041E720 },
+  { offset = 0x5C, type = "REL32", symbol = "?PlayerCheckState4@@YIHPAUPlayerLifecycleView@@@Z", target = 0x0041E720 },
   { offset = 0x69, type = "REL32", symbol = "?GetUpdateState@PlayerLifecycleView@@QAEHXZ", target = 0x00435EC0 },
   { offset = 0x73, type = "REL32", symbol = "?PlayerCheckState2@@YIHXZ", target = 0x0044AB20 },
   { offset = 0x80, type = "REL32", symbol = "?GetUpdateState@PlayerLifecycleView@@QAEHXZ", target = 0x00435EC0 },
