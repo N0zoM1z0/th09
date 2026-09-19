@@ -106,6 +106,8 @@ class AnmManager
     void DrawTextInner(IDirect3DTexture8 *outTexture, int x, int y, int width, int height, int fontWidth, int fontHeight, unsigned long textColor, unsigned long outlineColor, const char *buffer, float scaleFactorX, float scaleFactorY);
     void DrawTextLeft(AnmVm *vm, unsigned long textColor, unsigned long shadowColor, const char *format, ...);
     void DrawTextCentered(AnmVm *vm, unsigned long textColor, unsigned long shadowColor, const char *format, ...);
+    int LoadSurface(int surfaceIndex, const char *path);
+    int PreloadSurface(int surfaceIndex, const char *path);
     void ReleaseSurface(int surfaceIndex);
     void CopySurfaceToBackbuffer(int surfaceIndex, int left, int top, int x, int y);
     void CopySurfaceToBackbuffer2(int surfaceIndex, int rectX, int rectY, int rectLeft, int rectTop, int width, int height);

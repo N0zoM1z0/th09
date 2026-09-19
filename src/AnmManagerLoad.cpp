@@ -624,3 +624,169 @@ AnmManager::AnmManager()
     *reinterpret_cast<int *>(self + 0x1287C) = 1;
     self[0x12888] = 0xFF;
 }
+
+struct D3DXIMAGE_INFO
+{
+    unsigned int Width;
+    unsigned int Height;
+    unsigned int Depth;
+    unsigned int MipLevels;
+    D3DFORMAT Format;
+};
+typedef char D3dxImageInfoSizeIs14[(sizeof(D3DXIMAGE_INFO) == 0x14) ? 1 : -1];
+
+struct AnmManagerSurfaceLoadView
+{
+    unsigned char unknown000[0x123FC];
+    IDirect3DSurface8 *surfaces[32];
+    IDirect3DSurface8 *surfacesBis[32];
+    unsigned char *surfaceData[32];
+    int surfaceDataSizes[32];
+    D3DXIMAGE_INFO surfaceInfo[32];
+};
+typedef char AnmLoadSurfacePrimaryAt123FC[
+    (offsetof(AnmManagerSurfaceLoadView, surfaces) == 0x123FC) ? 1 : -1];
+typedef char AnmLoadSurfaceSecondaryAt1247C[
+    (offsetof(AnmManagerSurfaceLoadView, surfacesBis) == 0x1247C) ? 1 : -1];
+typedef char AnmLoadSurfaceDataAt124FC[
+    (offsetof(AnmManagerSurfaceLoadView, surfaceData) == 0x124FC) ? 1 : -1];
+typedef char AnmLoadSurfaceSizesAt1257C[
+    (offsetof(AnmManagerSurfaceLoadView, surfaceDataSizes) == 0x1257C) ? 1 : -1];
+typedef char AnmLoadSurfaceInfoAt125FC[
+    (offsetof(AnmManagerSurfaceLoadView, surfaceInfo) == 0x125FC) ? 1 : -1];
+
+struct SupervisorAnmSurfaceLoadView
+{
+    unsigned char unknown000[0x08];
+    IDirect3DDevice8 *d3dDevice;
+    unsigned char unknown00C[0x350 - 0x0C];
+    D3DPRESENT_PARAMETERS presentParameters;
+};
+typedef char SupervisorAnmSurfaceDeviceAt08[
+    (offsetof(SupervisorAnmSurfaceLoadView, d3dDevice) == 0x08) ? 1 : -1];
+typedef char SupervisorAnmSurfaceFormatAt358[
+    (offsetof(SupervisorAnmSurfaceLoadView, presentParameters.BackBufferFormat) == 0x358) ? 1 : -1];
+
+extern const char g_AnmSurfaceCannotLoadMessage[];
+
+HRESULT WINAPI D3DXLoadSurfaceFromFileInMemory(
+    IDirect3DSurface8 *destSurface, const PALETTEENTRY *destPalette,
+    const RECT *destRect, const void *srcData, unsigned int srcDataSize,
+    const RECT *srcRect, unsigned long filter, D3DCOLOR colorKey,
+    D3DXIMAGE_INFO *srcInfo);
+
+static __inline AnmManagerSurfaceLoadView *SurfaceLoadView(AnmManager *manager)
+{
+    return reinterpret_cast<AnmManagerSurfaceLoadView *>(manager);
+}
+
+static __inline SupervisorAnmSurfaceLoadView *SurfaceLoadSupervisor()
+{
+    return reinterpret_cast<SupervisorAnmSurfaceLoadView *>(&g_Supervisor);
+}
+
+int AnmManager::LoadSurface(int surfaceIndex, const char *path)
+{
+    unsigned char *fileData;
+    int fileSize;
+    IDirect3DSurface8 *surface;
+    AnmManagerSurfaceLoadView *manager = SurfaceLoadView(this);
+
+    if (manager->surfaces[surfaceIndex] != NULL)
+        this->ReleaseSurface(surfaceIndex);
+
+    if (manager->surfaceData[surfaceIndex] == NULL)
+    {
+        fileData = FileSystem::OpenFile(path, &fileSize, 0);
+        if (fileData == NULL)
+        {
+            g_GameErrorContext.Fatal(g_AnmSurfaceCannotLoadMessage, path);
+            return -1;
+        }
+    }
+    else
+    {
+        fileData = manager->surfaceData[surfaceIndex];
+        fileSize = manager->surfaceDataSizes[surfaceIndex];
+        manager->surfaceData[surfaceIndex] = NULL;
+    }
+
+    if (SurfaceLoadSupervisor()->d3dDevice->CreateImageSurface(
+            640, 1024,
+            SurfaceLoadSupervisor()->presentParameters.BackBufferFormat,
+            &surface) != D3D_OK)
+        return -1;
+
+    if (D3DXLoadSurfaceFromFileInMemory(
+            surface, NULL, NULL, fileData, fileSize, NULL, 1, 0,
+            &manager->surfaceInfo[surfaceIndex]) != D3D_OK)
+        goto error;
+
+    if (SurfaceLoadSupervisor()->d3dDevice->CreateRenderTarget(
+            manager->surfaceInfo[surfaceIndex].Width,
+            manager->surfaceInfo[surfaceIndex].Height,
+            SurfaceLoadSupervisor()->presentParameters.BackBufferFormat,
+            D3DMULTISAMPLE_NONE, TRUE, &manager->surfaces[surfaceIndex]) != D3D_OK)
+    {
+        if (SurfaceLoadSupervisor()->d3dDevice->CreateImageSurface(
+                manager->surfaceInfo[surfaceIndex].Width,
+                manager->surfaceInfo[surfaceIndex].Height,
+                SurfaceLoadSupervisor()->presentParameters.BackBufferFormat,
+                &manager->surfaces[surfaceIndex]) != D3D_OK)
+            goto error;
+    }
+
+    if (SurfaceLoadSupervisor()->d3dDevice->CreateImageSurface(
+            manager->surfaceInfo[surfaceIndex].Width,
+            manager->surfaceInfo[surfaceIndex].Height,
+            SurfaceLoadSupervisor()->presentParameters.BackBufferFormat,
+            &manager->surfacesBis[surfaceIndex]) != D3D_OK)
+        goto error;
+
+    if (D3DXLoadSurfaceFromSurface(
+            manager->surfaces[surfaceIndex], NULL, NULL,
+            surface, NULL, NULL, 1, 0) != D3D_OK)
+        goto error;
+
+    if (D3DXLoadSurfaceFromSurface(
+            manager->surfacesBis[surfaceIndex], NULL, NULL,
+            surface, NULL, NULL, 1, 0) != D3D_OK)
+        goto error;
+
+    if (surface != NULL)
+    {
+        surface->Release();
+        surface = NULL;
+    }
+    g_ZunMemory.Free(fileData);
+    return 0;
+
+error:
+    if (surface != NULL)
+    {
+        surface->Release();
+        surface = NULL;
+    }
+    g_ZunMemory.Free(fileData);
+    return -1;
+}
+
+int AnmManager::PreloadSurface(int surfaceIndex, const char *path)
+{
+    AnmManagerSurfaceLoadView *manager = SurfaceLoadView(this);
+    int fileSize;
+
+    if (manager->surfaces[surfaceIndex] != NULL)
+        this->ReleaseSurface(surfaceIndex);
+
+    unsigned char *fileData = FileSystem::OpenFile(path, &fileSize, 0);
+    if (fileData == NULL)
+    {
+        g_GameErrorContext.Fatal(g_AnmSurfaceCannotLoadMessage, path);
+        return -1;
+    }
+
+    manager->surfaceData[surfaceIndex] = fileData;
+    manager->surfaceDataSizes[surfaceIndex] = fileSize;
+    return 0;
+}

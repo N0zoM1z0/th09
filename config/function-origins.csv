@@ -841,8 +841,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043C7A0,authored_game,AnmManager,authored,high,packet130-anm-loader-lifecycle-2026-09-15
 0x0043C800,authored_game,AnmManager,authored,high,packet130-anm-loader-lifecycle-2026-09-15
 0x0043CA30,authored_game,AnmManager,authored,high,packet130-anm-loader-lifecycle-2026-09-15
-0x0043CAE0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0043CCD0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0043CAE0,authored_game,AnmManager,authored,high,packet216-anm-surface-load-exact-2026-09-20
+0x0043CCD0,authored_game,AnmManager,authored,high,packet216-anm-surface-load-exact-2026-09-20
 0x0043CD40,authored_game,AnmManager,authored,high,packet130-anm-loader-lifecycle-2026-09-15
 0x0043CDD0,authored_game,AnmManager,authored,high,packet130-anm-loader-lifecycle-2026-09-15
 0x0043CE30,authored_game,AnmManager,authored,high,packet130-anm-loader-lifecycle-2026-09-15

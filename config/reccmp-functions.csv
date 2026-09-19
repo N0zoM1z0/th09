@@ -640,3 +640,5 @@ PlayerLifecycleView::CheckGrazeCollision,0x0041E350,function
 DrawSingleBullet,0x00413AF0,function
 EtamaController::OnDraw,0x00413BE0,function
 EtamaController::AddedCallback,0x00413E40,function
+AnmManager::LoadSurface,0x0043CAE0,function
+AnmManager::PreloadSurface,0x0043CCD0,function

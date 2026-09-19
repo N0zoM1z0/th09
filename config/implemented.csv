@@ -639,3 +639,5 @@ PlayerLifecycleView::CheckGrazeCollision
 DrawSingleBullet
 EtamaController::OnDraw
 EtamaController::AddedCallback
+AnmManager::LoadSurface
+AnmManager::PreloadSurface
