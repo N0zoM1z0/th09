@@ -10510,3 +10510,15 @@ size = 0x25
 relocations = [
   { offset = 0x12, type = "REL32", symbol = "?InitializeShot@PlayerSpawnFrameView@@QAIXPAUPlayerSpawnFrameShotView@@PAUPlayerSpawnFrameDescriptorView@@@Z", target = 0x0041F350 },
 ]
+
+[units.player-spawn-shots]
+source = "src/PlayerSpawnShots.cpp"
+object = "build/matching/PlayerSpawnShots.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerSpawnShotsView::SpawnShots"]
+symbol = "?SpawnShots@PlayerSpawnShotsView@@QAIXHH@Z"
+target_address = 0x0041F4C0
+size = 0xBE
+relocations = [
+  { offset = 0x52, type = "REL32", symbol = "?SpawnShotWhenFrameMatches@PlayerSpawnShotsView@@QAIHPAUPlayerSpawnShotsShotView@@HPAUPlayerSpawnShotsDescriptorView@@@Z", target = 0x0041F490 },
+]

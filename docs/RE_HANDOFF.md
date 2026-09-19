@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 681 |
-| Canonical exact functions | 548 |
+| Source-present authored mappings | 682 |
+| Canonical exact functions | 549 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 681 source-present authored mappings. Of
-these, 548 are canonical exact and 133 retain honest non-exact compiler results.
-`config/matches.csv` contains 548 complete target-bound VC7.1 matches totaling
-78,119 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 682 source-present authored mappings. Of
+these, 549 are canonical exact and 133 retain honest non-exact compiler results.
+`config/matches.csv` contains 549 complete target-bound VC7.1 matches totaling
+78,309 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 309
-   authored functions / 90,822 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 308
+   authored functions / 90,632 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -186,6 +186,10 @@ generation, or folded ownership.
    Its default frame-match wrapper `0x0041F490` is canonical exact at 37
    bytes; TH09 directly compares timer-current input to descriptor `+0x00`
    before calling InitializeShot, so adjacent TH08 modulo semantics are not imported.
+   The connected descriptor dispatcher `SpawnShots @ 0x0041F4C0` is now
+   canonical exact at the reviewed 190-byte extent: heavy-state supplies timer current
+   in EDX plus power-level 0/1 on stack, and TH09 directly walks the selected 0x38-byte
+   descriptor chain over 128 0x484-byte shot slots.
 3. **Then attack coherent large non-exact families, not isolated giant owners.**
    The largest maintained frontiers are TitleScreen (21 functions / 19,899
    bytes), ECL (15 / 19,142), EnemyManager (5 / 7,709), Player (11 / 6,999),

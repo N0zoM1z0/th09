@@ -679,3 +679,4 @@ ZunTimer::operator-=(int)
 PlayerResourceSubtractView::SubtractResourceClamped
 PlayerShotInitPlayerView::InitializeShot
 PlayerSpawnFrameView::SpawnShotWhenFrameMatches
+PlayerSpawnShotsView::SpawnShots
