@@ -74,6 +74,7 @@ enum SoundPlayerCommandOpcode
 class SoundPlayer
 {
   public:
+    SoundPlayer();
     LPDIRECTSOUND dsoundHdl;
     int unknown004;
     LPDIRECTSOUNDBUFFER soundBuffers[128];
@@ -126,8 +127,17 @@ class SoundPlayer
 };
 
 typedef char SoundPlayerProcessViewSize[(sizeof(SoundPlayer) == 0x6224) ? 1 : -1];
+typedef char SoundPlayerMetadataAt408[
+    (offsetof(SoundPlayer, unconsumedMetadataBySound) == 0x408) ? 1 : -1];
 
 extern SoundPlayer g_SoundPlayer;
+
+SoundPlayer::SoundPlayer()
+{
+    ZeroMemory(this, sizeof(SoundPlayer));
+    for (int i = 0; i < 128; ++i)
+        this->unconsumedMetadataBySound[i] = -1;
+}
 
 int SoundPlayer::InitializeDSound(HWND gameWindow)
 {

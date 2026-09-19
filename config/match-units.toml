@@ -503,6 +503,18 @@ target_address = 0x00401380
 size = 0x0A
 relocations = []
 
+[units.zun-memory-destructor]
+source = "src/ZunMemoryRelease.cpp"
+object = "build/matching/ZunMemoryRelease.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunMemory::~ZunMemory"]
+symbol = "??1ZunMemory@@QAE@XZ"
+target_address = 0x0042B0E0
+size = 0x2C
+relocations = [
+  { offset = 0x19, type = "REL32", symbol = "_free", target = 0x0047B163 },
+]
+
 [units.pbg-archive-find-entry]
 source = "src/PbgArchiveQuery.cpp"
 object = "build/matching/PbgArchiveQuery.obj"
@@ -3707,6 +3719,16 @@ relocations = [
   { offset = 0x1C, type = "REL32", symbol = "_strrchr", target = 0x0047CAF0 },
   { offset = 0x2B, type = "REL32", symbol = "_strrchr", target = 0x0047CAF0 },
 ]
+
+[units.soundplayer-constructor]
+source = "src/SoundPlayerProcessQueues.cpp"
+object = "build/matching/SoundPlayerProcessQueues.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SoundPlayer::SoundPlayer"]
+symbol = "??0SoundPlayer@@QAE@XZ"
+target_address = 0x0043E470
+size = 0x22
+relocations = []
 
 [units.soundplayer-free-preloaded-bgm]
 source = "src/SoundPlayerProcessQueues.cpp"

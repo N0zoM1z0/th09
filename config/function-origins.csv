@@ -888,7 +888,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043E420,authored_game,SoundManager,authored,high,packet123-zun-audio-accessors-vc71-exact-2026-09-14
 0x0043E430,authored_game,SoundManager,authored,high,packet123-zun-audio-accessors-vc71-exact-2026-09-14
 0x0043E440,authored_game,SoundManager,authored,high,packet123-zun-streaming-fade-vc71-exact-2026-09-14
-0x0043E470,authored_game,GameManager,authored,high,static-init-target-boundary-review-2026-09-19
+0x0043E470,authored_game,SoundPlayer,authored,high,soundplayer-static-init-owner-exact-2026-09-19
 0x0043E4A0,authored_game,SoundPlayer,authored,high,packet113-soundplayer-free-preload-vc71-exact-2026-09-13
 0x0043E4E0,authored_game,SoundPlayer,authored,high,packet123-soundplayer-fade-vc71-exact-2026-09-14
 0x0043E500,authored_game,SoundPlayer,authored,high,packet116-soundplayer-initialize-dsound-vc71-exact-2026-09-13

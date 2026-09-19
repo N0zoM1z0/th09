@@ -630,3 +630,5 @@ AnmManager::Draw3D
 AnmManager::ReadAnmEntries
 AnmManager::AnmManager
 SoundPlayer::ProcessQueues
+ZunMemory::~ZunMemory
+SoundPlayer::SoundPlayer

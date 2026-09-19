@@ -631,3 +631,5 @@ AnmManager::Draw3D,0x0043B1A0,function
 AnmManager::ReadAnmEntries,0x0043C610,function
 AnmManager::AnmManager,0x0043CE30,function
 SoundPlayer::ProcessQueues,0x0043F1F0,function
+ZunMemory::~ZunMemory,0x0042B0E0,function
+SoundPlayer::SoundPlayer,0x0043E470,function
