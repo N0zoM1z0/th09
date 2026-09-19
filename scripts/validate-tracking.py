@@ -82,18 +82,34 @@ def validate() -> dict[str, int]:
     origin_addresses = {row["address"] for row in origins}
     if origin_addresses != function_addresses or len(origins) != len(functions):
         raise ValueError("origin ledger must cover each function exactly once")
+    origin_by_address = {row["address"]: row for row in origins}
     allowed_origins = {"unknown", "authored", "authored_game", "compiler", "compiler_generated", "library", "third_party", "import_thunk", "data", "padding"}
     allowed_dispositions = {"review", "authored", "exclude"}
     for row in origins:
         if row["origin"] not in allowed_origins or row["disposition"] not in allowed_dispositions:
             raise ValueError(f"invalid origin state at {row['address']}")
-    mapping_addresses = {row["address"] for row in mappings}
-    match_addresses = {row["address"] for row in matches}
+    function_by_address = {row["address"]: row for row in functions}
+    mapping_by_address = {row["address"]: row for row in mappings}
+    match_by_address = {row["address"]: row for row in matches}
+    if len(mapping_by_address) != len(mappings) or len(match_by_address) != len(matches):
+        raise ValueError("mapping and match addresses must be unique")
+    mapping_addresses = set(mapping_by_address)
+    match_addresses = set(match_by_address)
     if not mapping_addresses.issubset(function_addresses) or not match_addresses.issubset(function_addresses):
         raise ValueError("mapping or match ledger references an unknown address")
     mapped_names = {row["name"] for row in mappings}
-    if not implemented.issubset(mapped_names):
-        raise ValueError("implemented.csv contains an unmapped source name")
+    if len(mapped_names) != len(mappings):
+        raise ValueError("source mapping names must be unique")
+    if implemented != mapped_names:
+        raise ValueError("implemented.csv and source mappings disagree")
+    if not match_addresses.issubset(mapping_addresses):
+        raise ValueError("exact matches must have source mappings")
+    for address, mapping in mapping_by_address.items():
+        function = function_by_address[address]
+        if mapping["type"] != "function" or mapping["name"] != function["proposed_name"]:
+            raise ValueError(f"source mapping disagrees with function row at {address}")
+        if function["owner"] != "authored" or origin_by_address[address]["disposition"] != "authored":
+            raise ValueError(f"source mapping is not authored at {address}")
     configured_units = units.get("units", {})
     if not isinstance(configured_units, dict):
         raise ValueError("match units must be a table")
@@ -104,6 +120,16 @@ def validate() -> dict[str, int]:
     for row in matches:
         if row["unit"] not in configured_units or row["match_percent"] != "100.00":
             raise ValueError(f"unreplayable exact claim at {row['address']}")
+        function = function_by_address[row["address"]]
+        unit = configured_units[row["unit"]]
+        if row["name"] != function["proposed_name"] or row["size"] != function["size"]:
+            raise ValueError(f"exact match disagrees with function row at {row['address']}")
+        if function["status"] != "matching" or function["match_percent"] != "100.00":
+            raise ValueError(f"function row does not carry exact status at {row['address']}")
+        if int(row["address"], 0) != unit.get("target_address"):
+            raise ValueError(f"match unit target disagrees at {row['address']}")
+        if unit.get("source") != function["source_file"]:
+            raise ValueError(f"match unit source disagrees at {row['address']}")
     if build.get("schema_version") != 1:
         raise ValueError("unsupported build manifest schema")
     acceptance = build.get("acceptance", {})
