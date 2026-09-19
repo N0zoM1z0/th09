@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 684 |
-| Canonical exact functions | 551 |
+| Source-present authored mappings | 686 |
+| Canonical exact functions | 553 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 684 source-present authored mappings. Of
-these, 551 are canonical exact and 133 retain honest non-exact compiler results.
-`config/matches.csv` contains 551 complete target-bound VC7.1 matches totaling
-78,391 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 686 source-present authored mappings. Of
+these, 553 are canonical exact and 133 retain honest non-exact compiler results.
+`config/matches.csv` contains 553 complete target-bound VC7.1 matches totaling
+78,410 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 306
-   authored functions / 90,550 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 304
+   authored functions / 90,531 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -195,7 +195,12 @@ generation, or folded ownership.
    maintained 128x0x5430 Enemy array, while `AsciiManager::SetBossMarkerState @
    0x0040F890` (20 bytes) writes the target-backed marker-state plane at +0x2254.
    Player code consumes the EnemyManager query but does not own it; EnemyManager
-   calls the Ascii setter but does not own that state.
+   calls the Ascii setter but does not own that state. Two tiny shared Player
+   leaves are also now canonical exact: `GetTransitionBlockFlag @ 0x0040D4F0`
+   returns shared-runtime +0x11EA8 used by both reward/death gates, and
+   `ApplyRewardWithStateAdvance @ 0x0040F8B0` increments owner-state +0x38
+   before a natural tail-jump to maintained `ApplyReward`. The latter target
+   independently distinguishes state38 +0x38 from activeFrameCounter +0x3C.
 3. **Then attack coherent large non-exact families, not isolated giant owners.**
    The largest maintained frontiers are TitleScreen (21 functions / 19,899
    bytes), ECL (15 / 19,142), EnemyManager (5 / 7,709), Player (11 / 6,999),

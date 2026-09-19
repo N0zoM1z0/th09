@@ -257,12 +257,15 @@ typedef char PlayerState3031CSizeIs1C[(sizeof(PlayerState3031CView) == 0x1C) ? 1
 struct PlayerOwnerStateView
 {
     void *owner00;
-    unsigned char unknown04[0x38];
+    unsigned char unknown04[0x34];
+    int state38;
     int activeFrameCounter3C;
     void *callback40;
 
     PlayerOwnerStateView();
     int ApplyReward(PlayerPositionView *position,
+                    int value0, int value1, int value2, int value3);
+    int ApplyRewardWithStateAdvance(PlayerPositionView *position,
                     int value0, int value1, int value2, int value3);
 };
 typedef char PlayerOwnerStateSizeIs44[(sizeof(PlayerOwnerStateView) == 0x44) ? 1 : -1];

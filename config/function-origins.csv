@@ -158,7 +158,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0040D320,authored_game,EffectManager,authored,high,effect-system-module-2026-09-15
 0x0040D470,authored_game,EffectManager,authored,high,effect-system-module-2026-09-15
 0x0040D4D0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0040D4F0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0040D4F0,authored_game,Player,authored,high,player-shared-transition-block-exact-2026-09-20
 0x0040D500,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0040E0D0,authored_game,Ending,authored,high,packet164-ending-migration-2026-09-16
 0x0040E130,authored_game,Ending,authored,high,packet164-ending-migration-2026-09-16
@@ -200,7 +200,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0040F840,authored_game,Player,authored,high,runtime-support-leaf-target-replay-2026-09-16
 0x0040F860,authored_game,GameManager,authored,high,game-manager-side-add-score-vc71-exact-2026-09-17
 0x0040F890,authored_game,AsciiManager,authored,high,ascii-boss-marker-state-exact-2026-09-20
-0x0040F8B0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0040F8B0,authored_game,Player,authored,high,player-owner-reward-state-advance-exact-2026-09-20
 0x0040F8C0,authored_game,Player,authored,high,player-owner-state-prepare-reset-vc71-exact-2026-09-17
 0x0040F8E0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0040F9B0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
