@@ -702,3 +702,5 @@ ExAttackController::OnDraw0
 ExAttackController::OnDraw1
 ExAttackController::OnUpdate
 SupervisorFrameQueueView::InsertReceivedFrame
+SupervisorFrameQueueView::InsertPredictedFrame
+SupervisorFrameQueueView::PopFrame

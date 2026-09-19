@@ -703,3 +703,5 @@ ExAttackController::OnDraw0,0x00415460,function
 ExAttackController::OnDraw1,0x00415580,function
 ExAttackController::OnUpdate,0x00415340,function
 SupervisorFrameQueueView::InsertReceivedFrame,0x0042E9E0,function
+SupervisorFrameQueueView::InsertPredictedFrame,0x0042EAC0,function
+SupervisorFrameQueueView::PopFrame,0x0042EB80,function

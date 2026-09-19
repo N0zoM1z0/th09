@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 704 |
+| Source-present authored mappings | 706 |
 | Canonical exact functions | 570 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -75,8 +75,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 704 source-present authored mappings. Of
-these, 570 are canonical exact and 134 retain honest non-exact compiler results.
+`config/implemented.csv` contains 706 source-present authored mappings. Of
+these, 570 are canonical exact and 136 retain honest non-exact compiler results.
 `config/matches.csv` contains 570 complete target-bound VC7.1 matches totaling
 79,781 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 286
-   authored functions / 88,947 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 284
+   authored functions / 88,637 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -256,8 +256,12 @@ generation, or folded ownership.
    two 10x0x0C ordered queues at +0x47C and last-received records at +0x56C;
    the best natural candidate is a stable 211/213. The remaining two-byte
    frontier is register/temporary-slot allocation, so do not force it. Next prefer
-   the adjacent queue leaves `InsertPredictedFrame @ 0x0042EAC0` and
-   `PopFrame @ 0x0042EB80`, whose owner/layout are now fixed.
+   the adjacent queue leaves are now source-closed too: `InsertPredictedFrame @
+   0x0042EAC0` is a stable 176/191 natural candidate, while `PopFrame @
+   0x0042EB80` is target-sized 119/119 after target-backed u16 return-type
+   refinement but retains ten ordinary register-allocation byte differences. All
+   three queue methods now share one coherent Supervisor layout; do not force their
+   remaining register/temporary-slot frontiers.
 3. **Then attack coherent large non-exact families, not isolated giant owners.**
    The largest maintained frontiers are TitleScreen (21 functions / 19,899
    bytes), ECL (15 / 19,142), EnemyManager (5 / 7,709), Player (11 / 6,999),

@@ -613,8 +613,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042E9B0,authored_game,Supervisor,authored,high,packet183-supervisor-frame-reset-leaves-2026-09-16
 0x0042E9C0,authored_game,Supervisor,authored,high,packet183-supervisor-frame-reset-leaves-2026-09-16
 0x0042E9E0,authored_game,Supervisor,authored,high,supervisor-frame-queue-insert-source-2026-09-20
-0x0042EAC0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0042EB80,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042EAC0,authored_game,Supervisor,authored,high,supervisor-frame-queue-predicted-source-2026-09-20
+0x0042EB80,authored_game,Supervisor,authored,high,supervisor-frame-queue-pop-source-2026-09-20
 0x0042EC00,authored_game,Midi,authored,high,packet189-midi-resource-leaves-2026-09-17
 0x0042EC30,authored_game,Supervisor,authored,high,supervisor-title-mode4-reset-exact-2026-09-20
 0x0042ECF0,authored_game,Supervisor,authored,high,supervisor-network-queue-sync-exact-2026-09-20
