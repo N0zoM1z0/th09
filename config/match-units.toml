@@ -10776,3 +10776,81 @@ relocations = [
   { offset = 0xAD, type = "REL32", symbol = "?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x00436F30 },
   { offset = 0xF7, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
 ]
+
+[units.enemy-spawn-exattack-type1]
+source = "src/EnemyExAttackLeaves.cpp"
+object = "build/matching/EnemyExAttackLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyExAttackView::SpawnExAttackType1"]
+symbol = "?SpawnExAttackType1@EnemyExAttackView@@QAEXXZ"
+target_address = 0x0040C3C0
+size = 0x29
+relocations = [
+  { offset = 0x1C, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x23, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
+]
+
+[units.enemy-spawn-exattack-type7]
+source = "src/EnemyExAttackLeaves.cpp"
+object = "build/matching/EnemyExAttackLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyExAttackView::SpawnExAttackType7"]
+symbol = "?SpawnExAttackType7@EnemyExAttackView@@QAEXXZ"
+target_address = 0x0040C440
+size = 0x29
+relocations = [
+  { offset = 0x1C, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x23, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
+]
+
+[units.enemy-spawn-exattack-type8]
+source = "src/EnemyExAttackLeaves.cpp"
+object = "build/matching/EnemyExAttackLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyExAttackView::SpawnExAttackType8"]
+symbol = "?SpawnExAttackType8@EnemyExAttackView@@QAEXXZ"
+target_address = 0x0040C470
+size = 0x29
+relocations = [
+  { offset = 0x1C, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x23, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
+]
+
+[units.enemy-spawn-exattack-type9]
+source = "src/EnemyExAttackLeaves.cpp"
+object = "build/matching/EnemyExAttackLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyExAttackView::SpawnExAttackType9"]
+symbol = "?SpawnExAttackType9@EnemyExAttackView@@QAEXXZ"
+target_address = 0x0040C4A0
+size = 0x29
+relocations = [
+  { offset = 0x1C, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x23, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
+]
+
+[units.enemy-spawn-exattack-type23]
+source = "src/EnemyExAttackLeaves.cpp"
+object = "build/matching/EnemyExAttackLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyExAttackView::SpawnExAttackType23"]
+symbol = "?SpawnExAttackType23@EnemyExAttackView@@QAEXXZ"
+target_address = 0x0040C4D0
+size = 0x29
+relocations = [
+  { offset = 0x1C, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x23, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
+]
+
+[units.enemy-spawn-exattack-type24]
+source = "src/EnemyExAttackLeaves.cpp"
+object = "build/matching/EnemyExAttackLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyExAttackView::SpawnExAttackType24"]
+symbol = "?SpawnExAttackType24@EnemyExAttackView@@QAEXXZ"
+target_address = 0x0040C500
+size = 0x29
+relocations = [
+  { offset = 0x1C, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x23, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
+]

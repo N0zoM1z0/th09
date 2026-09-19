@@ -705,3 +705,9 @@ ExAttackController::OnUpdate,0x00415340,function
 SupervisorFrameQueueView::InsertReceivedFrame,0x0042E9E0,function
 SupervisorFrameQueueView::InsertPredictedFrame,0x0042EAC0,function
 SupervisorFrameQueueView::PopFrame,0x0042EB80,function
+EnemyExAttackView::SpawnExAttackType1,0x0040C3C0,function
+EnemyExAttackView::SpawnExAttackType7,0x0040C440,function
+EnemyExAttackView::SpawnExAttackType8,0x0040C470,function
+EnemyExAttackView::SpawnExAttackType9,0x0040C4A0,function
+EnemyExAttackView::SpawnExAttackType23,0x0040C4D0,function
+EnemyExAttackView::SpawnExAttackType24,0x0040C500,function

@@ -704,3 +704,9 @@ ExAttackController::OnUpdate
 SupervisorFrameQueueView::InsertReceivedFrame
 SupervisorFrameQueueView::InsertPredictedFrame
 SupervisorFrameQueueView::PopFrame
+EnemyExAttackView::SpawnExAttackType1
+EnemyExAttackView::SpawnExAttackType7
+EnemyExAttackView::SpawnExAttackType8
+EnemyExAttackView::SpawnExAttackType9
+EnemyExAttackView::SpawnExAttackType23
+EnemyExAttackView::SpawnExAttackType24
