@@ -107,7 +107,6 @@ generation, or folded ownership.
 
 1. **Probe the smallest honest exact frontiers first.** These maintained units
    are target-sized or within two bytes and have tightly bounded residuals:
-   `AsciiManager::OnUpdate @ 0x00435B00` (one signedness branch),
    `FrontSide::ResetTransitionState @ 0x0041A230`, and the transform installers
    at `0x00412610/0x00412650`. Explore natural ABI, visibility, type, and TU
    hypotheses; do not retain register forcing, padding, inline assembly, or
