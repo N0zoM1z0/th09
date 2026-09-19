@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import hashlib
 import importlib.util
 import json
 from pathlib import Path
 import struct
 import sys
+
+from tracking_csv import read_rows, rewrite_selected_rows
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -67,11 +68,6 @@ def load_script(filename: str, module_name: str):
     return module
 
 
-def read_rows(path: Path) -> list[dict[str, str]]:
-    with path.open(newline="", encoding="utf-8") as stream:
-        return list(csv.DictReader(stream))
-
-
 def rel32_target(address: int, body: bytes, displacement_offset: int) -> int:
     displacement = struct.unpack_from("<i", body, displacement_offset)[0]
     return address + displacement_offset + 4 + displacement
@@ -110,9 +106,6 @@ def verify_compiler_bodies() -> None:
 
 def review_compiler(write: bool) -> dict[str, object]:
     verify_compiler_bodies()
-    ledger_update = load_script(
-        "apply-runtime-origin-review.py", "th09_game_origin_ledger_update"
-    )
     function_rows = {row["address"]: row for row in read_rows(FUNCTIONS)}
     origin_rows = {row["address"]: row for row in read_rows(ORIGINS)}
     pending: set[str] = set()
@@ -168,10 +161,10 @@ def review_compiler(write: bool) -> dict[str, object]:
                 "authored denominator without exactness credit."
             )
 
-    origin_count = ledger_update.rewrite_selected_rows(
+    origin_count = rewrite_selected_rows(
         ORIGINS, pending, mutate_origin, write
     )
-    function_count = ledger_update.rewrite_selected_rows(
+    function_count = rewrite_selected_rows(
         FUNCTIONS, pending, mutate_function, write
     )
     if origin_count != function_count or origin_count != len(pending):
@@ -188,9 +181,6 @@ def review_compiler(write: bool) -> dict[str, object]:
 def review_authored(write: bool) -> dict[str, object]:
     tail = load_script("review-static-init-tail.py", "th09_game_authored_target")
     tail.verify_target_tail()
-    ledger_update = load_script(
-        "apply-runtime-origin-review.py", "th09_game_authored_ledger_update"
-    )
     function_list = read_rows(FUNCTIONS)
     function_rows = {row["address"]: row for row in function_list}
     origin_rows = {row["address"]: row for row in read_rows(ORIGINS)}
@@ -275,10 +265,10 @@ def review_authored(write: bool) -> dict[str, object]:
             "Ambiguous member-only constructors/destructors were excluded from this set."
         )
 
-    origin_count = ledger_update.rewrite_selected_rows(
+    origin_count = rewrite_selected_rows(
         ORIGINS, pending, mutate_origin, write
     )
-    function_count = ledger_update.rewrite_selected_rows(
+    function_count = rewrite_selected_rows(
         FUNCTIONS, pending, mutate_function, write
     )
     if origin_count != function_count or origin_count != len(pending):
@@ -296,9 +286,6 @@ def review_authored(write: bool) -> dict[str, object]:
 def review_ambiguous(write: bool) -> dict[str, object]:
     tail = load_script("review-static-init-tail.py", "th09_game_ambiguous_target")
     tail.verify_target_tail()
-    ledger_update = load_script(
-        "apply-runtime-origin-review.py", "th09_game_ambiguous_ledger_update"
-    )
     function_rows = {row["address"]: row for row in read_rows(FUNCTIONS)}
     origin_rows = {row["address"]: row for row in read_rows(ORIGINS)}
     digest = hashlib.sha256(
@@ -403,10 +390,10 @@ def review_ambiguous(write: bool) -> dict[str, object]:
                 if suffix.strip() not in row["notes"]:
                     row["notes"] = row["notes"].rstrip() + suffix
 
-    origin_count = ledger_update.rewrite_selected_rows(
+    origin_count = rewrite_selected_rows(
         ORIGINS, pending, mutate_origin, write
     )
-    function_count = ledger_update.rewrite_selected_rows(
+    function_count = rewrite_selected_rows(
         FUNCTIONS, pending, mutate_function, write
     )
     if origin_count != function_count or origin_count != len(pending):

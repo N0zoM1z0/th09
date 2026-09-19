@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import importlib.util
 import json
 from pathlib import Path
 import sys
+
+from tracking_csv import rewrite_selected_rows, rows_by_address
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,11 +34,6 @@ def load_script(filename: str, module_name: str):
     return module
 
 
-def read_rows(path: Path) -> dict[str, dict[str, str]]:
-    with path.open(newline="", encoding="utf-8") as stream:
-        return {row["address"]: row for row in csv.DictReader(stream)}
-
-
 def review(write: bool) -> dict[str, object]:
     target = load_script("review-static-init-tail.py", "th09_transition_data_target")
     target.verify_target_tail()
@@ -48,8 +44,8 @@ def review(write: bool) -> dict[str, object]:
         if actual != bytes.fromhex(expected_hex):
             raise ValueError(f"transition record changed around {address}")
 
-    function_rows = read_rows(FUNCTIONS)
-    origin_rows = read_rows(ORIGINS)
+    function_rows = rows_by_address(FUNCTIONS)
+    origin_rows = rows_by_address(ORIGINS)
     pending: set[str] = set()
     already_applied: set[str] = set()
     for address in RECORDS:
@@ -69,10 +65,6 @@ def review(write: bool) -> dict[str, object]:
             already_applied.add(address)
         else:
             raise ValueError(f"unexpected transition-record state at {address}")
-
-    updater = load_script(
-        "apply-runtime-origin-review.py", "th09_transition_data_ledger_update"
-    )
 
     def mutate_origin(row: dict[str, str]) -> None:
         row["origin"] = "data"
@@ -97,10 +89,10 @@ def review(write: bool) -> dict[str, object]:
             "the authored denominator without source or exactness credit."
         )
 
-    origin_count = updater.rewrite_selected_rows(
+    origin_count = rewrite_selected_rows(
         ORIGINS, pending, mutate_origin, write
     )
-    function_count = updater.rewrite_selected_rows(
+    function_count = rewrite_selected_rows(
         FUNCTIONS, pending, mutate_function, write
     )
     if origin_count != function_count or origin_count != len(pending):

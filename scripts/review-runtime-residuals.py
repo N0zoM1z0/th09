@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import hashlib
 import importlib.util
 import json
 from pathlib import Path
 import struct
 import sys
+
+from tracking_csv import rewrite_selected_rows, rows_by_address
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -50,11 +51,6 @@ def load_script(filename: str, module_name: str):
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
-
-
-def read_rows(path: Path) -> dict[str, dict[str, str]]:
-    with path.open(newline="", encoding="utf-8") as stream:
-        return {row["address"]: row for row in csv.DictReader(stream)}
 
 
 def rel32_target(address: int, body: bytes, displacement_offset: int) -> int:
@@ -135,8 +131,8 @@ def verify_target_bodies() -> None:
 
 def review(write: bool) -> dict[str, object]:
     verify_target_bodies()
-    function_rows = read_rows(FUNCTIONS)
-    origin_rows = read_rows(ORIGINS)
+    function_rows = rows_by_address(FUNCTIONS)
+    origin_rows = rows_by_address(ORIGINS)
     pending: set[str] = set()
     already_applied: set[str] = set()
     for address, (size, subsystem) in REVIEW.items():
@@ -158,10 +154,6 @@ def review(write: bool) -> dict[str, object]:
             already_applied.add(address)
         else:
             raise ValueError(f"unexpected runtime-residual state at {address}")
-
-    updater = load_script(
-        "apply-runtime-origin-review.py", "th09_runtime_residual_ledger_update"
-    )
 
     def mutate_origin(row: dict[str, str]) -> None:
         subsystem = REVIEW[row["address"]][1]
@@ -217,10 +209,10 @@ def review(write: bool) -> dict[str, object]:
                 "game DirectPlay error formatter."
             )
 
-    origin_count = updater.rewrite_selected_rows(
+    origin_count = rewrite_selected_rows(
         ORIGINS, pending, mutate_origin, write
     )
-    function_count = updater.rewrite_selected_rows(
+    function_count = rewrite_selected_rows(
         FUNCTIONS, pending, mutate_function, write
     )
     if origin_count != function_count or origin_count != len(pending):

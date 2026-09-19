@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import importlib.util
 import json
 from pathlib import Path
 import sys
+
+from tracking_csv import read_rows, rewrite_selected_rows
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -38,17 +39,9 @@ def load_script(filename: str, module_name: str):
     return module
 
 
-def read_rows(path: Path) -> list[dict[str, str]]:
-    with path.open(newline="", encoding="utf-8") as stream:
-        return list(csv.DictReader(stream))
-
-
 def review(write: bool) -> dict[str, object]:
     runtime_audit = load_script(
         "audit-runtime-origins.py", "th09_context_runtime_origin_audit"
-    )
-    ledger_update = load_script(
-        "apply-runtime-origin-review.py", "th09_context_ledger_update"
     )
     report = runtime_audit.audit(5)
     weak = {
@@ -121,10 +114,10 @@ def review(write: bool) -> dict[str, object]:
             "callgraph context, and grants no exactness credit."
         )
 
-    updated_origins = ledger_update.rewrite_selected_rows(
+    updated_origins = rewrite_selected_rows(
         ORIGINS, pending, mutate_origin, write
     )
-    updated_functions = ledger_update.rewrite_selected_rows(
+    updated_functions = rewrite_selected_rows(
         FUNCTIONS, pending, mutate_function, write
     )
     if updated_origins != len(pending) or updated_functions != len(pending):
@@ -135,7 +128,7 @@ def review(write: bool) -> dict[str, object]:
         "updated_functions": updated_functions,
         "already_applied": len(already_applied),
         "subsystems": {"D3DX8": len(D3DX8_CONTEXT), "CRT": len(CRT_CONTEXT)},
-        "retained_weak_unknown": len(set(weak) - selected),
+        "unselected_weak_findings": len(set(weak) - selected),
     }
 
 

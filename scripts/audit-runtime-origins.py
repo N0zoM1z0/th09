@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Match post-authored TH09 review candidates to pinned library COFF code.
+"""Audit the frozen TH09 runtime-origin cohort against pinned library COFF code.
 
 This is a read-only provenance audit.  It compares complete candidate extents
 with function-sized code records extracted directly from the pinned VC7.1
@@ -510,7 +510,7 @@ def import_iat(image_data: bytes, image: object) -> dict[int, str]:
     return result
 
 
-def load_review_rows() -> list[dict[str, object]]:
+def load_audit_rows() -> list[dict[str, object]]:
     with ORIGINS.open(newline="", encoding="utf-8") as handle:
         origins = {row["address"]: row for row in csv.DictReader(handle)}
     result = []
@@ -546,7 +546,7 @@ def compare_template(target: bytes, template: dict[str, object]) -> bool:
 
 def audit(minimum_nonrelocation_bytes: int) -> dict[str, object]:
     target_data, image = verified_target()
-    rows = load_review_rows()
+    rows = load_audit_rows()
     iat = import_iat(target_data, image)
     templates = []
     archive_hashes = {}
@@ -567,7 +567,7 @@ def audit(minimum_nonrelocation_bytes: int) -> dict[str, object]:
 
     findings = []
     counts = {
-        "review": len(rows),
+        "audited_candidates": len(rows),
         "import_thunk": 0,
         "library_strong": 0,
         "compiler_associative_strong": 0,

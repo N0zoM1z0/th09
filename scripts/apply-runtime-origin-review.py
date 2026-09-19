@@ -3,13 +3,12 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import importlib.util
-import io
 import json
 from pathlib import Path
 import sys
-from typing import Callable
+
+from tracking_csv import rewrite_selected_rows, rows_by_address
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -68,51 +67,6 @@ def subsystem(finding: dict[str, object]) -> str:
     )
 
 
-def render_row(fields: list[str], row: dict[str, str]) -> str:
-    output = io.StringIO(newline="")
-    writer = csv.DictWriter(output, fieldnames=fields, lineterminator="\n")
-    writer.writerow(row)
-    return output.getvalue()
-
-
-def rewrite_selected_rows(
-    path: Path,
-    selected: set[str],
-    mutate: Callable[[dict[str, str]], None],
-    write: bool,
-) -> int:
-    lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
-    if not lines:
-        raise ValueError(f"empty CSV: {path}")
-    fields = next(csv.reader([lines[0]]))
-    output = [lines[0]]
-    updated = 0
-    seen: set[str] = set()
-    for line in lines[1:]:
-        values = next(csv.reader([line]))
-        address = values[0] if values else ""
-        if address not in selected:
-            output.append(line)
-            continue
-        if len(values) != len(fields):
-            raise ValueError(
-                f"selected row has {len(values)} values for {len(fields)} fields: {address}"
-            )
-        row = dict(zip(fields, values))
-        mutate(row)
-        output.append(render_row(fields, row))
-        updated += 1
-        seen.add(address)
-    missing = selected - seen
-    if missing:
-        raise ValueError(f"selected addresses missing from {path.name}: {sorted(missing)}")
-    if write:
-        temporary = path.with_name(path.name + ".tmp")
-        temporary.write_text("".join(output), encoding="utf-8")
-        temporary.replace(path)
-    return updated
-
-
 def apply(write: bool, included_subsystems: set[str] | None = None) -> dict[str, object]:
     audit_module = load_audit()
     report = audit_module.audit(5)
@@ -134,6 +88,30 @@ def apply(write: bool, included_subsystems: set[str] | None = None) -> dict[str,
     if len(by_address) != len(findings):
         raise ValueError("runtime-origin audit returned duplicate strong addresses")
     selected = set(by_address)
+    function_rows = rows_by_address(FUNCTIONS)
+    origin_rows = rows_by_address(ORIGINS)
+    pending: set[str] = set()
+    already_applied: set[str] = set()
+    for address, finding in by_address.items():
+        function = function_rows[address]
+        origin_row = origin_rows[address]
+        expected_origin = effective_origin(finding)
+        expected_subsystem = subsystem(finding)
+        if function["status"] == "unclassified" and origin_row["origin"] == "unknown":
+            pending.add(address)
+        elif (
+            function["status"] == "excluded"
+            and function["module"] == expected_subsystem
+            and function["owner"] == expected_origin
+            and function["is_thunk"] == ("true" if expected_origin == "import_thunk" else "false")
+            and origin_row["origin"] == expected_origin
+            and origin_row["subsystem"] == expected_subsystem
+            and origin_row["disposition"] == "exclude"
+            and origin_row["evidence_id"] == audit_module.AUDIT_EVIDENCE_ID
+        ):
+            already_applied.add(address)
+        else:
+            raise ValueError(f"unexpected runtime-origin ledger state at {address}")
 
     def mutate_origin(row: dict[str, str]) -> None:
         finding = by_address[row["address"]]
@@ -172,20 +150,21 @@ def apply(write: bool, included_subsystems: set[str] | None = None) -> dict[str,
             )
 
     updated_origins = rewrite_selected_rows(
-        ORIGINS, selected, mutate_origin, write
+        ORIGINS, pending, mutate_origin, write
     )
     updated_functions = rewrite_selected_rows(
-        FUNCTIONS, selected, mutate_function, write
+        FUNCTIONS, pending, mutate_function, write
     )
-    if updated_origins != len(findings) or updated_functions != len(findings):
+    if updated_origins != len(pending) or updated_functions != len(pending):
         raise ValueError(
             f"incomplete ledger update: origins={updated_origins}, "
-            f"functions={updated_functions}, findings={len(findings)}"
+            f"functions={updated_functions}, pending={len(pending)}"
         )
     return {
         "write": write,
         "updated_origins": updated_origins,
         "updated_functions": updated_functions,
+        "already_applied": len(already_applied),
         "origins": {
             origin: sum(effective_origin(row) == origin for row in findings)
             for origin in ("library", "compiler_generated", "import_thunk")
