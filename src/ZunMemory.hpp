@@ -5,6 +5,7 @@
 class ZunMemory
 {
   public:
+    ZunMemory();
     ~ZunMemory();
 
     void *Alloc(size_t size, const char *debugText);

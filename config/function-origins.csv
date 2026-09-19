@@ -550,9 +550,9 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042AF40,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042AF80,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042B010,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0042B0D0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042B0D0,authored_game,ZunMemory,authored,high,zun-memory-constructor-exact-2026-09-20
 0x0042B0E0,authored_game,ZunMemory,authored,high,static-init-target-boundary-review-2026-09-19
-0x0042B110,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042B110,authored_game,GameErrorContext,authored,high,game-error-context-constructor-exact-2026-09-20
 0x0042B130,authored_game,Supervisor,authored,high,supervisor-enter-critical-section-vc71-exact-2026-09-10
 0x0042B160,authored_game,Supervisor,authored,high,supervisor-leave-critical-section-vc71-exact-2026-09-10
 0x0042B190,unknown,,review,unknown,game-special-member-origin-review-2026-09-19

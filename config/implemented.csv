@@ -687,3 +687,5 @@ PlayerOwnerStateView::ApplyRewardWithStateAdvance
 PlayerState4OpsView::SetUpdateState
 AsciiGameManagerView::HasFlagBit0
 AsciiSoundPlayerView::ResumeAfterPause
+ZunMemory::ZunMemory
+GameErrorContext::GameErrorContext

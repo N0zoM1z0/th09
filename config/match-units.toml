@@ -10597,3 +10597,23 @@ relocations = [
   { offset = 0x01, type = "DIR32", symbol = "??_C@_07BIEIMCKD@unpause?$AA@", target = 0x0048F510 },
   { offset = 0x0A, type = "REL32", symbol = "?QueueCommand@AsciiSoundPlayerView@@QAEXHHPAD@Z", target = 0x0043EE40 },
 ]
+
+[units.zun-memory-constructor]
+source = "src/ZunMemoryCtor.cpp"
+object = "build/matching/ZunMemoryCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunMemory::ZunMemory"]
+symbol = "??0ZunMemory@@QAE@XZ"
+target_address = 0x0042B0D0
+size = 0x0D
+relocations = []
+
+[units.game-error-context-constructor]
+source = "src/GameErrorContextCtor.cpp"
+object = "build/matching/GameErrorContextCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["GameErrorContext::GameErrorContext"]
+symbol = "??0GameErrorContext@@QAE@XZ"
+target_address = 0x0042B110
+size = 0x13
+relocations = []

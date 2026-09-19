@@ -5,6 +5,7 @@
 class GameErrorContext
 {
   public:
+    GameErrorContext();
     void ResetContext();
     void Flush();
     const char *Log(const char *fmt, ...);
