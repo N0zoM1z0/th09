@@ -159,7 +159,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0040D470,authored_game,EffectManager,authored,high,effect-system-module-2026-09-15
 0x0040D4D0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0040D4F0,authored_game,Player,authored,high,player-shared-transition-block-exact-2026-09-20
-0x0040D500,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0040D500,authored_game,BulletManager,authored,high,bullet-spawn-descriptor-constructor-exact-2026-09-20
 0x0040E0D0,authored_game,Ending,authored,high,packet164-ending-migration-2026-09-16
 0x0040E130,authored_game,Ending,authored,high,packet164-ending-migration-2026-09-16
 0x0040E170,authored_game,Ending,authored,high,packet164-ending-migration-2026-09-16

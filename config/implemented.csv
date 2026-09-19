@@ -696,3 +696,4 @@ ScoreFileView::ScoreFileView
 ScoreRecordCtorView::ScoreRecordCtorView
 PbgArchive::~PbgArchive
 SupervisorNetworkState::AreFrameQueuesSynchronized
+BulletSpawnDescriptorCtorView::BulletSpawnDescriptorCtorView
