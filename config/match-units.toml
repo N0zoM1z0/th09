@@ -5438,19 +5438,19 @@ target_address = 0x00436D70
 size = 0x54
 compare_size = 0x6C
 relocations = [
-  { offset = 0x14, type = "DIR32", symbol = "$L1021", target = 0x00436DC4 },
+  { offset = 0x14, type = "DIR32", symbol = "$L1074", target = 0x00436DC4 },
   { offset = 0x1A, type = "REL32", symbol = "?DrawNoRotation@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043A950 },
   { offset = 0x24, type = "REL32", symbol = "?DrawNoRotationNoRound@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AFE0 },
   { offset = 0x2E, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
   { offset = 0x38, type = "REL32", symbol = "?Draw2DRotatedOrAxisAligned@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AD40 },
   { offset = 0x42, type = "REL32", symbol = "?DrawCameraFacingQuad@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043B0E0 },
   { offset = 0x4C, type = "REL32", symbol = "?DrawProjected3DQuad@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043B140 },
-  { offset = 0x54, type = "DIR32", symbol = "$L955", target = 0x00436D88 },
-  { offset = 0x58, type = "DIR32", symbol = "$L956", target = 0x00436D92 },
-  { offset = 0x5C, type = "DIR32", symbol = "$L957", target = 0x00436D9C },
-  { offset = 0x60, type = "DIR32", symbol = "$L958", target = 0x00436DA6 },
-  { offset = 0x64, type = "DIR32", symbol = "$L959", target = 0x00436DB0 },
-  { offset = 0x68, type = "DIR32", symbol = "$L960", target = 0x00436DBA },
+  { offset = 0x54, type = "DIR32", symbol = "$L1008", target = 0x00436D88 },
+  { offset = 0x58, type = "DIR32", symbol = "$L1009", target = 0x00436D92 },
+  { offset = 0x5C, type = "DIR32", symbol = "$L1010", target = 0x00436D9C },
+  { offset = 0x60, type = "DIR32", symbol = "$L1011", target = 0x00436DA6 },
+  { offset = 0x64, type = "DIR32", symbol = "$L1012", target = 0x00436DB0 },
+  { offset = 0x68, type = "DIR32", symbol = "$L1013", target = 0x00436DBA },
 ]
 [units.anm-manager-set-interrupt-array]
 source = "src/AnmManagerRuntime.cpp"
@@ -10626,4 +10626,24 @@ functions = ["ReplayInputState::ReplayInputState"]
 symbol = "??0ReplayInputState@@QAE@XZ"
 target_address = 0x0042B010
 size = 0xB6
+relocations = []
+
+[units.game-window-constructor]
+source = "src/GameWindowCtor.cpp"
+object = "build/matching/GameWindowCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["GameWindowView::GameWindowView"]
+symbol = "??0GameWindowView@@QAE@XZ"
+target_address = 0x0042D290
+size = 0x12
+relocations = []
+
+[units.anm-manager-release-surfaces]
+source = "src/AnmManagerReleaseSurfaces.cpp"
+object = "build/matching/AnmManagerReleaseSurfaces.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::ReleaseSurfaces"]
+symbol = "?ReleaseSurfaces@AnmManager@@QAEXXZ"
+target_address = 0x0042D2F0
+size = 0x2B
 relocations = []

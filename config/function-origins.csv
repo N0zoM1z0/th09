@@ -589,12 +589,12 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042D140,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042D230,authored_game,GameErrorContext,authored,high,game-error-context-vc71-exact-2026-09-10
 0x0042D240,authored_game,GameErrorContext,authored,high,game-error-context-vc71-exact-2026-09-10
-0x0042D290,authored_game,Game,authored,high,static-init-target-boundary-review-2026-09-19
+0x0042D290,authored_game,GameWindow,authored,high,game-window-constructor-exact-2026-09-20
 0x0042D2B0,authored_game,Supervisor,authored,high,packet182-leaf-exact-target-replay-2026-09-16
 0x0042D2C0,authored_game,Supervisor,authored,high,packet182-leaf-exact-target-replay-2026-09-16
 0x0042D2D0,authored_game,Supervisor,authored,high,packet182-leaf-exact-target-replay-2026-09-16
 0x0042D2E0,authored_game,AnmManager,authored,high,packet182-leaf-exact-target-replay-2026-09-16
-0x0042D2F0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042D2F0,authored_game,AnmManager,authored,high,anm-manager-release-surfaces-exact-2026-09-20
 0x0042D320,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042D3D0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042D4D0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19

@@ -690,3 +690,5 @@ AsciiSoundPlayerView::ResumeAfterPause
 ZunMemory::ZunMemory
 GameErrorContext::GameErrorContext
 ReplayInputState::ReplayInputState
+GameWindowView::GameWindowView
+AnmManager::ReleaseSurfaces

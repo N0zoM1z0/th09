@@ -109,6 +109,7 @@ class AnmManager
     int LoadSurface(int surfaceIndex, const char *path);
     int PreloadSurface(int surfaceIndex, const char *path);
     void ReleaseSurface(int surfaceIndex);
+    void ReleaseSurfaces();
     void CopySurfaceToBackbuffer(int surfaceIndex, int left, int top, int x, int y);
     void CopySurfaceToBackbuffer2(int surfaceIndex, int rectX, int rectY, int rectLeft, int rectTop, int width, int height);
     void CaptureToTexture(int captureAnmIndex, int srcX, int srcY, int srcW, int srcH, int dstX, int dstY, int dstW, int dstH);
