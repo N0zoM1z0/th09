@@ -23,7 +23,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00401410,authored_game,Supervisor,authored,high,packet106-camera-viewport-vc71-exact-2026-09-13
 0x00401440,authored_game,Supervisor,authored,high,runtime-support-leaf-target-replay-2026-09-16
 0x00401460,authored_game,Supervisor,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13
-0x00401470,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00401470,compiler_generated,Compiler,exclude,high,vc71-generated-helper-review-2026-09-19
 0x004014A0,authored_game,ZunTimer,authored,high,zun-timer-screen-effect-dependencies-2026-09-15
 0x004014B0,authored_game,ZunTimer,authored,high,zun-timer-tick-vc71-exact-2026-09-11
 0x004014D0,authored_game,ZunTimer,authored,high,zun-timer-set-current-vc71-exact-2026-09-11
@@ -579,8 +579,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042CAE0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042CBE0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042CC10,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042CC30,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x0042CC60,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042CC30,compiler_generated,Compiler,exclude,high,vc71-generated-helper-review-2026-09-19
+0x0042CC60,compiler_generated,Compiler,exclude,high,vc71-generated-helper-review-2026-09-19
 0x0042CC90,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042CD10,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042CD40,unknown,,review,unknown,ida-1.50a-initial-inventory
@@ -670,7 +670,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00431110,authored_game,Supervisor,authored,high,supervisor-onupdate-source-improved-codegen-blocked-2026-09-11
 0x00431500,authored_game,Supervisor,authored,high,supervisor-constructor-source-codegen-blocked-2026-09-11
 0x00431540,authored_game,Supervisor,authored,high,supervisor-draw-main-vc71-exact-2026-09-11
-0x00431680,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00431680,compiler_generated,Compiler,exclude,high,vc71-generated-helper-review-2026-09-19
 0x004316B0,authored_game,Supervisor,authored,high,supervisor-calculate-fps-vc71-exact-2026-09-11
 0x00431930,authored_game,Supervisor,authored,high,packet108-supervisor-play-music-vc71-exact-2026-09-13
 0x00431A30,authored_game,Supervisor,authored,high,packet108-supervisor-play-audio-vc71-exact-2026-09-13
@@ -939,8 +939,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00440790,third_party,SoundManager,exclude,high,microsoft-dx8-dsutil-streaming-destructor-provenance-2026-09-13
 0x004407A0,authored_game,SoundManager,authored,high,packet118-zun-wave-streaming-vc71-exact-2026-09-13
 0x004409F0,authored_game,SoundManager,authored,high,packet118-zun-wave-streaming-vc71-exact-2026-09-13
-0x00440C20,unknown,,review,unknown,ida-1.50a-initial-inventory
-0x00440C50,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00440C20,compiler_generated,Compiler,exclude,high,vc71-generated-helper-review-2026-09-19
+0x00440C50,compiler_generated,Compiler,exclude,high,vc71-generated-helper-review-2026-09-19
 0x00440C80,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00440CB0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00440CC0,unknown,,review,unknown,ida-1.50a-initial-inventory

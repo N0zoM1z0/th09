@@ -842,3 +842,10 @@ name into a TH09 fact without target-local evidence.
 - `0x0042B0E0` is authored ZunMemory cleanup because it implements the policy of walking 0x1000 registry slots and freeing non-NULL allocations. `0x0042D290` explicitly clears a complete 0x44-byte object, and `0x0043E470` clears its object then assigns `-1` to a selected 0x200-byte member region; neither behavior can arise from an implicit VC7.1 default constructor, so both are authored game code.
 - `0x00435DC0` is a member-construction sequence and its boundary/constructor role are proven, but target code alone does not distinguish an explicit empty constructor from an implicitly generated special member. It is added as a reviewed `unknown / review` candidate rather than forced into either denominator.
 - Inventory becomes 2,191 candidates / 637 authored / 1,152 excluded / 402 pending. Source-present/exact remain 570/503.
+
+
+## Packet 204 compiler helpers inside the game linker band
+
+- `0x00401470` is the VC7.1 four-argument `??_H` vector-constructor iterator already named by many exact repository COFF relocations. Its complete 38-byte target body loops over `count` elements with the supplied stride/callback and returns with `ret 0x10`; it is compiler-generated, not authored game logic.
+- Five pending 33-byte bodies at `0x0042CC30`, `0x0042CC60`, `0x00431680`, `0x00440C20`, and `0x00440C50` match the established VC7.1 scalar deleting-destructor template in all 25 non-relocation bytes. Each first calls its game destructor and then conditionally calls exact `j__free @ 0x0047B249` when flag bit zero is set.
+- These six candidates become `compiler_generated / Compiler / exclude / high`; pending becomes 396 and exclusions 1,158. Authored/source/exact remain 637/570/503.
