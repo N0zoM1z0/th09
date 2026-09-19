@@ -668,3 +668,5 @@ PlayerCollisionRegionCreateView::CreateCircleType4
 PlayerCollisionRegionCreateView::CreateCircleType2
 PlayerUpdateStageD
 PlayerForwardAngleView::AngleFromPlayerToPoint
+PlayerBuildAabb
+PlayerDamagePlayerView::CalcDamageToEnemy

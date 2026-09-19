@@ -10409,3 +10409,18 @@ relocations = [
   { offset = 0x48, type = "DIR32", symbol = "__real@3fc90fdb", target = 0x0048E450 },
   { offset = 0x5B, type = "REL32", symbol = "?VectorAngle@Th09EclRunControl@@YGMMM@Z", target = 0x00405700 },
 ]
+
+[units.player-build-aabb]
+source = "src/PlayerDamage.cpp"
+object = "build/matching/PlayerDamage.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerBuildAabb"]
+symbol = "?PlayerBuildAabb@@YIXPAUPlayerDamageFloat3@@0PBU1@1@Z"
+target_address = 0x0041F2C0
+size = 0x37
+relocations = [
+  { offset = 0x04, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x11, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x1F, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x2C, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+]
