@@ -1071,3 +1071,9 @@ name into a TH09 fact without target-local evidence.
 
 - `ZunTimer::operator-=(int) @ 0x0041F300-0x0041F308` is repository-canonical exact at 9 bytes. Its sole TH09 caller in the Player heavy-state owner pushes either 5 or 10, keeps a `ZunTimer *` in ECX, and calls this entry; the body immediately tail-jumps exact `ZunTimer::Decrement(int) @ 0x00406620`.
 - The natural source `void ZunTimer::operator-=(int value) { this->Decrement(value); }` reproduces the complete body with one reviewed REL32 relocation. A dedicated TU preserves the target-observed physical placement near Player code without claiming that placement changes logical ZunTimer ownership.
+
+## Packet 234 Player resource subtraction clamp leaf
+
+- `PlayerResourceSubtractView::SubtractResourceClamped @ 0x0041F310-0x0041F342` is repository-canonical exact at 51 bytes. Three TH09 Player heavy-state call sites pass 300.0f, 200.0f and 100.0f with the Player receiver, while maintained layout independently fixes the shared resource scalar at Player `+0x30388`.
+- The natural source computes `value = resource30388 - amount`, clamps values below 1.0f to 1.0f, otherwise stores the subtraction result. First pinned VC7.1 compilation reproduces the complete x87 compare/store control flow and the sole 1.0f relocation; no source-shape tuning, asm, register forcing or profile search is required.
+- The reconstruction name is deliberately neutral. Exact `AddRespawnResource` and several TH09 Player lifecycle/death consumers establish the same scalar, but no target-local evidence yet proves an original source-level method spelling for this subtraction helper.

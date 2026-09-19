@@ -10486,3 +10486,15 @@ size = 0x09
 relocations = [
   { offset = 0x05, type = "REL32", symbol = "?Decrement@ZunTimer@@QAEXH@Z", target = 0x00406620 },
 ]
+
+[units.player-subtract-resource-clamped]
+source = "src/PlayerResourceSubtract.cpp"
+object = "build/matching/PlayerResourceSubtract.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerResourceSubtractView::SubtractResourceClamped"]
+symbol = "?SubtractResourceClamped@PlayerResourceSubtractView@@QAEXM@Z"
+target_address = 0x0041F310
+size = 0x33
+relocations = [
+  { offset = 0x0E, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+]

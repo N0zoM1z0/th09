@@ -676,3 +676,4 @@ EnemyEclManagerView::GetSubroutineCount
 EnemyEclManagerView::GetSubroutine
 EnemyView::ResetBulletRankInfluence
 ZunTimer::operator-=(int)
+PlayerResourceSubtractView::SubtractResourceClamped
