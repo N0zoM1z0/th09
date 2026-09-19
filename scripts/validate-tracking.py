@@ -102,6 +102,13 @@ def validate() -> dict[str, int]:
         raise ValueError("source mapping names must be unique")
     if implemented != mapped_names:
         raise ValueError("implemented.csv and source mappings disagree")
+    expected_mapping_addresses = {
+        row["address"]
+        for row in functions
+        if row["source_file"] and origin_by_address[row["address"]]["disposition"] == "authored"
+    }
+    if mapping_addresses != expected_mapping_addresses:
+        raise ValueError("source mappings do not cover every authored row with maintained source")
     if not match_addresses.issubset(mapping_addresses):
         raise ValueError("exact matches must have source mappings")
     for address, mapping in mapping_by_address.items():

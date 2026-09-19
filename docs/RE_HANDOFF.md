@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 570 |
+| Source-present authored mappings | 632 |
 | Canonical exact functions | 503 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -75,7 +75,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 570 source-present authored mappings.
+`config/implemented.csv` contains 632 source-present authored mappings. Of
+these, 503 are canonical exact and 129 retain honest non-exact compiler results.
 `config/matches.csv` contains 503 complete target-bound VC7.1 matches totaling
 72,353 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.

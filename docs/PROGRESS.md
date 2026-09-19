@@ -11,7 +11,7 @@ their boundaries and origins must be reviewed independently.
 | Confirmed authored functions | 990 |
 | Confirmed authored code bytes | 275,930 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 570 |
+| Source-present authored mappings | 632 |
 | Canonical exact functions | 503 |
 | Canonical exact authored bytes | 72,353 |
 
