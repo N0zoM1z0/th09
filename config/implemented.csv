@@ -642,3 +642,4 @@ EtamaController::AddedCallback
 AnmManager::LoadSurface
 AnmManager::PreloadSurface
 TitleScreenView::DrawMusicRoom
+TitleScreenView::DrawReplaySave
