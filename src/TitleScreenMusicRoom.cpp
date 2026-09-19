@@ -49,6 +49,7 @@ struct TitleAnmManagerView {
     void SetInterruptArray(AnmVmView *vms, i32 count, i32 interrupt);
     void ExecuteScriptArray(AnmVmView *vms, i32 count);
     i32 ExecuteScript(AnmVmView *vm);
+    i32 DrawNoRotation(AnmVmView *vm);
 };
 
 struct TitleSupervisorView {
@@ -104,6 +105,7 @@ struct TitleScreenView {
     i32 MoveCursorVertical(i32 count);
     i32 SetMenuSelectionSprites(i32 selected, i32 start, i32 count);
     i32 OnUpdateMusicRoom();
+    i32 DrawMusicRoom();
 };
 
 typedef char MusicRoomTracksAtC934[(offsetof(TitleScreenView, musicTracks) == 0xC934) ? 1 : -1];
@@ -445,5 +447,42 @@ common_tail:
     stateTimer++;
     screenFrameCounter++;
     stateTimer2++;
+    return 1;
+}
+
+struct MusicRoomFloat3View
+{
+    float x;
+    float y;
+    float z;
+};
+
+inline u32 &MusicRoomColor(AnmVmView *vm)
+{
+    return *reinterpret_cast<u32 *>(reinterpret_cast<u8 *>(vm) + 0x1F0);
+}
+
+int TitleScreenView::DrawMusicRoom()
+{
+    if (currentScreenState == 1)
+    {
+        i32 songVmIndex = musicSelectedSongIndex + 159;
+        MusicRoomFloat3View savedPosition =
+            *reinterpret_cast<MusicRoomFloat3View *>(&vms[songVmIndex].posX);
+        u32 savedColor = MusicRoomColor(&vms[songVmIndex]);
+
+        MusicRoomColor(&vms[songVmIndex]) = 0xFFFFFFFF;
+        vms[songVmIndex].posX = 208.0f;
+        vms[songVmIndex].posY = 293.0f;
+        g_TitleAnmManager->DrawNoRotation(&vms[songVmIndex]);
+
+        *reinterpret_cast<MusicRoomFloat3View *>(&vms[songVmIndex].posX) =
+            savedPosition;
+        MusicRoomColor(&vms[songVmIndex]) = savedColor;
+
+        for (i32 i = 0; i < 8; ++i)
+            g_TitleAnmManager->DrawNoRotation(&embeddedVms[49 + i]);
+    }
+
     return 1;
 }

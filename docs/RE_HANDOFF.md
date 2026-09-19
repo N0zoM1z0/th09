@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 643 |
-| Canonical exact functions | 517 |
+| Source-present authored mappings | 644 |
+| Canonical exact functions | 518 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 643 source-present authored mappings. Of
-these, 517 are canonical exact and 126 retain honest non-exact compiler results.
-`config/matches.csv` contains 517 complete target-bound VC7.1 matches totaling
-74,937 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 644 source-present authored mappings. Of
+these, 518 are canonical exact and 126 retain honest non-exact compiler results.
+`config/matches.csv` contains 518 complete target-bound VC7.1 matches totaling
+75,146 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,14 +111,16 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 347
-   authored functions / 101,709 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 346
+   authored functions / 101,500 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
    NON-EXACT at 568/600. The routed ANM surface-load seam
    `0x0043CAE0-0x0043CD35` is now closed with exact LoadSurface/PreloadSurface.
-   Continue small packets in Ascii/Title `0x004234F6-0x00424579`;
+   In Ascii/Title `0x004234F6-0x00424579`, exact `DrawMusicRoom @ 0x004244A9`
+   closes the screen-12 leaf; the remaining routed draw owners are `0x004234F6`
+   (ReplayMenu), `0x004239F6` (ReplaySave), and `0x00423D16` (Result/NameEntry).
    revisit the two larger Player collision owners `0x0041DC20/0x0041DFF0`
    after their shared layouts/helpers are recovered. These ranges remain routing
    hypotheses; establish every owner, ABI, boundary, and source mapping from
