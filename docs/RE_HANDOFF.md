@@ -4418,3 +4418,15 @@ No target bytes were writable or modified. Under passed native attestation, comm
 ### Classification and tracking
 - All 34 wrappers are compiler-synthesized global initialization/termination machinery and are classified `compiler_generated / Compiler / exclude / high` under evidence ID `vc71-global-init-tail-review-2026-09-19`. Their calls into game-authored constructors/destructors do not make the wrappers authored functions, and this review grants neither source-presence nor exactness credit.
 - Inventory is now 2,187 candidates: 634 authored, 1,152 excluded, and 401 pending; source-present/exact remain 570/503. The prior 18 weak-shape remainder is reduced to the seven intentionally unresolved game-side short bodies; the other 394 pre-existing unmatched candidates remain the main review frontier. Planned checkpoint subject: `gpt-5.6-sol: close static initializer tail boundaries`. Nothing is pushed.
+
+
+## Packet 203 — global-init target recovery (2026-09-19)
+
+### Four omitted game entries
+- Auditing every direct branch from the now-complete global-init tail finds four game-code destinations absent from both the provisional ledger and IDA auto-function set: `0x0042B0E0-0x0042B10B`, `0x0042D290-0x0042D2A1`, `0x00435DC0-0x00435EA2`, and `0x0043E470-0x0043E491`. Each wrapper is a ten-byte `mov ecx,<global>; jmp <entry>` thunk; each target extent decodes to a terminal `ret` and is separated from the next known entry by only `CC` padding.
+- `scripts/review-static-init-targets.py` reuses the hash/PE/table checks from the complete tail audit, verifies every wrapper destination and target boundary, and inserts the four candidates in address order without normalizing unrelated historical rows.
+
+### Independent origin decisions
+- `0x0042B0E0` is authored ZunMemory cleanup: it conditionally walks 0x1000 stored allocation pointers and calls the proven free routine for each non-NULL slot. `0x0042D290` explicitly zeroes all 0x44 bytes of its object. `0x0043E470` explicitly zeroes its object and then writes `-1` across a selected 0x200-byte subrange. These are program policies, not effects synthesized by an implicit VC7.1 special member, so the three enter `authored_game / authored / high`.
+- `0x00435DC0` only sequences member constructors and vector-constructor helpers. Its boundary and constructor role are high-confidence, but explicit authored versus implicit compiler-generated origin is not recoverable from this body; it remains `unknown / review` with the new evidence ID rather than being guessed.
+- Inventory is 2,191 candidates / 637 authored / 1,152 excluded / 402 pending; source-present/exact stay 570/503. Planned checkpoint subject: `gpt-5.6-sol: recover static initializer targets`. Nothing is pushed.

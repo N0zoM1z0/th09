@@ -551,6 +551,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042AF80,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042B010,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042B0D0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x0042B0E0,authored_game,ZunMemory,authored,high,static-init-target-boundary-review-2026-09-19
 0x0042B110,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042B130,authored_game,Supervisor,authored,high,supervisor-enter-critical-section-vc71-exact-2026-09-10
 0x0042B160,authored_game,Supervisor,authored,high,supervisor-leave-critical-section-vc71-exact-2026-09-10
@@ -588,6 +589,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042D140,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x0042D230,authored_game,GameErrorContext,authored,high,game-error-context-vc71-exact-2026-09-10
 0x0042D240,authored_game,GameErrorContext,authored,high,game-error-context-vc71-exact-2026-09-10
+0x0042D290,authored_game,Game,authored,high,static-init-target-boundary-review-2026-09-19
 0x0042D2B0,authored_game,Supervisor,authored,high,packet182-leaf-exact-target-replay-2026-09-16
 0x0042D2C0,authored_game,Supervisor,authored,high,packet182-leaf-exact-target-replay-2026-09-16
 0x0042D2D0,authored_game,Supervisor,authored,high,packet182-leaf-exact-target-replay-2026-09-16
@@ -761,6 +763,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00435D40,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00435D70,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00435DA0,unknown,,review,unknown,ida-1.50a-initial-inventory
+0x00435DC0,unknown,,review,unknown,static-init-target-boundary-review-2026-09-19
 0x00435EB0,authored_game,TextHelper,authored,high,packet133-text-helper-module-2026-09-15
 0x00435EC0,unknown,,review,unknown,ida-1.50a-initial-inventory
 0x00435ED0,authored_game,TextHelper,authored,high,packet133-text-helper-module-2026-09-15
@@ -885,6 +888,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043E420,authored_game,SoundManager,authored,high,packet123-zun-audio-accessors-vc71-exact-2026-09-14
 0x0043E430,authored_game,SoundManager,authored,high,packet123-zun-audio-accessors-vc71-exact-2026-09-14
 0x0043E440,authored_game,SoundManager,authored,high,packet123-zun-streaming-fade-vc71-exact-2026-09-14
+0x0043E470,authored_game,GameManager,authored,high,static-init-target-boundary-review-2026-09-19
 0x0043E4A0,authored_game,SoundPlayer,authored,high,packet113-soundplayer-free-preload-vc71-exact-2026-09-13
 0x0043E4E0,authored_game,SoundPlayer,authored,high,packet123-soundplayer-fade-vc71-exact-2026-09-14
 0x0043E500,authored_game,SoundPlayer,authored,high,packet116-soundplayer-initialize-dsound-vc71-exact-2026-09-13

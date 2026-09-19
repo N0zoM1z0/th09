@@ -834,3 +834,11 @@ name into a TH09 fact without target-local evidence.
 - Ten initializer wrappers each push one cleanup-wrapper address and immediately call the already proven CRT `_atexit @ 0x0047C323`. Those cleanup entries occupy `0x0048DA30-0x0048DAD9`, with `0x0048DADA` exactly equal to the exclusive `.text` end. Function ends are proven by terminal `ret`/tail-`jmp` instructions and intervening `CC` padding, not inferred from the incomplete IDA auto-function list.
 - The complete run is 24 initializer wrappers (443 bytes) plus ten terminator wrappers (101 bytes). The initial IDA-derived ledger contained eleven of the 34 and omitted 23 valid starts; `scripts/review-static-init-tail.py` verifies the target hash, PE sections, full pointer table, all exact extents/padding, and all ten `_atexit` registrations before inserting or classifying anything.
 - All 34 are `compiler_generated / Compiler / exclude / high`. Candidate inventory becomes 2,187, adding the 23 missing boundaries; pending falls from 412 to 401 because the eleven pre-existing candidates are closed. Exclusions become 1,152, while authored/source/exact remain 634/570/503.
+
+
+## Packet 203 target functions recovered from global-init wrappers
+
+- Four global-init/termination wrappers tail-jump to game-code entries omitted by the initial IDA inventory: `0x0042B0E0` (44 bytes), `0x0042D290` (18 bytes), `0x00435DC0` (227 bytes), and `0x0043E470` (34 bytes). Each target extent ends in `ret` and is followed only by `CC` alignment up to the next established function.
+- `0x0042B0E0` is authored ZunMemory cleanup because it implements the policy of walking 0x1000 registry slots and freeing non-NULL allocations. `0x0042D290` explicitly clears a complete 0x44-byte object, and `0x0043E470` clears its object then assigns `-1` to a selected 0x200-byte member region; neither behavior can arise from an implicit VC7.1 default constructor, so both are authored game code.
+- `0x00435DC0` is a member-construction sequence and its boundary/constructor role are proven, but target code alone does not distinguish an explicit empty constructor from an implicitly generated special member. It is added as a reviewed `unknown / review` candidate rather than forced into either denominator.
+- Inventory becomes 2,191 candidates / 637 authored / 1,152 excluded / 402 pending. Source-present/exact remain 570/503.
