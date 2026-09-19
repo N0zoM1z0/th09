@@ -378,7 +378,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041CB50,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0041CC80,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0041CDC0,authored_game,Player,authored,high,player-draw-low-prio-vc71-exact-2026-09-15
-0x0041CDE0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0041CDE0,authored_game,Player,authored,high,player-anm-preload-exact-2026-09-20
 0x0041CE60,authored_game,Player,authored,high,player-release-owned-resources-vc71-exact-2026-09-15
 0x0041CEB0,unknown,,review,unknown,game-special-member-origin-review-2026-09-19
 0x0041CED0,authored_game,Player,authored,high,player-release-vc71-exact-2026-09-15

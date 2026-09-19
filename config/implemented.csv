@@ -655,3 +655,4 @@ PlayerAnmVmBlendModeView::SetBlendModeAdditive
 PlayerAnmVmBlendModeView::SetBlendModeNormal
 PlayerAnmManagerRawView::GetAnmRawData
 PlayerCollisionRegionRuntimeView::Deactivate
+PreloadPlayerAnmResources
