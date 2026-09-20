@@ -729,3 +729,4 @@ ResetGameManager
 GameManager_CutChain
 FormatCurrentDateString
 FrontSideAuxTransitionView::BeginAuxTransition
+FrontMessageRuntimeResetView::Reset

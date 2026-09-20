@@ -11137,3 +11137,13 @@ size = 0x18
 relocations = [
   { offset = 0x13, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
 ]
+
+[units.front-message-runtime-reset]
+source = "src/FrontMessageRuntimeReset.cpp"
+object = "build/matching/FrontMessageRuntimeReset.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontMessageRuntimeResetView::Reset"]
+symbol = "?Reset@FrontMessageRuntimeResetView@@QAEHXZ"
+target_address = 0x00415C90
+size = 0x17
+relocations = []

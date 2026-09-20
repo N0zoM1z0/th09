@@ -730,3 +730,4 @@ ResetGameManager,0x0041A7C3,function
 GameManager_CutChain,0x0041A827,function
 FormatCurrentDateString,0x0041A796,function
 FrontSideAuxTransitionView::BeginAuxTransition,0x00415D50,function
+FrontMessageRuntimeResetView::Reset,0x00415C90,function
