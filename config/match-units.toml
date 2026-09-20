@@ -11403,3 +11403,15 @@ relocations = [
   { offset = 0x12, type = "REL32", symbol = "?GetFixedSlotEffect@PlayerShotSpawnEffectManagerView@@QAEPAUPlayerShotSpawnEffectView@@H@Z", target = 0x00445560 },
   { offset = 0x31, type = "REL32", symbol = "?InitializeShot@PlayerShotSpawnPlayerView@@QAIXPAUPlayerShotSpawnShotView@@PAUPlayerShotSpawnDescriptorView@@@Z", target = 0x0041F350 },
 ]
+
+[units.player-shot-update-callback-type5]
+source = "src/PlayerShotUpdateCallbacks.cpp"
+object = "build/matching/PlayerShotUpdateCallbacks.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerShotUpdateCallbackType5"]
+symbol = "?PlayerShotUpdateCallbackType5@@YIHPAUPlayerShotUpdate5PlayerView@@PAUPlayerShotUpdate5ShotView@@@Z"
+target_address = 0x004446A0
+size = 0x56
+relocations = [
+  { offset = 0x2F, type = "REL32", symbol = "??PZunTimer@@QAEIH@Z", target = 0x00401520 },
+]

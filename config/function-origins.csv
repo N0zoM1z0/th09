@@ -997,7 +997,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00444130,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004444F0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00444560,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x004446A0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x004446A0,authored_game,Player,authored,high,player-shot-update-callback5-exact-2026-09-20
 0x00444F00,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00445050,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00445190,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19

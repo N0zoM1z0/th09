@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 756 |
-| Canonical exact functions | 617 |
+| Source-present authored mappings | 757 |
+| Canonical exact functions | 618 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 756 source-present authored mappings. Of
-these, 617 are canonical exact and 139 retain honest non-exact compiler results.
-`config/matches.csv` contains 617 complete target-bound VC7.1 matches totaling
-83,240 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 757 source-present authored mappings. Of
+these, 618 are canonical exact and 139 retain honest non-exact compiler results.
+`config/matches.csv` contains 618 complete target-bound VC7.1 matches totaling
+83,326 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 234
-   authored functions / 83,896 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 233
+   authored functions / 83,810 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -379,6 +379,9 @@ generation, or folded ownership.
    for the Player spawn-callback table. Player SHT spawn-callback indices 2/4/5
    at `0x004423D0/0x00445530/0x00445CB0` are now exact too; they share
    the maintained InitializeShot/effect dependencies and close 184 authored bytes.
+   SHT update-callback index 5 `0x004446A0` is now 86-byte exact as well:
+   mode +0x470 gates velocity zeroing, timer +0x454 >= 90 clears shot state, and
+   byte +0x472 is set on every path through exact ZunTimer comparison code.
    Prefer adjacent small ECL/Ascii/Player/Score/Input/Replay helpers before another
    large dispatcher.
 3. **Then attack coherent large non-exact families, not isolated giant owners.**

@@ -755,3 +755,4 @@ EffectFixedSlotManagerView::GetFixedSlotEffect,0x00445560,function
 PlayerShotSpawnCallbackType2,0x004423D0,function
 PlayerShotSpawnCallbackType4,0x00445530,function
 PlayerShotSpawnCallbackType5,0x00445CB0,function
+PlayerShotUpdateCallbackType5,0x004446A0,function

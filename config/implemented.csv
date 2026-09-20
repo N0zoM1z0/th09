@@ -754,3 +754,4 @@ EffectFixedSlotManagerView::GetFixedSlotEffect
 PlayerShotSpawnCallbackType2
 PlayerShotSpawnCallbackType4
 PlayerShotSpawnCallbackType5
+PlayerShotUpdateCallbackType5
