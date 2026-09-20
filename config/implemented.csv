@@ -737,3 +737,5 @@ Th09EclRunState::ManagerStateView::InitializeSubroutine
 Th09EclRunRemote::ManagerClearView::KillAllNonBossEnemies
 AsciiBossMarkerVmView::SetBossMarkerInterrupt
 AsciiBossMarkerVmView::SetBossMarkerPosition
+BackgroundSpellStateView::BeginSpellBackground
+PlayerPositionCallbackView::InvokePositionCallback

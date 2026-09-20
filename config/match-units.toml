@@ -11234,3 +11234,23 @@ symbol = "?SetBossMarkerPosition@AsciiBossMarkerVmView@@QAEXHPBUFloat3@@@Z"
 target_address = 0x004067F0
 size = 0x2A
 relocations = []
+
+[units.background-begin-spell]
+source = "src/BackgroundSpellStart.cpp"
+object = "build/matching/BackgroundSpellStart.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["BackgroundSpellStateView::BeginSpellBackground"]
+symbol = "?BeginSpellBackground@BackgroundSpellStateView@@QAEXXZ"
+target_address = 0x004067B0
+size = 0x15
+relocations = []
+
+[units.player-invoke-position-callback]
+source = "src/PlayerPositionCallback.cpp"
+object = "build/matching/PlayerPositionCallback.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerPositionCallbackView::InvokePositionCallback"]
+symbol = "?InvokePositionCallback@PlayerPositionCallbackView@@QAEHPAUPlayerPositionView@@@Z"
+target_address = 0x00406820
+size = 0x10
+relocations = []

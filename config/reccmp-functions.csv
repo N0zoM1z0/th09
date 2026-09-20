@@ -738,3 +738,5 @@ Th09EclRunState::ManagerStateView::InitializeSubroutine,0x00406850,function
 Th09EclRunRemote::ManagerClearView::KillAllNonBossEnemies,0x0040F640,function
 AsciiBossMarkerVmView::SetBossMarkerInterrupt,0x004067D0,function
 AsciiBossMarkerVmView::SetBossMarkerPosition,0x004067F0,function
+BackgroundSpellStateView::BeginSpellBackground,0x004067B0,function
+PlayerPositionCallbackView::InvokePositionCallback,0x00406820,function
