@@ -11199,3 +11199,16 @@ relocations = [
   { offset = 0x1C, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4 },
   { offset = 0x33, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4 },
 ]
+
+[units.ecl-initialize-subroutine]
+source = "src/EclInitializeSubroutine.cpp"
+object = "build/matching/EclInitializeSubroutine.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Th09EclRunState::ManagerStateView::InitializeSubroutine"]
+symbol = "?InitializeSubroutine@ManagerStateView@Th09EclRunState@@QAEHPAUTh09EclContextView@@F@Z"
+target_address = 0x00406850
+size = 0x49
+relocations = [
+  { offset = 0x26, type = "REL32", symbol = "??4Th09EclTimerStorageView@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x33, type = "REL32", symbol = "??4Th09EclTimerStorageView@@QAEXH@Z", target = 0x00401500 },
+]

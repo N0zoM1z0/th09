@@ -733,3 +733,4 @@ FrontMessageRuntimeResetView::Reset
 EnemyEclOpcode2
 Th09EclRunState::ReleaseAttachedEffects
 EnemyDrawInterpolateWrappedAngle
+Th09EclRunState::ManagerStateView::InitializeSubroutine
