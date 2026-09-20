@@ -989,7 +989,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00443440,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004435E0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00443790,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00443930,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00443930,authored_game,Player,authored,high,player-shot-update-callback4-source-2026-09-20
 0x00443B10,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00443C10,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00443C70,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
