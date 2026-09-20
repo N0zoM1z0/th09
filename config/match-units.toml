@@ -7292,7 +7292,7 @@ target_address = 0x00413AF0
 size = 0xD7
 compare_size = 0xE8
 relocations = [
-  { offset = 0x17, type = "DIR32", symbol = "$L1857", target = 0x00413BC8 },
+  { offset = 0x17, type = "DIR32", symbol = "$L1870", target = 0x00413BC8 },
   { offset = 0x46, type = "REL32", symbol = "??BFloat3@@QAEPAMXZ", target = 0x004343D0 },
   { offset = 0x54, type = "REL32", symbol = "??BFloat3@@QAEPAMXZ", target = 0x004343D0 },
   { offset = 0x61, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
@@ -7304,10 +7304,10 @@ relocations = [
   { offset = 0xC2, type = "REL32", symbol = "?SetZRotation@AnmVm@@QAEXM@Z", target = 0x0040F840 },
   { offset = 0xC8, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0xCE, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
-  { offset = 0xD8, type = "DIR32", symbol = "$L1731", target = 0x00413B0B },
-  { offset = 0xDC, type = "DIR32", symbol = "$L1732", target = 0x00413B13 },
-  { offset = 0xE0, type = "DIR32", symbol = "$L1733", target = 0x00413B1B },
-  { offset = 0xE4, type = "DIR32", symbol = "$L1734", target = 0x00413B23 },
+  { offset = 0xD8, type = "DIR32", symbol = "$L1744", target = 0x00413B0B },
+  { offset = 0xDC, type = "DIR32", symbol = "$L1745", target = 0x00413B13 },
+  { offset = 0xE0, type = "DIR32", symbol = "$L1746", target = 0x00413B1B },
+  { offset = 0xE4, type = "DIR32", symbol = "$L1747", target = 0x00413B23 },
 ]
 
 [units.etama-controller-release]
@@ -9971,18 +9971,18 @@ relocations = [
   { offset = 0x142, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
   { offset = 0x163, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
   { offset = 0x170, type = "DIR32", symbol = "_kBulletSpriteScripts", target = 0x0048E628 },
-  { offset = 0x17F, type = "DIR32", symbol = "$L1909", target = 0x004140A4 },
-  { offset = 0x186, type = "DIR32", symbol = "$L1918", target = 0x00414098 },
+  { offset = 0x17F, type = "DIR32", symbol = "$L1922", target = 0x004140A4 },
+  { offset = 0x186, type = "DIR32", symbol = "$L1931", target = 0x00414098 },
   { offset = 0x1CF, type = "DIR32", symbol = "__real@42000000", target = 0x0048E5E0 },
   { offset = 0x1DC, type = "DIR32", symbol = "_kBulletSpriteScripts", target = 0x0048E628 },
-  { offset = 0x1EB, type = "DIR32", symbol = "$L1910", target = 0x0041411C },
-  { offset = 0x1F2, type = "DIR32", symbol = "$L1919", target = 0x00414110 },
-  { offset = 0x258, type = "DIR32", symbol = "$L1827", target = 0x00413FCA },
-  { offset = 0x25C, type = "DIR32", symbol = "$L1828", target = 0x00413FDB },
-  { offset = 0x260, type = "DIR32", symbol = "$L1830", target = 0x00413FFC },
-  { offset = 0x2D0, type = "DIR32", symbol = "$L1837", target = 0x00414036 },
-  { offset = 0x2D4, type = "DIR32", symbol = "$L1838", target = 0x00414044 },
-  { offset = 0x2D8, type = "DIR32", symbol = "$L1839", target = 0x00414052 },
+  { offset = 0x1EB, type = "DIR32", symbol = "$L1923", target = 0x0041411C },
+  { offset = 0x1F2, type = "DIR32", symbol = "$L1932", target = 0x00414110 },
+  { offset = 0x258, type = "DIR32", symbol = "$L1840", target = 0x00413FCA },
+  { offset = 0x25C, type = "DIR32", symbol = "$L1841", target = 0x00413FDB },
+  { offset = 0x260, type = "DIR32", symbol = "$L1843", target = 0x00413FFC },
+  { offset = 0x2D0, type = "DIR32", symbol = "$L1850", target = 0x00414036 },
+  { offset = 0x2D4, type = "DIR32", symbol = "$L1851", target = 0x00414044 },
+  { offset = 0x2D8, type = "DIR32", symbol = "$L1852", target = 0x00414052 },
 ]
 
 [units.anm-manager-load-surface]
@@ -10938,4 +10938,22 @@ relocations = [
   { offset = 0xAF, type = "REL32", symbol = "??YEnemyExAttackLocalVec3@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
   { offset = 0xC8, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
   { offset = 0xD8, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
+]
+
+[units.effect-draw-bullet-layer]
+source = "src/EffectBulletLayerDraw.cpp"
+object = "build/matching/EffectBulletLayerDraw.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["BulletDrawEffectManagerView::DrawBulletLayerEffects"]
+symbol = "?DrawBulletLayerEffects@BulletDrawEffectManagerView@@QAEHXZ"
+target_address = 0x0040D110
+size = 0xA9
+relocations = [
+  { offset = 0x37, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x42, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
+  { offset = 0x4D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x52, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
+  { offset = 0x70, type = "REL32", symbol = "?Add@EffectFloat3@@QAEPAU1@PBU1@@Z", target = 0x00405730 },
+  { offset = 0x76, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x7C, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
 ]

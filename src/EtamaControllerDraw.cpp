@@ -8,7 +8,7 @@ extern float __stdcall AddNormalizeAngle(float angle, float delta);
 
 struct BulletDrawEffectManagerView
 {
-    void DrawBulletLayerEffects();
+    int DrawBulletLayerEffects();
 };
 
 struct BulletDrawSideStateView

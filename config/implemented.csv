@@ -716,3 +716,4 @@ EnemyExAttackMoreView::SpawnExAttackType10
 EnemyExAttackMoreView::SpawnExAttackType11
 EnemyExAttackMoreView::SpawnExAttackType12
 EnemyExAttackMoreView::SpawnExAttackType22Burst
+BulletDrawEffectManagerView::DrawBulletLayerEffects
