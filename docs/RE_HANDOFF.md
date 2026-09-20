@@ -287,6 +287,9 @@ generation, or folded ownership.
    Gameplay setup's adjacent date formatter `0x0041A796` is now 45-byte exact;
    it writes `%y/%m/%d` into shared `g_ReplayPlayTimeText @ 0x004AC879` via
    pinned CRT time/localtime/strftime and replaces the old provisional reset alias.
+   Shared GameManager playfield test `0x0041A6EB` is owner/ABI/semantics-closed
+   but remains no-source: natural /Os shapes are 110/114 bytes versus target 116,
+   with the residual in x87 compare-status/pop control flow; do not force it.
    ExAttack draw is now closed as a coherent pair too: `OnDraw0 @ 0x00415460`
    is 286-byte exact and `OnDraw1 @ 0x00415580` is 193-byte exact. TH09
    fixes the record VM array/count/list/callback fields and controller draw-list
