@@ -11499,3 +11499,23 @@ relocations = [
   { offset = 0x27, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x5D, type = "REL32", symbol = "?InitializeShot@PlayerShotSpawn1PlayerView@@QAIXPAUPlayerShotSpawn1ShotView@@PAUPlayerShotSpawn1DescriptorView@@@Z", target = 0x0041F350 },
 ]
+
+[units.player-shot-update-callback-type3]
+source = "src/PlayerShotUpdateCallback3.cpp"
+object = "build/matching/PlayerShotUpdateCallback3.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["PlayerShotUpdateCallbackType3"]
+symbol = "?PlayerShotUpdateCallbackType3@@YIHPAUPlayerShotUpdate3PlayerView@@PAUPlayerShotUpdate3ShotView@@@Z"
+target_address = 0x00443150
+size = 0xF8
+relocations = [
+  { offset = 0x21, type = "REL32", symbol = "?GetCurrent@PlayerShotUpdate3TimerView@@QAEHXZ", target = 0x00435F00 },
+  { offset = 0x36, type = "DIR32", symbol = "__real@c3100000", target = 0x0048E808 },
+  { offset = 0x61, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
+  { offset = 0x73, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
+  { offset = 0x8B, type = "DIR32", symbol = "__real@3fc90fdb", target = 0x0048E450 },
+  { offset = 0x9D, type = "REL32", symbol = "?VectorAngle@Th09EclRunControl@@YGMMM@Z", target = 0x00405700 },
+  { offset = 0xBA, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0 },
+  { offset = 0xC6, type = "REL32", symbol = "@cosf@4", target = 0x00401060 },
+  { offset = 0xD8, type = "REL32", symbol = "@sinf@4", target = 0x00401070 },
+]

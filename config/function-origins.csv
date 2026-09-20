@@ -982,7 +982,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00442BD0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00442EC0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00442EE0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00443150,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00443150,authored_game,Player,authored,high,player-shot-update-callback3-exact-2026-09-20
 0x004432A0,authored_game,Player,authored,high,player-shot-spawn-callback3-exact-2026-09-20
 0x00443300,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00443430,authored_game,Player,authored,high,player-shot-collision-callback2-exact-2026-09-20
