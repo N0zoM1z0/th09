@@ -764,3 +764,4 @@ PlayerShotSpawnCallbackType7,0x0044AB90,function
 PlayerShotSpawnCallbackType1,0x00441EF0,function
 PlayerShotUpdateCallbackType3,0x00443150,function
 PlayerShotUpdateCallbackType4,0x00443930,function
+PlayerShotUpdateCallbackType1,0x004415E0,function
