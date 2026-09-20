@@ -951,10 +951,10 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00440FB0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00441100,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00441350,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x004413A0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x004413A0,authored_game,CardAttack,authored,high,card-attack-end-callbacks-exact-2026-09-20
 0x004413D0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00441420,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00441470,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00441470,authored_game,CardAttack,authored,high,card-attack-end-callbacks-exact-2026-09-20
 0x004415E0,authored_game,Player,authored,high,player-shot-update-callback1-source-2026-09-20
 0x004417C0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004417F0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19

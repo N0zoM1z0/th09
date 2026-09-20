@@ -1483,3 +1483,9 @@ name into a TH09 fact without target-local evidence.
 - `CardAttackUpdateAfter192 @ 0x00441BC0-0x00441BD6` is repository-canonical exact at 23 bytes. TH09 CardAttack callback table `0x004A00C0` is consumed in begin/update/draw/end columns; rows 0, 1, 3, 4, 6 and 7 all use this physical body in the update column under the public `int(CardAttack*)` callback ABI.
 - The target adds `CardAttack::timer98 @ +0x98`, calls exact `ZunTimer::operator>(192) @ 0x00403DE0`, then executes `neg eax; sbb eax,eax; neg eax` to normalize any nonzero unsigned result to integer 1. A direct source return of the overloaded operator emits only 17 bytes; natural `(timer98 > 192) != 0` source reproduces the complete 23-byte target with the single relocation solved.
 - The exact boolean-normalization sequence is source-semantic evidence rather than register steering. The maintained behavior name intentionally avoids identifying the original card/spell rows 0/1/3/4/6/7.
+
+## Packet 301 CardAttack end callbacks
+
+- Two CardAttack end-column callbacks are repository-canonical exact at 38 bytes each. `CardAttackEndFree1360 @ 0x004413A0-0x004413C5` is used by callback-table rows 0/1/3/4/6/7; `CardAttackEndFree1364 @ 0x00441470-0x00441495` is used by rows 2/5/8.
+- Each body loads its target-backed tail pointer (`CardAttack +0x1360` or `+0x1364`), conditionally calls exact `g_ZunMemory.Free`, clears the slot, and writes EAX=0. Natural source reproduces all target bytes and both relocations for each callback.
+- The two tail pointers stay reconstruction-neutral as `extra1360/extra1364` because the callbacks prove ownership/lifetime but not original resource spelling. The target bodies synthesize a zero return even though the maintained CardAttack end-callback typedef is void; CardAttack callers ignore the value, so original return-type spelling remains independently unclaimed.

@@ -771,3 +771,5 @@ ExAttackRecordSideView::GetSideState,0x00440CB0,function
 ExAttackReleaseCallbackType4,0x00442EC0,function
 CardAttackUpdateNoCategory3,0x00440CC0,function
 CardAttackUpdateAfter192,0x00441BC0,function
+CardAttackEndFree1360,0x004413A0,function
+CardAttackEndFree1364,0x00441470,function

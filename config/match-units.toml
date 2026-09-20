@@ -11569,3 +11569,29 @@ size = 0x17
 relocations = [
   { offset = 0x0C, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0 },
 ]
+
+[units.card-attack-end-free1360]
+source = "src/CardAttackEndCallbacks.cpp"
+object = "build/matching/CardAttackEndCallbacks.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["CardAttackEndFree1360"]
+symbol = "?CardAttackEndFree1360@@YIHPAUCardAttack@@@Z"
+target_address = 0x004413A0
+size = 0x26
+relocations = [
+  { offset = 0x0F, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x14, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+]
+
+[units.card-attack-end-free1364]
+source = "src/CardAttackEndCallbacks.cpp"
+object = "build/matching/CardAttackEndCallbacks.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["CardAttackEndFree1364"]
+symbol = "?CardAttackEndFree1364@@YIHPAUCardAttack@@@Z"
+target_address = 0x00441470
+size = 0x26
+relocations = [
+  { offset = 0x0F, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x14, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+]
