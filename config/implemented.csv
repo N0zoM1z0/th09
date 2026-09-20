@@ -728,3 +728,4 @@ EffectFollowPlayerUpdate
 ResetGameManager
 GameManager_CutChain
 FormatCurrentDateString
+FrontSideAuxTransitionView::BeginAuxTransition

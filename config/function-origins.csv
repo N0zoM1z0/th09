@@ -299,7 +299,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00415D20,authored_game,GameManager,authored,high,runtime-support-leaf-target-replay-2026-09-16
 0x00415D30,authored_game,GameManager,authored,high,runtime-support-leaf-target-replay-2026-09-16
 0x00415D40,authored_game,Front,authored,high,runtime-support-leaf-target-replay-2026-09-16
-0x00415D50,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00415D50,authored_game,FrontSide,authored,high,frontside-aux-transition-exact-2026-09-20
 0x00415D70,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00415E50,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00416080,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19

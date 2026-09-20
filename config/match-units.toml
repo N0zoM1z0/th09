@@ -11125,3 +11125,15 @@ relocations = [
   { offset = 0x1B, type = "DIR32", symbol = "??_C@_08KKPPFNMK@?$CFy?1?$CFm?1?$CFd?$AA@", target = 0x0048EF44 },
   { offset = 0x23, type = "REL32", symbol = "_strftime", target = 0x0047C06F },
 ]
+
+[units.frontside-begin-aux-transition]
+source = "src/FrontSideAuxTransition.cpp"
+object = "build/matching/FrontSideAuxTransition.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontSideAuxTransitionView::BeginAuxTransition"]
+symbol = "?BeginAuxTransition@FrontSideAuxTransitionView@@QAEXXZ"
+target_address = 0x00415D50
+size = 0x18
+relocations = [
+  { offset = 0x13, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+]
