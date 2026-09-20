@@ -724,3 +724,4 @@ FinishLoading
 SupervisorCriticalSectionArrayView::InitializeCriticalSections
 SupervisorCriticalSectionArrayView::DeleteCriticalSections
 Float3::operator+=
+EffectFollowPlayerUpdate

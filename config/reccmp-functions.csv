@@ -725,3 +725,4 @@ FinishLoading,0x004304A0,function
 SupervisorCriticalSectionArrayView::InitializeCriticalSections,0x00430530,function
 SupervisorCriticalSectionArrayView::DeleteCriticalSections,0x00430560,function
 Float3::operator+=,0x00405730,function
+EffectFollowPlayerUpdate,0x0040C960,function

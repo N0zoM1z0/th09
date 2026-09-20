@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 726 |
-| Canonical exact functions | 590 |
+| Source-present authored mappings | 727 |
+| Canonical exact functions | 591 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 726 source-present authored mappings. Of
-these, 590 are canonical exact and 136 retain honest non-exact compiler results.
-`config/matches.csv` contains 590 complete target-bound VC7.1 matches totaling
-81,334 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 727 source-present authored mappings. Of
+these, 591 are canonical exact and 136 retain honest non-exact compiler results.
+`config/matches.csv` contains 591 complete target-bound VC7.1 matches totaling
+81,372 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 264
-   authored functions / 87,084 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 263
+   authored functions / 87,046 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -275,6 +275,9 @@ generation, or folded ownership.
    callers. High-reuse `Float3::FromAngleMagnitude @ 0x00441890` remains
    source-absent: natural VC7.1 is 30 bytes FCOS/FSIN versus target 32-byte FSINCOS,
    and adjacent source requires inline asm, which is not accepted here.
+   EffectTemplate effectId 7's update callback `0x0040C960` is now 38-byte
+   canonical exact: table ownership comes from the +0x10 callback slot at
+   `0x004A0C00`, and the body copies side Player +0x1B88 into Effect +0x0C.
    ExAttack draw is now closed as a coherent pair too: `OnDraw0 @ 0x00415460`
    is 286-byte exact and `OnDraw1 @ 0x00415580` is 193-byte exact. TH09
    fixes the record VM array/count/list/callback fields and controller draw-list
