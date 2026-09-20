@@ -89,6 +89,7 @@ struct EnemyEclManagerView
     int Load(char *path);
     int GetSubroutineCount();
     void *GetSubroutine(int index);
+    void ReleaseRawFile();
 };
 typedef char EnemyEclManagerViewSizeIs188[
     (sizeof(EnemyEclManagerView) == 0x188) ? 1 : -1];

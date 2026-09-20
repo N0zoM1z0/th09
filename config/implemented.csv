@@ -806,3 +806,5 @@ FrontReleaseView::ReleaseCore
 TitleScreenView::SetTwoDigitVmValue
 SwapDuplicateCharacterIndex
 EnemyCoreReleaseChildEclBlocks
+EnemyManagerReleaseCore
+ReleaseSubsystem4
