@@ -13,8 +13,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | --- | ---: |
 | Function candidates | 2,191 |
 | Boundary/origin unreviewed | 0 |
-| Reviewed but origin-unresolved | 34 |
-| Confirmed authored | 987 |
+| Reviewed but origin-unresolved | 35 |
+| Confirmed authored | 986 |
 | Classified exclusions | 1,170 |
 | Source-present authored mappings | 811 |
 | Canonical exact functions | 666 |
@@ -47,9 +47,9 @@ committed.
 ## Boundary and origin closure
 
 The full 2,191-candidate ledger has been reviewed against the pinned target.
-Current dispositions are 987 authored, 1,170 excluded, and 34 intentionally
-unknown. The 34-entry unknown set is frozen by SHA-256
-`17bb6cebc7577183c2b339fca631bb1b41c754d3239916995324d9670eb67ef0`.
+Current dispositions are 986 authored, 1,170 excluded, and 35 intentionally
+unknown. The 35-entry unknown set is frozen by SHA-256
+`126885e1a6a78ac42b0d81852253714cc1c9eb99141066d495b0029a16ca5695`.
 
 - Thirty-one entries are construction/destruction-only special members. Their
   target bodies are compatible with both explicit out-of-line source and
@@ -106,10 +106,10 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**176 authored functions / 78,067 bytes without maintained source**, plus 145
+**175 authored functions / 78,064 bytes without maintained source**, plus 145
 source-present functions that retain honest non-exact compiler results.
 
-1. **Do not churn closed or frozen frontiers.** The 34 origin-unknown entries
+1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
    remain frozen. Keep the durable natural-codegen negatives closed unless new
    ABI/type/TU evidence appears, especially `CaptureFrameSyncState`,
    `AsciiManager::OnUpdate`, replay-input register-allocation leaves,

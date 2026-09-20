@@ -38,8 +38,8 @@ AMBIGUOUS_EVIDENCE_ID = "game-special-member-origin-review-2026-09-19"
 GAME_BAND_END = 0x0044E000
 EXPECTED_GAME_COHORT = 387
 EXPECTED_GAME_COHORT_DIGEST = "8fc4d184e62c0e19d28aa5ca120f158a7f25d5fac28b2735f2372f8db81a7077"
-EXPECTED_AUTHORED_DIGEST = "30345ae0e75802488f73aaad48ffd0215b2c16317bfbbd0ce22ad92f614c5340"
-EXPECTED_AMBIGUOUS_DIGEST = "17bb6cebc7577183c2b339fca631bb1b41c754d3239916995324d9670eb67ef0"
+EXPECTED_AUTHORED_DIGEST = "4613b2669954fe86811080cab38c7281a7ef5dbef85795ee4527004f0c7a8e6a"
+EXPECTED_AMBIGUOUS_DIGEST = "126885e1a6a78ac42b0d81852253714cc1c9eb99141066d495b0029a16ca5695"
 RETAIN_UNKNOWN = {
     "0x0040FCA0",
     "0x00412090", "0x004120A0", "0x004120C0", "0x004120D0", "0x00412100",
@@ -53,9 +53,9 @@ RETAIN_UNKNOWN = {
     "0x0042AC30", "0x0042B190", "0x0042F3B0", "0x0042F3F0",
     "0x0043D2B0",
     "0x00435AF0", "0x00435D40", "0x00435D70", "0x00435DA0",
-    "0x00435DC0", "0x00435EC0",
+    "0x00435DC0", "0x00435EC0", "0x004343D0",
 }
-SHARED_OR_FOLDED = {"0x0042F3F0", "0x00435EC0", "0x0043D2B0"}
+SHARED_OR_FOLDED = {"0x0042F3F0", "0x004343D0", "0x00435EC0", "0x0043D2B0"}
 DETAILED_SPECIAL_MEMBER_EVIDENCE = {
     "0x004157A0", "0x004157B0", "0x0042AC30", "0x0042B190", "0x00435DC0"
 }
@@ -398,6 +398,17 @@ def review_ambiguous(write: bool) -> dict[str, object]:
             )
             row["notes"] = (
                 "Boundary is closed; shared empty-body ownership remains deliberately unknown."
+            )
+        elif address == "0x004343D0":
+            row["evidence"] = (
+                "Reviewed complete three-byte mov eax,ecx; ret extent. Fresh attested "
+                "TH09 xrefs show ordinary code calls plus constructor-callback/data uses; "
+                "exact caller manifests bind the same VA to Float3::operator float* and "
+                "several constructor-shaped symbols, proving shared/folded ownership."
+            )
+            row["notes"] = (
+                "Known aliases include Float3::operator float* and multiple identity/empty "
+                "constructor views; boundary is closed but physical origin stays unknown."
             )
         elif address == "0x00435EC0":
             row["evidence"] = (
