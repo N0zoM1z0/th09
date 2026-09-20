@@ -11147,3 +11147,32 @@ symbol = "?Reset@FrontMessageRuntimeResetView@@QAEHXZ"
 target_address = 0x00415C90
 size = 0x17
 relocations = []
+
+[units.enemy-ecl-opcode2]
+source = "src/EnemyEclOpcode2.cpp"
+object = "build/matching/EnemyEclOpcode2.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyEclOpcode2"]
+symbol = "?EnemyEclOpcode2@@YIXPAUEnemyView@@PAX@Z"
+target_address = 0x0040C530
+size = 0x23E
+relocations = [
+  { offset = 0x4F, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
+  { offset = 0x71, type = "REL32", symbol = "?SetSprite@BulletAnmLoadedView@@QAEXPAUAnmVm@@H@Z", target = 0x00436AC0 },
+  { offset = 0x7B, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0x92, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
+  { offset = 0xBD, type = "REL32", symbol = "?ResetTransformRuntime@BulletTransformResetView@@QAEXXZ", target = 0x0040C390 },
+  { offset = 0xC8, type = "REL32", symbol = "?InstallWaitTransform@Bullet@@QAEXHHH@Z", target = 0x004126B0 },
+  { offset = 0xE3, type = "REL32", symbol = "?InstallVectorAccelerationTransform@Bullet@@QAEXHHHMM@Z", target = 0x00412680 },
+  { offset = 0x12F, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
+  { offset = 0x158, type = "REL32", symbol = "?SetSprite@BulletAnmLoadedView@@QAEXPAUAnmVm@@H@Z", target = 0x00436AC0 },
+  { offset = 0x162, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0x179, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
+  { offset = 0x1A4, type = "REL32", symbol = "?ResetTransformRuntime@BulletTransformResetView@@QAEXXZ", target = 0x0040C390 },
+  { offset = 0x1C6, type = "REL32", symbol = "?InstallSpriteTransform@Bullet@@QAEXHHHH@Z", target = 0x004126D0 },
+  { offset = 0x1D2, type = "REL32", symbol = "?InstallWaitTransform@Bullet@@QAEXHHH@Z", target = 0x004126B0 },
+  { offset = 0x1F3, type = "REL32", symbol = "?InstallWaitTransform@Bullet@@QAEXHHH@Z", target = 0x004126B0 },
+  { offset = 0x20E, type = "REL32", symbol = "?InstallVectorAccelerationTransform@Bullet@@QAEXHHHMM@Z", target = 0x00412680 },
+  { offset = 0x22E, type = "DIR32", symbol = "?g_SoundPlayer@@3UEnemyEclOpcode2SoundView@@A", target = 0x004DC698 },
+  { offset = 0x233, type = "REL32", symbol = "?PlaySoundByIdx@EnemyEclOpcode2SoundView@@QAEXHH@Z", target = 0x0043E2F0 },
+]
