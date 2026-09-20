@@ -755,3 +755,5 @@ PlayerShotSpawnCallbackType2
 PlayerShotSpawnCallbackType4
 PlayerShotSpawnCallbackType5
 PlayerShotUpdateCallbackType5
+PlayerShotUpdateCallbackType6
+PlayerShotUpdateCallbackType7

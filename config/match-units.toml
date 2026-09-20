@@ -11415,3 +11415,33 @@ size = 0x56
 relocations = [
   { offset = 0x2F, type = "REL32", symbol = "??PZunTimer@@QAEIH@Z", target = 0x00401520 },
 ]
+
+[units.player-shot-update-callback-type6]
+source = "src/PlayerShotUpdateCallbacks67.cpp"
+object = "build/matching/PlayerShotUpdateCallbacks67.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["PlayerShotUpdateCallbackType6"]
+symbol = "?PlayerShotUpdateCallbackType6@@YIHPAUPlayerShotUpdate67PlayerView@@PAUPlayerShotUpdate67ShotView@@@Z"
+target_address = 0x00449C70
+size = 0x62
+relocations = [
+  { offset = 0x17, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0 },
+  { offset = 0x30, type = "DIR32", symbol = "__real@3f75c28f", target = 0x00491644 },
+  { offset = 0x3E, type = "REL32", symbol = "@cosf@4", target = 0x00401060 },
+  { offset = 0x4D, type = "REL32", symbol = "@sinf@4", target = 0x00401070 },
+]
+
+[units.player-shot-update-callback-type7]
+source = "src/PlayerShotUpdateCallbacks67.cpp"
+object = "build/matching/PlayerShotUpdateCallbacks67.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["PlayerShotUpdateCallbackType7"]
+symbol = "?PlayerShotUpdateCallbackType7@@YIHPAUPlayerShotUpdate67PlayerView@@PAUPlayerShotUpdate67ShotView@@@Z"
+target_address = 0x00449CE0
+size = 0x62
+relocations = [
+  { offset = 0x17, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0 },
+  { offset = 0x30, type = "DIR32", symbol = "__real@3f75c28f", target = 0x00491644 },
+  { offset = 0x3E, type = "REL32", symbol = "@cosf@4", target = 0x00401060 },
+  { offset = 0x4D, type = "REL32", symbol = "@sinf@4", target = 0x00401070 },
+]
