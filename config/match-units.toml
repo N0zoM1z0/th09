@@ -11035,3 +11035,27 @@ relocations = [
   { offset = 0x46, type = "REL32", symbol = "?BeginFadeRelease@ScreenEffect@@QAEXXZ", target = 0x00422930 },
   { offset = 0x4C, type = "DIR32", symbol = "?g_SupervisorScreenEffect@@3PAUScreenEffect@@A", target = 0x004B30F8 },
 ]
+
+[units.supervisor-initialize-critical-sections]
+source = "src/SupervisorCriticalSectionLifecycle.cpp"
+object = "build/matching/SupervisorCriticalSectionLifecycle.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorCriticalSectionArrayView::InitializeCriticalSections"]
+symbol = "?InitializeCriticalSections@SupervisorCriticalSectionArrayView@@QAEXXZ"
+target_address = 0x00430530
+size = 0x21
+relocations = [
+  { offset = 0x03, type = "DIR32", symbol = "__imp__InitializeCriticalSection@4", target = 0x0048E0B8 },
+]
+
+[units.supervisor-delete-critical-sections]
+source = "src/SupervisorCriticalSectionLifecycle.cpp"
+object = "build/matching/SupervisorCriticalSectionLifecycle.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorCriticalSectionArrayView::DeleteCriticalSections"]
+symbol = "?DeleteCriticalSections@SupervisorCriticalSectionArrayView@@QAEXXZ"
+target_address = 0x00430560
+size = 0x21
+relocations = [
+  { offset = 0x03, type = "DIR32", symbol = "__imp__DeleteCriticalSection@4", target = 0x0048E0BC },
+]

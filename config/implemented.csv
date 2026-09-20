@@ -721,3 +721,5 @@ AnmCaptureRequestView::QueueCaptureRequest
 SupervisorSetupLayout::SetupLoadingVmsAndInitCapture
 TitleSupervisorView::HideLoadingVms
 FinishLoading
+SupervisorCriticalSectionArrayView::InitializeCriticalSections
+SupervisorCriticalSectionArrayView::DeleteCriticalSections

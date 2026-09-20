@@ -722,3 +722,5 @@ AnmCaptureRequestView::QueueCaptureRequest,0x0042F420,function
 SupervisorSetupLayout::SetupLoadingVmsAndInitCapture,0x004303C0,function
 TitleSupervisorView::HideLoadingVms,0x00430360,function
 FinishLoading,0x004304A0,function
+SupervisorCriticalSectionArrayView::InitializeCriticalSections,0x00430530,function
+SupervisorCriticalSectionArrayView::DeleteCriticalSections,0x00430560,function
