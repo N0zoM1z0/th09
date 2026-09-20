@@ -751,3 +751,6 @@ EnemyAppendCollisionView::AppendPlayerCollisionBox
 PlayerShotCollisionCallbackType1
 PlayerShotCollisionCallbackType2
 EffectFixedSlotManagerView::GetFixedSlotEffect
+PlayerShotSpawnCallbackType2
+PlayerShotSpawnCallbackType4
+PlayerShotSpawnCallbackType5

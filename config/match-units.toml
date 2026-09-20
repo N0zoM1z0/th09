@@ -11366,3 +11366,40 @@ symbol = "?GetFixedSlotEffect@EffectFixedSlotManagerView@@QAEPAUEffectFixedSlotR
 target_address = 0x00445560
 size = 0x1A
 relocations = []
+
+[units.player-shot-spawn-callback-type2]
+source = "src/PlayerShotSpawnCallbacks.cpp"
+object = "build/matching/PlayerShotSpawnCallbacks.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerShotSpawnCallbackType2"]
+symbol = "?PlayerShotSpawnCallbackType2@@YIHPAUPlayerShotSpawnPlayerView@@PAUPlayerShotSpawnShotView@@HPAUPlayerShotSpawnDescriptorView@@@Z"
+target_address = 0x004423D0
+size = 0x44
+relocations = [
+  { offset = 0x16, type = "REL32", symbol = "?InitializeShot@PlayerShotSpawnPlayerView@@QAIXPAUPlayerShotSpawnShotView@@PAUPlayerShotSpawnDescriptorView@@@Z", target = 0x0041F350 },
+]
+
+[units.player-shot-spawn-callback-type4]
+source = "src/PlayerShotSpawnCallbacks.cpp"
+object = "build/matching/PlayerShotSpawnCallbacks.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerShotSpawnCallbackType4"]
+symbol = "?PlayerShotSpawnCallbackType4@@YIHPAUPlayerShotSpawnPlayerView@@PAUPlayerShotSpawnShotView@@HPAUPlayerShotSpawnDescriptorView@@@Z"
+target_address = 0x00445530
+size = 0x2C
+relocations = [
+  { offset = 0x22, type = "REL32", symbol = "?SpawnEffectInFixedSlot@PlayerShotSpawnEffectManagerView@@QAEPAUPlayerShotSpawnEffectView@@HPBUPlayerShotSpawnVec3@@HI@Z", target = 0x0040CD70 },
+]
+
+[units.player-shot-spawn-callback-type5]
+source = "src/PlayerShotSpawnCallbacks.cpp"
+object = "build/matching/PlayerShotSpawnCallbacks.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerShotSpawnCallbackType5"]
+symbol = "?PlayerShotSpawnCallbackType5@@YIHPAUPlayerShotSpawnPlayerView@@PAUPlayerShotSpawnShotView@@HPAUPlayerShotSpawnDescriptorView@@@Z"
+target_address = 0x00445CB0
+size = 0x48
+relocations = [
+  { offset = 0x12, type = "REL32", symbol = "?GetFixedSlotEffect@PlayerShotSpawnEffectManagerView@@QAEPAUPlayerShotSpawnEffectView@@H@Z", target = 0x00445560 },
+  { offset = 0x31, type = "REL32", symbol = "?InitializeShot@PlayerShotSpawnPlayerView@@QAIXPAUPlayerShotSpawnShotView@@PAUPlayerShotSpawnDescriptorView@@@Z", target = 0x0041F350 },
+]

@@ -752,3 +752,6 @@ EnemyAppendCollisionView::AppendPlayerCollisionBox,0x00410250,function
 PlayerShotCollisionCallbackType1,0x00441880,function
 PlayerShotCollisionCallbackType2,0x00443430,function
 EffectFixedSlotManagerView::GetFixedSlotEffect,0x00445560,function
+PlayerShotSpawnCallbackType2,0x004423D0,function
+PlayerShotSpawnCallbackType4,0x00445530,function
+PlayerShotSpawnCallbackType5,0x00445CB0,function
