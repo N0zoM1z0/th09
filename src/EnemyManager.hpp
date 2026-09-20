@@ -180,6 +180,8 @@ struct EnemyManagerView
     EnemyView *firstActiveEnemy2AC448;
     int specialAttackThreshold2AC44C;
 
+    void ResetForGameplayCleanup();
+
     EnemyManagerView();
     void Initialize();
     EnemyView *FindActiveEnemyBySideCategory(int sideCategory);

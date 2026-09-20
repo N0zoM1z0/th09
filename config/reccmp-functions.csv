@@ -809,3 +809,4 @@ SwapDuplicateCharacterIndex,0x00422F67,function
 EnemyCoreReleaseChildEclBlocks,0x004100E0,function
 EnemyManagerReleaseCore,0x00411F30,function
 ReleaseSubsystem4,0x00411F80,function
+EnemyManagerView::ResetForGameplayCleanup,0x00411FD0,function

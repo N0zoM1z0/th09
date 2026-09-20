@@ -8046,6 +8046,31 @@ relocations = [
   { offset = 0x3B, type = "REL32", symbol = "?ReleaseRawFile@EnemyEclManagerView@@QAEXXZ", target = 0x00406830 },
 ]
 
+[units.enemy-manager-reset-for-gameplay-cleanup]
+source = "src/EnemyManagerRelease.cpp"
+object = "build/matching/EnemyManagerRelease.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyManagerView::ResetForGameplayCleanup"]
+symbol = "?ResetForGameplayCleanup@EnemyManagerView@@QAEXXZ"
+target_address = 0x00411FD0
+size = 0xB1
+relocations = [
+  { offset = 0x13, type = "REL32", symbol = "?EnemyCoreReleaseChildEclBlocks@@YIXPAUEnemyCoreView@@@Z", target = 0x004100E0 },
+  { offset = 0x36, type = "REL32", symbol = "?GetSubroutineCount@EnemyEclManagerView@@QAEHXZ", target = 0x0040F160 },
+  { offset = 0x3C, type = "DIR32", symbol = "?g_Rng@@3UEnemyLifecycleRngView@@A", target = 0x004ACE0C },
+  { offset = 0x41, type = "REL32", symbol = "?GetRandomU32InRange@EnemyLifecycleRngView@@QAEII@Z", target = 0x004048E0 },
+  { offset = 0x48, type = "DIR32", symbol = "?g_Rng@@3UEnemyLifecycleRngView@@A", target = 0x004ACE0C },
+  { offset = 0x4E, type = "DIR32", symbol = "?g_EnemySubroutineSchedule@@3PAEA", target = 0x004A7C88 },
+  { offset = 0x53, type = "REL32", symbol = "?GetRandomU32InRange@EnemyLifecycleRngView@@QAEII@Z", target = 0x004048E0 },
+  { offset = 0x59, type = "DIR32", symbol = "?g_EnemySubroutineSchedule@@3PAEA", target = 0x004A7C88 },
+  { offset = 0x64, type = "DIR32", symbol = "?g_EnemySubroutineSchedule@@3PAEA", target = 0x004A7C88 },
+  { offset = 0x7B, type = "DIR32", symbol = "?g_EnemySubroutineSchedule@@3PAEA", target = 0x004A7C88 },
+  { offset = 0x86, type = "REL32", symbol = "?GetSubroutine@EnemyEclManagerView@@QAEPAXH@Z", target = 0x0040F170 },
+  { offset = 0x9C, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0xA9, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+]
+
+
 [units.enemy-manager-release-subsystem4]
 source = "src/EnemyManagerRelease.cpp"
 object = "build/matching/EnemyManagerRelease.obj"

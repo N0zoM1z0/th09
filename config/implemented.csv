@@ -808,3 +808,4 @@ SwapDuplicateCharacterIndex
 EnemyCoreReleaseChildEclBlocks
 EnemyManagerReleaseCore
 ReleaseSubsystem4
+EnemyManagerView::ResetForGameplayCleanup

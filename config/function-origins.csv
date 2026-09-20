@@ -219,7 +219,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00411DB0,authored_game,EnemyManager,authored,high,packet-171-enemy-manager-lifecycle
 0x00411F30,authored_game,EnemyManager,authored,high,enemy-release-private-tu-exact-2026-09-20
 0x00411F80,authored_game,EnemyManager,authored,high,enemy-release-private-tu-exact-2026-09-20
-0x00411FD0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00411FD0,authored_game,EnemyManager,authored,high,enemy-manager-gameplay-reset-exact-2026-09-20
 0x00412090,unknown,,review,unknown,game-special-member-origin-review-2026-09-19
 0x004120A0,unknown,,review,unknown,game-special-member-origin-review-2026-09-19
 0x004120C0,unknown,,review,unknown,game-special-member-origin-review-2026-09-19
