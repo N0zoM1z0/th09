@@ -11486,3 +11486,16 @@ relocations = [
   { offset = 0x52, type = "REL32", symbol = "@cosf@4", target = 0x00401060 },
   { offset = 0x61, type = "REL32", symbol = "@sinf@4", target = 0x00401070 },
 ]
+
+[units.player-shot-spawn-callback-type1]
+source = "src/PlayerShotSpawnCallback1.cpp"
+object = "build/matching/PlayerShotSpawnCallback1.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerShotSpawnCallbackType1"]
+symbol = "?PlayerShotSpawnCallbackType1@@YIHPAUPlayerShotSpawn1PlayerView@@PAUPlayerShotSpawn1ShotView@@HPAUPlayerShotSpawn1DescriptorView@@@Z"
+target_address = 0x00441EF0
+size = 0x97
+relocations = [
+  { offset = 0x27, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x5D, type = "REL32", symbol = "?InitializeShot@PlayerShotSpawn1PlayerView@@QAIXPAUPlayerShotSpawn1ShotView@@PAUPlayerShotSpawn1DescriptorView@@@Z", target = 0x0041F350 },
+]
