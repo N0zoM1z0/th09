@@ -726,3 +726,4 @@ SupervisorCriticalSectionArrayView::DeleteCriticalSections
 Float3::operator+=
 EffectFollowPlayerUpdate
 ResetGameManager
+GameManager_CutChain

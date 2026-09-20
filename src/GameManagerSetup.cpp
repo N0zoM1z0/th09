@@ -1191,3 +1191,33 @@ void __fastcall ResetGameManager(GameManagerSetupLayout *manager)
     view->value13E = 0;
     view->value380 = 0;
 }
+
+namespace
+{
+struct GameManagerCutChainSupervisorView
+{
+    unsigned char unknown000[0x5B8];
+    float frameRateMultiplier5B8;
+};
+
+typedef char GameManagerCutChainSupervisorRateAt5B8[
+    (offsetof(GameManagerCutChainSupervisorView, frameRateMultiplier5B8) == 0x5B8) ? 1 : -1];
+}
+
+void __fastcall GameManager_CutChain()
+{
+    if (g_GameManager.sides[0].state->value08 >= 1000000000u)
+        g_GameManager.sides[0].state->value08 = 999999999u;
+    g_GameManager.sides[0].state->value04 =
+        g_GameManager.sides[0].state->value08;
+
+    if (g_GameManager.sides[1].state->value08 >= 1000000000u)
+        g_GameManager.sides[1].state->value08 = 999999999u;
+    g_GameManager.sides[1].state->value04 =
+        g_GameManager.sides[1].state->value08;
+
+    reinterpret_cast<GameManagerCutChainSupervisorView *>(&g_Supervisor)
+        ->frameRateMultiplier5B8 = 1.0f;
+    g_Chain.Cut(&g_GameManagerCalcChain);
+    g_Chain.Cut(&g_GameManagerDrawChain);
+}
