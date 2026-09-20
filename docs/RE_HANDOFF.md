@@ -14,8 +14,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Function candidates | 2,191 |
 | Boundary/origin unreviewed | 0 |
 | Reviewed but origin-unresolved | 35 |
-| Confirmed authored | 986 |
-| Classified exclusions | 1,170 |
+| Confirmed authored | 983 |
+| Classified exclusions | 1,173 |
 | Source-present authored mappings | 811 |
 | Canonical exact functions | 666 |
 
@@ -47,15 +47,15 @@ committed.
 ## Boundary and origin closure
 
 The full 2,191-candidate ledger has been reviewed against the pinned target.
-Current dispositions are 986 authored, 1,170 excluded, and 35 intentionally
+Current dispositions are 983 authored, 1,173 excluded, and 35 intentionally
 unknown. The 35-entry unknown set is frozen by SHA-256
 `126885e1a6a78ac42b0d81852253714cc1c9eb99141066d495b0029a16ca5695`.
 
 - Thirty-one entries are construction/destruction-only special members. Their
   target bodies are compatible with both explicit out-of-line source and
   implicit VC7.1 generation.
-- `0x0042F3F0`, `0x0043D2B0`, and `0x00435EC0` are shared, folded, or otherwise
-  owner-ambiguous physical bodies.
+- `0x0042F3F0`, `0x004343D0`, `0x00435EC0`, and `0x0043D2B0` are shared,
+  folded, or otherwise owner-ambiguous physical bodies.
 - Four former IDA `nullsub` candidates in the transition band are proven data.
 - D3DX8, CRT, import, compiler-helper, static-initializer, and DXErr8 residuals
   have separate target-bound reviews. The original game-origin sweep cohort is now
@@ -64,6 +64,11 @@ unknown. The 35-entry unknown set is frozen by SHA-256
 - Three former authored-sweep entries, `0x00401060/70/80`, are now explicitly
   reclassified as VC7.1 compiler-generated `@cosf@4/@sinf@4/@sqrtf@4` COMDAT
   helpers after two cold pinned-compiler reproductions of all 12 bytes each.
+- Three more broad-sweep entries, `0x00405710` and `0x00436AA0/AB0`, are
+  reclassified as `MathRuntime` library helpers `@fmodf@8`, `@acosf@4`, and
+  `@atanf@4`. Pinned VC7.1 <math.h> emits the same COMDATs naturally; two
+  cold target-bound comparisons reproduce every ordinary byte and the
+  `__CIfmod` / `__CIacos` relocation destinations.
 
 Replay the closure checks with:
 
@@ -106,7 +111,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**175 authored functions / 78,064 bytes without maintained source**, plus 145
+**172 authored functions / 78,017 bytes without maintained source**, plus 145
 source-present functions that retain honest non-exact compiler results.
 
 1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries

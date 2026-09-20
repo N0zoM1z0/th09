@@ -8,15 +8,15 @@ their boundaries and origins must be reviewed independently.
 | Tracked 1.50a function candidates | 2,191 |
 | Origin/boundary review pending | 0 |
 | Reviewed but origin-unresolved | 35 |
-| Confirmed authored functions | 986 |
-| Confirmed authored code bytes | 275,891 |
-| Classified exclusions | 1,170 |
+| Confirmed authored functions | 983 |
+| Confirmed authored code bytes | 275,844 |
+| Classified exclusions | 1,173 |
 | Source-present authored mappings | 811 |
 | Source-present authored bytes | 197,827 |
 | Source-present but non-exact functions | 145 |
 | Source-present but non-exact bytes | 110,683 |
-| Authored functions without maintained source | 175 |
-| Authored bytes without maintained source | 78,064 |
+| Authored functions without maintained source | 172 |
+| Authored bytes without maintained source | 78,017 |
 | Canonical exact functions | 666 |
 | Canonical exact authored bytes | 87,144 |
 

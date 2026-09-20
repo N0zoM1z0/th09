@@ -86,7 +86,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00405650,authored_game,BulletManager,authored,high,packet182-leaf-exact-target-replay-2026-09-16
 0x00405660,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00405700,authored_game,Math,authored,high,vector-angle-vc71-exact-2026-09-17
-0x00405710,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00405710,library,MathRuntime,exclude,high,vc71-math-runtime-comdat-review-2026-09-20
 0x00405730,authored_game,Math,authored,high,float3-add-assignment-exact-2026-09-20
 0x00405760,authored_game,EclManager,authored,high,packet-173-ecl-operands-vc71-2026-09-16
 0x00405F20,authored_game,EclManager,authored,high,packet-173-ecl-operands-vc71-2026-09-16
@@ -783,8 +783,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00436450,authored_game,TextHelper,authored,high,packet133-text-helper-module-2026-09-15
 0x004364C0,authored_game,TextHelper,authored,high,packet133-text-helper-module-2026-09-15
 0x004367B0,authored_game,TextHelper,authored,high,packet133-text-helper-module-2026-09-15
-0x00436AA0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00436AB0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00436AA0,library,MathRuntime,exclude,high,vc71-math-runtime-comdat-review-2026-09-20
+0x00436AB0,library,MathRuntime,exclude,high,vc71-math-runtime-comdat-review-2026-09-20
 0x00436AC0,authored_game,AnmManager,authored,high,runtime-support-leaf-target-replay-2026-09-16
 0x00436B80,authored_game,AnmManager,authored,high,packet127-anm-operand-helper-vc71-exact-2026-09-14
 0x00436C40,authored_game,AnmManager,authored,high,packet127-anm-operand-helper-vc71-exact-2026-09-14

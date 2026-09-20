@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Classify the five target-proven runtime-library residual candidates."""
+"""Classify target-proven runtime-library residual and math-runtime candidates."""
 from __future__ import annotations
 
 import argparse
@@ -17,7 +17,13 @@ ROOT = Path(__file__).resolve().parents[1]
 FUNCTIONS = ROOT / "config" / "functions.csv"
 ORIGINS = ROOT / "config" / "function-origins.csv"
 EVIDENCE_ID = "runtime-residual-origin-review-2026-09-19"
+MATH_EVIDENCE_ID = "vc71-math-runtime-comdat-review-2026-09-20"
+MATH_RUNTIME = {"0x00405710", "0x00436AA0", "0x00436AB0"}
+AUTHORED_SWEEP_EVIDENCE_ID = "game-code-origin-sweep-2026-09-19"
 REVIEW = {
+    "0x00405710": (18, "MathRuntime"),
+    "0x00436AA0": (15, "MathRuntime"),
+    "0x00436AB0": (14, "MathRuntime"),
     "0x00454650": (11, "D3DX8"),
     "0x0045E550": (266, "D3DX8"),
     "0x004866AD": (7, "CRT"),
@@ -25,6 +31,9 @@ REVIEW = {
     "0x0048A853": (8943, "DXErr8"),
 }
 BODY_DIGESTS = {
+    "0x00405710": "cda195dc6138ad85d8749faa392e96be3379221cfc73591c2271b9218032fb65",
+    "0x00436AA0": "4bc39e2b580fb068fb03b7eb5b285cebaa42116117f671e310daa34d726313c9",
+    "0x00436AB0": "e2e393daeb8f2e57ac1acd1ab67c1df7b5c0bec2a470986103a64b0afd72d816",
     "0x00454650": "7e677f9a9597993b548e844081ccd47705e9b61e48f68694fb421c8a63fb3cd8",
     "0x0045E550": "b63f9a1de8acb9e2bb0fff2a2d9407484374a01e5f68215d57a13f32f397960e",
     "0x004866AD": "033799cc10934d542e3dd680172558386460376b4274444eb305840b463cea64",
@@ -102,6 +111,15 @@ def verify_target_bodies() -> None:
             raise ValueError(f"reviewed body changed at {address_text}: {digest}")
         bodies[address_text] = body
 
+    if rel32_target(0x00405710, bodies["0x00405710"], 10) != 0x0047B73A:
+        raise ValueError("@fmodf@8 no longer calls __CIfmod")
+    if rel32_target(0x00436AA0, bodies["0x00436AA0"], 7) != 0x0047D280:
+        raise ValueError("@acosf@4 no longer calls __CIacos")
+    if bodies["0x00436AB0"] != bytes.fromhex(
+        "558becd94508d9e8d9f35dc20400"
+    ):
+        raise ValueError("@atanf@4 inline FPATAN body changed")
+
     if rel32_target(0x00454650, bodies["0x00454650"], 7) != 0x0047D6E8:
         raise ValueError("D3DX non-return helper no longer calls CRT longjmp")
     verify_dispatch_initializer(bodies["0x0045E550"])
@@ -140,7 +158,19 @@ def review(write: bool) -> dict[str, object]:
         origin = origin_rows[address]
         if int(function["size"]) != size:
             raise ValueError(f"candidate extent changed at {address}")
-        if function["status"] == "unclassified" and origin["origin"] == "unknown":
+        if (
+            address in MATH_RUNTIME
+            and function["status"] == "unclassified"
+            and function["owner"] == "authored"
+            and origin["origin"] == "authored_game"
+            and origin["evidence_id"] == AUTHORED_SWEEP_EVIDENCE_ID
+        ):
+            pending.add(address)
+        elif (
+            address not in MATH_RUNTIME
+            and function["status"] == "unclassified"
+            and origin["origin"] == "unknown"
+        ):
             pending.add(address)
         elif (
             function["status"] == "excluded"
@@ -149,7 +179,8 @@ def review(write: bool) -> dict[str, object]:
             and origin["origin"] == "library"
             and origin["subsystem"] == subsystem
             and origin["disposition"] == "exclude"
-            and origin["evidence_id"] == EVIDENCE_ID
+            and origin["evidence_id"]
+            == (MATH_EVIDENCE_ID if address in MATH_RUNTIME else EVIDENCE_ID)
         ):
             already_applied.add(address)
         else:
@@ -161,7 +192,9 @@ def review(write: bool) -> dict[str, object]:
         row["subsystem"] = subsystem
         row["disposition"] = "exclude"
         row["confidence"] = "high"
-        row["evidence_id"] = EVIDENCE_ID
+        row["evidence_id"] = (
+            MATH_EVIDENCE_ID if row["address"] in MATH_RUNTIME else EVIDENCE_ID
+        )
 
     def mutate_function(row: dict[str, str]) -> None:
         address = row["address"]
@@ -171,7 +204,39 @@ def review(write: bool) -> dict[str, object]:
         row["match_percent"] = "0.00"
         row["is_thunk"] = "false"
         row["owner"] = "library"
-        if address == "0x00454650":
+        if address in MATH_RUNTIME:
+            symbol, signature, detail = {
+                "0x00405710": (
+                    "@fmodf@8",
+                    "float __fastcall fmodf(float x, float y)",
+                    "18-byte wrapper calling target __CIfmod",
+                ),
+                "0x00436AA0": (
+                    "@acosf@4",
+                    "float __fastcall acosf(float value)",
+                    "15-byte wrapper calling target __CIacos",
+                ),
+                "0x00436AB0": (
+                    "@atanf@4",
+                    "float __fastcall atanf(float value)",
+                    "14-byte inline FLD1/FPATAN wrapper",
+                ),
+            }[address]
+            row["proposed_name"] = symbol
+            row["calling_convention"] = "__fastcall"
+            row["signature"] = signature
+            row["evidence"] = (
+                "Canonical authored manifests resolve this target as "
+                f"{symbol}. A pinned VC7.1 <math.h> probe automatically emits the "
+                f"same link-once COMDAT; two cold target-bound comparisons reproduce "
+                f"the complete {detail} with all relocation destinations reviewed."
+            )
+            row["notes"] = (
+                "VC7.1 math-runtime/library helper, not authored game source. "
+                "Excluded from the authored denominator with no canonical authored "
+                "exactness or source-presence credit."
+            )
+        elif address == "0x00454650":
             row["evidence"] = (
                 "Complete non-return extent pushes longjmp value 1 and calls the "
                 "reviewed CRT longjmp; its only IDA xref is data from the enclosing "
@@ -224,7 +289,7 @@ def review(write: bool) -> dict[str, object]:
         "reviewed_bytes": sum(size for size, _ in REVIEW.values()),
         "subsystems": {
             name: sum(subsystem == name for _, subsystem in REVIEW.values())
-            for name in ("D3DX8", "CRT", "DXErr8")
+            for name in ("MathRuntime", "D3DX8", "CRT", "DXErr8")
         },
     }
 
