@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 787 |
-| Canonical exact functions | 643 |
+| Source-present authored mappings | 791 |
+| Canonical exact functions | 647 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 787 source-present authored mappings. Of
-these, 643 are canonical exact and 144 retain honest non-exact compiler results.
-`config/matches.csv` contains 643 complete target-bound VC7.1 matches totaling
-85,325 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 791 source-present authored mappings. Of
+these, 647 are canonical exact and 144 retain honest non-exact compiler results.
+`config/matches.csv` contains 647 complete target-bound VC7.1 matches totaling
+85,656 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 203
-   authored functions / 80,163 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 199
+   authored functions / 79,832 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -413,6 +413,10 @@ generation, or folded ownership.
    shared default 0x004418B0, index2 0x00442550 and index4 0x00443C10 total
    225 bytes. Enemy movement fixes ECX=Player/EDX=Enemy; all three update neutral
    +0x2D98/+0x2D9C/+0x2DA0 state and exact specialAttackTimer5424.
+   `g_PlayerCallback30404` now also has its remaining short geometry predicates
+   exact at indices 6/7/14/15 (`0x00445580/0x00445E60/0x0044BC80/0x0044C2E0`).
+   They share exact Float3 subtraction and the neutral Player +0x368 -> +0x7C radius
+   source, covering X-only, shifted-circle, Y-only and axis-OR tests.
    SHT update-callback index 3 `0x00443150` is now 248-byte exact too:
    at timer 30 it aims at tracked enemy position with a -144 X fallback, normalizes
    the raw angle once, and rebuilds velocity through the target-observed external

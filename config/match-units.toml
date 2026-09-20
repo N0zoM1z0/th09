@@ -11773,3 +11773,52 @@ relocations = [
   { offset = 0x3D, type = "DIR32", symbol = "__real@bc4ccccd", target = 0x004915FC },
   { offset = 0x56, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
 ]
+
+[units.player-position-callback30404-type6]
+source = "src/PlayerPositionPredicates30404.cpp"
+object = "build/matching/PlayerPositionPredicates30404.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerPositionCallback30404Type6"]
+symbol = "?PlayerPositionCallback30404Type6@@YIHPAUPlayerPositionPredicateView@@PBUPlayerPositionView@@@Z"
+target_address = 0x00445580
+size = 0x47
+relocations = [
+  { offset = 0x15, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+]
+
+[units.player-position-callback30404-type7]
+source = "src/PlayerPositionPredicates30404.cpp"
+object = "build/matching/PlayerPositionPredicates30404.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerPositionCallback30404Type7"]
+symbol = "?PlayerPositionCallback30404Type7@@YIHPAUPlayerPositionPredicateView@@PBUPlayerPositionView@@@Z"
+target_address = 0x00445E60
+size = 0x5B
+relocations = [
+  { offset = 0x15, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x24, type = "DIR32", symbol = "__real@3fc00000", target = 0x0048EE84 },
+]
+
+[units.player-position-callback30404-type14]
+source = "src/PlayerPositionPredicates30404.cpp"
+object = "build/matching/PlayerPositionPredicates30404.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerPositionCallback30404Type14"]
+symbol = "?PlayerPositionCallback30404Type14@@YIHPAUPlayerPositionPredicateView@@PBUPlayerPositionView@@@Z"
+target_address = 0x0044BC80
+size = 0x47
+relocations = [
+  { offset = 0x15, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+]
+
+[units.player-position-callback30404-type15]
+source = "src/PlayerPositionPredicates30404.cpp"
+object = "build/matching/PlayerPositionPredicates30404.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerPositionCallback30404Type15"]
+symbol = "?PlayerPositionCallback30404Type15@@YIHPAUPlayerPositionPredicateView@@PBUPlayerPositionView@@@Z"
+target_address = 0x0044C2E0
+size = 0x62
+relocations = [
+  { offset = 0x15, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+]
