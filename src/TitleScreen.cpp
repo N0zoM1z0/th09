@@ -232,7 +232,7 @@ struct TitleSupervisorView {
     void SetupLoadingVmsAndInitCapture(TitleFloat3View *position);
     void StartEffect(i32 index);
     int ThreadStart(LPTHREAD_START_ROUTINE startFunction, void *startParam);
-    int HideLoadingVms();
+    void HideLoadingVms();
 };
 
 typedef char TitleSupervisorD3dAt008[(offsetof(TitleSupervisorView, d3dDevice) == 0x008) ? 1 : -1];

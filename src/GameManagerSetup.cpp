@@ -277,7 +277,7 @@ extern void __fastcall ReleaseStageObject(void *object);
 extern void *__fastcall CreateStageObject(int mode, void *context);
 extern void __fastcall SetStageObjectMode(void *object, int mode);
 extern void __fastcall BeginLoading(Supervisor *supervisor);
-extern int __fastcall FinishLoading(Supervisor *supervisor);
+extern void __fastcall FinishLoading(Supervisor *supervisor);
 extern void *__fastcall CreateGameSubsystem();
 extern void __fastcall InitializeGameSubsystems();
 extern void *__fastcall RegisterSubsystem0(int side);

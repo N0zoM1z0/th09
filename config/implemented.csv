@@ -719,3 +719,5 @@ EnemyExAttackMoreView::SpawnExAttackType22Burst
 BulletDrawEffectManagerView::DrawBulletLayerEffects
 AnmCaptureRequestView::QueueCaptureRequest
 SupervisorSetupLayout::SetupLoadingVmsAndInitCapture
+TitleSupervisorView::HideLoadingVms
+FinishLoading

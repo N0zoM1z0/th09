@@ -10995,3 +10995,43 @@ relocations = [
   { offset = 0xAA, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0xCD, type = "REL32", symbol = "?QueueCaptureRequest@AnmCaptureRequestView@@QAEHHHHHHHHHH@Z", target = 0x0042F420 },
 ]
+
+[units.supervisor-hide-loading-vms]
+source = "src/SupervisorLoadingTransitions.cpp"
+object = "build/matching/SupervisorLoadingTransitions.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleSupervisorView::HideLoadingVms"]
+symbol = "?HideLoadingVms@TitleSupervisorView@@QAEXXZ"
+target_address = 0x00430360
+size = 0x55
+relocations = [
+  { offset = 0x0F, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUSupervisorLoadingTransitionVmView@@A", target = 0x004B38B0 },
+  { offset = 0x14, type = "REL32", symbol = "?SetInterrupt@SupervisorLoadingTransitionVmView@@QAEXF@Z", target = 0x00406790 },
+  { offset = 0x1B, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUSupervisorLoadingTransitionVmView@@A", target = 0x004B38B0, addend = 0x2A4 },
+  { offset = 0x20, type = "REL32", symbol = "?SetInterrupt@SupervisorLoadingTransitionVmView@@QAEXF@Z", target = 0x00406790 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUSupervisorLoadingTransitionVmView@@A", target = 0x004B38B0, addend = 0x548 },
+  { offset = 0x2C, type = "REL32", symbol = "?SetInterrupt@SupervisorLoadingTransitionVmView@@QAEXF@Z", target = 0x00406790 },
+  { offset = 0x3C, type = "DIR32", symbol = "?g_SupervisorScreenEffect@@3PAUScreenEffect@@A", target = 0x004B30F8 },
+  { offset = 0x46, type = "REL32", symbol = "?BeginFadeRelease@ScreenEffect@@QAEXXZ", target = 0x00422930 },
+  { offset = 0x4C, type = "DIR32", symbol = "?g_SupervisorScreenEffect@@3PAUScreenEffect@@A", target = 0x004B30F8 },
+]
+
+[units.supervisor-finish-loading]
+source = "src/SupervisorLoadingTransitions.cpp"
+object = "build/matching/SupervisorLoadingTransitions.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FinishLoading"]
+symbol = "?FinishLoading@@YIXPAVSupervisor@@@Z"
+target_address = 0x004304A0
+size = 0x55
+relocations = [
+  { offset = 0x0F, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUSupervisorLoadingTransitionVmView@@A", target = 0x004B38B0 },
+  { offset = 0x14, type = "REL32", symbol = "?SetInterrupt@SupervisorLoadingTransitionVmView@@QAEXF@Z", target = 0x00406790 },
+  { offset = 0x1B, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUSupervisorLoadingTransitionVmView@@A", target = 0x004B38B0, addend = 0x2A4 },
+  { offset = 0x20, type = "REL32", symbol = "?SetInterrupt@SupervisorLoadingTransitionVmView@@QAEXF@Z", target = 0x00406790 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUSupervisorLoadingTransitionVmView@@A", target = 0x004B38B0, addend = 0x548 },
+  { offset = 0x2C, type = "REL32", symbol = "?SetInterrupt@SupervisorLoadingTransitionVmView@@QAEXF@Z", target = 0x00406790 },
+  { offset = 0x3C, type = "DIR32", symbol = "?g_SupervisorScreenEffect@@3PAUScreenEffect@@A", target = 0x004B30F8 },
+  { offset = 0x46, type = "REL32", symbol = "?BeginFadeRelease@ScreenEffect@@QAEXXZ", target = 0x00422930 },
+  { offset = 0x4C, type = "DIR32", symbol = "?g_SupervisorScreenEffect@@3PAUScreenEffect@@A", target = 0x004B30F8 },
+]
