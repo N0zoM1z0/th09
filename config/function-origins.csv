@@ -946,7 +946,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00440CC0,authored_game,CardAttack,authored,high,card-attack-update-no-category3-exact-2026-09-20
 0x00440D30,authored_game,Player,authored,high,player-collision-append-circle-exact-2026-09-20
 0x00440D90,authored_game,ExAttackController,authored,high,exattack-allocate-dynamic-source-2026-09-20
-0x00440DF0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00440DF0,authored_game,Player,authored,high,player-position-range-callback-exact-2026-09-20
 0x00440E40,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00440FB0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00441100,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19

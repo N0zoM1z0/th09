@@ -781,3 +781,4 @@ CardAttackBeginPl01Type1
 CardAttackBeginPl01Type2
 ExAttackAllocateRecordView::AllocateDynamicData
 PlayerCollisionCircleAppendView::AppendCircleRecord
+PlayerPositionCallbackWithinRange

@@ -11713,3 +11713,15 @@ symbol = "?AppendCircleRecord@PlayerCollisionCircleAppendView@@QAEXPBUPlayerPosi
 target_address = 0x00440D30
 size = 0x5F
 relocations = []
+
+[units.player-position-callback-within-range]
+source = "src/PlayerPositionRangeCallback.cpp"
+object = "build/matching/PlayerPositionRangeCallback.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerPositionCallbackWithinRange"]
+symbol = "?PlayerPositionCallbackWithinRange@@YIHPAUPlayerPositionRangeCallbackView@@PBUPlayerPositionView@@@Z"
+target_address = 0x00440DF0
+size = 0x4F
+relocations = [
+  { offset = 0x15, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+]
