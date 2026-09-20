@@ -369,6 +369,8 @@ struct TitleScreenView {
     int MoveCursorFourWay(i32 count);
     void UpdateMenuSelection();
     void SetMenuSelectionSprites(i32 selected, i32 start, i32 count);
+    void SetIndexedSpriteChoice(i32 choice, i32 vmIndex);
+    void SetRangeSelectionInterrupts(i32 selected, i32 start, i32 count);
     int OnUpdateOptions();
     int OnUpdateCharacterSelect();
     int OnUpdateResultNameEntry();
@@ -747,6 +749,24 @@ void TitleScreenView::SetMenuSelectionSprites(i32 selected, i32 start, i32 count
     i32 selectedIndex = selected + start;
     titleAnm->SetSprite(&vms[selectedIndex], vms[selectedIndex].baseSpriteIndex);
     vms[selectedIndex].pendingInterrupt = 7;
+}
+
+
+void TitleScreenView::SetIndexedSpriteChoice(i32 choice, i32 vmIndex)
+{
+    titleAnm->SetSprite(
+        &vms[vmIndex],
+        vms[vmIndex].baseSpriteIndex + 2 * choice);
+    vms[vmIndex].pendingInterrupt = 7;
+}
+
+
+void TitleScreenView::SetRangeSelectionInterrupts(i32 selected, i32 start, i32 count)
+{
+    for (i32 index = start; index < start + count; index++)
+        vms[index].pendingInterrupt = 8;
+
+    vms[start + selected].pendingInterrupt = 7;
 }
 
 

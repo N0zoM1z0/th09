@@ -507,11 +507,11 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00424D4B,authored_game,TitleScreen,authored,high,packet168-title-lifecycle-2026-09-16
 0x00424D9F,authored_game,TitleScreen,authored,high,packet168-title-lifecycle-2026-09-16
 0x00424DFF,authored_game,TitleScreen,authored,high,packet169-title-menu-ui-2026-09-16
-0x00424E95,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00424E95,authored_game,TitleScreen,authored,high,title-screen-helper-closure-2026-09-20
 0x00424EDD,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x00424FB0,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x0042505F,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
-0x0042510E,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042510E,authored_game,TitleScreen,authored,high,title-screen-helper-closure-2026-09-20
 0x00425163,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x0042520B,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x00425233,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16

@@ -7778,6 +7778,29 @@ relocations = [
 ]
 
 
+[units.title-screen-set-indexed-sprite-choice]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::SetIndexedSpriteChoice"]
+symbol = "?SetIndexedSpriteChoice@TitleScreenView@@QAEXHH@Z"
+target_address = 0x00424E95
+size = 0x48
+relocations = [
+  { offset = 0x2E, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+]
+
+[units.title-screen-set-range-selection-interrupts]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::SetRangeSelectionInterrupts"]
+symbol = "?SetRangeSelectionInterrupts@TitleScreenView@@QAEXHHH@Z"
+target_address = 0x0042510E
+size = 0x55
+relocations = []
+
+
 # TH09 PLST progression helpers and shared GameManager mode predicates.
 # Names are reconstruction aliases; canonical equality does not prove original spelling.
 [units.play-stats-increment-character-stat]

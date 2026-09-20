@@ -799,3 +799,5 @@ ChainReleaseView::ReleaseSingleChain,0x0042CAE0,function
 ChainReleaseView::Release,0x0042CBE0,function
 SupervisorNetworkState::SupervisorNetworkState,0x0042CC10,function
 SupervisorInitializeD3D,0x0042CD10,function
+TitleScreenView::SetIndexedSpriteChoice,0x00424E95,function
+TitleScreenView::SetRangeSelectionInterrupts,0x0042510E,function

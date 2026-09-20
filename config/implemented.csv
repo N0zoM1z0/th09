@@ -798,3 +798,5 @@ ChainReleaseView::ReleaseSingleChain
 ChainReleaseView::Release
 SupervisorNetworkState::SupervisorNetworkState
 SupervisorInitializeD3D
+TitleScreenView::SetIndexedSpriteChoice
+TitleScreenView::SetRangeSelectionInterrupts
