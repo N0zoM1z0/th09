@@ -732,3 +732,4 @@ FormatCurrentDateString,0x0041A796,function
 FrontSideAuxTransitionView::BeginAuxTransition,0x00415D50,function
 FrontMessageRuntimeResetView::Reset,0x00415C90,function
 EnemyEclOpcode2,0x0040C530,function
+Th09EclRunState::ReleaseAttachedEffects,0x0040F560,function
