@@ -735,3 +735,5 @@ Th09EclRunState::ReleaseAttachedEffects
 EnemyDrawInterpolateWrappedAngle
 Th09EclRunState::ManagerStateView::InitializeSubroutine
 Th09EclRunRemote::ManagerClearView::KillAllNonBossEnemies
+AsciiBossMarkerVmView::SetBossMarkerInterrupt
+AsciiBossMarkerVmView::SetBossMarkerPosition

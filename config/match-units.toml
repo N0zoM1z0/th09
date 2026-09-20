@@ -11212,3 +11212,25 @@ relocations = [
   { offset = 0x26, type = "REL32", symbol = "??4Th09EclTimerStorageView@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x33, type = "REL32", symbol = "??4Th09EclTimerStorageView@@QAEXH@Z", target = 0x00401500 },
 ]
+
+[units.ascii-boss-marker-set-interrupt]
+source = "src/AsciiBossMarkerVm.cpp"
+object = "build/matching/AsciiBossMarkerVm.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AsciiBossMarkerVmView::SetBossMarkerInterrupt"]
+symbol = "?SetBossMarkerInterrupt@AsciiBossMarkerVmView@@QAEXHF@Z"
+target_address = 0x004067D0
+size = 0x20
+relocations = [
+  { offset = 0x18, type = "REL32", symbol = "?SetInterrupt@AsciiBossMarkerAnmVmView@@QAEXF@Z", target = 0x00406790 },
+]
+
+[units.ascii-boss-marker-set-position]
+source = "src/AsciiBossMarkerVm.cpp"
+object = "build/matching/AsciiBossMarkerVm.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AsciiBossMarkerVmView::SetBossMarkerPosition"]
+symbol = "?SetBossMarkerPosition@AsciiBossMarkerVmView@@QAEXHPBUFloat3@@@Z"
+target_address = 0x004067F0
+size = 0x2A
+relocations = []
