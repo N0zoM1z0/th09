@@ -1410,3 +1410,9 @@ name into a TH09 fact without target-local evidence.
 - `PlayerShotSpawnCallbackType3 @ 0x004432A0-0x004432F5` is repository-canonical exact at 86 bytes. TH09 SHT descriptor `+0x28` spawnCallback table `0x004A1C10` index 3 points to this body under the same ECX=Player, EDX=shot, stack=value+descriptor ABI as the already-closed indices 2/4/5.
 - On schedule match it calls maintained `InitializeShot @ 0x0041F350`, writes shot velocity x=0 and y=-24 at `+0x43C/+0x440`, then writes Player speed multipliers `+0x1CE0` and `+0x1CDC` to 0.5 before returning 1; otherwise it returns 0. The two multiplier fields were already target-backed by Player lifecycle/update source.
 - First natural source was target-sized and differed in only two ModRM displacement bytes because it wrote +0x1CDC before +0x1CE0. The target explicitly orders the independent stores +0x1CE0 then +0x1CDC; matching that source order yields 86/86 exact with the sole relocation to InitializeShot. No register/pragma/volatile forcing is used.
+
+## Packet 289 Player shot spawn callback type6
+
+- `PlayerShotSpawnCallbackType6 @ 0x00445D00-0x00445D76` is repository-canonical exact at 119 bytes. TH09 SHT spawnCallback table `0x004A1C10` index 6 points here under the already-proven Player/shot/value/descriptor fastcall ABI.
+- On schedule match the callback invokes maintained `InitializeShot @ 0x0041F350`, obtains exact Effect fixed slot 5 through `GetFixedSlotEffect @ 0x00445560`, copies Effect position `+0x0C` into shot position `+0x2A4`, writes shot angle `+0x450 = -pi/2`, velocity x `+0x43C = 0` and velocity y `+0x440 = -descriptor[+0x18]`, then returns 1; otherwise 0.
+- The first natural source reproduces all 119 bytes with two relocations and no codegen steering. The target-facing Type6 name records only the SHT callback-table index.
