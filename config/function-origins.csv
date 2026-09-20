@@ -285,7 +285,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004157A0,unknown,,review,unknown,game-special-member-origin-review-2026-09-19
 0x004157B0,unknown,,review,unknown,game-special-member-origin-review-2026-09-19
 0x004157D0,authored_game,ExAttackController,authored,high,exattack-controller-2026-09-15
-0x004158E0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x004158E0,authored_game,ScoreData,authored,high,play-stats-increment-stat5-exact-2026-09-20
 0x00415910,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00415C30,authored_game,Front,authored,high,packet190-small-leaves-2026-09-17
 0x00415C50,authored_game,Front,authored,high,packet190-small-leaves-2026-09-17

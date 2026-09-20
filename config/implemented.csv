@@ -740,3 +740,4 @@ AsciiBossMarkerVmView::SetBossMarkerPosition
 BackgroundSpellStateView::BeginSpellBackground
 PlayerPositionCallbackView::InvokePositionCallback
 EnemyEclManagerReleaseView::ReleaseRawFile
+PlayStatsRecordView::IncrementCharacterStat5

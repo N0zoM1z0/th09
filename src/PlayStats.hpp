@@ -30,6 +30,7 @@ struct PlayStatsRecordView
     void SetCharacterUnlocked2(char character);
     int HasAnyPrimaryCharacterStat(char character);
     int GetCharacterStat5(char character);
+    void IncrementCharacterStat5(char character);
 };
 
 typedef char PlayStatsRecordSizeIs1FC[(sizeof(PlayStatsRecordView) == 0x1FC) ? 1 : -1];

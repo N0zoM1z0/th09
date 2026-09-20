@@ -11267,3 +11267,13 @@ relocations = [
   { offset = 0x0B, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
   { offset = 0x10, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
 ]
+
+[units.play-stats-increment-character-stat5]
+source = "src/PlayStats.cpp"
+object = "build/matching/PlayStats.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayStatsRecordView::IncrementCharacterStat5"]
+symbol = "?IncrementCharacterStat5@PlayStatsRecordView@@QAEXD@Z"
+target_address = 0x004158E0
+size = 0x21
+relocations = []

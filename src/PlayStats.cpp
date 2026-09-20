@@ -33,3 +33,10 @@ int PlayStatsRecordView::GetCharacterStat5(char character)
 {
     return characterStats[character][5];
 }
+
+void PlayStatsRecordView::IncrementCharacterStat5(char character)
+{
+    int *value = &characterStats[character][5];
+    if (*value < 999999)
+        ++*value;
+}

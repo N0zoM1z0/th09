@@ -1336,3 +1336,9 @@ name into a TH09 fact without target-local evidence.
 - `EnemyEclManagerReleaseView::ReleaseRawFile @ 0x00406830-0x0040684B` is repository-canonical exact at 28 bytes. TH09 teardown helper `0x00411F30` calls it twice with ECX equal to EnemyManager `primaryEclManager000 @ +0x000` and `opposingEclManager188 @ +0x188`. Existing maintained EnemyEclManager layout independently fixes `rawFile00` as the first field.
 - Natural source checks `rawFile00`, frees it through exact `g_ZunMemory @ 0x004AD018` / `ZunMemory::Free @ 0x00401360` when non-null, then clears the pointer. It reproduces all 28 bytes and both relocation fields on the first pinned VC7.1 replay.
 - This leaf is independent of `ReleaseSubsystem4 @ 0x00411F80`, whose 74-byte target remains a durable Packet-192 codegen negative. Recovering the nested ECL-manager release does not reopen or weaken that larger frontier.
+
+## Packet 277 PlayStats stat5 increment leaf
+
+- `PlayStatsRecordView::IncrementCharacterStat5 @ 0x004158E0-0x00415900` is repository-canonical exact at 33 bytes. Its sole TH09 caller loads `g_PlayStatsRecord @ 0x004A8180` into ECX and passes a signed character byte. Existing exact PLST reconstruction fixes `characterStats[16][6] @ +0x7C` with 0x18 bytes per character row.
+- Target address arithmetic `(character + 6) * 0x18` equals `0x7C + character*0x18 + 5*4`, independently proving that this helper increments stat index 5. It saturates at 999999, matching the existing generic `IncrementCharacterStat` policy, and forms the write companion to exact `GetCharacterStat5 @ 0x0040E450`.
+- Adding the method to the real `PlayStatsRecordView` rather than a temporary overlay preserves the established 0x1FC PLST layout. Natural pinned VC7.1 source reproduces all 33 bytes with no relocations; no codegen steering is required.
