@@ -11838,3 +11838,23 @@ relocations = [
   { offset = 0x54, type = "DIR32", symbol = "__real@43440000", target = 0x004915C4 },
   { offset = 0x63, type = "DIR32", symbol = "__real@43440000", target = 0x004915C4 },
 ]
+
+[units.player-position-callback30404-type2]
+source = "src/PlayerPositionCallback30404Type2.cpp"
+object = "build/matching/PlayerPositionCallback30404Type2.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerPositionCallback30404Type2"]
+symbol = "?PlayerPositionCallback30404Type2@@YIHPAUPlayerPositionCallbackType2View@@PBUPlayerPositionView@@@Z"
+target_address = 0x00442480
+size = 0xC1
+relocations = [
+  { offset = 0x19, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x47, type = "REL32", symbol = "?AngleFromPlayerToPoint@PlayerForwardAngleView@@QAEMPAUPlayerForwardAngleFloat3View@@@Z", target = 0x0041BB00 },
+  { offset = 0x59, type = "REL32", symbol = "?AnmProjectionAbs@@YGOM@Z", target = 0x0040F1C0 },
+  { offset = 0x5F, type = "DIR32", symbol = "__real@40490fdb", target = 0x0048E2C4 },
+  { offset = 0x6F, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
+  { offset = 0x7F, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4 },
+  { offset = 0x87, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4 },
+  { offset = 0x93, type = "REL32", symbol = "?AnmProjectionAbs@@YGOM@Z", target = 0x0040F1C0 },
+  { offset = 0x9F, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+]
