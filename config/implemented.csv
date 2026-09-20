@@ -750,3 +750,4 @@ PlayerCollisionQueryStateView::AppendBoxRecord
 EnemyAppendCollisionView::AppendPlayerCollisionBox
 PlayerShotCollisionCallbackType1
 PlayerShotCollisionCallbackType2
+EffectFixedSlotManagerView::GetFixedSlotEffect

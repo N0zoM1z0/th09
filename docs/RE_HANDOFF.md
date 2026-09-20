@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 752 |
-| Canonical exact functions | 613 |
+| Source-present authored mappings | 753 |
+| Canonical exact functions | 614 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 752 source-present authored mappings. Of
-these, 613 are canonical exact and 139 retain honest non-exact compiler results.
-`config/matches.csv` contains 613 complete target-bound VC7.1 matches totaling
-83,030 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 753 source-present authored mappings. Of
+these, 614 are canonical exact and 139 retain honest non-exact compiler results.
+`config/matches.csv` contains 614 complete target-bound VC7.1 matches totaling
+83,056 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 238
-   authored functions / 84,106 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 237
+   authored functions / 84,080 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -373,8 +373,11 @@ generation, or folded ownership.
    SHT collision callback table `0x004A1C64` is now closed for indices 1/2:
    `0x00441880` increments Player +0x30354 and returns 0, while
    `0x00443430` returns 1; both preserve the ECX/EDX/stack fastcall ABI
-   established by maintained shot-collision dispatch. Prefer adjacent small
-   ECL/Ascii/Player/Score/Input/Replay helpers before another large dispatcher.
+   established by maintained shot-collision dispatch. EffectManager fixed-slot
+   accessor `0x00445560` is now exact too at 26 bytes: it returns
+   effects[0x100+slot] from manager +0x30 with 0xD8 stride, closing a dependency
+   for the Player spawn-callback table. Prefer adjacent small ECL/Ascii/Player/
+   Score/Input/Replay helpers before another large dispatcher.
 3. **Then attack coherent large non-exact families, not isolated giant owners.**
    The largest maintained frontiers are TitleScreen (21 functions / 19,899
    bytes), ECL (15 / 19,142), EnemyManager (5 / 7,709), Player (11 / 6,999),

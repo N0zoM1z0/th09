@@ -11356,3 +11356,13 @@ symbol = "?PlayerShotCollisionCallbackType2@@YIHPAUPlayerShotCallbackPlayerView@
 target_address = 0x00443430
 size = 0x08
 relocations = []
+
+[units.effect-get-fixed-slot]
+source = "src/EffectFixedSlotAccessor.cpp"
+object = "build/matching/EffectFixedSlotAccessor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectFixedSlotManagerView::GetFixedSlotEffect"]
+symbol = "?GetFixedSlotEffect@EffectFixedSlotManagerView@@QAEPAUEffectFixedSlotRecordView@@H@Z"
+target_address = 0x00445560
+size = 0x1A
+relocations = []
