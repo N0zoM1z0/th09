@@ -11445,3 +11445,15 @@ relocations = [
   { offset = 0x3E, type = "REL32", symbol = "@cosf@4", target = 0x00401060 },
   { offset = 0x4D, type = "REL32", symbol = "@sinf@4", target = 0x00401070 },
 ]
+
+[units.player-shot-spawn-callback-type3]
+source = "src/PlayerShotSpawnCallback3.cpp"
+object = "build/matching/PlayerShotSpawnCallback3.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerShotSpawnCallbackType3"]
+symbol = "?PlayerShotSpawnCallbackType3@@YIHPAUPlayerShotSpawn3PlayerView@@PAUPlayerShotSpawn3ShotView@@HPAUPlayerShotSpawn3DescriptorView@@@Z"
+target_address = 0x004432A0
+size = 0x56
+relocations = [
+  { offset = 0x1A, type = "REL32", symbol = "?InitializeShot@PlayerShotSpawn3PlayerView@@QAIXPAUPlayerShotSpawn3ShotView@@PAUPlayerShotSpawn3DescriptorView@@@Z", target = 0x0041F350 },
+]
