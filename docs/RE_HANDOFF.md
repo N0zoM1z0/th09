@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 744 |
-| Canonical exact functions | 607 |
+| Source-present authored mappings | 747 |
+| Canonical exact functions | 609 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 744 source-present authored mappings. Of
-these, 607 are canonical exact and 137 retain honest non-exact compiler results.
-`config/matches.csv` contains 607 complete target-bound VC7.1 matches totaling
-82,701 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 747 source-present authored mappings. Of
+these, 609 are canonical exact and 138 retain honest non-exact compiler results.
+`config/matches.csv` contains 609 complete target-bound VC7.1 matches totaling
+82,785 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 246
-   authored functions / 85,325 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 243
+   authored functions / 84,433 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -358,8 +358,13 @@ generation, or folded ownership.
    `SanitizeKeyboardState @ 0x0042AD70` is now 65-byte exact through USER32
    GetKeyboardState/SetKeyboardState, while adjacent `UpdateReplayInputFront @
    0x0042ACE0` remains source-absent at a stable 128/131 natural codegen frontier
-   despite owner/layout/edge semantics being closed. Prefer adjacent small
-   ECL/Ascii/Player/Score/Input helpers before another large dispatcher.
+   despite owner/layout/edge semantics being closed. Controller polling is now
+   source-closed too: static button helpers `0x0042AC80/0x0042ACB0` are
+   37/47-byte exact through natural same-TU private ABI, while `GetControllerInput
+   @ 0x0042B410` remains a cold-stable 782/808 NON-EXACT owner over TH09's
+   dual DirectInput / WinMM fallback path. Do not steer its remaining register
+   allocation. Prefer adjacent small ECL/Ascii/Player/Score/Input helpers before
+   another large dispatcher.
 3. **Then attack coherent large non-exact families, not isolated giant owners.**
    The largest maintained frontiers are TitleScreen (21 functions / 19,899
    bytes), ECL (15 / 19,142), EnemyManager (5 / 7,709), Player (11 / 6,999),

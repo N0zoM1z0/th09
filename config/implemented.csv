@@ -742,3 +742,6 @@ PlayerPositionCallbackView::InvokePositionCallback
 EnemyEclManagerReleaseView::ReleaseRawFile
 PlayStatsRecordView::IncrementCharacterStat5
 SanitizeKeyboardState
+Controller::SetButtonFromDirectInputState
+Controller::SetButtonFromJoystickButtons
+Controller::GetControllerInput

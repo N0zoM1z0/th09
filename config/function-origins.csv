@@ -537,8 +537,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042AC00,authored_game,Chain,authored,high,chain-elem-destructor-vc71-exact-2026-09-10
 0x0042AC30,unknown,,review,unknown,game-special-member-origin-review-2026-09-19
 0x0042AC50,compiler_generated,Chain,exclude,high,chain-elem-scalar-deleting-destructor-vc71-2026-09-10
-0x0042AC80,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0042ACB0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042AC80,authored_game,Controller,authored,high,controller-directinput-button-helper-exact-2026-09-20
+0x0042ACB0,authored_game,Controller,authored,high,controller-joystick-button-helper-exact-2026-09-20
 0x0042ACE0,authored_game,Input,authored,high,replay-input-front-update-negative-2026-09-20
 0x0042AD70,authored_game,Input,authored,high,keyboard-state-sanitize-exact-2026-09-20
 0x0042ADC0,authored_game,FileSystem,authored,high,file-system-resolve-path-vc71-exact-2026-09-10
@@ -560,7 +560,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042B270,authored_game,Chain,authored,high,chain-add-draw-vc71-exact-2026-09-10
 0x0042B300,authored_game,Chain,authored,high,chain-create-elem-vc71-exact-2026-09-10
 0x0042B350,authored_game,Chain,authored,high,chain-cut-impl-vc71-exact-2026-09-10
-0x0042B410,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042B410,authored_game,Controller,authored,high,controller-input-source-2026-09-20
 0x0042B740,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042B850,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042BE40,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19

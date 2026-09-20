@@ -743,3 +743,6 @@ PlayerPositionCallbackView::InvokePositionCallback,0x00406820,function
 EnemyEclManagerReleaseView::ReleaseRawFile,0x00406830,function
 PlayStatsRecordView::IncrementCharacterStat5,0x004158E0,function
 SanitizeKeyboardState,0x0042AD70,function
+Controller::SetButtonFromDirectInputState,0x0042AC80,function
+Controller::SetButtonFromJoystickButtons,0x0042ACB0,function
+Controller::GetControllerInput,0x0042B410,function

@@ -11290,3 +11290,23 @@ relocations = [
   { offset = 0x12, type = "DIR32", symbol = "__imp__GetKeyboardState@4", target = 0x0048E228 },
   { offset = 0x39, type = "DIR32", symbol = "__imp__SetKeyboardState@4", target = 0x0048E22C },
 ]
+
+[units.controller-set-button-directinput]
+source = "src/ControllerInput.cpp"
+object = "build/matching/ControllerInput.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Controller::SetButtonFromDirectInputState"]
+symbol = "?SetButtonFromDirectInputState@Controller@@YIIPAGFGPAE@Z"
+target_address = 0x0042AC80
+size = 0x25
+relocations = []
+
+[units.controller-set-button-joystick]
+source = "src/ControllerInput.cpp"
+object = "build/matching/ControllerInput.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Controller::SetButtonFromJoystickButtons"]
+symbol = "?SetButtonFromJoystickButtons@Controller@@YIIPAGFGI@Z"
+target_address = 0x0042ACB0
+size = 0x2F
+relocations = []
