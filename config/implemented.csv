@@ -767,3 +767,4 @@ PlayerShotUpdateCallbackType1
 PlayerShotUpdateCallbackType2
 PlayerShotDrawCallbackType1
 ExAttackRecordSideView::GetSideState
+ExAttackReleaseCallbackType4

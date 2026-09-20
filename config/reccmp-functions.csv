@@ -768,3 +768,4 @@ PlayerShotUpdateCallbackType1,0x004415E0,function
 PlayerShotUpdateCallbackType2,0x00441F90,function
 PlayerShotDrawCallbackType1,0x00442220,function
 ExAttackRecordSideView::GetSideState,0x00440CB0,function
+ExAttackReleaseCallbackType4,0x00442EC0,function
