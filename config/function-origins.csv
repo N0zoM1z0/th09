@@ -970,7 +970,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00441C30,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00441EF0,authored_game,Player,authored,high,player-shot-spawn-callback1-exact-2026-09-20
 0x00441F90,authored_game,Player,authored,high,player-shot-update-callback2-source-2026-09-20
-0x00442220,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00442220,authored_game,Player,authored,high,player-shot-draw-callback1-source-2026-09-20
 0x004423D0,authored_game,Player,authored,high,player-shot-spawn-callbacks-exact-2026-09-20
 0x00442420,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00442450,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19

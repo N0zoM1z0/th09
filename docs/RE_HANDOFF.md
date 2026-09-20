@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 767 |
+| Source-present authored mappings | 768 |
 | Canonical exact functions | 625 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -75,8 +75,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 767 source-present authored mappings. Of
-these, 625 are canonical exact and 142 retain honest non-exact compiler results.
+`config/implemented.csv` contains 768 source-present authored mappings. Of
+these, 625 are canonical exact and 143 retain honest non-exact compiler results.
 `config/matches.csv` contains 625 complete target-bound VC7.1 matches totaling
 84,265 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 223
-   authored functions / 81,508 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 222
+   authored functions / 81,304 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -411,6 +411,10 @@ generation, or folded ownership.
    comparable bytes matched; only two short scheduling blocks remain. Index4 is
    source-present 243/249; indices 3/5/6/7 are exact. The full non-null update
    callback table indices 1-7 are therefore source-closed.
+   SHT draw-callback index 1 `0x00442220` is now source-present at a
+   cold-stable 190/204. Its trail rendering/alpha attenuation semantics are closed;
+   the remaining 14-byte gap is canonical /Ob1 epilogue tail-merging, so do not
+   steer CFG/optimizer behavior. Draw index2 `0x00443300` remains no-source.
    Prefer adjacent small ECL/Ascii/Player/Score/Input/Replay helpers before another
    large dispatcher.
 3. **Then attack coherent large non-exact families, not isolated giant owners.**
