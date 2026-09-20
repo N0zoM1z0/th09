@@ -1578,6 +1578,5 @@ name into a TH09 fact without target-local evidence.
 ## Packet 316 Supervisor Direct3D bootstrap leaf
 
 - `SupervisorInitializeD3D @ 0x0042CD10-0x0042CD3D` is repository-canonical exact at 46 bytes. Sole TH09 caller is WinMain with no arguments and it immediately tests the returned status. The helper calls `Direct3DCreate8(D3D_SDK_VERSION=220)`, stores the interface pointer to `g_Supervisor +0x04`, and returns zero on success.
-- On failure the helper calls exact `GameErrorContext::Fatal` with target CP932 text `Direct3D オブジェクトは何故か作成出来なかった
-` and returns one. Existing TH09 render/snapshot evidence independently fixes `Supervisor +0x08` as the D3D8 device; the maintained startup helper exposes only the +0x04 IDirect3D8 pointer and does not widen Supervisor layout claims.
+- On failure the helper calls exact `GameErrorContext::Fatal` with target CP932 text `Direct3D オブジェクトは何故か作成出来なかった\r\n` and returns one. Existing TH09 render/snapshot evidence independently fixes `Supervisor +0x08` as the D3D8 device; the maintained startup helper exposes only the +0x04 IDirect3D8 pointer and does not widen Supervisor layout claims.
 - Natural no-argument C++ source reproduces all 26 ordinary bytes plus five reviewed relocation fields on the first pinned VC7.1 O2/Ob1 build. The source is kept as a free startup helper because target WinMain performs a plain no-argument call; no member-function spelling is inferred from global access alone.

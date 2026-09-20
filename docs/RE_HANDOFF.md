@@ -100,410 +100,49 @@ Do not open semantic reconstruction or portability until this gate closes.
 
 ## Next Web priorities
 
-Phase state is `active-incomplete` exact reconstruction. Do not spend a new
-session re-reviewing the frozen 34-entry origin-unknown set unless genuinely new
-target evidence can distinguish explicit source, implicit special-member
-generation, or folded ownership.
+Phase state is `active-incomplete` exact reconstruction. The live frontier is
+**190 authored functions / 79,089 bytes without maintained source**, plus 145
+source-present functions that retain honest non-exact compiler results.
 
-1. **The smallest exact-frontier packet is now exhausted.** `PopContext`,
-   `FrontSide::ResetTransitionState`, and both Bullet transform installers are
-   canonical exact. `CaptureFrameSyncState` and `AsciiManager::OnUpdate` have
-   bounded natural-source negative receipts for their one-byte residuals. Do
-   not reopen these without genuinely new ABI/type/TU evidence; rotate to the
-   authored/no-source seams below.
-   GameManager shared counter leaf `0x00403E30` is now canonical exact at
-   27 bytes: callers pass `g_GameManager+0xB0`, existing layout maps the
-   subview +0x1C field to absolute `valueCC +0xCC`, and natural source is
-   a subtract-with-zero-clamp.
-   ZunTimer tick-interval leaf `0x00404920` is now canonical exact at 33
-   bytes: it requires current!=previous and signed current%interval==0, complementing
-   exact `HasTicked @ 0x0040F810`.
-   Supervisor DirectPlay message thunk `0x00432EA0` is now canonical exact
-   at 15 bytes: both peer-initialize paths register it, it reloads the established
-   `g_SupervisorNetworkState` pointer, and tail-jumps instance handler
-   `0x00432B70`. The 768-byte handler remains independently no-source.
-   Chain release core `0x0042CAE0` is now source-present NON-EXACT at
-   cold-stable 268/241: TH09 confirms the snapshot-before-Cut algorithm but the
-   remaining frontier is mixed heap-construction EH behavior, so no placement-new
-   or local-order steering is retained. Its WinMain wrapper `0x0042CBE0`
-   is canonical exact at 34 bytes.
-   The DirectPlay state allocation is now size-correct too: `NetworkInf constructor
-   0x0042CC10` is canonical exact at 25 bytes; WinMain allocates only 0xD4,
-   the ctor zeroes that exact object and sets syncRate +0xC4=60, so stale public
-   SupervisorNetworkState padding to 0x480 has been removed.
-   Direct3D bootstrap leaf `0x0042CD10` is now canonical exact at 46 bytes:
-   WinMain makes a no-argument call, it stores Direct3DCreate8(220) at Supervisor
-   +0x04, and exact GameErrorContext::Fatal owns the target CP932 failure path.
-2. **Recover authored source in bounded subsystem seams.** There are 190
-   authored functions / 79,089 bytes without maintained source. The routed
-   Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
-   `EtamaController::AddedCallback` are canonical exact, while
-   `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
-   NON-EXACT at 568/600. The routed ANM surface-load seam
-   `0x0043CAE0-0x0043CD35` is now closed with exact LoadSurface/PreloadSurface.
-   The routed Ascii/Title `0x004234F6-0x00424579` no-source seam is now source-closed:
-   `DrawMusicRoom @ 0x004244A9` is exact; `DrawReplaySave @ 0x004239F6` is
-   maintained NON-EXACT at 783/800; `DrawReplayMenu @ 0x004234F6` is maintained
-   NON-EXACT at 1244/1280; and shared `DrawResult @ 0x00423D16` is maintained
-   NON-EXACT at 1941/1939 with the target 0x44 stack frame but different register/slot
-   allocation. Do not reopen these without genuinely new local/TU/compiler evidence.
-   The shared Player math leaf `Float3::operator/ @ 0x0040F5A0` is now canonical exact;
-   The small Player helper packet is now closed: `AddRespawnResource @ 0x0041BC90`
-   and `CalcItemCollectionCollision @ 0x0041BEE0` are canonical exact.
-   `PlayerLifecycleView::UpdateBeforeState @ 0x0041DC20` is now canonical exact
-   after TH09 call-site review corrected `PlayerOwnerStateView::ApplyReward` to
-   position + four integer arguments (the previously inferred float was spurious).
-   `PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0` is now source-present
-   NON-EXACT with a repeatable 849/862 natural candidate and exact 0x34 stack frame;
-   the remaining 13-byte frontier is preserved-register allocation, so do not reopen
-   it without new local/TU evidence. Shared `PlayerOwnerStateView::ApplyReward @
-   0x0041D150` is now source-present NON-EXACT: TH09 proves its position-plus-four-
-   integers ABI and full reward/effect/timer semantics, while the maintained natural
-   candidate is 1544/1519 with the target 0x18 stack frame; the remaining 25-byte
-   frontier is popup-cadence tail merging/register allocation. Do not reopen without
-   genuinely new source/TU evidence. The short `0x0041BD40-0x0041BD94` Player
-   leaf packet is now canonical exact: additive/normal blend setters, ANM raw-data
-   accessor, and collision-region deactivate total 51 bytes. Next prefer the connected
-   `PreloadPlayerAnmResources @ 0x0041CDE0`, `PlayerTransitionSpecial @
-   0x0041CB50`, and `PlayerUpdateCommon @ 0x0041CC80` are now canonical
-   exact; the latter two preserve exact `Player::OnUpdate` while VC7.1 naturally
-   uses the target-private ESI handoff. Continue with another bounded Player-owned
-   dependency only after re-establishing its owner/caller evidence; do not jump from
-   this closure into a multi-kilobyte dispatcher by adjacency alone. The TH09
-   collision-region creation family `0x0041CF30-0x0041D140` is also now
-   canonical exact: one 110-byte allocator plus seven 43-61 byte Type0/1/2/4
-   geometry wrappers total 477 bytes. Neutral TypeN names remain until local caller
-   evidence distinguishes every original Cancel/Damage spelling. Two additional
-   Player leaves are canonical exact: same-TU `PlayerUpdateStageD @ 0x0041BA80`
-   (121 bytes) and forward `AngleFromPlayerToPoint @ 0x0041BB00` (101 bytes).
-   The latter remains separate from `0x0041BB70` because the two physical
-   helpers use opposite delta signs despite identical size/dependencies. The enemy-
-   damage seam is now source-closed: `PlayerBuildAabb @ 0x0041F2C0` is
-   canonical exact at 55 bytes through a natural private four-register ABI, while
-   `CalcDamageToEnemy @ 0x0041FCD0` is maintained NON-EXACT at 983/996.
-   Two TH09 EnemyManager callers fix its five-argument ABI and full shot/region
-   semantics; the remaining 13-byte frontier is target SI=2 plus savedRotation
-   spilling versus natural VC7.1 ESI allocation. Do not reopen without new TU/source
-   evidence; do not force registers or var-order. Shared `ZunTimer::HasTicked @
-   0x0040F810` is now canonical exact at 17 bytes; TH09 fixes current!=previous
-   and clean TH08 only corroborates the method family. Keep the established negative
-   Rotate frontier `0x0042AF40` closed unless new external-call/TU evidence appears.
-   ANM local `AnmProjectionAbs @ 0x0040F1C0` is now canonical exact at 12 bytes;
-   exact Project3DQuad already bound the symbol/owner, and plain `fabs` source emits
-   the target out-of-line x87 wrapper without asm or intrinsic forcing. Three Enemy
-   helper leaves are also canonical exact: `EnemyEclManagerView::GetSubroutineCount`
-   at `0x0040F160` (7 bytes), `GetSubroutine` at `0x0040F170`
-   (16 bytes), and `EnemyView::ResetBulletRankInfluence @ 0x0040F180`
-   (51 bytes). Their raw-ECL table and rank-field offsets are already maintained in
-   EnemyManager/ECL source, so no adjacent-game layout was imported. Player-heavy
-   caller evidence also closes `ZunTimer::operator-=(int) @ 0x0041F300`
-   exactly at 9 bytes as a natural tail wrapper to exact `Decrement(int)`.
-   Neutral Player `SubtractResourceClamped @ 0x0041F310` is also canonical
-   exact at 51 bytes: three TH09 heavy-state callers subtract 300/200/100 from
-   Player `+0x30388` and the natural lower clamp to 1.0f matches first try.
-   `InitializeShot @ 0x0041F350` is now source-present NON-EXACT: TH09 fixes
-   its fastcall Player/shot/descriptor ABI and complete 0x484-shot/0x38-descriptor
-   layout; a repeatable `/Ob0` candidate is target-sized 309/309 with all
-   seven relocations solved and 269/281 ordinary bytes. The only residual is Y/Z
-   independent-store scheduling. Do not reopen with volatile/pragma/profile fishing.
-   Its default frame-match wrapper `0x0041F490` is canonical exact at 37
-   bytes; TH09 directly compares timer-current input to descriptor `+0x00`
-   before calling InitializeShot, so adjacent TH08 modulo semantics are not imported.
-   The connected descriptor dispatcher `SpawnShots @ 0x0041F4C0` is now
-   canonical exact at the reviewed 190-byte extent: heavy-state supplies timer current
-   in EDX plus power-level 0/1 on stack, and TH09 directly walks the selected 0x38-byte
-   descriptor chain over 128 0x484-byte shot slots. Two additional cross-system
-   leaves are now canonical exact without layout expansion: `EnemyManagerView::
-   FindActiveEnemyBySideCategory @ 0x0040F7D0` (62 bytes) scans the already-
-   maintained 128x0x5430 Enemy array, while `AsciiManager::SetBossMarkerState @
-   0x0040F890` (20 bytes) writes the target-backed marker-state plane at +0x2254.
-   Player code consumes the EnemyManager query but does not own it; EnemyManager
-   calls the Ascii setter but does not own that state. Two tiny shared Player
-   leaves are also now canonical exact: `GetTransitionBlockFlag @ 0x0040D4F0`
-   returns shared-runtime +0x11EA8 used by both reward/death gates, and
-   `ApplyRewardWithStateAdvance @ 0x0040F8B0` increments owner-state +0x38
-   before a natural tail-jump to maintained `ApplyReward`. The latter target
-   independently distinguishes state38 +0x38 from activeFrameCounter +0x3C.
-   Player `SetUpdateState @ 0x00403C20` is also canonical exact at 12 bytes;
-   non-Player callers still pass Player pointers, while the distinct shared/folded
-   `GetUpdateState @ 0x00435EC0` remains frozen origin-unknown and must not be
-   reclassified from this setter evidence. PauseMenu now has two more exact leaves:
-   GameManager `HasFlagBit0 @ 0x004343B0` (10 bytes, already-authored source
-   in the Pause TU) and SoundPlayer-facing `ResumeAfterPause @ 0x00423498`
-   (15 bytes), whose exact body queues opcode 7/arg 0/path unpause through exact
-   `SoundPlayer::QueueCommand`. Two explicit static-object constructors are
-   also now canonical exact: `ZunMemory::ZunMemory @ 0x0042B0D0` (13 bytes)
-   and `GameErrorContext::GameErrorContext @ 0x0042B110` (19 bytes), each
-   bound by its TH09 static-initializer thunk and pre-existing target-backed fields.
-   The third nearby static-init constructor is now closed too: `ReplayInputState::
-   ReplayInputState @ 0x0042B010` is 182-byte exact for the 3x0x8E global input
-   state array; target codegen proves the +0x58 mapping table uses signed short -1
-   sentinels rather than unsigned 0xFFFF. The runtime reset seam adds two more
-   canonical exact leaves: opaque `GameWindowView::GameWindowView @ 0x0042D290`
-   (18-byte zeroing ctor for the TH09 0x44 global at 0x004B30B0) and
-   `AnmManager::ReleaseSurfaces @ 0x0042D2F0` (43 bytes), which releases
-   the established 32 primary surface slots at +0x123FC before D3D reset.
-   Static-init review also closes three tiny score/archive special members exactly:
-   `ScoreFileView::ScoreFileView @ 0x00421C40` (24 bytes), neutral 0x2C
-   `ScoreRecordCtorView::ScoreRecordCtorView @ 0x00421C60` (18 bytes, used
-   for the 400-entry table and current singleton), and `PbgArchive::~PbgArchive @
-   0x004335D0` (5-byte natural tail jump to exact Release).
-   Supervisor netplay now also has exact `SupervisorFrameQueueView::AreFrameQueuesSynchronized @ 0x0042ECF0`
-   (49 bytes): TH09 proves two 0x78-stride queue heads at +0x480/+0x4F8, and
-   only the natural short-circuit conjunction reproduces the target branch shape.
-   Fresh target ECX review also corrects queue ownership: the frame queues live on
-   the Supervisor callback receiver, while `g_SupervisorNetworkState` is separate
-   DirectPlay/session state; correcting maintained `SupervisorNetwork.cpp` moves its
-   natural candidate from 1,639 to 1,625 bytes versus the 1,633-byte target.
-   Bullet/ECL descriptor setup also gains an exact neutral constructor at
-   `0x0040D500` (28 bytes): TH09 fixes the 0x214 physical size and
-   `transformSound +0x204 = -1` sentinel, while a neutral ctor view avoids
-   overclaiming the current reconstructed Float3 subobject model.
-   Connected mode-4 setup helper `ResetTitleMode4Supervisor @ 0x0042EC30`
-   is now 177-byte canonical exact: it resets Supervisor timing/queue state,
-   seeds both frame queues with -9999 sentinels, activates the separate network
-   session object, and clears its connection state. Two fixed-size memset regions
-   are the natural source shape that reproduces the target ESI rebasing.
-   Two connected ECL/Bullet leaves are now canonical exact as well: `Bullet
-   ResetTransformRuntime @ 0x0040C390` (41 bytes) clears the target-backed
-   transform runtime plane, and neutral `EnemyEclOpcode1 @ 0x0040C3F0`
-   (76 bytes) assigns bit0 in both side-state +0x34 flag dwords and conditionally
-   plays sound 0x34. The opcode1 bitfield lowering is target-proven, not imported.
-   The same ExAttack seam now also closes Type10/11/12 wrappers and the Type22
-   three-shot burst at `0x0040C770/0x0040C7C0/0x0040C810/0x0040C860`,
-   totaling 434 exact bytes. Types 10-12 source local position values from the
-   active ECL context; Type22 builds three radius-64 temporary parameters at
-   pi/2, 0.4*pi and 0.6*pi before exact Spawn calls.
-   Etama's side-local EffectManager tail is now closed too: `DrawBulletLayerEffects
-   @ 0x0040D110` is 169-byte canonical exact and walks drawSentinel1 at +0x1E8.
-   The adjacent polar helper `0x0040D4D0` stays no-source: natural cosf/sinf
-   emits 30 bytes versus target 32-byte FSINCOS lowering, so do not force it.
-   AnmManager's pending-capture request publisher `0x0042F420` is now exact
-   at 101 bytes: +0x08 is the -1/active capture index and +0x2B2914..+0x2B2930
-   hold the eight source/destination rectangle integers. Its sole caller is the
-   Supervisor loading/capture helper `0x004303C0` is now canonical exact
-   too at 214 bytes: it shares the established +0x5D0/+0x740 loading layout, sets
-   up scripts 0/1/2 and VM positions once, then queues the full-screen capture
-   through the exact request publisher.
-   The adjacent loading-state transitions are exact too: Title-side `HideLoadingVms
-   @ 0x00430360` sends interrupt 1 and clears +0x740, while gameplay
-   `FinishLoading @ 0x004304A0` sends interrupt 2 and sets +0x740=2; both
-   fade-release the shared screen effect. Their source contracts are corrected to
-   void because target callers ignore EAX and the bodies synthesize no return.
-   WinMain's two 5x0x18 lock-array lifecycle leaves at `0x00430530/0x00430560`
-   are also exact: the existing +0x6C0 CRITICAL_SECTION layout plus PE IAT identity
-   proves InitializeCriticalSection/DeleteCriticalSection without new layout guesses.
-   Shared `Float3::operator+= @ 0x00405730` is now 36-byte canonical exact;
-   it closes the common three-component add used by Supervisor/Effect/Player/Enemy
-   callers. High-reuse `Float3::FromAngleMagnitude @ 0x00441890` remains
-   source-absent: natural VC7.1 is 30 bytes FCOS/FSIN versus target 32-byte FSINCOS,
-   and adjacent source requires inline asm, which is not accepted here.
-   EffectTemplate effectId 7's update callback `0x0040C960` is now 38-byte
-   canonical exact: table ownership comes from the +0x10 callback slot at
-   `0x004A0C00`, and the body copies side Player +0x1B88 into Effect +0x0C.
-   GameManager reset `0x0041A7C3` is now 100-byte canonical exact under the
-   already-pinned GameManagerSetup /Os profile. It proves a three-record 0x38 flag
-   plane at +0x34/+0x6C/+0xA4 and resets the setup/runtime fields through +0x380.
-   Supervisor transition helper `GameManager_CutChain @ 0x0041A827` is now
-   98-byte canonical exact too: it settles both setup-state counters, restores
-   Supervisor speed to 1.0, then cuts the GameManager calc/draw chains.
-   Gameplay setup's adjacent date formatter `0x0041A796` is now 45-byte exact;
-   it writes `%y/%m/%d` into shared `g_ReplayPlayTimeText @ 0x004AC879` via
-   pinned CRT time/localtime/strftime and replaces the old provisional reset alias.
-   Shared GameManager playfield test `0x0041A6EB` is owner/ABI/semantics-closed
-   but remains no-source: natural /Os shapes are 110/114 bytes versus target 116,
-   with the residual in x87 compare-status/pop control flow; do not force it.
-   FrontSide auxiliary transition leaf `0x00415D50` is now 24-byte exact.
-   GameplaySetup's exact FrontSide::Create return is stored in side +0x18, and both
-   callers load those same pointers before writing FrontSide +0xABCC / timer +0xABD0.
-   FrontInf's embedded message-runtime reset `0x00415C90` is now 23-byte exact.
-   Front added-callback embeds it at +0xE944 and then loads `plNN.msg` /
-   `plNN_match.msg`; the reset clears 0x1D70 bytes and seeds +0x08 to -1.
-   ExAttack draw is now closed as a coherent pair too: `OnDraw0 @ 0x00415460`
-   is 286-byte exact and `OnDraw1 @ 0x00415580` is 193-byte exact. TH09
-   fixes the record VM array/count/list/callback fields and controller draw-list
-   heads; exact closure uses ordinary VM byte-offset traversal and natural local
-   declaration order, with no register or pragma steering.
-   The connected calc callback `ExAttackController::OnUpdate @ 0x00415340`
-   is now canonical exact at 279 bytes as well, closing the update/draw callback
-   trio installed by exact Register. It rebuilds the three draw lists and side
-   counts from the 256-record pool each ungated frame, releases completed records,
-   executes per-record VMs, and advances record timers through exact helpers.
-   Supervisor frame-queue insertion is now source-closed but deliberately NON-EXACT:
-   `InsertReceivedFrame @ 0x0042E9E0` has the corrected Supervisor receiver,
-   two 10x0x0C ordered queues at +0x47C and last-received records at +0x56C;
-   the best natural candidate is a stable 211/213. The remaining two-byte
-   frontier is register/temporary-slot allocation, so do not force it. Next prefer
-   the adjacent queue leaves are now source-closed too: `InsertPredictedFrame @
-   0x0042EAC0` is a stable 176/191 natural candidate, while `PopFrame @
-   0x0042EB80` is target-sized 119/119 after target-backed u16 return-type
-   refinement but retains ten ordinary register-allocation byte differences. All
-   three queue methods now share one coherent Supervisor layout; do not force their
-   remaining register/temporary-slot frontiers.
-   Six thin Enemy ExAttack spawn leaves are now canonical exact too: fixed types
-   1/7/8/9/23/24 at `0x0040C3C0/440/470/4A0/4D0/500` total 246 bytes.
-   The connected RunEcl dispatch owner `EnemyEclOpcode2 @ 0x0040C530` is
-   now canonical exact at 574 bytes. Dispatch index 2 retargets both 536-bullet
-   Etama pools through the exact transform-reset/builder leaves, with a special
-   opposing-side even-index sprite/wait/acceleration path and sound 52.
-   Boss-state teardown helper `ReleaseAttachedEffects @ 0x0040F560` is now
-   64-byte exact as well: it clears the maintained +0x53B4 effect pointer plane,
-   resets +0x5414 count, and target-proves Effect byte +0xC6 distinct from active +0xC4.
-   Enemy draw trail math helper `EnemyDrawInterpolateWrappedAngle @ 0x0040F5E0`
-   is now 91-byte canonical exact; natural source selects the shorter direct/wrapped
-   angular distance and target-order branch spelling reproduces both x87 parity tests.
-   Shared ECL context initializer `0x00406850` is now canonical exact at 73
-   bytes too, closing the existing ManagerStateView::InitializeSubroutine declaration
-   without changing RunEcl's shared layout.
-   Opcode95's manager-clear owner `0x0040F640` is now source-present NON-EXACT
-   at a repeatable 384/392. Its thiscall ABI, 128-Enemy scan, score/trail popup
-   accumulation and death-callback reinitialization are TH09-closed; the remaining
-   8-byte frontier is compiler loop-alignment/temporary geometry, so do not force it.
-   TH09 fixes Enemy position +0x2D74, manager side +0x31C, global ExAttack controller
-   0x004A7E3C, and the maintained Spawn ABI; all six match on the first natural build.
-   Ascii boss-marker VM helpers `0x004067D0/0x004067F0` are now exact too:
-   RunEcl/EnemyManager callers prove `g_AsciiManager` ownership, VM bank base
-   +0x17C4 (VM index 9), VM position +0x208 -> +0x19CC, and interrupt forwarding
-   through exact AnmVm::SetInterrupt. Two adjacent late-ECL support leaves are now
-   exact too: Background spell-state begin `0x004067B0` writes +0xCCC=1 /
-   +0xCD0=0, while Player position-callback trampoline `0x00406820` bridges
-   thiscall Player + stack position into the target fastcall slot at Player +0x30404.
-   EnemyEclManager raw-file release `0x00406830` is exact too: teardown
-   invokes it on manager +0x000 and +0x188, freeing rawFile00 through exact
-   ZunMemory::Free and clearing the slot. ReleaseSubsystem4 itself remains a
-   separate durable negative. PLST stat5 progression now has both directions:
-   `GetCharacterStat5 @ 0x0040E450` reads the +0x7C 16x6 table, while
-   `IncrementCharacterStat5 @ 0x004158E0` saturates the same row's index 5
-   at 999999. Replay pressed-mask helper `0x00415CD0` is now owner/semantics-
-   closed but remains no-source: natural VC7.1 stays 16 bytes versus target 18
-   because the target materializes mask in ECX before the AND. Treat this like the
-   existing IsHeld negative; do not force registers/volatile. Input startup leaf
-   `SanitizeKeyboardState @ 0x0042AD70` is now 65-byte exact through USER32
-   GetKeyboardState/SetKeyboardState, while adjacent `UpdateReplayInputFront @
-   0x0042ACE0` remains source-absent at a stable 128/131 natural codegen frontier
-   despite owner/layout/edge semantics being closed. Controller polling is now
-   source-closed too: static button helpers `0x0042AC80/0x0042ACB0` are
-   37/47-byte exact through natural same-TU private ABI, while `GetControllerInput
-   @ 0x0042B410` remains a cold-stable 782/808 NON-EXACT owner over TH09's
-   dual DirectInput / WinMM fallback path. Do not steer its remaining register
-   allocation. Replay's existing-manager stage dispatcher `0x004217E0` is
-   now 21-byte exact: mode 0 tail-jumps BeginRecordingStage and mode 1 tail-jumps
-   BeginPlaybackStage, while those two large destination owners keep their honest
-   non-exact status. Player collision-query box producer `0x0040F8E0` is now
-   205-byte exact through repeated record-member source, while Enemy wrapper
-   `0x00410250` is source-present target-sized 82/82 but remains NON-EXACT
-   because its two returned/local Float3 temporaries schedule differently. Player
-   SHT collision callback table `0x004A1C64` is now closed for indices 1/2:
-   `0x00441880` increments Player +0x30354 and returns 0, while
-   `0x00443430` returns 1; both preserve the ECX/EDX/stack fastcall ABI
-   established by maintained shot-collision dispatch. EffectManager fixed-slot
-   accessor `0x00445560` is now exact too at 26 bytes: it returns
-   effects[0x100+slot] from manager +0x30 with 0xD8 stride, closing a dependency
-   for the Player spawn-callback table. Player SHT spawn-callback indices 2/4/5
-   at `0x004423D0/0x00445530/0x00445CB0` are now exact too; they share
-   the maintained InitializeShot/effect dependencies and close 184 authored bytes.
-   SHT update-callback index 5 `0x004446A0` is now 86-byte exact as well:
-   mode +0x470 gates velocity zeroing, timer +0x454 >= 90 clears shot state, and
-   byte +0x472 is set on every path through exact ZunTimer comparison code.
-   Mirror update indices 6/7 `0x00449C70/0x00449CE0` are 98-byte exact
-   each: they turn angle by +/-pi/40, decay speed by 0.96, and rebuild x/y
-   velocity through target-observed external cosf/sinf under the already-justified
-   Player-shot /Ob0 profile.
-   SHT spawn index 3 `0x004432A0` is now 86-byte exact too: schedule
-   match initializes the shot, writes velocity (0,-24), then sets both Player
-   speed multipliers to 0.5 in the target-observed +0x1CE0 then +0x1CDC order.
-   Spawn index 6 `0x00445D00` is 119-byte exact as well: it copies
-   fixed effect slot5 position into the shot, sets angle -pi/2, and derives
-   downward velocity from descriptor +0x18 after InitializeShot.
-   Spawn index 7 `0x0044AB90` is 139-byte exact too: it aims at tracked
-   Enemy position +0x30364 with a -144 X fallback, then uses descriptor angle/speed
-   and target-observed external trig. Spawn index 1 `0x00441EF0` is now
-   151-byte exact too: it arms the Player shot-state timer/pointer, copies descriptor
-   option/float fields, initializes the shot as type2, and seeds all 32 trail-x values
-   plus current x with -999. The full non-null spawn callback table indices 1-7 are
-   now exact.
-   Shared ExAttack dynamic-data allocator `0x00440D90` is now source-present
-   at a cold-stable 83/81: TH09 fixes +0x1C dynamicData, +0x2C vmCount, +0x34
-   extra tail and the 0x2A4 VM stride across 25 initializer callers. Remaining
-   two bytes are entry register allocation; do not steer EBX/EAX to force exact.
-   Player collision circle producer 0x00440D30 is now 95-byte canonical exact,
-   closing the position+radius+tail sibling of exact box/laser appenders in the
-   established Player +0x36C collision-query pool.
-   Player callback table 0x004A1A50 now has shared range predicate 0x00440DF0
-   canonical exact at 79 bytes; indices 0/3/5/12/13 use Player position minus
-   caller point and a neutral +0x368 -> +0x7C radius-like scalar.
-   The sibling `g_PlayerCallback30408` Enemy-state table is now fully exact too:
-   shared default 0x004418B0, index2 0x00442550 and index4 0x00443C10 total
-   225 bytes. Enemy movement fixes ECX=Player/EDX=Enemy; all three update neutral
-   +0x2D98/+0x2D9C/+0x2DA0 state and exact specialAttackTimer5424.
-   `g_PlayerCallback30404` now also has its remaining short geometry predicates
-   exact at indices 6/7/14/15 (`0x00445580/0x00445E60/0x0044BC80/0x0044C2E0`).
-   They share exact Float3 subtraction and the neutral Player +0x368 -> +0x7C radius
-   source, covering X-only, shifted-circle, Y-only and axis-OR tests.
-   `g_PlayerCallback30404` index1 `0x004417F0` is now exact too at
-   129 bytes, closing its curved Y-gated horizontal-range formula with neutral
-   +0x368 -> +0x84 scale semantics.
-   The same table indices 2/10 `0x00442480` are now 193-byte exact as a
-   strict radius plus wrapped angular-sector predicate through exact angle/fabs helpers.
-   SHT update-callback index 3 `0x00443150` is now 248-byte exact too:
-   at timer 30 it aims at tracked enemy position with a -144 X fallback, normalizes
-   the raw angle once, and rebuilds velocity through the target-observed external
-   cosf/sinf path. Update index 4 `0x00443930` is now source-present at a
-   cold-stable 243/249; only preserved-register allocation remains, so do not steer it.
-   Update index 1 `0x004415E0` is now source-present at a cold-stable
-   460/471 with homing/no-target acceleration semantics closed; remaining x87
-   temporary scheduling is not worth source steering. Update index 2
-   `0x00441F90` is now source-present target-sized 643/643 with 546/579
-   comparable bytes matched; only two short scheduling blocks remain. Index4 is
-   source-present 243/249; indices 3/5/6/7 are exact. The full non-null update
-   callback table indices 1-7 are therefore source-closed.
-   SHT draw-callback index 1 `0x00442220` is now source-present at a
-   cold-stable 190/204. Its trail rendering/alpha attenuation semantics are closed;
-   the remaining 14-byte gap is canonical /Ob1 epilogue tail-merging, so do not
-   steer CFG/optimizer behavior. Draw index2 `0x00443300` remains no-source.
-   ExAttack record side-state accessor `0x00440CB0` is now 12-byte exact:
-   record side +0x08 selects `g_GameManager` side records at 0x38 stride.
-   This is a shared dependency of the 0x44xxxx ExAttack callback family, not a
-   Player helper.
-   ExAttack template type4 release callback `0x00442EC0` is now 32-byte
-   exact too: table slot19 frees record +0x34 through exact ZunMemory::Free, clears
-   the field, and returns 0; the resource spelling remains deliberately neutral.
-   CardAttack callback matrix helper `0x00440CC0` is now 24-byte exact:
-   rows 2/5/8 share it as their update callback, and it returns true only when
-   the current side EnemyManager has no active sideCategory3 Enemy. Keep the
-   larger CardAttack owner `0x00403E50` separate for later source recovery.
-   The complementary shared CardAttack update callback `0x00441BC0` is now
-   23-byte exact for rows 0/1/3/4/6/7: it returns the normalized truth value of
-   timer98 > 192 through exact ZunTimer comparison code.
-   CardAttack end callbacks `0x004413A0/0x00441470` are now exact too:
-   the first frees/clears +0x1360 for rows 0/1/3/4/6/7, while the second does
-   the same for +0x1364 on rows 2/5/8. Tail resource names remain neutral.
-   Their shared EnemyManager convenience call `0x00440C80` is now 38-byte
-   exact as well: it forwards six CardAttack spawn arguments into the larger
-   EnemyManager spawn owner `0x0040F1D0` with runImmediately=1.
-   All six unique CardAttack begin callbacks are now exact too (456 bytes total):
-   pl00 variants at `0x00441350/0x004413D0/0x00441420` and pl01 variants at
-   `0x00441B70/0x00441BE0/0x00441C30`. They allocate the 0x2B8 tail object,
-   retain the target's uninitialized local spawn position, and call the exact
-   EnemyManager wrapper with the table-specific constants.
-   Prefer adjacent small ECL/Ascii/Player/Score/Input/Replay helpers before another
-   large dispatcher.
-3. **Then attack coherent large non-exact families, not isolated giant owners.**
-   The largest maintained frontiers are TitleScreen (21 functions / 19,899
-   bytes), ECL (15 / 19,142), EnemyManager (5 / 7,709), Player (11 / 6,999),
-   BulletManager (14 / 6,125), and AnmManager (10 / 5,920). Prefer helper leaves
-   and shared ABI/layout discoveries before `RunEcl @ 0x004086C0` or another
-   multi-kilobyte dispatcher.
-4. **Prepare product closure only after the exact/source frontier becomes a
-   documented plateau.** `config/build.toml` is still a skeleton: translation
-   units, compile profiles, static-data owners, libraries, resources, linker
-   switches/order, and Windows i386 runtime scenarios are empty or unknown.
-   Populate these from evidence; a clean link alone does not close the gate.
+1. **Do not churn closed or frozen frontiers.** The 34 origin-unknown entries
+   remain frozen. Keep the durable natural-codegen negatives closed unless new
+   ABI/type/TU evidence appears, especially `CaptureFrameSyncState`,
+   `AsciiManager::OnUpdate`, replay-input register-allocation leaves,
+   Player/shot preserved-register residuals, and
+   `ChainReleaseView::ReleaseSingleChain @ 0x0042CAE0`. The Chain core is
+   source-present at a cold-stable 268/241; `/GX-` collapses it to 218, so
+   placement-new/local-order tricks are not justified.
 
-Run `python3 scripts/report-reconstruction-status.py` after each checkpoint; it
-reports the live non-exact and no-source frontier rather than relying on prose.
-Semantic reconstruction and portability remain out of scope until the native
-Windows i386 product has been compiled, linked, owner-audited, and exercised.
+2. **Continue bounded authored/no-source seams with target-proven owners.**
+   Prefer short leaves whose receiver, table slot, or sole caller already fixes
+   ownership. The recent Supervisor startup/network run is a good model:
+   `SupervisorNetworkMessageThunk @ 0x00432EA0`,
+   `SupervisorNetworkState::SupervisorNetworkState @ 0x0042CC10`, and
+   `SupervisorInitializeD3D @ 0x0042CD10` all closed naturally, while the
+   768-byte DirectPlay instance handler `0x00432B70` remains independent.
+   Nearby candidates such as `0x0042CC90` / `0x0042CD40` should only be
+   pursued after their owner/caller ABI is established; do not infer ownership
+   from adjacency.
+
+3. **Use shared-helper leverage before large callbacks.** Player, CardAttack,
+   ExAttack, ECL, Chain, input/replay, and Supervisor work has repeatedly paid
+   off by recovering a shared helper first and then reusing its exact ABI/layout.
+   Keep that pattern. Avoid spending a session on a multi-kilobyte dispatcher
+   when a smaller helper or table column can establish the same layout.
+
+4. **Attack coherent large non-exact families only after their helper seams are
+   mature.** The largest maintained families are still TitleScreen, ECL,
+   EnemyManager, Player, BulletManager, and AnmManager. Prefer leaves and shared
+   ABI/layout discoveries before `RunEcl @ 0x004086C0` or another giant owner.
+
+5. **Keep product closure separate.** `config/build.toml` remains an honest
+   skeleton. Do not start semantic/port work until translation units, data
+   owners, libraries, resources, link order, compiler profiles, and exercised
+   Windows i386 runtime paths are evidenced and the native product gate closes.
+
+Run `python3 scripts/report-reconstruction-status.py` after each checkpoint;
+it is authoritative for the live frontier. The knowledge base is authoritative
+for accepted local facts and durable negative results.
 
 ## Durable evidence map
 
@@ -522,22 +161,18 @@ fact into the maintained ledger or knowledge base.
 
 ## Latest checkpoints
 
-Repository preparation and source-ledger repair end at:
+Recent Web reconstruction checkpoints, newest first:
 
-- `57ef025 gpt-5.6-sol: reconcile source presence ledger`
-- `9f132e6 gpt-5.6-sol: make static init review durable`
-- `88a8916 gpt-5.6-sol: enforce ledger consistency`
-- `6f12e9f gpt-5.6-sol: compact live reconstruction docs`
+- `81de220 gpt-web: close Supervisor Direct3D bootstrap`
+- `d966a1f gpt-web: close Supervisor network state constructor`
+- `3b77490 gpt-web: recover Chain release seam`
+- `98a1fc0 gpt-web: close Supervisor network message thunk`
+- `1da3897 gpt-web: close ZunTimer tick interval`
+- `1d82b38 gpt-web: close GameManager valueCC clamp`
 
-The preceding boundary/origin closure is the eleven-commit series ending at:
-
-- `e0da09e gpt-5.6-sol: close boundary and origin review`
-- `e41119d gpt-5.6-sol: classify runtime origin residuals`
-- `b988d52 gpt-5.6-sol: remove transition data pseudo-functions`
-- `b5e8ac4 gpt-5.6-sol: classify remaining game origins`
-- `7d1edf1 gpt-5.6-sol: add pinned runtime-origin audit`
-
-No checkpoint in this series was pushed by the reconstruction agent.
+Earlier boundary/origin closure and source-ledger preparation remain available in
+Git history; the live handoff intentionally does not duplicate their packet
+chronology. None of the six checkpoints above has been pushed by this agent.
 
 ## Finish checklist
 
