@@ -803,3 +803,4 @@ TitleScreenView::SetIndexedSpriteChoice,0x00424E95,function
 TitleScreenView::SetRangeSelectionInterrupts,0x0042510E,function
 AnmVmView::ConfigurePositionInterpolation,0x004233A3,function
 AnmVmView::ConfigureColorInterpolation,0x004233F4,function
+FrontReleaseView::ReleaseCore,0x00418270,function

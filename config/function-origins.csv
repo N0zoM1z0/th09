@@ -311,7 +311,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00417630,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00417C10,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004181E0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00418270,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00418270,authored_game,Front,authored,high,front-release-core-same-tu-exact-2026-09-20
 0x004182A0,authored_game,Front,authored,high,front-release-game-subsystem-vc71-exact-2026-09-17
 0x004182E0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00418480,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19

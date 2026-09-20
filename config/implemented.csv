@@ -802,3 +802,4 @@ TitleScreenView::SetIndexedSpriteChoice
 TitleScreenView::SetRangeSelectionInterrupts
 AnmVmView::ConfigurePositionInterpolation
 AnmVmView::ConfigureColorInterpolation
+FrontReleaseView::ReleaseCore

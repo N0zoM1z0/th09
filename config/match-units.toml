@@ -7191,8 +7191,8 @@ size = 0x0B
 relocations = []
 
 [units.stage-resource-release-policy]
-source = "src/StageResourcePolicy.cpp"
-object = "build/matching/StageResourcePolicy.obj"
+source = "src/FrontRelease.cpp"
+object = "build/matching/FrontRelease.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["ShouldReleaseStageResources"]
 symbol = "?ShouldReleaseStageResources@@YIHXZ"
@@ -9731,6 +9731,21 @@ relocations = [
   { offset = 0x32, type = "REL32", symbol = "_free", target = 0x0047B249 },
 ]
 
+[units.front-release-core]
+source = "src/FrontRelease.cpp"
+object = "build/matching/FrontRelease.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontReleaseView::ReleaseCore"]
+symbol = "?ReleaseCore@FrontReleaseView@@QAEHXZ"
+target_address = 0x00418270
+size = 0x22
+relocations = [
+  { offset = 0x01, type = "REL32", symbol = "?ShouldReleaseStageResources@@YIHXZ", target = 0x00415CF0 },
+  { offset = 0x0A, type = "DIR32", symbol = "?g_GameSide1Value20@@3HA", target = 0x004A7DE8 },
+  { offset = 0x1B, type = "REL32", symbol = "?ReleaseForSideCount@FrontMessageRuntimeView@@QAEXH@Z", target = 0x00417520 },
+]
+
+
 [units.front-release-game-subsystem]
 source = "src/FrontRelease.cpp"
 object = "build/matching/FrontRelease.obj"
@@ -9740,7 +9755,7 @@ symbol = "?ReleaseGameSubsystem@@YIXPAX@Z"
 target_address = 0x004182A0
 size = 0x32
 relocations = [
-  { offset = 0x8, type = "REL32", symbol = "?ReleaseCore@FrontReleaseView@@QAEXXZ", target = 0x00418270 },
+  { offset = 0x8, type = "REL32", symbol = "?ReleaseCore@FrontReleaseView@@QAEHXZ", target = 0x00418270 },
   { offset = 0x11, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
   { offset = 0x16, type = "REL32", symbol = "?Cut@Chain@@QAEXPAVChainElem@@@Z", target = 0x0042C8C0 },
   { offset = 0x1E, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
