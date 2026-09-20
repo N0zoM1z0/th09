@@ -66,7 +66,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00403D90,authored_game,Supervisor,authored,high,supervisor-configure-screen-viewport-vc71-exact-2026-09-17
 0x00403DE0,authored_game,ZunTimer,authored,high,runtime-support-leaf-target-replay-2026-09-16
 0x00403E00,authored_game,AnmLoaded,authored,high,anm-loaded-set-and-execute-script-idx-vc71-exact-2026-09-16
-0x00403E30,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00403E30,authored_game,GameManager,authored,high,game-manager-valuecc-subtract-exact-2026-09-20
 0x00403E50,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004041F0,authored_game,CardAttack,authored,high,card-attack-owner-th09-target-replay-2026-09-16
 0x00404410,authored_game,CardAttack,authored,high,card-attack-owner-th09-target-replay-2026-09-16
