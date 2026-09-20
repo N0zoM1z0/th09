@@ -207,7 +207,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0040FA70,authored_game,EnemyManager,authored,high,packet-171-enemy-manager-lifecycle
 0x0040FCA0,unknown,,review,unknown,game-special-member-origin-review-2026-09-19
 0x0040FCC0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x004100E0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x004100E0,authored_game,EnemyManager,authored,high,enemy-child-ecl-block-release-exact-2026-09-20
 0x00410110,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004101D0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00410250,authored_game,EnemyManager,authored,high,enemy-collision-box-wrapper-source-2026-09-20

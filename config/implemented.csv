@@ -805,3 +805,4 @@ AnmVmView::ConfigureColorInterpolation
 FrontReleaseView::ReleaseCore
 TitleScreenView::SetTwoDigitVmValue
 SwapDuplicateCharacterIndex
+EnemyCoreReleaseChildEclBlocks
