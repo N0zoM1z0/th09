@@ -43,7 +43,7 @@ downloaded tools are private and never committed.
 ## Current status
 
 The target and live IDA database are attested. All 2,191 tracked candidates have
-received boundary/origin review: 990 are confirmed authored, 1,167 are
+received boundary/origin review: 987 are confirmed authored, 1,170 are
 classified exclusions, and 34 remain deliberately origin-unknown after review.
 Maintained source covers 811 authored mappings, of which 666 are canonical
 zero-difference VC7.1 matches.

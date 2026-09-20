@@ -17,6 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 FUNCTIONS = ROOT / "config" / "functions.csv"
 ORIGINS = ROOT / "config" / "function-origins.csv"
 COMPILER_EVIDENCE_ID = "vc71-generated-helper-review-2026-09-19"
+MATH_INTRINSIC_EVIDENCE_ID = "vc71-math-intrinsic-comdat-review-2026-09-20"
+FROZEN_GAME_COHORT = ROOT / "config" / "game-origin-review-cohort.txt"
 VECTOR_CONSTRUCTOR = "0x00401470"
 SCALAR_DELETING_DESTRUCTORS = {
     "0x0042CC30",
@@ -25,12 +27,18 @@ SCALAR_DELETING_DESTRUCTORS = {
     "0x00440C20",
     "0x00440C50",
 }
-COMPILER_GENERATED = {VECTOR_CONSTRUCTOR, *SCALAR_DELETING_DESTRUCTORS}
+MATH_INTRINSICS = {
+    "0x00401060": ("@cosf@4", "558becd94508d9ff5dc20400"),
+    "0x00401070": ("@sinf@4", "558becd94508d9fe5dc20400"),
+    "0x00401080": ("@sqrtf@4", "558becd94508d9fa5dc20400"),
+}
+COMPILER_GENERATED = {VECTOR_CONSTRUCTOR, *SCALAR_DELETING_DESTRUCTORS, *MATH_INTRINSICS}
 AUTHORED_EVIDENCE_ID = "game-code-origin-sweep-2026-09-19"
 AMBIGUOUS_EVIDENCE_ID = "game-special-member-origin-review-2026-09-19"
 GAME_BAND_END = 0x0044E000
 EXPECTED_GAME_COHORT = 387
-EXPECTED_AUTHORED_DIGEST = "6e7168c5f8cfd8de58cd1ce96f49fa26aa48024a3825fa2e1e42c7a8c111793a"
+EXPECTED_GAME_COHORT_DIGEST = "8fc4d184e62c0e19d28aa5ca120f158a7f25d5fac28b2735f2372f8db81a7077"
+EXPECTED_AUTHORED_DIGEST = "30345ae0e75802488f73aaad48ffd0215b2c16317bfbbd0ce22ad92f614c5340"
 EXPECTED_AMBIGUOUS_DIGEST = "17bb6cebc7577183c2b339fca631bb1b41c754d3239916995324d9670eb67ef0"
 RETAIN_UNKNOWN = {
     "0x0040FCA0",
@@ -86,6 +94,11 @@ def verify_compiler_bodies() -> None:
     if vector_body != expected_vector:
         raise ValueError("VC7.1 vector-constructor helper body changed")
 
+    for address_text, (symbol, expected_hex) in MATH_INTRINSICS.items():
+        body = tail.read_va(data, sections, int(address_text, 0), 12)
+        if body != bytes.fromhex(expected_hex):
+            raise ValueError(f"VC7.1 math intrinsic body changed at {address_text} ({symbol})")
+
     fixed_template = bytearray.fromhex(
         "558bec568bf1e800000000f6450801740956e80000000083c4048bc65e5dc20400"
     )
@@ -122,7 +135,12 @@ def review_compiler(write: bool) -> dict[str, object]:
             and origin["origin"] == "compiler_generated"
             and origin["subsystem"] == "Compiler"
             and origin["disposition"] == "exclude"
-            and origin["evidence_id"] == COMPILER_EVIDENCE_ID
+            and origin["evidence_id"]
+            == (
+                MATH_INTRINSIC_EVIDENCE_ID
+                if address in MATH_INTRINSICS
+                else COMPILER_EVIDENCE_ID
+            )
         ):
             already_applied.add(address)
         else:
@@ -133,7 +151,11 @@ def review_compiler(write: bool) -> dict[str, object]:
         row["subsystem"] = "Compiler"
         row["disposition"] = "exclude"
         row["confidence"] = "high"
-        row["evidence_id"] = COMPILER_EVIDENCE_ID
+        row["evidence_id"] = (
+            MATH_INTRINSIC_EVIDENCE_ID
+            if row["address"] in MATH_INTRINSICS
+            else COMPILER_EVIDENCE_ID
+        )
 
     def mutate_function(row: dict[str, str]) -> None:
         row["module"] = "Compiler"
@@ -149,6 +171,18 @@ def review_compiler(write: bool) -> dict[str, object]:
             row["notes"] = (
                 "Compiler-emitted array construction helper; excluded from the "
                 "authored denominator without exactness credit."
+            )
+        elif row["address"] in MATH_INTRINSICS:
+            symbol, _ = MATH_INTRINSICS[row["address"]]
+            row["proposed_name"] = symbol
+            row["evidence"] = (
+                "Pinned VC7.1 /Oi /Gr compilation of an ordinary math caller "
+                f"automatically emits the link-once COMDAT {symbol}; two cold probes "
+                "reproduce all 12 target bytes with no relocations."
+            )
+            row["notes"] = (
+                "Compiler-emitted math intrinsic support, not authored game source; "
+                "excluded from the authored denominator without authored exactness credit."
             )
         else:
             row["evidence"] = (
@@ -175,6 +209,7 @@ def review_compiler(write: bool) -> dict[str, object]:
         "already_applied": len(already_applied),
         "vector_constructor_helpers": 1,
         "scalar_deleting_destructors": len(SCALAR_DELETING_DESTRUCTORS),
+        "math_intrinsic_helpers": len(MATH_INTRINSICS),
     }
 
 
@@ -185,21 +220,24 @@ def review_authored(write: bool) -> dict[str, object]:
     function_rows = {row["address"]: row for row in function_list}
     origin_rows = {row["address"]: row for row in read_rows(ORIGINS)}
     cohort = {
-        address
-        for address, origin in origin_rows.items()
-        if int(address, 0) < GAME_BAND_END
-        and (
-            origin["origin"] == "unknown"
-            or origin["evidence_id"] == AUTHORED_EVIDENCE_ID
-        )
+        line.strip()
+        for line in FROZEN_GAME_COHORT.read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
     }
     if len(cohort) != EXPECTED_GAME_COHORT:
         raise ValueError(
             f"expected {EXPECTED_GAME_COHORT} frozen game candidates, got {len(cohort)}"
         )
+    cohort_digest = hashlib.sha256(
+        ("\n".join(sorted(cohort, key=lambda value: int(value, 0))) + "\n").encode()
+    ).hexdigest()
+    if cohort_digest != EXPECTED_GAME_COHORT_DIGEST:
+        raise ValueError(f"frozen game cohort digest changed: {cohort_digest}")
     if not RETAIN_UNKNOWN.issubset(cohort):
         raise ValueError("reviewed-unknown special-member set left the frozen cohort")
-    selected = cohort - RETAIN_UNKNOWN
+    if not set(MATH_INTRINSICS).issubset(cohort):
+        raise ValueError("math intrinsic reclassification left the frozen cohort")
+    selected = cohort - RETAIN_UNKNOWN - set(MATH_INTRINSICS)
     digest = hashlib.sha256(
         ("\n".join(sorted(selected, key=lambda value: int(value, 0))) + "\n").encode()
     ).hexdigest()
@@ -235,7 +273,7 @@ def review_authored(write: bool) -> dict[str, object]:
             function["owner"] == "authored"
             and origin["origin"] == "authored_game"
             and origin["disposition"] == "authored"
-            and origin["evidence_id"] == AUTHORED_EVIDENCE_ID
+            and origin["confidence"] == "high"
         ):
             already_applied.add(address)
         else:
@@ -278,6 +316,7 @@ def review_authored(write: bool) -> dict[str, object]:
         "updated_candidates": function_count,
         "already_applied": len(already_applied),
         "retained_origin_unknown": len(RETAIN_UNKNOWN),
+        "reclassified_compiler_intrinsics": len(MATH_INTRINSICS),
         "reviewed_bytes": sum(int(function_rows[address]["size"]) for address in selected),
         "selection_digest": digest,
     }
