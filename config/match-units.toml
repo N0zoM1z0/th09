@@ -11557,3 +11557,15 @@ relocations = [
   { offset = 0x07, type = "DIR32", symbol = "?g_GameManager@@3UCardAttackEnemyGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
   { offset = 0x0E, type = "REL32", symbol = "?FindActiveEnemyBySideCategory@EnemyManagerView@@QAEPAUEnemyView@@H@Z", target = 0x0040F7D0 },
 ]
+
+[units.card-attack-update-after192]
+source = "src/CardAttackUpdateAfter192.cpp"
+object = "build/matching/CardAttackUpdateAfter192.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["CardAttackUpdateAfter192"]
+symbol = "?CardAttackUpdateAfter192@@YIHPAUCardAttack@@@Z"
+target_address = 0x00441BC0
+size = 0x17
+relocations = [
+  { offset = 0x0C, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0 },
+]

@@ -769,3 +769,4 @@ PlayerShotDrawCallbackType1
 ExAttackRecordSideView::GetSideState
 ExAttackReleaseCallbackType4
 CardAttackUpdateNoCategory3
+CardAttackUpdateAfter192

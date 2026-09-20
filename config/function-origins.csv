@@ -965,7 +965,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00441A70,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00441B00,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00441B70,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00441BC0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00441BC0,authored_game,CardAttack,authored,high,card-attack-update-after192-exact-2026-09-20
 0x00441BE0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00441C30,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00441EF0,authored_game,Player,authored,high,player-shot-spawn-callback1-exact-2026-09-20

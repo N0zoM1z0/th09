@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 771 |
-| Canonical exact functions | 628 |
+| Source-present authored mappings | 772 |
+| Canonical exact functions | 629 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 771 source-present authored mappings. Of
-these, 628 are canonical exact and 143 retain honest non-exact compiler results.
-`config/matches.csv` contains 628 complete target-bound VC7.1 matches totaling
-84,333 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 772 source-present authored mappings. Of
+these, 629 are canonical exact and 143 retain honest non-exact compiler results.
+`config/matches.csv` contains 629 complete target-bound VC7.1 matches totaling
+84,356 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 219
-   authored functions / 81,236 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 218
+   authored functions / 81,213 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -426,6 +426,9 @@ generation, or folded ownership.
    rows 2/5/8 share it as their update callback, and it returns true only when
    the current side EnemyManager has no active sideCategory3 Enemy. Keep the
    larger CardAttack owner `0x00403E50` separate for later source recovery.
+   The complementary shared CardAttack update callback `0x00441BC0` is now
+   23-byte exact for rows 0/1/3/4/6/7: it returns the normalized truth value of
+   timer98 > 192 through exact ZunTimer comparison code.
    Prefer adjacent small ECL/Ascii/Player/Score/Input/Replay helpers before another
    large dispatcher.
 3. **Then attack coherent large non-exact families, not isolated giant owners.**
