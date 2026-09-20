@@ -1127,3 +1127,67 @@ void SupervisorSetupLayout::SetupLoadingVmsAndInitCapture(
     reinterpret_cast<AnmCaptureRequestView *>(g_AnmManager)
         ->QueueCaptureRequest(8, 0, 0, 640, 480, 0, 0, 640, 480);
 }
+
+namespace
+{
+struct GameManagerResetRecord
+{
+    unsigned char unknown00[0x34];
+    unsigned int flags34;
+};
+
+struct GameManagerResetView
+{
+    GameManagerResetRecord records00[3];
+    unsigned char unknown0A8[0xB0 - 0xA8];
+    int valueB0;
+    unsigned char unknown0B4[4];
+    int valueB8;
+    int valueBC;
+    int valueC0;
+    unsigned char unknown0C4[0xD0 - 0xC4];
+    int valueD0;
+    unsigned char unknown0D4[0x110 - 0xD4];
+    int value110;
+    unsigned char unknown114[0x128 - 0x114];
+    int value128;
+    int value12C;
+    int value130;
+    unsigned char unknown134[0x13C - 0x134];
+    unsigned char value13C;
+    unsigned char value13D;
+    unsigned char value13E;
+    unsigned char unknown13F[0x380 - 0x13F];
+    int value380;
+};
+
+typedef char GameManagerResetRecordSize38[
+    (sizeof(GameManagerResetRecord) == 0x38) ? 1 : -1];
+typedef char GameManagerResetValueB0AtB0[
+    (offsetof(GameManagerResetView, valueB0) == 0xB0) ? 1 : -1];
+typedef char GameManagerResetValue380At380[
+    (offsetof(GameManagerResetView, value380) == 0x380) ? 1 : -1];
+}
+
+void __fastcall ResetGameManager(GameManagerSetupLayout *manager)
+{
+    GameManagerResetView *view =
+        reinterpret_cast<GameManagerResetView *>(manager);
+
+    for (int i = 0; i < 3; ++i)
+        view->records00[i].flags34 &= ~1u;
+
+    view->valueB0 = 0;
+    view->valueB8 = 2;
+    view->valueC0 = 0;
+    view->valueD0 = 0;
+    view->valueBC = 0;
+    view->value110 = 0;
+    view->value128 = 0;
+    view->value12C = 0;
+    view->value130 = 0;
+    view->value13C = 0;
+    view->value13D = 0;
+    view->value13E = 0;
+    view->value380 = 0;
+}

@@ -339,7 +339,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041A6EB,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0041A75F,authored_game,GameManager,authored,high,game-manager-on-draw-vc71-exact-2026-09-11
 0x0041A796,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0041A7C3,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0041A7C3,authored_game,GameManager,authored,high,game-manager-reset-exact-2026-09-20
 0x0041A827,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0041A889,authored_game,Chain,authored,high,chain-elem-set-callback-vc71-exact-2026-09-10
 0x0041A89E,authored_game,Rng,authored,high,packet184-replay-runtime-leaves-2026-09-16

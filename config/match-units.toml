@@ -11079,3 +11079,13 @@ symbol = "?EffectFollowPlayerUpdate@@YIHPAUEffect@@@Z"
 target_address = 0x0040C960
 size = 0x26
 relocations = []
+
+[units.game-manager-reset-runtime]
+source = "src/GameManagerSetup.cpp"
+object = "build/matching/GameManagerSetup.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Os", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ResetGameManager"]
+symbol = "?ResetGameManager@@YIXPAUGameManagerSetupLayout@@@Z"
+target_address = 0x0041A7C3
+size = 0x64
+relocations = []
