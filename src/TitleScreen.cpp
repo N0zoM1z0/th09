@@ -407,6 +407,7 @@ struct TitleScreenView {
     int MoveCursorFourWay(i32 count);
     void UpdateMenuSelection();
     void SetMenuSelectionSprites(i32 selected, i32 start, i32 count);
+    int SetTwoDigitVmValue(AnmVmView *digitVms, short value);
     void SetIndexedSpriteChoice(i32 choice, i32 vmIndex);
     void SetRangeSelectionInterrupts(i32 selected, i32 start, i32 count);
     int OnUpdateOptions();
@@ -817,6 +818,28 @@ int AnmVmView::ConfigureColorInterpolation(
     color1Final.g = (endColor >> 8) & 0xFF;
     color1Final.b = endColor & 0xFF;
     return endColor;
+}
+
+
+int TitleScreenView::SetTwoDigitVmValue(AnmVmView *digitVms, short value)
+{
+    if (value < 0)
+    {
+        digitVms[0].flags &= ~2u;
+        digitVms[1].flags &= ~2u;
+    }
+    else
+    {
+        titleAnm->SetSprite(
+            &digitVms[0],
+            digitVms[0].baseSpriteIndex + 2 * (value / 10));
+        titleAnm->SetSprite(
+            &digitVms[1],
+            digitVms[1].baseSpriteIndex + 2 * (value % 10));
+        digitVms[0].flags |= 2;
+        digitVms[1].flags |= 2;
+    }
+    return 0;
 }
 
 

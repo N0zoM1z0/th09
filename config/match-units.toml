@@ -7799,6 +7799,20 @@ size = 0x75
 relocations = []
 
 
+[units.title-screen-set-two-digit-vm-value]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::SetTwoDigitVmValue"]
+symbol = "?SetTwoDigitVmValue@TitleScreenView@@QAEHPAUAnmVmView@@F@Z"
+target_address = 0x00422FD1
+size = 0x7C
+relocations = [
+  { offset = 0x44, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+  { offset = 0x61, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+]
+
+
 [units.title-screen-set-indexed-sprite-choice]
 source = "src/TitleScreen.cpp"
 object = "build/matching/TitleScreen.obj"

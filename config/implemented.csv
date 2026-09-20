@@ -803,3 +803,4 @@ TitleScreenView::SetRangeSelectionInterrupts
 AnmVmView::ConfigurePositionInterpolation
 AnmVmView::ConfigureColorInterpolation
 FrontReleaseView::ReleaseCore
+TitleScreenView::SetTwoDigitVmValue
