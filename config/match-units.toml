@@ -11906,3 +11906,13 @@ relocations = [
   { offset = 0x11, type = "REL32", symbol = "?ReleaseSingleChain@ChainReleaseView@@QAEXPAVChainElem@@@Z", target = 0x0042CAE0 },
   { offset = 0x1C, type = "REL32", symbol = "?ReleaseSingleChain@ChainReleaseView@@QAEXPAVChainElem@@@Z", target = 0x0042CAE0 },
 ]
+
+[units.supervisor-network-state-constructor]
+source = "src/SupervisorNetworkStateCtor.cpp"
+object = "build/matching/SupervisorNetworkStateCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorNetworkState::SupervisorNetworkState"]
+symbol = "??0SupervisorNetworkState@@QAE@XZ"
+target_address = 0x0042CC10
+size = 0x19
+relocations = []

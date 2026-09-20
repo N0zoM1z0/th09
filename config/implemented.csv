@@ -796,3 +796,4 @@ ZunTimer::HasTickedEvery
 SupervisorNetworkMessageThunk
 ChainReleaseView::ReleaseSingleChain
 ChainReleaseView::Release
+SupervisorNetworkState::SupervisorNetworkState

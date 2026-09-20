@@ -578,7 +578,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042C970,authored_game,FileSystem,authored,high,file-system-open-file-vc71-exact-2026-09-10
 0x0042CAE0,authored_game,Chain,authored,high,chain-release-single-source-2026-09-20
 0x0042CBE0,authored_game,Chain,authored,high,chain-release-exact-2026-09-20
-0x0042CC10,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042CC10,authored_game,Supervisor,authored,high,supervisor-network-state-constructor-exact-2026-09-20
 0x0042CC30,compiler_generated,Compiler,exclude,high,vc71-generated-helper-review-2026-09-19
 0x0042CC60,compiler_generated,Compiler,exclude,high,vc71-generated-helper-review-2026-09-19
 0x0042CC90,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19

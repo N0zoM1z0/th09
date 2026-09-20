@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 798 |
-| Canonical exact functions | 653 |
+| Source-present authored mappings | 799 |
+| Canonical exact functions | 654 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 798 source-present authored mappings. Of
-these, 653 are canonical exact and 145 retain honest non-exact compiler results.
-`config/matches.csv` contains 653 complete target-bound VC7.1 matches totaling
-86,087 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 799 source-present authored mappings. Of
+these, 654 are canonical exact and 145 retain honest non-exact compiler results.
+`config/matches.csv` contains 654 complete target-bound VC7.1 matches totaling
+86,112 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -127,8 +127,12 @@ generation, or folded ownership.
    remaining frontier is mixed heap-construction EH behavior, so no placement-new
    or local-order steering is retained. Its WinMain wrapper `0x0042CBE0`
    is canonical exact at 34 bytes.
-2. **Recover authored source in bounded subsystem seams.** There are 192
-   authored functions / 79,160 bytes without maintained source. The routed
+   The DirectPlay state allocation is now size-correct too: `NetworkInf constructor
+   0x0042CC10` is canonical exact at 25 bytes; WinMain allocates only 0xD4,
+   the ctor zeroes that exact object and sets syncRate +0xC4=60, so stale public
+   SupervisorNetworkState padding to 0x480 has been removed.
+2. **Recover authored source in bounded subsystem seams.** There are 191
+   authored functions / 79,135 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained

@@ -21,8 +21,9 @@ struct SupervisorNetworkState
     int syncValue;
     int joinMode;
     unsigned char syncRate;
-    unsigned char unknown0C5[0x480 - 0x0C5];
+    unsigned char unknown0C5[0xD4 - 0x0C5];
 
+    SupervisorNetworkState();
     int GetRemotePeerId();
     int SendPacket(void *packet, int size);
     int CreateDeviceAddress();
@@ -32,6 +33,7 @@ struct SupervisorNetworkState
     int ResetSession();
 };
 
+typedef char SupervisorNetworkStateSizeIsD4[(sizeof(SupervisorNetworkState) == 0xD4) ? 1 : -1];
 typedef char SupervisorNetworkStateActiveAtA8[
     (offsetof(SupervisorNetworkState, active) == 0xA8) ? 1 : -1];
 typedef char SupervisorNetworkStateSideAtAC[
