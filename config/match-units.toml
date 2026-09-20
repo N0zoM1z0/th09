@@ -9488,6 +9488,18 @@ target_address = 0x0042AE20
 size = 0x27
 relocations = []
 
+[units.rng-runtime-u16-range]
+source = "src/RngRuntimeLeaves.cpp"
+object = "build/matching/RngRuntimeLeaves.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["RngRuntimeView::GetRandomU16InRange"]
+symbol = "?GetRandomU16InRange@RngRuntimeView@@QAEGG@Z"
+target_address = 0x004048B0
+size = 0x29
+relocations = [
+  { offset = 0x0E, type = "REL32", symbol = "?NextU16@RngRuntimeView@@QAEGXZ", target = 0x0042AE20 },
+]
+
 [units.rng-runtime-u32]
 source = "src/RngRuntimeLeaves.cpp"
 object = "build/matching/RngRuntimeLeaves.obj"

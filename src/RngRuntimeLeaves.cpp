@@ -10,6 +10,11 @@ unsigned short RngRuntimeView::NextU16()
     return this->seed;
 }
 
+unsigned short RngRuntimeView::GetRandomU16InRange(unsigned short maximum)
+{
+    return maximum != 0 ? this->NextU16() % maximum : 0;
+}
+
 unsigned int RngRuntimeView::GetRandomU32()
 {
     return ((unsigned int)this->NextU16() << 16) | this->NextU16();

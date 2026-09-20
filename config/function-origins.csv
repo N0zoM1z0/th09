@@ -75,7 +75,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004045B0,authored_game,CardAttack,authored,high,card-attack-owner-th09-target-replay-2026-09-16
 0x00404600,authored_game,CardAttack,authored,high,card-attack-owner-th09-target-replay-2026-09-16
 0x00404710,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x004048B0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x004048B0,authored_game,Rng,authored,high,packet321-rng-u16-range-exact-2026-09-20
 0x004048E0,authored_game,Rng,authored,high,packet186-runtime-accessor-rng-leaves-2026-09-17
 0x00404910,authored_game,Rng,authored,high,packet186-runtime-accessor-rng-leaves-2026-09-17
 0x00404920,authored_game,ZunTimer,authored,high,zun-timer-has-ticked-every-exact-2026-09-20

@@ -9,6 +9,7 @@ struct RngRuntimeView
     int generationCount;
 
     unsigned short NextU16();
+    unsigned short GetRandomU16InRange(unsigned short maximum);
     unsigned int GetRandomU32();
     float GetRandomF32();
     float GetRandomF32Signed();

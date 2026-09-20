@@ -810,3 +810,4 @@ EnemyCoreReleaseChildEclBlocks,0x004100E0,function
 EnemyManagerReleaseCore,0x00411F30,function
 ReleaseSubsystem4,0x00411F80,function
 EnemyManagerView::ResetForGameplayCleanup,0x00411FD0,function
+RngRuntimeView::GetRandomU16InRange,0x004048B0,function
