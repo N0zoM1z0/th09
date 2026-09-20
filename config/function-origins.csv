@@ -634,7 +634,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042F3D0,authored_game,AnmManager,authored,high,packet189-midi-resource-leaves-2026-09-17
 0x0042F3F0,unknown,,review,unknown,game-special-member-origin-review-2026-09-19
 0x0042F400,authored_game,AnmManager,authored,high,packet187-small-support-leaves-2026-09-17
-0x0042F420,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042F420,authored_game,AnmManager,authored,high,anm-capture-request-exact-2026-09-20
 0x0042F490,authored_game,ZunTimer,authored,high,runtime-support-leaf-target-replay-2026-09-16
 0x0042F4F0,authored_game,Supervisor,authored,high,supervisor-tick-timer-origin-2026-09-11
 0x0042F540,authored_game,Supervisor,authored,high,supervisor-take-snapshot-vc71-exact-2026-09-11
