@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 729 |
-| Canonical exact functions | 593 |
+| Source-present authored mappings | 730 |
+| Canonical exact functions | 594 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 729 source-present authored mappings. Of
-these, 593 are canonical exact and 136 retain honest non-exact compiler results.
-`config/matches.csv` contains 593 complete target-bound VC7.1 matches totaling
-81,570 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 730 source-present authored mappings. Of
+these, 594 are canonical exact and 136 retain honest non-exact compiler results.
+`config/matches.csv` contains 594 complete target-bound VC7.1 matches totaling
+81,615 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 261
-   authored functions / 86,848 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 260
+   authored functions / 86,803 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -284,6 +284,9 @@ generation, or folded ownership.
    Supervisor transition helper `GameManager_CutChain @ 0x0041A827` is now
    98-byte canonical exact too: it settles both setup-state counters, restores
    Supervisor speed to 1.0, then cuts the GameManager calc/draw chains.
+   Gameplay setup's adjacent date formatter `0x0041A796` is now 45-byte exact;
+   it writes `%y/%m/%d` into shared `g_ReplayPlayTimeText @ 0x004AC879` via
+   pinned CRT time/localtime/strftime and replaces the old provisional reset alias.
    ExAttack draw is now closed as a coherent pair too: `OnDraw0 @ 0x00415460`
    is 286-byte exact and `OnDraw1 @ 0x00415580` is 193-byte exact. TH09
    fixes the record VM array/count/list/callback fields and controller draw-list

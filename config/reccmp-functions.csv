@@ -728,3 +728,4 @@ Float3::operator+=,0x00405730,function
 EffectFollowPlayerUpdate,0x0040C960,function
 ResetGameManager,0x0041A7C3,function
 GameManager_CutChain,0x0041A827,function
+FormatCurrentDateString,0x0041A796,function

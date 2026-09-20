@@ -14,6 +14,7 @@
 #include <mmsystem.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 struct SetupStateBuffer;
 
@@ -245,7 +246,7 @@ extern Chain g_Chain;
 extern ChainElem g_GameManagerCalcChain;
 extern ChainElem g_GameManagerDrawChain;
 extern GameConfiguration *g_GameConfiguration;
-extern unsigned char g_SetupBuffer;
+extern char g_ReplayPlayTimeText[];
 extern int g_SetupStatus;
 extern unsigned short g_SetupSeedSource;
 extern SoundPlayerSetupView g_SoundPlayer;
@@ -272,7 +273,7 @@ extern void __fastcall ReleaseSubsystem5(void *object);
 extern void __fastcall ReleaseSubsystem6(void *object);
 
 extern void __fastcall ResetGameManager(GameManagerSetupLayout *manager);
-extern void __fastcall ResetSetupBuffer(void *buffer);
+extern void __fastcall FormatCurrentDateString(char *buffer);
 extern void __fastcall ReleaseStageObject(void *object);
 extern void *__fastcall CreateStageObject(int mode, void *context);
 extern void __fastcall SetStageObjectMode(void *object, int mode);
@@ -820,7 +821,7 @@ void __fastcall GameplaySetupThread(void *unused)
     (void)unused;
 
     ResetGameManager(manager);
-    ResetSetupBuffer(&g_SetupBuffer);
+    FormatCurrentDateString(g_ReplayPlayTimeText);
 
     manager->flags |= 4;
     manager->flags &= ~0x1800u;
@@ -1220,4 +1221,11 @@ void __fastcall GameManager_CutChain()
         ->frameRateMultiplier5B8 = 1.0f;
     g_Chain.Cut(&g_GameManagerCalcChain);
     g_Chain.Cut(&g_GameManagerDrawChain);
+}
+
+void __fastcall FormatCurrentDateString(char *buffer)
+{
+    time_t now;
+    time(&now);
+    strftime(buffer, 10, "%y/%m/%d", localtime(&now));
 }
