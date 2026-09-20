@@ -1489,3 +1489,9 @@ name into a TH09 fact without target-local evidence.
 - Two CardAttack end-column callbacks are repository-canonical exact at 38 bytes each. `CardAttackEndFree1360 @ 0x004413A0-0x004413C5` is used by callback-table rows 0/1/3/4/6/7; `CardAttackEndFree1364 @ 0x00441470-0x00441495` is used by rows 2/5/8.
 - Each body loads its target-backed tail pointer (`CardAttack +0x1360` or `+0x1364`), conditionally calls exact `g_ZunMemory.Free`, clears the slot, and writes EAX=0. Natural source reproduces all target bytes and both relocations for each callback.
 - The two tail pointers stay reconstruction-neutral as `extra1360/extra1364` because the callbacks prove ownership/lifetime but not original resource spelling. The target bodies synthesize a zero return even though the maintained CardAttack end-callback typedef is void; CardAttack callers ignore the value, so original return-type spelling remains independently unclaimed.
+
+## Packet 302 CardAttack EnemyManager spawn wrapper
+
+- `EnemyManagerCardAttackSpawnView::SpawnFromCardAttack @ 0x00440C80-0x00440CA5` is repository-canonical exact at 38 bytes. All six TH09 CardAttack begin callbacks obtain the side-local EnemyManager from the 0x38 GameManager side record at +0x10 and call this member with six stack arguments.
+- The wrapper forwards those arguments to authored EnemyManager spawn owner `0x0040F1D0`, narrowing the first value to short and the fourth to char exactly as target calling convention requires, then appends constant `runImmediately=1`. Natural source reproduces all 38 bytes with the sole REL32 relocation solved.
+- The maintained names are behavioral. `0x0040F1D0` remains independently no-source/non-exact; exactness of this convenience wrapper does not promote the underlying 364-byte EnemyManager spawn owner.

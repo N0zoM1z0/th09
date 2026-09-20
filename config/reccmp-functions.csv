@@ -773,3 +773,4 @@ CardAttackUpdateNoCategory3,0x00440CC0,function
 CardAttackUpdateAfter192,0x00441BC0,function
 CardAttackEndFree1360,0x004413A0,function
 CardAttackEndFree1364,0x00441470,function
+EnemyManagerCardAttackSpawnView::SpawnFromCardAttack,0x00440C80,function
