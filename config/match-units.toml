@@ -11822,3 +11822,19 @@ size = 0x62
 relocations = [
   { offset = 0x15, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
 ]
+
+[units.player-position-callback30404-type1]
+source = "src/PlayerPositionCallback30404Type1.cpp"
+object = "build/matching/PlayerPositionCallback30404Type1.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerPositionCallback30404Type1"]
+symbol = "?PlayerPositionCallback30404Type1@@YIHPAUPlayerPositionCallbackType1View@@PBUPlayerPositionView@@@Z"
+target_address = 0x004417F0
+size = 0x81
+relocations = [
+  { offset = 0x0C, type = "DIR32", symbol = "__real@42000000", target = 0x0048E5E0 },
+  { offset = 0x24, type = "DIR32", symbol = "__real@43e00000", target = 0x0048E3B8 },
+  { offset = 0x42, type = "DIR32", symbol = "__real@48440000", target = 0x004915C8 },
+  { offset = 0x54, type = "DIR32", symbol = "__real@43440000", target = 0x004915C4 },
+  { offset = 0x63, type = "DIR32", symbol = "__real@43440000", target = 0x004915C4 },
+]

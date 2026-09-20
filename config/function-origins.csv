@@ -957,7 +957,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00441470,authored_game,CardAttack,authored,high,card-attack-end-callbacks-exact-2026-09-20
 0x004415E0,authored_game,Player,authored,high,player-shot-update-callback1-source-2026-09-20
 0x004417C0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x004417F0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x004417F0,authored_game,Player,authored,high,player-position-callback30404-type1-exact-2026-09-20
 0x00441880,authored_game,Player,authored,high,player-shot-collision-callback1-exact-2026-09-20
 0x00441890,authored_game,Math,authored,high,float3-from-angle-natural-negative-2026-09-20
 0x004418B0,authored_game,Player,authored,high,player-enemy-callback30408-exact-2026-09-20
