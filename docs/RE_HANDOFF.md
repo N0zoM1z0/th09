@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 775 |
-| Canonical exact functions | 632 |
+| Source-present authored mappings | 781 |
+| Canonical exact functions | 638 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 775 source-present authored mappings. Of
-these, 632 are canonical exact and 143 retain honest non-exact compiler results.
-`config/matches.csv` contains 632 complete target-bound VC7.1 matches totaling
-84,470 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 781 source-present authored mappings. Of
+these, 638 are canonical exact and 143 retain honest non-exact compiler results.
+`config/matches.csv` contains 638 complete target-bound VC7.1 matches totaling
+84,926 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 215
-   authored functions / 81,099 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 209
+   authored functions / 80,643 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -435,6 +435,11 @@ generation, or folded ownership.
    Their shared EnemyManager convenience call `0x00440C80` is now 38-byte
    exact as well: it forwards six CardAttack spawn arguments into the larger
    EnemyManager spawn owner `0x0040F1D0` with runImmediately=1.
+   All six unique CardAttack begin callbacks are now exact too (456 bytes total):
+   pl00 variants at `0x00441350/0x004413D0/0x00441420` and pl01 variants at
+   `0x00441B70/0x00441BE0/0x00441C30`. They allocate the 0x2B8 tail object,
+   retain the target's uninitialized local spawn position, and call the exact
+   EnemyManager wrapper with the table-specific constants.
    Prefer adjacent small ECL/Ascii/Player/Score/Input/Replay helpers before another
    large dispatcher.
 3. **Then attack coherent large non-exact families, not isolated giant owners.**

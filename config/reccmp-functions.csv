@@ -774,3 +774,9 @@ CardAttackUpdateAfter192,0x00441BC0,function
 CardAttackEndFree1360,0x004413A0,function
 CardAttackEndFree1364,0x00441470,function
 EnemyManagerCardAttackSpawnView::SpawnFromCardAttack,0x00440C80,function
+CardAttackBeginPl00Type0,0x00441350,function
+CardAttackBeginPl00Type1,0x004413D0,function
+CardAttackBeginPl00Type2,0x00441420,function
+CardAttackBeginPl01Type0,0x00441B70,function
+CardAttackBeginPl01Type1,0x00441BE0,function
+CardAttackBeginPl01Type2,0x00441C30,function

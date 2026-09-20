@@ -773,3 +773,9 @@ CardAttackUpdateAfter192
 CardAttackEndFree1360
 CardAttackEndFree1364
 EnemyManagerCardAttackSpawnView::SpawnFromCardAttack
+CardAttackBeginPl00Type0
+CardAttackBeginPl00Type1
+CardAttackBeginPl00Type2
+CardAttackBeginPl01Type0
+CardAttackBeginPl01Type1
+CardAttackBeginPl01Type2

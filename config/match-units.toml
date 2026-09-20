@@ -11607,3 +11607,99 @@ size = 0x26
 relocations = [
   { offset = 0x1E, type = "REL32", symbol = "?SpawnEnemyRecord@EnemyManagerCardAttackSpawnView@@QAEPAXFPAUCardAttackSpawnPosition@@HDHHH@Z", target = 0x0040F1D0 },
 ]
+
+[units.card-attack-begin-pl00-type0]
+source = "src/CardAttackBeginCallbacks.cpp"
+object = "build/matching/CardAttackBeginCallbacks.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["CardAttackBeginPl00Type0"]
+symbol = "?CardAttackBeginPl00Type0@@YIHPAUCardAttack@@@Z"
+target_address = 0x00441350
+size = 0x4B
+relocations = [
+  { offset = 0x08, type = "DIR32", symbol = "??_C@_0O@JBHFMKNH@?4?2pl?2pl00?4cpp?$AA@", target = 0x004915AC },
+  { offset = 0x14, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x19, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UCardAttackBeginGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
+  { offset = 0x40, type = "REL32", symbol = "?SpawnFromCardAttack@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHH@Z", target = 0x00440C80 },
+]
+
+[units.card-attack-begin-pl00-type1]
+source = "src/CardAttackBeginCallbacks.cpp"
+object = "build/matching/CardAttackBeginCallbacks.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["CardAttackBeginPl00Type1"]
+symbol = "?CardAttackBeginPl00Type1@@YIHPAUCardAttack@@@Z"
+target_address = 0x004413D0
+size = 0x4B
+relocations = [
+  { offset = 0x08, type = "DIR32", symbol = "??_C@_0O@JBHFMKNH@?4?2pl?2pl00?4cpp?$AA@", target = 0x004915AC },
+  { offset = 0x14, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x19, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UCardAttackBeginGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
+  { offset = 0x40, type = "REL32", symbol = "?SpawnFromCardAttack@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHH@Z", target = 0x00440C80 },
+]
+
+[units.card-attack-begin-pl00-type2]
+source = "src/CardAttackBeginCallbacks.cpp"
+object = "build/matching/CardAttackBeginCallbacks.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["CardAttackBeginPl00Type2"]
+symbol = "?CardAttackBeginPl00Type2@@YIHPAUCardAttack@@@Z"
+target_address = 0x00441420
+size = 0x4E
+relocations = [
+  { offset = 0x08, type = "DIR32", symbol = "??_C@_0O@JBHFMKNH@?4?2pl?2pl00?4cpp?$AA@", target = 0x004915AC },
+  { offset = 0x14, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x19, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UCardAttackBeginGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
+  { offset = 0x43, type = "REL32", symbol = "?SpawnFromCardAttack@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHH@Z", target = 0x00440C80 },
+]
+
+[units.card-attack-begin-pl01-type0]
+source = "src/CardAttackBeginCallbacks.cpp"
+object = "build/matching/CardAttackBeginCallbacks.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["CardAttackBeginPl01Type0"]
+symbol = "?CardAttackBeginPl01Type0@@YIHPAUCardAttack@@@Z"
+target_address = 0x00441B70
+size = 0x4B
+relocations = [
+  { offset = 0x08, type = "DIR32", symbol = "??_C@_0O@FKCJBJHC@?4?2pl?2pl01?4cpp?$AA@", target = 0x004915CC },
+  { offset = 0x14, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x19, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UCardAttackBeginGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
+  { offset = 0x40, type = "REL32", symbol = "?SpawnFromCardAttack@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHH@Z", target = 0x00440C80 },
+]
+
+[units.card-attack-begin-pl01-type1]
+source = "src/CardAttackBeginCallbacks.cpp"
+object = "build/matching/CardAttackBeginCallbacks.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["CardAttackBeginPl01Type1"]
+symbol = "?CardAttackBeginPl01Type1@@YIHPAUCardAttack@@@Z"
+target_address = 0x00441BE0
+size = 0x4B
+relocations = [
+  { offset = 0x08, type = "DIR32", symbol = "??_C@_0O@FKCJBJHC@?4?2pl?2pl01?4cpp?$AA@", target = 0x004915CC },
+  { offset = 0x14, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x19, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UCardAttackBeginGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
+  { offset = 0x40, type = "REL32", symbol = "?SpawnFromCardAttack@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHH@Z", target = 0x00440C80 },
+]
+
+[units.card-attack-begin-pl01-type2]
+source = "src/CardAttackBeginCallbacks.cpp"
+object = "build/matching/CardAttackBeginCallbacks.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["CardAttackBeginPl01Type2"]
+symbol = "?CardAttackBeginPl01Type2@@YIHPAUCardAttack@@@Z"
+target_address = 0x00441C30
+size = 0x4E
+relocations = [
+  { offset = 0x08, type = "DIR32", symbol = "??_C@_0O@FKCJBJHC@?4?2pl?2pl01?4cpp?$AA@", target = 0x004915CC },
+  { offset = 0x14, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x19, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UCardAttackBeginGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
+  { offset = 0x43, type = "REL32", symbol = "?SpawnFromCardAttack@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHH@Z", target = 0x00440C80 },
+]
