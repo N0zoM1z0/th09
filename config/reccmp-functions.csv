@@ -719,3 +719,4 @@ EnemyExAttackMoreView::SpawnExAttackType12,0x0040C810,function
 EnemyExAttackMoreView::SpawnExAttackType22Burst,0x0040C860,function
 BulletDrawEffectManagerView::DrawBulletLayerEffects,0x0040D110,function
 AnmCaptureRequestView::QueueCaptureRequest,0x0042F420,function
+SupervisorSetupLayout::SetupLoadingVmsAndInitCapture,0x004303C0,function

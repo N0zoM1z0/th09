@@ -658,7 +658,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004302A0,authored_game,AsciiManager,authored,high,packet187-small-support-leaves-2026-09-17
 0x004302B0,authored_game,Supervisor,authored,high,supervisor-setup-loading-vms-vc71-exact-2026-09-17
 0x00430360,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x004303C0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x004303C0,authored_game,Supervisor,authored,high,supervisor-loading-capture-exact-2026-09-20
 0x004304A0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00430500,authored_game,Supervisor,authored,high,packet190-small-leaves-2026-09-17
 0x00430530,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19

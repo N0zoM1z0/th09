@@ -10967,3 +10967,31 @@ symbol = "?QueueCaptureRequest@AnmCaptureRequestView@@QAEHHHHHHHHHH@Z"
 target_address = 0x0042F420
 size = 0x65
 relocations = []
+
+[units.supervisor-setup-loading-vms-and-capture]
+source = "src/GameManagerSetup.cpp"
+object = "build/matching/GameManagerSetup.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorSetupLayout::SetupLoadingVmsAndInitCapture"]
+symbol = "?SetupLoadingVmsAndInitCapture@SupervisorSetupLayout@@QAEXPAUSetupLoadingPosition@@@Z"
+target_address = 0x004303C0
+size = 0xD6
+relocations = [
+  { offset = 0x1D, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUAnmVm@@A", target = 0x004B38B0 },
+  { offset = 0x22, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x2F, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUAnmVm@@A", target = 0x004B38B0, addend = 0x2A4 },
+  { offset = 0x34, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x41, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUAnmVm@@A", target = 0x004B38B0, addend = 0x548 },
+  { offset = 0x46, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x5D, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUAnmVm@@A", target = 0x004B38B0, addend = 0x208 },
+  { offset = 0x66, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUAnmVm@@A", target = 0x004B38B0, addend = 0x20C },
+  { offset = 0x6F, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUAnmVm@@A", target = 0x004B38B0, addend = 0x210 },
+  { offset = 0x79, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUAnmVm@@A", target = 0x004B38B0, addend = 0x4AC },
+  { offset = 0x82, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUAnmVm@@A", target = 0x004B38B0, addend = 0x4B0 },
+  { offset = 0x8B, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUAnmVm@@A", target = 0x004B38B0, addend = 0x4B4 },
+  { offset = 0x93, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUAnmVm@@A", target = 0x004B38B0, addend = 0x750 },
+  { offset = 0x9C, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUAnmVm@@A", target = 0x004B38B0, addend = 0x754 },
+  { offset = 0xA4, type = "DIR32", symbol = "?g_SupervisorLoadingVms@@3PAUAnmVm@@A", target = 0x004B38B0, addend = 0x758 },
+  { offset = 0xAA, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0xCD, type = "REL32", symbol = "?QueueCaptureRequest@AnmCaptureRequestView@@QAEHHHHHHHHHH@Z", target = 0x0042F420 },
+]

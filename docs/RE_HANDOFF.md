@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 720 |
-| Canonical exact functions | 584 |
+| Source-present authored mappings | 721 |
+| Canonical exact functions | 585 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 720 source-present authored mappings. Of
-these, 584 are canonical exact and 136 retain honest non-exact compiler results.
-`config/matches.csv` contains 584 complete target-bound VC7.1 matches totaling
-80,848 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 721 source-present authored mappings. Of
+these, 585 are canonical exact and 136 retain honest non-exact compiler results.
+`config/matches.csv` contains 585 complete target-bound VC7.1 matches totaling
+81,062 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 270
-   authored functions / 87,570 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 269
+   authored functions / 87,356 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -258,7 +258,10 @@ generation, or folded ownership.
    AnmManager's pending-capture request publisher `0x0042F420` is now exact
    at 101 bytes: +0x08 is the -1/active capture index and +0x2B2914..+0x2B2930
    hold the eight source/destination rectangle integers. Its sole caller is the
-   still-source-absent Supervisor loading/capture helper `0x004303C0`.
+   Supervisor loading/capture helper `0x004303C0` is now canonical exact
+   too at 214 bytes: it shares the established +0x5D0/+0x740 loading layout, sets
+   up scripts 0/1/2 and VM positions once, then queues the full-screen capture
+   through the exact request publisher.
    ExAttack draw is now closed as a coherent pair too: `OnDraw0 @ 0x00415460`
    is 286-byte exact and `OnDraw1 @ 0x00415580` is 193-byte exact. TH09
    fixes the record VM array/count/list/callback fields and controller draw-list

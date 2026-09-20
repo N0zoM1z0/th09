@@ -3,6 +3,7 @@
 // they do not claim the complete original GameManager or Supervisor layouts.
 // Provisional helper names describe observed call-site roles only.
 
+#include "AnmCaptureRequest.hpp"
 #include "AsciiManager.hpp"
 #include "AnmManager.hpp"
 #include "Chain.hpp"
@@ -210,7 +211,8 @@ struct SupervisorSetupLayout
     int value59C;
     unsigned char unknown_5A0[4];
     int screenTransitionCountdown;
-    unsigned char unknown_5A8[0x2C];
+    unsigned char unknown_5A8[0x28];
+    AnmLoaded *loadingAnm5D0;
     unsigned int flags;
     unsigned char unknown_5D8[0xD4];
     int runningSubthreadHandle;
@@ -232,6 +234,12 @@ struct SupervisorSetupLayout
     void UpdateGameTime();
 };
 
+
+typedef char SupervisorSetupLayoutLoadingAnmAt5D0[
+    (offsetof(SupervisorSetupLayout, loadingAnm5D0) == 0x5D0) ? 1 : -1];
+typedef char SupervisorSetupLayoutLoadingFlagAt740[
+    (offsetof(SupervisorSetupLayout, loadingVmsHaveBeenSetup) == 0x740) ? 1 : -1];
+
 extern GameManagerSetupLayout g_GameManager;
 extern Chain g_Chain;
 extern ChainElem g_GameManagerCalcChain;
@@ -242,6 +250,7 @@ extern int g_SetupStatus;
 extern unsigned short g_SetupSeedSource;
 extern SoundPlayerSetupView g_SoundPlayer;
 extern AsciiManager g_AsciiManager;
+extern AnmVm g_SupervisorLoadingVms[3];
 extern SetupScoreRecordView g_DeletedScoreRecord;
 extern unsigned char g_DeletedScratch[0x2BC0];
 extern int g_GameManagerChainState;
@@ -1095,4 +1104,26 @@ setup_failed:
     supervisor->subthreadActive = 0;
     supervisor->value59C = 0;
     g_SetupStatus = 2;
+}
+
+void SupervisorSetupLayout::SetupLoadingVmsAndInitCapture(
+    SetupLoadingPosition *position)
+{
+    if (loadingVmsHaveBeenSetup == 0)
+    {
+        loadingAnm5D0->ExecuteAnmIdx(&g_SupervisorLoadingVms[0], 0);
+        loadingAnm5D0->ExecuteAnmIdx(&g_SupervisorLoadingVms[1], 1);
+        loadingAnm5D0->ExecuteAnmIdx(&g_SupervisorLoadingVms[2], 2);
+        loadingVmsHaveBeenSetup = 1;
+
+        g_SupervisorLoadingVms[0].pos =
+            *reinterpret_cast<Float3 *>(position);
+        g_SupervisorLoadingVms[1].pos =
+            *reinterpret_cast<Float3 *>(position);
+        g_SupervisorLoadingVms[2].pos =
+            *reinterpret_cast<Float3 *>(position);
+    }
+
+    reinterpret_cast<AnmCaptureRequestView *>(g_AnmManager)
+        ->QueueCaptureRequest(8, 0, 0, 640, 480, 0, 0, 640, 480);
 }
