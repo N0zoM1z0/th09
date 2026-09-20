@@ -87,7 +87,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00405660,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00405700,authored_game,Math,authored,high,vector-angle-vc71-exact-2026-09-17
 0x00405710,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00405730,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00405730,authored_game,Math,authored,high,float3-add-assignment-exact-2026-09-20
 0x00405760,authored_game,EclManager,authored,high,packet-173-ecl-operands-vc71-2026-09-16
 0x00405F20,authored_game,EclManager,authored,high,packet-173-ecl-operands-vc71-2026-09-16
 0x00406200,authored_game,Rng,authored,high,packet186-runtime-accessor-rng-leaves-2026-09-17
@@ -959,7 +959,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004417C0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004417F0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00441880,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00441890,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00441890,authored_game,Math,authored,high,float3-from-angle-natural-negative-2026-09-20
 0x004418B0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00441910,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00441A70,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19

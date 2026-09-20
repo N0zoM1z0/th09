@@ -44,3 +44,11 @@ Float3 *Float3::operator/=(float scalar)
     this->z *= inverse;
     return this;
 }
+
+Float3 &Float3::operator+=(const Float3 &other)
+{
+    this->x += other.x;
+    this->y += other.y;
+    this->z += other.z;
+    return *this;
+}

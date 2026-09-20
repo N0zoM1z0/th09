@@ -11059,3 +11059,13 @@ size = 0x21
 relocations = [
   { offset = 0x03, type = "DIR32", symbol = "__imp__DeleteCriticalSection@4", target = 0x0048E0BC },
 ]
+
+[units.float3-add-assignment]
+source = "src/Float3.cpp"
+object = "build/matching/Float3.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Float3::operator+="]
+symbol = "??YFloat3@@QAEAAU0@ABU0@@Z"
+target_address = 0x00405730
+size = 0x24
+relocations = []
