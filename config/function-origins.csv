@@ -107,7 +107,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004067D0,authored_game,AsciiManager,authored,high,ascii-boss-marker-interrupt-exact-2026-09-20
 0x004067F0,authored_game,AsciiManager,authored,high,ascii-boss-marker-position-exact-2026-09-20
 0x00406820,authored_game,Player,authored,high,player-position-callback-exact-2026-09-20
-0x00406830,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00406830,authored_game,EnemyManager,authored,high,enemy-ecl-manager-release-raw-file-exact-2026-09-20
 0x00406850,authored_game,EclManager,authored,high,ecl-initialize-subroutine-exact-2026-09-20
 0x004068A0,authored_game,Enemy,authored,high,packet-173-ecl-operands-vc71-2026-09-16
 0x004070A0,authored_game,EclManager,authored,high,packet-174-ecl-helper-player-2026-09-16
