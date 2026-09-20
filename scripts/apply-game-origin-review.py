@@ -33,13 +33,14 @@ MATH_INTRINSICS = {
     "0x00401080": ("@sqrtf@4", "558becd94508d9fa5dc20400"),
 }
 MATH_RUNTIME_RECLASSIFICATIONS = {"0x00405710", "0x00436AA0", "0x00436AB0"}
+D3DX_HEADER_RECLASSIFICATIONS = {"0x00401290", "0x004012C0", "0x004012E0"}
 COMPILER_GENERATED = {VECTOR_CONSTRUCTOR, *SCALAR_DELETING_DESTRUCTORS, *MATH_INTRINSICS}
 AUTHORED_EVIDENCE_ID = "game-code-origin-sweep-2026-09-19"
 AMBIGUOUS_EVIDENCE_ID = "game-special-member-origin-review-2026-09-19"
 GAME_BAND_END = 0x0044E000
 EXPECTED_GAME_COHORT = 387
 EXPECTED_GAME_COHORT_DIGEST = "8fc4d184e62c0e19d28aa5ca120f158a7f25d5fac28b2735f2372f8db81a7077"
-EXPECTED_AUTHORED_DIGEST = "594d5f8a64e294786d1ed0880d91b2ed9f402ef04934715e233b6b3bd14cfbcb"
+EXPECTED_AUTHORED_DIGEST = "34e71ba5aea3a0f72223997bc6c8e6d24445450d5bd2053d44edd92836cc7aaa"
 EXPECTED_AMBIGUOUS_DIGEST = "126885e1a6a78ac42b0d81852253714cc1c9eb99141066d495b0029a16ca5695"
 RETAIN_UNKNOWN = {
     "0x0040FCA0",
@@ -240,11 +241,14 @@ def review_authored(write: bool) -> dict[str, object]:
         raise ValueError("math intrinsic reclassification left the frozen cohort")
     if not MATH_RUNTIME_RECLASSIFICATIONS.issubset(cohort):
         raise ValueError("math-runtime reclassification left the frozen cohort")
+    if not D3DX_HEADER_RECLASSIFICATIONS.issubset(cohort):
+        raise ValueError("D3DX header-inline reclassification left the frozen cohort")
     selected = (
         cohort
         - RETAIN_UNKNOWN
         - set(MATH_INTRINSICS)
         - MATH_RUNTIME_RECLASSIFICATIONS
+        - D3DX_HEADER_RECLASSIFICATIONS
     )
     digest = hashlib.sha256(
         ("\n".join(sorted(selected, key=lambda value: int(value, 0))) + "\n").encode()
@@ -326,6 +330,7 @@ def review_authored(write: bool) -> dict[str, object]:
         "retained_origin_unknown": len(RETAIN_UNKNOWN),
         "reclassified_compiler_intrinsics": len(MATH_INTRINSICS),
         "reclassified_math_runtime": len(MATH_RUNTIME_RECLASSIFICATIONS),
+        "reclassified_d3dx_header_inline": len(D3DX_HEADER_RECLASSIFICATIONS),
         "reviewed_bytes": sum(int(function_rows[address]["size"]) for address in selected),
         "selection_digest": digest,
     }

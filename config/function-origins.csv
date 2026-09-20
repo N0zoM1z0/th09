@@ -11,9 +11,9 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00401180,authored_game,Math,authored,high,float3-multiply-origin-2026-09-11
 0x004011C0,authored_game,Background,authored,high,packet154-background-recovery-2026-09-15
 0x004011D0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00401290,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x004012C0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x004012E0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00401290,library,D3DX8,exclude,high,d3dx8-header-inline-comdat-review-2026-09-20
+0x004012C0,library,D3DX8,exclude,high,d3dx8-header-inline-comdat-review-2026-09-20
+0x004012E0,library,D3DX8,exclude,high,d3dx8-header-inline-comdat-review-2026-09-20
 0x00401300,authored_game,AnmManager,authored,medium,anm-math-leaf-target-replay-2026-09-16
 0x00401340,authored_game,ZunMemory,authored,high,zun-memory-alloc-vc71-exact-2026-09-10
 0x00401360,authored_game,ZunMemory,authored,high,zun-memory-free-vc71-exact-2026-09-10

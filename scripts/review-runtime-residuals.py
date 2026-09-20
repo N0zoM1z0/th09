@@ -18,9 +18,15 @@ FUNCTIONS = ROOT / "config" / "functions.csv"
 ORIGINS = ROOT / "config" / "function-origins.csv"
 EVIDENCE_ID = "runtime-residual-origin-review-2026-09-19"
 MATH_EVIDENCE_ID = "vc71-math-runtime-comdat-review-2026-09-20"
+D3DX_INLINE_EVIDENCE_ID = "d3dx8-header-inline-comdat-review-2026-09-20"
 MATH_RUNTIME = {"0x00405710", "0x00436AA0", "0x00436AB0"}
+D3DX_HEADER_INLINE = {"0x00401290", "0x004012C0", "0x004012E0"}
+AUTHORED_RECLASSIFICATIONS = MATH_RUNTIME | D3DX_HEADER_INLINE
 AUTHORED_SWEEP_EVIDENCE_ID = "game-code-origin-sweep-2026-09-19"
 REVIEW = {
+    "0x00401290": (40, "D3DX8"),
+    "0x004012C0": (31, "D3DX8"),
+    "0x004012E0": (21, "D3DX8"),
     "0x00405710": (18, "MathRuntime"),
     "0x00436AA0": (15, "MathRuntime"),
     "0x00436AB0": (14, "MathRuntime"),
@@ -31,6 +37,9 @@ REVIEW = {
     "0x0048A853": (8943, "DXErr8"),
 }
 BODY_DIGESTS = {
+    "0x00401290": "3e38f567cb3b84f4e6da58f372fee8f6c34c48358fc0054a83db9ade26bfbfc7",
+    "0x004012C0": "7ab81ef75aaeb8fdc804bd92be5aff0fe4b42e0a6f4ca6c8a8b3028fa8072a38",
+    "0x004012E0": "d8624d2d2864e02690baf75753f49b404c5c430130abb66c2ffeb9a5f6022766",
     "0x00405710": "cda195dc6138ad85d8749faa392e96be3379221cfc73591c2271b9218032fb65",
     "0x00436AA0": "4bc39e2b580fb068fb03b7eb5b285cebaa42116117f671e310daa34d726313c9",
     "0x00436AB0": "e2e393daeb8f2e57ac1acd1ab67c1df7b5c0bec2a470986103a64b0afd72d816",
@@ -111,6 +120,9 @@ def verify_target_bodies() -> None:
             raise ValueError(f"reviewed body changed at {address_text}: {digest}")
         bodies[address_text] = body
 
+    if rel32_target(0x00401290, bodies["0x00401290"], 0x23) != 0x00401080:
+        raise ValueError("D3DXVec3Length no longer calls @sqrtf@4")
+
     if rel32_target(0x00405710, bodies["0x00405710"], 10) != 0x0047B73A:
         raise ValueError("@fmodf@8 no longer calls __CIfmod")
     if rel32_target(0x00436AA0, bodies["0x00436AA0"], 7) != 0x0047D280:
@@ -159,7 +171,7 @@ def review(write: bool) -> dict[str, object]:
         if int(function["size"]) != size:
             raise ValueError(f"candidate extent changed at {address}")
         if (
-            address in MATH_RUNTIME
+            address in AUTHORED_RECLASSIFICATIONS
             and function["status"] == "unclassified"
             and function["owner"] == "authored"
             and origin["origin"] == "authored_game"
@@ -167,7 +179,7 @@ def review(write: bool) -> dict[str, object]:
         ):
             pending.add(address)
         elif (
-            address not in MATH_RUNTIME
+            address not in AUTHORED_RECLASSIFICATIONS
             and function["status"] == "unclassified"
             and origin["origin"] == "unknown"
         ):
@@ -180,7 +192,13 @@ def review(write: bool) -> dict[str, object]:
             and origin["subsystem"] == subsystem
             and origin["disposition"] == "exclude"
             and origin["evidence_id"]
-            == (MATH_EVIDENCE_ID if address in MATH_RUNTIME else EVIDENCE_ID)
+            == (
+                D3DX_INLINE_EVIDENCE_ID
+                if address in D3DX_HEADER_INLINE
+                else MATH_EVIDENCE_ID
+                if address in MATH_RUNTIME
+                else EVIDENCE_ID
+            )
         ):
             already_applied.add(address)
         else:
@@ -193,7 +211,11 @@ def review(write: bool) -> dict[str, object]:
         row["disposition"] = "exclude"
         row["confidence"] = "high"
         row["evidence_id"] = (
-            MATH_EVIDENCE_ID if row["address"] in MATH_RUNTIME else EVIDENCE_ID
+            D3DX_INLINE_EVIDENCE_ID
+            if row["address"] in D3DX_HEADER_INLINE
+            else MATH_EVIDENCE_ID
+            if row["address"] in MATH_RUNTIME
+            else EVIDENCE_ID
         )
 
     def mutate_function(row: dict[str, str]) -> None:
@@ -204,7 +226,40 @@ def review(write: bool) -> dict[str, object]:
         row["match_percent"] = "0.00"
         row["is_thunk"] = "false"
         row["owner"] = "library"
-        if address in MATH_RUNTIME:
+        if address in D3DX_HEADER_INLINE:
+            symbol, signature, detail = {
+                "0x00401290": (
+                    "D3DXVec3Length",
+                    "float __fastcall D3DXVec3Length(const D3DXVECTOR3 *value)",
+                    "Its sole relocation resolves to @sqrtf@4 @ 0x00401080.",
+                ),
+                "0x004012C0": (
+                    "D3DXVec3LengthSq",
+                    "float __fastcall D3DXVec3LengthSq(const D3DXVECTOR3 *value)",
+                    "The target and COMDAT have no relocations.",
+                ),
+                "0x004012E0": (
+                    "D3DXVec3Dot",
+                    "float __fastcall D3DXVec3Dot(const D3DXVECTOR3 *lhs, const D3DXVECTOR3 *rhs)",
+                    "The target and COMDAT have no relocations.",
+                ),
+            }[address]
+            row["proposed_name"] = symbol
+            row["calling_convention"] = "__fastcall"
+            row["signature"] = signature
+            row["evidence"] = (
+                "Pinned VC7.1 PlatformSDK d3dx8math.inl defines this helper directly. "
+                "Compiling that unmodified SDK header under the target-backed /Gr /O2 "
+                "/Ob0 profile automatically emits the matching link-once COMDAT; two "
+                "cold target-bound comparisons reproduce every ordinary byte. "
+                + detail
+            )
+            row["notes"] = (
+                "D3DX8 SDK/header-inline support, not ZUN-authored source. Excluded from "
+                "the authored denominator; no maintained-source or canonical authored "
+                "exactness credit is assigned to the SDK body."
+            )
+        elif address in MATH_RUNTIME:
             symbol, signature, detail = {
                 "0x00405710": (
                     "@fmodf@8",
