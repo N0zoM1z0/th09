@@ -783,3 +783,6 @@ CardAttackBeginPl01Type2,0x00441C30,function
 ExAttackAllocateRecordView::AllocateDynamicData,0x00440D90,function
 PlayerCollisionCircleAppendView::AppendCircleRecord,0x00440D30,function
 PlayerPositionCallbackWithinRange,0x00440DF0,function
+PlayerEnemyCallback30408Default,0x004418B0,function
+PlayerEnemyCallback30408Type2,0x00442550,function
+PlayerEnemyCallback30408Type4,0x00443C10,function

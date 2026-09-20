@@ -782,3 +782,6 @@ CardAttackBeginPl01Type2
 ExAttackAllocateRecordView::AllocateDynamicData
 PlayerCollisionCircleAppendView::AppendCircleRecord
 PlayerPositionCallbackWithinRange
+PlayerEnemyCallback30408Default
+PlayerEnemyCallback30408Type2
+PlayerEnemyCallback30408Type4

@@ -960,7 +960,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004417F0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00441880,authored_game,Player,authored,high,player-shot-collision-callback1-exact-2026-09-20
 0x00441890,authored_game,Math,authored,high,float3-from-angle-natural-negative-2026-09-20
-0x004418B0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x004418B0,authored_game,Player,authored,high,player-enemy-callback30408-exact-2026-09-20
 0x00441910,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00441A70,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00441B00,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
@@ -975,7 +975,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00442420,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00442450,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00442480,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00442550,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00442550,authored_game,Player,authored,high,player-enemy-callback30408-exact-2026-09-20
 0x00442580,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00442750,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00442A60,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
@@ -991,7 +991,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00443790,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00443930,authored_game,Player,authored,high,player-shot-update-callback4-source-2026-09-20
 0x00443B10,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00443C10,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00443C10,authored_game,Player,authored,high,player-enemy-callback30408-exact-2026-09-20
 0x00443C70,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00443DF0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00444130,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
