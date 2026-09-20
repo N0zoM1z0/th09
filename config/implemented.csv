@@ -746,3 +746,5 @@ Controller::SetButtonFromDirectInputState
 Controller::SetButtonFromJoystickButtons
 Controller::GetControllerInput
 DispatchReplayStage
+PlayerCollisionQueryStateView::AppendBoxRecord
+EnemyAppendCollisionView::AppendPlayerCollisionBox
