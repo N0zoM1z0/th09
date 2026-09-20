@@ -781,3 +781,4 @@ CardAttackBeginPl01Type0,0x00441B70,function
 CardAttackBeginPl01Type1,0x00441BE0,function
 CardAttackBeginPl01Type2,0x00441C30,function
 ExAttackAllocateRecordView::AllocateDynamicData,0x00440D90,function
+PlayerCollisionCircleAppendView::AppendCircleRecord,0x00440D30,function
