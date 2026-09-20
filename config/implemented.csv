@@ -779,3 +779,4 @@ CardAttackBeginPl00Type2
 CardAttackBeginPl01Type0
 CardAttackBeginPl01Type1
 CardAttackBeginPl01Type2
+ExAttackAllocateRecordView::AllocateDynamicData

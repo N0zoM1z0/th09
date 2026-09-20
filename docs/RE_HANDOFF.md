@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 781 |
+| Source-present authored mappings | 782 |
 | Canonical exact functions | 638 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -75,8 +75,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 781 source-present authored mappings. Of
-these, 638 are canonical exact and 143 retain honest non-exact compiler results.
+`config/implemented.csv` contains 782 source-present authored mappings. Of
+these, 638 are canonical exact and 144 retain honest non-exact compiler results.
 `config/matches.csv` contains 638 complete target-bound VC7.1 matches totaling
 84,926 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 209
-   authored functions / 80,643 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 208
+   authored functions / 80,562 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -399,6 +399,10 @@ generation, or folded ownership.
    option/float fields, initializes the shot as type2, and seeds all 32 trail-x values
    plus current x with -999. The full non-null spawn callback table indices 1-7 are
    now exact.
+   Shared ExAttack dynamic-data allocator `0x00440D90` is now source-present
+   at a cold-stable 83/81: TH09 fixes +0x1C dynamicData, +0x2C vmCount, +0x34
+   extra tail and the 0x2A4 VM stride across 25 initializer callers. Remaining
+   two bytes are entry register allocation; do not steer EBX/EAX to force exact.
    SHT update-callback index 3 `0x00443150` is now 248-byte exact too:
    at timer 30 it aims at tracked enemy position with a -144 X fallback, normalizes
    the raw angle once, and rebuilds velocity through the target-observed external
