@@ -11336,3 +11336,23 @@ relocations = [
   { offset = 0x6B, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0x88, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
 ]
+
+[units.player-shot-collision-callback-type1]
+source = "src/PlayerShotCollisionCallbacks.cpp"
+object = "build/matching/PlayerShotCollisionCallbacks.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerShotCollisionCallbackType1"]
+symbol = "?PlayerShotCollisionCallbackType1@@YIHPAUPlayerShotCallbackPlayerView@@PAXPAUPlayerShotCallbackPositionView@@@Z"
+target_address = 0x00441880
+size = 0x0B
+relocations = []
+
+[units.player-shot-collision-callback-type2]
+source = "src/PlayerShotCollisionCallbacks.cpp"
+object = "build/matching/PlayerShotCollisionCallbacks.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerShotCollisionCallbackType2"]
+symbol = "?PlayerShotCollisionCallbackType2@@YIHPAUPlayerShotCallbackPlayerView@@PAXPAUPlayerShotCallbackPositionView@@@Z"
+target_address = 0x00443430
+size = 0x08
+relocations = []

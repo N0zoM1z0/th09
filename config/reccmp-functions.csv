@@ -749,3 +749,5 @@ Controller::GetControllerInput,0x0042B410,function
 DispatchReplayStage,0x004217E0,function
 PlayerCollisionQueryStateView::AppendBoxRecord,0x0040F8E0,function
 EnemyAppendCollisionView::AppendPlayerCollisionBox,0x00410250,function
+PlayerShotCollisionCallbackType1,0x00441880,function
+PlayerShotCollisionCallbackType2,0x00443430,function
