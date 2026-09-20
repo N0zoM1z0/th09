@@ -11277,3 +11277,16 @@ symbol = "?IncrementCharacterStat5@PlayStatsRecordView@@QAEXD@Z"
 target_address = 0x004158E0
 size = 0x21
 relocations = []
+
+[units.input-sanitize-keyboard-state]
+source = "src/KeyboardStateSanitize.cpp"
+object = "build/matching/KeyboardStateSanitize.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SanitizeKeyboardState"]
+symbol = "?SanitizeKeyboardState@@YIXXZ"
+target_address = 0x0042AD70
+size = 0x41
+relocations = [
+  { offset = 0x12, type = "DIR32", symbol = "__imp__GetKeyboardState@4", target = 0x0048E228 },
+  { offset = 0x39, type = "DIR32", symbol = "__imp__SetKeyboardState@4", target = 0x0048E22C },
+]

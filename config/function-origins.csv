@@ -539,8 +539,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042AC50,compiler_generated,Chain,exclude,high,chain-elem-scalar-deleting-destructor-vc71-2026-09-10
 0x0042AC80,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042ACB0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0042ACE0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0042AD70,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042ACE0,authored_game,Input,authored,high,replay-input-front-update-negative-2026-09-20
+0x0042AD70,authored_game,Input,authored,high,keyboard-state-sanitize-exact-2026-09-20
 0x0042ADC0,authored_game,FileSystem,authored,high,file-system-resolve-path-vc71-exact-2026-09-10
 0x0042AE20,authored_game,Rng,authored,high,packet186-runtime-accessor-rng-leaves-2026-09-17
 0x0042AE50,authored_game,Rng,authored,high,packet186-runtime-accessor-rng-leaves-2026-09-17

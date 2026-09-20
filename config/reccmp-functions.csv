@@ -742,3 +742,4 @@ BackgroundSpellStateView::BeginSpellBackground,0x004067B0,function
 PlayerPositionCallbackView::InvokePositionCallback,0x00406820,function
 EnemyEclManagerReleaseView::ReleaseRawFile,0x00406830,function
 PlayStatsRecordView::IncrementCharacterStat5,0x004158E0,function
+SanitizeKeyboardState,0x0042AD70,function
