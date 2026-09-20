@@ -797,3 +797,4 @@ SupervisorNetworkMessageThunk
 ChainReleaseView::ReleaseSingleChain
 ChainReleaseView::Release
 SupervisorNetworkState::SupervisorNetworkState
+SupervisorInitializeD3D

@@ -1574,3 +1574,10 @@ name into a TH09 fact without target-local evidence.
 - `SupervisorNetworkState::SupervisorNetworkState @ 0x0042CC10-0x0042CC28` is repository-canonical exact at 25 bytes. TH09 WinMain allocates exactly `0xD4` bytes, calls this constructor, registry-wraps the allocation with debug label `"NetworkInf"`, publishes it as `g_SupervisorNetworkState @ 0x004B42D0`, and immediately enters the DirectPlay setup path.
 - The constructor zeroes all 0xD4 bytes and then writes `syncRate +0xC4 = 60`. Natural `memset(this,0,sizeof(*this)); syncRate=60;` source reproduces all 25 bytes with no relocations on the first pinned VC7.1 build.
 - This target evidence also corrects the maintained public SupervisorNetworkState tail from stale `0x480` padding to actual `sizeof == 0xD4`. Previous frame-queue owner review already moved the larger 0x78-stride queue storage to Supervisor itself; repository search finds no network-state field or sizeof dependency beyond +0xD4. The correction therefore removes an obsolete owner/layout conflation rather than truncating live target state.
+
+## Packet 316 Supervisor Direct3D bootstrap leaf
+
+- `SupervisorInitializeD3D @ 0x0042CD10-0x0042CD3D` is repository-canonical exact at 46 bytes. Sole TH09 caller is WinMain with no arguments and it immediately tests the returned status. The helper calls `Direct3DCreate8(D3D_SDK_VERSION=220)`, stores the interface pointer to `g_Supervisor +0x04`, and returns zero on success.
+- On failure the helper calls exact `GameErrorContext::Fatal` with target CP932 text `Direct3D オブジェクトは何故か作成出来なかった
+` and returns one. Existing TH09 render/snapshot evidence independently fixes `Supervisor +0x08` as the D3D8 device; the maintained startup helper exposes only the +0x04 IDirect3D8 pointer and does not widen Supervisor layout claims.
+- Natural no-argument C++ source reproduces all 26 ordinary bytes plus five reviewed relocation fields on the first pinned VC7.1 O2/Ob1 build. The source is kept as a free startup helper because target WinMain performs a plain no-argument call; no member-function spelling is inferred from global access alone.

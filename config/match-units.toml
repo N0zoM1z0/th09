@@ -11916,3 +11916,19 @@ symbol = "??0SupervisorNetworkState@@QAE@XZ"
 target_address = 0x0042CC10
 size = 0x19
 relocations = []
+
+[units.supervisor-initialize-d3d]
+source = "src/SupervisorInitializeD3D.cpp"
+object = "build/matching/SupervisorInitializeD3D.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorInitializeD3D"]
+symbol = "?SupervisorInitializeD3D@@YIHXZ"
+target_address = 0x0042CD10
+size = 0x2E
+relocations = [
+  { offset = 0x06, type = "REL32", symbol = "_Direct3DCreate8@4", target = 0x0044E5AC },
+  { offset = 0x0D, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorD3DCreateView@@A", target = 0x004B3100, addend = 0x04 },
+  { offset = 0x14, type = "DIR32", symbol = "??_C@_0DA@CACLHFAM@Direct3D?5?$IDI?$IDu?$IDW?$IDF?$IDN?$IDg?$IC?M?$IJ?$LN?$IM?L?$IC?$KJ?$IN?l?$JA@", target = 0x0048FBF8 },
+  { offset = 0x19, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x1E, type = "REL32", symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C660 },
+]
