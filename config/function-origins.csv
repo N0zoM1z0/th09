@@ -126,9 +126,9 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00408180,authored_game,Enemy,authored,high,packet172-ecl-post-owner-2026-09-16
 0x00408560,authored_game,Enemy,authored,high,packet172-ecl-post-owner-2026-09-16
 0x004086C0,authored_game,EclManager,authored,high,packet-148-enemy-ecl-hard-frontier
-0x0040C390,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0040C390,authored_game,BulletManager,authored,high,bullet-transform-runtime-reset-exact-2026-09-20
 0x0040C3C0,authored_game,EnemyManager,authored,high,enemy-fixed-exattack-wrappers-exact-2026-09-20
-0x0040C3F0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0040C3F0,authored_game,EclManager,authored,high,enemy-ecl-opcode1-exact-2026-09-20
 0x0040C440,authored_game,EnemyManager,authored,high,enemy-fixed-exattack-wrappers-exact-2026-09-20
 0x0040C470,authored_game,EnemyManager,authored,high,enemy-fixed-exattack-wrappers-exact-2026-09-20
 0x0040C4A0,authored_game,EnemyManager,authored,high,enemy-fixed-exattack-wrappers-exact-2026-09-20

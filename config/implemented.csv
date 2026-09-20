@@ -710,3 +710,5 @@ EnemyExAttackView::SpawnExAttackType8
 EnemyExAttackView::SpawnExAttackType9
 EnemyExAttackView::SpawnExAttackType23
 EnemyExAttackView::SpawnExAttackType24
+BulletTransformResetView::ResetTransformRuntime
+EnemyEclOpcode1
