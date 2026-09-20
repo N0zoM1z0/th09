@@ -794,3 +794,5 @@ PlayerPositionCallback30404Type2
 GameManagerValueCCView::SubtractSaturating
 ZunTimer::HasTickedEvery
 SupervisorNetworkMessageThunk
+ChainReleaseView::ReleaseSingleChain
+ChainReleaseView::Release

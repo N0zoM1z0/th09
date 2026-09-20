@@ -11891,3 +11891,18 @@ relocations = [
   { offset = 0x05, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkMessageView@@A", target = 0x004B42D0 },
   { offset = 0x0B, type = "REL32", symbol = "?HandleMessage@SupervisorNetworkMessageView@@QAEHPAXK0@Z", target = 0x00432B70 },
 ]
+
+[units.chain-release]
+source = "src/ChainRelease.cpp"
+object = "build/matching/ChainRelease.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ChainReleaseView::Release"]
+symbol = "?Release@ChainReleaseView@@QAEXXZ"
+target_address = 0x0042CBE0
+size = 0x22
+relocations = [
+  { offset = 0x04, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorThreadStartView@@A", target = 0x004B3100 },
+  { offset = 0x09, type = "REL32", symbol = "?ThreadClose@SupervisorThreadStartView@@QAEXXZ", target = 0x00430230 },
+  { offset = 0x11, type = "REL32", symbol = "?ReleaseSingleChain@ChainReleaseView@@QAEXPAVChainElem@@@Z", target = 0x0042CAE0 },
+  { offset = 0x1C, type = "REL32", symbol = "?ReleaseSingleChain@ChainReleaseView@@QAEXPAVChainElem@@@Z", target = 0x0042CAE0 },
+]
