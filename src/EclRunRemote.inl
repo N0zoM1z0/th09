@@ -103,10 +103,10 @@ __forceinline EnemyFloat3 ResolveSpawnPosition(
 
 // Role names for real target boundaries.  Final source TU/internal ABI remains
 // open until the complete interpreter and its dependencies are compiled.
-void KillAllNonBossEnemies(
-    EnemyManagerView *manager,
-    int transitionValue,
-    int startingValue);
+struct ManagerClearView
+{
+    int KillAllNonBossEnemies(int transitionValue, int startingValue);
+};
 void AddPosition(EnemyFloat3 *position, const EnemyFloat3 *offset);
 
 } // namespace Th09EclRunRemote
@@ -264,8 +264,8 @@ th09_ecl_spawn_enemy_tail:
         break;
 
     case TH09_ECL_OPCODE_KILL_ALL_NON_BOSS_ENEMIES:
-        Th09EclRunRemote::KillAllNonBossEnemies(
-            enemy->manager00, 8000, 0);
+        reinterpret_cast<Th09EclRunRemote::ManagerClearView *>(
+            enemy->manager00)->KillAllNonBossEnemies(8000, 0);
         break;
 
 #endif // TH09_ECL_RUN_REMOTE_BODY

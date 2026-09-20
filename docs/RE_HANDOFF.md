@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 736 |
+| Source-present authored mappings | 737 |
 | Canonical exact functions | 600 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -75,8 +75,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 736 source-present authored mappings. Of
-these, 600 are canonical exact and 136 retain honest non-exact compiler results.
+`config/implemented.csv` contains 737 source-present authored mappings. Of
+these, 600 are canonical exact and 137 retain honest non-exact compiler results.
 `config/matches.csv` contains 600 complete target-bound VC7.1 matches totaling
 82,464 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 254
-   authored functions / 85,954 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 253
+   authored functions / 85,562 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -332,6 +332,10 @@ generation, or folded ownership.
    Shared ECL context initializer `0x00406850` is now canonical exact at 73
    bytes too, closing the existing ManagerStateView::InitializeSubroutine declaration
    without changing RunEcl's shared layout.
+   Opcode95's manager-clear owner `0x0040F640` is now source-present NON-EXACT
+   at a repeatable 384/392. Its thiscall ABI, 128-Enemy scan, score/trail popup
+   accumulation and death-callback reinitialization are TH09-closed; the remaining
+   8-byte frontier is compiler loop-alignment/temporary geometry, so do not force it.
    TH09 fixes Enemy position +0x2D74, manager side +0x31C, global ExAttack controller
    0x004A7E3C, and the maintained Spawn ABI; all six match on the first natural build.
    Next inspect the connected `0x0040C390/0x0040C3F0/0x0040C530` Enemy

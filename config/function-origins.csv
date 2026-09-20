@@ -193,7 +193,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0040F560,authored_game,EclManager,authored,high,enemy-release-attached-effects-exact-2026-09-20
 0x0040F5A0,authored_game,Math,authored,high,packet221-float3-divide-exact-2026-09-20
 0x0040F5E0,authored_game,EnemyManager,authored,high,enemy-draw-wrapped-angle-exact-2026-09-20
-0x0040F640,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0040F640,authored_game,EnemyManager,authored,high,enemy-manager-kill-non-boss-source-2026-09-20
 0x0040F7D0,authored_game,EnemyManager,authored,high,enemy-side-category-query-exact-2026-09-20
 0x0040F810,authored_game,ZunTimer,authored,high,zun-timer-has-ticked-exact-2026-09-20
 0x0040F830,authored_game,ZunTimer,authored,high,runtime-support-leaf-target-replay-2026-09-16
