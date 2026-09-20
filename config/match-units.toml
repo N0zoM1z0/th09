@@ -11310,3 +11310,16 @@ symbol = "?SetButtonFromJoystickButtons@Controller@@YIIPAGFGI@Z"
 target_address = 0x0042ACB0
 size = 0x2F
 relocations = []
+
+[units.replay-stage-dispatch]
+source = "src/ReplayStageDispatch.cpp"
+object = "build/matching/ReplayStageDispatch.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["DispatchReplayStage"]
+symbol = "?DispatchReplayStage@@YIXPAUReplayStageDispatchView@@H@Z"
+target_address = 0x004217E0
+size = 0x15
+relocations = [
+  { offset = 0x0B, type = "REL32", symbol = "?BeginPlaybackStage@ReplayStageDispatchView@@SIHPAU1@@Z", target = 0x00420840 },
+  { offset = 0x10, type = "REL32", symbol = "?BeginRecordingStage@ReplayStageDispatchView@@SIHPAU1@@Z", target = 0x00421140 },
+]

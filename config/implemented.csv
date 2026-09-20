@@ -745,3 +745,4 @@ SanitizeKeyboardState
 Controller::SetButtonFromDirectInputState
 Controller::SetButtonFromJoystickButtons
 Controller::GetControllerInput
+DispatchReplayStage
