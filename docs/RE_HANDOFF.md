@@ -351,8 +351,11 @@ generation, or folded ownership.
    separate durable negative. PLST stat5 progression now has both directions:
    `GetCharacterStat5 @ 0x0040E450` reads the +0x7C 16x6 table, while
    `IncrementCharacterStat5 @ 0x004158E0` saturates the same row's index 5
-   at 999999. Prefer adjacent small ECL/Ascii/Player/Score helpers before another
-   large dispatcher.
+   at 999999. Replay pressed-mask helper `0x00415CD0` is now owner/semantics-
+   closed but remains no-source: natural VC7.1 stays 16 bytes versus target 18
+   because the target materializes mask in ECX before the AND. Treat this like the
+   existing IsHeld negative; do not force registers/volatile. Prefer adjacent small
+   ECL/Ascii/Player/Score helpers before another large dispatcher.
 3. **Then attack coherent large non-exact families, not isolated giant owners.**
    The largest maintained frontiers are TitleScreen (21 functions / 19,899
    bytes), ECL (15 / 19,142), EnemyManager (5 / 7,709), Player (11 / 6,999),
