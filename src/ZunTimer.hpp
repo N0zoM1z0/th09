@@ -11,6 +11,7 @@ struct ZunTimer
     void SetCurrent(int value);
     int Tick();
     int HasTicked();
+    int HasTickedEvery(int interval);
     operator float();
     void operator++(int);
     void operator--(int);

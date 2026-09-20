@@ -792,3 +792,4 @@ PlayerPositionCallback30404Type15
 PlayerPositionCallback30404Type1
 PlayerPositionCallback30404Type2
 GameManagerValueCCView::SubtractSaturating
+ZunTimer::HasTickedEvery

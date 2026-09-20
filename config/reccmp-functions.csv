@@ -793,3 +793,4 @@ PlayerPositionCallback30404Type15,0x0044C2E0,function
 PlayerPositionCallback30404Type1,0x004417F0,function
 PlayerPositionCallback30404Type2,0x00442480,function
 GameManagerValueCCView::SubtractSaturating,0x00403E30,function
+ZunTimer::HasTickedEvery,0x00404920,function

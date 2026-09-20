@@ -11868,3 +11868,13 @@ symbol = "?SubtractSaturating@GameManagerValueCCView@@QAEXH@Z"
 target_address = 0x00403E30
 size = 0x1B
 relocations = []
+
+[units.zun-timer-has-ticked-every]
+source = "src/ZunTimerHasTickedEvery.cpp"
+object = "build/matching/ZunTimerHasTickedEvery.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::HasTickedEvery"]
+symbol = "?HasTickedEvery@ZunTimer@@QAEHH@Z"
+target_address = 0x00404920
+size = 0x21
+relocations = []

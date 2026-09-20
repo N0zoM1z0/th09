@@ -1550,3 +1550,9 @@ name into a TH09 fact without target-local evidence.
 - `GameManagerValueCCView::SubtractSaturating @ 0x00403E30-0x00403E4A` is repository-canonical exact at 27 bytes. TH09 CardAttack owner `0x00403E50` and exact `Player_EnterDeathState` both load ECX=`0x004A7E40` before the call. Since `g_GameManager @ 0x004A7D90`, the receiver is the GameManager +0xB0 subview; existing maintained GameManager layout independently fixes absolute `valueCC @ +0xCC`, i.e. subview +0x1C.
 - Natural source simply subtracts the caller amount and clamps the field to zero when the result is negative. The two observed callers subtract 500 and 1500. Pinned VC7.1 O2/Ob1 reproduces all 27 bytes with no relocations on the first probe.
 - Maintained source uses `void` because both callers ignore EAX. The target happens to leave the stack argument in EAX after the subtraction; that incidental value is not treated as proof of an integer return contract.
+
+## Packet 312 ZunTimer tick-interval leaf
+
+- `ZunTimer::HasTickedEvery @ 0x00404920-0x00404940` is repository-canonical exact at 33 bytes. TH09 target reads `current +0x08` and `previous +0x00`, returns false when they are equal, and otherwise performs signed `current % interval` and returns whether the remainder is zero. Eleven callers span Player, EnemyManager, and ExAttack code under the same public 0x0C ZunTimer layout.
+- Natural source `return current != previous && current % interval == 0;` reproduces all 33 bytes on the first pinned VC7.1 O2/Ob1 probe with no relocations. This is distinct from exact `ZunTimer::HasTicked @ 0x0040F810`, which checks only the tick edge.
+- Clean TH095/TH10 source was consulted only after TH09-local layout/semantics were fixed; it corroborates the same changed-and-even/modulo idiom in local helpers but provides no trustworthy original member name. `HasTickedEvery` remains a neutral reconstruction name.
