@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 34 |
 | Confirmed authored | 990 |
 | Classified exclusions | 1,167 |
-| Source-present authored mappings | 734 |
-| Canonical exact functions | 598 |
+| Source-present authored mappings | 735 |
+| Canonical exact functions | 599 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -75,10 +75,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 734 source-present authored mappings. Of
-these, 598 are canonical exact and 136 retain honest non-exact compiler results.
-`config/matches.csv` contains 598 complete target-bound VC7.1 matches totaling
-82,300 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 735 source-present authored mappings. Of
+these, 599 are canonical exact and 136 retain honest non-exact compiler results.
+`config/matches.csv` contains 599 complete target-bound VC7.1 matches totaling
+82,391 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -111,8 +111,8 @@ generation, or folded ownership.
    bounded natural-source negative receipts for their one-byte residuals. Do
    not reopen these without genuinely new ABI/type/TU evidence; rotate to the
    authored/no-source seams below.
-2. **Recover authored source in bounded subsystem seams.** There are 256
-   authored functions / 86,118 bytes without maintained source. The routed
+2. **Recover authored source in bounded subsystem seams.** There are 255
+   authored functions / 86,027 bytes without maintained source. The routed
    Bullet `0x00413AF0-0x00414095` packet is now closed: `DrawSingleBullet` and
    `EtamaController::AddedCallback` are canonical exact, while
    `EtamaController::OnDraw @ 0x00413BE0` remains independently maintained
@@ -326,6 +326,9 @@ generation, or folded ownership.
    Boss-state teardown helper `ReleaseAttachedEffects @ 0x0040F560` is now
    64-byte exact as well: it clears the maintained +0x53B4 effect pointer plane,
    resets +0x5414 count, and target-proves Effect byte +0xC6 distinct from active +0xC4.
+   Enemy draw trail math helper `EnemyDrawInterpolateWrappedAngle @ 0x0040F5E0`
+   is now 91-byte canonical exact; natural source selects the shorter direct/wrapped
+   angular distance and target-order branch spelling reproduces both x87 parity tests.
    TH09 fixes Enemy position +0x2D74, manager side +0x31C, global ExAttack controller
    0x004A7E3C, and the maintained Spawn ABI; all six match on the first natural build.
    Next inspect the connected `0x0040C390/0x0040C3F0/0x0040C530` Enemy

@@ -732,3 +732,4 @@ FrontSideAuxTransitionView::BeginAuxTransition
 FrontMessageRuntimeResetView::Reset
 EnemyEclOpcode2
 Th09EclRunState::ReleaseAttachedEffects
+EnemyDrawInterpolateWrappedAngle

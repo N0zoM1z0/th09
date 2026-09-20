@@ -11186,3 +11186,16 @@ symbol = "?ReleaseAttachedEffects@Th09EclRunState@@YIXPAUEnemyView@@@Z"
 target_address = 0x0040F560
 size = 0x40
 relocations = []
+
+[units.enemy-draw-interpolate-wrapped-angle]
+source = "src/EnemyDrawMath.cpp"
+object = "build/matching/EnemyDrawMath.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyDrawInterpolateWrappedAngle"]
+symbol = "?EnemyDrawInterpolateWrappedAngle@@YGMMMM@Z"
+target_address = 0x0040F5E0
+size = 0x5B
+relocations = [
+  { offset = 0x1C, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4 },
+  { offset = 0x33, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4 },
+]
