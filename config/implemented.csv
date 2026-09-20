@@ -800,3 +800,5 @@ SupervisorNetworkState::SupervisorNetworkState
 SupervisorInitializeD3D
 TitleScreenView::SetIndexedSpriteChoice
 TitleScreenView::SetRangeSelectionInterrupts
+AnmVmView::ConfigurePositionInterpolation
+AnmVmView::ConfigureColorInterpolation

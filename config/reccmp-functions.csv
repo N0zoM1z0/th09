@@ -801,3 +801,5 @@ SupervisorNetworkState::SupervisorNetworkState,0x0042CC10,function
 SupervisorInitializeD3D,0x0042CD10,function
 TitleScreenView::SetIndexedSpriteChoice,0x00424E95,function
 TitleScreenView::SetRangeSelectionInterrupts,0x0042510E,function
+AnmVmView::ConfigurePositionInterpolation,0x004233A3,function
+AnmVmView::ConfigureColorInterpolation,0x004233F4,function

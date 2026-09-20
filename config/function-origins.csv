@@ -485,8 +485,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00423182,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x00423361,authored_game,Midi,authored,high,packet189-midi-resource-leaves-2026-09-17
 0x00423382,authored_game,Supervisor,authored,high,packet188-small-accessor-leaves-2026-09-17
-0x004233A3,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x004233F4,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x004233A3,authored_game,AnmManager,authored,high,anm-interpolation-leaves-2026-09-20
+0x004233F4,authored_game,AnmManager,authored,high,anm-interpolation-leaves-2026-09-20
 0x00423469,authored_game,AnmManager,authored,high,packet128-anm-runtime-vc71-exact-2026-09-15
 0x00423498,authored_game,SoundPlayer,authored,high,soundplayer-resume-after-pause-exact-2026-09-20
 0x004234A7,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16

@@ -125,9 +125,34 @@ struct TitleFloat3View {
 
 typedef char TitleFloat3ViewSizeIs0C[(sizeof(TitleFloat3View) == 0x0C) ? 1 : -1];
 
+struct TitleZunTimerView {
+    i32 previous;
+    float subFrame;
+    i32 current;
+
+    void operator=(i32 value)
+    {
+        current = value;
+        subFrame = (float)value;
+        previous = -999999;
+    }
+};
+
+struct TitleColorView {
+    u8 b;
+    u8 g;
+    u8 r;
+    u8 a;
+};
+
 struct AnmVmView {
     AnmVmView();
-    u8 unknown000[0x1F0];
+    u8 unknown000[0x50];
+    TitleZunTimerView interpCurrentTimers[7];
+    TitleZunTimerView interpEndTimers[7];
+    u8 interpModes[7];
+    u8 interpPadding;
+    u8 unknown100[0xF0];
     union {
         u32 color1;
         u8 color1Bytes[4];
@@ -147,7 +172,13 @@ struct AnmVmView {
     short activeSpriteIndex;
     u8 unknown216[2];
     short baseSpriteIndex;
-    u8 unknown21A[0x7E];
+    u8 unknown21A[0x1E];
+    TitleFloat3View posInitial;
+    TitleFloat3View posFinal;
+    u8 unknown250[0x28];
+    TitleColorView color1Initial;
+    TitleColorView color1Final;
+    u8 unknown280[0x18];
     u8 fontWidth;
     u8 fontHeight;
     u8 unknown29A[0x0A];
@@ -166,6 +197,13 @@ typedef char AnmVmPositionAt208[(offsetof(AnmVmView, position) == 0x208) ? 1 : -
 typedef char AnmVmActiveSpriteAt214[(offsetof(AnmVmView, activeSpriteIndex) == 0x214) ? 1 : -1];
 typedef char AnmVmSpriteAt218[(offsetof(AnmVmView, baseSpriteIndex) == 0x218) ? 1 : -1];
 typedef char AnmVmFontWidthAt298[(offsetof(AnmVmView, fontWidth) == 0x298) ? 1 : -1];
+typedef char AnmVmInterpCurrentAt050[(offsetof(AnmVmView, interpCurrentTimers) == 0x050) ? 1 : -1];
+typedef char AnmVmInterpEndAt0A4[(offsetof(AnmVmView, interpEndTimers) == 0x0A4) ? 1 : -1];
+typedef char AnmVmInterpModeAt0F8[(offsetof(AnmVmView, interpModes) == 0x0F8) ? 1 : -1];
+typedef char AnmVmPosInitialAt238[(offsetof(AnmVmView, posInitial) == 0x238) ? 1 : -1];
+typedef char AnmVmPosFinalAt244[(offsetof(AnmVmView, posFinal) == 0x244) ? 1 : -1];
+typedef char AnmVmColorInitialAt278[(offsetof(AnmVmView, color1Initial) == 0x278) ? 1 : -1];
+typedef char AnmVmColorFinalAt27C[(offsetof(AnmVmView, color1Final) == 0x27C) ? 1 : -1];
 typedef char AnmVmFontHeightAt299[(offsetof(AnmVmView, fontHeight) == 0x299) ? 1 : -1];
 
 struct TitleAnmView {
@@ -749,6 +787,36 @@ void TitleScreenView::SetMenuSelectionSprites(i32 selected, i32 start, i32 count
     i32 selectedIndex = selected + start;
     titleAnm->SetSprite(&vms[selectedIndex], vms[selectedIndex].baseSpriteIndex);
     vms[selectedIndex].pendingInterrupt = 7;
+}
+
+
+char AnmVmView::ConfigurePositionInterpolation(
+    i32 duration, char mode, TitleFloat3View *start, TitleFloat3View *end)
+{
+    interpCurrentTimers[0] = 0;
+    interpEndTimers[0] = duration;
+
+    interpModes[0] = mode;
+    posInitial = *start;
+    posFinal = *end;
+    return mode;
+}
+
+
+int AnmVmView::ConfigureColorInterpolation(
+    i32 duration, char mode, u32 startColor, u32 endColor)
+{
+    interpCurrentTimers[1] = 0;
+    interpEndTimers[1] = duration;
+
+    interpModes[1] = mode;
+    color1Initial.r = (startColor >> 16) & 0xFF;
+    color1Initial.g = (startColor >> 8) & 0xFF;
+    color1Initial.b = startColor & 0xFF;
+    color1Final.r = (endColor >> 16) & 0xFF;
+    color1Final.g = (endColor >> 8) & 0xFF;
+    color1Final.b = endColor & 0xFF;
+    return endColor;
 }
 
 

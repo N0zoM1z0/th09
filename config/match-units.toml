@@ -7778,6 +7778,27 @@ relocations = [
 ]
 
 
+[units.anm-vm-configure-position-interpolation]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmVmView::ConfigurePositionInterpolation"]
+symbol = "?ConfigurePositionInterpolation@AnmVmView@@QAEDHDPAUTitleFloat3View@@0@Z"
+target_address = 0x004233A3
+size = 0x51
+relocations = []
+
+[units.anm-vm-configure-color-interpolation]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmVmView::ConfigureColorInterpolation"]
+symbol = "?ConfigureColorInterpolation@AnmVmView@@QAEHHDII@Z"
+target_address = 0x004233F4
+size = 0x75
+relocations = []
+
+
 [units.title-screen-set-indexed-sprite-choice]
 source = "src/TitleScreen.cpp"
 object = "build/matching/TitleScreen.obj"
