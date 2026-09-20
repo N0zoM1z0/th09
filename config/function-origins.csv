@@ -135,10 +135,10 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0040C4D0,authored_game,EnemyManager,authored,high,enemy-fixed-exattack-wrappers-exact-2026-09-20
 0x0040C500,authored_game,EnemyManager,authored,high,enemy-fixed-exattack-wrappers-exact-2026-09-20
 0x0040C530,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0040C770,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0040C7C0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0040C810,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0040C860,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0040C770,authored_game,EnemyManager,authored,high,enemy-more-exattack-wrappers-exact-2026-09-20
+0x0040C7C0,authored_game,EnemyManager,authored,high,enemy-more-exattack-wrappers-exact-2026-09-20
+0x0040C810,authored_game,EnemyManager,authored,high,enemy-more-exattack-wrappers-exact-2026-09-20
+0x0040C860,authored_game,EnemyManager,authored,high,enemy-more-exattack-wrappers-exact-2026-09-20
 0x0040C950,authored_game,EffectManager,authored,high,effect-system-module-2026-09-15
 0x0040C960,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0040C990,authored_game,EffectManager,authored,high,effect-system-module-2026-09-15

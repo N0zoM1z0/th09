@@ -713,3 +713,7 @@ EnemyExAttackView::SpawnExAttackType23,0x0040C4D0,function
 EnemyExAttackView::SpawnExAttackType24,0x0040C500,function
 BulletTransformResetView::ResetTransformRuntime,0x0040C390,function
 EnemyEclOpcode1,0x0040C3F0,function
+EnemyExAttackMoreView::SpawnExAttackType10,0x0040C770,function
+EnemyExAttackMoreView::SpawnExAttackType11,0x0040C7C0,function
+EnemyExAttackMoreView::SpawnExAttackType12,0x0040C810,function
+EnemyExAttackMoreView::SpawnExAttackType22Burst,0x0040C860,function
