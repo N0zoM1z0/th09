@@ -7799,6 +7799,17 @@ size = 0x75
 relocations = []
 
 
+[units.title-screen-swap-duplicate-character-index]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SwapDuplicateCharacterIndex"]
+symbol = "?SwapDuplicateCharacterIndex@@YGPAFPAFFFH@Z"
+target_address = 0x00422F67
+size = 0x6A
+relocations = []
+
+
 [units.title-screen-set-two-digit-vm-value]
 source = "src/TitleScreen.cpp"
 object = "build/matching/TitleScreen.obj"

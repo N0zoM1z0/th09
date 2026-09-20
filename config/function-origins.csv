@@ -476,7 +476,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00422D20,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15
 0x00422F17,authored_game,TitleScreen,authored,high,packet156-title-options-recovery-2026-09-15
 0x00422F39,authored_game,TitleScreen,authored,high,packet191-small-exact-leaves-2026-09-17
-0x00422F67,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00422F67,authored_game,TitleScreen,authored,high,title-character-index-swap-exact-2026-09-20
 0x00422FD1,authored_game,TitleScreen,authored,high,title-two-digit-vm-value-exact-2026-09-20
 0x0042304D,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x004230A6,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16

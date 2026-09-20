@@ -821,6 +821,31 @@ int AnmVmView::ConfigureColorInterpolation(
 }
 
 
+short *__stdcall SwapDuplicateCharacterIndex(
+    short *slots, short incoming, short replacement, int unusedMode)
+{
+    if (slots[0] == incoming)
+        slots[0] = replacement;
+    if (slots[1] == incoming)
+        slots[1] = replacement;
+    if (slots[2] == incoming)
+        slots[2] = replacement;
+    if (slots[4] == incoming)
+        slots[4] = replacement;
+    if (slots[5] == incoming)
+        slots[5] = replacement;
+    if (slots[6] == incoming)
+        slots[6] = replacement;
+    if (slots[7] == incoming)
+        slots[7] = replacement;
+    if (slots[3] == incoming)
+        slots[3] = replacement;
+    if (slots[8] == incoming)
+        slots[8] = replacement;
+    return slots;
+}
+
+
 int TitleScreenView::SetTwoDigitVmValue(AnmVmView *digitVms, short value)
 {
     if (value < 0)
