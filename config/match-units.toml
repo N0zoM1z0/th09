@@ -12152,8 +12152,23 @@ target_address = 0x00441A70
 size = 0x89
 relocations = [
   { offset = 0x1E, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
-  { offset = 0x39, type = "REL32", symbol = "?ExAttackInterpolate2D@@YIPAMPAM0000MM@Z", target = 0x0042AF80 },
+  { offset = 0x39, type = "REL32", symbol = "?ExAttackInterpolate2D@@YIXPAM0000MM@Z", target = 0x0042AF80 },
   { offset = 0x42, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0 },
   { offset = 0x56, type = "DIR32", symbol = "?g_GameManager@@3UExAttackType2GameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
   { offset = 0x72, type = "REL32", symbol = "?SpawnEnemyImmediate@EnemyManagerView@@QAEPAUEnemyView@@HPAUEnemyFloat3@@HHHPAH@Z", target = 0x004417C0 },
+]
+
+[units.exattack-interpolate-2d]
+source = "src/ExAttackInterpolation.cpp"
+object = "build/matching/ExAttackInterpolation.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ExAttackInterpolate2D"]
+symbol = "?ExAttackInterpolate2D@@YIXPAM0000MM@Z"
+target_address = 0x0042AF80
+size = 0x8E
+relocations = [
+  { offset = 0x1C, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x25, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x36, type = "DIR32", symbol = "__real@40400000", target = 0x0048E2A0 },
+  { offset = 0x40, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
 ]

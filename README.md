@@ -45,7 +45,7 @@ downloaded tools are private and never committed.
 The target and live IDA database are attested. All 2,191 tracked candidates have
 received boundary/origin review: 980 are confirmed authored, 1,176 are
 classified exclusions, and 35 remain deliberately origin-unknown after review.
-Maintained source covers 816 authored mappings, of which 671 are canonical
+Maintained source covers 817 authored mappings, of which 672 are canonical
 zero-difference VC7.1 matches.
 
 The PE and Rich header identify Microsoft Visual C++ .NET 2003 build 3077.

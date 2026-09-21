@@ -814,3 +814,4 @@ EnemyManagerView::ResetForGameplayCleanup
 RngRuntimeView::GetRandomU16InRange
 EnemyManagerView::SpawnEnemyImmediate
 ExAttackUpdateCallbackType2
+ExAttackInterpolate2D

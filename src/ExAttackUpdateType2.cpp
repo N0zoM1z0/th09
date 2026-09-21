@@ -1,4 +1,5 @@
 #include "ExAttackController.hpp"
+#include "ExAttackInterpolation.hpp"
 #include "EnemyManager.hpp"
 
 #include <stddef.h>
@@ -50,15 +51,6 @@ typedef char ExAttackType2GameSideSizeIs38[
     (sizeof(ExAttackType2GameSideView) == 0x38) ? 1 : -1];
 
 extern ExAttackType2GameManagerView g_GameManager;
-
-float *__fastcall ExAttackInterpolate2D(
-    float *out,
-    float *point1C,
-    float *point10,
-    float *point34,
-    float *point28,
-    float time,
-    float duration);
 
 int __fastcall ExAttackUpdateCallbackType2(ExAttackRecord *base)
 {

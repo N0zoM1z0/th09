@@ -548,7 +548,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042AEA0,authored_game,Rng,authored,high,packet186-runtime-accessor-rng-leaves-2026-09-17
 0x0042AED0,authored_game,Math,authored,high,add-normalize-angle-vc71-exact-2026-09-17
 0x0042AF40,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0042AF80,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042AF80,authored_game,ExAttackController,authored,high,exattack-hermite2d-exact-2026-09-21
 0x0042B010,authored_game,Input,authored,high,replay-input-state-constructor-exact-2026-09-20
 0x0042B0D0,authored_game,ZunMemory,authored,high,zun-memory-constructor-exact-2026-09-20
 0x0042B0E0,authored_game,ZunMemory,authored,high,static-init-target-boundary-review-2026-09-19
