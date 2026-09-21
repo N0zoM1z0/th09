@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 918 |
-| Canonical exact functions | 757 |
+| Source-present authored mappings | 919 |
+| Canonical exact functions | 758 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -91,10 +91,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 918 source-present authored mappings. Of
-these, 757 are canonical exact and 161 retain honest non-exact compiler results.
-`config/matches.csv` contains 757 complete target-bound VC7.1 matches totaling
-107,745 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 919 source-present authored mappings. Of
+these, 758 are canonical exact and 161 retain honest non-exact compiler results.
+`config/matches.csv` contains 758 complete target-bound VC7.1 matches totaling
+108,109 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**61 authored functions / 51,798 bytes without maintained source**, plus 161
+**60 authored functions / 51,434 bytes without maintained source**, plus 161
 source-present functions that retain honest non-exact compiler results.
 
 1. **Preserve frozen and durable-negative frontiers.** The 35 origin-unknown
@@ -139,14 +139,13 @@ source-present functions that retain honest non-exact compiler results.
    profile roulette.
 
 3. **Continue authored/no-source work from target-proven owners, not address
-   adjacency.** Useful current seams include the separate EnemyManager spawn
-   owner `0x0040F1D0`, whose wrapper ABI is already exact, and ExAttack type-20
-   init `0x0044AC20`, whose template-table slot fixes ownership. The `0x0040F1D0`
-   wrapper appends a constant seventh argument of 1, but TH09 has not yet
-   established what that argument means; do not call it `runImmediately` or
-   transfer the primary/opposing-ECL selector semantics proven for `0x0040F340`.
-   Very small bodies such as `0x0044AB20` should not be claimed merely because
-   they are short; first rule out folded/shared ownership with TH09-local xrefs.
+   adjacency.** The separate EnemyManager spawn owner `0x0040F1D0` is now
+   canonical exact: TH09 proves its sixth argument controls mirror bit 15 plus
+   X reflection, while its seventh selects primary versus opposing ECL. A useful
+   next seam is ExAttack type-20 init `0x0044AC20`, whose template-table slot
+   fixes ownership. Very small bodies such as `0x0044AB20` should not be claimed
+   merely because they are short; first rule out folded/shared ownership with
+   TH09-local xrefs.
 
 4. **Keep using shared-helper leverage before large callbacks.** Exact ExAttack
    init/update rows, Player leaves, Front helpers, Bullet descriptor transforms,

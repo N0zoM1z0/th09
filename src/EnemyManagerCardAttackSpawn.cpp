@@ -1,44 +1,19 @@
-struct CardAttackSpawnPosition
-{
-    float x;
-    float y;
-    float z;
-};
-
-struct EnemyManagerCardAttackSpawnView
-{
-    void *SpawnEnemyRecord(
-        short subroutine,
-        CardAttackSpawnPosition *position,
-        int valueA,
-        char valueB,
-        int valueC,
-        int mirrored,
-        int argument7);
-
-    void *SpawnFromCardAttack(
-        int subroutine,
-        CardAttackSpawnPosition *position,
-        int valueA,
-        int valueB,
-        int valueC,
-        int mirrored);
-};
+#include "EnemyManagerCardAttackSpawn.hpp"
 
 void *EnemyManagerCardAttackSpawnView::SpawnFromCardAttack(
     int subroutine,
     CardAttackSpawnPosition *position,
-    int valueA,
-    int valueB,
-    int valueC,
-    int mirrored)
+    int life,
+    int defeatTokenType,
+    int score,
+    int mirrorMovementX)
 {
     return SpawnEnemyRecord(
         static_cast<short>(subroutine),
         position,
-        valueA,
-        static_cast<char>(valueB),
-        valueC,
-        mirrored,
+        life,
+        static_cast<char>(defeatTokenType),
+        score,
+        mirrorMovementX,
         1);
 }
