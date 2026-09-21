@@ -837,3 +837,4 @@ PlayerStateEffectView::ConfigureState3Effect14
 ActivateGameWindow
 CubicHermiteInterpolateScalar
 Background::ApplyPendingStageLabel
+SupervisorNetworkState::SendPacket

@@ -12516,3 +12516,13 @@ size = 0x4F
 relocations = [
   { offset = 0x42, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
 ]
+
+[units.supervisor-network-send-packet]
+source = "src/SupervisorNetworkSend.cpp"
+object = "build/matching/SupervisorNetworkSend.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorNetworkState::SendPacket"]
+symbol = "?SendPacket@SupervisorNetworkState@@QAEHPAXH@Z"
+target_address = 0x004323B0
+size = 0x5F
+relocations = []
