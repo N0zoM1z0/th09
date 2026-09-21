@@ -114,6 +114,7 @@ class AnmManager
     void CopySurfaceToBackbuffer2(int surfaceIndex, int rectX, int rectY, int rectLeft, int rectTop, int width, int height);
     void CaptureToTexture(int captureAnmIndex, int srcX, int srcY, int srcW, int srcH, int dstX, int dstY, int dstW, int dstH);
     void CaptureToSurface(int captureSurfaceIndex, int srcX, int srcY, int srcW, int srcH, int dstX, int dstY, int dstW, int dstH);
+    void ServiceCaptureRequests();
 };
 
 extern AnmManager *g_AnmManager;

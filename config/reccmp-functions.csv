@@ -854,3 +854,4 @@ SupervisorNetworkState::HostSession,0x00432A10,function
 SupervisorNetworkState::ConnectSession,0x00432AC0,function
 SupervisorNetworkState::InitializePeer,0x00432EB0,function
 FrontEnemyIndicatorView::SetSideEnemyIndicatorPosition,0x00416080,function
+AnmManager::ServiceCaptureRequests,0x0042D320,function

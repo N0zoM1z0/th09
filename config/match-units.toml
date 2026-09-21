@@ -12804,3 +12804,16 @@ relocations = [
   { offset = 0x96, type = "DIR32", symbol = "?g_GameManager@@3UFrontEnemyIndicatorGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x9B, type = "REL32", symbol = "?TransformPopupX@FrontEnemyIndicatorGameManagerView@@QAEMM@Z", target = 0x00401680 },
 ]
+
+[units.anm-capture-service]
+source = "src/AnmCaptureService.cpp"
+object = "build/matching/AnmCaptureService.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::ServiceCaptureRequests"]
+symbol = "?ServiceCaptureRequests@AnmManager@@QAEXXZ"
+target_address = 0x0042D320
+size = 0xA7
+relocations = [
+  { offset = 0x49, type = "REL32", symbol = "?CaptureToTexture@AnmManager@@QAEXHHHHHHHHH@Z", target = 0x0043C200 },
+  { offset = 0x9A, type = "REL32", symbol = "?CaptureToSurface@AnmManager@@QAEXHHHHHHHHH@Z", target = 0x0043C2D0 },
+]
