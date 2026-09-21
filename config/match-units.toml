@@ -12628,3 +12628,16 @@ size = 0x7F
 relocations = [
   { offset = 0x13, type = "REL32", symbol = "??BFloat3@@QAEPAMXZ", target = 0x004343D0 },
 ]
+
+[units.enemy-attached-effect-update]
+source = "src/EnemyManagerCore.cpp"
+object = "build/matching/EnemyManagerCore.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyCoreUpdateAttachedEffects"]
+symbol = "?EnemyCoreUpdateAttachedEffects@@YIXPAUEnemyCoreView@@@Z"
+target_address = 0x0040F4C0
+size = 0x97
+relocations = [
+  { offset = 0x54, type = "DIR32", symbol = "__real@3e99999a", target = 0x0048E4B4 },
+  { offset = 0x73, type = "REL32", symbol = "?AddNormalizeAngle@@YGMMM@Z", target = 0x0042AED0 },
+]

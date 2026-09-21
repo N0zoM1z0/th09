@@ -845,3 +845,4 @@ ReportDirectPlayError
 SupervisorNetworkState::IsServiceProviderAvailable
 SupervisorNetworkState::ResetSession
 EnemyView::ClampPositionToMovementBounds
+EnemyCoreUpdateAttachedEffects

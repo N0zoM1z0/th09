@@ -320,7 +320,7 @@ extern void EnemyCoreCheckPlayerCollision(
 extern void EnemyCoreResetBulletInfluence(EnemyCoreView *enemy);
 extern void EnemyCoreReleaseChildEclBlocks(EnemyCoreView *enemy);
 extern void EnemyCoreReleaseAttachedEffects(EnemyCoreView *enemy);
-extern void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy);
+static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy);
 extern void EnemyCorePlaySound(int soundIndex, float x);
 
 static void EnemyCoreAdd(EnemyFloat3 *result, const EnemyFloat3 *left,
@@ -346,6 +346,38 @@ static void EnemyCoreScale(EnemyFloat3 *result, const EnemyFloat3 *value,
     result->y = value->y * scalar;
     result->z = value->z * scalar;
 }
+
+struct EnemyAttachedEffectUpdateView
+{
+    unsigned char unknown000[0x48];
+    EnemyFloat3 position48;
+    unsigned char unknown054[0x7C - 0x54];
+    float distance7C;
+    float angle80;
+};
+
+extern float __stdcall AddNormalizeAngle(float angle, float delta);
+
+static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy)
+{
+    for (int i = 0; i < enemy->attachedEffectCount5414; ++i)
+    {
+        EnemyAttachedEffectUpdateView *effect =
+            reinterpret_cast<EnemyAttachedEffectUpdateView *>(
+                enemy->attachedEffects53B4[i]);
+        if (effect != 0)
+        {
+            effect->position48 = enemy->position2D74;
+            if (effect->distance7C < enemy->attachedEffectDistance5418)
+                effect->distance7C += 0.3f;
+            else
+                effect->distance7C = enemy->attachedEffectDistance5418;
+            effect->angle80 =
+                AddNormalizeAngle(effect->angle80, 0.031415928f);
+        }
+    }
+}
+
 
 int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 {

@@ -189,7 +189,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0040F1C0,authored_game,ANM,authored,high,anm-projection-abs-exact-2026-09-20
 0x0040F1D0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0040F340,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0040F4C0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0040F4C0,authored_game,EnemyManager,authored,high,enemy-attached-effect-update-exact-2026-09-21
 0x0040F560,authored_game,EclManager,authored,high,enemy-release-attached-effects-exact-2026-09-20
 0x0040F5A0,authored_game,Math,authored,high,packet221-float3-divide-exact-2026-09-20
 0x0040F5E0,authored_game,EnemyManager,authored,high,enemy-draw-wrapped-angle-exact-2026-09-20

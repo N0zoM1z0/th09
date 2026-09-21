@@ -846,3 +846,4 @@ ReportDirectPlayError,0x00432410,function
 SupervisorNetworkState::IsServiceProviderAvailable,0x00432770,function
 SupervisorNetworkState::ResetSession,0x00432F70,function
 EnemyView::ClampPositionToMovementBounds,0x004101D0,function
+EnemyCoreUpdateAttachedEffects,0x0040F4C0,function
