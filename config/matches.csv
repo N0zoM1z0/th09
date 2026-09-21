@@ -744,3 +744,4 @@ address,name,size,status,match_percent,unit,evidence
 0x004455D0,ExAttackInitializeCallbackType15,361,matching,100.00,exattack-type15-init,python3 scripts/build-match-unit.py --unit exattack-type15-init && python3 scripts/compare-coff-function.py --unit exattack-type15-init --json
 0x0044BCD0,ExAttackInitializeCallbackType25,361,matching,100.00,exattack-type25-init,python3 scripts/build-match-unit.py --unit exattack-type25-init && python3 scripts/compare-coff-function.py --unit exattack-type25-init --json
 0x0044C350,ExAttackInitializeCallbackType26,361,matching,100.00,exattack-type26-init,python3 scripts/build-match-unit.py --unit exattack-type26-init && python3 scripts/compare-coff-function.py --unit exattack-type26-init --json
+0x00443C70,ExAttackInitializeCallbackType14,371,matching,100.00,exattack-type14-init,python3 scripts/build-match-unit.py --unit exattack-type14-init && python3 scripts/compare-coff-function.py --unit exattack-type14-init --json
