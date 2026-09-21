@@ -693,7 +693,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00432B70,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00432EA0,authored_game,Supervisor,authored,high,supervisor-network-message-thunk-exact-2026-09-20
 0x00432EB0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00432F70,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00432F70,authored_game,SupervisorNetwork,authored,high,supervisor-network-reset-session-exact-2026-09-21
 0x00433040,library,D3DX8,exclude,high,pinned-runtime-origin-audit-2026-09-19
 0x00433050,authored_game,PbgArchive,authored,high,pbg-archive-find-entry-vc71-exact-2026-09-10
 0x004330A0,authored_game,PbgArchive,authored,high,pbg-archive-copy-filename-vc71-exact-2026-09-12

@@ -843,3 +843,4 @@ PlayerStateEffectView::ConfigureState3Effect15
 GetGameTimestampSeconds
 ReportDirectPlayError
 SupervisorNetworkState::IsServiceProviderAvailable
+SupervisorNetworkState::ResetSession

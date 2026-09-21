@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 845 |
-| Canonical exact functions | 698 |
+| Source-present authored mappings | 846 |
+| Canonical exact functions | 699 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -91,10 +91,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 845 source-present authored mappings. Of
-these, 698 are canonical exact and 147 retain honest non-exact compiler results.
-`config/matches.csv` contains 698 complete target-bound VC7.1 matches totaling
-90,223 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 846 source-present authored mappings. Of
+these, 699 are canonical exact and 147 retain honest non-exact compiler results.
+`config/matches.csv` contains 699 complete target-bound VC7.1 matches totaling
+90,423 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**134 authored functions / 73,832 bytes without maintained source**, plus 147
+**133 authored functions / 73,632 bytes without maintained source**, plus 147
 source-present functions that retain honest non-exact compiler results.
 
 1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
@@ -179,6 +179,7 @@ fact into the maintained ledger or knowledge base.
 
 Recent Web reconstruction checkpoints, newest first:
 
+- `2edff85 gpt-web: recover DirectPlay provider check`
 - `ecc96de gpt-web: close DirectPlay error reporter`
 - `77c9ebb gpt-web: close game timestamp helper`
 - `c73ea66 gpt-web: close Player state3 effect15`
