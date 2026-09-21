@@ -944,3 +944,4 @@ ExAttackUpdateCallbackType14_22
 ExAttackDrawCallbackType14_22
 SupervisorNetworkMessageView::HandleMessage
 GameManagerOpponentSelectionView::SelectOpponentConfiguration
+PlayerPositionCallback30404Type9
