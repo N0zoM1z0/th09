@@ -25,6 +25,7 @@ struct SupervisorNetworkState
     unsigned char unknown0C5[0xD4 - 0x0C5];
 
     SupervisorNetworkState();
+    int InitializePeer();
     int GetRemotePeerId();
     int IsServiceProviderAvailable(const void *provider);
     int SendPacket(void *packet, int size);

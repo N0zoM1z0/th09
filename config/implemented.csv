@@ -851,3 +851,4 @@ SupervisorNetworkState::CreateDeviceAddress
 SupervisorNetworkState::CreateHostAddress
 SupervisorNetworkState::HostSession
 SupervisorNetworkState::ConnectSession
+SupervisorNetworkState::InitializePeer
