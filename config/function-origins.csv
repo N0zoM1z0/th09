@@ -163,8 +163,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0040E0D0,authored_game,Ending,authored,high,packet164-ending-migration-2026-09-16
 0x0040E130,authored_game,Ending,authored,high,packet164-ending-migration-2026-09-16
 0x0040E170,authored_game,Ending,authored,high,packet164-ending-migration-2026-09-16
-0x0040E2B0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0040E2D0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0040E2B0,authored_game,Input,authored,high,ascii-input-u16-leaves-exact-2026-09-21
+0x0040E2D0,authored_game,Input,authored,high,ascii-input-u16-leaves-exact-2026-09-21
 0x0040E2F0,authored_game,Ending,authored,high,packet164-ending-migration-2026-09-16
 0x0040E370,authored_game,AnmManager,authored,high,packet132-anm-primitive-draw-2026-09-15
 0x0040E380,authored_game,AnmManager,authored,high,packet132-anm-primitive-draw-2026-09-15

@@ -17,8 +17,8 @@ extern GameErrorContext g_GameErrorContext;
 
 struct AsciiInputView
 {
-    unsigned short IsHeld(unsigned int buttons);
-    unsigned short WasPressed(unsigned int buttons);
+    unsigned short IsHeld(unsigned short buttons);
+    unsigned short WasPressed(unsigned short buttons);
 };
 extern AsciiInputView g_AsciiInput;
 

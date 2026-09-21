@@ -32,7 +32,7 @@ typedef char GameWindowPresentFlagsAt5D4[
 
 struct AsciiInputView
 {
-    unsigned short WasPressed(unsigned int buttons);
+    unsigned short WasPressed(unsigned short buttons);
 };
 extern AsciiInputView g_AsciiInput;
 extern unsigned char g_TitleRegistrationByte;

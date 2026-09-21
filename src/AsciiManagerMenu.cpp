@@ -9,7 +9,7 @@
 
 struct AsciiInputView
 {
-    unsigned short WasPressed(unsigned int buttons);
+    unsigned short WasPressed(unsigned short buttons);
 };
 
 struct AsciiSoundPlayerView
