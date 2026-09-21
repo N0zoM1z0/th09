@@ -687,7 +687,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004324C0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00432770,authored_game,SupervisorNetwork,authored,high,supervisor-service-provider-source-2026-09-21
 0x00432840,authored_game,SupervisorNetwork,authored,high,supervisor-network-create-device-address-exact-2026-09-21
-0x004328F0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x004328F0,authored_game,SupervisorNetwork,authored,high,supervisor-network-create-host-address-exact-2026-09-21
 0x00432A10,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00432AC0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00432B70,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19

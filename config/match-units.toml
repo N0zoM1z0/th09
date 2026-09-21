@@ -12682,3 +12682,34 @@ relocations = [
   { offset = 0x93, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
   { offset = 0x98, type = "REL32", symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C660 },
 ]
+
+[units.supervisor-network-create-host-address]
+source = "src/SupervisorNetworkCreateHost.cpp"
+object = "build/matching/SupervisorNetworkCreateHost.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorNetworkState::CreateHostAddress"]
+symbol = "?CreateHostAddress@SupervisorNetworkState@@QAEHXZ"
+target_address = 0x004328F0
+size = 0x114
+relocations = [
+  { offset = 0x1F, type = "REL32", symbol = "_mbstowcs", target = 0x0047CDE0 },
+  { offset = 0x2B, type = "DIR32", symbol = "_IID_IDirectPlay8Address", target = 0x004952C0 },
+  { offset = 0x34, type = "DIR32", symbol = "_CLSID_DirectPlay8Address", target = 0x004952D0 },
+  { offset = 0x3A, type = "DIR32", symbol = "__imp__CoCreateInstance@20", target = 0x0048E288 },
+  { offset = 0x45, type = "DIR32", symbol = "?g_DirectPlayHostAddressCreateError@@3QBDB", target = 0x00490DA8 },
+  { offset = 0x4A, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x4F, type = "REL32", symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C660 },
+  { offset = 0x64, type = "DIR32", symbol = "_CLSID_DP8SP_TCPIP", target = 0x00495290 },
+  { offset = 0x74, type = "DIR32", symbol = "?g_DirectPlayHostAddressSetProviderError@@3QBDB", target = 0x00490D18 },
+  { offset = 0x79, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x7E, type = "REL32", symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C660 },
+  { offset = 0x9C, type = "REL32", symbol = "_wcslen", target = 0x0047CCCF },
+  { offset = 0xB2, type = "DIR32", symbol = "??_C@_1BC@FGKBPBF@?$AAh?$AAo?$AAs?$AAt?$AAn?$AAa?$AAm?$AAe?$AA?$AA@", target = 0x00490D94 },
+  { offset = 0xC1, type = "DIR32", symbol = "?g_DirectPlayHostAddressSetHostnameError@@3QBDB", target = 0x00490D78 },
+  { offset = 0xC6, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0xCB, type = "REL32", symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C660 },
+  { offset = 0xEB, type = "DIR32", symbol = "??_C@_19EBEADLAH@?$AAp?$AAo?$AAr?$AAt?$AA?$AA@", target = 0x00490D0C },
+  { offset = 0xFA, type = "DIR32", symbol = "?g_DirectPlayHostAddressSetPortError@@3QBDB", target = 0x00490D58 },
+  { offset = 0xFF, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x104, type = "REL32", symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C660 },
+]

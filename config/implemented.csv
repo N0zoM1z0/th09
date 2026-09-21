@@ -848,3 +848,4 @@ EnemyView::ClampPositionToMovementBounds
 EnemyCoreUpdateAttachedEffects
 EnemyEclManagerView::Load
 SupervisorNetworkState::CreateDeviceAddress
+SupervisorNetworkState::CreateHostAddress
