@@ -883,3 +883,4 @@ ExAttackInitializeCallbackType3,0x00442580,function
 ExAttackInitializeCallbackType5,0x00444F00,function
 Float3::FromAngleMagnitude,0x00441890,function
 ExAttackInitializeCallbackType8,0x00446C10,function
+ExAttackInitializeCallbackType7,0x00446320,function
