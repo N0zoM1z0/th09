@@ -120,6 +120,8 @@ AsciiManager::OnDrawHighPrioImpl
 Supervisor::IsFogDisabled
 AsciiGameManagerView::TransformPopupX
 AsciiGameManagerView::TransformPopupY
+AsciiGameManagerView::InverseTransformPopupX
+AsciiGameManagerView::InverseTransformPopupY
 Supervisor::DisableFog
 Supervisor::SetRenderState
 AsciiManager::ResetStrings

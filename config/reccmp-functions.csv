@@ -165,6 +165,8 @@ AsciiManager::OnDrawHighPrioImpl,0x004353F0,function
 Supervisor::IsFogDisabled,0x00401460,function
 AsciiGameManagerView::TransformPopupX,0x00401680,function
 AsciiGameManagerView::TransformPopupY,0x004016B0,function
+AsciiGameManagerView::InverseTransformPopupX,0x00442420,function
+AsciiGameManagerView::InverseTransformPopupY,0x00442450,function
 Supervisor::DisableFog,0x0042FF00,function
 Supervisor::SetRenderState,0x0042FF40,function
 AsciiManager::ResetStrings,0x00430220,function

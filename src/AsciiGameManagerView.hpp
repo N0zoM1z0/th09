@@ -57,6 +57,8 @@ struct AsciiGameManagerView
 
     float TransformPopupX(float value);
     float TransformPopupY(float value);
+    float InverseTransformPopupX(float value);
+    float InverseTransformPopupY(float value);
     int IsGameMode1();
     int IsReplayNeutral();
     int HasFlagBit0();
