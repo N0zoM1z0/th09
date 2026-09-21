@@ -933,3 +933,4 @@ FrontResultBonusView::InitializeResultBonus
 FrontMessageRandomView::SetupRandomForSide
 FrontAddedCallback
 ExAttackInitializeCallbackType21
+ExAttackInitializeCallbackType19

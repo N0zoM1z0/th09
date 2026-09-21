@@ -934,3 +934,4 @@ FrontResultBonusView::InitializeResultBonus,0x00415E50,function
 FrontMessageRandomView::SetupRandomForSide,0x004162D0,function
 FrontAddedCallback,0x00418480,function
 ExAttackInitializeCallbackType21,0x0044B220,function
+ExAttackInitializeCallbackType19,0x0044A030,function
