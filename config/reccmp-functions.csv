@@ -817,3 +817,6 @@ EnemyManagerView::SpawnEnemyImmediate,0x004417C0,function
 ExAttackUpdateCallbackType2,0x00441A70,function
 ExAttackInterpolate2D,0x0042AF80,function
 PlayerOwnerRewardCallbackType1,0x00441B00,function
+PlayerOwnerRewardCallbackType2,0x00442EE0,function
+PlayerOwnerRewardCallbackType3,0x00443790,function
+PlayerOwnerRewardCallbackType4,0x004444F0,function

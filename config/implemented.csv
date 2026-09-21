@@ -816,3 +816,6 @@ EnemyManagerView::SpawnEnemyImmediate
 ExAttackUpdateCallbackType2
 ExAttackInterpolate2D
 PlayerOwnerRewardCallbackType1
+PlayerOwnerRewardCallbackType2
+PlayerOwnerRewardCallbackType3
+PlayerOwnerRewardCallbackType4

@@ -33,3 +33,57 @@ int __fastcall PlayerOwnerRewardCallbackType1(
     }
     return 0;
 }
+
+int __fastcall PlayerOwnerRewardCallbackType2(
+    PlayerOwnerStateView *base, PlayerPositionView *position)
+{
+    PlayerOwnerRewardCallbackStateView *state =
+        reinterpret_cast<PlayerOwnerRewardCallbackStateView *>(base);
+
+    while (state->value34 >= 2 * (45 - g_PlayerRewardBaseValue))
+    {
+        g_ExAttackController->Spawn(
+            3,
+            reinterpret_cast<const Float3 *>(position),
+            state->owner00->sideIndex,
+            0);
+        state->value34 += 2 * g_PlayerRewardBaseValue - 90;
+    }
+    return 0;
+}
+
+int __fastcall PlayerOwnerRewardCallbackType3(
+    PlayerOwnerStateView *base, PlayerPositionView *position)
+{
+    PlayerOwnerRewardCallbackStateView *state =
+        reinterpret_cast<PlayerOwnerRewardCallbackStateView *>(base);
+
+    while (state->value34 >= 70 - 3 * g_PlayerRewardBaseValue)
+    {
+        g_ExAttackController->Spawn(
+            13,
+            reinterpret_cast<const Float3 *>(position),
+            state->owner00->sideIndex,
+            0);
+        state->value34 -= 70;
+    }
+    return 0;
+}
+
+int __fastcall PlayerOwnerRewardCallbackType4(
+    PlayerOwnerStateView *base, PlayerPositionView *position)
+{
+    PlayerOwnerRewardCallbackStateView *state =
+        reinterpret_cast<PlayerOwnerRewardCallbackStateView *>(base);
+
+    while (state->value34 >= 5 * (28 - g_PlayerRewardBaseValue))
+    {
+        g_ExAttackController->Spawn(
+            14,
+            reinterpret_cast<const Float3 *>(position),
+            state->owner00->sideIndex,
+            0);
+        state->value34 += 5 * g_PlayerRewardBaseValue - 140;
+    }
+    return 0;
+}
