@@ -858,3 +858,4 @@ GameWindowProc
 CreateGameWindow
 ComputeExecutableChecksum
 Background::UpdateStageObjectVms
+EnemyView::IntegrateMotion

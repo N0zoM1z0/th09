@@ -859,3 +859,4 @@ GameWindowProc,0x0042D3D0,function
 CreateGameWindow,0x0042D4D0,function
 ComputeExecutableChecksum,0x0042DA90,function
 Background::UpdateStageObjectVms,0x004011D0,function
+EnemyView::IntegrateMotion,0x0040F9B0,function

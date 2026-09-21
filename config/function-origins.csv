@@ -203,7 +203,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0040F8B0,authored_game,Player,authored,high,player-owner-reward-state-advance-exact-2026-09-20
 0x0040F8C0,authored_game,Player,authored,high,player-owner-state-prepare-reset-vc71-exact-2026-09-17
 0x0040F8E0,authored_game,Player,authored,high,player-collision-append-box-exact-2026-09-20
-0x0040F9B0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0040F9B0,authored_game,EnemyManager,authored,high,enemy-integrate-motion-source-2026-09-21
 0x0040FA70,authored_game,EnemyManager,authored,high,packet-171-enemy-manager-lifecycle
 0x0040FCA0,unknown,,review,unknown,game-special-member-origin-review-2026-09-19
 0x0040FCC0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
