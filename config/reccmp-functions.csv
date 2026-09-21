@@ -872,3 +872,4 @@ CheckForRunningGameInstance,0x0042D900,function
 ResetRenderState,0x0042D5F0,function
 Controller::GetControllerState,0x0042B740,function
 PlayerDeathSharedView::SelectOpponentSide,0x00415D70,function
+FrontMessageRuntimeView::LoadForSideCount,0x004182E0,function
