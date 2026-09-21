@@ -125,7 +125,7 @@ source-present functions that retain honest non-exact compiler results.
    ABI/type/TU evidence appears, especially `CaptureFrameSyncState`,
    `AsciiManager::OnUpdate`, replay-input register-allocation leaves,
    Player/shot preserved-register residuals, and
-   `ChainReleaseView::ReleaseSingleChain @ 0x0042CAE0`, and `AppendD3DCapabilitySupportLine @ 0x0042CD40`. The Chain core is
+   `ChainReleaseView::ReleaseSingleChain @ 0x0042CAE0`, `AppendD3DCapabilitySupportLine @ 0x0042CD40`, and `FrontMessageOwnerView::InitializeMessageRuntime @ 0x004181E0`. The Chain core is
    source-present at a cold-stable 268/241; `/GX-` collapses it to 218, so
    placement-new/local-order tricks are not justified.
 
@@ -179,6 +179,7 @@ fact into the maintained ledger or knowledge base.
 
 Recent Web reconstruction checkpoints, newest first:
 
+- `74545ae gpt-web: close Enemy ECL loader`
 - `0a59eaf gpt-web: close Enemy attached effect update`
 - `8f7e15c gpt-web: close Enemy movement clamp`
 - `c068f07 gpt-web: close DirectPlay session reset`
