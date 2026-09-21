@@ -1,16 +1,15 @@
-#include <windows.h>
+#include "GameWindow.hpp"
+
 #include <mmsystem.h>
 
-extern unsigned int g_PerformanceFrequency;
-
-double GetGameTimestampSeconds()
+double GameWindow::GetTimestamp()
 {
-    if (g_PerformanceFrequency != 0)
+    if (g_GameWindow.performanceFrequency14.LowPart != 0)
     {
         LARGE_INTEGER performanceCounter;
         QueryPerformanceCounter(&performanceCounter);
         return (double)(unsigned int)performanceCounter.LowPart /
-               (double)g_PerformanceFrequency;
+               (double)g_GameWindow.performanceFrequency14.LowPart;
     }
 
     timeBeginPeriod(1);

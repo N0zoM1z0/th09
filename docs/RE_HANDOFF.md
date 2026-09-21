@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 867 |
-| Canonical exact functions | 718 |
+| Source-present authored mappings | 868 |
+| Canonical exact functions | 719 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -91,10 +91,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 867 source-present authored mappings. Of
-these, 718 are canonical exact and 149 retain honest non-exact compiler results.
-`config/matches.csv` contains 718 complete target-bound VC7.1 matches totaling
-94,036 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 868 source-present authored mappings. Of
+these, 719 are canonical exact and 149 retain honest non-exact compiler results.
+`config/matches.csv` contains 719 complete target-bound VC7.1 matches totaling
+94,362 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**112 authored functions / 69,546 bytes without maintained source**, plus 149
+**111 authored functions / 69,220 bytes without maintained source**, plus 149
 source-present functions that retain honest non-exact compiler results.
 
 1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
@@ -179,6 +179,7 @@ fact into the maintained ledger or knowledge base.
 
 Recent Web reconstruction checkpoints, newest first:
 
+- `d016f33 gpt-web: close game window present`
 - `e026ad0 gpt-web: close ANM texture strip pair`
 - `733b934 gpt-web: close TitleScreen constructor`
 - `21b8dd8 gpt-web: close TitleScreen registration`
