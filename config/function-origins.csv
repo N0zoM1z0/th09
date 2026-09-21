@@ -307,7 +307,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004162D0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00416590,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00417130,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00417520,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00417520,authored_game,Front,authored,high,front-message-release-codegen-review-2026-09-21
 0x00417630,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00417C10,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004181E0,authored_game,Front,authored,high,front-message-runtime-init-natural-negative-2026-09-21
