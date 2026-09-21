@@ -963,7 +963,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004418B0,authored_game,Player,authored,high,player-enemy-callback30408-exact-2026-09-20
 0x00441910,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00441A70,authored_game,ExAttackController,authored,high,exattack-update-type2-exact-2026-09-21
-0x00441B00,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00441B00,authored_game,Player,authored,high,player-owner-reward-callback-type1-exact-2026-09-21
 0x00441B70,authored_game,CardAttack,authored,high,card-attack-begin-callbacks-exact-2026-09-20
 0x00441BC0,authored_game,CardAttack,authored,high,card-attack-update-after192-exact-2026-09-20
 0x00441BE0,authored_game,CardAttack,authored,high,card-attack-begin-callbacks-exact-2026-09-20

@@ -12172,3 +12172,19 @@ relocations = [
   { offset = 0x36, type = "DIR32", symbol = "__real@40400000", target = 0x0048E2A0 },
   { offset = 0x40, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
 ]
+
+[units.player-owner-reward-callback-type1]
+source = "src/PlayerOwnerRewardCallbacks.cpp"
+object = "build/matching/PlayerOwnerRewardCallbacks.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerOwnerRewardCallbackType1"]
+symbol = "?PlayerOwnerRewardCallbackType1@@YIHPAUPlayerOwnerStateView@@PAUPlayerPositionView@@@Z"
+target_address = 0x00441B00
+size = 0x64
+relocations = [
+  { offset = 0x06, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x4C, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+]

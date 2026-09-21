@@ -816,3 +816,4 @@ RngRuntimeView::GetRandomU16InRange,0x004048B0,function
 EnemyManagerView::SpawnEnemyImmediate,0x004417C0,function
 ExAttackUpdateCallbackType2,0x00441A70,function
 ExAttackInterpolate2D,0x0042AF80,function
+PlayerOwnerRewardCallbackType1,0x00441B00,function
