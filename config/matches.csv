@@ -749,3 +749,4 @@ address,name,size,status,match_percent,unit,evidence
 0x00404710,PlayerGameplayMethods::ResolvePatternOffset,346,matching,100.00,player-resolve-pattern-offset,python3 scripts/build-match-unit.py --unit player-resolve-pattern-offset && python3 scripts/compare-coff-function.py --unit player-resolve-pattern-offset --json
 0x00422330,FrontDrawLineStrip,318,matching,100.00,front-line-strip,python3 scripts/build-match-unit.py --unit front-line-strip && python3 scripts/compare-coff-function.py --unit front-line-strip --json
 0x00416160,FrontMessageSetupView::Setup,357,matching,100.00,front-message-setup,python3 scripts/build-match-unit.py --unit front-message-setup && python3 scripts/compare-coff-function.py --unit front-message-setup --json
+0x00448490,ExAttackUpdateCallbackType17,420,matching,100.00,exattack-type17-update,python3 scripts/build-match-unit.py --unit exattack-type17-update && python3 scripts/compare-coff-function.py --unit exattack-type17-update --json

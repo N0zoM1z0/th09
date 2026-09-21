@@ -907,3 +907,4 @@ ExAttackDrawCallbackType19_21
 PlayerGameplayMethods::ResolvePatternOffset
 FrontDrawLineStrip
 FrontMessageSetupView::Setup
+ExAttackUpdateCallbackType17
