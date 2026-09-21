@@ -1020,7 +1020,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004467C0,authored_game,ExAttackController,authored,high,exattack-type9-init-exact-2026-09-21
 0x00446920,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00446C10,authored_game,ExAttackController,authored,high,exattack-type8-init-same-tu-exact-2026-09-21
-0x00446D80,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00446D80,authored_game,ExAttackController,authored,high,exattack-type11-type12-init-exact-2026-09-21
 0x00446EE0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004471B0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00447620,authored_game,Player,authored,high,player-position-callback30404-type8-source-review-2026-09-21
