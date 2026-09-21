@@ -887,3 +887,4 @@ ExAttackInitializeCallbackType6
 AsciiInputView::IsHeld
 AsciiInputView::WasPressed
 ExAttackUpdateCallbackType5
+PlayerPositionCallback30404Type4

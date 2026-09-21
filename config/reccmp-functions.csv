@@ -888,3 +888,4 @@ ExAttackInitializeCallbackType6,0x00445EC0,function
 AsciiInputView::IsHeld,0x0040E2B0,function
 AsciiInputView::WasPressed,0x0040E2D0,function
 ExAttackUpdateCallbackType5,0x00445190,function
+PlayerPositionCallback30404Type4,0x00443B10,function
