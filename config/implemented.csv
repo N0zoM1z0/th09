@@ -849,3 +849,5 @@ EnemyCoreUpdateAttachedEffects
 EnemyEclManagerView::Load
 SupervisorNetworkState::CreateDeviceAddress
 SupervisorNetworkState::CreateHostAddress
+SupervisorNetworkState::HostSession
+SupervisorNetworkState::ConnectSession

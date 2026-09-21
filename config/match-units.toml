@@ -12713,3 +12713,42 @@ relocations = [
   { offset = 0xFF, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
   { offset = 0x104, type = "REL32", symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C660 },
 ]
+
+[units.supervisor-network-host-session]
+source = "src/SupervisorNetworkSessions.cpp"
+object = "build/matching/SupervisorNetworkSessions.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorNetworkState::HostSession"]
+symbol = "?HostSession@SupervisorNetworkState@@QAEIXZ"
+target_address = 0x00432A10
+size = 0xA7
+relocations = [
+  { offset = 0x17, type = "DIR32", symbol = "??_C@_0BA@JLNPDKEH@TH09YoukaiMatch?$AA@", target = 0x00490DE4 },
+  { offset = 0x1F, type = "REL32", symbol = "_mbstowcs", target = 0x0047CDE0 },
+  { offset = 0x25, type = "DIR32", symbol = "_g_Th09NetworkApplicationGuid", target = 0x00490C3C, addend = 0x04 },
+  { offset = 0x3F, type = "DIR32", symbol = "_g_Th09NetworkApplicationGuid", target = 0x00490C3C, addend = 0x08 },
+  { offset = 0x45, type = "DIR32", symbol = "_g_Th09NetworkApplicationGuid", target = 0x00490C3C },
+  { offset = 0x63, type = "DIR32", symbol = "_g_Th09NetworkApplicationGuid", target = 0x00490C3C, addend = 0x0C },
+  { offset = 0x87, type = "DIR32", symbol = "?g_DirectPlayHostSessionError@@3QBDB", target = 0x00490DC0 },
+  { offset = 0x8C, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x91, type = "REL32", symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C660 },
+  { offset = 0x9B, type = "REL32", symbol = "?ReportDirectPlayError@@YIXJ@Z", target = 0x00432410 },
+]
+
+[units.supervisor-network-connect-session]
+source = "src/SupervisorNetworkSessions.cpp"
+object = "build/matching/SupervisorNetworkSessions.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorNetworkState::ConnectSession"]
+symbol = "?ConnectSession@SupervisorNetworkState@@QAEIXZ"
+target_address = 0x00432AC0
+size = 0xA8
+relocations = [
+  { offset = 0x17, type = "DIR32", symbol = "??_C@_0BA@JLNPDKEH@TH09YoukaiMatch?$AA@", target = 0x00490DE4 },
+  { offset = 0x1F, type = "REL32", symbol = "_mbstowcs", target = 0x0047CDE0 },
+  { offset = 0x25, type = "DIR32", symbol = "_g_Th09NetworkApplicationGuid", target = 0x00490C3C, addend = 0x04 },
+  { offset = 0x3C, type = "DIR32", symbol = "_g_Th09NetworkApplicationGuid", target = 0x00490C3C },
+  { offset = 0x41, type = "DIR32", symbol = "_g_Th09NetworkApplicationGuid", target = 0x00490C3C, addend = 0x08 },
+  { offset = 0x6E, type = "DIR32", symbol = "_g_Th09NetworkApplicationGuid", target = 0x00490C3C, addend = 0x0C },
+  { offset = 0x9C, type = "REL32", symbol = "?ReportDirectPlayError@@YIXJ@Z", target = 0x00432410 },
+]

@@ -850,3 +850,5 @@ EnemyCoreUpdateAttachedEffects,0x0040F4C0,function
 EnemyEclManagerView::Load,0x00405660,function
 SupervisorNetworkState::CreateDeviceAddress,0x00432840,function
 SupervisorNetworkState::CreateHostAddress,0x004328F0,function
+SupervisorNetworkState::HostSession,0x00432A10,function
+SupervisorNetworkState::ConnectSession,0x00432AC0,function
