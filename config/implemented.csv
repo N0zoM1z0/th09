@@ -886,3 +886,4 @@ ExAttackInitializeCallbackType7
 ExAttackInitializeCallbackType6
 AsciiInputView::IsHeld
 AsciiInputView::WasPressed
+ExAttackUpdateCallbackType5

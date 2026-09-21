@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 888 |
-| Canonical exact functions | 732 |
+| Source-present authored mappings | 889 |
+| Canonical exact functions | 733 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -91,10 +91,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 888 source-present authored mappings. Of
-these, 732 are canonical exact and 156 retain honest non-exact compiler results.
-`config/matches.csv` contains 732 complete target-bound VC7.1 matches totaling
-98,362 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 889 source-present authored mappings. Of
+these, 733 are canonical exact and 156 retain honest non-exact compiler results.
+`config/matches.csv` contains 733 complete target-bound VC7.1 matches totaling
+98,769 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**91 authored functions / 62,750 bytes without maintained source**, plus 156
+**90 authored functions / 62,343 bytes without maintained source**, plus 156
 source-present functions that retain honest non-exact compiler results.
 
 1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
@@ -179,6 +179,7 @@ fact into the maintained ledger or knowledge base.
 
 Recent Web reconstruction checkpoints, newest first:
 
+- `fd5a418 gpt-web: close Ascii input leaves`
 - `a5bee85 gpt-web: recover ExAttack type6 init`
 - `824eea4 gpt-web: close ExAttack type7 init`
 - `9661228 gpt-web: close ExAttack type8 same TU`
