@@ -945,3 +945,4 @@ ExAttackDrawCallbackType14_22
 SupervisorNetworkMessageView::HandleMessage
 GameManagerOpponentSelectionView::SelectOpponentConfiguration
 PlayerPositionCallback30404Type9
+Controller::GetInput

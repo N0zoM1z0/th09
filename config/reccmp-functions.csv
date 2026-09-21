@@ -946,3 +946,4 @@ ExAttackDrawCallbackType14_22,0x00444130,function
 SupervisorNetworkMessageView::HandleMessage,0x00432B70,function
 GameManagerOpponentSelectionView::SelectOpponentConfiguration,0x00415910,function
 PlayerPositionCallback30404Type9,0x00447FB0,function
+Controller::GetInput,0x0042BE40,function
