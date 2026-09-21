@@ -847,3 +847,4 @@ SupervisorNetworkState::ResetSession
 EnemyView::ClampPositionToMovementBounds
 EnemyCoreUpdateAttachedEffects
 EnemyEclManagerView::Load
+SupervisorNetworkState::CreateDeviceAddress

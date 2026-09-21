@@ -848,3 +848,4 @@ SupervisorNetworkState::ResetSession,0x00432F70,function
 EnemyView::ClampPositionToMovementBounds,0x004101D0,function
 EnemyCoreUpdateAttachedEffects,0x0040F4C0,function
 EnemyEclManagerView::Load,0x00405660,function
+SupervisorNetworkState::CreateDeviceAddress,0x00432840,function
