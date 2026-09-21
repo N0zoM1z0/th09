@@ -290,7 +290,7 @@ struct EnemyCoreUiView
     void SetBossMarkerState(int slot, int state);
 };
 
-struct EnemyCoreGameManagerView
+struct EnemyCoreFrontView
 {
     void SetSideEnemyIndicatorPosition(
         int sideIndex, EnemyFloat3 *position);
@@ -299,7 +299,7 @@ struct EnemyCoreGameManagerView
 extern EnemyCoreAnmManagerView *g_EnemyCoreAnmManager;
 extern EnemyCoreEclManagerView g_EnemyCoreEclManager;
 extern EnemyCoreUiView g_EnemyCoreUi;
-extern EnemyCoreGameManagerView *g_EnemyCoreGameManager;
+extern EnemyCoreFrontView *g_EnemyCoreFront;
 extern unsigned int g_EnemyCoreRuntimeFlags;
 extern int g_EnemyCoreScriptedUpdateFreeze;
 extern int g_EnemyCoreDifficultyValue;
@@ -392,7 +392,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
     markerPosition.x = -999.0f;
     markerPosition.y = 0.0f;
     markerPosition.z = 0.0f;
-    g_EnemyCoreGameManager->SetSideEnemyIndicatorPosition(
+    g_EnemyCoreFront->SetSideEnemyIndicatorPosition(
         manager->sideIndex31C, &markerPosition);
     EnemyCoreSelectSide(manager->sideIndex31C);
 
@@ -898,7 +898,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             manager->firstActiveEnemy2AC448 = enemy;
         if ((enemy->flags3380 & 0x0C00) == 0x0C00)
         {
-            g_EnemyCoreGameManager->SetSideEnemyIndicatorPosition(
+            g_EnemyCoreFront->SetSideEnemyIndicatorPosition(
                 manager->sideIndex31C, &enemy->position2D74);
             manager->priorityEnemy2AC444 = enemy;
         }

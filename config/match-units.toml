@@ -12783,3 +12783,24 @@ relocations = [
   { offset = 0xA6, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
   { offset = 0xAB, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
 ]
+
+[units.front-enemy-indicator]
+source = "src/FrontEnemyIndicator.cpp"
+object = "build/matching/FrontEnemyIndicator.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontEnemyIndicatorView::SetSideEnemyIndicatorPosition"]
+symbol = "?SetSideEnemyIndicatorPosition@FrontEnemyIndicatorView@@QAEXHPBUEnemyFloat3@@@Z"
+target_address = 0x00416080
+size = 0xD5
+relocations = [
+  { offset = 0x0D, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x12, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
+  { offset = 0x1D, type = "DIR32", symbol = "__real@c2e00000", target = 0x0048EE78 },
+  { offset = 0x30, type = "DIR32", symbol = "__real@42e00000", target = 0x0048EE74 },
+  { offset = 0x46, type = "DIR32", symbol = "?g_GameManager@@3UFrontEnemyIndicatorGameManagerView@@A", target = 0x004A7D90, addend = 0x04 },
+  { offset = 0x54, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
+  { offset = 0x63, type = "DIR32", symbol = "__real@42800000", target = 0x0048E4A8 },
+  { offset = 0x77, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x96, type = "DIR32", symbol = "?g_GameManager@@3UFrontEnemyIndicatorGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x9B, type = "REL32", symbol = "?TransformPopupX@FrontEnemyIndicatorGameManagerView@@QAEMM@Z", target = 0x00401680 },
+]

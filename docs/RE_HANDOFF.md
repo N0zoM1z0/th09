@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 854 |
-| Canonical exact functions | 707 |
+| Source-present authored mappings | 855 |
+| Canonical exact functions | 708 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -91,10 +91,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 854 source-present authored mappings. Of
-these, 707 are canonical exact and 147 retain honest non-exact compiler results.
-`config/matches.csv` contains 707 complete target-bound VC7.1 matches totaling
-91,814 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 855 source-present authored mappings. Of
+these, 708 are canonical exact and 147 retain honest non-exact compiler results.
+`config/matches.csv` contains 708 complete target-bound VC7.1 matches totaling
+92,027 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**125 authored functions / 72,241 bytes without maintained source**, plus 147
+**124 authored functions / 72,028 bytes without maintained source**, plus 147
 source-present functions that retain honest non-exact compiler results.
 
 1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
@@ -125,7 +125,7 @@ source-present functions that retain honest non-exact compiler results.
    ABI/type/TU evidence appears, especially `CaptureFrameSyncState`,
    `AsciiManager::OnUpdate`, replay-input register-allocation leaves,
    Player/shot preserved-register residuals, and
-   `ChainReleaseView::ReleaseSingleChain @ 0x0042CAE0`, `AppendD3DCapabilitySupportLine @ 0x0042CD40`, and `FrontMessageOwnerView::InitializeMessageRuntime @ 0x004181E0`. The Chain core is
+   `ChainReleaseView::ReleaseSingleChain @ 0x0042CAE0`, `AppendD3DCapabilitySupportLine @ 0x0042CD40`, `FrontMessageOwnerView::InitializeMessageRuntime @ 0x004181E0`, `DecodeFrontMessageString @ 0x00415C60`, and `EnemyView::CleanupAfterDeactivation @ 0x00410110`. The Chain core is
    source-present at a cold-stable 268/241; `/GX-` collapses it to 218, so
    placement-new/local-order tricks are not justified.
 
@@ -179,6 +179,7 @@ fact into the maintained ledger or knowledge base.
 
 Recent Web reconstruction checkpoints, newest first:
 
+- `f98c0be gpt-web: close DirectPlay peer initialization`
 - `613f56c gpt-web: close DirectPlay session host connect`
 - `94e2fb8 gpt-web: close DirectPlay host address`
 - `afc0ee6 gpt-web: close DirectPlay device address`

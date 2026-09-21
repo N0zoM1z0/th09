@@ -852,3 +852,4 @@ SupervisorNetworkState::CreateHostAddress
 SupervisorNetworkState::HostSession
 SupervisorNetworkState::ConnectSession
 SupervisorNetworkState::InitializePeer
+FrontEnemyIndicatorView::SetSideEnemyIndicatorPosition

@@ -302,7 +302,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00415D50,authored_game,FrontSide,authored,high,frontside-aux-transition-exact-2026-09-20
 0x00415D70,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00415E50,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00416080,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00416080,authored_game,Front,authored,high,front-enemy-indicator-exact-2026-09-21
 0x00416160,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004162D0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00416590,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
