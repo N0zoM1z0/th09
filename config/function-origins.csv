@@ -601,7 +601,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042D5F0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042D900,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042DA90,authored_game,Supervisor,authored,high,executable-checksum-exact-2026-09-21
-0x0042DB50,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042DB50,authored_game,GameWindow,authored,high,game-window-present-exact-2026-09-21
 0x0042DC40,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042DD90,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042E3B0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19

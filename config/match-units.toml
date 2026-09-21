@@ -12979,3 +12979,36 @@ symbol = "?InitializeVerticalTextureStrip@@YGHPAUAnmVm@@PAUVertexTex1DiffuseXyzr
 target_address = 0x00439DC0
 size = 0xC7
 relocations = []
+
+[units.game-window-present]
+source = "src/GameWindowPresent.cpp"
+object = "build/matching/GameWindowPresent.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["GameWindow::Present"]
+symbol = "?Present@GameWindow@@SIXXZ"
+target_address = 0x0042DB50
+size = 0xE8
+relocations = [
+  { offset = 0x0A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x08 },
+  { offset = 0x22, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x27, type = "REL32", symbol = "?ReleaseSurfaces@AnmManager@@QAEXXZ", target = 0x0042D2F0 },
+  { offset = 0x2C, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x08 },
+  { offset = 0x33, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x350 },
+  { offset = 0x3C, type = "REL32", symbol = "?ResetRenderState@@YIXXZ", target = 0x0042D5F0 },
+  { offset = 0x42, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x5A4 },
+  { offset = 0x4C, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x51, type = "REL32", symbol = "?ServiceCaptureRequests@AnmManager@@QAEXXZ", target = 0x0042D320 },
+  { offset = 0x5B, type = "DIR32", symbol = "?g_AsciiInput@@3UAsciiInputView@@A", target = 0x004ACF34 },
+  { offset = 0x60, type = "REL32", symbol = "?WasPressed@AsciiInputView@@QAEGI@Z", target = 0x0040E2D0 },
+  { offset = 0x6A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x5D4 },
+  { offset = 0x75, type = "DIR32", symbol = "??_C@_08HLGCJJEE@snapshot?$AA@", target = 0x00490268 },
+  { offset = 0x7A, type = "REL32", symbol = "__mkdir", target = 0x0047C71B },
+  { offset = 0x8B, type = "DIR32", symbol = "??_C@_0BE@JAHEAGLF@snapshot?1th?$CF?43d?4bmp?$AA@", target = 0x00490254 },
+  { offset = 0x91, type = "REL32", symbol = "_sprintf", target = 0x0047C47B },
+  { offset = 0x9F, type = "REL32", symbol = "?CheckIfFileAlreadyExists@FileSystem@@YIHPBD@Z", target = 0x0042C480 },
+  { offset = 0xC2, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0xC7, type = "REL32", symbol = "?TakeSnapshot@Supervisor@@QAEHPBD@Z", target = 0x0042F540 },
+  { offset = 0xCD, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x5A4 },
+  { offset = 0xD6, type = "DIR32", symbol = "?g_TitleRegistrationByte@@3EA", target = 0x004A7ECC },
+  { offset = 0xE0, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x5A4 },
+]

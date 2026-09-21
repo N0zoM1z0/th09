@@ -865,3 +865,4 @@ RegisterTitleScreen,0x0042AB13,function
 TitleFactoryConstructView::TitleFactoryConstructView,0x00429D83,function
 InitializeHorizontalTextureStrip,0x00439CF0,function
 InitializeVerticalTextureStrip,0x00439DC0,function
+GameWindow::Present,0x0042DB50,function
