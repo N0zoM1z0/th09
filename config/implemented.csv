@@ -812,3 +812,4 @@ EnemyManagerReleaseCore
 ReleaseSubsystem4
 EnemyManagerView::ResetForGameplayCleanup
 RngRuntimeView::GetRandomU16InRange
+EnemyManagerView::SpawnEnemyImmediate

@@ -12129,3 +12129,15 @@ relocations = [
   { offset = 0x5, type = "DIR32", symbol = "?g_RenderCoordinateOrigin@@3PAURenderCoordinateOriginView@@A", target = 0x004B3448 },
   { offset = 0x1B, type = "DIR32", symbol = "__real@4f800000", target = 0x0048E2A8 },
 ]
+
+[units.enemy-manager-spawn-immediate]
+source = "src/EnemyManagerSpawnImmediate.cpp"
+object = "build/matching/EnemyManagerSpawnImmediate.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyManagerView::SpawnEnemyImmediate"]
+symbol = "?SpawnEnemyImmediate@EnemyManagerView@@QAEPAUEnemyView@@HPAUEnemyFloat3@@HHHPAH@Z"
+target_address = 0x004417C0
+size = 0x26
+relocations = [
+  { offset = 0x1E, type = "REL32", symbol = "?SpawnEnemy@EnemyManagerView@@QAEPAUEnemyView@@FPAUEnemyFloat3@@HCHPAHH@Z", target = 0x0040F340 },
+]

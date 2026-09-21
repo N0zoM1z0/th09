@@ -198,6 +198,13 @@ struct EnemyManagerView
         int argument6,
         int *initialVariables,
         int runImmediately);
+    EnemyView *SpawnEnemyImmediate(
+        int eclSubroutineId,
+        EnemyFloat3 *position,
+        int argument4,
+        int argument5,
+        int argument6,
+        int *initialVariables);
     static int __fastcall OnUpdate(EnemyManagerView *enemyManager);
 };
 typedef char EnemyManagerViewSizeIs2AC450[
