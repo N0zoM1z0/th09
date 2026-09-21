@@ -915,3 +915,4 @@ ExAttackUpdateCallbackType26,0x0044C4C0,function
 ExAttackUpdateCallbackType25,0x0044BE40,function
 ExAttackUpdateCallbackType15,0x00445740,function
 ExAttackUpdateCallbackType16_23,0x00447890,function
+ExAttackUpdateCallbackType20,0x0044ADE0,function

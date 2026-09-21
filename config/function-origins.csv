@@ -1046,7 +1046,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0044AB20,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0044AB90,authored_game,Player,authored,high,player-shot-spawn-callback7-exact-2026-09-20
 0x0044AC20,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0044ADE0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0044ADE0,authored_game,ExAttackController,authored,high,exattack-type20-update-source-review-2026-09-21
 0x0044AF80,authored_game,Player,authored,high,player-owner-reward-callback-type12-exact-2026-09-21
 0x0044B220,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0044B500,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
