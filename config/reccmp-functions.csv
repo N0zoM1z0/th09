@@ -820,3 +820,6 @@ PlayerOwnerRewardCallbackType1,0x00441B00,function
 PlayerOwnerRewardCallbackType2,0x00442EE0,function
 PlayerOwnerRewardCallbackType3,0x00443790,function
 PlayerOwnerRewardCallbackType4,0x004444F0,function
+PlayerOwnerRewardCallbackType5,0x00445330,function
+PlayerOwnerRewardCallbackType6,0x00445930,function
+PlayerOwnerRewardCallbackType7,0x00445D80,function

@@ -6,7 +6,8 @@
 struct PlayerOwnerRewardCallbackStateView
 {
     PlayerLifecycleView *owner00;
-    unsigned char unknown04[0x30];
+    unsigned char unknown04[0x2C];
+    int value30;
     int value34;
 };
 
@@ -84,6 +85,64 @@ int __fastcall PlayerOwnerRewardCallbackType4(
             state->owner00->sideIndex,
             0);
         state->value34 += 5 * g_PlayerRewardBaseValue - 140;
+    }
+    return 0;
+}
+
+int __fastcall PlayerOwnerRewardCallbackType5(
+    PlayerOwnerStateView *base, PlayerPositionView *position)
+{
+    PlayerOwnerRewardCallbackStateView *state =
+        reinterpret_cast<PlayerOwnerRewardCallbackStateView *>(base);
+
+    while (state->value34 >= 25 - g_PlayerRewardBaseValue / 2)
+    {
+        g_ExAttackController->Spawn(
+            5,
+            reinterpret_cast<const Float3 *>(position),
+            state->owner00->sideIndex,
+            0);
+        state->value34 += g_PlayerRewardBaseValue / 2 - 25;
+    }
+    return 0;
+}
+
+int __fastcall PlayerOwnerRewardCallbackType6(
+    PlayerOwnerStateView *base, PlayerPositionView *position)
+{
+    PlayerOwnerRewardCallbackStateView *state =
+        reinterpret_cast<PlayerOwnerRewardCallbackStateView *>(base);
+
+    while (state->value34 >= 100 - 3 * g_PlayerRewardBaseValue)
+    {
+        g_ExAttackController->Spawn(
+            15,
+            reinterpret_cast<const Float3 *>(position),
+            state->owner00->sideIndex,
+            0);
+        state->value34 += 5 * g_PlayerRewardBaseValue - 140;
+    }
+    return 0;
+}
+
+int __fastcall PlayerOwnerRewardCallbackType7(
+    PlayerOwnerStateView *base, PlayerPositionView *position)
+{
+    PlayerOwnerRewardCallbackStateView *state =
+        reinterpret_cast<PlayerOwnerRewardCallbackStateView *>(base);
+
+    while (state->value34 >= 200 - 3 * g_PlayerRewardBaseValue)
+    {
+        g_ExAttackController->Spawn(
+            6,
+            reinterpret_cast<const Float3 *>(position),
+            state->owner00->sideIndex,
+            0);
+        int oldValue30 = state->value30;
+        state->value34 += 3 * g_PlayerRewardBaseValue - 200;
+        state->value30 = oldValue30 - 5;
+        if (state->value30 < 0)
+            state->value30 = 0;
     }
     return 0;
 }
