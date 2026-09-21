@@ -6,7 +6,8 @@ struct SupervisorNetworkState
 {
     void *peer;
     void *deviceAddress;
-    unsigned char unknown008[0x08];
+    unsigned char unknown008[0x04];
+    void *unknown00C;
     void *hostAddress;
     unsigned int sendAsyncHandle;
     unsigned int connectAsyncHandle;
@@ -26,6 +27,7 @@ struct SupervisorNetworkState
     SupervisorNetworkState();
     int GetRemotePeerId();
     int SendPacket(void *packet, int size);
+    void ReleaseDirectPlayResources();
     int CreateDeviceAddress();
     int CreateHostAddress();
     unsigned int HostSession();
@@ -34,6 +36,8 @@ struct SupervisorNetworkState
 };
 
 typedef char SupervisorNetworkStateSizeIsD4[(sizeof(SupervisorNetworkState) == 0xD4) ? 1 : -1];
+typedef char SupervisorNetworkStateUnknown00CAt0C[
+    (offsetof(SupervisorNetworkState, unknown00C) == 0x0C) ? 1 : -1];
 typedef char SupervisorNetworkStateActiveAtA8[
     (offsetof(SupervisorNetworkState, active) == 0xA8) ? 1 : -1];
 typedef char SupervisorNetworkStateSideAtAC[

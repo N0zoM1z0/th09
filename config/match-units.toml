@@ -12526,3 +12526,13 @@ symbol = "?SendPacket@SupervisorNetworkState@@QAEHPAXH@Z"
 target_address = 0x004323B0
 size = 0x5F
 relocations = []
+
+[units.supervisor-network-release-resources]
+source = "src/SupervisorNetworkRelease.cpp"
+object = "build/matching/SupervisorNetworkRelease.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorNetworkState::ReleaseDirectPlayResources"]
+symbol = "?ReleaseDirectPlayResources@SupervisorNetworkState@@QAEXXZ"
+target_address = 0x00432340
+size = 0x61
+relocations = []

@@ -838,3 +838,4 @@ ActivateGameWindow
 CubicHermiteInterpolateScalar
 Background::ApplyPendingStageLabel
 SupervisorNetworkState::SendPacket
+SupervisorNetworkState::ReleaseDirectPlayResources
