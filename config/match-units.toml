@@ -12438,3 +12438,37 @@ relocations = [
   { offset = 0x1E, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
   { offset = 0x33, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
 ]
+
+
+[units.player-state3-effect13]
+source = "src/PlayerState3EffectSetup.cpp"
+object = "build/matching/PlayerState3EffectSetup.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerStateEffectView::ConfigureState3Effect13"]
+symbol = "?ConfigureState3Effect13@PlayerStateEffectView@@QAEPAUEffect@@XZ"
+target_address = 0x00403C30
+size = 0x5B
+relocations = [
+  { offset = 0x17, type = "REL32", symbol = "?CreateCircleType1@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z", target = 0x0041CFE0 },
+  { offset = 0x2C, type = "REL32", symbol = "?CreateCircleType4@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z", target = 0x0041D0D0 },
+  { offset = 0x35, type = "REL32", symbol = "?SetUpdateState@PlayerState4OpsView@@QAEXH@Z", target = 0x00403C20 },
+  { offset = 0x42, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x54, type = "REL32", symbol = "?SpawnEffect@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@HI@Z", target = 0x0040CC00 },
+]
+
+
+[units.player-state3-effect14]
+source = "src/PlayerState3EffectSetup.cpp"
+object = "build/matching/PlayerState3EffectSetup.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerStateEffectView::ConfigureState3Effect14"]
+symbol = "?ConfigureState3Effect14@PlayerStateEffectView@@QAEPAUEffect@@XZ"
+target_address = 0x00403C90
+size = 0x5B
+relocations = [
+  { offset = 0x17, type = "REL32", symbol = "?CreateCircleType1@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z", target = 0x0041CFE0 },
+  { offset = 0x2C, type = "REL32", symbol = "?CreateCircleType4@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z", target = 0x0041D0D0 },
+  { offset = 0x35, type = "REL32", symbol = "?SetUpdateState@PlayerState4OpsView@@QAEXH@Z", target = 0x00403C20 },
+  { offset = 0x42, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x54, type = "REL32", symbol = "?SpawnEffect@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@HI@Z", target = 0x0040CC00 },
+]
