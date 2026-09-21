@@ -733,3 +733,4 @@ address,name,size,status,match_percent,unit,evidence
 0x0040E2D0,AsciiInputView::WasPressed,18,matching,100.00,ascii-input-was-pressed,python3 scripts/build-match-unit.py --unit ascii-input-was-pressed && python3 scripts/compare-coff-function.py --unit ascii-input-was-pressed --json
 0x00445190,ExAttackUpdateCallbackType5,407,matching,100.00,exattack-type5-update,python3 scripts/build-match-unit.py --unit exattack-type5-update && python3 scripts/compare-coff-function.py --unit exattack-type5-update --json
 0x00444560,ExAttackInitializeCallbackType22,308,matching,100.00,exattack-type22-init,python3 scripts/build-match-unit.py --unit exattack-type22-init && python3 scripts/compare-coff-function.py --unit exattack-type22-init --json
+0x00445050,ExAttackInitializeCallbackType10,316,matching,100.00,exattack-type10-init,python3 scripts/build-match-unit.py --unit exattack-type10-init && python3 scripts/compare-coff-function.py --unit exattack-type10-init --json
