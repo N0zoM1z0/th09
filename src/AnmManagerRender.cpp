@@ -192,7 +192,13 @@ typedef char AnmManagerDrawInnerShaderAt12886[
 typedef char AnmManagerDrawInnerCameraModeAt12888[
     (offsetof(AnmManagerDrawInnerView, cameraMode) == 0x12888) ? 1 : -1];
 
-unsigned char MixRenderColor(unsigned char first, unsigned char second);
+static unsigned char MixRenderColor(unsigned char first, unsigned char second)
+{
+    unsigned int color = ((first * second) / 128U);
+    if (color >= 256)
+        color = 255;
+    return (unsigned char)color;
+}
 
 void AnmManager::SetRenderStateForVm3D(AnmVm *vm)
 {

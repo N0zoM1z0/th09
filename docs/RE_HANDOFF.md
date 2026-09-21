@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 924 |
-| Canonical exact functions | 760 |
+| Source-present authored mappings | 925 |
+| Canonical exact functions | 764 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -91,10 +91,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 924 source-present authored mappings. Of
-these, 760 are canonical exact and 164 retain honest non-exact compiler results.
-`config/matches.csv` contains 760 complete target-bound VC7.1 matches totaling
-109,224 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 925 source-present authored mappings. Of
+these, 764 are canonical exact and 161 retain honest non-exact compiler results.
+`config/matches.csv` contains 764 complete target-bound VC7.1 matches totaling
+111,794 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**55 authored functions / 49,079 bytes without maintained source**, plus 164
+**54 authored functions / 49,054 bytes without maintained source**, plus 161
 source-present functions that retain honest non-exact compiler results.
 
 1. **Preserve frozen and durable-negative frontiers.** The 35 origin-unknown
@@ -146,6 +146,9 @@ source-present functions that retain honest non-exact compiler results.
    owner and natural local-value lifetime. The `IP.txt` network loader
    `0x004324C0` is now canonical exact, while its same-TU parser `0x00432240`
    is source-present/non-exact at a documented natural code-layout plateau.
+   `MixRenderColor @ 0x00401090` is now canonical exact under its target-proven
+   file-local visibility; the same natural ABI correction also promotes
+   `SetRenderStateForVm3D`, `DrawInner`, and `DrawInnerFlippedX` to exact.
    Very small bodies such as `0x0044AB20` should not be claimed merely because
    they are short; first rule out folded/shared ownership with TH09-local xrefs.
 
