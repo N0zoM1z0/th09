@@ -934,3 +934,4 @@ FrontMessageRandomView::SetupRandomForSide
 FrontAddedCallback
 ExAttackInitializeCallbackType21
 ExAttackInitializeCallbackType19
+ExAttackUpdateCallbackType19
