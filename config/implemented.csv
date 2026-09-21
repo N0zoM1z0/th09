@@ -868,3 +868,4 @@ GameWindow::Present
 GameWindow::Render
 ResolveShortcut
 CheckForRunningGameInstance
+ResetRenderState

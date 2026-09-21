@@ -869,3 +869,4 @@ GameWindow::Present,0x0042DB50,function
 GameWindow::Render,0x0042DC40,function
 ResolveShortcut,0x0042D140,function
 CheckForRunningGameInstance,0x0042D900,function
+ResetRenderState,0x0042D5F0,function
