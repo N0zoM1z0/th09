@@ -195,17 +195,17 @@ struct EnemyManagerView
     EnemyView *SpawnEnemy(
         short eclSubroutineId,
         EnemyFloat3 *position,
-        int argument4,
-        signed char argument5,
-        int argument6,
+        int life,
+        signed char defeatTokenType,
+        int score,
         int *initialVariables,
-        int runImmediately);
-    EnemyView *SpawnEnemyImmediate(
+        int useOpposingEclManager);
+    EnemyView *SpawnEnemyUsingOpposingEcl(
         int eclSubroutineId,
         EnemyFloat3 *position,
-        int argument4,
-        int argument5,
-        int argument6,
+        int life,
+        int defeatTokenType,
+        int score,
         int *initialVariables);
     static int __fastcall OnUpdate(EnemyManagerView *enemyManager);
 };

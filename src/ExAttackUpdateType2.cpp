@@ -74,7 +74,7 @@ int __fastcall ExAttackUpdateCallbackType2(ExAttackRecord *base)
             int initialVariables[30];
             initialVariables[8] = 0xBFC90FDB;
             g_GameManager.sides[record->opponentSide04].enemyManager10->
-                SpawnEnemyImmediate(
+                SpawnEnemyUsingOpposingEcl(
                     8,
                     &extra->spawnPosition40,
                     20,

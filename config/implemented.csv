@@ -812,7 +812,7 @@ EnemyManagerReleaseCore
 ReleaseSubsystem4
 EnemyManagerView::ResetForGameplayCleanup
 RngRuntimeView::GetRandomU16InRange
-EnemyManagerView::SpawnEnemyImmediate
+EnemyManagerView::SpawnEnemyUsingOpposingEcl
 ExAttackUpdateCallbackType2
 ExAttackInterpolate2D
 PlayerOwnerRewardCallbackType1
@@ -915,3 +915,4 @@ ExAttackUpdateCallbackType25
 ExAttackUpdateCallbackType15
 ExAttackUpdateCallbackType16_23
 ExAttackUpdateCallbackType20
+EnemyManagerView::SpawnEnemy
