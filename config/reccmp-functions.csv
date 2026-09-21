@@ -856,3 +856,4 @@ SupervisorNetworkState::InitializePeer,0x00432EB0,function
 FrontEnemyIndicatorView::SetSideEnemyIndicatorPosition,0x00416080,function
 AnmManager::ServiceCaptureRequests,0x0042D320,function
 GameWindowProc,0x0042D3D0,function
+CreateGameWindow,0x0042D4D0,function
