@@ -141,9 +141,12 @@ source-present functions that retain honest non-exact compiler results.
 3. **Continue authored/no-source work from target-proven owners, not address
    adjacency.** Useful current seams include the separate EnemyManager spawn
    owner `0x0040F1D0`, whose wrapper ABI is already exact, and ExAttack type-20
-   init `0x0044AC20`, whose template-table slot fixes ownership. Very small
-   bodies such as `0x0044AB20` should not be claimed merely because they are
-   short; first rule out folded/shared ownership with TH09-local xrefs.
+   init `0x0044AC20`, whose template-table slot fixes ownership. The `0x0040F1D0`
+   wrapper appends a constant seventh argument of 1, but TH09 has not yet
+   established what that argument means; do not call it `runImmediately` or
+   transfer the primary/opposing-ECL selector semantics proven for `0x0040F340`.
+   Very small bodies such as `0x0044AB20` should not be claimed merely because
+   they are short; first rule out folded/shared ownership with TH09-local xrefs.
 
 4. **Keep using shared-helper leverage before large callbacks.** Exact ExAttack
    init/update rows, Player leaves, Front helpers, Bullet descriptor transforms,
@@ -162,11 +165,11 @@ local facts and negative results, not old chat summaries.
 
 ## Workspace hygiene
 
-`.analysis/` is disposable. At this checkpoint it contains only four compact
-`check-bullet*.dis` receipts for the still-unresolved Player collision codegen
-frontier. Accepted probe `.cpp` files, copied headers, `.obj` files, `.pdb`
-files, and stale dumps were removed after their durable facts were promoted to
-tracked source/ledgers/docs. Future agents should follow `docs/RE_WORKFLOW.md`:
+`.analysis/` is disposable and is intentionally empty at this checkpoint.
+The remaining Player collision codegen plateau, including its preserved-register
+negative result and tested source shapes, is already durable in
+`docs/KNOWLEDGE_BASE.md` and `config/functions.csv`; duplicate disassembly
+receipts are not retained. Future agents should follow `docs/RE_WORKFLOW.md`:
 after a checkpoint, delete rebuildable probe artifacts instead of using
 `.analysis/` as a journal.
 
@@ -188,14 +191,15 @@ The handoff is intentionally not a second knowledge base. Use Git history when
 investigating an old packet, then promote any still-useful fact into the
 maintained ledger or knowledge base.
 
-## Latest checkpoints
+## Recent checkpoints
 
-Recent checkpoints, newest first:
+Use `git log -12 --oneline --decorate` as the authoritative current history.
+Recent substantive checkpoints include:
 
+- `7c61d94 gpt-web: prune stale reconstruction notes`
 - `da37007 gpt-web: clean Enemy spawn boundary`
 - `5e96a77 gpt-web: recover ExAttack type20 update`
 - `9293645 gpt-web: close ExAttack type16 type23 update`
-- `3c16abf gpt-web: add TH09 title screen asset`
 - `b617bc4 gpt-web: close ExAttack type15 update`
 - `4aa6702 gpt-web: close ExAttack type25 update`
 - `675da3a gpt-web: close ExAttack type26 update`

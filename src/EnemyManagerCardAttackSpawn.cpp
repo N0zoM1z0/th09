@@ -14,7 +14,7 @@ struct EnemyManagerCardAttackSpawnView
         char valueB,
         int valueC,
         int mirrored,
-        int runImmediately);
+        int argument7);
 
     void *SpawnFromCardAttack(
         int subroutine,

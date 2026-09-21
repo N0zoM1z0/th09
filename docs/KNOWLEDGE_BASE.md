@@ -1501,8 +1501,8 @@ name into a TH09 fact without target-local evidence.
 ## Packet 302 CardAttack EnemyManager spawn wrapper
 
 - `EnemyManagerCardAttackSpawnView::SpawnFromCardAttack @ 0x00440C80-0x00440CA5` is repository-canonical exact at 38 bytes. All six TH09 CardAttack begin callbacks obtain the side-local EnemyManager from the 0x38 GameManager side record at +0x10 and call this member with six stack arguments.
-- The wrapper forwards those arguments to authored EnemyManager spawn owner `0x0040F1D0`, narrowing the first value to short and the fourth to char exactly as target calling convention requires, then appends constant `runImmediately=1`. Natural source reproduces all 38 bytes with the sole REL32 relocation solved.
-- The maintained names are behavioral. `0x0040F1D0` remains independently no-source/non-exact; exactness of this convenience wrapper does not promote the underlying 364-byte EnemyManager spawn owner.
+- The wrapper forwards those arguments to authored EnemyManager spawn owner `0x0040F1D0`, narrowing the first value to short and the fourth to char exactly as target calling convention requires, then appends a constant seventh argument of 1. TH09 has not yet established the semantic role of that final argument for `0x0040F1D0`; in particular, the primary/opposing-ECL selector proven for the separate `0x0040F340` owner must not be transferred here by analogy. Natural source reproduces all 38 bytes with the sole REL32 relocation solved.
+- The maintained names are behavioral. `0x0040F1D0` remains independently no-source/non-exact; exactness of this convenience wrapper does not promote the underlying 364-byte EnemyManager spawn owner. Its unresolved seventh parameter is deliberately kept neutral in source.
 
 ## Packet 303 CardAttack begin callbacks
 
