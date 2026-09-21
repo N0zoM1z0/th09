@@ -12574,3 +12574,23 @@ relocations = [
   { offset = 0x65, type = "DIR32", symbol = "__real@3a83126f", target = 0x0048FBE8 },
   { offset = 0x70, type = "DIR32", symbol = "__imp__timeEndPeriod@4", target = 0x0048E244 },
 ]
+
+[units.supervisor-network-report-error]
+source = "src/SupervisorNetworkError.cpp"
+object = "build/matching/SupervisorNetworkError.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ReportDirectPlayError"]
+symbol = "?ReportDirectPlayError@@YIXJ@Z"
+target_address = 0x00432410
+size = 0xA4
+relocations = [
+  { offset = 0x23, type = "DIR32", symbol = "__imp__FormatMessageA@28", target = 0x0048E088 },
+  { offset = 0x30, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x35, type = "REL32", symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C660 },
+  { offset = 0x42, type = "DIR32", symbol = "__imp__LocalFree@4", target = 0x0048E084 },
+  { offset = 0x4D, type = "REL32", symbol = "_DXGetErrorString8A@4", target = 0x0048A853 },
+  { offset = 0x7B, type = "DIR32", symbol = "??_C@_02PCIJFNDE@?$AN?6?$AA@", target = 0x00490C4C },
+  { offset = 0x80, type = "DIR32", symbol = "??_C@_02PCIJFNDE@?$AN?6?$AA@", target = 0x00490C4C, addend = 0x02 },
+  { offset = 0x8F, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x97, type = "REL32", symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C660 },
+]
