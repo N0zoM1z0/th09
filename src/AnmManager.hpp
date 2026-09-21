@@ -118,3 +118,8 @@ class AnmManager
 };
 
 extern AnmManager *g_AnmManager;
+
+int __stdcall InitializeHorizontalTextureStrip(
+    AnmVm *vm, VertexTex1DiffuseXyzrhw *vertices, int vertexCount);
+int __stdcall InitializeVerticalTextureStrip(
+    AnmVm *vm, VertexTex1DiffuseXyzrhw *vertices, int vertexCount);

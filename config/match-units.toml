@@ -12959,3 +12959,23 @@ relocations = [
   { offset = 0x86, type = "REL32", symbol = "?Initialize@TitleConfigConstructView@@QAEXXZ", target = 0x0041A8A2 },
   { offset = 0x93, type = "REL32", symbol = "_memset", target = 0x0047C390 },
 ]
+
+[units.anm-texture-strip-horizontal]
+source = "src/AnmTextureStrip.cpp"
+object = "build/matching/AnmTextureStrip.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["InitializeHorizontalTextureStrip"]
+symbol = "?InitializeHorizontalTextureStrip@@YGHPAUAnmVm@@PAUVertexTex1DiffuseXyzrhw@@H@Z"
+target_address = 0x00439CF0
+size = 0xC7
+relocations = []
+
+[units.anm-texture-strip-vertical]
+source = "src/AnmTextureStrip.cpp"
+object = "build/matching/AnmTextureStrip.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["InitializeVerticalTextureStrip"]
+symbol = "?InitializeVerticalTextureStrip@@YGHPAUAnmVm@@PAUVertexTex1DiffuseXyzrhw@@H@Z"
+target_address = 0x00439DC0
+size = 0xC7
+relocations = []

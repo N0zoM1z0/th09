@@ -802,8 +802,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004397E0,authored_game,AnmManager,authored,high,packet101-anm-draw-geometry-vc71-2026-09-13
 0x00439820,authored_game,AnmManager,authored,high,packet129-anm-projection-camera-nonexact-2026-09-15
 0x00439A90,authored_game,AnmManager,authored,high,packet129-anm-project3d-canonical-exact-2026-09-15
-0x00439CF0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00439DC0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00439CF0,authored_game,AnmManager,authored,high,anm-texture-strip-pair-exact-2026-09-21
+0x00439DC0,authored_game,AnmManager,authored,high,anm-texture-strip-pair-exact-2026-09-21
 0x00439E90,authored_game,AnmManager,authored,high,packet105-anm-render-state-3d-source-2026-09-13
 0x0043A030,authored_game,AnmManager,authored,high,packet100-anm-render-state-and-flipped-core-2026-09-13
 0x0043A0F0,authored_game,AnmManager,authored,high,packet99-anm-render-core-source-present-2026-09-13

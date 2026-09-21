@@ -862,3 +862,5 @@ EnemyView::IntegrateMotion
 CreateGameSubsystem
 RegisterTitleScreen
 TitleFactoryConstructView::TitleFactoryConstructView
+InitializeHorizontalTextureStrip
+InitializeVerticalTextureStrip
