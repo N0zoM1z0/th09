@@ -924,3 +924,4 @@ EffectDrawCallbackType27
 EffectDrawCallbackType36
 MixRenderColor
 RotatePlayerCollisionVector
+FileSystem::TryDecryptFromTable

@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 926 |
+| Source-present authored mappings | 927 |
 | Canonical exact functions | 765 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -91,8 +91,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 926 source-present authored mappings. Of
-these, 765 are canonical exact and 161 retain honest non-exact compiler results.
+`config/implemented.csv` contains 927 source-present authored mappings. Of
+these, 765 are canonical exact and 162 retain honest non-exact compiler results.
 `config/matches.csv` contains 765 complete target-bound VC7.1 matches totaling
 111,856 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**53 authored functions / 48,992 bytes without maintained source**, plus 161
+**52 authored functions / 48,772 bytes without maintained source**, plus 162
 source-present functions that retain honest non-exact compiler results.
 
 1. **Preserve frozen and durable-negative frontiers.** The 35 origin-unknown
@@ -152,6 +152,9 @@ source-present functions that retain honest non-exact compiler results.
    `RotatePlayerCollisionVector @ 0x0042AF40` is also now exact: the target's
    external `@sinf@4/@cosf@4` calls select the already-evidenced `/Ob0`
    lowering, while `/Ob1` remains the documented 42-byte intrinsic negative.
+   `FileSystem::TryDecryptFromTable @ 0x0042C290` is now maintained source-present
+   at an honest 220-byte register-allocation plateau; its TH09 crypt data remain
+   extern/unowned and must not be copied from TH08.
    Very small bodies such as `0x0044AB20` should not be claimed merely because
    they are short; first rule out folded/shared ownership with TH09-local xrefs.
 
