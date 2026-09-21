@@ -893,3 +893,4 @@ PlayerPositionCallback30404Type8,0x00447620,function
 PlayerShotDrawCallbackType2,0x00443300,function
 ExAttackInitializeCallbackType22,0x00444560,function
 ExAttackInitializeCallbackType10,0x00445050,function
+ExAttackInitializeCallbackType9,0x004467C0,function

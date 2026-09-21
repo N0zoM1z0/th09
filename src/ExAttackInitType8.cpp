@@ -257,3 +257,55 @@ int __fastcall ExAttackInitializeCallbackType6(ExAttackRecord *base)
 
     return 0;
 }
+
+
+int __fastcall ExAttackInitializeCallbackType9(ExAttackRecord *base)
+{
+    ExAttackType8RecordView *record =
+        reinterpret_cast<ExAttackType8RecordView *>(base);
+
+    reinterpret_cast<ExAttackType8AllocateView *>(record)
+        ->AllocateDynamicData(1, sizeof(ExAttackType8Extra));
+
+    reinterpret_cast<ExAttackType8SideLookupView *>(record)
+        ->GetSideState()->anmOwner0C->anm2D4->ExecuteAnmIdx(
+            reinterpret_cast<AnmVm *>(record->dynamicData1C), 37);
+
+    ExAttackType8Extra *extra = record->extra34;
+
+    float angle = g_ReplayRng.GetRandomF32InRange(-3.1415927f);
+    extra->motion14.z = 0.0f;
+    extra->motion14.FromAngleMagnitude(angle, 2.0f);
+    extra->angle08 = angle;
+    extra->state00 = 0;
+
+    record->unknown00 = 2;
+    record->timer10 = 90;
+
+    extra->control38.FromAngleMagnitude(
+        g_ReplayRng.GetRandomF32SignedInRange(3.1415927f),
+        g_ReplayRng.GetRandomF32InRange(192.0f));
+    extra->control44.FromAngleMagnitude(
+        g_ReplayRng.GetRandomF32SignedInRange(3.1415927f),
+        g_ReplayRng.GetRandomF32InRange(192.0f));
+
+    extra->point20.x = g_GameManager.TransformPopupX(record->position20.x);
+    extra->point20.y = g_GameManager.TransformPopupY(record->position20.y);
+    extra->point20.z = 0.0f;
+
+    extra->spawn50.x = -144.0f;
+    extra->angle08 = 0.0f;
+    extra->spawn50.y = 192.0f;
+    extra->spawn50.z = 0.0f;
+
+    g_Supervisor.SelectSide(record->opponentSide04);
+    extra->point2C.x = g_GameManager.TransformPopupX(extra->spawn50.x);
+    extra->point2C.y = g_GameManager.TransformPopupY(extra->spawn50.y);
+    extra->point2C.z = 0.0f;
+    g_Supervisor.SelectSide(record->side08);
+
+    extra->angle0C =
+        g_ReplayRng.GetRandomF32SignedInRange(3.1415927f);
+
+    return 0;
+}
