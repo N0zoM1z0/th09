@@ -831,3 +831,5 @@ PlayerOwnerRewardCallbackType12,0x0044AF80,function
 PlayerOwnerRewardCallbackType13,0x0044BA80,function
 PlayerOwnerRewardCallbackType14,0x0044C020,function
 PlayerOwnerRewardCallbackType15,0x0044C680,function
+PlayerType11OrientationSign,0x00449B50,function
+PlayerPositionCallback30404Type11,0x00449D50,function

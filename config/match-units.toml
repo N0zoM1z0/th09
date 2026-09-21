@@ -12425,3 +12425,16 @@ relocations = [
   { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
   { offset = 0x48, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
 ]
+
+[units.player-type11-orientation-sign]
+source = "src/PlayerPositionCallback30404Type11.cpp"
+object = "build/matching/PlayerPositionCallback30404Type11.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["PlayerType11OrientationSign"]
+symbol = "?PlayerType11OrientationSign@@YIHPBUPlayerType11Point@@00@Z"
+target_address = 0x00449B50
+size = 0x47
+relocations = [
+  { offset = 0x1E, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
+  { offset = 0x33, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
+]
