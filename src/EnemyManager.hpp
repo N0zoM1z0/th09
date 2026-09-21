@@ -133,6 +133,7 @@ struct EnemyView
     void UpdateShotAndAnm();
     void HandleDeathRewards(int hitKind);
     void ResetBulletRankInfluence();
+    void ClampPositionToMovementBounds();
 };
 typedef char EnemyViewSizeIs5430[(sizeof(EnemyView) == 0x5430) ? 1 : -1];
 typedef char EnemyViewPositionAt2D74[

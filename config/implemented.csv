@@ -844,3 +844,4 @@ GetGameTimestampSeconds
 ReportDirectPlayError
 SupervisorNetworkState::IsServiceProviderAvailable
 SupervisorNetworkState::ResetSession
+EnemyView::ClampPositionToMovementBounds

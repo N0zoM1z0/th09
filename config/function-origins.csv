@@ -209,7 +209,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0040FCC0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004100E0,authored_game,EnemyManager,authored,high,enemy-child-ecl-block-release-exact-2026-09-20
 0x00410110,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x004101D0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x004101D0,authored_game,EnemyManager,authored,high,enemy-position-clamp-exact-2026-09-21
 0x00410250,authored_game,EnemyManager,authored,high,enemy-collision-box-wrapper-source-2026-09-20
 0x004102B0,authored_game,EnemyManager,authored,high,packet-148-enemy-ecl-hard-frontier
 0x00410730,authored_game,EnemyManager,authored,high,packet-149-enemy-manager-on-update
