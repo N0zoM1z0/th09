@@ -950,3 +950,4 @@ FrontMessageRuntimeView::Draw
 FrontCalcCallback
 FrontDrawCallback
 ReplayInputState::IsHeld
+EtamaController::SpawnLaserPattern

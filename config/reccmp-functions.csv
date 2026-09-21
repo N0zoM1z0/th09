@@ -951,3 +951,4 @@ FrontMessageRuntimeView::Draw,0x00417130,function
 FrontCalcCallback,0x00417630,function
 FrontDrawCallback,0x00417C10,function
 ReplayInputState::IsHeld,0x00415CB0,function
+EtamaController::SpawnLaserPattern,0x00413290,function
