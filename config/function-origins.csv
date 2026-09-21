@@ -581,7 +581,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042CC10,authored_game,Supervisor,authored,high,supervisor-network-state-constructor-exact-2026-09-20
 0x0042CC30,compiler_generated,Compiler,exclude,high,vc71-generated-helper-review-2026-09-19
 0x0042CC60,compiler_generated,Compiler,exclude,high,vc71-generated-helper-review-2026-09-19
-0x0042CC90,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042CC90,authored_game,GameWindow,authored,high,game-timestamp-seconds-exact-2026-09-21
 0x0042CD10,authored_game,Supervisor,authored,high,supervisor-initialize-d3d-exact-2026-09-20
 0x0042CD40,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042CD90,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
