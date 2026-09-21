@@ -875,3 +875,5 @@ PlayerDeathSharedView::SelectOpponentSide,0x00415D70,function
 FrontMessageRuntimeView::LoadForSideCount,0x004182E0,function
 TitleDrawCallback,0x00424898,function
 ExAttackInitializeCallbackType2,0x00441910,function
+ExAttackInitializeCallbackType0,0x00440E40,function
+ExAttackInitializeCallbackType1,0x00440FB0,function
