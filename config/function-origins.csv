@@ -959,7 +959,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004417C0,authored_game,EnemyManager,authored,high,enemy-manager-spawn-immediate-exact-2026-09-21
 0x004417F0,authored_game,Player,authored,high,player-position-callback30404-type1-exact-2026-09-20
 0x00441880,authored_game,Player,authored,high,player-shot-collision-callback1-exact-2026-09-20
-0x00441890,authored_game,Math,authored,high,float3-from-angle-natural-negative-2026-09-20
+0x00441890,authored_game,Math,authored,high,float3-angle-same-tu-source-review-2026-09-21
 0x004418B0,authored_game,Player,authored,high,player-enemy-callback30408-exact-2026-09-20
 0x00441910,authored_game,ExAttackController,authored,high,exattack-type2-init-exact-2026-09-21
 0x00441A70,authored_game,ExAttackController,authored,high,exattack-update-type2-exact-2026-09-21
@@ -1019,7 +1019,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004464A0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004467C0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00446920,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00446C10,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00446C10,authored_game,ExAttackController,authored,high,exattack-type8-init-same-tu-exact-2026-09-21
 0x00446D80,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00446EE0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004471B0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19

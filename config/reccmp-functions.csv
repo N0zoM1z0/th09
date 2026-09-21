@@ -881,3 +881,5 @@ ExAttackUpdateCallbackType01,0x00441100,function
 ExAttackInitializeCallbackType4,0x00442A60,function
 ExAttackInitializeCallbackType3,0x00442580,function
 ExAttackInitializeCallbackType5,0x00444F00,function
+Float3::FromAngleMagnitude,0x00441890,function
+ExAttackInitializeCallbackType8,0x00446C10,function

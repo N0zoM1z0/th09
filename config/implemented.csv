@@ -880,3 +880,5 @@ ExAttackUpdateCallbackType01
 ExAttackInitializeCallbackType4
 ExAttackInitializeCallbackType3
 ExAttackInitializeCallbackType5
+Float3::FromAngleMagnitude
+ExAttackInitializeCallbackType8
