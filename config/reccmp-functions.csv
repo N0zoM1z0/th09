@@ -837,3 +837,4 @@ PlayerStateEffectView::ConfigureState3Effect13,0x00403C30,function
 PlayerStateEffectView::ConfigureState3Effect14,0x00403C90,function
 ActivateGameWindow,0x0042D0C0,function
 CubicHermiteInterpolateScalar,0x00401000,function
+Background::ApplyPendingStageLabel,0x004018A0,function

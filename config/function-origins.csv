@@ -42,7 +42,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00401680,authored_game,GameManager,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13
 0x004016B0,authored_game,GameManager,authored,high,packet97-reusable-render-helpers-vc71-exact-2026-09-13
 0x004016E0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x004018A0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x004018A0,authored_game,Background,authored,high,background-pending-stage-label-exact-2026-09-21
 0x004018F0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00402350,authored_game,Background,authored,high,packet154-background-recovery-2026-09-15
 0x004024D0,authored_game,Background,authored,high,packet154-background-recovery-2026-09-15

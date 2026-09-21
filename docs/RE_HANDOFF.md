@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 838 |
-| Canonical exact functions | 692 |
+| Source-present authored mappings | 839 |
+| Canonical exact functions | 693 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -91,10 +91,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 838 source-present authored mappings. Of
-these, 692 are canonical exact and 146 retain honest non-exact compiler results.
-`config/matches.csv` contains 692 complete target-bound VC7.1 matches totaling
-89,565 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 839 source-present authored mappings. Of
+these, 693 are canonical exact and 146 retain honest non-exact compiler results.
+`config/matches.csv` contains 693 complete target-bound VC7.1 matches totaling
+89,644 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**141 authored functions / 74,689 bytes without maintained source**, plus 146
+**140 authored functions / 74,610 bytes without maintained source**, plus 146
 source-present functions that retain honest non-exact compiler results.
 
 1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
@@ -179,6 +179,7 @@ fact into the maintained ledger or knowledge base.
 
 Recent Web reconstruction checkpoints, newest first:
 
+- `7deafa0 gpt-web: close scalar Hermite helper`
 - `adf4959 gpt-web: close game window activation`
 - `31fad54 gpt-web: close Player state3 effect pair`
 - `8b1d6e4 gpt-web: recover Player type11 geometry seam`

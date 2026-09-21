@@ -12504,3 +12504,15 @@ relocations = [
   { offset = 0x1C, type = "DIR32", symbol = "__real@40400000", target = 0x0048E2A0 },
   { offset = 0x2F, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
 ]
+
+[units.background-pending-stage-label]
+source = "src/BackgroundPendingStageLabel.cpp"
+object = "build/matching/BackgroundPendingStageLabel.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Background::ApplyPendingStageLabel"]
+symbol = "?ApplyPendingStageLabel@Background@@QAEXXZ"
+target_address = 0x004018A0
+size = 0x4F
+relocations = [
+  { offset = 0x42, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+]

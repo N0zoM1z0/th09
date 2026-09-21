@@ -99,6 +99,7 @@ struct Background
     static int AddedCallback(Background *background);
     static int DeletedCallback(Background *background);
     void ClearSpellBackgroundState();
+    void ApplyPendingStageLabel();
 
     int LoadStageData(const char *path);
     int RenderObjects(int mode);
@@ -109,7 +110,7 @@ struct Background
     int viewportIndex;
     void *sideState;
     void *otherSideState;
-    int unknown018;
+    int pendingStageLabel18;
     int transitionMode;
     int transitionFrames;
     AnmVm *stageObjectVms;

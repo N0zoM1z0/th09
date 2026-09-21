@@ -215,7 +215,7 @@ int Background::AddedCallback(Background *background)
         background->interpolationTimers[i] = 0;
     }
 
-    background->unknown018 = 0;
+    background->pendingStageLabel18 = 0;
     background->cullingDistanceSq = 1822500.0f;
     if (g_GameManager.currentStage == 5 || g_GameManager.currentStage == 9)
     {
