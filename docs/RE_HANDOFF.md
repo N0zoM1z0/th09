@@ -120,45 +120,58 @@ Phase state is `active-incomplete` exact reconstruction. The live frontier is
 **61 authored functions / 51,798 bytes without maintained source**, plus 161
 source-present functions that retain honest non-exact compiler results.
 
-1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
-   remain frozen. Keep the durable natural-codegen negatives closed unless new
-   ABI/type/TU evidence appears, especially `CaptureFrameSyncState`,
-   `AsciiManager::OnUpdate`, replay-input register-allocation leaves,
-   Player/shot preserved-register residuals, and
-   `ChainReleaseView::ReleaseSingleChain @ 0x0042CAE0`, `AppendD3DCapabilitySupportLine @ 0x0042CD40`, `FrontMessageOwnerView::InitializeMessageRuntime @ 0x004181E0`, `DecodeFrontMessageString @ 0x00415C60`, `EnemyView::CleanupAfterDeactivation @ 0x00410110`, and `EnemyView::IntegrateMotion @ 0x0040F9B0`, and `FrontMessageRuntimeView::ReleaseForSideCount @ 0x00417520`, `FrontMessageRuntimeView::LoadForSideCount @ 0x004182E0`, `TitleDrawCallback @ 0x00424898`, `ExAttackUpdateCallbackType01 @ 0x00441100`, `ExAttackInitializeCallbackType4 @ 0x00442A60`, `ExAttackUpdateCallbackType20 @ 0x0044ADE0`, `ExAttackInitializeCallbackType3 @ 0x00442580`, `Float3::FromAngleMagnitude @ 0x00441890`, `ExAttackInitializeCallbackType6 @ 0x00445EC0`, `PlayerPositionCallback30404Type4 @ 0x00443B10`, `PlayerPositionCallback30404Type8 @ 0x00447620`, `PlayerShotDrawCallbackType2 @ 0x00443300`. The Chain core is
-   source-present at a cold-stable 268/241; `/GX-` collapses it to 218, so
-   placement-new/local-order tricks are not justified.
+1. **Preserve frozen and durable-negative frontiers.** The 35 origin-unknown
+   entries remain frozen. Do not revisit them without new evidence that can
+   distinguish explicit source, implicit special-member generation, or folded
+   ownership. Likewise, do not churn known natural-codegen plateaus such as
+   `CaptureFrameSyncState @ 0x00420190`, `AsciiManager::OnUpdate @ 0x00435B00`,
+   `PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0`, or
+   `Float3::FromAngleMagnitude @ 0x00441890`. The knowledge base is the
+   authoritative list of their tested hypotheses and negative results.
 
-2. **Continue bounded authored/no-source seams with target-proven owners.**
-   Prefer short leaves whose receiver, table slot, or sole caller already fixes
-   ownership. The recent Supervisor startup/network run is a good model:
-   `SupervisorNetworkMessageThunk @ 0x00432EA0`,
-   `SupervisorNetworkState::SupervisorNetworkState @ 0x0042CC10`, and
-   `SupervisorInitializeD3D @ 0x0042CD10` all closed naturally, while the
-   768-byte DirectPlay instance handler `0x00432B70` remains independent.
-   Nearby candidates such as `0x0042CC90` / `0x0042CD40` should only be
-   pursued after their owner/caller ABI is established; do not infer ownership
-   from adjacency.
+2. **Treat source-present plateaus as closed until evidence changes.**
+   `EnemyManagerView::SpawnEnemy @ 0x0040F340` is cold-stable at 361/373;
+   collapsing its primary/opposing ECL paths over-optimizes to 322, while
+   explicit duplicated failure tails inflate to 403. `ExAttackUpdateCallbackType20
+   @ 0x0044ADE0` is exact-sized 405/405 with all 11 relocations solved and
+   299/361 ordinary comparable bytes; bounded field-order/type probes were
+   worse. Neither frontier justifies register, padding, volatile, assembly, or
+   profile roulette.
 
-3. **Use shared-helper leverage before large callbacks.** Player, CardAttack,
-   ExAttack, ECL, Chain, input/replay, and Supervisor work has repeatedly paid
-   off by recovering a shared helper first and then reusing its exact ABI/layout.
-   Keep that pattern. Avoid spending a session on a multi-kilobyte dispatcher
-   when a smaller helper or table column can establish the same layout.
+3. **Continue authored/no-source work from target-proven owners, not address
+   adjacency.** Useful current seams include the separate EnemyManager spawn
+   owner `0x0040F1D0`, whose wrapper ABI is already exact, and ExAttack type-20
+   init `0x0044AC20`, whose template-table slot fixes ownership. Very small
+   bodies such as `0x0044AB20` should not be claimed merely because they are
+   short; first rule out folded/shared ownership with TH09-local xrefs.
 
-4. **Attack coherent large non-exact families only after their helper seams are
-   mature.** The largest maintained families are still TitleScreen, ECL,
-   EnemyManager, Player, BulletManager, and AnmManager. Prefer leaves and shared
-   ABI/layout discoveries before `RunEcl @ 0x004086C0` or another giant owner.
+4. **Keep using shared-helper leverage before large callbacks.** Exact ExAttack
+   init/update rows, Player leaves, Front helpers, Bullet descriptor transforms,
+   and EnemyManager boundaries have repeatedly unlocked larger code without
+   attacking multi-kilobyte dispatchers directly. Preserve that pattern before
+   revisiting `RunEcl @ 0x004086C0` or another large owner.
 
 5. **Keep product closure separate.** `config/build.toml` remains an honest
    skeleton. Do not start semantic/port work until translation units, data
    owners, libraries, resources, link order, compiler profiles, and exercised
    Windows i386 runtime paths are evidenced and the native product gate closes.
 
-Run `python3 scripts/report-reconstruction-status.py` after each checkpoint;
-it is authoritative for the live frontier. The knowledge base is authoritative
-for accepted local facts and durable negative results.
+Run `python3 scripts/report-reconstruction-status.py` after each checkpoint; it
+is authoritative for live totals. Use `docs/KNOWLEDGE_BASE.md` for accepted
+local facts and negative results, not old chat summaries.
+
+## Workspace hygiene
+
+`.analysis/` is disposable. At this checkpoint it contains only four compact
+`check-bullet*.dis` receipts for the still-unresolved Player collision codegen
+frontier. Accepted probe `.cpp` files, copied headers, `.obj` files, `.pdb`
+files, and stale dumps were removed after their durable facts were promoted to
+tracked source/ledgers/docs. Future agents should follow `docs/RE_WORKFLOW.md`:
+after a checkpoint, delete rebuildable probe artifacts instead of using
+`.analysis/` as a journal.
+
+Private target executables, IDA databases, compiler/toolchain files, and game
+assets that are not explicitly tracked resources must never be added to Git.
 
 ## Durable evidence map
 
@@ -171,14 +184,18 @@ for accepted local facts and durable negative results.
 - `docs/PROGRESS.md`: generated current totals.
 - `docs/RE_WORKFLOW.md` and `docs/ORACLES.md`: phase and acceptance rules.
 
-The detailed historical handoff is intentionally not a second knowledge base.
-Use Git history when investigating an old packet, then promote any still-useful
-fact into the maintained ledger or knowledge base.
+The handoff is intentionally not a second knowledge base. Use Git history when
+investigating an old packet, then promote any still-useful fact into the
+maintained ledger or knowledge base.
 
 ## Latest checkpoints
 
-Recent Web reconstruction checkpoints, newest first:
+Recent checkpoints, newest first:
 
+- `da37007 gpt-web: clean Enemy spawn boundary`
+- `5e96a77 gpt-web: recover ExAttack type20 update`
+- `9293645 gpt-web: close ExAttack type16 type23 update`
+- `3c16abf gpt-web: add TH09 title screen asset`
 - `b617bc4 gpt-web: close ExAttack type15 update`
 - `4aa6702 gpt-web: close ExAttack type25 update`
 - `675da3a gpt-web: close ExAttack type26 update`
@@ -187,107 +204,3 @@ Recent Web reconstruction checkpoints, newest first:
 - `59af14d gpt-web: close ExAttack type17 update`
 - `2bb1722 gpt-web: close Front message setup`
 - `3eb4786 gpt-web: close Front line strip`
-- `eca4509 gpt-web: close Player pattern offset`
-- `8c68482 gpt-web: close ExAttack type19 type21 draw`
-- `4719dbf gpt-web: close ExAttack type14 init`
-- `eca7dc0 gpt-web: close ExAttack spawn-height init trio`
-- `0e8cf7c gpt-web: close ExAttack type24 init`
-- `71f6761 gpt-web: close ExAttack type18 init`
-- `9f70b0c gpt-web: close ExAttack type17 init`
-- `764a08c gpt-web: close ExAttack type11 type12 init`
-- `16679b3 gpt-web: close ExAttack type16 type23 init`
-- `4555076 gpt-web: close ExAttack type9 init`
-- `670c681 gpt-web: close ExAttack type10 init`
-- `a0f3288 gpt-web: close ExAttack type22 init`
-- `28be3b0 gpt-web: recover Player shot draw type2`
-- `6770a3c gpt-web: recover Player position type8 callback`
-- `c4a5a97 gpt-web: recover Player position type4 callback`
-- `e14563b gpt-web: close ExAttack type5 update`
-- `fd5a418 gpt-web: close Ascii input leaves`
-- `a5bee85 gpt-web: recover ExAttack type6 init`
-- `824eea4 gpt-web: close ExAttack type7 init`
-- `9661228 gpt-web: close ExAttack type8 same TU`
-- `b6316d0 gpt-web: close ExAttack type5 init`
-- `b662ecd gpt-web: recover ExAttack type3 init`
-- `7222f90 gpt-web: recover ExAttack type4 init`
-- `b4ceb86 gpt-web: recover ExAttack type01 update`
-- `4deb83d gpt-web: close ExAttack type0 type1 init`
-- `e059a8d gpt-web: close ExAttack type2 init`
-- `90534dd gpt-web: recover Title draw callback`
-- `da69999 gpt-web: recover Front message loader`
-- `f11b2f0 gpt-web: close Front death transition`
-- `aaff33e gpt-web: freeze Front message release codegen`
-- `190a497 gpt-web: close controller state sampler`
-- `22ce901 gpt-web: close render state reset`
-- `0b88980 gpt-web: close GameWindow startup check`
-- `3379539 gpt-web: close GameWindow shortcut resolver`
-- `b113121 gpt-web: close GameWindow render loop`
-- `d016f33 gpt-web: close game window present`
-- `e026ad0 gpt-web: close ANM texture strip pair`
-- `733b934 gpt-web: close TitleScreen constructor`
-- `21b8dd8 gpt-web: close TitleScreen registration`
-- `ff574b8 gpt-web: close Front gameplay factory`
-- `6af49e7 gpt-web: recover Enemy motion integration`
-- `cec0779 gpt-web: close Background stage VM update`
-- `86895e6 gpt-web: close executable checksum`
-- `d93e699 gpt-web: recover game window creation`
-- `c2657a1 gpt-web: close game window procedure`
-- `5a0f44c gpt-web: close ANM capture service`
-- `8bef301 gpt-web: close Front enemy indicator`
-- `f98c0be gpt-web: close DirectPlay peer initialization`
-- `613f56c gpt-web: close DirectPlay session host connect`
-- `94e2fb8 gpt-web: close DirectPlay host address`
-- `afc0ee6 gpt-web: close DirectPlay device address`
-- `c7ed1d2 gpt-web: freeze Front message init ABI`
-- `74545ae gpt-web: close Enemy ECL loader`
-- `0a59eaf gpt-web: close Enemy attached effect update`
-- `8f7e15c gpt-web: close Enemy movement clamp`
-- `c068f07 gpt-web: close DirectPlay session reset`
-- `2edff85 gpt-web: recover DirectPlay provider check`
-- `ecc96de gpt-web: close DirectPlay error reporter`
-- `77c9ebb gpt-web: close game timestamp helper`
-- `c73ea66 gpt-web: close Player state3 effect15`
-- `4f89531 gpt-web: close DirectPlay resource release`
-- `63a80b9 gpt-web: close DirectPlay packet send`
-- `1cad749 gpt-web: close Background pending label`
-- `7deafa0 gpt-web: close scalar Hermite helper`
-- `adf4959 gpt-web: close game window activation`
-- `31fad54 gpt-web: close Player state3 effect pair`
-- `8b1d6e4 gpt-web: recover Player type11 geometry seam`
-- `f842e5e gpt-web: classify D3DX cross inline`
-- `9aac6d1 gpt-web: close Player reward callbacks type8-15`
-- `a3dc6ae gpt-web: close Player reward callbacks type5-7`
-- `359357b gpt-web: close Player reward callbacks type2-4`
-- `8854492 gpt-web: close Player reward callback type1`
-- `b11f041 gpt-web: close ExAttack Hermite helper`
-- `5abce23 gpt-web: close ExAttack type2 update`
-- `557089d gpt-web: close EnemyManager immediate spawn`
-- `e096446 gpt-web: close GameManager inverse coordinates`
-- `24ef850 gpt-web: close RNG u16 range`
-- `2eaaaaa gpt-web: classify D3DX inline helpers`
-- `81de220 gpt-web: close Supervisor Direct3D bootstrap`
-- `d966a1f gpt-web: close Supervisor network state constructor`
-- `3b77490 gpt-web: recover Chain release seam`
-- `98a1fc0 gpt-web: close Supervisor network message thunk`
-- `1da3897 gpt-web: close ZunTimer tick interval`
-- `1d82b38 gpt-web: close GameManager valueCC clamp`
-
-Earlier boundary/origin closure and source-ledger preparation remain available in
-Git history; the live handoff intentionally does not duplicate their packet
-chronology. None of the six checkpoints above has been pushed by this agent.
-
-## Finish checklist
-
-Run the focused Oracle for the changed unit, then:
-
-```bash
-python3 scripts/validate-tracking.py --require-target
-python3 scripts/progress.py
-python3 scripts/ci.py
-git diff --check
-git status --short --branch
-```
-
-Keep only evidence required to reproduce unresolved claims. Delete superseded
-dumps, duplicate decompilations, stale logs, generated builds, and Python cache
-files after confirming they are not the sole record of an open result.
