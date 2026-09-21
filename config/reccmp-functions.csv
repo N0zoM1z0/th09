@@ -814,3 +814,4 @@ ReleaseSubsystem4,0x00411F80,function
 EnemyManagerView::ResetForGameplayCleanup,0x00411FD0,function
 RngRuntimeView::GetRandomU16InRange,0x004048B0,function
 EnemyManagerView::SpawnEnemyImmediate,0x004417C0,function
+ExAttackUpdateCallbackType2,0x00441A70,function
