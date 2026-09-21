@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 874 |
+| Source-present authored mappings | 875 |
 | Canonical exact functions | 724 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -91,8 +91,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 874 source-present authored mappings. Of
-these, 724 are canonical exact and 150 retain honest non-exact compiler results.
+`config/implemented.csv` contains 875 source-present authored mappings. Of
+these, 724 are canonical exact and 151 retain honest non-exact compiler results.
 `config/matches.csv` contains 724 complete target-bound VC7.1 matches totaling
 96,245 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**105 authored functions / 66,932 bytes without maintained source**, plus 150
+**104 authored functions / 66,603 bytes without maintained source**, plus 151
 source-present functions that retain honest non-exact compiler results.
 
 1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
@@ -125,7 +125,7 @@ source-present functions that retain honest non-exact compiler results.
    ABI/type/TU evidence appears, especially `CaptureFrameSyncState`,
    `AsciiManager::OnUpdate`, replay-input register-allocation leaves,
    Player/shot preserved-register residuals, and
-   `ChainReleaseView::ReleaseSingleChain @ 0x0042CAE0`, `AppendD3DCapabilitySupportLine @ 0x0042CD40`, `FrontMessageOwnerView::InitializeMessageRuntime @ 0x004181E0`, `DecodeFrontMessageString @ 0x00415C60`, `EnemyView::CleanupAfterDeactivation @ 0x00410110`, and `EnemyView::IntegrateMotion @ 0x0040F9B0`, and `FrontMessageRuntimeView::ReleaseForSideCount @ 0x00417520`, `FrontMessageRuntimeView::LoadForSideCount @ 0x004182E0`. The Chain core is
+   `ChainReleaseView::ReleaseSingleChain @ 0x0042CAE0`, `AppendD3DCapabilitySupportLine @ 0x0042CD40`, `FrontMessageOwnerView::InitializeMessageRuntime @ 0x004181E0`, `DecodeFrontMessageString @ 0x00415C60`, `EnemyView::CleanupAfterDeactivation @ 0x00410110`, and `EnemyView::IntegrateMotion @ 0x0040F9B0`, and `FrontMessageRuntimeView::ReleaseForSideCount @ 0x00417520`, `FrontMessageRuntimeView::LoadForSideCount @ 0x004182E0`, `TitleDrawCallback @ 0x00424898`. The Chain core is
    source-present at a cold-stable 268/241; `/GX-` collapses it to 218, so
    placement-new/local-order tricks are not justified.
 
@@ -179,6 +179,7 @@ fact into the maintained ledger or knowledge base.
 
 Recent Web reconstruction checkpoints, newest first:
 
+- `da69999 gpt-web: recover Front message loader`
 - `f11b2f0 gpt-web: close Front death transition`
 - `aaff33e gpt-web: freeze Front message release codegen`
 - `190a497 gpt-web: close controller state sampler`

@@ -872,3 +872,4 @@ ResetRenderState
 Controller::GetControllerState
 PlayerDeathSharedView::SelectOpponentSide
 FrontMessageRuntimeView::LoadForSideCount
+TitleDrawCallback

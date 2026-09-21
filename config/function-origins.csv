@@ -500,7 +500,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00424671,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x0042474A,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
 0x004247F1,authored_game,TitleScreen,authored,high,packet165-title-character-selection-2026-09-16
-0x00424898,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00424898,authored_game,TitleScreen,authored,high,title-draw-callback-source-review-2026-09-21
 0x004249E1,authored_game,TitleScreen,authored,high,packet168-title-lifecycle-2026-09-16
 0x00424BF7,authored_game,TitleScreen,authored,high,packet168-title-lifecycle-2026-09-16
 0x00424D46,authored_game,TitleScreen,authored,high,packet168-title-lifecycle-2026-09-16
