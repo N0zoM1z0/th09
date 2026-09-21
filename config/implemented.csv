@@ -846,3 +846,4 @@ SupervisorNetworkState::IsServiceProviderAvailable
 SupervisorNetworkState::ResetSession
 EnemyView::ClampPositionToMovementBounds
 EnemyCoreUpdateAttachedEffects
+EnemyEclManagerView::Load

@@ -84,7 +84,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00404980,authored_game,Player,authored,high,packet188-small-accessor-leaves-2026-09-17
 0x004049A0,authored_game,Player,authored,high,packet-149-core-boss-owner-triage
 0x00405650,authored_game,BulletManager,authored,high,packet182-leaf-exact-target-replay-2026-09-16
-0x00405660,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00405660,authored_game,EnemyManager,authored,high,enemy-ecl-load-exact-2026-09-21
 0x00405700,authored_game,Math,authored,high,vector-angle-vc71-exact-2026-09-17
 0x00405710,library,MathRuntime,exclude,high,vc71-math-runtime-comdat-review-2026-09-20
 0x00405730,authored_game,Math,authored,high,float3-add-assignment-exact-2026-09-20

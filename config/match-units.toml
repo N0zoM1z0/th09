@@ -12641,3 +12641,19 @@ relocations = [
   { offset = 0x54, type = "DIR32", symbol = "__real@3e99999a", target = 0x0048E4B4 },
   { offset = 0x73, type = "REL32", symbol = "?AddNormalizeAngle@@YGMMM@Z", target = 0x0042AED0 },
 ]
+
+[units.enemy-ecl-load]
+source = "src/EnemyEclLoad.cpp"
+object = "build/matching/EnemyEclLoad.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyEclManagerView::Load"]
+symbol = "?Load@EnemyEclManagerView@@QAEHPAD@Z"
+target_address = 0x00405660
+size = 0x9A
+relocations = [
+  { offset = 0x0E, type = "REL32", symbol = "?OpenFile@FileSystem@@YIPAEPBDPAHH@Z", target = 0x0042C970 },
+  { offset = 0x19, type = "DIR32", symbol = "?g_EnemyEclLoadError@@3QBDB", target = 0x0048E400 },
+  { offset = 0x28, type = "DIR32", symbol = "?g_EnemyEclVersionError@@3QBDB", target = 0x0048E3DC },
+  { offset = 0x2D, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x32, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+]
