@@ -532,7 +532,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00429E23,authored_game,TitleScreen,authored,high,title-screen-start-menu-source-nearmatch-2026-09-12
 0x0042A45B,authored_game,TitleScreen,authored,high,title-screen-difficulty-select-source-nearmatch-2026-09-12
 0x0042A7D1,authored_game,TitleScreen,authored,high,title-screen-mode-select-exact-2026-09-12
-0x0042AB13,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042AB13,authored_game,TitleScreen,authored,high,title-screen-register-exact-2026-09-21
 0x0042ABE0,authored_game,Chain,authored,high,chain-elem-constructor-vc71-exact-2026-09-10
 0x0042AC00,authored_game,Chain,authored,high,chain-elem-destructor-vc71-exact-2026-09-10
 0x0042AC30,unknown,,review,unknown,game-special-member-origin-review-2026-09-19

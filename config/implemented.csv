@@ -860,3 +860,4 @@ ComputeExecutableChecksum
 Background::UpdateStageObjectVms
 EnemyView::IntegrateMotion
 CreateGameSubsystem
+RegisterTitleScreen
