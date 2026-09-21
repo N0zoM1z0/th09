@@ -888,3 +888,4 @@ AsciiInputView::IsHeld
 AsciiInputView::WasPressed
 ExAttackUpdateCallbackType5
 PlayerPositionCallback30404Type4
+PlayerPositionCallback30404Type8

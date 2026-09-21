@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 890 |
+| Source-present authored mappings | 891 |
 | Canonical exact functions | 733 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -91,8 +91,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 890 source-present authored mappings. Of
-these, 733 are canonical exact and 157 retain honest non-exact compiler results.
+`config/implemented.csv` contains 891 source-present authored mappings. Of
+these, 733 are canonical exact and 158 retain honest non-exact compiler results.
 `config/matches.csv` contains 733 complete target-bound VC7.1 matches totaling
 98,769 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**89 authored functions / 62,094 bytes without maintained source**, plus 157
+**88 authored functions / 61,845 bytes without maintained source**, plus 158
 source-present functions that retain honest non-exact compiler results.
 
 1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
@@ -125,7 +125,7 @@ source-present functions that retain honest non-exact compiler results.
    ABI/type/TU evidence appears, especially `CaptureFrameSyncState`,
    `AsciiManager::OnUpdate`, replay-input register-allocation leaves,
    Player/shot preserved-register residuals, and
-   `ChainReleaseView::ReleaseSingleChain @ 0x0042CAE0`, `AppendD3DCapabilitySupportLine @ 0x0042CD40`, `FrontMessageOwnerView::InitializeMessageRuntime @ 0x004181E0`, `DecodeFrontMessageString @ 0x00415C60`, `EnemyView::CleanupAfterDeactivation @ 0x00410110`, and `EnemyView::IntegrateMotion @ 0x0040F9B0`, and `FrontMessageRuntimeView::ReleaseForSideCount @ 0x00417520`, `FrontMessageRuntimeView::LoadForSideCount @ 0x004182E0`, `TitleDrawCallback @ 0x00424898`, `ExAttackUpdateCallbackType01 @ 0x00441100`, `ExAttackInitializeCallbackType4 @ 0x00442A60`, `ExAttackInitializeCallbackType3 @ 0x00442580`, `Float3::FromAngleMagnitude @ 0x00441890`, `ExAttackInitializeCallbackType6 @ 0x00445EC0`, `PlayerPositionCallback30404Type4 @ 0x00443B10`. The Chain core is
+   `ChainReleaseView::ReleaseSingleChain @ 0x0042CAE0`, `AppendD3DCapabilitySupportLine @ 0x0042CD40`, `FrontMessageOwnerView::InitializeMessageRuntime @ 0x004181E0`, `DecodeFrontMessageString @ 0x00415C60`, `EnemyView::CleanupAfterDeactivation @ 0x00410110`, and `EnemyView::IntegrateMotion @ 0x0040F9B0`, and `FrontMessageRuntimeView::ReleaseForSideCount @ 0x00417520`, `FrontMessageRuntimeView::LoadForSideCount @ 0x004182E0`, `TitleDrawCallback @ 0x00424898`, `ExAttackUpdateCallbackType01 @ 0x00441100`, `ExAttackInitializeCallbackType4 @ 0x00442A60`, `ExAttackInitializeCallbackType3 @ 0x00442580`, `Float3::FromAngleMagnitude @ 0x00441890`, `ExAttackInitializeCallbackType6 @ 0x00445EC0`, `PlayerPositionCallback30404Type4 @ 0x00443B10`, `PlayerPositionCallback30404Type8 @ 0x00447620`. The Chain core is
    source-present at a cold-stable 268/241; `/GX-` collapses it to 218, so
    placement-new/local-order tricks are not justified.
 
@@ -179,6 +179,7 @@ fact into the maintained ledger or knowledge base.
 
 Recent Web reconstruction checkpoints, newest first:
 
+- `c4a5a97 gpt-web: recover Player position type4 callback`
 - `e14563b gpt-web: close ExAttack type5 update`
 - `fd5a418 gpt-web: close Ascii input leaves`
 - `a5bee85 gpt-web: recover ExAttack type6 init`

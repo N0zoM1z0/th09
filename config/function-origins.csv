@@ -1023,7 +1023,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00446D80,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00446EE0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004471B0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x00447620,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00447620,authored_game,Player,authored,high,player-position-callback30404-type8-source-review-2026-09-21
 0x00447720,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00447890,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00447A80,authored_game,Player,authored,high,player-owner-reward-callback-type8-exact-2026-09-21
