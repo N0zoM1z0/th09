@@ -12536,3 +12536,19 @@ symbol = "?ReleaseDirectPlayResources@SupervisorNetworkState@@QAEXXZ"
 target_address = 0x00432340
 size = 0x61
 relocations = []
+
+[units.player-state3-effect15]
+source = "src/PlayerState3EffectSetup.cpp"
+object = "build/matching/PlayerState3EffectSetup.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerStateEffectView::ConfigureState3Effect15"]
+symbol = "?ConfigureState3Effect15@PlayerStateEffectView@@QAEPAUEffect@@XZ"
+target_address = 0x00403CF0
+size = 0x64
+relocations = [
+  { offset = 0x1A, type = "REL32", symbol = "?CreateCircleType1@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z", target = 0x0041CFE0 },
+  { offset = 0x32, type = "REL32", symbol = "?CreateCircleType4@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z", target = 0x0041D0D0 },
+  { offset = 0x3B, type = "REL32", symbol = "?SetUpdateState@PlayerState4OpsView@@QAEXH@Z", target = 0x00403C20 },
+  { offset = 0x4B, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x5D, type = "REL32", symbol = "?SpawnEffect@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@HI@Z", target = 0x0040CC00 },
+]

@@ -840,3 +840,4 @@ CubicHermiteInterpolateScalar,0x00401000,function
 Background::ApplyPendingStageLabel,0x004018A0,function
 SupervisorNetworkState::SendPacket,0x004323B0,function
 SupervisorNetworkState::ReleaseDirectPlayResources,0x00432340,function
+PlayerStateEffectView::ConfigureState3Effect15,0x00403CF0,function

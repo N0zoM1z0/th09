@@ -43,6 +43,7 @@ struct PlayerStateEffectView
 
     Effect *ConfigureState3Effect13();
     Effect *ConfigureState3Effect14();
+    Effect *ConfigureState3Effect15();
 };
 
 Effect *PlayerStateEffectView::ConfigureState3Effect13()
@@ -71,4 +72,18 @@ Effect *PlayerStateEffectView::ConfigureState3Effect14()
     timer303C8 = 0x40;
     return sideState0C->effectManager0C->SpawnEffect(
         14, reinterpret_cast<EffectFloat3 *>(&position1B88), 1, 0xFFFFFFFF);
+}
+
+Effect *PlayerStateEffectView::ConfigureState3Effect15()
+{
+    reinterpret_cast<PlayerCollisionRegionCreateView *>(this)->CreateCircleType1(
+        reinterpret_cast<PlayerRegionPointView *>(&position1B88),
+        0.0f, 3.5f, 0x80, 0);
+    reinterpret_cast<PlayerCollisionRegionCreateView *>(this)->CreateCircleType4(
+        reinterpret_cast<PlayerRegionPointView *>(&position1B88),
+        0.0f, 3.5f, 2, 0x80, 0);
+    reinterpret_cast<PlayerState4OpsView *>(this)->SetUpdateState(3);
+    timer303C8 = 0x80;
+    return sideState0C->effectManager0C->SpawnEffect(
+        15, reinterpret_cast<EffectFloat3 *>(&position1B88), 1, 0xFFFFFFFF);
 }
