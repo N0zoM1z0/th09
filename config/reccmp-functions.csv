@@ -910,3 +910,4 @@ FrontDrawLineStrip,0x00422330,function
 FrontMessageSetupView::Setup,0x00416160,function
 ExAttackUpdateCallbackType17,0x00448490,function
 ExAttackInitializeCallbackType13,0x00443440,function
+ExAttackUpdateCallbackType13,0x004435E0,function
