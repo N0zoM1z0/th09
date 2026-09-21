@@ -920,3 +920,5 @@ EnemyManagerCardAttackSpawnView::SpawnEnemyRecord
 ExAttackInitializeCallbackType20
 ParseNetworkConfigValue
 PrepareTitleMode4Network
+EffectDrawCallbackType27
+EffectDrawCallbackType36

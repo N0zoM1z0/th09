@@ -921,3 +921,5 @@ EnemyManagerCardAttackSpawnView::SpawnEnemyRecord,0x0040F1D0,function
 ExAttackInitializeCallbackType20,0x0044AC20,function
 ParseNetworkConfigValue,0x00432240,function
 PrepareTitleMode4Network,0x004324C0,function
+EffectDrawCallbackType27,0x00445A40,function
+EffectDrawCallbackType36,0x0044C090,function
