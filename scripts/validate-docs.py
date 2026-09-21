@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 KNOWLEDGE = DOCS / "KNOWLEDGE_BASE.md"
 HANDOFF = DOCS / "RE_HANDOFF.md"
+README = ROOT / "README.md"
 TABLE_SPLIT = re.compile(r"(?<!\\)\|")
 MARKDOWN_LINK = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
 
@@ -73,8 +74,30 @@ def validate_handoff_totals() -> None:
         raise ValueError(f"handoff totals differ from ledgers: {observed} != {expected}")
 
 
+def validate_live_guidance() -> None:
+    actual = measures()
+    knowledge = KNOWLEDGE.read_text(encoding="utf-8")
+    inventory_rows = [
+        line for line in knowledge.splitlines() if line.startswith("| INVENTORY-001 |")
+    ]
+    if len(inventory_rows) != 1:
+        raise ValueError("knowledge base must contain exactly one INVENTORY-001 row")
+    if actual["pending"] == 0 and "Every currently tracked candidate" not in inventory_rows[0]:
+        raise ValueError("INVENTORY-001 no longer records complete boundary/origin review")
+    if actual["pending"] != 0 and "Every currently tracked candidate" in inventory_rows[0]:
+        raise ValueError("INVENTORY-001 claims complete review while candidates are pending")
+
+    readme = README.read_text(encoding="utf-8")
+    if "export TH09_TARGET_PATH" in readme:
+        raise ValueError("README must not route normal work through TH09_TARGET_PATH")
+    if "resources/th09.exe" not in readme:
+        raise ValueError("README must name the canonical ignored target path")
+    if "Factory/Web" not in readme or "th09-ida" not in readme:
+        raise ValueError("README must distinguish Factory/Web IDA routing")
+
+
 def validate_local_links() -> None:
-    paths = [ROOT / "README.md", *sorted(DOCS.glob("*.md"))]
+    paths = [README, *sorted(DOCS.glob("*.md"))]
     for path in paths:
         text = path.read_text(encoding="utf-8")
         for raw_target in MARKDOWN_LINK.findall(text):
@@ -92,6 +115,7 @@ def main() -> int:
     try:
         validate_knowledge_base()
         validate_handoff_totals()
+        validate_live_guidance()
         validate_local_links()
     except (OSError, ValueError) as exc:
         print(f"error: documentation validation failed: {exc}", file=sys.stderr)

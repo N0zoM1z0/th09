@@ -20,7 +20,8 @@ def main() -> int:
     if not path.is_file():
         print(f"missing target: {path}", file=sys.stderr)
         print(
-            "pass a path, set TH09_TARGET_PATH, or provide resources/th09.exe",
+            "normal repository work requires resources/th09.exe; "
+            "an explicit path or TH09_TARGET_PATH is a local override only",
             file=sys.stderr,
         )
         return 1

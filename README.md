@@ -18,8 +18,10 @@ closure, runtime semantics, and portability as separate facts.
 
 ## Exact target
 
-Supply your own legal copy through `TH09_TARGET_PATH`, an explicit argument, or
-the ignored path `resources/th09.exe`:
+Place your own legal copy at the ignored canonical path
+`resources/th09.exe`. Repository tools use that path by default. An explicit
+path or `TH09_TARGET_PATH` is supported only for deliberate local overrides;
+normal Factory work must use the canonical path.
 
 | Property | Required value |
 | --- | --- |
@@ -37,23 +39,26 @@ lists the English-patched executable under a different digest. The
 2005-10-08 JST, consistent with the target's PE timestamp.
 
 ```bash
-export TH09_TARGET_PATH='/path/to/legal/th09.exe'
 python3 scripts/verify-target.py
-python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
 ```
+
+IDA attestation is environment-specific: local Codex may use the registered
+direct provider or `scripts/check-ida-mcp.py`, while Factory/Web must call
+`get_metadata` with `{}` through the attested `th09-ida` provider. See
+[`AGENTS.md`](AGENTS.md) and [`docs/TOOLS.md`](docs/TOOLS.md) before analysis.
 
 Original executables, game data, IDA databases, decompiler output, and
 downloaded tools are private and never committed.
 
 ## Current status
 
-The target and live IDA database are attested. All 2,191 tracked candidates have
-received boundary/origin review: 979 are confirmed authored, 1,177 are
-classified exclusions, and 35 remain deliberately origin-unknown after review.
-Maintained source covers 918 authored mappings, of which 757 are canonical
-zero-difference VC7.1 matches.
+The latest checkpoint attested the target and live IDA database, but every new
+session must attest both again. Current ledger totals are generated in
+[`docs/PROGRESS.md`](docs/PROGRESS.md) and summarized with the active frontier
+in [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md); do not copy historical packet
+counts into a new decision.
 
 The PE and Rich header identify Microsoft Visual C++ .NET 2003 build 3077.
 Some runtime-library contributions and compiler-generated helpers are proven,

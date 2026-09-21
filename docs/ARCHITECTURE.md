@@ -43,6 +43,9 @@ remain unknown until compiler and link Oracles reproduce them:
 `config/functions.csv` began as a navigation inventory exported from the exact
 attested IDA database. All 2,191 tracked candidates have now received a
 boundary/origin review, including target-derived corrections and additions.
-Auto-names and semantic types remain provisional, and 34 physical bodies retain
-unknown origin because their owner cannot be recovered uniquely. Boundary
-review still does not imply source presence or exact code generation.
+Auto-names and semantic types remain provisional. A deliberately unresolved
+set remains where the target cannot distinguish explicit source from implicit
+special-member generation or cannot assign a unique owner to a shared/folded
+physical body. Its current count and frozen digest belong to
+`docs/RE_HANDOFF.md` and the ledgers rather than this architecture summary.
+Boundary review still does not imply source presence or exact code generation.

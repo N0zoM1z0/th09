@@ -4,14 +4,23 @@ This file stores durable TH09-scoped facts and important negative results.
 Cross-game promotion is a later Factory review, never an automatic action from
 this repository.
 
+The table below is the maintained fact index. The later packet sections are
+checkpoint-scoped investigation records: words such as "current", "now", or
+"remains" there describe that historical checkpoint unless a maintained row,
+ledger, or current report independently confirms them. Use
+`scripts/report-reconstruction-status.py` and `docs/RE_HANDOFF.md` for live
+totals and frontier state. Later evidence may explicitly correct an earlier
+packet; do not stop at the first matching historical note.
+
 | ID | State | Fact | Evidence |
 | --- | --- | --- | --- |
 | TARGET-001 | observed / corroborated | The supported executable is original Japanese TH09 v1.50a, size 685,056, SHA-256 `10350095...fce6822`. | Direct hash/PE inspection plus pinned thcrap version database |
 | PE-001 | observed | The target is relocation-stripped PE32 i386 at image base `0x00400000`, entry `0x0047D45F`, with five sections. | `scripts/verify-target.py`; `config/target.toml` |
 | TOOLCHAIN-001 | observed / corroborated | The target belongs to the VC7.1 build-3077 family. | PE linker 7.10 and Rich-header product/build records; TH095 provider-family comparison |
 | TOOLCHAIN-002 | partially observed / product-open | VC7.1 build 3077 and selected D3DX8, CRT, DXErr8, import, and compiler-generated contributions are established. The complete compiler-profile matrix, translation-unit partition, resources, data owners, library member selection, and link order remain open. | `config/build.toml`; pinned runtime-origin audits; canonical match-unit replays |
-| ANALYSIS-001 | observed | The active IDA database matches the target hash, image base, mapped size, entry point, and sampled target bytes. IDA remains a provisional semantic provider rather than an exactness Oracle. | Direct `ida-pro-mcp` metadata/readback; Factory-native attestation when used from Web |
-| INVENTORY-001 | reviewed / mixed origin | All 2,191 tracked candidates have received boundary/origin review: 979 authored, 1,177 excluded, and 35 deliberately origin-unknown. Semantic names/types and codegen exactness remain independent. | `config/functions.csv`; `config/function-origins.csv`; `scripts/report-reconstruction-status.py` |
+| TOOLCHAIN-172 | observed / replay infrastructure | TH09's current canonical function replay does not consume Capstone: `build-match-unit.py` invokes the pinned VC7.1 compiler and `compare-coff-function.py` parses PE/COFF data directly. The Factory restricted shell exposes system Capstone 4.0.2, but a cold `game-error-context-flush` build still reproduced all 80 bytes and all six relocation destinations; the formal Factory replay passed and was accepted. Do not add a TH10-style Capstone pin or Python router unless a real TH09 replay consumer is introduced and identity-checked. | Repository import/reference audit; host and Factory-shell exact replay; accepted Factory receipt `receipt:dc8c90fc4dc90d2b47ac3aaf694dd26efae39dfcdef19403599b2e722ebd1f5e` |
+| ANALYSIS-001 | observed | At the recorded attestation checkpoint, the active IDA database matched the target hash, image base, mapped size, entry point, and sampled target bytes. Every new session must attest it again; IDA remains a provisional semantic provider rather than an exactness Oracle. | Direct `ida-pro-mcp` metadata/readback; Factory-native attestation when used from Web |
+| INVENTORY-001 | reviewed / mixed origin | Every currently tracked candidate has received boundary/origin review. Current authored, excluded, and deliberately unresolved totals are ledger-derived; semantic names/types and codegen exactness remain independent. | `config/functions.csv`; `config/function-origins.csv`; `scripts/report-reconstruction-status.py` |
 | CRT-001 | observed / corroborated | `__amsg_exit` at `0x0047D416-0x0047D43A` is a 37-byte CRT/library helper. | Attested TH09 control flow and bytes; VC7.1 `libcmt.lib` `wincrt0.obj` structural comparison with relocation fields excluded |
 | CRT-002 | observed / corroborated | `_fast_error_exit` starts at `0x0047D43B` and continues through `0x0047D45E`; the imported IDA candidate omitted the final `pop ecx; pop ecx; ret`. | Attested TH09 bytes and adjacent entry at `0x0047D45F`; VC7.1 `libcmt.lib` `wincrt0.obj` structural comparison with relocation fields excluded |
 | CRT-003 | observed / corroborated | The PE entry point at `0x0047D45F-0x0047D633` is the 469-byte VC7.1 `libcmt.lib` `wincrt0.obj` `_WinMainCRTStartup` contribution. | No callers; exact 0x1D5 COFF extent; attested TH09 body and COFF body have the same normalized SHA-256 across 321 non-relocation bytes after masking 37 relocation fields |
