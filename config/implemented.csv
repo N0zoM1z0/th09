@@ -930,3 +930,4 @@ ExAttackUpdateCallbackType11
 ExAttackUpdateCallbackType12
 ExAttackUpdateCallbackType8_9
 FrontResultBonusView::InitializeResultBonus
+FrontMessageRandomView::SetupRandomForSide

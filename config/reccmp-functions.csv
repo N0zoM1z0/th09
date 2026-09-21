@@ -931,3 +931,4 @@ ExAttackUpdateCallbackType11,0x00446EE0,function
 ExAttackUpdateCallbackType12,0x004471B0,function
 ExAttackUpdateCallbackType8_9,0x00446920,function
 FrontResultBonusView::InitializeResultBonus,0x00415E50,function
+FrontMessageRandomView::SetupRandomForSide,0x004162D0,function
