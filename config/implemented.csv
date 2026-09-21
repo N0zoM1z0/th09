@@ -918,3 +918,5 @@ ExAttackUpdateCallbackType20
 EnemyManagerView::SpawnEnemy
 EnemyManagerCardAttackSpawnView::SpawnEnemyRecord
 ExAttackInitializeCallbackType20
+ParseNetworkConfigValue
+PrepareTitleMode4Network

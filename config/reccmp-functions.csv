@@ -919,3 +919,5 @@ ExAttackUpdateCallbackType20,0x0044ADE0,function
 EnemyManagerView::SpawnEnemy,0x0040F340,function
 EnemyManagerCardAttackSpawnView::SpawnEnemyRecord,0x0040F1D0,function
 ExAttackInitializeCallbackType20,0x0044AC20,function
+ParseNetworkConfigValue,0x00432240,function
+PrepareTitleMode4Network,0x004324C0,function

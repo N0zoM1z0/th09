@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 920 |
-| Canonical exact functions | 759 |
+| Source-present authored mappings | 922 |
+| Canonical exact functions | 760 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -91,10 +91,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 920 source-present authored mappings. Of
-these, 759 are canonical exact and 161 retain honest non-exact compiler results.
-`config/matches.csv` contains 759 complete target-bound VC7.1 matches totaling
-108,545 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 922 source-present authored mappings. Of
+these, 760 are canonical exact and 162 retain honest non-exact compiler results.
+`config/matches.csv` contains 760 complete target-bound VC7.1 matches totaling
+109,224 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**59 authored functions / 50,998 bytes without maintained source**, plus 161
+**57 authored functions / 50,076 bytes without maintained source**, plus 162
 source-present functions that retain honest non-exact compiler results.
 
 1. **Preserve frozen and durable-negative frontiers.** The 35 origin-unknown
@@ -143,9 +143,11 @@ source-present functions that retain honest non-exact compiler results.
    canonical exact: TH09 proves its sixth argument controls mirror bit 15 plus
    X reflection, while its seventh selects primary versus opposing ECL. ExAttack
    type-20 init `0x0044AC20` is now also canonical exact from its template-table
-   owner and natural local-value lifetime. Very small bodies such as `0x0044AB20`
-   should not be claimed merely because they are short; first rule out
-   folded/shared ownership with TH09-local xrefs.
+   owner and natural local-value lifetime. The `IP.txt` network loader
+   `0x004324C0` is now canonical exact, while its same-TU parser `0x00432240`
+   is source-present/non-exact at a documented natural code-layout plateau.
+   Very small bodies such as `0x0044AB20` should not be claimed merely because
+   they are short; first rule out folded/shared ownership with TH09-local xrefs.
 
 4. **Keep using shared-helper leverage before large callbacks.** Exact ExAttack
    init/update rows, Player leaves, Front helpers, Bullet descriptor transforms,
