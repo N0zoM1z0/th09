@@ -12863,3 +12863,16 @@ relocations = [
   { offset = 0xA7, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorExecutableIdentityView@@A", target = 0x004B3100, addend = 0x7A4 },
   { offset = 0xAE, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorExecutableIdentityView@@A", target = 0x004B3100, addend = 0x7A0 },
 ]
+
+[units.background-update-stage-object-vms]
+source = "src/BackgroundUpdateStageObjectVms.cpp"
+object = "build/matching/BackgroundUpdateStageObjectVms.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Background::UpdateStageObjectVms"]
+symbol = "?UpdateStageObjectVms@Background@@QAEHXZ"
+target_address = 0x004011D0
+size = 0xBE
+relocations = [
+  { offset = 0x6C, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x72, type = "REL32", symbol = "?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x00436F30 },
+]

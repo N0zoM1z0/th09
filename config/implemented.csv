@@ -857,3 +857,4 @@ AnmManager::ServiceCaptureRequests
 GameWindowProc
 CreateGameWindow
 ComputeExecutableChecksum
+Background::UpdateStageObjectVms

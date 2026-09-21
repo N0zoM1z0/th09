@@ -100,6 +100,7 @@ struct Background
     static int DeletedCallback(Background *background);
     void ClearSpellBackgroundState();
     void ApplyPendingStageLabel();
+    int UpdateStageObjectVms();
 
     int LoadStageData(const char *path);
     int RenderObjects(int mode);
