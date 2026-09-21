@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 856 |
-| Canonical exact functions | 709 |
+| Source-present authored mappings | 857 |
+| Canonical exact functions | 710 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -91,10 +91,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 856 source-present authored mappings. Of
-these, 709 are canonical exact and 147 retain honest non-exact compiler results.
-`config/matches.csv` contains 709 complete target-bound VC7.1 matches totaling
-92,194 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 857 source-present authored mappings. Of
+these, 710 are canonical exact and 147 retain honest non-exact compiler results.
+`config/matches.csv` contains 710 complete target-bound VC7.1 matches totaling
+92,443 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**123 authored functions / 71,861 bytes without maintained source**, plus 147
+**122 authored functions / 71,612 bytes without maintained source**, plus 147
 source-present functions that retain honest non-exact compiler results.
 
 1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
@@ -179,6 +179,7 @@ fact into the maintained ledger or knowledge base.
 
 Recent Web reconstruction checkpoints, newest first:
 
+- `5a0f44c gpt-web: close ANM capture service`
 - `8bef301 gpt-web: close Front enemy indicator`
 - `f98c0be gpt-web: close DirectPlay peer initialization`
 - `613f56c gpt-web: close DirectPlay session host connect`

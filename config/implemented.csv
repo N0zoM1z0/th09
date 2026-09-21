@@ -854,3 +854,4 @@ SupervisorNetworkState::ConnectSession
 SupervisorNetworkState::InitializePeer
 FrontEnemyIndicatorView::SetSideEnemyIndicatorPosition
 AnmManager::ServiceCaptureRequests
+GameWindowProc
