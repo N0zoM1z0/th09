@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 905 |
-| Canonical exact functions | 746 |
+| Source-present authored mappings | 906 |
+| Canonical exact functions | 747 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -91,10 +91,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 905 source-present authored mappings. Of
-these, 746 are canonical exact and 159 retain honest non-exact compiler results.
-`config/matches.csv` contains 746 complete target-bound VC7.1 matches totaling
-103,263 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 906 source-present authored mappings. Of
+these, 747 are canonical exact and 159 retain honest non-exact compiler results.
+`config/matches.csv` contains 747 complete target-bound VC7.1 matches totaling
+103,581 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**74 authored functions / 57,058 bytes without maintained source**, plus 159
+**73 authored functions / 56,740 bytes without maintained source**, plus 159
 source-present functions that retain honest non-exact compiler results.
 
 1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
@@ -179,6 +179,7 @@ fact into the maintained ledger or knowledge base.
 
 Recent Web reconstruction checkpoints, newest first:
 
+- `4719dbf gpt-web: close ExAttack type14 init`
 - `eca7dc0 gpt-web: close ExAttack spawn-height init trio`
 - `0e8cf7c gpt-web: close ExAttack type24 init`
 - `71f6761 gpt-web: close ExAttack type18 init`

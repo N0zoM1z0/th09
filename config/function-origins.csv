@@ -1050,7 +1050,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0044AF80,authored_game,Player,authored,high,player-owner-reward-callback-type12-exact-2026-09-21
 0x0044B220,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0044B500,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
-0x0044B940,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0044B940,authored_game,ExAttackController,authored,high,exattack-type19-21-draw-exact-2026-09-21
 0x0044BA80,authored_game,Player,authored,high,player-owner-reward-callback-type13-exact-2026-09-21
 0x0044BC80,authored_game,Player,authored,high,player-position-predicates30404-exact-2026-09-20
 0x0044BCD0,authored_game,ExAttackController,authored,high,exattack-type25-init-exact-2026-09-21

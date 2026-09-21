@@ -904,3 +904,4 @@ ExAttackInitializeCallbackType15,0x004455D0,function
 ExAttackInitializeCallbackType25,0x0044BCD0,function
 ExAttackInitializeCallbackType26,0x0044C350,function
 ExAttackInitializeCallbackType14,0x00443C70,function
+ExAttackDrawCallbackType19_21,0x0044B940,function
