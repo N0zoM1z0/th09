@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 875 |
-| Canonical exact functions | 724 |
+| Source-present authored mappings | 876 |
+| Canonical exact functions | 725 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -91,10 +91,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 875 source-present authored mappings. Of
-these, 724 are canonical exact and 151 retain honest non-exact compiler results.
-`config/matches.csv` contains 724 complete target-bound VC7.1 matches totaling
-96,245 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 876 source-present authored mappings. Of
+these, 725 are canonical exact and 151 retain honest non-exact compiler results.
+`config/matches.csv` contains 725 complete target-bound VC7.1 matches totaling
+96,589 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**104 authored functions / 66,603 bytes without maintained source**, plus 151
+**103 authored functions / 66,259 bytes without maintained source**, plus 151
 source-present functions that retain honest non-exact compiler results.
 
 1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
@@ -179,6 +179,7 @@ fact into the maintained ledger or knowledge base.
 
 Recent Web reconstruction checkpoints, newest first:
 
+- `90534dd gpt-web: recover Title draw callback`
 - `da69999 gpt-web: recover Front message loader`
 - `f11b2f0 gpt-web: close Front death transition`
 - `aaff33e gpt-web: freeze Front message release codegen`
