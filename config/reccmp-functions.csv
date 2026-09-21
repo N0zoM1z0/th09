@@ -924,3 +924,4 @@ PrepareTitleMode4Network,0x004324C0,function
 EffectDrawCallbackType27,0x00445A40,function
 EffectDrawCallbackType36,0x0044C090,function
 MixRenderColor,0x00401090,function
+RotatePlayerCollisionVector,0x0042AF40,function

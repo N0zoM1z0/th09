@@ -14760,3 +14760,16 @@ relocations = [
   { offset = 0x415, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
   { offset = 0x41C, type = "REL32", symbol = "?AddSpriteToDrawBuffer@AnmManager@@QAEHPAUVertexTex1DiffuseXyzrhw@@@Z", target = 0x00439730 },
 ]
+
+[units.player-collision-rotate]
+source = "src/PlayerCollisionRotate.cpp"
+object = "build/matching/PlayerCollisionRotate.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["RotatePlayerCollisionVector"]
+symbol = "?RotatePlayerCollisionVector@@YIXPAUPlayerPositionView@@0M@Z"
+target_address = 0x0042AF40
+size = 0x3E
+relocations = [
+  { offset = 0xF, type = "REL32", symbol = "@sinf@4", target = 0x00401070 },
+  { offset = 0x18, type = "REL32", symbol = "@cosf@4", target = 0x00401060 },
+]
