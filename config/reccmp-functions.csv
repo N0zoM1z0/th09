@@ -909,3 +909,4 @@ PlayerGameplayMethods::ResolvePatternOffset,0x00404710,function
 FrontDrawLineStrip,0x00422330,function
 FrontMessageSetupView::Setup,0x00416160,function
 ExAttackUpdateCallbackType17,0x00448490,function
+ExAttackInitializeCallbackType13,0x00443440,function

@@ -986,7 +986,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004432A0,authored_game,Player,authored,high,player-shot-spawn-callback3-exact-2026-09-20
 0x00443300,authored_game,Player,authored,high,player-shot-draw-type2-source-review-2026-09-21
 0x00443430,authored_game,Player,authored,high,player-shot-collision-callback2-exact-2026-09-20
-0x00443440,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00443440,authored_game,ExAttackController,authored,high,exattack-type13-init-exact-2026-09-21
 0x004435E0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00443790,authored_game,Player,authored,high,player-owner-reward-callback-type3-exact-2026-09-21
 0x00443930,authored_game,Player,authored,high,player-shot-update-callback4-source-2026-09-20
