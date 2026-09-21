@@ -12876,3 +12876,36 @@ relocations = [
   { offset = 0x6C, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x72, type = "REL32", symbol = "?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x00436F30 },
 ]
+
+[units.front-factory]
+source = "src/FrontFactory.cpp"
+object = "build/matching/FrontFactory.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["CreateGameSubsystem"]
+symbol = "?CreateGameSubsystem@@YIPAXXZ"
+target_address = 0x00418840
+size = 0xDC
+relocations = [
+  { offset = 0x06, type = "DIR32", symbol = "__ehhandler$?CreateGameSubsystem@@YIPAXXZ", target = 0x0048D2DB },
+  { offset = 0x0C, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x14, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x1F, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x37, type = "REL32", symbol = "??0FrontFactoryConstructView@@QAE@XZ", target = 0x004187B0 },
+  { offset = 0x41, type = "DIR32", symbol = "??_C@_08IOKLCOKE@FrontInf?$AA@", target = 0x0048EEEC },
+  { offset = 0x4C, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x58, type = "REL32", symbol = "?AddToRegistry@ZunMemory@@QAEPAXPAXIPAD@Z", target = 0x00401380 },
+  { offset = 0x61, type = "REL32", symbol = "?Reset@Front@@QAEHXZ", target = 0x00415D40 },
+  { offset = 0x66, type = "DIR32", symbol = "?FrontCalcCallback@@YIHPAX@Z", target = 0x00417630 },
+  { offset = 0x6B, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x70, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0x7E, type = "DIR32", symbol = "?FrontAddedCallback@@YIHPAX@Z", target = 0x00418480 },
+  { offset = 0x88, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x8D, type = "REL32", symbol = "?AddToCalcChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B1E0 },
+  { offset = 0x9E, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0xA7, type = "DIR32", symbol = "?FrontDrawCallback@@YIHPAX@Z", target = 0x00417C10 },
+  { offset = 0xAC, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xB1, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0xC2, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xC7, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
+  { offset = 0xD4, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+]

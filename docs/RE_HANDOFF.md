@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 861 |
-| Canonical exact functions | 712 |
+| Source-present authored mappings | 862 |
+| Canonical exact functions | 713 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -91,10 +91,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 861 source-present authored mappings. Of
-these, 712 are canonical exact and 149 retain honest non-exact compiler results.
-`config/matches.csv` contains 712 complete target-bound VC7.1 matches totaling
-92,825 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 862 source-present authored mappings. Of
+these, 713 are canonical exact and 149 retain honest non-exact compiler results.
+`config/matches.csv` contains 713 complete target-bound VC7.1 matches totaling
+93,045 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**118 authored functions / 70,757 bytes without maintained source**, plus 149
+**117 authored functions / 70,537 bytes without maintained source**, plus 149
 source-present functions that retain honest non-exact compiler results.
 
 1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
@@ -179,6 +179,7 @@ fact into the maintained ledger or knowledge base.
 
 Recent Web reconstruction checkpoints, newest first:
 
+- `6af49e7 gpt-web: recover Enemy motion integration`
 - `cec0779 gpt-web: close Background stage VM update`
 - `86895e6 gpt-web: close executable checksum`
 - `d93e699 gpt-web: recover game window creation`

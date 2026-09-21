@@ -317,7 +317,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00418480,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00418750,unknown,,review,unknown,game-special-member-origin-review-2026-09-19
 0x004187B0,unknown,,review,unknown,game-special-member-origin-review-2026-09-19
-0x00418840,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00418840,authored_game,Front,authored,high,front-factory-exact-2026-09-21
 0x00418920,authored_game,FrontSide,authored,high,front-side-hud-th09-target-replay-2026-09-16
 0x00418930,authored_game,FrontSide,authored,high,front-side-hud-th09-target-replay-2026-09-16
 0x00418950,authored_game,FrontSide,authored,high,front-side-hud-th09-target-replay-2026-09-16

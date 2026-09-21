@@ -859,3 +859,4 @@ CreateGameWindow
 ComputeExecutableChecksum
 Background::UpdateStageObjectVms
 EnemyView::IntegrateMotion
+CreateGameSubsystem
