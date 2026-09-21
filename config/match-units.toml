@@ -12472,3 +12472,20 @@ relocations = [
   { offset = 0x42, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x54, type = "REL32", symbol = "?SpawnEffect@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@HI@Z", target = 0x0040CC00 },
 ]
+
+[units.activate-game-window]
+source = "src/ActivateGameWindow.cpp"
+object = "build/matching/ActivateGameWindow.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ActivateGameWindow"]
+symbol = "?ActivateGameWindow@@YGXPAUHWND__@@@Z"
+target_address = 0x0042D0C0
+size = 0x7C
+relocations = [
+  { offset = 0x0B, type = "DIR32", symbol = "__imp__GetForegroundWindow@0", target = 0x0048E214 },
+  { offset = 0x11, type = "DIR32", symbol = "__imp__GetWindowThreadProcessId@8", target = 0x0048E218 },
+  { offset = 0x2A, type = "DIR32", symbol = "__imp__AttachThreadInput@12", target = 0x0048E21C },
+  { offset = 0x30, type = "DIR32", symbol = "__imp__SystemParametersInfoA@16", target = 0x0048E220 },
+  { offset = 0x56, type = "DIR32", symbol = "__imp__SetActiveWindow@4", target = 0x0048E224 },
+  { offset = 0x6F, type = "DIR32", symbol = "__imp__AttachThreadInput@12", target = 0x0048E21C },
+]

@@ -835,3 +835,4 @@ PlayerType11OrientationSign,0x00449B50,function
 PlayerPositionCallback30404Type11,0x00449D50,function
 PlayerStateEffectView::ConfigureState3Effect13,0x00403C30,function
 PlayerStateEffectView::ConfigureState3Effect14,0x00403C90,function
+ActivateGameWindow,0x0042D0C0,function
