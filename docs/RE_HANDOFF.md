@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 951 |
+| Source-present authored mappings | 952 |
 | Canonical exact functions | 766 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -91,8 +91,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 951 source-present authored mappings. Of
-these, 766 are canonical exact and 185 retain honest non-exact compiler results.
+`config/implemented.csv` contains 952 source-present authored mappings. Of
+these, 766 are canonical exact and 186 retain honest non-exact compiler results.
 `config/matches.csv` contains 766 complete target-bound VC7.1 matches totaling
 113,330 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**28 authored functions / 27,835 bytes without maintained source**, plus 185
+**27 authored functions / 27,817 bytes without maintained source**, plus 186
 source-present functions that retain honest non-exact compiler results.
 
 1. **Preserve frozen and durable-negative frontiers.** The 35 origin-unknown

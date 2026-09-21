@@ -949,3 +949,4 @@ Controller::GetInput
 FrontMessageRuntimeView::Draw
 FrontCalcCallback
 FrontDrawCallback
+ReplayInputState::IsHeld
