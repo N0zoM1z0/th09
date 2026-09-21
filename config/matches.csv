@@ -766,3 +766,5 @@ address,name,size,status,match_percent,unit,evidence
 0x0042AF40,RotatePlayerCollisionVector,62,matching,100.00,player-collision-rotate,python3 scripts/build-match-unit.py --unit player-collision-rotate && python3 scripts/compare-coff-function.py --unit player-collision-rotate --json
 0x00417C10,FrontDrawCallback,1474,matching,100.00,front-draw-callback,python3 scripts/build-match-unit.py --unit front-draw-callback && python3 scripts/compare-coff-function.py --unit front-draw-callback --json
 0x00403E50,CardAttackStartView::StartAttack,923,matching,100.00,card-attack-start,python3 scripts/build-match-unit.py --unit card-attack-start && python3 scripts/compare-coff-function.py --unit card-attack-start --json
+0x00415CB0,ReplayInputState::IsHeld,18,matching,100.00,replay-input-is-held,python3 scripts/build-match-unit.py --unit replay-input-is-held && python3 scripts/compare-coff-function.py --unit replay-input-is-held --json
+0x00415CD0,ReplayInputPressedView::WasPressed,18,matching,100.00,replay-input-was-pressed,python3 scripts/build-match-unit.py --unit replay-input-was-pressed && python3 scripts/compare-coff-function.py --unit replay-input-was-pressed --json

@@ -35,7 +35,7 @@ struct ReplayInputState
 
     ReplayInputState();
     void Update();
-    u16 IsHeld(int mask);
+    u16 IsHeld(u16 mask);
 };
 
 typedef char ReplayInputStateSizeIs8E[(sizeof(ReplayInputState) == 0x8E) ? 1 : -1];

@@ -20,13 +20,13 @@ struct ReplayInputState
     u16 heldFrames[16];
     short keyCodes58[27];
 
-    u16 IsHeld(int mask);
+    u16 IsHeld(u16 mask);
 };
 
 typedef char ReplayInputIsHeldHistoryAt2C[
     (offsetof(ReplayInputState, historyCurrent) == 0x2C) ? 1 : -1];
 
-u16 ReplayInputState::IsHeld(int mask)
+u16 ReplayInputState::IsHeld(u16 mask)
 {
     return historyCurrent & mask;
 }
