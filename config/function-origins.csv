@@ -1013,7 +1013,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00445D00,authored_game,Player,authored,high,player-shot-spawn-callback6-exact-2026-09-20
 0x00445D80,authored_game,Player,authored,high,player-owner-reward-callback-type7-exact-2026-09-21
 0x00445E60,authored_game,Player,authored,high,player-position-predicates30404-exact-2026-09-20
-0x00445EC0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00445EC0,authored_game,ExAttackController,authored,high,exattack-type6-init-source-review-2026-09-21
 0x00446060,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00446320,authored_game,ExAttackController,authored,high,exattack-type7-init-same-tu-exact-2026-09-21
 0x004464A0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
