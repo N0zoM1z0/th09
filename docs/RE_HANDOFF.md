@@ -14,8 +14,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Function candidates | 2,191 |
 | Boundary/origin unreviewed | 0 |
 | Reviewed but origin-unresolved | 35 |
-| Confirmed authored | 980 |
-| Classified exclusions | 1,176 |
+| Confirmed authored | 979 |
+| Classified exclusions | 1,177 |
 | Source-present authored mappings | 832 |
 | Canonical exact functions | 687 |
 
@@ -47,7 +47,7 @@ committed.
 ## Boundary and origin closure
 
 The full 2,191-candidate ledger has been reviewed against the pinned target.
-Current dispositions are 980 authored, 1,176 excluded, and 35 intentionally
+Current dispositions are 979 authored, 1,177 excluded, and 35 intentionally
 unknown. The 35-entry unknown set is frozen by SHA-256
 `126885e1a6a78ac42b0d81852253714cc1c9eb99141066d495b0029a16ca5695`.
 
@@ -69,11 +69,12 @@ unknown. The 35-entry unknown set is frozen by SHA-256
   `@atanf@4`. Pinned VC7.1 <math.h> emits the same COMDATs naturally; two
   cold target-bound comparisons reproduce every ordinary byte and the
   `__CIfmod` / `__CIacos` relocation destinations.
-- Three D3DX8 SDK inline bodies, `0x00401290/0x004012C0/0x004012E0`,
-  are likewise removed from the authored denominator. The pinned PlatformSDK
-  `d3dx8math.inl` defines `D3DXVec3Length`, `D3DXVec3LengthSq`, and
-  `D3DXVec3Dot`; natural `/Gr /O2 /Ob0` compilation emits the target COMDATs
-  byte-for-byte in two cold rounds, with Length resolving to `@sqrtf@4`.
+- Four D3DX8 SDK inline bodies, `0x00401290/0x004012C0/0x004012E0` and
+  `0x0042E920`, are likewise removed from the authored denominator. The pinned
+  PlatformSDK `d3dx8math.inl` defines `D3DXVec3Length`, `D3DXVec3LengthSq`,
+  `D3DXVec3Dot`, and `D3DXVec3Cross`; natural target-backed `/Gr /O2` inline
+  compilation emits the target COMDATs byte-for-byte in two cold rounds.
+  Length resolves to `@sqrtf@4`, while Cross is 83/83 exact with no relocations.
 
 Replay the closure checks with:
 
@@ -116,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**148 authored functions / 75,972 bytes without maintained source**, plus 145
+**147 authored functions / 75,889 bytes without maintained source**, plus 145
 source-present functions that retain honest non-exact compiler results.
 
 1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
@@ -178,6 +179,7 @@ fact into the maintained ledger or knowledge base.
 
 Recent Web reconstruction checkpoints, newest first:
 
+- `9aac6d1 gpt-web: close Player reward callbacks type8-15`
 - `a3dc6ae gpt-web: close Player reward callbacks type5-7`
 - `359357b gpt-web: close Player reward callbacks type2-4`
 - `8854492 gpt-web: close Player reward callback type1`

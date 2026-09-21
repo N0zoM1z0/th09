@@ -607,7 +607,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042E3B0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042E900,library,MathRuntime,exclude,high,vc71-math-runtime-tanf-2026-09-17
 0x0042E910,authored_game,Supervisor,authored,high,packet186-runtime-accessor-rng-leaves-2026-09-17
-0x0042E920,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042E920,library,D3DX8,exclude,high,d3dx8-cross-header-inline-comdat-review-2026-09-21
 0x0042E980,authored_game,SupervisorNetwork,authored,high,packet186-runtime-accessor-rng-leaves-2026-09-17
 0x0042E9A0,authored_game,Supervisor,authored,high,packet183-supervisor-frame-reset-leaves-2026-09-16
 0x0042E9B0,authored_game,Supervisor,authored,high,packet183-supervisor-frame-reset-leaves-2026-09-16

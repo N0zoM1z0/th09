@@ -19,15 +19,19 @@ ORIGINS = ROOT / "config" / "function-origins.csv"
 EVIDENCE_ID = "runtime-residual-origin-review-2026-09-19"
 MATH_EVIDENCE_ID = "vc71-math-runtime-comdat-review-2026-09-20"
 D3DX_INLINE_EVIDENCE_ID = "d3dx8-header-inline-comdat-review-2026-09-20"
+D3DX_CROSS_EVIDENCE_ID = "d3dx8-cross-header-inline-comdat-review-2026-09-21"
 MATH_RUNTIME = {"0x00405710", "0x00436AA0", "0x00436AB0"}
 D3DX_HEADER_INLINE = {"0x00401290", "0x004012C0", "0x004012E0"}
-AUTHORED_RECLASSIFICATIONS = MATH_RUNTIME | D3DX_HEADER_INLINE
+D3DX_CROSS_INLINE = {"0x0042E920"}
+D3DX_HEADER_INLINE_ALL = D3DX_HEADER_INLINE | D3DX_CROSS_INLINE
+AUTHORED_RECLASSIFICATIONS = MATH_RUNTIME | D3DX_HEADER_INLINE_ALL
 AUTHORED_SWEEP_EVIDENCE_ID = "game-code-origin-sweep-2026-09-19"
 REVIEW = {
     "0x00401290": (40, "D3DX8"),
     "0x004012C0": (31, "D3DX8"),
     "0x004012E0": (21, "D3DX8"),
     "0x00405710": (18, "MathRuntime"),
+    "0x0042E920": (83, "D3DX8"),
     "0x00436AA0": (15, "MathRuntime"),
     "0x00436AB0": (14, "MathRuntime"),
     "0x00454650": (11, "D3DX8"),
@@ -41,6 +45,7 @@ BODY_DIGESTS = {
     "0x004012C0": "7ab81ef75aaeb8fdc804bd92be5aff0fe4b42e0a6f4ca6c8a8b3028fa8072a38",
     "0x004012E0": "d8624d2d2864e02690baf75753f49b404c5c430130abb66c2ffeb9a5f6022766",
     "0x00405710": "cda195dc6138ad85d8749faa392e96be3379221cfc73591c2271b9218032fb65",
+    "0x0042E920": "551a67f468b441cda9b9a497588f0a54bf40b148e3af2329b9ef981d6eceeddf",
     "0x00436AA0": "4bc39e2b580fb068fb03b7eb5b285cebaa42116117f671e310daa34d726313c9",
     "0x00436AB0": "e2e393daeb8f2e57ac1acd1ab67c1df7b5c0bec2a470986103a64b0afd72d816",
     "0x00454650": "7e677f9a9597993b548e844081ccd47705e9b61e48f68694fb421c8a63fb3cd8",
@@ -159,6 +164,16 @@ def verify_target_bodies() -> None:
             raise ValueError(f"DXErr8 string reference changed at 0x{address:08X}")
 
 
+def evidence_id_for(address: str) -> str:
+    if address in D3DX_CROSS_INLINE:
+        return D3DX_CROSS_EVIDENCE_ID
+    if address in D3DX_HEADER_INLINE:
+        return D3DX_INLINE_EVIDENCE_ID
+    if address in MATH_RUNTIME:
+        return MATH_EVIDENCE_ID
+    return EVIDENCE_ID
+
+
 def review(write: bool) -> dict[str, object]:
     verify_target_bodies()
     function_rows = rows_by_address(FUNCTIONS)
@@ -191,14 +206,7 @@ def review(write: bool) -> dict[str, object]:
             and origin["origin"] == "library"
             and origin["subsystem"] == subsystem
             and origin["disposition"] == "exclude"
-            and origin["evidence_id"]
-            == (
-                D3DX_INLINE_EVIDENCE_ID
-                if address in D3DX_HEADER_INLINE
-                else MATH_EVIDENCE_ID
-                if address in MATH_RUNTIME
-                else EVIDENCE_ID
-            )
+            and origin["evidence_id"] == evidence_id_for(address)
         ):
             already_applied.add(address)
         else:
@@ -210,13 +218,7 @@ def review(write: bool) -> dict[str, object]:
         row["subsystem"] = subsystem
         row["disposition"] = "exclude"
         row["confidence"] = "high"
-        row["evidence_id"] = (
-            D3DX_INLINE_EVIDENCE_ID
-            if row["address"] in D3DX_HEADER_INLINE
-            else MATH_EVIDENCE_ID
-            if row["address"] in MATH_RUNTIME
-            else EVIDENCE_ID
-        )
+        row["evidence_id"] = evidence_id_for(row["address"])
 
     def mutate_function(row: dict[str, str]) -> None:
         address = row["address"]
@@ -226,7 +228,7 @@ def review(write: bool) -> dict[str, object]:
         row["match_percent"] = "0.00"
         row["is_thunk"] = "false"
         row["owner"] = "library"
-        if address in D3DX_HEADER_INLINE:
+        if address in D3DX_HEADER_INLINE_ALL:
             symbol, signature, detail = {
                 "0x00401290": (
                     "D3DXVec3Length",
@@ -243,6 +245,11 @@ def review(write: bool) -> dict[str, object]:
                     "float __fastcall D3DXVec3Dot(const D3DXVECTOR3 *lhs, const D3DXVECTOR3 *rhs)",
                     "The target and COMDAT have no relocations.",
                 ),
+                "0x0042E920": (
+                    "D3DXVec3Cross",
+                    "D3DXVECTOR3 *__fastcall D3DXVec3Cross(D3DXVECTOR3 *out, const D3DXVECTOR3 *lhs, const D3DXVECTOR3 *rhs)",
+                    "The target and /Ob1 COMDAT are 83/83 exact with no relocations.",
+                ),
             }[address]
             row["proposed_name"] = symbol
             row["calling_convention"] = "__fastcall"
@@ -250,7 +257,7 @@ def review(write: bool) -> dict[str, object]:
             row["evidence"] = (
                 "Pinned VC7.1 PlatformSDK d3dx8math.inl defines this helper directly. "
                 "Compiling that unmodified SDK header under the target-backed /Gr /O2 "
-                "/Ob0 profile automatically emits the matching link-once COMDAT; two "
+                "inline profile automatically emits the matching link-once COMDAT; two "
                 "cold target-bound comparisons reproduce every ordinary byte. "
                 + detail
             )
