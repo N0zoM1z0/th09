@@ -898,3 +898,4 @@ ExAttackInitializeCallbackType16,0x00447720,function
 ExAttackInitializeCallbackType23,0x00447AF0,function
 ExAttackInitializeCallbackType11And12,0x00446D80,function
 ExAttackInitializeCallbackType17,0x00448320,function
+ExAttackInitializeCallbackType18,0x00449070,function
