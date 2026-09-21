@@ -904,3 +904,4 @@ ExAttackInitializeCallbackType25
 ExAttackInitializeCallbackType26
 ExAttackInitializeCallbackType14
 ExAttackDrawCallbackType19_21
+PlayerGameplayMethods::ResolvePatternOffset

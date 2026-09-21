@@ -76,6 +76,122 @@ struct PlayerGameplayMethods
     int GetUpdateState();
 };
 
+struct PlayerPatternOffsetShtView
+{
+    unsigned char unknown00[0x14];
+    float normalAxisSpeed14;
+    float focusedAxisSpeed18;
+    float normalDiagonalSpeed1C;
+    float focusedDiagonalSpeed20;
+};
+
+struct PlayerPatternOffsetView
+{
+    unsigned char unknown0000[0x1CDC];
+    float speedMultiplier1CDC;
+    float speedMultiplier1CE0;
+    float speedMultiplier1CE4;
+    float speedMultiplier1CE8;
+    unsigned char unknown1CEC[0x30338 - 0x1CEC];
+    PlayerPatternOffsetShtView *primaryShtFile30338;
+};
+
+float *PlayerGameplayMethods::ResolvePatternOffset(
+    int pattern,
+    int alternate,
+    float *offsetX,
+    float *offsetY)
+{
+    PlayerPatternOffsetView *player =
+        reinterpret_cast<PlayerPatternOffsetView *>(this);
+
+    *offsetY = 0.0f;
+    *offsetX = 0.0f;
+
+    if (alternate)
+    {
+        switch (pattern)
+        {
+        case 4:
+            *offsetX = player->primaryShtFile30338->focusedAxisSpeed18;
+            break;
+        case 3:
+            *offsetX = -player->primaryShtFile30338->focusedAxisSpeed18;
+            break;
+        case 1:
+            *offsetY = -player->primaryShtFile30338->focusedAxisSpeed18;
+            break;
+        case 2:
+            *offsetY = player->primaryShtFile30338->focusedAxisSpeed18;
+            break;
+        case 5:
+            *offsetX = -player->primaryShtFile30338->focusedDiagonalSpeed20;
+            *offsetY = *offsetX;
+            break;
+        case 7:
+            *offsetY = player->primaryShtFile30338->focusedDiagonalSpeed20;
+            *offsetX = -*offsetY;
+            break;
+        case 6:
+            *offsetX = player->primaryShtFile30338->focusedDiagonalSpeed20;
+            *offsetY = -*offsetX;
+            break;
+        case 8:
+            *offsetX = player->primaryShtFile30338->focusedDiagonalSpeed20;
+            *offsetY = *offsetX;
+            break;
+        default:
+            break;
+        }
+    }
+    else
+    {
+        switch (pattern)
+        {
+        case 4:
+            *offsetX = player->primaryShtFile30338->normalAxisSpeed14;
+            break;
+        case 3:
+            *offsetX = -player->primaryShtFile30338->normalAxisSpeed14;
+            break;
+        case 1:
+            *offsetY = -player->primaryShtFile30338->normalAxisSpeed14;
+            break;
+        case 2:
+            *offsetY = player->primaryShtFile30338->normalAxisSpeed14;
+            break;
+        case 5:
+            *offsetX = -player->primaryShtFile30338->normalDiagonalSpeed1C;
+            *offsetY = *offsetX;
+            break;
+        case 7:
+            *offsetY = player->primaryShtFile30338->normalDiagonalSpeed1C;
+            *offsetX = -*offsetY;
+            break;
+        case 6:
+            *offsetX = player->primaryShtFile30338->normalDiagonalSpeed1C;
+            *offsetY = -*offsetX;
+            break;
+        case 8:
+            *offsetX = player->primaryShtFile30338->normalDiagonalSpeed1C;
+            *offsetY = *offsetX;
+            break;
+        default:
+            break;
+        }
+    }
+
+    *offsetX =
+        player->speedMultiplier1CE4 *
+        player->speedMultiplier1CDC *
+        *offsetX;
+    *offsetY =
+        player->speedMultiplier1CE8 *
+        player->speedMultiplier1CE0 *
+        *offsetY;
+    return offsetY;
+}
+
 struct PlayerGameplayFrontSideView
 {
     void ResetPatternTiming();
