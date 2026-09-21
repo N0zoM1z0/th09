@@ -927,3 +927,5 @@ MixRenderColor,0x00401090,function
 RotatePlayerCollisionVector,0x0042AF40,function
 FileSystem::TryDecryptFromTable,0x0042C290,function
 ExAttackUpdateCallbackType6,0x00446060,function
+ExAttackUpdateCallbackType11,0x00446EE0,function
+ExAttackUpdateCallbackType12,0x004471B0,function
