@@ -1,5 +1,5 @@
 address,origin,subsystem,disposition,confidence,evidence_id
-0x00401000,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00401000,authored_game,Math,authored,high,cubic-hermite-scalar-exact-2026-09-21
 0x00401060,compiler_generated,Compiler,exclude,high,vc71-math-intrinsic-comdat-review-2026-09-20
 0x00401070,compiler_generated,Compiler,exclude,high,vc71-math-intrinsic-comdat-review-2026-09-20
 0x00401080,compiler_generated,Compiler,exclude,high,vc71-math-intrinsic-comdat-review-2026-09-20

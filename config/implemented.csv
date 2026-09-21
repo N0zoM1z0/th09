@@ -835,3 +835,4 @@ PlayerPositionCallback30404Type11
 PlayerStateEffectView::ConfigureState3Effect13
 PlayerStateEffectView::ConfigureState3Effect14
 ActivateGameWindow
+CubicHermiteInterpolateScalar

@@ -12489,3 +12489,18 @@ relocations = [
   { offset = 0x56, type = "DIR32", symbol = "__imp__SetActiveWindow@4", target = 0x0048E224 },
   { offset = 0x6F, type = "DIR32", symbol = "__imp__AttachThreadInput@12", target = 0x0048E21C },
 ]
+
+[units.cubic-hermite-scalar]
+source = "src/CubicHermiteInterpolateScalar.cpp"
+object = "build/matching/CubicHermiteInterpolateScalar.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["CubicHermiteInterpolateScalar"]
+symbol = "?CubicHermiteInterpolateScalar@@YGMMMMMM@Z"
+target_address = 0x00401000
+size = 0x5B
+relocations = [
+  { offset = 0x0D, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x13, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x1C, type = "DIR32", symbol = "__real@40400000", target = 0x0048E2A0 },
+  { offset = 0x2F, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+]
