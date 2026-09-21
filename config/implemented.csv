@@ -842,3 +842,4 @@ SupervisorNetworkState::ReleaseDirectPlayResources
 PlayerStateEffectView::ConfigureState3Effect15
 GetGameTimestampSeconds
 ReportDirectPlayError
+SupervisorNetworkState::IsServiceProviderAvailable

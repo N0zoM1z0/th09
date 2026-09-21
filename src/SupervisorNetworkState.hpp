@@ -26,6 +26,7 @@ struct SupervisorNetworkState
 
     SupervisorNetworkState();
     int GetRemotePeerId();
+    int IsServiceProviderAvailable(const void *provider);
     int SendPacket(void *packet, int size);
     void ReleaseDirectPlayResources();
     int CreateDeviceAddress();
