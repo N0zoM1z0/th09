@@ -457,7 +457,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00422200,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15
 0x00422290,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15
 0x004222C0,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15
-0x00422330,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00422330,authored_game,Front,authored,high,front-line-strip-exact-2026-09-21
 0x00422470,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15
 0x004224F0,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15
 0x004225B0,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15
