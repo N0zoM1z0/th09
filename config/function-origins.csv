@@ -1006,7 +1006,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00445560,authored_game,EffectManager,authored,high,effect-fixed-slot-accessor-exact-2026-09-20
 0x00445580,authored_game,Player,authored,high,player-position-predicates30404-exact-2026-09-20
 0x004455D0,authored_game,ExAttackController,authored,high,exattack-type15-init-exact-2026-09-21
-0x00445740,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00445740,authored_game,ExAttackController,authored,high,exattack-type15-update-exact-2026-09-21
 0x00445930,authored_game,Player,authored,high,player-owner-reward-callback-type6-exact-2026-09-21
 0x00445A40,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00445CB0,authored_game,Player,authored,high,player-shot-spawn-callbacks-exact-2026-09-20

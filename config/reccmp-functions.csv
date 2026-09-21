@@ -913,3 +913,4 @@ ExAttackInitializeCallbackType13,0x00443440,function
 ExAttackUpdateCallbackType13,0x004435E0,function
 ExAttackUpdateCallbackType26,0x0044C4C0,function
 ExAttackUpdateCallbackType25,0x0044BE40,function
+ExAttackUpdateCallbackType15,0x00445740,function

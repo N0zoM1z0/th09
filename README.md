@@ -1,6 +1,13 @@
 # 東方花映塚 ～ Phantasmagoria of Flower View
 
 <p align="center">
+  <img
+    src="resources/title-screen.png"
+    width="640"
+    alt="Original Japanese TH09 1.50a title screen">
+</p>
+
+<p align="center">
   <img src="resources/progress.svg" alt="TH09 reconstruction progress">
 </p>
 
@@ -45,7 +52,7 @@ downloaded tools are private and never committed.
 The target and live IDA database are attested. All 2,191 tracked candidates have
 received boundary/origin review: 979 are confirmed authored, 1,177 are
 classified exclusions, and 35 remain deliberately origin-unknown after review.
-Maintained source covers 914 authored mappings, of which 755 are canonical
+Maintained source covers 915 authored mappings, of which 756 are canonical
 zero-difference VC7.1 matches.
 
 The PE and Rich header identify Microsoft Visual C++ .NET 2003 build 3077.
