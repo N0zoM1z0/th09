@@ -709,3 +709,4 @@ address,name,size,status,match_percent,unit,evidence
 0x00416080,FrontEnemyIndicatorView::SetSideEnemyIndicatorPosition,213,matching,100.00,front-enemy-indicator,python3 scripts/build-match-unit.py --unit front-enemy-indicator && python3 scripts/compare-coff-function.py --unit front-enemy-indicator --json
 0x0042D320,AnmManager::ServiceCaptureRequests,167,matching,100.00,anm-capture-service,python3 scripts/build-match-unit.py --unit anm-capture-service && python3 scripts/compare-coff-function.py --unit anm-capture-service --json
 0x0042D3D0,GameWindowProc,249,matching,100.00,game-window-proc,python3 scripts/build-match-unit.py --unit game-window-proc && python3 scripts/compare-coff-function.py --unit game-window-proc --json
+0x0042DA90,ComputeExecutableChecksum,192,matching,100.00,executable-checksum,python3 scripts/build-match-unit.py --unit executable-checksum && python3 scripts/compare-coff-function.py --unit executable-checksum --json

@@ -856,3 +856,4 @@ FrontEnemyIndicatorView::SetSideEnemyIndicatorPosition
 AnmManager::ServiceCaptureRequests
 GameWindowProc
 CreateGameWindow
+ComputeExecutableChecksum
