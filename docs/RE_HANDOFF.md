@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 927 |
+| Source-present authored mappings | 928 |
 | Canonical exact functions | 765 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -91,8 +91,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 927 source-present authored mappings. Of
-these, 765 are canonical exact and 162 retain honest non-exact compiler results.
+`config/implemented.csv` contains 928 source-present authored mappings. Of
+these, 765 are canonical exact and 163 retain honest non-exact compiler results.
 `config/matches.csv` contains 765 complete target-bound VC7.1 matches totaling
 111,856 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**52 authored functions / 48,772 bytes without maintained source**, plus 162
+**51 authored functions / 48,074 bytes without maintained source**, plus 163
 source-present functions that retain honest non-exact compiler results.
 
 1. **Preserve frozen and durable-negative frontiers.** The 35 origin-unknown
@@ -135,8 +135,11 @@ source-present functions that retain honest non-exact compiler results.
    explicit duplicated failure tails inflate to 403. `ExAttackUpdateCallbackType20
    @ 0x0044ADE0` is exact-sized 405/405 with all 11 relocations solved and
    299/361 ordinary comparable bytes; bounded field-order/type probes were
-   worse. Neither frontier justifies register, padding, volatile, assembly, or
-   profile roulette.
+   worse. `ExAttackUpdateCallbackType6 @ 0x00446060` is likewise exact-sized
+   698/698 with all 30 relocations solved and 535/578 comparable bytes after
+   target-observed descriptor assignment ordering; placing it with the real
+   `FromAngleMagnitude` definition in one TU is byte-identical. These frontiers
+   do not justify register, padding, volatile, assembly, or profile roulette.
 
 3. **Continue authored/no-source work from target-proven owners, not address
    adjacency.** The separate EnemyManager spawn owner `0x0040F1D0` is now
@@ -155,6 +158,10 @@ source-present functions that retain honest non-exact compiler results.
    `FileSystem::TryDecryptFromTable @ 0x0042C290` is now maintained source-present
    at an honest 220-byte register-allocation plateau; its TH09 crypt data remain
    extern/unowned and must not be copied from TH08.
+   `ExAttackUpdateCallbackType6 @ 0x00446060` is now maintained source-present
+   from the row-6 template update slot and is exact-sized at 698 bytes; the
+   remaining register/store scheduling residual stays non-exact after a bounded
+   authentic-family same-TU visibility probe.
    Very small bodies such as `0x0044AB20` should not be claimed merely because
    they are short; first rule out folded/shared ownership with TH09-local xrefs.
 

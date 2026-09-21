@@ -926,3 +926,4 @@ EffectDrawCallbackType36,0x0044C090,function
 MixRenderColor,0x00401090,function
 RotatePlayerCollisionVector,0x0042AF40,function
 FileSystem::TryDecryptFromTable,0x0042C290,function
+ExAttackUpdateCallbackType6,0x00446060,function

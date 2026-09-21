@@ -925,3 +925,4 @@ EffectDrawCallbackType36
 MixRenderColor
 RotatePlayerCollisionVector
 FileSystem::TryDecryptFromTable
+ExAttackUpdateCallbackType6
