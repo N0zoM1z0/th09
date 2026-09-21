@@ -917,3 +917,4 @@ ExAttackUpdateCallbackType16_23
 ExAttackUpdateCallbackType20
 EnemyManagerView::SpawnEnemy
 EnemyManagerCardAttackSpawnView::SpawnEnemyRecord
+ExAttackInitializeCallbackType20
