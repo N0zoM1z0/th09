@@ -1059,7 +1059,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0044C090,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0044C2E0,authored_game,Player,authored,high,player-position-predicates30404-exact-2026-09-20
 0x0044C350,authored_game,ExAttackController,authored,high,exattack-type26-init-exact-2026-09-21
-0x0044C4C0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0044C4C0,authored_game,ExAttackController,authored,high,exattack-type26-update-exact-2026-09-21
 0x0044C680,authored_game,Player,authored,high,player-owner-reward-callback-type15-exact-2026-09-21
 0x0044E1C4,data,Data,exclude,high,transition-record-data-review-2026-09-19
 0x0044E1D4,data,Data,exclude,high,transition-record-data-review-2026-09-19

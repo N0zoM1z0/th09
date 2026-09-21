@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 912 |
-| Canonical exact functions | 753 |
+| Source-present authored mappings | 913 |
+| Canonical exact functions | 754 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -91,10 +91,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 912 source-present authored mappings. Of
-these, 753 are canonical exact and 159 retain honest non-exact compiler results.
-`config/matches.csv` contains 753 complete target-bound VC7.1 matches totaling
-105,847 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 913 source-present authored mappings. Of
+these, 754 are canonical exact and 159 retain honest non-exact compiler results.
+`config/matches.csv` contains 754 complete target-bound VC7.1 matches totaling
+106,293 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**67 authored functions / 54,474 bytes without maintained source**, plus 159
+**66 authored functions / 54,028 bytes without maintained source**, plus 159
 source-present functions that retain honest non-exact compiler results.
 
 1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
@@ -179,6 +179,7 @@ fact into the maintained ledger or knowledge base.
 
 Recent Web reconstruction checkpoints, newest first:
 
+- `c6b8eaa gpt-web: close ExAttack type13 update`
 - `be28d0a gpt-web: close ExAttack type13 init`
 - `59af14d gpt-web: close ExAttack type17 update`
 - `2bb1722 gpt-web: close Front message setup`
