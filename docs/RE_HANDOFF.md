@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 908 |
-| Canonical exact functions | 749 |
+| Source-present authored mappings | 909 |
+| Canonical exact functions | 750 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -91,10 +91,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 908 source-present authored mappings. Of
-these, 749 are canonical exact and 159 retain honest non-exact compiler results.
-`config/matches.csv` contains 749 complete target-bound VC7.1 matches totaling
-104,245 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 909 source-present authored mappings. Of
+these, 750 are canonical exact and 159 retain honest non-exact compiler results.
+`config/matches.csv` contains 750 complete target-bound VC7.1 matches totaling
+104,602 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**71 authored functions / 56,076 bytes without maintained source**, plus 159
+**70 authored functions / 55,719 bytes without maintained source**, plus 159
 source-present functions that retain honest non-exact compiler results.
 
 1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
@@ -179,6 +179,7 @@ fact into the maintained ledger or knowledge base.
 
 Recent Web reconstruction checkpoints, newest first:
 
+- `3eb4786 gpt-web: close Front line strip`
 - `eca4509 gpt-web: close Player pattern offset`
 - `8c68482 gpt-web: close ExAttack type19 type21 draw`
 - `4719dbf gpt-web: close ExAttack type14 init`

@@ -14174,3 +14174,24 @@ relocations = [
   { offset = 0x114, type = "DIR32", symbol = "?g_Supervisor@@3UFrontLineSupervisorView@@A", target = 0x004B3100, addend = 0x8 },
   { offset = 0x128, type = "DIR32", symbol = "?g_Supervisor@@3UFrontLineSupervisorView@@A", target = 0x004B3100, addend = 0x8 },
 ]
+
+[units.front-message-setup]
+source = "src/FrontMessageSetup.cpp"
+object = "build/matching/FrontMessageSetup.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontMessageSetupView::Setup"]
+symbol = "?Setup@FrontMessageSetupView@@QAEXHH@Z"
+target_address = 0x00416160
+size = 0x165
+relocations = [
+  { offset = 0xC9, type = "DIR32", symbol = "?g_FrontMessageAnm@@3PAVAnmLoaded@@A", target = 0x004B36CC },
+  { offset = 0xD5, type = "REL32", symbol = "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
+  { offset = 0xDB, type = "DIR32", symbol = "?g_FrontMessageAnm@@3PAVAnmLoaded@@A", target = 0x004B36CC },
+  { offset = 0xE9, type = "REL32", symbol = "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
+  { offset = 0x121, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x126, type = "DIR32", symbol = "??_C@_01CLKCMJKC@?5?$AA@", target = 0x0048EE7C },
+  { offset = 0x12F, type = "REL32", symbol = "?DrawTextLeft@AnmManager@@QAAXPAUAnmVm@@KKPBDZZ", target = 0x0043BDC0 },
+  { offset = 0x149, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x14E, type = "DIR32", symbol = "??_C@_01CLKCMJKC@?5?$AA@", target = 0x0048EE7C },
+  { offset = 0x157, type = "REL32", symbol = "?DrawTextLeft@AnmManager@@QAAXPAUAnmVm@@KKPBDZZ", target = 0x0043BDC0 },
+]
