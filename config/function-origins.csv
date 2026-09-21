@@ -1035,7 +1035,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00449070,authored_game,ExAttackController,authored,high,exattack-type18-init-exact-2026-09-21
 0x004491E0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00449780,authored_game,Player,authored,high,player-owner-reward-callback-type10-exact-2026-09-21
-0x004497F0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x004497F0,authored_game,ExAttackController,authored,high,exattack-type24-init-exact-2026-09-21
 0x00449B50,authored_game,Player,authored,high,player-type11-orientation-exact-2026-09-21
 0x00449C70,authored_game,Player,authored,high,player-shot-update-callback6-exact-2026-09-20
 0x00449CE0,authored_game,Player,authored,high,player-shot-update-callback7-exact-2026-09-20
