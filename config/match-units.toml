@@ -13053,3 +13053,23 @@ relocations = [
   { offset = 0x12E, type = "REL32", symbol = "?Present@GameWindow@@SIXXZ", target = 0x0042DB50 },
   { offset = 0x13D, type = "DIR32", symbol = "__imp__Sleep@4", target = 0x0048E058 },
 ]
+
+[units.game-window-resolve-shortcut]
+source = "src/GameWindowShortcut.cpp"
+object = "build/matching/GameWindowShortcut.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ResolveShortcut"]
+symbol = "?ResolveShortcut@@YIHPAD0H@Z"
+target_address = 0x0042D140
+size = 0xE1
+relocations = [
+  { offset = 0x27, type = "DIR32", symbol = "__imp__CoInitialize@4", target = 0x0048E284 },
+  { offset = 0x30, type = "DIR32", symbol = "_IID_IShellLinkA", target = 0x004953A0 },
+  { offset = 0x39, type = "DIR32", symbol = "_CLSID_ShellLink", target = 0x004953B0 },
+  { offset = 0x3F, type = "DIR32", symbol = "__imp__CoCreateInstance@20", target = 0x0048E288 },
+  { offset = 0x55, type = "DIR32", symbol = "_IID_IPersistFile", target = 0x004953C0 },
+  { offset = 0x6A, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x7E, type = "DIR32", symbol = "__imp__MultiByteToWideChar@24", target = 0x0048E09C },
+  { offset = 0xB6, type = "REL32", symbol = "??3@YAXPAX@Z", target = 0x0047B249 },
+  { offset = 0xD3, type = "DIR32", symbol = "__imp__CoUninitialize@0", target = 0x0048E28C },
+]

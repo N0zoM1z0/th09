@@ -586,7 +586,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042CD40,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042CD90,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042D0C0,authored_game,GameWindow,authored,high,activate-game-window-exact-2026-09-21
-0x0042D140,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042D140,authored_game,GameWindow,authored,high,game-window-resolve-shortcut-exact-2026-09-21
 0x0042D230,authored_game,GameErrorContext,authored,high,game-error-context-vc71-exact-2026-09-10
 0x0042D240,authored_game,GameErrorContext,authored,high,game-error-context-vc71-exact-2026-09-10
 0x0042D290,authored_game,GameWindow,authored,high,game-window-constructor-exact-2026-09-20

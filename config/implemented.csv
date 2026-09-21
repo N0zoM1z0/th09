@@ -866,3 +866,4 @@ InitializeHorizontalTextureStrip
 InitializeVerticalTextureStrip
 GameWindow::Present
 GameWindow::Render
+ResolveShortcut
