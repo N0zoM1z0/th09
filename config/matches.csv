@@ -719,3 +719,4 @@ address,name,size,status,match_percent,unit,evidence
 0x0042DB50,GameWindow::Present,232,matching,100.00,game-window-present,python3 scripts/build-match-unit.py --unit game-window-present && python3 scripts/compare-coff-function.py --unit game-window-present --json
 0x0042DC40,GameWindow::Render,326,matching,100.00,game-window-render,python3 scripts/build-match-unit.py --unit game-window-render && python3 scripts/compare-coff-function.py --unit game-window-render --json
 0x0042D140,ResolveShortcut,225,matching,100.00,game-window-resolve-shortcut,python3 scripts/build-match-unit.py --unit game-window-resolve-shortcut && python3 scripts/compare-coff-function.py --unit game-window-resolve-shortcut --json
+0x0042D900,CheckForRunningGameInstance,394,matching,100.00,game-window-single-instance,python3 scripts/build-match-unit.py --unit game-window-single-instance && python3 scripts/compare-coff-function.py --unit game-window-single-instance --json

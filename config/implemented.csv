@@ -867,3 +867,4 @@ InitializeVerticalTextureStrip
 GameWindow::Present
 GameWindow::Render
 ResolveShortcut
+CheckForRunningGameInstance
