@@ -869,3 +869,4 @@ GameWindow::Render
 ResolveShortcut
 CheckForRunningGameInstance
 ResetRenderState
+Controller::GetControllerState

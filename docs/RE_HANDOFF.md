@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 871 |
-| Canonical exact functions | 722 |
+| Source-present authored mappings | 872 |
+| Canonical exact functions | 723 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -91,10 +91,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 871 source-present authored mappings. Of
-these, 722 are canonical exact and 149 retain honest non-exact compiler results.
-`config/matches.csv` contains 722 complete target-bound VC7.1 matches totaling
-95,764 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 872 source-present authored mappings. Of
+these, 723 are canonical exact and 149 retain honest non-exact compiler results.
+`config/matches.csv` contains 723 complete target-bound VC7.1 matches totaling
+96,023 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**108 authored functions / 67,818 bytes without maintained source**, plus 149
+**107 authored functions / 67,559 bytes without maintained source**, plus 149
 source-present functions that retain honest non-exact compiler results.
 
 1. **Do not churn closed or frozen frontiers.** The 35 origin-unknown entries
@@ -179,6 +179,7 @@ fact into the maintained ledger or knowledge base.
 
 Recent Web reconstruction checkpoints, newest first:
 
+- `22ce901 gpt-web: close render state reset`
 - `0b88980 gpt-web: close GameWindow startup check`
 - `3379539 gpt-web: close GameWindow shortcut resolver`
 - `b113121 gpt-web: close GameWindow render loop`

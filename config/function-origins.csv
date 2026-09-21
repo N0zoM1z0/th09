@@ -561,7 +561,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0042B300,authored_game,Chain,authored,high,chain-create-elem-vc71-exact-2026-09-10
 0x0042B350,authored_game,Chain,authored,high,chain-cut-impl-vc71-exact-2026-09-10
 0x0042B410,authored_game,Controller,authored,high,controller-input-source-2026-09-20
-0x0042B740,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x0042B740,authored_game,Controller,authored,high,controller-get-state-exact-2026-09-21
 0x0042B850,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042BE40,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0042C180,authored_game,FileSystem,authored,high,file-system-decrypt-vc71-exact-2026-09-10
