@@ -877,3 +877,4 @@ TitleDrawCallback,0x00424898,function
 ExAttackInitializeCallbackType2,0x00441910,function
 ExAttackInitializeCallbackType0,0x00440E40,function
 ExAttackInitializeCallbackType1,0x00440FB0,function
+ExAttackUpdateCallbackType01,0x00441100,function

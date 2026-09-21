@@ -876,3 +876,4 @@ TitleDrawCallback
 ExAttackInitializeCallbackType2
 ExAttackInitializeCallbackType0
 ExAttackInitializeCallbackType1
+ExAttackUpdateCallbackType01
