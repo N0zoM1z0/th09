@@ -947,3 +947,4 @@ GameManagerOpponentSelectionView::SelectOpponentConfiguration
 PlayerPositionCallback30404Type9
 Controller::GetInput
 FrontMessageRuntimeView::Draw
+FrontCalcCallback

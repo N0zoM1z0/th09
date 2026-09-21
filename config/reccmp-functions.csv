@@ -948,3 +948,4 @@ GameManagerOpponentSelectionView::SelectOpponentConfiguration,0x00415910,functio
 PlayerPositionCallback30404Type9,0x00447FB0,function
 Controller::GetInput,0x0042BE40,function
 FrontMessageRuntimeView::Draw,0x00417130,function
+FrontCalcCallback,0x00417630,function
