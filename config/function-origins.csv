@@ -976,7 +976,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00442450,authored_game,GameManager,authored,high,game-manager-inverse-coordinate-exact-2026-09-21
 0x00442480,authored_game,Player,authored,high,player-position-callback30404-type2-exact-2026-09-20
 0x00442550,authored_game,Player,authored,high,player-enemy-callback30408-exact-2026-09-20
-0x00442580,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00442580,authored_game,ExAttackController,authored,high,exattack-type3-init-source-review-2026-09-21
 0x00442750,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00442A60,authored_game,ExAttackController,authored,high,exattack-type4-init-source-review-2026-09-21
 0x00442BD0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
