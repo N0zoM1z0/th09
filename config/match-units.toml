@@ -12937,3 +12937,25 @@ relocations = [
   { offset = 0xB4, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
   { offset = 0xC3, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
 ]
+
+[units.title-screen-constructor]
+source = "src/TitleScreenConstructor.cpp"
+object = "build/matching/TitleScreenConstructor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleFactoryConstructView::TitleFactoryConstructView"]
+symbol = "??0TitleFactoryConstructView@@QAE@XZ"
+target_address = 0x00429D83
+size = 0xA0
+relocations = [
+  { offset = 0x04, type = "DIR32", symbol = "??0TitleReplayConstructView@@QAE@XZ", target = 0x00420C40 },
+  { offset = 0x19, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x1E, type = "DIR32", symbol = "??0TitleMusicConstructView@@QAE@XZ", target = 0x00422F00 },
+  { offset = 0x31, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x36, type = "DIR32", symbol = "??0TitleAnmVmConstructView@@QAE@XZ", target = 0x00403A10 },
+  { offset = 0x4B, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x5B, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x6B, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x7B, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x86, type = "REL32", symbol = "?Initialize@TitleConfigConstructView@@QAEXXZ", target = 0x0041A8A2 },
+  { offset = 0x93, type = "REL32", symbol = "_memset", target = 0x0047C390 },
+]

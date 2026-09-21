@@ -862,3 +862,4 @@ Background::UpdateStageObjectVms,0x004011D0,function
 EnemyView::IntegrateMotion,0x0040F9B0,function
 CreateGameSubsystem,0x00418840,function
 RegisterTitleScreen,0x0042AB13,function
+TitleFactoryConstructView::TitleFactoryConstructView,0x00429D83,function

@@ -861,3 +861,4 @@ Background::UpdateStageObjectVms
 EnemyView::IntegrateMotion
 CreateGameSubsystem
 RegisterTitleScreen
+TitleFactoryConstructView::TitleFactoryConstructView

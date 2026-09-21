@@ -1,13 +1,8 @@
 #include "Chain.hpp"
+#include "TitleScreenFactoryView.hpp"
 
 #include <stddef.h>
 #include <string.h>
-
-struct TitleFactoryConstructView
-{
-    unsigned char storage[0x1B388];
-    TitleFactoryConstructView();
-};
 
 struct TitleFactoryView
 {
