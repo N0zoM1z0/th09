@@ -67,7 +67,8 @@ struct EnemyMovementView
     unsigned char primaryAnmVm0008[0x2D74 - 0x0008];
     EnemyFloat3 position2D74;
     EnemyFloat3 positionOffset2D80;
-    unsigned char unknown2D8C[0x2DBC - 0x2D8C];
+    EnemyFloat3 velocity2D8C;
+    unsigned char unknown2D98[0x2DBC - 0x2D98];
     EnemyFloat2 hitboxDimensions2DBC;
     unsigned char unknown2DC4[0x2DC8 - 0x2DC4];
     EnemyFloat2 secondaryHitboxDimensions2DC8;
@@ -203,7 +204,7 @@ static void SetExtraAnmScript(
 static void ConfigurePolarMotion(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
-void ConfigureRelativeMotion(
+static void ConfigureRelativeMotion(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
 void BeginBoundaryAwareMove(

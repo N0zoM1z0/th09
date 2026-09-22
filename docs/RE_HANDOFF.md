@@ -130,6 +130,12 @@ Important current facts:
   again for the timer write; natural cos/sin * speed * duration source gives
   VC7.1 the target evaluation order. The live RunEcl candidate is 14,244
   bytes, gap 548.
+- Th09EclRunMovement::ConfigureRelativeMotion @ 0x00407320 has been
+  corrected from stale source assumptions and moved into the RunEcl TU. TH09
+  fixes target - worldPosition, origin from position, and zeroing velocity
+  +0x2D8C. The natural same-TU candidate is 295/296 bytes with the target
+  0x18 frame; the remaining byte is a final flag-register scheduling plateau.
+  TH08/TH095 bitfield source shapes shrink TH09 to 289 and are rejected.
 - The latest ANM ownership review proves 0x00439CF0 and 0x00439DC0 are
   AnmManager member helpers. RunEcl opcode 157 uses trail render vertices at
   Enemy +0x3E68, not the trail sample buffer at +0x33E8, and prepares
@@ -140,7 +146,7 @@ Important current facts:
 - No register forcing, var_order, volatile steering, padding, assembly or
   profile roulette is allowed.
 
-Use docs/KNOWLEDGE_BASE.md Packets 466 through 483 only as chronological
+Use docs/KNOWLEDGE_BASE.md Packets 466 through 484 only as chronological
 investigation history. The current functions.csv row plus a fresh
 report-ecl-codegen.py run are the live baseline.
 

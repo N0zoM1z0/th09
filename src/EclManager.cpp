@@ -101,6 +101,37 @@ static void ConfigurePolarMotion(
         view->movementDelta2E10.x = -view->movementDelta2E10.x;
 }
 
+static void ConfigureRelativeMotion(
+    EnemyView *enemy,
+    Th09EclRawInstructionHeaderView *instruction)
+{
+    EnemyMovementView *view = View(enemy);
+    EnemyFloat3 target;
+    target.x = Th09EclRunControl::ReadFloat(enemy, instruction, 2);
+    target.y = Th09EclRunControl::ReadFloat(enemy, instruction, 3);
+    target.z = 0.0f;
+
+    *reinterpret_cast<Float3 *>(&view->movementDelta2E10) =
+        *reinterpret_cast<Float3 *>(&target) -
+        *reinterpret_cast<Float3 *>(&view->worldPosition2DD4);
+    view->movementOrigin2E1C = view->position2D74;
+
+    int duration = Th09EclRunControl::ReadInt(enemy, instruction, 0);
+    view->movementDuration2E34 = duration;
+    *reinterpret_cast<Th09EclTimerStorageView *>(
+        view->movementTimer2E28) = duration;
+    unsigned int movementFlags =
+        (view->primaryFlags337C & ~0x3A00U) |
+        ((Th09EclRunControl::ReadInt(enemy, instruction, 1) & 7) << 11);
+    movementFlags |= 0x400U;
+    view->primaryFlags337C = movementFlags;
+
+    *reinterpret_cast<Float3 *>(&view->velocity2D8C) =
+        Float3(0.0f, 0.0f, 0.0f);
+    if ((movementFlags & 0x8000U) != 0)
+        view->movementDelta2E10.x = -view->movementDelta2E10.x;
+}
+
 static void SetExtraAnmScript(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction)
