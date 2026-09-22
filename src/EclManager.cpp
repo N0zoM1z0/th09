@@ -3,6 +3,9 @@
 
 #include <string.h>
 
+static void EnemyPostEclUpdateMovement(EnemyView *enemy);
+static void EnemyPostEclUpdateShotAndAnm(EnemyView *enemy);
+
 // Maintained non-exact reconstruction of the complete TH09 v1.50a enemy ECL
 // interpreter owner at 0x004086C0.  The six lexical fragments preserve the
 // target's single 187-way switch and its shared control-flow labels.  Names
@@ -640,7 +643,11 @@ th09_ecl_select_next_context:
 
     enemyState->activeCallStack2CE4 = savedMainCallStack;
     enemyState->activeContext2CE0 = savedMainContext;
-    enemy->UpdateMovement();
-    enemy->UpdateShotAndAnm();
+    EnemyPostEclUpdateMovement(enemy);
+    EnemyPostEclUpdateShotAndAnm(enemy);
     return 0;
 }
+
+// These lexical fragments are target-proven members of the same VC7.1 TU.
+#include "EclPostRuntime.inl"
+#include "ExAttackInitType8.inl"

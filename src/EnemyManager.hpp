@@ -130,9 +130,7 @@ struct EnemyView
 
     EnemyView();
     float ResolveFloat(float rawValue);
-    void UpdateMovement();
     void IntegrateMotion();
-    void UpdateShotAndAnm();
     void HandleDeathRewards(int hitKind);
     void ResetBulletRankInfluence();
     void ClampPositionToMovementBounds();

@@ -1,8 +1,15 @@
+#pragma once
+
 #include "AnmManager.hpp"
 #include "ExAttackController.hpp"
+#include "ExAttackType8GameManagerView.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "Supervisor.hpp"
 #include <math.h>
+
+// Lexical fragment included at the end of the EclManager TU. Keep this
+// ordinary out-of-line definition non-inline: exact post-ECL movement and
+// ExAttack type 7/8/9 callers all depend on its same-TU side-effect visibility.
 
 Float3 *Float3::FromAngleMagnitude(float angle, float magnitude)
 {
@@ -42,35 +49,6 @@ struct ExAttackType8RecordView
     ExAttackType8Extra *extra34;
 };
 
-struct ExAttackType8AnmOwner
-{
-    unsigned char unknown000[0x2D4];
-    AnmLoaded *anm2D4;
-};
-
-struct ExAttackType8PlayerView
-{
-    unsigned char unknown000[0x1B88];
-    Float3 position1B88;
-};
-
-struct ExAttackType8SideView
-{
-    unsigned char unknown00[0x04];
-    ExAttackType8PlayerView *player04;
-    unsigned char unknown08[0x04];
-    ExAttackType8AnmOwner *anmOwner0C;
-    unsigned char unknown10[0x28];
-};
-
-struct ExAttackType8GameManagerView
-{
-    ExAttackType8SideView sides[2];
-
-    float TransformPopupX(float value);
-    float TransformPopupY(float value);
-};
-
 struct ExAttackType8SideLookupView
 {
     int unknown00;
@@ -85,7 +63,6 @@ struct ExAttackType8AllocateView
     void AllocateDynamicData(int vmCount, int extraBytes);
 };
 
-extern ExAttackType8GameManagerView g_GameManager;
 extern RngRuntimeView g_ReplayRng;
 
 int __fastcall ExAttackInitializeCallbackType8(ExAttackRecord *base)

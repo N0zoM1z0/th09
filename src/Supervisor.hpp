@@ -57,7 +57,9 @@ class Supervisor
     SupervisorCtorArrayElement ctorArray078[3];
     unsigned char unknown348[0x40];
     GameConfiguration config388;
-    unsigned char unknown454[0x180];
+    unsigned char unknown454[0x164];
+    float framerateMultiplier5B8;
+    unsigned char unknown5BC[0x18];
     unsigned int flags5D4;
     unsigned char unknown5D8[0x1D8];
 };
@@ -66,6 +68,8 @@ typedef char SupervisorCtorArrayAt078[
     (offsetof(Supervisor, ctorArray078) == 0x78) ? 1 : -1];
 typedef char SupervisorConfigAt388[
     (offsetof(Supervisor, config388) == 0x388) ? 1 : -1];
+typedef char SupervisorFrameMultiplierAt5B8[
+    (offsetof(Supervisor, framerateMultiplier5B8) == 0x5B8) ? 1 : -1];
 typedef char SupervisorFlagsAt5D4[
     (offsetof(Supervisor, flags5D4) == 0x5D4) ? 1 : -1];
 typedef char SupervisorSizeIs7B0[(sizeof(Supervisor) == 0x7B0) ? 1 : -1];

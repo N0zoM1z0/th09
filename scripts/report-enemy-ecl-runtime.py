@@ -14,8 +14,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 COMPARE_SCRIPT = ROOT / "scripts" / "compare-coff-function.py"
-MOVEMENT_SYMBOL = "?UpdateMovement@EnemyView@@QAEXXZ"
-SHOT_ANM_SYMBOL = "?UpdateShotAndAnm@EnemyView@@QAEXXZ"
+MOVEMENT_SYMBOL = "?EnemyPostEclUpdateMovement@@YIXPAUEnemyView@@@Z"
+SHOT_ANM_SYMBOL = "?EnemyPostEclUpdateShotAndAnm@@YIXPAUEnemyView@@@Z"
 ANM_HELPER_SYMBOL = (
     "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z"
 )
@@ -26,12 +26,12 @@ TARGET_MOVEMENT_DIRECT_CALLS = 21
 TARGET_MOVEMENT_INDIRECT_CALLS = 1
 TARGET_SHOT_ANM_DIRECT_CALLS = 9
 MOVEMENT_EASING_TABLE_ENTRIES = 6
+MOVEMENT_EASING_TABLE_OFFSET = 0x3C8
 
-# The retained natural member-source candidate differs only at the still-open
-# compiler-private entry ABI and its resulting register save/restore shape.
-EXPECTED_MOVEMENT_LOGICAL_SIZE = 0x3C8
+# The maintained EclManager translation unit now reproduces both target owners.
+EXPECTED_MOVEMENT_LOGICAL_SIZE = TARGET_MOVEMENT_LOGICAL_SIZE
 EXPECTED_MOVEMENT_PHYSICAL_SIZE = 0x3E0
-EXPECTED_SHOT_ANM_SIZE = 0x165
+EXPECTED_SHOT_ANM_SIZE = TARGET_SHOT_ANM_SIZE
 
 
 def load_compare_module():
@@ -59,7 +59,7 @@ def report(object_path: Path) -> dict[str, object]:
         relocation
         for relocation in movement_relocations
         if relocation["type"] == "DIR32"
-        and EXPECTED_MOVEMENT_LOGICAL_SIZE
+        and MOVEMENT_EASING_TABLE_OFFSET
         <= int(relocation["offset"])
         < EXPECTED_MOVEMENT_PHYSICAL_SIZE
     ]
@@ -70,7 +70,7 @@ def report(object_path: Path) -> dict[str, object]:
         )
     if [int(row["offset"]) for row in movement_table] != list(
         range(
-            EXPECTED_MOVEMENT_LOGICAL_SIZE,
+            MOVEMENT_EASING_TABLE_OFFSET,
             EXPECTED_MOVEMENT_PHYSICAL_SIZE,
             4,
         )
@@ -134,20 +134,10 @@ def report(object_path: Path) -> dict[str, object]:
                 "shot_anm": shot_anm_direct[ANM_HELPER_SYMBOL],
             },
         },
-        "status": "NON-EXACT",
-        "known_abi_gap": {
-            "target": "compiler-private Enemy in ESI/EDI",
-            "candidate": "natural __thiscall EnemyView member",
-            "movement_logical_size_gap": (
-                EXPECTED_MOVEMENT_LOGICAL_SIZE - TARGET_MOVEMENT_LOGICAL_SIZE
-            ),
-            "shot_anm_size_gap": (
-                EXPECTED_SHOT_ANM_SIZE - TARGET_SHOT_ANM_SIZE
-            ),
-        },
+        "status": "CANONICAL-EXACT",
         "claim": (
-            "complete maintained behavior and target-equal direct-call totals; "
-            "entry ABI, registers, relocations and bytes remain non-exact"
+            "shape diagnostic for two canonical exact same-TU post-ECL owners; "
+            "codegen exactness is accepted only through their match-unit replays"
         ),
     }
 
@@ -171,7 +161,7 @@ def main() -> int:
     else:
         candidate = result["candidate"]
         print(
-            "post-ECL owners NON-EXACT: movement "
+            "post-ECL owners canonical-exact: movement "
             f"{candidate['movement_logical_size']}/"
             f"{TARGET_MOVEMENT_LOGICAL_SIZE} logical + "
             f"{candidate['movement_easing_table_entries']} table entries; "
@@ -185,7 +175,7 @@ def main() -> int:
             f"{candidate['shot_anm_direct_calls']}/"
             f"{TARGET_SHOT_ANM_DIRECT_CALLS}; ANM helper sites 1+5"
         )
-        print("remaining gap: compiler-private ESI/EDI entry ABI")
+        print("private ESI/EDI transport is reproduced by natural same-TU source")
     return 0
 
 

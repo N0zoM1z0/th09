@@ -1,37 +1,20 @@
+#pragma once
+
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "EclOpcodes.hpp"
 #include "EclRunControl.inl"
 #include "EnemyManager.hpp"
+#include "ExAttackType8GameManagerView.hpp"
+#include "Supervisor.hpp"
 
 #include <stddef.h>
 
-// Maintained non-exact reconstruction of the two post-ECL Enemy owners at
-// 0x00408180 and 0x00408560.  The target passes the Enemy through compiler-
-// private registers (ESI/EDI); the natural source-level member interface is
-// corroborated by adjacent-game source but the ABI and exact TU layout remain
-// independently open.
-
-namespace Th09EclRunBullet
-{
-void DispatchShotInstruction(
-    EnemyView *enemy,
-    Th09EclRawInstructionHeaderView *instruction);
-}
-
-struct EnemyEclGameManagerView
-{
-    unsigned char unknown000[0xEC];
-    float speedEC;
-};
-extern EnemyEclGameManagerView g_GameManager;
-
-struct EnemyEclSupervisorView
-{
-    unsigned char unknown000[0x5B8];
-    float framerateMultiplier5B8;
-};
-extern EnemyEclSupervisorView g_Supervisor;
+// Lexical fragment of the EclManager VC7.1 translation unit. TH09 sole
+// callsites prove the two post-ECL owners at 0x00408180 and 0x00408560 use
+// compiler-private ESI/EDI Enemy transport rather than ordinary member ABI.
+// Their natural file-static source is canonical exact only in this TU; the
+// adjacent-game member spelling is retained as historical corroboration only.
 
 struct EnemyEclSoundPlayerView
 {
@@ -160,9 +143,9 @@ static __forceinline EnemyEclPlayerView *PostEclPlayer(
         enemy->manager0000->sideState320->player04);
 }
 
-void EnemyView::UpdateMovement()
+static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
 {
-    EnemyPostEclRuntimeView *enemy = PostEclView(this);
+    EnemyPostEclRuntimeView *enemy = PostEclView(thisEnemy);
 
     switch ((enemy->primaryFlags337C >> 9) & 3)
     {
@@ -226,8 +209,8 @@ void EnemyView::UpdateMovement()
         if (progress < 0.0f)
             progress = 0.0f;
 
-        switch ((enemy->primaryFlags337C >>
-                 ENEMY_MOVEMENT_EASING_SHIFT) & 7)
+        unsigned int movementFlags = enemy->primaryFlags337C;
+        switch ((movementFlags >> ENEMY_MOVEMENT_EASING_SHIFT) & 7)
         {
         case 1:
             progress *= progress;
@@ -260,13 +243,14 @@ void EnemyView::UpdateMovement()
         enemy->velocity2D8C =
             enemy->movementOrigin2E1C +
             enemy->movementDelta2E10 * progress - enemy->position2D74;
-        if ((enemy->primaryFlags337C & ENEMY_MIRROR_MOVEMENT_X) != 0)
+        if ((movementFlags & ENEMY_MIRROR_MOVEMENT_X) != 0)
             enemy->velocity2D8C.x = -enemy->velocity2D8C.x;
         enemy->movementAngle2DE0 = Th09EclRunControl::VectorAngle(
             enemy->velocity2D8C.y, enemy->velocity2D8C.x);
         if (enemy->movementTimer2E28 <= 0)
         {
-            enemy->primaryFlags337C &= ~ENEMY_MOVEMENT_MODE_MASK;
+            movementFlags &= ~ENEMY_MOVEMENT_MODE_MASK;
+            enemy->primaryFlags337C = movementFlags;
             enemy->position2D74 =
                 enemy->movementOrigin2E1C + enemy->movementDelta2E10;
             enemy->velocity2D8C = Float3(0.0f, 0.0f, 0.0f);
@@ -301,14 +285,14 @@ void EnemyView::UpdateMovement()
         if ((enemy->secondaryFlags3380 & ENEMY_INTERACTION_TRIGGERED) != 0)
         {
             EnemyEclPlayerView *player = PostEclPlayer(enemy);
-            player->interactionCallback30408(player, this);
+            player->interactionCallback30408(player, thisEnemy);
         }
     }
 }
 
-void EnemyView::UpdateShotAndAnm()
+static void EnemyPostEclUpdateShotAndAnm(EnemyView *thisEnemy)
 {
-    EnemyPostEclRuntimeView *enemy = PostEclView(this);
+    EnemyPostEclRuntimeView *enemy = PostEclView(thisEnemy);
     int direction;
     float horizontalVelocity;
     AnmLoaded *anm;
@@ -323,7 +307,7 @@ void EnemyView::UpdateShotAndAnm()
             enemy->shootIntervalFrames30B4)
         {
             Th09EclRunBullet::DispatchShotInstruction(
-                this,
+                thisEnemy,
                 reinterpret_cast<Th09EclRawInstructionHeaderView *>(
                     enemy->pendingShotInstruction3088));
             enemy->shootIntervalTimer30B8 = 0;
@@ -333,11 +317,10 @@ void EnemyView::UpdateShotAndAnm()
     if (enemy->moveLeftAnm3390 < 0)
         return;
 
+    direction = 0;
     horizontalVelocity = enemy->velocity2D8C.x;
     if ((enemy->primaryFlags337C & ENEMY_MIRROR_MOVEMENT_X) != 0)
         horizontalVelocity = -horizontalVelocity;
-
-    direction = 0;
     if (horizontalVelocity < -0.01f)
         direction = 1;
     else if (horizontalVelocity > 0.01f)
@@ -386,3 +369,66 @@ void EnemyView::UpdateShotAndAnm()
 
     enemy->anmDirection3386 = static_cast<unsigned char>(direction);
 }
+
+namespace Th09EclRunBullet
+{
+
+struct ShotInstructionArgs
+{
+    short bulletType00;
+    short color02;
+    int count104;
+    int count208;
+    float speed10C;
+    float speed210;
+    float angle14;
+    float angleStep18;
+    unsigned int transformFlags1C;
+};
+
+static void DispatchShotInstruction(
+    EnemyView *enemy,
+    Th09EclRawInstructionHeaderView *instruction)
+{
+    EnemyBulletView *view = View(enemy);
+    ShotInstructionArgs *args = reinterpret_cast<ShotInstructionArgs *>(
+        reinterpret_cast<unsigned char *>(instruction) + 0x0C);
+    BulletSpawnDescriptor *descriptor = &view->bulletDescriptor2E74;
+
+    descriptor->position = view->worldPosition2DD4 + view->shootOffset2E04;
+    descriptor->bulletType = static_cast<short>(
+        (instruction->parameterMask0A & 1)
+            ? Th09EclRunControl::ResolveInt(enemy, args->bulletType00)
+            : args->bulletType00);
+    descriptor->aimMode =
+        instruction->opcode04 - TH09_ECL_OPCODE_SHOOT_FAN_AIMED;
+    descriptor->count1 = static_cast<short>(
+        (instruction->parameterMask0A & 4)
+            ? Th09EclRunControl::ResolveInt(enemy, args->count104)
+            : args->count104);
+    descriptor->count2 = static_cast<short>(
+        (instruction->parameterMask0A & 8)
+            ? Th09EclRunControl::ResolveInt(enemy, args->count208)
+            : args->count208);
+    descriptor->angle = (instruction->parameterMask0A & 0x40)
+                            ? enemy->ResolveFloat(args->angle14)
+                            : args->angle14;
+    descriptor->speed1 = (instruction->parameterMask0A & 0x10)
+                             ? enemy->ResolveFloat(args->speed10C)
+                             : args->speed10C;
+    descriptor->angleStep = (instruction->parameterMask0A & 0x80)
+                                ? enemy->ResolveFloat(args->angleStep18)
+                                : args->angleStep18;
+    descriptor->speed2 = (instruction->parameterMask0A & 0x20)
+                             ? enemy->ResolveFloat(args->speed210)
+                             : args->speed210;
+    descriptor->unknown1FA = 0;
+    descriptor->transformFlags = args->transformFlags1C;
+    descriptor->color = static_cast<short>(
+        (instruction->parameterMask0A & 2)
+            ? Th09EclRunControl::ResolveInt(enemy, args->color02)
+            : args->color02);
+    Controller(enemy)->SpawnBulletPatternSecondary(descriptor);
+}
+
+} // namespace Th09EclRunBullet

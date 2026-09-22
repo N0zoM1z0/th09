@@ -2,8 +2,8 @@ name,address,type
 EclManager::RunEcl,0x004086C0,function
 AnmManager::ExecuteScript,0x00436F30,function
 AnmLoaded::SetAndExecuteScriptIdx,0x00403E00,function
-EnemyView::UpdateMovement,0x00408180,function
-EnemyView::UpdateShotAndAnm,0x00408560,function
+EnemyPostEclUpdateMovement,0x00408180,function
+EnemyPostEclUpdateShotAndAnm,0x00408560,function
 Background::ClearSpellBackgroundState,0x004011C0,function
 AnmManager::SetCameraMode,0x00401600,function
 AnmManager::SetMixColorDefault,0x00401610,function

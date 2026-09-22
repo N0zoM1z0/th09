@@ -176,9 +176,10 @@ inline void SetLaserPosition(
     descriptor.position.z = worldPosition.z + shootOffset.z;
 }
 
-// Role names for target boundaries whose maintained implementations are not
-// yet present.  Their callee exactness is independent of RunEcl coverage.
-void DispatchShotInstruction(
+// Target-facing role declarations used by RunEcl. DispatchShotInstruction is
+// a TU-private maintained owner in EclPostRuntime.inl; its own exactness remains
+// independent of the exact post-ECL caller that invokes it.
+static void DispatchShotInstruction(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
 void ClearBulletsForTransition(EtamaController *controller);

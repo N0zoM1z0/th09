@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 784 |
-| Source-present non-exact functions | 195 |
-| Source-present non-exact bytes | 149,664 |
+| Canonical exact functions | 786 |
+| Source-present non-exact functions | 193 |
+| Source-present non-exact bytes | 148,348 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 126,005 |
+| Canonical exact authored bytes | 127,321 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 784 canonical exact and 195 honest non-exact.
+functions: 786 canonical exact and 193 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -88,9 +88,9 @@ A fresh pinned VC7.1 build at this checkpoint reports:
 
 | RunEcl measure | Target | Current candidate |
 | --- | ---: | ---: |
-| Logical bytes | 14,792 | 14,244 |
-| Logical gap | 0 | 548 |
-| Stack frame | 0x168 | 0x13C |
+| Logical bytes | 14,792 | 14,832 |
+| Candidate-target delta | 0 | +40 |
+| Stack frame | 0x168 | 0x150 |
 | Immediate direct calls | 375 | 375 |
 | Indirect calls | 4 | 4 |
 | Relocations | target-owned | 598 |
@@ -116,20 +116,17 @@ Important current facts:
   exact at 261/261 bytes. Moving it from the artificial external helper TU
   into the RunEcl TU as a natural static function reproduces the target's
   private EDI/ESI entry transport and both opcode 57/61 callsites without
-  register forcing. The corresponding RunEcl candidate is 14,244 bytes.
+  register forcing.
 - Th09EclRunMovement::SetPrimaryAnmScripts @ 0x00406740 is also
   canonical exact at 80/80 bytes after moving it into the RunEcl TU as a
   natural static helper. VC7.1 eliminates the unused instruction transport
-  and selects the target-private EAX Enemy receiver. This removes two
-  target-absent caller moves, so the locally more-correct RunEcl candidate is
-  14,240 bytes even though the aggregate gap grows to 552.
+  and selects the target-private EAX Enemy receiver.
 - Th09EclRunMovement::ConfigurePolarMotion @ 0x004070A0 is now
   canonical exact at 346/346 bytes. Its sole RunEcl caller establishes
   compiler-private EDI=Enemy / ESI=instruction transport. The target also
   reevaluates speed and duration for the x and y products and reads duration
   again for the timer write; natural cos/sin * speed * duration source gives
-  VC7.1 the target evaluation order. The live RunEcl candidate is 14,244
-  bytes, gap 548.
+  VC7.1 the target evaluation order.
 - Th09EclRunMovement::ConfigureRelativeMotion @ 0x00407320 has been
   corrected from stale source assumptions and moved into the RunEcl TU. TH09
   fixes target - worldPosition, origin from position, and zeroing velocity
@@ -151,6 +148,23 @@ Important current facts:
   source keeps the returned base pointer and emits two [ecx+4] comparisons.
   Natural alias variants expand to 518 via mov/add, so the helper remains
   honestly NON-EXACT rather than steering an encoding.
+- EnemyPostEclUpdateMovement @ 0x00408180 is now canonical exact over its
+  complete physical owner: 967 logical bytes, one alignment NOP and the
+  six-entry easing table, 992/992 total. The target-proven flags snapshot and
+  same-TU visibility of the ordinary non-inline Float3::FromAngleMagnitude
+  definition reproduce the private ESI transport naturally.
+- EnemyPostEclUpdateShotAndAnm @ 0x00408560 is canonical exact at 349/349.
+  RunEcl naturally supplies Enemy in EDI; its nested shot call uses the
+  TU-private EBX=Enemy / ESI=instruction transport. Starting direction=0
+  before the mirror test closes the remaining scheduling bytes.
+- Th09EclRunBullet::DispatchShotInstruction @ 0x00408040 remains honest
+  NON-EXACT at 321/315 after same-TU reconstruction, improved from the old
+  329-byte split-TU candidate.
+- These TU facts also changed the large RunEcl owner materially: the current
+  candidate is 14,832/14,792, only 40 bytes over target instead of the
+  superseded 14,244-byte candidate that was 548 bytes short. The frame is
+  0x150 versus target 0x168; all call and resolver multiplicities remain
+  closed.
 - The latest ANM ownership review proves 0x00439CF0 and 0x00439DC0 are
   AnmManager member helpers. RunEcl opcode 157 uses trail render vertices at
   Enemy +0x3E68, not the trail sample buffer at +0x33E8, and prepares
@@ -161,7 +175,7 @@ Important current facts:
 - No register forcing, var_order, volatile steering, padding, assembly or
   profile roulette is allowed.
 
-Use docs/KNOWLEDGE_BASE.md Packets 466 through 486 only as chronological
+Use docs/KNOWLEDGE_BASE.md Packets 466 through 487 only as chronological
 investigation history. The current functions.csv row plus a fresh
 report-ecl-codegen.py run are the live baseline.
 
