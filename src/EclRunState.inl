@@ -590,10 +590,8 @@ __forceinline void AssignFlagField(
         break;
 
     case TH09_ECL_OPCODE_CLEAR_LASER_SLOTS:
-        memset(
-            Th09EclRunState::View(enemy)->laserSlots32D8,
-            0,
-            sizeof(Th09EclRunState::View(enemy)->laserSlots32D8));
+        for (int i = 0; i < 0x20; ++i)
+            Th09EclRunState::View(enemy)->laserSlots32D8[i] = 0;
         break;
 
     case TH09_ECL_OPCODE_SET_TIMEOUT_SPELL:
