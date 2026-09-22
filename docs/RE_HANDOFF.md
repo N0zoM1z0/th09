@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 973 |
+| Source-present authored mappings | 974 |
 | Canonical exact functions | 777 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -92,7 +92,7 @@ candidate as already applied.
 ## Exact reconstruction state
 
 `config/implemented.csv` contains 971 source-present authored mappings. Of
-these, 777 are canonical exact and 196 retain honest non-exact compiler results.
+these, 777 are canonical exact and 197 retain honest non-exact compiler results.
 `config/matches.csv` contains 776 complete target-bound VC7.1 matches totaling
 121,112 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**6 authored functions / 599 bytes without maintained source**, plus 196
+**5 authored functions / 415 bytes without maintained source**, plus 197
 source-present functions that retain honest non-exact compiler results.
 
 1. **Preserve frozen and durable-negative frontiers.** The 35 origin-unknown
@@ -211,6 +211,12 @@ source-present functions that retain honest non-exact compiler results.
    target evidence independently confirms that a separate scan index recovers
    the target EBX/BL and EDI lifetimes; the final three bytes remain register/
    encoding scheduling and are not forced.
+
+   EnemyView::CleanupAfterDeactivation @ 0x00410110 is now maintained at an
+   exact-sized 184/184 natural plateau. Both exact helper relocations and the
+   full teardown semantics are closed; the remaining 26 comparable-byte
+   differences are confined to threshold-store/call scheduling, including a
+   member/free ABI probe that produced identical code.
 
 4. **Keep using shared-helper leverage before large callbacks.** Exact ExAttack
    init/update rows, Player leaves, Front helpers, Bullet descriptor transforms,
