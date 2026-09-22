@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 970 |
+| Source-present authored mappings | 971 |
 | Canonical exact functions | 776 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -91,8 +91,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 970 source-present authored mappings. Of
-these, 776 are canonical exact and 194 retain honest non-exact compiler results.
+`config/implemented.csv` contains 971 source-present authored mappings. Of
+these, 776 are canonical exact and 195 retain honest non-exact compiler results.
 `config/matches.csv` contains 776 complete target-bound VC7.1 matches totaling
 121,112 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**9 authored functions / 7,238 bytes without maintained source**, plus 194
+**8 authored functions / 4,144 bytes without maintained source**, plus 195
 source-present functions that retain honest non-exact compiler results.
 
 1. **Preserve frozen and durable-negative frontiers.** The 35 origin-unknown
@@ -190,6 +190,14 @@ source-present functions that retain honest non-exact compiler results.
    natural-codegen plateau rather than a register/padding target. The same work
    corrects 0x00422F67 from an explicit-stdcall body model to the target-proven
    TitleScreenView member ABI while preserving 106/106 canonical exactness.
+
+   FrontSide::OnDraw @ 0x004193E0 is now maintained as the 3,094-byte
+   draw-chain owner proven by exact FrontSide::Create. The complete HUD prefix
+   and 103-call surface are target-backed; a target-observed side-state lifetime
+   closes the prefix through transition offset 0x582. Two cold natural builds
+   remain 3,106/3,094 with a 12-byte transition-overlay constructor/branch
+   scheduling residual after bounded profile/type/lifetime probes, so it stays
+   source-present/non-exact without compiler steering.
 
 4. **Keep using shared-helper leverage before large callbacks.** Exact ExAttack
    init/update rows, Player leaves, Front helpers, Bullet descriptor transforms,

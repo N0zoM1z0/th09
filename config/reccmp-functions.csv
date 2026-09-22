@@ -969,3 +969,4 @@ DecodeFrontMessageString,0x00415C60,function
 FrontMessageRuntimeView::Update,0x00416590,function
 PlayerLifecycleView::UpdateMovementAndOptions,0x0041C170,function
 TitleScreenView::OnUpdateKeyConfig,0x00427EE8,function
+FrontSide::OnDraw,0x004193E0,function

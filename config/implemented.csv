@@ -968,3 +968,4 @@ DecodeFrontMessageString
 FrontMessageRuntimeView::Update
 PlayerLifecycleView::UpdateMovementAndOptions
 TitleScreenView::OnUpdateKeyConfig
+FrontSide::OnDraw
