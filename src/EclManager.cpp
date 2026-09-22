@@ -289,21 +289,22 @@ th09_ecl_after_dispatch:
     context->time008 += Th09EclRunOwner::g_TimeScale;
 
 th09_ecl_select_next_context:
-    ++childIndex;
-    while (childIndex < TH09_ECL_CHILD_CONTEXT_COUNT)
+    for (int next = childIndex + 1;
+         next < TH09_ECL_CHILD_CONTEXT_COUNT;
+         ++next)
     {
         child = reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
-            enemyState->childEclBlocks33D8[childIndex]);
+            enemyState->childEclBlocks33D8[next]);
         if (child != NULL)
         {
             enemyState->activeCallStack2CE4 = child->callStack0234;
             enemyState->activeContext2CE0 = &child->context08;
             instruction = child->context08.currentInstruction004;
-            child->context08.contextOrdinal224 = childIndex + 1;
+            child->context08.contextOrdinal224 = next + 1;
             enemyState->activeCallDepth2D2A = child->callStackDepth06;
+            childIndex = next;
             goto th09_ecl_instruction_loop;
         }
-        ++childIndex;
     }
 
     enemyState->activeCallStack2CE4 = savedMainCallStack;
