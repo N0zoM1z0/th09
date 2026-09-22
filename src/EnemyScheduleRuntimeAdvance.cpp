@@ -1,3 +1,4 @@
+#include "EnemyManager.hpp"
 #include "EnemyManagerCardAttackSpawn.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "ZunTimer.hpp"
@@ -52,23 +53,21 @@ struct EnemyTimelineSharedRuntimeView
     int IsBlocked();
 };
 
-struct EnemyScheduleRuntimeAdvanceView
+struct EnemyScheduleRuntimeAdvanceOverlay
 {
     ZunTimer timer00;
     ZunTimer delayTimer0C;
     int mirrorMovementX18;
     EnemyTimelineManagerView *manager1C;
     EnemyTimelineInstructionView *instruction20;
-
-    int Run();
 };
 
 typedef char EnemyScheduleAdvanceMirrorAt18[
-    (offsetof(EnemyScheduleRuntimeAdvanceView, mirrorMovementX18) == 0x18) ? 1 : -1];
+    (offsetof(EnemyScheduleRuntimeAdvanceOverlay, mirrorMovementX18) == 0x18) ? 1 : -1];
 typedef char EnemyScheduleAdvanceManagerAt1C[
-    (offsetof(EnemyScheduleRuntimeAdvanceView, manager1C) == 0x1C) ? 1 : -1];
+    (offsetof(EnemyScheduleRuntimeAdvanceOverlay, manager1C) == 0x1C) ? 1 : -1];
 typedef char EnemyScheduleAdvanceInstructionAt20[
-    (offsetof(EnemyScheduleRuntimeAdvanceView, instruction20) == 0x20) ? 1 : -1];
+    (offsetof(EnemyScheduleRuntimeAdvanceOverlay, instruction20) == 0x20) ? 1 : -1];
 
 extern EnemyTimelineSharedRuntimeView *g_PlayerSharedRuntime;
 extern unsigned char g_EnemyTimelineInstructionMask;
@@ -76,23 +75,25 @@ extern float g_EnemyTimelineStep;
 extern unsigned char g_FrontMode0Done;
 extern RngRuntimeView g_Rng;
 
-int EnemyScheduleRuntimeAdvanceView::Run()
+int EnemyScheduleRuntimeView::Run()
 {
+    EnemyScheduleRuntimeAdvanceOverlay *runtime =
+        reinterpret_cast<EnemyScheduleRuntimeAdvanceOverlay *>(this);
     if (g_PlayerSharedRuntime->IsBlocked())
         return 0;
 
-    if (static_cast<float>(delayTimer0C) > 0.0f)
+    if (static_cast<float>(runtime->delayTimer0C) > 0.0f)
     {
-        delayTimer0C--;
+        runtime->delayTimer0C--;
         return 0;
     }
 
-    while (instruction20->time00 >= 0)
+    while (runtime->instruction20->time00 >= 0)
     {
-        EnemyTimelineInstructionView *instruction = instruction20;
+        EnemyTimelineInstructionView *instruction = runtime->instruction20;
         int instructionTime = instruction->time00;
 
-        if (timer00 == instructionTime)
+        if (runtime->timer00 == instructionTime)
         {
             if ((g_EnemyTimelineInstructionMask & instruction->mask07) != 0)
             {
@@ -112,10 +113,10 @@ int EnemyScheduleRuntimeAdvanceView::Run()
                     position1.y = *reinterpret_cast<float *>(&args1[2]);
                     position1.z = 0.0f;
                     reinterpret_cast<EnemyTimelineSpawnManagerView *>(
-                        manager1C)->SpawnEnemyRecord(
+                        runtime->manager1C)->SpawnEnemyRecord(
                             args1[0], &position1,
                             args1[3], args1[4], args1[5],
-                            mirrorMovementX18, 0);
+                            runtime->mirrorMovementX18, 0);
                     break;
                 }
 
@@ -130,11 +131,11 @@ int EnemyScheduleRuntimeAdvanceView::Run()
                     EnemyTimelineEnemyView *enemy17 =
                         reinterpret_cast<EnemyTimelineEnemyView *>(
                             reinterpret_cast<EnemyTimelineSpawnManagerView *>(
-                                manager1C)->SpawnEnemyRecord(
+                                runtime->manager1C)->SpawnEnemyRecord(
                                     args17[0],
                                     &position17, args17[3],
                                     args17[4], args17[5],
-                                    mirrorMovementX18, 0));
+                                    runtime->mirrorMovementX18, 0));
                     enemy17->flags3380 |= 0x200u;
                     break;
                 }
@@ -148,15 +149,15 @@ int EnemyScheduleRuntimeAdvanceView::Run()
                     position15.y = *reinterpret_cast<float *>(&args15[2]);
                     position15.z = 0.0f;
                     reinterpret_cast<EnemyTimelineSpawnManagerView *>(
-                        manager1C)->SpawnEnemyRecord(
+                        runtime->manager1C)->SpawnEnemyRecord(
                             args15[0], &position15,
                             args15[3], args15[4], args15[5],
-                            mirrorMovementX18, 0);
+                            runtime->mirrorMovementX18, 0);
                     break;
                 }
 
                 case 12:
-                    mirrorMovementX18 = 1;
+                    runtime->mirrorMovementX18 = 1;
                 case 11:
                 {
                     struct SpecialSpawnLocals
@@ -174,17 +175,17 @@ int EnemyScheduleRuntimeAdvanceView::Run()
                     position11.z = 0.0f;
                     locals.enemy = reinterpret_cast<EnemyTimelineEnemyView *>(
                         reinterpret_cast<EnemyTimelineSpawnManagerView *>(
-                            manager1C)->SpawnEnemyRecord(
+                            runtime->manager1C)->SpawnEnemyRecord(
                                 locals.args[0],
                                 &position11, locals.args[3], -1,
-                                locals.args[6], mirrorMovementX18, 0));
+                                locals.args[6], runtime->mirrorMovementX18, 0));
                     locals.enemy->timelineParam0_3360 = locals.args[4];
                     locals.enemy->timelineParam1_3364 = locals.args[5];
                     break;
                 }
 
                 case 4:
-                    mirrorMovementX18 = 1;
+                    runtime->mirrorMovementX18 = 1;
                 case 2:
                 {
                     int *argsRange = reinterpret_cast<int *>(
@@ -198,15 +199,15 @@ int EnemyScheduleRuntimeAdvanceView::Run()
                         *reinterpret_cast<float *>(&argsRange[3]);
                     positionRange.z = 0.0f;
                     reinterpret_cast<EnemyTimelineSpawnManagerView *>(
-                        manager1C)->SpawnEnemyRecord(
+                        runtime->manager1C)->SpawnEnemyRecord(
                             argsRange[0], &positionRange,
                             argsRange[4], argsRange[5],
-                            argsRange[6], mirrorMovementX18, 0);
+                            argsRange[6], runtime->mirrorMovementX18, 0);
                     break;
                 }
 
                 case 5:
-                    mirrorMovementX18 = 1;
+                    runtime->mirrorMovementX18 = 1;
                 case 3:
                 {
                     int *argsPlay = reinterpret_cast<int *>(
@@ -217,10 +218,10 @@ int EnemyScheduleRuntimeAdvanceView::Run()
                         *reinterpret_cast<float *>(&argsPlay[1]);
                     positionPlay.z = 0.0f;
                     reinterpret_cast<EnemyTimelineSpawnManagerView *>(
-                        manager1C)->SpawnEnemyRecord(
+                        runtime->manager1C)->SpawnEnemyRecord(
                             argsPlay[0], &positionPlay,
                             argsPlay[2], argsPlay[3],
-                            argsPlay[4], mirrorMovementX18, 0);
+                            argsPlay[4], runtime->mirrorMovementX18, 0);
                     break;
                 }
 
@@ -228,7 +229,7 @@ int EnemyScheduleRuntimeAdvanceView::Run()
                 {
                     int *args8 = reinterpret_cast<int *>(
                         reinterpret_cast<unsigned char *>(instruction) + 8);
-                    manager1C->remoteSlots2AC388[args8[0]]
+                    runtime->manager1C->remoteSlots2AC388[args8[0]]
                         ->pendingEclSubroutine2D70 =
                             static_cast<short>(args8[1]);
                     break;
@@ -238,11 +239,11 @@ int EnemyScheduleRuntimeAdvanceView::Run()
                 {
                     int *args10 = reinterpret_cast<int *>(
                         reinterpret_cast<unsigned char *>(instruction) + 8);
-                    if (manager1C->remoteSlots2AC388[args10[0]] != 0 &&
-                        (manager1C->remoteSlots2AC388[args10[0]]->flags337C &
+                    if (runtime->manager1C->remoteSlots2AC388[args10[0]] != 0 &&
+                        (runtime->manager1C->remoteSlots2AC388[args10[0]]->flags337C &
                          1u) != 0)
                     {
-                        timer00--;
+                        runtime->timer00--;
                         goto finish;
                     }
                     break;
@@ -253,18 +254,18 @@ int EnemyScheduleRuntimeAdvanceView::Run()
                     int matchCount = 0;
                     for (unsigned int i = 0; i < 4; ++i)
                     {
-                        if (manager1C->timelineEventSlots2AC430[i] ==
+                        if (runtime->manager1C->timelineEventSlots2AC430[i] ==
                             reinterpret_cast<int *>(
                                 reinterpret_cast<unsigned char *>(
-                                    instruction20) + 8)[0])
+                                    runtime->instruction20) + 8)[0])
                         {
                             ++matchCount;
-                            manager1C->timelineEventSlots2AC430[i] = -1;
+                            runtime->manager1C->timelineEventSlots2AC430[i] = -1;
                         }
                     }
                     if (matchCount == 0)
                     {
-                        timer00--;
+                        runtime->timer00--;
                         goto finish;
                     }
                     break;
@@ -273,12 +274,12 @@ int EnemyScheduleRuntimeAdvanceView::Run()
                 case 14:
                     for (unsigned int j = 0; j < 4; ++j)
                     {
-                        if (manager1C->timelineEventSlots2AC430[j] >= 0)
+                        if (runtime->manager1C->timelineEventSlots2AC430[j] >= 0)
                             continue;
-                        manager1C->timelineEventSlots2AC430[j] =
+                        runtime->manager1C->timelineEventSlots2AC430[j] =
                             reinterpret_cast<int *>(
                                 reinterpret_cast<unsigned char *>(
-                                    instruction20) + 8)[0];
+                                    runtime->instruction20) + 8)[0];
                     }
                     break;
 
@@ -287,24 +288,24 @@ int EnemyScheduleRuntimeAdvanceView::Run()
                 }
             }
         }
-        else if (timer00 < instructionTime)
+        else if (runtime->timer00 < instructionTime)
         {
             break;
         }
 
-        instruction20 = reinterpret_cast<EnemyTimelineInstructionView *>(
-            reinterpret_cast<unsigned char *>(instruction20) +
-            instruction20->size06);
+        runtime->instruction20 = reinterpret_cast<EnemyTimelineInstructionView *>(
+            reinterpret_cast<unsigned char *>(runtime->instruction20) +
+            runtime->instruction20->size06);
     }
 
 finish:
-    if (instruction20->time00 < 0)
+    if (runtime->instruction20->time00 < 0)
     {
-        instruction20 = 0;
-        timer00 = 0;
+        runtime->instruction20 = 0;
+        runtime->timer00 = 0;
         return 1;
     }
 
-    timer00 += g_EnemyTimelineStep;
+    runtime->timer00 += g_EnemyTimelineStep;
     return 0;
 }

@@ -957,4 +957,4 @@ ReplayInputPressedView::WasPressed,0x00415CD0,function
 InputView::IsPressedScrolling,0x00423158,function
 PlayerChargeAttackView::UpdateChargeAttack,0x0041F810,function
 Bullet::AdvanceTransformProgram,0x004141C0,function
-EnemyScheduleRuntimeAdvanceView::Run,0x0040FCC0,function
+EnemyScheduleRuntimeView::Run,0x0040FCC0,function

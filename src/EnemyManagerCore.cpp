@@ -255,7 +255,7 @@ struct EnemyManagerCoreView
     EnemyCoreTimerView sideTimer2AC3C8;
     unsigned char scheduleIndex2AC3D4;
     unsigned char unknown2AC3D5[0x2AC3E0 - 0x2AC3D5];
-    unsigned char scheduleRuntime2AC3E0[0x18];
+    EnemyScheduleRuntimeView scheduleRuntime2AC3E0;
     int scheduleHighBit2AC3F8;
     unsigned char unknown2AC3FC[0x04];
     void *scheduleObject2AC400;
@@ -306,7 +306,6 @@ extern int g_EnemyCoreDifficultyValue;
 extern unsigned char g_EnemyCoreSchedule[];
 
 extern void EnemyCoreSelectSide(int sideIndex);
-extern void EnemyCoreAdvanceSchedule(void *runtime);
 extern void *EnemyCoreLookupScheduleObject(int index);
 extern void EnemyCoreDespawn(EnemyCoreView *enemy);
 extern void EnemyCoreClampPosition(EnemyCoreView *enemy);
@@ -405,7 +404,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
     {
         if (manager->scheduleObject2AC400 != 0)
         {
-            EnemyCoreAdvanceSchedule(manager->scheduleRuntime2AC3E0);
+            manager->scheduleRuntime2AC3E0.Run();
         }
         else if (manager->normalEnemyCount2AC3B0 == 0 ||
                  manager->sideTimer2AC3C8.IsAfter(0))
@@ -415,8 +414,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             manager->scheduleHighBit2AC3F8 = schedule >> 7;
             manager->scheduleObject2AC400 =
                 EnemyCoreLookupScheduleObject(schedule & 0x7F);
-            reinterpret_cast<EnemyCoreTimerView *>(
-                manager->scheduleRuntime2AC3E0)->Set(0);
+            manager->scheduleRuntime2AC3E0.timer00 = 0;
         }
     }
 

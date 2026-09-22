@@ -102,6 +102,7 @@ struct EnemyScheduleRuntimeView
     ZunTimer timer0C;
 
     EnemyScheduleRuntimeView();
+    int Run();
 };
 typedef char EnemyScheduleRuntimeViewSizeIs18[
     (sizeof(EnemyScheduleRuntimeView) == 0x18) ? 1 : -1];

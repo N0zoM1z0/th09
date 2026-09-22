@@ -58,7 +58,10 @@ The latest checkpoint attested the target and live IDA database, but every new
 session must attest both again. Current ledger totals are generated in
 [`docs/PROGRESS.md`](docs/PROGRESS.md) and summarized with the active frontier
 in [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md); do not copy historical packet
-counts into a new decision.
+counts or old `remains source-absent/unknown` wording into a new decision. When a
+historical packet conflicts with `config/functions.csv`, `config/matches.csv`,
+or the maintained fact-index table at the top of `docs/KNOWLEDGE_BASE.md`, the
+current ledgers/fact index win.
 
 The PE and Rich header identify Microsoft Visual C++ .NET 2003 build 3077.
 Some runtime-library contributions and compiler-generated helpers are proven,
