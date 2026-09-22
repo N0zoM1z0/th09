@@ -45,6 +45,28 @@ relocations = [
   { offset = 0x33, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
 ]
 
+[units.ecl-configure-polar-motion]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Th09EclRunMovement::ConfigurePolarMotion"]
+symbol = "?ConfigurePolarMotion@Th09EclRunMovement@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@@Z"
+target_address = 0x004070A0
+size = 0x15A
+relocations = [
+  { offset = 0x13, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
+  { offset = 0x29, type = "REL32", symbol = "?AddNormalizeAngle@Th09EclRunControl@@YGMMM@Z", target = 0x0042AED0 },
+  { offset = 0x3D, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
+  { offset = 0x58, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
+  { offset = 0x6A, type = "REL32", symbol = "?Cos@Th09EclRunControl@@YGMM@Z", target = 0x00401060 },
+  { offset = 0x88, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
+  { offset = 0xA3, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
+  { offset = 0xB1, type = "REL32", symbol = "?Sin@Th09EclRunControl@@YGMM@Z", target = 0x00401070 },
+  { offset = 0xF5, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
+  { offset = 0x10C, type = "REL32", symbol = "??4Th09EclTimerStorageView@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x11C, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
+]
+
 [units.ecl-set-primary-anm-scripts]
 source = "src/EclManager.cpp"
 object = "build/matching/EclManager.obj"

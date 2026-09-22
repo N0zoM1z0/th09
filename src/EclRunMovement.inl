@@ -82,7 +82,8 @@ struct EnemyMovementView
     float acceleration2DF8;
     float orbitRadius2DFC;
     float radialVelocity2E00;
-    unsigned char unknown2E04[0x2E1C - 0x2E04];
+    EnemyFloat3 shootOffset2E04;
+    EnemyFloat3 movementDelta2E10;
     EnemyFloat3 movementOrigin2E1C;
     unsigned char movementTimer2E28[0x0C];
     int movementDuration2E34;
@@ -199,7 +200,7 @@ static void SetPrimaryAnmScripts(
 static void SetExtraAnmScript(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
-void ConfigurePolarMotion(
+static void ConfigurePolarMotion(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
 void ConfigureRelativeMotion(

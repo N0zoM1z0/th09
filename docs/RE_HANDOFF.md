@@ -88,8 +88,8 @@ A fresh pinned VC7.1 build at this checkpoint reports:
 
 | RunEcl measure | Target | Current candidate |
 | --- | ---: | ---: |
-| Logical bytes | 14,792 | 14,240 |
-| Logical gap | 0 | 552 |
+| Logical bytes | 14,792 | 14,244 |
+| Logical gap | 0 | 548 |
 | Stack frame | 0x168 | 0x13C |
 | Immediate direct calls | 375 | 375 |
 | Indirect calls | 4 | 4 |
@@ -123,6 +123,13 @@ Important current facts:
   and selects the target-private EAX Enemy receiver. This removes two
   target-absent caller moves, so the locally more-correct RunEcl candidate is
   14,240 bytes even though the aggregate gap grows to 552.
+- Th09EclRunMovement::ConfigurePolarMotion @ 0x004070A0 is now
+  canonical exact at 346/346 bytes. Its sole RunEcl caller establishes
+  compiler-private EDI=Enemy / ESI=instruction transport. The target also
+  reevaluates speed and duration for the x and y products and reads duration
+  again for the timer write; natural cos/sin * speed * duration source gives
+  VC7.1 the target evaluation order. The live RunEcl candidate is 14,244
+  bytes, gap 548.
 - The latest ANM ownership review proves 0x00439CF0 and 0x00439DC0 are
   AnmManager member helpers. RunEcl opcode 157 uses trail render vertices at
   Enemy +0x3E68, not the trail sample buffer at +0x33E8, and prepares
@@ -133,7 +140,7 @@ Important current facts:
 - No register forcing, var_order, volatile steering, padding, assembly or
   profile roulette is allowed.
 
-Use docs/KNOWLEDGE_BASE.md Packets 466 through 482 only as chronological
+Use docs/KNOWLEDGE_BASE.md Packets 466 through 483 only as chronological
 investigation history. The current functions.csv row plus a fresh
 report-ecl-codegen.py run are the live baseline.
 

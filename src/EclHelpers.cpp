@@ -298,31 +298,6 @@ void __fastcall CallSubroutine(
 namespace Th09EclRunMovement
 {
 
-void ConfigurePolarMotion(
-    EnemyView *enemy,
-    Th09EclRawInstructionHeaderView *instruction)
-{
-    EclHelperEnemyView *view = HelperView(enemy);
-    float angle = Th09EclRunControl::AddNormalizeAngle(
-        Th09EclRunControl::ReadFloat(enemy, instruction, 2), 0.0f);
-    float speed = Th09EclRunControl::ReadFloat(enemy, instruction, 3);
-    int duration = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-    view->movementDelta2E10.x =
-        Th09EclRunControl::Cos(angle) * duration * speed;
-    view->movementDelta2E10.y =
-        Th09EclRunControl::Sin(angle) * duration * speed;
-    view->movementDelta2E10.z = 0.0f;
-    view->movementOrigin2E1C = view->worldPosition2DD4;
-    view->movementDuration2E34 = duration;
-    view->movementTimer2E28 = duration;
-    view->primaryFlags337C =
-        (view->primaryFlags337C & ~0x3A00U) |
-        ((Th09EclRunControl::ReadInt(enemy, instruction, 1) & 7) << 11) |
-        0x400U;
-    if ((view->primaryFlags337C & 0x8000U) != 0)
-        view->movementDelta2E10.x = -view->movementDelta2E10.x;
-}
-
 void ConfigureRelativeMotion(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction)
