@@ -975,3 +975,5 @@ EnemyView::CleanupAfterDeactivation
 FrontMessageOwnerView::InitializeMessageRuntime
 PlayerCheckState2
 ApplyNetworkInput
+GameManagerPlayfieldView::IsWithinPlayfield
+EffectPolarScaleView::SetFromAngleAxes

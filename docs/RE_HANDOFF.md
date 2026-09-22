@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 977 |
+| Source-present authored mappings | 979 |
 | Canonical exact functions | 779 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -117,8 +117,12 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**2 authored functions / 148 bytes without maintained source**, plus 198
+**0 authored functions / 0 bytes without maintained source**, plus 200
 source-present functions that retain honest non-exact compiler results.
+
+The authored/no-source frontier is now closed at 979/979 mappings. The remaining
+work in this phase is exact-codegen convergence on the maintained non-exact set;
+semantic/port work remains deferred.
 
 1. **Preserve frozen and durable-negative frontiers.** The 35 origin-unknown
    entries remain frozen. Do not revisit them without new evidence that can
