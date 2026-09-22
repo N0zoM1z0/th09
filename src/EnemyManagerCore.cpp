@@ -304,8 +304,19 @@ struct EnemyCoreAnmManagerView
 struct EnemyCoreEclManagerView
 {
     int RunEcl(EnemyCoreView *enemy);
-    void CallSub(void *eclContext, short subId);
 };
+
+struct Th09EclContextView;
+
+namespace Th09EclRunState
+{
+struct ManagerStateView
+{
+    int InitializeSubroutine(
+        Th09EclContextView *context,
+        short subroutineId);
+};
+}
 
 struct EnemyCoreUiView
 {
@@ -855,7 +866,6 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 
         if (enemy->deathCallbackSubId2D2E >= 0)
         {
-            short callbackSubId = enemy->deathCallbackSubId2D2E;
             EnemyCoreResetBulletInfluence(enemy);
             enemy->eclCallStackDepth2D2A = 0;
             for (int callbackIndex = 0; callbackIndex < 4; ++callbackIndex)
@@ -868,8 +878,11 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                    owner->spawnTemplate328.bulletState2E74,
                    0x214);
             enemy->shootInterval30B4 = 0;
-            g_EnemyCoreEclManager.CallSub(enemy->eclStorage7F4,
-                                         callbackSubId);
+            reinterpret_cast<Th09EclRunState::ManagerStateView *>(enemyManager)
+                ->InitializeSubroutine(
+                    reinterpret_cast<Th09EclContextView *>(
+                        enemy->eclStorage7F4),
+                    enemy->deathCallbackSubId2D2E);
             enemy->deathCallbackSubId2D2E = -1;
         }
 
