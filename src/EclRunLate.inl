@@ -156,9 +156,6 @@ void MoveRandomBiased(
     float lateMagnitude;
     float *lateFloatResult;
     Laser *lateLaser;
-    Th09EclRunLate::BackgroundLateView *lateBackground;
-    Th09EclRunLate::BackgroundLateView *lateOpposingBackground;
-    Th09EclRunLate::SideOwnerView *lateOwner;
 
     case TH09_ECL_OPCODE_UNHANDLED_9E:
         break;
@@ -349,34 +346,39 @@ void MoveRandomBiased(
     case TH09_ECL_OPCODE_TRIGGER_SIDE_OWNER_STATE:
         lateCategory =
             (Th09EclRunLate::View(enemy)->secondaryFlags3380 >> 10) & 3;
-        lateOwner = Th09EclRunLate::Manager(enemy)->sideState320->owner14;
         if (lateCategory != 3)
         {
-            if (lateOwner->primaryStateA4 == 0)
+            if (Th09EclRunLate::Manager(enemy)->sideState320->
+                    owner14->primaryStateA4 == 0)
                 break;
-            lateOwner->primaryStateA4 = 2;
+            Th09EclRunLate::Manager(enemy)->sideState320->
+                owner14->primaryStateA4 = 2;
         }
         else
         {
-            if (lateOwner->alternateStateA8 == 0)
+            if (Th09EclRunLate::Manager(enemy)->sideState320->
+                    owner14->alternateStateA8 == 0)
                 break;
-            lateOwner->alternateStateA8 = 2;
-            lateBackground =
-                Th09EclRunLate::Manager(enemy)->sideState320->background00;
-            lateOpposingBackground = Th09EclRunLate::Manager(enemy)->
-                opposingSideState324->background00;
-            lateBackground->StartSpellBackground();
+            Th09EclRunLate::Manager(enemy)->sideState320->
+                owner14->alternateStateA8 = 2;
+            Th09EclRunLate::Manager(enemy)->sideState320->
+                background00->StartSpellBackground();
             for (lateIndex = 0;
-                 lateIndex < lateBackground->spellVmCountCD8;
+                 lateIndex <
+                     Th09EclRunLate::Manager(enemy)->sideState320->
+                         background00->spellVmCountCD8;
                  ++lateIndex)
             {
                 lateScript = lateIndex +
-                    lateOpposingBackground->spellVmScriptBaseCDC +
+                    Th09EclRunLate::Manager(enemy)->opposingSideState324->
+                        background00->spellVmScriptBaseCDC +
                     Th09EclRunLate::Manager(enemy)->opposingSideState324->
                         player04->tableValue303F4;
                 Th09EclRunMovement::SetAndExecuteAnmScript(
-                    lateOpposingBackground->sideAnm81C,
-                    &lateBackground->spellVmsCE0[lateIndex],
+                    Th09EclRunLate::Manager(enemy)->opposingSideState324->
+                        background00->sideAnm81C,
+                    &Th09EclRunLate::Manager(enemy)->sideState320->
+                        background00->spellVmsCE0[lateIndex],
                     lateScript);
             }
         }

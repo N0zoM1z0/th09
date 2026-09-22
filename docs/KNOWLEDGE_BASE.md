@@ -2882,3 +2882,9 @@ name into a TH09 fact without target-local evidence.
 - TH09 target opcode 167 resolves the laser-slot index, uses laserSlots[index] only for the null test, then reloads laserSlots[index] after the float operand is resolved before writing angle +0x554. The maintained source previously cached the first lookup in lateLaser.
 - Clean TH08 SET_LASER_ANGLE independently has the same source-family shape: test LASER(index), then evaluate LASER(index) again for the assignment. Restoring the indexed relookup in TH09 adds the target-visible second slot load without changing any helper call count.
 - Two cold pinned builds emit 14,184 logical bytes versus target 14,792, improving the gap from 620 to 608 while keeping frame 0x13C, 375 immediate plus four indirect calls, 597 relocations, resolver multiplicities 131/100/17/24 and all 193 compiler-table entries unchanged.
+
+## Packet 479 RunEcl side-owner relookup
+
+- TH09 target TRIGGER_SIDE_OWNER_STATE repeatedly reloads manager side/opposing-side ownership rather than keeping owner/background pointers live across the handler. Primary/alternate owner-state tests, background start, spell-VM count, opposing script-base/player contribution, ANM manager and primary VM array are each reached through fresh owner chains.
+- The maintained source previously cached lateOwner, lateBackground and lateOpposingBackground. Removing those caches and spelling the repeated member chains directly grows the handler from 245 to 260 reachable bytes against target 270, while preserving semantics and all helper-call identities.
+- Two cold builds grow RunEcl from 14,184 to 14,224 logical bytes, reducing the target gap from 608 to 568. Frame 0x13C, 375 immediate plus four indirect calls, 597 relocations, resolver multiplicities 131/100/17/24 and all 193 compiler-table entries remain unchanged.
