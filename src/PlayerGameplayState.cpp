@@ -416,9 +416,10 @@ void __fastcall PlayerUpdateSelectorState(void *state)
 {
     PlayerGameplayHeaderView *header =
         reinterpret_cast<PlayerGameplayHeaderView *>(state);
-    PlayerSideProtocolView *protocol =
-        &g_PlayerSideProtocols[header->player78->sideIndex];
-    memset(protocol, 0, 0x58);
+    memset(
+        &g_PlayerSideProtocols[header->player78->sideIndex],
+        0,
+        0x58);
 
     PlayerConstructedVector3View constructedHalfSizes[3];
     PlayerPositionView *halfSizes =
@@ -489,7 +490,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     {
         if (header->crossedThreshold0C != 0)
         {
-            protocol->thresholdFlags34 |= 1U;
+            g_PlayerSideProtocols[header->player78->sideIndex].thresholdFlags34 |= 1U;
             header->crossedThreshold0C = 0;
         }
     }
@@ -519,7 +520,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
         void *manager = PrimaryTargetManager(header->player78);
         if (manager != NULL && GameplayField<int>(manager, 0x2AC3B8) >= 4)
         {
-            protocol->patternFlags2C |= 4U;
+            g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |= 4U;
             alternate = 1;
         }
     }
@@ -566,9 +567,9 @@ retry_pattern_grid:
             }
         }
 
-        if ((protocol->patternFlags2C & 4U) != 0)
+        if ((g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C & 4U) != 0)
         {
-            protocol->patternFlags2C &= ~4U;
+            g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C &= ~4U;
             alternate = 0;
             goto retry_pattern_grid;
         }
@@ -580,19 +581,23 @@ retry_pattern_grid:
             if (header->crossedThreshold0C != 0 &&
                 header->player78->scalar30384 >= 100.0f)
             {
-                protocol->thresholdFlags34 |= 1U;
+                g_PlayerSideProtocols[header->player78->sideIndex].thresholdFlags34 |= 1U;
                 header->crossedThreshold0C = 0;
                 return;
             }
-            protocol->eventFlags32 |= 2U;
-            protocol->patternFlags2C |= 2U;
+            g_PlayerSideProtocols[header->player78->sideIndex].eventFlags32 |= 2U;
+            g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |= 2U;
         }
         header->currentPattern54 = selectedPattern;
         return;
     }
 
 pattern_selected:
-    if (header->player78->scalar30384 < header->distanceThreshold58)
+    {
+        PlayerSideProtocolView *protocol =
+            &g_PlayerSideProtocols[header->player78->sideIndex];
+
+        if (header->player78->scalar30384 < header->distanceThreshold58)
     {
         if (header->crossedThreshold0C != 0)
             protocol->patternFlags2C |= 1U;
@@ -679,4 +684,5 @@ pattern_selected:
 
     header->currentPattern54 = selectedPattern;
     header->frameTimer00++;
+    }
 }
