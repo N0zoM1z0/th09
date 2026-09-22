@@ -325,32 +325,34 @@ __forceinline void AssignFlagField(
 
     case TH09_ECL_OPCODE_SET_BOSS:
         stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (stateInt < 0)
+        if (stateInt >= 0)
         {
-            stateIndex = Th09EclRunState::View(enemy)->bossSlot336B;
-            Th09EclRunState::BossSlots(enemy)[stateIndex] = 0;
-            Th09EclRunState::View(enemy)->primaryFlags337C &=
-                ~Th09EclRunState::ENEMY_STATE_BOSS;
-            Th09EclRunState::g_BossUi.SetBossMarkerState(stateIndex, 2);
-            Th09EclRunState::ReleaseAttachedEffects(enemy);
-            Float3 statePosition(-999.0f, -999.0f, 0.0f);
-            Th09EclRunState::g_BossUi.SetBossMarkerPosition(
-                stateIndex,
-                &statePosition);
+            Th09EclRunState::BossSlots(enemy)[
+                Th09EclRunControl::ReadInt(enemy, instruction, 0)] = enemy;
+            Th09EclRunState::View(enemy)->primaryFlags337C |=
+                Th09EclRunState::ENEMY_STATE_BOSS;
+            Th09EclRunState::View(enemy)->bossSlot336B =
+                static_cast<unsigned char>(
+                    Th09EclRunControl::ReadInt(enemy, instruction, 0));
+            Th09EclRunState::g_BossUi.SetBossMarkerState(
+                Th09EclRunState::View(enemy)->bossSlot336B,
+                1);
+            Th09EclRunState::View(enemy)->minimumPlayerDistanceSquared33A8 =
+                0.0f;
         }
         else
         {
-            stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-            Th09EclRunState::BossSlots(enemy)[stateIndex] = enemy;
-            Th09EclRunState::View(enemy)->primaryFlags337C |=
-                Th09EclRunState::ENEMY_STATE_BOSS;
-            stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-            Th09EclRunState::View(enemy)->bossSlot336B =
-                static_cast<unsigned char>(stateIndex);
-            stateIndex = Th09EclRunState::View(enemy)->bossSlot336B;
-            Th09EclRunState::g_BossUi.SetBossMarkerState(stateIndex, 1);
-            Th09EclRunState::View(enemy)->minimumPlayerDistanceSquared33A8 =
-                0.0f;
+            Th09EclRunState::BossSlots(enemy)[
+                Th09EclRunState::View(enemy)->bossSlot336B] = 0;
+            Th09EclRunState::View(enemy)->primaryFlags337C &=
+                ~Th09EclRunState::ENEMY_STATE_BOSS;
+            Th09EclRunState::g_BossUi.SetBossMarkerState(
+                Th09EclRunState::View(enemy)->bossSlot336B,
+                2);
+            Th09EclRunState::ReleaseAttachedEffects(enemy);
+            Th09EclRunState::g_BossUi.SetBossMarkerPosition(
+                Th09EclRunState::View(enemy)->bossSlot336B,
+                &Float3(-999.0f, -999.0f, 0.0f));
         }
         break;
 

@@ -88,8 +88,8 @@ A fresh pinned VC7.1 build at this checkpoint reports:
 
 | RunEcl measure | Target | Current candidate |
 | --- | ---: | ---: |
-| Logical bytes | 14,792 | 14,832 |
-| Candidate-target delta | 0 | +40 |
+| Logical bytes | 14,792 | 14,820 |
+| Candidate-target delta | 0 | +28 |
 | Stack frame | 0x168 | 0x150 |
 | Immediate direct calls | 375 | 375 |
 | Indirect calls | 4 | 4 |
@@ -163,10 +163,16 @@ Important current facts:
   color hoist each short sign-extension before its parameter-mask branch,
   closing the former 321-byte plateau without register or encoding steering.
 - These TU facts also changed the large RunEcl owner materially: the current
-  candidate is 14,832/14,792, only 40 bytes over target instead of the
+  candidate is 14,820/14,792, only 28 bytes over target instead of the
   superseded 14,244-byte candidate that was 548 bytes short. The frame is
   0x150 versus target 0x168; all call and resolver multiplicities remain
   closed.
+- Fresh SET_BOSS review removes a stale cached stateIndex shape. TH09
+  reevaluates the ECL integer twice on the positive path, reloads bossSlot336B
+  at each UI/slot use, and lays out state >= 0 as fall-through with teardown on
+  the taken negative branch. VC7.1 then naturally keeps zero in ESI and reuses
+  the Float3 constructor return for the hidden (-999,-999,0) marker. This cuts
+  another 12 logical bytes without changing any accepted EclManager exact unit.
 - The latest ANM ownership review proves 0x00439CF0 and 0x00439DC0 are
   AnmManager member helpers. RunEcl opcode 157 uses trail render vertices at
   Enemy +0x3E68, not the trail sample buffer at +0x33E8, and prepares
@@ -177,7 +183,7 @@ Important current facts:
 - No register forcing, var_order, volatile steering, padding, assembly or
   profile roulette is allowed.
 
-Use docs/KNOWLEDGE_BASE.md Packets 466 through 488 only as chronological
+Use docs/KNOWLEDGE_BASE.md Packets 466 through 489 only as chronological
 investigation history. The current functions.csv row plus a fresh
 report-ecl-codegen.py run are the live baseline.
 
