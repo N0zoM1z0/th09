@@ -959,3 +959,5 @@ PlayerChargeAttackView::UpdateChargeAttack,0x0041F810,function
 Bullet::AdvanceTransformProgram,0x004141C0,function
 EnemyScheduleRuntimeView::Run,0x0040FCC0,function
 SampleNetworkInput,0x0042B850,function
+AppendD3DCapabilitySupportLine,0x0042CD40,function
+FormatD3DCapabilities,0x0042CD90,function
