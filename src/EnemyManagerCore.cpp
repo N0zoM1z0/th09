@@ -1,6 +1,7 @@
 #include "AsciiManager.hpp"
 #include "EnemyManager.hpp"
 #include "Supervisor.hpp"
+#include "ZunMemory.hpp"
 
 #include <math.h>
 #include <stddef.h>
@@ -782,8 +783,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
         {
             if (enemy->childEclBlocks33D8[childIndex] != 0)
             {
-                EnemyCoreReleaseChildEclBlocks(enemy);
-                break;
+                g_ZunMemory.Free(enemy->childEclBlocks33D8[childIndex]);
+                enemy->childEclBlocks33D8[childIndex] = 0;
             }
         }
 
