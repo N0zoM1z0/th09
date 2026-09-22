@@ -974,3 +974,4 @@ FrontMessageRuntimeView::ReleaseForSideCount
 EnemyView::CleanupAfterDeactivation
 FrontMessageOwnerView::InitializeMessageRuntime
 PlayerCheckState2
+ApplyNetworkInput

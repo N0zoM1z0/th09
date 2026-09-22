@@ -975,3 +975,4 @@ FrontMessageRuntimeView::ReleaseForSideCount,0x00417520,function
 EnemyView::CleanupAfterDeactivation,0x00410110,function
 FrontMessageOwnerView::InitializeMessageRuntime,0x004181E0,function
 PlayerCheckState2,0x0044AB20,function
+ApplyNetworkInput,0x0042ACE0,function
