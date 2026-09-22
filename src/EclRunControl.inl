@@ -34,6 +34,7 @@ struct RngView
     float GetRandomF32();
     float GetRandomF32Signed();
     float GetRandomF32InRange(float maximum);
+    float GetRandomF32SignedInRange(float maximum);
 };
 
 extern RngView g_Rng;

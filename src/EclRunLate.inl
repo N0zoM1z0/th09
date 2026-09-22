@@ -134,7 +134,7 @@ inline float &MainAnmRotation(EnemyView *enemy)
         reinterpret_cast<unsigned char *>(enemy) + 0x0010);
 }
 
-void MoveRandomBiased(
+static void MoveRandomBiased(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
 

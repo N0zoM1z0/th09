@@ -207,7 +207,7 @@ static void ConfigurePolarMotion(
 static void ConfigureRelativeMotion(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
-void BeginBoundaryAwareMove(
+static void BeginBoundaryAwareMove(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
 void ClampPosition(EnemyView *enemy);

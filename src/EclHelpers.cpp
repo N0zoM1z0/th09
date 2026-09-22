@@ -17,17 +17,6 @@ struct EclHelperManagerView
     float sharedFloats178[4];
 };
 
-struct EclHelperPlayerView
-{
-    unsigned char unknown0000[0x1B88];
-    Float3 position1B88;
-};
-
-struct EclHelperRngView
-{
-    float GetRandomF32SignedInRange(float maximum);
-};
-
 struct EclHelperEnemyView
 {
     EnemyManagerView *manager0000;
@@ -153,28 +142,6 @@ void __fastcall InterpolateHermite(
         minusOne * progress * progress * parameter3;
 }
 
-void StartTimedPolarDisplacement(
-    EnemyView *enemy,
-    Th09EclRawInstructionHeaderView *instruction,
-    float angle)
-{
-    EclHelperEnemyView *view = HelperView(enemy);
-    int duration = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-    float speed = Th09EclRunControl::ReadFloat(enemy, instruction, 2);
-
-    view->movementDelta2E10.x =
-        Th09EclRunControl::Cos(angle) * duration * speed;
-    view->movementDelta2E10.y =
-        Th09EclRunControl::Sin(angle) * duration * speed;
-    view->movementDelta2E10.z = 0.0f;
-    view->movementOrigin2E1C = view->worldPosition2DD4;
-    view->movementDuration2E34 = duration;
-    view->movementTimer2E28 = duration;
-    view->primaryFlags337C =
-        (view->primaryFlags337C & ~0x3A00U) |
-        ((Th09EclRunControl::ReadInt(enemy, instruction, 1) & 7) << 11) |
-        0x400U;
-}
 
 } // namespace
 
@@ -298,122 +265,12 @@ void __fastcall CallSubroutine(
 namespace Th09EclRunMovement
 {
 
-void BeginBoundaryAwareMove(
-    EnemyView *enemy,
-    Th09EclRawInstructionHeaderView *instruction)
-{
-    EclHelperEnemyView *view = HelperView(enemy);
-    float angle;
-    if (HelperPlayer(enemy)->position1B88.x < view->position2D74.x)
-        angle = Th09EclRunControl::AddNormalizeAngle(
-            Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) +
-                2.3561945f, 0.0f);
-    else
-        angle = Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) -
-                0.78539819f;
-
-    if (view->position2D74.x < view->movementLowerBounds3398.x + 96.0f)
-    {
-        if (angle > 1.5707964f) angle = 3.1415927f - angle;
-        else if (angle < -1.5707964f) angle = -3.1415927f - angle;
-    }
-    if (view->position2D74.x > view->movementUpperBounds33A0.x - 96.0f)
-    {
-        if (angle < 1.5707964f && angle >= 0.0f)
-            angle = 3.1415927f - view->movementAngle2DE0;
-        else if (angle > -1.5707964f && angle <= 0.0f)
-            angle = -3.1415927f - angle;
-    }
-    if (view->position2D74.y < view->movementLowerBounds3398.y + 48.0f && angle < 0.0f)
-        angle = -angle;
-    if (view->position2D74.y > view->movementUpperBounds33A0.y - 48.0f && angle > 0.0f)
-        angle = -angle;
-
-    if (Th09EclRunControl::ReadInt(enemy, instruction, 0) <= 0)
-    {
-        view->movementAngle2DE0 = angle;
-        view->speed2DF4 = Th09EclRunControl::ReadFloat(enemy, instruction, 2);
-        view->primaryFlags337C =
-            (view->primaryFlags337C & ~ENEMY_MOVEMENT_MODE_MASK) |
-            ENEMY_MOVEMENT_MODE_POLAR;
-        view->movementDuration2E34 = 0;
-        view->movementTimer2E28 = 0;
-    }
-    else
-        StartTimedPolarDisplacement(enemy, instruction, angle);
-}
 
 } // namespace Th09EclRunMovement
 
 namespace Th09EclRunLate
 {
 
-void MoveRandomBiased(
-    EnemyView *enemy,
-    Th09EclRawInstructionHeaderView *instruction)
-{
-    EclHelperEnemyView *view = HelperView(enemy);
-    float playerX = HelperPlayer(enemy)->position1B88.x;
-    float enemyX = view->position2D74.x;
-    float angle;
-
-    if (Th09EclRunControl::g_Rng.GetRandomU32InRange(4) != 0)
-    {
-        if (playerX >= enemyX)
-        {
-            if (enemyX - (playerX - 384.0f) <= playerX - enemyX)
-                angle = Th09EclRunControl::AddNormalizeAngle(
-                    Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) +
-                        2.3561945f,
-                    0.0f);
-            else
-                angle =
-                    Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) -
-                    0.78539819f;
-        }
-        else
-        {
-            if (playerX + 384.0f - enemyX <= enemyX - playerX)
-                angle =
-                    Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) -
-                    0.78539819f;
-            else
-                angle = Th09EclRunControl::AddNormalizeAngle(
-                    Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) +
-                        2.3561945f,
-                    0.0f);
-        }
-    }
-    else
-    {
-        angle = reinterpret_cast<EclHelperRngView *>(
-                    &Th09EclRunControl::g_Rng)
-                    ->GetRandomF32SignedInRange(3.1415927f);
-    }
-
-    if (view->position2D74.y < view->movementLowerBounds3398.y + 48.0f &&
-        angle < 0.0f)
-        angle = -angle;
-    if (view->position2D74.y > view->movementUpperBounds33A0.y - 48.0f &&
-        angle > 0.0f)
-        angle = -angle;
-
-    if (Th09EclRunControl::ReadInt(enemy, instruction, 0) <= 0)
-    {
-        view->movementAngle2DE0 = angle;
-        view->speed2DF4 = Th09EclRunControl::ReadFloat(enemy, instruction, 2);
-        view->primaryFlags337C =
-            (view->primaryFlags337C &
-             ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
-            Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
-        view->movementDuration2E34 = 0;
-        view->movementTimer2E28 = 0;
-    }
-    else
-    {
-        StartTimedPolarDisplacement(enemy, instruction, angle);
-    }
-}
 
 } // namespace Th09EclRunLate
 

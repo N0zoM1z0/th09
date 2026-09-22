@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 779 |
-| Source-present non-exact functions | 200 |
-| Source-present non-exact bytes | 151,149 |
+| Canonical exact functions | 784 |
+| Source-present non-exact functions | 195 |
+| Source-present non-exact bytes | 149,664 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 124,520 |
+| Canonical exact authored bytes | 126,005 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -136,6 +136,16 @@ Important current facts:
   +0x2D8C. The natural same-TU candidate is 295/296 bytes with the target
   0x18 frame; the remaining byte is a final flag-register scheduling plateau.
   TH08/TH095 bitfield source shapes shrink TH09 to 289 and are rejected.
+- StartTimedPolarDisplacement @ 0x00407200 and
+  Th09EclRunMovement::BeginBoundaryAwareMove @ 0x00407C30 are now canonical
+  exact at 288/288 and 510/510 bytes. StartTimed requires repeated
+  speed/duration operand evaluation; BeginBoundary requires the target
+  Float3 pointer-identity call @ 0x004343D0 before reusing one pointer for all
+  four boundary tests. Their private same-TU transports arise naturally.
+- Th09EclRunLate::MoveRandomBiased @ 0x00407E30 has also been routed into the
+  RunEcl TU so the exact StartTimed helper has one maintained implementation.
+  It is still honestly NON-EXACT at 411/516 bytes and is a useful next large
+  helper frontier.
 - The latest ANM ownership review proves 0x00439CF0 and 0x00439DC0 are
   AnmManager member helpers. RunEcl opcode 157 uses trail render vertices at
   Enemy +0x3E68, not the trail sample buffer at +0x33E8, and prepares
@@ -146,7 +156,7 @@ Important current facts:
 - No register forcing, var_order, volatile steering, padding, assembly or
   profile roulette is allowed.
 
-Use docs/KNOWLEDGE_BASE.md Packets 466 through 484 only as chronological
+Use docs/KNOWLEDGE_BASE.md Packets 466 through 485 only as chronological
 investigation history. The current functions.csv row plus a fresh
 report-ecl-codegen.py run are the live baseline.
 
