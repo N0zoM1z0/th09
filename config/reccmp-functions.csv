@@ -958,3 +958,4 @@ InputView::IsPressedScrolling,0x00423158,function
 PlayerChargeAttackView::UpdateChargeAttack,0x0041F810,function
 Bullet::AdvanceTransformProgram,0x004141C0,function
 EnemyScheduleRuntimeView::Run,0x0040FCC0,function
+SampleNetworkInput,0x0042B850,function

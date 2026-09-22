@@ -15008,3 +15008,27 @@ relocations = [
   { offset = 0x4E0, type = "DIR32", symbol = "$L1544", target = 0x004145B1 },
   { offset = 0x4E4, type = "DIR32", symbol = "$L1535", target = 0x00414687 },
 ]
+
+[units.sample-network-input]
+source = "src/SampleNetworkInput.cpp"
+object = "build/matching/SampleNetworkInput.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SampleNetworkInput"]
+symbol = "?SampleNetworkInput@@YIFH@Z"
+target_address = 0x0042B850
+size = 0x5E3
+relocations = [
+  { offset = 0x00A, type = "DIR32", symbol = "?g_WindowActivateWParam@@3HA", target = 0x004B30B8 },
+  { offset = 0x01F, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUSampleNetworkInputState@@A", target = 0x004ACE18 },
+  { offset = 0x02C, type = "DIR32", symbol = "?g_Supervisor@@3USampleNetworkInputSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x041, type = "DIR32", symbol = "__imp__GetKeyboardState@4", target = 0x0048E228 },
+  { offset = 0x057, type = "DIR32", symbol = "?g_Supervisor@@3USampleNetworkInputSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x2A7, type = "DIR32", symbol = "?g_Supervisor@@3USampleNetworkInputSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x2BB, type = "DIR32", symbol = "?g_Supervisor@@3USampleNetworkInputSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x2DC, type = "DIR32", symbol = "?g_Supervisor@@3USampleNetworkInputSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x519, type = "DIR32", symbol = "?g_Supervisor@@3USampleNetworkInputSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x530, type = "REL32", symbol = "?GetControllerInput@Controller@@YIGHHG@Z", target = 0x0042B410 },
+  { offset = 0x537, type = "DIR32", symbol = "?g_Supervisor@@3USampleNetworkInputSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x54C, type = "DIR32", symbol = "?g_Supervisor@@3USampleNetworkInputSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x563, type = "REL32", symbol = "?GetControllerInput@Controller@@YIGHHG@Z", target = 0x0042B410 },
+]

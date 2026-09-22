@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 959 |
-| Canonical exact functions | 770 |
+| Source-present authored mappings | 960 |
+| Canonical exact functions | 771 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -91,10 +91,10 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 959 source-present authored mappings. Of
-these, 770 are canonical exact and 189 retain honest non-exact compiler results.
-`config/matches.csv` contains 770 complete target-bound VC7.1 matches totaling
-115,525 exact authored bytes. Source presence, origin, exactness, product
+`config/implemented.csv` contains 960 source-present authored mappings. Of
+these, 771 are canonical exact and 189 retain honest non-exact compiler results.
+`config/matches.csv` contains 771 complete target-bound VC7.1 matches totaling
+117,032 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
 
 Canonical units are replayed with their recorded commands, for example:
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**20 authored functions / 22,964 bytes without maintained source**, plus 189
+**19 authored functions / 21,457 bytes without maintained source**, plus 189
 source-present functions that retain honest non-exact compiler results.
 
 1. **Preserve frozen and durable-negative frontiers.** The 35 origin-unknown
