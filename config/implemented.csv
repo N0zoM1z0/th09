@@ -961,3 +961,4 @@ SampleNetworkInput
 AppendD3DCapabilitySupportLine
 FormatD3DCapabilities
 InitializeD3DRendering
+WinMain

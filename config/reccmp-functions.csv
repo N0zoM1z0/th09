@@ -962,3 +962,4 @@ SampleNetworkInput,0x0042B850,function
 AppendD3DCapabilitySupportLine,0x0042CD40,function
 FormatD3DCapabilities,0x0042CD90,function
 InitializeD3DRendering,0x0042DD90,function
+WinMain,0x0042E3B0,function
