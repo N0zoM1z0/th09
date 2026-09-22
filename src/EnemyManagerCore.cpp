@@ -1,3 +1,4 @@
+#include "AsciiManager.hpp"
 #include "EnemyManager.hpp"
 
 #include <math.h>
@@ -71,21 +72,21 @@ typedef char EnemyCoreAnmVmSizeIs2A4[
 
 struct EnemyCoreTrailSampleView
 {
-    EnemyFloat3 position00;
-    EnemyFloat3 velocity0C;
+    Float3 position00;
+    Float3 velocity0C;
     float angle18;
 };
 typedef char EnemyCoreTrailSampleSizeIs1C[
     (sizeof(EnemyCoreTrailSampleView) == 0x1C) ? 1 : -1];
 
-struct EnemyCoreAttackManagerView;
+struct EnemyCoreEtamaControllerView;
 struct EnemyCorePlayerView;
 
 struct EnemyCoreSideStateView
 {
     unsigned char unknown00[0x04];
     EnemyCorePlayerView *player04;
-    EnemyCoreAttackManagerView *attackManager08;
+    EnemyCoreEtamaControllerView *etama08;
     EffectManager *effectManager0C;
     EnemyManagerView *enemyManager10;
     unsigned char unknown14[0x0C];
@@ -103,9 +104,9 @@ struct EnemyCorePlayerView
     unsigned char unknown00000[0x364];
     int state364;
     unsigned char unknown00368[0x1B88 - 0x368];
-    EnemyFloat3 position1B88;
+    Float3 position1B88;
     unsigned char unknown01B94[0x30364 - 0x1B94];
-    EnemyFloat3 trackedEnemyPosition30364;
+    Float3 trackedEnemyPosition30364;
     unsigned char unknown30370[0x3037C - 0x30370];
     void *homingTarget3037C;
     unsigned char unknown30380[0x303C8 - 0x30380];
@@ -114,8 +115,8 @@ struct EnemyCorePlayerView
     int GetState();
     void SetState(int state);
     int CalcDamageToEnemy(
-        EnemyFloat3 *position,
-        EnemyFloat3 *hitbox,
+        Float3 *position,
+        Float3 *hitbox,
         int *primaryAccumulator,
         int *bombHit,
         int *secondaryAccumulator);
@@ -125,33 +126,51 @@ typedef char EnemyCorePlayerPositionAt1B88[
 typedef char EnemyCorePlayerHomingAt3037C[
     (offsetof(EnemyCorePlayerView, homingTarget3037C) == 0x3037C) ? 1 : -1];
 
-struct EnemyCoreSpecialAttackView
+struct EnemyCoreBulletTransformRecordView
 {
-    short kind00;
-    short subtype02;
-    EnemyFloat3 position04;
-    int unknown10;
-    float scale14;
-    float difficultyScale18;
-    int unknown1C;
-    unsigned char unknown20[0x1F4 - 0x20];
-    short characterVariant1F4;
-    short one1F6;
-    short zero1F8;
-    short zero1FA;
-    int four1FC;
-
-    EnemyCoreSpecialAttackView()
-    {
-        memset(this, 0, sizeof(*this));
-    }
+    unsigned char storage00[0x18];
 };
-typedef char EnemyCoreSpecialAttackSizeIs200[
-    (sizeof(EnemyCoreSpecialAttackView) == 0x200) ? 1 : -1];
 
-struct EnemyCoreAttackManagerView
+struct EnemyCoreBulletSpawnDescriptorView
 {
-    void SpawnSpecialAttack(EnemyCoreSpecialAttackView *attack);
+    short bulletType00;
+    short color02;
+    Float3 position04;
+    float angle10;
+    float angleStep14;
+    float speed118;
+    float speed21C;
+    EnemyCoreBulletTransformRecordView transforms20[18];
+    float laserStartOffset1D0;
+    float laserEndOffset1D4;
+    float laserStartLength1D8;
+    float laserWidth1DC;
+    int laserStartTime1E0;
+    int laserDuration1E4;
+    int laserDespawnDuration1E8;
+    int laserHitboxStartTime1EC;
+    int laserHitboxEndDelay1F0;
+    short count1_1F4;
+    short count2_1F6;
+    unsigned short aimMode1F8;
+    unsigned short unknown1FA;
+    unsigned int transformFlags1FC;
+    int spawnSound200;
+    int transformSound204;
+    int transformStartIndex208;
+    unsigned char extraAttribute20C;
+    unsigned char unknown20D[3];
+    void *templateSprites210;
+
+    EnemyCoreBulletSpawnDescriptorView();
+};
+typedef char EnemyCoreBulletSpawnDescriptorSizeIs214[
+    (sizeof(EnemyCoreBulletSpawnDescriptorView) == 0x214) ? 1 : -1];
+
+struct EnemyCoreEtamaControllerView
+{
+    void *SpawnBulletPatternPrimary(
+        EnemyCoreBulletSpawnDescriptorView *descriptor);
 };
 
 struct EnemyCoreEffectView
@@ -172,15 +191,15 @@ struct EnemyCoreView
     unsigned char unknown2D2C[0x02];
     short deathCallbackSubId2D2E;
     unsigned char unknown2D30[0x2D74 - 0x2D30];
-    EnemyFloat3 position2D74;
-    EnemyFloat3 positionOffset2D80;
-    EnemyFloat3 velocity2D8C;
+    Float3 position2D74;
+    Float3 positionOffset2D80;
+    Float3 velocity2D8C;
     unsigned char unknown2D98[0x2DA4 - 0x2D98];
-    EnemyFloat3 previousPosition2DA4;
-    EnemyFloat3 displacement2DB0;
-    EnemyFloat3 hitbox2DBC;
-    EnemyFloat3 secondaryHitbox2DC8;
-    EnemyFloat3 worldPosition2DD4;
+    Float3 previousPosition2DA4;
+    Float3 displacement2DB0;
+    Float3 hitbox2DBC;
+    Float3 secondaryHitbox2DC8;
+    Float3 worldPosition2DD4;
     float movementAngle2DE0;
     unsigned char unknown2DE4[0x2E48 - 0x2DE4];
     int life2E48;
@@ -286,14 +305,14 @@ struct EnemyCoreEclManagerView
 
 struct EnemyCoreUiView
 {
-    void SetBossMarkerPosition(int slot, EnemyFloat3 *position);
+    void SetBossMarkerPosition(int slot, Float3 *position);
     void SetBossMarkerState(int slot, int state);
 };
 
 struct EnemyCoreFrontView
 {
     void SetSideEnemyIndicatorPosition(
-        int sideIndex, EnemyFloat3 *position);
+        int sideIndex, Float3 *position);
 };
 
 extern EnemyCoreAnmManagerView *g_EnemyCoreAnmManager;
@@ -315,47 +334,24 @@ extern int EnemyCoreRunTimerCallback(EnemyCoreView *enemy);
 extern int EnemyCoreIsWithinPlayfield(
     float x, float y, float extent34, float extent30);
 extern void EnemyCoreCheckPlayerCollision(
-    EnemyFloat3 *position, EnemyFloat3 *hitbox);
+    Float3 *position, Float3 *hitbox);
 extern void EnemyCoreResetBulletInfluence(EnemyCoreView *enemy);
 extern void EnemyCoreReleaseChildEclBlocks(EnemyCoreView *enemy);
 extern void EnemyCoreReleaseAttachedEffects(EnemyCoreView *enemy);
 static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy);
 extern void EnemyCorePlaySound(int soundIndex, float x);
 
-static void EnemyCoreAdd(EnemyFloat3 *result, const EnemyFloat3 *left,
-                         const EnemyFloat3 *right)
-{
-    result->x = left->x + right->x;
-    result->y = left->y + right->y;
-    result->z = left->z + right->z;
-}
-
-static void EnemyCoreSubtract(EnemyFloat3 *result, const EnemyFloat3 *left,
-                              const EnemyFloat3 *right)
-{
-    result->x = left->x - right->x;
-    result->y = left->y - right->y;
-    result->z = left->z - right->z;
-}
-
-static void EnemyCoreScale(EnemyFloat3 *result, const EnemyFloat3 *value,
-                           float scalar)
-{
-    result->x = value->x * scalar;
-    result->y = value->y * scalar;
-    result->z = value->z * scalar;
-}
-
 struct EnemyAttachedEffectUpdateView
 {
     unsigned char unknown000[0x48];
-    EnemyFloat3 position48;
+    Float3 position48;
     unsigned char unknown054[0x7C - 0x54];
     float distance7C;
     float angle80;
 };
 
 extern float __stdcall AddNormalizeAngle(float angle, float delta);
+extern long double __stdcall AnmProjectionAbs(float value);
 
 static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy)
 {
@@ -387,10 +383,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
     if ((g_EnemyCoreRuntimeFlags & 0x1800) != 0)
         return 1;
 
-    EnemyFloat3 markerPosition;
-    markerPosition.x = -999.0f;
-    markerPosition.y = 0.0f;
-    markerPosition.z = 0.0f;
+    Float3 markerPosition(-999.0f, 0.0f, 0.0f);
     g_EnemyCoreFront->SetSideEnemyIndicatorPosition(
         manager->sideIndex31C, &markerPosition);
     EnemyCoreSelectSide(manager->sideIndex31C);
@@ -463,8 +456,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 
         if ((flags & ENEMY_CORE_FORCE_DEATH) != 0)
         {
-            EnemyCoreAdd(&enemy->worldPosition2DD4, &enemy->position2D74,
-                         &enemy->positionOffset2D80);
+            enemy->worldPosition2DD4 =
+                enemy->position2D74 + enemy->positionOffset2D80;
             enemy->worldPosition2DD4.z = 0.0f;
             goto process_enemy_death;
         }
@@ -491,23 +484,23 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             if (enemy->specialAttackTimer5424.IsAfter(
                     manager->specialAttackThreshold2AC44C))
             {
-                EnemyCoreSpecialAttackView attack;
-                attack.kind00 = 1;
-                attack.subtype02 = 2;
-                attack.position04 = enemy->position2D74;
-                attack.unknown10 = 0;
-                attack.scale14 = 0.16f;
-                attack.difficultyScale18 =
+                EnemyCoreBulletSpawnDescriptorView descriptor;
+                descriptor.bulletType00 = 1;
+                descriptor.color02 = 2;
+                descriptor.position04 = enemy->position2D74;
+                descriptor.angle10 = 0.0f;
+                descriptor.angleStep14 = 0.15707964f;
+                descriptor.speed118 =
                     static_cast<float>(g_EnemyCoreDifficultyValue) * 0.1f +
                     1.0f;
-                attack.unknown1C = 0;
-                attack.characterVariant1F4 =
+                descriptor.speed21C = 0.0f;
+                descriptor.count1_1F4 =
                     static_cast<short>(side->characterIndex20 == 13 ? 1 : 3);
-                attack.one1F6 = 1;
-                attack.zero1F8 = 0;
-                attack.zero1FA = 0;
-                attack.four1FC = 4;
-                side->attackManager08->SpawnSpecialAttack(&attack);
+                descriptor.count2_1F6 = 1;
+                descriptor.aimMode1F8 = 0;
+                descriptor.unknown1FA = 0;
+                descriptor.transformFlags1FC = 4;
+                side->etama08->SpawnBulletPatternPrimary(&descriptor);
                 enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
                 EnemyCoreDespawn(enemy);
                 continue;
@@ -535,10 +528,14 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             EnemyCoreClampPosition(enemy);
             EnemyCoreIntegrateVelocity(enemy);
             EnemyCoreClampPosition(enemy);
+            enemy->worldPosition2DD4 =
+                enemy->position2D74 + enemy->positionOffset2D80;
         }
-
-        EnemyCoreAdd(&enemy->worldPosition2DD4, &enemy->position2D74,
-                     &enemy->positionOffset2D80);
+        else
+        {
+            enemy->worldPosition2DD4 =
+                enemy->position2D74 + enemy->positionOffset2D80;
+        }
         enemy->worldPosition2DD4.z = 0.0f;
 
         if (enemy->trailFlags53A0 != 0)
@@ -560,11 +557,12 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
         if (loadedSprite == 0)
             enemy->flags337C |= ENEMY_CORE_NO_SPRITE;
 
+        float *worldPosition = enemy->worldPosition2DD4;
         if ((enemy->flags337C & ENEMY_CORE_NO_SPRITE) == 0 &&
             (enemy->flags337C & ENEMY_CORE_HAS_BEEN_IN_BOUNDS) == 0 &&
             EnemyCoreIsWithinPlayfield(
-                enemy->worldPosition2DD4.x,
-                enemy->worldPosition2DD4.y,
+                worldPosition[0],
+                worldPosition[1],
                 loadedSprite->extent34,
                 loadedSprite->extent30))
         {
@@ -573,25 +571,26 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
         else if ((enemy->flags337C & ENEMY_CORE_HAS_BEEN_IN_BOUNDS) != 0 &&
                  (enemy->flags337C & ENEMY_CORE_ALLOW_OFFSCREEN) == 0)
         {
-            int worldInBounds = EnemyCoreIsWithinPlayfield(
-                enemy->worldPosition2DD4.x,
-                enemy->worldPosition2DD4.y,
-                loadedSprite->extent34,
-                loadedSprite->extent30);
-            int trailInBounds = 0;
-            if (enemy->trailFlags53A0 != 0)
-            {
-                EnemyCoreTrailSampleView *tail =
-                    &enemy->trailSamples33E8[
-                        enemy->trailHistoryLength53A2 - 1];
-                trailInBounds = EnemyCoreIsWithinPlayfield(
-                    tail->position00.x,
-                    tail->position00.y,
-                    loadedSprite->extent34,
-                    loadedSprite->extent30);
-            }
-            if (!worldInBounds &&
-                (enemy->trailFlags53A0 == 0 || !trailInBounds))
+            EnemyCoreTrailSampleView *tail =
+                &enemy->trailSamples33E8[
+                    enemy->trailHistoryLength53A2 - 1];
+            if ((enemy->trailFlags53A0 == 0 &&
+                 !EnemyCoreIsWithinPlayfield(
+                     enemy->worldPosition2DD4.x,
+                     enemy->worldPosition2DD4.y,
+                     loadedSprite->extent34,
+                     loadedSprite->extent30)) ||
+                (enemy->trailFlags53A0 != 0 &&
+                 !EnemyCoreIsWithinPlayfield(
+                     enemy->worldPosition2DD4.x,
+                     enemy->worldPosition2DD4.y,
+                     loadedSprite->extent34,
+                     loadedSprite->extent30) &&
+                 !EnemyCoreIsWithinPlayfield(
+                     tail->position00.x,
+                     tail->position00.y,
+                     loadedSprite->extent34,
+                     loadedSprite->extent30)))
             {
                 enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
                 EnemyCoreDespawn(enemy);
@@ -629,23 +628,19 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                                               &enemy->hitbox2DBC);
                 if (enemy->trailFlags53A0 != 0)
                 {
-                    EnemyFloat3 trailHitbox = enemy->hitbox2DBC;
+                    Float3 trailHitbox = enemy->hitbox2DBC;
                     for (int trailIndex = 1;
                          trailIndex < enemy->trailCollisionLength53A4;
                          trailIndex += 6)
                     {
                         if ((enemy->trailFlags53A0 & 2) != 0)
                         {
-                            EnemyFloat3 reduction;
-                            EnemyCoreScale(
-                                &reduction,
-                                &enemy->hitbox2DBC,
-                                static_cast<float>(trailIndex) /
-                                    static_cast<float>(
-                                        enemy->trailCollisionLength53A4));
-                            EnemyCoreSubtract(&trailHitbox,
-                                              &enemy->hitbox2DBC,
-                                              &reduction);
+                            Float3 reduction =
+                                (enemy->hitbox2DBC *
+                                 static_cast<float>(trailIndex)) /
+                                static_cast<float>(
+                                    enemy->trailCollisionLength53A4);
+                            trailHitbox = enemy->hitbox2DBC - reduction;
                         }
                         EnemyCoreCheckPlayerCollision(
                             &enemy->trailSamples33E8[trailIndex].position00,
@@ -710,14 +705,10 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                     damageOccurred = 1;
                 }
 
-                EnemyFloat3 oldTargetDelta;
-                EnemyFloat3 newTargetDelta;
-                EnemyCoreSubtract(&oldTargetDelta,
-                                  &player->trackedEnemyPosition30364,
-                                  &player->position1B88);
-                EnemyCoreSubtract(&newTargetDelta,
-                                  &enemy->worldPosition2DD4,
-                                  &player->position1B88);
+                Float3 oldTargetDelta =
+                    player->trackedEnemyPosition30364 - player->position1B88;
+                Float3 newTargetDelta =
+                    enemy->worldPosition2DD4 - player->position1B88;
                 if (newTargetDelta.x * newTargetDelta.x +
                         newTargetDelta.y * newTargetDelta.y <
                     oldTargetDelta.x * oldTargetDelta.x +
@@ -727,8 +718,9 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                         enemy->worldPosition2DD4;
                 }
 
-                if (fabs(enemy->worldPosition2DD4.x -
-                         player->position1B88.x) < 64.0f)
+                if (AnmProjectionAbs(
+                        enemy->worldPosition2DD4.x -
+                        player->position1B88.x) < 64.0f)
                 {
                     EnemyCoreView *homing =
                         reinterpret_cast<EnemyCoreView *>(
@@ -793,15 +785,24 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             enemy->life2E48 = 1;
             if (enemy->deathEffectVariant3368 >= 0)
             {
-                for (int effectIndex = 0; effectIndex < 3; ++effectIndex)
-                {
-                    side->effectManager0C->SpawnEffect(
-                        enemy->deathEffectVariant3368 + 20,
-                        reinterpret_cast<EffectFloat3 *>(
-                            &enemy->worldPosition2DD4),
-                        1,
-                        static_cast<unsigned int>(-1));
-                }
+                side->effectManager0C->SpawnEffect(
+                    enemy->deathEffectVariant3368 + 20,
+                    reinterpret_cast<EffectFloat3 *>(
+                        &enemy->worldPosition2DD4),
+                    1,
+                    static_cast<unsigned int>(-1));
+                side->effectManager0C->SpawnEffect(
+                    enemy->deathEffectVariant3368 + 20,
+                    reinterpret_cast<EffectFloat3 *>(
+                        &enemy->worldPosition2DD4),
+                    1,
+                    static_cast<unsigned int>(-1));
+                side->effectManager0C->SpawnEffect(
+                    enemy->deathEffectVariant3368 + 20,
+                    reinterpret_cast<EffectFloat3 *>(
+                        &enemy->worldPosition2DD4),
+                    1,
+                    static_cast<unsigned int>(-1));
             }
             if (player->GetState() == 0)
             {

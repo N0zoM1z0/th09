@@ -202,6 +202,31 @@ Use docs/KNOWLEDGE_BASE.md Packets 466 through 490 only as chronological
 investigation history. The current functions.csv row plus a fresh
 report-ecl-codegen.py run are the live baseline.
 
+## Secondary large frontier: EnemyManagerView::OnUpdate
+
+`EnemyManagerView::OnUpdate @ 0x00410730` is an active large-function frontier,
+not a frozen size plateau. Fresh TH09 call-graph review invalidated several
+stale maintained-source owners rather than merely changing compiler spelling:
+
+- Target logical size is 3,883 bytes with frame `0x2A8` and 69 direct call
+  sites. The old natural candidate was 3,156 bytes, frame `0x25C`, with only
+  59 direct calls.
+- The maintained source now uses the target-proven `Float3` by-value
+  constructor/operators, the full 0x214 bullet spawn descriptor and side
+  EtamaController path, four static playfield-test sites, three explicit death
+  effect spawns, and `AnmProjectionAbs`.
+- A fresh pinned VC7.1 `/O2 /Ob1` build is 3,376/3,883 bytes with frame
+  `0x2B0` and 67/69 direct calls. The call sequence is otherwise aligned; the
+  remaining static call-surface gap is one normal-path `Float3::operator+`
+  site plus one separate out-of-bounds `CleanupAfterDeactivation` site.
+- `EnemyCoreUpdateAttachedEffects @ 0x0040F4C0`, from the same source file,
+  still replays exact at 151/151 in two cold passes after these changes.
+- Continue this owner by target-backed CFG/type/lifetime recovery. Do not add
+  filler, force registers, use volatile steering/assembly, or chase alternate
+  profiles for aggregate size.
+
+The durable evidence is in Packet 491.
+
 ## Other durable non-exact plateaus
 
 Do not churn these without new evidence:
