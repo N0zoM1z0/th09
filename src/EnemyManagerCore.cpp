@@ -543,8 +543,12 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             for (int trailIndex = enemy->trailHistoryLength53A2 - 1;
                  trailIndex > 0; --trailIndex)
             {
-                enemy->trailSamples33E8[trailIndex] =
-                    enemy->trailSamples33E8[trailIndex - 1];
+                enemy->trailSamples33E8[trailIndex].position00 =
+                    enemy->trailSamples33E8[trailIndex - 1].position00;
+                enemy->trailSamples33E8[trailIndex].velocity0C =
+                    enemy->trailSamples33E8[trailIndex - 1].velocity0C;
+                enemy->trailSamples33E8[trailIndex].angle18 =
+                    enemy->trailSamples33E8[trailIndex - 1].angle18;
             }
             enemy->trailSamples33E8[0].position00 =
                 enemy->worldPosition2DD4;

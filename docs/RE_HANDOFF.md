@@ -215,17 +215,21 @@ stale maintained-source owners rather than merely changing compiler spelling:
   constructor/operators, the full 0x214 bullet spawn descriptor and side
   EtamaController path, four static playfield-test sites, three explicit death
   effect spawns, and `AnmProjectionAbs`.
-- A fresh pinned VC7.1 `/O2 /Ob1` build is 3,376/3,883 bytes with frame
-  `0x2B0` and 67/69 direct calls. The call sequence is otherwise aligned; the
-  remaining static call-surface gap is one normal-path `Float3::operator+`
-  site plus one separate out-of-bounds `CleanupAfterDeactivation` site.
+- Target trail-history shifting is member-wise rather than one aggregate
+  assignment. Spelling the position/velocity/angle copies separately makes
+  VC7.1 naturally emit the target-shaped four-sample unrolled loop plus scalar
+  remainder instead of `rep movsd`.
+- The current pinned VC7.1 `/O2 /Ob1` build is 3,716/3,883 bytes with frame
+  `0x2B0` and 68/69 direct calls. The call sequence is aligned except for one
+  target-only normal-path `Float3::operator+` site; the formerly merged second
+  `CleanupAfterDeactivation` callsite is now restored naturally.
 - `EnemyCoreUpdateAttachedEffects @ 0x0040F4C0`, from the same source file,
   still replays exact at 151/151 in two cold passes after these changes.
 - Continue this owner by target-backed CFG/type/lifetime recovery. Do not add
   filler, force registers, use volatile steering/assembly, or chase alternate
   profiles for aggregate size.
 
-The durable evidence is in Packet 491.
+The durable evidence is in Packets 491 and 492.
 
 ## Other durable non-exact plateaus
 
