@@ -352,23 +352,26 @@ void ClearBulletsForTransition(EtamaController *controller);
 
     case TH09_ECL_OPCODE_ROTATE_LASER:
         laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        laser = Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex];
-        if (laser != 0)
+        if (Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex] != 0)
         {
-            laser->angle = Th09EclRunControl::AddNormalizeAngle(
-                laser->angle,
-                Th09EclRunControl::ReadFloat(enemy, instruction, 1));
+            Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex]->angle =
+                Th09EclRunControl::AddNormalizeAngle(
+                    Th09EclRunBullet::View(enemy)->
+                        laserSlots32D8[laserIndex]->angle,
+                    Th09EclRunControl::ReadFloat(enemy, instruction, 1));
         }
         break;
 
     case TH09_ECL_OPCODE_AIM_LASER_AT_PLAYER:
         laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        laser = Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex];
-        if (laser != 0)
+        if (Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex] != 0)
         {
-            laser->angle = Th09EclRunMovement::PlayerAngleToPoint(
-                Th09EclRunMovement::Player(enemy),
-                reinterpret_cast<EnemyFloat3 *>(&laser->position)) +
+            Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex]->angle =
+                Th09EclRunMovement::PlayerAngleToPoint(
+                    Th09EclRunMovement::Player(enemy),
+                    reinterpret_cast<EnemyFloat3 *>(
+                        &Th09EclRunBullet::View(enemy)->
+                            laserSlots32D8[laserIndex]->position)) +
                 Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         }
         break;
