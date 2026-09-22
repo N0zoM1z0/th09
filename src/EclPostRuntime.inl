@@ -396,10 +396,11 @@ static void DispatchShotInstruction(
     BulletSpawnDescriptor *descriptor = &view->bulletDescriptor2E74;
 
     descriptor->position = view->worldPosition2DD4 + view->shootOffset2E04;
+    int bulletType = args->bulletType00;
     descriptor->bulletType = static_cast<short>(
         (instruction->parameterMask0A & 1)
-            ? Th09EclRunControl::ResolveInt(enemy, args->bulletType00)
-            : args->bulletType00);
+            ? Th09EclRunControl::ResolveInt(enemy, bulletType)
+            : bulletType);
     descriptor->aimMode =
         instruction->opcode04 - TH09_ECL_OPCODE_SHOOT_FAN_AIMED;
     descriptor->count1 = static_cast<short>(
@@ -424,10 +425,11 @@ static void DispatchShotInstruction(
                              : args->speed210;
     descriptor->unknown1FA = 0;
     descriptor->transformFlags = args->transformFlags1C;
+    int color = args->color02;
     descriptor->color = static_cast<short>(
         (instruction->parameterMask0A & 2)
-            ? Th09EclRunControl::ResolveInt(enemy, args->color02)
-            : args->color02);
+            ? Th09EclRunControl::ResolveInt(enemy, color)
+            : color);
     Controller(enemy)->SpawnBulletPatternSecondary(descriptor);
 }
 
