@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 969 |
+| Source-present authored mappings | 970 |
 | Canonical exact functions | 776 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -91,8 +91,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 969 source-present authored mappings. Of
-these, 776 are canonical exact and 193 retain honest non-exact compiler results.
+`config/implemented.csv` contains 970 source-present authored mappings. Of
+these, 776 are canonical exact and 194 retain honest non-exact compiler results.
 `config/matches.csv` contains 776 complete target-bound VC7.1 matches totaling
 121,112 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**10 authored functions / 10,041 bytes without maintained source**, plus 193
+**9 authored functions / 7,238 bytes without maintained source**, plus 194
 source-present functions that retain honest non-exact compiler results.
 
 1. **Preserve frozen and durable-negative frontiers.** The 35 origin-unknown
@@ -181,6 +181,15 @@ source-present functions that retain honest non-exact compiler results.
    input/SHT/effect/option/history evidence. Natural VC7.1 settles at 1864
    bytes versus the 1835-byte target after bounded type/lifetime/source-order
    probes; the exact caller remains 522/522 under the corrected semantic name.
+
+   TitleScreenView::OnUpdateKeyConfig @ 0x00427EE8 is also now maintained.
+   TH09 screen dispatch, config offsets and exact helper leaves close the full
+   2,803-byte behavior; two cold builds are exact-sized at 2,803/2,803 with
+   2,323/2,331 comparable bytes. The remaining eight bytes are two SoundPlayer
+   scheduling triples plus two equivalent SIB encodings, so this is a durable
+   natural-codegen plateau rather than a register/padding target. The same work
+   corrects 0x00422F67 from an explicit-stdcall body model to the target-proven
+   TitleScreenView member ABI while preserving 106/106 canonical exactness.
 
 4. **Keep using shared-helper leverage before large callbacks.** Exact ExAttack
    init/update rows, Player leaves, Front helpers, Bullet descriptor transforms,

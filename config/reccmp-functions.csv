@@ -807,7 +807,7 @@ AnmVmView::ConfigurePositionInterpolation,0x004233A3,function
 AnmVmView::ConfigureColorInterpolation,0x004233F4,function
 FrontReleaseView::ReleaseCore,0x00418270,function
 TitleScreenView::SetTwoDigitVmValue,0x00422FD1,function
-SwapDuplicateCharacterIndex,0x00422F67,function
+TitleScreenView::SwapDuplicateCharacterIndex,0x00422F67,function
 EnemyCoreReleaseChildEclBlocks,0x004100E0,function
 EnemyManagerReleaseCore,0x00411F30,function
 ReleaseSubsystem4,0x00411F80,function
@@ -968,3 +968,4 @@ BackgroundRunStageScriptPhase,0x004018F0,function
 DecodeFrontMessageString,0x00415C60,function
 FrontMessageRuntimeView::Update,0x00416590,function
 PlayerLifecycleView::UpdateMovementAndOptions,0x0041C170,function
+TitleScreenView::OnUpdateKeyConfig,0x00427EE8,function

@@ -7800,11 +7800,11 @@ relocations = []
 
 
 [units.title-screen-swap-duplicate-character-index]
-source = "src/TitleScreen.cpp"
-object = "build/matching/TitleScreen.obj"
+source = "src/TitleScreenKeyConfig.cpp"
+object = "build/matching/TitleScreenKeyConfig.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["SwapDuplicateCharacterIndex"]
-symbol = "?SwapDuplicateCharacterIndex@@YGPAFPAFFFH@Z"
+functions = ["TitleScreenView::SwapDuplicateCharacterIndex"]
+symbol = "?SwapDuplicateCharacterIndex@TitleScreenView@@QAEPAFPAFFFH@Z"
 target_address = 0x00422F67
 size = 0x6A
 relocations = []

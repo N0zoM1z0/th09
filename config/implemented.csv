@@ -806,7 +806,7 @@ AnmVmView::ConfigurePositionInterpolation
 AnmVmView::ConfigureColorInterpolation
 FrontReleaseView::ReleaseCore
 TitleScreenView::SetTwoDigitVmValue
-SwapDuplicateCharacterIndex
+TitleScreenView::SwapDuplicateCharacterIndex
 EnemyCoreReleaseChildEclBlocks
 EnemyManagerReleaseCore
 ReleaseSubsystem4
@@ -967,3 +967,4 @@ BackgroundRunStageScriptPhase
 DecodeFrontMessageString
 FrontMessageRuntimeView::Update
 PlayerLifecycleView::UpdateMovementAndOptions
+TitleScreenView::OnUpdateKeyConfig
