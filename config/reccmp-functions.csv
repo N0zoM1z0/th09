@@ -965,3 +965,5 @@ InitializeD3DRendering,0x0042DD90,function
 WinMain,0x0042E3B0,function
 InterpolateBackgroundCameraVector,0x004016E0,function
 BackgroundRunStageScriptPhase,0x004018F0,function
+DecodeFrontMessageString,0x00415C60,function
+FrontMessageRuntimeView::Update,0x00416590,function

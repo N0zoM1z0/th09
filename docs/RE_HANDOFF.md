@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 966 |
+| Source-present authored mappings | 968 |
 | Canonical exact functions | 776 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -91,8 +91,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 966 source-present authored mappings. Of
-these, 776 are canonical exact and 190 retain honest non-exact compiler results.
+`config/implemented.csv` contains 968 source-present authored mappings. Of
+these, 776 are canonical exact and 192 retain honest non-exact compiler results.
 `config/matches.csv` contains 776 complete target-bound VC7.1 matches totaling
 121,112 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**13 authored functions / 14,767 bytes without maintained source**, plus 190
+**11 authored functions / 11,876 bytes without maintained source**, plus 192
 source-present functions that retain honest non-exact compiler results.
 
 1. **Preserve frozen and durable-negative frontiers.** The 35 origin-unknown
@@ -162,6 +162,13 @@ source-present functions that retain honest non-exact compiler results.
    from the row-6 template update slot and is exact-sized at 698 bytes; the
    remaining register/store scheduling residual stays non-exact after a bounded
    authentic-family same-TU visibility probe.
+   `FrontMessageRuntimeView::Update @ 0x00416590` and its same-TU
+   `DecodeFrontMessageString @ 0x00415C60` are now maintained source-present.
+   TH09 independently fixes the 29-way message opcode owner and complete external
+   call surface; two cold natural builds keep Update at 2724/2852 and Decode at
+   36/39. Their residuals are distributed global-address/register scheduling and
+   private helper ABI, so they are honest non-exact frontiers rather than
+   candidates for register forcing or padding.
    Rows 11 and 12 are now covered as well: `0x00446EE0` / `0x004471B0`
    are exact-sized 713/710-byte maintained updates from their template-table
    slots, with a shared 0x5C layout and a documented 44-byte scheduling residual

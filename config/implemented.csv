@@ -964,3 +964,5 @@ InitializeD3DRendering
 WinMain
 InterpolateBackgroundCameraVector
 BackgroundRunStageScriptPhase
+DecodeFrontMessageString
+FrontMessageRuntimeView::Update
