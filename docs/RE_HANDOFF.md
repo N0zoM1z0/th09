@@ -88,9 +88,9 @@ A fresh pinned VC7.1 build at this checkpoint reports:
 
 | RunEcl measure | Target | Current candidate |
 | --- | ---: | ---: |
-| Logical bytes | 14,792 | 14,820 |
-| Candidate-target delta | 0 | +28 |
-| Stack frame | 0x168 | 0x150 |
+| Logical bytes | 14,792 | 14,872 |
+| Candidate-target delta | 0 | +80 |
+| Stack frame | 0x168 | 0x154 |
 | Immediate direct calls | 375 | 375 |
 | Indirect calls | 4 | 4 |
 | Relocations | target-owned | 598 |
@@ -162,17 +162,32 @@ Important current facts:
   ESI=instruction naturally; target-backed int lifetimes for bulletType and
   color hoist each short sign-extension before its parameter-mask branch,
   closing the former 321-byte plateau without register or encoding steering.
-- These TU facts also changed the large RunEcl owner materially: the current
-  candidate is 14,820/14,792, only 28 bytes over target instead of the
-  superseded 14,244-byte candidate that was 548 bytes short. The frame is
-  0x150 versus target 0x168; all call and resolver multiplicities remain
-  closed.
+- Earlier TU/owner fixes moved RunEcl from the superseded 14,244-byte
+  candidate to a size-near 14,820/14,792 (+28) checkpoint. That checkpoint is
+  no longer the structural baseline: its opcode switch was physically about
+  0x140 bytes too late even though the aggregate size looked attractive.
 - Fresh SET_BOSS review removes a stale cached stateIndex shape. TH09
   reevaluates the ECL integer twice on the positive path, reloads bossSlot336B
   at each UI/slot use, and lays out state >= 0 as fall-through with teardown on
   the taken negative branch. VC7.1 then naturally keeps zero in ESI and reuses
   the Float3 constructor return for the hidden (-999,-999,0) marker. This cuts
   another 12 logical bytes without changing any accepted EclManager exact unit.
+- Main-loop CFG is now reconstructed around an inner dispatch loop instead
+  of two long gotos. TH09 requires a stable pointer to secondaryTime094,
+  secondary/time mismatch to break into the frame tail, activeContext loading
+  only after life>0, and the first interpolation-slot address to stay live
+  across the per-frame callback. With those natural lifetimes the first opcode
+  entry is exactly relative +0x1F2, versus about +0x332 in the old committed
+  shape. The current whole owner is 14,872/14,792 (+80) with frame 0x154.
+  This larger aggregate is accepted as a more truthful reconstruction because
+  block placement and the hot CFG are materially closer to TH09.
+- The next RunEcl work is local layout, not blind size trimming. SET_FLOAT is
+  already semantically shaped correctly but target places its float temporary
+  at [ebp-0xA4] while the current candidate uses a disp8-reachable slot; three
+  such accesses account for nine bytes of downstream case drift. Direct
+  activeContext rewrites for SET_SECONDARY_TIME were also tested and rejected
+  because VC7.1 tail-merged the two Timer::operator= calls, dropping the
+  target-correct direct-call multiplicity from 375 to 374.
 - The latest ANM ownership review proves 0x00439CF0 and 0x00439DC0 are
   AnmManager member helpers. RunEcl opcode 157 uses trail render vertices at
   Enemy +0x3E68, not the trail sample buffer at +0x33E8, and prepares
@@ -183,7 +198,7 @@ Important current facts:
 - No register forcing, var_order, volatile steering, padding, assembly or
   profile roulette is allowed.
 
-Use docs/KNOWLEDGE_BASE.md Packets 466 through 489 only as chronological
+Use docs/KNOWLEDGE_BASE.md Packets 466 through 490 only as chronological
 investigation history. The current functions.csv row plus a fresh
 report-ecl-codegen.py run are the live baseline.
 

@@ -452,80 +452,88 @@ th09_ecl_enter_pending_subroutine:
     goto th09_ecl_restart_context;
 
 th09_ecl_instruction_loop:
-    context = enemyState->activeContext2CE0;
     *worldPosition = *position + *positionOffset;
 
-    if (static_cast<int>(context->secondaryTime094) > 0)
+    for (;;)
     {
-        context->secondaryTime094--;
-        context->time008--;
-        goto th09_ecl_after_dispatch;
-    }
+        Th09EclTimerStorageView *secondaryTimer =
+            &enemyState->activeContext2CE0->secondaryTime094;
+        if (static_cast<int>(*secondaryTimer) > 0)
+        {
+            (*secondaryTimer)--;
+            enemyState->activeContext2CE0->time008--;
+            break;
+        }
 
-    if (!(context->time008 == instruction->time00))
-        goto th09_ecl_after_dispatch;
-
-    executionMask = Th09EclRunOwner::g_DifficultyMask |
-                    enemyState->difficultyOverride3388;
-    if ((instruction->difficultyMask09 & executionMask) != executionMask)
-        goto th09_ecl_advance_instruction;
+        if (enemyState->activeContext2CE0->time008 == instruction->time00)
+        {
+            executionMask = Th09EclRunOwner::g_DifficultyMask |
+                            enemyState->difficultyOverride3388;
+            if ((instruction->difficultyMask09 & executionMask) != executionMask)
+                goto th09_ecl_advance_instruction;
 
 #define TH09_ECL_RUN_SHARED_SWITCH
-    switch (instruction->opcode04)
-    {
-    {
+            switch (instruction->opcode04)
+            {
+            {
 #define TH09_ECL_RUN_CONTROL_BODY
 #include "EclRunControl.inl"
 #undef TH09_ECL_RUN_CONTROL_BODY
-    }
-    {
+            }
+            {
 #define TH09_ECL_RUN_MOVEMENT_BODY
 #include "EclRunMovement.inl"
 #undef TH09_ECL_RUN_MOVEMENT_BODY
-    }
-    {
+            }
+            {
 #define TH09_ECL_RUN_REMOTE_BODY
 #include "EclRunRemote.inl"
 #undef TH09_ECL_RUN_REMOTE_BODY
-    }
-    {
+            }
+            {
 #define TH09_ECL_RUN_BULLET_BODY
 #include "EclRunBullet.inl"
 #undef TH09_ECL_RUN_BULLET_BODY
-    }
-    {
+            }
+            {
 #define TH09_ECL_RUN_STATE_BODY
 #include "EclRunState.inl"
 #undef TH09_ECL_RUN_STATE_BODY
-    }
-    {
+            }
+            {
 #define TH09_ECL_RUN_LATE_BODY
 #include "EclRunLate.inl"
 #undef TH09_ECL_RUN_LATE_BODY
-    }
-    default:
-        break;
-    }
+            }
+            default:
+                break;
+            }
 #undef TH09_ECL_RUN_SHARED_SWITCH
 
 th09_ecl_advance_instruction:
-    instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
-        reinterpret_cast<unsigned char *>(instruction) +
-        static_cast<short>(instruction->nextOffset06));
+            instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
+                reinterpret_cast<unsigned char *>(instruction) +
+                static_cast<short>(instruction->nextOffset06));
 
 th09_ecl_redispatch_instruction:
-    goto th09_ecl_instruction_loop;
+            goto th09_ecl_instruction_loop;
+        }
+
+        break;
+    }
 
 th09_ecl_after_dispatch:
-    context = enemyState->activeContext2CE0;
     if (enemyState->life2E48 > 0)
     {
-        Float3 positionBeforeCallbacks = *position;
-        positionInterpolated = false;
-
+        context = enemyState->activeContext2CE0;
         perFrameCallback =
             reinterpret_cast<Th09EclRunState::ExInstructionCallback>(
                 context->perFrameCallback014);
+        slot = &context->interpolationSlots0A0[0];
+
+        Float3 positionBeforeCallbacks = *position;
+        positionInterpolated = false;
+
         if (perFrameCallback != NULL)
         {
             perFrameCallback(
@@ -534,11 +542,10 @@ th09_ecl_after_dispatch:
                     context->perFrameInstruction018));
         }
 
-        for (interpolationIndex = 0;
-             interpolationIndex < TH09_ECL_INTERPOLATION_SLOT_COUNT;
-             ++interpolationIndex)
+        for (interpolationIndex = TH09_ECL_INTERPOLATION_SLOT_COUNT;
+             interpolationIndex > 0;
+             --interpolationIndex, ++slot)
         {
-            slot = &context->interpolationSlots0A0[interpolationIndex];
             if (slot->callback00 == NULL)
                 continue;
 
