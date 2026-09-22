@@ -212,10 +212,9 @@ void MoveRandomBiased(
 
     case TH09_ECL_OPCODE_SET_LASER_ANGLE:
         lateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        lateLaser = Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex];
-        if (lateLaser)
+        if (Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex])
         {
-            lateLaser->angle =
+            Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex]->angle =
                 Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         }
         break;
