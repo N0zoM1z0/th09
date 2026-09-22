@@ -289,7 +289,7 @@ The durable evidence is in Packets 499 through 505.
 large-owner frontier. Fresh target-backed corrections give:
 
 - target 2,195 bytes, frame `0x40`, 62 immediate direct calls;
-- current pinned VC7.1 `/O2 /Ob1` candidate 2,208 bytes, frame `0x50`,
+- current pinned VC7.1 `/O2 /Ob1` candidate 2,188 bytes, frame `0x50`,
   with 62 external DISP32 relocations;
 - three target-absent sprite helper calls are gone; VM loadedSprite storage is
   read directly;
@@ -302,17 +302,20 @@ large-owner frontier. Fresh target-backed corrections give:
 - the target-disproved 0.7 laser-size branch is removed, and FIRED-before-
   DESPAWNING switch ordering now puts the cold despawn block after laser
   AddNormalizeAngle/SetZRotation as in the target;
+- laser state 0/2 now share a natural currentWidth local: state 0 publishes
+  it to the Laser member, while state 2 keeps the shrinking value local as the
+  target does;
 - raw-section Capstone confirms 62 actual candidate calls, resolving the
   previous COFF objdump relocation-boundary ambiguity;
 - all seven canonical units from the same TU remain exact in two cold passes.
 
-The older 2,200-byte candidate was smaller only because it retained the wrong
-side-freeze control flow. The honest current frame is still 0x10 too large.
-Continue from target-backed local lifetime and stack-slot evidence; do not
-force registers or chase aggregate size alone. COFF DISP32 count is not by
-itself a physical-call-count equality claim.
+The honest current frame is still 0x10 too large. Bounded natural lifetime
+probes reproduce the target laser scalar homes but cannot make VC7.1 reuse the
+four early Float3 return buffers naturally; declaration/type/named-temp variants
+are exhausted. Do not force registers, use var_order, or chase aggregate size
+alone.
 
-The durable evidence is in Packets 506 through 508.
+The durable evidence is in Packets 506 through 509.
 
 ## Other durable non-exact plateaus
 

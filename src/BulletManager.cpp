@@ -583,6 +583,8 @@ done:
 
 int EtamaController::OnUpdate(EtamaController *controller)
 {
+    float currentWidth;
+
     if ((g_GameManager.flags & 0x1800) != 0)
         return 1;
 
@@ -818,11 +820,13 @@ queueBullet:
                 if (laser->startTime - rampWindow <
                     reinterpret_cast<BulletTimerCurrentView *>(
                         &laser->timer)->GetCurrent())
-                    laser->currentWidth = (float)laser->timer * laser->width / laser->startTime;
+                    currentWidth =
+                        (float)laser->timer * laser->width / laser->startTime;
                 else
-                    laser->currentWidth = 1.2f;
-                laser->bodyVm.scale.x = laser->currentWidth / 16.0f;
-                laserSize[0] = laser->currentWidth / 2.0f;
+                    currentWidth = 1.2f;
+                laser->currentWidth = currentWidth;
+                laser->bodyVm.scale.x = currentWidth / 16.0f;
+                laserSize[0] = currentWidth / 2.0f;
             }
             if (laser->timer >= laser->hitboxStartTime)
                 reinterpret_cast<PlayerCollisionQueryStateView *>(
@@ -866,10 +870,10 @@ queueBullet:
             }
             else if (laser->despawnDuration > 0)
             {
-                laser->currentWidth = laser->width -
+                currentWidth = laser->width -
                     (float)laser->timer * laser->width / laser->despawnDuration;
-                laser->bodyVm.scale.x = laser->currentWidth / 16.0f;
-                laserSize[0] = laser->currentWidth / 2.0f;
+                laser->bodyVm.scale.x = currentWidth / 16.0f;
+                laserSize[0] = currentWidth / 2.0f;
             }
             if (laser->timer < laser->hitboxEndDelay)
                 reinterpret_cast<PlayerCollisionQueryStateView *>(
