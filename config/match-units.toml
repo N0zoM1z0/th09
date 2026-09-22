@@ -15626,3 +15626,13 @@ relocations = [
   { offset = 0xC8D, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0xC93, type = "REL32", symbol = "?Draw3D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043B1A0 },
 ]
+
+[units.player-check-state2]
+source = "src/PlayerCheckState2.cpp"
+object = "build/matching/PlayerCheckState2.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerCheckState2"]
+symbol = "?PlayerCheckState2@@YIHXZ"
+target_address = 0x0044AB20
+size = 0x3
+relocations = []

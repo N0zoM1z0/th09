@@ -16,8 +16,8 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 975 |
-| Canonical exact functions | 777 |
+| Source-present authored mappings | 976 |
+| Canonical exact functions | 778 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
 complete. The faithful Windows i386 product graph remains open. Runtime
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**4 authored functions / 282 bytes without maintained source**, plus 198
+**3 authored functions / 279 bytes without maintained source**, plus 198
 source-present functions that retain honest non-exact compiler results.
 
 1. **Preserve frozen and durable-negative frontiers.** The 35 origin-unknown

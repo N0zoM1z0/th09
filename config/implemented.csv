@@ -973,3 +973,4 @@ Background::RenderObjects
 FrontMessageRuntimeView::ReleaseForSideCount
 EnemyView::CleanupAfterDeactivation
 FrontMessageOwnerView::InitializeMessageRuntime
+PlayerCheckState2
