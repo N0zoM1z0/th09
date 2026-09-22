@@ -242,11 +242,19 @@ stale maintained-source owners rather than merely changing compiler spelling:
   is retained rather than reverting target-disproved aliases.
 - `EnemyCoreUpdateAttachedEffects @ 0x0040F4C0`, from the same source file,
   still replays exact at 151/151 in two cold passes after these changes.
+- The remaining 59-byte frontier now has bounded negative coverage: labels,
+  branch aliases, explicit trail cursors, function-scope integer declarations,
+  manager-prefix views and natural damage-pointer spellings do not recover the
+  two merged target callsites. A named branch-local movement Float3 gives a
+  tempting 3,864-byte candidate but has the wrong post-call copy shape and is
+  rejected. Do not resume declaration/register roulette without new target
+  evidence.
+
 - Continue this owner by target-backed CFG/type/lifetime recovery. Do not add
   filler, force registers, use volatile steering/assembly, or chase alternate
   profiles for aggregate size.
 
-The durable evidence is in Packets 491 through 497.
+The durable evidence is in Packets 491 through 498.
 
 ## Other durable non-exact plateaus
 
