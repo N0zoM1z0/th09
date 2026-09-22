@@ -424,11 +424,6 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     PlayerConstructedVector3View constructedHalfSizes[3];
     PlayerPositionView *halfSizes =
         reinterpret_cast<PlayerPositionView *>(constructedHalfSizes);
-    halfSizes[0].x = 32.0f;
-    halfSizes[0].y = 32.0f;
-    halfSizes[1].x = 10.0f;
-    halfSizes[1].y = 10.0f;
-    halfSizes[2] = player->hurtboxHalfSize;
     float radii[3];
     radii[0] = 48.0f;
     radii[1] = 16.0f;
@@ -514,12 +509,20 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     if (player->position1B88.y < 192.0f)
         cell += 4;
 
+    halfSizes[0].x = 28.0f;
+    halfSizes[0].y = 28.0f;
+    halfSizes[1].x = 10.0f;
+    halfSizes[1].y = 10.0f;
+    halfSizes[2] = player->hurtboxHalfSize;
+
     int alternate = 0;
-    void *manager = PrimaryTargetManager(player);
-    if (manager != NULL && GameplayField<int>(manager, 0x2AC3B8) >= 4)
     {
-        protocol->patternFlags2C |= 4U;
-        alternate = 1;
+        void *manager = PrimaryTargetManager(player);
+        if (manager != NULL && GameplayField<int>(manager, 0x2AC3B8) >= 4)
+        {
+            protocol->patternFlags2C |= 4U;
+            alternate = 1;
+        }
     }
 
     g_PlayerPatternGrid[cell][1] = header->currentPattern54;
@@ -662,6 +665,7 @@ pattern_selected:
         (targetFlags & 0x2000U) != 0 ||
         GameplayField<int>(player, 0xC110) == 0)
     {
+        void *manager = PrimaryTargetManager(player);
         int divisor = manager != NULL &&
                               GameplayField<int>(manager, 0x2AC3AC) != 0
                           ? 10
