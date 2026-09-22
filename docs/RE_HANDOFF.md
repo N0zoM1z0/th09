@@ -283,6 +283,27 @@ padding/profile tricks; resume only with new TH09-local source evidence.
 
 The durable evidence is in Packets 499 through 505.
 
+## Secondary large frontier: EtamaController::OnUpdate
+
+`EtamaController::OnUpdate @ 0x004146F0` remains an active BulletManager
+large-owner frontier. Fresh target-backed corrections give:
+
+- target 2,195 bytes, frame `0x40`, 62 immediate direct calls;
+- current pinned VC7.1 `/O2 /Ob1` candidate 2,200 bytes, frame `0x54`,
+  with 62 external DISP32 call relocations;
+- three target-absent sprite helper calls are gone; VM loadedSprite storage is
+  read directly;
+- bullet cancel records now use canonical `AppendBoxRecord`;
+- laser timing now uses the target GetCurrent / integer comparison operators,
+  reducing `__ftol2` from eight calls to the target-observed two;
+- all seven canonical units from the same TU remain exact in two cold passes.
+
+The remaining five-byte aggregate difference is misleadingly small because
+the frame is still 0x14 too large. Continue from target-backed local lifetime
+and stack-slot evidence; do not force registers or chase size alone.
+
+The durable evidence is in Packet 506.
+
 ## Other durable non-exact plateaus
 
 Do not churn these without new evidence:

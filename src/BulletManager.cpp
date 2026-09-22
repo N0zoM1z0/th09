@@ -29,7 +29,7 @@ extern BulletRngView g_Rng;
 
 struct BulletSupervisorView
 {
-    void UpdateSideTimer(int sideIndex);
+    void SelectSide(int sideIndex);
     unsigned char unknown000[0x5B8];
     float framerateMultiplier;
 };
@@ -40,6 +40,15 @@ struct BulletCancelCollisionView
     int CheckBulletCancelCollision(Float3 *position, Float3 *collisionSize, Bullet *bullet);
 };
 
+struct BulletTimerCurrentView
+{
+    int previous;
+    float subFrame;
+    int current;
+
+    int GetCurrent();
+};
+
 struct PlayerPositionView;
 struct PlayerCollisionQueryStateView
 {
@@ -48,6 +57,10 @@ struct PlayerCollisionQueryStateView
         const PlayerPositionView *size,
         const PlayerPositionView *origin,
         float angle,
+        int unknown);
+    void AppendBoxRecord(
+        const PlayerPositionView *position,
+        const PlayerPositionView *size,
         int unknown);
 };
 
@@ -573,7 +586,7 @@ int EtamaController::OnUpdate(EtamaController *controller)
     if ((g_GameManager.flags & 0x1800) != 0)
         return 1;
 
-    g_Supervisor.UpdateSideTimer(controller->sideIndex);
+    g_Supervisor.SelectSide(controller->sideIndex);
     controller->activePrimaryCount = 0;
     controller->activeSecondaryCount = 0;
     controller->activeTotalCount = 0;
@@ -674,7 +687,9 @@ int EtamaController::OnUpdate(EtamaController *controller)
 
             if (bullet->offscreenCullDelayFrames == 0)
             {
-                BulletLoadedSpriteView *sprite = GetLoadedSprite(&bullet->sprites.bulletVm);
+                BulletLoadedSpriteView *sprite =
+                    reinterpret_cast<BulletLoadedSpriteView *>(
+                        bullet->sprites.bulletVm.loadedSprite);
                 float *position = bullet->position.operator float *();
                 if (!g_GameManager.IsWithinPlayfield(
                         position[0], position[1], sprite->heightPx, sprite->widthPx))
@@ -735,8 +750,13 @@ int EtamaController::OnUpdate(EtamaController *controller)
                 }
                 else
                 {
-                    player->cancelCollision.CheckBulletCancelCollision(
-                        &bullet->position, &bullet->sprites.collisionSize, bullet);
+                    reinterpret_cast<PlayerCollisionQueryStateView *>(
+                        reinterpret_cast<unsigned char *>(player) + 0x36C)
+                        ->AppendBoxRecord(
+                            reinterpret_cast<PlayerPositionView *>(&bullet->position),
+                            reinterpret_cast<PlayerPositionView *>(
+                                &bullet->sprites.collisionSize),
+                            reinterpret_cast<int>(bullet));
                 }
             }
 
@@ -777,9 +797,11 @@ updateTimers:
         laserCenter[0] = (laser->endOffset - laser->startOffset) / 2.0f +
                          laser->startOffset + laser->position.x;
         laserCenter[1] = laser->position.y;
-        laser->bodyVm.scale.x = laser->width / GetLoadedSprite(&laser->bodyVm)->widthPx;
+        BulletLoadedSpriteView *laserSprite =
+            reinterpret_cast<BulletLoadedSpriteView *>(laser->bodyVm.loadedSprite);
+        laser->bodyVm.scale.x = laser->width / laserSprite->heightPx;
         float currentLength = laser->endOffset - laser->startOffset;
-        laser->bodyVm.scale.y = currentLength / GetLoadedSprite(&laser->bodyVm)->heightPx;
+        laser->bodyVm.scale.y = currentLength / laserSprite->widthPx;
         laser->bodyVm.SetZRotation(AddNormalizeAngle(kPi / 2.0f + laser->angle, 0.0f));
 
         switch (laser->state)
@@ -795,14 +817,16 @@ updateTimers:
             else
             {
                 int rampWindow = laser->startTime > 30 ? 30 : laser->startTime;
-                if (laser->startTime - rampWindow < (int)(float)laser->timer)
+                if (laser->startTime - rampWindow <
+                    reinterpret_cast<BulletTimerCurrentView *>(
+                        &laser->timer)->GetCurrent())
                     laser->currentWidth = (float)laser->timer * laser->width / laser->startTime;
                 else
                     laser->currentWidth = 1.2f;
                 laser->bodyVm.scale.x = laser->currentWidth / 16.0f;
                 laserSize[0] = laser->currentWidth / 2.0f;
             }
-            if ((int)(float)laser->timer >= laser->hitboxStartTime)
+            if (laser->timer >= laser->hitboxStartTime)
                 reinterpret_cast<PlayerCollisionQueryStateView *>(
                     reinterpret_cast<unsigned char *>(controller->sideState->player) + 0x36C)
                     ->AppendLaserRecord(
@@ -811,7 +835,7 @@ updateTimers:
                         reinterpret_cast<PlayerPositionView *>(&laser->position),
                         laser->angle,
                         0);
-            if ((int)(float)laser->timer < laser->startTime)
+            if (laser->timer < laser->startTime)
                 break;
             laser->timer = 0;
             ++laser->state;
@@ -825,7 +849,7 @@ updateTimers:
                         reinterpret_cast<PlayerPositionView *>(&laser->position),
                         laser->angle,
                         0);
-            if ((int)(float)laser->timer < laser->duration)
+            if (laser->timer < laser->duration)
                 break;
             laser->timer = 0;
             ++laser->state;
@@ -849,7 +873,7 @@ updateTimers:
                 laser->bodyVm.scale.x = laser->currentWidth / 16.0f;
                 laserSize[0] = laser->currentWidth / 2.0f;
             }
-            if ((int)(float)laser->timer < laser->hitboxEndDelay)
+            if (laser->timer < laser->hitboxEndDelay)
                 reinterpret_cast<PlayerCollisionQueryStateView *>(
                     reinterpret_cast<unsigned char *>(controller->sideState->player) + 0x36C)
                     ->AppendLaserRecord(
@@ -858,7 +882,7 @@ updateTimers:
                         reinterpret_cast<PlayerPositionView *>(&laser->position),
                         laser->angle,
                         0);
-            if ((int)(float)laser->timer < laser->despawnDuration)
+            if (laser->timer < laser->despawnDuration)
                 break;
             laser->inUse = 0;
             continue;
