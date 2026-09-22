@@ -862,8 +862,8 @@ EnemyView::IntegrateMotion
 CreateGameSubsystem
 RegisterTitleScreen
 TitleFactoryConstructView::TitleFactoryConstructView
-InitializeHorizontalTextureStrip
-InitializeVerticalTextureStrip
+AnmManager::InitializeHorizontalTextureStrip
+AnmManager::InitializeVerticalTextureStrip
 GameWindow::Present
 GameWindow::Render
 ResolveShortcut

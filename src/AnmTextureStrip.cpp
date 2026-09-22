@@ -26,7 +26,7 @@ struct AnmStripVertex
 typedef char AnmStripVertexSizeIs1C[
     (sizeof(AnmStripVertex) == 0x1C) ? 1 : -1];
 
-int __stdcall InitializeHorizontalTextureStrip(
+int AnmManager::InitializeHorizontalTextureStrip(
     AnmVm *vmBase,
     VertexTex1DiffuseXyzrhw *verticesBase,
     int vertexCount)
@@ -69,7 +69,7 @@ int __stdcall InitializeHorizontalTextureStrip(
     return 0;
 }
 
-int __stdcall InitializeVerticalTextureStrip(
+int AnmManager::InitializeVerticalTextureStrip(
     AnmVm *vmBase,
     VertexTex1DiffuseXyzrhw *verticesBase,
     int vertexCount)

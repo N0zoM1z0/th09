@@ -70,6 +70,19 @@ struct TrailSampleView
 typedef char Th09EclStateTrailSampleSizeIs1C[
     (sizeof(TrailSampleView) == 0x1C) ? 1 : -1];
 
+struct TrailVertexView
+{
+    float x;
+    float y;
+    float z;
+    float rhw;
+    unsigned long diffuse;
+    float u;
+    float v;
+};
+typedef char Th09EclStateTrailVertexSizeIs1C[
+    (sizeof(TrailVertexView) == 0x1C) ? 1 : -1];
+
 struct EnemyStateView
 {
     ManagerStateView *manager0000;
@@ -128,7 +141,9 @@ struct EnemyStateView
     int timerCallbackThreshold33D0;
     int timerCallbackSubId33D4;
     void *childEclBlocks33D8[4];
-    TrailSampleView trailSamples33E8[290];
+    TrailSampleView trailSamples33E8[96];
+    TrailVertexView trailVertices3E68[192];
+    unsigned char unknown5368[0x53A0 - 0x5368];
     unsigned char trailFlags53A0;
     unsigned char unknown53A1;
     short trailHistoryLength53A2;
@@ -179,6 +194,10 @@ typedef char Th09EclStateChildBlocksAt33D8[
     (offsetof(EnemyStateView, childEclBlocks33D8) == 0x33D8) ? 1 : -1];
 typedef char Th09EclStateTrailAt33E8[
     (offsetof(EnemyStateView, trailSamples33E8) == 0x33E8) ? 1 : -1];
+typedef char Th09EclStateTrailVerticesAt3E68[
+    (offsetof(EnemyStateView, trailVertices3E68) == 0x3E68) ? 1 : -1];
+typedef char Th09EclStateTrailFlagsAt53A0[
+    (offsetof(EnemyStateView, trailFlags53A0) == 0x53A0) ? 1 : -1];
 typedef char Th09EclStateEffectsAt53B4[
     (offsetof(EnemyStateView, attachedEffects53B4) == 0x53B4) ? 1 : -1];
 
@@ -221,7 +240,6 @@ extern ExInstructionCallback g_ExInstructionCallbacks[];
 extern int g_BossLifeMarkerProtocolValue;
 
 void __fastcall ReleaseAttachedEffects(EnemyView *enemy);
-int __stdcall BuildTrailGeometry(AnmVm *vm, void *vertices, int vertexCount);
 
 inline EnemyStateView *View(EnemyView *enemy)
 {
@@ -637,9 +655,10 @@ __forceinline void AssignFlagField(
         if ((Th09EclRunState::View(enemy)->trailFlags53A0 &
              Th09EclRunState::TRAIL_BUILD_GEOMETRY) != 0)
         {
-            Th09EclRunState::BuildTrailGeometry(
+            g_AnmManager->InitializeHorizontalTextureStrip(
                 &Th09EclRunState::View(enemy)->primaryVm0008,
-                Th09EclRunState::View(enemy)->trailSamples33E8,
+                reinterpret_cast<VertexTex1DiffuseXyzrhw *>(
+                    Th09EclRunState::View(enemy)->trailVertices3E68),
                 2 * (Th09EclRunState::View(enemy)->trailHistoryLength53A2 /
                      Th09EclRunState::View(enemy)->trailSampleStride53A6));
         }

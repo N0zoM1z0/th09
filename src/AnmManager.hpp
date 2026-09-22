@@ -115,11 +115,14 @@ class AnmManager
     void CaptureToTexture(int captureAnmIndex, int srcX, int srcY, int srcW, int srcH, int dstX, int dstY, int dstW, int dstH);
     void CaptureToSurface(int captureSurfaceIndex, int srcX, int srcY, int srcW, int srcH, int dstX, int dstY, int dstW, int dstH);
     void ServiceCaptureRequests();
+    int InitializeHorizontalTextureStrip(
+        AnmVm *vm,
+        VertexTex1DiffuseXyzrhw *vertices,
+        int vertexCount);
+    int InitializeVerticalTextureStrip(
+        AnmVm *vm,
+        VertexTex1DiffuseXyzrhw *vertices,
+        int vertexCount);
 };
 
 extern AnmManager *g_AnmManager;
-
-int __stdcall InitializeHorizontalTextureStrip(
-    AnmVm *vm, VertexTex1DiffuseXyzrhw *vertices, int vertexCount);
-int __stdcall InitializeVerticalTextureStrip(
-    AnmVm *vm, VertexTex1DiffuseXyzrhw *vertices, int vertexCount);
