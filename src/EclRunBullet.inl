@@ -248,8 +248,7 @@ void ClearBulletsForTransition(EtamaController *controller);
 
     case TH09_ECL_OPCODE_SHOOT_NOW:
         Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.position =
-            Th09EclRunBullet::View(enemy)->worldPosition2DD4 +
-            Th09EclRunBullet::View(enemy)->shootOffset2E04;
+            *position + Th09EclRunBullet::View(enemy)->shootOffset2E04;
         Th09EclRunBullet::Controller(enemy)->SpawnBulletPatternSecondary(
             &Th09EclRunBullet::View(enemy)->bulletDescriptor2E74);
         break;

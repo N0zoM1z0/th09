@@ -117,7 +117,7 @@ __forceinline float ReadFloat(
     int operandIndex)
 {
     return (instruction->parameterMask0A & (1U << operandIndex))
-               ? ResolveFloat(enemy, RawFloat(instruction, operandIndex))
+               ? enemy->ResolveFloat(RawFloat(instruction, operandIndex))
                : RawFloat(instruction, operandIndex);
 }
 
