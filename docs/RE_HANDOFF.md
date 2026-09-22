@@ -289,20 +289,25 @@ The durable evidence is in Packets 499 through 505.
 large-owner frontier. Fresh target-backed corrections give:
 
 - target 2,195 bytes, frame `0x40`, 62 immediate direct calls;
-- current pinned VC7.1 `/O2 /Ob1` candidate 2,200 bytes, frame `0x54`,
-  with 62 external DISP32 call relocations;
+- current pinned VC7.1 `/O2 /Ob1` candidate 2,228 bytes, frame `0x50`,
+  with 62 external DISP32 relocations;
 - three target-absent sprite helper calls are gone; VM loadedSprite storage is
   read directly;
 - bullet cancel records now use canonical `AppendBoxRecord`;
 - laser timing now uses the target GetCurrent / integer comparison operators,
   reducing `__ftol2` from eight calls to the target-observed two;
+- the target-proven shared spawn completion tail, cached WAIT-flags flow and
+  side-freeze queue path are now restored; the latter fixes a real source bug
+  where frozen bullets incorrectly ticked two timers;
 - all seven canonical units from the same TU remain exact in two cold passes.
 
-The remaining five-byte aggregate difference is misleadingly small because
-the frame is still 0x14 too large. Continue from target-backed local lifetime
-and stack-slot evidence; do not force registers or chase size alone.
+The older 2,200-byte candidate was smaller only because it retained the wrong
+side-freeze control flow. The honest current frame is still 0x10 too large.
+Continue from target-backed local lifetime and stack-slot evidence; do not
+force registers or chase aggregate size alone. COFF DISP32 count is not by
+itself a physical-call-count equality claim.
 
-The durable evidence is in Packet 506.
+The durable evidence is in Packets 506 and 507.
 
 ## Other durable non-exact plateaus
 

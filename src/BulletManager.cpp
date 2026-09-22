@@ -598,42 +598,39 @@ int EtamaController::OnUpdate(EtamaController *controller)
         if (bullet->state == BULLET_STATE_UNUSED || bullet->state == BULLET_STATE_SENTINEL)
             continue;
 
-        Bullet **drawBucket = &controller->drawBuckets[bullet->sprites.drawBucketIndex];
-        if ((controller->sideState->flags & 1) == 0)
+        Bullet **drawBucket;
+        if ((controller->sideState->flags & 1) != 0)
         {
-            ++controller->activeTotalCount;
-            if (i >= 175)
-                ++controller->activeSecondaryCount;
-            else
-                ++controller->activePrimaryCount;
+            drawBucket = &controller->drawBuckets[bullet->sprites.drawBucketIndex];
+            goto queueBullet;
+        }
 
-            switch (bullet->state)
+        ++controller->activeTotalCount;
+        if (i >= 175)
+            ++controller->activeSecondaryCount;
+        else
+            ++controller->activePrimaryCount;
+
+        switch (bullet->state)
             {
             case BULLET_STATE_SPAWNING_FAST:
                 bullet->activeTimer--;
                 bullet->position += bullet->velocity / 2.0f;
                 if (g_AnmManager->ExecuteScript(&bullet->sprites.spawnFastVm) == 0)
                     goto updateTimers;
-                if (bullet->cancelledDuringSpawn != 0)
-                    bullet->state = BULLET_STATE_DESPAWNING;
-                bullet->state = BULLET_STATE_FIRED;
-                bullet->stateTimer = 0;
-                break;
+                goto finishSpawning;
             case BULLET_STATE_SPAWNING_NORMAL:
                 bullet->activeTimer--;
                 bullet->position += bullet->velocity / 2.5f;
                 if (g_AnmManager->ExecuteScript(&bullet->sprites.spawnNormalVm) == 0)
                     goto updateTimers;
-                if (bullet->cancelledDuringSpawn != 0)
-                    bullet->state = BULLET_STATE_DESPAWNING;
-                bullet->state = BULLET_STATE_FIRED;
-                bullet->stateTimer = 0;
-                break;
+                goto finishSpawning;
             case BULLET_STATE_SPAWNING_SLOW:
                 bullet->activeTimer--;
                 bullet->position += bullet->velocity / 3.0f;
                 if (g_AnmManager->ExecuteScript(&bullet->sprites.spawnSlowVm) == 0)
                     goto updateTimers;
+            finishSpawning:
                 if (bullet->cancelledDuringSpawn != 0)
                     bullet->state = BULLET_STATE_DESPAWNING;
                 bullet->state = BULLET_STATE_FIRED;
@@ -673,10 +670,12 @@ int EtamaController::OnUpdate(EtamaController *controller)
                 UpdateBulletHorizontalWrap(bullet);
             if ((bullet->activeTransformFlags & BULLET_TRANSFORM_WRAP_Y) != 0)
                 UpdateBulletVerticalWrap(bullet);
-            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_WAIT) != 0)
+            unsigned int activeTransformFlags = bullet->activeTransformFlags;
+            if ((activeTransformFlags & BULLET_TRANSFORM_WAIT) != 0)
             {
                 if (bullet->exStates[5].timer <= 0)
-                    bullet->activeTransformFlags ^= BULLET_TRANSFORM_WAIT;
+                    bullet->activeTransformFlags =
+                        activeTransformFlags ^ BULLET_TRANSFORM_WAIT;
                 else
                     bullet->exStates[5].timer--;
             }
@@ -761,13 +760,15 @@ int EtamaController::OnUpdate(EtamaController *controller)
             }
 
 executeBulletScript:
-            if (bullet->sprites.bulletVm.currentInstruction != NULL)
-                g_AnmManager->ExecuteScript(&bullet->sprites.bulletVm);
-        }
+        if (bullet->sprites.bulletVm.currentInstruction != NULL)
+            g_AnmManager->ExecuteScript(&bullet->sprites.bulletVm);
 
 updateTimers:
         bullet->stateTimer++;
         bullet->activeTimer++;
+        drawBucket = &controller->drawBuckets[bullet->sprites.drawBucketIndex];
+
+queueBullet:
         bullet->nextInDrawBucket = *drawBucket;
         *drawBucket = bullet;
     }
