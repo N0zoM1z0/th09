@@ -56,10 +56,9 @@ struct PlayerSideProtocolView
     unsigned char unknown00[0x2C];
     unsigned short patternFlags2C;
     unsigned char unknown2E[4];
-    unsigned char eventFlags32;
-    unsigned char unknown33;
-    unsigned char thresholdFlags34;
-    unsigned char unknown35[0x8E - 0x35];
+    unsigned short eventFlags32;
+    unsigned short thresholdFlags34;
+    unsigned char unknown36[0x8E - 0x36];
 };
 typedef char PlayerSideProtocolSizeIs8E[
     (sizeof(PlayerSideProtocolView) == 0x8E) ? 1 : -1];
@@ -67,6 +66,8 @@ typedef char PlayerSideProtocolPatternAt2C[
     (offsetof(PlayerSideProtocolView, patternFlags2C) == 0x2C) ? 1 : -1];
 typedef char PlayerSideProtocolEventAt32[
     (offsetof(PlayerSideProtocolView, eventFlags32) == 0x32) ? 1 : -1];
+typedef char PlayerSideProtocolThresholdAt34[
+    (offsetof(PlayerSideProtocolView, thresholdFlags34) == 0x34) ? 1 : -1];
 
 struct PlayerGameplayMethods
 {
@@ -573,19 +574,22 @@ retry_pattern_grid:
             goto retry_pattern_grid;
         }
 
-        if ((header->flags74 & 1U) == 0 &&
-            GameplayMethods(header->player78)->GetUpdateState() == 0 &&
-            reinterpret_cast<ZunTimer *>(&header->player78->timer1B74)->operator==(0))
+        if ((header->flags74 & 1U) == 0)
         {
-            if (header->crossedThreshold0C != 0 &&
-                header->player78->scalar30384 >= 100.0f)
+            PlayerLifecycleView *player = header->player78;
+            if (GameplayMethods(player)->GetUpdateState() == 0 &&
+                reinterpret_cast<ZunTimer *>(&player->timer1B74)->operator==(0))
             {
-                g_PlayerSideProtocols[header->player78->sideIndex].thresholdFlags34 |= 1U;
-                header->crossedThreshold0C = 0;
-                return;
+                if (header->crossedThreshold0C != 0 &&
+                    player->scalar30384 >= 100.0f)
+                {
+                    g_PlayerSideProtocols[player->sideIndex].thresholdFlags34 |= 1U;
+                    header->crossedThreshold0C = 0;
+                    return;
+                }
+                g_PlayerSideProtocols[player->sideIndex].eventFlags32 |= 2U;
+                g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |= 2U;
             }
-            g_PlayerSideProtocols[header->player78->sideIndex].eventFlags32 |= 2U;
-            g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |= 2U;
         }
         header->currentPattern54 = selectedPattern;
         return;
