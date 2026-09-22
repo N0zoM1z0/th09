@@ -29,6 +29,21 @@ struct BackgroundFog
 typedef char BackgroundFogSizeIs0C[
     (sizeof(BackgroundFog) == 0x0C) ? 1 : -1];
 
+struct BackgroundCameraRecord
+{
+    BackgroundPoint position;
+    BackgroundPoint lookAt;
+    BackgroundPoint up;
+    BackgroundPoint forward;
+    BackgroundPoint right;
+    BackgroundPoint positionOffset;
+    float fieldOfView;
+    unsigned char unknown04C[0xF0 - 0x4C];
+};
+
+typedef char BackgroundCameraRecordSizeIsF0[
+    (sizeof(BackgroundCameraRecord) == 0xF0) ? 1 : -1];
+
 struct RawStageHeader
 {
     short objectCount;
@@ -126,10 +141,13 @@ struct Background
     int stageObjectCount;
     RawStageObject **stageObjects;
     RawStageObjectInstance *stageObjectInstances;
-    unsigned char unknown834[0xBF4 - 0x834];
+    BackgroundCameraRecord cameraTarget;
+    BackgroundCameraRecord cameraStart;
+    BackgroundCameraRecord cameraTangentEnd;
+    BackgroundCameraRecord cameraTangentStart;
     int interpolationDuration[5];
     ZunTimer interpolationTimers[5];
-    unsigned char unknownC44[0xC58 - 0xC44];
+    int interpolationModes[5];
     ZunTimer stageScriptTimer;
     int stageScriptInstructionIndex;
     int frameCounter;
@@ -154,8 +172,12 @@ struct Background
     AnmVm spellVms[32];
     AnmVm spellAuxVm;
     void (__fastcall *spellBackgroundDrawCallback)();
-    int pendingStageScriptLabel;
-    unsigned char unknown640C[0x642C - 0x640C];
+    BackgroundPoint stagePositionTarget;
+    int stagePositionEndFrame;
+    BackgroundPoint stagePositionInitial;
+    int stagePositionStartFrame;
+    unsigned char compensateCameraJump;
+    unsigned char unknown6429[3];
     unsigned int tintColor;
     int retainTint;
     float cullingDistanceSq;
@@ -170,10 +192,19 @@ typedef char BackgroundSizeIs65C4[(sizeof(Background) == 0x65C4) ? 1 : -1];
 typedef char BackgroundStageVm0At02C[(offsetof(Background, stageVm0) == 0x02C) ? 1 : -1];
 typedef char BackgroundStageAnmAt818[(offsetof(Background, stageAnm) == 0x818) ? 1 : -1];
 typedef char BackgroundStageDataAt820[(offsetof(Background, stageData) == 0x820) ? 1 : -1];
+typedef char BackgroundCameraTargetAt834[(offsetof(Background, cameraTarget) == 0x834) ? 1 : -1];
+typedef char BackgroundCameraStartAt924[(offsetof(Background, cameraStart) == 0x924) ? 1 : -1];
+typedef char BackgroundCameraTangentEndAtA14[(offsetof(Background, cameraTangentEnd) == 0xA14) ? 1 : -1];
+typedef char BackgroundCameraTangentStartAtB04[(offsetof(Background, cameraTangentStart) == 0xB04) ? 1 : -1];
 typedef char BackgroundDurationsAtBF4[(offsetof(Background, interpolationDuration) == 0xBF4) ? 1 : -1];
 typedef char BackgroundStageTimerAtC58[(offsetof(Background, stageScriptTimer) == 0xC58) ? 1 : -1];
 typedef char BackgroundSpellStateAtCCC[(offsetof(Background, spellBackgroundState) == 0xCCC) ? 1 : -1];
 typedef char BackgroundSpellVmsAtCE0[(offsetof(Background, spellVms) == 0xCE0) ? 1 : -1];
 typedef char BackgroundCallbackAt6404[(offsetof(Background, spellBackgroundDrawCallback) == 0x6404) ? 1 : -1];
+typedef char BackgroundStagePositionTargetAt6408[(offsetof(Background, stagePositionTarget) == 0x6408) ? 1 : -1];
+typedef char BackgroundStageEndFrameAt6414[(offsetof(Background, stagePositionEndFrame) == 0x6414) ? 1 : -1];
+typedef char BackgroundStagePositionInitialAt6418[(offsetof(Background, stagePositionInitial) == 0x6418) ? 1 : -1];
+typedef char BackgroundStageStartFrameAt6424[(offsetof(Background, stagePositionStartFrame) == 0x6424) ? 1 : -1];
+typedef char BackgroundCompensateCameraJumpAt6428[(offsetof(Background, compensateCameraJump) == 0x6428) ? 1 : -1];
 typedef char BackgroundTintAt642C[(offsetof(Background, tintColor) == 0x642C) ? 1 : -1];
 typedef char BackgroundPointsAt6444[(offsetof(Background, specialEffectPoints) == 0x6444) ? 1 : -1];
