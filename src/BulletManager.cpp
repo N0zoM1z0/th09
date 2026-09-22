@@ -161,12 +161,12 @@ int EtamaController::SelectBulletSprite(
     int result = dst->activeSpriteIndex;
     if (result != baseSprite + offset)
     {
-        float height = GetLoadedSprite(sizeSource)->heightPx;
-        if (height <= 16.0f)
+        float width = GetLoadedSprite(sizeSource)->widthPx;
+        if (width <= 16.0f)
             return (this->bulletAnm->SetSprite(
                         dst, baseSprite + g_BulletSpriteOffsetSmall[offset]),
                     baseSprite + g_BulletSpriteOffsetSmall[offset]);
-        if (height <= 32.0f)
+        if (width <= 32.0f)
             return (this->bulletAnm->SetSprite(
                         dst, baseSprite + g_BulletSpriteOffsetMedium[offset]),
                     baseSprite + g_BulletSpriteOffsetMedium[offset]);
@@ -387,20 +387,36 @@ Bullet *EtamaController::SpawnSingleBullet(
     BulletSpawnDescriptor *descriptor, int index1, int index2,
     float angleToPlayer, int poolIndex)
 {
-    Bullet *poolStart = poolIndex == 0 ? this->primaryPoolStart : this->secondaryPoolStart;
-    int poolCount = poolIndex == 0 ? 175 : 360;
-    Bullet *bullet = poolStart;
+    Bullet *bullet;
     int i;
-    for (i = 0; i < poolCount; ++i)
+    if (poolIndex == 0)
     {
-        if (bullet->state == BULLET_STATE_UNUSED)
-            break;
-        ++bullet;
-        if (bullet->state == BULLET_STATE_SENTINEL)
-            bullet = poolStart;
+        bullet = this->primaryPoolStart;
+        for (i = 0; i < 175; ++i)
+        {
+            if (bullet->state == BULLET_STATE_UNUSED)
+                break;
+            ++bullet;
+            if (bullet->state == BULLET_STATE_SENTINEL)
+                bullet = &this->primaryBullets[0];
+        }
+        if (i >= 175)
+            return bullet;
     }
-    if (i >= poolCount)
-        return bullet;
+    else
+    {
+        bullet = this->secondaryPoolStart;
+        for (i = 0; i < 360; ++i)
+        {
+            if (bullet->state == BULLET_STATE_UNUSED)
+                break;
+            ++bullet;
+            if (bullet->state == BULLET_STATE_SENTINEL)
+                bullet = &this->secondaryBullets[0];
+        }
+        if (i >= 360)
+            return bullet;
+    }
 
     float angle = 0.0f;
     float speed;
@@ -468,7 +484,8 @@ Bullet *EtamaController::SpawnSingleBullet(
     bullet->angle = AddNormalizeAngle(angle, 0.0f);
     bullet->extraAttribute10BD = descriptor->extraAttribute20C;
     bullet->position = descriptor->position;
-    bullet->position.z = 0.1f;
+    float *bulletPosition = bullet->position;
+    bulletPosition[2] = 0.1f;
     bullet->velocity.FromAngleMagnitude(
         angle, speed * g_Supervisor.framerateMultiplier);
     bullet->activeTransformFlags = descriptor->transformFlags;
@@ -494,9 +511,34 @@ Bullet *EtamaController::SpawnSingleBullet(
             &bullet->sprites.bulletVm,
             descriptor->templateSprites->bulletVm.activeSpriteIndex + descriptor->color);
 
-    this->SelectBulletSprite(
-        &bullet->sprites.despawnVm, &descriptor->templateSprites->despawnVm,
-        &bullet->sprites.bulletVm, descriptor->color);
+    int despawnBaseSprite =
+        descriptor->templateSprites->despawnVm.activeSpriteIndex;
+    if (bullet->sprites.despawnVm.activeSpriteIndex !=
+        despawnBaseSprite + descriptor->color)
+    {
+        if (reinterpret_cast<BulletLoadedSpriteView *>(
+                bullet->sprites.bulletVm.loadedSprite)->widthPx <= 16.0f)
+        {
+            this->bulletAnm->SetSprite(
+                &bullet->sprites.despawnVm,
+                despawnBaseSprite +
+                    g_BulletSpriteOffsetSmall[descriptor->color]);
+        }
+        else if (reinterpret_cast<BulletLoadedSpriteView *>(
+                     bullet->sprites.bulletVm.loadedSprite)->widthPx <= 32.0f)
+        {
+            this->bulletAnm->SetSprite(
+                &bullet->sprites.despawnVm,
+                despawnBaseSprite +
+                    g_BulletSpriteOffsetMedium[descriptor->color]);
+        }
+        else
+        {
+            this->bulletAnm->SetSprite(
+                &bullet->sprites.despawnVm,
+                despawnBaseSprite + descriptor->color);
+        }
+    }
 
     if ((descriptor->transformFlags & BULLET_TRANSFORM_SPAWN_FAST) != 0)
     {

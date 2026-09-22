@@ -317,6 +317,31 @@ alone.
 
 The durable evidence is in Packets 506 through 509.
 
+## Secondary large frontier: EtamaController::SpawnSingleBullet
+
+`EtamaController::SpawnSingleBullet @ 0x00412960` has moved from a large
+structural gap to a bounded five-byte frontier:
+
+- target 1,893 bytes, frame `0x14`, 22 direct calls;
+- current pinned VC7.1 `/O2 /Ob1` candidate 1,888 bytes, frame `0x14`;
+- separate primary/secondary searches naturally reproduce the target 5-way /
+  6-way allocator unrolling;
+- sentinel resets use embedded pool bases, not cached cursor fields;
+- the folded position conversion call and inline despawn SetSprite path are
+  restored; loaded-sprite geometry is fixed to target field `+0x30`;
+- call offsets are aligned through the second direct SetSprite and the entire
+  transform-copy / AdvanceTransformProgram / return tail is structurally closed;
+- the remaining five-byte displacement is isolated to VC7.1 transformFlags CSE:
+  target memory-tests FAST then reloads the dword for NORMAL/SLOW, while the
+  natural candidate keeps one dword value live. Clean TH08 corroborates the
+  ordinary 32-bit / if-else-if source family, so do not fabricate a byte alias.
+
+All seven canonical units from the same BulletManager TU remain exact in two
+cold passes. Resume only with new TH09-local evidence that explains the flags
+lifetime naturally.
+
+The durable evidence is in Packet 510.
+
 ## Other durable non-exact plateaus
 
 Do not churn these without new evidence:
