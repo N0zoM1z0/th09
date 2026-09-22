@@ -970,3 +970,4 @@ PlayerLifecycleView::UpdateMovementAndOptions
 TitleScreenView::OnUpdateKeyConfig
 FrontSide::OnDraw
 Background::RenderObjects
+FrontMessageRuntimeView::ReleaseForSideCount
