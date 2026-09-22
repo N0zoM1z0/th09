@@ -106,10 +106,9 @@ __forceinline int ReadInt(
     Th09EclRawInstructionHeaderView *instruction,
     int operandIndex)
 {
-    const int rawValue = RawInt(instruction, operandIndex);
     return (instruction->parameterMask0A & (1U << operandIndex))
-               ? ResolveInt(enemy, rawValue)
-               : rawValue;
+               ? ResolveInt(enemy, RawInt(instruction, operandIndex))
+               : RawInt(instruction, operandIndex);
 }
 
 __forceinline float ReadFloat(
