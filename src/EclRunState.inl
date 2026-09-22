@@ -402,13 +402,24 @@ __forceinline void AssignFlagField(
         if (!childEcl)
             break;
         memset(childEcl, 0, sizeof(*childEcl));
-        childEcl->subroutineId00 =
-            Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
+            Th09EclRunState::View(enemy)->
+                childEclBlocks33D8[stateIndex])->subroutineId00 =
+                    Th09EclRunControl::ReadInt(enemy, instruction, 1);
         Th09EclRunState::View(enemy)->manager0000->InitializeSubroutine(
-            &childEcl->context08,
-            static_cast<short>(childEcl->subroutineId00));
+            &reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
+                Th09EclRunState::View(enemy)->childEclBlocks33D8[stateIndex])->
+                    context08,
+            static_cast<short>(
+                reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
+                    Th09EclRunState::View(enemy)->
+                        childEclBlocks33D8[stateIndex])->subroutineId00));
         memcpy(
-            reinterpret_cast<unsigned char *>(&childEcl->context08) + 0x1C,
+            reinterpret_cast<unsigned char *>(
+                &reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
+                    Th09EclRunState::View(enemy)->
+                        childEclBlocks33D8[stateIndex])->context08) +
+                0x1C,
             reinterpret_cast<unsigned char *>(
                 Th09EclRunState::View(enemy)->activeContext2CE0) + 0x1C,
             0x78);
