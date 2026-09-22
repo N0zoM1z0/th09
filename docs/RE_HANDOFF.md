@@ -219,17 +219,24 @@ stale maintained-source owners rather than merely changing compiler spelling:
   assignment. Spelling the position/velocity/angle copies separately makes
   VC7.1 naturally emit the target-shaped four-sample unrolled loop plus scalar
   remainder instead of `rep movsd`.
-- The current pinned VC7.1 `/O2 /Ob1` build is 3,716/3,883 bytes with frame
-  `0x2B0` and 68/69 direct calls. The call sequence is aligned except for one
-  target-only normal-path `Float3::operator+` site; the formerly merged second
-  `CleanupAfterDeactivation` callsite is now restored naturally.
+- Target-local owner review then corrected five stale free-call aliases:
+  `Supervisor::SelectSide`, `EnemyEclManagerView::GetSubroutine`, all four
+  `GameManagerPlayfieldView::IsWithinPlayfield` calls, both
+  `EnemyAppendCollisionView::AppendPlayerCollisionBox` calls, and
+  `SoundPlayer::PlaySoundPositionedByIdx`. The private ANM VM layout is also
+  corrected to color1/color2/flags at `+0x1F0/+0x1F4/+0x1F8`.
+- Those locally correct ABIs make the current pinned VC7.1 `/O2 /Ob1` build
+  3,684/3,883 bytes with frame `0x2B0` and 67/69 direct calls. Do not restore
+  the disproven free aliases just to regain aggregate bytes. One target
+  normal-path `Float3::operator+` call and one target-distinct
+  `CleanupAfterDeactivation` site are currently compiler-merged.
 - `EnemyCoreUpdateAttachedEffects @ 0x0040F4C0`, from the same source file,
   still replays exact at 151/151 in two cold passes after these changes.
 - Continue this owner by target-backed CFG/type/lifetime recovery. Do not add
   filler, force registers, use volatile steering/assembly, or chase alternate
   profiles for aggregate size.
 
-The durable evidence is in Packets 491 and 492.
+The durable evidence is in Packets 491 through 493.
 
 ## Other durable non-exact plateaus
 

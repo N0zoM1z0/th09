@@ -1,5 +1,6 @@
 #include "AsciiManager.hpp"
 #include "EnemyManager.hpp"
+#include "Supervisor.hpp"
 
 #include <math.h>
 #include <stddef.h>
@@ -57,11 +58,13 @@ struct EnemyCoreColorBytes
 
 struct EnemyCoreAnmVmView
 {
-    unsigned char unknown000[0x1F8];
-    unsigned int color1_1F8;
-    EnemyCoreColorBytes color2_1FC;
-    unsigned int flags200;
-    unsigned char unknown204[0x21A - 0x204];
+    unsigned char unknown000[0x1F0];
+    unsigned int color1_1F0;
+    EnemyCoreColorBytes color2_1F4;
+    unsigned int flags1F8;
+    short type1FC;
+    short pendingInterrupt1FE;
+    unsigned char unknown200[0x21A - 0x200];
     short scriptIndex21A;
     unsigned char unknown21C[0x224 - 0x21C];
     EnemyCoreLoadedSpriteView *loadedSprite224;
@@ -324,22 +327,37 @@ extern int g_EnemyCoreScriptedUpdateFreeze;
 extern int g_EnemyCoreDifficultyValue;
 extern unsigned char g_EnemyCoreSchedule[];
 
-extern void EnemyCoreSelectSide(int sideIndex);
-extern void *EnemyCoreLookupScheduleObject(int index);
 extern void EnemyCoreDespawn(EnemyCoreView *enemy);
 extern void EnemyCoreClampPosition(EnemyCoreView *enemy);
 extern void EnemyCoreIntegrateVelocity(EnemyCoreView *enemy);
 extern int EnemyCoreRunLifeCallback(EnemyCoreView *enemy);
 extern int EnemyCoreRunTimerCallback(EnemyCoreView *enemy);
-extern int EnemyCoreIsWithinPlayfield(
-    float x, float y, float extent34, float extent30);
-extern void EnemyCoreCheckPlayerCollision(
-    Float3 *position, Float3 *hitbox);
+struct EnemyCoreGameManagerPlayfieldView
+{
+    int IsWithinPlayfield(float x, float y, float width, float height);
+};
+
+extern EnemyCoreGameManagerPlayfieldView g_EnemyCoreGameManager;
+struct PlayerPositionView;
+
+struct EnemyAppendCollisionView
+{
+    EnemyManagerView *manager00;
+
+    void AppendPlayerCollisionBox(
+        const PlayerPositionView *position,
+        const PlayerPositionView *size);
+};
 extern void EnemyCoreResetBulletInfluence(EnemyCoreView *enemy);
 extern void EnemyCoreReleaseChildEclBlocks(EnemyCoreView *enemy);
 extern void EnemyCoreReleaseAttachedEffects(EnemyCoreView *enemy);
 static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy);
-extern void EnemyCorePlaySound(int soundIndex, float x);
+struct EnemyCoreSoundPlayerView
+{
+    void PlaySoundPositionedByIdx(int soundIndex, float positionX);
+};
+
+extern EnemyCoreSoundPlayerView g_EnemyCoreSoundPlayer;
 
 struct EnemyAttachedEffectUpdateView
 {
@@ -386,7 +404,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
     Float3 markerPosition(-999.0f, 0.0f, 0.0f);
     g_EnemyCoreFront->SetSideEnemyIndicatorPosition(
         manager->sideIndex31C, &markerPosition);
-    EnemyCoreSelectSide(manager->sideIndex31C);
+    g_Supervisor.SelectSide(manager->sideIndex31C);
 
     manager->drawGroupHeads2AC410[3] = 0;
     manager->drawGroupHeads2AC410[2] = 0;
@@ -406,7 +424,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 g_EnemyCoreSchedule[manager->scheduleIndex2AC3D4++];
             manager->scheduleHighBit2AC3F8 = schedule >> 7;
             manager->scheduleObject2AC400 =
-                EnemyCoreLookupScheduleObject(schedule & 0x7F);
+                enemyManager->primaryEclManager000.GetSubroutine(
+                    schedule & 0x7F);
             manager->scheduleRuntime2AC3E0.timer00 = 0;
         }
     }
@@ -564,7 +583,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
         float *worldPosition = enemy->worldPosition2DD4;
         if ((enemy->flags337C & ENEMY_CORE_NO_SPRITE) == 0 &&
             (enemy->flags337C & ENEMY_CORE_HAS_BEEN_IN_BOUNDS) == 0 &&
-            EnemyCoreIsWithinPlayfield(
+            g_EnemyCoreGameManager.IsWithinPlayfield(
                 worldPosition[0],
                 worldPosition[1],
                 loadedSprite->extent34,
@@ -579,18 +598,18 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 &enemy->trailSamples33E8[
                     enemy->trailHistoryLength53A2 - 1];
             if ((enemy->trailFlags53A0 == 0 &&
-                 !EnemyCoreIsWithinPlayfield(
+                 !g_EnemyCoreGameManager.IsWithinPlayfield(
                      enemy->worldPosition2DD4.x,
                      enemy->worldPosition2DD4.y,
                      loadedSprite->extent34,
                      loadedSprite->extent30)) ||
                 (enemy->trailFlags53A0 != 0 &&
-                 !EnemyCoreIsWithinPlayfield(
+                 !g_EnemyCoreGameManager.IsWithinPlayfield(
                      enemy->worldPosition2DD4.x,
                      enemy->worldPosition2DD4.y,
                      loadedSprite->extent34,
                      loadedSprite->extent30) &&
-                 !EnemyCoreIsWithinPlayfield(
+                 !g_EnemyCoreGameManager.IsWithinPlayfield(
                      tail->position00.x,
                      tail->position00.y,
                      loadedSprite->extent34,
@@ -608,9 +627,9 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             EnemyCoreRunTimerCallback(enemy))
             goto run_enemy_ecl;
 
-        enemy->primaryVm008.color1_1F8 = enemy->displayColor2E70;
+        enemy->primaryVm008.color1_1F0 = enemy->displayColor2E70;
         g_EnemyCoreAnmManager->ExecuteScript(&enemy->primaryVm008);
-        enemy->displayColor2E70 = enemy->primaryVm008.color1_1F8;
+        enemy->displayColor2E70 = enemy->primaryVm008.color1_1F0;
         for (int vmIndex = 0; vmIndex < 2; ++vmIndex)
         {
             if (enemy->secondaryVms2AC[vmIndex].scriptIndex21A >= 0 &&
@@ -628,8 +647,12 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 ((enemy->flags3380 & 0x01C0) == 0 ||
                  side->characterIndex20 != 11))
             {
-                EnemyCoreCheckPlayerCollision(&enemy->worldPosition2DD4,
-                                              &enemy->hitbox2DBC);
+                reinterpret_cast<EnemyAppendCollisionView *>(enemy)
+                    ->AppendPlayerCollisionBox(
+                        reinterpret_cast<const PlayerPositionView *>(
+                            &enemy->worldPosition2DD4),
+                        reinterpret_cast<const PlayerPositionView *>(
+                            &enemy->hitbox2DBC));
                 if (enemy->trailFlags53A0 != 0)
                 {
                     Float3 trailHitbox = enemy->hitbox2DBC;
@@ -646,9 +669,13 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                                     enemy->trailCollisionLength53A4);
                             trailHitbox = enemy->hitbox2DBC - reduction;
                         }
-                        EnemyCoreCheckPlayerCollision(
-                            &enemy->trailSamples33E8[trailIndex].position00,
-                            &trailHitbox);
+                        reinterpret_cast<EnemyAppendCollisionView *>(enemy)
+                            ->AppendPlayerCollisionBox(
+                                reinterpret_cast<const PlayerPositionView *>(
+                                    &enemy->trailSamples33E8[
+                                        trailIndex].position00),
+                                reinterpret_cast<const PlayerPositionView *>(
+                                    &trailHitbox));
                     }
                 }
             }
@@ -849,27 +876,27 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
         if (enemy->damageFlashTimer336C != 0)
         {
             --enemy->damageFlashTimer336C;
-            enemy->primaryVm008.flags200 &= ~0x20000u;
+            enemy->primaryVm008.flags1F8 &= ~0x20000u;
         }
         else if (damageOccurred)
         {
             if ((enemy->flags3380 & 6) >= 4)
-                EnemyCorePlaySound(37, enemy->worldPosition2DD4.x);
+                g_EnemyCoreSoundPlayer.PlaySoundPositionedByIdx(37, enemy->worldPosition2DD4.x);
             else
-                EnemyCorePlaySound(20, enemy->worldPosition2DD4.x);
+                g_EnemyCoreSoundPlayer.PlaySoundPositionedByIdx(20, enemy->worldPosition2DD4.x);
 
-            enemy->primaryVm008.color2_1FC.r = 0xFF;
-            enemy->primaryVm008.color2_1FC.g = 0x60;
-            enemy->primaryVm008.color2_1FC.b = 0x80;
-            enemy->primaryVm008.color2_1FC.a =
+            enemy->primaryVm008.color2_1F4.r = 0xFF;
+            enemy->primaryVm008.color2_1F4.g = 0x60;
+            enemy->primaryVm008.color2_1F4.b = 0x80;
+            enemy->primaryVm008.color2_1F4.a =
                 static_cast<unsigned char>(
-                    enemy->primaryVm008.color1_1F8 >> 24);
-            enemy->primaryVm008.flags200 |= 0x20000;
+                    enemy->primaryVm008.color1_1F0 >> 24);
+            enemy->primaryVm008.flags1F8 |= 0x20000;
             enemy->damageFlashTimer336C = 1;
         }
         else
         {
-            enemy->primaryVm008.flags200 &= ~0x20000u;
+            enemy->primaryVm008.flags1F8 &= ~0x20000u;
         }
 
         if ((enemy->flags337C & ENEMY_CORE_BOSS) != 0)
@@ -886,7 +913,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             if (markerState != 0)
                 ++markerState;
             else
-                markerState = (enemy->primaryVm008.flags200 >> 17) & 1;
+                markerState = (enemy->primaryVm008.flags1F8 >> 17) & 1;
             g_EnemyCoreUi.SetBossMarkerState(enemy->bossSlot336B,
                                             markerState);
         }
