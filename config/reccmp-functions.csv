@@ -973,3 +973,4 @@ FrontSide::OnDraw,0x004193E0,function
 Background::RenderObjects,0x004026C0,function
 FrontMessageRuntimeView::ReleaseForSideCount,0x00417520,function
 EnemyView::CleanupAfterDeactivation,0x00410110,function
+FrontMessageOwnerView::InitializeMessageRuntime,0x004181E0,function

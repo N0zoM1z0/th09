@@ -972,3 +972,4 @@ FrontSide::OnDraw
 Background::RenderObjects
 FrontMessageRuntimeView::ReleaseForSideCount
 EnemyView::CleanupAfterDeactivation
+FrontMessageOwnerView::InitializeMessageRuntime
