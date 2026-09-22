@@ -262,20 +262,23 @@ The durable evidence is in Packets 491 through 498.
 Fresh TH09 target/cold-compiler review now gives:
 
 - target 3,238 bytes, frame `0x5C`, 33 physical direct callsites;
-- current pinned VC7.1 `/O2 /Ob1` candidate 2,991 bytes, frame `0x68`;
-- the call sequence is aligned except for the target entry
-  `??_H @ 0x00401470` vector-constructor iterator over three 0x0C elements;
+- current pinned VC7.1 `/O2 /Ob1` candidate 3,147 bytes, frame `0x68`;
 - target-backed timer fixes restore three folded current reads, three postfix
   increments, `HasTickedEvery`, and timer `operator==`;
+- target-left and target-right pattern branches now keep their distinct
+  `ResolvePatternOffset` callsites, closing the physical call count at 33/33;
+- the entry construction still differs: target uses
+  `??_H @ 0x00401470` over three 0x0C elements while the candidate emits an
+  explicit constructor loop;
 - same-TU `ResolvePatternOffset @ 0x00404710` still cold-replays exact at
   346/346 bytes and 412/412 owned compare extent.
 
-The next useful work is local lifetime/type/TU evidence that explains the
-entry vector-constructor lowering and closes the 0x0C frame gap. Moving the
-array declaration alone does nothing; a focused `/Os` probe is worse and should
-not be expanded into profile roulette.
+The remaining logical gap is 91 bytes. The next useful work is local
+lifetime/type/TU evidence that explains the entry vector-constructor lowering
+and closes the 0x0C frame gap. Moving the array declaration alone does nothing;
+a focused `/Os` probe is worse and should not be expanded into profile roulette.
 
-The durable evidence is in Packet 499.
+The durable evidence is in Packets 499 and 500.
 
 ## Other durable non-exact plateaus
 

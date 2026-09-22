@@ -381,23 +381,30 @@ __forceinline int SelectTargetPattern(
         return currentPattern;
 
     int pattern;
+    PlayerPositionView candidate;
     if (target.x + 6.0f < player->position1B88.x)
+    {
         pattern =
             (target.y + 6.0f < player->position1B88.y &&
              player->position1B88.y > 48.0f)
                 ? 5
                 : 7;
+        ResolvePatternPosition(player, pattern, alternate, &candidate);
+    }
     else if (target.x - 6.0f > player->position1B88.x)
+    {
         pattern =
             (target.y + 6.0f < player->position1B88.y &&
              player->position1B88.y > 48.0f)
                 ? 6
                 : 8;
+        ResolvePatternPosition(player, pattern, alternate, &candidate);
+    }
     else
+    {
         return currentPattern;
+    }
 
-    PlayerPositionView candidate;
-    ResolvePatternPosition(player, pattern, alternate, &candidate);
     if (IsPatternPositionBlocked(player, candidate, boxHalfSize, 0.0f))
         return currentPattern;
     return pattern;
