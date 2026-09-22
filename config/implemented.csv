@@ -966,3 +966,4 @@ InterpolateBackgroundCameraVector
 BackgroundRunStageScriptPhase
 DecodeFrontMessageString
 FrontMessageRuntimeView::Update
+PlayerLifecycleView::UpdateMovementAndOptions

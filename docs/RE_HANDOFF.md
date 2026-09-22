@@ -16,7 +16,7 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Reviewed but origin-unresolved | 35 |
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 968 |
+| Source-present authored mappings | 969 |
 | Canonical exact functions | 776 |
 
 Boundary/origin inventory is reviewed, but exact reconstruction is not
@@ -91,8 +91,8 @@ candidate as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 968 source-present authored mappings. Of
-these, 776 are canonical exact and 192 retain honest non-exact compiler results.
+`config/implemented.csv` contains 969 source-present authored mappings. Of
+these, 776 are canonical exact and 193 retain honest non-exact compiler results.
 `config/matches.csv` contains 776 complete target-bound VC7.1 matches totaling
 121,112 exact authored bytes. Source presence, origin, exactness, product
 closure, and runtime behavior remain independent claims.
@@ -117,7 +117,7 @@ Do not open semantic reconstruction or portability until this gate closes.
 ## Next Web priorities
 
 Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**11 authored functions / 11,876 bytes without maintained source**, plus 192
+**10 authored functions / 10,041 bytes without maintained source**, plus 193
 source-present functions that retain honest non-exact compiler results.
 
 1. **Preserve frozen and durable-negative frontiers.** The 35 origin-unknown
@@ -175,6 +175,12 @@ source-present functions that retain honest non-exact compiler results.
    after the target-visible chained `FromAngleMagnitude` expression closes size.
    Very small bodies such as `0x0044AB20` should not be claimed merely because
    they are short; first rule out folded/shared ownership with TH09-local xrefs.
+
+   PlayerLifecycleView::UpdateMovementAndOptions @ 0x0041C170 is now
+   maintained source-present from the exact OnUpdate owner and TH09-local
+   input/SHT/effect/option/history evidence. Natural VC7.1 settles at 1864
+   bytes versus the 1835-byte target after bounded type/lifetime/source-order
+   probes; the exact caller remains 522/522 under the corrected semantic name.
 
 4. **Keep using shared-helper leverage before large callbacks.** Exact ExAttack
    init/update rows, Player leaves, Front helpers, Bullet descriptor transforms,

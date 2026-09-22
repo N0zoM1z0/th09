@@ -832,7 +832,7 @@ afterTransition:
 
     if (player->GetUpdateState() != 2 && player->GetUpdateState() != 4 &&
         player->GetUpdateState() != 1)
-        player->UpdateStateValue();
+        player->UpdateMovementAndOptions();
 
     g_AnmManager->ExecuteScript(&player->mainVm);
     player->UpdateShots();
