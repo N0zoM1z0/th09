@@ -173,8 +173,8 @@ __forceinline float *WriteFloat(
         return -1;
 
     case TH09_ECL_OPCODE_SET_SECONDARY_TIME:
-        context->secondaryTime094.SetCurrent(
-            Th09EclRunControl::ReadInt(enemy, instruction, 0));
+        context->secondaryTime094 =
+            Th09EclRunControl::ReadInt(enemy, instruction, 0);
         break;
 
     case TH09_ECL_OPCODE_UNHANDLED_03:
@@ -188,8 +188,8 @@ __forceinline float *WriteFloat(
             goto th09_ecl_advance_instruction;
 
     case TH09_ECL_OPCODE_JUMP:
-        context->time008.SetCurrent(
-            Th09EclRunControl::RawInt(instruction, 0));
+        context->time008 =
+            Th09EclRunControl::RawInt(instruction, 0);
         instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
             reinterpret_cast<unsigned char *>(instruction) +
             Th09EclRunControl::RawInt(instruction, 1));

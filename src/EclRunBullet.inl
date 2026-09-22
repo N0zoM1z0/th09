@@ -222,7 +222,7 @@ void ClearBulletsForTransition(EtamaController *controller);
         Th09EclRunBullet::View(enemy)->shootIntervalFrames30B4 = bulletInt;
         if (bulletInt != 0)
         {
-            Th09EclRunBullet::View(enemy)->shootIntervalTimer30B8.SetCurrent(0);
+            Th09EclRunBullet::View(enemy)->shootIntervalTimer30B8 = 0;
         }
         break;
 
@@ -231,8 +231,8 @@ void ClearBulletsForTransition(EtamaController *controller);
         Th09EclRunBullet::View(enemy)->shootIntervalFrames30B4 = bulletInt;
         if (bulletInt != 0)
         {
-            Th09EclRunBullet::View(enemy)->shootIntervalTimer30B8.SetCurrent(
-                Th09EclRunControl::g_Rng.GetRandomU32InRange(bulletInt));
+            Th09EclRunBullet::View(enemy)->shootIntervalTimer30B8 =
+                Th09EclRunControl::g_Rng.GetRandomU32InRange(bulletInt);
         }
         break;
 
@@ -403,7 +403,8 @@ void ClearBulletsForTransition(EtamaController *controller);
         if (laser != 0 && laser->inUse != 0 && laser->state < 2)
         {
             laser->state = 2;
-            laser->timer = 0;
+            Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex]->timer = 0;
+            laser = Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex];
             laser->width = laser->currentWidth;
         }
         break;

@@ -363,8 +363,8 @@ __forceinline void AssignFlagField(
         break;
 
     case TH09_ECL_OPCODE_SET_BOSS_TIMER:
-        Th09EclRunState::View(enemy)->bossTimer2E64.SetCurrent(
-            Th09EclRunControl::ReadInt(enemy, instruction, 0));
+        Th09EclRunState::View(enemy)->bossTimer2E64 =
+            Th09EclRunControl::ReadInt(enemy, instruction, 0);
         break;
 
     case TH09_ECL_OPCODE_SET_LIFE_CALLBACK:
@@ -597,7 +597,7 @@ __forceinline void AssignFlagField(
             Th09EclRunState::View(enemy)->deathCallbackSubId2D2E;
     th09_ecl_install_timer_callback:
         Th09EclRunState::View(enemy)->timerCallbackSubId33D4 = stateCallback;
-        Th09EclRunState::View(enemy)->bossTimer2E64.SetCurrent(0);
+        Th09EclRunState::View(enemy)->bossTimer2E64 = 0;
         break;
 
     case TH09_ECL_OPCODE_CLEAR_LASER_SLOTS:

@@ -170,8 +170,8 @@ void MoveRandomBiased(
         break;
 
     case TH09_ECL_OPCODE_SET_DAMAGE_REDUCTION_TIMER:
-        Th09EclRunLate::View(enemy)->damageReductionTimer53A8.SetCurrent(
-            Th09EclRunControl::ReadInt(enemy, instruction, 0));
+        Th09EclRunLate::View(enemy)->damageReductionTimer53A8 =
+            Th09EclRunControl::ReadInt(enemy, instruction, 0);
         break;
 
     case TH09_ECL_OPCODE_REMOVE_BULLETS_IN_RADIUS:
