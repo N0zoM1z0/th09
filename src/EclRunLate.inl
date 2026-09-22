@@ -261,34 +261,35 @@ void MoveRandomBiased(
 
     case TH09_ECL_OPCODE_SET_LASER_START_CAP_HIDDEN:
         lateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        lateLaser = Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex];
-        if (lateLaser)
+        if (Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex])
         {
-            lateLaser->hideCapDuringStartup =
-                static_cast<unsigned char>(
-                    Th09EclRunControl::ReadInt(enemy, instruction, 1));
+            Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex]->
+                hideCapDuringStartup =
+                    static_cast<unsigned char>(
+                        Th09EclRunControl::ReadInt(enemy, instruction, 1));
         }
         break;
 
     case TH09_ECL_OPCODE_SET_LASER_START_LENGTH:
         lateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        lateLaser = Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex];
-        if (lateLaser)
+        if (Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex])
         {
-            lateLaser->startLength =
-                Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+            Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex]->
+                startLength =
+                    Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         }
         break;
 
     case TH09_ECL_OPCODE_SET_LASER_OFFSETS:
         lateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        lateLaser = Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex];
-        if (lateLaser)
+        if (Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex])
         {
-            lateLaser->startOffset =
-                Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-            lateLaser->endOffset =
-                Th09EclRunControl::ReadFloat(enemy, instruction, 2);
+            Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex]->
+                startOffset =
+                    Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+            Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex]->
+                endOffset =
+                    Th09EclRunControl::ReadFloat(enemy, instruction, 2);
         }
         break;
 
