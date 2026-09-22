@@ -331,7 +331,6 @@ struct EnemyCoreFrontView
 };
 
 extern EnemyCoreAnmManagerView *g_EnemyCoreAnmManager;
-extern EnemyCoreEclManagerView g_EnemyCoreEclManager;
 extern EnemyCoreUiView g_EnemyCoreUi;
 extern EnemyCoreFrontView *g_EnemyCoreFront;
 extern unsigned int g_EnemyCoreRuntimeFlags;
@@ -339,9 +338,6 @@ extern int g_EnemyCoreScriptedUpdateFreeze;
 extern int g_EnemyCoreDifficultyValue;
 extern unsigned char g_EnemyCoreSchedule[];
 
-extern void EnemyCoreDespawn(EnemyCoreView *enemy);
-extern void EnemyCoreClampPosition(EnemyCoreView *enemy);
-extern void EnemyCoreIntegrateVelocity(EnemyCoreView *enemy);
 extern int EnemyCoreRunLifeCallback(EnemyCoreView *enemy);
 extern int EnemyCoreRunTimerCallback(EnemyCoreView *enemy);
 struct EnemyCoreGameManagerPlayfieldView
@@ -360,7 +356,6 @@ struct EnemyAppendCollisionView
         const PlayerPositionView *position,
         const PlayerPositionView *size);
 };
-extern void EnemyCoreResetBulletInfluence(EnemyCoreView *enemy);
 extern void EnemyCoreReleaseChildEclBlocks(EnemyCoreView *enemy);
 extern void EnemyCoreReleaseAttachedEffects(EnemyCoreView *enemy);
 static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy);
@@ -531,7 +526,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 descriptor.transformFlags1FC = 4;
                 manager->sideState320->etama08->SpawnBulletPatternPrimary(&descriptor);
                 enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
-                EnemyCoreDespawn(enemy);
+                reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();
                 continue;
             }
         }
@@ -545,18 +540,19 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
         }
 
     run_enemy_ecl:
-        if (g_EnemyCoreEclManager.RunEcl(enemy) == -1)
+        if (enemyManager->primaryEclManager000.RunEcl(
+                reinterpret_cast<EnemyView *>(enemy)) == -1)
         {
             enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
-            EnemyCoreDespawn(enemy);
+            reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();
             continue;
         }
 
         if ((enemy->flags337C & ENEMY_CORE_SKIP_MOVEMENT) == 0)
         {
-            EnemyCoreClampPosition(enemy);
-            EnemyCoreIntegrateVelocity(enemy);
-            EnemyCoreClampPosition(enemy);
+            reinterpret_cast<EnemyView *>(enemy)->ClampPositionToMovementBounds();
+            reinterpret_cast<EnemyView *>(enemy)->IntegrateMotion();
+            reinterpret_cast<EnemyView *>(enemy)->ClampPositionToMovementBounds();
             enemy->worldPosition2DD4 =
                 enemy->position2D74 + enemy->positionOffset2D80;
         }
@@ -626,7 +622,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                      loadedSprite->extent30)))
             {
                 enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
-                EnemyCoreDespawn(enemy);
+                reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();
                 continue;
             }
         }
@@ -864,7 +860,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 
         if (enemy->deathCallbackSubId2D2E >= 0)
         {
-            EnemyCoreResetBulletInfluence(enemy);
+            reinterpret_cast<EnemyView *>(enemy)->ResetBulletRankInfluence();
             enemy->eclCallStackDepth2D2A = 0;
             for (int callbackIndex = 0; callbackIndex < 4; ++callbackIndex)
                 enemy->lifeCallbackThresholds33B0[callbackIndex] = -1;

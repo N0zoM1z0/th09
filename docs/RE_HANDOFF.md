@@ -226,9 +226,9 @@ stale maintained-source owners rather than merely changing compiler spelling:
   `SoundPlayer::PlaySoundPositionedByIdx`. The private ANM VM layout is also
   corrected to color1/color2/flags at `+0x1F0/+0x1F4/+0x1F8`.
 - Those locally correct ABIs make the current pinned VC7.1 `/O2 /Ob1` build
-  3,828/3,883 bytes with the target-exact frame `0x2A8` and 67/69
-  direct calls after removing the target-disproved function-wide side/player
-  pointer lifetimes. The remaining logical gap is 55 bytes. Do not restore
+  3,824/3,883 bytes with the target-exact frame `0x2A8` and 67/69
+  direct calls after also restoring canonical RunEcl / EnemyView member
+  receivers. The remaining logical gap is 59 bytes. Do not restore
   the disproven free aliases just to regain aggregate bytes. One target
   normal-path `Float3::operator+` call and one target-distinct
   `CleanupAfterDeactivation` site are currently compiler-merged.
@@ -236,13 +236,17 @@ stale maintained-source owners rather than merely changing compiler spelling:
   members at distant blocks. Keeping `side` and `player` as function-wide
   locals was the main remaining frame/lifetime error; removing them closes
   136 bytes and exactly closes the eight-byte frame gap.
+- RunEcl now uses the current EnemyManager / offset-zero primary ECL receiver;
+  Clamp/Integrate/Reset/Cleanup use their canonical EnemyView member owners.
+  This locally correct owner cleanup shortens the aggregate by four bytes and
+  is retained rather than reverting target-disproved aliases.
 - `EnemyCoreUpdateAttachedEffects @ 0x0040F4C0`, from the same source file,
   still replays exact at 151/151 in two cold passes after these changes.
 - Continue this owner by target-backed CFG/type/lifetime recovery. Do not add
   filler, force registers, use volatile steering/assembly, or chase alternate
   profiles for aggregate size.
 
-The durable evidence is in Packets 491 through 496.
+The durable evidence is in Packets 491 through 497.
 
 ## Other durable non-exact plateaus
 

@@ -53,6 +53,7 @@ typedef char EnemyRewardPlayerLevelAt30448[
 class ChainElem;
 class AnmLoaded;
 struct EnemyManagerView;
+struct EnemyView;
 
 struct EnemySideStateView
 {
@@ -89,6 +90,7 @@ struct EnemyEclManagerView
     int Load(char *path);
     int GetSubroutineCount();
     void *GetSubroutine(int index);
+    int RunEcl(EnemyView *enemy);
     void ReleaseRawFile();
 };
 typedef char EnemyEclManagerViewSizeIs188[
@@ -134,6 +136,7 @@ struct EnemyView
     void HandleDeathRewards(int hitKind);
     void ResetBulletRankInfluence();
     void ClampPositionToMovementBounds();
+    void CleanupAfterDeactivation();
 };
 typedef char EnemyViewSizeIs5430[(sizeof(EnemyView) == 0x5430) ? 1 : -1];
 typedef char EnemyViewPositionAt2D74[
