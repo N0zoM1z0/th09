@@ -262,7 +262,7 @@ The durable evidence is in Packets 491 through 498.
 Fresh TH09 target/cold-compiler review now gives:
 
 - target 3,238 bytes, frame `0x5C`, 33 physical direct callsites;
-- current pinned VC7.1 `/O2 /Ob1` candidate 3,271 bytes, target-exact frame `0x5C`;
+- current pinned VC7.1 `/O2 /Ob1` candidate 3,256 bytes, target-exact frame `0x5C`;
 - target-backed timer fixes restore three folded current reads, three postfix
   increments, `HasTickedEvery`, and timer `operator==`;
 - target-left and target-right pattern branches now keep their distinct
@@ -273,13 +273,14 @@ Fresh TH09 target/cold-compiler review now gives:
 - same-TU `ResolvePatternOffset @ 0x00404710` still cold-replays exact at
   346/346 bytes and 412/412 owned compare extent.
 
-The selector now has target-exact frame `0x5C` and full 33/33 call surface.
+The selector has target-exact frame `0x5C` and full 33/33 call surface.
 Early protocol accesses use side-indexed recomputation while one short cache is
-kept only after `pattern_selected`. This yields 3,271/3,238 bytes, leaving
-a 33-byte local instruction/lifetime frontier. The entry vector-constructor
-lowering also remains open; the focused `/Os` probe remains rejected.
+kept only after `pattern_selected`. Removing the helper-wide Player cache
+inside `SelectTargetPattern` further closes the body to 3,256/3,238 bytes.
+Only an 18-byte instruction/lifetime frontier plus entry constructor lowering
+remains; the focused `/Os` probe remains rejected.
 
-The durable evidence is in Packets 499 through 503.
+The durable evidence is in Packets 499 through 504.
 
 ## Other durable non-exact plateaus
 

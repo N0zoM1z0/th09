@@ -374,7 +374,6 @@ __forceinline int SelectTargetPattern(
     int alternate,
     const PlayerPositionView &boxHalfSize)
 {
-    PlayerLifecycleView *player = header->player78;
     PlayerPositionView target;
     ResolveOpponentTarget(header, &target);
     if (target.x <= -999.0f || target.y >= 448.0f)
@@ -382,30 +381,30 @@ __forceinline int SelectTargetPattern(
 
     int pattern;
     PlayerPositionView candidate;
-    if (target.x + 6.0f < player->position1B88.x)
+    if (target.x + 6.0f < header->player78->position1B88.x)
     {
         pattern =
-            (target.y + 6.0f < player->position1B88.y &&
-             player->position1B88.y > 48.0f)
+            (target.y + 6.0f < header->player78->position1B88.y &&
+             header->player78->position1B88.y > 48.0f)
                 ? 5
                 : 7;
-        ResolvePatternPosition(player, pattern, alternate, &candidate);
+        ResolvePatternPosition(header->player78, pattern, alternate, &candidate);
     }
-    else if (target.x - 6.0f > player->position1B88.x)
+    else if (target.x - 6.0f > header->player78->position1B88.x)
     {
         pattern =
-            (target.y + 6.0f < player->position1B88.y &&
-             player->position1B88.y > 48.0f)
+            (target.y + 6.0f < header->player78->position1B88.y &&
+             header->player78->position1B88.y > 48.0f)
                 ? 6
                 : 8;
-        ResolvePatternPosition(player, pattern, alternate, &candidate);
+        ResolvePatternPosition(header->player78, pattern, alternate, &candidate);
     }
     else
     {
         return currentPattern;
     }
 
-    if (IsPatternPositionBlocked(player, candidate, boxHalfSize, 0.0f))
+    if (IsPatternPositionBlocked(header->player78, candidate, boxHalfSize, 0.0f))
         return currentPattern;
     return pattern;
 }

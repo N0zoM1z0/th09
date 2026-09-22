@@ -14226,8 +14226,8 @@ target_address = 0x00404710
 size = 0x15A
 compare_size = 0x19C
 relocations = [
-  { offset = 0x31, type = "DIR32", symbol = "$L1690", target = 0x0040486C },
-  { offset = 0xC1, type = "DIR32", symbol = "$L1691", target = 0x0040488C },
+  { offset = 0x31, type = "DIR32", symbol = "$L1689", target = 0x0040486C },
+  { offset = 0xC1, type = "DIR32", symbol = "$L1690", target = 0x0040488C },
   { offset = 0x15C, type = "DIR32", symbol = "$L1361", target = 0x00404767 },
   { offset = 0x160, type = "DIR32", symbol = "$L1362", target = 0x00404777 },
   { offset = 0x164, type = "DIR32", symbol = "$L1360", target = 0x00404755 },
