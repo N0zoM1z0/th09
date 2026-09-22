@@ -1,13 +1,13 @@
 # TH09 reconstruction handoff
 
-This is the live restart document. Historical packet-by-packet notes through
-Packet 208 remain available in Git at
-`e0da09e:docs/RE_HANDOFF.md`; they are not duplicated here.
+This is the live restart document. It intentionally contains current state and
+current priorities only. Historical packet-by-packet investigation belongs in
+Git history and docs/KNOWLEDGE_BASE.md.
 
 ## Current state
 
-Only the original Japanese TH09 v1.50a executable is supported:
-SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+Supported target: original Japanese TH09 v1.50a.
+SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 
 | Measure | Current value |
 | --- | ---: |
@@ -18,272 +18,219 @@ SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
 | Canonical exact functions | 779 |
+| Source-present non-exact functions | 200 |
+| Source-present non-exact bytes | 151,149 |
+| Authored without maintained source | 0 |
+| Canonical exact authored bytes | 124,520 |
 
-Boundary/origin inventory is reviewed, but exact reconstruction is not
-complete. The faithful Windows i386 product graph remains open. Runtime
-semantic reconstruction and portability have not started.
+The source-presence frontier is closed. Exact reconstruction is not complete.
+The faithful Windows i386 product graph remains open. Semantic reconstruction
+and portability have not started.
 
 ## Restart checklist
 
 From the repository root:
 
-```bash
-git status --short --branch
-git diff --check
-python3 scripts/verify-target.py
-python3 scripts/validate-tracking.py --require-target
-python3 scripts/report-reconstruction-status.py
-```
+    git status --short --branch
+    git diff --check
+    python3 scripts/verify-target.py
+    python3 scripts/validate-tracking.py --require-target
+    python3 scripts/report-reconstruction-status.py
 
-Attest the active IDA database independently and require the same SHA-256,
-image base `0x00400000`, entry `0x0047D45F`, and image size `0x000E7000`.
-Use the direct registered IDA provider from local Codex. Factory attestation is
-only required when working through a Factory/Web client.
+Attest the active IDA database independently before using semantic evidence.
+Require the same target hash, image base 0x00400000, entry 0x0047D45F and image
+size 0x000E7000. IDA names and types are provisional evidence, not exactness
+credit.
 
-Before editing, inspect all tracked and untracked work. The ignored target,
-IDA database, toolchain, compiler outputs, and analysis artifacts must never be
+Before editing, inspect all tracked and untracked work. Private target binaries,
+IDA databases, toolchains, compiler outputs and analysis artifacts must not be
 committed.
 
 ## Boundary and origin closure
 
-The full 2,191-candidate ledger has been reviewed against the pinned target.
-Current dispositions are 979 authored, 1,177 excluded, and 35 intentionally
-unknown. The 35-entry unknown set is frozen by SHA-256
-`126885e1a6a78ac42b0d81852253714cc1c9eb99141066d495b0029a16ca5695`.
+The complete 2,191-candidate inventory has boundary/origin review. Current
+dispositions are 979 authored, 1,177 excluded and 35 intentionally unresolved.
+The unresolved set is frozen by SHA-256
+126885e1a6a78ac42b0d81852253714cc1c9eb99141066d495b0029a16ca5695.
 
-- Thirty-one entries are construction/destruction-only special members. Their
-  target bodies are compatible with both explicit out-of-line source and
-  implicit VC7.1 generation.
-- `0x0042F3F0`, `0x004343D0`, `0x00435EC0`, and `0x0043D2B0` are shared,
-  folded, or otherwise owner-ambiguous physical bodies.
-- Four former IDA `nullsub` candidates in the transition band are proven data.
-- D3DX8, CRT, import, compiler-helper, static-initializer, and DXErr8 residuals
-  have separate target-bound reviews. The original game-origin sweep cohort is now
-  frozen explicitly in `config/game-origin-review-cohort.txt` so later exact/source
-  evidence IDs cannot silently invalidate the read-only closure replay.
-- Three former authored-sweep entries, `0x00401060/70/80`, are now explicitly
-  reclassified as VC7.1 compiler-generated `@cosf@4/@sinf@4/@sqrtf@4` COMDAT
-  helpers after two cold pinned-compiler reproductions of all 12 bytes each.
-- Three more broad-sweep entries, `0x00405710` and `0x00436AA0/AB0`, are
-  reclassified as `MathRuntime` library helpers `@fmodf@8`, `@acosf@4`, and
-  `@atanf@4`. Pinned VC7.1 <math.h> emits the same COMDATs naturally; two
-  cold target-bound comparisons reproduce every ordinary byte and the
-  `__CIfmod` / `__CIacos` relocation destinations.
-- Four D3DX8 SDK inline bodies, `0x00401290/0x004012C0/0x004012E0` and
-  `0x0042E920`, are likewise removed from the authored denominator. The pinned
-  PlatformSDK `d3dx8math.inl` defines `D3DXVec3Length`, `D3DXVec3LengthSq`,
-  `D3DXVec3Dot`, and `D3DXVec3Cross`; natural target-backed `/Gr /O2` inline
-  compilation emits the target COMDATs byte-for-byte in two cold rounds.
-  Length resolves to `@sqrtf@4`, while Cross is 83/83 exact with no relocations.
+Do not revisit the 35 unknown entries without genuinely new evidence that can
+separate explicit source, implicit compiler-generated special members or
+folded/shared ownership. The read-only closure scripts remain:
 
-Replay the closure checks with:
+    python3 scripts/review-transition-data.py
+    python3 scripts/review-runtime-residuals.py
+    python3 scripts/apply-game-origin-review.py --group compiler
+    python3 scripts/apply-game-origin-review.py --group authored
+    python3 scripts/apply-game-origin-review.py --group ambiguous
 
-```bash
-python3 scripts/review-transition-data.py
-python3 scripts/review-runtime-residuals.py
-python3 scripts/apply-game-origin-review.py --group compiler
-python3 scripts/apply-game-origin-review.py --group authored
-python3 scripts/apply-game-origin-review.py --group ambiguous
-```
-
-These commands are read-only without `--apply` and must report every selected
-candidate as already applied.
+Without --apply they must report the selected dispositions as already applied.
 
 ## Exact reconstruction state
 
-`config/implemented.csv` contains 971 source-present authored mappings. Of
-these, 777 are canonical exact and 198 retain honest non-exact compiler results.
-`config/matches.csv` contains 776 complete target-bound VC7.1 matches totaling
-121,112 exact authored bytes. Source presence, origin, exactness, product
-closure, and runtime behavior remain independent claims.
+The authoritative live totals come from report-reconstruction-status.py and the
+tracking ledgers. At this checkpoint there are 979 source-present authored
+functions: 779 canonical exact and 200 honest non-exact.
 
-Canonical units are replayed with their recorded commands, for example:
+Canonical exactness requires a target-bound match unit and relocation-aware
+replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
+successful compilation do not by themselves justify a match.
 
-```bash
-python3 scripts/build-match-unit.py --unit <unit>
-python3 scripts/compare-coff-function.py --unit <unit> --json
-```
+The authored/no-source roadmap is obsolete and must not be restarted. All
+confirmed authored functions now have maintained source.
 
-Do not promote near matches, adjacent-game similarities, IDA names, maintained
-source, or successful compilation into `config/matches.csv`.
+## Active large frontier: EclManager::RunEcl
+
+RunEcl at 0x004086C0 remains the main actively investigated large owner.
+Target logical size is 14,792 bytes, followed by 772 bytes of compiler-owned
+tables: 6 easing entries and 187 opcode entries.
+
+A fresh pinned VC7.1 build at this checkpoint reports:
+
+| RunEcl measure | Target | Current candidate |
+| --- | ---: | ---: |
+| Logical bytes | 14,792 | 14,224 |
+| Logical gap | 0 | 568 |
+| Stack frame | 0x168 | 0x13C |
+| Immediate direct calls | 375 | 375 |
+| Indirect calls | 4 | 4 |
+| Relocations | target-owned | 598 |
+| Integer resolver calls | 131 | 131 |
+| Float resolver calls | 100 | 100 |
+| Integer-lvalue resolver calls | 17 | 17 |
+| Float-lvalue resolver calls | 24 | 24 |
+| Compiler table entries | 193 | 193 |
+
+Important current facts:
+
+- Call structure is closed. Candidate and target both have 379 calls: 375
+  immediate direct plus four indirect. Do not resurrect the older 376+3 count.
+- Direct EnemyView::ResolveFloat is target-correct. The older wrapper-based
+  14,696-byte near plateau was false because it created target-absent temporary
+  homes and a 0x2C0 frame.
+- Recent target-backed corrections include child-context scan lifetime, the
+  fixed 0x20 laser-slot clear loop, coalesced interaction flags, repeated
+  laser-slot relookup, child-ECL slot relookup, polar operand reevaluation,
+  ordinary timer assignment, direct destination staging removal, late laser
+  angle relookup and repeated side-owner lookup.
+- The latest ANM ownership review proves 0x00439CF0 and 0x00439DC0 are
+  AnmManager member helpers. RunEcl opcode 157 uses trail render vertices at
+  Enemy +0x3E68, not the trail sample buffer at +0x33E8, and prepares
+  g_AnmManager in ECX at the callsite.
+- Aggregate function size is diagnostic only. Prefer a locally target-correct
+  handler even when it makes the whole function temporarily shorter. Do not
+  reintroduce disproven staging temporaries just to approach 14,792.
+- No register forcing, var_order, volatile steering, padding, assembly or
+  profile roulette is allowed.
+
+Use docs/KNOWLEDGE_BASE.md Packets 466 through 480 only as chronological
+investigation history. The current functions.csv row plus a fresh
+report-ecl-codegen.py run are the live baseline.
+
+## Other durable non-exact plateaus
+
+Do not churn these without new evidence:
+
+- ReplayManagerView::CaptureFrameSyncState 0x00420190: exact-sized 257 bytes,
+  one commutative SIB byte remains.
+- AsciiManager::OnUpdate 0x00435B00: exact-sized 253 bytes, one signedness
+  branch byte remains; explicit signed source is worse.
+- PlayerLifecycleView::CheckBulletCollision 0x0041DFF0: best natural 849
+  versus target 862; remaining frontier is preserved-register allocation.
+- Float3::FromAngleMagnitude 0x00441890: natural 30/32 FCOS/FSIN versus target
+  FSINCOS; do not import the TH095 inline-assembly workaround.
+- TitleScreenView::OnUpdateKeyConfig 0x00427EE8: exact-sized 2803/2803 with
+  eight ordinary comparable bytes of scheduler/SIB residual.
+- FrontSide::OnDraw 0x004193E0: 3106/3094; remaining 12 bytes are transition
+  overlay constructor/branch scheduling after bounded probes.
+- PlayerLifecycleView::UpdateMovementAndOptions 0x0041C170: 1864/1835 with
+  complete external call surface and bounded lifetime/type probes.
+- EnemyManagerView::SpawnEnemy 0x0040F340: cold-stable 361/373; merge and
+  duplicated-failure-tail alternatives are both worse.
+
+These are not forbidden forever; they require evidence that invalidates a
+previous negative result.
+
+## Non-exact family snapshot
+
+Current source-present/non-exact bytes are concentrated in these modules. This
+is a snapshot, not a permanent ranking; recompute before choosing work.
+
+| Module | Functions | Non-exact bytes |
+| --- | ---: | ---: |
+| TitleScreen | 26 | 27,050 |
+| EclManager | 14 | 18,995 |
+| Player | 26 | 17,687 |
+| ExAttackController | 21 | 14,283 |
+| EnemyManager | 11 | 9,902 |
+| Front | 10 | 8,138 |
+| BulletManager | 14 | 7,084 |
+| FrontSide | 4 | 6,254 |
+| Background | 8 | 5,306 |
+| GameManager | 5 | 4,259 |
+| ReplayManager | 5 | 3,949 |
+| AnmManager | 7 | 3,375 |
+
+When RunEcl reaches an honest local plateau, prefer target-proven helper,
+ownership, ABI and layout leverage in these families before broad profile or
+register experiments.
 
 ## Product gate
 
-`config/build.toml` deliberately records an open product graph. Exact functions
-do not yet establish all translation units, static data owners, libraries,
-resources, initializers, linker order, or exercised Windows i386 runtime paths.
-Do not open semantic reconstruction or portability until this gate closes.
+config/build.toml deliberately remains an open native-product graph. Exact
+functions do not establish all translation units, data owners, libraries,
+resources, static initializers, linker order or exercised Windows i386 runtime
+paths.
 
-## Next Web priorities
-
-Phase state is `active-incomplete` exact reconstruction. The live frontier is
-**0 authored functions / 0 bytes without maintained source**, plus 200
-source-present functions that retain honest non-exact compiler results.
-
-The authored/no-source frontier is now closed at 979/979 mappings. The remaining
-work in this phase is exact-codegen convergence on the maintained non-exact set;
-semantic/port work remains deferred.
-
-1. **Preserve frozen and durable-negative frontiers.** The 35 origin-unknown
-   entries remain frozen. Do not revisit them without new evidence that can
-   distinguish explicit source, implicit special-member generation, or folded
-   ownership. Likewise, do not churn known natural-codegen plateaus such as
-   `CaptureFrameSyncState @ 0x00420190`, `AsciiManager::OnUpdate @ 0x00435B00`,
-   `PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0`, or
-   `Float3::FromAngleMagnitude @ 0x00441890`. The knowledge base is the
-   authoritative list of their tested hypotheses and negative results.
-
-2. **Treat source-present plateaus as closed until evidence changes.**
-   `EnemyManagerView::SpawnEnemy @ 0x0040F340` is cold-stable at 361/373;
-   collapsing its primary/opposing ECL paths over-optimizes to 322, while
-   explicit duplicated failure tails inflate to 403. `ExAttackUpdateCallbackType20
-   @ 0x0044ADE0` is exact-sized 405/405 with all 11 relocations solved and
-   299/361 ordinary comparable bytes; bounded field-order/type probes were
-   worse. `ExAttackUpdateCallbackType6 @ 0x00446060` is exact-sized 698/698,
-   535/578 comparable; rows 11/12 are exact-sized 713/710 with 549/593 and
-   546/590 comparable bytes. Their bounded natural source-shape probes are
-   exhausted; these frontiers do not justify register, padding, volatile,
-   assembly, or profile roulette.
-
-3. **Continue authored/no-source work from target-proven owners, not address
-   adjacency.** The separate EnemyManager spawn owner `0x0040F1D0` is now
-   canonical exact: TH09 proves its sixth argument controls mirror bit 15 plus
-   X reflection, while its seventh selects primary versus opposing ECL. ExAttack
-   type-20 init `0x0044AC20` is now also canonical exact from its template-table
-   owner and natural local-value lifetime. The `IP.txt` network loader
-   `0x004324C0` is now canonical exact, while its same-TU parser `0x00432240`
-   is source-present/non-exact at a documented natural code-layout plateau.
-   `MixRenderColor @ 0x00401090` is now canonical exact under its target-proven
-   file-local visibility; the same natural ABI correction also promotes
-   `SetRenderStateForVm3D`, `DrawInner`, and `DrawInnerFlippedX` to exact.
-   `RotatePlayerCollisionVector @ 0x0042AF40` is also now exact: the target's
-   external `@sinf@4/@cosf@4` calls select the already-evidenced `/Ob0`
-   lowering, while `/Ob1` remains the documented 42-byte intrinsic negative.
-   `FileSystem::TryDecryptFromTable @ 0x0042C290` is now maintained source-present
-   at an honest 220-byte register-allocation plateau; its TH09 crypt data remain
-   extern/unowned and must not be copied from TH08.
-   `ExAttackUpdateCallbackType6 @ 0x00446060` is now maintained source-present
-   from the row-6 template update slot and is exact-sized at 698 bytes; the
-   remaining register/store scheduling residual stays non-exact after a bounded
-   authentic-family same-TU visibility probe.
-   `FrontMessageRuntimeView::Update @ 0x00416590` and its same-TU
-   `DecodeFrontMessageString @ 0x00415C60` are now maintained source-present.
-   TH09 independently fixes the 29-way message opcode owner and complete external
-   call surface; two cold natural builds keep Update at 2724/2852 and Decode at
-   36/39. Their residuals are distributed global-address/register scheduling and
-   private helper ABI, so they are honest non-exact frontiers rather than
-   candidates for register forcing or padding.
-   Rows 11 and 12 are now covered as well: `0x00446EE0` / `0x004471B0`
-   are exact-sized 713/710-byte maintained updates from their template-table
-   slots, with a shared 0x5C layout and a documented 44-byte scheduling residual
-   after the target-visible chained `FromAngleMagnitude` expression closes size.
-   Very small bodies such as `0x0044AB20` should not be claimed merely because
-   they are short; first rule out folded/shared ownership with TH09-local xrefs.
-
-   PlayerLifecycleView::UpdateMovementAndOptions @ 0x0041C170 is now
-   maintained source-present from the exact OnUpdate owner and TH09-local
-   input/SHT/effect/option/history evidence. Natural VC7.1 settles at 1864
-   bytes versus the 1835-byte target after bounded type/lifetime/source-order
-   probes; the exact caller remains 522/522 under the corrected semantic name.
-
-   TitleScreenView::OnUpdateKeyConfig @ 0x00427EE8 is also now maintained.
-   TH09 screen dispatch, config offsets and exact helper leaves close the full
-   2,803-byte behavior; two cold builds are exact-sized at 2,803/2,803 with
-   2,323/2,331 comparable bytes. The remaining eight bytes are two SoundPlayer
-   scheduling triples plus two equivalent SIB encodings, so this is a durable
-   natural-codegen plateau rather than a register/padding target. The same work
-   corrects 0x00422F67 from an explicit-stdcall body model to the target-proven
-   TitleScreenView member ABI while preserving 106/106 canonical exactness.
-
-   FrontSide::OnDraw @ 0x004193E0 is now maintained as the 3,094-byte
-   draw-chain owner proven by exact FrontSide::Create. The complete HUD prefix
-   and 103-call surface are target-backed; a target-observed side-state lifetime
-   closes the prefix through transition offset 0x582. Two cold natural builds
-   remain 3,106/3,094 with a 12-byte transition-overlay constructor/branch
-   scheduling residual after bounded profile/type/lifetime probes, so it stays
-   source-present/non-exact without compiler steering.
-
-   Background::RenderObjects @ 0x004026C0 is now canonical exact at
-   3274/3274 with 113 reviewed relocations. TH09 proves split camera ownership:
-   fixed Supervisor config0 for object culling, current projection context for
-   per-quad fog/projection. The target-backed /Ob0 boundary naturally selects
-   both the four-element vector-constructor iterator and external @sqrtf@4;
-   two cold builds have identical function text.
-
-   FrontMessageRuntimeView::ReleaseForSideCount @ 0x00417520 is now maintained
-   source-present at a cold-stable 268/271 natural plateau. Rebuilding from
-   target evidence independently confirms that a separate scan index recovers
-   the target EBX/BL and EDI lifetimes; the final three bytes remain register/
-   encoding scheduling and are not forced.
-
-   EnemyView::CleanupAfterDeactivation @ 0x00410110 is now maintained at an
-   exact-sized 184/184 natural plateau. Both exact helper relocations and the
-   full teardown semantics are closed; the remaining 26 comparable-byte
-   differences are confined to threshold-store/call scheduling, including a
-   member/free ABI probe that produced identical code.
-
-   FrontMessageOwnerView::InitializeMessageRuntime @ 0x004181E0 is now
-   genuinely tracked source-present at a cold-stable 133/133 plateau with all
-   nine relocations solved. The only residual is the six-byte Setup call
-   evaluation order; pointer/mode-local probes are byte-identical.
-
-4. **Keep using shared-helper leverage before large callbacks.** Exact ExAttack
-   init/update rows, Player leaves, Front helpers, Bullet descriptor transforms,
-   and EnemyManager boundaries have repeatedly unlocked larger code without
-   attacking multi-kilobyte dispatchers directly. Preserve that pattern before
-   revisiting `RunEcl @ 0x004086C0` or another large owner.
-
-5. **Keep product closure separate.** `config/build.toml` remains an honest
-   skeleton. Do not start semantic/port work until translation units, data
-   owners, libraries, resources, link order, compiler profiles, and exercised
-   Windows i386 runtime paths are evidenced and the native product gate closes.
-
-Run `python3 scripts/report-reconstruction-status.py` after each checkpoint; it
-is authoritative for live totals. Use `docs/KNOWLEDGE_BASE.md` for accepted
-local facts and negative results, not old chat summaries.
+Do not begin semantic reconstruction or portability until exact/source work has
+reached an honest plateau and the native product gate has the required
+translation-unit and runtime evidence.
 
 ## Workspace hygiene
 
-`.analysis/` is disposable and is intentionally empty at this checkpoint.
-The remaining Player collision codegen plateau, including its preserved-register
-negative result and tested source shapes, is already durable in
-`docs/KNOWLEDGE_BASE.md` and `config/functions.csv`; duplicate disassembly
-receipts are not retained. Future agents should follow `docs/RE_WORKFLOW.md`:
-after a checkpoint, delete rebuildable probe artifacts instead of using
-`.analysis/` as a journal.
+.analysis/ is disposable working state, not a journal. At this checkpoint its
+contents have been cleared after promoting all durable facts to tracked source,
+ledgers, knowledge-base packets or Git commits.
 
-Private target executables, IDA databases, compiler/toolchain files, and game
-assets that are not explicitly tracked resources must never be added to Git.
+After each checkpoint:
+
+1. Move durable facts into tracked source/config/docs.
+2. Keep only compact unresolved evidence when it is the sole record.
+3. Delete rebuildable OBJ/PDB/probe/source copies, duplicate disassembly dumps,
+   stale inventories and superseded comparison logs.
+4. Never use .analysis/ as long-term memory.
+
+If recovering a dirty session, explain an artifact before deleting it. For a
+clean checkpoint with no tracked references to its receipts, prefer deletion.
 
 ## Durable evidence map
 
-- `config/functions.csv` and `config/function-origins.csv`: candidate boundary
-  and origin ledger.
-- `config/implemented.csv`: source-present authored mappings.
-- `config/matches.csv` and `config/match-units.toml`: canonical exact replay
-  units and commands.
-- `docs/KNOWLEDGE_BASE.md`: durable TH09-only facts and negative results.
-- `docs/PROGRESS.md`: generated current totals.
-- `docs/RE_WORKFLOW.md` and `docs/ORACLES.md`: phase and acceptance rules.
+- config/functions.csv and config/function-origins.csv: candidate and origin
+  ledger.
+- config/implemented.csv: source-presence mapping.
+- config/matches.csv and config/match-units.toml: canonical exact units.
+- docs/KNOWLEDGE_BASE.md: durable TH09 facts and negative results.
+- docs/PROGRESS.md: generated totals.
+- docs/RE_WORKFLOW.md and docs/ORACLES.md: phase and acceptance rules.
+- scripts/report-reconstruction-status.py: authoritative live counts.
+- scripts/report-ecl-codegen.py: RunEcl compiler-structure diagnostic.
 
-The handoff is intentionally not a second knowledge base. Use Git history when
-investigating an old packet, then promote any still-useful fact into the
-maintained ledger or knowledge base.
+The handoff is intentionally not a second knowledge base. Historical details
+belong in Git and the knowledge base.
 
 ## Recent checkpoints
 
-Use `git log -12 --oneline --decorate` as the authoritative current history.
-Recent substantive checkpoints include:
+Use git log -12 --oneline --decorate as authoritative history. Current recent
+substantive checkpoints are:
 
-- `7c61d94 gpt-web: prune stale reconstruction notes`
-- `da37007 gpt-web: clean Enemy spawn boundary`
-- `5e96a77 gpt-web: recover ExAttack type20 update`
-- `9293645 gpt-web: close ExAttack type16 type23 update`
-- `b617bc4 gpt-web: close ExAttack type15 update`
-- `4aa6702 gpt-web: close ExAttack type25 update`
-- `675da3a gpt-web: close ExAttack type26 update`
-- `c6b8eaa gpt-web: close ExAttack type13 update`
-- `be28d0a gpt-web: close ExAttack type13 init`
-- `59af14d gpt-web: close ExAttack type17 update`
-- `2bb1722 gpt-web: close Front message setup`
-- `3eb4786 gpt-web: close Front line strip`
+- dac1e8d gpt-web: correct ANM strip ownership
+- 9539880 gpt-web: align RunEcl side owner state
+- d09fe4a gpt-web: align RunEcl late laser angle
+- 935e766 gpt-web: remove RunEcl staging temporaries
+- 30a2476 gpt-web: align RunEcl laser angle relookup
+- a7df1d9 gpt-web: align RunEcl timer and laser state
+- f8a6621 gpt-web: align RunEcl polar conversion
+- 2f858b2 gpt-web: restore RunEcl child ECL relookup
+- 5e73983 gpt-web: restore RunEcl laser slot relookup
+- 2611823 gpt-web: coalesce RunEcl interaction flags
+- 7ea00b6 gpt-web: restore RunEcl laser slot loop
+- 39f7c45 gpt-web: align RunEcl child context scan

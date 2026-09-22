@@ -12,6 +12,12 @@ ledger, or current report independently confirms them. Use
 totals and frontier state. Later evidence may explicitly correct an earlier
 packet; do not stop at the first matching historical note.
 
+For evolving large owners, especially EclManager::RunEcl, packet-local code
+sizes, frame sizes, relocation counts and proposed source shapes are historical
+measurements. The live config/functions.csv row and a fresh repository
+diagnostic override older packet numbers. Packets 466-480 are intentionally
+kept as the investigation trail, not as competing current baselines.
+
 | ID | State | Fact | Evidence |
 | --- | --- | --- | --- |
 | TARGET-001 | observed / corroborated | The supported executable is original Japanese TH09 v1.50a, size 685,056, SHA-256 `10350095...fce6822`. | Direct hash/PE inspection plus pinned thcrap version database |
