@@ -198,6 +198,15 @@ struct PlayerGameplayFrontSideView
     void SetPatternTiming(int value);
 };
 
+struct PlayerGameplayTimerCurrentView
+{
+    int previous;
+    float subFrame;
+    int current;
+
+    int GetCurrent();
+};
+
 struct PlayerGameplayRngView
 {
     unsigned short GetRandomU16InRange(unsigned short maximum);
@@ -245,8 +254,7 @@ __forceinline PlayerGameplayFrontSideView *FrontSide(PlayerSideStateView *side)
 
 __forceinline int HeaderTimerIsModulo(PlayerGameplayHeaderView *header, int divisor)
 {
-    return header->frameTimer00.current != header->frameTimer00.previous &&
-           header->frameTimer00.current % divisor == 0;
+    return header->frameTimer00.HasTickedEvery(divisor);
 }
 
 __forceinline void ClampPatternPosition(PlayerPositionView *position)
@@ -428,14 +436,16 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     if (g_GameManager.IsGameMode1())
     {
         FrontSide(player->opponentState)->SetPatternTiming(
-            config->openingShort08 * 60 - header->openingTimer5C.current);
+            config->openingShort08 * 60 -
+            reinterpret_cast<PlayerGameplayTimerCurrentView *>(
+                &header->openingTimer5C)->GetCurrent());
     }
 
     if ((header->flags74 & 1U) == 0)
     {
         if ((player->sideState->flags34 & 1U) == 0 &&
             GameplayField<int>(player->opponentState->manager04, 0x3044C) <= 360)
-            header->openingTimer5C = 0;
+            header->openingTimer5C++;
 
         int phase = player->header24.state84;
         int threshold = phase >= 10
@@ -448,7 +458,8 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             GameplayMethods(player)->EnterGameplayMode(3);
             reinterpret_cast<ZunTimer *>(&player->timer303C8)->SetCurrent(2);
         }
-        if (header->openingTimer5C.current / 60 >= threshold)
+        if (reinterpret_cast<PlayerGameplayTimerCurrentView *>(
+                &header->openingTimer5C)->GetCurrent() / 60 >= threshold)
         {
             header->flags74 |= 1U;
             if (g_GameManager.IsGameMode1())
@@ -460,13 +471,14 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     }
     else if ((header->flags74 & 2U) == 0)
     {
-        header->secondaryTimer68 = 0;
+        header->secondaryTimer68++;
         int phase = player->header24.state84;
         int threshold = phase >= 10
                             ? config->secondaryLong0C
                             : (phase >= 2 ? config->secondaryMedium10
                                           : config->secondaryShort14);
-        if (header->secondaryTimer68.current / 60 >= threshold)
+        if (reinterpret_cast<PlayerGameplayTimerCurrentView *>(
+                &header->secondaryTimer68)->GetCurrent() / 60 >= threshold)
             header->flags74 |= 2U;
     }
 
@@ -554,7 +566,7 @@ retry_pattern_grid:
 
         if ((header->flags74 & 1U) == 0 &&
             GameplayMethods(player)->GetUpdateState() == 0 &&
-            reinterpret_cast<ZunTimer *>(&player->timer1B74)->current == 0)
+            reinterpret_cast<ZunTimer *>(&player->timer1B74)->operator==(0))
         {
             if (header->crossedThreshold0C != 0 &&
                 player->scalar30384 >= 100.0f)
@@ -656,5 +668,5 @@ pattern_selected:
         protocol->eventFlags32 &= ~1U;
 
     header->currentPattern54 = selectedPattern;
-    header->frameTimer00 = 0;
+    header->frameTimer00++;
 }

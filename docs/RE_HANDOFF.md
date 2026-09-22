@@ -256,6 +256,27 @@ stale maintained-source owners rather than merely changing compiler spelling:
 
 The durable evidence is in Packets 491 through 498.
 
+## Secondary large frontier: PlayerUpdateSelectorState
+
+`PlayerUpdateSelectorState @ 0x004049A0` is an active Player large-owner frontier.
+Fresh TH09 target/cold-compiler review now gives:
+
+- target 3,238 bytes, frame `0x5C`, 33 physical direct callsites;
+- current pinned VC7.1 `/O2 /Ob1` candidate 2,991 bytes, frame `0x68`;
+- the call sequence is aligned except for the target entry
+  `??_H @ 0x00401470` vector-constructor iterator over three 0x0C elements;
+- target-backed timer fixes restore three folded current reads, three postfix
+  increments, `HasTickedEvery`, and timer `operator==`;
+- same-TU `ResolvePatternOffset @ 0x00404710` still cold-replays exact at
+  346/346 bytes and 412/412 owned compare extent.
+
+The next useful work is local lifetime/type/TU evidence that explains the
+entry vector-constructor lowering and closes the 0x0C frame gap. Moving the
+array declaration alone does nothing; a focused `/Os` probe is worse and should
+not be expanded into profile roulette.
+
+The durable evidence is in Packet 499.
+
 ## Other durable non-exact plateaus
 
 Do not churn these without new evidence:
