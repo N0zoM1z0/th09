@@ -200,22 +200,14 @@ void MoveRandomBiased(
         break;
 
     case TH09_ECL_OPCODE_POLAR_TO_CARTESIAN_ALT:
-        lateAngle = Th09EclRunControl::ReadFloat(enemy, instruction, 2);
-        lateMagnitude = Th09EclRunControl::ReadFloat(enemy, instruction, 3);
-        lateFloatResult = Th09EclRunControl::WriteFloat(
-            enemy,
-            instruction,
-            1);
-        *lateFloatResult =
-            Th09EclRunControl::Sin(lateAngle) * lateMagnitude;
-        lateAngle = Th09EclRunControl::ReadFloat(enemy, instruction, 2);
-        lateMagnitude = Th09EclRunControl::ReadFloat(enemy, instruction, 3);
-        lateFloatResult = Th09EclRunControl::WriteFloat(
-            enemy,
-            instruction,
-            0);
-        *lateFloatResult =
-            Th09EclRunControl::Cos(lateAngle) * lateMagnitude;
+        *Th09EclRunControl::WriteFloat(enemy, instruction, 1) =
+            Th09EclRunControl::Sin(
+                Th09EclRunControl::ReadFloat(enemy, instruction, 2)) *
+            Th09EclRunControl::ReadFloat(enemy, instruction, 3);
+        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) =
+            Th09EclRunControl::Cos(
+                Th09EclRunControl::ReadFloat(enemy, instruction, 2)) *
+            Th09EclRunControl::ReadFloat(enemy, instruction, 3);
         break;
 
     case TH09_ECL_OPCODE_SET_LASER_ANGLE:
