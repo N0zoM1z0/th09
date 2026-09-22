@@ -298,22 +298,6 @@ void __fastcall CallSubroutine(
 namespace Th09EclRunMovement
 {
 
-void SetPrimaryAnmScripts(
-    EnemyView *enemy,
-    Th09EclRawInstructionHeaderView *,
-    int script0, int script1, int script2,
-    int script3, int script4, int specialScript)
-{
-    EclHelperEnemyView *view = HelperView(enemy);
-    view->idleAnm338A = static_cast<short>(script0);
-    view->moveLeftAnm3390 = static_cast<short>(script1);
-    view->moveRightAnm3392 = static_cast<short>(script2);
-    view->idleFromLeftAnm338C = static_cast<short>(script3);
-    view->idleFromRightAnm338E = static_cast<short>(script4);
-    view->specialAnm3394 = static_cast<short>(specialScript);
-    view->anmDirection3386 = -1;
-}
-
 void ConfigurePolarMotion(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction)

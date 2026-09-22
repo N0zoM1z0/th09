@@ -50,6 +50,26 @@ static int PopContext(EnemyView *enemy)
 namespace Th09EclRunMovement
 {
 
+static void SetPrimaryAnmScripts(
+    EnemyView *enemy,
+    Th09EclRawInstructionHeaderView *,
+    int script0,
+    int script1,
+    int script2,
+    int script3,
+    int script4,
+    int specialScript)
+{
+    EnemyMovementView *view = View(enemy);
+    view->primaryAnmScript0338A = static_cast<short>(script0);
+    view->primaryAnmScript13390 = static_cast<short>(script1);
+    view->primaryAnmScript23392 = static_cast<short>(script2);
+    view->primaryAnmScript3338C = static_cast<short>(script3);
+    view->primaryAnmScript4338E = static_cast<short>(script4);
+    view->specialAnmScript3394 = static_cast<short>(specialScript);
+    view->anmDirection3386 = -1;
+}
+
 static void SetExtraAnmScript(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction)

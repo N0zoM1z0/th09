@@ -89,7 +89,9 @@ struct EnemyMovementView
     unsigned char unknown2E38[0x337C - 0x2E38];
     unsigned int primaryFlags337C;
     unsigned int secondaryFlags3380;
-    unsigned char unknown3384[0x338A - 0x3384];
+    unsigned char unknown3384[0x02];
+    signed char anmDirection3386;
+    unsigned char unknown3387[0x03];
     short primaryAnmScript0338A;
     short primaryAnmScript3338C;
     short primaryAnmScript4338E;
@@ -185,7 +187,7 @@ __forceinline void SetAndExecuteAnmScript(
     reinterpret_cast<AnmLoaded *>(anmFile)->SetAndExecuteScriptIdx(
         reinterpret_cast<AnmVm *>(vm), scriptIndex);
 }
-void SetPrimaryAnmScripts(
+static void SetPrimaryAnmScripts(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction,
     int script0,
