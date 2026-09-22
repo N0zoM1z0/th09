@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 779 canonical exact and 200 honest non-exact.
+functions: 784 canonical exact and 195 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -142,10 +142,15 @@ Important current facts:
   speed/duration operand evaluation; BeginBoundary requires the target
   Float3 pointer-identity call @ 0x004343D0 before reusing one pointer for all
   four boundary tests. Their private same-TU transports arise naturally.
-- Th09EclRunLate::MoveRandomBiased @ 0x00407E30 has also been routed into the
-  RunEcl TU so the exact StartTimed helper has one maintained implementation.
-  It is still honestly NON-EXACT at 411/516 bytes and is a useful next large
-  helper frontier.
+- Th09EclRunLate::MoveRandomBiased @ 0x00407E30 is now reconstructed to a
+  natural 517/516-byte near match, up from 411 bytes. TH09 target evidence
+  requires repeated manager/side/player X lookups, branch-specific angle
+  normalization and the Float3 pointer-identity call before the Y-bound tests.
+  The remaining one-byte size residual is localized to Y-pointer lowering:
+  target uses lea ecx,[eax+4] then two [ecx] comparisons; the best natural
+  source keeps the returned base pointer and emits two [ecx+4] comparisons.
+  Natural alias variants expand to 518 via mov/add, so the helper remains
+  honestly NON-EXACT rather than steering an encoding.
 - The latest ANM ownership review proves 0x00439CF0 and 0x00439DC0 are
   AnmManager member helpers. RunEcl opcode 157 uses trail render vertices at
   Enemy +0x3E68, not the trail sample buffer at +0x33E8, and prepares
@@ -156,7 +161,7 @@ Important current facts:
 - No register forcing, var_order, volatile steering, padding, assembly or
   profile roulette is allowed.
 
-Use docs/KNOWLEDGE_BASE.md Packets 466 through 485 only as chronological
+Use docs/KNOWLEDGE_BASE.md Packets 466 through 486 only as chronological
 investigation history. The current functions.csv row plus a fresh
 report-ecl-codegen.py run are the live baseline.
 

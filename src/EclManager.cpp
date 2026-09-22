@@ -236,38 +236,63 @@ static void MoveRandomBiased(
 {
     Th09EclRunMovement::EnemyMovementView *view =
         Th09EclRunMovement::View(enemy);
-    Th09EclRunMovement::BoundaryMovePlayerView *player =
-        reinterpret_cast<Th09EclRunMovement::BoundaryMovePlayerView *>(
-            Th09EclRunMovement::Player(enemy));
-    float playerX = player->position1B88.x;
-    float enemyX = view->position2D74.x;
     float angle;
 
     if (Th09EclRunControl::g_Rng.GetRandomU32InRange(4) != 0)
     {
-        if (playerX >= enemyX)
+        if (reinterpret_cast<Th09EclRunMovement::BoundaryMovePlayerView *>(
+                Th09EclRunMovement::Player(enemy))
+                ->position1B88.x < view->position2D74.x)
         {
-            if (enemyX - (playerX - 384.0f) <= playerX - enemyX)
+            if (view->position2D74.x -
+                    reinterpret_cast<
+                        Th09EclRunMovement::BoundaryMovePlayerView *>(
+                        Th09EclRunMovement::Player(enemy))
+                        ->position1B88.x <
+                reinterpret_cast<
+                    Th09EclRunMovement::BoundaryMovePlayerView *>(
+                    Th09EclRunMovement::Player(enemy))
+                        ->position1B88.x +
+                    384.0f - view->position2D74.x)
+            {
                 angle = Th09EclRunControl::AddNormalizeAngle(
                     Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) +
                         2.3561945f,
                     0.0f);
+            }
             else
-                angle =
+            {
+                angle = Th09EclRunControl::AddNormalizeAngle(
                     Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) -
-                    0.78539819f;
+                        0.78539819f,
+                    0.0f);
+            }
         }
         else
         {
-            if (playerX + 384.0f - enemyX <= enemyX - playerX)
+            if (reinterpret_cast<
+                    Th09EclRunMovement::BoundaryMovePlayerView *>(
+                    Th09EclRunMovement::Player(enemy))
+                        ->position1B88.x -
+                    view->position2D74.x <
+                view->position2D74.x -
+                    (reinterpret_cast<
+                         Th09EclRunMovement::BoundaryMovePlayerView *>(
+                         Th09EclRunMovement::Player(enemy))
+                         ->position1B88.x -
+                     384.0f))
+            {
                 angle =
                     Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) -
                     0.78539819f;
+            }
             else
+            {
                 angle = Th09EclRunControl::AddNormalizeAngle(
                     Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) +
                         2.3561945f,
                     0.0f);
+            }
         }
     }
     else
@@ -276,10 +301,12 @@ static void MoveRandomBiased(
             Th09EclRunControl::g_Rng.GetRandomF32SignedInRange(3.1415927f);
     }
 
-    if (view->position2D74.y < view->movementLowerBounds3398.y + 48.0f &&
+    float *position =
+        reinterpret_cast<Float3 *>(&view->position2D74)->operator float *();
+    if (position[1] < view->movementLowerBounds3398.y + 48.0f &&
         angle < 0.0f)
         angle = -angle;
-    if (view->position2D74.y > view->movementUpperBounds33A0.y - 48.0f &&
+    if (position[1] > view->movementUpperBounds33A0.y - 48.0f &&
         angle > 0.0f)
         angle = -angle;
 
@@ -302,6 +329,7 @@ static void MoveRandomBiased(
             enemy, instruction, angle);
     }
 }
+
 
 } // namespace Th09EclRunLate
 
