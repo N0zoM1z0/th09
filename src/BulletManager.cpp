@@ -636,6 +636,8 @@ int EtamaController::OnUpdate(EtamaController *controller)
                 bullet->state = BULLET_STATE_FIRED;
                 bullet->stateTimer = 0;
                 break;
+            case BULLET_STATE_FIRED:
+                break;
             case BULLET_STATE_DESPAWNING:
                 bullet->position += bullet->velocity / 2.0f;
                 if (g_AnmManager->ExecuteScript(&bullet->sprites.despawnVm) != 0)
@@ -644,8 +646,6 @@ int EtamaController::OnUpdate(EtamaController *controller)
                     continue;
                 }
                 goto updateTimers;
-            case BULLET_STATE_FIRED:
-                break;
             default:
                 goto updateTimers;
             }
@@ -791,10 +791,7 @@ queueBullet:
             laser->startOffset = 0.0f;
 
         laserSize[1] = laser->width / 2.0f;
-        if (laser->startOffset <= 0.0f)
-            laserSize[0] = laser->endOffset - laser->startOffset;
-        else
-            laserSize[0] = (laser->endOffset - laser->startOffset) * 0.7f;
+        laserSize[0] = laser->endOffset - laser->startOffset;
         laserCenter[0] = (laser->endOffset - laser->startOffset) / 2.0f +
                          laser->startOffset + laser->position.x;
         laserCenter[1] = laser->position.y;
