@@ -449,9 +449,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
     manager->priorityEnemy2AC444 = 0;
     manager->firstActiveEnemy2AC448 = 0;
 
-    EnemyCoreSideStateView *side = manager->sideState320;
-    EnemyCorePlayerView *player = side->player04;
-    if (player->state364 != 0)
+    if (manager->sideState320->player04->state364 != 0)
         manager->sideTimer2AC3C8.Set(0);
     else
         manager->sideTimer2AC3C8++;
@@ -463,13 +461,13 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 
         if ((flags & ENEMY_CORE_ACTIVE) == 0)
         {
-            if (player->homingTarget3037C == enemy)
-                player->homingTarget3037C = 0;
+            if (manager->sideState320->player04->homingTarget3037C == enemy)
+                manager->sideState320->player04->homingTarget3037C = 0;
             continue;
         }
 
         unsigned int sideCategory = (enemy->flags3380 >> 10) & 3;
-        if ((side->flags34 & 1) != 0 && sideCategory != 1 &&
+        if ((manager->sideState320->flags34 & 1) != 0 && sideCategory != 1 &&
             sideCategory != 2)
         {
             if ((flags & ENEMY_CORE_NO_SPRITE) == 0)
@@ -505,7 +503,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
         {
             if (enemy->specialAttackTimer5424.HasTicked(2))
             {
-                side->effectManager0C->SpawnEffect(
+                manager->sideState320->effectManager0C->SpawnEffect(
                     9,
                     reinterpret_cast<EffectFloat3 *>(&enemy->position2D74),
                     1,
@@ -526,12 +524,12 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                     1.0f;
                 descriptor.speed21C = 0.0f;
                 descriptor.count1_1F4 =
-                    static_cast<short>(side->characterIndex20 == 13 ? 1 : 3);
+                    static_cast<short>(manager->sideState320->characterIndex20 == 13 ? 1 : 3);
                 descriptor.count2_1F6 = 1;
                 descriptor.aimMode1F8 = 0;
                 descriptor.unknown1FA = 0;
                 descriptor.transformFlags1FC = 4;
-                side->etama08->SpawnBulletPatternPrimary(&descriptor);
+                manager->sideState320->etama08->SpawnBulletPatternPrimary(&descriptor);
                 enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
                 EnemyCoreDespawn(enemy);
                 continue;
@@ -539,7 +537,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
         }
 
         if (((enemy->flags337C & ENEMY_CORE_PAUSE_WITH_PLAYER) != 0 &&
-             player->GetState() != 0) ||
+             manager->sideState320->player04->GetState() != 0) ||
             (enemy->flags3380 & 0x10) != 0)
         {
             enemy->bossTimer2E64--;
@@ -657,7 +655,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
         {
             if ((enemy->flags337C & ENEMY_CORE_COLLISION) != 0 &&
                 ((enemy->flags3380 & 0x01C0) == 0 ||
-                 side->characterIndex20 != 11))
+                 manager->sideState320->characterIndex20 != 11))
             {
                 reinterpret_cast<EnemyAppendCollisionView *>(enemy)
                     ->AppendPlayerCollisionBox(
@@ -695,7 +693,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             enemy->lastDamage33AC = 0;
             if ((enemy->flags337C & ENEMY_CORE_ACCEPTS_DAMAGE) != 0)
             {
-                int damage = player->CalcDamageToEnemy(
+                int damage = manager->sideState320->player04->CalcDamageToEnemy(
                     &enemy->worldPosition2DD4,
                     &enemy->hitbox2DBC,
                     &enemy->primaryDamageAccumulator2E5C,
@@ -703,7 +701,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                     &enemy->secondaryDamageAccumulator2E60);
                 if (enemy->secondaryHitbox2DC8.x > 0.0f)
                 {
-                    player->CalcDamageToEnemy(
+                    manager->sideState320->player04->CalcDamageToEnemy(
                         &enemy->worldPosition2DD4,
                         &enemy->secondaryHitbox2DC8,
                         &enemy->primaryDamageAccumulator2E5C,
@@ -749,29 +747,29 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 }
 
                 Float3 oldTargetDelta =
-                    player->trackedEnemyPosition30364 - player->position1B88;
+                    manager->sideState320->player04->trackedEnemyPosition30364 - manager->sideState320->player04->position1B88;
                 Float3 newTargetDelta =
-                    enemy->worldPosition2DD4 - player->position1B88;
+                    enemy->worldPosition2DD4 - manager->sideState320->player04->position1B88;
                 if (newTargetDelta.x * newTargetDelta.x +
                         newTargetDelta.y * newTargetDelta.y <
                     oldTargetDelta.x * oldTargetDelta.x +
                         oldTargetDelta.y * oldTargetDelta.y)
                 {
-                    player->trackedEnemyPosition30364 =
+                    manager->sideState320->player04->trackedEnemyPosition30364 =
                         enemy->worldPosition2DD4;
                 }
 
                 if (AnmProjectionAbs(
                         enemy->worldPosition2DD4.x -
-                        player->position1B88.x) < 64.0f)
+                        manager->sideState320->player04->position1B88.x) < 64.0f)
                 {
                     EnemyCoreView *homing =
                         reinterpret_cast<EnemyCoreView *>(
-                            player->homingTarget3037C);
+                            manager->sideState320->player04->homingTarget3037C);
                     if (homing == 0 ||
                         homing->position2D74.y > enemy->worldPosition2DD4.y)
                     {
-                        player->homingTarget3037C = enemy;
+                        manager->sideState320->player04->homingTarget3037C = enemy;
                     }
                 }
             }
@@ -802,7 +800,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
         switch ((enemy->flags337C >> 17) & 7)
         {
         case 0:
-            side->AddScore(enemy->score2E54);
+            manager->sideState320->AddScore(enemy->score2E54);
             enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
             if ((enemy->flags337C & ENEMY_CORE_BOSS) != 0)
                 EnemyCoreReleaseAttachedEffects(enemy);
@@ -810,7 +808,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             break;
 
         case 1:
-            side->AddScore(enemy->score2E54);
+            manager->sideState320->AddScore(enemy->score2E54);
             enemy->flags337C =
                 (enemy->flags337C & 0xFFEFFFB3) |
                 ENEMY_CORE_PERSIST_AFTER_DEATH;
@@ -828,29 +826,29 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             enemy->life2E48 = 1;
             if (enemy->deathEffectVariant3368 >= 0)
             {
-                side->effectManager0C->SpawnEffect(
+                manager->sideState320->effectManager0C->SpawnEffect(
                     enemy->deathEffectVariant3368 + 20,
                     reinterpret_cast<EffectFloat3 *>(
                         &enemy->worldPosition2DD4),
                     1,
                     static_cast<unsigned int>(-1));
-                side->effectManager0C->SpawnEffect(
+                manager->sideState320->effectManager0C->SpawnEffect(
                     enemy->deathEffectVariant3368 + 20,
                     reinterpret_cast<EffectFloat3 *>(
                         &enemy->worldPosition2DD4),
                     1,
                     static_cast<unsigned int>(-1));
-                side->effectManager0C->SpawnEffect(
+                manager->sideState320->effectManager0C->SpawnEffect(
                     enemy->deathEffectVariant3368 + 20,
                     reinterpret_cast<EffectFloat3 *>(
                         &enemy->worldPosition2DD4),
                     1,
                     static_cast<unsigned int>(-1));
             }
-            if (player->GetState() == 0)
+            if (manager->sideState320->player04->GetState() == 0)
             {
-                player->stateTimer303C8.Set(90);
-                player->SetState(3);
+                manager->sideState320->player04->stateTimer303C8.Set(90);
+                manager->sideState320->player04->SetState(3);
             }
             enemy->flags337C &= 0xE7FFFFFF;
             break;

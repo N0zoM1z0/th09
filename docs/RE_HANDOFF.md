@@ -226,19 +226,23 @@ stale maintained-source owners rather than merely changing compiler spelling:
   `SoundPlayer::PlaySoundPositionedByIdx`. The private ANM VM layout is also
   corrected to color1/color2/flags at `+0x1F0/+0x1F4/+0x1F8`.
 - Those locally correct ABIs make the current pinned VC7.1 `/O2 /Ob1` build
-  3,692/3,883 bytes with frame `0x2B0` and 67/69 direct calls after restoring
-  the target four-slot death-entry `ZunMemory::Free` loop and the exact
-  `InitializeSubroutine @ 0x00406850` death-callback owner/lifetime. Do not restore
+  3,828/3,883 bytes with the target-exact frame `0x2A8` and 67/69
+  direct calls after removing the target-disproved function-wide side/player
+  pointer lifetimes. The remaining logical gap is 55 bytes. Do not restore
   the disproven free aliases just to regain aggregate bytes. One target
   normal-path `Float3::operator+` call and one target-distinct
   `CleanupAfterDeactivation` site are currently compiler-merged.
+- Target code repeatedly reloads `manager->sideState320` and its player/effect
+  members at distant blocks. Keeping `side` and `player` as function-wide
+  locals was the main remaining frame/lifetime error; removing them closes
+  136 bytes and exactly closes the eight-byte frame gap.
 - `EnemyCoreUpdateAttachedEffects @ 0x0040F4C0`, from the same source file,
   still replays exact at 151/151 in two cold passes after these changes.
 - Continue this owner by target-backed CFG/type/lifetime recovery. Do not add
   filler, force registers, use volatile steering/assembly, or chase alternate
   profiles for aggregate size.
 
-The durable evidence is in Packets 491 through 495.
+The durable evidence is in Packets 491 through 496.
 
 ## Other durable non-exact plateaus
 
