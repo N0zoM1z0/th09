@@ -519,22 +519,28 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
         break;
 
     case TH09_ECL_OPCODE_SET_INTERACTION_FLAGS:
+    {
+        Th09EclRunMovement::EnemyPrimaryFlagBits *primaryFlags =
+            Th09EclRunMovement::PrimaryFlagBits(enemy);
+        Th09EclRunMovement::EnemySecondaryFlagBits *secondaryFlags =
+            Th09EclRunMovement::SecondaryFlagBits(enemy);
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunMovement::PrimaryFlagBits(enemy)->acceptsDamage06 =
+        primaryFlags->acceptsDamage06 =
             (movementInt & Th09EclRunMovement::ECL_INTERACTION_ACCEPTS_DAMAGE)
                 == 0;
-        Th09EclRunMovement::PrimaryFlagBits(enemy)->collision02 =
+        primaryFlags->collision02 =
             (movementInt & Th09EclRunMovement::ECL_INTERACTION_COLLISION) == 0;
-        Th09EclRunMovement::PrimaryFlagBits(enemy)->damageable03 =
+        primaryFlags->damageable03 =
             (movementInt & Th09EclRunMovement::ECL_INTERACTION_DAMAGEABLE) == 0;
-        Th09EclRunMovement::PrimaryFlagBits(enemy)->noSprite04 =
+        primaryFlags->noSprite04 =
             (movementInt & Th09EclRunMovement::ECL_INTERACTION_NO_SPRITE) != 0;
-        Th09EclRunMovement::PrimaryFlagBits(enemy)->allowOffscreen25 =
+        primaryFlags->allowOffscreen25 =
             (movementInt & Th09EclRunMovement::ECL_INTERACTION_ALLOW_OFFSCREEN)
                 != 0;
-        Th09EclRunMovement::SecondaryFlagBits(enemy)->noDeath03 =
+        secondaryFlags->noDeath03 =
             (movementInt & Th09EclRunMovement::ECL_INTERACTION_NO_DEATH) != 0;
         break;
+    }
 
     case TH09_ECL_OPCODE_DISABLE_INTERACTION_FLAGS:
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
