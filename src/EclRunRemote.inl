@@ -80,25 +80,24 @@ inline int *ActiveIntVariables(EnemyView *enemy)
 
 // Both spawn handlers inline the three mask tests and keep only the float
 // resolver calls out of line in the target owner.
-__forceinline EnemyFloat3 ResolveSpawnPosition(
+__forceinline void ResolveSpawnPosition(
+    EnemyFloat3 *position,
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction,
     const SpawnPacket &packet)
 {
-    EnemyFloat3 position;
-    position.x = (instruction->parameterMask0A & (1U << 1))
-                     ? Th09EclRunControl::ResolveFloat(
-                           enemy, packet.position04.x)
-                     : packet.position04.x;
-    position.y = (instruction->parameterMask0A & (1U << 2))
-                     ? Th09EclRunControl::ResolveFloat(
-                           enemy, packet.position04.y)
-                     : packet.position04.y;
-    position.z = (instruction->parameterMask0A & (1U << 3))
-                     ? Th09EclRunControl::ResolveFloat(
-                           enemy, packet.position04.z)
-                     : packet.position04.z;
-    return position;
+    position->x = (instruction->parameterMask0A & (1U << 1))
+                      ? Th09EclRunControl::ResolveFloat(
+                            enemy, packet.position04.x)
+                      : packet.position04.x;
+    position->y = (instruction->parameterMask0A & (1U << 2))
+                      ? Th09EclRunControl::ResolveFloat(
+                            enemy, packet.position04.y)
+                      : packet.position04.y;
+    position->z = (instruction->parameterMask0A & (1U << 3))
+                      ? Th09EclRunControl::ResolveFloat(
+                            enemy, packet.position04.z)
+                      : packet.position04.z;
 }
 
 // Role names for real target boundaries.  Final source TU/internal ABI remains
@@ -158,27 +157,18 @@ th09_ecl_store_int_result:
         break;
 
     case TH09_ECL_OPCODE_SET_REMOTE_FLOAT:
-        remoteEnemy = Th09EclRunRemote::RemoteEnemy(
-            enemy,
-            Th09EclRunControl::ReadInt(enemy, instruction, 2));
-        if (remoteEnemy != 0)
+        if (Th09EclRunRemote::RemoteEnemy(
+                enemy,
+                Th09EclRunControl::ReadInt(enemy, instruction, 2)) != 0)
         {
-            if ((instruction->parameterMask0A & (1U << 1)) != 0)
-            {
-                // The target resolves the remote slot a second time here.
-                remoteEnemy = Th09EclRunRemote::RemoteEnemy(
-                    enemy,
-                    Th09EclRunControl::ReadInt(enemy, instruction, 2));
-                remoteFloat = Th09EclRunControl::ResolveFloat(
-                    remoteEnemy,
-                    Th09EclRunControl::RawFloat(instruction, 1));
-            }
-            else
-            {
-                remoteFloat = Th09EclRunControl::RawFloat(instruction, 1);
-            }
             *Th09EclRunControl::WriteFloat(enemy, instruction, 0) =
-                remoteFloat;
+                (instruction->parameterMask0A & (1U << 1))
+                    ? Th09EclRunRemote::RemoteEnemy(
+                          enemy,
+                          Th09EclRunControl::ReadInt(enemy, instruction, 2))
+                          ->ResolveFloat(
+                              Th09EclRunControl::RawFloat(instruction, 1))
+                    : Th09EclRunControl::RawFloat(instruction, 1);
         }
         break;
 
@@ -221,8 +211,8 @@ th09_ecl_store_int_result:
             &spawnPacket93,
             &Th09EclRunControl::RawInt(instruction, 0),
             sizeof(spawnPacket93));
-        spawnPosition93 = Th09EclRunRemote::ResolveSpawnPosition(
-            enemy, instruction, spawnPacket93);
+        Th09EclRunRemote::ResolveSpawnPosition(
+            &spawnPosition93, enemy, instruction, spawnPacket93);
         spawnSubroutineId = spawnPacket93.eclSubroutineId00;
         spawnPosition = &spawnPosition93;
         spawnScore = Th09EclRunControl::ReadInt(enemy, instruction, 6);
@@ -239,8 +229,8 @@ th09_ecl_store_int_result:
             &spawnPacket94,
             &Th09EclRunControl::RawInt(instruction, 0),
             sizeof(spawnPacket94));
-        spawnPosition94 = Th09EclRunRemote::ResolveSpawnPosition(
-            enemy, instruction, spawnPacket94);
+        Th09EclRunRemote::ResolveSpawnPosition(
+            &spawnPosition94, enemy, instruction, spawnPacket94);
         Th09EclRunRemote::AddPosition(
             &spawnPosition94,
             &Th09EclRunMovement::View(enemy)->position2D74);

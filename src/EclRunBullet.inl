@@ -124,11 +124,14 @@ __forceinline float ReadLaserFloat(
     int byteOffset,
     int flagIndex)
 {
-    float value = *reinterpret_cast<float *>(
-        reinterpret_cast<unsigned char *>(instruction) + 0x0C + byteOffset);
     return (instruction->parameterMask0A & (1U << flagIndex))
-               ? Th09EclRunControl::ResolveFloat(enemy, value)
-               : value;
+               ? enemy->ResolveFloat(
+                     *reinterpret_cast<float *>(
+                         reinterpret_cast<unsigned char *>(instruction) +
+                         0x0C + byteOffset))
+               : *reinterpret_cast<float *>(
+                     reinterpret_cast<unsigned char *>(instruction) +
+                     0x0C + byteOffset);
 }
 
 __forceinline int ReadLaserInt(
@@ -137,23 +140,30 @@ __forceinline int ReadLaserInt(
     int byteOffset,
     int flagIndex)
 {
-    int value = *reinterpret_cast<int *>(
-        reinterpret_cast<unsigned char *>(instruction) + 0x0C + byteOffset);
     return (instruction->parameterMask0A & (1U << flagIndex))
-               ? Th09EclRunControl::ResolveInt(enemy, value)
-               : value;
+               ? Th09EclRunControl::ResolveInt(
+                     enemy,
+                     *reinterpret_cast<int *>(
+                         reinterpret_cast<unsigned char *>(instruction) +
+                         0x0C + byteOffset))
+               : *reinterpret_cast<int *>(
+                     reinterpret_cast<unsigned char *>(instruction) +
+                     0x0C + byteOffset);
 }
 
 __forceinline short ReadLaserColor(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction)
 {
-    short color = *reinterpret_cast<short *>(
-        reinterpret_cast<unsigned char *>(instruction) + 0x0E);
     return (instruction->parameterMask0A & (1U << 1))
                ? static_cast<short>(
-                     Th09EclRunControl::ResolveInt(enemy, color))
-               : color;
+                     Th09EclRunControl::ResolveInt(
+                         enemy,
+                         *reinterpret_cast<short *>(
+                             reinterpret_cast<unsigned char *>(instruction) +
+                             0x0E)))
+               : *reinterpret_cast<short *>(
+                     reinterpret_cast<unsigned char *>(instruction) + 0x0E);
 }
 
 inline void SetLaserPosition(
