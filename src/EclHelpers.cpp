@@ -314,29 +314,6 @@ void SetPrimaryAnmScripts(
     view->anmDirection3386 = -1;
 }
 
-void SetExtraAnmScript(
-    EnemyView *enemy,
-    Th09EclRawInstructionHeaderView *instruction)
-{
-    int index = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-    int script = Th09EclRunControl::ReadInt(enemy, instruction, 1);
-    EclHelperEnemyView *view = HelperView(enemy);
-    AnmVm *vm = reinterpret_cast<AnmVm *>(
-        reinterpret_cast<unsigned char *>(enemy) + 0x2AC + index * sizeof(AnmVm));
-
-    if (script >= 0)
-    {
-        AnmLoaded *anm = (view->primaryFlags337C & ENEMY_ALTERNATE_ANM_BANK)
-                             ? enemy->manager00->opposingEnemyAnm2AC424
-                             : enemy->manager00->enemyAnm2AC420;
-        anm->SetAndExecuteScriptIdx(vm, script);
-    }
-    else
-    {
-        vm->scriptIndex = -1;
-    }
-}
-
 void ConfigurePolarMotion(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction)

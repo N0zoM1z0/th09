@@ -778,3 +778,4 @@ address,name,size,status,match_percent,unit,evidence
 0x0042E3B0,WinMain,1351,matching,100.00,win-main,python3 scripts/build-match-unit.py --unit win-main && python3 scripts/compare-coff-function.py --unit win-main --json
 0x0044AB20,PlayerCheckState2,3,matching,100.00,player-check-state2,python3 scripts/build-match-unit.py --unit player-check-state2 && python3 scripts/compare-coff-function.py --unit player-check-state2 --json
 0x0042ACE0,ApplyNetworkInput,131,matching,100.00,apply-network-input,python3 scripts/build-match-unit.py --unit apply-network-input && python3 scripts/compare-coff-function.py --unit apply-network-input --json
+0x00407B20,Th09EclRunMovement::SetExtraAnmScript,261,matching,100.00,ecl-set-extra-anm-script,python3 scripts/build-match-unit.py --unit ecl-set-extra-anm-script && python3 scripts/compare-coff-function.py --unit ecl-set-extra-anm-script --json

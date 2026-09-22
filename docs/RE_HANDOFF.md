@@ -88,8 +88,8 @@ A fresh pinned VC7.1 build at this checkpoint reports:
 
 | RunEcl measure | Target | Current candidate |
 | --- | ---: | ---: |
-| Logical bytes | 14,792 | 14,224 |
-| Logical gap | 0 | 568 |
+| Logical bytes | 14,792 | 14,244 |
+| Logical gap | 0 | 548 |
 | Stack frame | 0x168 | 0x13C |
 | Immediate direct calls | 375 | 375 |
 | Indirect calls | 4 | 4 |
@@ -112,6 +112,11 @@ Important current facts:
   laser-slot relookup, child-ECL slot relookup, polar operand reevaluation,
   ordinary timer assignment, direct destination staging removal, late laser
   angle relookup and repeated side-owner lookup.
+- Th09EclRunMovement::SetExtraAnmScript @ 0x00407B20 is now canonical
+  exact at 261/261 bytes. Moving it from the artificial external helper TU
+  into the RunEcl TU as a natural static function reproduces the target's
+  private EDI/ESI entry transport and both opcode 57/61 callsites without
+  register forcing. The corresponding RunEcl candidate is 14,244 bytes.
 - The latest ANM ownership review proves 0x00439CF0 and 0x00439DC0 are
   AnmManager member helpers. RunEcl opcode 157 uses trail render vertices at
   Enemy +0x3E68, not the trail sample buffer at +0x33E8, and prepares
@@ -122,7 +127,7 @@ Important current facts:
 - No register forcing, var_order, volatile steering, padding, assembly or
   profile roulette is allowed.
 
-Use docs/KNOWLEDGE_BASE.md Packets 466 through 480 only as chronological
+Use docs/KNOWLEDGE_BASE.md Packets 466 through 481 only as chronological
 investigation history. The current functions.csv row plus a fresh
 report-ecl-codegen.py run are the live baseline.
 

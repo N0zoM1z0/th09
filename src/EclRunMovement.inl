@@ -194,7 +194,7 @@ void SetPrimaryAnmScripts(
     int script3,
     int script4,
     int specialScript);
-void SetExtraAnmScript(
+static void SetExtraAnmScript(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
 void ConfigurePolarMotion(

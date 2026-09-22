@@ -45,6 +45,26 @@ relocations = [
   { offset = 0x33, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
 ]
 
+[units.ecl-set-extra-anm-script]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Th09EclRunMovement::SetExtraAnmScript"]
+symbol = "?SetExtraAnmScript@Th09EclRunMovement@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@@Z"
+target_address = 0x00407B20
+size = 0x105
+relocations = [
+  { offset = 0x0C, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
+  { offset = 0x20, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
+  { offset = 0x48, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
+  { offset = 0x5F, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
+  { offset = 0x80, type = "REL32", symbol = "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
+  { offset = 0x90, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
+  { offset = 0xA7, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
+  { offset = 0xC8, type = "REL32", symbol = "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
+  { offset = 0xDA, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
+]
+
 [units.ecl-interpolate-linear]
 source = "src/EclHelpers.cpp"
 object = "build/matching/EclHelpers.obj"

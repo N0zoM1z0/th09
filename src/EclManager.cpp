@@ -47,6 +47,51 @@ static int PopContext(EnemyView *enemy)
 
 } // namespace Th09EclRunControl
 
+namespace Th09EclRunMovement
+{
+
+static void SetExtraAnmScript(
+    EnemyView *enemy,
+    Th09EclRawInstructionHeaderView *instruction)
+{
+    int unusedIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
+    int script = Th09EclRunControl::ReadInt(enemy, instruction, 1);
+
+    if (script >= 0)
+    {
+        if ((View(enemy)->primaryFlags337C & ENEMY_ALTERNATE_ANM_BANK) != 0)
+        {
+            reinterpret_cast<AnmLoaded *>(AlternateAnm(enemy))->
+                SetAndExecuteScriptIdx(
+                    reinterpret_cast<AnmVm *>(
+                        reinterpret_cast<unsigned char *>(enemy) + 0x2AC +
+                        Th09EclRunControl::ReadInt(enemy, instruction, 0) *
+                            sizeof(AnmVm)),
+                    Th09EclRunControl::ReadInt(enemy, instruction, 1));
+        }
+        else
+        {
+            reinterpret_cast<AnmLoaded *>(PrimaryAnm(enemy))->
+                SetAndExecuteScriptIdx(
+                    reinterpret_cast<AnmVm *>(
+                        reinterpret_cast<unsigned char *>(enemy) + 0x2AC +
+                        Th09EclRunControl::ReadInt(enemy, instruction, 0) *
+                            sizeof(AnmVm)),
+                    Th09EclRunControl::ReadInt(enemy, instruction, 1));
+        }
+    }
+    else
+    {
+        reinterpret_cast<AnmVm *>(
+            reinterpret_cast<unsigned char *>(enemy) + 0x2AC +
+            Th09EclRunControl::ReadInt(enemy, instruction, 0) *
+                sizeof(AnmVm))->scriptIndex = -1;
+    }
+    (void)unusedIndex;
+}
+
+} // namespace Th09EclRunMovement
+
 int EclManager::RunEcl(EnemyView *enemy)
 {
     Th09EclRunState::EnemyStateView *enemyState;
