@@ -404,7 +404,7 @@ void ClearBulletsForTransition(EtamaController *controller);
         if (laser != 0 && laser->inUse != 0 && laser->state < 2)
         {
             laser->state = 2;
-            laser->timer.SetCurrent(0);
+            laser->timer = 0;
             laser->width = laser->currentWidth;
         }
         break;

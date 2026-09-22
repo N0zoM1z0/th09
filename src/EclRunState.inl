@@ -415,10 +415,24 @@ __forceinline void AssignFlagField(
         break;
 
     case TH09_ECL_OPCODE_CALL_EX_INSTRUCTION:
-        stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunState::g_ExInstructionCallbacks[stateIndex](
-            enemy,
-            instruction);
+        if ((instruction->parameterMask0A & 1) != 0)
+        {
+            stateIndex = Th09EclRunControl::ResolveInt(
+                enemy,
+                *reinterpret_cast<int *>(
+                    reinterpret_cast<unsigned char *>(instruction) + 0x0C));
+            Th09EclRunState::g_ExInstructionCallbacks[stateIndex](
+                enemy,
+                instruction);
+        }
+        else
+        {
+            stateIndex = *reinterpret_cast<int *>(
+                reinterpret_cast<unsigned char *>(instruction) + 0x0C);
+            Th09EclRunState::g_ExInstructionCallbacks[stateIndex](
+                enemy,
+                instruction);
+        }
         break;
 
     case TH09_ECL_OPCODE_SET_REPEATING_EX_INSTRUCTION:

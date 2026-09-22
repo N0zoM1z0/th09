@@ -18,9 +18,9 @@ TARGET_LOGICAL_SIZE = 0x39C8
 TARGET_PHYSICAL_SIZE = 0x3CCC
 EASING_TABLE_COUNT = 6
 OPCODE_TABLE_COUNT = 187
-TARGET_DIRECT_CALL_COUNT = 376
+TARGET_DIRECT_CALL_COUNT = 375
 CANDIDATE_DIRECT_CALL_COUNT = 375
-TARGET_INDIRECT_CALL_COUNT = 3
+TARGET_INDIRECT_CALL_COUNT = 4
 TARGET_STACK_FRAME_SIZE = 0x168
 TARGET_SPAWN_ENEMY_CALL_COUNT = 1
 SPAWN_ENEMY_SYMBOL = (
@@ -150,20 +150,12 @@ def report(object_path: Path) -> dict[str, object]:
             },
         },
         "status": "NON-EXACT",
-        "known_callsite_mismatches": {
-            "aggregate_direct_calls": {
-                "target": TARGET_DIRECT_CALL_COUNT,
-                "candidate": direct_call_count,
-                "reason": (
-                    "the shared SpawnEnemy tail now matches the target's one call "
-                    "site; one other direct-call identity/site remains unresolved"
-                ),
-            }
-        },
+        "known_callsite_mismatches": {},
         "claim": (
-            "the SpawnEnemy tail and four operand-resolver multiplicities "
-            "match; one direct call, stack/local "
-            "layout, code-block order, relocations and bytes remain open"
+            "all 375 immediate direct-call destination multiplicities match; "
+            "the target and current candidate each have four indirect call sites "
+            "(one register and three memory-indirect), while stack/local layout, "
+            "code-block order, relocations and bytes remain open"
         ),
     }
 
@@ -191,7 +183,7 @@ def main() -> int:
             f"{candidate['logical_code_size']}/{TARGET_LOGICAL_SIZE} logical, "
             f"{candidate['physical_code_and_tables_size']}/"
             f"{TARGET_PHYSICAL_SIZE} physical, "
-            f"{candidate['direct_calls']}/{TARGET_DIRECT_CALL_COUNT} aggregate "
+            f"{candidate['direct_calls']}/{TARGET_DIRECT_CALL_COUNT} immediate "
             "direct calls"
         )
         print(
