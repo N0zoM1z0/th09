@@ -63,10 +63,6 @@ struct BackgroundSupervisorView
 extern void BackgroundRunStageScriptPhase(Background *background);
 extern void BackgroundUpdateRuntimePhase(Background *background);
 
-BackgroundPoint::BackgroundPoint()
-{
-}
-
 Background::Background()
 {
     memset(this, 0, sizeof(Background));

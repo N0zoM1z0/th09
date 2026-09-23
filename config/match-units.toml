@@ -7395,6 +7395,30 @@ relocations = [
   { offset = 0x10, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
 ]
 
+[units.background-constructor]
+source = "src/Background.cpp"
+object = "build/matching/BackgroundConstructor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["Background::Background"]
+symbol = "??0Background@@QAE@XZ"
+target_address = 0x00403A40
+size = 0xA0
+relocations = [
+  { offset = 0x08, type = "REL32", symbol = "??0AnmVm@@QAE@XZ", target = 0x00403A10 },
+  { offset = 0x13, type = "REL32", symbol = "??0AnmVm@@QAE@XZ", target = 0x00403A10 },
+  { offset = 0x1E, type = "REL32", symbol = "??0AnmVm@@QAE@XZ", target = 0x00403A10 },
+  { offset = 0x23, type = "DIR32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x33, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x3E, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x49, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x54, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x59, type = "DIR32", symbol = "??0AnmVm@@QAE@XZ", target = 0x00403A10 },
+  { offset = 0x6C, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x77, type = "REL32", symbol = "??0AnmVm@@QAE@XZ", target = 0x00403A10 },
+  { offset = 0x7C, type = "DIR32", symbol = "??0BackgroundSpecialEffectPoint@@QAE@XZ", target = 0x004343D0 },
+  { offset = 0x8C, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+]
+
 [units.background-create]
 source = "src/Background.cpp"
 object = "build/matching/Background.obj"

@@ -10,7 +10,6 @@ class AnmLoaded;
 
 struct BackgroundPoint
 {
-    BackgroundPoint();
     float x;
     float y;
     float z;
@@ -18,6 +17,17 @@ struct BackgroundPoint
 
 typedef char BackgroundPointSizeIs0C[
     (sizeof(BackgroundPoint) == 0x0C) ? 1 : -1];
+
+struct BackgroundSpecialEffectPoint
+{
+    BackgroundSpecialEffectPoint();
+    BackgroundPoint point;
+};
+
+typedef char BackgroundSpecialEffectPointSizeIs0C[
+    (sizeof(BackgroundSpecialEffectPoint) == 0x0C) ? 1 : -1];
+typedef char BackgroundSpecialEffectPointValueAt0[
+    (offsetof(BackgroundSpecialEffectPoint, point) == 0) ? 1 : -1];
 
 struct BackgroundFog
 {
@@ -185,7 +195,7 @@ struct Background
     unsigned char unknown6439[3];
     int specialEffectPointCount;
     int collectSpecialEffectPoints;
-    BackgroundPoint specialEffectPoints[32];
+    BackgroundSpecialEffectPoint specialEffectPoints[32];
 };
 
 typedef char BackgroundSizeIs65C4[(sizeof(Background) == 0x65C4) ? 1 : -1];

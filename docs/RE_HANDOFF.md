@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 805 |
-| Source-present non-exact functions | 174 |
-| Source-present non-exact bytes | 143,464 |
+| Canonical exact functions | 806 |
+| Source-present non-exact functions | 173 |
+| Source-present non-exact bytes | 143,304 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 132,205 |
+| Canonical exact authored bytes | 132,365 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 805 canonical exact and 174 honest non-exact.
+functions: 806 canonical exact and 173 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -102,12 +102,22 @@ same-TU static source preserves the target's context rereads around
 initialization and shared-state copying; the exact function does not close the
 larger RunEcl owner or product graph. The short frontier is now 41 functions.
 
+Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
+two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
+resolved. The target's 32-element special-effect point array uses the generic
+vector-constructor helper and a callback to shared/folded physical body
+`0x004343D0`; its unique owner remains unknown. A dedicated 0x0C point view
+keeps this target-observed construction separate from POD camera/stage points.
+The exact `Background::RenderObjects` unit remains 3274/3274, and `Create`
+remains exact independently under its `/Ob1` profile. The short frontier is
+now 40 functions; this function-level `/Ob0` result does not establish the
+whole Background translation-unit or Windows product profile.
+
 The latest registration batch makes `Background::Create @ 0x00403AE0`
 canonical exact at 307/307 bytes and 29 solved relocations. TH09 target has
 no null guard after `AddToRegistry`; removing the source-only guard recovers
-the direct chain-registration path. All four accepted `Background.cpp` units
-replay in two cold rounds. `Background::Background` itself remains non-exact;
-see Packet 519 for the separate evidence.
+the direct chain-registration path. The final CI gate replays the accepted
+`Background.cpp` units after the constructor profile is added.
 
 The preceding bounded transform batch makes `UpdateBulletBoundaryBounce @
 0x004138C0` canonical exact at 295/295 bytes. A reconstruction-only sprite
@@ -121,10 +131,11 @@ The preceding short-function batch makes `EffectManager::ResetPool @ 0x0040C990`
 canonical exact at 194/194 bytes. Its former `int` return was unsupported by
 the two target callers, and the natural void source reproduces all nine
 relocations; Packet 517 in the knowledge base records the proof. All thirteen
-accepted `EffectManager.cpp` units replay in two cold rounds. `Background`
-constructor remains non-exact despite a 160-byte `/O1` candidate; its two
-vector-helper address registers still differ from target. The short-function
-frontier then stood at 44 source-present non-exact units at at most 256 bytes.
+accepted `EffectManager.cpp` units replay in two cold rounds. At that earlier
+checkpoint, `Background::Background` remained non-exact despite a 160-byte
+`/O1` candidate; Packet 531 supersedes that function status with an exact
+function-focused `/O2 /Ob0` match. The short-function frontier then stood at
+44 source-present non-exact units at at most 256 bytes.
 
 The preceding short-function batch makes `TitleCharacterConfigView::GetOptionState
 @ 0x004234A7` canonical exact at 54/54 bytes. Packet 516 also corrects the

@@ -1,15 +1,15 @@
 # TH09 short-function frontier
 
-This is a Packet-530 routing snapshot, not a second exactness ledger. The
+This is a Packet-531 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **41 functions**, of which
-**13 are at most 128 bytes**, after the Packet-517 ResetPool promotion. Size is
-only a routing heuristic: this list is not a verified call-graph leaf set, a
+target logical size at most 256 bytes**. It yields **40 functions**, of which
+**13 are at most 128 bytes**, after Packet 531's Background constructor promotion.
+Size is only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
 
@@ -29,7 +29,6 @@ subject to their target-local ledger evidence.
 | 0x0041A6EB | 116 | GameManager | `GameManagerPlayfieldView::IsWithinPlayfield` |
 | 0x0042EB80 | 119 | Supervisor | `SupervisorFrameQueueView::PopFrame` |
 | 0x004181E0 | 133 | Front | `FrontMessageOwnerView::InitializeMessageRuntime` |
-| 0x00403A40 | 160 | Background | `Background::Background` |
 | 0x004124E0 | 161 | BulletManager | `EtamaController::SelectBulletSprite` |
 | 0x0042474A | 167 | TitleScreen | `TitleScreenView::MoveCharacterCursorHorizontal` |
 | 0x004247F1 | 167 | TitleScreen | `TitleScreenView::MoveCharacterCursorHorizontalForInput` |
@@ -112,6 +111,10 @@ subject to their target-local ledger evidence.
   CALL and CALL_REMOTE paths in RunEcl. Natural same-TU static source preserves
   the context-pointer rereads. The frontier is now 41 functions; 13 remain at
   most 128 bytes.
+- Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
+  two cold `/O2 /Ob0` replays, with all thirteen relocation destinations
+  aligned. Its constructor callback at `0x004343D0` remains a shared/folded
+  owner unknown. The frontier is now 40 functions; 13 remain at most 128 bytes.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. `AsciiManager::OnUpdate` is exact-sized at 253 bytes but still has

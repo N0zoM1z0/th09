@@ -397,11 +397,11 @@ int Background::RenderObjects(int mode)
                             this->collectSpecialEffectPoints != 0)
                         {
                             this->specialEffectPoints[
-                                this->specialEffectPointCount] =
+                                this->specialEffectPointCount].point =
                                     *reinterpret_cast<BackgroundPoint *>(
                                         &quadPosition);
                             this->specialEffectPoints[
-                                this->specialEffectPointCount].z = 0.0f;
+                                this->specialEffectPointCount].point.z = 0.0f;
                             ++this->specialEffectPointCount;
                         }
 
