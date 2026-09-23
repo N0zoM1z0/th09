@@ -163,6 +163,10 @@ Packet 524 corrects a reversed bound/index order in
 `FileSystem::TryDecryptFromTable`: the target checks the eight-record scan
 bound before loading an indexed key, and maintained source now preserves that
 short-circuit order. Its focused build is 215/220 bytes and remains non-exact.
+Packet 525 records four unsuccessful natural variants for
+`TitleScreenView::SetCharacterCursorReverse`; each remains 183/175 bytes,
+so keep the baseline source and skip those aliases/loop shapes absent new
+evidence.
 `AnmVmBase::AnmVmBase` remains non-exact at 75/62 under `/O2` and 61/62 under a
 bounded `/O1` probe; see Packet 521 for the target-helper comparison.
 Packet 515 removed one stale unused ECL helper that had made the configured

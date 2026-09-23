@@ -3234,3 +3234,10 @@ name into a TH09 fact without target-local evidence.
 - The maintained source previously evaluated `g_DecryptParams[i].key` before `i < 8` in its short-circuit condition. A no-match scan could therefore evaluate the declared array at index 8. Source now checks `i < 8` first; `&&` short-circuiting preserves the target's bounded scan and the existing return of the original buffer when no key matches.
 - A focused pinned-VC7.1 `/O2 /Ob1 /Oi /Gr /Oy-` build emits 215 bytes versus the 220-byte target extent. Relocation-masked comparison of the shared 215-byte prefix matches 53/171 ordinary bytes; this is a semantic correction, not exactness credit. The former 220-byte candidate depended on the reversed bound order and is superseded.
 - Exact `FileSystem::OpenFile` remains the sole caller and fixes the physical `/Gr` argument transport. Signature/table data ownership remains unknown and TH08 table values are not imported; the helper remains source-present/non-exact.
+
+## Packet 525 TitleScreen reverse-cursor bounded retry
+
+- Target `TitleScreenView::SetCharacterCursorReverse @ 0x00424FB0-0x0042505E` walks the requested range, selects each VM's base sprite +1 with interrupt 15, then selects the chosen VM's base sprite with interrupt 14 and returns the current `vms` pointer.
+- The selected-VM target tail computes the address of the `vms` member slot, reloads its pointer after `SetSprite`, writes interrupt 14, and returns that reloaded pointer. Maintained source expresses the same behavior.
+- Four natural variants were compiled in the maintained TitleScreen `/O1 /Ob1 /Oy-` translation unit: function-scope slot alias, tail-only slot alias, precomputed-end `for`, and entry-guard plus `do/while`. Each emits an 183-byte candidate versus the 175-byte target. The exact `SetRangeSelectionInterrupts` unit remains 85/85 after the retries.
+- All experiments were reverted; no source change is retained. Keep this helper NON-EXACT and skip these same alias/loop variants absent new TH09 evidence; do not force register lifetimes or encodings to close the eight-byte gap.
