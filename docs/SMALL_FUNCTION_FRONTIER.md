@@ -1,13 +1,13 @@
 # TH09 short-function frontier
 
-This is a Packet-529 routing snapshot, not a second exactness ledger. The
+This is a Packet-530 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **42 functions**, of which
+target logical size at most 256 bytes**. It yields **41 functions**, of which
 **13 are at most 128 bytes**, after the Packet-517 ResetPool promotion. Size is
 only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
@@ -29,7 +29,6 @@ subject to their target-local ledger evidence.
 | 0x0041A6EB | 116 | GameManager | `GameManagerPlayfieldView::IsWithinPlayfield` |
 | 0x0042EB80 | 119 | Supervisor | `SupervisorFrameQueueView::PopFrame` |
 | 0x004181E0 | 133 | Front | `FrontMessageOwnerView::InitializeMessageRuntime` |
-| 0x00407A80 | 149 | EclManager | `Th09EclRunControl::CallSubroutine` |
 | 0x00403A40 | 160 | Background | `Background::Background` |
 | 0x004124E0 | 161 | BulletManager | `EtamaController::SelectBulletSprite` |
 | 0x0042474A | 167 | TitleScreen | `TitleScreenView::MoveCharacterCursorHorizontal` |
@@ -107,6 +106,12 @@ subject to their target-local ledger evidence.
   solved and two cold canonical replays. Its callback-table data definition
   remains unresolved, so this function match is not product-build closure.
   The current non-exact frontier is 42 functions; 13 remain at most 128 bytes.
+- Packet 530 closes `Th09EclRunControl::CallSubroutine @ 0x00407A80` at
+  149/149 bytes in two cold canonical replays, with its `InitializeSubroutine`
+  relocation solved to `0x00406850`. Its two target call sites are the ordinary
+  CALL and CALL_REMOTE paths in RunEcl. Natural same-TU static source preserves
+  the context-pointer rereads. The frontier is now 41 functions; 13 remain at
+  most 128 bytes.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. `AsciiManager::OnUpdate` is exact-sized at 253 bytes but still has

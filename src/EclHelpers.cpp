@@ -10,13 +10,6 @@
 namespace
 {
 
-struct EclHelperManagerView
-{
-    unsigned char unknown000[0x0168];
-    int sharedInts168[4];
-    float sharedFloats178[4];
-};
-
 struct EclHelperEnemyView
 {
     EnemyManagerView *manager0000;
@@ -173,39 +166,6 @@ Th09EclRawInstructionHeaderView *__fastcall CompareOperands(
     return reinterpret_cast<Th09EclRawInstructionHeaderView *>(
         reinterpret_cast<unsigned char *>(instruction) + RawInt(instruction, 3));
 }
-
-void __fastcall CallSubroutine(
-    EnemyView *enemy,
-    Th09EclRawInstructionHeaderView *instruction,
-    int rawSubroutineId)
-{
-    EclHelperEnemyView *view = HelperView(enemy);
-    Th09EclContextView *context = view->activeContext2CE0;
-    context->currentInstruction004 =
-        reinterpret_cast<Th09EclRawInstructionHeaderView *>(
-            reinterpret_cast<unsigned char *>(instruction) +
-            static_cast<short>(instruction->nextOffset06));
-
-    if ((view->primaryFlags337C &
-         Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0)
-    {
-        view->activeCallStack2CE4[view->activeCallDepth2D2A] = *context;
-    }
-
-    reinterpret_cast<Th09EclRunState::ManagerStateView *>(view->manager0000)
-        ->InitializeSubroutine(context, static_cast<short>(rawSubroutineId));
-
-    EclHelperManagerView *manager =
-        reinterpret_cast<EclHelperManagerView *>(view->manager0000);
-    memcpy(context->unknown01C + (0x74 - 0x1C),
-           manager->sharedInts168, 0x20);
-
-    if ((view->primaryFlags337C &
-         Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0 &&
-        view->activeCallDepth2D2A < TH09_ECL_MAIN_CALL_STACK_CAPACITY - 1)
-        ++view->activeCallDepth2D2A;
-}
-
 
 } // namespace Th09EclRunControl
 

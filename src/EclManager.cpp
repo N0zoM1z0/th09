@@ -428,6 +428,41 @@ static void InstallInterpolationSlot(
     }
 }
 
+static void CallSubroutine(
+    EnemyView *enemy,
+    Th09EclRawInstructionHeaderView *instruction,
+    int rawSubroutineId)
+{
+    Th09EclRunState::EnemyStateView *view =
+        Th09EclRunState::View(enemy);
+    view->activeContext2CE0->currentInstruction004 =
+        reinterpret_cast<Th09EclRawInstructionHeaderView *>(
+            reinterpret_cast<unsigned char *>(instruction) +
+            static_cast<short>(instruction->nextOffset06));
+
+    if ((view->primaryFlags337C &
+         Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0)
+        view->activeCallStack2CE4[view->activeCallDepth2D2A] =
+            *view->activeContext2CE0;
+
+    (*reinterpret_cast<Th09EclRunState::ManagerStateView **>(
+        view->activeContext2CE0))
+        ->InitializeSubroutine(
+            view->activeContext2CE0,
+            static_cast<short>(rawSubroutineId));
+
+    memcpy(view->activeContext2CE0->unknown01C + (0x74 - 0x1C),
+           reinterpret_cast<unsigned char *>(*reinterpret_cast<
+               Th09EclRunState::ManagerStateView **>(
+                   view->activeContext2CE0)) + 0x168,
+           0x20);
+
+    if ((view->primaryFlags337C &
+         Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0 &&
+        view->activeCallDepth2D2A < TH09_ECL_MAIN_CALL_STACK_CAPACITY - 1)
+        ++view->activeCallDepth2D2A;
+}
+
 } // namespace Th09EclRunControl
 
 int EclManager::RunEcl(EnemyView *enemy)

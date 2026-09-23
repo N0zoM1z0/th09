@@ -203,6 +203,18 @@ relocations = [
   { offset = 0xEE, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
 ]
 
+[units.ecl-call-subroutine]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager-call-subroutine.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Th09EclRunControl::CallSubroutine"]
+symbol = "?CallSubroutine@Th09EclRunControl@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@H@Z"
+target_address = 0x00407A80
+size = 0x95
+relocations = [
+  { offset = 0x50, type = "REL32", symbol = "?InitializeSubroutine@ManagerStateView@Th09EclRunState@@QAEHPAUTh09EclContextView@@F@Z", target = 0x00406850 },
+]
+
 [units.game-error-context-log]
 source = "src/GameErrorContext.cpp"
 object = "build/matching/GameErrorContext.obj"

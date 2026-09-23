@@ -75,7 +75,7 @@ static void InstallInterpolationSlot(
 Th09EclRawInstructionHeaderView *__fastcall CompareOperands(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
-void __fastcall CallSubroutine(
+static void CallSubroutine(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction,
     int rawSubroutineId);

@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 804 |
-| Source-present non-exact functions | 175 |
-| Source-present non-exact bytes | 143,613 |
+| Canonical exact functions | 805 |
+| Source-present non-exact functions | 174 |
+| Source-present non-exact bytes | 143,464 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 131,801 |
+| Canonical exact authored bytes | 132,205 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 804 canonical exact and 175 honest non-exact.
+functions: 805 canonical exact and 174 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -94,6 +94,14 @@ in ESI; the same-TU static source recovers that private transport. The
 callback table's source/data owner remains unresolved, so this function-level
 match does not close product linkage. The short frontier is now 42 functions.
 
+Packet 530 closes `Th09EclRunControl::CallSubroutine @ 0x00407A80` at
+149/149 bytes in two cold pinned-VC7.1 replays, with its sole relocation
+resolved to `InitializeSubroutine @ 0x00406850`. Both target xrefs are inside
+RunEcl: the remote-call path and the ordinary CALL opcode path. The helper's
+same-TU static source preserves the target's context rereads around
+initialization and shared-state copying; the exact function does not close the
+larger RunEcl owner or product graph. The short frontier is now 41 functions.
+
 The latest registration batch makes `Background::Create @ 0x00403AE0`
 canonical exact at 307/307 bytes and 29 solved relocations. TH09 target has
 no null guard after `AddToRegistry`; removing the source-only guard recovers
@@ -107,7 +115,7 @@ lookup call was absent from the target; direct access to the Bullet VM's
 loaded-sprite field reproduces the complete body and all thirteen relocations.
 All fourteen accepted `BulletManager.cpp` units replay in two cold rounds;
 Packet 518 records the proof. The short frontier was 44 units at that
-checkpoint; Packets 528-529 have since reduced the current filter to 42.
+checkpoint; Packets 528-530 have since reduced the current filter to 41.
 
 The preceding short-function batch makes `EffectManager::ResetPool @ 0x0040C990`
 canonical exact at 194/194 bytes. Its former `int` return was unsupported by
@@ -159,7 +167,7 @@ claim, not Windows i386 product closure.
 
 ## Short-function routing frontier
 
-The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 42 current
+The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 41 current
 source-present non-exact authored functions whose target logical bodies are at
 most 256 bytes; 13 are at most 128 bytes. This is a size filter, **not** a
 verified call-graph leaf set or an ease-of-matching ranking. The live
@@ -167,10 +175,10 @@ verified call-graph leaf set or an ease-of-matching ranking. The live
 snapshot after later checkpoints. The four short Bullet transform-update
 siblings are now exact; the TitleScreen character-cursor, Supervisor frame
 queue and ECL interpolation families remain bounded short-function groups.
-Packets 528-529 remove `ApplyInterpolationOperation` and
-`InstallInterpolationSlot` from this non-exact route after two complete cold
-VC7.1 replays; remaining short ECL helpers include `CallSubroutine` and
-`InterpolateHermite`.
+Packets 528-530 remove `ApplyInterpolationOperation`,
+`InstallInterpolationSlot`, and `CallSubroutine` from this non-exact route
+after two complete cold VC7.1 replays; `InterpolateHermite` remains a short
+ECL helper with its separate Packet-527 codegen plateau.
 Packet 520 corrected the `SelectBulletSprite` proxy return type and source
 semantics, but its candidate remains 149/161 bytes and non-exact. The inactive
 TitleScreen cursor helper remains 183/175 after a natural loop-shape retry;
