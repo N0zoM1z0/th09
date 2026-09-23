@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 800 |
-| Source-present non-exact functions | 179 |
-| Source-present non-exact bytes | 144,627 |
+| Canonical exact functions | 801 |
+| Source-present non-exact functions | 178 |
+| Source-present non-exact bytes | 144,332 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 131,042 |
+| Canonical exact authored bytes | 131,337 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 800 canonical exact and 179 honest non-exact.
+functions: 801 canonical exact and 178 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -78,7 +78,14 @@ successful compilation do not by themselves justify a match.
 The authored/no-source roadmap is obsolete and must not be restarted. All
 confirmed authored functions now have maintained source.
 
-The latest short-function batch makes `EffectManager::ResetPool @ 0x0040C990`
+The latest bounded transform batch makes `UpdateBulletBoundaryBounce @
+0x004138C0` canonical exact at 295/295 bytes. A reconstruction-only sprite
+lookup call was absent from the target; direct access to the Bullet VM's
+loaded-sprite field reproduces the complete body and all thirteen relocations.
+All fourteen accepted `BulletManager.cpp` units replay in two cold rounds;
+Packet 518 records the proof. The at-most-256-byte frontier remains 44 units.
+
+The preceding short-function batch makes `EffectManager::ResetPool @ 0x0040C990`
 canonical exact at 194/194 bytes. Its former `int` return was unsupported by
 the two target callers, and the natural void source reproduces all nine
 relocations; Packet 517 in the knowledge base records the proof. All thirteen

@@ -343,7 +343,8 @@ static void UpdateBulletAimedDirectionChange(Bullet *bullet)
 static void UpdateBulletBoundaryBounce(Bullet *bullet)
 {
     float magnitude;
-    BulletLoadedSpriteView *sprite = GetLoadedSprite(&bullet->sprites.bulletVm);
+    BulletLoadedSpriteView *sprite = reinterpret_cast<BulletLoadedSpriteView *>(
+        bullet->sprites.bulletVm.loadedSprite);
     float *position = bullet->position.operator float *();
     if (!g_GameManager.IsWithinPlayfield(
             position[0], position[1], sprite->heightPx, sprite->widthPx))

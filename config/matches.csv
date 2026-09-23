@@ -1,4 +1,5 @@
 address,name,size,status,match_percent,unit,evidence
+0x004138C0,UpdateBulletBoundaryBounce,295,matching,100.00,bullet-update-boundary-bounce,python3 scripts/build-match-unit.py --unit bullet-update-boundary-bounce && python3 scripts/compare-coff-function.py --unit bullet-update-boundary-bounce --json
 0x0040C990,EffectManager::ResetPool,194,matching,100.00,effect-manager-reset-pool,python3 scripts/build-match-unit.py --unit effect-manager-reset-pool && python3 scripts/compare-coff-function.py --unit effect-manager-reset-pool --json
 0x004011C0,Background::ClearSpellBackgroundState,11,matching,100.00,background-clear-spell-state,python3 scripts/build-match-unit.py --unit background-clear-spell-state && python3 scripts/compare-coff-function.py --unit background-clear-spell-state --json
 0x00401600,AnmManager::SetCameraMode,16,matching,100.00,anm-manager-set-camera-mode,python3 scripts/build-match-unit.py --unit anm-manager-set-camera-mode && python3 scripts/compare-coff-function.py --unit anm-manager-set-camera-mode --json

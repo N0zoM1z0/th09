@@ -1,6 +1,6 @@
 # TH09 short-function frontier
 
-This is a Packet-517 routing snapshot, not a second exactness ledger. The
+This is a Packet-518 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
@@ -65,7 +65,9 @@ subject to their target-local ledger evidence.
 - The four short `BulletManager.cpp` transform-update siblings are now exact;
   see Packet 514 in `docs/KNOWLEDGE_BASE.md`. Other Bullet functions on this
   list (sprite selection and spawn-pattern wrappers) have independent target
-  extents and are not promoted by association.
+  extents and are not promoted by association. The 295-byte boundary-bounce
+  transform is also exact as of Packet 518 but lies outside this size-filtered
+  table.
 - The TitleScreen horizontal cursor helpers (167/167 bytes) now have
   target-sized, source-present candidates after Packet 516's input-owner and
   directional-branch corrections; neither is exact. The other character-
