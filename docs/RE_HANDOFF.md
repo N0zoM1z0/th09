@@ -170,6 +170,9 @@ evidence.
 Packet 526 audits `EffectManager::AddedCallback`: its natural `/O2` candidate
 is 51 bytes but retains the inverse ESI/EDI allocation after two source-shape
 probes; behavior is accounted for and no exact claim is made.
+Packet 527 retries `InterpolateHermite` with reverse local declaration order;
+preserving resolver call order leaves the same 182/188-byte candidate. Keep
+the target-observed parameter mapping and skip stack-allocation steering.
 `AnmVmBase::AnmVmBase` remains non-exact at 75/62 under `/O2` and 61/62 under a
 bounded `/O1` probe; see Packet 521 for the target-helper comparison.
 Packet 515 removed one stale unused ECL helper that had made the configured
