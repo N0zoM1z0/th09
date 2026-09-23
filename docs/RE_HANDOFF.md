@@ -120,6 +120,9 @@ verified call-graph leaf set or an ease-of-matching ranking. The live
 snapshot after later checkpoints. The four short Bullet transform-update
 siblings are now exact; the TitleScreen character-cursor, Supervisor frame
 queue and ECL interpolation families remain bounded short-function groups.
+Packet 515 removed one stale unused ECL helper that had made the configured
+`ecl-interpolate-linear` Oracle fail at compile time; the linear unit still
+replays exact, while `InterpolateHermite` remains 182/188 non-exact.
 
 ## Active large frontier: EclManager::RunEcl
 

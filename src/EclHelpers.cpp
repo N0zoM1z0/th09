@@ -92,12 +92,6 @@ inline EclHelperEnemyView *HelperView(EnemyView *enemy)
     return reinterpret_cast<EclHelperEnemyView *>(enemy);
 }
 
-inline EclHelperPlayerView *HelperPlayer(EnemyView *enemy)
-{
-    return reinterpret_cast<EclHelperPlayerView *>(
-        enemy->manager00->sideState320->player04);
-}
-
 inline float *SlotParameters(Th09EclInterpolationSlotView *slot)
 {
     return reinterpret_cast<float *>(slot->unknown1C);
