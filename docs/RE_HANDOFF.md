@@ -531,6 +531,12 @@ Do not churn these without new evidence:
   eight ordinary comparable bytes of scheduler/SIB residual.
 - FrontSide::OnDraw 0x004193E0: 3106/3094; remaining 12 bytes are transition
   overlay constructor/branch scheduling after bounded probes.
+- FrontSide::OnUpdate 0x00418A90: 2458/2381, target frame 0x04 versus
+  candidate 0x08. Target reloads side-state/player pointers by phase, but a
+  natural scope-local pointer variant was two-cold-build stable at 2505 bytes
+  and still had the 0x08 frame; it was reverted. Packet 535 records the exact
+  bounded negative result. Do not repeat the same scope split without new
+  TH09 mutation/lifetime evidence.
 - PlayerLifecycleView::UpdateMovementAndOptions 0x0041C170: 1864/1835 with
   complete external call surface and bounded lifetime/type probes.
 - EnemyManagerView::SpawnEnemy 0x0040F340: cold-stable 361/373; merge and
