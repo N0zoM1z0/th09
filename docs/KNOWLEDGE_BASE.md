@@ -3227,3 +3227,10 @@ name into a TH09 fact without target-local evidence.
 
 - `EtamaController::SpawnBulletPatternPrimary @ 0x004130F0` and `SpawnBulletPatternSecondary @ 0x004131C0` retain target-backed nested count loops, pool-exhaustion sentinels, spawn flags and sound behavior. Their maintained `/O2 /Ob1` source candidates remain 187 bytes versus 203-byte target bodies.
 - A conventional entry-guard plus nested `do/while` rewrite was tested in the actual BulletManager translation unit for both wrappers. The configured VC7.1 profile still emits 187-byte candidates; the source rewrite was reverted. Target disassembly contains multi-byte LEA/jump no-op sequences at the loop heads that are absent from the natural candidates. This is code-layout evidence, not justification to add inert instructions or claim exactness.
+
+## Packet 524 File decryption scan bound correction
+
+- Target `FileSystem::TryDecryptFromTable @ 0x0042C290-0x0042C36B` scans eight 12-byte parameter records. The target checks the 0x60-byte scan bound before each indexed record load.
+- The maintained source previously evaluated `g_DecryptParams[i].key` before `i < 8` in its short-circuit condition. A no-match scan could therefore evaluate the declared array at index 8. Source now checks `i < 8` first; `&&` short-circuiting preserves the target's bounded scan and the existing return of the original buffer when no key matches.
+- A focused pinned-VC7.1 `/O2 /Ob1 /Oi /Gr /Oy-` build emits 215 bytes versus the 220-byte target extent. Relocation-masked comparison of the shared 215-byte prefix matches 53/171 ordinary bytes; this is a semantic correction, not exactness credit. The former 220-byte candidate depended on the reversed bound order and is superseded.
+- Exact `FileSystem::OpenFile` remains the sole caller and fixes the physical `/Gr` argument transport. Signature/table data ownership remains unknown and TH08 table values are not imported; the helper remains source-present/non-exact.

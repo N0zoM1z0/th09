@@ -158,6 +158,11 @@ active cursor helper at 217/211 after VC7.1 optimization.
 Packet 523 records that both Bullet pattern wrappers remain 187/203 after a
 natural nested-loop rewrite; target loop-head no-op sequences are not to be
 manufactured in source.
+
+Packet 524 corrects a reversed bound/index order in
+`FileSystem::TryDecryptFromTable`: the target checks the eight-record scan
+bound before loading an indexed key, and maintained source now preserves that
+short-circuit order. Its focused build is 215/220 bytes and remains non-exact.
 `AnmVmBase::AnmVmBase` remains non-exact at 75/62 under `/O2` and 61/62 under a
 bounded `/O1` probe; see Packet 521 for the target-helper comparison.
 Packet 515 removed one stale unused ECL helper that had made the configured

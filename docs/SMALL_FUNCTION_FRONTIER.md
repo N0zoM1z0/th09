@@ -81,6 +81,11 @@ subject to their target-local ledger evidence.
 - Packet 523's conventional entry-guard plus do/while rewrite leaves both
   Bullet pattern wrappers at 187/203 bytes; target loop-head no-op sequences
   remain compiler-layout evidence, not source padding to reproduce.
+- Packet 524 corrects `FileSystem::TryDecryptFromTable`'s scan guard: target
+  checks the eight-record bound before indexing, while the prior source
+  evaluated the key expression first. Corrected natural source compiles to
+  215/220 bytes and remains non-exact; do not restore the unsafe order to chase
+  the previous candidate size.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. `AsciiManager::OnUpdate` is exact-sized at 253 bytes but still has
