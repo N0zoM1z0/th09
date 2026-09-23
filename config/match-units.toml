@@ -2236,7 +2236,7 @@ target = 0x004A7EA4
 [[units.title-screen-mode-select.relocations]]
 offset = 101
 type = "DIR32"
-symbol = "?g_OptionPointers@@3PAPAXA"
+symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A"
 target = 0x004B42D0
 
 [[units.title-screen-mode-select.relocations]]
@@ -8059,7 +8059,7 @@ symbol = "?MoveCharacterCursor@TitleScreenView@@QAEPAXHHPADH@Z"
 target_address = 0x0042304D
 size = 0x59
 relocations = [
-  { offset = 0x04, type = "DIR32", symbol = "?g_OptionPointers@@3PAPAXA", target = 0x004B42D0 },
+  { offset = 0x04, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
   { offset = 0x23, type = "DIR32", symbol = "?g_TitleCharacterUnlocked@@3PAEA", target = 0x004A81CC },
   { offset = 0x4D, type = "DIR32", symbol = "?g_TitleCharacterUnlocked@@3PAEA", target = 0x004A81CC },
 ]
@@ -8073,7 +8073,7 @@ symbol = "?MoveCharacterCursorNormal@TitleScreenView@@QAEPAXHHPADH@Z"
 target_address = 0x004230A6
 size = 0x59
 relocations = [
-  { offset = 0x04, type = "DIR32", symbol = "?g_OptionPointers@@3PAPAXA", target = 0x004B42D0 },
+  { offset = 0x04, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
   { offset = 0x23, type = "DIR32", symbol = "?g_TitleCharacterUnlockedNormal@@3PAEA", target = 0x004A81DC },
   { offset = 0x4D, type = "DIR32", symbol = "?g_TitleCharacterUnlockedNormal@@3PAEA", target = 0x004A81DC },
 ]
@@ -8087,7 +8087,7 @@ symbol = "?MoveCharacterCursorMode4@TitleScreenView@@QAEPAXHHPADH@Z"
 target_address = 0x004230FF
 size = 0x59
 relocations = [
-  { offset = 0x04, type = "DIR32", symbol = "?g_OptionPointers@@3PAPAXA", target = 0x004B42D0 },
+  { offset = 0x04, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
   { offset = 0x23, type = "DIR32", symbol = "?g_TitleCharacterUnlockedMode4@@3PAEA", target = 0x004A81EC },
   { offset = 0x4D, type = "DIR32", symbol = "?g_TitleCharacterUnlockedMode4@@3PAEA", target = 0x004A81EC },
 ]
@@ -8182,7 +8182,7 @@ relocations = [
   { offset = 0x5C, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
   { offset = 0x61, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100 },
   { offset = 0x68, type = "REL32", symbol = "?ClearRecordingFpsWarningState@TitleSupervisorView@@QAEHXZ", target = 0x00423382 },
-  { offset = 0x6D, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUTitleNetworkStateView@@A", target = 0x004B42D0 },
+  { offset = 0x6D, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
   { offset = 0x7E, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
   { offset = 0x8C, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
   { offset = 0x92, type = "DIR32", symbol = "?g_TitleDifficulty@@3EA", target = 0x004B3538 },

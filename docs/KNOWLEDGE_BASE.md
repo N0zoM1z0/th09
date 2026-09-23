@@ -2367,10 +2367,16 @@ name into a TH09 fact without target-local evidence.
 
 ## Packet 414 IP.txt network loader exact closure
 
-- `PrepareTitleMode4Network @ 0x004324C0-0x00432766` is now canonical exact. TH09 WinMain constructs the 0xD4 `SupervisorNetworkState`, publishes it at `0x004B42D0`, and immediately passes that object to this helper. Exact TitleScreen mode-select reaches the same physical global through the older reconstruction alias `g_OptionPointers`; its relocation also resolves to `0x004B42D0`, and alias index 42 is exactly byte offset `+0xA8`, the independently proven network `active` field.
+- `PrepareTitleMode4Network @ 0x004324C0-0x00432766` is now canonical exact. TH09 WinMain constructs the 0xD4 `SupervisorNetworkState`, publishes it at `0x004B42D0`, and immediately passes that object to this helper. Exact TitleScreen mode-select passes the same target-backed `g_SupervisorNetworkState` global.
 - The loader clears `active`, requires `IP.txt`, opens it through exact `FileSystem::OpenFile`, zeroes the 0x80-byte hostname at `+0x24`, defaults `syncValue +0xBC` to 0 and `syncRate +0xC4` to 30, then parses `IPAddress`, `Port`, `Sync`, and `Side` through the same-TU private parser. `LAN` maps to `(syncValue=1,syncRate=60)`, `High` to `(0,60)`, `Low` to `(0,30)`, `Bad` to `(0,20)`, while `Auto/1P/2P` map `joinMode +0xC0` to `2/0/1`. The file allocation is released through exact `ZunMemory::Free`.
 - Natural source initially emitted 689 bytes because the `Side` miss path duplicated the generic one-byte skip. Sharing that ordinary `SKIP_CHARACTER` control-flow tail, exactly as TH09 does, reduced the body to 679 bytes. The sole remaining 18-byte mismatch was the semicolon comment loop; spelling the target-visible top-tested loop with a file-local `SKIP_COMMENT` label preserves normal C++ semantics and lets VC7.1 emit the target block without padding or register control. The resulting body is 679/679 structural-exact with 591/591 ordinary comparable bytes and all 22 relocation destinations solved.
 - `ParseNetworkConfigValue @ 0x00432240` remains independently non-exact even though it now lives in the same maintained TU. Its natural static-helper placement is important evidence: VC7.1 itself selects the target private EAX/EBX plus two-stack-argument ABI. Exactness of the loader does not promote the parser.
+
+## Packet 540 TitleScreen network-state owner cleanup
+
+- `TitleScreen.cpp` previously declared both an undefined `void **g_OptionPointers` and a separate `TitleNetworkStateView *g_SupervisorNetworkState` for the same target global at `0x004B42D0`. The former's index 42 was used as a proxy for the network object's `active` field at `+0xA8`.
+- Source now includes `SupervisorNetworkState.hpp`, uses the real `g_SupervisorNetworkState` declaration and its target-asserted `active` member, and removes the duplicate proxy struct/declarations. The exact mode-select relocation manifest and three exact character-cursor helper manifests now bind to the real global symbol; `ActualAddedCallback` was likewise updated from the proxy type relocation.
+- Focused pinned-VC7.1 replay retains all five affected exact units: `OnUpdateModeSelect` 506/506, three cursor helpers 89/89 each, and `ActualAddedCallback` 335/335, with target relocation destinations unchanged. `OnUpdateDifficultySelect` remains non-exact; the earlier direct-field source probe did not improve its 884-byte candidate against the 886-byte target, so no exactness claim is added.
 
 
 ## Packet 415 Background camera interpolation private-ABI frontier

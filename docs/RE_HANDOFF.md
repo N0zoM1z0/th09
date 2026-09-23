@@ -137,6 +137,15 @@ pass (`OnUpdateResultNameEntry` 966/966; `DrawMusicRoom` 209/209). The replay an
 music-room large owners remain non-exact; this owner/symbol correction does not
 change the 807/172 exact/non-exact totals or close the Windows product gate.
 
+Packet 540 removes the legacy TitleScreen `g_OptionPointers` and
+`TitleNetworkStateView` proxies for the network object. `TitleScreen.cpp` now
+uses the declared `SupervisorNetworkState` global and its proven `active +0xA8`
+field. Focused exact replays retain `OnUpdateModeSelect` (506/506), the three
+character-cursor helpers (89/89 each), and `ActualAddedCallback` (335/335) with
+relocations bound to the true global symbol. `OnUpdateDifficultySelect`
+remains non-exact at its prior 884/886 candidate; no exactness credit or count
+change is claimed.
+
 The latest registration batch makes `Background::Create @ 0x00403AE0`
 canonical exact at 307/307 bytes and 29 solved relocations. TH09 target has
 no null guard after `AddToRegistry`; removing the source-only guard recovers

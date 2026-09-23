@@ -4,6 +4,7 @@
 #include "Chain.hpp"
 #include "FileSystem.hpp"
 #include "ScreenEffect.hpp"
+#include "SupervisorNetworkState.hpp"
 
 #include <stddef.h>
 #include <windows.h>
@@ -289,11 +290,6 @@ struct TitleAsciiManagerView {
     void InitializeVms();
 };
 
-struct TitleNetworkStateView {
-    u8 unknown000[0xA8];
-    i32 activeA8;
-};
-
 struct TitleMidiOutputView {
     void PlayFile(i32 track);
 };
@@ -478,11 +474,9 @@ extern TitleScoreRecordView g_TitleScoreRecord;
 extern TitleScoreRecordView g_TitleScoreTable[16][5][5];
 extern i32 g_GameMode;
 extern u32 g_TitleGameFlags;
-extern void **g_OptionPointers;
 extern TitleAnmManagerView *g_TitleAnmManager;
 extern TitleSupervisorView g_TitleSupervisor;
 extern TitleAsciiManagerView g_AsciiManager;
-extern TitleNetworkStateView *g_SupervisorNetworkState;
 extern Chain g_Chain;
 extern TitleMidiOutputView *g_TitleMidiOutput;
 extern u8 g_TitleLockedMenuItem;
@@ -625,7 +619,7 @@ int TitleScreenView::ActualAddedCallback()
     ChangeCurrentScreen(1);
     g_TitleSupervisor.ClearRecordingFpsWarningState();
 
-    if (g_SupervisorNetworkState->activeA8 != 0 && g_GameMode != 2)
+    if (g_SupervisorNetworkState->active != 0 && g_GameMode != 2)
     {
         resumeState = 2;
         g_TitleModeSelection = 0;
@@ -915,8 +909,8 @@ int TitleScreenView::MoveCursorFourWay(i32 count)
 
 void *TitleScreenView::MoveCharacterCursor(i32 side, i32 direction, char *order, i32 count)
 {
-    void *result = g_OptionPointers;
-    if (g_OptionPointers[42] == 0)
+    void *result = g_SupervisorNetworkState;
+    if (g_SupervisorNetworkState->active == 0)
     {
         i32 *cursor = &side0CharacterCursor + side;
         result = cursor;
@@ -935,8 +929,8 @@ void *TitleScreenView::MoveCharacterCursor(i32 side, i32 direction, char *order,
 
 void *TitleScreenView::MoveCharacterCursorNormal(i32 side, i32 direction, char *order, i32 count)
 {
-    void *result = g_OptionPointers;
-    if (g_OptionPointers[42] == 0)
+    void *result = g_SupervisorNetworkState;
+    if (g_SupervisorNetworkState->active == 0)
     {
         i32 *cursor = &side0CharacterCursor + side;
         result = cursor;
@@ -955,8 +949,8 @@ void *TitleScreenView::MoveCharacterCursorNormal(i32 side, i32 direction, char *
 
 void *TitleScreenView::MoveCharacterCursorMode4(i32 side, i32 direction, char *order, i32 count)
 {
-    void *result = g_OptionPointers;
-    if (g_OptionPointers[42] == 0)
+    void *result = g_SupervisorNetworkState;
+    if (g_SupervisorNetworkState->active == 0)
     {
         i32 *cursor = &side0CharacterCursor + side;
         result = cursor;
@@ -1175,7 +1169,7 @@ int TitleScreenView::UpdateCharacterSelectionVisuals(i32 side, i32 selectedChara
 
         bool visible;
         if (currentScreen == 8)
-            visible = g_TitleCharacterUnlocked[character] || g_OptionPointers[42];
+            visible = g_TitleCharacterUnlocked[character] || g_SupervisorNetworkState->active;
         else if (currentScreen == 3)
             visible = g_TitleCharacterUnlockedNormal[character] != 0;
         else
@@ -1202,7 +1196,7 @@ int TitleScreenView::UpdateCharacterSelectionVisuals(i32 side, i32 selectedChara
 
         bool visible;
         if (currentScreen == 8)
-            visible = g_TitleCharacterUnlocked[character] || g_OptionPointers[42];
+            visible = g_TitleCharacterUnlocked[character] || g_SupervisorNetworkState->active;
         else if (currentScreen == 3)
             visible = g_TitleCharacterUnlockedNormal[character] != 0;
         else
@@ -1216,7 +1210,7 @@ int TitleScreenView::UpdateCharacterSelectionVisuals(i32 side, i32 selectedChara
     for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
     {
         i32 character = order[orderIndex];
-        if (g_TitleCharacterUnlocked[character] || g_OptionPointers[42])
+        if (g_TitleCharacterUnlocked[character] || g_SupervisorNetworkState->active)
         {
             AnmVmView *vm = &vms[191 + visibleIndex];
             u32 targetColor = (selectedVisibleIndex == visibleIndex || otherVisibleIndex == visibleIndex)
@@ -1238,7 +1232,7 @@ int TitleScreenView::UpdateScreen16SelectionVisuals(i32 side, i32 selectedCharac
         i32 character = order[orderIndex];
         if (character == selectedCharacter)
             break;
-        if (orderIndex > 13 || g_TitleCharacterUnlocked[character] || g_OptionPointers[42])
+        if (orderIndex > 13 || g_TitleCharacterUnlocked[character] || g_SupervisorNetworkState->active)
             selectedVisibleIndex++;
     }
 
@@ -1256,7 +1250,7 @@ int TitleScreenView::UpdateScreen16SelectionVisuals(i32 side, i32 selectedCharac
     for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
     {
         i32 character = order[orderIndex];
-        if (g_TitleCharacterUnlocked[character] || orderIndex > 13 || g_OptionPointers[42])
+        if (g_TitleCharacterUnlocked[character] || orderIndex > 13 || g_SupervisorNetworkState->active)
         {
             AnmVmView *vm = &vms[207 + visibleIndex];
             u32 targetColor = selectedVisibleIndex == visibleIndex ? 0xFFFFFFFFu : 0xFFA0A0A0u;
@@ -1551,7 +1545,7 @@ int TitleScreenView::UpdateScreen8Mode0()
                 for (value = 0; value < 16; value++)
                 {
                     i32 character = g_TitleCharacterOrder[value];
-                    if (g_TitleCharacterUnlocked[character] || g_OptionPointers[42])
+                    if (g_TitleCharacterUnlocked[character] || g_SupervisorNetworkState->active)
                     {
                         titleAnm->SetSprite(visibleVm, character + 235);
                         visibleVm->flags |= 2;
@@ -1607,7 +1601,7 @@ int TitleScreenView::UpdateScreen8Mode0()
         char side0Character;
         char side1Character;
 
-        if (g_TitleModeSelection == 4 && g_OptionPointers[42] == 0)
+        if (g_TitleModeSelection == 4 && g_SupervisorNetworkState->active == 0)
         {
             PlayMenuSound(11, 0);
             stateTimer = 0;
@@ -2097,7 +2091,7 @@ int TitleScreenView::UpdateScreen16()
             for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
             {
                 char character = g_TitleScreen16Order[orderIndex];
-                if (character > 13 || g_TitleCharacterUnlocked[character] || g_OptionPointers[42])
+                if (character > 13 || g_TitleCharacterUnlocked[character] || g_SupervisorNetworkState->active)
                 {
                     titleAnm->SetSprite(&vms[207 + visibleCount], character + 251);
                     vms[207 + visibleCount].flags |= 2;
@@ -2777,7 +2771,7 @@ int TitleScreenView::UpdateReplaySave()
                 return 1;
             }
 
-            if (g_OptionPointers[42] != 0)
+            if (g_SupervisorNetworkState->active != 0)
             {
                 i32 replayIndex = 0;
                 do
@@ -3425,7 +3419,7 @@ int TitleScreenView::OnUpdateDifficultySelect()
             return 1;
         }
 
-        if (g_TitleModeSelection == 4 && g_OptionPointers[42] == 0)
+        if (g_TitleModeSelection == 4 && g_SupervisorNetworkState->active == 0)
         {
             PlayMenuSound(11, 0);
             stateTimer = 0;
@@ -3438,7 +3432,7 @@ int TitleScreenView::OnUpdateDifficultySelect()
             currentScreenState = 3;
         }
 
-        if (g_OptionPointers[42] == 0 && (g_TitleInputFlags & 0xA))
+        if (g_SupervisorNetworkState->active == 0 && (g_TitleInputFlags & 0xA))
         {
             g_TitleDifficulty = (u8)keyboardSelection;
             PlayMenuSound(11, 0);
@@ -3517,7 +3511,7 @@ int TitleScreenView::OnUpdateModeSelect()
                 g_TitleModeSelection = keyboardSelection;
                 if (g_TitleModeSelection == 4)
                 {
-                    PrepareTitleMode4Network(g_OptionPointers);
+                    PrepareTitleMode4Network(g_SupervisorNetworkState);
                     ResetTitleMode4Supervisor(&g_TitleSupervisor);
                     g_TitleDifficulty = 1;
                     g_GameSide0Value20 = 0;
