@@ -277,7 +277,7 @@ typedef char BulletSideStateSizeIs38[(sizeof(BulletSideStateView) == 0x38) ? 1 :
 
 struct BulletAnmLoadedView
 {
-    void SetSprite(AnmVm *vm, int spriteIndex);
+    int SetSprite(AnmVm *vm, int spriteIndex);
 };
 
 struct EtamaController

@@ -166,17 +166,15 @@ int EtamaController::SelectBulletSprite(
     int result = dst->activeSpriteIndex;
     if (result != baseSprite + offset)
     {
-        float width = GetLoadedSprite(sizeSource)->widthPx;
-        if (width <= 16.0f)
-            return (this->bulletAnm->SetSprite(
-                        dst, baseSprite + g_BulletSpriteOffsetSmall[offset]),
-                    baseSprite + g_BulletSpriteOffsetSmall[offset]);
-        if (width <= 32.0f)
-            return (this->bulletAnm->SetSprite(
-                        dst, baseSprite + g_BulletSpriteOffsetMedium[offset]),
-                    baseSprite + g_BulletSpriteOffsetMedium[offset]);
-        this->bulletAnm->SetSprite(dst, baseSprite + offset);
-        result = baseSprite + offset;
+        BulletLoadedSpriteView *sprite =
+            reinterpret_cast<BulletLoadedSpriteView *>(sizeSource->loadedSprite);
+        if (sprite->widthPx <= 16.0f)
+            return this->bulletAnm->SetSprite(
+                dst, baseSprite + g_BulletSpriteOffsetSmall[offset]);
+        if (sprite->widthPx <= 32.0f)
+            return this->bulletAnm->SetSprite(
+                dst, baseSprite + g_BulletSpriteOffsetMedium[offset]);
+        return this->bulletAnm->SetSprite(dst, baseSprite + offset);
     }
     return result;
 }
