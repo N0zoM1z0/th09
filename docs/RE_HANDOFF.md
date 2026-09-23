@@ -542,6 +542,13 @@ Do not churn these without new evidence:
   per-visible-VM cursor accounts for a stable 12-byte improvement over the
   prior source; target frame allocation is 0x08 versus candidate 0x0C. Keep it
   NON-EXACT; Packet 536 records the comparison.
+- TitleScreenView::UpdateScreen8Mode123 0x00425ACB: target 2153, current natural
+  `/O1 /Ob1` candidate 2102. The target's per-unlocked-row `0x2A4` VM cursor
+  with separate visible-row count is now reflected in source, but this made
+  the aggregate size gap larger (39 to 51 bytes). Two cold builds agree at
+  function-byte SHA-256 `223cf3ae76eac39efd2642defe6b2ee4531e749225eab248abdceb2552a641b1`;
+  keep NON-EXACT and avoid further size-only cursor aliases. Packet 537 records
+  the bounded result.
 - PlayerLifecycleView::UpdateMovementAndOptions 0x0041C170: 1864/1835 with
   complete external call surface and bounded lifetime/type probes.
 - EnemyManagerView::SpawnEnemy 0x0040F340: cold-stable 361/373; merge and

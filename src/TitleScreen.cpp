@@ -1836,13 +1836,15 @@ int TitleScreenView::UpdateScreen8Mode123()
             g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
 
             i32 visibleCount = 0;
+            AnmVmView *visibleVm = &vms[191];
             for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
             {
                 char character = g_TitleCharacterOrderMode123[orderIndex];
                 if (g_TitleCharacterUnlocked[character])
                 {
-                    titleAnm->SetSprite(&vms[191 + visibleCount], character + 235);
-                    vms[191 + visibleCount].flags |= 2;
+                    titleAnm->SetSprite(visibleVm, character + 235);
+                    visibleVm->flags |= 2;
+                    ++visibleVm;
                     visibleCount++;
                 }
             }
