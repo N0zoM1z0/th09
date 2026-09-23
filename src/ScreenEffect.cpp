@@ -177,12 +177,13 @@ int ScreenEffect::CalcFadeHold(ScreenEffect *screenEffect)
 {
     if (screenEffect->fadeReleaseRequested == 0)
     {
-        if (screenEffect->duration != 0 &&
-            screenEffect->timer <= screenEffect->duration)
+        int duration = screenEffect->duration;
+        if (duration != 0 &&
+            screenEffect->timer <= duration)
         {
             screenEffect->overlayAlpha =
                 (int)(((float)screenEffect->timer * 255.0f) /
-                      screenEffect->duration);
+                      duration);
         }
         else
         {
@@ -194,7 +195,7 @@ int ScreenEffect::CalcFadeHold(ScreenEffect *screenEffect)
         if (screenEffect->timer <= 8)
         {
             screenEffect->overlayAlpha =
-                128 - (int)(((float)screenEffect->timer * 128.0f) / 8.0f);
+                128 - (int)((float)screenEffect->timer * (255.0f / 8.0f));
         }
         else
         {

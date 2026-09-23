@@ -6469,6 +6469,28 @@ relocations = [
   { offset = 0x6D, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
 ]
 
+[units.screen-effect-calc-fade-hold]
+source = "src/ScreenEffect.cpp"
+object = "build/matching/ScreenEffect.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScreenEffect::CalcFadeHold"]
+symbol = "?CalcFadeHold@ScreenEffect@@SIHPAU1@@Z"
+target_address = 0x004224F0
+size = 0xBA
+relocations = [
+  { offset = 0x20, type = "REL32", symbol = "??NZunTimer@@QAEIH@Z", target = 0x00406720 },
+  { offset = 0x2B, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
+  { offset = 0x31, type = "DIR32", symbol = "__real@437f0000", target = 0x0048E834 },
+  { offset = 0x39, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x46, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
+  { offset = 0x62, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
+  { offset = 0x79, type = "REL32", symbol = "??NZunTimer@@QAEIH@Z", target = 0x00406720 },
+  { offset = 0x84, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
+  { offset = 0x8A, type = "DIR32", symbol = "__real@41ff0000", target = 0x0048F328 },
+  { offset = 0x8F, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0xA3, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
+]
+
 [units.screen-effect-calc-arcade-pulse]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
@@ -7408,6 +7430,44 @@ size = 0x28
 relocations = [
   { offset = 0x15, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x22, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+]
+
+[units.bullet-update-deceleration]
+source = "src/BulletManager.cpp"
+object = "build/matching/BulletManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["UpdateBulletDeceleration"]
+symbol = "?UpdateBulletDeceleration@@YIXPAUBullet@@@Z"
+target_address = 0x00413460
+size = 0x6E
+relocations = [
+  { offset = 0x0C, type = "REL32", symbol = "??NZunTimer@@QAEIH@Z", target = 0x00406720 },
+  { offset = 0x17, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
+  { offset = 0x1D, type = "DIR32", symbol = "__real@3ea00000", target = 0x0048E7FC },
+  { offset = 0x2A, type = "DIR32", symbol = "__real@40a00000", target = 0x0048E7F8 },
+  { offset = 0x3C, type = "DIR32", symbol = "?g_Supervisor@@3UBulletSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x45, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEPAU1@MM@Z", target = 0x00441890 },
+  { offset = 0x4E, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
+  { offset = 0x68, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
+]
+
+[units.bullet-update-polar-acceleration]
+source = "src/BulletManager.cpp"
+object = "build/matching/BulletManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["UpdateBulletPolarAcceleration"]
+symbol = "?UpdateBulletPolarAcceleration@@YIXPAUBullet@@@Z"
+target_address = 0x00413590
+size = 0x9E
+relocations = [
+  { offset = 0x15, type = "REL32", symbol = "??PZunTimer@@QAEIH@Z", target = 0x00401520 },
+  { offset = 0x31, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
+  { offset = 0x3C, type = "DIR32", symbol = "?g_Supervisor@@3UBulletSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x52, type = "REL32", symbol = "?AddNormalizeAngle@@YGMMM@Z", target = 0x0042AED0 },
+  { offset = 0x64, type = "DIR32", symbol = "?g_Supervisor@@3UBulletSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x83, type = "DIR32", symbol = "?g_Supervisor@@3UBulletSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x8C, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEPAU1@MM@Z", target = 0x00441890 },
+  { offset = 0x95, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
 ]
 
 [units.bullet-update-horizontal-wrap]

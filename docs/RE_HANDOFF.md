@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 791 |
-| Source-present non-exact functions | 188 |
-| Source-present non-exact bytes | 146,145 |
+| Canonical exact functions | 794 |
+| Source-present non-exact functions | 185 |
+| Source-present non-exact bytes | 145,691 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 129,524 |
+| Canonical exact authored bytes | 129,978 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 791 canonical exact and 188 honest non-exact.
+functions: 794 canonical exact and 185 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -78,13 +78,19 @@ successful compilation do not by themselves justify a match.
 The authored/no-source roadmap is obsolete and must not be restarted. All
 confirmed authored functions now have maintained source.
 
-The latest small-function batch makes `ScreenEffect::CalcFadeIn @ 0x004222C0`
-(103 bytes), `CalcFadeOut @ 0x00422470` (123), and
-`CalcArcadePulse @ 0x004225B0` (163) canonical exact. Their 21 relocations are target-solved and
-two cold same-TU replays keep all 11 earlier ScreenEffect exact units intact.
-Packet 512 corrects the old fade/x87 residual diagnosis and records the
-duration/alpha lifetime evidence. The six remaining ScreenEffect-related
-non-exact functions stay outside `config/matches.csv`.
+The latest small-function batch makes `ScreenEffect::CalcFadeHold @ 0x004224F0`
+(186 bytes), `UpdateBulletDeceleration @ 0x00413460` (110), and
+`UpdateBulletPolarAcceleration @ 0x00413590` (158) canonical exact. Packet 513
+records a real FadeHold release-decay correction (`255/8`, not the stale
+`128/8`), the target's folded deceleration coefficient, and target-backed
+Bullet-relative delta accesses. All 15 ScreenEffect and nine BulletManager
+configured units replay exact in two cold same-TU rounds. Other members of
+either family remain independent non-exact candidates.
+
+Packet 512's preceding short batch closed `ScreenEffect::CalcFadeIn`,
+`CalcFadeOut`, and `CalcArcadePulse` (389 authored bytes) and corrected the old
+fade/x87 residual diagnosis. Five earlier ScreenEffect-related non-exact
+functions remain outside `config/matches.csv`.
 
 `Ending::RunEndingScript @ 0x0040E8A0` is the preceding large exact unit: 1,499
 logical bytes, 1,727 code-plus-compiler-table owned bytes, and 88 target-solved
@@ -94,6 +100,18 @@ section with only target logical code and is withdrawn. The independent
 `0x0040EF5F`. Packet 511 records the source and boundary evidence. The original
 translation-unit partition remains unknown; this is a function-level exactness
 claim, not Windows i386 product closure.
+
+## Short-function routing frontier
+
+The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 50 current
+source-present non-exact authored functions whose target logical bodies are at
+most 256 bytes; 14 are at most 128 bytes. This is a size filter, **not** a
+verified call-graph leaf set or an ease-of-matching ranking. The live
+`config/functions.csv` row and a fresh target/compiler check override that
+snapshot after later checkpoints. The remaining Bullet transform-update
+siblings at 179, 199, 202 and 236 bytes are a coherent next diagnostic batch;
+their prior size residuals are recorded there, not presumed solved by the two
+new exact siblings.
 
 ## Active large frontier: EclManager::RunEcl
 
@@ -396,7 +414,7 @@ is a snapshot, not a permanent ranking; recompute before choosing work.
 | ExAttackController | 21 | 14,283 |
 | EnemyManager | 11 | 9,902 |
 | Front | 10 | 8,138 |
-| BulletManager | 14 | 7,084 |
+| BulletManager | 12 | 6,816 |
 | FrontSide | 4 | 6,254 |
 | Background | 8 | 5,306 |
 | GameManager | 5 | 4,259 |
@@ -443,6 +461,8 @@ clean checkpoint with no tracked references to its receipts, prefer deletion.
 - config/implemented.csv: source-presence mapping.
 - config/matches.csv and config/match-units.toml: canonical exact units.
 - docs/KNOWLEDGE_BASE.md: durable TH09 facts and negative results.
+- docs/SMALL_FUNCTION_FRONTIER.md: bounded short-function routing snapshot;
+  re-filter the live ledger before selecting a new unit.
 - docs/PROGRESS.md: generated totals.
 - docs/RE_WORKFLOW.md and docs/ORACLES.md: phase and acceptance rules.
 - scripts/report-reconstruction-status.py: authoritative live counts.

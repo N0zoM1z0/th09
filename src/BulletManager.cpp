@@ -200,7 +200,7 @@ static void UpdateBulletDeceleration(Bullet *bullet)
     BulletExState &state = bullet->exStates[0];
     if (state.timer <= 16)
     {
-        magnitude = 5.0f - ((float)state.timer * 5.0f) / 16.0f;
+        magnitude = 5.0f - (float)state.timer * (5.0f / 16.0f);
         bullet->velocity.FromAngleMagnitude(
             bullet->angle, (magnitude + bullet->speed) * g_Supervisor.framerateMultiplier);
     }
@@ -241,8 +241,10 @@ static void UpdateBulletPolarAcceleration(Bullet *bullet)
     else
     {
         bullet->angle = AddNormalizeAngle(
-            bullet->angle, g_Supervisor.framerateMultiplier * state.angleDelta);
-        bullet->speed += g_Supervisor.framerateMultiplier * state.speedDelta;
+            bullet->angle,
+            g_Supervisor.framerateMultiplier * bullet->exStates[2].angleDelta);
+        bullet->speed +=
+            g_Supervisor.framerateMultiplier * bullet->exStates[2].speedDelta;
         bullet->velocity.FromAngleMagnitude(
             bullet->angle, g_Supervisor.framerateMultiplier * bullet->speed);
     }
