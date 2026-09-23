@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 787 |
-| Source-present non-exact functions | 192 |
-| Source-present non-exact bytes | 148,033 |
+| Canonical exact functions | 788 |
+| Source-present non-exact functions | 191 |
+| Source-present non-exact bytes | 146,534 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 127,636 |
+| Canonical exact authored bytes | 129,135 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 787 canonical exact and 192 honest non-exact.
+functions: 788 canonical exact and 191 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -77,6 +77,15 @@ successful compilation do not by themselves justify a match.
 
 The authored/no-source roadmap is obsolete and must not be restarted. All
 confirmed authored functions now have maintained source.
+
+`Ending::RunEndingScript @ 0x0040E8A0` is the latest exact unit: 1,499 logical
+bytes, 1,727 code-plus-compiler-table owned bytes, and 88 target-solved
+relocations. The earlier 1,695-versus-1,499 size claim compared an entire COFF
+section with only target logical code and is withdrawn. The independent
+`Ending::Ending @ 0x0040EF60` starts after one unowned `CC` byte at
+`0x0040EF5F`. Packet 511 records the source and boundary evidence. The original
+translation-unit partition remains unknown; this is a function-level exactness
+claim, not Windows i386 product closure.
 
 ## Active large frontier: EclManager::RunEcl
 
@@ -403,9 +412,10 @@ translation-unit and runtime evidence.
 
 ## Workspace hygiene
 
-.analysis/ is disposable working state, not a journal. At this checkpoint its
-contents have been cleared after promoting all durable facts to tracked source,
-ledgers, knowledge-base packets or Git commits.
+.analysis/ is disposable working state, not a journal. It is empty at this
+checkpoint. The recovered probe variants and generated outputs were inspected
+and moved to the system trash; no current claim depends on those unbound files.
+Use live source, ledgers, this handoff and the knowledge base to resume work.
 
 After each checkpoint:
 
@@ -431,22 +441,5 @@ clean checkpoint with no tracked references to its receipts, prefer deletion.
 - scripts/report-ecl-codegen.py: RunEcl compiler-structure diagnostic.
 
 The handoff is intentionally not a second knowledge base. Historical details
-belong in Git and the knowledge base.
-
-## Recent checkpoints
-
-Use git log -12 --oneline --decorate as authoritative history. Current recent
-substantive checkpoints are:
-
-- dac1e8d gpt-web: correct ANM strip ownership
-- 9539880 gpt-web: align RunEcl side owner state
-- d09fe4a gpt-web: align RunEcl late laser angle
-- 935e766 gpt-web: remove RunEcl staging temporaries
-- 30a2476 gpt-web: align RunEcl laser angle relookup
-- a7df1d9 gpt-web: align RunEcl timer and laser state
-- f8a6621 gpt-web: align RunEcl polar conversion
-- 2f858b2 gpt-web: restore RunEcl child ECL relookup
-- 5e73983 gpt-web: restore RunEcl laser slot relookup
-- 2611823 gpt-web: coalesce RunEcl interaction flags
-- 7ea00b6 gpt-web: restore RunEcl laser slot loop
-- 39f7c45 gpt-web: align RunEcl child context scan
+belong in Git and the knowledge base. Use `git log -12 --oneline --decorate`
+for recent checkpoints.

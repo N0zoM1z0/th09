@@ -130,11 +130,6 @@ void Ending::UpdateFade()
     }
 }
 
-static void EndingResetVmScriptIndex(AnmVm *vm)
-{
-    reinterpret_cast<EndingAnmVmScriptView *>(vm)->scriptIndex = 0;
-}
-
 int Ending::RunEndingScript()
 {
     char textBuffer[68];
@@ -235,17 +230,17 @@ int Ending::RunEndingScript()
                 // The target shares the reset tail with @R.
             case 'R':
                 for (int i = 0; i < 16; i++)
-                    EndingResetVmScriptIndex(&this->endingVms[i]);
+                {
+                    reinterpret_cast<EndingAnmVmScriptView *>(
+                        &this->endingVms[i])->scriptIndex = 0;
+                }
                 break;
 
             case 'm':
-            {
-                int trackId = *(this->scriptCursor + 1);
                 g_Supervisor.StopAudio();
-                g_Supervisor.LoadMusic(trackId);
-                g_Supervisor.PlayMusic(trackId, 0);
+                g_Supervisor.LoadMusic(*(this->scriptCursor + 1));
+                g_Supervisor.PlayMusic(*(this->scriptCursor + 1), 0);
                 break;
-            }
 
             case 'M':
                 this->scriptCursor++;
@@ -330,10 +325,16 @@ int Ending::RunEndingScript()
                 this->scriptCursor++;
             }
             if (g_AsciiInput.IsHeld(0x1001))
+            {
                 this->lineWaitTimer = this->minimumLineWaitFrames;
-            else
-                this->lineWaitTimer = this->defaultLineWaitFrames;
+                this->lineSkipLockFrames = this->minimumLineWaitFrames;
+                goto lineWaitConfigured;
+            }
+
+            this->lineWaitTimer = this->defaultLineWaitFrames;
             this->lineSkipLockFrames = this->minimumLineWaitFrames;
+
+lineWaitConfigured:
             this->nextTextVmIndex++;
             goto end_of_parse;
 
