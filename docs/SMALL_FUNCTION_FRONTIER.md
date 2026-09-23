@@ -1,6 +1,6 @@
 # TH09 short-function frontier
 
-This is a Packet-525 routing snapshot, not a second exactness ledger. The
+This is a Packet-526 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
@@ -90,6 +90,10 @@ subject to their target-local ledger evidence.
   precomputed-end `for` and guarded `do/while` loops for
   `SetCharacterCursorReverse`; all stayed at 183/175 bytes. Keep the
   baseline source and skip these shapes absent new target evidence.
+- Packet 526 audits `EffectManager::AddedCallback`: the canonical `/O2` object
+  is target-sized at 51 bytes, but natural local-order and direct-store
+  variants retain the same callback/global-manager register inversion. Keep
+  the baseline and do not steer preserved-register assignment.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. `AsciiManager::OnUpdate` is exact-sized at 253 bytes but still has
