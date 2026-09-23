@@ -83,7 +83,7 @@ struct EffectManager
 {
     EffectManager();
     void Clear();
-    int ResetPool();
+    void ResetPool();
     Effect *InitializeEffect(Effect *effect, int effectId, const EffectFloat3 *position,
                              unsigned int color, const EffectFloat3 *velocity);
     Effect *SpawnEffect(int effectId, const EffectFloat3 *position, int count, unsigned int color);

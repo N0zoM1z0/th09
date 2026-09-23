@@ -93,7 +93,7 @@ void EffectManager::Clear()
     memset(this, 0, sizeof(EffectManager));
 }
 
-int EffectManager::ResetPool()
+void EffectManager::ResetPool()
 {
     Effect *effect = this->effects;
     this->drawSentinel0.nextInDrawGroup = NULL;
@@ -111,10 +111,11 @@ int EffectManager::ResetPool()
         }
     }
     g_ZunMemory.Free(this->effects);
-    unsigned int bytes = sizeof(Effect) * (this->primaryCount + this->secondaryCount + 1);
-    this->effects = static_cast<Effect *>(g_ZunMemory.Alloc(bytes, "./system\\global.h"));
-    memset(this->effects, 0, bytes);
-    return 0;
+    this->effects = static_cast<Effect *>(g_ZunMemory.Alloc(
+        sizeof(Effect) * (this->primaryCount + this->secondaryCount + 1),
+        "./system\\global.h"));
+    memset(this->effects, 0,
+           sizeof(Effect) * (this->primaryCount + this->secondaryCount + 1));
 }
 
 Effect *EffectManager::InitializeEffect(

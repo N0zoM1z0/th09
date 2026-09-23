@@ -1,14 +1,14 @@
 # TH09 short-function frontier
 
-This is a Packet-516 routing snapshot, not a second exactness ledger. The
+This is a Packet-517 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **45 functions**, of which
-**13 are at most 128 bytes**, after the Packet-516 option-state promotion. Size is
+target logical size at most 256 bytes**. It yields **44 functions**, of which
+**13 are at most 128 bytes**, after the Packet-517 ResetPool promotion. Size is
 only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
@@ -42,7 +42,6 @@ subject to their target-local ledger evidence.
 | 0x004074A0 | 188 | EclManager | `InterpolateHermite` |
 | 0x0040F9B0 | 188 | EnemyManager | `EnemyView::IntegrateMotion` |
 | 0x0042EAC0 | 191 | Supervisor | `SupervisorFrameQueueView::InsertPredictedFrame` |
-| 0x0040C990 | 194 | EffectManager | `EffectManager::ResetPool` |
 | 0x00432770 | 199 | SupervisorNetwork | `SupervisorNetworkState::IsServiceProviderAvailable` |
 | 0x004130F0 | 203 | BulletManager | `EtamaController::SpawnBulletPatternPrimary` |
 | 0x004131C0 | 203 | BulletManager | `EtamaController::SpawnBulletPatternSecondary` |

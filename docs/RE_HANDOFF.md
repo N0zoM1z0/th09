@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 799 |
-| Source-present non-exact functions | 180 |
-| Source-present non-exact bytes | 144,821 |
+| Canonical exact functions | 800 |
+| Source-present non-exact functions | 179 |
+| Source-present non-exact bytes | 144,627 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 130,848 |
+| Canonical exact authored bytes | 131,042 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 799 canonical exact and 180 honest non-exact.
+functions: 800 canonical exact and 179 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -78,7 +78,16 @@ successful compilation do not by themselves justify a match.
 The authored/no-source roadmap is obsolete and must not be restarted. All
 confirmed authored functions now have maintained source.
 
-The latest short-function batch makes `TitleCharacterConfigView::GetOptionState
+The latest short-function batch makes `EffectManager::ResetPool @ 0x0040C990`
+canonical exact at 194/194 bytes. Its former `int` return was unsupported by
+the two target callers, and the natural void source reproduces all nine
+relocations; Packet 517 in the knowledge base records the proof. All thirteen
+accepted `EffectManager.cpp` units replay in two cold rounds. `Background`
+constructor remains non-exact despite a 160-byte `/O1` candidate; its two
+vector-helper address registers still differ from target. The short-function
+frontier is now 44 source-present non-exact units at at most 256 bytes.
+
+The preceding short-function batch makes `TitleCharacterConfigView::GetOptionState
 @ 0x004234A7` canonical exact at 54/54 bytes. Packet 516 also corrects the
 target-disproved fixed-input read in `MoveCharacterCursorHorizontal`: both
 horizontal cursor helpers are now target-sized at 167 bytes but remain

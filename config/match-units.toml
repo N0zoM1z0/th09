@@ -6636,6 +6636,26 @@ size = 0xE
 relocations = [
 ]
 
+[units.effect-manager-reset-pool]
+source = "src/EffectManager.cpp"
+object = "build/matching/EffectManager.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectManager::ResetPool"]
+symbol = "?ResetPool@EffectManager@@QAEXXZ"
+target_address = 0x0040C990
+size = 0xC2
+relocations = [
+  { offset = 0x2C, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x31, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x47, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x4C, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x70, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x75, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x8A, type = "DIR32", symbol = "??_C@_0BC@BLCFCAKG@?4?1system?2global?4h?$AA@", target = 0x0048E474 },
+  { offset = 0x90, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x95, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+]
+
 [units.effect-manager-draw]
 source = "src/EffectManager.cpp"
 object = "build/matching/EffectManager.obj"
