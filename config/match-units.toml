@@ -7856,6 +7856,16 @@ relocations = [
 # TitleScreen character-selection reusable helpers. These units replay only
 # target-bound helper extents; the surrounding character-selection state
 # machines remain independently reviewed source-present/non-exact where noted.
+[units.title-character-config-get-option-state]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleCharacterConfigView::GetOptionState"]
+symbol = "?GetOptionState@TitleCharacterConfigView@@QAEHDH@Z"
+target_address = 0x004234A7
+size = 0x36
+relocations = []
+
 [units.title-screen-move-character-cursor]
 source = "src/TitleScreen.cpp"
 object = "build/matching/TitleScreen.obj"

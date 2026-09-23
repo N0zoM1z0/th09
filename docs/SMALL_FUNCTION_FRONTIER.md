@@ -1,14 +1,14 @@
 # TH09 short-function frontier
 
-This is a Packet-514 routing snapshot, not a second exactness ledger. The
+This is a Packet-516 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **46 functions**, of which
-**14 are at most 128 bytes**, after the four Packet-514 promotions. Size is
+target logical size at most 256 bytes**. It yields **45 functions**, of which
+**13 are at most 128 bytes**, after the Packet-516 option-state promotion. Size is
 only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
@@ -21,7 +21,6 @@ subject to their target-local ledger evidence.
 | 0x00415C60 | 39 | Front | `DecodeFrontMessageString` |
 | 0x00423158 | 42 | Input | `InputView::IsPressedScrolling` |
 | 0x0040D1C0 | 51 | EffectManager | `EffectManager::AddedCallback` |
-| 0x004234A7 | 54 | TitleScreen | `TitleCharacterConfigView::GetOptionState` |
 | 0x004033A0 | 62 | AnmManager | `AnmVmBase::AnmVmBase` |
 | 0x00431500 | 62 | Supervisor | `Supervisor::Supervisor` |
 | 0x00440D90 | 81 | ExAttackController | `ExAttackAllocateRecordView::AllocateDynamicData` |
@@ -68,7 +67,10 @@ subject to their target-local ledger evidence.
   see Packet 514 in `docs/KNOWLEDGE_BASE.md`. Other Bullet functions on this
   list (sprite selection and spawn-pattern wrappers) have independent target
   extents and are not promoted by association.
-- The TitleScreen character-cursor helpers (167/167/175/175/211 bytes), the
+- The TitleScreen horizontal cursor helpers (167/167 bytes) now have
+  target-sized, source-present candidates after Packet 516's input-owner and
+  directional-branch corrections; neither is exact. The other character-
+  cursor helpers (175/175/211 bytes), the
   Supervisor frame-queue helpers (119/191/213), and the ECL interpolation
   helpers (149/157/188/255) are other bounded families. They are not one
   translation-unit/profile claim merely because they appear in this table.

@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 798 |
-| Source-present non-exact functions | 181 |
-| Source-present non-exact bytes | 144,875 |
+| Canonical exact functions | 799 |
+| Source-present non-exact functions | 180 |
+| Source-present non-exact bytes | 144,821 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 130,794 |
+| Canonical exact authored bytes | 130,848 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 798 canonical exact and 181 honest non-exact.
+functions: 799 canonical exact and 180 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -78,7 +78,14 @@ successful compilation do not by themselves justify a match.
 The authored/no-source roadmap is obsolete and must not be restarted. All
 confirmed authored functions now have maintained source.
 
-The latest small-function batch makes the four remaining short Bullet transform
+The latest short-function batch makes `TitleCharacterConfigView::GetOptionState
+@ 0x004234A7` canonical exact at 54/54 bytes. Packet 516 also corrects the
+target-disproved fixed-input read in `MoveCharacterCursorHorizontal`: both
+horizontal cursor helpers are now target-sized at 167 bytes but remain
+non-exact. All 24 configured `TitleScreen.cpp` units, across two profiles,
+replay exact in two cold rounds.
+
+The preceding small-function batch makes the four remaining short Bullet transform
 updates canonical exact: `UpdateBulletVectorAcceleration @ 0x004134D0`
 (179 bytes), relative direction change at `0x00413630` (202), absolute
 direction change at `0x00413700` (199), and aimed direction change at
@@ -112,9 +119,9 @@ claim, not Windows i386 product closure.
 
 ## Short-function routing frontier
 
-The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 46 current
+The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 45 current
 source-present non-exact authored functions whose target logical bodies are at
-most 256 bytes; 14 are at most 128 bytes. This is a size filter, **not** a
+most 256 bytes; 13 are at most 128 bytes. This is a size filter, **not** a
 verified call-graph leaf set or an ease-of-matching ranking. The live
 `config/functions.csv` row and a fresh target/compiler check override that
 snapshot after later checkpoints. The four short Bullet transform-update

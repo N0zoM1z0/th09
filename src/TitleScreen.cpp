@@ -982,27 +982,39 @@ int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
     if (count == 0)
         return 0;
 
-    i32 direction;
-    if (g_TitleInput.IsPressedScrolling(0x40))
-        direction = -1;
-    else if (g_TitleInput.IsPressedScrolling(0x80))
-        direction = 1;
-    else if (g_TitleInput.IsPressedScrolling(0x10))
-        direction = -1;
-    else if (g_TitleInput.IsPressedScrolling(0x20))
-        direction = 1;
-    else
-        return 0;
+    TitleInputStatePhysicalView *input = &g_TitleInputStateTable.states[cursorIndex];
+    if (input->IsPressedScrolling(0x40))
+        goto moveLeft;
+    if (input->IsPressedScrolling(0x80))
+        goto moveRight;
+    if (input->IsPressedScrolling(0x10))
+        goto moveLeft;
+    if (input->IsPressedScrolling(0x20))
+        goto moveRight;
+    return 0;
 
-    i32 *cursor = &side0CharacterCursor + cursorIndex;
-    *cursor += direction;
-    if (*cursor < 0)
-        *cursor += count;
-    if (*cursor >= count)
-        *cursor -= count;
+moveLeft:
+    {
+        i32 *cursor = &side0CharacterCursor + cursorIndex;
+        --*cursor;
+        if (*cursor < 0)
+            *cursor += count;
+        cursorIndex = -1;
+    }
+    goto moved;
 
+moveRight:
+    {
+        i32 *cursor = &side0CharacterCursor + cursorIndex;
+        ++*cursor;
+        if (*cursor >= count)
+            *cursor -= count;
+        cursorIndex = 1;
+    }
+
+moved:
     g_SoundPlayer.PlaySoundByIdx(12, 0);
-    return direction;
+    return cursorIndex;
 }
 
 
@@ -1012,27 +1024,38 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
         return 0;
 
     TitleInputStatePhysicalView *input = &g_TitleInputStateTable.states[inputIndex];
-    i32 direction;
     if (input->IsPressedScrolling(0x40))
-        direction = -1;
-    else if (input->IsPressedScrolling(0x80))
-        direction = 1;
-    else if (input->IsPressedScrolling(0x10))
-        direction = -1;
-    else if (input->IsPressedScrolling(0x20))
-        direction = 1;
-    else
-        return 0;
+        goto moveLeft;
+    if (input->IsPressedScrolling(0x80))
+        goto moveRight;
+    if (input->IsPressedScrolling(0x10))
+        goto moveLeft;
+    if (input->IsPressedScrolling(0x20))
+        goto moveRight;
+    return 0;
 
-    i32 *cursor = &side0CharacterCursor + cursorIndex;
-    *cursor += direction;
-    if (*cursor < 0)
-        *cursor += count;
-    if (*cursor >= count)
-        *cursor -= count;
+moveLeft:
+    {
+        i32 *cursor = &side0CharacterCursor + cursorIndex;
+        --*cursor;
+        if (*cursor < 0)
+            *cursor += count;
+        cursorIndex = -1;
+    }
+    goto moved;
 
+moveRight:
+    {
+        i32 *cursor = &side0CharacterCursor + cursorIndex;
+        ++*cursor;
+        if (*cursor >= count)
+            *cursor -= count;
+        cursorIndex = 1;
+    }
+
+moved:
     g_SoundPlayer.PlaySoundByIdx(12, 0);
-    return direction;
+    return cursorIndex;
 }
 
 
@@ -1132,14 +1155,15 @@ int TitleScreenView::SetCharacterSettingIndicator(i32 side, i32 value)
 
 int TitleCharacterConfigView::GetOptionState(char character, i32 option)
 {
-    if (option < 0)
+    if (option >= 0)
+        return optionValues[character][option];
+    else
     {
         return optionValues[character][0] |
                optionValues[character][1] |
                optionValues[character][2] |
                optionValues[character][3];
     }
-    return optionValues[character][option];
 }
 
 
