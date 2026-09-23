@@ -2,6 +2,7 @@
 // owner is target-proved; original identifier spelling, TU partition, and data-definition ownership remain unresolved.
 
 #include "Chain.hpp"
+#include "FileSystem.hpp"
 #include "ScreenEffect.hpp"
 
 #include <stddef.h>
@@ -110,11 +111,6 @@ struct ReplayManagerView {
     static ReplayDataView *LoadReplayData(ReplayDataView *data, i32 fileSize);
     static int SaveReplay(ReplayManagerView *replayManager, const char *replayPath, const char *replayName);
     void Release();
-};
-
-struct FileSystemView {
-    static int CheckIfFileAlreadyExists(const char *path);
-    static void *OpenFile(const char *path, i32 *fileSize, i32 loadFromDisk);
 };
 
 struct TitleFloat3View {
@@ -2536,7 +2532,7 @@ int TitleScreenView::OnUpdateReplayMenu()
             {
                 sprintf(path, "./replay/th9_%.2d.rpy", replayIndex + 1);
                 ReplayDataView *fileData =
-                    (ReplayDataView *)FileSystemView::OpenFile(path, &fileSize, 1);
+                    (ReplayDataView *)FileSystem::OpenFile(path, &fileSize, 1);
                 if (fileData != 0)
                 {
                     ReplayDataView *loadedReplay =
@@ -2560,7 +2556,7 @@ int TitleScreenView::OnUpdateReplayMenu()
                     strcpy(fullPath, "replay/");
                     strcat(fullPath, findData.cFileName);
                     ReplayDataView *fileData =
-                        (ReplayDataView *)FileSystemView::OpenFile(fullPath, &fileSize, 1);
+                        (ReplayDataView *)FileSystem::OpenFile(fullPath, &fileSize, 1);
                     if (fileData == 0)
                         continue;
 
@@ -2788,7 +2784,7 @@ int TitleScreenView::UpdateReplaySave()
                 {
                     nextIndex = replayIndex + 1;
                     sprintf(path, "./replay/th9_udn%.3d.rpy", replayIndex + 1);
-                    if (!FileSystemView::CheckIfFileAlreadyExists(path))
+                    if (!FileSystem::CheckIfFileAlreadyExists(path))
                         break;
                     replayIndex = nextIndex;
                 }
@@ -2867,7 +2863,7 @@ int TitleScreenView::UpdateReplaySave()
             for (i32 replayIndex = 0; replayIndex < 25; replayIndex++)
             {
                 sprintf(source, "./replay/th9_%.2d.rpy", replayIndex + 1);
-                void *fileData = FileSystemView::OpenFile(source, &fileSize, 1);
+                void *fileData = FileSystem::OpenFile(source, &fileSize, 1);
                 if (fileData != 0)
                 {
                     loadedReplay = ReplayManagerView::LoadReplayData((ReplayDataView *)fileData, fileSize);

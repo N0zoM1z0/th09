@@ -2,6 +2,8 @@
 // TH08 supplies the source family only; TH09 target evidence fixes all layout,
 // input, rendering, audio, and file-format details used below.
 
+#include "FileSystem.hpp"
+
 #include <stddef.h>
 
 typedef unsigned char u8;
@@ -59,10 +61,6 @@ struct TitleSupervisorView {
 
 struct SoundPlayerView {
     void QueueCommand(i32 opcode, i32 argument, char *path);
-};
-
-struct FileSystemView {
-    static void *OpenFile(const char *path, i32 *fileSize, i32 loadFromDisk);
 };
 
 extern TitleAnmLoadedView *g_TitleMusicDescriptionAnm;
@@ -309,7 +307,7 @@ int TitleScreenView::OnUpdateMusicRoom()
             uiAux = 0;
 
             i32 fileSize;
-            char *musicCmtFile = (char *)FileSystemView::OpenFile("sprt/musiccmt.txt", &fileSize, 0);
+            char *musicCmtFile = (char *)FileSystem::OpenFile("sprt/musiccmt.txt", &fileSize, 0);
             if (musicCmtFile == 0)
                 return -1;
 

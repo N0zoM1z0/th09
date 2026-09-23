@@ -129,6 +129,14 @@ Packet 533 records target-backed corrections to the still non-exact
 source used a nonexistent `ApplyCameraMode` proxy and cached the count. The
 natural `/O2 /Ob1` candidate is now 482/475; no exactness credit is claimed.
 
+Packet 539 removes another misleading proxy layer: the TitleScreen replay menu,
+replay-save flow, and music-room loader now call the real `FileSystem::OpenFile`
+and `CheckIfFileAlreadyExists` namespace symbols from `FileSystem.hpp`, matching
+their target callees at `0x0042C970` and `0x0042C480`. Focused exact controls still
+pass (`OnUpdateResultNameEntry` 966/966; `DrawMusicRoom` 209/209). The replay and
+music-room large owners remain non-exact; this owner/symbol correction does not
+change the 807/172 exact/non-exact totals or close the Windows product gate.
+
 The latest registration batch makes `Background::Create @ 0x00403AE0`
 canonical exact at 307/307 bytes and 29 solved relocations. TH09 target has
 no null guard after `AddToRegistry`; removing the source-only guard recovers
