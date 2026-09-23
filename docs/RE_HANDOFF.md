@@ -155,6 +155,9 @@ semantics, but its candidate remains 149/161 bytes and non-exact. The inactive
 TitleScreen cursor helper remains 183/175 after a natural loop-shape retry;
 Packet 522 records that an address-of-`vms`-slot alias likewise leaves the
 active cursor helper at 217/211 after VC7.1 optimization.
+Packet 523 records that both Bullet pattern wrappers remain 187/203 after a
+natural nested-loop rewrite; target loop-head no-op sequences are not to be
+manufactured in source.
 `AnmVmBase::AnmVmBase` remains non-exact at 75/62 under `/O2` and 61/62 under a
 bounded `/O1` probe; see Packet 521 for the target-helper comparison.
 Packet 515 removed one stale unused ECL helper that had made the configured
