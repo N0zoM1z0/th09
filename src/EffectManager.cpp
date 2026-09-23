@@ -5,6 +5,12 @@
 #include <new>
 #include <string.h>
 
+struct AnmVm;
+struct EffectAnmLoadedMethodView
+{
+    void SetAndExecuteScriptIdx(AnmVm *vm, int scriptIndex);
+};
+
 struct EffectGameManagerSideView
 {
     unsigned char unknown000[0x34];
@@ -137,11 +143,15 @@ Effect *EffectManager::InitializeEffect(
     if (effect->vmCount != 0)
     {
         effect->vms = static_cast<EffectVmView *>(
-            g_ZunMemory.Alloc(sizeof(EffectVmView) * effect->vmCount, "./system\\global.h"));
+            g_ZunMemory.Alloc(
+                sizeof(EffectVmView) * g_EffectTemplates[effectId].vmCount,
+                "./system\\global.h"));
         int scriptIndex = g_EffectTemplates[effectId].scriptIndex;
-        for (int i = 0; i < effect->vmCount; ++i)
+        for (int i = 0; i < g_EffectTemplates[effectId].vmCount; ++i)
         {
-            effect->vms[i].Initialize(scriptIndex);
+            reinterpret_cast<EffectAnmLoadedMethodView *>(this->effectAnm)
+                ->SetAndExecuteScriptIdx(
+                    reinterpret_cast<AnmVm *>(&effect->vms[i]), scriptIndex);
             scriptIndex += g_EffectTemplates[effectId].scriptStep;
             effect->vms[i].flags |= 0x2000;
             effect->vms[i].color = color;
@@ -385,7 +395,7 @@ int EffectManager::AddedCallback(EffectManager *effectManager)
     void *effectAnm = anmManager->GetAnm(8);
     if (reinterpret_cast<void **>(effectAnm)[1] == NULL)
         effectAnm = anmManager->PreloadAnm(8, "etama.anm");
-    manager->effectAnm = effectAnm;
+    manager->effectAnm = reinterpret_cast<AnmLoaded *>(effectAnm);
     return 0;
 }
 

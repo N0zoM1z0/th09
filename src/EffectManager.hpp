@@ -7,6 +7,7 @@
 
 struct EffectManager;
 struct Effect;
+class AnmLoaded;
 typedef int (__fastcall *EffectCallback)(Effect *effect);
 typedef void (__fastcall *EffectDrawCallback)(Effect *effect);
 
@@ -21,7 +22,6 @@ typedef char EffectFloat3SizeIs0C[(sizeof(EffectFloat3) == 0x0C) ? 1 : -1];
 
 struct EffectVmView
 {
-    void Initialize(int scriptIndex);
     unsigned char unknown000[0x1F0];
     unsigned int color;
     unsigned char unknown1F4[0x1F8 - 0x1F4];
@@ -118,7 +118,7 @@ struct EffectManager
     Effect *drawTail1;
     Effect *drawTail2;
     int updateCounter;
-    void *effectAnm;
+    AnmLoaded *effectAnm;
     int unknown2D8;
 };
 typedef char EffectManagerSizeIs2DC[(sizeof(EffectManager) == 0x2DC) ? 1 : -1];
