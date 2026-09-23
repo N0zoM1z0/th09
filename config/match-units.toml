@@ -7347,6 +7347,46 @@ relocations = [
   { offset = 0x10, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
 ]
 
+[units.background-create]
+source = "src/Background.cpp"
+object = "build/matching/Background.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Background::Create"]
+symbol = "?Create@Background@@SIPAU1@H@Z"
+target_address = 0x00403AE0
+size = 0x133
+relocations = [
+  { offset = 0x6, type = "DIR32", symbol = "__ehhandler$?Create@Background@@SIPAU1@H@Z", target = 0x0048D21B },
+  { offset = 0xC, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x14, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0x24, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
+  { offset = 0x3A, type = "REL32", symbol = "??0Background@@QAE@XZ", target = 0x00403A40 },
+  { offset = 0x43, type = "DIR32", symbol = "??_C@_0M@LHEBFOIJ@BGScrollInf?$AA@", target = 0x0048E320 },
+  { offset = 0x4E, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x5A, type = "REL32", symbol = "?AddToRegistry@ZunMemory@@QAEPAXPAXIPAD@Z", target = 0x00401380 },
+  { offset = 0x67, type = "DIR32", symbol = "?g_GameManager@@3UBackgroundGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x6C, type = "DIR32", symbol = "?g_GameManager@@3UBackgroundGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x76, type = "DIR32", symbol = "?OnUpdate@Background@@SIHPAU1@@Z", target = 0x00402350 },
+  { offset = 0x7B, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x8C, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0x9A, type = "DIR32", symbol = "?AddedCallback@Background@@SIHPAU1@@Z", target = 0x00403830 },
+  { offset = 0xA3, type = "DIR32", symbol = "?DeletedCallback@Background@@SIHPAU1@@Z", target = 0x004024D0 },
+  { offset = 0xAF, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xB4, type = "REL32", symbol = "?AddToCalcChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B1E0 },
+  { offset = 0xC7, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+  { offset = 0xD0, type = "DIR32", symbol = "?OnDrawHighPrio@Background@@SIHPAU1@@Z", target = 0x004033E0 },
+  { offset = 0xD5, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xDA, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0xDF, type = "DIR32", symbol = "?OnDrawLowPrio@Background@@SIHPAU1@@Z", target = 0x00403680 },
+  { offset = 0xE4, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0xEC, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
+  { offset = 0x108, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x10D, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
+  { offset = 0x117, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
+  { offset = 0x11C, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
+  { offset = 0x12B, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
+]
+
 [units.background-load-stage-data]
 source = "src/Background.cpp"
 object = "build/matching/Background.obj"

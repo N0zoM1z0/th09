@@ -76,8 +76,6 @@ Background *Background::Create(int viewportIndex)
 {
     Background *background = static_cast<Background *>(
         g_ZunMemory.AddToRegistry(new Background, sizeof(Background), "BGScrollInf"));
-    if (background == NULL)
-        return NULL;
 
     background->sideState = &g_GameManager.sides[viewportIndex];
     background->frameCounter = 0;

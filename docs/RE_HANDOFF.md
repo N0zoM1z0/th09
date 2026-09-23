@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 801 |
-| Source-present non-exact functions | 178 |
-| Source-present non-exact bytes | 144,332 |
+| Canonical exact functions | 802 |
+| Source-present non-exact functions | 177 |
+| Source-present non-exact bytes | 144,025 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 131,337 |
+| Canonical exact authored bytes | 131,644 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 801 canonical exact and 178 honest non-exact.
+functions: 802 canonical exact and 177 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -78,7 +78,14 @@ successful compilation do not by themselves justify a match.
 The authored/no-source roadmap is obsolete and must not be restarted. All
 confirmed authored functions now have maintained source.
 
-The latest bounded transform batch makes `UpdateBulletBoundaryBounce @
+The latest registration batch makes `Background::Create @ 0x00403AE0`
+canonical exact at 307/307 bytes and 29 solved relocations. TH09 target has
+no null guard after `AddToRegistry`; removing the source-only guard recovers
+the direct chain-registration path. All four accepted `Background.cpp` units
+replay in two cold rounds. `Background::Background` itself remains non-exact;
+see Packet 519 for the separate evidence.
+
+The preceding bounded transform batch makes `UpdateBulletBoundaryBounce @
 0x004138C0` canonical exact at 295/295 bytes. A reconstruction-only sprite
 lookup call was absent from the target; direct access to the Bullet VM's
 loaded-sprite field reproduces the complete body and all thirteen relocations.
