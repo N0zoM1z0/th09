@@ -1,13 +1,13 @@
 # TH09 short-function frontier
 
-This is a Packet-528 routing snapshot, not a second exactness ledger. The
+This is a Packet-529 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **43 functions**, of which
+target logical size at most 256 bytes**. It yields **42 functions**, of which
 **13 are at most 128 bytes**, after the Packet-517 ResetPool promotion. Size is
 only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
@@ -57,7 +57,6 @@ subject to their target-local ledger evidence.
 | 0x00447620 | 249 | Player | `PlayerPositionCallback30404Type8` |
 | 0x0041F580 | 251 | Player | `PlayerLifecycleView::UpdateShots` |
 | 0x00435B00 | 253 | AsciiManager | `AsciiManager::OnUpdate` |
-| 0x00407600 | 255 | EclManager | `Th09EclRunControl::InstallInterpolationSlot` |
 
 ## Selection notes
 
@@ -102,7 +101,12 @@ subject to their target-local ledger evidence.
   ESI; moving the unchanged semantic body into that TU as an internal `static`
   helper naturally reproduces the private transport and all five relocations
   in two cold canonical replays. This is not a public ABI claim. The short
-  non-exact frontier is now 43 functions; 13 remain at most 128 bytes.
+  non-exact frontier briefly fell to 43 functions; 13 remain at most 128 bytes.
+- Packet 529 closes `Th09EclRunControl::InstallInterpolationSlot` at
+  255/255 bytes after a natural same-TU static move, with all nine relocations
+  solved and two cold canonical replays. Its callback-table data definition
+  remains unresolved, so this function match is not product-build closure.
+  The current non-exact frontier is 42 functions; 13 remain at most 128 bytes.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. `AsciiManager::OnUpdate` is exact-sized at 253 bytes but still has

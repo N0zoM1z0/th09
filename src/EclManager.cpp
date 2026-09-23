@@ -384,6 +384,8 @@ static void SetExtraAnmScript(
 namespace Th09EclRunControl
 {
 
+extern Th09EclRunOwner::InterpolationCallback g_EclInterpolationCallbacks[];
+
 static void ApplyInterpolationOperation(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction)
@@ -393,6 +395,37 @@ static void ApplyInterpolationOperation(
     *WriteFloat(enemy, instruction, 0) =
         delta * ReadFloat(enemy, instruction, 3) +
         ReadFloat(enemy, instruction, 2);
+}
+
+static void InstallInterpolationSlot(
+    EnemyView *enemy,
+    Th09EclRawInstructionHeaderView *instruction)
+{
+    Th09EclInterpolationSlotView *slot =
+        Th09EclRunState::View(enemy)->activeContext2CE0->interpolationSlots0A0;
+    for (int index = 0; index < TH09_ECL_INTERPOLATION_SLOT_COUNT;
+         ++index, ++slot)
+    {
+        if (slot->callback00 != NULL &&
+            slot->affectedVariable2C != RawFloat(instruction, 0))
+            continue;
+
+        slot->timer04 = 0;
+        slot->affectedVariable2C = RawFloat(instruction, 0);
+        slot->duration10 = ReadInt(enemy, instruction, 1);
+        slot->unknown14 = ReadInt(enemy, instruction, 2);
+        slot->easing18 = ReadInt(enemy, instruction, 3);
+        slot->callback00 = g_EclInterpolationCallbacks[slot->unknown14];
+        reinterpret_cast<float *>(slot->unknown1C)[0] =
+            ReadFloat(enemy, instruction, 4);
+        reinterpret_cast<float *>(slot->unknown1C)[1] =
+            ReadFloat(enemy, instruction, 5);
+        reinterpret_cast<float *>(slot->unknown1C)[2] =
+            ReadFloat(enemy, instruction, 6);
+        reinterpret_cast<float *>(slot->unknown1C)[3] =
+            ReadFloat(enemy, instruction, 7);
+        break;
+    }
 }
 
 } // namespace Th09EclRunControl

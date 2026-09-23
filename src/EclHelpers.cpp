@@ -97,16 +97,6 @@ inline float *SlotParameters(Th09EclInterpolationSlotView *slot)
     return reinterpret_cast<float *>(slot->unknown1C);
 }
 
-inline int &SlotCallbackIndex(Th09EclInterpolationSlotView *slot)
-{
-    return slot->unknown14;
-}
-
-typedef void (__fastcall *EclInterpolationCallback)(
-    EnemyView *, Th09EclInterpolationSlotView *, float);
-
-extern EclInterpolationCallback g_EclInterpolationCallbacks[];
-
 void __fastcall InterpolateLinear(
     EnemyView *enemy, Th09EclInterpolationSlotView *slot, float progress)
 {
@@ -141,32 +131,6 @@ void __fastcall InterpolateHermite(
 
 namespace Th09EclRunControl
 {
-
-void __fastcall InstallInterpolationSlot(
-    EnemyView *enemy,
-    Th09EclRawInstructionHeaderView *instruction)
-{
-    Th09EclContextView *context = HelperView(enemy)->activeContext2CE0;
-    for (int index = 0; index < TH09_ECL_INTERPOLATION_SLOT_COUNT; ++index)
-    {
-        Th09EclInterpolationSlotView *slot =
-            &context->interpolationSlots0A0[index];
-        if (slot->callback00 != NULL &&
-            slot->affectedVariable2C != RawFloat(instruction, 0))
-            continue;
-
-        slot->timer04 = 0;
-        slot->affectedVariable2C = RawFloat(instruction, 0);
-        slot->duration10 = ReadInt(enemy, instruction, 1);
-        SlotCallbackIndex(slot) = ReadInt(enemy, instruction, 2);
-        slot->easing18 = ReadInt(enemy, instruction, 3);
-        slot->callback00 = g_EclInterpolationCallbacks[SlotCallbackIndex(slot)];
-        for (int parameter = 0; parameter < 4; ++parameter)
-            SlotParameters(slot)[parameter] =
-                ReadFloat(enemy, instruction, parameter + 4);
-        break;
-    }
-}
 
 Th09EclRawInstructionHeaderView *__fastcall CompareOperands(
     EnemyView *enemy,

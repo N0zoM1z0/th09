@@ -69,7 +69,7 @@ float __stdcall AddNormalizeAngle(float angle, float delta);
 static void ApplyInterpolationOperation(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
-void __fastcall InstallInterpolationSlot(
+static void InstallInterpolationSlot(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
 Th09EclRawInstructionHeaderView *__fastcall CompareOperands(
