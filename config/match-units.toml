@@ -6713,8 +6713,8 @@ symbol = "?OnDraw@EffectManager@@SIHPAU1@@Z"
 target_address = 0x0040CFB0
 size = 0xB7
 relocations = [
-  { offset = 0x10, type = "DIR32", symbol = "?g_Supervisor@@3UEffectSupervisorView@@A", target = 0x004B3100 },
-  { offset = 0x15, type = "REL32", symbol = "?ConfigureGameplayViewport@EffectSupervisorView@@QAEXH@Z", target = 0x00401390 },
+  { offset = 0x10, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x15, type = "REL32", symbol = "?ConfigureGameplayViewport@Supervisor@@QAEXH@Z", target = 0x00401390 },
   { offset = 0x45, type = "DIR32", symbol = "?g_GameManager@@3UEffectGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x50, type = "REL32", symbol = "?TransformPopupX@EffectGameManagerView@@QAEMM@Z", target = 0x00401680 },
   { offset = 0x5B, type = "DIR32", symbol = "?g_GameManager@@3UEffectGameManagerView@@A", target = 0x004A7D90 },
@@ -6733,8 +6733,8 @@ symbol = "?OnDrawShared@EffectManager@@SIHPAU1@@Z"
 target_address = 0x0040D070
 size = 0x92
 relocations = [
-  { offset = 0x0C, type = "DIR32", symbol = "?g_Supervisor@@3UEffectSupervisorView@@A", target = 0x004B3100 },
-  { offset = 0x11, type = "REL32", symbol = "?ConfigureGameplayViewport@EffectSupervisorView@@QAEXH@Z", target = 0x00401390 },
+  { offset = 0x0C, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x11, type = "REL32", symbol = "?ConfigureGameplayViewport@Supervisor@@QAEXH@Z", target = 0x00401390 },
   { offset = 0x66, type = "REL32", symbol = "?Add@EffectFloat3@@QAEPAU1@PBU1@@Z", target = 0x00405730 },
   { offset = 0x6C, type = "DIR32", symbol = "?g_AnmManager@@3PAUEffectAnmManagerView@@A", target = 0x004DC550 },
   { offset = 0x72, type = "REL32", symbol = "?Draw2D@EffectAnmManagerView@@QAEHPAUEffectVmView@@@Z", target = 0x0043AB50 },

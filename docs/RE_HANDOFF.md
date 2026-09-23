@@ -123,6 +123,12 @@ This moves one function from non-exact to canonical exact, while the <=256-byte
 short-function routing frontier remains 40 because this body is 407 bytes.
 `OnUpdate`, `AddedCallback`, and faithful Windows product closure remain open.
 
+Packet 533 records target-backed corrections to the still non-exact
+`EffectManager::OnUpdate`: TH09 directly calls `Supervisor::SelectSide @
+0x00401440` and rereads both pool counts at the outer-loop bound. The previous
+source used a nonexistent `ApplyCameraMode` proxy and cached the count. The
+natural `/O2 /Ob1` candidate is now 482/475; no exactness credit is claimed.
+
 The latest registration batch makes `Background::Create @ 0x00403AE0`
 canonical exact at 307/307 bytes and 29 solved relocations. TH09 target has
 no null guard after `AddToRegistry`; removing the source-only guard recovers

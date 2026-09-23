@@ -1,5 +1,6 @@
 #include "EffectManager.hpp"
 #include "AsciiManager.hpp"
+#include "Supervisor.hpp"
 #include "ZunMemory.hpp"
 
 #include <new>
@@ -28,11 +29,6 @@ struct EffectGameManagerView
     unsigned int flags134;
 };
 
-struct EffectSupervisorView
-{
-    void ApplyCameraMode(int sideIndex);
-    void ConfigureGameplayViewport(int sideIndex);
-};
 struct EffectAnmManagerView
 {
     void *GetAnm(int anmIndex);
@@ -53,7 +49,6 @@ struct EffectTemplate
 typedef char EffectTemplateSizeIs18[(sizeof(EffectTemplate) == 0x18) ? 1 : -1];
 
 extern EffectGameManagerView g_GameManager;
-extern EffectSupervisorView g_Supervisor;
 extern EffectAnmManagerView *g_AnmManager;
 extern EffectTemplate g_EffectTemplates[];
 extern Chain g_Chain;
@@ -254,7 +249,7 @@ int EffectManager::OnUpdate(EffectManager *effectManager)
     if ((g_GameManager.flags134 & 0x1800) != 0 || (g_GameManager.sides[0].flags34 & 1) != 0)
         return CHAIN_CALLBACK_RESULT_CONTINUE;
 
-    g_Supervisor.ApplyCameraMode(effectManager->sideIndex);
+    g_Supervisor.SelectSide(effectManager->sideIndex);
     effectManager->activeCount = 0;
     effectManager->drawTail0 = &effectManager->drawSentinel0;
     effectManager->drawTail1 = &effectManager->drawSentinel1;
@@ -264,8 +259,9 @@ int EffectManager::OnUpdate(EffectManager *effectManager)
     effectManager->drawSentinel2.nextInDrawGroup = NULL;
 
     Effect *effect = effectManager->effects;
-    int count = effectManager->primaryCount + effectManager->secondaryCount;
-    for (int i = 0; i < count; ++i, ++effect)
+    for (int i = 0;
+         i < effectManager->secondaryCount + effectManager->primaryCount;
+         ++i, ++effect)
     {
         if (effect->active == 0)
         {
