@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 802 |
-| Source-present non-exact functions | 177 |
-| Source-present non-exact bytes | 144,025 |
+| Canonical exact functions | 803 |
+| Source-present non-exact functions | 176 |
+| Source-present non-exact bytes | 143,868 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 131,644 |
+| Canonical exact authored bytes | 131,801 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 802 canonical exact and 177 honest non-exact.
+functions: 803 canonical exact and 176 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -77,6 +77,14 @@ successful compilation do not by themselves justify a match.
 
 The authored/no-source roadmap is obsolete and must not be restarted. All
 confirmed authored functions now have maintained source.
+
+Packet 528 makes `Th09EclRunControl::ApplyInterpolationOperation @ 0x00407560`
+canonical exact at 157/157 bytes with five solved REL32 relocations. Its sole
+RunEcl caller supplies Enemy in EDI and the instruction in ESI; an internal
+`static` helper in the same translation unit recovers that private compiler
+transport naturally. Two cold match-unit replays pass, and the 12 other exact
+EclManager-TU units plus `InterpolateLinear` remain structural-exact. The
+43-entry short-function frontier is updated in `docs/SMALL_FUNCTION_FRONTIER.md`.
 
 The latest registration batch makes `Background::Create @ 0x00403AE0`
 canonical exact at 307/307 bytes and 29 solved relocations. TH09 target has
@@ -90,7 +98,8 @@ The preceding bounded transform batch makes `UpdateBulletBoundaryBounce @
 lookup call was absent from the target; direct access to the Bullet VM's
 loaded-sprite field reproduces the complete body and all thirteen relocations.
 All fourteen accepted `BulletManager.cpp` units replay in two cold rounds;
-Packet 518 records the proof. The at-most-256-byte frontier remains 44 units.
+Packet 518 records the proof. The short frontier was 44 units at that
+checkpoint; Packet 528 has since reduced the current filter to 43.
 
 The preceding short-function batch makes `EffectManager::ResetPool @ 0x0040C990`
 canonical exact at 194/194 bytes. Its former `int` return was unsupported by
@@ -99,7 +108,7 @@ relocations; Packet 517 in the knowledge base records the proof. All thirteen
 accepted `EffectManager.cpp` units replay in two cold rounds. `Background`
 constructor remains non-exact despite a 160-byte `/O1` candidate; its two
 vector-helper address registers still differ from target. The short-function
-frontier is now 44 source-present non-exact units at at most 256 bytes.
+frontier then stood at 44 source-present non-exact units at at most 256 bytes.
 
 The preceding short-function batch makes `TitleCharacterConfigView::GetOptionState
 @ 0x004234A7` canonical exact at 54/54 bytes. Packet 516 also corrects the
@@ -142,7 +151,7 @@ claim, not Windows i386 product closure.
 
 ## Short-function routing frontier
 
-The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 44 current
+The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 43 current
 source-present non-exact authored functions whose target logical bodies are at
 most 256 bytes; 13 are at most 128 bytes. This is a size filter, **not** a
 verified call-graph leaf set or an ease-of-matching ranking. The live
@@ -150,6 +159,9 @@ verified call-graph leaf set or an ease-of-matching ranking. The live
 snapshot after later checkpoints. The four short Bullet transform-update
 siblings are now exact; the TitleScreen character-cursor, Supervisor frame
 queue and ECL interpolation families remain bounded short-function groups.
+Packet 528 removes `ApplyInterpolationOperation` from this non-exact route
+after two complete cold VC7.1 replays; remaining short ECL helpers include
+`CallSubroutine`, `InterpolateHermite`, and `InstallInterpolationSlot`.
 Packet 520 corrected the `SelectBulletSprite` proxy return type and source
 semantics, but its candidate remains 149/161 bytes and non-exact. The inactive
 TitleScreen cursor helper remains 183/175 after a natural loop-shape retry;

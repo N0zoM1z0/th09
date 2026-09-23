@@ -381,6 +381,22 @@ static void SetExtraAnmScript(
 
 } // namespace Th09EclRunMovement
 
+namespace Th09EclRunControl
+{
+
+static void ApplyInterpolationOperation(
+    EnemyView *enemy,
+    Th09EclRawInstructionHeaderView *instruction)
+{
+    float delta = ReadFloat(enemy, instruction, 1) -
+                  ReadFloat(enemy, instruction, 2);
+    *WriteFloat(enemy, instruction, 0) =
+        delta * ReadFloat(enemy, instruction, 3) +
+        ReadFloat(enemy, instruction, 2);
+}
+
+} // namespace Th09EclRunControl
+
 int EclManager::RunEcl(EnemyView *enemy)
 {
     Th09EclRunState::EnemyStateView *enemyState;

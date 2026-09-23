@@ -66,7 +66,7 @@ float __stdcall FloatModulo(float dividend, float divisor);
 float __stdcall VectorAngle(float y, float x);
 float __stdcall AddNormalizeAngle(float angle, float delta);
 
-void __fastcall ApplyInterpolationOperation(
+static void ApplyInterpolationOperation(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
 void __fastcall InstallInterpolationSlot(

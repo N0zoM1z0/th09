@@ -1,13 +1,13 @@
 # TH09 short-function frontier
 
-This is a Packet-527 routing snapshot, not a second exactness ledger. The
+This is a Packet-528 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **44 functions**, of which
+target logical size at most 256 bytes**. It yields **43 functions**, of which
 **13 are at most 128 bytes**, after the Packet-517 ResetPool promotion. Size is
 only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
@@ -30,7 +30,6 @@ subject to their target-local ledger evidence.
 | 0x0042EB80 | 119 | Supervisor | `SupervisorFrameQueueView::PopFrame` |
 | 0x004181E0 | 133 | Front | `FrontMessageOwnerView::InitializeMessageRuntime` |
 | 0x00407A80 | 149 | EclManager | `Th09EclRunControl::CallSubroutine` |
-| 0x00407560 | 157 | EclManager | `Th09EclRunControl::ApplyInterpolationOperation` |
 | 0x00403A40 | 160 | Background | `Background::Background` |
 | 0x004124E0 | 161 | BulletManager | `EtamaController::SelectBulletSprite` |
 | 0x0042474A | 167 | TitleScreen | `TitleScreenView::MoveCharacterCursorHorizontal` |
@@ -72,8 +71,8 @@ subject to their target-local ledger evidence.
   target-sized, source-present candidates after Packet 516's input-owner and
   directional-branch corrections; neither is exact. The other character-
   cursor helpers (175/175/211 bytes), the
-  Supervisor frame-queue helpers (119/191/213), and the ECL interpolation
-  helpers (149/157/188/255) are other bounded families. They are not one
+  Supervisor frame-queue helpers (119/191/213), and the remaining non-exact ECL
+  helpers (149/188/255) are other bounded families. They are not one
   translation-unit/profile claim merely because they appear in this table.
 - Packet 522's natural address-of-`vms`-slot alias probe for
   `SetCharacterCursorActive` compiles back to the original 217-byte candidate;
@@ -98,6 +97,12 @@ subject to their target-local ledger evidence.
   preserving target call order leaves the 182-byte candidate byte-identical.
   Together with Packet 515's summand retry this remains a local/FPU codegen
   residual without a semantic discrepancy.
+- Packet 528 closes `Th09EclRunControl::ApplyInterpolationOperation` at
+  157/157 bytes. Its sole RunEcl caller passes Enemy in EDI and instruction in
+  ESI; moving the unchanged semantic body into that TU as an internal `static`
+  helper naturally reproduces the private transport and all five relocations
+  in two cold canonical replays. This is not a public ABI claim. The short
+  non-exact frontier is now 43 functions; 13 remain at most 128 bytes.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. `AsciiManager::OnUpdate` is exact-sized at 253 bytes but still has

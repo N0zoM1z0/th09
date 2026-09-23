@@ -142,17 +142,6 @@ void __fastcall InterpolateHermite(
 namespace Th09EclRunControl
 {
 
-void __fastcall ApplyInterpolationOperation(
-    EnemyView *enemy,
-    Th09EclRawInstructionHeaderView *instruction)
-{
-    float delta = ReadFloat(enemy, instruction, 1) -
-                  ReadFloat(enemy, instruction, 2);
-    *WriteFloat(enemy, instruction, 0) =
-        delta * ReadFloat(enemy, instruction, 3) +
-        ReadFloat(enemy, instruction, 2);
-}
-
 void __fastcall InstallInterpolationSlot(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction)
