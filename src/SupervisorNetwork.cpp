@@ -309,19 +309,18 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
     }
 
     {
-        unsigned short input0;
-        unsigned short input1;
+        unsigned short inputs[2];
         unsigned short seed0;
         unsigned short seed1;
         unsigned int predicted;
 
         s->confirmedFrame = s->frameCounter;
         s->frameMode = 0;
-        input0 = (unsigned short)frameQueues->PopFrame(0, &seed0, &predicted);
-        input1 = (unsigned short)frameQueues->PopFrame(1, &seed1, &predicted);
-        ApplyNetworkInput(0, input0);
-        ApplyNetworkInput(1, input1);
-        ApplyNetworkInput(2, input0 | input1);
+        inputs[0] = (unsigned short)frameQueues->PopFrame(0, &seed0, &predicted);
+        inputs[1] = (unsigned short)frameQueues->PopFrame(1, &seed1, &predicted);
+        ApplyNetworkInput(0, inputs[0]);
+        ApplyNetworkInput(1, inputs[1]);
+        ApplyNetworkInput(2, inputs[0] | inputs[1]);
         supervisor->LeaveCriticalSectionWrapper(4);
         return result;
     }

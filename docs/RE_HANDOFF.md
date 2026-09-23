@@ -500,6 +500,21 @@ lifetime naturally.
 
 The durable evidence is in Packet 510.
 
+## Secondary large frontier: SupervisorServiceUpdate
+
+`SupervisorServiceUpdate @ 0x00430AA0` is a non-boss 1,633-byte netplay owner.
+Fresh target receiver review establishes that the callback's `Supervisor`
+owns the two frame queues while `g_SupervisorNetworkState` owns DirectPlay
+session policy. Maintained source now routes all four queue helpers through the
+callback receiver. The current natural candidate is 1,627 bytes, with frame
+`0x0C` versus target `0x14`; two cold builds replay the same disassembly. A
+`u16 inputs[2]` local models the two popped per-side inputs and improves the
+previous 1,625-byte candidate by two bytes, but the optimizer still keeps those
+values in registers instead of reproducing the target's adjacent stack-word
+stores/reloads. Keep this function NON-EXACT; no match unit or exactness credit
+is added. Resume only with a new semantic/lifetime fact, not artificial
+storage, register forcing, or padding. Packet 534 records the evidence.
+
 ## Other durable non-exact plateaus
 
 Do not churn these without new evidence:
