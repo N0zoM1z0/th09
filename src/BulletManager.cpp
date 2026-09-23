@@ -6,6 +6,11 @@
 #include <string.h>
 
 extern Chain g_Chain;
+extern long double __stdcall AnmProjectionAbs(float value);
+namespace Th09EclRunControl
+{
+float __stdcall VectorAngle(float y, float x);
+}
 
 struct BulletLoadedSpriteView
 {
@@ -220,13 +225,11 @@ static void UpdateBulletVectorAcceleration(Bullet *bullet)
     }
     else
     {
-        Float3 delta(
-            state.vector.x * g_Supervisor.framerateMultiplier,
-            state.vector.y * g_Supervisor.framerateMultiplier,
-            state.vector.z * g_Supervisor.framerateMultiplier);
-        bullet->velocity += delta;
-        if (fabsf(bullet->velocity.x) > 0.0001f || fabsf(bullet->velocity.y) > 0.0001f)
-            bullet->angle = (float)atan2(bullet->velocity.y, bullet->velocity.x);
+        bullet->velocity += bullet->exStates[1].vector * g_Supervisor.framerateMultiplier;
+        if ((float)AnmProjectionAbs(bullet->velocity.x) > 0.0001f ||
+            (float)AnmProjectionAbs(bullet->velocity.y) > 0.0001f)
+            bullet->angle = Th09EclRunControl::VectorAngle(
+                bullet->velocity.y, bullet->velocity.x);
     }
     state.timer++;
 }
@@ -255,22 +258,24 @@ static void UpdateBulletRelativeDirectionChange(Bullet *bullet)
 {
     float magnitude;
     BulletExState &state = bullet->exStates[3];
-    if (state.timer >= state.directionChangeIntervalFrames)
+    int interval = bullet->exStates[3].directionChangeIntervalFrames;
+    if (state.timer >= interval)
     {
         if (bullet->transformSound >= 0)
             g_SoundPlayer.PlaySoundByIdx(bullet->transformSound, 0);
-        state.directionChangesCompleted += 1;
-        if (state.directionChangesCompleted >= state.directionChangeRepeatCount)
+        bullet->exStates[3].directionChangesCompleted += 1;
+        if (bullet->exStates[3].directionChangesCompleted >=
+            bullet->exStates[3].directionChangeRepeatCount)
             bullet->activeTransformFlags &= ~BULLET_TRANSFORM_CHANGE_DIRECTION_RELATIVE;
-        bullet->angle += state.directionChangeAngle;
-        bullet->speed = state.directionChangeSpeed;
+        bullet->angle += bullet->exStates[3].directionChangeAngle;
+        bullet->speed = bullet->exStates[3].directionChangeSpeed;
         magnitude = bullet->speed;
         state.timer = 0;
     }
     else
     {
         magnitude = bullet->speed -
-                    ((float)state.timer * bullet->speed) / state.directionChangeIntervalFrames;
+                    ((float)state.timer * bullet->speed) / interval;
     }
     bullet->velocity.FromAngleMagnitude(
         bullet->angle, magnitude * g_Supervisor.framerateMultiplier);
@@ -281,22 +286,24 @@ static void UpdateBulletAbsoluteDirectionChange(Bullet *bullet)
 {
     float magnitude;
     BulletExState &state = bullet->exStates[3];
-    if (state.timer >= state.directionChangeIntervalFrames)
+    int interval = bullet->exStates[3].directionChangeIntervalFrames;
+    if (state.timer >= interval)
     {
         if (bullet->transformSound >= 0)
             g_SoundPlayer.PlaySoundByIdx(bullet->transformSound, 0);
-        state.directionChangesCompleted += 1;
-        if (state.directionChangesCompleted >= state.directionChangeRepeatCount)
+        bullet->exStates[3].directionChangesCompleted += 1;
+        if (bullet->exStates[3].directionChangesCompleted >=
+            bullet->exStates[3].directionChangeRepeatCount)
             bullet->activeTransformFlags &= ~BULLET_TRANSFORM_CHANGE_DIRECTION_ABSOLUTE;
-        bullet->angle = state.directionChangeAngle;
-        bullet->speed = state.directionChangeSpeed;
+        bullet->angle = bullet->exStates[3].directionChangeAngle;
+        bullet->speed = bullet->exStates[3].directionChangeSpeed;
         magnitude = bullet->speed;
         state.timer = 0;
     }
     else
     {
         magnitude = bullet->speed -
-                    ((float)state.timer * bullet->speed) / state.directionChangeIntervalFrames;
+                    ((float)state.timer * bullet->speed) / interval;
     }
     bullet->velocity.FromAngleMagnitude(
         bullet->angle, magnitude * g_Supervisor.framerateMultiplier);
@@ -307,24 +314,26 @@ static void UpdateBulletAimedDirectionChange(Bullet *bullet)
 {
     float magnitude;
     BulletExState &state = bullet->exStates[3];
-    if (state.timer >= state.directionChangeIntervalFrames)
+    int interval = bullet->exStates[3].directionChangeIntervalFrames;
+    if (state.timer >= interval)
     {
         if (bullet->transformSound >= 0)
             g_SoundPlayer.PlaySoundByIdx(bullet->transformSound, 0);
-        state.directionChangesCompleted += 1;
-        if (state.directionChangesCompleted >= state.directionChangeRepeatCount)
+        bullet->exStates[3].directionChangesCompleted += 1;
+        if (bullet->exStates[3].directionChangesCompleted >=
+            bullet->exStates[3].directionChangeRepeatCount)
             bullet->activeTransformFlags &= ~BULLET_TRANSFORM_CHANGE_DIRECTION_AIMED;
         bullet->angle = AddNormalizeAngle(
             bullet->controller->sideState->player->AngleToPoint(&bullet->position),
-            state.directionChangeAngle);
-        bullet->speed = state.directionChangeSpeed;
+            bullet->exStates[3].directionChangeAngle);
+        bullet->speed = bullet->exStates[3].directionChangeSpeed;
         magnitude = bullet->speed;
         state.timer = 0;
     }
     else
     {
         magnitude = bullet->speed -
-                    ((float)state.timer * bullet->speed) / state.directionChangeIntervalFrames;
+                    ((float)state.timer * bullet->speed) / interval;
     }
     bullet->velocity.FromAngleMagnitude(
         bullet->angle, magnitude * g_Supervisor.framerateMultiplier);

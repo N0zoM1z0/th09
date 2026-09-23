@@ -7470,6 +7470,87 @@ relocations = [
   { offset = 0x95, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
 ]
 
+[units.bullet-update-vector-acceleration]
+source = "src/BulletManager.cpp"
+object = "build/matching/BulletManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["UpdateBulletVectorAcceleration"]
+symbol = "?UpdateBulletVectorAcceleration@@YIXPAUBullet@@@Z"
+target_address = 0x004134D0
+size = 0xB3
+relocations = [
+  { offset = 0x17, type = "REL32", symbol = "??PZunTimer@@QAEIH@Z", target = 0x00401520 },
+  { offset = 0x33, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
+  { offset = 0x3E, type = "DIR32", symbol = "?g_Supervisor@@3UBulletSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x55, type = "REL32", symbol = "??DFloat3@@QBE?AU0@M@Z", target = 0x00401180 },
+  { offset = 0x5D, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
+  { offset = 0x65, type = "REL32", symbol = "?AnmProjectionAbs@@YGOM@Z", target = 0x0040F1C0 },
+  { offset = 0x6B, type = "DIR32", symbol = "__real@38d1b717", target = 0x0048E800 },
+  { offset = 0x7E, type = "REL32", symbol = "?AnmProjectionAbs@@YGOM@Z", target = 0x0040F1C0 },
+  { offset = 0x84, type = "DIR32", symbol = "__real@38d1b717", target = 0x0048E800 },
+  { offset = 0x9A, type = "REL32", symbol = "?VectorAngle@Th09EclRunControl@@YGMMM@Z", target = 0x00405700 },
+  { offset = 0xAA, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
+]
+
+[units.bullet-update-relative-direction-change]
+source = "src/BulletManager.cpp"
+object = "build/matching/BulletManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["UpdateBulletRelativeDirectionChange"]
+symbol = "?UpdateBulletRelativeDirectionChange@@YIXPAUBullet@@@Z"
+target_address = 0x00413630
+size = 0xCA
+relocations = [
+  { offset = 0x18, type = "REL32", symbol = "??PZunTimer@@QAEIH@Z", target = 0x00401520 },
+  { offset = 0x2E, type = "DIR32", symbol = "?g_SoundPlayer@@3UBulletSoundPlayerView@@A", target = 0x004DC698 },
+  { offset = 0x33, type = "REL32", symbol = "?PlaySoundByIdx@BulletSoundPlayerView@@QAEXHH@Z", target = 0x0043E2F0 },
+  { offset = 0x7D, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x89, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
+  { offset = 0x9E, type = "DIR32", symbol = "?g_Supervisor@@3UBulletSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0xB8, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEPAU1@MM@Z", target = 0x00441890 },
+  { offset = 0xC1, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
+]
+
+[units.bullet-update-absolute-direction-change]
+source = "src/BulletManager.cpp"
+object = "build/matching/BulletManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["UpdateBulletAbsoluteDirectionChange"]
+symbol = "?UpdateBulletAbsoluteDirectionChange@@YIXPAUBullet@@@Z"
+target_address = 0x00413700
+size = 0xC7
+relocations = [
+  { offset = 0x18, type = "REL32", symbol = "??PZunTimer@@QAEIH@Z", target = 0x00401520 },
+  { offset = 0x2E, type = "DIR32", symbol = "?g_SoundPlayer@@3UBulletSoundPlayerView@@A", target = 0x004DC698 },
+  { offset = 0x33, type = "REL32", symbol = "?PlaySoundByIdx@BulletSoundPlayerView@@QAEXHH@Z", target = 0x0043E2F0 },
+  { offset = 0x7A, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x86, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
+  { offset = 0x9B, type = "DIR32", symbol = "?g_Supervisor@@3UBulletSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0xB5, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEPAU1@MM@Z", target = 0x00441890 },
+  { offset = 0xBE, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
+]
+
+[units.bullet-update-aimed-direction-change]
+source = "src/BulletManager.cpp"
+object = "build/matching/BulletManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["UpdateBulletAimedDirectionChange"]
+symbol = "?UpdateBulletAimedDirectionChange@@YIXPAUBullet@@@Z"
+target_address = 0x004137D0
+size = 0xEC
+relocations = [
+  { offset = 0x18, type = "REL32", symbol = "??PZunTimer@@QAEIH@Z", target = 0x00401520 },
+  { offset = 0x32, type = "DIR32", symbol = "?g_SoundPlayer@@3UBulletSoundPlayerView@@A", target = 0x004DC698 },
+  { offset = 0x37, type = "REL32", symbol = "?PlaySoundByIdx@BulletSoundPlayerView@@QAEXHH@Z", target = 0x0043E2F0 },
+  { offset = 0x78, type = "REL32", symbol = "?AngleToPoint@BulletPlayerView@@QAEMPAUFloat3@@@Z", target = 0x0041BB70 },
+  { offset = 0x81, type = "REL32", symbol = "?AddNormalizeAngle@@YGMMM@Z", target = 0x0042AED0 },
+  { offset = 0x9F, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0xAB, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
+  { offset = 0xC0, type = "DIR32", symbol = "?g_Supervisor@@3UBulletSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0xDA, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEPAU1@MM@Z", target = 0x00441890 },
+  { offset = 0xE3, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
+]
+
 [units.bullet-update-horizontal-wrap]
 source = "src/BulletManager.cpp"
 object = "build/matching/BulletManager.obj"
