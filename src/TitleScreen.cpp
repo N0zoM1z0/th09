@@ -1538,26 +1538,28 @@ int TitleScreenView::OnUpdateCharacterSelect()
 
 int TitleScreenView::UpdateScreen8Mode0()
 {
-    i32 value;
-
     switch (currentScreenState)
     {
     case 0:
     {
         if (stateTimer2 == 0)
         {
+            i32 value;
+
             g_TitleAnmManager->SetInterruptArray(vms, vmCount, 13);
             g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
 
             {
                 i32 visibleCount = 0;
+                AnmVmView *visibleVm = &vms[191];
                 for (value = 0; value < 16; value++)
                 {
                     i32 character = g_TitleCharacterOrder[value];
                     if (g_TitleCharacterUnlocked[character] || g_OptionPointers[42])
                     {
-                        titleAnm->SetSprite(&vms[191 + visibleCount], character + 235);
-                        vms[191 + visibleCount].flags |= 2;
+                        titleAnm->SetSprite(visibleVm, character + 235);
+                        visibleVm->flags |= 2;
+                        ++visibleVm;
                         visibleCount++;
                     }
                 }
@@ -1605,6 +1607,7 @@ int TitleScreenView::UpdateScreen8Mode0()
 
     case 1:
     {
+        i32 value;
         char side0Character;
         char side1Character;
 

@@ -537,6 +537,11 @@ Do not churn these without new evidence:
   and still had the 0x08 frame; it was reverted. Packet 535 records the exact
   bounded negative result. Do not repeat the same scope split without new
   TH09 mutation/lifetime evidence.
+- TitleScreenView::UpdateScreen8Mode0 0x004289DB: target 2241, current natural
+  `/O1 /Ob1` candidate 2232 with 54 direct calls on each side. A target-shaped
+  per-visible-VM cursor accounts for a stable 12-byte improvement over the
+  prior source; target frame allocation is 0x08 versus candidate 0x0C. Keep it
+  NON-EXACT; Packet 536 records the comparison.
 - PlayerLifecycleView::UpdateMovementAndOptions 0x0041C170: 1864/1835 with
   complete external call surface and bounded lifetime/type probes.
 - EnemyManagerView::SpawnEnemy 0x0040F340: cold-stable 361/373; merge and
