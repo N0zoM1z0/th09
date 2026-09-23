@@ -1,6 +1,6 @@
 # TH09 short-function frontier
 
-This is a Packet-518 routing snapshot, not a second exactness ledger. The
+This is a Packet-521 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is

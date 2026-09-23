@@ -142,7 +142,7 @@ claim, not Windows i386 product closure.
 
 ## Short-function routing frontier
 
-The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 45 current
+The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 44 current
 source-present non-exact authored functions whose target logical bodies are at
 most 256 bytes; 13 are at most 128 bytes. This is a size filter, **not** a
 verified call-graph leaf set or an ease-of-matching ranking. The live
@@ -150,6 +150,11 @@ verified call-graph leaf set or an ease-of-matching ranking. The live
 snapshot after later checkpoints. The four short Bullet transform-update
 siblings are now exact; the TitleScreen character-cursor, Supervisor frame
 queue and ECL interpolation families remain bounded short-function groups.
+Packet 520 corrected the `SelectBulletSprite` proxy return type and source
+semantics, but its candidate remains 149/161 bytes and non-exact. The inactive
+TitleScreen cursor helper also remains 183/175 after a natural loop-shape retry.
+`AnmVmBase::AnmVmBase` remains non-exact at 75/62 under `/O2` and 61/62 under a
+bounded `/O1` probe; see Packet 521 for the target-helper comparison.
 Packet 515 removed one stale unused ECL helper that had made the configured
 `ecl-interpolate-linear` Oracle fail at compile time; the linear unit still
 replays exact, while `InterpolateHermite` remains 182/188 non-exact.
