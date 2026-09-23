@@ -132,16 +132,17 @@ void ScreenEffect::SetViewport(unsigned int clearColor)
 
 int ScreenEffect::CalcFadeIn(ScreenEffect *screenEffect)
 {
-    if (screenEffect->duration != 0)
+    int duration = screenEffect->duration;
+    if (duration != 0)
     {
         screenEffect->overlayAlpha =
             (int)(255.0f - ((255.0f * (float)screenEffect->timer) /
-                              screenEffect->duration));
+                              duration));
         if (screenEffect->overlayAlpha < 0)
             screenEffect->overlayAlpha = 0;
     }
 
-    if (screenEffect->timer >= screenEffect->duration)
+    if (screenEffect->timer >= duration)
         return CHAIN_CALLBACK_RESULT_CONTINUE_AND_REMOVE_JOB;
 
     screenEffect->timer++;
@@ -153,16 +154,17 @@ int ScreenEffect::CalcFadeOut(ScreenEffect *screenEffect)
     if (g_ScreenEffectCounter != 0)
         return CHAIN_CALLBACK_RESULT_CONTINUE_AND_REMOVE_JOB;
 
-    if (screenEffect->duration != 0)
+    int duration = screenEffect->duration;
+    if (duration != 0)
     {
         screenEffect->overlayAlpha =
             (int)((255.0f * (float)screenEffect->timer) /
-                  screenEffect->duration);
+                  duration);
         if (screenEffect->overlayAlpha < 0)
             screenEffect->overlayAlpha = 0;
     }
 
-    if (screenEffect->timer >= screenEffect->duration)
+    if (screenEffect->timer >= duration)
         return CHAIN_CALLBACK_RESULT_CONTINUE_AND_REMOVE_JOB;
 
     if (g_GameManager.inGameMenu == 0 && g_GameManager.menuBlock13D == 0)
@@ -206,17 +208,19 @@ int ScreenEffect::CalcFadeHold(ScreenEffect *screenEffect)
 
 int ScreenEffect::CalcArcadePulse(ScreenEffect *screenEffect)
 {
-    if (g_ScreenEffectCounter != 0)
-        return CHAIN_CALLBACK_RESULT_CONTINUE_AND_REMOVE_JOB;
-
     unsigned int alpha =
         ((unsigned int)screenEffect->rawParameter1 >> 24) & 0xFF;
 
-    if (screenEffect->timer < screenEffect->duration)
+    if (g_ScreenEffectCounter != 0)
+        return CHAIN_CALLBACK_RESULT_CONTINUE_AND_REMOVE_JOB;
+
+    int duration = screenEffect->duration;
+
+    if (screenEffect->timer < duration)
     {
         screenEffect->overlayAlpha =
             alpha - (int)((float)screenEffect->timer * alpha /
-                          screenEffect->duration);
+                          duration);
         if (screenEffect->overlayAlpha < 0)
             screenEffect->overlayAlpha = 0;
     }

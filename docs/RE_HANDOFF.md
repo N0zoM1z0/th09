@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 788 |
-| Source-present non-exact functions | 191 |
-| Source-present non-exact bytes | 146,534 |
+| Canonical exact functions | 791 |
+| Source-present non-exact functions | 188 |
+| Source-present non-exact bytes | 146,145 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 129,135 |
+| Canonical exact authored bytes | 129,524 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 788 canonical exact and 191 honest non-exact.
+functions: 791 canonical exact and 188 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -78,8 +78,16 @@ successful compilation do not by themselves justify a match.
 The authored/no-source roadmap is obsolete and must not be restarted. All
 confirmed authored functions now have maintained source.
 
-`Ending::RunEndingScript @ 0x0040E8A0` is the latest exact unit: 1,499 logical
-bytes, 1,727 code-plus-compiler-table owned bytes, and 88 target-solved
+The latest small-function batch makes `ScreenEffect::CalcFadeIn @ 0x004222C0`
+(103 bytes), `CalcFadeOut @ 0x00422470` (123), and
+`CalcArcadePulse @ 0x004225B0` (163) canonical exact. Their 21 relocations are target-solved and
+two cold same-TU replays keep all 11 earlier ScreenEffect exact units intact.
+Packet 512 corrects the old fade/x87 residual diagnosis and records the
+duration/alpha lifetime evidence. The six remaining ScreenEffect-related
+non-exact functions stay outside `config/matches.csv`.
+
+`Ending::RunEndingScript @ 0x0040E8A0` is the preceding large exact unit: 1,499
+logical bytes, 1,727 code-plus-compiler-table owned bytes, and 88 target-solved
 relocations. The earlier 1,695-versus-1,499 size claim compared an entire COFF
 section with only target logical code and is withdrawn. The independent
 `Ending::Ending @ 0x0040EF60` starts after one unowned `CC` byte at
