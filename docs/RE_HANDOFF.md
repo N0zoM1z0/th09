@@ -246,8 +246,8 @@ A fresh pinned VC7.1 build at this checkpoint reports:
 
 | RunEcl measure | Target | Current candidate |
 | --- | ---: | ---: |
-| Logical bytes | 14,792 | 14,872 |
-| Candidate-target delta | 0 | +80 |
+| Logical bytes | 14,792 | 14,892 |
+| Candidate-target delta | 0 | +100 |
 | Stack frame | 0x168 | 0x154 |
 | Immediate direct calls | 375 | 375 |
 | Indirect calls | 4 | 4 |
@@ -257,6 +257,16 @@ A fresh pinned VC7.1 build at this checkpoint reports:
 | Integer-lvalue resolver calls | 17 | 17 |
 | Float-lvalue resolver calls | 24 | 24 |
 | Compiler table entries | 193 | 193 |
+
+This current-HEAD baseline was freshly rebuilt after the three Sep 24 ECL
+helper-closure commits moved exact helpers into the `EclManager.cpp` TU. The
+ignored `build/matching/EclManager.obj` found on entry predated those commits
+(mtime Sep 23) and its 14,872-byte report is stale. Reproduce the current
+candidate with `scripts/compile-probe.sh src/EclManager.cpp
+build/matching/EclManager.obj /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr
+/O2 /Ob1 /Oy- /I src`, then run `python3 scripts/report-ecl-codegen.py
+build/matching/EclManager.obj --json`. The generated object is disposable and
+was removed after this checkpoint.
 
 Important current facts:
 
@@ -336,13 +346,16 @@ Important current facts:
   only after life>0, and the first interpolation-slot address to stay live
   across the per-frame callback. With those natural lifetimes the first opcode
   entry is exactly relative +0x1F2, versus about +0x332 in the old committed
-  shape. The current whole owner is 14,872/14,792 (+80) with frame 0x154.
+  shape. The current whole owner is 14,892/14,792 (+100) with frame 0x154;
+  the 14,872 report was from the stale pre-current-HEAD object above.
   This larger aggregate is accepted as a more truthful reconstruction because
   block placement and the hot CFG are materially closer to TH09.
 - The next RunEcl work is local layout, not blind size trimming. SET_FLOAT is
   already semantically shaped correctly but target places its float temporary
   at [ebp-0xA4] while the current candidate uses a disp8-reachable slot; three
-  such accesses account for nine bytes of downstream case drift. Direct
+  such accesses account for nine bytes of downstream case drift. A natural
+  case-scoped `float result = ReadFloat(...); WriteFloat(...) = result` probe
+  has zero codegen effect across two cold builds; skip that spelling. Direct
   activeContext rewrites for SET_SECONDARY_TIME were also tested and rejected
   because VC7.1 tail-merged the two Timer::operator= calls, dropping the
   target-correct direct-call multiplicity from 375 to 374.
