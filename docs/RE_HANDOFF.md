@@ -152,7 +152,9 @@ siblings are now exact; the TitleScreen character-cursor, Supervisor frame
 queue and ECL interpolation families remain bounded short-function groups.
 Packet 520 corrected the `SelectBulletSprite` proxy return type and source
 semantics, but its candidate remains 149/161 bytes and non-exact. The inactive
-TitleScreen cursor helper also remains 183/175 after a natural loop-shape retry.
+TitleScreen cursor helper remains 183/175 after a natural loop-shape retry;
+Packet 522 records that an address-of-`vms`-slot alias likewise leaves the
+active cursor helper at 217/211 after VC7.1 optimization.
 `AnmVmBase::AnmVmBase` remains non-exact at 75/62 under `/O2` and 61/62 under a
 bounded `/O1` probe; see Packet 521 for the target-helper comparison.
 Packet 515 removed one stale unused ECL helper that had made the configured

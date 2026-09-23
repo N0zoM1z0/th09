@@ -1,6 +1,6 @@
 # TH09 short-function frontier
 
-This is a Packet-521 routing snapshot, not a second exactness ledger. The
+This is a Packet-522 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
@@ -75,6 +75,9 @@ subject to their target-local ledger evidence.
   Supervisor frame-queue helpers (119/191/213), and the ECL interpolation
   helpers (149/157/188/255) are other bounded families. They are not one
   translation-unit/profile claim merely because they appear in this table.
+- Packet 522's natural address-of-`vms`-slot alias probe for
+  `SetCharacterCursorActive` compiles back to the original 217-byte candidate;
+  it remains non-exact alongside the other character-cursor variants.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. `AsciiManager::OnUpdate` is exact-sized at 253 bytes but still has
