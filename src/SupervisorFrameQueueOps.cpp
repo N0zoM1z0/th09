@@ -81,20 +81,22 @@ void SupervisorFrameQueueView::InsertPredictedFrame(
 unsigned short SupervisorFrameQueueView::PopFrame(
     int side, unsigned short *seed, unsigned int *predicted)
 {
-    unsigned char *sideBase =
-        reinterpret_cast<unsigned char *>(this) + side * 0x78;
-
     unsigned short input;
-    if (*reinterpret_cast<unsigned int *>(sideBase + 0x484) == 0)
-        input = *reinterpret_cast<unsigned short *>(sideBase + 0x47C);
+    if (*reinterpret_cast<unsigned int *>(
+            reinterpret_cast<unsigned char *>(this) + side * 0x78 + 0x484) == 0)
+        input = *reinterpret_cast<unsigned short *>(
+            reinterpret_cast<unsigned char *>(this) + side * 0x78 + 0x47C);
     else
         input = g_ReplayInputStates[side].currentInput00;
 
-    *seed = *reinterpret_cast<unsigned short *>(sideBase + 0x47E);
-    *predicted = *reinterpret_cast<unsigned int *>(sideBase + 0x484);
+    *seed = *reinterpret_cast<unsigned short *>(
+        reinterpret_cast<unsigned char *>(this) + side * 0x78 + 0x47E);
+    *predicted = *reinterpret_cast<unsigned int *>(
+        reinterpret_cast<unsigned char *>(this) + side * 0x78 + 0x484);
 
     SupervisorFrameEntryOpsView *entry =
-        reinterpret_cast<SupervisorFrameEntryOpsView *>(sideBase + 0x47C);
+        reinterpret_cast<SupervisorFrameEntryOpsView *>(
+            reinterpret_cast<unsigned char *>(this) + side * 0x78 + 0x47C);
     int count = 9;
     do
     {

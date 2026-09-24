@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 818 |
-| Source-present non-exact functions | 161 |
-| Source-present non-exact bytes | 140,246 |
+| Canonical exact functions | 819 |
+| Source-present non-exact functions | 160 |
+| Source-present non-exact bytes | 140,127 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 135,423 |
+| Canonical exact authored bytes | 135,542 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 818 canonical exact and 161 honest non-exact.
+functions: 819 canonical exact and 160 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -247,6 +247,15 @@ x87 branch/cleanup details and six constant relocations. Live totals are now
 818 exact / 161 non-exact / 140,246 non-exact bytes; the <=256-byte frontier is
 32 functions, 9 at most 128 bytes.
 
+
+Packet 559 closes `SupervisorFrameQueueView::PopFrame @ 0x0042EB80` at
+119/119 bytes. Removing the explicit `sideBase` local and retaining repeated
+receiver-relative queue expressions lets VC7.1 CSE the adjusted side base into
+ECX exactly as the target does; EDX then naturally carries predicted data and
+the shift count. The sole replay-input relocation also matches. Live totals are
+now 819 exact / 160 non-exact / 140,127 non-exact bytes; the <=256-byte frontier
+is 31 functions, 8 at most 128 bytes.
+
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
 resolved. The target's 32-element special-effect point array uses the generic
@@ -358,9 +367,9 @@ claim, not Windows i386 product closure.
 
 ## Short-function routing frontier
 
-The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 32 current
+The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 31 current
 source-present non-exact authored functions whose target logical bodies are at
-most 256 bytes; 9 are at most 128 bytes. This is a size filter, **not** a
+most 256 bytes; 8 are at most 128 bytes. This is a size filter, **not** a
 verified call-graph leaf set or an ease-of-matching ranking. The live
 `config/functions.csv` row and a fresh target/compiler check override that
 snapshot after later checkpoints. The four short Bullet transform-update
