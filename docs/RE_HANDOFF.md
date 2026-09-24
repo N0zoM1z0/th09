@@ -161,6 +161,14 @@ object clear. All three relocation destinations resolve and 41/50 ordinary
 bytes match; nine bytes still differ from `+0x2F`, so the function remains
 non-exact and the frontier remains 40.
 
+Packet 549 corrects the large `EnemyView::HandleDeathRewards @ 0x004102B0`
+owner surface: target callsites `0x0041063E` and `0x004106B2` directly invoke
+the exact `Supervisor::SelectSide @ 0x00401440`; source now uses the canonical
+`Supervisor` global/header instead of a private `ApplyCameraMode` proxy. A
+pinned VC7.1 object confirms both relocations bind to the canonical decorated
+symbol. The body remains a 1,136-byte non-exact candidate against the 1,142-byte
+target; no match credit or count change is claimed.
+
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
 resolved. The target's 32-element special-effect point array uses the generic

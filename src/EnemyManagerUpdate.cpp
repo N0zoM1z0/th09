@@ -1,4 +1,5 @@
 #include "EnemyManager.hpp"
+#include "Supervisor.hpp"
 
 // Partial target-facing reconstruction of the TH09 EnemyManager update owner.
 // This packet isolates the non-leaf death/reward dispatcher called from the
@@ -7,11 +8,6 @@
 struct EnemyRewardSoundPlayerView
 {
     void PlayAtPosition(int soundIndex, float x);
-};
-
-struct EnemyRewardSupervisorView
-{
-    void ApplyCameraMode(int sideIndex);
 };
 
 struct EnemyRewardGameManagerView
@@ -37,7 +33,6 @@ struct EnemyRewardEffectView
 };
 
 extern EnemyRewardSoundPlayerView g_SoundPlayer;
-extern EnemyRewardSupervisorView g_Supervisor;
 extern EnemyRewardGameManagerView g_GameManager;
 extern EnemyRewardRngView g_Rng;
 extern EffectManager *g_SharedEffectManager;
@@ -190,7 +185,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
     effectPosition.y = g_GameManager.TransformPopupY(this->position2D74.y);
     effectPosition.z = 0.0f;
 
-    g_Supervisor.ApplyCameraMode(1 - this->manager00->sideIndex31C);
+    g_Supervisor.SelectSide(1 - this->manager00->sideIndex31C);
 
     EnemyFloat3 velocity;
     velocity.x = g_Rng.SampleScaled(g_GameplayRegionWidth * 0.5f - 8.0f);
@@ -204,7 +199,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
         1,
         static_cast<unsigned int>(-1));
 
-    g_Supervisor.ApplyCameraMode(this->manager00->sideIndex31C);
+    g_Supervisor.SelectSide(this->manager00->sideIndex31C);
 
     EnemyRewardEffectView *rewardEffect =
         reinterpret_cast<EnemyRewardEffectView *>(effect);
