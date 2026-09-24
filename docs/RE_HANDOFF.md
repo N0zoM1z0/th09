@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 827 |
-| Source-present non-exact functions | 152 |
-| Source-present non-exact bytes | 138,649 |
+| Canonical exact functions | 828 |
+| Source-present non-exact functions | 151 |
+| Source-present non-exact bytes | 138,370 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 137,020 |
+| Canonical exact authored bytes | 137,299 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -325,6 +325,15 @@ Keeping `shtFile` short-lived for the first derived-size store while rereading
 target-private ESI out-pointer / EDI file-pointer lifetime. All six relocations
 replay exactly. Live totals are now 827 exact / 152 non-exact / 138,649
 non-exact bytes; the <=256-byte frontier is 23 functions, 7 at most 128 bytes.
+
+
+Packet 568 closes `PlayerCollisionQueryStateView::FindCollisionAtPlayer @
+0x0041DA70` at 279/279 bytes. Reloading `player00` between the two
+collision-bound assignments reproduces the target EBX lifetime exactly: EBX is
+consumed as the first destination base, reloaded as Player, then consumed again
+as the second destination base. All nine relocations replay exactly. Live totals
+are now 828 exact / 151 non-exact / 138,370 non-exact bytes. The <=256-byte
+routing frontier remains 23 functions because this helper is 279 bytes.
 
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations

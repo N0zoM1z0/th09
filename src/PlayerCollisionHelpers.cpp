@@ -375,6 +375,7 @@ PlayerCollisionQueryRecordView *PlayerCollisionQueryStateView::FindCollisionAtPl
 
     PlayerCollisionQueryRecordView *record = records;
     player->collisionBoundsMin1C60 = player->position1B88 - player->hurtboxHalfSize;
+    player = player00;
     player->collisionBoundsMax1C6C = player->position1B88 + player->hurtboxHalfSize;
 
     for (int i = 0; i < count1804; ++i, ++record)
