@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 831 |
-| Source-present non-exact functions | 148 |
-| Source-present non-exact bytes | 137,309 |
+| Canonical exact functions | 832 |
+| Source-present non-exact functions | 147 |
+| Source-present non-exact bytes | 136,773 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 138,360 |
+| Canonical exact authored bytes | 138,896 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -374,6 +374,15 @@ four ordinary-byte differences: VC7.1 commutes `primaryCount + secondaryCount`
 at the initial and loop-tail dynamic bounds. All eleven relocations solve and
 427/431 ordinary comparable bytes match. This remains NON-EXACT, so live totals
 stay 831 exact / 148 non-exact / 137,309 non-exact bytes.
+
+
+Packet 574 closes `CardAttack::OnUpdate @ 0x004041F0` at 536/536 bytes.
+Removing the long-lived VM1 alias from the presentation helper restores direct
+owner-relative scale writes, while reusing the already-exact
+`transitionBits134 : 2` GameManager view reproduces the target transition-bit
+RMW. The combined source also restores the target one-byte loop-alignment NOP;
+all twenty-two relocations replay exactly. Live totals are now 832 exact / 147
+non-exact / 136,773 non-exact bytes.
 
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations

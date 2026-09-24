@@ -10,6 +10,17 @@
 struct CardAttackGameManagerView
 {
     CardAttackSideStateView sides[2];
+    unsigned char unknown070[0x134 - 0x70];
+    union
+    {
+        unsigned int flags134;
+        struct
+        {
+            unsigned int lowFlags134 : 11;
+            unsigned int transitionBits134 : 2;
+            unsigned int highFlags134 : 19;
+        };
+    };
 
     float TransformPopupX(float value);
     float TransformPopupY(float value);
@@ -56,16 +67,14 @@ void CardAttack::RefreshResource()
 
 static __forceinline void PrepareCardAttackPresentation(CardAttack *cardAttack)
 {
-    AnmVm *vm = &cardAttack->mainVms0AC[1];
-    CardAttackVmView *view = CardAttackVm(vm);
-
     cardAttack->presentationAnm14->SetAndExecuteScriptIdx(
         &cardAttack->mainVms0AC[0], cardAttack->sideIndex00 + 18);
-    g_CardAttackTextAnm->SetSprite(vm, cardAttack->sideIndex00 + 4);
-    view->scale18.x = 1.0f;
-    view->scale18.y = 1.0f;
+    g_CardAttackTextAnm->SetSprite(
+        &cardAttack->mainVms0AC[1], cardAttack->sideIndex00 + 4);
+    CardAttackVm(cardAttack->mainVms0AC + 1)->scale18.x = 1.0f;
+    CardAttackVm(cardAttack->mainVms0AC + 1)->scale18.y = 1.0f;
     g_AnmManager->DrawTextCentered(
-        vm, 0x00FFFFFE, 0, cardAttack->text18);
+        &cardAttack->mainVms0AC[1], 0x00FFFFFE, 0, cardAttack->text18);
 }
 
 int CardAttack::OnUpdate(CardAttack *cardAttack)
@@ -87,8 +96,9 @@ int CardAttack::OnUpdate(CardAttack *cardAttack)
         cardAttack->secondaryPresentationCounterA8 = 0;
     }
 
-    if ((g_CardAttackInputFlags & 0x1800) != 0 && cardAttack->timer98 > 30)
-        g_CardAttackInputFlags &= ~(0x800U << cardAttack->sideIndex00);
+    if (g_GameManager.transitionBits134 != 0 && cardAttack->timer98 > 30)
+        g_GameManager.transitionBits134 &=
+            ~(1u << cardAttack->sideIndex00);
 
     if (cardAttack->primaryUpdate1328 != NULL &&
         cardAttack->primaryUpdate1328(cardAttack) != 0)
