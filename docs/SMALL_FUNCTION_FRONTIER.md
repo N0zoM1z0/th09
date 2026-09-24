@@ -1,14 +1,14 @@
 # TH09 short-function frontier
 
-This is a Packet-551 routing snapshot, not a second exactness ledger. The
+This is a Packet-552 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **39 functions**, of which
-**12 are at most 128 bytes**, after Packet 551's ZunTimer constructor promotion.
+target logical size at most 256 bytes**. It yields **38 functions**, of which
+**11 are at most 128 bytes**, after Packet 552's input scrolling helper promotion.
 Size is only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
@@ -18,7 +18,6 @@ subject to their target-local ledger evidence.
 | 0x0040D4D0 | 32 | EffectManager | `EffectPolarScaleView::SetFromAngleAxes` |
 | 0x00441890 | 32 | Math | `Float3::FromAngleMagnitude` |
 | 0x00415C60 | 39 | Front | `DecodeFrontMessageString` |
-| 0x00423158 | 42 | Input | `InputView::IsPressedScrolling` |
 | 0x0040D1C0 | 51 | EffectManager | `EffectManager::AddedCallback` |
 | 0x004033A0 | 62 | AnmManager | `AnmVmBase::AnmVmBase` |
 | 0x00431500 | 62 | Supervisor | `Supervisor::Supervisor` |
@@ -138,9 +137,16 @@ subject to their target-local ledger evidence.
   the call, exactly matching the target and resolving the sole REL32 to
   `ZunTimer::Initialize @ 0x004014A0`. The frontier is now 39 functions; 12
   remain at most 128 bytes.
+- Packet 552 closes `InputView::IsPressedScrolling @ 0x00423158` at
+  42/42 bytes. Target callers test AX after the call, supporting the retained
+  16-bit return ABI, while the callee reads the mask as a full 32-bit stack
+  argument. Reusing one `u16` temporary across the short-circuit OR makes
+  VC7.1 preserve both target zero-extend/mask/test stages and emit the shared
+  false/true EAX result blocks. The frontier is now 38 functions; 11 remain at
+  most 128 bytes.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. `AsciiManager::OnUpdate` is exact-sized at 253 bytes but still has
-  one `JB`/`JL` byte after bounded signedness probes. `InputView::IsPressedScrolling`, and several exact-sized candidates have
+  one `JB`/`JL` byte after bounded signedness probes. several exact-sized candidates have
   documented register, return or private-ABI residuals. Consult their ledger
   rows and `docs/KNOWLEDGE_BASE.md` before repeating a rejected probe.

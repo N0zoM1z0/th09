@@ -19,10 +19,6 @@ typedef char InputFrontStateAt06[
 
 u16 InputView::IsPressedScrolling(int mask)
 {
-    u16 front = frontState06 & mask;
-    if (front != 0)
-        return 1;
-
-    u16 repeat = repeatOutput04 & mask;
-    return repeat != 0;
+    u16 pressed = frontState06 & mask;
+    return pressed != 0 || ((pressed = repeatOutput04 & mask) != 0);
 }

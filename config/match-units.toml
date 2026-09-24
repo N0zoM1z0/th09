@@ -16447,3 +16447,13 @@ relocations = [
   { offset = 0x374, type = "DIR32", symbol = "$L3668", target = 0x004079B9 },
   { offset = 0x378, type = "DIR32", symbol = "$L3671", target = 0x004079F0 },
 ]
+
+[units.input-is-pressed-scrolling]
+source = "src/InputPressedScrolling.cpp"
+object = "build/matching/InputPressedScrolling.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["InputView::IsPressedScrolling"]
+symbol = "?IsPressedScrolling@InputView@@QAEGH@Z"
+target_address = 0x00423158
+size = 0x2A
+relocations = []
