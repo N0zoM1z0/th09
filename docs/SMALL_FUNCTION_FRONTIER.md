@@ -9,7 +9,7 @@ promoted. The original Japanese v1.50a target remains mandatory.
 The filter is **confirmed authored + maintained source + not canonical exact +
 target logical size at most 256 bytes**. It yields **21 functions**, of which
 **5 are at most 128 bytes**. The latest short-function promotion is
-`AnmVmBase::AnmVmBase @ 0x004033A0`; the overall canonical total is 837 exact
+`AnmVmBase::AnmVmBase @ 0x004033A0`; the overall canonical total is 838 exact
 functions. Size is only a routing heuristic: this list is not a verified
 call-graph leaf set, a difficulty ranking, or product-build progress. All
 names and boundaries remain subject to their target-local ledger evidence.

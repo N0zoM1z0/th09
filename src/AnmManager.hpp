@@ -1,6 +1,10 @@
 #pragma once
 
+#if defined(TH09_ANM_MANAGER_LIFECYCLE_LAYOUT)
+#include "AnmVmLifecycle.hpp"
+#else
 struct AnmVm;
+#endif
 struct AnmRawInstr;
 struct AnmEntry;
 struct AnmRawEntry;
@@ -123,6 +127,52 @@ class AnmManager
         AnmVm *vm,
         VertexTex1DiffuseXyzrhw *vertices,
         int vertexCount);
+
+#if defined(TH09_ANM_MANAGER_LIFECYCLE_LAYOUT)
+  private:
+    struct ManagerDiffuseVertexStorage
+    {
+        ManagerDiffuseVertexStorage() {}
+        float x;
+        float y;
+        float z;
+        float rhw;
+        unsigned long diffuse;
+    };
+
+    struct ManagerTexturedVertexStorage
+    {
+        ManagerTexturedVertexStorage() {}
+        float x;
+        float y;
+        float z;
+        float rhw;
+        unsigned long diffuse;
+        float u;
+        float v;
+    };
+
+    typedef char ManagerDiffuseVertexStorageSizeIs14[
+        (sizeof(ManagerDiffuseVertexStorage) == 0x14) ? 1 : -1];
+    typedef char ManagerTexturedVertexStorageSizeIs1C[
+        (sizeof(ManagerTexturedVertexStorage) == 0x1C) ? 1 : -1];
+
+    unsigned char unknown000000[0x12064];
+    AnmVm managerVm12064;
+    unsigned char unknown12308[0x12894 - 0x12308];
+    ManagerDiffuseVertexStorage untexturedVertices12894[4];
+    int spritesToDraw128E4;
+    ManagerTexturedVertexStorage vertexStorage128E8[0x18000];
+    ManagerTexturedVertexStorage *vertexBufferEnd2B28E8;
+    ManagerTexturedVertexStorage *vertexBufferStart2B28EC;
+    int field2B28F0;
+    unsigned char unknown2B28F4[0x2B2934 - 0x2B28F4];
+#endif
 };
+
+#if defined(TH09_ANM_MANAGER_LIFECYCLE_LAYOUT)
+typedef char AnmManagerSizeIs2B2934[
+    (sizeof(AnmManager) == 0x2B2934) ? 1 : -1];
+#endif
 
 extern AnmManager *g_AnmManager;

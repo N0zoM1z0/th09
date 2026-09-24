@@ -1,3 +1,4 @@
+#define TH09_ANM_MANAGER_LIFECYCLE_LAYOUT
 #include "AnmManager.hpp"
 #include "FileSystem.hpp"
 #include "GameErrorContext.hpp"
@@ -141,11 +142,24 @@ struct VertexTex1DiffuseXyzrhwLoadView
 
 typedef char VertexTex1DiffuseXyzrhwLoadSizeIs1C[(sizeof(VertexTex1DiffuseXyzrhwLoadView) == 0x1C) ? 1 : -1];
 
+struct VertexTex1XyzrhwLoadView
+{
+    float x;
+    float y;
+    float z;
+    float rhw;
+    float u;
+    float v;
+};
+
+typedef char VertexTex1XyzrhwLoadSizeIs18[
+    (sizeof(VertexTex1XyzrhwLoadView) == 0x18) ? 1 : -1];
+
 extern GameErrorContext g_GameErrorContext;
 extern D3DFORMAT g_AnmTextureFormats[];
 extern unsigned int g_AnmTextureBytesPerPixel[];
 extern VertexTex1DiffuseXyzrhwLoadView g_AnmRenderQuad[4];
-extern VertexTex1DiffuseXyzrhwLoadView g_AnmUntexturedQuad[4];
+extern VertexTex1XyzrhwLoadView g_AnmUntexturedQuad[4];
 
 extern const char g_AnmNoTextureStorageMessage[];
 extern const char g_AnmCorruptedMessage[];
@@ -596,21 +610,33 @@ int AnmManager::ServicePreloadedAnims()
 
 AnmManager::AnmManager()
 {
-    memset(this, 0, 0x2B2934);
+    memset(this, 0, sizeof(*this));
 
-    for (int i = 0; i < 4; i++)
-    {
-        g_AnmRenderQuad[i].rhw = 1.0f;
+    g_AnmUntexturedQuad[0].u = 0.0f;
+    g_AnmUntexturedQuad[0].v = 0.0f;
+    g_AnmUntexturedQuad[1].v = 0.0f;
+    g_AnmUntexturedQuad[2].u = 0.0f;
+
+    g_AnmRenderQuad[0].u = 0.0f;
+    g_AnmRenderQuad[0].v = 0.0f;
+    g_AnmRenderQuad[1].v = 0.0f;
+    g_AnmRenderQuad[2].u = 0.0f;
+
+    for (int i = 3; i >= 0; --i)
         g_AnmUntexturedQuad[i].rhw = 1.0f;
-    }
-    g_AnmRenderQuad[0].u = 0.0f; g_AnmRenderQuad[0].v = 0.0f;
-    g_AnmRenderQuad[1].u = 1.0f; g_AnmRenderQuad[1].v = 0.0f;
-    g_AnmRenderQuad[2].u = 0.0f; g_AnmRenderQuad[2].v = 1.0f;
-    g_AnmRenderQuad[3].u = 1.0f; g_AnmRenderQuad[3].v = 1.0f;
-    g_AnmUntexturedQuad[0].u = 0.0f; g_AnmUntexturedQuad[0].v = 0.0f;
-    g_AnmUntexturedQuad[1].u = 1.0f; g_AnmUntexturedQuad[1].v = 0.0f;
-    g_AnmUntexturedQuad[2].u = 0.0f; g_AnmUntexturedQuad[2].v = 1.0f;
-    g_AnmUntexturedQuad[3].u = 1.0f; g_AnmUntexturedQuad[3].v = 1.0f;
+
+    g_AnmUntexturedQuad[1].u = 1.0f;
+    g_AnmUntexturedQuad[2].v = 1.0f;
+    g_AnmUntexturedQuad[3].u = 1.0f;
+    g_AnmUntexturedQuad[3].v = 1.0f;
+
+    for (int i = 3; i >= 0; --i)
+        g_AnmRenderQuad[i].rhw = 1.0f;
+
+    g_AnmRenderQuad[1].u = 1.0f;
+    g_AnmRenderQuad[2].v = 1.0f;
+    g_AnmRenderQuad[3].u = 1.0f;
+    g_AnmRenderQuad[3].v = 1.0f;
 
     unsigned char *self = reinterpret_cast<unsigned char *>(this);
     *reinterpret_cast<void **>(self + 0x12890) = NULL;
