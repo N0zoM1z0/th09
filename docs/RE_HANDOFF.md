@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 828 |
-| Source-present non-exact functions | 151 |
-| Source-present non-exact bytes | 138,370 |
+| Canonical exact functions | 829 |
+| Source-present non-exact functions | 150 |
+| Source-present non-exact bytes | 137,916 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 137,299 |
+| Canonical exact authored bytes | 137,753 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -337,6 +337,16 @@ routing frontier remains 23 functions because this helper is 279 bytes.
 
 
 Packet 569 refines `UpdatePlayerCollisionRegions @ 0x0041C8E0` from a 312-byte candidate to the exact 273-byte target extent. Removing the long-lived `region` alias restores the target no-frame shape, EBX index, ESI slot cursor, repeated `*slot` reloads and both `Deactivate` calls. The remaining 10 ordinary bytes are isolated to ECX/EDX assignment inside the pointer-compaction loop; multiple natural loop/scope spellings either preserve that register inversion or move away from target size. This checkpoint is NON-EXACT and does not change the live totals: 828 exact / 151 non-exact / 138,370 non-exact bytes.
+
+
+Packet 570 closes `ExAttackInitializeCallbackType3 @ 0x00442580` at
+454/454 bytes. The old one-byte-gap diagnosis was wrong: target and candidate
+already shared the 0x1C frame. The real divergence was manual x/y/z copying
+from POD `spawnPosition` into a `Float3` record field. Restoring one
+same-layout aggregate assignment reproduces the target copy schedule and all 28
+relocations exactly. Live totals are now 829 exact / 150 non-exact / 137,916
+non-exact bytes. The <=256-byte routing frontier remains 23 functions because
+this helper is 454 bytes.
 
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations

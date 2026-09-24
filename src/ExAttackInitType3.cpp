@@ -113,9 +113,8 @@ int __fastcall ExAttackInitializeCallbackType3(ExAttackRecord *base)
     spawnPosition.y = g_GameManager.TransformPopupY(record->position20.y);
     spawnPosition.z = 0.0f;
 
-    record->position20.x = spawnPosition.x;
-    record->position20.y = spawnPosition.y;
-    record->position20.z = spawnPosition.z;
+    record->position20 =
+        *reinterpret_cast<Float3 *>(&spawnPosition);
     record->unknown00 = 2;
 
     float angle = Th09EclRunControl::VectorAngle(
