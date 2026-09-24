@@ -972,39 +972,46 @@ int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
     if (count == 0)
         return 0;
 
-    TitleInputStatePhysicalView *input = &g_TitleInputStateTable.states[cursorIndex];
-    if (input->IsPressedScrolling(0x40))
-        goto moveLeft;
-    if (input->IsPressedScrolling(0x80))
-        goto moveRight;
-    if (input->IsPressedScrolling(0x10))
-        goto moveLeft;
-    if (input->IsPressedScrolling(0x20))
-        goto moveRight;
-    return 0;
-
-moveLeft:
+    i32 direction;
+    if (g_TitleInputStateTable.states[cursorIndex].IsPressedScrolling(0x40))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
         --*cursor;
         if (*cursor < 0)
             *cursor += count;
-        cursorIndex = -1;
+        direction = -1;
     }
-    goto moved;
-
-moveRight:
+    else if (g_TitleInputStateTable.states[cursorIndex].IsPressedScrolling(0x80))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
         ++*cursor;
         if (*cursor >= count)
             *cursor -= count;
-        cursorIndex = 1;
+        direction = 1;
+    }
+    else if (g_TitleInputStateTable.states[cursorIndex].IsPressedScrolling(0x10))
+    {
+        i32 *cursor = &side0CharacterCursor + cursorIndex;
+        --*cursor;
+        if (*cursor < 0)
+            *cursor += count;
+        direction = -1;
+    }
+    else if (g_TitleInputStateTable.states[cursorIndex].IsPressedScrolling(0x20))
+    {
+        i32 *cursor = &side0CharacterCursor + cursorIndex;
+        ++*cursor;
+        if (*cursor >= count)
+            *cursor -= count;
+        direction = 1;
+    }
+    else
+    {
+        return 0;
     }
 
-moved:
     g_SoundPlayer.PlaySoundByIdx(12, 0);
-    return cursorIndex;
+    return direction;
 }
 
 
@@ -1013,39 +1020,46 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
     if (count == 0)
         return 0;
 
-    TitleInputStatePhysicalView *input = &g_TitleInputStateTable.states[inputIndex];
-    if (input->IsPressedScrolling(0x40))
-        goto moveLeft;
-    if (input->IsPressedScrolling(0x80))
-        goto moveRight;
-    if (input->IsPressedScrolling(0x10))
-        goto moveLeft;
-    if (input->IsPressedScrolling(0x20))
-        goto moveRight;
-    return 0;
-
-moveLeft:
+    i32 direction;
+    if (g_TitleInputStateTable.states[inputIndex].IsPressedScrolling(0x40))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
         --*cursor;
         if (*cursor < 0)
             *cursor += count;
-        cursorIndex = -1;
+        direction = -1;
     }
-    goto moved;
-
-moveRight:
+    else if (g_TitleInputStateTable.states[inputIndex].IsPressedScrolling(0x80))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
         ++*cursor;
         if (*cursor >= count)
             *cursor -= count;
-        cursorIndex = 1;
+        direction = 1;
+    }
+    else if (g_TitleInputStateTable.states[inputIndex].IsPressedScrolling(0x10))
+    {
+        i32 *cursor = &side0CharacterCursor + cursorIndex;
+        --*cursor;
+        if (*cursor < 0)
+            *cursor += count;
+        direction = -1;
+    }
+    else if (g_TitleInputStateTable.states[inputIndex].IsPressedScrolling(0x20))
+    {
+        i32 *cursor = &side0CharacterCursor + cursorIndex;
+        ++*cursor;
+        if (*cursor >= count)
+            *cursor -= count;
+        direction = 1;
+    }
+    else
+    {
+        return 0;
     }
 
-moved:
     g_SoundPlayer.PlaySoundByIdx(12, 0);
-    return cursorIndex;
+    return direction;
 }
 
 

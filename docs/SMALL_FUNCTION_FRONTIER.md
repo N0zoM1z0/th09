@@ -7,9 +7,10 @@ ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **18 functions**, of which
-**2 are at most 128 bytes**. The latest short-function promotion is
-`EffectPolarScaleView::SetFromAngleAxes @ 0x0040D4D0`; the overall canonical total is 841 exact
+target logical size at most 256 bytes**. It yields **16 functions**, of which
+**2 are at most 128 bytes**. The latest short-function promotions are
+`TitleScreenView::MoveCharacterCursorHorizontal @ 0x0042474A` and
+`MoveCharacterCursorHorizontalForInput @ 0x004247F1`; the overall canonical total is 843 exact
 functions. Size is only a routing heuristic: this list is not a verified
 call-graph leaf set, a difficulty ranking, or product-build progress. All
 names and boundaries remain subject to their target-local ledger evidence.
@@ -19,8 +20,6 @@ names and boundaries remain subject to their target-local ledger evidence.
 | 0x0040D1C0 | 51 | EffectManager | `EffectManager::AddedCallback` |
 | 0x00410250 | 82 | EnemyManager | `EnemyAppendCollisionView::AppendPlayerCollisionBox` |
 | 0x004181E0 | 133 | Front | `FrontMessageOwnerView::InitializeMessageRuntime` |
-| 0x0042474A | 167 | TitleScreen | `TitleScreenView::MoveCharacterCursorHorizontal` |
-| 0x004247F1 | 167 | TitleScreen | `TitleScreenView::MoveCharacterCursorHorizontalForInput` |
 | 0x00424FB0 | 175 | TitleScreen | `TitleScreenView::SetCharacterCursorReverse` |
 | 0x0042505F | 175 | TitleScreen | `TitleScreenView::SetCharacterCursorInactive` |
 | 0x0040F9B0 | 188 | EnemyManager | `EnemyView::IntegrateMotion` |
@@ -74,10 +73,13 @@ history belongs in `docs/KNOWLEDGE_BASE.md`.
   bytes with all nine relocations solved. Only the `Setup` call evaluation
   order differs. Do not use volatile, padding, assembly, or source-order
   steering to force the LEA/push order.
-- The five remaining TitleScreen cursor helpers are all source-present but
-  non-exact. The two horizontal helpers are 167-byte target-sized candidates
-  with register/input-pointer lifetime differences. Reverse/Inactive remain
-  183/175; Active remains 217/211 after bounded natural alias/loop probes.
+- The two horizontal TitleScreen character-cursor helpers are no longer on the
+  frontier. The old goto/cached-input source shape was target-disproved.
+  Reusing the same-TU exact cursor family -- direct indexed input-state calls
+  plus structured 0x40/0x80/0x10/0x20 if/else-if control flow -- naturally
+  reproduces both 167-byte targets and all seven relocations each. The three
+  remaining cursor helpers are Reverse/Inactive at 183/175 and Active at
+  217/211 after bounded natural alias/loop probes.
 - Both Bullet pattern wrappers remain natural 187/203-byte candidates. Target
   loop-head LEA/jump no-op sequences are compiler layout, not source padding to
   reproduce.
