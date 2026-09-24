@@ -353,33 +353,35 @@ static void UpdatePlayerBombState(PlayerLifecycleView *player)
     if (g_PlayerInputStates[player->sideIndex].Check(2) == 0)
         return;
 
-    PlayerBombTargetRuntimeView *target =
-        reinterpret_cast<PlayerBombTargetRuntimeView *>(player->opponentState->attackTarget10);
-    PlayerBombOwnerRuntimeView *owner =
-        reinterpret_cast<PlayerBombOwnerRuntimeView *>(player->opponentState->attackOwner14);
-
     if (player->scalar30388 >= 400.0f)
     {
-        if (target->CheckMode(3))
+        if (!reinterpret_cast<PlayerBombTargetRuntimeView *>(
+                player->opponentState->attackTarget10)->CheckMode(3))
         {
-            owner->Configure(1, 1, 0, player->primaryShtFile->modePath1);
-            player->scalar30384 = 100.0f;
-            player->scalar30388 = 100.0f;
-            player->SetBombMode1();
-        }
-        else
-        {
-            owner->Configure(2, 2, 0, player->primaryShtFile->modePath2);
+            reinterpret_cast<PlayerBombOwnerRuntimeView *>(
+                player->opponentState->attackOwner14)
+                ->Configure(2, 2, 0, player->primaryShtFile->modePath2);
             player->scalar30384 = 0.0f;
             player->scalar30388 = 0.0f;
             player->SetBombMode2();
+        }
+        else
+        {
+            reinterpret_cast<PlayerBombOwnerRuntimeView *>(
+                player->opponentState->attackOwner14)
+                ->Configure(1, 1, 0, player->primaryShtFile->modePath1);
+            player->scalar30384 = 100.0f;
+            player->scalar30388 = 100.0f;
+            player->SetBombMode1();
         }
         return;
     }
 
     if (player->scalar30388 >= 300.0f)
     {
-        owner->Configure(1, 1, 0, player->primaryShtFile->modePath1);
+        reinterpret_cast<PlayerBombOwnerRuntimeView *>(
+            player->opponentState->attackOwner14)
+            ->Configure(1, 1, 0, player->primaryShtFile->modePath1);
         player->scalar30384 = 0.0f;
         player->scalar30388 = 0.0f;
         player->SetBombMode1();
@@ -388,7 +390,9 @@ static void UpdatePlayerBombState(PlayerLifecycleView *player)
 
     if (player->scalar30388 >= 200.0f)
     {
-        owner->Configure(0, 0, 0, player->primaryShtFile->modePath0);
+        reinterpret_cast<PlayerBombOwnerRuntimeView *>(
+            player->opponentState->attackOwner14)
+            ->Configure(0, 0, 0, player->primaryShtFile->modePath0);
         player->scalar30384 = 0.0f;
         player->scalar30388 = 0.0f;
         player->SetBombMode0();

@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 832 |
-| Source-present non-exact functions | 147 |
-| Source-present non-exact bytes | 136,773 |
+| Canonical exact functions | 833 |
+| Source-present non-exact functions | 146 |
+| Source-present non-exact bytes | 136,438 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 138,896 |
+| Canonical exact authored bytes | 139,231 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -383,6 +383,16 @@ owner-relative scale writes, while reusing the already-exact
 RMW. The combined source also restores the target one-byte loop-alignment NOP;
 all twenty-two relocations replay exactly. Live totals are now 832 exact / 147
 non-exact / 136,773 non-exact bytes.
+
+
+Packet 575 closes `UpdatePlayerBombState @ 0x0041CA00` at 335/335
+bytes. TH09 proves the three SHT mode paths are embedded 0x40-byte buffers at
++0x2C/+0x6C/+0xAC rather than pointer fields. Removing long-lived target/owner
+aliases and spelling the 400-point branch as mode-2 fallthrough / mode-1 taken
+then reproduces the target lifetime and CFG exactly. All sixteen relocations
+replay exactly. Live totals are now 833 exact / 146 non-exact / 136,438
+non-exact bytes. The <=256-byte routing frontier is unchanged because this
+helper is 335 bytes.
 
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations

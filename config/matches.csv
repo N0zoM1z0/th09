@@ -831,3 +831,4 @@ address,name,size,status,match_percent,unit,evidence
 0x0041C8E0,UpdatePlayerCollisionRegions,273,matching,100.00,player-update-collision-regions,python3 scripts/build-match-unit.py --unit player-update-collision-regions && python3 scripts/compare-coff-function.py --unit player-update-collision-regions --json
 0x00404410,CardAttack::OnDraw,334,matching,100.00,card-attack-on-draw,python3 scripts/build-match-unit.py --unit card-attack-on-draw && python3 scripts/compare-coff-function.py --unit card-attack-on-draw --json
 0x004041F0,CardAttack::OnUpdate,536,matching,100.00,card-attack-on-update,python3 scripts/build-match-unit.py --unit card-attack-on-update && python3 scripts/compare-coff-function.py --unit card-attack-on-update --json
+0x0041CA00,UpdatePlayerBombState,335,matching,100.00,player-update-bomb-state,python3 scripts/build-match-unit.py --unit player-update-bomb-state && python3 scripts/compare-coff-function.py --unit player-update-bomb-state --json

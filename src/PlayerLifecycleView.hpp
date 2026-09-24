@@ -58,15 +58,16 @@ struct PlayerShtFileView
     float sizeDerived0;
     float sizeDerived1;
     unsigned char unknown24[0x08];
-    const char *modePath0;
-    unsigned char unknown30[0x3C];
-    const char *modePath1;
-    unsigned char unknown70[0x3C];
-    const char *modePath2;
-    unsigned char unknownB0[0x42C - 0xB0];
+    char modePath0[0x40];
+    char modePath1[0x40];
+    char modePath2[0x40];
+    unsigned char unknownEC[0x42C - 0xEC];
     PlayerShtPowerLevelView shotPowerLevels[1];
 };
 
+typedef char PlayerShtModePath0At2C[(offsetof(PlayerShtFileView, modePath0) == 0x2C) ? 1 : -1];
+typedef char PlayerShtModePath1At6C[(offsetof(PlayerShtFileView, modePath1) == 0x6C) ? 1 : -1];
+typedef char PlayerShtModePath2AtAC[(offsetof(PlayerShtFileView, modePath2) == 0xAC) ? 1 : -1];
 typedef char PlayerShtLevelsAt42C[(offsetof(PlayerShtFileView, shotPowerLevels) == 0x42C) ? 1 : -1];
 
 struct PlayerPositionView
