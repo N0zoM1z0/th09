@@ -128,7 +128,8 @@ void __fastcall PlayerShotInitPlayerView::InitializeShot(
 
     float *position = shot->position2A4.operator float *();
     position[0] += entry->positionOffset04.x;
-    position[1] += entry->positionOffset04.y;
+    float &positionY = position[1];
+    positionY += entry->positionOffset04.y;
     position[2] = 0.495f;
 
     shot->hitbox430.x = entry->hitbox0C.x;
