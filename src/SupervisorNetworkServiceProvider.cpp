@@ -9,8 +9,8 @@ extern GameErrorContext g_GameErrorContext;
 
 int SupervisorNetworkState::IsServiceProviderAvailable(const void *provider)
 {
-    HRESULT hr;
-    DPN_SERVICE_PROVIDER_INFO *providers;
+    HRESULT hr = S_OK;
+    DPN_SERVICE_PROVIDER_INFO *providers = NULL;
     DWORD providerCount = 0;
     DWORD bufferSize = 0;
 
@@ -22,7 +22,7 @@ int SupervisorNetworkState::IsServiceProviderAvailable(const void *provider)
     if (hr != DPNERR_BUFFERTOOSMALL)
     {
         printf("Failed Enumerating Service Providers:  0x%x\r\n", hr);
-        return SUCCEEDED(hr);
+        goto CLEANUP;
     }
 
     providers = static_cast<DPN_SERVICE_PROVIDER_INFO *>(
@@ -44,6 +44,7 @@ int SupervisorNetworkState::IsServiceProviderAvailable(const void *provider)
         hr = E_FAIL;
     }
 
+CLEANUP:
     if (providers != NULL)
         g_ZunMemory.Free(providers);
 

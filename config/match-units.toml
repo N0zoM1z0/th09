@@ -16651,3 +16651,26 @@ relocations = [
   { offset = 0x50, type = "REL32", symbol = "?ReleaseAttachedEffects@Th09EclRunState@@YIXPAUEnemyView@@@Z", target = 0x0040F560 },
   { offset = 0x95, type = "REL32", symbol = "?EnemyCoreReleaseChildEclBlocks@@YIXPAUEnemyCoreView@@@Z", target = 0x004100E0 },
 ]
+
+[units.supervisor-network-service-provider-available]
+source = "src/SupervisorNetworkServiceProvider.cpp"
+object = "build/matching/SupervisorNetworkServiceProvider.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorNetworkState::IsServiceProviderAvailable"]
+symbol = "?IsServiceProviderAvailable@SupervisorNetworkState@@QAEHPBX@Z"
+target_address = 0x00432770
+size = 0xC7
+relocations = [
+  { offset = 0x1A, type = "DIR32", symbol = "_CLSID_DP8SP_TCPIP", target = 0x00495290 },
+  { offset = 0x36, type = "DIR32", symbol = "??_C@_0CO@PMLAPODO@Failed?5Enumerating?5Service?5Provi@", target = 0x00490CC4 },
+  { offset = 0x3B, type = "REL32", symbol = "_printf", target = 0x0047CC69 },
+  { offset = 0x56, type = "DIR32", symbol = "??_C@_0BC@BLCFCAKG@?4?1system?2global?4h?$AA@", target = 0x0048E474 },
+  { offset = 0x5C, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x61, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0x79, type = "DIR32", symbol = "_CLSID_DP8SP_TCPIP", target = 0x00495290 },
+  { offset = 0x89, type = "DIR32", symbol = "??_C@_0CD@LBNMGGPJ@?$IDT?$IB?$FL?$IDr?$IDX?$IDv?$ID?$IN?$IDo?$IDC?$ID_?$JH?q?$IL?$JD?$IO?$LI?$JEs?3?70x?$CFx@", target = 0x00490CA0 },
+  { offset = 0x8E, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x93, type = "REL32", symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C660 },
+  { offset = 0xAE, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0xB3, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+]

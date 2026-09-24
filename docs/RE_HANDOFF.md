@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 823 |
-| Source-present non-exact functions | 156 |
-| Source-present non-exact bytes | 139,510 |
+| Canonical exact functions | 824 |
+| Source-present non-exact functions | 155 |
+| Source-present non-exact bytes | 139,311 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 136,159 |
+| Canonical exact authored bytes | 136,358 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 823 canonical exact and 156 honest non-exact.
+functions: 824 canonical exact and 155 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -291,6 +291,14 @@ timer store, then exact child-ECL cleanup. Both helper relocations replay exactl
 Live totals are now 823 exact / 156 non-exact / 139,510 non-exact bytes; the
 <=256-byte frontier is 27 functions, with 7 at most 128 bytes.
 
+
+Packet 564 closes `SupervisorNetworkState::IsServiceProviderAvailable @
+0x00432770` at 199/199 bytes. Restoring the DirectPlay SDK-family initialized
+locals and cleanup lifetime recovers the target EDI/ESI/EBX split and shared
+zero-register lowering, with all twelve relocations exact. Live totals are now
+824 exact / 155 non-exact / 139,311 non-exact bytes; the <=256-byte frontier is
+26 functions, 7 at most 128 bytes.
+
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
 resolved. The target's 32-element special-effect point array uses the generic
@@ -402,7 +410,7 @@ claim, not Windows i386 product closure.
 
 ## Short-function routing frontier
 
-The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 27 current
+The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 26 current
 source-present non-exact authored functions whose target logical bodies are at
 most 256 bytes; 7 are at most 128 bytes. This is a size filter, **not** a
 verified call-graph leaf set or an ease-of-matching ranking. The live
