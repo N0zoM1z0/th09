@@ -123,6 +123,10 @@ subject to their target-local ledger evidence.
   ignore it. The natural source now models that return but remains 211 bytes
   versus 213, with the shared prefix diverging from `+0x1C`; do not mistake the
   size delta for a near-match or steer registers/stack homes to chase it.
+- Packet 547 aligns `ChainReleaseView::ReleaseSingleChain` with the target's
+  separately observed allocation, conditional construction, and registry
+  calls. Its cold-stable `/EHsc /O2 /Ob1` body is 251/241 bytes and remains
+  non-exact; this semantic correction does not change the 40-function frontier.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. `AsciiManager::OnUpdate` is exact-sized at 253 bytes but still has

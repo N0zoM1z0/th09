@@ -1,6 +1,8 @@
 #include "Chain.hpp"
 #include "ZunMemory.hpp"
 
+#include <new>
+
 struct SupervisorThreadStartView
 {
     void ThreadClose();
@@ -19,41 +21,53 @@ struct ChainReleaseView
 
 void ChainReleaseView::ReleaseSingleChain(ChainElem *root)
 {
+    // The target separates raw allocation from ChainElem construction.
     ChainElem releaseSnapshotHead;
     ChainElem *releaseSnapshotCursor;
     ChainElem *current;
     ChainElem *nextSnapshotEntry;
 
-    releaseSnapshotCursor =
-        static_cast<ChainElem *>(g_ZunMemory.AddToRegistry(
-            new ChainElem(), sizeof(ChainElem), "funcChainInf"));
+    releaseSnapshotCursor = static_cast<ChainElem *>(
+        ::operator new(sizeof(ChainElem)));
+    if (releaseSnapshotCursor != NULL)
+        releaseSnapshotCursor = new (releaseSnapshotCursor) ChainElem();
+    releaseSnapshotCursor = static_cast<ChainElem *>(g_ZunMemory.AddToRegistry(
+        releaseSnapshotCursor, sizeof(ChainElem), "funcChainInf"));
     releaseSnapshotHead.next = releaseSnapshotCursor;
 
     current = root;
     while (current != NULL)
     {
         releaseSnapshotCursor->releaseTarget = current;
-        releaseSnapshotCursor->next =
-            static_cast<ChainElem *>(g_ZunMemory.AddToRegistry(
-                new ChainElem(), sizeof(ChainElem), "funcChainInf"));
+        nextSnapshotEntry = static_cast<ChainElem *>(
+            ::operator new(sizeof(ChainElem)));
+        if (nextSnapshotEntry != NULL)
+            nextSnapshotEntry = new (nextSnapshotEntry) ChainElem();
+        releaseSnapshotCursor->next = static_cast<ChainElem *>(
+            g_ZunMemory.AddToRegistry(nextSnapshotEntry, sizeof(ChainElem),
+                                      "funcChainInf"));
         releaseSnapshotCursor = releaseSnapshotCursor->next;
         current = current->next;
     }
 
     current = &releaseSnapshotHead;
-    while (current != NULL)
+    do
     {
         reinterpret_cast<Chain *>(this)->Cut(current->releaseTarget);
         current = current->next;
     }
+    while (current != NULL);
 
     releaseSnapshotCursor = releaseSnapshotHead.next;
-    while (releaseSnapshotCursor != NULL)
+    if (releaseSnapshotCursor != NULL)
     {
-        nextSnapshotEntry = releaseSnapshotCursor->next;
-        delete releaseSnapshotCursor;
-        releaseSnapshotCursor = NULL;
-        releaseSnapshotCursor = nextSnapshotEntry;
+        do
+        {
+            nextSnapshotEntry = releaseSnapshotCursor->next;
+            delete releaseSnapshotCursor;
+            releaseSnapshotCursor = nextSnapshotEntry;
+        }
+        while (releaseSnapshotCursor != NULL);
     }
 }
 

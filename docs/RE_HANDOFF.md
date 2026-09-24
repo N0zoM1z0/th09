@@ -146,6 +146,14 @@ The helper itself remains non-exact: the 211-byte source differs from the
 213-byte target from offset `+0x1C`, so its two-byte size gap is misleading;
 see Packet 546. The short frontier remains 40.
 
+Packet 547 refines `ChainReleaseView::ReleaseSingleChain @ 0x0042CAE0`: the
+maintained source now follows the target's observed `operator new` → conditional
+`ChainElem` construction → registry sequence, rather than source-level
+`new-expression` cleanup. Its cold-stable natural `/EHsc /O2 /Ob1` candidate is
+251 bytes versus the 241-byte target; it remains non-exact. The exact
+`ChainReleaseView::Release` wrapper and affected Chain constructor/destructor
+units still replay exact. The <=256-byte non-exact frontier remains 40.
+
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
 resolved. The target's 32-element special-effect point array uses the generic

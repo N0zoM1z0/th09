@@ -19,7 +19,8 @@ enum ChainCallbackResult
 class ChainElem
 {
   public:
-    ChainElem();
+    // The target's field-only initializer is non-throwing.
+    ChainElem() throw();
     ~ChainElem();
     void SetCallback(ChainCallback callback);
 

@@ -1,7 +1,7 @@
 #include "Chain.hpp"
 #include "Supervisor.hpp"
 
-ChainElem::ChainElem()
+ChainElem::ChainElem() throw()
 {
     this->prev = NULL;
     this->next = NULL;
