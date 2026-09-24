@@ -60,6 +60,14 @@ struct BackgroundSupervisorView
     IDirect3DDevice8 *d3dDevice;
 };
 
+struct BackgroundStageVmRuntimeView
+{
+    unsigned char unknown000[0x1F0];
+    unsigned int color1;
+    unsigned char unknown1F4[0x214 - 0x1F4];
+    short scriptIndex;
+};
+
 extern void BackgroundRunStageScriptPhase(Background *background);
 extern void BackgroundUpdateRuntimePhase(Background *background);
 
@@ -245,13 +253,17 @@ int Background::OnUpdate(Background *background)
             background->transitionMode = 0;
             background->transitionFrames = 0;
         }
-        else if (background->transitionMode == 1)
+        else
         {
-            background->tintColor = 0x80303040;
-        }
-        else if (background->transitionMode == 2)
-        {
-            background->tintColor = 0x80F00000;
+            switch (background->transitionMode)
+            {
+            case 1:
+                background->tintColor = 0x80F00000;
+                break;
+            case 2:
+                background->tintColor = 0x80303040;
+                break;
+            }
         }
     }
 
@@ -266,11 +278,21 @@ int Background::OnUpdate(Background *background)
         return CHAIN_CALLBACK_RESULT_CONTINUE;
     }
 
+    g_Supervisor.SelectSide(background->viewportIndex);
+
     if (background->stageData == NULL)
         return CHAIN_CALLBACK_RESULT_CONTINUE;
 
+    background->ApplyPendingStageLabel();
     BackgroundRunStageScriptPhase(background);
-    BackgroundUpdateRuntimePhase(background);
+
+    RawStageInstr *currentInstruction =
+        &background->stageScript[background->stageScriptInstructionIndex];
+    if (currentInstruction->opcode != 3)
+        background->stageScriptTimer++;
+
+    background->UpdateStageObjectVms();
+
     if (background->spellBackgroundState >= 1)
     {
         if (background->spellBackgroundFrame == 60)
@@ -280,9 +302,25 @@ int Background::OnUpdate(Background *background)
             g_AnmManager->ExecuteScript(&background->spellVms[i]);
     }
 
-    g_AnmManager->ExecuteScript(&background->stageVm0);
-    g_AnmManager->ExecuteScript(&background->stageVm1);
-    g_AnmManager->ExecuteScript(&background->stageVm2);
+    BackgroundStageVmRuntimeView *stageVm0 =
+        reinterpret_cast<BackgroundStageVmRuntimeView *>(&background->stageVm0);
+    if (stageVm0->scriptIndex > 0)
+        g_AnmManager->ExecuteScript(&background->stageVm0);
+
+    BackgroundStageVmRuntimeView *stageVm1 =
+        reinterpret_cast<BackgroundStageVmRuntimeView *>(&background->stageVm1);
+    if (stageVm1->scriptIndex > 0)
+        g_AnmManager->ExecuteScript(&background->stageVm1);
+
+    if (reinterpret_cast<BackgroundStageVmRuntimeView *>(
+            &background->stageVm2)->scriptIndex > 0)
+    {
+        g_AnmManager->ExecuteScript(&background->stageVm2);
+        background->clearColor =
+            reinterpret_cast<BackgroundStageVmRuntimeView *>(
+                &background->stageVm2)->color1;
+    }
+
     background->frameCounter++;
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
