@@ -49,7 +49,7 @@ int __fastcall PlayerShotUpdateCallbackType4(
 {
     PlayerShotUpdate4Vec3 *position = &shot->position2A4;
     *position = player->position1B88;
-    position->y += shot->velocityY440;
+    shot->position2A4.y += shot->velocityY440;
     shot->velocityY440 -= 1.0f;
 
     ZunTimer *timer = &shot->timer454;

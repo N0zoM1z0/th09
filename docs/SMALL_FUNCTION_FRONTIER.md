@@ -1,14 +1,14 @@
 # TH09 short-function frontier
 
-This is a Packet-565 routing snapshot, not a second exactness ledger. The
+This is a Packet-566 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **25 functions**, of which
-**7 are at most 128 bytes**, after Packet 565's Chain release promotion.
+target logical size at most 256 bytes**. It yields **24 functions**, of which
+**7 are at most 128 bytes**, after Packet 566's Player Type4 shot-update promotion.
 Size is only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
@@ -36,7 +36,6 @@ subject to their target-local ledger evidence.
 | 0x0042E9E0 | 213 | Supervisor | `SupervisorFrameQueueView::InsertReceivedFrame` |
 | 0x0042C290 | 220 | FileSystem | `FileSystem::TryDecryptFromTable` |
 | 0x00432240 | 243 | SupervisorNetwork | `ParseNetworkConfigValue` |
-| 0x00443930 | 249 | Player | `PlayerShotUpdateCallbackType4` |
 | 0x00443B10 | 249 | Player | `PlayerPositionCallback30404Type4` |
 | 0x00447620 | 249 | Player | `PlayerPositionCallback30404Type8` |
 | 0x0041F580 | 251 | Player | `PlayerLifecycleView::UpdateShots` |
@@ -222,6 +221,14 @@ subject to their target-local ledger evidence.
   path because the exact field-only constructor is non-throwing; the same
   profile preserves the target scalar deleting-destructor call at 0x0042AC50.
   The <=256-byte frontier is now 25 functions; <=128 remains 7.
+- Packet 566 closes `PlayerShotUpdateCallbackType4 @ 0x00443930` at
+  249/249 bytes. The old source used the `position` alias for the initial
+  Y integration, extending that alias across the function and making VC7.1
+  choose ESI for the position pointer and EDI for the shot. Accessing
+  `shot->position2A4.y` directly for that one integration keeps the alias
+  only where the target uses it: aggregate copy and center construction.
+  VC7.1 then naturally chooses EBX=player, ESI=shot, EDI=&position and restores
+  the two target six-byte shot-base Y accesses. The <=256-byte frontier is 24.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. several exact-sized candidates have

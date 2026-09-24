@@ -16703,3 +16703,23 @@ relocations = [
   { offset = 0xDB, type = "REL32", symbol = "??1ChainElem@@QAE@XZ", target = 0x0042AC00 },
   { offset = 0xE7, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
 ]
+
+[units.player-shot-update-callback-type4]
+source = "src/PlayerShotUpdateCallback4.cpp"
+object = "build/matching/PlayerShotUpdateCallback4.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerShotUpdateCallbackType4"]
+symbol = "?PlayerShotUpdateCallbackType4@@YIHPAUPlayerShotUpdate4PlayerView@@PAUPlayerShotUpdate4ShotView@@@Z"
+target_address = 0x00443930
+size = 0xF9
+relocations = [
+  { offset = 0x50, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x5B, type = "REL32", symbol = "??PZunTimer@@QAEIH@Z", target = 0x00401520 },
+  { offset = 0x82, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
+  { offset = 0x88, type = "DIR32", symbol = "__real@42a00000", target = 0x0048E318 },
+  { offset = 0xA2, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
+  { offset = 0xBC, type = "DIR32", symbol = "__real@42c00000", target = 0x0048E3D4 },
+  { offset = 0xC7, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0xD7, type = "REL32", symbol = "?CreateRectType0@PlayerShotUpdate4PlayerView@@QAEPAXPBUPlayerShotUpdate4RegionPointView@@MMHHH@Z", target = 0x0041D010 },
+  { offset = 0xEC, type = "REL32", symbol = "?CreateRectType1@PlayerShotUpdate4PlayerView@@QAEPAXPBUPlayerShotUpdate4RegionPointView@@MMHH@Z", target = 0x0041CFA0 },
+]
