@@ -1,14 +1,14 @@
 # TH09 short-function frontier
 
-This is a Packet-557 routing snapshot, not a second exactness ledger. The
+This is a Packet-558 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **33 functions**, of which
-**10 are at most 128 bytes**, after Packet 557's circle-collision promotion.
+target logical size at most 256 bytes**. It yields **32 functions**, of which
+**9 are at most 128 bytes**, after Packet 558's playfield promotion.
 Size is only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
@@ -23,7 +23,6 @@ subject to their target-local ledger evidence.
 | 0x00431500 | 62 | Supervisor | `Supervisor::Supervisor` |
 | 0x00440D90 | 81 | ExAttackController | `ExAttackAllocateRecordView::AllocateDynamicData` |
 | 0x00410250 | 82 | EnemyManager | `EnemyAppendCollisionView::AppendPlayerCollisionBox` |
-| 0x0041A6EB | 116 | GameManager | `GameManagerPlayfieldView::IsWithinPlayfield` |
 | 0x0042EB80 | 119 | Supervisor | `SupervisorFrameQueueView::PopFrame` |
 | 0x004181E0 | 133 | Front | `FrontMessageOwnerView::InitializeMessageRuntime` |
 | 0x004124E0 | 161 | BulletManager | `EtamaController::SelectBulletSprite` |
@@ -174,6 +173,13 @@ subject to their target-local ledger evidence.
   flow as `if (squaredDistance >= squaredRadius) return 0; return 1;`
   naturally reproduces the target status-word branch and epilogues. The
   <=256-byte frontier is now 33 functions; 10 remain at most 128 bytes.
+- Packet 558 closes `GameManagerPlayfieldView::IsWithinPlayfield @ 0x0041A6EB`
+  at 116/116 bytes. TH09 uses mixed comparison orientation: the right/bottom
+  tests are `144.0f < x - width/2` and `448.0f < y - height/2`,
+  producing the target constant-load/`FCOMPP` forms. Under the neighboring
+  GameManager-proven `/O2 /Os /Ob1` profile this also recovers the target
+  shared x87 cleanup and 0/1 materialization. The <=256-byte frontier is now
+  32 functions; 9 remain at most 128 bytes.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. several exact-sized candidates have
