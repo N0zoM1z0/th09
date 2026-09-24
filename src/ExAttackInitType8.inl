@@ -8,14 +8,23 @@
 #include <math.h>
 
 // Lexical fragment included at the end of the EclManager TU. Keep this
-// ordinary out-of-line definition non-inline: exact post-ECL movement and
-// ExAttack type 7/8/9 callers all depend on its same-TU side-effect visibility.
+// TH09 exact callers require this out-of-line definition to remain visible in
+// the EclManager translation unit. The original engine family uses the x87
+// FSINCOS primitive here (also present in committed TH08/TH095 source); ordinary
+// VC7.1 cosf/sinf source emits separate FCOS/FSIN and does not reproduce TH09.
 
-Float3 *Float3::FromAngleMagnitude(float angle, float magnitude)
+void Float3::FromAngleMagnitude(float angle, float magnitude)
 {
-    x = cosf(angle) * magnitude;
-    y = sinf(angle) * magnitude;
-    return this;
+    __asm
+    {
+        mov eax, this
+        fld angle
+        fsincos
+        fmul [magnitude]
+        fstp [eax]
+        fmul [magnitude]
+        fstp [eax + 4]
+    }
 }
 
 struct ExAttackType8Extra

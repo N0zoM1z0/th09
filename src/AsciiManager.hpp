@@ -25,7 +25,7 @@ struct Float3
     Float3 *operator/=(float scalar);
     Float3 &operator+=(const Float3 &other);
     Float3 &operator-=(const Float3 &other);
-    Float3 *FromAngleMagnitude(float angle, float magnitude);
+    void FromAngleMagnitude(float angle, float magnitude);
     operator float *();
 
     float x;

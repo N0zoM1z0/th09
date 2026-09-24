@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 839 |
-| Source-present non-exact functions | 140 |
-| Source-present non-exact bytes | 134,709 |
+| Canonical exact functions | 840 |
+| Source-present non-exact functions | 139 |
+| Source-present non-exact bytes | 134,677 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 140,960 |
+| Canonical exact authored bytes | 140,992 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 839 canonical exact and 140 honest non-exact.
+functions: 840 canonical exact and 139 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -644,8 +644,10 @@ Important current facts:
 - EnemyPostEclUpdateMovement @ 0x00408180 is now canonical exact over its
   complete physical owner: 967 logical bytes, one alignment NOP and the
   six-entry easing table, 992/992 total. The target-proven flags snapshot and
-  same-TU visibility of the ordinary non-inline Float3::FromAngleMagnitude
-  definition reproduce the private ESI transport naturally.
+  same-TU visibility of the out-of-line void Float3::FromAngleMagnitude
+  definition reproduce the private ESI transport naturally. The helper itself
+  is now canonical exact; moving its definition into the shared header is
+  target-disproved because exact type-8 initialization grows by one byte.
 - EnemyPostEclUpdateShotAndAnm @ 0x00408560 is canonical exact at 349/349.
   RunEcl naturally supplies Enemy in EDI; its nested shot call uses the
   TU-private EBX=Enemy / ESI=instruction transport. Starting direction=0
@@ -863,8 +865,10 @@ Do not churn these without new evidence:
   branch byte remains; explicit signed source is worse.
 - PlayerLifecycleView::CheckBulletCollision 0x0041DFF0: best natural 849
   versus target 862; remaining frontier is preserved-register allocation.
-- Float3::FromAngleMagnitude 0x00441890: natural 30/32 FCOS/FSIN versus target
-  FSINCOS; do not import the TH095 inline-assembly workaround.
+- Float3::FromAngleMagnitude 0x00441890 is no longer a plateau. Fresh TH09
+  caller evidence fixes the void contract; committed TH08/TH095 corroborate the
+  narrow x87 FSINCOS source family, and the EclManager-TU out-of-line definition
+  now replays 32/32 with all 30 accepted callers preserved.
 - TitleScreenView::OnUpdateKeyConfig 0x00427EE8: exact-sized 2803/2803 with
   eight ordinary comparable bytes of scheduler/SIB residual.
 - FrontSide::OnDraw 0x004193E0: 3106/3094; remaining 12 bytes are transition

@@ -143,9 +143,8 @@ int __fastcall ExAttackUpdateCallbackType11(ExAttackRecord *base)
                 return 0;
             }
 
-            record->position20 +=
-                *extra->motion14.FromAngleMagnitude(
-                    extra->angle08, 1.5f);
+            extra->motion14.FromAngleMagnitude(extra->angle08, 1.5f);
+            record->position20 += extra->motion14;
 
             if (record->position20.y >= 480.0f ||
                 record->position20.y <= -32.0f ||
@@ -255,9 +254,8 @@ int __fastcall ExAttackUpdateCallbackType12(ExAttackRecord *base)
                 return 0;
             }
 
-            record->position20 +=
-                *extra->motion14.FromAngleMagnitude(
-                    extra->angle08, 1.5f);
+            extra->motion14.FromAngleMagnitude(extra->angle08, 1.5f);
+            record->position20 += extra->motion14;
 
             if (record->position20.y >= 480.0f ||
                 record->position20.y <= -32.0f ||
