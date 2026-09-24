@@ -126,8 +126,9 @@ static void ConfigureRelativeMotion(
     unsigned int movementFlags =
         (view->primaryFlags337C & ~0x3A00U) |
         ((Th09EclRunControl::ReadInt(enemy, instruction, 1) & 7) << 11);
-    movementFlags |= 0x400U;
     view->primaryFlags337C = movementFlags;
+    view->primaryFlags337C |= 0x400U;
+    movementFlags = view->primaryFlags337C;
 
     *reinterpret_cast<Float3 *>(&view->velocity2D8C) =
         Float3(0.0f, 0.0f, 0.0f);
