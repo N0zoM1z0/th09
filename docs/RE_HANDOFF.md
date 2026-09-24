@@ -78,6 +78,11 @@ successful compilation do not by themselves justify a match.
 The authored/no-source roadmap is obsolete and must not be restarted. All
 confirmed authored functions now have maintained source.
 
+The numbered checkpoint notes below are historical summaries, not current
+totals or priorities. Use the live counts above and the current frontier
+sections later in this document; full packet evidence is in
+`docs/KNOWLEDGE_BASE.md`.
+
 Packet 528 makes `Th09EclRunControl::ApplyInterpolationOperation @ 0x00407560`
 canonical exact at 157/157 bytes with five solved REL32 relocations. Its sole
 RunEcl caller supplies Enemy in EDI and the instruction in ESI; an internal
@@ -161,13 +166,15 @@ object clear. All three relocation destinations resolve and 41/50 ordinary
 bytes match; nine bytes still differ from `+0x2F`, so the function remains
 non-exact and the frontier remains 40.
 
-Packet 549 corrects the large `EnemyView::HandleDeathRewards @ 0x004102B0`
-owner surface: target callsites `0x0041063E` and `0x004106B2` directly invoke
-the exact `Supervisor::SelectSide @ 0x00401440`; source now uses the canonical
-`Supervisor` global/header instead of a private `ApplyCameraMode` proxy. A
-pinned VC7.1 object confirms both relocations bind to the canonical decorated
-symbol. The body remains a 1,136-byte non-exact candidate against the 1,142-byte
-target; no match credit or count change is claimed.
+Packet 550 finishes the bounded `EnemyView::HandleDeathRewards @ 0x004102B0`
+owner/ABI cleanup. Its source now calls the canonical SoundPlayer, RNG,
+GameManager popup-transform, Player collision-region, and Supervisor APIs;
+shared `SoundPlayer.hpp` and `PlayerCollisionRegionCreate.hpp` declarations
+remove the prior TU-local symbol shims. A fresh pinned VC7.1 object emits the
+reviewed decorated owners and a 1,130-byte natural candidate against the
+1,142-byte target. It remains NON-EXACT with no match credit; see Packet 550 in
+the knowledge base. This is the stopping checkpoint for the current function
+batch; choose future work from the live frontier only after recomputation.
 
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
@@ -201,8 +208,10 @@ replay-save flow, and music-room loader now call the real `FileSystem::OpenFile`
 and `CheckIfFileAlreadyExists` namespace symbols from `FileSystem.hpp`, matching
 their target callees at `0x0042C970` and `0x0042C480`. Focused exact controls still
 pass (`OnUpdateResultNameEntry` 966/966; `DrawMusicRoom` 209/209). The replay and
-music-room large owners remain non-exact; this owner/symbol correction does not
-change the 807/172 exact/non-exact totals or close the Windows product gate.
+music-room large owners remain non-exact; at the Packet 539 checkpoint this
+did not change the then-current 807/172 exact/non-exact totals. Those historical
+totals are superseded by the live status table above; the Windows product gate
+remains open.
 
 Packet 540 removes the legacy TitleScreen `g_OptionPointers` and
 `TitleNetworkStateView` proxies for the network object. `TitleScreen.cpp` now

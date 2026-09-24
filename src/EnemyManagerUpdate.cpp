@@ -1,27 +1,13 @@
 #include "EnemyManager.hpp"
+#include "AsciiGameManagerView.hpp"
+#include "PlayerCollisionRegionCreate.hpp"
+#include "RngRuntimeLeaves.hpp"
+#include "SoundPlayer.hpp"
 #include "Supervisor.hpp"
 
 // Partial target-facing reconstruction of the TH09 EnemyManager update owner.
 // This packet isolates the non-leaf death/reward dispatcher called from the
-// 3,883-byte EnemyManager::OnUpdate.  Helper names remain role descriptions.
-
-struct EnemyRewardSoundPlayerView
-{
-    void PlayAtPosition(int soundIndex, float x);
-};
-
-struct EnemyRewardGameManagerView
-{
-    float TransformPopupX(float value);
-    float TransformPopupY(float value);
-};
-
-struct EnemyRewardRngView
-{
-    unsigned int NextUInt(unsigned short modulus);
-    float SampleScaled(float scale);
-    float SampleScaledAlternate(float scale);
-};
+// 3,883-byte EnemyManager::OnUpdate.
 
 struct EnemyRewardEffectView
 {
@@ -32,19 +18,9 @@ struct EnemyRewardEffectView
     unsigned short sideA8;
 };
 
-extern EnemyRewardSoundPlayerView g_SoundPlayer;
-extern EnemyRewardGameManagerView g_GameManager;
-extern EnemyRewardRngView g_Rng;
+extern RngRuntimeView g_ReplayRng;
 extern EffectManager *g_SharedEffectManager;
 extern float g_GameplayRegionWidth;
-
-extern void *__stdcall SpawnPlayerAttackEvent(
-    EnemyFloat3 *position,
-    float radius,
-    float scale,
-    int mode,
-    int attackType,
-    int count);
 
 void EnemyView::HandleDeathRewards(int hitKind)
 {
@@ -57,7 +33,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
     if ((this->rewardFlags3380 & 0x2000) != 0)
     {
         EnemyFloat3 *worldPosition = &this->worldPosition2DD4;
-        g_SoundPlayer.PlayAtPosition(18, worldPosition->x);
+        g_SoundPlayer.PlaySoundPositionedByIdx(18, worldPosition->x);
         this->manager00->sideState320->player04->rewardAttack30410
             .QueueEnemyReward(worldPosition, 400, 0, 300, 1000);
         this->manager00->sideState320->player04->SpawnDefeatToken(
@@ -67,13 +43,13 @@ void EnemyView::HandleDeathRewards(int hitKind)
 
     if ((this->rewardFlags3380 & 0x0C00) != 0)
     {
-        g_SoundPlayer.PlayAtPosition(18, this->worldPosition2DD4.x);
+        g_SoundPlayer.PlaySoundPositionedByIdx(18, this->worldPosition2DD4.x);
         this->manager00->sideState320->player04->SpawnDefeatToken(
-            g_Rng.NextUInt(4), &this->position2D74);
+            g_ReplayRng.GetRandomU16InRange(4), &this->position2D74);
     }
 
     EnemyFloat3 *worldPosition = &this->worldPosition2DD4;
-    g_SoundPlayer.PlayAtPosition(
+    g_SoundPlayer.PlaySoundPositionedByIdx(
         this->sequenceIndex2E58 % 2 + 2, worldPosition->x);
 
     if ((this->rewardFlags3380 & 0x01C0) != 0 && rewardMode != 0 &&
@@ -104,8 +80,10 @@ void EnemyView::HandleDeathRewards(int hitKind)
                 effectScale = 6.0f;
             else
                 effectScale = 6.25f;
-            SpawnPlayerAttackEvent(
-                worldPosition,
+            reinterpret_cast<PlayerCollisionRegionCreateView *>(
+                this->manager00->sideState320->player04)
+                ->CreateCircleType2(
+                reinterpret_cast<const PlayerRegionPointView *>(worldPosition),
                 32.0f,
                 effectScale,
                 3,
@@ -123,8 +101,10 @@ void EnemyView::HandleDeathRewards(int hitKind)
                 effectScale = 6.0f;
             else
                 effectScale = 6.25f;
-            SpawnPlayerAttackEvent(
-                worldPosition,
+            reinterpret_cast<PlayerCollisionRegionCreateView *>(
+                this->manager00->sideState320->player04)
+                ->CreateCircleType2(
+                reinterpret_cast<const PlayerRegionPointView *>(worldPosition),
                 32.0f,
                 effectScale,
                 2,
@@ -188,8 +168,9 @@ void EnemyView::HandleDeathRewards(int hitKind)
     g_Supervisor.SelectSide(1 - this->manager00->sideIndex31C);
 
     EnemyFloat3 velocity;
-    velocity.x = g_Rng.SampleScaled(g_GameplayRegionWidth * 0.5f - 8.0f);
-    velocity.y = g_Rng.SampleScaledAlternate(128.0f);
+    velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
+        g_GameplayRegionWidth * 0.5f - 8.0f);
+    velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
     velocity.z = 0.0f;
 
     Effect *effect = g_SharedEffectManager->SpawnEffectWithVelocity(
@@ -210,7 +191,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
     rewardEffect->tierLimitA6 =
         static_cast<unsigned short>(effectTier > 3 ? 3 : effectTier);
     rewardEffect->angularStepA0 =
-        g_Rng.SampleScaledAlternate(0.5f) * 0.016666668f;
+        g_ReplayRng.GetRandomF32InRange(0.5f) * 0.016666668f;
     rewardEffect->sideA8 =
         static_cast<unsigned short>(this->manager00->sideIndex31C);
 }
