@@ -366,6 +366,15 @@ and its draw argument are addressed directly through the CardAttack owner. All
 137,309 non-exact bytes. The <=256-byte routing frontier is unchanged because
 this helper is 334 bytes.
 
+
+Packet 573 refines `EffectManager::OnUpdate @ 0x0040CDD0` from 482 bytes
+to the exact 475-byte target extent. Initializing the effect-pool cursor before
+the early guards restores the target entry-time ESI lifetime and leaves only
+four ordinary-byte differences: VC7.1 commutes `primaryCount + secondaryCount`
+at the initial and loop-tail dynamic bounds. All eleven relocations solve and
+427/431 ordinary comparable bytes match. This remains NON-EXACT, so live totals
+stay 831 exact / 148 non-exact / 137,309 non-exact bytes.
+
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
 resolved. The target's 32-element special-effect point array uses the generic

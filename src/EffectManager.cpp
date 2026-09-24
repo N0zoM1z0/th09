@@ -246,6 +246,7 @@ Effect *EffectManager::SpawnEffectInFixedSlot(
 
 int EffectManager::OnUpdate(EffectManager *effectManager)
 {
+    Effect *effect = effectManager->effects;
     if ((g_GameManager.flags134 & 0x1800) != 0 || (g_GameManager.sides[0].flags34 & 1) != 0)
         return CHAIN_CALLBACK_RESULT_CONTINUE;
 
@@ -258,7 +259,6 @@ int EffectManager::OnUpdate(EffectManager *effectManager)
     effectManager->drawSentinel1.nextInDrawGroup = NULL;
     effectManager->drawSentinel2.nextInDrawGroup = NULL;
 
-    Effect *effect = effectManager->effects;
     for (int i = 0;
          i < effectManager->secondaryCount + effectManager->primaryCount;
          ++i, ++effect)
