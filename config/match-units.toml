@@ -17516,3 +17516,25 @@ relocations = [
   { offset = 0x19C, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
   { offset = 0x1B5, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
 ]
+
+
+[units.title-screen-set-character-setting-sprites]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::SetCharacterSettingSprites"]
+symbol = "?SetCharacterSettingSprites@TitleScreenView@@QAEHHH@Z"
+target_address = 0x00423182
+size = 0x1DF
+relocations = [
+  { offset = 0x38, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+  { offset = 0x66, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+  { offset = 0x94, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+  { offset = 0xC2, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+  { offset = 0xEE, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+  { offset = 0x11D, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+  { offset = 0x14C, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+  { offset = 0x17A, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+  { offset = 0x1A8, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+  { offset = 0x1D4, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+]

@@ -1118,16 +1118,25 @@ int TitleScreenView::SetCharacterCursorInactive(i32 selectedCharacter, i32 start
 int TitleScreenView::SetCharacterSettingSprites(i32 side0Setting, i32 side1Setting)
 {
     titleAnm->SetSprite(&vms[142], side0Setting == 0 ? 197 : (side0Setting == 1 ? 196 : 195));
-    titleAnm->SetSprite(&vms[143], side0Setting <= 2 ? 197 : (side0Setting == 3 ? 196 : 195));
-    titleAnm->SetSprite(&vms[144], side0Setting <= 4 ? 197 : (side0Setting == 5 ? 196 : 195));
-    titleAnm->SetSprite(&vms[145], side0Setting <= 6 ? 197 : (side0Setting == 7 ? 196 : 195));
-    titleAnm->SetSprite(&vms[146], side0Setting <= 8 ? 197 : (side0Setting == 9 ? 196 : 195));
+    side0Setting -= 2;
+    titleAnm->SetSprite(&vms[143], side0Setting <= 0 ? 197 : (side0Setting == 1 ? 196 : 195));
+    side0Setting -= 2;
+    titleAnm->SetSprite(&vms[144], side0Setting <= 0 ? 197 : (side0Setting == 1 ? 196 : 195));
+    side0Setting -= 2;
+    titleAnm->SetSprite(&vms[145], side0Setting <= 0 ? 197 : (side0Setting == 1 ? 196 : 195));
+    side0Setting -= 2;
+    titleAnm->SetSprite(&vms[146], side0Setting <= 0 ? 197 : (side0Setting == 1 ? 196 : 195));
 
-    titleAnm->SetSprite(&vms[148], side1Setting == 0 ? 197 : (side1Setting == 1 ? 196 : 195));
-    titleAnm->SetSprite(&vms[149], side1Setting <= 2 ? 197 : (side1Setting == 3 ? 196 : 195));
-    titleAnm->SetSprite(&vms[150], side1Setting <= 4 ? 197 : (side1Setting == 5 ? 196 : 195));
-    titleAnm->SetSprite(&vms[151], side1Setting <= 6 ? 197 : (side1Setting == 7 ? 196 : 195));
-    return titleAnm->SetSprite(&vms[152], side1Setting <= 8 ? 197 : (side1Setting == 9 ? 196 : 195));
+    int setting = side1Setting;
+    titleAnm->SetSprite(&vms[148], setting == 0 ? 197 : (setting == 1 ? 196 : 195));
+    setting -= 2;
+    titleAnm->SetSprite(&vms[149], setting <= 0 ? 197 : (setting == 1 ? 196 : 195));
+    setting -= 2;
+    titleAnm->SetSprite(&vms[150], setting <= 0 ? 197 : (setting == 1 ? 196 : 195));
+    setting -= 2;
+    titleAnm->SetSprite(&vms[151], setting <= 0 ? 197 : (setting == 1 ? 196 : 195));
+    setting -= 2;
+    return titleAnm->SetSprite(&vms[152], setting <= 0 ? 197 : (setting == 1 ? 196 : 195));
 }
 
 

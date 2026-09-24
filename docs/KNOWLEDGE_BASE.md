@@ -3718,3 +3718,11 @@ name into a TH09 fact without target-local evidence.
 - The target keeps `sideIndex +0xA66C` in EDI immediately after the first front-ANM load succeeds. Reconstructing one ordinary `sideIndex` local and reusing it for the side ANM lookup plus the optional slot-7 resource gate naturally gives that preserved lifetime and the target failure epilogue shape.
 - All six VM initialization loops are unsigned in the target source family: their backedges are `JB`, not the `JL` emitted by the maintained signed `int i` loops. Changing only those loop indices to `unsigned int` recovers the target 11/5/7/10/7/5 loop branches while preserving the already-correct ANM calls, status-VM position copies, mode-2 rank gate, timer reset and VM clear.
 - A cold same-TU replay keeps all thirteen pre-existing accepted `FrontSide.cpp` units exact. No volatile, `var_order`, forced register, padding, assembly, or target-byte encoding is used.
+
+
+## Packet 600 TitleScreen character-setting sprites exact closure
+
+- `TitleScreenView::SetCharacterSettingSprites @ 0x00423182-0x00423360` is canonical exact at 479/479 bytes with ten reviewed SetSprite relocations. Fresh target comparison supersedes the old 488-byte independent-threshold source.
+- The target treats each side setting as a decrementing two-step induction value. Side 0 uses the parameter itself in EDI: after drawing VM 142 the value is reduced by two before each subsequent VM 143-146 selector. This produces the target repeated `<=0 / ==1 / else` selector blocks and DEC/DEC transitions instead of recomputing comparisons against 2/4/6/8.
+- Side 1 has a distinct lifetime: the stack argument is copied into an ordinary local before VM 148, and that local is then decremented by two for VMs 149-152. This target-backed hybrid matters to VC7.1: one local shared by both sides emits 480 bytes, while mutating both parameters emits 478; direct side0 induction plus a side1 local copy reproduces exactly 479 bytes.
+- A cold same-TU replay keeps all twenty-seven pre-existing `/O1 /Ob1` TitleScreen units exact, and the independent `/O2` score-record unit remains exact. No volatile, `var_order`, padding, assembly, or forced register is used.
