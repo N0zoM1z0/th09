@@ -122,53 +122,6 @@ void __fastcall InterpolateHermite(
 
 } // namespace
 
-namespace Th09EclRunControl
-{
-
-Th09EclRawInstructionHeaderView *__fastcall CompareOperands(
-    EnemyView *enemy,
-    Th09EclRawInstructionHeaderView *instruction)
-{
-    bool success = false;
-    switch (instruction->opcode04)
-    {
-    case TH09_ECL_OPCODE_JUMP_IF_INT_EQUAL:
-        success = ReadInt(enemy, instruction, 0) == ReadInt(enemy, instruction, 1); break;
-    case TH09_ECL_OPCODE_JUMP_IF_FLOAT_EQUAL:
-        success = ReadFloat(enemy, instruction, 0) == ReadFloat(enemy, instruction, 1); break;
-    case TH09_ECL_OPCODE_JUMP_IF_INT_NOT_EQUAL:
-        success = ReadInt(enemy, instruction, 0) != ReadInt(enemy, instruction, 1); break;
-    case TH09_ECL_OPCODE_JUMP_IF_FLOAT_NOT_EQUAL:
-        success = ReadFloat(enemy, instruction, 0) != ReadFloat(enemy, instruction, 1); break;
-    case TH09_ECL_OPCODE_JUMP_IF_INT_LESS:
-        success = ReadInt(enemy, instruction, 0) < ReadInt(enemy, instruction, 1); break;
-    case TH09_ECL_OPCODE_JUMP_IF_FLOAT_LESS:
-        success = ReadFloat(enemy, instruction, 0) < ReadFloat(enemy, instruction, 1); break;
-    case TH09_ECL_OPCODE_JUMP_IF_INT_LESS_EQUAL:
-        success = ReadInt(enemy, instruction, 0) <= ReadInt(enemy, instruction, 1); break;
-    case TH09_ECL_OPCODE_JUMP_IF_FLOAT_LESS_EQUAL:
-        success = ReadFloat(enemy, instruction, 0) <= ReadFloat(enemy, instruction, 1); break;
-    case TH09_ECL_OPCODE_JUMP_IF_INT_GREATER:
-        success = ReadInt(enemy, instruction, 0) > ReadInt(enemy, instruction, 1); break;
-    case TH09_ECL_OPCODE_JUMP_IF_FLOAT_GREATER:
-        success = ReadFloat(enemy, instruction, 0) > ReadFloat(enemy, instruction, 1); break;
-    case TH09_ECL_OPCODE_JUMP_IF_INT_GREATER_EQUAL:
-        success = ReadInt(enemy, instruction, 0) >= ReadInt(enemy, instruction, 1); break;
-    case TH09_ECL_OPCODE_JUMP_IF_FLOAT_GREATER_EQUAL:
-        success = ReadFloat(enemy, instruction, 0) >= ReadFloat(enemy, instruction, 1); break;
-    default:
-        break;
-    }
-    if (!success)
-        return NULL;
-
-    HelperView(enemy)->activeContext2CE0->time008.current08 = RawInt(instruction, 2);
-    return reinterpret_cast<Th09EclRawInstructionHeaderView *>(
-        reinterpret_cast<unsigned char *>(instruction) + RawInt(instruction, 3));
-}
-
-} // namespace Th09EclRunControl
-
 namespace Th09EclRunMovement
 {
 

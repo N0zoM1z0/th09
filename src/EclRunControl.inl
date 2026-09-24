@@ -72,7 +72,7 @@ static void ApplyInterpolationOperation(
 static void InstallInterpolationSlot(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
-Th09EclRawInstructionHeaderView *__fastcall CompareOperands(
+static Th09EclRawInstructionHeaderView *CompareOperands(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
 static void CallSubroutine(

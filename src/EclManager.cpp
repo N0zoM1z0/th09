@@ -384,6 +384,72 @@ static void SetExtraAnmScript(
 namespace Th09EclRunControl
 {
 
+static Th09EclRawInstructionHeaderView *CompareOperands(
+    EnemyView *enemy,
+    Th09EclRawInstructionHeaderView *instruction)
+{
+    short opcode = static_cast<short>(instruction->opcode04);
+    switch (opcode)
+    {
+    case TH09_ECL_OPCODE_JUMP_IF_INT_EQUAL:
+        if (ReadInt(enemy, instruction, 0) == ReadInt(enemy, instruction, 1))
+            goto comparison_succeeded;
+        return NULL;
+    case TH09_ECL_OPCODE_JUMP_IF_FLOAT_EQUAL:
+        if (ReadFloat(enemy, instruction, 0) == ReadFloat(enemy, instruction, 1))
+            goto comparison_succeeded;
+        return NULL;
+    case TH09_ECL_OPCODE_JUMP_IF_INT_NOT_EQUAL:
+        if (ReadInt(enemy, instruction, 0) != ReadInt(enemy, instruction, 1))
+            goto comparison_succeeded;
+        return NULL;
+    case TH09_ECL_OPCODE_JUMP_IF_FLOAT_NOT_EQUAL:
+        if (ReadFloat(enemy, instruction, 0) != ReadFloat(enemy, instruction, 1))
+            goto comparison_succeeded;
+        return NULL;
+    case TH09_ECL_OPCODE_JUMP_IF_INT_LESS:
+        if (ReadInt(enemy, instruction, 0) < ReadInt(enemy, instruction, 1))
+            goto comparison_succeeded;
+        return NULL;
+    case TH09_ECL_OPCODE_JUMP_IF_FLOAT_LESS:
+        if (ReadFloat(enemy, instruction, 0) < ReadFloat(enemy, instruction, 1))
+            goto comparison_succeeded;
+        return NULL;
+    case TH09_ECL_OPCODE_JUMP_IF_INT_LESS_EQUAL:
+        if (ReadInt(enemy, instruction, 0) <= ReadInt(enemy, instruction, 1))
+            goto comparison_succeeded;
+        return NULL;
+    case TH09_ECL_OPCODE_JUMP_IF_FLOAT_LESS_EQUAL:
+        if (ReadFloat(enemy, instruction, 0) <= ReadFloat(enemy, instruction, 1))
+            goto comparison_succeeded;
+        return NULL;
+    case TH09_ECL_OPCODE_JUMP_IF_INT_GREATER:
+        if (ReadInt(enemy, instruction, 0) > ReadInt(enemy, instruction, 1))
+            goto comparison_succeeded;
+        return NULL;
+    case TH09_ECL_OPCODE_JUMP_IF_FLOAT_GREATER:
+        if (ReadFloat(enemy, instruction, 0) > ReadFloat(enemy, instruction, 1))
+            goto comparison_succeeded;
+        return NULL;
+    case TH09_ECL_OPCODE_JUMP_IF_INT_GREATER_EQUAL:
+        if (ReadInt(enemy, instruction, 0) >= ReadInt(enemy, instruction, 1))
+            goto comparison_succeeded;
+        return NULL;
+    case TH09_ECL_OPCODE_JUMP_IF_FLOAT_GREATER_EQUAL:
+        if (ReadFloat(enemy, instruction, 0) >= ReadFloat(enemy, instruction, 1))
+            goto comparison_succeeded;
+        return NULL;
+    default:
+        return NULL;
+    }
+
+comparison_succeeded:
+    Th09EclRunState::View(enemy)->activeContext2CE0->time008.current08 =
+        RawInt(instruction, 2);
+    return reinterpret_cast<Th09EclRawInstructionHeaderView *>(
+        reinterpret_cast<unsigned char *>(instruction) + RawInt(instruction, 3));
+}
+
 extern Th09EclRunOwner::InterpolationCallback g_EclInterpolationCallbacks[];
 
 static void ApplyInterpolationOperation(
