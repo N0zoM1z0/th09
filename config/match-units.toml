@@ -167,6 +167,26 @@ relocations = [
   { offset = 0x30, type = "REL32", symbol = "?ResolveFloatLValue@Th09EclRunControl@@YIPAMPAUEnemyView@@PAMGH@Z", target = 0x00406210 },
 ]
 
+[units.ecl-interpolate-hermite]
+source = "src/EclHelpers.cpp"
+object = "build/matching/EclHelpers.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["InterpolateHermite"]
+symbol = "?InterpolateHermite@?A0x2438d675@@YIXPAUEnemyView@@PAUTh09EclInterpolationSlotView@@M@Z"
+target_address = 0x004074A0
+size = 0xBC
+relocations = [
+  { offset = 0x11, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
+  { offset = 0x1F, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
+  { offset = 0x2D, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
+  { offset = 0x3B, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
+  { offset = 0x58, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x61, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x6C, type = "REL32", symbol = "?ResolveFloatLValue@Th09EclRunControl@@YIPAMPAUEnemyView@@PAMGH@Z", target = 0x00406210 },
+  { offset = 0x76, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x86, type = "DIR32", symbol = "__real@40400000", target = 0x0048E2A0 },
+]
+
 [units.ecl-apply-interpolation]
 source = "src/EclManager.cpp"
 object = "build/matching/EclManager-apply-interpolation.obj"

@@ -1,14 +1,14 @@
 # TH09 short-function frontier
 
-This is a Packet-554 routing snapshot, not a second exactness ledger. The
+This is a Packet-555 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **36 functions**, of which
-**11 are at most 128 bytes**, after Packet 554's TextHelper TU-split promotion.
+target logical size at most 256 bytes**. It yields **35 functions**, of which
+**11 are at most 128 bytes**, after Packet 555's Hermite expression-tree promotion.
 Size is only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
@@ -34,7 +34,6 @@ subject to their target-local ledger evidence.
 | 0x00424FB0 | 175 | TitleScreen | `TitleScreenView::SetCharacterCursorReverse` |
 | 0x0042505F | 175 | TitleScreen | `TitleScreenView::SetCharacterCursorInactive` |
 | 0x00410110 | 184 | EnemyManager | `EnemyView::CleanupAfterDeactivation` |
-| 0x004074A0 | 188 | EclManager | `InterpolateHermite` |
 | 0x0040F9B0 | 188 | EnemyManager | `EnemyView::IntegrateMotion` |
 | 0x0042EAC0 | 191 | Supervisor | `SupervisorFrameQueueView::InsertPredictedFrame` |
 | 0x00432770 | 199 | SupervisorNetwork | `SupervisorNetworkState::IsServiceProviderAvailable` |
@@ -156,6 +155,13 @@ subject to their target-local ledger evidence.
   Moving the unchanged function to its own TU restores ordinary call-clobber
   assumptions, the target 0x4C frame, all pointer spill/reload instructions,
   and all eight relocation targets. The <=256-byte frontier is now 36.
+- Packet 555 closes `InterpolateHermite @ 0x004074A0` at 188/188
+  bytes. The old formula was mathematically correct, but VC7.1 reassociated the
+  unparenthesized expression into a 182-byte x87 schedule with different local
+  slots. Explicitly grouping each Hermite basis before multiplying its parameter
+  and explicitly left-associating the four weighted terms restores the target
+  -0x10/-0x14/-0x18/-0x1C parameter slots, -0x08/-0x04/-0x0C derived locals,
+  and target term0->term1->term2->term3 x87 order. The frontier is now 35.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. several exact-sized candidates have

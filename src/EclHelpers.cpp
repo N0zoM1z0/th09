@@ -113,10 +113,10 @@ void __fastcall InterpolateHermite(
 
     *Th09EclRunControl::ResolveFloatLValue(
         enemy, &slot->affectedVariable2C, 0, -1) =
-        (twice + 1.0f) * minusOne * minusOne * parameter0 +
-        (3.0f - twice) * progress * progress * parameter1 +
-        inverse * inverse * progress * parameter2 +
-        minusOne * progress * progress * parameter3;
+        ((((twice + 1.0f) * minusOne * minusOne) * parameter0 +
+          ((3.0f - twice) * progress * progress) * parameter1) +
+         ((inverse * inverse) * progress) * parameter2) +
+        ((minusOne * progress) * progress) * parameter3;
 }
 
 
