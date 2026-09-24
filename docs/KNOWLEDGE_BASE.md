@@ -3710,3 +3710,11 @@ name into a TH09 fact without target-local evidence.
 - EtamaController::SpawnLaserPattern @ 0x00413290-0x00413451 is canonical exact at 450/450 bytes with six reviewed relocations. The complete laser field mapping and ANM/player/timer helper bindings were already target-closed; the sole remaining byte frontier was the physical shape of the 48-slot free-laser scan.
 - The previous natural for(;;) source emitted 449 bytes and rotated the target scan. A plain do/while restores the target top-test/bottom-jl family but, when followed by an explicit exhaustion check, leaves a redundant post-loop compare and grows to 459 bytes. An index-bounded for loop triggers compiler unrolling and is rejected.
 - Reusing the pool-search source family independently proven by ExAttackController::Spawn closes the function naturally: inside the do/while, an unused slot jumps to the initialization label, active slots advance index and laser, and exhausting all 48 slots falls directly into return. VC7.1 then emits exactly the target scan and preserves the already-correct initialization body unchanged. No volatile, var_order, forced register, padding, inline assembly, fake side effect or embedded target byte is used.
+
+
+## Packet 599 FrontSide added callback exact closure
+
+- `FrontSide::AddedCallback @ 0x0041A000-0x0041A1CB` is canonical exact at 460/460 bytes with nineteen reviewed relocations. Fresh target comparison supersedes the old target-sized 334/384 register-allocation plateau diagnosis.
+- The target keeps `sideIndex +0xA66C` in EDI immediately after the first front-ANM load succeeds. Reconstructing one ordinary `sideIndex` local and reusing it for the side ANM lookup plus the optional slot-7 resource gate naturally gives that preserved lifetime and the target failure epilogue shape.
+- All six VM initialization loops are unsigned in the target source family: their backedges are `JB`, not the `JL` emitted by the maintained signed `int i` loops. Changing only those loop indices to `unsigned int` recovers the target 11/5/7/10/7/5 loop branches while preserving the already-correct ANM calls, status-VM position copies, mode-2 rank gate, timer reset and VM clear.
+- A cold same-TU replay keeps all thirteen pre-existing accepted `FrontSide.cpp` units exact. No volatile, `var_order`, forced register, padding, assembly, or target-byte encoding is used.

@@ -177,11 +177,12 @@ int FrontSide::AddedCallback(FrontSide *frontSide)
     if (frontSide->frontAnmA668 == NULL)
         return -1;
 
+    int sideIndex = frontSide->sideIndexA66C;
     frontSide->auxA678.sideAnm00 =
-        g_AnmManager->GetAnm(frontSide->sideIndexA66C + 5);
+        g_AnmManager->GetAnm(sideIndex + 5);
 
     FrontSideSideStateView *side = FrontSideState(frontSide->sideStateA670);
-    if (frontSide->sideIndexA66C == 0 &&
+    if (sideIndex == 0 &&
         g_GameManager.field0FC == 8 && side->shotType20 == 6)
     {
         frontSide->auxA678.optionalAnm04 =
@@ -191,26 +192,26 @@ int FrontSide::AddedCallback(FrontSide *frontSide)
             return -1;
     }
 
-    for (int i = 0; i < 11; ++i)
+    for (unsigned int i = 0; i < 11; ++i)
     {
         frontSide->frontAnmA668->ExecuteAnmIdx(&frontSide->statusVms0000[i], i + 7);
         FrontSideVm(frontSide->statusVms0000 + i)->offset288 =
             FrontSideVm(frontSide->statusVms0000 + i)->position208;
     }
-    for (int i = 0; i < 5; ++i)
+    for (unsigned int i = 0; i < 5; ++i)
         frontSide->frontAnmA668->ExecuteAnmIdx(&frontSide->stockVms1D0C[i], i + 35);
-    for (int i = 0; i < 7; ++i)
+    for (unsigned int i = 0; i < 7; ++i)
         frontSide->frontAnmA668->ExecuteAnmIdx(&frontSide->gaugeVms2A40[i], i + 52);
-    for (int i = 0; i < 10; ++i)
+    for (unsigned int i = 0; i < 10; ++i)
         frontSide->frontAnmA668->ExecuteAnmIdx(&frontSide->scoreVms3F60[i], i + 20);
     frontSide->frontAnmA668->ExecuteAnmIdx(&frontSide->vm3CBC, 59);
 
     if (!g_GameManager.IsMode2())
     {
-        for (int i = 0; i < 7; ++i)
+        for (unsigned int i = 0; i < 7; ++i)
             frontSide->frontAnmA668->ExecuteAnmIdx(&frontSide->rankVms86AC[i], i + 40);
     }
-    for (int i = 0; i < 5; ++i)
+    for (unsigned int i = 0; i < 5; ++i)
         frontSide->frontAnmA668->ExecuteAnmIdx(&frontSide->counterVms9928[i], i + 47);
 
     frontSide->updateTimerABDC = 0;
