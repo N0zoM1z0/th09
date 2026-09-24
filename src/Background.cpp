@@ -68,6 +68,29 @@ struct BackgroundStageVmRuntimeView
     short scriptIndex;
 };
 
+struct BackgroundTintColorView
+{
+    unsigned char blue;
+    unsigned char green;
+    unsigned char red;
+    unsigned char alpha;
+};
+
+struct BackgroundSpellVmDrawView
+{
+    unsigned char unknown000[0x208];
+    BackgroundPoint position208;
+    unsigned char unknown214[0x288 - 0x214];
+    BackgroundPoint position288;
+    unsigned char unknown294[0x2A4 - 0x294];
+};
+
+struct AsciiGameManagerView
+{
+    float TransformPopupX(float value);
+    float TransformPopupY(float value);
+};
+
 extern void BackgroundRunStageScriptPhase(Background *background);
 extern void BackgroundUpdateRuntimePhase(Background *background);
 
@@ -396,9 +419,14 @@ int Background::OnDrawLowPrio(Background *background)
             g_Supervisor.DisableFog();
     }
 
-    if ((background->tintColor >> 24) != 0)
+    BackgroundTintColorView *tint =
+        reinterpret_cast<BackgroundTintColorView *>(&background->tintColor);
+    if (tint->alpha > 0)
         g_AnmManager->SetMixColor(background->tintColor);
-    background->tintColor = 0x00808080;
+    tint->alpha = 0;
+    tint->red = 0x80;
+    tint->green = 0x80;
+    tint->blue = 0x80;
 
     g_AnmManager->FlushVertexBuffer();
     g_Supervisor.SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
@@ -408,17 +436,31 @@ int Background::OnDrawLowPrio(Background *background)
     if (background->spellBackgroundState >= 1)
     {
         for (int i = 0; i < background->spellVmCount; i++)
+        {
+            BackgroundSpellVmDrawView *vm =
+                reinterpret_cast<BackgroundSpellVmDrawView *>(
+                    &background->spellVms[i]);
+            AsciiGameManagerView *gameManager =
+                reinterpret_cast<AsciiGameManagerView *>(&g_GameManager);
+            vm->position208.x =
+                gameManager->TransformPopupX(vm->position288.x);
+            vm->position208.y =
+                gameManager->TransformPopupY(vm->position288.y);
+            vm->position208.z = vm->position288.z;
             g_AnmManager->Draw2DAndFlush(&background->spellVms[i]);
+        }
         if (background->spellBackgroundDrawCallback != NULL)
             background->spellBackgroundDrawCallback();
     }
 
     g_AnmManager->SetCameraMode(0);
     g_Supervisor.ApplyCameraMode0();
-    float fogStart = 1000.0f;
-    float fogEnd = 2000.0f;
-    g_Supervisor.SetRenderState(D3DRS_FOGSTART, *reinterpret_cast<int *>(&fogStart));
-    g_Supervisor.SetRenderState(D3DRS_FOGEND, *reinterpret_cast<int *>(&fogEnd));
+    float zValue = 1000.0f;
+    g_Supervisor.SetRenderState(
+        D3DRS_FOGSTART, *reinterpret_cast<int *>(&zValue));
+    zValue = 2000.0f;
+    g_Supervisor.SetRenderState(
+        D3DRS_FOGEND, *reinterpret_cast<int *>(&zValue));
     if (!background->retainTint)
         g_AnmManager->SetMixColorDefault();
     background->retainTint = 0;
