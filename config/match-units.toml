@@ -991,6 +991,18 @@ relocations = [
   { offset = 0x6F, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
 ]
 
+[units.zun-timer-constructor]
+source = "src/ZunTimerCtor.cpp"
+object = "build/matching/ZunTimerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::ZunTimer"]
+symbol = "??0ZunTimer@@QAE@XZ"
+target_address = 0x00403390
+size = 0x0C
+relocations = [
+  { offset = 0x04, type = "REL32", symbol = "?Initialize@ZunTimer@@QAEXXZ", target = 0x004014A0 },
+]
+
 [units.zun-timer-set-current]
 source = "src/ZunTimer.cpp"
 object = "build/matching/ZunTimer.obj"

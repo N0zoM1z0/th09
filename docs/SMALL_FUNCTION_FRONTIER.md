@@ -1,21 +1,20 @@
 # TH09 short-function frontier
 
-This is a Packet-531 routing snapshot, not a second exactness ledger. The
+This is a Packet-551 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **40 functions**, of which
-**13 are at most 128 bytes**, after Packet 531's Background constructor promotion.
+target logical size at most 256 bytes**. It yields **39 functions**, of which
+**12 are at most 128 bytes**, after Packet 551's ZunTimer constructor promotion.
 Size is only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
 
 | Target address | Bytes | Module | Non-exact source function |
 | --- | ---: | --- | --- |
-| 0x00403390 | 12 | ZunTimer | `ZunTimer::ZunTimer` |
 | 0x0040D4D0 | 32 | EffectManager | `EffectPolarScaleView::SetFromAngleAxes` |
 | 0x00441890 | 32 | Math | `Float3::FromAngleMagnitude` |
 | 0x00415C60 | 39 | Front | `DecodeFrontMessageString` |
@@ -131,10 +130,17 @@ subject to their target-local ledger evidence.
   62-byte candidate with a naturally equivalent post-clear flags assignment;
   all relocations resolve and 41/50 ordinary bytes match, but nine tail bytes
   still differ, so it remains non-exact.
+- Packet 551 closes `ZunTimer::ZunTimer @ 0x00403390` at 12/12 bytes.
+  The prior 8-byte candidate was an artifact of placing the constructor and
+  `Initialize` definition in the same translation unit: VC7.1 could see that
+  callee body and kept `this` in ECX. Moving only the ordinary constructor
+  definition to its own TU makes the compiler preserve `this` in ESI across
+  the call, exactly matching the target and resolving the sole REL32 to
+  `ZunTimer::Initialize @ 0x004014A0`. The frontier is now 39 functions; 12
+  remain at most 128 bytes.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. `AsciiManager::OnUpdate` is exact-sized at 253 bytes but still has
-  one `JB`/`JL` byte after bounded signedness probes. `ZunTimer::ZunTimer`,
-  `InputView::IsPressedScrolling`, and several exact-sized candidates have
+  one `JB`/`JL` byte after bounded signedness probes. `InputView::IsPressedScrolling`, and several exact-sized candidates have
   documented register, return or private-ABI residuals. Consult their ledger
   rows and `docs/KNOWLEDGE_BASE.md` before repeating a rejected probe.

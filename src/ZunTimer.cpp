@@ -19,11 +19,6 @@ typedef char ZunTimerSupervisorFlagsAt5D4[
     (offsetof(ZunTimerSupervisorLayout, flags5D4) == 0x5D4) ? 1 : -1];
 }
 
-ZunTimer::ZunTimer()
-{
-    this->Initialize();
-}
-
 void ZunTimer::Initialize()
 {
     this->current = 0;
