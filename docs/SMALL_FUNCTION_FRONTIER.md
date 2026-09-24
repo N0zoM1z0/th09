@@ -7,10 +7,10 @@ ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **16 functions**, of which
+target logical size at most 256 bytes**. It yields **14 functions**, of which
 **2 are at most 128 bytes**. The latest short-function promotions are
-`TitleScreenView::MoveCharacterCursorHorizontal @ 0x0042474A` and
-`MoveCharacterCursorHorizontalForInput @ 0x004247F1`; the overall canonical total is 843 exact
+`EtamaController::SpawnBulletPatternPrimary @ 0x004130F0` and
+`SpawnBulletPatternSecondary @ 0x004131C0`; the overall canonical total is 845 exact
 functions. Size is only a routing heuristic: this list is not a verified
 call-graph leaf set, a difficulty ranking, or product-build progress. All
 names and boundaries remain subject to their target-local ledger evidence.
@@ -23,8 +23,6 @@ names and boundaries remain subject to their target-local ledger evidence.
 | 0x00424FB0 | 175 | TitleScreen | `TitleScreenView::SetCharacterCursorReverse` |
 | 0x0042505F | 175 | TitleScreen | `TitleScreenView::SetCharacterCursorInactive` |
 | 0x0040F9B0 | 188 | EnemyManager | `EnemyView::IntegrateMotion` |
-| 0x004130F0 | 203 | BulletManager | `EtamaController::SpawnBulletPatternPrimary` |
-| 0x004131C0 | 203 | BulletManager | `EtamaController::SpawnBulletPatternSecondary` |
 | 0x00442220 | 204 | Player | `PlayerShotDrawCallbackType1` |
 | 0x00424EDD | 211 | TitleScreen | `TitleScreenView::SetCharacterCursorActive` |
 | 0x0042E9E0 | 213 | Supervisor | `SupervisorFrameQueueView::InsertReceivedFrame` |
@@ -80,9 +78,13 @@ history belongs in `docs/KNOWLEDGE_BASE.md`.
   reproduces both 167-byte targets and all seven relocations each. The three
   remaining cursor helpers are Reverse/Inactive at 183/175 and Active at
   217/211 after bounded natural alias/loop probes.
-- Both Bullet pattern wrappers remain natural 187/203-byte candidates. Target
-  loop-head LEA/jump no-op sequences are compiler layout, not source padding to
-  reproduce.
+- The two Bullet pattern wrappers are no longer on the frontier. Rechecking
+  TH08 source-family local declarations against fresh TH09 target bytes showed
+  that the apparent 16-byte loop-head padding was a source-lifetime effect:
+  function-scope indices plus an uninitialized `Bullet *result` make stock VC7.1
+  reproduce both 203-byte targets and all four relocations each. Explicit
+  `result = NULL` is target-disproved and emits 187 bytes.
+
 - `PlayerShotDrawCallbackType1` remains 190/204, but the old scheduling plateau
   is superseded. Source order `++index; ++point; alphaAccumulator += alpha`
   reproduces the first 190 target bytes with 165/166 ordinary comparable bytes;

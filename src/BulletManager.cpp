@@ -603,12 +603,15 @@ Bullet *EtamaController::SpawnSingleBullet(
 
 Bullet *EtamaController::SpawnBulletPatternPrimary(BulletSpawnDescriptor *descriptor)
 {
+    int index1;
+    float angleToPlayer;
+    int index2;
+    Bullet *result;
     descriptor->templateSprites = &this->bulletTypeSprites[descriptor->bulletType];
-    float angleToPlayer = this->sideState->player->AngleToPoint(&descriptor->position);
-    Bullet *result = NULL;
-    for (int index2 = 0; index2 < descriptor->count2; ++index2)
+    angleToPlayer = this->sideState->player->AngleToPoint(&descriptor->position);
+    for (index2 = 0; index2 < descriptor->count2; ++index2)
     {
-        for (int index1 = 0; index1 < descriptor->count1; ++index1)
+        for (index1 = 0; index1 < descriptor->count1; ++index1)
         {
             result = this->SpawnSingleBullet(descriptor, index1, index2, angleToPlayer, 0);
             if (result == &this->primaryBullets[175])
@@ -623,12 +626,15 @@ done:
 
 Bullet *EtamaController::SpawnBulletPatternSecondary(BulletSpawnDescriptor *descriptor)
 {
+    int index1;
+    float angleToPlayer;
+    int index2;
+    Bullet *result;
     descriptor->templateSprites = &this->bulletTypeSprites[descriptor->bulletType];
-    float angleToPlayer = this->sideState->player->AngleToPoint(&descriptor->position);
-    Bullet *result = NULL;
-    for (int index2 = 0; index2 < descriptor->count2; ++index2)
+    angleToPlayer = this->sideState->player->AngleToPoint(&descriptor->position);
+    for (index2 = 0; index2 < descriptor->count2; ++index2)
     {
-        for (int index1 = 0; index1 < descriptor->count1; ++index1)
+        for (index1 = 0; index1 < descriptor->count1; ++index1)
         {
             result = this->SpawnSingleBullet(descriptor, index1, index2, angleToPlayer, 1);
             if (result == &this->secondaryBullets[360])
