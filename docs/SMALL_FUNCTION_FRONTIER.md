@@ -1,14 +1,14 @@
 # TH09 short-function frontier
 
-This is a Packet-552 routing snapshot, not a second exactness ledger. The
+This is a Packet-553 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **38 functions**, of which
-**11 are at most 128 bytes**, after Packet 552's input scrolling helper promotion.
+target logical size at most 256 bytes**. It yields **37 functions**, of which
+**11 are at most 128 bytes**, after Packet 553's AsciiManager OnUpdate promotion.
 Size is only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
@@ -52,7 +52,6 @@ subject to their target-local ledger evidence.
 | 0x00443B10 | 249 | Player | `PlayerPositionCallback30404Type4` |
 | 0x00447620 | 249 | Player | `PlayerPositionCallback30404Type8` |
 | 0x0041F580 | 251 | Player | `PlayerLifecycleView::UpdateShots` |
-| 0x00435B00 | 253 | AsciiManager | `AsciiManager::OnUpdate` |
 
 ## Selection notes
 
@@ -144,9 +143,15 @@ subject to their target-local ledger evidence.
   VC7.1 preserve both target zero-extend/mask/test stages and emit the shared
   false/true EAX result blocks. The frontier is now 38 functions; 11 remain at
   most 128 bytes.
+- Packet 553 closes `AsciiManager::OnUpdate @ 0x00435B00` at 253/253
+  bytes with all fourteen relocations solved. The old signed-side-index probe
+  addressed the wrong expression: target EBX already contains the sideFlags
+  absolute address, and the sole target/candidate difference is signed `JL`
+  versus pointer-order `JB`. Comparing the two 32-bit addresses as signed
+  integers changes only that opcode and produces the exact target. The frontier
+  is now 37 functions; 11 remain at most 128 bytes.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
-  plateau. `AsciiManager::OnUpdate` is exact-sized at 253 bytes but still has
-  one `JB`/`JL` byte after bounded signedness probes. several exact-sized candidates have
+  plateau. several exact-sized candidates have
   documented register, return or private-ABI residuals. Consult their ledger
   rows and `docs/KNOWLEDGE_BASE.md` before repeating a rejected probe.

@@ -629,7 +629,8 @@ int AsciiManager::OnUpdate(AsciiManager *ascii)
             (g_GameManager.flags & 0x1800u) == 0) {
             popupBank = &ascii->scorePopups[0][0];
             for (sideFlags = reinterpret_cast<unsigned char *>(&g_GameManager.sides[0].flags);
-                 sideFlags < reinterpret_cast<unsigned char *>(&g_GameManager.sides[2].flags);
+                 reinterpret_cast<int>(sideFlags) <
+                     reinterpret_cast<int>(&g_GameManager.sides[2].flags);
                  popupBank += 100, sideFlags += sizeof(AsciiGameManagerSideView)) {
                 if ((*reinterpret_cast<unsigned int *>(sideFlags) & 1u) != 0) {
                     continue;
