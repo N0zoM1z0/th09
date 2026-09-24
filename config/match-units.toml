@@ -17170,3 +17170,24 @@ relocations = [
   { offset = 0x10B, type = "REL32", symbol = "?PlaySoundPositionedByIdx@PlayerShotInitSoundView@@QAEXHM@Z", target = 0x0043E380 },
   { offset = 0x122, type = "REL32", symbol = "?SetAndExecuteScriptIdx@PlayerShotInitAnmLoadedView@@QAEXPAXH@Z", target = 0x00403E00 },
 ]
+
+
+[units.title-screen-update-screen16-selection-visuals]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::UpdateScreen16SelectionVisuals"]
+symbol = "?UpdateScreen16SelectionVisuals@TitleScreenView@@QAEXHHPAD@Z"
+target_address = 0x00425390
+size = 0x117
+relocations = [
+  { offset = 0x2E, type = "DIR32", symbol = "?g_TitleCharacterUnlocked@@3PAEA", target = 0x004A81CC },
+  { offset = 0x36, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
+  { offset = 0x5C, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
+  { offset = 0x67, type = "DIR32", symbol = "__real@43000000", target = 0x0048E3BC },
+  { offset = 0x78, type = "REL32", symbol = "?ConfigurePositionInterpolation@AnmVmView@@QAEDHDPAUTitleFloat3View@@0@Z", target = 0x004233A3 },
+  { offset = 0x9D, type = "REL32", symbol = "?ConfigurePositionInterpolation@AnmVmView@@QAEDHDPAUTitleFloat3View@@0@Z", target = 0x004233A3 },
+  { offset = 0xBC, type = "DIR32", symbol = "?g_TitleCharacterUnlocked@@3PAEA", target = 0x004A81CC },
+  { offset = 0xC9, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
+  { offset = 0xFB, type = "REL32", symbol = "?ConfigureColorInterpolation@AnmVmView@@QAEHHDII@Z", target = 0x004233F4 },
+]

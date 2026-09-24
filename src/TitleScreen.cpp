@@ -419,7 +419,7 @@ struct TitleScreenView {
     int UpdateCharacterSettings(i32 side0Setting, i32 side1Setting);
     int SetCharacterSettingIndicator(i32 side, i32 value);
     int UpdateCharacterSelectionVisuals(i32 side, i32 selectedCharacter, i32 otherCharacter, char *order);
-    int UpdateScreen16SelectionVisuals(i32 side, i32 selectedCharacter, char *order);
+    void UpdateScreen16SelectionVisuals(i32 unusedSide, i32 selectedCharacter, char *order);
     int UpdateScreen8Mode0();
     int UpdateScreen8Mode123();
     int UpdateScreen16();
@@ -1238,43 +1238,53 @@ int TitleScreenView::UpdateCharacterSelectionVisuals(i32 side, i32 selectedChara
 }
 
 
-int TitleScreenView::UpdateScreen16SelectionVisuals(i32 side, i32 selectedCharacter, char *order)
+void TitleScreenView::UpdateScreen16SelectionVisuals(i32 unusedSide, i32 selectedCharacter, char *order)
 {
+    (void)unusedSide;
+
+    AnmVmView *marker = &vms[189];
     i32 selectedVisibleIndex = 0;
     for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
     {
         i32 character = order[orderIndex];
-        if (character == selectedCharacter)
+        if (selectedCharacter != character)
+        {
+            if (orderIndex > 13 || g_TitleCharacterUnlocked[character] || g_SupervisorNetworkState->active)
+                selectedVisibleIndex++;
+        }
+        else
+        {
             break;
-        if (orderIndex > 13 || g_TitleCharacterUnlocked[character] || g_SupervisorNetworkState->active)
-            selectedVisibleIndex++;
+        }
     }
 
-    TitleFloat3View targetPosition = vms[189 + side].position;
+    TitleFloat3View targetPosition;
+    targetPosition.x = marker->position.x;
     targetPosition.y = selectedVisibleIndex * 16.0f + 128.0f;
     targetPosition.z = 0.0f;
-    vms[189 + side].ConfigurePositionInterpolation(
-        8, 4, &vms[189 + side].position, &targetPosition);
+    marker->ConfigurePositionInterpolation(
+        8, 4, &marker->position, &targetPosition);
 
-    targetPosition.x = vms[190].position.x;
-    vms[190].ConfigurePositionInterpolation(8, 4, &vms[190].position, &targetPosition);
+    marker = &vms[190];
+    targetPosition.x = marker->position.x;
+    marker->ConfigurePositionInterpolation(
+        8, 4, &marker->position, &targetPosition);
 
     i32 visibleIndex = 0;
-    i32 result = 0;
     for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
     {
         i32 character = order[orderIndex];
         if (g_TitleCharacterUnlocked[character] || orderIndex > 13 || g_SupervisorNetworkState->active)
         {
             AnmVmView *vm = &vms[207 + visibleIndex];
-            u32 targetColor = selectedVisibleIndex == visibleIndex ? 0xFFFFFFFFu : 0xFFA0A0A0u;
-            result = vm->ConfigureColorInterpolation(8, 4, vm->color1, targetColor);
+            if (selectedVisibleIndex == visibleIndex)
+                vm->ConfigureColorInterpolation(8, 4, vm->color1, 0xFFFFFFFFu);
+            else
+                vm->ConfigureColorInterpolation(8, 4, vm->color1, 0xFFA0A0A0u);
             visibleIndex++;
         }
     }
-    return result;
 }
-
 
 int TitleScoreRecordView::InsertIntoTable()
 {

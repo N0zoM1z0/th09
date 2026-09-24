@@ -10,7 +10,7 @@ The filter is **confirmed authored + maintained source + not canonical exact +
 target logical size at most 256 bytes**. It yields **14 functions**, of which
 **2 are at most 128 bytes**. The latest short-function promotions are
 `EtamaController::SpawnBulletPatternPrimary @ 0x004130F0` and
-`SpawnBulletPatternSecondary @ 0x004131C0`; the overall canonical total is 845 exact
+`SpawnBulletPatternSecondary @ 0x004131C0`; the overall canonical total is 848 exact
 functions. Size is only a routing heuristic: this list is not a verified
 call-graph leaf set, a difficulty ranking, or product-build progress. All
 names and boundaries remain subject to their target-local ledger evidence.
@@ -71,6 +71,11 @@ history belongs in `docs/KNOWLEDGE_BASE.md`.
   bytes with all nine relocations solved. Only the `Setup` call evaluation
   order differs. Do not use volatile, padding, assembly, or source-order
   steering to force the LEA/push order.
+- UpdateScreen16SelectionVisuals @ 0x00425390 is now canonical exact outside
+  this <=256 routing table. Fresh caller and target review disproved the old
+  side-dependent integer-return reconstruction: the first stack argument is
+  unused, marker VMs are fixed at 189/190, and the helper is void. The target
+  position and color-control-flow source now reproduce all 279 bytes.
 - The two horizontal TitleScreen character-cursor helpers are no longer on the
   frontier. The old goto/cached-input source shape was target-disproved.
   Reusing the same-TU exact cursor family -- direct indexed input-state calls
