@@ -17191,3 +17191,20 @@ relocations = [
   { offset = 0xC9, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
   { offset = 0xFB, type = "REL32", symbol = "?ConfigureColorInterpolation@AnmVmView@@QAEHHDII@Z", target = 0x004233F4 },
 ]
+
+
+[units.player-shot-draw-callback-type2]
+source = "src/PlayerShotDrawCallback2.cpp"
+object = "build/matching/PlayerShotDrawCallback2.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerShotDrawCallbackType2"]
+symbol = "?PlayerShotDrawCallbackType2@@YIHPAUPlayerShotDraw2PlayerView@@PAUPlayerShotDraw2ShotView@@@Z"
+target_address = 0x00443300
+size = 0x125
+relocations = [
+  { offset = 0x6A, type = "DIR32", symbol = "__real@3eaaaaab", target = 0x004915BC },
+  { offset = 0x72, type = "DIR32", symbol = "__real@40400000", target = 0x0048E2A0 },
+  { offset = 0x8F, type = "DIR32", symbol = "__real@40800000", target = 0x004915A0 },
+  { offset = 0xBD, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0xC3, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
+]

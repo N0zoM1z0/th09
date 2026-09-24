@@ -20,13 +20,13 @@ int __fastcall PlayerShotDrawCallbackType2(
 {
     unsigned int savedRed = shot->color1F0.red;
     unsigned int savedGreen = shot->color1F0.green;
-    unsigned char savedBlue = shot->color1F0.blue;
+    unsigned int savedBlue = shot->color1F0.blue;
     unsigned int savedAlpha = shot->color1F0.alpha;
 
     int index = 0;
-    int redAccumulator = 0;
-    int greenAccumulator = 0;
     int alphaAccumulator = 0;
+    int greenAccumulator = 0;
+    int redAccumulator = 0;
     PlayerPositionView *point = shot->history2B0;
 
     do
@@ -50,11 +50,11 @@ int __fastcall PlayerShotDrawCallbackType2(
         g_AnmManager->Draw2D(
             reinterpret_cast<AnmVm *>(shot));
 
+        ++index;
         ++point;
         redAccumulator += savedRed;
         greenAccumulator += savedGreen;
         alphaAccumulator += savedAlpha;
-        ++index;
     }
     while (index < 4);
 
