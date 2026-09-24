@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 808 |
-| Source-present non-exact functions | 171 |
-| Source-present non-exact bytes | 142,055 |
+| Canonical exact functions | 809 |
+| Source-present non-exact functions | 170 |
+| Source-present non-exact bytes | 141,736 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 133,614 |
+| Canonical exact authored bytes | 133,933 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 808 canonical exact and 171 honest non-exact.
+functions: 809 canonical exact and 170 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -111,6 +111,17 @@ bytes remain unassigned. All 16 configured `EclManager.cpp` match units replay
 exact. This helper is larger than the <=256-byte short-function filter, so the
 40-entry short frontier is unchanged; RunEcl and Windows product closure remain
 open.
+
+Packet 542 closes `FrontSide::SetTimingDigits @ 0x00418950` at 319/319 bytes
+with five target-resolved `AnmLoaded::SetSprite @ 0x00436AC0` relocations.
+Target control flow has the zero-hundreds VM clear as the fallthrough and the
+nonzero sprite setter on the taken branch; reversing the natural source branch
+layout corrected the prior 261/299 ordinary-byte candidate without ABI or
+register steering. The two `PlayerUpdateSelectorState` callers and the
+`SetPatternTiming` formatter path remain independently owned. All 13 configured
+`FrontSide.cpp` exact units replayed exact across two cold TU builds. The
+function is larger than the <=256-byte frontier; `OnUpdate`, `AddedCallback`,
+the larger FrontSide owners, and Windows product closure remain open.
 
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
@@ -611,7 +622,7 @@ is a snapshot, not a permanent ranking; recompute before choosing work.
 | EnemyManager | 11 | 9,902 |
 | Front | 10 | 8,138 |
 | BulletManager | 12 | 6,816 |
-| FrontSide | 4 | 6,254 |
+| FrontSide | 3 | 5,935 |
 | Background | 8 | 5,306 |
 | GameManager | 5 | 4,259 |
 | ReplayManager | 5 | 3,949 |

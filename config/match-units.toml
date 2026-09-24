@@ -9248,6 +9248,22 @@ relocations = [
   { offset = 0x85, type = "REL32", symbol = "?SetTimingDigits@FrontSide@@QAEHH@Z", target = 0x00418950 },
 ]
 
+[units.front-side-set-timing-digits]
+source = "src/FrontSide.cpp"
+object = "build/matching/FrontSide.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontSide::SetTimingDigits"]
+symbol = "?SetTimingDigits@FrontSide@@QAEHH@Z"
+target_address = 0x00418950
+size = 0x13f
+relocations = [
+  { offset = 0xad, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x00436ac0 },
+  { offset = 0xd2, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x00436ac0 },
+  { offset = 0xe8, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x00436ac0 },
+  { offset = 0x11e, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x00436ac0 },
+  { offset = 0x134, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x00436ac0 },
+]
+
 [units.front-side-create]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"

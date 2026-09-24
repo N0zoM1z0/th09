@@ -342,14 +342,14 @@ int FrontSide::SetTimingDigits(int frames)
     int seconds = frames % 60;
     int savedMinutes = minutes;
     int hundreds = minutes / 100;
-    if (hundreds != 0)
-    {
-        this->frontAnmA668->SetSprite(&this->timingVms76D4[0], hundreds + 53);
-    }
-    else
+    if (hundreds == 0)
     {
         memset(&this->timingVms76D4[0], 0, sizeof(AnmVm));
         minutes = savedMinutes;
+    }
+    else
+    {
+        this->frontAnmA668->SetSprite(&this->timingVms76D4[0], hundreds + 53);
     }
 
     this->frontAnmA668->SetSprite(&this->timingVms76D4[1], minutes / 10 % 10 + 53);
