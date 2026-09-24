@@ -81,7 +81,10 @@ subject to their target-local ledger evidence.
   checks the eight-record bound before indexing, while the prior source
   evaluated the key expression first. Corrected natural source compiles to
   215/220 bytes and remains non-exact; do not restore the unsafe order to chase
-  the previous candidate size.
+  the previous candidate size. Packet 543 clarifies that the target's row-1-
+  biased byte cursor can compare `g_CryptSignature[0]` at terminal index 8,
+  then rejects index 8 before decrypting; maintained source avoids this
+  adjacent read and preserves the eight valid key cases.
 - Packet 525 tried function-scope and tail-only `vms`-slot aliases plus
   precomputed-end `for` and guarded `do/while` loops for
   `SetCharacterCursorReverse`; all stayed at 183/175 bytes. Keep the

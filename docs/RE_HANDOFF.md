@@ -254,10 +254,14 @@ Packet 523 records that both Bullet pattern wrappers remain 187/203 after a
 natural nested-loop rewrite; target loop-head no-op sequences are not to be
 manufactured in source.
 
-Packet 524 corrects a reversed bound/index order in
-`FileSystem::TryDecryptFromTable`: the target checks the eight-record scan
-bound before loading an indexed key, and maintained source now preserves that
-short-circuit order. Its focused build is 215/220 bytes and remains non-exact.
+Packet 524 corrects the source's bound/index order in
+`FileSystem::TryDecryptFromTable`. Packet 543 later clarifies the target's
+biased byte cursor: at terminal cursor `0x54`, the byte at `0x004A1EC0`
+(`g_CryptSignature[0]`) can be tested as index 8, but the later `index < 8`
+check rejects it before decryption. Maintained source intentionally bounds the
+declared eight-row array and omits that adjacent terminal read; a target-inspired
+row-0 fastpath probe was 237 bytes and was reverted. The current natural
+candidate remains 215/220 and non-exact.
 Packet 525 records four unsuccessful natural variants for
 `TitleScreenView::SetCharacterCursorReverse`; each remains 183/175 bytes,
 so keep the baseline source and skip those aliases/loop shapes absent new
