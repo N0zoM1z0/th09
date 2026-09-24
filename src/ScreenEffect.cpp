@@ -538,13 +538,13 @@ ScreenEffect *ScreenEffect::RegisterChain(
         calcChain = g_Chain.CreateElem((ChainCallback)ScreenEffect::CalcFadeOut);
         drawChain = g_Chain.CreateElem((ChainCallback)ScreenEffect::DrawArcadeFade);
         break;
-    case SCREEN_EFFECT_ARCADE_PULSE:
-        calcChain = g_Chain.CreateElem((ChainCallback)ScreenEffect::CalcArcadePulse);
-        drawChain = g_Chain.CreateElem((ChainCallback)ScreenEffect::DrawArcadePulse);
-        break;
     case SCREEN_EFFECT_FULL_FADE_OUT:
         calcChain = g_Chain.CreateElem((ChainCallback)ScreenEffect::CalcFadeOut);
         drawChain = g_Chain.CreateElem((ChainCallback)ScreenEffect::DrawFullFade);
+        break;
+    case SCREEN_EFFECT_ARCADE_PULSE:
+        calcChain = g_Chain.CreateElem((ChainCallback)ScreenEffect::CalcArcadePulse);
+        drawChain = g_Chain.CreateElem((ChainCallback)ScreenEffect::DrawArcadePulse);
         break;
     case SCREEN_EFFECT_FULL_FADE_HOLD:
         calcChain = g_Chain.CreateElem((ChainCallback)ScreenEffect::CalcFadeHold);
