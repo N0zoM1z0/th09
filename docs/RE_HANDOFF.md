@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 833 |
-| Source-present non-exact functions | 146 |
-| Source-present non-exact bytes | 136,438 |
+| Canonical exact functions | 834 |
+| Source-present non-exact functions | 145 |
+| Source-present non-exact bytes | 135,966 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 139,231 |
+| Canonical exact authored bytes | 139,703 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -393,6 +393,15 @@ then reproduces the target lifetime and CFG exactly. All sixteen relocations
 replay exactly. Live totals are now 833 exact / 146 non-exact / 136,438
 non-exact bytes. The <=256-byte routing frontier is unchanged because this
 helper is 335 bytes.
+
+
+Packet 576 closes `TextHelper::InvertAlpha @ 0x00435FE0` at 472/472
+bytes. Moving the method out of the TU that defines trivial `GetBuffer`
+restores the target call-clobber lifetime, and spelling the equivalent channel
+comparison as `red >= blue` restores the target fallthrough/taken branch
+order. The sole GetBuffer relocation resolves exactly. Live totals are now
+834 exact / 145 non-exact / 135,966 non-exact bytes. The <=256-byte routing
+frontier is unchanged because this helper is 472 bytes.
 
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations

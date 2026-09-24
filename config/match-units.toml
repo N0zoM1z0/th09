@@ -16900,3 +16900,15 @@ relocations = [
   { offset = 0x135, type = "REL32", symbol = "?Configure@PlayerBombOwnerRuntimeView@@QAEXHHHPBD@Z", target = 0x00403E50 },
   { offset = 0x149, type = "REL32", symbol = "?SetBombMode0@PlayerLifecycleView@@QAEXXZ", target = 0x00403C30 },
 ]
+
+[units.text-helper-invert-alpha]
+source = "src/TextHelperInvertAlpha.cpp"
+object = "build/matching/TextHelperInvertAlpha.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TextHelper::InvertAlpha"]
+symbol = "?InvertAlpha@TextHelper@@QAE_NHHHHH@Z"
+target_address = 0x00435FE0
+size = 0x1D8
+relocations = [
+  { offset = 0x14, type = "REL32", symbol = "?GetBuffer@TextHelper@@QAEPAEXZ", target = 0x00435EB0 },
+]
