@@ -1,14 +1,14 @@
 # TH09 short-function frontier
 
-This is a Packet-559 routing snapshot, not a second exactness ledger. The
+This is a Packet-560 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **31 functions**, of which
-**8 are at most 128 bytes**, after Packet 559's frame-queue PopFrame promotion.
+target logical size at most 256 bytes**. It yields **30 functions**, of which
+**7 are at most 128 bytes**, after Packet 560's ExAttack allocation promotion.
 Size is only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
@@ -21,7 +21,6 @@ subject to their target-local ledger evidence.
 | 0x0040D1C0 | 51 | EffectManager | `EffectManager::AddedCallback` |
 | 0x004033A0 | 62 | AnmManager | `AnmVmBase::AnmVmBase` |
 | 0x00431500 | 62 | Supervisor | `Supervisor::Supervisor` |
-| 0x00440D90 | 81 | ExAttackController | `ExAttackAllocateRecordView::AllocateDynamicData` |
 | 0x00410250 | 82 | EnemyManager | `EnemyAppendCollisionView::AppendPlayerCollisionBox` |
 | 0x004181E0 | 133 | Front | `FrontMessageOwnerView::InitializeMessageRuntime` |
 | 0x004124E0 | 161 | BulletManager | `EtamaController::SelectBulletSprite` |
@@ -186,6 +185,13 @@ subject to their target-local ledger evidence.
   directly into ECX, matching the target's side-base/predicted/count register
   lifetimes without changing semantics. The <=256-byte frontier is now 31
   functions; 8 remain at most 128 bytes.
+- Packet 560 closes `ExAttackAllocateRecordView::AllocateDynamicData @ 0x00440D90`
+  at 81/81 bytes. Repeating `vmCount * 0x2A4` at the allocation-size
+  and tail-pointer uses gives VC7.1 one long-lived common subexpression, so it
+  keeps the original count in EBX from entry and scales EBX in place exactly as
+  the target does. The previous destructive parameter update inserted a
+  two-byte `mov ebx,eax`. The <=256-byte frontier is now 30 functions; 7
+  remain at most 128 bytes.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. several exact-sized candidates have
