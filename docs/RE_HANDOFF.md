@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 820 |
-| Source-present non-exact functions | 159 |
-| Source-present non-exact bytes | 140,046 |
+| Canonical exact functions | 821 |
+| Source-present non-exact functions | 158 |
+| Source-present non-exact bytes | 139,885 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 135,623 |
+| Canonical exact authored bytes | 135,784 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 820 canonical exact and 159 honest non-exact.
+functions: 821 canonical exact and 158 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -265,6 +265,15 @@ EAX-to-EBX transfer. All three relocations replay exactly. Live totals are now
 820 exact / 159 non-exact / 140,046 non-exact bytes; the <=256-byte frontier is
 30 functions, 7 at most 128 bytes.
 
+
+Packet 561 closes `EtamaController::SelectBulletSprite @ 0x004124E0` at
+161/161 bytes. The prior `int` source return was inferred only from
+incidental EAX residue; all three TH09 callers discard EAX and the TH08 family
+uses `void`. Restoring a void branch-local `SetSprite(...); return;`
+shape naturally produces all three target `bulletAnm` reloads and seven
+relocations. Live totals are now 821 exact / 158 non-exact / 139,885 non-exact
+bytes; the <=256-byte frontier is 29 functions, 7 at most 128 bytes.
+
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
 resolved. The target's 32-element special-effect point array uses the generic
@@ -376,7 +385,7 @@ claim, not Windows i386 product closure.
 
 ## Short-function routing frontier
 
-The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 30 current
+The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 29 current
 source-present non-exact authored functions whose target logical bodies are at
 most 256 bytes; 7 are at most 128 bytes. This is a size filter, **not** a
 verified call-graph leaf set or an ease-of-matching ranking. The live
@@ -389,8 +398,9 @@ Packets 528-531 remove `ApplyInterpolationOperation`,
 from this non-exact route after complete cold VC7.1 replays;
 `InterpolateHermite` remains a short ECL helper with its separate Packet-527
 codegen plateau.
-Packet 520 corrected the `SelectBulletSprite` proxy return type and source
-semantics, but its candidate remains 149/161 bytes and non-exact. The inactive
+Packet 561 supersedes Packet 520's `SelectBulletSprite` return-type
+inference: all three TH09 callers discard EAX, TH08 corroborates a void source
+contract, and the void branch-local form is now 161/161 exact. The inactive
 TitleScreen cursor helper remains 183/175 after a natural loop-shape retry;
 Packet 522 records that an address-of-`vms`-slot alias likewise leaves the
 active cursor helper at 217/211 after VC7.1 optimization.

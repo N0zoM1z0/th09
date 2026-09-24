@@ -316,7 +316,7 @@ struct EtamaController
     Bullet *SpawnBulletPatternPrimary(BulletSpawnDescriptor *descriptor);
     Bullet *SpawnBulletPatternSecondary(BulletSpawnDescriptor *descriptor);
     Laser *SpawnLaserPattern(BulletSpawnDescriptor *descriptor);
-    int SelectBulletSprite(
+    void SelectBulletSprite(
         AnmVm *dst, const AnmVm *base, const AnmVm *sizeSource, int offset);
 
     static int OnUpdate(EtamaController *controller);

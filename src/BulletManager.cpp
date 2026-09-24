@@ -159,24 +159,32 @@ static const AnmVm *CopyBulletAnmVmCore(const AnmVm *src, AnmVm *dst)
     return src;
 }
 
-int EtamaController::SelectBulletSprite(
+void EtamaController::SelectBulletSprite(
     AnmVm *dst, const AnmVm *base, const AnmVm *sizeSource, int offset)
 {
     int baseSprite = base->activeSpriteIndex;
-    int result = dst->activeSpriteIndex;
-    if (result != baseSprite + offset)
+    if (dst->activeSpriteIndex != baseSprite + offset)
     {
         BulletLoadedSpriteView *sprite =
             reinterpret_cast<BulletLoadedSpriteView *>(sizeSource->loadedSprite);
         if (sprite->widthPx <= 16.0f)
-            return this->bulletAnm->SetSprite(
+        {
+            this->bulletAnm->SetSprite(
                 dst, baseSprite + g_BulletSpriteOffsetSmall[offset]);
-        if (sprite->widthPx <= 32.0f)
-            return this->bulletAnm->SetSprite(
+            return;
+        }
+        else if (sprite->widthPx <= 32.0f)
+        {
+            this->bulletAnm->SetSprite(
                 dst, baseSprite + g_BulletSpriteOffsetMedium[offset]);
-        return this->bulletAnm->SetSprite(dst, baseSprite + offset);
+            return;
+        }
+        else
+        {
+            this->bulletAnm->SetSprite(dst, baseSprite + offset);
+            return;
+        }
     }
-    return result;
 }
 
 int EtamaController::ClearDrawBuckets()
