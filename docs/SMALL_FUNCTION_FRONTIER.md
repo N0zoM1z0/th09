@@ -7,9 +7,9 @@ ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **21 functions**, of which
-**5 are at most 128 bytes**. The latest short-function promotion is
-`AnmVmBase::AnmVmBase @ 0x004033A0`; the overall canonical total is 838 exact
+target logical size at most 256 bytes**. It yields **20 functions**, of which
+**4 are at most 128 bytes**. The latest short-function promotion is
+`DecodeFrontMessageString @ 0x00415C60`; the overall canonical total is 839 exact
 functions. Size is only a routing heuristic: this list is not a verified
 call-graph leaf set, a difficulty ranking, or product-build progress. All
 names and boundaries remain subject to their target-local ledger evidence.
@@ -18,7 +18,6 @@ names and boundaries remain subject to their target-local ledger evidence.
 | --- | ---: | --- | --- |
 | 0x0040D4D0 | 32 | EffectManager | `EffectPolarScaleView::SetFromAngleAxes` |
 | 0x00441890 | 32 | Math | `Float3::FromAngleMagnitude` |
-| 0x00415C60 | 39 | Front | `DecodeFrontMessageString` |
 | 0x0040D1C0 | 51 | EffectManager | `EffectManager::AddedCallback` |
 | 0x00410250 | 82 | EnemyManager | `EnemyAppendCollisionView::AppendPlayerCollisionBox` |
 | 0x004181E0 | 133 | Front | `FrontMessageOwnerView::InitializeMessageRuntime` |
@@ -49,9 +48,11 @@ history belongs in `docs/KNOWLEDGE_BASE.md`.
   `EffectPolarScaleView::SetFromAngleAxes` and `Float3::FromAngleMagnitude`
   compile to 30-byte FCOS/FSIN forms while the target uses FSINCOS. Do not add
   inline assembly or fabricate a runtime wrapper merely to fuse them.
-- `DecodeFrontMessageString` remains a private-ABI mismatch (36/39 bytes).
-  Natural source selects register transport while the target uses one stack
-  argument and `ret 4`; do not force a private register/stack ABI.
+- `DecodeFrontMessageString` is no longer on the frontier. Its two real callers
+  pass `char[64]` stack buffers; preserving that array-reference type lets VC7.1
+  naturally select the target private EAX/stack ABI and `ret 4`. A combined
+  decoded assignment with postfix source/output increments also reproduces the
+  target loop schedule, yielding a relocation-free 39/39 replay.
 - `EffectManager::AddedCallback` is already target-sized at 51 bytes. The
   residual is the ESI/EDI assignment of callback argument versus ANM manager;
   bounded local-order, direct-store, `void *`, and profile probes do not

@@ -170,19 +170,17 @@ extern unsigned char g_FrontMode0Done;
 extern unsigned char g_FrontOtherModeDone;
 
 static void DecodeFrontMessageString(
-    unsigned char *destination,
+    char (&destination)[64],
     const unsigned char *source)
 {
     unsigned char key = 0x77;
     unsigned char step = 7;
     unsigned char decoded;
+    char *output = destination;
     do
     {
-        decoded = *source ^ key;
-        *destination = decoded;
-        ++destination;
+        *output++ = (char)(decoded = *source++ ^ key);
         key += step;
-        ++source;
         step += 0x10;
     } while (decoded != 0);
 }
@@ -296,7 +294,7 @@ int FrontMessageRuntimeView::Update()
                     glyph;
 
                 DecodeFrontMessageString(
-                    reinterpret_cast<unsigned char *>(textA),
+                    textA,
                     reinterpret_cast<unsigned char *>(current04) + 8);
                 g_AnmManager->DrawTextLeft(
                     &textVms1534[line],
@@ -502,7 +500,7 @@ int FrontMessageRuntimeView::Update()
                 }
 
                 DecodeFrontMessageString(
-                    reinterpret_cast<unsigned char *>(textB),
+                    textB,
                     reinterpret_cast<unsigned char *>(current04) + 8);
                 g_AnmManager->DrawTextLeft(
                     &textVms1534[textLineIndex1D66],

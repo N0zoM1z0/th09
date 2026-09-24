@@ -17031,3 +17031,14 @@ relocations = [
   { offset = 0xFD, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhwLoadView@@A", target = 0x004DC558, addend = 0x68 },
   { offset = 0x107, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhwLoadView@@A", target = 0x004DC558, addend = 0x6C },
 ]
+
+
+[units.front-message-decode-string]
+source = "src/FrontMessageUpdate.cpp"
+object = "build/matching/FrontMessageUpdateDecode.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["DecodeFrontMessageString"]
+symbol = "?DecodeFrontMessageString@@YIXAAY0EA@DPBE@Z"
+target_address = 0x00415C60
+size = 0x27
+relocations = []
