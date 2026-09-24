@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 830 |
-| Source-present non-exact functions | 149 |
-| Source-present non-exact bytes | 137,643 |
+| Canonical exact functions | 831 |
+| Source-present non-exact functions | 148 |
+| Source-present non-exact bytes | 137,309 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 138,026 |
+| Canonical exact authored bytes | 138,360 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -356,6 +356,15 @@ lifetime. Replacing the over-modeled three-variable compaction with
 target ECX/EDX/EAX pipeline and closes the final ten ordinary bytes. Live totals
 are now 830 exact / 149 non-exact / 137,643 non-exact bytes. The <=256-byte
 routing frontier remains 23 functions because this helper is 273 bytes.
+
+
+Packet 572 closes `CardAttack::OnDraw @ 0x00404410` at 334/334 bytes.
+Removing the long-lived alias for the second main VM restores the target owner
+lifetime naturally: ESI=CardAttack and EDI=VM0, while VM1 position/color/flags
+and its draw argument are addressed directly through the CardAttack owner. All
+17 relocations replay exactly. Live totals are now 831 exact / 148 non-exact /
+137,309 non-exact bytes. The <=256-byte routing frontier is unchanged because
+this helper is 334 bytes.
 
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations

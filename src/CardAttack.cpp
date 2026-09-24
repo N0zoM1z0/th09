@@ -143,11 +143,11 @@ int CardAttack::OnDraw(CardAttack *cardAttack)
         main->position208.z = 0.0f;
         g_AnmManager->DrawNoRotation(&cardAttack->mainVms0AC[0]);
 
-        CardAttackVmView *copy = CardAttackVm(&cardAttack->mainVms0AC[1]);
-        copy->position208 = main->position208;
-        copy->position208.y += 10.0f;
-        copy->color1F0 = main->color1F0;
-        copy->flags1F8 = main->flags1F8;
+        CardAttackVm(cardAttack->mainVms0AC + 1)->position208 =
+            main->position208;
+        CardAttackVm(cardAttack->mainVms0AC + 1)->position208.y += 10.0f;
+        CardAttackVm(cardAttack->mainVms0AC + 1)->color1F0 = main->color1F0;
+        CardAttackVm(cardAttack->mainVms0AC + 1)->flags1F8 = main->flags1F8;
         g_AnmManager->DrawNoRotation(&cardAttack->mainVms0AC[1]);
     }
 
