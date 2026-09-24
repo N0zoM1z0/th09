@@ -7469,6 +7469,23 @@ target_address = 0x00401660
 size = 0x14
 relocations = []
 
+[units.anm-vm-base-constructor]
+source = "src/AnmVmLifecycle.cpp"
+object = "build/matching/AnmVmLifecycleBase.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["AnmVmBase::AnmVmBase"]
+symbol = "??0AnmVmBase@@QAE@XZ"
+target_address = 0x004033A0
+size = 0x3E
+relocations = [
+  { offset = 0x07, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x0F, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x14, type = "DIR32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x21, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x26, type = "DIR32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x36, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+]
+
 [units.anm-vm-constructor]
 source = "src/AnmVmLifecycle.cpp"
 object = "build/matching/AnmVmLifecycle.obj"
