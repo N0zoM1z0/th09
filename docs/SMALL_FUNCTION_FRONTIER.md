@@ -7,16 +7,15 @@ ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **19 functions**, of which
-**3 are at most 128 bytes**. The latest short-function promotion is
-`Float3::FromAngleMagnitude @ 0x00441890`; the overall canonical total is 840 exact
+target logical size at most 256 bytes**. It yields **18 functions**, of which
+**2 are at most 128 bytes**. The latest short-function promotion is
+`EffectPolarScaleView::SetFromAngleAxes @ 0x0040D4D0`; the overall canonical total is 841 exact
 functions. Size is only a routing heuristic: this list is not a verified
 call-graph leaf set, a difficulty ranking, or product-build progress. All
 names and boundaries remain subject to their target-local ledger evidence.
 
 | Target address | Bytes | Module | Non-exact source function |
 | --- | ---: | --- | --- |
-| 0x0040D4D0 | 32 | EffectManager | `EffectPolarScaleView::SetFromAngleAxes` |
 | 0x0040D1C0 | 51 | EffectManager | `EffectManager::AddedCallback` |
 | 0x00410250 | 82 | EnemyManager | `EnemyAppendCollisionView::AppendPlayerCollisionBox` |
 | 0x004181E0 | 133 | Front | `FrontMessageOwnerView::InitializeMessageRuntime` |
@@ -43,12 +42,12 @@ live `config/functions.csv` row and recompile from the maintained source. The
 notes below summarize only constraints that are still current; superseded probe
 history belongs in `docs/KNOWLEDGE_BASE.md`.
 
-- `Float3::FromAngleMagnitude` is no longer on the frontier. Fresh TH09
-  caller review fixes a `void` contract, and the bounded x87 FSINCOS body is
-  independently source-family corroborated by committed TH08 and TH095. The
-  EclManager-TU out-of-line definition replays 32/32 and all 30 accepted callers
-  remain exact. `EffectPolarScaleView::SetFromAngleAxes` is still independently
-  non-exact and must be re-evaluated from its own callers/source evidence.
+- `Float3::FromAngleMagnitude` and `EffectPolarScaleView::SetFromAngleAxes`
+  are both off the frontier. Fresh TH09 caller review fixes `void` contracts for
+  both: callers preserve/use the receiver in ECX rather than consume EAX. Their
+  bounded x87 FSINCOS bodies are source-family corroborated by committed TH08
+  and TH095 evidence. The replayable units reproduce 32/32 bytes with no
+  relocations; ordinary VC7.1 sin/cos spellings remain target-disproved.
 - `DecodeFrontMessageString` is no longer on the frontier. Its two real callers
   pass `char[64]` stack buffers; preserving that array-reference type lets VC7.1
   naturally select the target private EAX/stack ABI and `ret 4`. A combined

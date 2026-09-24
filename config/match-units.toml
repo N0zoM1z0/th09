@@ -17053,3 +17053,14 @@ symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z"
 target_address = 0x00441890
 size = 0x20
 relocations = []
+
+
+[units.effect-polar-set-from-angle-axes]
+source = "src/EffectPolarScale.cpp"
+object = "build/matching/EffectPolarScale.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectPolarScaleView::SetFromAngleAxes"]
+symbol = "?SetFromAngleAxes@EffectPolarScaleView@@QAEXMMM@Z"
+target_address = 0x0040D4D0
+size = 0x20
+relocations = []

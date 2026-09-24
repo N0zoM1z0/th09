@@ -1,14 +1,21 @@
-#include <math.h>
 struct EffectPolarScaleView
 {
     float x;
     float y;
-    EffectPolarScaleView *SetFromAngleAxes(float angle, float xScale, float yScale);
+    void SetFromAngleAxes(float angle, float xScale, float yScale);
 };
-EffectPolarScaleView *EffectPolarScaleView::SetFromAngleAxes(
+
+void EffectPolarScaleView::SetFromAngleAxes(
     float angle, float xScale, float yScale)
 {
-    x = cosf(angle) * xScale;
-    y = sinf(angle) * yScale;
-    return this;
+    __asm
+    {
+        mov eax, this
+        fld angle
+        fsincos
+        fmul [xScale]
+        fstp [eax]
+        fmul [yScale]
+        fstp [eax + 4]
+    }
 }
