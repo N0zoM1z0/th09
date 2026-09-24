@@ -27,6 +27,7 @@ int Th09EclRunRemote::ManagerClearView::KillAllNonBossEnemies(
 {
     EnemyManagerClearLayout *manager =
         reinterpret_cast<EnemyManagerClearLayout *>(this);
+    int totalValue = startingValue;
     int popupValue = 2000;
     Th09EclRunState::EnemyStateView *enemy = manager->enemies5758;
 
@@ -53,30 +54,35 @@ int Th09EclRunRemote::ManagerClearView::KillAllNonBossEnemies(
                 popupValue,
                 popupValue >= transitionValue ? -256 : -1);
 
-            startingValue += popupValue;
+            totalValue += popupValue;
             popupValue += 30;
             if (popupValue > transitionValue)
                 popupValue = transitionValue;
 
-            if (enemy->trailFlags53A0 != 0 &&
-                enemy->trailHistoryLength53A2 > 0)
+            if (enemy->trailFlags53A0 != 0)
             {
-                Th09EclRunState::TrailSampleView *sample =
-                    enemy->trailSamples33E8;
-                for (int sampleIndex = 0;
-                     sampleIndex < enemy->trailHistoryLength53A2;
-                     sampleIndex += 6, sample += 6)
+                int sampleIndex = 0;
+                if (sampleIndex < enemy->trailHistoryLength53A2)
                 {
-                    g_AsciiManager.CreateScorePopup(
-                        manager->sideIndex31C,
-                        reinterpret_cast<Float3 *>(&sample->position00),
-                        popupValue,
-                        popupValue >= transitionValue ? -256 : -1);
+                    Th09EclRunState::TrailSampleView *sample =
+                        enemy->trailSamples33E8;
+                    do
+                    {
+                        g_AsciiManager.CreateScorePopup(
+                            manager->sideIndex31C,
+                            reinterpret_cast<Float3 *>(&sample->position00),
+                            popupValue,
+                            popupValue >= transitionValue ? -256 : -1);
 
-                    startingValue += popupValue;
-                    popupValue += 30;
-                    if (popupValue > transitionValue)
-                        popupValue = transitionValue;
+                        totalValue += popupValue;
+                        popupValue += 30;
+                        if (popupValue > transitionValue)
+                            popupValue = transitionValue;
+
+                        sampleIndex += 6;
+                        sample += 6;
+                    }
+                    while (sampleIndex < enemy->trailHistoryLength53A2);
                 }
             }
         }
@@ -91,5 +97,5 @@ int Th09EclRunRemote::ManagerClearView::KillAllNonBossEnemies(
         }
     }
 
-    return startingValue;
+    return totalValue;
 }
