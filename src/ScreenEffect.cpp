@@ -240,24 +240,25 @@ int ScreenEffect::CalcArcadePulse(ScreenEffect *screenEffect)
 
 int ScreenEffect::CalcShake(ScreenEffect *screenEffect)
 {
-    if ((g_GameManager.sides[screenEffect->contextIndex].flags34 & 1) != 0 ||
-        (g_GameManager.flags134 & 0x1800) != 0)
-    {
+    if ((g_GameManager.sides[screenEffect->contextIndex].flags34 & 1) != 0)
         return CHAIN_CALLBACK_RESULT_CONTINUE;
-    }
+
+    if ((g_GameManager.flags134 & 0x1800) != 0)
+        return CHAIN_CALLBACK_RESULT_CONTINUE;
 
     if (g_ScreenEffectCounter != 0)
         return CHAIN_CALLBACK_RESULT_CONTINUE_AND_REMOVE_JOB;
 
     screenEffect->timer++;
-    if (screenEffect->timer >= screenEffect->duration)
+    int duration = screenEffect->duration;
+    if (screenEffect->timer >= duration)
         return CHAIN_CALLBACK_RESULT_CONTINUE_AND_REMOVE_JOB;
 
     float shakeAmount =
         (float)screenEffect->timer *
-        (screenEffect->rawParameter1 - screenEffect->rawParameter0);
-    shakeAmount = shakeAmount / screenEffect->duration;
-    shakeAmount = screenEffect->rawParameter0 + shakeAmount;
+            (screenEffect->rawParameter1 - screenEffect->rawParameter0) /
+            duration +
+        screenEffect->rawParameter0;
 
     switch (g_ReplayRng.GetRandomU32InRange(3))
     {
