@@ -16521,3 +16521,37 @@ relocations = [
   { offset = 0x94, type = "REL32", symbol = "?GetHeight@TextHelper@@QAEHXZ", target = 0x00435F00 },
   { offset = 0xD6, type = "REL32", symbol = "?GetHeight@TextHelper@@QAEHXZ", target = 0x00435F00 },
 ]
+
+[units.score-file-load-last-name]
+source = "src/ScoreData.cpp"
+object = "build/matching/ScoreDataLastName.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScoreFileView::LoadLastName"]
+symbol = "?LoadLastName@ScoreFileView@@QAEHXZ"
+target_address = 0x00421AA0
+size = 0xD7
+relocations = [
+  { offset = 0x06, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0x0B, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0x10, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0x15, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0x1A, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0x21, type = "DIR32", symbol = "??_C@_08GGFKNFHG@?5?5?5?5?5?5?5?5?$AA@", target = 0x0048F200 },
+  { offset = 0x26, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0x2D, type = "DIR32", symbol = "??_C@_08GGFKNFHG@?5?5?5?5?5?5?5?5?$AA@", target = 0x0048F200 },
+  { offset = 0x38, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0x3E, type = "DIR32", symbol = "??_C@_08GGFKNFHG@?5?5?5?5?5?5?5?5?$AA@", target = 0x0048F200 },
+  { offset = 0x44, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0x4A, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0x55, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0x5B, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0x64, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0x6A, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0x71, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0xA3, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0xAC, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0xB5, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0xBE, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0xC7, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+  { offset = 0xD1, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
+]

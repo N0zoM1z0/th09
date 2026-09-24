@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 815 |
-| Source-present non-exact functions | 164 |
-| Source-present non-exact bytes | 140,683 |
+| Canonical exact functions | 816 |
+| Source-present non-exact functions | 163 |
+| Source-present non-exact bytes | 140,468 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 134,986 |
+| Canonical exact authored bytes | 135,201 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 815 canonical exact and 164 honest non-exact.
+functions: 816 canonical exact and 163 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -220,6 +220,15 @@ x87 evaluation order, with all nine relocations solved. Live totals are now
 815 exact / 164 non-exact / 140,683 non-exact bytes; the <=256-byte frontier is
 35 functions, 11 at most 128 bytes. See Packet 555.
 
+
+Packet 556 closes `ScoreFileView::LoadLastName @ 0x00421AA0` at 215/215
+bytes. Reordering only semantically independent default-record initialization
+makes VC7.1 use the target EBX/ESI nine-byte name-copy schedule; assigning
+`chapterSize` before `chapterSizeCopy` also aligns the two 16-bit COFF
+addends with the real `g_LastNameRecord` base. All 23 DIR32 relocations
+replay exactly. Live totals are now 816 exact / 163 non-exact / 140,468
+non-exact bytes; the <=256-byte frontier is 34 functions. See Packet 556.
+
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
 resolved. The target's 32-element special-effect point array uses the generic
@@ -331,7 +340,7 @@ claim, not Windows i386 product closure.
 
 ## Short-function routing frontier
 
-The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 35 current
+The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 34 current
 source-present non-exact authored functions whose target logical bodies are at
 most 256 bytes; 11 are at most 128 bytes. This is a size filter, **not** a
 verified call-graph leaf set or an ease-of-matching ranking. The live

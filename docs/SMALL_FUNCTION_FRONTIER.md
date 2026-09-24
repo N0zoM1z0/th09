@@ -1,14 +1,14 @@
 # TH09 short-function frontier
 
-This is a Packet-555 routing snapshot, not a second exactness ledger. The
+This is a Packet-556 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **35 functions**, of which
-**11 are at most 128 bytes**, after Packet 555's Hermite expression-tree promotion.
+target logical size at most 256 bytes**. It yields **34 functions**, of which
+**11 are at most 128 bytes**, after Packet 556's ScoreData last-name promotion.
 Size is only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
@@ -42,7 +42,6 @@ subject to their target-local ledger evidence.
 | 0x00442220 | 204 | Player | `PlayerShotDrawCallbackType1` |
 | 0x00424EDD | 211 | TitleScreen | `TitleScreenView::SetCharacterCursorActive` |
 | 0x0042E9E0 | 213 | Supervisor | `SupervisorFrameQueueView::InsertReceivedFrame` |
-| 0x00421AA0 | 215 | ScoreData | `ScoreFileView::LoadLastName` |
 | 0x0042C290 | 220 | FileSystem | `FileSystem::TryDecryptFromTable` |
 | 0x0042CAE0 | 241 | Chain | `ChainReleaseView::ReleaseSingleChain` |
 | 0x00432240 | 243 | SupervisorNetwork | `ParseNetworkConfigValue` |
@@ -162,6 +161,13 @@ subject to their target-local ledger evidence.
   and explicitly left-associating the four weighted terms restores the target
   -0x10/-0x14/-0x18/-0x1C parameter slots, -0x08/-0x04/-0x0C derived locals,
   and target term0->term1->term2->term3 x87 order. The frontier is now 35.
+- Packet 556 closes `ScoreFileView::LoadLastName @ 0x00421AA0` at
+  215/215 bytes. The previous 212-byte source order caused VC7.1 to use EAX
+  alone for the nine-byte default-name copy. Keeping the same final record
+  values but assigning `chapterSize` before `chapterSizeCopy`, then
+  magic/version/runtimeMarker, and placing the independent `strcpy` last
+  reproduces the target EBX/ESI copy schedule and all 23 DIR32 relocations.
+  The <=256-byte frontier is now 34 functions.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. several exact-sized candidates have

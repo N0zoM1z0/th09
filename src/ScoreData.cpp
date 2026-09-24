@@ -485,12 +485,12 @@ int ScoreFileView::LoadLastName()
         reinterpret_cast<u8 *>(this) + headerSize);
 
     memset(&g_LastNameRecord, 0, sizeof(g_LastNameRecord));
-    g_LastNameRecord.chapterSizeCopy = sizeof(LastNameRecordView);
     g_LastNameRecord.chapterSize = sizeof(LastNameRecordView);
-    strcpy(g_LastNameRecord.name, "        ");
+    g_LastNameRecord.chapterSizeCopy = sizeof(LastNameRecordView);
     g_LastNameRecord.magic = 0x4D4E534Cu;
     g_LastNameRecord.version = 1;
     g_LastNameRecord.runtimeMarker = 0;
+    strcpy(g_LastNameRecord.name, "        ");
 
     i32 bytesToRead = (i32)(totalSize - headerSize);
     while (bytesToRead > 0)
