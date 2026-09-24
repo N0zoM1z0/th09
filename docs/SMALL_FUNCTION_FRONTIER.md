@@ -7,10 +7,10 @@ ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **14 functions**, of which
+target logical size at most 256 bytes**. It yields **13 functions**, of which
 **2 are at most 128 bytes**. The latest short-function promotions are
 `EtamaController::SpawnBulletPatternPrimary @ 0x004130F0` and
-`SpawnBulletPatternSecondary @ 0x004131C0`; the overall canonical total is 851 exact
+`SpawnBulletPatternSecondary @ 0x004131C0`; the overall canonical total is 852 exact
 functions. Size is only a routing heuristic: this list is not a verified
 call-graph leaf set, a difficulty ranking, or product-build progress. All
 names and boundaries remain subject to their target-local ledger evidence.
@@ -19,7 +19,6 @@ names and boundaries remain subject to their target-local ledger evidence.
 | --- | ---: | --- | --- |
 | 0x0040D1C0 | 51 | EffectManager | `EffectManager::AddedCallback` |
 | 0x00410250 | 82 | EnemyManager | `EnemyAppendCollisionView::AppendPlayerCollisionBox` |
-| 0x004181E0 | 133 | Front | `FrontMessageOwnerView::InitializeMessageRuntime` |
 | 0x00424FB0 | 175 | TitleScreen | `TitleScreenView::SetCharacterCursorReverse` |
 | 0x0042505F | 175 | TitleScreen | `TitleScreenView::SetCharacterCursorInactive` |
 | 0x0040F9B0 | 188 | EnemyManager | `EnemyView::IntegrateMotion` |
@@ -67,10 +66,10 @@ history belongs in `docs/KNOWLEDGE_BASE.md`.
   scheduling. `EnemyView::IntegrateMotion` is target-sized at 188 bytes
   after the mirrored-X source correction, but the remaining EBX/EDI position
   versus previous-position allocation is compiler-local.
-- `FrontMessageOwnerView::InitializeMessageRuntime` is target-sized at 133
-  bytes with all nine relocations solved. Only the `Setup` call evaluation
-  order differs. Do not use volatile, padding, assembly, or source-order
-  steering to force the LEA/push order.
+- `FrontMessageOwnerView::InitializeMessageRuntime @ 0x004181E0` is now
+  canonical exact. The old LEA/push-order plateau was a source-shape error:
+  direct `Setup` calls in the two game-mode branches let VC7.1 merge the common
+  call tail and produce the target ordering naturally.
 - UpdateScreen16SelectionVisuals @ 0x00425390 is now canonical exact outside
   this <=256 routing table. Fresh caller and target review disproved the old
   side-dependent integer-return reconstruction: the first stack argument is

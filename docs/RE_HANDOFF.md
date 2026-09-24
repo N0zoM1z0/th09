@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 851 |
-| Source-present non-exact functions | 128 |
-| Source-present non-exact bytes | 132,058 |
+| Canonical exact functions | 852 |
+| Source-present non-exact functions | 127 |
+| Source-present non-exact bytes | 131,925 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 143,611 |
+| Canonical exact authored bytes | 143,744 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 851 canonical exact and 128 honest non-exact.
+functions: 852 canonical exact and 127 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -553,13 +553,12 @@ Current routing facts:
   that adjacent read. This is the current interpretation; the older Packet-524
   statement that the target checked the bound first is superseded.
 - Several target-sized short candidates remain genuine codegen plateaus:
-  `EffectManager::AddedCallback`,
-  `FrontMessageOwnerView::InitializeMessageRuntime`,
-  `EnemyView::IntegrateMotion`, and `ParseNetworkConfigValue`.
-  Consult their live ledger notes before trying another spelling.
+  `EffectManager::AddedCallback`, `EnemyView::IntegrateMotion`, and
+  `ParseNetworkConfigValue`. `FrontMessageOwnerView::InitializeMessageRuntime`
+  is no longer in this set: Packet 591 closes it by restoring direct per-branch
+  `Setup` calls whose common call tail VC7.1 merges naturally.
 
-No <=256-byte function has been promoted since Packet 567. Later Packets
-568-577 closed larger helpers without changing this 23-function routing set.
+Packet 591 promotes a <=256-byte function again: `FrontMessageOwnerView::InitializeMessageRuntime @ 0x004181E0` is now exact. Use the live small-function frontier rather than older routing counts.
 
 ## Active large frontier: EclManager::RunEcl
 

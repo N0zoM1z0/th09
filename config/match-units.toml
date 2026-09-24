@@ -17253,3 +17253,24 @@ relocations = [
   { offset = 0x10F, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
   { offset = 0x145, type = "REL32", symbol = "?ConfigureColorInterpolation@AnmVmView@@QAEHHDII@Z", target = 0x004233F4 },
 ]
+
+
+[units.front-message-initialize-runtime]
+source = "src/FrontMessageInitializeRuntime.cpp"
+object = "build/matching/FrontMessageInitializeRuntime.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FrontMessageOwnerView::InitializeMessageRuntime"]
+symbol = "?InitializeMessageRuntime@FrontMessageOwnerView@@QAEXXZ"
+target_address = 0x004181E0
+size = 0x85
+relocations = [
+  { offset = 0x4, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerModeView@@A", target = 0x004A7D90 },
+  { offset = 0x9, type = "REL32", symbol = "?IsGameMode0@GameManagerModeView@@QAEHXZ", target = 0x0040E470 },
+  { offset = 0x12, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerModeView@@A", target = 0x004A7D90 },
+  { offset = 0x17, type = "REL32", symbol = "?IsGameMode1@GameManagerModeView@@QAEHXZ", target = 0x00404970 },
+  { offset = 0x20, type = "DIR32", symbol = "?g_FrontMessageOverride@@3HA", target = 0x004A7E90 },
+  { offset = 0x29, type = "DIR32", symbol = "?g_FrontMessageSource@@3PAUFrontMessageInitSourceView@@A", target = 0x004A7E80 },
+  { offset = 0x34, type = "DIR32", symbol = "?g_FrontMessageOverride@@3HA", target = 0x004A7E90 },
+  { offset = 0x3E, type = "DIR32", symbol = "?g_FrontMessageSource@@3PAUFrontMessageInitSourceView@@A", target = 0x004A7E80 },
+  { offset = 0x57, type = "REL32", symbol = "?Setup@FrontMessageSetupView@@QAEXHH@Z", target = 0x00416160 },
+]

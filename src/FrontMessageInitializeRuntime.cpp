@@ -39,24 +39,22 @@ extern int g_FrontMessageOverride;
 
 void FrontMessageOwnerView::InitializeMessageRuntime()
 {
-    int messageIndex;
-
     if (g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1())
     {
-        if (g_FrontMessageOverride == 0)
-            messageIndex = g_FrontMessageSource->messageIndex06;
-        else
-            messageIndex = 201;
+        messageRuntimeE944.Setup(
+            g_FrontMessageOverride == 0
+                ? g_FrontMessageSource->messageIndex06
+                : 201,
+            0);
     }
     else
     {
-        if (g_FrontMessageOverride == 0)
-            messageIndex = g_FrontMessageSource->messageIndex06;
-        else
-            messageIndex = 201;
+        messageRuntimeE944.Setup(
+            g_FrontMessageOverride == 0
+                ? g_FrontMessageSource->messageIndex06
+                : 201,
+            0);
     }
-
-    messageRuntimeE944.Setup(messageIndex, 0);
     transitionVmCount1095C = 0;
     transitionFrame10960 = 0;
     transitionSide10964 = 0;
