@@ -1,14 +1,14 @@
 # TH09 short-function frontier
 
-This is a Packet-553 routing snapshot, not a second exactness ledger. The
+This is a Packet-554 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **37 functions**, of which
-**11 are at most 128 bytes**, after Packet 553's AsciiManager OnUpdate promotion.
+target logical size at most 256 bytes**. It yields **36 functions**, of which
+**11 are at most 128 bytes**, after Packet 554's TextHelper TU-split promotion.
 Size is only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
@@ -46,7 +46,6 @@ subject to their target-local ledger evidence.
 | 0x00421AA0 | 215 | ScoreData | `ScoreFileView::LoadLastName` |
 | 0x0042C290 | 220 | FileSystem | `FileSystem::TryDecryptFromTable` |
 | 0x0042CAE0 | 241 | Chain | `ChainReleaseView::ReleaseSingleChain` |
-| 0x004361C0 | 242 | TextHelper | `TextHelper::CopyTextToSurface` |
 | 0x00432240 | 243 | SupervisorNetwork | `ParseNetworkConfigValue` |
 | 0x00443930 | 249 | Player | `PlayerShotUpdateCallbackType4` |
 | 0x00443B10 | 249 | Player | `PlayerPositionCallback30404Type4` |
@@ -150,6 +149,13 @@ subject to their target-local ledger evidence.
   versus pointer-order `JB`. Comparing the two 32-bit addresses as signed
   integers changes only that opcode and produces the exact target. The frontier
   is now 37 functions; 11 remain at most 128 bytes.
+- Packet 554 closes `TextHelper::CopyTextToSurface @ 0x004361C0` at
+  242/242 bytes without changing its function body. The old 224-byte candidate
+  lived in the same TU as trivial getter definitions, allowing VC7.1 to keep
+  `srcBuf` live in EDX across getter calls and shrink the frame to 0x48.
+  Moving the unchanged function to its own TU restores ordinary call-clobber
+  assumptions, the target 0x4C frame, all pointer spill/reload instructions,
+  and all eight relocation targets. The <=256-byte frontier is now 36.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. several exact-sized candidates have
