@@ -1,19 +1,18 @@
 # TH09 short-function frontier
 
-This is a Packet-577 routing snapshot, not a second exactness ledger. The
+This is a live routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **23 functions**, of which
-**7 are at most 128 bytes**. No <=256-byte function has been promoted since
-Packet 567; the overall canonical total has advanced to 835 exact functions by
-Packet 577. Size is only a routing heuristic: this list is not a verified
-call-graph leaf set, a
-difficulty ranking, or product-build progress. All names and boundaries remain
-subject to their target-local ledger evidence.
+target logical size at most 256 bytes**. It yields **22 functions**, of which
+**6 are at most 128 bytes**. The latest short-function promotion is
+`Supervisor::Supervisor @ 0x00431500`; the overall canonical total is 836 exact
+functions. Size is only a routing heuristic: this list is not a verified
+call-graph leaf set, a difficulty ranking, or product-build progress. All
+names and boundaries remain subject to their target-local ledger evidence.
 
 | Target address | Bytes | Module | Non-exact source function |
 | --- | ---: | --- | --- |
@@ -22,7 +21,6 @@ subject to their target-local ledger evidence.
 | 0x00415C60 | 39 | Front | `DecodeFrontMessageString` |
 | 0x0040D1C0 | 51 | EffectManager | `EffectManager::AddedCallback` |
 | 0x004033A0 | 62 | AnmManager | `AnmVmBase::AnmVmBase` |
-| 0x00431500 | 62 | Supervisor | `Supervisor::Supervisor` |
 | 0x00410250 | 82 | EnemyManager | `EnemyAppendCollisionView::AppendPlayerCollisionBox` |
 | 0x004181E0 | 133 | Front | `FrontMessageOwnerView::InitializeMessageRuntime` |
 | 0x0042474A | 167 | TitleScreen | `TitleScreenView::MoveCharacterCursorHorizontal` |
@@ -61,9 +59,12 @@ history belongs in `docs/KNOWLEDGE_BASE.md`.
   change it.
 - `AnmVmBase::AnmVmBase` remains 61/62 under the closest natural
   `/O1 /Ob1` profile because VC7.1 reuses the element-constructor address
-  across the two vector-constructor calls. `Supervisor::Supervisor` is
-  target-sized at 62 bytes but retains its tail codegen mismatch. Neither is a
-  license for padding, fake wrapper types, or register forcing.
+  across the two vector-constructor calls. This is not a license for padding,
+  fake wrapper types, or register forcing.
+- `Supervisor::Supervisor` is no longer on the frontier. Rechecking the old
+  source assumption showed that the target dword OR at +0x5D4 is recovered
+  naturally by a volatile 32-bit flags member and source-level compound OR
+  after the clear; the replayable 62-byte unit is exact.
 - `EnemyAppendCollisionView::AppendPlayerCollisionBox` is target-sized at
   82 bytes with both relocations solved; the residual is temporary-copy/argument
   scheduling. `EnemyView::IntegrateMotion` is target-sized at 188 bytes

@@ -16960,3 +16960,17 @@ relocations = [
   { offset = 0x2DE, type = "REL32", symbol = "?Reset@PlayerDeathOwnerResetView@@QAEXXZ", target = 0x0041D7E0 },
   { offset = 0x2E6, type = "REL32", symbol = "?Reset@PlayerDeathHeaderResetView@@QAEXXZ", target = 0x0041BDC0 },
 ]
+
+[units.supervisor-constructor]
+source = "src/SupervisorLifecycle.cpp"
+object = "build/matching/SupervisorLifecycle.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Supervisor::Supervisor"]
+symbol = "??0Supervisor@@QAE@XZ"
+target_address = 0x00431500
+size = 0x3E
+relocations = [
+  { offset = 0x03, type = "DIR32", symbol = "??0SupervisorCtorArrayElement@@QAE@XZ", target = 0x004343D0 },
+  { offset = 0x15, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x20, type = "REL32", symbol = "??0GameConfiguration@@QAE@XZ", target = 0x0041A98B },
+]

@@ -60,7 +60,7 @@ class Supervisor
     unsigned char unknown454[0x164];
     float framerateMultiplier5B8;
     unsigned char unknown5BC[0x18];
-    unsigned int flags5D4;
+    volatile unsigned int flags5D4;
     unsigned char unknown5D8[0x1D8];
 };
 
