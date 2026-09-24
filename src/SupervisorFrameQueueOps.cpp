@@ -38,15 +38,16 @@ void SupervisorFrameQueueView::InsertPredictedFrame(
     SupervisorFrameQueueOpsLayout *view =
         reinterpret_cast<SupervisorFrameQueueOpsLayout *>(this);
 
-    unsigned char *sideBase =
+    unsigned char *scanCursor =
         reinterpret_cast<unsigned char *>(this) + side * 0x78;
-    SupervisorFrameEntryOpsView *scan =
-        reinterpret_cast<SupervisorFrameEntryOpsView *>(sideBase + 0x47C);
+    int index = 0;
+    unsigned char *sideBase = scanCursor;
+    scanCursor += 0x480;
 
-    int index;
-    for (index = 0; index < 10; ++index, ++scan)
+    for (; index < 10; ++index, scanCursor += 0x0C)
     {
-        if (scan->frame04 == 0 || scan->frame04 > frame)
+        int queuedFrame = *reinterpret_cast<int *>(scanCursor);
+        if (queuedFrame == 0 || queuedFrame > frame)
             break;
     }
 
@@ -68,14 +69,17 @@ void SupervisorFrameQueueView::InsertPredictedFrame(
             --count;
         }
         while (count != 0);
-        targetFrame = &view->entries47C[flatIndex].frame04;
     }
 
-    view->entries47C[flatIndex].packedInput00 =
+    unsigned char *entryCursor =
+        reinterpret_cast<unsigned char *>(this) +
+        flatIndex * sizeof(SupervisorFrameEntryOpsView);
+    unsigned short packedInput =
         view->lastReceived56C[side].packedInput00;
     *targetFrame = frame;
-    view->entries47C[flatIndex].seed02 = seed;
-    view->entries47C[flatIndex].predicted08 = 1;
+    *reinterpret_cast<unsigned short *>(entryCursor + 0x47C) = packedInput;
+    *reinterpret_cast<unsigned short *>(entryCursor + 0x47E) = seed;
+    *reinterpret_cast<unsigned int *>(entryCursor + 0x484) = 1;
 }
 
 unsigned short SupervisorFrameQueueView::PopFrame(

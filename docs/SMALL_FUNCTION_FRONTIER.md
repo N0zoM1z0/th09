@@ -1,14 +1,14 @@
 # TH09 short-function frontier
 
-This is a Packet-561 routing snapshot, not a second exactness ledger. The
+This is a Packet-562 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **29 functions**, of which
-**7 are at most 128 bytes**, after Packet 561's bullet-sprite selector promotion.
+target logical size at most 256 bytes**. It yields **28 functions**, of which
+**7 are at most 128 bytes**, after Packet 562's predicted-frame insertion promotion.
 Size is only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
@@ -30,7 +30,6 @@ subject to their target-local ledger evidence.
 | 0x0042505F | 175 | TitleScreen | `TitleScreenView::SetCharacterCursorInactive` |
 | 0x00410110 | 184 | EnemyManager | `EnemyView::CleanupAfterDeactivation` |
 | 0x0040F9B0 | 188 | EnemyManager | `EnemyView::IntegrateMotion` |
-| 0x0042EAC0 | 191 | Supervisor | `SupervisorFrameQueueView::InsertPredictedFrame` |
 | 0x00432770 | 199 | SupervisorNetwork | `SupervisorNetworkState::IsServiceProviderAvailable` |
 | 0x004130F0 | 203 | BulletManager | `EtamaController::SpawnBulletPatternPrimary` |
 | 0x004131C0 | 203 | BulletManager | `EtamaController::SpawnBulletPatternSecondary` |
@@ -197,6 +196,14 @@ subject to their target-local ledger evidence.
   Branch-local `SetSprite(...); return;` arms make VC7.1 reload
   `bulletAnm` from +0x25E1BC in each arm exactly as the target does. The
   <=256-byte frontier is now 29 functions; the <=128 subset remains 7.
+- Packet 562 closes `SupervisorFrameQueueView::InsertPredictedFrame @ 0x0042EAC0`
+  at 191/191 bytes. The exact shape keeps `targetFrame` live across the
+  shift instead of recomputing it, advances a frame-field cursor from the side
+  base, increments index before cursor at the scan tail, and forms one
+  object-relative entry cursor for the final stores. VC7.1 then naturally keeps
+  side in EBX, spills side-base and targetFrame exactly like the target, and
+  reproduces the loop alignment. The <=256-byte frontier is now 28 functions;
+  7 remain at most 128 bytes.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. several exact-sized candidates have

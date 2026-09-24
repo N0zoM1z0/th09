@@ -16628,3 +16628,13 @@ relocations = [
   { offset = 0x82, type = "REL32", symbol = "?SetSprite@BulletAnmLoadedView@@QAEHPAUAnmVm@@H@Z", target = 0x00436AC0 },
   { offset = 0x96, type = "REL32", symbol = "?SetSprite@BulletAnmLoadedView@@QAEHPAUAnmVm@@H@Z", target = 0x00436AC0 },
 ]
+
+[units.supervisor-frame-queue-insert-predicted]
+source = "src/SupervisorFrameQueueOps.cpp"
+object = "build/matching/SupervisorFrameQueueInsertPredicted.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SupervisorFrameQueueView::InsertPredictedFrame"]
+symbol = "?InsertPredictedFrame@SupervisorFrameQueueView@@QAEXHHF@Z"
+target_address = 0x0042EAC0
+size = 0xBF
+relocations = []
