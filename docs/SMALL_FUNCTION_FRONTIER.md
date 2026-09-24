@@ -7,10 +7,10 @@ ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **13 functions**, of which
+target logical size at most 256 bytes**. It yields **12 functions**, of which
 **2 are at most 128 bytes**. The latest short-function promotions are
 `EtamaController::SpawnBulletPatternPrimary @ 0x004130F0` and
-`SpawnBulletPatternSecondary @ 0x004131C0`; the overall canonical total is 853 exact
+`SpawnBulletPatternSecondary @ 0x004131C0`; the overall canonical total is 854 exact
 functions. Size is only a routing heuristic: this list is not a verified
 call-graph leaf set, a difficulty ranking, or product-build progress. All
 names and boundaries remain subject to their target-local ledger evidence.
@@ -21,7 +21,6 @@ names and boundaries remain subject to their target-local ledger evidence.
 | 0x00410250 | 82 | EnemyManager | `EnemyAppendCollisionView::AppendPlayerCollisionBox` |
 | 0x00424FB0 | 175 | TitleScreen | `TitleScreenView::SetCharacterCursorReverse` |
 | 0x0042505F | 175 | TitleScreen | `TitleScreenView::SetCharacterCursorInactive` |
-| 0x0040F9B0 | 188 | EnemyManager | `EnemyView::IntegrateMotion` |
 | 0x00442220 | 204 | Player | `PlayerShotDrawCallbackType1` |
 | 0x00424EDD | 211 | TitleScreen | `TitleScreenView::SetCharacterCursorActive` |
 | 0x0042E9E0 | 213 | Supervisor | `SupervisorFrameQueueView::InsertReceivedFrame` |
@@ -63,9 +62,8 @@ history belongs in `docs/KNOWLEDGE_BASE.md`.
   after the clear; the replayable 62-byte unit is exact.
 - `EnemyAppendCollisionView::AppendPlayerCollisionBox` is target-sized at
   82 bytes with both relocations solved; the residual is temporary-copy/argument
-  scheduling. `EnemyView::IntegrateMotion` is target-sized at 188 bytes
-  after the mirrored-X source correction, but the remaining EBX/EDI position
-  versus previous-position allocation is compiler-local.
+  scheduling. EnemyView::IntegrateMotion at 0x0040F9B0 is now canonical exact;
+  restoring the TH08-family direct mirror branch reproduces all 188 bytes.
 - `FrontMessageOwnerView::InitializeMessageRuntime @ 0x004181E0` is now
   canonical exact. The old LEA/push-order plateau was a source-shape error:
   direct `Setup` calls in the two game-mode branches let VC7.1 merge the common

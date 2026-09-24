@@ -51,12 +51,14 @@ void EnemyView::IntegrateMotion()
     }
     else
     {
-        float horizontal =
-            g_Supervisor.frameRateMultiplier5B8 * view->velocity2D8C.x;
-        view->position2D74.x =
-            (view->flags337C & 0x8000U) != 0
-                ? view->position2D74.x - horizontal
-                : view->position2D74.x + horizontal;
+        if ((view->flags337C & 0x8000U) == 0)
+            view->position2D74.x +=
+                g_Supervisor.frameRateMultiplier5B8 *
+                view->velocity2D8C.x;
+        else
+            view->position2D74.x -=
+                g_Supervisor.frameRateMultiplier5B8 *
+                view->velocity2D8C.x;
         view->position2D74.y +=
             g_Supervisor.frameRateMultiplier5B8 * view->velocity2D8C.y;
     }

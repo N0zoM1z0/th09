@@ -17292,3 +17292,19 @@ relocations = [
   { offset = 0x10D, type = "REL32", symbol = "?CreateScorePopup@AsciiManager@@QAEXHPAUFloat3@@HK@Z", target = 0x004346A0 },
   { offset = 0x15C, type = "REL32", symbol = "?InitializeSubroutine@ManagerStateView@Th09EclRunState@@QAEHPAUTh09EclContextView@@F@Z", target = 0x00406850 },
 ]
+
+
+[units.enemy-integrate-motion]
+source = "src/EnemyIntegrateMotion.cpp"
+object = "build/matching/EnemyIntegrateMotion.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyView::IntegrateMotion"]
+symbol = "?IntegrateMotion@EnemyView@@QAEXXZ"
+target_address = 0x0040F9B0
+size = 0xBC
+relocations = [
+  { offset = 0x1F, type = "REL32", symbol = "??GFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x56, type = "DIR32", symbol = "?g_Supervisor@@3UEnemyMotionSupervisorView@@A", target = 0x004B3100, addend = 0x5B8 },
+  { offset = 0x69, type = "DIR32", symbol = "?g_Supervisor@@3UEnemyMotionSupervisorView@@A", target = 0x004B3100, addend = 0x5B8 },
+  { offset = 0xA0, type = "DIR32", symbol = "?g_Supervisor@@3UEnemyMotionSupervisorView@@A", target = 0x004B3100, addend = 0x5B8 },
+]
