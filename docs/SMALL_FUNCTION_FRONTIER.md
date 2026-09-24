@@ -1,14 +1,14 @@
 # TH09 short-function frontier
 
-This is a Packet-564 routing snapshot, not a second exactness ledger. The
+This is a Packet-565 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **26 functions**, of which
-**7 are at most 128 bytes**, after Packet 564's DirectPlay provider-query promotion.
+target logical size at most 256 bytes**. It yields **25 functions**, of which
+**7 are at most 128 bytes**, after Packet 565's Chain release promotion.
 Size is only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
@@ -35,7 +35,6 @@ subject to their target-local ledger evidence.
 | 0x00424EDD | 211 | TitleScreen | `TitleScreenView::SetCharacterCursorActive` |
 | 0x0042E9E0 | 213 | Supervisor | `SupervisorFrameQueueView::InsertReceivedFrame` |
 | 0x0042C290 | 220 | FileSystem | `FileSystem::TryDecryptFromTable` |
-| 0x0042CAE0 | 241 | Chain | `ChainReleaseView::ReleaseSingleChain` |
 | 0x00432240 | 243 | SupervisorNetwork | `ParseNetworkConfigValue` |
 | 0x00443930 | 249 | Player | `PlayerShotUpdateCallbackType4` |
 | 0x00443B10 | 249 | Player | `PlayerPositionCallback30404Type4` |
@@ -109,10 +108,11 @@ subject to their target-local ledger evidence.
   ignore it. The natural source now models that return but remains 211 bytes
   versus 213, with the shared prefix diverging from `+0x1C`; do not mistake the
   size delta for a near-match or steer registers/stack homes to chase it.
-- Packet 547 aligns `ChainReleaseView::ReleaseSingleChain` with the target's
-  separately observed allocation, conditional construction, and registry
-  calls. Its cold-stable `/EHsc /O2 /Ob1` body is 251/241 bytes and remains
-  non-exact; this semantic correction does not change the 40-function frontier.
+- Packet 547's 251/241 explicit-placement result is historical. Packet 565
+  supersedes it: the target-backed `/O2 /Ob0` lowering plus the already-proven
+  non-throwing `ChainElem` constructor makes ordinary `new ChainElem()`
+  emit the exact allocation/null-check/constructor sequence and preserves the
+  compiler-generated scalar deleting destructor on `delete`.
 - Packet 548 improves `Supervisor::Supervisor` to a cold-stable target-sized
   62-byte candidate with a naturally equivalent post-clear flags assignment;
   all relocations resolve and 41/50 ordinary bytes match, but nine tail bytes
@@ -216,6 +216,12 @@ subject to their target-local ledger evidence.
   in EDI, HRESULT in ESI, allocate EBX only for the provider buffer, and reuse
   one zero register for locals and API NULL arguments. The <=256-byte frontier
   is now 26 functions; <=128 remains 7.
+- Packet 565 closes `ChainReleaseView::ReleaseSingleChain @ 0x0042CAE0`
+  at 241/241 bytes. Ordinary `new ChainElem()` under the Chain-proven
+  `/O2 /Ob0` profile emits the target raw allocation/null check/constructor
+  path because the exact field-only constructor is non-throwing; the same
+  profile preserves the target scalar deleting-destructor call at 0x0042AC50.
+  The <=256-byte frontier is now 25 functions; <=128 remains 7.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. several exact-sized candidates have

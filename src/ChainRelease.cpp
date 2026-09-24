@@ -27,10 +27,7 @@ void ChainReleaseView::ReleaseSingleChain(ChainElem *root)
     ChainElem *current;
     ChainElem *nextSnapshotEntry;
 
-    releaseSnapshotCursor = static_cast<ChainElem *>(
-        ::operator new(sizeof(ChainElem)));
-    if (releaseSnapshotCursor != NULL)
-        releaseSnapshotCursor = new (releaseSnapshotCursor) ChainElem();
+    releaseSnapshotCursor = new ChainElem();
     releaseSnapshotCursor = static_cast<ChainElem *>(g_ZunMemory.AddToRegistry(
         releaseSnapshotCursor, sizeof(ChainElem), "funcChainInf"));
     releaseSnapshotHead.next = releaseSnapshotCursor;
@@ -39,10 +36,7 @@ void ChainReleaseView::ReleaseSingleChain(ChainElem *root)
     while (current != NULL)
     {
         releaseSnapshotCursor->releaseTarget = current;
-        nextSnapshotEntry = static_cast<ChainElem *>(
-            ::operator new(sizeof(ChainElem)));
-        if (nextSnapshotEntry != NULL)
-            nextSnapshotEntry = new (nextSnapshotEntry) ChainElem();
+        nextSnapshotEntry = new ChainElem();
         releaseSnapshotCursor->next = static_cast<ChainElem *>(
             g_ZunMemory.AddToRegistry(nextSnapshotEntry, sizeof(ChainElem),
                                       "funcChainInf"));

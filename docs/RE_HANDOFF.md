@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 824 |
-| Source-present non-exact functions | 155 |
-| Source-present non-exact bytes | 139,311 |
+| Canonical exact functions | 825 |
+| Source-present non-exact functions | 154 |
+| Source-present non-exact bytes | 139,070 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 136,358 |
+| Canonical exact authored bytes | 136,599 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 824 canonical exact and 155 honest non-exact.
+functions: 825 canonical exact and 154 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or
@@ -151,13 +151,10 @@ The helper itself remains non-exact: the 211-byte source differs from the
 213-byte target from offset `+0x1C`, so its two-byte size gap is misleading;
 see Packet 546. The short frontier remains 40.
 
-Packet 547 refines `ChainReleaseView::ReleaseSingleChain @ 0x0042CAE0`: the
-maintained source now follows the target's observed `operator new` → conditional
-`ChainElem` construction → registry sequence, rather than source-level
-`new-expression` cleanup. Its cold-stable natural `/EHsc /O2 /Ob1` candidate is
-251 bytes versus the 241-byte target; it remains non-exact. The exact
-`ChainReleaseView::Release` wrapper and affected Chain constructor/destructor
-units still replay exact. The <=256-byte non-exact frontier remains 40.
+Packet 547's 251-byte explicit-placement `/Ob1` result is historical and was
+superseded by Packet 565. The target-backed Chain `/Ob0` lowering plus the
+non-throwing `ChainElem` constructor makes ordinary `new ChainElem()`
+reproduce the exact allocation and scalar-delete behavior.
 
 Packet 548 advances `Supervisor::Supervisor @ 0x00431500` from a 61-byte
 compound-OR source candidate to a cold-stable 62-byte `/O1 /Ob1` candidate by
@@ -299,6 +296,17 @@ zero-register lowering, with all twelve relocations exact. Live totals are now
 824 exact / 155 non-exact / 139,311 non-exact bytes; the <=256-byte frontier is
 26 functions, 7 at most 128 bytes.
 
+
+Packet 565 closes `ChainReleaseView::ReleaseSingleChain @ 0x0042CAE0` at
+241/241 bytes. The decisive combination is ordinary `new ChainElem()` with
+the already target-backed Chain `/O2 /Ob0` profile: the non-throwing
+constructor suppresses ctor-failure cleanup, while `/Ob0` preserves the
+compiler-generated scalar deleting-destructor call required by the target.
+All 18 relocations replay exactly, and the exact `ChainReleaseView::Release`
+wrapper remains exact independently. Live totals are now 825 exact / 154
+non-exact / 139,070 non-exact bytes; the <=256-byte frontier is 25 functions,
+7 at most 128 bytes.
+
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
 resolved. The target's 32-element special-effect point array uses the generic
@@ -410,7 +418,7 @@ claim, not Windows i386 product closure.
 
 ## Short-function routing frontier
 
-The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 26 current
+The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 25 current
 source-present non-exact authored functions whose target logical bodies are at
 most 256 bytes; 7 are at most 128 bytes. This is a size filter, **not** a
 verified call-graph leaf set or an ease-of-matching ranking. The live
