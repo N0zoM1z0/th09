@@ -91,8 +91,9 @@ void EnemyView::CleanupAfterDeactivation()
     enemy->lifeCallbackThresholds33B0[1] = -1;
     enemy->lifeCallbackThresholds33B0[2] = -1;
     enemy->lifeCallbackThresholds33B0[3] = -1;
-    enemy->timerCallbackThreshold33D0 = -1;
 
+    int *timerThreshold = &enemy->timerCallbackThreshold33D0;
+    *timerThreshold = -1;
     EnemyCoreReleaseChildEclBlocks(reinterpret_cast<EnemyCoreView *>(enemy));
 
     EnemyCleanupPlayerView *player =

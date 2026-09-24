@@ -16638,3 +16638,16 @@ symbol = "?InsertPredictedFrame@SupervisorFrameQueueView@@QAEXHHF@Z"
 target_address = 0x0042EAC0
 size = 0xBF
 relocations = []
+
+[units.enemy-cleanup-after-deactivation]
+source = "src/EnemyCleanupAfterDeactivation.cpp"
+object = "build/matching/EnemyCleanupAfterDeactivation.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyView::CleanupAfterDeactivation"]
+symbol = "?CleanupAfterDeactivation@EnemyView@@QAEXXZ"
+target_address = 0x00410110
+size = 0xB8
+relocations = [
+  { offset = 0x50, type = "REL32", symbol = "?ReleaseAttachedEffects@Th09EclRunState@@YIXPAUEnemyView@@@Z", target = 0x0040F560 },
+  { offset = 0x95, type = "REL32", symbol = "?EnemyCoreReleaseChildEclBlocks@@YIXPAUEnemyCoreView@@@Z", target = 0x004100E0 },
+]
