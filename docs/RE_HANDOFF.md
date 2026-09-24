@@ -154,6 +154,13 @@ maintained source now follows the target's observed `operator new` → condition
 `ChainReleaseView::Release` wrapper and affected Chain constructor/destructor
 units still replay exact. The <=256-byte non-exact frontier remains 40.
 
+Packet 548 advances `Supervisor::Supervisor @ 0x00431500` from a 61-byte
+compound-OR source candidate to a cold-stable 62-byte `/O1 /Ob1` candidate by
+expressing the same final flags value directly after the target-proven full
+object clear. All three relocation destinations resolve and 41/50 ordinary
+bytes match; nine bytes still differ from `+0x2F`, so the function remains
+non-exact and the frontier remains 40.
+
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
 resolved. The target's 32-element special-effect point array uses the generic

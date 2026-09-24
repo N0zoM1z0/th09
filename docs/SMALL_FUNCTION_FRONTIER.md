@@ -127,6 +127,10 @@ subject to their target-local ledger evidence.
   separately observed allocation, conditional construction, and registry
   calls. Its cold-stable `/EHsc /O2 /Ob1` body is 251/241 bytes and remains
   non-exact; this semantic correction does not change the 40-function frontier.
+- Packet 548 improves `Supervisor::Supervisor` to a cold-stable target-sized
+  62-byte candidate with a naturally equivalent post-clear flags assignment;
+  all relocations resolve and 41/50 ordinary bytes match, but nine tail bytes
+  still differ, so it remains non-exact.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. `AsciiManager::OnUpdate` is exact-sized at 253 bytes but still has
