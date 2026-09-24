@@ -118,6 +118,11 @@ subject to their target-local ledger evidence.
   two cold `/O2 /Ob0` replays, with all thirteen relocation destinations
   aligned. Its constructor callback at `0x004343D0` remains a shared/folded
   owner unknown. The frontier is now 40 functions; 13 remain at most 128 bytes.
+- Packet 546 refines `SupervisorFrameQueueView::InsertReceivedFrame` to return
+  the target-observed object-relative cursor in EAX; maintained call sites
+  ignore it. The natural source now models that return but remains 211 bytes
+  versus 213, with the shared prefix diverging from `+0x1C`; do not mistake the
+  size delta for a near-match or steer registers/stack homes to chase it.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. `AsciiManager::OnUpdate` is exact-sized at 253 bytes but still has

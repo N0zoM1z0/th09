@@ -137,6 +137,15 @@ natural `AnmVm *` cursor. Two cold builds match 194/266 ordinary bytes and
 resolve all 17 relocations, but instruction-scheduling and register-assignment
 residuals remain; it is still non-exact and has no canonical match entry.
 
+Packet 546 corrects the maintained return behavior of
+`SupervisorFrameQueueView::InsertReceivedFrame @ 0x0042E9E0`: the target leaves
+`this + 12 * (side * 10 + insertionIndex)` in EAX, although its current callers
+discard that value. The source now returns the same cursor and the exact
+`ResetTitleMode4Supervisor` caller still replays 177/177 with 12 relocations.
+The helper itself remains non-exact: the 211-byte source differs from the
+213-byte target from offset `+0x1C`, so its two-byte size gap is misleading;
+see Packet 546. The short frontier remains 40.
+
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
 resolved. The target's 32-element special-effect point array uses the generic
