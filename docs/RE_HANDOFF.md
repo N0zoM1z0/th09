@@ -336,7 +336,11 @@ are now 828 exact / 151 non-exact / 138,370 non-exact bytes. The <=256-byte
 routing frontier remains 23 functions because this helper is 279 bytes.
 
 
-Packet 569 refines `UpdatePlayerCollisionRegions @ 0x0041C8E0` from a 312-byte candidate to the exact 273-byte target extent. Removing the long-lived `region` alias restores the target no-frame shape, EBX index, ESI slot cursor, repeated `*slot` reloads and both `Deactivate` calls. The remaining 10 ordinary bytes are isolated to ECX/EDX assignment inside the pointer-compaction loop; multiple natural loop/scope spellings either preserve that register inversion or move away from target size. This checkpoint is NON-EXACT and does not change the live totals: 828 exact / 151 non-exact / 138,370 non-exact bytes.
+Packet 569 is a historical checkpoint **superseded by Packet 571**. It refined
+`UpdatePlayerCollisionRegions @ 0x0041C8E0` from a 312-byte candidate to the
+exact 273-byte target extent, but still had ten ordinary-byte differences in
+pointer compaction. Do not resume from that NON-EXACT state; Packet 571 closes
+the function completely.
 
 
 Packet 570 closes `ExAttackInitializeCallbackType3 @ 0x00442580` at
@@ -523,52 +527,39 @@ claim, not Windows i386 product closure.
 
 ## Short-function routing frontier
 
-The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 23 current
-source-present non-exact authored functions whose target logical bodies are at
-most 256 bytes; 7 are at most 128 bytes. This is a size filter, **not** a
-verified call-graph leaf set or an ease-of-matching ranking. The live
-`config/functions.csv` row and a fresh target/compiler check override that
-snapshot after later checkpoints. The four short Bullet transform-update
-siblings are now exact; the TitleScreen character-cursor, Supervisor frame
-queue and ECL interpolation families remain bounded short-function groups.
-Packets 528-531 remove `ApplyInterpolationOperation`,
-`InstallInterpolationSlot`, `CallSubroutine`, and `Background::Background`
-from this non-exact route after complete cold VC7.1 replays;
-`InterpolateHermite` remains a short ECL helper with its separate Packet-527
-codegen plateau.
-Packet 561 supersedes Packet 520's `SelectBulletSprite` return-type
-inference: all three TH09 callers discard EAX, TH08 corroborates a void source
-contract, and the void branch-local form is now 161/161 exact. The inactive
-TitleScreen cursor helper remains 183/175 after a natural loop-shape retry;
-Packet 522 records that an address-of-`vms`-slot alias likewise leaves the
-active cursor helper at 217/211 after VC7.1 optimization.
-Packet 523 records that both Bullet pattern wrappers remain 187/203 after a
-natural nested-loop rewrite; target loop-head no-op sequences are not to be
-manufactured in source.
+The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 23
+current source-present non-exact authored functions whose target logical bodies
+are at most 256 bytes; 7 are at most 128 bytes. This is a size filter, not a
+verified leaf set or difficulty ranking. The live `config/functions.csv`
+row and a fresh compiler/target check always override the snapshot.
 
-Packet 524 corrects the source's bound/index order in
-`FileSystem::TryDecryptFromTable`. Packet 543 later clarifies the target's
-biased byte cursor: at terminal cursor `0x54`, the byte at `0x004A1EC0`
-(`g_CryptSignature[0]`) can be tested as index 8, but the later `index < 8`
-check rejects it before decryption. Maintained source intentionally bounds the
-declared eight-row array and omits that adjacent terminal read; a target-inspired
-row-0 fastpath probe was 237 bytes and was reverted. The current natural
-candidate remains 215/220 and non-exact.
-Packet 525 records four unsuccessful natural variants for
-`TitleScreenView::SetCharacterCursorReverse`; each remains 183/175 bytes,
-so keep the baseline source and skip those aliases/loop shapes absent new
-evidence.
-Packet 526 audits `EffectManager::AddedCallback`: its natural `/O2` candidate
-is 51 bytes but retains the inverse ESI/EDI allocation after two source-shape
-probes; behavior is accounted for and no exact claim is made.
-Packet 527 retries `InterpolateHermite` with reverse local declaration order;
-preserving resolver call order leaves the same 182/188-byte candidate. Keep
-the target-observed parameter mapping and skip stack-allocation steering.
-`AnmVmBase::AnmVmBase` remains non-exact at 75/62 under `/O2` and 61/62 under a
-bounded `/O1` probe; see Packet 521 for the target-helper comparison.
-Packet 515 removed one stale unused ECL helper that had made the configured
-`ecl-interpolate-linear` Oracle fail at compile time; the linear unit still
-replays exact, while `InterpolateHermite` remains 182/188 non-exact.
+Current routing facts:
+
+- Former short ECL interpolation helpers are closed: `ApplyInterpolationOperation`,
+  `InstallInterpolationSlot`, `CallSubroutine`, and
+  `InterpolateHermite` are canonical exact. Packet 555 supersedes the old
+  Packet-527 182/188 InterpolateHermite plateau.
+- In the short Supervisor frame-queue family, `PopFrame` and
+  `InsertPredictedFrame` are exact; only `InsertReceivedFrame` remains
+  non-exact at 213 target bytes.
+- The five TitleScreen cursor helpers and the two Bullet pattern wrappers remain
+  bounded non-exact families. Their current candidate sizes and rejected natural
+  variants are recorded in their live ledger rows and
+  `docs/SMALL_FUNCTION_FRONTIER.md`; do not revive register forcing,
+  var_order, padding, or loop-layout steering.
+- `FileSystem::TryDecryptFromTable` remains 215/220. TH09 target can read
+  `g_CryptSignature[0]` at terminal index 8 before rejecting index 8.
+  Maintained source intentionally bounds the declared eight-row array and avoids
+  that adjacent read. This is the current interpretation; the older Packet-524
+  statement that the target checked the bound first is superseded.
+- Several target-sized short candidates remain genuine codegen plateaus:
+  `EffectManager::AddedCallback`,
+  `FrontMessageOwnerView::InitializeMessageRuntime`,
+  `EnemyView::IntegrateMotion`, and `ParseNetworkConfigValue`.
+  Consult their live ledger notes before trying another spelling.
+
+No <=256-byte function has been promoted since Packet 567. Later Packets
+568-577 closed larger helpers without changing this 23-function routing set.
 
 ## Active large frontier: EclManager::RunEcl
 
@@ -941,9 +932,14 @@ translation-unit and runtime evidence.
 
 ## Workspace hygiene
 
-.analysis/ is disposable working state, not a journal. It is empty at this
-checkpoint. The recovered probe variants and generated outputs were inspected
-and moved to the system trash; no current claim depends on those unbound files.
+.analysis/ is disposable working state, not a journal. At this checkpoint
+`build/`, `.analysis/`, `.tools/`, and Python/cache directories are
+absent; rebuildable probe objects, PDBs, copied probe sources, disassembly dumps,
+and cache state were cleared after their durable facts were moved into tracked
+source, ledgers, and documentation. The hash-attested canonical target
+`resources/th09.exe` is intentionally retained because validation depends
+on it. No current claim depends on the cleared workspace artifacts.
+
 Use live source, ledgers, this handoff and the knowledge base to resume work.
 
 After each checkpoint:

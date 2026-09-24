@@ -1,6 +1,6 @@
 # TH09 short-function frontier
 
-This is a Packet-567 routing snapshot, not a second exactness ledger. The
+This is a Packet-577 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
@@ -8,8 +8,10 @@ promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
 target logical size at most 256 bytes**. It yields **23 functions**, of which
-**7 are at most 128 bytes**, after Packet 567's Player SHT-loader promotion.
-Size is only a routing heuristic: this list is not a verified call-graph leaf set, a
+**7 are at most 128 bytes**. No <=256-byte function has been promoted since
+Packet 567; the overall canonical total has advanced to 835 exact functions by
+Packet 577. Size is only a routing heuristic: this list is not a verified
+call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
 
@@ -41,203 +43,72 @@ subject to their target-local ledger evidence.
 
 ## Selection notes
 
-- The four short `BulletManager.cpp` transform-update siblings are now exact;
-  see Packet 514 in `docs/KNOWLEDGE_BASE.md`. Other Bullet functions on this
-  list (sprite selection and spawn-pattern wrappers) have independent target
-  extents and are not promoted by association. The 295-byte boundary-bounce
-  transform is also exact as of Packet 518 but lies outside this size-filtered
-  table.
-- The TitleScreen horizontal cursor helpers (167/167 bytes) now have
-  target-sized, source-present candidates after Packet 516's input-owner and
-  directional-branch corrections; neither is exact. The other character-
-  cursor helpers (175/175/211 bytes), the
-  Supervisor frame-queue helpers (119/191/213), and the remaining non-exact ECL
-  helpers (149/188/255) are other bounded families. They are not one
-  translation-unit/profile claim merely because they appear in this table.
-- Packet 522's natural address-of-`vms`-slot alias probe for
-  `SetCharacterCursorActive` compiles back to the original 217-byte candidate;
-  it remains non-exact alongside the other character-cursor variants.
-- Packet 523's conventional entry-guard plus do/while rewrite leaves both
-  Bullet pattern wrappers at 187/203 bytes; target loop-head no-op sequences
-  remain compiler-layout evidence, not source padding to reproduce.
-- Packet 524 corrects `FileSystem::TryDecryptFromTable`'s scan guard: target
-  checks the eight-record bound before indexing, while the prior source
-  evaluated the key expression first. Corrected natural source compiles to
-  215/220 bytes and remains non-exact; do not restore the unsafe order to chase
-  the previous candidate size. Packet 543 clarifies that the target's row-1-
-  biased byte cursor can compare `g_CryptSignature[0]` at terminal index 8,
-  then rejects index 8 before decrypting; maintained source avoids this
-  adjacent read and preserves the eight valid key cases.
-- Packet 525 tried function-scope and tail-only `vms`-slot aliases plus
-  precomputed-end `for` and guarded `do/while` loops for
-  `SetCharacterCursorReverse`; all stayed at 183/175 bytes. Keep the
-  baseline source and skip these shapes absent new target evidence.
-- Packet 526 audits `EffectManager::AddedCallback`: the canonical `/O2` object
-  is target-sized at 51 bytes, but natural local-order and direct-store
-  variants retain the same callback/global-manager register inversion. Keep
-  the baseline and do not steer preserved-register assignment.
-- Packet 527 retests `InterpolateHermite`: reversing declaration order while
-  preserving target call order leaves the 182-byte candidate byte-identical.
-  Together with Packet 515's summand retry this remains a local/FPU codegen
-  residual without a semantic discrepancy.
-- Packet 528 closes `Th09EclRunControl::ApplyInterpolationOperation` at
-  157/157 bytes. Its sole RunEcl caller passes Enemy in EDI and instruction in
-  ESI; moving the unchanged semantic body into that TU as an internal `static`
-  helper naturally reproduces the private transport and all five relocations
-  in two cold canonical replays. This is not a public ABI claim. The short
-  non-exact frontier briefly fell to 43 functions; 13 remain at most 128 bytes.
-- Packet 529 closes `Th09EclRunControl::InstallInterpolationSlot` at
-  255/255 bytes after a natural same-TU static move, with all nine relocations
-  solved and two cold canonical replays. Its callback-table data definition
-  remains unresolved, so this function match is not product-build closure.
-  The current non-exact frontier is 42 functions; 13 remain at most 128 bytes.
-- Packet 530 closes `Th09EclRunControl::CallSubroutine @ 0x00407A80` at
-  149/149 bytes in two cold canonical replays, with its `InitializeSubroutine`
-  relocation solved to `0x00406850`. Its two target call sites are the ordinary
-  CALL and CALL_REMOTE paths in RunEcl. Natural same-TU static source preserves
-  the context-pointer rereads. The frontier is now 41 functions; 13 remain at
-  most 128 bytes.
-- Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
-  two cold `/O2 /Ob0` replays, with all thirteen relocation destinations
-  aligned. Its constructor callback at `0x004343D0` remains a shared/folded
-  owner unknown. The frontier is now 40 functions; 13 remain at most 128 bytes.
-- Packet 546 refines `SupervisorFrameQueueView::InsertReceivedFrame` to return
-  the target-observed object-relative cursor in EAX; maintained call sites
-  ignore it. The natural source now models that return but remains 211 bytes
-  versus 213, with the shared prefix diverging from `+0x1C`; do not mistake the
-  size delta for a near-match or steer registers/stack homes to chase it.
-- Packet 547's 251/241 explicit-placement result is historical. Packet 565
-  supersedes it: the target-backed `/O2 /Ob0` lowering plus the already-proven
-  non-throwing `ChainElem` constructor makes ordinary `new ChainElem()`
-  emit the exact allocation/null-check/constructor sequence and preserves the
-  compiler-generated scalar deleting destructor on `delete`.
-- Packet 548 improves `Supervisor::Supervisor` to a cold-stable target-sized
-  62-byte candidate with a naturally equivalent post-clear flags assignment;
-  all relocations resolve and 41/50 ordinary bytes match, but nine tail bytes
-  still differ, so it remains non-exact.
-- Packet 551 closes `ZunTimer::ZunTimer @ 0x00403390` at 12/12 bytes.
-  The prior 8-byte candidate was an artifact of placing the constructor and
-  `Initialize` definition in the same translation unit: VC7.1 could see that
-  callee body and kept `this` in ECX. Moving only the ordinary constructor
-  definition to its own TU makes the compiler preserve `this` in ESI across
-  the call, exactly matching the target and resolving the sole REL32 to
-  `ZunTimer::Initialize @ 0x004014A0`. The frontier is now 39 functions; 12
-  remain at most 128 bytes.
-- Packet 552 closes `InputView::IsPressedScrolling @ 0x00423158` at
-  42/42 bytes. Target callers test AX after the call, supporting the retained
-  16-bit return ABI, while the callee reads the mask as a full 32-bit stack
-  argument. Reusing one `u16` temporary across the short-circuit OR makes
-  VC7.1 preserve both target zero-extend/mask/test stages and emit the shared
-  false/true EAX result blocks. The frontier is now 38 functions; 11 remain at
-  most 128 bytes.
-- Packet 553 closes `AsciiManager::OnUpdate @ 0x00435B00` at 253/253
-  bytes with all fourteen relocations solved. The old signed-side-index probe
-  addressed the wrong expression: target EBX already contains the sideFlags
-  absolute address, and the sole target/candidate difference is signed `JL`
-  versus pointer-order `JB`. Comparing the two 32-bit addresses as signed
-  integers changes only that opcode and produces the exact target. The frontier
-  is now 37 functions; 11 remain at most 128 bytes.
-- Packet 554 closes `TextHelper::CopyTextToSurface @ 0x004361C0` at
-  242/242 bytes without changing its function body. The old 224-byte candidate
-  lived in the same TU as trivial getter definitions, allowing VC7.1 to keep
-  `srcBuf` live in EDX across getter calls and shrink the frame to 0x48.
-  Moving the unchanged function to its own TU restores ordinary call-clobber
-  assumptions, the target 0x4C frame, all pointer spill/reload instructions,
-  and all eight relocation targets. The <=256-byte frontier is now 36.
-- Packet 555 closes `InterpolateHermite @ 0x004074A0` at 188/188
-  bytes. The old formula was mathematically correct, but VC7.1 reassociated the
-  unparenthesized expression into a 182-byte x87 schedule with different local
-  slots. Explicitly grouping each Hermite basis before multiplying its parameter
-  and explicitly left-associating the four weighted terms restores the target
-  -0x10/-0x14/-0x18/-0x1C parameter slots, -0x08/-0x04/-0x0C derived locals,
-  and target term0->term1->term2->term3 x87 order. The frontier is now 35.
-- Packet 556 closes `ScoreFileView::LoadLastName @ 0x00421AA0` at
-  215/215 bytes. The previous 212-byte source order caused VC7.1 to use EAX
-  alone for the nine-byte default-name copy. Keeping the same final record
-  values but assigning `chapterSize` before `chapterSizeCopy`, then
-  magic/version/runtimeMarker, and placing the independent `strcpy` last
-  reproduces the target EBX/ESI copy schedule and all 23 DIR32 relocations.
-  The <=256-byte frontier is now 34 functions.
-- Packet 557 closes `PlayerLifecycleView::CalcCircleCollision @ 0x0041BE70`
-  at 106/106 bytes. The old direct `squaredDistance < squaredRadius`
-  spelling matched the arithmetic but not the target x87 unordered behavior.
-  TH09 uses `TEST AH,41h / JP` after `FCOMPP`; expressing the control
-  flow as `if (squaredDistance >= squaredRadius) return 0; return 1;`
-  naturally reproduces the target status-word branch and epilogues. The
-  <=256-byte frontier is now 33 functions; 10 remain at most 128 bytes.
-- Packet 558 closes `GameManagerPlayfieldView::IsWithinPlayfield @ 0x0041A6EB`
-  at 116/116 bytes. TH09 uses mixed comparison orientation: the right/bottom
-  tests are `144.0f < x - width/2` and `448.0f < y - height/2`,
-  producing the target constant-load/`FCOMPP` forms. Under the neighboring
-  GameManager-proven `/O2 /Os /Ob1` profile this also recovers the target
-  shared x87 cleanup and 0/1 materialization. The <=256-byte frontier is now
-  32 functions; 9 remain at most 128 bytes.
-- Packet 559 closes `SupervisorFrameQueueView::PopFrame @ 0x0042EB80`
-  at 119/119 bytes. The old explicit `sideBase` local made VC7.1 keep
-  the adjusted queue base in EDX. Repeating the same receiver-relative address
-  expression at each access lets the optimizer CSE `this + side * 0x78`
-  directly into ECX, matching the target's side-base/predicted/count register
-  lifetimes without changing semantics. The <=256-byte frontier is now 31
-  functions; 8 remain at most 128 bytes.
-- Packet 560 closes `ExAttackAllocateRecordView::AllocateDynamicData @ 0x00440D90`
-  at 81/81 bytes. Repeating `vmCount * 0x2A4` at the allocation-size
-  and tail-pointer uses gives VC7.1 one long-lived common subexpression, so it
-  keeps the original count in EBX from entry and scales EBX in place exactly as
-  the target does. The previous destructive parameter update inserted a
-  two-byte `mov ebx,eax`. The <=256-byte frontier is now 30 functions; 7
-  remain at most 128 bytes.
-- Packet 561 closes `EtamaController::SelectBulletSprite @ 0x004124E0`
-  at 161/161 bytes by correcting the source API contract to `void`. All
-  three target callers discard EAX, and TH08 independently uses a void selector.
-  Branch-local `SetSprite(...); return;` arms make VC7.1 reload
-  `bulletAnm` from +0x25E1BC in each arm exactly as the target does. The
-  <=256-byte frontier is now 29 functions; the <=128 subset remains 7.
-- Packet 562 closes `SupervisorFrameQueueView::InsertPredictedFrame @ 0x0042EAC0`
-  at 191/191 bytes. The exact shape keeps `targetFrame` live across the
-  shift instead of recomputing it, advances a frame-field cursor from the side
-  base, increments index before cursor at the scan tail, and forms one
-  object-relative entry cursor for the final stores. VC7.1 then naturally keeps
-  side in EBX, spills side-base and targetFrame exactly like the target, and
-  reproduces the loop alignment. The <=256-byte frontier is now 28 functions;
-  7 remain at most 128 bytes.
-- Packet 563 closes `EnemyView::CleanupAfterDeactivation @ 0x00410110`
-  at 184/184 bytes. The previous direct timer-field store made VC7.1 prepare
-  the child-ECL fastcall receiver before all five -1 stores. Taking a normal
-  pointer alias to `timerCallbackThreshold33D0` after the four life-threshold
-  stores makes the compiler place `mov ecx,esi` exactly between those groups,
-  matching the target without register or scheduler directives. The <=256-byte
-  frontier is now 27 functions; the <=128 subset remains 7.
-- Packet 564 closes `SupervisorNetworkState::IsServiceProviderAvailable @
-  0x00432770` at 199/199 bytes. Restoring the DirectPlay SDK-family local
-  lifetimes—`hr = S_OK`, provider buffer initialized to NULL, zeroed count
-  and size, and a shared cleanup tail—lets VC7.1 naturally preserve `this`
-  in EDI, HRESULT in ESI, allocate EBX only for the provider buffer, and reuse
-  one zero register for locals and API NULL arguments. The <=256-byte frontier
-  is now 26 functions; <=128 remains 7.
-- Packet 565 closes `ChainReleaseView::ReleaseSingleChain @ 0x0042CAE0`
-  at 241/241 bytes. Ordinary `new ChainElem()` under the Chain-proven
-  `/O2 /Ob0` profile emits the target raw allocation/null check/constructor
-  path because the exact field-only constructor is non-throwing; the same
-  profile preserves the target scalar deleting-destructor call at 0x0042AC50.
-  The <=256-byte frontier is now 25 functions; <=128 remains 7.
-- Packet 566 closes `PlayerShotUpdateCallbackType4 @ 0x00443930` at
-  249/249 bytes. The old source used the `position` alias for the initial
-  Y integration, extending that alias across the function and making VC7.1
-  choose ESI for the position pointer and EDI for the shot. Accessing
-  `shot->position2A4.y` directly for that one integration keeps the alias
-  only where the target uses it: aggregate copy and center construction.
-  VC7.1 then naturally chooses EBX=player, ESI=shot, EDI=&position and restores
-  the two target six-byte shot-base Y accesses. The <=256-byte frontier is 24.
-- Packet 567 closes `LoadPlayerShtFile @ 0x0041BBE0` at 172/172 bytes.
-  The old declaration treated physical `0x00401070` as a double-returning
-  helper even though repository-local exact evidence already identifies it as
-  compiler-generated float `sinf`. Correcting the return/local type to
-  float restores the target x87 `FLD ST(0)` reuse. Keeping `shtFile`
-  only for the first derived-size store and rereading `*header` thereafter
-  also restores the target-private ESI out-pointer / EDI file-pointer lifetime.
-  The <=256-byte frontier is now 23 functions.
-- Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
-  trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
-  plateau. several exact-sized candidates have
-  documented register, return or private-ABI residuals. Consult their ledger
-  rows and `docs/KNOWLEDGE_BASE.md` before repeating a rejected probe.
+Use the table above only for routing. Before changing any candidate, read its
+live `config/functions.csv` row and recompile from the maintained source. The
+notes below summarize only constraints that are still current; superseded probe
+history belongs in `docs/KNOWLEDGE_BASE.md`.
+
+- The two 32-byte math/effect leaves remain natural-codegen negatives:
+  `EffectPolarScaleView::SetFromAngleAxes` and `Float3::FromAngleMagnitude`
+  compile to 30-byte FCOS/FSIN forms while the target uses FSINCOS. Do not add
+  inline assembly or fabricate a runtime wrapper merely to fuse them.
+- `DecodeFrontMessageString` remains a private-ABI mismatch (36/39 bytes).
+  Natural source selects register transport while the target uses one stack
+  argument and `ret 4`; do not force a private register/stack ABI.
+- `EffectManager::AddedCallback` is already target-sized at 51 bytes. The
+  residual is the ESI/EDI assignment of callback argument versus ANM manager;
+  bounded local-order, direct-store, `void *`, and profile probes do not
+  change it.
+- `AnmVmBase::AnmVmBase` remains 61/62 under the closest natural
+  `/O1 /Ob1` profile because VC7.1 reuses the element-constructor address
+  across the two vector-constructor calls. `Supervisor::Supervisor` is
+  target-sized at 62 bytes but retains its tail codegen mismatch. Neither is a
+  license for padding, fake wrapper types, or register forcing.
+- `EnemyAppendCollisionView::AppendPlayerCollisionBox` is target-sized at
+  82 bytes with both relocations solved; the residual is temporary-copy/argument
+  scheduling. `EnemyView::IntegrateMotion` is target-sized at 188 bytes
+  after the mirrored-X source correction, but the remaining EBX/EDI position
+  versus previous-position allocation is compiler-local.
+- `FrontMessageOwnerView::InitializeMessageRuntime` is target-sized at 133
+  bytes with all nine relocations solved. Only the `Setup` call evaluation
+  order differs. Do not use volatile, padding, assembly, or source-order
+  steering to force the LEA/push order.
+- The five remaining TitleScreen cursor helpers are all source-present but
+  non-exact. The two horizontal helpers are 167-byte target-sized candidates
+  with register/input-pointer lifetime differences. Reverse/Inactive remain
+  183/175; Active remains 217/211 after bounded natural alias/loop probes.
+- Both Bullet pattern wrappers remain natural 187/203-byte candidates. Target
+  loop-head LEA/jump no-op sequences are compiler layout, not source padding to
+  reproduce.
+- `PlayerShotDrawCallbackType1` remains 190/204. The target retains
+  duplicated epilogues that stock VC7.1 tail-merges under the established
+  Player-shot profiles; `void` is target-disproved because the target
+  explicitly zeros EAX on both exits.
+- Only `SupervisorFrameQueueView::InsertReceivedFrame` remains non-exact in
+  the short frame-queue family. `PopFrame` and `InsertPredictedFrame`
+  are exact. The 213-byte target currently resists natural
+  queue-base/index/argument-home lifetime spellings; do not revive
+  var_order/register forcing.
+- `FileSystem::TryDecryptFromTable` remains 215/220. The target's biased
+  cursor can read `g_CryptSignature[0]` as terminal index 8 before the later
+  `index < 8` rejection. Maintained source intentionally bounds the declared
+  eight-row array and avoids that adjacent read. This supersedes the older
+  Packet-524 description that said the target checked the bound first.
+- `ParseNetworkConfigValue` is target-sized at 243 bytes with its private
+  ABI correct; the residual is equivalent return-cursor block placement.
+- `PlayerPositionCallback30404Type4` and Type8 remain 235/249 with a 0x3C
+  candidate frame versus the target's 0x34 shared hidden-return layout. Natural
+  ternary/if/branch-temp and same-TU type probes do not recover that lifetime.
+- `PlayerLifecycleView::UpdateShots` remains 254/251. The extra four-byte
+  local is an updated-Y spill used for the playfield call; natural
+  sprite/extent local rewrites do not remove it.
+
+Former short ECL interpolation helpers are **not** part of the current
+frontier: `ApplyInterpolationOperation`, `InstallInterpolationSlot`,
+`CallSubroutine`, and `InterpolateHermite` are all canonical exact.
+In particular Packet 555 supersedes Packet 527's old 182/188
+`InterpolateHermite` plateau.
+
+The current filter is unchanged by later exact promotions above 256 bytes
+(Packets 568-577), including Player collision query/regions, CardAttack
+draw/update, Player bomb/death state, and TextHelper alpha inversion.
