@@ -10869,7 +10869,7 @@ relocations = [
   { offset = 0x7A, type = "DIR32", symbol = "__real@40400000", target = 0x0048E2A0 },
   { offset = 0x8A, type = "DIR32", symbol = "__real@3cf5c28f", target = 0x0048EF98 },
   { offset = 0xA2, type = "REL32", symbol = "?CalcItemCollectionCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@0@Z", target = 0x0041BEE0 },
-  { offset = 0xC0, type = "DIR32", symbol = "$L2524", target = 0x0041DF50 },
+  { offset = 0xC0, type = "DIR32", symbol = "$L2525", target = 0x0041DF50 },
   { offset = 0xCC, type = "REL32", symbol = "?AddRespawnResource@PlayerState4OpsView@@QAEXM@Z", target = 0x0041BC90 },
   { offset = 0xD7, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
   { offset = 0xDC, type = "DIR32", symbol = "?g_PlayerRewardModeValue@@3HA", target = 0x004A7EAC },
@@ -10895,7 +10895,7 @@ relocations = [
   { offset = 0x1B5, type = "DIR32", symbol = "?g_PlayerRewardEffectManager@@3PAUEffectManager@@A", target = 0x004A7E0C },
   { offset = 0x1C3, type = "REL32", symbol = "?SpawnEffectWithVelocity@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@0HI@Z", target = 0x0040CCC0 },
   { offset = 0x1D9, type = "DIR32", symbol = "?g_PlayerRewardModeValue@@3HA", target = 0x004A7EAC },
-  { offset = 0x1E5, type = "DIR32", symbol = "$L2525", target = 0x0041DF60 },
+  { offset = 0x1E5, type = "DIR32", symbol = "$L2526", target = 0x0041DF60 },
   { offset = 0x1EB, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
   { offset = 0x1F1, type = "DIR32", symbol = "__real@3d23d70a", target = 0x0048EF8C },
   { offset = 0x1F7, type = "DIR32", symbol = "__real@3f666666", target = 0x0048EF88 },
@@ -17379,4 +17379,24 @@ relocations = [
   { offset = 0x173, type = "REL32", symbol = "?SetRenderState@Supervisor@@QAEXHH@Z", target = 0x0042FF40 },
   { offset = 0x185, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x18A, type = "REL32", symbol = "?SetMixColorDefault@AnmManager@@QAEXXZ", target = 0x00401610 },
+]
+
+
+[units.player-update-shots]
+source = "src/PlayerRuntime.cpp"
+object = "build/matching/PlayerRuntime.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerLifecycleView::UpdateShots"]
+symbol = "?UpdateShots@PlayerLifecycleView@@QAEXXZ"
+target_address = 0x0041F580
+size = 0xFB
+relocations = [
+  { offset = 0x64, type = "REL32", symbol = "??BPlayerPositionView@@QAEPAMXZ", target = 0x004343D0 },
+  { offset = 0x6A, type = "DIR32", symbol = "?g_PlayerSupervisorRuntime@@3UPlayerSupervisorRuntimeView@@A", target = 0x004B3100 },
+  { offset = 0x7A, type = "DIR32", symbol = "?g_PlayerSupervisorRuntime@@3UPlayerSupervisorRuntimeView@@A", target = 0x004B3100 },
+  { offset = 0xAA, type = "DIR32", symbol = "?g_PlayerGameManagerRuntime@@3UPlayerGameManagerRuntimeView@@A", target = 0x004A7D90 },
+  { offset = 0xAF, type = "REL32", symbol = "?IsWithinPlayfield@PlayerGameManagerRuntimeView@@QAEHMMMM@Z", target = 0x0041A6EB },
+  { offset = 0xC0, type = "DIR32", symbol = "?g_AnmManager@@3PAUPlayerAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0xC6, type = "REL32", symbol = "?ExecuteScript@PlayerAnmManagerView@@QAEHPAX@Z", target = 0x00436F30 },
+  { offset = 0xDD, type = "REL32", symbol = "??EPlayerTimerCtorView@@QAEXH@Z", target = 0x00401510 },
 ]

@@ -855,3 +855,4 @@ address,name,size,status,match_percent,unit,evidence
 0x0040F9B0,EnemyView::IntegrateMotion,188,matching,100.00,enemy-integrate-motion,python3 scripts/build-match-unit.py --unit enemy-integrate-motion && python3 scripts/compare-coff-function.py --unit enemy-integrate-motion --json
 0x00402350,Background::OnUpdate,377,matching,100.00,background-on-update,python3 scripts/build-match-unit.py --unit background-on-update && python3 scripts/compare-coff-function.py --unit background-on-update --json
 0x00403680,Background::OnDrawLowPrio,421,matching,100.00,background-on-draw-low-prio,python3 scripts/build-match-unit.py --unit background-on-draw-low-prio && python3 scripts/compare-coff-function.py --unit background-on-draw-low-prio --json
+0x0041F580,PlayerLifecycleView::UpdateShots,251,matching,100.00,player-update-shots,python3 scripts/build-match-unit.py --unit player-update-shots && python3 scripts/compare-coff-function.py --unit player-update-shots --json

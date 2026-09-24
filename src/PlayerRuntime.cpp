@@ -1109,8 +1109,9 @@ void PlayerLifecycleView::UpdateShots()
         }
 
         float *position = shot->position2A4.operator float *();
+        float &positionY = position[1];
         position[0] += g_PlayerSupervisorRuntime.framerateMultiplier5B8 * shot->velocity43C.x;
-        position[1] += g_PlayerSupervisorRuntime.framerateMultiplier5B8 * shot->velocity43C.y;
+        positionY += g_PlayerSupervisorRuntime.framerateMultiplier5B8 * shot->velocity43C.y;
 
         if (shot->shotType464 != 2 &&
             !g_PlayerGameManagerRuntime.IsWithinPlayfield(

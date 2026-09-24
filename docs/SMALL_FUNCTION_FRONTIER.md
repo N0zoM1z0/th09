@@ -7,10 +7,10 @@ ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **12 functions**, of which
+target logical size at most 256 bytes**. It yields **11 functions**, of which
 **2 are at most 128 bytes**. The latest short-function promotions are
 `EtamaController::SpawnBulletPatternPrimary @ 0x004130F0` and
-`SpawnBulletPatternSecondary @ 0x004131C0`; the overall canonical total is 856 exact
+`SpawnBulletPatternSecondary @ 0x004131C0`; the overall canonical total is 857 exact
 functions. Size is only a routing heuristic: this list is not a verified
 call-graph leaf set, a difficulty ranking, or product-build progress. All
 names and boundaries remain subject to their target-local ledger evidence.
@@ -28,7 +28,6 @@ names and boundaries remain subject to their target-local ledger evidence.
 | 0x00432240 | 243 | SupervisorNetwork | `ParseNetworkConfigValue` |
 | 0x00443B10 | 249 | Player | `PlayerPositionCallback30404Type4` |
 | 0x00447620 | 249 | Player | `PlayerPositionCallback30404Type8` |
-| 0x0041F580 | 251 | Player | `PlayerLifecycleView::UpdateShots` |
 
 ## Selection notes
 
@@ -87,6 +86,11 @@ history belongs in `docs/KNOWLEDGE_BASE.md`.
   reproduce both 203-byte targets and all four relocations each. Explicit
   `result = NULL` is target-disproved and emits 187 bytes.
 
+- PlayerLifecycleView::UpdateShots @ 0x0041F580 is now canonical exact.
+  The old 254/251 plateau came from a y-value spill caused by the maintained
+  position-pointer lifetime. A natural float reference alias used only for the
+  y integration removes the second stack local while the bounds check continues
+  to reload position[1] from memory, yielding 251/251 with all eight relocations.
 - `PlayerShotDrawCallbackType1` remains 190/204, but the old scheduling plateau
   is superseded. Source order `++index; ++point; alphaAccumulator += alpha`
   reproduces the first 190 target bytes with 165/166 ordinary comparable bytes;
