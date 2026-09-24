@@ -83,10 +83,14 @@ history belongs in `docs/KNOWLEDGE_BASE.md`.
 - Both Bullet pattern wrappers remain natural 187/203-byte candidates. Target
   loop-head LEA/jump no-op sequences are compiler layout, not source padding to
   reproduce.
-- `PlayerShotDrawCallbackType1` remains 190/204. The target retains
-  duplicated epilogues that stock VC7.1 tail-merges under the established
-  Player-shot profiles; `void` is target-disproved because the target
-  explicitly zeros EAX on both exits.
+- `PlayerShotDrawCallbackType1` remains 190/204, but the old scheduling plateau
+  is superseded. Source order `++index; ++point; alphaAccumulator += alpha`
+  reproduces the first 190 target bytes with 165/166 ordinary comparable bytes;
+  the only difference is the zero-trip `jle` destination because VC7.1 merges
+  the target's second 14-byte restore/return epilogue. All six relocations solve.
+  Bounded natural CFG/profile/alias variants still merge the tail; do not pad or
+  force a second epilogue.
+
 - Only `SupervisorFrameQueueView::InsertReceivedFrame` remains non-exact in
   the short frame-queue family. `PopFrame` and `InsertPredictedFrame`
   are exact. The 213-byte target currently resists natural

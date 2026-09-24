@@ -56,9 +56,9 @@ int __fastcall PlayerShotDrawCallbackType1(
             g_AnmManager->Draw2D(
                 reinterpret_cast<AnmVm *>(shot));
 
-            alphaAccumulator += alpha;
             ++index;
             ++point;
+            alphaAccumulator += alpha;
         }
         while (index < 2 * shot->trailSegmentCount46A);
     }
