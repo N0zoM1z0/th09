@@ -126,7 +126,7 @@ extern void *g_PlayerShotDrawCallbacks[];
 extern void *g_PlayerShotCollisionCallbacks[];
 extern ZunMemory g_ZunMemory;
 
-extern double __stdcall PlayerSin(float value);
+extern float __fastcall PlayerSin(float value);
 
 static int LoadPlayerShtFile(PlayerShtFileView **header, const char *path)
 {
@@ -138,9 +138,10 @@ static int LoadPlayerShtFile(PlayerShtFileView **header, const char *path)
         return -1;
 
     PlayerShtFileView *shtFile = *header;
-    double sine = PlayerSin(0.7853981852531433f);
-    shtFile->sizeDerived0 = static_cast<float>(shtFile->sizeSource0 * sine);
-    shtFile->sizeDerived1 = static_cast<float>(shtFile->sizeSource1 * sine);
+    float sine = PlayerSin(0.7853981852531433f);
+    shtFile->sizeDerived0 = static_cast<float>(sine * shtFile->sizeSource0);
+    (*header)->sizeDerived1 =
+        static_cast<float>(sine * (*header)->sizeSource1);
 
     for (i = 0; i < (*header)->shotPowerLevelCount; ++i)
     {

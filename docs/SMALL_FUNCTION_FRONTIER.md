@@ -1,14 +1,14 @@
 # TH09 short-function frontier
 
-This is a Packet-566 routing snapshot, not a second exactness ledger. The
+This is a Packet-567 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **24 functions**, of which
-**7 are at most 128 bytes**, after Packet 566's Player Type4 shot-update promotion.
+target logical size at most 256 bytes**. It yields **23 functions**, of which
+**7 are at most 128 bytes**, after Packet 567's Player SHT-loader promotion.
 Size is only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
@@ -25,7 +25,6 @@ subject to their target-local ledger evidence.
 | 0x004181E0 | 133 | Front | `FrontMessageOwnerView::InitializeMessageRuntime` |
 | 0x0042474A | 167 | TitleScreen | `TitleScreenView::MoveCharacterCursorHorizontal` |
 | 0x004247F1 | 167 | TitleScreen | `TitleScreenView::MoveCharacterCursorHorizontalForInput` |
-| 0x0041BBE0 | 172 | Player | `LoadPlayerShtFile` |
 | 0x00424FB0 | 175 | TitleScreen | `TitleScreenView::SetCharacterCursorReverse` |
 | 0x0042505F | 175 | TitleScreen | `TitleScreenView::SetCharacterCursorInactive` |
 | 0x0040F9B0 | 188 | EnemyManager | `EnemyView::IntegrateMotion` |
@@ -229,6 +228,14 @@ subject to their target-local ledger evidence.
   only where the target uses it: aggregate copy and center construction.
   VC7.1 then naturally chooses EBX=player, ESI=shot, EDI=&position and restores
   the two target six-byte shot-base Y accesses. The <=256-byte frontier is 24.
+- Packet 567 closes `LoadPlayerShtFile @ 0x0041BBE0` at 172/172 bytes.
+  The old declaration treated physical `0x00401070` as a double-returning
+  helper even though repository-local exact evidence already identifies it as
+  compiler-generated float `sinf`. Correcting the return/local type to
+  float restores the target x87 `FLD ST(0)` reuse. Keeping `shtFile`
+  only for the first derived-size store and rereading `*header` thereafter
+  also restores the target-private ESI out-pointer / EDI file-pointer lifetime.
+  The <=256-byte frontier is now 23 functions.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. several exact-sized candidates have

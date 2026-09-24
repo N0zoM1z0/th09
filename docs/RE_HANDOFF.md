@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 826 |
-| Source-present non-exact functions | 153 |
-| Source-present non-exact bytes | 138,821 |
+| Canonical exact functions | 827 |
+| Source-present non-exact functions | 152 |
+| Source-present non-exact bytes | 138,649 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 136,848 |
+| Canonical exact authored bytes | 137,020 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -316,6 +316,16 @@ does. All nine relocations replay exactly. Live totals are now 826 exact / 153
 non-exact / 138,821 non-exact bytes; the <=256-byte frontier is 24 functions,
 7 at most 128 bytes.
 
+
+Packet 567 closes `LoadPlayerShtFile @ 0x0041BBE0` at 172/172 bytes.
+Correcting physical `0x00401070` from the old double-returning alias to the
+repository-proven float `sinf` contract restores the target x87 stack reuse.
+Keeping `shtFile` short-lived for the first derived-size store while rereading
+`*header` for the second store and callback-table loop also restores the
+target-private ESI out-pointer / EDI file-pointer lifetime. All six relocations
+replay exactly. Live totals are now 827 exact / 152 non-exact / 138,649
+non-exact bytes; the <=256-byte frontier is 23 functions, 7 at most 128 bytes.
+
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
 resolved. The target's 32-element special-effect point array uses the generic
@@ -427,7 +437,7 @@ claim, not Windows i386 product closure.
 
 ## Short-function routing frontier
 
-The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 24 current
+The bounded snapshot in `docs/SMALL_FUNCTION_FRONTIER.md` lists all 23 current
 source-present non-exact authored functions whose target logical bodies are at
 most 256 bytes; 7 are at most 128 bytes. This is a size filter, **not** a
 verified call-graph leaf set or an ease-of-matching ranking. The live
