@@ -311,7 +311,10 @@ int PlayerLifecycleView::CalcCircleCollision(
     PlayerPositionView delta;
     delta = position1B88 - *position;
     float collisionRadius = radius + primaryShtFile->hurtboxSize;
-    return delta.x * delta.x + delta.y * delta.y < collisionRadius * collisionRadius;
+    if (delta.x * delta.x + delta.y * delta.y >=
+        collisionRadius * collisionRadius)
+        return 0;
+    return 1;
 }
 
 int PlayerLifecycleView::CalcLaserHitbox(

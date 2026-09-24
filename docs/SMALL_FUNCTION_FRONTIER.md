@@ -1,14 +1,14 @@
 # TH09 short-function frontier
 
-This is a Packet-556 routing snapshot, not a second exactness ledger. The
+This is a Packet-557 routing snapshot, not a second exactness ledger. The
 authoritative live rows are `config/functions.csv`; `config/matches.csv` and
 `config/match-units.toml` alone grant canonical exact credit. Re-filter the
 ledger before starting work, and update this snapshot when a short function is
 promoted. The original Japanese v1.50a target remains mandatory.
 
 The filter is **confirmed authored + maintained source + not canonical exact +
-target logical size at most 256 bytes**. It yields **34 functions**, of which
-**11 are at most 128 bytes**, after Packet 556's ScoreData last-name promotion.
+target logical size at most 256 bytes**. It yields **33 functions**, of which
+**10 are at most 128 bytes**, after Packet 557's circle-collision promotion.
 Size is only a routing heuristic: this list is not a verified call-graph leaf set, a
 difficulty ranking, or product-build progress. All names and boundaries remain
 subject to their target-local ledger evidence.
@@ -23,7 +23,6 @@ subject to their target-local ledger evidence.
 | 0x00431500 | 62 | Supervisor | `Supervisor::Supervisor` |
 | 0x00440D90 | 81 | ExAttackController | `ExAttackAllocateRecordView::AllocateDynamicData` |
 | 0x00410250 | 82 | EnemyManager | `EnemyAppendCollisionView::AppendPlayerCollisionBox` |
-| 0x0041BE70 | 106 | Player | `PlayerLifecycleView::CalcCircleCollision` |
 | 0x0041A6EB | 116 | GameManager | `GameManagerPlayfieldView::IsWithinPlayfield` |
 | 0x0042EB80 | 119 | Supervisor | `SupervisorFrameQueueView::PopFrame` |
 | 0x004181E0 | 133 | Front | `FrontMessageOwnerView::InitializeMessageRuntime` |
@@ -168,6 +167,13 @@ subject to their target-local ledger evidence.
   magic/version/runtimeMarker, and placing the independent `strcpy` last
   reproduces the target EBX/ESI copy schedule and all 23 DIR32 relocations.
   The <=256-byte frontier is now 34 functions.
+- Packet 557 closes `PlayerLifecycleView::CalcCircleCollision @ 0x0041BE70`
+  at 106/106 bytes. The old direct `squaredDistance < squaredRadius`
+  spelling matched the arithmetic but not the target x87 unordered behavior.
+  TH09 uses `TEST AH,41h / JP` after `FCOMPP`; expressing the control
+  flow as `if (squaredDistance >= squaredRadius) return 0; return 1;`
+  naturally reproduces the target status-word branch and epilogues. The
+  <=256-byte frontier is now 33 functions; 10 remain at most 128 bytes.
 - Small size or a one-byte residual is not a quick-win guarantee. Both 32-byte
   trigonometric helpers have a durable `FSINCOS` versus `FCOS`/`FSIN` compiler
   plateau. several exact-sized candidates have
