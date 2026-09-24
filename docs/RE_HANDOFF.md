@@ -131,6 +131,12 @@ separate early returns. Two cold canonical unit replays and the connected
 ScreenEffect exact-unit regression pass. This is outside the <=256-byte short
 frontier; Windows product closure remains open.
 
+Packet 545 advances `CardAttack::OnDraw @ 0x00404410` from a 324-byte candidate
+to a stable 334-byte source candidate by walking the five secondary VMs with a
+natural `AnmVm *` cursor. Two cold builds match 194/266 ordinary bytes and
+resolve all 17 relocations, but instruction-scheduling and register-assignment
+residuals remain; it is still non-exact and has no canonical match entry.
+
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
 resolved. The target's 32-element special-effect point array uses the generic

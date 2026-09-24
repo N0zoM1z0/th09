@@ -151,15 +151,16 @@ int CardAttack::OnDraw(CardAttack *cardAttack)
         g_AnmManager->DrawNoRotation(&cardAttack->mainVms0AC[1]);
     }
 
-    for (int i = 0; i < 5; ++i)
+    AnmVm *secondaryVm = &cardAttack->secondaryVms5F4[0];
+    for (int i = 0; i < 5; ++i, ++secondaryVm)
     {
-        CardAttackVmView *vm = CardAttackVm(&cardAttack->secondaryVms5F4[i]);
+        CardAttackVmView *vm = CardAttackVm(secondaryVm);
         if ((vm->flags1F8 & 2) == 0)
             continue;
         vm->position208.x = g_GameManager.TransformPopupX(vm->offset288.x);
         vm->position208.y = g_GameManager.TransformPopupY(vm->offset288.y);
         vm->position208.z = 0.0f;
-        g_AnmManager->DrawNoRotation(&cardAttack->secondaryVms5F4[i]);
+        g_AnmManager->DrawNoRotation(secondaryVm);
     }
     return 1;
 }
