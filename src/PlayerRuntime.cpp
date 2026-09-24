@@ -279,20 +279,9 @@ static void UpdatePlayerCollisionRegions(PlayerLifecycleView *player)
                 (*slot)->Deactivate();
                 runtime->releasedRegions[runtime->releasedRegionCount++] = *slot;
 
-                PlayerCollisionRegionRuntimeView **next = slot + 1;
-                *slot = *next;
-                if (*slot != NULL)
-                {
-                    PlayerCollisionRegionRuntimeView *following;
-                    do
-                    {
-                        PlayerCollisionRegionRuntimeView **current = next;
-                        following = next[1];
-                        ++next;
-                        *current = following;
-                    }
-                    while (following != NULL);
-                }
+                PlayerCollisionRegionRuntimeView **current = slot;
+                while ((*current = current[1]) != NULL)
+                    ++current;
                 --runtime->activeRegionCount;
                 --index;
                 continue;

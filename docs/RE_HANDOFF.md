@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 829 |
-| Source-present non-exact functions | 150 |
-| Source-present non-exact bytes | 137,916 |
+| Canonical exact functions | 830 |
+| Source-present non-exact functions | 149 |
+| Source-present non-exact bytes | 137,643 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 137,753 |
+| Canonical exact authored bytes | 138,026 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -347,6 +347,15 @@ same-layout aggregate assignment reproduces the target copy schedule and all 28
 relocations exactly. Live totals are now 829 exact / 150 non-exact / 137,916
 non-exact bytes. The <=256-byte routing frontier remains 23 functions because
 this helper is 454 bytes.
+
+
+Packet 571 closes `UpdatePlayerCollisionRegions @ 0x0041C8E0` at
+273/273 bytes. Packet 569 had already recovered the target no-frame/index/slot
+lifetime. Replacing the over-modeled three-variable compaction with
+`while ((*current = current[1]) != NULL) ++current;` makes VC7.1 emit the
+target ECX/EDX/EAX pipeline and closes the final ten ordinary bytes. Live totals
+are now 830 exact / 149 non-exact / 137,643 non-exact bytes. The <=256-byte
+routing frontier remains 23 functions because this helper is 273 bytes.
 
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations

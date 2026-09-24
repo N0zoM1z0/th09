@@ -10852,7 +10852,7 @@ relocations = [
   { offset = 0x7A, type = "DIR32", symbol = "__real@40400000", target = 0x0048E2A0 },
   { offset = 0x8A, type = "DIR32", symbol = "__real@3cf5c28f", target = 0x0048EF98 },
   { offset = 0xA2, type = "REL32", symbol = "?CalcItemCollectionCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@0@Z", target = 0x0041BEE0 },
-  { offset = 0xC0, type = "DIR32", symbol = "$L2519", target = 0x0041DF50 },
+  { offset = 0xC0, type = "DIR32", symbol = "$L2517", target = 0x0041DF50 },
   { offset = 0xCC, type = "REL32", symbol = "?AddRespawnResource@PlayerState4OpsView@@QAEXM@Z", target = 0x0041BC90 },
   { offset = 0xD7, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
   { offset = 0xDC, type = "DIR32", symbol = "?g_PlayerRewardModeValue@@3HA", target = 0x004A7EAC },
@@ -10878,7 +10878,7 @@ relocations = [
   { offset = 0x1B5, type = "DIR32", symbol = "?g_PlayerRewardEffectManager@@3PAUEffectManager@@A", target = 0x004A7E0C },
   { offset = 0x1C3, type = "REL32", symbol = "?SpawnEffectWithVelocity@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@0HI@Z", target = 0x0040CCC0 },
   { offset = 0x1D9, type = "DIR32", symbol = "?g_PlayerRewardModeValue@@3HA", target = 0x004A7EAC },
-  { offset = 0x1E5, type = "DIR32", symbol = "$L2520", target = 0x0041DF60 },
+  { offset = 0x1E5, type = "DIR32", symbol = "$L2518", target = 0x0041DF60 },
   { offset = 0x1EB, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
   { offset = 0x1F1, type = "DIR32", symbol = "__real@3d23d70a", target = 0x0048EF8C },
   { offset = 0x1F7, type = "DIR32", symbol = "__real@3f666666", target = 0x0048EF88 },
@@ -10904,15 +10904,15 @@ relocations = [
   { offset = 0x2F2, type = "DIR32", symbol = "__real@43c80000", target = 0x0048E3C4 },
   { offset = 0x301, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0x307, type = "DIR32", symbol = "__real@43c80000", target = 0x0048E3C4 },
-  { offset = 0x330, type = "DIR32", symbol = "$L2240", target = 0x0041DCE4 },
-  { offset = 0x334, type = "DIR32", symbol = "$L2242", target = 0x0041DCF5 },
-  { offset = 0x338, type = "DIR32", symbol = "$L2264", target = 0x0041DEB6 },
-  { offset = 0x33C, type = "DIR32", symbol = "$L2265", target = 0x0041DECA },
-  { offset = 0x340, type = "DIR32", symbol = "$L2256", target = 0x0041DE09 },
-  { offset = 0x344, type = "DIR32", symbol = "$L2257", target = 0x0041DE1D },
-  { offset = 0x348, type = "DIR32", symbol = "$L2258", target = 0x0041DE31 },
-  { offset = 0x34C, type = "DIR32", symbol = "$L2259", target = 0x0041DE45 },
-  { offset = 0x350, type = "DIR32", symbol = "$L2260", target = 0x0041DE59 },
+  { offset = 0x330, type = "DIR32", symbol = "$L2237", target = 0x0041DCE4 },
+  { offset = 0x334, type = "DIR32", symbol = "$L2239", target = 0x0041DCF5 },
+  { offset = 0x338, type = "DIR32", symbol = "$L2261", target = 0x0041DEB6 },
+  { offset = 0x33C, type = "DIR32", symbol = "$L2262", target = 0x0041DECA },
+  { offset = 0x340, type = "DIR32", symbol = "$L2253", target = 0x0041DE09 },
+  { offset = 0x344, type = "DIR32", symbol = "$L2254", target = 0x0041DE1D },
+  { offset = 0x348, type = "DIR32", symbol = "$L2255", target = 0x0041DE31 },
+  { offset = 0x34C, type = "DIR32", symbol = "$L2256", target = 0x0041DE45 },
+  { offset = 0x350, type = "DIR32", symbol = "$L2257", target = 0x0041DE59 },
 ]
 
 [units.player-set-blend-additive]
@@ -16798,4 +16798,17 @@ relocations = [
   { offset = 0x17B, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEPAU1@MM@Z", target = 0x00441890 },
   { offset = 0x18A, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
   { offset = 0x197, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
+]
+
+[units.player-update-collision-regions]
+source = "src/PlayerRuntime.cpp"
+object = "build/matching/PlayerRuntimeCollisionRegions.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["UpdatePlayerCollisionRegions"]
+symbol = "?UpdatePlayerCollisionRegions@@YIXPAUPlayerLifecycleView@@@Z"
+target_address = 0x0041C8E0
+size = 0x111
+relocations = [
+  { offset = 0x7F, type = "REL32", symbol = "?Deactivate@PlayerCollisionRegionRuntimeView@@QAEXXZ", target = 0x0041BD90 },
+  { offset = 0xE9, type = "REL32", symbol = "?Deactivate@PlayerCollisionRegionRuntimeView@@QAEXXZ", target = 0x0041BD90 },
 ]
