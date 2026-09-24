@@ -833,3 +833,4 @@ address,name,size,status,match_percent,unit,evidence
 0x004041F0,CardAttack::OnUpdate,536,matching,100.00,card-attack-on-update,python3 scripts/build-match-unit.py --unit card-attack-on-update && python3 scripts/compare-coff-function.py --unit card-attack-on-update --json
 0x0041CA00,UpdatePlayerBombState,335,matching,100.00,player-update-bomb-state,python3 scripts/build-match-unit.py --unit player-update-bomb-state && python3 scripts/compare-coff-function.py --unit player-update-bomb-state --json
 0x00435FE0,TextHelper::InvertAlpha,472,matching,100.00,text-helper-invert-alpha,python3 scripts/build-match-unit.py --unit text-helper-invert-alpha && python3 scripts/compare-coff-function.py --unit text-helper-invert-alpha --json
+0x0041E420,PlayerLifecycleView::EnterDeathState,753,matching,100.00,player-enter-death-state,python3 scripts/build-match-unit.py --unit player-enter-death-state && python3 scripts/compare-coff-function.py --unit player-enter-death-state --json

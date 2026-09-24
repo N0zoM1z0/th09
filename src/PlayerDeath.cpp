@@ -162,8 +162,8 @@ void PlayerLifecycleView::EnterDeathState()
 
                 reinterpret_cast<PlayerDeathSideStateView *>(opponentState)
                     ->attackOwner14->Configure(1, 1, 0, primaryShtFile->modePath1);
-                scalar30384 = 400.0f;
-                scalar30388 = 400.0f;
+                scalar30384 = 100.0f;
+                scalar30388 = 100.0f;
                 SetBombMode1();
                 return;
             }
@@ -177,11 +177,15 @@ void PlayerLifecycleView::EnterDeathState()
                 return;
             }
 
-            reinterpret_cast<PlayerDeathSideStateView *>(opponentState)
-                ->attackOwner14->Configure(0, 0, 0, primaryShtFile->modePath0);
-            scalar30384 = 0.0f;
-            scalar30388 = 0.0f;
-            SetBombMode0();
+            if (scalar30388 >= 200.0f)
+            {
+                reinterpret_cast<PlayerDeathSideStateView *>(opponentState)
+                    ->attackOwner14->Configure(0, 0, 0, primaryShtFile->modePath0);
+                scalar30384 = 0.0f;
+                scalar30388 = 0.0f;
+                SetBombMode0();
+                return;
+            }
             return;
         }
 

@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 834 |
-| Source-present non-exact functions | 145 |
-| Source-present non-exact bytes | 135,966 |
+| Canonical exact functions | 835 |
+| Source-present non-exact functions | 144 |
+| Source-present non-exact bytes | 135,213 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 139,703 |
+| Canonical exact authored bytes | 140,456 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -402,6 +402,15 @@ comparison as `red >= blue` restores the target fallthrough/taken branch
 order. The sole GetBuffer relocation resolves exactly. Live totals are now
 834 exact / 145 non-exact / 135,966 non-exact bytes. The <=256-byte routing
 frontier is unchanged because this helper is 472 bytes.
+
+
+Packet 577 closes `PlayerLifecycleView::EnterDeathState @ 0x0041E420`
+at 753/753 bytes. TH09 retains a second explicit >=200 guard inside the
+shotType-8 resource branch and returns on its false edge, producing the target
+near jump to the epilogue. The 400-point mode-1 path also writes 100.0f rather
+than the previous 400.0f reconstruction. All thirty-eight relocations replay
+exactly. Live totals are now 835 exact / 144 non-exact / 135,213 non-exact
+bytes.
 
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
