@@ -16,16 +16,17 @@ Laser *EtamaController::SpawnLaserPattern(BulletSpawnDescriptor *descriptor)
         (descriptor->transformFlags & 4u) != 0)
     {
         int index = 0;
-        for (;;)
+        do
         {
             if (laser->inUse == 0)
-                break;
+                goto found_laser;
             ++index;
             ++laser;
-            if (index >= 48)
-                return laser;
         }
+        while (index < 48);
+        return laser;
 
+    found_laser:
         reinterpret_cast<AnmLoaded *>(this->bulletAnm)->
             SetAndExecuteScriptIdx(
                 &laser->bodyVm, descriptor->bulletType + 10);

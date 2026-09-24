@@ -17467,3 +17467,21 @@ relocations = [
   { offset = 0x1D8, type = "DIR32", symbol = "$L59304", target = 0x00422E37 },
   { offset = 0x1DC, type = "DIR32", symbol = "$L59307", target = 0x00422E5C },
 ]
+
+
+[units.etama-spawn-laser-pattern]
+source = "src/BulletLaserSpawn.cpp"
+object = "build/matching/BulletLaserSpawn.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EtamaController::SpawnLaserPattern"]
+symbol = "?SpawnLaserPattern@EtamaController@@QAEPAULaser@@PAUBulletSpawnDescriptor@@@Z"
+target_address = 0x00413290
+size = 0x1C2
+relocations = [
+  { offset = 0x5E, type = "REL32", symbol = "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
+  { offset = 0x78, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x00436AC0 },
+  { offset = 0x83, type = "DIR32", symbol = "?g_LaserColorSpriteOffsets@@3PAHA", target = 0x004A0F18 },
+  { offset = 0x9C, type = "REL32", symbol = "?InitializeAndSetSprite@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00412800 },
+  { offset = 0x101, type = "REL32", symbol = "?AngleToPoint@BulletPlayerView@@QAEMPAUFloat3@@@Z", target = 0x0041BB70 },
+  { offset = 0x128, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+]
