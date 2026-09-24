@@ -335,6 +335,9 @@ as the second destination base. All nine relocations replay exactly. Live totals
 are now 828 exact / 151 non-exact / 138,370 non-exact bytes. The <=256-byte
 routing frontier remains 23 functions because this helper is 279 bytes.
 
+
+Packet 569 refines `UpdatePlayerCollisionRegions @ 0x0041C8E0` from a 312-byte candidate to the exact 273-byte target extent. Removing the long-lived `region` alias restores the target no-frame shape, EBX index, ESI slot cursor, repeated `*slot` reloads and both `Deactivate` calls. The remaining 10 ordinary bytes are isolated to ECX/EDX assignment inside the pointer-compaction loop; multiple natural loop/scope spellings either preserve that register inversion or move away from target size. This checkpoint is NON-EXACT and does not change the live totals: 828 exact / 151 non-exact / 138,370 non-exact bytes.
+
 Packet 531 closes `Background::Background @ 0x00403A40` at 160/160 bytes in
 two cold pinned-VC7.1 `/O2 /Ob0` replays, with thirteen relocation destinations
 resolved. The target's 32-element special-effect point array uses the generic

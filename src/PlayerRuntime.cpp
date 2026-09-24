@@ -258,26 +258,26 @@ typedef char PlayerCollisionCountAtC110[(offsetof(PlayerCollisionRuntimeView, ac
 
 static void UpdatePlayerCollisionRegions(PlayerLifecycleView *player)
 {
-    PlayerCollisionRuntimeView *runtime = reinterpret_cast<PlayerCollisionRuntimeView *>(player);
+    PlayerCollisionRuntimeView *runtime =
+        reinterpret_cast<PlayerCollisionRuntimeView *>(player);
     PlayerCollisionRegionRuntimeView **slot = runtime->activeRegions;
 
     for (int index = 0; index < runtime->activeRegionCount; ++index)
     {
-        PlayerCollisionRegionRuntimeView *region = *slot;
-        if (region->delay > 0)
+        if ((*slot)->delay > 0)
         {
-            --region->delay;
+            --(*slot)->delay;
         }
         else
         {
-            --region->lifetime;
-            region->valueX += region->growthX;
-            region->valueY += region->growthY;
-            region->valueZ += region->growthZ;
-            if (region->lifetime <= 0)
+            --(*slot)->lifetime;
+            (*slot)->valueX += (*slot)->growthX;
+            (*slot)->valueY += (*slot)->growthY;
+            (*slot)->valueZ += (*slot)->growthZ;
+            if ((*slot)->lifetime <= 0)
             {
-                region->Deactivate();
-                runtime->releasedRegions[runtime->releasedRegionCount++] = region;
+                (*slot)->Deactivate();
+                runtime->releasedRegions[runtime->releasedRegionCount++] = *slot;
 
                 PlayerCollisionRegionRuntimeView **next = slot + 1;
                 *slot = *next;
@@ -326,6 +326,7 @@ static void UpdatePlayerCollisionRegions(PlayerLifecycleView *player)
         runtime->activeRegions[runtime->activeRegionCount] = NULL;
     }
 }
+
 
 struct PlayerSharedRuntimeView
 {
