@@ -17,11 +17,11 @@ SHA-256: 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 849 |
-| Source-present non-exact functions | 130 |
-| Source-present non-exact bytes | 132,728 |
+| Canonical exact functions | 850 |
+| Source-present non-exact functions | 129 |
+| Source-present non-exact bytes | 132,407 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 142,941 |
+| Canonical exact authored bytes | 143,262 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -69,7 +69,7 @@ Without --apply they must report the selected dispositions as already applied.
 
 The authoritative live totals come from report-reconstruction-status.py and the
 tracking ledgers. At this checkpoint there are 979 source-present authored
-functions: 849 canonical exact and 130 honest non-exact.
+functions: 850 canonical exact and 129 honest non-exact.
 
 Canonical exactness requires a target-bound match unit and relocation-aware
 replay. Maintained source, exact size, adjacent-game similarity, IDA naming or

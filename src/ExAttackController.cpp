@@ -70,20 +70,23 @@ ExAttackRecord *ExAttackController::Spawn(
     g_SoundPlayer.PlaySoundByIdx(45, side != 0 ? 500 : -500);
     record = this->records;
     i = 0;
-    while (record->active)
+    do
     {
+        if (!record->active)
+            goto found_slot;
         i++;
         record++;
-        if (i >= 256)
-            return record;
     }
+    while (i < 256);
+    return record;
 
+found_slot:
     memset(record, 0, sizeof(ExAttackRecord));
     record->active = 1;
     record->position = *reinterpret_cast<const ExAttackVec3 *>(position);
-    record->parameter38 = parameter;
     record->side = side;
     record->opponentSide = 1 - side;
+    record->parameter38 = parameter;
     record->updateCallback = g_ExAttackTemplates[type].updateCallback;
     record->drawCallback = g_ExAttackTemplates[type].drawCallback;
     record->releaseCallback = g_ExAttackTemplates[type].releaseCallback;
