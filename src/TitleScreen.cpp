@@ -418,7 +418,7 @@ struct TitleScreenView {
     int SetCharacterSettingSprites(i32 side0Setting, i32 side1Setting);
     int UpdateCharacterSettings(i32 side0Setting, i32 side1Setting);
     int SetCharacterSettingIndicator(i32 side, i32 value);
-    int UpdateCharacterSelectionVisuals(i32 side, i32 selectedCharacter, i32 otherCharacter, char *order);
+    void UpdateCharacterSelectionVisuals(i32 side, i32 selectedCharacter, i32 otherCharacter, char *order);
     void UpdateScreen16SelectionVisuals(i32 unusedSide, i32 selectedCharacter, char *order);
     int UpdateScreen8Mode0();
     int UpdateScreen8Mode123();
@@ -1171,70 +1171,94 @@ int TitleCharacterConfigView::GetOptionState(char character, i32 option)
 }
 
 
-int TitleScreenView::UpdateCharacterSelectionVisuals(i32 side, i32 selectedCharacter,
-                                                         i32 otherCharacter, char *order)
+void TitleScreenView::UpdateCharacterSelectionVisuals(
+    i32 side, i32 selectedCharacter, i32 otherCharacter, char *order)
 {
+    AnmVmView *marker = &vms[189 + side];
+
     i32 selectedVisibleIndex = 0;
     for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
     {
         i32 character = order[orderIndex];
-        if (character == selectedCharacter)
-            break;
-
-        bool visible;
-        if (currentScreen == 8)
-            visible = g_TitleCharacterUnlocked[character] || g_SupervisorNetworkState->active;
-        else if (currentScreen == 3)
-            visible = g_TitleCharacterUnlockedNormal[character] != 0;
+        if (selectedCharacter != character)
+        {
+            if (currentScreen == 8)
+            {
+                if (g_TitleCharacterUnlocked[character] ||
+                    g_SupervisorNetworkState->active)
+                    selectedVisibleIndex++;
+            }
+            else if (currentScreen == 3)
+            {
+                if (g_TitleCharacterUnlockedNormal[character] != 0)
+                    selectedVisibleIndex++;
+            }
+            else
+            {
+                if (g_TitleCharacterUnlockedMode4[character] != 0)
+                    selectedVisibleIndex++;
+            }
+        }
         else
-            visible = g_TitleCharacterUnlockedMode4[character] != 0;
-        if (visible)
-            selectedVisibleIndex++;
+        {
+            break;
+        }
     }
 
-    TitleFloat3View targetPosition = vms[189 + side].position;
+    TitleFloat3View targetPosition;
+    targetPosition.x = marker->position.x;
     targetPosition.y = selectedVisibleIndex * 16.0f + 128.0f;
     targetPosition.z = 0.0f;
-    vms[189 + side].ConfigurePositionInterpolation(
-        8, 4, &vms[189 + side].position, &targetPosition);
-
-    targetPosition.x = vms[190].position.x;
-    vms[190].ConfigurePositionInterpolation(8, 4, &vms[190].position, &targetPosition);
+    marker->ConfigurePositionInterpolation(
+        8, 4, &marker->position, &targetPosition);
 
     i32 otherVisibleIndex = 0;
     for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
     {
         i32 character = order[orderIndex];
-        if (character == otherCharacter)
-            break;
-
-        bool visible;
-        if (currentScreen == 8)
-            visible = g_TitleCharacterUnlocked[character] || g_SupervisorNetworkState->active;
-        else if (currentScreen == 3)
-            visible = g_TitleCharacterUnlockedNormal[character] != 0;
+        if (otherCharacter != character)
+        {
+            if (currentScreen == 8)
+            {
+                if (g_TitleCharacterUnlocked[character] ||
+                    g_SupervisorNetworkState->active)
+                    otherVisibleIndex++;
+            }
+            else if (currentScreen == 3)
+            {
+                if (g_TitleCharacterUnlockedNormal[character] != 0)
+                    otherVisibleIndex++;
+            }
+            else
+            {
+                if (g_TitleCharacterUnlockedMode4[character] != 0)
+                    otherVisibleIndex++;
+            }
+        }
         else
-            visible = g_TitleCharacterUnlockedMode4[character] != 0;
-        if (visible)
-            otherVisibleIndex++;
+        {
+            break;
+        }
     }
 
     i32 visibleIndex = 0;
-    i32 result = 0;
     for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
     {
         i32 character = order[orderIndex];
-        if (g_TitleCharacterUnlocked[character] || g_SupervisorNetworkState->active)
+        if (g_TitleCharacterUnlocked[character] ||
+            g_SupervisorNetworkState->active)
         {
             AnmVmView *vm = &vms[191 + visibleIndex];
-            u32 targetColor = (selectedVisibleIndex == visibleIndex || otherVisibleIndex == visibleIndex)
-                ? 0xFFFFFFFFu
-                : 0xFFA0A0A0u;
-            result = vm->ConfigureColorInterpolation(8, 4, vm->color1, targetColor);
+            if (selectedVisibleIndex == visibleIndex ||
+                otherVisibleIndex == visibleIndex)
+                vm->ConfigureColorInterpolation(
+                    8, 4, vm->color1, 0xFFFFFFFFu);
+            else
+                vm->ConfigureColorInterpolation(
+                    8, 4, vm->color1, 0xFFA0A0A0u);
             visibleIndex++;
         }
     }
-    return result;
 }
 
 

@@ -17227,3 +17227,29 @@ relocations = [
   { offset = 0x11F, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x127, type = "DIR32", symbol = "?g_ExAttackTemplates@@3PAUExAttackTemplate@@A", target = 0x004A0F78 },
 ]
+
+
+[units.title-screen-update-character-selection-visuals]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::UpdateCharacterSelectionVisuals"]
+symbol = "?UpdateCharacterSelectionVisuals@TitleScreenView@@QAEXHHHPAD@Z"
+target_address = 0x00425233
+size = 0x15D
+relocations = [
+  { offset = 0x41, type = "DIR32", symbol = "?g_TitleCharacterUnlocked@@3PAEA", target = 0x004A81CC },
+  { offset = 0x49, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
+  { offset = 0x5D, type = "DIR32", symbol = "?g_TitleCharacterUnlockedNormal@@3PAEA", target = 0x004A81DC },
+  { offset = 0x66, type = "DIR32", symbol = "?g_TitleCharacterUnlockedMode4@@3PAEA", target = 0x004A81EC },
+  { offset = 0x86, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
+  { offset = 0x91, type = "DIR32", symbol = "__real@43000000", target = 0x0048E3BC },
+  { offset = 0xA2, type = "REL32", symbol = "?ConfigurePositionInterpolation@AnmVmView@@QAEDHDPAUTitleFloat3View@@0@Z", target = 0x004233A3 },
+  { offset = 0xC3, type = "DIR32", symbol = "?g_TitleCharacterUnlocked@@3PAEA", target = 0x004A81CC },
+  { offset = 0xCB, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
+  { offset = 0xDE, type = "DIR32", symbol = "?g_TitleCharacterUnlockedNormal@@3PAEA", target = 0x004A81DC },
+  { offset = 0xE7, type = "DIR32", symbol = "?g_TitleCharacterUnlockedMode4@@3PAEA", target = 0x004A81EC },
+  { offset = 0x107, type = "DIR32", symbol = "?g_TitleCharacterUnlocked@@3PAEA", target = 0x004A81CC },
+  { offset = 0x10F, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
+  { offset = 0x145, type = "REL32", symbol = "?ConfigureColorInterpolation@AnmVmView@@QAEHHDII@Z", target = 0x004233F4 },
+]

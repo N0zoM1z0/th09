@@ -10,7 +10,7 @@ The filter is **confirmed authored + maintained source + not canonical exact +
 target logical size at most 256 bytes**. It yields **14 functions**, of which
 **2 are at most 128 bytes**. The latest short-function promotions are
 `EtamaController::SpawnBulletPatternPrimary @ 0x004130F0` and
-`SpawnBulletPatternSecondary @ 0x004131C0`; the overall canonical total is 850 exact
+`SpawnBulletPatternSecondary @ 0x004131C0`; the overall canonical total is 851 exact
 functions. Size is only a routing heuristic: this list is not a verified
 call-graph leaf set, a difficulty ranking, or product-build progress. All
 names and boundaries remain subject to their target-local ledger evidence.
