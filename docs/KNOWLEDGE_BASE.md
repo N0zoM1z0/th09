@@ -4145,3 +4145,11 @@ name into a TH09 fact without target-local evidence.
 - Replay-registration commit 8b7910f exposed claim claim:th09-main:function:0043c610:codegen-exact to the Factory and queued job job:bb85394e5d81442db0aad7173c06ef53 against a clean committed source binding.
 - That job failed before the oracle stage with ReplayError: another factory operation owns the unrelated th04 live worktree. There is therefore no receipt verdict and no acceptance decision for this candidate.
 - The temporary match-unit/matches registration is removed again so current exact accounting remains acceptance-backed. The source and local structural-exact evidence are retained for a later replay retry.
+
+
+## Packet 650 GameplaySetupThread lifetime frontier
+
+- Fresh target decompilation of GameplaySetupThread @ 0x0041AF2D makes the post-configuration lifetime split explicit. The initial-load branch walks the two side state pointers with a +0x38 cursor rooted at GameManager +0x1C. After the create/reuse join, the subsystem loop instead walks a +0x38 cursor rooted at the side flags field GameManager +0x34; selector is read at cursor-0x0C and subsystem0..6 are written at cursor-0x34 through cursor-0x1C.
+- The target reuse path does not preserve a GameManager base in ESI. It reloads ECX = &g_GameManager for AdvanceTimedState/UpdateProgress, then ESI is reused for the flags cursor. The maintained 1689-byte candidate instead CSEs &g_GameManager into ESI at the reuse path and later re-anchors the subsystem cursor at selector +0x28.
+- This was re-tested without assuming the old notes were final. Rewriting only the reuse tail to explicit g_GameManager is byte-identical. Removing the manager alias from the real function definition (not the earlier extern declaration) emits 1688 bytes/169 relocations and worsens normalized instruction-shape similarity. Explicit target-shaped flags-centered cursors emit 1691 bytes/171 relocations, while stock VC7.1 still re-anchors the loop at selector +0x28; combining post-reuse direct globals with that cursor is likewise 1691.
+- The retained 1689-byte/171-relocation source remains the strongest natural candidate. No volatile/register forcing, pragma order, padding, inline assembly, target-byte embedding, or profile roulette is introduced.
