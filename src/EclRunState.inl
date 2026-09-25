@@ -335,7 +335,8 @@ __forceinline void AssignFlagField(
     case TH09_ECL_OPCODE_ATTACH_SPELL_EFFECT:
         Th09EclRunState::View(enemy)->attachedEffectDistance5418 =
             Th09EclRunControl::RawFloat(instruction, 4);
-        ++Th09EclRunState::View(enemy)->attachedEffectCount5414;
+        Th09EclRunState::View(enemy)->attachedEffectCount5414 =
+            Th09EclRunState::View(enemy)->attachedEffectCount5414 + 1;
         break;
 
     case TH09_ECL_OPCODE_SET_DRAW_GROUP:

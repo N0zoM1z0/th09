@@ -385,18 +385,20 @@ void ClearBulletsForTransition(EtamaController *controller);
 
     case TH09_ECL_OPCODE_SET_LASER_POSITION:
         laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        laser = Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex];
-        if (laser != 0)
+        if (Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex] != 0)
         {
-            laser->position.x =
-                Th09EclRunControl::ReadFloat(enemy, instruction, 1) +
-                Th09EclRunBullet::View(enemy)->worldPosition2DD4.x;
-            laser->position.y =
-                Th09EclRunControl::ReadFloat(enemy, instruction, 2) +
-                Th09EclRunBullet::View(enemy)->worldPosition2DD4.y;
-            laser->position.z =
-                Th09EclRunControl::ReadFloat(enemy, instruction, 3) +
-                Th09EclRunBullet::View(enemy)->worldPosition2DD4.z;
+            Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex]->
+                position.x =
+                    Th09EclRunControl::ReadFloat(enemy, instruction, 1) +
+                    Th09EclRunBullet::View(enemy)->worldPosition2DD4.x;
+            Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex]->
+                position.y =
+                    Th09EclRunControl::ReadFloat(enemy, instruction, 2) +
+                    Th09EclRunBullet::View(enemy)->worldPosition2DD4.y;
+            Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex]->
+                position.z =
+                    Th09EclRunControl::ReadFloat(enemy, instruction, 3) +
+                    Th09EclRunBullet::View(enemy)->worldPosition2DD4.z;
         }
         break;
 
@@ -414,8 +416,10 @@ void ClearBulletsForTransition(EtamaController *controller);
     case TH09_ECL_OPCODE_TEST_LASER_ACTIVE:
         laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         laser = Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex];
-        Th09EclRunBullet::ConditionResult(enemy) =
-            (laser != 0 && laser->inUse != 0) ? 1 : 0;
+        if (laser != 0 && laser->inUse != 0)
+            Th09EclRunBullet::ConditionResult(enemy) = 1;
+        else
+            Th09EclRunBullet::ConditionResult(enemy) = 0;
         break;
 
     case TH09_ECL_OPCODE_CANCEL_LASER:
@@ -423,7 +427,7 @@ void ClearBulletsForTransition(EtamaController *controller);
         laser = Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex];
         if (laser != 0 && laser->inUse != 0 && laser->state < 2)
         {
-            laser->state = 2;
+            Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex]->state = 2;
             Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex]->timer = 0;
             laser = Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex];
             laser->width = laser->currentWidth;
