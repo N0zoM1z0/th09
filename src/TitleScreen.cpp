@@ -412,7 +412,7 @@ struct TitleScreenView {
     void *MoveCharacterCursorMode4(i32 side, i32 direction, char *order, i32 count);
     int MoveCharacterCursorHorizontal(i32 side, i32 count);
     int MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 cursorIndex, i32 count);
-    int SetCharacterCursorActive(i32 selectedCharacter, i32 start, i32 count, i32 stride);
+    void SetCharacterCursorActive(i32 selectedCharacter, i32 start, i32 count, i32 stride);
     void SetCharacterCursorInactive(i32 selectedCharacter, i32 start, i32 count, i32 stride);
     void SetCharacterCursorReverse(i32 selectedCharacter, i32 start, i32 count, i32 stride);
     int SetCharacterSettingSprites(i32 side0Setting, i32 side1Setting);
@@ -1063,7 +1063,7 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
 }
 
 
-int TitleScreenView::SetCharacterCursorActive(i32 selectedCharacter, i32 start, i32 count, i32 stride)
+void TitleScreenView::SetCharacterCursorActive(i32 selectedCharacter, i32 start, i32 count, i32 stride)
 {
     i32 index = start;
     while (index < start + count * stride)
@@ -1077,7 +1077,7 @@ int TitleScreenView::SetCharacterCursorActive(i32 selectedCharacter, i32 start, 
     index = start + stride * selectedCharacter;
     titleAnm->SetSprite(&vms[index], vms[index].baseSpriteIndex);
     vms[index].pendingInterrupt = 7;
-    return g_TitleAnmManager->ExecuteScript(&vms[index]);
+    g_TitleAnmManager->ExecuteScript(&vms[index]);
 }
 
 

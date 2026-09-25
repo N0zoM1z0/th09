@@ -3237,7 +3237,7 @@ name into a TH09 fact without target-local evidence.
 
 ## Packet 522 TitleScreen active-cursor bounded retry
 
-- Target `TitleScreenView::SetCharacterCursorActive @ 0x00424EDD-0x00424FAF` is 211 bytes. It iterates the selected group with base sprite +1 / interrupt 8, then selects one VM's base sprite / interrupt 7 and returns `ExecuteScript`.
+- Target `TitleScreenView::SetCharacterCursorActive @ 0x00424EDD-0x00424FAF` is 211 bytes. It iterates the selected group with base sprite +1 / interrupt 8, then selects one VM's base sprite / interrupt 7 and calls `ExecuteScript`. All 24 target callers ignore EAX; the call result is incidental rather than evidence for an integer source return.
 - In the selected-VM tail, target computes the VM-array member-slot address once (`lea ebx,[this+0x11B98]`) and reloads the slot's pointer value after `SetSprite` before writing the interrupt and executing the script. A natural `AnmVmView **vmsSlot = &this->vms` local with repeated `(*vmsSlot)[index]` expressions was tested under the maintained TitleScreen `/O1 /Ob1` profile; VC7.1 optimized it back to the same 217-byte candidate as the original source. The experiment was reverted.
 - No behavior discrepancy was found and no exactness is claimed. The remaining six-byte gap spans register allocation and loop/selected-tail scheduling; do not preserve an artificial alias or force register lifetimes to imitate the target.
 
@@ -4028,3 +4028,11 @@ name into a TH09 fact without target-local evidence.
 - The previous maintained source was already target-sized with all 28 relocation destinations solved and 144/145 ordinary bytes equal. Its sole residual was the commutative SIB byte for inputGate->sideMode[side]: VC7.1 assigned inputGate to EDI and side to EBX, producing [EDI+EBX+0xB4], while TH09 uses EBX for inputGate and EDI for side and encodes [EBX+EDI+0xB4].
 - Fresh target lifetime review shows EDI holding the existing zero value before the loop while inputGate is loaded into EBX only immediately before the null test. Declaring the ordinary side local as zero before reading inputGate, then using for (; side < 2; side++), naturally reproduces that target ownership. Two independent safe declaration shapes with that lifetime produce 145/145 ordinary bytes; pointer/cast spellings that do not express the lifetime preserve the old SIB byte or regress size.
 - The tracked source plus repository match unit replay-manager-capture-frame-sync-state reproduces all 257 bytes with the reviewed 28-relocation manifest under the established ReplayInput /O2 /Ob1 /Oi /Oy- /Gr profile. No var_order, volatile steering, register forcing, padding, assembly, target-byte encoding, or profile search is retained. Factory acceptance remains a separate external gate until the match claim is registered and replayed.
+
+
+## Packet 636 Title active-cursor return-contract correction
+
+- Fresh TH09 target scan finds 24 direct calls to `TitleScreenView::SetCharacterCursorActive @ 0x00424EDD`. Every callsite ignores EAX and immediately prepares another call, jumps, or updates unrelated state; none branches on, stores, or forwards the value.
+- The target helper ends with `AnmManager::ExecuteScript` followed only by register/frame cleanup. Its EAX value therefore survives incidentally from that final call, just as the previously corrected reverse/inactive cursor helpers retained incidental values without a source return contract.
+- The maintained `int` return and `return ExecuteScript(...)` are corrected to ordinary `void` plus a final call. Under the pinned TitleScreen `/O1 /Ob1 /Oy- /Gr` profile this is intentionally codegen-neutral: the candidate remains 217 bytes versus the 211-byte target, so exactness is not promoted. The remaining six-byte codegen/source-shape frontier is independent of return semantics.
+- No caller machine code changes from this correction; no register forcing, volatile lifetime steering, pragma ordering, padding, assembly, fake return, or target-byte encoding is introduced.
