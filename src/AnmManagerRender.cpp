@@ -676,8 +676,8 @@ int AnmManager::Draw2D(AnmVm *vm)
 
     xOffset = vm->pos.x;
     yOffset = vm->pos.y;
-    x = (vm->spriteSize.x * vm->scale.x) / 2.0f;
-    y = (vm->spriteSize.y * vm->scale.y) / 2.0f;
+    x = vm->spriteSize.x * vm->scale.x * 0.5f;
+    y = vm->spriteSize.y * vm->scale.y * 0.5f;
 
     this->TranslateRotation(&g_AnmRenderQuad[0], -x, -y, sine, cosine, xOffset, yOffset);
     this->TranslateRotation(&g_AnmRenderQuad[1], x, -y, sine, cosine, xOffset, yOffset);
