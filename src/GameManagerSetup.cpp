@@ -8,6 +8,7 @@
 #include "AnmManager.hpp"
 #include "Chain.hpp"
 #include "GameConfiguration.hpp"
+#include "ReplayInputState.hpp"
 #include "Supervisor.hpp"
 
 #include <windows.h>
@@ -59,19 +60,6 @@ struct SetupLoadingPosition
 
 typedef char SetupLoadingPositionSizeCheck[
     (sizeof(SetupLoadingPosition) == 0x0C) ? 1 : -1];
-
-struct SetupInputSnapshot
-{
-    unsigned short word00;
-    unsigned short word02;
-    unsigned short word04;
-    unsigned short buttons06;
-    unsigned short word08;
-};
-
-typedef char SetupInputSnapshotSizeCheck[
-    (sizeof(SetupInputSnapshot) == 0x0A) ? 1 : -1];
-
 
 struct SpawnedSideObjectView
 {
@@ -255,9 +243,6 @@ extern AnmVm g_SupervisorLoadingVms[3];
 extern SetupScoreRecordView g_DeletedScoreRecord;
 extern unsigned char g_DeletedScratch[0x2BC0];
 extern int g_GameManagerChainState;
-extern SetupInputSnapshot g_CurrentInputSnapshot;
-extern SetupInputSnapshot g_SideInputSnapshot0;
-extern SetupInputSnapshot g_SideInputSnapshot1;
 extern SetupRngView g_SetupRng;
 extern int g_LastSpawnLane;
 extern void *__fastcall RegisterScreenEffect(
@@ -303,22 +288,22 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         g_GameManager.sides[0].selector != 0 ||
         g_GameManager.sides[1].selector != 0)
     {
-        unsigned short input00 = g_CurrentInputSnapshot.word00;
-        unsigned short input02 = g_CurrentInputSnapshot.word02;
-        unsigned short input04 = g_CurrentInputSnapshot.word04;
-        unsigned short input06 = g_CurrentInputSnapshot.buttons06;
-        unsigned short input08 = g_CurrentInputSnapshot.word08;
+        unsigned short input00 = g_ReplayInputStates[2].currentInput;
+        unsigned short input02 = g_ReplayInputStates[2].word02;
+        unsigned short input04 = g_ReplayInputStates[2].repeatOutput;
+        unsigned short input06 = g_ReplayInputStates[2].word06;
+        unsigned short input08 = g_ReplayInputStates[2].word08;
 
-        g_SideInputSnapshot0.word00 = input00;
-        g_SideInputSnapshot0.word02 = input02;
-        g_SideInputSnapshot0.word04 = input04;
-        g_SideInputSnapshot0.buttons06 = input06;
-        g_SideInputSnapshot0.word08 = input08;
-        g_SideInputSnapshot1.word00 = input00;
-        g_SideInputSnapshot1.word02 = input02;
-        g_SideInputSnapshot1.word04 = input04;
-        g_SideInputSnapshot1.buttons06 = input06;
-        g_SideInputSnapshot1.word08 = input08;
+        g_ReplayInputStates[0].currentInput = input00;
+        g_ReplayInputStates[0].word02 = input02;
+        g_ReplayInputStates[0].repeatOutput = input04;
+        g_ReplayInputStates[0].word06 = input06;
+        g_ReplayInputStates[0].word08 = input08;
+        g_ReplayInputStates[1].currentInput = input00;
+        g_ReplayInputStates[1].word02 = input02;
+        g_ReplayInputStates[1].repeatOutput = input04;
+        g_ReplayInputStates[1].word06 = input06;
+        g_ReplayInputStates[1].word08 = input08;
     }
 
     if (g_GameManager.gameplaySetupState != 0)
@@ -342,7 +327,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         gameManager->menuBlock13E == 0 &&
         gameManager->inGameMenu == 0 &&
         (gameManager->flags & 2u) == 0 &&
-        (g_CurrentInputSnapshot.buttons06 & 8u) != 0)
+        (g_ReplayInputStates[2].word06 & 8u) != 0)
     {
         gameManager->inGameMenu = 1;
         gameManager->replayPauseRecorded = 1;
@@ -353,7 +338,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
 
     if ((gameManager->flags & 2u) != 0)
     {
-        if (g_CurrentInputSnapshot.buttons06 != 0)
+        if (g_ReplayInputStates[2].word06 != 0)
             supervisor->state590 = 1;
 
         gameManager->demoFrameCount++;

@@ -9,38 +9,12 @@
 #include <windows.h>
 #include "Chain.hpp"
 #include "ReplayRuntimeLeaves.hpp"
+#include "ReplayInputState.hpp"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int i32;
-
-struct ReplayInputState
-{
-    u16 currentInput;
-    u16 word02;
-    u16 repeatOutput;
-    u16 word06;
-    u16 word08;
-    u8 unknown0A[0x20];
-    u16 auxiliary2A;
-    u16 historyCurrent;
-    u16 historyPrevious;
-    u16 historyRepeat;
-    u16 historyPressed;
-    u16 historyReleased;
-    u16 unknown36;
-    u16 heldFrames[16];
-    short keyCodes58[27];
-
-    ReplayInputState();
-    void Update();
-    u16 IsHeld(u16 mask);
-};
-
-typedef char ReplayInputStateSizeIs8E[(sizeof(ReplayInputState) == 0x8E) ? 1 : -1];
-typedef char ReplayInputAuxAt2A[(offsetof(ReplayInputState, auxiliary2A) == 0x2A) ? 1 : -1];
-typedef char ReplayInputHistoryAt2C[(offsetof(ReplayInputState, historyCurrent) == 0x2C) ? 1 : -1];
 
 struct ReplayBufferLink
 {
@@ -245,7 +219,6 @@ typedef char ReplayManagerSizeIs164[(sizeof(ReplayManagerView) == 0x164) ? 1 : -
 
 extern Chain g_Chain;
 extern ReplayRngView g_ReplayRng;
-extern ReplayInputState g_ReplayInputStates[3];
 extern GameManagerReplayView g_GameManager;
 extern SupervisorReplayView g_Supervisor;
 extern ZunMemoryReplayView g_ZunMemory;

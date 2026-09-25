@@ -1,33 +1,13 @@
 #include "EnemyManager.hpp"
 #include "FrontSide.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "ReplayInputState.hpp"
 #include "ZunTimer.hpp"
 
 #include <stddef.h>
 
 typedef unsigned char u8;
 typedef unsigned short u16;
-
-struct ReplayInputState
-{
-    u16 currentInput;
-    u16 word02;
-    u16 repeatOutput;
-    u16 word06;
-    u16 word08;
-    u8 unknown0A[0x20];
-    u16 auxiliary2A;
-    u16 historyCurrent;
-    u16 historyPrevious;
-    u16 historyRepeat;
-    u16 historyPressed;
-    u16 historyReleased;
-    u16 unknown36;
-    u16 heldFrames[16];
-    short keyCodes58[27];
-
-    u16 IsHeld(u16 mask);
-};
 
 struct ReplayInputPressedView
 {
@@ -36,9 +16,6 @@ struct ReplayInputPressedView
 
     u16 WasPressed(u16 mask);
 };
-
-typedef char PlayerChargeReplayInputSizeIs8E[
-    (sizeof(ReplayInputState) == 0x8E) ? 1 : -1];
 
 struct ReplayInputGateView
 {
@@ -129,7 +106,6 @@ struct PlayerSupervisorRuntimeView
     float framerateMultiplier5B8;
 };
 
-extern ReplayInputState g_ReplayInputStates[3];
 extern GameManagerReplayView g_GameManager;
 extern SoundPlayer g_SoundPlayer;
 extern PlayerSupervisorRuntimeView g_PlayerSupervisorRuntime;
