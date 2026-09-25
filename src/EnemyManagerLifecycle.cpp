@@ -183,13 +183,13 @@ EnemyManagerView::EnemyManagerView()
 void EnemyManagerView::Initialize()
 {
     int i;
-    EnemyLifecycleInitView *enemy =
-        reinterpret_cast<EnemyLifecycleInitView *>(&this->spawnTemplate328);
 
     memset(this, 0, sizeof(*this));
     for (i = 0; i < 4; ++i)
         this->timelineEventSlots2AC430[i] = -1;
 
+    EnemyLifecycleInitView *enemy =
+        reinterpret_cast<EnemyLifecycleInitView *>(&this->spawnTemplate328);
     memset(enemy, 0, sizeof(*enemy));
     enemy->manager00 = this;
     for (i = 0; i < 2; ++i)
@@ -199,7 +199,9 @@ void EnemyManagerView::Initialize()
 
     enemy->flags337C |= 0x00000001u;
     enemy->bossTimer2E64 = 0;
+
     enemy->flags337C &= ~0x00200000u;
+    unsigned int movementFlags = enemy->flags337C;
 
     enemy->hitboxDimensions2DBC = Float3(24.0f, 24.0f, 24.0f);
     enemy->velocity2D8C = Float3(0.0f, 0.0f, 0.0f);
@@ -208,7 +210,8 @@ void EnemyManagerView::Initialize()
     *reinterpret_cast<int *>(&enemy->acceleration2DF8) = 0;
     *reinterpret_cast<int *>(&enemy->speed2DF4) = 0;
 
-    enemy->flags337C &= ~0x0000C602u;
+    movementFlags &= ~0x0000C602u;
+    enemy->flags337C = movementFlags;
     enemy->activeEclCallStackDepth2D2A = 0;
     enemy->life2E48 = 1;
     enemy->score2E54 = 100;
@@ -219,14 +222,16 @@ void EnemyManagerView::Initialize()
     enemy->shootIntervalTimer30B8 = 0;
     enemy->shootOffset2E04 = Float3(0.0f, 0.0f, 0.0f);
 
-    enemy->flags337C &= ~0x000F0090u;
+    unsigned int animationFlags =
+        enemy->flags337C & ~0x000F0090u;
     enemy->moveLeftAnmScript3390 = -1;
     enemy->moveRightAnmScript3392 = -1;
     enemy->idleAnmScript338A = -1;
     enemy->deathCallbackSubId2D2E = -1;
     enemy->attachedEffectCount5414 = 0;
     enemy->pendingEclSubId2D70 = -1;
-    enemy->flags337C |= 0x0000004Cu;
+    animationFlags |= 0x0000004Cu;
+    enemy->flags337C = animationFlags;
     for (i = 0; i < 4; ++i)
         enemy->lifeCallbackThresholds33B0[i] = -1;
     enemy->timerCallbackThreshold33D0 = -1;
