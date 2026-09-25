@@ -12559,6 +12559,54 @@ relocations = [
   { offset = 0x24, type = "DIR32", symbol = "__real@3fc00000", target = 0x0048EE84 },
 ]
 
+[units.player-position-callback30404-type9]
+source = "src/PlayerPositionCallback30404Type9.cpp"
+object = "build/matching/PlayerPositionCallback30404Type9.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerPositionCallback30404Type9"]
+symbol = "?PlayerPositionCallback30404Type9@@YIHPAUPlayerPositionCallbackType9View@@PBUPlayerPositionView@@@Z"
+target_address = 0x00447FB0
+size = 0x363
+relocations = [
+  { offset = 0x1B, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x60, type = "DIR32", symbol = "__real@41c00000", target = 0x0048EF10 },
+  { offset = 0x88, type = "DIR32", symbol = "__real@41c00000", target = 0x0048EF10 },
+  { offset = 0x95, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0x9E, type = "REL32", symbol = "??YPlayerPositionView@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
+  { offset = 0xAB, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0xD0, type = "DIR32", symbol = "__real@44100000", target = 0x00491634 },
+  { offset = 0xF2, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0 },
+  { offset = 0x107, type = "DIR32", symbol = "__real@41c00000", target = 0x0048EF10 },
+  { offset = 0x114, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0x11D, type = "REL32", symbol = "??YPlayerPositionView@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
+  { offset = 0x12A, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x14F, type = "DIR32", symbol = "__real@44100000", target = 0x00491634 },
+  { offset = 0x171, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0 },
+  { offset = 0x186, type = "DIR32", symbol = "__real@41c00000", target = 0x0048EF10 },
+  { offset = 0x193, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0x19C, type = "REL32", symbol = "??YPlayerPositionView@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
+  { offset = 0x1A9, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x1CE, type = "DIR32", symbol = "__real@44100000", target = 0x00491634 },
+  { offset = 0x1F0, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0 },
+  { offset = 0x205, type = "DIR32", symbol = "__real@41c00000", target = 0x0048EF10 },
+  { offset = 0x212, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0x21B, type = "REL32", symbol = "??YPlayerPositionView@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
+  { offset = 0x228, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x24D, type = "DIR32", symbol = "__real@44100000", target = 0x00491634 },
+  { offset = 0x26F, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0 },
+  { offset = 0x284, type = "DIR32", symbol = "__real@41c00000", target = 0x0048EF10 },
+  { offset = 0x291, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0x29A, type = "REL32", symbol = "??YPlayerPositionView@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
+  { offset = 0x2A7, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x2CC, type = "DIR32", symbol = "__real@44100000", target = 0x00491634 },
+  { offset = 0x2EE, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0 },
+  { offset = 0x303, type = "DIR32", symbol = "__real@41c00000", target = 0x0048EF10 },
+  { offset = 0x310, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0x319, type = "REL32", symbol = "??YPlayerPositionView@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
+  { offset = 0x326, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x34B, type = "DIR32", symbol = "__real@44100000", target = 0x00491634 },
+]
+
 [units.player-position-callback30404-type14]
 source = "src/PlayerPositionPredicates30404.cpp"
 object = "build/matching/PlayerPositionPredicates30404.obj"

@@ -31,7 +31,7 @@ int __fastcall PlayerPositionCallback30404Type9(
 {
     PlayerPositionView delta = player->position1B88 - *other;
     float distanceSquared =
-        delta.y * delta.y + delta.x * delta.x;
+        delta.x * delta.x + delta.y * delta.y;
 
     if (distanceSquared <
         player->rangeSource368->radius7C *
@@ -48,7 +48,7 @@ int __fastcall PlayerPositionCallback30404Type9(
         player->rangeSource368->radius7C + 24.0f);
     delta += player->position1B88;
     delta = delta - *other;
-    if (delta.y * delta.y + delta.x * delta.x < 576.0f)
+    if (delta.x * delta.x + delta.y * delta.y < 576.0f)
         return 1;
 
     float angle = AddNormalizeAngle(player->rangeSource368->angle80, 1.0471976f);
@@ -56,7 +56,7 @@ int __fastcall PlayerPositionCallback30404Type9(
         angle, player->rangeSource368->radius7C + 24.0f);
     delta += player->position1B88;
     delta = delta - *other;
-    if (delta.y * delta.y + delta.x * delta.x < 576.0f)
+    if (delta.x * delta.x + delta.y * delta.y < 576.0f)
         return 1;
 
     angle = AddNormalizeAngle(player->rangeSource368->angle80, 2.0943952f);
@@ -64,7 +64,7 @@ int __fastcall PlayerPositionCallback30404Type9(
         angle, player->rangeSource368->radius7C + 24.0f);
     delta += player->position1B88;
     delta = delta - *other;
-    if (delta.y * delta.y + delta.x * delta.x < 576.0f)
+    if (delta.x * delta.x + delta.y * delta.y < 576.0f)
         return 1;
 
     angle = AddNormalizeAngle(player->rangeSource368->angle80, 3.1415927f);
@@ -72,7 +72,7 @@ int __fastcall PlayerPositionCallback30404Type9(
         angle, player->rangeSource368->radius7C + 24.0f);
     delta += player->position1B88;
     delta = delta - *other;
-    if (delta.y * delta.y + delta.x * delta.x < 576.0f)
+    if (delta.x * delta.x + delta.y * delta.y < 576.0f)
         return 1;
 
     angle = AddNormalizeAngle(player->rangeSource368->angle80, 4.1887903f);
@@ -80,7 +80,7 @@ int __fastcall PlayerPositionCallback30404Type9(
         angle, player->rangeSource368->radius7C + 24.0f);
     delta += player->position1B88;
     delta = delta - *other;
-    if (delta.y * delta.y + delta.x * delta.x < 576.0f)
+    if (delta.x * delta.x + delta.y * delta.y < 576.0f)
         return 1;
 
     angle = AddNormalizeAngle(player->rangeSource368->angle80, 5.2359877f);
@@ -88,5 +88,5 @@ int __fastcall PlayerPositionCallback30404Type9(
         angle, player->rangeSource368->radius7C + 24.0f);
     delta += player->position1B88;
     delta = delta - *other;
-    return delta.y * delta.y + delta.x * delta.x < 576.0f;
+    return delta.x * delta.x + delta.y * delta.y < 576.0f;
 }
