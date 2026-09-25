@@ -4179,3 +4179,11 @@ name into a TH09 fact without target-local evidence.
 - Replay staging commit 5df885a bound claim claim:th09-main:function:0043c610:codegen-exact to a clean 499-file source snapshot. Two Factory attempts were made from that same binding; the retry job was job:f0eaf4b670df47d0a0496fa47878c4a8.
 - The retry again failed before the oracle stage, this time with ReplayError reporting unrelated global ownership of the th10 live worktree. There is no receipt verdict and no acceptance decision, so canonical credit remains withheld.
 - The staging match row/unit/function status are removed again. The maintained source and local structural-exact evidence remain ready for a later replay once the Factory global lock clears.
+
+
+## Packet 653 OnUpdateKeyConfig sound-call scheduling frontier
+
+- TitleScreenView::OnUpdateKeyConfig @ 0x00427EE8 still cold-builds as 2803/2803 bytes with 751/751 instructions, 118 relocation fields and 2325/2331 ordinary comparable bytes. The only six ordinary mismatches are two identical three-byte windows around the two direct sound-12 calls.
+- At each window retail TH09 emits push pan=0, load ECX=&g_SoundPlayer, push soundId=12, call PlaySoundByIdx. Stock VC7.1 emits push pan=0, push soundId=12, then loads the same receiver. No call target, argument value, extent, branch or relocation differs.
+- The repository-canonical SoundPlayer::PlaySoundByIdx contract is already void(int,int). Replacing the key-config TU's narrow TitleKeySoundView declaration with the real SoundPlayer type is exactly codegen-neutral at 2803 bytes and leaves the same six mismatches.
+- Exact TitleScreen MoveCursorHorizontal/MoveCursorVertical/MoveCursorFourWay siblings use the same pinned /O1 /Ob1 profile and the same PlaySoundByIdx(12,0) source call, and naturally emit the ordinary push-pan/push-id/load-receiver order. Committed TH08 OnUpdateKeyConfig likewise places the selection sound call at a shared switch tail. These checks rule out the obvious owner type, ABI, argument type/default and broad source-family explanations; the remaining difference is a context-local scheduler choice. No register forcing, volatile, inline assembly, padding, pragma or artificial wrapper is retained.
