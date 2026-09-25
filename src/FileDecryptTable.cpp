@@ -27,15 +27,35 @@ unsigned char *TryDecryptFromTable(
         rawData[2] == g_CryptSignature[2] - 0x60)
     {
         unsigned int i = 0;
-        while (rawData[3] !=
-                   g_DecryptParams[i].key - (i << 4) - 0x10 &&
-               i < 8)
-        {
-            i++;
-        }
+        unsigned int targetKey = rawData[3];
 
-        if (i >= 8)
-            return rawData;
+        if (targetKey != g_DecryptParams[0].key - 0x10)
+        {
+            unsigned int rowOffset = 0;
+            unsigned int keyBias = 0;
+
+            for (;;)
+            {
+                if (rowOffset >= sizeof(g_DecryptParams))
+                    return rawData;
+
+                unsigned int key =
+                    *reinterpret_cast<unsigned char *>(
+                        reinterpret_cast<unsigned char *>(g_DecryptParams) +
+                        rowOffset + sizeof(DecryptParams));
+                rowOffset += sizeof(DecryptParams);
+                keyBias += 0x10;
+                key -= keyBias;
+                key -= 0x10;
+                ++i;
+
+                if (targetKey != key)
+                    continue;
+                if (i >= 8)
+                    return rawData;
+                break;
+            }
+        }
 
         decryptedData = Decrypt(
             rawData + 4, size - 4,
