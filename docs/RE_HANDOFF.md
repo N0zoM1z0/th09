@@ -94,15 +94,35 @@ Recompute from the live ledger. Many former plateaus were later closed by
 correcting source shape, translation-unit ownership, return contracts, local
 lifetimes, or function-local compiler profiles.
 
-Large owners such as EclManager::RunEcl, EnemyManagerView::OnUpdate,
-PlayerUpdateSelectorState, large Etama owners, and other multi-kilobyte
-functions are intentionally lower priority while smaller natural-source
-candidates remain.
+Do not turn target size into a global priority rule. Interleave large owners
+with smaller leaves: a large owner can unlock ABI, TU, layout, and stack-lifetime
+evidence that closes multiple downstream functions, while short functions remain
+useful for focused compiler experiments. In particular, do not defer
+EclManager::RunEcl merely because it is large.
 
 For a candidate with extensive negative probes, read its live ledger notes and
 the latest relevant knowledge packet before trying another spelling. New target
 or source-family evidence is a reason to reopen a plateau; repeating previously
 rejected codegen steering is not.
+
+### Current RunEcl handoff
+
+At this checkpoint EclManager::RunEcl is complete maintained source but remains
+NON-EXACT. A fresh clean-HEAD pinned VC7.1 build is 14,788/14,792 logical bytes
+with an exact 0x168 stack frame, 375 immediate direct calls, four indirect
+calls, 598 relocations, resolver counts 131/100/17/24, and all 193 compiler-table
+entries present. Only four physical handler-length mismatches remain:
+opcode 21 INT_SUBTRACT (-3), opcode 23 INT_DIVIDE (+3), opcode 24 INT_MODULO
+(-3), and opcode 155 SET_TIMEOUT_SPELL (-1). All other RunEcl physical handler
+lengths are target-length.
+
+The 21/23/24 direct arithmetic spelling is supported by the exact adjacent TH08
+source family. TH09-local probes using explicit locals, ternaries, out-helpers,
+switch-wide macros, typed operand overlays, and declaration reordering do not
+close the residuals. Opcode 155 is semantic/CFG-correct; natural bitfield and
+shifted-value spellings retain the same one-byte allocator difference. Reopen
+these only with new allocator/TU/lifetime evidence; do not add register forcing,
+volatile steering, padding, assembly, or target-byte encodings.
 
 ## Boundary and origin closure
 

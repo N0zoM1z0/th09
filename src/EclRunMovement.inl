@@ -3,8 +3,8 @@
 // This is a lexical switch fragment, not a callable subowner.  The target
 // keeps these handlers inside the shared 14,792-byte EclManager::RunEcl stack
 // frame.  The declarations intentionally use a family-local Enemy overlay so
-// this packet does not take ownership of the concurrently changing
-// AnmManager interface or overstate the still-partial public Enemy layout.
+// this fragment does not take ownership of the AnmManager interface or
+// overstate the intentionally incomplete public Enemy layout.
 //
 // Target evidence:
 //   family entries: opcodes 54..82 (all 29 active)
@@ -196,8 +196,9 @@ inline EnemySecondaryFlagBits *SecondaryFlagBits(EnemyView *enemy)
         &View(enemy)->secondaryFlags3380);
 }
 
-// Role names for real target boundaries.  Their final source TU and internal
-// calling conventions remain open after the complete owner compiler probe.
+// Target-facing helper boundaries. Source ownership and private/public ABI are
+// tracked by the live function ledger and canonical match units; do not infer
+// unresolved ABI status from older packet-era comments.
 __forceinline void SetAndExecuteAnmScript(
     void *anmFile, void *vm, int scriptIndex)
 {
