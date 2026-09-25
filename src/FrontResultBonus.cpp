@@ -87,7 +87,9 @@ void FrontResultBonusView::InitializeResultBonus()
         FrontResultPlayerView *player =
             FrontResultGameManager()->sides[side].player04;
         if (player->value30418 < 1000)
-            this->bonus11E88[1] = 10000 * player->value30418;
+            this->bonus11E88[1] =
+                10000 *
+                FrontResultGameManager()->sides[side].player04->value30418;
         else
             this->bonus11E88[1] = 9999990;
     }
@@ -112,16 +114,16 @@ void FrontResultBonusView::InitializeResultBonus()
 
     if (FrontResultGameManager()->field0FC == 8)
     {
-        if (FrontResultGameManager()->sides[side].runtime1C->value00 < 10.0f)
+        if (FrontResultGameManager()->sides[side].runtime1C->value00 >= 10.0f)
+        {
+            this->bonus11E88[5] = 99999990;
+        }
+        else
         {
             this->bonus11E88[5] =
                 static_cast<int>(
                     FrontResultGameManager()->sides[side].runtime1C->value00) *
                 10000000;
-        }
-        else
-        {
-            this->bonus11E88[5] = 99999990;
         }
     }
     else
@@ -149,7 +151,7 @@ void FrontResultBonusView::InitializeResultBonus()
             FrontResultGameManager()->sides[0].runtime1C->value10 = 9999;
         }
 
-        if (g_GameConfiguration->valueAC != 0 &&
+        if (g_GameConfiguration->valueAC > 0 &&
             g_GameManager.IsGameMode0())
         {
             this->frontAnm08->ExecuteAnmIdx(&this->resultVms11154[2], 65);

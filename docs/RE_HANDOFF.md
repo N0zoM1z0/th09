@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 869 |
-| Source-present non-exact functions | 110 |
-| Source-present non-exact bytes | 122,565 |
+| Canonical exact functions | 870 |
+| Source-present non-exact functions | 109 |
+| Source-present non-exact bytes | 122,012 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 153,104 |
+| Canonical exact authored bytes | 153,657 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
