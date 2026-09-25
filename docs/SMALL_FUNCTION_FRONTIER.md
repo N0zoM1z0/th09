@@ -104,11 +104,13 @@ history belongs in `docs/KNOWLEDGE_BASE.md`.
   are exact. The 213-byte target currently resists natural
   queue-base/index/argument-home lifetime spellings; do not revive
   var_order/register forcing.
-- `FileSystem::TryDecryptFromTable` remains 215/220. The target's biased
-  cursor can read `g_CryptSignature[0]` as terminal index 8 before the later
-  `index < 8` rejection. Maintained source intentionally bounds the declared
-  eight-row array and avoids that adjacent read. This supersedes the older
-  Packet-524 description that said the target checked the bound first.
+- `FileSystem::TryDecryptFromTable` is now target-sized at 220/220 after
+  restoring the target- and TH08-source-family condition order: compare the
+  adjusted key first, then test `index < 8`. This naturally performs the
+  target-observed terminal read of adjacent `g_CryptSignature[0]` at index 8
+  before rejecting that index. Ordinary bytes remain non-exact because the
+  scan register/IR lowering still differs; do not reintroduce a safe
+  bound-first rewrite.
 - `ParseNetworkConfigValue` is target-sized at 243 bytes with its private
   ABI correct; the residual is equivalent return-cursor block placement.
 - `PlayerPositionCallback30404Type4` and Type8 remain 235/249 with a 0x3C

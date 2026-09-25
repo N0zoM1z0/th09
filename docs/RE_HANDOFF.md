@@ -547,11 +547,12 @@ Current routing facts:
   variants are recorded in their live ledger rows and
   `docs/SMALL_FUNCTION_FRONTIER.md`; do not revive register forcing,
   var_order, padding, or loop-layout steering.
-- `FileSystem::TryDecryptFromTable` remains 215/220. TH09 target can read
-  `g_CryptSignature[0]` at terminal index 8 before rejecting index 8.
-  Maintained source intentionally bounds the declared eight-row array and avoids
-  that adjacent read. This is the current interpretation; the older Packet-524
-  statement that the target checked the bound first is superseded.
+- `FileSystem::TryDecryptFromTable` is now 220/220 target-sized after
+  restoring the original compare-before-bound scan order proven independently
+  by TH09 bytes and the committed TH08 source family. The index-8 probe reads
+  adjacent `g_CryptSignature[0]` and is then rejected by `index < 8`; this is
+  retained as target behavior. Exactness is still open because ordinary scan
+  codegen differs.
 - Several target-sized short candidates remain genuine codegen plateaus:
   `EffectManager::AddedCallback`, `EnemyView::IntegrateMotion`, and
   `ParseNetworkConfigValue`. `FrontMessageOwnerView::InitializeMessageRuntime`

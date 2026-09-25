@@ -27,9 +27,9 @@ unsigned char *TryDecryptFromTable(
         rawData[2] == g_CryptSignature[2] - 0x60)
     {
         unsigned int i = 0;
-        while (i < 8 &&
-               rawData[3] !=
-                   g_DecryptParams[i].key - (i << 4) - 0x10)
+        while (rawData[3] !=
+                   g_DecryptParams[i].key - (i << 4) - 0x10 &&
+               i < 8)
         {
             i++;
         }
