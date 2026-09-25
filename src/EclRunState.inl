@@ -537,18 +537,8 @@ __forceinline void AssignFlagField(
         break;
 
     case TH09_ECL_OPCODE_ADD_TIME:
-        if ((instruction->parameterMask0A & 1U) != 0)
-        {
-            Th09EclRunState::View(enemy)->activeContext2CE0->time008.AddCurrent(
-                Th09EclRunControl::ResolveInt(
-                    enemy,
-                    Th09EclRunControl::RawInt(instruction, 0)));
-        }
-        else
-        {
-            Th09EclRunState::View(enemy)->activeContext2CE0->time008.AddCurrent(
-                Th09EclRunControl::RawInt(instruction, 0));
-        }
+        Th09EclRunState::View(enemy)->activeContext2CE0->time008 +=
+            Th09EclRunControl::ReadInt(enemy, instruction, 0);
         break;
 
     case TH09_ECL_OPCODE_SET_BACKGROUND_SCRIPT_LABEL:

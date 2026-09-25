@@ -3945,3 +3945,11 @@ name into a TH09 fact without target-local evidence.
 - Whole-owner size remains 14,788/14,792 because the downstream opcode186 loop-alignment NOP changes with the shifted layout. That downstream compiler alignment is explicitly not used to reject the locally target-positive source correction.
 - Exact frame 0x168, 375 immediate plus four indirect calls, 598 relocations, resolver counts 131/100/17/24 and all 193 compiler-table entries remain unchanged. All eighteen canonical src/EclManager.cpp match units cold-replay exact.
 - No volatile, register forcing, var_order, padding, assembly, target-byte embedding, or profile search is introduced.
+
+## Packet 627 RunEcl opcode-146 timer add-expression recovery
+
+- TH09 opcode 146 ADD_TIME calls canonical ZunTimer::operator+=(int) at 0x00406640. The maintained ECL timer overlay still exposed that target as a synthetic AddCurrent(int), and the handler manually duplicated resolved/raw branches.
+- The adjacent source family uses one ordinary expression: time += READ_I(...). Exposing the existing integer operator+= on Th09EclTimerStorageView and spelling opcode 146 as time008 += ReadInt(enemy, instruction, 0) is independently supported by TH09: pinned VC7.1 now keeps the raw operand load inside each mask branch exactly like target instead of hoisting it before the branch.
+- Opcode 146 physical extent closes from 74 to the target's exact 77 bytes. After relocation fields are masked, 65 ordinary bytes are compared and only two differ; both are cross-block/shared-advance displacement bytes rather than timer semantics.
+- The whole owner remains 14,788/14,792 logical bytes with exact 0x168 frame, 375 immediate plus four indirect calls, 598 relocations, resolver multiplicities 131/100/17/24, and all 193 compiler-table entries unchanged. The three recovered bytes are absorbed by backend loop alignment: opcode 186's alignment excess shrinks from six bytes to three.
+- Cold replay preserves all 18 canonical EclManager.cpp exact units. CompareOperands needs only compiler-private $Lxxxx label refresh; relocation offsets, types, targets and all compared bytes are unchanged. No forced register, volatile steering, var_order, padding, inline assembly, fake call, target-byte embedding or profile roulette is retained.

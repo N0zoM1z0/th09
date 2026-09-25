@@ -251,6 +251,7 @@ struct Th09EclTimerStorageView
     void operator=(int value);
     void SetCurrent(int value);
     void AddCurrent(int value);
+    void operator+=(int value);
     void operator+=(float value);
     void operator--(int value);
 
