@@ -17,10 +17,36 @@ HANDOFF = DOCS / "RE_HANDOFF.md"
 README = ROOT / "README.md"
 TABLE_SPLIT = re.compile(r"(?<!\\)\|")
 MARKDOWN_LINK = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
+FENCE = re.compile(r"^ {0,3}(?P<marker>`{3,}|~{3,})(?P<rest>.*)$")
+CODE_SPAN = re.compile(r"(?<!`)(`+)(?!`)(.*?)\1(?!`)", re.DOTALL)
 
 
 def table_cells(line: str) -> list[str]:
     return [cell.strip() for cell in TABLE_SPLIT.split(line.strip().strip("|"))]
+
+
+def prose_link_targets(text: str) -> list[str]:
+    """Find Markdown links without treating code examples as links."""
+    prose: list[str] = []
+    fence_char = ""
+    fence_length = 0
+    for line in text.splitlines():
+        marker = FENCE.match(line)
+        if fence_char:
+            if (
+                marker
+                and marker["marker"][0] == fence_char
+                and len(marker["marker"]) >= fence_length
+                and not marker["rest"].strip()
+            ):
+                fence_char = ""
+            continue
+        if marker:
+            fence_char = marker["marker"][0]
+            fence_length = len(marker["marker"])
+            continue
+        prose.append(line)
+    return MARKDOWN_LINK.findall(CODE_SPAN.sub("", "\n".join(prose)))
 
 
 def validate_knowledge_base() -> None:
@@ -100,7 +126,7 @@ def validate_local_links() -> None:
     paths = [README, *sorted(DOCS.glob("*.md"))]
     for path in paths:
         text = path.read_text(encoding="utf-8")
-        for raw_target in MARKDOWN_LINK.findall(text):
+        for raw_target in prose_link_targets(text):
             target = raw_target.strip().strip("<>").split("#", 1)[0]
             if not target or re.match(r"^[a-z][a-z0-9+.-]*:", target, re.I):
                 continue
