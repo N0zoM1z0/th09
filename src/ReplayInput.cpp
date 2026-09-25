@@ -721,8 +721,9 @@ int ReplayManagerView::CaptureFrameSyncState(ReplayManagerView *replayManager)
     g_ReplayInputStates[1].Update();
     g_ReplayInputStates[2].Update();
 
+    int side = 0;
     ReplayInputGateView *inputGate = g_GameManager.inputGate;
-    for (int side = 0; side < 2; side++)
+    for (; side < 2; side++)
     {
         if (inputGate != NULL && inputGate->sideMode[side] == 1)
         {
