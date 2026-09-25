@@ -225,7 +225,8 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
 #endif
 
     int movementInt;
-    float movementFloat;
+    float aimedAngleOffset;
+    float aimedMoveAngleOffset;
     float playerAngle;
 
     case TH09_ECL_OPCODE_SET_MAIN_ANM:
@@ -381,13 +382,13 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
         break;
 
     case TH09_ECL_OPCODE_SET_AIMED_DIRECTION_AND_SPEED:
-        movementFloat = Th09EclRunControl::ReadFloat(enemy, instruction, 0);
+        aimedAngleOffset = Th09EclRunControl::ReadFloat(enemy, instruction, 0);
         playerAngle = Th09EclRunMovement::PlayerAngleToPoint(
             Th09EclRunMovement::Player(enemy),
             &Th09EclRunMovement::View(enemy)->position2D74);
         Th09EclRunMovement::View(enemy)->movementAngle2DE0 =
             Th09EclRunControl::AddNormalizeAngle(
-                movementFloat, playerAngle);
+                aimedAngleOffset, playerAngle);
         Th09EclRunMovement::View(enemy)->speed2DF4 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         break;
@@ -395,14 +396,14 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
     case TH09_ECL_OPCODE_MOVE_IN_AIMED_DIRECTION:
         if (Th09EclRunControl::ReadInt(enemy, instruction, 0) <= 0)
         {
-            movementFloat =
+            aimedMoveAngleOffset =
                 Th09EclRunControl::ReadFloat(enemy, instruction, 2);
             playerAngle = Th09EclRunMovement::PlayerAngleToPoint(
                 Th09EclRunMovement::Player(enemy),
                 &Th09EclRunMovement::View(enemy)->position2D74);
             Th09EclRunMovement::View(enemy)->movementAngle2DE0 =
                 Th09EclRunControl::AddNormalizeAngle(
-                    movementFloat, playerAngle);
+                    aimedMoveAngleOffset, playerAngle);
             Th09EclRunMovement::View(enemy)->speed2DF4 =
                 Th09EclRunControl::ReadFloat(enemy, instruction, 3);
             Th09EclRunMovement::View(enemy)->primaryFlags337C =

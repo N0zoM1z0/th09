@@ -388,16 +388,18 @@ __forceinline float *WriteFloat(
             Th09EclRunControl::Sin(angle) * magnitude;
         break;
     case TH09_ECL_OPCODE_POINT_DISTANCE:
-        lhsFloat =
+    {
+        float xDelta =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1) -
             Th09EclRunControl::ReadFloat(enemy, instruction, 3);
-        rhsFloat =
+        float yDelta =
             Th09EclRunControl::ReadFloat(enemy, instruction, 2) -
             Th09EclRunControl::ReadFloat(enemy, instruction, 4);
         *Th09EclRunControl::WriteFloat(enemy, instruction, 0) =
             Th09EclRunControl::SquareRoot(
-                lhsFloat * lhsFloat + rhsFloat * rhsFloat);
+                xDelta * xDelta + yDelta * yDelta);
         break;
+    }
 
     // Successful comparisons use raw operands 2/3 as replacement time and
     // signed bytecode displacement.  The helper owns the twelve typed tests.
