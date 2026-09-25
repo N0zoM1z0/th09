@@ -319,8 +319,7 @@ static void MoveRandomBiased(
         Th09EclRunState::AssignFlagField(
             Th09EclRunLate::View(enemy)->secondaryFlags3380,
             Th09EclRunLate::ENEMY_LATE_EXTRA_ANM_FIXED_OFFSET,
-            static_cast<unsigned int>(static_cast<unsigned char>(lateInt)) <<
-                5);
+            static_cast<unsigned int>(lateInt) << 5);
         break;
 
     case TH09_ECL_OPCODE_SET_NO_DAMAGE_DURING_STOP:
