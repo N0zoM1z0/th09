@@ -17682,3 +17682,34 @@ relocations = [
   { offset = 0x150, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x15B, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
 ]
+
+
+[units.player-shot-update-callback-type1]
+source = "src/PlayerShotUpdateCallback1.cpp"
+object = "build/matching/PlayerShotUpdateCallback1.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["PlayerShotUpdateCallbackType1"]
+symbol = "?PlayerShotUpdateCallbackType1@@YIHPAUPlayerShotUpdate1PlayerView@@PAUPlayerShotUpdate1ShotView@@@Z"
+target_address = 0x004415E0
+size = 0x1D7
+relocations = [
+  { offset = 0x24, type = "REL32", symbol = "?GetCurrent@PlayerShotUpdate1TimerView@@QAEHXZ", target = 0x00435F00 },
+  { offset = 0x34, type = "REL32", symbol = "?HasTicked@ZunTimer@@QAEHXZ", target = 0x0040F810 },
+  { offset = 0x48, type = "DIR32", symbol = "__real@c4610000", target = 0x004915C0 },
+  { offset = 0x5E, type = "REL32", symbol = "??BPlayerShotUpdate1Vec3@@QAEPAMXZ", target = 0x004343D0 },
+  { offset = 0x89, type = "REL32", symbol = "@sqrtf@4", target = 0x00401080 },
+  { offset = 0x95, type = "DIR32", symbol = "__real@3e800000", target = 0x00491028 },
+  { offset = 0x9D, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0xAC, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0xB2, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0xE0, type = "REL32", symbol = "@sqrtf@4", target = 0x00401080 },
+  { offset = 0xE6, type = "DIR32", symbol = "__real@41200000", target = 0x0048E32C },
+  { offset = 0xF3, type = "DIR32", symbol = "__real@41200000", target = 0x0048E32C },
+  { offset = 0x103, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x11A, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x148, type = "DIR32", symbol = "__real@41200000", target = 0x0048E32C },
+  { offset = 0x161, type = "DIR32", symbol = "__real@3eaaaaab", target = 0x004915BC },
+  { offset = 0x18D, type = "REL32", symbol = "@sqrtf@4", target = 0x00401080 },
+  { offset = 0x193, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x1C5, type = "REL32", symbol = "?VectorAngle@Th09EclRunControl@@YGMMM@Z", target = 0x00405700 },
+]

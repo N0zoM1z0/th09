@@ -49,6 +49,10 @@ int __fastcall PlayerShotUpdateCallbackType1(
     PlayerShotUpdate1PlayerView *player,
     PlayerShotUpdate1ShotView *shot)
 {
+    float xDelta;
+    float yDelta;
+    float magnitude;
+
     if (shot->state462 == 1 &&
         shot->timer454.GetCurrent() >= 40 &&
         reinterpret_cast<ZunTimer *>(&shot->timer454)->HasTicked())
@@ -56,45 +60,38 @@ int __fastcall PlayerShotUpdateCallbackType1(
         if (player->trackedEnemyPosition30364.x > -900.0f)
         {
             float *position = shot->position2A4.operator float *();
-            float xDelta =
-                player->trackedEnemyPosition30364.x - position[0];
-            float yDelta =
-                player->trackedEnemyPosition30364.y - position[1];
+            xDelta = player->trackedEnemyPosition30364.x - position[0];
+            yDelta = player->trackedEnemyPosition30364.y - position[1];
 
-            float ratio =
+            magnitude =
                 sqrtf(xDelta * xDelta + yDelta * yDelta) /
                 (shot->speed44C * 0.25f);
-            if (ratio < 1.0f)
-                ratio = 1.0f;
+            if (magnitude < 1.0f)
+                magnitude = 1.0f;
 
-            float factor = 1.0f / ratio;
-            float x = xDelta * factor + shot->velocityX43C;
-            float y = yDelta * factor + shot->velocityY440;
-            float magnitude = sqrtf(x * x + y * y);
+            xDelta = xDelta / magnitude + shot->velocityX43C;
+            yDelta = yDelta / magnitude + shot->velocityY440;
+            magnitude = sqrtf(xDelta * xDelta + yDelta * yDelta);
 
-            if (magnitude <= 10.0f)
-                shot->speed44C = magnitude;
-            else
-                shot->speed44C = 10.0f;
-
+            shot->speed44C = magnitude > 10.0f ? 10.0f : magnitude;
             if (shot->speed44C < 1.0f)
                 shot->speed44C = 1.0f;
 
-            float inverse = 1.0f / magnitude;
             shot->velocityX43C =
-                inverse * shot->speed44C * x;
+                xDelta * shot->speed44C / magnitude;
             shot->velocityY440 =
-                inverse * shot->speed44C * y;
+                yDelta * shot->speed44C / magnitude;
         }
         else if (shot->speed44C < 10.0f)
         {
-            float y = shot->velocityY440;
-            float x = shot->velocityX43C;
-            float speed = shot->speed44C + 0.33333334f;
-            shot->speed44C = speed;
-            float inverse = 1.0f / sqrtf(y * y + x * x);
-            shot->velocityX43C = speed * inverse * x;
-            shot->velocityY440 = speed * inverse * y;
+            shot->speed44C += 0.33333334f;
+            xDelta = shot->velocityX43C;
+            yDelta = shot->velocityY440;
+            magnitude = sqrtf(xDelta * xDelta + yDelta * yDelta);
+            shot->velocityX43C =
+                xDelta * shot->speed44C / magnitude;
+            shot->velocityY440 =
+                yDelta * shot->speed44C / magnitude;
         }
     }
 
