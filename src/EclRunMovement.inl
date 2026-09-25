@@ -226,7 +226,6 @@ static void BeginBoundaryAwareMove(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
 void ClampPosition(EnemyView *enemy);
-float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
 
 } // namespace Th09EclRunMovement
 

@@ -371,13 +371,15 @@ void ClearBulletsForTransition(EtamaController *controller);
         laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         if (Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex] != 0)
         {
-            Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex]->angle =
-                Th09EclRunMovement::PlayerAngleToPoint(
-                    Th09EclRunMovement::Player(enemy),
-                    reinterpret_cast<EnemyFloat3 *>(
-                        &Th09EclRunBullet::View(enemy)->
-                            laserSlots32D8[laserIndex]->position)) +
+            float angleOffset =
                 Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+            Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex]->angle =
+                reinterpret_cast<PlayerAngleView *>(
+                    enemy->manager00->sideState320->player04)->AngleToPoint(
+                        reinterpret_cast<PlayerAngleFloat3View *>(
+                            &Th09EclRunBullet::View(enemy)->
+                                laserSlots32D8[laserIndex]->position)) +
+                angleOffset;
         }
         break;
 

@@ -297,11 +297,7 @@ __forceinline void AssignFlagField(
     int stateInt;
     int stateIndex;
     int stateCallback;
-    int effectId;
-    int effectCount;
-    unsigned int effectColor;
     Th09EclRunState::ChildEclBlock *childEcl;
-    EffectFloat3 effectVelocity;
 
     case TH09_ECL_OPCODE_SET_BOSS:
         stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
@@ -452,36 +448,33 @@ __forceinline void AssignFlagField(
         break;
 
     case TH09_ECL_OPCODE_SPAWN_EFFECT:
-        effectCount = Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        effectId = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        effectColor = static_cast<unsigned int>(
-            *Th09EclRunControl::WriteInt(enemy, instruction, 2));
         Th09EclRunState::View(enemy)->manager0000->sideState320->
             effectManager0C->SpawnEffect(
-                effectId,
+                Th09EclRunControl::ReadInt(enemy, instruction, 0),
                 reinterpret_cast<const EffectFloat3 *>(
                     &Th09EclRunState::View(enemy)->position2D74),
-                effectCount,
-                effectColor);
+                Th09EclRunControl::ReadInt(enemy, instruction, 1),
+                static_cast<unsigned int>(
+                    *Th09EclRunControl::WriteInt(enemy, instruction, 2)));
         break;
 
     case TH09_ECL_OPCODE_SPAWN_EFFECT_WITH_VELOCITY:
+    {
+        EffectFloat3 effectVelocity;
         effectVelocity.x = Th09EclRunControl::ReadFloat(enemy, instruction, 3);
         effectVelocity.y = Th09EclRunControl::ReadFloat(enemy, instruction, 4);
         effectVelocity.z = Th09EclRunControl::ReadFloat(enemy, instruction, 5);
-        effectCount = Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        effectId = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        effectColor = static_cast<unsigned int>(
-            *Th09EclRunControl::WriteInt(enemy, instruction, 2));
         Th09EclRunState::View(enemy)->manager0000->sideState320->
             effectManager0C->SpawnEffectWithVelocity(
-                effectId,
+                Th09EclRunControl::ReadInt(enemy, instruction, 0),
                 reinterpret_cast<const EffectFloat3 *>(
                     &Th09EclRunState::View(enemy)->position2D74),
                 &effectVelocity,
-                effectCount,
-                effectColor);
+                Th09EclRunControl::ReadInt(enemy, instruction, 1),
+                static_cast<unsigned int>(
+                    *Th09EclRunControl::WriteInt(enemy, instruction, 2)));
         break;
+    }
 
     case TH09_ECL_OPCODE_SET_ITEM_DROP_TYPE:
         Th09EclRunState::View(enemy)->itemDropType335C =
