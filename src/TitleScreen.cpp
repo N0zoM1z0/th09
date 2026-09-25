@@ -2508,7 +2508,7 @@ int TitleScreenView::OnUpdateResult()
         {
             for (i32 i = 0; i < 16; i++)
                 g_TitleCharacterUnlocked[(char)i] = 1;
-            for (i32 i = 0; i < 14; i++)
+            for (i32 i = 0; i <= 13; i++)
             {
                 g_TitleCharacterUnlockedNormal[(char)i] = 1;
                 g_TitleCharacterUnlockedMode4[(char)i] = 1;
