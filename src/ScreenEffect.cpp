@@ -297,33 +297,38 @@ int ScreenEffect::CalcShake(ScreenEffect *screenEffect)
 
 int ScreenEffect::CalcShakeEnvelope(ScreenEffect *screenEffect)
 {
+    float shakeAmount;
+
     if (g_GameManager.value348 <= 1)
         return CHAIN_CALLBACK_RESULT_CONTINUE_AND_REMOVE_JOB;
 
     screenEffect->timer++;
 
-    float envelope;
-    if (screenEffect->timer < screenEffect->rawParameter0)
+    int endFrame = screenEffect->rawParameter0;
+    if (screenEffect->timer < endFrame)
     {
-        envelope = (float)screenEffect->timer / screenEffect->rawParameter0;
+        shakeAmount = (float)screenEffect->timer / endFrame;
     }
-    else if (screenEffect->timer <
-             screenEffect->rawParameter0 + screenEffect->rawParameter1)
+    else if (screenEffect->timer < endFrame + screenEffect->rawParameter1)
     {
-        envelope = 1.0f;
+        shakeAmount = 1.0f;
     }
     else
     {
-        int endFrame = screenEffect->rawParameter0 +
-                       screenEffect->rawParameter1 +
-                       screenEffect->rawParameter2;
-        if (!(screenEffect->timer < endFrame))
+        endFrame += screenEffect->rawParameter1 + screenEffect->rawParameter2;
+        if (screenEffect->timer < endFrame)
+        {
+            shakeAmount =
+                ((float)(unsigned int)endFrame - (float)screenEffect->timer) /
+                (unsigned int)screenEffect->rawParameter2;
+        }
+        else
+        {
             return CHAIN_CALLBACK_RESULT_CONTINUE_AND_REMOVE_JOB;
-        envelope = ((float)(unsigned int)endFrame - (float)screenEffect->timer) /
-                   (unsigned int)screenEffect->rawParameter2;
+        }
     }
 
-    float shakeAmount = (float)screenEffect->duration * envelope;
+    shakeAmount = (float)screenEffect->duration * shakeAmount;
     switch (g_ReplayRng.GetRandomU32InRange(3))
     {
     case 0:
