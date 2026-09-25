@@ -157,15 +157,6 @@ static void MoveRandomBiased(
     float *lateFloatResult;
     Laser *lateLaser;
 
-    case TH09_ECL_OPCODE_UNHANDLED_9E:
-        break;
-
-    case TH09_ECL_OPCODE_SET_DRAW_GROUP:
-        Th09EclRunLate::View(enemy)->drawGroup3387 =
-            static_cast<unsigned char>(
-                Th09EclRunControl::ReadInt(enemy, instruction, 0));
-        break;
-
     case TH09_ECL_OPCODE_SET_DAMAGE_REDUCTION_TIMER:
         Th09EclRunLate::View(enemy)->damageReductionTimer53A8 =
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
@@ -183,14 +174,6 @@ static void MoveRandomBiased(
         Th09EclRunLate::BulletController(enemy)->RemoveAllBullets(4);
         break;
 
-    case TH09_ECL_OPCODE_SET_MANAGER_PROTOCOL_VALUE:
-        Th09EclRunLate::Manager(enemy)->protocolValue2AC3DC =
-            Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        break;
-
-    case TH09_ECL_OPCODE_UNHANDLED_A4:
-        break;
-
     case TH09_ECL_OPCODE_SET_MAIN_ANM_ROTATION:
         Th09EclRunLate::MainAnmRotation(enemy) =
             Th09EclRunControl::ReadFloat(enemy, instruction, 0);
@@ -205,18 +188,6 @@ static void MoveRandomBiased(
             Th09EclRunControl::Cos(
                 Th09EclRunControl::ReadFloat(enemy, instruction, 2)) *
             Th09EclRunControl::ReadFloat(enemy, instruction, 3);
-        break;
-
-    case TH09_ECL_OPCODE_SET_LASER_ANGLE:
-        lateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex])
-        {
-            Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex]->angle =
-                Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        }
-        break;
-
-    case TH09_ECL_OPCODE_UNHANDLED_A8:
         break;
 
     case TH09_ECL_OPCODE_RANDOM_HORIZONTAL_ANGLE:
@@ -247,49 +218,12 @@ static void MoveRandomBiased(
         }
         break;
 
-    case TH09_ECL_OPCODE_SET_LASER_START_CAP_HIDDEN:
-        lateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex])
-        {
-            Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex]->
-                hideCapDuringStartup =
-                    static_cast<unsigned char>(
-                        Th09EclRunControl::ReadInt(enemy, instruction, 1));
-        }
-        break;
-
-    case TH09_ECL_OPCODE_SET_LASER_START_LENGTH:
-        lateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex])
-        {
-            Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex]->
-                startLength =
-                    Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        }
-        break;
-
-    case TH09_ECL_OPCODE_SET_LASER_OFFSETS:
-        lateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex])
-        {
-            Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex]->
-                startOffset =
-                    Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-            Th09EclRunLate::View(enemy)->laserSlots32D8[lateIndex]->
-                endOffset =
-                    Th09EclRunControl::ReadFloat(enemy, instruction, 2);
-        }
-        break;
-
     case TH09_ECL_OPCODE_SET_TIMER_PAUSED:
         lateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         Th09EclRunState::AssignFlagField(
             Th09EclRunLate::View(enemy)->primaryFlags337C,
             Th09EclRunLate::ENEMY_LATE_TIMER_PAUSED,
             static_cast<unsigned int>(lateInt) << 27);
-        break;
-
-    case TH09_ECL_OPCODE_UNHANDLED_AE:
         break;
 
     case TH09_ECL_OPCODE_SET_NO_DAMAGE_DURING_STOP:
@@ -311,17 +245,9 @@ static void MoveRandomBiased(
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
         break;
 
-    case TH09_ECL_OPCODE_UNHANDLED_B0:
-        break;
-
     case TH09_ECL_OPCODE_SET_PHASE_STARTING_LIFE:
         Th09EclRunLate::View(enemy)->phaseStartingLife2E50 =
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        break;
-
-    case TH09_ECL_OPCODE_UNHANDLED_B3:
-    case TH09_ECL_OPCODE_UNHANDLED_B4:
-    case TH09_ECL_OPCODE_UNHANDLED_B5:
         break;
 
     case TH09_ECL_OPCODE_SET_EXTRA_ANM_FIXED_OFFSET:
@@ -330,9 +256,6 @@ static void MoveRandomBiased(
             Th09EclRunLate::View(enemy)->secondaryFlags3380,
             Th09EclRunLate::ENEMY_LATE_EXTRA_ANM_FIXED_OFFSET,
             static_cast<unsigned int>(lateInt) << 5);
-        break;
-
-    case TH09_ECL_OPCODE_UNHANDLED_B8:
         break;
 
     case TH09_ECL_OPCODE_SET_SIDE_CATEGORY:

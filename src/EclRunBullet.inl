@@ -228,6 +228,34 @@ void ClearBulletsForTransition(EtamaController *controller);
         }
         break;
 
+    case TH09_ECL_OPCODE_SET_BULLET_TRANSFORM:
+        bulletInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        bulletTransform =
+            &Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.transforms[
+                bulletInt];
+        bulletTransform->kind =
+            Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        bulletTransform->allowWhileActive =
+            Th09EclRunControl::ReadInt(enemy, instruction, 2);
+        bulletTransform->payload.raw.int0 =
+            Th09EclRunControl::ReadInt(enemy, instruction, 3);
+        bulletTransform->payload.raw.int1 =
+            Th09EclRunControl::ReadInt(enemy, instruction, 4);
+        bulletTransform->payload.raw.float0 =
+            Th09EclRunControl::ReadFloat(enemy, instruction, 5);
+        bulletTransform->payload.raw.float1 =
+            Th09EclRunControl::ReadFloat(enemy, instruction, 6);
+        break;
+
+    case TH09_ECL_OPCODE_SET_DEATH_ANM_SCRIPTS:
+        Th09EclRunState::View(enemy)->deathAnmScripts3368[0] =
+            Th09EclRunState::RawByte(instruction, 0);
+        Th09EclRunState::View(enemy)->deathAnmScripts3368[1] =
+            Th09EclRunState::RawByte(instruction, 1);
+        Th09EclRunState::View(enemy)->deathAnmScripts3368[2] =
+            Th09EclRunState::RawByte(instruction, 2);
+        break;
+
     case TH09_ECL_OPCODE_SET_SHOOT_INTERVAL:
         bulletInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         Th09EclRunBullet::View(enemy)->shootIntervalFrames30B4 = bulletInt;
@@ -270,49 +298,6 @@ void ClearBulletsForTransition(EtamaController *controller);
         Th09EclRunBullet::View(enemy)->shootOffset2E04.y =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         Th09EclRunBullet::View(enemy)->shootOffset2E04.z = 0.0f;
-        break;
-
-    case TH09_ECL_OPCODE_SET_BULLET_TRANSFORM:
-        bulletInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        bulletTransform =
-            &Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.transforms[
-                bulletInt];
-        bulletTransform->kind =
-            Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        bulletTransform->allowWhileActive =
-            Th09EclRunControl::ReadInt(enemy, instruction, 2);
-        bulletTransform->payload.raw.int0 =
-            Th09EclRunControl::ReadInt(enemy, instruction, 3);
-        bulletTransform->payload.raw.int1 =
-            Th09EclRunControl::ReadInt(enemy, instruction, 4);
-        bulletTransform->payload.raw.float0 =
-            Th09EclRunControl::ReadFloat(enemy, instruction, 5);
-        bulletTransform->payload.raw.float1 =
-            Th09EclRunControl::ReadFloat(enemy, instruction, 6);
-        break;
-
-    case TH09_ECL_OPCODE_CLEAR_BULLETS_FOR_TRANSITION:
-        Th09EclRunBullet::ClearBulletsForTransition(
-            Th09EclRunBullet::Controller(enemy));
-        break;
-
-    case TH09_ECL_OPCODE_SET_BULLET_SOUNDS:
-        bulletInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (bulletInt < 0)
-        {
-            Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.transformFlags &=
-                ~0x200U;
-        }
-        else
-        {
-            // The target resolves operand 0 again before storing the sound.
-            Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.spawnSound =
-                Th09EclRunControl::ReadInt(enemy, instruction, 0);
-            Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.transformFlags |=
-                0x200U;
-        }
-        Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.transformSound =
-            Th09EclRunControl::ReadInt(enemy, instruction, 1);
         break;
 
     case TH09_ECL_OPCODE_CREATE_LASER:
@@ -373,6 +358,15 @@ void ClearBulletsForTransition(EtamaController *controller);
         }
         break;
 
+    case TH09_ECL_OPCODE_SET_LASER_ANGLE:
+        laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        if (Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex] != 0)
+        {
+            Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex]->angle =
+                Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+        }
+        break;
+
     case TH09_ECL_OPCODE_AIM_LASER_AT_PLAYER:
         laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         if (Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex] != 0)
@@ -404,6 +398,17 @@ void ClearBulletsForTransition(EtamaController *controller);
         }
         break;
 
+    case TH09_ECL_OPCODE_SET_LASER_START_CAP_HIDDEN:
+        laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        if (Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex] != 0)
+        {
+            Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex]->
+                hideCapDuringStartup =
+                    static_cast<unsigned char>(
+                        Th09EclRunControl::ReadInt(enemy, instruction, 1));
+        }
+        break;
+
     case TH09_ECL_OPCODE_TEST_LASER_ACTIVE:
         laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         laser = Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex];
@@ -423,8 +428,71 @@ void ClearBulletsForTransition(EtamaController *controller);
         }
         break;
 
-    case TH09_ECL_OPCODE_UNHANDLED_7A:
-    case TH09_ECL_OPCODE_UNHANDLED_7B:
+    case TH09_ECL_OPCODE_CLEAR_LASER_SLOTS:
+        for (int i = 0; i < 0x20; ++i)
+            Th09EclRunBullet::View(enemy)->laserSlots32D8[i] = 0;
+        break;
+
+    case TH09_ECL_OPCODE_SET_LASER_START_LENGTH:
+        laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        if (Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex] != 0)
+        {
+            Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex]->
+                startLength =
+                    Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+        }
+        break;
+
+    case TH09_ECL_OPCODE_SET_LASER_OFFSETS:
+        laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        if (Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex] != 0)
+        {
+            Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex]->
+                startOffset =
+                    Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+            Th09EclRunBullet::View(enemy)->laserSlots32D8[laserIndex]->
+                endOffset =
+                    Th09EclRunControl::ReadFloat(enemy, instruction, 2);
+        }
+        break;
+
+    case TH09_ECL_OPCODE_SET_MANAGER_PROTOCOL_VALUE:
+        Th09EclRunLate::Manager(enemy)->protocolValue2AC3DC =
+            Th09EclRunControl::ReadInt(enemy, instruction, 0);
         break;
 
 #endif // TH09_ECL_RUN_BULLET_BODY
+
+#if defined(TH09_ECL_RUN_BULLET_TRANSITION_BODY)
+
+#if !defined(TH09_ECL_RUN_SHARED_SWITCH)
+#error EclRunBullet.inl transition body must be included lexically inside RunEcl's switch
+#endif
+
+    int transitionBulletInt;
+
+    case TH09_ECL_OPCODE_CLEAR_BULLETS_FOR_TRANSITION:
+        Th09EclRunBullet::ClearBulletsForTransition(
+            Th09EclRunBullet::Controller(enemy));
+        break;
+
+    case TH09_ECL_OPCODE_SET_BULLET_SOUNDS:
+        transitionBulletInt =
+            Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        if (transitionBulletInt < 0)
+        {
+            Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.transformFlags &=
+                ~0x200U;
+        }
+        else
+        {
+            Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.spawnSound =
+                Th09EclRunControl::ReadInt(enemy, instruction, 0);
+            Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.transformFlags |=
+                0x200U;
+        }
+        Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.transformSound =
+            Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        break;
+
+#endif // TH09_ECL_RUN_BULLET_TRANSITION_BODY

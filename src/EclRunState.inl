@@ -303,26 +303,6 @@ __forceinline void AssignFlagField(
     Th09EclRunState::ChildEclBlock *childEcl;
     EffectFloat3 effectVelocity;
 
-    case TH09_ECL_OPCODE_PLAY_POSITIONED_SOUND:
-        stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunState::g_SoundPlayer.PlaySoundPositionedByIdx(
-            stateInt,
-            Th09EclRunState::View(enemy)->position2D74.x);
-        break;
-
-    case TH09_ECL_OPCODE_CALL_SUBROUTINE_SLOT:
-        Th09EclRunState::View(enemy)->pendingSubroutineId2D70 =
-            static_cast<short>(
-                Th09EclRunControl::ReadInt(enemy, instruction, 0));
-        goto th09_ecl_enter_pending_subroutine;
-
-    case TH09_ECL_OPCODE_SET_SUBROUTINE_SLOT:
-        stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        Th09EclRunState::View(enemy)->subroutineSlots2D30[stateIndex] =
-            static_cast<short>(stateInt);
-        break;
-
     case TH09_ECL_OPCODE_SET_BOSS:
         stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         if (stateInt >= 0)
@@ -362,6 +342,19 @@ __forceinline void AssignFlagField(
         ++Th09EclRunState::View(enemy)->attachedEffectCount5414;
         break;
 
+    case TH09_ECL_OPCODE_SET_DRAW_GROUP:
+        Th09EclRunState::View(enemy)->drawGroup3387 =
+            static_cast<unsigned char>(
+                Th09EclRunControl::ReadInt(enemy, instruction, 0));
+        break;
+
+    case TH09_ECL_OPCODE_PLAY_POSITIONED_SOUND:
+        stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        Th09EclRunState::g_SoundPlayer.PlaySoundPositionedByIdx(
+            stateInt,
+            Th09EclRunState::View(enemy)->position2D74.x);
+        break;
+
     case TH09_ECL_OPCODE_SET_DEATH_MODE:
         Th09EclRunState::AssignFlagField(
             Th09EclRunState::View(enemy)->primaryFlags337C,
@@ -374,6 +367,19 @@ __forceinline void AssignFlagField(
         Th09EclRunState::View(enemy)->deathCallbackSubId2D2E =
             Th09EclRunState::RawShort(instruction, 0);
         break;
+
+    case TH09_ECL_OPCODE_SET_SUBROUTINE_SLOT:
+        stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        Th09EclRunState::View(enemy)->subroutineSlots2D30[stateIndex] =
+            static_cast<short>(stateInt);
+        break;
+
+    case TH09_ECL_OPCODE_CALL_SUBROUTINE_SLOT:
+        Th09EclRunState::View(enemy)->pendingSubroutineId2D70 =
+            static_cast<short>(
+                Th09EclRunControl::ReadInt(enemy, instruction, 0));
+        goto th09_ecl_enter_pending_subroutine;
 
     case TH09_ECL_OPCODE_SET_LIFE:
         stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
@@ -445,6 +451,58 @@ __forceinline void AssignFlagField(
             0x78);
         break;
 
+    case TH09_ECL_OPCODE_SPAWN_EFFECT:
+        effectCount = Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        effectId = Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        effectColor = static_cast<unsigned int>(
+            *Th09EclRunControl::WriteInt(enemy, instruction, 2));
+        Th09EclRunState::View(enemy)->manager0000->sideState320->
+            effectManager0C->SpawnEffect(
+                effectId,
+                reinterpret_cast<const EffectFloat3 *>(
+                    &Th09EclRunState::View(enemy)->position2D74),
+                effectCount,
+                effectColor);
+        break;
+
+    case TH09_ECL_OPCODE_SPAWN_EFFECT_WITH_VELOCITY:
+        effectVelocity.x = Th09EclRunControl::ReadFloat(enemy, instruction, 3);
+        effectVelocity.y = Th09EclRunControl::ReadFloat(enemy, instruction, 4);
+        effectVelocity.z = Th09EclRunControl::ReadFloat(enemy, instruction, 5);
+        effectCount = Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        effectId = Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        effectColor = static_cast<unsigned int>(
+            *Th09EclRunControl::WriteInt(enemy, instruction, 2));
+        Th09EclRunState::View(enemy)->manager0000->sideState320->
+            effectManager0C->SpawnEffectWithVelocity(
+                effectId,
+                reinterpret_cast<const EffectFloat3 *>(
+                    &Th09EclRunState::View(enemy)->position2D74),
+                &effectVelocity,
+                effectCount,
+                effectColor);
+        break;
+
+    case TH09_ECL_OPCODE_SET_ITEM_DROP_TYPE:
+        Th09EclRunState::View(enemy)->itemDropType335C =
+            Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        break;
+
+    case TH09_ECL_OPCODE_SET_ITEM_DROP_COUNTS:
+        Th09EclRunState::View(enemy)->itemDropCount3360 =
+            Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        Th09EclRunState::View(enemy)->itemDropExtraCount3364 =
+            Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        break;
+
+    case TH09_ECL_OPCODE_SET_ANM_ROTATION_ENABLED:
+        Th09EclRunState::AssignFlagField(
+            Th09EclRunState::View(enemy)->primaryFlags337C,
+            Th09EclRunState::ENEMY_STATE_ANM_ROTATION_ENABLED,
+            static_cast<unsigned int>(
+                Th09EclRunState::RawByte(instruction, 0)) << 22);
+        break;
+
     case TH09_ECL_OPCODE_CALL_EX_INSTRUCTION:
         if ((instruction->parameterMask0A & 1) != 0)
         {
@@ -484,71 +542,6 @@ __forceinline void AssignFlagField(
         }
         break;
 
-    case TH09_ECL_OPCODE_SET_DEATH_ANM_SCRIPTS:
-        Th09EclRunState::View(enemy)->deathAnmScripts3368[0] =
-            Th09EclRunState::RawByte(instruction, 0);
-        Th09EclRunState::View(enemy)->deathAnmScripts3368[1] =
-            Th09EclRunState::RawByte(instruction, 1);
-        Th09EclRunState::View(enemy)->deathAnmScripts3368[2] =
-            Th09EclRunState::RawByte(instruction, 2);
-        break;
-
-    case TH09_ECL_OPCODE_SPAWN_EFFECT:
-        effectCount = Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        effectId = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        effectColor = static_cast<unsigned int>(
-            *Th09EclRunControl::WriteInt(enemy, instruction, 2));
-        Th09EclRunState::View(enemy)->manager0000->sideState320->
-            effectManager0C->SpawnEffect(
-                effectId,
-                reinterpret_cast<const EffectFloat3 *>(
-                    &Th09EclRunState::View(enemy)->position2D74),
-                effectCount,
-                effectColor);
-        break;
-
-    case TH09_ECL_OPCODE_SPAWN_EFFECT_WITH_VELOCITY:
-        effectVelocity.x = Th09EclRunControl::ReadFloat(enemy, instruction, 3);
-        effectVelocity.y = Th09EclRunControl::ReadFloat(enemy, instruction, 4);
-        effectVelocity.z = Th09EclRunControl::ReadFloat(enemy, instruction, 5);
-        effectCount = Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        effectId = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        effectColor = static_cast<unsigned int>(
-            *Th09EclRunControl::WriteInt(enemy, instruction, 2));
-        Th09EclRunState::View(enemy)->manager0000->sideState320->
-            effectManager0C->SpawnEffectWithVelocity(
-                effectId,
-                reinterpret_cast<const EffectFloat3 *>(
-                    &Th09EclRunState::View(enemy)->position2D74),
-                &effectVelocity,
-                effectCount,
-                effectColor);
-        break;
-
-    case TH09_ECL_OPCODE_UNHANDLED_8D:
-    case TH09_ECL_OPCODE_UNHANDLED_8E:
-        break;
-
-    case TH09_ECL_OPCODE_SET_ITEM_DROP_TYPE:
-        Th09EclRunState::View(enemy)->itemDropType335C =
-            Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        break;
-
-    case TH09_ECL_OPCODE_SET_ITEM_DROP_COUNTS:
-        Th09EclRunState::View(enemy)->itemDropCount3360 =
-            Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunState::View(enemy)->itemDropExtraCount3364 =
-            Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        break;
-
-    case TH09_ECL_OPCODE_SET_ANM_ROTATION_ENABLED:
-        Th09EclRunState::AssignFlagField(
-            Th09EclRunState::View(enemy)->primaryFlags337C,
-            Th09EclRunState::ENEMY_STATE_ANM_ROTATION_ENABLED,
-            static_cast<unsigned int>(
-                Th09EclRunState::RawByte(instruction, 0)) << 22);
-        break;
-
     case TH09_ECL_OPCODE_ADD_TIME:
         if ((instruction->parameterMask0A & 1U) != 0)
         {
@@ -573,6 +566,12 @@ __forceinline void AssignFlagField(
         Th09EclRunState::g_BossLifeMarkerProtocolValue += 1800;
         break;
 
+    {
+#define TH09_ECL_RUN_REMOTE_SPAWN_BODY
+#include "EclRunRemote.inl"
+#undef TH09_ECL_RUN_REMOTE_SPAWN_BODY
+    }
+
     case TH09_ECL_OPCODE_INTERRUPT_MAIN_ANM:
         Th09EclRunState::View(enemy)->primaryVm0008.pendingInterrupt =
             static_cast<short>(
@@ -584,6 +583,12 @@ __forceinline void AssignFlagField(
         Th09EclRunState::View(enemy)->secondaryVms02AC[stateIndex].
             pendingInterrupt = Th09EclRunState::RawShort(instruction, 4);
         break;
+
+    {
+#define TH09_ECL_RUN_BULLET_TRANSITION_BODY
+#include "EclRunBullet.inl"
+#undef TH09_ECL_RUN_BULLET_TRANSITION_BODY
+    }
 
     case TH09_ECL_OPCODE_SET_CALL_STACK_DISABLED:
         Th09EclRunState::AssignFlagField(
@@ -618,11 +623,6 @@ __forceinline void AssignFlagField(
     th09_ecl_install_timer_callback:
         Th09EclRunState::View(enemy)->timerCallbackSubId33D4 = stateCallback;
         Th09EclRunState::View(enemy)->bossTimer2E64 = 0;
-        break;
-
-    case TH09_ECL_OPCODE_CLEAR_LASER_SLOTS:
-        for (int i = 0; i < 0x20; ++i)
-            Th09EclRunState::View(enemy)->laserSlots32D8[i] = 0;
         break;
 
     case TH09_ECL_OPCODE_SET_TIMEOUT_SPELL:

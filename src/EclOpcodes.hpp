@@ -224,7 +224,7 @@ enum
 struct Th09EclRawInstructionHeaderView
 {
     int time00;
-    unsigned short opcode04;
+    short opcode04;
     unsigned short nextOffset06;
     unsigned char unknown08;
     unsigned char difficultyMask09;

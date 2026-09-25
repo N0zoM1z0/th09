@@ -247,6 +247,7 @@ def main() -> int:
             CONTROL_OPCODE_MIN,
             CONTROL_OPCODE_MAX,
             "control",
+            tuple(value for value in range(CONTROL_OPCODE_MIN, CONTROL_OPCODE_MAX + 1) if value not in EXPECTED_DEFAULT_OPCODES),
         )
         movement_source = audit_source_family(
             MOVEMENT_SOURCE,
@@ -260,18 +261,27 @@ def main() -> int:
             REMOTE_OPCODE_MIN,
             REMOTE_OPCODE_MAX,
             "remote/spawn",
+            tuple(value for value in range(REMOTE_OPCODE_MIN, REMOTE_OPCODE_MAX + 1) if value not in EXPECTED_DEFAULT_OPCODES) + EXPECTED_DEFAULT_OPCODES,
         )
         bullet_source = audit_source_family(
             BULLET_SOURCE,
             BULLET_OPCODE_MIN,
             BULLET_OPCODE_MAX,
             "bullet/laser",
+            tuple(value for value in range(BULLET_OPCODE_MIN, BULLET_OPCODE_MAX + 1) if value not in EXPECTED_DEFAULT_OPCODES)
+            + (138, 154, 163, 167, 170, 171, 172),
         )
         state_source = audit_source_family(
             STATE_SOURCE,
             STATE_OPCODE_MIN,
             STATE_OPCODE_MAX,
             "boss/state/effects",
+            tuple(
+                value
+                for value in range(STATE_OPCODE_MIN, STATE_OPCODE_MAX + 1)
+                if value not in EXPECTED_DEFAULT_OPCODES and value not in (138, 154)
+            )
+            + (159,),
         )
         late_source = audit_source_family(
             LATE_SOURCE,
@@ -279,8 +289,11 @@ def main() -> int:
             LATE_OPCODE_MAX,
             "late manager/side",
             (82,)
-            + tuple(range(LATE_OPCODE_MIN, 178))
-            + tuple(range(179, LATE_OPCODE_MAX + 1)),
+            + tuple(
+                value
+                for value in range(LATE_OPCODE_MIN, LATE_OPCODE_MAX + 1)
+                if value not in EXPECTED_DEFAULT_OPCODES and value not in (159, 163, 167, 170, 171, 172, 178)
+            ),
         )
         owner_source = audit_owner_source()
     except (OSError, KeyError, TypeError, ValueError, struct.error) as exc:
@@ -431,7 +444,7 @@ def main() -> int:
                     MOVEMENT_OPCODE_MIN - 1:MOVEMENT_OPCODE_MAX
                 ]
             ],
-            "claim": "wire family complete; source placement includes target-backed opcode 178 movement insertion and opcode 82 late-tail insertion; RunEcl exactness remains open",
+            "claim": "wire family complete; source placement follows target-backed high-switch semantic ordering, including cross-wire movement/laser/state insertions; RunEcl exactness remains open",
         },
         "remote_spawn_family": {
             **remote_source,
@@ -469,7 +482,7 @@ def main() -> int:
                     BULLET_OPCODE_MIN - 1:BULLET_OPCODE_MAX
                 ]
             ],
-            "claim": "complete lexical family coverage; RunEcl exactness remains open",
+            "claim": "wire family complete; bullet source placement also owns target-ordered high laser/state cases 138/154/163/167/170-172; RunEcl exactness remains open",
         },
         "boss_state_effects_family": {
             **state_source,
@@ -488,7 +501,7 @@ def main() -> int:
                     STATE_OPCODE_MIN - 1:STATE_OPCODE_MAX
                 ]
             ],
-            "claim": "complete lexical family coverage; RunEcl exactness remains open",
+            "claim": "wire family complete; state source placement excludes cases moved into bullet order and includes target-ordered draw-group 159; RunEcl exactness remains open",
         },
         "late_manager_side_family": {
             **late_source,
@@ -507,7 +520,7 @@ def main() -> int:
                     LATE_OPCODE_MIN - 1:LATE_OPCODE_MAX
                 ]
             ],
-            "claim": "wire family complete; source placement follows target/TH08-family ordering rather than numeric opcode order; exactness remains open",
+            "claim": "wire family complete; late source placement follows target/TH08-family ordering after laser/state cases move to their physical semantic groups; exactness remains open",
         },
         "owner_source": owner_source,
     }

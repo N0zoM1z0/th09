@@ -178,9 +178,6 @@ __forceinline float *WriteFloat(
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
         break;
 
-    case TH09_ECL_OPCODE_UNHANDLED_03:
-        break;
-
     // Target places the decrement handler immediately before the shared jump
     // tail.  Operands 0/1 are raw time/displacement; operand 2 is resolved.
     case TH09_ECL_OPCODE_JUMP_DEC:
