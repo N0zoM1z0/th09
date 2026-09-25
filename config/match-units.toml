@@ -16259,7 +16259,7 @@ relocations = [
   { offset = 0xFB, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
   { offset = 0x107, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x110, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
-  { offset = 0x139, type = "DIR32", symbol = "$L7169", target = 0x00408548 },
+  { offset = 0x139, type = "DIR32", symbol = "$L7166", target = 0x00408548 },
   { offset = 0x169, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x176, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x183, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
@@ -16282,12 +16282,12 @@ relocations = [
   { offset = 0x374, type = "REL32", symbol = "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
   { offset = 0x39D, type = "DIR32", symbol = "?g_SoundPlayer@@3UEnemyEclSoundPlayerView@@A", target = 0x004DC698 },
   { offset = 0x3A2, type = "REL32", symbol = "?PlaySoundByIdx@EnemyEclSoundPlayerView@@QAEXHH@Z", target = 0x0043E2F0 },
-  { offset = 0x3C8, type = "DIR32", symbol = "$L4513", target = 0x004082BD },
-  { offset = 0x3CC, type = "DIR32", symbol = "$L4514", target = 0x004082C8 },
-  { offset = 0x3D0, type = "DIR32", symbol = "$L4515", target = 0x004082D6 },
-  { offset = 0x3D4, type = "DIR32", symbol = "$L4516", target = 0x004082E7 },
-  { offset = 0x3D8, type = "DIR32", symbol = "$L4517", target = 0x004082F4 },
-  { offset = 0x3DC, type = "DIR32", symbol = "$L4518", target = 0x00408301 },
+  { offset = 0x3C8, type = "DIR32", symbol = "$L4510", target = 0x004082BD },
+  { offset = 0x3CC, type = "DIR32", symbol = "$L4511", target = 0x004082C8 },
+  { offset = 0x3D0, type = "DIR32", symbol = "$L4512", target = 0x004082D6 },
+  { offset = 0x3D4, type = "DIR32", symbol = "$L4513", target = 0x004082E7 },
+  { offset = 0x3D8, type = "DIR32", symbol = "$L4514", target = 0x004082F4 },
+  { offset = 0x3DC, type = "DIR32", symbol = "$L4515", target = 0x00408301 },
 ]
 
 [units.ecl-post-update-shot-anm]
@@ -16446,7 +16446,7 @@ target_address = 0x00407700
 size = 0x34A
 compare_size = 0x37C
 relocations = [
-  { offset = 0x14, type = "DIR32", symbol = "$L6875", target = 0x00407A4C },
+  { offset = 0x14, type = "DIR32", symbol = "$L6872", target = 0x00407A4C },
   { offset = 0x24, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
   { offset = 0x3B, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
   { offset = 0x60, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },

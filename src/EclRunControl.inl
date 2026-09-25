@@ -245,11 +245,9 @@ __forceinline float *WriteFloat(
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) += rhsInt;
         break;
     case TH09_ECL_OPCODE_FLOAT_ADD_ASSIGN:
-    {
-        float addend = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) += addend;
+        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) +=
+            Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         break;
-    }
     case TH09_ECL_OPCODE_INT_SUBTRACT_ASSIGN:
         rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) -= rhsInt;
@@ -265,11 +263,9 @@ __forceinline float *WriteFloat(
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) *= rhsInt;
         break;
     case TH09_ECL_OPCODE_FLOAT_MULTIPLY_ASSIGN:
-    {
-        float multiplier = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) *= multiplier;
+        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) *=
+            Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         break;
-    }
     case TH09_ECL_OPCODE_INT_DIVIDE_ASSIGN:
         rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) /= rhsInt;
@@ -285,13 +281,11 @@ __forceinline float *WriteFloat(
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) %= rhsInt;
         break;
     case TH09_ECL_OPCODE_FLOAT_MODULO_ASSIGN:
-    {
-        float moduloRhs = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        lhsFloat = Th09EclRunControl::ReadFloat(enemy, instruction, 0);
         *Th09EclRunControl::WriteFloat(enemy, instruction, 0) =
-            Th09EclRunControl::FloatModulo(lhsFloat, moduloRhs);
+            Th09EclRunControl::FloatModulo(
+                Th09EclRunControl::ReadFloat(enemy, instruction, 0),
+                Th09EclRunControl::ReadFloat(enemy, instruction, 1));
         break;
-    }
 
     case TH09_ECL_OPCODE_INT_ADD:
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) =
