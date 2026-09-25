@@ -206,11 +206,15 @@ __forceinline float *WriteFloat(
         break;
 
     case TH09_ECL_OPCODE_SET_INT_RANDOM_SIGN:
-        lhsInt = (Th09EclRunControl::g_Rng.NextU16() & 1U) ? 1 : -1;
+    {
         rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        *Th09EclRunControl::WriteInt(enemy, instruction, 0) =
-            rhsInt * lhsInt;
+        int *randomSignedResult =
+            Th09EclRunControl::WriteInt(enemy, instruction, 0);
+        *randomSignedResult =
+            rhsInt *
+            ((Th09EclRunControl::g_Rng.NextU16() & 1U) ? 1 : -1);
         break;
+    }
 
     case TH09_ECL_OPCODE_SET_FLOAT_RANDOM_SIGN:
         lhsFloat = (Th09EclRunControl::g_Rng.NextU16() & 1U)
@@ -231,43 +235,53 @@ __forceinline float *WriteFloat(
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) += rhsInt;
         break;
     case TH09_ECL_OPCODE_FLOAT_ADD_ASSIGN:
-        rhsFloat = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) += rhsFloat;
+    {
+        float addend = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) += addend;
         break;
+    }
     case TH09_ECL_OPCODE_INT_SUBTRACT_ASSIGN:
         rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) -= rhsInt;
         break;
     case TH09_ECL_OPCODE_FLOAT_SUBTRACT_ASSIGN:
-        rhsFloat = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) -= rhsFloat;
+    {
+        float subtrahend = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) -= subtrahend;
         break;
+    }
     case TH09_ECL_OPCODE_INT_MULTIPLY_ASSIGN:
         rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) *= rhsInt;
         break;
     case TH09_ECL_OPCODE_FLOAT_MULTIPLY_ASSIGN:
-        rhsFloat = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) *= rhsFloat;
+    {
+        float multiplier = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) *= multiplier;
         break;
+    }
     case TH09_ECL_OPCODE_INT_DIVIDE_ASSIGN:
         rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) /= rhsInt;
         break;
     case TH09_ECL_OPCODE_FLOAT_DIVIDE_ASSIGN:
-        rhsFloat = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) /= rhsFloat;
+    {
+        float divisor = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) /= divisor;
         break;
+    }
     case TH09_ECL_OPCODE_INT_MODULO_ASSIGN:
         rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) %= rhsInt;
         break;
     case TH09_ECL_OPCODE_FLOAT_MODULO_ASSIGN:
+    {
+        float moduloRhs = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         lhsFloat = Th09EclRunControl::ReadFloat(enemy, instruction, 0);
-        rhsFloat = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         *Th09EclRunControl::WriteFloat(enemy, instruction, 0) =
-            Th09EclRunControl::FloatModulo(lhsFloat, rhsFloat);
+            Th09EclRunControl::FloatModulo(lhsFloat, moduloRhs);
         break;
+    }
 
     case TH09_ECL_OPCODE_INT_ADD:
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) =

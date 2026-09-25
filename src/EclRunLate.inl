@@ -339,14 +339,13 @@ static void MoveRandomBiased(
         Th09EclRunState::AssignFlagField(
             Th09EclRunLate::View(enemy)->secondaryFlags3380,
             Th09EclRunLate::ENEMY_LATE_SIDE_CATEGORY_MASK,
-            static_cast<unsigned int>(static_cast<unsigned short>(lateInt)) <<
-                10);
+            static_cast<unsigned int>(lateInt) << 10);
         break;
 
     case TH09_ECL_OPCODE_TRIGGER_SIDE_OWNER_STATE:
         lateCategory =
             (Th09EclRunLate::View(enemy)->secondaryFlags3380 >> 10) & 3;
-        if (lateCategory != 3)
+        if (lateCategory < 3)
         {
             if (Th09EclRunLate::Manager(enemy)->sideState320->
                     owner14->primaryStateA4 == 0)
@@ -354,7 +353,7 @@ static void MoveRandomBiased(
             Th09EclRunLate::Manager(enemy)->sideState320->
                 owner14->primaryStateA4 = 2;
         }
-        else
+        else if (lateCategory == 3)
         {
             if (Th09EclRunLate::Manager(enemy)->sideState320->
                     owner14->alternateStateA8 == 0)
@@ -389,8 +388,7 @@ static void MoveRandomBiased(
         Th09EclRunState::AssignFlagField(
             Th09EclRunLate::View(enemy)->secondaryFlags3380,
             Th09EclRunLate::ENEMY_LATE_SECONDARY_FLAG_4000,
-            static_cast<unsigned int>(static_cast<unsigned short>(lateInt)) <<
-                14);
+            static_cast<unsigned int>(lateInt) << 14);
         break;
 
 #endif // TH09_ECL_RUN_LATE_BODY
