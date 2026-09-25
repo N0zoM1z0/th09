@@ -754,8 +754,9 @@ th09_ecl_after_dispatch:
         if (positionInterpolated)
         {
             deltaX = position->x - positionBeforeCallbacks.x;
-            deltaY = position->y - positionBeforeCallbacks.y;
             enemyState->velocity2D8C.x = deltaX;
+            deltaY =
+                enemyState->position2D74.y - positionBeforeCallbacks.y;
             enemyState->velocity2D8C.y = deltaY;
             enemyState->movementAngle2DE0 =
                 Th09EclRunControl::VectorAngle(deltaY, deltaX);
