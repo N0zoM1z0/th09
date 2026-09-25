@@ -4137,3 +4137,11 @@ name into a TH09 fact without target-local evidence.
 - The final seven ordinary-byte residuals were not a backend limit. The second loader pass originally introduced separate currentSpriteNumber/currentScriptNumber zeros. Reusing the already-live totalSprites/totalScripts variables exactly as the adjacent TH08 loader family does—clear both to zero and pass their addresses to LoadExternalTextureData—naturally swaps the two dead parameter stack homes into the target allocation.
 - Two independent cold local VC7.1 builds reproduce 390/390 bytes, 322/322 ordinary comparable bytes and all 17 relocation destinations with zero differences. The same rebuilt O2/Ob1 object keeps all fifteen pre-existing canonical AnmManagerLoad units exact, and the separate O2/Ob0 constructor also replays exact.
 - Canonical promotion is deliberately withheld because three Factory replay submissions were rejected before oracle execution by an unrelated global operator lock on the th04 repository. No receipt verdict or acceptance decision exists yet. No var_order, register forcing, volatile storage, padding, inline assembly, fake return, target-byte embedding, or profile roulette is retained.
+
+
+## Packet 649 ReadAnmEntries replay blocked before oracle
+
+- The maintained ReadAnmEntries source at 0x0043C610 still cold-replays locally as 390/390 bytes with all 322 ordinary bytes and all 17 relocation destinations matching under the pinned O2/Ob1 profile.
+- Replay-registration commit 8b7910f exposed claim claim:th09-main:function:0043c610:codegen-exact to the Factory and queued job job:bb85394e5d81442db0aad7173c06ef53 against a clean committed source binding.
+- That job failed before the oracle stage with ReplayError: another factory operation owns the unrelated th04 live worktree. There is therefore no receipt verdict and no acceptance decision for this candidate.
+- The temporary match-unit/matches registration is removed again so current exact accounting remains acceptance-backed. The source and local structural-exact evidence are retained for a later replay retry.
