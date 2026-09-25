@@ -245,9 +245,11 @@ __forceinline float *WriteFloat(
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) += rhsInt;
         break;
     case TH09_ECL_OPCODE_FLOAT_ADD_ASSIGN:
-        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) +=
-            Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+    {
+        float addend = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) += addend;
         break;
+    }
     case TH09_ECL_OPCODE_INT_SUBTRACT_ASSIGN:
         rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) -= rhsInt;
@@ -263,9 +265,11 @@ __forceinline float *WriteFloat(
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) *= rhsInt;
         break;
     case TH09_ECL_OPCODE_FLOAT_MULTIPLY_ASSIGN:
-        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) *=
-            Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+    {
+        float multiplier = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) *= multiplier;
         break;
+    }
     case TH09_ECL_OPCODE_INT_DIVIDE_ASSIGN:
         rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) /= rhsInt;
