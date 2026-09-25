@@ -537,7 +537,6 @@ int EclManager::RunEcl(EnemyView *enemy)
     Th09EclRunState::EnemyStateView *enemyState;
     Th09EclContextView *savedMainContext;
     Th09EclContextView *savedMainCallStack;
-    Th09EclContextView *context;
     Th09EclRawInstructionHeaderView *instruction;
     Th09EclRunState::ChildEclBlock *child;
     Th09EclInterpolationSlotView *slot;
@@ -562,21 +561,20 @@ int EclManager::RunEcl(EnemyView *enemy)
     enemyState->activeCallStack2CE4 = savedMainCallStack;
     savedMainContext = &enemyState->mainContext07F4;
     enemyState->activeContext2CE0 = savedMainContext;
-    enemyState->activeCallDepth2D2A = enemyState->mainCallDepth2D28;
     childIndex = -1;
+    enemyState->activeCallDepth2D2A = enemyState->mainCallDepth2D28;
 
 th09_ecl_restart_context:
-    context = enemyState->activeContext2CE0;
-    instruction = context->currentInstruction004;
+    instruction = enemyState->activeContext2CE0->currentInstruction004;
     if (enemyState->pendingSubroutineId2D70 >= 0)
         goto th09_ecl_enter_pending_subroutine;
-    position = &enemyState->position2D74;
     positionOffset = &enemyState->positionOffset2D80;
+    position = &enemyState->position2D74;
     worldPosition = &enemyState->worldPosition2DD4;
     goto th09_ecl_instruction_loop;
 
 th09_ecl_enter_pending_subroutine:
-    context->currentInstruction004 =
+    enemyState->activeContext2CE0->currentInstruction004 =
         reinterpret_cast<Th09EclRawInstructionHeaderView *>(
             reinterpret_cast<unsigned char *>(instruction) +
             static_cast<short>(instruction->nextOffset06));
@@ -627,9 +625,11 @@ th09_ecl_instruction_loop:
             switch (instruction->opcode04)
             {
             {
+#define context (enemyState->activeContext2CE0)
 #define TH09_ECL_RUN_CONTROL_BODY
 #include "EclRunControl.inl"
 #undef TH09_ECL_RUN_CONTROL_BODY
+#undef context
             }
             {
 #define TH09_ECL_RUN_MOVEMENT_BODY
@@ -676,11 +676,10 @@ th09_ecl_redispatch_instruction:
 th09_ecl_after_dispatch:
     if (enemyState->life2E48 > 0)
     {
-        context = enemyState->activeContext2CE0;
         perFrameCallback =
             reinterpret_cast<Th09EclRunState::ExInstructionCallback>(
-                context->perFrameCallback014);
-        slot = &context->interpolationSlots0A0[0];
+                enemyState->activeContext2CE0->perFrameCallback014);
+        slot = &enemyState->activeContext2CE0->interpolationSlots0A0[0];
 
         Float3 positionBeforeCallbacks = *position;
         positionInterpolated = false;
@@ -690,7 +689,7 @@ th09_ecl_after_dispatch:
             perFrameCallback(
                 enemy,
                 reinterpret_cast<Th09EclRawInstructionHeaderView *>(
-                    context->perFrameInstruction018));
+                    enemyState->activeContext2CE0->perFrameInstruction018));
         }
 
         for (interpolationIndex = TH09_ECL_INTERPOLATION_SLOT_COUNT;
@@ -777,8 +776,8 @@ th09_ecl_after_dispatch:
         child->callStackDepth06 = enemyState->activeCallDepth2D2A;
     }
 
-    context->currentInstruction004 = instruction;
-    context->time008 += Th09EclRunOwner::g_TimeScale;
+    enemyState->activeContext2CE0->currentInstruction004 = instruction;
+    enemyState->activeContext2CE0->time008 += Th09EclRunOwner::g_TimeScale;
 
 th09_ecl_select_next_context:
     for (int next = childIndex + 1;

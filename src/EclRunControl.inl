@@ -157,7 +157,7 @@ __forceinline float *WriteFloat(
 #endif
 
 // The outer function supplies EnemyView *enemy,
-// Th09EclRawInstructionHeaderView *instruction, Th09EclContextView *context,
+// Th09EclRawInstructionHeaderView *instruction; context is the active-context macro,
 // and these four labels:
 //   th09_ecl_advance_instruction
 //   th09_ecl_redispatch_instruction
@@ -174,9 +174,22 @@ __forceinline float *WriteFloat(
         return -1;
 
     case TH09_ECL_OPCODE_SET_SECONDARY_TIME:
+        if ((instruction->parameterMask0A & 1U) != 0)
+        {
+            context->secondaryTime094 =
+                Th09EclRunControl::ResolveInt(
+                    enemy, Th09EclRunControl::RawInt(instruction, 0));
+            instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
+                reinterpret_cast<unsigned char *>(instruction) +
+                static_cast<short>(instruction->nextOffset06));
+            goto th09_ecl_redispatch_instruction;
+        }
         context->secondaryTime094 =
-            Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        break;
+            Th09EclRunControl::RawInt(instruction, 0);
+        instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
+            reinterpret_cast<unsigned char *>(instruction) +
+            static_cast<short>(instruction->nextOffset06));
+        goto th09_ecl_redispatch_instruction;
 
     // Target places the decrement handler immediately before the shared jump
     // tail.  Operands 0/1 are raw time/displacement; operand 2 is resolved.
