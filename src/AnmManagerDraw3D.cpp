@@ -110,15 +110,15 @@ int AnmManager::Draw3D(AnmVm *vm)
         drawVm->matrix2._22 *= drawVm->scale.y;
         drawVm->flagsWord &= ~8u;
 
-        if (0.0f != drawVm->rotation.x) {
+        if (0.0 != drawVm->rotation.x) {
             D3DXMatrixRotationX(&rotationMatrix, drawVm->rotation.x);
             D3DXMatrixMultiply(&drawVm->matrix2, &drawVm->matrix2, &rotationMatrix);
         }
-        if (0.0f != drawVm->rotation.y) {
+        if (0.0 != drawVm->rotation.y) {
             D3DXMatrixRotationY(&rotationMatrix, drawVm->rotation.y);
             D3DXMatrixMultiply(&drawVm->matrix2, &drawVm->matrix2, &rotationMatrix);
         }
-        if (0.0f != drawVm->rotation.z) {
+        if (0.0 != drawVm->rotation.z) {
             D3DXMatrixRotationZ(&rotationMatrix, drawVm->rotation.z);
             D3DXMatrixMultiply(&drawVm->matrix2, &drawVm->matrix2, &rotationMatrix);
         }
