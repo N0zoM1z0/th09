@@ -242,20 +242,29 @@ int Background::AddedCallback(Background *background)
 
     background->pendingStageLabel18 = 0;
     background->cullingDistanceSq = 1822500.0f;
-    if (g_GameManager.currentStage == 5 || g_GameManager.currentStage == 9)
+    if (g_GameManager.currentStage == 5)
     {
         background->cullingDistanceSq = 3062500.0f;
         background->ClearSpellBackgroundState();
         return 0;
     }
-    if (g_GameManager.currentStage == 11)
+    else if (g_GameManager.currentStage == 9)
+    {
+        background->cullingDistanceSq = 3062500.0f;
+        background->ClearSpellBackgroundState();
+        return 0;
+    }
+    else if (g_GameManager.currentStage == 11)
     {
         background->cullingDistanceSq = 4202500.0f;
         background->ClearSpellBackgroundState();
         return 0;
     }
-    if (g_GameManager.currentStage == 12 || g_GameManager.currentStage == 15)
+    else if (g_GameManager.currentStage == 12 ||
+             g_GameManager.currentStage == 15)
+    {
         background->cullingDistanceSq = 6002500.0f;
+    }
 
     background->ClearSpellBackgroundState();
     return 0;
