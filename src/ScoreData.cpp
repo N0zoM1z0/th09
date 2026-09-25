@@ -182,8 +182,8 @@ int SaveTitleScoreData()
     if (g_ScoreFileHeader.version == 0)
         return 1;
 
-    u8 *scoreData = static_cast<u8 *>(g_ZunMemory.Alloc(0x640000, "scoretmp"));
     int currentOffset = 0;
+    u8 *scoreData = static_cast<u8 *>(g_ZunMemory.Alloc(0x640000, "scoretmp"));
     memcpy(scoreData + currentOffset, &g_ScoreFileHeader, sizeof(g_ScoreFileHeader));
     currentOffset += sizeof(g_ScoreFileHeader);
 
