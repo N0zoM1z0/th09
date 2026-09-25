@@ -8,6 +8,7 @@
 #include "AnmManager.hpp"
 #include "Chain.hpp"
 #include "GameConfiguration.hpp"
+#include "ScreenEffect.hpp"
 #include "ReplayInputState.hpp"
 #include "Supervisor.hpp"
 
@@ -245,8 +246,6 @@ extern unsigned char g_DeletedScratch[0x2BC0];
 extern int g_GameManagerChainState;
 extern SetupRngView g_SetupRng;
 extern int g_LastSpawnLane;
-extern void *__fastcall RegisterScreenEffect(
-    int type, int duration, int x, int y, int unknown, int priority, int argument);
 extern void __fastcall ReleaseGameSubsystem(void *object);
 extern void __fastcall ReleaseSecondarySubsystem(void *object);
 extern void __fastcall ReleaseSubsystem0(void *object);
@@ -344,7 +343,8 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         gameManager->demoFrameCount++;
         if (gameManager->demoFrameCount == 6000)
         {
-            RegisterScreenEffect(4, 120, 0, 0, 0, 0x23, 2);
+            ScreenEffect::RegisterChain(
+                SCREEN_EFFECT_FULL_FADE_OUT, 120, 0, 0, 0, 0x23, 2);
             supervisor->FadeOutMusic(3.0f);
         }
         if (gameManager->demoFrameCount == 6120)
