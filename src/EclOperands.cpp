@@ -531,10 +531,15 @@ float EnemyView::ResolveFloat(float rawValue)
 
     case 0x2775:
     {
-        EclOperandPlayerView *opposingPlayer = TH09_ECL_OPERAND_OPPOSING_PLAYER(this);
-        return (TH09_ECL_OPERAND_ENEMY(this)->secondaryFlags3380 & 0x0C00) < 0x0C00
-                   ? static_cast<float>(opposingPlayer->operandValueA0)
-                   : static_cast<float>(opposingPlayer->operandValueA4);
+        unsigned int secondaryFlags =
+            TH09_ECL_OPERAND_ENEMY(this)->secondaryFlags3380;
+        if ((secondaryFlags & 0x0C00) < 0x0C00)
+        {
+            return static_cast<float>(
+                TH09_ECL_OPERAND_OPPOSING_PLAYER(this)->operandValueA0);
+        }
+        return static_cast<float>(
+            TH09_ECL_OPERAND_OPPOSING_PLAYER(this)->operandValueA4);
     }
 
     case 0x2764: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->bossSlot336B);
