@@ -4130,15 +4130,6 @@ name into a TH09 fact without target-local evidence.
 - The remaining 816-versus-811 residual is now localized after SetTransform(D3DTS_TEXTURE0, ...): target reloads the saved manager receiver into ESI before the currentTexture compare and pops EDI before that branch, while stock VC7.1 keeps an equivalent ECX/EDX alias and restores ESI later. Direct-cast, reference, and late-declared overlay forms all remain 816 bytes, as do /2.0f versus *0.5f anchor expressions.
 - Exactness remains false. No register forcing, volatile, pragma ordering, padding, inline assembly, fake return, target-byte encoding, or profile switch is retained.
 
-
-## Packet 649 ReadAnmEntries canonical exact closure
-
-- AnmManager::ReadAnmEntries @ 0x0043C610-0x0043C795 is now canonical exact at 390 bytes. The earlier 378-byte maintained candidate had the correct loader semantics but encoded the slot/lifetime graph differently; fresh work shows that was a source-shape problem rather than a VC7.1 backend limit.
-- The first decisive correction is ownership: exact TH095 source writes the file path at AnmLoaded +0x20, and TH09 target advances the selected 0x120-byte slot base by +0x24 immediately after OpenFile. Replacing the reconstruction-only strcpy(slot->path, filename) spelling with the embedded AnmLoaded-relative path shortens the slot-base lifetime. Keeping direct slots[anmIdx] member access instead of a precomputed named slot pointer lets VC7.1 emit the target lea-EAX/shl/push-ESI/lea-ESI slot-address sequence.
-- The remaining stack homes close with the adjacent-game loader family: totalEntries/totalScripts/totalSprites/currentEntryNumber are established around OpenFile, the first chained-entry inventory starts from zero totals and counts the first entry inside the loop, and the script/sprite totals are reset and reused as the two equal-zero output counters for LoadExternalTextureData. TH09 VC7.1 then naturally coalesces the two output-counter addresses and reuses the dead argument homes exactly as the target does.
-- Two independent cold /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- builds reproduce 390/390 bytes, 322/322 ordinary comparable bytes, and all 17 reviewed relocation destinations. All fifteen existing /O2 /Ob1 canonical units in AnmManagerLoad.cpp and the separate /O2 /Ob0 AnmManager constructor unit remain exact after the source correction. No pragma ordering, register forcing, volatile, padding, inline assembly, fake return, target-byte embedding, or profile search is retained.
-
-
 ## Packet 649 ReadAnmEntries slot-owner correction
 
 - Reopening AnmManager::ReadAnmEntries @ 0x0043C610 disproves the old Packet 130 conclusion that the 378-versus-390 gap was only a broad lifetime plateau. Target address formation shows a manager prefix of 0x24 followed by 0x120-byte per-file slots. Each slot is naturally AnmLoaded (0x1C), releasePending at +0x1C, and path[0x100] at +0x20. This independently matches the committed TH095 exact preload-family slot shape; TH095 uses a different manager prefix, while TH09 target fixes +0x24.
