@@ -785,10 +785,10 @@ th09_ecl_select_next_context:
          next < TH09_ECL_CHILD_CONTEXT_COUNT;
          ++next)
     {
-        child = reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
-            enemyState->childEclBlocks33D8[next]);
-        if (child != NULL)
+        if (enemyState->childEclBlocks33D8[next] != NULL)
         {
+            child = reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
+                enemyState->childEclBlocks33D8[next]);
             enemyState->activeCallStack2CE4 = child->callStack0234;
             enemyState->activeContext2CE0 = &child->context08;
             instruction = child->context08.currentInstruction004;

@@ -3929,3 +3929,11 @@ name into a TH09 fact without target-local evidence.
 - Fresh RunEcl becomes 14,784/14,792 logical bytes with exact 0x168 frame and all 76 target negative-EBP homes. All 375 immediate direct calls, four indirect calls, 598 relocations, resolver counts 131/100/17/24, and all 193 compiler-table entries remain unchanged.
 - All eighteen canonical src/EclManager.cpp match units cold-replay exact after the owner change. The remaining eight-byte aggregate debt is still localized to a small set of physical handler/scheduler mismatches; aggregate size remains diagnostic rather than an acceptance criterion.
 - No volatile, var_order, register forcing, artificial padding, inline assembly, target-byte embedding, or optimization-profile search is introduced.
+
+## Packet 625 RunEcl child-context reload ownership recovery
+
+- The target child-context scan does not retain the child pointer loaded for the null test. It compares childEclBlocks[next] against null in the scan loop, then reloads childEclBlocks[next] after entering the taken branch before deriving callStack, context, currentInstruction, ordinal and call-depth state.
+- The maintained source assigned child before the null test, so VC7.1 reused that load. This made the scan loop one byte longer than target but the found-child setup seven bytes shorter. Restoring the target-observed source ownership makes the scan loop exactly 31 bytes and the found-child setup exactly 60 bytes, with the same load/register sequence as the target.
+- Fresh RunEcl advances from 14,784 to 14,788 logical bytes against the 14,792-byte target while retaining the exact 0x168 frame, 375 immediate direct calls, four indirect calls, 598 relocations, resolver counts 131/100/17/24, and all 193 compiler-table entries.
+- All eighteen canonical src/EclManager.cpp match units cold-replay exact after the owner change. The remaining aggregate debt is four bytes and is confined to the still-known physical scheduler/source-shape mismatches rather than the child-context selector.
+- No volatile, var_order, register forcing, artificial padding, inline assembly, target-byte embedding, or optimization-profile search is introduced.
