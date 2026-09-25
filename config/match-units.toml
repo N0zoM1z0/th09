@@ -2485,7 +2485,7 @@ relocations = [
   { offset = 0x317, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
   { offset = 0x326, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
   { offset = 0x330, type = "DIR32", symbol = "?g_GameSide0Value20@@3HA", target = 0x004A7DB0 },
-  { offset = 0x342, type = "REL32", symbol = "?SetCharacterCursorInactive@TitleScreenView@@QAEHHHHH@Z", target = 0x0042505F },
+  { offset = 0x342, type = "REL32", symbol = "?SetCharacterCursorInactive@TitleScreenView@@QAEXHHHH@Z", target = 0x0042505F },
   { offset = 0x34A, type = "DIR32", symbol = "?g_TitleScoreRecord@@3UTitleScoreRecordView@@A", target = 0x004AC858 },
   { offset = 0x35D, type = "REL32", symbol = "?InsertIntoTable@TitleScoreRecordView@@QAEHXZ", target = 0x00421800 },
   { offset = 0x372, type = "DIR32", symbol = "?g_TitleNameTableIndex@@3HA", target = 0x004A7EAC },
