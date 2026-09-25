@@ -3496,6 +3496,66 @@ size = 0x31
 relocations = [
 ]
 
+
+[units.anm-manager-draw2d-rotated-or-axis-aligned]
+source = "src/AnmManagerRender.cpp"
+object = "build/matching/AnmManagerRender.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["AnmManager::Draw2DRotatedOrAxisAligned"]
+symbol = "?Draw2DRotatedOrAxisAligned@AnmManager@@QAEHPAUAnmVm@@@Z"
+target_address = 0x0043AD40
+size = 0x292
+relocations = [
+  { offset = 0x10, type = "REL32", symbol = "?IsVisible@AnmVm@@QAEHXZ", target = 0x00434370 },
+  { offset = 0x48, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
+  { offset = 0x83, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0xA1, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0xC1, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0xC6, type = "REL32", symbol = "?TranslateRotation@AnmManager@@QAEXPAUVertexTex1DiffuseXyzrhw@@MMMMMM@Z", target = 0x004397E0 },
+  { offset = 0xDD, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0xE2, type = "REL32", symbol = "?TranslateRotation@AnmManager@@QAEXPAUVertexTex1DiffuseXyzrhw@@MMMMMM@Z", target = 0x004397E0 },
+  { offset = 0xF9, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0xFE, type = "REL32", symbol = "?TranslateRotation@AnmManager@@QAEXPAUVertexTex1DiffuseXyzrhw@@MMMMMM@Z", target = 0x004397E0 },
+  { offset = 0x115, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x11A, type = "REL32", symbol = "?TranslateRotation@AnmManager@@QAEXPAUVertexTex1DiffuseXyzrhw@@MMMMMM@Z", target = 0x004397E0 },
+  { offset = 0x126, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x12D, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x134, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x13A, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x14B, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x154, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x15A, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x163, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x169, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x172, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x178, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x181, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x196, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x1A5, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x1AB, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x1B4, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x1BA, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x1C3, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x1C9, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x1D2, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x1D7, type = "REL32", symbol = "?DrawInner@AnmManager@@QAEHPAUAnmVm@@H@Z", target = 0x0043A0F0 },
+  { offset = 0x1ED, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x1F9, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x20C, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x212, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x21A, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x220, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x22E, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x234, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x24E, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x254, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x25F, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x265, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x276, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x27C, type = "DIR32", symbol = "?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A", target = 0x004DC558 },
+  { offset = 0x287, type = "REL32", symbol = "?DrawInner@AnmManager@@QAEHPAUAnmVm@@H@Z", target = 0x0043A0F0 },
+]
+
 [units.anm-manager-draw-no-rotation-no-round]
 source = "src/AnmManagerRender.cpp"
 object = "build/matching/AnmManagerRender.obj"

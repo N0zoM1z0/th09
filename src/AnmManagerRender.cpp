@@ -743,7 +743,7 @@ int AnmManager::Draw2DRotatedOrAxisAligned(AnmVm *vm)
 #endif
         xOffset = vm->pos.x;
         yOffset = vm->pos.y;
-        halfWidth = (vm->spriteSize.x * vm->scale.x) / 2.0f;
+        halfWidth = vm->spriteSize.x * vm->scale.x * 0.5f;
         halfHeight = (vm->spriteSize.y * vm->scale.y) / 2.0f;
 
         this->TranslateRotation(&g_AnmRenderQuad[0], -halfWidth, -halfHeight,
