@@ -2,10 +2,10 @@
 
 #include <string.h>
 
-// Maintained natural reconstruction of the substantial helper owners around
-// EclManager::RunEcl.  The target compiler passes several of these through
-// private live-register conventions; the public C++ signatures intentionally
-// retain ordinary /Gr lowering and therefore do not claim exactness.
+// Maintained natural reconstruction of helper owners around
+// EclManager::RunEcl. InterpolateLinear and InterpolateHermite in this TU are
+// canonical exact under their recorded match units. Reconstruction names and
+// wider RunEcl ownership/TU questions remain independent of that exact credit.
 
 namespace
 {

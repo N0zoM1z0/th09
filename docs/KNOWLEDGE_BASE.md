@@ -7,10 +7,15 @@ this repository.
 The table below is the maintained fact index. The later packet sections are
 checkpoint-scoped investigation records: words such as "current", "now", or
 "remains" there describe that historical checkpoint unless a maintained row,
-ledger, or current report independently confirms them. Use
-`scripts/report-reconstruction-status.py` and `docs/RE_HANDOFF.md` for live
-totals and frontier state. Later evidence may explicitly correct an earlier
-packet; do not stop at the first matching historical note.
+ledger, or current report independently confirms them.
+
+For current state, use this authority order: `config/functions.csv`, then
+`config/matches.csv` plus `config/match-units.toml`, then
+`scripts/report-reconstruction-status.py`, then `docs/RE_HANDOFF.md` and
+`docs/SMALL_FUNCTION_FRONTIER.md`. Packet-local counts, candidate sizes and
+exact/non-exact labels are historical evidence only. Later evidence may
+explicitly correct an earlier packet; do not stop at the first matching
+historical note.
 
 For evolving large owners, especially EclManager::RunEcl, packet-local code
 sizes, frame sizes, relocation counts and proposed source shapes are historical
