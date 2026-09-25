@@ -53,7 +53,7 @@ inline unsigned char *Bytes(void *value)
     return reinterpret_cast<unsigned char *>(value);
 }
 
-inline EnemyView *RemoteEnemy(EnemyView *enemy, int slot)
+inline EnemyView *&RemoteEnemy(EnemyView *enemy, int slot)
 {
     return *reinterpret_cast<EnemyView **>(
         Bytes(enemy->manager00) + ENEMY_MANAGER_REMOTE_TABLE + slot * 4);

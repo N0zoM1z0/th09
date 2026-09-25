@@ -3937,3 +3937,11 @@ name into a TH09 fact without target-local evidence.
 - Fresh RunEcl advances from 14,784 to 14,788 logical bytes against the 14,792-byte target while retaining the exact 0x168 frame, 375 immediate direct calls, four indirect calls, 598 relocations, resolver counts 131/100/17/24, and all 193 compiler-table entries.
 - All eighteen canonical src/EclManager.cpp match units cold-replay exact after the owner change. The remaining aggregate debt is four bytes and is confined to the still-known physical scheduler/source-shape mismatches rather than the child-context selector.
 - No volatile, var_order, register forcing, artificial padding, inline assembly, target-byte embedding, or optimization-profile search is introduced.
+
+## Packet 626 RunEcl remote-table slot-lvalue recovery
+
+- Opcode 87 SET_REMOTE_FLOAT exposed an ownership error in the maintained RemoteEnemy convenience helper. Returning EnemyView* by value made VC7.1 materialize the second remote lookup in EAX and then emit an extra mov ecx,eax before ResolveFloat. The target instead reloads manager, loads the remote-table element directly into ECX, pushes the raw float and performs the thiscall.
+- The remote table is an array of pointer slots, so spelling RemoteEnemy as returning EnemyView*& restores the actual lvalue ownership without register forcing. VC7.1 then emits the target receiver path naturally. Opcodes 86, 87, 88 and 89 all have target-exact physical handler lengths; opcode 87 closes from 134 bytes to the target 132 bytes.
+- Whole-owner size remains 14,788/14,792 because the downstream opcode186 loop-alignment NOP changes with the shifted layout. That downstream compiler alignment is explicitly not used to reject the locally target-positive source correction.
+- Exact frame 0x168, 375 immediate plus four indirect calls, 598 relocations, resolver counts 131/100/17/24 and all 193 compiler-table entries remain unchanged. All eighteen canonical src/EclManager.cpp match units cold-replay exact.
+- No volatile, register forcing, var_order, padding, assembly, target-byte embedding, or profile search is introduced.
