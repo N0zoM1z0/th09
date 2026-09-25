@@ -292,6 +292,20 @@ static void MoveRandomBiased(
     case TH09_ECL_OPCODE_UNHANDLED_AE:
         break;
 
+    case TH09_ECL_OPCODE_SET_NO_DAMAGE_DURING_STOP:
+        lateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        Th09EclRunState::AssignFlagField(
+            Th09EclRunLate::View(enemy)->primaryFlags337C,
+            Th09EclRunLate::ENEMY_LATE_NO_DAMAGE_DURING_STOP,
+            static_cast<unsigned int>(lateInt) << 28);
+        break;
+
+    case TH09_ECL_OPCODE_SET_MINIMUM_PLAYER_DISTANCE:
+        lateMagnitude = Th09EclRunControl::ReadFloat(enemy, instruction, 0);
+        Th09EclRunMovement::View(enemy)->minimumPlayerDistanceSquared33A8 =
+            lateMagnitude * lateMagnitude;
+        break;
+
     case TH09_ECL_OPCODE_SET_TIMELINE_SPAWNS_SUPPRESSED:
         Th09EclRunLate::Manager(enemy)->timelineSpawnsSuppressed2AC440 =
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
@@ -305,10 +319,6 @@ static void MoveRandomBiased(
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
         break;
 
-    case TH09_ECL_OPCODE_MOVE_RANDOM_BIASED:
-        Th09EclRunLate::MoveRandomBiased(enemy, instruction);
-        break;
-
     case TH09_ECL_OPCODE_UNHANDLED_B3:
     case TH09_ECL_OPCODE_UNHANDLED_B4:
     case TH09_ECL_OPCODE_UNHANDLED_B5:
@@ -320,14 +330,6 @@ static void MoveRandomBiased(
             Th09EclRunLate::View(enemy)->secondaryFlags3380,
             Th09EclRunLate::ENEMY_LATE_EXTRA_ANM_FIXED_OFFSET,
             static_cast<unsigned int>(lateInt) << 5);
-        break;
-
-    case TH09_ECL_OPCODE_SET_NO_DAMAGE_DURING_STOP:
-        lateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunState::AssignFlagField(
-            Th09EclRunLate::View(enemy)->primaryFlags337C,
-            Th09EclRunLate::ENEMY_LATE_NO_DAMAGE_DURING_STOP,
-            static_cast<unsigned int>(lateInt) << 28);
         break;
 
     case TH09_ECL_OPCODE_UNHANDLED_B8:

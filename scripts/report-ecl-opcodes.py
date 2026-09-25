@@ -106,6 +106,7 @@ def audit_source_family(
     opcode_min: int,
     opcode_max: int,
     family_name: str,
+    source_opcodes: tuple[int, ...] | None = None,
 ) -> dict[str, object]:
     header_text = OPCODE_HEADER.read_text(encoding="utf-8")
     source_text = source_path.read_text(encoding="utf-8")
@@ -131,15 +132,30 @@ def audit_source_family(
             f"{opcode_min}-{opcode_max} exactly once"
         )
 
+    source_values = (
+        tuple(range(opcode_min, opcode_max + 1))
+        if source_opcodes is None
+        else source_opcodes
+    )
+    source_entries = {
+        name: value
+        for name, value in enum_values.items()
+        if value in source_values
+    }
+    if sorted(source_entries.values()) != sorted(source_values):
+        raise ValueError(
+            f"{family_name} source placement references missing/duplicate opcode values"
+        )
+
     case_labels = CASE_LABEL_RE.findall(source_text)
     duplicate_labels = sorted(
         name for name in set(case_labels) if case_labels.count(name) != 1
     )
-    missing_labels = sorted(set(family_entries) - set(case_labels))
+    missing_labels = sorted(set(source_entries) - set(case_labels))
     out_of_family_labels = sorted(
         name
         for name in case_labels
-        if name not in family_entries
+        if name not in source_entries
     )
     if duplicate_labels or missing_labels or out_of_family_labels:
         problems = []
@@ -160,6 +176,7 @@ def audit_source_family(
         "opcode_min": opcode_min,
         "opcode_max": opcode_max,
         "case_count": len(case_labels),
+        "source_opcode_values": list(source_values),
     }
 
 
@@ -236,6 +253,7 @@ def main() -> int:
             MOVEMENT_OPCODE_MIN,
             MOVEMENT_OPCODE_MAX,
             "movement",
+            tuple(range(MOVEMENT_OPCODE_MIN, MOVEMENT_OPCODE_MAX)) + (178,),
         )
         remote_source = audit_source_family(
             REMOTE_SOURCE,
@@ -260,6 +278,9 @@ def main() -> int:
             LATE_OPCODE_MIN,
             LATE_OPCODE_MAX,
             "late manager/side",
+            (82,)
+            + tuple(range(LATE_OPCODE_MIN, 178))
+            + tuple(range(179, LATE_OPCODE_MAX + 1)),
         )
         owner_source = audit_owner_source()
     except (OSError, KeyError, TypeError, ValueError, struct.error) as exc:
@@ -410,7 +431,7 @@ def main() -> int:
                     MOVEMENT_OPCODE_MIN - 1:MOVEMENT_OPCODE_MAX
                 ]
             ],
-            "claim": "complete lexical family coverage; RunEcl exactness remains open",
+            "claim": "wire family complete; source placement includes target-backed opcode 178 movement insertion and opcode 82 late-tail insertion; RunEcl exactness remains open",
         },
         "remote_spawn_family": {
             **remote_source,
@@ -486,7 +507,7 @@ def main() -> int:
                     LATE_OPCODE_MIN - 1:LATE_OPCODE_MAX
                 ]
             ],
-            "claim": "complete lexical family coverage; exactness remains open",
+            "claim": "wire family complete; source placement follows target/TH08-family ordering rather than numeric opcode order; exactness remains open",
         },
         "owner_source": owner_source,
     }

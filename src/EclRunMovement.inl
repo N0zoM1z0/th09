@@ -376,6 +376,10 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
         Th09EclRunMovement::BeginBoundaryAwareMove(enemy, instruction);
         break;
 
+    case TH09_ECL_OPCODE_MOVE_RANDOM_BIASED:
+        Th09EclRunLate::MoveRandomBiased(enemy, instruction);
+        break;
+
     case TH09_ECL_OPCODE_SET_AIMED_DIRECTION_AND_SPEED:
         movementFloat = Th09EclRunControl::ReadFloat(enemy, instruction, 0);
         playerAngle = Th09EclRunMovement::PlayerAngleToPoint(
@@ -576,14 +580,6 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
             Th09EclRunMovement::PrimaryFlagBits(enemy)->allowOffscreen25 = 0;
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_NO_DEATH)
             Th09EclRunMovement::SecondaryFlagBits(enemy)->noDeath03 = 0;
-        break;
-
-    // The target places opcode 82's handler at 0x0040BB68, outside the
-    // otherwise contiguous physical block for this source family.
-    case TH09_ECL_OPCODE_SET_MINIMUM_PLAYER_DISTANCE:
-        movementFloat = Th09EclRunControl::ReadFloat(enemy, instruction, 0);
-        Th09EclRunMovement::View(enemy)->minimumPlayerDistanceSquared33A8 =
-            movementFloat * movementFloat;
         break;
 
 #endif // TH09_ECL_RUN_MOVEMENT_BODY
