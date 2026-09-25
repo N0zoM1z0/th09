@@ -379,8 +379,9 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
     if (checksum != replayData->checksum)
         goto err1;
 
+    i32 decompressedSize = replayData->decompressedSize;
     decodedReplay = (ReplayDataView *)g_ZunMemory.Alloc(
-        replayData->decompressedSize - replayData->fileSize + fileSize + 0xC0,
+        decompressedSize - replayData->fileSize + fileSize + 0xC0,
         "./system\\global.h");
     memcpy(decodedReplay, replayData, 0xC0);
     LzssReplayView::Decode(
