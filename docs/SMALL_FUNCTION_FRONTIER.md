@@ -15,7 +15,7 @@ The filter is:
 - target logical size <=256 bytes.
 
 At the current checkpoint it yields **11 functions**, of which **2 are at most
-128 bytes**. The repository-wide canonical total is **865 exact functions**.
+128 bytes**. The repository-wide canonical total is **866 exact functions**.
 
 Size is only a routing heuristic. This is not a verified leaf-function set, a
 difficulty ranking, or evidence about whole-product closure.
