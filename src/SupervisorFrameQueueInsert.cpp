@@ -24,7 +24,7 @@ typedef char SupervisorInsertEntriesAt47C[
 typedef char SupervisorInsertLastReceivedAt56C[
     (offsetof(SupervisorFrameQueueInsertLayout, lastReceived56C) == 0x56C) ? 1 : -1];
 
-char *SupervisorFrameQueueView::InsertReceivedFrame(
+void SupervisorFrameQueueView::InsertReceivedFrame(
     int side, int frame, int packedInput, short seed)
 {
     SupervisorFrameQueueInsertLayout *view =
@@ -75,5 +75,4 @@ char *SupervisorFrameQueueView::InsertReceivedFrame(
     *reinterpret_cast<short *>(result + 0x47E) = seed;
     *reinterpret_cast<unsigned int *>(result + 0x484) = 0;
 
-    return result;
 }
