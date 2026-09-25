@@ -23,6 +23,21 @@
 #include "AnmManager.hpp"
 #include "EclRunControl.inl"
 
+struct PlayerAngleFloat3View
+{
+    float x;
+    float y;
+    float z;
+    operator float *();
+};
+
+struct PlayerAngleView
+{
+    unsigned char unknown000[0x1B88];
+    PlayerAngleFloat3View position1B88;
+    float AngleToPoint(PlayerAngleFloat3View *position);
+};
+
 namespace Th09EclRunMovement
 {
 
@@ -211,7 +226,6 @@ static void BeginBoundaryAwareMove(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
 void ClampPosition(EnemyView *enemy);
-void SetMovementTimer(void *timer, int value);
 float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
 
 } // namespace Th09EclRunMovement
@@ -227,7 +241,6 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
     int movementInt;
     float aimedAngleOffset;
     float aimedMoveAngleOffset;
-    float playerAngle;
 
     case TH09_ECL_OPCODE_SET_MAIN_ANM:
         Th09EclRunMovement::SetAndExecuteAnmScript(
@@ -347,8 +360,8 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
              ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
             Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
         Th09EclRunMovement::View(enemy)->movementDuration2E34 = 0;
-        Th09EclRunMovement::SetMovementTimer(
-            Th09EclRunMovement::View(enemy)->movementTimer2E28, 0);
+        *reinterpret_cast<Th09EclTimerStorageView *>(
+            Th09EclRunMovement::View(enemy)->movementTimer2E28) = 0;
         break;
 
     case TH09_ECL_OPCODE_MOVE_IN_DIRECTION:
@@ -364,8 +377,8 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
                  ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
                 Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
             Th09EclRunMovement::View(enemy)->movementDuration2E34 = 0;
-            Th09EclRunMovement::SetMovementTimer(
-                Th09EclRunMovement::View(enemy)->movementTimer2E28, 0);
+            *reinterpret_cast<Th09EclTimerStorageView *>(
+                Th09EclRunMovement::View(enemy)->movementTimer2E28) = 0;
         }
         else
         {
@@ -383,12 +396,13 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
 
     case TH09_ECL_OPCODE_SET_AIMED_DIRECTION_AND_SPEED:
         aimedAngleOffset = Th09EclRunControl::ReadFloat(enemy, instruction, 0);
-        playerAngle = Th09EclRunMovement::PlayerAngleToPoint(
-            Th09EclRunMovement::Player(enemy),
-            &Th09EclRunMovement::View(enemy)->position2D74);
         Th09EclRunMovement::View(enemy)->movementAngle2DE0 =
             Th09EclRunControl::AddNormalizeAngle(
-                aimedAngleOffset, playerAngle);
+                aimedAngleOffset,
+                reinterpret_cast<PlayerAngleView *>(
+                    Th09EclRunMovement::Player(enemy))->AngleToPoint(
+                        reinterpret_cast<PlayerAngleFloat3View *>(
+                            &Th09EclRunMovement::View(enemy)->position2D74)));
         Th09EclRunMovement::View(enemy)->speed2DF4 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         break;
@@ -398,12 +412,13 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
         {
             aimedMoveAngleOffset =
                 Th09EclRunControl::ReadFloat(enemy, instruction, 2);
-            playerAngle = Th09EclRunMovement::PlayerAngleToPoint(
-                Th09EclRunMovement::Player(enemy),
-                &Th09EclRunMovement::View(enemy)->position2D74);
             Th09EclRunMovement::View(enemy)->movementAngle2DE0 =
                 Th09EclRunControl::AddNormalizeAngle(
-                    aimedMoveAngleOffset, playerAngle);
+                    aimedMoveAngleOffset,
+                    reinterpret_cast<PlayerAngleView *>(
+                        Th09EclRunMovement::Player(enemy))->AngleToPoint(
+                            reinterpret_cast<PlayerAngleFloat3View *>(
+                                &Th09EclRunMovement::View(enemy)->position2D74)));
             Th09EclRunMovement::View(enemy)->speed2DF4 =
                 Th09EclRunControl::ReadFloat(enemy, instruction, 3);
             Th09EclRunMovement::View(enemy)->primaryFlags337C =
@@ -412,9 +427,9 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
                 Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
             movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
             Th09EclRunMovement::View(enemy)->movementDuration2E34 = movementInt;
-            Th09EclRunMovement::SetMovementTimer(
-                Th09EclRunMovement::View(enemy)->movementTimer2E28,
-                movementInt);
+            *reinterpret_cast<Th09EclTimerStorageView *>(
+                Th09EclRunMovement::View(enemy)->movementTimer2E28) =
+                movementInt;
         }
         else
         {
@@ -443,9 +458,9 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
     case TH09_ECL_OPCODE_ORBIT_AROUND_POINT:
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         Th09EclRunMovement::View(enemy)->movementDuration2E34 = movementInt;
-        Th09EclRunMovement::SetMovementTimer(
-            Th09EclRunMovement::View(enemy)->movementTimer2E28,
-            movementInt);
+        *reinterpret_cast<Th09EclTimerStorageView *>(
+            Th09EclRunMovement::View(enemy)->movementTimer2E28) =
+            movementInt;
         Th09EclRunMovement::View(enemy)->movementOrigin2E1C.x =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         Th09EclRunMovement::View(enemy)->movementOrigin2E1C.y =
@@ -465,9 +480,9 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
     case TH09_ECL_OPCODE_ORBIT_AROUND_CURRENT_POSITION:
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         Th09EclRunMovement::View(enemy)->movementDuration2E34 = movementInt;
-        Th09EclRunMovement::SetMovementTimer(
-            Th09EclRunMovement::View(enemy)->movementTimer2E28,
-            movementInt);
+        *reinterpret_cast<Th09EclTimerStorageView *>(
+            Th09EclRunMovement::View(enemy)->movementTimer2E28) =
+            movementInt;
         Th09EclRunMovement::View(enemy)->movementOrigin2E1C =
             Th09EclRunMovement::View(enemy)->position2D74;
         Th09EclRunMovement::View(enemy)->orbitAngle2DE8 =
@@ -484,9 +499,9 @@ float PlayerAngleToPoint(void *player, EnemyFloat3 *point);
     case TH09_ECL_OPCODE_SET_ORBIT_VELOCITIES:
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         Th09EclRunMovement::View(enemy)->movementDuration2E34 = movementInt;
-        Th09EclRunMovement::SetMovementTimer(
-            Th09EclRunMovement::View(enemy)->movementTimer2E28,
-            movementInt);
+        *reinterpret_cast<Th09EclTimerStorageView *>(
+            Th09EclRunMovement::View(enemy)->movementTimer2E28) =
+            movementInt;
         Th09EclRunMovement::View(enemy)->orbitAngularVelocity2DEC =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         Th09EclRunMovement::View(enemy)->radialVelocity2E00 =
