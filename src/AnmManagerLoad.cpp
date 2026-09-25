@@ -514,12 +514,12 @@ AnmLoaded *AnmManager::ReadAnmEntries(int anmIdx, const char *filename)
         g_ZunMemory.Alloc(totalScripts * sizeof(AnmRawInstr *), "./system\\global.h"));
 
     currentEntry = entry;
-    int currentSpriteNumber = 0;
-    int currentScriptNumber = 0;
+    totalSprites = 0;
+    totalScripts = 0;
     while (true)
     {
         if (this->LoadExternalTextureData(reinterpret_cast<AnmLoaded *>(anmLoaded), currentEntryNumber,
-                                       &currentSpriteNumber, &currentScriptNumber,
+                                       &totalSprites, &totalScripts,
                                        currentEntry) < 0)
             return NULL;
         currentEntryNumber++;
