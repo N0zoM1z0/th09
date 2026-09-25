@@ -201,6 +201,20 @@ typedef char Th09EclStateTrailFlagsAt53A0[
 typedef char Th09EclStateEffectsAt53B4[
     (offsetof(EnemyStateView, attachedEffects53B4) == 0x53B4) ? 1 : -1];
 
+struct TrailInstructionArgs
+{
+    unsigned char flags00;
+    unsigned char padding01[3];
+    int historyLength04;
+    int collisionLength08;
+    int sampleStride0C;
+};
+
+typedef char Th09EclTrailInstructionArgsHistoryAt04[
+    (offsetof(TrailInstructionArgs, historyLength04) == 0x04) ? 1 : -1];
+typedef char Th09EclTrailInstructionArgsSampleAt0C[
+    (offsetof(TrailInstructionArgs, sampleStride0C) == 0x0C) ? 1 : -1];
+
 struct ChildEclBlock
 {
     int subroutineId00;
@@ -627,17 +641,34 @@ __forceinline void AssignFlagField(
         break;
 
     case TH09_ECL_OPCODE_SET_TRAIL:
-        Th09EclRunState::View(enemy)->trailFlags53A0 =
-            Th09EclRunState::RawByte(instruction, 0);
+    {
+        Th09EclRunState::TrailInstructionArgs *trailArgs =
+            reinterpret_cast<Th09EclRunState::TrailInstructionArgs *>(
+                reinterpret_cast<unsigned char *>(instruction) + 0x0C);
+
+        Th09EclRunState::View(enemy)->trailFlags53A0 = trailArgs->flags00;
+
+        int historyLength =
+            (instruction->parameterMask0A & (1U << 1))
+                ? Th09EclRunControl::ResolveInt(enemy, trailArgs->historyLength04)
+                : trailArgs->historyLength04;
         Th09EclRunState::View(enemy)->trailHistoryLength53A2 =
-            static_cast<short>(
-                Th09EclRunControl::ReadInt(enemy, instruction, 1));
+            static_cast<short>(historyLength);
+
+        int collisionLength =
+            (instruction->parameterMask0A & (1U << 2))
+                ? Th09EclRunControl::ResolveInt(enemy, trailArgs->collisionLength08)
+                : trailArgs->collisionLength08;
         Th09EclRunState::View(enemy)->trailCollisionLength53A4 =
-            static_cast<short>(
-                Th09EclRunControl::ReadInt(enemy, instruction, 2));
+            static_cast<short>(collisionLength);
+
+        int sampleStride =
+            (instruction->parameterMask0A & (1U << 3))
+                ? Th09EclRunControl::ResolveInt(enemy, trailArgs->sampleStride0C)
+                : trailArgs->sampleStride0C;
         Th09EclRunState::View(enemy)->trailSampleStride53A6 =
-            static_cast<short>(
-                Th09EclRunControl::ReadInt(enemy, instruction, 3));
+            static_cast<short>(sampleStride);
+
         if ((Th09EclRunState::View(enemy)->trailFlags53A0 &
              Th09EclRunState::TRAIL_BUILD_GEOMETRY) != 0)
         {
@@ -646,8 +677,9 @@ __forceinline void AssignFlagField(
                 reinterpret_cast<VertexTex1DiffuseXyzrhw *>(
                     Th09EclRunState::View(enemy)->trailVertices3E68),
                 2 * (Th09EclRunState::View(enemy)->trailHistoryLength53A2 /
-                     Th09EclRunState::View(enemy)->trailSampleStride53A6));
+                     static_cast<short>(sampleStride)));
         }
         break;
+    }
 
 #endif // TH09_ECL_RUN_STATE_BODY
