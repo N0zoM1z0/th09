@@ -118,6 +118,30 @@ typedef char AnmManagerLoadAnmAt24[(offsetof(AnmManagerLoadSlotView, loaded) == 
 typedef char AnmManagerLoadReleaseAt40[(offsetof(AnmManagerLoadSlotView, releasePending) == 0x40) ? 1 : -1];
 typedef char AnmManagerLoadPathAt44[(offsetof(AnmManagerLoadSlotView, path) == 0x44) ? 1 : -1];
 
+// ReadAnmEntries target layout: manager prefix +0x24, then 0x120-byte file slots.
+struct AnmManagerReadSlotView
+{
+    AnmLoadedLoadView loaded;
+    int releasePending;
+    char path[0x100];
+};
+
+typedef char AnmManagerReadSlotSizeIs120[
+    (sizeof(AnmManagerReadSlotView) == 0x120) ? 1 : -1];
+typedef char AnmManagerReadReleaseAt1C[
+    (offsetof(AnmManagerReadSlotView, releasePending) == 0x1C) ? 1 : -1];
+typedef char AnmManagerReadPathAt20[
+    (offsetof(AnmManagerReadSlotView, path) == 0x20) ? 1 : -1];
+
+struct AnmManagerReadView
+{
+    unsigned char unknown000[0x24];
+    AnmManagerReadSlotView slots[256];
+};
+
+typedef char AnmManagerReadSlotsAt24[
+    (offsetof(AnmManagerReadView, slots) == 0x24) ? 1 : -1];
+
 struct SupervisorAnmLoadView
 {
     unsigned char unknown000[0x08];
@@ -446,23 +470,26 @@ AnmLoaded *AnmManager::ReadAnmEntries(int anmIdx, const char *filename)
         return NULL;
     }
 
-    AnmManagerLoadSlotView *slot = AnmLoadSlot(this, anmIdx);
-    if (slot->loaded.rawData != NULL)
+    AnmManagerReadView *manager =
+        reinterpret_cast<AnmManagerReadView *>(this);
+    if (manager->slots[anmIdx].loaded.rawData != NULL)
     {
-        slot->releasePending = 1;
-        while (slot->releasePending != 0 && !AnmSupervisor()->subthreadCloseRequestActive)
+        manager->slots[anmIdx].releasePending = 1;
+        while (manager->slots[anmIdx].releasePending != 0 &&
+               !AnmSupervisor()->subthreadCloseRequestActive)
             Sleep(1);
     }
 
     AnmRawEntry *entry = reinterpret_cast<AnmRawEntry *>(
         FileSystem::OpenFile(filename, NULL, 0));
+    int currentEntryNumber = 0;
+    AnmLoadedLoadView *anmLoaded = &manager->slots[anmIdx].loaded;
     if (entry == NULL)
         return NULL;
 
-    AnmLoadedLoadView *anmLoaded = &slot->loaded;
     anmLoaded->anmIdx = anmIdx;
     anmLoaded->rawData = entry;
-    strcpy(slot->path, filename);
+    strcpy(reinterpret_cast<char *>(anmLoaded) + 0x20, filename);
 
     int totalEntries = 1;
     int totalScripts = entry->numScripts;
@@ -487,7 +514,6 @@ AnmLoaded *AnmManager::ReadAnmEntries(int anmIdx, const char *filename)
         g_ZunMemory.Alloc(totalScripts * sizeof(AnmRawInstr *), "./system\\global.h"));
 
     currentEntry = entry;
-    int currentEntryNumber = 0;
     int currentSpriteNumber = 0;
     int currentScriptNumber = 0;
     while (true)
