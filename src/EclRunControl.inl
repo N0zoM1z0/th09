@@ -222,41 +222,45 @@ __forceinline float *WriteFloat(
         break;
 
     // Preserve the target's interleaved integer/float handler order.
+    // TH09 also evaluates operand 1 before resolving the destination for the
+    // compound-assignment family. Keep that RHS lifetime explicit here;
+    // adjacent TH08 uses direct compound expressions, but TH09's own handler
+    // dataflow is different.
     case TH09_ECL_OPCODE_INT_ADD_ASSIGN:
-        *Th09EclRunControl::WriteInt(enemy, instruction, 0) +=
-            Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        *Th09EclRunControl::WriteInt(enemy, instruction, 0) += rhsInt;
         break;
     case TH09_ECL_OPCODE_FLOAT_ADD_ASSIGN:
-        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) +=
-            Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+        rhsFloat = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) += rhsFloat;
         break;
     case TH09_ECL_OPCODE_INT_SUBTRACT_ASSIGN:
-        *Th09EclRunControl::WriteInt(enemy, instruction, 0) -=
-            Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        *Th09EclRunControl::WriteInt(enemy, instruction, 0) -= rhsInt;
         break;
     case TH09_ECL_OPCODE_FLOAT_SUBTRACT_ASSIGN:
-        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) -=
-            Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+        rhsFloat = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) -= rhsFloat;
         break;
     case TH09_ECL_OPCODE_INT_MULTIPLY_ASSIGN:
-        *Th09EclRunControl::WriteInt(enemy, instruction, 0) *=
-            Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        *Th09EclRunControl::WriteInt(enemy, instruction, 0) *= rhsInt;
         break;
     case TH09_ECL_OPCODE_FLOAT_MULTIPLY_ASSIGN:
-        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) *=
-            Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+        rhsFloat = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) *= rhsFloat;
         break;
     case TH09_ECL_OPCODE_INT_DIVIDE_ASSIGN:
-        *Th09EclRunControl::WriteInt(enemy, instruction, 0) /=
-            Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        *Th09EclRunControl::WriteInt(enemy, instruction, 0) /= rhsInt;
         break;
     case TH09_ECL_OPCODE_FLOAT_DIVIDE_ASSIGN:
-        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) /=
-            Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+        rhsFloat = Th09EclRunControl::ReadFloat(enemy, instruction, 1);
+        *Th09EclRunControl::WriteFloat(enemy, instruction, 0) /= rhsFloat;
         break;
     case TH09_ECL_OPCODE_INT_MODULO_ASSIGN:
-        *Th09EclRunControl::WriteInt(enemy, instruction, 0) %=
-            Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        *Th09EclRunControl::WriteInt(enemy, instruction, 0) %= rhsInt;
         break;
     case TH09_ECL_OPCODE_FLOAT_MODULO_ASSIGN:
         lhsFloat = Th09EclRunControl::ReadFloat(enemy, instruction, 0);
