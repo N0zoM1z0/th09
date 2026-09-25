@@ -12,10 +12,22 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int i32;
 
+union TitleKeyColor
+{
+    u32 d3dColor;
+    struct
+    {
+        u8 b;
+        u8 g;
+        u8 r;
+        u8 a;
+    };
+};
+
 struct AnmVmView
 {
     u8 unknown000[0x1F0];
-    u32 color1;
+    TitleKeyColor color1;
     u8 unknown1F4[0x0A];
     u16 pendingInterrupt;
     u8 unknown200[0x18];
@@ -327,16 +339,16 @@ afterControllerBinding:
             if ((&g_Supervisor.config388.valueB7)[keyConfigSide] >= 2)
             {
                 for (i = 0; i < 5; ++i)
-                    vms[i + 40].color1 = 0xFF606060u;
+                    vms[i + 40].color1.d3dColor = 0xFF606060u;
                 for (i = 0; i < 10; ++i)
-                    vms[i + 50].color1 = 0xFF606060u;
+                    vms[i + 50].color1.d3dColor = 0xFF606060u;
             }
             else
             {
                 for (i = 0; i < 5; ++i)
-                    vms[i + 40].color1 = 0xFFFFFFFFu;
+                    vms[i + 40].color1.d3dColor = 0xFFFFFFFFu;
                 for (i = 0; i < 10; ++i)
-                    vms[i + 50].color1 = 0xFFFFFFFFu;
+                    vms[i + 50].color1.d3dColor = 0xFFFFFFFFu;
             }
             break;
         case 1:
@@ -367,16 +379,16 @@ afterControllerBinding:
             if ((&g_Supervisor.config388.valueB7)[keyConfigSide] >= 2)
             {
                 for (i = 0; i < 5; ++i)
-                    vms[i + 40].color1 = 0xFF606060u;
+                    vms[i + 40].color1.d3dColor = 0xFF606060u;
                 for (i = 0; i < 10; ++i)
-                    vms[i + 50].color1 = 0xFF606060u;
+                    vms[i + 50].color1.d3dColor = 0xFF606060u;
             }
             else
             {
                 for (i = 0; i < 5; ++i)
-                    vms[i + 40].color1 = 0xFFFFFFFFu;
+                    vms[i + 40].color1.d3dColor = 0xFFFFFFFFu;
                 for (i = 0; i < 10; ++i)
-                    vms[i + 50].color1 = 0xFFFFFFFFu;
+                    vms[i + 50].color1.d3dColor = 0xFFFFFFFFu;
             }
             break;
         case 2:
@@ -411,16 +423,16 @@ afterLeft:
             if ((&g_Supervisor.config388.valueB7)[keyConfigSide] >= 2)
             {
                 for (i = 0; i < 5; ++i)
-                    vms[i + 40].color1 = 0xFF606060u;
+                    vms[i + 40].color1.d3dColor = 0xFF606060u;
                 for (i = 0; i < 10; ++i)
-                    vms[i + 50].color1 = 0xFF606060u;
+                    vms[i + 50].color1.d3dColor = 0xFF606060u;
             }
             else
             {
                 for (i = 0; i < 5; ++i)
-                    vms[i + 40].color1 = 0xFFFFFFFFu;
+                    vms[i + 40].color1.d3dColor = 0xFFFFFFFFu;
                 for (i = 0; i < 10; ++i)
-                    vms[i + 50].color1 = 0xFFFFFFFFu;
+                    vms[i + 50].color1.d3dColor = 0xFFFFFFFFu;
             }
             break;
         case 1:
@@ -451,16 +463,16 @@ afterLeft:
             if ((&g_Supervisor.config388.valueB7)[keyConfigSide] >= 2)
             {
                 for (i = 0; i < 5; ++i)
-                    vms[i + 40].color1 = 0xFF606060u;
+                    vms[i + 40].color1.d3dColor = 0xFF606060u;
                 for (i = 0; i < 10; ++i)
-                    vms[i + 50].color1 = 0xFF606060u;
+                    vms[i + 50].color1.d3dColor = 0xFF606060u;
             }
             else
             {
                 for (i = 0; i < 5; ++i)
-                    vms[i + 40].color1 = 0xFFFFFFFFu;
+                    vms[i + 40].color1.d3dColor = 0xFFFFFFFFu;
                 for (i = 0; i < 10; ++i)
-                    vms[i + 50].color1 = 0xFFFFFFFFu;
+                    vms[i + 50].color1.d3dColor = 0xFFFFFFFFu;
             }
             break;
         case 2:
@@ -519,16 +531,16 @@ afterRight:
             if ((&g_Supervisor.config388.valueB7)[keyConfigSide] >= 2)
             {
                 for (i = 0; i < 5; ++i)
-                    vms[i + 40].color1 = 0xFF606060u;
+                    vms[i + 40].color1.d3dColor = 0xFF606060u;
                 for (i = 0; i < 10; ++i)
-                    vms[i + 50].color1 = 0xFF606060u;
+                    vms[i + 50].color1.d3dColor = 0xFF606060u;
             }
             else
             {
                 for (i = 0; i < 5; ++i)
-                    vms[i + 40].color1 = 0xFFFFFFFFu;
+                    vms[i + 40].color1.d3dColor = 0xFFFFFFFFu;
                 for (i = 0; i < 10; ++i)
-                    vms[i + 50].color1 = 0xFFFFFFFFu;
+                    vms[i + 50].color1.d3dColor = 0xFFFFFFFFu;
             }
             break;
         }
