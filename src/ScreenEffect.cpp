@@ -376,7 +376,6 @@ void ScreenEffect::BeginFadeRelease()
 
 void ScreenEffect::DrawSquare(ScreenEffectRect *rect, unsigned int color)
 {
-    ScreenEffectSupervisorView *supervisor = ScreenEffectSupervisor();
     g_AnmManager->FlushVertexBuffer();
 
     VertexDiffuseXyzrhw vertices[4];
@@ -396,18 +395,18 @@ void ScreenEffect::DrawSquare(ScreenEffectRect *rect, unsigned int color)
     vertices[1].diffuse = vertices[2].diffuse;
     vertices[0].diffuse = vertices[1].diffuse;
 
-    supervisor->d3dDevice->SetTextureStageState(
+    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetTextureStageState(
         0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-    supervisor->d3dDevice->SetTextureStageState(
+    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetTextureStageState(
         0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-    supervisor->d3dDevice->SetTextureStageState(
+    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetTextureStageState(
         0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-    supervisor->d3dDevice->SetTextureStageState(
+    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetTextureStageState(
         0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-    supervisor->d3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    supervisor->d3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-    supervisor->d3dDevice->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
-    supervisor->d3dDevice->DrawPrimitiveUP(
+    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->DrawPrimitiveUP(
         D3DPT_TRIANGLESTRIP, 2, vertices, sizeof(VertexDiffuseXyzrhw));
 
     g_AnmManager->ClearVertexShader();
@@ -417,13 +416,13 @@ void ScreenEffect::DrawSquare(ScreenEffectRect *rect, unsigned int color)
     g_AnmManager->ClearBlendMode();
     g_AnmManager->ClearZWrite();
 
-    supervisor->d3dDevice->SetTextureStageState(
+    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetTextureStageState(
         0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-    supervisor->d3dDevice->SetTextureStageState(
+    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetTextureStageState(
         0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-    supervisor->d3dDevice->SetTextureStageState(
+    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetTextureStageState(
         0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-    supervisor->d3dDevice->SetTextureStageState(
+    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetTextureStageState(
         0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 }
 

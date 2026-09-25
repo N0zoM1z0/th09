@@ -17416,7 +17416,7 @@ relocations = [
   { offset = 0x2D, type = "DIR32", symbol = "??_C@_09PFIKIIHF@ScreenInf?$AA@", target = 0x0048F32C },
   { offset = 0x35, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
   { offset = 0x3A, type = "REL32", symbol = "?AddToRegistry@ZunMemory@@QAEPAXPAXIPAD@Z", target = 0x00401380 },
-  { offset = 0x68, type = "DIR32", symbol = "$L59581", target = 0x00422EE0 },
+  { offset = 0x68, type = "DIR32", symbol = "$L59589", target = 0x00422EE0 },
   { offset = 0x6D, type = "DIR32", symbol = "?CalcFadeIn@ScreenEffect@@SIHPAU1@@Z", target = 0x004222C0 },
   { offset = 0x74, type = "DIR32", symbol = "?CalcShake@ScreenEffect@@SIHPAU1@@Z", target = 0x00422660 },
   { offset = 0x7E, type = "DIR32", symbol = "?CalcFadeOut@ScreenEffect@@SIHPAU1@@Z", target = 0x00422470 },
@@ -17458,14 +17458,14 @@ relocations = [
   { offset = 0x182, type = "REL32", symbol = "?AddToCalcChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B1E0 },
   { offset = 0x1A2, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
   { offset = 0x1AA, type = "REL32", symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z", target = 0x0042B270 },
-  { offset = 0x1C0, type = "DIR32", symbol = "$L59287", target = 0x00422D8C },
-  { offset = 0x1C4, type = "DIR32", symbol = "$L59290", target = 0x00422D93 },
-  { offset = 0x1C8, type = "DIR32", symbol = "$L59292", target = 0x00422D9D },
-  { offset = 0x1CC, type = "DIR32", symbol = "$L59298", target = 0x00422DED },
-  { offset = 0x1D0, type = "DIR32", symbol = "$L59295", target = 0x00422DC5 },
-  { offset = 0x1D4, type = "DIR32", symbol = "$L59301", target = 0x00422E12 },
-  { offset = 0x1D8, type = "DIR32", symbol = "$L59304", target = 0x00422E37 },
-  { offset = 0x1DC, type = "DIR32", symbol = "$L59307", target = 0x00422E5C },
+  { offset = 0x1C0, type = "DIR32", symbol = "$L59298", target = 0x00422D8C },
+  { offset = 0x1C4, type = "DIR32", symbol = "$L59301", target = 0x00422D93 },
+  { offset = 0x1C8, type = "DIR32", symbol = "$L59303", target = 0x00422D9D },
+  { offset = 0x1CC, type = "DIR32", symbol = "$L59309", target = 0x00422DED },
+  { offset = 0x1D0, type = "DIR32", symbol = "$L59306", target = 0x00422DC5 },
+  { offset = 0x1D4, type = "DIR32", symbol = "$L59312", target = 0x00422E12 },
+  { offset = 0x1D8, type = "DIR32", symbol = "$L59315", target = 0x00422E37 },
+  { offset = 0x1DC, type = "DIR32", symbol = "$L59318", target = 0x00422E5C },
 ]
 
 
@@ -17537,4 +17537,47 @@ relocations = [
   { offset = 0x17A, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
   { offset = 0x1A8, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
   { offset = 0x1D4, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+]
+
+[units.screen-effect-draw-square]
+source = "src/ScreenEffect.cpp"
+object = "build/matching/ScreenEffectDrawSquare.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["ScreenEffect::DrawSquare"]
+symbol = "?DrawSquare@ScreenEffect@@SIXPAUScreenEffectRect@@I@Z"
+target_address = 0x00422960
+size = 0x20F
+relocations = [
+  { offset = 0xB, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x13, type = "REL32", symbol = "?FlushVertexBuffer@AnmManager@@QAEXXZ", target = 0x004396A0 },
+  { offset = 0x18, type = "DIR32", symbol = "??0VertexDiffuseXyzrhw@@QAE@XZ", target = 0x004343D0 },
+  { offset = 0x25, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x36, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+  { offset = 0x59, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+  { offset = 0x7B, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+  { offset = 0x9E, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+  { offset = 0xB8, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x8 },
+  { offset = 0xF0, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x8 },
+  { offset = 0x104, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x8 },
+  { offset = 0x118, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x8 },
+  { offset = 0x12C, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x8 },
+  { offset = 0x13E, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x8 },
+  { offset = 0x150, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x8 },
+  { offset = 0x160, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x8 },
+  { offset = 0x179, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x17E, type = "REL32", symbol = "?ClearVertexShader@AnmManager@@QAEXXZ", target = 0x0040E380 },
+  { offset = 0x184, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x189, type = "REL32", symbol = "?ClearSprite@AnmManager@@QAEXXZ", target = 0x0040E390 },
+  { offset = 0x18F, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x194, type = "REL32", symbol = "?ClearTexture@AnmManager@@QAEXXZ", target = 0x004015F0 },
+  { offset = 0x19A, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x19F, type = "REL32", symbol = "?ClearColorOp@AnmManager@@QAEXXZ", target = 0x00415D00 },
+  { offset = 0x1A5, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x1AA, type = "REL32", symbol = "?ClearBlendMode@AnmManager@@QAEXXZ", target = 0x0040E370 },
+  { offset = 0x1B0, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x1B5, type = "REL32", symbol = "?ClearZWrite@AnmManager@@QAEXXZ", target = 0x00415D10 },
+  { offset = 0x1BA, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x8 },
+  { offset = 0x1CE, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x8 },
+  { offset = 0x1E2, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x8 },
+  { offset = 0x1F6, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x8 },
 ]
