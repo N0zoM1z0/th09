@@ -4171,3 +4171,11 @@ name into a TH09 fact without target-local evidence.
 - The committed TH08 source family uses the same direct ReadInt arithmetic expressions. Its different ReadInt implementation first caches RawInt in a local, but transferring that helper shape to TH09 is decisively wrong: RunEcl collapses to 14,460 logical bytes, two relocations disappear and the direct-call count falls to 374.
 - Opcode155 differs by one byte solely through register coloring. Retail loads the shifted timeout value into ECX and therefore emits the six-byte generic-register AND with 0x01000000; stock VC7.1 colors the same value into EAX and gets the five-byte accumulator-special AND. Neighboring opcode156 uses the same primaryFlags update formula and is 52/52 bytes while target/candidate merely choose EDX versus ECX, confirming the helper/field semantics are not the missing byte.
 - This packet therefore narrows the remaining four logical bytes to stable VC7.1 backend scheduling under the pinned profile. Exactness remains false, and no register forcing, volatile storage, pragma ordering, padding, inline assembly, target-byte encoding or profile roulette is retained.
+
+
+## Packet 652 ReadAnmEntries replay retry blocked by global th10 ownership
+
+- Current-head ReadAnmEntries @ 0x0043C610 still rebuilds locally as 390/390 exact with all 17 relocation destinations and 322/322 ordinary bytes matching.
+- Replay staging commit 5df885a bound claim claim:th09-main:function:0043c610:codegen-exact to a clean 499-file source snapshot. Two Factory attempts were made from that same binding; the retry job was job:f0eaf4b670df47d0a0496fa47878c4a8.
+- The retry again failed before the oracle stage, this time with ReplayError reporting unrelated global ownership of the th10 live worktree. There is no receipt verdict and no acceptance decision, so canonical credit remains withheld.
+- The staging match row/unit/function status are removed again. The maintained source and local structural-exact evidence remain ready for a later replay once the Factory global lock clears.
