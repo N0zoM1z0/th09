@@ -1596,15 +1596,15 @@ int TitleScreenView::UpdateScreen8Mode0()
 
             {
                 i32 visibleCount = 0;
-                AnmVmView *visibleVm = &vms[191];
                 for (value = 0; value < 16; value++)
                 {
                     i32 character = g_TitleCharacterOrder[value];
                     if (g_TitleCharacterUnlocked[character] || g_SupervisorNetworkState->active)
                     {
-                        titleAnm->SetSprite(visibleVm, character + 235);
-                        visibleVm->flags |= 2;
-                        ++visibleVm;
+                        titleAnm->SetSprite(
+                            &vms[191 + visibleCount],
+                            character + 235);
+                        vms[191 + visibleCount].flags |= 2;
                         visibleCount++;
                     }
                 }
