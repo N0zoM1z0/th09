@@ -7,13 +7,14 @@ from pathlib import Path
 import re
 import sys
 
-from progress import measures
+from progress import measures, rows
 
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 KNOWLEDGE = DOCS / "KNOWLEDGE_BASE.md"
 HANDOFF = DOCS / "RE_HANDOFF.md"
+FRONTIER = DOCS / "SMALL_FUNCTION_FRONTIER.md"
 README = ROOT / "README.md"
 TABLE_SPLIT = re.compile(r"(?<!\\)\|")
 MARKDOWN_LINK = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
@@ -94,6 +95,10 @@ def validate_handoff_totals() -> None:
         "Classified exclusions": actual["excluded"],
         "Source-present authored mappings": actual["implemented"],
         "Canonical exact functions": actual["matches"],
+        "Source-present non-exact functions": actual["source_nonexact"],
+        "Source-present non-exact bytes": actual["source_nonexact_bytes"],
+        "Authored without maintained source": actual["without_source"],
+        "Canonical exact authored bytes": actual["exact_bytes"],
     }
     observed: dict[str, int] = {}
     for line in HANDOFF.read_text(encoding="utf-8").splitlines():
@@ -105,6 +110,47 @@ def validate_handoff_totals() -> None:
         observed[cells[0]] = int(cells[1].replace(",", ""))
     if observed != expected:
         raise ValueError(f"handoff totals differ from ledgers: {observed} != {expected}")
+
+
+def validate_frontier() -> None:
+    text = FRONTIER.read_text(encoding="utf-8")
+    counts = re.search(
+        r"yields \*\*(\d+) functions\*\*.*?"
+        r"of which \*\*(\d+) are at most\s+128 bytes\*\*.*?"
+        r"canonical total is \*\*(\d+) exact functions\*\*",
+        text,
+        re.DOTALL,
+    )
+    if counts is None:
+        raise ValueError("short-function frontier summary is missing")
+
+    origins = {row["address"]: row["disposition"] for row in rows("function-origins.csv")}
+    exact = {row["address"] for row in rows("matches.csv")}
+    expected = sorted(
+        (row["address"], row["size"], row["module"], row["proposed_name"])
+        for row in rows("functions.csv")
+        if origins[row["address"]] == "authored"
+        and row["source_file"]
+        and row["address"] not in exact
+        and int(row["size"], 0) <= 256
+    )
+    observed = []
+    in_table = False
+    for line in text.splitlines():
+        if line.startswith("| Target address |"):
+            in_table = True
+            continue
+        if not in_table or line.startswith("| ---"):
+            continue
+        if not line.startswith("| "):
+            break
+        address, size, module, name = table_cells(line)
+        observed.append((address, size, module, name))
+    if sorted(observed) != expected:
+        raise ValueError("short-function frontier rows differ from live ledgers")
+    summary = (len(expected), sum(int(row[1], 0) <= 128 for row in expected), len(exact))
+    if tuple(map(int, counts.groups())) != summary:
+        raise ValueError("short-function frontier counts differ from live ledgers")
 
 
 def validate_live_guidance() -> None:
@@ -148,6 +194,7 @@ def main() -> int:
     try:
         validate_knowledge_base()
         validate_handoff_totals()
+        validate_frontier()
         validate_live_guidance()
         validate_local_links()
     except (OSError, ValueError) as exc:

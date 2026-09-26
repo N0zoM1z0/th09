@@ -57,7 +57,7 @@ dual-Oracle semantic baseline, in a distinct product configuration.
 
 ## Artifact lifecycle
 
-`.analysis/` is disposable working state, not a journal. Keep only compact
+`.analysis/` is non-authoritative working state, not a journal. Keep only compact
 manifests, commands, disassembly snippets, and comparison outputs that are still
 the sole useful record of unresolved evidence. Once a result is accepted, move
 the durable fact to tracked source/ledgers/docs and delete its probe copy,
@@ -67,6 +67,7 @@ A normal checkpoint should therefore leave `.analysis/` small. In particular,
 `.obj`, `.pdb`, one-off probe `.cpp` files, copied `.hpp` files, and stale
 inventory CSVs are build/workspace artifacts rather than evidence. Compact
 JSON/TXT/DIS receipts for unresolved frontiers may remain until their facts are
-promoted or superseded. Never delete unexplained artifacts from a recovered
-dirty session; first establish what they prove and whether that proof exists
-elsewhere.
+promoted or superseded. Classify each deletion by producer, reproducibility,
+references, and active ownership. Never bulk-delete the directory or remove
+unexplained legacy artifacts from a recovered session; first establish what
+they prove and whether that proof exists elsewhere.

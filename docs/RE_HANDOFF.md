@@ -80,7 +80,7 @@ After a substantive exact promotion, update the ledgers and docs, run the
 validators, replay the affected units, then checkpoint with a commit message of
 the form:
 
-    gpt-web: short description
+    gpt-6-sol: short description
 
 ## Work routing
 
@@ -227,8 +227,8 @@ the target-backed zone cooldown store, low-byte FAST flag test, and direct
 template-sprite read that closed the last ordinary byte differences. The
 four CC bytes before exact `SpawnBulletPatternPrimary` remain unowned. All
 17 other configured `BulletManager.cpp` exact units still replay exactly;
-Factory receipt `receipt:4152340be719853d1973abb135ef523c4ee34279ccbf26327eed870f2559c2f4`
-returned `pass / accepted` on clean commit `c85d653`. This codegen result
+Factory receipt `receipt:1ca12fe1f0b8e40a387314c0c350dcf59f7e4079414b939594438acfeab9fb3e`
+returned `pass / accepted` on code-changing commit `510d71c`. This codegen result
 does not close the native product or runtime gates.
 
 ### Etama OnUpdate large-function frontier
@@ -237,8 +237,8 @@ does not close the native product or runtime gates.
 2,208 candidate bytes versus 2,195 target bytes. Packets 672-673 record the
 target-backed early bullet cursor and counter order, outer transform-flags
 guard, primary-count branch order, laser geometry lifetime, and cached timer
-values. The pinned `/O2 /Ob1`
-candidate now matches the target's `0x40` stack frame, laser stack homes,
+values. The pinned `/O2 /Ob1` candidate now matches the target's `0x40` stack
+frame, laser stack homes,
 62 calls, 60 conditional jumps, and 18 unconditional jumps. Spawn-state VM
 pointer allocation and laser setup instruction order remain open. The first
 `0xD4` bytes now match in 155/192 relocation-excluded positions. All 18
@@ -297,9 +297,21 @@ resources/th09.exe is intentionally local/ignored and is the canonical target
 input used by verification/replay. Do not delete it as part of ordinary build
 cleanup.
 
-build/ and .analysis/ are disposable and may be removed between work sessions.
-Canonical outputs must be reproducible from tracked source/config plus the local
-verified target and pinned toolchain.
+The compiler outputs in `build/` are reproducible and can be cleared after
+validation. Classify `.analysis/` contents before cleanup: remove only proven
+inactive generated artifacts with no live references, and retain unclassified
+legacy probes and provider state. Neither directory is a source of canonical
+exactness. Canonical outputs must be reproducible from tracked source/config
+plus the local verified target and pinned toolchain.
+
+At the 2026-09-26 cleanup checkpoint, the ignored `build/` tree contained only
+generated compiler/test output and was cleared. The ignored `.analysis/` tree
+held 2,352 i386 COFF objects and Microsoft MSF PDBs. The 2,294 generated
+binaries outside the explicitly `legacy-unknown` TitleScreen campaign (about
+152 MiB) had no tracked references or active TH09 producer and were cleared.
+The TitleScreen campaign and unmanifested probe sources/results were retained
+as untrusted leads. Recheck their target, HEAD, compiler inputs, and producer
+before using them.
 
 ## Documentation discipline
 

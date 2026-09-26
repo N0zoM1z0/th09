@@ -96,8 +96,8 @@ analysis database is working state; mirror durable conclusions into the repo.
 
 ## Checkpoints and artifacts
 
-- Use concise, coherent local commits, with `gpt-web: ...` for Web-authored
-  checkpoints. GPT-web may commit in this repository but must not push.
+- Use concise, coherent local commits. For the current operator-requested
+  checkpoints, use `gpt-6-sol: ...`. Do not push.
 - Keep decompiler dumps, logs, experiments, screenshots, and generated reports
   below `.analysis/`; keep builds below `build/` and downloaded tools below
   `.tools/`.
