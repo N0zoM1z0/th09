@@ -675,10 +675,10 @@ int EtamaController::OnUpdate(EtamaController *controller)
         }
 
         ++controller->activeTotalCount;
-        if (i >= 175)
-            ++controller->activeSecondaryCount;
-        else
+        if (i < 175)
             ++controller->activePrimaryCount;
+        else
+            ++controller->activeSecondaryCount;
 
         switch (bullet->state)
             {
@@ -720,33 +720,36 @@ int EtamaController::OnUpdate(EtamaController *controller)
             }
 
             bullet->AdvanceTransformProgram();
-            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_DECELERATE) != 0)
-                UpdateBulletDeceleration(bullet);
-            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_ACCELERATE_VECTOR) != 0)
-                UpdateBulletVectorAcceleration(bullet);
-            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_ACCELERATE_POLAR) != 0)
-                UpdateBulletPolarAcceleration(bullet);
-            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_CHANGE_DIRECTION_RELATIVE) != 0)
-                UpdateBulletRelativeDirectionChange(bullet);
-            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_CHANGE_DIRECTION_ABSOLUTE) != 0)
-                UpdateBulletAbsoluteDirectionChange(bullet);
-            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_CHANGE_DIRECTION_AIMED) != 0)
-                UpdateBulletAimedDirectionChange(bullet);
-            if ((bullet->activeTransformFlags &
-                 (BULLET_TRANSFORM_BOUNCE_ALL_EDGES | BULLET_TRANSFORM_BOUNCE_EXCEPT_BOTTOM)) != 0)
-                UpdateBulletBoundaryBounce(bullet);
-            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_WRAP_X) != 0)
-                UpdateBulletHorizontalWrap(bullet);
-            if ((bullet->activeTransformFlags & BULLET_TRANSFORM_WRAP_Y) != 0)
-                UpdateBulletVerticalWrap(bullet);
-            unsigned int activeTransformFlags = bullet->activeTransformFlags;
-            if ((activeTransformFlags & BULLET_TRANSFORM_WAIT) != 0)
+            if (bullet->activeTransformFlags != 0)
             {
-                if (bullet->exStates[5].timer <= 0)
-                    bullet->activeTransformFlags =
-                        activeTransformFlags ^ BULLET_TRANSFORM_WAIT;
-                else
-                    bullet->exStates[5].timer--;
+                if ((bullet->activeTransformFlags & BULLET_TRANSFORM_DECELERATE) != 0)
+                    UpdateBulletDeceleration(bullet);
+                if ((bullet->activeTransformFlags & BULLET_TRANSFORM_ACCELERATE_VECTOR) != 0)
+                    UpdateBulletVectorAcceleration(bullet);
+                if ((bullet->activeTransformFlags & BULLET_TRANSFORM_ACCELERATE_POLAR) != 0)
+                    UpdateBulletPolarAcceleration(bullet);
+                if ((bullet->activeTransformFlags & BULLET_TRANSFORM_CHANGE_DIRECTION_RELATIVE) != 0)
+                    UpdateBulletRelativeDirectionChange(bullet);
+                if ((bullet->activeTransformFlags & BULLET_TRANSFORM_CHANGE_DIRECTION_ABSOLUTE) != 0)
+                    UpdateBulletAbsoluteDirectionChange(bullet);
+                if ((bullet->activeTransformFlags & BULLET_TRANSFORM_CHANGE_DIRECTION_AIMED) != 0)
+                    UpdateBulletAimedDirectionChange(bullet);
+                if ((bullet->activeTransformFlags &
+                     (BULLET_TRANSFORM_BOUNCE_ALL_EDGES | BULLET_TRANSFORM_BOUNCE_EXCEPT_BOTTOM)) != 0)
+                    UpdateBulletBoundaryBounce(bullet);
+                if ((bullet->activeTransformFlags & BULLET_TRANSFORM_WRAP_X) != 0)
+                    UpdateBulletHorizontalWrap(bullet);
+                if ((bullet->activeTransformFlags & BULLET_TRANSFORM_WRAP_Y) != 0)
+                    UpdateBulletVerticalWrap(bullet);
+                unsigned int activeTransformFlags = bullet->activeTransformFlags;
+                if ((activeTransformFlags & BULLET_TRANSFORM_WAIT) != 0)
+                {
+                    if (bullet->exStates[5].timer <= 0)
+                        bullet->activeTransformFlags =
+                            activeTransformFlags ^ BULLET_TRANSFORM_WAIT;
+                    else
+                        bullet->exStates[5].timer--;
+                }
             }
 
             if (bullet->offscreenCullDelayFrames != 0)
@@ -845,13 +848,14 @@ queueBullet:
     if ((controller->sideState->flags & 1) != 0)
         return 1;
 
-    float laserCenter[3];
-    float laserSize[3];
     Laser *laser = &controller->lasers[0];
     for (int i = 0; i < 48; ++i, ++laser)
     {
         if (laser->inUse == 0)
             continue;
+
+        float laserCenter[3];
+        float laserSize[3];
 
         laser->endOffset += g_Supervisor.framerateMultiplier * laser->speed;
         if (laser->endOffset - laser->startOffset > laser->startLength)
@@ -883,12 +887,13 @@ queueBullet:
             }
             else
             {
-                int rampWindow = laser->startTime > 30 ? 30 : laser->startTime;
-                if (laser->startTime - rampWindow <
+                int startTime = laser->startTime;
+                int rampWindow = startTime > 30 ? 30 : startTime;
+                if (startTime - rampWindow <
                     reinterpret_cast<BulletTimerCurrentView *>(
                         &laser->timer)->GetCurrent())
                     currentWidth =
-                        (float)laser->timer * laser->width / laser->startTime;
+                        (float)laser->timer * laser->width / startTime;
                 else
                     currentWidth = 1.2f;
                 laser->currentWidth = currentWidth;
@@ -937,8 +942,9 @@ queueBullet:
             }
             else if (laser->despawnDuration > 0)
             {
+                int despawnDuration = laser->despawnDuration;
                 currentWidth = laser->width -
-                    (float)laser->timer * laser->width / laser->despawnDuration;
+                    (float)laser->timer * laser->width / despawnDuration;
                 laser->bodyVm.scale.x = currentWidth / 16.0f;
                 laserSize[0] = currentWidth / 2.0f;
             }

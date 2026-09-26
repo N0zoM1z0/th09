@@ -231,6 +231,19 @@ Factory receipt `receipt:4152340be719853d1973abb135ef523c4ee34279ccbf26327eed870
 returned `pass / accepted` on clean commit `c85d653`. This codegen result
 does not close the native product or runtime gates.
 
+### Etama OnUpdate large-function frontier
+
+`EtamaController::OnUpdate @ 0x004146F0` remains source-present/non-exact at
+2,208 candidate bytes versus 2,195 target bytes. Packet 672 records the
+target-backed outer transform-flags guard, primary-count branch order, laser
+geometry array lifetime, and cached timer values. The pinned `/O2 /Ob1`
+candidate now matches the target's `0x40` stack frame, laser stack homes,
+62 calls, 60 conditional jumps, and 18 unconditional jumps. Spawn-state VM
+pointer allocation and laser setup instruction order remain open. All 18
+configured same-TU exact units locally replay exactly; the generated
+SpawnSingleBullet table symbol in its manifest is now `$L3095` with the same
+target table destination `0x004130C8`.
+
 ### Current large ExAttack callback handoff
 
 `ExAttackUpdateCallbackType18_24 @ 0x004491E0` remains 1435/1436 bytes.
