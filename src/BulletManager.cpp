@@ -662,7 +662,7 @@ int EtamaController::OnUpdate(EtamaController *controller)
     controller->activeSecondaryCount = 0;
     controller->ClearDrawBuckets();
 
-    for (int i = 0; i < 536; ++i, ++bullet)
+    for (int i = 0; i < 536; ++bullet, ++i)
     {
         if (bullet->state == BULLET_STATE_UNUSED || bullet->state == BULLET_STATE_SENTINEL)
             continue;
@@ -682,29 +682,34 @@ int EtamaController::OnUpdate(EtamaController *controller)
 
         switch (bullet->state)
             {
+        activateBullet:
+                bullet->state = BULLET_STATE_FIRED;
+                bullet->stateTimer = 0;
+                break;
             case BULLET_STATE_SPAWNING_FAST:
                 bullet->activeTimer--;
                 bullet->position += bullet->velocity / 2.0f;
                 if (g_AnmManager->ExecuteScript(&bullet->sprites.spawnFastVm) == 0)
                     goto updateTimers;
-                goto finishSpawning;
+                if (bullet->cancelledDuringSpawn != 0)
+                    bullet->state = BULLET_STATE_DESPAWNING;
+                goto activateBullet;
             case BULLET_STATE_SPAWNING_NORMAL:
                 bullet->activeTimer--;
                 bullet->position += bullet->velocity / 2.5f;
                 if (g_AnmManager->ExecuteScript(&bullet->sprites.spawnNormalVm) == 0)
                     goto updateTimers;
-                goto finishSpawning;
+                if (bullet->cancelledDuringSpawn != 0)
+                    bullet->state = BULLET_STATE_DESPAWNING;
+                goto activateBullet;
             case BULLET_STATE_SPAWNING_SLOW:
                 bullet->activeTimer--;
                 bullet->position += bullet->velocity / 3.0f;
                 if (g_AnmManager->ExecuteScript(&bullet->sprites.spawnSlowVm) == 0)
                     goto updateTimers;
-            finishSpawning:
                 if (bullet->cancelledDuringSpawn != 0)
                     bullet->state = BULLET_STATE_DESPAWNING;
-                bullet->state = BULLET_STATE_FIRED;
-                bullet->stateTimer = 0;
-                break;
+                goto activateBullet;
             case BULLET_STATE_FIRED:
                 break;
             case BULLET_STATE_DESPAWNING:
@@ -792,10 +797,11 @@ int EtamaController::OnUpdate(EtamaController *controller)
 
             if (bullet->collisionDisabled == 0)
             {
-                BulletPlayerView *player = controller->sideState->player;
+                BulletPlayerView *player;
                 int collisionResult;
                 if (bullet->isGrazed == 0)
                 {
+                    player = controller->sideState->player;
                     collisionResult = player->CheckGrazeCollision(
                         &bullet->position, &bullet->sprites.collisionSize, bullet);
                     if (collisionResult == 1)
@@ -811,6 +817,7 @@ int EtamaController::OnUpdate(EtamaController *controller)
                     }
                 }
 
+                player = controller->sideState->player;
                 collisionResult = player->CheckBulletCollision(
                     &bullet->position, &bullet->sprites.collisionSize, bullet);
                 if (collisionResult != 0 &&
@@ -821,6 +828,7 @@ int EtamaController::OnUpdate(EtamaController *controller)
                 }
                 else
                 {
+                    player = controller->sideState->player;
                     reinterpret_cast<PlayerCollisionQueryStateView *>(
                         reinterpret_cast<unsigned char *>(player) + 0x36C)
                         ->AppendBoxRecord(

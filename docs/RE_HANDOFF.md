@@ -233,18 +233,29 @@ does not close the native product or runtime gates.
 
 ### Etama OnUpdate large-function frontier
 
-`EtamaController::OnUpdate @ 0x004146F0` remains source-present/non-exact at
-2,208 candidate bytes versus 2,195 target bytes. Packets 672-673 record the
-target-backed early bullet cursor and counter order, outer transform-flags
-guard, primary-count branch order, laser geometry lifetime, and cached timer
-values. The pinned `/O2 /Ob1` candidate now matches the target's `0x40` stack
-frame, laser stack homes,
-62 calls, 60 conditional jumps, and 18 unconditional jumps. Spawn-state VM
-pointer allocation and laser setup instruction order remain open. The first
-`0xD4` bytes now match in 155/192 relocation-excluded positions. All 18
-configured same-TU exact units locally replay exactly; the generated
-SpawnSingleBullet table symbol in its manifest is now `$L3095` with the same
-target table destination `0x004130C8`.
+`EtamaController::OnUpdate @ 0x004146F0` remains source-present/non-exact, but
+a fresh target/object review supersedes the old 2,208-versus-2,195 aggregate
+size note. The target body ends at relative `+0x893` (the `ret` is at
+`+0x892`), and the pinned `/O2 /Ob1` candidate now has the same body end.
+Its 2,216-byte COFF symbol extent additionally owns one post-`ret` alignment
+byte and the 20-byte compiler switch table, so that auxiliary extent is not a
+function-body size mismatch.
+
+The target-backed source-shape corrections are now: bullet-loop advancement is
+`++bullet, ++i`; the three spawning cases keep their completion logic separate
+in source and converge through `activateBullet`, which makes VC7.1 naturally
+emit direct `ESI+0x2A8`, `ESI+0x54C`, and `ESI+0x7F0` VM arguments plus
+the direct `ESI+0xDC4` cancelled flag; and the side-specific player pointer is
+reloaded before each graze/bullet/box query rather than kept live across the
+whole collision block. The body still has the exact `0x40` stack frame, 62
+calls and 60 conditional jumps. It currently has 554 instructions and 19
+unconditional jumps versus the target's 553 and 18; the remaining extra jump
+is an alignment consequence of a one-byte-longer controller reload sequence at
+the draw-bucket tail. Early EBX counter-zero lifetime, residual
+register/argument scheduling around culling/collision/queueing, and later laser
+integer-store scheduling remain open. All 18 configured same-TU exact units
+replay exactly from one cold object, including the complete 1,932-byte
+SpawnSingleBullet compare extent with canonical `$L3095 -> 0x004130C8`.
 
 ### Current large ExAttack callback handoff
 
