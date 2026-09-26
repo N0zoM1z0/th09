@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 873 |
-| Source-present non-exact functions | 106 |
-| Source-present non-exact bytes | 120,118 |
+| Canonical exact functions | 874 |
+| Source-present non-exact functions | 105 |
+| Source-present non-exact bytes | 118,558 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 155,551 |
+| Canonical exact authored bytes | 157,111 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -164,6 +164,15 @@ pressed branch and later uses EDI for zero and EBX for selector 6. The
 exact-sized alternative with a 6/7/8 `if` chain does not reproduce the target
 switch; the normalized-switch alternative inserts redundant instructions.
 See Packet 662. Do not promote this owner on length or census alone.
+
+### Current Title start-menu handoff
+
+`TitleScreenView::OnUpdateStartMenu @ 0x00429E23` now has a focused exact
+replay unit. Its 1,560 code bytes, adjacent 32-byte compiler switch table, and
+all 107 relocations reproduce the target under pinned VC7.1 O1/Ob1. The
+case-1 unlocked branch and immediate returns for confirmed menu choices were
+the source corrections; see Packet 664. All 29 configured TitleScreen O1 units
+and the separate O2 score-record unit replay exact after this correction.
 
 ### Current ExAttack type-8/9 handoff
 

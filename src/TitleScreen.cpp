@@ -3281,22 +3281,22 @@ int TitleScreenView::OnUpdateStartMenu()
                     g_TitleAnmManager->SetInterruptArray(vms, vmCount, 5);
                     g_TitleTransitionCounter0 = 10;
                     g_TitleTransitionCounter1 = 10;
-                    break;
+                    return 1;
                 case 1:
-                    if (!g_TitleLockedMenuItem)
+                    if (g_TitleLockedMenuItem)
                     {
-                        PlayMenuSound(39, 0);
-                        break;
+                        g_TitleGameFlags &= ~8u;
+                        PlayMenuSound(10, 0);
+                        if (keyboardSelection >= 4)
+                            keyboardSelection = 2;
+                        ChangeCurrentScreen(4);
+                        g_TitleAnmManager->SetInterruptArray(vms, vmCount, 5);
+                        g_TitleTransitionCounter0 = 10;
+                        g_TitleTransitionCounter1 = 10;
+                        return 1;
                     }
-                    g_TitleGameFlags &= ~8u;
-                    PlayMenuSound(10, 0);
-                    if (keyboardSelection >= 4)
-                        keyboardSelection = 2;
-                    ChangeCurrentScreen(4);
-                    g_TitleAnmManager->SetInterruptArray(vms, vmCount, 5);
-                    g_TitleTransitionCounter0 = 10;
-                    g_TitleTransitionCounter1 = 10;
-                    break;
+                    PlayMenuSound(39, 0);
+                    return 1;
                 case 2:
                     g_TitleGameFlags &= ~8u;
                     PlayMenuSound(10, 0);
@@ -3305,19 +3305,19 @@ int TitleScreenView::OnUpdateStartMenu()
                     g_TitleAnmManager->SetInterruptArray(vms, vmCount, 5);
                     g_TitleTransitionCounter0 = 10;
                     g_TitleTransitionCounter1 = 10;
-                    break;
+                    return 1;
                 case 3:
                     PlayMenuSound(10, 0);
                     ChangeCurrentScreen(11);
                     g_TitleAnmManager->SetInterruptArray(vms, vmCount, 5);
                     currentHelpTextVm->pendingInterrupt = 2;
-                    break;
+                    return 1;
                 case 5:
                     PlayMenuSound(10, 0);
                     ChangeCurrentScreen(12);
                     g_TitleAnmManager->SetInterruptArray(vms, vmCount, 5);
                     currentHelpTextVm->pendingInterrupt = 2;
-                    break;
+                    return 1;
                 case 4:
                     PlayMenuSound(10, 0);
                     ChangeCurrentScreen(13);
