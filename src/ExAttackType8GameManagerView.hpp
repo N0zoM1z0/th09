@@ -4,6 +4,9 @@
 
 #include <stddef.h>
 
+struct PlayerLifecycleView;
+class EtamaController;
+
 // Shared TH09 target view for the EclManager TU. The type name is retained
 // because exact ExAttack relocations reference its TransformPopupX/Y members;
 // +0xEC is independently required by exact post-ECL movement.
@@ -23,8 +26,8 @@ struct ExAttackType8AnmOwner
 struct ExAttackType8SideView
 {
     unsigned char unknown00[0x04];
-    ExAttackType8PlayerView *player04;
-    unsigned char unknown08[0x04];
+    PlayerLifecycleView *player04;
+    EtamaController *etama08;
     ExAttackType8AnmOwner *anmOwner0C;
     unsigned char unknown10[0x28];
 };
@@ -34,6 +37,8 @@ struct ExAttackType8GameManagerView
     ExAttackType8SideView sides[2];
     unsigned char unknown070[0x7C];
     float speedEC;
+    unsigned char unknown0F0[0x11C - 0x0F0];
+    int difficulty11C;
 
     float TransformPopupX(float value);
     float TransformPopupY(float value);
@@ -43,5 +48,7 @@ typedef char ExAttackType8SideSizeIs38[
     (sizeof(ExAttackType8SideView) == 0x38) ? 1 : -1];
 typedef char ExAttackType8GameManagerSpeedAtEC[
     (offsetof(ExAttackType8GameManagerView, speedEC) == 0xEC) ? 1 : -1];
+typedef char ExAttackType8GameManagerDifficultyAt11C[
+    (offsetof(ExAttackType8GameManagerView, difficulty11C) == 0x11C) ? 1 : -1];
 
 extern ExAttackType8GameManagerView g_GameManager;

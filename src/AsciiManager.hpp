@@ -74,6 +74,7 @@ struct AnmVm
     unsigned char unknown_0294[0x10];
 
     void Initialize();
+    void SetInterrupt(short interrupt);
     int IsVisible();
     void SetInvisible();
     void SetZRotation(float angle);

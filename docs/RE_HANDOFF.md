@@ -139,6 +139,17 @@ match unit on a clean committed snapshot, and promote the row only after both
 `receipt_verdict=pass` and `acceptance_decision=accepted`. Keep local structural
 equality separate from canonical credit while the service is unavailable.
 
+### Current ExAttack type-8/9 handoff
+
+`ExAttackUpdateCallbackType8_9 @ 0x00446920` now lives in the EclManager
+translation unit, where the maintained void `Float3::FromAngleMagnitude`
+definition is visible. A cold pinned build reproduces the 748-byte target
+extent and all 32 relocation destinations; 618/620 ordinary comparable bytes
+match. The two residuals at +0x1E3/+0x1E7 are the collision-exit angle load and
+store using ECX instead of target EAX. Keep it source-present/non-exact. All 18
+pre-existing exact EclManager-TU units replay after compiler-private label
+refresh only, and RunEcl remains 14,788/14,792 bytes.
+
 ## Boundary and origin closure
 
 All 2,191 tracked candidates have boundary/origin review. Current dispositions

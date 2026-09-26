@@ -1,8 +1,13 @@
+// Shared type-8/type-9 update callback in the EclManager translation unit.
+// TH09 retains the Float3::FromAngleMagnitude receiver in ECX across its
+// call; visibility of that maintained definition reproduces this call site.
+
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "BulletManager.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackInterpolation.hpp"
+#include "ExAttackType8GameManagerView.hpp"
 #include "PlayerLifecycleView.hpp"
 
 struct ExAttackType89UpdateExtra
@@ -38,30 +43,10 @@ struct ExAttackType89UpdateRecord
     float rotation3C;
 };
 
-struct ExAttackType89InterruptView
-{
-    void SetInterrupt(short interrupt);
-};
-
 struct ExAttackType89PlayerAnmView
 {
     unsigned char unknown000[0xBC];
     AnmLoaded *anmFileBC;
-};
-
-struct ExAttackType89SideView
-{
-    unsigned char unknown00[0x04];
-    PlayerLifecycleView *player04;
-    EtamaController *etama08;
-    unsigned char unknown0C[0x2C];
-};
-
-struct ExAttackType89GameManagerView
-{
-    ExAttackType89SideView sides[2];
-    unsigned char unknown070[0x11C - 0x70];
-    int difficulty11C;
 };
 
 struct ExAttackType89BulletDescriptorStorage
@@ -72,7 +57,6 @@ struct ExAttackType89BulletDescriptorStorage
 typedef char ExAttackType89BulletDescriptorStorageSizeIs214[
     (sizeof(ExAttackType89BulletDescriptorStorage) == 0x214) ? 1 : -1];
 
-extern ExAttackType89GameManagerView g_GameManager;
 float __stdcall AddNormalizeAngle(float angle, float delta);
 
 int __fastcall ExAttackUpdateCallbackType8_9(ExAttackRecord *base)
@@ -143,7 +127,7 @@ int __fastcall ExAttackUpdateCallbackType8_9(ExAttackRecord *base)
             {
                 extra->state00 = 2;
                 record->timer10 = 0;
-                reinterpret_cast<ExAttackType89InterruptView *>(
+                reinterpret_cast<AnmVm *>(
                     record->dynamicData1C)->SetInterrupt(1);
                 record->rotation3C = extra->angle08;
                 return 0;

@@ -809,3 +809,4 @@ th09_ecl_select_next_context:
 // These lexical fragments are target-proven members of the same VC7.1 TU.
 #include "EclPostRuntime.inl"
 #include "ExAttackInitType8.inl"
+#include "ExAttackUpdateType8Type9.inl"
