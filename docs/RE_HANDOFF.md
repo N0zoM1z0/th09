@@ -207,6 +207,17 @@ candidate; visibility refresh also swaps the cursor/bound register roles.
 `DrawMusicRoom` in the same TU still replays 209/209 exact. Keep the update
 non-exact and do not infer exactness from its matching frame and call counts.
 
+### Current EnemyManager draw handoff
+
+`EnemyManagerDrawImpl @ 0x00411670` now cold-builds as 1,743/1,758 bytes
+with the target 0x88 frame and matching 28-call/42-branch census. Packet 668
+records the target-backed shared secondary-VM cursor, cached strip taper bit,
+float-width absolute-value comparisons, sprite-field reloads, and removal of
+an unused previous-angle initialization. The remaining strip loop uses EBX for
+the sample pointer and a stack index in the target, while the candidate keeps
+the index in EBX. It is source-present/non-exact. Both high/low draw wrappers
+remain exact at 35/35 and 38/38 bytes from the same TU.
+
 ### Current large ExAttack callback handoff
 
 `ExAttackUpdateCallbackType18_24 @ 0x004491E0` remains 1435/1436 bytes.

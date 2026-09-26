@@ -240,7 +240,7 @@ static int EnemyManagerDrawImpl(
                         float uvStep = uvSpan / ((vertexCount + 1) / 2 - 1);
                         float uv = sprite->uvEndX28 + enemy->vm008.uvScrollPos30.x;
                         EnemyDrawVertex *vertices = enemy->trailVertices3E68;
-                        float previousAngle = 0.0f;
+                        float previousAngle;
 
                         for (int k = 0; k < enemy->trailHistoryLength53A2;
                              k += enemy->trailSampleStride53A6, uv -= uvStep)
@@ -260,7 +260,9 @@ static int EnemyManagerDrawImpl(
                                     enemy->trailSamples33E8[k].angle18, 0.5f);
                             }
 
-                            if ((enemy->trailFlags53A0 & ENEMY_TRAIL_TAPER) != 0 &&
+                            unsigned char taperFlag =
+                                enemy->trailFlags53A0 & ENEMY_TRAIL_TAPER;
+                            if (taperFlag != 0 &&
                                 k > 0 &&
                                 k + enemy->trailSampleStride53A6 <
                                     enemy->trailHistoryLength53A2)
@@ -271,8 +273,10 @@ static int EnemyManagerDrawImpl(
                                     enemy->trailSamples33E8[
                                         enemy->trailSampleStride53A6].angle18,
                                     0.5f);
-                                if (EnemyDrawAbs(previousAngle - angle) < 0.00001f &&
-                                    EnemyDrawAbs(angle - nextAngle) < 0.00001f)
+                                if (static_cast<float>(EnemyDrawAbs(previousAngle - angle)) <
+                                        0.00001f &&
+                                    static_cast<float>(EnemyDrawAbs(angle - nextAngle)) <
+                                        0.00001f)
                                 {
                                     vertexCount -= 2;
                                     continue;
@@ -284,8 +288,9 @@ static int EnemyManagerDrawImpl(
                             float cosAngle = EnemyDrawCos(angle);
                             float halfCenter = 0.0f;
                             float halfWidth =
-                                savedScaleY * sprite->heightPx30 * 0.5f;
-                            if ((enemy->trailFlags53A0 & ENEMY_TRAIL_TAPER) != 0)
+                                savedScaleY *
+                                enemy->vm008.loadedSprite224->heightPx30 * 0.5f;
+                            if (taperFlag != 0)
                             {
                                 float taper = 1.0f -
                                     static_cast<float>(k) /
@@ -313,7 +318,8 @@ static int EnemyManagerDrawImpl(
                                 sinAngle * halfCenter + cosAngle * halfWidth + 16.0f;
                             vertices[0].textureUV.x = uv;
                             vertices[0].textureUV.y =
-                                sprite->uvStartY24 + enemy->vm008.uvScrollPos30.y;
+                                enemy->vm008.loadedSprite224->uvStartY24 +
+                                enemy->vm008.uvScrollPos30.y;
                             ++vertices;
 
                             vertices[0].pos = enemy->trailSamples33E8[k].position00;
@@ -323,7 +329,8 @@ static int EnemyManagerDrawImpl(
                                 sinAngle * halfCenter - cosAngle * halfWidth + 16.0f;
                             vertices[0].textureUV.x = uv;
                             vertices[0].textureUV.y =
-                                sprite->uvEndY2C + enemy->vm008.uvScrollPos30.y;
+                                enemy->vm008.loadedSprite224->uvEndY2C +
+                                enemy->vm008.uvScrollPos30.y;
                             ++vertices;
                         }
 
@@ -346,7 +353,6 @@ static int EnemyManagerDrawImpl(
                 g_AnmManager->Draw2D(&enemy->vm008);
             }
 
-            vm = &enemy->secondaryVms2AC[1];
             for (int k = 1; k < 2; ++k, ++vm)
             {
                 if (vm->scriptIndex21A >= 0)
