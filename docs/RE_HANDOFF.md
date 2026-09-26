@@ -114,7 +114,10 @@ calls, 598 relocations, resolver counts 131/100/17/24, and all 193 compiler-tabl
 entries present. Only four physical handler-length mismatches remain:
 opcode 21 INT_SUBTRACT (-3), opcode 23 INT_DIVIDE (+3), opcode 24 INT_MODULO
 (-3), and opcode 155 SET_TIMEOUT_SPELL (-1). All other RunEcl physical handler
-lengths are target-length.
+lengths are target-length. This is a handler-length census only: it does not
+mean RunEcl is four bytes or four local edits away from exact. Equal-length
+handlers can still contain ordinary byte, register-allocation, or scheduling
+differences, so choose the next hypothesis from a fresh complete comparison.
 
 The 21/23/24 direct arithmetic spelling is supported by the exact adjacent TH08
 source family. TH09-local probes using explicit locals, ternaries, out-helpers,
@@ -354,41 +357,35 @@ applied.
 
 ## Repository and artifact hygiene
 
-Before editing, inspect tracked and untracked work. Never overwrite another
-active reconstruction change.
+Treat dirty work as current repository state to understand, not as a reason to
+reset or avoid the worktree. Inspect tracked, untracked, and ignored artifacts
+before changing them; discard a change only after establishing that it is
+superseded or reproducible.
 
-Keep compiler outputs/probes under build/, .analysis/ databases and caches,
+Keep compiler outputs/probes under build/, analysis scratch under .analysis/,
 Python bytecode, temporary logs, local toolchains, Wine state, and private
-analysis artifacts out of Git.
+analysis artifacts out of Git. Neither build/ nor .analysis/ is an exactness
+authority.
 
 resources/th09.exe is intentionally local/ignored and is the canonical target
-input used by verification/replay. Do not delete it as part of ordinary build
-cleanup.
+input used by verification/replay. The pinned local compiler/toolchain input
+under .tools/ is likewise infrastructure, not disposable build output. Do not
+delete either during ordinary cleanup.
 
-The compiler outputs in `build/` are reproducible and can be cleared after
-validation. Classify `.analysis/` contents before cleanup: remove only proven
-inactive generated artifacts with no live references, and retain unclassified
-legacy probes and provider state. Neither directory is a source of canonical
-exactness. Canonical outputs must be reproducible from tracked source/config
-plus the local verified target and pinned toolchain.
+At the 2026-09-26 handoff cleanup, the remaining .analysis/ tree consisted of
+ignored probe sources, compiler outputs, comparison/report files, and temporary
+scripts. The audit found no tracked reference to a specific scratch file; live
+status and current unresolved work remain represented by the tracked ledgers,
+this handoff, and the historical knowledge file. The ignored .analysis/ tree,
+the reproducible build/ tree, and repository Python __pycache__ directories
+were therefore cleared. Historical packets may name scratch files that no
+longer exist; those paths are not durable evidence. Recreate any needed probe
+from tracked source/config plus the verified target and pinned toolchain, and
+revalidate its inputs before relying on it.
 
-At the 2026-09-26 cleanup checkpoint, the ignored `build/` tree contained only
-generated compiler/test output and was cleared. The ignored `.analysis/` tree
-held 2,352 i386 COFF objects and Microsoft MSF PDBs. The 2,294 generated
-binaries outside the explicitly `legacy-unknown` TitleScreen campaign (about
-152 MiB) had no tracked references or active TH09 producer and were cleared.
-The cleanup established their binary format, but did not record the individual
-producer and reproduction inputs for every file. Do not use their removal as
-evidence that each old probe is reproducible; rerun any needed comparison from
-tracked source and the verified target. This is a limitation of that cleanup,
-not a precedent for deleting other unmanifested artifacts.
-
-The TitleScreen campaign and unmanifested probe sources/results were retained
-as untrusted leads. A later audit found the ExAttack type-8/9 probe manifest
-still marked `active` despite no active TH09 producer and an empty artifact
-list; it was reclassified `legacy-unknown` with its six source probes retained.
-Recheck all retained probes' target, HEAD, compiler inputs, and producer before
-using them.
+A clean scratch tree is not evidence of codegen exactness. Canonical exactness
+still comes only from the tracked match-unit/ledger state and accepted
+target-bound replay.
 
 ## Documentation discipline
 

@@ -17,6 +17,12 @@ exact/non-exact labels are historical evidence only. Later evidence may
 explicitly correct an earlier packet; do not stop at the first matching
 historical note.
 
+Historical references to ignored build/ or .analysis/ paths are also
+checkpoint-local. Handoff cleanup may remove those files after their useful
+facts have been promoted. A missing scratch artifact does not validate or
+invalidate a claim by itself; rerun the probe from tracked source/config, the
+verified target, and the pinned toolchain before using it as current evidence.
+
 For evolving large owners, especially EclManager::RunEcl, packet-local code
 sizes, frame sizes, relocation counts and proposed source shapes are historical
 measurements. The live config/functions.csv row and a fresh repository

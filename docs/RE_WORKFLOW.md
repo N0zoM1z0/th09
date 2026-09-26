@@ -67,7 +67,10 @@ A normal checkpoint should therefore leave `.analysis/` small. In particular,
 `.obj`, `.pdb`, one-off probe `.cpp` files, copied `.hpp` files, and stale
 inventory CSVs are build/workspace artifacts rather than evidence. Compact
 JSON/TXT/DIS receipts for unresolved frontiers may remain until their facts are
-promoted or superseded. Classify each deletion by producer, reproducibility,
-references, and active ownership. Never bulk-delete the directory or remove
-unexplained legacy artifacts from a recovered session; first establish what
-they prove and whether that proof exists elsewhere.
+promoted or superseded. Classify deletion by reproducibility, tracked
+references, and whether the useful fact has been promoted. Do not blindly
+delete a recovered scratch tree before that audit. Once the remaining scratch
+has no tracked consumers and every still-useful unresolved fact is recorded in
+tracked source/ledgers/docs, a deliberate handoff cleanup may remove the whole
+.analysis/ tree; record that cleanup in docs/RE_HANDOFF.md so future agents do
+not treat vanished scratch paths as missing canonical evidence.
