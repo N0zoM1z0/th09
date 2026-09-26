@@ -4195,3 +4195,11 @@ name into a TH09 fact without target-local evidence.
 - Replacing the maintained long-lived AnmVmView *visibleVm with the ordinary array-index spelling vms[191 + visibleCount] lets stock VC7.1 strength-reduce the index into exactly that EDI offset cursor. The function moves from 2232 bytes / 623 instructions to 2244 / 626 versus target 2241 / 627, while normalized register/address/branch shape similarity improves from 0.844800 to 0.853951. TH08 character-selection source independently uses indexed VM access, supporting the source-family correction.
 - The remaining local frontier is now isolated to stack-slot coloring. Retail reserves 0x08 bytes and reuses [ebp-4] first as visibleCount and later as the two char homes [ebp-2]/[ebp-1]; stock VC7.1 keeps visibleCount at [ebp-0x0C] and therefore reserves 0x0C. Explicit byte-offset variables grow to 0x10. Function-scope declarations, eight ordinary declaration-order permutations, and diagnostic var_order permutations all remain 2244 / 0x0C, so no layout pragma is retained.
 - Regression is clean: one modified O1 TitleScreen.cpp object leaves all 28 configured O1 canonical neighbor functions byte-identical with identical relocation records, and the independent O2 score-record-insert unit still replays exact. Exactness remains false.
+
+
+## Packet 655 ReadAnmEntries third replay blocked by global lock churn
+
+- ReadAnmEntries @ 0x0043C610 remains locally structural-exact: the current maintained source cold-builds as 390/390 bytes with all 17 relocation destinations matching under its pinned O2/Ob1 profile.
+- After the unrelated th10 lock was observed clear, replay staging commit b53554a bound the same exact claim to a new clean snapshot and Factory job job:8a0258e5d52e4b78802d51b91b3caaef.
+- That third attempt again failed before oracle execution, this time because another Factory operation owned the unrelated th04 live worktree. There is still no receipt verdict and no acceptance decision.
+- The temporary exact row, match row and match-unit registration are removed again. Canonical accounting therefore stays at the acceptance-backed total; future replay should wait for a stable global Factory window rather than repeatedly staging through lock churn.
