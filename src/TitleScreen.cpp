@@ -535,49 +535,80 @@ void __cdecl TitleScreenView::TitleSetupThread(void *unused)
     while (g_TitleAnmManager->captureSurfaceIndex >= 0)
         Sleep(1);
 
-    g_TitleScreen->titleAnm = g_TitleAnmManager->PreloadAnm(15, "title01.anm");
-    if (g_TitleScreen->titleAnm == 0)
+    TitleAnmView *loadedTitleAnm = g_TitleAnmManager->PreloadAnm(15, "title01.anm");
+    TitleScreenView *title = g_TitleScreen;
+    title->titleAnm = loadedTitleAnm;
+    if (loadedTitleAnm == 0)
     {
-        g_TitleScreen->chainState = 2;
+        title->chainState = 2;
         return;
     }
 
-    g_TitleScreen->resultTextAnm = g_TitleAnmManager->PreloadAnm(17, "resulttext.anm");
-    if (g_TitleScreen->resultTextAnm == 0)
+    TitleAnmView *loadedResultAnm = g_TitleAnmManager->PreloadAnm(17, "resulttext.anm");
+    title = g_TitleScreen;
+    title->resultTextAnm = loadedResultAnm;
+    if (loadedResultAnm == 0)
     {
-        g_TitleScreen->chainState = 2;
+        title->chainState = 2;
         return;
-    }
-
-    if (g_TitleSupervisor.subthreadCloseRequestActive)
-        return;
-
-    for (i32 i = 0; i < 14; i++)
-    {
-        AnmVmView *helpVm = &g_TitleScreen->embeddedVms[i];
-        AnmVmView *infoVm = &g_TitleScreen->embeddedVms[35 + i];
-
-        g_TitleSupervisor.textAnm->ExecuteAnmIdx(helpVm, 5);
-        g_TitleSupervisor.textAnm->SetSprite(helpVm, helpVm->activeSpriteIndex + i);
-        g_TitleSupervisor.textAnm->SetSprite(infoVm, i + 21);
-
-        TitleFloat3View position = {
-            64.0f,
-            (float)i * 16.0f + (i <= 4 ? 352.0f : 362.0f),
-            0.0f,
-        };
-        infoVm->flagsLow |= 0x1802;
-        infoVm->position = position;
-        infoVm->fontWidth = 15;
-        infoVm->fontHeight = 15;
     }
 
     if (g_TitleSupervisor.subthreadCloseRequestActive)
         return;
 
-    const char *surfacePath =
-        g_TitleScreen->currentScreen == 1 ? "title/title00.png" : "title/result00.png";
-    if (g_TitleAnmManager->PreloadSurface(0, surfacePath))
+    for (i32 i = 0, vmOffset = 0; vmOffset < 14 * 0x2A4;
+         ++i, vmOffset += 0x2A4)
+    {
+        g_TitleSupervisor.textAnm->ExecuteAnmIdx(
+            reinterpret_cast<AnmVmView *>(
+                reinterpret_cast<u8 *>(&title->embeddedVms[0]) + vmOffset), 5);
+        g_TitleSupervisor.textAnm->SetSprite(
+            reinterpret_cast<AnmVmView *>(
+                reinterpret_cast<u8 *>(&g_TitleScreen->embeddedVms[0]) + vmOffset),
+            reinterpret_cast<AnmVmView *>(
+                reinterpret_cast<u8 *>(&g_TitleScreen->embeddedVms[0]) + vmOffset)->activeSpriteIndex + i);
+        g_TitleSupervisor.textAnm->SetSprite(
+            reinterpret_cast<AnmVmView *>(
+                reinterpret_cast<u8 *>(&g_TitleScreen->embeddedVms[35]) + vmOffset), i + 21);
+
+        title = g_TitleScreen;
+        TitleFloat3View *positionOut = &reinterpret_cast<AnmVmView *>(
+            reinterpret_cast<u8 *>(&title->embeddedVms[35]) + vmOffset)->position;
+        float y = (float)i * 16.0f;
+        TitleFloat3View upper, lower;
+        TitleFloat3View *position;
+        if (vmOffset <= 4 * 0x2A4)
+        {
+            lower.x = 64.0f;
+            lower.y = y + 352.0f;
+            lower.z = 0.0f;
+            position = &lower;
+        }
+        else
+        {
+            upper.x = 64.0f;
+            upper.y = y + 362.0f;
+            upper.z = 0.0f;
+            position = &upper;
+        }
+        reinterpret_cast<AnmVmView *>(
+            reinterpret_cast<u8 *>(&title->embeddedVms[35]) + vmOffset)->flagsLow |= 0x1802;
+        *positionOut = *position;
+        reinterpret_cast<AnmVmView *>(
+            reinterpret_cast<u8 *>(&title->embeddedVms[35]) + vmOffset)->fontWidth = 15;
+        reinterpret_cast<AnmVmView *>(
+            reinterpret_cast<u8 *>(&title->embeddedVms[35]) + vmOffset)->fontHeight = 15;
+    }
+
+    if (g_TitleSupervisor.subthreadCloseRequestActive)
+        return;
+
+    int surfaceError;
+    if (title->currentScreen == 1)
+        surfaceError = g_TitleAnmManager->PreloadSurface(0, "title/title00.png");
+    else
+        surfaceError = g_TitleAnmManager->PreloadSurface(0, "title/result00.png");
+    if (surfaceError)
     {
         g_TitleScreen->chainState = 2;
         return;
@@ -590,8 +621,9 @@ void __cdecl TitleScreenView::TitleSetupThread(void *unused)
         ScreenEffect::RegisterChain(SCREEN_EFFECT_FULL_FADE_IN, 70, 0xFFFFFF, 0, 0, 35, 2);
     }
 
-    g_TitleScreen->currentHelpTextVm = &g_TitleScreen->embeddedVms[0];
-    g_TitleScreen->chainState = 0;
+    title = g_TitleScreen;
+    title->currentHelpTextVm = &title->embeddedVms[0];
+    title->chainState = 0;
     if (g_TitleFadeReleaseEffect != 0)
         g_TitleFadeReleaseEffect->BeginFadeRelease();
     g_TitleFadeReleaseEffect = 0;

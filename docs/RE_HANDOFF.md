@@ -139,6 +139,17 @@ match unit on a clean committed snapshot, and promote the row only after both
 `receipt_verdict=pass` and `acceptance_decision=accepted`. Keep local structural
 equality separate from canonical credit while the service is unavailable.
 
+### Current TitleSetupThread handoff
+
+`TitleScreenView::TitleSetupThread @ 0x004249E1` remains source-present/non-exact.
+The maintained O1/Ob1 source now emits 533/534 bytes and matches the target
+0x1C frame, EBX VM byte-offset induction, stack row index, and two separate
+position temporaries. Its first ANM-result/owner sequence and loop entry are
+target-aligned. The remaining residual is VM-base CSE and loop-tail store
+scheduling, plus a CMP/TEST choice after the surface load. All 28 configured
+TitleScreen O1 exact neighbors replay after this source correction. Packet 661
+supersedes the earlier 537-byte/0x14-frame baseline in Packet 658.
+
 ### Current ExAttack type-8/9 handoff
 
 `ExAttackUpdateCallbackType8_9 @ 0x00446920` now lives in the EclManager
