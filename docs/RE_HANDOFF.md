@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 877 |
-| Source-present non-exact functions | 102 |
-| Source-present non-exact bytes | 115,741 |
+| Canonical exact functions | 878 |
+| Source-present non-exact functions | 101 |
+| Source-present non-exact bytes | 115,002 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 159,928 |
+| Canonical exact authored bytes | 160,667 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -181,6 +181,19 @@ the source corrections; see Packet 664 and accepted Factory receipt
 `receipt:7b1487ee3c96cd6807f2fa4cefc9ecf96c75f8ccb2104c1048da6d6fedd06945`.
 All 29 configured TitleScreen O1 units
 and the separate O2 score-record unit replay exact after this correction.
+
+### Current ExAttack type-4 update handoff
+
+ExAttackUpdateCallbackType4 at 0x00442BD0 is now canonical exact under the
+pinned VC7.1 /O2 /Ob1 /Oi /Oy- /Gr profile. Two cold repository-defined
+replays reproduce all 739 bytes and 28 relocation destinations. The closing
+one-byte residual was not register steering: target calls the shared/folded
+identity body at 0x004343D0 and retains returned EAX for the collision-size
+stores. Modeling that call as the already target-bound
+PlayerPositionView::operator float*() instead of a guessed unique collision
+constructor naturally emits the target sequence. Physical 0x004343D0
+ownership remains unresolved/shared; exactness is local to this callback and
+does not assign a unique source owner to that folded body. See Packet 675.
 
 ### Current ExAttack type-8/9 handoff
 

@@ -54,18 +54,6 @@ struct ExAttackType4UpdateRecord
     ExAttackType4SourceRecord *parameter38;
 };
 
-struct ExAttackType4CollisionSizeView
-{
-    float x;
-    float y;
-    float z;
-
-    ExAttackType4CollisionSizeView();
-};
-
-typedef char ExAttackType4CollisionSizeViewSizeIs0C[
-    (sizeof(ExAttackType4CollisionSizeView) == 0x0C) ? 1 : -1];
-
 struct ExAttackType4CircleAppendView
 {
     void AppendCircleRecord(
@@ -135,10 +123,11 @@ int __fastcall ExAttackUpdateCallbackType4(ExAttackRecord *base)
         ExAttackType4SourceExtra *sourceExtra =
             record->parameter38->extra34;
 
-        ExAttackType4CollisionSizeView collisionSize;
-        collisionSize.x = 12.0f;
-        collisionSize.y = 12.0f;
-        collisionSize.z = 0.0f;
+        PlayerPositionView collisionSize;
+        float *collision = collisionSize.operator float *();
+        collision[0] = 12.0f;
+        collision[1] = 12.0f;
+        collision[2] = 0.0f;
 
         if (sourceExtra == 0 || sourceExtra->state00 != 0)
         {
