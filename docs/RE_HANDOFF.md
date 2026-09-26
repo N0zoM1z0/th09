@@ -190,6 +190,21 @@ this source batch, all 18 configured EclManager exact units cold-replayed
 byte- and relocation-exact after refreshing two compiler-private jump-table
 label names. Focused checks suffice between later source edits.
 
+### Current large ExAttack callback handoff
+
+`ExAttackUpdateCallbackType18_24 @ 0x004491E0` remains 1435/1436 bytes.
+The target has a 0x48 frame with collision size at `[ebp-0x24]`, three
+distinct history-delta slots at `-0x30/-0x3C/-0x48`, and collision point at
+`-0x18`. The maintained separate-TU candidate allocates those objects in a
+different order. Same-TU visibility of the exact `Float3` constructor and
+subtraction definitions moves collision size to the target slot but merges the
+three history deltas into one slot; it does not prove original TU ownership.
+Simple source declaration and condition inversions do not close the callback.
+`ExAttackUpdateCallbackType21 @ 0x0044B500` remains 1074/1074 but retains
+an ESI=record / EDI=extra allocation where the target uses EDI=record /
+ESI=extra. See Packet 663 before repeating compiler-context probes. No
+source or exactness state changed.
+
 ## Boundary and origin closure
 
 All 2,191 tracked candidates have boundary/origin review. Current dispositions
