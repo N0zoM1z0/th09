@@ -150,6 +150,21 @@ scheduling, plus a CMP/TEST choice after the surface load. All 28 configured
 TitleScreen O1 exact neighbors replay after this source correction. Packet 661
 supersedes the earlier 537-byte/0x14-frame baseline in Packet 658.
 
+### Current OnUpdateOptions handoff
+
+`TitleScreenView::OnUpdateOptions @ 0x004276EB` remains source-present/non-exact.
+The corrected nine-entry options source has unsigned help-text indexing,
+explicit left/right option wrap branches, four volume-key switches, a 6/7/8
+confirm-key switch, and an inclusive 3..4 timed-sound range. A focused pinned
+`/O1 /Ob1 /Oy- /Gr` build emits 2048/2045 bytes, 135 relocations, and the
+target's 51 calls, 26 unconditional jumps, and 60 conditional jumps. The
+remaining register-lifetime mismatch begins after the right-scroll call at
++0x540: target clears EBX before testing AX; the candidate clears it after the
+pressed branch and later uses EDI for zero and EBX for selector 6. The
+exact-sized alternative with a 6/7/8 `if` chain does not reproduce the target
+switch; the normalized-switch alternative inserts redundant instructions.
+See Packet 662. Do not promote this owner on length or census alone.
+
 ### Current ExAttack type-8/9 handoff
 
 `ExAttackUpdateCallbackType8_9 @ 0x00446920` now lives in the EclManager

@@ -140,7 +140,7 @@ typedef char OptionsTitleScreenSizeIs1B388[(sizeof(TitleScreenView) == 0x1B388) 
 
 int TitleScreenView::OnUpdateOptions()
 {
-    i32 i;
+    u32 i;
 
     switch (currentScreenState)
     {
@@ -235,37 +235,37 @@ int TitleScreenView::OnUpdateOptions()
             {
             case 0:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                if (g_OptionA)
-                    g_OptionA--;
-                else
+                if (g_OptionA == 0)
                     g_OptionA = 2;
+                else
+                    g_OptionA--;
                 SetMenuSelectionSprites(g_OptionA, 18, 3);
                 break;
             case 1:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                if (g_OptionB)
-                    g_OptionB--;
-                else
+                if (g_OptionB == 0)
                     g_OptionB = 1;
+                else
+                    g_OptionB--;
                 SetMenuSelectionSprites(g_OptionB, 21, 2);
                 break;
             case 2:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
                 g_TitleSupervisor.StopAudio();
-                if (g_OptionC)
-                    g_OptionC--;
-                else
+                if (g_OptionC == 0)
                     g_OptionC = 1;
+                else
+                    g_OptionC--;
                 g_TitleSupervisor.LoadMusic(0);
                 g_TitleSupervisor.PlayMusic(0, 0);
                 SetMenuSelectionSprites(g_OptionC, 23, 3);
                 break;
             case 5:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                if (g_OptionD)
-                    g_OptionD--;
-                else
+                if (g_OptionD == 0)
                     g_OptionD = 1;
+                else
+                    g_OptionD--;
                 SetMenuSelectionSprites(g_OptionD, 34, 2);
                 break;
             default:
@@ -277,69 +277,81 @@ int TitleScreenView::OnUpdateOptions()
 
         if (g_TitleInputFlags & 0x40)
         {
-            if (keyboardSelection == 3)
+            switch (keyboardSelection)
             {
+            case 3: {
                 g_TitleMusicVolume -= 4;
                 if (g_TitleMusicVolume < 0)
                     g_TitleMusicVolume = 0;
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
+                break;
             }
-            else if (keyboardSelection == 4)
-            {
+            case 4: {
                 g_TitleSfxVolume -= 4;
                 if (g_TitleSfxVolume < 0)
                     g_TitleSfxVolume = 0;
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
+                break;
+            }
             }
         }
 
         if (g_TitleInputFlags & 0x80)
         {
-            if (keyboardSelection == 3)
+            switch (keyboardSelection)
             {
+            case 3: {
                 g_TitleMusicVolume += 4;
                 if (g_TitleMusicVolume > 100)
                     g_TitleMusicVolume = 100;
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
+                break;
             }
-            else if (keyboardSelection == 4)
-            {
+            case 4: {
                 g_TitleSfxVolume += 4;
                 if (g_TitleSfxVolume > 100)
                     g_TitleSfxVolume = 100;
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
+                break;
+            }
             }
         }
 
         if (g_TitleInputFlags & 0x40)
         {
-            if (keyboardSelection == 3)
+            switch (keyboardSelection)
             {
+            case 3: {
                 if (g_TitleMusicVolume > 0)
                     g_TitleMusicVolume--;
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
+                break;
             }
-            else if (keyboardSelection == 4)
-            {
+            case 4: {
                 if (g_TitleSfxVolume > 0)
                     g_TitleSfxVolume--;
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
+                break;
+            }
             }
         }
 
         if (g_TitleInputFlags & 0x80)
         {
-            if (keyboardSelection == 3)
+            switch (keyboardSelection)
             {
+            case 3: {
                 if (g_TitleMusicVolume < 100)
                     g_TitleMusicVolume++;
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
+                break;
             }
-            else if (keyboardSelection == 4)
-            {
+            case 4: {
                 if (g_TitleSfxVolume < 100)
                     g_TitleSfxVolume++;
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
+                break;
+            }
             }
         }
 
@@ -352,28 +364,37 @@ int TitleScreenView::OnUpdateOptions()
             {
             case 0:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                if (g_OptionA < 2)
-                    g_OptionA++;
-                else
+                if (g_OptionA >= 2)
                     g_OptionA = 0;
+                else
+                    g_OptionA++;
                 SetMenuSelectionSprites(g_OptionA, 18, 3);
                 break;
             case 1:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                g_OptionB = g_OptionB == 0;
+                if (g_OptionB >= 1)
+                    g_OptionB = 0;
+                else
+                    g_OptionB++;
                 SetMenuSelectionSprites(g_OptionB, 21, 2);
                 break;
             case 2:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
                 g_TitleSupervisor.StopAudio();
-                g_OptionC = g_OptionC == 0;
+                if (g_OptionC >= 1)
+                    g_OptionC = 0;
+                else
+                    g_OptionC++;
                 g_TitleSupervisor.LoadMusic(0);
                 g_TitleSupervisor.PlayMusic(0, 0);
                 SetMenuSelectionSprites(g_OptionC, 23, 3);
                 break;
             case 5:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                g_OptionD = g_OptionD == 0;
+                if (g_OptionD >= 1)
+                    g_OptionD = 0;
+                else
+                    g_OptionD++;
                 SetMenuSelectionSprites(g_OptionD, 34, 2);
                 break;
             default:
@@ -383,14 +404,15 @@ int TitleScreenView::OnUpdateOptions()
         }
     right_scrolling_done:
 
-        if ((keyboardSelection == 3 || keyboardSelection == 4) && stateTimer2 % 50 == 0)
+        if ((keyboardSelection >= 3 && keyboardSelection <= 4) && stateTimer2 % 50 == 0)
             g_SoundPlayer.PlaySoundByIdx(29, 0);
 
         optionsFrameCounter = 0;
         if (g_TitleInputFlags & 0x1001)
         {
-            if (keyboardSelection == 6)
+            switch (keyboardSelection)
             {
+            case 6:
                 g_OptionA = 0;
                 g_OptionC = 1;
                 g_OptionUnknown3537 = 1;
@@ -399,16 +421,13 @@ int TitleScreenView::OnUpdateOptions()
                 SetMenuSelectionSprites(g_OptionB, 21, 2);
                 SetMenuSelectionSprites(g_OptionC, 23, 3);
                 SetMenuSelectionSprites(g_OptionD, 34, 2);
-            }
-            else if (keyboardSelection == 7)
-            {
+                break;
+            case 7:
                 keyboardSelection = 0;
                 ChangeCurrentScreen(10);
                 PlayMenuSound(10, 0);
                 return 1;
-            }
-            else if (keyboardSelection == 8)
-            {
+            case 8:
                 goto leave_options;
             }
         }
