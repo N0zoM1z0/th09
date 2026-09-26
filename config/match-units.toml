@@ -8405,6 +8405,58 @@ relocations = [
   { offset = 0x5F, type = "REL32", symbol = "?PlaySoundByIdx@SoundPlayerView@@QAEXHH@Z", target = 0x0043E2F0 },
 ]
 
+[units.title-screen-setup-thread]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::TitleSetupThread"]
+symbol = "?TitleSetupThread@TitleScreenView@@SAXPAX@Z"
+target_address = 0x004249E1
+size = 0x216
+relocations = [
+  { offset = 0xF, type = "DIR32", symbol = "__imp__Sleep@4", target = 0x0048E058 },
+  { offset = 0x15, type = "DIR32", symbol = "?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x1F, type = "DIR32", symbol = "??_C@_0M@FNDFFBLC@title01?4anm?$AA@", target = 0x0048F680 },
+  { offset = 0x26, type = "REL32", symbol = "?PreloadAnm@TitleAnmManagerView@@QAEPAUTitleAnmView@@HPBD@Z", target = 0x0043C7A0 },
+  { offset = 0x2E, type = "DIR32", symbol = "?g_TitleScreen@@3PAUTitleScreenView@@A", target = 0x004AC8C0 },
+  { offset = 0x3C, type = "DIR32", symbol = "?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x41, type = "DIR32", symbol = "??_C@_0P@IFDCKOIM@resulttext?4anm?$AA@", target = 0x0048F670 },
+  { offset = 0x48, type = "REL32", symbol = "?PreloadAnm@TitleAnmManagerView@@QAEPAUTitleAnmView@@HPBD@Z", target = 0x0043C7A0 },
+  { offset = 0x50, type = "DIR32", symbol = "?g_TitleScreen@@3PAUTitleScreenView@@A", target = 0x004AC8C0 },
+  { offset = 0x6D, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100, addend = 0x000006B4 },
+  { offset = 0x85, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100, addend = 0x000005CC },
+  { offset = 0x8D, type = "REL32", symbol = "?ExecuteAnmIdx@TitleAnmView@@QAEXPAUAnmVmView@@H@Z", target = 0x00403E00 },
+  { offset = 0x92, type = "DIR32", symbol = "?g_TitleScreen@@3PAUTitleScreenView@@A", target = 0x004AC8C0 },
+  { offset = 0xA7, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100, addend = 0x000005CC },
+  { offset = 0xB2, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+  { offset = 0xB7, type = "DIR32", symbol = "?g_TitleScreen@@3PAUTitleScreenView@@A", target = 0x004AC8C0 },
+  { offset = 0xBD, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100, addend = 0x000005CC },
+  { offset = 0xCE, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
+  { offset = 0xDD, type = "DIR32", symbol = "?g_TitleScreen@@3PAUTitleScreenView@@A", target = 0x004AC8C0 },
+  { offset = 0xEA, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
+  { offset = 0xF2, type = "DIR32", symbol = "__real@43b00000", target = 0x0048F66C },
+  { offset = 0x10C, type = "DIR32", symbol = "__real@43b50000", target = 0x0048F668 },
+  { offset = 0x158, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100, addend = 0x000006B4 },
+  { offset = 0x16B, type = "DIR32", symbol = "?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x172, type = "DIR32", symbol = "??_C@_0BC@NIJCKPMF@title?1title00?4png?$AA@", target = 0x0048F654 },
+  { offset = 0x179, type = "DIR32", symbol = "??_C@_0BD@JGJJAHCD@title?1result00?4png?$AA@", target = 0x0048F640 },
+  { offset = 0x17F, type = "REL32", symbol = "?PreloadSurface@TitleAnmManagerView@@QAEHHPBD@Z", target = 0x0043CCD0 },
+  { offset = 0x188, type = "DIR32", symbol = "?g_TitleScreen@@3PAUTitleScreenView@@A", target = 0x004AC8C0 },
+  { offset = 0x19A, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
+  { offset = 0x1A0, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x1A8, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100, addend = 0x00000594 },
+  { offset = 0x1B3, type = "REL32", symbol = "?LoadMusic@TitleSupervisorView@@QAEHH@Z", target = 0x0042FC20 },
+  { offset = 0x1C8, type = "REL32", symbol = "?RegisterChain@ScreenEffect@@SIPAU1@W4ScreenEffectType@@HHHHHH@Z", target = 0x00422D20 },
+  { offset = 0x1CD, type = "DIR32", symbol = "?g_TitleScreen@@3PAUTitleScreenView@@A", target = 0x004AC8C0 },
+  { offset = 0x1E5, type = "DIR32", symbol = "?g_TitleFadeReleaseEffect@@3PAUScreenEffect@@A", target = 0x004A7C80 },
+  { offset = 0x1EE, type = "REL32", symbol = "?BeginFadeRelease@ScreenEffect@@QAEXXZ", target = 0x00422930 },
+  { offset = 0x1F6, type = "DIR32", symbol = "?g_TitleFadeReleaseEffect@@3PAUScreenEffect@@A", target = 0x004A7C80 },
+  { offset = 0x1FB, type = "REL32", symbol = "?HideLoadingVms@TitleSupervisorView@@QAEXXZ", target = 0x00430360 },
+  { offset = 0x201, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100, addend = 0x000006AC },
+  { offset = 0x207, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100, addend = 0x000006B4 },
+  { offset = 0x20D, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100, addend = 0x000006B8 },
+]
+
 [units.title-screen-actual-added-callback]
 source = "src/TitleScreen.cpp"
 object = "build/matching/TitleScreen.obj"
@@ -18220,7 +18272,7 @@ relocations = [
   { offset = 0x396, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
   { offset = 0x39C, type = "DIR32", symbol = "?g_DemoReplayIndex@@3EA", target = 0x004A7ECF },
   { offset = 0x3A8, type = "DIR32", symbol = "?g_TitleInputFlags@@3IA", target = 0x004ACF3A },
-  { offset = 0x3C2, type = "DIR32", symbol = "$L59972", target = 0x0042A43B },
+  { offset = 0x3C2, type = "DIR32", symbol = "$L59990", target = 0x0042A43B },
   { offset = 0x3C8, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
   { offset = 0x3D2, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x3E7, type = "DIR32", symbol = "?g_TitleLockedMenuItem@@3EA", target = 0x004A81F8 },
@@ -18264,14 +18316,14 @@ relocations = [
   { offset = 0x5E9, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
   { offset = 0x5F3, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x612, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
-  { offset = 0x618, type = "DIR32", symbol = "$L59487", target = 0x0042A1E9 },
-  { offset = 0x61C, type = "DIR32", symbol = "$L59489", target = 0x0042A208 },
-  { offset = 0x620, type = "DIR32", symbol = "$L59492", target = 0x0042A23C },
-  { offset = 0x624, type = "DIR32", symbol = "$L59493", target = 0x0042A286 },
-  { offset = 0x628, type = "DIR32", symbol = "$L59495", target = 0x0042A2D2 },
-  { offset = 0x62C, type = "DIR32", symbol = "$L59494", target = 0x0042A293 },
-  { offset = 0x630, type = "DIR32", symbol = "$L59496", target = 0x0042A302 },
-  { offset = 0x634, type = "DIR32", symbol = "$L59497", target = 0x0042A380 },
+  { offset = 0x618, type = "DIR32", symbol = "$L59483", target = 0x0042A1E9 },
+  { offset = 0x61C, type = "DIR32", symbol = "$L59485", target = 0x0042A208 },
+  { offset = 0x620, type = "DIR32", symbol = "$L59488", target = 0x0042A23C },
+  { offset = 0x624, type = "DIR32", symbol = "$L59489", target = 0x0042A286 },
+  { offset = 0x628, type = "DIR32", symbol = "$L59491", target = 0x0042A2D2 },
+  { offset = 0x62C, type = "DIR32", symbol = "$L59490", target = 0x0042A293 },
+  { offset = 0x630, type = "DIR32", symbol = "$L59492", target = 0x0042A302 },
+  { offset = 0x634, type = "DIR32", symbol = "$L59493", target = 0x0042A380 },
 ]
 
 [units.anm-manager-read-anm-entries]

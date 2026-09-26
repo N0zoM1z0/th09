@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 876 |
-| Source-present non-exact functions | 103 |
-| Source-present non-exact bytes | 116,275 |
+| Canonical exact functions | 877 |
+| Source-present non-exact functions | 102 |
+| Source-present non-exact bytes | 115,741 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 159,394 |
+| Canonical exact authored bytes | 159,928 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -80,7 +80,7 @@ After a substantive exact promotion, update the ledgers and docs, run the
 validators, replay the affected units, then checkpoint with a commit message of
 the form:
 
-    gpt-6-sol: short description
+    gpt-web: short description
 
 ## Work routing
 
@@ -134,14 +134,27 @@ comparison because of unrelated global locks.
 
 ### Current TitleSetupThread handoff
 
-`TitleScreenView::TitleSetupThread @ 0x004249E1` remains source-present/non-exact.
-The maintained O1/Ob1 source now emits 533/534 bytes and matches the target
-0x1C frame, EBX VM byte-offset induction, stack row index, and two separate
-position temporaries. Its first ANM-result/owner sequence and loop entry are
-target-aligned. The remaining residual is VM-base CSE and loop-tail store
-scheduling, plus a CMP/TEST choice after the surface load. All 29 configured
-TitleScreen O1 exact neighbors replay after this source correction. Packet 661
-supersedes the earlier 537-byte/0x14-frame baseline in Packet 658.
+`TitleScreenView::TitleSetupThread @ 0x004249E1` is now canonical exact.
+Under the established pinned VC7.1 `/O1 /Ob1 /Oy- /Gr` TitleScreen profile,
+the maintained source reproduces all 534 target bytes and all 41 reviewed
+relocations with the target `0x1C` frame.
+
+The closing source-shape evidence is three-part. TH09 itself fixes Supervisor
+`totalPlayTime` at `+0x798`, the complete setup-worker target body, and every
+callee/field used here. Clean committed TH08 contributes only the source-family
+hypothesis: indexed Title VM access with direct `Float3(...)` construction,
+branch-local `PreloadSurface` failure handling, and a redundant
+`totalPlayTime` if/else whose two arms call the same fade registration.
+Replaying those shapes against TH09 makes VC7.1 emit the target VM induction,
+`TEST EAX,EAX` surface check, and fastcall argument-materialization order
+without register forcing or padding.
+
+All 30 pre-existing configured `TitleScreen.cpp` units still replay exact
+after the change (29 O1 TitleScreen units plus the separate O2 score-record
+unit). `title-screen-start-menu` required only compiler-private `$L...` /
+EH-label name refreshes; relocation offsets, types, solved target destinations
+and function bytes are unchanged. The new setup-worker unit brings the source
+file to 31 configured replay units.
 
 ### Current OnUpdateOptions handoff
 

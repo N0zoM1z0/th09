@@ -115,6 +115,8 @@ struct ReplayManagerView {
 };
 
 struct TitleFloat3View {
+    TitleFloat3View() {}
+    TitleFloat3View(float x_, float y_, float z_) : x(x_), y(y_), z(z_) {}
     float x;
     float y;
     float z;
@@ -258,6 +260,8 @@ struct TitleSupervisorView {
     i32 recordingFpsState788;                   // +0x788
     i32 recordingFpsState78C;                   // +0x78C
     i32 recordingFpsState790;                   // +0x790
+    u8 unknown794[4];
+    u32 totalPlayTime798;                       // +0x798
 
     int LoadMusic(i32 trackId);
     void PlayMusic(i32 track, i32 unused);
@@ -284,6 +288,8 @@ typedef char TitleSupervisorPlaybackWarningAt780[
     (offsetof(TitleSupervisorView, playbackFpsWarning780) == 0x780) ? 1 : -1];
 typedef char TitleSupervisorRecordingState790[
     (offsetof(TitleSupervisorView, recordingFpsState790) == 0x790) ? 1 : -1];
+typedef char TitleSupervisorTotalPlayTimeAt798[
+    (offsetof(TitleSupervisorView, totalPlayTime798) == 0x798) ? 1 : -1];
 
 struct TitleAsciiManagerView {
     void Reset();
@@ -556,69 +562,57 @@ void __cdecl TitleScreenView::TitleSetupThread(void *unused)
     if (g_TitleSupervisor.subthreadCloseRequestActive)
         return;
 
-    for (i32 i = 0, vmOffset = 0; vmOffset < 14 * 0x2A4;
-         ++i, vmOffset += 0x2A4)
+    for (i32 i = 0; i < 14; ++i)
     {
         g_TitleSupervisor.textAnm->ExecuteAnmIdx(
-            reinterpret_cast<AnmVmView *>(
-                reinterpret_cast<u8 *>(&title->embeddedVms[0]) + vmOffset), 5);
+            &title->embeddedVms[i], 5);
         g_TitleSupervisor.textAnm->SetSprite(
-            reinterpret_cast<AnmVmView *>(
-                reinterpret_cast<u8 *>(&g_TitleScreen->embeddedVms[0]) + vmOffset),
-            reinterpret_cast<AnmVmView *>(
-                reinterpret_cast<u8 *>(&g_TitleScreen->embeddedVms[0]) + vmOffset)->activeSpriteIndex + i);
+            &g_TitleScreen->embeddedVms[i],
+            g_TitleScreen->embeddedVms[i].activeSpriteIndex + i);
         g_TitleSupervisor.textAnm->SetSprite(
-            reinterpret_cast<AnmVmView *>(
-                reinterpret_cast<u8 *>(&g_TitleScreen->embeddedVms[35]) + vmOffset), i + 21);
+            &g_TitleScreen->embeddedVms[i + 35], i + 21);
 
         title = g_TitleScreen;
-        TitleFloat3View *positionOut = &reinterpret_cast<AnmVmView *>(
-            reinterpret_cast<u8 *>(&title->embeddedVms[35]) + vmOffset)->position;
         float y = (float)i * 16.0f;
-        TitleFloat3View upper, lower;
-        TitleFloat3View *position;
-        if (vmOffset <= 4 * 0x2A4)
-        {
-            lower.x = 64.0f;
-            lower.y = y + 352.0f;
-            lower.z = 0.0f;
-            position = &lower;
-        }
+        if (i <= 4)
+            title->embeddedVms[i + 35].position =
+                TitleFloat3View(64.0f, y + 352.0f, 0.0f);
         else
-        {
-            upper.x = 64.0f;
-            upper.y = y + 362.0f;
-            upper.z = 0.0f;
-            position = &upper;
-        }
-        reinterpret_cast<AnmVmView *>(
-            reinterpret_cast<u8 *>(&title->embeddedVms[35]) + vmOffset)->flagsLow |= 0x1802;
-        *positionOut = *position;
-        reinterpret_cast<AnmVmView *>(
-            reinterpret_cast<u8 *>(&title->embeddedVms[35]) + vmOffset)->fontWidth = 15;
-        reinterpret_cast<AnmVmView *>(
-            reinterpret_cast<u8 *>(&title->embeddedVms[35]) + vmOffset)->fontHeight = 15;
+            title->embeddedVms[i + 35].position =
+                TitleFloat3View(64.0f, y + 362.0f, 0.0f);
+        title->embeddedVms[i + 35].flagsLow |= 0x1802;
+        title->embeddedVms[i + 35].fontWidth = 15;
+        title->embeddedVms[i + 35].fontHeight = 15;
     }
 
     if (g_TitleSupervisor.subthreadCloseRequestActive)
         return;
 
-    int surfaceError;
     if (title->currentScreen == 1)
-        surfaceError = g_TitleAnmManager->PreloadSurface(0, "title/title00.png");
-    else
-        surfaceError = g_TitleAnmManager->PreloadSurface(0, "title/result00.png");
-    if (surfaceError)
     {
-        g_TitleScreen->chainState = 2;
-        return;
+        if (g_TitleAnmManager->PreloadSurface(0, "title/title00.png"))
+        {
+            g_TitleScreen->chainState = 2;
+            return;
+        }
+    }
+    else
+    {
+        if (g_TitleAnmManager->PreloadSurface(0, "title/result00.png"))
+        {
+            g_TitleScreen->chainState = 2;
+            return;
+        }
     }
 
     if ((g_TitleGameFlags & 2) == 0)
     {
         if (g_TitleSupervisor.transitionState594 != 5)
             g_TitleSupervisor.LoadMusic(0);
-        ScreenEffect::RegisterChain(SCREEN_EFFECT_FULL_FADE_IN, 70, 0xFFFFFF, 0, 0, 35, 2);
+        if (g_TitleSupervisor.totalPlayTime798 == 0)
+            ScreenEffect::RegisterChain(SCREEN_EFFECT_FULL_FADE_IN, 70, 0xFFFFFF, 0, 0, 35, 2);
+        else
+            ScreenEffect::RegisterChain(SCREEN_EFFECT_FULL_FADE_IN, 70, 0xFFFFFF, 0, 0, 35, 2);
     }
 
     title = g_TitleScreen;
@@ -682,7 +676,7 @@ int TitleScreenView::ActualAddedCallback()
     practiceState = 0;
     g_TitleGameFlags &= ~1u;
 
-    TitleFloat3View loadingPosition = {500.0f, 440.0f, 0.0f};
+    TitleFloat3View loadingPosition(500.0f, 440.0f, 0.0f);
     if (g_TitleSupervisor.transitionState594 == 2)
     {
         g_TitleSupervisor.SetupLoadingVmsAndInitCapture(&loadingPosition);
