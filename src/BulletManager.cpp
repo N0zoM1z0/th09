@@ -652,16 +652,16 @@ int EtamaController::OnUpdate(EtamaController *controller)
 {
     float currentWidth;
 
+    Bullet *bullet = &controller->primaryBullets[0];
     if ((g_GameManager.flags & 0x1800) != 0)
         return 1;
 
     g_Supervisor.SelectSide(controller->sideIndex);
+    controller->activeTotalCount = 0;
     controller->activePrimaryCount = 0;
     controller->activeSecondaryCount = 0;
-    controller->activeTotalCount = 0;
     controller->ClearDrawBuckets();
 
-    Bullet *bullet = &controller->primaryBullets[0];
     for (int i = 0; i < 536; ++i, ++bullet)
     {
         if (bullet->state == BULLET_STATE_UNUSED || bullet->state == BULLET_STATE_SENTINEL)
