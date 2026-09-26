@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 874 |
-| Source-present non-exact functions | 105 |
-| Source-present non-exact bytes | 118,558 |
+| Canonical exact functions | 875 |
+| Source-present non-exact functions | 104 |
+| Source-present non-exact bytes | 118,168 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 157,111 |
+| Canonical exact authored bytes | 157,501 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -124,20 +124,12 @@ shifted-value spellings retain the same one-byte allocator difference. Reopen
 these only with new allocator/TU/lifetime evidence; do not add register forcing,
 volatile steering, padding, assembly, or target-byte encodings.
 
-### Current Anm loader replay handoff
+### Current Anm loader handoff
 
-`AnmManager::ReadAnmEntries @ 0x0043C610` has maintained source and two cold
-local VC7.1 comparisons matching all 390 target bytes and 17 relocation
-destinations. It remains source-present/non-exact in the live ledgers: several
-Factory replay jobs stopped before Oracle comparison because unrelated global
-operator locks owned the TH04 or TH10 repositories. There is no accepted
-Factory receipt for this candidate.
-
-The temporary exact rows were removed after each failed pre-Oracle job. Check
-the live Factory job and repository state before another attempt, stage the
-match unit on a clean committed snapshot, and promote the row only after both
-`receipt_verdict=pass` and `acceptance_decision=accepted`. Keep local structural
-equality separate from canonical credit while the service is unavailable.
+`AnmManager::ReadAnmEntries @ 0x0043C610` has a complete 390-byte, 17-relocation
+focused replay unit. The repository-local VC7.1 comparison is exact. Its
+Factory acceptance for this staged candidate is pending; see Packet 665. Older
+failed jobs stopped before comparison because of unrelated global locks.
 
 ### Current TitleSetupThread handoff
 
@@ -171,7 +163,9 @@ See Packet 662. Do not promote this owner on length or census alone.
 replay unit. Its 1,560 code bytes, adjacent 32-byte compiler switch table, and
 all 107 relocations reproduce the target under pinned VC7.1 O1/Ob1. The
 case-1 unlocked branch and immediate returns for confirmed menu choices were
-the source corrections; see Packet 664. All 29 configured TitleScreen O1 units
+the source corrections; see Packet 664 and accepted Factory receipt
+`receipt:7b1487ee3c96cd6807f2fa4cefc9ecf96c75f8ccb2104c1048da6d6fedd06945`.
+All 29 configured TitleScreen O1 units
 and the separate O2 score-record unit replay exact after this correction.
 
 ### Current ExAttack type-8/9 handoff
