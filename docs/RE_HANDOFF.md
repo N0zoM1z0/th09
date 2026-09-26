@@ -227,7 +227,9 @@ the target-backed zone cooldown store, low-byte FAST flag test, and direct
 template-sprite read that closed the last ordinary byte differences. The
 four CC bytes before exact `SpawnBulletPatternPrimary` remain unowned. All
 17 other configured `BulletManager.cpp` exact units still replay exactly;
-this codegen result does not close the native product or runtime gates.
+Factory receipt `receipt:4152340be719853d1973abb135ef523c4ee34279ccbf26327eed870f2559c2f4`
+returned `pass / accepted` on clean commit `c85d653`. This codegen result
+does not close the native product or runtime gates.
 
 ### Current large ExAttack callback handoff
 
