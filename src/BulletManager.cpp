@@ -948,13 +948,16 @@ queueBullet:
                     alpha = 255;
                 laser->bodyVm.color1 = (unsigned int)alpha << 24;
             }
-            else if (laser->despawnDuration > 0)
+            else
             {
                 int despawnDuration = laser->despawnDuration;
-                currentWidth = laser->width -
-                    (float)laser->timer * laser->width / despawnDuration;
-                laser->bodyVm.scale.x = currentWidth / 16.0f;
-                laserSize[0] = currentWidth / 2.0f;
+                if (despawnDuration > 0)
+                {
+                    currentWidth = laser->width -
+                        (float)laser->timer * laser->width / despawnDuration;
+                    laser->bodyVm.scale.x = currentWidth / 16.0f;
+                    laserSize[0] = currentWidth / 2.0f;
+                }
             }
             if (laser->timer < laser->hitboxEndDelay)
                 reinterpret_cast<PlayerCollisionQueryStateView *>(

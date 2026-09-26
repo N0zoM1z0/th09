@@ -251,9 +251,10 @@ whole collision block. The body still has the exact `0x40` stack frame, 62
 calls and 60 conditional jumps. It currently has 554 instructions and 19
 unconditional jumps versus the target's 553 and 18; the remaining extra jump
 is an alignment consequence of a one-byte-longer controller reload sequence at
-the draw-bucket tail. Early EBX counter-zero lifetime, residual
-register/argument scheduling around culling/collision/queueing, and later laser
-integer-store scheduling remain open. All 18 configured same-TU exact units
+the draw-bucket tail. The laser-despawn branch now caches despawnDuration
+before testing it, reproducing the target [ebp-0x10] store-before-jle schedule.
+Early EBX counter-zero lifetime and residual register/argument scheduling around
+culling/collision/queueing remain open. All 18 configured same-TU exact units
 replay exactly from one cold object, including the complete 1,932-byte
 SpawnSingleBullet compare extent with canonical `$L3095 -> 0x004130C8`.
 
