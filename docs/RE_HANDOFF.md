@@ -309,9 +309,18 @@ generated compiler/test output and was cleared. The ignored `.analysis/` tree
 held 2,352 i386 COFF objects and Microsoft MSF PDBs. The 2,294 generated
 binaries outside the explicitly `legacy-unknown` TitleScreen campaign (about
 152 MiB) had no tracked references or active TH09 producer and were cleared.
+The cleanup established their binary format, but did not record the individual
+producer and reproduction inputs for every file. Do not use their removal as
+evidence that each old probe is reproducible; rerun any needed comparison from
+tracked source and the verified target. This is a limitation of that cleanup,
+not a precedent for deleting other unmanifested artifacts.
+
 The TitleScreen campaign and unmanifested probe sources/results were retained
-as untrusted leads. Recheck their target, HEAD, compiler inputs, and producer
-before using them.
+as untrusted leads. A later audit found the ExAttack type-8/9 probe manifest
+still marked `active` despite no active TH09 producer and an empty artifact
+list; it was reclassified `legacy-unknown` with its six source probes retained.
+Recheck all retained probes' target, HEAD, compiler inputs, and producer before
+using them.
 
 ## Documentation discipline
 
