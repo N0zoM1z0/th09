@@ -150,6 +150,19 @@ store using ECX instead of target EAX. Keep it source-present/non-exact. All 18
 pre-existing exact EclManager-TU units replay after compiler-private label
 refresh only, and RunEcl remains 14,788/14,792 bytes.
 
+### Current ExAttack type-11/12 handoff
+
+`ExAttackUpdateCallbackType11 @ 0x00446EE0` and
+`ExAttackUpdateCallbackType12 @ 0x004471B0` now share the EclManager
+translation unit and its maintained `Float3::FromAngleMagnitude` definition.
+The focused pinned build emits their target lengths, 713 and 710 bytes, with
+all 30 relocation destinations solved for each. Ordinary comparable bytes are
+553/593 and 550/590 respectively. The identical 40-byte residual pattern
+is localized to collision-exit angle register choice and state-0 animation /
+spawn-copy scheduling. Both remain source-present/non-exact. A broad replay of
+configured EclManager exact units is due at the end of the current source
+batch; focused checks suffice between edits.
+
 ## Boundary and origin closure
 
 All 2,191 tracked candidates have boundary/origin review. Current dispositions

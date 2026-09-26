@@ -3,7 +3,12 @@
 #include "BulletManager.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackInterpolation.hpp"
+#include "ExAttackType8GameManagerView.hpp"
 #include "PlayerLifecycleView.hpp"
+
+// These callbacks share the EclManager translation unit with the maintained
+// Float3::FromAngleMagnitude definition. The target keeps its receiver in ECX
+// across that call; an external declaration alone produces a different body.
 
 struct ExAttackType1112UpdateExtra
 {
@@ -38,28 +43,10 @@ struct ExAttackType1112UpdateRecord
     float rotation3C;
 };
 
-struct ExAttackType1112InterruptView
-{
-    void SetInterrupt(short interrupt);
-};
-
 struct ExAttackType1112PlayerAnmView
 {
     unsigned char unknown000[0xBC];
     AnmLoaded *anmFileBC;
-};
-
-struct ExAttackType1112SideView
-{
-    unsigned char unknown00[0x04];
-    PlayerLifecycleView *player04;
-    EtamaController *etama08;
-    unsigned char unknown0C[0x2C];
-};
-
-struct ExAttackType1112GameManagerView
-{
-    ExAttackType1112SideView sides[2];
 };
 
 struct ExAttackType1112BulletDescriptorStorage
@@ -70,7 +57,6 @@ struct ExAttackType1112BulletDescriptorStorage
 typedef char ExAttackType1112BulletDescriptorStorageSizeIs214[
     (sizeof(ExAttackType1112BulletDescriptorStorage) == 0x214) ? 1 : -1];
 
-extern ExAttackType1112GameManagerView g_GameManager;
 float __stdcall AddNormalizeAngle(float angle, float delta);
 
 int __fastcall ExAttackUpdateCallbackType11(ExAttackRecord *base)
@@ -137,7 +123,7 @@ int __fastcall ExAttackUpdateCallbackType11(ExAttackRecord *base)
             {
                 extra->state00 = 2;
                 record->timer10 = 0;
-                reinterpret_cast<ExAttackType1112InterruptView *>(
+                reinterpret_cast<AnmVm *>(
                     record->dynamicData1C)->SetInterrupt(1);
                 record->rotation3C = extra->angle08;
                 return 0;
@@ -248,7 +234,7 @@ int __fastcall ExAttackUpdateCallbackType12(ExAttackRecord *base)
             {
                 extra->state00 = 2;
                 record->timer10 = 0;
-                reinterpret_cast<ExAttackType1112InterruptView *>(
+                reinterpret_cast<AnmVm *>(
                     record->dynamicData1C)->SetInterrupt(1);
                 record->rotation3C = extra->angle08;
                 return 0;
