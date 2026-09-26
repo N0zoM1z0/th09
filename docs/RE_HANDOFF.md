@@ -159,9 +159,10 @@ The focused pinned build emits their target lengths, 713 and 710 bytes, with
 all 30 relocation destinations solved for each. Ordinary comparable bytes are
 553/593 and 550/590 respectively. The identical 40-byte residual pattern
 is localized to collision-exit angle register choice and state-0 animation /
-spawn-copy scheduling. Both remain source-present/non-exact. A broad replay of
-configured EclManager exact units is due at the end of the current source
-batch; focused checks suffice between edits.
+spawn-copy scheduling. Both remain source-present/non-exact. At the end of
+this source batch, all 18 configured EclManager exact units cold-replayed
+byte- and relocation-exact after refreshing two compiler-private jump-table
+label names. Focused checks suffice between later source edits.
 
 ## Boundary and origin closure
 
