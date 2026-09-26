@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 874 |
-| Source-present non-exact functions | 105 |
-| Source-present non-exact bytes | 119,728 |
+| Canonical exact functions | 873 |
+| Source-present non-exact functions | 106 |
+| Source-present non-exact bytes | 120,118 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 155,941 |
+| Canonical exact authored bytes | 155,551 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -123,6 +123,21 @@ close the residuals. Opcode 155 is semantic/CFG-correct; natural bitfield and
 shifted-value spellings retain the same one-byte allocator difference. Reopen
 these only with new allocator/TU/lifetime evidence; do not add register forcing,
 volatile steering, padding, assembly, or target-byte encodings.
+
+### Current Anm loader replay handoff
+
+`AnmManager::ReadAnmEntries @ 0x0043C610` has maintained source and two cold
+local VC7.1 comparisons matching all 390 target bytes and 17 relocation
+destinations. It remains source-present/non-exact in the live ledgers: several
+Factory replay jobs stopped before Oracle comparison because unrelated global
+operator locks owned the TH04 or TH10 repositories. There is no accepted
+Factory receipt for this candidate.
+
+The temporary exact rows were removed after each failed pre-Oracle job. Check
+the live Factory job and repository state before another attempt, stage the
+match unit on a clean committed snapshot, and promote the row only after both
+`receipt_verdict=pass` and `acceptance_decision=accepted`. Keep local structural
+equality separate from canonical credit while the service is unavailable.
 
 ## Boundary and origin closure
 

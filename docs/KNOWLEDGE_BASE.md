@@ -4203,3 +4203,10 @@ name into a TH09 fact without target-local evidence.
 - After the unrelated th10 lock was observed clear, replay staging commit b53554a bound the same exact claim to a new clean snapshot and Factory job job:8a0258e5d52e4b78802d51b91b3caaef.
 - That third attempt again failed before oracle execution, this time because another Factory operation owned the unrelated th04 live worktree. There is still no receipt verdict and no acceptance decision.
 - The temporary exact row, match row and match-unit registration are removed again. Canonical accounting therefore stays at the acceptance-backed total; future replay should wait for a stable global Factory window rather than repeatedly staging through lock churn.
+
+
+## Packet 656 ReadAnmEntries replay remains blocked before comparison
+
+- A fresh local pinned VC7.1 build of `AnmManager::ReadAnmEntries @ 0x0043C610` again compared all 390 bytes and all 17 relocations exactly. The maintained source did not change after the earlier local closure.
+- Clean staging commit d596c32 exposed the same claim to Factory job `job:c0fd07f5f34e4fc7918a647bf7cf30c7`. The job failed before Oracle comparison because another Factory operation held the global TH04 repository lock. It produced neither a receipt verdict nor an acceptance decision.
+- The staged exact row, match unit, and progress increment are reverted in the following checkpoint. Keep this owner source-present/non-exact at the live ledger's 873-function total until a fresh job returns both `receipt_verdict=pass` and `acceptance_decision=accepted`. An empty running-job list did not establish that the cross-repository lock was free; another retry needs a genuinely stable Factory window.
