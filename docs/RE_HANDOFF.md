@@ -206,6 +206,24 @@ store using ECX instead of target EAX. Keep it source-present/non-exact. All 18
 pre-existing exact EclManager-TU units replay after compiler-private label
 refresh only, and RunEcl remains 14,788/14,792 bytes.
 
+### Current ExAttack type-3 handoff
+
+ExAttackUpdateCallbackType3 @ 0x00442750 has been re-opened after the type-4
+update closure invalidated the old 793-byte / 0x6C-frame plateau. The maintained
+source now emits the exact 780-byte extent and target 0x64 frame. Target-backed
+source-shape fixes are the indexed 31-sample history shift, direct history31
+bounds, real PlayerPositionView collision/sample locals, the exact
+operator float*() collision-size conversion, direct current-Y load from the
+record, and three direct side/player collision receiver expressions. A cold
+pinned probe resolves all 38 relocations and matches 616/628 ordinary bytes.
+
+Keep it source-present/non-exact. The only remaining ordinary mismatch is a
+12-byte scheduling window at +0x196..+0x1A7: target commits the middle sample's
+z=0 store before preparing the tail-x inverse-popup call, while stock VC7.1
+moves the identical store into that call-prep window. Bounded aggregate,
+implicit-zero, nested-scope, declaration-order, alias, and dependency probes did
+not improve this without regressing size or broader codegen.
+
 ### Current ExAttack type-11/12 handoff
 
 `ExAttackUpdateCallbackType11 @ 0x00446EE0` and

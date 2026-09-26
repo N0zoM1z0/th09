@@ -43,18 +43,6 @@ struct ExAttackType3UpdateRecord
     ExAttackType3UpdateExtra *extra34;
 };
 
-struct ExAttackType3CollisionSizeView
-{
-    float x;
-    float y;
-    float z;
-
-    ExAttackType3CollisionSizeView();
-};
-
-typedef char ExAttackType3CollisionSizeViewSizeIs0C[
-    (sizeof(ExAttackType3CollisionSizeView) == 0x0C) ? 1 : -1];
-
 struct ExAttackType3UpdateSideView
 {
     unsigned char unknown00[0x04];
@@ -87,14 +75,8 @@ int __fastcall ExAttackUpdateCallbackType3(ExAttackRecord *base)
 
     case 0:
     {
-    Float3 *history = &extra->history10[31];
-    int remaining = 31;
-    do
-    {
-        *history = history[-1];
-        --history;
-    }
-    while (--remaining != 0);
+    for (int i = 31; i != 0; --i)
+        extra->history10[i] = extra->history10[i - 1];
 
     Float3 *position = &record->position20;
     extra->history10[0] = *position;
@@ -108,54 +90,47 @@ int __fastcall ExAttackUpdateCallbackType3(ExAttackRecord *base)
     record->vms1C[4].pos2 =
         extra->history10[24] - *position;
 
-    ExAttackType3CollisionSizeView collisionSize;
-    collisionSize.x = 12.0f;
-    collisionSize.y = 12.0f;
-    collisionSize.z = 0.0f;
+    PlayerPositionView collisionSize;
+    float *collision = collisionSize.operator float *();
+    collision[0] = 12.0f;
+    collision[1] = 12.0f;
+    collision[2] = 0.0f;
 
     g_Supervisor.SelectSide(record->opponentSide04);
 
-    float currentStorage[3];
-    PlayerPositionView *current =
-        reinterpret_cast<PlayerPositionView *>(currentStorage);
-    current->x = g_GameManager.InverseTransformPopupX(position->x);
-    current->y = g_GameManager.InverseTransformPopupY(position->y);
-    current->z = 0.0f;
+    PlayerPositionView current;
+    current.x = g_GameManager.InverseTransformPopupX(position->x);
+    current.y = g_GameManager.InverseTransformPopupY(record->position20.y);
+    current.z = 0.0f;
 
-    float middleStorage[3];
-    PlayerPositionView *middle =
-        reinterpret_cast<PlayerPositionView *>(middleStorage);
-    middle->x =
+    PlayerPositionView middle;
+    middle.x =
         g_GameManager.InverseTransformPopupX(extra->history10[12].x);
-    middle->y =
+    middle.y =
         g_GameManager.InverseTransformPopupY(extra->history10[12].y);
-    middle->z = 0.0f;
+    middle.z = 0.0f;
 
-    float tailStorage[3];
-    PlayerPositionView *tail =
-        reinterpret_cast<PlayerPositionView *>(tailStorage);
-    tail->x =
+    PlayerPositionView tail;
+    tail.x =
         g_GameManager.InverseTransformPopupX(extra->history10[24].x);
-    tail->y =
+    tail.y =
         g_GameManager.InverseTransformPopupY(extra->history10[24].y);
-    tail->z = 0.0f;
+    tail.z = 0.0f;
 
-    PlayerLifecycleView *player =
-        g_GameManager.sides[record->opponentSide04].player04;
-
-    if (player->CheckBulletCollision(
-            current,
-            reinterpret_cast<PlayerPositionView *>(&collisionSize),
-            0) == 2 ||
-        g_GameManager.sides[record->opponentSide04]
+    if (g_GameManager.sides[record->opponentSide04]
                 .player04->CheckBulletCollision(
-                    middle,
-                    reinterpret_cast<PlayerPositionView *>(&collisionSize),
+                    &current,
+                    &collisionSize,
                     0) == 2 ||
         g_GameManager.sides[record->opponentSide04]
                 .player04->CheckBulletCollision(
-                    tail,
-                    reinterpret_cast<PlayerPositionView *>(&collisionSize),
+                    &middle,
+                    &collisionSize,
+                    0) == 2 ||
+        g_GameManager.sides[record->opponentSide04]
+                .player04->CheckBulletCollision(
+                    &tail,
+                    &collisionSize,
                     0) == 2)
     {
         record->timer10 = 0;
@@ -170,11 +145,10 @@ int __fastcall ExAttackUpdateCallbackType3(ExAttackRecord *base)
     {
         *position += extra->motion04;
 
-        const Float3 *oldest = &extra->history10[31];
-        if (oldest->x < -32.0f ||
-            oldest->x > 672.0f ||
-            oldest->y < -32.0f ||
-            oldest->y > 512.0f)
+        if (extra->history10[31].x < -32.0f ||
+            extra->history10[31].x > 672.0f ||
+            extra->history10[31].y < -32.0f ||
+            extra->history10[31].y > 512.0f)
         {
             return 1;
         }
