@@ -128,8 +128,9 @@ volatile steering, padding, assembly, or target-byte encodings.
 
 `AnmManager::ReadAnmEntries @ 0x0043C610` has a complete 390-byte, 17-relocation
 focused replay unit. The repository-local VC7.1 comparison is exact. Its
-Factory acceptance for this staged candidate is pending; see Packet 665. Older
-failed jobs stopped before comparison because of unrelated global locks.
+Factory receipt `receipt:5ae8d87bfdfd06c78ede36a51c033facea334af19152f97d71b9942b14b3c1ac`
+returned `pass / accepted`; see Packet 665. Older failed jobs stopped before
+comparison because of unrelated global locks.
 
 ### Current TitleSetupThread handoff
 
@@ -138,7 +139,7 @@ The maintained O1/Ob1 source now emits 533/534 bytes and matches the target
 0x1C frame, EBX VM byte-offset induction, stack row index, and two separate
 position temporaries. Its first ANM-result/owner sequence and loop entry are
 target-aligned. The remaining residual is VM-base CSE and loop-tail store
-scheduling, plus a CMP/TEST choice after the surface load. All 28 configured
+scheduling, plus a CMP/TEST choice after the surface load. All 29 configured
 TitleScreen O1 exact neighbors replay after this source correction. Packet 661
 supersedes the earlier 537-byte/0x14-frame baseline in Packet 658.
 
