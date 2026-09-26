@@ -120,7 +120,6 @@ typedef char MusicRoomTimerAt1B230[(offsetof(TitleScreenView, stateTimer2) == 0x
 int TitleScreenView::OnUpdateMusicRoom()
 {
     i32 i;
-    char shortTitle[6];
 
     switch (currentScreenState)
     {
@@ -128,90 +127,82 @@ int TitleScreenView::OnUpdateMusicRoom()
     {
         if (stateTimer2 == 2)
         {
-            AnmVmView *descriptionVm = &embeddedVms[49];
-            descriptionVm->pendingInterrupt = 1;
+            embeddedVms[49].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
-                DrawTitleMusicText(g_TitleAnmManager, descriptionVm, 0xE0E0FF, 0x302080,
+                DrawTitleMusicText(g_TitleAnmManager, &embeddedVms[49], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[0]);
             else
-                DrawTitleMusicText(g_TitleAnmManager, descriptionVm, 0xE0E0FF, 0x302080,
+                DrawTitleMusicText(g_TitleAnmManager, &embeddedVms[49], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[0]);
         }
         else if (stateTimer2 == 4)
         {
-            AnmVmView *descriptionVm = &embeddedVms[50];
-            descriptionVm->pendingInterrupt = 1;
+            embeddedVms[50].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
-                DrawTitleMusicText(g_TitleAnmManager, descriptionVm, 0xE0E0FF, 0x302080,
+                DrawTitleMusicText(g_TitleAnmManager, &embeddedVms[50], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[1]);
             else
-                DrawTitleMusicText(g_TitleAnmManager, descriptionVm, 0xE0E0FF, 0x302080,
+                DrawTitleMusicText(g_TitleAnmManager, &embeddedVms[50], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[1]);
         }
         else if (stateTimer2 == 6)
         {
-            AnmVmView *descriptionVm = &embeddedVms[51];
-            descriptionVm->pendingInterrupt = 1;
+            embeddedVms[51].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
-                DrawTitleMusicText(g_TitleAnmManager, descriptionVm, 0xE0E0FF, 0x302080,
+                DrawTitleMusicText(g_TitleAnmManager, &embeddedVms[51], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[2]);
             else
-                DrawTitleMusicText(g_TitleAnmManager, descriptionVm, 0xE0E0FF, 0x302080,
+                DrawTitleMusicText(g_TitleAnmManager, &embeddedVms[51], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[2]);
         }
         else if (stateTimer2 == 8)
         {
-            AnmVmView *descriptionVm = &embeddedVms[52];
-            descriptionVm->pendingInterrupt = 1;
+            embeddedVms[52].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
-                DrawTitleMusicText(g_TitleAnmManager, descriptionVm, 0xE0E0FF, 0x302080,
+                DrawTitleMusicText(g_TitleAnmManager, &embeddedVms[52], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[3]);
             else
-                DrawTitleMusicText(g_TitleAnmManager, descriptionVm, 0xE0E0FF, 0x302080,
+                DrawTitleMusicText(g_TitleAnmManager, &embeddedVms[52], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[3]);
         }
         else if (stateTimer2 == 10)
         {
-            AnmVmView *descriptionVm = &embeddedVms[53];
-            descriptionVm->pendingInterrupt = 1;
+            embeddedVms[53].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
-                DrawTitleMusicText(g_TitleAnmManager, descriptionVm, 0xE0E0FF, 0x302080,
+                DrawTitleMusicText(g_TitleAnmManager, &embeddedVms[53], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[4]);
             else
-                DrawTitleMusicText(g_TitleAnmManager, descriptionVm, 0xE0E0FF, 0x302080,
+                DrawTitleMusicText(g_TitleAnmManager, &embeddedVms[53], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[4]);
         }
         else if (stateTimer2 == 12)
         {
-            AnmVmView *descriptionVm = &embeddedVms[54];
-            descriptionVm->pendingInterrupt = 1;
+            embeddedVms[54].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
-                DrawTitleMusicText(g_TitleAnmManager, descriptionVm, 0xE0E0FF, 0x302080,
+                DrawTitleMusicText(g_TitleAnmManager, &embeddedVms[54], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[5]);
             else
-                DrawTitleMusicText(g_TitleAnmManager, descriptionVm, 0xE0E0FF, 0x302080,
+                DrawTitleMusicText(g_TitleAnmManager, &embeddedVms[54], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[5]);
         }
         else if (stateTimer2 == 14)
         {
-            AnmVmView *descriptionVm = &embeddedVms[55];
-            descriptionVm->pendingInterrupt = 1;
+            embeddedVms[55].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
-                DrawTitleMusicText(g_TitleAnmManager, descriptionVm, 0xE0E0FF, 0x302080,
+                DrawTitleMusicText(g_TitleAnmManager, &embeddedVms[55], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[6]);
             else
-                DrawTitleMusicText(g_TitleAnmManager, descriptionVm, 0xE0E0FF, 0x302080,
+                DrawTitleMusicText(g_TitleAnmManager, &embeddedVms[55], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[6]);
         }
         else if (stateTimer2 == 16)
         {
-            AnmVmView *descriptionVm = &embeddedVms[56];
-            descriptionVm->pendingInterrupt = 1;
+            embeddedVms[56].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
-                DrawTitleMusicText(g_TitleAnmManager, descriptionVm, 0xE0E0FF, 0x302080,
+                DrawTitleMusicText(g_TitleAnmManager, &embeddedVms[56], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[7]);
             else
-                DrawTitleMusicText(g_TitleAnmManager, descriptionVm, 0xE0E0FF, 0x302080,
+                DrawTitleMusicText(g_TitleAnmManager, &embeddedVms[56], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[7]);
         }
 
@@ -233,16 +224,15 @@ int TitleScreenView::OnUpdateMusicRoom()
             for (i = 0; i < musicListingOffset; i++)
                 vms[159 + i].flags &= ~2u;
 
-            i32 visibleEnd = musicListingOffset + 10;
-            if (visibleEnd > musicTrackCount)
-                visibleEnd = musicTrackCount;
+            i32 visibleEnd = musicTrackCount;
+            if (musicListingOffset + 10 < visibleEnd)
+                visibleEnd = musicListingOffset + 10;
             for (i = musicListingOffset; i < visibleEnd; i++)
             {
-                AnmVmView *songVm = &vms[159 + i];
-                songVm->flags |= 2;
-                songVm->posY = (float)((i - musicListingOffset + 1) * 18) + 104.0f - 20.0f;
+                vms[159 + i].flags |= 2;
+                vms[159 + i].posY = (float)((i - musicListingOffset + 1) * 18) + 104.0f - 20.0f;
             }
-            for (i = visibleEnd; i < 30; i++)
+            for (i = visibleEnd; i <= 29; i++)
                 vms[159 + i].flags &= ~2u;
         }
 
@@ -381,27 +371,27 @@ int TitleScreenView::OnUpdateMusicRoom()
             musicTrackCount = trackIndex + 1;
 
             MusicRoomTrackDescriptor *musicTrack = &musicTracks[0];
-            for (i = 159; i < musicTrackCount + 159; i++, musicTrack++)
+            for (i = 159; i - 159 < musicTrackCount; i++, musicTrack++)
             {
-                AnmVmView *songVm = &vms[i];
-                musicAnm->SetAndExecuteScriptIdx(songVm, i);
+                musicAnm->SetAndExecuteScriptIdx(&vms[i], i);
                 if (g_TitleBgmUnlocked[i - 159])
                 {
-                    DrawTitleMusicText(g_TitleAnmManager, songVm, 0xD0E0FF, 0x302080,
+                    DrawTitleMusicText(g_TitleAnmManager, &vms[i], 0xD0E0FF, 0x302080,
                                        musicTrack->title);
                 }
                 else
                 {
+                    char shortTitle[6];
                     memcpy(shortTitle, musicTrack->title, 5);
                     shortTitle[5] = '\0';
-                    DrawTitleMusicText(g_TitleAnmManager, songVm, 0x80A0A0, 0x100040,
+                    DrawTitleMusicText(g_TitleAnmManager, &vms[i], 0x80A0A0, 0x100040,
                                        "%5s ", shortTitle);
                 }
 
-                songVm->posX = 93.0f;
-                songVm->posY = (float)((i - 159 + 1) * 18) + 104.0f - 20.0f;
-                songVm->posZ = 0.0f;
-                ((u8 *)&songVm->flags)[1] |= 0x18;
+                vms[i].posX = 93.0f;
+                vms[i].posY = (float)((i - 159 + 1) * 18) + 104.0f - 20.0f;
+                vms[i].posZ = 0.0f;
+                ((u8 *)&vms[i].flags)[1] |= 0x18;
             }
 
             SetMenuSelectionSprites(keyboardSelection, 159, musicTrackCount);
@@ -409,16 +399,15 @@ int TitleScreenView::OnUpdateMusicRoom()
             for (i = 0; i < musicListingOffset; i++)
                 vms[159 + i].flags &= ~2u;
 
-            i32 visibleEnd = musicListingOffset + 10;
-            if (visibleEnd > musicTrackCount)
-                visibleEnd = musicTrackCount;
+            i32 visibleEnd = musicTrackCount;
+            if (musicListingOffset + 10 < visibleEnd)
+                visibleEnd = musicListingOffset + 10;
             for (i = musicListingOffset; i < visibleEnd; i++)
             {
-                AnmVmView *songVm = &vms[159 + i];
-                songVm->flags |= 2;
-                songVm->posY = (float)((i - musicListingOffset + 1) * 18) + 104.0f - 20.0f;
+                vms[159 + i].flags |= 2;
+                vms[159 + i].posY = (float)((i - musicListingOffset + 1) * 18) + 104.0f - 20.0f;
             }
-            for (i = visibleEnd; i < 30; i++)
+            for (i = visibleEnd; i <= 29; i++)
                 vms[159 + i].flags &= ~2u;
 
             musicSelectedSongIndex = keyboardSelection;

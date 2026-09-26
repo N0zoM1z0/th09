@@ -194,6 +194,19 @@ this source batch, all 18 configured EclManager exact units cold-replayed
 byte- and relocation-exact after refreshing two compiler-private jump-table
 label names. Focused checks suffice between later source edits.
 
+### Current MusicRoom update handoff
+
+`TitleScreenView::OnUpdateMusicRoom @ 0x00426E05` is now a 2,225/2,258-byte
+source-present candidate with the target 0x1C frame, 25 calls and 80
+conditional branches. Packet 667 records target-backed direct description-VM
+stores, indexed visibility refreshes, repeated song-VM owner loads, and the
+branch-local locked-title buffer. The first eight description blocks now align
+at the same instruction offsets. The remaining list-construction loop carries
+its absolute VM index in EBX in the target but a zero-based index in the
+candidate; visibility refresh also swaps the cursor/bound register roles.
+`DrawMusicRoom` in the same TU still replays 209/209 exact. Keep the update
+non-exact and do not infer exactness from its matching frame and call counts.
+
 ### Current large ExAttack callback handoff
 
 `ExAttackUpdateCallbackType18_24 @ 0x004491E0` remains 1435/1436 bytes.
