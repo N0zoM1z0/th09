@@ -1006,26 +1006,26 @@ name into a TH09 fact without target-local evidence.
 - `Float3::operator/(float) const @ 0x0040F5A0-0x0040F5D7` is repository-canonical exact at 56 bytes. TH09 computes `inverse = 1.0f / scalar`, multiplies x/y/z by the inverse, and constructs the hidden return object through exact `Float3::Float3 @ 0x004010B0`. Broad native callers in Player, EnemyManager and EtamaController establish the helper independently of adjacent-game naming; the mangled symbol already resolved by existing call-site manifests is `??KFloat3@@QBE?AU0@M@Z`.
 - Natural VC7.1 `/O2 /Ob1 /Oi /Gr` source reproduces all 56 bytes with exactly two relocations: `1.0f @ 0x0048E2A4` and the constructor call. Clean TH08 source corroborates the source spelling only. This removes an anonymous math dependency from the Player collision/reward helper frontier.
 
-## Packet 218 Player respawn-resource exact leaf
+## Packet 221A Player respawn-resource exact leaf
 
 - `PlayerState4OpsView::AddRespawnResource @ 0x0041BC90-0x0041BD31` is repository-canonical exact at 162 bytes. Exact `PlayerCheckState4` already binds this symbol/address, and independent callers include both large Player update owners plus Enemy death rewards, fixing the shared Player resource role.
 - The helper snapshots `int(scalar30388)/100`, adds the requested float, adds another 15% when target-backed `sideState->shotType20 == 1`, clamps the result to 400.0f, then calls exact `FrontSide::UpdateMeterHundreds` through `sideState->frontSide18` only when the hundred-bucket changes. All involved Player/side-state offsets were already maintained before this packet.
 - Natural PlayerRuntime `/O2 /Ob1 /Oy- /Gr` source reproduces 162/162 with five reviewed relocations: two `__ftol2` calls, 0.15f, 400.0f, and the exact FrontSide helper. No register forcing, inline assembly, padding, or profile fishing is used.
 
-## Packet 219 Player item-collection collision exact leaf
+## Packet 221B Player item-collection collision exact leaf
 
 - `PlayerLifecycleView::CalcItemCollectionCollision @ 0x0041BEE0-0x0041BFB0` is repository-canonical exact at 209 bytes. Its sole caller is Player `UpdateBeforeState @ 0x0041DC20`, which passes a collectible position plus `Float3(itemCollectionBoxSize,itemCollectionBoxSize,16)` constructed from the target-backed primary SHT field +0x10.
 - TH09 fixes Player `updateState00 @ +0x0` independently through the shared three-byte GetUpdateState body `mov eax,[ecx]; ret`. The collision helper accepts states 0 and 3, computes `position - size/2` and `position + size/2`, and compares those extrema against the distinct item-collection bounds `+0x1C90/+0x1C9C`. These are separate from the bullet-query bounds `+0x1C60/+0x1C6C`.
 - Natural `PlayerPositionView` expressions reproduce 209/209 with four relocations: two view `operator/` calls resolve to canonical `Float3::operator/ @ 0x0040F5A0`, while view subtraction/addition resolve to exact `Float3::operator-/+`. This follows the already-established Player collision-view alias pattern and uses no forcing or padding.
 
-## Packet 220 Player update-before-state exact closure
+## Packet 221C Player update-before-state exact closure
 
 - `PlayerLifecycleView::UpdateBeforeState @ 0x0041DC20-0x0041DF4D` is repository-canonical exact at 814 authored bytes. Exact `PlayerLifecycleView::OnUpdate` is the sole target caller. The source updates four 0x2C4 reward-tail records at `+0x30454`, builds the item-collection box from the primary SHT, applies gravity/clamp, calls exact `CalcItemCollectionCollision`, handles resource/effect/owner-state reward paths, and publishes `targetOverride30F64` for uncollected records.
 - A second TH09 call-site audit supersedes the initial negative receipt: `PlayerOwnerStateView::ApplyReward @ 0x0041D150` receives exactly five stack arguments (`position + four integers`) at all three reviewed callers. The float that IDA had inferred as an extra parameter is merely an unrelated FPU value, not a private ST0 argument. Removing that spurious public parameter naturally reduces the candidate physical contribution from 876 to the target's 852 bytes.
 - Exact codegen additionally requires two ordinary source-lifetime facts: the tail-state pointer is established before constructing the local `Float3(itemCollectionBoxSize,itemCollectionBoxSize,16)`, and the gravity branch is written as `if (velocity.y < 3.0f) add 0.03f; else clamp 3.0f`. VC7.1 then reproduces all 584 ordinary comparable bytes and all 67 relocation fields over the complete physical extent: 814 code bytes, two alignment bytes, and 36 bytes of compiler switch data through `0x0041DF73`.
 - This exact promotion uses no register forcing, inline assembly, padding, pragma ordering, embedded target bytes, fake returns, or profile roulette. The source-absent owner-state routine at `0x0041D150` remains independently unpromoted despite its corrected call signature.
 
-## Packet 221 Player bullet-collision source closure
+## Packet 221D Player bullet-collision source closure
 
 - `PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0-0x0041E34D` is now source-present under TH09-local ownership: canonical `CheckGrazeCollision` already relocates this exact symbol/address, and the additional Etama/laser callers establish it as the shared Player bullet-cancel collision service. The second `collisionSize` stack argument is target-ABI-preserved but not read by this body.
 - The target scans a null-terminated pointer array at Player `+0xB100`. Each 0x44 region contributes center `+0/+4`, circle radius `+8`, half extents `+0x10/+0x14`, angle `+0x20`, hit count `+0x2C`, type `+0x38` and delay `+0x40`. Types 1/2/3 with nonpositive delay use circle, rotated-box, or axis-aligned collision tests. Type 1-style hits increment the region count and return 2 immediately; types 2/3 enter the Bullet reward path only for non-null bullet type 0.
@@ -3973,7 +3973,7 @@ name into a TH09 fact without target-local evidence.
 - With opcode 136 closed, the later opcode186 loop-alignment excess and the final opcode1 table-alignment NOP disappear from the physical mismatch census automatically. Fresh RunEcl remains 14,788/14,792 with exact 0x168 frame, 375+4 calls, 598 relocations, resolver counts 131/100/17/24, and 193 compiler-table entries.
 - The remaining physical handler-length mismatches are now only opcode 21 INT_SUBTRACT (-3), opcode 23 INT_DIVIDE (+3), opcode 24 INT_MODULO (-3), and opcode 155 SET_TIMEOUT_SPELL (-1). Cold replay keeps all 18 canonical EclManager.cpp units exact after compiler-private $Lxxxx label refresh only.
 
-## Packet 622 TryDecryptFromTable explicit scan-state recovery
+## Packet 629A TryDecryptFromTable explicit scan-state recovery
 
 - TH09 target review disproves treating the decrypt-record search as one optimizer-derived array index only. After the row-0 key test, the target maintains three independent induction states: logical index i increments by one, a byte rowOffset advances by 0x0C and is checked against the 0x60-byte table span, and keyBias advances by 0x10. The rowOffset/keyBias lifetimes begin only after the first-key mismatch.
 - Reconstructing those states as ordinary C++ while preserving the target-observed compare-before-bound semantics keeps the function exactly 220 bytes and improves relocation-aware ordinary-byte agreement from 82/172 to 134/172. A top-guard/continue loop is materially better than the previous rotated while/break forms because it reproduces the target loop-top bound check and mismatch back edge.
@@ -4115,7 +4115,7 @@ name into a TH09 fact without target-local evidence.
 - This supersedes TOOLCHAIN-092's stable-non-exact conclusion. No var_order, volatile/register steering, padding, additional assembly beyond the already target-proven FSINCOS block, target-byte encoding, fake return, or profile change is used.
 
 
-## Packet 647 Front random table/lifetime frontier
+## Packet 647A Front random table/lifetime frontier
 
 - FrontMessageRandomView::SetupRandomForSide @ 0x004162D0 was re-opened from target bytes rather than trusting the older 682/693 plateau summary. The target first scan keeps side in EDX, opponent shot type/base index in EBX, the selected table in the dead sideIndex argument home, RNG weight in EDI, and the current selected index in EDX. Its 8-byte table entries are accessed exactly as a count dword followed by {instructions, weight} dword pairs; the first scan cursor is the weight field and fallback starts from table + 422 dwords.
 - A bounded raw-int table probe that expresses those target-observed two-dword entries and weight cursors emits 685 bytes versus the 693-byte target. More importantly, it recovers the target side/shotType prefix, primary/secondary stack homes and chosen-table argument-slot reuse. A register-normalized instruction-shape comparison improves from 0.755 for the retained typed 682-byte source to 0.856 for the 685-byte raw-table diagnostic. The raw representation is not retained as original-source truth because the target fixes geometry and access shape, not the original C++ type spelling.
@@ -4139,7 +4139,7 @@ name into a TH09 fact without target-local evidence.
 - Canonical promotion is deliberately withheld because three Factory replay submissions were rejected before oracle execution by an unrelated global operator lock on the th04 repository. No receipt verdict or acceptance decision exists yet. No var_order, register forcing, volatile storage, padding, inline assembly, fake return, target-byte embedding, or profile roulette is retained.
 
 
-## Packet 649 ReadAnmEntries replay blocked before oracle
+## Packet 649A ReadAnmEntries replay blocked before oracle
 
 - The maintained ReadAnmEntries source at 0x0043C610 still cold-replays locally as 390/390 bytes with all 322 ordinary bytes and all 17 relocation destinations matching under the pinned O2/Ob1 profile.
 - Replay-registration commit 8b7910f exposed claim claim:th09-main:function:0043c610:codegen-exact to the Factory and queued job job:bb85394e5d81442db0aad7173c06ef53 against a clean committed source binding.
@@ -4173,7 +4173,7 @@ name into a TH09 fact without target-local evidence.
 - This packet therefore narrows the remaining four logical bytes to stable VC7.1 backend scheduling under the pinned profile. Exactness remains false, and no register forcing, volatile storage, pragma ordering, padding, inline assembly, target-byte encoding or profile roulette is retained.
 
 
-## Packet 652 ReadAnmEntries replay retry blocked by global th10 ownership
+## Packet 652A ReadAnmEntries replay retry blocked by global th10 ownership
 
 - Current-head ReadAnmEntries @ 0x0043C610 still rebuilds locally as 390/390 exact with all 17 relocation destinations and 322/322 ordinary bytes matching.
 - Replay staging commit 5df885a bound claim claim:th09-main:function:0043c610:codegen-exact to a clean 499-file source snapshot. Two Factory attempts were made from that same binding; the retry job was job:f0eaf4b670df47d0a0496fa47878c4a8.

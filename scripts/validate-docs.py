@@ -52,8 +52,9 @@ def prose_link_targets(text: str) -> list[str]:
 def validate_knowledge_base() -> None:
     ids: list[str] = []
     forbidden_states = {"superseded", "historical / superseded-codegen-diagnostic"}
+    knowledge = KNOWLEDGE.read_text(encoding="utf-8")
     for line_number, line in enumerate(
-        KNOWLEDGE.read_text(encoding="utf-8").splitlines(), 1
+        knowledge.splitlines(), 1
     ):
         if not line.startswith("| ") or line.startswith(("| ID ", "| ---")):
             continue
@@ -75,6 +76,12 @@ def validate_knowledge_base() -> None:
     duplicates = sorted(identifier for identifier, count in Counter(ids).items() if count > 1)
     if duplicates:
         raise ValueError(f"duplicate knowledge IDs: {', '.join(duplicates)}")
+    packet_ids = re.findall(r"^## Packet (\d+[A-Z]?)\b", knowledge, re.MULTILINE)
+    duplicate_packets = sorted(
+        identifier for identifier, count in Counter(packet_ids).items() if count > 1
+    )
+    if duplicate_packets:
+        raise ValueError(f"duplicate knowledge packets: {', '.join(duplicate_packets)}")
 
 
 def validate_handoff_totals() -> None:
