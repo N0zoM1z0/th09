@@ -224,10 +224,11 @@ int TitleScreenView::OnUpdateMusicRoom()
             for (i = 0; i < musicListingOffset; i++)
                 vms[159 + i].flags &= ~2u;
 
+            i = musicListingOffset;
             i32 visibleEnd = musicTrackCount;
-            if (musicListingOffset + 10 < visibleEnd)
-                visibleEnd = musicListingOffset + 10;
-            for (i = musicListingOffset; i < visibleEnd; i++)
+            if (i + 10 < visibleEnd)
+                visibleEnd = i + 10;
+            for (; i < visibleEnd; i++)
             {
                 vms[159 + i].flags |= 2;
                 vms[159 + i].posY = (float)((i - musicListingOffset + 1) * 18) + 104.0f - 20.0f;
@@ -371,12 +372,13 @@ int TitleScreenView::OnUpdateMusicRoom()
             musicTrackCount = trackIndex + 1;
 
             MusicRoomTrackDescriptor *musicTrack = &musicTracks[0];
-            for (i = 159; i - 159 < musicTrackCount; i++, musicTrack++)
+            i32 vmIndex = 0;
+            for (i = 159; i - 159 < musicTrackCount; i++, vmIndex++, musicTrack++)
             {
-                musicAnm->SetAndExecuteScriptIdx(&vms[i], i);
+                musicAnm->SetAndExecuteScriptIdx(&vms[159 + vmIndex], i);
                 if (g_TitleBgmUnlocked[i - 159])
                 {
-                    DrawTitleMusicText(g_TitleAnmManager, &vms[i], 0xD0E0FF, 0x302080,
+                    DrawTitleMusicText(g_TitleAnmManager, &vms[159 + vmIndex], 0xD0E0FF, 0x302080,
                                        musicTrack->title);
                 }
                 else
@@ -384,14 +386,15 @@ int TitleScreenView::OnUpdateMusicRoom()
                     char shortTitle[6];
                     memcpy(shortTitle, musicTrack->title, 5);
                     shortTitle[5] = '\0';
-                    DrawTitleMusicText(g_TitleAnmManager, &vms[i], 0x80A0A0, 0x100040,
+                    DrawTitleMusicText(g_TitleAnmManager, &vms[159 + vmIndex], 0x80A0A0, 0x100040,
                                        "%5s ", shortTitle);
                 }
 
-                vms[i].posX = 93.0f;
-                vms[i].posY = (float)((i - 159 + 1) * 18) + 104.0f - 20.0f;
-                vms[i].posZ = 0.0f;
-                ((u8 *)&vms[i].flags)[1] |= 0x18;
+                vms[159 + vmIndex].posX = 93.0f;
+                vms[159 + vmIndex].posY = (float)((i - 159 + 1) * 18) + 104.0f - 20.0f;
+                vms[159 + vmIndex].posZ = 0.0f;
+                u8 *flagsBytes = (u8 *)&vms[159 + vmIndex].flags;
+                flagsBytes[1] |= 0x18;
             }
 
             SetMenuSelectionSprites(keyboardSelection, 159, musicTrackCount);
@@ -399,10 +402,11 @@ int TitleScreenView::OnUpdateMusicRoom()
             for (i = 0; i < musicListingOffset; i++)
                 vms[159 + i].flags &= ~2u;
 
+            i = musicListingOffset;
             i32 visibleEnd = musicTrackCount;
-            if (musicListingOffset + 10 < visibleEnd)
-                visibleEnd = musicListingOffset + 10;
-            for (i = musicListingOffset; i < visibleEnd; i++)
+            if (i + 10 < visibleEnd)
+                visibleEnd = i + 10;
+            for (; i < visibleEnd; i++)
             {
                 vms[159 + i].flags |= 2;
                 vms[159 + i].posY = (float)((i - musicListingOffset + 1) * 18) + 104.0f - 20.0f;

@@ -196,16 +196,28 @@ label names. Focused checks suffice between later source edits.
 
 ### Current MusicRoom update handoff
 
-`TitleScreenView::OnUpdateMusicRoom @ 0x00426E05` is now a 2,225/2,258-byte
-source-present candidate with the target 0x1C frame, 25 calls and 80
-conditional branches. Packet 667 records target-backed direct description-VM
-stores, indexed visibility refreshes, repeated song-VM owner loads, and the
-branch-local locked-title buffer. The first eight description blocks now align
-at the same instruction offsets. The remaining list-construction loop carries
-its absolute VM index in EBX in the target but a zero-based index in the
-candidate; visibility refresh also swaps the cursor/bound register roles.
-`DrawMusicRoom` in the same TU still replays 209/209 exact. Keep the update
-non-exact and do not infer exactness from its matching frame and call counts.
+`TitleScreenView::OnUpdateMusicRoom @ 0x00426E05` remains source-present/non-exact,
+but a fresh target/object replay now emits 2,254/2,258 bytes under the pinned
+`/O1 /Ob1 /Oy- /Gr` profile. The candidate has the target `0x1C` frame, 25
+calls, 27 unconditional jumps, 80 conditional jumps, and all 74 relocations.
+This supersedes the older 2,225-byte list-loop frontier.
+
+The target-backed list recovery keeps the song/script index absolute at
+159+ in EBX while a separate zero-based VM cursor advances by `0x2A4`.
+Maintained source now models that second induction explicitly, so VC7.1 emits
+the target `vms + cursor + 159*0x2A4` address family, adjusted unlock-table
+indexing, and the target stack-held track/Y cursors. An explicit flags-byte
+pointer restores the target `LEA flags` followed by `OR byte ptr [ptr+1],18h`.
+In both ready/init visibility refreshes, assigning `i = musicListingOffset`
+before computing the visible bound restores the target cursor/bound register
+roles.
+
+The remaining net size deficit is four bytes: in each final hidden-row loop the
+target scales the bound register and then copies it to the byte-offset cursor,
+while the candidate coalesces those registers and omits the 2-byte copy.
+Broader register and branch scheduling differences remain elsewhere, so equal
+censuses and the four-byte size gap do not imply near-byte exactness.
+`DrawMusicRoom` in the same TU still cold-replays 209/209 exact.
 
 ### Current EnemyManager draw handoff
 
