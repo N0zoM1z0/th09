@@ -18301,3 +18301,65 @@ relocations = [
   { offset = 0x13F, type = "REL32", symbol = "?LoadExternalTextureData@AnmManager@@QAEHPAVAnmLoaded@@HPAH1PAUAnmRawEntry@@@Z", target = 0x0043BBE0 },
   { offset = 0x168, type = "REL32", symbol = "?LoadExternalTextureData@AnmManager@@QAEHPAVAnmLoaded@@HPAH1PAUAnmRawEntry@@@Z", target = 0x0043BBE0 },
 ]
+
+# SpawnSingleBullet owns 0x765 logical code bytes. Its COFF extent also
+# contains the compiler-owned three-byte alignment NOP and nine-entry switch
+# table through +0x78B; four later CC bytes remain unowned.
+[units.etama-spawn-single-bullet]
+source = "src/BulletManager.cpp"
+object = "build/matching/BulletManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EtamaController::SpawnSingleBullet"]
+symbol = "?SpawnSingleBullet@EtamaController@@QAEPAUBullet@@PAUBulletSpawnDescriptor@@HHMH@Z"
+target_address = 0x00412960
+size = 0x765
+compare_size = 0x78C
+relocations = [
+  { offset = 0x25E, type = "DIR32", symbol = "$L3092", target = 0x004130C8 },
+  { offset = 0x28D, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x29B, type = "DIR32", symbol = "__real@bf800000", target = 0x0048E7F4 },
+  { offset = 0x2C7, type = "DIR32", symbol = "_kTwoPi", target = 0x0048E4C4 },
+  { offset = 0x2F9, type = "DIR32", symbol = "_kPi", target = 0x0048E2C4 },
+  { offset = 0x307, type = "DIR32", symbol = "_kTwoPi", target = 0x0048E4C4 },
+  { offset = 0x324, type = "DIR32", symbol = "?g_Rng@@3UBulletRngView@@A", target = 0x004ACE0C },
+  { offset = 0x32C, type = "REL32", symbol = "?GetRandomF32InRange@BulletRngView@@QAEMM@Z", target = 0x00404910 },
+  { offset = 0x340, type = "DIR32", symbol = "?g_Rng@@3UBulletRngView@@A", target = 0x004ACE0C },
+  { offset = 0x348, type = "REL32", symbol = "?GetRandomF32InRange@BulletRngView@@QAEMM@Z", target = 0x00404910 },
+  { offset = 0x361, type = "DIR32", symbol = "_kTwoPi", target = 0x0048E4C4 },
+  { offset = 0x380, type = "DIR32", symbol = "?g_Rng@@3UBulletRngView@@A", target = 0x004ACE0C },
+  { offset = 0x388, type = "REL32", symbol = "?GetRandomF32InRange@BulletRngView@@QAEMM@Z", target = 0x00404910 },
+  { offset = 0x391, type = "DIR32", symbol = "?g_Rng@@3UBulletRngView@@A", target = 0x004ACE0C },
+  { offset = 0x3A2, type = "REL32", symbol = "?GetRandomF32InRange@BulletRngView@@QAEMM@Z", target = 0x00404910 },
+  { offset = 0x3D1, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x3E5, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x400, type = "REL32", symbol = "?AddNormalizeAngle@@YGMMM@Z", target = 0x0042AED0 },
+  { offset = 0x434, type = "REL32", symbol = "??BFloat3@@QAEPAMXZ", target = 0x004343D0 },
+  { offset = 0x444, type = "DIR32", symbol = "?g_Supervisor@@3UBulletSupervisorView@@A", target = 0x004B3100 },
+  { offset = 0x457, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0x48D, type = "REL32", symbol = "?CopyBulletAnmVmCore@@YIPBUAnmVm@@PBU1@PAU1@@Z", target = 0x004124D0 },
+  { offset = 0x4A3, type = "REL32", symbol = "?CopyBulletAnmVmCore@@YIPBUAnmVm@@PBU1@PAU1@@Z", target = 0x004124D0 },
+  { offset = 0x577, type = "REL32", symbol = "?SetSprite@BulletAnmLoadedView@@QAEHPAUAnmVm@@H@Z", target = 0x00436AC0 },
+  { offset = 0x5A5, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
+  { offset = 0x5B7, type = "DIR32", symbol = "?g_BulletSpriteOffsetSmall@@3PAHA", target = 0x004A0F18 },
+  { offset = 0x5C8, type = "DIR32", symbol = "__real@42000000", target = 0x0048E5E0 },
+  { offset = 0x5DA, type = "DIR32", symbol = "?g_BulletSpriteOffsetMedium@@3PAHA", target = 0x004A0F58 },
+  { offset = 0x605, type = "REL32", symbol = "?SetSprite@BulletAnmLoadedView@@QAEHPAUAnmVm@@H@Z", target = 0x00436AC0 },
+  { offset = 0x624, type = "REL32", symbol = "?CopyBulletAnmVmCore@@YIPBUAnmVm@@PBU1@PAU1@@Z", target = 0x004124D0 },
+  { offset = 0x643, type = "REL32", symbol = "?SelectBulletSprite@EtamaController@@QAEXPAUAnmVm@@PBU2@1H@Z", target = 0x004124E0 },
+  { offset = 0x671, type = "REL32", symbol = "?CopyBulletAnmVmCore@@YIPBUAnmVm@@PBU1@PAU1@@Z", target = 0x004124D0 },
+  { offset = 0x690, type = "REL32", symbol = "?SelectBulletSprite@EtamaController@@QAEXPAUAnmVm@@PBU2@1H@Z", target = 0x004124E0 },
+  { offset = 0x6B5, type = "REL32", symbol = "?CopyBulletAnmVmCore@@YIPBUAnmVm@@PBU1@PAU1@@Z", target = 0x004124D0 },
+  { offset = 0x6D4, type = "REL32", symbol = "?SelectBulletSprite@EtamaController@@QAEXPAUAnmVm@@PBU2@1H@Z", target = 0x004124E0 },
+  { offset = 0x6F1, type = "REL32", symbol = "??DFloat3@@QBE?AU0@M@Z", target = 0x00401180 },
+  { offset = 0x6F9, type = "REL32", symbol = "??ZFloat3@@QAEAAU0@ABU0@@Z", target = 0x004125B0 },
+  { offset = 0x735, type = "REL32", symbol = "?AdvanceTransformProgram@Bullet@@QAEXXZ", target = 0x004141C0 },
+  { offset = 0x768, type = "DIR32", symbol = "$L2612", target = 0x00412BC2 },
+  { offset = 0x76C, type = "DIR32", symbol = "$L2612", target = 0x00412BC2 },
+  { offset = 0x770, type = "DIR32", symbol = "$L2619", target = 0x00412C12 },
+  { offset = 0x774, type = "DIR32", symbol = "$L2620", target = 0x00412C18 },
+  { offset = 0x778, type = "DIR32", symbol = "$L2624", target = 0x00412C44 },
+  { offset = 0x77C, type = "DIR32", symbol = "$L2625", target = 0x00412C4A },
+  { offset = 0x780, type = "DIR32", symbol = "$L2629", target = 0x00412C7C },
+  { offset = 0x784, type = "DIR32", symbol = "$L2630", target = 0x00412C98 },
+  { offset = 0x788, type = "DIR32", symbol = "$L2634", target = 0x00412CD8 },
+]

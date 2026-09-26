@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 875 |
-| Source-present non-exact functions | 104 |
-| Source-present non-exact bytes | 118,168 |
+| Canonical exact functions | 876 |
+| Source-present non-exact functions | 103 |
+| Source-present non-exact bytes | 116,275 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 157,501 |
+| Canonical exact authored bytes | 159,394 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -217,6 +217,17 @@ an unused previous-angle initialization. The remaining strip loop uses EBX for
 the sample pointer and a stack index in the target, while the candidate keeps
 the index in EBX. It is source-present/non-exact. Both high/low draw wrappers
 remain exact at 35/35 and 38/38 bytes from the same TU.
+
+### SpawnSingleBullet exact closure
+
+`EtamaController::SpawnSingleBullet @ 0x00412960` now replays all 1,893
+logical code bytes and the complete 1,932-byte code/alignment/switch-table
+extent with 47 reviewed relocations under pinned VC7.1. Packet 670 records
+the target-backed zone cooldown store, low-byte FAST flag test, and direct
+template-sprite read that closed the last ordinary byte differences. The
+four CC bytes before exact `SpawnBulletPatternPrimary` remain unowned. All
+17 other configured `BulletManager.cpp` exact units still replay exactly;
+this codegen result does not close the native product or runtime gates.
 
 ### Current large ExAttack callback handoff
 

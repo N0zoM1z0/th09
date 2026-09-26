@@ -508,7 +508,7 @@ Bullet *EtamaController::SpawnSingleBullet(
         angle, speed * g_Supervisor.framerateMultiplier);
     bullet->activeTransformFlags = descriptor->transformFlags;
     bullet->color = descriptor->color;
-    bullet->transformIndex = 0;
+    bullet->zoneTransitionCooldownFrames = 0;
     bullet->cancelledDuringSpawn = 0;
 
     CopyBulletAnmVmCore(&descriptor->templateSprites->bulletVm, &bullet->sprites.bulletVm);
@@ -532,7 +532,7 @@ Bullet *EtamaController::SpawnSingleBullet(
     int despawnBaseSprite =
         descriptor->templateSprites->despawnVm.activeSpriteIndex;
     if (bullet->sprites.despawnVm.activeSpriteIndex !=
-        despawnBaseSprite + descriptor->color)
+        descriptor->templateSprites->despawnVm.activeSpriteIndex + descriptor->color)
     {
         if (reinterpret_cast<BulletLoadedSpriteView *>(
                 bullet->sprites.bulletVm.loadedSprite)->widthPx <= 16.0f)
@@ -558,7 +558,8 @@ Bullet *EtamaController::SpawnSingleBullet(
         }
     }
 
-    if ((descriptor->transformFlags & BULLET_TRANSFORM_SPAWN_FAST) != 0)
+    if ((static_cast<unsigned char>(descriptor->transformFlags) &
+         BULLET_TRANSFORM_SPAWN_FAST) != 0)
     {
         CopyBulletAnmVmCore(
             &descriptor->templateSprites->spawnFastVm, &bullet->sprites.spawnFastVm);
