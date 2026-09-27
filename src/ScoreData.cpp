@@ -426,7 +426,6 @@ int ScoreFileView::LoadScoreRecords()
             do
             {
                 g_ScoreTable[category0][category1][rank].score = 100000 - scoreOffset;
-                g_ScoreTable[category0][category1][rank].value10 = 0.0f;
                 g_ScoreTable[category0][category1][rank].category0 = (u8)category0;
                 g_ScoreTable[category0][category1][rank].chapterSizeCopy = sizeof(ScoreRecordView);
                 g_ScoreTable[category0][category1][rank].chapterSize = sizeof(ScoreRecordView);
@@ -436,6 +435,7 @@ int ScoreFileView::LoadScoreRecords()
                 g_ScoreTable[category0][category1][rank].runtimeMarker = 0;
                 g_ScoreTable[category0][category1][rank].rank = (u8)rank;
                 strcpy(g_ScoreTable[category0][category1][rank].date, "--/--");
+                g_ScoreTable[category0][category1][rank].value10 = 0.0f;
                 g_ScoreTable[category0][category1][rank].magic = 0x52435348u;
                 g_ScoreTable[category0][category1][rank].version = 2;
                 g_ScoreTable[category0][category1][rank].value2B = 0;
