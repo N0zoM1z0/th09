@@ -43,6 +43,20 @@ The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
 and portability have not started.
 
+### Current six-function exact frontier
+
+The current bounded focus contains six source-present, non-exact functions
+(2,046 target bytes): `ScoreFileView::LoadScoreRecords` (437/441 candidate
+bytes), `ScoreFileView::OpenScore` (523/523), `EffectManager::OnUpdate`
+(475/475), `EffectManager::AddedCallback` (51/51),
+`ScreenEffect::CalcShakeEnvelope` (334/336), and
+`FileSystem::TryDecryptFromTable` (220/220). Candidate length is not an
+exactness measure; the live rows in `config/functions.csv` retain the focused
+byte evidence and semantic notes. After the latest shake-envelope source
+correction, all 18 configured canonical exact units in `src/ScreenEffect.cpp`
+passed a same-TU cohort replay. The shake-envelope function itself remains
+non-exact.
+
 ## Restart checklist
 
 From the repository root:
