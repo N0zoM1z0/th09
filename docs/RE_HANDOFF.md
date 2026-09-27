@@ -306,16 +306,22 @@ in source and converge through `activateBullet`, which makes VC7.1 naturally
 emit direct `ESI+0x2A8`, `ESI+0x54C`, and `ESI+0x7F0` VM arguments plus
 the direct `ESI+0xDC4` cancelled flag; and the side-specific player pointer is
 reloaded before each graze/bullet/box query rather than kept live across the
-whole collision block. The body still has the exact `0x40` stack frame, 62
-calls and 60 conditional jumps. It currently has 554 instructions and 19
-unconditional jumps versus the target's 553 and 18; the remaining extra jump
-is an alignment consequence of a one-byte-longer controller reload sequence at
-the draw-bucket tail. The laser-despawn branch now caches despawnDuration
-before testing it, reproducing the target [ebp-0x10] store-before-jle schedule.
-Early EBX counter-zero lifetime and residual register/argument scheduling around
-culling/collision/queueing remain open. All 18 configured same-TU exact units
-replay exactly from one cold object, including the complete 1,932-byte
-SpawnSingleBullet compare extent with canonical `$L3095 -> 0x004130C8`.
+whole collision block. The body still has the exact `0x40` stack frame, 62 calls and 60
+conditional jumps. The bullet draw-bucket source now writes the two queue paths
+directly and lets VC7.1 tail-merge them; this removes the hand-written
+`Bullet **`/`goto queueBullet` phi that caused the extra controller reload.
+Fresh codegen now has the target's 553 instructions and 18 unconditional jumps,
+and the draw-bucket tail through the laser-loop preheader is instruction-for-
+instruction aligned. The laser-despawn branch caches despawnDuration before
+testing it, reproducing the target [ebp-0x10] store-before-jle schedule. The
+remaining frontier is dataflow rather than CFG count: the target saves EBX
+before SelectSide and uses it to clear the three counters, while the candidate
+still saves EBX at the loop preheader; graze-collision temporary registers and
+one laser-geometry x87 add ordering also remain open. All 18 configured same-TU
+exact units replay exactly; removing the explicit OnUpdate queue label only
+renumbers SpawnSingleBullet's compiler-local switch-table relocation from
+`$L3095` to `$L3092`, with the attested destination unchanged at
+`0x004130C8` and the full 1,932-byte compare still exact.
 
 ### Current large ExAttack callback handoff
 

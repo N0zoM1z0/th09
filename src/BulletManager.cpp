@@ -667,11 +667,12 @@ int EtamaController::OnUpdate(EtamaController *controller)
         if (bullet->state == BULLET_STATE_UNUSED || bullet->state == BULLET_STATE_SENTINEL)
             continue;
 
-        Bullet **drawBucket;
         if ((controller->sideState->flags & 1) != 0)
         {
-            drawBucket = &controller->drawBuckets[bullet->sprites.drawBucketIndex];
-            goto queueBullet;
+            bullet->nextInDrawBucket =
+                controller->drawBuckets[bullet->sprites.drawBucketIndex];
+            controller->drawBuckets[bullet->sprites.drawBucketIndex] = bullet;
+            continue;
         }
 
         ++controller->activeTotalCount;
@@ -846,11 +847,9 @@ executeBulletScript:
 updateTimers:
         bullet->stateTimer++;
         bullet->activeTimer++;
-        drawBucket = &controller->drawBuckets[bullet->sprites.drawBucketIndex];
-
-queueBullet:
-        bullet->nextInDrawBucket = *drawBucket;
-        *drawBucket = bullet;
+        bullet->nextInDrawBucket =
+            controller->drawBuckets[bullet->sprites.drawBucketIndex];
+        controller->drawBuckets[bullet->sprites.drawBucketIndex] = bullet;
     }
 
     if ((controller->sideState->flags & 1) != 0)
