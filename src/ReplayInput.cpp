@@ -581,26 +581,23 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
     replayManager->fpsCursor = (u8 *)g_ZunMemory.Alloc(0x79, "rep data");
 
     ReplayBufferLink *first = &replayManager->stageBuffers[stage];
-    ReplayBufferLink *link = first;
+    ReplayBufferLink *current = &replayManager->stageBuffers[stage];
     replayManager->currentBuffer = first;
-    if (link != NULL)
+    while (current != NULL)
     {
-        do
-        {
-            ReplayBufferLink *current = link;
-            if (current->input[0] != NULL)
-                g_ZunMemory.Free(current->input[0]);
-            if (current->input[1] != NULL)
-                g_ZunMemory.Free(current->input[1]);
-            if (current->input[2] != NULL)
-                g_ZunMemory.Free(current->input[2]);
-            if (current->fps != NULL)
-                g_ZunMemory.Free(current->fps);
-            link = current->next;
-            memset(current, 0, sizeof(ReplayBufferLink));
-            if (current != first)
-                g_ZunMemory.Free(current);
-        } while (link != NULL);
+        ReplayBufferLink *link = current;
+        if (link->input[0] != NULL)
+            g_ZunMemory.Free(link->input[0]);
+        if (link->input[1] != NULL)
+            g_ZunMemory.Free(link->input[1]);
+        if (link->input[2] != NULL)
+            g_ZunMemory.Free(link->input[2]);
+        if (link->fps != NULL)
+            g_ZunMemory.Free(link->fps);
+        current = link->next;
+        memset(link, 0, sizeof(ReplayBufferLink));
+        if (link != first)
+            g_ZunMemory.Free(link);
     }
 
     replayManager->currentBuffer->input[0] = replayManager->inputCursor0;
