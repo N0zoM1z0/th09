@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 882 |
-| Source-present non-exact functions | 97 |
-| Source-present non-exact bytes | 112,309 |
+| Canonical exact functions | 883 |
+| Source-present non-exact functions | 96 |
+| Source-present non-exact bytes | 111,638 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 163,360 |
+| Canonical exact authored bytes | 164,031 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -72,6 +72,19 @@ captured with an ordinary `for/continue/break` scan. TH08's corresponding
 `SpawnEnemy2` supplied only that source-shape hypothesis; TH09 evidence fixes
 the 128-slot scan, adjacent 129th-record sentinel, manager split, copied
 0x78-byte context, record offsets, and ABI. See Packet 686.
+
+### Latest widened-backlog closure: Background::OnDrawHighPrio
+
+`Background::OnDrawHighPrio @ 0x004033E0` is now canonical exact at 671 bytes.
+The target callback selects clear behavior from `clearColor` but takes the
+opaque clear color from `skyFog.color`; it applies RGBA mix for that clear and
+RGB-only mix for later fog state. The translucent branch draws the sky/fog
+color square and clears only Z. It also gates the two stage VMs independently
+by script index, transforms stageVm0 x from -144 and sets z to 0.99, renders
+objects 0/1 while spell state is at most 1, and restores mix color unless tint
+is retained. The canonical unit reproduces all 671 bytes and 46 relocation
+destinations. All eight configured exact units in `src/Background.cpp`
+replayed exactly after the change; see Packet 688.
 
 ## Restart checklist
 

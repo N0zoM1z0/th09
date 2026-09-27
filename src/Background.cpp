@@ -76,6 +76,32 @@ struct BackgroundTintColorView
     unsigned char alpha;
 };
 
+union BackgroundRenderColor
+{
+    unsigned int value;
+    BackgroundTintColorView channels;
+};
+
+struct BackgroundAnmManagerMixView
+{
+    unsigned int mixColor;
+    int useMixColor;
+};
+
+typedef char BackgroundRenderColorSizeIs4[
+    (sizeof(BackgroundRenderColor) == 4) ? 1 : -1];
+typedef char BackgroundAnmManagerUseMixColorAt4[
+    (offsetof(BackgroundAnmManagerMixView, useMixColor) == 4) ? 1 : -1];
+
+static unsigned char MixRenderColor(
+    unsigned char color, unsigned char mixColor)
+{
+    unsigned int result = ((color * mixColor) / 128U);
+    if (result >= 256)
+        result = 255;
+    return static_cast<unsigned char>(result);
+}
+
 struct BackgroundSpellVmDrawView
 {
     unsigned char unknown000[0x208];
@@ -361,6 +387,8 @@ int Background::OnDrawHighPrio(Background *background)
 {
     BackgroundSupervisorView *supervisor =
         reinterpret_cast<BackgroundSupervisorView *>(&g_Supervisor);
+    BackgroundTintColorView *tint =
+        reinterpret_cast<BackgroundTintColorView *>(&background->tintColor);
 
     if (!g_Supervisor.IsFogDisabled())
         g_Supervisor.DisableFog();
@@ -375,31 +403,97 @@ int Background::OnDrawHighPrio(Background *background)
         background->clearPending = 0;
     }
 
+    if (tint->alpha > 0)
+        g_AnmManager->SetMixColor(background->tintColor);
+
     if ((background->clearColor & 0xFF000000) == 0xFF000000)
     {
+        unsigned int color = background->skyFog.color;
+        if (reinterpret_cast<BackgroundAnmManagerMixView *>(g_AnmManager)
+                ->useMixColor != 0)
+        {
+            BackgroundTintColorView *colorChannels =
+                reinterpret_cast<BackgroundTintColorView *>(&color);
+            BackgroundTintColorView *mixChannels =
+                reinterpret_cast<BackgroundTintColorView *>(
+                    &reinterpret_cast<BackgroundAnmManagerMixView *>(g_AnmManager)
+                         ->mixColor);
+            colorChannels->red =
+                MixRenderColor(colorChannels->red, mixChannels->red);
+            colorChannels->green =
+                MixRenderColor(colorChannels->green, mixChannels->green);
+            colorChannels->blue =
+                MixRenderColor(colorChannels->blue, mixChannels->blue);
+            colorChannels->alpha =
+                MixRenderColor(colorChannels->alpha, mixChannels->alpha);
+        }
         supervisor->d3dDevice->Clear(
             0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-            background->clearColor, 1.0f, 0);
+            color, 1.0f, 0);
     }
     else
     {
         if (background->clearColor != 0)
         {
             ScreenEffectRect rect = {32.0f, 16.0f, 416.0f, 464.0f};
-            ScreenEffect::DrawSquare(&rect, background->clearColor);
+            ScreenEffect::DrawSquare(&rect, background->skyFog.color);
+            supervisor->d3dDevice->Clear(
+                0, NULL, D3DCLEAR_ZBUFFER, background->clearColor, 1.0f, 0);
         }
-        supervisor->d3dDevice->Clear(
-            0, NULL, D3DCLEAR_ZBUFFER, background->clearColor, 1.0f, 0);
+        else
+        {
+            supervisor->d3dDevice->Clear(
+                0, NULL, D3DCLEAR_ZBUFFER, 0, 1.0f, 0);
+        }
     }
 
     if (background->spellBackgroundState <= 1)
     {
-        g_AnmManager->Draw2DAndFlush(&background->stageVm0);
-        g_AnmManager->Draw2DAndFlush(&background->stageVm1);
+        BackgroundStageVmRuntimeView *stageVm0 =
+            reinterpret_cast<BackgroundStageVmRuntimeView *>(
+                &background->stageVm0);
+        if (stageVm0->scriptIndex > 0)
+        {
+            AsciiGameManagerView *gameManager =
+                reinterpret_cast<AsciiGameManagerView *>(&g_GameManager);
+            reinterpret_cast<BackgroundSpellVmDrawView *>(
+                &background->stageVm0)->position208.x =
+                gameManager->TransformPopupX(-144.0f);
+            reinterpret_cast<BackgroundSpellVmDrawView *>(
+                &background->stageVm0)->position208.z = 0.99f;
+            g_AnmManager->Draw2DAndFlush(&background->stageVm0);
+        }
+
+        BackgroundStageVmRuntimeView *stageVm1 =
+            reinterpret_cast<BackgroundStageVmRuntimeView *>(
+                &background->stageVm1);
+        if (stageVm1->scriptIndex > 0)
+            g_AnmManager->Draw2DAndFlush(&background->stageVm1);
     }
 
     g_Supervisor.SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-    g_Supervisor.SetRenderState(D3DRS_FOGCOLOR, background->skyFog.color);
+    if (reinterpret_cast<BackgroundAnmManagerMixView *>(g_AnmManager)
+            ->useMixColor == 0)
+    {
+        g_Supervisor.SetRenderState(
+            D3DRS_FOGCOLOR, background->skyFog.color);
+    }
+    else
+    {
+        BackgroundRenderColor fogColor;
+        fogColor.value = background->skyFog.color;
+        BackgroundTintColorView *mixChannels =
+            reinterpret_cast<BackgroundTintColorView *>(
+                &reinterpret_cast<BackgroundAnmManagerMixView *>(g_AnmManager)
+                     ->mixColor);
+        fogColor.channels.red =
+            MixRenderColor(fogColor.channels.red, mixChannels->red);
+        fogColor.channels.green =
+            MixRenderColor(fogColor.channels.green, mixChannels->green);
+        fogColor.channels.blue = MixRenderColor(
+            fogColor.channels.blue, mixChannels->blue);
+        g_Supervisor.SetRenderState(D3DRS_FOGCOLOR, fogColor.value);
+    }
     g_Supervisor.SetRenderState(
         D3DRS_FOGSTART, *reinterpret_cast<int *>(&background->skyFog.nearPlane));
     g_Supervisor.SetRenderState(
