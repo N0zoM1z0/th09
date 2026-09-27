@@ -416,12 +416,13 @@ void __fastcall PlayerUpdateSelectorState(void *state)
 {
     PlayerGameplayHeaderView *header =
         reinterpret_cast<PlayerGameplayHeaderView *>(state);
+    int selectedPattern = 0;
+    int alternate = 0;
+    PlayerConstructedVector3View constructedHalfSizes[3];
     memset(
         &g_PlayerSideProtocols[header->player78->sideIndex],
         0,
         0x58);
-
-    PlayerConstructedVector3View constructedHalfSizes[3];
     PlayerPositionView *halfSizes =
         reinterpret_cast<PlayerPositionView *>(constructedHalfSizes);
     float radii[3];
@@ -515,7 +516,6 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     halfSizes[1].y = 10.0f;
     halfSizes[2] = header->player78->hurtboxHalfSize;
 
-    int alternate = 0;
     {
         void *manager = PrimaryTargetManager(header->player78);
         if (manager != NULL && GameplayField<int>(manager, 0x2AC3B8) >= 4)
@@ -526,8 +526,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     }
 
     g_PlayerPatternGrid[cell][1] = header->currentPattern54;
-    int selectedPattern = header->currentPattern54;
-    int halfSizeIndex = 0;
+    int halfSizeIndex;
 
     if ((header->flags74 & 2U) == 0 ||
         GameplayField<int>(header->player78->opponentState->manager04, 0x3044C) > 300)
@@ -535,11 +534,12 @@ void __fastcall PlayerUpdateSelectorState(void *state)
         if (header->retryCooldown50 > 0)
         {
             --header->retryCooldown50;
-            PlayerPositionView candidate;
-            ResolvePatternPosition(
-                header->player78, selectedPattern, alternate, &candidate);
             for (halfSizeIndex = 0; halfSizeIndex < 2; ++halfSizeIndex)
             {
+                selectedPattern = header->currentPattern54;
+                PlayerPositionView candidate;
+                ResolvePatternPosition(
+                    header->player78, selectedPattern, alternate, &candidate);
                 if (!IsPatternPositionBlocked(
                         header->player78,
                         candidate,
