@@ -798,12 +798,10 @@ int EtamaController::OnUpdate(EtamaController *controller)
 
             if (bullet->collisionDisabled == 0)
             {
-                BulletPlayerView *player;
                 int collisionResult;
                 if (bullet->isGrazed == 0)
                 {
-                    player = controller->sideState->player;
-                    collisionResult = player->CheckGrazeCollision(
+                    collisionResult = controller->sideState->player->CheckGrazeCollision(
                         &bullet->position, &bullet->sprites.collisionSize, bullet);
                     if (collisionResult == 1)
                     {
@@ -818,8 +816,7 @@ int EtamaController::OnUpdate(EtamaController *controller)
                     }
                 }
 
-                player = controller->sideState->player;
-                collisionResult = player->CheckBulletCollision(
+                collisionResult = controller->sideState->player->CheckBulletCollision(
                     &bullet->position, &bullet->sprites.collisionSize, bullet);
                 if (collisionResult != 0 &&
                     (collisionResult != 2 ||
@@ -829,9 +826,8 @@ int EtamaController::OnUpdate(EtamaController *controller)
                 }
                 else
                 {
-                    player = controller->sideState->player;
                     reinterpret_cast<PlayerCollisionQueryStateView *>(
-                        reinterpret_cast<unsigned char *>(player) + 0x36C)
+                        reinterpret_cast<unsigned char *>(controller->sideState->player) + 0x36C)
                         ->AppendBoxRecord(
                             reinterpret_cast<PlayerPositionView *>(&bullet->position),
                             reinterpret_cast<PlayerPositionView *>(
@@ -872,8 +868,9 @@ updateTimers:
 
         laserSize[1] = laser->width / 2.0f;
         laserSize[0] = laser->endOffset - laser->startOffset;
-        laserCenter[0] = (laser->endOffset - laser->startOffset) / 2.0f +
-                         laser->startOffset + laser->position.x;
+        laserCenter[0] =
+            ((laser->endOffset - laser->startOffset) / 2.0f + laser->startOffset) +
+            laser->position.x;
         laserCenter[1] = laser->position.y;
         BulletLoadedSpriteView *laserSprite =
             reinterpret_cast<BulletLoadedSpriteView *>(laser->bodyVm.loadedSprite);

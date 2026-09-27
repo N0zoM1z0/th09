@@ -304,24 +304,25 @@ The target-backed source-shape corrections are now: bullet-loop advancement is
 `++bullet, ++i`; the three spawning cases keep their completion logic separate
 in source and converge through `activateBullet`, which makes VC7.1 naturally
 emit direct `ESI+0x2A8`, `ESI+0x54C`, and `ESI+0x7F0` VM arguments plus
-the direct `ESI+0xDC4` cancelled flag; and the side-specific player pointer is
-reloaded before each graze/bullet/box query rather than kept live across the
-whole collision block. The body still has the exact `0x40` stack frame, 62 calls and 60
-conditional jumps. The bullet draw-bucket source now writes the two queue paths
-directly and lets VC7.1 tail-merge them; this removes the hand-written
-`Bullet **`/`goto queueBullet` phi that caused the extra controller reload.
-Fresh codegen now has the target's 553 instructions and 18 unconditional jumps,
-and the draw-bucket tail through the laser-loop preheader is instruction-for-
-instruction aligned. The laser-despawn branch caches despawnDuration before
-testing it, reproducing the target [ebp-0x10] store-before-jle schedule. The
-remaining frontier is dataflow rather than CFG count: the target saves EBX
-before SelectSide and uses it to clear the three counters, while the candidate
-still saves EBX at the loop preheader; graze-collision temporary registers and
-one laser-geometry x87 add ordering also remain open. All 18 configured same-TU
-exact units replay exactly; removing the explicit OnUpdate queue label only
-renumbers SpawnSingleBullet's compiler-local switch-table relocation from
-`$L3095` to `$L3092`, with the attested destination unchanged at
-`0x004130C8` and the full 1,932-byte compare still exact.
+the direct `ESI+0xDC4` cancelled flag. The body still has the exact `0x40`
+stack frame, 62 calls, 60 conditional jumps, 553 instructions, and 18
+unconditional jumps. The draw-bucket paths tail-merge exactly and the cached
+laser despawnDuration store-before-test shape remains target-backed.
+
+Fresh current-worktree A/B comparison now matches 1,832/1,864 ordinary
+comparable bytes versus 1,820/1,864 at prior baseline `b381c02`. Directly spelling all three
+side-player collision/query receivers closes the former graze/bullet/box
+register-scheduling window, and grouping the laser center half-length sum before
+adding `position.x` closes the former x87 add-order window. The only remaining
+ordinary differences are the entry `+0x27..+0x52` EBX lifetime: target saves
+EBX before SelectSide, zeros EBX after the call, and uses it for all three
+counter stores, while the candidate uses EDX and saves EBX at the loop
+preheader. Natural zero-local and declaration-hoisting probes compile back to
+the same candidate shape, so do not repeat those spellings without new
+allocator/lifetime evidence. All 18 configured same-TU exact units replay
+exactly after refreshing SpawnSingleBullet's compiler-private switch-table
+label from `$L3092` to `$L3091`; its attested destination remains
+`0x004130C8` and the full 1,932-byte compare remains exact.
 
 ### Current large ExAttack callback handoff
 
