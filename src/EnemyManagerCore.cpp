@@ -346,15 +346,13 @@ struct EnemyCoreGameManagerPlayfieldView
 };
 
 extern EnemyCoreGameManagerPlayfieldView g_EnemyCoreGameManager;
-struct PlayerPositionView;
-
 struct EnemyAppendCollisionView
 {
     EnemyManagerView *manager00;
 
     void AppendPlayerCollisionBox(
-        const PlayerPositionView *position,
-        const PlayerPositionView *size);
+        const Float3 *position,
+        const Float3 *size);
 };
 extern void EnemyCoreReleaseChildEclBlocks(EnemyCoreView *enemy);
 extern void EnemyCoreReleaseAttachedEffects(EnemyCoreView *enemy);
@@ -655,10 +653,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             {
                 reinterpret_cast<EnemyAppendCollisionView *>(enemy)
                     ->AppendPlayerCollisionBox(
-                        reinterpret_cast<const PlayerPositionView *>(
-                            &enemy->worldPosition2DD4),
-                        reinterpret_cast<const PlayerPositionView *>(
-                            &enemy->hitbox2DBC));
+                        &enemy->worldPosition2DD4,
+                        &enemy->hitbox2DBC);
                 if (enemy->trailFlags53A0 != 0)
                 {
                     Float3 trailHitbox = enemy->hitbox2DBC;
@@ -677,11 +673,9 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                         }
                         reinterpret_cast<EnemyAppendCollisionView *>(enemy)
                             ->AppendPlayerCollisionBox(
-                                reinterpret_cast<const PlayerPositionView *>(
-                                    &enemy->trailSamples33E8[
-                                        trailIndex].position00),
-                                reinterpret_cast<const PlayerPositionView *>(
-                                    &trailHitbox));
+                                &enemy->trailSamples33E8[
+                                    trailIndex].position00,
+                                &trailHitbox);
                     }
                 }
             }
