@@ -315,9 +315,8 @@ int ScreenEffect::CalcShakeEnvelope(ScreenEffect *screenEffect)
     }
     else
     {
-        int totalEndFrame =
-            screenEffect->rawParameter1 + screenEffect->rawParameter2 + endFrame;
-        if (screenEffect->timer < totalEndFrame)
+        endFrame += screenEffect->rawParameter1 + screenEffect->rawParameter2;
+        if (screenEffect->timer < endFrame)
         {
             shakeAmount =
                 ((float)(unsigned int)endFrame - (float)screenEffect->timer) /
