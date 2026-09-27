@@ -15384,6 +15384,21 @@ relocations = [
   { offset = 0xFD, type = "REL32", symbol = "?RunEcl@EnemySpawnRecordEclManagerBoundary@@QAEHPAUEnemyView@@@Z", target = 0x004086C0 },
 ]
 
+[units.enemy-manager-spawn-enemy]
+source = "src/EnemyManagerSpawnEnemy.cpp"
+object = "build/matching/EnemyManagerSpawnEnemy.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyManagerView::SpawnEnemy"]
+symbol = "?SpawnEnemy@EnemyManagerView@@QAEPAUEnemyView@@FPAUEnemyFloat3@@HCHPAHH@Z"
+target_address = 0x0040F340
+size = 0x175
+relocations = [
+  { offset = 0x93, type = "REL32", symbol = "?InitializeSubroutine@EnemySpawnEclManagerBoundary@@QAEHPAXF@Z", target = 0x00406850 },
+  { offset = 0xAC, type = "REL32", symbol = "?RunEcl@EnemySpawnEclManagerBoundary@@QAEHPAUEnemyView@@@Z", target = 0x004086C0 },
+  { offset = 0xDA, type = "REL32", symbol = "?InitializeSubroutine@EnemySpawnEclManagerBoundary@@QAEHPAXF@Z", target = 0x00406850 },
+  { offset = 0xF9, type = "REL32", symbol = "?RunEcl@EnemySpawnEclManagerBoundary@@QAEHPAUEnemyView@@@Z", target = 0x004086C0 },
+]
+
 [units.exattack-type20-init]
 source = "src/ExAttackInitType20.cpp"
 object = "build/matching/ExAttackInitType20.obj"

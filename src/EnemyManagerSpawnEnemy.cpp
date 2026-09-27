@@ -61,18 +61,13 @@ EnemyView *EnemyManagerView::SpawnEnemy(
     EnemySpawnManagerView *manager =
         reinterpret_cast<EnemySpawnManagerView *>(this);
     EnemySpawnRecordView *enemy = &manager->enemies5758[0];
-    int enemyIndex = 0;
+    int enemyIndex;
 
-    while ((enemy->flags337C & 1) != 0)
+    for (enemyIndex = 0; enemyIndex < 128; ++enemyIndex, ++enemy)
     {
-        ++enemyIndex;
-        ++enemy;
-        if (enemyIndex >= 128)
-            break;
-    }
+        if ((enemy->flags337C & 1) != 0)
+            continue;
 
-    if (enemyIndex < 128)
-    {
         *enemy = manager->spawnTemplate328;
         enemy->sequenceIndex2E58 = enemyIndex;
 
@@ -81,7 +76,6 @@ EnemyView *EnemyManagerView::SpawnEnemy(
 
         enemy->position2D74 = *position;
 
-        int runResult;
         if (useOpposingEclManager == 0)
         {
             manager->primaryEcl000.InitializeSubroutine(
@@ -91,8 +85,13 @@ EnemyView *EnemyManagerView::SpawnEnemy(
                 enemy->mainContext7F4 + 0x1C,
                 initialVariables,
                 0x78);
-            runResult = manager->primaryEcl000.RunEcl(
-                reinterpret_cast<EnemyView *>(enemy));
+            if (manager->primaryEcl000.RunEcl(
+                    reinterpret_cast<EnemyView *>(enemy)) == -1)
+            {
+                enemy->flags337C &= ~1U;
+                enemyIndex = 128;
+                break;
+            }
         }
         else
         {
@@ -103,28 +102,26 @@ EnemyView *EnemyManagerView::SpawnEnemy(
                 enemy->mainContext7F4 + 0x1C,
                 initialVariables,
                 0x78);
-            runResult = manager->opposingEcl188.RunEcl(
-                reinterpret_cast<EnemyView *>(enemy));
+            if (manager->opposingEcl188.RunEcl(
+                    reinterpret_cast<EnemyView *>(enemy)) == -1)
+            {
+                enemy->flags337C &= ~1U;
+                enemyIndex = 128;
+                break;
+            }
         }
 
-        if (runResult == -1)
-        {
-            enemy->flags337C &= ~1U;
-            enemyIndex = 128;
-        }
-        else
-        {
-            enemy->displayColor2E70 = enemy->vmColor1F8;
-            enemy->defeatTokenType335C = defeatTokenType;
+        enemy->displayColor2E70 = enemy->vmColor1F8;
+        enemy->defeatTokenType335C = defeatTokenType;
 
-            if (life >= 0)
-                enemy->life2E48 = life;
-            if (score >= 0)
-                enemy->score2E54 = score;
+        if (life >= 0)
+            enemy->life2E48 = life;
+        if (score >= 0)
+            enemy->score2E54 = score;
 
-            enemy->maxLife2E4C = enemy->life2E48;
-            enemy->phase2E50 = enemy->life2E48;
-        }
+        enemy->maxLife2E4C = enemy->life2E48;
+        enemy->phase2E50 = enemy->life2E48;
+        break;
     }
 
     manager->spawnOverflow2AC42C = enemyIndex == 128;

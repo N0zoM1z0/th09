@@ -33,19 +33,19 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 881 |
-| Source-present non-exact functions | 98 |
-| Source-present non-exact bytes | 112,682 |
+| Canonical exact functions | 882 |
+| Source-present non-exact functions | 97 |
+| Source-present non-exact bytes | 112,309 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 162,987 |
+| Canonical exact authored bytes | 163,360 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
 and portability have not started.
 
-### Current six-function exact frontier
+### Earlier six-function focus
 
-The current bounded focus contains six source-present, non-exact functions
+The earlier bounded focus contains six source-present, non-exact functions
 (2,046 target bytes): `ScoreFileView::LoadScoreRecords` (437/441 candidate
 bytes), `ScoreFileView::OpenScore` (523/523), `EffectManager::OnUpdate`
 (475/475), `EffectManager::AddedCallback` (51/51),
@@ -58,6 +58,20 @@ passed a same-TU cohort replay. The shake-envelope function itself remains
 non-exact.
 
 Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-time stack load into ESI is at relative +0x171; the backedge at +0x194 targets +0x174 and skips that load. On a TH9K match ESI receives the current chapter pointer, which remains live through later nonmatching chapters; the found flag gates the final version check. The maintained `th9kChapter` source matches this semantic flow. The target still differs in code generation and remains non-exact at 277/395 ordinary bytes. See Packet 685.
+
+Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
+remain open but are no longer the exclusive focus.
+
+### Latest widened-backlog closure: EnemyManager::SpawnEnemy
+
+`EnemyManagerView::SpawnEnemy @ 0x0040F340` is now canonical exact. Two cold
+pinned VC7.1 `/O2 /Ob1 /Oi /Oy- /Gr` builds reproduce all 373 bytes and all
+four relocations; the complete unit replays at 373/373. The target's separate
+primary/opposing ECL failure branches and shared successful record tail are
+captured with an ordinary `for/continue/break` scan. TH08's corresponding
+`SpawnEnemy2` supplied only that source-shape hypothesis; TH09 evidence fixes
+the 128-slot scan, adjacent 129th-record sentinel, manager split, copied
+0x78-byte context, record offsets, and ABI. See Packet 686.
 
 ## Restart checklist
 
