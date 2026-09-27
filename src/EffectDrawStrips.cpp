@@ -82,9 +82,10 @@ int __fastcall EffectDrawCallbackType27(Effect *effect)
         vertex->diffuse = 0x30600040;
         ++vertex;
 
+        const float &positiveRadius = view->radius7C;
         vertex->pos = *position;
         vertex->pos.x =
-            g_GameManager.TransformPopupX(vertex->pos.x + view->radius7C);
+            g_GameManager.TransformPopupX(positiveRadius + vertex->pos.x);
         vertex->pos.y = g_GameManager.TransformPopupY(0.0f);
         vertex->rhw = 1.0f;
         vertex->diffuse = 0x70600040;
@@ -92,7 +93,7 @@ int __fastcall EffectDrawCallbackType27(Effect *effect)
 
         vertex->pos = *position;
         vertex->pos.x =
-            g_GameManager.TransformPopupX(vertex->pos.x + view->radius7C);
+            g_GameManager.TransformPopupX(positiveRadius + vertex->pos.x);
         vertex->pos.y = g_GameManager.TransformPopupY(448.0f);
         vertex->rhw = 1.0f;
         vertex->diffuse = 0x70600040;
@@ -144,9 +145,10 @@ int __fastcall EffectDrawCallbackType36(Effect *effect)
         vertex->diffuse = 0x30600040;
         ++vertex;
 
+        const float &positiveRadius = view->radius7C;
         vertex->pos = *position;
         vertex->pos.y =
-            g_GameManager.TransformPopupY(vertex->pos.y + view->radius7C);
+            g_GameManager.TransformPopupY(positiveRadius + vertex->pos.y);
         vertex->pos.x = g_GameManager.TransformPopupX(-144.0f);
         vertex->rhw = 1.0f;
         vertex->diffuse = 0x70600040;
@@ -154,7 +156,7 @@ int __fastcall EffectDrawCallbackType36(Effect *effect)
 
         vertex->pos = *position;
         vertex->pos.y =
-            g_GameManager.TransformPopupY(vertex->pos.y + view->radius7C);
+            g_GameManager.TransformPopupY(positiveRadius + vertex->pos.y);
         vertex->pos.x = g_GameManager.TransformPopupX(144.0f);
         vertex->rhw = 1.0f;
         vertex->diffuse = 0x70600040;
