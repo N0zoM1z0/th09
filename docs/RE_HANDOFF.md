@@ -57,6 +57,8 @@ correction, all 18 configured canonical exact units in `src/ScreenEffect.cpp`
 passed a same-TU cohort replay. The shake-envelope function itself remains
 non-exact.
 
+Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-time stack load into ESI is at relative +0x171; the backedge at +0x194 targets +0x174 and skips that load. On a TH9K match ESI receives the current chapter pointer, which remains live through later nonmatching chapters; the found flag gates the final version check. The maintained `th9kChapter` source matches this semantic flow. The target still differs in code generation and remains non-exact at 277/395 ordinary bytes. See Packet 685.
+
 ## Restart checklist
 
 From the repository root:
