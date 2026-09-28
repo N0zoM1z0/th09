@@ -3443,7 +3443,11 @@ int TitleScreenView::OnUpdateDifficultySelect()
                         UpdateScreen8Mode0();
                         break;
                     case 1:
+                        UpdateScreen8Mode123();
+                        break;
                     case 2:
+                        UpdateScreen8Mode123();
+                        break;
                     case 3:
                         UpdateScreen8Mode123();
                         break;
@@ -3504,13 +3508,19 @@ int TitleScreenView::OnUpdateDifficultySelect()
                 switch (g_TitleModeSelection)
                 {
                 case 0:
-                case 4:
                     UpdateScreen8Mode0();
                     break;
                 case 1:
+                    UpdateScreen8Mode123();
+                    break;
                 case 2:
+                    UpdateScreen8Mode123();
+                    break;
                 case 3:
                     UpdateScreen8Mode123();
+                    break;
+                case 4:
+                    UpdateScreen8Mode0();
                     break;
                 }
                 vms[136 + g_TitleDifficulty].pendingInterrupt = 10;

@@ -18437,7 +18437,7 @@ relocations = [
   { offset = 0x396, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
   { offset = 0x39C, type = "DIR32", symbol = "?g_DemoReplayIndex@@3EA", target = 0x004A7ECF },
   { offset = 0x3A8, type = "DIR32", symbol = "?g_TitleInputFlags@@3IA", target = 0x004ACF3A },
-  { offset = 0x3C2, type = "DIR32", symbol = "$L60028", target = 0x0042A43B },
+  { offset = 0x3C2, type = "DIR32", symbol = "$L60033", target = 0x0042A43B },
   { offset = 0x3C8, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
   { offset = 0x3D2, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x3E7, type = "DIR32", symbol = "?g_TitleLockedMenuItem@@3EA", target = 0x004A81F8 },
@@ -18719,4 +18719,60 @@ relocations = [
   { offset = 0x224, type = "DIR32", symbol = "__real@c4610000", target = 0x004915C0 },
   { offset = 0x244, type = "REL32", symbol = "?CreateRectType4@PlayerShotUpdate2PlayerView@@QAEPAXPBUPlayerShotUpdate2Vec3@@MMHHH@Z", target = 0x0041D090 },
   { offset = 0x276, type = "REL32", symbol = "??FZunTimer@@QAEXH@Z", target = 0x00406670 },
+]
+
+[units.title-screen-difficulty-select]
+source = "src/TitleScreen.cpp"
+object = "build/matching/TitleScreen.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleScreenView::OnUpdateDifficultySelect"]
+symbol = "?OnUpdateDifficultySelect@TitleScreenView@@QAEHXZ"
+target_address = 0x0042A45B
+size = 886
+relocations = [
+  { offset = 0x30, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
+  { offset = 0x52, type = "REL32", symbol = "?MoveCursorVertical@TitleScreenView@@QAEHH@Z", target = 0x0042457A },
+  { offset = 0x5D, type = "REL32", symbol = "?UpdateMenuSelection@TitleScreenView@@QAEXXZ", target = 0x004276D7 },
+  { offset = 0x65, type = "DIR32", symbol = "?g_TitleInputFlags@@3IA", target = 0x004ACF3A },
+  { offset = 0x72, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
+  { offset = 0x79, type = "DIR32", symbol = "?g_TitleInputFlags@@3IA", target = 0x004ACF3A },
+  { offset = 0x8D, type = "DIR32", symbol = "?g_TitleDifficulty@@3EA", target = 0x004B3538 },
+  { offset = 0x92, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
+  { offset = 0xA6, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
+  { offset = 0xAB, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
+  { offset = 0xC2, type = "REL32", symbol = "?UpdateScreen8Mode0@TitleScreenView@@QAEHXZ", target = 0x004289DB },
+  { offset = 0xC9, type = "DIR32", symbol = "?g_TitleDifficulty@@3EA", target = 0x004B3538 },
+  { offset = 0xEB, type = "REL32", symbol = "?UpdateScreen8Mode123@TitleScreenView@@QAEHXZ", target = 0x00425ACB },
+  { offset = 0xFD, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
+  { offset = 0x104, type = "REL32", symbol = "?OnUpdateCharacterSelect@TitleScreenView@@QAEHXZ", target = 0x004254A7 },
+  { offset = 0x10B, type = "DIR32", symbol = "?g_TitleDifficulty@@3EA", target = 0x004B3538 },
+  { offset = 0x12C, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
+  { offset = 0x133, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
+  { offset = 0x145, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
+  { offset = 0x163, type = "DIR32", symbol = "?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x16E, type = "REL32", symbol = "?SetInterruptArray@TitleAnmManagerView@@QAEXPAUAnmVmView@@HH@Z", target = 0x00436DE0 },
+  { offset = 0x17A, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
+  { offset = 0x18C, type = "DIR32", symbol = "?g_TitleInputFlags@@3IA", target = 0x004ACF3A },
+  { offset = 0x19F, type = "DIR32", symbol = "?g_TitleDifficulty@@3EA", target = 0x004B3538 },
+  { offset = 0x1A4, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
+  { offset = 0x1C2, type = "DIR32", symbol = "?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x1CD, type = "REL32", symbol = "?SetInterruptArray@TitleAnmManagerView@@QAEXPAUAnmVmView@@HH@Z", target = 0x00436DE0 },
+  { offset = 0x1EB, type = "DIR32", symbol = "?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x1F0, type = "DIR32", symbol = "??_C@_0BD@IOBGKAJC@title?1select00?4png?$AA@", target = 0x0048FB68 },
+  { offset = 0x1F6, type = "REL32", symbol = "?LoadSurface@TitleAnmManagerView@@QAEHHPBD@Z", target = 0x0043CAE0 },
+  { offset = 0x207, type = "DIR32", symbol = "?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x229, type = "REL32", symbol = "?SetInterruptArray@TitleAnmManagerView@@QAEXPAUAnmVmView@@HH@Z", target = 0x00436DE0 },
+  { offset = 0x235, type = "DIR32", symbol = "?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x240, type = "REL32", symbol = "?ExecuteScriptArray@TitleAnmManagerView@@QAEXPAUAnmVmView@@H@Z", target = 0x00439560 },
+  { offset = 0x252, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
+  { offset = 0x27C, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
+  { offset = 0x281, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
+  { offset = 0x295, type = "REL32", symbol = "?UpdateScreen8Mode123@TitleScreenView@@QAEHXZ", target = 0x00425ACB },
+  { offset = 0x29E, type = "REL32", symbol = "?UpdateScreen8Mode0@TitleScreenView@@QAEHXZ", target = 0x004289DB },
+  { offset = 0x2A5, type = "DIR32", symbol = "?g_TitleDifficulty@@3EA", target = 0x004B3538 },
+  { offset = 0x2D2, type = "REL32", symbol = "?UpdateScreen8Mode0@TitleScreenView@@QAEHXZ", target = 0x004289DB },
+  { offset = 0x2D9, type = "DIR32", symbol = "?g_TitleDifficulty@@3EA", target = 0x004B3538 },
+  { offset = 0x2FE, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
+  { offset = 0x30D, type = "DIR32", symbol = "?g_TitleDifficulty@@3EA", target = 0x004B3538 },
+  { offset = 0x336, type = "REL32", symbol = "?UpdateMenuSelection@TitleScreenView@@QAEXXZ", target = 0x004276D7 }
 ]

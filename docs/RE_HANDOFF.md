@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 884 |
-| Source-present non-exact functions | 95 |
-| Source-present non-exact bytes | 110,995 |
+| Canonical exact functions | 885 |
+| Source-present non-exact functions | 94 |
+| Source-present non-exact bytes | 110,109 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 164,674 |
+| Canonical exact authored bytes | 165,560 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -85,6 +85,16 @@ objects 0/1 while spell state is at most 1, and restores mix color unless tint
 is retained. The canonical unit reproduces all 671 bytes and 46 relocation
 destinations. All eight configured exact units in `src/Background.cpp`
 replayed exactly after the change; see Packet 688.
+
+### Latest widened-backlog closure: TitleScreenView::OnUpdateDifficultySelect
+
+`TitleScreenView::OnUpdateDifficultySelect @ 0x0042A45B` is now canonical exact
+at 886 bytes. Two cold pinned VC7.1 `/O1 /Ob1 /Oy- /Gr` builds reproduce all 45
+relocation destinations. Spelling both mode switches with separate case arms
+matches the target's decrement chains while preserving their distinct mode-4
+behavior. Its adjacent `OnUpdateModeSelect` remains 506/506; the preceding
+`OnUpdateStartMenu` remains 1560/1560 code bytes and 1592/1592 including its
+switch table. See Packet 699.
 
 ## Restart checklist
 
