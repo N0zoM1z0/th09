@@ -8117,7 +8117,7 @@ target_address = 0x00413AF0
 size = 0xD7
 compare_size = 0xE8
 relocations = [
-  { offset = 0x17, type = "DIR32", symbol = "$L1890", target = 0x00413BC8 },
+  { offset = 0x17, type = "DIR32", symbol = "$L1905", target = 0x00413BC8 },
   { offset = 0x46, type = "REL32", symbol = "??BFloat3@@QAEPAMXZ", target = 0x004343D0 },
   { offset = 0x54, type = "REL32", symbol = "??BFloat3@@QAEPAMXZ", target = 0x004343D0 },
   { offset = 0x61, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
@@ -8129,10 +8129,10 @@ relocations = [
   { offset = 0xC2, type = "REL32", symbol = "?SetZRotation@AnmVm@@QAEXM@Z", target = 0x0040F840 },
   { offset = 0xC8, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0xCE, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
-  { offset = 0xD8, type = "DIR32", symbol = "$L1764", target = 0x00413B0B },
-  { offset = 0xDC, type = "DIR32", symbol = "$L1765", target = 0x00413B13 },
-  { offset = 0xE0, type = "DIR32", symbol = "$L1766", target = 0x00413B1B },
-  { offset = 0xE4, type = "DIR32", symbol = "$L1767", target = 0x00413B23 },
+  { offset = 0xD8, type = "DIR32", symbol = "$L1779", target = 0x00413B0B },
+  { offset = 0xDC, type = "DIR32", symbol = "$L1780", target = 0x00413B13 },
+  { offset = 0xE0, type = "DIR32", symbol = "$L1781", target = 0x00413B1B },
+  { offset = 0xE4, type = "DIR32", symbol = "$L1782", target = 0x00413B23 },
 ]
 
 [units.etama-controller-release]

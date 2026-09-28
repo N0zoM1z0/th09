@@ -60,7 +60,11 @@ non-exact.
 Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-time stack load into ESI is at relative +0x171; the backedge at +0x194 targets +0x174 and skips that load. On a TH9K match ESI receives the current chapter pointer, which remains live through later nonmatching chapters; the found flag gates the final version check. The maintained `th9kChapter` source matches this semantic flow. The target still differs in code generation and remains non-exact at 277/395 ordinary bytes. See Packet 685.
 
 Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
-remain open but are no longer the exclusive focus.
+remain open but are no longer the exclusive focus. That temporary list's
+progress snapshot is stale: it reports 881 exact and 98 non-exact, while the
+live ledger currently reports 885 exact and 94 non-exact. Recheck every listed
+candidate against `config/functions.csv` and the match-unit manifest before
+resuming it; use the temporary file only as a historical routing aid.
 
 ### Latest widened-backlog closure: EnemyManager::SpawnEnemy
 
@@ -329,6 +333,19 @@ an unused previous-angle initialization. The remaining strip loop uses EBX for
 the sample pointer and a stack index in the target, while the candidate keeps
 the index in EBX. It is source-present/non-exact. Both high/low draw wrappers
 remain exact at 35/35 and 38/38 bytes from the same TU.
+
+### Current EtamaController draw handoff
+
+`EtamaController::OnDraw @ 0x00413BE0` remains source-present/NON-EXACT at the
+maintained 568-byte candidate versus the 600-byte target. Fresh direct TH09
+disassembly confirms the 48-record Laser loop carries two pointer streams: a
+stack-held cursor starts at the first Laser-record base and is passed as the
+body VM to `AnmManager::Draw2D`; ESI is separately biased by `+0x208` for
+Laser fields and the start-cap VM. Both advance by `0x59C` per record. These
+are target address-flow facts, not recovered C++ declarations. A simple
+natural `Laser::bodyVm` alias probe did not explain the target and was
+discarded. Exact `DrawSingleBullet` remains a separate helper result; see
+Packets 700-701.
 
 ### SpawnSingleBullet exact closure
 
