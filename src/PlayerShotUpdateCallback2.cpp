@@ -57,11 +57,10 @@ int __fastcall PlayerShotUpdateCallbackType2(
     }
 
     float velocityZ = shot->velocity43C.z;
-    PlayerShotUpdate2Vec3 *position = &shot->position2A4;
-    *position = player->position1B88;
-    float newX = velocityZ + position->x;
+    shot->position2A4 = player->position1B88;
+    float newX = velocityZ + shot->position2A4.x;
     shot->position2A4.z = 0.44f;
-    position->x = newX;
+    shot->position2A4.x = newX;
     shot->hitboxSize430.y = shot->position2A4.y;
     shot->vmField1C = shot->position2A4.y * (1.0f / 14.0f);
     shot->position2A4.y *= 0.5f;
@@ -79,7 +78,7 @@ int __fastcall PlayerShotUpdateCallbackType2(
             player->CreateRectType4(point, 4.0f, 448.0f, 1, 1, 0);
     }
 
-    shot->history2B0[0] = *position;
+    shot->history2B0[0] = shot->position2A4;
     (*stateTimer)--;
     return 0;
 }

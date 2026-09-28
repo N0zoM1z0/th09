@@ -18693,3 +18693,30 @@ relocations = [
   { offset = 0x1EA, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x1EF, type = "REL32", symbol = "?DrawTriangleStrip@AnmManager@@QAEHPAUAnmVm@@PAUVertexDiffuseXyzrhw@@H@Z", target = 0x0043B670 },
 ]
+
+[units.player-shot-update-callback-type2]
+source = "src/PlayerShotUpdateCallback2.cpp"
+object = "build/matching/PlayerShotUpdateCallback2.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerShotUpdateCallbackType2"]
+symbol = "?PlayerShotUpdateCallbackType2@@YIHPAUPlayerShotUpdate2PlayerView@@PAUPlayerShotUpdate2ShotView@@@Z"
+target_address = 0x00441F90
+size = 0x283
+relocations = [
+  { offset = 0x1E, type = "REL32", symbol = "??NZunTimer@@QAEIH@Z", target = 0x00406720 },
+  { offset = 0x2B, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x93, type = "DIR32", symbol = "__real@3d924925", target = 0x004915E0 },
+  { offset = 0xAF, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0xDC, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0xFC, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x11D, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x13E, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x15F, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x180, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x1A1, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x1C0, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x1F9, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x224, type = "DIR32", symbol = "__real@c4610000", target = 0x004915C0 },
+  { offset = 0x244, type = "REL32", symbol = "?CreateRectType4@PlayerShotUpdate2PlayerView@@QAEPAXPBUPlayerShotUpdate2Vec3@@MMHHH@Z", target = 0x0041D090 },
+  { offset = 0x276, type = "REL32", symbol = "??FZunTimer@@QAEXH@Z", target = 0x00406670 },
+]
