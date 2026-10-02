@@ -4,6 +4,40 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Operator pause handoff (2026-10-03)
+
+The operator has stopped the reconstruction campaign and requested cleanup and
+handoff. This is **paused, active-incomplete** work, not an exactness, product,
+semantic, or portability completion claim. Do not resume reconstruction or
+schedule a continuation without a new operator request.
+
+- Starting checkpoint: `f7b08aa` on `main`; the worktree was clean at pause
+  preflight, with 57 local commits ahead of `origin/main`. The commit containing
+  this section is the handoff checkpoint. Nothing was pushed.
+- Target: the ignored original Japanese v1.50a `resources/th09.exe` passed
+  SHA-256/MD5 and PE checks; direct IDA metadata agreed on SHA-256, MD5,
+  `0x00400000` base and `0x000E7000` image size. Direct metadata did not
+  report Factory-native transport attestation, so none is claimed.
+- Live ledger: 980 reviewed authored/source-present functions; 898 canonical
+  exact, 82 non-exact. Exact authored coverage is 185,858 / 275,770 bytes
+  (67.40%); 35 reviewed candidate origins remain unresolved. These numbers
+  describe authored code, not a complete executable or playable product.
+- Latest retained source change: `62aa6a6` names the target-supported
+  PauseMenu switch-state snapshot and makes its VM index unsigned. It remains
+  non-exact. The later `3c99b40` records negative loop controls, and
+  `f7b08aa` refreshes only ten compiler-private label spellings for the
+  already-exact Etama AddedCallback unit after unchanged destination checks.
+  No unfinished tracked source edit is left. Packets 757-759 record details.
+- The faithful Windows i386 build/runtime graph is open; semantic
+  reconstruction and portability have not started. No partial suffix or
+  near-match diagnostic grants new exact credit.
+
+This pause removed only audited, reproducible current-session diagnostics;
+see the artifact note below. If the operator later resumes, begin with the
+restart checklist and live ledgers rather than historical packet counts.
+Any later "continue", "next", or "rotate" language in this file records an
+earlier routing hypothesis, not authorization to override the operator pause.
+
 ## Authority order
 
 When sources disagree, use this order:
@@ -1384,6 +1418,17 @@ revalidate its inputs before relying on it.
 A clean scratch tree is not evidence of codegen exactness. Canonical exactness
 still comes only from the tracked match-unit/ledger state and accepted
 target-bound replay.
+
+At the 2026-10-03 operator pause, the Packet 758 one-off
+`.analysis/pause-menu-diff-758.py` and its
+`build/ascii-menu-758-baseline.obj` input were removed after their results had
+been recorded in Packet 758. Two Python bytecode cache files under
+`.analysis/ecl-core-20261002/__pycache__/` were also removed. All are
+reproducible; no tracked source or target evidence was deleted. The remaining
+ignored `.analysis/` and `build/` trees contain older, incompletely classified
+work and possible live reproducers, so they were deliberately left intact.
+Do not treat paths named by older packets as guaranteed to exist: regenerate
+from tracked source, the verified target, and the pinned toolchain when needed.
 
 ## Documentation discipline
 
