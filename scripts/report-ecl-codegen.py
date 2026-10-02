@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -27,6 +28,9 @@ SPAWN_ENEMY_SYMBOL = (
     "?SpawnEnemy@EnemyManagerView@@QAEPAUEnemyView@@"
     "FPAUEnemyFloat3@@HCHPAHH@Z"
 )
+FLOAT3_ADD_SYMBOL = "??HFloat3@@QBE?AU0@ABU0@@Z"
+TARGET_FIRST_WORLD_RESULT_HOME = "-0x168"
+TARGET_FIRST_WORLD_COPY_SOURCE = "returned_eax"
 EXPECTED_RESOLVER_CALLS = {
     "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z": 131,
     "?ResolveFloat@EnemyView@@QAEMM@Z": 100,
@@ -72,6 +76,42 @@ def vc71_stack_frame_size(code: bytearray) -> int:
     return int.from_bytes(code[5:9], "little")
 
 
+def first_world_result_shape(
+    code: bytearray, relocations: list[dict[str, object]]
+) -> dict[str, object]:
+    calls = [
+        int(relocation["offset"])
+        for relocation in relocations
+        if relocation["type"] == "REL32"
+        and relocation["symbol"] == FLOAT3_ADD_SYMBOL
+    ]
+    if not calls:
+        return {"status": "unrecognized", "reason": "no Float3 addition call"}
+    field = min(calls)
+    lea = field - 8
+    if (
+        lea < 0
+        or bytes(code[lea : lea + 2]) != b"\x8d\x85"
+        or bytes(code[field - 2 : field + 1]) != b"\x50\xe8\x00"
+    ):
+        return {"status": "unrecognized", "reason": "first result setup changed"}
+    displacement = int.from_bytes(code[lea + 2 : lea + 6], "little", signed=True)
+    after_call = field + 4
+    if bytes(code[after_call : after_call + 2]) == b"\x8b\x10":
+        copy_source = "returned_eax"
+    elif bytes(code[after_call : after_call + 2]) == b"\x8b\x95":
+        copy_source = "stack_local"
+    else:
+        return {"status": "unrecognized", "reason": "first result copy changed"}
+    home = f"-0x{-displacement:X}" if displacement < 0 else f"+0x{displacement:X}"
+    return {
+        "status": "observed",
+        "operator_plus_relocation": field,
+        "home": home,
+        "copy_source": copy_source,
+    }
+
+
 def report(object_path: Path) -> dict[str, object]:
     compare = load_compare_module()
     compare.verified_target()
@@ -115,6 +155,7 @@ def report(object_path: Path) -> dict[str, object]:
 
     stack_frame_size = vc71_stack_frame_size(code)
     spawn_enemy_calls = direct_calls[SPAWN_ENEMY_SYMBOL]
+    first_world_result = first_world_result_shape(code, relocations)
 
     return {
         "target": {
@@ -124,11 +165,14 @@ def report(object_path: Path) -> dict[str, object]:
             "indirect_calls": TARGET_INDIRECT_CALL_COUNT,
             "stack_frame_size": TARGET_STACK_FRAME_SIZE,
             "spawn_enemy_call_sites": TARGET_SPAWN_ENEMY_CALL_COUNT,
+            "first_world_result_home": TARGET_FIRST_WORLD_RESULT_HOME,
+            "first_world_copy_source": TARGET_FIRST_WORLD_COPY_SOURCE,
             "easing_table_entries": EASING_TABLE_COUNT,
             "opcode_table_entries": OPCODE_TABLE_COUNT,
         },
         "candidate": {
             "object": str(object_path),
+            "raw_function_sha256": hashlib.sha256(code).hexdigest(),
             "logical_code_size": logical_size,
             "physical_code_and_tables_size": len(code),
             "logical_size_gap": TARGET_LOGICAL_SIZE - logical_size,
@@ -137,6 +181,7 @@ def report(object_path: Path) -> dict[str, object]:
             "stack_frame_size": stack_frame_size,
             "stack_frame_gap": TARGET_STACK_FRAME_SIZE - stack_frame_size,
             "spawn_enemy_call_sites": spawn_enemy_calls,
+            "first_world_result": first_world_result,
             "relocations": len(relocations),
             "dir32_relocations": sum(
                 relocation["type"] == "DIR32" for relocation in relocations
@@ -201,6 +246,12 @@ def main() -> int:
             f"{TARGET_SPAWN_ENEMY_CALL_COUNT}"
         )
         print("compiler tables: 6 easing + 187 opcode entries")
+        print(
+            "first world result: "
+            f"{candidate['first_world_result']} "
+            f"(target home {TARGET_FIRST_WORLD_RESULT_HOME}, "
+            f"copy {TARGET_FIRST_WORLD_COPY_SOURCE})"
+        )
     return 0
 
 

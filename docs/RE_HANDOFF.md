@@ -852,6 +852,15 @@ pair are retained under `.analysis/ecl-core-740/` and
 stale IDA entry comment is corrected/read back. Next find a target-backed
 lifetime that preserves the first return object while improving dispatch
 handlers; do not infer exactness from equal length or normalized alignment.
+Packet 745 closes a narrower scope question: ending the by-value result's
+lexical scope immediately after the world-field copy, while retaining the
+timer pointer across dispatch, compiles byte-for-byte and record-for-record
+identically to Packet 740's positive probe. It still uses EBP-0x10C and stack
+loads, not target EBP-0x168 and returned EAX. The tracked RunEcl diagnostic
+now prints the first result home/copy source and full physical-byte SHA256;
+four target-independent tests guard its fail-closed pattern recognition.
+Do not repeat brace-only scope changes. A different real value/alias lifetime
+must explain the target first copy and downstream handlers together.
 
 At this checkpoint EclManager::RunEcl is complete maintained source but remains
 NON-EXACT. A fresh clean-HEAD pinned VC7.1 build is 14,788/14,792 logical bytes
