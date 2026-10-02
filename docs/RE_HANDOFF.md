@@ -192,6 +192,14 @@ mean RunEcl is four bytes or four local edits away from exact. Equal-length
 handlers can still contain ordinary byte, register-allocation, or scheduling
 differences, so choose the next hypothesis from a fresh complete comparison.
 
+Packet 704's complete direct-call-order review found and corrected opcode 169's
+reversed physical branch order and unordered-float predicate. Its normalized
+angle arm now precedes its subtract-only arm, and all 375 direct calls pair in
+physical order with consistent destinations. The handler remains 186 bytes;
+140/142 ordinary bytes match, with only the two correct shared-restart jumps
+encoding the upstream four-byte displacement difference. This does not promote
+the owner or imply that its many equal-length residuals are closed.
+
 The 21/23/24 direct arithmetic spelling is supported by the exact adjacent TH08
 source family. TH09-local probes using explicit locals, ternaries, out-helpers,
 switch-wide macros, typed operand overlays, and declaration reordering do not

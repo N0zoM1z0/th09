@@ -192,20 +192,10 @@ static void MoveRandomBiased(
 
     case TH09_ECL_OPCODE_RANDOM_HORIZONTAL_ANGLE:
         if ((Th09EclRunLate::Manager(enemy)->sideState320->
-                 player04->position1B88.x >=
-                 Th09EclRunLate::View(enemy)->position2D74.x ||
-             Th09EclRunLate::View(enemy)->position2D74.x <= 96.0f) &&
-            Th09EclRunLate::View(enemy)->position2D74.x <= 288.0f)
-        {
-            lateFloatResult = Th09EclRunControl::WriteFloat(
-                enemy,
-                instruction,
-                0);
-            *lateFloatResult =
-                Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) -
-                0.78539819f;
-        }
-        else
+                 player04->position1B88.x <
+                 Th09EclRunLate::View(enemy)->position2D74.x &&
+             Th09EclRunLate::View(enemy)->position2D74.x > 96.0f) ||
+            Th09EclRunLate::View(enemy)->position2D74.x > 288.0f)
         {
             lateFloatResult = Th09EclRunControl::WriteFloat(
                 enemy,
@@ -215,6 +205,16 @@ static void MoveRandomBiased(
                 Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) +
                     2.3561945f,
                 0.0f);
+        }
+        else
+        {
+            lateFloatResult = Th09EclRunControl::WriteFloat(
+                enemy,
+                instruction,
+                0);
+            *lateFloatResult =
+                Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) -
+                0.78539819f;
         }
         break;
 
