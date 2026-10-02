@@ -120,6 +120,20 @@ equivalent arithmetic bullet-count expression loses a required Float3 call;
 do not repeat these controls or Packet 702's position/type store permutation.
 The 95% authored-byte objective remains active and incomplete.
 
+### Current FrontSide draw handoff
+
+`FrontSide::OnDraw @ 0x004193E0` remains non-exact. Packet 709 replaces
+reconstruction-only layout-cast accessor functions with direct-expression
+macros and restores all three point constructions within each horizontal
+transition-mode arm. This reopens the old /Ob0 diagnostic: it now emits the
+target generic vertex-array constructor and all 116 calls without artificial
+accessor calls. Maintained /O2 /Ob1 is 3088/3094; /O2 /Ob0 is 3085/3094.
+Both still have frame 0x68 instead of target 0xA4. The six target Float3
+temporary homes and scalar/counter homes remain unresolved. Equal +0x582
+transition offsets never established full HUD-prefix byte equality. Read
+Packet 709 before repeating the failed point-reference or real-constructor
+visibility controls. Neither profile is an accepted owner match.
+
 ## Restart checklist
 
 From the repository root:

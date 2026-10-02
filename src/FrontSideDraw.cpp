@@ -92,22 +92,14 @@ typedef char FrontSideDrawVertexSizeIs14[
 extern Supervisor g_Supervisor;
 extern AsciiGameManagerView g_GameManager;
 
-static __forceinline FrontSideDrawVmCursor *FrontSideDrawCursor(AnmVm *vm)
-{
-    return reinterpret_cast<FrontSideDrawVmCursor *>(
-        reinterpret_cast<u8 *>(vm) + 0x208);
-}
-
-static __forceinline AnmVm *FrontSideDrawBase(FrontSideDrawVmCursor *cursor)
-{
-    return reinterpret_cast<AnmVm *>(
-        reinterpret_cast<u8 *>(cursor) - 0x208);
-}
-
-static __forceinline FrontSideDrawSideView *FrontSideDrawSide(FrontSide *frontSide)
-{
-    return reinterpret_cast<FrontSideDrawSideView *>(frontSide->sideStateA670);
-}
+// These are layout casts, not calls in the target. Keep the expressions visible
+// even when diagnosing the target's non-inlined vertex-array construction.
+#define FRONT_SIDE_DRAW_CURSOR(vm) \
+    reinterpret_cast<FrontSideDrawVmCursor *>(reinterpret_cast<u8 *>(vm) + 0x208)
+#define FRONT_SIDE_DRAW_BASE(cursor) \
+    reinterpret_cast<AnmVm *>(reinterpret_cast<u8 *>(cursor) - 0x208)
+#define FRONT_SIDE_DRAW_SIDE(side) \
+    reinterpret_cast<FrontSideDrawSideView *>((side)->sideStateA670)
 
 int FrontSide::OnDraw(FrontSide *frontSide)
 {
@@ -117,136 +109,136 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     g_Supervisor.viewports78[frontSide->sideIndexA66C].screenShakeOffsetE8.y = 0.0f;
     g_Supervisor.ConfigureScreenViewport(frontSide->sideIndexA66C);
 
-    FrontSideDrawVmCursor *cursor = FrontSideDrawCursor(&frontSide->statusVms0000[0]);
+    FrontSideDrawVmCursor *cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->statusVms0000[0]);
     for (i = 0; i < 11; ++i, ++cursor)
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(cursor->pos80.y);
         cursor->pos00.z = 0.0f;
-        g_AnmManager->Draw2D(FrontSideDrawBase(cursor));
+        g_AnmManager->Draw2D(FRONT_SIDE_DRAW_BASE(cursor));
     }
 
-    cursor = FrontSideDrawCursor(&frontSide->stockVms1D0C[0]);
+    cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->stockVms1D0C[0]);
     for (i = 0; i < 5; ++i, ++cursor)
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(cursor->pos80.y);
         cursor->pos00.z = 0.0f;
-        g_AnmManager->Draw2D(FrontSideDrawBase(cursor));
+        g_AnmManager->Draw2D(FRONT_SIDE_DRAW_BASE(cursor));
     }
 
-    cursor = FrontSideDrawCursor(&frontSide->gaugeVms2A40[0]);
+    cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->gaugeVms2A40[0]);
     for (i = 0; i < 7; ++i, ++cursor)
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(cursor->pos80.y);
         cursor->pos00.z = 0.0f;
-        g_AnmManager->Draw2D(FrontSideDrawBase(cursor));
+        g_AnmManager->Draw2D(FRONT_SIDE_DRAW_BASE(cursor));
     }
 
-    cursor = FrontSideDrawCursor(&frontSide->auxA678.vms0C[0]);
+    cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->auxA678.vms0C[0]);
     for (i = 0; i < 2; ++i, ++cursor)
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(cursor->pos80.y);
         cursor->pos00.z = 0.0f;
-        g_AnmManager->DrawNoRotation(FrontSideDrawBase(cursor));
+        g_AnmManager->DrawNoRotation(FRONT_SIDE_DRAW_BASE(cursor));
     }
 
-    cursor = FrontSideDrawCursor(&frontSide->vm3CBC);
+    cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->vm3CBC);
     cursor->pos00.x = g_GameManager.TransformPopupX(cursor->pos80.x);
     cursor->pos00.y = g_GameManager.TransformPopupY(cursor->pos80.y);
     cursor->pos00.z = 0.0f;
-    g_AnmManager->DrawNoRotation(FrontSideDrawBase(cursor));
+    g_AnmManager->DrawNoRotation(FRONT_SIDE_DRAW_BASE(cursor));
 
-    cursor = FrontSideDrawCursor(&frontSide->scoreVms3F60[0]);
+    cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->scoreVms3F60[0]);
     for (i = 0; i < 10; ++i, ++cursor)
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(cursor->pos80.y);
         cursor->pos00.z = 0.0f;
-        g_AnmManager->DrawNoRotation(FrontSideDrawBase(cursor));
+        g_AnmManager->DrawNoRotation(FRONT_SIDE_DRAW_BASE(cursor));
     }
 
-    cursor = FrontSideDrawCursor(&frontSide->vm59C8);
+    cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->vm59C8);
     cursor->pos00.x = g_GameManager.TransformPopupX(cursor->pos80.x);
     cursor->pos00.y = g_GameManager.TransformPopupY(cursor->pos80.y);
-    g_AnmManager->DrawNoRotation(FrontSideDrawBase(cursor));
+    g_AnmManager->DrawNoRotation(FRONT_SIDE_DRAW_BASE(cursor));
 
-    cursor = FrontSideDrawCursor(&frontSide->meterVms5C6C[0]);
+    cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->meterVms5C6C[0]);
     for (i = 0; i < 4; ++i, ++cursor)
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(
-            FrontSideDrawSide(frontSide)->player04->position1B88.x +
+            FRONT_SIDE_DRAW_SIDE(frontSide)->player04->position1B88.x +
             cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(
-            FrontSideDrawSide(frontSide)->player04->position1B88.y +
+            FRONT_SIDE_DRAW_SIDE(frontSide)->player04->position1B88.y +
             cursor->pos80.y);
-        g_AnmManager->DrawNoRotation(FrontSideDrawBase(cursor));
+        g_AnmManager->DrawNoRotation(FRONT_SIDE_DRAW_BASE(cursor));
     }
 
-    cursor = FrontSideDrawCursor(&frontSide->markerVms66FC[0]);
+    cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->markerVms66FC[0]);
     for (i = 0; i < 3; ++i, ++cursor)
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(
-            FrontSideDrawSide(frontSide)->player04->position1B88.x +
+            FRONT_SIDE_DRAW_SIDE(frontSide)->player04->position1B88.x +
             cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(
-            FrontSideDrawSide(frontSide)->player04->position1B88.y +
+            FRONT_SIDE_DRAW_SIDE(frontSide)->player04->position1B88.y +
             cursor->pos80.y);
         if (frontSide->transitionStateA65C != 0)
             cursor->pos00.y -= 24.0f;
-        g_AnmManager->DrawNoRotation(FrontSideDrawBase(cursor));
+        g_AnmManager->DrawNoRotation(FRONT_SIDE_DRAW_BASE(cursor));
     }
 
-    cursor = FrontSideDrawCursor(&frontSide->timingVms76D4[0]);
+    cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->timingVms76D4[0]);
     for (i = 0; i < 6; ++i, ++cursor)
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(
-            FrontSideDrawSide(frontSide)->player04->position1B88.x +
+            FRONT_SIDE_DRAW_SIDE(frontSide)->player04->position1B88.x +
             cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(
-            FrontSideDrawSide(frontSide)->player04->position1B88.y +
+            FRONT_SIDE_DRAW_SIDE(frontSide)->player04->position1B88.y +
             cursor->pos80.y);
-        g_AnmManager->DrawNoRotation(FrontSideDrawBase(cursor));
+        g_AnmManager->DrawNoRotation(FRONT_SIDE_DRAW_BASE(cursor));
     }
 
-    cursor = FrontSideDrawCursor(&frontSide->stateVms6EE8[0]);
+    cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->stateVms6EE8[0]);
     for (i = 0; i < 2; ++i, ++cursor)
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(
-            FrontSideDrawSide(frontSide)->player04->position1B88.x +
+            FRONT_SIDE_DRAW_SIDE(frontSide)->player04->position1B88.x +
             cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(
-            FrontSideDrawSide(frontSide)->player04->position1B88.y +
+            FRONT_SIDE_DRAW_SIDE(frontSide)->player04->position1B88.y +
             cursor->pos80.y);
-        g_AnmManager->DrawNoRotation(FrontSideDrawBase(cursor));
+        g_AnmManager->DrawNoRotation(FRONT_SIDE_DRAW_BASE(cursor));
     }
 
-    cursor = FrontSideDrawCursor(&frontSide->vm7430);
-    FrontSideDrawSideView *singleSide = FrontSideDrawSide(frontSide);
+    cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->vm7430);
+    FrontSideDrawSideView *singleSide = FRONT_SIDE_DRAW_SIDE(frontSide);
     cursor->pos00.x = g_GameManager.TransformPopupX(
         singleSide->player04->position1B88.x +
         cursor->pos80.x);
     cursor->pos00.y = g_GameManager.TransformPopupY(
         singleSide->player04->position1B88.y +
         cursor->pos80.y);
-    g_AnmManager->DrawNoRotation(FrontSideDrawBase(cursor));
+    g_AnmManager->DrawNoRotation(FRONT_SIDE_DRAW_BASE(cursor));
 
-    cursor = FrontSideDrawCursor(&frontSide->rankVms86AC[0]);
+    cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->rankVms86AC[0]);
     for (i = 0; i < 7; ++i, ++cursor)
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(cursor->pos80.y);
-        g_AnmManager->DrawNoRotation(FrontSideDrawBase(cursor));
+        g_AnmManager->DrawNoRotation(FRONT_SIDE_DRAW_BASE(cursor));
     }
 
-    cursor = FrontSideDrawCursor(&frontSide->counterVms9928[0]);
+    cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->counterVms9928[0]);
     for (i = 0; i < 5; ++i, ++cursor)
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(cursor->pos80.y);
-        g_AnmManager->Draw2D(FrontSideDrawBase(cursor));
+        g_AnmManager->Draw2D(FRONT_SIDE_DRAW_BASE(cursor));
     }
 
     if (frontSide->auxA678.unknown554 != 0)
@@ -336,7 +328,6 @@ int FrontSide::OnDraw(FrontSide *frontSide)
             static_cast<float>(frontSide->transitionTimerABD0) * 9.6000004f -
             144.0f;
 
-        float edgeY;
         if (frontSide->auxA678.unknown554 == 1)
         {
             vertices[0].pos = Float3(
@@ -347,7 +338,10 @@ int FrontSide::OnDraw(FrontSide *frontSide)
                 g_GameManager.TransformPopupX(-144.0f),
                 g_GameManager.TransformPopupY(448.0f),
                 0.0f);
-            edgeY = 448.0f;
+            vertices[2].pos = Float3(
+                g_GameManager.TransformPopupX(transitionTime),
+                g_GameManager.TransformPopupY(448.0f),
+                0.0f);
         }
         else
         {
@@ -359,12 +353,11 @@ int FrontSide::OnDraw(FrontSide *frontSide)
                 g_GameManager.TransformPopupX(-144.0f),
                 g_GameManager.TransformPopupY(0.0f),
                 0.0f);
-            edgeY = 0.0f;
+            vertices[2].pos = Float3(
+                g_GameManager.TransformPopupX(transitionTime),
+                g_GameManager.TransformPopupY(0.0f),
+                0.0f);
         }
-        vertices[2].pos = Float3(
-            g_GameManager.TransformPopupX(transitionTime),
-            g_GameManager.TransformPopupY(edgeY),
-            0.0f);
 
         vertices[0].diffuse =
             vertices[1].diffuse =
@@ -390,7 +383,10 @@ int FrontSide::OnDraw(FrontSide *frontSide)
                 g_GameManager.TransformPopupX(144.0f),
                 g_GameManager.TransformPopupY(0.0f),
                 0.0f);
-            edgeY = 0.0f;
+            vertices[2].pos = Float3(
+                g_GameManager.TransformPopupX(transitionTime),
+                g_GameManager.TransformPopupY(0.0f),
+                0.0f);
         }
         else
         {
@@ -402,12 +398,11 @@ int FrontSide::OnDraw(FrontSide *frontSide)
                 g_GameManager.TransformPopupX(144.0f),
                 g_GameManager.TransformPopupY(448.0f),
                 0.0f);
-            edgeY = 448.0f;
+            vertices[2].pos = Float3(
+                g_GameManager.TransformPopupX(transitionTime),
+                g_GameManager.TransformPopupY(448.0f),
+                0.0f);
         }
-        vertices[2].pos = Float3(
-            g_GameManager.TransformPopupX(transitionTime),
-            g_GameManager.TransformPopupY(edgeY),
-            0.0f);
 
         vertices[0].diffuse =
             vertices[1].diffuse =
