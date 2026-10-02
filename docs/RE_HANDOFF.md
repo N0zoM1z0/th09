@@ -4,6 +4,26 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest Controller fidelity repair (2026-10-02)
+
+Packet 763 corrects GetControllerInput's device reloads across Poll/Acquire and
+recovers the target failure CFG with natural fallback-first source organization.
+The owner remains NON-EXACT: two cold builds agree on790/808 bytes and29
+relocations. Complete relocated prefix674 agrees diagnostically; WinMM axis-tail
+scheduling remains open (102 overlap differences plus18 missing bytes). Both
+private button helpers replay37/37 and47/47 exact. Acquisition allows one
+initial call plus400 retries, maximum401; it does not sample state on a
+Poll-failure invocation. No partial prefix credit or new exact row is added.
+
+Packet 762 records rejected visibility/lifetime controls on EnemyManager,
+KeyConfig, Title Result, ExAttack, RunEcl and FrontSide. Do not repeat them
+without new evidence. Rotate to larger target-backed dataflow/behavior audits.
+This campaign remains active toward90% known-authored code bytes. Repository
+coverage is unchanged at188053/275770 (68.19%);35 unresolved origins stay outside
+that denominator. The d439d71 Etama Factory receipt is historical after this
+source checkpoint, so fresh accepted receipt coverage must be established at a
+later stable milestone. No native/runtime/semantic/port gate is closed.
+
 ## Active reconstruction resume (2026-10-02)
 
 The operator explicitly resumed TH09 with a 90% reviewed-authored-code-byte

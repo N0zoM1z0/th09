@@ -65,98 +65,100 @@ u16 __fastcall GetControllerInput(
     ControllerInputSlotView *inputSlot =
         &g_ReplayInputStates[controllerIndex];
 
-    if (g_Supervisor.controllers14[0] != NULL &&
-        g_Supervisor.controllers14[1] != NULL)
+    if (g_Supervisor.controllers14[0] == NULL ||
+        g_Supervisor.controllers14[1] == NULL)
     {
-        IDirectInputDevice8A *device =
-            g_Supervisor.controllers14[savedJoystickIndex];
-
-        if (device->Poll() < 0)
-        {
-            int acquireAttempts = 0;
-            HRESULT result = device->Acquire();
-            if (result == DIERR_INPUTLOST)
-            {
-                do
-                {
-                    result = device->Acquire();
-                    ++acquireAttempts;
-                    if (acquireAttempts >= 400)
-                        return buttons;
-                }
-                while (result == DIERR_INPUTLOST);
-            }
-            return buttons;
-        }
-
-        memset(&joystickState, 0, sizeof(joystickState));
-        if (device->GetDeviceState(sizeof(joystickState), &joystickState) < 0)
+        memset(&joystickInfo, 0, sizeof(joystickInfo));
+        joystickInfo.dwSize = sizeof(joystickInfo);
+        joystickInfo.dwFlags = JOY_RETURNALL;
+        if (joyGetPosEx(savedJoystickIndex != 0, &joystickInfo) != JOYERR_NOERROR)
             return buttons;
 
-        SetButtonFromDirectInputState(
-            &buttons, inputSlot->mappings58[0], 0x001, joystickState.rgbButtons);
-        SetButtonFromDirectInputState(
-            &buttons, inputSlot->mappings58[1], 0x002, joystickState.rgbButtons);
-        SetButtonFromDirectInputState(
-            &buttons, inputSlot->mappings58[2], 0x004, joystickState.rgbButtons);
-        SetButtonFromDirectInputState(
-            &buttons, inputSlot->mappings58[3], 0x008, joystickState.rgbButtons);
-        SetButtonFromDirectInputState(
-            &buttons, inputSlot->mappings58[4], 0x010, joystickState.rgbButtons);
-        SetButtonFromDirectInputState(
-            &buttons, inputSlot->mappings58[5], 0x020, joystickState.rgbButtons);
-        SetButtonFromDirectInputState(
-            &buttons, inputSlot->mappings58[6], 0x040, joystickState.rgbButtons);
-        SetButtonFromDirectInputState(
-            &buttons, inputSlot->mappings58[7], 0x080, joystickState.rgbButtons);
-        SetButtonFromDirectInputState(
-            &buttons, inputSlot->mappings58[8], 0x100, joystickState.rgbButtons);
+        u32 rawButtons = joystickInfo.dwButtons;
+        SetButtonFromJoystickButtons(
+            &buttons, inputSlot->mappings58[0], 0x001, rawButtons);
+        SetButtonFromJoystickButtons(
+            &buttons, inputSlot->mappings58[1], 0x002, rawButtons);
+        SetButtonFromJoystickButtons(
+            &buttons, inputSlot->mappings58[2], 0x004, rawButtons);
+        SetButtonFromJoystickButtons(
+            &buttons, inputSlot->mappings58[3], 0x008, rawButtons);
+        SetButtonFromJoystickButtons(
+            &buttons, inputSlot->mappings58[4], 0x010, rawButtons);
+        SetButtonFromJoystickButtons(
+            &buttons, inputSlot->mappings58[5], 0x020, rawButtons);
+        SetButtonFromJoystickButtons(
+            &buttons, inputSlot->mappings58[6], 0x040, rawButtons);
+        SetButtonFromJoystickButtons(
+            &buttons, inputSlot->mappings58[7], 0x080, rawButtons);
+        SetButtonFromJoystickButtons(
+            &buttons, inputSlot->mappings58[8], 0x100, rawButtons);
 
-        buttons |= joystickState.lX < -g_Supervisor.axisThresholdX430 ? 0x40 : 0;
-        buttons |= joystickState.lY < -g_Supervisor.axisThresholdY432 ? 0x10 : 0;
-        buttons |= joystickState.lX > g_Supervisor.axisThresholdX430 ? 0x80 : 0;
-        buttons |= joystickState.lY > g_Supervisor.axisThresholdY432 ? 0x20 : 0;
+        JOYCAPSA *caps = &g_JoystickCaps[savedJoystickIndex];
+
+        UINT xDeadzone = (caps->wXmax - caps->wXmin) >> 2;
+        UINT xMidpoint = (caps->wXmin + caps->wXmax) >> 1;
+        buttons |= joystickInfo.dwXpos < xMidpoint - xDeadzone ? 0x40 : 0;
+        buttons |= joystickInfo.dwXpos > xMidpoint + xDeadzone ? 0x80 : 0;
+
+        UINT yDeadzone = (caps->wYmax - caps->wYmin) >> 2;
+        UINT yMidpoint = (caps->wYmin + caps->wYmax) >> 1;
+        buttons |= joystickInfo.dwYpos < yMidpoint - yDeadzone ? 0x10 : 0;
+        buttons |= joystickInfo.dwYpos > yMidpoint + yDeadzone ? 0x20 : 0;
+
         return buttons;
     }
 
-    memset(&joystickInfo, 0, sizeof(joystickInfo));
-    joystickInfo.dwSize = sizeof(joystickInfo);
-    joystickInfo.dwFlags = JOY_RETURNALL;
-    if (joyGetPosEx(savedJoystickIndex != 0, &joystickInfo) != JOYERR_NOERROR)
+    // Poll and Acquire may change the published device slot. The target
+    // reloads it for every call, then retains it only for GetDeviceState.
+    if (g_Supervisor.controllers14[savedJoystickIndex]->Poll() < 0)
+    {
+        int acquireAttempts = 0;
+        HRESULT result = g_Supervisor.controllers14[savedJoystickIndex]->Acquire();
+        if (result == DIERR_INPUTLOST)
+        {
+            do
+            {
+                result = g_Supervisor.controllers14[savedJoystickIndex]->Acquire();
+                ++acquireAttempts;
+                if (acquireAttempts >= 400)
+                    return buttons;
+            }
+            while (result == DIERR_INPUTLOST);
+        }
+        return buttons;
+    }
+
+    IDirectInputDevice8A *device =
+        g_Supervisor.controllers14[savedJoystickIndex];
+    memset(&joystickState, 0, sizeof(joystickState));
+    if (device->GetDeviceState(sizeof(joystickState), &joystickState) < 0)
         return buttons;
 
-    u32 rawButtons = joystickInfo.dwButtons;
-    SetButtonFromJoystickButtons(
-        &buttons, inputSlot->mappings58[0], 0x001, rawButtons);
-    SetButtonFromJoystickButtons(
-        &buttons, inputSlot->mappings58[1], 0x002, rawButtons);
-    SetButtonFromJoystickButtons(
-        &buttons, inputSlot->mappings58[2], 0x004, rawButtons);
-    SetButtonFromJoystickButtons(
-        &buttons, inputSlot->mappings58[3], 0x008, rawButtons);
-    SetButtonFromJoystickButtons(
-        &buttons, inputSlot->mappings58[4], 0x010, rawButtons);
-    SetButtonFromJoystickButtons(
-        &buttons, inputSlot->mappings58[5], 0x020, rawButtons);
-    SetButtonFromJoystickButtons(
-        &buttons, inputSlot->mappings58[6], 0x040, rawButtons);
-    SetButtonFromJoystickButtons(
-        &buttons, inputSlot->mappings58[7], 0x080, rawButtons);
-    SetButtonFromJoystickButtons(
-        &buttons, inputSlot->mappings58[8], 0x100, rawButtons);
+    SetButtonFromDirectInputState(
+        &buttons, inputSlot->mappings58[0], 0x001, joystickState.rgbButtons);
+    SetButtonFromDirectInputState(
+        &buttons, inputSlot->mappings58[1], 0x002, joystickState.rgbButtons);
+    SetButtonFromDirectInputState(
+        &buttons, inputSlot->mappings58[2], 0x004, joystickState.rgbButtons);
+    SetButtonFromDirectInputState(
+        &buttons, inputSlot->mappings58[3], 0x008, joystickState.rgbButtons);
+    SetButtonFromDirectInputState(
+        &buttons, inputSlot->mappings58[4], 0x010, joystickState.rgbButtons);
+    SetButtonFromDirectInputState(
+        &buttons, inputSlot->mappings58[5], 0x020, joystickState.rgbButtons);
+    SetButtonFromDirectInputState(
+        &buttons, inputSlot->mappings58[6], 0x040, joystickState.rgbButtons);
+    SetButtonFromDirectInputState(
+        &buttons, inputSlot->mappings58[7], 0x080, joystickState.rgbButtons);
+    SetButtonFromDirectInputState(
+        &buttons, inputSlot->mappings58[8], 0x100, joystickState.rgbButtons);
 
-    JOYCAPSA *caps = &g_JoystickCaps[savedJoystickIndex];
-
-    UINT xDeadzone = (caps->wXmax - caps->wXmin) >> 2;
-    UINT xMidpoint = (caps->wXmin + caps->wXmax) >> 1;
-    buttons |= joystickInfo.dwXpos < xMidpoint - xDeadzone ? 0x40 : 0;
-    buttons |= joystickInfo.dwXpos > xMidpoint + xDeadzone ? 0x80 : 0;
-
-    UINT yDeadzone = (caps->wYmax - caps->wYmin) >> 2;
-    UINT yMidpoint = (caps->wYmin + caps->wYmax) >> 1;
-    buttons |= joystickInfo.dwYpos < yMidpoint - yDeadzone ? 0x10 : 0;
-    buttons |= joystickInfo.dwYpos > yMidpoint + yDeadzone ? 0x20 : 0;
-
+    buttons |= joystickState.lX < -g_Supervisor.axisThresholdX430 ? 0x40 : 0;
+    buttons |= joystickState.lY < -g_Supervisor.axisThresholdY432 ? 0x10 : 0;
+    buttons |= joystickState.lX > g_Supervisor.axisThresholdX430 ? 0x80 : 0;
+    buttons |= joystickState.lY > g_Supervisor.axisThresholdY432 ? 0x20 : 0;
     return buttons;
+
 }
 } // namespace Controller
