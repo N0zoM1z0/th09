@@ -174,10 +174,43 @@ unchanged-target proof. Fresh focused carriers replay 35 O1 units plus separate
 O2 score-record-insert, all 36 exact. Ordinary selection still has two SIB
 differences. No full-repository cold cohort runs. Live totals are 893 exact
 /180366 of275669 authored bytes (65.43%), with 86 nonexact /95303 bytes.
-The >95% objective and native/runtime/semantic/port gates remain open. Next
-rotate to the adjacent result owner; do not infer exactness from its old
-two-byte size deficit. Owned replay-menu scratch is removed after durable
+The >95% objective and native/runtime/semantic/port gates remain open. Packet
+726 repairs the adjacent result owner below without granting exactness.
+Owned replay-menu scratch is removed after durable
 recording; maintained source and the unit reproduce closure.
+
+### Latest result-browser fidelity repair and non-exact frontier
+
+`TitleScreenView::OnUpdateResult @0x004266B5..0x00426899` remains NON-EXACT.
+Packet 726 repairs two old source errors: cancel jumps directly to return 1,
+skipping all three timer increments, and both character consumers use result
+order table 0x004A1DAC, not ordinary table 0x004A1D7C. The PE contents of these
+separate tables agree; their physical identities do not. The new neutral
+extern view creates no data definition or unique original ownership claim.
+
+Two independent cold objects and canonical carrier reproduce 483 bytes /146
+instructions /34 fields (9 REL32 /25 DIR32), versus target 485 bytes /147
+instructions. Raw SHA-256 is
+d7f2520f6089890a0455fac61c5a49bb158f3e5a6106cbfdb5b064855c820300.
+The remaining selected-character load/widen/push schedule differs. Shared real
+integer lifetimes with/without a char are byte-neutral and discarded; read
+Packets 643/726 before repeating staging, scope, pointer, width or profile
+controls. No new exact credit or full-function CFG agreement is claimed.
+
+Reproduce with `python3 scripts/build-match-unit.py --unit title-screen-replay-menu`
+for the shared O1 carrier, then
+`python3 scripts/inspect-title-character-selection.py build/matching/TitleScreen.obj --result`.
+The diagnostic reports actual paired jump destinations separately: baseline
+cancel conflict is gone after repair, but one destination is unpaired. Four
+new target-independent tests guard that diagnostic, not target exactness.
+All 35 O1 accepted neighbors plus separate O2 score-record-insert replay exact
+after proved spelling-only refresh of nine private StartMenu labels. No
+full-repository cold cohort runs. Ordinary selection keeps two SIB differences.
+Owned result probes/objects/PDBs are removed after durable recording. Totals
+remain 893 exact /180366 of275669 authored bytes (65.43%), with 86 nonexact
+/95303 bytes. The >95% goal and native/runtime/semantic/port gates remain open.
+Next rotate to the 1825-byte UpdateReplaySave owner @0x00429662 with fresh
+complete target/CFG/field review; old equal-size reports do not prove fidelity.
 
 ### Earlier non-exact investigation: Player movement and KeyConfig
 

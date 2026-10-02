@@ -517,6 +517,7 @@ extern i32 g_GameSide1CharacterSetting;
 extern i32 g_TitleCharacterReturnSelection;
 extern char g_TitleCharacterOrder[16];
 extern char g_TitleCharacterOrder14[16];
+extern char g_TitleResultCharacterOrder[16];
 extern char g_TitleCharacterOrderMode123[16];
 extern char g_TitleScreen16Order[16];
 extern char g_TitleScreen16Entries[16];
@@ -2564,7 +2565,7 @@ int TitleScreenView::OnUpdateResult()
             g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
             keyboardSelection = 0;
             nameBankIndex = 0;
-            SetCharacterCursorInactive(g_TitleCharacterOrder14[0], 60, 16, 2);
+            SetCharacterCursorInactive(g_TitleResultCharacterOrder[0], 60, 16, 2);
             currentScreenState = 0;
             stateTimer = 0;
             currentHelpTextVm = 0;
@@ -2632,17 +2633,18 @@ int TitleScreenView::OnUpdateResult()
                     keyboardSelection -= 16;
             }
 
-            char character = g_TitleCharacterOrder14[keyboardSelection];
+            char character = g_TitleResultCharacterOrder[keyboardSelection];
             SetCharacterCursorInactive(character, 60, 16, 2);
             nameBankIndex = character;
         }
 
-        if (g_TitleInputFlags & 0xA)
+        if (static_cast<u8>(g_TitleInputFlags) & 0xA)
         {
             PlayMenuSound(11, 0);
             stateTimer = 0;
             ChangeCurrentScreen(1);
             keyboardSelection = 4;
+            return 1;
         }
         break;
     }

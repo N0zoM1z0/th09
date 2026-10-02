@@ -3,7 +3,8 @@
 
 Read-only complete replay through independently reviewed destinations. Default
 is mode-0; --mode123 selects its neighbor, --ordinary the 14-entry owner,
---screen16 the final-selection owner, and --replay-menu its replay neighbor.
+--screen16 the final-selection owner, --replay-menu its replay neighbor,
+and --result the embedded result browser.
 Requires Capstone. The canonical acceptance path remains the tracked match unit.
 """
 import difflib
@@ -12,6 +13,7 @@ import importlib.util
 from pathlib import Path
 import struct
 import capstone
+from diagnostic_branch_alignment import aligned_branch_conflicts
 
 root = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('coff', root / 'scripts/compare-coff-function.py')
@@ -25,6 +27,7 @@ mode.add_argument('--mode123', action='store_true')
 mode.add_argument('--ordinary', action='store_true')
 mode.add_argument('--screen16', action='store_true')
 mode.add_argument('--replay-menu', action='store_true')
+mode.add_argument('--result', action='store_true')
 args = parser.parse_args()
 base = 0x4289DB
 symbol = '?UpdateScreen8Mode0@TitleScreenView@@QAEHXZ'
@@ -45,6 +48,10 @@ elif args.replay_menu:
     base = 0x42689A
     symbol = '?OnUpdateReplayMenu@TitleScreenView@@QAEHXZ'
     size = 1387
+elif args.result:
+    base = 0x4266B5
+    symbol = '?OnUpdateResult@TitleScreenView@@QAEHXZ'
+    size = 485
 destinations = {
     '?g_TitleSide0InputFlags@@3IA': 0x4ACE1E,
     '?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z': 0x422F39,
@@ -132,6 +139,11 @@ destinations = {
     '??_C@_07DAGALJGA@replay?1?$AA@': 0x48F69C,
     '??_C@_0M@JBOPCDDP@?4?1replay?1?$CFs?$AA@': 0x48F690,
     '??_C@_03LOJJKLGJ@?4?4?1?$AA@': 0x48F68C,
+    '?MoveCursorHorizontal@TitleScreenView@@QAEHH@Z': 0x424601,
+    '?SetCharacterCursorInactive@TitleScreenView@@QAEXHHHH@Z': 0x42505F,
+    '?g_TitleResultUnlockStep@@3HA': 0x4AC8D4,
+    '?g_TitleResultCharacterOrder@@3PADA': 0x4A1DAC,
+    '??_C@_0BD@JGJJAHCD@title?1result00?4png?$AA@': 0x48F640,
 }
 target = coff.pe_bytes_at(coff.verified_target(), base, size)
 code, relocations = coff.object_function(args.object, symbol)
@@ -159,6 +171,14 @@ def calls(ins):
     return [i.operands[0].imm for i in ins if i.mnemonic == 'call']
 print('NON-CREDITING diagnostic:',len(code),'bytes',len(c),'instructions',len(relocations),'fields',raw_hash)
 print('direct order agrees:', calls(t) == calls(c), 'normalized alignment:',sum(x.size for x in matcher.get_matching_blocks()),'/',len(t))
+# Normalized instruction similarity suppresses jump operands. Check real
+# destinations separately so a same-sized but wrong exit cannot disappear.
+# This correspondence is diagnostic only, never an acceptance byte mask.
+branch_conflicts, unpaired_branches = aligned_branch_conflicts(
+    t, c, matcher.get_matching_blocks(), capstone.x86.X86_OP_IMM
+)
+print('paired CFG branch conflicts:', [tuple(map(hex, row)) for row in branch_conflicts],
+      'unpaired destinations:', unpaired_branches)
 if len(code) == len(target):
     print('complete replay differences:',sum(a!=b for a,b in zip(code,target)))
 for tag,a,b,x,y in matcher.get_opcodes():
