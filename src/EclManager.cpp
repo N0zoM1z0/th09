@@ -1,5 +1,6 @@
 #include "EclManager.hpp"
 #include "EclRunLate.inl"
+#include "ExAttackType8GameManagerView.hpp"
 
 #include <string.h>
 
@@ -16,7 +17,6 @@ namespace Th09EclRunOwner
 {
 
 extern unsigned int g_DifficultyMask;
-extern float g_TimeScale;
 
 typedef void (__fastcall *InterpolationCallback)(
     EnemyView *enemy,
@@ -697,7 +697,7 @@ th09_ecl_after_dispatch:
             if (slot->callback00 == NULL)
                 continue;
 
-            slot->timer04 += Th09EclRunOwner::g_TimeScale;
+            slot->timer04 += g_GameManager.speedEC;
             if (slot->timer04 >= slot->duration10)
                 slot->timer04 = slot->duration10;
 
@@ -776,7 +776,7 @@ th09_ecl_after_dispatch:
     }
 
     enemyState->activeContext2CE0->currentInstruction004 = instruction;
-    enemyState->activeContext2CE0->time008 += Th09EclRunOwner::g_TimeScale;
+    enemyState->activeContext2CE0->time008 += g_GameManager.speedEC;
 
 th09_ecl_select_next_context:
     for (int next = childIndex + 1;

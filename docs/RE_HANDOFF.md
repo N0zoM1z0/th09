@@ -214,6 +214,13 @@ directly. Its 46-byte region has only one shared-restart displacement difference
 the maintained owner still has no new exact credit. Real ResolveFloatLValue body
 visibility leaves both the maintained and retained lifetime-probe bytes unchanged.
 
+Packet 707 replaces the separate time-scale alias with the already verified
+GameManager speedEC field. Flattening the six fragment scopes, moving the world
+assignment inside the loop, and exposing the actual vector/operand bodies do
+not change RunEcl instruction bytes; these are now negative compiler evidence,
+not reasons to repeat those probes. The Packet 705 lifetime hypothesis remains
+unresolved, and the owner remains non-exact.
+
 The 21/23/24 direct arithmetic spelling is supported by the exact adjacent TH08
 source family. TH09-local probes using explicit locals, ternaries, out-helpers,
 switch-wide macros, typed operand overlays, and declaration reordering do not
