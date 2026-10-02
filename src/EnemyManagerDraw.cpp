@@ -267,19 +267,22 @@ static int EnemyManagerDrawImpl(
                                 k + enemy->trailSampleStride53A6 <
                                     enemy->trailHistoryLength53A2)
                             {
-                                float nextAngle = EnemyDrawInterpolateWrappedAngle(
-                                    enemy->trailSamples33E8[
-                                        k + enemy->trailSampleStride53A6 - 1].angle18,
-                                    enemy->trailSamples33E8[
-                                        enemy->trailSampleStride53A6].angle18,
-                                    0.5f);
+                                // Only sample the next angle after the first straightness test.
                                 if (static_cast<float>(EnemyDrawAbs(previousAngle - angle)) <
-                                        0.00001f &&
-                                    static_cast<float>(EnemyDrawAbs(angle - nextAngle)) <
                                         0.00001f)
                                 {
-                                    vertexCount -= 2;
-                                    continue;
+                                    float nextAngle = EnemyDrawInterpolateWrappedAngle(
+                                        enemy->trailSamples33E8[
+                                            k + enemy->trailSampleStride53A6 - 1].angle18,
+                                        enemy->trailSamples33E8[
+                                            enemy->trailSampleStride53A6].angle18,
+                                        0.5f);
+                                    if (static_cast<float>(EnemyDrawAbs(angle - nextAngle)) <
+                                            0.00001f)
+                                    {
+                                        vertexCount -= 2;
+                                        continue;
+                                    }
                                 }
                             }
 

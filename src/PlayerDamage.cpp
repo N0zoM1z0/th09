@@ -172,9 +172,8 @@ int PlayerDamagePlayerView::CalcDamageToEnemy(
     PlayerDamageFloat3 enemyBottomRight;
     PlayerDamageFloat3 shotTopLeft;
     PlayerDamageFloat3 shotBottomRight;
-    int savedRotation;
+    float savedRotation;
     int damage = 0;
-    PlayerDamageRegionView *region;
     PlayerDamageShotView *shot;
 
     if (!timer303C8.HasTicked())
@@ -182,10 +181,9 @@ int PlayerDamagePlayerView::CalcDamageToEnemy(
 
     PlayerBuildAabb(&enemyTopLeft, &enemyBottomRight, position, hitbox);
 
+    shot = shotsC11C;
     if (bombHit != NULL)
         *bombHit = 0;
-
-    shot = shotsC11C;
     for (int i = 0; i < 128; ++i, ++shot)
     {
         if (shot->state462 == 0)
@@ -217,10 +215,10 @@ int PlayerDamagePlayerView::CalcDamageToEnemy(
             if (shot->state462 == 1)
             {
                 savedRotation =
-                    *reinterpret_cast<int *>(&shot->rotationZ08);
+                    shot->rotationZ08;
                 anmFileBC->SetAndExecuteScriptIdx(
                     shot, shot->animationIndex46C + 6);
-                *reinterpret_cast<int *>(&shot->rotationZ08) =
+                shot->rotationZ08 =
                     savedRotation;
                 shot->position2A4.operator float *()[2] = 0.1f;
             }
@@ -247,76 +245,78 @@ int PlayerDamagePlayerView::CalcDamageToEnemy(
 
     *primaryAccumulator = damage;
 
-    int totalDamage = damage;
+    // Keep the slot authoritative across rotation and region-state writes.
     PlayerDamageRegionView **slot = activeRegionsB100;
     while (*slot != NULL)
     {
-        region = *slot;
 
-        if (region->type38 != 0 &&
-            region->type38 != 2 &&
-            region->type38 != 4)
+        if ((*slot)->type38 != 0 &&
+            (*slot)->type38 != 2 &&
+            (*slot)->type38 != 4)
             goto nextRegion;
-        if (region->delay40 > 0)
+        if ((*slot)->delay40 > 0)
             goto nextRegion;
-        if (region->lifetime24 % region->collisionInterval34 != 0)
+        if ((*slot)->lifetime24 % (*slot)->collisionInterval34 != 0)
             goto nextRegion;
 
-        if (region->radius08 != 0.0f)
+        if ((*slot)->radius08 == 0.0f)
         {
-            float xDelta = region->centerX00 - position->x;
-            float yDelta = region->centerY04 - position->y;
-            if (region->radius08 * region->radius08 <
-                xDelta * xDelta + yDelta * yDelta)
-                goto nextRegion;
-        }
-        else if (region->angle20 == 0.0f)
-        {
-            if (region->centerX00 - region->halfWidth10 >
-                    enemyBottomRight.x ||
-                region->centerX00 + region->halfWidth10 <
-                    enemyTopLeft.x ||
-                region->centerY04 - region->halfHeight14 >
-                    enemyBottomRight.y ||
-                region->centerY04 + region->halfHeight14 <
-                    enemyTopLeft.y)
-                goto nextRegion;
+            if ((*slot)->angle20 == 0.0f)
+            {
+                if ((*slot)->centerX00 - (*slot)->halfWidth10 >
+                        enemyBottomRight.x ||
+                    (*slot)->centerX00 + (*slot)->halfWidth10 <
+                        enemyTopLeft.x ||
+                    (*slot)->centerY04 - (*slot)->halfHeight14 >
+                        enemyBottomRight.y ||
+                    (*slot)->centerY04 + (*slot)->halfHeight14 <
+                        enemyTopLeft.y)
+                    goto nextRegion;
+            }
+            else
+            {
+                // The completed shot bounds provide the two XY rotation workspaces.
+                shotTopLeft.x = position->x - (*slot)->centerX00;
+                shotTopLeft.y = position->y - (*slot)->centerY04;
+                PlayerDamageRotate(&shotBottomRight, &shotTopLeft, -(*slot)->angle20);
+
+                float halfWidth = hitbox->x * 0.5f;
+                if (-(*slot)->halfWidth10 > halfWidth + shotBottomRight.x ||
+                    (*slot)->halfWidth10 < shotBottomRight.x - halfWidth)
+                    goto nextRegion;
+
+                float halfHeight = hitbox->y * 0.5f;
+                if (-(*slot)->halfHeight14 > halfHeight + shotBottomRight.y ||
+                    (*slot)->halfHeight14 < shotBottomRight.y - halfHeight)
+                    goto nextRegion;
+            }
         }
         else
         {
-            PlayerDamageFloat3 delta;
-            PlayerDamageFloat3 rotated;
-            delta.x = position->x - region->centerX00;
-            delta.y = position->y - region->centerY04;
-            PlayerDamageRotate(&rotated, &delta, -region->angle20);
-
-            float halfWidth = hitbox->x * 0.5f;
-            if (halfWidth + rotated.x < -region->halfWidth10 ||
-                region->halfWidth10 < rotated.x - halfWidth)
-                goto nextRegion;
-
-            float halfHeight = hitbox->y * 0.5f;
-            if (halfHeight + rotated.y < -region->halfHeight14 ||
-                region->halfHeight14 < rotated.y - halfHeight)
+            float radius = (*slot)->radius08;
+            float yDelta = (*slot)->centerY04 - position->y;
+            float xDelta = (*slot)->centerX00 - position->x;
+            if (radius * radius <
+                xDelta * xDelta + yDelta * yDelta)
                 goto nextRegion;
         }
 
-        totalDamage += region->value28;
-        region->hitAccumulator2C += region->value28;
-        if (region->hitCap30 > 0 &&
-            region->hitCap30 <= region->hitAccumulator2C)
+        damage += (*slot)->value28;
+        (*slot)->hitAccumulator2C += (*slot)->value28;
+        if ((*slot)->hitCap30 > 0 &&
+            (*slot)->hitCap30 <= (*slot)->hitAccumulator2C)
         {
-            region->value28 = 0;
-            totalDamage +=
-                region->hitCap30 - region->hitAccumulator2C;
+            (*slot)->value28 = 0;
+            damage +=
+                (*slot)->hitCap30 - (*slot)->hitAccumulator2C;
         }
 
-        if (region->type38 == 4)
-            *secondaryAccumulator += region->value28;
+        if ((*slot)->type38 == 4)
+            *secondaryAccumulator += (*slot)->value28;
 
 nextRegion:
         ++slot;
     }
 
-    return totalDamage;
+    return damage;
 }

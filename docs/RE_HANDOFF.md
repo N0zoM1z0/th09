@@ -4,6 +4,19 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest geometry evaluation fidelity checkpoint (2026-10-02)
+
+Packets 768-769 retain reviewed source corrections in PlayerDamage.cpp and
+EnemyManagerDraw.cpp. Player damage is996/996 bytes with target frame0x38;
+full independent relocation replay leaves exactly two Y-add operand bytes
+(+0x2B9/+0x2BC), so no exact credit. It now uses real float/XY workspaces and
+observed live region-slot reads. Enemy draw now short-circuits next-angle
+sampling after the first strict Abs test, but remains non-exact at1758 bytes.
+Cold pairs and all three affected exact helpers/wrappers pass. Coverage stays
+901 functions /192433 of275770 bytes (69.78%);90% remains55760 bytes away.
+Do not repeat the documented neutral operand/axis/index controls. Earlier
+Factory receipts are historical after this source snapshot changes.
+
 ## Latest Enemy death-reward exact closure (2026-10-02)
 
 Packet 767 closes EnemyView::HandleDeathRewards @0x004102B0:1142 complete
