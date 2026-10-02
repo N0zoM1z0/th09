@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Replay two diagnostic FrontCalc regions; never award function exactness.
 
-Packet 716's 1510-byte candidate has an unresolved completion CFG between
-these regions. Each region is independently placed at its reviewed target
-address. This is NOT a link/replay of the complete callback or a match unit.
+Packet 716's maintained 1510-byte candidate and Packet 742's diagnostic
+1491-byte shared-label control have unresolved completion CFGs between these
+regions. Each region is independently placed at its reviewed target address.
+This is NOT a link/replay of the complete callback or a match unit.
 Destinations below are independently reviewed TH09 IDA/canonical-unit facts,
 not values fitted from the compared relocation fields.
 """
@@ -68,12 +69,16 @@ def main() -> int:
     args = parser.parse_args()
     target = COFF.verified_target()
     code, relocations = COFF.object_function(args.object, SYMBOL)
-    if len(code) != 1510:
-        raise ValueError(f"Packet 716 candidate extent changed: {len(code)} != 1510")
+    if len(code) == 1510:
+        frame_dispatch_offset = 0x2B9
+    elif len(code) == 1491:
+        frame_dispatch_offset = 0x2A6
+    else:
+        raise ValueError(f"unreviewed FrontCalc candidate extent: {len(code)}")
     rows = []
     for name, start, target_offset, size in (
         ("panel-message-prefix", 0, 0, 395),
-        ("frame-dispatch-through-return", 0x2B9, 0x2A6, 813),
+        ("frame-dispatch-through-return", frame_dispatch_offset, 0x2A6, 813),
     ):
         replay = bytearray(code[start : start + size])
         count = 0

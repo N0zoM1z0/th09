@@ -718,6 +718,13 @@ mode0 body; candidate repeats side/stage tests (+19 bytes). Ordinary OR,
 predicate flags/switches, duplicate-body inversion, early return/goto,
 GameManager field views and real mode-body visibility controls do not close
 the owner. Neither extent proximity nor subrange equality permits promotion.
+Packet 742 additionally tests a genuine shared-body label and short-circuit
+`mode0 || mode1` source against fresh target CFG evidence. Both compile to the
+target's 1491-byte extent and retain independently exact prefix/tail regions,
+but put the mode1 test *before* the shared body instead of target's late
+backward branch. Complete comparison fails (1011/1063 and 1001/1063 ordinary
+bytes respectively); equal extent is not an exact owner. The diagnostic replay
+script now supports both the maintained 1510-byte and these 1491-byte shapes.
 
 ### Current Player selector handoff
 
