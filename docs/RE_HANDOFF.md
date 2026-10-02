@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 888 |
-| Source-present non-exact functions | 91 |
-| Source-present non-exact bytes | 104,362 |
+| Canonical exact functions | 889 |
+| Source-present non-exact functions | 90 |
+| Source-present non-exact bytes | 101,981 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 171,307 |
+| Canonical exact authored bytes | 173,688 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -62,9 +62,29 @@ Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-ti
 Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
 remain open but are no longer the exclusive focus. That temporary list's
 progress snapshot is stale: it reports 881 exact and 98 non-exact, while the
-live ledger currently reports 888 exact and 91 non-exact. Recheck every listed
+live ledger currently reports 889 exact and 90 non-exact. Recheck every listed
 candidate against `config/functions.csv` and the match-unit manifest before
 resuming it; use the temporary file only as a historical routing aid.
+
+### Latest large-owner closure: FrontSide::OnUpdate
+
+`FrontSide::OnUpdate @ 0x00418A90` is canonical exact at 2,381 bytes.
+Two independent pinned VC7.1 `/O2 /Ob1 /Oy- /Gr` builds reproduce the complete
+owner, all 95 relocation fields, the 4-byte frame and all 62 direct calls.
+All fourteen pre-existing exact units in `src/FrontSide.cpp` remain exact;
+the focused fresh carrier now replays fifteen units without manifest repairs.
+
+Target review recovers phase-local Player/runtime reloads, the folded timer
+current-read call, counted strobe loops, packed immediate meter colors,
+shared quotient/remainder snapshots and the re-evaluated rank bound without
+the reconstruction-only seven-item clamp. The transition timer is driven by
+`auxA678.unknown554` at owner +0xABCC, not the independent meter state +0xA65C.
+Expression-only layout views remove frontend accessor temporaries; retaining
+Player only within the pulse phase naturally closes the last address-generation
+window. Packet 535's larger scoped-alias probe is not evidence that the old
+broad cache was faithful. No extra callee bodies, profile changes or register
+directives are retained. See Packet 718 for bounded controls and full replay.
+Folded getter ownership and native product/runtime closure remain independent.
 
 ### Latest widened-backlog closure: Background stage script and camera interpolation
 
