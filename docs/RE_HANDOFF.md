@@ -33,17 +33,55 @@ SHA-256:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 896 |
-| Source-present non-exact functions | 84 |
-| Source-present non-exact bytes | 91,959 |
+| Canonical exact functions | 897 |
+| Source-present non-exact functions | 83 |
+| Source-present non-exact bytes | 91,484 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 183,811 |
+| Canonical exact authored bytes | 184,286 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
 and portability have not started.
 
-### Latest uncensused Player reward slot-zero closure
+### Latest shared ExAttack type0/type1 update exact closure
+
+Packet 737 closes ExAttackUpdateCallbackType01 @0x00441100..0x004412DA:
+475 code/physical bytes, frame0x10, 166 instructions, 13 immediate calls,
+20 direct blocks and four RETs without stack arguments. Template update slots
+0x004A0F7C/0x004A0F8C both select it. Ten preceding and five following CC
+bytes remain unowned; no boundary or denominator changes.
+
+Removing the reconstruction-only single-use side-player cache and calling
+CheckBulletCollision through the direct side-player expression naturally closes
+all 43 prior byte differences, including state0 allocation/scheduling. Packet
+376's claim that further work must require register steering is disproven.
+The real void ExAttackInterpolation.hpp declaration and Bullet* collision
+contract replace false local declarations. Both contract-only controls are
+raw-byte-neutral but change actual callee symbols, not complete-record-neutral.
+No helper body, visibility workaround, register forcing or profile change is
+retained. All three-state motion/collision/Hermite behavior remains unchanged.
+
+Two independent maintained-source cold builds and the fresh canonical carrier
+agree on all 475 raw bytes and all 23 complete relocation records (13 REL32,
+10 DIR32). Three GameManager fields retain addend4; targets are reviewed from
+TH09 operands before acceptance. Raw SHA256 is
+716cdce184f35319e11566ee8a7d706ff40de2002317baaeb61709534313a911.
+Reproduce with python3 scripts/build-match-unit.py --unit exattack-type01-update
+and python3 scripts/compare-coff-function.py --unit exattack-type01-update --json.
+scripts/inspect-exattack-type01.py is complete-owner routing only, not acceptance.
+Only this affected TU is compiled; no other TU or repository-wide cold cohort.
+IDA prototypes/comments are corrected and read back; no bytes are patched.
+
+Live coverage is 897 exact /184286 of275770 authored bytes (66.83%), with
+83 nonexact /91484 bytes. Native product/storage/runtime, original TU/data
+ownership, dual-Oracle semantics and portability remain open; >95% stays active.
+Next review ExAttackUpdateCallbackType6 @0x00446060 (698 bytes) using fresh
+complete target/current comparison. It already uses a direct collision receiver:
+do not transplant the Type01 cache control without new lifetime/descriptor
+evidence. Packet 737 scratch is audited and removed; canonical/private/legacy
+state is preserved.
+
+### Earlier uncensused Player reward slot-zero closure
 
 Packet 736 independently reviews the previously untracked callback-table slot0
 at 0x004412E0..0x00441344 and adds it as authored/canonical exact. The complete
@@ -68,12 +106,11 @@ checks, not acceptance or whole-census completeness. All fifteen existing
 same-TU owners retain raw bytes and records; all sixteen units replay exact.
 No other TU or full-repository cold cohort is rebuilt.
 
-This adds 101 authored bytes to both numerator and reviewed denominator:
+At the Packet 736 checkpoint this added 101 bytes to both numerator and denominator:
 896 exact /183811 of275770 bytes (66.65%), 84 nonexact /91959 bytes.
 The frozen 35 unknown rows remain unchanged. Original TU/data/native/runtime
-ownership and the >95% objective remain active-incomplete. Next rotate to the
-adjacent nonexact ExAttackUpdateCallbackType01 @0x00441100 (475 bytes), using
-fresh full target/current comparison rather than its old allocator-limit claim.
+ownership and the >95% objective remain active-incomplete. Its adjacent Type01
+routing lead is now independently closed by Packet 737 above.
 
 ### Earlier Player owner reward exact closure
 
@@ -132,7 +169,7 @@ Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-ti
 Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
 remain open but are no longer the exclusive focus. That temporary list's
 progress snapshot is stale: it reports 881 exact and 98 non-exact, while the
-live ledger currently reports 896 exact and 84 non-exact. Recheck every listed
+live ledger currently reports 897 exact and 83 non-exact. Recheck every listed
 candidate against `config/functions.csv` and the match-unit manifest before
 resuming it; use the temporary file only as a historical routing aid.
 
@@ -164,7 +201,7 @@ and `python3 scripts/compare-coff-function.py --unit title-screen-character-sele
 All 32 prior O1 exact units retain complete raw bytes and relocation records,
 including StartMenu's private labels. Focused fresh carriers replay 33 O1 units
 plus the separate O2 score-record-insert unit, all exact. No full-repository cold
-cohort was run. Current exact coverage is 183,811 /275,770 bytes (66.65%); the
+cohort was run. Current exact coverage is 184,286 /275,770 bytes (66.83%); the
 >95% objective and native/runtime gates remain open. Ordinary character
 selection remains independently nonexact; Packet 724 closes screen16 below.
 

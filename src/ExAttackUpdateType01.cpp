@@ -1,6 +1,7 @@
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "ExAttackController.hpp"
+#include "ExAttackInterpolation.hpp"
 #include "PlayerLifecycleView.hpp"
 
 #include <stddef.h>
@@ -51,7 +52,7 @@ struct ExAttackUpdatePlayerView
     int CheckBulletCollision(
         PlayerPositionView *position,
         PlayerPositionView *collisionSize,
-        void *bullet);
+        Bullet *bullet);
 };
 
 struct ExAttackUpdateSideView
@@ -67,15 +68,6 @@ struct ExAttackUpdateGameManagerView
 };
 
 extern ExAttackUpdateGameManagerView g_GameManager;
-
-float *__fastcall ExAttackInterpolate2D(
-    float *out,
-    float *point1C,
-    float *point10,
-    float *point34,
-    float *point28,
-    float time,
-    float duration);
 
 int __fastcall ExAttackUpdateCallbackType01(ExAttackRecord *base)
 {
@@ -95,10 +87,8 @@ int __fastcall ExAttackUpdateCallbackType01(ExAttackRecord *base)
     {
         if (record->timer10 > 20)
         {
-            ExAttackUpdatePlayerView *player =
-                g_GameManager.sides[record->opponentSide04].player04;
-
-            if (player->CheckBulletCollision(
+            if (g_GameManager.sides[record->opponentSide04]
+                    .player04->CheckBulletCollision(
                     reinterpret_cast<PlayerPositionView *>(&record->position20),
                     reinterpret_cast<PlayerPositionView *>(&collisionSize),
                     0) == 2)
