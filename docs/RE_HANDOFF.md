@@ -4,6 +4,22 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest five-VM menu exact closure (2026-10-02)
+
+Packet 772 closes AsciiMenuState5::OnUpdate at0x00434E90:1213 authored
+bytes,1236 physical bytes and86 reviewed fields. Mode query precedes per-arm
+resets; a separate real owner preserves the target opaque SetInvisible calls.
+The helper remains singly defined in AsciiManagerMenu.cpp. Two cold owner
+builds and all12 affected canonical units pass; only eight private label names
+in the unchanged State4 owner are refreshed after full-record neutrality proof.
+
+Current totals:903 exact /195060 of275770 reviewed-authored bytes (70.73%).
+The90% goal remains active and needs53133 additional bytes.77 nonexact owners
+retain80710 bytes;35 unresolved origins and exclusions are unchanged. Obtain
+a fresh accepted Factory receipt after the final checkpoint; aggregate coverage
+is the repository metric, not a fresh accepted registry total. Native product,
+runtime, semantic and portability gates remain open.
+
 ## Latest trail history extent correction (2026-10-02)
 
 Packet 771 corrects five Type19/21 views to33 history Float3 entries through
@@ -208,11 +224,11 @@ SHA-256:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 902 |
-| Source-present non-exact functions | 78 |
-| Source-present non-exact bytes | 81,923 |
+| Canonical exact functions | 903 |
+| Source-present non-exact functions | 77 |
+| Source-present non-exact bytes | 80,710 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 193,847 |
+| Canonical exact authored bytes | 195,060 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
