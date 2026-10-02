@@ -897,6 +897,19 @@ rejected codegen steering is not.
 
 ### Current RunEcl handoff
 
+Packet 756 rechecks the target's first `Float3::operator+` return at
+`0x00408761`: hidden result EBP-0x168, followed by a copy through returned
+EAX. The maintained source still emits this exact home/copy shape. Three
+bounded source-lifetime controls do not reconcile it with Packet 740's
+later-handler improvement: moving the real callback position snapshot to
+function scope preserves the 14,788-byte extent but lowers per-handler
+normalized alignment from 3881 to 3877; a world-field reference alias is
+neutral on the handler lengths/alignment; moving the real secondary-timer
+pointer acquisition before the world assignment also leaves the four handler
+length gaps and 3881 alignment unchanged while disturbing the first-result
+setup. All controls are discarded and maintained source is restored. Seek new
+target-backed value flow, not another declaration or alias spelling.
+
 Packet 740 replays the Packet705 world-result lifetime hypothesis against the
 current Packet707 maintained source, not the stale historical probe. Baseline
 remains14788/14792 logical bytes; a genuinely used by-value world result plus
