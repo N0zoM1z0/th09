@@ -5,9 +5,7 @@
 #include "SoundPlayer.hpp"
 #include "Supervisor.hpp"
 
-// Partial target-facing reconstruction of the TH09 EnemyManager update owner.
-// This packet isolates the non-leaf death/reward dispatcher called from the
-// 3,883-byte EnemyManager::OnUpdate.
+// Target-facing death/reward dispatcher called by EnemyManager::OnUpdate.
 
 struct EnemyRewardEffectView
 {
@@ -24,9 +22,10 @@ extern float g_GameplayRegionWidth;
 
 void EnemyView::HandleDeathRewards(int hitKind)
 {
-    int rewardMode = hitKind;
+    // Circle scale and the later defeat increment use the same scalar workspace.
+    float rewardScalar;
 
-    if (rewardMode != 0)
+    if (hitKind != 0)
         this->manager00->sideState320->player04->rewardAttack30410
             .ResetForEnemyReward();
 
@@ -52,7 +51,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
     g_SoundPlayer.PlaySoundPositionedByIdx(
         this->sequenceIndex2E58 % 2 + 2, worldPosition->x);
 
-    if ((this->rewardFlags3380 & 0x01C0) != 0 && rewardMode != 0 &&
+    if ((this->rewardFlags3380 & 0x01C0) != 0 && hitKind != 0 &&
         (this->rewardFlags3380 & 0x1000) == 0)
     {
         this->manager00->sideState320->effectManager0C->SpawnEffect(
@@ -71,49 +70,47 @@ void EnemyView::HandleDeathRewards(int hitKind)
 
         if ((this->rewardFlags3380 & 0x01C0) == 0)
         {
-            float effectScale;
             if (this->deathEffectVariant3368 == 0)
-                effectScale = 5.0f;
+                rewardScalar = 5.0f;
             else if (this->deathEffectVariant3368 == 1)
-                effectScale = 5.5f;
+                rewardScalar = 5.5f;
             else if (this->deathEffectVariant3368 == 2)
-                effectScale = 6.0f;
+                rewardScalar = 6.0f;
             else
-                effectScale = 6.25f;
+                rewardScalar = 6.25f;
             reinterpret_cast<PlayerCollisionRegionCreateView *>(
                 this->manager00->sideState320->player04)
                 ->CreateCircleType2(
                 reinterpret_cast<const PlayerRegionPointView *>(worldPosition),
                 32.0f,
-                effectScale,
+                rewardScalar,
                 3,
                 this->deathEffectVariant3368 + 8,
                 4);
         }
         else
         {
-            float effectScale;
             if (this->deathEffectVariant3368 == 0)
-                effectScale = 5.0f;
+                rewardScalar = 5.0f;
             else if (this->deathEffectVariant3368 == 1)
-                effectScale = 5.5f;
+                rewardScalar = 5.5f;
             else if (this->deathEffectVariant3368 == 2)
-                effectScale = 6.0f;
+                rewardScalar = 6.0f;
             else
-                effectScale = 6.25f;
+                rewardScalar = 6.25f;
             reinterpret_cast<PlayerCollisionRegionCreateView *>(
                 this->manager00->sideState320->player04)
                 ->CreateCircleType2(
                 reinterpret_cast<const PlayerRegionPointView *>(worldPosition),
                 32.0f,
-                effectScale,
+                rewardScalar,
                 2,
                 this->deathEffectVariant3368 + 8,
                 4);
         }
     }
 
-    int rewardTier = (this->rewardFlags3380 >> 6) & 7;
+    unsigned int rewardTier = (this->rewardFlags3380 >> 6) & 7;
     int count;
     if (rewardTier == 0)
         count = 4;
@@ -127,36 +124,43 @@ void EnemyView::HandleDeathRewards(int hitKind)
         count = 50;
 
     EnemyRewardPlayerView *player = this->manager00->sideState320->player04;
-    int rewardLevel = player->rewardAttack30410.rewardLevel38;
-    int interval = rewardLevel <= 10 ? rewardLevel * 3 + 30 : 60;
+    int interval = player->rewardAttack30410.rewardLevel38 > 10
+        ? 60 : player->rewardAttack30410.rewardLevel38 * 3 + 30;
     int spread;
-    if (rewardTier != 0)
+    if (((this->rewardFlags3380 >> 6) & 7u) != 0)
         spread = 0;
-    else if (rewardLevel <= 24)
-        spread = rewardLevel + 4;
-    else
+    else if (player->rewardAttack30410.rewardLevel38 > 24)
         spread = 28;
+    else
+        spread = player->rewardAttack30410.rewardLevel38 + 4;
 
     int value;
-    if (rewardTier != 0)
-        value = rewardLevel <= 50 ? (rewardLevel + 5) * 200 : 11000;
+    if (((this->rewardFlags3380 >> 6) & 7u) == 0)
+        value = player->rewardAttack30410.rewardLevel38 > 100
+            ? 3000 : player->rewardAttack30410.rewardLevel38 * 30 + 10;
     else
-        value = rewardLevel <= 100 ? rewardLevel * 30 + 10 : 3000;
-    if (rewardMode != 0)
+        value = player->rewardAttack30410.rewardLevel38 > 50
+            ? 11000 : (player->rewardAttack30410.rewardLevel38 + 5) * 200;
+    if (hitKind != 0)
         value *= 2;
 
     player->rewardAttack30410.QueueEnemyReward(
         worldPosition, interval, spread, count, value);
+    // The reward wrapper advances state38. Reacquire both the Player and level.
+    player = this->manager00->sideState320->player04;
+    int rewardLevel = player->rewardAttack30410.rewardLevel38;
 
-    float defeatValue = rewardLevel <= 128
-        ? static_cast<float>(rewardLevel) * 0.0078125f + 1.0f
-        : 2.0f;
-    player->AccumulateDefeatValue(defeatValue);
+    rewardScalar = rewardLevel > 128
+        ? 2.0f
+        : static_cast<float>(rewardLevel) * 0.0078125f + 1.0f;
+    player->AccumulateDefeatValue(rewardScalar);
 
     rewardTier = (this->rewardFlags3380 >> 6) & 7;
-    if (rewardTier == 0 || rewardTier >= 3 || rewardMode >= 2)
+    if (rewardTier == 0 || rewardTier >= 3 || hitKind >= 2)
         return;
-    if (this->manager00->opposingSideState324->enemyManager10
+    // Retain this owner across popup-coordinate conversion, as the target does.
+    EnemyManagerView *manager = this->manager00;
+    if (manager->opposingSideState324->enemyManager10
             ->rewardEnemyCount2AC3B8 >= 25)
         return;
 
@@ -165,7 +169,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
     effectPosition.y = g_GameManager.TransformPopupY(this->position2D74.y);
     effectPosition.z = 0.0f;
 
-    g_Supervisor.SelectSide(1 - this->manager00->sideIndex31C);
+    g_Supervisor.SelectSide(1 - manager->sideIndex31C);
 
     EnemyFloat3 velocity;
     velocity.x = g_ReplayRng.GetRandomF32SignedInRange(

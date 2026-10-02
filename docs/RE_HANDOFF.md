@@ -4,13 +4,29 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest Enemy death-reward exact closure (2026-10-02)
+
+Packet 767 closes EnemyView::HandleDeathRewards @0x004102B0:1142 complete
+bytes,39 reviewed relocation fields,329 instructions and frame0x24. The source
+fixes stale Player/rewardLevel reuse after the state-advancing reward call,
+retains the observed manager across popup transforms, and uses a real shared
+float workspace for circle scale and subsequent defeat accumulation. Two cold
+maintained builds and canonical full-byte replay agree; no ABI, forced storage,
+padding or compiler-profile changes. Obtain a current Factory receipt after
+commit before treating this owner as accepted in the registry.
+
+Current ledger coverage is192433/275770 reviewed-authored bytes (69.78%),
+901 exact functions and79 nonexact/83337 bytes. The active90% goal needs55760
+more bytes. The35 unresolved origins and exclusions remain unchanged; native
+product/runtime, semantic and portability gates remain open.
+
 ## Latest Player charge text-layout repair (2026-10-02)
 
 Packet 765 fixes three embedded SHT text arrays in PlayerChargeAttackUpdate.cpp.
 Target passes base+0x2C/+0x6C/+0xAC; the old private view dereferenced text bytes
 as pointers. Offset/width/prefix assertions and three diagnostic call-region
 replays protect the fix. Two cold builds agree on1196/1210 bytes and70 fields;
-the complete owner remains non-exact, with no metric gain. Coverage remains
+the complete owner remains non-exact, with no metric gain. At Packet 765, coverage remained
 900 functions /191291 of275770 reviewed-authored bytes (69.37%). The active90%
 goal still needs56902 additional exact bytes. Earlier Factory receipts are
 source-snapshot historical after this checkpoint; do not count them as current.
@@ -32,7 +48,7 @@ workspaces, nested validity fallback arms and the right-probe asymmetry.
 The partial radius initializer supplies a language-defined zero third element.
 No forcing, padding, invented ABI or source-visible register trick is used.
 
-Current repository coverage: 191,291 /275,770 reviewed-authored bytes (69.37%),
+Packet 764 repository coverage: 191,291 /275,770 reviewed-authored bytes (69.37%),
 900 exact functions, 80 non-exact /84,479 bytes. The 90% goal remains active
 and needs 56,902 more exact bytes if the denominator stays unchanged. The 35
 unresolved origins remain outside this known-authored metric; this is not
@@ -151,11 +167,11 @@ SHA-256:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 900 |
-| Source-present non-exact functions | 80 |
-| Source-present non-exact bytes | 84,479 |
+| Canonical exact functions | 901 |
+| Source-present non-exact functions | 79 |
+| Source-present non-exact bytes | 83,337 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 191,291 |
+| Canonical exact authored bytes | 192,433 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -449,7 +465,7 @@ Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-ti
 Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
 remain open but are no longer the exclusive focus. That temporary list's
 progress snapshot is stale: it reports 881 exact and 98 non-exact, while the
-live ledger now reports 900 exact and 80 non-exact. Recheck every listed
+live ledger now reports 901 exact and 79 non-exact. Recheck every listed
 candidate against `config/functions.csv` and the match-unit manifest before
 resuming it; use the temporary file only as a historical routing aid.
 

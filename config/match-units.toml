@@ -20242,3 +20242,53 @@ relocations = [
   { offset = 0xC8E, type = "DIR32", symbol = "?g_PlayerSideProtocols@?A0x68766efb@@3PAUPlayerSideProtocolView@1@A", target = 0x004ACE18 },
   { offset = 0xC95, type = "DIR32", symbol = "?g_PlayerSideProtocols@?A0x68766efb@@3PAUPlayerSideProtocolView@1@A", target = 0x004ACE18 },
 ]
+
+[units.enemy-handle-death-rewards]
+source = "src/EnemyManagerUpdate.cpp"
+object = "build/matching/EnemyManagerUpdate.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyView::HandleDeathRewards"]
+symbol = "?HandleDeathRewards@EnemyView@@QAEXH@Z"
+target_address = 0x004102B0
+size = 1142
+relocations = [
+  { offset = 0x24, type = "REL32", symbol = "?ResetForEnemyReward@EnemyRewardAttackStateView@@QAEXXZ", target = 0x0040F8C0 },
+  { offset = 0x43, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0x48, type = "REL32", symbol = "?PlaySoundPositionedByIdx@SoundPlayer@@QAEXHM@Z", target = 0x0043E380 },
+  { offset = 0x70, type = "REL32", symbol = "?QueueEnemyReward@EnemyRewardAttackStateView@@QAEXPAUEnemyFloat3@@HHHH@Z", target = 0x0040F8B0 },
+  { offset = 0x8E, type = "REL32", symbol = "?SpawnDefeatToken@EnemyRewardPlayerView@@QAEXIPAUEnemyFloat3@@@Z", target = 0x0041DB90 },
+  { offset = 0xAA, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0xAF, type = "REL32", symbol = "?PlaySoundPositionedByIdx@SoundPlayer@@QAEXHM@Z", target = 0x0043E380 },
+  { offset = 0xBD, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0xC2, type = "REL32", symbol = "?GetRandomU16InRange@RngRuntimeView@@QAEGG@Z", target = 0x004048B0 },
+  { offset = 0xD6, type = "REL32", symbol = "?SpawnDefeatToken@EnemyRewardPlayerView@@QAEXIPAUEnemyFloat3@@@Z", target = 0x0041DB90 },
+  { offset = 0xFE, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0x103, type = "REL32", symbol = "?PlaySoundPositionedByIdx@SoundPlayer@@QAEXHM@Z", target = 0x0043E380 },
+  { offset = 0x130, type = "REL32", symbol = "?SpawnEffect@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@HI@Z", target = 0x0040CC00 },
+  { offset = 0x155, type = "REL32", symbol = "?SpawnEffect@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@HI@Z", target = 0x0040CC00 },
+  { offset = 0x200, type = "REL32", symbol = "?CreateCircleType2@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z", target = 0x0041D110 },
+  { offset = 0x2CC, type = "REL32", symbol = "?QueueEnemyReward@EnemyRewardAttackStateView@@QAEXPAUEnemyFloat3@@HHHH@Z", target = 0x0040F8B0 },
+  { offset = 0x2F9, type = "DIR32", symbol = "__real@3c000000", target = 0x0048E5DC },
+  { offset = 0x2FF, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x30B, type = "REL32", symbol = "?AccumulateDefeatValue@EnemyRewardPlayerView@@QAEXM@Z", target = 0x0041BC90 },
+  { offset = 0x354, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x359, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
+  { offset = 0x368, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x36D, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
+  { offset = 0x38A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x38F, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
+  { offset = 0x395, type = "DIR32", symbol = "?g_GameplayRegionWidth@@3MA", target = 0x004A80E8 },
+  { offset = 0x39B, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x3A1, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0x3A7, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
+  { offset = 0x3AF, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
+  { offset = 0x3BC, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0x3C1, type = "REL32", symbol = "?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z", target = 0x00404910 },
+  { offset = 0x3E1, type = "DIR32", symbol = "?g_SharedEffectManager@@3PAUEffectManager@@A", target = 0x004A7E0C },
+  { offset = 0x3EE, type = "REL32", symbol = "?SpawnEffectWithVelocity@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@0HI@Z", target = 0x0040CCC0 },
+  { offset = 0x3FE, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x403, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
+  { offset = 0x441, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0x44D, type = "REL32", symbol = "?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z", target = 0x00404910 },
+  { offset = 0x453, type = "DIR32", symbol = "__real@3c888889", target = 0x0048E5D4 },
+]
