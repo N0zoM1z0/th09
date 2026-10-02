@@ -100,6 +100,20 @@ behavior. Its adjacent `OnUpdateModeSelect` remains 506/506; the preceding
 `OnUpdateStartMenu` remains 1560/1560 code bytes and 1592/1592 including its
 switch table. See Packet 699.
 
+### Latest large-owner progress: EnemyManager::OnUpdate
+
+`EnemyManagerView::OnUpdate @ 0x00410730` remains non-exact but now cold-builds
+the complete 3,883-byte body and 3,900-byte physical extent, with the target
+`0x2A8` frame, all 69 direct calls in physical order, and matching scalar/Float3
+stack homes. Packet 702 supersedes the old 3,824-byte / 67-call plateau. The
+Front-owned script gate, conditional position conversion, sprite/Player reloads,
+schedule reads, record induction, death-case order, and shared draw-list tail
+are now target-backed. Complete ordinary comparison is 3,191/3,512; relocation
+positions still differ, so no exact promotion is made. Focused same-TU helper
+replay remains 151/151. Resume from Packet 702's localized descriptor,
+register-role, copy-scheduling, shared-callee, and floating-comparison residuals.
+The 95% authored-byte objective remains active and incomplete.
+
 ## Restart checklist
 
 From the repository root:

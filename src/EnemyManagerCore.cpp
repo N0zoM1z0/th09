@@ -326,15 +326,19 @@ struct EnemyCoreUiView
 
 struct EnemyCoreFrontView
 {
+    unsigned char unknown00000[0x1095C];
+    int scriptedUpdateFreeze1095C;
+
     void SetSideEnemyIndicatorPosition(
         int sideIndex, Float3 *position);
 };
+typedef char EnemyCoreFrontFreezeAt1095C[
+    (offsetof(EnemyCoreFrontView, scriptedUpdateFreeze1095C) == 0x1095C) ? 1 : -1];
 
 extern EnemyCoreAnmManagerView *g_EnemyCoreAnmManager;
 extern EnemyCoreUiView g_EnemyCoreUi;
 extern EnemyCoreFrontView *g_EnemyCoreFront;
 extern unsigned int g_EnemyCoreRuntimeFlags;
-extern int g_EnemyCoreScriptedUpdateFreeze;
 extern int g_EnemyCoreDifficultyValue;
 extern unsigned char g_EnemyCoreSchedule[];
 
@@ -402,13 +406,16 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
     EnemyManagerCoreView *manager =
         reinterpret_cast<EnemyManagerCoreView *>(enemyManager);
     int bombHit = 0;
+    int damageOccurred;
+    int trailIndex;
+    int hitKind;
+    int enemyIndex;
 
     if ((g_EnemyCoreRuntimeFlags & 0x1800) != 0)
         return 1;
 
-    Float3 markerPosition(-999.0f, 0.0f, 0.0f);
     g_EnemyCoreFront->SetSideEnemyIndicatorPosition(
-        manager->sideIndex31C, &markerPosition);
+        manager->sideIndex31C, &Float3(-999.0f, 0.0f, 0.0f));
     g_Supervisor.SelectSide(manager->sideIndex31C);
 
     manager->drawGroupHeads2AC410[3] = 0;
@@ -416,7 +423,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
     manager->drawGroupHeads2AC410[1] = 0;
     manager->drawGroupHeads2AC410[0] = 0;
 
-    if (!g_EnemyCoreScriptedUpdateFreeze)
+    if (!g_EnemyCoreFront->scriptedUpdateFreeze1095C)
     {
         if (manager->scheduleObject2AC400 != 0)
         {
@@ -425,31 +432,31 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
         else if (manager->normalEnemyCount2AC3B0 == 0 ||
                  manager->sideTimer2AC3C8.IsAfter(0))
         {
-            unsigned char schedule =
-                g_EnemyCoreSchedule[manager->scheduleIndex2AC3D4++];
-            manager->scheduleHighBit2AC3F8 = schedule >> 7;
+            manager->scheduleHighBit2AC3F8 =
+                g_EnemyCoreSchedule[manager->scheduleIndex2AC3D4] >> 7;
             manager->scheduleObject2AC400 =
                 enemyManager->primaryEclManager000.GetSubroutine(
-                    schedule & 0x7F);
+                    g_EnemyCoreSchedule[manager->scheduleIndex2AC3D4++] & 0x7F);
             manager->scheduleRuntime2AC3E0.timer00 = 0;
         }
     }
 
     manager->activeEnemyCount2AC3AC = 0;
     manager->normalEnemyCount2AC3B0 = 0;
-    manager->specialEnemyCount2AC3B4 = 0;
-    manager->rewardEnemyCount2AC3B8 = 0;
     manager->priorityEnemy2AC444 = 0;
     manager->firstActiveEnemy2AC448 = 0;
+    manager->specialEnemyCount2AC3B4 = 0;
+    manager->rewardEnemyCount2AC3B8 = 0;
 
+    EnemyCoreView *enemy = manager->enemies5758;
     if (manager->sideState320->player04->state364 != 0)
         manager->sideTimer2AC3C8.Set(0);
     else
         manager->sideTimer2AC3C8++;
 
-    for (int enemyIndex = 0; enemyIndex < 128; ++enemyIndex)
+    for (enemyIndex = 0; enemyIndex < 128; ++enemy, ++enemyIndex)
     {
-        EnemyCoreView *enemy = &manager->enemies5758[enemyIndex];
+        EnemyCoreView **drawHead;
         unsigned int flags = enemy->flags337C;
 
         if ((flags & ENEMY_CORE_ACTIVE) == 0)
@@ -459,499 +466,510 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             continue;
         }
 
-        unsigned int sideCategory = (enemy->flags3380 >> 10) & 3;
-        if ((manager->sideState320->flags34 & 1) != 0 && sideCategory != 1 &&
-            sideCategory != 2)
+        if ((manager->sideState320->flags34 & 1) != 0 &&
+            ((enemy->flags3380 >> 10) & 3) != 1 &&
+            ((enemy->flags3380 >> 10) & 3) != 2)
         {
             if ((flags & ENEMY_CORE_NO_SPRITE) == 0)
             {
-                EnemyCoreView **head =
+                drawHead =
                     &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
-                enemy->nextInDrawGroup04 = *head;
-                *head = enemy;
+                goto append_enemy_to_draw_group;
             }
             continue;
         }
 
-        int damageOccurred = 0;
-        int hitKind = 0;
-
-        if ((flags & ENEMY_CORE_FORCE_DEATH) != 0)
         {
-            enemy->worldPosition2DD4 =
-                enemy->position2D74 + enemy->positionOffset2D80;
-            enemy->worldPosition2DD4.z = 0.0f;
-            goto process_enemy_death;
-        }
+            damageOccurred = 0;
 
-        ++manager->activeEnemyCount2AC3AC;
-        if ((enemy->flags3380 & 0x4DC0) == 0)
-            ++manager->normalEnemyCount2AC3B0;
-        if ((enemy->flags3380 & 0x0C00) != 0)
-            ++manager->specialEnemyCount2AC3B4;
-        if ((enemy->flags3380 & 0x01C0) != 0)
-            ++manager->rewardEnemyCount2AC3B8;
-
-        if ((enemy->flags3380 & 0x1000) != 0)
-        {
-            if (enemy->specialAttackTimer5424.HasTicked(2))
+            if ((flags & ENEMY_CORE_FORCE_DEATH) != 0)
             {
-                manager->sideState320->effectManager0C->SpawnEffect(
-                    9,
-                    reinterpret_cast<EffectFloat3 *>(&enemy->position2D74),
-                    1,
-                    static_cast<unsigned int>(-1));
+                enemy->worldPosition2DD4 =
+                    enemy->position2D74 + enemy->positionOffset2D80;
+                enemy->worldPosition2DD4.z = 0.0f;
+                goto process_enemy_death;
             }
 
-            if (enemy->specialAttackTimer5424.IsAfter(
-                    manager->specialAttackThreshold2AC44C))
+            ++manager->activeEnemyCount2AC3AC;
+            if ((enemy->flags3380 & 0x4DC0) == 0)
+                ++manager->normalEnemyCount2AC3B0;
+            if ((enemy->flags3380 & 0x0C00) != 0)
+                ++manager->specialEnemyCount2AC3B4;
+            if ((enemy->flags3380 & 0x01C0) != 0)
+                ++manager->rewardEnemyCount2AC3B8;
+
+            if ((enemy->flags3380 & 0x1000) != 0)
             {
-                EnemyCoreBulletSpawnDescriptorView descriptor;
-                descriptor.bulletType00 = 1;
-                descriptor.color02 = 2;
-                descriptor.position04 = enemy->position2D74;
-                descriptor.angle10 = 0.0f;
-                descriptor.angleStep14 = 0.15707964f;
-                descriptor.speed118 =
-                    static_cast<float>(g_EnemyCoreDifficultyValue) * 0.1f +
-                    1.0f;
-                descriptor.speed21C = 0.0f;
-                descriptor.count1_1F4 =
-                    static_cast<short>(manager->sideState320->characterIndex20 == 13 ? 1 : 3);
-                descriptor.count2_1F6 = 1;
-                descriptor.aimMode1F8 = 0;
-                descriptor.unknown1FA = 0;
-                descriptor.transformFlags1FC = 4;
-                manager->sideState320->etama08->SpawnBulletPatternPrimary(&descriptor);
-                enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
-                reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();
-                continue;
-            }
-        }
-
-        if (((enemy->flags337C & ENEMY_CORE_PAUSE_WITH_PLAYER) != 0 &&
-             manager->sideState320->player04->GetState() != 0) ||
-            (enemy->flags3380 & 0x10) != 0)
-        {
-            enemy->bossTimer2E64--;
-            goto update_damage_flash;
-        }
-
-    run_enemy_ecl:
-        if (enemyManager->primaryEclManager000.RunEcl(
-                reinterpret_cast<EnemyView *>(enemy)) == -1)
-        {
-            enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
-            reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();
-            continue;
-        }
-
-        if ((enemy->flags337C & ENEMY_CORE_SKIP_MOVEMENT) == 0)
-        {
-            reinterpret_cast<EnemyView *>(enemy)->ClampPositionToMovementBounds();
-            reinterpret_cast<EnemyView *>(enemy)->IntegrateMotion();
-            reinterpret_cast<EnemyView *>(enemy)->ClampPositionToMovementBounds();
-            enemy->worldPosition2DD4 =
-                enemy->position2D74 + enemy->positionOffset2D80;
-        }
-        else
-        {
-            enemy->worldPosition2DD4 =
-                enemy->position2D74 + enemy->positionOffset2D80;
-        }
-        enemy->worldPosition2DD4.z = 0.0f;
-
-        if (enemy->trailFlags53A0 != 0)
-        {
-            for (int trailIndex = enemy->trailHistoryLength53A2 - 1;
-                 trailIndex > 0; --trailIndex)
-            {
-                enemy->trailSamples33E8[trailIndex].position00 =
-                    enemy->trailSamples33E8[trailIndex - 1].position00;
-                enemy->trailSamples33E8[trailIndex].velocity0C =
-                    enemy->trailSamples33E8[trailIndex - 1].velocity0C;
-                enemy->trailSamples33E8[trailIndex].angle18 =
-                    enemy->trailSamples33E8[trailIndex - 1].angle18;
-            }
-            enemy->trailSamples33E8[0].position00 =
-                enemy->worldPosition2DD4;
-            enemy->trailSamples33E8[0].velocity0C = enemy->velocity2D8C;
-            enemy->trailSamples33E8[0].angle18 = enemy->movementAngle2DE0;
-        }
-
-        EnemyCoreLoadedSpriteView *loadedSprite =
-            enemy->primaryVm008.loadedSprite224;
-        if (loadedSprite == 0)
-            enemy->flags337C |= ENEMY_CORE_NO_SPRITE;
-
-        float *worldPosition = enemy->worldPosition2DD4;
-        if ((enemy->flags337C & ENEMY_CORE_NO_SPRITE) == 0 &&
-            (enemy->flags337C & ENEMY_CORE_HAS_BEEN_IN_BOUNDS) == 0 &&
-            g_EnemyCoreGameManager.IsWithinPlayfield(
-                worldPosition[0],
-                worldPosition[1],
-                loadedSprite->extent34,
-                loadedSprite->extent30))
-        {
-            enemy->flags337C |= ENEMY_CORE_HAS_BEEN_IN_BOUNDS;
-        }
-        else if ((enemy->flags337C & ENEMY_CORE_HAS_BEEN_IN_BOUNDS) != 0 &&
-                 (enemy->flags337C & ENEMY_CORE_ALLOW_OFFSCREEN) == 0)
-        {
-            EnemyCoreTrailSampleView *tail =
-                &enemy->trailSamples33E8[
-                    enemy->trailHistoryLength53A2 - 1];
-            if ((enemy->trailFlags53A0 == 0 &&
-                 !g_EnemyCoreGameManager.IsWithinPlayfield(
-                     enemy->worldPosition2DD4.x,
-                     enemy->worldPosition2DD4.y,
-                     loadedSprite->extent34,
-                     loadedSprite->extent30)) ||
-                (enemy->trailFlags53A0 != 0 &&
-                 !g_EnemyCoreGameManager.IsWithinPlayfield(
-                     enemy->worldPosition2DD4.x,
-                     enemy->worldPosition2DD4.y,
-                     loadedSprite->extent34,
-                     loadedSprite->extent30) &&
-                 !g_EnemyCoreGameManager.IsWithinPlayfield(
-                     tail->position00.x,
-                     tail->position00.y,
-                     loadedSprite->extent34,
-                     loadedSprite->extent30)))
-            {
-                enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
-                reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();
-                continue;
-            }
-        }
-
-        if (EnemyCoreRunLifeCallback(enemy))
-            goto run_enemy_ecl;
-        if (enemy->timerCallbackThreshold33D0 >= 0 &&
-            EnemyCoreRunTimerCallback(enemy))
-            goto run_enemy_ecl;
-
-        enemy->primaryVm008.color1_1F0 = enemy->displayColor2E70;
-        g_EnemyCoreAnmManager->ExecuteScript(&enemy->primaryVm008);
-        enemy->displayColor2E70 = enemy->primaryVm008.color1_1F0;
-        for (int vmIndex = 0; vmIndex < 2; ++vmIndex)
-        {
-            if (enemy->secondaryVms2AC[vmIndex].scriptIndex21A >= 0 &&
-                g_EnemyCoreAnmManager->ExecuteScript(
-                    &enemy->secondaryVms2AC[vmIndex]))
-            {
-                enemy->secondaryVms2AC[vmIndex].scriptIndex21A = -1;
-            }
-        }
-
-        if ((enemy->flags337C &
-             (ENEMY_CORE_NO_SPRITE | ENEMY_CORE_HIDE_PRIMARY)) == 0)
-        {
-            if ((enemy->flags337C & ENEMY_CORE_COLLISION) != 0 &&
-                ((enemy->flags3380 & 0x01C0) == 0 ||
-                 manager->sideState320->characterIndex20 != 11))
-            {
-                reinterpret_cast<EnemyAppendCollisionView *>(enemy)
-                    ->AppendPlayerCollisionBox(
-                        &enemy->worldPosition2DD4,
-                        &enemy->hitbox2DBC);
-                if (enemy->trailFlags53A0 != 0)
+                if (enemy->specialAttackTimer5424.HasTicked(2))
                 {
-                    Float3 trailHitbox = enemy->hitbox2DBC;
-                    for (int trailIndex = 1;
-                         trailIndex < enemy->trailCollisionLength53A4;
-                         trailIndex += 6)
-                    {
-                        if ((enemy->trailFlags53A0 & 2) != 0)
-                        {
-                            Float3 reduction =
-                                (enemy->hitbox2DBC *
-                                 static_cast<float>(trailIndex)) /
-                                static_cast<float>(
-                                    enemy->trailCollisionLength53A4);
-                            trailHitbox = enemy->hitbox2DBC - reduction;
-                        }
-                        reinterpret_cast<EnemyAppendCollisionView *>(enemy)
-                            ->AppendPlayerCollisionBox(
-                                &enemy->trailSamples33E8[
-                                    trailIndex].position00,
-                                &trailHitbox);
-                    }
+                    manager->sideState320->effectManager0C->SpawnEffect(
+                        9,
+                        reinterpret_cast<EffectFloat3 *>(&enemy->position2D74),
+                        1,
+                        static_cast<unsigned int>(-1));
+                }
+
+                if (enemy->specialAttackTimer5424.IsAfter(
+                        manager->specialAttackThreshold2AC44C))
+                {
+                    EnemyCoreBulletSpawnDescriptorView descriptor;
+                    descriptor.bulletType00 = 1;
+                    descriptor.position04 = enemy->position2D74;
+                    descriptor.aimMode1F8 = 0;
+                    descriptor.count2_1F6 = 1;
+                    descriptor.count1_1F4 =
+                        static_cast<short>(manager->sideState320->characterIndex20 == 13 ? 1 : 3);
+                    descriptor.angle10 = 0.0f;
+                    descriptor.angleStep14 = 0.15707964f;
+                    descriptor.speed118 =
+                        static_cast<float>(g_EnemyCoreDifficultyValue) * 0.1f +
+                        1.0f;
+                    descriptor.speed21C = 0.0f;
+                    descriptor.unknown1FA = 0;
+                    descriptor.transformFlags1FC = 4;
+                    descriptor.color02 = 2;
+                    manager->sideState320->etama08->SpawnBulletPatternPrimary(&descriptor);
+                    enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
+                    reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();
+                    continue;
                 }
             }
 
-            enemy->lastDamage33AC = 0;
-            if ((enemy->flags337C & ENEMY_CORE_ACCEPTS_DAMAGE) != 0)
+            if (((enemy->flags337C & ENEMY_CORE_PAUSE_WITH_PLAYER) != 0 &&
+                 manager->sideState320->player04->GetState() != 0) ||
+                (enemy->flags3380 & 0x10) != 0)
             {
-                int damage = manager->sideState320->player04->CalcDamageToEnemy(
-                    &enemy->worldPosition2DD4,
-                    &enemy->hitbox2DBC,
-                    &enemy->primaryDamageAccumulator2E5C,
-                    &bombHit,
-                    &enemy->secondaryDamageAccumulator2E60);
-                if (enemy->secondaryHitbox2DC8.x > 0.0f)
+                enemy->bossTimer2E64--;
+                goto update_damage_flash;
+            }
+
+        run_enemy_ecl:
+            if (enemyManager->primaryEclManager000.RunEcl(
+                    reinterpret_cast<EnemyView *>(enemy)) == -1)
+            {
+                enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
+                reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();
+                continue;
+            }
+
+            if ((enemy->flags337C & ENEMY_CORE_SKIP_MOVEMENT) == 0)
+            {
+                reinterpret_cast<EnemyView *>(enemy)->ClampPositionToMovementBounds();
+                reinterpret_cast<EnemyView *>(enemy)->IntegrateMotion();
+                reinterpret_cast<EnemyView *>(enemy)->ClampPositionToMovementBounds();
+                enemy->worldPosition2DD4 =
+                    enemy->position2D74 + enemy->positionOffset2D80;
+                enemy->worldPosition2DD4.z = 0.0f;
+            }
+            else
+            {
+                enemy->worldPosition2DD4 =
+                    enemy->position2D74 + enemy->positionOffset2D80;
+                enemy->worldPosition2DD4.z = 0.0f;
+            }
+
+            if (enemy->trailFlags53A0 != 0)
+            {
+                for (trailIndex = enemy->trailHistoryLength53A2 - 1;
+                     trailIndex > 0; --trailIndex)
                 {
-                    manager->sideState320->player04->CalcDamageToEnemy(
+                    enemy->trailSamples33E8[trailIndex].position00 =
+                        enemy->trailSamples33E8[trailIndex - 1].position00;
+                    enemy->trailSamples33E8[trailIndex].velocity0C =
+                        enemy->trailSamples33E8[trailIndex - 1].velocity0C;
+                    enemy->trailSamples33E8[trailIndex].angle18 =
+                        enemy->trailSamples33E8[trailIndex - 1].angle18;
+                }
+                enemy->trailSamples33E8[0].position00 =
+                    enemy->worldPosition2DD4;
+                enemy->trailSamples33E8[0].velocity0C = enemy->velocity2D8C;
+                enemy->trailSamples33E8[0].angle18 = enemy->movementAngle2DE0;
+            }
+
+            EnemyCoreLoadedSpriteView *loadedSprite =
+                enemy->primaryVm008.loadedSprite224;
+            if (loadedSprite == 0)
+                enemy->flags337C |= ENEMY_CORE_NO_SPRITE;
+
+            float *worldPosition;
+            if ((enemy->flags337C & ENEMY_CORE_NO_SPRITE) == 0 &&
+                (enemy->flags337C & ENEMY_CORE_HAS_BEEN_IN_BOUNDS) == 0 &&
+                (worldPosition = enemy->worldPosition2DD4,
+                 g_EnemyCoreGameManager.IsWithinPlayfield(
+                    worldPosition[0],
+                    worldPosition[1],
+                    loadedSprite->extent34,
+                    loadedSprite->extent30)))
+            {
+                enemy->flags337C |= ENEMY_CORE_HAS_BEEN_IN_BOUNDS;
+            }
+            else if ((enemy->flags337C & ENEMY_CORE_HAS_BEEN_IN_BOUNDS) != 0 &&
+                     (enemy->flags337C & ENEMY_CORE_ALLOW_OFFSCREEN) == 0)
+            {
+                if ((enemy->trailFlags53A0 == 0 &&
+                     !g_EnemyCoreGameManager.IsWithinPlayfield(
+                         enemy->worldPosition2DD4.x,
+                         enemy->worldPosition2DD4.y,
+                        enemy->primaryVm008.loadedSprite224->extent34,
+                        enemy->primaryVm008.loadedSprite224->extent30)) ||
+                    (enemy->trailFlags53A0 != 0 &&
+                     !g_EnemyCoreGameManager.IsWithinPlayfield(
+                         enemy->worldPosition2DD4.x,
+                         enemy->worldPosition2DD4.y,
+                        enemy->primaryVm008.loadedSprite224->extent34,
+                        enemy->primaryVm008.loadedSprite224->extent30) &&
+                     !g_EnemyCoreGameManager.IsWithinPlayfield(
+                        enemy->trailSamples33E8[
+                            enemy->trailHistoryLength53A2 - 1].position00.x,
+                        enemy->trailSamples33E8[
+                            enemy->trailHistoryLength53A2 - 1].position00.y,
+                        enemy->primaryVm008.loadedSprite224->extent34,
+                        enemy->primaryVm008.loadedSprite224->extent30)))
+                {
+                    enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
+                    reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();
+                    continue;
+                }
+            }
+
+            if (EnemyCoreRunLifeCallback(enemy))
+                goto run_enemy_ecl;
+            if (enemy->timerCallbackThreshold33D0 >= 0 &&
+                EnemyCoreRunTimerCallback(enemy))
+                goto run_enemy_ecl;
+
+            enemy->primaryVm008.color1_1F0 = enemy->displayColor2E70;
+            g_EnemyCoreAnmManager->ExecuteScript(&enemy->primaryVm008);
+            enemy->displayColor2E70 = enemy->primaryVm008.color1_1F0;
+            for (int vmIndex = 0; vmIndex < 2; ++vmIndex)
+            {
+                if (enemy->secondaryVms2AC[vmIndex].scriptIndex21A >= 0 &&
+                    g_EnemyCoreAnmManager->ExecuteScript(
+                        &enemy->secondaryVms2AC[vmIndex]))
+                {
+                    enemy->secondaryVms2AC[vmIndex].scriptIndex21A = -1;
+                }
+            }
+
+            hitKind = 0;
+            if ((enemy->flags337C &
+                 (ENEMY_CORE_NO_SPRITE | ENEMY_CORE_HIDE_PRIMARY)) == 0)
+            {
+                if ((enemy->flags337C & ENEMY_CORE_COLLISION) != 0 &&
+                    ((enemy->flags3380 & 0x01C0) == 0 ||
+                     manager->sideState320->characterIndex20 != 11))
+                {
+                    reinterpret_cast<EnemyAppendCollisionView *>(enemy)
+                        ->AppendPlayerCollisionBox(
+                            &enemy->worldPosition2DD4,
+                            &enemy->hitbox2DBC);
+                    if (enemy->trailFlags53A0 != 0)
+                    {
+                        Float3 trailHitbox = enemy->hitbox2DBC;
+                        for (trailIndex = 1;
+                             trailIndex < enemy->trailCollisionLength53A4;
+                             trailIndex += 6)
+                        {
+                            if ((enemy->trailFlags53A0 & 2) != 0)
+                            {
+                                trailHitbox = enemy->hitbox2DBC -
+                                    (enemy->hitbox2DBC *
+                                     static_cast<float>(trailIndex)) /
+                                    static_cast<float>(
+                                        enemy->trailCollisionLength53A4);
+                            }
+                            reinterpret_cast<EnemyAppendCollisionView *>(enemy)
+                                ->AppendPlayerCollisionBox(
+                                    &enemy->trailSamples33E8[
+                                        trailIndex].position00,
+                                    &trailHitbox);
+                        }
+                    }
+                }
+
+                enemy->lastDamage33AC = 0;
+                if ((enemy->flags337C & ENEMY_CORE_ACCEPTS_DAMAGE) != 0)
+                {
+                    int damage = manager->sideState320->player04->CalcDamageToEnemy(
                         &enemy->worldPosition2DD4,
-                        &enemy->secondaryHitbox2DC8,
+                        &enemy->hitbox2DBC,
                         &enemy->primaryDamageAccumulator2E5C,
                         &bombHit,
                         &enemy->secondaryDamageAccumulator2E60);
-                }
-
-                if (damage > 0)
-                {
-                    if ((enemy->flags337C & ENEMY_CORE_DAMAGEABLE) != 0)
+                    if (enemy->secondaryHitbox2DC8.x > 0.0f)
                     {
-                        if (enemy->damageReductionTimer53A8.IsAfter(0))
-                        {
-                            if ((enemy->flags337C & ENEMY_CORE_BOSS) != 0)
-                                damage /= 9;
-                            else
-                                damage = 0;
-                        }
-
-                        if (damage == enemy->primaryDamageAccumulator2E5C)
-                            hitKind = 1;
-                        if (damage == enemy->secondaryDamageAccumulator2E60)
-                            hitKind = 2;
-
-                        if ((enemy->flags3380 & 0x01C0) != 0)
-                        {
-                            int secondaryPart =
-                                damage - enemy->primaryDamageAccumulator2E5C;
-                            int primaryPart;
-                            if ((enemy->flags3380 & 0x1000) != 0)
-                                primaryPart =
-                                    enemy->primaryDamageAccumulator2E5C / 2;
-                            else
-                                primaryPart =
-                                    enemy->primaryDamageAccumulator2E5C / 4;
-                            damage = primaryPart + secondaryPart * 4;
-                        }
-
-                        enemy->life2E48 -= damage;
-                        enemy->lastDamage33AC = damage;
+                        manager->sideState320->player04->CalcDamageToEnemy(
+                            &enemy->worldPosition2DD4,
+                            &enemy->secondaryHitbox2DC8,
+                            &enemy->primaryDamageAccumulator2E5C,
+                            &bombHit,
+                            &enemy->secondaryDamageAccumulator2E60);
                     }
-                    damageOccurred = 1;
-                }
 
-                Float3 oldTargetDelta =
-                    manager->sideState320->player04->trackedEnemyPosition30364 - manager->sideState320->player04->position1B88;
-                Float3 newTargetDelta =
-                    enemy->worldPosition2DD4 - manager->sideState320->player04->position1B88;
-                if (newTargetDelta.x * newTargetDelta.x +
-                        newTargetDelta.y * newTargetDelta.y <
-                    oldTargetDelta.x * oldTargetDelta.x +
-                        oldTargetDelta.y * oldTargetDelta.y)
-                {
-                    manager->sideState320->player04->trackedEnemyPosition30364 =
-                        enemy->worldPosition2DD4;
-                }
-
-                if (AnmProjectionAbs(
-                        enemy->worldPosition2DD4.x -
-                        manager->sideState320->player04->position1B88.x) < 64.0f)
-                {
-                    EnemyCoreView *homing =
-                        reinterpret_cast<EnemyCoreView *>(
-                            manager->sideState320->player04->homingTarget3037C);
-                    if (homing == 0 ||
-                        homing->position2D74.y > enemy->worldPosition2DD4.y)
+                    if (damage > 0)
                     {
-                        manager->sideState320->player04->homingTarget3037C = enemy;
+                        if ((enemy->flags337C & ENEMY_CORE_DAMAGEABLE) != 0)
+                        {
+                            if (enemy->damageReductionTimer53A8.IsAfter(0))
+                            {
+                                if ((enemy->flags337C & ENEMY_CORE_BOSS) != 0)
+                                    damage /= 9;
+                                else
+                                    damage = 0;
+                            }
+
+                            if (damage == enemy->primaryDamageAccumulator2E5C)
+                                hitKind = 1;
+                            if (damage == enemy->secondaryDamageAccumulator2E60)
+                                hitKind = 2;
+
+                            if ((enemy->flags3380 & 0x01C0) != 0)
+                            {
+                                int secondaryPart =
+                                    damage - enemy->primaryDamageAccumulator2E5C;
+                                int primaryPart;
+                                if ((enemy->flags3380 & 0x1000) == 0)
+                                    primaryPart =
+                                        enemy->primaryDamageAccumulator2E5C / 4;
+                                else
+                                    primaryPart =
+                                        enemy->primaryDamageAccumulator2E5C / 2;
+                                damage = primaryPart + secondaryPart * 4;
+                            }
+
+                            enemy->life2E48 -= damage;
+                            enemy->lastDamage33AC = damage;
+                        }
+                        damageOccurred = 1;
+                    }
+
+                    EnemyCoreSideStateView *side = manager->sideState320;
+                    Float3 oldTargetDelta =
+                        side->player04->trackedEnemyPosition30364 -
+                        side->player04->position1B88;
+                    EnemyCorePlayerView *player = side->player04;
+                    Float3 newTargetDelta =
+                        enemy->worldPosition2DD4 - player->position1B88;
+                    if (oldTargetDelta.x * oldTargetDelta.x +
+                            oldTargetDelta.y * oldTargetDelta.y >
+                        newTargetDelta.x * newTargetDelta.x +
+                            newTargetDelta.y * newTargetDelta.y)
+                    {
+                        player->trackedEnemyPosition30364 =
+                            enemy->worldPosition2DD4;
+                    }
+
+                    player = manager->sideState320->player04;
+                    if (AnmProjectionAbs(
+                            enemy->worldPosition2DD4.x -
+                            player->position1B88.x) < 64.0f)
+                    {
+                        EnemyCoreView *homing =
+                            reinterpret_cast<EnemyCoreView *>(
+                                player->homingTarget3037C);
+                        if (homing == 0 ||
+                            homing->position2D74.y > enemy->worldPosition2DD4.y)
+                        {
+                            player->homingTarget3037C = enemy;
+                        }
                     }
                 }
             }
-        }
 
-        if ((enemy->flags3380 & 1) != 0 && enemy->life2E48 > 0)
-            enemy->flags3380 &= ~1u;
-        if (enemy->life2E48 > 0 || (enemy->flags3380 & 9) != 0)
-            goto update_damage_flash;
+            if ((enemy->flags3380 & 1) != 0 && enemy->life2E48 > 0)
+                enemy->flags3380 &= ~1u;
+            if (enemy->life2E48 > 0 || (enemy->flags3380 & 9) != 0)
+                goto update_damage_flash;
 
-    process_enemy_death:
-        enemy->flags3380 |= 1;
-        enemy->phaseEndSeconds5420 =
-            (enemy->timerCallbackThreshold33D0 -
-             enemy->bossTimer2E64.Current()) / 60;
-        enemy->timerCallbackThreshold33D0 = -1;
-        for (int callbackIndex = 0; callbackIndex < 4; ++callbackIndex)
-            enemy->lifeCallbackThresholds33B0[callbackIndex] = -1;
-        for (int childIndex = 0; childIndex < 4; ++childIndex)
-        {
-            if (enemy->childEclBlocks33D8[childIndex] != 0)
-            {
-                g_ZunMemory.Free(enemy->childEclBlocks33D8[childIndex]);
-                enemy->childEclBlocks33D8[childIndex] = 0;
-            }
-        }
-
-        switch ((enemy->flags337C >> 17) & 7)
-        {
-        case 0:
-            manager->sideState320->AddScore(enemy->score2E54);
-            enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
-            if ((enemy->flags337C & ENEMY_CORE_BOSS) != 0)
-                EnemyCoreReleaseAttachedEffects(enemy);
-            enemy->life2E48 = 0;
-            break;
-
-        case 1:
-            manager->sideState320->AddScore(enemy->score2E54);
-            enemy->flags337C =
-                (enemy->flags337C & 0xFFEFFFB3) |
-                ENEMY_CORE_PERSIST_AFTER_DEATH;
-            if ((enemy->flags337C & ENEMY_CORE_BOSS) != 0)
-                EnemyCoreReleaseAttachedEffects(enemy);
-            enemy->life2E48 = 0;
-            break;
-
-        case 2:
-            enemy->life2E48 = 0;
-            break;
-
-        case 3:
-            enemy->flags337C &= 0xFFF1FFF7;
-            enemy->life2E48 = 1;
-            if (enemy->deathEffectVariant3368 >= 0)
-            {
-                manager->sideState320->effectManager0C->SpawnEffect(
-                    enemy->deathEffectVariant3368 + 20,
-                    reinterpret_cast<EffectFloat3 *>(
-                        &enemy->worldPosition2DD4),
-                    1,
-                    static_cast<unsigned int>(-1));
-                manager->sideState320->effectManager0C->SpawnEffect(
-                    enemy->deathEffectVariant3368 + 20,
-                    reinterpret_cast<EffectFloat3 *>(
-                        &enemy->worldPosition2DD4),
-                    1,
-                    static_cast<unsigned int>(-1));
-                manager->sideState320->effectManager0C->SpawnEffect(
-                    enemy->deathEffectVariant3368 + 20,
-                    reinterpret_cast<EffectFloat3 *>(
-                        &enemy->worldPosition2DD4),
-                    1,
-                    static_cast<unsigned int>(-1));
-            }
-            if (manager->sideState320->player04->GetState() == 0)
-            {
-                manager->sideState320->player04->stateTimer303C8.Set(90);
-                manager->sideState320->player04->SetState(3);
-            }
-            enemy->flags337C &= 0xE7FFFFFF;
-            break;
-
-        default:
-            break;
-        }
-
-        if ((enemy->flags337C & ENEMY_CORE_FORCE_DEATH) == 0)
-        {
-            reinterpret_cast<EnemyView *>(enemy)->HandleDeathRewards(hitKind);
-        }
-
-        if (enemy->deathCallbackSubId2D2E >= 0)
-        {
-            reinterpret_cast<EnemyView *>(enemy)->ResetBulletRankInfluence();
-            enemy->eclCallStackDepth2D2A = 0;
+        process_enemy_death:
+            enemy->flags3380 |= 1;
+            enemy->phaseEndSeconds5420 =
+                (enemy->timerCallbackThreshold33D0 -
+                 enemy->bossTimer2E64.Current()) / 60;
+            enemy->timerCallbackThreshold33D0 = -1;
             for (int callbackIndex = 0; callbackIndex < 4; ++callbackIndex)
                 enemy->lifeCallbackThresholds33B0[callbackIndex] = -1;
-            enemy->timerCallbackThreshold33D0 = -1;
-            EnemyCoreReleaseChildEclBlocks(enemy);
-            EnemyManagerCoreView *owner =
-                reinterpret_cast<EnemyManagerCoreView *>(enemy->manager00);
-            memcpy(enemy->bulletState2E74,
-                   owner->spawnTemplate328.bulletState2E74,
-                   0x214);
-            enemy->shootInterval30B4 = 0;
-            reinterpret_cast<Th09EclRunState::ManagerStateView *>(enemyManager)
-                ->InitializeSubroutine(
-                    reinterpret_cast<Th09EclContextView *>(
-                        enemy->eclStorage7F4),
-                    enemy->deathCallbackSubId2D2E);
-            enemy->deathCallbackSubId2D2E = -1;
-        }
+            for (int childIndex = 0; childIndex < 4; ++childIndex)
+            {
+                if (enemy->childEclBlocks33D8[childIndex] != 0)
+                {
+                    g_ZunMemory.Free(enemy->childEclBlocks33D8[childIndex]);
+                    enemy->childEclBlocks33D8[childIndex] = 0;
+                }
+            }
 
-    update_damage_flash:
-        if (enemy->damageFlashTimer336C != 0)
-        {
-            --enemy->damageFlashTimer336C;
-            enemy->primaryVm008.flags1F8 &= ~0x20000u;
-        }
-        else if (damageOccurred)
-        {
-            if ((enemy->flags3380 & 6) >= 4)
-                g_EnemyCoreSoundPlayer.PlaySoundPositionedByIdx(37, enemy->worldPosition2DD4.x);
+            switch ((enemy->flags337C >> 17) & 7)
+            {
+            case 3:
+            {
+                enemy->flags337C &= 0xFFF1FFF7;
+                enemy->life2E48 = 1;
+                if (enemy->deathEffectVariant3368 >= 0)
+                {
+                    manager->sideState320->effectManager0C->SpawnEffect(
+                        enemy->deathEffectVariant3368 + 20,
+                        reinterpret_cast<EffectFloat3 *>(
+                            &enemy->worldPosition2DD4),
+                        1,
+                        static_cast<unsigned int>(-1));
+                    manager->sideState320->effectManager0C->SpawnEffect(
+                        enemy->deathEffectVariant3368 + 20,
+                        reinterpret_cast<EffectFloat3 *>(
+                            &enemy->worldPosition2DD4),
+                        1,
+                        static_cast<unsigned int>(-1));
+                    manager->sideState320->effectManager0C->SpawnEffect(
+                        enemy->deathEffectVariant3368 + 20,
+                        reinterpret_cast<EffectFloat3 *>(
+                            &enemy->worldPosition2DD4),
+                        1,
+                        static_cast<unsigned int>(-1));
+                }
+                EnemyCorePlayerView *player = manager->sideState320->player04;
+                if (player->GetState() == 0)
+                {
+                    player->stateTimer303C8.Set(90);
+                    manager->sideState320->player04->SetState(3);
+                }
+                enemy->flags337C &= 0xE7FFFFFF;
+                break;
+            }
+
+            case 1:
+                manager->sideState320->AddScore(enemy->score2E54);
+                enemy->flags337C =
+                    (enemy->flags337C & 0xFFEFFFB3) |
+                    ENEMY_CORE_PERSIST_AFTER_DEATH;
+                goto release_death_effects;
+
+            case 0:
+                manager->sideState320->AddScore(enemy->score2E54);
+                enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
+            release_death_effects:
+                if ((enemy->flags337C & ENEMY_CORE_BOSS) != 0)
+                    EnemyCoreReleaseAttachedEffects(enemy);
+            case 2:
+                enemy->life2E48 = 0;
+                break;
+
+            default:
+                break;
+            }
+
+            if ((enemy->flags337C & ENEMY_CORE_FORCE_DEATH) == 0)
+            {
+                reinterpret_cast<EnemyView *>(enemy)->HandleDeathRewards(hitKind);
+            }
+
+            if (enemy->deathCallbackSubId2D2E >= 0)
+            {
+                reinterpret_cast<EnemyView *>(enemy)->ResetBulletRankInfluence();
+                enemy->eclCallStackDepth2D2A = 0;
+                for (int callbackIndex = 0; callbackIndex < 4; ++callbackIndex)
+                    enemy->lifeCallbackThresholds33B0[callbackIndex] = -1;
+                enemy->timerCallbackThreshold33D0 = -1;
+                EnemyCoreReleaseChildEclBlocks(enemy);
+                EnemyManagerCoreView *owner =
+                    reinterpret_cast<EnemyManagerCoreView *>(enemy->manager00);
+                memcpy(enemy->bulletState2E74,
+                       owner->spawnTemplate328.bulletState2E74,
+                       0x214);
+                enemy->shootInterval30B4 = 0;
+                reinterpret_cast<Th09EclRunState::ManagerStateView *>(enemyManager)
+                    ->InitializeSubroutine(
+                        reinterpret_cast<Th09EclContextView *>(
+                            enemy->eclStorage7F4),
+                        enemy->deathCallbackSubId2D2E);
+                enemy->deathCallbackSubId2D2E = -1;
+            }
+
+        update_damage_flash:
+            if (enemy->damageFlashTimer336C != 0)
+            {
+                --enemy->damageFlashTimer336C;
+                enemy->primaryVm008.flags1F8 &= ~0x20000u;
+            }
+            else if (damageOccurred)
+            {
+                if ((enemy->flags3380 & 6) < 4)
+                    g_EnemyCoreSoundPlayer.PlaySoundPositionedByIdx(20, enemy->worldPosition2DD4.x);
+                else
+                    g_EnemyCoreSoundPlayer.PlaySoundPositionedByIdx(37, enemy->worldPosition2DD4.x);
+
+                enemy->primaryVm008.color2_1F4.r = 0xFF;
+                enemy->primaryVm008.color2_1F4.g = 0x60;
+                enemy->primaryVm008.color2_1F4.b = 0x80;
+                enemy->primaryVm008.color2_1F4.a =
+                    static_cast<unsigned char>(
+                        enemy->primaryVm008.color1_1F0 >> 24);
+                enemy->primaryVm008.flags1F8 |= 0x20000;
+                enemy->damageFlashTimer336C = 1;
+            }
             else
-                g_EnemyCoreSoundPlayer.PlaySoundPositionedByIdx(20, enemy->worldPosition2DD4.x);
+            {
+                enemy->primaryVm008.flags1F8 &= ~0x20000u;
+            }
 
-            enemy->primaryVm008.color2_1F4.r = 0xFF;
-            enemy->primaryVm008.color2_1F4.g = 0x60;
-            enemy->primaryVm008.color2_1F4.b = 0x80;
-            enemy->primaryVm008.color2_1F4.a =
-                static_cast<unsigned char>(
-                    enemy->primaryVm008.color1_1F0 >> 24);
-            enemy->primaryVm008.flags1F8 |= 0x20000;
-            enemy->damageFlashTimer336C = 1;
-        }
-        else
-        {
-            enemy->primaryVm008.flags1F8 &= ~0x20000u;
-        }
+            // The target retains this boss-kind limit even though the observed
+            // TH09 field is one bit. The adjacent TH08 source has the same check.
+            unsigned int boss = (enemy->flags337C >> 1) & 1;
+            if (boss != 0 && boss < 4)
+            {
+                Float3 markerPosition;
+                if ((enemy->flags337C & ENEMY_CORE_NO_SPRITE) == 0)
+                    markerPosition.x = enemy->worldPosition2DD4.x + 32.0f;
+                else
+                    markerPosition.x = -999.0f;
+                markerPosition.y = 472.0f;
+                markerPosition.z = 0.0f;
+                g_EnemyCoreUi.SetBossMarkerPosition(enemy->bossSlot336B,
+                                                   &markerPosition);
+                int markerState = (enemy->flags3380 >> 1) & 3;
+                if (markerState == 0)
+                    g_EnemyCoreUi.SetBossMarkerState(enemy->bossSlot336B,
+                        (enemy->primaryVm008.flags1F8 >> 17) & 1);
+                else
+                    g_EnemyCoreUi.SetBossMarkerState(enemy->bossSlot336B,
+                                                    markerState + 1);
+            }
 
-        if ((enemy->flags337C & ENEMY_CORE_BOSS) != 0)
-        {
-            markerPosition.x =
-                (enemy->flags337C & ENEMY_CORE_NO_SPRITE) != 0
-                    ? -999.0f
-                    : enemy->worldPosition2DD4.x + 32.0f;
-            markerPosition.y = 472.0f;
-            markerPosition.z = 0.0f;
-            g_EnemyCoreUi.SetBossMarkerPosition(enemy->bossSlot336B,
-                                               &markerPosition);
-            int markerState = (enemy->flags3380 >> 1) & 3;
-            if (markerState != 0)
-                ++markerState;
-            else
-                markerState = (enemy->primaryVm008.flags1F8 >> 17) & 1;
-            g_EnemyCoreUi.SetBossMarkerState(enemy->bossSlot336B,
-                                            markerState);
-        }
+            if (((enemy->flags3380 & 0x200) != 0 &&
+                 manager->priorityEnemy2AC444 == 0) ||
+                (enemy->flags3380 & 0x1000) != 0)
+            {
+                manager->priorityEnemy2AC444 = enemy;
+            }
+            if (manager->firstActiveEnemy2AC448 == 0)
+                manager->firstActiveEnemy2AC448 = enemy;
+            if ((enemy->flags3380 & 0x0C00) == 0x0C00)
+            {
+                g_EnemyCoreFront->SetSideEnemyIndicatorPosition(
+                    manager->sideIndex31C, &enemy->position2D74);
+                manager->priorityEnemy2AC444 = enemy;
+            }
+            else if ((enemy->flags3380 & 0x2000) != 0)
+            {
+                manager->priorityEnemy2AC444 = enemy;
+            }
 
-        if (((enemy->flags3380 & 0x200) != 0 &&
-             manager->priorityEnemy2AC444 == 0) ||
-            (enemy->flags3380 & 0x1000) != 0)
-        {
-            manager->priorityEnemy2AC444 = enemy;
+            EnemyCoreUpdateAttachedEffects(enemy);
+            enemy->bossTimer2E64++;
+            if (enemy->damageReductionTimer53A8.IsAfter(0))
+                enemy->damageReductionTimer53A8--;
         }
-        if (manager->firstActiveEnemy2AC448 == 0)
-            manager->firstActiveEnemy2AC448 = enemy;
-        if ((enemy->flags3380 & 0x0C00) == 0x0C00)
-        {
-            g_EnemyCoreFront->SetSideEnemyIndicatorPosition(
-                manager->sideIndex31C, &enemy->position2D74);
-            manager->priorityEnemy2AC444 = enemy;
-        }
-        else if ((enemy->flags3380 & 0x2000) != 0)
-        {
-            manager->priorityEnemy2AC444 = enemy;
-        }
-
-        EnemyCoreUpdateAttachedEffects(enemy);
-        enemy->bossTimer2E64++;
-        if (enemy->damageReductionTimer53A8.IsAfter(0))
-            enemy->damageReductionTimer53A8--;
 
         if ((enemy->flags337C & ENEMY_CORE_NO_SPRITE) == 0 &&
             (enemy->flags337C & ENEMY_CORE_ACTIVE) != 0)
         {
-            EnemyCoreView **head =
+            drawHead =
                 &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
-            enemy->nextInDrawGroup04 = *head;
-            *head = enemy;
         }
+        else
+            continue;
+
+    append_enemy_to_draw_group:
+        enemy->nextInDrawGroup04 = *drawHead;
+        *drawHead = enemy;
     }
 
     manager->frameTimer2AC404++;
