@@ -111,7 +111,7 @@ int AsciiGameManagerView::HasFlagBit0()
 
 int PauseMenu::OnUpdate()
 {
-    int i;
+    unsigned int i;
 
     if (g_AsciiInput.WasPressed(8) && this->state != PAUSE_MENU_STATE_CLOSING) {
         g_SoundPlayer.PlaySoundByIdx(10, 0);
@@ -136,7 +136,8 @@ int PauseMenu::OnUpdate()
         this->frames = 0;
     }
 
-    switch (this->state) {
+    const int stateAtDispatch = this->state;
+    switch (stateAtDispatch) {
     case PAUSE_MENU_STATE_INIT:
         for (i = 0; i < 7; i++) {
             g_AsciiManager.asciiAnm->ExecuteAnmIdx(&this->menuSprites[i], i + 1);
@@ -240,7 +241,7 @@ int PauseMenu::OnUpdate()
 
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10) || g_AsciiInput.WasPressed(0x20)) {
-                this->state = this->state == PAUSE_MENU_STATE_CONFIRM_A_YES
+                this->state = stateAtDispatch == PAUSE_MENU_STATE_CONFIRM_A_YES
                                   ? PAUSE_MENU_STATE_CONFIRM_A_NO
                                   : PAUSE_MENU_STATE_CONFIRM_B_NO;
                 g_SoundPlayer.PlaySoundByIdx(0, 0);
@@ -268,7 +269,7 @@ int PauseMenu::OnUpdate()
 
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10) || g_AsciiInput.WasPressed(0x20)) {
-                this->state = this->state == PAUSE_MENU_STATE_CONFIRM_A_NO
+                this->state = stateAtDispatch == PAUSE_MENU_STATE_CONFIRM_A_NO
                                   ? PAUSE_MENU_STATE_CONFIRM_A_YES
                                   : PAUSE_MENU_STATE_CONFIRM_B_YES;
                 g_SoundPlayer.PlaySoundByIdx(0, 0);

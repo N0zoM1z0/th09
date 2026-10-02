@@ -43,6 +43,24 @@ The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
 and portability have not started.
 
+### PauseMenu OnUpdate state-snapshot progress
+
+Packet 757 reopens `PauseMenu::OnUpdate @0x00434740` from TH09 disassembly.
+Target loads the entry state into EDI for its ten-way switch and reuses that
+snapshot in both paired confirmation-toggle calculations. The maintained
+source now names that genuine state snapshot; VC7.1 recovers EDI at the switch
+and both comparisons. A target-supported unsigned VM-loop index also changes
+the case-0 initialization backedge from `JL` to target `JB`, with only that
+one byte changed from the snapshot probe. Two cold builds agree on 1732
+physical bytes and 107 records, still 44 bytes short of the target's 1776-byte
+code/alignment/table owner. No exact credit is added. Two pointer/countdown
+loop forms instead shrink the owner and are rejected. One same-TU exact
+State4 unit needed only compiler-private label-name refresh after raw bytes,
+all field positions/types/addends and section-relative destinations stayed
+unchanged; all 11 accepted same-TU units replay exact. Continue from the
+target's opening EDI VM-field cursor / EBX countdown and later CFG, not a
+forced register. The old Packet 93 size note is superseded.
+
 ### EnemyManager OnUpdate descriptor progress
 
 Packet 748 moves the real descriptor `count1` calculation before speed and
