@@ -320,17 +320,17 @@ void ClampPosition(EnemyView *enemy);
 
     case TH09_ECL_OPCODE_PLAY_SPECIAL_ANM:
         if ((Th09EclRunMovement::View(enemy)->primaryFlags337C &
-             Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK) != 0)
+             Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK) == 0)
         {
             Th09EclRunMovement::SetAndExecuteAnmScript(
-                Th09EclRunMovement::AlternateAnm(enemy),
+                Th09EclRunMovement::PrimaryAnm(enemy),
                 Th09EclRunMovement::PrimaryAnmVm(enemy),
                 Th09EclRunMovement::View(enemy)->specialAnmScript3394);
         }
         else
         {
             Th09EclRunMovement::SetAndExecuteAnmScript(
-                Th09EclRunMovement::PrimaryAnm(enemy),
+                Th09EclRunMovement::AlternateAnm(enemy),
                 Th09EclRunMovement::PrimaryAnmVm(enemy),
                 Th09EclRunMovement::View(enemy)->specialAnmScript3394);
         }

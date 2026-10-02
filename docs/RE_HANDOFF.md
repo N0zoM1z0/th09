@@ -200,6 +200,14 @@ physical order with consistent destinations. The handler remains 186 bytes;
 encoding the upstream four-byte displacement difference. This does not promote
 the owner or imply that its many equal-length residuals are closed.
 
+Packet 705 additionally recovers physical branch order for opcodes 62/113/137
+and the world-position/callback-flag prefix schedule. The maintained owner stays
+14,788/14,792. A retained ordinary world-result lifetime probe now closes the
+21/23/24 handler lengths and much of opcodes 8-39, disproving a blanket backend
+impossibility claim, but breaks the first return-temporary home/copy and other
+vector homes. It is hypothesis evidence only, not the maintained source or an
+exact unit; see Packet 705 before reopening those arithmetic handlers.
+
 The 21/23/24 direct arithmetic spelling is supported by the exact adjacent TH08
 source family. TH09-local probes using explicit locals, ternaries, out-helpers,
 switch-wide macros, typed operand overlays, and declaration reordering do not

@@ -520,12 +520,7 @@ __forceinline void AssignFlagField(
 
     case TH09_ECL_OPCODE_SET_REPEATING_EX_INSTRUCTION:
         stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (stateIndex < 0)
-        {
-            Th09EclRunState::View(enemy)->activeContext2CE0->
-                perFrameCallback014 = 0;
-        }
-        else
+        if (stateIndex >= 0)
         {
             stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
             Th09EclRunState::View(enemy)->activeContext2CE0->
@@ -533,6 +528,11 @@ __forceinline void AssignFlagField(
                     Th09EclRunState::g_ExInstructionCallbacks[stateIndex];
             Th09EclRunState::View(enemy)->activeContext2CE0->
                 perFrameInstruction018 = instruction;
+        }
+        else
+        {
+            Th09EclRunState::View(enemy)->activeContext2CE0->
+                perFrameCallback014 = 0;
         }
         break;
 

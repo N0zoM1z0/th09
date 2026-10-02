@@ -485,17 +485,17 @@ void ClearBulletsForTransition(EtamaController *controller);
     case TH09_ECL_OPCODE_SET_BULLET_SOUNDS:
         transitionBulletInt =
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (transitionBulletInt < 0)
-        {
-            Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.transformFlags &=
-                ~0x200U;
-        }
-        else
+        if (transitionBulletInt >= 0)
         {
             Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.spawnSound =
                 Th09EclRunControl::ReadInt(enemy, instruction, 0);
             Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.transformFlags |=
                 0x200U;
+        }
+        else
+        {
+            Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.transformFlags &=
+                ~0x200U;
         }
         Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.transformSound =
             Th09EclRunControl::ReadInt(enemy, instruction, 1);

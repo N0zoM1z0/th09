@@ -542,7 +542,6 @@ int EclManager::RunEcl(EnemyView *enemy)
     Th09EclInterpolationSlotView *slot;
     Float3 *position;
     Float3 *positionOffset;
-    Float3 *worldPosition;
     Th09EclRunState::ExInstructionCallback perFrameCallback;
     Th09EclRunOwner::InterpolationCallback interpolationCallback;
     unsigned int executionMask;
@@ -570,7 +569,6 @@ th09_ecl_restart_context:
         goto th09_ecl_enter_pending_subroutine;
     positionOffset = &enemyState->positionOffset2D80;
     position = &enemyState->position2D74;
-    worldPosition = &enemyState->worldPosition2DD4;
     goto th09_ecl_instruction_loop;
 
 th09_ecl_enter_pending_subroutine:
@@ -601,7 +599,7 @@ th09_ecl_enter_pending_subroutine:
     goto th09_ecl_restart_context;
 
 th09_ecl_instruction_loop:
-    *worldPosition = *position + *positionOffset;
+    enemyState->worldPosition2DD4 = *position + *positionOffset;
 
     for (;;)
     {
@@ -681,8 +679,8 @@ th09_ecl_after_dispatch:
                 enemyState->activeContext2CE0->perFrameCallback014);
         slot = &enemyState->activeContext2CE0->interpolationSlots0A0[0];
 
-        Float3 positionBeforeCallbacks = *position;
         positionInterpolated = false;
+        Float3 positionBeforeCallbacks = *position;
 
         if (perFrameCallback != NULL)
         {
