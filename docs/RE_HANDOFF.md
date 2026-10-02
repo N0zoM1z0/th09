@@ -157,6 +157,21 @@ all eleven configured AsciiManagerMenu.cpp replays are exact. Eight already
 stale AsciiMenuState4 private label names are refreshed without byte/target
 changes. This is a contract repair, not new exact coverage.
 
+### Current Front calc handoff
+
+`FrontCalcCallback @ 0x00417630` remains non-exact. Packet 715 supersedes the
+old 1476-byte / cursor-CSE plateau: natural indexed 2x5 panel loops produce
+all three target cursors, the outer count at EBP-4 and the target 0x10 frame.
+The global-first dynamic-sprite comparison and direct signed-short message /
+result-table expressions additionally recover target schedules. Two fresh
+pinned /O2 /Ob1 builds emit 1506/1491 bytes, 387 instructions, 42 target-ordered
+calls and 108 relocations. The first 395 bytes replay fully; no partial bytes
+are credited. Normalized instruction alignment 377/384 is diagnostic only.
+Resume from mode0/1 completion CFG sharing and frame60's retained EDX side
+snapshot / second test. Ordinary OR, duplicated-condition inversion, early
+return/goto and real mode-body visibility controls do not close the owner.
+Neither length proximity nor the panel-prefix result permits promotion.
+
 ### Current Player selector handoff
 
 `PlayerUpdateSelectorState @ 0x004049A0` remains non-exact. Packet 711

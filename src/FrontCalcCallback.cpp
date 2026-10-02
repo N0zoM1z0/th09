@@ -197,7 +197,7 @@ int __fastcall FrontCalcCallback(void *frontArg)
     g_AnmManager->ExecuteScript(&front->resultVm12150);
     g_AnmManager->ExecuteScript(&front->dynamicVm106B4);
 
-    if (front->dynamicSprite10958 != g_FrontDynamicSprite)
+    if (g_FrontDynamicSprite != front->dynamicSprite10958)
     {
         front->dynamicSprite10958 = g_FrontDynamicSprite;
         if (g_FrontDynamicSprite >= 0)
@@ -208,54 +208,29 @@ int __fastcall FrontCalcCallback(void *frontArg)
         }
     }
 
-    unsigned long *diffuse = &front->panelVerticesE86C[0][0].diffuse;
-    int *color = &front->panelColorsE934[0];
-    unsigned long *middleDiffuse = &front->panelVerticesE86C[0][1].diffuse;
-
-    int sideCount = 2;
-    do
+    for (int side = 0; side < 2; ++side)
     {
-        int timer = color[2];
-        if (timer > 0)
+        if (front->panelTimersE93C[side] > 0)
         {
-            if ((timer & 1) != 0)
+            if ((front->panelTimersE93C[side] & 1) != 0)
             {
-                middleDiffuse[-5] = *color;
-                middleDiffuse[0] = *color;
-                middleDiffuse[5] = *color;
-                middleDiffuse[10] = *color;
-                middleDiffuse[15] = *color;
+                for (int vertex = 0; vertex < 5; ++vertex)
+                    front->panelVerticesE86C[side][vertex].diffuse =
+                        front->panelColorsE934[side];
             }
             else
             {
-                unsigned long *cursor = diffuse;
-                int count = 5;
-                do
-                {
-                    *cursor = 0xFFFFFFFFUL;
-                    cursor += sizeof(FrontCalcVertex) / sizeof(unsigned long);
-                }
-                while (--count != 0);
+                for (int vertex = 0; vertex < 5; ++vertex)
+                    front->panelVerticesE86C[side][vertex].diffuse = 0xFFFFFFFFUL;
             }
-            --color[2];
+            --front->panelTimersE93C[side];
         }
         else
         {
-            unsigned long *cursor = diffuse;
-            int count = 5;
-            do
-            {
-                *cursor = 0x80FFFFFFUL;
-                cursor += sizeof(FrontCalcVertex) / sizeof(unsigned long);
-            }
-            while (--count != 0);
+            for (int vertex = 0; vertex < 5; ++vertex)
+                front->panelVerticesE86C[side][vertex].diffuse = 0x80FFFFFFUL;
         }
-
-        ++color;
-        middleDiffuse += 25;
-        diffuse += 25;
     }
-    while (--sideCount != 0);
 
     front->messageRuntimeE944.Update();
 
@@ -379,20 +354,19 @@ int __fastcall FrontCalcCallback(void *frontArg)
                 g_GameManager.sides[0].runtime1C->value34 += 1.0f;
                 front->transitionStarted11EA4 = 1;
             }
+            else if (side == 0)
+            {
+                front->messageRuntimeE944.Setup(
+                    *reinterpret_cast<short *>(
+                        static_cast<unsigned char *>(g_NeutralMessageSource) + 8),
+                    0);
+            }
             else
             {
-                short index;
-                if (side == 0)
-                {
-                    index = *reinterpret_cast<short *>(
-                        static_cast<unsigned char *>(g_NeutralMessageSource) + 8);
-                }
-                else
-                {
-                    index = *reinterpret_cast<short *>(
-                        static_cast<unsigned char *>(g_NeutralMessageSource) + 10);
-                }
-                front->messageRuntimeE944.Setup(index, 0);
+                front->messageRuntimeE944.Setup(
+                    *reinterpret_cast<short *>(
+                        static_cast<unsigned char *>(g_NeutralMessageSource) + 10),
+                    0);
             }
         }
         else if (
@@ -427,20 +401,15 @@ int __fastcall FrontCalcCallback(void *frontArg)
             if (modeValue >= 4 &&
                 (g_GameManager.flags134 & 0x4000u) != 0)
             {
-                int index =
-                    45 * g_TitleNameTableIndex +
-                    5 * g_GameStageValue;
                 g_SelectedOpponentParameter =
-                    g_TransitionResultTableAlt[index];
+                    g_TransitionResultTableAlt[
+                        45 * g_TitleNameTableIndex + 5 * g_GameStageValue];
             }
             else
             {
-                int index =
-                    45 * g_TitleNameTableIndex +
-                    5 * g_GameStageValue +
-                    modeValue;
                 g_SelectedOpponentParameter =
-                    g_TransitionResultTable[index];
+                    g_TransitionResultTable[
+                        45 * g_TitleNameTableIndex + 5 * g_GameStageValue + modeValue];
             }
         }
     }
