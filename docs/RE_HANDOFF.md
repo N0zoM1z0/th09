@@ -45,6 +45,24 @@ and portability have not started.
 
 ### EnemyManager OnUpdate descriptor progress
 
+Packet 748 moves the real descriptor `count1` calculation before speed and
+`count2` assignment after speed, following target-observed compare/store order.
+The complete current candidate remains 3,900 physical /3,883 code bytes with
+97 records; two cold builds agree on raw SHA-256
+`51d8510ea19461e0bef2f658c616277805ea138ba431be646c10b158053a1bc6`.
+Ordinary comparison improves from Packet 747's 3288/3512 to 3473/3512;
+39 bytes remain. Target and candidate both decode to 1026 instructions,
+69 direct calls at the same offsets, 117 branches and one RET. Residual
+ordinary bytes cluster in early draw-index (2), special-effect/descriptor
+register and position copy (11), trail copy (10), and homing roles (16).
+All 28 candidate DIR32 fields solve to plausible target addresses, but that
+diagnostic and matching call offsets are not a complete relocation-acceptance
+manifest. The same-TU 151-byte helper still replays exact. A const-reference
+trail temporary, separate scalar trail snapshots and a named threshold
+snapshot regress; an effect-side snapshot is raw-byte neutral. Do not repeat
+these without new target/source evidence. The owner is NON-EXACT and authored
+coverage is unchanged.
+
 Packet 747 reopens the 3,883-byte `EnemyManagerView::OnUpdate` from its live
 row and the attested TH09 body. All 69 immediate calls pair in physical order
 with consistent target destinations; no wrong callee explains the residual.
