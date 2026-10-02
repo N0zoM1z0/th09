@@ -1136,6 +1136,12 @@ header. Branch-local parser index remains unchanged. Shared parser index,
 shared visibility bound, using that bound as the hidden counter, shared VM
 index and a for-header unlocked pointer are byte/record-neutral controls;
 do not repeat these declaration/scope variants without new evidence.
+Packet 753 also rejects transplanting ordinary selection's signed hidden-byte
+cursor: starting from `i` changes the guard/CFG, while starting from
+`visibleEnd` is byte-different but does not recover either target ECX copy.
+Moving the real song VM-index increment ahead of the script increment instead
+moves the Y increment to a wrong schedule. Source and carrier are restored;
+these are non-crediting negative controls, not new exact bytes.
 
 Two independent cold objects and the canonical carrier reproduce every raw
 byte and every offset/type/symbol/addend record: 611 instructions, 74 fields
