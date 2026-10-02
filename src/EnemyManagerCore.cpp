@@ -523,22 +523,23 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                         manager->specialAttackThreshold2AC44C))
                 {
                     EnemyCoreBulletSpawnDescriptorView descriptor;
-                    descriptor.bulletType00 = 1;
                     descriptor.position04 = enemy->position2D74;
+                    EnemyCoreSideStateView *spawnSide = manager->sideState320;
+                    descriptor.bulletType00 = 1;
                     descriptor.aimMode1F8 = 0;
                     descriptor.count2_1F6 = 1;
-                    descriptor.count1_1F4 =
-                        static_cast<short>(manager->sideState320->characterIndex20 == 13 ? 1 : 3);
-                    descriptor.angle10 = 0.0f;
-                    descriptor.angleStep14 = 0.15707964f;
                     descriptor.speed118 =
                         static_cast<float>(g_EnemyCoreDifficultyValue) * 0.1f +
                         1.0f;
+                    descriptor.angle10 = 0.0f;
+                    descriptor.angleStep14 = 0.15707964f;
                     descriptor.speed21C = 0.0f;
                     descriptor.unknown1FA = 0;
                     descriptor.transformFlags1FC = 4;
+                    descriptor.count1_1F4 =
+                        static_cast<short>(spawnSide->characterIndex20 == 13 ? 1 : 3);
                     descriptor.color02 = 2;
-                    manager->sideState320->etama08->SpawnBulletPatternPrimary(&descriptor);
+                    spawnSide->etama08->SpawnBulletPatternPrimary(&descriptor);
                     enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
                     reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();
                     continue;

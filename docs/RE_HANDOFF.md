@@ -43,6 +43,26 @@ The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
 and portability have not started.
 
+### EnemyManager OnUpdate descriptor progress
+
+Packet 747 reopens the 3,883-byte `EnemyManagerView::OnUpdate` from its live
+row and the attested TH09 body. All 69 immediate calls pair in physical order
+with consistent target destinations; no wrong callee explains the residual.
+Moving the real special-bullet descriptor initialization toward the target's
+observed store order, then sharing its actual `sideState320` pointer across the character
+test and bullet spawn, improves the complete 3,900-byte physical comparison
+from 3271/3512 to 3288/3512 ordinary bytes. It also moves the 0.1f constant
+relocation to target offset `+0x2A0`. Two cold current-source objects agree
+on all 3,900 bytes and 97 records; raw SHA-256 is
+`9cd85bfa1e66f7654f714631b14f89c3be8c5ba6203f00ba9d45d5a9adae910b`.
+The same-TU 151-byte accepted helper remains exact. This owner is still
+NON-EXACT: other relocation positions and 224 ordinary bytes disagree. The
+early draw-index EAX/ECX choice, remaining descriptor stores, trail copy and
+homing register roles are open. Do not credit its equal extent or matched call
+sequence. A transient draw-head pointer-arithmetic spelling and a typed
+position local are byte-neutral; inverted count predicate is byte-neutral.
+Coverage and phase gates are unchanged.
+
 ### Type-8/9 collision-exit return-contract control
 
 Packet 746 freshly rechecks the shared `ExAttackUpdateCallbackType8_9`
