@@ -804,6 +804,26 @@ rejected codegen steering is not.
 
 ### Current RunEcl handoff
 
+Packet 740 replays the Packet705 world-result lifetime hypothesis against the
+current Packet707 maintained source, not the stale historical probe. Baseline
+remains14788/14792 logical bytes; a genuinely used by-value world result plus
+pre-copy secondary-timer pointer acquisition emits14792/14792,frame0x168,
+375 direct calls,598 relocations and all193 table entries. Two cold positive
+builds have identical raw bytes and complete records (raw SHA256
+81eec740e1db84c8edac46b5239e6363194b7a57e30bb8033677b3b3789f5030).
+Per-handler normalized alignment rises from3881 to4144/4260 target
+instructions, and 21/23/24 lengths close; only opcode155 retains44/45
+physical bytes. Whole-owner normalized alignment rises from3936 to4253,
+but the probe's first Float3 result home is EBP-0x10C versus target EBP-0x168,
+with a different returned-value copy. It is NOT an exact or accepted source
+change. Const-reference/direct-initialization and combined TH08-style bitfield
+controls are raw-byte neutral. The current positive source and one object/PDB
+pair are retained under `.analysis/ecl-core-740/` and
+`build/verify-ecl-core-740/`; see Packet740 for reproduction and limits. The
+stale IDA entry comment is corrected/read back. Next find a target-backed
+lifetime that preserves the first return object while improving dispatch
+handlers; do not infer exactness from equal length or normalized alignment.
+
 At this checkpoint EclManager::RunEcl is complete maintained source but remains
 NON-EXACT. A fresh clean-HEAD pinned VC7.1 build is 14,788/14,792 logical bytes
 with an exact 0x168 stack frame, 375 immediate direct calls, four indirect
