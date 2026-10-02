@@ -399,7 +399,6 @@ struct TitleScreenView {
     int OnUpdateModeSelect();
     int PlayMenuSound(i32 soundId, i32 unused);
     int ChangeCurrentScreen(i32 screen);
-    int MoveTwoChoiceCursor(i32 count);
     int MoveCursorVertical(i32 count);
     int MoveCursorHorizontal(i32 count);
     int MoveCursorFourWay(i32 count);
@@ -2917,7 +2916,7 @@ int TitleScreenView::UpdateReplaySave()
     i32 fileSize;
     ReplayDataView *loadedReplay;
     char *replayPath;
-    i32 nextIndex;
+    i32 replayIndex;
     ReplayDataView *replayCursor;
     u32 inputFlags;
 
@@ -2936,16 +2935,12 @@ int TitleScreenView::UpdateReplaySave()
 
             if (g_SupervisorNetworkState->active != 0)
             {
-                i32 replayIndex = 0;
-                do
+                for (replayIndex = 0; replayIndex < 1000; replayIndex++)
                 {
-                    nextIndex = replayIndex + 1;
                     sprintf(path, "./replay/th9_udn%.3d.rpy", replayIndex + 1);
                     if (!FileSystem::CheckIfFileAlreadyExists(path))
                         break;
-                    replayIndex = nextIndex;
                 }
-                while (nextIndex < 1000);
 
                 if (replayIndex >= 1000)
                     replayIndex = 999;
@@ -2984,7 +2979,7 @@ int TitleScreenView::UpdateReplaySave()
         break;
 
     case 1:
-        if (MoveTwoChoiceCursor(2))
+        if (MoveCursorHorizontal(2))
             UpdateMenuSelection();
 
         if (g_TitleInputFlags & 0xA)
@@ -3015,9 +3010,8 @@ int TitleScreenView::UpdateReplaySave()
 
         load_replays:
             memset(replays, 0, 0x6018);
-            replayCursor = replays;
-            replayPath = replayPaths[0];
-            for (i32 replayIndex = 0; replayIndex < 25; replayIndex++)
+            for (replayIndex = 0, replayPath = replayPaths[0], replayCursor = replays;
+                 replayIndex < 25; replayIndex++, replayCursor++, replayPath += 0x200)
             {
                 sprintf(source, "./replay/th9_%.2d.rpy", replayIndex + 1);
                 void *fileData = FileSystem::OpenFile(source, &fileSize, 1);
@@ -3031,8 +3025,6 @@ int TitleScreenView::UpdateReplaySave()
                         free(loadedReplay);
                     }
                 }
-                replayCursor++;
-                replayPath += 0x200;
             }
             replaySaveState = 2;
             phaseTimer = 0;
@@ -3093,30 +3085,33 @@ int TitleScreenView::UpdateReplaySave()
         if (phaseTimer < 10)
             break;
 
-        if (MoveTwoChoiceCursor(2))
+        if (MoveCursorHorizontal(2))
             UpdateMenuSelection();
 
         inputFlags = g_TitleInputFlags;
-        if (!(inputFlags & 0xA))
+        if (inputFlags & 0xA)
+            goto cancel_replay_overwrite;
+
+        if (inputFlags & 0x1001)
         {
-            if (!(inputFlags & 0x1001))
-                break;
-            if (keyboardSelection != 1)
+            if (keyboardSelection == 1)
+            {
+            cancel_replay_overwrite:
+                PlayMenuSound(11, 0);
+                replaySaveState = 2;
+                keyboardSelection = 0;
+                g_TitleAnmManager->SetInterruptArray(vms, vmCount, 22);
+                g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+            }
+            else
             {
                 PlayMenuSound(10, 0);
                 keyboardSelection = 95;
                 replaySaveState = 4;
                 g_TitleAnmManager->SetInterruptArray(vms, vmCount, 23);
                 g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
-                break;
             }
         }
-
-        PlayMenuSound(11, 0);
-        replaySaveState = 2;
-        keyboardSelection = 0;
-        g_TitleAnmManager->SetInterruptArray(vms, vmCount, 22);
-        g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
         break;
 
     case 4:

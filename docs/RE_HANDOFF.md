@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 893 |
-| Source-present non-exact functions | 86 |
-| Source-present non-exact bytes | 95,303 |
+| Canonical exact functions | 894 |
+| Source-present non-exact functions | 85 |
+| Source-present non-exact bytes | 93,478 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 180,366 |
+| Canonical exact authored bytes | 182,191 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -62,7 +62,7 @@ Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-ti
 Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
 remain open but are no longer the exclusive focus. That temporary list's
 progress snapshot is stale: it reports 881 exact and 98 non-exact, while the
-live ledger currently reports 893 exact and 86 non-exact. Recheck every listed
+live ledger currently reports 894 exact and 85 non-exact. Recheck every listed
 candidate against `config/functions.csv` and the match-unit manifest before
 resuming it; use the temporary file only as a historical routing aid.
 
@@ -94,7 +94,7 @@ and `python3 scripts/compare-coff-function.py --unit title-screen-character-sele
 All 32 prior O1 exact units retain complete raw bytes and relocation records,
 including StartMenu's private labels. Focused fresh carriers replay 33 O1 units
 plus the separate O2 score-record-insert unit, all exact. No full-repository cold
-cohort was run. Current exact coverage is 180,366 /275,669 bytes (65.43%); the
+cohort was run. Current exact coverage is 182,191 /275,669 bytes (66.09%); the
 >95% objective and native/runtime gates remain open. Ordinary character
 selection remains independently nonexact; Packet 724 closes screen16 below.
 
@@ -172,7 +172,7 @@ All 34 prior O1 owners retain raw bytes and relocation geometry; nine StartMenu
 private label spellings alone are refreshed after section/relative-offset and
 unchanged-target proof. Fresh focused carriers replay 35 O1 units plus separate
 O2 score-record-insert, all 36 exact. Ordinary selection still has two SIB
-differences. No full-repository cold cohort runs. Live totals are 893 exact
+differences. No full-repository cold cohort runs. Packet 725 totals were 893 exact
 /180366 of275669 authored bytes (65.43%), with 86 nonexact /95303 bytes.
 The >95% objective and native/runtime/semantic/port gates remain open. Packet
 726 repairs the adjacent result owner below without granting exactness.
@@ -209,8 +209,42 @@ full-repository cold cohort runs. Ordinary selection keeps two SIB differences.
 Owned result probes/objects/PDBs are removed after durable recording. Totals
 remain 893 exact /180366 of275669 authored bytes (65.43%), with 86 nonexact
 /95303 bytes. The >95% goal and native/runtime/semantic/port gates remain open.
-Next rotate to the 1825-byte UpdateReplaySave owner @0x00429662 with fresh
-complete target/CFG/field review; old equal-size reports do not prove fidelity.
+Packet 727 closes the replay-save owner below; the result frontier remains open.
+
+### Latest replay-save complete exact closure
+
+`TitleScreenView::UpdateReplaySave @0x00429662..0x00429D82` is canonical
+exact: 1825 contiguous code/physical bytes, 521 instructions, frame 0x154 and
+100 fields (59 REL32 /41 DIR32). Packet 727 replaces both unresolved
+MoveTwoChoiceCursor calls with the already maintained MoveCursorHorizontal
+@0x00424601 and removes that unused declaration. A genuine cancel-to-overwrite
+label recovers target input precedence and shared interrupt tail; a shared
+function-scope replay index and natural three-stream for loop recover all
+target stack homes. No byte masks, padding, ABI/layout changes or profile
+search are retained. Network saturation still writes file 1000; slot loading
+clears 50 records but loads 25. Stage-4 type/cancel checks remain independent.
+
+Final probe, two independent maintained-source cold objects and canonical
+carrier agree on every raw byte and relocation record. Raw SHA-256 is
+c40d0e6855c4293bc12aa8e7f45526202f1f1b02bc8f5cb9c000443a8f8bbb73.
+Reproduce with `python3 scripts/build-match-unit.py --unit title-screen-replay-save`
+and `python3 scripts/compare-coff-function.py --unit title-screen-replay-save --json`.
+The read-only diagnostic supports `OBJECT --replay-save` without granting credit.
+Replay name binds 0x004A8174; name-table field view binds 0x004A8398;
+alphabet is loaded through the pointer at 0x004A1CF4. These are operand/view
+facts, not new global data definitions or unique original ownership claims.
+
+All 35 prior O1 owners retain raw bytes and relocation geometry; nine private
+StartMenu labels are refreshed only after same-owner section/relative-offset
+and unchanged-destination proof. Fresh O1/O2 carriers replay all 37 affected
+exact units. No full-repository cold cohort runs. Ordinary selection's two
+SIB differences and result browser's selected-char frontier remain unchanged.
+Owned replay-save scratch is audited and removed after durable recording.
+Live totals are 894 exact /182191 of275669 authored bytes (66.09%), with
+85 nonexact /93478 bytes. The >95% objective and native/runtime/semantic/port
+gates remain open. Next rotate to OnUpdateMusicRoom @0x00426E05 (2258 bytes,
+separate src/TitleScreenMusicRoom.cpp) with fresh complete target/CFG/field
+review; do not infer exactness from any old equal-size report.
 
 ### Earlier non-exact investigation: Player movement and KeyConfig
 

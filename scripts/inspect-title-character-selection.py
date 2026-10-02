@@ -4,7 +4,7 @@
 Read-only complete replay through independently reviewed destinations. Default
 is mode-0; --mode123 selects its neighbor, --ordinary the 14-entry owner,
 --screen16 the final-selection owner, --replay-menu its replay neighbor,
-and --result the embedded result browser.
+--result the embedded result browser, and --replay-save its save-state owner.
 Requires Capstone. The canonical acceptance path remains the tracked match unit.
 """
 import difflib
@@ -28,6 +28,7 @@ mode.add_argument('--ordinary', action='store_true')
 mode.add_argument('--screen16', action='store_true')
 mode.add_argument('--replay-menu', action='store_true')
 mode.add_argument('--result', action='store_true')
+mode.add_argument('--replay-save', action='store_true')
 args = parser.parse_args()
 base = 0x4289DB
 symbol = '?UpdateScreen8Mode0@TitleScreenView@@QAEHXZ'
@@ -52,6 +53,10 @@ elif args.result:
     base = 0x4266B5
     symbol = '?OnUpdateResult@TitleScreenView@@QAEHXZ'
     size = 485
+elif args.replay_save:
+    base = 0x429662
+    symbol = '?UpdateReplaySave@TitleScreenView@@QAEHXZ'
+    size = 1825
 destinations = {
     '?g_TitleSide0InputFlags@@3IA': 0x4ACE1E,
     '?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z': 0x422F39,
@@ -144,6 +149,18 @@ destinations = {
     '?g_TitleResultUnlockStep@@3HA': 0x4AC8D4,
     '?g_TitleResultCharacterOrder@@3PADA': 0x4A1DAC,
     '??_C@_0BD@JGJJAHCD@title?1result00?4png?$AA@': 0x48F640,
+    '?UpdateMenuSelection@TitleScreenView@@QAEXXZ': 0x4276D7,
+    # Historical nonexact alias; the maintained helper is MoveCursorHorizontal.
+    '?MoveTwoChoiceCursor@TitleScreenView@@QAEHH@Z': 0x424601,
+    '?CheckIfFileAlreadyExists@FileSystem@@YIHPBD@Z': 0x42C480,
+    '?SaveReplay@ReplayManagerView@@SIHPAU1@PBD1@Z': 0x420C60,
+    '?g_ReplayManager@@3PAUReplayManagerView@@A': 0x4A7E64,
+    '?g_ReplayName@@3PADA': 0x4A8174,
+    '?g_TitleAlphabet@@3PADA': 0x4A1CF4,
+    # Name-field view of the score table, not a new data-definition owner.
+    '?g_TitleNameTable@@3PAY144UTitleNameRecordView@@A': 0x4A8398,
+    '??_C@_0BE@CBKBFBDG@replay?1th9_?$CF?42d?4rpy?$AA@': 0x48FA84,
+    '??_C@_0BJ@KKKKINFL@?4?1replay?1th9_udn?$CF?43d?4rpy?$AA@': 0x48FA68,
 }
 target = coff.pe_bytes_at(coff.verified_target(), base, size)
 code, relocations = coff.object_function(args.object, symbol)
