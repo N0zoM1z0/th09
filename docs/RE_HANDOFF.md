@@ -1228,6 +1228,12 @@ restores the target `0x18` frame, but candidate ESI still has a different
 subobject bias. Two cold builds agree on the 594-byte body and 27 records.
 Exact `DrawSingleBullet` remains a separate helper result; see Packets
 700-701 and 749.
+Packet 759 rejects position-only cap/body aliases (both revert to the old
+568-byte/frame-0x14 form); an additional real body-VM alias is byte-neutral
+with the retained full cap alias. It also refreshes ten stale compiler-private
+labels in the already-exact AddedCallback manifest after confirming unchanged
+same-section destinations; the complete 832-byte replay is exact. No OnDraw
+credit is added.
 
 ### SpawnSingleBullet exact closure
 
