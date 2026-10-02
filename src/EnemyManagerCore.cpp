@@ -342,8 +342,18 @@ extern unsigned int g_EnemyCoreRuntimeFlags;
 extern int g_EnemyCoreDifficultyValue;
 extern unsigned char g_EnemyCoreSchedule[];
 
-extern int EnemyCoreRunLifeCallback(EnemyCoreView *enemy);
-extern int EnemyCoreRunTimerCallback(EnemyCoreView *enemy);
+// Reconstruction aliases for the shared physical leaf at 0x0044AB20.
+// Its complete body is xor eax,eax;ret, not an unreconstructed callback stub.
+// The ignored receiver and original source ownership remain unresolved.
+int EnemyCoreRunLifeCallback(EnemyCoreView *enemy)
+{
+    return 0;
+}
+
+int EnemyCoreRunTimerCallback(EnemyCoreView *enemy)
+{
+    return 0;
+}
 struct EnemyCoreGameManagerPlayfieldView
 {
     int IsWithinPlayfield(float x, float y, float width, float height);
@@ -454,7 +464,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
     else
         manager->sideTimer2AC3C8++;
 
-    for (enemyIndex = 0; enemyIndex < 128; ++enemy, ++enemyIndex)
+    for (enemyIndex = 0; enemyIndex < 128; ++enemyIndex, ++enemy)
     {
         EnemyCoreView **drawHead;
         unsigned int flags = enemy->flags337C;
@@ -760,9 +770,9 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                     }
 
                     player = manager->sideState320->player04;
-                    if (AnmProjectionAbs(
+                    if (static_cast<float>(AnmProjectionAbs(
                             enemy->worldPosition2DD4.x -
-                            player->position1B88.x) < 64.0f)
+                            player->position1B88.x)) < 64.0f)
                     {
                         EnemyCoreView *homing =
                             reinterpret_cast<EnemyCoreView *>(
@@ -871,9 +881,12 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 EnemyCoreReleaseChildEclBlocks(enemy);
                 EnemyManagerCoreView *owner =
                     reinterpret_cast<EnemyManagerCoreView *>(enemy->manager00);
-                memcpy(enemy->bulletState2E74,
-                       owner->spawnTemplate328.bulletState2E74,
-                       0x214);
+                // Copy only the target-observed 0x214 descriptor, not the
+                // remaining unknown bytes in the 0x240 bullet-state region.
+                *reinterpret_cast<EnemyCoreBulletSpawnDescriptorView *>(
+                    enemy->bulletState2E74) =
+                    *reinterpret_cast<const EnemyCoreBulletSpawnDescriptorView *>(
+                        owner->spawnTemplate328.bulletState2E74);
                 enemy->shootInterval30B4 = 0;
                 reinterpret_cast<Th09EclRunState::ManagerStateView *>(enemyManager)
                     ->InitializeSubroutine(

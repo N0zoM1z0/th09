@@ -108,10 +108,12 @@ the complete 3,883-byte body and 3,900-byte physical extent, with the target
 stack homes. Packet 702 supersedes the old 3,824-byte / 67-call plateau. The
 Front-owned script gate, conditional position conversion, sprite/Player reloads,
 schedule reads, record induction, death-case order, and shared draw-list tail
-are now target-backed. Complete ordinary comparison is 3,191/3,512; relocation
+are now target-backed. Packet 703 recovers actual shared-zero leaf visibility,
+the single-precision homing comparison, typed death-descriptor copy, and
+index-first loop induction. Complete ordinary comparison is 3,271/3,512; relocation
 positions still differ, so no exact promotion is made. Focused same-TU helper
-replay remains 151/151. Resume from Packet 702's localized descriptor,
-register-role, copy-scheduling, shared-callee, and floating-comparison residuals.
+replay remains 151/151. Resume from Packet 703's localized special descriptor,
+early draw-index, trail-copy scheduling, and homing register-role residuals.
 The 95% authored-byte objective remains active and incomplete.
 
 ## Restart checklist
