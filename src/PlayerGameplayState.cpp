@@ -321,13 +321,11 @@ __forceinline void ResolveOpponentTarget(
 {
     PlayerLifecycleView *player = header->player78;
     target->x = -1000.0f;
-    float *overridePosition = reinterpret_cast<float *>(
+    const PlayerPositionView *overridePosition = reinterpret_cast<const PlayerPositionView *>(
         reinterpret_cast<unsigned char *>(player) + 0x30F64);
-    if (overridePosition[0] > -999.0f)
+    if (overridePosition->x > -999.0f)
     {
-        target->x = overridePosition[0];
-        target->y = overridePosition[1];
-        target->z = overridePosition[2];
+        *target = *overridePosition;
     }
     else
     {
@@ -373,31 +371,41 @@ __forceinline int SelectTargetPattern(
         return currentPattern;
 
     int pattern;
-    PlayerPositionView candidate;
-    if (target.x + 6.0f < header->player78->position1B88.x)
+    PlayerLifecycleView *player = header->player78;
+    PlayerPositionView candidate = player->position1B88;
+    float offsetX;
+    float offsetY;
+    if (target.x + 6.0f < player->position1B88.x)
     {
         pattern =
-            (target.y + 6.0f < header->player78->position1B88.y &&
-             header->player78->position1B88.y > 48.0f)
+            (target.y + 6.0f < candidate.y && candidate.y > 48.0f)
                 ? 5
                 : 7;
-        ResolvePatternPosition(header->player78, pattern, alternate, &candidate);
+        GameplayMethods(player)->ResolvePatternOffset(
+            pattern, alternate, &offsetX, &offsetY);
+        candidate.x += offsetX;
+        candidate.y += offsetY;
+        ClampPatternPosition(&candidate);
     }
-    else if (target.x - 6.0f > header->player78->position1B88.x)
+    else if (target.x - 6.0f > player->position1B88.x)
     {
         pattern =
-            (target.y + 6.0f < header->player78->position1B88.y &&
-             header->player78->position1B88.y > 48.0f)
+            (target.y + 6.0f < candidate.y && candidate.y > 48.0f)
                 ? 6
                 : 8;
-        ResolvePatternPosition(header->player78, pattern, alternate, &candidate);
+        // The target's rightward collision probe uses the old pattern.
+        GameplayMethods(player)->ResolvePatternOffset(
+            currentPattern, alternate, &offsetX, &offsetY);
+        candidate.x += offsetX;
+        candidate.y += offsetY;
+        ClampPatternPosition(&candidate);
     }
     else
     {
         return currentPattern;
     }
 
-    if (IsPatternPositionBlocked(header->player78, candidate, boxHalfSize, 0.0f))
+    if (IsPatternPositionBlocked(player, candidate, boxHalfSize, 0.0f))
         return currentPattern;
     return pattern;
 }
@@ -421,6 +429,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     radii[0] = 48.0f;
     radii[1] = 16.0f;
     radii[2] = 0.0f;
+    int halfSizeIndex = 0;
 
     if (g_PlayerSharedRuntime->updateBlock1095C != 0 ||
         g_PlayerSharedRuntime->IsBlocked())
@@ -442,15 +451,16 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             GameplayField<int>(header->player78->opponentState->manager04, 0x3044C) <= 360)
             header->openingTimer5C++;
 
-        int phase = header->player78->header24.state84;
+        PlayerLifecycleView *phasePlayer = header->player78;
+        int phase = phasePlayer->header24.state84;
         int threshold = phase >= 10
                             ? config->openingLong00
                             : (phase >= 2 ? config->openingMedium04
                                           : config->openingShort08);
         if (g_GameManager.IsGameMode1() &&
-            GameplayMethods(header->player78)->GetUpdateState() != 1)
+            GameplayMethods(phasePlayer)->GetUpdateState() != 1)
         {
-            GameplayMethods(header->player78)->EnterGameplayMode(3);
+            GameplayMethods(phasePlayer)->EnterGameplayMode(3);
             reinterpret_cast<ZunTimer *>(&header->player78->timer303C8)->SetCurrent(2);
         }
         if (reinterpret_cast<PlayerGameplayTimerCurrentView *>(
@@ -517,7 +527,6 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     }
 
     g_PlayerPatternGrid[cell][1] = header->currentPattern54;
-    int halfSizeIndex;
 
     if ((header->flags74 & 2U) == 0 ||
         GameplayField<int>(header->player78->opponentState->manager04, 0x3044C) > 300)
@@ -528,11 +537,12 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             for (halfSizeIndex = 0; halfSizeIndex < 2; ++halfSizeIndex)
             {
                 selectedPattern = header->currentPattern54;
+                PlayerLifecycleView *player = header->player78;
                 PlayerPositionView candidate;
                 ResolvePatternPosition(
-                    header->player78, selectedPattern, alternate, &candidate);
+                    player, selectedPattern, alternate, &candidate);
                 if (!IsPatternPositionBlocked(
-                        header->player78,
+                        player,
                         candidate,
                         halfSizes[halfSizeIndex],
                         radii[halfSizeIndex]))
@@ -541,20 +551,24 @@ void __fastcall PlayerUpdateSelectorState(void *state)
         }
 
 retry_pattern_grid:
-        for (halfSizeIndex = 0; halfSizeIndex < 3; ++halfSizeIndex)
         {
-            for (int patternIndex = 0; patternIndex < 10; ++patternIndex)
+            PlayerPositionView *gridHalfSize = halfSizes;
+            float *gridRadius = radii;
+            for (halfSizeIndex = 0; halfSizeIndex < 3;
+                 ++halfSizeIndex, ++gridRadius, ++gridHalfSize)
             {
-                selectedPattern = g_PlayerPatternGrid[cell][patternIndex];
-                PlayerPositionView candidate;
-                ResolvePatternPosition(
-                    header->player78, selectedPattern, alternate, &candidate);
-                if (!IsPatternPositionBlocked(
-                        header->player78,
-                        candidate,
-                        halfSizes[halfSizeIndex],
-                        radii[halfSizeIndex]))
-                    goto pattern_selected;
+                for (int patternIndex = halfSizeIndex; patternIndex < 10;
+                     ++patternIndex)
+                {
+                    selectedPattern = g_PlayerPatternGrid[cell][patternIndex];
+                    PlayerLifecycleView *player = header->player78;
+                    PlayerPositionView candidate;
+                    ResolvePatternPosition(
+                        player, selectedPattern, alternate, &candidate);
+                    if (!IsPatternPositionBlocked(
+                            player, candidate, *gridHalfSize, *gridRadius))
+                        goto pattern_selected;
+                }
             }
         }
 
@@ -588,22 +602,19 @@ retry_pattern_grid:
 
 pattern_selected:
     {
-        PlayerSideProtocolView *protocol =
-            &g_PlayerSideProtocols[header->player78->sideIndex];
-
     if (header->player78->scalar30384 >= header->distanceThreshold58)
     {
-        protocol->thresholdFlags34 |= 1U;
+        g_PlayerSideProtocols[header->player78->sideIndex].thresholdFlags34 |= 1U;
         header->crossedThreshold0C = 0;
         header->distanceThreshold58 =
-            (g_PlayerGameplayRng.GetRandomU32InRange(4) + 1.0f) * 100.0f;
+            (static_cast<int>(g_PlayerGameplayRng.GetRandomU32InRange(4)) + 1.0f) * 100.0f;
         if (header->distanceThreshold58 >= 400.0f)
             header->distanceThreshold58 = 400.0f;
     }
     else
     {
         if (header->crossedThreshold0C != 0)
-            protocol->patternFlags2C |= 1U;
+            g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |= 1U;
     }
 
     int patternFlag = g_PlayerPatternFlags[selectedPattern];
@@ -618,14 +629,15 @@ pattern_selected:
         {
             int candidatePattern = g_PlayerPatternAlternates[
                 g_PlayerGameplayRng.GetRandomU16InRange(2) * 9 + selectedPattern];
+            PlayerLifecycleView *player = header->player78;
             PlayerPositionView candidate;
             ResolvePatternPosition(
-                header->player78, candidatePattern, alternate, &candidate);
+                player, candidatePattern, alternate, &candidate);
             int testHalfSize = halfSizeIndex < 2
                                    ? halfSizeIndex + 1
                                    : halfSizeIndex;
             if (!IsPatternPositionBlocked(
-                    header->player78,
+                    player,
                     candidate,
                     halfSizes[testHalfSize],
                     radii[testHalfSize]))
@@ -636,44 +648,47 @@ pattern_selected:
             }
         }
 
-        protocol->patternFlags2C |=
+        g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
             static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
         if (header->retryCooldown50 == 0)
-            ShiftPatternHistory(
-                header->recentPatternFlags30,
-                g_PlayerPatternFlags[selectedPattern]);
+        {
+            for (int historyIndex = 7; historyIndex > 0; --historyIndex)
+                header->recentPatternFlags30[historyIndex] =
+                    header->recentPatternFlags30[historyIndex - 1];
+            header->recentPatternFlags30[0] = g_PlayerPatternFlags[selectedPattern];
+        }
     }
     else
     {
-        selectedPattern = SelectTargetPattern(
-            header, selectedPattern, alternate, halfSizes[0]);
-        protocol->patternFlags2C |=
-            static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
+        int targetPattern = SelectTargetPattern(
+            header, selectedPattern, alternate, halfSizes[1]);
+        // This path changes protocol flags, not the retained pattern/history.
+        g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
+            static_cast<unsigned short>(g_PlayerPatternFlags[targetPattern]);
     }
 
-    ShiftPatternHistory(
-        header->recentPatterns10,
-        g_PlayerPatternFlags[selectedPattern]);
+    for (int historyIndex = 7; historyIndex > 0; --historyIndex)
+        header->recentPatterns10[historyIndex] = header->recentPatterns10[historyIndex - 1];
+    header->recentPatterns10[0] = g_PlayerPatternFlags[selectedPattern];
 
-    void *targetEnemy = PrimaryTargetEnemy(header->player78);
-    unsigned int targetFlags = targetEnemy != NULL
-                                   ? GameplayField<unsigned int>(targetEnemy, 0x3380)
-                                   : 0;
-    if ((targetFlags & 0xC00U) == 0xC00U ||
-        (targetFlags & 0x2000U) != 0 ||
-        GameplayField<int>(header->player78, 0xC110) == 0)
+    PlayerLifecycleView *player = header->player78;
+    void *manager = PrimaryTargetManager(player);
+    void *targetEnemy = GameplayField<void *>(manager, 0x2AC444);
+    if ((targetEnemy != NULL &&
+         ((GameplayField<unsigned int>(targetEnemy, 0x3380) & 0xC00U) == 0xC00U ||
+          (GameplayField<unsigned int>(targetEnemy, 0x3380) & 0x2000U) != 0)) ||
+        GameplayField<int>(player, 0xC110) == 0)
     {
-        void *manager = PrimaryTargetManager(header->player78);
-        int divisor = GameplayField<int>(manager, 0x2AC3AC) != 0
-                          ? 10
-                          : 30;
-        if (HeaderTimerIsModulo(header, divisor))
-            protocol->eventFlags32 |= 1U;
+        int emitEvent = GameplayField<int>(manager, 0x2AC3AC) != 0
+                            ? header->frameTimer00.HasTickedEvery(10)
+                            : header->frameTimer00.HasTickedEvery(30);
+        if (emitEvent)
+            g_PlayerSideProtocols[player->sideIndex].eventFlags32 |= 1U;
     }
 
     if (g_GameManager.IsGameMode1() && (header->flags74 & 2U) != 0 &&
         GameplayField<int>(header->player78->opponentState->manager04, 0x3044C) <= 300)
-        protocol->eventFlags32 &= ~1U;
+        g_PlayerSideProtocols[header->player78->sideIndex].eventFlags32 &= ~1U;
 
     header->currentPattern54 = selectedPattern;
     header->frameTimer00++;

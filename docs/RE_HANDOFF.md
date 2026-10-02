@@ -136,20 +136,24 @@ visibility controls. Neither profile is an accepted owner match.
 
 ### Current Player selector handoff
 
-`PlayerUpdateSelectorState @ 0x004049A0` remains non-exact. Packet 710
-corrects target-observed unordered-float threshold/gate behavior, nonzero
-(including negative) retry countdown, direct manager reads and the no-enemy
-history-oscillation fallback. Maintained /O2 /Ob1 independently reproduces
-3218/3238 bytes, frame 0x5C, 33 calls and 126 relocations; same-TU
-`ResolvePatternOffset` remains exact across 346 code / 412 physical bytes.
-The old size proximity did not establish body equality. Expanding only
-reconstruction-added helper bodies reopens /Ob0: the corrected diagnostic
-emits 3206 bytes, the target generic array constructor and all 33 calls.
-It is not promoted to maintained source or an accepted profile. A genuinely
-used shared offset workspace recovers alternate's -0x10 home but not
-selectedPattern's -0x18; remaining CFG, reload and local-home differences
-are substantial. Read Packet 710 before repeating the old /Ob0 rejection
-or treating array-constructor recovery as full-owner closure.
+`PlayerUpdateSelectorState @ 0x004049A0` remains non-exact. Packet 711
+additionally recovers triangular grid starts 0/1/2, separate half-size/radius
+cursors, call-relative Player/position snapshots and the 10x10 tracking box.
+Tracking changes protocol direction, not the retained pattern/history; its
+rightward collision probe deliberately receives the old pattern. Protocol
+reloads, signed RNG-to-float interpretation and post-copy history table reads
+now follow TH09. Maintained /O2 /Ob1 independently reproduces 3275/3238 bytes,
+frame 0x5C, 33 calls and 135 relocations; normalized alignment 723/960 is only
+diagnostic. Same-TU `ResolvePatternOffset` remains exact across 346 code / 412
+physical bytes after two private table-label refreshes. Expanded real helper
+operations plus one used offset workspace under /Ob0 now recover the generic
+constructor and both selectedPattern/alternate homes (-0x18/-0x10), but the
+current 3288-byte owner is still non-exact. The current ignored reproducer is
+input-bound under `.analysis/player-selector-711-20261002`; older fixtures are
+superseded and removed. Resume from the first timing/config-pointer lifetime,
+scalar/vector scheduling and tracking-tail CFG, not arbitrary local order or
+flag wrappers. Read Packets 710-711 before treating constructor/size similarity
+as acceptance. The >95% goal remains active and incomplete.
 
 ## Restart checklist
 
