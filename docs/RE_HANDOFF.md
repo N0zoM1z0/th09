@@ -43,6 +43,21 @@ The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
 and portability have not started.
 
+### Type-8/9 collision-exit return-contract control
+
+Packet 746 freshly rechecks the shared `ExAttackUpdateCallbackType8_9`
+collision exit at target `0x00446B02`: target loads `extra->angle08` through
+EAX, while the maintained 748-byte candidate uses ECX at its only two
+ordinary-byte differences. In the actual EclManager translation unit,
+temporarily declaring `AnmVm::SetInterrupt` as returning the incoming short
+leaves every candidate code byte unchanged (raw SHA-256
+`63bcdf1bdf3ad5b2c4fedeb9fba713ba38317b26e926d39ea8665eb1335ffc8e`),
+but changes its call relocation's symbol. The declaration was reverted.
+Neither this result nor the callee's incidental AX residue establishes a
+return contract or exactness. Do not repeat this ABI hypothesis; a new
+target-backed source/data dependency is required to reopen this two-byte
+register frontier. Coverage and phase gates are unchanged.
+
 ### Latest EffectManager bounded control recheck
 
 Packet 743 freshly attests `EffectManager::OnUpdate @0x0040CDD0` against the
