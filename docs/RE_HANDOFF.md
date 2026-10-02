@@ -27,23 +27,55 @@ SHA-256:
 
 | Measure | Current value |
 | --- | ---: |
-| Function candidates | 2,191 |
+| Function candidates | 2,192 |
 | Boundary/origin unreviewed | 0 |
 | Reviewed but origin-unresolved | 35 |
-| Confirmed authored | 979 |
+| Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 979 |
-| Canonical exact functions | 895 |
+| Source-present authored mappings | 980 |
+| Canonical exact functions | 896 |
 | Source-present non-exact functions | 84 |
 | Source-present non-exact bytes | 91,959 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 183,710 |
+| Canonical exact authored bytes | 183,811 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
 and portability have not started.
 
-### Latest Player owner reward exact closure
+### Latest uncensused Player reward slot-zero closure
+
+Packet 736 independently reviews the previously untracked callback-table slot0
+at 0x004412E0..0x00441344 and adds it as authored/canonical exact. The complete
+101-byte body has 36 instructions, two internal branches, one Spawn call and
+five relocation fields. It receives owner-state in ECX and position in EDX,
+loops on state +0x34 at 5*(28-base), spawns type0 for owner side, adds
+5*base-140, and returns int zero. Type0 denotes table index only.
+
+Predecessor 0x00441100 ends at RET 0x004412DA; five following CC bytes separate
+this independent entry. Eleven CC bytes after its RET separate 0x00441350.
+No tracked extent overlaps. AddedCallback loads the table at 0x0041EF91 and
+publishes it at Player+0x30450; exact ApplyReward dispatches at 0x0041D389.
+Direct IDA still lacks a function entry here, but its mapped bytes and table
+agree with the verified PE. IDA omission does not establish physical ownership.
+
+Two independent maintained-TU cold builds and the canonical carrier agree on
+all raw bytes and complete relocation records; SHA256 is
+5c19e8d7a6ab4d10b5261afc211578bdaa89f669c2576c50eee47ae357ed2ae2.
+Build/replay player-owner-reward-callback-type0. The separate read-only
+scripts/review-player-owner-reward-slot0.py reproduces bounded boundary/table
+checks, not acceptance or whole-census completeness. All fifteen existing
+same-TU owners retain raw bytes and records; all sixteen units replay exact.
+No other TU or full-repository cold cohort is rebuilt.
+
+This adds 101 authored bytes to both numerator and reviewed denominator:
+896 exact /183811 of275770 bytes (66.65%), 84 nonexact /91959 bytes.
+The frozen 35 unknown rows remain unchanged. Original TU/data/native/runtime
+ownership and the >95% objective remain active-incomplete. Next rotate to the
+adjacent nonexact ExAttackUpdateCallbackType01 @0x00441100 (475 bytes), using
+fresh full target/current comparison rather than its old allocator-limit claim.
+
+### Earlier Player owner reward exact closure
 
 Packet 735 supersedes Packet 222's frozen popup/register-allocation plateau.
 PlayerOwnerStateView::ApplyReward at 0x0041D150..0x0041D73E is canonical exact:
@@ -72,14 +104,13 @@ using nine profile/object carriers. Eleven UpdateBeforeState private labels
 are refreshed after unchanged offset/type/addend and owner-relative target proof.
 No full-repository cold cohort runs; layouts and inline bodies are unchanged.
 
-Coverage is now 895 exact functions /183710 of275669 authored bytes (66.64%),
+Packet 735 totals were 895 exact functions /183710 of275669 authored bytes (66.64%),
 84 nonexact functions /91959 bytes. Native link/storage/runtime, semantic and
 port gates remain open. Packet-owned scratch is audited and removed; private,
-legacy and canonical cache state is preserved. A new routing-only observation
-is callback-table slot0 ->0x004412E0..0x00441344, ending xor EAX,EAX; RET:
-neither IDA nor the live function ledger currently has that entry. Review its
-boundary/origin and adjacent ownership independently before proposing a new
-ledger row; do not infer census completeness or grant credit from this lead.
+legacy and canonical cache state is preserved. Packet 735's routing-only
+callback-table slot0 observation is independently reviewed and closed by
+Packet 736 above; it was not credited in Packet 735. Neither investigation
+establishes whole-census completeness.
 The >95% objective stays active-incomplete.
 
 ### Earlier six-function focus
@@ -101,7 +132,7 @@ Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-ti
 Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
 remain open but are no longer the exclusive focus. That temporary list's
 progress snapshot is stale: it reports 881 exact and 98 non-exact, while the
-live ledger currently reports 895 exact and 84 non-exact. Recheck every listed
+live ledger currently reports 896 exact and 84 non-exact. Recheck every listed
 candidate against `config/functions.csv` and the match-unit manifest before
 resuming it; use the temporary file only as a historical routing aid.
 
@@ -133,7 +164,7 @@ and `python3 scripts/compare-coff-function.py --unit title-screen-character-sele
 All 32 prior O1 exact units retain complete raw bytes and relocation records,
 including StartMenu's private labels. Focused fresh carriers replay 33 O1 units
 plus the separate O2 score-record-insert unit, all exact. No full-repository cold
-cohort was run. Current exact coverage is 183,710 /275,669 bytes (66.64%); the
+cohort was run. Current exact coverage is 183,811 /275,770 bytes (66.65%); the
 >95% objective and native/runtime gates remain open. Ordinary character
 selection remains independently nonexact; Packet 724 closes screen16 below.
 
@@ -993,8 +1024,9 @@ source or exactness state changed.
 
 ## Boundary and origin closure
 
-All 2,191 tracked candidates have boundary/origin review. Current dispositions
-are 979 authored, 1,177 excluded, and 35 deliberately unresolved. The
+All 2,192 tracked candidates have boundary/origin review. Current dispositions
+are 980 authored, 1,177 excluded, and 35 deliberately unresolved. This is a
+tracked-candidate statement, not a proof of a complete executable census. The
 unresolved set is frozen by SHA-256:
 
 126885e1a6a78ac42b0d81852253714cc1c9eb99141066d495b0029a16ca5695

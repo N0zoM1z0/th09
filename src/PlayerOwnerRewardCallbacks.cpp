@@ -290,3 +290,21 @@ int __fastcall PlayerOwnerRewardCallbackType15(
     }
     return 0;
 }
+
+int __fastcall PlayerOwnerRewardCallbackType0(
+    PlayerOwnerStateView *base, PlayerPositionView *position)
+{
+    PlayerOwnerRewardCallbackStateView *state =
+        reinterpret_cast<PlayerOwnerRewardCallbackStateView *>(base);
+
+    while (state->value34 >= 5 * (28 - g_PlayerRewardBaseValue))
+    {
+        g_ExAttackController->Spawn(
+            0,
+            reinterpret_cast<const Float3 *>(position),
+            state->owner00->sideIndex,
+            0);
+        state->value34 += 5 * g_PlayerRewardBaseValue - 140;
+    }
+    return 0;
+}

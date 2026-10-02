@@ -950,6 +950,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00440E40,authored_game,ExAttackController,authored,high,exattack-type0-init-exact-2026-09-21
 0x00440FB0,authored_game,ExAttackController,authored,high,exattack-type1-init-exact-2026-09-21
 0x00441100,authored_game,ExAttackController,authored,high,exattack-type01-update-source-review-2026-09-21
+0x004412E0,authored_game,Player,authored,high,player-owner-reward-slot0-exact-packet736
 0x00441350,authored_game,CardAttack,authored,high,card-attack-begin-callbacks-exact-2026-09-20
 0x004413A0,authored_game,CardAttack,authored,high,card-attack-end-callbacks-exact-2026-09-20
 0x004413D0,authored_game,CardAttack,authored,high,card-attack-begin-callbacks-exact-2026-09-20

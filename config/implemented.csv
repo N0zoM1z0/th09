@@ -977,3 +977,4 @@ PlayerCheckState2
 ApplyNetworkInput
 GameManagerPlayfieldView::IsWithinPlayfield
 EffectPolarScaleView::SetFromAngleAxes
+PlayerOwnerRewardCallbackType0
