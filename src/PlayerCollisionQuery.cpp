@@ -25,10 +25,11 @@ PlayerCollisionQueryRecordView *PlayerCollisionQueryStateView::FindCollision(
     if (reinterpret_cast<PlayerCollisionTimerView *>(&player->timer1B74)->IsAfter(0))
         return NULL;
 
-    PlayerPositionView previousPosition = player->position1B88;
+    PlayerPositionView *position = &player->position1B88;
+    PlayerPositionView previousPosition = *position;
     PlayerHalfSizeView previousHalfSize = player->hurtboxHalfSize;
 
-    player00->position1B88 = center;
+    *position = center;
     PlayerCollisionQueryRecordView *record = records;
     player00->collisionBoundsMin1C60 = center - halfSize;
     player00->collisionBoundsMax1C6C = center + halfSize;

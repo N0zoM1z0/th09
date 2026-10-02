@@ -636,6 +636,21 @@ the actual SoundPlayer definition leaves the entire candidate unchanged at
 are retained. Packet 720 ended at 889 functions /173,688 bytes (63.01%);
 Packet 721 and the live table above supersede those totals.
 
+### Current Player collision-query frontier
+
+Packet 750 rechecks `PlayerCollisionQueryStateView::FindCollision @ 0x0041D810`
+against the 602-byte target. A real pointer to `player->position1B88`, used
+for both saving the previous value and installing the query center, recovers
+the target's early EAX-pointer copy shape and changes the maintained candidate
+from 606 to 604 bytes. Two cold `/O2 /Ob1` builds agree on all 604 raw bytes
+and nine relocations. It is still NON-EXACT: target initially keeps Player in
+EBX and defers saving EDI until the record cursor, while candidate keeps Player
+in EDI and saves EBX later. Initializing the record cursor at entry and naming
+the hurtbox pointer regress the target shape; declaration without early
+initialization is byte-neutral. Do not promote the two-byte gap or the sibling
+`FindCollisionAtPlayer` exactness. No TH08/TH095 combined-query analogue was
+found; their lower collision helpers are hypotheses only.
+
 ### Latest large-owner closure: FrontSide::OnUpdate
 
 `FrontSide::OnUpdate @ 0x00418A90` is canonical exact at 2,381 bytes.
