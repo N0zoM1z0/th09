@@ -244,8 +244,50 @@ Live totals are 894 exact /182191 of275669 authored bytes (66.09%), with
 85 nonexact /93478 bytes. The >95% objective and native/runtime/semantic/port
 gates remain open. Packet 728 subsequently reviews MusicRoom below without
 new exact credit. Packet 729 reviews OnUpdateOptions below without new exact
-credit. Next rotate to DrawResult @0x00423D16 (1939 bytes, separate TU),
-with fresh complete target/CFG/field review, not an inherited size report.
+credit. Packet 730 substantially narrows DrawResult below without new exact
+credit; its fresh source/CFG/field results supersede the old size-only routing.
+
+### Current DrawResult handoff
+
+`TitleScreenView::DrawResult @0x00423D16..0x004244A8` remains non-exact.
+Packet 730 independently reviews all 1939 target bytes /577 instructions,
+frame 0x44 and 16 calls. The prior 1941-byte candidate had only 568
+instructions, 87 fields and 75 blocks versus target's 92. Do not resume
+from that misleading two-byte size gap or its old allocation diagnosis.
+
+Maintained source uses real Float3 locals, independent row/active lifetimes
+in each ranking block, explicit target color arms, first-heading alpha
+conversion, an explicit screen13 keyboard exclusion and separate X/Y offsets.
+Two independent affected-TU cold objects agree on every raw byte and
+relocation record: 1941 bytes /577 instructions /82 fields (16 REL32 /66
+DIR32), SHA-256 8022ac3d4ec97e0943392de7bcb4bb4567660667533167aee70388e4d6b505c0.
+All 92 physical-order direct blocks agree in edges, per-block calls and return
+cleanup. Normalized instruction alignment is 558/577, with five unpaired
+correspondence destinations; graph agreement is not predicate/data-flow,
+runtime or exact-byte proof. Complete replay is false, with 319 differing
+overlapping bytes and a two-byte length excess. No credit is added.
+
+Remaining frontier: initial currentScreen load is hoisted into ECX before
+the bank multiplication rather than reloaded in EAX after the group store.
+The keyboard loop spills its row-base in EBP-0x0C and uses EBX for divisors,
+instead of target's persistent row-base EBX, divisor ECX and column reload
+in EAX. The later glyph/position schedule and two-byte tail displacement
+follow from that register pressure. Real local lifetime recovery already
+recovers all five ranking blocks' homes; do not replace it with register
+hints, layout/name search, volatile, padding, fake leaves or ABI changes.
+Packet 730 lists byte-neutral/rejected controls; do not repeat them blindly.
+
+Reproduce only this TU with
+`bash scripts/compile-probe.sh src/TitleScreenResultDraw.cpp build/result-draw.obj /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Gr /O1 /Ob1 /Oy- /I src`,
+then `python3 scripts/inspect-title-result-draw.py build/result-draw.obj`.
+The read-only diagnostic binds all 22 independently reviewed destinations
+and checks complete decoding/CFG without canonical acceptance. Generic
+compare-coff-function reports size-mismatch. No match-unit is created.
+Owned packet probes/objects/PDBs are removed after durable recording; no
+other TU or repository-wide cold cohort is rebuilt. Coverage remains
+894 exact /182191 of275669 authored bytes (66.09%), 85 nonexact /93478 bytes.
+Resume from fresh hypotheses for these two real lifetime/scheduling regions;
+the >95% and native/runtime/semantic/port gates remain open.
 
 ### Earlier non-exact investigation: Player movement and KeyConfig
 

@@ -24,13 +24,6 @@ typedef char ResultDrawNameAt18[
 typedef char ResultDrawDigitAt2B[
     (offsetof(ResultDrawScoreRecord, scoreDigit) == 0x2B) ? 1 : -1];
 
-struct ResultDrawPosition
-{
-    float x;
-    float y;
-    float z;
-};
-
 struct TitleScreenView
 {
     i32 keyboardSelection;       // +0x00000
@@ -71,40 +64,41 @@ extern ResultDrawScoreRecord g_TitleScoreTable[16][5][5];
 extern const char *g_TitleRankLabels[];
 extern char *g_TitleAlphabet;
 
-static __inline Float3 *ResultDrawFloat3(ResultDrawPosition *position)
-{
-    return reinterpret_cast<Float3 *>(position);
-}
-
-#define DRAW_RANKING_BLOCK(bitValue, xValue, yValue, headingText, headingActiveColor) \
+#define DRAW_RANKING_BLOCK(bitValue, xValue, yValue, headingText, headingActiveColor, initializeAlpha) \
     do { \
-        active = difficultyMask & (bitValue); \
-        g_AsciiManager.color = alphaColor | \
-            (active ? (headingActiveColor) : 0x00808080u); \
+        i32 active = difficultyMask & (bitValue); \
+        if (active) { \
+            if (initializeAlpha) alphaColor <<= 24; \
+            g_AsciiManager.color = alphaColor | (headingActiveColor); \
+        } else { \
+            if (initializeAlpha) alphaColor <<= 24; \
+            g_AsciiManager.color = alphaColor | 0x00808080u; \
+        } \
         position.x = (xValue); \
         position.y = (yValue); \
         position.z = 0.0f; \
-        g_AsciiManager.AddFormatText(ResultDrawFloat3(&position), (headingText)); \
+        g_AsciiManager.AddFormatText(&position, (headingText)); \
         position.y += 16.0f; \
-        row = 0; \
+        i32 row = 0; \
         ResultDrawScoreRecord *entry = scoreGroup; \
         while (row < 5) { \
-            if (!active) \
+            if (active) { \
+                if (selectedRank == row) \
+                    g_AsciiManager.color = alphaColor | 0x00FFF0EFu; \
+                else \
+                    g_AsciiManager.color = alphaColor | 0x00C0F0FFu; \
+            } else \
                 g_AsciiManager.color = alphaColor | 0x00809090u; \
-            else if (selectedRank == row) \
-                g_AsciiManager.color = alphaColor | 0x00FFF0EFu; \
-            else \
-                g_AsciiManager.color = alphaColor | 0x00C0F0FFu; \
             if (active && selectedRank == row) { \
                 temp = 9 * (replayNameCursor + 4); \
                 position.x += (float)temp; \
                 g_AsciiManager.AddFormatText( \
-                    ResultDrawFloat3(&position), "%.8s", "_"); \
+                    &position, "%.8s", "_"); \
                 temp = 9 * (replayNameCursor + 4); \
                 position.x -= (float)temp; \
             } \
             g_AsciiManager.AddFormatText( \
-                ResultDrawFloat3(&position), "%s %.8s %.9d%d", \
+                &position, "%s %.8s %.9d%d", \
                 g_TitleRankLabels[row], entry->name, entry->score, \
                 entry->scoreDigit); \
             ++row; \
@@ -117,12 +111,10 @@ static __inline Float3 *ResultDrawFloat3(ResultDrawPosition *position)
 int TitleScreenView::DrawResult()
 {
     char text[16];
-    ResultDrawPosition characterPosition;
-    ResultDrawPosition position;
+    Float3 characterPosition;
+    Float3 position;
     i32 temp;
-    i32 active;
     i32 difficultyMask;
-    i32 row;
     i32 selectedRank;
     ResultDrawScoreRecord *scoreGroup;
     u32 alphaColor;
@@ -145,19 +137,22 @@ int TitleScreenView::DrawResult()
         alpha = 255 * stateTimer2 / 30;
     else
         alpha = 255;
-    alphaColor = (u32)alpha << 24;
+    alphaColor = (u32)alpha;
 
-    DRAW_RANKING_BLOCK(1, 102.0f, 80.0f, "Easy Ranking", 0x00D0FFD0u);
-    DRAW_RANKING_BLOCK(2, 358.0f, 80.0f, "Normal Ranking", 0x00D0FFD0u);
-    DRAW_RANKING_BLOCK(4, 102.0f, 192.0f, "Hard Ranking", 0x00FFF0D0u);
-    DRAW_RANKING_BLOCK(8, 358.0f, 192.0f, "Lunatic Ranking", 0x00FFC0C0u);
-    DRAW_RANKING_BLOCK(0x10, 102.0f, 304.0f, "Extra Ranking", 0x00FFC0F0u);
+    DRAW_RANKING_BLOCK(1, 102.0f, 80.0f, "Easy Ranking", 0x00D0FFD0u, true);
+    DRAW_RANKING_BLOCK(2, 358.0f, 80.0f, "Normal Ranking", 0x00D0FFD0u, false);
+    DRAW_RANKING_BLOCK(4, 102.0f, 192.0f, "Hard Ranking", 0x00FFF0D0u, false);
+    DRAW_RANKING_BLOCK(8, 358.0f, 192.0f, "Lunatic Ranking", 0x00FFC0C0u, false);
+    DRAW_RANKING_BLOCK(0x10, 102.0f, 304.0f, "Extra Ranking", 0x00FFC0F0u, false);
 
-    if (currentScreen == 14 && nameSlotIndex < 5 && currentScreenState >= 1)
+    if (currentScreen == 13)
+    {
+    }
+    else if (currentScreen == 14 && nameSlotIndex < 5 && currentScreenState >= 1)
     {
         position.y = 336.0f;
         position.z = 0.0f;
-        row = 0;
+        i32 row = 0;
 
         while (row < 6)
         {
@@ -167,7 +162,8 @@ int TitleScreenView::DrawResult()
             while (column < 16)
             {
                 position.x += 12.0f;
-                float offset = 0.0f;
+                float offsetX = 0.0f;
+                float offsetY = 0.0f;
 
                 if (keyboardSelection == rowBase + column)
                 {
@@ -187,7 +183,7 @@ int TitleScreenView::DrawResult()
 
                     g_AsciiManager.scaleX = scale;
                     g_AsciiManager.scaleY = scale;
-                    offset = (scale - 1.0f) * -8.0f;
+                    offsetY = offsetX = (scale - 1.0f) * -8.0f;
                 }
                 else
                 {
@@ -196,8 +192,8 @@ int TitleScreenView::DrawResult()
                     g_AsciiManager.scaleY = 1.0f;
                 }
 
-                characterPosition.x = position.x + offset;
-                characterPosition.y = position.y + offset;
+                characterPosition.x = position.x + offsetX;
+                characterPosition.y = position.y + offsetY;
                 characterPosition.z = position.z;
                 text[0] = g_TitleAlphabet[rowBase + column];
                 text[1] = 0;
@@ -211,7 +207,7 @@ int TitleScreenView::DrawResult()
                 }
 
                 g_AsciiManager.AddString(
-                    ResultDrawFloat3(&characterPosition), text);
+                    &characterPosition, text);
                 ++column;
             }
             ++row;
