@@ -2228,32 +2228,40 @@ int TitleScreenView::UpdateScreen16()
             g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
 
             i32 visibleCount = 0;
-            for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
+            i32 orderIndex = 0;
+            for (; orderIndex < 16; orderIndex++)
             {
                 char character = g_TitleScreen16Order[orderIndex];
                 if (character > 13 || g_TitleCharacterUnlocked[character] || g_SupervisorNetworkState->active)
                 {
                     titleAnm->SetSprite(&vms[207 + visibleCount], character + 251);
                     vms[207 + visibleCount].flags |= 2;
-                    g_TitleScreen16Entries[visibleCount] = character;
+                    g_TitleScreen16Entries[visibleCount] = g_TitleScreen16Order[orderIndex];
                     visibleCount++;
                 }
             }
 
             keyboardSelection = visibleCount - 2;
-            for (i32 index = visibleCount; index < 16; index++)
+            if (visibleCount < 16)
             {
-                vms[207 + index].flags &= ~2u;
-                g_TitleScreen16Entries[index] = -1;
+                i32 index = visibleCount;
+                char *entry = g_TitleScreen16Entries + index;
+                do
+                {
+                    vms[207 + index].flags &= ~2u;
+                    index++;
+                    *entry++ = -1;
+                } while (index < 16);
             }
 
             vms[189].flags |= 2;
             vms[190].flags |= 2;
+            char selectedCharacter = g_TitleScreen16Entries[keyboardSelection];
             currentScreenState = 0;
             stateTimer = 0;
             uiAux = 0;
             unknown0C918 = 1;
-            UpdateScreen16SelectionVisuals(0, g_TitleScreen16Entries[keyboardSelection],
+            UpdateScreen16SelectionVisuals(0, selectedCharacter,
                                            g_TitleScreen16Order);
         }
 
@@ -2281,57 +2289,55 @@ int TitleScreenView::UpdateScreen16()
                                            g_TitleScreen16Order);
         }
 
-        if (g_TitleInputFlags & 0x1001)
+        if (static_cast<u16>(g_TitleInputFlags) & 0x1001)
         {
             PlayMenuSound(10, 0);
             g_TitleSupervisor.StopAudio();
-            g_TitleGlobalMode = 0;
+            g_GameCurrentStage = 0;
 
             if (currentScreen == 3)
             {
                 g_GameValueDF0 = 1;
-                g_TitleLaunchState = 2;
+                g_TitleGlobalMode = 2;
                 g_GameMode = 0;
                 g_GameValueDB8 = 0;
             }
             else if (currentScreen == 5)
             {
                 g_GameValueDF0 = 1;
-                g_TitleLaunchState = 2;
+                g_TitleGlobalMode = 2;
                 g_GameMode = 1;
                 g_GameValueDB8 = 0;
             }
             else
             {
-                switch (g_TitleModeSelection)
+                if (g_TitleModeSelection == 0 || g_TitleModeSelection == 4)
                 {
-                case 0:
-                case 4:
                     g_GameValueDF0 = 0;
-                    g_TitleLaunchState = 2;
-                    g_GameMode = 2;
                     g_GameValueDB8 = 0;
-                    break;
-                case 1:
+                    g_TitleGlobalMode = 2;
+                    g_GameMode = 2;
+                }
+                else if (g_TitleModeSelection == 1)
+                {
                     g_GameValueDF0 = 1;
-                    g_TitleLaunchState = 2;
-                    g_GameMode = 2;
                     g_GameValueDB8 = 0;
-                    break;
-                case 2:
+                    g_TitleGlobalMode = 2;
+                    g_GameMode = 2;
+                }
+                else if (g_TitleModeSelection == 2)
+                {
                     g_GameValueDF0 = 0;
                     g_GameValueDB8 = 1;
-                    g_TitleLaunchState = 2;
+                    g_TitleGlobalMode = 2;
                     g_GameMode = 2;
-                    break;
-                case 3:
+                }
+                else if (g_TitleModeSelection == 3)
+                {
                     g_GameValueDF0 = 1;
                     g_GameValueDB8 = 1;
-                    g_TitleLaunchState = 2;
+                    g_TitleGlobalMode = 2;
                     g_GameMode = 2;
-                    break;
-                default:
-                    break;
                 }
             }
 
@@ -2349,15 +2355,26 @@ int TitleScreenView::UpdateScreen16()
             return 0;
         }
 
-        if (g_TitleInputFlags & 0xA)
+        if (static_cast<u8>(g_TitleInputFlags) & 0xA)
         {
             PlayMenuSound(11, 0);
             stateTimer = 0;
             ChangeCurrentScreen(8);
-            if (g_TitleModeSelection == 0 || g_TitleModeSelection == 4)
+            switch (g_TitleModeSelection)
+            {
+            case 0:
                 UpdateScreen8Mode0();
-            else if (g_TitleModeSelection >= 1 && g_TitleModeSelection <= 3)
+                break;
+            case 1:
                 UpdateScreen8Mode123();
+                break;
+            case 2:
+                UpdateScreen8Mode123();
+                break;
+            case 3:
+                UpdateScreen8Mode123();
+                break;
+            }
             return 1;
         }
         break;

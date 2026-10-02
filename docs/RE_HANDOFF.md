@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 891 |
-| Source-present non-exact functions | 88 |
-| Source-present non-exact bytes | 97,587 |
+| Canonical exact functions | 892 |
+| Source-present non-exact functions | 87 |
+| Source-present non-exact bytes | 96,690 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 178,082 |
+| Canonical exact authored bytes | 178,979 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -62,7 +62,7 @@ Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-ti
 Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
 remain open but are no longer the exclusive focus. That temporary list's
 progress snapshot is stale: it reports 881 exact and 98 non-exact, while the
-live ledger currently reports 891 exact and 88 non-exact. Recheck every listed
+live ledger currently reports 892 exact and 87 non-exact. Recheck every listed
 candidate against `config/functions.csv` and the match-unit manifest before
 resuming it; use the temporary file only as a historical routing aid.
 
@@ -94,9 +94,9 @@ and `python3 scripts/compare-coff-function.py --unit title-screen-character-sele
 All 32 prior O1 exact units retain complete raw bytes and relocation records,
 including StartMenu's private labels. Focused fresh carriers replay 33 O1 units
 plus the separate O2 score-record-insert unit, all exact. No full-repository cold
-cohort was run. Current exact coverage is 178,082 /275,669 bytes (64.60%); the
+cohort was run. Current exact coverage is 178,979 /275,669 bytes (64.93%); the
 >95% objective and native/runtime gates remain open. Ordinary character
-selection and screen16 remain independent nonexact owners.
+selection remains independently nonexact; Packet 724 closes screen16 below.
 
 ### Latest ordinary character-selection repair and two-byte frontier
 
@@ -121,7 +121,35 @@ target bytes except the two recorded SIB bytes. Pointer/bank/index-spelling cont
 splitting integer scope swaps real homes, and absolute VM indices change cursor
 induction. Read Packet 723 before repeating these controls. All 34 existing
 TitleScreen units replay exact after one verified private StartMenu table-label
-spelling refresh; no target address changes. Coverage remains 64.60%.
+spelling refresh; no target address changes. That checkpoint's coverage was
+64.60%; the subsequent screen16 closure raises live coverage to 64.93%.
+
+### Latest screen16 final-selection exact closure
+
+`TitleScreenView::UpdateScreen16 @ 0x00426334..0x004266B4` is now canonical
+exact: 897 contiguous code/physical bytes, 246 instructions, frame8 and 62
+fields (14 REL32 /48 DIR32). Packet 724 corrects two old behavior errors:
+launch clears stage 0x004A7E8C, not global mode; cancel calls mode0 only for
+mode 0, mode123 only for modes 1/2/3, and neither for mode 4. Init reloads
+the order table after SetSprite and snapshots the selected char before resets.
+Natural four launch-mode if/else arms, separate cancel switch-call arms and
+an index-first hidden-entry pointer loop reproduce the target shared tails
+and byte-offset induction. No explicit byte cursor or goto probe is retained.
+
+Two independent maintained-source cold builds, final probe and canonical
+carrier agree on every raw byte and full relocation record. Raw SHA-256 is
+662a50707d3d30a3091593a7399a9f7bd3a79b9074f150ad3f082d5f90b86a4f.
+Reproduce with `python3 scripts/build-match-unit.py --unit title-screen-update-screen16`
+and `python3 scripts/compare-coff-function.py --unit title-screen-update-screen16 --json`.
+The tracked diagnostic also supports `OBJECT --screen16` without granting credit.
+All 33 prior O1 owners retain raw bytes; nine StartMenu private labels change
+spelling only after section/owner-relative offsets and unchanged destinations
+are verified. Fresh focused O1 plus separate O2 carriers replay all 35 exact
+units. No full-repository cold cohort runs. Totals are 892 exact /178979 of
+275669 authored bytes (64.93%), with 87 nonexact /96690 bytes. The >95% goal
+and native/runtime/semantic/port gates remain open. Next rotate to the adjacent
+result/replay owner with fresh target review; do not repeat Packet 724's
+manual-byte-cursor or equivalent pointer-spelling probes without new evidence.
 
 ### Earlier non-exact investigation: Player movement and KeyConfig
 

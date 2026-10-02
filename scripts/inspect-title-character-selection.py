@@ -2,7 +2,8 @@
 """Inspect TH09 character-selection code; diagnostic, never exactness credit.
 
 Read-only complete replay through independently reviewed destinations. Default
-is mode-0; --mode123 selects its neighbor and --ordinary the 14-entry owner.
+is mode-0; --mode123 selects its neighbor, --ordinary the 14-entry owner,
+and --screen16 the final-selection owner.
 Requires Capstone. The canonical acceptance path remains the tracked match unit.
 """
 import difflib
@@ -22,6 +23,7 @@ parser.add_argument('object', type=Path)
 mode = parser.add_mutually_exclusive_group()
 mode.add_argument('--mode123', action='store_true')
 mode.add_argument('--ordinary', action='store_true')
+mode.add_argument('--screen16', action='store_true')
 args = parser.parse_args()
 base = 0x4289DB
 symbol = '?UpdateScreen8Mode0@TitleScreenView@@QAEHXZ'
@@ -34,6 +36,10 @@ elif args.ordinary:
     base = 0x4254A7
     symbol = '?OnUpdateCharacterSelect@TitleScreenView@@QAEHXZ'
     size = 1572
+elif args.screen16:
+    base = 0x426334
+    symbol = '?UpdateScreen16@TitleScreenView@@QAEHXZ'
+    size = 897
 destinations = {
     '?g_TitleSide0InputFlags@@3IA': 0x4ACE1E,
     '?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z': 0x422F39,
@@ -88,6 +94,13 @@ destinations = {
     # Historical nonexact view; the repaired ordinary owner uses GlobalMode.
     '?g_TitleLaunchState@@3HA': 0x4B3690,
     '?g_TitleSupervisor@@3UTitleSupervisorView@@A': 0x4B3100,
+    '?MoveCursorFourWay@TitleScreenView@@QAEHH@Z': 0x424671,
+    '?UpdateScreen16SelectionVisuals@TitleScreenView@@QAEXHHPAD@Z': 0x425390,
+    '?UpdateScreen8Mode0@TitleScreenView@@QAEHXZ': 0x4289DB,
+    '?UpdateScreen8Mode123@TitleScreenView@@QAEHXZ': 0x425ACB,
+    '?g_TitleScreen16Order@@3PADA': 0x4A1D9C,
+    '?g_TitleScreen16Entries@@3PADA': 0x4AC8C4,
+    '?g_TitleScreen16SelectionResult@@3HA': 0x4A7EC8,
 }
 target = coff.pe_bytes_at(coff.verified_target(), base, size)
 code, relocations = coff.object_function(args.object, symbol)
