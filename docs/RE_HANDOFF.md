@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 885 |
-| Source-present non-exact functions | 94 |
-| Source-present non-exact bytes | 110,109 |
+| Canonical exact functions | 886 |
+| Source-present non-exact functions | 93 |
+| Source-present non-exact bytes | 107,257 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 165,560 |
+| Canonical exact authored bytes | 168,412 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -62,7 +62,7 @@ Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-ti
 Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
 remain open but are no longer the exclusive focus. That temporary list's
 progress snapshot is stale: it reports 881 exact and 98 non-exact, while the
-live ledger currently reports 885 exact and 94 non-exact. Recheck every listed
+live ledger currently reports 886 exact and 93 non-exact. Recheck every listed
 candidate against `config/functions.csv` and the match-unit manifest before
 resuming it; use the temporary file only as a historical routing aid.
 
@@ -134,22 +134,19 @@ transition offsets never established full HUD-prefix byte equality. Read
 Packet 709 before repeating the failed point-reference or real-constructor
 visibility controls. Neither profile is an accepted owner match.
 
-### Current FrontMessage Update handoff
+### Latest large-owner closure: FrontMessageRuntimeView::Update
 
-`FrontMessageRuntimeView::Update @ 0x00416590` remains non-exact. Packet 712
-withdraws the old global-CSE-only diagnosis: its 2724-byte COFF extent included
-the switch table, while the actual baseline code was only 2606 bytes. Target
-code is 2852 bytes, followed by a 116-byte table. TH09 fixes opcode 0x10's
-payload at original instruction +4, not +8, and several call-relative global,
-argument and instruction reloads. Fresh per-call source also lets VC7.1 merge
-opcode 0x11's second SetSprite tail automatically and recover its side/pair
-lifetimes; synthetic shared ANM/sprite locals are unnecessary. Maintained
-/O2 /Ob1 cold replays agree on 2850 code +2 alignment +116 table =2968
-physical bytes, 713 instructions and all 64 calls. Complete physical
-comparison fails at 1234/2300 nonrelocation bytes. Decoder remains 39/39 exact.
-Resume localized opcode 1/2/3 scheduling, instruction-advance/timer and
-run-script scheduling, and late branch order. Read Packet 712 before reusing
-old lengths, payload offsets or shared-tail controls. No owner credit added.
+`FrontMessageRuntimeView::Update @ 0x00416590` is now canonical exact.
+Packet 713 recovers timer advancement when the first message is not yet due,
+natural while-loop and cold-return structure, actual branch-local portrait
+lifetimes and direct VM member expressions instead of an inline accessor.
+These changes retain Packet 712's target-backed payload/global reload fixes
+and close its opcode 1/2/3 and run-script scheduling residuals. Two independent
+cold pinned /O2 /Ob1 builds reproduce all 2852 code bytes, the complete
+2968-byte extent including the 116-byte table, and all 167 relocations.
+Decoder remains 39/39 exact. Credit covers code only; native product and
+runtime gates remain open. Read Packets 712-713 before reusing stale lengths,
+timer/payload behavior or shared-tail controls.
 
 ### Current Player selector handoff
 
