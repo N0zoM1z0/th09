@@ -312,7 +312,7 @@ __forceinline void *PrimaryTargetManager(PlayerLifecycleView *player)
 __forceinline void *PrimaryTargetEnemy(PlayerLifecycleView *player)
 {
     void *manager = PrimaryTargetManager(player);
-    return manager ? GameplayField<void *>(manager, 0x2AC444) : NULL;
+    return GameplayField<void *>(manager, 0x2AC444);
 }
 
 __forceinline void ResolveOpponentTarget(
@@ -320,6 +320,7 @@ __forceinline void ResolveOpponentTarget(
     PlayerPositionView *target)
 {
     PlayerLifecycleView *player = header->player78;
+    target->x = -1000.0f;
     float *overridePosition = reinterpret_cast<float *>(
         reinterpret_cast<unsigned char *>(player) + 0x30F64);
     if (overridePosition[0] > -999.0f)
@@ -331,9 +332,7 @@ __forceinline void ResolveOpponentTarget(
     else
     {
         void *manager = PrimaryTargetManager(player);
-        void *enemy = manager
-                          ? GameplayField<void *>(manager, 0x2AC444)
-                          : NULL;
+        void *enemy = GameplayField<void *>(manager, 0x2AC444);
         if (enemy != NULL)
         {
             *target = GameplayField<PlayerPositionView>(enemy, 0x2D74);
@@ -344,19 +343,12 @@ __forceinline void ResolveOpponentTarget(
             goto target_resolved;
         }
 
-        enemy = manager
-                    ? GameplayField<void *>(manager, 0x2AC448)
-                    : NULL;
-        if (enemy == NULL)
+        enemy = GameplayField<void *>(manager, 0x2AC448);
+        if (enemy != NULL)
         {
-            target->x = -1000.0f;
-            target->y = 0.0f;
-            target->z = 0.0f;
-            return;
+            *target = GameplayField<PlayerPositionView>(enemy, 0x2D74);
+            target->y += 128.0f;
         }
-
-        *target = GameplayField<PlayerPositionView>(enemy, 0x2D74);
-        target->y += 128.0f;
     }
 
 target_resolved:
@@ -377,7 +369,7 @@ __forceinline int SelectTargetPattern(
 {
     PlayerPositionView target;
     ResolveOpponentTarget(header, &target);
-    if (target.x <= -999.0f || target.y >= 448.0f)
+    if (!(target.x > -999.0f && target.y < 448.0f))
         return currentPattern;
 
     int pattern;
@@ -487,7 +479,11 @@ void __fastcall PlayerUpdateSelectorState(void *state)
 
     g_PlayerPatternProtocolValue = config->protocolValue18;
 
-    if (header->player78->scalar30388 < header->distanceThreshold58)
+    if (header->player78->scalar30388 >= header->distanceThreshold58)
+    {
+        header->crossedThreshold0C = 1;
+    }
+    else
     {
         if (header->crossedThreshold0C != 0)
         {
@@ -495,11 +491,6 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             header->crossedThreshold0C = 0;
         }
     }
-    else
-    {
-        header->crossedThreshold0C = 1;
-    }
-
     int cell = header->player78->position1B88.x < -96.0f
                    ? 0
                    : (header->player78->position1B88.x < 0.0f
@@ -518,7 +509,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
 
     {
         void *manager = PrimaryTargetManager(header->player78);
-        if (manager != NULL && GameplayField<int>(manager, 0x2AC3B8) >= 4)
+        if (GameplayField<int>(manager, 0x2AC3B8) >= 4)
         {
             g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |= 4U;
             alternate = 1;
@@ -531,7 +522,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     if ((header->flags74 & 2U) == 0 ||
         GameplayField<int>(header->player78->opponentState->manager04, 0x3044C) > 300)
     {
-        if (header->retryCooldown50 > 0)
+        if (header->retryCooldown50 != 0)
         {
             --header->retryCooldown50;
             for (halfSizeIndex = 0; halfSizeIndex < 2; ++halfSizeIndex)
@@ -600,12 +591,7 @@ pattern_selected:
         PlayerSideProtocolView *protocol =
             &g_PlayerSideProtocols[header->player78->sideIndex];
 
-        if (header->player78->scalar30384 < header->distanceThreshold58)
-    {
-        if (header->crossedThreshold0C != 0)
-            protocol->patternFlags2C |= 1U;
-    }
-    else
+    if (header->player78->scalar30384 >= header->distanceThreshold58)
     {
         protocol->thresholdFlags34 |= 1U;
         header->crossedThreshold0C = 0;
@@ -613,6 +599,11 @@ pattern_selected:
             (g_PlayerGameplayRng.GetRandomU32InRange(4) + 1.0f) * 100.0f;
         if (header->distanceThreshold58 >= 400.0f)
             header->distanceThreshold58 = 400.0f;
+    }
+    else
+    {
+        if (header->crossedThreshold0C != 0)
+            protocol->patternFlags2C |= 1U;
     }
 
     int patternFlag = g_PlayerPatternFlags[selectedPattern];
@@ -673,8 +664,7 @@ pattern_selected:
         GameplayField<int>(header->player78, 0xC110) == 0)
     {
         void *manager = PrimaryTargetManager(header->player78);
-        int divisor = manager != NULL &&
-                              GameplayField<int>(manager, 0x2AC3AC) != 0
+        int divisor = GameplayField<int>(manager, 0x2AC3AC) != 0
                           ? 10
                           : 30;
         if (HeaderTimerIsModulo(header, divisor))

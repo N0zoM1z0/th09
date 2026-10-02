@@ -134,6 +134,23 @@ transition offsets never established full HUD-prefix byte equality. Read
 Packet 709 before repeating the failed point-reference or real-constructor
 visibility controls. Neither profile is an accepted owner match.
 
+### Current Player selector handoff
+
+`PlayerUpdateSelectorState @ 0x004049A0` remains non-exact. Packet 710
+corrects target-observed unordered-float threshold/gate behavior, nonzero
+(including negative) retry countdown, direct manager reads and the no-enemy
+history-oscillation fallback. Maintained /O2 /Ob1 independently reproduces
+3218/3238 bytes, frame 0x5C, 33 calls and 126 relocations; same-TU
+`ResolvePatternOffset` remains exact across 346 code / 412 physical bytes.
+The old size proximity did not establish body equality. Expanding only
+reconstruction-added helper bodies reopens /Ob0: the corrected diagnostic
+emits 3206 bytes, the target generic array constructor and all 33 calls.
+It is not promoted to maintained source or an accepted profile. A genuinely
+used shared offset workspace recovers alternate's -0x10 home but not
+selectedPattern's -0x18; remaining CFG, reload and local-home differences
+are substantial. Read Packet 710 before repeating the old /Ob0 rejection
+or treating array-constructor recovery as full-owner closure.
+
 ## Restart checklist
 
 From the repository root:
