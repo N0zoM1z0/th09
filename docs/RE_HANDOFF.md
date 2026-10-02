@@ -148,6 +148,15 @@ Decoder remains 39/39 exact. Credit covers code only; native product and
 runtime gates remain open. Read Packets 712-713 before reusing stale lengths,
 timer/payload behavior or shared-tail controls.
 
+Packet 714 closes the cross-unit timer contract audit exposed by that replay.
+AsciiManager::OnUpdate expires score popups with strict `timer > 60`, not
+`>= 60`: target call 0x00435B77 reaches SETNLE at 0x00403DE0. The old source
+and relocation symbol disagreed with that callee even though address replay
+was exact. Source and symbol are now corrected; two independent builds and
+all eleven configured AsciiManagerMenu.cpp replays are exact. Eight already
+stale AsciiMenuState4 private label names are refreshed without byte/target
+changes. This is a contract repair, not new exact coverage.
+
 ### Current Player selector handoff
 
 `PlayerUpdateSelectorState @ 0x004049A0` remains non-exact. Packet 711

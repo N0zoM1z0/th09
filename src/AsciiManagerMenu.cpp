@@ -643,7 +643,7 @@ int AsciiManager::OnUpdate(AsciiManager *ascii)
                     }
                     popup->position.y -= AsciiSupervisor()->frameScalar5B8 * 0.2f;
                     popup->timer++;
-                    if (popup->timer >= 60) {
+                    if (popup->timer > 60) {
                         popup->inUse = 0;
                     }
                 }
