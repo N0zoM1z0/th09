@@ -4,7 +4,35 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
-## Operator pause handoff (2026-10-03)
+## Active reconstruction resume (2026-10-02)
+
+The operator explicitly resumed TH09 with a 90% reviewed-authored-code-byte
+exactness goal, local English `gpt-dots:` commits, and no push. This supersedes
+the historical pause below. State remains active-incomplete. The known-authored
+denominator is 275,770 bytes; 35 unresolved origins remain outside that metric,
+so this is not whole-image or complete-census coverage.
+
+Packet 761 closes EtamaController::OnUpdate at 0x004146F0: 2,195 code bytes,
+2,216 physical bytes and 88 reviewed relocations. Moving the unchanged actual
+ClearDrawBuckets definition into EtamaDrawBuckets.cpp removes same-TU register
+knowledge and naturally recovers the target's EBX entry schedule. Two cold
+maintained builds and a canonical carrier agree; all 18 prior affected units
+still replay exact. No ABI, forced registers, padding or profile changes.
+This demonstrates a compile-carrier visibility boundary, not unique original
+TU ownership. Current ledger coverage is 188,053 / 275,770 = 68.19%, with
+899 exact functions and 81 non-exact functions / 87,717 bytes. Native i386
+product/runtime, semantic reconstruction and portability remain open.
+
+Factory accepted receipts are a separate, source-snapshot-bound plane. Old
+receipts stale when source changes; do not equate these repository ledger
+totals with freshly accepted Factory coverage. The new owner requires a
+current committed-source Factory replay.
+
+Next use the visibility result to investigate another actual callee/caller
+boundary, while respecting each frontier's previously rejected controls.
+The historical Etama OnUpdate frontier below is superseded by Packet 761.
+
+## Historical operator pause handoff (2026-10-03)
 
 The operator has stopped the reconstruction campaign and requested cleanup and
 handoff. This is **paused, active-incomplete** work, not an exactness, product,
@@ -67,11 +95,11 @@ SHA-256:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 898 |
-| Source-present non-exact functions | 82 |
-| Source-present non-exact bytes | 89,912 |
+| Canonical exact functions | 899 |
+| Source-present non-exact functions | 81 |
+| Source-present non-exact bytes | 87,717 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 185,858 |
+| Canonical exact authored bytes | 188,053 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -365,7 +393,7 @@ Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-ti
 Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
 remain open but are no longer the exclusive focus. That temporary list's
 progress snapshot is stale: it reports 881 exact and 98 non-exact, while the
-live ledger now reports 898 exact and 82 non-exact. Recheck every listed
+live ledger now reports 899 exact and 81 non-exact. Recheck every listed
 candidate against `config/functions.csv` and the match-unit manifest before
 resuming it; use the temporary file only as a historical routing aid.
 

@@ -187,17 +187,6 @@ void EtamaController::SelectBulletSprite(
     }
 }
 
-int EtamaController::ClearDrawBuckets()
-{
-    this->drawBuckets[5] = NULL;
-    this->drawBuckets[4] = NULL;
-    this->drawBuckets[3] = NULL;
-    this->drawBuckets[2] = NULL;
-    this->drawBuckets[1] = NULL;
-    this->drawBuckets[0] = NULL;
-    return 0;
-}
-
 void Bullet::Deactivate()
 {
     this->state = BULLET_STATE_UNUSED;
