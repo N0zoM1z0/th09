@@ -101,7 +101,7 @@ struct TitleScreenView {
     i32 PlayMenuSound(i32 soundId, i32 unused);
     i32 ChangeCurrentScreen(i32 screen);
     i32 MoveCursorVertical(i32 count);
-    i32 SetMenuSelectionSprites(i32 selected, i32 start, i32 count);
+    void SetRangeSelectionInterrupts(i32 selected, i32 start, i32 count);
     i32 OnUpdateMusicRoom();
     i32 DrawMusicRoom();
 };
@@ -219,7 +219,7 @@ int TitleScreenView::OnUpdateMusicRoom()
                     musicListingOffset = 0;
             }
 
-            SetMenuSelectionSprites(keyboardSelection, 159, musicTrackCount);
+            SetRangeSelectionInterrupts(keyboardSelection, 159, musicTrackCount);
 
             for (i = 0; i < musicListingOffset; i++)
                 vms[159 + i].flags &= ~2u;
@@ -242,10 +242,10 @@ int TitleScreenView::OnUpdateMusicRoom()
 
         if (g_TitleInputFlags & 0x200)
         {
-            if (musicPaused)
-                g_SoundPlayer.QueueCommand(7, 0, "UnPause");
-            else
+            if (!musicPaused)
                 g_SoundPlayer.QueueCommand(6, 0, "Pause");
+            else
+                g_SoundPlayer.QueueCommand(7, 0, "UnPause");
             musicPaused = 1 - musicPaused;
         }
 
@@ -314,7 +314,9 @@ int TitleScreenView::OnUpdateMusicRoom()
 
                     while (*cursor != '\n' && *cursor != '\r')
                     {
-                        musicTracks[trackIndex].path[charIndex++] = *cursor++;
+                        musicTracks[trackIndex].path[charIndex] = *cursor;
+                        cursor++;
+                        charIndex++;
                         if ((u32)(cursor - musicCmtFile) >= (u32)fileSize)
                             goto parse_done;
                     }
@@ -328,7 +330,9 @@ int TitleScreenView::OnUpdateMusicRoom()
                     charIndex = 0;
                     while (*cursor != '\n' && *cursor != '\r')
                     {
-                        musicTracks[trackIndex].title[charIndex++] = *cursor++;
+                        musicTracks[trackIndex].title[charIndex] = *cursor;
+                        cursor++;
+                        charIndex++;
                         if ((u32)(cursor - musicCmtFile) >= (u32)fileSize)
                             goto parse_done;
                     }
@@ -349,7 +353,9 @@ int TitleScreenView::OnUpdateMusicRoom()
                         charIndex = 0;
                         while (*cursor != '\n' && *cursor != '\r')
                         {
-                            musicTracks[trackIndex].descriptions[descriptionLine][charIndex++] = *cursor++;
+                            musicTracks[trackIndex].descriptions[descriptionLine][charIndex] = *cursor;
+                            cursor++;
+                            charIndex++;
                             if ((u32)(cursor - musicCmtFile) >= (u32)fileSize)
                                 goto parse_done;
                         }
@@ -371,9 +377,10 @@ int TitleScreenView::OnUpdateMusicRoom()
             free(musicCmtFile);
             musicTrackCount = trackIndex + 1;
 
-            MusicRoomTrackDescriptor *musicTrack = &musicTracks[0];
-            i32 vmIndex = 0;
-            for (i = 159; i - 159 < musicTrackCount; i++, vmIndex++, musicTrack++)
+            MusicRoomTrackDescriptor *musicTrack;
+            i32 vmIndex;
+            for (i = 159, musicTrack = musicTracks, vmIndex = 0;
+                 i - 159 < musicTrackCount; i++, musicTrack++, vmIndex++)
             {
                 musicAnm->SetAndExecuteScriptIdx(&vms[159 + vmIndex], i);
                 if (g_TitleBgmUnlocked[i - 159])
@@ -387,7 +394,8 @@ int TitleScreenView::OnUpdateMusicRoom()
                     memcpy(shortTitle, musicTrack->title, 5);
                     shortTitle[5] = '\0';
                     DrawTitleMusicText(g_TitleAnmManager, &vms[159 + vmIndex], 0x80A0A0, 0x100040,
-                                       "%5s ", shortTitle);
+                                       "%5s \x81\x48\x81\x48\x81\x48\x81\x48"
+                                       "\x81\x48\x81\x48\x81\x48\x81\x48", shortTitle);
                 }
 
                 vms[159 + vmIndex].posX = 93.0f;
@@ -397,7 +405,7 @@ int TitleScreenView::OnUpdateMusicRoom()
                 flagsBytes[1] |= 0x18;
             }
 
-            SetMenuSelectionSprites(keyboardSelection, 159, musicTrackCount);
+            SetRangeSelectionInterrupts(keyboardSelection, 159, musicTrackCount);
 
             for (i = 0; i < musicListingOffset; i++)
                 vms[159 + i].flags &= ~2u;

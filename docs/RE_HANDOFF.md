@@ -242,9 +242,9 @@ SIB differences and result browser's selected-char frontier remain unchanged.
 Owned replay-save scratch is audited and removed after durable recording.
 Live totals are 894 exact /182191 of275669 authored bytes (66.09%), with
 85 nonexact /93478 bytes. The >95% objective and native/runtime/semantic/port
-gates remain open. Next rotate to OnUpdateMusicRoom @0x00426E05 (2258 bytes,
-separate src/TitleScreenMusicRoom.cpp) with fresh complete target/CFG/field
-review; do not infer exactness from any old equal-size report.
+gates remain open. Packet 728 subsequently reviews MusicRoom below without
+new exact credit. Next rotate to OnUpdateOptions @0x004276EB (2045 bytes),
+with fresh complete target/CFG/field review, not an inherited size report.
 
 ### Earlier non-exact investigation: Player movement and KeyConfig
 
@@ -677,10 +677,13 @@ label names. Focused checks suffice between later source edits.
 ### Current MusicRoom update handoff
 
 `TitleScreenView::OnUpdateMusicRoom @ 0x00426E05` remains source-present/non-exact,
-but a fresh target/object replay now emits 2,254/2,258 bytes under the pinned
-`/O1 /Ob1 /Oy- /Gr` profile. The candidate has the target `0x1C` frame, 25
-calls, 27 unconditional jumps, 80 conditional jumps, and all 74 relocations.
-This supersedes the older 2,225-byte list-loop frontier.
+with 2,254/2,258 bytes under pinned `/O1 /Ob1 /Oy- /Gr`. Packet 728's fresh
+complete target review fixes two actual old fidelity errors: both selection
+calls reach canonical `SetRangeSelectionInterrupts @ 0x0042510E`, not
+SetMenuSelectionSprites; the locked format at 0x0048F77C is `%5s ` followed
+by eight CP932 fullwidth question marks, not the old shortened `%5s `.
+Maintained ASCII escape literals compile to the exact 21-byte string including
+NUL. The helper sets range pending interrupts 8/7, not sprites.
 
 The target-backed list recovery keeps the song/script index absolute at
 159+ in EBX while a separate zero-based VM cursor advances by `0x2A4`.
@@ -692,12 +695,32 @@ In both ready/init visibility refreshes, assigning `i = musicListingOffset`
 before computing the visible bound restores the target cursor/bound register
 roles.
 
-The remaining net size deficit is four bytes: in each final hidden-row loop the
-target scales the bound register and then copies it to the byte-offset cursor,
-while the candidate coalesces those registers and omits the 2-byte copy.
-Broader register and branch scheduling differences remain elsewhere, so equal
-censuses and the four-byte size gap do not imply near-byte exactness.
-`DrawMusicRoom` in the same TU still cold-replays 209/209 exact.
+Explicit assignment then separate cursor/index advances recover all three
+parser-copy schedules. Pause uses the target physical Pause-first arms; the
+song loop has genuine script-index, descriptor and VM-index streams in its for
+header. Branch-local parser index remains unchanged. Shared parser index,
+shared visibility bound, using that bound as the hidden counter, shared VM
+index and a for-header unlocked pointer are byte/record-neutral controls;
+do not repeat these declaration/scope variants without new evidence.
+
+Two independent cold objects and the canonical carrier reproduce every raw
+byte and every offset/type/symbol/addend record: 611 instructions, 74 fields
+(25 REL32 /49 DIR32), raw SHA256
+31af7d69f5acf79e25bdd9f6186932e62abef8bb8ac573197e7180b4b193d605.
+Reproduce with `python3 scripts/build-match-unit.py --unit title-screen-draw-music-room`
+then `python3 scripts/inspect-title-music-room.py build/matching/TitleScreenMusicRoom.obj`.
+This diagnostic binds all independently reviewed destinations, fails closed on
+unknown fields and decodes the full owner. All 25 calls agree in order;
+normalized alignment is 600/613, paired CFG conflicts and unpaired destinations
+are zero. Normalization is routing evidence, not exact acceptance.
+
+Remaining differences are the two final hidden-loop register copies/cursor
+roles, song-list initialization schedule, unlock-lookup SIB order and VM-index
+increment schedule. The four-byte net gap is not a four-byte exactness claim.
+`DrawMusicRoom` in the same TU still cold-replays 209/209 exact with all six
+fields; no match entry is added. Owned disposable probes are removed after
+durable recording. Coverage remains 894 exact /182191 bytes (66.09%), with
+85 nonexact functions. The >95% objective and all later phase gates stay open.
 
 ### Current EnemyManager draw handoff
 
