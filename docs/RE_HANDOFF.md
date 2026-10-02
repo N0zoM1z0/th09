@@ -291,8 +291,12 @@ correctly reports mismatch (1593/1611 non-relocation bytes), not exact.
 Owned probes/objects/PDBs are audited and removed after durable recording.
 No other TU or repository-wide cold cohort is rebuilt. Coverage remains
 894 exact /182191 of275669 authored bytes (66.09%), 85 nonexact /93478 bytes.
-Resume this bounded initial value-lifetime/scheduling frontier; the >95%
-and native/runtime/semantic/port gates remain open.
+Packet 732's genuine raw/packed-alpha, shared integer and 32-bit type controls
+are byte/record-neutral; narrower alpha and earlier default regress. Reopen
+this initial frontier only with new target/TU/value evidence, not repeated
+controls. Next rotate to DrawReplaySave at 0x004239F6..0x00423D15 (800 bytes)
+with fresh complete target/current baseline review before applying the shared
+keyboard/position hypothesis. The >95% and later gates remain open.
 
 ### Earlier non-exact investigation: Player movement and KeyConfig
 
