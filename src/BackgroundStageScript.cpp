@@ -3,9 +3,10 @@
 //
 // The private views below expose only offsets independently observed in TH09.
 // They deliberately do not claim original class/member spelling. The current
-// natural VC7.1 source is source-present but non-exact: the strongest bounded
-// /O2 /Ob0 /Oy- form has the target 0x14 stack frame and complete semantics,
-// while the remaining frontier is preserved-register/private-helper allocation.
+// /O2 /Ob0 /Oy- source reproduces the complete private interpolation helper.
+// Both the 2472-byte stage-script owner and the 423-byte interpolation helper
+// replay exactly with their complete compiler switch tables. Real same-TU
+// timer comparisons and scalar Hermite visibility recover private transport.
 
 #include "AsciiManager.hpp"
 #include "AnmManager.hpp"
@@ -153,6 +154,33 @@ float __stdcall CubicHermiteInterpolateScalar(
     float endTangent,
     float time);
 
+unsigned int ZunTimer::operator>=(int value)
+{
+    return this->current >= value;
+}
+
+unsigned int ZunTimer::operator<(int value)
+{
+    return this->current < value;
+}
+
+float __stdcall CubicHermiteInterpolateScalar(
+    float startValue,
+    float endValue,
+    float startTangent,
+    float endTangent,
+    float time)
+{
+    float startWeight =
+        (time - 1.0f) * (time - 1.0f) * (2.0f * time + 1.0f);
+    float endWeight = time * time * (3.0f - 2.0f * time);
+    float startTangentWeight = (1.0f - time) * (1.0f - time) * time;
+    float endTangentWeight = (time - 1.0f) * time * time;
+    return startWeight * startValue + endWeight * endValue +
+           startTangentWeight * startTangent +
+           endTangentWeight * endTangent;
+}
+
 static void InterpolateBackgroundCameraVector(
     BackgroundStageView *background,
     int index,
@@ -225,13 +253,15 @@ void __fastcall BackgroundRunStageScriptPhase(Background *backgroundOwner)
     BackgroundStageView *background =
         reinterpret_cast<BackgroundStageView *>(backgroundOwner);
     D3DXVECTOR3 position;
-    RawStageInstrProbe *instruction =
-        background->stageScript028 + background->stageScriptInstructionIndexC64;
+    RawStageInstrProbe *instruction;
 
-    while (background->stageScriptTimerC58 >= instruction->frame)
+read_instruction:
+    instruction = background->stageScript028 +
+                  background->stageScriptInstructionIndexC64;
+    if (background->stageScriptTimerC58 >= instruction->frame)
     {
         if (instruction->frame == -1)
-            break;
+            goto script_done;
 
         switch (instruction->opcode)
         {
@@ -264,19 +294,6 @@ void __fastcall BackgroundRunStageScriptPhase(Background *backgroundOwner)
             background->skyFogDurationCB8 = instruction->args[0];
             background->skyFogTimerCBC = 0;
             break;
-
-        case 3:
-            if (background->pendingStageLabel018 == 0)
-                goto script_done;
-            background->pendingStageLabel018 = 0;
-            break;
-
-        case 4:
-            background->stageScriptInstructionIndexC64 = instruction->args[0];
-            background->stageScriptTimerC58 = instruction->args[1];
-            background->interpolationDurationBF4[0] = 0;
-            background->compensateCameraJump6428 = 1;
-            goto script_done;
 
         case 5:
             if (background->compensateCameraJump6428 != 0)
@@ -326,8 +343,8 @@ void __fastcall BackgroundRunStageScriptPhase(Background *backgroundOwner)
 
         case 10:
             background->interpolationDurationBF4[2] = instruction->args[0];
-            background->interpolationTimersC08[2] = 0;
             background->interpolationModesC44[2] = instruction->args[1];
+            background->interpolationTimersC08[2] = 0;
             break;
 
         case 11:
@@ -352,22 +369,39 @@ void __fastcall BackgroundRunStageScriptPhase(Background *backgroundOwner)
                 static_cast<unsigned int>(instruction->args[0]);
             break;
 
+        case 3:
+            if (background->pendingStageLabel018 == 0)
+                goto script_done;
+            background->pendingStageLabel018 = 0;
+            break;
+
+        case 4:
+            background->stageScriptInstructionIndexC64 = instruction->args[0];
+            background->stageScriptTimerC58 = instruction->args[1];
+            background->interpolationDurationBF4[0] = 0;
+            background->compensateCameraJump6428 = 1;
+            goto script_done;
+
         case 14:
             background->cameraStart924.position00 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
+
         case 15:
             background->cameraTarget834.position00 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
+
         case 16:
             background->cameraTangentStartB04.position00 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
+
         case 17:
             background->cameraTangentEndA14.position00 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
+
         case 18:
             background->interpolationDurationBF4[0] = instruction->args[0];
             background->interpolationTimersC08[0] = 0;
@@ -378,18 +412,22 @@ void __fastcall BackgroundRunStageScriptPhase(Background *backgroundOwner)
             background->cameraStart924.lookAt0C =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
+
         case 20:
             background->cameraTarget834.lookAt0C =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
+
         case 21:
             background->cameraTangentStartB04.lookAt0C =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
+
         case 22:
             background->cameraTangentEndA14.lookAt0C =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
+
         case 23:
             background->interpolationDurationBF4[1] = instruction->args[0];
             background->interpolationTimersC08[1] = 0;
@@ -400,18 +438,22 @@ void __fastcall BackgroundRunStageScriptPhase(Background *backgroundOwner)
             background->cameraStart924.up18 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
+
         case 25:
             background->cameraTarget834.up18 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
+
         case 26:
             background->cameraTangentStartB04.up18 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
+
         case 27:
             background->cameraTangentEndA14.up18 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
+
         case 28:
             background->interpolationDurationBF4[2] = instruction->args[0];
             background->interpolationTimersC08[2] = 0;
@@ -434,21 +476,18 @@ void __fastcall BackgroundRunStageScriptPhase(Background *backgroundOwner)
                 background->stageVm0_02C.activeSpriteIndex = -1;
             break;
 
-        case 31:
-            break;
-
-        case 32:
-            g_BackgroundStageViewports[background->viewportIndex00C]
-                .positionOffset3C =
-                *reinterpret_cast<Float3 *>(instruction->args);
-            break;
-
         case 33:
             background->cameraMotionMode6438 =
                 *reinterpret_cast<unsigned char *>(&instruction->args[0]);
             background->interpolationDurationBF4[4] = 0;
             background->interpolationTimersC08[4] = 0;
             background->interpolationModesC44[4] = 0;
+            break;
+
+        case 32:
+            g_BackgroundStageViewports[background->viewportIndex00C]
+                .positionOffset3C =
+                *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
         case 34:
@@ -458,11 +497,13 @@ void __fastcall BackgroundRunStageScriptPhase(Background *backgroundOwner)
             else
                 background->stageVm2_574.activeSpriteIndex = -1;
             break;
+
+        case 31:
+            break;
         }
 
-        ++background->stageScriptInstructionIndexC64;
-        instruction = background->stageScript028 +
-                      background->stageScriptInstructionIndexC64;
+        background->stageScriptInstructionIndexC64++;
+        goto read_instruction;
     }
 
 script_done:
@@ -552,64 +593,67 @@ script_done:
         reinterpret_cast<D3DXVECTOR3 *>(
             &g_BackgroundStageViewports[background->viewportIndex00C].lookAt0C));
 
-    switch (background->cameraMotionMode6438)
+    if (background->cameraMotionMode6438 != 0)
     {
-    case 1:
-    {
-        float angle =
-            (float)background->interpolationTimersC08[4] * 0.01308997f -
-            3.1415927f;
-        g_BackgroundStageViewports[background->viewportIndex00C]
-            .positionOffset3C.x = sinf(angle) * 40.0f;
-        background->interpolationTimersC08[4]++;
-        if (background->interpolationTimersC08[4] >= 480)
-            background->interpolationTimersC08[4] = 0;
-        break;
-    }
-    case 2:
-    {
-        float angle =
-            (float)background->interpolationTimersC08[4] * 0.01308997f -
-            3.1415927f;
-        g_BackgroundStageViewports[background->viewportIndex00C]
-            .positionOffset3C.x = sinf(angle) * 70.0f;
-        g_BackgroundStageViewports[background->viewportIndex00C].up18.x =
-            sinf(angle) * -0.1f;
-        background->interpolationTimersC08[4]++;
-        if (background->interpolationTimersC08[4] >= 480)
-            background->interpolationTimersC08[4] = 0;
-        break;
-    }
-    case 3:
-    {
-        float angle =
-            (float)background->interpolationTimersC08[4] * 0.0013089969f -
-            3.1415927f;
-        g_BackgroundStageViewports[background->viewportIndex00C].up18.x =
-            sinf(angle);
-        g_BackgroundStageViewports[background->viewportIndex00C].up18.z =
-            cosf(angle);
-        background->interpolationTimersC08[4]++;
-        if (background->interpolationTimersC08[4] >= 4800)
-            background->interpolationTimersC08[4] = 0;
-        break;
-    }
-    case 4:
-    {
-        float angle =
-            (float)background->interpolationTimersC08[4] * 0.0030679617f -
-            3.1415927f;
-        g_BackgroundStageViewports[background->viewportIndex00C]
-            .positionOffset3C.x = sinf(angle) * 30.0f;
-        g_BackgroundStageViewports[background->viewportIndex00C]
-            .positionOffset3C.z = cosf(angle) * 30.0f;
-        g_BackgroundStageViewports[background->viewportIndex00C].up18.x =
-            sinf(angle) * -0.1f;
-        background->interpolationTimersC08[4]++;
-        if (background->interpolationTimersC08[4] >= 2048)
-            background->interpolationTimersC08[4] = 0;
-        break;
-    }
+        switch (background->cameraMotionMode6438)
+        {
+        case 1:
+        {
+            g_BackgroundStageViewports[background->viewportIndex00C]
+                .positionOffset3C.x = sinf(
+                    (float)background->interpolationTimersC08[4] *
+                        0.01308997f - 3.1415927f) * 40.0f;
+            background->interpolationTimersC08[4]++;
+            if (background->interpolationTimersC08[4] >= 480)
+                background->interpolationTimersC08[4] = 0;
+            break;
+        }
+        case 2:
+        {
+            float angle =
+                (float)background->interpolationTimersC08[4] * 0.01308997f -
+                3.1415927f;
+            g_BackgroundStageViewports[background->viewportIndex00C]
+                .positionOffset3C.x = sinf(angle) * 70.0f;
+            g_BackgroundStageViewports[background->viewportIndex00C].up18.x =
+                sinf(angle) * -0.1f;
+            background->interpolationTimersC08[4]++;
+            if (background->interpolationTimersC08[4] >= 480)
+                background->interpolationTimersC08[4] = 0;
+            break;
+        }
+        case 4:
+        {
+            float angle =
+                (float)background->interpolationTimersC08[4] * 0.0030679617f -
+                3.1415927f;
+            g_BackgroundStageViewports[background->viewportIndex00C]
+                .positionOffset3C.x = sinf(angle) * 30.0f;
+            g_BackgroundStageViewports[background->viewportIndex00C]
+                .positionOffset3C.z = cosf(angle) * 30.0f;
+            g_BackgroundStageViewports[background->viewportIndex00C].up18.x =
+                sinf(angle) * -0.1f;
+            background->interpolationTimersC08[4]++;
+            if (background->interpolationTimersC08[4] >= 2048)
+                background->interpolationTimersC08[4] = 0;
+            break;
+        }
+        case 3:
+        {
+            float angle =
+                (float)background->interpolationTimersC08[4] * 0.0013089969f -
+                3.1415927f;
+            g_BackgroundStageViewports[background->viewportIndex00C].up18.x =
+                sinf(angle);
+            g_BackgroundStageViewports[background->viewportIndex00C].up18.z =
+                cosf(angle);
+            background->interpolationTimersC08[4]++;
+            if (background->interpolationTimersC08[4] >= 4800)
+                background->interpolationTimersC08[4] = 0;
+            break;
+        }
+        }
+
     }
 
     if (background->skyFogDurationCB8 != 0)

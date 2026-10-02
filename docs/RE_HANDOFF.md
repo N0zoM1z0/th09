@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 886 |
-| Source-present non-exact functions | 93 |
-| Source-present non-exact bytes | 107,257 |
+| Canonical exact functions | 888 |
+| Source-present non-exact functions | 91 |
+| Source-present non-exact bytes | 104,362 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 168,412 |
+| Canonical exact authored bytes | 171,307 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -62,9 +62,34 @@ Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-ti
 Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
 remain open but are no longer the exclusive focus. That temporary list's
 progress snapshot is stale: it reports 881 exact and 98 non-exact, while the
-live ledger currently reports 886 exact and 93 non-exact. Recheck every listed
+live ledger currently reports 888 exact and 91 non-exact. Recheck every listed
 candidate against `config/functions.csv` and the match-unit manifest before
 resuming it; use the temporary file only as a historical routing aid.
+
+### Latest widened-backlog closure: Background stage script and camera interpolation
+
+`BackgroundRunStageScriptPhase @ 0x004018F0` and its private
+`InterpolateBackgroundCameraVector @ 0x004016E0` are canonical exact at
+2,472 and 423 code bytes. Two independent pinned VC7.1 `/O2 /Ob0 /Oy- /Gr`
+builds reproduce the complete 2,652- and 448-byte physical extents, including
+all 133 and 23 relocation fields and every compiler switch-table entry.
+Only 2,895 code bytes receive new coverage credit; table/alignment bytes do not.
+
+Actual same-TU `ZunTimer::operator>=`, `operator<` and scalar Hermite
+definitions recover compiler register knowledge without inlining or artificial
+ABI steering. Their single maintained definitions now reside in
+`src/BackgroundStageScript.cpp`; the existing three exact units remain exact.
+This is a compile-carrier visibility result, not unique original TU ownership.
+All five exact units in this carrier and all eighteen remaining exact units in
+`src/ZunTimer.cpp` passed focused fresh-object replay.
+
+TH08 supplied the case-grouping and instruction-reload-loop hypotheses; TH09
+target review independently supports them. Target opcode 10's mode-before-timer
+assignment, camera-motion guard/case order and direct single-use angle argument
+close the remaining scheduling differences. Packets 415/454's register plateau
+is superseded, not an established compiler limitation. See Packet 717 for
+negative controls, full relocation review and reproduction commands. Native
+product/runtime closure remains open.
 
 ### Latest widened-backlog closure: EnemyManager::SpawnEnemy
 
