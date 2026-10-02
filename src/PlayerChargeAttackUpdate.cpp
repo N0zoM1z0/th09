@@ -36,11 +36,10 @@ struct PlayerChargeShtView
     u8 unknown00[0x24];
     float chargeRate24;
     float shotDuration28;
-    const char *modePath2C;
-    u8 unknown30[0x3C];
-    const char *modePath6C;
-    u8 unknown70[0x3C];
-    const char *modePathAC;
+    // StartAttack receives addresses inside the SHT record, not stored pointers.
+    char modePath2C[0x40];
+    char modePath6C[0x40];
+    char modePathAC[0x40];
 };
 typedef char PlayerChargeShtPath0At2C[
     (offsetof(PlayerChargeShtView, modePath2C) == 0x2C) ? 1 : -1];
@@ -48,6 +47,17 @@ typedef char PlayerChargeShtPath1At6C[
     (offsetof(PlayerChargeShtView, modePath6C) == 0x6C) ? 1 : -1];
 typedef char PlayerChargeShtPath2AtAC[
     (offsetof(PlayerChargeShtView, modePathAC) == 0xAC) ? 1 : -1];
+
+typedef char PlayerChargeShtTextWidths[
+    (sizeof(((PlayerChargeShtView *)0)->modePath2C) == 0x40 &&
+     sizeof(((PlayerChargeShtView *)0)->modePath6C) == 0x40 &&
+     sizeof(((PlayerChargeShtView *)0)->modePathAC) == 0x40) ? 1 : -1];
+typedef char PlayerChargeShtChargeRateAt24[
+    (offsetof(PlayerChargeShtView, chargeRate24) == 0x24) ? 1 : -1];
+typedef char PlayerChargeShtShotDurationAt28[
+    (offsetof(PlayerChargeShtView, shotDuration28) == 0x28) ? 1 : -1];
+typedef char PlayerChargeShtPrefixSizeEC[
+    (sizeof(PlayerChargeShtView) == 0xEC) ? 1 : -1];
 
 struct PlayerChargeSideView
 {

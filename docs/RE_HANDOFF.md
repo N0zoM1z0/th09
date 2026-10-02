@@ -4,6 +4,22 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest Player charge text-layout repair (2026-10-02)
+
+Packet 765 fixes three embedded SHT text arrays in PlayerChargeAttackUpdate.cpp.
+Target passes base+0x2C/+0x6C/+0xAC; the old private view dereferenced text bytes
+as pointers. Offset/width/prefix assertions and three diagnostic call-region
+replays protect the fix. Two cold builds agree on1196/1210 bytes and70 fields;
+the complete owner remains non-exact, with no metric gain. Coverage remains
+900 functions /191291 of275770 reviewed-authored bytes (69.37%). The active90%
+goal still needs56902 additional exact bytes. Earlier Factory receipts are
+source-snapshot historical after this checkpoint; do not count them as current.
+
+Packet 766 records bounded negative ECL/visibility controls and a positive but
+non-exact PlayerMovement typed-field hypothesis. No shared header or partial
+coverage was promoted. Continue target-backed dataflow/layout investigation;
+never recover a register choice by inventing a value lifetime.
+
 ## Latest Player selector exact closure (2026-10-02)
 
 Packet 764 closes PlayerUpdateSelectorState at 0x004049A0: 3,238 complete
