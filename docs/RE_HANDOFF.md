@@ -469,6 +469,12 @@ prefix but introduces memory shifts and a six-byte excess; neither signed
 nor unsigned color closes it. Do not repeat these blindly or infer original
 TU/header ownership from helper adjacency. Keep genuine value/lifetime
 hypotheses distinct from compiler observations and original-source unknowns.
+Packet 744 freshly confirms the complete baseline and target prefix. Treating
+nameBankIndex as unsigned leaves function bytes and relocation records
+unchanged; a genuine 13/14 `switch` emits 1937 bytes and the wrong initial
+branch graph. Neither addresses the target's post-bank EAX screen load. The
+old 1941-byte IDA comment is corrected and read back. Reopen only with new
+TH09-local value/TU evidence, not those two source forms.
 
 Reproduce only this TU with
 `bash scripts/compile-probe.sh src/TitleScreenResultDraw.cpp build/result-draw.obj /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Gr /O1 /Ob1 /Oy- /I src`,
