@@ -134,6 +134,23 @@ transition offsets never established full HUD-prefix byte equality. Read
 Packet 709 before repeating the failed point-reference or real-constructor
 visibility controls. Neither profile is an accepted owner match.
 
+### Current FrontMessage Update handoff
+
+`FrontMessageRuntimeView::Update @ 0x00416590` remains non-exact. Packet 712
+withdraws the old global-CSE-only diagnosis: its 2724-byte COFF extent included
+the switch table, while the actual baseline code was only 2606 bytes. Target
+code is 2852 bytes, followed by a 116-byte table. TH09 fixes opcode 0x10's
+payload at original instruction +4, not +8, and several call-relative global,
+argument and instruction reloads. Fresh per-call source also lets VC7.1 merge
+opcode 0x11's second SetSprite tail automatically and recover its side/pair
+lifetimes; synthetic shared ANM/sprite locals are unnecessary. Maintained
+/O2 /Ob1 cold replays agree on 2850 code +2 alignment +116 table =2968
+physical bytes, 713 instructions and all 64 calls. Complete physical
+comparison fails at 1234/2300 nonrelocation bytes. Decoder remains 39/39 exact.
+Resume localized opcode 1/2/3 scheduling, instruction-advance/timer and
+run-script scheduling, and late branch order. Read Packet 712 before reusing
+old lengths, payload offsets or shared-tail controls. No owner credit added.
+
 ### Current Player selector handoff
 
 `PlayerUpdateSelectorState @ 0x004049A0` remains non-exact. Packet 711

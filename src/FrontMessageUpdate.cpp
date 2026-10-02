@@ -210,102 +210,296 @@ int FrontMessageRuntimeView::Update()
     {
         do
         {
-            switch (current04->opcode02)
+            FrontMessageInstructionView *instruction = current04;
+            switch (instruction->opcode02)
             {
-            case 0:
-                currentIndex08 = -1;
-                return -1;
+            case 0x17:
+            {
+                g_GameManager.sides[current04->argument04].player04->SetUpdateState(1);
+                g_GameManager.sides[current04->argument04].player04->stateTimer303C8 = 0;
+                break;
+            }
+
+            case 0x0F:
+            {
+                FrontMessageInstructionView *instruction = current04;
+                int requestedSide = instruction->argument04;
+                if (requestedSide >= 0)
+                {
+                    int side;
+                    if (!mode10)
+                        side = requestedSide;
+                    else
+                        side = 1 - requestedSide;
+                    if (currentPortrait1D67 != side)
+                    {
+                        for (int i = 0; i < 4; ++i)
+                        {
+                            if (i != side)
+                            {
+                                portraits14[i].first00.pendingInterrupt = 4;
+                                portraits14[i].second2A4.pendingInterrupt = 4;
+                            }
+                        }
+                    }
+
+                    portraits14[side].first00.pendingInterrupt = 3;
+                    portraits14[side].second2A4.pendingInterrupt = 3;
+                    currentPortrait1D67 = (unsigned char)side;
+                    colorIndex1D64 = (unsigned char)side;
+
+                    if (instruction->argument08 >= 0)
+                    {
+                        g_GameManager.sides[mode10].frontSide18->auxA678.sideAnm00
+                            ->SetSprite(&portraits14[mode10].first00,
+                            g_GameManager.sides[mode10].player04->tableValue303FC +
+                            instruction->argument08);
+                        g_GameManager.sides[mode10].frontSide18->auxA678.sideAnm00
+                            ->SetSprite(&portraits14[mode10].second2A4,
+                            g_GameManager.sides[mode10].player04->tableValue303FC +
+                            instruction->argument08 + 9);
+                    }
+
+                    if (instruction->argument0C >= 0)
+                    {
+                        g_GameManager.sides[1 - mode10].frontSide18->auxA678.sideAnm00
+                            ->SetSprite(&portraits14[1 - mode10].first00,
+                            g_GameManager.sides[1 - mode10].player04->tableValue303FC +
+                            instruction->argument0C);
+                        g_GameManager.sides[1 - mode10].frontSide18->auxA678.sideAnm00
+                            ->SetSprite(&portraits14[1 - mode10].second2A4,
+                            g_GameManager.sides[1 - mode10].player04->tableValue303FC +
+                            instruction->argument0C + 9);
+                    }
+                }
+                else
+                {
+                    portraits14[0].first00.pendingInterrupt = 4;
+                    portraits14[1].first00.pendingInterrupt = 4;
+                    portraits14[0].second2A4.pendingInterrupt = 4;
+                    portraits14[1].second2A4.pendingInterrupt = 4;
+                }
+
+                resetText1D65 = 1;
+                break;
+            }
+
+            case 0x11:
+            {
+                FrontMessageInstructionView *instruction = current04;
+                int requested = instruction->argument04;
+                int side;
+                if (requested < 2)
+                {
+                    if (!mode10)
+                        side = requested;
+                    else
+                        side = 1 - requested;
+                }
+                else
+                    side = requested;
+
+                if (currentPortrait1D67 != side)
+                {
+                    for (int i = 0; i < 4; ++i)
+                    {
+                        if (i != side)
+                        {
+                            portraits14[i].first00.pendingInterrupt = 4;
+                            portraits14[i].second2A4.pendingInterrupt = 4;
+                        }
+                    }
+                }
+
+                portraits14[side].first00.pendingInterrupt = 3;
+                portraits14[side].second2A4.pendingInterrupt = 3;
+                currentPortrait1D67 = (unsigned char)side;
+
+                if (instruction->argument08 >= 0)
+                {
+                    if (side < 2)
+                    {
+                        g_GameManager.sides[side].frontSide18->auxA678.sideAnm00
+                            ->SetSprite(&portraits14[side].first00,
+                            g_GameManager.sides[side].player04->tableValue303FC +
+                            instruction->argument08);
+                        g_GameManager.sides[side].frontSide18->auxA678.sideAnm00
+                            ->SetSprite(&portraits14[side].second2A4,
+                            g_GameManager.sides[side].player04->tableValue303FC +
+                            instruction->argument08 + 9);
+                    }
+                    else
+                    {
+                        g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04
+                            ->SetSprite(&portraits14[side].first00,
+                            instruction->argument08);
+                        g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04
+                            ->SetSprite(&portraits14[side].second2A4,
+                            instruction->argument08 + 6);
+                    }
+                }
+
+                colorIndex1D64 = (unsigned char)side;
+                resetText1D65 = 1;
+                break;
+            }
+
+            case 0x1A:
+            {
+                unsigned char *arguments =
+                    reinterpret_cast<unsigned char *>(&instruction->argument04);
+                resetText1D65 = 1;
+                colorIndex1D64 = *arguments;
+                break;
+            }
 
             case 1:
             {
-                int portrait = *reinterpret_cast<short *>(&current04->argument04);
-                if (portrait >= 2)
+                short portrait = *reinterpret_cast<short *>(&current04->argument04);
+                if (portrait < 2)
+                {
+                    int side;
+                    if (!mode10)
+                        side = portrait;
+                    else
+                        side = 1 - portrait;
+                    int script =
+                        g_GameManager.sides[side].player04->tableValue303F8 + side;
+                    AnmLoaded *anm =
+                        g_GameManager.sides[side].frontSide18->auxA678.sideAnm00;
+                    anm->SetAndExecuteScriptIdx(
+                        FrontMessagePortraitVm(this, side, 0), script);
+                    script = g_GameManager.sides[side].player04->tableValue303F8 + side + 4;
+                    anm = g_GameManager.sides[side].frontSide18->auxA678.sideAnm00;
+                    anm->SetAndExecuteScriptIdx(
+                        FrontMessagePortraitVm(this, side, 1), script);
+                }
+                else
                 {
                     AnmLoaded *anm =
                         g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                     anm->SetAndExecuteScriptIdx(
                         FrontMessagePortraitVm(this, portrait, 0), portrait);
+                    anm = g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                     anm->SetAndExecuteScriptIdx(
                         FrontMessagePortraitVm(this, portrait, 1), portrait + 4);
-                }
-                else
-                {
-                    int side = mode10 ? 1 - portrait : portrait;
-                    FrontMessageSideView *sideView = &g_GameManager.sides[side];
-                    int script = sideView->player04->tableValue303F8 + side;
-                    AnmLoaded *anm = sideView->frontSide18->auxA678.sideAnm00;
-                    anm->SetAndExecuteScriptIdx(
-                        FrontMessagePortraitVm(this, side, 0), script);
-                    anm->SetAndExecuteScriptIdx(
-                        FrontMessagePortraitVm(this, side, 1), script + 4);
                 }
                 break;
             }
 
             case 2:
             {
-                int portrait = *reinterpret_cast<short *>(&current04->argument04);
-                int sprite = *reinterpret_cast<short *>(
-                    reinterpret_cast<unsigned char *>(&current04->argument04) + 2);
-                if (portrait >= 2)
+                short *arguments =
+                    reinterpret_cast<short *>(&current04->argument04);
+                short portrait = arguments[0];
+                if (portrait < 2)
+                {
+                    int side;
+                    if (!mode10)
+                        side = portrait;
+                    else
+                        side = 1 - portrait;
+                    int sprite = arguments[1];
+                    int spriteBase =
+                        g_GameManager.sides[side].player04->tableValue303FC + sprite;
+                    AnmLoaded *anm =
+                        g_GameManager.sides[side].frontSide18->auxA678.sideAnm00;
+                    anm->SetSprite(
+                        FrontMessagePortraitVm(this, side, 0), spriteBase);
+                    spriteBase =
+                        g_GameManager.sides[side].player04->tableValue303FC +
+                        arguments[1] + 9;
+                    anm = g_GameManager.sides[side].frontSide18->auxA678.sideAnm00;
+                    anm->SetSprite(
+                        FrontMessagePortraitVm(this, side, 1), spriteBase);
+                }
+                else
                 {
                     AnmLoaded *anm =
                         g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                     anm->SetSprite(
-                        FrontMessagePortraitVm(this, portrait, 0), sprite);
+                        FrontMessagePortraitVm(this, portrait, 0), arguments[1]);
+                    anm = g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                     anm->SetSprite(
-                        FrontMessagePortraitVm(this, portrait, 1), sprite + 6);
-                }
-                else
-                {
-                    int side = mode10 ? 1 - portrait : portrait;
-                    FrontMessageSideView *sideView = &g_GameManager.sides[side];
-                    int spriteBase = sideView->player04->tableValue303FC + sprite;
-                    AnmLoaded *anm = sideView->frontSide18->auxA678.sideAnm00;
-                    anm->SetSprite(
-                        FrontMessagePortraitVm(this, side, 0), spriteBase);
-                    anm->SetSprite(
-                        FrontMessagePortraitVm(this, side, 1), spriteBase + 9);
+                        FrontMessagePortraitVm(this, portrait, 1), arguments[1] + 6);
                 }
                 break;
             }
 
             case 3:
             {
-                int color =
-                    *reinterpret_cast<short *>(&current04->argument04);
-                int line = *reinterpret_cast<short *>(
-                    reinterpret_cast<unsigned char *>(&current04->argument04) + 2);
-                if (line == 0 && textVms1534[1].scriptIndex >= 0)
+                short *arguments =
+                    reinterpret_cast<short *>(&current04->argument04);
+                if (arguments[1] == 0 && textVms1534[1].scriptIndex >= 0)
                 {
                     g_AnmManager->DrawTextLeft(
                         &textVms1534[1],
-                        textColors1D20[color],
-                        shadowColors1D30[color],
+                        textColors1D20[arguments[0]],
+                        shadowColors1D30[arguments[0]],
                         " ");
                 }
 
                 g_FrontMessageAnm->SetAndExecuteScriptIdx(
-                    &textVms1534[line], line);
-                unsigned char glyph = (unsigned char)glyphSize1D54;
-                reinterpret_cast<unsigned char *>(&textVms1534[line])[0x299] =
-                    glyph;
-                reinterpret_cast<unsigned char *>(&textVms1534[line])[0x298] =
-                    glyph;
+                    &textVms1534[arguments[1]], arguments[1]);
+                reinterpret_cast<unsigned char *>(&textVms1534[arguments[1]])[0x298] =
+                    reinterpret_cast<unsigned char *>(&textVms1534[arguments[1]])[0x299] =
+                    (unsigned char)glyphSize1D54;
 
                 DecodeFrontMessageString(
                     textA,
-                    reinterpret_cast<unsigned char *>(current04) + 8);
+                    reinterpret_cast<unsigned char *>(arguments) + 4);
                 g_AnmManager->DrawTextLeft(
-                    &textVms1534[line],
-                    textColors1D20[color],
-                    shadowColors1D30[color],
+                    &textVms1534[arguments[1]],
+                    textColors1D20[arguments[0]],
+                    shadowColors1D30[arguments[0]],
                     textA);
                 framesElapsed1D4C = 0;
                 break;
             }
 
+            case 0x10:
+            {
+                unsigned char *text =
+                    reinterpret_cast<unsigned char *>(&current04->argument04);
+                if (resetText1D65)
+                {
+                    if (textVms1534[1].scriptIndex >= 0)
+                    {
+                        g_AnmManager->DrawTextLeft(
+                            &textVms1534[1],
+                            textColors1D20[colorIndex1D64],
+                            shadowColors1D30[colorIndex1D64],
+                            " ");
+                    }
+                    textLineIndex1D66 = 0;
+                }
+
+                g_FrontMessageAnm->SetAndExecuteScriptIdx(
+                    &textVms1534[textLineIndex1D66],
+                    textLineIndex1D66);
+                reinterpret_cast<unsigned char *>(
+                    &textVms1534[textLineIndex1D66])[0x298] =
+                    reinterpret_cast<unsigned char *>(
+                        &textVms1534[textLineIndex1D66])[0x299] =
+                    (unsigned char)glyphSize1D54;
+
+                DecodeFrontMessageString(
+                    textB,
+                    text);
+                g_AnmManager->DrawTextLeft(
+                    &textVms1534[textLineIndex1D66],
+                    textColors1D20[colorIndex1D64],
+                    shadowColors1D30[colorIndex1D64],
+                    textB);
+                framesElapsed1D4C = 0;
+                resetText1D65 = 0;
+                ++textLineIndex1D66;
+                break;
+            }
+
             case 4:
+            {
+                FrontMessageInstructionView *instruction = current04;
                 if (skippable1D6C && g_FrontMessageInput.IsHeld(0x100))
                     break;
 
@@ -317,7 +511,7 @@ int FrontMessageRuntimeView::Update()
                 }
                 else
                 {
-                    if (framesElapsed1D4C < current04->argument04)
+                    if (framesElapsed1D4C < instruction->argument04)
                     {
                         ++framesElapsed1D4C;
                         goto run_scripts;
@@ -327,17 +521,16 @@ int FrontMessageRuntimeView::Update()
                     waitThreshold1D50 = 30;
                 }
                 break;
+            }
 
             case 5:
             {
-                int portrait =
-                    *reinterpret_cast<short *>(&current04->argument04);
-                unsigned char interrupt =
-                    *(reinterpret_cast<unsigned char *>(&current04->argument04) + 2);
-                FrontMessagePortraitVm(this, portrait, 0)->pendingInterrupt =
-                    interrupt;
-                FrontMessagePortraitVm(this, portrait, 1)->pendingInterrupt =
-                    interrupt;
+                short *arguments =
+                    reinterpret_cast<short *>(&current04->argument04);
+                FrontMessagePortraitVm(this, arguments[0], 0)->pendingInterrupt =
+                    reinterpret_cast<unsigned char *>(arguments)[2];
+                FrontMessagePortraitVm(this, arguments[0], 1)->pendingInterrupt =
+                    reinterpret_cast<unsigned char *>(arguments)[2];
                 break;
             }
 
@@ -346,19 +539,22 @@ int FrontMessageRuntimeView::Update()
                 break;
 
             case 7:
-                if (current04->argument04 < 0)
+            {
+                int music = current04->argument04;
+                if (music < 0)
                 {
                     g_Supervisor.StopAudio();
                 }
                 else
                 {
-                    if (g_GameManager.IsGameMode2())
+                    if (!g_GameManager.IsGameMode2())
+                        g_Supervisor.PlayMusic(music, 0);
+                    else
                         g_Supervisor.PlayMusic(
                             g_FrontMessageSource->musicId0C, 0);
-                    else
-                        g_Supervisor.PlayMusic(current04->argument04, 0);
                 }
                 break;
+            }
 
             case 8:
             {
@@ -379,32 +575,6 @@ int FrontMessageRuntimeView::Update()
                 break;
             }
 
-            case 0x0A:
-                goto run_scripts;
-
-            case 0x0B:
-                if (g_GameManager.IsGameMode0())
-                {
-                    if (mode10)
-                        g_FrontMode0Done = 1;
-                    else
-                        g_StageTransitionState = 3;
-                }
-                else if (g_GameManager.IsGameMode1())
-                {
-                    g_StageTransitionState = 3;
-                }
-                else
-                {
-                    g_FrontOtherModeDone = 1;
-                }
-                goto run_scripts;
-
-            case 0x0D:
-                skippable1D6C =
-                    *reinterpret_cast<unsigned char *>(&current04->argument04);
-                break;
-
             case 0x0E:
                 g_FrontMessageScreenEffect = ScreenEffect::RegisterChain(
                     SCREEN_EFFECT_FULL_FADE_HOLD,
@@ -412,180 +582,15 @@ int FrontMessageRuntimeView::Update()
                 g_ScreenTransitionCountdown = 302;
                 break;
 
-            case 0x0F:
-            {
-                int requestedSide = current04->argument04;
-                if (requestedSide < 0)
-                {
-                    portraits14[0].first00.pendingInterrupt = 4;
-                    portraits14[1].first00.pendingInterrupt = 4;
-                    portraits14[0].second2A4.pendingInterrupt = 4;
-                    portraits14[1].second2A4.pendingInterrupt = 4;
-                }
-                else
-                {
-                    int side = mode10 ? 1 - requestedSide : requestedSide;
-                    if (currentPortrait1D67 != side)
-                    {
-                        for (int i = 0; i < 4; ++i)
-                        {
-                            if (i != side)
-                            {
-                                portraits14[i].first00.pendingInterrupt = 4;
-                                portraits14[i].second2A4.pendingInterrupt = 4;
-                            }
-                        }
-                    }
-
-                    portraits14[side].first00.pendingInterrupt = 3;
-                    portraits14[side].second2A4.pendingInterrupt = 3;
-                    currentPortrait1D67 = (unsigned char)side;
-                    colorIndex1D64 = (unsigned char)side;
-
-                    if (current04->argument08 >= 0)
-                    {
-                        FrontMessageSideView *displaySide =
-                            &g_GameManager.sides[mode10];
-                        int sprite =
-                            displaySide->player04->tableValue303FC +
-                            current04->argument08;
-                        displaySide->frontSide18->auxA678.sideAnm00->SetSprite(
-                            &portraits14[mode10].first00, sprite);
-                        displaySide->frontSide18->auxA678.sideAnm00->SetSprite(
-                            &portraits14[mode10].second2A4, sprite + 9);
-                    }
-
-                    if (current04->argument0C >= 0)
-                    {
-                        int other = 1 - mode10;
-                        FrontMessageSideView *displaySide =
-                            &g_GameManager.sides[other];
-                        int sprite =
-                            displaySide->player04->tableValue303FC +
-                            current04->argument0C;
-                        displaySide->frontSide18->auxA678.sideAnm00->SetSprite(
-                            &portraits14[other].first00, sprite);
-                        displaySide->frontSide18->auxA678.sideAnm00->SetSprite(
-                            &portraits14[other].second2A4, sprite + 9);
-                    }
-                }
-
-                resetText1D65 = 1;
+            case 0x0D:
+                skippable1D6C =
+                    *reinterpret_cast<unsigned char *>(&current04->argument04);
                 break;
-            }
-
-            case 0x10:
-                if (resetText1D65)
-                {
-                    if (textVms1534[1].scriptIndex >= 0)
-                    {
-                        g_AnmManager->DrawTextLeft(
-                            &textVms1534[1],
-                            textColors1D20[colorIndex1D64],
-                            shadowColors1D30[colorIndex1D64],
-                            " ");
-                    }
-                    textLineIndex1D66 = 0;
-                }
-
-                g_FrontMessageAnm->SetAndExecuteScriptIdx(
-                    &textVms1534[textLineIndex1D66],
-                    textLineIndex1D66);
-                {
-                    unsigned char glyph = (unsigned char)glyphSize1D54;
-                    reinterpret_cast<unsigned char *>(
-                        &textVms1534[textLineIndex1D66])[0x299] = glyph;
-                    reinterpret_cast<unsigned char *>(
-                        &textVms1534[textLineIndex1D66])[0x298] = glyph;
-                }
-
-                DecodeFrontMessageString(
-                    textB,
-                    reinterpret_cast<unsigned char *>(current04) + 8);
-                g_AnmManager->DrawTextLeft(
-                    &textVms1534[textLineIndex1D66],
-                    textColors1D20[colorIndex1D64],
-                    shadowColors1D30[colorIndex1D64],
-                    textB);
-                framesElapsed1D4C = 0;
-                resetText1D65 = 0;
-                ++textLineIndex1D66;
-                break;
-
-            case 0x11:
-            {
-                int requested = current04->argument04;
-                int side;
-                if (requested >= 2)
-                    side = requested;
-                else if (!mode10)
-                    side = requested;
-                else
-                    side = 1 - requested;
-
-                if (currentPortrait1D67 != side)
-                {
-                    for (int i = 0; i < 4; ++i)
-                    {
-                        if (i != side)
-                        {
-                            portraits14[i].first00.pendingInterrupt = 4;
-                            portraits14[i].second2A4.pendingInterrupt = 4;
-                        }
-                    }
-                }
-
-                portraits14[side].first00.pendingInterrupt = 3;
-                portraits14[side].second2A4.pendingInterrupt = 3;
-                currentPortrait1D67 = (unsigned char)side;
-
-                if (current04->argument08 >= 0)
-                {
-                    AnmLoaded *anm;
-                    int secondSprite;
-                    if (side >= 2)
-                    {
-                        anm = g_GameManager.sides[0].frontSide18
-                            ->auxA678.optionalAnm04;
-                        anm->SetSprite(
-                            &portraits14[side].first00,
-                            current04->argument08);
-                        secondSprite = current04->argument08 + 6;
-                    }
-                    else
-                    {
-                        FrontMessageSideView *displaySide =
-                            &g_GameManager.sides[side];
-                        int sprite =
-                            displaySide->player04->tableValue303FC +
-                            current04->argument08;
-                        anm = displaySide->frontSide18->auxA678.sideAnm00;
-                        anm->SetSprite(
-                            &portraits14[side].first00, sprite);
-                        secondSprite = sprite + 9;
-                    }
-
-                    anm->SetSprite(
-                        &portraits14[side].second2A4, secondSprite);
-                }
-
-                colorIndex1D64 = (unsigned char)side;
-                resetText1D65 = 1;
-                break;
-            }
 
             case 0x12:
                 textBoxVisible1D6D =
                     *reinterpret_cast<unsigned char *>(&current04->argument04);
                 break;
-
-            case 0x17:
-            {
-                int side = current04->argument04;
-                g_GameManager.sides[side].player04->SetUpdateState(1);
-                g_GameManager.sides[side].player04->stateTimer303C8 = 0;
-                break;
-            }
 
             case 0x18:
                 secondaryTimer1D58 = 1;
@@ -594,12 +599,6 @@ int FrontMessageRuntimeView::Update()
             case 0x19:
                 g_GameManager.sides[0].frontSide18->LoadScript67();
                 g_GameManager.sides[1].frontSide18->LoadScript67();
-                break;
-
-            case 0x1A:
-                resetText1D65 = 1;
-                colorIndex1D64 =
-                    *reinterpret_cast<unsigned char *>(&current04->argument04);
                 break;
 
             case 0x1C:
@@ -611,6 +610,31 @@ int FrontMessageRuntimeView::Update()
 
             default:
                 break;
+            case 0:
+                currentIndex08 = -1;
+                return -1;
+
+            case 0x0A:
+                goto run_scripts;
+
+            case 0x0B:
+                if (g_GameManager.IsGameMode0())
+                {
+                    if (!mode10)
+                        g_StageTransitionState = 3;
+                    else
+                        g_FrontMode0Done = 1;
+                }
+                else if (g_GameManager.IsGameMode1())
+                {
+                    g_StageTransitionState = 3;
+                }
+                else
+                {
+                    g_FrontOtherModeDone = 1;
+                }
+                goto run_scripts;
+
             }
 
             FrontMessageInstructionView *next =
