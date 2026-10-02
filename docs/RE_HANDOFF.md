@@ -164,13 +164,20 @@ old 1476-byte / cursor-CSE plateau: natural indexed 2x5 panel loops produce
 all three target cursors, the outer count at EBP-4 and the target 0x10 frame.
 The global-first dynamic-sprite comparison and direct signed-short message /
 result-table expressions additionally recover target schedules. Two fresh
-pinned /O2 /Ob1 builds emit 1506/1491 bytes, 387 instructions, 42 target-ordered
-calls and 108 relocations. The first 395 bytes replay fully; no partial bytes
-are credited. Normalized instruction alignment 377/384 is diagnostic only.
-Resume from mode0/1 completion CFG sharing and frame60's retained EDX side
-snapshot / second test. Ordinary OR, duplicated-condition inversion, early
-return/goto and real mode-body visibility controls do not close the owner.
-Neither length proximity nor the panel-prefix result permits promotion.
+pinned /O2 /Ob1 builds in Packet 716 emit 1510/1491 bytes, 389 instructions,
+42 target-ordered calls and 108 relocations. Repeated transition-side member
+reads, rather than a broad local snapshot, now reproduce frame60's EDX
+retention and failed-float-path second test. Run
+`python3 scripts/replay-front-calc-regions.py OBJECT` to independently replay
+the 395-byte prefix and 813-byte frame-dispatch-through-return tail; both
+regions have zero differences, including 26/56 reviewed relocation fields.
+This is diagnostic independent placement, not a whole-function replay or
+partial coverage credit. Resume from mode0/1 completion CFG sharing only:
+target shares the full side/stage body and physically puts mode1 after the
+mode0 body; candidate repeats side/stage tests (+19 bytes). Ordinary OR,
+predicate flags/switches, duplicate-body inversion, early return/goto,
+GameManager field views and real mode-body visibility controls do not close
+the owner. Neither extent proximity nor subrange equality permits promotion.
 
 ### Current Player selector handoff
 

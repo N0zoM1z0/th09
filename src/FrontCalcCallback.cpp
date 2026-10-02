@@ -346,15 +346,14 @@ int __fastcall FrontCalcCallback(void *frontArg)
     {
         if (!g_GameManager.IsGameMode2())
         {
-            int side = front->transitionSide10964;
-            if (side != 0 &&
+            if (front->transitionSide10964 != 0 &&
                 g_GameManager.sides[0].runtime1C->value00 > 0.0f)
             {
                 g_GameManager.sides[0].runtime1C->value00 -= 1.0f;
                 g_GameManager.sides[0].runtime1C->value34 += 1.0f;
                 front->transitionStarted11EA4 = 1;
             }
-            else if (side == 0)
+            else if (front->transitionSide10964 == 0)
             {
                 front->messageRuntimeE944.Setup(
                     *reinterpret_cast<short *>(
