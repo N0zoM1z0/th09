@@ -114,6 +114,10 @@ index-first loop induction. Complete ordinary comparison is 3,271/3,512; relocat
 positions still differ, so no exact promotion is made. Focused same-TU helper
 replay remains 151/151. Resume from Packet 703's localized special descriptor,
 early draw-index, trail-copy scheduling, and homing register-role residuals.
+Packet 708 rules out actual descriptor-constructor visibility and a named,
+used homing world-position pointer: both leave owner bytes unchanged. The
+equivalent arithmetic bullet-count expression loses a required Float3 call;
+do not repeat these controls or Packet 702's position/type store permutation.
 The 95% authored-byte objective remains active and incomplete.
 
 ## Restart checklist
