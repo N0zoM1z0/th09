@@ -33,15 +33,54 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 894 |
-| Source-present non-exact functions | 85 |
-| Source-present non-exact bytes | 93,478 |
+| Canonical exact functions | 895 |
+| Source-present non-exact functions | 84 |
+| Source-present non-exact bytes | 91,959 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 182,191 |
+| Canonical exact authored bytes | 183,710 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
 and portability have not started.
+
+### Latest Player owner reward exact closure
+
+Packet 735 supersedes Packet 222's frozen popup/register-allocation plateau.
+PlayerOwnerStateView::ApplyReward at 0x0041D150..0x0041D73E is canonical exact:
+1519 code bytes, 454 decoded instructions, frame 0x18 and all 91 relocation
+fields (32 REL32 /59 DIR32). Complete replay covers 1540 physical bytes,
+including alignment at 0x0041D73F and the five-entry table at 0x0041D740.
+Only the 1519 code bytes receive new authored coverage.
+
+Natural three popup cadence arms, unsigned packed-color predicates, shared
+real position/velocity workspaces, direct value0 updates and a while loop
+close the owner without register/volatile steering, padding or profile search.
+All actual callers ignore EAX. The old returned-score contract was false on
+the target's new-maximum path; both maintained ApplyReward and its already
+exact state-advance wrapper are now void. The query at 0x0040F7D0 returns an
+Enemy pointer, not a guessed int CheckMode; callback40 returns int with its
+result ignored. These are target-bound call views, not unique original owners.
+
+Two independent maintained-source cold objects and two fresh canonical builds
+agree on every raw byte and complete relocation record. Raw SHA256 is
+74008ecf88c704db0064e0559db8fed3b404b20a57c51693551f31bf43c4e0a9.
+Reproduce with python3 scripts/build-match-unit.py --unit player-owner-apply-reward
+and python3 scripts/compare-coff-function.py --unit player-owner-apply-reward --json.
+The separate read-only inspect-player-owner-reward.py remains diagnostic only.
+All 28 prior exact units across the three actual caller/wrapper TUs replay,
+using nine profile/object carriers. Eleven UpdateBeforeState private labels
+are refreshed after unchanged offset/type/addend and owner-relative target proof.
+No full-repository cold cohort runs; layouts and inline bodies are unchanged.
+
+Coverage is now 895 exact functions /183710 of275669 authored bytes (66.64%),
+84 nonexact functions /91959 bytes. Native link/storage/runtime, semantic and
+port gates remain open. Packet-owned scratch is audited and removed; private,
+legacy and canonical cache state is preserved. A new routing-only observation
+is callback-table slot0 ->0x004412E0..0x00441344, ending xor EAX,EAX; RET:
+neither IDA nor the live function ledger currently has that entry. Review its
+boundary/origin and adjacent ownership independently before proposing a new
+ledger row; do not infer census completeness or grant credit from this lead.
+The >95% objective stays active-incomplete.
 
 ### Earlier six-function focus
 
@@ -62,7 +101,7 @@ Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-ti
 Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
 remain open but are no longer the exclusive focus. That temporary list's
 progress snapshot is stale: it reports 881 exact and 98 non-exact, while the
-live ledger currently reports 894 exact and 85 non-exact. Recheck every listed
+live ledger currently reports 895 exact and 84 non-exact. Recheck every listed
 candidate against `config/functions.csv` and the match-unit manifest before
 resuming it; use the temporary file only as a historical routing aid.
 
@@ -94,7 +133,7 @@ and `python3 scripts/compare-coff-function.py --unit title-screen-character-sele
 All 32 prior O1 exact units retain complete raw bytes and relocation records,
 including StartMenu's private labels. Focused fresh carriers replay 33 O1 units
 plus the separate O2 score-record-insert unit, all exact. No full-repository cold
-cohort was run. Current exact coverage is 182,191 /275,669 bytes (66.09%); the
+cohort was run. Current exact coverage is 183,710 /275,669 bytes (66.64%); the
 >95% objective and native/runtime gates remain open. Ordinary character
 selection remains independently nonexact; Packet 724 closes screen16 below.
 
@@ -240,7 +279,7 @@ and unchanged-destination proof. Fresh O1/O2 carriers replay all 37 affected
 exact units. No full-repository cold cohort runs. Ordinary selection's two
 SIB differences and result browser's selected-char frontier remain unchanged.
 Owned replay-save scratch is audited and removed after durable recording.
-Live totals are 894 exact /182191 of275669 authored bytes (66.09%), with
+Packet 727 totals were 894 exact /182191 of275669 authored bytes (66.09%), with
 85 nonexact /93478 bytes. The >95% objective and native/runtime/semantic/port
 gates remain open. Packet 728 subsequently reviews MusicRoom below without
 new exact credit. Packet 729 reviews OnUpdateOptions below without new exact

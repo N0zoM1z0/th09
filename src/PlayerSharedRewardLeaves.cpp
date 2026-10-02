@@ -13,10 +13,10 @@ int PlayerSharedTransitionView::GetTransitionBlockFlag()
     return transitionBlock11EA8;
 }
 
-int PlayerOwnerStateView::ApplyRewardWithStateAdvance(
+void PlayerOwnerStateView::ApplyRewardWithStateAdvance(
     PlayerPositionView *position,
     int value0, int value1, int value2, int value3)
 {
     ++state38;
-    return ApplyReward(position, value0, value1, value2, value3);
+    ApplyReward(position, value0, value1, value2, value3);
 }
