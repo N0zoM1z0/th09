@@ -18,13 +18,6 @@ struct ReplaySaveReplayDataView
 typedef char ReplaySaveReplayDataSizeIs1EC[
     (sizeof(ReplaySaveReplayDataView) == 0x1EC) ? 1 : -1];
 
-struct ReplaySavePosition
-{
-    float x;
-    float y;
-    float z;
-};
-
 struct TitleScreenView
 {
     i32 keyboardSelection;                  // +0x00000
@@ -61,24 +54,21 @@ extern AsciiManager g_AsciiManager;
 extern char *g_TitleAlphabet;
 extern char g_ReplayPlayTimeText[];
 
-static __inline Float3 *ReplaySaveFloat3(ReplaySavePosition *position)
-{
-    return reinterpret_cast<Float3 *>(position);
-}
-
 int TitleScreenView::DrawReplaySave()
 {
-    ReplaySavePosition position = {32.0f, 64.0f, 0.0f};
+    Float3 position;
+    position.x = 32.0f;
+    position.y = 64.0f;
+    position.z = 0.0f;
 
     if (replaySaveState == 2)
     {
         position.y = 90.0f;
         ReplaySaveReplayDataView *replay = replays;
-        AsciiManager *ascii = &g_AsciiManager;
 
         for (i32 i = 0; i < 25; ++i, ++replay)
         {
-            ascii->color =
+            g_AsciiManager.color =
                 (i == keyboardSelection) ? 0xFFFFFFFFu : 0xFF808080u;
 
             const char *playTime = replay->playTime;
@@ -93,8 +83,8 @@ int TitleScreenView::DrawReplaySave()
                 playerName = "--------";
             }
 
-            ascii->AddFormatText(
-                ReplaySaveFloat3(&position),
+            g_AsciiManager.AddFormatText(
+                &position,
                 "No.%.2d %.8s %8s",
                 i + 1, playerName, playTime);
             position.y += 13.0f;
@@ -102,59 +92,60 @@ int TitleScreenView::DrawReplaySave()
     }
     else if (replaySaveState == 3 || replaySaveState == 4)
     {
-        i32 selected = selectedReplay;
+        i32 row = selectedReplay;
         i32 frame = stateTimer2;
 
-        position.y = (float)selected * 13.0f + 90.0f;
-        ReplaySavePosition target = position;
-        target.x = 224.0f;
-        target.y = 224.0f;
+        position.y = (float)row * 13.0f + 90.0f;
+        Float3 target = position;
+        target.x = target.y = 224.0f;
 
         if (frame < 10)
         {
-            target.x -= position.x;
-            target.y -= position.y;
-            target.z -= position.z;
+            Float3 scaled;
+            scaled.x = target.x - position.x;
+            scaled.y = target.y - position.y;
+            scaled.z = target.z - position.z;
 
-            target.x *= (float)frame;
-            target.y *= (float)frame;
-            target.z *= (float)frame;
+            target.x = scaled.x * (float)frame;
+            target.y = scaled.y * (float)frame;
+            target.z = scaled.z * (float)frame;
 
-            target.x *= 0.1f;
-            target.y *= 0.1f;
-            target.z *= 0.1f;
+            scaled.x = target.x * 0.1f;
+            scaled.y = target.y * 0.1f;
+            scaled.z = target.z * 0.1f;
 
-            target.x += position.x;
-            target.y += position.y;
-            target.z += position.z;
+            target.x = scaled.x + position.x;
+            target.y = scaled.y + position.y;
+            target.z = scaled.z + position.z;
         }
         position = target;
 
         g_AsciiManager.color = 0xFFFFFFFFu;
         g_AsciiManager.AddFormatText(
-            ReplaySaveFloat3(&position),
+            &position,
             "No.%.2d %.8s %8s",
-            selected + 1, replayName, g_ReplayPlayTimeText);
+            row + 1, replayName, g_ReplayPlayTimeText);
 
         position.x += (float)((replayNameCursor + 6) * 9);
         g_AsciiManager.AddFormatText(
-            ReplaySaveFloat3(&position), "%.8s", "_");
+            &position, "%.8s", "_");
 
         if (replaySaveState == 4)
         {
             position.y = 320.0f;
             position.z = 0.0f;
 
-            for (i32 row = 0; row < 6; ++row)
+            for (row = 0; row < 6; ++row)
             {
                 position.x = 224.0f;
+                i32 rowBase = row * 16;
                 for (i32 column = 0; column < 16; ++column)
                 {
                     position.x += 12.0f;
-                    i32 index = row * 16 + column;
-                    float offset = 0.0f;
+                    float offsetX = 0.0f;
+                    float offsetY = 0.0f;
 
-                    if (keyboardSelection == index)
+                    if (keyboardSelection == rowBase + column)
                     {
                         g_AsciiManager.color = 0xFFFFFFC0u;
 
@@ -166,7 +157,7 @@ int TitleScreenView::DrawReplaySave()
 
                         g_AsciiManager.scaleX = scale;
                         g_AsciiManager.scaleY = scale;
-                        offset = (scale - 1.0f) * -8.0f;
+                        offsetY = offsetX = (scale - 1.0f) * -8.0f;
                     }
                     else
                     {
@@ -175,12 +166,11 @@ int TitleScreenView::DrawReplaySave()
                         g_AsciiManager.scaleY = 1.0f;
                     }
 
-                    ReplaySavePosition characterPosition = {
-                        position.x + offset,
-                        position.y + offset,
-                        position.z,
-                    };
-                    char text[2] = {g_TitleAlphabet[index], 0};
+                    Float3 characterPosition;
+                    characterPosition.x = position.x + offsetX;
+                    characterPosition.y = position.y + offsetY;
+                    characterPosition.z = position.z;
+                    char text[2] = {g_TitleAlphabet[rowBase + column], 0};
                     if (row == 5)
                     {
                         if (column == 14)
@@ -190,7 +180,7 @@ int TitleScreenView::DrawReplaySave()
                     }
 
                     g_AsciiManager.AddString(
-                        ReplaySaveFloat3(&characterPosition), text);
+                        &characterPosition, text);
                 }
                 position.y += 16.0f;
             }

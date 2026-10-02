@@ -296,7 +296,44 @@ are byte/record-neutral; narrower alpha and earlier default regress. Reopen
 this initial frontier only with new target/TU/value evidence, not repeated
 controls. Next rotate to DrawReplaySave at 0x004239F6..0x00423D15 (800 bytes)
 with fresh complete target/current baseline review before applying the shared
-keyboard/position hypothesis. The >95% and later gates remain open.
+keyboard/position hypothesis. Packet 733 below completes that fresh review.
+The >95% and later gates remain open.
+
+### Current separate frontier: DrawReplaySave value lifetimes
+
+Packet 733 supersedes this owner's old 783-byte candidate, not its NON-EXACT
+classification. The complete target at 0x004239F6..0x00423D15 is 800 bytes,
+245 instructions, frame 0x34 and 28 direct blocks. Maintained source now uses
+the real Float3, direct AsciiManager access, separate X/Y offsets, a genuine
+reused interpolation workspace and phase-reused row index. The actual text
+buffer stays two bytes; no private position reinterpret cast or inflated
+buffer is retained.
+
+Two independent affected-TU cold builds agree on all 793 raw bytes and all
+41 relocation records (4 REL32/37 DIR32), SHA-256
+a4f0be0320e7b60e07fb2f192a2b2bec9cb21d70de7a8114613fee7851f7e979.
+Frame 0x34 and EDI replay/ESI manager/EAX list increment are recovered, but
+main XYZ is EBP-1C/-18/-14 rather than target -18/-14/-10. Text/scalar homes,
+list valid-arm physical placement, first weighted-Z FPU operation and glyph
+scheduling remain different. Complete graph agreement is false at 28/28
+blocks; normalized alignment 164/245 and all four call destinations agreeing
+are diagnostic only. Size delta -7 is not a seven-byte remaining frontier.
+No exact or partial credit is added; coverage remains 66.09%.
+
+An enlarged 16-byte text probe recovered more homes, but target observations
+prove only two accessed bytes, not capacity. It is rejected as unsupported
+stack compensation; do not resume from its apparently narrow differences.
+Other negative controls and original-source unknowns are in Packet 733.
+No helper call is spuriously bound or forced inline.
+
+Reproduce only this TU with
+`bash scripts/compile-probe.sh src/TitleScreenReplaySaveDraw.cpp build/replay-save-draw.obj /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Gr /O1 /Ob1 /Oy- /I src`,
+then `python3 scripts/inspect-title-replay-save-draw.py build/replay-save-draw.obj`.
+The read-only complete diagnostic independently binds 23 reviewed destinations;
+runtime replay-time view 0x004AC879 is not a PE literal or proven data owner.
+All 35 source probes/84 objects and PDBs are audited and removed after durable
+recording. Legacy ignored artifacts/private inputs remain untouched. Continue
+from the actual maintained two-byte source, not size/alignment metrics alone.
 
 ### Earlier non-exact investigation: Player movement and KeyConfig
 
