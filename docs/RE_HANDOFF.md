@@ -45,7 +45,7 @@ and portability have not started.
 
 ### PauseMenu OnUpdate state-snapshot progress
 
-Packet 757 reopens `PauseMenu::OnUpdate @0x00434740` from TH09 disassembly.
+Packets 757-758 reopen `PauseMenu::OnUpdate @0x00434740` from TH09 disassembly.
 Target loads the entry state into EDI for its ten-way switch and reuses that
 snapshot in both paired confirmation-toggle calculations. The maintained
 source now names that genuine state snapshot; VC7.1 recovers EDI at the switch
@@ -60,6 +60,12 @@ all field positions/types/addends and section-relative destinations stayed
 unchanged; all 11 accepted same-TU units replay exact. Continue from the
 target's opening EDI VM-field cursor / EBX countdown and later CFG, not a
 forced register. The old Packet 93 size note is superseded.
+Packet 758 confirms the opening register discrepancy at instruction level:
+target EDI is the field cursor and EBX is the seven-count, whereas the
+candidate hoists zero into EBX and uses EDX/EDI. A descending indexed loop,
+separate index lifetime, combined forward-index/down-count loop, and
+one-past-end VM pointer loop do not recover target codegen; see Packet 758
+before retesting loop syntax. No source edit from those probes is retained.
 
 ### EnemyManager OnUpdate descriptor progress
 
