@@ -53,7 +53,8 @@ DESTINATIONS = {
     '?UpdateBulletVectorAcceleration@@YIXPAUBullet@@@Z': 0x4134D0,
     '?UpdateBulletVerticalWrap@@YIXPAUBullet@@@Z': 0x413A70,
     '__ftol2': 0x47B1D4,
-    # Globals, target literal cells, and compiler-private internal destinations.
+    # Globals and target literal cells. Compiler-private labels are verified
+    # below by their section-relative location, not their unstable spelling.
     '?g_AnmManager@@3PAUBulletAnmManagerView@@A': 0x4DC550,
     '?g_GameManager@@3UBulletGameManagerView@@A': 0x4A7D90,
     '?g_Supervisor@@3UBulletSupervisorView@@A': 0x4B3100,
@@ -64,13 +65,35 @@ DESTINATIONS = {
     '__real@3fc90fdb': 0x48E450,
     '__real@437f0000': 0x48E834,
     '__real@44200000': 0x48E82C,
-    '$L2723': 0x4147C4,
-    '$L2729': 0x4147FA,
-    '$L2734': 0x414830,
-    '$L2740': 0x414C64,
-    '$L3152': 0x4148A0,
-    '$L3165': 0x414F84,
 }
+
+# Each switch relocation must name an internal label at this precise owner
+# offset. The names themselves drift when unrelated source context changes.
+PRIVATE_FIELDS = {
+    0x0D0: 0x894,
+    0x894: 0x1B0,
+    0x898: 0x0D4,
+    0x89C: 0x10A,
+    0x8A0: 0x140,
+    0x8A4: 0x574,
+}
+
+
+def relocation_destination(row):
+    if row['offset'] in PRIVATE_FIELDS:
+        if (not row['symbol'].startswith('$L') or row['type'] != 'DIR32'
+                or row['addend'] != 0
+                or row['symbol_section'] != row['owner_section']
+                or row['symbol_value'] - row['owner_value']
+                != PRIVATE_FIELDS[row['offset']]):
+            raise ValueError('unreviewed compiler-private destination')
+        return BASE + PRIVATE_FIELDS[row['offset']]
+    if row['symbol'].startswith('$L'):
+        raise ValueError('unreviewed compiler-private relocation field')
+    try:
+        return DESTINATIONS[row['symbol']] + row['addend']
+    except KeyError as error:
+        raise ValueError('unreviewed external relocation symbol') from error
 
 
 def main():
@@ -82,14 +105,18 @@ def main():
     coff = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(coff)
     target = coff.pe_bytes_at(coff.verified_target(), BASE, PHYSICAL_SIZE)
-    raw, rows = coff.object_function(args.object, SYMBOL)
+    raw, rows = coff.object_function(
+        args.object, SYMBOL, include_symbol_locations=True)
     if len(raw) != PHYSICAL_SIZE or len(rows) != 88:
         raise ValueError('candidate physical extent/relocation census changed')
     if target[BODY_SIZE] != 0x90:
         raise ValueError('target body/table boundary changed')
     code = bytearray(raw)
+    seen_private_fields = set()
     for row in rows:
-        destination = DESTINATIONS[row['symbol']] + row['addend']
+        destination = relocation_destination(row)
+        if row['offset'] in PRIVATE_FIELDS:
+            seen_private_fields.add(row['offset'])
         if row['type'] == 'REL32':
             if row['addend']:
                 raise ValueError('unreviewed nonzero direct-call addend')
@@ -97,6 +124,8 @@ def main():
         elif row['type'] != 'DIR32':
             raise ValueError('unreviewed relocation type')
         struct.pack_into('<I', code, row['offset'], destination & 0xffffffff)
+    if seen_private_fields != set(PRIVATE_FIELDS):
+        raise ValueError('incomplete compiler-private relocation coverage')
 
     decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
     decoder.detail = True

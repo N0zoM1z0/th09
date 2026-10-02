@@ -1207,6 +1207,11 @@ Packet 741 adds a complete, independently TH09-bound physical diagnostic at
 `scripts/inspect-etama-update.py`. Two cold maintained-source builds agree on
 all2,216 raw bytes and88 full relocation records; raw SHA256 is
 0f218aafc048890160aeef8ee02468ded5db7a5bbc83ac5802de942334572e88.
+Packet 754 makes the diagnostic validate compiler-private jump-table labels
+by their COFF section-relative destinations instead of unstable `$L` names.
+It still fails closed on wrong internal targets and grants no exactness credit.
+An inline helper containing only the genuine three counter zeros is raw-byte
+neutral and discarded; do not repeat that wrapper without new evidence.
 The 2,195-byte body has553 decoded instructions,62 direct calls,60 conditional
 and18 unconditional jumps in both target and candidate. All33 direct callee
 identities, global/float operands and six compiler-private destinations are

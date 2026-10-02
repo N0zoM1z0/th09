@@ -38,7 +38,8 @@ def coff_name(raw: bytes, string_table: bytes) -> str:
 
 
 def object_function(
-    path: Path, wanted: str, expected_size: int | None = None
+    path: Path, wanted: str, expected_size: int | None = None,
+    *, include_symbol_locations: bool = False,
 ) -> tuple[bytearray, list[dict[str, object]]]:
     data = path.read_bytes()
     if len(data) < 20:
@@ -128,15 +129,21 @@ def object_function(
         target_symbol = symbols.get(target_index)
         if target_symbol is None:
             raise ValueError(f"relocation references auxiliary/unknown symbol index {target_index}")
-        relocations.append(
-            {
-                "offset": local_offset,
-                "type_id": type_id,
-                "type": COFF_RELOCATION_NAMES.get(type_id, f"0x{type_id:04X}"),
-                "symbol": target_symbol["name"],
-                "addend": struct.unpack_from("<I", code, local_offset)[0],
-            }
-        )
+        row = {
+            "offset": local_offset,
+            "type_id": type_id,
+            "type": COFF_RELOCATION_NAMES.get(type_id, f"0x{type_id:04X}"),
+            "symbol": target_symbol["name"],
+            "addend": struct.unpack_from("<I", code, local_offset)[0],
+        }
+        if include_symbol_locations:
+            row.update({
+                "symbol_section": target_symbol["section"],
+                "symbol_value": target_symbol["value"],
+                "owner_section": symbol["section"],
+                "owner_value": symbol["value"],
+            })
+        relocations.append(row)
     return code, relocations
 
 
