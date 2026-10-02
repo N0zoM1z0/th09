@@ -43,7 +43,44 @@ The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
 and portability have not started.
 
-### Latest shared ExAttack type0/type1 update exact closure
+### Latest angular ExAttack complete-replay frontier
+
+Packet 738 freshly reviews Type6 @0x00446060..0x00446319: 698 code/physical
+bytes, frame0x224, 214 instructions, 19 direct calls, 18 direct blocks and
+four RETs. Two maintained-source cold builds agree on all bytes and all30
+records; raw SHA256 is
+475594f58a36d6a2b3acd8fac32a283b570641110775fe1413139f7aaafdcf08.
+Complete independently bound replay still has43 differences (535/578 ordinary
+bytes); all calls/graphs agreeing does not grant exactness. Motion/rotation
+allocation and state0 argument/animation/spawn-copy scheduling remain open.
+
+Reproduce with bash scripts/compile-probe.sh src/ExAttackUpdateType6.cpp
+build/exattack-type6.obj /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- /I src
+then python3 -B scripts/inspect-exattack-type6.py build/exattack-type6.obj.
+The read-only script reuses the complete Type01 diagnostic with separately
+reviewed Type6 bindings; no acceptance or partial credit. Seven natural controls
+are raw/complete-record neutral: typed descriptor, direct state1 exit, state0 VM
+snapshot, actual angle/descriptor-ctor visibility, used angle result and memcpy.
+Branch-local position references worsen to56 differences. Do not repeat these
+or Packet420's FromAngle-only visibility without new evidence. No source or
+shared-header edit, match row or whole-repository replay is made.
+
+Coverage rotation independently rechecks Type7 @0x004464A0..0x004467BE:
+799 target bytes/242 instructions/21 calls; fresh separate-TU candidate is
+783 bytes/241 instructions/35 fields, frame0x224, raw SHA256
+3f540f006091d0d52b15a28425adcf14e23344fa38ed9305910af02b880b2d0e.
+Its old live false-return diagnosis is stale: public FromAngleMagnitude already
+returns void after Packet659. Target forwards preserved ECX; separate-TU source
+reloads the motion address. Target callee does load EAX=this, so incidental EAX
+is not proof of a source return promise. Bounds branches still target the early
+state2 return-one block, unlike the candidate's later local block.
+Next pursue Type7 only with new combined value/TU/exit-topology evidence; actual
+body visibility alone was already780/799 in Packet659, and Packet432's shared
+label was rejected. Packet738 scratch is audited and removed. Live897 exact,
+184286/275770 bytes (66.83%),83 nonexact/91484 bytes remain unchanged; >95%,
+native product/runtime and later gates stay active-incomplete.
+
+### Earlier shared ExAttack type0/type1 update exact closure
 
 Packet 737 closes ExAttackUpdateCallbackType01 @0x00441100..0x004412DA:
 475 code/physical bytes, frame0x10, 166 instructions, 13 immediate calls,
@@ -75,10 +112,9 @@ IDA prototypes/comments are corrected and read back; no bytes are patched.
 Live coverage is 897 exact /184286 of275770 authored bytes (66.83%), with
 83 nonexact /91484 bytes. Native product/storage/runtime, original TU/data
 ownership, dual-Oracle semantics and portability remain open; >95% stays active.
-Next review ExAttackUpdateCallbackType6 @0x00446060 (698 bytes) using fresh
-complete target/current comparison. It already uses a direct collision receiver:
-do not transplant the Type01 cache control without new lifetime/descriptor
-evidence. Packet 737 scratch is audited and removed; canonical/private/legacy
+The adjacent Type6 lead is independently rechecked in Packet738 above; its
+already-direct collision receiver does not admit the Type01 cache control.
+Packet 737 scratch is audited and removed; canonical/private/legacy
 state is preserved.
 
 ### Earlier uncensused Player reward slot-zero closure
