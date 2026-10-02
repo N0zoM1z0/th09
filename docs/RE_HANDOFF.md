@@ -98,6 +98,31 @@ cohort was run. Current exact coverage is 178,082 /275,669 bytes (64.60%); the
 >95% objective and native/runtime gates remain open. Ordinary character
 selection and screen16 remain independent nonexact owners.
 
+### Latest ordinary character-selection repair and two-byte frontier
+
+`TitleScreenView::OnUpdateCharacterSelect @ 0x004254A7` remains NON-EXACT.
+Packet 723 supersedes the stale 1577-byte/0x0C-frame candidate: two cold builds
+and the canonical carrier now reproduce 1572 bytes, 421 instructions, frame8,
+all 29 ordered direct calls and 85 fields (29 REL32 /56 DIR32). Full independent
+replay differs only at +0x3DC/+0x3EF, the SIB bytes of the two visible-VM init
+LEAs: target EAX-base/EDI-index versus equivalent candidate EDI-base/EAX-index.
+No new match unit or partial credit is registered. Raw hash is
+43a2b1ee0ddc2babde41d3905443ed6f6592a4c13d0f0580fb2b31ed2ddd4bbb.
+Reproduce with pinned O1/Ob1 TitleScreen compilation and
+`python3 scripts/inspect-title-character-selection.py OBJECT --ordinary`.
+
+Retained source fixes two genuine old errors: difficulty 4 reads config slot 4
+(base +0x8C +24*character), not slot 0; launch first clears stage 0x004A7E8C,
+then sets the existing global mode 0x004B3690 to 2. It no longer uses the
+provisional duplicate launch-state view in this owner. Exact GetOptionState's
+0x7C table layout is unchanged. Char pair/shared integer, descending RGB stores,
+short-circuit unlock checks, physical phase order and direct calls recover all
+target bytes except the two recorded SIB bytes. Pointer/bank/index-spelling controls are neutral;
+splitting integer scope swaps real homes, and absolute VM indices change cursor
+induction. Read Packet 723 before repeating these controls. All 34 existing
+TitleScreen units replay exact after one verified private StartMenu table-label
+spelling refresh; no target address changes. Coverage remains 64.60%.
+
 ### Earlier non-exact investigation: Player movement and KeyConfig
 
 `PlayerLifecycleView::UpdateMovementAndOptions @ 0x0041C170` remains

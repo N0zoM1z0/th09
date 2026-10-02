@@ -18616,7 +18616,7 @@ relocations = [
   { offset = 0x396, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
   { offset = 0x39C, type = "DIR32", symbol = "?g_DemoReplayIndex@@3EA", target = 0x004A7ECF },
   { offset = 0x3A8, type = "DIR32", symbol = "?g_TitleInputFlags@@3IA", target = 0x004ACF3A },
-  { offset = 0x3C2, type = "DIR32", symbol = "$L60036", target = 0x0042A43B },
+  { offset = 0x3C2, type = "DIR32", symbol = "$L60031", target = 0x0042A43B },
   { offset = 0x3C8, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
   { offset = 0x3D2, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x3E7, type = "DIR32", symbol = "?g_TitleLockedMenuItem@@3EA", target = 0x004A81F8 },
