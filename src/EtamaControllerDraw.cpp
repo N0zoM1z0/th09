@@ -62,6 +62,8 @@ int EtamaController::OnDraw(EtamaController *controller)
         if (laser->inUse == 0)
             continue;
 
+        AnmVm *startCapVm = &laser->startCapVm;
+
         float sine;
         float cosine;
         fsincos(&sine, &cosine, laser->angle);
@@ -84,8 +86,7 @@ int EtamaController::OnDraw(EtamaController *controller)
         {
             if (!laser->hideCapDuringStartup || laser->state != 0)
             {
-                float *capPosition =
-                    laser->startCapVm.pos.operator float *();
+                float *capPosition = startCapVm->pos.operator float *();
                 capPosition[0] = g_GameManager.TransformPopupX(
                     position[0] + cosine * laser->startOffset);
                 capPosition[1] = g_GameManager.TransformPopupY(
@@ -93,20 +94,19 @@ int EtamaController::OnDraw(EtamaController *controller)
                 capPosition[2] = 0.05f;
 
                 float widthScale = laser->width / 10.0f;
-                laser->startCapVm.color1 = laser->bodyVm.color1;
-                laser->startCapVm.flagsWord |= 0x40;
-                laser->startCapVm.color1 |= 0xFF000000u;
-                laser->startCapVm.scale.x =
+                startCapVm->color1 = laser->bodyVm.color1;
+                startCapVm->flagsWord |= 0x40;
+                startCapVm->color1 |= 0xFF000000u;
+                startCapVm->scale.x =
                     widthScale * ((16.0f - laser->startOffset) / 16.0f);
-                laser->startCapVm.scale.y = laser->startCapVm.scale.x;
-                if (laser->startCapVm.scale.y <= 0.0f)
+                startCapVm->scale.y = startCapVm->scale.x;
+                if (startCapVm->scale.y <= 0.0f)
                 {
-                    laser->startCapVm.scale.x = widthScale;
-                    laser->startCapVm.scale.y =
-                        laser->startCapVm.scale.x;
+                    startCapVm->scale.x = widthScale;
+                    startCapVm->scale.y = startCapVm->scale.x;
                 }
 
-                g_AnmManager->Draw2D(&laser->startCapVm);
+                g_AnmManager->Draw2D(startCapVm);
             }
         }
     }

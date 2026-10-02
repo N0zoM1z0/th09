@@ -1163,15 +1163,17 @@ remain exact at 35/35 and 38/38 bytes from the same TU.
 ### Current EtamaController draw handoff
 
 `EtamaController::OnDraw @ 0x00413BE0` remains source-present/NON-EXACT at the
-maintained 568-byte candidate versus the 600-byte target. Fresh direct TH09
+maintained 594-byte candidate versus the 600-byte target. Fresh direct TH09
 disassembly confirms the 48-record Laser loop carries two pointer streams: a
 stack-held cursor starts at the first Laser-record base and is passed as the
 body VM to `AnmManager::Draw2D`; ESI is separately biased by `+0x208` for
 Laser fields and the start-cap VM. Both advance by `0x59C` per record. These
-are target address-flow facts, not recovered C++ declarations. A simple
-natural `Laser::bodyVm` alias probe did not explain the target and was
-discarded. Exact `DrawSingleBullet` remains a separate helper result; see
-Packets 700-701.
+are target address-flow facts, not recovered C++ declarations. Packet 749's
+ordinary `startCapVm` local raises the candidate from 568 to 594 bytes and
+restores the target `0x18` frame, but candidate ESI still has a different
+subobject bias. Two cold builds agree on the 594-byte body and 27 records.
+Exact `DrawSingleBullet` remains a separate helper result; see Packets
+700-701 and 749.
 
 ### SpawnSingleBullet exact closure
 
