@@ -245,49 +245,54 @@ Live totals are 894 exact /182191 of275669 authored bytes (66.09%), with
 gates remain open. Packet 728 subsequently reviews MusicRoom below without
 new exact credit. Packet 729 reviews OnUpdateOptions below without new exact
 credit. Packet 730 substantially narrows DrawResult below without new exact
-credit; its fresh source/CFG/field results supersede the old size-only routing.
+credit; Packet 731 recovers the complete keyboard loop and leaves only the
+initial bank/currentScreen schedule, still without exact credit.
 
 ### Current DrawResult handoff
 
 `TitleScreenView::DrawResult @0x00423D16..0x004244A8` remains non-exact.
-Packet 730 independently reviews all 1939 target bytes /577 instructions,
-frame 0x44 and 16 calls. The prior 1941-byte candidate had only 568
-instructions, 87 fields and 75 blocks versus target's 92. Do not resume
-from that misleading two-byte size gap or its old allocation diagnosis.
+Packet 731 supersedes Packet 730's keyboard frontier. The complete target
+remains 1939 bytes /577 instructions /16 calls /frame 0x44. Do not resume
+from the old size-only or broad allocation diagnosis.
 
-Maintained source uses real Float3 locals, independent row/active lifetimes
-in each ranking block, explicit target color arms, first-heading alpha
-conversion, an explicit screen13 keyboard exclusion and separate X/Y offsets.
+The retained correction moves the real Float3 characterPosition from
+function scope into each keyboard column iteration. Together with Packet
+730's separate ranking row/active lifetimes, this recovers the complete
+keyboard loop without register hints, padding or manufactured operations.
 Two independent affected-TU cold objects agree on every raw byte and
-relocation record: 1941 bytes /577 instructions /82 fields (16 REL32 /66
-DIR32), SHA-256 8022ac3d4ec97e0943392de7bcb4bb4567660667533167aee70388e4d6b505c0.
-All 92 physical-order direct blocks agree in edges, per-block calls and return
-cleanup. Normalized instruction alignment is 558/577, with five unpaired
-correspondence destinations; graph agreement is not predicate/data-flow,
-runtime or exact-byte proof. Complete replay is false, with 319 differing
-overlapping bytes and a two-byte length excess. No credit is added.
+relocation record: 1939 bytes /577 instructions /82 fields (16 REL32 /66
+DIR32), SHA-256 2ceff58b20078ad74007269588a377a0b69c99527fc3345978dc1c88e3eb172b.
+All 92 physical-order direct blocks agree in edges, per-block calls and
+return cleanup. Normalized alignment is 574/577, with one unpaired
+correspondence destination. Complete replay still differs in 22 bytes.
+No match-unit or exact credit is added.
 
-Remaining frontier: initial currentScreen load is hoisted into ECX before
-the bank multiplication rather than reloaded in EAX after the group store.
-The keyboard loop spills its row-base in EBP-0x0C and uses EBX for divisors,
-instead of target's persistent row-base EBX, divisor ECX and column reload
-in EAX. The later glyph/position schedule and two-byte tail displacement
-follow from that register pressure. Real local lifetime recovery already
-recovers all five ranking blocks' homes; do not replace it with register
-hints, layout/name search, volatile, padding, fake leaves or ABI changes.
-Packet 730 lists byte-neutral/rejected controls; do not repeat them blindly.
+The only remaining byte frontier is the initial bank/currentScreen
+schedule: target stores the group at EBP-8, then loads currentScreen into
+EAX; compiler hoists the load into ECX before bank multiplication and
+compares ECX against 13/14. Last difference is 0x00423D4F. The complete
+1881-byte suffix 0x00423D50..0x004244A8 agrees after independent relocation
+binding, but this is diagnostic only, not partial match credit.
+
+Packet 731 records controls, including actual Ascii helper visibility,
+screen snapshots, phase-local glyph lifetime and direct fade/color reuse.
+Snapshots undo the recovered keyboard. Direct fade/color reuse fixes the
+prefix but introduces memory shifts and a six-byte excess; neither signed
+nor unsigned color closes it. Do not repeat these blindly or infer original
+TU/header ownership from helper adjacency. Keep genuine value/lifetime
+hypotheses distinct from compiler observations and original-source unknowns.
 
 Reproduce only this TU with
 `bash scripts/compile-probe.sh src/TitleScreenResultDraw.cpp build/result-draw.obj /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Gr /O1 /Ob1 /Oy- /I src`,
 then `python3 scripts/inspect-title-result-draw.py build/result-draw.obj`.
-The read-only diagnostic binds all 22 independently reviewed destinations
-and checks complete decoding/CFG without canonical acceptance. Generic
-compare-coff-function reports size-mismatch. No match-unit is created.
-Owned packet probes/objects/PDBs are removed after durable recording; no
-other TU or repository-wide cold cohort is rebuilt. Coverage remains
+The read-only diagnostic binds all 22 reviewed destinations and checks
+complete decoding/CFG without canonical acceptance. Generic comparison
+correctly reports mismatch (1593/1611 non-relocation bytes), not exact.
+Owned probes/objects/PDBs are audited and removed after durable recording.
+No other TU or repository-wide cold cohort is rebuilt. Coverage remains
 894 exact /182191 of275669 authored bytes (66.09%), 85 nonexact /93478 bytes.
-Resume from fresh hypotheses for these two real lifetime/scheduling regions;
-the >95% and native/runtime/semantic/port gates remain open.
+Resume this bounded initial value-lifetime/scheduling frontier; the >95%
+and native/runtime/semantic/port gates remain open.
 
 ### Earlier non-exact investigation: Player movement and KeyConfig
 

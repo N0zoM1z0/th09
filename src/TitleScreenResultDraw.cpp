@@ -111,7 +111,6 @@ extern char *g_TitleAlphabet;
 int TitleScreenView::DrawResult()
 {
     char text[16];
-    Float3 characterPosition;
     Float3 position;
     i32 temp;
     i32 difficultyMask;
@@ -161,6 +160,7 @@ int TitleScreenView::DrawResult()
             i32 rowBase = row * 16;
             while (column < 16)
             {
+                Float3 characterPosition;
                 position.x += 12.0f;
                 float offsetX = 0.0f;
                 float offsetY = 0.0f;
