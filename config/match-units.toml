@@ -20292,3 +20292,73 @@ relocations = [
   { offset = 0x44D, type = "REL32", symbol = "?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z", target = 0x00404910 },
   { offset = 0x453, type = "DIR32", symbol = "__real@3c888889", target = 0x0048E5D4 },
 ]
+
+[units.soundplayer-process-queues]
+source = "src/SoundPlayerProcessQueues.cpp"
+object = "build/matching/SoundPlayerProcessQueues.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["SoundPlayer::ProcessQueues"]
+symbol = "?ProcessQueues@SoundPlayer@@QAEHXZ"
+target_address = 0x0043F1F0
+size = 0x586
+compare_size = 0x5B0
+relocations = [
+  { offset = 0x3C, type = "DIR32", symbol = "$L57861", target = 0x0043F778 },
+  { offset = 0x56, type = "REL32", symbol = "?SetVolume@SoundProcessView@@QAEHH@Z", target = 0x0043FB10 },
+  { offset = 0x60, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorProcessQueuesView@@A", target = 0x004B3100 },
+  { offset = 0x65, type = "REL32", symbol = "?IsMusicPreloaded@SupervisorProcessQueuesView@@QAEHXZ", target = 0x0042ED40 },
+  { offset = 0x79, type = "REL32", symbol = "?StopBGM@SoundPlayer@@QAEXXZ", target = 0x0043EBC0 },
+  { offset = 0x88, type = "REL32", symbol = "?PreloadBGM@SoundPlayer@@QAEHHPAD@Z", target = 0x0043EA30 },
+  { offset = 0x9C, type = "REL32", symbol = "?PreloadBGM@SoundPlayer@@QAEHHPAD@Z", target = 0x0043EA30 },
+  { offset = 0xA6, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorProcessQueuesView@@A", target = 0x004B3100 },
+  { offset = 0xAB, type = "REL32", symbol = "?IsMusicPreloaded@SupervisorProcessQueuesView@@QAEHXZ", target = 0x0042ED40 },
+  { offset = 0xCD, type = "REL32", symbol = "?LoadBGM@SoundPlayer@@QAEHH@Z", target = 0x0043F0A0 },
+  { offset = 0xF2, type = "REL32", symbol = "?Reset@StreamingSoundProcessView@@QAEHXZ", target = 0x004404D0 },
+  { offset = 0x110, type = "REL32", symbol = "?GetBuffer@SoundProcessView@@QAEPAUIDirectSoundBuffer@@K@Z", target = 0x0043FAF0 },
+  { offset = 0x11D, type = "REL32", symbol = "?GetWaveFile@SoundProcessView@@QAEPAUWaveFileProcessView@@XZ", target = 0x0043E430 },
+  { offset = 0x124, type = "REL32", symbol = "?GetFormat@WaveFileProcessView@@QAEPAUThBgmFormatProcessView@@XZ", target = 0x0043E420 },
+  { offset = 0x140, type = "REL32", symbol = "?FillBufferWithSound@SoundProcessView@@QAEHPAUIDirectSoundBuffer@@H@Z", target = 0x00440060 },
+  { offset = 0x19A, type = "REL32", symbol = "?GetBuffer@SoundProcessView@@QAEPAUIDirectSoundBuffer@@K@Z", target = 0x0043FAF0 },
+  { offset = 0x1A7, type = "REL32", symbol = "?Reset@StreamingSoundProcessView@@QAEHXZ", target = 0x004404D0 },
+  { offset = 0x1B2, type = "REL32", symbol = "?GetWaveFile@SoundProcessView@@QAEPAUWaveFileProcessView@@XZ", target = 0x0043E430 },
+  { offset = 0x1B9, type = "REL32", symbol = "?GetFormat@WaveFileProcessView@@QAEPAUThBgmFormatProcessView@@XZ", target = 0x0043E420 },
+  { offset = 0x1F7, type = "REL32", symbol = "?Play@SoundProcessView@@QAEHKK@Z", target = 0x004401D0 },
+  { offset = 0x235, type = "DIR32", symbol = "__imp__PostThreadMessageA@16", target = 0x0048E1D0 },
+  { offset = 0x288, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0x290, type = "REL32", symbol = "?FadeOut@SoundPlayer@@QAEXM@Z", target = 0x0043E4E0 },
+  { offset = 0x298, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorProcessQueuesView@@A", target = 0x004B3100 },
+  { offset = 0x2B3, type = "REL32", symbol = "?Pause@SoundProcessView@@QAEHXZ", target = 0x0043FBE0 },
+  { offset = 0x2BB, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorProcessQueuesView@@A", target = 0x004B3100 },
+  { offset = 0x2D6, type = "REL32", symbol = "?Unpause@SoundProcessView@@QAEHXZ", target = 0x0043FC10 },
+  { offset = 0x2DD, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorProcessQueuesView@@A", target = 0x004B3100 },
+  { offset = 0x2E2, type = "REL32", symbol = "?IsMusicPreloaded@SupervisorProcessQueuesView@@QAEHXZ", target = 0x0042ED40 },
+  { offset = 0x2F6, type = "REL32", symbol = "?StopBGM@SoundPlayer@@QAEXXZ", target = 0x0043EBC0 },
+  { offset = 0x307, type = "REL32", symbol = "?FreePreloadedBGM@SoundPlayer@@QAEXH@Z", target = 0x0043E4A0 },
+  { offset = 0x36F, type = "REL32", symbol = "?InitSoundBuffers@StreamingSoundProcessView@@QAEHXZ", target = 0x0043F890 },
+  { offset = 0x392, type = "REL32", symbol = "?GetFmtIndexByName@SoundPlayer@@QAEHPAD@Z", target = 0x0043E1F0 },
+  { offset = 0x3A9, type = "REL32", symbol = "?GetWaveFile@SoundProcessView@@QAEPAUWaveFileProcessView@@XZ", target = 0x0043E430 },
+  { offset = 0x3B0, type = "REL32", symbol = "?Reopen@WaveFileProcessView@@QAEHPAUThBgmFormatProcessView@@@Z", target = 0x004405E0 },
+  { offset = 0x3C3, type = "REL32", symbol = "?Play@SoundProcessView@@QAEHKK@Z", target = 0x004401D0 },
+  { offset = 0x3D7, type = "DIR32", symbol = "__imp__WaitForSingleObject@8", target = 0x0048E0B4 },
+  { offset = 0x3EC, type = "DIR32", symbol = "__imp__PostThreadMessageA@16", target = 0x0048E1D0 },
+  { offset = 0x405, type = "DIR32", symbol = "__imp__CloseHandle@4", target = 0x0048E060 },
+  { offset = 0x43C, type = "REL32", symbol = "?Stop@SoundProcessView@@QAEHXZ", target = 0x0043FB80 },
+  { offset = 0x444, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorProcessQueuesView@@A", target = 0x004B3100 },
+  { offset = 0x4DA, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0x4EB, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0x4F3, type = "DIR32", symbol = "?g_SoundBufferIdxVol@@3PAUSoundBufferIdxVolume@@A", target = 0x004A1F80 },
+  { offset = 0x501, type = "DIR32", symbol = "__real@3c23d70a", target = 0x0048E460 },
+  { offset = 0x50A, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x516, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x51E, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
+  { offset = 0x588, type = "DIR32", symbol = "$L57465", target = 0x0043F24F },
+  { offset = 0x58C, type = "DIR32", symbol = "$L57470", target = 0x0043F295 },
+  { offset = 0x590, type = "DIR32", symbol = "$L57534", target = 0x0043F44E },
+  { offset = 0x594, type = "DIR32", symbol = "$L57514", target = 0x0043F3F0 },
+  { offset = 0x598, type = "DIR32", symbol = "$L57541", target = 0x0043F473 },
+  { offset = 0x59C, type = "DIR32", symbol = "$L57544", target = 0x0043F486 },
+  { offset = 0x5A0, type = "DIR32", symbol = "$L57549", target = 0x0043F4A9 },
+  { offset = 0x5A4, type = "DIR32", symbol = "$L57461", target = 0x0043F230 },
+  { offset = 0x5A8, type = "DIR32", symbol = "$L57554", target = 0x0043F4CC },
+  { offset = 0x5AC, type = "DIR32", symbol = "$L57511", target = 0x0043F3D5 },
+]

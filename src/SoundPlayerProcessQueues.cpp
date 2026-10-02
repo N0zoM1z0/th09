@@ -647,7 +647,9 @@ void SoundPlayer::UpdateFades()
 int SoundPlayer::ProcessQueues()
 {
     SoundPlayerCommand *commandCursor;
-    BOOL restartCommandProcessing;
+    // Restart flag during command dispatch, then the SFX queue index.
+    // These phases share the scalar workspace; shifting commands still uses i.
+    int queuePhase;
     LPDIRECTSOUNDBUFFER preloadBuffer;
     LPDIRECTSOUNDBUFFER reopenedBuffer;
     char *bgmPath;
@@ -664,7 +666,7 @@ int SoundPlayer::ProcessQueues()
     commandCursor = this->commandQueue;
 
 loop:
-    restartCommandProcessing = FALSE;
+    queuePhase = FALSE;
 
     switch (commandCursor->opcode)
     {
@@ -688,7 +690,7 @@ loop:
         {
             this->PreloadBGM(commandCursor->argument, commandCursor->path);
         }
-        restartCommandProcessing = TRUE;
+        queuePhase = TRUE;
         goto next_command;
 
     case SOUNDPLAYER_COMMAND_LOAD_BGM:
@@ -761,6 +763,11 @@ loop:
         }
         commandCursor->step++;
         break;
+
+    case SOUNDPLAYER_COMMAND_START_LOADED_BGM:
+        if (this->bgm != NULL)
+            this->bgm->Play(0, DSBPLAY_LOOPING);
+        goto next_command;
 
     case SOUNDPLAYER_COMMAND_RELEASE_BGM:
         if (this->bgm == NULL)
@@ -852,14 +859,13 @@ loop:
                 break;
             }
             this->StopBGM();
+            this->FreePreloadedBGM(commandCursor->argument);
         }
-        this->FreePreloadedBGM(commandCursor->argument);
-        restartCommandProcessing = TRUE;
-        goto next_command;
-
-    case SOUNDPLAYER_COMMAND_START_LOADED_BGM:
-        if (this->bgm != NULL)
-            this->bgm->Play(0, DSBPLAY_LOOPING);
+        else
+        {
+            this->FreePreloadedBGM(commandCursor->argument);
+        }
+        queuePhase = TRUE;
         goto next_command;
 
     default:
@@ -873,26 +879,26 @@ loop:
             memcpy(commandCursor, commandCursor + 1, sizeof(*commandCursor));
         }
 
-        if (restartCommandProcessing)
+        if (queuePhase)
             goto loop;
     }
 
     if (!g_Supervisor.playSounds)
         return this->commandQueue[0].opcode;
 
-    for (i = 0; i < 12; i++)
+    for (queuePhase = 0; queuePhase < 12; queuePhase++)
     {
-        if (this->soundQueue[i] < 0)
+        if (this->soundQueue[queuePhase] < 0)
             break;
 
-        soundIndex = this->soundQueue[i];
-        this->soundQueue[i] = -1;
+        soundIndex = this->soundQueue[queuePhase];
+        this->soundQueue[queuePhase] = -1;
 
         averagedPan = 0;
-        for (j = 0; j < this->soundQueueRequestCounts[i]; j++)
-            averagedPan += this->soundQueuePanData[i][j];
-        averagedPan /= this->soundQueueRequestCounts[i];
-        this->soundQueueRequestCounts[i] = 0;
+        for (j = 0; j < this->soundQueueRequestCounts[queuePhase]; j++)
+            averagedPan += this->soundQueuePanData[queuePhase][j];
+        averagedPan /= this->soundQueueRequestCounts[queuePhase];
+        this->soundQueueRequestCounts[queuePhase] = 0;
 
         if (this->duplicateSoundBuffers[soundIndex] == NULL)
             continue;

@@ -4,6 +4,20 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest sound queue exact closure (2026-10-02)
+
+Packet 770 closes SoundPlayer::ProcessQueues at0x0043F1F0:1414 authored
+bytes and1456 physical bytes,58 independently reviewed fields. Real shared
+restart/index workspace and target-ordered case/free-resource branches recover
+the complete target. Two cold builds and20 affected-TU units pass. The2-byte
+alignment and40-byte table are compared but remain outside authored coverage.
+
+Current coverage is902 functions /193847 of275770 reviewed-authored bytes
+(70.29%),78 nonexact owners /81923 bytes;90% needs54346 additional bytes.
+Obtain a current Factory pass+accepted receipt for the final snapshot. Existing
+receipts do not constitute fresh aggregate coverage. Native runtime and later
+gates remain open; denominator and35 unresolved origins are unchanged.
+
 ## Latest geometry evaluation fidelity checkpoint (2026-10-02)
 
 Packets 768-769 retain reviewed source corrections in PlayerDamage.cpp and
@@ -12,7 +26,7 @@ full independent relocation replay leaves exactly two Y-add operand bytes
 (+0x2B9/+0x2BC), so no exact credit. It now uses real float/XY workspaces and
 observed live region-slot reads. Enemy draw now short-circuits next-angle
 sampling after the first strict Abs test, but remains non-exact at1758 bytes.
-Cold pairs and all three affected exact helpers/wrappers pass. Coverage stays
+Cold pairs and all three affected exact helpers/wrappers pass. At that checkpoint coverage stayed
 901 functions /192433 of275770 bytes (69.78%);90% remains55760 bytes away.
 Do not repeat the documented neutral operand/axis/index controls. Earlier
 Factory receipts are historical after this source snapshot changes.
@@ -28,7 +42,7 @@ maintained builds and canonical full-byte replay agree; no ABI, forced storage,
 padding or compiler-profile changes. Obtain a current Factory receipt after
 commit before treating this owner as accepted in the registry.
 
-Current ledger coverage is192433/275770 reviewed-authored bytes (69.78%),
+Packet 767 ledger coverage was192433/275770 reviewed-authored bytes (69.78%),
 901 exact functions and79 nonexact/83337 bytes. The active90% goal needs55760
 more bytes. The35 unresolved origins and exclusions remain unchanged; native
 product/runtime, semantic and portability gates remain open.
@@ -180,11 +194,11 @@ SHA-256:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 901 |
-| Source-present non-exact functions | 79 |
-| Source-present non-exact bytes | 83,337 |
+| Canonical exact functions | 902 |
+| Source-present non-exact functions | 78 |
+| Source-present non-exact bytes | 81,923 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 192,433 |
+| Canonical exact authored bytes | 193,847 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -478,7 +492,7 @@ Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-ti
 Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
 remain open but are no longer the exclusive focus. That temporary list's
 progress snapshot is stale: it reports 881 exact and 98 non-exact, while the
-live ledger now reports 901 exact and 79 non-exact. Recheck every listed
+live ledger now reports 902 exact and 78 non-exact. Recheck every listed
 candidate against `config/functions.csv` and the match-unit manifest before
 resuming it; use the temporary file only as a historical routing aid.
 
