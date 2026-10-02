@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 890 |
-| Source-present non-exact functions | 89 |
-| Source-present non-exact bytes | 99,828 |
+| Canonical exact functions | 891 |
+| Source-present non-exact functions | 88 |
+| Source-present non-exact bytes | 97,587 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 175,841 |
+| Canonical exact authored bytes | 178,082 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -62,11 +62,11 @@ Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-ti
 Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
 remain open but are no longer the exclusive focus. That temporary list's
 progress snapshot is stale: it reports 881 exact and 98 non-exact, while the
-live ledger currently reports 890 exact and 89 non-exact. Recheck every listed
+live ledger currently reports 891 exact and 88 non-exact. Recheck every listed
 candidate against `config/functions.csv` and the match-unit manifest before
 resuming it; use the temporary file only as a historical routing aid.
 
-### Latest screen-8 closure and near-exact frontier
+### Latest screen-8 exact closures
 
 `TitleScreenView::UpdateScreen8Mode123 @ 0x00425ACB` is canonical exact at
 2,153 bytes /564 instructions /89 relocation fields. Two cold builds reproduce
@@ -78,22 +78,25 @@ snapshots, independent phase guards, equality-to-one reset, two-character array
 and direct cancel-branch returns close the maintained source without ABI,
 layout, visibility-body, pragma or compiler-profile changes.
 
-`UpdateScreen8Mode0 @ 0x004289DB` remains NON-EXACT at target-sized 2,241
-bytes /627 instructions /116 fields. Packet 721's real character pair recovers
-frame8 and all target stack homes; the first cancel DWORD read and later WORD
-checks are preserved through a partial read-width view, not a new data owner.
-Complete independent replay differs only in 27 SIB bytes: 24 color stores and
-three initialization LEAs reverse equivalent base/index operands. Do not repeat
-the old scalar declaration-order/frame search or credit equivalent addresses.
-Reproduce with pinned O1/Ob1 TitleScreen compilation and
-`python3 scripts/inspect-title-character-selection.py OBJECT`.
+`UpdateScreen8Mode0 @ 0x004289DB` is now canonical exact at 2,241 bytes
+/627 instructions /116 fields (54 REL32 plus 62 DIR32). Packet 722 closes all
+27 former SIB differences by assigning each selected character to the existing
+real i32 value before the six RGB writes in each confirm/reset phase. Separate
+branch-local integers close only nine differences; actual shared value identity
+matters to VC7.1. The char pair, frame8, target stack homes, first cancel DWORD
+read and later WORD check remain intact. The partial read-width view does not
+introduce another data owner. Two independent maintained-source cold objects
+and canonical carrier agree on every raw byte and relocation record; raw hash
+is 1baacb2027e93dab4f176c7e981305867cbce7ec6a4fbb11a6e9cab44d2f48f9.
+Reproduce with `python3 scripts/build-match-unit.py --unit title-screen-character-select-mode0`
+and `python3 scripts/compare-coff-function.py --unit title-screen-character-select-mode0 --json`.
 
-All 31 prior O1 exact units retain raw bytes and relocation structure; nine
-StartMenu internal label spellings are refreshed after actual owner-relative
-offset verification. The final focused carriers replay 32 O1 units plus the
-separate O2 score-record-insert unit, all exact. No full-repository cold cohort
-was run. Current exact coverage is 175,841 /275,669 bytes (63.79%); the >95%
-objective and native/runtime gates remain open.
+All 32 prior O1 exact units retain complete raw bytes and relocation records,
+including StartMenu's private labels. Focused fresh carriers replay 33 O1 units
+plus the separate O2 score-record-insert unit, all exact. No full-repository cold
+cohort was run. Current exact coverage is 178,082 /275,669 bytes (64.60%); the
+>95% objective and native/runtime gates remain open. Ordinary character
+selection and screen16 remain independent nonexact owners.
 
 ### Earlier non-exact investigation: Player movement and KeyConfig
 

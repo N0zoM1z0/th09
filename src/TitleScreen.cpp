@@ -1842,12 +1842,13 @@ int TitleScreenView::UpdateScreen8Mode0()
         {
             PlayMenuSound(10, 0);
             side0CharacterConfirmed = 1;
-            vms[92 + characters[0] * 2].color1Bytes[2] = 0x80;
-            vms[92 + characters[0] * 2].color1Bytes[1] = 0x80;
-            vms[92 + characters[0] * 2].color1Bytes[0] = 0x80;
-            vms[60 + characters[0] * 2].color1Bytes[2] = 0x80;
-            vms[60 + characters[0] * 2].color1Bytes[1] = 0x80;
-            vms[60 + characters[0] * 2].color1Bytes[0] = 0x80;
+            value = characters[0];
+            vms[92 + value * 2].color1Bytes[2] = 0x80;
+            vms[92 + value * 2].color1Bytes[1] = 0x80;
+            vms[92 + value * 2].color1Bytes[0] = 0x80;
+            vms[60 + value * 2].color1Bytes[2] = 0x80;
+            vms[60 + value * 2].color1Bytes[1] = 0x80;
+            vms[60 + value * 2].color1Bytes[0] = 0x80;
             g_GameSide0Value30 = (g_TitleSide0Input.currentInput >> 2) & 1;
             if (side1CharacterConfirmed && characters[0] == characters[1])
                 g_GameSide0Value30 = 1 - g_GameSide1Value30;
@@ -1857,12 +1858,13 @@ int TitleScreenView::UpdateScreen8Mode0()
         {
             PlayMenuSound(10, 0);
             side1CharacterConfirmed = 1;
-            vms[93 + characters[1] * 2].color1Bytes[2] = 0x80;
-            vms[93 + characters[1] * 2].color1Bytes[1] = 0x80;
-            vms[93 + characters[1] * 2].color1Bytes[0] = 0x80;
-            vms[61 + characters[1] * 2].color1Bytes[2] = 0x80;
-            vms[61 + characters[1] * 2].color1Bytes[1] = 0x80;
-            vms[61 + characters[1] * 2].color1Bytes[0] = 0x80;
+            value = characters[1];
+            vms[93 + value * 2].color1Bytes[2] = 0x80;
+            vms[93 + value * 2].color1Bytes[1] = 0x80;
+            vms[93 + value * 2].color1Bytes[0] = 0x80;
+            vms[61 + value * 2].color1Bytes[2] = 0x80;
+            vms[61 + value * 2].color1Bytes[1] = 0x80;
+            vms[61 + value * 2].color1Bytes[0] = 0x80;
             g_GameSide1Value30 = (g_TitleSide1Input.currentInput >> 2) & 1;
             if (side0CharacterConfirmed && characters[0] == characters[1])
                 g_GameSide1Value30 = 1 - g_GameSide0Value30;
@@ -1908,24 +1910,26 @@ int TitleScreenView::UpdateScreen8Mode0()
         {
             side0CharacterConfirmed = 0;
             PlayMenuSound(11, 0);
-            vms[92 + characters[0] * 2].color1Bytes[2] = 0xFF;
-            vms[92 + characters[0] * 2].color1Bytes[1] = 0xFF;
-            vms[92 + characters[0] * 2].color1Bytes[0] = 0xFF;
-            vms[60 + characters[0] * 2].color1Bytes[2] = 0xFF;
-            vms[60 + characters[0] * 2].color1Bytes[1] = 0xFF;
-            vms[60 + characters[0] * 2].color1Bytes[0] = 0xFF;
+            value = characters[0];
+            vms[92 + value * 2].color1Bytes[2] = 0xFF;
+            vms[92 + value * 2].color1Bytes[1] = 0xFF;
+            vms[92 + value * 2].color1Bytes[0] = 0xFF;
+            vms[60 + value * 2].color1Bytes[2] = 0xFF;
+            vms[60 + value * 2].color1Bytes[1] = 0xFF;
+            vms[60 + value * 2].color1Bytes[0] = 0xFF;
         }
 
         if ((g_TitleSide1Input.repeatInput & 0xA) && side1CharacterConfirmed == 1)
         {
             side1CharacterConfirmed = 0;
             PlayMenuSound(11, 0);
-            vms[93 + characters[1] * 2].color1Bytes[2] = 0xFF;
-            vms[93 + characters[1] * 2].color1Bytes[1] = 0xFF;
-            vms[93 + characters[1] * 2].color1Bytes[0] = 0xFF;
-            vms[61 + characters[1] * 2].color1Bytes[2] = 0xFF;
-            vms[61 + characters[1] * 2].color1Bytes[1] = 0xFF;
-            vms[61 + characters[1] * 2].color1Bytes[0] = 0xFF;
+            value = characters[1];
+            vms[93 + value * 2].color1Bytes[2] = 0xFF;
+            vms[93 + value * 2].color1Bytes[1] = 0xFF;
+            vms[93 + value * 2].color1Bytes[0] = 0xFF;
+            vms[61 + value * 2].color1Bytes[2] = 0xFF;
+            vms[61 + value * 2].color1Bytes[1] = 0xFF;
+            vms[61 + value * 2].color1Bytes[0] = 0xFF;
         }
         break;
     }
