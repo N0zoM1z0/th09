@@ -43,7 +43,35 @@ The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
 and portability have not started.
 
-### Latest angular ExAttack complete-replay frontier
+### Latest Type7 angular ExAttack complete-replay frontier
+
+Packet 739 adds a complete, independently target-bound diagnostic for
+ExAttackUpdateCallbackType7 @0x004464A0..0x004467BE. Target:799 bytes,
+242 instructions,21 immediate calls,18 direct blocks,frame0x224 and four RETs.
+Two cold maintained-source builds agree on all783 raw bytes and all35 complete
+relocation records; raw SHA256 is
+3f540f006091d0d52b15a28425adcf14e23344fa38ed9305910af02b880b2d0e.
+All21 calls agree, but candidate has241 instructions and19 direct blocks.
+Target's four bounds exits branch to its early state2 return-one block; the
+candidate uses a later local return-one block and routes normal state1 exit
+through a different return-zero block. Normalized alignment215/242 is routing
+only. Size mismatch and graph mismatch grant no exactness or partial credit.
+
+Actual maintained FromAngleMagnitude body visibility produces the target's
+immediate ECX forwarding but a780-byte/240-instruction candidate, still with
+18 versus19 blocks. Combining it with separate bounds or the previously
+rejected shared-return label does not close the owner; the latter moves the
+state2 branch in the wrong direction. Direct state1 exit, explicit VM/player
+lifetimes and spawn-source lifetime are baseline-neutral. Do not repeat these
+controls without new evidence. Reproduce with
+`bash scripts/compile-probe.sh src/ExAttackUpdateType7.cpp build/exattack-type7.obj /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- /I src`
+and `python3 -B scripts/inspect-exattack-type7.py build/exattack-type7.obj`.
+Next rotate to a genuinely different large owner, for example RunEcl, after
+re-reading its live row and packet history. Packet739 changes no source or
+matches; coverage remains897 exact /184286 of275770 (66.83%). The >95% and
+native-product/later gates remain open.
+
+### Earlier angular ExAttack complete-replay frontier
 
 Packet 738 freshly reviews Type6 @0x00446060..0x00446319: 698 code/physical
 bytes, frame0x224, 214 instructions, 19 direct calls, 18 direct blocks and
@@ -74,9 +102,10 @@ returns void after Packet659. Target forwards preserved ECX; separate-TU source
 reloads the motion address. Target callee does load EAX=this, so incidental EAX
 is not proof of a source return promise. Bounds branches still target the early
 state2 return-one block, unlike the candidate's later local block.
-Next pursue Type7 only with new combined value/TU/exit-topology evidence; actual
-body visibility alone was already780/799 in Packet659, and Packet432's shared
-label was rejected. Packet738 scratch is audited and removed. Live897 exact,
+Packet739 supersedes that Type7 routing with complete independently bound
+diagnostics; actual body visibility alone was already780/799 in Packet659,
+and Packet432's shared label was rejected. Packet738 scratch is audited and
+removed. Live897 exact,
 184286/275770 bytes (66.83%),83 nonexact/91484 bytes remain unchanged; >95%,
 native product/runtime and later gates stay active-incomplete.
 
