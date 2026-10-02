@@ -87,6 +87,14 @@ struct GameSubsystemSetupView
     int IsActive();
 };
 
+// Call-facing view of the full ReplayManager release at 0x00420AD0.
+// It is distinct from ReleaseStageObject's alternate teardown at 0x00420C10;
+// no complete ReplayManager layout or original class spelling is claimed.
+struct ReplayManagerSetupReleaseView
+{
+    void Release();
+};
+
 struct SetupRngView
 {
     int Next();
@@ -261,10 +269,9 @@ extern void __fastcall FormatCurrentDateString(char *buffer);
 extern void __fastcall ReleaseStageObject(void *object);
 extern void *__fastcall CreateStageObject(int mode, void *context);
 extern void __fastcall SetStageObjectMode(void *object, int mode);
-extern void __fastcall BeginLoading(Supervisor *supervisor);
 extern void __fastcall FinishLoading(Supervisor *supervisor);
 extern void *__fastcall CreateGameSubsystem();
-extern void __fastcall InitializeGameSubsystems();
+extern int __fastcall PreloadPlayerAnmResources();
 extern void *__fastcall RegisterSubsystem0(int side);
 extern void *__fastcall RegisterSubsystem1(int unused, int side, int selector);
 extern void *__fastcall RegisterSubsystem2(int side);
@@ -884,7 +891,8 @@ mode_ready:
         else
             reinterpret_cast<SetupStateBuffer *>(manager->sides[0].state)->value00 = 0.0f;
 
-        ReleaseStageObject(manager->stageObject);
+        reinterpret_cast<ReplayManagerSetupReleaseView *>(manager->stageObject)
+            ->Release();
         manager->stageObject = NULL;
 
         if ((manager->flags & 8) == 0)
@@ -932,13 +940,13 @@ mode_ready:
             memset(manager->sides[1].state, 0, 0xA0);
     }
 
-    BeginLoading(&g_Supervisor);
+    g_Supervisor.InitializeViewports();
     manager->valueB0 = 0;
     manager->gameSubsystem = CreateGameSubsystem();
     if (manager->gameSubsystem == NULL)
         goto setup_failed;
 
-    InitializeGameSubsystems();
+    PreloadPlayerAnmResources();
 
     for (sideIndex = 0; sideIndex < 2; sideIndex++)
     {

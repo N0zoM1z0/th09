@@ -335,6 +335,38 @@ All 35 source probes/84 objects and PDBs are audited and removed after durable
 recording. Legacy ignored artifacts/private inputs remain untouched. Continue
 from the actual maintained two-byte source, not size/alignment metrics alone.
 
+### Latest gameplay-worker caller-contract repair
+
+Packet 734 re-reviews all 1689 target bytes of GameplaySetupThread at
+0x0041AF2D..0x0041B5C5. The initial-load release call reaches the full
+ReplayManager release 0x00420AD0, not the alternate ReleaseStageObject
+0x00420C10. Maintained source now uses a bounded member-call view; the
+DeletedCallback's real alternate-release call remains untouched. Viewport
+initialization uses actual Supervisor::InitializeViewports, and Player ANM
+preload uses its actual int contract with observed ignored result. Native
+symbol/layout ownership and runtime validation remain open.
+
+Two independent /O2 /Os /Ob1 cold builds agree on 1689 bytes /416 instructions
+and all 171 relocation records (33 REL32/138 DIR32), raw hash
+35d7f3adf469e584e8adf9f1714914db0d4c2d7d7c8dba19bbb21d6aabcc70a1.
+The target is 413 instructions. All 35 ordered calls, including two separately
+reviewed IAT cells, now agree. Complete replay still has 921 differences;
+physical-order graphs disagree at 78/77 blocks. Generic 402/1005 ordinary-byte
+agreement is unchanged and previously masked the wrong release contract.
+No new exact or partial credit is added; coverage remains 66.09%.
+
+Reproduce only this TU with
+`bash scripts/compile-probe.sh src/GameManagerSetup.cpp build/gameplay-setup.obj /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Os /Ob1 /Oy- /I src`,
+then `python3 scripts/inspect-gameplay-setup.py build/gameplay-setup.obj`.
+The diagnostic deliberately binds old ReleaseStageObject to its real alternate
+entry and rejects unreviewed calls/fields. IAT cells are not assumed runtime
+callees. Five new strict call-identity tests bring CI to 30 tests. Eight /Os
+GameManager neighbors plus the non-/Os loading/capture neighbor replay exact.
+Two new phase-index/rate-tail probes do not close the base-cache, flags-cursor
+or cap-tail differences; see Packet 734 before repeating them. Packet-owned
+scratch is audited and removed, preserving legacy/private state. Rotate
+coverage or reopen only with new target/value/TU/topology evidence.
+
 ### Earlier non-exact investigation: Player movement and KeyConfig
 
 `PlayerLifecycleView::UpdateMovementAndOptions @ 0x0041C170` remains

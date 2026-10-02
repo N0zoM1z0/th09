@@ -30,12 +30,15 @@ def aligned_branch_conflicts(target, candidate, blocks, immediate_type):
     return conflicts, unpaired_destinations
 
 
-def direct_control_flow(instructions, immediate_type):
+def direct_control_flow(instructions, immediate_type, call_identity=None):
     """Physical-order block graph, with per-block calls and return cleanup.
 
     Caller must separately establish complete decoding and bind relocations.
     This covers direct edges, not predicates, data flow, behavior or bytes.
-    Indirect calls/jumps, external jumps and unsupported exits fail closed.
+    Indirect calls fail closed unless a caller-provided identity function
+    validates them and records their actual call operand (for example an IAT
+    cell, not an assumed runtime callee). Indirect/external jumps and unsupported
+    exits always fail closed. The default remains strict direct-call coverage.
     No correspondence is guessed for a missing destination.
     """
     if not instructions:
@@ -46,12 +49,17 @@ def direct_control_flow(instructions, immediate_type):
     positions = {address: n for n, address in enumerate(addresses)}
     leaders = {0}
     destinations = {}
+    call_identities = {}
     for n, instruction in enumerate(instructions):
         mnemonic = instruction.mnemonic
         if mnemonic in ('loop', 'loope', 'loopne', 'retf', 'iret', 'iretd',
                         'int', 'int3', 'sysenter', 'sysexit', 'ud2'):
             raise ValueError('unsupported control transfer')
-        if mnemonic.startswith('j') or mnemonic == 'call':
+        if mnemonic == 'call' and call_identity is not None:
+            call_identities[n] = call_identity(instruction)
+            if call_identities[n] is None:
+                raise ValueError('missing call identity')
+        elif mnemonic.startswith('j') or mnemonic == 'call':
             if len(instruction.operands) != 1 or instruction.operands[0].type != immediate_type:
                 raise ValueError('non-direct control transfer')
             if mnemonic.startswith('j'):
@@ -60,6 +68,8 @@ def direct_control_flow(instructions, immediate_type):
                     raise ValueError('jump outside decoded instructions')
                 destinations[n] = positions[destination]
                 leaders.add(positions[destination])
+            else:
+                call_identities[n] = instruction.operands[0].imm
         if mnemonic.startswith('j') or mnemonic == 'ret':
             if n + 1 < len(instructions):
                 leaders.add(n + 1)
@@ -87,6 +97,6 @@ def direct_control_flow(instructions, immediate_type):
             if z == len(instructions):
                 raise ValueError('missing terminal transfer')
             successors.append(owners[z])
-        calls = tuple(i.operands[0].imm for i in instructions[a:z] if i.mnemonic == 'call')
+        calls = tuple(call_identities[n] for n in range(a, z) if n in call_identities)
         graph.append((kind, tuple(successors), calls, cleanup))
     return graph

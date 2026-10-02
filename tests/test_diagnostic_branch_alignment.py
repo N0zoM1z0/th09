@@ -79,6 +79,41 @@ class DirectControlFlowTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'non-direct'):
             self.graph([instruction(100, 'call', 900, operand_type=2), instruction(110, 'ret')])
 
+    def test_reviewed_indirect_call_identity_is_retained(self):
+        identity = lambda i: ('iat-cell', i.operands[0].imm)
+        target = [instruction(100, 'call', 900, operand_type=2), instruction(110, 'ret')]
+        candidate = [instruction(200, 'call', 900, operand_type=2), instruction(210, 'ret')]
+        self.assertEqual(DIAGNOSTIC.direct_control_flow(target, 1, identity),
+                         DIAGNOSTIC.direct_control_flow(candidate, 1, identity))
+        self.assertEqual(DIAGNOSTIC.direct_control_flow(target, 1, identity)[0][2],
+                         (('iat-cell', 900),))
+
+    def test_different_indirect_call_identity_is_not_hidden(self):
+        identity = lambda i: ('iat-cell', i.operands[0].imm)
+        target = [instruction(100, 'call', 900, operand_type=2), instruction(110, 'ret')]
+        wrong = [instruction(100, 'call', 901, operand_type=2), instruction(110, 'ret')]
+        self.assertNotEqual(DIAGNOSTIC.direct_control_flow(target, 1, identity),
+                            DIAGNOSTIC.direct_control_flow(wrong, 1, identity))
+
+    def test_indirect_call_validator_failure_propagates(self):
+        def reject(instruction):
+            raise ValueError('unreviewed call')
+        with self.assertRaisesRegex(ValueError, 'unreviewed call'):
+            DIAGNOSTIC.direct_control_flow(
+                [instruction(100, 'call', 900, operand_type=2), instruction(110, 'ret')], 1, reject)
+
+    def test_call_identity_does_not_allow_indirect_jumps(self):
+        with self.assertRaisesRegex(ValueError, 'non-direct'):
+            DIAGNOSTIC.direct_control_flow(
+                [instruction(100, 'jmp', 110, operand_type=2), instruction(110, 'ret')],
+                1, lambda i: ('iat-cell', i.operands[0].imm))
+
+    def test_missing_call_identity_fails_closed(self):
+        with self.assertRaisesRegex(ValueError, 'missing call identity'):
+            DIAGNOSTIC.direct_control_flow(
+                [instruction(100, 'call', 900, operand_type=2), instruction(110, 'ret')],
+                1, lambda i: None)
+
     def test_destination_outside_decoded_stream_fails_closed(self):
         with self.assertRaisesRegex(ValueError, 'outside'):
             self.graph([instruction(100, 'jmp', 999), instruction(110, 'ret')])
