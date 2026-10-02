@@ -1,3 +1,7 @@
+// The real wrapped-angle helper is visible here because TH09 retains ECX
+// across its call while constructing the trail strip. Its body remains single.
+#include "EnemyDrawMath.inl"
+
 #include "EnemyManager.hpp"
 #include "AsciiManager.hpp"
 
@@ -184,13 +188,14 @@ static int EnemyManagerDrawImpl(
 
             if (enemy->trailFlags53A0 != 0)
             {
-                float savedScaleX = enemy->vm008.scale18.x;
-                float savedScaleY = enemy->vm008.scale18.y;
+                int k;
+                // The two scale components are one snapshot of the actual Float2 field.
+                Float2 savedScale = enemy->vm008.scale18;
                 unsigned long savedColor = enemy->vm008.color1F0;
 
                 if ((enemy->trailFlags53A0 & ENEMY_TRAIL_RENDER_AS_STRIP) == 0)
                 {
-                    for (int k = enemy->trailHistoryLength53A2 - 1; k > 0;
+                    for (k = enemy->trailHistoryLength53A2 - 1; k > 0;
                          k -= enemy->trailSampleStride53A6)
                     {
                         if (enemy->trailSamples33E8[k].position00.x < -990.0f)
@@ -202,8 +207,8 @@ static int EnemyManagerDrawImpl(
 
                         if ((enemy->trailFlags53A0 & ENEMY_TRAIL_TAPER) != 0)
                             enemy->vm008.scale18.x =
-                                savedScaleX -
-                                static_cast<float>(k) * savedScaleX /
+                                savedScale.x -
+                                static_cast<float>(k) * savedScale.x /
                                     static_cast<float>(enemy->trailHistoryLength53A2);
 
                         if ((enemy->trailFlags53A0 & ENEMY_TRAIL_FADE) != 0)
@@ -225,7 +230,7 @@ static int EnemyManagerDrawImpl(
                 else
                 {
                     int vertexCount = 0;
-                    for (int k = 0; k < enemy->trailHistoryLength53A2;
+                    for (k = 0; k < enemy->trailHistoryLength53A2;
                          k += enemy->trailSampleStride53A6)
                     {
                         if (enemy->trailSamples33E8[k].position00.x < -990.0f)
@@ -242,7 +247,7 @@ static int EnemyManagerDrawImpl(
                         EnemyDrawVertex *vertices = enemy->trailVertices3E68;
                         float previousAngle;
 
-                        for (int k = 0; k < enemy->trailHistoryLength53A2;
+                        for (k = 0; k < enemy->trailHistoryLength53A2;
                              k += enemy->trailSampleStride53A6, uv -= uvStep)
                         {
                             if (enemy->trailSamples33E8[k].position00.x < -990.0f)
@@ -262,26 +267,26 @@ static int EnemyManagerDrawImpl(
 
                             unsigned char taperFlag =
                                 enemy->trailFlags53A0 & ENEMY_TRAIL_TAPER;
-                            if (taperFlag != 0 &&
-                                k > 0 &&
-                                k + enemy->trailSampleStride53A6 <
-                                    enemy->trailHistoryLength53A2)
+                            if (taperFlag != 0 && k > 0)
                             {
-                                // Only sample the next angle after the first straightness test.
-                                if (static_cast<float>(EnemyDrawAbs(previousAngle - angle)) <
-                                        0.00001f)
+                                // Both indices survive the first absolute-value call in TH09.
+                                int sampleStride = enemy->trailSampleStride53A6;
+                                int nextSample = k + sampleStride;
+                                if (nextSample < enemy->trailHistoryLength53A2)
                                 {
-                                    float nextAngle = EnemyDrawInterpolateWrappedAngle(
-                                        enemy->trailSamples33E8[
-                                            k + enemy->trailSampleStride53A6 - 1].angle18,
-                                        enemy->trailSamples33E8[
-                                            enemy->trailSampleStride53A6].angle18,
-                                        0.5f);
-                                    if (static_cast<float>(EnemyDrawAbs(angle - nextAngle)) <
+                                    // Preserve strict short-circuit sampling, including NaNs.
+                                    if (static_cast<float>(EnemyDrawAbs(previousAngle - angle)) <
                                             0.00001f)
                                     {
-                                        vertexCount -= 2;
-                                        continue;
+                                        if (static_cast<float>(EnemyDrawAbs(
+                                                angle - EnemyDrawInterpolateWrappedAngle(
+                                                    enemy->trailSamples33E8[nextSample - 1].angle18,
+                                                    enemy->trailSamples33E8[sampleStride].angle18,
+                                                    0.5f))) < 0.00001f)
+                                        {
+                                            vertexCount -= 2;
+                                            continue;
+                                        }
                                     }
                                 }
                             }
@@ -291,7 +296,7 @@ static int EnemyManagerDrawImpl(
                             float cosAngle = EnemyDrawCos(angle);
                             float halfCenter = 0.0f;
                             float halfWidth =
-                                savedScaleY *
+                                savedScale.y *
                                 enemy->vm008.loadedSprite224->heightPx30 * 0.5f;
                             if (taperFlag != 0)
                             {
@@ -345,8 +350,8 @@ static int EnemyManagerDrawImpl(
                     }
                 }
 
-                enemy->vm008.scale18.x = savedScaleX;
-                enemy->vm008.scale18.y = savedScaleY;
+                enemy->vm008.scale18.x = savedScale.x;
+                enemy->vm008.scale18.y = savedScale.y;
                 enemy->vm008.color1F0 = savedColor;
             }
 

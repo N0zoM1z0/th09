@@ -4,6 +4,22 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest Enemy draw ownership checkpoint (2026-10-02)
+
+Packet 773 recovers the target's stride/next-index snapshots, shared trail
+index, Float2 scale snapshot and wrapped-angle helper visibility. The helper is
+singly defined in EnemyDrawMath.inl and compiled through EnemyManagerDraw.cpp.
+Two cold objects agree; the 35/38-byte wrappers and 91-byte helper remain exact.
+Complete independently bound replay of the 1758-byte draw owner leaves four
+FSUBR/PUSH scheduling bytes at +0x3F3..+0x3F6, so it remains NON-EXACT.
+Reproduce with scripts/inspect-enemy-draw.py after building either draw unit.
+
+Current profile, /G6 and /GB are byte-identical; /G7 broadly regresses. Named
+angle-difference workspaces also regress. Preserve the established profile and
+rotate unless new source evidence explains the remaining schedule. Coverage
+remains 903 exact /195060 of 275770 bytes (70.73%); 90% needs 53133 more bytes.
+Earlier receipts are snapshot-historical. Native product and later gates remain open.
+
 ## Latest five-VM menu exact closure (2026-10-02)
 
 Packet 772 closes AsciiMenuState5::OnUpdate at0x00434E90:1213 authored

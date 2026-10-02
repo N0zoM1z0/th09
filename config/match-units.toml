@@ -12366,8 +12366,8 @@ size = 0x40
 relocations = []
 
 [units.enemy-draw-interpolate-wrapped-angle]
-source = "src/EnemyDrawMath.cpp"
-object = "build/matching/EnemyDrawMath.obj"
+source = "src/EnemyManagerDraw.cpp"
+object = "build/matching/EnemyManagerDraw.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["EnemyDrawInterpolateWrappedAngle"]
 symbol = "?EnemyDrawInterpolateWrappedAngle@@YGMMMM@Z"
