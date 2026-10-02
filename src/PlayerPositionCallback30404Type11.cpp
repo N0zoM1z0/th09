@@ -4,7 +4,8 @@ struct PlayerType11Point
     PlayerType11Point operator+(const PlayerType11Point &other) const;
     PlayerType11Point operator-(const PlayerType11Point &other) const;
     PlayerType11Point operator/(float scalar) const;
-    PlayerType11Point *FromAngleMagnitude(float angle, float magnitude);
+    // The shared 0x441890 method writes XY and has no returned-value contract.
+    void FromAngleMagnitude(float angle, float magnitude);
 
     float x;
     float y;
