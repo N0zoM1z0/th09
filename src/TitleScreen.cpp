@@ -2769,7 +2769,7 @@ int TitleScreenView::OnUpdateReplayMenu()
             stateTimer = 0;
         }
 
-        if (g_TitleInputFlags & 0xA)
+        if (static_cast<u8>(g_TitleInputFlags) & 0xA)
         {
             PlayMenuSound(11, 0);
             stateTimer = 0;
@@ -2784,7 +2784,7 @@ int TitleScreenView::OnUpdateReplayMenu()
             return 1;
         }
 
-        if (g_TitleInputFlags & 0x1001)
+        if (static_cast<u16>(g_TitleInputFlags) & 0x1001)
         {
             if (replays[keyboardSelection].magic != 0)
             {
@@ -2819,15 +2819,14 @@ int TitleScreenView::OnUpdateReplayMenu()
             }
         }
 
-        if (g_TitleInputFlags & 0xA)
+        if (static_cast<u8>(g_TitleInputFlags) & 0xA)
         {
             currentScreenState = 1;
             stateTimer = 0;
             keyboardSelection = selectedReplay;
-            break;
         }
 
-        if (g_TitleInputFlags & 0x1001)
+        if (static_cast<u16>(g_TitleInputFlags) & 0x1001)
         {
             g_GameSide0Value20 = side0CharacterCursor;
             g_GameSide1Value20 = 0;
@@ -2839,48 +2838,53 @@ int TitleScreenView::OnUpdateReplayMenu()
             if (replays[selectedReplay].value1E4 == 0)
             {
                 g_GameValueDF0 = 1;
-                g_TitleLaunchState = 2;
+                g_TitleGlobalMode = 2;
                 g_GameMode = 0;
                 g_GameValueDB8 = 0;
             }
             else if (replays[selectedReplay].value1E4 == 1)
             {
                 g_GameValueDF0 = 1;
-                g_TitleLaunchState = 2;
+                g_TitleGlobalMode = 2;
                 g_GameMode = 1;
                 g_GameValueDB8 = 0;
             }
             else
             {
-                switch (replays[selectedReplay].value1E5)
+                if (replays[selectedReplay].value1E5 == 0)
                 {
-                case 1:
-                    g_GameValueDF0 = 1;
-                    g_TitleLaunchState = 2;
-                    g_GameMode = 2;
+                    g_GameValueDF0 = 0;
                     g_GameValueDB8 = 0;
-                    break;
-                case 2:
+                    g_TitleGlobalMode = 2;
+                    g_GameMode = 2;
+                }
+                else if (replays[selectedReplay].value1E5 == 1)
+                {
+                    g_GameValueDF0 = 1;
+                    g_GameValueDB8 = 0;
+                    g_TitleGlobalMode = 2;
+                    g_GameMode = 2;
+                }
+                else if (replays[selectedReplay].value1E5 == 2)
+                {
                     g_GameValueDF0 = 0;
                     g_GameValueDB8 = 1;
-                    g_TitleLaunchState = 2;
+                    g_TitleGlobalMode = 2;
                     g_GameMode = 2;
-                    break;
-                case 3:
+                }
+                else if (replays[selectedReplay].value1E5 == 3)
+                {
                     g_GameValueDF0 = 1;
                     g_GameValueDB8 = 1;
-                    g_TitleLaunchState = 2;
+                    g_TitleGlobalMode = 2;
                     g_GameMode = 2;
-                    break;
-                case 0:
-                case 4:
+                }
+                else if (replays[selectedReplay].value1E5 == 4)
+                {
                     g_GameValueDF0 = 0;
-                    g_TitleLaunchState = 2;
-                    g_GameMode = 2;
                     g_GameValueDB8 = 0;
-                    break;
-                default:
-                    break;
+                    g_TitleGlobalMode = 2;
+                    g_GameMode = 2;
                 }
             }
 

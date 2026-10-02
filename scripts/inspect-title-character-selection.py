@@ -3,7 +3,7 @@
 
 Read-only complete replay through independently reviewed destinations. Default
 is mode-0; --mode123 selects its neighbor, --ordinary the 14-entry owner,
-and --screen16 the final-selection owner.
+--screen16 the final-selection owner, and --replay-menu its replay neighbor.
 Requires Capstone. The canonical acceptance path remains the tracked match unit.
 """
 import difflib
@@ -24,6 +24,7 @@ mode = parser.add_mutually_exclusive_group()
 mode.add_argument('--mode123', action='store_true')
 mode.add_argument('--ordinary', action='store_true')
 mode.add_argument('--screen16', action='store_true')
+mode.add_argument('--replay-menu', action='store_true')
 args = parser.parse_args()
 base = 0x4289DB
 symbol = '?UpdateScreen8Mode0@TitleScreenView@@QAEHXZ'
@@ -40,6 +41,10 @@ elif args.screen16:
     base = 0x426334
     symbol = '?UpdateScreen16@TitleScreenView@@QAEHXZ'
     size = 897
+elif args.replay_menu:
+    base = 0x42689A
+    symbol = '?OnUpdateReplayMenu@TitleScreenView@@QAEHXZ'
+    size = 1387
 destinations = {
     '?g_TitleSide0InputFlags@@3IA': 0x4ACE1E,
     '?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z': 0x422F39,
@@ -101,6 +106,32 @@ destinations = {
     '?g_TitleScreen16Order@@3PADA': 0x4A1D9C,
     '?g_TitleScreen16Entries@@3PADA': 0x4AC8C4,
     '?g_TitleScreen16SelectionResult@@3HA': 0x4A7EC8,
+    '?MoveCursorVertical@TitleScreenView@@QAEHH@Z': 0x42457A,
+    '?PlaySoundByIdx@SoundPlayerView@@QAEXHH@Z': 0x43E2F0,
+    '?g_SoundPlayer@@3USoundPlayerView@@A': 0x4DC698,
+    '?LoadSurface@TitleAnmManagerView@@QAEHHPBD@Z': 0x43CAE0,
+    '?OpenFile@FileSystem@@YIPAEPBDPAHH@Z': 0x42C970,
+    '?LoadReplayData@ReplayManagerView@@SIPAUReplayDataView@@PAU2@H@Z': 0x4205E0,
+    '?g_TitleNameTableIndex@@3HA': 0x4A7EAC,
+    '?g_SelectedReplayPath@@3PADA': 0x4A7ED5,
+    '?g_TitleGameFlags@@3IA': 0x4A7EC4,
+    '_strcpy': 0x47C4E0,
+    '_strcat': 0x47C4F0,
+    '_sprintf': 0x47C47B,
+    '_memset': 0x47C390,
+    '_free': 0x47B163,
+    '__mkdir': 0x47C71B,
+    '__chdir': 0x47C5D8,
+    '__imp__FindFirstFileA@8': 0x48E074,
+    '__imp__FindNextFileA@8': 0x48E070,
+    '__imp__FindClose@4': 0x48E06C,
+    '??_C@_0BD@LOIKDJIG@title?1replay00?4png?$AA@': 0x48F6D4,
+    '??_C@_0BG@BOKNDPOO@?4?1replay?1th9_?$CF?42d?4rpy?$AA@': 0x48F6BC,
+    '??_C@_06HOJHLELG@replay?$AA@': 0x48F6B4,
+    '??_C@_0P@JBFLNHEF@th9_ud?$DP?$DP?$DP?$DP?4rpy?$AA@': 0x48F6A4,
+    '??_C@_07DAGALJGA@replay?1?$AA@': 0x48F69C,
+    '??_C@_0M@JBOPCDDP@?4?1replay?1?$CFs?$AA@': 0x48F690,
+    '??_C@_03LOJJKLGJ@?4?4?1?$AA@': 0x48F68C,
 }
 target = coff.pe_bytes_at(coff.verified_target(), base, size)
 code, relocations = coff.object_function(args.object, symbol)
