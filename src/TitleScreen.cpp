@@ -1430,8 +1430,17 @@ int TitleScreenView::OnUpdateCharacterSelect()
                     visibleByteOffset += sizeof(AnmVmView);
                 }
             }
-            for (i32 index = visibleCount; index < 16; index++)
-                vms[191 + index].flags &= ~2u;
+            if (visibleCount < 16)
+            {
+                i32 hiddenByteOffset = visibleCount * sizeof(AnmVmView);
+                do
+                {
+                    reinterpret_cast<AnmVmView *>(
+                        reinterpret_cast<unsigned char *>(vms) +
+                        191 * sizeof(AnmVmView) + hiddenByteOffset)->flags &= ~2u;
+                    hiddenByteOffset += sizeof(AnmVmView);
+                } while (hiddenByteOffset < 16 * (i32)sizeof(AnmVmView));
+            }
 
             vms[189].flags |= 2;
             vms[190].flags &= ~2u;

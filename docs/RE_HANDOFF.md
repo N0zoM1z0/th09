@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 897 |
-| Source-present non-exact functions | 83 |
-| Source-present non-exact bytes | 91,484 |
+| Canonical exact functions | 898 |
+| Source-present non-exact functions | 82 |
+| Source-present non-exact bytes | 89,912 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 184,286 |
+| Canonical exact authored bytes | 185,858 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -303,7 +303,7 @@ Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-ti
 Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
 remain open but are no longer the exclusive focus. That temporary list's
 progress snapshot is stale: it reports 881 exact and 98 non-exact, while the
-live ledger currently reports 897 exact and 83 non-exact. Recheck every listed
+live ledger now reports 898 exact and 82 non-exact. Recheck every listed
 candidate against `config/functions.csv` and the match-unit manifest before
 resuming it; use the temporary file only as a historical routing aid.
 
@@ -335,49 +335,27 @@ and `python3 scripts/compare-coff-function.py --unit title-screen-character-sele
 All 32 prior O1 exact units retain complete raw bytes and relocation records,
 including StartMenu's private labels. Focused fresh carriers replay 33 O1 units
 plus the separate O2 score-record-insert unit, all exact. No full-repository cold
-cohort was run. Current exact coverage is 184,286 /275,770 bytes (66.83%); the
->95% objective and native/runtime gates remain open. Ordinary character
-selection remains independently nonexact; Packet 724 closes screen16 below.
+cohort was run. Live exact coverage after Packet 752 is 185,858 /275,770 bytes
+(67.40%); the >95% objective and native/runtime gates remain open. Packet 724
+closes screen16 below.
 
-### Latest ordinary character-selection repair and one-byte frontier
+### Ordinary character-selection exact closure
 
-`TitleScreenView::OnUpdateCharacterSelect @ 0x004254A7` remains NON-EXACT.
-Packet 751 advances the maintained source to a genuine visible-VM byte cursor
-alongside the stack-resident visible count. Two cold O1/Ob1 builds agree on the
-complete 1572-byte function (raw SHA-256
-`16f099c46813b137c3be527b76e06bd4331bef5ce09bd4c8db652e7d8894a8a7`),
-421 instructions and 85 relocation fields. Complete replay now differs at only
-`+0x41B`: the cleanup loop's LEA uses equivalent ECX-base/EAX-index SIB where
-the target uses EAX-base/ECX-index. Generic structural comparison is
-1231/1232 ordinary bytes and remains `mismatch`; no exact credit is added.
-Equivalent cleanup index/byte-offset spellings reproduce the same byte, while
-a separately formed `&vms[191]` base adds an instruction. All 37 existing
-same-source exact units replay after refreshing nine StartMenu compiler-private
-label spellings at unchanged, independently solved target destinations. Do not
-repeat those cleanup spellings without new TH09-local source-shape evidence.
-
-Packet 723 supersedes the stale 1577-byte/0x0C-frame candidate: two cold builds
-and the canonical carrier now reproduce 1572 bytes, 421 instructions, frame8,
-all 29 ordered direct calls and 85 fields (29 REL32 /56 DIR32). Full independent
-replay differs only at +0x3DC/+0x3EF, the SIB bytes of the two visible-VM init
-LEAs: target EAX-base/EDI-index versus equivalent candidate EDI-base/EAX-index.
-No new match unit or partial credit is registered. Raw hash is
-43a2b1ee0ddc2babde41d3905443ed6f6592a4c13d0f0580fb2b31ed2ddd4bbb.
-Reproduce with pinned O1/Ob1 TitleScreen compilation and
-`python3 scripts/inspect-title-character-selection.py OBJECT --ordinary`.
-
-Retained source fixes two genuine old errors: difficulty 4 reads config slot 4
-(base +0x8C +24*character), not slot 0; launch first clears stage 0x004A7E8C,
-then sets the existing global mode 0x004B3690 to 2. It no longer uses the
-provisional duplicate launch-state view in this owner. Exact GetOptionState's
-0x7C table layout is unchanged. Char pair/shared integer, descending RGB stores,
-short-circuit unlock checks, physical phase order and direct calls recover all
-target bytes except the two recorded SIB bytes. Pointer/bank/index-spelling controls are neutral;
-splitting integer scope swaps real homes, and absolute VM indices change cursor
-induction. Read Packet 723 before repeating these controls. All 34 existing
-TitleScreen units replay exact after one verified private StartMenu table-label
-spelling refresh; no target address changes. That checkpoint's coverage was
-64.60%; the subsequent screen16 closure raises live coverage to 64.93%.
+`TitleScreenView::OnUpdateCharacterSelect @0x004254A7..0x00425ACA` is now
+canonical exact: 1572 code/physical bytes, 421 instructions, frame8, 29 direct
+calls and 85 reviewed relocation fields (29 REL32 /56 DIR32). Packet 752
+combines Packet 751's real visible-VM byte cursor with a signed, prechecked
+`do/while` cleanup byte cursor. This reproduces the target EAX-base/ECX-index
+LEA and signed `JL` backedge without changing the 16-entry visibility behavior.
+Two cold builds and the canonical carrier agree on all raw bytes and complete
+offset/type/symbol/addend records; raw SHA-256 is
+`d8776ce67541a45225448baeca5b31e5f0165547c0fd2ec25326b5a8203f729a`.
+Reproduce with `python3 scripts/build-match-unit.py --unit title-screen-character-select-ordinary`
+then `python3 scripts/compare-coff-function.py --unit title-screen-character-select-ordinary --json`.
+All 37 prior same-source exact units replay; nine StartMenu private
+label names are refreshed after unchanged offset/type/addend and target proof.
+Packets 723 and 751 retain the rejected variants. Original translation-unit
+ownership and native product/runtime gates remain open.
 
 ### Latest screen16 final-selection exact closure
 
