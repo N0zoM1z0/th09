@@ -47,6 +47,10 @@ and portability have not started.
 
 Packet 748 moves the real descriptor `count1` calculation before speed and
 `count2` assignment after speed, following target-observed compare/store order.
+Packet 755 checks three further natural source forms without retaining an edit:
+a genuine 12-byte descriptor `memcpy` and a named draw-group index are
+raw-byte neutral, while a by-value trail result regresses to 2801/3512
+ordinary bytes. Do not repeat these forms without new TH09-local evidence.
 The complete current candidate remains 3,900 physical /3,883 code bytes with
 97 records; two cold builds agree on raw SHA-256
 `51d8510ea19461e0bef2f658c616277805ea138ba431be646c10b158053a1bc6`.
