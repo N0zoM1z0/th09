@@ -33,11 +33,11 @@ SHA-256:
 | Confirmed authored | 979 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 979 |
-| Canonical exact functions | 889 |
-| Source-present non-exact functions | 90 |
-| Source-present non-exact bytes | 101,981 |
+| Canonical exact functions | 890 |
+| Source-present non-exact functions | 89 |
+| Source-present non-exact bytes | 99,828 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 173,688 |
+| Canonical exact authored bytes | 175,841 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -62,11 +62,40 @@ Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-ti
 Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
 remain open but are no longer the exclusive focus. That temporary list's
 progress snapshot is stale: it reports 881 exact and 98 non-exact, while the
-live ledger currently reports 889 exact and 90 non-exact. Recheck every listed
+live ledger currently reports 890 exact and 89 non-exact. Recheck every listed
 candidate against `config/functions.csv` and the match-unit manifest before
 resuming it; use the temporary file only as a historical routing aid.
 
-### Latest non-exact investigation: Player movement and KeyConfig
+### Latest screen-8 closure and near-exact frontier
+
+`TitleScreenView::UpdateScreen8Mode123 @ 0x00425ACB` is canonical exact at
+2,153 bytes /564 instructions /89 relocation fields. Two cold builds reproduce
+the complete owner, frame 0x0C, all raw bytes and every relocation record.
+Packet 721 supersedes Packet 537's moving-VM cache: retail reloads vms after
+SetSprite. Initialization really uses banks 93/61 for both selections, even
+though later side0 cursor calls use 92/60. Preserve that asymmetry. Real input
+snapshots, independent phase guards, equality-to-one reset, two-character array
+and direct cancel-branch returns close the maintained source without ABI,
+layout, visibility-body, pragma or compiler-profile changes.
+
+`UpdateScreen8Mode0 @ 0x004289DB` remains NON-EXACT at target-sized 2,241
+bytes /627 instructions /116 fields. Packet 721's real character pair recovers
+frame8 and all target stack homes; the first cancel DWORD read and later WORD
+checks are preserved through a partial read-width view, not a new data owner.
+Complete independent replay differs only in 27 SIB bytes: 24 color stores and
+three initialization LEAs reverse equivalent base/index operands. Do not repeat
+the old scalar declaration-order/frame search or credit equivalent addresses.
+Reproduce with pinned O1/Ob1 TitleScreen compilation and
+`python3 scripts/inspect-title-character-selection.py OBJECT`.
+
+All 31 prior O1 exact units retain raw bytes and relocation structure; nine
+StartMenu internal label spellings are refreshed after actual owner-relative
+offset verification. The final focused carriers replay 32 O1 units plus the
+separate O2 score-record-insert unit, all exact. No full-repository cold cohort
+was run. Current exact coverage is 175,841 /275,669 bytes (63.79%); the >95%
+objective and native/runtime gates remain open.
+
+### Earlier non-exact investigation: Player movement and KeyConfig
 
 `PlayerLifecycleView::UpdateMovementAndOptions @ 0x0041C170` remains
 non-exact. Packet 720 corrects the measurement scope: target code is 1,835
@@ -85,7 +114,8 @@ SHT load/angle/FPU scheduling, register lifetimes and option-loop layout are ope
 Packet 719 also records a negative KeyConfig real-callee-visibility probe:
 the actual SoundPlayer definition leaves the entire candidate unchanged at
 2,803 bytes /2,325 of 2,331 ordinary bytes. No sound/source/profile changes
-are retained. Exact totals remain 889 functions /173,688 bytes (63.01%).
+are retained. Packet 720 ended at 889 functions /173,688 bytes (63.01%);
+Packet 721 and the live table above supersede those totals.
 
 ### Latest large-owner closure: FrontSide::OnUpdate
 
