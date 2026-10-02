@@ -1097,6 +1097,33 @@ does not close the native product or runtime gates.
 
 ### Etama OnUpdate large-function frontier
 
+Packet 741 adds a complete, independently TH09-bound physical diagnostic at
+`scripts/inspect-etama-update.py`. Two cold maintained-source builds agree on
+all2,216 raw bytes and88 full relocation records; raw SHA256 is
+0f218aafc048890160aeef8ee02468ded5db7a5bbc83ac5802de942334572e88.
+The 2,195-byte body has553 decoded instructions,62 direct calls,60 conditional
+and18 unconditional jumps in both target and candidate. All33 direct callee
+identities, global/float operands and six compiler-private destinations are
+target-bound. After complete relocation, exactly43 bytes differ at relative
+`+0x27..+0x52`; the entire `+0x53` physical suffix, including alignment and
+five table entries, agrees. This is diagnostic only: no prefix/suffix or
+partial exactness credit. The live row's older 19-versus-18 JMP statement is
+corrected. IDA's stale 2,256-byte Packet181 entry comment is corrected and
+read back.
+
+Source controls with a function-scope bullet index, chained counter zeros,
+broader real bullet/laser pointer or collision-result lifetimes and actual
+SelectSide body visibility are byte-neutral. Sharing the counter-zero value
+with the bullet loop index moves the EBX save but also moves zeroing before
+the target's flag test, or creates an extra index store before the counter
+stores; it is not a closing form. Do not repeat these variants without new
+source/TU evidence. Reproduce with
+`bash scripts/compile-probe.sh src/BulletManager.cpp build/etama-update.obj /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- /I src`
+and `python3 -B scripts/inspect-etama-update.py build/etama-update.obj`.
+Focus next on a natural reason VC7.1 saves EBX before SelectSide and uses it
+for exactly three post-call zero stores, without shifting the already-exact
+physical suffix. No maintained source or canonical match changes.
+
 `EtamaController::OnUpdate @ 0x004146F0` remains source-present/non-exact, but
 a fresh target/object review supersedes the old 2,208-versus-2,195 aggregate
 size note. The target body ends at relative `+0x893` (the `ret` is at
