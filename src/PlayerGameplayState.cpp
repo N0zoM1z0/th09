@@ -236,180 +236,6 @@ struct PlayerSharedRuntimeView
 };
 extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
 
-template <typename T>
-__forceinline T &GameplayField(void *owner, size_t offset)
-{
-    return *reinterpret_cast<T *>(
-        reinterpret_cast<unsigned char *>(owner) + offset);
-}
-
-__forceinline PlayerGameplayMethods *GameplayMethods(PlayerLifecycleView *player)
-{
-    return reinterpret_cast<PlayerGameplayMethods *>(player);
-}
-
-__forceinline PlayerGameplayFrontSideView *FrontSide(PlayerSideStateView *side)
-{
-    return reinterpret_cast<PlayerGameplayFrontSideView *>(side->frontSide18);
-}
-
-__forceinline int HeaderTimerIsModulo(PlayerGameplayHeaderView *header, int divisor)
-{
-    return header->frameTimer00.HasTickedEvery(divisor);
-}
-
-__forceinline void ClampPatternPosition(PlayerPositionView *position)
-{
-    if (position->x < g_PlayerPlayfieldMinX)
-        position->x = g_PlayerPlayfieldMinX;
-    else if (position->x > g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth)
-        position->x = g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth;
-
-    if (position->y < g_PlayerPlayfieldMinY)
-        position->y = g_PlayerPlayfieldMinY;
-    else if (position->y > g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight)
-        position->y = g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight;
-}
-
-__forceinline void ResolvePatternPosition(
-    PlayerLifecycleView *player,
-    int pattern,
-    int alternate,
-    PlayerPositionView *position)
-{
-    float offsetX;
-    float offsetY;
-    GameplayMethods(player)->ResolvePatternOffset(
-        pattern, alternate, &offsetX, &offsetY);
-    *position = player->position1B88;
-    position->x += offsetX;
-    position->y += offsetY;
-    ClampPatternPosition(position);
-}
-
-__forceinline int IsPatternPositionBlocked(
-    PlayerLifecycleView *player,
-    const PlayerPositionView &position,
-    const PlayerPositionView &halfSize,
-    float radius)
-{
-    return player->collisionQuery36C.FindCollision(
-               position, halfSize, radius) != NULL;
-}
-
-__forceinline void ShiftPatternHistory(int *history, int value)
-{
-    for (int index = 7; index > 0; --index)
-        history[index] = history[index - 1];
-    history[0] = value;
-}
-
-__forceinline void *PrimaryTargetManager(PlayerLifecycleView *player)
-{
-    return player->sideState->attackTarget10;
-}
-
-__forceinline void *PrimaryTargetEnemy(PlayerLifecycleView *player)
-{
-    void *manager = PrimaryTargetManager(player);
-    return GameplayField<void *>(manager, 0x2AC444);
-}
-
-__forceinline void ResolveOpponentTarget(
-    PlayerGameplayHeaderView *header,
-    PlayerPositionView *target)
-{
-    PlayerLifecycleView *player = header->player78;
-    target->x = -1000.0f;
-    const PlayerPositionView *overridePosition = reinterpret_cast<const PlayerPositionView *>(
-        reinterpret_cast<unsigned char *>(player) + 0x30F64);
-    if (overridePosition->x > -999.0f)
-    {
-        *target = *overridePosition;
-    }
-    else
-    {
-        void *manager = PrimaryTargetManager(player);
-        void *enemy = GameplayField<void *>(manager, 0x2AC444);
-        if (enemy != NULL)
-        {
-            *target = GameplayField<PlayerPositionView>(enemy, 0x2D74);
-            target->y += 128.0f;
-            unsigned int flags = GameplayField<unsigned int>(enemy, 0x3380);
-            if ((flags & 0xC00U) == 0xC00U || (flags & 0x2000U) != 0)
-                target->y = 400.0f;
-            goto target_resolved;
-        }
-
-        enemy = GameplayField<void *>(manager, 0x2AC448);
-        if (enemy != NULL)
-        {
-            *target = GameplayField<PlayerPositionView>(enemy, 0x2D74);
-            target->y += 128.0f;
-        }
-    }
-
-target_resolved:
-    if (header->recentPatterns10[0] == header->recentPatterns10[2] &&
-        header->recentPatterns10[1] == header->recentPatterns10[3] &&
-        header->recentPatterns10[0] != header->recentPatterns10[1])
-    {
-        target->x = -target->x;
-        target->y = g_PlayerGameplayRng.GetRandomF32InRange(448.0f);
-    }
-}
-
-__forceinline int SelectTargetPattern(
-    PlayerGameplayHeaderView *header,
-    int currentPattern,
-    int alternate,
-    const PlayerPositionView &boxHalfSize)
-{
-    PlayerPositionView target;
-    ResolveOpponentTarget(header, &target);
-    if (!(target.x > -999.0f && target.y < 448.0f))
-        return currentPattern;
-
-    int pattern;
-    PlayerLifecycleView *player = header->player78;
-    PlayerPositionView candidate = player->position1B88;
-    float offsetX;
-    float offsetY;
-    if (target.x + 6.0f < player->position1B88.x)
-    {
-        pattern =
-            (target.y + 6.0f < candidate.y && candidate.y > 48.0f)
-                ? 5
-                : 7;
-        GameplayMethods(player)->ResolvePatternOffset(
-            pattern, alternate, &offsetX, &offsetY);
-        candidate.x += offsetX;
-        candidate.y += offsetY;
-        ClampPatternPosition(&candidate);
-    }
-    else if (target.x - 6.0f > player->position1B88.x)
-    {
-        pattern =
-            (target.y + 6.0f < candidate.y && candidate.y > 48.0f)
-                ? 6
-                : 8;
-        // The target's rightward collision probe uses the old pattern.
-        GameplayMethods(player)->ResolvePatternOffset(
-            currentPattern, alternate, &offsetX, &offsetY);
-        candidate.x += offsetX;
-        candidate.y += offsetY;
-        ClampPatternPosition(&candidate);
-    }
-    else
-    {
-        return currentPattern;
-    }
-
-    if (IsPatternPositionBlocked(player, candidate, boxHalfSize, 0.0f))
-        return currentPattern;
-    return pattern;
-}
-
 } // namespace
 
 void __fastcall PlayerUpdateSelectorState(void *state)
@@ -425,52 +251,56 @@ void __fastcall PlayerUpdateSelectorState(void *state)
         0x58);
     PlayerPositionView *halfSizes =
         reinterpret_cast<PlayerPositionView *>(constructedHalfSizes);
-    float radii[3];
-    radii[0] = 48.0f;
-    radii[1] = 16.0f;
-    radii[2] = 0.0f;
+    // The third collision radius is implicitly zero-initialized.
+    float radii[3] = {48.0f, 16.0f};
     int halfSizeIndex = 0;
+    // All collision probes reuse these genuine output workspaces.
+    float offsetX;
+    float offsetY;
+    PlayerPositionView candidate;
 
     if (g_PlayerSharedRuntime->updateBlock1095C != 0 ||
         g_PlayerSharedRuntime->IsBlocked())
         return;
 
+    // Preserve the initial receiver across the mode and timer calls.
+    PlayerLifecycleView *initialPlayer = header->player78;
     PlayerPatternConfig *config =
-        &g_PlayerPatternConfigs[header->player78->sideState->characterIndex2C];
+        &g_PlayerPatternConfigs[initialPlayer->sideState->characterIndex2C];
     if (g_GameManager.IsGameMode1())
     {
-        FrontSide(header->player78->opponentState)->SetPatternTiming(
-            config->openingShort08 * 60 -
-            reinterpret_cast<PlayerGameplayTimerCurrentView *>(
-                &header->openingTimer5C)->GetCurrent());
+        int openingTime = reinterpret_cast<PlayerGameplayTimerCurrentView *>(
+            &header->openingTimer5C)->GetCurrent();
+        reinterpret_cast<PlayerGameplayFrontSideView *>(initialPlayer->opponentState->frontSide18)->SetPatternTiming(
+            config->openingShort08 * 60 - openingTime);
     }
 
     if ((header->flags74 & 1U) == 0)
     {
         if ((header->player78->sideState->flags34 & 1U) == 0 &&
-            GameplayField<int>(header->player78->opponentState->manager04, 0x3044C) <= 360)
+            (*reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(header->player78->opponentState->manager04) + 0x3044C)) <= 360)
             header->openingTimer5C++;
 
         PlayerLifecycleView *phasePlayer = header->player78;
         int phase = phasePlayer->header24.state84;
         int threshold = phase >= 10
-                            ? config->openingLong00
-                            : (phase >= 2 ? config->openingMedium04
-                                          : config->openingShort08);
+            ? config->openingLong00
+            : (phase >= 2 ? config->openingMedium04
+                          : config->openingShort08);
         if (g_GameManager.IsGameMode1() &&
-            GameplayMethods(phasePlayer)->GetUpdateState() != 1)
+            reinterpret_cast<PlayerGameplayMethods *>(phasePlayer)->GetUpdateState() != 1)
         {
-            GameplayMethods(phasePlayer)->EnterGameplayMode(3);
+            reinterpret_cast<PlayerGameplayMethods *>(phasePlayer)->EnterGameplayMode(3);
             reinterpret_cast<ZunTimer *>(&header->player78->timer303C8)->SetCurrent(2);
         }
         if (reinterpret_cast<PlayerGameplayTimerCurrentView *>(
-                &header->openingTimer5C)->GetCurrent() / 60 >= threshold)
+            &header->openingTimer5C)->GetCurrent() / 60 >= threshold)
         {
             header->flags74 |= 1U;
             if (g_GameManager.IsGameMode1())
             {
-                FrontSide(header->player78->opponentState)->ResetPatternTiming();
-                FrontSide(header->player78->opponentState)->SetPatternTiming(-1);
+                reinterpret_cast<PlayerGameplayFrontSideView *>((header->player78->opponentState)->frontSide18)->ResetPatternTiming();
+                reinterpret_cast<PlayerGameplayFrontSideView *>((header->player78->opponentState)->frontSide18)->SetPatternTiming(-1);
             }
         }
     }
@@ -479,11 +309,11 @@ void __fastcall PlayerUpdateSelectorState(void *state)
         header->secondaryTimer68++;
         int phase = header->player78->header24.state84;
         int threshold = phase >= 10
-                            ? config->secondaryLong0C
-                            : (phase >= 2 ? config->secondaryMedium10
-                                          : config->secondaryShort14);
+            ? config->secondaryLong0C
+            : (phase >= 2 ? config->secondaryMedium10
+                          : config->secondaryShort14);
         if (reinterpret_cast<PlayerGameplayTimerCurrentView *>(
-                &header->secondaryTimer68)->GetCurrent() / 60 >= threshold)
+            &header->secondaryTimer68)->GetCurrent() / 60 >= threshold)
             header->flags74 |= 2U;
     }
 
@@ -518,8 +348,8 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     halfSizes[2] = header->player78->hurtboxHalfSize;
 
     {
-        void *manager = PrimaryTargetManager(header->player78);
-        if (GameplayField<int>(manager, 0x2AC3B8) >= 4)
+        void *manager = (header->player78)->sideState->attackTarget10;
+        if ((*reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(manager) + 0x2AC3B8)) >= 4)
         {
             g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |= 4U;
             alternate = 1;
@@ -529,7 +359,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     g_PlayerPatternGrid[cell][1] = header->currentPattern54;
 
     if ((header->flags74 & 2U) == 0 ||
-        GameplayField<int>(header->player78->opponentState->manager04, 0x3044C) > 300)
+        (*reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(header->player78->opponentState->manager04) + 0x3044C)) > 300)
     {
         if (header->retryCooldown50 != 0)
         {
@@ -537,36 +367,57 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             for (halfSizeIndex = 0; halfSizeIndex < 2; ++halfSizeIndex)
             {
                 selectedPattern = header->currentPattern54;
-                PlayerLifecycleView *player = header->player78;
-                PlayerPositionView candidate;
-                ResolvePatternPosition(
-                    player, selectedPattern, alternate, &candidate);
-                if (!IsPatternPositionBlocked(
-                        player,
-                        candidate,
-                        halfSizes[halfSizeIndex],
-                        radii[halfSizeIndex]))
+                PlayerLifecycleView *candidatePlayer = header->player78;
+
+                {
+                    reinterpret_cast<PlayerGameplayMethods *>(candidatePlayer)->ResolvePatternOffset(
+                        selectedPattern, alternate, &offsetX, &offsetY);
+                    candidate = candidatePlayer->position1B88;
+                    candidate.x += offsetX;
+                    candidate.y += offsetY;
+                    if (candidate.x < g_PlayerPlayfieldMinX)
+                        candidate.x = g_PlayerPlayfieldMinX;
+                    else if (candidate.x > g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth)
+                        candidate.x = g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth;
+                    if (candidate.y < g_PlayerPlayfieldMinY)
+                        candidate.y = g_PlayerPlayfieldMinY;
+                    else if (candidate.y > g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight)
+                        candidate.y = g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight;
+                }
+                if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, halfSizes[halfSizeIndex], radii[halfSizeIndex]) != NULL))
                     goto pattern_selected;
             }
         }
 
-retry_pattern_grid:
+    retry_pattern_grid:
         {
+            halfSizeIndex = 0;
             PlayerPositionView *gridHalfSize = halfSizes;
             float *gridRadius = radii;
-            for (halfSizeIndex = 0; halfSizeIndex < 3;
-                 ++halfSizeIndex, ++gridRadius, ++gridHalfSize)
+            for (; halfSizeIndex < 3;
+                ++halfSizeIndex, ++gridRadius, ++gridHalfSize)
             {
-                for (int patternIndex = halfSizeIndex; patternIndex < 10;
-                     ++patternIndex)
+                for (int patternIndex = halfSizeIndex; patternIndex < 10; ++patternIndex)
                 {
                     selectedPattern = g_PlayerPatternGrid[cell][patternIndex];
-                    PlayerLifecycleView *player = header->player78;
-                    PlayerPositionView candidate;
-                    ResolvePatternPosition(
-                        player, selectedPattern, alternate, &candidate);
-                    if (!IsPatternPositionBlocked(
-                            player, candidate, *gridHalfSize, *gridRadius))
+                    PlayerLifecycleView *candidatePlayer = header->player78;
+
+                    {
+                        reinterpret_cast<PlayerGameplayMethods *>(candidatePlayer)->ResolvePatternOffset(
+                            selectedPattern, alternate, &offsetX, &offsetY);
+                        candidate = candidatePlayer->position1B88;
+                        candidate.x += offsetX;
+                        candidate.y += offsetY;
+                        if (candidate.x < g_PlayerPlayfieldMinX)
+                            candidate.x = g_PlayerPlayfieldMinX;
+                        else if (candidate.x > g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth)
+                            candidate.x = g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth;
+                        if (candidate.y < g_PlayerPlayfieldMinY)
+                            candidate.y = g_PlayerPlayfieldMinY;
+                        else if (candidate.y > g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight)
+                            candidate.y = g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight;
+                    }
+                    if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, *gridHalfSize, *gridRadius) != NULL))
                         goto pattern_selected;
                 }
             }
@@ -582,7 +433,7 @@ retry_pattern_grid:
         if ((header->flags74 & 1U) == 0)
         {
             PlayerLifecycleView *player = header->player78;
-            if (GameplayMethods(player)->GetUpdateState() == 0 &&
+            if (reinterpret_cast<PlayerGameplayMethods *>(player)->GetUpdateState() == 0 &&
                 reinterpret_cast<ZunTimer *>(&player->timer1B74)->operator==(0))
             {
                 if (header->crossedThreshold0C != 0 &&
@@ -602,95 +453,225 @@ retry_pattern_grid:
 
 pattern_selected:
     {
-    if (header->player78->scalar30384 >= header->distanceThreshold58)
-    {
-        g_PlayerSideProtocols[header->player78->sideIndex].thresholdFlags34 |= 1U;
-        header->crossedThreshold0C = 0;
-        header->distanceThreshold58 =
-            (static_cast<int>(g_PlayerGameplayRng.GetRandomU32InRange(4)) + 1.0f) * 100.0f;
-        if (header->distanceThreshold58 >= 400.0f)
-            header->distanceThreshold58 = 400.0f;
-    }
-    else
-    {
-        if (header->crossedThreshold0C != 0)
-            g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |= 1U;
-    }
-
-    int patternFlag = g_PlayerPatternFlags[selectedPattern];
-    if (patternFlag != 0 && (header->flags74 & 2U) == 0)
-    {
-        if (header->retryCooldown50 == 0 &&
-            header->recentPatternFlags30[0] == header->recentPatternFlags30[1] &&
-            header->recentPatternFlags30[1] == header->recentPatternFlags30[2] &&
-            header->recentPatternFlags30[2] == header->recentPatternFlags30[3] &&
-            header->recentPatternFlags30[3] == header->recentPatternFlags30[4] &&
-            header->recentPatternFlags30[4] == header->recentPatternFlags30[5])
+        if (header->player78->scalar30384 >= header->distanceThreshold58)
         {
-            int candidatePattern = g_PlayerPatternAlternates[
-                g_PlayerGameplayRng.GetRandomU16InRange(2) * 9 + selectedPattern];
-            PlayerLifecycleView *player = header->player78;
-            PlayerPositionView candidate;
-            ResolvePatternPosition(
-                player, candidatePattern, alternate, &candidate);
-            int testHalfSize = halfSizeIndex < 2
-                                   ? halfSizeIndex + 1
-                                   : halfSizeIndex;
-            if (!IsPatternPositionBlocked(
-                    player,
-                    candidate,
-                    halfSizes[testHalfSize],
-                    radii[testHalfSize]))
+            g_PlayerSideProtocols[header->player78->sideIndex].thresholdFlags34 |= 1U;
+            header->crossedThreshold0C = 0;
+            header->distanceThreshold58 =
+                (static_cast<int>(g_PlayerGameplayRng.GetRandomU32InRange(4)) + 1.0f) * 100.0f;
+            if (header->distanceThreshold58 >= 400.0f)
+                header->distanceThreshold58 = 400.0f;
+        }
+        else
+        {
+            if (header->crossedThreshold0C != 0)
+                g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |= 1U;
+        }
+
+        int patternFlag = g_PlayerPatternFlags[selectedPattern];
+        if (patternFlag != 0 && (header->flags74 & 2U) == 0)
+        {
+            if (header->retryCooldown50 == 0 &&
+                header->recentPatternFlags30[0] == header->recentPatternFlags30[1] &&
+                header->recentPatternFlags30[1] == header->recentPatternFlags30[2] &&
+                header->recentPatternFlags30[2] == header->recentPatternFlags30[3] &&
+                header->recentPatternFlags30[3] == header->recentPatternFlags30[4] &&
+                header->recentPatternFlags30[4] == header->recentPatternFlags30[5])
             {
-                selectedPattern = candidatePattern;
-                header->retryCooldown50 = 8;
-                patternFlag = g_PlayerPatternFlags[selectedPattern];
+                int candidatePattern = g_PlayerPatternAlternates[
+                    g_PlayerGameplayRng.GetRandomU16InRange(2) * 9 + selectedPattern];
+                PlayerLifecycleView *candidatePlayer = header->player78;
+
+                {
+                    reinterpret_cast<PlayerGameplayMethods *>(candidatePlayer)->ResolvePatternOffset(
+                        candidatePattern, alternate, &offsetX, &offsetY);
+                    candidate = candidatePlayer->position1B88;
+                    candidate.x += offsetX;
+                    candidate.y += offsetY;
+                    if (candidate.x < g_PlayerPlayfieldMinX)
+                        candidate.x = g_PlayerPlayfieldMinX;
+                    else if (candidate.x > g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth)
+                        candidate.x = g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth;
+                    if (candidate.y < g_PlayerPlayfieldMinY)
+                        candidate.y = g_PlayerPlayfieldMinY;
+                    else if (candidate.y > g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight)
+                        candidate.y = g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight;
+                }
+                int testHalfSize = halfSizeIndex < 2
+                ? halfSizeIndex + 1
+                    : halfSizeIndex;
+                if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, halfSizes[testHalfSize], radii[testHalfSize]) != NULL))
+                {
+                    selectedPattern = candidatePattern;
+                    header->retryCooldown50 = 8;
+                    patternFlag = g_PlayerPatternFlags[selectedPattern];
+                }
+            }
+
+            g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
+                static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
+            if (header->retryCooldown50 == 0)
+            {
+                int *history = header->recentPatternFlags30;
+                for (int historyIndex = 7; historyIndex > 0; --historyIndex)
+                    history[historyIndex] = history[historyIndex - 1];
+            }
+            // Cooldown suppresses shifting, not the current flag refresh.
+            header->recentPatternFlags30[0] = g_PlayerPatternFlags[selectedPattern];
+        }
+        else
+        {
+            {
+                PlayerPositionView target;
+                {
+                    PlayerLifecycleView *player = header->player78;
+                    target.x = -1000.0f;
+                    const PlayerPositionView *overridePosition = reinterpret_cast<const PlayerPositionView *>(
+                        reinterpret_cast<unsigned char *>(player) + 0x30F64);
+                    if (overridePosition->x > -999.0f)
+                    {
+                        target = *overridePosition;
+                    }
+                    else
+                    {
+                        void *manager = (player)->sideState->attackTarget10;
+                        void *enemy = (*reinterpret_cast<void * *>(reinterpret_cast<unsigned char *>(manager) + 0x2AC444));
+                        if (enemy != NULL)
+                        {
+                            target = (*reinterpret_cast<PlayerPositionView *>(reinterpret_cast<unsigned char *>(enemy) + 0x2D74));
+                            target.y += 128.0f;
+                            unsigned int flags = (*reinterpret_cast<unsigned int *>(reinterpret_cast<unsigned char *>(enemy) + 0x3380));
+                            if ((flags & 0xC00U) == 0xC00U || (flags & 0x2000U) != 0)
+                                target.y = 400.0f;
+                            goto opponent_target_resolved;
+                        }
+
+                        enemy = (*reinterpret_cast<void * *>(reinterpret_cast<unsigned char *>(manager) + 0x2AC448));
+                        if (enemy != NULL)
+                        {
+                            target = (*reinterpret_cast<PlayerPositionView *>(reinterpret_cast<unsigned char *>(enemy) + 0x2D74));
+                            target.y += 128.0f;
+                        }
+                    }
+
+                opponent_target_resolved:
+                    if (header->recentPatterns10[0] == header->recentPatterns10[2] &&
+                        header->recentPatterns10[1] == header->recentPatterns10[3] &&
+                        header->recentPatterns10[0] != header->recentPatterns10[1])
+                    {
+                        target.x = -target.x;
+                        target.y = g_PlayerGameplayRng.GetRandomF32InRange(448.0f);
+                    }
+
+                }
+                if (target.x > -999.0f)
+                {
+                    if (target.y < 448.0f)
+                    {
+                        int pattern;
+                        PlayerLifecycleView *trackingPlayer = header->player78;
+                        candidate = trackingPlayer->position1B88;
+                        if (target.x + 6.0f < trackingPlayer->position1B88.x)
+                        {
+                            pattern =
+                                (target.y + 6.0f < candidate.y && candidate.y > 48.0f) ? 5 : 7;
+                            {
+                                PlayerLifecycleView *candidatePlayer = trackingPlayer;
+                                reinterpret_cast<PlayerGameplayMethods *>(candidatePlayer)->ResolvePatternOffset(
+                                    pattern, alternate, &offsetX, &offsetY);
+                                candidate.x += offsetX;
+                                candidate.y += offsetY;
+                                if (candidate.x < g_PlayerPlayfieldMinX)
+                                    candidate.x = g_PlayerPlayfieldMinX;
+                                else if (candidate.x > g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth)
+                                    candidate.x = g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth;
+                                if (candidate.y < g_PlayerPlayfieldMinY)
+                                    candidate.y = g_PlayerPlayfieldMinY;
+                                else if (candidate.y > g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight)
+                                    candidate.y = g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight;
+                            }
+                            if (trackingPlayer->collisionQuery36C.FindCollision(candidate, halfSizes[1], 0.0f) == NULL)
+                                g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
+                                    static_cast<unsigned short>(g_PlayerPatternFlags[pattern]);
+                            else
+                                g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
+                                    static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
+                        }
+                        else if (target.x - 6.0f > trackingPlayer->position1B88.x)
+                        {
+                            // Probe the retained pattern; emit the new direction only
+                            // after a clear collision query, matching the original asymmetry.
+                            pattern =
+                                (target.y + 6.0f < candidate.y && candidate.y > 48.0f) ? 6 : 8;
+                            {
+                                PlayerLifecycleView *candidatePlayer = trackingPlayer;
+                                reinterpret_cast<PlayerGameplayMethods *>(candidatePlayer)->ResolvePatternOffset(
+                                    selectedPattern, alternate, &offsetX, &offsetY);
+                                candidate.x += offsetX;
+                                candidate.y += offsetY;
+                                if (candidate.x < g_PlayerPlayfieldMinX)
+                                    candidate.x = g_PlayerPlayfieldMinX;
+                                else if (candidate.x > g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth)
+                                    candidate.x = g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth;
+                                if (candidate.y < g_PlayerPlayfieldMinY)
+                                    candidate.y = g_PlayerPlayfieldMinY;
+                                else if (candidate.y > g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight)
+                                    candidate.y = g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight;
+                            }
+                            if (trackingPlayer->collisionQuery36C.FindCollision(candidate, halfSizes[1], 0.0f) == NULL)
+                                g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
+                                    static_cast<unsigned short>(g_PlayerPatternFlags[pattern]);
+                            else
+                                g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
+                                    static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
+                        }
+                        else
+                        {
+                            g_PlayerSideProtocols[trackingPlayer->sideIndex].patternFlags2C |=
+                                static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
+                            goto target_pattern_done;
+                        }
+                    }
+                    else
+                        g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
+                            static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
+                }
+                else
+                    g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
+                        static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
+            target_pattern_done:
+                ;
             }
         }
 
-        g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
-            static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
-        if (header->retryCooldown50 == 0)
+        PlayerLifecycleView *player;
         {
+            int *history = header->recentPatterns10;
             for (int historyIndex = 7; historyIndex > 0; --historyIndex)
-                header->recentPatternFlags30[historyIndex] =
-                    header->recentPatternFlags30[historyIndex - 1];
-            header->recentPatternFlags30[0] = g_PlayerPatternFlags[selectedPattern];
+                history[historyIndex] = history[historyIndex - 1];
+            player = header->player78;
+            history[0] = g_PlayerPatternFlags[selectedPattern];
         }
-    }
-    else
-    {
-        int targetPattern = SelectTargetPattern(
-            header, selectedPattern, alternate, halfSizes[1]);
-        // This path changes protocol flags, not the retained pattern/history.
-        g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
-            static_cast<unsigned short>(g_PlayerPatternFlags[targetPattern]);
-    }
 
-    for (int historyIndex = 7; historyIndex > 0; --historyIndex)
-        header->recentPatterns10[historyIndex] = header->recentPatterns10[historyIndex - 1];
-    header->recentPatterns10[0] = g_PlayerPatternFlags[selectedPattern];
+        void *manager = (player)->sideState->attackTarget10;
+        void *targetEnemy = (*reinterpret_cast<void * *>(reinterpret_cast<unsigned char *>(manager) + 0x2AC444));
+        if ((targetEnemy != NULL &&
+            (((*reinterpret_cast<unsigned int *>(reinterpret_cast<unsigned char *>(targetEnemy) + 0x3380)) & 0xC00U) == 0xC00U ||
+            ((*reinterpret_cast<unsigned int *>(reinterpret_cast<unsigned char *>(targetEnemy) + 0x3380)) & 0x2000U) != 0)) ||
+            (*reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(player) + 0xC110)) == 0)
+        {
+            int emitEvent = (*reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(manager) + 0x2AC3AC)) != 0
+            ? header->frameTimer00.HasTickedEvery(10)
+                : header->frameTimer00.HasTickedEvery(30);
+            if (emitEvent)
+                g_PlayerSideProtocols[player->sideIndex].eventFlags32 |= 1U;
+        }
 
-    PlayerLifecycleView *player = header->player78;
-    void *manager = PrimaryTargetManager(player);
-    void *targetEnemy = GameplayField<void *>(manager, 0x2AC444);
-    if ((targetEnemy != NULL &&
-         ((GameplayField<unsigned int>(targetEnemy, 0x3380) & 0xC00U) == 0xC00U ||
-          (GameplayField<unsigned int>(targetEnemy, 0x3380) & 0x2000U) != 0)) ||
-        GameplayField<int>(player, 0xC110) == 0)
-    {
-        int emitEvent = GameplayField<int>(manager, 0x2AC3AC) != 0
-                            ? header->frameTimer00.HasTickedEvery(10)
-                            : header->frameTimer00.HasTickedEvery(30);
-        if (emitEvent)
-            g_PlayerSideProtocols[player->sideIndex].eventFlags32 |= 1U;
-    }
+        if (g_GameManager.IsGameMode1() && (header->flags74 & 2U) != 0 &&
+            (*reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(header->player78->opponentState->manager04) + 0x3044C)) <= 300)
+            g_PlayerSideProtocols[header->player78->sideIndex].eventFlags32 &= ~1U;
 
-    if (g_GameManager.IsGameMode1() && (header->flags74 & 2U) != 0 &&
-        GameplayField<int>(header->player78->opponentState->manager04, 0x3044C) <= 300)
-        g_PlayerSideProtocols[header->player78->sideIndex].eventFlags32 &= ~1U;
-
-    header->currentPattern54 = selectedPattern;
-    header->frameTimer00++;
+        header->currentPattern54 = selectedPattern;
+        header->frameTimer00++;
     }
 }

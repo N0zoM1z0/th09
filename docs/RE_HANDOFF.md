@@ -4,7 +4,27 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
-## Latest Controller fidelity repair (2026-10-02)
+## Latest Player selector exact closure (2026-10-02)
+
+Packet 764 closes PlayerUpdateSelectorState at 0x004049A0: 3,238 complete
+code/physical bytes, 939 instructions, frame 0x5C and 136 reviewed relocation
+fields. Two cold maintained-source builds and a canonical carrier agree on
+all bytes and records. The existing resolver remains 346 code /412 physical
+bytes exact in both compiler profiles. Source preserves cooldown-independent
+history[0] refresh, initial and event Player lifetimes, shared real collision
+workspaces, nested validity fallback arms and the right-probe asymmetry.
+The partial radius initializer supplies a language-defined zero third element.
+No forcing, padding, invented ABI or source-visible register trick is used.
+
+Current repository coverage: 191,291 /275,770 reviewed-authored bytes (69.37%),
+900 exact functions, 80 non-exact /84,479 bytes. The 90% goal remains active
+and needs 56,902 more exact bytes if the denominator stays unchanged. The 35
+unresolved origins remain outside this known-authored metric; this is not
+whole-image or complete-census coverage. Native i386 product/runtime, semantic
+and portability gates are still open. Obtain a source-current Factory receipt
+for the new owner after committing; distinguish registry coverage from ledgers.
+
+## Earlier Controller fidelity repair (2026-10-02)
 
 Packet 763 corrects GetControllerInput's device reloads across Poll/Acquire and
 recovers the target failure CFG with natural fallback-first source organization.
@@ -19,7 +39,7 @@ Packet 762 records rejected visibility/lifetime controls on EnemyManager,
 KeyConfig, Title Result, ExAttack, RunEcl and FrontSide. Do not repeat them
 without new evidence. Rotate to larger target-backed dataflow/behavior audits.
 This campaign remains active toward90% known-authored code bytes. Repository
-coverage is unchanged at188053/275770 (68.19%);35 unresolved origins stay outside
+coverage at that checkpoint was188053/275770 (68.19%);35 unresolved origins stay outside
 that denominator. The d439d71 Etama Factory receipt is historical after this
 source checkpoint, so fresh accepted receipt coverage must be established at a
 later stable milestone. No native/runtime/semantic/port gate is closed.
@@ -39,7 +59,7 @@ knowledge and naturally recovers the target's EBX entry schedule. Two cold
 maintained builds and a canonical carrier agree; all 18 prior affected units
 still replay exact. No ABI, forced registers, padding or profile changes.
 This demonstrates a compile-carrier visibility boundary, not unique original
-TU ownership. Current ledger coverage is 188,053 / 275,770 = 68.19%, with
+TU ownership. Packet 761 ledger coverage was 188,053 / 275,770 = 68.19%, with
 899 exact functions and 81 non-exact functions / 87,717 bytes. Native i386
 product/runtime, semantic reconstruction and portability remain open.
 
@@ -115,11 +135,11 @@ SHA-256:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 899 |
-| Source-present non-exact functions | 81 |
-| Source-present non-exact bytes | 87,717 |
+| Canonical exact functions | 900 |
+| Source-present non-exact functions | 80 |
+| Source-present non-exact bytes | 84,479 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 188,053 |
+| Canonical exact authored bytes | 191,291 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -413,7 +433,7 @@ Fresh full target disassembly rechecked the `OpenScore` chapter loop. Its one-ti
 Work has since expanded to the broader backlog in `/tmp/vc_sth.txt`; these six
 remain open but are no longer the exclusive focus. That temporary list's
 progress snapshot is stale: it reports 881 exact and 98 non-exact, while the
-live ledger now reports 899 exact and 81 non-exact. Recheck every listed
+live ledger now reports 900 exact and 80 non-exact. Recheck every listed
 candidate against `config/functions.csv` and the match-unit manifest before
 resuming it; use the temporary file only as a historical routing aid.
 
@@ -918,7 +938,7 @@ backward branch. Complete comparison fails (1011/1063 and 1001/1063 ordinary
 bytes respectively); equal extent is not an exact owner. The diagnostic replay
 script now supports both the maintained 1510-byte and these 1491-byte shapes.
 
-### Current Player selector handoff
+### Earlier Player selector frontier (superseded by Packet 764)
 
 `PlayerUpdateSelectorState @ 0x004049A0` remains non-exact. Packet 711
 additionally recovers triangular grid starts 0/1/2, separate half-size/radius
