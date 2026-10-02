@@ -789,8 +789,8 @@ th09_ecl_select_next_context:
                 enemyState->childEclBlocks33D8[next]);
             enemyState->activeCallStack2CE4 = child->callStack0234;
             enemyState->activeContext2CE0 = &child->context08;
-            instruction = child->context08.currentInstruction004;
-            child->context08.contextOrdinal224 = next + 1;
+            instruction = enemyState->activeContext2CE0->currentInstruction004;
+            enemyState->activeContext2CE0->contextOrdinal224 = next + 1;
             enemyState->activeCallDepth2D2A = child->callStackDepth06;
             childIndex = next;
             goto th09_ecl_instruction_loop;
