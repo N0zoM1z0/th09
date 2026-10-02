@@ -66,6 +66,27 @@ live ledger currently reports 889 exact and 90 non-exact. Recheck every listed
 candidate against `config/functions.csv` and the match-unit manifest before
 resuming it; use the temporary file only as a historical routing aid.
 
+### Latest non-exact investigation: Player movement and KeyConfig
+
+`PlayerLifecycleView::UpdateMovementAndOptions @ 0x0041C170` remains
+non-exact. Packet 720 corrects the measurement scope: target code is 1,835
+bytes, but the physical owner is 1,900 bytes including one alignment byte and
+two eight-entry switch tables. Old candidate measurements of 1,864 bytes
+included tables/alignment, not 1,864 bytes of code. Maintained source now
+reloads the side and ANM owners across actual calls, uses the target's counted
+four-option traversal, and copies the first history vector as a real aggregate.
+Two independent builds reproduce 1,787 code /1,852 physical bytes, all 66
+relocation records and the complete 23-direct-call order. The target-bound
+`scripts/inspect-player-movement.py` replays independently reviewed external
+destinations and actual COFF internal labels; its normalized 433/489 instruction
+alignment is diagnostic only and grants no coverage. Remaining branch selection,
+SHT load/angle/FPU scheduling, register lifetimes and option-loop layout are open.
+
+Packet 719 also records a negative KeyConfig real-callee-visibility probe:
+the actual SoundPlayer definition leaves the entire candidate unchanged at
+2,803 bytes /2,325 of 2,331 ordinary bytes. No sound/source/profile changes
+are retained. Exact totals remain 889 functions /173,688 bytes (63.01%).
+
 ### Latest large-owner closure: FrontSide::OnUpdate
 
 `FrontSide::OnUpdate @ 0x00418A90` is canonical exact at 2,381 bytes.

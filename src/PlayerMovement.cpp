@@ -208,16 +208,16 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     {
         if (PlayerMovementFocusEffect(player) == NULL)
         {
-            PlayerMovementSideView *side = PlayerMovementSide(player);
+            // TH09 reloads the side after the first effect-manager call.
             PlayerMovementFocusEffect(player) =
-                side->effectManager0C->SpawnEffectInFixedSlot(
+                PlayerMovementSide(player)->effectManager0C->SpawnEffectInFixedSlot(
                     7,
                     reinterpret_cast<EffectFloat3 *>(&player->position1B88),
                     player->sideIndex,
                     static_cast<unsigned int>(-1));
             PlayerMovementSecondaryEffect(player) =
-                side->effectManager0C->SpawnEffectInFixedSlot(
-                    g_PlayerFocusEffectIds[side->shotType20],
+                PlayerMovementSide(player)->effectManager0C->SpawnEffectInFixedSlot(
+                    g_PlayerFocusEffectIds[PlayerMovementSide(player)->shotType20],
                     reinterpret_cast<EffectFloat3 *>(&player->position1B88),
                     player->sideIndex + 2,
                     static_cast<unsigned int>(-1));
@@ -329,20 +329,19 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         runtime->speedMultiplier1CE0 *
         verticalSpeed;
 
-    AnmLoaded *playerAnm =
-        reinterpret_cast<AnmLoaded *>(player->header24.anmFile98);
+    // The second transition group reloads the ANM owner after the first call.
     if (horizontalSpeed < 0.0f && tail->horizontalSpeed3035C >= 0.0f)
-        playerAnm->SetAndExecuteScriptIdx(
+        reinterpret_cast<AnmLoaded *>(player->header24.anmFile98)->SetAndExecuteScriptIdx(
             reinterpret_cast<AnmVm *>(&player->mainVm), 1);
     else if (horizontalSpeed == 0.0f && tail->horizontalSpeed3035C < 0.0f)
-        playerAnm->SetAndExecuteScriptIdx(
+        reinterpret_cast<AnmLoaded *>(player->header24.anmFile98)->SetAndExecuteScriptIdx(
             reinterpret_cast<AnmVm *>(&player->mainVm), 2);
 
     if (horizontalSpeed > 0.0f && tail->horizontalSpeed3035C <= 0.0f)
-        playerAnm->SetAndExecuteScriptIdx(
+        reinterpret_cast<AnmLoaded *>(player->header24.anmFile98)->SetAndExecuteScriptIdx(
             reinterpret_cast<AnmVm *>(&player->mainVm), 3);
     else if (horizontalSpeed == 0.0f && tail->horizontalSpeed3035C > 0.0f)
-        playerAnm->SetAndExecuteScriptIdx(
+        reinterpret_cast<AnmLoaded *>(player->header24.anmFile98)->SetAndExecuteScriptIdx(
             reinterpret_cast<AnmVm *>(&player->mainVm), 4);
 
     tail->horizontalSpeed3035C = horizontalSpeed;
@@ -381,7 +380,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         player->position1B88 + player->itemCollectionHalfSize;
 
     PlayerMovementOptionView *option = PlayerMovementOptions(player);
-    for (int optionIndex = 0; optionIndex < 4; ++optionIndex, ++option)
+    for (int optionCount = 4; optionCount != 0; --optionCount, ++option)
     {
         if (option->updateCallback2EC != NULL)
         {
@@ -397,9 +396,8 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         for (int historyIndex = 15; historyIndex > 0; --historyIndex)
             player->positions1BA0[historyIndex] =
                 player->positions1BA0[historyIndex - 1];
-        player->positions1BA0[0].x = player->position1B88.x;
-        player->positions1BA0[0].y = player->position1B88.y;
-        player->positions1BA0[0].z = player->position1B88.z;
+        player->positions1BA0[0] =
+            *reinterpret_cast<PlayerConstructedVector3View *>(&player->position1B88);
     }
 
     return 0;
