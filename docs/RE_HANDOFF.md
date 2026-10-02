@@ -4,6 +4,20 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest trail history extent correction (2026-10-02)
+
+Packet 771 corrects five Type19/21 views to33 history Float3 entries through
++0x573, matching the center plus32 target writes. Two cold before/after builds
+preserve all bytes and fields; shared draw remains318/318 canonical exact.
+No new exact credit. The separate magnitude-to-step cross-array access remains
+an unresolved source-model issue, documented with negative safe-index controls.
+
+Current totals remain902 exact /193847 of275770 reviewed-authored bytes
+(70.29%);90% still needs54346 bytes. Earlier receipts are snapshot-historical.
+Actual FromAngleMagnitude visibility gives useful isolated family probes, but
+none is exact: preserve the single ECL-TU definition and do not duplicate it
+in production. Packet771 records the current bounded negatives and constraints.
+
 ## Latest sound queue exact closure (2026-10-02)
 
 Packet 770 closes SoundPlayer::ProcessQueues at0x0043F1F0:1414 authored

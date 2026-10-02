@@ -28,8 +28,9 @@ struct ExAttackType19Extra
     Float3 control34;
     Float3 spawn40;
     ExAttackType19Vertex vertices4C[33];
-    Float3 history3E8[32];
-    unsigned char unknown568[0x578 - 0x568];
+    // Center sample plus the 32 samples written by initialization/update.
+    Float3 history3E8[33];
+    unsigned char unknown574[0x578 - 0x574];
     float magnitudes578[32];
     float unknown5F8;
     float angularSteps5FC[32];
@@ -37,6 +38,10 @@ struct ExAttackType19Extra
     float drift680;
     int drawPending684;
 };
+typedef char ExAttackType19ExtraHistoryEndIs574[
+    (offsetof(ExAttackType19Extra, history3E8) +
+     sizeof(((ExAttackType19Extra *)0)->history3E8) == 0x574) ? 1 : -1];
+
 typedef char ExAttackType19ExtraSizeIs688[
     (sizeof(ExAttackType19Extra) == 0x688) ? 1 : -1];
 typedef char ExAttackType19VerticesAt4C[

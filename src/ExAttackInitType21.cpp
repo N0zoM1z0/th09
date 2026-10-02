@@ -28,8 +28,9 @@ struct ExAttackType21Extra
     Float3 control34;
     Float3 spawn40;
     ExAttackType21Vertex vertices4C[33];
-    Float3 history3E8[32];
-    unsigned char unknown568[0x578 - 0x568];
+    // Center sample plus the 32 samples written by initialization/update.
+    Float3 history3E8[33];
+    unsigned char unknown574[0x578 - 0x574];
     float magnitudes578[32];
     float unknown5F8;
     float angularSteps5FC[32];
@@ -38,6 +39,10 @@ struct ExAttackType21Extra
     int drawPending684;
     float angle688;
 };
+typedef char ExAttackType21ExtraHistoryEndIs574[
+    (offsetof(ExAttackType21Extra, history3E8) +
+     sizeof(((ExAttackType21Extra *)0)->history3E8) == 0x574) ? 1 : -1];
+
 typedef char ExAttackType21ExtraSizeIs68C[
     (sizeof(ExAttackType21Extra) == 0x68C) ? 1 : -1];
 typedef char ExAttackType21VerticesAt4C[

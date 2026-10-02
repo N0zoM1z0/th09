@@ -21,10 +21,15 @@ struct ExAttackTrailExtra
     int state00;
     unsigned char unknown004[0x4C - 0x04];
     ExAttackTrailVertex vertices4C[33];
-    Float3 history3E8[32];
-    unsigned char unknown568[0x684 - 0x568];
+    // Center sample plus the 32 samples written by initialization/update.
+    Float3 history3E8[33];
+    unsigned char unknown574[0x684 - 0x574];
     int drawPending684;
 };
+
+typedef char ExAttackTrailExtraHistoryEndIs574[
+    (offsetof(ExAttackTrailExtra, history3E8) +
+     sizeof(((ExAttackTrailExtra *)0)->history3E8) == 0x574) ? 1 : -1];
 
 typedef char ExAttackTrailVerticesAt4C[
     (offsetof(ExAttackTrailExtra, vertices4C) == 0x4C) ? 1 : -1];
