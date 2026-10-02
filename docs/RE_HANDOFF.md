@@ -243,7 +243,8 @@ Owned replay-save scratch is audited and removed after durable recording.
 Live totals are 894 exact /182191 of275669 authored bytes (66.09%), with
 85 nonexact /93478 bytes. The >95% objective and native/runtime/semantic/port
 gates remain open. Packet 728 subsequently reviews MusicRoom below without
-new exact credit. Next rotate to OnUpdateOptions @0x004276EB (2045 bytes),
+new exact credit. Packet 729 reviews OnUpdateOptions below without new exact
+credit. Next rotate to DrawResult @0x00423D16 (1939 bytes, separate TU),
 with fresh complete target/CFG/field review, not an inherited size report.
 
 ### Earlier non-exact investigation: Player movement and KeyConfig
@@ -595,17 +596,40 @@ file to 31 configured replay units.
 ### Current OnUpdateOptions handoff
 
 `TitleScreenView::OnUpdateOptions @ 0x004276EB` remains source-present/non-exact.
-The corrected nine-entry options source has unsigned help-text indexing,
-explicit left/right option wrap branches, four volume-key switches, a 6/7/8
-confirm-key switch, and an inclusive 3..4 timed-sound range. A focused pinned
-`/O1 /Ob1 /Oy- /Gr` build emits 2048/2045 bytes, 135 relocations, and the
-target's 51 calls, 26 unconditional jumps, and 60 conditional jumps. The
-remaining register-lifetime mismatch begins after the right-scroll call at
-+0x540: target clears EBX before testing AX; the candidate clears it after the
-pressed branch and later uses EDI for zero and EBX for selector 6. The
-exact-sized alternative with a 6/7/8 `if` chain does not reproduce the target
-switch; the normalized-switch alternative inserts redundant instructions.
-See Packet 662. Do not promote this owner on length or census alone.
+Packet 729 freshly confirms 2045 contiguous code/physical bytes, 551
+instructions, no frame locals/tables/padding, and the immediate KeyConfig seam
+at 0x00427EE8. Maintained C++ is unchanged: unsigned help index, explicit option
+wraps, four volume-key switches, 6/7/8 confirm switch and inclusive timed-sound
+range stay intact. The target really omits SFX ones-digit VM32 SetSprite.
+
+Maintained cold baseline and fresh canonical carrier agree on complete 2048
+raw bytes, 554 instructions and all 135 relocation records (51 REL32 /84 DIR32),
+hash a521dbdff6c30e098a38efca6a06b54d96aa3708f5750ace4df7dd979b483115.
+Reproduce with `python3 scripts/build-match-unit.py --unit title-screen-play-menu-sound`
+then `python3 scripts/inspect-title-options.py build/matching/TitleScreenOptions.obj`.
+The diagnostic independently binds all 30 actual symbols and decodes the whole
+owner. Similarity gives 540/551 with five unmapped destinations; separately,
+all 121 direct basic blocks agree in physical-order edges, per-block call
+sequence and return cleanup. This graph covers jumps without guessing missing
+similarity correspondences; it proves neither predicates/data flow nor bytes.
+
+Residual register lifetime still begins at right-scroll return +0x540: target
+zeros EBX before testing AX, while candidate zeros it after the branch and later
+uses EDI for zero /EBX for selector6. The first actual byte difference is already
+at +0x15, an end-tail forward-jump displacement; there is no exact-prefix claim.
+Packet 662's if-chain/normalized-selector controls remain rejected. Packet 729's
+in-case exit label, real PlayMenuSound-before-caller and actual selection/helper
+wrapper visibility are raw-byte/record neutral. Input/config-owner views only
+change field bindings, not complete relocated code. Exposing the actual exact
+42-byte Input scrolling body emits 2046 bytes /50 calls /134 fields /120 blocks,
+coalescing a target-distinct selection call; it is rejected despite size proximity.
+Do not repeat these context/alias controls without new target evidence.
+
+PlayMenuSound remains 34/34 exact with all three fields. Eight target-independent
+tests guard the added direct-CFG utility, alongside the four old correspondence
+tests. All owned disposable probes are removed after durable recording. No
+source edit, new match entry or exact coverage gain is retained; 894 exact
+/182191 bytes (66.09%) and the >95% objective remain active-incomplete.
 
 ### Current Title start-menu handoff
 

@@ -45,5 +45,52 @@ class BranchAlignmentTests(unittest.TestCase):
             target, candidate, [Match(0, 0, 1)], 1), ([], 0))
 
 
+class DirectControlFlowTests(unittest.TestCase):
+    def graph(self, instructions):
+        return DIAGNOSTIC.direct_control_flow(instructions, 1)
+
+    def test_extra_noncontrol_instruction_does_not_drop_edges(self):
+        target = [instruction(100, 'je', 130), instruction(110, 'call', 900),
+                  instruction(120, 'jmp', 140), instruction(130, 'inc'), instruction(140, 'ret')]
+        candidate = [instruction(200, 'xor'), instruction(210, 'je', 250),
+                     instruction(220, 'call', 900), instruction(230, 'mov'),
+                     instruction(240, 'jmp', 260), instruction(250, 'inc'), instruction(260, 'ret')]
+        self.assertEqual(self.graph(target), self.graph(candidate))
+
+    def test_identical_branch_mnemonics_do_not_hide_wrong_exit(self):
+        target = [instruction(100, 'je', 130), instruction(110, 'call', 900),
+                  instruction(120, 'jmp', 140), instruction(130, 'inc'), instruction(140, 'ret')]
+        wrong = [instruction(100, 'je', 130), instruction(110, 'call', 900),
+                 instruction(120, 'jmp', 130), instruction(130, 'inc'), instruction(140, 'ret')]
+        self.assertNotEqual(self.graph(target), self.graph(wrong))
+
+    def test_same_whole_call_order_does_not_hide_moved_call(self):
+        target = [instruction(100, 'je', 130), instruction(110, 'call', 900),
+                  instruction(120, 'jmp', 140), instruction(130, 'inc'), instruction(140, 'ret')]
+        wrong = [instruction(100, 'call', 900), instruction(110, 'je', 130),
+                 instruction(120, 'jmp', 140), instruction(130, 'inc'), instruction(140, 'ret')]
+        self.assertNotEqual(self.graph(target), self.graph(wrong))
+
+    def test_indirect_jump_fails_closed(self):
+        with self.assertRaisesRegex(ValueError, 'non-direct'):
+            self.graph([instruction(100, 'jmp', 110, operand_type=2), instruction(110, 'ret')])
+
+    def test_indirect_call_fails_closed(self):
+        with self.assertRaisesRegex(ValueError, 'non-direct'):
+            self.graph([instruction(100, 'call', 900, operand_type=2), instruction(110, 'ret')])
+
+    def test_destination_outside_decoded_stream_fails_closed(self):
+        with self.assertRaisesRegex(ValueError, 'outside'):
+            self.graph([instruction(100, 'jmp', 999), instruction(110, 'ret')])
+
+    def test_missing_conditional_fallthrough_fails_closed(self):
+        with self.assertRaisesRegex(ValueError, 'fallthrough'):
+            self.graph([instruction(100, 'jne', 100)])
+
+    def test_return_stack_cleanup_is_not_ignored(self):
+        self.assertNotEqual(self.graph([instruction(100, 'ret', 4)]),
+                            self.graph([instruction(200, 'ret', 8)]))
+
+
 if __name__ == '__main__':
     unittest.main()
