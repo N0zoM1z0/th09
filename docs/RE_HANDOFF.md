@@ -43,6 +43,22 @@ The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
 and portability have not started.
 
+### Latest EffectManager bounded control recheck
+
+Packet 743 freshly attests `EffectManager::OnUpdate @0x0040CDD0` against the
+original target: maintained no-EH `/O2 /Ob1` is 475/475 bytes, with all 11
+relocation positions and 427/431 ordinary bytes agreeing. Target loads primary
+count `+0x34` before secondary `+0x38` at both the initial and loop-tail sums;
+candidate reverses those two loads. A real staged addition and a per-iteration
+pair of count snapshots both compile byte-identically to baseline, without
+closing the four offsets. The same-TU `AddedCallback @0x0040D1C0` remains
+51/51 with 28/35 ordinary comparable bytes; spelling the two genuine field
+assignments separately lets VC7.1 merge the same common store but leaves its
+ESI/EDI allocation unchanged. These are narrow negative controls, not a
+compiler impossibility proof, source change, or partial exactness credit.
+Do not repeat these forms without new target/source-family evidence; rotate
+to a different large owner such as the current DrawResult frontier.
+
 ### Latest Type7 angular ExAttack complete-replay frontier
 
 Packet 739 adds a complete, independently target-bound diagnostic for
