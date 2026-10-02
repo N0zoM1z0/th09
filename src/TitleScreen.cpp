@@ -1412,15 +1412,22 @@ int TitleScreenView::OnUpdateCharacterSelect()
             g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
 
             i32 visibleCount = 0;
+            i32 visibleByteOffset = 0;
             for (value = 0; value < 14; value++)
             {
                 i32 character = g_TitleCharacterOrder14[value];
                 if ((g_TitleDifficulty == 4 && g_TitleCharacterUnlockedMode4[character]) ||
                     (g_TitleDifficulty != 4 && g_TitleCharacterUnlockedNormal[character]))
                 {
-                    titleAnm->SetSprite(&vms[191 + visibleCount], character + 235);
-                    vms[191 + visibleCount].flags |= 2;
+                    titleAnm->SetSprite(reinterpret_cast<AnmVmView *>(
+                        reinterpret_cast<unsigned char *>(vms) +
+                        191 * sizeof(AnmVmView) + visibleByteOffset),
+                        character + 235);
+                    reinterpret_cast<AnmVmView *>(
+                        reinterpret_cast<unsigned char *>(vms) +
+                        191 * sizeof(AnmVmView) + visibleByteOffset)->flags |= 2;
                     visibleCount++;
+                    visibleByteOffset += sizeof(AnmVmView);
                 }
             }
             for (i32 index = visibleCount; index < 16; index++)

@@ -339,9 +339,23 @@ cohort was run. Current exact coverage is 184,286 /275,770 bytes (66.83%); the
 >95% objective and native/runtime gates remain open. Ordinary character
 selection remains independently nonexact; Packet 724 closes screen16 below.
 
-### Latest ordinary character-selection repair and two-byte frontier
+### Latest ordinary character-selection repair and one-byte frontier
 
 `TitleScreenView::OnUpdateCharacterSelect @ 0x004254A7` remains NON-EXACT.
+Packet 751 advances the maintained source to a genuine visible-VM byte cursor
+alongside the stack-resident visible count. Two cold O1/Ob1 builds agree on the
+complete 1572-byte function (raw SHA-256
+`16f099c46813b137c3be527b76e06bd4331bef5ce09bd4c8db652e7d8894a8a7`),
+421 instructions and 85 relocation fields. Complete replay now differs at only
+`+0x41B`: the cleanup loop's LEA uses equivalent ECX-base/EAX-index SIB where
+the target uses EAX-base/ECX-index. Generic structural comparison is
+1231/1232 ordinary bytes and remains `mismatch`; no exact credit is added.
+Equivalent cleanup index/byte-offset spellings reproduce the same byte, while
+a separately formed `&vms[191]` base adds an instruction. All 37 existing
+same-source exact units replay after refreshing nine StartMenu compiler-private
+label spellings at unchanged, independently solved target destinations. Do not
+repeat those cleanup spellings without new TH09-local source-shape evidence.
+
 Packet 723 supersedes the stale 1577-byte/0x0C-frame candidate: two cold builds
 and the canonical carrier now reproduce 1572 bytes, 421 instructions, frame8,
 all 29 ordered direct calls and 85 fields (29 REL32 /56 DIR32). Full independent
