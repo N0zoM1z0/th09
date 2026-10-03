@@ -1,4 +1,6 @@
 #include "Supervisor.hpp"
+#include "AnmManager.hpp"
+#include "Controller.hpp"
 #include "SupervisorNetworkState.hpp"
 #include "SupervisorFrameQueueView.hpp"
 
@@ -31,7 +33,7 @@ struct NetworkHandshakePacket
 struct NetworkFramePacket
 {
     unsigned char type;
-    unsigned char side;
+    signed char side;
     unsigned short seed;
     int frame;
     unsigned int packedInput;
@@ -50,7 +52,7 @@ struct SupervisorNetworkView
     unsigned int connectionTime;
     int networkBusy;
     unsigned char unknown47C[0x584 - 0x47C];
-    int messageScript;
+    AnmVm *messageVm;
     unsigned int connectStartTime;
     unsigned char unknown58C[0x5D4 - 0x58C];
     signed char flags5D4;
@@ -63,7 +65,7 @@ typedef char NetworkFramePacketSizeIs0C[
 typedef char SupervisorNetworkFrameAt458[
     (offsetof(SupervisorNetworkView, frameCounter) == 0x458) ? 1 : -1];
 typedef char SupervisorNetworkMessageAt584[
-    (offsetof(SupervisorNetworkView, messageScript) == 0x584) ? 1 : -1];
+    (offsetof(SupervisorNetworkView, messageVm) == 0x584) ? 1 : -1];
 typedef char SupervisorNetworkFlagsAt5D4[
     (offsetof(SupervisorNetworkView, flags5D4) == 0x5D4) ? 1 : -1];
 }
@@ -71,17 +73,12 @@ typedef char SupervisorNetworkFlagsAt5D4[
 extern ReplayRngNetworkView g_ReplayRng;
 extern NetworkFramePacket g_NetworkFramePacket;
 extern NetworkHandshakePacket g_NetworkHandshakePacket;
-extern int g_NetworkMessageManager;
 extern const char g_NetworkDisconnectedMessage[];
 extern const char g_NetworkWaitingMessage[];
 extern const char g_NetworkSearchingMessage[];
 
-extern short __fastcall SampleNetworkInput(int side);
 extern int __fastcall ApplyNetworkInput(int side, int input);
 extern int __fastcall SupervisorSubthreadIsRunning(Supervisor *supervisor);
-extern int __cdecl DrawNetworkMessage(
-    int manager, int script, COLORREF color, int mode,
-    const char *format, ...);
 
 int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 {
@@ -106,8 +103,8 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             s->connectStartTime = timeGetTime();
             g_SupervisorNetworkState->connectionState = 1;
             s->networkBusy = 1;
-            DrawNetworkMessage(
-                g_NetworkMessageManager, s->messageScript, 0xFFFFFF, 0,
+            g_AnmManager->DrawTextCentered(
+                s->messageVm, 0xFFFFFF, 0,
                 g_NetworkSearchingMessage);
         }
         else
@@ -117,8 +114,8 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             g_SupervisorNetworkState->localSide = 0;
             g_SupervisorNetworkState->CreateDeviceAddress();
             g_SupervisorNetworkState->HostSession();
-            DrawNetworkMessage(
-                g_NetworkMessageManager, s->messageScript, 0xFFFFFF, 0,
+            g_AnmManager->DrawTextCentered(
+                s->messageVm, 0xFFFFFF, 0,
                 g_NetworkWaitingMessage);
             g_SupervisorNetworkState->connectionState = 2;
             s->connectionTime = timeGetTime();
@@ -198,10 +195,10 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                         int queuedFrame = -9998;
                         do
                         {
-                            frameQueues->InsertReceivedFrame(
+                            reinterpret_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(
                                 0, queuedFrame, 0,
                                 (short)g_ReplayRng.GetSeed());
-                            frameQueues->InsertReceivedFrame(
+                            reinterpret_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(
                                 1, queuedFrame++, 0,
                                 (short)g_ReplayRng.GetSeed());
                         } while (queuedFrame + 9998 <
@@ -241,7 +238,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             HAVE_PACKET:
                 reinterpret_cast<unsigned short *>(
                     &g_NetworkFramePacket.packedInput)[0] =
-                    (unsigned short)SampleNetworkInput(g_SupervisorNetworkState->localSide);
+                    (unsigned short)Controller::GetInput(g_SupervisorNetworkState->localSide);
                 s->frameCounter++;
                 s->frameStartTime = timeGetTime();
             }
@@ -249,7 +246,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             s->lastFrameTime = timeGetTime();
             g_SupervisorNetworkState->packetReady = 0;
             g_NetworkFramePacket.type = 0;
-            g_NetworkFramePacket.side = (unsigned char)g_SupervisorNetworkState->localSide;
+            g_NetworkFramePacket.side = (signed char)g_SupervisorNetworkState->localSide;
             g_NetworkFramePacket.frame =
                 60 / g_SupervisorNetworkState->syncRate +
                 s->frameCounter - 1;
@@ -270,7 +267,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             frameQueues->InsertReceivedFrame(
                 g_SupervisorNetworkState->localSide,
                 g_NetworkFramePacket.frame,
-                (int)g_NetworkFramePacket.packedInput,
+                (unsigned short)g_NetworkFramePacket.packedInput,
                 (short)g_NetworkFramePacket.seed);
         }
     }
@@ -292,8 +289,8 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         }
 
         s->networkBusy = 1;
-        DrawNetworkMessage(
-            g_NetworkMessageManager, s->messageScript, 0xFFFFFF, 0,
+        g_AnmManager->DrawTextCentered(
+            s->messageVm, 0xFFFFFF, 0,
             g_NetworkDisconnectedMessage);
 
     NETWORK_WAIT:
@@ -301,7 +298,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 
     RETURN_STATE:
         supervisor->LeaveCriticalSectionWrapper(4);
-        if ((SampleNetworkInput(2) & 2) != 0)
+        if ((Controller::GetInput(2) & 2) != 0)
             return 3;
         if (s->flags5D4 >= 0 || SupervisorSubthreadIsRunning(supervisor))
             return returnState;

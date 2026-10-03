@@ -4,6 +4,17 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest Supervisor service fidelity checkpoint (2026-10-03)
+
+Packet 775 corrects actual input/render call identities, VM pointer ownership,
+global prefill queue receivers, packet-side signedness and lowword insertion.
+The existing int/int ApplyNetworkInput ABI and exact unit remain unchanged.
+Two cold objects and the maintained carrier agree on1632 bytes and108 fields,
+but the complete1633-byte target owner remains NON-EXACT. Reproduce with
+scripts/inspect-supervisor-service.py after the standard O2/Ob1 build.
+Inherited packet word-pointer punning remains unresolved source-model debt.
+Coverage stays903 exact /195060 of275770 bytes (70.73%);90% needs53133 more.
+
 ## Latest Enemy draw ownership checkpoint (2026-10-02)
 
 Packet 773 recovers the target's stride/next-index snapshots, shared trail
