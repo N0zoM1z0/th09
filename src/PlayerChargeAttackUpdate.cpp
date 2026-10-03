@@ -158,7 +158,9 @@ int PlayerChargeAttackView::UpdateChargeAttack()
             (*chargeDelay)--;
         }
 
-        if (g_GameManager.inputGateE8->sideMode[side] == 1)
+        // The post-timer gate reloads the player side; the initial input
+        // disjunction intentionally keeps its entry-side snapshot.
+        if (g_GameManager.inputGateE8->sideMode[sideIndex] == 1)
             goto resolveAttack;
         goto afterCharge;
     }
@@ -297,9 +299,12 @@ shooting:
         }
 
         (*shotTimer)++;
+        // Finish the timer conversion before reacquiring the SHT record.
+        // This preserves the target's load order across the out-of-line call.
+        float shotTime = static_cast<float>(*shotTimer);
         PlayerChargeShtView *sht =
             reinterpret_cast<PlayerChargeShtView *>(primaryShtFile);
-        if (static_cast<float>(*shotTimer) >= sht->shotDuration28)
+        if (shotTime >= sht->shotDuration28)
         {
             *shotTimer = 0;
             flags1B80 &= ~4u;

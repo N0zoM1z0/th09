@@ -4,6 +4,15 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest charge-attack load-order correction (2026-10-03)
+
+Packet784 restores the post-timer side reload and post-conversion SHT reload.
+Two cold builds agree at1197 bytes/70 fields; target1210 remains NON-EXACT.
+The existing charge diagnostic now checks all five focused regions and rejects
+the old object on both new windows. No exact gain;905 exact /196402 of275770
+(71.22%) remains the ledger state. Timer helpers do not mutate these fields,
+so this is target load-order fidelity rather than a proven gameplay bug.
+
 ## Latest timeline exact closure (2026-10-03)
 
 Packet782 closes EnemyScheduleRuntimeView::Run:974 authored /1048 compared
