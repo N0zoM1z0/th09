@@ -90,6 +90,9 @@ void GameManagerOpponentSelectionView::SelectOpponentConfiguration()
         int candidateCount = 0;
         int totalWeight = 0;
 
+        // Reuse the inline table address throughout selection. Its contents
+        // and the final side index remain live reads across RNG/stat calls.
+        unsigned char *usedCharacters = usedCharactersD8;
         short key = entry->key00;
         if (key >= 0)
         {
@@ -125,7 +128,7 @@ void GameManagerOpponentSelectionView::SelectOpponentConfiguration()
 
                 if (static_cast<short>(roll) <
                         static_cast<short>(weight) &&
-                    usedCharactersD8[candidate->character04] == 0)
+                    usedCharacters[candidate->character04] == 0)
                 {
                     break;
                 }
@@ -139,14 +142,14 @@ void GameManagerOpponentSelectionView::SelectOpponentConfiguration()
         if (selectedIndex >= candidateCount)
         {
             selectedIndex = 0;
-            if (usedCharactersD8[
+            if (usedCharacters[
                     candidates[0]->character04] != 0)
             {
                 do
                 {
                     ++selectedIndex;
                 }
-                while (usedCharactersD8[
+                while (usedCharacters[
                     candidates[selectedIndex]->character04] != 0);
             }
         }
@@ -158,7 +161,7 @@ void GameManagerOpponentSelectionView::SelectOpponentConfiguration()
         sides[1].value20 = selected->character04;
         g_PlayStatsRecord.IncrementCharacterStat5(
             static_cast<char>(selected->character04));
-        usedCharactersD8[sides[1].value20] = 1;
+        usedCharacters[sides[1].value20] = 1;
         selectedEntryF0 = selected;
 
         OpponentSelectionState *state = sides[0].state1C;

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only complete comparison for the nonexact opponent-selection owner.
+"""Read-only complete comparison for the opponent-selection owner.
 
 Bindings come from independently reviewed canonical methods/globals and the
 Packet437 opponent tables, never from solving candidate fields against target
@@ -69,7 +69,7 @@ def inspect(object_path):
 
     target = coff.pe_bytes_at(image, ADDRESS, SIZE)
     return {
-        'status': 'NON-EXACT diagnostic; no ledger credit',
+        'status': 'diagnostic only; canonical unit and accepted replay determine credit',
         'size': len(raw),
         'target_size': SIZE,
         'raw_sha256': hashlib.sha256(raw).hexdigest(),

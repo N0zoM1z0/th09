@@ -4,6 +4,27 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest opponent-selection exact closure (2026-10-03)
+
+Packet786 closes SelectOpponentConfiguration at799 authored bytes/all32 fields.
+A real pointer shared by three used-character checks and the final marking store
+recovers the target addressing form; values and the post-call side index stay
+live reads. Two isolated and two maintained cold builds pass, independently
+reviewed. Obtain fresh accepted Factory replay on the final checkpoint before
+reporting current accepted credit. No sibling TU or helper body is changed.
+
+Current ledger:906 exact /197201 of275770 authored bytes (71.51%).
+74 owners /78569 bytes remain nonexact;90% needs50992 more bytes.
+The native product/runtime and35 unresolved-origin gates remain open.
+
+Continue ranked, falsifiable natural-source experiments. A plausible CFG,
+lifetime, expression, or real compiler-context hypothesis may be tested without
+original-source proof. Track each delta and negative result; materially refined
+combinations are allowed. Promotion still requires complete target/relocation
+proof, cold maintained reproduction, independent review and accepted replay.
+The explicitly denied narrow input ABI and cancelled Type18/24 visibility probe
+remain excluded. Never use padding, fake ABI/returns, or target-byte patching.
+
 ## Latest RunEcl callsite/field identity audit (2026-10-03)
 
 Packet785 closes the old aggregate-census gap: all375 direct destinations agree
@@ -366,11 +387,11 @@ SHA-256:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 905 |
-| Source-present non-exact functions | 75 |
-| Source-present non-exact bytes | 79,368 |
+| Canonical exact functions | 906 |
+| Source-present non-exact functions | 74 |
+| Source-present non-exact bytes | 78,569 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 196,402 |
+| Canonical exact authored bytes | 197,201 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
