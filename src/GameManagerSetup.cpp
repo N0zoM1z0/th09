@@ -395,16 +395,18 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         }
 
         g_GameManager.valueC0++;
+        // These difficulty counters belong to each side's subsystem1 object;
+        // the separate state buffer is allocated as 0xA0 bytes.
         if (g_GameManager.valueB0 % 3600u == 3599u)
         {
-            if (g_GameManager.sides[0].state->valueA0 < 16)
-                g_GameManager.sides[0].state->valueA0++;
-            if (g_GameManager.sides[0].state->valueA4 < 16)
-                g_GameManager.sides[0].state->valueA4++;
-            if (g_GameManager.sides[1].state->valueA0 < 16)
-                g_GameManager.sides[1].state->valueA0++;
-            if (g_GameManager.sides[1].state->valueA4 < 16)
-                g_GameManager.sides[1].state->valueA4++;
+            if (reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].subsystem1)->valueA0 < 16)
+                reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].subsystem1)->valueA0++;
+            if (reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].subsystem1)->valueA4 < 16)
+                reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].subsystem1)->valueA4++;
+            if (reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[1].subsystem1)->valueA0 < 16)
+                reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[1].subsystem1)->valueA0++;
+            if (reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[1].subsystem1)->valueA4 < 16)
+                reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[1].subsystem1)->valueA4++;
         }
 
         if (g_GameManager.valueB8 < 6 &&

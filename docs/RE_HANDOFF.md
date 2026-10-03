@@ -4,6 +4,33 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest GameManager difficulty-counter receiver correction (2026-10-03)
+
+Packet 794 repairs four signed A0/A4 increments in OnUpdate at 0x0041AA5F.
+They belong to each side's subsystem1 object (+4/+0x3C), not the separate
+state allocation (+0x1C/+0x54, allocated as 0xA0 bytes). The eight corrected
+expressions retain separate reads and the signed <16 guards. The initialization
+worker already used subsystem1; no other state A0/A4 use remains.
+
+Maintained cold builds reproduce raw 6292327a, 1224 bytes /87 fields against
+1230 target bytes. The whole owner remains NON-EXACT: 1137 overlapping byte
+differences plus six missing bytes. Normalized 323/337 is diagnostic only.
+All nine exact siblings /113 fields remain neutral and full target-equal in
+their /Os or non-/Os profiles; GameplaySetupThread1689/171 is also unchanged.
+Independent source, target and maintained cold/cohort readback passed. Both
+configured profiles have identical maintained cold pairs; 54 CI tests pass.
+Fresh final-checkpoint acceptance remains separate.
+The provisional shared view remains layout debt; this is not runtime closure.
+Coverage stays 71.86%, with no new exact owner or partial-byte credit.
+
+Current-context negative controls are retained in bounded reports: the complete
+ANM/laser/flag expression isolates provide no additional nonregressing RunEcl
+gain; output-reference helpers with the existing explicit-inline contract and
+equivalent branch-first statements are raw-neutral. A pure shared float RHS
+retest regresses the frame to0x158 and is rejected. Default is /GB (compiler
+help), not /G6; explicit/G6 is neutral across ECL, MusicRoom, KeyConfig and
+DrawResult, all70 emitted functions and20 exact anchors. No profile change.
+
 ## Latest MusicRoom partial checkpoint (2026-10-03)
 
 Packet 792 preserves immutable list bounds and real zero-based row-index reuse.
@@ -49,7 +76,9 @@ four indirect calls, 598 fields and 943 graph blocks, but regressed to 3204/4387
 and only four of 18 exact siblings. That profile is rejected for this carrier.
 There is no unresolved synthetic-call excuse or per-function flag adoption.
 
-Packet 791 has two accepted refreshed sibling receipts at e933a03. Packet 790's
+Packet 793 has two PASS+ACCEPTED sibling receipts at a914613; Packet 792
+has its DrawMusicRoom PASS+ACCEPTED receipt at27ba479. Packet 791 has two
+accepted refreshed sibling receipts at e933a03. Packet 790's
 32 receipts bind 4a65821; Packet 789's five repaired ANM owners bind 89dfa4b.
 These are historical checkpoint facts, not blanket current acceptance. The
 Packet 785 manual callsite audit remains frozen to 20fd67df.
