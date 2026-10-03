@@ -225,16 +225,15 @@ int TitleScreenView::OnUpdateMusicRoom()
                 vms[159 + i].flags &= ~2u;
 
             i = musicListingOffset;
-            i32 visibleEnd = musicTrackCount;
-            if (i + 10 < visibleEnd)
-                visibleEnd = i + 10;
+            // Keep the bound distinct from the visible and hidden traversal cursors.
+            const i32 visibleEnd = i + 10 < musicTrackCount ? i + 10 : musicTrackCount;
             for (; i < visibleEnd; i++)
             {
                 vms[159 + i].flags |= 2;
                 vms[159 + i].posY = (float)((i - musicListingOffset + 1) * 18) + 104.0f - 20.0f;
             }
-            for (i = visibleEnd; i <= 29; i++)
-                vms[159 + i].flags &= ~2u;
+            for (i32 hiddenRow = visibleEnd; hiddenRow <= 29; hiddenRow++)
+                vms[159 + hiddenRow].flags &= ~2u;
         }
 
         if (g_TitleInputFlags & 4)
@@ -383,7 +382,8 @@ int TitleScreenView::OnUpdateMusicRoom()
                  i - 159 < musicTrackCount; i++, musicTrack++, vmIndex++)
             {
                 musicAnm->SetAndExecuteScriptIdx(&vms[159 + vmIndex], i);
-                if (g_TitleBgmUnlocked[i - 159])
+                // vmIndex is the descriptor row; i is the 159-based script id.
+                if (g_TitleBgmUnlocked[vmIndex])
                 {
                     DrawTitleMusicText(g_TitleAnmManager, &vms[159 + vmIndex], 0xD0E0FF, 0x302080,
                                        musicTrack->title);
@@ -411,16 +411,15 @@ int TitleScreenView::OnUpdateMusicRoom()
                 vms[159 + i].flags &= ~2u;
 
             i = musicListingOffset;
-            i32 visibleEnd = musicTrackCount;
-            if (i + 10 < visibleEnd)
-                visibleEnd = i + 10;
+            // Keep the bound distinct from the visible and hidden traversal cursors.
+            const i32 visibleEnd = i + 10 < musicTrackCount ? i + 10 : musicTrackCount;
             for (; i < visibleEnd; i++)
             {
                 vms[159 + i].flags |= 2;
                 vms[159 + i].posY = (float)((i - musicListingOffset + 1) * 18) + 104.0f - 20.0f;
             }
-            for (i = visibleEnd; i <= 29; i++)
-                vms[159 + i].flags &= ~2u;
+            for (i32 hiddenRow = visibleEnd; hiddenRow <= 29; hiddenRow++)
+                vms[159 + hiddenRow].flags &= ~2u;
 
             musicSelectedSongIndex = keyboardSelection;
             for (i = 0; i < 8; i++)

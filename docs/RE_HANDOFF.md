@@ -4,6 +4,26 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest MusicRoom partial checkpoint (2026-10-03)
+
+Packet 792 preserves immutable list bounds and real zero-based row-index reuse.
+The complete owner now has the target 2258-byte extent, raw hash 094477665,
+and all 74 fields / 296 encoded relocation bytes match at their actual target
+offsets. It remains NON-EXACT: 22 ordinary bytes differ in two scheduling
+windows (+0x675..0x67E and +0x76B..0x777). There is no coverage gain.
+
+Two isolated cold runs and the maintained carrier agree. Eight literal payloads
+and exact same-TU DrawMusicRoom (209 bytes / six fields) pass full comparison;
+independent source and maintained readback reviews pass. Obtain a fresh
+final-checkpoint Draw receipt separately. Whole-product, runtime, semantic and port
+gates remain open. Full owner equality, not the 611/613 diagnostic alignment,
+is the criterion for eventual MusicRoom exact credit.
+
+The new source preserves live helper/member reads and the invariant i - 159 ==
+vmIndex at each unlock lookup. Prefix stream increments are neutral. Explicit
+row-Y cursor forms move scheduling differences rather than close them and are
+not retained. Continue natural source experiments without forcing registers.
+
 ## Latest RunEcl partial checkpoint (2026-10-03)
 
 Packet791 preserves a coherent movement-accessor expression form. Current
