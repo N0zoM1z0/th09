@@ -24,8 +24,8 @@ Fresh final-checkpoint accepted sibling receipts are tracked separately.
 RunEcl continues as the main large-owner frontier. A complete pointer-value
 active-context getter was rejected after it hoisted a read across ResolveInt;
 the reference-return variant restores that timing but regresses other regions.
-A separate equality-input capture is the next bounded experiment. No accessor
-variant or compiler-profile change was promoted.
+The equality-input reference/context-pointer candidate is now preserved in
+Packet800. No accessor-family or compiler-profile change was promoted.
 
 ## Latest GameManager partial checkpoint (2026-10-03)
 
@@ -79,33 +79,41 @@ not retained. Continue natural source experiments without forcing registers.
 
 ## Latest RunEcl partial checkpoint (2026-10-03)
 
-Packet799 snapshots wire5's unsigned-short parameter mask for the existing
-lvalue resolver, then performs the original decrement and a fresh ReadInt.
-The snapshot is not reused after that call. Earlier instruction-time staging
-(Packet797) and signed-int laser-color merging (Packet798) remain in place.
+Packet800 binds the current instruction time field as a const int reference and
+loads the real active-context pointer for the immediate equality receiver. Both
+locals are consumed once before any intervening effect; the reference is not an
+early value snapshot. Later context reads remain fresh. The equality-input
+window408865-408876 now matches physically, including the existing404950 call.
 
-Current raw hash is
-c17df5387f4daf25c05a92f090666780763b31a51af1e91fbe93dd2e92d65f25:
-14788 code +772 tables =15560 physical, versus target14792/15564. All598
-actual field identities,943 mapped blocks,193 table roots and375+4 calls remain
-bound. All18 exact siblings /274fields are neutral and target-exact; both
-maintained cold objects reproduce all62 emitted functions.
+Maintained raw hash:
+ae1ab61bed664ffd9c8d61e49b74407688115a5285e08d677740434cc13a7955.
+The owner remains NONEXACT:14790 code+2 compiler alignment+772 tables=15564
+physical, versus target14792 code+772 tables. Full differences decrease from
+14382 plus4 missing bytes to2404 (2162 ordinary+242 encoded-field bytes).
+There are12016 newly matching bytes and34 lost matches. This is an explicitly
+nonmonotonic base, not a full match or a claim that compiler padding is code.
 
-This remains explicitly nonmonotonic NONEXACT maintenance. Packet799 changes
-60 bytes across5,4,7,79,86 and improves diagnostic4343 to4351/4387:13 gains and
-five losses in86. Wire5 and7 now match their full mapped instruction sequences;
-wire4 changes two bytes without a score gain. Complete same-offset differences
-remain14382 (12525 ordinary +1857 encoded-field bytes), plus four missing bytes.
-Only entry and155 are two bytes short each. No partial exact credit;71.86%.
+Entry grows496 to498 and diagnostic118 to127/127; its four remaining physical
+differences are branch-field bytes. Wire2 loses2 and wire7 loses8 matched
+instructions; total4351 to4350/4387 is diagnostic only. Other region scores and
+sizes stay unchanged. Residual normalized regions:2,4,7,79,86,155. Only155 is
+short,43 versus45 bytes. All598 actual fields,943 mapped blocks,193 roots,
+375 direct destinations and4 indirect operand forms remain accounted for.
+Six current literal payloads pass; this does not establish runtime validation.
 
-Remaining residual regions are entry,2,4,79,86,155. Prior complete sources and
-cold artifacts remain available, including the larger Packet797 tradeoff.
-Both-input and mask-only variants are byte-identical; address-only loses the
-gain. Reusing stateInt for the old flag word is neutral alone and combined.
-A real GameManager+120 member read is fully bound-neutral, so its header change
-was not promoted. /G7 fails13 of18 anchors and is rejected. The next bounded
-hypothesis is a genuine shared instruction-delta value in wire2's two separate
-post-timer paths. Fresh final-checkpoint accepted receipts are tracked separately.
+Two maintained cold objects reproduce all62 emitted functions. All18 exact
+siblings/274 fields remain neutral and target-exact, and independent source,
+cold/cohort and final maintained reviews pass. Eight compiler-private symbol
+spelling refreshes derive unchanged targets from actual same-section offsets.
+Coverage stays908 exact /198165 of275770 (71.86%). Fresh final-checkpoint
+accepted sibling receipts are tracked separately; RunEcl receives no credit.
+
+Previous371e2ded sources and frozen proofs preserve the different wire2/7 base.
+A timer-subobject pointer regresses physical alignment; a context-base pointer
+recovers eight target bytes. Fresh wire7 mask,155 destination alias and/G5 are
+neutral. The historical155 helper form remains locally regressing even when
+physical difference counts improve through changed layout. Continue natural
+large-owner experiments, without padding or forced register choices.
 
 ## Latest ANM routing / verifier correction (2026-10-03)
 
