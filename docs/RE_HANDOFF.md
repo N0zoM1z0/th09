@@ -79,39 +79,33 @@ not retained. Continue natural source experiments without forcing registers.
 
 ## Latest RunEcl partial checkpoint (2026-10-03)
 
-Packet 793 preserves explicit sequencing at all four effectful remote lookups.
-ReadInt finishes before the manager/table load, and repeated conditional
-resolutions are still performed. Current raw hash starts 33d6faea; extent is
-14787 code + one alignment byte / 15560 physical, with 598 fields.
+Packet 797 captures the current instruction time in one genuine int local before
+forming the existing timer receiver. The value is fresh per iteration and used
+once; the call, ABI and timer body are unchanged. Reusing existing lhsInt instead
+produces identical bytes, so the gain does not require additional local storage.
 
-Normalized diagnostic agreement is 4069/4387, up 14 from Packet 791. Exactly
-21 relocated bytes change in wire87 (13) and wire88 (8); all other 153 regions,
-alignment and all 772 table bytes are identical to the prior baseline. Source
-sites are wire87 and wire89: wire88 is an unchanged-source context improvement.
-Full RunEcl remains NON-EXACT, with zero authored coverage gain.
+Maintained raw hash is
+1f420f5181585948d6bc4c6dc91ea711b9521ced76e31901c8d15b470dfbb338:
+14788 code + 772 tables = 15560 physical bytes, versus target14792/15564.
+All598 fields bind independently; the943-block graph and193 table roots agree.
+Mapped375direct destinations, four indirect operands and six literal payloads
+are checked. All18 exact siblings /274fields remain neutral and target-exact.
 
-Two maintained cold builds agree. All 18 exact siblings / 274 fields pass full
-target comparison. Ninety-four scratch-to-maintained local label names retain
-the same actual COFF positions; eight canonical sibling label names are
-refreshed only after independently deriving their unchanged destinations.
-54 target-independent tests pass. Fresh final-checkpoint acceptance of the two
-manifest-changed siblings remains a separate requirement.
+This is an explicitly nonmonotonic NONEXACT base. Diagnostic instruction
+agreement4069 to4342/4387 gains286 across33 regions and loses13 in entry(-7),
+wire5(-4),wire4(-2). Same-offset complete bound differences worsen12823 to14383
+because the shortened entry shifts later code; four physical bytes remain
+missing. Neither normalized agreement nor matched total size earns exact credit.
+Two maintained cold builds reproduce the reviewed source. Final accepted
+sibling receipts bind the clean checkpoint separately. Coverage stays71.86%.
 
-The finite /Ob0 wrapper-expansion experiment restored all 375 direct calls,
-four indirect calls, 598 fields and 943 graph blocks, but regressed to 3204/4387
-and only four of 18 exact siblings. That profile is rejected for this carrier.
-There is no unresolved synthetic-call excuse or per-function flag adoption.
-
-Packet 793 has two PASS+ACCEPTED sibling receipts at a914613; Packet 792
-has its DrawMusicRoom PASS+ACCEPTED receipt at27ba479. Packet 791 has two
-accepted refreshed sibling receipts at e933a03. Packet 790's
-32 receipts bind 4a65821; Packet 789's five repaired ANM owners bind 89dfa4b.
-These are historical checkpoint facts, not blanket current acceptance. The
-Packet 785 manual callsite audit remains frozen to 20fd67df.
-
-Coverage stays 908 exact / 198165 of 275770 authored bytes (71.86%). The 90%
-goal needs 50028 more bytes. Continue large-owner source experiments with full
-physical verification and honest local regressions.
+The previous source is preserved at0b66e018 and the isolated baseline remains
+available. Residual regions are entry,2,5,4,7,79,86,114/115 and155. Subsequent
+mask snapshots, receiver references, secondary-flag snapshots, timeout helper/
+bitfield forms and SET_FLOAT input capture regress; remote-token capture is
+neutral. Keep these context-bound findings, not permanent prohibitions. Earlier
+Packet793 remote-index sequencing and genuine shared timer visibility remain.
+The old20fd67df manual callsite audit is frozen, not current evidence.
 
 ## Latest ANM routing / verifier correction (2026-10-03)
 

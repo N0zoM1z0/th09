@@ -612,7 +612,9 @@ th09_ecl_instruction_loop:
             break;
         }
 
-        if (enemyState->activeContext2CE0->time008 == instruction->time00)
+        // Capture this iteration's time operand before forming the timer receiver.
+        int instructionTime = instruction->time00;
+        if (enemyState->activeContext2CE0->time008 == instructionTime)
         {
             executionMask = Th09EclRunOwner::g_DifficultyMask |
                             enemyState->difficultyOverride3388;

@@ -39,10 +39,10 @@ struct RngView
 
 extern RngView g_Rng;
 
-// Target-facing operand helper declarations. ResolveInt and both lvalue
-// resolvers have canonical TH09 implementations; EnemyView::ResolveFloat
-// remains a separate source-present/non-exact dependency. Keep this lexical
-// interface aligned with the live ledger rather than historical packet notes.
+// Target-facing operand helper declarations. ResolveInt, both lvalue resolvers,
+// and EnemyView::ResolveFloat have canonical exact TH09 implementations.
+// Their exactness does not establish equality of this complete interpreter.
+// Keep this lexical interface aligned with the live ledger.
 int __fastcall ResolveInt(EnemyView *enemy, int rawValue);
 int *__fastcall ResolveIntLValue(
     EnemyView *enemy,
