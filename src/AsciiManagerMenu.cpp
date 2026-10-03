@@ -140,7 +140,7 @@ int PauseMenu::OnUpdate()
     switch (stateAtDispatch) {
     case PAUSE_MENU_STATE_INIT:
         for (i = 0; i < 7; i++) {
-            g_AsciiManager.asciiAnm->ExecuteAnmIdx(&this->menuSprites[i], i + 1);
+            g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&this->menuSprites[i], i + 1);
         }
         for (i = 0; i < 3; i++) {
             this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
@@ -342,7 +342,7 @@ int AsciiMenuState4::OnUpdate()
     switch (this->state) {
     case 0:
         for (i = 0; i < 3; i++) {
-            g_AsciiManager.asciiAnm->ExecuteAnmIdx(&this->menuSprites[i], i + 13);
+            g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&this->menuSprites[i], i + 13);
             this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
         }
         this->state++;

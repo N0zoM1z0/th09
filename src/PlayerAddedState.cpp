@@ -12,7 +12,7 @@ typedef char PlayerAddedTimerSizeIsC[(sizeof(PlayerAddedTimerView) == 0x0C) ? 1 
 
 struct PlayerAddedAnmLoadedView
 {
-    void ExecuteAnmIdx(PlayerAnmVmView *vm, int scriptIndex);
+    void SetAndExecuteScriptIdx(PlayerAnmVmView *vm, int scriptIndex);
 };
 
 struct PlayerAddedStateSetterView
@@ -185,7 +185,7 @@ void PlayerLifecycleView::InitializeAddedState()
     PlayerAddedStateLayout *player = reinterpret_cast<PlayerAddedStateLayout *>(this);
     int i;
 
-    player->anmFileBC->ExecuteAnmIdx(&player->mainVmC0, 0);
+    player->anmFileBC->SetAndExecuteScriptIdx(&player->mainVmC0, 0);
 
     float *position = player->position1B88.operator float *();
     position[0] = -160.0f;

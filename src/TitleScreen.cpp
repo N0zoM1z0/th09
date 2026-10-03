@@ -206,7 +206,7 @@ typedef char AnmVmColorFinalAt27C[(offsetof(AnmVmView, color1Final) == 0x27C) ? 
 typedef char AnmVmFontHeightAt299[(offsetof(AnmVmView, fontHeight) == 0x299) ? 1 : -1];
 
 struct TitleAnmView {
-    void ExecuteAnmIdx(AnmVmView *vm, i32 scriptIndex);
+    void SetAndExecuteScriptIdx(AnmVmView *vm, i32 scriptIndex);
     void ExecuteAnmIdxArray(AnmVmView *vms, i32 start, i32 count);
     int SetSprite(AnmVmView *vm, i32 spriteIndex);
 };
@@ -567,7 +567,7 @@ void __cdecl TitleScreenView::TitleSetupThread(void *unused)
 
     for (i32 i = 0; i < 14; ++i)
     {
-        g_TitleSupervisor.textAnm->ExecuteAnmIdx(
+        g_TitleSupervisor.textAnm->SetAndExecuteScriptIdx(
             &title->embeddedVms[i], 5);
         g_TitleSupervisor.textAnm->SetSprite(
             &g_TitleScreen->embeddedVms[i],

@@ -83,7 +83,7 @@ int AsciiMenuState5::OnUpdate()
     case 0:
         if (!g_GameManager.IsGameMode1()) {
             for (i = 0; i < 5; i++) {
-                g_AsciiManager.asciiAnm->ExecuteAnmIdx(&this->menuSprites[i], i + 8);
+                g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&this->menuSprites[i], i + 8);
             }
             for (i = 0; i < 5; i++) {
                 this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
@@ -93,7 +93,7 @@ int AsciiMenuState5::OnUpdate()
                 120 - g_GameManager.sides[0].runtime->counter14);
         } else {
             for (i = 0; i < 3; i++) {
-                g_AsciiManager.asciiAnm->ExecuteAnmIdx(&this->menuSprites[i], i + 17);
+                g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&this->menuSprites[i], i + 17);
             }
             for (i = 0; i < 3; i++) {
                 this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;

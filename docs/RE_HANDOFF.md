@@ -4,6 +4,23 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest ANM/timer call-identity repair (2026-10-03)
+
+Packet778 corrects six indexed-script calls to the existing
+SetAndExecuteScriptIdx boundary0x403E00 and the Player selector's timer call
+to its existing assignment wrapper0x401500. Old manifests redirected actual
+shared method names to distinct callees. Private Title/Player ANM aliases
+were also misnamed. Four directly affected exact owners total6157 bytes,
+with no new exact credit.
+
+Two cold cohorts agree,57 owner raw byte hashes remain unchanged, exactly
+seven call symbols change, and all55 affected canonical exact units pass.
+The canonical-call identity guard rejects all four old shared-symbol
+misbindings while leaving unimplemented private views for explicit review.
+Coverage stays904 exact /195428 of275770(70.87%). Fresh Factory acceptance
+of the corrected four claims is required on the final source snapshot.
+Native product/type/linkage closure is still open.
+
 ## Latest Type4 initializer exact closure (2026-10-03)
 
 Packet777 closes ExAttackInitializeCallbackType4 at0x00442A60:368 bytes

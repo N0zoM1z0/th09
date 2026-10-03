@@ -291,7 +291,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             reinterpret_cast<PlayerGameplayMethods *>(phasePlayer)->GetUpdateState() != 1)
         {
             reinterpret_cast<PlayerGameplayMethods *>(phasePlayer)->EnterGameplayMode(3);
-            reinterpret_cast<ZunTimer *>(&header->player78->timer303C8)->SetCurrent(2);
+            *reinterpret_cast<ZunTimer *>(&header->player78->timer303C8) = 2;
         }
         if (reinterpret_cast<PlayerGameplayTimerCurrentView *>(
             &header->openingTimer5C)->GetCurrent() / 60 >= threshold)
