@@ -195,12 +195,16 @@ def report(object_path: Path) -> dict[str, object]:
             },
         },
         "status": "NON-EXACT",
-        "known_callsite_mismatches": {},
+        # Aggregate relocation/name counts are not a complete callee-identity
+        # replay. In particular, unknown aliases and indirect calls are not
+        # decoded or independently bound by this diagnostic.
+        "known_callsite_mismatches": None,
+        "call_identity_validation": "not_performed",
         "claim": (
-            "all 375 immediate direct-call destination multiplicities match; "
-            "the target and current candidate each have four indirect call sites "
-            "(one register and three memory-indirect), while stack/local layout, "
-            "code-block order, relocations and bytes remain open"
+            "candidate REL32 relocation count and four named operand-resolver "
+            "multiplicities checked; complete direct-call destinations and "
+            "indirect-call counts are not validated by this diagnostic. "
+            "Stack/local layout, code-block order, relocations and bytes remain open"
         ),
     }
 

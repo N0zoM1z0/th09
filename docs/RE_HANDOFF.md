@@ -4,6 +4,14 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest RunEcl evidence-scope correction (2026-10-03)
+
+Packet780 removes an unsupported full-call identity claim from the ECL
+diagnostic. It checks aggregate REL32/four resolver counts, not all direct
+destinations or indirect-call counts. A focused unknown-callee fixture
+protects that distinction. RunEcl remains NON-EXACT; no source/profile
+change or coverage gain.
+
 ## Latest comparison-extent consistency repair (2026-10-03)
 
 Packet779 separates authored size from full physical comparison for four

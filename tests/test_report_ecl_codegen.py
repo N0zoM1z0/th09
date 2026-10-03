@@ -3,6 +3,8 @@
 import importlib.util
 from pathlib import Path
 import unittest
+from unittest.mock import patch
+from types import SimpleNamespace
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -48,6 +50,30 @@ class FirstWorldResultTests(unittest.TestCase):
         code, relocations = candidate(-0x168, b"\x90\x90")
         result = REPORT.first_world_result_shape(code, relocations)
         self.assertEqual(result["status"], "unrecognized")
+
+
+class EvidenceScopeTests(unittest.TestCase):
+    def test_aggregate_counts_do_not_claim_unknown_callee_identity(self):
+        # Deliberately fill the non-resolver remainder with an unbound name.
+        # Aggregate counts alone must never turn that into identity evidence.
+        names = [name for name, count in REPORT.EXPECTED_RESOLVER_CALLS.items()
+                 for _ in range(count)]
+        names += ['?UnreviewedCallee@@YAXXZ'] * (REPORT.CANDIDATE_DIRECT_CALL_COUNT - len(names))
+        relocations = [dict(offset=16 + i * 5, type='REL32', symbol=name)
+                       for i, name in enumerate(names)]
+        table_count = REPORT.EASING_TABLE_COUNT + REPORT.OPCODE_TABLE_COUNT
+        relocations += [dict(offset=2000 + i * 4, type='DIR32', symbol=f'$table{i}')
+                        for i in range(table_count)]
+        code = bytearray(2000 + table_count * 4)
+        code[:9] = b'\x55\x8b\xec\x81\xec\x68\x01\x00\x00'
+        reader = SimpleNamespace(verified_target=lambda: None,
+                                 object_function=lambda *_: (code, relocations))
+        with patch.object(REPORT, 'load_compare_module', return_value=reader):
+            result = REPORT.report(Path('unreviewed-fixture.obj'))
+        self.assertEqual(result['call_identity_validation'], 'not_performed')
+        self.assertIsNone(result['known_callsite_mismatches'])
+        self.assertIn('not validated', result['claim'])
+        self.assertEqual(result['status'], 'NON-EXACT')
 
 
 if __name__ == "__main__":
