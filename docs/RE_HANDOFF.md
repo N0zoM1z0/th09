@@ -4,6 +4,20 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest Type4 initializer exact closure (2026-10-03)
+
+Packet777 closes ExAttackInitializeCallbackType4 at0x00442A60:368 bytes
+and22 reviewed fields. Owner-relative Y spelling follows target accesses,
+without changing the actual vector storage or inventing a lifetime. Two
+malformed allocation-label escapes are also corrected. Two cold objects and
+the maintained canonical carrier agree. Reproduce with the new
+exattack-type4-initialize unit.
+
+Current ledger:904 exact /195428 of275770 authored bytes (70.87%);90%
+needs52765 additional bytes.76 owners /80342 bytes remain nonexact.
+Get a fresh accepted Factory replay before calling this snapshot accepted.
+Earlier receipts are historical; native product/runtime gates remain open.
+
 ## Latest gameplay reset identity checkpoint (2026-10-03)
 
 Packet 776 corrects ten CleanupGameplayState calls from teardown aliases to
@@ -262,11 +276,11 @@ SHA-256:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 903 |
-| Source-present non-exact functions | 77 |
-| Source-present non-exact bytes | 80,710 |
+| Canonical exact functions | 904 |
+| Source-present non-exact functions | 76 |
+| Source-present non-exact bytes | 80,342 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 195,060 |
+| Canonical exact authored bytes | 195,428 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction

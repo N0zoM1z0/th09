@@ -67,7 +67,7 @@ int __fastcall ExAttackInitializeCallbackType4(ExAttackRecord *base)
 
     record->vmCount2C = 5;
     record->dynamicData1C =
-        g_ZunMemory.Alloc(5 * sizeof(AnmVm), "./system\global.h");
+        g_ZunMemory.Alloc(5 * sizeof(AnmVm), "./system\\global.h");
 
     g_GameManager.sides[record->side08].player04->anmFileBC->ExecuteAnmIdx(
         reinterpret_cast<AnmVm *>(record->dynamicData1C) + 0, 14);
@@ -82,13 +82,15 @@ int __fastcall ExAttackInitializeCallbackType4(ExAttackRecord *base)
 
     Float3 *position;
     ExAttackType4Extra *extra = static_cast<ExAttackType4Extra *>(
-        g_ZunMemory.Alloc(sizeof(ExAttackType4Extra), "./system\global.h"));
+        g_ZunMemory.Alloc(sizeof(ExAttackType4Extra), "./system\\global.h"));
     record->extra34 = extra;
 
     g_Supervisor.SelectSide(record->opponentSide04);
     position = &record->position20;
     position->x = g_GameManager.InverseTransformPopupX(position->x);
-    position->y = g_GameManager.InverseTransformPopupY(position->y);
+    // Preserve the observed owner-relative Y access; the position view remains
+    // useful for X and the history copies below. Both refer to the same vector.
+    record->position20.y = g_GameManager.InverseTransformPopupY(record->position20.y);
 
     record->unknown00 = record->opponentSide04;
     record->unknown3C = record->parameter38->value3C;
