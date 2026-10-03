@@ -26,29 +26,37 @@ not retained. Continue natural source experiments without forcing registers.
 
 ## Latest RunEcl partial checkpoint (2026-10-03)
 
-Packet791 preserves a coherent movement-accessor expression form. Current
-RunEcl raw hash starts f7e4a962,14787 code+1 alignment byte/15560 physical,
-598 fields. Normalized region agreement is4055/4387,up12 from Packet790.
-Exactly38 relocated bytes change in opcodes68/69/74/75; all151 other regions,
-alignment and the complete table suffix are identical to the prior baseline.
-Full owner remains NON-EXACT; no authored coverage gain.
+Packet 793 preserves explicit sequencing at all four effectful remote lookups.
+ReadInt finishes before the manager/table load, and repeated conditional
+resolutions are still performed. Current raw hash starts 33d6faea; extent is
+14787 code + one alignment byte / 15560 physical, with 598 fields.
 
-Two isolated cold builds and the maintained carrier agree. All18 exact
-same-TU siblings/all274 fields remain target-equal. Eight private label names
-in two manifests are refreshed from actual unchanged same-section destinations.
-54 target-independent tests pass. Final-snapshot Factory replay remains
-required separately; local compiler proofs are not accepted receipts.
+Normalized diagnostic agreement is 4069/4387, up 14 from Packet 791. Exactly
+21 relocated bytes change in wire87 (13) and wire88 (8); all other 153 regions,
+alignment and all 772 table bytes are identical to the prior baseline. Source
+sites are wire87 and wire89: wire88 is an unchanged-source context improvement.
+Full RunEcl remains NON-EXACT, with zero authored coverage gain.
 
-Packet790's shared-timer/API cohort passed541 canonical units plus28 nonexact
-consumers; its maintained161-owner/3679-field proof and32 accepted receipts
-bind4a65821. Packet789's five repaired ANM owners also received accepted
-receipts at89dfa4b. Those are historical checkpoint facts, not blanket current
-snapshot acceptance. The old Packet785 manual callsite audit remains frozen
-to20fd67df and must not be applied to this changed owner.
+Two maintained cold builds agree. All 18 exact siblings / 274 fields pass full
+target comparison. Ninety-four scratch-to-maintained local label names retain
+the same actual COFF positions; eight canonical sibling label names are
+refreshed only after independently deriving their unchanged destinations.
+54 target-independent tests pass. Fresh final-checkpoint acceptance of the two
+manifest-changed siblings remains a separate requirement.
 
-Coverage stays908 exact /198165 of275770 authored bytes(71.86%). The90%
-goal needs50028 more bytes. Continue large-owner experiments; source-form
-interactions are empirical, and historical negatives are contextual.
+The finite /Ob0 wrapper-expansion experiment restored all 375 direct calls,
+four indirect calls, 598 fields and 943 graph blocks, but regressed to 3204/4387
+and only four of 18 exact siblings. That profile is rejected for this carrier.
+There is no unresolved synthetic-call excuse or per-function flag adoption.
+
+Packet 791 has two accepted refreshed sibling receipts at e933a03. Packet 790's
+32 receipts bind 4a65821; Packet 789's five repaired ANM owners bind 89dfa4b.
+These are historical checkpoint facts, not blanket current acceptance. The
+Packet 785 manual callsite audit remains frozen to 20fd67df.
+
+Coverage stays 908 exact / 198165 of 275770 authored bytes (71.86%). The 90%
+goal needs 50028 more bytes. Continue large-owner source experiments with full
+physical verification and honest local regressions.
 
 ## Latest ANM routing / verifier correction (2026-10-03)
 

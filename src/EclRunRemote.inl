@@ -119,6 +119,14 @@ struct ManagerClearView
 #error EclRunRemote.inl must be included lexically inside RunEcl's switch
 #endif
 
+// Resolve each effectful index before reading the manager's table. The comma
+// expressions below preserve the original call-before-lookup sequencing;
+// repeated conditional lookups still resolve their operand again.
+#define TH09_ECL_REMOTE_SLOT(owner, index) \
+    (static_cast<EnemyView *&>(*reinterpret_cast<EnemyView **>( \
+        reinterpret_cast<unsigned char *>((owner)->manager00) + \
+        Th09EclRunRemote::ENEMY_MANAGER_REMOTE_TABLE + (index) * 4)))
+
     int remoteIndex;
     int remoteValue;
     float remoteFloat;
@@ -143,15 +151,13 @@ th09_ecl_store_int_result:
         break;
 
     case TH09_ECL_OPCODE_SET_REMOTE_FLOAT:
-        if (Th09EclRunRemote::RemoteEnemy(
-                enemy,
-                Th09EclRunControl::ReadInt(enemy, instruction, 2)) != 0)
+        if ((remoteIndex = Th09EclRunControl::ReadInt(enemy, instruction, 2),
+             TH09_ECL_REMOTE_SLOT(enemy, remoteIndex)) != 0)
         {
             *Th09EclRunControl::WriteFloat(enemy, instruction, 0) =
                 (instruction->parameterMask0A & (1U << 1))
-                    ? Th09EclRunRemote::RemoteEnemy(
-                          enemy,
-                          Th09EclRunControl::ReadInt(enemy, instruction, 2))
+                    ? (remoteIndex = Th09EclRunControl::ReadInt(enemy, instruction, 2),
+                       TH09_ECL_REMOTE_SLOT(enemy, remoteIndex))
                           ->ResolveFloat(
                               Th09EclRunControl::RawFloat(instruction, 1))
                     : Th09EclRunControl::RawFloat(instruction, 1);
@@ -169,21 +175,23 @@ th09_ecl_store_int_result:
         break;
 
     case TH09_ECL_OPCODE_SCHEDULE_REMOTE_SUBROUTINE:
-        remoteEnemy = Th09EclRunRemote::RemoteEnemy(
-            enemy,
-            Th09EclRunControl::ReadInt(enemy, instruction, 0));
+        remoteEnemy =
+            (remoteIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0),
+             TH09_ECL_REMOTE_SLOT(enemy, remoteIndex));
         if (remoteEnemy != 0)
         {
             remoteValue =
                 Th09EclRunControl::ReadInt(enemy, instruction, 1);
             // The target resolves operand 0 again before selecting the store.
-            remoteEnemy = Th09EclRunRemote::RemoteEnemy(
-                enemy,
-                Th09EclRunControl::ReadInt(enemy, instruction, 0));
+            remoteEnemy =
+                (remoteIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0),
+                 TH09_ECL_REMOTE_SLOT(enemy, remoteIndex));
             Th09EclRunRemote::PendingSubroutine(remoteEnemy) =
                 static_cast<short>(remoteValue);
         }
         break;
+
+#undef TH09_ECL_REMOTE_SLOT
 
 #endif // TH09_ECL_RUN_REMOTE_BODY
 
