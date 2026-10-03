@@ -79,41 +79,41 @@ not retained. Continue natural source experiments without forcing registers.
 
 ## Latest RunEcl partial checkpoint (2026-10-03)
 
-Packet800 binds the current instruction time field as a const int reference and
-loads the real active-context pointer for the immediate equality receiver. Both
-locals are consumed once before any intervening effect; the reference is not an
-early value snapshot. Later context reads remain fresh. The equality-input
-window408865-408876 now matches physically, including the existing404950 call.
+Packet801 stages each wire2 arm's real integer value, then obtains the current
+context pointer for timer assignment. The resolved arm reloads context after
+ResolveInt. Both separate assignment/advance/goto paths remain, with signed
+nextOffset read after assignment. The edited handler's bytes remain unchanged.
 
-Maintained raw hash:
-ae1ab61bed664ffd9c8d61e49b74407688115a5285e08d677740434cc13a7955.
+Current maintained raw hash:
+f5a6032956007156460b013edf3b011ca371eb4ee8690f941b48f755898dffbf.
 The owner remains NONEXACT:14790 code+2 compiler alignment+772 tables=15564
-physical, versus target14792 code+772 tables. Full differences decrease from
-14382 plus4 missing bytes to2404 (2162 ordinary+242 encoded-field bytes).
-There are12016 newly matching bytes and34 lost matches. This is an explicitly
-nonmonotonic base, not a full match or a claim that compiler padding is code.
+physical, versus target14792 code+772 tables. Exactly40 bytes change from
+eaa1f8b, only79(30) and86(10):14 newly match target, none lose matching status,
+and26 remain unequal. Complete residuals decrease2404 to2390, comprising2148
+ordinary and242 encoded-field bytes. Diagnostic4350 to4354/4387 includes79-1
+and86+5; physical-byte monotonicity is distinct from instruction alignment.
 
-Entry grows496 to498 and diagnostic118 to127/127; its four remaining physical
-differences are branch-field bytes. Wire2 loses2 and wire7 loses8 matched
-instructions; total4351 to4350/4387 is diagnostic only. Other region scores and
-sizes stay unchanged. Residual normalized regions:2,4,7,79,86,155. Only155 is
-short,43 versus45 bytes. All598 actual fields,943 mapped blocks,193 roots,
-375 direct destinations and4 indirect operand forms remain accounted for.
-Six current literal payloads pass; this does not establish runtime validation.
+Packet800's reference/context equality inputs remain intact. Its earlier
+14382+4missing to2404 tradeoff included12016 new matches and34 losses; retain
+that history rather than claim all checkpoints were monotone. The equality
+window408865-408876 is physically exact, while four entry branch-field bytes
+still differ. Only155 is two code bytes short; padding does not close that gap.
+Remaining normalized regions are2,4,7,79,86,155. All598 actual fields,943 mapped
+blocks,193 roots,375 direct destinations and4 indirect operand forms remain
+accounted for. Six current literal payloads pass; runtime remains unvalidated.
 
 Two maintained cold objects reproduce all62 emitted functions. All18 exact
-siblings/274 fields remain neutral and target-exact, and independent source,
-cold/cohort and final maintained reviews pass. Eight compiler-private symbol
-spelling refreshes derive unchanged targets from actual same-section offsets.
-Coverage stays908 exact /198165 of275770 (71.86%). Fresh final-checkpoint
-accepted sibling receipts are tracked separately; RunEcl receives no credit.
+siblings/274 fields remain neutral and fully target-equal. Independent frozen
+and final maintained reviews pass; eight private spelling refreshes preserve
+actual same-section destinations. Coverage stays908 exact /198165 of275770
+(71.86%). Final-checkpoint accepted sibling receipts are tracked separately;
+RunEcl receives no exact credit. Earlier baselines remain reproducible.
 
-Previous371e2ded sources and frozen proofs preserve the different wire2/7 base.
-A timer-subobject pointer regresses physical alignment; a context-base pointer
-recovers eight target bytes. Fresh wire7 mask,155 destination alias and/G5 are
-neutral. The historical155 helper form remains locally regressing even when
-physical difference counts improve through changed layout. Continue natural
-large-owner experiments, without padding or forced register choices.
+The single wire7 shared rhsFloat trial regresses frame and37regions and is not
+retained. Raw input references in7/155,155 declaration-order reversal and one
+immutable-snapshot style control are neutral. Next bounded experiments concern
+real equality-body visibility under current input organization and an explicit
+wire7 conditional assignment. No padding, forced registers or ABI changes.
 
 ## Latest ANM routing / verifier correction (2026-10-03)
 

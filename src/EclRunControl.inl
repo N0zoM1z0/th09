@@ -175,22 +175,27 @@ __forceinline float *WriteFloat(
         return -1;
 
     case TH09_ECL_OPCODE_SET_SECONDARY_TIME:
+        // Read the value before the fresh context pointer in each arm.
         if ((instruction->parameterMask0A & 1U) != 0)
         {
-            context->secondaryTime094 =
-                Th09EclRunControl::ResolveInt(
-                    enemy, Th09EclRunControl::RawInt(instruction, 0));
+            int secondaryTime = Th09EclRunControl::ResolveInt(
+                enemy, Th09EclRunControl::RawInt(instruction, 0));
+            Th09EclContextView *secondaryContext = context;
+            secondaryContext->secondaryTime094 = secondaryTime;
             instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
                 reinterpret_cast<unsigned char *>(instruction) +
                 static_cast<short>(instruction->nextOffset06));
             goto th09_ecl_redispatch_instruction;
         }
-        context->secondaryTime094 =
-            Th09EclRunControl::RawInt(instruction, 0);
-        instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
-            reinterpret_cast<unsigned char *>(instruction) +
-            static_cast<short>(instruction->nextOffset06));
-        goto th09_ecl_redispatch_instruction;
+        {
+            int secondaryTime = Th09EclRunControl::RawInt(instruction, 0);
+            Th09EclContextView *secondaryContext = context;
+            secondaryContext->secondaryTime094 = secondaryTime;
+            instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
+                reinterpret_cast<unsigned char *>(instruction) +
+                static_cast<short>(instruction->nextOffset06));
+            goto th09_ecl_redispatch_instruction;
+        }
 
     // Target places the decrement handler immediately before the shared jump
     // tail.  Operands 0/1 are raw time/displacement; operand 2 is resolved.
