@@ -79,39 +79,33 @@ not retained. Continue natural source experiments without forcing registers.
 
 ## Latest RunEcl partial checkpoint (2026-10-03)
 
-Packet 797 captures the current instruction time in one genuine int local before
-forming the existing timer receiver. The value is fresh per iteration and used
-once; the call, ABI and timer body are unchanged. Reusing existing lhsInt instead
-produces identical bytes, so the gain does not require additional local storage.
-Packet798 additionally keeps laser colors at signed-int width until the real
-short descriptor store, recovering the target raw-color sign extension.
+Packet799 snapshots wire5's unsigned-short parameter mask for the existing
+lvalue resolver, then performs the original decrement and a fresh ReadInt.
+The snapshot is not reused after that call. Earlier instruction-time staging
+(Packet797) and signed-int laser-color merging (Packet798) remain in place.
 
-Maintained raw hash is
-7279439ccb45d56879dfb26b1a5caea03f8994c5826a0e60661208e2802862ac:
-14788 code + 772 tables = 15560 physical bytes, versus target14792/15564.
-All598 fields bind independently; the943-block graph and193 table roots agree.
-Mapped375direct destinations, four indirect operands and six literal payloads
-are checked. All18 exact siblings /274fields remain neutral and target-exact.
+Current raw hash is
+c17df5387f4daf25c05a92f090666780763b31a51af1e91fbe93dd2e92d65f25:
+14788 code +772 tables =15560 physical, versus target14792/15564. All598
+actual field identities,943 mapped blocks,193 table roots and375+4 calls remain
+bound. All18 exact siblings /274fields are neutral and target-exact; both
+maintained cold objects reproduce all62 emitted functions.
 
-This is an explicitly nonmonotonic NONEXACT base. Diagnostic instruction
-agreement4069 to4343/4387 gains287 across34 regions and loses13 in entry(-7),
-wire5(-4),wire4(-2). Same-offset complete bound differences worsen12823 to14383
-because the shortened entry shifts later code; four physical bytes remain
-missing. Neither normalized agreement nor matched total size earns exact credit.
-Two maintained cold builds reproduce the reviewed source. Final accepted
-sibling receipts bind the clean checkpoint separately. Coverage stays71.86%.
+This remains explicitly nonmonotonic NONEXACT maintenance. Packet799 changes
+60 bytes across5,4,7,79,86 and improves diagnostic4343 to4351/4387:13 gains and
+five losses in86. Wire5 and7 now match their full mapped instruction sequences;
+wire4 changes two bytes without a score gain. Complete same-offset differences
+remain14382 (12525 ordinary +1857 encoded-field bytes), plus four missing bytes.
+Only entry and155 are two bytes short each. No partial exact credit;71.86%.
 
-The previous source is preserved at0b66e018 and the isolated baseline remains
-available. Residual regions are entry,2,5,4,7,79,86 and155. The laser change is exactly
-two opcode bytes; other owner bytes, all598 actual field identities and18
-exact siblings remain neutral. One unused20-byte ReadLaserColor emission
-disappears, with zero code/data references or match ownership; its source
-definition stays unchanged. All62 retained emitted functions cold-repeat. Subsequent
-mask snapshots, receiver references, secondary-flag snapshots, timeout helper/
-bitfield forms and SET_FLOAT input capture regress; remote-token capture is
-neutral. Keep these context-bound findings, not permanent prohibitions. Earlier
-Packet793 remote-index sequencing and genuine shared timer visibility remain.
-The old20fd67df manual callsite audit is frozen, not current evidence.
+Remaining residual regions are entry,2,4,79,86,155. Prior complete sources and
+cold artifacts remain available, including the larger Packet797 tradeoff.
+Both-input and mask-only variants are byte-identical; address-only loses the
+gain. Reusing stateInt for the old flag word is neutral alone and combined.
+A real GameManager+120 member read is fully bound-neutral, so its header change
+was not promoted. /G7 fails13 of18 anchors and is rejected. The next bounded
+hypothesis is a genuine shared instruction-delta value in wire2's two separate
+post-timer paths. Fresh final-checkpoint accepted receipts are tracked separately.
 
 ## Latest ANM routing / verifier correction (2026-10-03)
 

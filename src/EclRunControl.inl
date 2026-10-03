@@ -195,9 +195,14 @@ __forceinline float *WriteFloat(
     // Target places the decrement handler immediately before the shared jump
     // tail.  Operands 0/1 are raw time/displacement; operand 2 is resolved.
     case TH09_ECL_OPCODE_JUMP_DEC:
-        --*Th09EclRunControl::WriteInt(enemy, instruction, 2);
+    {
+        // This snapshot is for the lvalue resolver only; ReadInt below reads afresh.
+        const unsigned short parameterMask = instruction->parameterMask0A;
+        --*Th09EclRunControl::ResolveIntLValue(
+            enemy, &Th09EclRunControl::RawInt(instruction, 2), parameterMask, 2);
         if (Th09EclRunControl::ReadInt(enemy, instruction, 2) <= 0)
             goto th09_ecl_advance_instruction;
+    }
 
     case TH09_ECL_OPCODE_JUMP:
         context->time008 =
