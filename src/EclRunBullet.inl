@@ -310,8 +310,14 @@ void ClearBulletsForTransition(EtamaController *controller);
             Th09EclRunBullet::View(enemy)->worldPosition2DD4 +
             Th09EclRunBullet::View(enemy)->shootOffset2E04;
         laserDescriptor->bulletType = laserArgs->bulletType00;
-        laserDescriptor->color =
-            Th09EclRunBullet::ReadLaserColor(enemy, instruction);
+        {
+            // Keep both paths signed-int width; narrow only at the descriptor field.
+            int resolvedColor =
+                (instruction->parameterMask0A & (1U << 1))
+                    ? Th09EclRunControl::ResolveInt(enemy, laserArgs->color02)
+                    : laserArgs->color02;
+            laserDescriptor->color = static_cast<short>(resolvedColor);
+        }
         laserDescriptor->angle = Th09EclRunBullet::ReadLaserFloat(
             enemy, instruction, 0x04, 2);
         laserDescriptor->speed1 = Th09EclRunBullet::ReadLaserFloat(
