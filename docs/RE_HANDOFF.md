@@ -4,6 +4,24 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest RunEcl callsite/field identity audit (2026-10-03)
+
+Packet785 closes the old aggregate-census gap: all375 direct destinations agree
+at corresponding opcode-rooted CFG blocks/call ordinals;943 block graphs and
+all193 table roots agree. All598 fields and six literal payloads are accounted.
+Four indirect receiver/provenance contracts are independently reviewed for the
+frozen baseline object. Run scripts/audit-ecl-callsite-identities.py with the
+existing EclManager.obj and optionally --output for the full reproducible matrix.
+This does not prove predicates, arbitrary argument values, within-block
+instruction scheduling, a new cold source binding, or exact bytes. Candidate
+14788/15560 remains below target14792/15564; no exact gain or compiler change.
+Coverage stays905 exact /196402 of275770 (71.22%);90% remains unmet.
+
+Do not repeat the recovered fourteen ReplayMenu controls or infer no-op source
+from TitleDrawCallback's effect-free dispatch residue. Player added-state's
+cross-array release access remains source-validity debt; its named-array probe
+was nonneutral. See Packet785 for negative controls and precise reopen limits.
+
 ## Latest charge-attack load-order correction (2026-10-03)
 
 Packet784 restores the post-timer side reload and post-conversion SHT reload.
