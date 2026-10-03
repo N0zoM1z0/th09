@@ -312,7 +312,7 @@ ScoreFileView *ScoreFileView::OpenScore(const char *filename)
         scoreFile->headerSize = sizeof(ScoreFileView);
         scoreFile->totalSize = sizeof(ScoreFileView);
         scoreFile->version = 4;
-        return scoreFile;
+        goto out;
     }
 
     if (fileSize < sizeof(ScoreFileView))
@@ -376,10 +376,13 @@ ScoreFileView *ScoreFileView::OpenScore(const char *filename)
     g_ZunMemory.Free(scoreFile);
     scoreFile = expandedScoreFile;
 
-    bytesToRead = (i32)(scoreFile->totalSize - scoreFile->headerSize);
+    // Preserve the target chapter-scan setup and shared return path.
+    // Error handling intentionally retains the original format assumptions.
+    bytesToRead = scoreFile->totalSize;
+    hasFoundTH9K = 0;
     chapter = reinterpret_cast<ScoreChapterView *>(
         reinterpret_cast<u8 *>(scoreFile) + scoreFile->headerSize);
-    hasFoundTH9K = 0;
+    bytesToRead -= scoreFile->headerSize;
 
     while (bytesToRead > 0)
     {
@@ -406,6 +409,7 @@ ScoreFileView *ScoreFileView::OpenScore(const char *filename)
         goto recreateScoreFile;
     }
 
+out:
     return scoreFile;
 }
 

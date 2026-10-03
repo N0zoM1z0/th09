@@ -4,6 +4,26 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest score-file opening exact closure (2026-10-03)
+
+Packet788 closes OpenScore at523 authored bytes/all32 relocation fields.
+A shared return and split chapter-scan setup jointly recover the target CFG;
+either isolated factor remains nonexact. Two isolated and two maintained cold
+proofs pass; all six prior same-TU exact siblings stay byte/full-record neutral
+and all seven full comparisons pass in the maintained carrier. Error behavior
+and inherited malformed-input assumptions remain unchanged.
+
+Current ledger:908 exact /198165 of275770 authored bytes (71.86%).
+72 owners /77605 bytes remain nonexact;90% needs50028 more bytes.
+Obtain final-snapshot accepted Factory replay before current accepted claims.
+Source experiments continue; historical hypotheses are fallible, not rules.
+
+The bounded default/G6/G7 cross-owner panel kept20/20 exact anchors under
+default and/G6; /G7 kept only6/20 and regressed all three selected nonexact
+owners. No canonical flag changes. RunEcl's current baseline already has the
+target first world-result home (-0x168) and returned-EAX copy; don't carry the
+older failed-first-copy description forward. See Packet788 for scoped negatives.
+
 ## Latest score-record loading exact closure (2026-10-03)
 
 Packet787 closes LoadScoreRecords at441 authored bytes/all26 DIR32 fields.
@@ -401,11 +421,11 @@ SHA-256:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 907 |
-| Source-present non-exact functions | 73 |
-| Source-present non-exact bytes | 78,128 |
+| Canonical exact functions | 908 |
+| Source-present non-exact functions | 72 |
+| Source-present non-exact bytes | 77,605 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 197,642 |
+| Canonical exact authored bytes | 198,165 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction

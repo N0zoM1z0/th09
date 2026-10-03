@@ -20631,3 +20631,46 @@ relocations = [
   { offset = 0x1A7, type = "DIR32", symbol = "?g_CurrentScoreRecord@@3UScoreRecordView@@A", target = 0x004AC858 },
   { offset = 0x1AE, type = "DIR32", symbol = "?g_CurrentScoreRecord@@3UScoreRecordView@@A", target = 0x004AC858 },
 ]
+
+[units.score-file-open-score]
+source = "src/ScoreData.cpp"
+object = "build/matching/ScoreDataOpenScore.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScoreFileView::OpenScore"]
+symbol = "?OpenScore@ScoreFileView@@SIPAU1@PBD@Z"
+target_address = 0x00421C80
+size = 523
+relocations = [
+  { offset = 0xA, type = "DIR32", symbol = "??_C@_0BE@CEDFNLGH@info?5?3?5score?5load?$AN?6?$AA@", target = 0x0048F2FC },
+  { offset = 0xF, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x16, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+  { offset = 0x25, type = "REL32", symbol = "?OpenFile@FileSystem@@YIPAEPBDPAHH@Z", target = 0x0042C970 },
+  { offset = 0x3C, type = "DIR32", symbol = "??_C@_0CE@FHNJJJNA@warning?5?3?5score?4dat?5size?5is?5shor@", target = 0x0048F2D8 },
+  { offset = 0x41, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x46, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+  { offset = 0x4F, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x54, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x71, type = "REL32", symbol = "?Decrypt@FileSystem@@YIPAEPAEHEEHH@Z", target = 0x0042C180 },
+  { offset = 0x77, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x7E, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0xE0, type = "DIR32", symbol = "??_C@_0CD@DINLNKGH@warning?5?3?5score?4dat?5chksum?5error@", target = 0x0048F2B4 },
+  { offset = 0xF0, type = "DIR32", symbol = "??_C@_0CE@JAALOGJK@warning?5?3?5header?5size?5is?5mismatc@", target = 0x0048F290 },
+  { offset = 0x105, type = "DIR32", symbol = "??_C@_0L@OFFKJCDC@scorefile2?$AA@", target = 0x0048F284 },
+  { offset = 0x10F, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x114, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0x14F, type = "REL32", symbol = "?Decode@Lzss@@SIPAEPAEH0H@Z", target = 0x00433AA0 },
+  { offset = 0x155, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x15A, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x1A1, type = "DIR32", symbol = "??_C@_0CH@GJNBCLGI@warning?5?3?5score?4dat?5version?5mism@", target = 0x0048F25C },
+  { offset = 0x1A6, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x1AB, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+  { offset = 0x1B3, type = "DIR32", symbol = "??_C@_0BI@OOGIJLNO@info?5?3?5score?5recreate?$AN?6?$AA@", target = 0x0048F244 },
+  { offset = 0x1B8, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
+  { offset = 0x1BD, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
+  { offset = 0x1CA, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x1CF, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+  { offset = 0x1D4, type = "DIR32", symbol = "??_C@_09EHPLGOEN@scorefile?$AA@", target = 0x0048F238 },
+  { offset = 0x1DF, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x1E4, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+  { offset = 0x1FC, type = "DIR32", symbol = "??_C@_0CL@PFOPGJDM@warning?5?3?5score?4dat?5chapter?5size@", target = 0x0048F20C },
+]
