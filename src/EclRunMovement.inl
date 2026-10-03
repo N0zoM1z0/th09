@@ -238,16 +238,35 @@ void ClampPosition(EnemyView *enemy);
 #error EclRunMovement.inl must be included lexically inside RunEcl's switch
 #endif
 
+// Keep these pure accessors lexical within the movement switch family.
+// Each argument is evaluated once; loaded pointer values are not cached.
+// The explicit pointer value casts preserve the helper return categories.
+// This is an empirically checked VC7.1 source form, not proof of original macros.
+#define TH09_EXPR_MOVEMENT_VIEW(owner) \
+    (static_cast<Th09EclRunMovement::EnemyMovementView *>(reinterpret_cast<Th09EclRunMovement::EnemyMovementView *>((owner))))
+#define TH09_EXPR_MOVEMENT_PRIMARY_ANM(owner) \
+    (static_cast<void *>(*reinterpret_cast<void **>(reinterpret_cast<unsigned char *>((owner)->manager00) + 0x2AC420)))
+#define TH09_EXPR_MOVEMENT_ALTERNATE_ANM(owner) \
+    (static_cast<void *>(*reinterpret_cast<void **>(reinterpret_cast<unsigned char *>((owner)->manager00) + 0x2AC424)))
+#define TH09_EXPR_MOVEMENT_PRIMARY_ANM_VM(owner) \
+    (static_cast<void *>(reinterpret_cast<unsigned char *>((owner)) + 0x0008))
+#define TH09_EXPR_MOVEMENT_PLAYER(owner) \
+    (static_cast<void *>(*reinterpret_cast<void **>((*reinterpret_cast<unsigned char **>(reinterpret_cast<unsigned char *>((owner)->manager00) + 0x0320)) + 0x0004)))
+#define TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(owner) \
+    (static_cast<Th09EclRunMovement::EnemyPrimaryFlagBits *>(reinterpret_cast<Th09EclRunMovement::EnemyPrimaryFlagBits *>(&(reinterpret_cast<Th09EclRunMovement::EnemyMovementView *>((owner)))->primaryFlags337C)))
+#define TH09_EXPR_MOVEMENT_SECONDARY_FLAG_BITS(owner) \
+    (static_cast<Th09EclRunMovement::EnemySecondaryFlagBits *>(reinterpret_cast<Th09EclRunMovement::EnemySecondaryFlagBits *>(&(reinterpret_cast<Th09EclRunMovement::EnemyMovementView *>((owner)))->secondaryFlags3380)))
+
     int movementInt;
     float aimedAngleOffset;
     float aimedMoveAngleOffset;
 
     case TH09_ECL_OPCODE_SET_MAIN_ANM:
         Th09EclRunMovement::SetAndExecuteAnmScript(
-            Th09EclRunMovement::PrimaryAnm(enemy),
-            Th09EclRunMovement::PrimaryAnmVm(enemy),
+            TH09_EXPR_MOVEMENT_PRIMARY_ANM(enemy),
+            TH09_EXPR_MOVEMENT_PRIMARY_ANM_VM(enemy),
             Th09EclRunControl::ReadInt(enemy, instruction, 0));
-        Th09EclRunMovement::View(enemy)->primaryFlags337C &=
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &=
             ~Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
         break;
 
@@ -257,7 +276,7 @@ void ClampPosition(EnemyView *enemy);
             enemy, instruction,
             movementInt, movementInt + 1, movementInt + 2,
             movementInt + 3, movementInt + 4, movementInt + 5);
-        Th09EclRunMovement::View(enemy)->primaryFlags337C &=
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &=
             ~Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
         break;
 
@@ -270,22 +289,22 @@ void ClampPosition(EnemyView *enemy);
             Th09EclRunControl::ReadInt(enemy, instruction, 3),
             Th09EclRunControl::ReadInt(enemy, instruction, 4),
             Th09EclRunControl::ReadInt(enemy, instruction, 5));
-        Th09EclRunMovement::View(enemy)->primaryFlags337C &=
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &=
             ~Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
         break;
 
     case TH09_ECL_OPCODE_SET_EXTRA_ANM_SCRIPT:
         Th09EclRunMovement::SetExtraAnmScript(enemy, instruction);
-        Th09EclRunMovement::View(enemy)->primaryFlags337C &=
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &=
             ~Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
         break;
 
     case TH09_ECL_OPCODE_SET_MAIN_ANM_ALTERNATE:
         Th09EclRunMovement::SetAndExecuteAnmScript(
-            Th09EclRunMovement::AlternateAnm(enemy),
-            Th09EclRunMovement::PrimaryAnmVm(enemy),
+            TH09_EXPR_MOVEMENT_ALTERNATE_ANM(enemy),
+            TH09_EXPR_MOVEMENT_PRIMARY_ANM_VM(enemy),
             Th09EclRunControl::ReadInt(enemy, instruction, 0));
-        Th09EclRunMovement::View(enemy)->primaryFlags337C |=
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
             Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
         break;
 
@@ -295,7 +314,7 @@ void ClampPosition(EnemyView *enemy);
             enemy, instruction,
             movementInt, movementInt + 1, movementInt + 2,
             movementInt + 3, movementInt + 4, movementInt + 5);
-        Th09EclRunMovement::View(enemy)->primaryFlags337C |=
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
             Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
         break;
 
@@ -308,40 +327,40 @@ void ClampPosition(EnemyView *enemy);
             Th09EclRunControl::ReadInt(enemy, instruction, 3),
             Th09EclRunControl::ReadInt(enemy, instruction, 4),
             Th09EclRunControl::ReadInt(enemy, instruction, 5));
-        Th09EclRunMovement::View(enemy)->primaryFlags337C |=
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
             Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
         break;
 
     case TH09_ECL_OPCODE_SET_EXTRA_ANM_SCRIPT_ALTERNATE:
-        Th09EclRunMovement::View(enemy)->primaryFlags337C |=
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
             Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
         Th09EclRunMovement::SetExtraAnmScript(enemy, instruction);
         break;
 
     case TH09_ECL_OPCODE_PLAY_SPECIAL_ANM:
-        if ((Th09EclRunMovement::View(enemy)->primaryFlags337C &
+        if ((TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &
              Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK) == 0)
         {
             Th09EclRunMovement::SetAndExecuteAnmScript(
-                Th09EclRunMovement::PrimaryAnm(enemy),
-                Th09EclRunMovement::PrimaryAnmVm(enemy),
-                Th09EclRunMovement::View(enemy)->specialAnmScript3394);
+                TH09_EXPR_MOVEMENT_PRIMARY_ANM(enemy),
+                TH09_EXPR_MOVEMENT_PRIMARY_ANM_VM(enemy),
+                TH09_EXPR_MOVEMENT_VIEW(enemy)->specialAnmScript3394);
         }
         else
         {
             Th09EclRunMovement::SetAndExecuteAnmScript(
-                Th09EclRunMovement::AlternateAnm(enemy),
-                Th09EclRunMovement::PrimaryAnmVm(enemy),
-                Th09EclRunMovement::View(enemy)->specialAnmScript3394);
+                TH09_EXPR_MOVEMENT_ALTERNATE_ANM(enemy),
+                TH09_EXPR_MOVEMENT_PRIMARY_ANM_VM(enemy),
+                TH09_EXPR_MOVEMENT_VIEW(enemy)->specialAnmScript3394);
         }
         break;
 
     case TH09_ECL_OPCODE_SET_POSITION:
-        Th09EclRunMovement::View(enemy)->position2D74.x =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->position2D74.x =
             Th09EclRunControl::ReadFloat(enemy, instruction, 0);
-        Th09EclRunMovement::View(enemy)->position2D74.y =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->position2D74.y =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        Th09EclRunMovement::View(enemy)->position2D74.z = 0.0f;
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->position2D74.z = 0.0f;
         Th09EclRunMovement::ClampPosition(enemy);
         break;
 
@@ -350,35 +369,35 @@ void ClampPosition(EnemyView *enemy);
         break;
 
     case TH09_ECL_OPCODE_SET_DIRECTION_AND_SPEED:
-        Th09EclRunMovement::View(enemy)->movementAngle2DE0 =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementAngle2DE0 =
             Th09EclRunControl::AddNormalizeAngle(
                 Th09EclRunControl::ReadFloat(enemy, instruction, 0), 0.0f);
-        Th09EclRunMovement::View(enemy)->speed2DF4 =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->speed2DF4 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        Th09EclRunMovement::View(enemy)->primaryFlags337C =
-            (Th09EclRunMovement::View(enemy)->primaryFlags337C &
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C =
+            (TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &
              ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
             Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
-        Th09EclRunMovement::View(enemy)->movementDuration2E34 = 0;
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementDuration2E34 = 0;
         *reinterpret_cast<Th09EclTimerStorageView *>(
-            Th09EclRunMovement::View(enemy)->movementTimer2E28) = 0;
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28) = 0;
         break;
 
     case TH09_ECL_OPCODE_MOVE_IN_DIRECTION:
         if (Th09EclRunControl::ReadInt(enemy, instruction, 0) <= 0)
         {
-            Th09EclRunMovement::View(enemy)->movementAngle2DE0 =
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->movementAngle2DE0 =
                 Th09EclRunControl::AddNormalizeAngle(
                     Th09EclRunControl::ReadFloat(enemy, instruction, 2), 0.0f);
-            Th09EclRunMovement::View(enemy)->speed2DF4 =
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->speed2DF4 =
                 Th09EclRunControl::ReadFloat(enemy, instruction, 3);
-            Th09EclRunMovement::View(enemy)->primaryFlags337C =
-                (Th09EclRunMovement::View(enemy)->primaryFlags337C &
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C =
+                (TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &
                  ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
                 Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
-            Th09EclRunMovement::View(enemy)->movementDuration2E34 = 0;
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->movementDuration2E34 = 0;
             *reinterpret_cast<Th09EclTimerStorageView *>(
-                Th09EclRunMovement::View(enemy)->movementTimer2E28) = 0;
+                TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28) = 0;
         }
         else
         {
@@ -396,14 +415,14 @@ void ClampPosition(EnemyView *enemy);
 
     case TH09_ECL_OPCODE_SET_AIMED_DIRECTION_AND_SPEED:
         aimedAngleOffset = Th09EclRunControl::ReadFloat(enemy, instruction, 0);
-        Th09EclRunMovement::View(enemy)->movementAngle2DE0 =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementAngle2DE0 =
             Th09EclRunControl::AddNormalizeAngle(
                 aimedAngleOffset,
                 reinterpret_cast<PlayerAngleView *>(
-                    Th09EclRunMovement::Player(enemy))->AngleToPoint(
+                    TH09_EXPR_MOVEMENT_PLAYER(enemy))->AngleToPoint(
                         reinterpret_cast<PlayerAngleFloat3View *>(
-                            &Th09EclRunMovement::View(enemy)->position2D74)));
-        Th09EclRunMovement::View(enemy)->speed2DF4 =
+                            &TH09_EXPR_MOVEMENT_VIEW(enemy)->position2D74)));
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->speed2DF4 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         break;
 
@@ -412,23 +431,23 @@ void ClampPosition(EnemyView *enemy);
         {
             aimedMoveAngleOffset =
                 Th09EclRunControl::ReadFloat(enemy, instruction, 2);
-            Th09EclRunMovement::View(enemy)->movementAngle2DE0 =
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->movementAngle2DE0 =
                 Th09EclRunControl::AddNormalizeAngle(
                     aimedMoveAngleOffset,
                     reinterpret_cast<PlayerAngleView *>(
-                        Th09EclRunMovement::Player(enemy))->AngleToPoint(
+                        TH09_EXPR_MOVEMENT_PLAYER(enemy))->AngleToPoint(
                             reinterpret_cast<PlayerAngleFloat3View *>(
-                                &Th09EclRunMovement::View(enemy)->position2D74)));
-            Th09EclRunMovement::View(enemy)->speed2DF4 =
+                                &TH09_EXPR_MOVEMENT_VIEW(enemy)->position2D74)));
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->speed2DF4 =
                 Th09EclRunControl::ReadFloat(enemy, instruction, 3);
-            Th09EclRunMovement::View(enemy)->primaryFlags337C =
-                (Th09EclRunMovement::View(enemy)->primaryFlags337C &
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C =
+                (TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &
                  ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
                 Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
             movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-            Th09EclRunMovement::View(enemy)->movementDuration2E34 = movementInt;
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->movementDuration2E34 = movementInt;
             *reinterpret_cast<Th09EclTimerStorageView *>(
-                Th09EclRunMovement::View(enemy)->movementTimer2E28) =
+                TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28) =
                 movementInt;
         }
         else
@@ -438,116 +457,116 @@ void ClampPosition(EnemyView *enemy);
         break;
 
     case TH09_ECL_OPCODE_SET_ANGULAR_VELOCITY:
-        Th09EclRunMovement::View(enemy)->angularVelocity2DE4 =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->angularVelocity2DE4 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 0);
-        Th09EclRunMovement::View(enemy)->primaryFlags337C =
-            (Th09EclRunMovement::View(enemy)->primaryFlags337C &
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C =
+            (TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &
              ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
             Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
         break;
 
     case TH09_ECL_OPCODE_SET_ACCELERATION:
-        Th09EclRunMovement::View(enemy)->acceleration2DF8 =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->acceleration2DF8 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 0);
-        Th09EclRunMovement::View(enemy)->primaryFlags337C =
-            (Th09EclRunMovement::View(enemy)->primaryFlags337C &
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C =
+            (TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &
              ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
             Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
         break;
 
     case TH09_ECL_OPCODE_ORBIT_AROUND_POINT:
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunMovement::View(enemy)->movementDuration2E34 = movementInt;
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementDuration2E34 = movementInt;
         *reinterpret_cast<Th09EclTimerStorageView *>(
-            Th09EclRunMovement::View(enemy)->movementTimer2E28) =
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28) =
             movementInt;
-        Th09EclRunMovement::View(enemy)->movementOrigin2E1C.x =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementOrigin2E1C.x =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        Th09EclRunMovement::View(enemy)->movementOrigin2E1C.y =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementOrigin2E1C.y =
             Th09EclRunControl::ReadFloat(enemy, instruction, 2);
-        Th09EclRunMovement::View(enemy)->orbitAngle2DE8 =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->orbitAngle2DE8 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 3);
-        Th09EclRunMovement::View(enemy)->orbitAngularVelocity2DEC =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->orbitAngularVelocity2DEC =
             Th09EclRunControl::ReadFloat(enemy, instruction, 4);
-        Th09EclRunMovement::View(enemy)->orbitRadius2DFC =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->orbitRadius2DFC =
             Th09EclRunControl::ReadFloat(enemy, instruction, 5);
-        Th09EclRunMovement::View(enemy)->radialVelocity2E00 =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->radialVelocity2E00 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 6);
-        Th09EclRunMovement::View(enemy)->primaryFlags337C |=
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
             Th09EclRunMovement::ENEMY_MOVEMENT_MODE_ORBIT;
         break;
 
     case TH09_ECL_OPCODE_ORBIT_AROUND_CURRENT_POSITION:
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunMovement::View(enemy)->movementDuration2E34 = movementInt;
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementDuration2E34 = movementInt;
         *reinterpret_cast<Th09EclTimerStorageView *>(
-            Th09EclRunMovement::View(enemy)->movementTimer2E28) =
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28) =
             movementInt;
-        Th09EclRunMovement::View(enemy)->movementOrigin2E1C =
-            Th09EclRunMovement::View(enemy)->position2D74;
-        Th09EclRunMovement::View(enemy)->orbitAngle2DE8 =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementOrigin2E1C =
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->position2D74;
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->orbitAngle2DE8 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        Th09EclRunMovement::View(enemy)->orbitAngularVelocity2DEC =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->orbitAngularVelocity2DEC =
             Th09EclRunControl::ReadFloat(enemy, instruction, 2);
-        Th09EclRunMovement::View(enemy)->orbitRadius2DFC = 0.0f;
-        Th09EclRunMovement::View(enemy)->radialVelocity2E00 =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->orbitRadius2DFC = 0.0f;
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->radialVelocity2E00 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 3);
-        Th09EclRunMovement::View(enemy)->primaryFlags337C |=
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
             Th09EclRunMovement::ENEMY_MOVEMENT_MODE_ORBIT;
         break;
 
     case TH09_ECL_OPCODE_SET_ORBIT_VELOCITIES:
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunMovement::View(enemy)->movementDuration2E34 = movementInt;
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementDuration2E34 = movementInt;
         *reinterpret_cast<Th09EclTimerStorageView *>(
-            Th09EclRunMovement::View(enemy)->movementTimer2E28) =
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28) =
             movementInt;
-        Th09EclRunMovement::View(enemy)->orbitAngularVelocity2DEC =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->orbitAngularVelocity2DEC =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        Th09EclRunMovement::View(enemy)->radialVelocity2E00 =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->radialVelocity2E00 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 2);
-        Th09EclRunMovement::View(enemy)->primaryFlags337C |=
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
             Th09EclRunMovement::ENEMY_MOVEMENT_MODE_ORBIT;
         break;
 
     case TH09_ECL_OPCODE_SET_MOVEMENT_BOUNDS:
-        Th09EclRunMovement::View(enemy)->movementLowerBounds3398.x =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementLowerBounds3398.x =
             Th09EclRunControl::ReadFloat(enemy, instruction, 0);
-        Th09EclRunMovement::View(enemy)->movementLowerBounds3398.y =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementLowerBounds3398.y =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        Th09EclRunMovement::View(enemy)->movementUpperBounds33A0.x =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementUpperBounds33A0.x =
             Th09EclRunControl::ReadFloat(enemy, instruction, 2);
-        Th09EclRunMovement::View(enemy)->movementUpperBounds33A0.y =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementUpperBounds33A0.y =
             Th09EclRunControl::ReadFloat(enemy, instruction, 3);
-        Th09EclRunMovement::View(enemy)->primaryFlags337C |=
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
             Th09EclRunMovement::ENEMY_CLAMP_POSITION;
         break;
 
     case TH09_ECL_OPCODE_DISABLE_MOVEMENT_BOUNDS:
-        Th09EclRunMovement::View(enemy)->primaryFlags337C &=
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &=
             ~Th09EclRunMovement::ENEMY_CLAMP_POSITION;
         break;
 
     case TH09_ECL_OPCODE_SET_HITBOX:
-        Th09EclRunMovement::View(enemy)->hitboxDimensions2DBC.x =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->hitboxDimensions2DBC.x =
             Th09EclRunControl::ReadFloat(enemy, instruction, 0);
-        Th09EclRunMovement::View(enemy)->hitboxDimensions2DBC.y =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->hitboxDimensions2DBC.y =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         break;
 
     case TH09_ECL_OPCODE_SET_SECONDARY_HITBOX:
-        Th09EclRunMovement::View(enemy)->secondaryHitboxDimensions2DC8.x =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->secondaryHitboxDimensions2DC8.x =
             Th09EclRunControl::ReadFloat(enemy, instruction, 0);
-        Th09EclRunMovement::View(enemy)->secondaryHitboxDimensions2DC8.y =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->secondaryHitboxDimensions2DC8.y =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         break;
 
     case TH09_ECL_OPCODE_SET_INTERACTION_FLAGS:
     {
         Th09EclRunMovement::EnemyPrimaryFlagBits *primaryFlags =
-            Th09EclRunMovement::PrimaryFlagBits(enemy);
+            TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy);
         Th09EclRunMovement::EnemySecondaryFlagBits *secondaryFlags =
-            Th09EclRunMovement::SecondaryFlagBits(enemy);
+            TH09_EXPR_MOVEMENT_SECONDARY_FLAG_BITS(enemy);
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         primaryFlags->acceptsDamage06 =
             (movementInt & Th09EclRunMovement::ECL_INTERACTION_ACCEPTS_DAMAGE)
@@ -569,33 +588,41 @@ void ClampPosition(EnemyView *enemy);
     case TH09_ECL_OPCODE_DISABLE_INTERACTION_FLAGS:
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_ACCEPTS_DAMAGE)
-            Th09EclRunMovement::PrimaryFlagBits(enemy)->acceptsDamage06 = 0;
+            TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->acceptsDamage06 = 0;
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_COLLISION)
-            Th09EclRunMovement::PrimaryFlagBits(enemy)->collision02 = 0;
+            TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->collision02 = 0;
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_DAMAGEABLE)
-            Th09EclRunMovement::PrimaryFlagBits(enemy)->damageable03 = 0;
+            TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->damageable03 = 0;
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_NO_SPRITE)
-            Th09EclRunMovement::PrimaryFlagBits(enemy)->noSprite04 = 1;
+            TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->noSprite04 = 1;
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_ALLOW_OFFSCREEN)
-            Th09EclRunMovement::PrimaryFlagBits(enemy)->allowOffscreen25 = 1;
+            TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->allowOffscreen25 = 1;
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_NO_DEATH)
-            Th09EclRunMovement::SecondaryFlagBits(enemy)->noDeath03 = 1;
+            TH09_EXPR_MOVEMENT_SECONDARY_FLAG_BITS(enemy)->noDeath03 = 1;
         break;
 
     case TH09_ECL_OPCODE_ENABLE_INTERACTION_FLAGS:
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_ACCEPTS_DAMAGE)
-            Th09EclRunMovement::PrimaryFlagBits(enemy)->acceptsDamage06 = 1;
+            TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->acceptsDamage06 = 1;
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_COLLISION)
-            Th09EclRunMovement::PrimaryFlagBits(enemy)->collision02 = 1;
+            TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->collision02 = 1;
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_DAMAGEABLE)
-            Th09EclRunMovement::PrimaryFlagBits(enemy)->damageable03 = 1;
+            TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->damageable03 = 1;
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_NO_SPRITE)
-            Th09EclRunMovement::PrimaryFlagBits(enemy)->noSprite04 = 0;
+            TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->noSprite04 = 0;
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_ALLOW_OFFSCREEN)
-            Th09EclRunMovement::PrimaryFlagBits(enemy)->allowOffscreen25 = 0;
+            TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->allowOffscreen25 = 0;
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_NO_DEATH)
-            Th09EclRunMovement::SecondaryFlagBits(enemy)->noDeath03 = 0;
+            TH09_EXPR_MOVEMENT_SECONDARY_FLAG_BITS(enemy)->noDeath03 = 0;
         break;
+
+#undef TH09_EXPR_MOVEMENT_VIEW
+#undef TH09_EXPR_MOVEMENT_PRIMARY_ANM
+#undef TH09_EXPR_MOVEMENT_ALTERNATE_ANM
+#undef TH09_EXPR_MOVEMENT_PRIMARY_ANM_VM
+#undef TH09_EXPR_MOVEMENT_PLAYER
+#undef TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS
+#undef TH09_EXPR_MOVEMENT_SECONDARY_FLAG_BITS
 
 #endif // TH09_ECL_RUN_MOVEMENT_BODY

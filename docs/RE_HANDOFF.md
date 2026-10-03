@@ -6,20 +6,29 @@ history.
 
 ## Latest RunEcl partial checkpoint (2026-10-03)
 
-Packet790 preserves the real shared timer-comparator visibility and scoped155
-source gains. Current RunEcl raw hash starts ee8c0654,14787 code+1 alignment
-byte/15560 physical,598 fields. Normalized region agreement4007→4043/4387;
-full owner remains NON-EXACT, with no authored coverage gain.
+Packet791 preserves a coherent movement-accessor expression form. Current
+RunEcl raw hash starts f7e4a962,14787 code+1 alignment byte/15560 physical,
+598 fields. Normalized region agreement is4055/4387,up12 from Packet790.
+Exactly38 relocated bytes change in opcodes68/69/74/75; all151 other regions,
+alignment and the complete table suffix are identical to the prior baseline.
+Full owner remains NON-EXACT; no authored coverage gain.
 
-Shared timer ownership and ANM declaration unification pass541 canonical-unit
-comparisons plus28 nonexact-consumer checks in recorded profiles. Final
-maintained cold pairs pass161 owners/all3679 fields across33 carriers. The
-31 manifest-changed units need fresh final-snapshot Factory acceptance.
+Two isolated cold builds and the maintained carrier agree. All18 exact
+same-TU siblings/all274 fields remain target-equal. Eight private label names
+in two manifests are refreshed from actual unchanged same-section destinations.
+54 target-independent tests pass. Final-snapshot Factory replay remains
+required separately; local compiler proofs are not accepted receipts.
 
-The old Packet785 audit/manual indirect evidence is frozen to20fd67df and
-rejects the new input shape; do not apply its success claim to this object.
-Resolver/RNG visibility on the improved context was neutral. Continue
-hypothesis-driven large-owner work; current coverage is71.86%,goal90% unmet.
+Packet790's shared-timer/API cohort passed541 canonical units plus28 nonexact
+consumers; its maintained161-owner/3679-field proof and32 accepted receipts
+bind4a65821. Packet789's five repaired ANM owners also received accepted
+receipts at89dfa4b. Those are historical checkpoint facts, not blanket current
+snapshot acceptance. The old Packet785 manual callsite audit remains frozen
+to20fd67df and must not be applied to this changed owner.
+
+Coverage stays908 exact /198165 of275770 authored bytes(71.86%). The90%
+goal needs50028 more bytes. Continue large-owner experiments; source-form
+interactions are empirical, and historical negatives are contextual.
 
 ## Latest ANM routing / verifier correction (2026-10-03)
 
@@ -31,9 +40,9 @@ with a new actual-COFF local-destination guard.54 target-independent tests pass.
 No coverage gain:908 exact /198165 of275770 (71.86%). Fresh final-snapshot
 Factory acceptance is required; the old masked replay is not valid evidence.
 
-RunEcl remains the main large-owner effort. Shared comparator visibility and
-scoped opcode155 temporaries improve mapped diagnostic regions, but are still
-isolated pending full header-consumer checks. No partial exact credit.
+RunEcl remains the main large-owner effort. Packet790 completed the shared
+comparator/header-consumer validation; Packet791 adds the movement-family
+source improvement. Both remain partial, with no exact credit.
 
 ## Latest score-file opening exact closure (2026-10-03)
 
