@@ -244,6 +244,34 @@ def compare(path: Path, symbol: str, address: int, expected_size: int) -> dict[s
     }
 
 
+def validate_owner_local_destinations(
+    actual: list[dict[str, object]], expected: list[dict[str, object]],
+    target_address: int, owner_size: int,
+) -> None:
+    """Do not let a manifest redirect a label inside the compared COFF owner.
+
+    The symbol's position is independent evidence; recovering its destination
+    from the target relocation field would conceal a misrouted switch case.
+    Compare symbol bases here, before applying the object's unchanged addend.
+    Other sections and symbols outside this owner still need reviewed external
+    bindings; proximity or a private-looking name is not sufficient evidence.
+    """
+    by_offset = {int(row["offset"]): row for row in expected}
+    for row in actual:
+        if int(row["symbol_section"]) <= 0 or row["symbol_section"] != row["owner_section"]:
+            continue
+        relative = int(row["symbol_value"]) - int(row["owner_value"])
+        if not 0 <= relative < owner_size:
+            continue
+        destination = target_address + relative
+        if int(by_offset[int(row["offset"])]["target"]) != destination:
+            raise ValueError(
+                f"owner-local COFF destination differs from manifest: "
+                f"{row['symbol']} at field {int(row['offset']):#x}, "
+                f"actual destination {destination:#x}"
+            )
+
+
 def compare_unit(name: str) -> dict[str, object]:
     with UNITS_MANIFEST.open("rb") as stream:
         manifest = tomllib.load(stream)
@@ -263,7 +291,7 @@ def compare_unit(name: str) -> dict[str, object]:
     object_path = (ROOT / str(unit["object"])).resolve()
     object_path.relative_to(ROOT)
     code, actual = object_function(
-        object_path, str(unit["symbol"]), compare_size
+        object_path, str(unit["symbol"]), compare_size, include_symbol_locations=True
     )
     address = int(unit["target_address"])
     if len(code) != compare_size:
@@ -298,6 +326,8 @@ def compare_unit(name: str) -> dict[str, object]:
     )
     if actual_key != expected_key:
         raise ValueError(f"COFF relocations differ from manifest: actual={actual_key!r} expected={expected_key!r}")
+
+    validate_owner_local_destinations(actual, normalized_expected, address, compare_size)
 
     replay = []
     for relocation in normalized_expected:

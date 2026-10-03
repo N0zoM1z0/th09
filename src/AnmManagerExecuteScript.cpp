@@ -382,9 +382,11 @@ f32 AnmVm::GetFloatVar(f32 varId)
     case AnmVariable_F3: return floatVar3;
     case AnmVariable_IC0: return (f32)counterVar0;
     case AnmVariable_IC1: return (f32)counterVar1;
-    case 10010: return g_ReplayRng.GetRandomF32();
-    case 10011: return g_ReplayRng.GetRandomF32Signed();
-    case 10012: return g_ReplayRng.GetRandomF32InRange(3.1415927f);
+    // TH09 variable IDs select range(pi), unit, and signed RNG respectively.
+    // Keep the switch labels faithful; relocation tables cannot remap cases.
+    case 10011: return g_ReplayRng.GetRandomF32();
+    case 10012: return g_ReplayRng.GetRandomF32Signed();
+    case 10010: return g_ReplayRng.GetRandomF32InRange(3.1415927f);
     default: return varId;
     }
 }

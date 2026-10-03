@@ -4,6 +4,20 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest ANM routing / verifier correction (2026-10-03)
+
+Packet789 repairs GetFloatVar's three random-variable case labels:10010 is
+Range(pi),10011 unit F32,10012 signed F32. The former relocation manifest
+masked the wrong source routing by redirecting local labels. The corrected
+source and three symbol refreshes now pass complete cold five-owner replay
+with a new actual-COFF local-destination guard.54 target-independent tests pass.
+No coverage gain:908 exact /198165 of275770 (71.86%). Fresh final-snapshot
+Factory acceptance is required; the old masked replay is not valid evidence.
+
+RunEcl remains the main large-owner effort. Shared comparator visibility and
+scoped opcode155 temporaries improve mapped diagnostic regions, but are still
+isolated pending full header-consumer checks. No partial exact credit.
+
 ## Latest score-file opening exact closure (2026-10-03)
 
 Packet788 closes OpenScore at523 authored bytes/all32 relocation fields.
