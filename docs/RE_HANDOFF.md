@@ -4,13 +4,27 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest comparison-extent consistency repair (2026-10-03)
+
+Packet779 separates authored size from full physical comparison for four
+legacy units: Chain calc182/212, Chain draw186/212, AsciiState4 1144/1172,
+and Bullet transform1236/1320. Ledger boundaries and coverage are unchanged.
+Factory had rejected State4's old claim/unit mismatch; all associated table
+bytes remain fully compared through explicit compare_size. Two cold rounds
+pass all four complete extents and131 fields;22 stale private labels were
+refreshed only after independent unchanged-destination checks.
+
+The guard checks all904 row/unit extents. Coverage remains70.87%; no metric
+gain. Corrected Packet778 affected authored sum is6129, not6157 physical-
+inflated bytes. Obtain fresh accepted replays on the final checkpoint.
+
 ## Latest ANM/timer call-identity repair (2026-10-03)
 
 Packet778 corrects six indexed-script calls to the existing
 SetAndExecuteScriptIdx boundary0x403E00 and the Player selector's timer call
 to its existing assignment wrapper0x401500. Old manifests redirected actual
 shared method names to distinct callees. Private Title/Player ANM aliases
-were also misnamed. Four directly affected exact owners total6157 bytes,
+were also misnamed. Four directly affected exact owners total6129 bytes,
 with no new exact credit.
 
 Two cold cohorts agree,57 owner raw byte hashes remain unchanged, exactly
