@@ -90,9 +90,9 @@ void GameManagerOpponentSelectionView::SelectOpponentConfiguration()
         int candidateCount = 0;
         int totalWeight = 0;
 
-        if (entry->key00 >= 0)
+        short key = entry->key00;
+        if (key >= 0)
         {
-            short key = entry->key00;
             int targetKey = counterFC;
             do
             {
@@ -108,7 +108,9 @@ void GameManagerOpponentSelectionView::SelectOpponentConfiguration()
             while (key >= 0);
         }
 
-        unsigned int roll =
+        // Every subsequent decision observes the signed low word. Unsigned
+        // storage preserves the target subtraction's modulo-65536 behavior.
+        unsigned short roll =
             g_Rng.GetRandomU32InRange(totalWeight);
 
         int selectedIndex = 0;
@@ -159,18 +161,20 @@ void GameManagerOpponentSelectionView::SelectOpponentConfiguration()
         usedCharactersD8[sides[1].value20] = 1;
         selectedEntryF0 = selected;
 
-        int index = counterFC + 9 * setupMode11C;
         OpponentSelectionState *state = sides[0].state1C;
-        if (state->value14 != 0 || state->value00 <= 0.0f)
+        // The target also takes this arm for an unordered float comparison.
+        if (state->value14 != 0 || !(state->value00 > 0.0f))
         {
             int variant = g_FrontRuntimeValues90[0];
             if (variant > 3)
                 variant = 3;
+            int index = counterFC + 9 * setupMode11C;
             sides[1].selectedParameter2C =
                 g_OpponentParameterTable[5 * index + 1 + variant];
         }
         else
         {
+            int index = counterFC + 9 * setupMode11C;
             sides[1].selectedParameter2C =
                 g_OpponentParameterTable[5 * index];
         }
@@ -190,19 +194,13 @@ void GameManagerOpponentSelectionView::SelectOpponentConfiguration()
         if (selected->key00 >= 0)
         {
             int wantedCharacter = sides[randomSide].value20;
-            while (selected->character04 != wantedCharacter)
+            do
             {
-                ++selected;
-                if (selected->key00 < 0)
-                {
-                    selected = g_OpponentEntries;
+                if (selected->character04 == wantedCharacter)
                     break;
-                }
+                ++selected;
             }
-        }
-        else
-        {
-            selected = g_OpponentEntries;
+            while (selected->key00 >= 0);
         }
     }
     else if (selector == -2)
@@ -279,47 +277,30 @@ void GameManagerOpponentSelectionView::SelectOpponentConfiguration()
         }
 
         selected = g_OpponentEntries;
-        if (selected->key00 >= 0)
+        while (selected->key00 >= 0)
         {
-            while (selected->character04 != character)
-            {
-                ++selected;
-                if (selected->key00 < 0)
-                {
-                    selected = g_OpponentEntries;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            selected = g_OpponentEntries;
+            if (selected->character04 == character)
+                break;
+            ++selected;
         }
     }
     else
     {
         selected = g_OpponentEntries;
-        if (selected->key00 >= 0)
+        while (selected->key00 >= 0)
         {
-            while (selected->character04 != selector)
-            {
-                ++selected;
-                if (selected->key00 < 0)
-                {
-                    selected = g_OpponentEntries;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            selected = g_OpponentEntries;
+            if (selected->character04 == selector)
+                break;
+            ++selected;
         }
     }
+    if (selected->key00 < 0)
+        selected = g_OpponentEntries;
 
-    int modeValue = g_OpponentModeValues[setupMode11C];
-    sides[0].selectedParameter2C = modeValue;
-    sides[1].selectedParameter2C = modeValue;
+    // Keep the mode snapshot, but reread the table after the first side store.
+    int mode = setupMode11C;
+    sides[0].selectedParameter2C = g_OpponentModeValues[mode];
+    sides[1].selectedParameter2C = g_OpponentModeValues[mode];
     selectedValueF4 = selected->valueF4_02;
     selectedEntryF0 = selected;
 }

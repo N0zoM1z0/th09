@@ -4,6 +4,15 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest opponent-selection fidelity checkpoint (2026-10-03)
+
+Packet781 fixes the target's unordered-float branch and recovers sentinel
+scan/key/lowword/table-read structure. Two cold builds produce799 bytes and
+32 reviewed fields. Full replay leaves exactly one equivalent SIB byte at
++0x29E; the owner remains NON-EXACT, with no partial credit. Reproduce with
+scripts/inspect-opponent-selection.py. Do not force the remaining byte.
+Coverage remains70.87%; the90% goal is still active.
+
 ## Latest RunEcl evidence-scope correction (2026-10-03)
 
 Packet780 removes an unsupported full-call identity claim from the ECL
