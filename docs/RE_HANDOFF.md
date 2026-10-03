@@ -4,6 +4,29 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest SaveReplay partial checkpoint (2026-10-03)
+
+Packet 796 uses a rolling cursor through the ten inline stage roots, separately
+from each mutable linked traversal. The cursor restarts for each input stream
+and for FPS data. Existing link contents, sizes, writes and cleanup remain live
+at their original points. This is a natural source hypothesis, not a repair of
+an observed serialization bug.
+
+SaveReplay remains NON-EXACT: 1238 bytes, 53 independently bound fields, raw
+0a931e64d2d929642230d7db1ecc1637d7e23a181bef4f36d063425b1defb115.
+Full differences decrease 256 to 251: five newly correct bytes, one changed but
+still different byte, and no loss of matching bytes or target instructions.
+Both configured profiles have identical maintained cold pairs. All 12 exact
+siblings / 4093 bytes / 232 fields remain neutral and pass full comparisons.
+The 335/380 instruction alignment is diagnostic only. Coverage stays 71.86%.
+Fresh final-checkpoint accepted sibling receipts are tracked separately.
+
+RunEcl continues as the main large-owner frontier. A complete pointer-value
+active-context getter was rejected after it hoisted a read across ResolveInt;
+the reference-return variant restores that timing but regresses other regions.
+A separate equality-input capture is the next bounded experiment. No accessor
+variant or compiler-profile change was promoted.
+
 ## Latest GameManager partial checkpoint (2026-10-03)
 
 Packet 794 corrected four A0/A4 increments to side subsystem1 (+4/+0x3C),
