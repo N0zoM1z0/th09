@@ -4,6 +4,21 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest timeline exact closure (2026-10-03)
+
+Packet782 closes EnemyScheduleRuntimeView::Run:974 authored /1048 compared
+bytes,42 reviewed fields. Only the existing pure ZunTimer equality body is
+made visible in its carrier, with one production definition in ZunTimerEqual.inl.
+Timeline behavior/ABI/profile and equality's20 bytes are unchanged. All18
+former Timer units remain raw/full-record neutral and exact. Two cold
+maintained timeline proofs pass; obtain fresh Factory acceptance for the
+final snapshot before reporting accepted credit.
+
+Coverage:905 exact /196402 of275770(71.22%);90% needs51791 more bytes.
+75 owners /79368 bytes remain nonexact. Native product/runtime gates stay open.
+Packet783 records rejected bounded controls and declaration debt; do not
+repeat them or treat shared stack slots as proof of a genuine workspace.
+
 ## Latest opponent-selection fidelity checkpoint (2026-10-03)
 
 Packet781 fixes the target's unordered-float branch and recovers sentinel
@@ -324,11 +339,11 @@ SHA-256:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 904 |
-| Source-present non-exact functions | 76 |
-| Source-present non-exact bytes | 80,342 |
+| Canonical exact functions | 905 |
+| Source-present non-exact functions | 75 |
+| Source-present non-exact bytes | 79,368 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 195,428 |
+| Canonical exact authored bytes | 196,402 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction

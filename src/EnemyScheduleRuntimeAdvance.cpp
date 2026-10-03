@@ -2,6 +2,7 @@
 #include "EnemyManagerCardAttackSpawn.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "ZunTimer.hpp"
+#include "ZunTimerEqual.inl"
 
 #include <stddef.h>
 
