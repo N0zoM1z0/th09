@@ -413,43 +413,37 @@ int ScoreFileView::LoadScoreRecords()
 {
     i32 category0;
     i32 category1;
-    i32 scoreOffset;
     i32 rank;
 
-    category0 = 0;
-    do
+    // Initialize each real table subobject; rank also determines its default score.
+    // Keep unknown record bytes untouched, as target initialization does.
+    for (category0 = 0; category0 < 16; category0++)
     {
         for (category1 = 0; category1 < 5; category1++)
         {
-            scoreOffset = 0;
-            rank = 0;
-            do
+            for (rank = 0; rank < 5; rank++)
             {
-                g_ScoreTable[category0][category1][rank].score = 100000 - scoreOffset;
+                g_ScoreTable[category0][category1][rank].score = 100000 - 20000 * rank;
+                g_ScoreTable[category0][category1][rank].value10 = 0.0f;
                 g_ScoreTable[category0][category1][rank].category0 = (u8)category0;
+                g_ScoreTable[category0][category1][rank].category1 = (u8)category1;
+                g_ScoreTable[category0][category1][rank].rank = (u8)rank;
+                g_ScoreTable[category0][category1][rank].zero17 = 0;
+                g_ScoreTable[category0][category1][rank].magic = 0x52435348u;
                 g_ScoreTable[category0][category1][rank].chapterSizeCopy = sizeof(ScoreRecordView);
                 g_ScoreTable[category0][category1][rank].chapterSize = sizeof(ScoreRecordView);
-                strcpy(g_ScoreTable[category0][category1][rank].name, "No Name ");
-                g_ScoreTable[category0][category1][rank].category1 = (u8)category1;
-                g_ScoreTable[category0][category1][rank].zero17 = 0;
-                g_ScoreTable[category0][category1][rank].runtimeMarker = 0;
-                g_ScoreTable[category0][category1][rank].rank = (u8)rank;
-                strcpy(g_ScoreTable[category0][category1][rank].date, "--/--");
-                g_ScoreTable[category0][category1][rank].value10 = 0.0f;
-                g_ScoreTable[category0][category1][rank].magic = 0x52435348u;
                 g_ScoreTable[category0][category1][rank].version = 2;
+                g_ScoreTable[category0][category1][rank].runtimeMarker = 0;
+                strcpy(g_ScoreTable[category0][category1][rank].name, "No Name ");
+                strcpy(g_ScoreTable[category0][category1][rank].date, "--/--");
                 g_ScoreTable[category0][category1][rank].value2B = 0;
-
-                scoreOffset += 20000;
-                rank++;
-            } while (scoreOffset < 100000);
+            }
         }
-        category0++;
-    } while (category0 < 16);
+    }
 
-    i32 bytesToRead = (i32)(totalSize - headerSize);
     ScoreRecordView *inputRecord =
         reinterpret_cast<ScoreRecordView *>(reinterpret_cast<u8 *>(this) + headerSize);
+    i32 bytesToRead = (i32)(totalSize - headerSize);
     while (bytesToRead > 0)
     {
         if (inputRecord->magic == 0x52435348u && inputRecord->version == 2)

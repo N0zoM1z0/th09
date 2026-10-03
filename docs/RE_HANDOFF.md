@@ -4,6 +4,20 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest score-record loading exact closure (2026-10-03)
+
+Packet787 closes LoadScoreRecords at441 authored bytes/all26 DIR32 fields.
+Natural rank-derived loops and grouped independent initialization reproduce
+the optimizer's table cursor and zero-value lifetime. Input-record setup
+precedes byte-count setup. Two isolated and two maintained cold owner proofs
+pass; all five prior same-TU exact siblings remain raw/full-record neutral
+and pass full comparisons in the maintained carrier. No parser-hardening claim.
+
+Current ledger:907 exact /197642 of275770 authored bytes (71.67%).
+73 owners /78128 bytes remain nonexact;90% needs50551 more bytes.
+Fresh accepted final-snapshot Factory replay remains separately required.
+All product/runtime/origin gates remain unchanged. Continue natural hypotheses.
+
 ## Latest opponent-selection exact closure (2026-10-03)
 
 Packet786 closes SelectOpponentConfiguration at799 authored bytes/all32 fields.
@@ -387,11 +401,11 @@ SHA-256:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 906 |
-| Source-present non-exact functions | 74 |
-| Source-present non-exact bytes | 78,569 |
+| Canonical exact functions | 907 |
+| Source-present non-exact functions | 73 |
+| Source-present non-exact bytes | 78,128 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 197,201 |
+| Canonical exact authored bytes | 197,642 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
