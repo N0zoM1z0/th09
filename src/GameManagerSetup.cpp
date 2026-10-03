@@ -308,22 +308,34 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         g_GameManager.sides[0].selector != 0 ||
         g_GameManager.sides[1].selector != 0)
     {
-        unsigned short input00 = g_ReplayInputStates[2].currentInput;
-        unsigned short input02 = g_ReplayInputStates[2].word02;
-        unsigned short input04 = g_ReplayInputStates[2].repeatOutput;
-        unsigned short input06 = g_ReplayInputStates[2].word06;
-        unsigned short input08 = g_ReplayInputStates[2].word08;
+        // Capture all five input words before writing either side's snapshot.
+        struct InputSnapshot
+        {
+            unsigned short currentInput;
+            unsigned short word02;
+            unsigned short repeatOutput;
+            unsigned short word06;
+            unsigned short word08;
+        };
+        const InputSnapshot snapshot =
+        {
+            g_ReplayInputStates[2].currentInput,
+            g_ReplayInputStates[2].word02,
+            g_ReplayInputStates[2].repeatOutput,
+            g_ReplayInputStates[2].word06,
+            g_ReplayInputStates[2].word08
+        };
 
-        g_ReplayInputStates[0].currentInput = input00;
-        g_ReplayInputStates[0].word02 = input02;
-        g_ReplayInputStates[0].repeatOutput = input04;
-        g_ReplayInputStates[0].word06 = input06;
-        g_ReplayInputStates[0].word08 = input08;
-        g_ReplayInputStates[1].currentInput = input00;
-        g_ReplayInputStates[1].word02 = input02;
-        g_ReplayInputStates[1].repeatOutput = input04;
-        g_ReplayInputStates[1].word06 = input06;
-        g_ReplayInputStates[1].word08 = input08;
+        g_ReplayInputStates[0].currentInput = snapshot.currentInput;
+        g_ReplayInputStates[0].word02 = snapshot.word02;
+        g_ReplayInputStates[0].repeatOutput = snapshot.repeatOutput;
+        g_ReplayInputStates[0].word06 = snapshot.word06;
+        g_ReplayInputStates[0].word08 = snapshot.word08;
+        g_ReplayInputStates[1].currentInput = snapshot.currentInput;
+        g_ReplayInputStates[1].word02 = snapshot.word02;
+        g_ReplayInputStates[1].repeatOutput = snapshot.repeatOutput;
+        g_ReplayInputStates[1].word06 = snapshot.word06;
+        g_ReplayInputStates[1].word08 = snapshot.word08;
     }
 
     if (g_GameManager.gameplaySetupState != 0)
@@ -431,7 +443,10 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
 
         if (g_GameManager.valueCC > 10000)
         {
-            int lane = static_cast<unsigned short>(g_SetupRng.Next()) % 4;
+            // Sample an unsigned four-lane value before the later int adjustment.
+            unsigned short laneSample =
+                static_cast<unsigned short>(g_SetupRng.Next()) % 4;
+            int lane = laneSample;
             if (lane == g_LastSpawnLane)
             {
                 lane++;

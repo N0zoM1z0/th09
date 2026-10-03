@@ -4,30 +4,33 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
-## Latest GameManager difficulty-counter receiver correction (2026-10-03)
+## Latest GameManager partial checkpoint (2026-10-03)
 
-Packet 794 repairs four signed A0/A4 increments in OnUpdate at 0x0041AA5F.
-They belong to each side's subsystem1 object (+4/+0x3C), not the separate
-state allocation (+0x1C/+0x54, allocated as 0xA0 bytes). The eight corrected
-expressions retain separate reads and the signed <16 guards. The initialization
-worker already used subsystem1; no other state A0/A4 use remains.
+Packet 794 corrected four A0/A4 increments to side subsystem1 (+4/+0x3C),
+not the separate 0xA0-byte state allocations. All nine affected exact siblings
+have PASS+ACCEPTED receipts at95a13eb. Packet 795 now retains a complete
+five-word input snapshot before either side copy and the genuine unsigned
+four-lane sample before later int lane adjustment. No RNG ABI changes.
 
-Maintained cold builds reproduce raw 6292327a, 1224 bytes /87 fields against
-1230 target bytes. The whole owner remains NON-EXACT: 1137 overlapping byte
-differences plus six missing bytes. Normalized 323/337 is diagnostic only.
-All nine exact siblings /113 fields remain neutral and full target-equal in
-their /Os or non-/Os profiles; GameplaySetupThread1689/171 is also unchanged.
-Independent source, target and maintained cold/cohort readback passed. Both
-configured profiles have identical maintained cold pairs; 54 CI tests pass.
-Fresh final-checkpoint acceptance remains separate.
-The provisional shared view remains layout debt; this is not runtime closure.
-Coverage stays 71.86%, with no new exact owner or partial-byte credit.
+Current raw4257aad1 has the target1230-byte extent and87 independently bound
+relocation fields, but remains NON-EXACT:105 full differences,99 in entry scheduling and six
+later branch displacements targeting shifted entry blocks. All previously
+matched target instructions remain, with seven added;330/337 is diagnostic.
+The input aggregate contains only five consumed words, each copied twice.
+The existing ushort conversion and modulo4 establish laneSample0..3.
+
+Two maintained cold builds per configured profile agree. All nine exact
+siblings/113 fields and unchanged GameplaySetupThread1689/171 remain neutral;
+complete sibling comparisons pass. Independent source and final maintained cold/cohort readback passed;54 CI
+tests pass. Fresh final-checkpoint accepted receipts remain separate.
+Coverage remains71.86%. Full code equality, not size or alignment, is required.
 
 Current-context negative controls are retained in bounded reports: the complete
 ANM/laser/flag expression isolates provide no additional nonregressing RunEcl
 gain; output-reference helpers with the existing explicit-inline contract and
 equivalent branch-first statements are raw-neutral. A pure shared float RHS
-retest regresses the frame to0x158 and is rejected. Default is /GB (compiler
+retest regresses the frame to0x158 and is rejected. A four-field operand
+aggregate replacement also regresses the frame to0x170 and is not retained. Default is /GB (compiler
 help), not /G6; explicit/G6 is neutral across ECL, MusicRoom, KeyConfig and
 DrawResult, all70 emitted functions and20 exact anchors. No profile change.
 
