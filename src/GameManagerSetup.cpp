@@ -1,3 +1,8 @@
+#include "EffectManager.hpp"
+#include "EnemyManager.hpp"
+#include "BulletManager.hpp"
+#include "ExAttackController.hpp"
+#include "PlayerLifecycleView.hpp"
 // Partial target-facing reconstruction of the TH09 gameplay setup thread.
 // The local layout views name only fields exercised by this bounded packet;
 // they do not claim the complete original GameManager or Supervisor layouts.
@@ -17,6 +22,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
+// Call-facing reset views keep lifecycle and render AnmVm layouts separate.
+// They introduce no helper bodies and do not claim native owner unification.
+struct SetupFrontMessageResetView { void InitializeMessageRuntime(); };
+struct SetupBackgroundResetView { void ClearSpellBackgroundState(); };
+struct SetupCardAttackResetView { void RefreshResource(); };
+struct SetupFrontSideResetView { void ResetTransitionState(); };
+
+void __fastcall ResetExAttackRecords(ExAttackController *controller);
 
 struct SetupStateBuffer;
 
@@ -730,23 +744,23 @@ void GameManagerSetupLayout::CleanupGameplayState()
 {
     ResetGameManager(&g_GameManager);
     g_AsciiManager.Reset();
-    ReleaseGameSubsystem(g_GameManager.gameSubsystem);
-    ReleaseSecondarySubsystem(g_GameManager.secondarySubsystem);
+    static_cast<SetupFrontMessageResetView *>(g_GameManager.gameSubsystem)->InitializeMessageRuntime();
+    ResetExAttackRecords(static_cast<ExAttackController *>(g_GameManager.secondarySubsystem));
 
     for (int sideIndex = 0; sideIndex < 2; sideIndex++)
     {
         SetupSideState *side = &g_GameManager.sides[sideIndex];
         side->flags &= ~1u;
-        ReleaseSubsystem0(side->subsystem0);
-        ReleaseSubsystem1(side->subsystem1);
-        ReleaseSubsystem2(side->subsystem2);
-        ReleaseSubsystem3(side->subsystem3);
-        ReleaseSubsystem4(side->subsystem4);
-        ReleaseSubsystem5(side->subsystem5);
-        ReleaseSubsystem6(side->subsystem6);
+        static_cast<SetupBackgroundResetView *>(side->subsystem0)->ClearSpellBackgroundState();
+        static_cast<PlayerLifecycleView *>(side->subsystem1)->InitializeAddedState();
+        static_cast<EtamaController *>(side->subsystem2)->ResetProjectiles();
+        static_cast<EffectManager *>(side->subsystem3)->ResetPool();
+        static_cast<EnemyManagerView *>(side->subsystem4)->ResetForGameplayCleanup();
+        static_cast<SetupCardAttackResetView *>(side->subsystem5)->RefreshResource();
+        static_cast<SetupFrontSideResetView *>(side->subsystem6)->ResetTransitionState();
     }
 
-    ReleaseSubsystem3(g_GameManager.sharedSubsystem);
+    static_cast<EffectManager *>(g_GameManager.sharedSubsystem)->ResetPool();
 
     if (g_GameManager.gameMode == 2)
     {

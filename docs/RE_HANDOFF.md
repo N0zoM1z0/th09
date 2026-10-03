@@ -4,6 +4,17 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest gameplay reset identity checkpoint (2026-10-03)
+
+Packet 776 corrects ten CleanupGameplayState calls from teardown aliases to
+target-proven reset/initialize destinations. Static void API, helper bodies and
+compiler profiles are unchanged. Four call-only views keep incompatible ANM
+layout headers separate; native linkage/type unification remains open.
+Two cold objects preserve399 raw bytes/41 fields and all12 corrected calls;
+the425-byte owner remains NON-EXACT. All9 existing same-TU exact units pass.
+Reproduce with scripts/inspect-gameplay-cleanup.py on the /O2 /Os carrier.
+Coverage remains903 exact /195060 of275770 bytes (70.73%);90% needs53133 more.
+
 ## Latest Supervisor service fidelity checkpoint (2026-10-03)
 
 Packet 775 corrects actual input/render call identities, VM pointer ownership,
