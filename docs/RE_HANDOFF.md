@@ -4,6 +4,23 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## Latest RunEcl partial checkpoint (2026-10-03)
+
+Packet790 preserves the real shared timer-comparator visibility and scoped155
+source gains. Current RunEcl raw hash starts ee8c0654,14787 code+1 alignment
+byte/15560 physical,598 fields. Normalized region agreement4007→4043/4387;
+full owner remains NON-EXACT, with no authored coverage gain.
+
+Shared timer ownership and ANM declaration unification pass541 canonical-unit
+comparisons plus28 nonexact-consumer checks in recorded profiles. Final
+maintained cold pairs pass161 owners/all3679 fields across33 carriers. The
+31 manifest-changed units need fresh final-snapshot Factory acceptance.
+
+The old Packet785 audit/manual indirect evidence is frozen to20fd67df and
+rejects the new input shape; do not apply its success claim to this object.
+Resolver/RNG visibility on the improved context was neutral. Continue
+hypothesis-driven large-owner work; current coverage is71.86%,goal90% unmet.
+
 ## Latest ANM routing / verifier correction (2026-10-03)
 
 Packet789 repairs GetFloatVar's three random-variable case labels:10010 is

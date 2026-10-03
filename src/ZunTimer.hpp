@@ -12,6 +12,8 @@ struct ZunTimer
     int Tick();
     int HasTicked();
     int HasTickedEvery(int interval);
+    // Folded target timer-current getter at 0x00435F00.
+    operator int();
     operator float();
     void operator++(int);
     void operator--(int);
@@ -33,3 +35,5 @@ struct ZunTimer
 };
 
 typedef char ZunTimerSizeIs0C[(sizeof(ZunTimer) == 0x0C) ? 1 : -1];
+
+#include "ZunTimerGreaterEqual.inl"

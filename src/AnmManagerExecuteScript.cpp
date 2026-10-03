@@ -29,25 +29,7 @@ union ZunColor {
 };
 struct AnmMatrix { float m[4][4]; };
 
-struct ZunTimer {
-    int previous;
-    float subFrame;
-    int current;
-    void SetCurrent(int value);
-    int Tick();
-    operator int();
-    operator float();
-    void operator++(int);
-    void operator--(int);
-    void operator=(int value);
-    unsigned int operator>=(int value);
-    unsigned int operator<(int value);
-    // These comparisons are out of line in the original ExecuteScript TU.
-    // Their callsites are part of the target-exact Wait/interpolation paths.
-    ZunBool operator==(int value);
-    ZunBool operator<=(int value);
-    ZunBool operator>(int value);
-};
+#include "ZunTimer.hpp"
 
 class AnmLoaded;
 struct AnmLoadedSprite;
