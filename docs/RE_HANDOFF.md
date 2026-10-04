@@ -4,6 +4,26 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## KeyConfig full closure (2026-10-04)
+
+Packet804 closes OnUpdateKeyConfig at427EE8 across all2803 authored bytes and
+118 independently bound fields. Six existing source sound12 calls now sit at
+the ends of the successful cases in the two direction switches. Defaults skip
+sound exactly as before. The compiler merges them into the original two call
+sites, retaining all54 calls and751 instructions. Every mutable read/store
+outside those scheduling windows remains in place; no receiver is cached.
+Raw114bafd8c9d737c6b8f12dbb701340adb9f83cd013ad2e3083efd9c30b69d48e.
+
+Two isolated and two maintained cold builds agree in raw/full records; the
+same-TU Swap106/0 owner remains exact and neutral. No literal/private/helper
+bindings occur in this owner. The old14 full relocated residual bytes are all
+closed, beyond the legacy six-ordinary-byte diagnostic. Earlier TH08 shared-tail
+source and neutral pointer/type/body controls did not establish a prohibition
+on this TH09-specific source organization. Original spelling remains unproved.
+Final independent maintained source/cold/manifest review passed. Final-checkpoint
+Factory acceptance is separate. Local ledger is910 exact /204062 of275770 bytes (74.00%);
+accepted credit awaits that receipt. RunEcl remains NONEXACT at2248 residuals.
+
 ## FrontSide draw closure (2026-10-04)
 
 Packet802 closes FrontSide::OnDraw at4193E0 over all3094 authored bytes and
@@ -115,7 +135,8 @@ six literal payloads and62 emitted functions remain the bounded proof scope.
 Two maintained cold builds repeat all62 functions and strict598 rows. Final
 independent maintained binding/manifest review passed, including all18 exact
 siblings/274 fields and eight actual-position-proven private spelling refreshes.
-Fresh exact-sibling Factory receipts remain a separate gate.
+All18 exact-sibling Factory replays passed and were accepted at6f45b72;
+the ignored receipt bundle records the final snapshot321e7d556bbbb7509348bb0889c4ff0fa9736c8967d1e028dd0165ba943c5df4.
 
 The genuine specialized return-value flag merge is rejected as the next base:
 2398 residuals,33 gains/183 losses versus2248,code14790+2 alignment. It adds only
@@ -146,8 +167,9 @@ proofs pass; all six prior same-TU exact siblings stay byte/full-record neutral
 and all seven full comparisons pass in the maintained carrier. Error behavior
 and inherited malformed-input assumptions remain unchanged.
 
-Current local ledger:909 exact /201259 of275770 authored bytes (72.98%).
-71 owners /74511 bytes remain nonexact;90% needs46934 more bytes.
+Current local ledger:910 exact /204062 of275770 authored bytes (74.00%).
+70 owners /71708 bytes remain nonexact;90% needs44131 more bytes.
+Packet804 final-checkpoint acceptance remains separately required.
 Packet802 has final-checkpoint PASS+ACCEPTED at2d0c507.
 Obtain final-snapshot accepted Factory replay before current accepted claims.
 Source experiments continue; historical hypotheses are fallible, not rules.
@@ -555,11 +577,11 @@ SHA-256:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 909 |
-| Source-present non-exact functions | 71 |
-| Source-present non-exact bytes | 74,511 |
+| Canonical exact functions | 910 |
+| Source-present non-exact functions | 70 |
+| Source-present non-exact bytes | 71,708 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 201,259 |
+| Canonical exact authored bytes | 204,062 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction

@@ -350,6 +350,7 @@ afterControllerBinding:
                 for (i = 0; i < 10; ++i)
                     vms[i + 50].color1.d3dColor = 0xFFFFFFFFu;
             }
+            g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         case 1:
             do
@@ -390,6 +391,7 @@ afterControllerBinding:
                 for (i = 0; i < 10; ++i)
                     vms[i + 50].color1.d3dColor = 0xFFFFFFFFu;
             }
+            g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         case 2:
             if ((&g_Supervisor.config388.valueB4)[keyConfigSide] <= 0)
@@ -399,13 +401,12 @@ afterControllerBinding:
                 (&g_Supervisor.config388.valueB4)[keyConfigSide], 49);
             SetIndexedSpriteChoice(
                 (&g_Supervisor.config388.valueB4)[keyConfigSide], 42);
+            g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         default:
-            goto afterLeft;
+            break;
         }
-        g_SoundPlayer.PlaySoundByIdx(12, 0);
     }
-afterLeft:
 
     if (g_TitleInput.IsPressedScrolling(0x80))
     {
@@ -434,6 +435,7 @@ afterLeft:
                 for (i = 0; i < 10; ++i)
                     vms[i + 50].color1.d3dColor = 0xFFFFFFFFu;
             }
+            g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         case 1:
             do
@@ -474,6 +476,7 @@ afterLeft:
                 for (i = 0; i < 10; ++i)
                     vms[i + 50].color1.d3dColor = 0xFFFFFFFFu;
             }
+            g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         case 2:
             ++(&g_Supervisor.config388.valueB4)[keyConfigSide];
@@ -483,13 +486,12 @@ afterLeft:
                 (&g_Supervisor.config388.valueB4)[keyConfigSide], 49);
             SetIndexedSpriteChoice(
                 (&g_Supervisor.config388.valueB4)[keyConfigSide], 42);
+            g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         default:
-            goto afterRight;
+            break;
         }
-        g_SoundPlayer.PlaySoundByIdx(12, 0);
     }
-afterRight:
 
     if ((g_TitleInput.pressed06 & 0x1001) != 0)
     {

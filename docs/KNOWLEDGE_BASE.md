@@ -5576,3 +5576,45 @@ Packet803 maintained coldpair and final independent source/binding review pass.
 All62 emitted functions repeat;18 exact siblings/274fields fully replay. Eight
 compiler-private manifest spellings change only after actual same-section
 COFF destinations prove their unchanged target bindings. No metadata retargeting.
+
+
+## Packet 804 — KeyConfig per-case sound source closure (2026-10-04)
+
+OnUpdateKeyConfig427EE8..4289DA closes all2803 authored bytes and118 actual
+fields (64DIR32/54REL32). Under the unchanged canonical/O1/Ob1/Oy-/Gr profile
+without/Oi, moving the existing sound12 call into each successful case in both
+direction switches changes only the two final sound-argument/receiver scheduling
+windows. Compiler merging retains exactly two emitted sound calls at+6E4/+963,
+all54 direct calls,751 instructions and the complete target extent. There is
+no additional helper, fabricated dependency, ABI/type/attribute change, register
+constraint, volatile, padding or target-byte patch.
+
+Source-path review proves each case0/1/2 performs its original UI/config writes
+then exactly one sound; both default arms perform none. The right-input query
+remains fresh after left completion, and confirm/cancel reads remain after
+right completion. No mutable VM/content receiver is cached. This is a natural
+source-organization hypothesis with complete target code proof, not recovery of
+unique original source spelling or a new claim about runtime/product closure.
+The previously quoted TH08 common sound tail was only adjacent hypothesis
+material. The prior neutral owner/type/wrapper/body/default/enum controls did
+not test this case-local organization; Options per-case negatives were a
+different function/context and did not prohibit this successful experiment.
+
+Raw owner SHA256:
+114bafd8c9d737c6b8f12dbb701340adb9f83cd013ad2e3083efd9c30b69d48e.
+Two isolated and two maintained cold builds reproduce raw/full118 records.
+Explicit pre-existing callee/global bases, original addends and actual operand
+positions independently replay all2803 target bytes. No literal or private-label
+fields occur. The separate SwapDuplicateCharacterIndex422F67 owner remains
+106bytes/0fields exact and neutral; these are the only two emitted functions.
+Canonical unit title-screen-update-key-config uses the same maintained carrier
+and profile as that sibling. Local ledger increases by2803 only; Factory accepted
+replay is a separate final-checkpoint gate.
+
+At unchanged6f45b72 all18 RunEcl exact-sibling receipts passed and were accepted;
+its2248-difference owner remains uncredited. The same checkpoint's ten-site
+return-helper family, actual compound-XOR helper and typed-setter controls are
+respectively regressive, regressive and neutral. Pointer/time-field and returned
+float/function-scope wire7 role controls are neutral. Options duplicated exits
+and ordinary/forced inline genuine exit helpers retain target-absent calls or
+wrong CFG, so none was promoted. Complete negative reports remain isolated.
