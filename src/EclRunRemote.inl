@@ -55,8 +55,7 @@ inline unsigned char *Bytes(void *value)
 
 inline EnemyView *&RemoteEnemy(EnemyView *enemy, int slot)
 {
-    return *reinterpret_cast<EnemyView **>(
-        Bytes(enemy->manager00) + ENEMY_MANAGER_REMOTE_TABLE + slot * 4);
+    return enemy->manager00->remoteSlots2AC388[slot];
 }
 
 inline Th09EclContextView *ActiveContext(EnemyView *enemy)
@@ -136,10 +135,8 @@ struct ManagerClearView
         if ((instruction->parameterMask0A & (1U << 1)) != 0)
         {
             remoteIndex = Th09EclRunControl::ReadInt(enemy, instruction, 2);
-            remoteEnemy =
-                Th09EclRunRemote::RemoteEnemy(enemy, remoteIndex);
             lhsInt = Th09EclRunControl::ResolveInt(
-                remoteEnemy,
+                enemy->manager00->remoteSlots2AC388[remoteIndex],
                 Th09EclRunControl::RawInt(instruction, 1));
         }
         else

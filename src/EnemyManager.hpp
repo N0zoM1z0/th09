@@ -160,7 +160,7 @@ struct EnemyManagerView
     // The constructor vector-constructs 129 records here; the runtime update
     // loop processes 128.  The role of the extra constructed record remains unknown.
     EnemyView enemies5758[129];
-    unsigned char unknown2AC388[0x2AC3AC - 0x2AC388];
+    EnemyView *remoteSlots2AC388[9];
     int activeEnemyCount2AC3AC;
     int normalEnemyCount2AC3B0;
     int specialEnemyCount2AC3B4;
@@ -213,6 +213,8 @@ struct EnemyManagerView
 };
 typedef char EnemyManagerViewSizeIs2AC450[
     (sizeof(EnemyManagerView) == 0x2AC450) ? 1 : -1];
+typedef char EnemyManagerRemoteSlotsAt2AC388[
+    (offsetof(EnemyManagerView, remoteSlots2AC388) == 0x2AC388) ? 1 : -1];
 typedef char EnemyManagerPrimaryEclAt000[
     (offsetof(EnemyManagerView, primaryEclManager000) == 0x000) ? 1 : -1];
 typedef char EnemyManagerOpposingEclAt188[
