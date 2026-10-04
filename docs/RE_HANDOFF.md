@@ -1899,14 +1899,23 @@ label from `$L3092` to `$L3091`; its attested destination remains
 
 ### Current large ExAttack callback handoff
 
-`ExAttackUpdateCallbackType18_24 @ 0x004491E0` remains 1435/1436 bytes.
-The target has a 0x48 frame with collision size at `[ebp-0x24]`, three
-distinct history-delta slots at `-0x30/-0x3C/-0x48`, and collision point at
-`-0x18`. The maintained separate-TU candidate allocates those objects in a
-different order. Same-TU visibility of the exact `Float3` constructor and
-subtraction definitions moves collision size to the target slot but merges the
-three history deltas into one slot; it does not prove original TU ownership.
-Simple source declaration and condition inversions do not close the callback.
+`ExAttackUpdateCallbackType18_24 @ 0x004491E0` is now maintained at
+1442/1436 bytes after a fresh target-byte review disproved the previous
+size-nearest 1435-byte CFG. The target's state2 success path has its own early
+return-one epilogue before state1; ordinary `case 1` then `case 2` source
+reproduces the target SUB/DEC/DEC dispatch, early epilogue and loop-entry
+JMP/alignment shape. Removing the source-only `currentAngle` local also removes
+an x87 spill/reload family: the target copies `extra->angle4C` directly.
+
+A relocation/control-normalized diagnostic improves from 360 to 419 aligned
+instructions out of 475 target instructions; the maintained body has 474
+instructions and 45 relocations. The remaining blocker is not gameplay:
+target collision size is `[ebp-0x24]`, three distinct history-delta slots are
+`-0x30/-0x3C/-0x48`, and collision point is `-0x18`. The maintained
+separate-TU allocation still differs. Same-TU constructor+subtraction visibility
+moves collision size correctly but coalesces the three delta temporaries, so it
+is diagnostic only. Do not revert to the 1435-byte tail-merged source merely to
+chase extent.
 `ExAttackUpdateCallbackType21 @ 0x0044B500` remains 1074/1074 but retains
 an ESI=record / EDI=extra allocation where the target uses EDI=record /
 ESI=extra. See Packet 663 before repeating compiler-context probes. No

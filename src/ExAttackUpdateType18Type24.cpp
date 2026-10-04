@@ -158,13 +158,12 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
         }
         return 0;
 
+    case 1:
+        break;
+
     case 2:
         if (record->timer10 > 20)
             return 1;
-        break;
-
-    case 1:
-        break;
 
     default:
         return 0;
@@ -177,10 +176,9 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
     }
 
     extra->trailPositions58[0] = record->position20;
-    float currentAngle = extra->angle4C;
-    extra->trailAngles118[0] = currentAngle;
+    extra->trailAngles118[0] = extra->angle4C;
 
-    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[0].SetZRotation(currentAngle);
+    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[0].SetZRotation(extra->angle4C);
 
     Float3 trailDelta1 =
         extra->trailPositions58[1] - record->position20;

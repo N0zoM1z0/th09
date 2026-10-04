@@ -5719,3 +5719,53 @@ permutation could only be scheduling-directed: this particular order follows
 the same semantic field initialization and is directly validated by complete
 target code. Packet409 remains historical negative/probe context; its
 NON-EXACT conclusion is superseded.
+
+
+## Packet809: ExAttack type18/type24 target-CFG correction
+
+Fresh hash-verified target bytes at `ExAttackUpdateCallbackType18_24 @
+0x004491E0` disprove the previous Packet433/663 size-first conclusion. The
+target dispatch is SUB/DEC/DEC, but state2 falls through to its timer test and,
+on success, returns one through a dedicated epilogue physically before state1.
+The previous 1435-byte maintained switch was one byte from the target only
+because VC7.1 tail-merged that epilogue with the later state1 completion path.
+
+Keeping ordinary switch source while placing case1 before case2 recovers the
+target early state2 epilogue and the state1 loop-entry JMP plus alignment NOP.
+Separately, the target copies `extra->angle4C` directly into trail angle zero
+and uses it for VM0 rotation; the old `float currentAngle` source introduced an
+x87 spill/reload family not present in the executable. Removing that temporary
+and retaining the target-backed CFG yields a repeatable 1442-byte function with
+474 instructions and 45 relocations versus target 1436/475. A bounded
+relocation/control-normalized instruction alignment improves from 360 aligned
+instructions for the old 1435-byte source to 419 for the maintained source.
+
+The remaining mismatch is compiler local allocation, not missing behavior.
+Target places collision size at `[ebp-0x24]`, the three Float3 history-delta
+return slots at `-0x30/-0x3C/-0x48`, and collision point at `-0x18`.
+Rechecking old compiler-context assumptions on the corrected CFG shows that
+constructor-only, subtraction-only, collision-point declaration order, pointer
+or reference lifetime aliases do not recover that layout. Constructor plus
+subtraction visibility moves collision size to the target slot but coalesces
+all three deltas; full Float3 same-TU visibility emits 1440 bytes with the same
+coalescing. Those probes are not retained. The callback remains source-present
+NON-EXACT; no padding, volatile/register steering, forced ABI, assembly in the
+callback, or target-byte patching is used.
+
+## Packet810: Player callback30404 type4/type8 receiver-lifetime recheck
+
+The live short-function frontier still contains
+`PlayerPositionCallback30404Type4 @ 0x00443B10` and type8 at `0x00447620`,
+both 250-byte candidates for 249-byte targets. Because exact
+`Float3::FromAngleMagnitude @ 0x00441890` now provides stronger compiler-context
+evidence than the historical plateau, the common one-byte residual was
+retested rather than assumed closed.
+
+Fresh pinned VC7.1 probes bind the offset through an ordinary pointer alias, an
+ordinary reference alias, and place the current exact x87
+`Float3::FromAngleMagnitude` definition in the same translation unit. All three
+type4 probes remain byte-identical in the relevant branch and 250/249 overall:
+after the call VC7.1 still reloads `[ebp-0x28]` with a three-byte LEA, whereas
+the target reuses the receiver already in ECX with two-byte `mov edx,ecx`.
+The same target/source family applies to type8. These are useful negative
+controls, not a reason to force ECX; both callbacks remain honestly NON-EXACT.
