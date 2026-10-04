@@ -5505,3 +5505,34 @@ name into a TH09 fact without target-local evidence.
 - Maintained rawf5a6032956007156460b013edf3b011ca371eb4ee8690f941b48f755898dffbf has14790 code+2compiler alignment+772tables=15564physical. Complete residuals are2390(2148ordinary+242field), down from2404. The sole2-byte code deficit remains155; matching physical size is not full equality. Frame0x168,943 mapped blocks,193 table roots,375 direct destinations and4 indirect operand forms are retained. All six literal payloads are freshly checked.
 - Two isolated cold/readable builds and two maintained cold builds reproduce complete598rows and all62 emitted functions. All18 exact siblings/274fields stay neutral and fully target-equal. Eight private spelling refreshes are proved from actual same-section positions to unchanged destinations. Independent frozen and final maintained reviews pass. All54 target-independent CI tests and final whitespace checks pass. No exact unit, extent, profile or coverage gain is introduced;71.86% remains current, with final-snapshot accepted sibling receipts separate.
 - Current-context controls retain useful negatives: wire7 raw operand reference,155 byte reference,155 declaration reversal and one predeclared const snapshot spelling are fully neutral. Existing rhsFloat reuse in7 shrinks the frame to0x164 and regresses37 regions despite preserving float32 rounding/call order; it is not retained. These are bounded current-context observations, not prohibitions against genuinely different source hypotheses.
+
+
+## Packet 802 — FrontSide draw full-expression lifetime closure (2026-10-04)
+
+Target4193E0..419FF5 is3094 authored bytes; the following10CC are not owned.
+The maintained /O2 /Ob0 carrier now matches the entire function with209 reviewed
+relocations,103 direct calls and13 COM calls. Its separate compiler-generated
+38-byte array-constructor helper at401470..401495 matches too but is excluded
+from authored coverage. The vertex constructor callback4343D0 has the observed
+return-this folded identity; this does not establish unique source ownership.
+
+Natural source experiment: group the14 existing statements from the first
+vertical position construction through the second vertical draw into one
+void-comma full-expression, and group each horizontal branch's three existing
+position assignments likewise. All26 operands retain original operation order.
+Void casts force built-in sequencing. Only genuine Float3 temporaries gain a
+longer language lifetime; their three-float copies/destruction are trivial,
+the actual constructor stores components and returns this without publishing
+it, and drawing still consumes the separate existing vertices array. No new
+storage, dummy consumer, padding, ABI, helper body or register constraint was
+introduced. The source shape is a reconstruction hypothesis, not original macro
+recovery or whole-product runtime validation.
+
+Three isolated builds and two maintained cold builds agree across complete code
+sections/symbols/records. Raw owner SHA256:
+eb452c4bb9f23ea7d816a4b28e4a7d9e5d4f359e9a4a49363c35c089b450a2f5.
+All209 physical field offsets/bases/addends, seven emitted literal payloads,
+helper38, frameA4 and all16 constructor sites were independently reviewed.
+Only3094 bytes enter the authored ledger. Canonical unit front-side-draw builds
+src/FrontSideDraw.cpp with the pinned VC7.1 profile; final Factory acceptance is
+recorded separately from this local complete proof.

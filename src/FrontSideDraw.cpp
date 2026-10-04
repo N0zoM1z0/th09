@@ -272,57 +272,54 @@ int FrontSide::OnDraw(FrontSide *frontSide)
         transitionTime *= 14.933333f;
         float edgeX = direction * -144.0f;
 
-        vertices[0].pos = Float3(
+        // Keep these two vertical strips in one built-in-comma full-expression.
+        // Each Float3 is copied immediately, but its lifetime lasts through
+        // the second draw. Casts to void ensure the comma operators are built-in.
+        // This is a reconstruction boundary, not a claim about original macros.
+        (void)(vertices[0].pos = Float3(
             g_GameManager.TransformPopupX(edgeX),
             g_GameManager.TransformPopupY(0.0f),
-            0.0f);
-
-        direction *= 144.0f;
-        vertices[1].pos = Float3(
+            0.0f)),
+        (void)(direction *= 144.0f),
+        (void)(vertices[1].pos = Float3(
             g_GameManager.TransformPopupX(direction),
             g_GameManager.TransformPopupY(0.0f),
-            0.0f);
-        vertices[2].pos = Float3(
+            0.0f)),
+        (void)(vertices[2].pos = Float3(
             g_GameManager.TransformPopupX(edgeX),
             g_GameManager.TransformPopupY(transitionTime),
-            0.0f);
-
-        vertices[0].diffuse =
+            0.0f)),
+        (void)(vertices[0].diffuse =
             vertices[1].diffuse =
-            vertices[2].diffuse = 0xFF000000u;
-        vertices[0].rhw =
+            vertices[2].diffuse = 0xFF000000u),
+        (void)(vertices[0].rhw =
             vertices[1].rhw =
-            vertices[2].rhw = 1.0f;
-
-        g_Supervisor.d3dDevice08->DrawPrimitiveUP(
-            D3DPT_TRIANGLESTRIP, 1, vertices, sizeof(FrontSideDrawVertex));
-
-        transitionTime =
+            vertices[2].rhw = 1.0f),
+        (void)(g_Supervisor.d3dDevice08->DrawPrimitiveUP(
+            D3DPT_TRIANGLESTRIP, 1, vertices, sizeof(FrontSideDrawVertex))),
+        (void)(transitionTime =
             448.0f -
-            static_cast<float>(frontSide->transitionTimerABD0) * 14.933333f;
-
-        vertices[0].pos = Float3(
+            static_cast<float>(frontSide->transitionTimerABD0) * 14.933333f),
+        (void)(vertices[0].pos = Float3(
             g_GameManager.TransformPopupX(edgeX),
             g_GameManager.TransformPopupY(448.0f),
-            0.0f);
-        vertices[1].pos = Float3(
+            0.0f)),
+        (void)(vertices[1].pos = Float3(
             g_GameManager.TransformPopupX(direction),
             g_GameManager.TransformPopupY(448.0f),
-            0.0f);
-        vertices[2].pos = Float3(
+            0.0f)),
+        (void)(vertices[2].pos = Float3(
             g_GameManager.TransformPopupX(direction),
             g_GameManager.TransformPopupY(transitionTime),
-            0.0f);
-
-        vertices[0].diffuse =
+            0.0f)),
+        (void)(vertices[0].diffuse =
             vertices[1].diffuse =
-            vertices[2].diffuse = 0xFF000000u;
-        vertices[0].rhw =
+            vertices[2].diffuse = 0xFF000000u),
+        (void)(vertices[0].rhw =
             vertices[1].rhw =
-            vertices[2].rhw = 1.0f;
-
-        g_Supervisor.d3dDevice08->DrawPrimitiveUP(
-            D3DPT_TRIANGLESTRIP, 1, vertices, sizeof(FrontSideDrawVertex));
+            vertices[2].rhw = 1.0f),
+        (void)(g_Supervisor.d3dDevice08->DrawPrimitiveUP(
+            D3DPT_TRIANGLESTRIP, 1, vertices, sizeof(FrontSideDrawVertex)));
 
         transitionTime =
             static_cast<float>(frontSide->transitionTimerABD0) * 9.6000004f -
@@ -330,33 +327,37 @@ int FrontSide::OnDraw(FrontSide *frontSide)
 
         if (frontSide->auxA678.unknown554 == 1)
         {
-            vertices[0].pos = Float3(
+            // One full-expression keeps this triangle's three Float3
+            // temporaries alive until all three immediate copies finish.
+            (void)(vertices[0].pos = Float3(
                 g_GameManager.TransformPopupX(-144.0f),
                 g_GameManager.TransformPopupY(0.0f),
-                0.0f);
-            vertices[1].pos = Float3(
+                0.0f)),
+            (void)(vertices[1].pos = Float3(
                 g_GameManager.TransformPopupX(-144.0f),
                 g_GameManager.TransformPopupY(448.0f),
-                0.0f);
-            vertices[2].pos = Float3(
+                0.0f)),
+            (void)(vertices[2].pos = Float3(
                 g_GameManager.TransformPopupX(transitionTime),
                 g_GameManager.TransformPopupY(448.0f),
-                0.0f);
+                0.0f));
         }
         else
         {
-            vertices[0].pos = Float3(
+            // One full-expression keeps this triangle's three Float3
+            // temporaries alive until all three immediate copies finish.
+            (void)(vertices[0].pos = Float3(
                 g_GameManager.TransformPopupX(-144.0f),
                 g_GameManager.TransformPopupY(448.0f),
-                0.0f);
-            vertices[1].pos = Float3(
+                0.0f)),
+            (void)(vertices[1].pos = Float3(
                 g_GameManager.TransformPopupX(-144.0f),
                 g_GameManager.TransformPopupY(0.0f),
-                0.0f);
-            vertices[2].pos = Float3(
+                0.0f)),
+            (void)(vertices[2].pos = Float3(
                 g_GameManager.TransformPopupX(transitionTime),
                 g_GameManager.TransformPopupY(0.0f),
-                0.0f);
+                0.0f));
         }
 
         vertices[0].diffuse =
@@ -375,33 +376,37 @@ int FrontSide::OnDraw(FrontSide *frontSide)
 
         if (frontSide->auxA678.unknown554 == 1)
         {
-            vertices[0].pos = Float3(
+            // One full-expression keeps this triangle's three Float3
+            // temporaries alive until all three immediate copies finish.
+            (void)(vertices[0].pos = Float3(
                 g_GameManager.TransformPopupX(144.0f),
                 g_GameManager.TransformPopupY(448.0f),
-                0.0f);
-            vertices[1].pos = Float3(
+                0.0f)),
+            (void)(vertices[1].pos = Float3(
                 g_GameManager.TransformPopupX(144.0f),
                 g_GameManager.TransformPopupY(0.0f),
-                0.0f);
-            vertices[2].pos = Float3(
+                0.0f)),
+            (void)(vertices[2].pos = Float3(
                 g_GameManager.TransformPopupX(transitionTime),
                 g_GameManager.TransformPopupY(0.0f),
-                0.0f);
+                0.0f));
         }
         else
         {
-            vertices[0].pos = Float3(
+            // One full-expression keeps this triangle's three Float3
+            // temporaries alive until all three immediate copies finish.
+            (void)(vertices[0].pos = Float3(
                 g_GameManager.TransformPopupX(144.0f),
                 g_GameManager.TransformPopupY(0.0f),
-                0.0f);
-            vertices[1].pos = Float3(
+                0.0f)),
+            (void)(vertices[1].pos = Float3(
                 g_GameManager.TransformPopupX(144.0f),
                 g_GameManager.TransformPopupY(448.0f),
-                0.0f);
-            vertices[2].pos = Float3(
+                0.0f)),
+            (void)(vertices[2].pos = Float3(
                 g_GameManager.TransformPopupX(transitionTime),
                 g_GameManager.TransformPopupY(448.0f),
-                0.0f);
+                0.0f));
         }
 
         vertices[0].diffuse =

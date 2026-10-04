@@ -4,6 +4,23 @@ This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
 
+## FrontSide draw closure (2026-10-04)
+
+Packet802 closes FrontSide::OnDraw at4193E0 over all3094 authored bytes and
+209 independently bound fields. Two maintained cold builds reproduce the
+reviewed /O2 /Ob0 carrier, raw eb452c4bb9f23ea7d816a4b28e4a7d9e5d4f359e9a4a49363c35c089b450a2f5.
+Built-in void-comma expressions group existing vertical-strip operations and
+horizontal position triples without changing their order. All real Float3
+temporaries are immediately copied, have trivial destruction, and do not escape.
+This is a successful expression-lifetime hypothesis, not proof of original macros.
+The103 direct calls,13 COM slots, seven literal payloads and separate38-byte
+compiler helper also pass. The helper and trailing10CC earn no authored credit.
+Independent frozen, maintained source/cold, and final manifest readback passed.
+Final-checkpoint Factory acceptance remains separately required.
+Local ledger becomes909 owners /201259 of275770 authored bytes (72.98%);
+accepted credit must await that receipt. RunEcl stays at Packet801's2390 full
+residual bytes; the approved2248 alternative remains isolated pending this closure.
+
 ## Latest SaveReplay partial checkpoint (2026-10-03)
 
 Packet 796 uses a rolling cursor through the ten inline stage roots, separately
@@ -138,8 +155,9 @@ proofs pass; all six prior same-TU exact siblings stay byte/full-record neutral
 and all seven full comparisons pass in the maintained carrier. Error behavior
 and inherited malformed-input assumptions remain unchanged.
 
-Current ledger:908 exact /198165 of275770 authored bytes (71.86%).
-72 owners /77605 bytes remain nonexact;90% needs50028 more bytes.
+Current local ledger:909 exact /201259 of275770 authored bytes (72.98%).
+71 owners /74511 bytes remain nonexact;90% needs46934 more bytes.
+Packet802 final-checkpoint Factory acceptance remains a separate gate.
 Obtain final-snapshot accepted Factory replay before current accepted claims.
 Source experiments continue; historical hypotheses are fallible, not rules.
 
@@ -546,11 +564,11 @@ SHA-256:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 908 |
-| Source-present non-exact functions | 72 |
-| Source-present non-exact bytes | 77,605 |
+| Canonical exact functions | 909 |
+| Source-present non-exact functions | 71 |
+| Source-present non-exact bytes | 74,511 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 198,165 |
+| Canonical exact authored bytes | 201,259 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
