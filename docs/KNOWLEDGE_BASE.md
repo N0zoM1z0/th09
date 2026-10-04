@@ -2347,6 +2347,7 @@ name into a TH09 fact without target-local evidence.
 - State 0 uses exact `ExAttackInterpolate2D` for 90 ticks. On completion extra state increments, spawn `+0x40` is copied to record position, record `+0x00` becomes opponent side, timer resets, and record VM flag bit 1 at `+0x1F8` is cleared.
 - Two cold natural builds are stable at the exact 405-byte target extent with all 11 relocation destinations solved and 299/361 ordinary comparable bytes matching. The remaining mismatch is isolated to the independent descriptor field-store scheduling block; the state machine, stack frame, constructor, timer helpers, GameManager owner and spawn ABI all match.
 - Bounded source-shape probes do not justify further pursuit. Reordering semantic field assignments improves the original 274/361 candidate to 299/361, while a short or int color local and a speed-first spelling worsen the result substantially. The maintained BulletSpawnDescriptor intentionally continues to use the neutral 0x214 constructor view because the public reconstructed descriptor cannot yet honestly claim the original default-subobject construction model. Further field-order permutation would be register/store-scheduling directed, so source presence is accepted without canonical exactness.
+- Packet808 supersedes this plateau conclusion: a later TH09-local recheck found one natural semantic assignment order that closes the whole 405-byte owner.
 
 
 ## Packet 410 EnemyManager spawn boundary cleanup
@@ -5687,8 +5688,34 @@ fields: two AnmManager accesses/GetAnm calls, the stage read, three ANM string
 literals and PreloadAnm call, ECL/resource references and loads, RNG/schedule
 references and calls, GetSubroutine, and ZunTimer assignment. Two cold pinned
 VC7.1 /O2 /Ob1 /Oy- builds reproduce all 372 target bytes. Same-TU exact
-EnemyManagerView::Create (328 bytes) and constructor (101 bytes) replay exact
-after the source change. The source uses no goto, padding, dummy operation,
+EnemyManagerView::Create (328 bytes), constructor (101 bytes), and Initialize
+(554 bytes) replay exact after the source change. The source uses no goto,
+padding, dummy operation,
 register forcing, ABI distortion or compiler-layout pragma. Packet692's failed
 filename-hoisting probes remain useful negative history but no longer describe
 the maintained AddedCallback exactness state.
+
+
+## Packet808: ExAttack type-20 update exact closure
+
+ExAttackUpdateCallbackType20 @ 0x0044ADE0-0x0044AF74 is canonical exact at
+405 bytes. The old Packet409 candidate already had the complete state machine,
+stack descriptor construction and all 11 external identities, but stopped at
+299/361 ordinary comparable bytes after treating further descriptor scheduling
+as a plateau. Rechecking that conclusion from the target instead of assuming
+the old source order was final found one ordinary semantic change: store the
+already-required descriptor angle immediately after color and before speed1.
+
+That source organization makes pinned VC7.1 /O2 /Ob1 /Oi /Oy- /Gr emit the
+complete target body with no residual bytes. Two independent cold builds replay
+405/405 bytes and all 11 reviewed relocations: the timer operators and
+HasTickedEvery, neutral 0x214 descriptor constructor, GameManager side+8,
+SpawnBulletPatternSecondary, 0.2f, timer float conversion,
+ExAttackInterpolate2D and timer reset. No register forcing, volatile, padding,
+assembly, ABI distortion, pragma or alternate-profile search is involved.
+
+The result is evidence against the prior local claim that descriptor field
+permutation could only be scheduling-directed: this particular order follows
+the same semantic field initialization and is directly validated by complete
+target code. Packet409 remains historical negative/probe context; its
+NON-EXACT conclusion is superseded.

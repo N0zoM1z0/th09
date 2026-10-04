@@ -1,5 +1,21 @@
 # TH09 reconstruction handoff
 
+## ExAttack type-20 update exact closure (Packet808)
+
+ExAttackUpdateCallbackType20 @ 0x0044ADE0 is now canonical exact across all
+405 authored bytes. The old 299/361 ordinary-byte plateau was not final:
+placing the existing descriptor angle assignment immediately after color and
+before speed1 makes the standard pinned VC7.1 profile emit the full target
+naturally. The canonical unit binds all 11 relocation fields; two independent
+cold builds replay 405/405. No register/volatile steering, padding, assembly,
+ABI change, pragma or profile search is used.
+
+This directly supersedes Packet409's maintained NON-EXACT conclusion and the
+later read-only notes that repeated its plateau. RunEcl remains the main large
+owner frontier; its current cold source has only eight normalized ordinary
+mismatch blocks after relocation/branch normalization (opcodes 4, 7, 86,
+155, 156 and 157).
+
 ## EnemyManager AddedCallback exact closure (Packet807)
 
 EnemyManagerView::AddedCallback @ 0x00411DB0 is now canonical exact across
@@ -12,8 +28,9 @@ forcing; the prior shared NULL check had the same 372-byte extent but only
 
 The new enemy-manager-added-callback unit binds 24 independently reviewed
 DIR32/REL32 fields and replays 372/372 bytes. Same-TU EnemyManagerView::Create
-(328 bytes) and EnemyManagerView constructor (101 bytes) remain exact after
-the source change. Exact Create independently installs this callback at
+(328 bytes), EnemyManagerView constructor (101 bytes), and Initialize
+(554 bytes) remain exact after the source change. Exact Create independently
+installs this callback at
 0x00411DB0. This supersedes the older non-exact AddedCallback handoff state.
 
 This is the live restart document. It contains current state and operating rules
@@ -40,7 +57,7 @@ Final independent maintained source/cold/manifest review passed. Final-checkpoin
 Factory replays passed and were accepted at47976db for this owner and its Swap
 sibling. KeyConfig receipt9c5f1d516b7ace0a6eddcacfe89b7e417515339f49f26b3bfbcd962a964aee16;
 Swap receipt371b73dba53a5999b912c07d13d6835418d6661f02be90915c67e710ef6a03d7.
-Current ledger is 912 exact / 206692 of 275770 authored bytes (74.95%). RunEcl remains NONEXACT;
+Current ledger is 913 exact / 207097 of 275770 authored bytes (75.10%). RunEcl remains NONEXACT;
 its current full residual is 2161 bytes after the secondary-time opcode repair.
 
 ## FrontSide draw closure (2026-10-04)
@@ -210,8 +227,8 @@ proofs pass; all six prior same-TU exact siblings stay byte/full-record neutral
 and all seven full comparisons pass in the maintained carrier. Error behavior
 and inherited malformed-input assumptions remain unchanged.
 
-Current local ledger: 912 exact / 206692 of 275770 authored bytes (74.95%).
-68 owners / 69078 bytes remain nonexact; 90% needs 41501 more exact bytes.
+Current local ledger: 913 exact / 207097 of 275770 authored bytes (75.10%).
+67 owners / 68673 bytes remain nonexact; 90% needs 41096 more exact bytes.
 Packet804 final-checkpoint acceptance remains separately required.
 Packet802 has final-checkpoint PASS+ACCEPTED at2d0c507.
 Obtain final-snapshot accepted Factory replay before current accepted claims.
@@ -620,11 +637,11 @@ SHA-256:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 912 |
-| Source-present non-exact functions | 68 |
-| Source-present non-exact bytes | 69,078 |
+| Canonical exact functions | 913 |
+| Source-present non-exact functions | 67 |
+| Source-present non-exact bytes | 68,673 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 206,692 |
+| Canonical exact authored bytes | 207,097 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction

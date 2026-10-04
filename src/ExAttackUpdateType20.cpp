@@ -83,6 +83,7 @@ int __fastcall ExAttackUpdateCallbackType20(ExAttackRecord *base)
             descriptor->position = record->position20;
             descriptor->color =
                 static_cast<short>(extra->counter58 % 3);
+            descriptor->angle = extra->angle50;
             descriptor->speed1 = extra->speed4C;
             descriptor->bulletType = 21;
             descriptor->aimMode = 5;
@@ -92,7 +93,6 @@ int __fastcall ExAttackUpdateCallbackType20(ExAttackRecord *base)
             descriptor->speed2 = 0.0f;
             descriptor->unknown1FA = 0;
             descriptor->transformFlags = 0;
-            descriptor->angle = extra->angle50;
 
             g_GameManager.sides[record->opponentSide04]
                 .etama08->SpawnBulletPatternSecondary(descriptor);

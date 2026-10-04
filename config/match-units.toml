@@ -21145,3 +21145,25 @@ relocations = [
   { offset = 0x8A8, type = "DIR32", symbol = "?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A", target = 0x004DC550 },
   { offset = 0x8AE, type = "REL32", symbol = "?ExecuteScript@TitleAnmManagerView@@QAEHPAUAnmVmView@@@Z", target = 0x00436F30 },
 ]
+
+[units.exattack-type20-update]
+source = "src/ExAttackUpdateType20.cpp"
+object = "build/matching/ExAttackUpdateType20.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ExAttackUpdateCallbackType20"]
+symbol = "?ExAttackUpdateCallbackType20@@YIHPAUExAttackRecord@@@Z"
+target_address = 0x0044ADE0
+size = 0x195
+relocations = [
+  { offset = 0x2C, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0 },
+  { offset = 0x4C, type = "REL32", symbol = "??MZunTimer@@QAEIH@Z", target = 0x00401540 },
+  { offset = 0x59, type = "REL32", symbol = "?HasTickedEvery@ZunTimer@@QAEHH@Z", target = 0x00404920 },
+  { offset = 0x6C, type = "REL32", symbol = "??0ExAttackType20BulletDescriptorStorage@@QAE@XZ", target = 0x0040D500 },
+  { offset = 0xF8, type = "DIR32", symbol = "?g_GameManager@@3UExAttackType20GameManagerView@@A", target = 0x004A7D90, addend = 0x00000008 },
+  { offset = 0xFD, type = "REL32", symbol = "?SpawnBulletPatternSecondary@EtamaController@@QAEPAUBullet@@PAUBulletSpawnDescriptor@@@Z", target = 0x004131C0 },
+  { offset = 0x119, type = "DIR32", symbol = "__real@3e4ccccd", target = 0x00490F3C },
+  { offset = 0x132, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
+  { offset = 0x14C, type = "REL32", symbol = "?ExAttackInterpolate2D@@YIXPAM0000MM@Z", target = 0x0042AF80 },
+  { offset = 0x156, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0 },
+  { offset = 0x17E, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+]
