@@ -42,6 +42,15 @@ enum TrailFlag
     TRAIL_BUILD_GEOMETRY = 0x08
 };
 
+struct EnemyStateFlagBits
+{
+    unsigned int unknown00_23 : 24;
+    unsigned int timeoutSpell24 : 1;
+    unsigned int unknown25_31 : 7;
+};
+typedef char Th09EclStateFlagBitsSizeIs04[
+    (sizeof(EnemyStateFlagBits) == 0x04) ? 1 : -1];
+
 struct SideStateView
 {
     unsigned char *background00;
@@ -128,7 +137,11 @@ struct EnemyStateView
     unsigned char deathAnmScripts3368[3];
     unsigned char bossSlot336B;
     unsigned char unknown336C[0x337C - 0x336C];
-    unsigned int primaryFlags337C;
+    union
+    {
+        unsigned int primaryFlags337C;
+        EnemyStateFlagBits primaryFlagBits337C;
+    };
     unsigned int secondaryFlags3380;
     unsigned char unknown3384[0x03];
     unsigned char drawGroup3387;
@@ -613,11 +626,8 @@ __forceinline void AssignFlagField(
     {
         Th09EclRunState::EnemyStateView &state =
             *Th09EclRunState::View(enemy);
-        Th09EclRunState::AssignFlagField(
-            state.primaryFlags337C,
-            Th09EclRunState::ENEMY_STATE_TIMEOUT_SPELL,
-            static_cast<unsigned int>(
-                Th09EclRunState::RawByte(instruction, 0)) << 24);
+        unsigned int value = Th09EclRunState::RawByte(instruction, 0);
+        state.primaryFlagBits337C.timeoutSpell24 = value;
         break;
     }
 

@@ -614,7 +614,9 @@ th09_ecl_instruction_loop:
 
         // Bind the time field for the immediate by-value comparison.
         const int &instructionTime = instruction->time00;
-        if (enemyState->activeContext2CE0->time008 == instructionTime)
+        Th09EclContextView *comparisonContext =
+            enemyState->activeContext2CE0;
+        if (comparisonContext->time008 == instructionTime)
         {
             executionMask = Th09EclRunOwner::g_DifficultyMask |
                             enemyState->difficultyOverride3388;
