@@ -5536,3 +5536,43 @@ helper38, frameA4 and all16 constructor sites were independently reviewed.
 Only3094 bytes enter the authored ledger. Canonical unit front-side-draw builds
 src/FrontSideDraw.cpp with the pinned VC7.1 profile; final Factory acceptance is
 recorded separately from this local complete proof.
+
+
+## Packet 803 — Direct equality receiver and generic timeout flag base (2026-10-04)
+
+The same immediate int-field reference plus direct current-context receiver,
+with the existing generic AssignFlagField at155, lowers full RunEcl differences
+2390 to2248. Raw406f2f6f5fcb5085c33aad696bfc33fb65122f90d619495f41e4292d648a897d.
+Code14791 +1 compiler alignment +772 table bytes; target code14792. This remains
+NONEXACT, with2046 ordinary and202 field-byte differences. Of2142 changed bound
+bytes,183 become equal,41 lose equality and1918 remain unequal. Diagnostic
+4354 to4343 is not exact credit: entry/155/156/157 lose2/2/5/2 respectively.
+
+The coherent four-cell panel with generic155 fixed gives: direct reference/old
+wire2=2262 differences, direct reference/staged wire2=2248, context pointer/old
+wire2=2372, context pointer/staged wire2=2358. Removing the context local restores
+157's160-byte extent, while wire2 staging independently gains14 physical bytes.
+These are compiler-context observations, not proof of original source spelling.
+The reference is consumed immediately before the same equality call; the flag
+helper retains unsigned mask semantics and no read crosses an effectful call.
+Earlier2390 and other complete source/build baselines remain reproducible in Git
+and compact experiment evidence. All598 bindings and whole-owner bytes remain
+required; no region or normalization supplies fractional exact credit.
+
+The specialized ordinary inline return-value merge was a real but negative
+trial:2398 differences,33 newly equal and183 lost bytes,14790code+2 alignment.
+It preserves all18 exact siblings and61 other preexisting emitted functions;
+one unused16-byte real helper is emitted, with zero fields and no runtime owner
+reference. The complete193 roots/943 blocks and375direct+4indirect call counts
+remain, but higher diagnostic4352 does not justify adopting the worse base.
+
+Packet802 FrontSide separately received PASS+ACCEPTED at2d0c507, job
+e1009cab139145cf83097ca8b98d919d, receipt
+838d764aad92cb51612763dab53e3b9a67867e2d25d0b94764b020a37efdd5bd.
+That3094-byte closure yields909 exact/201259 of275770 authored bytes (72.98%).
+No RunEcl coverage gain is claimed here.
+
+Packet803 maintained coldpair and final independent source/binding review pass.
+All62 emitted functions repeat;18 exact siblings/274fields fully replay. Eight
+compiler-private manifest spellings change only after actual same-section
+COFF destinations prove their unchanged target bindings. No metadata retargeting.

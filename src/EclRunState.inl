@@ -610,13 +610,12 @@ __forceinline void AssignFlagField(
         break;
 
     case TH09_ECL_OPCODE_SET_TIMEOUT_SPELL:
-    {
-        unsigned int value = Th09EclRunState::RawByte(instruction, 0);
-        unsigned int flags = Th09EclRunState::View(enemy)->primaryFlags337C;
-        Th09EclRunState::View(enemy)->primaryFlags337C =
-            flags ^ ((flags ^ (value << 24)) & Th09EclRunState::ENEMY_STATE_TIMEOUT_SPELL);
+        Th09EclRunState::AssignFlagField(
+            Th09EclRunState::View(enemy)->primaryFlags337C,
+            Th09EclRunState::ENEMY_STATE_TIMEOUT_SPELL,
+            static_cast<unsigned int>(
+                Th09EclRunState::RawByte(instruction, 0)) << 24);
         break;
-    }
 
     case TH09_ECL_OPCODE_SET_SPECIAL_INTERACTION:
         Th09EclRunState::AssignFlagField(

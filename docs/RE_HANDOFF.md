@@ -16,10 +16,10 @@ This is a successful expression-lifetime hypothesis, not proof of original macro
 The103 direct calls,13 COM slots, seven literal payloads and separate38-byte
 compiler helper also pass. The helper and trailing10CC earn no authored credit.
 Independent frozen, maintained source/cold, and final manifest readback passed.
-Final-checkpoint Factory acceptance remains separately required.
+Final-checkpoint Factory replay passed and was accepted at2d0c507 (job
+e1009cab139145cf83097ca8b98d919d, receipt838d764aad92cb51612763dab53e3b9a67867e2d25d0b94764b020a37efdd5bd).
 Local ledger becomes909 owners /201259 of275770 authored bytes (72.98%);
-accepted credit must await that receipt. RunEcl stays at Packet801's2390 full
-residual bytes; the approved2248 alternative remains isolated pending this closure.
+FrontSide is accepted. RunEcl continues from the Packet803 experimental base.
 
 ## Latest SaveReplay partial checkpoint (2026-10-03)
 
@@ -94,43 +94,34 @@ vmIndex at each unlock lookup. Prefix stream increments are neutral. Explicit
 row-Y cursor forms move scheduling differences rather than close them and are
 not retained. Continue natural source experiments without forcing registers.
 
-## Latest RunEcl partial checkpoint (2026-10-03)
+## Latest RunEcl partial checkpoint (2026-10-04)
 
-Packet801 stages each wire2 arm's real integer value, then obtains the current
-context pointer for timer assignment. The resolved arm reloads context after
-ResolveInt. Both separate assignment/advance/goto paths remain, with signed
-nextOffset read after assignment. The edited handler's bytes remain unchanged.
+Packet803 preserves the reviewed direct time-field-reference receiver plus
+existing generic155 flag helper as the next faithful NONEXACT experimental base.
+Raw406f2f6f5fcb5085c33aad696bfc33fb65122f90d619495f41e4292d648a897d.
+Code14791 +1 compiler alignment +772 tables=15564 physical versus target14792
+code+772 tables. Full residuals2390 to2248:2046 ordinary and202 field bytes.
+This is NONMONOTONIC:183 new target-byte matches,41 lost among2142 changed bytes.
+Diagnostic4354 to4343 is separate; entry loses2,155 loses2,156 loses5,157 loses2.
+Actual codegap1 remains; padding never supplies missing authored instructions.
 
-Current maintained raw hash:
-f5a6032956007156460b013edf3b011ca371eb4ee8690f941b48f755898dffbf.
-The owner remains NONEXACT:14790 code+2 compiler alignment+772 tables=15564
-physical, versus target14792 code+772 tables. Exactly40 bytes change from
-eaa1f8b, only79(30) and86(10):14 newly match target, none lose matching status,
-and26 remain unequal. Complete residuals decrease2404 to2390, comprising2148
-ordinary and242 encoded-field bytes. Diagnostic4350 to4354/4387 includes79-1
-and86+5; physical-byte monotonicity is distinct from instruction alignment.
+The same int field reference is consumed immediately with the direct context
+receiver, with no intervening effect. Generic155 restores the actual existing
+unsigned helper, preserving all31 other bits and the input byte's low bit.
+Wire2's explicit value-before-context staging remains. The corresponding
+four-cell receiver/wire2 panel is documented in Packet803.18 exact siblings,
+598 owner fields,943 blocks/193 roots,375 direct calls and4 indirect operands,
+six literal payloads and62 emitted functions remain the bounded proof scope.
+Two maintained cold builds repeat all62 functions and strict598 rows. Final
+independent maintained binding/manifest review passed, including all18 exact
+siblings/274 fields and eight actual-position-proven private spelling refreshes.
+Fresh exact-sibling Factory receipts remain a separate gate.
 
-Packet800's reference/context equality inputs remain intact. Its earlier
-14382+4missing to2404 tradeoff included12016 new matches and34 losses; retain
-that history rather than claim all checkpoints were monotone. The equality
-window408865-408876 is physically exact, while four entry branch-field bytes
-still differ. Only155 is two code bytes short; padding does not close that gap.
-Remaining normalized regions are2,4,7,79,86,155. All598 actual fields,943 mapped
-blocks,193 roots,375 direct destinations and4 indirect operand forms remain
-accounted for. Six current literal payloads pass; runtime remains unvalidated.
-
-Two maintained cold objects reproduce all62 emitted functions. All18 exact
-siblings/274 fields remain neutral and fully target-equal. Independent frozen
-and final maintained reviews pass; eight private spelling refreshes preserve
-actual same-section destinations. Coverage stays908 exact /198165 of275770
-(71.86%). Final-checkpoint accepted sibling receipts are tracked separately;
-RunEcl receives no exact credit. Earlier baselines remain reproducible.
-
-The single wire7 shared rhsFloat trial regresses frame and37regions and is not
-retained. Raw input references in7/155,155 declaration-order reversal and one
-immutable-snapshot style control are neutral. Next bounded experiments concern
-real equality-body visibility under current input organization and an explicit
-wire7 conditional assignment. No padding, forced registers or ABI changes.
+The genuine specialized return-value flag merge is rejected as the next base:
+2398 residuals,33 gains/183 losses versus2248,code14790+2 alignment. It adds only
+an unused real16-byte helper and no runtime call. Its normalized4352 score does
+not outweigh the worsened complete comparison. Continue coherent source-family
+hypotheses; no padding, fake ABI, dummy retention or register constraints.
 
 ## Latest ANM routing / verifier correction (2026-10-03)
 
@@ -157,7 +148,7 @@ and inherited malformed-input assumptions remain unchanged.
 
 Current local ledger:909 exact /201259 of275770 authored bytes (72.98%).
 71 owners /74511 bytes remain nonexact;90% needs46934 more bytes.
-Packet802 final-checkpoint Factory acceptance remains a separate gate.
+Packet802 has final-checkpoint PASS+ACCEPTED at2d0c507.
 Obtain final-snapshot accepted Factory replay before current accepted claims.
 Source experiments continue; historical hypotheses are fallible, not rules.
 
