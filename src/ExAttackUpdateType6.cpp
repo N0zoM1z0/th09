@@ -130,8 +130,9 @@ int __fastcall ExAttackUpdateCallbackType6(ExAttackRecord *base)
                     .etama08->SpawnBulletPatternPrimary(descriptor);
             }
 
-            if (g_GameManager.sides[record->opponentSide04]
-                    .player04->CheckBulletCollision(
+            ExAttackType6PlayerView *player =
+                g_GameManager.sides[record->opponentSide04].player04;
+            if (player->CheckBulletCollision(
                     reinterpret_cast<PlayerPositionView *>(
                         &record->position20),
                     reinterpret_cast<PlayerPositionView *>(

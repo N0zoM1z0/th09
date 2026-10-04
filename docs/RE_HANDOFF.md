@@ -1,5 +1,26 @@
 # TH09 reconstruction handoff
 
+## ExAttack type-6 near-exact reduction (Packet809)
+
+ExAttackUpdateCallbackType6 @ 0x00446060 remains NON-EXACT, but its natural
+source frontier moved materially. Restoring an ordinary local player receiver
+for the opponent-side CheckBulletCollision call keeps the target 698-byte
+extent, 214 instructions, all 30 reviewed relocations, all 19 ordered calls and
+the 18-block direct graph, while improving relocation-excluded agreement from
+535/578 to 571/578 bytes. The previous complete residual of 43 bytes is now
+only seven bytes.
+
+The seven remaining differences are localized register coloring: the target
+uses ECX for the opponent-side index path where the candidate uses EAX, EAX for
+the collisionSize address where the candidate uses EDX, and EDX for the
+collision-success rotation load/store where the candidate uses EAX. Everything
+after the collision-failure continuation now matches in the generic complete
+comparison. Reference/const/split/index/side receiver aliases, collision
+argument/result locals, explicit position lifetime, local angle/motion/ANM
+forms and source-scope changes were bounded-tested and either compile to the
+same seven-byte plateau or regress. No exact/partial credit is claimed and no
+register/volatile forcing, padding, asm, pragma or profile search is retained.
+
 ## ExAttack type-20 update exact closure (Packet808)
 
 ExAttackUpdateCallbackType20 @ 0x0044ADE0 is now canonical exact across all
