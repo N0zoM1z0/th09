@@ -1,5 +1,45 @@
 # TH09 reconstruction handoff
 
+## RunEcl / ExAttack type-6 fresh frontier (Packet810)
+
+Fresh hash-attested live-worktree preflight supersedes the stale 876-exact
+roadmap count: the maintained tree currently has 980 source-present functions,
+913 canonical exact matches, and 67 source-present non-exact rows.
+EtamaController::OnUpdate @ 0x004146F0 is already canonical exact, so the
+remaining large-owner work should not reopen it without new contradictory
+evidence.
+
+A fresh cold ecl-pop-context replay keeps EclManager::RunEcl @ 0x004086C0
+structurally closed at the target 0x168 frame, 598 relocations and target
+table/physical extent. The normalized residual is eight blocks, confined to
+opcodes 4, 7, 86, 155, 156 and 157. The strongest new discriminator is opcode
+155: replacing the current timeout-spell bitfield assignment with the
+target-semantic explicit XOR/mask form changes the candidate from 14791 to
+14790 logical bytes but makes normalized opcode-156 and opcode-157 agree
+automatically. That trial also gets opcode 155's raw byte into ECX and restores
+the target six-byte and ecx, 0x01000000; it still fails because the old flags
+value is allocated in EAX instead of target ESI and the target mov eax, esi is
+absent. Natural value-width, shifted-value, reference, helper and shared-local
+forms collapse to one of these two code shapes. This is a real 155 -> 156/157
+register-allocation coupling; do not treat the three residual cases as
+independent leaf mismatches.
+
+ExAttackUpdateCallbackType6 @ 0x00446060 remains 698/698 with 214
+instructions, 30 relocations, 19 ordered calls and the exact direct CFG. The
+current player-local spelling has only seven ordinary byte differences. A fresh
+direct-receiver rebuild proves the complementary fact: the collision sequence
+itself then matches the target, including ECX for the opponent-side index, EAX
+for collisionSize, and EDX for the collision-success rotation, while the later
+motion/rotation and state-0 allocation regress to the older 43-byte residual.
+Conversely, the player local fixes that complete tail while recoloring only the
+collision sequence. Combined side/index/size/rotation local probes are neutral.
+The useful next search is therefore a natural lifetime that preserves
+direct-call coloring through collision and player-local coloring after it,
+rather than retesting isolated aliases.
+
+No RunEcl or type-6 exactness is claimed by this packet; all rejected source
+probes were restored before this checkpoint.
+
 ## ExAttack type-6 near-exact reduction (Packet809)
 
 ExAttackUpdateCallbackType6 @ 0x00446060 remains NON-EXACT, but its natural
