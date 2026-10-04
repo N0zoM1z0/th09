@@ -410,13 +410,14 @@ int TitleScreenView::OnUpdateMusicRoom()
                     musicTrack++;
                     vmIndex++;
                     rowY += 18;
-                } while (i - 159 < musicTrackCount);
+                } while (vmIndex < musicTrackCount);
             }
 
             SetRangeSelectionInterrupts(keyboardSelection, 159, musicTrackCount);
 
             for (i = 0; i < musicListingOffset; i++)
-                vms[159 + i].flags &= ~2u;
+                reinterpret_cast<AnmVmView *>(
+                    (159 + i) * sizeof(AnmVmView) + reinterpret_cast<u8 *>(vms))->flags &= ~2u;
 
             i = musicListingOffset;
             // Keep the bound distinct from the visible and hidden traversal cursors.
