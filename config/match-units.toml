@@ -9035,6 +9035,41 @@ relocations = [
   { offset = 0x140, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
 ]
 
+[units.enemy-manager-added-callback]
+source = "src/EnemyManagerLifecycle.cpp"
+object = "build/matching/EnemyManagerLifecycleAdded.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyManagerView::AddedCallback"]
+symbol = "?AddedCallback@EnemyManagerView@@SIHPAU1@@Z"
+target_address = 0x00411DB0
+size = 0x174
+relocations = [
+  { offset = 0x04, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x0F, type = "REL32", symbol = "?GetAnm@AnmManager@@QAEPAVAnmLoaded@@H@Z", target = 0x00401660 },
+  { offset = 0x1B, type = "DIR32", symbol = "?g_GameManager@@3PAEA", target = 0x004A7D90, addend = 0x000000F4 },
+  { offset = 0x38, type = "DIR32", symbol = "??_C@_09IOCMCPLL@enemy?4anm?$AA@", target = 0x0048E60C },
+  { offset = 0x41, type = "REL32", symbol = "?PreloadAnm@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z", target = 0x0043C7A0 },
+  { offset = 0x56, type = "DIR32", symbol = "??_C@_0M@PMAPJFOM@enemy13?4anm?$AA@", target = 0x0048E600 },
+  { offset = 0x5D, type = "DIR32", symbol = "??_C@_0L@POGIICBI@enemy1?4anm?$AA@", target = 0x0048E5F4 },
+  { offset = 0x78, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x7E, type = "REL32", symbol = "?GetAnm@AnmManager@@QAEPAVAnmLoaded@@H@Z", target = 0x00401660 },
+  { offset = 0x94, type = "DIR32", symbol = "??_C@_09BAINBKPO@enemy?4ecl?$AA@", target = 0x0048E5E8 },
+  { offset = 0x9B, type = "REL32", symbol = "?Load@EnemyEclManagerView@@QAEHPAD@Z", target = 0x00405660 },
+  { offset = 0xB2, type = "DIR32", symbol = "?g_EnemyCharacterResources@@3PAUEnemyLifecycleCharacterResources@@A", target = 0x004A1240 },
+  { offset = 0xBE, type = "REL32", symbol = "?Load@EnemyEclManagerView@@QAEHPAD@Z", target = 0x00405660 },
+  { offset = 0xD5, type = "REL32", symbol = "?GetSubroutineCount@EnemyEclManagerView@@QAEHXZ", target = 0x0040F160 },
+  { offset = 0xDB, type = "DIR32", symbol = "?g_Rng@@3UEnemyLifecycleRngView@@A", target = 0x004ACE0C },
+  { offset = 0xE0, type = "REL32", symbol = "?GetRandomU32InRange@EnemyLifecycleRngView@@QAEII@Z", target = 0x004048E0 },
+  { offset = 0xE7, type = "DIR32", symbol = "?g_Rng@@3UEnemyLifecycleRngView@@A", target = 0x004ACE0C },
+  { offset = 0xED, type = "DIR32", symbol = "?g_EnemySubroutineSchedule@@3PAEA", target = 0x004A7C88 },
+  { offset = 0xF2, type = "REL32", symbol = "?GetRandomU32InRange@EnemyLifecycleRngView@@QAEII@Z", target = 0x004048E0 },
+  { offset = 0xF8, type = "DIR32", symbol = "?g_EnemySubroutineSchedule@@3PAEA", target = 0x004A7C88 },
+  { offset = 0x103, type = "DIR32", symbol = "?g_EnemySubroutineSchedule@@3PAEA", target = 0x004A7C88 },
+  { offset = 0x122, type = "DIR32", symbol = "?g_EnemySubroutineSchedule@@3PAEA", target = 0x004A7C88 },
+  { offset = 0x135, type = "REL32", symbol = "?GetSubroutine@EnemyEclManagerView@@QAEPAXH@Z", target = 0x0040F170 },
+  { offset = 0x14B, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+]
+
 [units.enemy-manager-constructor]
 source = "src/EnemyManagerLifecycle.cpp"
 object = "build/matching/EnemyManagerLifecycleCtor.obj"

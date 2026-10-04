@@ -257,17 +257,26 @@ int __fastcall EnemyManagerView::AddedCallback(EnemyManagerView *enemyManager)
         {
             int currentStage = *reinterpret_cast<int *>(g_GameManager + 0xF4);
             if (currentStage == 0 || currentStage == 3 || currentStage == 7)
+            {
                 enemyManager->enemyAnm2AC420 =
                     manager->PreloadAnm(9, "enemy1.anm");
+                if (enemyManager->enemyAnm2AC420 == NULL)
+                    return -1;
+            }
             else if (currentStage == 12 || currentStage == 15)
+            {
                 enemyManager->enemyAnm2AC420 =
                     manager->PreloadAnm(9, "enemy13.anm");
+                if (enemyManager->enemyAnm2AC420 == NULL)
+                    return -1;
+            }
             else
+            {
                 enemyManager->enemyAnm2AC420 =
                     manager->PreloadAnm(9, "enemy.anm");
-
-            if (enemyManager->enemyAnm2AC420 == NULL)
-                return -1;
+                if (enemyManager->enemyAnm2AC420 == NULL)
+                    return -1;
+            }
         }
         else
         {

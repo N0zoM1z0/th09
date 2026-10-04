@@ -1,5 +1,21 @@
 # TH09 reconstruction handoff
 
+## EnemyManager AddedCallback exact closure (Packet807)
+
+EnemyManagerView::AddedCallback @ 0x00411DB0 is now canonical exact across
+all 372 authored bytes. The source keeps the three stage-specific PreloadAnm
+calls in their natural if/else branches and performs the identical NULL check
+immediately after each call. That branch-local spelling reproduces target block
+placement without padding, fake work, ABI changes, compiler pragmas or register
+forcing; the prior shared NULL check had the same 372-byte extent but only
+242/276 comparable ordinary bytes.
+
+The new enemy-manager-added-callback unit binds 24 independently reviewed
+DIR32/REL32 fields and replays 372/372 bytes. Same-TU EnemyManagerView::Create
+(328 bytes) and EnemyManagerView constructor (101 bytes) remain exact after
+the source change. Exact Create independently installs this callback at
+0x00411DB0. This supersedes the older non-exact AddedCallback handoff state.
+
 This is the live restart document. It contains current state and operating rules
 only. Historical investigation belongs in docs/KNOWLEDGE_BASE.md and Git
 history.
@@ -24,8 +40,8 @@ Final independent maintained source/cold/manifest review passed. Final-checkpoin
 Factory replays passed and were accepted at47976db for this owner and its Swap
 sibling. KeyConfig receipt9c5f1d516b7ace0a6eddcacfe89b7e417515339f49f26b3bfbcd962a964aee16;
 Swap receipt371b73dba53a5999b912c07d13d6835418d6661f02be90915c67e710ef6a03d7.
-Ledger is910 exact /204062 of275770 bytes (74.00%). RunEcl remains NONEXACT;
-its current2187-residual base is described below.
+Current ledger is 912 exact / 206692 of 275770 authored bytes (74.95%). RunEcl remains NONEXACT;
+its current full residual is 2161 bytes after the secondary-time opcode repair.
 
 ## FrontSide draw closure (2026-10-04)
 
@@ -194,8 +210,8 @@ proofs pass; all six prior same-TU exact siblings stay byte/full-record neutral
 and all seven full comparisons pass in the maintained carrier. Error behavior
 and inherited malformed-input assumptions remain unchanged.
 
-Current local ledger:910 exact /204062 of275770 authored bytes (74.00%).
-70 owners /71708 bytes remain nonexact;90% needs44131 more bytes.
+Current local ledger: 912 exact / 206692 of 275770 authored bytes (74.95%).
+68 owners / 69078 bytes remain nonexact; 90% needs 41501 more exact bytes.
 Packet804 final-checkpoint acceptance remains separately required.
 Packet802 has final-checkpoint PASS+ACCEPTED at2d0c507.
 Obtain final-snapshot accepted Factory replay before current accepted claims.
@@ -604,11 +620,11 @@ SHA-256:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 910 |
-| Source-present non-exact functions | 70 |
-| Source-present non-exact bytes | 71,708 |
+| Canonical exact functions | 912 |
+| Source-present non-exact functions | 68 |
+| Source-present non-exact bytes | 69,078 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 204,062 |
+| Canonical exact authored bytes | 206,692 |
 
 The source-presence frontier is closed. Exact reconstruction is not complete.
 The faithful Windows i386 product graph remains open. Semantic reconstruction
@@ -1722,57 +1738,15 @@ label names. Focused checks suffice between later source edits.
 
 ### Current MusicRoom update handoff
 
-`TitleScreenView::OnUpdateMusicRoom @ 0x00426E05` remains source-present/non-exact,
-with 2,254/2,258 bytes under pinned `/O1 /Ob1 /Oy- /Gr`. Packet 728's fresh
-complete target review fixes two actual old fidelity errors: both selection
-calls reach canonical `SetRangeSelectionInterrupts @ 0x0042510E`, not
-SetMenuSelectionSprites; the locked format at 0x0048F77C is `%5s ` followed
-by eight CP932 fullwidth question marks, not the old shortened `%5s `.
-Maintained ASCII escape literals compile to the exact 21-byte string including
-NUL. The helper sets range pending interrupts 8/7, not sprites.
-
-The target-backed list recovery keeps the song/script index absolute at
-159+ in EBX while a separate zero-based VM cursor advances by `0x2A4`.
-Maintained source now models that second induction explicitly, so VC7.1 emits
-the target `vms + cursor + 159*0x2A4` address family, adjusted unlock-table
-indexing, and the target stack-held track/Y cursors. An explicit flags-byte
-pointer restores the target `LEA flags` followed by `OR byte ptr [ptr+1],18h`.
-In both ready/init visibility refreshes, assigning `i = musicListingOffset`
-before computing the visible bound restores the target cursor/bound register
-roles.
-
-Explicit assignment then separate cursor/index advances recover all three
-parser-copy schedules. Pause uses the target physical Pause-first arms; the
-song loop has genuine script-index, descriptor and VM-index streams in its for
-header. Branch-local parser index remains unchanged. Shared parser index,
-shared visibility bound, using that bound as the hidden counter, shared VM
-index and a for-header unlocked pointer are byte/record-neutral controls;
-do not repeat these declaration/scope variants without new evidence.
-Packet 753 also rejects transplanting ordinary selection's signed hidden-byte
-cursor: starting from `i` changes the guard/CFG, while starting from
-`visibleEnd` is byte-different but does not recover either target ECX copy.
-Moving the real song VM-index increment ahead of the script increment instead
-moves the Y increment to a wrong schedule. Source and carrier are restored;
-these are non-crediting negative controls, not new exact bytes.
-
-Two independent cold objects and the canonical carrier reproduce every raw
-byte and every offset/type/symbol/addend record: 611 instructions, 74 fields
-(25 REL32 /49 DIR32), raw SHA256
-31af7d69f5acf79e25bdd9f6186932e62abef8bb8ac573197e7180b4b193d605.
-Reproduce with `python3 scripts/build-match-unit.py --unit title-screen-draw-music-room`
-then `python3 scripts/inspect-title-music-room.py build/matching/TitleScreenMusicRoom.obj`.
-This diagnostic binds all independently reviewed destinations, fails closed on
-unknown fields and decodes the full owner. All 25 calls agree in order;
-normalized alignment is 600/613, paired CFG conflicts and unpaired destinations
-are zero. Normalization is routing evidence, not exact acceptance.
-
-Remaining differences are the two final hidden-loop register copies/cursor
-roles, song-list initialization schedule, unlock-lookup SIB order and VM-index
-increment schedule. The four-byte net gap is not a four-byte exactness claim.
-`DrawMusicRoom` in the same TU still cold-replays 209/209 exact with all six
-fields; no match entry is added. Owned disposable probes are removed after
-durable recording. Coverage remains 894 exact /182191 bytes (66.09%), with
-85 nonexact functions. The >95% objective and all later phase gates stay open.
+TitleScreenView::OnUpdateMusicRoom at 0x00426E05 is canonical exact, superseding
+the older Packet728/753 partial state below this point in Git history. Commit
+217a45a closes the full 2258-byte owner under the tracked title-screen-music-room
+unit with all 74 reviewed relocations. The final source keeps the positive-count
+descriptor construction, uses the descriptor-row vmIndex as the guarded loop
+induction variable, and uses explicit 0x2A4 VM-stride traversal for the hidden
+prefix. DrawMusicRoom remains independently exact at 209/209. Treat any older
+handoff statement that MusicRoom is non-exact as superseded by the live ledger
+and canonical replay.
 
 ### Current EnemyManager draw handoff
 
@@ -1899,6 +1873,17 @@ Simple source declaration and condition inversions do not close the callback.
 an ESI=record / EDI=extra allocation where the target uses EDI=record /
 ESI=extra. See Packet 663 before repeating compiler-context probes. No
 source or exactness state changed.
+
+## EnemyManager AddedCallback exact checkpoint (Packet807)
+
+EnemyManagerView::AddedCallback at 0x00411DB0 is exact at 372/372 bytes with
+24 reviewed relocations under the canonical enemy-manager-added-callback match
+unit. The decisive source shape keeps the PreloadAnm failure test in each of
+the three stage branches; pinned VC7.1 then tail-merges the repeated
+call/failure paths into the target CFG. A single shared null check was
+same-sized but matched only 242/276 ordinary bytes. No register forcing,
+volatile steering, padding, assembly, fake return, or compiler-profile search
+is involved.
 
 ## Boundary and origin closure
 
