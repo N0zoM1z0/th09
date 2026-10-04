@@ -21,8 +21,11 @@ closed, beyond the legacy six-ordinary-byte diagnostic. Earlier TH08 shared-tail
 source and neutral pointer/type/body controls did not establish a prohibition
 on this TH09-specific source organization. Original spelling remains unproved.
 Final independent maintained source/cold/manifest review passed. Final-checkpoint
-Factory acceptance is separate. Local ledger is910 exact /204062 of275770 bytes (74.00%);
-accepted credit awaits that receipt. RunEcl remains NONEXACT at2248 residuals.
+Factory replays passed and were accepted at47976db for this owner and its Swap
+sibling. KeyConfig receipt9c5f1d516b7ace0a6eddcacfe89b7e417515339f49f26b3bfbcd962a964aee16;
+Swap receipt371b73dba53a5999b912c07d13d6835418d6661f02be90915c67e710ef6a03d7.
+Ledger is910 exact /204062 of275770 bytes (74.00%). RunEcl remains NONEXACT;
+its current2187-residual base is described below.
 
 ## FrontSide draw closure (2026-10-04)
 
@@ -116,33 +119,40 @@ not retained. Continue natural source experiments without forcing registers.
 
 ## Latest RunEcl partial checkpoint (2026-10-04)
 
-Packet803 preserves the reviewed direct time-field-reference receiver plus
-existing generic155 flag helper as the next faithful NONEXACT experimental base.
-Raw406f2f6f5fcb5085c33aad696bfc33fb65122f90d619495f41e4292d648a897d.
-Code14791 +1 compiler alignment +772 tables=15564 physical versus target14792
-code+772 tables. Full residuals2390 to2248:2046 ordinary and202 field bytes.
-This is NONMONOTONIC:183 new target-byte matches,41 lost among2142 changed bytes.
-Diagnostic4354 to4343 is separate; entry loses2,155 loses2,156 loses5,157 loses2.
-Actual codegap1 remains; padding never supplies missing authored instructions.
+Packet805 preserves the reviewed wire79 two-word interaction update and genuine
+case-local EnemyStateView references in155/156. The operand resolver completes
+before either flag snapshot. Explicit unsigned Boolean mapping preserves all27
+unrelated primary bits and31 secondary bits; primary and secondary remain two
+ordered real stores. Receiver references bind the existing view, without a
+state-value snapshot or a changed helper/packet-read boundary.
 
-The same int field reference is consumed immediately with the direct context
-receiver, with no intervening effect. Generic155 restores the actual existing
-unsigned helper, preserving all31 other bits and the input byte's low bit.
-Wire2's explicit value-before-context staging remains. The corresponding
-four-cell receiver/wire2 panel is documented in Packet803.18 exact siblings,
-598 owner fields,943 blocks/193 roots,375 direct calls and4 indirect operands,
-six literal payloads and62 emitted functions remain the bounded proof scope.
-Two maintained cold builds repeat all62 functions and strict598 rows. Final
-independent maintained binding/manifest review passed, including all18 exact
-siblings/274 fields and eight actual-position-proven private spelling refreshes.
-All18 exact-sibling Factory replays passed and were accepted at6f45b72;
-the ignored receipt bundle records the final snapshot321e7d556bbbb7509348bb0889c4ff0fa9736c8967d1e028dd0165ba943c5df4.
+Raw ec01ace4ca7a7e1fa829d6aa526527e8ab0d7114b03a1fedad4b020541c0f374.
+RunEcl remains NONEXACT:14791 code+1 alignment+772 tables=15564 physical,
+versus target14792 code+772 tables. Full differences fall2248 to2187
+(1985 ordinary+202 field bytes). Exactly80 bound bytes change:70 new target
+matches,9 lost and1 changed-but-still-unequal. Changes are confined to79/86;
+79 matches its complete118-byte interval, while86 loses five diagnostic
+instruction matches.4351/4387 is diagnostic only.157 has the same160-byte form
+as Packet803, still43/45 diagnostic. The one-byte code gap earns no padding or
+fractional exact credit; prior bases remain reproducible.
 
-The genuine specialized return-value flag merge is rejected as the next base:
-2398 residuals,33 gains/183 losses versus2248,code14790+2 alignment. It adds only
-an unused real16-byte helper and no runtime call. Its normalized4352 score does
-not outweigh the worsened complete comparison. Continue coherent source-family
-hypotheses; no padding, fake ABI, dummy retention or register constraints.
+Two isolated and two maintained cold builds repeat complete owner bytes and
+strict598 rows. All62 emitted functions reproduce;18 exact siblings/6156bytes/
+274fields remain target-exact and neutral.943 blocks/193 roots,375 direct
+identities and4 unchanged indirect operand forms are checked. Six complete
+literal dependencies total27bytes: five float32 values and the7-byte ECLInt
+string. Actual same-section positions determine every private binding; spelling
+changes do not authorize changed target destinations. Final-checkpoint accepted
+sibling receipts are separate from this local NONEXACT proof.
+
+The earlier two-word-only candidate closed79 but shortened157 and worsened the
+full residual to2305. The two genuine receiver references recover that context.
+Primary-read inlining, mutable raw-word updates, destination-mask capture and a
+named strip vertex count were neutral to that intermediate base; signed-short
+stride narrowed the raw load but did not recover its target ECX copy. Ordinary
+flag-update helper calls survived and were rejected; explicit inline expansion
+returned the same intermediate bytes. These remain bounded context observations,
+not claims of unique original declarations or a reason to forbid later trials.
 
 ## Latest ANM routing / verifier correction (2026-10-03)
 

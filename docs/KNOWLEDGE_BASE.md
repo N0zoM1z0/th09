@@ -5618,3 +5618,44 @@ respectively regressive, regressive and neutral. Pointer/time-field and returned
 float/function-scope wire7 role controls are neutral. Options duplicated exits
 and ordinary/forced inline genuine exit helpers retain target-absent calls or
 wrong CFG, so none was promoted. Complete negative reports remain isolated.
+
+
+## Packet 805 — Interaction words and case-local receiver references (2026-10-04)
+
+Wire79 now completes its operand resolution before taking the two existing flag
+words, secondary then primary. The five Boolean primary results replace bits
+6/2/3/4/25 under mask0x0200005C; the first three retain their inverted input
+polarity. Inputbit5 replaces secondarybit3 under0x08. Unsigned0/1 shifts preserve
+all32-bit input meanings and all27/31 untouched output bits. Both snapshots are
+real consumed values; two final stores remain ordered, with no intervening call
+or volatile operation. This raw-word source organization replaces six bitfield
+updates without introducing padding, ABI changes, dummy retention or fake calls.
+
+The intermediate form recovered79's complete118 target bytes but regressed86
+and shortened157, yielding2305 full differences. Binding the actual state view
+by case-local reference in155/156 restores157's canonical160-byte form while
+retaining79. The references perform no value read or copy and leave the existing
+flag helper, nested RawByte expression and156 drawGroup store unchanged.
+
+Final raw ec01ace4ca7a7e1fa829d6aa526527e8ab0d7114b03a1fedad4b020541c0f374:
+14791code+1 alignment+772tables,2187 differences(1985ordinary/202field).
+Compared with Packet803, only80 bound bytes differ, confined to79/86:70 newly
+match,9 lose equality and1 remains unequal.86 falls28 to23 diagnostic matches;
+4351/4387 overall and79's local agreement provide no fractional exact credit.
+The unchanged one-byte code gap is not repaired by table alignment.
+
+Two isolated and two maintained cold builds reproduce full owner bytes/598rows
+and all62 emitted functions. Independent review verifies195 actual owner-local
+fields and403 other bindings,943blocks/193roots,375 direct-call identities and
+4 unchanged indirect operand forms. All18 exact siblings/6156bytes/274fields
+remain neutral. Six whole literal sections/27bytes match target: five float32
+values and the7-byte ECLInt string. The initial five-literal diagnostic filtered
+only numeric symbols; it was corrected before checkpoint. Compiler-private
+spelling changes are accepted only when actual same-section offsets derive the
+unchanged manifest target. Whole-owner status remains NONEXACT.
+
+Packet804 separately received final-checkpoint PASS+ACCEPTED at47976db for
+KeyConfig and Swap. The accepted KeyConfig receipt is
+9c5f1d516b7ace0a6eddcacfe89b7e417515339f49f26b3bfbcd962a964aee16;
+Swap is371b73dba53a5999b912c07d13d6835418d6661f02be90915c67e710ef6a03d7.
+Authored coverage remains910 exact /204062 of275770 bytes (74.00%).

@@ -610,21 +610,29 @@ __forceinline void AssignFlagField(
         break;
 
     case TH09_ECL_OPCODE_SET_TIMEOUT_SPELL:
+    {
+        Th09EclRunState::EnemyStateView &state =
+            *Th09EclRunState::View(enemy);
         Th09EclRunState::AssignFlagField(
-            Th09EclRunState::View(enemy)->primaryFlags337C,
+            state.primaryFlags337C,
             Th09EclRunState::ENEMY_STATE_TIMEOUT_SPELL,
             static_cast<unsigned int>(
                 Th09EclRunState::RawByte(instruction, 0)) << 24);
         break;
+    }
 
     case TH09_ECL_OPCODE_SET_SPECIAL_INTERACTION:
+    {
+        Th09EclRunState::EnemyStateView &state =
+            *Th09EclRunState::View(enemy);
         Th09EclRunState::AssignFlagField(
-            Th09EclRunState::View(enemy)->primaryFlags337C,
+            state.primaryFlags337C,
             Th09EclRunState::ENEMY_STATE_SPECIAL_INTERACTION,
             static_cast<unsigned int>(
                 Th09EclRunState::RawByte(instruction, 0)) << 7);
-        Th09EclRunState::View(enemy)->drawGroup3387 = 2;
+        state.drawGroup3387 = 2;
         break;
+    }
 
     case TH09_ECL_OPCODE_SET_TRAIL:
     {

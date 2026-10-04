@@ -563,25 +563,36 @@ void ClampPosition(EnemyView *enemy);
 
     case TH09_ECL_OPCODE_SET_INTERACTION_FLAGS:
     {
-        Th09EclRunMovement::EnemyPrimaryFlagBits *primaryFlags =
-            TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy);
-        Th09EclRunMovement::EnemySecondaryFlagBits *secondaryFlags =
-            TH09_EXPR_MOVEMENT_SECONDARY_FLAG_BITS(enemy);
+        // Take both word snapshots after operand resolution, which may update
+        // enemy state. The masks preserve every unrelated bit; the first three
+        // interaction inputs have the original inverted polarity.
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        primaryFlags->acceptsDamage06 =
-            (movementInt & Th09EclRunMovement::ECL_INTERACTION_ACCEPTS_DAMAGE)
-                == 0;
-        primaryFlags->collision02 =
-            (movementInt & Th09EclRunMovement::ECL_INTERACTION_COLLISION) == 0;
-        primaryFlags->damageable03 =
-            (movementInt & Th09EclRunMovement::ECL_INTERACTION_DAMAGEABLE) == 0;
-        primaryFlags->noSprite04 =
-            (movementInt & Th09EclRunMovement::ECL_INTERACTION_NO_SPRITE) != 0;
-        primaryFlags->allowOffscreen25 =
-            (movementInt & Th09EclRunMovement::ECL_INTERACTION_ALLOW_OFFSCREEN)
-                != 0;
-        secondaryFlags->noDeath03 =
-            (movementInt & Th09EclRunMovement::ECL_INTERACTION_NO_DEATH) != 0;
+        const unsigned int previousSecondary =
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->secondaryFlags3380;
+        const unsigned int previousPrimary =
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C;
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C =
+            (previousPrimary & ~0x0200005CU) |
+            (static_cast<unsigned int>(
+                (movementInt & Th09EclRunMovement::ECL_INTERACTION_ACCEPTS_DAMAGE)
+                    == 0) << 6) |
+            (static_cast<unsigned int>(
+                (movementInt & Th09EclRunMovement::ECL_INTERACTION_COLLISION)
+                    == 0) << 2) |
+            (static_cast<unsigned int>(
+                (movementInt & Th09EclRunMovement::ECL_INTERACTION_DAMAGEABLE)
+                    == 0) << 3) |
+            (static_cast<unsigned int>(
+                (movementInt & Th09EclRunMovement::ECL_INTERACTION_NO_SPRITE)
+                    != 0) << 4) |
+            (static_cast<unsigned int>(
+                (movementInt & Th09EclRunMovement::ECL_INTERACTION_ALLOW_OFFSCREEN)
+                    != 0) << 25);
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->secondaryFlags3380 =
+            (previousSecondary & ~0x08U) |
+            (static_cast<unsigned int>(
+                (movementInt & Th09EclRunMovement::ECL_INTERACTION_NO_DEATH)
+                    != 0) << 3);
         break;
     }
 
