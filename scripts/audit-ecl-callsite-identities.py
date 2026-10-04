@@ -193,12 +193,34 @@ def audit(object_path):
     rows = validate_relocation_fields(raw, rows)
     table_offset = len(raw) - 193 * 4
     require(table_offset == 14792 and len(rows) == 598, 'unreviewed input shape or incomplete coverage')
-    # The current maintained carrier owns one compiler alignment NOP immediately
-    # before the two tables.  It is physical owner data, not a RunEcl CFG node.
-    logical = table_offset
-    if raw[logical - 1:logical] == b'\x90':
-        logical -= 1
-    require(logical in (14791, 14792), 'unreviewed RunEcl code/alignment split')
+    # The compiler may place one or more alignment-NOP instructions between the
+    # final return and the two switch tables.  Treat only a fully decoded,
+    # side-effect-free trailing NOP sequence as alignment; do not infer a code
+    # length from the table offset itself.
+    probe_md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
+    probe_md.detail = True
+    probe_ins = list(probe_md.disasm(raw[:table_offset], BASE))
+    require(sum((i.size for i in probe_ins)) == table_offset,
+            'unreviewed RunEcl code/alignment split')
+    final_ret = max((n for n, i in enumerate(probe_ins) if i.mnemonic == 'ret'),
+                    default=-1)
+    require(final_ret >= 0, 'unreviewed RunEcl code/alignment split')
+    trailing = probe_ins[final_ret + 1:]
+    for i in trailing:
+        is_plain_nop = i.mnemonic == 'nop'
+        is_self_lea = (
+            i.mnemonic == 'lea' and len(i.operands) == 2
+            and i.operands[0].type == capstone.x86.X86_OP_REG
+            and i.operands[1].type == capstone.x86.X86_OP_MEM
+            and i.operands[1].mem.base == i.operands[0].reg
+            and i.operands[1].mem.index == 0
+            and i.operands[1].mem.disp == 0
+        )
+        require(is_plain_nop or is_self_lea,
+                'unreviewed RunEcl code/alignment split')
+    logical = probe_ins[final_ret].address + probe_ins[final_ret].size - BASE
+    require(14784 <= logical <= 14792,
+            'unreviewed RunEcl code/alignment split')
     by_offset = {r['offset']: r for r in rows}
     require(len(by_offset) == len(rows), 'unreviewed input shape or incomplete coverage')
     expected_table_offsets = set(range(table_offset, len(raw), 4))
