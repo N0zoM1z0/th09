@@ -5659,3 +5659,15 @@ KeyConfig and Swap. The accepted KeyConfig receipt is
 9c5f1d516b7ace0a6eddcacfe89b7e417515339f49f26b3bfbcd962a964aee16;
 Swap is371b73dba53a5999b912c07d13d6835418d6661f02be90915c67e710ef6a03d7.
 Authored coverage remains910 exact /204062 of275770 bytes (74.00%).
+
+## Packet806: RunEcl secondary-time opcode
+
+TH09 local target/codegen evidence supports a simpler source than the earlier
+hand-expanded opcode2 reconstruction. Writing the resolved value directly to
+the active context secondary timer and falling through the shared switch
+advance makes pinned VC7.1 reproduce all 83 bytes of the target opcode2 region
+after its three reviewed REL32 identities are solved. The full RunEcl owner is
+still NONEXACT (14791 logical code bytes versus 14792 target; 15564 physical
+bytes with alignment/tables), so this is a bounded exact interval, not a
+whole-function claim. Raw owner SHA256 is
+93206b3996d97e62d6470b795e32c9cfdc9228a9bc8806efed073688b7420eef.

@@ -117,6 +117,23 @@ vmIndex at each unlock lookup. Prefix stream increments are neutral. Explicit
 row-Y cursor forms move scheduling differences rather than close them and are
 not retained. Continue natural source experiments without forcing registers.
 
+## RunEcl opcode2 exact interval checkpoint (Packet806)
+
+Packet806 removes the hand-expanded SET_SECONDARY_TIME branches and restores
+the natural shared-advance source shape: assign ReadInt(enemy, instruction, 0)
+directly to context->secondaryTime094, then break.
+
+Pinned VC7.1 emits the target register schedule in both resolved and raw arms.
+After solving the three independently bound REL32 fields, the complete opcode2
+interval at 0x004088B2 is 83/83 bytes exact. Two cold builds agree on RunEcl raw
+93206b3996d97e62d6470b795e32c9cfdc9228a9bc8806efed073688b7420eef.
+The whole owner remains NONEXACT at 14791 code bytes plus one alignment byte and
+772 table bytes = 15564 physical bytes. The complete audit still has 4387/4387
+instructions, 943/943 blocks, 193 switch roots, 375 direct and four indirect
+calls, and 598/598 relocation identities. Nine same-TU exact ECL siblings were
+replayed after the change and remain exact. This closes a bounded interval only;
+it does not add whole-function exact coverage.
+
 ## Latest RunEcl partial checkpoint (2026-10-04)
 
 Packet805 preserves the reviewed wire79 two-word interaction update and genuine
