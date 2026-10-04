@@ -191,16 +191,22 @@ def audit(object_path):
     # The two compiler tables follow the complete logical instruction stream.
     # Every relocation must own one distinct, recognized four-byte field.
     rows = validate_relocation_fields(raw, rows)
-    logical = len(raw) - 193 * 4
-    require(logical == 14788 and len(rows) == 598, 'unreviewed input shape or incomplete coverage')
+    table_offset = len(raw) - 193 * 4
+    require(table_offset == 14792 and len(rows) == 598, 'unreviewed input shape or incomplete coverage')
+    # The current maintained carrier owns one compiler alignment NOP immediately
+    # before the two tables.  It is physical owner data, not a RunEcl CFG node.
+    logical = table_offset
+    if raw[logical - 1:logical] == b'\x90':
+        logical -= 1
+    require(logical in (14791, 14792), 'unreviewed RunEcl code/alignment split')
     by_offset = {r['offset']: r for r in rows}
     require(len(by_offset) == len(rows), 'unreviewed input shape or incomplete coverage')
-    expected_table_offsets = set(range(logical, len(raw), 4))
-    actual_table_offsets = {row['offset'] for row in rows if row['offset'] >= logical}
+    expected_table_offsets = set(range(table_offset, len(raw), 4))
+    actual_table_offsets = {row['offset'] for row in rows if row['offset'] >= table_offset}
     require(actual_table_offsets == expected_table_offsets, 'incomplete or excess table fields')
     ctables = {}
     ttables = {}
-    for key, start, count, taddr in [('easing', logical, 6, 0x40c088), ('opcode', logical + 24, 187, 0x40c0a0)]:
+    for key, start, count, taddr in [('easing', table_offset, 6, 0x40c088), ('opcode', table_offset + 24, 187, 0x40c0a0)]:
         entries = []
         for off in range(start, start + count * 4, 4):
             r = by_offset[off]
