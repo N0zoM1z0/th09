@@ -376,33 +376,41 @@ int TitleScreenView::OnUpdateMusicRoom()
             free(musicCmtFile);
             musicTrackCount = trackIndex + 1;
 
-            MusicRoomTrackDescriptor *musicTrack;
-            i32 vmIndex;
-            for (i = 159, musicTrack = musicTracks, vmIndex = 0;
-                 i - 159 < musicTrackCount; i++, musicTrack++, vmIndex++)
+            if (musicTrackCount > 0)
             {
-                musicAnm->SetAndExecuteScriptIdx(&vms[159 + vmIndex], i);
-                // vmIndex is the descriptor row; i is the 159-based script id.
-                if (g_TitleBgmUnlocked[vmIndex])
+                i = 159;
+                MusicRoomTrackDescriptor *musicTrack = musicTracks;
+                i32 vmIndex = 0;
+                i32 rowY = 18;
+                do
                 {
-                    DrawTitleMusicText(g_TitleAnmManager, &vms[159 + vmIndex], 0xD0E0FF, 0x302080,
-                                       musicTrack->title);
-                }
-                else
-                {
-                    char shortTitle[6];
-                    memcpy(shortTitle, musicTrack->title, 5);
-                    shortTitle[5] = '\0';
-                    DrawTitleMusicText(g_TitleAnmManager, &vms[159 + vmIndex], 0x80A0A0, 0x100040,
-                                       "%5s \x81\x48\x81\x48\x81\x48\x81\x48"
-                                       "\x81\x48\x81\x48\x81\x48\x81\x48", shortTitle);
-                }
+                    musicAnm->SetAndExecuteScriptIdx(&vms[159 + vmIndex], i);
+                    // vmIndex is the descriptor row; i is the 159-based script id.
+                    if (g_TitleBgmUnlocked[vmIndex])
+                    {
+                        DrawTitleMusicText(g_TitleAnmManager, &vms[159 + vmIndex], 0xD0E0FF, 0x302080,
+                                           musicTrack->title);
+                    }
+                    else
+                    {
+                        char shortTitle[6];
+                        memcpy(shortTitle, musicTrack->title, 5);
+                        shortTitle[5] = '\0';
+                        DrawTitleMusicText(g_TitleAnmManager, &vms[159 + vmIndex], 0x80A0A0, 0x100040,
+                                           "%5s \x81\x48\x81\x48\x81\x48\x81\x48"
+                                           "\x81\x48\x81\x48\x81\x48\x81\x48", shortTitle);
+                    }
 
-                vms[159 + vmIndex].posX = 93.0f;
-                vms[159 + vmIndex].posY = (float)((i - 159 + 1) * 18) + 104.0f - 20.0f;
-                vms[159 + vmIndex].posZ = 0.0f;
-                u8 *flagsBytes = (u8 *)&vms[159 + vmIndex].flags;
-                flagsBytes[1] |= 0x18;
+                    vms[159 + vmIndex].posX = 93.0f;
+                    vms[159 + vmIndex].posY = (float)rowY + 104.0f - 20.0f;
+                    vms[159 + vmIndex].posZ = 0.0f;
+                    u8 *flagsBytes = (u8 *)&vms[159 + vmIndex].flags;
+                    flagsBytes[1] |= 0x18;
+                    i++;
+                    musicTrack++;
+                    vmIndex++;
+                    rowY += 18;
+                } while (i - 159 < musicTrackCount);
             }
 
             SetRangeSelectionInterrupts(keyboardSelection, 159, musicTrackCount);
