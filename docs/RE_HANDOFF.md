@@ -219,11 +219,13 @@ git diff --check
 git status --short --branch
 ~~~
 
-Run focused canonical replays for every affected exact unit. Exactness credit is
-accepted only by the target-bound replay/acceptance path; a local commit is a
+Run focused canonical replays only for changed functions. Reuse hash-matched
+unchanged-function evidence instead of replaying the whole historical cohort or
+repeating cold builds after every edit (operator instruction, 2026-10-05).
+Exactness credit is accepted only by the target-bound replay/acceptance path; a local commit is a
 checkpoint, not proof.
 
-Use commit messages of the form `gpt-web: ...`. Do not push.
+Use commit messages of the form `gpt-dots: ...`. Do not push.
 
 ## Documentation hygiene
 

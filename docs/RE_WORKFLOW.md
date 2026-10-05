@@ -33,9 +33,21 @@ disk target, IDA target, ledgers, and live status using the commands in
 7. Add a canonical match unit and exact ledger row only after repeatable zero
    difference against the verified TH09 target. Similar adjacent-game source,
    even when it compiles plausibly, never substitutes for this comparison.
-8. Replay affected accepted units, regenerate progress, update the handoff and
+8. Replay changed functions only, regenerate progress, update the handoff and
    per-game knowledge, inspect the final diff, and commit one coherent local
-   checkpoint.
+   checkpoint. Reuse hash-matched evidence for unchanged functions; do not run
+   the whole historical cohort or repeat cold builds after every edit. Each new
+   exact owner still needs complete byte/relocation/source proof and a current
+   accepted Factory receipt. This scope follows the operator's 2026-10-05
+   instruction and supersedes older broad replay wording.
+
+### Public CI
+
+`python3 scripts/ci.py` runs target-independent tests with Python `-S`, so a
+prepared local machine cannot hide undeclared third-party import dependencies.
+Optional decoders belong inside private diagnostic entrypoints. This local gate
+uses the same command as GitHub Actions; a local pass does not prove a remote
+workflow run, and local checkpoints are not pushed.
 
 ### Current-state documentation hygiene
 

@@ -2,6 +2,8 @@
 
 import importlib.util
 from pathlib import Path
+import subprocess
+import sys
 import unittest
 
 
@@ -27,6 +29,14 @@ def private_row(label="$L9999", *, offset=0x0D0, value=0x894, section=7):
 
 
 class PrivateLabelTests(unittest.TestCase):
+    def test_help_requires_no_optional_decoder(self):
+        result = subprocess.run(
+            [sys.executable, "-S", str(ROOT / "scripts/inspect-etama-update.py"), "--help"],
+            capture_output=True, text=True, check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("usage:", result.stdout)
+
     def test_renamed_label_at_reviewed_offset(self):
         self.assertEqual(
             INSPECT.relocation_destination(private_row()),

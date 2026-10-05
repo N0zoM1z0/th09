@@ -8,8 +8,6 @@ import json
 from pathlib import Path
 import struct
 
-import capstone
-
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 0x4146F0
@@ -100,6 +98,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('object', type=Path)
     args = parser.parse_args()
+    # Pure relocation guards and --help must work in dependency-free public CI.
+    import capstone
+
     spec = importlib.util.spec_from_file_location(
         'coff', ROOT / 'scripts/compare-coff-function.py')
     coff = importlib.util.module_from_spec(spec)

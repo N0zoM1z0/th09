@@ -41,8 +41,8 @@ def main() -> int:
         validate_public_tree()
         run("Compile workflow Python", [sys.executable, "-m", "py_compile", *tracked("scripts/*.py")])
         run(
-            "Run target-independent tests",
-            [sys.executable, "-m", "unittest", "discover", "-s", "tests"],
+            "Run target-independent tests without site packages",
+            [sys.executable, "-S", "-m", "unittest", "discover", "-s", "tests"],
         )
         run("Validate ledgers", [sys.executable, "scripts/validate-tracking.py"])
         run("Validate documentation", [sys.executable, "scripts/validate-docs.py"])

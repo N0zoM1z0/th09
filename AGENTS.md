@@ -97,7 +97,7 @@ analysis database is working state; mirror durable conclusions into the repo.
 ## Checkpoints and artifacts
 
 - Use concise, coherent local commits. For the current operator-requested
-  checkpoints, use `gpt-web: ...`. Do not push.
+  checkpoints, use `gpt-dots: ...`. Do not push.
 - Keep decompiler dumps, logs, experiments, screenshots, and generated reports
   below `.analysis/`; keep builds below `build/` and downloaded tools below
   `.tools/`.
