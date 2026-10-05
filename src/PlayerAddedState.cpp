@@ -192,13 +192,11 @@ void PlayerLifecycleView::InitializeAddedState()
     position[1] = g_PlayerAddedStartY - 64.0f;
     position[2] = 0.49f;
 
-    PlayerAddedCollisionRegionView **activeSlot = player->activeRegionsB100;
-    PlayerAddedCollisionRegionView *region = player->collisionRegions28BC;
-    for (i = 0; i < 512; ++i, ++activeSlot, ++region)
+    for (i = 0; i < 512; ++i)
     {
-        region->Reset();
-        activeSlot[514] = region;
-        *activeSlot = NULL;
+        player->collisionRegions28BC[i].Reset();
+        player->releasedRegionsB908[i] = &player->collisionRegions28BC[i];
+        player->activeRegionsB100[i] = NULL;
     }
     player->activeRegionCountC110 = 0;
     player->releasedRegionCountC114 = 512;
