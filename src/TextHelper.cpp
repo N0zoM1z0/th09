@@ -153,3 +153,7 @@ void TextHelper::ReleaseTextBuffer()
         g_TextBufferSurface = NULL;
     }
 }
+
+// Keep the renderer bodies with the real helper/destructor definitions.
+// Alpha conversion and surface copying retain their independent carriers.
+#include "TextHelperRender.inl"

@@ -14,7 +14,6 @@ void TextHelper::RenderTextToTextureBold(
     const char *text, IDirect3DTexture8 *outTexture)
 {
     HGDIOBJ previousFont;
-    IDirect3DSurface8 *destSurface;
     RECT destRect;
     RECT srcRect;
     D3DSURFACE_DESC textSurfaceDesc;
@@ -73,11 +72,14 @@ void TextHelper::RenderTextToTextureBold(
     if (srcRect.right > 1024)
         srcRect.right = 1024;
 
-    outTexture->GetSurfaceLevel(0, &destSurface);
-    D3DXLoadSurfaceFromSurface(
-        destSurface, NULL, &destRect, g_TextBufferSurface, NULL, &srcRect, 4, 0);
-    if (destSurface != NULL)
-        destSurface->Release();
+    {
+        IDirect3DSurface8 *destSurface;
+        outTexture->GetSurfaceLevel(0, &destSurface);
+        D3DXLoadSurfaceFromSurface(
+            destSurface, NULL, &destRect, g_TextBufferSurface, NULL, &srcRect, 4, 0);
+        if (destSurface != NULL)
+            destSurface->Release();
+    }
 }
 
 void TextHelper::RenderTextToTexture(
@@ -86,7 +88,6 @@ void TextHelper::RenderTextToTexture(
     const char *text, IDirect3DTexture8 *outTexture)
 {
     HGDIOBJ previousFont;
-    IDirect3DSurface8 *destSurface;
     RECT destRect;
     RECT srcRect;
     D3DSURFACE_DESC textSurfaceDesc;
@@ -146,9 +147,12 @@ void TextHelper::RenderTextToTexture(
     if (srcRect.right > 1024)
         srcRect.right = 1024;
 
-    outTexture->GetSurfaceLevel(0, &destSurface);
-    D3DXLoadSurfaceFromSurface(
-        destSurface, NULL, &destRect, g_TextBufferSurface, NULL, &srcRect, 4, 0);
-    if (destSurface != NULL)
-        destSurface->Release();
+    {
+        IDirect3DSurface8 *destSurface;
+        outTexture->GetSurfaceLevel(0, &destSurface);
+        D3DXLoadSurfaceFromSurface(
+            destSurface, NULL, &destRect, g_TextBufferSurface, NULL, &srcRect, 4, 0);
+        if (destSurface != NULL)
+            destSurface->Release();
+    }
 }

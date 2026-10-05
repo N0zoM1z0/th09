@@ -22,11 +22,11 @@ Fresh `python3 scripts/report-reconstruction-status.py` at this checkpoint:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 913 |
-| Source-present non-exact functions | 67 |
-| Source-present non-exact bytes | 68,673 |
+| Canonical exact functions | 915 |
+| Source-present non-exact functions | 65 |
+| Source-present non-exact bytes | 67,179 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 207,097 |
+| Canonical exact authored bytes | 208,591 |
 
 All 980 confirmed authored functions have maintained source. Faithful whole
 Windows i386 product closure remains open; semantic reconstruction and
@@ -43,6 +43,8 @@ not be reopened merely because an older packet or roadmap says they are pending:
 - `TitleScreenView::OnUpdateMusicRoom @ 0x00426E05` — 2,258 bytes.
 - `EnemyManagerView::AddedCallback @ 0x00411DB0` — 372 bytes.
 - `ExAttackUpdateCallbackType20 @ 0x0044ADE0` — 405 bytes.
+- `TextHelper::RenderTextToTextureBold @ 0x004364C0` — 751 bytes.
+- `TextHelper::RenderTextToTexture @ 0x004367B0` — 743 bytes.
 
 Their current exactness comes from `config/matches.csv` plus their configured
 match units, not from historical prose.
