@@ -21455,3 +21455,321 @@ relocations = [
   { offset = 0x2EE, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560, addend = 0x00000000 },
   { offset = 0x312, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500, addend = 0x00000000 },
 ]
+
+[units.exattack-type14-22-update]
+source = "src/ExAttackUpdateType14Type22.cpp"
+object = "build/matching/ExAttackUpdateType14Type22.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ExAttackUpdateCallbackType14_22"]
+symbol = "?ExAttackUpdateCallbackType14_22@@YIHPAUExAttackRecord@@@Z"
+target_address = 0x00443DF0
+size = 805
+compare_size = 824
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x1e
+type = "REL32"
+symbol = "??0Float3@@QAE@MMM@Z"
+target = 0x4010b0
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x30
+type = "DIR32"
+symbol = "$L1892"
+target = 0x444118
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x43
+type = "REL32"
+symbol = "??BZunTimer@@QAEMXZ"
+target = 0x4014f0
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x5d
+type = "REL32"
+symbol = "?ExAttackInterpolate2D@@YIXPAM0000MM@Z"
+target = 0x42af80
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x67
+type = "REL32"
+symbol = "??OZunTimer@@QAEIH@Z"
+target = 0x403de0
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x7a
+type = "DIR32"
+symbol = "?g_GameManager@@3UExAttackType1422GameManagerView@@A"
+target = 0x4a7d90
+addend = 4
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x88
+type = "REL32"
+symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z"
+target = 0x401560
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0xac
+type = "REL32"
+symbol = "??4ZunTimer@@QAEXH@Z"
+target = 0x401500
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0xc9
+type = "DIR32"
+symbol = "?g_GameManager@@3UExAttackType1422GameManagerView@@A"
+target = 0x4a7d90
+addend = 4
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0xd4
+type = "REL32"
+symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z"
+target = 0x401140
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0xf0
+type = "REL32"
+symbol = "??YFloat3@@QAEAAU0@ABU0@@Z"
+target = 0x405730
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0xfc
+type = "DIR32"
+symbol = "?g_GameManager@@3UExAttackType1422GameManagerView@@A"
+target = 0x4a7d90
+addend = 4
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x108
+type = "REL32"
+symbol = "?CheckBulletCollision@ExAttackType1422PlayerView@@QAEHPAUPlayerPositionView@@0PAUBullet@@@Z"
+target = 0x41dff0
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x11a
+type = "DIR32"
+symbol = "__real@43f00000"
+target = 0x4915a8
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x139
+type = "DIR32"
+symbol = "__real@46100000"
+target = 0x491610
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x15f
+type = "DIR32"
+symbol = "?g_SoundPlayer@@3UExAttackType1422SoundPlayerView@@A"
+target = 0x4dc698
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x164
+type = "REL32"
+symbol = "?PlaySoundByIdx@ExAttackType1422SoundPlayerView@@QAEXHH@Z"
+target = 0x43e2f0
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x194
+type = "REL32"
+symbol = "??4ZunTimer@@QAEXH@Z"
+target = 0x401500
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x1a7
+type = "REL32"
+symbol = "??BZunTimer@@QAEMXZ"
+target = 0x4014f0
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x1ad
+type = "DIR32"
+symbol = "__real@3caaaaab"
+target = 0x49160c
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x1b7
+type = "DIR32"
+symbol = "__real@3f800000"
+target = 0x48e2a4
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x1c1
+type = "DIR32"
+symbol = "__real@3f800000"
+target = 0x48e2a4
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x1c7
+type = "DIR32"
+symbol = "__real@42800000"
+target = 0x48e4a8
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x1d1
+type = "REL32"
+symbol = "??OZunTimer@@QAEIH@Z"
+target = 0x403de0
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x1eb
+type = "DIR32"
+symbol = "?g_GameManager@@3UExAttackType1422GameManagerView@@A"
+target = 0x4a7d90
+addend = 4
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x1f4
+type = "REL32"
+symbol = "?CheckBulletCollision@ExAttackType1422PlayerView@@QAEHPAUPlayerPositionView@@0PAUBullet@@@Z"
+target = 0x41dff0
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x204
+type = "REL32"
+symbol = "??4ZunTimer@@QAEXH@Z"
+target = 0x401500
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x210
+type = "DIR32"
+symbol = "__real@3f4ccccd"
+target = 0x48e4ac
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x223
+type = "DIR32"
+symbol = "?g_GameManager@@3UExAttackType1422GameManagerView@@A"
+target = 0x4a7d90
+addend = 4
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x22e
+type = "REL32"
+symbol = "?AppendCircleRecord@ExAttackType1422CircleAppendView@@QAEXPBUPlayerPositionView@@MH@Z"
+target = 0x440d30
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x237
+type = "REL32"
+symbol = "??PZunTimer@@QAEIH@Z"
+target = 0x401520
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x24a
+type = "REL32"
+symbol = "??4ZunTimer@@QAEXH@Z"
+target = 0x401500
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x295
+type = "DIR32"
+symbol = "__real@40490fdb"
+target = 0x48e2c4
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x2a5
+type = "DIR32"
+symbol = "__real@40c90fdb"
+target = 0x48e4c4
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x2b6
+type = "REL32"
+symbol = "??BZunTimer@@QAEMXZ"
+target = 0x4014f0
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x2bc
+type = "DIR32"
+symbol = "?g_ReplayRng@@3URngRuntimeView@@A"
+target = 0x4ace0c
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x2c4
+type = "REL32"
+symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z"
+target = 0x406200
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x2d3
+type = "DIR32"
+symbol = "__real@3e4f8c3d"
+target = 0x491608
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x2e7
+type = "DIR32"
+symbol = "__real@3d4f8c3d"
+target = 0x491604
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x30d
+type = "REL32"
+symbol = "??PZunTimer@@QAEIH@Z"
+target = 0x401520
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x328
+type = "DIR32"
+symbol = "$L1812"
+target = 0x443e24
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x32c
+type = "DIR32"
+symbol = "$L1815"
+target = 0x443ea9
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x330
+type = "DIR32"
+symbol = "$L1827"
+target = 0x443f91
+addend = 0
+
+[[units.exattack-type14-22-update.relocations]]
+offset = 0x334
+type = "DIR32"
+symbol = "$L1837"
+target = 0x444047
+addend = 0

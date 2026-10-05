@@ -144,7 +144,7 @@ int __fastcall ExAttackUpdateCallbackType14_22(ExAttackRecord *base)
             record->unknown00 = record->opponentSide04;
             record->timer10 = 0;
         }
-        return 0;
+        break;
 
     case 1:
     {
@@ -165,23 +165,23 @@ int __fastcall ExAttackUpdateCallbackType14_22(ExAttackRecord *base)
             return 1;
         }
 
-        if (delta.x * delta.x + delta.y * delta.y >= 9216.0f)
-            return 0;
+        if (delta.x * delta.x + delta.y * delta.y < 9216.0f)
+        {
+            g_SoundPlayer.PlaySoundByIdx(
+                16,
+                record->opponentSide04 != 0 ? 500 : -500);
 
-        g_SoundPlayer.PlaySoundByIdx(
-            16,
-            record->opponentSide04 != 0 ? 500 : -500);
-
-        ExAttackType1422VmView *vm =
             reinterpret_cast<ExAttackType1422VmView *>(
-                record->dynamicData1C);
-        vm->flags1F8 &= ~1u;
-        vm->field220 = 0;
-        vm->field1F0 = -1;
+                record->dynamicData1C)->flags1F8 &= ~1u;
+            reinterpret_cast<ExAttackType1422VmView *>(
+                record->dynamicData1C)->field220 = 0;
+            reinterpret_cast<ExAttackType1422VmView *>(
+                record->dynamicData1C)->field1F0 = -1;
 
-        ++extra->state00;
-        record->timer10 = 0;
-        return 0;
+            ++extra->state00;
+            record->timer10 = 0;
+        }
+        break;
     }
 
     case 2:
@@ -210,14 +210,13 @@ int __fastcall ExAttackUpdateCallbackType14_22(ExAttackRecord *base)
                         extra->value50 * 0.80000001f,
                         0);
             }
+            if (record->timer10 >= 30)
+            {
+                ++extra->state00;
+                record->timer10 = 0;
+            }
         }
-
-        if (record->timer10 >= 30)
-        {
-            ++extra->state00;
-            record->timer10 = 0;
-        }
-        return 0;
+        break;
     }
 
     case 3:
@@ -242,10 +241,12 @@ int __fastcall ExAttackUpdateCallbackType14_22(ExAttackRecord *base)
 
         if (record->timer10 >= 30)
             return 1;
-        return 0;
+        break;
     }
 
     default:
-        return 0;
+        break;
     }
+
+    return 0;
 }

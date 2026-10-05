@@ -14,7 +14,7 @@ work; none of the numeric snapshots below are timeless facts.
 
 The operator-set milestone is **at least 95% of reviewed authored bytes exact**
 (updated 2026-10-05). With the current 275,770-byte denominator, this requires
-261,982 exact bytes; the current 212,259-byte ledger leaves 49,723 bytes.
+261,982 exact bytes; the current 213,064-byte ledger leaves 48,918 bytes.
 Recompute this gap after ledger changes. This milestone does not close the
 whole-product, runtime, semantic or portability gates.
 
@@ -30,11 +30,11 @@ Fresh `python3 scripts/report-reconstruction-status.py` at this checkpoint:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 920 |
-| Source-present non-exact functions | 60 |
-| Source-present non-exact bytes | 63,511 |
+| Canonical exact functions | 921 |
+| Source-present non-exact functions | 59 |
+| Source-present non-exact bytes | 62,706 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 212,259 |
+| Canonical exact authored bytes | 213,064 |
 
 All 980 confirmed authored functions have maintained source. Faithful whole
 Windows i386 product closure remains open; semantic reconstruction and
@@ -58,6 +58,7 @@ not be reopened merely because an older packet or roadmap says they are pending:
 - `ExAttackUpdateCallbackType12 @ 0x004471B0` — 710 bytes.
 - `ExAttackUpdateCallbackType6 @ 0x00446060` — 698 bytes.
 - `ExAttackUpdateCallbackType7 @ 0x004464A0` — 799 bytes.
+- `ExAttackUpdateCallbackType14_22 @ 0x00443DF0` — 805 bytes.
 
 Their current exactness comes from `config/matches.csv` plus their configured
 match units, not from historical prose.
