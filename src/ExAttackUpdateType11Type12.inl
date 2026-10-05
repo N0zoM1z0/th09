@@ -125,19 +125,19 @@ int __fastcall ExAttackUpdateCallbackType11(ExAttackRecord *base)
                 record->timer10 = 0;
                 reinterpret_cast<AnmVm *>(
                     record->dynamicData1C)->SetInterrupt(1);
-                record->rotation3C = extra->angle08;
-                return 0;
             }
-
-            extra->motion14.FromAngleMagnitude(extra->angle08, 1.5f);
-            record->position20 += extra->motion14;
-
-            if (record->position20.y >= 480.0f ||
-                record->position20.y <= -32.0f ||
-                record->position20.x >= 176.0f ||
-                record->position20.x <= -176.0f)
+            else
             {
-                return 1;
+                extra->motion14.FromAngleMagnitude(extra->angle08, 1.5f);
+                record->position20 += extra->motion14;
+
+                if (record->position20.y >= 480.0f ||
+                    record->position20.y <= -32.0f ||
+                    record->position20.x >= 176.0f ||
+                    record->position20.x <= -176.0f)
+                {
+                    return 1;
+                }
             }
         }
 
@@ -236,19 +236,19 @@ int __fastcall ExAttackUpdateCallbackType12(ExAttackRecord *base)
                 record->timer10 = 0;
                 reinterpret_cast<AnmVm *>(
                     record->dynamicData1C)->SetInterrupt(1);
-                record->rotation3C = extra->angle08;
-                return 0;
             }
-
-            extra->motion14.FromAngleMagnitude(extra->angle08, 1.5f);
-            record->position20 += extra->motion14;
-
-            if (record->position20.y >= 480.0f ||
-                record->position20.y <= -32.0f ||
-                record->position20.x >= 176.0f ||
-                record->position20.x <= -176.0f)
+            else
             {
-                return 1;
+                extra->motion14.FromAngleMagnitude(extra->angle08, 1.5f);
+                record->position20 += extra->motion14;
+
+                if (record->position20.y >= 480.0f ||
+                    record->position20.y <= -32.0f ||
+                    record->position20.x >= 176.0f ||
+                    record->position20.x <= -176.0f)
+                {
+                    return 1;
+                }
             }
         }
 
