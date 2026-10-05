@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check charge SHT text and reload regions; never whole-owner exact credit."""
+"""Check charge text, reload and argument regions; never whole-owner exact credit."""
 from __future__ import annotations
 
 import argparse
@@ -97,6 +97,35 @@ def inspect(path):
         {"region": "post_conversion_sht_reload", "candidate_offset": hex(at - 1),
          "bytes": 14, "region_agrees": duration_agrees},
     ])
+    # Mode literals are pushed before GetCurrent in both target call sequences.
+    # Derive candidate windows from the independently identified SpawnShots
+    # fields, then bind both actual calls; no relocation masking is used.
+    spawn_symbol = "?SpawnShots@PlayerSpawnShotsView@@QAIXHH@Z"
+    current_symbol = "?GetCurrent@PlayerChargeTimerCurrentView@@QAEHXZ"
+    spawns = [r for r in relocations if r["symbol"] == spawn_symbol]
+    currents = [r for r in relocations if r["symbol"] == current_symbol]
+    if len(spawns) != 2 or len(currents) != 2:
+        raise ValueError("expected two SpawnShots and GetCurrent calls")
+    for mode, row, start in zip((1, 0), spawns, (0x41FC30, 0x41FC90)):
+        begin = row["offset"] - 14
+        if begin < 0 or begin + 18 > len(code):
+            raise ValueError("shot argument region lies outside the owner")
+        fields = [r for r in relocations if begin <= r["offset"] < begin + 18]
+        if ([r["symbol"] for r in fields] != [current_symbol, spawn_symbol] or
+                any(r["type"] != "REL32" or r["addend"] != 0 for r in fields)):
+            raise ValueError("unexpected shot argument relocation sequence")
+        region = bytearray(code[begin:begin + 18])
+        for field, destination in zip(fields, (0x435F00, 0x41F4C0)):
+            at = field["offset"] - begin
+            if at < 1 or at + 4 > len(region) or region[at - 1] != 0xE8:
+                raise ValueError("unexpected shot argument call encoding")
+            struct.pack_into("<i", region, at, destination - (start + at + 4))
+        results.append({
+            "region": "shot_mode_current_" + str(mode),
+            "target_start": hex(start), "candidate_offset": hex(begin),
+            "bytes": 18,
+            "region_agrees": region == coff.pe_bytes_at(target, start, 18),
+        })
     return {"diagnostic_only": True, "whole_owner_exact_credit": "none",
             "target_code_bytes": 1210, "candidate_code_bytes": len(code),
             "relocations": len(relocations),

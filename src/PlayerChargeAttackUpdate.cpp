@@ -291,11 +291,10 @@ shooting:
             reinterpret_cast<ZunTimer *>(&timer30398);
         if (shotTimer->HasTicked())
         {
-            int current =
-                reinterpret_cast<PlayerChargeTimerCurrentView *>(
-                    shotTimer)->GetCurrent();
             reinterpret_cast<PlayerSpawnShotsView *>(this)
-                ->SpawnShots(current, 1);
+                ->SpawnShots(
+                    reinterpret_cast<PlayerChargeTimerCurrentView *>(
+                        shotTimer)->GetCurrent(), 1);
         }
 
         (*shotTimer)++;
@@ -318,11 +317,10 @@ shooting:
         {
             if (normalShotTimer->HasTicked())
             {
-                int current =
-                    reinterpret_cast<PlayerChargeTimerCurrentView *>(
-                        normalShotTimer)->GetCurrent();
                 reinterpret_cast<PlayerSpawnShotsView *>(this)
-                    ->SpawnShots(current, 0);
+                    ->SpawnShots(
+                        reinterpret_cast<PlayerChargeTimerCurrentView *>(
+                            normalShotTimer)->GetCurrent(), 0);
             }
 
             (*normalShotTimer)++;
