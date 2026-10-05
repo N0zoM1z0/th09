@@ -165,30 +165,29 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     if (player->header24.state84 == 0)
         return 0;
 
-    PlayerMovementTailFields *tail = PlayerMovementTail(player);
     int inputOffset = player->sideIndex * sizeof(PlayerMovementReplayInputState);
     PlayerMovementReplayInputState *input =
         reinterpret_cast<PlayerMovementReplayInputState *>(
             reinterpret_cast<unsigned char *>(g_ReplayInputStates) + inputOffset);
 
     if (input->IsHeld(0x50) == 0x50)
-        tail->movementDirection30358 = 5;
+        player->movementDirection30358 = 5;
     else if (input->IsHeld(0x60) == 0x60)
-        tail->movementDirection30358 = 7;
+        player->movementDirection30358 = 7;
     else if (input->IsHeld(0x90) == 0x90)
-        tail->movementDirection30358 = 6;
+        player->movementDirection30358 = 6;
     else if (input->IsHeld(0xA0) == 0xA0)
-        tail->movementDirection30358 = 8;
+        player->movementDirection30358 = 8;
     else if (input->IsHeld(0x20))
-        tail->movementDirection30358 = 2;
+        player->movementDirection30358 = 2;
     else if (input->IsHeld(0x10))
-        tail->movementDirection30358 = 1;
+        player->movementDirection30358 = 1;
     else if (input->IsHeld(0x40))
-        tail->movementDirection30358 = 3;
+        player->movementDirection30358 = 3;
     else if (input->IsHeld(0x80))
-        tail->movementDirection30358 = 4;
+        player->movementDirection30358 = 4;
     else
-        tail->movementDirection30358 = 0;
+        player->movementDirection30358 = 0;
 
     int focused;
     if ((&g_GameConfiguration->valueB4)[player->sideIndex] == 1)
@@ -208,59 +207,85 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     {
         if (PlayerMovementFocusEffect(player) == NULL)
         {
+            EffectFloat3 *effectPosition =
+                reinterpret_cast<EffectFloat3 *>(&player->position1B88);
             // TH09 reloads the side after the first effect-manager call.
             PlayerMovementFocusEffect(player) =
                 PlayerMovementSide(player)->effectManager0C->SpawnEffectInFixedSlot(
                     7,
-                    reinterpret_cast<EffectFloat3 *>(&player->position1B88),
+                    effectPosition,
                     player->sideIndex,
                     static_cast<unsigned int>(-1));
             PlayerMovementSecondaryEffect(player) =
                 PlayerMovementSide(player)->effectManager0C->SpawnEffectInFixedSlot(
                     g_PlayerFocusEffectIds[PlayerMovementSide(player)->shotType20],
-                    reinterpret_cast<EffectFloat3 *>(&player->position1B88),
+                    effectPosition,
                     player->sideIndex + 2,
                     static_cast<unsigned int>(-1));
         }
 
-        switch (tail->movementDirection30358)
+        switch (player->movementDirection30358)
         {
         case 4:
-            horizontalSpeed = PlayerMovementSht(player)->focusedAxisSpeed18;
+        {
+            PlayerMovementShtView *sht = PlayerMovementSht(player);
             runtime->movementAngle1CD8 = 0.0f;
+            horizontalSpeed = sht->focusedAxisSpeed18;
             break;
+        }
         case 3:
-            horizontalSpeed = -PlayerMovementSht(player)->focusedAxisSpeed18;
+        {
+            PlayerMovementShtView *sht = PlayerMovementSht(player);
             runtime->movementAngle1CD8 = 3.1415927f;
+            horizontalSpeed = -sht->focusedAxisSpeed18;
             break;
+        }
         case 1:
-            verticalSpeed = -PlayerMovementSht(player)->focusedAxisSpeed18;
+        {
+            PlayerMovementShtView *sht = PlayerMovementSht(player);
             runtime->movementAngle1CD8 = -1.5707964f;
+            verticalSpeed = -sht->focusedAxisSpeed18;
             break;
+        }
         case 2:
-            verticalSpeed = PlayerMovementSht(player)->focusedAxisSpeed18;
+        {
+            PlayerMovementShtView *sht = PlayerMovementSht(player);
             runtime->movementAngle1CD8 = 1.5707964f;
+            verticalSpeed = sht->focusedAxisSpeed18;
             break;
+        }
         case 5:
-            horizontalSpeed = -PlayerMovementSht(player)->focusedDiagonalSpeed20;
-            verticalSpeed = horizontalSpeed;
+        {
+            PlayerMovementShtView *sht = PlayerMovementSht(player);
             runtime->movementAngle1CD8 = -2.3561945f;
-            break;
-        case 7:
-            verticalSpeed = PlayerMovementSht(player)->focusedDiagonalSpeed20;
-            horizontalSpeed = -verticalSpeed;
-            runtime->movementAngle1CD8 = 2.3561945f;
-            break;
-        case 6:
-            horizontalSpeed = PlayerMovementSht(player)->focusedDiagonalSpeed20;
-            verticalSpeed = -horizontalSpeed;
-            runtime->movementAngle1CD8 = -0.7853982f;
-            break;
-        case 8:
-            horizontalSpeed = PlayerMovementSht(player)->focusedDiagonalSpeed20;
+            horizontalSpeed = -sht->focusedDiagonalSpeed20;
             verticalSpeed = horizontalSpeed;
-            runtime->movementAngle1CD8 = 0.7853982f;
             break;
+        }
+        case 7:
+        {
+            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            runtime->movementAngle1CD8 = 2.3561945f;
+            verticalSpeed = sht->focusedDiagonalSpeed20;
+            horizontalSpeed = -verticalSpeed;
+            break;
+        }
+        case 6:
+        {
+            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            runtime->movementAngle1CD8 = -0.7853982f;
+            horizontalSpeed = sht->focusedDiagonalSpeed20;
+            verticalSpeed = -horizontalSpeed;
+            break;
+        }
+        case 8:
+        {
+            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            runtime->movementAngle1CD8 = 0.7853982f;
+            horizontalSpeed = sht->focusedDiagonalSpeed20;
+            verticalSpeed = horizontalSpeed;
+            break;
+        }
         default:
             break;
         }
@@ -277,44 +302,68 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
             PlayerMovementSecondaryEffect(player) = NULL;
         }
 
-        switch (tail->movementDirection30358)
+        switch (player->movementDirection30358)
         {
         case 4:
-            horizontalSpeed = PlayerMovementSht(player)->normalAxisSpeed14;
+        {
+            PlayerMovementShtView *sht = PlayerMovementSht(player);
             runtime->movementAngle1CD8 = 0.0f;
+            horizontalSpeed = sht->normalAxisSpeed14;
             break;
+        }
         case 3:
-            horizontalSpeed = -PlayerMovementSht(player)->normalAxisSpeed14;
+        {
+            PlayerMovementShtView *sht = PlayerMovementSht(player);
             runtime->movementAngle1CD8 = 3.1415927f;
+            horizontalSpeed = -sht->normalAxisSpeed14;
             break;
+        }
         case 1:
-            verticalSpeed = -PlayerMovementSht(player)->normalAxisSpeed14;
+        {
+            PlayerMovementShtView *sht = PlayerMovementSht(player);
             runtime->movementAngle1CD8 = -1.5707964f;
+            verticalSpeed = -sht->normalAxisSpeed14;
             break;
+        }
         case 2:
-            verticalSpeed = PlayerMovementSht(player)->normalAxisSpeed14;
+        {
+            PlayerMovementShtView *sht = PlayerMovementSht(player);
             runtime->movementAngle1CD8 = 1.5707964f;
+            verticalSpeed = sht->normalAxisSpeed14;
             break;
+        }
         case 5:
-            horizontalSpeed = -PlayerMovementSht(player)->normalDiagonalSpeed1C;
-            verticalSpeed = horizontalSpeed;
+        {
+            PlayerMovementShtView *sht = PlayerMovementSht(player);
             runtime->movementAngle1CD8 = -2.3561945f;
-            break;
-        case 7:
-            verticalSpeed = PlayerMovementSht(player)->normalDiagonalSpeed1C;
-            horizontalSpeed = -verticalSpeed;
-            runtime->movementAngle1CD8 = 2.3561945f;
-            break;
-        case 6:
-            horizontalSpeed = PlayerMovementSht(player)->normalDiagonalSpeed1C;
-            verticalSpeed = -horizontalSpeed;
-            runtime->movementAngle1CD8 = -0.7853982f;
-            break;
-        case 8:
-            horizontalSpeed = PlayerMovementSht(player)->normalDiagonalSpeed1C;
+            horizontalSpeed = -sht->normalDiagonalSpeed1C;
             verticalSpeed = horizontalSpeed;
-            runtime->movementAngle1CD8 = 0.7853982f;
             break;
+        }
+        case 7:
+        {
+            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            runtime->movementAngle1CD8 = 2.3561945f;
+            verticalSpeed = sht->normalDiagonalSpeed1C;
+            horizontalSpeed = -verticalSpeed;
+            break;
+        }
+        case 6:
+        {
+            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            runtime->movementAngle1CD8 = -0.7853982f;
+            horizontalSpeed = sht->normalDiagonalSpeed1C;
+            verticalSpeed = -horizontalSpeed;
+            break;
+        }
+        case 8:
+        {
+            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            runtime->movementAngle1CD8 = 0.7853982f;
+            horizontalSpeed = sht->normalDiagonalSpeed1C;
+            verticalSpeed = horizontalSpeed;
+            break;
+        }
         default:
             break;
         }
@@ -330,22 +379,22 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         verticalSpeed;
 
     // The second transition group reloads the ANM owner after the first call.
-    if (horizontalSpeed < 0.0f && tail->horizontalSpeed3035C >= 0.0f)
+    if (horizontalSpeed < 0.0f && player->horizontalSpeed3035C >= 0.0f)
         reinterpret_cast<AnmLoaded *>(player->header24.anmFile98)->SetAndExecuteScriptIdx(
             reinterpret_cast<AnmVm *>(&player->mainVm), 1);
-    else if (horizontalSpeed == 0.0f && tail->horizontalSpeed3035C < 0.0f)
+    else if (horizontalSpeed == 0.0f && player->horizontalSpeed3035C < 0.0f)
         reinterpret_cast<AnmLoaded *>(player->header24.anmFile98)->SetAndExecuteScriptIdx(
             reinterpret_cast<AnmVm *>(&player->mainVm), 2);
 
-    if (horizontalSpeed > 0.0f && tail->horizontalSpeed3035C <= 0.0f)
+    if (horizontalSpeed > 0.0f && player->horizontalSpeed3035C <= 0.0f)
         reinterpret_cast<AnmLoaded *>(player->header24.anmFile98)->SetAndExecuteScriptIdx(
             reinterpret_cast<AnmVm *>(&player->mainVm), 3);
-    else if (horizontalSpeed == 0.0f && tail->horizontalSpeed3035C > 0.0f)
+    else if (horizontalSpeed == 0.0f && player->horizontalSpeed3035C > 0.0f)
         reinterpret_cast<AnmLoaded *>(player->header24.anmFile98)->SetAndExecuteScriptIdx(
             reinterpret_cast<AnmVm *>(&player->mainVm), 4);
 
-    tail->horizontalSpeed3035C = horizontalSpeed;
-    tail->verticalSpeed30360 = verticalSpeed;
+    player->horizontalSpeed3035C = horizontalSpeed;
+    player->verticalSpeed30360 = verticalSpeed;
 
     runtime->velocity1CCC.x =
         horizontalSpeed * g_PlayerMovementSupervisor.frameRateMultiplier5B8;

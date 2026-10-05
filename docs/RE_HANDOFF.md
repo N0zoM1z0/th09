@@ -15,6 +15,8 @@ work; none of the numeric snapshots below are timeless facts.
 The operator-set milestone is **at least 95% of reviewed authored bytes exact**
 (updated 2026-10-05). With the current 275,770-byte denominator, this requires
 261,982 exact bytes; the current 213,064-byte ledger leaves 48,918 bytes.
+All function sizes are eligible; prioritize medium and large owners, with
+smaller closures or unblockers welcome (operator clarification 2026-10-05).
 Recompute this gap after ledger changes. This milestone does not close the
 whole-product, runtime, semantic or portability gates.
 
@@ -193,7 +195,11 @@ non-exact owners include:
 - `EnemyManagerView::OnUpdate` — 3,883 bytes;
 - `TitleScreenView::OnUpdateOptions` — 2,045 bytes;
 - `TitleScreenView::DrawResult` — 1,939 bytes;
-- `PlayerLifecycleView::UpdateMovementAndOptions` — 1,835 bytes;
+- `PlayerLifecycleView::UpdateMovementAndOptions` — 1,835 bytes; now retains the reviewed
+  cold144 source: 1,900 physical bytes, all 66 field identities and both tables
+  proved, but 144 full-byte differences remain. The shared-header impact is
+  bounded by unchanged layout and 42 private-label updates in six exact units;
+  no broad consumer replay was performed.
 - `EnemyManagerDrawImpl` — 1,758 bytes;
 - `PauseMenu::OnUpdate` — 1,734 bytes;
 - `GameplaySetupThread` — 1,689 bytes;

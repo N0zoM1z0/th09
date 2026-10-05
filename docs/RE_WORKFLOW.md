@@ -2,6 +2,8 @@
 
 The active operator milestone is at least **95% of reviewed authored bytes exact**
 (as of 2026-10-05). Existing proof and later-phase gates remain independent.
+Function size is a priority, not an eligibility cutoff: favor medium and large
+owners, while pursuing justified smaller closures or dependency unblockers.
 
 ## Session entry
 
