@@ -2,6 +2,7 @@
 #include "BulletManager.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackInterpolation.hpp"
+#include "ExAttackType8GameManagerView.hpp"
 #include "PlayerLifecycleView.hpp"
 
 struct ExAttackType7UpdateExtra
@@ -49,21 +50,6 @@ struct ExAttackType7PlayerAnmView
     AnmLoaded *anmFileBC;
 };
 
-struct ExAttackType7SideView
-{
-    unsigned char unknown00[0x04];
-    PlayerLifecycleView *player04;
-    EtamaController *etama08;
-    unsigned char unknown0C[0x2C];
-};
-
-struct ExAttackType7GameManagerView
-{
-    ExAttackType7SideView sides[2];
-    unsigned char unknown070[0x11C - 0x70];
-    int difficulty11C;
-};
-
 struct ExAttackType7BulletDescriptorStorage
 {
     unsigned char storage[0x214];
@@ -73,7 +59,6 @@ struct ExAttackType7BulletDescriptorStorage
 typedef char ExAttackType7BulletDescriptorStorageSizeIs214[
     (sizeof(ExAttackType7BulletDescriptorStorage) == 0x214) ? 1 : -1];
 
-extern ExAttackType7GameManagerView g_GameManager;
 float __stdcall AddNormalizeAngle(float angle, float delta);
 
 int __fastcall ExAttackUpdateCallbackType7(ExAttackRecord *base)
@@ -158,20 +143,20 @@ int __fastcall ExAttackUpdateCallbackType7(ExAttackRecord *base)
                 record->timer10 = 0;
                 reinterpret_cast<ExAttackType7InterruptView *>(
                     record->dynamicData1C)->SetInterrupt(1);
-                record->rotation3C = extra->angle08;
-                return 0;
             }
-
-            extra->motion14.FromAngleMagnitude(
-                extra->angle08, 1.5f);
-            record->position20 += extra->motion14;
-
-            if (record->position20.y >= 480.0f ||
-                record->position20.y <= -32.0f ||
-                record->position20.x >= 176.0f ||
-                record->position20.x <= -176.0f)
+            else
             {
-                return 1;
+                extra->motion14.FromAngleMagnitude(
+                    extra->angle08, 1.5f);
+                record->position20 += extra->motion14;
+
+                if (record->position20.y >= 480.0f ||
+                    record->position20.y <= -32.0f ||
+                    record->position20.x >= 176.0f ||
+                    record->position20.x <= -176.0f)
+                {
+                    return 1;
+                }
             }
         }
 

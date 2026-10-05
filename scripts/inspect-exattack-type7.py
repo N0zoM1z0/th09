@@ -29,6 +29,7 @@ diagnostic.DESTINATIONS = {
     '?ExAttackInterpolate2D@@YIXPAM0000MM@Z': 0x42AF80,
     '?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z': 0x401560,
     '?g_GameManager@@3UExAttackType7GameManagerView@@A': 0x4A7D90,
+    '?g_GameManager@@3UExAttackType8GameManagerView@@A': 0x4A7D90,
     '__real@3dcccccd': 0x48E4B0,
     '__real@40000000': 0x48EF5C,
     '__real@3c088889': 0x49162C,

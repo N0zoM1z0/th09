@@ -816,3 +816,5 @@ th09_ecl_select_next_context:
 #include "ExAttackInitType8.inl"
 #include "ExAttackUpdateType8Type9.inl"
 #include "ExAttackUpdateType11Type12.inl"
+
+#include "ExAttackUpdateType7.inl"
