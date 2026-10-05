@@ -47,13 +47,6 @@ typedef char ReplayMenuModeAt1E4[
 typedef char ReplayMenuVersusAt1E5[
     (offsetof(ReplayMenuReplayView, versusMode) == 0x1E5) ? 1 : -1];
 
-struct ReplayMenuPosition
-{
-    float x;
-    float y;
-    float z;
-};
-
 struct TitleScreenView
 {
     i32 keyboardSelection;                   // +0x00000
@@ -89,11 +82,6 @@ extern const char *g_ReplayCharacterNames[];
 extern const char *g_ReplayStoryModeName[];
 extern const char *g_ReplayExtraModeName[];
 
-static __inline Float3 *ReplayMenuFloat3(ReplayMenuPosition *position)
-{
-    return reinterpret_cast<Float3 *>(position);
-}
-
 static __inline const char *ReplayMenuPlayTime(ReplayMenuReplayView *replay)
 {
     return replay->magic ? replay->playTime : "--/--/--";
@@ -106,7 +94,7 @@ static __inline const char *ReplayMenuPlayerName(ReplayMenuReplayView *replay)
 
 int TitleScreenView::DrawReplayMenu()
 {
-    ReplayMenuPosition position;
+    Float3 position;
     char buffer[256];
 
     if (currentScreenState == 1)
@@ -130,7 +118,7 @@ int TitleScreenView::DrawReplayMenu()
             if (i < 25)
             {
                 g_AsciiManager.AddFormatText(
-                    ReplayMenuFloat3(&position),
+                    &position,
                     "No.%.2d %8s %8s",
                     i + 1,
                     ReplayMenuPlayerName(replay),
@@ -143,7 +131,7 @@ int TitleScreenView::DrawReplayMenu()
                 char c2 = replay->magic ? replayPaths[i][17] : 'e';
                 char c3 = replay->magic ? replayPaths[i][18] : 'r';
                 g_AsciiManager.AddFormatText(
-                    ReplayMenuFloat3(&position),
+                    &position,
                     "%c%c%c%c  %8s %8s",
                     c0, c1, c2, c3,
                     ReplayMenuPlayerName(replay),
@@ -162,7 +150,10 @@ int TitleScreenView::DrawReplayMenu()
         position.y = (float)selected * 13.0f + 90.0f;
         position.z = 0.0f;
 
-        ReplayMenuPosition target = {216.5f, 160.0f, 0.0f};
+        Float3 target;
+        target.x = 216.5f;
+        target.y = 160.0f;
+        target.z = 0.0f;
         if (frame < 10)
         {
             target.x -= position.x;
@@ -183,7 +174,7 @@ int TitleScreenView::DrawReplayMenu()
         if (selected < 25)
         {
             g_AsciiManager.AddFormatText(
-                ReplayMenuFloat3(&position),
+                &position,
                 "No.%.2d %8s %8s",
                 selected + 1,
                 ReplayMenuPlayerName(replay),
@@ -196,7 +187,7 @@ int TitleScreenView::DrawReplayMenu()
             char c2 = replay->magic ? replayPaths[selected][17] : 'e';
             char c3 = replay->magic ? replayPaths[selected][18] : 'r';
             g_AsciiManager.AddFormatText(
-                ReplayMenuFloat3(&position),
+                &position,
                 "%c%c%c%c  %8s %8s",
                 c0, c1, c2, c3,
                 ReplayMenuPlayerName(replay),
@@ -218,7 +209,7 @@ int TitleScreenView::DrawReplayMenu()
         case 1:
             sprintf(buffer, "%s", g_ReplayExtraModeName[0]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
-            g_AsciiManager.AddFormatText(ReplayMenuFloat3(&position), buffer);
+            g_AsciiManager.AddFormatText(&position, buffer);
             goto mode_text_done;
         case 2:
             sprintf(
@@ -231,7 +222,7 @@ int TitleScreenView::DrawReplayMenu()
         }
 
         position.x = 320.0f - (float)strlen(buffer) * 4.5f;
-        g_AsciiManager.AddFormatText(ReplayMenuFloat3(&position), buffer);
+        g_AsciiManager.AddFormatText(&position, buffer);
 
 mode_text_done:
         position.x = 230.0f;
@@ -246,7 +237,7 @@ mode_text_done:
                 g_AsciiManager.color =
                     (i == keyboardSelection) ? 0xFFFFFFFFu : 0xFF808080u;
                 g_AsciiManager.AddFormatText(
-                    ReplayMenuFloat3(&position),
+                    &position,
                     "%.8s vs %.8s",
                     g_ReplayCharacterNames[side0->character],
                     g_ReplayCharacterNames[side1->character]);

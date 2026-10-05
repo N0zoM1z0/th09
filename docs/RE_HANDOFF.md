@@ -69,7 +69,8 @@ match units, not from historical prose.
 
 `EclManager::RunEcl @ 0x004086C0` remains source-present and **NON-EXACT**.
 
-A fresh current-source rebuild during this cleanup produced RunEcl raw function
+The retained current-header ECL carrier, rebound in the October 5 full-context
+review without another build, has RunEcl raw function
 SHA-256
 `93206b3996d97e62d6470b795e32c9cfdc9228a9bc8806efed073688b7420eef`.
 `scripts/report-ecl-codegen.py` reports:
@@ -82,8 +83,7 @@ SHA-256
 - 193 compiler-table entries (6 easing + 187 opcode entries);
 - final status: **NON-EXACT**.
 
-The same cold object still replays
-`Th09EclRunControl::PopContext @ 0x00406680` exactly at 147/147 bytes.
+Previously accepted unchanged siblings do not need another replay.
 Structural size, frame, table, call-count, and relocation-count agreement are
 diagnostics only and do not grant whole-owner exactness.
 
@@ -136,40 +136,47 @@ evidence.
 Useful restart commands:
 
 ~~~bash
-python3 scripts/build-match-unit.py --unit ecl-pop-context
-python3 scripts/compare-coff-function.py --unit ecl-pop-context --json
-python3 scripts/report-ecl-codegen.py --json build/matching/EclManager.obj
-python3 scripts/report-ecl-handler-boundaries.py build/matching/EclManager.obj
-python3 scripts/audit-ecl-callsite-identities.py build/matching/EclManager.obj
-python3 scripts/report-ecl-handler-shapes.py build/matching/EclManager.obj
+# First verify the retained object's source/dependency manifest.
+# Ordinary build/matching caches may predate the current Player header.
+OBJ=build/gpt-dots-player-retention-review-20261005-1526/EclManager.obj
+python3 scripts/report-ecl-codegen.py --json "$OBJ"
+python3 scripts/report-ecl-handler-boundaries.py "$OBJ"
+python3 scripts/audit-ecl-callsite-identities.py "$OBJ"
+python3 scripts/report-ecl-handler-shapes.py "$OBJ"
 ~~~
 
 The callsite and handler-shape reports are structural diagnostics and not
 exactness Oracles.
 
-## Priority frontier 2: ExAttack type 6
+The fresh whole-source/caller review found no new supported build hypothesis.
+Real timer assignment/update visibility already has source-backed negative
+controls; named Tick/inline context is unproven, not evidence of a fix.
+RunEcl is necessary for the 95% milestone: its 14,792 bytes exceed the current
+13,788-byte non-exact allowance. This bounded plateau is not proof of impossibility.
+The current context/history manifest is retained in the October 5 ECL review
+packet; preserve it before trying an allegedly new helper or lifetime route.
 
-`ExAttackUpdateCallbackType6 @ 0x00446060` remains **NON-EXACT**.
+## Next bounded investigations
 
-The maintained source is target-sized at 698/698 bytes with 214 instructions,
-30 independently bound relocations, 19 ordered calls, 18 direct blocks, and the
-same complete direct CFG. The current diagnostic has seven complete byte
-differences, all in the collision sequence's volatile-register coloring:
+Select from a fresh non-exact ledger before using historical residuals.
+Current source-backed questions are PauseMenu's actual helper-context provenance
+and complete physical residual, and Type21 update's declared magnitude/step
+array ownership. Inspect retained controls before compiling a new hypothesis.
 
-- opponent-side index path: target ECX vs candidate EAX;
-- `collisionSize` address: target EAX vs candidate EDX;
-- collision-success rotation copy: target EDX vs candidate EAX.
+DrawReplayMenu at 0x004234F6 now uses real Float3 objects. The isolated correction
+is fully byte/field neutral: 1,244 candidate bytes versus 1,280 target bytes,
+54 fields, 1,180 differing overlapping positions and 36 absent bytes. It remains
+NON-EXACT; the old 36-byte size shorthand understated the complete residual.
+No original expression grouping or broader class ownership is inferred.
 
-The continuation after that collision branch matches under the current complete
-diagnostic. Previous direct-receiver and alias/lifetime variants are bounded
-negative evidence, not prohibitions on better natural source. Do not force
-registers, add volatile steering, padding, assembly, fake ABI changes, or
-profile roulette.
+## Parked specific actions
 
-`ExAttackInitializeCallbackType6 @ 0x00445EC0` is independently non-exact and
-should not be conflated with the update callback.
+The following specific actions remain parked: ApplyNetworkInput ABI canonical
+promotion, Type18/24 helper visibility, and EnemyManager OnUpdate accessor work.
+A general continuation instruction does not reopen these actions. Work on other
+authorized source-backed owners instead.
 
-## Priority frontier 3: ExAttack type 18/24
+## Type18/24 reference frontier (helper-visibility action parked)
 
 `ExAttackUpdateCallbackType18_24 @ 0x004491E0` remains **NON-EXACT**.
 
@@ -188,7 +195,7 @@ diagnostic only.
 
 ## Other large owners
 
-After the three frontiers above, select the next owner from the live ledgers
+Select the next owner from the live ledgers
 rather than an old roadmap. At this checkpoint the largest source-present
 non-exact owners include:
 
