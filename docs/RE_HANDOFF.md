@@ -10,6 +10,14 @@ If this file conflicts with `config/functions.csv`, `config/matches.csv`,
 fresh diagnostic win. Rerun the status commands before starting target-dependent
 work; none of the numeric snapshots below are timeless facts.
 
+## Active reconstruction goal
+
+The operator-set milestone is **at least 95% of reviewed authored bytes exact**
+(updated 2026-10-05). With the current 275,770-byte denominator, this requires
+261,982 exact bytes; the current 209,339-byte ledger leaves 52,643 bytes.
+Recompute this gap after ledger changes. This milestone does not close the
+whole-product, runtime, semantic or portability gates.
+
 ## Current ledger snapshot
 
 Fresh `python3 scripts/report-reconstruction-status.py` at this checkpoint:

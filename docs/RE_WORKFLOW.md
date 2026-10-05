@@ -1,5 +1,8 @@
 # Reconstruction workflow
 
+The active operator milestone is at least **95% of reviewed authored bytes exact**
+(as of 2026-10-05). Existing proof and later-phase gates remain independent.
+
 ## Session entry
 
 First recover the current worktree instead of assuming it is clean. Read the
