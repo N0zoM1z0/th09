@@ -973,16 +973,18 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     }
     replayCopy.fileSize = compressedSize + 0xC0;
 
-    replayName = NULL;
-    HANDLE file = CreateFileA(replayPath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-    if (file != INVALID_HANDLE_VALUE)
     {
-        WriteFile(file, &replayCopy, 0xC0, (LPDWORD)&replayName, NULL);
-        WriteFile(file, compressedData, compressedSize, (LPDWORD)&replayName, NULL);
-        WriteFile(file, &infoHeader, sizeof(infoHeader), (LPDWORD)&replayName, NULL);
-        WriteFile(file, infoBuffer, infoHeader.size - sizeof(infoHeader), (LPDWORD)&replayName, NULL);
-        CloseHandle(file);
-        GlobalFree(compressedData);
+        DWORD bytesWritten = 0;
+        HANDLE file = CreateFileA(replayPath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+        if (file != INVALID_HANDLE_VALUE)
+        {
+            WriteFile(file, &replayCopy, 0xC0, &bytesWritten, NULL);
+            WriteFile(file, compressedData, compressedSize, &bytesWritten, NULL);
+            WriteFile(file, &infoHeader, sizeof(infoHeader), &bytesWritten, NULL);
+            WriteFile(file, infoBuffer, infoHeader.size - sizeof(infoHeader), &bytesWritten, NULL);
+            CloseHandle(file);
+            GlobalFree(compressedData);
+        }
     }
     return 0;
 }

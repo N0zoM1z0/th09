@@ -185,7 +185,8 @@ non-exact owners include:
 - `GameplaySetupThread` — 1,689 bytes;
 - `SupervisorServiceUpdate` — 1,633 bytes;
 - `FrontCalcCallback` — 1,491 bytes;
-- `ReplayManagerView::SaveReplay` — 1,238 bytes;
+- `ReplayManagerView::SaveReplay` — 1,238 bytes; the scoped write-count lifetime
+  is recovered, while packing-loop scheduling/spills remain non-exact.
 - `GameManagerSetupLayout::OnUpdate` — 1,230 bytes.
 
 This list is routing information only. Recompute it from `config/functions.csv`
