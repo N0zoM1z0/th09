@@ -130,9 +130,8 @@ int __fastcall ExAttackUpdateCallbackType6(ExAttackRecord *base)
                     .etama08->SpawnBulletPatternPrimary(descriptor);
             }
 
-            ExAttackType6PlayerView *player =
-                g_GameManager.sides[record->opponentSide04].player04;
-            if (player->CheckBulletCollision(
+            if (g_GameManager.sides[record->opponentSide04]
+                    .player04->CheckBulletCollision(
                     reinterpret_cast<PlayerPositionView *>(
                         &record->position20),
                     reinterpret_cast<PlayerPositionView *>(
@@ -143,22 +142,22 @@ int __fastcall ExAttackUpdateCallbackType6(ExAttackRecord *base)
                 record->timer10 = 0;
                 reinterpret_cast<ExAttackType6InterruptView *>(
                     record->dynamicData1C)->SetInterrupt(1);
-                record->rotation3C = extra->angle08;
-                return 0;
             }
-
-            extra->motion14.FromAngleMagnitude(
-                extra->angle08, 1.5f);
-            extra->angle08 = AddNormalizeAngle(
-                extra->angle08, extra->angularVelocity10);
-            record->position20 += extra->motion14;
-
-            if (record->position20.y >= 480.0f ||
-                record->position20.y <= -32.0f ||
-                record->position20.x >= 176.0f ||
-                record->position20.x <= -176.0f)
+            else
             {
-                return 1;
+                extra->motion14.FromAngleMagnitude(
+                    extra->angle08, 1.5f);
+                extra->angle08 = AddNormalizeAngle(
+                    extra->angle08, extra->angularVelocity10);
+                record->position20 += extra->motion14;
+
+                if (record->position20.y >= 480.0f ||
+                    record->position20.y <= -32.0f ||
+                    record->position20.x >= 176.0f ||
+                    record->position20.x <= -176.0f)
+                {
+                    return 1;
+                }
             }
         }
 

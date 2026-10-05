@@ -21368,3 +21368,44 @@ relocations = [
   { offset = 0x295, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560, addend = 0x00000000 },
   { offset = 0x2B9, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500, addend = 0x00000000 },
 ]
+
+[units.exattack-type6-update]
+source = "src/ExAttackUpdateType6.cpp"
+object = "build/matching/ExAttackUpdateType6.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ExAttackUpdateCallbackType6"]
+symbol = "?ExAttackUpdateCallbackType6@@YIHPAUExAttackRecord@@@Z"
+target_address = 0x00446060
+size = 0x2BA
+relocations = [
+  { offset = 0x21, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0, addend = 0x00000000 },
+  { offset = 0x40, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0, addend = 0x00000000 },
+  { offset = 0x60, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0, addend = 0x00000000 },
+  { offset = 0x6D, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44, addend = 0x00000000 },
+  { offset = 0x85, type = "REL32", symbol = "?HasTickedEvery@ZunTimer@@QAEHH@Z", target = 0x00404920, addend = 0x00000000 },
+  { offset = 0x98, type = "REL32", symbol = "??0ExAttackType6BulletDescriptorStorage@@QAE@XZ", target = 0x0040D500, addend = 0x00000000 },
+  { offset = 0xFE, type = "REL32", symbol = "?InstallWaitTransform@BulletSpawnDescriptor@@QAEXHHH@Z", target = 0x00412760, addend = 0x00000000 },
+  { offset = 0x104, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44, addend = 0x00000000 },
+  { offset = 0x110, type = "DIR32", symbol = "__real@39c6980c", target = 0x00491628, addend = 0x00000000 },
+  { offset = 0x11C, type = "DIR32", symbol = "__real@3c81b4e8", target = 0x00491624, addend = 0x00000000 },
+  { offset = 0x12A, type = "REL32", symbol = "?InstallVectorAccelerationTransform@BulletSpawnDescriptor@@QAEXHHHMM@Z", target = 0x00412730, addend = 0x00000000 },
+  { offset = 0x13D, type = "DIR32", symbol = "?g_GameManager@@3UExAttackType6GameManagerView@@A", target = 0x004A7D90, addend = 0x00000008 },
+  { offset = 0x163, type = "REL32", symbol = "?SpawnBulletPatternPrimary@EtamaController@@QAEPAUBullet@@PAUBulletSpawnDescriptor@@@Z", target = 0x004130F0, addend = 0x00000000 },
+  { offset = 0x16F, type = "DIR32", symbol = "?g_GameManager@@3UExAttackType6GameManagerView@@A", target = 0x004A7D90, addend = 0x00000004 },
+  { offset = 0x17E, type = "REL32", symbol = "?CheckBulletCollision@ExAttackType6PlayerView@@QAEHPAUPlayerPositionView@@0PAUBullet@@@Z", target = 0x0041DFF0, addend = 0x00000000 },
+  { offset = 0x18F, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500, addend = 0x00000000 },
+  { offset = 0x199, type = "REL32", symbol = "?SetInterrupt@ExAttackType6InterruptView@@QAEXF@Z", target = 0x00406790, addend = 0x00000000 },
+  { offset = 0x1B9, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890, addend = 0x00000000 },
+  { offset = 0x1C6, type = "REL32", symbol = "?AddNormalizeAngle@@YGMMM@Z", target = 0x0042AED0, addend = 0x00000000 },
+  { offset = 0x1D4, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730, addend = 0x00000000 },
+  { offset = 0x1DD, type = "DIR32", symbol = "__real@43f00000", target = 0x004915A8, addend = 0x00000000 },
+  { offset = 0x1F1, type = "DIR32", symbol = "__real@c2000000", target = 0x004915F0, addend = 0x00000000 },
+  { offset = 0x204, type = "DIR32", symbol = "__real@43300000", target = 0x0048EF64, addend = 0x00000000 },
+  { offset = 0x217, type = "DIR32", symbol = "__real@c3300000", target = 0x0048EF68, addend = 0x00000000 },
+  { offset = 0x244, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0, addend = 0x00000000 },
+  { offset = 0x25E, type = "REL32", symbol = "?ExAttackInterpolate2D@@YIXPAM0000MM@Z", target = 0x0042AF80, addend = 0x00000000 },
+  { offset = 0x268, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0, addend = 0x00000000 },
+  { offset = 0x27B, type = "DIR32", symbol = "?g_GameManager@@3UExAttackType6GameManagerView@@A", target = 0x004A7D90, addend = 0x00000004 },
+  { offset = 0x289, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560, addend = 0x00000000 },
+  { offset = 0x2AD, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500, addend = 0x00000000 },
+]

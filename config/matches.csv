@@ -917,3 +917,4 @@ address,name,size,status,match_percent,unit,evidence
 0x00446920,ExAttackUpdateCallbackType8_9,748,matching,100.00,exattack-type8-9-update,python3 scripts/build-match-unit.py --unit exattack-type8-9-update && python3 scripts/compare-coff-function.py --unit exattack-type8-9-update --json
 0x00446EE0,ExAttackUpdateCallbackType11,713,matching,100.00,exattack-type11-update,python3 scripts/build-match-unit.py --unit exattack-type11-update && python3 scripts/compare-coff-function.py --unit exattack-type11-update --json
 0x004471B0,ExAttackUpdateCallbackType12,710,matching,100.00,exattack-type12-update,python3 scripts/build-match-unit.py --unit exattack-type12-update && python3 scripts/compare-coff-function.py --unit exattack-type12-update --json
+0x00446060,ExAttackUpdateCallbackType6,698,matching,100.00,exattack-type6-update,python3 scripts/build-match-unit.py --unit exattack-type6-update && python3 scripts/compare-coff-function.py --unit exattack-type6-update --json
