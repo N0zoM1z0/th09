@@ -69,10 +69,25 @@ The same cold object still replays
 Structural size, frame, table, call-count, and relocation-count agreement are
 diagnostics only and do not grant whole-owner exactness.
 
-Recent bounded work has concentrated on residual source/codegen interactions
-around opcodes 4, 7, 86, and 155-157. Do **not** carry forward an old packet's
-whole-owner difference count, "one/two bytes short" description, or a rejected
-opcode-155 trial as the current source. Rebuild first.
+Fresh handler-table comparison narrows the current physical frontier further.
+scripts/report-ecl-handler-boundaries.py compares the verified target opcode
+table with the current COFF compiler table and reports 167/187 opcode entry
+offsets exact. All 20 mismatching entries are exactly -1. Opcode 155 itself
+starts at the correct +0x30B0, while opcode 156 starts at candidate +0x30DC
+versus target +0x30DD, isolating one missing byte inside opcode 155. Target
+uses ECX for the shifted timeout-spell input and EAX for the merged flag value;
+the candidate uses EAX/ECX respectively, so target emits the six-byte generic
+AND ECX,0x01000000 while the candidate emits the five-byte EAX-special
+encoding. The physical tail is correspondingly shifted by one byte and the
+candidate ends with a compensating NOP.
+
+This is an allocator/TU frontier, not a license to force registers. Bounded
+natural probes of the opcode-155 expression (direct bitfield, helper/mask
+forms, signed/unsigned locals, pointer/reference state, function-scope scratch
+reuse, and the adjacent TH08-style spelling) all reproduce the same 44-byte
+candidate handler. Reverting the recent instruction-time context spelling and
+opcode-2 source shape also leaves opcode 155 unchanged. Do **not** repeat those
+controls without new cross-case/TU evidence.
 
 Useful restart commands:
 
@@ -80,6 +95,7 @@ Useful restart commands:
 python3 scripts/build-match-unit.py --unit ecl-pop-context
 python3 scripts/compare-coff-function.py --unit ecl-pop-context --json
 python3 scripts/report-ecl-codegen.py --json build/matching/EclManager.obj
+python3 scripts/report-ecl-handler-boundaries.py build/matching/EclManager.obj
 python3 scripts/audit-ecl-callsite-identities.py build/matching/EclManager.obj
 ~~~
 
