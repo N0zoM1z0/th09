@@ -69,25 +69,51 @@ The same cold object still replays
 Structural size, frame, table, call-count, and relocation-count agreement are
 diagnostics only and do not grant whole-owner exactness.
 
-Fresh handler-table comparison narrows the current physical frontier further.
-scripts/report-ecl-handler-boundaries.py compares the verified target opcode
+Fresh handler diagnostics narrow the current physical frontier further.
+`scripts/report-ecl-handler-boundaries.py` compares the verified target opcode
 table with the current COFF compiler table and reports 167/187 opcode entry
 offsets exact. All 20 mismatching entries are exactly -1. Opcode 155 itself
 starts at the correct +0x30B0, while opcode 156 starts at candidate +0x30DC
-versus target +0x30DD, isolating one missing byte inside opcode 155. Target
-uses ECX for the shifted timeout-spell input and EAX for the merged flag value;
-the candidate uses EAX/ECX respectively, so target emits the six-byte generic
-AND ECX,0x01000000 while the candidate emits the five-byte EAX-special
-encoding. The physical tail is correspondingly shifted by one byte and the
-candidate ends with a compensating NOP.
+versus target +0x30DD, isolating one missing byte inside opcode 155.
 
-This is an allocator/TU frontier, not a license to force registers. Bounded
-natural probes of the opcode-155 expression (direct bitfield, helper/mask
-forms, signed/unsigned locals, pointer/reference state, function-scope scratch
-reuse, and the adjacent TH08-style spelling) all reproduce the same 44-byte
-candidate handler. Reverting the recent instruction-time context spelling and
-opcode-2 source shape also leaves opcode 155 unchanged. Do **not** repeat those
-controls without new cross-case/TU evidence.
+The identity-audited `scripts/report-ecl-handler-shapes.py` now gives the more
+useful instruction frontier. It first requires the complete CFG/relocation
+identity audit to pass, then normalizes only independently paired call/data
+fields and relative branch displacements. Scalar immediates remain significant,
+so values such as the opcode-145 `0x00400000` flag mask cannot be mistaken for
+an image pointer. On the current cold object it reports **142/148 unique handler
+shapes matching**, with only six remaining shape mismatches:
+
+- opcode 4 `JUMP`: 29/29 bytes, 6/8 instructions matching; argument/receiver
+  scheduling differs;
+- opcode 7 `SET_FLOAT`: 75/75 bytes, 15/23 instructions matching; the same
+  value/lvalue operations use different volatile registers and scheduling;
+- opcode 86 `SET_REMOTE_INT`: 86/86 bytes, 28/29 instructions matching; only
+  the raw-value load versus remote-slot lookup schedule differs;
+- opcode 155 `SET_TIMEOUT_SPELL`: 44 candidate bytes versus 45 target bytes;
+- opcode 156 `SET_SPECIAL_INTERACTION`: 52/52 bytes, with register-color drift
+  after the opcode-155 one-byte shift;
+- opcode 157 `SET_TRAIL`: 160/160 bytes, with only its first byte-load/store
+  register pair differing after the same shift.
+
+This supersedes the older ignored `handler-shape.py` eight-handler report. That
+older diagnostic produced false positives, including opcode 145, because it
+zeroed any target immediate in the executable image range and therefore erased
+the real scalar mask `0x00400000`. Do not route work from that result.
+
+For opcode 155 specifically, target uses ECX for the shifted timeout-spell input
+and EAX for the merged flag value; the candidate uses EAX/ECX respectively.
+Target therefore emits the six-byte generic `AND ECX,0x01000000` while the
+candidate emits the five-byte EAX-special encoding. The physical tail is
+correspondingly shifted by one byte and the candidate ends with a compensating
+alignment NOP. This remains an allocator/TU frontier, not a license to force
+registers. Bounded natural probes of the opcode-155 expression (direct
+bitfield, helper/mask forms, signed/unsigned locals, pointer/reference state,
+function-scope scratch reuse, and the adjacent TH08-style spelling) all
+reproduce the same 44-byte candidate handler. Reverting the recent
+instruction-time context spelling and opcode-2 source shape also leaves opcode
+155 unchanged. Do **not** repeat those controls without new cross-case/TU
+evidence.
 
 Useful restart commands:
 
@@ -97,9 +123,11 @@ python3 scripts/compare-coff-function.py --unit ecl-pop-context --json
 python3 scripts/report-ecl-codegen.py --json build/matching/EclManager.obj
 python3 scripts/report-ecl-handler-boundaries.py build/matching/EclManager.obj
 python3 scripts/audit-ecl-callsite-identities.py build/matching/EclManager.obj
+python3 scripts/report-ecl-handler-shapes.py build/matching/EclManager.obj
 ~~~
 
-The callsite audit is a structural diagnostic and not an exactness Oracle.
+The callsite and handler-shape reports are structural diagnostics and not
+exactness Oracles.
 
 ## Priority frontier 2: ExAttack type 6
 
