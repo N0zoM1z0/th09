@@ -5772,3 +5772,9 @@ after the call VC7.1 still reloads `[ebp-0x28]` with a three-byte LEA, whereas
 the target reuses the receiver already in ECX with two-byte `mov edx,ecx`.
 The same target/source family applies to type8. These are useful negative
 controls, not a reason to force ECX; both callbacks remain honestly NON-EXACT.
+
+## Type11 position whole-owner diagnostic (2026-10-05)
+
+- `scripts/inspect-player-position-type11.py` binds all 35 direct calls and the constructor callback before comparing the complete 732-byte owner. It reuses the complete decoder/CFG diagnostic and grants no exactness or partial-byte credit. The callback at `0x004343D0` remains a physical binding with frozen shared/folded ownership.
+- Current maintained source reproduces 725 bytes, 235 instructions and 36 relocation fields; all ordered calls and the 11-block direct graph agree, while the full owner remains non-exact. The target has 233 instructions and a `0xDC` frame; the maintained frame is `0xAC`. Seven target vector-temporary homes versus three in the candidate do not authorize artificial storage.
+- A single full-expression grouping of the five real golden-point assignments was tested as a temporary-lifetime hypothesis. It instead produces a `0x13C` frame and remains 725 bytes, so it is rejected. Source, profiles, boundaries, ledgers and exactness are unchanged. Reproduce the maintained object with the existing `player-type11-orientation-sign` carrier, then pass that object to the diagnostic; no unrelated owner needs replay.
