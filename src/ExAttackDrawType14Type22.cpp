@@ -159,15 +159,15 @@ int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)
         unsigned long lineColor =
             alphaBits | 0x00FFFFFFUL;
 
-        ExAttackType1422DrawVertex *group =
-            &extra->fanGroups2E8[0][0];
-        float *random = &extra->randomD38[0][0];
+        ExAttackType1422DrawVertex (*group)[33] =
+            extra->fanGroups2E8;
+        float (*random)[33] = extra->randomD38;
         int groupIndex = 0;
 
         do
         {
-            ExAttackType1422DrawVertex *lineVertex = group;
-            float *randomValue = random;
+            ExAttackType1422DrawVertex *lineVertex = *group;
+            float *randomValue = *random;
             int lineRemaining = 32;
             do
             {
@@ -199,7 +199,7 @@ int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)
             g_Supervisor.d3dDevice08->DrawPrimitiveUP(
                 D3DPT_LINESTRIP,
                 31,
-                group,
+                *group,
                 sizeof(ExAttackType1422DrawVertex));
 
             if (extra->state00 == 1)
@@ -207,8 +207,8 @@ int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)
 
             angle += 0.050670851f;
             ++groupIndex;
-            random += 33;
-            group += 33;
+            ++random;
+            ++group;
         }
         while (groupIndex < 4);
 
