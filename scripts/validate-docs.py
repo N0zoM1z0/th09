@@ -20,6 +20,11 @@ TABLE_SPLIT = re.compile(r"(?<!\\)\|")
 MARKDOWN_LINK = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
 FENCE = re.compile(r"^ {0,3}(?P<marker>`{3,}|~{3,})(?P<rest>.*)$")
 CODE_SPAN = re.compile(r"(?<!`)(`+)(?!`)(.*?)\1(?!`)", re.DOTALL)
+PRIMARY_ADDRESS = re.compile(r"0x[0-9A-Fa-f]{8}")
+STALE_EXACT_STATE = re.compile(
+    r"non[- ]?exact|near[- ]?match|codegen-blocked|persistent-nonexact|hard-frontier",
+    re.IGNORECASE,
+)
 
 
 def table_cells(line: str) -> list[str]:
@@ -53,6 +58,9 @@ def prose_link_targets(text: str) -> list[str]:
 def validate_knowledge_base() -> None:
     ids: list[str] = []
     forbidden_states = {"superseded", "historical / superseded-codegen-diagnostic"}
+    exact_addresses = {
+        row["address"].lower() for row in rows("matches.csv")
+    }
     knowledge = KNOWLEDGE.read_text(encoding="utf-8")
     for line_number, line in enumerate(
         knowledge.splitlines(), 1
@@ -65,6 +73,16 @@ def validate_knowledge_base() -> None:
                 f"knowledge row {line_number} has {len(cells)} unescaped cells"
             )
         identifier, state, fact, evidence = cells
+        primary_address = PRIMARY_ADDRESS.search(fact)
+        if (
+            primary_address is not None
+            and primary_address.group(0).lower() in exact_addresses
+            and STALE_EXACT_STATE.search(state)
+        ):
+            raise ValueError(
+                "stale knowledge state for exact primary function at "
+                f"line {line_number}: {identifier} ({state})"
+            )
         if not re.fullmatch(r"[A-Z][A-Z0-9-]*", identifier):
             raise ValueError(f"invalid knowledge ID at line {line_number}: {identifier}")
         if state in forbidden_states:

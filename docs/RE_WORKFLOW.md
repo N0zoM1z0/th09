@@ -37,6 +37,20 @@ disk target, IDA target, ledgers, and live status using the commands in
    per-game knowledge, inspect the final diff, and commit one coherent local
    checkpoint.
 
+### Current-state documentation hygiene
+
+`docs/RE_HANDOFF.md` is replace-in-place current state, not an append-only packet
+journal. Keep only the live ledger snapshot, active frontiers, restart commands,
+and short routing notes there. Historical experiments and superseded byte-count
+plateaus belong in Git history or the historical sections of
+`docs/KNOWLEDGE_BASE.md`.
+
+Do not use a knowledge-base `Recorded state` cell or old packet wording as a
+current exactness ledger. When a function changes exactness, update or remove
+any active handoff or routing claim in the same checkpoint. Prefer a
+reproducible command over copying transient whole-owner counts into long-lived
+prose.
+
 ## Product and semantic gates
 
 Function exactness is followed by a separate faithful-product phase. Populate

@@ -18,6 +18,22 @@ sys.modules[SPEC.name] = VALIDATE_DOCS
 SPEC.loader.exec_module(VALIDATE_DOCS)
 
 
+class KnowledgeStateTests(unittest.TestCase):
+    def test_exact_primary_stale_state_markers_are_detected(self) -> None:
+        for state in (
+            "source-present / non-exact",
+            "source-present / codegen-nearmatch",
+            "source-present / codegen-blocked",
+            "hard-frontier / stable non-exact",
+        ):
+            self.assertIsNotNone(VALIDATE_DOCS.STALE_EXACT_STATE.search(state))
+
+    def test_mixed_exact_state_is_not_treated_as_stale(self) -> None:
+        self.assertIsNone(
+            VALIDATE_DOCS.STALE_EXACT_STATE.search("mixed exact/source-present")
+        )
+
+
 class MarkdownLinkTests(unittest.TestCase):
     def test_code_examples_are_not_local_links(self) -> None:
         text = """`g_EclExInsn[READ_I(...)](enemy, instruction)` and [handoff](docs/RE_HANDOFF.md)
