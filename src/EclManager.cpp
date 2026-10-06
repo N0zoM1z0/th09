@@ -305,12 +305,12 @@ static void MoveRandomBiased(
             Th09EclRunControl::g_Rng.GetRandomF32SignedInRange(3.1415927f);
     }
 
-    float *position =
-        reinterpret_cast<Float3 *>(&view->position2D74)->operator float *();
-    if (position[1] < view->movementLowerBounds3398.y + 48.0f &&
+    EnemyFloat3 *position = reinterpret_cast<EnemyFloat3 *>(
+        reinterpret_cast<Float3 *>(&view->position2D74)->operator float *());
+    if (position->y < view->movementLowerBounds3398.y + 48.0f &&
         angle < 0.0f)
         angle = -angle;
-    if (position[1] > view->movementUpperBounds33A0.y - 48.0f &&
+    if (position->y > view->movementUpperBounds33A0.y - 48.0f &&
         angle > 0.0f)
         angle = -angle;
 

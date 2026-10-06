@@ -155,7 +155,8 @@ Native product and runtime gates remain open.
 
 `EclManager::RunEcl @ 0x004086C0` remains source-present and **NON-EXACT**.
 
-The current ECL carrier includes the October 6 Type6 initializer closure.
+The current ECL carrier includes the October 6 Type6 initializer closure and
+the byte-neutral random-biased movement typed-consumer correction.
 Its 66 other owners are byte/field-neutral; RunEcl retains raw function
 SHA-256
 `93206b3996d97e62d6470b795e32c9cfdc9228a9bc8806efed073688b7420eef`.
@@ -224,7 +225,7 @@ Useful restart commands:
 ~~~bash
 # First verify the retained object's source/dependency manifest.
 # Ordinary build/matching caches may predate the current Player header.
-OBJ=build/matching/EclManagerType6Initialize.obj
+OBJ=build/gpt-dots-biased-movement-20261006/canonical.obj
 python3 scripts/report-ecl-codegen.py --json "$OBJ"
 python3 scripts/report-ecl-handler-boundaries.py "$OBJ"
 python3 scripts/audit-ecl-callsite-identities.py "$OBJ"
@@ -288,8 +289,11 @@ no canonical shared-layout promotion or repeated subset trial follows.
 
 RunEcl is necessary for the 95% milestone: its 14,792 bytes exceed the current
 13,788-byte non-exact allowance. This bounded plateau is not proof of impossibility.
-The current source-bound carrier proof is retained in the October 6
-type6-branch-spawn packet (canonical-proof.json);
+The current source-bound carrier is
+`build/gpt-dots-biased-movement-20261006/canonical.obj`; verify it without
+compiling using the same packet
+`.analysis/gpt-dots-biased-movement-20261006/verify-current.py`. The preceding
+Type6 proof is retained in its packet;
 the October 5 ECL packet preserves the preceding hypothesis review. The new
 October 6 reference-returning WriteInt/WriteFloat wrapper control is also fully
 neutral across RunEcl and all exact ECL siblings; do not repeat it.
@@ -413,6 +417,24 @@ sections pass independent review. Full proof and provenance limits are retained
 in the October 6 semantic-contexts packet. Do not repeat these precise models
 unchanged. The earlier region, heading, nested-reference and planar-dot controls
 remain recorded negatives in the Knowledge Base and their packets.
+
+## Current random-biased movement consumer
+
+MoveRandomBiased now consumes the actual conversion-result address as the
+existing EnemyFloat3 view and reads its named Y member. The genuine Float3
+conversion call and both sequential reflections remain; inherited object-view
+and lifetime assumptions are not closed. Isolated and canonical carriers
+preserve all 67 owners, 28,838 bytes/1,215 fields and all 102 nondebug sections.
+All 23 exact siblings fully target-match. Twenty compiler-private symbol names
+in ecl-post-update-movement and ecl-compare-operands are refreshed from actual
+same-owner destinations; no target/address/addend/profile change.
+
+The complete helper remains 517/516 bytes with 28 fields, 145 instructions,
+14 ordered calls and 148 linked overlap differences plus one excess. Its old
+one-byte shorthand described only extent. Typed Float3/EnemyFloat3 consumers
+are neutral; positive-duration early completion gives 520 bytes and is rejected.
+These three precise source arrangements are measured; no new exact credit.
+The October 6 biased-movement packet retains independent and canonical proof.
 
 ## Next bounded investigations
 
