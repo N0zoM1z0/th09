@@ -689,6 +689,15 @@ bytes, with 117 overlap differences plus 11 absent, versus current baseline
 74-byte copy has no ownership. The controller-axis-operation packet holds the
 complete current-input comparison and independent review.
 
+The later pool-rebuild cursor/countdown control is rejected at 588/572 bytes,
+528 overlap differences plus 16 excess; three exact reset siblings stay intact.
+FrontAdded's full successful-resource arm duplicates a static loader call site
+and emits 716/706 bytes. Its ordinary closed-panel operation retains two
+non-target helper calls (529-byte caller plus 89-byte helper). The complete
+owner-controls-review packet independently verifies all fields, stores and
+collateral. Canonical source is unchanged; no replay or new credit applies.
+Do not repeat these three precise source models unchanged.
+
 ## Current gameplay threshold correction
 
 GameManagerSetup OnUpdate now performs its two score-threshold products in
