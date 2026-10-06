@@ -223,6 +223,13 @@ removing the one-pass dispatch loop preserves all 67 owners, 28,838 bytes and
 the earlier inner-continue and outer-context loops. The October 6 enclosing-models
 packet retains its complete proof; do not repeat this precise arrangement.
 
+The later pending-subroutine while-loop context preserves reported size/frame/
+call/field counts but shifts every opcode entry: 0/187 target offsets match.
+Its strict complete CFG identity pairing fails, so no target binding or handler-
+shape claim follows. All 66 other emitted owners are byte/field neutral.
+The October 6 structured-traversals packet retains this isolated negative;
+do not repeat the guarded pending-entry form unchanged.
+
 The fresh whole-source/caller review found no new supported build hypothesis.
 Real timer assignment/update visibility already has source-backed negative
 controls. The October 6 plain Tick/post++/TickTimer visibility control is also
@@ -318,6 +325,13 @@ differences, the same 30-block graph and 11 ordered calls. Its helper-visible
 Type19/21 initializers now use in-bounds arrays and real vector/vertex objects;
 their complete target-sized 763/727-byte owners have six/nine preheader
 differences. Use inspect-exattack-trail-init.py; both remain NON-EXACT.
+
+Type19/21 initializer counted-for loops and reusable UV scratch objects are
+now separately tested and fully neutral across all 67 ECL carrier owners.
+Consuming the current vertex into a reference at iteration entry instead emits
+765/720 bytes versus target 763/727 and is rejected; the other 65 owners stay
+neutral. Their six/nine-byte canonical preheader residuals remain. Full source,
+COFF, field and target comparison proofs are in the structured-traversals packet.
 
 PauseMenu's new result/normal completion decision is fully neutral; a duplicated
 completed-closing animation continuation emits 1,836/1,776 physical bytes and
