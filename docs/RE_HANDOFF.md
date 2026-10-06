@@ -290,6 +290,15 @@ the large-model-independent packet rather than repeating these arrangements.
 
 ## Latest whole-context controls
 
+Four later phase/dispatch controls are now recorded negatives. Options' frozen
+if/else entry changes the graph and emits 2,049/2,045 bytes; its dispatch-only
+switch is neutral across both owners. ECL's complete post-dispatch scratch
+lifetime family is neutral across all 67 owners/28,838 bytes/1,215 fields,
+with the same six-handler frontier. ScreenEffect's in-class final-phase endpoint
+operation is neutral across 22 common owners/2,997 bytes/190 fields; its uncalled
+20-byte copy has no ownership. The October 6 phase-dispatch-contexts packet has
+source/target/object proofs. Do not repeat these precise arrangements unchanged.
+
 Current-carrier RunEcl six-fragment scope flattening is now tested and fully
 neutral across all 67 owners/28,838 bytes/1,215 fields. Earlier scope results
 used an older carrier, but this current context is no longer an open route.
