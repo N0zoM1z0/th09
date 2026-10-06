@@ -146,7 +146,9 @@ and 35 non-code sections are neutral. All 22 previous exact siblings retain
 9,126 bytes/401 fields. CompareOperands +0x14 changes only its actual local
 symbol spelling from $L8517 to $L8516, with owner-relative identity verified.
 Use exattack-type6-initialize and ecl-compare-operands for focused replay.
-Focused committed-source replay remains required for this checkpoint.
+Focused forced-recompile replays passed and were accepted on cd0cee99:
+Type6 e831c0d4b00f8c8dffb6be9ba2ca5557c02e9aea27d8316136f01286b98f0991;
+CompareOperands 952f16b28c31c06644c58fcc50cac10d1f3e3baf61bb69142e822afa2e8f1a95.
 Native product and runtime gates remain open.
 
 ## Priority frontier 1: EclManager::RunEcl
