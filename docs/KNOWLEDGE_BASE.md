@@ -2589,7 +2589,7 @@ name into a TH09 fact without target-local evidence.
 
 - SupervisorNetworkMessageView::HandleMessage @ 0x00432B70-0x00432E6F is now maintained source-present/non-exact. Exact SupervisorNetworkMessageThunk is its sole caller: the thunk reloads g_SupervisorNetworkState @ 0x004B42D0 into ECX and preserves the DirectPlay callback stack surface userContext/messageId/message. The pinned VC7.1 Platform SDK dplay8.h fixes the message constants and DPNMSG structure offsets rather than relying on hand-written vtables.
 - The handler recognizes DPN_MSGID_RECEIVE, CREATE_PLAYER, DESTROY_PLAYER, SEND_COMPLETE and CONNECT_COMPLETE. All recognized cases enter Supervisor critical-section id4 and share the exact leave boundary; CREATE_PLAYER has the target-observed error return after leaving. CONNECT_COMPLETE maps successful state1 connection to state3/localSide1. SEND_COMPLETE sets packetReady. CREATE_PLAYER performs the normal two-pass IDirectPlay8Peer::GetPeerInfo query, allocates/zeros a 24-byte DPN_PLAYER_INFO buffer through VC7.1 operator new, tests DPNPLAYER_LOCAL, stores the new DPNID into peerIds[localSide] or peerIds[1-localSide], and deletes the temporary. DESTROY_PLAYER clears matching peer IDs.
-- RECEIVE uses the target packet protocol. Type0 is the 12-byte frame packet {type, signed side, seed, frame, 16-bit input/checksum}; remote-side packets are copied to network-state +0xC8 and forwarded to exact SupervisorFrameQueueView::InsertReceivedFrame. Type1 validates the TH09-local token pair, sets packetReady and snapshots the neutral receive-time global. Type2 is the existing 12-byte handshake {type, signed side, seed, syncRate, syncValue}; it reconciles localSide, restores exact ReplayRng seed, copies sync state, and prefills paired sentinel frames beginning at -9998 when 60/syncRate requires it. All RECEIVE paths update the target-observed receive timestamp pair.
+- RECEIVE uses the target packet protocol. Type0 is the 12-byte frame packet {type, signed side, seed, frame, 16-bit input/checksum}; remote-side packets are copied to network-state +0xC8 and forwarded to SupervisorFrameQueueView::InsertReceivedFrame (independently NON-EXACT; the earlier exact adjective was stale). Type1 validates the TH09-local token pair, sets packetReady and snapshots the neutral receive-time global. Type2 is the existing 12-byte handshake {type, signed side, seed, syncRate, syncValue}; it reconciles localSide, restores exact ReplayRng seed, copies sync state, and prefills paired sentinel frames beginning at -9998 when 60/syncRate requires it. All RECEIVE paths update the target-observed receive timestamp pair.
 - Source ordering is codegen-relevant but natural: RECEIVE, CREATE_PLAYER, DESTROY_PLAYER, SEND_COMPLETE, CONNECT_COMPLETE matches the target's physical switch block order. With signed packet-side fields, the target-observed global localSide lookup on frame receive, and a while-form sentinel prefill loop, VC7.1 emits the authored code body with the same case entry offsets: RECEIVE +0x27, CREATE_PLAYER +0x19D, DESTROY_PLAYER +0x26F, SEND_COMPLETE +0x29E, CONNECT_COMPLETE +0x2B6, common leave +0x2EB and ret 0xC at +0x2FD.
 - The COFF function symbol spans 0x328 bytes because VC7.1 places the 24-byte six-entry jump table and 16-byte byte-map immediately after the code body. TH09 places the same 40 bytes at 0x00432E70-0x00432E97, outside the authored 768-byte function ledger extent; all six jump-table relocations solve to the exact TH09 case entry addresses. Exactness is still false: same-length differences remain in the 16-bit frame argument load schedule, a few volatile registers, and the common-leave mov/push order. Further pursuit would be scheduler/register steering, so no var_order, volatile, padding, assembly, forced registers or profile roulette is retained.
 
@@ -6356,3 +6356,54 @@ No source, compiler profile, authored boundary, origin, denominator or exact-mat
 - Complete target linkage, field widths/destinations, actual include closures, reversible source patches and nondebug collateral are verified in .analysis/gpt-dots-semantic-contexts-20261006. All three ECL trials preserve 23 exact siblings and 35 noncode sections; Effect preserves 14 exact siblings and four noncode sections. The independent audit recomputes the proof and checks bounds, layouts and call ABI. Target CALL 0x40CEDD resolves independently to canonical AnmManager::ExecuteScript at 0x436F30; the private Effect view alias has compatible transport, without establishing whole-product ownership.
 - Current ECL owner/source identities match the pinned carrier despite the already-documented difference from its historical pre-replay whole COFF. Actual candidate includes are retained; current compiler/system-header hashes do not retroactively attest historical producer execution. Raw Factory responses, complete command streams, compile logs and resolved diagnostic errors are retained. The first verifier overrequired an identical private ExecuteScript spelling in exact manifests; the corrected check uses its independently confirmed canonical alias. One independent-auditor archive request exceeded the script-length limit before execution and was retained, then split into supported chunks. No actual permission denial or alternate route occurred.
 - These four precise models are terminal negatives and should not be repeated unchanged. No new accepted receipt is appropriate for isolated nonexact/neutral trials. The 95% milestone, native product/runtime, semantic and portability gates remain open.
+
+
+## 2026-10-06 DirectPlay receive dispatch and completion controls
+
+The current-input baseline for SupervisorNetworkMessageView::HandleMessage
+at 0x00432B70 remains NON-EXACT: 768 authored code bytes, 808 physical bytes
+including its 24-byte jump table and 16-byte byte map, 46 independently bound
+fields and 125 complete linked-byte differences. The old same-length scheduling
+shorthand hid a two-byte local instruction shift; the later control paths and
+all six switch destinations still begin at the target offsets. No partial credit.
+
+Five isolated natural source models are retained in
+`.analysis/gpt-dots-network-dispatch-20261006`:
+
+- A receive packet-kind switch with one timestamp completion emits 772 code /
+  812 physical bytes, 688 full physical overlap differences plus four excess.
+- Frame-packet-owned queue forwarding retains a new 32-byte runtime helper;
+  HandleMessage is 780 physical bytes/45 fields. No target binding is invented
+  for that helper or its caller relocation.
+- Per-recognized-case lock release and success return emits 768/808 bytes and
+  46 fields. It recovers exactly the seven bytes at +0x2EB..+0x2F1 by moving
+  the genuine Supervisor receiver load before PUSH 4. Every other linked byte
+  and table is unchanged, leaving 118 full differences. It is not integrated.
+- Positive non-frame control handling with complementary frame forwarding
+  emits 780/820 bytes, 700 physical overlap differences plus twelve excess.
+- The existing Supervisor frame/timing view plus its ordinary RecordReceiveTime
+  method preserves all 808 linked bytes and 46 effective fields of the baseline.
+  Its unreferenced 13-byte method copy receives no target ownership.
+
+The first four controls and baseline pass an independent complete COFF/table/
+field/source/include audit. The fifth is a subsequently measured full-linked
+neutral control against that audited baseline, with unchanged noncode sections.
+All source patches and complete comparisons are retained; canonical source,
+headers, ABI, profile and ledgers are unchanged. No replay is warranted.
+
+Target consumers and maintained SupervisorNetworkView/TitleSupervisorView show
+that the handler's three scalar aliases denote addresses inside g_Supervisor:
+g_NetworkHandshakeToken is frameCounter +0x458, g_NetworkLastReceiveTime is
+frameStartTime +0x464, and g_NetworkCurrentTime is waitTime +0x46C. The receive
+path copies cached waitTime to frameStartTime. These operand/address bindings
+are not independent globals or proof of the original class/TU organization.
+ReplayRngView::SetSeed resolves independently to 0x00420160 through its target
+body/ABI, callsite, IDA xrefs and maintained RNG implementation. Original
+class identity and native runtime behavior remain unproven.
+
+Do not repeat these exact five source arrangements unchanged. The packet keeps
+all full raw verifier/auditor errors: an overbroad symbol-map assumption, Windows
+header-name case resolution, absent PE base-relocation metadata, and an indexed
+absolute switch-table operand. They were corrected without an access denial or
+alternate route. System-header hashes observed later do not retroactively
+attest historical producer execution.

@@ -509,6 +509,22 @@ placement while preserving bounds and all three returns. Audit the retained
 invert-loop/invert-errorpath-loop controls and their provenance before a new
 source trial. The October 6 front-message-wire packet has the complete graph.
 
+## Current DirectPlay message-handler controls
+
+HandleMessage remains 768 authored /808 physical bytes, 46 fields and 125
+complete linked differences on a fresh current-input baseline. Per-case lock
+completion recovers exactly seven tail bytes, leaving 118 differences; it is
+not integrated. Receive-kind switch and non-frame hierarchy controls regress;
+frame-packet forwarding retains a non-target call. The existing Supervisor
+clock-field view is fully linked-neutral. These five models are now measured,
+not open hypotheses. The October 6 network-dispatch packet retains complete
+comparisons, an independent audit of the first four, and a no-compile verifier.
+
+The three scalar aliases bind Supervisor frameCounter +0x458, frameStartTime
++0x464 and waitTime +0x46C. Do not infer distinct globals or original class
+ownership. Canonical source and all exact owners are unchanged; no replay or
+new credit follows. Further work needs a genuinely different source context.
+
 ## Current replay-save rendering frontier
 
 Canonical DrawReplaySave source remains unchanged and NON-EXACT. The new isolated
