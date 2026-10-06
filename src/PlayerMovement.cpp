@@ -190,7 +190,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         player->movementDirection30358 = 0;
 
     int focused;
-    if ((&g_GameConfiguration->valueB4)[player->sideIndex] == 1)
+    if (g_GameConfiguration->sideFocusMode[player->sideIndex] == 1)
         focused =
             reinterpret_cast<PlayerMovementReplayInputState *>(
                 reinterpret_cast<unsigned char *>(g_ReplayInputStates) +

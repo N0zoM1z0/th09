@@ -204,7 +204,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
             SetIndexedSpriteChoice(
                 (&g_Supervisor.config388.valueB7)[keyConfigSide], 48);
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB4)[keyConfigSide], 49);
+                g_Supervisor.config388.sideFocusMode[keyConfigSide], 49);
 
             vmPair = &vms[50];
             SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[0]);
@@ -331,11 +331,11 @@ afterControllerBinding:
             keyConfigSide = 1 - keyConfigSide;
             SetIndexedSpriteChoice(keyConfigSide, 47);
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB4)[keyConfigSide], 49);
+                g_Supervisor.config388.sideFocusMode[keyConfigSide], 49);
             SetIndexedSpriteChoice(
                 (&g_Supervisor.config388.valueB7)[keyConfigSide], 48);
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB4)[keyConfigSide], 42);
+                g_Supervisor.config388.sideFocusMode[keyConfigSide], 42);
             if ((&g_Supervisor.config388.valueB7)[keyConfigSide] >= 2)
             {
                 for (i = 0; i < 5; ++i)
@@ -394,13 +394,13 @@ afterControllerBinding:
             g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         case 2:
-            if ((&g_Supervisor.config388.valueB4)[keyConfigSide] <= 0)
-                (&g_Supervisor.config388.valueB4)[keyConfigSide] += 2;
-            --(&g_Supervisor.config388.valueB4)[keyConfigSide];
+            if (g_Supervisor.config388.sideFocusMode[keyConfigSide] <= 0)
+                g_Supervisor.config388.sideFocusMode[keyConfigSide] += 2;
+            --g_Supervisor.config388.sideFocusMode[keyConfigSide];
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB4)[keyConfigSide], 49);
+                g_Supervisor.config388.sideFocusMode[keyConfigSide], 49);
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB4)[keyConfigSide], 42);
+                g_Supervisor.config388.sideFocusMode[keyConfigSide], 42);
             g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         default:
@@ -416,11 +416,11 @@ afterControllerBinding:
             keyConfigSide = 1 - keyConfigSide;
             SetIndexedSpriteChoice(keyConfigSide, 47);
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB4)[keyConfigSide], 49);
+                g_Supervisor.config388.sideFocusMode[keyConfigSide], 49);
             SetIndexedSpriteChoice(
                 (&g_Supervisor.config388.valueB7)[keyConfigSide], 48);
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB4)[keyConfigSide], 42);
+                g_Supervisor.config388.sideFocusMode[keyConfigSide], 42);
             if ((&g_Supervisor.config388.valueB7)[keyConfigSide] >= 2)
             {
                 for (i = 0; i < 5; ++i)
@@ -479,13 +479,13 @@ afterControllerBinding:
             g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         case 2:
-            ++(&g_Supervisor.config388.valueB4)[keyConfigSide];
-            if ((&g_Supervisor.config388.valueB4)[keyConfigSide] >= 2)
-                (&g_Supervisor.config388.valueB4)[keyConfigSide] -= 2;
+            ++g_Supervisor.config388.sideFocusMode[keyConfigSide];
+            if (g_Supervisor.config388.sideFocusMode[keyConfigSide] >= 2)
+                g_Supervisor.config388.sideFocusMode[keyConfigSide] -= 2;
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB4)[keyConfigSide], 49);
+                g_Supervisor.config388.sideFocusMode[keyConfigSide], 49);
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB4)[keyConfigSide], 42);
+                g_Supervisor.config388.sideFocusMode[keyConfigSide], 42);
             g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         default:
@@ -519,16 +519,16 @@ afterControllerBinding:
                 &keyMapping.serialized,
                 &g_Supervisor.config388.controllerMapping,
                 sizeof(keyMapping.serialized));
-            (&g_Supervisor.config388.valueB4)[keyConfigSide] = 0;
+            g_Supervisor.config388.sideFocusMode[keyConfigSide] = 0;
             (&g_Supervisor.config388.valueB7)[keyConfigSide] =
                 (u8)keyConfigSide;
             SetIndexedSpriteChoice(keyConfigSide, 47);
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB4)[keyConfigSide], 49);
+                g_Supervisor.config388.sideFocusMode[keyConfigSide], 49);
             SetIndexedSpriteChoice(
                 (&g_Supervisor.config388.valueB7)[keyConfigSide], 48);
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB4)[keyConfigSide], 42);
+                g_Supervisor.config388.sideFocusMode[keyConfigSide], 42);
 
             if ((&g_Supervisor.config388.valueB7)[keyConfigSide] >= 2)
             {

@@ -982,7 +982,7 @@ mode_ready:
         SetupSideState *side = &manager->sides[sideIndex];
 
         if (side->selector != 0)
-            (&g_GameConfiguration->valueB4)[sideIndex] = 0;
+            g_GameConfiguration->sideFocusMode[sideIndex] = 0;
         side->flags &= ~1u;
 
         side->subsystem0 = RegisterSubsystem0(sideIndex);

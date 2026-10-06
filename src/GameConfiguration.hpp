@@ -37,8 +37,7 @@ struct GameConfiguration
     unsigned char windowed;
     unsigned char valueB2;
     unsigned char valueB3;
-    unsigned char valueB4;
-    unsigned char valueB5;
+    unsigned char sideFocusMode[2];
     unsigned char valueB6;
     unsigned char valueB7;
     unsigned char valueB8;

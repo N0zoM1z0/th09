@@ -93,8 +93,8 @@ remain open.
 
 `EclManager::RunEcl @ 0x004086C0` remains source-present and **NON-EXACT**.
 
-The current ECL carrier, rebuilt for the October 6 trail-initializer integration and
-proved byte/field-neutral for RunEcl, has RunEcl raw function
+The current ECL carrier, rebuilt for the October 6 configuration-array integration
+and proved byte/field-neutral across all 67 emitted owners, has RunEcl raw function
 SHA-256
 `93206b3996d97e62d6470b795e32c9cfdc9228a9bc8806efed073688b7420eef`.
 `scripts/report-ecl-codegen.py` reports:
@@ -162,7 +162,7 @@ Useful restart commands:
 ~~~bash
 # First verify the retained object's source/dependency manifest.
 # Ordinary build/matching caches may predate the current Player header.
-OBJ=build/gpt-dots-trail-array-20261006/canonical.obj
+OBJ=build/gpt-dots-ecl-fresh-context2-20261006/array-header.obj
 python3 scripts/report-ecl-codegen.py --json "$OBJ"
 python3 scripts/report-ecl-handler-boundaries.py "$OBJ"
 python3 scripts/audit-ecl-callsite-identities.py "$OBJ"
@@ -197,7 +197,8 @@ repeat these precise source arrangements. Their complete compact proofs are
 in the October 6 resolved-context and context-jump packets.
 RunEcl is necessary for the 95% milestone: its 14,792 bytes exceed the current
 13,788-byte non-exact allowance. This bounded plateau is not proof of impossibility.
-The current input manifest is retained in the October 6 trail-array packet;
+The current 34-input canonical-path manifest is retained in the October 6
+ecl-fresh-context2 packet;
 the October 5 ECL packet preserves the preceding hypothesis review. The new
 October 6 reference-returning WriteInt/WriteFloat wrapper control is also fully
 neutral across RunEcl and all exact ECL siblings; do not repeat it.
@@ -228,15 +229,23 @@ is fully byte/field neutral: 1,244 candidate bytes versus 1,280 target bytes,
 NON-EXACT; the old 36-byte size shorthand understated the complete residual.
 No original expression grouping or broader class ownership is inferred.
 
-## Fresh bounded controls and pending source correction
+## Fresh bounded controls and configuration array
 
 GameplaySetupThread and Player charge remain nonexact after new constructor,
-member and branch-organization controls. The proposed GameConfiguration
-sideFocusMode[2] correction is unpromoted: the setup carrier is fully neutral,
-but the four direct consumers and actual shared-header impact need bounded
-proof first. Its five-file patch and closure plan are in the October 6
-gameplay-fresh packet. Do not import the unrelated phase-sentinel overflow
-correction into CleanupGameplayState's Front transition/death counter.
+member and branch-organization controls. GameConfiguration now uses the genuine
+two-byte sideFocusMode[2] array at +B4 instead of indexing across separate chars.
+All four direct TUs and actual copy/lifecycle/serialization consumers preserve
+complete owner bytes and semantic fields; layout remains 0xCC, Supervisor +388.
+The 93-TU/335-unit include inventory was classified, not cold-replayed. Bounded
+compiler-identity closure additionally covers private labels and complete EH
+graphs. Exactly 115 symbol spellings in 12 configured units are refreshed from
+actual COFF destinations; 23 MIDI names were stale before this array change.
+No destination, addend, extent or compiler profile changes. Current proof is in
+the October 6 config-array-closure, config-direct, config-impact and
+ECL fresh-context2 packets. Focused committed-source receipts are pending for
+the two changed exact bodies and 12 manifest-changed units. No new exact credit.
+Do not import the unrelated phase-sentinel overflow correction into
+CleanupGameplayState's Front transition/death counter.
 
 Effect count-member and network-parser terminal-scanner controls are negative.
 Supervisor OnUpdate's new structured-cold-reregister candidate has the target
@@ -371,7 +380,7 @@ non-exact owners include:
   no broad consumer replay was performed. The October 6 typed conversion-result
   cursor keeps the real call and all 1900 physical bytes/66 destinations neutral;
   two private table-label renamings are independently resolved. Current object is
-  build/gpt-dots-movement-values-audit-20261006/typed-cursor.obj.
+  build/gpt-dots-config-direct-20261006/movement-title/movement-array.obj.
 - `EnemyManagerDrawImpl` — 1,758 bytes;
 - `PauseMenu::OnUpdate` — 1,734 bytes;
 - `GameplaySetupThread` — 1,689 bytes;

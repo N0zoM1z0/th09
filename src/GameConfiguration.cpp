@@ -24,8 +24,8 @@ void GameConfiguration::Initialize()
     this->valueB3 = 2;
     this->musicVolume = 100;
     this->sfxVolume = 80;
-    this->valueB4 = 0;
-    this->valueB5 = 0;
+    this->sideFocusMode[0] = 0;
+    this->sideFocusMode[1] = 0;
     this->valueB6 = 0;
     this->valueB7 = 0;
     this->valueB8 = 1;
