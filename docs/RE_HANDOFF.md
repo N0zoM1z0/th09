@@ -250,6 +250,12 @@ is fully byte/field neutral: 1,244 candidate bytes versus 1,280 target bytes,
 NON-EXACT; the old 36-byte size shorthand understated the complete residual.
 No original expression grouping or broader class ownership is inferred.
 
+Enemy OnUpdate's existing playfield conversion result now uses its genuine Float3
+object and named x/y members. A fresh 12-input-bound baseline and candidate
+preserve all five bodies, 4,060 bytes and 99 fields. The 3,900-byte physical owner
+still has 39 complete differences with all 97 fields target-correct; no new
+exact credit. This is separate from the parked new-accessor branch.
+
 Later source-context controls are also recorded negatives: Enemy draw's full
 second-angle predicate is byte/field neutral; DrawResult's two-output selection
 member and FrontCalc's completion member retain non-target runtime calls.

@@ -602,13 +602,14 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             if (loadedSprite == 0)
                 enemy->flags337C |= ENEMY_CORE_NO_SPRITE;
 
-            float *worldPosition;
+            const Float3 *worldPosition;
             if ((enemy->flags337C & ENEMY_CORE_NO_SPRITE) == 0 &&
                 (enemy->flags337C & ENEMY_CORE_HAS_BEEN_IN_BOUNDS) == 0 &&
-                (worldPosition = enemy->worldPosition2DD4,
+                (worldPosition = reinterpret_cast<const Float3 *>(
+                     enemy->worldPosition2DD4.operator float *()),
                  g_EnemyCoreGameManager.IsWithinPlayfield(
-                    worldPosition[0],
-                    worldPosition[1],
+                    worldPosition->x,
+                    worldPosition->y,
                     loadedSprite->extent34,
                     loadedSprite->extent30)))
             {
