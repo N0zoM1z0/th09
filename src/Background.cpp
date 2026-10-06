@@ -271,20 +271,14 @@ int Background::AddedCallback(Background *background)
     if (g_GameManager.currentStage == 5)
     {
         background->cullingDistanceSq = 3062500.0f;
-        background->ClearSpellBackgroundState();
-        return 0;
     }
     else if (g_GameManager.currentStage == 9)
     {
         background->cullingDistanceSq = 3062500.0f;
-        background->ClearSpellBackgroundState();
-        return 0;
     }
     else if (g_GameManager.currentStage == 11)
     {
         background->cullingDistanceSq = 4202500.0f;
-        background->ClearSpellBackgroundState();
-        return 0;
     }
     else if (g_GameManager.currentStage == 12 ||
              g_GameManager.currentStage == 15)

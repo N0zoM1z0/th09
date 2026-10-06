@@ -14,7 +14,7 @@ work; none of the numeric snapshots below are timeless facts.
 
 The operator-set milestone is **at least 95% of reviewed authored bytes exact**
 (updated 2026-10-05). With the current 275,770-byte denominator, this requires
-261,982 exact bytes; the current 217,619-byte ledger leaves 44,363 bytes.
+261,982 exact bytes; the current 218,094-byte ledger leaves 43,888 bytes.
 All function sizes are eligible; prioritize medium and large owners, with
 smaller closures or unblockers welcome (operator clarification 2026-10-05).
 Recompute this gap after ledger changes. This milestone does not close the
@@ -32,11 +32,11 @@ Fresh `python3 scripts/report-reconstruction-status.py` at this checkpoint:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 926 |
-| Source-present non-exact functions | 54 |
-| Source-present non-exact bytes | 58,151 |
+| Canonical exact functions | 927 |
+| Source-present non-exact functions | 53 |
+| Source-present non-exact bytes | 57,676 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 217,619 |
+| Canonical exact authored bytes | 218,094 |
 
 All 980 confirmed authored functions have maintained source. Faithful whole
 Windows i386 product closure remains open; semantic reconstruction and
@@ -117,6 +117,20 @@ Use front-calc-callback; the old 1,510-byte/partial-region frontier is supersede
 Independent full-owner proof is in the October 6 frontcalc-independent packet.
 Focused forced-recompile replay passed and was accepted on da33a646:
 receipt 3a36fbd779ea9cc2d0cdc474f704feed395fe4cfed728f10826aadba44387d7f.
+Native product and runtime gates remain open.
+
+## Latest exact Background added closure
+
+Background::AddedCallback at 0x00403830 now reproduces its complete 475-byte
+owner, 140 instructions, 16 branches, nine calls and all 19 independently bound
+fields. Exclusive stage-culling arms share one real ClearSpellBackgroundState
+and return continuation. This recovers the target stage-5 body followed by the
+stage-9 backward branch; earlier label/guard negatives retained duplicated
+success continuations. No ABI, profile, extent or denominator change.
+Use background-added-callback. Both isolated and canonical builds match; all
+seven same-profile exact siblings retain 2,193 bytes/139 fields. Complete
+code/EH/data collateral is neutral, with canonical SafeSEH indices checked by
+actual handler identity. Focused committed-source Factory receipt is pending.
 Native product and runtime gates remain open.
 
 ## Priority frontier 1: EclManager::RunEcl
@@ -275,7 +289,10 @@ Type19/21 initializers now use in-bounds arrays and real vector/vertex objects;
 their complete target-sized 763/727-byte owners have six/nine preheader
 differences. Use inspect-exattack-trail-init.py; both remain NON-EXACT.
 
-PauseMenu's opaque helper/deferred-footer context remains non-exact: 1,772
+PauseMenu's new result/normal completion decision is fully neutral; a duplicated
+completed-closing animation continuation emits 1,836/1,776 physical bytes and
+is rejected. Both preserve canonical source. The October 6 pause-outer-continuation
+packet holds complete proofs. Its opaque helper/deferred-footer context remains non-exact: 1,772
 physical bytes versus 1,776, with 816 differing overlapping positions. The
 October 6 state-9 if/else form is fully byte/field-neutral. Inspect retained
 controls before compiling another hypothesis.
