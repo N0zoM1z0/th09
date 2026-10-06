@@ -14,7 +14,7 @@ work; none of the numeric snapshots below are timeless facts.
 
 The operator-set milestone is **at least 95% of reviewed authored bytes exact**
 (updated 2026-10-05). With the current 275,770-byte denominator, this requires
-261,982 exact bytes; the current 213,875-byte ledger leaves 48,107 bytes.
+261,982 exact bytes; the current 214,694-byte ledger leaves 47,288 bytes.
 All function sizes are eligible; prioritize medium and large owners, with
 smaller closures or unblockers welcome (operator clarification 2026-10-05).
 Recompute this gap after ledger changes. This milestone does not close the
@@ -32,11 +32,11 @@ Fresh `python3 scripts/report-reconstruction-status.py` at this checkpoint:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 922 |
-| Source-present non-exact functions | 58 |
-| Source-present non-exact bytes | 61,895 |
+| Canonical exact functions | 923 |
+| Source-present non-exact functions | 57 |
+| Source-present non-exact bytes | 61,076 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 213,875 |
+| Canonical exact authored bytes | 214,694 |
 
 All 980 confirmed authored functions have maintained source. Faithful whole
 Windows i386 product closure remains open; semantic reconstruction and
@@ -62,9 +62,19 @@ not be reopened merely because an older packet or roadmap says they are pending:
 - `ExAttackUpdateCallbackType7 @ 0x004464A0` — 799 bytes.
 - `ExAttackUpdateCallbackType14_22 @ 0x00443DF0` — 805 bytes.
 - `AnmManager::Draw3D @ 0x0043B1A0` — 811 bytes.
+- `Controller::GetInput @ 0x0042BE40` — 819 bytes.
 
 Their current exactness comes from `config/matches.csv` plus their configured
 match units, not from historical prose.
+
+## Latest exact input closure
+
+Controller::GetInput now recovers the actual Z/X/Shift masks in both keyboard
+paths: shoot 0x1, bomb 0x2, focus 0x4. Ordinary OR-composed masks and paired
+equivalent keys close all 819 bytes with nine bound fields. Use the focused
+controller-get-input match unit; the older Packet 439 keyboard interpretation
+and allocator-only conclusion are superseded. Native product/runtime gates
+remain open.
 
 ## Priority frontier 1: EclManager::RunEcl
 

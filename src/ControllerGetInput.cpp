@@ -46,6 +46,9 @@ extern int g_WindowActivateWParam;
 #define KEYBOARD_KEY_PRESSED(button, key) \
     ((keyboardState[(key)] & 0x80) ? (button) : 0)
 
+#define KEYBOARD_EITHER_PRESSED(button, key1, key2) \
+    (((keyboardState[(key1)] | keyboardState[(key2)]) & 0x80) ? (button) : 0)
+
 namespace Controller
 {
 u16 __fastcall GetInput(int inputIndex)
@@ -59,35 +62,26 @@ u16 __fastcall GetInput(int inputIndex)
         {
             GetKeyboardState(keyboardState);
 
-            inputButtons |= KEYBOARD_KEY_PRESSED(
-                TH_BUTTON_SHOOT | TH_BUTTON_FOCUS, VK_SHIFT);
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_SHOOT, 'X');
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_BOMB, 'Z');
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_MENU, VK_ESCAPE);
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_UP, VK_NUMPAD8);
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_UP, VK_UP);
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_DOWN, VK_NUMPAD2);
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_DOWN, VK_DOWN);
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_LEFT, VK_NUMPAD4);
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_LEFT, VK_LEFT);
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_RIGHT, VK_NUMPAD6);
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_RIGHT, VK_RIGHT);
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_RESET, 'R');
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_D, 'D');
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_ENTER, VK_RETURN);
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_HOME, 'P');
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_HOME, VK_HOME);
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_S, 'S');
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_Q, 'Q');
-            inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_SKIP, VK_CONTROL);
-            inputButtons |= KEYBOARD_KEY_PRESSED(
-                TH_BUTTON_DOWN_RIGHT, VK_NUMPAD3);
-            inputButtons |= KEYBOARD_KEY_PRESSED(
-                TH_BUTTON_UP_RIGHT, VK_NUMPAD9);
-            inputButtons |= KEYBOARD_KEY_PRESSED(
-                TH_BUTTON_DOWN_LEFT, VK_NUMPAD1);
-            inputButtons |= KEYBOARD_KEY_PRESSED(
-                TH_BUTTON_UP_LEFT, VK_NUMPAD7);
+            inputButtons =
+                KEYBOARD_KEY_PRESSED(TH_BUTTON_FOCUS, VK_SHIFT) |
+                KEYBOARD_KEY_PRESSED(TH_BUTTON_BOMB, 'X') |
+                KEYBOARD_KEY_PRESSED(TH_BUTTON_SHOOT, 'Z') |
+                KEYBOARD_KEY_PRESSED(TH_BUTTON_MENU, VK_ESCAPE) |
+                KEYBOARD_EITHER_PRESSED(TH_BUTTON_UP, VK_UP, VK_NUMPAD8) |
+                KEYBOARD_EITHER_PRESSED(TH_BUTTON_DOWN, VK_DOWN, VK_NUMPAD2) |
+                KEYBOARD_EITHER_PRESSED(TH_BUTTON_LEFT, VK_LEFT, VK_NUMPAD4) |
+                KEYBOARD_EITHER_PRESSED(TH_BUTTON_RIGHT, VK_RIGHT, VK_NUMPAD6) |
+                KEYBOARD_KEY_PRESSED(TH_BUTTON_RESET, 'R') |
+                KEYBOARD_KEY_PRESSED(TH_BUTTON_D, 'D') |
+                KEYBOARD_KEY_PRESSED(TH_BUTTON_ENTER, VK_RETURN) |
+                KEYBOARD_EITHER_PRESSED(TH_BUTTON_HOME, VK_HOME, 'P') |
+                KEYBOARD_KEY_PRESSED(TH_BUTTON_S, 'S') |
+                KEYBOARD_KEY_PRESSED(TH_BUTTON_Q, 'Q') |
+                KEYBOARD_KEY_PRESSED(TH_BUTTON_SKIP, VK_CONTROL) |
+                KEYBOARD_KEY_PRESSED(TH_BUTTON_DOWN_RIGHT, VK_NUMPAD3) |
+                KEYBOARD_KEY_PRESSED(TH_BUTTON_UP_RIGHT, VK_NUMPAD9) |
+                KEYBOARD_KEY_PRESSED(TH_BUTTON_DOWN_LEFT, VK_NUMPAD1) |
+                KEYBOARD_KEY_PRESSED(TH_BUTTON_UP_LEFT, VK_NUMPAD7);
         }
         else
         {
@@ -106,35 +100,26 @@ u16 __fastcall GetInput(int inputIndex)
             }
             else
             {
-                inputButtons |= KEYBOARD_KEY_PRESSED(
-                    TH_BUTTON_SHOOT | TH_BUTTON_FOCUS, DIK_LSHIFT);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_SHOOT, DIK_X);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_BOMB, DIK_Z);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_MENU, DIK_ESCAPE);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_UP, DIK_NUMPAD8);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_UP, DIK_UP);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_DOWN, DIK_NUMPAD2);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_DOWN, DIK_DOWN);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_LEFT, DIK_NUMPAD4);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_LEFT, DIK_LEFT);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_RIGHT, DIK_NUMPAD6);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_RIGHT, DIK_RIGHT);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_RESET, DIK_R);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_D, DIK_D);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_ENTER, DIK_RETURN);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_HOME, DIK_P);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_HOME, DIK_HOME);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_S, DIK_S);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_Q, DIK_Q);
-                inputButtons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_SKIP, DIK_LCONTROL);
-                inputButtons |= KEYBOARD_KEY_PRESSED(
-                    TH_BUTTON_DOWN_RIGHT, DIK_NUMPAD3);
-                inputButtons |= KEYBOARD_KEY_PRESSED(
-                    TH_BUTTON_UP_RIGHT, DIK_NUMPAD9);
-                inputButtons |= KEYBOARD_KEY_PRESSED(
-                    TH_BUTTON_DOWN_LEFT, DIK_NUMPAD1);
-                inputButtons |= KEYBOARD_KEY_PRESSED(
-                    TH_BUTTON_UP_LEFT, DIK_NUMPAD7);
+                inputButtons =
+                    KEYBOARD_KEY_PRESSED(TH_BUTTON_FOCUS, DIK_LSHIFT) |
+                    KEYBOARD_KEY_PRESSED(TH_BUTTON_BOMB, DIK_X) |
+                    KEYBOARD_KEY_PRESSED(TH_BUTTON_SHOOT, DIK_Z) |
+                    KEYBOARD_KEY_PRESSED(TH_BUTTON_MENU, DIK_ESCAPE) |
+                    KEYBOARD_EITHER_PRESSED(TH_BUTTON_UP, DIK_UP, DIK_NUMPAD8) |
+                    KEYBOARD_EITHER_PRESSED(TH_BUTTON_DOWN, DIK_DOWN, DIK_NUMPAD2) |
+                    KEYBOARD_EITHER_PRESSED(TH_BUTTON_LEFT, DIK_LEFT, DIK_NUMPAD4) |
+                    KEYBOARD_EITHER_PRESSED(TH_BUTTON_RIGHT, DIK_RIGHT, DIK_NUMPAD6) |
+                    KEYBOARD_KEY_PRESSED(TH_BUTTON_RESET, DIK_R) |
+                    KEYBOARD_KEY_PRESSED(TH_BUTTON_D, DIK_D) |
+                    KEYBOARD_KEY_PRESSED(TH_BUTTON_ENTER, DIK_RETURN) |
+                    KEYBOARD_EITHER_PRESSED(TH_BUTTON_HOME, DIK_HOME, DIK_P) |
+                    KEYBOARD_KEY_PRESSED(TH_BUTTON_S, DIK_S) |
+                    KEYBOARD_KEY_PRESSED(TH_BUTTON_Q, DIK_Q) |
+                    KEYBOARD_KEY_PRESSED(TH_BUTTON_SKIP, DIK_LCONTROL) |
+                    KEYBOARD_KEY_PRESSED(TH_BUTTON_DOWN_RIGHT, DIK_NUMPAD3) |
+                    KEYBOARD_KEY_PRESSED(TH_BUTTON_UP_RIGHT, DIK_NUMPAD9) |
+                    KEYBOARD_KEY_PRESSED(TH_BUTTON_DOWN_LEFT, DIK_NUMPAD1) |
+                    KEYBOARD_KEY_PRESSED(TH_BUTTON_UP_LEFT, DIK_NUMPAD7);
             }
         }
     }
