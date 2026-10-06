@@ -115,8 +115,9 @@ mode1 backward sharing; earlier isolated nesting and shared-label negatives
 used a different outer CFG. No helper, profile, ABI, extent or denominator change.
 Use front-calc-callback; the old 1,510-byte/partial-region frontier is superseded.
 Independent full-owner proof is in the October 6 frontcalc-independent packet.
-Focused committed-source replay is pending at this checkpoint; native product
-and runtime gates remain open.
+Focused forced-recompile replay passed and was accepted on da33a646:
+receipt 3a36fbd779ea9cc2d0cdc474f704feed395fe4cfed728f10826aadba44387d7f.
+Native product and runtime gates remain open.
 
 ## Priority frontier 1: EclManager::RunEcl
 
@@ -309,7 +310,10 @@ byte/binding neutral.
 ## Fresh bounded controls and configuration array
 
 GameplaySetupThread and Player charge remain nonexact after new constructor,
-member and branch-organization controls. GameConfiguration now uses the genuine
+member and branch-organization controls. Gameplay's later ordered registration/null-test chain is fully byte/field-neutral;
+its partial-construction loop exit emits 1,669/1,689 bytes and is rejected.
+Current full comparisons and the bound reused carrier are retained in the
+October 6 gameplay-registration-chain packet. GameConfiguration now uses the genuine
 two-byte sideFocusMode[2] array at +B4 instead of indexing across separate chars.
 All four direct TUs and actual copy/lifecycle/serialization consumers preserve
 complete owner bytes and semantic fields; layout remains 0xCC, Supervisor +388.
