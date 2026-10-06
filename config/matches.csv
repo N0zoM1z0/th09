@@ -920,3 +920,4 @@ address,name,size,status,match_percent,unit,evidence
 0x00446060,ExAttackUpdateCallbackType6,698,matching,100.00,exattack-type6-update,python3 scripts/build-match-unit.py --unit exattack-type6-update && python3 scripts/compare-coff-function.py --unit exattack-type6-update --json
 0x004464A0,ExAttackUpdateCallbackType7,799,matching,100.00,exattack-type7-update,python3 scripts/build-match-unit.py --unit exattack-type7-update && python3 scripts/compare-coff-function.py --unit exattack-type7-update --json
 0x00443DF0,ExAttackUpdateCallbackType14_22,805,matching,100.00,exattack-type14-22-update,python3 scripts/build-match-unit.py --unit exattack-type14-22-update && python3 scripts/compare-coff-function.py --unit exattack-type14-22-update --json
+0x0043B1A0,AnmManager::Draw3D,811,matching,100.00,anm-manager-draw-3d,python3 scripts/build-match-unit.py --unit anm-manager-draw-3d && python3 scripts/compare-coff-function.py --unit anm-manager-draw-3d --json

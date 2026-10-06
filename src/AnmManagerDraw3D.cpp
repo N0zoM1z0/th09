@@ -125,8 +125,8 @@ int AnmManager::Draw3D(AnmVm *vm)
         drawVm->flagsWord &= ~4u;
     }
 
-    unsigned int anchorBits = drawVm->flagsWord >> 11;
     worldTransformMatrix = drawVm->matrix2;
+    unsigned int anchorBits = drawVm->flagsWord >> 11;
     if ((anchorBits & 1) == 0)
         worldTransformMatrix._41 = drawVm->pos.x;
     else
@@ -150,11 +150,12 @@ int AnmManager::Draw3D(AnmVm *vm)
         textureMatrix._32 = drawVm->loadedSprite->uvStartY + drawVm->uvScrollPos.y;
         supervisor->d3dDevice->SetTransform(D3DTS_TEXTURE0, &textureMatrix);
 
-        if (anm->currentTexture != drawVm->loadedSprite->texture) {
-            anm->currentTexture = drawVm->loadedSprite->texture;
-            supervisor->d3dDevice->SetTexture(
-                0, reinterpret_cast<IDirect3DBaseTexture8 *>(anm->currentTexture));
-        }
+    }
+
+    if (anm->currentTexture != drawVm->loadedSprite->texture) {
+        anm->currentTexture = drawVm->loadedSprite->texture;
+        supervisor->d3dDevice->SetTexture(
+            0, reinterpret_cast<IDirect3DBaseTexture8 *>(anm->currentTexture));
     }
 
     if (anm->currentVertexShader != 2) {
