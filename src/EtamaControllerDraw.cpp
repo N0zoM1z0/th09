@@ -72,13 +72,15 @@ int EtamaController::OnDraw(EtamaController *controller)
             (laser->endOffset - laser->startOffset) * 0.5f +
             laser->startOffset;
 
-        float *position = laser->position.operator float *();
-        float *bodyPosition = laser->bodyVm.pos.operator float *();
-        bodyPosition[0] =
-            g_GameManager.TransformPopupX(position[0] + cosine * halfLength);
-        bodyPosition[1] =
-            g_GameManager.TransformPopupY(position[1] + sine * halfLength);
-        bodyPosition[2] = 0.07f;
+        Float3 *position = reinterpret_cast<Float3 *>(
+            laser->position.operator float *());
+        Float3 *bodyPosition = reinterpret_cast<Float3 *>(
+            laser->bodyVm.pos.operator float *());
+        bodyPosition->x =
+            g_GameManager.TransformPopupX(position->x + cosine * halfLength);
+        bodyPosition->y =
+            g_GameManager.TransformPopupY(position->y + sine * halfLength);
+        bodyPosition->z = 0.07f;
         laser->color = -1;
         g_AnmManager->Draw2D(&laser->bodyVm);
 
@@ -86,12 +88,13 @@ int EtamaController::OnDraw(EtamaController *controller)
         {
             if (!laser->hideCapDuringStartup || laser->state != 0)
             {
-                float *capPosition = startCapVm->pos.operator float *();
-                capPosition[0] = g_GameManager.TransformPopupX(
-                    position[0] + cosine * laser->startOffset);
-                capPosition[1] = g_GameManager.TransformPopupY(
-                    position[1] + sine * laser->startOffset);
-                capPosition[2] = 0.05f;
+                Float3 *capPosition = reinterpret_cast<Float3 *>(
+                    startCapVm->pos.operator float *());
+                capPosition->x = g_GameManager.TransformPopupX(
+                    position->x + cosine * laser->startOffset);
+                capPosition->y = g_GameManager.TransformPopupY(
+                    position->y + sine * laser->startOffset);
+                capPosition->z = 0.05f;
 
                 float widthScale = laser->width / 10.0f;
                 startCapVm->color1 = laser->bodyVm.color1;

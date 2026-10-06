@@ -79,7 +79,8 @@ paths, data tables and callback roles are verified. InitializeAddedState remains
 independently nonexact. Use player-added-callback; the October 6
 player-collision-fresh packet has complete source/profile/field proof.
 GameConfiguration.hpp is not in this TU's actual dependency closure.
-Focused committed-source acceptance is pending at this metadata checkpoint.
+Focused cold canonical replay passed and was accepted on 2774afac:
+receipt 0eaa09cc9426a01714f87da3f9d77aa62f8ee8ee6fa5ffd787aeeaf06077ab1f.
 
 ## Latest exact Player damage closure
 
@@ -255,8 +256,9 @@ graphs. Exactly 115 symbol spellings in 12 configured units are refreshed from
 actual COFF destinations; 23 MIDI names were stale before this array change.
 No destination, addend, extent or compiler profile changes. Current proof is in
 the October 6 config-array-closure, config-direct, config-impact and
-ECL fresh-context2 packets. Focused committed-source receipts are pending for
-the two changed exact bodies and 12 manifest-changed units. No new exact credit.
+ECL fresh-context2 packets. All 14 focused committed-source receipts passed
+and were accepted on 2774afac: the two changed exact bodies and 12
+manifest-changed units. No array-related new exact credit.
 Do not import the unrelated phase-sentinel overflow correction into
 CleanupGameplayState's Front transition/death counter.
 
@@ -320,6 +322,20 @@ Type3 owner remains NON-EXACT with 15 linked-byte differences, all in the
 middle.z versus tail.x argument-preparation window. No new coverage or replay
 receipt follows. Current proof is in the October 6 frontier-fresh and
 type3-independent packets; native product/runtime gates remain open.
+
+## Current Etama draw vector-object correction
+
+OnDraw now consumes its three genuine Float3 conversion results as the existing
+objects and names x/y/z, avoiding indexing across distinct scalar members.
+The old-header trial, current-array combined trial and actual canonical build
+preserve all five emitted bodies: 1,672 bytes and 73 semantic fields. The two
+uncalled seven-byte file-local helpers receive no target ownership. Exact
+DrawSingleBullet and AddedCallback siblings preserve their complete 232/832
+physical extents. OnDraw remains NON-EXACT: 594/600 bytes, 465 linked overlap
+differences plus six absent bytes, with all 13 calls retained. No new receipt
+or exact credit is needed for this changed nonexact body. Current carrier:
+build/gpt-dots-etama-draw-canonical-20261006/canonical.obj. The fresh, combined
+and canonical Etama packets retain full field/target/source proofs.
 
 ## Current gameplay threshold correction
 
