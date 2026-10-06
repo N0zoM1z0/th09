@@ -341,8 +341,9 @@ ReplayInputState object. The inconsistent private view definitions are removed;
 1,197/1,210 bytes with 1,160 overlap differences and 13 absent bytes. Canonical
 and isolated carriers preserve all 1,217 bytes and 70 fields. All 23 configured
 exact units across the five-TU/seven-profile header closure target-match;
-complete non-debug code/EH graphs are neutral. Only the changed predicate needs
-an accepted committed-source replay. There is no new exact-byte credit.
+complete non-debug code/EH graphs are neutral. The changed predicate passed its focused cold replay and was accepted on
+ba203251: receipt 8b1c9216795bb80cf14cee588591049cee6a6646b11df4c14eb741872321e21a.
+There is no new exact-byte credit.
 
 ## Current controller source-fidelity maintenance
 
