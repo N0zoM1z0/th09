@@ -216,6 +216,15 @@ from earlier single-handler and mask-template controls, and is now a recorded
 negative. Its complete field-width, dependency and restoration proof is in the
 primary-flag-family packet. Do not repeat this unchanged arrangement.
 
+The isolated complete-type control is also fully neutral: global EnemyView now
+experimentally holds the existing State layout and EnemyStateView aliases it,
+with the same seven manager access sites and real method contracts. All 67
+paired owners preserve 28,838 bytes/1,215 fields; the two renamed View helpers
+are unchanged unreferenced identity leaves. All 22 exact siblings match. The
+full 943-block identity audit preserves the same six-handler frontier. The
+October 6 ecl-unified-owner packet records this distinct whole-object negative;
+no canonical shared-layout promotion or repeated subset trial follows.
+
 RunEcl is necessary for the 95% milestone: its 14,792 bytes exceed the current
 13,788-byte non-exact allowance. This bounded plateau is not proof of impossibility.
 The current 34-input canonical-path manifest is retained in the October 6
