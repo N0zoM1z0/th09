@@ -525,6 +525,25 @@ The three scalar aliases bind Supervisor frameCounter +0x458, frameStartTime
 ownership. Canonical source and all exact owners are unchanged; no replay or
 new credit follows. Further work needs a genuinely different source context.
 
+## Current playback-stage frontier
+
+BeginPlaybackStage now forms the existing target-observed stage-table address
+through the complete ReplayDataView byte representation. This avoids stepping
+outside a single pointer-array row for the ten-slot stage domain, while retaining
+the unusual address null test. No serialization or ABI change. The isolated and
+canonical objects preserve all 30 nondebug sections, including 14 normal owners,
+both auxiliary-less EH companions, all ten same-profile exact siblings and
+complete SafeSEH/EH identities. Source-domain/lifetime assumptions remain.
+
+The fresh full owner is 538/540 bytes with 32 fields, 49 overlap differences and
+two absent bytes. The old seed-only shorthand omitted early pointer-load and
+tail scheduling seams. Full valid-stage continuation and selected-stage aggregate
+models regress; scoped restoration and the frame seed getter are neutral.
+None is integrated. Do not repeat those four precise arrangements unchanged.
+The October 6 playback-context packet retains source/input/target and independent
+all-section proof; current carrier is
+build/gpt-dots-playback-context-20261006/canonical.obj. No new exact credit.
+
 ## Current replay-save rendering frontier
 
 Canonical DrawReplaySave source remains unchanged and NON-EXACT. The new isolated

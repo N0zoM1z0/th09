@@ -630,7 +630,10 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
         replayManager->unknown110 = 0;
     }
     i32 stage = g_ReplayStageIndex;
-    if (replayManager->replayData->frameStart[0] + stage * 10 == NULL)
+    // TH09 tests this table address, not the stored frame pointer.
+    // Form it within the complete replay header's byte representation.
+    if ((u8 *)replayManager->replayData + offsetof(ReplayDataView, frameStart) +
+        stage * sizeof(replayManager->replayData->frameStart[0]) == NULL)
         return -1;
     if ((g_GameManager.IsPlaybackStateZero() || g_GameManager.IsPlaybackStateOne()) && stage > 0)
     {
