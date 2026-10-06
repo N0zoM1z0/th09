@@ -14,7 +14,7 @@ work; none of the numeric snapshots below are timeless facts.
 
 The operator-set milestone is **at least 95% of reviewed authored bytes exact**
 (updated 2026-10-05). With the current 275,770-byte denominator, this requires
-261,982 exact bytes; the current 215,690-byte ledger leaves 46,292 bytes.
+261,982 exact bytes; the current 216,128-byte ledger leaves 45,854 bytes.
 All function sizes are eligible; prioritize medium and large owners, with
 smaller closures or unblockers welcome (operator clarification 2026-10-05).
 Recompute this gap after ledger changes. This milestone does not close the
@@ -32,11 +32,11 @@ Fresh `python3 scripts/report-reconstruction-status.py` at this checkpoint:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 924 |
-| Source-present non-exact functions | 56 |
-| Source-present non-exact bytes | 60,080 |
+| Canonical exact functions | 925 |
+| Source-present non-exact functions | 55 |
+| Source-present non-exact bytes | 59,642 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 215,690 |
+| Canonical exact authored bytes | 216,128 |
 
 All 980 confirmed authored functions have maintained source. Faithful whole
 Windows i386 product closure remains open; semantic reconstruction and
@@ -67,6 +67,19 @@ not be reopened merely because an older packet or roadmap says they are pending:
 
 Their current exactness comes from `config/matches.csv` plus their configured
 match units, not from historical prose.
+
+## Latest exact Player lifecycle closure
+
+AddedCallback at 0x0041EE50 now fully reproduces its 438-byte owner and all
+20 independently bound fields with unchanged current PlayerRuntime source.
+The older 302/358 ordinary-byte residual was stale after the existing exact
+SHT-loader float-fastcall/source-lifetime correction. Two cold builds agree;
+four call identities/ABIs, all five internal branches, cache/reload/failure
+paths, data tables and callback roles are verified. InitializeAddedState remains
+independently nonexact. Use player-added-callback; the October 6
+player-collision-fresh packet has complete source/profile/field proof.
+GameConfiguration.hpp is not in this TU's actual dependency closure.
+Focused committed-source acceptance is pending at this metadata checkpoint.
 
 ## Latest exact Player damage closure
 
