@@ -184,6 +184,17 @@ is fully byte/field neutral: 1,244 candidate bytes versus 1,280 target bytes,
 NON-EXACT; the old 36-byte size shorthand understated the complete residual.
 No original expression grouping or broader class ownership is inferred.
 
+## Current Front continuation
+
+FrontMessageRandom SetupRandomForSide now routes every fallback success through
+the target final220/count guard. It remains682 versus693 bytes, with15 reviewed
+fields and no exact credit. FrontAdded now uses two bounded five-vertex arrays;
+the typed loop is byte-neutral. Branch-local loader errors recover its target
+19-block graph and reset-through-return tail, but all706 bytes retain236 full
+differences. Its position-store/early receiver scheduling remains open.
+Current source-bound diagnostics and manifests are retained in the October6
+front-random-guard and front-added-objects analysis packets.
+
 ## Parked specific actions
 
 The following specific actions remain parked: ApplyNetworkInput ABI canonical

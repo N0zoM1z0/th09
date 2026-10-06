@@ -42,7 +42,7 @@ struct FrontAddedView
     AnmLoaded *frontAnm08;
     AnmVm frontVms00C[7];
     unsigned char unknown01288[0xE86C - 0x1288];
-    FrontAddedVertex panelVerticesE86C[10];
+    FrontAddedVertex panelVerticesE86C[2][5];
     unsigned char unknown0E934[0xE944 - 0xE934];
     FrontAddedMessageRuntimeView messageRuntimeE944;
     unsigned char unknown106B4[0x11EAC - 0x106B4];
@@ -104,79 +104,76 @@ int FrontAddedCallback(void *frontArg)
             g_FrontCharacterIndex + 73);
     }
 
-    unsigned long *diffuse = &front->panelVerticesE86C[0].diffuse;
-    int groupCount = 2;
+    int panel = 0;
     do
     {
+        FrontAddedVertex *vertex = &front->panelVerticesE86C[panel][0];
         int vertexCount = 5;
         do
         {
-            reinterpret_cast<float *>(diffuse)[-1] = 1.0f;
-            *diffuse = 0x80FFFFFFUL;
-            diffuse += sizeof(FrontAddedVertex) / sizeof(unsigned long);
+            vertex->rhw = 1.0f;
+            (vertex++)->diffuse = 0x80FFFFFFUL;
         }
         while (--vertexCount != 0);
     }
-    while (--groupCount != 0);
+    while (++panel != 2);
 
-    front->panelVerticesE86C[2].pos.x =
-        front->panelVerticesE86C[3].pos.x = 304.0f;
+    front->panelVerticesE86C[0][2].pos.x =
+        front->panelVerticesE86C[0][3].pos.x = 304.0f;
 
-    Float3 *leftCorner = &front->panelVerticesE86C[4].pos;
+    Float3 *leftCorner = &front->panelVerticesE86C[0][4].pos;
     leftCorner->x = 15.0f;
     leftCorner->y = 15.0f;
-    front->panelVerticesE86C[5].pos.y = 15.0f;
+    front->panelVerticesE86C[1][0].pos.y = 15.0f;
     leftCorner->z = 0.0f;
 
-    front->panelVerticesE86C[0].pos.x =
-        front->panelVerticesE86C[0].pos.y =
-        front->panelVerticesE86C[1].pos.x =
-        front->panelVerticesE86C[3].pos.y =
-        front->panelVerticesE86C[8].pos.y = 15.0f;
+    front->panelVerticesE86C[0][0].pos.x =
+        front->panelVerticesE86C[0][0].pos.y =
+        front->panelVerticesE86C[0][1].pos.x =
+        front->panelVerticesE86C[0][3].pos.y =
+        front->panelVerticesE86C[1][3].pos.y = 15.0f;
 
-    front->panelVerticesE86C[1].pos.y =
-        front->panelVerticesE86C[2].pos.y =
-        front->panelVerticesE86C[6].pos.y =
-        front->panelVerticesE86C[7].pos.y = 464.0f;
+    front->panelVerticesE86C[0][1].pos.y =
+        front->panelVerticesE86C[0][2].pos.y =
+        front->panelVerticesE86C[1][1].pos.y =
+        front->panelVerticesE86C[1][2].pos.y = 464.0f;
 
-    front->panelVerticesE86C[5].pos.x = 335.0f;
-    front->panelVerticesE86C[5].pos.z = 0.0f;
+    front->panelVerticesE86C[1][0].pos.x = 335.0f;
+    front->panelVerticesE86C[1][0].pos.z = 0.0f;
 
-    front->panelVerticesE86C[7].pos.x =
-        front->panelVerticesE86C[8].pos.x = 624.0f;
-    front->panelVerticesE86C[9].pos =
-        front->panelVerticesE86C[5].pos;
+    front->panelVerticesE86C[1][2].pos.x =
+        front->panelVerticesE86C[1][3].pos.x = 624.0f;
+    front->panelVerticesE86C[1][4].pos =
+        front->panelVerticesE86C[1][0].pos;
 
-    front->panelVerticesE86C[0].pos.z =
-        front->panelVerticesE86C[1].pos.z =
-        front->panelVerticesE86C[2].pos.z =
-        front->panelVerticesE86C[3].pos.z = 0.0f;
+    front->panelVerticesE86C[0][0].pos.z =
+        front->panelVerticesE86C[0][1].pos.z =
+        front->panelVerticesE86C[0][2].pos.z =
+        front->panelVerticesE86C[0][3].pos.z = 0.0f;
 
-    front->panelVerticesE86C[6].pos.x = 335.0f;
-    front->panelVerticesE86C[6].pos.z =
-        front->panelVerticesE86C[7].pos.z =
-        front->panelVerticesE86C[8].pos.z = 0.0f;
+    front->panelVerticesE86C[1][1].pos.x = 335.0f;
+    front->panelVerticesE86C[1][1].pos.z =
+        front->panelVerticesE86C[1][2].pos.z =
+        front->panelVerticesE86C[1][3].pos.z = 0.0f;
 
     front->messageRuntimeE944.Reset();
 
-    int loadResult;
     if (g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1())
     {
-        loadResult = front->messageRuntimeE944.LoadForSideCount(
+        if (front->messageRuntimeE944.LoadForSideCount(
             const_cast<char *>(g_PlayerResourcePaths[g_GameSide0Value20][3]),
             0,
-            10 * g_GameSide1Value20);
+            10 * g_GameSide1Value20) != 0)
+            return -1;
     }
     else
     {
-        loadResult = front->messageRuntimeE944.LoadForSideCount(
+        if (front->messageRuntimeE944.LoadForSideCount(
             const_cast<char *>(g_PlayerResourcePaths[g_GameSide0Value20][4]),
             const_cast<char *>(g_PlayerResourcePaths[g_GameSide1Value20][4]),
-            0);
+            0) != 0)
+            return -1;
     }
-
-    if (loadResult != 0)
-        return -1;
 
     reinterpret_cast<FrontAddedMessageOwnerView *>(front)
         ->InitializeMessageRuntime();

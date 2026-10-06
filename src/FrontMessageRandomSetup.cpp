@@ -119,7 +119,7 @@ void FrontMessageRandomView::SetupRandomForSide(int sideIndex)
                 selected < table->count00)
             {
                 if (randomValue < group[0].weight04)
-                    goto selected_entry;
+                    goto fallback_complete;
                 randomValue -= group[0].weight04;
             }
 
@@ -129,7 +129,7 @@ void FrontMessageRandomView::SetupRandomForSide(int sideIndex)
                 if (randomValue < group[1].weight04)
                 {
                     selected += 1;
-                    goto selected_entry;
+                    goto fallback_complete;
                 }
                 randomValue -= group[1].weight04;
             }
@@ -140,7 +140,7 @@ void FrontMessageRandomView::SetupRandomForSide(int sideIndex)
                 if (randomValue < group[2].weight04)
                 {
                     selected += 2;
-                    goto selected_entry;
+                    goto fallback_complete;
                 }
                 randomValue -= group[2].weight04;
             }
@@ -151,7 +151,7 @@ void FrontMessageRandomView::SetupRandomForSide(int sideIndex)
                 if (randomValue < group[3].weight04)
                 {
                     selected += 3;
-                    goto selected_entry;
+                    goto fallback_complete;
                 }
                 randomValue -= group[3].weight04;
             }
@@ -162,7 +162,7 @@ void FrontMessageRandomView::SetupRandomForSide(int sideIndex)
                 if (randomValue < group[4].weight04)
                 {
                     selected += 4;
-                    goto selected_entry;
+                    goto fallback_complete;
                 }
                 randomValue -= group[4].weight04;
             }
@@ -170,6 +170,7 @@ void FrontMessageRandomView::SetupRandomForSide(int sideIndex)
             selected += 5;
         }
 
+fallback_complete:
         if (selected >= 220 || selected >= table->count00)
             selected = 210;
     }
