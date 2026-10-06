@@ -14,7 +14,7 @@ work; none of the numeric snapshots below are timeless facts.
 
 The operator-set milestone is **at least 95% of reviewed authored bytes exact**
 (updated 2026-10-05). With the current 275,770-byte denominator, this requires
-261,982 exact bytes; the current 218,094-byte ledger leaves 43,888 bytes.
+261,982 exact bytes; the current 218,501-byte ledger leaves 43,481 bytes.
 All function sizes are eligible; prioritize medium and large owners, with
 smaller closures or unblockers welcome (operator clarification 2026-10-05).
 Recompute this gap after ledger changes. This milestone does not close the
@@ -32,11 +32,11 @@ Fresh `python3 scripts/report-reconstruction-status.py` at this checkpoint:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 927 |
-| Source-present non-exact functions | 53 |
-| Source-present non-exact bytes | 57,676 |
+| Canonical exact functions | 928 |
+| Source-present non-exact functions | 52 |
+| Source-present non-exact bytes | 57,269 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 218,094 |
+| Canonical exact authored bytes | 218,501 |
 
 All 980 confirmed authored functions have maintained source. Faithful whole
 Windows i386 product closure remains open; semantic reconstruction and
@@ -134,12 +134,27 @@ actual handler identity. Focused forced-recompile replay passed and was accepted
 on 901484cd: receipt 5d7b0cec9bfbe7de05aaa158cc6dc35c5d6409a76c18a810da96a32da73231e4.
 Native product and runtime gates remain open.
 
+## Latest exact Type6 initializer closure
+
+ExAttackInitializeCallbackType6 at 0x00445EC0 reproduces the complete 407-byte
+owner, 119 instructions and all 38 independently bound fields. The two genuine
+left/right branches each publish angle and angular velocity; spawn Y/Z and
+opponent-space publication share their existing continuation. No RNG call,
+store order, Float32 publication, helper, ABI, layout or profile changes.
+Independent review and the canonical carrier agree; all 66 other code owners
+and 35 non-code sections are neutral. All 22 previous exact siblings retain
+9,126 bytes/401 fields. CompareOperands +0x14 changes only its actual local
+symbol spelling from $L8517 to $L8516, with owner-relative identity verified.
+Use exattack-type6-initialize and ecl-compare-operands for focused replay.
+Focused committed-source replay remains required for this checkpoint.
+Native product and runtime gates remain open.
+
 ## Priority frontier 1: EclManager::RunEcl
 
 `EclManager::RunEcl @ 0x004086C0` remains source-present and **NON-EXACT**.
 
-The current ECL carrier, rebuilt for the October 6 configuration-array integration
-and proved byte/field-neutral across all 67 emitted owners, has RunEcl raw function
+The current ECL carrier includes the October 6 Type6 initializer closure.
+Its 66 other owners are byte/field-neutral; RunEcl retains raw function
 SHA-256
 `93206b3996d97e62d6470b795e32c9cfdc9228a9bc8806efed073688b7420eef`.
 `scripts/report-ecl-codegen.py` reports:
@@ -207,7 +222,7 @@ Useful restart commands:
 ~~~bash
 # First verify the retained object's source/dependency manifest.
 # Ordinary build/matching caches may predate the current Player header.
-OBJ=build/gpt-dots-ecl-fresh-context2-20261006/array-header.obj
+OBJ=build/matching/EclManagerType6Initialize.obj
 python3 scripts/report-ecl-codegen.py --json "$OBJ"
 python3 scripts/report-ecl-handler-boundaries.py "$OBJ"
 python3 scripts/audit-ecl-callsite-identities.py "$OBJ"
@@ -271,8 +286,8 @@ no canonical shared-layout promotion or repeated subset trial follows.
 
 RunEcl is necessary for the 95% milestone: its 14,792 bytes exceed the current
 13,788-byte non-exact allowance. This bounded plateau is not proof of impossibility.
-The current 34-input canonical-path manifest is retained in the October 6
-ecl-fresh-context2 packet;
+The current source-bound carrier proof is retained in the October 6
+type6-branch-spawn packet (canonical-proof.json);
 the October 5 ECL packet preserves the preceding hypothesis review. The new
 October 6 reference-returning WriteInt/WriteFloat wrapper control is also fully
 neutral across RunEcl and all exact ECL siblings; do not repeat it.

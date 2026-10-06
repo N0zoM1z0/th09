@@ -214,24 +214,23 @@ int __fastcall ExAttackInitializeCallbackType6(ExAttackRecord *base)
     extra->point20.y = g_GameManager.TransformPopupY(record->position20.y);
     extra->point20.z = 0.0f;
 
-    float spawnAngle;
     if (g_ReplayRng.GetRandomU32InRange(2) != 0)
     {
         extra->spawn50.x = -144.0f;
-        spawnAngle =
+        extra->angle08 =
             g_ReplayRng.GetRandomF32SignedInRange(0.52359879f);
+        extra->unknown10 =
+            g_ReplayRng.GetRandomF32SignedInRange(0.01308997f);
     }
     else
     {
         extra->spawn50.x = 144.0f;
-        spawnAngle = AddNormalizeAngle(
+        extra->angle08 = AddNormalizeAngle(
             3.1415927f,
             g_ReplayRng.GetRandomF32SignedInRange(0.52359879f));
+        extra->unknown10 =
+            g_ReplayRng.GetRandomF32SignedInRange(0.01308997f);
     }
-    extra->angle08 = spawnAngle;
-
-    extra->unknown10 =
-        g_ReplayRng.GetRandomF32SignedInRange(0.01308997f);
     extra->spawn50.y = g_ReplayRng.GetRandomF32InRange(320.0f);
     extra->spawn50.z = 0.0f;
 
