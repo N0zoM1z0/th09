@@ -1,5 +1,6 @@
+// Included once by EclManager.cpp; the real Float3 helper is already visible.
 #include "AnmManager.hpp"
-#include "AsciiGameManagerView.hpp"
+#include "ExAttackType8GameManagerView.hpp"
 #include "AsciiManager.hpp"
 #include "ExAttackController.hpp"
 #include "RngRuntimeLeaves.hpp"
@@ -159,29 +160,27 @@ int __fastcall ExAttackInitializeCallbackType21(ExAttackRecord *base)
     float angularStep =
         g_ReplayRng.GetRandomF32SignedInRange(0.06666667f);
 
-    float *uv = &vertex->u;
     Float3 *history = &extra->history3E8[1];
     Float3 *spawn = &extra->spawn40;
-    float *magnitude = &extra->magnitudes578[0];
-    int remaining = 32;
+    // Radius and angular-step arrays have distinct bounds and ownership.
+    int sample = 0;
 
     do
     {
         if (angle >= 3.1415927f)
             angle -= 6.2831855f;
 
-        uv[-2] = 1.0f;
+        vertex->rhw = 1.0f;
 
-        float uvStorage[3];
-        Float3 *uvVector = reinterpret_cast<Float3 *>(uvStorage);
-        uvVector->FromAngleMagnitude(angle, 0.5f);
-        uv[0] = uvVector->x + 0.5f;
-        uv[1] = uvVector->y + 0.5f;
+        Float3 uvVector;
+        uvVector.FromAngleMagnitude(angle, 0.5f);
+        vertex->u = uvVector.x + 0.5f;
+        (vertex++)->v = uvVector.y + 0.5f;
 
         history->z = 0.0f;
-        *magnitude =
+        extra->magnitudes578[sample] =
             g_ReplayRng.GetRandomF32SignedInRange(8.0f) + 80.0f;
-        magnitude[33] = angularStep;
+        extra->angularSteps5FC[sample] = angularStep;
 
         angularStep +=
             g_ReplayRng.GetRandomF32SignedInRange(0.033333335f);
@@ -190,15 +189,14 @@ int __fastcall ExAttackInitializeCallbackType21(ExAttackRecord *base)
         else if (angularStep > 0.06666667f)
             angularStep = 0.06666667f;
 
-        history->FromAngleMagnitude(angle, *magnitude);
+        history->FromAngleMagnitude(angle, extra->magnitudes578[sample]);
         *history += *spawn;
 
-        uv += sizeof(ExAttackType21Vertex) / sizeof(float);
+        ++sample;
         ++history;
-        ++magnitude;
         angle += 0.2026834f;
     }
-    while (--remaining != 0);
+    while (sample != 32);
 
     return 0;
 }

@@ -70,7 +70,7 @@ match units, not from historical prose.
 
 `EclManager::RunEcl @ 0x004086C0` remains source-present and **NON-EXACT**.
 
-The current ECL carrier, rebuilt for the October 6 Type21 integration and
+The current ECL carrier, rebuilt for the October 6 trail-initializer integration and
 proved byte/field-neutral for RunEcl, has RunEcl raw function
 SHA-256
 `93206b3996d97e62d6470b795e32c9cfdc9228a9bc8806efed073688b7420eef`.
@@ -139,7 +139,7 @@ Useful restart commands:
 ~~~bash
 # First verify the retained object's source/dependency manifest.
 # Ordinary build/matching caches may predate the current Player header.
-OBJ=build/gpt-dots-type21-array-20261006/canonical.obj
+OBJ=build/gpt-dots-trail-array-20261006/canonical.obj
 python3 scripts/report-ecl-codegen.py --json "$OBJ"
 python3 scripts/report-ecl-handler-boundaries.py "$OBJ"
 python3 scripts/audit-ecl-callsite-identities.py "$OBJ"
@@ -151,10 +151,12 @@ exactness Oracles.
 
 The fresh whole-source/caller review found no new supported build hypothesis.
 Real timer assignment/update visibility already has source-backed negative
-controls; named Tick/inline context is unproven, not evidence of a fix.
+controls. The October 6 plain Tick/post++/TickTimer visibility control is also
+byte/field-neutral across all 65 previously emitted owners; do not repeat it.
+Untested in-class arrangements remain hypotheses, not evidence of a fix.
 RunEcl is necessary for the 95% milestone: its 14,792 bytes exceed the current
 13,788-byte non-exact allowance. This bounded plateau is not proof of impossibility.
-The current input manifest is retained in the October 6 Type21 array packet;
+The current input manifest is retained in the October 6 trail-array packet;
 the October 5 ECL packet preserves the preceding hypothesis review. The new
 October 6 reference-returning WriteInt/WriteFloat wrapper control is also fully
 neutral across RunEcl and all exact ECL siblings; do not repeat it.
@@ -166,8 +168,10 @@ Type21 update now uses separate in-bounds magnitude/step array indices and a
 real shared Float3 workspace in the existing ECL carrier. Its complete 1,074-byte
 owner has 29 reviewed fields and 15 differences confined to two independent
 ring-preheader setup orderings. Reproduce with inspect-exattack-type21.py; this
-is NON-EXACT, with no partial credit. The initializer and Type19 cross-array
-views remain separate unresolved work.
+is NON-EXACT, with no partial credit. The Type19 update cross-array view remains separate unresolved work.
+Type19/21 initializers now use in-bounds arrays and real vector/vertex objects;
+their complete target-sized 763/727-byte owners have six/nine preheader
+differences. Use inspect-exattack-trail-init.py; both remain NON-EXACT.
 
 PauseMenu's opaque helper/deferred-footer context remains non-exact: 1,772
 physical bytes versus 1,776, with 816 differing overlapping positions. The
@@ -183,7 +187,8 @@ No original expression grouping or broader class ownership is inferred.
 ## Parked specific actions
 
 The following specific actions remain parked: ApplyNetworkInput ABI canonical
-promotion, Type18/24 helper visibility, and EnemyManager OnUpdate accessor work.
+promotion, Type18/24 helper visibility, EnemyManager OnUpdate accessor work,
+and the October 6 SaveReplay stream-row probe after its risk block.
 A general continuation instruction does not reopen these actions. Work on other
 authorized source-backed owners instead.
 
