@@ -621,6 +621,15 @@ all 12 emitted owners byte-for-byte and field-for-field; OnUpdate remains 1230
 bytes/87 fields with 105 full differences. Current proof is retained in the
 October 6 setup-threshold and options-setup-audit packets. No exact credit.
 
+Four later setup callback models are now negative. Snapshot construction and
+aggregate-only publication both retain non-target helper calls. Late-score
+equality continue is fully neutral at 1,230 bytes/87 fields/105 differences;
+a whole ready/else callback emits 1,231 bytes and regresses its complete linked
+comparison. Current-input and independent full-owner proofs are in the October 6
+setup-continuations packet. All 11 other common owners, eight same-profile exact
+siblings and seven noncode sections are unchanged. Canonical source is untouched;
+do not repeat these precise models or force their helpers inline.
+
 The in-class ECL assignment-wrapper control is rejected: raw bytes match but 22
 calls across seven owners bypass assignment and target SetCurrent instead.
 RunEcl accounts for 16 changes. Do not treat raw neutrality as identity proof or
