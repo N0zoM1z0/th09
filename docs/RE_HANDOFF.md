@@ -209,6 +209,13 @@ non-target call despite keeping 375 calls/598 fields overall, and emits
 byte/field neutral in both trials. Do not force either new method inline or
 repeat these precise source arrangements. Their complete compact proofs are
 in the October 6 resolved-context and context-jump packets.
+The later October 6 coherent seven-op primary state/late bitfield family is also
+fully neutral: all 67 owners, 28,838 physical bytes and 1,215 semantic fields;
+all 22 configured exact siblings independently target-match. It is distinct
+from earlier single-handler and mask-template controls, and is now a recorded
+negative. Its complete field-width, dependency and restoration proof is in the
+primary-flag-family packet. Do not repeat this unchanged arrangement.
+
 RunEcl is necessary for the 95% milestone: its 14,792 bytes exceed the current
 13,788-byte non-exact allowance. This bounded plateau is not proof of impossibility.
 The current 34-input canonical-path manifest is retained in the October 6
@@ -242,6 +249,21 @@ is fully byte/field neutral: 1,244 candidate bytes versus 1,280 target bytes,
 54 fields, 1,180 differing overlapping positions and 36 absent bytes. It remains
 NON-EXACT; the old 36-byte size shorthand understated the complete residual.
 No original expression grouping or broader class ownership is inferred.
+
+Later source-context controls are also recorded negatives: Enemy draw's full
+second-angle predicate is byte/field neutral; DrawResult's two-output selection
+member and FrontCalc's completion member retain non-target runtime calls.
+Projection's scoped scratch lifetime and freshly rebound timer-header context
+are neutral. The genuine PlayerShot Type1 VM/color subobject still gives the
+190/204-byte tail-duplication frontier. Type14/22 draw's in-class vertex projection
+operation is neutral at 974/959 bytes. Complete proofs and exact restoration
+recipes are retained in the corresponding October 6 packets; none earns credit.
+OnUpdateResult's new selected-character lookup member also remains neutral at
+483/485 bytes and 34 fields after a current baseline binding rebuild; its
+byte-load/widen scheduling frontier is unchanged. Its complete linked comparison
+has 224 overlapping differences plus two absent bytes; the extent gap alone
+is not the residual. All 48 existing code sections and 37 exact siblings remain
+byte/binding neutral.
 
 ## Fresh bounded controls and configuration array
 
