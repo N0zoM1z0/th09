@@ -395,21 +395,24 @@ The three precise source models are not open hypotheses anymore. Prior Enemy
 argument-owner and ECL instruction-latch controls remain recorded negatives in
 the Knowledge Base and their retained packets; they should not be repeated alone.
 
-## Latest region, trail and planar-product controls
+## Latest fan, successor and pool-count controls
 
-The region-type switch in CheckBulletCollision is rejected at 847/862 bytes,
-26 fields, 811 overlap differences plus 15 absent; its six exact siblings stay
-neutral. Type21's one-expression persistent/local heading seed is fully neutral
-across all 67 ECL owners. A shared nested trail-array subobject changes Type19/21
-initializers to 763/713 bytes with worse full target agreement; Type21 update
-and the other 65 owners are neutral. Both ECL controls keep all 23 exact siblings.
+Four isolated controls add no source change or exact credit. Direct access to the
+shared trail-array subobject is neutral across all 67 ECL owners; the previous
+consumed-reference regression is not a general statement about that layout.
+A separate center/rim fan layout regresses Type19/21 initializers to 69/315 full
+overlap differences, with Type21 713/727 bytes. Type21 update stays unchanged.
 
-The distinct in-class planar-dot context for Type4/8 position callbacks remains
-250/249 bytes with eight fields and 132 linked overlap differences plus one
-excess byte each. The original receiver-reload seam remains. Its 22-byte emitted
-helper is uncalled and has no target ownership. No canonical source changed.
-Use the October 6 source-context-review and planar-dot-context packets for full
-proof and provenance limits; do not repeat these four precise models unchanged.
+The ordinary instruction-owned signed-16 Next method is neutral across all 67
+common ECL owners and preserves the six-handler RunEcl frontier. Its uncalled
+seven-byte copy has no target ownership. Effect's grouped PoolCounts layout is
+neutral across all 16 owners, with the same four OnUpdate count-read differences.
+
+All 23 ECL and 14 Effect exact siblings, actual input bindings and noncode
+sections pass independent review. Full proof and provenance limits are retained
+in the October 6 semantic-contexts packet. Do not repeat these precise models
+unchanged. The earlier region, heading, nested-reference and planar-dot controls
+remain recorded negatives in the Knowledge Base and their packets.
 
 ## Next bounded investigations
 
