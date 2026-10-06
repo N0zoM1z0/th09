@@ -8,6 +8,13 @@ struct PlayerDamageFloat3
     operator float *();
 };
 
+typedef char PlayerDamageFloat3SizeIs0C[
+    (sizeof(PlayerDamageFloat3) == 0x0C) ? 1 : -1];
+typedef char PlayerDamageFloat3XAt00[
+    (offsetof(PlayerDamageFloat3, x) == 0x00) ? 1 : -1];
+typedef char PlayerDamageFloat3ZAt08[
+    (offsetof(PlayerDamageFloat3, z) == 0x08) ? 1 : -1];
+
 struct PlayerDamageTimer
 {
     int previous;
@@ -75,6 +82,11 @@ struct PlayerDamageRegionView
     unsigned char active3C;
     unsigned char unknown3D[3];
     int delay40;
+
+    float BottomY() const
+    {
+        return centerY04 + halfHeight14;
+    }
 };
 
 typedef char PlayerDamageRegionSizeIs44[
@@ -220,7 +232,8 @@ int PlayerDamagePlayerView::CalcDamageToEnemy(
                     shot, shot->animationIndex46C + 6);
                 shot->rotationZ08 =
                     savedRotation;
-                shot->position2A4.operator float *()[2] = 0.1f;
+                reinterpret_cast<PlayerDamageFloat3 *>(
+                    shot->position2A4.operator float *())->z = 0.1f;
             }
 
             shot->state462 = 2;
@@ -269,7 +282,7 @@ int PlayerDamagePlayerView::CalcDamageToEnemy(
                         enemyTopLeft.x ||
                     (*slot)->centerY04 - (*slot)->halfHeight14 >
                         enemyBottomRight.y ||
-                    (*slot)->centerY04 + (*slot)->halfHeight14 <
+                    (*slot)->BottomY() <
                         enemyTopLeft.y)
                     goto nextRegion;
             }

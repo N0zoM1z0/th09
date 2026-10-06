@@ -14,7 +14,7 @@ work; none of the numeric snapshots below are timeless facts.
 
 The operator-set milestone is **at least 95% of reviewed authored bytes exact**
 (updated 2026-10-05). With the current 275,770-byte denominator, this requires
-261,982 exact bytes; the current 214,694-byte ledger leaves 47,288 bytes.
+261,982 exact bytes; the current 215,690-byte ledger leaves 46,292 bytes.
 All function sizes are eligible; prioritize medium and large owners, with
 smaller closures or unblockers welcome (operator clarification 2026-10-05).
 Recompute this gap after ledger changes. This milestone does not close the
@@ -32,11 +32,11 @@ Fresh `python3 scripts/report-reconstruction-status.py` at this checkpoint:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 923 |
-| Source-present non-exact functions | 57 |
-| Source-present non-exact bytes | 61,076 |
+| Canonical exact functions | 924 |
+| Source-present non-exact functions | 56 |
+| Source-present non-exact bytes | 60,080 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 214,694 |
+| Canonical exact authored bytes | 215,690 |
 
 All 980 confirmed authored functions have maintained source. Faithful whole
 Windows i386 product closure remains open; semantic reconstruction and
@@ -63,9 +63,22 @@ not be reopened merely because an older packet or roadmap says they are pending:
 - `ExAttackUpdateCallbackType14_22 @ 0x00443DF0` — 805 bytes.
 - `AnmManager::Draw3D @ 0x0043B1A0` — 811 bytes.
 - `Controller::GetInput @ 0x0042BE40` — 819 bytes.
+- `PlayerDamagePlayerView::CalcDamageToEnemy @ 0x0041FCD0` — 996 bytes.
 
 Their current exactness comes from `config/matches.csv` plus their configured
 match units, not from historical prose.
+
+## Latest exact Player damage closure
+
+CalcDamageToEnemy now reproduces its full 996-byte owner with all 17 independently
+bound fields. Ordinary in-class BottomY context recovers the final target x87
+operand order without a helper call or spill. The real conversion-result pointer
+is consumed as its existing Float3 object to write z, preserving the genuine call.
+The same fresh object keeps PlayerBuildAabb exact at 55 bytes/four fields.
+Use player-calc-damage-to-enemy; old two-byte residual claims are superseded.
+The uncalled emitted accessor copy receives no independent target ownership.
+Accepted Factory replay is required for this committed checkpoint; native product
+and runtime gates remain open.
 
 ## Latest exact input closure
 
@@ -163,7 +176,11 @@ The fresh whole-source/caller review found no new supported build hypothesis.
 Real timer assignment/update visibility already has source-backed negative
 controls. The October 6 plain Tick/post++/TickTimer visibility control is also
 byte/field-neutral across all 65 previously emitted owners; do not repeat it.
-Untested in-class arrangements remain hypotheses, not evidence of a fix.
+The ordinary EnemyStateView timeout member was tested and rejected: it retains
+a new non-target call (376 rather than 375). Do not force it inline or repeat it.
+A borrowed two-int JUMP prefix is fully neutral across all 67 emitted owners,
+28,838 bytes and 1,215 semantic fields; the same six-handler frontier remains.
+Other untested in-class arrangements remain hypotheses, not evidence of a fix.
 RunEcl is necessary for the 95% milestone: its 14,792 bytes exceed the current
 13,788-byte non-exact allowance. This bounded plateau is not proof of impossibility.
 The current input manifest is retained in the October 6 trail-array packet;
@@ -207,8 +224,8 @@ target uses four x87 instructions and the candidate one FMULP. Full entry-aligne
 comparison remains 493 overlap differences plus six absent bytes. Independent
 review checks all other operands, 19 branch destinations and four calls.
 Use the October 6 replay-renderer-residuals and independent packets. Scalar-depth,
-actual inline-vector and scalar-left controls are recorded negatives; no new
-canonical owner or receipt follows. This is distinct from parked file saving.
+actual inline-vector, scalar-left and named common-frame-weight controls are
+recorded negatives; no new canonical owner or receipt follows. This is distinct from parked file saving.
 
 ## Current gameplay threshold correction
 
