@@ -924,3 +924,4 @@ address,name,size,status,match_percent,unit,evidence
 0x0042BE40,Controller::GetInput,819,matching,100.00,controller-get-input,python3 scripts/build-match-unit.py --unit controller-get-input && python3 scripts/compare-coff-function.py --unit controller-get-input --json
 0x0041FCD0,PlayerDamagePlayerView::CalcDamageToEnemy,996,matching,100.00,player-calc-damage-to-enemy,python3 scripts/build-match-unit.py --unit player-calc-damage-to-enemy && python3 scripts/compare-coff-function.py --unit player-calc-damage-to-enemy --json
 0x0041EE50,PlayerLifecycleView::AddedCallback,438,matching,100.00,player-added-callback,python3 scripts/build-match-unit.py --unit player-added-callback && python3 scripts/compare-coff-function.py --unit player-added-callback --json
+0x00417630,FrontCalcCallback,1491,matching,100.00,front-calc-callback,python3 scripts/build-match-unit.py --unit front-calc-callback && python3 scripts/compare-coff-function.py --unit front-calc-callback --json

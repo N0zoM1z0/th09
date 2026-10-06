@@ -14,7 +14,7 @@ work; none of the numeric snapshots below are timeless facts.
 
 The operator-set milestone is **at least 95% of reviewed authored bytes exact**
 (updated 2026-10-05). With the current 275,770-byte denominator, this requires
-261,982 exact bytes; the current 216,128-byte ledger leaves 45,854 bytes.
+261,982 exact bytes; the current 217,619-byte ledger leaves 44,363 bytes.
 All function sizes are eligible; prioritize medium and large owners, with
 smaller closures or unblockers welcome (operator clarification 2026-10-05).
 Recompute this gap after ledger changes. This milestone does not close the
@@ -32,11 +32,11 @@ Fresh `python3 scripts/report-reconstruction-status.py` at this checkpoint:
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 925 |
-| Source-present non-exact functions | 55 |
-| Source-present non-exact bytes | 59,642 |
+| Canonical exact functions | 926 |
+| Source-present non-exact functions | 54 |
+| Source-present non-exact bytes | 58,151 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 216,128 |
+| Canonical exact authored bytes | 217,619 |
 
 All 980 confirmed authored functions have maintained source. Faithful whole
 Windows i386 product closure remains open; semantic reconstruction and
@@ -102,6 +102,21 @@ equivalent keys close all 819 bytes with nine bound fields. Use the focused
 controller-get-input match unit; the older Packet 439 keyboard interpretation
 and allocator-only conclusion are superseded. Native product/runtime gates
 remain open.
+
+## Latest exact Front calc closure
+
+FrontCalcCallback at 0x00417630 now reproduces its complete 1,491-byte owner,
+384 instructions, 42 calls and all 107 independently established fields.
+The source models count>=2 completion and frame dispatch as complementary
+arms with one final frame increment/return. Within the duplicated mode0/mode1
+completion bodies, the zero-side owner nests stage>=8 replay-neutral handling.
+This ordinary whole-function continuation context recovers the target late
+mode1 backward sharing; earlier isolated nesting and shared-label negatives
+used a different outer CFG. No helper, profile, ABI, extent or denominator change.
+Use front-calc-callback; the old 1,510-byte/partial-region frontier is superseded.
+Independent full-owner proof is in the October 6 frontcalc-independent packet.
+Focused committed-source replay is pending at this checkpoint; native product
+and runtime gates remain open.
 
 ## Priority frontier 1: EclManager::RunEcl
 
@@ -490,7 +505,6 @@ non-exact owners include:
 - `PauseMenu::OnUpdate` — 1,734 bytes;
 - `GameplaySetupThread` — 1,689 bytes;
 - `SupervisorServiceUpdate` — 1,633 bytes;
-- `FrontCalcCallback` — 1,491 bytes;
 - `ReplayManagerView::SaveReplay` — 1,238 bytes; the scoped write-count lifetime
   is recovered, while packing-loop scheduling/spills remain non-exact.
 - `GameManagerSetupLayout::OnUpdate` — 1,230 bytes.

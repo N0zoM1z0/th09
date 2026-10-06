@@ -252,34 +252,40 @@ int __fastcall FrontCalcCallback(void *frontArg)
         {
             if (g_GameManager.IsGameMode0())
             {
-                if (front->transitionSide10964 != 0)
+                if (front->transitionSide10964 == 0)
                 {
-                    g_FrontMode0Done = 1;
-                }
-                else if (g_GameStageValue < 8)
-                {
-                    g_EndingLifecycleState = 3;
+                    if (g_GameStageValue >= 8)
+                    {
+                        g_EndingLifecycleState =
+                            g_GameManager.IsReplayNeutral() ? 1 : 9;
+                    }
+                    else
+                    {
+                        g_EndingLifecycleState = 3;
+                    }
                 }
                 else
                 {
-                    g_EndingLifecycleState =
-                        g_GameManager.IsReplayNeutral() ? 1 : 9;
+                    g_FrontMode0Done = 1;
                 }
             }
             else if (g_GameManager.IsGameMode1())
             {
-                if (front->transitionSide10964 != 0)
+                if (front->transitionSide10964 == 0)
                 {
-                    g_FrontMode0Done = 1;
-                }
-                else if (g_GameStageValue < 8)
-                {
-                    g_EndingLifecycleState = 3;
+                    if (g_GameStageValue >= 8)
+                    {
+                        g_EndingLifecycleState =
+                            g_GameManager.IsReplayNeutral() ? 1 : 9;
+                    }
+                    else
+                    {
+                        g_EndingLifecycleState = 3;
+                    }
                 }
                 else
                 {
-                    g_EndingLifecycleState =
-                        g_GameManager.IsReplayNeutral() ? 1 : 9;
+                    g_FrontMode0Done = 1;
                 }
             }
             else
@@ -288,129 +294,130 @@ int __fastcall FrontCalcCallback(void *frontArg)
             }
         }
 
-        ++front->transitionFrame10960;
-        return 1;
     }
-
-    int frame = front->transitionFrame10960;
-    if (frame == 0)
+    else
     {
-        unsigned int targetBit =
-            (1u << (1 - front->transitionSide10964)) << 11;
-        g_GameManager.flags134 ^=
-            (g_GameManager.flags134 ^ targetBit) & 0x1800u;
-
-        g_GameManager.sides[1 - front->transitionSide10964]
-            .transitionOwner14->timer98 = 0;
-
-        FrontCalcPlayerCollisionPoint point;
-        point.x = 0.0f;
-        point.y = 224.0f;
-        point.z = 0.0f;
-
-        reinterpret_cast<FrontCalcCollisionView *>(
-            g_GameManager.sides[0].player04)->CreateCircleType1(
-                &point, 500.0f, 0.0f, 30000, 0);
-        reinterpret_cast<FrontCalcCollisionView *>(
-            g_GameManager.sides[0].player04)->CreateCircleType4(
-                &point, 500.0f, 0.0f, 200, 30000, 0);
-        reinterpret_cast<FrontCalcCollisionView *>(
-            g_GameManager.sides[1].player04)->CreateCircleType1(
-                &point, 500.0f, 0.0f, 30000, 0);
-        reinterpret_cast<FrontCalcCollisionView *>(
-            g_GameManager.sides[1].player04)->CreateCircleType4(
-                &point, 500.0f, 0.0f, 200, 30000, 0);
-
-        g_GameManager.sides[0].player04->addedOwner30410.Reset();
-        g_GameManager.sides[1].player04->addedOwner30410.Reset();
-    }
-    else if (frame == 30)
-    {
-        g_SoundPlayer.PlaySoundByIdx(49, 0);
-
-        g_GameManager.sides[1 - front->transitionSide10964]
-            .stateObject00->field1C = 1;
-        g_GameManager.sides[1 - front->transitionSide10964]
-            .stateObject00->field20 = 30;
-
-        ScreenEffect::RegisterChain(
-            SCREEN_EFFECT_SHAKE,
-            60, 16, 0, 0, 35,
-            1 - front->transitionSide10964);
-        ScreenEffect::RegisterChain(
-            SCREEN_EFFECT_SHAKE,
-            60, 4, 0, 0, 35,
-            front->transitionSide10964);
-    }
-    else if (frame == 60)
-    {
-        if (!g_GameManager.IsGameMode2())
+        int frame = front->transitionFrame10960;
+        if (frame == 0)
         {
-            if (front->transitionSide10964 != 0 &&
-                g_GameManager.sides[0].runtime1C->value00 > 0.0f)
+            unsigned int targetBit =
+                (1u << (1 - front->transitionSide10964)) << 11;
+            g_GameManager.flags134 ^=
+                (g_GameManager.flags134 ^ targetBit) & 0x1800u;
+
+            g_GameManager.sides[1 - front->transitionSide10964]
+                .transitionOwner14->timer98 = 0;
+
+            FrontCalcPlayerCollisionPoint point;
+            point.x = 0.0f;
+            point.y = 224.0f;
+            point.z = 0.0f;
+
+            reinterpret_cast<FrontCalcCollisionView *>(
+                g_GameManager.sides[0].player04)->CreateCircleType1(
+                    &point, 500.0f, 0.0f, 30000, 0);
+            reinterpret_cast<FrontCalcCollisionView *>(
+                g_GameManager.sides[0].player04)->CreateCircleType4(
+                    &point, 500.0f, 0.0f, 200, 30000, 0);
+            reinterpret_cast<FrontCalcCollisionView *>(
+                g_GameManager.sides[1].player04)->CreateCircleType1(
+                    &point, 500.0f, 0.0f, 30000, 0);
+            reinterpret_cast<FrontCalcCollisionView *>(
+                g_GameManager.sides[1].player04)->CreateCircleType4(
+                    &point, 500.0f, 0.0f, 200, 30000, 0);
+
+            g_GameManager.sides[0].player04->addedOwner30410.Reset();
+            g_GameManager.sides[1].player04->addedOwner30410.Reset();
+        }
+        else if (frame == 30)
+        {
+            g_SoundPlayer.PlaySoundByIdx(49, 0);
+
+            g_GameManager.sides[1 - front->transitionSide10964]
+                .stateObject00->field1C = 1;
+            g_GameManager.sides[1 - front->transitionSide10964]
+                .stateObject00->field20 = 30;
+
+            ScreenEffect::RegisterChain(
+                SCREEN_EFFECT_SHAKE,
+                60, 16, 0, 0, 35,
+                1 - front->transitionSide10964);
+            ScreenEffect::RegisterChain(
+                SCREEN_EFFECT_SHAKE,
+                60, 4, 0, 0, 35,
+                front->transitionSide10964);
+        }
+        else if (frame == 60)
+        {
+            if (!g_GameManager.IsGameMode2())
             {
-                g_GameManager.sides[0].runtime1C->value00 -= 1.0f;
-                g_GameManager.sides[0].runtime1C->value34 += 1.0f;
-                front->transitionStarted11EA4 = 1;
+                if (front->transitionSide10964 != 0 &&
+                    g_GameManager.sides[0].runtime1C->value00 > 0.0f)
+                {
+                    g_GameManager.sides[0].runtime1C->value00 -= 1.0f;
+                    g_GameManager.sides[0].runtime1C->value34 += 1.0f;
+                    front->transitionStarted11EA4 = 1;
+                }
+                else if (front->transitionSide10964 == 0)
+                {
+                    front->messageRuntimeE944.Setup(
+                        *reinterpret_cast<short *>(
+                            static_cast<unsigned char *>(g_NeutralMessageSource) + 8),
+                        0);
+                }
+                else
+                {
+                    front->messageRuntimeE944.Setup(
+                        *reinterpret_cast<short *>(
+                            static_cast<unsigned char *>(g_NeutralMessageSource) + 10),
+                        0);
+                }
             }
-            else if (front->transitionSide10964 == 0)
+            else if (
+                g_FrontRuntimeValues90[2] >= g_FrontRuntimeValues90[1] ||
+                g_FrontRuntimeValues90[3] >= g_FrontRuntimeValues90[1])
             {
-                front->messageRuntimeE944.Setup(
-                    *reinterpret_cast<short *>(
-                        static_cast<unsigned char *>(g_NeutralMessageSource) + 8),
-                    0);
+                front->messageRuntimeE944.SetupRandomForSide(
+                    front->transitionSide10964);
             }
             else
             {
-                front->messageRuntimeE944.Setup(
-                    *reinterpret_cast<short *>(
-                        static_cast<unsigned char *>(g_NeutralMessageSource) + 10),
-                    0);
+                front->transitionStarted11EA4 = 1;
             }
         }
         else if (
-            g_FrontRuntimeValues90[2] >= g_FrontRuntimeValues90[1] ||
-            g_FrontRuntimeValues90[3] >= g_FrontRuntimeValues90[1])
+            front->transitionStarted11EA4 != 0 && frame == 160)
         {
-            front->messageRuntimeE944.SetupRandomForSide(
-                front->transitionSide10964);
+            reinterpret_cast<FrontCalcFrontSideView *>(
+                g_GameManager.sides[0].frontSide18)->BeginAuxTransition();
+            reinterpret_cast<FrontCalcFrontSideView *>(
+                g_GameManager.sides[1].frontSide18)->BeginAuxTransition();
         }
-        else
+        else if (
+            front->transitionStarted11EA4 != 0 && frame == 190)
         {
-            front->transitionStarted11EA4 = 1;
-        }
-    }
-    else if (
-        front->transitionStarted11EA4 != 0 && frame == 160)
-    {
-        reinterpret_cast<FrontCalcFrontSideView *>(
-            g_GameManager.sides[0].frontSide18)->BeginAuxTransition();
-        reinterpret_cast<FrontCalcFrontSideView *>(
-            g_GameManager.sides[1].frontSide18)->BeginAuxTransition();
-    }
-    else if (
-        front->transitionStarted11EA4 != 0 && frame == 190)
-    {
-        GameManagerSetupLayout::CleanupGameplayState();
+            GameManagerSetupLayout::CleanupGameplayState();
 
-        if (g_GameManager.IsGameMode0() ||
-            g_GameManager.IsGameMode1())
-        {
-            int modeValue = g_FrontRuntimeValues90[0];
-            if (modeValue >= 4 &&
-                (g_GameManager.flags134 & 0x4000u) != 0)
+            if (g_GameManager.IsGameMode0() ||
+                g_GameManager.IsGameMode1())
             {
-                g_SelectedOpponentParameter =
-                    g_TransitionResultTableAlt[
-                        45 * g_TitleNameTableIndex + 5 * g_GameStageValue];
-            }
-            else
-            {
-                g_SelectedOpponentParameter =
-                    g_TransitionResultTable[
-                        45 * g_TitleNameTableIndex + 5 * g_GameStageValue + modeValue];
+                int modeValue = g_FrontRuntimeValues90[0];
+                if (modeValue >= 4 &&
+                    (g_GameManager.flags134 & 0x4000u) != 0)
+                {
+                    g_SelectedOpponentParameter =
+                        g_TransitionResultTableAlt[
+                            45 * g_TitleNameTableIndex + 5 * g_GameStageValue];
+                }
+                else
+                {
+                    g_SelectedOpponentParameter =
+                        g_TransitionResultTable[
+                            45 * g_TitleNameTableIndex + 5 * g_GameStageValue + modeValue];
+                }
             }
         }
+
     }
 
     ++front->transitionFrame10960;
