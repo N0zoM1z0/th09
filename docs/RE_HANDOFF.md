@@ -332,6 +332,18 @@ and stack homes, with 496 full overlap differences plus six absent bytes. Both
 keep the first Z seam and are rejected. No new canonical owner or receipt
 follows. This is distinct from parked file saving.
 
+## Current Charge input owner correction
+
+Charge now calls the existing out-of-line WasPressed predicate on its actual
+ReplayInputState object. The inconsistent private view definitions are removed;
+0x8E layout, historyPressed +0x32 and native call ABI are unchanged. The exact
+18-byte leaf has its new C++ symbol under replay-input-was-pressed. Charge stays
+1,197/1,210 bytes with 1,160 overlap differences and 13 absent bytes. Canonical
+and isolated carriers preserve all 1,217 bytes and 70 fields. All 23 configured
+exact units across the five-TU/seven-profile header closure target-match;
+complete non-debug code/EH graphs are neutral. Only the changed predicate needs
+an accepted committed-source replay. There is no new exact-byte credit.
+
 ## Current controller source-fidelity maintenance
 
 The existing exact 47-byte SetButtonFromJoystickButtons helper now spells its

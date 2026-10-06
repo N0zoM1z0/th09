@@ -9,14 +9,6 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-struct ReplayInputPressedView
-{
-    u8 unknown00[0x32];
-    u16 historyPressed32;
-
-    u16 WasPressed(u16 mask);
-};
-
 struct ReplayInputGateView
 {
     u8 unknown000[0xB4];
@@ -130,7 +122,7 @@ int PlayerChargeAttackView::UpdateChargeAttack()
     int side = sideIndex;
     u8 sideMode;
 
-    if ((reinterpret_cast<ReplayInputPressedView *>(&g_ReplayInputStates[side])->WasPressed(1) &&
+    if ((g_ReplayInputStates[side].WasPressed(1) &&
          (g_GameManager.inputGateE8->sideMode[side] != 1 ||
           !g_ReplayInputStates[side].IsHeld(4))) ||
         ((sideMode = g_GameManager.inputGateE8->sideMode[side]) == 1 &&

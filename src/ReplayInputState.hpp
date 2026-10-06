@@ -23,6 +23,7 @@ struct ReplayInputState
     ReplayInputState();
     void Update();
     unsigned short IsHeld(unsigned short mask);
+    unsigned short WasPressed(unsigned short buttons);
 };
 
 typedef char ReplayInputStateSizeIs8E[
@@ -31,5 +32,7 @@ typedef char ReplayInputAuxAt2A[
     (offsetof(ReplayInputState, auxiliary2A) == 0x2A) ? 1 : -1];
 typedef char ReplayInputHistoryAt2C[
     (offsetof(ReplayInputState, historyCurrent) == 0x2C) ? 1 : -1];
+typedef char ReplayInputPressedAt32[
+    (offsetof(ReplayInputState, historyPressed) == 0x32) ? 1 : -1];
 
 extern ReplayInputState g_ReplayInputStates[3];
