@@ -6132,3 +6132,48 @@ No source, compiler profile, authored boundary, origin, denominator or exact-mat
 - The isolated and canonical Charge carriers preserve both emitted owners, 1,217 physical bytes and all 70 fields after the sole independently bound predicate-symbol rename. Charge remains NON-EXACT at 1,197/1,210 bytes with 1,160 linked overlap differences and 13 absent bytes; all 58 ordered call destinations agree. The renamed standalone predicate retains all 18 target bytes and zero fields, with no additional emitted owner. This retains existing exact credit rather than adding 18 bytes.
 - The declaration-only header change was checked through its five actual TUs and seven existing profiles. All 23 configured exact-unit target checks pass across 5,465 compared bytes, with no compiler-private manifest spelling changes. Complete non-debug code/EH graphs remain neutral for Setup /Os (12 owners, 4,590 bytes, 406 fields), Replay EH (18 owners, 6,023 bytes, 337 graph fields), Replay no-EH (14 owners, 5,869 bytes, 317 fields), and the retained Setup O2 carrier (12 owners, 5,146 bytes, 452 fields). Source-bound baselines and lossless retained proofs were reused; only the missing current no-EH baseline was rebuilt. No replay serialization source or parked probe changed.
 - The October 6 charge-input-owner packet retains source/EOL hashes, complete carrier/field/EH proofs and the canonical Charge comparison. A temporary Factory connection failure was reconciled before one guarded retry: no tracked change or canonical-build artifact had persisted. The changed exact predicate alone passed its cold committed-source replay and was accepted on ba203251, receipt 8b1c9216795bb80cf14cee588591049cee6a6646b11df4c14eb741872321e21a. Unchanged consumers were not replayed as a cohort. Native product/runtime and later phase gates remain open.
+
+
+## Large source-model controls (2026-10-06 late morning)
+
+- RunEcl's control-family trial gives the five existing scalar scratch variables
+  actual opcode-local ownership across eight cases: six integer RHS cases,
+  random-sign float operands, and polar angle/magnitude. Values, widths,
+  expression/statement order, shared integer-result continuation, helper
+  visibility and profile are preserved. This is distinct from the old fragment
+  flattening and individual flag-handler controls. One isolated compile is
+  fully neutral across all 67 executable COFF sections: 28,838 bytes and 1,215
+  independently compared semantic fields. All 22 configured exact owners
+  still target-match across 9,126 bytes/401 fields. The 181 private-label
+  spelling differences, including eight configured fields, preserve their
+  owner-relative destinations and are not canonical manifest changes. The
+  34-input frozen closure, 943-block identity audit and same six-handler
+  frontier are independently verified. No source integration or replay follows.
+- DrawReplayMenu tests actual caption-formatting/unsigned-length-conversion
+  ownership instead of another switch spelling. Separate Story/Versus helpers
+  emit a 1,222-byte owner with 53 fields, but retain a new Versus helper call.
+  A common difficulty-caption helper emits 1,175 bytes/49 fields and retains
+  its helper call. Both are rejected; the new calls have no invented target
+  destinations. Complete emitted-code inventories are retained. The reused
+  current-source baseline is 1,244 bytes/54 fields, with 1,180 complete linked
+  overlap differences and 36 absent bytes against the 1,280-byte target.
+- Type11 position tests the five actual golden-point result objects as named
+  values immediately copied into the existing odd vertices, then separately
+  tests const-reference lifetime extension of the same prvalues. Both naturally
+  recover frame 0xDC, but emit the same 775-byte owner against target 732:
+  661 overlap differences and 43 excess bytes. The copies read named stack
+  objects rather than the target returned-EAX pointer. All 35 calls and the
+  11-block graph remain, but these are rejected hypotheses, not a lifetime
+  recovery. The 71-byte orientation helper and 38-byte compiler vector iterator
+  remain independently target-exact. Complete emitted code is 884 bytes/38
+  fields; the two authored bodies account for 846 of those bytes. The unchanged
+  baseline is 725 bytes/frame 0xAC, with 630 overlap differences and seven
+  absent bytes. No artificial capacity, extra arithmetic or forced storage was
+  introduced; no original-source or runtime equivalence claim follows.
+- Independent full proofs and hashes are retained in the October 6
+  large-model-independent packet, with the replay-menu-caption,
+  type11-golden-owner and ecl-control-lifetimes patches/manifests. Five candidate
+  compiles reused source-bound baseline objects; no baseline was rebuilt, no
+  unchanged cohort replayed, and no exactness credit added. These precise
+  arrangements are negatives in their measured context, not impossibility
+  claims or reasons to prohibit genuinely different source evidence.

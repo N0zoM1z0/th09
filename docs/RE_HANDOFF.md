@@ -233,6 +233,17 @@ the October 5 ECL packet preserves the preceding hypothesis review. The new
 October 6 reference-returning WriteInt/WriteFloat wrapper control is also fully
 neutral across RunEcl and all exact ECL siblings; do not repeat it.
 
+## Latest large source-model controls
+
+The October 6 opcode-local control-family lifetime model is fully neutral across
+all 67 ECL executable sections, 28,838 bytes and 1,215 fields; the same six-handler
+frontier remains. DrawReplayMenu's separate/common caption conversion owners
+retain new runtime calls and are rejected. Type11 named/const-reference golden
+results recover frame 0xDC but emit 775/732 bytes with wrong result-copy routing;
+its exact helper and compiler iterator remain unchanged. These isolated controls
+are not integrated and add no credit. See the latest Knowledge Base section and
+the large-model-independent packet rather than repeating these arrangements.
+
 ## Next bounded investigations
 
 Select from a fresh non-exact ledger before using historical residuals.
