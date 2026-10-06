@@ -130,7 +130,8 @@ success continuations. No ABI, profile, extent or denominator change.
 Use background-added-callback. Both isolated and canonical builds match; all
 seven same-profile exact siblings retain 2,193 bytes/139 fields. Complete
 code/EH/data collateral is neutral, with canonical SafeSEH indices checked by
-actual handler identity. Focused committed-source Factory receipt is pending.
+actual handler identity. Focused forced-recompile replay passed and was accepted
+on 901484cd: receipt 5d7b0cec9bfbe7de05aaa158cc6dc35c5d6409a76c18a810da96a32da73231e4.
 Native product and runtime gates remain open.
 
 ## Priority frontier 1: EclManager::RunEcl
