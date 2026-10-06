@@ -244,25 +244,36 @@ void PlayerLifecycleView::InitializeAddedState()
     {
     case 0:
     case 1:
-        value += 1;
+        {
+            const int initialState = value + 1;
+            stateTable[0] = initialState;
+            stateTable[1] = initialState;
+        }
         break;
     case 2:
-        value += 4;
+        {
+            const int initialState = value + 4;
+            stateTable[0] = initialState;
+            stateTable[1] = initialState;
+        }
         break;
     case 3:
-        value += 8;
+        {
+            const int initialState = value + 8;
+            stateTable[0] = initialState;
+            stateTable[1] = initialState;
+        }
         break;
     case 4:
-        value += 12;
-        stateTable[2] = 1;
-        player->scalar30388 = 400.0f;
+        {
+            const int initialState = value + 12;
+            stateTable[2] = 1;
+            player->scalar30388 = 400.0f;
+            stateTable[0] = initialState;
+            stateTable[1] = initialState;
+        }
         break;
-    default:
-        goto afterMode;
     }
-    stateTable[0] = value;
-    stateTable[1] = value;
-afterMode:
     if (stateTable[2] == 1)
         player->flags1B80 |= 8u;
 

@@ -663,20 +663,31 @@ or exact credit is needed for this changed nonexact body. Current carrier:
 build/gpt-dots-etama-draw-canonical-20261006/canonical.obj. The fresh, combined
 and canonical Etama packets retain full field/target/source proofs.
 
-## Current Player added-state vector correction
+## Current Player added-state mode ownership
 
-InitializeAddedState is in separate PlayerAddedState.cpp, not the now-exact
-PlayerRuntime AddedCallback carrier. A fresh baseline verifies its current
-PlayerLifecycleView header context. The real position conversion result is now
-consumed as its existing PlayerPositionView, with x/y/z writes. All four emitted
-owners preserve 665 bytes and 30 semantic fields; all three reset siblings
-still fully target-match. InitializeAddedState stays NON-EXACT at 572 physical
-bytes (552 code plus a 20-byte switch table), 25 fields and 65 code differences;
-the complete table is exact. Five windows remain: position/preheader22,
-history8, flags20, side-table4 and mode-4 ordering11. Do not repeat this precise
-typed-result control. Current source-bound carrier and full comparison are in
-the October 6 player-added-canonical packet. No additional stale exact owner
-was found in the current PlayerRuntime carrier.
+InitializeAddedState remains in separate PlayerAddedState.cpp. Each mode arm now
+owns its final paired state publication, preserving the signed upper-only clamp,
+default non-publication and mode-4 side/capacity override. This ordinary whole-owner
+context narrows the full linked mismatch from 65 to 33 bytes, without changing the
+572-byte physical extent, 25 fields, 11 calls, 10 direct branches or switch table.
+The history, flag and side-table windows now match; position/pool-preheader (22)
+and mode-4 add/store scheduling (11) remain. No partial or new exact credit.
+
+The genuine typed position conversion consumer remains. Independent isolated and
+canonical reviews verify all eight nondebug sections, three exact reset siblings
+(93 bytes/five fields), and unchanged noncode collateral. Current carrier is
+build/gpt-dots-player-added-mode-owners-20261006/canonical.obj; use the packet's
+verify-current-independent.py for a no-compile current verification. The former
+player-added-canonical packet is historical. No exact manifest changed or replay
+is needed. Direct chained-pair publication leaves 39 differences; actual vector
+aggregate/copy initialization emits 604/572 bytes and is rejected. Do not repeat
+these precise source models unchanged.
+
+Controller's single in-class axis-mask operation is also rejected at 797/808
+bytes, with 117 overlap differences plus 11 absent, versus current baseline
+790/808 with 102 plus 18. Both exact button helpers remain intact; its uncalled
+74-byte copy has no ownership. The controller-axis-operation packet holds the
+complete current-input comparison and independent review.
 
 ## Current gameplay threshold correction
 
