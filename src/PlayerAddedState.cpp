@@ -187,10 +187,11 @@ void PlayerLifecycleView::InitializeAddedState()
 
     player->anmFileBC->SetAndExecuteScriptIdx(&player->mainVmC0, 0);
 
-    float *position = player->position1B88.operator float *();
-    position[0] = -160.0f;
-    position[1] = g_PlayerAddedStartY - 64.0f;
-    position[2] = 0.49f;
+    PlayerPositionView *position = reinterpret_cast<PlayerPositionView *>(
+        player->position1B88.operator float *());
+    position->x = -160.0f;
+    position->y = g_PlayerAddedStartY - 64.0f;
+    position->z = 0.49f;
 
     for (i = 0; i < 512; ++i)
     {

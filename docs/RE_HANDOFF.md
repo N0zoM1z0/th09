@@ -337,6 +337,21 @@ or exact credit is needed for this changed nonexact body. Current carrier:
 build/gpt-dots-etama-draw-canonical-20261006/canonical.obj. The fresh, combined
 and canonical Etama packets retain full field/target/source proofs.
 
+## Current Player added-state vector correction
+
+InitializeAddedState is in separate PlayerAddedState.cpp, not the now-exact
+PlayerRuntime AddedCallback carrier. A fresh baseline verifies its current
+PlayerLifecycleView header context. The real position conversion result is now
+consumed as its existing PlayerPositionView, with x/y/z writes. All four emitted
+owners preserve 665 bytes and 30 semantic fields; all three reset siblings
+still fully target-match. InitializeAddedState stays NON-EXACT at 572 physical
+bytes (552 code plus a 20-byte switch table), 25 fields and 65 code differences;
+the complete table is exact. Five windows remain: position/preheader22,
+history8, flags20, side-table4 and mode-4 ordering11. Do not repeat this precise
+typed-result control. Current source-bound carrier and full comparison are in
+the October 6 player-added-canonical packet. No additional stale exact owner
+was found in the current PlayerRuntime carrier.
+
 ## Current gameplay threshold correction
 
 GameManagerSetup OnUpdate now performs its two score-threshold products in
