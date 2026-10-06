@@ -349,6 +349,24 @@ and loses one target call context. All are isolated negatives, distinct from
 parked accessor work. The October 6 completion-contexts packet retains source
 deltas, current bindings and precise comparison limits. No new credit.
 
+## Latest operand-expression and trail-subobject controls
+
+The October 6 operand macro hypothesis has now been tested. Replacing all 314
+resolved-access wrapper calls preserves 63 retained owners/28,679 bytes/1,211
+fields, including the same six-handler RunEcl frontier. The four removed
+helper copies are unreferenced and have no target ownership. Expanding raw
+lvalue access separately shrinks opcode 157 to 158/160 bytes and is rejected;
+the physical owner remains 15,564 bytes with 598 independently paired fields.
+No macro candidate is integrated.
+
+Type19/21 Float2 UV field grouping is neutral across all 67 ECL owners. A
+consumed UV-reference form gives 757/728 bytes against 763/727; separating center
+initialization from rim traversal gives 763/713 bytes. Complete target
+comparisons and unchanged collateral are independently verified in the
+ecl-operand-macros and trail-uv-owner packets. All 23 exact ECL siblings and 35
+non-code sections remain intact. Do not repeat these five unchanged contexts;
+there is no new exact credit or canonical source change.
+
 ## Next bounded investigations
 
 Select from a fresh non-exact ledger before using historical residuals.
