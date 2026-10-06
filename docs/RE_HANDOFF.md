@@ -367,22 +367,33 @@ ecl-operand-macros and trail-uv-owner packets. All 23 exact ECL siblings and 35
 non-code sections remain intact. Do not repeat these five unchanged contexts;
 there is no new exact credit or canonical source change.
 
-## Latest argument-owner and instruction-latch controls
+## Latest selection and completion controls
 
-Enemy draw's newly visible real Abs body regresses the full owner to 1,742/1,758
-bytes with 974 overlapping differences plus 16 absent bytes. The float-returning
-midpoint-error member is neutral across all four existing bodies, while the
-whole early-return collapse predicate retains a non-target call. Three exact
-siblings remain intact. Their complete proofs and provenance limits are in the
-October 6 enemy-argument-owner packet; do not repeat these precise contexts.
+Three new isolated controls are terminal negatives; canonical source is unchanged.
+DrawResult's complementary initial screen-selection ownership emits 1,939 bytes
+and 82 fields but regresses from 22 to 60 complete linked differences. Its
+other emitted body and all 16 nondebug noncode sections remain neutral.
 
-RunEcl's instruction-walk for increment changes its physical owner to 14,104
-bytes/600 fields/377 direct calls and fails the strict shape gate. A positive
-difficulty-mask-owned switch alone is neutral across all 67 owners, preserving
-the same six-handler frontier. All 23 exact siblings and 35 non-code sections
-are intact. The instruction-latch packet retains source reversal, current
-include/object bindings and independent audit. No source or exact credit is
-retained; other enclosing source models remain open hypotheses.
+RunEcl's positive active-interpolation body plus absent-child continue traversal
+is fully neutral across all 67 owners, 28,838 bytes/1,215 semantic fields and
+35 noncode sections. The 943-block identity audit and six-handler 142/148
+shape frontier remain. This is distinct from the earlier instruction-walk,
+difficulty-mask and outer-context loops.
+
+The smaller context-owned SetInstructionTime operation also remains an actual
+non-target call: helper 22 bytes/one field, RunEcl 15,560 physical bytes with
+598 fields/375 calls. It covers the JUMP/JUMP_DEC shared tail while leaving
+signed32 displacement evaluation after assignment in the caller. Strict
+identity/shape gates reject it. Do not force this method inline or repeat it.
+Both ECL candidates preserve all 23 exact siblings, 9,533 physical bytes/439
+fields; the other 66 common owners and 35 noncode sections are unchanged.
+
+The independent semantic-context-audit packet records full source/include,
+owner/field/target and collateral proof. Historical compiler/system-header
+provenance remains limited; audit-time hashes are not retrospective attestation.
+The three precise source models are not open hypotheses anymore. Prior Enemy
+argument-owner and ECL instruction-latch controls remain recorded negatives in
+the Knowledge Base and their retained packets; they should not be repeated alone.
 
 ## Next bounded investigations
 
