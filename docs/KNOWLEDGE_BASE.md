@@ -6440,3 +6440,49 @@ attest historical producer execution.
 - Three distinct natural source models are now measured. State-one/state-zero if/else ownership gives 781 bytes, 703 linked overlap differences plus one excess, and a different graph despite the same block count. The complementary lazy no-collision chain owns movement/bounds completion while its else owns timer/state/interrupt publication; this is fully neutral. Separate aggregate initialization of the existing current/middle/tail samples is also fully neutral. It preserves all six X/Y transform calls and each zero Z without a new array, helper or constructor. These controls do not close the middle-Z/tail-X scheduling seam.
 - Independent retained-object review validates every four-byte field, actual literal contents, both emitted code owners and all six nondebug sections. The two neutral candidates preserve all 800 emitted code bytes/38 fields and all six sections. State ownership changes only Type3; the 20-byte exact timer comparator and all non-code sections remain unchanged. No source, manifest, ABI, profile, extent or denominator change is integrated; no exact credit or canonical replay follows.
 - Packet `.analysis/gpt-dots-type3-state-contexts-20261006` retains source deltas, four objects, full target comparisons, input bindings and independent review. Nine actual project headers have pre/post-build hashes; SDK stddef.h has only an audit-time hash, not retrospective attestation. AnmVmLifecycle.hpp is conservatively hashed but not included. The initial local inspect.py naming collision with Python's standard module is retained verbatim; the renamed verifier and independent audit succeed. Four compiler PDBs and owned Python cache files are inventoried and removed after terminal producers. Do not repeat these three precise arrangements unchanged.
+
+
+## Received-frame complete storage and Etama loop contexts (2026-10-06)
+
+- Fresh recovery at 6d037d79 and original Japanese target/Factory-native IDA
+  attestation pass. The fixed reviewed-authored denominator remains 275,770;
+  928 exact owners cover 218,501 bytes, with no new exact credit in this batch.
+- InsertReceivedFrame at 0x0042E9E0 keeps the target's unusual index-10 behavior.
+  After the scan, TH09 reads the selected frame at 0x42EA49 before checking
+  index < 9 at 0x42EA4E. For side 1/index 10, the address is +0x570, the frame
+  field of lastReceived56C[0]. The old entries47C[20].frame04 expression crossed
+  its array subobject. The maintained source now forms this address through
+  the complete SupervisorFrameQueueInsertLayout byte representation; sideBase
+  and the final cursor also originate from that existing complete view.
+  No guard, index masking, store order, layout, ABI or target behavior changes.
+- The isolated correction and actual canonical build preserve all 255 bytes in
+  both nondebug sections. The complete 211-byte owner has zero relocations and
+  calls, 66 instructions, and 172 linked overlap differences plus two absent
+  bytes against the 213-byte target. The older two-byte shorthand was only an
+  extent gap. Side 0/1 and live, aligned, compatible complete storage/lifetime
+  remain assumptions; this does not establish native object or runtime closure.
+- Two richer record contexts are rejected: selecting one typed record for all
+  publications gives 195 bytes/185 overlap differences plus 18 absent; ordinary
+  in-class metadata and field-copy operations give 197/183 plus 16 absent.
+  The latter emits uncalled 28-byte/36-byte copies with no target ownership.
+  Original scalar-cast/scan-cursor/predicted-shape negatives were inspected;
+  these are genuinely different models. The frame-insert-contexts packet holds
+  current source, compiler/include bindings, full target comparisons and a
+  no-compile verify-current.py for its canonical carrier.
+- Three Etama OnDraw whole-loop models are terminal negatives. A positive
+  active-record arm and explicit cap-rejection loop continuations are fully
+  neutral across all 16 nondebug sections, five code owners, 1,672 code bytes
+  and 73 fields. In-bounds indexed Laser selection changes only OnDraw to
+  568/600 bytes, with 507 overlap differences and 32 absent, versus baseline
+  594/600 with 465 and six absent. All retain 27 OnDraw fields and 13 ordered
+  calls. Exact DrawSingleBullet and AddedCallback retain all 1,064 physical
+  bytes and 46 independently bound fields, including actual private-label
+  destinations. None of these three models is integrated.
+- Independent audits verify full bytes, field identities, source/patch/object
+  bindings and actual includes. New builds have pre/post compiler-component
+  and VC stddef.h hashes; this is not proof of every loaded DLL/environment.
+  Etama's source-bound baseline is reused without a redundant cold build.
+  Queue source changes affect only this nonexact TU; no exact unit or manifest
+  changed, so no replay is warranted. Full raw read/verifier errors are retained
+  in the two compact October 6 packets. No access denial or alternate route
+  occurred. Do not repeat these precise source contexts unchanged.

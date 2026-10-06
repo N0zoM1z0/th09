@@ -35,7 +35,7 @@ void SupervisorFrameQueueView::InsertReceivedFrame(
     view->lastReceived56C[side].seed02 = seed;
 
     unsigned char *sideBase =
-        reinterpret_cast<unsigned char *>(this) + side * 0x78;
+        reinterpret_cast<unsigned char *>(view) + side * 0x78;
     SupervisorFrameEntryView *scan =
         reinterpret_cast<SupervisorFrameEntryView *>(sideBase + 0x47C);
 
@@ -47,7 +47,11 @@ void SupervisorFrameQueueView::InsertReceivedFrame(
     }
 
     int flatIndex = side * 10 + index;
-    int *targetFrame = &view->entries47C[flatIndex].frame04;
+    int *targetFrame = reinterpret_cast<int *>(
+        reinterpret_cast<unsigned char *>(view) +
+        offsetof(SupervisorFrameQueueInsertLayout, entries47C) +
+        flatIndex * sizeof(SupervisorFrameEntryView) +
+        offsetof(SupervisorFrameEntryView, frame04));
 
     if (*targetFrame != 0 && index < 9)
     {
@@ -67,7 +71,7 @@ void SupervisorFrameQueueView::InsertReceivedFrame(
     }
 
     char *result =
-        reinterpret_cast<char *>(this) +
+        reinterpret_cast<char *>(view) +
         flatIndex * sizeof(SupervisorFrameEntryView);
 
     *reinterpret_cast<short *>(result + 0x47C) = (short)packedInput;

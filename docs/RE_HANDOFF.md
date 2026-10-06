@@ -151,6 +151,23 @@ Type6 e831c0d4b00f8c8dffb6be9ba2ca5557c02e9aea27d8316136f01286b98f0991;
 CompareOperands 952f16b28c31c06644c58fcc50cac10d1f3e3baf61bb69142e822afa2e8f1a95.
 Native product and runtime gates remain open.
 
+## Latest received-frame storage context
+
+InsertReceivedFrame now forms all byte-address roots through its existing complete
+layout view. This preserves the target's read-before-index guard and side-1/index-10
+write into adjacent lastReceived[0], while removing entries47C[20].frame04 from the
+source. Isolated and canonical objects are fully neutral across both nondebug
+sections: 211/213 owner bytes, 172 overlap differences plus two absent, no fields
+or calls. Runtime layout/lifetime and valid-side assumptions remain open.
+Use .analysis/gpt-dots-frame-insert-contexts-20261006/verify-current.py; richer
+typed-record and ordinary record-member contexts regress and are not integrated.
+No exact manifest changed and no replay is needed.
+
+Etama OnDraw's new positive active-record arm and cap-rejection continuation are
+fully neutral; indexed Laser selection regresses to 568/600 bytes. Both exact
+siblings remain intact. The etama-loop-contexts packet retains complete proofs;
+do not repeat these precise models unchanged.
+
 ## Priority frontier 1: EclManager::RunEcl
 
 `EclManager::RunEcl @ 0x004086C0` remains source-present and **NON-EXACT**.
