@@ -187,6 +187,14 @@ across all 67 common owners, 28,838 bytes and 1,215 fields. Four uncalled 14-byt
 accessor copies receive no target ownership. Neither context is a new exact
 owner; do not repeat these precise arrangements unchanged.
 Other untested in-class arrangements remain hypotheses, not evidence of a fix.
+The new resolved-instruction member family is rejected because it adds 48
+ReadInt and 18 ReadFloat runtime calls; RunEcl becomes 13,560 logical /14,332
+physical bytes, 372 calls and 594 fields. A context-owned Jump also retains a
+non-target call despite keeping 375 calls/598 fields overall, and emits
+14,788 logical /15,560 physical bytes. All 66 other common owners remain
+byte/field neutral in both trials. Do not force either new method inline or
+repeat these precise source arrangements. Their complete compact proofs are
+in the October 6 resolved-context and context-jump packets.
 RunEcl is necessary for the 95% milestone: its 14,792 bytes exceed the current
 13,788-byte non-exact allowance. This bounded plateau is not proof of impossibility.
 The current input manifest is retained in the October 6 trail-array packet;
@@ -219,6 +227,32 @@ is fully byte/field neutral: 1,244 candidate bytes versus 1,280 target bytes,
 54 fields, 1,180 differing overlapping positions and 36 absent bytes. It remains
 NON-EXACT; the old 36-byte size shorthand understated the complete residual.
 No original expression grouping or broader class ownership is inferred.
+
+## Fresh bounded controls and pending source correction
+
+GameplaySetupThread and Player charge remain nonexact after new constructor,
+member and branch-organization controls. The proposed GameConfiguration
+sideFocusMode[2] correction is unpromoted: the setup carrier is fully neutral,
+but the four direct consumers and actual shared-header impact need bounded
+proof first. Its five-file patch and closure plan are in the October 6
+gameplay-fresh packet. Do not import the unrelated phase-sentinel overflow
+correction into CleanupGameplayState's Front transition/death counter.
+
+Effect count-member and network-parser terminal-scanner controls are negative.
+Supervisor OnUpdate's new structured-cold-reregister candidate has the target
+27 calls/92 fields and one title call, but is still 960/996 physical bytes with
+803 overlap differences and 36 absent bytes. Canonical source is unchanged;
+2,736 matching static traces are not runtime proof. Preserve this reproducible
+source rather than repeating the deleted historical Packet 64 experiment.
+
+The Front message wire API trial is fully neutral across 671 common-owner
+bytes and 32 fields. Complete explicit-profile comparisons give Load 356
+linked overlap differences plus two absent bytes and Release 135 plus three.
+Their old two-/three-byte shorthand was only an extent gap. Release's graph
+count difference is unreachable alignment; Load also changes cache/loop-test
+placement while preserving bounds and all three returns. Audit the retained
+invert-loop/invert-errorpath-loop controls and their provenance before a new
+source trial. The October 6 front-message-wire packet has the complete graph.
 
 ## Current replay-save rendering frontier
 
