@@ -395,6 +395,22 @@ The three precise source models are not open hypotheses anymore. Prior Enemy
 argument-owner and ECL instruction-latch controls remain recorded negatives in
 the Knowledge Base and their retained packets; they should not be repeated alone.
 
+## Latest region, trail and planar-product controls
+
+The region-type switch in CheckBulletCollision is rejected at 847/862 bytes,
+26 fields, 811 overlap differences plus 15 absent; its six exact siblings stay
+neutral. Type21's one-expression persistent/local heading seed is fully neutral
+across all 67 ECL owners. A shared nested trail-array subobject changes Type19/21
+initializers to 763/713 bytes with worse full target agreement; Type21 update
+and the other 65 owners are neutral. Both ECL controls keep all 23 exact siblings.
+
+The distinct in-class planar-dot context for Type4/8 position callbacks remains
+250/249 bytes with eight fields and 132 linked overlap differences plus one
+excess byte each. The original receiver-reload seam remains. Its 22-byte emitted
+helper is uncalled and has no target ownership. No canonical source changed.
+Use the October 6 source-context-review and planar-dot-context packets for full
+proof and provenance limits; do not repeat these four precise models unchanged.
+
 ## Next bounded investigations
 
 Select from a fresh non-exact ledger before using historical residuals.
