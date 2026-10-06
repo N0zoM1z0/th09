@@ -180,6 +180,12 @@ The ordinary EnemyStateView timeout member was tested and rejected: it retains
 a new non-target call (376 rather than 375). Do not force it inline or repeat it.
 A borrowed two-int JUMP prefix is fully neutral across all 67 emitted owners,
 28,838 bytes and 1,215 semantic fields; the same six-handler frontier remains.
+The flag-subobject member also retains a non-target call: 376 calls, 599 fields
+and 15,548 physical bytes; its 26-byte helper is not a binding candidate. The
+instruction-owned RawInt/RawFloat/RawByte/RawShort context is fully neutral
+across all 67 common owners, 28,838 bytes and 1,215 fields. Four uncalled 14-byte
+accessor copies receive no target ownership. Neither context is a new exact
+owner; do not repeat these precise arrangements unchanged.
 Other untested in-class arrangements remain hypotheses, not evidence of a fix.
 RunEcl is necessary for the 95% milestone: its 14,792 bytes exceed the current
 13,788-byte non-exact allowance. This bounded plateau is not proof of impossibility.
@@ -225,7 +231,27 @@ comparison remains 493 overlap differences plus six absent bytes. Independent
 review checks all other operands, 19 branch destinations and four calls.
 Use the October 6 replay-renderer-residuals and independent packets. Scalar-depth,
 actual inline-vector, scalar-left and named common-frame-weight controls are
-recorded negatives; no new canonical owner or receipt follows. This is distinct from parked file saving.
+recorded negatives. The full genuine Float3 stage graph emits 852 bytes/40 fields;
+the genuine in-place compound graph emits 794 bytes/41 fields but changes frame
+and stack homes, with 496 full overlap differences plus six absent bytes. Both
+keep the first Z seam and are rejected. No new canonical owner or receipt
+follows. This is distinct from parked file saving.
+
+## Current controller source-fidelity maintenance
+
+The existing exact 47-byte SetButtonFromJoystickButtons helper now spells its
+32-bit mask as `1U << buttonIndex`. Independent review and the canonical build
+verify all 874 emitted bytes and 29 fields across the three-owner carrier are
+unchanged. Negative-index handling and the signed 16-bit index API remain.
+Shifts 0..31 now directly express unsigned mask arithmetic; no claim is made
+that index 31 is reached. Counts >=32 remain undefined in C++, despite the
+observed x86 count masking, so portable full-domain behavior is not claimed.
+An explicit count-mask control adds three bytes and is rejected. Focused replay
+is for this changed helper only; no new exact byte credit or poller closure.
+
+The separate ordinary axis-range snapshot control remains 796/808 bytes with
+32 fields and 102 overlap differences; early Y-bound scheduling is still wrong.
+It is not integrated. The canonical poller remains 790 bytes and 29 fields.
 
 ## Current gameplay threshold correction
 

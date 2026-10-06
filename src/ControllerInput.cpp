@@ -51,7 +51,7 @@ static u32 SetButtonFromJoystickButtons(
     if (buttonIndex < 0)
         return 0;
 
-    u32 mask = 1 << buttonIndex;
+    u32 mask = 1U << buttonIndex;
     *outButtons |= (inputButtons & mask) ? touhouButton : 0;
     return (inputButtons & mask) ? touhouButton : 0;
 }
