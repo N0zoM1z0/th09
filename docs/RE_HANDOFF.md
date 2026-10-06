@@ -217,6 +217,12 @@ python3 scripts/report-ecl-handler-shapes.py "$OBJ"
 The callsite and handler-shape reports are structural diagnostics and not
 exactness Oracles.
 
+The new consumed timer/due-instruction guard is fully neutral on this carrier:
+removing the one-pass dispatch loop preserves all 67 owners, 28,838 bytes and
+1,215 fields, with the same frame and six-handler frontier. It is distinct from
+the earlier inner-continue and outer-context loops. The October 6 enclosing-models
+packet retains its complete proof; do not repeat this precise arrangement.
+
 The fresh whole-source/caller review found no new supported build hypothesis.
 Real timer assignment/update visibility already has source-backed negative
 controls. The October 6 plain Tick/post++/TickTimer visibility control is also
@@ -284,8 +290,13 @@ Two genuine outer main/child completion-loop controls regress to frame 0x16C
 and 14,808/14,820 logical bytes; both preserve all 66 other owners. The strict
 identity gate rejects their extents. Keep the canonical six-handler frontier.
 
-Enemy draw's collapse/render completion branch is neutral. FindCollision's
-common restoration gives 409/602 bytes and is rejected; fresh baseline is 604
+Enemy draw's collapse/render completion and later valid-prefix emission-loop
+condition are both fully neutral, preserving the same four FSUBR/PUSH differences.
+DrawResult's declaration-only zero-offset bank view is also neutral after its
+single renamed external storage symbol is independently bound; it neither fixes
+the 22 prefix differences nor establishes original global-object ownership.
+FindCollision's common restoration gives 409/602 bytes and is rejected; fresh
+baseline is 604
 bytes. DrawResult's bank/screen constructor stays as a non-target call, while
 trivial aggregate input gives 1,941 bytes with wrong stack homes. Enemy
 OnUpdate's common world-position completion gives 3,840/3,900 physical bytes
@@ -541,6 +552,12 @@ non-exact owners include:
   cursor keeps the real call and all 1900 physical bytes/66 destinations neutral;
   two private table-label renamings are independently resolved. Current object is
   build/gpt-dots-config-direct-20261006/movement-title/movement-array.obj.
+  A nonzero-state active arm with one final return is rejected: it adds a
+  separate seven-byte idle epilogue and shifts both tables by eight. All
+  original active operations and frame 0x18 remain unchanged. The complete
+  1,908-byte physical candidate has 176 overlap differences plus eight excess;
+  no new active-path lifetime evidence follows. See the October 6 enclosing-models
+  packet instead of repeating this source form.
 - `EnemyManagerDrawImpl` — 1,758 bytes;
 - `PauseMenu::OnUpdate` — 1,734 bytes;
 - `GameplaySetupThread` — 1,689 bytes;
