@@ -401,19 +401,21 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     runtime->velocity1CCC.y =
         verticalSpeed * g_PlayerMovementSupervisor.frameRateMultiplier5B8;
 
-    float *position = player->position1B88.operator float *();
-    position[0] += runtime->velocity1CCC.x;
-    position[1] += runtime->velocity1CCC.y;
+    PlayerPositionView *position =
+        reinterpret_cast<PlayerPositionView *>(
+            player->position1B88.operator float *());
+    position->x += runtime->velocity1CCC.x;
+    position->y += runtime->velocity1CCC.y;
 
-    if (position[0] < g_PlayerPlayfieldMinX)
-        position[0] = g_PlayerPlayfieldMinX;
-    else if (position[0] > g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth)
-        position[0] = g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth;
+    if (position->x < g_PlayerPlayfieldMinX)
+        position->x = g_PlayerPlayfieldMinX;
+    else if (position->x > g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth)
+        position->x = g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth;
 
-    if (position[1] < g_PlayerPlayfieldMinY)
-        position[1] = g_PlayerPlayfieldMinY;
-    else if (position[1] > g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight)
-        position[1] = g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight;
+    if (position->y < g_PlayerPlayfieldMinY)
+        position->y = g_PlayerPlayfieldMinY;
+    else if (position->y > g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight)
+        position->y = g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight;
 
     player->collisionBoundsMin1C60 =
         player->position1B88 - player->hurtboxHalfSize;

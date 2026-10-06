@@ -197,6 +197,19 @@ is fully byte/field neutral: 1,244 candidate bytes versus 1,280 target bytes,
 NON-EXACT; the old 36-byte size shorthand understated the complete residual.
 No original expression grouping or broader class ownership is inferred.
 
+## Current replay-save rendering frontier
+
+Canonical DrawReplaySave source remains unchanged and NON-EXACT. The new isolated
+inplace-target-depth candidate is 794/800 bytes with 41 fields. Indexed replay
+accessors and genuine row expressions recover list/keyboard structure; the only
+remaining instruction-structure seam is the first Z multiply at 0x423B0E, where
+target uses four x87 instructions and the candidate one FMULP. Full entry-aligned
+comparison remains 493 overlap differences plus six absent bytes. Independent
+review checks all other operands, 19 branch destinations and four calls.
+Use the October 6 replay-renderer-residuals and independent packets. Scalar-depth,
+actual inline-vector and scalar-left controls are recorded negatives; no new
+canonical owner or receipt follows. This is distinct from parked file saving.
+
 ## Current gameplay threshold correction
 
 GameManagerSetup OnUpdate now performs its two score-threshold products in
@@ -266,7 +279,10 @@ non-exact owners include:
   cold144 source: 1,900 physical bytes, all 66 field identities and both tables
   proved, but 144 full-byte differences remain. The shared-header impact is
   bounded by unchanged layout and 42 private-label updates in six exact units;
-  no broad consumer replay was performed.
+  no broad consumer replay was performed. The October 6 typed conversion-result
+  cursor keeps the real call and all 1900 physical bytes/66 destinations neutral;
+  two private table-label renamings are independently resolved. Current object is
+  build/gpt-dots-movement-values-audit-20261006/typed-cursor.obj.
 - `EnemyManagerDrawImpl` — 1,758 bytes;
 - `PauseMenu::OnUpdate` — 1,734 bytes;
 - `GameplaySetupThread` — 1,689 bytes;
