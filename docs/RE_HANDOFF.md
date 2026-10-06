@@ -620,8 +620,16 @@ non-exact owners include:
   bounded by unchanged layout and 42 private-label updates in six exact units;
   no broad consumer replay was performed. The October 6 typed conversion-result
   cursor keeps the real call and all 1900 physical bytes/66 destinations neutral;
-  two private table-label renamings are independently resolved. Current object is
-  build/gpt-dots-config-direct-20261006/movement-title/movement-array.obj.
+  two private table-label renamings are independently resolved. The movement
+  consumer now uses the existing canonical ReplayInputState declaration and
+  opaque IsHeld ABI; full bytes/fields and all six emitted helper copies are
+  neutral. Current source-bound carrier is
+  build/gpt-dots-movement-owner-context-20261006/input-owner.obj.
+  Production input-array ownership remains open. In-class SHT speed getters,
+  a shared two-mode directional operation, and a grouped runtime subobject are
+  newly measured neutral contexts. Grouped position/bounds work retains a
+  non-target call and is rejected. These exact source arrangements are now
+  recorded negatives; no new exact credit or unchanged-leaf replay follows.
   A nonzero-state active arm with one final return is rejected: it adds a
   separate seven-byte idle epilogue and shifts both tables by eight. All
   original active operations and frame 0x18 remain unchanged. The complete

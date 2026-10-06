@@ -25,7 +25,9 @@ CODE_SIZE = 1835
 PHYSICAL_SIZE = 1900
 SYMBOL = "?UpdateMovementAndOptions@PlayerLifecycleView@@QAEHXZ"
 DESTINATIONS = {
+    # Keep legacy private-view spellings for retained historical carriers.
     "?g_ReplayInputStates@@3PAUPlayerMovementReplayInputState@@A": 0x004ACE18,
+    "?g_ReplayInputStates@@3PAUReplayInputState@@A": 0x004ACE18,
     "?g_GameConfiguration@@3PAUGameConfiguration@@A": 0x004A7E78,
     "?g_PlayerFocusEffectIds@@3PAHA": 0x004A1A10,
     "__real@00000000": 0x0048E314,
@@ -36,6 +38,7 @@ DESTINATIONS = {
     "?g_PlayerPlayfieldHeight@@3MA": 0x004A80FC,
     "?g_AnmManager@@3PAVAnmManager@@A": 0x004DC550,
     "?IsHeld@PlayerMovementReplayInputState@@QAEGG@Z": 0x00415CB0,
+    "?IsHeld@ReplayInputState@@QAEGG@Z": 0x00415CB0,
     "?SpawnEffectInFixedSlot@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@HI@Z": 0x0040CD70,
     "?SetInterrupt@PlayerMovementEffectVmView@@QAEXF@Z": 0x00406790,
     "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z": 0x00403E00,

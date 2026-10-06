@@ -4,27 +4,11 @@
 #include "AnmManager.hpp"
 #include "AnmVmLifecycle.hpp"
 #include "ZunTimer.hpp"
+#include "ReplayInputState.hpp"
 
 #include <stddef.h>
 
 typedef unsigned short u16;
-
-struct PlayerMovementReplayInputState
-{
-    u16 currentInput00;
-    u16 word02;
-    u16 repeatOutput04;
-    u16 word06;
-    u16 word08;
-    unsigned char unknown0A[0x20];
-    u16 auxiliary2A;
-    u16 historyCurrent2C;
-    unsigned char unknown2E[0x8E - 0x2E];
-
-    u16 IsHeld(u16 mask);
-};
-typedef char PlayerMovementReplayInputSizeIs8E[
-    (sizeof(PlayerMovementReplayInputState) == 0x8E) ? 1 : -1];
 
 struct PlayerMovementSideView
 {
@@ -100,7 +84,6 @@ struct PlayerMovementEffectVmView
 };
 
 extern GameConfiguration *g_GameConfiguration;
-extern PlayerMovementReplayInputState g_ReplayInputStates[3];
 extern int g_PlayerFocusEffectIds[];
 extern float g_PlayerPlayfieldMinX;
 extern float g_PlayerPlayfieldMinY;
@@ -165,9 +148,9 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     if (player->header24.state84 == 0)
         return 0;
 
-    int inputOffset = player->sideIndex * sizeof(PlayerMovementReplayInputState);
-    PlayerMovementReplayInputState *input =
-        reinterpret_cast<PlayerMovementReplayInputState *>(
+    int inputOffset = player->sideIndex * sizeof(ReplayInputState);
+    ReplayInputState *input =
+        reinterpret_cast<ReplayInputState *>(
             reinterpret_cast<unsigned char *>(g_ReplayInputStates) + inputOffset);
 
     if (input->IsHeld(0x50) == 0x50)
@@ -192,7 +175,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     int focused;
     if (g_GameConfiguration->sideFocusMode[player->sideIndex] == 1)
         focused =
-            reinterpret_cast<PlayerMovementReplayInputState *>(
+            reinterpret_cast<ReplayInputState *>(
                 reinterpret_cast<unsigned char *>(g_ReplayInputStates) +
                 inputOffset)->auxiliary2A >= 8;
     else

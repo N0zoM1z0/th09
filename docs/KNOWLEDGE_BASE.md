@@ -6272,3 +6272,44 @@ No source, compiler profile, authored boundary, origin, denominator or exact-mat
 - Consuming each rim vertex into its genuine UV reference immediately before the two scalar writes is a distinct negative: Type19 emits 757/763 bytes with 228 overlapping differences and six absent bytes; Type21 emits 728/727 with 184 differences and one excess byte. Separating direct center-vertex initialization from an independent rim cursor instead emits 763/763 with 69 differences and 713/727 with 314 differences plus 14 absent bytes. All 57/53 target bindings and ordered 27/25 call destinations are accounted for; changed graph/scheduling remains NON-EXACT. The 65 other owners stay neutral. No source-shape identity with the original code or runtime equivalence is inferred.
 - All five isolated objects retain the 23 complete exact ECL siblings, 9,533 bytes and 439 fields, and all 35 non-debug non-code sections including flags and relocation identities. Independent parsing corroborates full owner/input closures and all target-negative counts without recompilation. Candidate private labels are bound by same-owner offsets; the unchanged baseline spelling remains the configured spelling. No match-unit, profile, ABI, target extent, denominator or canonical source change follows, and no replay is needed for these discarded nonexact hypotheses.
 - Compact reproducible evidence is in the October 6 ecl-operand-macros and trail-uv-owner analysis packets. Five ordinary builds are terminal; full raw diagnostics/errors are retained. A separate external push advanced origin/main to the unchanged 34d16a0 checkpoint at 16:48:12 UTC, as observed in the remote-ref reflog; this session did not push. These are contextual negatives, not proof that other natural source contexts cannot close the owners. Do not repeat these precise arrangements unchanged.
+
+
+## Player movement input identity and ownership contexts (2026-10-06)
+
+- UpdateMovementAndOptions now consumes the existing ReplayInputState declaration
+  and opaque IsHeld method instead of defining a conflicting private class for
+  the same external array. The tested source is retained exactly. Size 0x8E,
+  auxiliary2A +0x2A, u16 thiscall ABI, byte-offset arithmetic and lvalue behavior
+  are preserved. Target startup independently constructs three 0x8E elements
+  at 0x4ACE18. This corrects one consumer's declaration; the production array
+  definition and other private views remain open.
+- One ordinary pinned-profile build, independently audited against the current
+  source/include closure, preserves all 1,900 physical owner bytes, 66 complete
+  field identities, 489 instructions, 23 ordered calls and both switch tables.
+  All six other emitted copies (35 bytes) and nondebug noncode sections remain
+  neutral. Raw/resolved hashes remain 50ead1126fc2b527c3b95e207bd967a3b4ab1e46e82a9639cb053ebb924cd3e6
+  and 5a4259f31672edeea8566bc933eaef7fec583318f4b830a08f169f0317255977.
+  The full comparison still has 144 differences, so there is no exact credit.
+- Two distinct ordinary inlining models are also fully neutral: actual SHT
+  axis/diagonal speed operations selected by constant focus, and one shared
+  directional switch called with literal focus modes and genuine scalar output
+  references. The emitted 24-byte getters and 396-byte directional helper are
+  uncalled copies, with no independent target ownership. No forced inlining,
+  ABI, compiler profile or layout change is retained.
+- A coupled position/publication/clamp/six-bounds operation remains an actual
+  non-target call under ordinary /Ob1. Its caller is 1,432 bytes with 50 fields;
+  the new helper is 422 bytes with 17 fields. This trial is rejected before any
+  invented target binding or partial comparison credit.
+- A fifth isolated model groups the real velocity, angle and four multipliers
+  into one 32-byte PlayerMovementFields subobject at +0x1CCC, still consumed via
+  the existing runtime pointer. Unlike the old flattened-field negative, it
+  preserves all 1,900 bytes, 66 fields, six common copies and nondebug noncode
+  sections. Exact inverse source/header checks and compiled size/offset checks
+  pass. The shared header is unchanged; no consumer-cohort claim follows.
+- Evidence is retained in the October 6 movement-owner-context packet. The
+  independent four-trial audit distinguishes the copied historical match-unit
+  hash from the actual current compile/diagnostic inputs. All raw diagnostic
+  errors are preserved. IsHeld's unchanged 18-byte exact ledger unit, source,
+  ABI and target were inspected; its canonical object was absent, and no new
+  leaf replay is claimed. Only the changed nonexact consumer is retained;
+  native product/runtime, semantic and portability gates remain open.
