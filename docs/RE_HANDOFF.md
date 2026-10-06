@@ -275,6 +275,24 @@ its exact helper and compiler iterator remain unchanged. These isolated controls
 are not integrated and add no credit. See the latest Knowledge Base section and
 the large-model-independent packet rather than repeating these arrangements.
 
+## Latest whole-context controls
+
+Current-carrier RunEcl six-fragment scope flattening is now tested and fully
+neutral across all 67 owners/28,838 bytes/1,215 fields. Earlier scope results
+used an older carrier, but this current context is no longer an open route.
+Two genuine outer main/child completion-loop controls regress to frame 0x16C
+and 14,808/14,820 logical bytes; both preserve all 66 other owners. The strict
+identity gate rejects their extents. Keep the canonical six-handler frontier.
+
+Enemy draw's collapse/render completion branch is neutral. FindCollision's
+common restoration gives 409/602 bytes and is rejected; fresh baseline is 604
+bytes. DrawResult's bank/screen constructor stays as a non-target call, while
+trivial aggregate input gives 1,941 bytes with wrong stack homes. Enemy
+OnUpdate's common world-position completion gives 3,840/3,900 physical bytes
+and loses one target call context. All are isolated negatives, distinct from
+parked accessor work. The October 6 completion-contexts packet retains source
+deltas, current bindings and precise comparison limits. No new credit.
+
 ## Next bounded investigations
 
 Select from a fresh non-exact ledger before using historical residuals.
