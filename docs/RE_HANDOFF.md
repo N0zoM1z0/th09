@@ -367,6 +367,23 @@ ecl-operand-macros and trail-uv-owner packets. All 23 exact ECL siblings and 35
 non-code sections remain intact. Do not repeat these five unchanged contexts;
 there is no new exact credit or canonical source change.
 
+## Latest argument-owner and instruction-latch controls
+
+Enemy draw's newly visible real Abs body regresses the full owner to 1,742/1,758
+bytes with 974 overlapping differences plus 16 absent bytes. The float-returning
+midpoint-error member is neutral across all four existing bodies, while the
+whole early-return collapse predicate retains a non-target call. Three exact
+siblings remain intact. Their complete proofs and provenance limits are in the
+October 6 enemy-argument-owner packet; do not repeat these precise contexts.
+
+RunEcl's instruction-walk for increment changes its physical owner to 14,104
+bytes/600 fields/377 direct calls and fails the strict shape gate. A positive
+difficulty-mask-owned switch alone is neutral across all 67 owners, preserving
+the same six-handler frontier. All 23 exact siblings and 35 non-code sections
+are intact. The instruction-latch packet retains source reversal, current
+include/object bindings and independent audit. No source or exact credit is
+retained; other enclosing source models remain open hypotheses.
+
 ## Next bounded investigations
 
 Select from a fresh non-exact ledger before using historical residuals.
