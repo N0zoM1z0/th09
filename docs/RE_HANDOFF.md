@@ -624,6 +624,14 @@ middle.z versus tail.x argument-preparation window. No new coverage or replay
 receipt follows. Current proof is in the October 6 frontier-fresh and
 type3-independent packets; native product/runtime gates remain open.
 
+The later Type3 whole-state if/else model regresses to 781/780 bytes with
+703 linked overlap differences plus one excess. Complementary lazy collision
+continuations and three separate aggregate sample initializers are neutral
+across all 800 emitted code bytes/38 fields and all six nondebug sections.
+The 20-byte timer sibling remains exact. No source is integrated or credited.
+The October 6 type3-state-contexts packet retains complete independent proof;
+do not repeat these three precise arrangements unchanged.
+
 ## Current Etama draw vector-object correction
 
 OnDraw now consumes its three genuine Float3 conversion results as the existing
