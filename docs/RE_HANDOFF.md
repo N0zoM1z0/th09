@@ -253,6 +253,18 @@ The separate ordinary axis-range snapshot control remains 796/808 bytes with
 32 fields and 102 overlap differences; early Y-bound scheduling is still wrong.
 It is not integrated. The canonical poller remains 790 bytes and 29 fields.
 
+## Current Type3 collision-vector correction
+
+ExAttackUpdateCallbackType3 now consumes the real conversion-result pointer as
+its existing PlayerPositionView object and writes x/y/z through named members.
+The conversion call, local lifetime, 0x64 frame and every effect remain.
+Independent review and the canonical build preserve all 800 emitted bytes and
+38 fields across Type3 and its unchanged timer helper. The complete 780-byte
+Type3 owner remains NON-EXACT with 15 linked-byte differences, all in the
+middle.z versus tail.x argument-preparation window. No new coverage or replay
+receipt follows. Current proof is in the October 6 frontier-fresh and
+type3-independent packets; native product/runtime gates remain open.
+
 ## Current gameplay threshold correction
 
 GameManagerSetup OnUpdate now performs its two score-threshold products in

@@ -91,10 +91,11 @@ int __fastcall ExAttackUpdateCallbackType3(ExAttackRecord *base)
         extra->history10[24] - *position;
 
     PlayerPositionView collisionSize;
-    float *collision = collisionSize.operator float *();
-    collision[0] = 12.0f;
-    collision[1] = 12.0f;
-    collision[2] = 0.0f;
+    PlayerPositionView *collision = reinterpret_cast<PlayerPositionView *>(
+        collisionSize.operator float *());
+    collision->x = 12.0f;
+    collision->y = 12.0f;
+    collision->z = 0.0f;
 
     g_Supervisor.SelectSide(record->opponentSide04);
 
