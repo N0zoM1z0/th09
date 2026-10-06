@@ -80,7 +80,7 @@ extern char *g_TitleAlphabet;
         g_AsciiManager.AddFormatText(&position, (headingText)); \
         position.y += 16.0f; \
         i32 row = 0; \
-        ResultDrawScoreRecord *entry = scoreGroup; \
+        ResultDrawScoreRecord *entry = *scoreGroup; \
         while (row < 5) { \
             if (active) { \
                 if (selectedRank == row) \
@@ -105,7 +105,7 @@ extern char *g_TitleAlphabet;
             ++entry; \
             position.y += 16.0f; \
         } \
-        scoreGroup += 5; \
+        ++scoreGroup; \
     } while (0)
 
 int TitleScreenView::DrawResult()
@@ -115,10 +115,10 @@ int TitleScreenView::DrawResult()
     i32 temp;
     i32 difficultyMask;
     i32 selectedRank;
-    ResultDrawScoreRecord *scoreGroup;
+    ResultDrawScoreRecord (*scoreGroup)[5];
     u32 alphaColor;
 
-    scoreGroup = &g_TitleScoreTable[nameBankIndex][0][0];
+    scoreGroup = g_TitleScoreTable[nameBankIndex];
 
     if (currentScreen == 13)
     {

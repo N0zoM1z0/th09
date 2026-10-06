@@ -195,6 +195,12 @@ differences. Its position-store/early receiver scheduling remains open.
 Current source-bound diagnostics and manifests are retained in the October6
 front-random-guard and front-added-objects analysis packets.
 
+Title DrawResult now uses bounded ranking-array and row cursors. Its current
+canonical build preserves the 1,939-byte owner and all 82 fields, with the same
+22 prefix differences. The October 6 title-ranking-bounds packet contains
+current input hashes and the complete diagnostic. Enemy draw's newly tested
+strict conjunction is neutral at the same four differences; do not repeat it.
+
 ## Parked specific actions
 
 The following specific actions remain parked: ApplyNetworkInput ABI canonical
