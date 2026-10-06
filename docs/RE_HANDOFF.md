@@ -69,8 +69,8 @@ match units, not from historical prose.
 
 `EclManager::RunEcl @ 0x004086C0` remains source-present and **NON-EXACT**.
 
-The retained current-header ECL carrier, rebound in the October 5 full-context
-review without another build, has RunEcl raw function
+The current ECL carrier, rebuilt for the October 6 Type21 integration and
+proved byte/field-neutral for RunEcl, has RunEcl raw function
 SHA-256
 `93206b3996d97e62d6470b795e32c9cfdc9228a9bc8806efed073688b7420eef`.
 `scripts/report-ecl-codegen.py` reports:
@@ -138,7 +138,7 @@ Useful restart commands:
 ~~~bash
 # First verify the retained object's source/dependency manifest.
 # Ordinary build/matching caches may predate the current Player header.
-OBJ=build/gpt-dots-player-retention-review-20261005-1526/EclManager.obj
+OBJ=build/gpt-dots-type21-array-20261006/canonical.obj
 python3 scripts/report-ecl-codegen.py --json "$OBJ"
 python3 scripts/report-ecl-handler-boundaries.py "$OBJ"
 python3 scripts/audit-ecl-callsite-identities.py "$OBJ"
@@ -153,15 +153,25 @@ Real timer assignment/update visibility already has source-backed negative
 controls; named Tick/inline context is unproven, not evidence of a fix.
 RunEcl is necessary for the 95% milestone: its 14,792 bytes exceed the current
 13,788-byte non-exact allowance. This bounded plateau is not proof of impossibility.
-The current context/history manifest is retained in the October 5 ECL review
-packet; preserve it before trying an allegedly new helper or lifetime route.
+The current input manifest is retained in the October 6 Type21 array packet;
+the October 5 ECL packet preserves the preceding hypothesis review. The new
+October 6 reference-returning WriteInt/WriteFloat wrapper control is also fully
+neutral across RunEcl and all exact ECL siblings; do not repeat it.
 
 ## Next bounded investigations
 
 Select from a fresh non-exact ledger before using historical residuals.
-Current source-backed questions are PauseMenu's actual helper-context provenance
-and complete physical residual, and Type21 update's declared magnitude/step
-array ownership. Inspect retained controls before compiling a new hypothesis.
+Type21 update now uses separate in-bounds magnitude/step array indices and a
+real shared Float3 workspace in the existing ECL carrier. Its complete 1,074-byte
+owner has 29 reviewed fields and 15 differences confined to two independent
+ring-preheader setup orderings. Reproduce with inspect-exattack-type21.py; this
+is NON-EXACT, with no partial credit. The initializer and Type19 cross-array
+views remain separate unresolved work.
+
+PauseMenu's opaque helper/deferred-footer context remains non-exact: 1,772
+physical bytes versus 1,776, with 816 differing overlapping positions. The
+October 6 state-9 if/else form is fully byte/field-neutral. Inspect retained
+controls before compiling another hypothesis.
 
 DrawReplayMenu at 0x004234F6 now uses real Float3 objects. The isolated correction
 is fully byte/field neutral: 1,244 candidate bytes versus 1,280 target bytes,
