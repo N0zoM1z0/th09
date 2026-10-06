@@ -290,6 +290,18 @@ the large-model-independent packet rather than repeating these arrangements.
 
 ## Latest whole-context controls
 
+The latest structural-owner packet adds five distinct negatives. Fully indexed
+trail-array traversal changes the Type19/21 initializer extents to 762/712 bytes
+and gives Type21 update 50 full differences. DrawResult's full selection member
+retains a non-target call, while its explicit final restoration continuation is
+fully neutral across 1,942 bytes/82 fields. ECL's raw-path entry into the shared
+integer store emits 15,560 physical bytes, 597 fields and 374 direct calls;
+strict identity/shape/codegen checks reject that input, so no new handler claim
+follows. Effect's complementary inactive/active loop arms emit 461/475 bytes;
+all 14 same-profile exact siblings retain their complete targets. Canonical
+source is unchanged. Use the October 6 structural-owner-contexts packet for
+full source/include/field/target proofs; do not repeat these precise forms.
+
 Four later phase/dispatch controls are now recorded negatives. Options' frozen
 if/else entry changes the graph and emits 2,049/2,045 bytes; its dispatch-only
 switch is neutral across both owners. ECL's complete post-dispatch scratch
