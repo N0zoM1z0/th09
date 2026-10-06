@@ -168,8 +168,8 @@ int __fastcall ExAttackUpdateCallbackType19(ExAttackRecord *base)
 
         ++vertex;
         Float3 *history = &extra->history3E8[1];
-        float *magnitude = &extra->magnitudes578[0];
-        int remaining = 32;
+        // Magnitudes and angular steps belong to separate 32-element arrays.
+        int sample = 0;
 
         do
         {
@@ -203,17 +203,17 @@ int __fastcall ExAttackUpdateCallbackType19(ExAttackRecord *base)
                 while (--wrapRemaining != 0);
             }
 
-            *magnitude += magnitude[33];
+            extra->magnitudes578[sample] += extra->angularSteps5FC[sample];
 
-            history->FromAngleMagnitude(angle, *magnitude);
+            history->FromAngleMagnitude(angle, extra->magnitudes578[sample]);
             *history += extra->spawn40;
 
             ++vertex;
             ++history;
-            ++magnitude;
+            ++sample;
             angle += 0.2026834f;
         }
-        while (--remaining != 0);
+        while (sample != 32);
 
         if (record->timer10 < 300 && record->timer10 > 20)
         {

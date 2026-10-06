@@ -178,7 +178,10 @@ Type21 update now uses separate in-bounds magnitude/step array indices and a
 real shared Float3 workspace in the existing ECL carrier. Its complete 1,074-byte
 owner has 29 reviewed fields and 15 differences confined to two independent
 ring-preheader setup orderings. Reproduce with inspect-exattack-type21.py; this
-is NON-EXACT, with no partial credit. The Type19 update cross-array view remains separate unresolved work.
+is NON-EXACT, with no partial credit. Type19 update now also indexes its separate arrays in bounds, in its original
+standalone source. It remains NON-EXACT at 821 bytes/34 fields with 206 full
+differences, the same 30-block graph and 11 ordered calls. Its helper-visible
+819/817-byte probes are different contexts; no helper was copied into production.
 Type19/21 initializers now use in-bounds arrays and real vector/vertex objects;
 their complete target-sized 763/727-byte owners have six/nine preheader
 differences. Use inspect-exattack-trail-init.py; both remain NON-EXACT.
