@@ -88,7 +88,12 @@ struct PlayerAddedStateLayout
     int state00;
     unsigned char unknown004[0x04];
     int sideIndex08;
-    unsigned char unknown00C[0xB0];
+    unsigned char unknown00C[0x7C - 0x0C];
+    float randomRange7C;
+    unsigned char unknown080[0xA0 - 0x80];
+    int initialStateA0[2];
+    int sideStateA8;
+    unsigned char unknown0AC[0xBC - 0xAC];
     PlayerAddedAnmLoadedView *anmFileBC;
     PlayerAnmVmView mainVmC0;
     int field364;
@@ -135,6 +140,12 @@ struct PlayerAddedStateLayout
 };
 typedef char PlayerAddedStateLayoutSizeIs30F70[
     (sizeof(PlayerAddedStateLayout) == 0x30F70) ? 1 : -1];
+typedef char PlayerAddedRandomRangeAt7C[
+    (offsetof(PlayerAddedStateLayout, randomRange7C) == 0x7C) ? 1 : -1];
+typedef char PlayerAddedInitialStateAtA0[
+    (offsetof(PlayerAddedStateLayout, initialStateA0) == 0xA0) ? 1 : -1];
+typedef char PlayerAddedSideStateAtA8[
+    (offsetof(PlayerAddedStateLayout, sideStateA8) == 0xA8) ? 1 : -1];
 typedef char PlayerAddedPositionAt1B88[
     (offsetof(PlayerAddedStateLayout, position1B88) == 0x1B88) ? 1 : -1];
 typedef char PlayerAddedCollisionAt28BC[
@@ -227,16 +238,15 @@ void PlayerLifecycleView::InitializeAddedState()
     player->timer303B0 = 6;
 
     float randomValue = g_PlayerAddedRng.SampleRange(400.0f) + 100.0f;
-    *reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(player) + 0x7C) = randomValue;
+    player->randomRange7C = randomValue;
     if (randomValue >= 400.0f)
-        *reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(player) + 0x7C) = 400.0f;
+        player->randomRange7C = 400.0f;
 
     player->ownerState30410.Reset();
     player->timer1B74 = 0;
     player->scalar30384 = 0.0f;
 
-    int *stateTable = reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(player) + 0xA0);
-    stateTable[2] = g_PlayerAddedSideTable[player->sideIndex08];
+    player->sideStateA8 = g_PlayerAddedSideTable[player->sideIndex08];
     int value = g_PlayerAddedClampValue;
     if (value > 2)
         value = 2;
@@ -246,35 +256,35 @@ void PlayerLifecycleView::InitializeAddedState()
     case 1:
         {
             const int initialState = value + 1;
-            stateTable[0] = initialState;
-            stateTable[1] = initialState;
+            player->initialStateA0[0] = initialState;
+            player->initialStateA0[1] = initialState;
         }
         break;
     case 2:
         {
             const int initialState = value + 4;
-            stateTable[0] = initialState;
-            stateTable[1] = initialState;
+            player->initialStateA0[0] = initialState;
+            player->initialStateA0[1] = initialState;
         }
         break;
     case 3:
         {
             const int initialState = value + 8;
-            stateTable[0] = initialState;
-            stateTable[1] = initialState;
+            player->initialStateA0[0] = initialState;
+            player->initialStateA0[1] = initialState;
         }
         break;
     case 4:
         {
             const int initialState = value + 12;
-            stateTable[2] = 1;
+            player->sideStateA8 = 1;
             player->scalar30388 = 400.0f;
-            stateTable[0] = initialState;
-            stateTable[1] = initialState;
+            player->initialStateA0[0] = initialState;
+            player->initialStateA0[1] = initialState;
         }
         break;
     }
-    if (stateTable[2] == 1)
+    if (player->sideStateA8 == 1)
         player->flags1B80 |= 8u;
 
     player->timer303A4 = -1;

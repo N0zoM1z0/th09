@@ -663,40 +663,50 @@ or exact credit is needed for this changed nonexact body. Current carrier:
 build/gpt-dots-etama-draw-canonical-20261006/canonical.obj. The fresh, combined
 and canonical Etama packets retain full field/target/source proofs.
 
-## Current Player added-state mode ownership
+## Current Player added-state fields and mode ownership
 
-InitializeAddedState remains in separate PlayerAddedState.cpp. Each mode arm now
-owns its final paired state publication, preserving the signed upper-only clamp,
-default non-publication and mode-4 side/capacity override. This ordinary whole-owner
-context narrows the full linked mismatch from 65 to 33 bytes, without changing the
-572-byte physical extent, 25 fields, 11 calls, 10 direct branches or switch table.
-The history, flag and side-table windows now match; position/pool-preheader (22)
-and mode-4 add/store scheduling (11) remain. No partial or new exact credit.
+InitializeAddedState's complete private layout now declares the observed float
+at +0x7C, two-state int array at +0xA0 and separate side state at +0xA8.
+Its 0x30F70 size, all existing offsets, signed upper-only clamp, per-mode pair
+publication, default non-publication and mode-4 side/capacity overrides remain.
+No shared header, ABI, compiler profile, ownership extent or ledger changes.
 
-The genuine typed position conversion consumer remains. Independent isolated and
-canonical reviews verify all eight nondebug sections, three exact reset siblings
-(93 bytes/five fields), and unchanged noncode collateral. Current carrier is
-build/gpt-dots-player-added-mode-owners-20261006/canonical.obj; use the packet's
-verify-current-independent.py for a no-compile current verification. The former
-player-added-canonical packet is historical. No exact manifest changed or replay
-is needed. Direct chained-pair publication leaves 39 differences; actual vector
-aggregate/copy initialization emits 604/572 bytes and is rejected. Do not repeat
-these precise source models unchanged.
+The whole owner remains 572 physical bytes (552 authored plus the 20-byte table),
+25 fields, 11 calls, 10 direct branches and five switch entries. The field-owned
+context closes all eleven mode-4 add/store differences, narrowing the full
+comparison from 33 to 22. Only position/pool-preheader +0x3A..+0x56 remains.
+The earlier per-mode publication improvement from 65 to 33 is retained.
+These are complete-owner diagnostics, never partial exact credit.
 
-Controller's single in-class axis-mask operation is also rejected at 797/808
-bytes, with 117 overlap differences plus 11 absent, versus current baseline
-790/808 with 102 plus 18. Both exact button helpers remain intact; its uncalled
-74-byte copy has no ownership. The controller-axis-operation packet holds the
-complete current-input comparison and independent review.
+Independent isolated and actual canonical reviews agree across all eight
+nondebug sections. Three exact reset siblings retain 93 bytes/five fields;
+the four noncode sections are unchanged. Current carrier:
+build/gpt-dots-added-state-field-owner-20261006/canonical.obj.
+Use .analysis/gpt-dots-added-state-field-owner-20261006/verify-current.py.
+The mode-owners and owner-controls-review current verifiers are now historical
+for AddedState; they bind its previous source. Native/runtime and inherited
+object-view/lifetime assumptions remain open. No exact manifest changed or
+replay is needed.
 
-The later pool-rebuild cursor/countdown control is rejected at 588/572 bytes,
-528 overlap differences plus 16 excess; three exact reset siblings stay intact.
-FrontAdded's full successful-resource arm duplicates a static loader call site
-and emits 716/706 bytes. Its ordinary closed-panel operation retains two
-non-target helper calls (529-byte caller plus 89-byte helper). The complete
-owner-controls-review packet independently verifies all fields, stores and
-collateral. Canonical source is unchanged; no replay or new credit applies.
-Do not repeat these three precise source models unchanged.
+Two follow-ons preserve the same 22 differences and are not integrated.
+An ordinary position-initialization method adds an unreferenced 40-byte copy.
+Exposing the real out-of-line conversion adds a three-byte definition referenced
+by the existing genuine call, with no new target ownership. Earlier chained-pair,
+position aggregate and pool-cursor arrangements remain recorded negatives.
+Do not repeat these precise models unchanged.
+
+Controller's single in-class axis-mask operation remains rejected at 797/808
+bytes, 117 overlap differences plus 11 absent; canonical is 790/808 with 102
+plus 18. Its exact button helpers stay intact and its uncalled 74-byte copy
+has no ownership. The controller-axis-operation packet retains complete proof.
+
+FrontAdded's successful-resource arm and closed-panel helper remain negative.
+Its new ordinary per-vertex SetPosition model fully inlines all ten calls and
+preserves all 30 XYZ final stores, but emits 693/706 bytes with 37 fields,
+385 overlap differences plus 13 absent. All 21 ordered calls and the 19-block
+graph remain; its emitted 24-byte method has no nondebug references.
+Canonical Front source is unchanged. The front-vertex-review packet retains
+full source/field/store/collateral proof; do not repeat this unchanged model.
 
 ## Current gameplay threshold correction
 
