@@ -528,16 +528,14 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
     if (g_GameManager.gameMode == 0)
     {
         if (g_GameManager.sides[0].state->value04 >=
-            static_cast<unsigned int>(
-                2000000 * g_GameManager.sides[0].state->phase10 + 1000000))
+            2000000u * g_GameManager.sides[0].state->phase10 + 1000000u)
         {
             g_GameManager.AdvanceTimedState();
         }
     }
     if (g_GameManager.gameMode == 1 &&
         g_GameManager.sides[0].state->value04 >=
-            static_cast<unsigned int>(
-                500000 * (g_GameManager.sides[0].state->phase10 + 1)))
+            500000u * (g_GameManager.sides[0].state->phase10 + 1))
     {
         g_GameManager.AdvanceTimedState();
     }

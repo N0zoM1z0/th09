@@ -194,6 +194,20 @@ is fully byte/field neutral: 1,244 candidate bytes versus 1,280 target bytes,
 NON-EXACT; the old 36-byte size shorthand understated the complete residual.
 No original expression grouping or broader class ownership is inferred.
 
+## Current gameplay threshold correction
+
+GameManagerSetup OnUpdate now performs its two score-threshold products in
+unsigned 32-bit arithmetic, matching the target at the reachable phase 99999 sentinel.
+The previous casts occurred after signed overflow. One focused build preserves
+all 12 emitted owners byte-for-byte and field-for-field; OnUpdate remains 1230
+bytes/87 fields with 105 full differences. Current proof is retained in the
+October 6 setup-threshold and options-setup-audit packets. No exact credit.
+
+The in-class ECL assignment-wrapper control is rejected: raw bytes match but 22
+calls across seven owners bypass assignment and target SetCurrent instead.
+RunEcl accounts for 16 changes. Do not treat raw neutrality as identity proof or
+repeat this exact arrangement.
+
 ## Current Front continuation
 
 FrontMessageRandom SetupRandomForSide now routes every fallback success through
