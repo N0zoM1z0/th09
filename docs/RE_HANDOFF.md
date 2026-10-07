@@ -491,22 +491,34 @@ broadcast-ring-contexts packet and latest Knowledge Base section. Recheck with
 python3 -B .analysis/gpt-dots-broadcast-ring-contexts-20261007/verify.py.
 Do not repeat these four precise models unchanged; no new exact credit.
 
-## Latest collision shape and volume-continuation controls
+## Latest query, cursor and dispatch-continuation controls
 
-Three October 7 isolated models are independently reviewed negatives.
-CheckBulletCollision's positive eligibility/shape-local lifetimes and separate
-minimum/maximum bounds object both remain 849/862 bytes, 26 fields and 805
-overlap differences plus 13 absent. They grow frame 0x34 to 0x40; all six exact
-siblings and noncode collateral remain intact.
+Five October 7 isolated source models are independently reviewed negatives.
+Type3's named collision-query aggregate retains 780 bytes/38 fields/24 calls,
+but gives 34 complete linked differences versus 15; the ordinary four-sample
+VM/history loop emits 697/780 bytes with 35 fields. Its exact timer and all
+noncode collateral are unchanged.
 
-Options' four shared volume-command continuations preserve its 121-block graph,
-51 ordered calls and 135 fields, but remain 2,048/2,045 bytes with 626 overlap
-differences plus three excess, versus baseline 610 plus three. Only four
-PUSH/MOV scheduling pairs change; its exact sibling and noncode remain intact.
-No canonical source or manifest changes, replay, or exact credit follows.
-Do not repeat these precise contexts. Complete proof and provenance limits are
-in the collision-shape-contexts packet; recheck without compilation with
-python3 -B .analysis/gpt-dots-collision-shape-contexts-20261007/verify.py.
+Front's carried instruction cursors retain publication points and post-music
+reloads, but Load gives 401/405 bytes (338 differences plus four absent) and
+Release gives 254/271 (226 plus 17). Their 18/14 fields, eight/six ordered calls
+and all noncode are independently checked. The explicit probe profile is not
+proof of the complete historical production invocation.
+
+RunEcl's shared integer-result publication outside the switch changes inlining:
+15,512 physical bytes, 596 fields, 373 direct calls and frame 0x168. Strict
+identity rejects the changed shape; no new handler claim follows. All 66 other
+owners, 23 exact siblings (9,533 bytes/439 fields) and 35 noncode sections stay
+intact. Canonical source and its existing six-handler frontier are unchanged.
+
+Recheck the three retained packets' verify.py without compilation:
+.analysis/gpt-dots-type3-query-contexts-20261007
+.analysis/gpt-dots-front-carried-cursor-20261007
+.analysis/gpt-dots-ecl-result-continuation-20261007
+The last packet retains the independent review. No replay or credit applies.
+Do not repeat these precise models. The preceding collision-shape and Options
+volume-continuation negatives remain recorded in the Knowledge Base and their
+collision-shape-contexts packet.
 
 ## Next bounded investigations
 
