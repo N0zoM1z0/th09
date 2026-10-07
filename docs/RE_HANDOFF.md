@@ -520,6 +520,21 @@ Do not repeat these precise models. The preceding collision-shape and Options
 volume-continuation negatives remain recorded in the Knowledge Base and their
 collision-shape-contexts packet.
 
+## Latest recovery and operand-value controls
+
+Six recovered/new isolated controls are terminal negatives. Trail vertex-owned UV
+leaves both initializers unchanged and worsens Type21 update to 61 differences;
+captured interpolation-array traversal fails RunEcl extent identity. Byte/short
+value-return readers are neutral across 65 common owners. Player movement's
+two-float working aggregate worsens full linked differences 144 to 178.
+
+ECL const value-return scalar readers grow frame 0x168 to 0x2C0 and break seven
+exact siblings. Borrowed const-reference readers preserve all 65 common owners
+and 23 exact siblings, with the same six-handler frontier. No canonical source
+or exact credit changes. Full independent proof and no-compile verifier:
+.analysis/gpt-dots-recovery-reader-audit-20261007/verify.py
+Do not repeat these precise source/value-category models unchanged.
+
 ## Next bounded investigations
 
 Select from a fresh non-exact ledger before using historical residuals.
