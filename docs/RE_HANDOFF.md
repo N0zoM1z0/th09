@@ -541,24 +541,22 @@ the first signature read to a dword through +0x63; original storage/padding
 ownership remains unknown. The fresh baseline retains 38 full differences.
 Use the decrypt-storage-view packet verify.py; no canonical change or credit.
 
-## Latest loop, feedback and complete-carrier controls
+## Latest service, charge and remote-operand controls
 
-Three new isolated models add no source or exact-credit change. RunEcl's grouped
-position-feedback state emits 15,576 physical bytes/frame 0x16C and fails the
-strict extent/CFG identity gate; all 66 other owners and 23 exact siblings remain
-intact. Its uncalled auxiliary-less three-byte constructor has no ownership.
+Four isolated source models add no canonical change or exact credit. Service's
+shared normal/wait unlock gives 1,638/1,633 bytes and 1,460 linked differences
+plus five excess. Charge's positive held-charge arm is fully neutral at
+1,197/1,210, 70 fields and 1,160 differences plus 13 absent.
 
-Effect's guarded do-while traversal is neutral across all 16 owners and retains
-the four count-read differences. Type19 update in the complete current ECL
-carrier gives 819/821 bytes, 324 linked differences plus two absent, exactly the
-raw owner from its earlier helper-only indexed control. All 67 prior ECL owners
-are neutral; only two expected literal sections are added. No TU move follows.
+RunEcl's explicit remote-recipient family gives 15,568 physical bytes/frame
+0x168 and fails strict identity. Isolated integer transfer is neutral across
+all 67 owners, preserving the six-handler frontier. All 23 exact ECL siblings,
+the exact emitted Charge timer and all noncode collateral are intact.
 
-Complete proof and limits: .analysis/gpt-dots-loop-feedback-contexts-20261007/verify.py.
-Review uses independent parsers by the sole writer, with no second reviewer.
-The preceding temporary/output models remain recorded in the Knowledge Base.
-Do not repeat these precise models unchanged. Native/runtime and original
-source ownership remain open; continue genuinely different whole-owner work.
+Full no-compile proof: .analysis/gpt-dots-service-charge-continuations-20261007/verify.py.
+The Knowledge Base retains the four hypotheses, precise call/provenance limits,
+and the preceding loop/feedback/complete-carrier controls. These are terminal
+negatives; do not repeat unchanged. No replay applies to unchanged exact units.
 
 ## Next bounded investigations
 
