@@ -535,6 +535,12 @@ or exact credit changes. Full independent proof and no-compile verifier:
 .analysis/gpt-dots-recovery-reader-audit-20261007/verify.py
 Do not repeat these precise source/value-category models unchanged.
 
+The subsequent complete decrypt-table/signature storage view is also rejected:
+218/220 bytes, 11 fields, 212 overlap differences plus two absent. It widens
+the first signature read to a dword through +0x63; original storage/padding
+ownership remains unknown. The fresh baseline retains 38 full differences.
+Use the decrypt-storage-view packet verify.py; no canonical change or credit.
+
 ## Next bounded investigations
 
 Select from a fresh non-exact ledger before using historical residuals.
