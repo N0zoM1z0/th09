@@ -541,6 +541,22 @@ the first signature read to a dword through +0x63; original storage/padding
 ownership remains unknown. The fresh baseline retains 38 full differences.
 Use the decrypt-storage-view packet verify.py; no canonical change or credit.
 
+## Latest whole-owner storage controls
+
+Four October 7 isolated source models are measured negatives. Supervisor service's
+named packet union is neutral at 1,632/1,633 bytes and 108 fields; complete-object
+memcpy plus actual word members also stays 1,632 bytes, with an uncalled four-byte
+getter copy. ApplyNetworkInput's API remains untouched. Charge input snapshot
+grouping is neutral at 1,197/1,210 bytes, 70 fields and 58 ordered calls.
+
+ECL shared scalar-storage grouping is neutral across all 67 common owners and
+23 exact siblings; its five-byte RawStorage copy is unreferenced. RunEcl retains
+the same six-handler frontier. Wire lifetime/alignment/aliasing remain unknown.
+Canonical source and exact manifests are unchanged; no exact replay applies.
+Use .analysis/gpt-dots-service-packet-owner-20261007/verify.py for complete
+retained-object/source/include/field and target proof. Do not repeat these four
+precise models unchanged; the Knowledge Base records their limits.
+
 ## Next bounded investigations
 
 Select from a fresh non-exact ledger before using historical residuals.
