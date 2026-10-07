@@ -564,6 +564,19 @@ The Knowledge Base retains the four hypotheses, precise call/provenance limits,
 and the preceding loop/feedback/complete-carrier controls. These are terminal
 negatives; do not repeat unchanged. No replay applies to unchanged exact units.
 
+## Latest XY value-owner controls
+
+Two isolated controls are terminal negatives. RunEcl's scoped Float2 displacement
+gives 15,576 physical bytes/frame 0x170 and fails strict identity; all 66 other
+owners and 23 exact siblings stay unchanged. Enemy draw's cosine/sine Float2
+keeps 1,758 bytes/53 fields/28 ordered calls but worsens four full differences
+to 174. Its three exact siblings remain intact. Every original scalar operation
+and call/publication order is preserved by independent source reversal.
+
+No canonical source change or credit. Full no-compile self-review:
+.analysis/gpt-dots-vector-pair-contexts-20261007/verify.py. These differ from
+prior feedback/temp-bank and strip-cursor aggregates; do not repeat unchanged.
+
 ## Next bounded investigations
 
 Select from a fresh non-exact ledger before using historical residuals.
