@@ -1,9 +1,14 @@
 # Reconstruction workflow
 
-The active operator milestone is at least **95% of reviewed authored bytes exact**
-(as of 2026-10-05). Existing proof and later-phase gates remain independent.
-Function size is a priority, not an eligibility cutoff: favor medium and large
-owners, while pursuing justified smaller closures or dependency unblockers.
+The user stopped TH09 reconstruction on **2026-10-07** and authorized final
+cleanup only. The former milestone, at least **95% of reviewed authored bytes
+exact**, was not reached. See [the final handoff](RE_HANDOFF.md) for the frozen
+checkpoint and retained limits.
+
+The workflow below is reference documentation, not an active task or permission
+to resume. A new explicit user request is required before further reconstruction.
+Existing proof, the fixed reviewed-authored denominator, and later-phase gates
+remain independent.
 
 ## Session entry
 

@@ -54,9 +54,15 @@ downloaded tools are private and never committed.
 
 ## Current status
 
+TH09 reconstruction was **stopped by the user on 2026-10-07** for final
+code/document cleanup. The former 95% milestone was not reached: the reviewed
+authored-byte snapshot is 218,501 / 275,770 (79.2331%), across 928 exact owners.
+This is not whole-image or runnable-product coverage. No further reconstruction
+or monitoring is scheduled; a new explicit request is required to resume.
+
 The latest checkpoint attested the target and live IDA database, but every new
 session must attest both again. Current ledger totals are generated in
-[`docs/PROGRESS.md`](docs/PROGRESS.md) and summarized with the active frontier
+[`docs/PROGRESS.md`](docs/PROGRESS.md) and summarized with the stopped-state evidence
 in [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md); do not copy historical packet
 counts or old `remains source-absent/unknown` wording into a new decision.
 Current exact/non-exact state comes from `config/functions.csv`,
@@ -96,7 +102,7 @@ not an acceptable shortcut around the native-product stage.
 - [`config/build.toml`](config/build.toml) — whole-product graph and explicit unknowns.
 - [`docs/RE_WORKFLOW.md`](docs/RE_WORKFLOW.md) — bounded reconstruction loop and stage gates.
 - [`docs/ORACLES.md`](docs/ORACLES.md) — what can falsify or accept each claim.
-- [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) — current phase and restart commands.
+- [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) — stopped state, retained evidence, and maintenance checks.
 - [`docs/KNOWLEDGE_BASE.md`](docs/KNOWLEDGE_BASE.md) — durable TH09-only facts.
 - [`docs/TOOLS.md`](docs/TOOLS.md) — local and Factory tool routing.
 - [`docs/PROGRESS.md`](docs/PROGRESS.md) — generated ledger totals.

@@ -1,5 +1,12 @@
 # TH09 reconstruction agent rules
 
+## Current operator status
+
+The user stopped TH09 reconstruction on 2026-10-07 and requested final cleanup.
+Do not resume reconstruction or monitoring without a new explicit user request.
+The rules below remain evidence safeguards, not an active campaign instruction.
+See docs/RE_HANDOFF.md for the stopped-state checkpoint.
+
 This repository targets only the original Japanese TH09 version 1.50a
 executable identified by SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
