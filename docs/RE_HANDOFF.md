@@ -541,25 +541,24 @@ the first signature read to a dword through +0x63; original storage/padding
 ownership remains unknown. The fresh baseline retains 38 full differences.
 Use the decrypt-storage-view packet verify.py; no canonical change or credit.
 
-## Latest typed temporary/output controls
+## Latest loop, feedback and complete-carrier controls
 
-Two new ECL temporary-value models are rejected by the strict identity gate:
-union scratch gives 15,560 physical bytes/frame 0x164; separate integer/float
-banks give 15,576/frame 0x170. Both retain 598 fields/375 calls, all 66 other
-owners, 35 noncode sections and all 23 exact siblings. Neither changes the
-canonical six-handler frontier or provides a new linked target residual.
+Three new isolated models add no source or exact-credit change. RunEcl's grouped
+position-feedback state emits 15,576 physical bytes/frame 0x16C and fails the
+strict extent/CFG identity gate; all 66 other owners and 23 exact siblings remain
+intact. Its uncalled auxiliary-less three-byte constructor has no ownership.
 
-Real Float3 projection outputs are neutral across all four current-control
-owners. Screen-space Float2 center/half extents regress to 613/622 bytes,
-507 complete overlap differences plus nine absent; all 40 field identities
-and 11 ordered calls survive. The control's real-helper visibility is isolated,
-not a canonical TU claim. No source, ABI, profile, manifest or coverage change.
+Effect's guarded do-while traversal is neutral across all 16 owners and retains
+the four count-read differences. Type19 update in the complete current ECL
+carrier gives 819/821 bytes, 324 linked differences plus two absent, exactly the
+raw owner from its earlier helper-only indexed control. All 67 prior ECL owners
+are neutral; only two expected literal sections are added. No TU move follows.
 
-Full source/include/object/field/target proof, limitations and no-compile
-verifier: .analysis/gpt-dots-source-value-owners-20261007/verify.py.
-The prior service packet, charge snapshot and ECL raw-storage controls remain
-measured negatives in the Knowledge Base. Do not repeat any precise arrangement
-unchanged. Native runtime and original source ownership remain open.
+Complete proof and limits: .analysis/gpt-dots-loop-feedback-contexts-20261007/verify.py.
+Review uses independent parsers by the sole writer, with no second reviewer.
+The preceding temporary/output models remain recorded in the Knowledge Base.
+Do not repeat these precise models unchanged. Native/runtime and original
+source ownership remain open; continue genuinely different whole-owner work.
 
 ## Next bounded investigations
 
