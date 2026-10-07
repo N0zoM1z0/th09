@@ -453,6 +453,28 @@ are neutral; positive-duration early completion gives 520 bytes and is rejected.
 These three precise source arrangements are measured; no new exact credit.
 The October 6 biased-movement packet retains independent and canonical proof.
 
+## Latest pool, vector and strip-state controls
+
+Three October 7 isolated source controls are terminal negatives. Complete
+collision-pool subobject grouping is neutral across all eight AddedState
+nondebug sections. Using the existing Float3 type for its actual position,
+history and conversion result changes only the genuine conversion symbol at
++0x24, still bound to 0x4343D0; full linked bytes stay neutral. Both retain
+572 physical bytes, 25 fields and the same 22 preheader differences.
+
+Enemy draw's strip working-state aggregate regresses to 1,755/1,758 bytes,
+53 fields and 463 overlap differences plus three absent. Its 28 calls and 42
+branches survive, but raw block counts are 67/68; only explicitly verified
+identity-padding collapse gives 66 matching structural blocks. No byte is
+masked or credited. All six exact siblings and all noncode collateral remain
+intact. Canonical source and manifests are unchanged; no replay is needed.
+
+Full source/field/target and input proof is independently reviewed. Recheck with
+python3 -B .analysis/gpt-dots-pool-strip-audit-20261007/verify-current.py.
+The historical Enemy baseline include closure is manifest-bound without
+showIncludes; new controls have actual include logs. See the latest Knowledge
+Base section for limits. Do not repeat these three precise source models.
+
 ## Next bounded investigations
 
 Select from a fresh non-exact ledger before using historical residuals.
