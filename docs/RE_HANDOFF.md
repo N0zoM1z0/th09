@@ -491,6 +491,23 @@ broadcast-ring-contexts packet and latest Knowledge Base section. Recheck with
 python3 -B .analysis/gpt-dots-broadcast-ring-contexts-20261007/verify.py.
 Do not repeat these four precise models unchanged; no new exact credit.
 
+## Latest collision shape and volume-continuation controls
+
+Three October 7 isolated models are independently reviewed negatives.
+CheckBulletCollision's positive eligibility/shape-local lifetimes and separate
+minimum/maximum bounds object both remain 849/862 bytes, 26 fields and 805
+overlap differences plus 13 absent. They grow frame 0x34 to 0x40; all six exact
+siblings and noncode collateral remain intact.
+
+Options' four shared volume-command continuations preserve its 121-block graph,
+51 ordered calls and 135 fields, but remain 2,048/2,045 bytes with 626 overlap
+differences plus three excess, versus baseline 610 plus three. Only four
+PUSH/MOV scheduling pairs change; its exact sibling and noncode remain intact.
+No canonical source or manifest changes, replay, or exact credit follows.
+Do not repeat these precise contexts. Complete proof and provenance limits are
+in the collision-shape-contexts packet; recheck without compilation with
+python3 -B .analysis/gpt-dots-collision-shape-contexts-20261007/verify.py.
+
 ## Next bounded investigations
 
 Select from a fresh non-exact ledger before using historical residuals.
