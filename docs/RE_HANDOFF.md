@@ -541,21 +541,25 @@ the first signature read to a dword through +0x63; original storage/padding
 ownership remains unknown. The fresh baseline retains 38 full differences.
 Use the decrypt-storage-view packet verify.py; no canonical change or credit.
 
-## Latest whole-owner storage controls
+## Latest typed temporary/output controls
 
-Four October 7 isolated source models are measured negatives. Supervisor service's
-named packet union is neutral at 1,632/1,633 bytes and 108 fields; complete-object
-memcpy plus actual word members also stays 1,632 bytes, with an uncalled four-byte
-getter copy. ApplyNetworkInput's API remains untouched. Charge input snapshot
-grouping is neutral at 1,197/1,210 bytes, 70 fields and 58 ordered calls.
+Two new ECL temporary-value models are rejected by the strict identity gate:
+union scratch gives 15,560 physical bytes/frame 0x164; separate integer/float
+banks give 15,576/frame 0x170. Both retain 598 fields/375 calls, all 66 other
+owners, 35 noncode sections and all 23 exact siblings. Neither changes the
+canonical six-handler frontier or provides a new linked target residual.
 
-ECL shared scalar-storage grouping is neutral across all 67 common owners and
-23 exact siblings; its five-byte RawStorage copy is unreferenced. RunEcl retains
-the same six-handler frontier. Wire lifetime/alignment/aliasing remain unknown.
-Canonical source and exact manifests are unchanged; no exact replay applies.
-Use .analysis/gpt-dots-service-packet-owner-20261007/verify.py for complete
-retained-object/source/include/field and target proof. Do not repeat these four
-precise models unchanged; the Knowledge Base records their limits.
+Real Float3 projection outputs are neutral across all four current-control
+owners. Screen-space Float2 center/half extents regress to 613/622 bytes,
+507 complete overlap differences plus nine absent; all 40 field identities
+and 11 ordered calls survive. The control's real-helper visibility is isolated,
+not a canonical TU claim. No source, ABI, profile, manifest or coverage change.
+
+Full source/include/object/field/target proof, limitations and no-compile
+verifier: .analysis/gpt-dots-source-value-owners-20261007/verify.py.
+The prior service packet, charge snapshot and ECL raw-storage controls remain
+measured negatives in the Knowledge Base. Do not repeat any precise arrangement
+unchanged. Native runtime and original source ownership remain open.
 
 ## Next bounded investigations
 
