@@ -553,6 +553,12 @@ RunEcl's explicit remote-recipient family gives 15,568 physical bytes/frame
 all 67 owners, preserving the six-handler frontier. All 23 exact ECL siblings,
 the exact emitted Charge timer and all noncode collateral are intact.
 
+The actual shared input-predicate carrier also regresses Charge to 1,189/1,210
+bytes, 69 fields and 1,140 differences plus 21 absent. Both 18-byte input
+predicates and the 20-byte timer remain exact; all 58 ordered calls survive,
+but one redundant gate-root field disappears. No production TU move follows.
+Its full proof is .analysis/gpt-dots-charge-input-carrier-20261007/verify.py.
+
 Full no-compile proof: .analysis/gpt-dots-service-charge-continuations-20261007/verify.py.
 The Knowledge Base retains the four hypotheses, precise call/provenance limits,
 and the preceding loop/feedback/complete-carrier controls. These are terminal
