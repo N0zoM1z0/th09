@@ -475,6 +475,22 @@ The historical Enemy baseline include closure is manifest-bound without
 showIncludes; new controls have actual include logs. See the latest Knowledge
 Base section for limits. Do not repeat these three precise source models.
 
+## Latest broadcast and traversal controls
+
+Four October 7 isolated source models are now measured negatives. GameManager
+input broadcasting emits 1,202/1,230 bytes; Type19/21 complete ring working-state
+aggregates emit 755/763 and 726/727. RunEcl context-traversal grouping regresses
+to 15,572 physical bytes and frame 0x170; its strict identity gate rejects the
+input, so no new handler claim follows. Front's ten-entry weighted fallback
+loop emits 686/693 bytes while retaining the corrected common final guard.
+
+Canonical source remains unchanged. All unrelated owners, eight GameManager
+and 23 ECL exact siblings, and all noncode collateral are preserved. Complete
+source reversal, byte/field comparisons and input/provenance limits are in the
+broadcast-ring-contexts packet and latest Knowledge Base section. Recheck with
+python3 -B .analysis/gpt-dots-broadcast-ring-contexts-20261007/verify.py.
+Do not repeat these four precise models unchanged; no new exact credit.
+
 ## Next bounded investigations
 
 Select from a fresh non-exact ledger before using historical residuals.

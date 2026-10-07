@@ -6523,3 +6523,52 @@ attest historical producer execution.
 - Enemy draw's genuine strip-traversal working-state aggregate groups the output cursor, UV, UV step and previous emitted angle. Full source reversal verifies unchanged expressions, lazy/NaN tests, asymmetric indexing, continue/update behavior, stores and final restoration. It regresses to 1,755/1,758 bytes with 53 fields, 463 complete linked overlap differences plus three absent bytes. All 28 ordered calls and 42 branches survive. Raw CFG counts are 67 candidate/68 target; a target-only three-byte identity LEA and shared six-byte identity-padding block explain a 66-block structural agreement after explicitly identified padding-only nodes are collapsed. All bytes remain counted without masking; no exact or raw-graph equality is claimed.
 - Independent PE/COFF review verifies all three AddedState exact siblings (93 bytes/five fields), three Enemy draw exact siblings (164/eight), four AddedState noncode sections and nine Enemy noncode sections. Only Enemy draw's main section changes. New pool/vector/strip compile logs bind four/seven/eight actual includes. The historical Enemy baseline lacks showIncludes and remains current source/seven-project-header manifest-bound; current hashes are not retrospective compiler-environment attestation. Runtime, original source/type ownership and inherited domain/alias/lifetime assumptions stay open.
 - Three ordinary compiles are terminal; unchanged source/header-bound baselines are reused. Canonical source, profiles, ABI, ledgers and denominator are unchanged, so no replay or new credit applies. Complete proof, raw audit/discovery errors and the no-compile verify-current.py are retained in the October 7 pool-strip-audit packet; producer packets retain the precise source deltas. Do not repeat these models unchanged. Coverage stays 928 exact owners/218,501 of 275,770 reviewed-authored bytes; 43,481 bytes remain to 95%, RunEcl stays mandatory, and native product/runtime/semantic/portability gates remain open.
+
+
+## Broadcast, ring, interpreter and fallback traversal controls (2026-10-07)
+
+- Four new isolated natural source models are terminal negatives. GameManager
+  OnUpdate's two-side input publication loop still captures all five words
+  before writing either destination; exact source unrolling recovers the
+  canonical statements. It emits 1,202/1,230 bytes, 79 fields, 1,106 linked
+  overlap differences and 28 absent bytes. All 16 ordered calls survive,
+  but the complete graph and absolute-field multiplicities change.
+- Type19/21 initializer working-state aggregates group only the genuine
+  vertex/history/spawn cursors, heading, angular step and sample ordinal.
+  Removing the group declarations and restoring the original initializers
+  recovers both full canonical sources exactly. They regress to 755/763
+  bytes with 57 fields and 318 overlap differences plus eight absent, and
+  726/727 bytes with 53 fields and 456 overlap differences plus one absent.
+  All 27/25 ordered calls remain; neither smaller extent is an improvement.
+- RunEcl's complete context-traversal aggregate groups its saved main context,
+  saved call stack, current instruction, child and child ordinal. Every
+  statement after initialization and all six handler fragments are identical
+  after removing member qualification. The candidate has 14,800 logical/
+  15,572 physical bytes, frame 0x170, 598 fields and 375 direct calls. The
+  strict full-owner identity diagnostic rejects the changed input shape; no
+  target field mapping or six-handler shape claim is inferred for this trial.
+- Front SetupRandomForSide's natural ten-entry fallback loop visits 210..219
+  with the same null-before-count checks and shared final 220/count guard.
+  It emits 686/693 bytes, 15 fields and 601 linked overlap differences plus
+  seven absent bytes, preserving all six ordered calls. The existing typed
+  flexible-entry storage/lifetime assumptions remain open. This is distinct
+  from the historical raw-int cursor and unchanged hand-unrolled contexts.
+- Retained-object review uses an independent bounds-checked COFF/PE parser
+  as well as repository diagnostics. All 11 unrelated GameManager owners,
+  65 unrelated ring-carrier owners, 66 unrelated RunEcl-carrier owners and
+  the other Front owner remain raw/field-neutral. Eight GameManager exact
+  siblings (1,122 bytes/96 fields), all 23 ECL exact siblings (9,533/439),
+  and every nondebug noncode section remain intact. No new helper is emitted.
+  Actual candidate includes number 86/35/36/8 respectively. The traversal
+  carrier also encounters guarded canonical EclRunControl via EclPostRuntime;
+  this extra include is independently hashed, not silently excluded.
+- Canonical source, profiles, ABI, target extents, ledgers and denominator are
+  unchanged; no replay or exact credit follows. The packet retains full raw
+  preparation, overly strict multiplicity-check and include-check errors,
+  their explanations, complete comparisons and current input bindings. The
+  ECL identity failure is a diagnostic rejection, not a permission denial.
+  Current named hashes are not retrospective full compiler-environment or
+  runtime attestation; Front's historical baseline has no showIncludes log.
+  Recheck without compilation with
+  `python3 -B .analysis/gpt-dots-broadcast-ring-contexts-20261007/verify.py`.
+  Do not repeat these four precise source models unchanged.
