@@ -577,6 +577,12 @@ No canonical source change or credit. Full no-compile self-review:
 .analysis/gpt-dots-vector-pair-contexts-20261007/verify.py. These differ from
 prior feedback/temp-bank and strip-cursor aggregates; do not repeat unchanged.
 
+A separate Enemy OnUpdate taper-result const-reference plus complete-object
+copy gives 3,900 physical bytes/97 fields and 759 full differences versus 39.
+All 69 calls, four table targets, other owners and the exact attached-effect
+sibling remain intact. Use the same packet's verify-taper.py. This introduces
+no new accessor; parked accessor work remains untouched. No integration.
+
 ## Next bounded investigations
 
 Select from a fresh non-exact ledger before using historical residuals.
