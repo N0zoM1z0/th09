@@ -9,14 +9,13 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at76a37ba. Original target and direct IDA mapped
-bytes pass. Eight SupervisorServiceUpdate contexts precede one batch-end cold.
-The source-bound baseline remains1632 bytes/108 fields, with1395 complete linked
-differences plus one absent. Flag mask changes only JGE to corresponding target
-JNS; other scalar/readiness/body controls are neutral and output workspaces
-regress. All41 direct and10 indirect call identities are checked. No source,
-header, ABI, profile or exact-credit change is integrated. The stale IDA entry
-comment is corrected and read back with all417 instructions unchanged.
+This checkpoint starts clean at5856f37. Original target and direct IDA mapped
+bytes pass. Seven DrawReplayMenu row-argument/lifetime contexts precede one
+batch-end cold. All retain1244 bytes/54 fields/366 instructions/11 calls;
+direct user-file arguments reduce complete differences from1180 to1179, still
+with36 absent bytes and two missing caption calls. Other main-body controls are
+neutral. Complete cold code/data/numeric records repeat. No source/header, ABI,
+profile, IDA metadata or exact-credit change is integrated.
 
 ## Live ledger snapshot
 
@@ -57,6 +56,8 @@ semantic reconstruction and portability have not started.
   overlap differences plus three excess; 51 calls and 121 direct blocks agree.
 - Result draw: 1,939 bytes/82 fields/22 entry differences. Output-reference and
   array-reference producer contexts are rejected; later keyboard graph is covered.
+- Replay menu draw: 1,280 target/1,244 candidate bytes, 57 target/54 candidate
+  fields, 1,180 differences plus36 absent; row arguments leave caption merging open.
 - Supervisor network service: 1,633 target/1,632 candidate bytes, 106 target/108
   candidate fields, 1,395 complete differences plus one absent. Actual indirect
   operands are covered; sign-test opcode and output-workspace evidence are below.
@@ -70,7 +71,42 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest Supervisor service workspace/call batch
+## Latest replay-menu row-argument/lifetime batch
+
+Packet: `.analysis/gpt-6.1-sol-replay-row-arguments-20261009/`.
+Actual canonical object remains
+`build/gpt-6.1-sol-replay-mode-20261009/canonical.obj`, SHA256
+`bae100327e4968bbb714523a594a1162f239186c560703d12d944b56b61232fd`.
+All43 preobserved source/include/backend/tool bindings agree before reuse and
+after the batch. Complete fresh direct target disassembly covers376 instructions.
+
+List-only, selected-only and both direct user-file variadic arguments change real
+character evaluation/push ordering. List/both reduce full linked differences by
+one; selected-only retains1180. Sharing the two mutually exclusive loop counters
+is raw/field neutral, including when combined with both direct arguments. Inline
+const replay-member selectors and a real256-byte caption-buffer member are also
+main-body neutral. Member selectors change the two uncalled17-byte auxiliary
+bodies from EAX-argument to ECX-receiver lowering; their literal fields remain
+equal and no target ownership is assigned. All noncode sections stay unchanged.
+
+Every candidate retains1244 bytes/54 fields/366 instructions/71 blocks/11 calls
+and frame0x134 against1280/57/376/72/13. Full target operands, instructions,
+branches, calls, literals and each candidate's real numeric COFF records are
+captured and independently checked. One cold both-arguments compile repeats all
+nondebug code/data/fields and actual numeric coordinates. No partial credit.
+Cleanup removes31 terminal-owned files/565709 bytes. All seven source recipes
+restore to pinned original-EOL hashes and are removed again. Retained proof stays
+below250 KB; replay reparses the actual canonical COFF and rebinds deleted full
+captures without claiming deleted-object inspection.
+
+Do not repeat these seven contexts unchanged. The missing separate Story/Versus
+sprintf/strlen calls and entry allocation remain open; equivalent source forms
+are not an impossibility proof. Rotate to Enemy OnUpdate's3883-byte owner after
+fresh complete target/current-source/baseline review and reading its prior
+descriptor/trail/homing controls. Replay rendering does not reopen parked
+SaveReplay serialization. Native runtime and95% remain open.
+
+## Supervisor service workspace/call routing
 
 Packet: `.analysis/gpt-6.1-sol-service-workspaces-20261009/`.
 The actual canonical baseline is
@@ -104,9 +140,9 @@ and are removed again. Complete compressed captures/recipes stay below400 KB;
 retained replay reparses the real baseline and independently rebinds deleted
 captures, with no deleted-object inspection claim. Do not repeat these eight
 precise contexts. Reopen the sign test with a predicate-only probe before changing
-its existing field type. Next rotate to the1280-byte DrawReplayMenu owner for
-fresh full target/current-source/baseline review; replay rendering is distinct
-from the parked SaveReplay serialization branch. Native runtime and95% remain open.
+its existing field type. The subsequent replay-menu batch is recorded above;
+replay rendering is distinct from parked SaveReplay serialization. Native runtime
+and95% remain open.
 
 ## RunEcl source-ownership/return routing
 
@@ -227,6 +263,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-replay-row-arguments-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-service-workspaces-20261009/audit.py --retained-only
 python3 scripts/inspect-supervisor-service.py build/gpt-dots-service-packet-owner-20261007/baseline.obj
 python3 -B .analysis/gpt-6.1-sol-ecl-receiver-ownership-20261009/audit.py --retained-only
