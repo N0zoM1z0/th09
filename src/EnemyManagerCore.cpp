@@ -341,7 +341,6 @@ extern EnemyCoreAnmManagerView *g_EnemyCoreAnmManager;
 extern EnemyCoreUiView g_EnemyCoreUi;
 extern EnemyCoreFrontView *g_EnemyCoreFront;
 extern unsigned int g_EnemyCoreRuntimeFlags;
-extern int g_EnemyCoreDifficultyValue;
 extern unsigned char g_EnemyCoreSchedule[];
 
 // Reconstruction aliases for the shared physical leaf at 0x0044AB20.
@@ -358,8 +357,13 @@ int EnemyCoreRunTimerCallback(EnemyCoreView *enemy)
 }
 struct EnemyCoreGameManagerPlayfieldView
 {
+    unsigned char unknown000[0xB4];
+    int valueB4;
+
     int IsWithinPlayfield(float x, float y, float width, float height);
 };
+typedef char EnemyCoreGameManagerValueAtB4[
+    (offsetof(EnemyCoreGameManagerPlayfieldView, valueB4) == 0xB4) ? 1 : -1];
 
 extern EnemyCoreGameManagerPlayfieldView g_EnemyCoreGameManager;
 struct EnemyAppendCollisionView
@@ -532,7 +536,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                     descriptor.count1_1F4 =
                         static_cast<short>(spawnSide->characterIndex20 == 13 ? 1 : 3);
                     descriptor.speed118 =
-                        static_cast<float>(g_EnemyCoreDifficultyValue) * 0.1f +
+                        static_cast<float>(g_EnemyCoreGameManager.valueB4) * 0.1f +
                         1.0f;
                     descriptor.count2_1F6 = 1;
                     descriptor.angle10 = 0.0f;

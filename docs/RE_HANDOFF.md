@@ -7,8 +7,9 @@ authored bytes**, work seriously on large functions, use direct IDA Pro MCP
 and local Bash/compiler Oracles without Factory MCP, commit locally as
 `gpt-6.1-sol: ...`, and periodically clean reproducible intermediates. Do not push.
 The goal remains **active-incomplete**. No new exactness credit was obtained in
-this checkpoint. The latest source repair reconnects PauseMenu state9 to the
-real Supervisor::StopAudio boundary; new continuation models remain rejected. The October 7 stopped-state checkpoint is preserved in Git at
+this checkpoint. Enemy update now consumes the real GameManager +0xB4 member
+instead of a separate difficulty alias. Four bounded copy/lifetime controls
+remain rejected. The October 7 stopped-state checkpoint is preserved in Git at
 7347cb3; its cleanup and evidence limits are historical, not current stop orders.
 
 ## Live ledger snapshot
@@ -62,46 +63,55 @@ started. No new exactness credit or acceptance receipt is claimed by this checkp
 
 ## Latest reviewed investigation
 
-PauseMenu state9 now calls Supervisor::StopAudio @0x42FD30 through its real
-maintained declaration, replacing the unimplemented private PrepareResultScreen
-alias. Target 0x434DDC supplies g_Supervisor, no stack arguments and ignores the
-return. State11/menu-disable/timestamp publications remain ordered. Two
-canonical-path cold objects and one isolated repair agree on all nondebug
-sections and field identities. Eight state4 private names refresh only after
-actual same-section destinations and complete 1172-byte equality pass.
-Eleven same-TU exact functions retain 2448 physical bytes/158 fields;
-StopAudio replays 81/81. This dependency repair adds no exact credit.
+Enemy OnUpdate's speed operand at 0x4109BD reads 0x4A7E44. Fresh GameManager
+producer review at 0x41AC86/8C/94 identifies the same mutable signed-int slot as
+GameManager root 0x4A7D90 +0xB4, separate from difficulty +0x11C. The private
+playfield receiver view now exposes valueB4 with an offset assertion; the
+separate g_EnemyCoreDifficultyValue alias is removed. Original names and larger
+data/type/native ownership remain open.
 
-New scripts/inspect-pause-menu.py independently decodes 106 target fields and
-requires complete candidate operand/table coverage. Current PauseMenu is 1692
-code/1732 physical bytes, 107 fields, 453 instructions versus target 1734/1776 and
-449 instructions. Full replay finds 1492 overlap differences plus 44 missing.
-Three early-footer/timestamp/whole-closing continuations are rejected; none is
-integrated. Consult the knowledge base before reusing those exact contexts.
+Four focused source models were compiled together before one batch-end
+canonical-path compile. Separate tracking/homing phases with a shared real
+world pointer and a trail destination pointer are neutral. Explicit descriptor
+components yield 499 complete differences; direct draw insertion arms yield
+2018 overlap differences plus 12 excess bytes. None is retained. Consult the
+knowledge base before repeating these contexts.
 
-RunEcl was also reattested/replayed without compilation: its 2161 complete
-differences and six-handler frontier are unchanged. This bounded review found
-no fresh supported contradiction. The full 95% objective stays active; original
-source/TU/native runtime ownership remains open.
+The canonical correction retains 3,900 physical bytes /97 fields and all 39
+complete differences. Raw SHA256 is
+a9ca56df7ef5a09effcd22605048b318f19f41d13cf7f1f7740ba2bafbf2b960;
+fully resolved SHA256 stays
+a204aa32d16f533f4fed2d917aa26f46038a26b0e6dc9bb774a1e8d5c47ab854.
+Only raw byte +0x28F changes with the real member addend. Five private names
+rename at unchanged actual local destinations. All five bodies and seven
+nondebug sections are checked with independent COFF parsing. Attached-effect
+update replays 151/151 with two fields. No new exactness credit.
+
+Previous PauseMenu StopAudio dependency repair, complete inspector and rejected
+continuation contexts remain documented in Git and the knowledge base. ECL's
+2161 complete differences and six-handler frontier remain open. Continue with
+large-owner target/local evidence rather than repeating neutral contexts.
 
 ## Evidence and artifact lifecycle
 
-Entry at 4df3c91 is clean; private target, direct IDA metadata, entry and five
+Entry at a7b27a3 is clean; private target, direct IDA metadata, entry and five
 mapped-byte samples pass. No Factory MCP, IDA writes, target patch or delegation.
 Current compact evidence is below
-.analysis/gpt-6.1-sol-pause-continuations-20261009/: source recipes, actual
-include logs, complete PE/COFF receipts, independent inventory and label proof.
-Of 78 actual includes, eight have pre/post observations; seventy vendor inputs
-have post-only observations. Historical environment is not retrospectively
-attested.
+.analysis/gpt-6.1-sol-enemy-copy-context-20261009/: source patches/recipe,
+actual include logs, complete bound-byte reports and independent source/COFF/PE
+proof. All twelve actual includes are checked; candidate backend observations
+are post-build, while canonical source/header/backend inputs have pre/post
+observations. Historical environment is not retrospectively attested.
 
-All six caller compiles and the focused callee build are terminal. Cleanup
-removes 31 current-session reproducible probes/objects/PDBs and duplicate or
-superseded reports totaling 1,438,316 bytes. Canonical caches and inherited
-evidence remain; previous paired-PDB cleanup is not rerun. The user requests
-batching changes before cold replay: accumulate one coherent batch, use focused
-probes between changes, then close affected Oracles together. Reuse unchanged
-evidence.
+Four isolated compiles and one canonical compile are terminal. Cleanup removes
+12 current-batch sources/objects/PDBs totaling 500,471 bytes. A small source-bound
+baseline object, compact unresolved proof, canonical caches and inherited
+evidence remain. Previous paired-PDB cleanup is not rerun.
+
+The user requests batching changes before cold replay: accumulate one coherent
+batch, use focused probes between changes, then close affected Oracles together.
+Reuse unchanged source-bound evidence; no unchanged baseline was recompiled in
+this batch.
 
 ## Restart commands
 
@@ -112,9 +122,8 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
-python3 scripts/inspect-pause-menu.py
-python3 scripts/compare-coff-function.py --unit ascii-menu-state4-update
-python3 scripts/compare-coff-function.py --unit supervisor-stop-audio
+python3 .analysis/gpt-6.1-sol-enemy-copy-context-20261009/audit.py canonical=build/matching/EnemyManagerCore.obj
+python3 scripts/compare-coff-function.py --unit enemy-attached-effect-update
 python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj
 python3 scripts/report-ecl-handler-shapes.py build/matching/EclManager.obj
 ```
@@ -126,7 +135,7 @@ or proves arbitrary supplied-object source provenance. New exact promotion
 requires bound source/includes, a fresh pinned canonical build and complete
 zero-difference replay.
 
-Validation: eleven affected same-TU exact Oracles, StopAudio 81/81,
-complete PauseMenu comparison, tracking,
-progress and whitespace pass. Isolated CI runs 67 tests (65 pass, two optional
-Capstone tests skipped). The worktree checkpoint remains local and is not pushed.
+Validation: attached-effect update 151/151, complete Enemy OnUpdate/field
+comparison, independent five-owner/nondebug inventory, tracking, progress and
+whitespace pass. Isolated CI runs 67 tests (65 pass, two optional Capstone tests
+skipped). The worktree checkpoint remains local and is not pushed.
