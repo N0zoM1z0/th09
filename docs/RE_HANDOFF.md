@@ -9,12 +9,11 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at de7bfbe. Original target and direct IDA mapped
-bytes pass. SaveReplay serialization remains parked under its historical risk
-block; the preceding routing suggestion is superseded. Three paired Type19/21
-initializer controls precede one batch-end cold. Unsigned/countdown indices are
-neutral, center-through-rim history traversal regresses, and all23 exact siblings
-pass. No source/header/ABI/profile or exact-credit change is integrated.
+This checkpoint starts clean at63f0bf4. Original target and direct IDA mapped
+bytes pass. Three full3883-byte Enemy OnUpdate type contexts precede one
+batch-end cold; every code byte and effective field remains unchanged. All five
+emitted owners and the151-byte exact sibling pass. No source/header/ABI/profile
+or exact-credit change is integrated. SaveReplay serialization remains parked.
 
 ## Live ledger snapshot
 
@@ -73,34 +72,38 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest paired trail initializer batch
+## Latest Enemy OnUpdate shared-type batch
 
-Packet: `.analysis/gpt-6.1-sol-trail-countdown-20261009/`.
-The same actual canonical ECL COFF remains at
-`build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`, SHA256
-`94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
-All57 inherited/current input bindings and36 actual source/include paths agree.
+Packet: `.analysis/gpt-6.1-sol-enemy-shared-types-20261009/`.
+Actual canonical stays `build/matching/EnemyManagerCore.obj`, SHA256
+`60a054387f8a7125ec31eb44184e0bd6ed8ec711a949d61b9c29beae366aa1f9`.
+All54 source/backend/Oracle inputs agree before and after the four compiles.
 
-Unsigned sample ordinal and explicit32-down counter with index32-remaining
-preserve all67 owners/28838 physical bytes/1215 fields/35 noncode sections.
-Type19 remains763 bytes/57 fields/27 calls/nine blocks/six differences;
-Type21 remains727/53/25/ten/nine. One genuine history cursor beginning at the
-center and advancing through rim entries emits765/727 bytes, with269/108
-linked overlap differences and two Type19 excess bytes. All65 other owners
-are neutral. These precise controls are rejected; no source model is proved.
+Private EffectFloat3 alias to existing Float3, descriptor storage inherited from
+existing BulletSpawnDescriptor, and their combination preserve all five emitted
+owners/4060 physical bytes/99 fields/seven noncode sections. Main stays3883
+code/3900 physical bytes,97 bound fields,69 ordered calls,170 blocks and39
+differences. The unchanged151-byte/two-field attached-effect sibling fully
+matches. Four effect-call spellings bind independently to exact0x40CC00;
+five private labels retain actual coordinates. No type/API hypothesis is adopted.
 
-One batch-end countdown cold repeats the complete warm inventories and proofs.
-All23 exact siblings pass9533 physical bytes/439 fields in every carrier.
-Cleanup saves all20 hash/size receipts before removing1398106 bytes; all12
-source copies restore, revalidate and are removed again. Retained.py reparses
-the actual canonical and independently rebinds complete archived captures;
-it does not claim to inspect deleted trial COFFs. See KB for the adapter repair.
+One paired batch-end cold repeats its warm carrier and resolved bytes.
+Twenty hash/size receipts precede cleanup of578873 bytes. All12 original-EOL
+source/header copies restore from bound Git and recorded per-line EOL maps,
+revalidate and are removed again. Retained.py reparses the actual canonical
+and independently rebinds deleted captures. Full IDA observation and logs are
+compressed; mixed/uniform-EOL recipe repairs are recorded in the KB.
 
-Do not retry parked SaveReplay or repeat these initializer controls. Return to
-the large3883-byte Enemy OnUpdate owner: first review its prior negative
-controls, complete target effects and actual current source/carrier bindings.
-A new probe needs a concrete target-local contradiction or a distinct natural
-source context; unchanged baseline replay alone supplies no progress.
+Do not repeat these three precise type contexts or the previous Enemy
+copy/const/base/lifetime controls without different evidence. Return to large
+RunEcl with its complete current six-handler proof and declaration/ABI review;
+a useful probe must add a distinct target-backed source context.
+
+Recent paired trail initializer packet:
+`.analysis/gpt-6.1-sol-trail-countdown-20261009/`. Unsigned/countdown indices
+are neutral, center-through-rim history traversal regresses, and one cold
+repeats full proof. All23 ECL siblings pass; see KB. Do not retry SaveReplay's
+parked stream-row action or substitute an equivalent serializer route.
 
 ## Previous RunEcl flag-storage/value batch
 
@@ -152,11 +155,10 @@ canonical1230 bytes/87 fields/105 differences is source-bound in
 setup-callback-phase-20261009. Delayed Supervisor and enum-return contexts are
 neutral; scalar captures widen reads and regress. Eight exact siblings pass.
 
-Enemy's four const/base contexts plus one cold leave3900 physical/3883 code
-bytes/97 fields/39 differences. Const references reverse eight square accesses
-and regress to47. The151-byte attached-effect sibling passes. Actual canonical
-build/matching/EnemyManagerCore.obj remains bound by enemy-vector-storage-20261009.
-See KB for precise exclusions and restoration; do not repeat either batch.
+Enemy's earlier const/base controls retain39 differences, except const result
+references which reverse eight square accesses and regress to47. The current
+shared-type proof above extends their source-bound canonical evidence; see KB
+for all precise copy/lifetime/storage exclusions.
 
 ## Replay-menu routing
 
@@ -322,6 +324,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-enemy-shared-types-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-ecl-flag-storage-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-movement-direct-sht-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-type1824-assignment-20261009/retained.py
