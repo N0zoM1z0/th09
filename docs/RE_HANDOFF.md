@@ -9,13 +9,13 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at6b28388. Four Options configuration/snapshot
-contexts precede one maintained-path batch-end cold. Target-backed actual
-Supervisor/GameConfiguration access, signed-volume references and two snapshot
-byte members are integrated. Complete linked main bytes remain unchanged and
-NON-EXACT; PlayMenuSound remains34/34 exact. Full carrier proof, four raw-CRLF
-source restorations and scoped cleanup pass. No shared-header/ABI/profile or
-exact-credit change. ResolveFloat is already exact; SaveReplay stays parked.
+This checkpoint starts clean at7cdb66d. Three complete jump/remote instruction
+view contexts precede one paired batch-end cold. Jump alone worsens the full
+RunEcl comparison to2279 differences by shrinking unmodified trail157; remote
+and the combination remain entirely neutral at2161. All23 exact siblings pass
+in every carrier. No game source, ABI/profile or exact-credit change is adopted.
+Full retained proof,28 raw-EOL source restorations and scoped cleanup pass.
+ResolveFloat is already exact; SaveReplay stays parked.
 
 ## Live ledger snapshot
 
@@ -74,47 +74,49 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest Options configuration-consumer batch
+## Latest RunEcl complete instruction-view batch
 
-Packet: `.analysis/gpt-6.1-sol-options-real-config-20261010/`.
-Current source-bound canonical is `build/matching/TitleScreenOptions.obj`, SHA256
-`b692be00a7de46da55777afeef6108fe9cc8399dd1a61c9f523a255dcd6178b1`.
-It copies the one already-terminal maintained cold, without another compiler run.
-Main raw SHA256 `fa915cc526abd8c2274b971adcca7b4582ad150099c5777f08371521160619d5`.
+Packet: `.analysis/gpt-6.1-sol-ecl-whole-instruction-20261010/`.
+Current canonical remains `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`,
+COFF SHA256 `94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
+Main raw remains `93206b3996d97e62d6470b795e32c9cfdc9228a9bc8806efed073688b7420eef`.
 
-Seven standalone config-byte aliases and the method-only Supervisor view become
-actual shared g_Supervisor/config388 accesses. Two references preserve signed
-volume-byte lvalues and29 fresh reads/writes. The trivial snapshot exposes only
-its two observed bytes atAD/B1; no implicit constructor is invented. Fresh Title
-constructor calls Initialize at+1B2BC; original class/TU/native ownership is unknown.
-Four warm contexts and one maintained cold retain2048 bytes/554 instructions,
-135 fields,51 calls,121 blocks and610 linked differences plus3 excess. All complete
-linked bytes equal the old baseline. Seventy-four raw identities/132 raw bytes
-change only reviewed roots/addends/callee names. PlayMenuSound strictly matches
-all34 bytes/three fields in every trial and from the current canonical cache.
+Two complete borrowed wire views contain the fixed header and actual signed
+jump time/displacement or three remote-int slots. They preserve post-call reads,
+resolver ABIs and the shared destination store. The remote model also needs a
+legal case scope/goto; this is not an isolated type-only experiment. Original
+record/class/TU ownership and native lifetime/runtime remain unknown.
+Three warm compiles precede one fresh-path combined cold; all producers terminate
+zero. Remote and combined models preserve67 owners/28838 bytes/1215 fields and
+35 noncode sections. Main retains14791 code+one NOP+772 tables,598 fields,
+4387 instructions,943 blocks and2161 complete differences. Actual spelling-only
+field changes are verified numerically; no candidate labels are fitted to target.
 
-One or three actual compiler includes are pinned. Complete runtime sections and
-section/value/field coordinates repeat; shorter .file auxiliary records shift
-raw symbol-table indices by3/6, explicitly retained as different. The production
-inspector supports the four actual Supervisor identities plus historical aliases.
-Historical Options receipts have old source/manifest/cache pins; use the new
-retained command for current source binding rather than rewriting old receipts.
+Jump alone emits14789 code+three-byte self-LEA alignment+772 tables,4386
+instructions and2279 differences. Its own29-byte handler is unchanged in size;
+unmodified trail157 loses MOV ECX,EAX, stays in EAX and shrinks160 to158.
+The same six handler frontiers remain. Combined warm/cold full inventories,
+actual fields, linked bytes, decoded operands/tables and graph repeat.
+All23 configured exact siblings strictly reproduce9533 bytes/439 fields in
+all four carriers after actual-position-proved spelling-only diagnostic adapters.
+All37 actual source/include paths per compile are pinned. A private alignment
+capture correction agrees with the existing production decoder; no gate changes.
 
-Nineteen pre-unlink receipts cover386761 raw disposable bytes, including385386
-source/COFF/PDB bytes. Four private raw-CRLF recipes restore, revalidate and are
-removed again. Canonical source/COFF and original baseline survive; no producer
-remains live. Retained replay reparses survivors and rebinds deleted captures,
-without deleted-object inspection. Earlier DrawResult/Enemy evidence remains
-in the KB, Git and retained commands below.
+Forty-four pre-unlink receipts cover2169352 raw disposable bytes, including
+1859789 source/COFF/PDB bytes. Logs/adapters compress losslessly; all28 raw-EOL
+source recipes restore, revalidate and are removed again. Canonical source/COFF
+survive. Retained replay parses those survivors and rebinds full deleted captures.
+The compressed8917434-byte proof is120796 bytes. Current Options consumer repair
+and its source-bound cache remain as described in the KB/previous checkpoint.
 
 ## Next route and current cache cautions
 
-Options' actual consumer repair gives no new zero-register/selector allocation
-lead. Do not repeat its current config/snapshot/reference family or old index,
-input-dispatch, guard, sound-tail and callee-visibility controls unchanged.
-Rotate to a different live large-owner target/data-flow frontier, after reading
-its precise exclusions; RunEcl's4/7/86/155..157 workspaces remain open. The
-configuration change is fidelity evidence, not an exactness or impossibility claim.
+Do not repeat the complete jump/remote views unchanged. Any further investigation
+of their interaction must separate the remote case scope/goto from its complete
+record/operand interface; current evidence does not attribute it to type alone.
+RunEcl remains the largest open owner;4/7/86/155..157 data flow is still open.
+Options' actual configuration/snapshot/reference repair provides no new
+allocation lead; its precise family and prior routing/input controls are excluded.
 
 DrawResult's output-reference/pointer, bank-reference and consumed cursor
 contexts are excluded. Require new target/type/TU evidence before entry trials.
@@ -127,7 +129,8 @@ borrowing regresses. Its five actual +0x13C member connections stay maintained.
 
 RunEcl's live cache is
 `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`; the recent
-wire-prefix and flag-storage retained commands below bind its full carrier.
+complete-instruction, wire-prefix and flag-storage retained commands bind its
+full carrier.
 ResolveFloat @0x4068A0 has complete2044-byte/121-field exact closure since
 Packet630. KB4011 onward and correction KB5486 supersede stale ECL-014 routing;
 never reconstruct it again because of a historical worklist cell.
@@ -158,6 +161,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-ecl-whole-instruction-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-options-real-config-20261010/retained.py
 python3 scripts/inspect-title-options.py build/matching/TitleScreenOptions.obj
 python3 -B .analysis/gpt-6.1-sol-result-group-cursor-20261010/retained.py
