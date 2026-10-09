@@ -7,8 +7,8 @@ authored bytes**, work seriously on large functions, use direct IDA Pro MCP
 and local Bash/compiler Oracles without Factory MCP, commit locally as
 `gpt-6.1-sol: ...`, and periodically clean reproducible intermediates. Do not push.
 The goal remains **active-incomplete**. No new exactness credit was obtained in
-this checkpoint. The latest batch reviews complete DirectPlay call/value
-hypotheses; maintained game source is unchanged. The October 7 stopped-state checkpoint is preserved in Git at
+this checkpoint. The latest source repair reconnects PauseMenu state9 to the
+real Supervisor::StopAudio boundary; new continuation models remain rejected. The October 7 stopped-state checkpoint is preserved in Git at
 7347cb3; its cleanup and evidence limits are historical, not current stop orders.
 
 ## Live ledger snapshot
@@ -54,53 +54,54 @@ started. No new exactness credit or acceptance receipt is claimed by this checkp
   125 complete differences. Its 34-block switch graph is independently checked.
   Word-call, helper visibility and value/loop contexts are rejected; ABI and
   maintained source stay unchanged.
+- PauseMenu update: 1,734 authored /1,776 physical bytes; complete replay has
+  1,492 overlap differences plus 44 missing bytes. Use inspect-pause-menu.py.
 - Enemy draw: 1,758 bytes and four complete differences around the second
   subtraction/Abs argument. Other nonexact UI, gameplay, network and callbacks
   remain in config/functions.csv. Consult docs/KNOWLEDGE_BASE.md before probes.
 
 ## Latest reviewed investigation
 
-The DirectPlay message handler remains 768 code /808 physical bytes, 234
-instructions and 46 fields against target 235 instructions. All 17 direct calls
-and two GetPeerInfo vtable-slot 0x54 calls agree, as does its complete 34-block
-graph including the six switch destinations and sixteen-case byte map. The
-full linked comparison has 125 differences. Current source and all actually
-included project files match the retained October 6 baseline; no unchanged
-cold baseline compile was repeated.
+PauseMenu state9 now calls Supervisor::StopAudio @0x42FD30 through its real
+maintained declaration, replacing the unimplemented private PrepareResultScreen
+alias. Target 0x434DDC supplies g_Supervisor, no stack arguments and ignores the
+return. State11/menu-disable/timestamp publications remain ordered. Two
+canonical-path cold objects and one isolated repair agree on all nondebug
+sections and field identities. Eight state4 private names refresh only after
+actual same-section destinations and complete 1172-byte equality pass.
+Eleven same-TU exact functions retain 2448 physical bytes/158 fields;
+StopAudio replays 81/81. This dependency repair adds no exact credit.
 
-Fresh queue-callee review establishes low-word packed-input use, not unique
-original C++ signedness or a wrong maintained int API. Fifteen isolated
-compiles test natural word-call views, consumed values, actual RNG visibility,
-prefill control and packet dispatch. Word/completion restores one argument
-window but retains 108 differences and loses the loop-entry jump. Helper
-visibility gives 242 differences; prefill do gives 113; packet switch retaining
-ACK exit gives 820 bytes with wrong call order. Neutral snapshots/copy/signedness
-are recorded precisely in the knowledge base; do not repeat these contexts.
-No shared declaration, native transport, wire layout, source, profile, exact
-ledger or denominator changes.
+New scripts/inspect-pause-menu.py independently decodes 106 target fields and
+requires complete candidate operand/table coverage. Current PauseMenu is 1692
+code/1732 physical bytes, 107 fields, 453 instructions versus target 1734/1776 and
+449 instructions. Full replay finds 1492 overlap differences plus 44 missing.
+Three early-footer/timestamp/whole-closing continuations are rejected; none is
+integrated. Consult the knowledge base before reusing those exact contexts.
 
-The latest maintained game-source correction remains d465250's type18/type24
-reflection/Float3 repair. Original source/TU/native runtime ownership remains
-open. Correct graph or partial argument agreement receives no byte credit.
+RunEcl was also reattested/replayed without compilation: its 2161 complete
+differences and six-handler frontier are unchanged. This bounded review found
+no fresh supported contradiction. The full 95% objective stays active; original
+source/TU/native runtime ownership remains open.
 
 ## Evidence and artifact lifecycle
 
-Entry at d465250 is clean. Disk identity, direct IDA metadata, entry point and
-five distributed mapped-byte samples pass. No Factory MCP, IDA write, target
-patch or delegation is used. Current compact evidence is below
-`.analysis/gpt-6.1-sol-network-values-20261009/`: complete owner/field/switch
-comparison, actual includes, source patches, pre/post observations and a
-separate COFF inventory. All 1283 pre-observed inputs are unchanged; the final
-receipt retains only actual includes/backends. Eighty included files have
-pre/post observations; five have post-only observations. Historical source
-hashes do not retrospectively attest the historical compiler/environment.
+Entry at 4df3c91 is clean; private target, direct IDA metadata, entry and five
+mapped-byte samples pass. No Factory MCP, IDA writes, target patch or delegation.
+Current compact evidence is below
+.analysis/gpt-6.1-sol-pause-continuations-20261009/: source recipes, actual
+include logs, complete PE/COFF receipts, independent inventory and label proof.
+Of 78 actual includes, eight have pre/post observations; seventy vendor inputs
+have post-only observations. Historical environment is not retrospectively
+attested.
 
-Current producers are terminal. Reproducible current-batch sources, objects,
-PDBs and redundant reports totaling 2,033,585 bytes (71 files) are removed
-after complete records are retained.
-Inherited evidence and canonical caches remain. The previous paired-PDB
-cleanup receipt remains below
-`.analysis/gpt-6.1-sol-pdb-cleanup-20261009/` and is not rerun.
+All six caller compiles and the focused callee build are terminal. Cleanup
+removes 31 current-session reproducible probes/objects/PDBs and duplicate or
+superseded reports totaling 1,438,316 bytes. Canonical caches and inherited
+evidence remain; previous paired-PDB cleanup is not rerun. The user requests
+batching changes before cold replay: accumulate one coherent batch, use focused
+probes between changes, then close affected Oracles together. Reuse unchanged
+evidence.
 
 ## Restart commands
 
@@ -111,8 +112,9 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
-python3 scripts/compare-coff-function.py --unit supervisor-network-message-thunk
-python3 .analysis/gpt-6.1-sol-network-values-20261009/inspect_owner.py baseline=build/gpt-dots-network-dispatch-20261006/baseline.obj
+python3 scripts/inspect-pause-menu.py
+python3 scripts/compare-coff-function.py --unit ascii-menu-state4-update
+python3 scripts/compare-coff-function.py --unit supervisor-stop-audio
 python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj
 python3 scripts/report-ecl-handler-shapes.py build/matching/EclManager.obj
 ```
@@ -124,7 +126,7 @@ or proves arbitrary supplied-object source provenance. New exact promotion
 requires bound source/includes, a fresh pinned canonical build and complete
 zero-difference replay.
 
-Validation: focused canonical message thunk 15/15, complete DirectPlay
-comparison, tracking,
+Validation: eleven affected same-TU exact Oracles, StopAudio 81/81,
+complete PauseMenu comparison, tracking,
 progress and whitespace pass. Isolated CI runs 67 tests (65 pass, two optional
 Capstone tests skipped). The worktree checkpoint remains local and is not pushed.

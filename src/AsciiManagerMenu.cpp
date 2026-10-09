@@ -31,7 +31,6 @@ struct AsciiSupervisorView
     unsigned char unknown5D8[0x1C4];
     unsigned int systemTime79C;
 
-    int PrepareResultScreen();
     int FinalizeResultScreen();
 };
 
@@ -310,7 +309,7 @@ int PauseMenu::OnUpdate()
                 break;
             }
 
-            AsciiSupervisor()->PrepareResultScreen();
+            g_Supervisor.StopAudio();
             AsciiSupervisor()->state590 = 11;
             reinterpret_cast<unsigned char *>(&g_GameManager)[0x13C] = 0;
             AsciiSupervisor()->systemTime79C = timeGetTime();
