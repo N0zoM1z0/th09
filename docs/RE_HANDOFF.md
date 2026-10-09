@@ -9,13 +9,13 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at c64e3a5. Three DrawResult ranking-group cursor
-trials precede one batch-end cold. All four complete main comparisons are neutral
-to the nonexact canonical, retaining22 entry differences. Extra ordinary method
-and constructor copies are uncalled and receive no target ownership. Full
-retained proof, exact source restoration and scoped cleanup pass. No source,
-header, ABI, profile or exact-credit change is integrated. ResolveFloat is already
-exact; route by the live ledger. SaveReplay serialization stays parked.
+This checkpoint starts clean at6b28388. Four Options configuration/snapshot
+contexts precede one maintained-path batch-end cold. Target-backed actual
+Supervisor/GameConfiguration access, signed-volume references and two snapshot
+byte members are integrated. Complete linked main bytes remain unchanged and
+NON-EXACT; PlayMenuSound remains34/34 exact. Full carrier proof, four raw-CRLF
+source restorations and scoped cleanup pass. No shared-header/ABI/profile or
+exact-credit change. ResolveFloat is already exact; SaveReplay stays parked.
 
 ## Live ledger snapshot
 
@@ -74,38 +74,50 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest DrawResult cursor batch
+## Latest Options configuration-consumer batch
 
-Packet: `.analysis/gpt-6.1-sol-result-group-cursor-20261010/`.
-Actual canonical stays `build/gpt-6.1-sol-result-difficulty-20261009/canonical.obj`,
-SHA256 `b8ed9aecdf99e598f885529f1a45dd949ccabf64981e05806f48fa3eca5afe7a`.
-Target/source/backend/object bindings and five actual includes agree. Full direct
-IDA and independent target decoding each cover577 instructions over1939 bytes.
+Packet: `.analysis/gpt-6.1-sol-options-real-config-20261010/`.
+Current source-bound canonical is `build/matching/TitleScreenOptions.obj`, SHA256
+`b692be00a7de46da55777afeef6108fe9cc8399dd1a61c9f523a255dcd6178b1`.
+It copies the one already-terminal maintained cold, without another compiler run.
+Main raw SHA256 `fa915cc526abd8c2274b971adcca7b4582ad150099c5777f08371521160619d5`.
 
-A genuine four-byte ranking-group cursor is consumed throughout all five blocks.
-Direct member access, ordinary Rows/Advance methods, and ordinary construction
-all preserve complete1939-byte/82-field main contents. Each has577 instructions,
-16 ordered calls,92 complete direct blocks and the original22 entry differences.
-The constructor cold repeats all actual nondebug bytes and numeric records.
-All15 literals and16 noncode payloads remain unchanged; extra code sections
-shift their section indices, which are captured. Uncalled3/7/14-byte copies have
-no target ownership. Original cursor class/TU shape and runtime remain unknown.
+Seven standalone config-byte aliases and the method-only Supervisor view become
+actual shared g_Supervisor/config388 accesses. Two references preserve signed
+volume-byte lvalues and29 fresh reads/writes. The trivial snapshot exposes only
+its two observed bytes atAD/B1; no implicit constructor is invented. Fresh Title
+constructor calls Initialize at+1B2BC; original class/TU/native ownership is unknown.
+Four warm contexts and one maintained cold retain2048 bytes/554 instructions,
+135 fields,51 calls,121 blocks and610 linked differences plus3 excess. All complete
+linked bytes equal the old baseline. Seventy-four raw identities/132 raw bytes
+change only reviewed roots/addends/callee names. PlayMenuSound strictly matches
+all34 bytes/three fields in every trial and from the current canonical cache.
 
-Sixteen pre-unlink receipts cover286505 raw disposable bytes, including284710
-source/COFF/PDB bytes; four exact source recipes restore, revalidate and are
-removed again. Logs compress losslessly. Retained replay reparses the actual
-canonical and rebinds full deleted captures; it does not inspect deleted COFF.
-No producer remains live. Earlier Enemy array/workspace proof and all precise
-controls remain in the KB, Git and retained command below.
+One or three actual compiler includes are pinned. Complete runtime sections and
+section/value/field coordinates repeat; shorter .file auxiliary records shift
+raw symbol-table indices by3/6, explicitly retained as different. The production
+inspector supports the four actual Supervisor identities plus historical aliases.
+Historical Options receipts have old source/manifest/cache pins; use the new
+retained command for current source binding rather than rewriting old receipts.
+
+Nineteen pre-unlink receipts cover386761 raw disposable bytes, including385386
+source/COFF/PDB bytes. Four private raw-CRLF recipes restore, revalidate and are
+removed again. Canonical source/COFF and original baseline survive; no producer
+remains live. Retained replay reparses survivors and rebinds deleted captures,
+without deleted-object inspection. Earlier DrawResult/Enemy evidence remains
+in the KB, Git and retained commands below.
 
 ## Next route and current cache cautions
 
-DrawResult's actual cache remains bound, but output-reference/pointer, full/short
-bank-reference and consumed single-pointer cursor contexts are now excluded.
-Require new target/type/TU evidence before another entry-allocation trial; do
-not adopt a nearly matching initializer. Rotate to another live large-owner
-frontier after reading its precise KB exclusions, such as Title Options' actual
-configuration/alias context. This is a route, not new evidence or a source claim.
+Options' actual consumer repair gives no new zero-register/selector allocation
+lead. Do not repeat its current config/snapshot/reference family or old index,
+input-dispatch, guard, sound-tail and callee-visibility controls unchanged.
+Rotate to a different live large-owner target/data-flow frontier, after reading
+its precise exclusions; RunEcl's4/7/86/155..157 workspaces remain open. The
+configuration change is fidelity evidence, not an exactness or impossibility claim.
+
+DrawResult's output-reference/pointer, bank-reference and consumed cursor
+contexts are excluded. Require new target/type/TU evidence before entry trials.
 
 Do not repeat this Enemy array family or earlier copy/const/lifetime/shared-type
 families without different evidence. Earlier Enemy packets and all precise
@@ -146,6 +158,8 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-options-real-config-20261010/retained.py
+python3 scripts/inspect-title-options.py build/matching/TitleScreenOptions.obj
 python3 -B .analysis/gpt-6.1-sol-result-group-cursor-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-enemy-array-workspaces-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-pause-state-array-20261009/retained.py

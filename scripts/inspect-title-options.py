@@ -14,6 +14,12 @@ BASE, SIZE = 0x4276EB, 2045
 SYMBOL = '?OnUpdateOptions@TitleScreenView@@QAEHXZ'
 # Independently reviewed TH09 callees and literal/global operands, not fitted.
 DESTINATIONS = {
+    # Shared Supervisor owner and methods used by the maintained consumer.
+    # The older view/field aliases below remain for historical objects.
+    '?g_Supervisor@@3VSupervisor@@A': 0x4B3100,
+    '?LoadMusic@Supervisor@@QAEHH@Z': 0x42FC20,
+    '?PlayMusic@Supervisor@@QAEHHH@Z': 0x431930,
+    '?StopAudio@Supervisor@@QAEHXZ': 0x42FD30,
     '?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z': 0x422F39,
     '?DrawTitleHelpText@@YAXPAUTitleAnmManagerView@@PAUAnmVmView@@IHPBD@Z': 0x43BE50,
     '?ExecuteScriptArray@TitleAnmManagerView@@QAEXPAUAnmVmView@@H@Z': 0x439560,

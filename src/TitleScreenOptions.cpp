@@ -2,6 +2,8 @@
 // TH08 supplies the natural source family only; TH09 target evidence fixes
 // the embedded owner, layout, menu domain, option globals, and control flow.
 
+#include "Supervisor.hpp"
+
 #include <stddef.h>
 
 typedef signed char i8;
@@ -55,31 +57,31 @@ struct SoundPlayerView {
     int ProcessQueues();
 };
 
-struct TitleSupervisorView {
-    int LoadMusic(i32 trackId);
-    int PlayMusic(i32 trackId, i32 unused);
-    int StopAudio();
-};
+typedef char OptionsConfigvalueACAtAC[(offsetof(GameConfiguration, valueAC) == 0xAC) ? 1 : -1];
+typedef char OptionsConfigvalueADAtAD[(offsetof(GameConfiguration, valueAD) == 0xAD) ? 1 : -1];
+typedef char OptionsConfigmusicModeAtAE[(offsetof(GameConfiguration, musicMode) == 0xAE) ? 1 : -1];
+typedef char OptionsConfigvalueAFAtAF[(offsetof(GameConfiguration, valueAF) == 0xAF) ? 1 : -1];
+typedef char OptionsConfigwindowedAtB1[(offsetof(GameConfiguration, windowed) == 0xB1) ? 1 : -1];
+typedef char OptionsConfigmusicVolumeAtBA[(offsetof(GameConfiguration, musicVolume) == 0xBA) ? 1 : -1];
+typedef char OptionsConfigsfxVolumeAtBB[(offsetof(GameConfiguration, sfxVolume) == 0xBB) ? 1 : -1];
 
 struct TitleConfigSnapshotView {
-    u8 bytes[0xCC];
+    u8 unknown00[0xAD];
+    u8 valueAD;
+    u8 unknownAE[3];
+    u8 windowed;
+    u8 unknownB2[0x1A];
 };
 
 typedef char OptionsConfigSnapshotSizeIsCC[(sizeof(TitleConfigSnapshotView) == 0xCC) ? 1 : -1];
+typedef char OptionsSnapshotValueADAtAD[(offsetof(TitleConfigSnapshotView, valueAD) == 0xAD) ? 1 : -1];
+typedef char OptionsSnapshotWindowedAtB1[(offsetof(TitleConfigSnapshotView, windowed) == 0xB1) ? 1 : -1];
 
 extern InputView g_TitleInput;
 extern u32 g_TitleInputFlags;
 extern SoundPlayerView g_SoundPlayer;
 extern TitleAnmManagerView *g_TitleAnmManager;
-extern TitleSupervisorView g_TitleSupervisor;
 extern const char *g_TitleOptionsHelpText[9];
-extern u8 g_OptionA;
-extern u8 g_OptionB;
-extern u8 g_OptionC;
-extern u8 g_OptionUnknown3537;
-extern u8 g_OptionD;
-extern i8 g_TitleMusicVolume;
-extern i8 g_TitleSfxVolume;
 
 extern void __cdecl DrawTitleHelpText(TitleAnmManagerView *manager, AnmVmView *vm,
                                       u32 color, i32 width, const char *text);
@@ -164,7 +166,12 @@ int TitleScreenView::OnUpdateOptions()
                               g_TitleOptionsHelpText[i]);
 
     case 1:
-        if (g_TitleMusicVolume >= 100)
+    {
+        // Preserve the target signed-byte view without caching either value.
+        i8 &musicVolume = reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume);
+        i8 &sfxVolume = reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume);
+
+        if (musicVolume >= 100)
         {
             titleAnm->SetSprite(&vms[26], vms[26].baseSpriteIndex);
             vms[26].color1Bytes[3] = 0xFF;
@@ -176,10 +183,10 @@ int TitleScreenView::OnUpdateOptions()
             vms[26].flags &= ~2u;
         }
 
-        if (g_TitleMusicVolume >= 10)
+        if (musicVolume >= 10)
         {
             titleAnm->SetSprite(&vms[27], vms[27].baseSpriteIndex +
-                                ((g_TitleMusicVolume / 10) % 10) * 2);
+                                ((musicVolume / 10) % 10) * 2);
             vms[27].color1Bytes[3] = 0xFF;
             vms[27].flags |= 2u;
         }
@@ -189,10 +196,10 @@ int TitleScreenView::OnUpdateOptions()
             vms[27].flags &= ~2u;
         }
 
-        titleAnm->SetSprite(&vms[28], vms[28].baseSpriteIndex + (g_TitleMusicVolume % 10) * 2);
+        titleAnm->SetSprite(&vms[28], vms[28].baseSpriteIndex + (musicVolume % 10) * 2);
         titleAnm->SetSprite(&vms[29], vms[29].baseSpriteIndex);
 
-        if (g_TitleSfxVolume >= 100)
+        if (sfxVolume >= 100)
         {
             titleAnm->SetSprite(&vms[30], vms[30].baseSpriteIndex);
             vms[30].color1Bytes[3] = 0xFF;
@@ -204,10 +211,10 @@ int TitleScreenView::OnUpdateOptions()
             vms[30].flags &= ~2u;
         }
 
-        if (g_TitleSfxVolume >= 10)
+        if (sfxVolume >= 10)
         {
             titleAnm->SetSprite(&vms[31], vms[31].baseSpriteIndex +
-                                ((g_TitleSfxVolume / 10) % 10) * 2);
+                                ((sfxVolume / 10) % 10) * 2);
             vms[31].color1Bytes[3] = 0xFF;
             vms[31].flags |= 2u;
         }
@@ -235,38 +242,38 @@ int TitleScreenView::OnUpdateOptions()
             {
             case 0:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                if (g_OptionA == 0)
-                    g_OptionA = 2;
+                if (g_Supervisor.config388.valueAC == 0)
+                    g_Supervisor.config388.valueAC = 2;
                 else
-                    g_OptionA--;
-                SetMenuSelectionSprites(g_OptionA, 18, 3);
+                    g_Supervisor.config388.valueAC--;
+                SetMenuSelectionSprites(g_Supervisor.config388.valueAC, 18, 3);
                 break;
             case 1:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                if (g_OptionB == 0)
-                    g_OptionB = 1;
+                if (g_Supervisor.config388.valueAD == 0)
+                    g_Supervisor.config388.valueAD = 1;
                 else
-                    g_OptionB--;
-                SetMenuSelectionSprites(g_OptionB, 21, 2);
+                    g_Supervisor.config388.valueAD--;
+                SetMenuSelectionSprites(g_Supervisor.config388.valueAD, 21, 2);
                 break;
             case 2:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                g_TitleSupervisor.StopAudio();
-                if (g_OptionC == 0)
-                    g_OptionC = 1;
+                g_Supervisor.StopAudio();
+                if (g_Supervisor.config388.musicMode == 0)
+                    g_Supervisor.config388.musicMode = 1;
                 else
-                    g_OptionC--;
-                g_TitleSupervisor.LoadMusic(0);
-                g_TitleSupervisor.PlayMusic(0, 0);
-                SetMenuSelectionSprites(g_OptionC, 23, 3);
+                    g_Supervisor.config388.musicMode--;
+                g_Supervisor.LoadMusic(0);
+                g_Supervisor.PlayMusic(0, 0);
+                SetMenuSelectionSprites(g_Supervisor.config388.musicMode, 23, 3);
                 break;
             case 5:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                if (g_OptionD == 0)
-                    g_OptionD = 1;
+                if (g_Supervisor.config388.windowed == 0)
+                    g_Supervisor.config388.windowed = 1;
                 else
-                    g_OptionD--;
-                SetMenuSelectionSprites(g_OptionD, 34, 2);
+                    g_Supervisor.config388.windowed--;
+                SetMenuSelectionSprites(g_Supervisor.config388.windowed, 34, 2);
                 break;
             default:
                 goto left_scrolling_done;
@@ -280,16 +287,16 @@ int TitleScreenView::OnUpdateOptions()
             switch (keyboardSelection)
             {
             case 3: {
-                g_TitleMusicVolume -= 4;
-                if (g_TitleMusicVolume < 0)
-                    g_TitleMusicVolume = 0;
+                musicVolume -= 4;
+                if (musicVolume < 0)
+                    musicVolume = 0;
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
             }
             case 4: {
-                g_TitleSfxVolume -= 4;
-                if (g_TitleSfxVolume < 0)
-                    g_TitleSfxVolume = 0;
+                sfxVolume -= 4;
+                if (sfxVolume < 0)
+                    sfxVolume = 0;
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
             }
@@ -301,16 +308,16 @@ int TitleScreenView::OnUpdateOptions()
             switch (keyboardSelection)
             {
             case 3: {
-                g_TitleMusicVolume += 4;
-                if (g_TitleMusicVolume > 100)
-                    g_TitleMusicVolume = 100;
+                musicVolume += 4;
+                if (musicVolume > 100)
+                    musicVolume = 100;
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
             }
             case 4: {
-                g_TitleSfxVolume += 4;
-                if (g_TitleSfxVolume > 100)
-                    g_TitleSfxVolume = 100;
+                sfxVolume += 4;
+                if (sfxVolume > 100)
+                    sfxVolume = 100;
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
             }
@@ -322,14 +329,14 @@ int TitleScreenView::OnUpdateOptions()
             switch (keyboardSelection)
             {
             case 3: {
-                if (g_TitleMusicVolume > 0)
-                    g_TitleMusicVolume--;
+                if (musicVolume > 0)
+                    musicVolume--;
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
             }
             case 4: {
-                if (g_TitleSfxVolume > 0)
-                    g_TitleSfxVolume--;
+                if (sfxVolume > 0)
+                    sfxVolume--;
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
             }
@@ -341,22 +348,22 @@ int TitleScreenView::OnUpdateOptions()
             switch (keyboardSelection)
             {
             case 3: {
-                if (g_TitleMusicVolume < 100)
-                    g_TitleMusicVolume++;
+                if (musicVolume < 100)
+                    musicVolume++;
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
             }
             case 4: {
-                if (g_TitleSfxVolume < 100)
-                    g_TitleSfxVolume++;
+                if (sfxVolume < 100)
+                    sfxVolume++;
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
             }
             }
         }
 
-        g_SoundPlayer.bgmVolume = g_TitleMusicVolume;
-        g_SoundPlayer.sfxVolume = g_TitleSfxVolume;
+        g_SoundPlayer.bgmVolume = musicVolume;
+        g_SoundPlayer.sfxVolume = sfxVolume;
 
         if (g_TitleInput.IsPressedScrolling(0x80))
         {
@@ -364,38 +371,38 @@ int TitleScreenView::OnUpdateOptions()
             {
             case 0:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                if (g_OptionA >= 2)
-                    g_OptionA = 0;
+                if (g_Supervisor.config388.valueAC >= 2)
+                    g_Supervisor.config388.valueAC = 0;
                 else
-                    g_OptionA++;
-                SetMenuSelectionSprites(g_OptionA, 18, 3);
+                    g_Supervisor.config388.valueAC++;
+                SetMenuSelectionSprites(g_Supervisor.config388.valueAC, 18, 3);
                 break;
             case 1:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                if (g_OptionB >= 1)
-                    g_OptionB = 0;
+                if (g_Supervisor.config388.valueAD >= 1)
+                    g_Supervisor.config388.valueAD = 0;
                 else
-                    g_OptionB++;
-                SetMenuSelectionSprites(g_OptionB, 21, 2);
+                    g_Supervisor.config388.valueAD++;
+                SetMenuSelectionSprites(g_Supervisor.config388.valueAD, 21, 2);
                 break;
             case 2:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                g_TitleSupervisor.StopAudio();
-                if (g_OptionC >= 1)
-                    g_OptionC = 0;
+                g_Supervisor.StopAudio();
+                if (g_Supervisor.config388.musicMode >= 1)
+                    g_Supervisor.config388.musicMode = 0;
                 else
-                    g_OptionC++;
-                g_TitleSupervisor.LoadMusic(0);
-                g_TitleSupervisor.PlayMusic(0, 0);
-                SetMenuSelectionSprites(g_OptionC, 23, 3);
+                    g_Supervisor.config388.musicMode++;
+                g_Supervisor.LoadMusic(0);
+                g_Supervisor.PlayMusic(0, 0);
+                SetMenuSelectionSprites(g_Supervisor.config388.musicMode, 23, 3);
                 break;
             case 5:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                if (g_OptionD >= 1)
-                    g_OptionD = 0;
+                if (g_Supervisor.config388.windowed >= 1)
+                    g_Supervisor.config388.windowed = 0;
                 else
-                    g_OptionD++;
-                SetMenuSelectionSprites(g_OptionD, 34, 2);
+                    g_Supervisor.config388.windowed++;
+                SetMenuSelectionSprites(g_Supervisor.config388.windowed, 34, 2);
                 break;
             default:
                 goto right_scrolling_done;
@@ -413,14 +420,14 @@ int TitleScreenView::OnUpdateOptions()
             switch (keyboardSelection)
             {
             case 6:
-                g_OptionA = 0;
-                g_OptionC = 1;
-                g_OptionUnknown3537 = 1;
+                g_Supervisor.config388.valueAC = 0;
+                g_Supervisor.config388.musicMode = 1;
+                g_Supervisor.config388.valueAF = 1;
                 PlayMenuSound(10, 0);
-                SetMenuSelectionSprites(g_OptionA, 18, 3);
-                SetMenuSelectionSprites(g_OptionB, 21, 2);
-                SetMenuSelectionSprites(g_OptionC, 23, 3);
-                SetMenuSelectionSprites(g_OptionD, 34, 2);
+                SetMenuSelectionSprites(g_Supervisor.config388.valueAC, 18, 3);
+                SetMenuSelectionSprites(g_Supervisor.config388.valueAD, 21, 2);
+                SetMenuSelectionSprites(g_Supervisor.config388.musicMode, 23, 3);
+                SetMenuSelectionSprites(g_Supervisor.config388.windowed, 34, 2);
                 break;
             case 7:
                 keyboardSelection = 0;
@@ -444,6 +451,7 @@ int TitleScreenView::OnUpdateOptions()
             PlayMenuSound(11, 0);
         }
         break;
+    }
 
     default:
         break;
@@ -460,7 +468,7 @@ leave_options:
     ChangeCurrentScreen(1);
     OnUpdateStartMenu();
     PlayMenuSound(11, 0);
-    if (configSnapshot.bytes[0xAD] != g_OptionB || configSnapshot.bytes[0xB1] != g_OptionD)
+    if (configSnapshot.valueAD != g_Supervisor.config388.valueAD || configSnapshot.windowed != g_Supervisor.config388.windowed)
         return 5;
     return 1;
 }
