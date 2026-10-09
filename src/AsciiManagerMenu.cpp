@@ -222,7 +222,7 @@ int PauseMenu::OnUpdate()
     case PAUSE_MENU_STATE_CLOSING:
         if (this->frames >= 20) {
             this->state = PAUSE_MENU_STATE_INIT;
-            reinterpret_cast<unsigned char *>(&g_GameManager)[0x13C] = 0;
+            g_GameManager.inGameMenu = 0;
             for (i = 0; i < 7; i++) {
                 this->menuSprites[i].SetInvisible();
             }
@@ -294,7 +294,7 @@ int PauseMenu::OnUpdate()
         if (this->frames >= 20) {
             this->state = PAUSE_MENU_STATE_INIT;
             AsciiSupervisor()->state590 = 1;
-            reinterpret_cast<unsigned char *>(&g_GameManager)[0x13C] = 0;
+            g_GameManager.inGameMenu = 0;
             AsciiSupervisor()->systemTime79C = timeGetTime();
         }
         break;
@@ -304,14 +304,14 @@ int PauseMenu::OnUpdate()
             if (!g_GameManager.HasFlagBit0() && g_GameManager.difficulty != 4) {
                 this->state = PAUSE_MENU_STATE_INIT;
                 AsciiSupervisor()->state590 = 10;
-                reinterpret_cast<unsigned char *>(&g_GameManager)[0x13C] = 0;
+                g_GameManager.inGameMenu = 0;
                 AsciiSupervisor()->systemTime79C = timeGetTime();
                 break;
             }
 
             g_Supervisor.StopAudio();
             AsciiSupervisor()->state590 = 11;
-            reinterpret_cast<unsigned char *>(&g_GameManager)[0x13C] = 0;
+            g_GameManager.inGameMenu = 0;
             AsciiSupervisor()->systemTime79C = timeGetTime();
             return 0;
         }
@@ -477,7 +477,7 @@ int AsciiManager::OnUpdate(AsciiManager *ascii)
     unsigned char *sideFlags;
     int popupIndex;
 
-    if (reinterpret_cast<unsigned char *>(&g_GameManager)[0x13C] == 0) {
+    if (g_GameManager.inGameMenu == 0) {
         if (reinterpret_cast<unsigned char *>(&g_GameManager)[0x13D] == 0 &&
             (g_GameManager.flags & 0x1800u) == 0) {
             popupBank = &ascii->scorePopups[0][0];

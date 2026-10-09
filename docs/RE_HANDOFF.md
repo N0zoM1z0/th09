@@ -9,12 +9,13 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at 28d6c82. Target SHA, direct IDA metadata, entry
-and five distributed mapped-byte samples pass. Five complete Enemy OnUpdate
-scratch-lifetime controls compile once each; one batch-end cold compile and
-strict sibling replay finish the batch. Four controls are neutral, one regresses.
-No canonical source, ABI, profile, match row or exactness credit changes.
-Prior source corrections remain maintained. No target patch, IDA write or delegation.
+This checkpoint starts clean at 91817fb. Target SHA, direct IDA metadata, entry
+and five distributed mapped-byte samples pass. Thirteen complete PauseMenu
+partial-visibility/member/body-order trials precede one canonical-path cold compile.
+Five existing GameManager +0x13C byte-view expressions become the asserted member;
+eight State4 private manifest spellings refresh with full coordinate/byte proof.
+All eleven same-TU exact siblings pass. No new exact credit, ABI/profile change,
+target patch, IDA write or delegation. Prior source corrections stay maintained.
 
 ## Live ledger snapshot
 
@@ -63,40 +64,48 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest Enemy update batch
+## Latest PauseMenu batch
 
-Packet: `.analysis/gpt-6.1-sol-enemy-scratch-lifetime-20261009/`.
-Current baseline is `build/matching/EnemyManagerCore.obj`, SHA256
-`b6e2ab402e8bf2ee3501c221c71e75cc8bc926e13d7530510098c040d649c14f`.
-All 24 inherited source/header/backend/Oracle inputs are checked before reuse.
-No unchanged baseline or canonical compilation; no candidate adoption.
+Packet: `.analysis/gpt-6.1-sol-pause-partial-visibility-20261009/`.
+Current cache: `build/matching/AsciiManagerMenu.obj`, SHA256
+`1145e31c07bebac38e69639a835721fbdcb155761ba0251b492acdc03135f788`.
+The old cache was verified before reuse and then replaced by the single canonical
+cold compile. All 87 source/header/backend/Oracle inputs are pinned.
 
-Function-scope drawHead, shared Player scratch across tracking/death, both combined,
-and function-scope trailHitbox preserve all five bodies, 4,060 physical bytes,
-99 fields and seven nondebug sections. Main stays 3,900 physical /3,883 code bytes,
-97 bound fields, 1,026 instructions and 39 differences.
+Four target stores and the real AsciiManager consumer address 0x4A7ECC, the already
+asserted GameManager byte member +0x13C. Exactly five source expressions now use
+`inGameMenu`. The whole cold carrier equals the isolated connected-member trial:
+13 owners, 4,186 physical bytes, 266 fields and three nondebug sections. Pause stays
+1,692 code /1,732 physical bytes, 107 fields, 1,492 overlap differences and 44 missing.
+No newly exact function or byte is credited. Original larger ownership/runtime open.
 
-Hoisting all four existing vector scratch objects preserves acquisition sites
-but emits 3,924 physical /3,907 code bytes, frame0x2C0 and 1,035 instructions.
-All 97 records bind, only 15 fields match at target positions, with 3,318 linked
-overlap differences plus 24 excess bytes. All 69 ordered call destinations remain;
-four collateral owners and seven noncode sections are neutral. It is rejected.
+Partial IsVisible opacity gives 1,772/107 fields/1,113 overlap differences plus
+four missing. Partial SetInvisible opacity gives 1,748/107/1,509 plus 28 missing.
+HasFlagBit0 opacity is neutral alone and with either context. Actual-member controls
+preserve those results. Both VM bodies opaque gives 1,772/107/1,131 plus four missing.
+Moving actual helper definitions after Pause is code-neutral and reverses the two
+four-byte constant sections; it does not reproduce genuine body separation.
+None of these diagnostic contexts is adopted.
 
-A single batch-end cold vector-scratch compile reproduces all five raw owners,
-effective fields and nondebug sections. All six actual include closures agree.
-Baseline, five candidates and cold output strictly replay the 151-byte attached
-helper and both fields, using object-path-only manifest adapters.
+All present strict siblings pass in all thirteen candidates; canonical's eleven
+units cover 2,420 authored /2,448 physical bytes and 158 fields. Eight State4 names
+are the only manifest changes, after full 1,172-byte and actual local-base proof.
+Each trial has 78 actual headers /117 include events. Source/profile/ABI unchanged
+apart from the five documented member expressions; no historical cohort rebuild.
 
-Complete owner/field captures, patches, recipes, logs and proof hashes remain.
-Seventeen owned source/COFF/PDB files, 712,756 bytes, are removed. `replay.py --restore`
-reproduces all five source copies without compiling, checked after cleanup.
-Retained-only audit rebinds captured candidates and checks the real baseline and
-current inputs; retained replay checks captured strict reports. Deleted objects
-are not re-inspected. Rotate to another large owner unless new TH09-local evidence
-changes these precise source hypotheses; do not repeat neutral scope combinations.
+Complete compressed captures, patches, recipes, logs and proof hashes remain.
+39 owned source/COFF/PDB files, 2,014,782 bytes, are removed. Captured JSON compresses
+from 3,865,560 to 272,998 bytes, checked losslessly. `reconstruct.py --restore`
+reproduces all thirteen copies without compiling, checked after cleanup. Retained
+audit checks actual current canonical state and captured complete candidates;
+deleted trial COFFs are not re-inspected. Rotate to another large owner or obtain
+new target-supported control flow; do not repeat these precise visibility contexts.
 
 ## Other current evidence
 
+- Enemy lifetime batch: `.analysis/gpt-6.1-sol-enemy-scratch-lifetime-20261009/`;
+  four controls are neutral, hoisting all four vectors regresses. One batch-end
+  cold compile agrees; precise scopes are excluded by the KB and retained proof.
 - Gameplay helper visibility: `.analysis/gpt-6.1-sol-gameplay-helper-visibility-20261009/`;
   all four complete workers remain 1,689 bytes /171 fields /921 differences.
   Actual declaration/implementation context and omitted helpers are rejected;
@@ -128,6 +137,8 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-pause-partial-visibility-20261009/audit.py --retained-only
+python3 scripts/inspect-pause-menu.py
 python3 -B .analysis/gpt-6.1-sol-enemy-scratch-lifetime-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-enemy-scratch-lifetime-20261009/replay.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-gameplay-helper-visibility-20261009/audit.py --retained-only
