@@ -9,13 +9,13 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at5856f37. Original target and direct IDA mapped
-bytes pass. Seven DrawReplayMenu row-argument/lifetime contexts precede one
-batch-end cold. All retain1244 bytes/54 fields/366 instructions/11 calls;
-direct user-file arguments reduce complete differences from1180 to1179, still
-with36 absent bytes and two missing caption calls. Other main-body controls are
-neutral. Complete cold code/data/numeric records repeat. No source/header, ABI,
-profile, IDA metadata or exact-credit change is integrated.
+This checkpoint starts clean at2a084c7. Original target and direct IDA mapped
+bytes pass. Four Enemy OnUpdate vector-storage/immutability contexts precede one
+batch-end cold. Const distance values and a real three-float storage base retain
+all39 complete differences; const references reverse eight X/Y square access
+operands and regress to47. Every candidate's151-byte exact sibling passes.
+No game source/header/ABI/profile or credit change is integrated. IDA's stale
+entry comparison comment is corrected/read back with all instructions unchanged.
 
 ## Live ledger snapshot
 
@@ -71,40 +71,45 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest replay-menu row-argument/lifetime batch
+## Latest Enemy update vector-storage/immutability batch
 
-Packet: `.analysis/gpt-6.1-sol-replay-row-arguments-20261009/`.
-Actual canonical object remains
-`build/gpt-6.1-sol-replay-mode-20261009/canonical.obj`, SHA256
-`bae100327e4968bbb714523a594a1162f239186c560703d12d944b56b61232fd`.
-All43 preobserved source/include/backend/tool bindings agree before reuse and
-after the batch. Complete fresh direct target disassembly covers376 instructions.
+Packet: `.analysis/gpt-6.1-sol-enemy-vector-storage-20261009/`.
+Actual canonical remains `build/matching/EnemyManagerCore.obj`, SHA256
+`60a054387f8a7125ec31eb44184e0bd6ed8ec711a949d61b9c29beae366aa1f9`.
+All50 current source/header/backend/Oracle bindings agree before reuse and after.
+Four controls plus one cold retain3900 physical/3883 code bytes,1026 independently
+PE-decoded instructions,97 fields,69 ordered calls,170 complete blocks and frame
+0x2A8. Immutable distance values, an ordinary x/y/z storage base and their
+combination are raw/effective-field neutral. Const result references reverse the
+X/Y square-read order at eight bytes, increasing full differences from39 to47.
+No explicit copy special member or original class ownership is invented.
 
-List-only, selected-only and both direct user-file variadic arguments change real
-character evaluation/push ordering. List/both reduce full linked differences by
-one; selected-only retains1180. Sharing the two mutually exclusive loop counters
-is raw/field neutral, including when combined with both direct arguments. Inline
-const replay-member selectors and a real256-byte caption-buffer member are also
-main-body neutral. Member selectors change the two uncalled17-byte auxiliary
-bodies from EAX-argument to ECX-receiver lowering; their literal fields remain
-equal and no target ownership is assigned. All noncode sections stay unchanged.
+Both parsers agree on all five owners/4060 bytes/99 fields. All seven noncode
+sections and four collateral owners remain unchanged; existing151-byte/two-field
+attached-effect unit passes in all five actual carriers. Five private labels
+rename solely at independently verified unchanged numeric section/value records.
+One batch-end cold reference carrier repeats complete nondebug runtime records.
+All19 actual source/include paths match preobserved bindings.
 
-Every candidate retains1244 bytes/54 fields/366 instructions/71 blocks/11 calls
-and frame0x134 against1280/57/376/72/13. Full target operands, instructions,
-branches, calls, literals and each candidate's real numeric COFF records are
-captured and independently checked. One cold both-arguments compile repeats all
-nondebug code/data/fields and actual numeric coordinates. No partial credit.
-Cleanup removes31 terminal-owned files/565709 bytes. All seven source recipes
-restore to pinned original-EOL hashes and are removed again. Retained proof stays
-below250 KB; replay reparses the actual canonical COFF and rebinds deleted full
-captures without claiming deleted-object inspection.
+IDA's obsolete3191/3512 partial comparison is replaced by a919-character full
+39-difference comment and exact readback. All1025 direct IDA line pairs stay
+unchanged; independent PE decoding, rather than line count, proves1026 machine
+instructions. Final distributed mapped-byte attestation passes. Cleanup removes
+23 owned terminal files/620062 bytes; all eight source/header copies restore to
+pinned original-EOL hashes and are removed again. Retained proof stays below250 KB
+and reparses actual canonical COFF while re-binding deleted complete captures.
 
-Do not repeat these seven contexts unchanged. The missing separate Story/Versus
-sprintf/strlen calls and entry allocation remain open; equivalent source forms
-are not an impossibility proof. Rotate to Enemy OnUpdate's3883-byte owner after
-fresh complete target/current-source/baseline review and reading its prior
-descriptor/trail/homing controls. Replay rendering does not reopen parked
-SaveReplay serialization. Native runtime and95% remain open.
+Do not repeat these four contexts unchanged. The four39-byte scheduling clusters
+remain open. Rotate to GameManager OnUpdate's1230-byte owner, recovering full
+target/current-source/baseline and reading its earlier input-array, publication,
+entry-zero and ready/else controls. Native runtime and95% remain open.
+
+## Replay-menu routing
+
+Seven row-argument/lifetime contexts plus one cold leave canonical1244 bytes/54
+fields/1180 differences plus36 absent. Direct list arguments only reduce one
+full difference; separate caption calls remain merged. No control is promoted.
+Full proof/restoration is in replay-row-arguments-20261009; see KB exclusions.
 
 ## Supervisor service workspace/call routing
 
@@ -140,7 +145,7 @@ and are removed again. Complete compressed captures/recipes stay below400 KB;
 retained replay reparses the real baseline and independently rebinds deleted
 captures, with no deleted-object inspection claim. Do not repeat these eight
 precise contexts. Reopen the sign test with a predicate-only probe before changing
-its existing field type. The subsequent replay-menu batch is recorded above;
+its existing field type. The subsequent replay-menu batch is recorded in the KB;
 replay rendering is distinct from parked SaveReplay serialization. Native runtime
 and95% remain open.
 
@@ -263,6 +268,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-enemy-vector-storage-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-replay-row-arguments-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-service-workspaces-20261009/audit.py --retained-only
 python3 scripts/inspect-supervisor-service.py build/gpt-dots-service-packet-owner-20261007/baseline.obj
