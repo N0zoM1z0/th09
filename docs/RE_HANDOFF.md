@@ -7,9 +7,11 @@ authored bytes**, work seriously on large functions, use direct IDA Pro MCP
 and local Bash/compiler Oracles without Factory MCP, commit locally as
 `gpt-6.1-sol: ...`, and periodically clean reproducible intermediates. Do not push.
 The goal remains **active-incomplete**. No new exactness credit was obtained in
-this checkpoint. Three additional RunEcl operand controls are measured: two
-are neutral and one increases the physical extent. Enemy update's real
-GameManager +0xB4 member correction remains in the previous checkpoint.
+this checkpoint. Enemy draw's complete inspector now independently decodes
+all operands, reports extent deficits/excess, checks every COFF field and names
+supplied-object provenance limits. Two return/expression precision controls
+regress and are rejected. Prior ECL controls and Enemy member repair remain
+recorded in the knowledge base and Git.
 The October 7 stopped-state checkpoint is preserved in Git at
 7347cb3; its cleanup and evidence limits are historical, not current stop orders.
 
@@ -64,75 +66,47 @@ started. No new exactness credit or acceptance receipt is claimed by this checkp
 
 ## Latest reviewed investigation
 
-RunEcl's SET_FLOAT control borrows the two observed float32 operand slots
-through a private eight-byte payload view. The compiler carries its address
-in ESI before the source branch: opcode7 grows from 75 to 77 bytes; alignment
-raises the physical owner from 15,564 to 15,568 bytes, with 598 fields unchanged.
-The strict complete identity gate rejects it. No shifted-byte target score,
-handler correspondence, exactness credit or original payload type is claimed.
+Enemy draw's target interpolation helper at 0x40F5E0 returns its final multiply
+and sum directly through ST0, with no float32 return store. Both an alternative
+long-double helper return declaration/definition and a wide right-hand operand
+in the second Abs subtraction were compiled as a batch. The helper retains all
+91 bytes/two fields, but both callers regress to 657 complete differences at
+1,758 bytes/53 fields. Their raw caller bodies are identical. No production
+signature, expression or profile change is retained; original return precision
+is still unknown. These differ from the prior left-side double/Abs-return trials.
 
-Explicit invocation of the existing timer assignment operator in opcode 4 and
-an explicit low-bit Boolean in opcode 155 are wholly neutral: all 67 owners,
-28,838 physical bytes and 1,215 fields match the bound baseline. The low-bit
-expression preserves the field update for all 256 input bytes; nonzero Boolean conversion
-would not be equivalent. Both complete diagnostics still report 2,161 differences.
-No production source changes were retained, so no unchanged canonical cold
-compile was added. These three controls were compiled once each and inspected
-as one batch. The other 66 owners and nondebug data are intact.
+scripts/inspect-enemy-draw.py now checks complete instruction decoding, actual
+call/data/object-immediate operands against all COFF fields, target counts and
+ordered direct call identities. The image-like TEST mask 0x400000 remains a
+scalar. It reports missing/excess bytes and resolved/target extent hashes, and
+explicitly does not bind supplied objects to source. This is a diagnostic,
+not an acceptance gate or CFG correspondence proof. Optional Capstone is needed.
 
-Previous checkpoint 312ca23 retains the following Enemy member correction:
-
-Enemy OnUpdate's speed operand at 0x4109BD reads 0x4A7E44. Fresh GameManager
-producer review at 0x41AC86/8C/94 identifies the same mutable signed-int slot as
-GameManager root 0x4A7D90 +0xB4, separate from difficulty +0x11C. The private
-playfield receiver view now exposes valueB4 with an offset assertion; the
-separate g_EnemyCoreDifficultyValue alias is removed. Original names and larger
-data/type/native ownership remain open.
-
-Four focused source models were compiled together before one batch-end
-canonical-path compile. Separate tracking/homing phases with a shared real
-world pointer and a trail destination pointer are neutral. Explicit descriptor
-components yield 499 complete differences; direct draw insertion arms yield
-2018 overlap differences plus 12 excess bytes. None is retained. Consult the
-knowledge base before repeating these contexts.
-
-The canonical correction retains 3,900 physical bytes /97 fields and all 39
-complete differences. Raw SHA256 is
-a9ca56df7ef5a09effcd22605048b318f19f41d13cf7f1f7740ba2bafbf2b960;
-fully resolved SHA256 stays
-a204aa32d16f533f4fed2d917aa26f46038a26b0e6dc9bb774a1e8d5c47ab854.
-Only raw byte +0x28F changes with the real member addend. Five private names
-rename at unchanged actual local destinations. All five bodies and seven
-nondebug sections are checked with independent COFF parsing. Attached-effect
-update replays 151/151 with two fields. No new exactness credit.
-
-Previous PauseMenu StopAudio dependency repair, complete inspector and rejected
-continuation contexts remain documented in Git and the knowledge base. ECL's
-2161 complete differences and six-handler frontier remain open. Continue with
-large-owner target/local evidence rather than repeating neutral contexts.
+The bound baseline still decodes 495 instructions/53 fields/28 direct calls,
+with four complete differences at +0x3F3..+0x3F6 and no missing/excess bytes.
+All three collateral exact bodies retain 164 bytes/eight fields. Five targeted
+guard tests pass, including extent mismatches, unmasked operand differences,
+missing/duplicate/misbound COFF records, scalar masks and truncated decoding.
 
 ## Evidence and artifact lifecycle
 
-Entry at 312ca23 is clean; private target, direct IDA metadata, entry and five
+Entry at 1a4c781 is clean; private target, direct IDA metadata, entry and five
 mapped-byte samples pass. No Factory MCP, IDA writes, target patch or delegation.
-Current evidence is below .analysis/gpt-6.1-sol-ecl-operand-schedule-20261009/:
-source patches/recipe, actual include logs, complete diagnostics, opcode7 dump
-and independent 67-owner COFF cross-check. Each carrier has 36 distinct logged
-includes; all hashes match preobserved inputs. The unchanged source-bound
-baseline is reused from the biased-movement/scalar-storage packets, with all 43
-dependency hashes and the main source rechecked. The earlier Enemy evidence
-remains below .analysis/gpt-6.1-sol-enemy-copy-context-20261009/.
+Current packet: .analysis/gpt-6.1-sol-enemy-return-precision-20261009/.
+It retains patches, reconstruct.py, input manifest, actual include logs, full
+operand/byte reports and independent four-owner inventory. Eight actual includes
+per carrier match preobserved inputs. Source/backend hashes match after builds.
+The inherited conjunction baseline is source/dependency/object-hash matched;
+its historical environment is not retrospectively attested.
 
-Three current-batch compiles are terminal. Cleanup removes 27 copied
-sources/objects/PDBs totaling 1,391,573 bytes. Source patches and reconstruct.py
-remain; reconstruction does not overwrite the terminal manifest. The unchanged
-source-bound baseline, canonical caches and inherited evidence remain.
-Earlier Enemy and paired-PDB cleanup are not rerun.
+Two compiles are terminal. Cleanup removes eight copied sources/objects/PDBs,
+178,552 bytes. Reconstruction is hash-checked before cleanup and preserves the
+terminal manifest. Bound baseline and canonical caches remain. No unchanged
+canonical compile or inherited cleanup is repeated.
 
-The user requests batching changes before cold replay: accumulate one coherent
-batch, use focused probes between changes, then close affected Oracles together.
-Reuse unchanged source-bound evidence; no unchanged baseline was recompiled in
-this batch.
+Accumulate coherent source changes before one batch-end cold replay. Reuse
+unchanged source-bound evidence; every new exact owner still requires a pinned
+canonical build and complete zero-difference byte/relocation proof.
 
 ## Restart commands
 
@@ -143,20 +117,20 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
-python3 .analysis/gpt-6.1-sol-enemy-copy-context-20261009/audit.py canonical=build/matching/EnemyManagerCore.obj
-python3 scripts/compare-coff-function.py --unit enemy-attached-effect-update
+python3 scripts/inspect-enemy-draw.py build/gpt-dots-enemy-draw-conjunction-20261006/EnemyManagerDraw.obj
+python3 scripts/compare-coff-function.py --unit enemy-manager-draw-high-prio
+python3 scripts/compare-coff-function.py --unit enemy-manager-draw-low-prio
+python3 scripts/compare-coff-function.py --unit enemy-draw-interpolate-wrapped-angle
 python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj
-python3 scripts/report-ecl-handler-shapes.py build/matching/EclManager.obj
 ```
 
-Call direct IDA `get_metadata` with exactly `{}` during entry attestation.
-ECL's complete inspector returns1 for the measured nonexact result; Player's
-inspector exits successfully after a completed diagnostic. Neither compiles
-or proves arbitrary supplied-object source provenance. New exact promotion
-requires bound source/includes, a fresh pinned canonical build and complete
-zero-difference replay.
+Call direct IDA get_metadata with exactly {} during entry attestation.
+Enemy draw's inspector exits successfully for a completed nonexact diagnostic;
+ECL's complete inspector returns1 for its measured mismatch. Neither compiles
+or establishes supplied-object source provenance. Reconstruct the current
+cleaned trial sources before rerunning audit.py and its compiler commands.
 
-Validation: ecl-pop-context 147/147, two complete RunEcl diagnostics,
-independent 67-owner/nondebug inventory, tracking, progress and
-whitespace pass. Isolated CI runs 67 tests (65 pass, two optional Capstone tests
-skipped). The worktree checkpoint remains local and is not pushed.
+Validation: focused draw units 35/35,38/38,91/91; independent complete
+four-owner/61-field inventory; five targeted tests; tracking, progress and
+whitespace pass. Isolated CI runs72 tests (68 pass, four optional Capstone
+checks skipped). Worktree checkpoints are local and not pushed.
