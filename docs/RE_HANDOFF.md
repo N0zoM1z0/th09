@@ -9,13 +9,11 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at 5319533. Target SHA, direct IDA metadata, entry
-and five distributed mapped-byte samples pass. Seven Enemy update object/copy
-controls precede one canonical-path cold compile. The private Player homing
-field now holds the observed Enemy pointer directly; the complete code/fields
-remain neutral. Early tracked-position capture and direct memmove are rejected.
-No new exact credit, profile change, target patch, IDA write or delegation.
-Prior corrections stay.
+This checkpoint starts clean at 32a8e4e. Target SHA, direct IDA metadata, entry
+and five mapped-byte samples pass. Four Enemy draw expression/declaration
+controls precede one batch-end cold compile. Three are neutral; borrowing the
+next angle changes the x87 expression and regresses. No source, exact credit,
+profile, target, IDA or product-gate changes. Prior corrections stay.
 
 ## Live ledger snapshot
 
@@ -64,76 +62,38 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Enemy update object-copy batch
+## Latest Enemy draw expression batch
 
-Packet: `.analysis/gpt-6.1-sol-enemy-object-copies-20261009/`.
-Current cache: `build/matching/EnemyManagerCore.obj`, SHA256
-`60a054387f8a7125ec31eb44184e0bd6ed8ec711a949d61b9c29beae366aa1f9`.
-The actual former cache and unchanged compiler/header inputs were checked before
-reuse. Its production path now contains the cold build. The baseline reference
-capture is explicitly a separately compiled neutral control, corroborated against
-the prior independent complete raw capture; it is not the former whole COFF.
-
-Player +0x3037C is compared with the current Enemy, cleared on deactivation,
-read as an Enemy at +0x2D78, and assigned the current Enemy by the target.
-The private view now uses EnemyCoreView*, removing the repeated void* cast.
-The unrelated opaque focus-getter return ABI stays unchanged. Original class
-spelling, larger layout ownership and native runtime behavior remain unknown.
-
-Side/destination references and direct temporary-address memcpy are neutral.
-Capturing trackedPosition before the vector calls gives 3,888 physical bytes,
-3,289 overlap differences plus twelve missing, and is rejected. Direct memmove
-adds a seventieth call and a 98th field absent from target; its external target
-destination remains unknown and no full resolved-byte score is claimed.
-Typed homing and canonical cold preserve all five owners, 99 fields and seven
-nondebug noncode sections. Main remains 3,900 physical /3,883 code bytes with
-97 bound fields and 39 differences. Nine strict reports preserve the existing
-151-byte/two-field sibling. Cleanup removes 22 source/COFF/PDB files, 961,875
-bytes; all seven complete recipes recover after cleanup. Compressed complete
-captures, target disassembly, proof and source inversion remain below 200 KB.
-Use the new packet's retained audit and replay; older Enemy packets retain
-historical input bindings and are not current-source replay commands.
-
-## Latest Type14/22 draw batch
-
-Packet: `.analysis/gpt-6.1-sol-draw1422-callee-context-20261009/`.
-Current cache: `build/matching/ExAttackDrawType14Type22.obj`, SHA256
-`cf6d50537f2768a58a4b480072929db81feaa806bdb760addb9f8d02e5fc724f`.
-Historical raw source, all declared/actual project headers and retained object
-hashes were verified before reuse; new hashes do not attest historical DLL loading.
-
-Target remains 959 bytes, 290 instructions, frame 0x20. Maintained callback is
-974 bytes, 297 instructions, frame 0x24, with 53 fully bound fields, 905 linked
-overlap differences and 15 excess. All 32 ordered calls (20 direct/12 D3D indirect)
-and 17-block direct graph agree. Removing the private timer view and using the
-existing integer conversion preserves raw bytes and the getter's 0x435F00 target.
-The angle declaration agrees with the existing math definition under /Gr; both
-float arguments still use the stack, return ST0 and RET8. Original source spelling
-of that convention and folded getter remains unknown.
-
-Actual 111-byte AddNormalizeAngle body visible before/after the callback, alone,
-with the target-observed 4-byte timer leaf, or with the conversion, gives 958 bytes,
-52 fields and 31 calls. Each drops precisely the required 0x42AED0 call at target
-0x444158. Near target size is rejected; no body migration or fake result consumer
-is retained. Timer body visibility before/after, real extra/center references
-alone/together and canonical interface changes are neutral. Added helpers exactly
-match their known physical leaves and receive no duplicated authorship credit.
-
-One batch-end canonical compile matches the isolated interface trial on every
-raw owner byte, all fields, symbol coordinates and all five nondebug data/directive
-sections. There is one callback and no accepted sibling in this TU. Focused
-canonical normalization/getter physical Oracles pass 111/111 and 4/4. All thirteen
-actual traces contain 81 distinct headers plus source and 121 include events.
-
-36 terminal owned source/COFF/PDB files, 1,796,717 bytes, are removed. Every one of
-the twelve raw CRLF source recipes was restored and checked after cleanup, then
-removed. Logs compress losslessly from 208,852 to 10,629 bytes; complete raw
-nondebug captures and all bound/decoded proof remain below 0.5 MB. Run
-`audit.py --retained-only` to reparse actual baseline/canonical objects and rebind
-captured deleted candidates, or `reconstruct.py --restore` for source-only
-reconstruction. Do not repeat these precise callee/reference contexts unchanged.
+Packet: `.analysis/gpt-6.1-sol-enemy-draw-expression-20261009/`.
+The unchanged source/backend/header-bound baseline remains
+`build/gpt-dots-enemy-draw-conjunction-20261006/EnemyManagerDraw.obj`, SHA256
+`8277f8f3532feafeb77faaba2238a12e51d9ddb69410cb7968e339bb5a92897b`.
+Explicit float conversion of the complete second subtraction, unary plus and
+using the default /Gr interpolation declaration preserve all 1,758 raw bytes,
+53 numeric fields and four target differences. The convention control preserves
+the complete 91-byte helper and its physical stack/return contract; original
+source convention spelling remains unknown and no signature change is adopted.
+Borrowing the actual next-angle result gives 497 instructions and 495 complete
+byte differences, versus target 495 instructions. Its extra x87 stack operations
+replace target's single FSUBR memory operation; no float32 result home appears.
+One cold compile repeats the complete four-owner/61-field/nine-noncode carrier.
+All three accepted siblings remain exact (164 bytes/eight fields). Fifteen owned
+source/COFF/PDB files, 426,551 bytes, are removed; all four recipes recover after
+cleanup. Complete compact proof stays below 100 KB. These precise controls are
+closed; next investigate RunEcl's live handler frontiers using fresh evidence.
 
 ## Other current evidence
+
+- Enemy update object copies: `.analysis/gpt-6.1-sol-enemy-object-copies-20261009/`;
+  typed Player +0x3037C Enemy pointer stays maintained. Current canonical cache
+  `build/matching/EnemyManagerCore.obj` SHA256
+  `60a054387f8a7125ec31eb44184e0bd6ed8ec711a949d61b9c29beae366aa1f9`.
+  Seven controls and one canonical cold retain 39 differences; see KB exclusions.
+- Type14/22 draw: `.analysis/gpt-6.1-sol-draw1422-callee-context-20261009/`;
+  canonical math declaration and timer conversion stay maintained. Current cache
+  `build/matching/ExAttackDrawType14Type22.obj` SHA256
+  `cf6d50537f2768a58a4b480072929db81feaa806bdb760addb9f8d02e5fc724f`.
+  Twelve controls and one canonical cold reject normalization-call loss; see KB.
 
 - Player collision batch: `.analysis/gpt-6.1-sol-collision-member-visibility-20261009/`;
   actual difficulty +0x11C and coordinate +0x358 connections remain maintained.
@@ -182,6 +142,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-enemy-draw-expression-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-draw1422-callee-context-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-pause-partial-visibility-20261009/audit.py --retained-only
 python3 scripts/inspect-pause-menu.py
