@@ -9,13 +9,13 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean atfc286bd. Five remote scope/interface controls
-precede one inline-index batch-end cold. Case scope/goto is insufficient to
-reverse the complete jump regression; expanding only the real remote index
-ReadInt expression restores baseline without a new remote record. All23 exact
-siblings pass in all six carriers. Complete proof,42 raw-EOL restorations and
-scoped cleanup pass. No source/ABI/profile/exact-credit change is adopted.
-ResolveFloat is already exact; SaveReplay stays parked.
+This checkpoint starts clean at50140c5. Four narrow/float expression controls
+precede one paired-index batch-end cold. Narrow and float-source expansion are
+main-neutral; adding remote index expansion regresses2161 differences to2279.
+Two unreferenced five-byte helper copies stop emitting, without target ownership.
+All23 exact siblings pass all five carriers. Complete proof,35 raw-EOL source
+restorations and scoped cleanup pass. No source/ABI/profile/exact-credit change
+is adopted. ResolveFloat is already exact; SaveReplay stays parked.
 
 ## Live ledger snapshot
 
@@ -74,46 +74,51 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest RunEcl remote scope/interface batch
+## Latest RunEcl narrow/float expression batch
 
-Packet: `.analysis/gpt-6.1-sol-ecl-remote-scope-20261010/`.
+Packet: `.analysis/gpt-6.1-sol-ecl-narrow-float-expressions-20261010/`.
 Canonical remains `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`,
 COFF SHA256 `94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
 Main raw remains `93206b3996d97e62d6470b795e32c9cfdc9228a9bc8806efed073688b7420eef`.
 
-Five warm controls isolate the prior complete jump/remote interaction. Remote
-case scope/goto alone is neutral; with jump it repeats the regressed predecessor.
-A consumed family-scoped complete remote pointer, using the original store
-fallthrough, restores baseline with jump. Expanding only remote index operand2's
-ReadInt conditional also restores baseline, with the original raw/header interface
-and no remote record/pointer/scope/goto. Case scope is insufficient and the remote
-record is unnecessary; original source/type/TU identity remains unknown.
-One fresh-path inline-index cold fully repeats its warm inventory, actual fields,
-linked main, decoded operands/tables and graph. All six producers terminate zero.
+Four warm controls directly expand all8 byte/2 short reads, only opcode7's
+source float conditional, both, and both plus opcode86's index conditional.
+They preserve the original helper definitions, operand domains, statement/effect
+boundaries and ABI/profile. One fresh-path paired-index cold follows all four
+warms. All five producers terminate zero; all37 actual include paths are pinned.
 
-Five carriers preserve67 owners/28838 bytes/1215 fields/35 noncode sections;
-main remains14791 code+one NOP+772 tables,598 fields,4387 instructions,943 blocks
-and2161 complete differences. Jump plus scope repeats14789 code+three-byte
-self-LEA+772 tables,4386 instructions and2279 differences; trail157 stays158/160.
-All23 configured siblings strictly reproduce9533 target bytes/439 fields in every
-carrier, with actual-position-proved private spelling-only diagnostic adapters.
-All37 actual source/include paths are pinned. Cross-packet comparison normalizes
-only JSON integer-key representation and proves93 same-coordinate private fields;
-bytes, destinations and graph values remain significant. No gate changes occur.
+Float-source retains67 owners/28838 bytes/1215 fields; narrow-bearing carriers
+retain65/28828/1215. RawByte/RawShort's unreferenced five-byte copies stop emitting.
+Actual baseline section scans prove no incoming nondebug relocation or match-unit
+ownership. Removing those code/debug sections shifts35 common owner section
+indices, including main199 to193. Full field mapping uses actual named code/data
+definitions, including nine main data references; numeric indices are not called
+identical. All35 nondebug noncode section payloads/flags/fields are unchanged.
 
-Sixty-six pre-unlink receipts cover3255265 raw disposable bytes, including2790532
-source/COFF/PDB bytes. Twelve logs/adapters compress losslessly; all42 raw-EOL
-source recipes restore, revalidate and are removed again. Canonical source/COFF
-survive. Complete12406414-byte proof compresses to124544 bytes. Retained replay
-parses survivors and independently rebinds deleted captures. Older Options/Enemy/
-DrawResult evidence remains in the KB, Git and retained commands below.
+The first three mains stay14791 code+one NOP+772 tables,598 fields,4387 instructions,
+frame168h,943 blocks,375+4 calls and2161 complete differences. Paired-index and
+cold emit14789 code+three-byte self-LEA+772 tables,4386 instructions and2279
+differences; trail157 stays158/160. No complete jump view is added. All six
+handler frontiers remain. Cold fully repeats warm inventory, actual fields,
+linked main, decoded operands/tables and graph. All23 exact siblings reproduce
+9533 target bytes/439 fields in every carrier; eight private spelling changes
+are verified against actual coordinates in diagnostic adapters only.
+
+Fifty-five pre-unlink receipts cover2715652 raw disposable bytes, including2327135
+source/COFF/PDB bytes. Ten logs/adapters compress losslessly; all35 raw-EOL sources
+restore, revalidate and are removed again. Complete11171633-byte proof compresses
+to126940 bytes. Retained replay parses the real canonical and independently
+rebinds deleted captures. Earlier remote-scope/Options/Enemy/DrawResult evidence
+remains in the KB, Git and retained commands below.
 
 ## Next route and current cache cautions
 
-Do not repeat these precise remote scope/interface arrangements unchanged.
-Scope/goto alone cannot explain the complete jump interaction, and the remote
-record is unnecessary. Continue materially different operand-helper/source-context
-work; original source/type/TU identity and all4/7/86/155..157 frontiers remain open.
+Do not repeat these precise narrow/float/index expressions unchanged. Narrow
+reads and opcode7 float-source expansion alone are neutral; remote index
+expansion regresses in their combined context, although it previously restored
+the complete-jump context. Scope/goto alone is insufficient and a remote record
+is unnecessary. Pursue materially different target/source-context evidence;
+original source/type/TU identity and all4/7/86/155..157 frontiers remain open.
 Options' actual configuration/snapshot/reference repair provides no new
 allocation lead; its precise family and prior routing/input controls are excluded.
 
@@ -128,7 +133,7 @@ borrowing regresses. Its five actual +0x13C member connections stay maintained.
 
 RunEcl's live cache is
 `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`; the recent
-remote-scope, complete-instruction, wire-prefix and flag-storage commands bind its
+narrow-float-expressions, remote-scope, complete-instruction, wire-prefix and flag-storage commands bind its
 full carrier.
 ResolveFloat @0x4068A0 has complete2044-byte/121-field exact closure since
 Packet630. KB4011 onward and correction KB5486 supersede stale ECL-014 routing;
@@ -160,6 +165,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-ecl-narrow-float-expressions-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-ecl-remote-scope-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-ecl-whole-instruction-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-options-real-config-20261010/retained.py
