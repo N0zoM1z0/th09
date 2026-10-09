@@ -87,15 +87,6 @@ struct PlayerSpawnShotsView
     void __fastcall SpawnShots(int value, int powerLevel);
 };
 
-struct PlayerChargeTimerCurrentView
-{
-    int previous00;
-    float subFrame04;
-    int current08;
-
-    int GetCurrent();
-};
-
 class SoundPlayer
 {
   public:
@@ -285,8 +276,7 @@ shooting:
         {
             reinterpret_cast<PlayerSpawnShotsView *>(this)
                 ->SpawnShots(
-                    reinterpret_cast<PlayerChargeTimerCurrentView *>(
-                        shotTimer)->GetCurrent(), 1);
+                    static_cast<int>(*shotTimer), 1);
         }
 
         (*shotTimer)++;
@@ -311,8 +301,7 @@ shooting:
             {
                 reinterpret_cast<PlayerSpawnShotsView *>(this)
                     ->SpawnShots(
-                        reinterpret_cast<PlayerChargeTimerCurrentView *>(
-                            normalShotTimer)->GetCurrent(), 0);
+                        static_cast<int>(*normalShotTimer), 0);
             }
 
             (*normalShotTimer)++;

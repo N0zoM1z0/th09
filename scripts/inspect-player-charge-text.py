@@ -97,15 +97,15 @@ def inspect(path):
         {"region": "post_conversion_sht_reload", "candidate_offset": hex(at - 1),
          "bytes": 14, "region_agrees": duration_agrees},
     ])
-    # Mode literals are pushed before GetCurrent in both target call sequences.
+    # Mode literals precede the timer integer conversion in both target calls.
     # Derive candidate windows from the independently identified SpawnShots
     # fields, then bind both actual calls; no relocation masking is used.
     spawn_symbol = "?SpawnShots@PlayerSpawnShotsView@@QAIXHH@Z"
-    current_symbol = "?GetCurrent@PlayerChargeTimerCurrentView@@QAEHXZ"
+    current_symbol = "??BZunTimer@@QAEHXZ"
     spawns = [r for r in relocations if r["symbol"] == spawn_symbol]
     currents = [r for r in relocations if r["symbol"] == current_symbol]
     if len(spawns) != 2 or len(currents) != 2:
-        raise ValueError("expected two SpawnShots and GetCurrent calls")
+        raise ValueError("expected two SpawnShots and timer integer conversions")
     for mode, row, start in zip((1, 0), spawns, (0x41FC30, 0x41FC90)):
         begin = row["offset"] - 14
         if begin < 0 or begin + 18 > len(code):
