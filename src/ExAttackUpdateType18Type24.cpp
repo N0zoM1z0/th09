@@ -223,31 +223,27 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
             if (record->position20.x < -144.0f)
             {
                 extra->motion04.x = -extra->motion04.x;
-                extra->angle4C =
-                    AddNormalizeAngle(
-                        3.1415927f - extra->angle4C, 0.0f);
+                extra->angle4C = 3.1415927f - extra->angle4C;
+                extra->angle4C = AddNormalizeAngle(extra->angle4C, 0.0f);
                 extra->reflected54 = 1;
             }
 
-            if (record->position20.x > 144.0f)
+            else if (record->position20.x > 144.0f)
             {
                 extra->motion04.x = -extra->motion04.x;
-                extra->angle4C =
-                    AddNormalizeAngle(
-                        3.1415927f - extra->angle4C, 0.0f);
+                extra->angle4C = 3.1415927f - extra->angle4C;
+                extra->angle4C = AddNormalizeAngle(extra->angle4C, 0.0f);
                 extra->reflected54 = 1;
             }
         }
 
-        float collisionPointStorage[3];
-        Float3 *collisionPoint =
-            reinterpret_cast<Float3 *>(collisionPointStorage);
-        collisionPoint->FromAngleMagnitude(
+        Float3 collisionPoint;
+        collisionPoint.FromAngleMagnitude(
             extra->angle4C, extra->speed50);
-        *collisionPoint += record->position20;
+        collisionPoint += record->position20;
         g_GameManager.sides[record->opponentSide04]
             .player04->collisionQuery36C.AppendCircleRecord(
-                reinterpret_cast<PlayerPositionView *>(collisionPoint),
+                reinterpret_cast<PlayerPositionView *>(&collisionPoint),
                 12.0f,
                 0);
 

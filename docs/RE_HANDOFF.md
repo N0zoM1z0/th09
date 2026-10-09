@@ -7,7 +7,7 @@ authored bytes**, work seriously on large functions, use direct IDA Pro MCP
 and local Bash/compiler Oracles without Factory MCP, commit locally as
 `gpt-6.1-sol: ...`, and periodically clean reproducible intermediates. Do not push.
 The goal remains **active-incomplete**. No new exactness credit was obtained in
-this checkpoint; the latest source correction concerns an Enemy Player view. The October 7 stopped-state checkpoint is preserved in Git at
+this checkpoint; the latest correction concerns ExAttack type18/type24 reflection. The October 7 stopped-state checkpoint is preserved in Git at
 7347cb3; its cleanup and evidence limits are historical, not current stop orders.
 
 ## Live ledger snapshot
@@ -46,48 +46,52 @@ started. No new exactness credit or acceptance receipt is claimed by this checkp
 - Player movement: 1,835 authored /1,900 physical bytes, 66 fields and 144 full
   differences. The maintained inspector now reports complete physical bytes and
   independently decoded operands/table entries.
+- ExAttack type18/type24: 1,436 target bytes; corrected candidate 1,441/44 fields.
+  All 31 ordered calls and 23 direct blocks agree; full replay still has 1,051
+  overlap differences plus five excess bytes. Target stack homes remain open.
 - Enemy draw: 1,758 bytes and four complete differences around the second
   subtraction/Abs argument. Other nonexact UI, gameplay, network and callbacks
   remain in config/functions.csv. Consult docs/KNOWLEDGE_BASE.md before probes.
 
 ## Latest reviewed source change
 
-The private Enemy Player view now declares Player+0x364 as `Effect *focusEffect364`
-and checks its offset. Direct TH09 movement stores/clears the returned focus
-effect there; Enemy update only checks whether it is null before updating the
-existing side timer. The former integer-state name/type was unsupported.
+Direct TH09 review corrects the shared ExAttack type18/type24 reflection:
+left and right tests are mutually exclusive, and pi-angle is stored to
+extra+0x4C before the shared normalization call. The forward collision point
+is now a real Float3 object. This supersedes Packet433's independent-if
+requirement and Packet809's claim that only local allocation remained. The
+normalizer reads arguments/constants without changing record/position; no
+gameplay bug or native runtime validation is claimed.
 
-Isolated and canonical-path builds preserve all five emitted bodies /4,060
-physical bytes /99 fields and all seven nondebug noncode sections. Enemy
-OnUpdate retains all 97 independently bound target fields and the same 39
-differences; its raw hash is
-`51d8510ea19461e0bef2f658c616277805ea138ba431be646c10b158053a1bc6`.
-Canonical attached-effect helper still replays 151/151. No exact ledger row,
-profile, ABI, reviewed extent or denominator is changed. Native product/runtime
-and later semantic/port gates remain open.
+Two independent canonical-path pinned cold builds agree on 1,441 bytes, 475
+instructions and 44 records, raw hash
+`3574f1fb7c085bba0f88d2d98ca9dfa5d1806cd0bba34af8fe1732f3a8f60dcb`.
+All 31 ordered calls, field-identity occurrences and 23 direct CFG blocks agree.
+The complete replay remains NON-EXACT:1,051 overlap differences plus five
+excess bytes. Correct stores/control earn no partial byte credit. The local
+Float3 emits an uncalled three-byte empty constructor with no target ownership;
+five nondebug noncode sections preserve their bytes and zero relocations.
 
-Two new controls are rejected: a consumed descriptor-speed local is fully
-neutral; conditional taper assignment regresses to 698 complete differences.
-Earlier playfield/Pause/Enemy draw/ECL controls are recorded in the knowledge
-base. These are context-bound negatives, not impossibility proofs.
+Nine isolated controls and two canonical compiles are terminal. Direct delta
+expressions coalesce return slots; exclusive-only and staging-only reflection
+remain wrong; const values/references on the corrected context are neutral.
+Original stack/value/TU context and inherited private-view aliasing remain
+open. Exact ledgers, profiles, ABI, extents and denominator stay unchanged.
 
 ## Evidence and artifact lifecycle
 
-Entry at 8f83ac3 was clean. Disk identity, direct IDA metadata, entry point and
+Entry at 5b1393a is clean. Disk identity, direct IDA metadata, entry point and
 five distributed mapped-byte samples pass. No Factory MCP, IDA write, target
-patch or agent delegation is used. Four compiles are terminal; current-batch
-probe sources, objects and PDBs totaling 376,339 bytes are removed. Compact
-source deltas, actual include logs, hashes and complete comparisons remain in
-`.analysis/gpt-6.1-sol-enemy-update-values-20261009/`.
-
-A separate audit removes 1,678 noncanonical compiler PDBs /151,584,768 bytes
-(144.56 MiB). Each has a retained i386 COFF object whose actual type-server
-GUID/age and file path match the PDB info stream. Object hashes are verified
-before and after deletion; no object is removed. Canonical PDBs, unpaired or
-symlink cases, and a path mismatch remain. No pre-existing PDB comparison consumer was found in
-tracked/analysis tooling; the cleanup audit reads identity metadata. The receipt and paired hashes remain below
-`.analysis/gpt-6.1-sol-pdb-cleanup-20261009/`. This audited cleanup does not
-remove the whole inherited analysis/build trees, private target or toolchains.
+patch or delegation is used. Compact current evidence is below
+`.analysis/gpt-6.1-sol-type1824-values-20261009/`: source deltas, actual includes,
+source/header/backend hashes, complete independently decoded byte/field/CFG
+comparisons and repeat/collateral inventory. The audit checks float identities
+in the verified PE and rejects unknown fields; it compares all bytes even for
+a different extent. Current-batch reproducible sources, objects and PDBs are
+removed after the checks: 31 files /923,463 bytes. Inherited evidence and
+canonical caches are retained.
+The previous paired-PDB cleanup receipt remains below
+`.analysis/gpt-6.1-sol-pdb-cleanup-20261009/` and is not rerun.
 
 ## Restart commands
 
@@ -98,7 +102,9 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
-python3 scripts/compare-coff-function.py --unit enemy-attached-effect-update
+python3 scripts/compare-coff-function.py --unit exattack-type18-init
+python3 scripts/compare-coff-function.py --unit exattack-type24-init
+python3 scripts/compare-coff-function.py --unit runtime-add-normalize-angle
 python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj
 python3 scripts/report-ecl-handler-shapes.py build/matching/EclManager.obj
 ```
@@ -110,7 +116,7 @@ or proves arbitrary supplied-object source provenance. New exact promotion
 requires bound source/includes, a fresh pinned canonical build and complete
 zero-difference replay.
 
-Validation: focused canonical helper, complete Enemy comparison, tracking,
-progress and whitespace pass. Isolated CI runs67 tests (65 pass, two optional
-Capstone tests skipped); the eight focused Player diagnostic tests previously
-pass with Capstone. The worktree checkpoint remains local and is not pushed.
+Validation: focused type18/type24 initializer and normalization Oracles,
+complete ExAttack comparison, tracking,
+progress and whitespace pass. Isolated CI runs 67 tests (65 pass, two optional
+Capstone tests skipped). The worktree checkpoint remains local and is not pushed.
