@@ -9,11 +9,12 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at63f0bf4. Original target and direct IDA mapped
-bytes pass. Three full3883-byte Enemy OnUpdate type contexts precede one
-batch-end cold; every code byte and effective field remains unchanged. All five
-emitted owners and the151-byte exact sibling pass. No source/header/ABI/profile
-or exact-credit change is integrated. SaveReplay serialization remains parked.
+This checkpoint starts clean at196df91. Original target and direct IDA mapped
+bytes pass. Three complete RunEcl wire-view contexts precede one batch-end
+cold. The trailing-byte member family is neutral; the full opcode7 instruction
+view increases code and frame size. All 23 configured exact siblings pass in
+every carrier. No source/header/ABI/profile or exact-credit change is integrated.
+SaveReplay serialization remains parked.
 
 ## Live ledger snapshot
 
@@ -72,7 +73,45 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest Enemy OnUpdate shared-type batch
+## Latest RunEcl wire-prefix batch
+
+Packet: `.analysis/gpt-6.1-sol-ecl-wire-prefix-20261009/`.
+Canonical remains `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`,
+SHA256 `94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
+All 55 inherited inputs and 37 actual source/include paths per carrier agree.
+Fresh direct IDA supplies 4384 address/instruction lines; independent PE
+decoding supplies 4387 instructions over 14792 target code bytes.
+
+The coherent RawInt/RawFloat/RawByte/RawShort family uses a fixed-header view
+with an actual trailing byte member at +0x0C. All 67 owners / 28838 physical bytes /
+1215 fields / 35 noncode sections stay neutral. A separate whole opcode7 view
+contains the existing 0x0C-byte header and two observed float fields. It changes
+only RunEcl: 14803 code + one alignment + 772 tables, 15576 physical bytes,
+frame 0x16C, 4389 instructions, 598 fields and 943 blocks. Opcode 7 grows 75 to 83
+bytes; the compiler creates a source spill at EBP-0x104. Complete independently
+bound comparison gives 14089 overlap differences plus 12 excess; the strict
+reviewed-shape/CFG identity gate rejects it. Combining the views is neutral
+against this rejected carrier. Every carrier retains 375 direct / four indirect
+calls and 23 exact siblings / 9533 bytes / 439 fields. No original type or wire
+object-lifetime conclusion follows.
+
+One cold at a fresh source/object path repeats the complete paired carrier.
+Independent bounds-checked COFF parsing agrees with repository extraction;
+all 405 code fields and 193 table fields are decoded and bound. The 195 private
+label spelling changes in each neutral comparison are proved at identical
+actual numeric coordinates. Full target/raw/linked bodies, graphs, differences,
+actual logs, inputs and reversible recipes remain in a 326472-byte packet.
+The full JSON capture uses lossless XZ; IDA/logs/adapters use gzip.
+
+Thirty-six hash/size receipts precede removal of 1845889 disposable bytes.
+All 28 original-EOL source copies restore, revalidate and are removed again.
+Retained.py reparses the actual canonical object, rebinds every complete
+deleted capture and strictly relinks all 23 captured siblings to the target.
+Do not repeat these three contexts or the older eight-byte payload/union
+controls. Review the large float resolver and its prior controls next; the tested
+wire views and bitfield storage forms do not close RunEcl's six residuals.
+
+## Previous Enemy OnUpdate shared-type batch
 
 Packet: `.analysis/gpt-6.1-sol-enemy-shared-types-20261009/`.
 Actual canonical stays `build/matching/EnemyManagerCore.obj`, SHA256
@@ -95,9 +134,8 @@ and independently rebinds deleted captures. Full IDA observation and logs are
 compressed; mixed/uniform-EOL recipe repairs are recorded in the KB.
 
 Do not repeat these three precise type contexts or the previous Enemy
-copy/const/base/lifetime controls without different evidence. Return to large
-RunEcl with its complete current six-handler proof and declaration/ABI review;
-a useful probe must add a distinct target-backed source context.
+copy/const/base/lifetime controls without different evidence. The latest
+RunEcl wire-view batch above supersedes this checkpoint's next-unit routing.
 
 Recent paired trail initializer packet:
 `.analysis/gpt-6.1-sol-trail-countdown-20261009/`. Unsigned/countdown indices
@@ -324,6 +362,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-ecl-wire-prefix-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-enemy-shared-types-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-ecl-flag-storage-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-movement-direct-sht-20261009/retained.py
