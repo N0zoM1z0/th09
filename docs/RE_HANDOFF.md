@@ -9,13 +9,14 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at6b795a8. Three Replay detail-frame controls precede
-one maintained-path batch cold. Direct frame expressions now test side0 and reload
-side1/side0 after the color store, retaining all13 ordered calls and57 fields.
-Full candidate remains1258 bytes/1187 overlap differences plus22 absent; no exact
-credit. Position now has home EBP-10h versus target-14h, frame remains134h.
-Complete carrier/source/Git/CRLF/include and14-file cleanup checks pass.
-ResolveFloat is already exact; SaveReplay stays parked.
+This checkpoint starts clean at77627bf. Three Player movement upper-clamp controls
+precede one fresh-object batch cold. All repeat1835 code/1900 physical bytes,
+66 fields and144 full differences; only two private table label spellings change
+in the consumed-local model, with every numeric coordinate checked. No source
+adoption or exact credit. Complete carrier/Git/LF/include/retained proof and
+15-file cleanup checks pass. The preceding Replay detail-frame source repair and
+its1258-byte current cache remain valid. ResolveFloat is already exact;
+SaveReplay stays parked.
 
 ## Live ledger snapshot
 
@@ -75,6 +76,36 @@ semantic reconstruction and portability have not started.
   target return homes and EAX-result consumers remain open; see current proof.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
+
+## Latest Player movement upper-clamp batch
+
+Packet: `.analysis/gpt-6.1-sol-movement-upper-clamps-20261010/`.
+Target upper clamps acquire width/height before adding the minimum coordinate,
+compare the result and conditionally store that same x87 value. Three natural
+controls test dimension-first additions, upper-left predicates and genuinely
+consumed local upper bounds. All retain1835 code/1900 physical bytes/489
+instructions/66 actual fields/84 direct blocks/144 differences, frame18h,
+23 ordered direct calls and one indirect option call. Both switch tables and
+complete suffix from0x41C734 still agree; no interval receives exact credit.
+
+The first two controls are full nondebug record-neutral. Local bounds change
+only the two private table roots at+1D8/+34E: $L1984/$L1985 become $L1986/$L1987,
+with section21, values72C/74C, addends and linked destinations unchanged. Actual
+names are retained. All seven owners/1935 bytes/66 fields, six collateral
+bodies35 bytes/zero fields and two nondebug data records are checked independently.
+The batch-end cold repeats all complete local-bound warm records.
+
+Current canonical source/cache remains unchanged at
+`build/gpt-6.1-sol-movement-direct-sht-20261009/current-cold.obj`, COFF SHA256
+`da0364dadb545134a9fc837326dd22d4cd2091ca0436d826c4a7c95a9af6525d`.
+Full proof is55572 compressed/382953 decoded bytes;22 original input/11 support
+pins, three exact Git/LF recipes and four ten-header compiler logs pass. Four
+producers terminate0 before15 scoped receipts remove379509 disposable bytes.
+Retained replay reparses the actual canonical, rebinds deleted captures,
+restores/removes sources/logs, and preserves existing OnUpdate522 bytes/40 fields.
+No maintained source, header, ABI, profile, ownership, IDA or match changes.
+Original source/TU, native product/runtime and later gates remain open. Do not
+repeat these three precise clamp contexts without materially new evidence.
 
 ## Latest Replay detail-frame dataflow batch
 
@@ -213,6 +244,7 @@ python3 -B .analysis/gpt-6.1-sol-enemy-draw-index-hitbox-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-enemy-shared-types-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-ecl-flag-storage-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-movement-direct-sht-20261009/retained.py
+python3 -B .analysis/gpt-6.1-sol-movement-upper-clamps-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-type1824-assignment-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-gameplay-failure-phases-20261010/retained.py
 python3 scripts/inspect-gameplay-setup.py build/gpt-dots-setup-continuations-20261006/baseline.obj --summary
