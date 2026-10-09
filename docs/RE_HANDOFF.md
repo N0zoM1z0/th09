@@ -9,13 +9,12 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at 9b9d48f. Target SHA, direct IDA metadata, entry
-and five mapped-byte samples pass. Five RunEcl jump/timer controls precede one
-batch-end cold replay; all are neutral. The diagnostic inspector gains the
-already reviewed folded canonical timer-current ABI binding with a body check.
-Two stale ECL caches are repaired from the source-bound carrier after complete
-nondebug comparison. All23 canonical siblings pass. No game source, match,
-exact credit, profile, target, IDA or product-gate changes.
+This checkpoint starts clean at c75bc39. Target SHA, direct IDA metadata, entry
+and five mapped-byte samples pass. One newly bound replay-save renderer baseline
+and five depth-stage controls precede one batch-end cold replay. All controls
+remain nonexact; weighted value delays multiplication and raises x87 depth.
+Complete fields/CFG/collateral and focused text Oracles pass. No game source,
+header, profile, match or exact-credit changes. Prior corrections stay.
 
 ## Live ledger snapshot
 
@@ -64,30 +63,33 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest RunEcl jump/timer batch
+## Latest replay-save depth batch
 
-Packet: `.analysis/gpt-6.1-sol-ecl-jump-timer-20261009/`.
-The source/backend/header-bound baseline remains
-`build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`, SHA256
-`94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
-Jump-time value/reference bindings, the real canonical timer assignment receiver,
-their combination and the complete timer declaration family preserve all67
-owners/28838 bytes/1215 fields. Family conversion changes31 external symbol
-spellings at identical fields; its folded integer getter independently binds
-435F00. All598 main fields retain2161 complete differences. One cold family
-compile repeats the full carrier; all23 exact siblings/9533 bytes/439 fields
-pass. The constructor/transitive ownership question stays open and no timer
-alias is adopted in game source. See KB for exact scope and rejected routes.
-Both shared ECL and CompareOperands caches now use this same source-bound
-object, after full102-section raw/effective-field comparison against their old
-caches; unmodified canonical manifests pass. Retained audit reparses the actual
-baseline and rebinds complete deleted captures. All37 source recipes recover
-after cleanup; six terminal trial COFF/PDB pairs are removed. Cleanup sizes
-that were lost during interrupted report writing remain explicitly unknown.
-Do not repeat these controls unchanged; the six handler frontiers remain open.
+Packet: `.analysis/gpt-6.1-sol-replay-depth-workspace-20261009/`.
+The inherited source/COFF-bound candidate remains
+`build/gpt-dots-replay-renderer-residuals-20261006/inplace-target-depth.obj`, SHA256
+`2c480b9a519f26a2d0dbc7ac4031dc7e89bc9a9a52594d37458ed684f8fa23c1`.
+A fresh pinned carrier repeats its complete five owners/834 bytes/41 fields.
+Middle/final/both workspace depth and weighted-depth value/reference controls
+retain the four calls and full28-block graph but stay794/797/797/796/794 bytes
+against800. The797-byte models add a field write; the796-byte value model delays
+the first multiplication and raises x87 depth to5 versus target4. One cold
+value compile agrees. See KB for full unmasked scores and exact exclusions.
+All four collateral bodies/40 bytes/zero fields and nineteen other sections
+remain unchanged. Existing text Oracles pass130/130 and55/55 after rebuilding
+only their absent canonical cache. Twenty-one terminal files/527644 bytes are
+removed; all six source recipes recover after cleanup. Full compact evidence
+stays below150 KB. Game source and all exactness claims remain unchanged.
+Next rotate to Supervisor::OnUpdate at431110 (844 code +152 table bytes),
+reviewing the complete target and prior post-COM sharing negative first.
 
 ## Other current evidence
 
+- RunEcl jump/timer controls:
+  `.analysis/gpt-6.1-sol-ecl-jump-timer-20261009/`; all five contexts are neutral
+  and one cold family replay agrees. All23 exact siblings pass; the folded
+  canonical timer-current diagnostic binding and repaired ECL caches stay.
+  Six handler frontiers remain open; see KB for exact excluded contexts.
 - Enemy draw expression/declaration controls:
   `.analysis/gpt-6.1-sol-enemy-draw-expression-20261009/`; four main differences
   remain. Three controls are neutral; borrowed next-angle reference regresses.
@@ -150,6 +152,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-replay-depth-workspace-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-ecl-jump-timer-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-enemy-draw-expression-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-draw1422-callee-context-20261009/audit.py --retained-only
