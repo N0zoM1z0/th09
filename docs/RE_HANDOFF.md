@@ -9,11 +9,11 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at2a084c7. Original target and direct IDA mapped
-bytes pass. Four Enemy OnUpdate vector-storage/immutability contexts precede one
-batch-end cold. Const distance values and a real three-float storage base retain
-all39 complete differences; const references reverse eight X/Y square access
-operands and regress to47. Every candidate's151-byte exact sibling passes.
+This checkpoint starts clean atb20fcab. Original target and direct IDA mapped
+bytes pass. Five GameManager OnUpdate callback-phase/capture contexts precede one
+batch-end cold. Supervisor pointer/reference lifetimes and existing enum returns
+retain all105 complete differences; scalar captures widen reads and regress.
+All eight existing exact siblings pass1122 bytes/96 fields in every carrier.
 No game source/header/ABI/profile or credit change is integrated. IDA's stale
 entry comparison comment is corrected/read back with all instructions unchanged.
 
@@ -71,7 +71,40 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest Enemy update vector-storage/immutability batch
+## Latest GameManager callback-phase and capture batch
+
+Packet: `.analysis/gpt-6.1-sol-setup-callback-phase-20261009/`.
+Actual canonical remains `build/gpt-dots-setup-continuations-20261006/baseline.obj`,
+SHA256 `c181cf0b14561687ddf6ba9975ebce492bdfb25d055ea5269183fba608f7e186`.
+All123 current source/include/backend/Oracle bindings agree before reuse and after.
+Target has1230 bytes/337 instructions/87 fields/16 calls/86 direct blocks;
+canonical has1230/338/87/16/86, frame0x10 and105 full differences.
+
+Delaying Supervisor pointer acquisition until after setup exits, then using a
+reference, preserves every main byte/field. Existing ChainCallbackResult return
+and its delayed-pointer combination are likewise neutral. Actual enum mangling
+and the registrar's one callback DIR32 at+34 are recorded explicitly; no original
+return type is inferred. Five separate ushort captures produce1225 bytes/87
+fields/338 instructions,1133 overlap differences plus five absent. Reads widen to
+DWORD; this control is rejected. Entry-zero/capture/publication scheduling stays
+open. All eleven collateral owners and seven noncode sections remain unchanged
+after the precise enum spelling adapter; eight exact siblings pass1122/96.
+
+One cold combined enum/pointer compile repeats all nondebug runtime bytes/fields
+and numeric records. All91 distinct actual source/include paths are hash-bound.
+The939-character IDA comment reads back exactly; all337 address/instruction pairs
+remain equal and distributed mapped-byte attestation passes. Cleanup removes23
+terminal files/1328112 bytes. Five source recipes restore to original-EOL hashes
+and are removed again. Retained complete proof stays below350 KB, reparses the
+real canonical COFF and independently rebinds deleted full captures/siblings.
+
+Do not repeat these five precise contexts unchanged. Rotate to the1436-byte
+ExAttack type18/type24 callback at4491E0 after fresh full source/target/baseline
+review. Read its reflection correction and prior const-value/reference negatives
+first; target-backed collision-size/returned-vector homes remain open. Native
+runtime and95% remain open.
+
+## Enemy update vector-storage/immutability routing
 
 Packet: `.analysis/gpt-6.1-sol-enemy-vector-storage-20261009/`.
 Actual canonical remains `build/matching/EnemyManagerCore.obj`, SHA256
@@ -100,9 +133,7 @@ pinned original-EOL hashes and are removed again. Retained proof stays below250 
 and reparses actual canonical COFF while re-binding deleted complete captures.
 
 Do not repeat these four contexts unchanged. The four39-byte scheduling clusters
-remain open. Rotate to GameManager OnUpdate's1230-byte owner, recovering full
-target/current-source/baseline and reading its earlier input-array, publication,
-entry-zero and ready/else controls. Native runtime and95% remain open.
+remain open; GameManager's subsequent phase/capture controls are recorded above.
 
 ## Replay-menu routing
 
@@ -268,6 +299,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-setup-callback-phase-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-enemy-vector-storage-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-replay-row-arguments-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-service-workspaces-20261009/audit.py --retained-only
