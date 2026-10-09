@@ -6668,3 +6668,69 @@ attest historical producer execution.
 - One fresh renderer interpolation-workspace member proposal was prepared, then cancelled by user stop before any observed compile. Its manifest remained prepared with no compile logs/object/build directory. The initial compile response was not captured by the wrapper; the actual read-only stop-reconciliation denial is preserved in full. A single identical read-only retry after explicit cleanup authorization succeeded. No compile retry or alternate execution route was used.
 - Only that task-owned 6,345-byte source copy was removed after exact forward/inverse patch reconstruction. The patch, parent/source hashes, cancellation, raw observed denial, successful reconciliation and cleanup inventory are retained in the replay-interpolation-owner packet. All inherited best candidates, complete proofs, receipts, private target, toolchains and provider state are untouched. This uncompiled proposal is not a measured negative and earns no credit.
 - Final cleanup checks pass: the target, tracking, generated progress, all 57 target-independent tests, documentation, explicitly open build graph and whitespace. Factory reports no active TH09 replay; this task has no child/background worker. Only the documentation cleanup is committed locally, without push.
+
+## Direct local resumption and complete RunEcl residual (2026-10-09)
+
+- Operator explicitly resumes the 95% reviewed-authored-byte objective using
+  direct IDA Pro MCP/local Bash, `gpt-6.1-sol:` commits and periodic cleanup.
+  Entry7347cb3 is clean. Local disk identity and check-ida-mcp.py pass SHA256,
+  MD5, entry0x47D45F and five distributed mapped-byte samples. No Factory MCP,
+  target-byte patch, IDA metadata write or push is performed.
+- New scripts/inspect-ecl-complete.py first requires the existing complete
+  opcode-rooted identity audit. It replays external fields from independently
+  reviewed bindings and owner-local fields from actual COFF symbol positions,
+  retaining every branch, instruction, alignment byte and compiler-table byte.
+  It never substitutes graph-paired target label positions for candidate labels.
+  Guard tests cover local-label drift, relative calls, missing external binding,
+  overlapping/truncated fields and outside-owner labels. Diagnostic output grants
+  no credit and observes source hashes without claiming they produced an object.
+- RunEcl baseline raw93206b3996d97e62d6470b795e32c9cfdc9228a9bc8806efed073688b7420eef
+  has15,564 physical bytes/598 fields and2,161 complete linked differences:
+  1,959 ordinary plus202 field bytes, including26 table bytes. The six normalized
+  handler frontiers4/7/86/155/156/157 remain. The opcode155 one-byte deficit
+  shifts subsequent destinations despite equal complete physical length. These
+  complete-byte counts supersede any suggestion that six shape frontiers alone
+  establish near-exact physical coverage; no partial authored-byte credit follows.
+- Three new isolated source models each reproduce the baseline complete raw
+  owner and linked difference list: (1) opcode155's genuinely byte-wide wire input
+  is held as unsigned char instead of unsigned int; (2) opcode86 selects the
+  remote receiver through the existing EnemyView-reference slot accessor;
+  (3) handlers155..157 consume the already-live enemyState pointer instead of
+  invoking the equivalent View cast. Actual include traces for(2)/(3) confirm
+  candidate fragment consumption; (1)'s include output was observed in the tool
+  transcript. This is owner-level neutral evidence, not a full-object or runtime
+  claim. Maintained source is untouched; do not repeat these exact models.
+- Two Enemy draw precision controls are rejected. Casting only the left angle
+  of the second Abs subtraction to double emits1,758 bytes/53 fields but657
+  complete linked differences, with frame0x90 instead of0x88. Removing only the
+  second Abs-result float conversion introduces __real@3ee4f8b580000000, an
+  eight-byte double comparison constant rather than the target's four-byte
+  threshold. The independent literal-binding diagnostic correctly fails closed;
+  no target address is reverse-solved for it. This documents missing original
+  precision/source context, not permission to change a helper ABI or profile.
+- Reproduce ECL models by copying EclManager.cpp into one isolated source
+  directory with the one modified EclRunState.inl or EclRunRemote.inl fragment;
+  use the unchanged /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy-
+  /I src profile, with /showIncludes only for tracing. State model(3) substitutes
+  View(enemy) with enemyState only from SET_TIMEOUT_SPELL through the end of
+  the lexical body. Draw models copy EnemyManagerDraw.cpp, modify only the
+  second subtraction/Abs expression as above, and use the same profile.
+  All six compiles are terminal. Source/inverse recipes and compact manifests
+  permit deletion of this session's disposable sources, objects and PDBs; no
+  inherited artifact is deleted. Retain one complete ECL difference report and
+  compact rejected-draw summary, rather than three identical ECL reports.
+- Canonical exact ledgers remain928 owners/218,501 of275,770 authored bytes
+  (79.2331%), with43,481 required for95%. Focused existing canonical draw
+  replays pass35/35,38/38 and91/91. This checkpoint improves the complete
+  comparison feedback and eliminates specific unsupported source routes;
+  it closes no new authored function. Native-product/runtime, semantics and
+  portability remain open. The campaign stays active-incomplete.
+
+- A sixth isolated compile checks an alternative float return declaration for
+  the EnemyDrawAbs alias. The attested callee loads its float input, executes
+  FABS and returns ST0 with RET4; its absolute result is float-representable.
+  This alternative source return type uses the same observed floating return
+  ABI. It is raw-byte neutral at1,758 bytes/53 fields/four complete differences.
+  The changed decorated alias is independently bound to the already-reviewed
+  0x0040F1C0 callee, not inferred from candidate fields. No maintained signature
+  changes or unique original return-type claim follow; do not repeat this model.

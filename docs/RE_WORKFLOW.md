@@ -1,14 +1,10 @@
 # Reconstruction workflow
 
-The user stopped TH09 reconstruction on **2026-10-07** and authorized final
-cleanup only. The former milestone, at least **95% of reviewed authored bytes
-exact**, was not reached. See [the final handoff](RE_HANDOFF.md) for the frozen
-checkpoint and retained limits.
-
-The workflow below is reference documentation, not an active task or permission
-to resume. A new explicit user request is required before further reconstruction.
+The user resumed reconstruction on **2026-10-09**, targeting at least **95% of
+reviewed authored bytes exact**, through direct IDA Pro MCP and local Bash.
+See [the current handoff](RE_HANDOFF.md) for live state and retained limits.
 Existing proof, the fixed reviewed-authored denominator, and later-phase gates
-remain independent.
+remain independent. The October 7 stop remains historical.
 
 ## Session entry
 
@@ -47,8 +43,10 @@ disk target, IDA target, ledgers, and live status using the commands in
    per-game knowledge, inspect the final diff, and commit one coherent local
    checkpoint. Reuse hash-matched evidence for unchanged functions; do not run
    the whole historical cohort or repeat cold builds after every edit. Each new
-   exact owner still needs complete byte/relocation/source proof and a current
-   accepted Factory receipt. This scope follows the operator's 2026-10-05
+   exact owner still needs complete byte/relocation/source proof and a
+   reproducible canonical local build/replay. Historical Factory receipts remain
+   scoped historical evidence; the October 9 operator request selects local
+   Oracles without Factory MCP. This replay scope follows the operator's 2026-10-05
    instruction and supersedes older broad replay wording.
 
 ### Public CI

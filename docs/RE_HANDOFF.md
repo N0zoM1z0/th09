@@ -1,19 +1,16 @@
-# TH09 final handoff
+# TH09 reconstruction handoff
 
-## Stopped by user
+## Active objective
 
-The user ended TH09 reconstruction on **2026-10-07 at 05:11 UTC** and requested
-final code/document cleanup. The former 95% milestone is **not achieved**.
-No reconstruction, trial compilation, exact replay, or monitoring is pending.
-Resume only after a new explicit user request; this document is not a campaign
-continuation prompt.
+The user explicitly resumed work on **2026-10-09**: reach **95% exact reviewed
+authored bytes**, work seriously on large functions, use direct IDA Pro MCP
+and local Bash/compiler Oracles without Factory MCP, commit locally as
+`gpt-6.1-sol: ...`, and periodically clean reproducible intermediates. Do not push.
+The goal remains **active-incomplete**. No new exactness credit was obtained in
+this checkpoint. The October 7 stopped-state checkpoint is preserved in Git at
+7347cb3; its cleanup and evidence limits are historical, not current stop orders.
 
-Cleanup began from clean local checkpoint
-02346b74325b7576fe9148dd6e9943481870a365 (five commits ahead of origin/main).
-It changes documentation only. Canonical C/C++ source, headers, profiles, ABIs,
-ledgers, match units and accepted evidence are preserved. No push was performed.
-
-## Final ledger snapshot
+## Live ledger snapshot
 
 These totals are checked against the live ledgers by scripts/validate-docs.py.
 
@@ -32,65 +29,83 @@ These totals are checked against the live ledgers by scripts/validate-docs.py.
 | Canonical exact authored bytes | 218,501 |
 
 The fixed reviewed-authored denominator is **275,770 bytes**. Exact coverage is
-**79.2331%**; reaching 95% would have required another **43,481 bytes**.
+**79.2331%**; reaching 95% requires another **43,481 bytes**.
 The 35 unresolved origins are separate. These numbers do not measure the entire
 executable or establish a complete game. The faithful Windows i386 product and
 runtime gates remain open; semantic reconstruction and portability have not
-started. No new exactness credit or acceptance receipt is claimed by cleanup.
+started. No new exactness credit or acceptance receipt is claimed by this checkpoint.
 
-## Retained evidence and organization
+## Large-owner investigation
 
-- [PROGRESS.md](PROGRESS.md) is the generated ledger summary. The exactness
-  authorities remain config/functions.csv, config/matches.csv and
-  config/match-units.toml; historical prose cannot override them.
-- [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) retains the investigation trail,
-  source-model negatives, accepted-receipt references and evidence limitations.
-- [SMALL_FUNCTION_FRONTIER.md](SMALL_FUNCTION_FRONTIER.md) remains a checked
-  inventory, not an active work queue.
-- The detailed pre-stop handoff is preserved verbatim in Git at
-  02346b74325b7576fe9148dd6e9943481870a365:docs/RE_HANDOFF.md. Its experiment
-  summaries were removed from this current-state note to avoid competing
-  histories. Inspect that snapshot with git show rather than restoring it.
-- Inherited ignored best candidates, full proofs, source/field manifests,
-  raw errors, receipts, private target, toolchain and provider state were left
-  untouched. Historical hashes are not retrospective producer attestations.
+- RunEcl remains mandatory for the 95% goal: 14,792 authored bytes /15,564
+  physical bytes. Current source-bound isolated compiles retain frame 0x168,
+  375 direct calls, four indirect calls, 598 fields and 193 table entries.
+  Graph/identity diagnostics report six handler frontiers: 4/7/86/155/156/157.
+- The new `scripts/inspect-ecl-complete.py` compares all physical bytes with
+  independently bound external fields and actual COFF local-label positions.
+  The baseline and three new isolated controls each have **2,161 differing
+  bytes**: 1,959 ordinary plus 202 encoded-field bytes, including 26 table bytes.
+  Shape-normalized handler agreement is diagnostic only. In particular, the
+  one-byte-short opcode155 shifts later code/table destinations; equal total
+  physical size does not imply equal instruction or table layout.
+- New ECL negatives: unsigned-byte timeout input, the existing remote-slot
+  reference accessor for opcode86, and the already-live state receiver for
+  handlers155..157 are each raw-byte neutral. Do not repeat these exact models.
+- Enemy draw remains 1,758 bytes with four complete differences. Promoting the
+  second subtraction's left operand to double regresses to 657 differences and
+  frame 0x90. Removing the second Abs-result float conversion introduces a new
+  double comparison literal and fails independent literal binding. Both are
+  discarded; neither changes maintained source or established ABIs/profiles.
+- The alternate float-return Abs alias is also raw-byte neutral; the same
+  target callee and ST0/RET4 machine contract are retained. No ABI or source
+  return-type promotion follows.
+- Other retained large frontiers include Enemy OnUpdate (3,883 authored bytes,
+  39 differences) and the non-exact UI/gameplay/network functions listed by
+  `scripts/report-reconstruction-status.py` and config/functions.csv. Historical
+  experiments remain in docs/KNOWLEDGE_BASE.md; consult them before new probes.
 
-Retained nonexact frontiers include RunEcl's six-handler model (14,792 logical /
-15,564 physical bytes, frame 0x168, 598 fields, 375 direct calls), Enemy draw's
-four complete differences, Enemy OnUpdate's 39 differences, AddedState's 22
-differences, and the isolated 794/800-byte replay-save renderer. These are
-diagnostics only. No partial exact credit follows from them.
+## Evidence, recovery and artifact lifecycle
 
-## Final task-owned cleanup
+Entry at 7347cb3 had a clean tracked/untracked worktree. Disk SHA256/MD5, direct
+IDA metadata, entry point and five distributed mapped-byte samples all passed
+local `scripts/check-ida-mcp.py`. No Factory MCP, target patch or IDA write was
+used. Original executable, toolchain, providers and inherited ignored candidates
+were preserved.
 
-One fresh DrawReplaySave interpolation-workspace proposal was prepared but not
-observed to compile. The initial compile response was not captured by the output
-wrapper. Stop-state reconciliation found its manifest still prepared, with no
-compile log, object or task build directory; the compile was not retried.
-It is now explicitly **cancelled-by-user-stop**, not a measured negative.
+Six isolated compiles are terminal. Rejected source variants are reproducible
+from the current source and compact recipes in docs/KNOWLEDGE_BASE.md. This
+checkpoint removes only its task-owned probe source, objects and PDBs after
+retaining input hashes and complete diagnostic summaries. Inherited build and
+analysis trees have not been classified for bulk deletion and remain intact.
+New compact packets are below `.analysis/gpt-6.1-sol-*-20261009/`.
 
-Only its reproducible 6,345-byte C++ scratch copy was deleted. A complete forward
-and inverse patch check proved recovery from its hash-pinned retained parent.
-Its patch, provenance, cancellation, cleanup inventory, observed denial and
-successful cleanup-only reconciliation remain in
-.analysis/gpt-dots-replay-interpolation-owner-20261007/.
-The prior ignored continuation was preserved there as historical evidence, then
-replaced with an explicit stopped-state notice. No inherited artifact was deleted.
+The maintained game C/C++ sources, headers, profiles, extents and match ledgers
+are unchanged. The new complete-diagnostic script and its guard tests are
+tracked. Historical accepted Factory receipts remain historical; no new receipt
+or exact owner is asserted. Native i386 product/runtime, semantic and portable
+stages remain open.
 
-## Safety and validation
+## Restart commands
 
-The previously parked SaveReplay second-row serialization, cancelled Type18/24
-probes, denied narrow input ABI, and denied EnemyManager new-accessor work remain
-closed. The separate UI renderer and BeginPlaybackStage were not serialization
-authorization. Cleanup grants no permission to reopen any of them.
+```bash
+git status --short --branch
+git diff
+python3 scripts/verify-target.py
+python3 scripts/check-ida-mcp.py
+python3 scripts/validate-tracking.py --require-target
+python3 scripts/report-reconstruction-status.py
+python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj
+python3 scripts/report-ecl-handler-shapes.py build/matching/EclManager.obj
+```
 
-Final checks passed: target identity, target-required tracking, generated progress,
-all 57 target-independent tests, documentation links/totals, the explicitly open
-whole-build graph, workflow Python compilation and whitespace validation.
-The maintenance command is repository-command:a66a74dedecf4ffd970c9bc485f99694;
-its complete output is retained in the cleanup packet.
+The complete inspector returns 1 for the measured non-exact owner; this is an
+expected mismatch verdict, not a provider failure. It does not compile or prove
+that an arbitrary supplied object was produced by current source. Before any
+positive promotion, bind actual source/includes and run a fresh pinned canonical
+build plus complete byte/relocation replay. Finish a batch with tracking,
+progress, CI and whitespace checks; retain the full 95% objective.
 
-Factory reported zero queued, leased, running or cancel-requested TH09 replays.
-This task has no child worker or background operation. All its repository commands
-are terminal. No new candidate build or routine cold/cohort replay was performed.
-No automatic continuation or push is authorized by this stopped-state handoff.
+Validation passed: target-required tracking, three focused canonical draw
+replays, generated progress, all 62 target-independent CI tests, documentation,
+explicitly open whole-build graph and whitespace checks. No background compiler
+or worker remains.

@@ -2,10 +2,12 @@
 
 ## Current operator status
 
-The user stopped TH09 reconstruction on 2026-10-07 and requested final cleanup.
-Do not resume reconstruction or monitoring without a new explicit user request.
-The rules below remain evidence safeguards, not an active campaign instruction.
-See docs/RE_HANDOFF.md for the stopped-state checkpoint.
+The user explicitly resumed TH09 reconstruction on 2026-10-09, targeting
+95% exact reviewed-authored bytes and serious work on large functions.
+Use direct IDA Pro MCP and local Bash/compiler Oracles, without Factory MCP.
+Use `gpt-6.1-sol: ...` local commits, do not push, and periodically clean
+reproducible build/intermediate artifacts. See docs/RE_HANDOFF.md for current
+state; the October 7 stop is historical.
 
 This repository targets only the original Japanese TH09 version 1.50a
 executable identified by SHA-256
@@ -33,13 +35,12 @@ Before changing anything:
 3. In the repository shell, run `python3 scripts/verify-target.py`,
    `python3 scripts/validate-tracking.py --require-target`, and
    `python3 scripts/report-reconstruction-status.py` before target-dependent
-   work. From GPT-web, attest IDA separately through the Factory-native
-   `th09-ida` provider: discover its operation schemas, then call
-   `get_metadata` and require a passed attestation for `target:th09-main` with
-   `attestation.provider_transport=factory-native-stdio`. The preflight call's
-   arguments are exactly `{}`. Do not run `scripts/check-ida-mcp.py` inside the
-   Factory repository shell; that script is a local-Codex host preflight and
-   depends on host MCP registration.
+   work. For this local session, call direct IDA Pro MCP `get_metadata` with
+   exactly `{}` and run `python3 scripts/check-ida-mcp.py` to check the entry
+   point and distributed mapped bytes against the verified private target.
+   Metadata hashes alone do not prove the mapped database is unmodified.
+   The older Factory-native `th09-ida` route remains environment-specific
+   reference guidance, not the current operator-selected transport.
 4. Work on one bounded unit or one coherent infrastructure batch and leave a
    reviewable local checkpoint.
 
@@ -103,8 +104,7 @@ analysis database is working state; mirror durable conclusions into the repo.
 
 ## Checkpoints and artifacts
 
-- Use concise, coherent local commits. For the current operator-requested
-  checkpoints, use `gpt-dots: ...`. Do not push.
+- Use concise, coherent local commits prefixed `gpt-6.1-sol: ...`. Do not push.
 - Keep decompiler dumps, logs, experiments, screenshots, and generated reports
   below `.analysis/`; keep builds below `build/` and downloaded tools below
   `.tools/`.
