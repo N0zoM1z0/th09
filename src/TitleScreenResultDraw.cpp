@@ -1,4 +1,5 @@
 #include "AsciiManager.hpp"
+#include "GameManagerMode.hpp"
 
 #include <stddef.h>
 
@@ -59,7 +60,6 @@ typedef char ResultDrawTimer2At1B230[
     (offsetof(TitleScreenView, stateTimer2) == 0x1B230) ? 1 : -1];
 
 extern AsciiManager g_AsciiManager;
-extern i32 g_TitleNameTableIndex;
 extern ResultDrawScoreRecord g_TitleScoreTable[16][5][5];
 extern const char *g_TitleRankLabels[];
 extern char *g_TitleAlphabet;
@@ -127,7 +127,7 @@ int TitleScreenView::DrawResult()
     }
     else if (currentScreen == 14)
     {
-        difficultyMask = 1 << g_TitleNameTableIndex;
+        difficultyMask = 1 << g_GameManager.difficulty;
         selectedRank = nameSlotIndex;
     }
 

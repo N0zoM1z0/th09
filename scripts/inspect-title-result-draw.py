@@ -17,7 +17,10 @@ DESTINATIONS = {
     '?AddFormatText@AsciiManager@@QAAXPAUFloat3@@PBDZZ': 0x434330,
     '?AddString@AsciiManager@@QAEXPAUFloat3@@PBD@Z': 0x4342A0,
     '?g_AsciiManager@@3VAsciiManager@@A': 0x4CE458,
+    '?g_GameManager@@3UGameManagerModeView@@A': 0x4A7D90,
     '?g_TitleAlphabet@@3PADA': 0x4A1CF4,
+    # Retained only to inspect source-bound historical objects. Current source
+    # addresses the same +0x11C field through the reviewed GameManager root.
     '?g_TitleNameTableIndex@@3HA': 0x4A7EAC,
     '?g_TitleRankLabels@@3PAPBDA': 0x4A1D68,
     '?g_TitleScoreTable@@3PAY144UResultDrawScoreRecord@@A': 0x4A8380,

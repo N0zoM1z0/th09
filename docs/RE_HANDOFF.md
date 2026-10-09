@@ -7,11 +7,11 @@ authored bytes**, work seriously on large functions, use direct IDA Pro MCP
 and local Bash/compiler Oracles without Factory MCP, commit locally as
 `gpt-6.1-sol: ...`, and periodically clean reproducible intermediates. Do not push.
 The goal remains **active-incomplete**. No new exactness credit was obtained in
-this checkpoint. DrawReplayMenu now expresses the target-observed alternating
-Float3 interpolation stages and recovers the target frame/buffer home. One
-batch-end canonical compile reproduces the reviewed isolated body; complete
-bytes and the missing caption-call structure remain nonexact. Prior Enemy draw
-operand verification remains in the knowledge base and Git.
+this checkpoint. DrawResult now reads difficulty through the target-proven
+GameManager root plus 0x11C. One canonical-path compile preserves the complete
+linked baseline; its 22 entry-byte differences remain unresolved. DrawReplayMenu's
+earlier recovered Float3 stages/frame and Enemy operand verification remain
+in maintained source, the knowledge base and Git.
 The October 7 stopped-state checkpoint is preserved in Git at
 7347cb3; its cleanup and evidence limits are historical, not current stop orders.
 
@@ -66,47 +66,48 @@ started. No new exactness credit or acceptance receipt is claimed by this checkp
 
 ## Latest reviewed investigation
 
-DrawReplayMenu owns 1280 bytes at 0x4234F6. Its interpolation alternates two real
-Float3 value groups before the final position copy. The source now expresses
-those four existing subtraction/frame/scaling/addition stages through scaled
-and target. This recovers frame 0x134 and the actual 256-byte buffer home;
-36 raw stack/frame bytes change, with all 54 relocation descriptors unchanged.
-No buffer enlargement, extra arithmetic, helper or profile change is introduced.
+DrawResult owns 1939 bytes at 0x423D16. Its screen14 difficulty-mask read at
+0x423D53 addresses 0x4A7EAC. Independent target GameManager registration at
+0x41B9E0 uses root 0x4A7D90; exact Ending also reads 0x4A7EAC at 0x40E64A/0x40E66A.
+Current source reuses GameManagerModeView's checked difficulty +0x11C instead
+of declaring a separate g_TitleNameTableIndex. This minimal view establishes
+neither original identifiers/full layout nor native data-definition ownership.
 
-Three isolated models were inspected before one canonical-path compile.
-Direct indexed mode access emits 1250 bytes with 1181 overlap differences and 30
-absent bytes. Per-case unsigned caption lengths retain counts but change nine
-raw bytes, moving one strlen call and deferring cleanup. Neither is retained.
-The Float3 stages are retained on target storage evidence; their canonical
-raw SHA256 is 0fc1b7fd16ddc3ef4ceda4fb8cc0a2881b621171cedaee108ef5ba89026a533b.
+One canonical-path pinned-profile compile changes only one DIR32 identity and
+its two raw addend bytes. The full field now names g_GameManager with addend 284.
+All 1939 linked bytes equal the verified old source-bound baseline. Complete
+target replay still has 22 entry differences, 577 instructions, 82 fields,
+16 ordered calls and 92 direct blocks. Target currentScreen loads into EAX after
+the score-group store; candidate hoists it into ECX before bank multiplication.
+The field correction does not resolve this scheduling. No exact unit or partial
+credit is added. Current raw SHA256:
+449827f92c3a23f3427b71b12f44719aa62c4a459a5b91734085a08c834e447a.
 
-Complete comparison still gives 1244/1280 bytes, 54 fields, 1180 overlap
-differences plus 36 absent bytes,366/376 instructions,11/13 calls and71/72
-blocks. All actual operands cover COFF fields independently; target has 57
-separately decoded fields. Every collateral copy and nondebug data remains
-unchanged. Those three copies are 37 bytes/two fields and have no target
-ownership. No exact receipt or partial credit is granted. Call merging and
-remaining stack/register allocation stay open.
+The independent audit decodes every target/candidate field, verifies 15 complete
+literal payloads, all 18 nondebug sections and both emitted bodies. The uncalled
+3-byte Float3 constructor remains unchanged. The inspector retains the old
+alias binding solely for source-bound historical-object diagnosis. No extra
+helper, profile change, forced register, ABI change or target patch is used.
 
 ## Evidence and artifact lifecycle
 
-Entry at 145d1c6 is clean; private target, direct IDA metadata, entry and five
-mapped-byte samples pass. No Factory MCP, target patch, IDA write or delegation.
-Current packet: .analysis/gpt-6.1-sol-replay-mode-20261009/.
-It retains patches, Git-bound reconstruct.py, source/include/backend manifests,
-all full byte/operand reports and independent four-owner COFF cross-check.
-Six actual includes per carrier have matching before/after hashes. The old
-actual-Float3 baseline is reused with main/header/vendor/backend bindings;
-its historical environment is not retrospectively attested.
+Entry at bd7a36c is clean; private target, direct IDA metadata, entry and five
+mapped-byte samples pass. No Factory MCP, IDA write or delegation.
+Current packet: .analysis/gpt-6.1-sol-result-difficulty-20261009/.
+It retains the complete audit, independent COFF parser, source patch, actual
+include log and source/header/backend/object manifests. All five actual includes
+have unchanged before/after hashes; the old baseline and its recorded source,
+headers, vendor/backend inputs are verified before reuse. Historical compiler
+environment is not retrospectively attested. No unchanged baseline is rebuilt.
 
-All four compiles are terminal. Cleanup receipts remove 15 file events totaling
-298,753 bytes, including recreated probe sources and canonical PDB. The small
-source-bound canonical object, inherited baseline and compact proofs remain.
-No unchanged baseline compile or inherited cleanup is repeated.
+The single canonical compile is terminal. Cleanup removes its 53,248-byte
+reproducible PDB. The small canonical object and compact proof remain;
+inherited evidence/caches are untouched. Previous DrawReplayMenu evidence is
+in .analysis/gpt-6.1-sol-replay-mode-20261009/ and Git bd7a36c.
 
 Batch coherent changes before cold replay; every new exact owner requires
-complete pinned canonical source/byte/relocation proof. A same-size or same-count
-trial is not byte neutrality: compare actual bodies and field descriptors.
+complete pinned canonical source/byte/relocation proof. Same sizes/counts do
+not establish byte neutrality; compare actual bytes and full field descriptors.
 
 ## Restart commands
 
@@ -117,17 +118,18 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
-python3 .analysis/gpt-6.1-sol-replay-mode-20261009/audit.py --canonical-only
-python3 scripts/compare-coff-function.py build/gpt-6.1-sol-replay-mode-20261009/canonical.obj '?DrawReplayMenu@TitleScreenView@@QAEHXZ' 0x4234F6 1280
+python3 .analysis/gpt-6.1-sol-result-difficulty-20261009/audit.py
+python3 scripts/inspect-title-result-draw.py build/gpt-6.1-sol-result-difficulty-20261009/canonical.obj --summary
 python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj
 ```
 
 Call direct IDA get_metadata with exactly {} during entry attestation.
-The generic menu Oracle returns1 for its expected 1244/1280 extent mismatch;
-complete audit exits successfully after reporting all mismatch/absence bytes.
-It compares the supplied canonical object to the retained reviewed input proof;
-no new cold build is implied. Reconstruct the cleaned isolated sources through
-the packet's Git-bound recipe before a fresh trial compile.
+The generic DrawResult Oracle returns 1 for its expected complete byte mismatch;
+the complete audit exits successfully after reporting all 22 differing bytes.
+It binds the canonical object to retained reviewed input hashes; running the
+audit does not imply a new cold build. Audit address decoding distinguishes
+indexed absolute displacements from object-relative members and direct JMPs
+from relocation operands.
 
 Validation: complete canonical owner/decoded operands and all collateral code,
 tracking, progress, documentation and whitespace pass. Isolated CI runs 72 tests
