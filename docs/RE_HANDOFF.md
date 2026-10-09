@@ -9,13 +9,14 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at7235dbd. Original target and direct IDA mapped
-bytes pass. Four complete RunEcl source-ownership/return contexts precede one
-batch-end cold replay; all67 owners/28838 bytes/1215 fields and35 noncode
-sections remain neutral. All23 exact siblings pass. The full owner still has
-2161 linked differences, with no new exact credit. Five target callers and the
-unused incoming ECX are reviewed; alternative source spellings are not promoted.
-IDA's stale entry comment is corrected and read back with identical instructions.
+This checkpoint starts clean at76a37ba. Original target and direct IDA mapped
+bytes pass. Eight SupervisorServiceUpdate contexts precede one batch-end cold.
+The source-bound baseline remains1632 bytes/108 fields, with1395 complete linked
+differences plus one absent. Flag mask changes only JGE to corresponding target
+JNS; other scalar/readiness/body controls are neutral and output workspaces
+regress. All41 direct and10 indirect call identities are checked. No source,
+header, ABI, profile or exact-credit change is integrated. The stale IDA entry
+comment is corrected and read back with all417 instructions unchanged.
 
 ## Live ledger snapshot
 
@@ -56,6 +57,9 @@ semantic reconstruction and portability have not started.
   overlap differences plus three excess; 51 calls and 121 direct blocks agree.
 - Result draw: 1,939 bytes/82 fields/22 entry differences. Output-reference and
   array-reference producer contexts are rejected; later keyboard graph is covered.
+- Supervisor network service: 1,633 target/1,632 candidate bytes, 106 target/108
+  candidate fields, 1,395 complete differences plus one absent. Actual indirect
+  operands are covered; sign-test opcode and output-workspace evidence are below.
 - Player movement: 1,835 authored /1,900 physical bytes, 66 fields, 144 differences.
 - Player charge: 1,210 target /1,197 candidate bytes, 70 fields, 1,160 linked
   overlap differences plus 13 absent. Integer conversion preserves seven regions
@@ -66,37 +70,54 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest RunEcl source-ownership/return batch
+## Latest Supervisor service workspace/call batch
 
-Packet: `.analysis/gpt-6.1-sol-ecl-receiver-ownership-20261009/`.
-Source/header/vendor/backend and actual canonical COFF bindings validate reuse
-of `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`, SHA256
-`94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
-The target takes Enemy from EBP+8, overwrites incoming ECX before reading it,
-and uses RET4; all five callers still explicitly supply the manager in ECX.
-Static/free stdcall and checked32-bit enum-return forms are isolated compatible
-callee hypotheses. They do not recover original membership or caller interfaces.
-TH08's member/ZunResult declaration is hypothesis material only.
+Packet: `.analysis/gpt-6.1-sol-service-workspaces-20261009/`.
+The actual canonical baseline is
+`build/gpt-dots-service-packet-owner-20261007/baseline.obj`, SHA256
+`21b8c89578be6936e82186c35c5c37a2ad628c0a7f6f0cb51597bb55adec4f74`.
+Its current source/header/backend bindings agree before reuse. Phase-local times
+and both packet-readiness arm forms retain every main byte/field. Flag mask changes
+only candidate +0x5C5 from JGE to JNS, matching the corresponding target sign test
+at431063 but leaving full-owner differences unchanged. No type/API is promoted.
 
-Four controls and one cold retain every raw body, numeric field and runtime
-section; only the main decorated symbol and equivalent local labels change.
-Actual owner selectors adapt diagnostics without rewriting target/COFF bytes or
-binding destinations. Each carrier keeps67 owners/28838 bytes/1215 fields,
-35 noncode sections and all23 exact siblings/9533 bytes/439 fields. RunEcl
-still has14791 decoded code bytes, one alignment byte,598 fields and2161 full
-differences. No source, header, ABI, profile or match change is integrated.
-All37 distinct actual source/include paths match their preobserved hashes.
+Real success/shared output workspaces emit1638 bytes/108 fields/417 instructions
+with1427 differences plus five excess, using frames0x18/0x0C rather than target
+0x14. Shared prefill/success scope changes15 raw stack bytes relative to success
+scope. Visibility of the actual unchanged int/int ApplyNetworkInput body preserves
+each respective main body and adds the existing exact131-byte/one-field owner.
+One cold input-visible carrier repeats all nondebug bytes/fields/numeric records.
 
-IDA entry comment now records the current one-byte logical gap; its old14788
-record is superseded. Every instruction remains identical and final mapped-byte
-attestation passes. Cleanup removes52 terminal files/2554505 bytes. All32 source
-copies restore to pinned hashes after deletion and are removed again. Complete
-compressed captures/recipes remain below530 KB. Retained replay reparses the
-actual baseline and rebinds deleted captures; it does not inspect deleted COFFs.
-Do not repeat these source-ownership/return forms or earlier timer/scope/operand
-controls unchanged. Next rotate to the1633-byte SupervisorServiceUpdate owner:
-recover its full current target, source and source-bound baseline before selecting
-new data-flow/control-flow probes. Native product/runtime and95% remain open.
+Independent full operand census finds106 target versus108 candidate fields:
+candidate has three more network-pointer loads and one packet-side load; target
+has two more timeGetTime IAT loads. All41 direct calls retain identities and
+multiplicities; order remains different. All10 indirect calls have concrete
+identities, including all-path cached EBX proof under the preserved-register ABI.
+Every branch lands on a fully decoded instruction; graph equivalence stays open.
+All85 actual source/include paths have pre/post hash checks. Sole noncode section
+is unchanged; no current exact unit compiles through SupervisorNetwork.cpp.
+
+IDA's old1625-byte comment is superseded; final880-character comment reads back
+exactly and every instruction is unchanged. Cleanup removes35 owned terminal
+files/1213617 bytes. All eight source recipes restore/hash-check after deletion
+and are removed again. Complete compressed captures/recipes stay below400 KB;
+retained replay reparses the real baseline and independently rebinds deleted
+captures, with no deleted-object inspection claim. Do not repeat these eight
+precise contexts. Reopen the sign test with a predicate-only probe before changing
+its existing field type. Next rotate to the1280-byte DrawReplayMenu owner for
+fresh full target/current-source/baseline review; replay rendering is distinct
+from the parked SaveReplay serialization branch. Native runtime and95% remain open.
+
+## RunEcl source-ownership/return routing
+
+The four static/free stdcall and checked enum-return contexts plus one cold are
+neutral across67 owners/28838 bytes/1215 fields; all23 exact siblings pass.
+Current baseline stays at `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`,
+SHA256 `94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
+The receiver-ownership packet retains full proof/restoration and corrected IDA
+entry comment. No alternative API is integrated. Do not repeat those contexts
+or earlier timer/scope/operand controls; see KB for precise exclusions and the
+six open handler frontiers. Complete restart commands remain below.
 
 ## DrawResult routing
 
@@ -206,6 +227,8 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-service-workspaces-20261009/audit.py --retained-only
+python3 scripts/inspect-supervisor-service.py build/gpt-dots-service-packet-owner-20261007/baseline.obj
 python3 -B .analysis/gpt-6.1-sol-ecl-receiver-ownership-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-result-entry-dependencies-20261009/closure.py
 python3 scripts/inspect-title-result-draw.py build/gpt-6.1-sol-result-difficulty-20261009/canonical.obj
