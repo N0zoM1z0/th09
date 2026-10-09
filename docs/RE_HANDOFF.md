@@ -9,12 +9,13 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at80a718b and recovers an October10 interruption.
-Five Enemy OnUpdate array/workspace trials precede one batch-end cold; all
-complete comparisons fail, while the existing151-byte sibling remains exact.
-The complete retained proof, cleanup and source-restoration checks pass.
-No source/header/ABI/profile or exact-credit change is integrated. ResolveFloat
-is already exact; route by the live ledger. SaveReplay serialization stays parked.
+This checkpoint starts clean at c64e3a5. Three DrawResult ranking-group cursor
+trials precede one batch-end cold. All four complete main comparisons are neutral
+to the nonexact canonical, retaining22 entry differences. Extra ordinary method
+and constructor copies are uncalled and receive no target ownership. Full
+retained proof, exact source restoration and scoped cleanup pass. No source,
+header, ABI, profile or exact-credit change is integrated. ResolveFloat is already
+exact; route by the live ledger. SaveReplay serialization stays parked.
 
 ## Live ledger snapshot
 
@@ -73,46 +74,38 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest Enemy OnUpdate array/workspace batch
+## Latest DrawResult cursor batch
 
-Packet: `.analysis/gpt-6.1-sol-enemy-array-workspaces-20261009/`.
-Actual canonical stays `build/matching/EnemyManagerCore.obj`, SHA256
-`60a054387f8a7125ec31eb44184e0bd6ed8ec711a949d61b9c29beae366aa1f9`.
-All55 current source/backend/Oracle bindings and13 actual include/source paths
-per carrier agree. Full direct IDA has1025 lines; independent target decoding
-has1026 instructions over3883 authored/3900 physical bytes.
+Packet: `.analysis/gpt-6.1-sol-result-group-cursor-20261010/`.
+Actual canonical stays `build/gpt-6.1-sol-result-difficulty-20261009/canonical.obj`,
+SHA256 `b8ed9aecdf99e598f885529f1a45dd949ccabf64981e05806f48fa3eca5afe7a`.
+Target/source/backend/object bindings and five actual includes agree. Full direct
+IDA and independent target decoding each cover577 instructions over1939 bytes.
 
-Whole trail-array borrowing stays3900 physical bytes but has1663 complete
-linked differences. A chronological two-result distance array has3916 bytes,
-frame0x2B4 and1984 differences plus16 excess; combining it with trail borrowing
-has3225. Capturing the player inside the actual second operand removes an extra
-result copy and restores frame0x2A8, but changes stack/register allocation:
-3892 physical bytes/1822 differences plus8 absent, or3888/2724 plus12 absent
-with trail borrowing. None is integrated; see KB for complete instruction/CFG
-counts, source shapes and exact exclusions. Target-shaped register roles alone
-are insufficient.
+A genuine four-byte ranking-group cursor is consumed throughout all five blocks.
+Direct member access, ordinary Rows/Advance methods, and ordinary construction
+all preserve complete1939-byte/82-field main contents. Each has577 instructions,
+16 ordered calls,92 complete direct blocks and the original22 entry differences.
+The constructor cold repeats all actual nondebug bytes and numeric records.
+All15 literals and16 noncode payloads remain unchanged; extra code sections
+shift their section indices, which are captured. Uncalled3/7/14-byte copies have
+no target ownership. Original cursor class/TU shape and runtime remain unknown.
 
-All97 main fields,69 ordered direct calls,four table destinations,four neutral
-collateral owners and seven unchanged noncode sections are checked. Each
-carrier's151-byte/two-field attached-effect sibling strictly matches the target.
-The combined operand-capture cold repeats all complete nondebug captures and
-linked bytes/graph. Its actual two-byte8B FF alignment is independently decoded
-and compared. The local diagnostic repair changes no production exactness gate.
-
-Recovery finds the prior retained-verifier handle missing; all six compilers
-were already terminal0. Complete read-only proof is rerun without compilation.
-Eighteen pre-unlink receipts cover752806 disposable bytes; all six raw-EOL source
-recipes restore, revalidate and are removed again. Compressed retained packet
-is107949 bytes. Retained replay reparses the actual canonical and rebinds full
-deleted captures; it does not inspect deleted COFF. No producer remains live.
+Sixteen pre-unlink receipts cover286505 raw disposable bytes, including284710
+source/COFF/PDB bytes; four exact source recipes restore, revalidate and are
+removed again. Logs compress losslessly. Retained replay reparses the actual
+canonical and rebinds full deleted captures; it does not inspect deleted COFF.
+No producer remains live. Earlier Enemy array/workspace proof and all precise
+controls remain in the KB, Git and retained command below.
 
 ## Next route and current cache cautions
 
-Rotate to DrawResult's1939-byte owner and22 entry differences. Reattest its actual
-cache `build/gpt-6.1-sol-result-difficulty-20261009/canonical.obj` through
-result-entry-dependencies/closure.py before new target/producer/alias evidence.
-Prior output-reference/pointer and full/short bank-reference contexts are
-already excluded; do not repeat them or adopt a nearly matching initializer.
+DrawResult's actual cache remains bound, but output-reference/pointer, full/short
+bank-reference and consumed single-pointer cursor contexts are now excluded.
+Require new target/type/TU evidence before another entry-allocation trial; do
+not adopt a nearly matching initializer. Rotate to another live large-owner
+frontier after reading its precise KB exclusions, such as Title Options' actual
+configuration/alias context. This is a route, not new evidence or a source claim.
 
 Do not repeat this Enemy array family or earlier copy/const/lifetime/shared-type
 families without different evidence. Earlier Enemy packets and all precise
@@ -153,6 +146,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-result-group-cursor-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-enemy-array-workspaces-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-pause-state-array-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-ecl-wire-prefix-20261009/retained.py
