@@ -9,11 +9,13 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at 1a716e0. Target SHA, direct IDA metadata, entry
+This checkpoint starts clean at 6712a42. Target SHA, direct IDA metadata, entry
 and five distributed mapped-byte samples pass. No target patch, IDA write or
-delegation. Three RunEcl expression controls are completely neutral and rejected.
-The codegen diagnostic now distinguishes actual code from compiler alignment;
-no game source, ABI, profile, match row or exactness credit changes.
+delegation. Enemy OnUpdate's four scheduling windows are freshly reviewed; no
+new supported model follows. Three new whole Options index/input-dispatch
+controls are neutral and rejected after full field/graph replay. No game source,
+ABI, profile, match row or exactness credit changes. RunEcl's maintained code /
+alignment distinction remains; its prior controls need not be repeated.
 
 ## Live ledger snapshot
 
@@ -46,6 +48,9 @@ semantic reconstruction and portability have not started.
   remain 4/7/86/155/156/157. Equal pre-table sizes had hidden the code-size gap.
 - Enemy OnUpdate: 3,883 authored /3,900 physical bytes, 97 fields, 39 full
   differences; early draw index, descriptor/effect scheduling, trail and homing.
+- Title Options: 2,045 target /2,048 candidate bytes, 135 independently decoded
+  fields, 610 linked overlap differences plus three excess; all 51 ordered calls
+  and 121 complete direct blocks agree. The right-scroll zero schedule remains.
 - Player movement: 1,835 authored /1,900 physical bytes, 66 fields, 144 full
   differences. Actual Float3 declaration/body visibility controls are neutral.
 - ExAttack type18/type24: 1,436 target bytes; corrected candidate 1,441/44 fields,
@@ -71,32 +76,45 @@ inputs. Its canonical-only audit checks all 67 owners /28,838 physical bytes /
 1,215 effective fields, 35 nondebug noncode sections and all 23 configured
 exact siblings /9,533 physical bytes /439 fields. No unchanged baseline compile.
 
-New packet: `.analysis/gpt-6.1-sol-ecl-mutation-expressions-20261009/`.
-Three isolated controls remove the opcode155 scalar capture when writing its
-existing bitfield, group opcode4's genuine ordered mutations in one built-in
-comma expression, and snapshot the actual opcode's promoted value before the
-same switch. Every owner byte/effective field and data section remains neutral.
-Private compiler labels rename only at the independently verified same actual
-COFF destinations. All three complete RunEcl replays still have 2,161 differences;
-batch-end strict PopContext checks pass 147/147 in each. None is integrated.
-Each carrier's 36 actual includes agrees with the preobserved input hashes.
-Historical loaded environment state is not retrospectively attested.
+Prior code-extent correction and three neutral expression controls are retained
+in `.analysis/gpt-6.1-sol-ecl-mutation-expressions-20261009/`. Its retained-only
+audit checks captured evidence against the real canonical baseline, without a
+new inspection of cleaned trial COFFs. Codegen reporting validates complete
+instruction decoding, terminal RET, bounded NOP/self-LEA alignment and branches
+inside the code extent. Complete call identity belongs to inspect-ecl-complete.py.
 
-The maintained report now decodes all pre-table instructions, checks the actual
-last RET, accepts only bounded NOP/self-LEA alignment, and rejects incomplete
-instructions, active tail operations and direct branches leaving code. Target
-code extent is independently decoded from the verified PE. Candidate table
-positions remain 14,792; code is 14,791. The corresponding ledger evidence is
-corrected without changing target size/status. Full call identity belongs to
-inspect-ecl-complete.py, not the aggregate report.
+## Latest Options investigation
 
-Full proof is losslessly retained in audit.json.gz; actual compile logs, patches,
-source-restoration recipe, independent parser, selected direct IDA windows,
-code-extent reports and cleanup receipts remain. All processes are terminal.
-Cleanup removes 31 owned copies/COFFs/PDBs/redundant reports, **5,990,015 bytes**;
-canonical and inherited evidence stay. The retained-only audit verifies captured
-candidate proof against the actual current canonical baseline; it performs no
-new inspection of deleted candidate COFFs. Do not repeat these precise controls.
+New packet: `.analysis/gpt-6.1-sol-options-index-dispatch-20261009/`.
+The frozen current source and only actual include, pinned stddef.h, agree with
+the inherited source/profile/backend/object-bound baseline at
+`build/gpt-dots-options-menu-20261003/baseline.obj`, SHA256
+`9abfd67374215cfecc57856d7272d6cf28c3e03babedda467d6852b78bfc0cf4`.
+Current `build/matching/TitleScreenOptions.obj` is also checked at SHA256
+`1ddf1bd8088e4c2daa68450db99787c6b021c2b7f51429743389747cb60e6f34`;
+its complete owner bytes/fields/data agree. No unchanged baseline build.
+
+Three controls convert all seven freshly read selectors to unsigned menu
+indices, reuse the existing consumed index for those selectors, or switch on
+the real right-scroll return with zero/default arms. Selected/default cases,
+fresh reads around calls and continuation effects remain; there is no zero
+surrogate. All two owners /2,082 bytes /138 fields and two nondebug noncode
+sections remain raw/field/data neutral. Target and candidate full decoding cover
+all 135 actual address fields independently, including indexed globals. Each
+full main-owner replay has 610 differences plus three excess bytes, all 51 calls
+and 121 direct blocks. Batch-end strict PlayMenuSound passes 34/34 in all trials.
+None is integrated; do not repeat these precise models unchanged.
+
+Full proof is losslessly retained as audit.json.gz with patches, actual compiler
+logs, selected direct IDA windows, independent parser and source-restoration
+recipe. Each actual include closure is checked against preobserved hashes; the
+historical loaded environment remains unproved. All three compiler calls are
+terminal. Verified source restoration and compression precede removing ten
+owned copies/COFFs/PDBs/redundant reports, **1,198,498 bytes**. Both baseline
+objects and inherited evidence stay. Retained-only verification checks captured
+trial proof against both actual baseline objects; it does not inspect deleted
+trial COFFs or compile. Next use different target-supported data-flow or caller
+context, rather than repeating selector types, index reuse or input-switch shape.
 
 ## Restart commands
 
@@ -107,16 +125,19 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
-python3 -B .analysis/gpt-6.1-sol-ecl-mutation-expressions-20261009/audit.py --retained-only
+python3 -B .analysis/gpt-6.1-sol-options-index-dispatch-20261009/audit.py --retained-only
+python3 scripts/inspect-title-options.py build/matching/TitleScreenOptions.obj
+python3 scripts/compare-coff-function.py --unit title-screen-play-menu-sound --json
 python3 -B .analysis/gpt-6.1-sol-type21-preheader-20261009/audit.py --canonical-only
 python3 scripts/report-ecl-codegen.py build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj
 python3 scripts/inspect-ecl-complete.py build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj
 ```
 
 Call direct IDA get_metadata with exactly {} during entry attestation. Complete
-RunEcl inspection returns 1 for its expected differences. prepare.py --restore
-reproduces all 21 isolated sources without compiling; original trial COFFs were
-intentionally cleaned. Earlier movement proof remains in
+RunEcl inspection returns 1 for its expected differences. The new packet's
+prepare.py --restore reproduces all three sources without compiling; original
+trial COFFs were intentionally cleaned. Full audit requires rebuilt trial objects;
+retained-only audit verifies the captured proof. Earlier movement proof remains in
 `.analysis/gpt-6.1-sol-movement-vector-context-20261009/`; restore its sources
 before its full audit. Earlier retained corrections are documented in the KB.
 
