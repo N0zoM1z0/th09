@@ -7,9 +7,10 @@ authored bytes**, work seriously on large functions, use direct IDA Pro MCP
 and local Bash/compiler Oracles without Factory MCP, commit locally as
 `gpt-6.1-sol: ...`, and periodically clean reproducible intermediates. Do not push.
 The goal remains **active-incomplete**. No new exactness credit was obtained in
-this checkpoint. Enemy update now consumes the real GameManager +0xB4 member
-instead of a separate difficulty alias. Four bounded copy/lifetime controls
-remain rejected. The October 7 stopped-state checkpoint is preserved in Git at
+this checkpoint. Three additional RunEcl operand controls are measured: two
+are neutral and one increases the physical extent. Enemy update's real
+GameManager +0xB4 member correction remains in the previous checkpoint.
+The October 7 stopped-state checkpoint is preserved in Git at
 7347cb3; its cleanup and evidence limits are historical, not current stop orders.
 
 ## Live ledger snapshot
@@ -63,6 +64,24 @@ started. No new exactness credit or acceptance receipt is claimed by this checkp
 
 ## Latest reviewed investigation
 
+RunEcl's SET_FLOAT control borrows the two observed float32 operand slots
+through a private eight-byte payload view. The compiler carries its address
+in ESI before the source branch: opcode7 grows from 75 to 77 bytes; alignment
+raises the physical owner from 15,564 to 15,568 bytes, with 598 fields unchanged.
+The strict complete identity gate rejects it. No shifted-byte target score,
+handler correspondence, exactness credit or original payload type is claimed.
+
+Explicit invocation of the existing timer assignment operator in opcode 4 and
+an explicit low-bit Boolean in opcode 155 are wholly neutral: all 67 owners,
+28,838 physical bytes and 1,215 fields match the bound baseline. The low-bit
+expression preserves the field update for all 256 input bytes; nonzero Boolean conversion
+would not be equivalent. Both complete diagnostics still report 2,161 differences.
+No production source changes were retained, so no unchanged canonical cold
+compile was added. These three controls were compiled once each and inspected
+as one batch. The other 66 owners and nondebug data are intact.
+
+Previous checkpoint 312ca23 retains the following Enemy member correction:
+
 Enemy OnUpdate's speed operand at 0x4109BD reads 0x4A7E44. Fresh GameManager
 producer review at 0x41AC86/8C/94 identifies the same mutable signed-int slot as
 GameManager root 0x4A7D90 +0xB4, separate from difficulty +0x11C. The private
@@ -94,19 +113,21 @@ large-owner target/local evidence rather than repeating neutral contexts.
 
 ## Evidence and artifact lifecycle
 
-Entry at a7b27a3 is clean; private target, direct IDA metadata, entry and five
+Entry at 312ca23 is clean; private target, direct IDA metadata, entry and five
 mapped-byte samples pass. No Factory MCP, IDA writes, target patch or delegation.
-Current compact evidence is below
-.analysis/gpt-6.1-sol-enemy-copy-context-20261009/: source patches/recipe,
-actual include logs, complete bound-byte reports and independent source/COFF/PE
-proof. All twelve actual includes are checked; candidate backend observations
-are post-build, while canonical source/header/backend inputs have pre/post
-observations. Historical environment is not retrospectively attested.
+Current evidence is below .analysis/gpt-6.1-sol-ecl-operand-schedule-20261009/:
+source patches/recipe, actual include logs, complete diagnostics, opcode7 dump
+and independent 67-owner COFF cross-check. Each carrier has 36 distinct logged
+includes; all hashes match preobserved inputs. The unchanged source-bound
+baseline is reused from the biased-movement/scalar-storage packets, with all 43
+dependency hashes and the main source rechecked. The earlier Enemy evidence
+remains below .analysis/gpt-6.1-sol-enemy-copy-context-20261009/.
 
-Four isolated compiles and one canonical compile are terminal. Cleanup removes
-12 current-batch sources/objects/PDBs totaling 500,471 bytes. A small source-bound
-baseline object, compact unresolved proof, canonical caches and inherited
-evidence remain. Previous paired-PDB cleanup is not rerun.
+Three current-batch compiles are terminal. Cleanup removes 27 copied
+sources/objects/PDBs totaling 1,391,573 bytes. Source patches and reconstruct.py
+remain; reconstruction does not overwrite the terminal manifest. The unchanged
+source-bound baseline, canonical caches and inherited evidence remain.
+Earlier Enemy and paired-PDB cleanup are not rerun.
 
 The user requests batching changes before cold replay: accumulate one coherent
 batch, use focused probes between changes, then close affected Oracles together.
@@ -135,7 +156,7 @@ or proves arbitrary supplied-object source provenance. New exact promotion
 requires bound source/includes, a fresh pinned canonical build and complete
 zero-difference replay.
 
-Validation: attached-effect update 151/151, complete Enemy OnUpdate/field
-comparison, independent five-owner/nondebug inventory, tracking, progress and
+Validation: ecl-pop-context 147/147, two complete RunEcl diagnostics,
+independent 67-owner/nondebug inventory, tracking, progress and
 whitespace pass. Isolated CI runs 67 tests (65 pass, two optional Capstone tests
 skipped). The worktree checkpoint remains local and is not pushed.
