@@ -9,12 +9,12 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at3cd40aa. Original target and direct IDA mapped
-bytes pass. Four Type18/24 assignment/lifetime contexts precede one batch-end
-cold. Delta assignment and lexical scopes coalesce target-distinct returns;
-collision assignment adds a copy and changes graph layout. No source/header/
-ABI/profile or credit change is integrated. The old matching cache is stale;
-a fresh source-bound complete canonical COFF is retained for subsequent work.
+This checkpoint starts clean at43e11ed. Original target and direct IDA mapped
+bytes pass. Five Player movement operand/address-lifetime contexts precede one
+batch-end canonical cold. Direct SHT operands change the required read order and
+graph; shared VM address removes target-local address computations; the byte
+selector is neutral. No source/header/ABI/profile or credit change is integrated.
+A fresh complete source-bound Movement COFF is retained for subsequent work.
 
 ## Live ledger snapshot
 
@@ -73,6 +73,44 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
+## Latest Player movement operand/address-lifetime batch
+
+Packet: `.analysis/gpt-6.1-sol-movement-direct-sht-20261009/`.
+Fresh canonical is
+`build/gpt-6.1-sol-movement-direct-sht-20261009/current-cold.obj`, SHA256
+`da0364dadb545134a9fc837326dd22d4cd2091ca0436d826c4a7c95a9af6525d`.
+Current source SHA998f3a35809f36510339ae2fc37da9d87c1137c223de8a167d5a4f9762fc0a05
+and20 source/backend/Oracle pins agree. Reused baseline is independently reparsed
+before trialing. Five contexts precede exactly one fresh canonical cold compile.
+
+Getter, private-view and canonical direct SHT operands all emit1835 code/1900
+physical bytes/66 fields, but487 instructions/83 blocks and1140 differences.
+All gain zero target bytes and lose996 baseline-equal positions. Removing16
+case-local pointers moves each angle store before its pointer load and changes
+case2's placement plus twelve table destinations. These differ from the old
+canonical-pointer and scalar-reference controls, which preserved the address
+capture. Shared mainVm address emits1819/1884 bytes/484 instructions/84 blocks,
+1225 differences plus16 absent; one EDI address replaces four branch-local LEAs.
+Unsigned-byte focus selector is completely byte/field/graph neutral at144.
+All retain23 ordered direct calls plus the actual option CALL EAX. None is adopted.
+
+Canonical cold repeats every nondebug carrier byte/field/numeric record and the
+full84-block graph:1835 code/1900 physical,489 instructions/66 fields/144 full
+differences, both tables and all bytes from41C734 exact. Seven owners total1935
+physical bytes; the six collateral getters total35 bytes/zero fields. Direct
+field variants merely omit the uncalled seven-byte SHT getter. Ten actual
+includes are hash-bound after resolving the toolchain symlink. Existing OnUpdate
+strictly rebinds522/40; it is not cold rebuilt, and no exact unit uses Movement.
+
+Cleanup removes18 owned terminal files/628599 bytes. All five deleted source
+recipes restore, revalidate and are removed again. Retained.py reparses the real
+canonical COFF and independently rebinds all complete captured variants and the
+existing sibling; packet stays below165 KB. Cleanup import-path recovery is
+recorded, with six unpersisted disposable PDB hashes explicitly unknown. Current
+source/header/profile/ABI and79.2331% coverage remain. Do not repeat these precise
+five operand/lifetime controls unchanged. Read the KB before the next bounded
+large-owner hypothesis; native runtime and95% remain open.
+
 ## Latest Type18/24 assignment and lexical-lifetime batch
 
 Packet: `.analysis/gpt-6.1-sol-type1824-assignment-20261009/`.
@@ -106,9 +144,9 @@ Cleanup removes21 owned terminal files/496143 bytes, retains the new canonical
 COFF and verifies four original-CRLF source recipes after deletion. Complete
 retained packet stays below160 KB; retained.py reparses that actual COFF and
 independently rebinds all deleted complete captures. Do not repeat these precise
-four assignment/scope contexts unchanged. Rotate to1835-byte Player movement
-with fresh complete target/source/baseline review and its previous field/input/
-collision-layout controls in view. Native runtime and95% remain open.
+four assignment/scope contexts unchanged. The subsequent Movement batch is
+recorded above. Read its exclusions and the KB before choosing the next bounded
+large-owner hypothesis. Native runtime and95% remain open.
 
 ## GameManager and Enemy update routing
 
@@ -287,6 +325,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-movement-direct-sht-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-type1824-assignment-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-setup-callback-phase-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-enemy-vector-storage-20261009/retained.py
