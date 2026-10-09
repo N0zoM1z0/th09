@@ -9,13 +9,12 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at99a790c. Original target and direct IDA mapped
-bytes pass. Three complete PauseMenu state/array contexts precede one batch-end
-cold. Enum storage is neutral; the full array reference narrows the length gap
-but changes frame/register allocation and worsens complete differences. All
-11 configured exact siblings pass in every carrier. No source/header/ABI/profile
-or exact-credit change is integrated. ResolveFloat is already exact; the prior
-next-unit routing was stale and is corrected. SaveReplay remains parked.
+This checkpoint starts clean at80a718b and recovers an October10 interruption.
+Five Enemy OnUpdate array/workspace trials precede one batch-end cold; all
+complete comparisons fail, while the existing151-byte sibling remains exact.
+The complete retained proof, cleanup and source-restoration checks pass.
+No source/header/ABI/profile or exact-credit change is integrated. ResolveFloat
+is already exact; route by the live ledger. SaveReplay serialization stays parked.
 
 ## Live ledger snapshot
 
@@ -60,7 +59,7 @@ semantic reconstruction and portability have not started.
   fields, 1,180 differences plus36 absent; row arguments leave caption merging open.
 - Supervisor network service: 1,633 target/1,632 candidate bytes, 106 target/108
   candidate fields, 1,395 complete differences plus one absent. Actual indirect
-  operands are covered; sign-test opcode and output-workspace evidence are below.
+  operands are covered; see KB for sign-test and output-workspace exclusions.
 - Player movement: 1,835 authored /1,900 physical bytes, 66 fields, 144 differences.
 - Player charge: 1,210 target /1,197 candidate bytes, 70 fields, 1,160 linked
   overlap differences plus 13 absent. Integer conversion preserves seven regions
@@ -74,326 +73,76 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest PauseMenu state/array batch
+## Latest Enemy OnUpdate array/workspace batch
 
-Packet: `.analysis/gpt-6.1-sol-pause-state-array-20261009/`.
-Actual canonical remains `build/matching/AsciiManagerMenu.obj`, SHA256
-`1145e31c07bebac38e69639a835721fbdcb155761ba0251b492acdc03135f788`.
-All 92 source/backend/Oracle bindings agree; each compiler records 79 actual
-source/include paths. Fresh direct IDA has 445 address/instruction lines;
-independent target decoding covers 449 instructions and all 106 fields.
-
-Existing ten-value enum storage/snapshot is neutral across all 13 owners /
-4186 physical bytes /266 fields /three noncode sections. Borrowing the actual
-seven-element AnmVm array throughout the owner gives 1732 code /1772 physical
-bytes, 450 instructions, frame 0x64 and an EBX-indexed switch. All 107 fields
-and ten actual table destinations are independently bound, giving 1583 full
-overlap differences plus four absent bytes, versus baseline 1492 plus44.
-The production inspector rejects the unreviewed dispatch operand; its strict
-gate is retained. The complete diagnostic decodes the changed operand without
-granting target callsite correspondence or credit. Combining enum and array
-views preserves this rejected carrier. All 12 collateral owners and the three
-noncode sections are neutral. All eleven configured siblings strictly equal
-the target across 2448 complete physical bytes /158 fields in each carrier.
-
-One fresh-path paired cold repeats all actual numeric owner/field records and
-complete linked bytes/graph. The first private include closure duplicated the
-canonical header through AsciiGameManagerView.hpp; copying that unchanged
-consuming header fixes the producer before measurements. Its failed log remains
-separate. Twenty pre-unlink receipts cover 660226 disposable bytes; all twelve
-original-EOL source copies restore, revalidate and are removed again. Retained
-proof reparses the real canonical object and rebinds complete deleted captures;
-it does not inspect deleted COFF. Compressed proof/scripts/recipes total124809
-bytes. No source hypothesis or partial exactness is promoted.
-
-Do not repeat these enum/whole-array controls without new evidence. Candidate
-still has three timeGetTime calls versus two target calls, including an extra
-ordinary state9 tail; prior shared-footer controls are already documented.
-Resume a distinct large-owner frontier, such as Enemy OnUpdate's remaining
-effect/descriptor and homing scheduling, after reading its precise exclusions.
-ResolveFloat @0x4068A0 is matching100 with complete2044-byte/121-field closure
-since Packet630 (KB4011 onward and correction KB5486); do not reconstruct it
-again because the older ECL-014 worklist cell or previous handoff says otherwise.
-
-## Previous RunEcl wire-prefix batch
-
-Packet: `.analysis/gpt-6.1-sol-ecl-wire-prefix-20261009/`.
-Canonical remains `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`,
-SHA256 `94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
-All 55 inherited inputs and 37 actual source/include paths per carrier agree.
-Fresh direct IDA supplies 4384 address/instruction lines; independent PE
-decoding supplies 4387 instructions over 14792 target code bytes.
-
-The coherent RawInt/RawFloat/RawByte/RawShort family uses a fixed-header view
-with an actual trailing byte member at +0x0C. All 67 owners / 28838 physical bytes /
-1215 fields / 35 noncode sections stay neutral. A separate whole opcode7 view
-contains the existing 0x0C-byte header and two observed float fields. It changes
-only RunEcl: 14803 code + one alignment + 772 tables, 15576 physical bytes,
-frame 0x16C, 4389 instructions, 598 fields and 943 blocks. Opcode 7 grows 75 to 83
-bytes; the compiler creates a source spill at EBP-0x104. Complete independently
-bound comparison gives 14089 overlap differences plus 12 excess; the strict
-reviewed-shape/CFG identity gate rejects it. Combining the views is neutral
-against this rejected carrier. Every carrier retains 375 direct / four indirect
-calls and 23 exact siblings / 9533 bytes / 439 fields. No original type or wire
-object-lifetime conclusion follows.
-
-One cold at a fresh source/object path repeats the complete paired carrier.
-Independent bounds-checked COFF parsing agrees with repository extraction;
-all 405 code fields and 193 table fields are decoded and bound. The 195 private
-label spelling changes in each neutral comparison are proved at identical
-actual numeric coordinates. Full target/raw/linked bodies, graphs, differences,
-actual logs, inputs and reversible recipes remain in a 326472-byte packet.
-The full JSON capture uses lossless XZ; IDA/logs/adapters use gzip.
-
-Thirty-six hash/size receipts precede removal of 1845889 disposable bytes.
-All 28 original-EOL source copies restore, revalidate and are removed again.
-Retained.py reparses the actual canonical object, rebinds every complete
-deleted capture and strictly relinks all 23 captured siblings to the target.
-Do not repeat these three contexts or the older eight-byte payload/union
-controls. The tested wire views and bitfield storage forms do not close RunEcl's
-six residuals. ResolveFloat is already exact; use the live ledger for routing.
-
-## Previous Enemy OnUpdate shared-type batch
-
-Packet: `.analysis/gpt-6.1-sol-enemy-shared-types-20261009/`.
+Packet: `.analysis/gpt-6.1-sol-enemy-array-workspaces-20261009/`.
 Actual canonical stays `build/matching/EnemyManagerCore.obj`, SHA256
 `60a054387f8a7125ec31eb44184e0bd6ed8ec711a949d61b9c29beae366aa1f9`.
-All54 source/backend/Oracle inputs agree before and after the four compiles.
+All55 current source/backend/Oracle bindings and13 actual include/source paths
+per carrier agree. Full direct IDA has1025 lines; independent target decoding
+has1026 instructions over3883 authored/3900 physical bytes.
 
-Private EffectFloat3 alias to existing Float3, descriptor storage inherited from
-existing BulletSpawnDescriptor, and their combination preserve all five emitted
-owners/4060 physical bytes/99 fields/seven noncode sections. Main stays3883
-code/3900 physical bytes,97 bound fields,69 ordered calls,170 blocks and39
-differences. The unchanged151-byte/two-field attached-effect sibling fully
-matches. Four effect-call spellings bind independently to exact0x40CC00;
-five private labels retain actual coordinates. No type/API hypothesis is adopted.
+Whole trail-array borrowing stays3900 physical bytes but has1663 complete
+linked differences. A chronological two-result distance array has3916 bytes,
+frame0x2B4 and1984 differences plus16 excess; combining it with trail borrowing
+has3225. Capturing the player inside the actual second operand removes an extra
+result copy and restores frame0x2A8, but changes stack/register allocation:
+3892 physical bytes/1822 differences plus8 absent, or3888/2724 plus12 absent
+with trail borrowing. None is integrated; see KB for complete instruction/CFG
+counts, source shapes and exact exclusions. Target-shaped register roles alone
+are insufficient.
 
-One paired batch-end cold repeats its warm carrier and resolved bytes.
-Twenty hash/size receipts precede cleanup of578873 bytes. All12 original-EOL
-source/header copies restore from bound Git and recorded per-line EOL maps,
-revalidate and are removed again. Retained.py reparses the actual canonical
-and independently rebinds deleted captures. Full IDA observation and logs are
-compressed; mixed/uniform-EOL recipe repairs are recorded in the KB.
+All97 main fields,69 ordered direct calls,four table destinations,four neutral
+collateral owners and seven unchanged noncode sections are checked. Each
+carrier's151-byte/two-field attached-effect sibling strictly matches the target.
+The combined operand-capture cold repeats all complete nondebug captures and
+linked bytes/graph. Its actual two-byte8B FF alignment is independently decoded
+and compared. The local diagnostic repair changes no production exactness gate.
 
-Do not repeat these three precise type contexts or the previous Enemy
-copy/const/base/lifetime controls without different evidence. The latest
-RunEcl wire-view batch above supersedes this checkpoint's next-unit routing.
+Recovery finds the prior retained-verifier handle missing; all six compilers
+were already terminal0. Complete read-only proof is rerun without compilation.
+Eighteen pre-unlink receipts cover752806 disposable bytes; all six raw-EOL source
+recipes restore, revalidate and are removed again. Compressed retained packet
+is107949 bytes. Retained replay reparses the actual canonical and rebinds full
+deleted captures; it does not inspect deleted COFF. No producer remains live.
 
-Recent paired trail initializer packet:
-`.analysis/gpt-6.1-sol-trail-countdown-20261009/`. Unsigned/countdown indices
-are neutral, center-through-rim history traversal regresses, and one cold
-repeats full proof. All23 ECL siblings pass; see KB. Do not retry SaveReplay's
-parked stream-row action or substitute an equivalent serializer route.
+## Next route and current cache cautions
 
-## Previous RunEcl flag-storage/value batch
+Rotate to DrawResult's1939-byte owner and22 entry differences. Reattest its actual
+cache `build/gpt-6.1-sol-result-difficulty-20261009/canonical.obj` through
+result-entry-dependencies/closure.py before new target/producer/alias evidence.
+Prior output-reference/pointer and full/short bank-reference contexts are
+already excluded; do not repeat them or adopt a nearly matching initializer.
 
-Packet: `.analysis/gpt-6.1-sol-ecl-flag-storage-20261009/`.
-Canonical stays at `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`,
-SHA256 `94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
-All55 inherited inputs and37 actual source/include paths agree before/after.
+Do not repeat this Enemy array family or earlier copy/const/lifetime/shared-type
+families without different evidence. Earlier Enemy packets and all precise
+controls remain in the KB and Git history. The latest PauseMenu state/array
+proof is in pause-state-array-20261009; enum storage is neutral and whole-array
+borrowing regresses. Its five actual +0x13C member connections stay maintained.
 
-Four controls test32-bit unsigned-long/signed-int bitfields, actual wire-byte
-capture as int, and unsigned-long fields plus int capture. One combined cold
-repeats all67 owners/28838 physical bytes/1215 fields/35 noncode sections.
-Complete main remains14791 code +one NOP +772 tables,4387 instructions,
-943 mapped blocks,598 independently bound fields,193 table roots and2161
-full differences. All23 configured siblings pass9533 bytes/439 fields.
-Ten private spelling changes bind only to equal actual coordinates; eight
-sibling fields use explicit lossless adapters. No alternative is integrated.
+RunEcl's live cache is
+`build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`; the recent
+wire-prefix and flag-storage retained commands below bind its full carrier.
+ResolveFloat @0x4068A0 has complete2044-byte/121-field exact closure since
+Packet630. KB4011 onward and correction KB5486 supersede stale ECL-014 routing;
+never reconstruct it again because of a historical worklist cell.
 
-Cleanup removes38 terminal files/2164334 bytes after persisting size/hash
-receipts. All28 source copies restore, revalidate and are removed again;
-complete compressed packet is590537 bytes. Retained.py reparses the actual
-canonical carrier and independently rebinds complete deleted captures and
-sibling operands. Original flag/value types, native runtime and95% stay open.
-Do not repeat these four precise contexts. The earlier SaveReplay routing
-is withdrawn: KB records its parked stream-row action and forbids equivalent
-retries. No serializer probe is run in this checkpoint.
+Player movement's current bound cache is
+`build/gpt-6.1-sol-movement-direct-sht-20261009/current-cold.obj`.
+Type18/24 update's current bound cache is
+`build/gpt-6.1-sol-type1824-assignment-20261009/canonical.obj`; its older matching
+cache is stale. Charge conversion uses
+`build/gpt-6.1-sol-charge-timer-conversion-20261009/canonical.obj`.
+Supervisor service uses `build/gpt-dots-service-packet-owner-20261007/baseline.obj`;
+its workspace/callee-visibility exclusions and full indirect operands are in KB.
+The broader Supervisor update target is996 physical bytes with owned tables;
+its984-byte entry model stays nonexact. Original source/type ownership and native
+runtime gates remain open in each case.
 
-## Recent Player movement and Type18/24 routing
-
-Movement: `.analysis/gpt-6.1-sol-movement-direct-sht-20261009/`.
-Five operand/address controls and one canonical cold retain144 differences;
-direct SHT reads change order/graph, shared mainVm loses16 bytes, byte selector
-is neutral. Fresh bound cache is
-`build/gpt-6.1-sol-movement-direct-sht-20261009/current-cold.obj`, SHA256
-`da0364dadb545134a9fc837326dd22d4cd2091ca0436d826c4a7c95a9af6525d`.
-Retained.py covers full1900 bytes/66 fields and existing OnUpdate522/40.
-
-Type18/24: `.analysis/gpt-6.1-sol-type1824-assignment-20261009/`.
-Four assignment/scope controls plus one cold cannot recover three distinct
-return homes and EAX-based copying. Fresh bound canonical remains
-`build/gpt-6.1-sol-type1824-assignment-20261009/canonical.obj`, SHA256
-`cb2e931946bbd3253bd8eae10f388917bb6adb6e6d1a1ac6e7c457f41b659321`.
-Old matching cache is stale. Retained.py covers1441 bytes/44 fields/475
-instructions and1051 overlap differences plus five excess. See KB exclusions.
-
-## GameManager and Enemy update routing
-
-GameManager's five callback-phase/capture controls plus one cold remain negative;
-canonical1230 bytes/87 fields/105 differences is source-bound in
-setup-callback-phase-20261009. Delayed Supervisor and enum-return contexts are
-neutral; scalar captures widen reads and regress. Eight exact siblings pass.
-
-Enemy's earlier const/base controls retain39 differences, except const result
-references which reverse eight square accesses and regress to47. The current
-shared-type proof above extends their source-bound canonical evidence; see KB
-for all precise copy/lifetime/storage exclusions.
-
-## Replay-menu routing
-
-Seven row-argument/lifetime contexts plus one cold leave canonical1244 bytes/54
-fields/1180 differences plus36 absent. Direct list arguments only reduce one
-full difference; separate caption calls remain merged. No control is promoted.
-Full proof/restoration is in replay-row-arguments-20261009; see KB exclusions.
-
-## Supervisor service workspace/call routing
-
-Packet: `.analysis/gpt-6.1-sol-service-workspaces-20261009/`.
-The actual canonical baseline is
-`build/gpt-dots-service-packet-owner-20261007/baseline.obj`, SHA256
-`21b8c89578be6936e82186c35c5c37a2ad628c0a7f6f0cb51597bb55adec4f74`.
-Its current source/header/backend bindings agree before reuse. Phase-local times
-and both packet-readiness arm forms retain every main byte/field. Flag mask changes
-only candidate +0x5C5 from JGE to JNS, matching the corresponding target sign test
-at431063 but leaving full-owner differences unchanged. No type/API is promoted.
-
-Real success/shared output workspaces emit1638 bytes/108 fields/417 instructions
-with1427 differences plus five excess, using frames0x18/0x0C rather than target
-0x14. Shared prefill/success scope changes15 raw stack bytes relative to success
-scope. Visibility of the actual unchanged int/int ApplyNetworkInput body preserves
-each respective main body and adds the existing exact131-byte/one-field owner.
-One cold input-visible carrier repeats all nondebug bytes/fields/numeric records.
-
-Independent full operand census finds106 target versus108 candidate fields:
-candidate has three more network-pointer loads and one packet-side load; target
-has two more timeGetTime IAT loads. All41 direct calls retain identities and
-multiplicities; order remains different. All10 indirect calls have concrete
-identities, including all-path cached EBX proof under the preserved-register ABI.
-Every branch lands on a fully decoded instruction; graph equivalence stays open.
-All85 actual source/include paths have pre/post hash checks. Sole noncode section
-is unchanged; no current exact unit compiles through SupervisorNetwork.cpp.
-
-IDA's old1625-byte comment is superseded; final880-character comment reads back
-exactly and every instruction is unchanged. Cleanup removes35 owned terminal
-files/1213617 bytes. All eight source recipes restore/hash-check after deletion
-and are removed again. Complete compressed captures/recipes stay below400 KB;
-retained replay reparses the real baseline and independently rebinds deleted
-captures, with no deleted-object inspection claim. Do not repeat these eight
-precise contexts. Reopen the sign test with a predicate-only probe before changing
-its existing field type. The subsequent replay-menu batch is recorded in the KB;
-replay rendering is distinct from parked SaveReplay serialization. Native runtime
-and95% remain open.
-
-## RunEcl source-ownership/return routing
-
-The four static/free stdcall and checked enum-return contexts plus one cold are
-neutral across67 owners/28838 bytes/1215 fields; all23 exact siblings pass.
-Current baseline stays at `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`,
-SHA256 `94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
-The receiver-ownership packet retains full proof/restoration and corrected IDA
-entry comment. No alternative API is integrated. Do not repeat those contexts
-or earlier timer/scope/operand controls; see KB for precise exclusions and the
-six open handler frontiers. Complete restart commands remain below.
-
-## DrawResult routing
-
-Four bank-producer contexts plus one cold leave the baseline1939-byte owner at22
-entry differences. Output-reference/pointer methods are neutral; full/short-scope
-bank references regress keyboard allocation to1941 bytes/319 differences plus two
-excess. No hypothesis is integrated. Current actual baseline stays at
-`build/gpt-6.1-sol-result-difficulty-20261009/canonical.obj`; complete proof and
-recipes are in the result-entry-dependencies packet. Reopen with different
-TH09-backed value/alias/TU evidence; see the KB for precise exclusions.
-
-## Supervisor routing
-
-The preceding completion packet tests nine controls plus one cold, without exact
-growth. The maintained complete inspector covers the full996-byte target and
-owned tables. Prior984-byte hypothesis remains601 differences plus12 absent at
-`build/gpt-6.1-sol-supervisor-entry-context-20261009/binary-title-flag-bit.obj`.
-Its MOVZX/title-call/footer and target late EDI=2 lifetime remain open. Target
-registrar preserves full32-bit ECX; the reviewed IDA int prototype is read back.
-Do not repeat those completion, enum-return or return-join models. See the KB.
-
-## Previous replay-save depth batch
-
-Packet: `.analysis/gpt-6.1-sol-replay-depth-workspace-20261009/`.
-The inherited source/COFF-bound candidate remains
-`build/gpt-dots-replay-renderer-residuals-20261006/inplace-target-depth.obj`, SHA256
-`2c480b9a519f26a2d0dbc7ac4031dc7e89bc9a9a52594d37458ed684f8fa23c1`.
-A fresh pinned carrier repeats its complete five owners/834 bytes/41 fields.
-Middle/final/both workspace depth and weighted-depth value/reference controls
-retain the four calls and full28-block graph but stay794/797/797/796/794 bytes
-against800. The797-byte models add a field write; the796-byte value model delays
-the first multiplication and raises x87 depth to5 versus target4. One cold
-value compile agrees. See KB for full unmasked scores and exact exclusions.
-All four collateral bodies/40 bytes/zero fields and nineteen other sections
-remain unchanged. Existing text Oracles pass130/130 and55/55 after rebuilding
-only their absent canonical cache. Twenty-one terminal files/527644 bytes are
-removed; all six source recipes recover after cleanup. Full compact evidence
-stays below150 KB. Game source and all exactness claims remain unchanged.
-Earlier sharing and completion controls are recorded in the KB.
-
-## Other current evidence
-
-- RunEcl jump/timer controls:
-  `.analysis/gpt-6.1-sol-ecl-jump-timer-20261009/`; all five contexts are neutral
-  and one cold family replay agrees. All23 exact siblings pass; the folded
-  canonical timer-current diagnostic binding and repaired ECL caches stay.
-  Six handler frontiers remain open; see KB for exact excluded contexts.
-- Enemy draw expression/declaration controls:
-  `.analysis/gpt-6.1-sol-enemy-draw-expression-20261009/`; four main differences
-  remain. Three controls are neutral; borrowed next-angle reference regresses.
-  Exact scope, cold replay and cleanup are recorded in the KB.
-- Enemy update object copies: `.analysis/gpt-6.1-sol-enemy-object-copies-20261009/`;
-  typed Player +0x3037C Enemy pointer stays maintained. Current canonical cache
-  `build/matching/EnemyManagerCore.obj` SHA256
-  `60a054387f8a7125ec31eb44184e0bd6ed8ec711a949d61b9c29beae366aa1f9`.
-  Seven controls and one canonical cold retain 39 differences; see KB exclusions.
-- Type14/22 draw: `.analysis/gpt-6.1-sol-draw1422-callee-context-20261009/`;
-  canonical math declaration and timer conversion stay maintained. Current cache
-  `build/matching/ExAttackDrawType14Type22.obj` SHA256
-  `cf6d50537f2768a58a4b480072929db81feaa806bdb760addb9f8d02e5fc724f`.
-  Twelve controls and one canonical cold reject normalization-call loss; see KB.
-
-- Player collision batch: `.analysis/gpt-6.1-sol-collision-member-visibility-20261009/`;
-  actual difficulty +0x11C and coordinate +0x358 connections remain maintained.
-  Eight controls precede one canonical cold replay; six existing siblings pass.
-  The 849/862-byte owner has 32/33 blocks, so its frontier includes loop layout.
-  Current object SHA remains
-  `c9ea2f6617302b613b16c66ec53f512df3a0a9ae07c8a0679fd83cdc886240ee`.
-
-- PauseMenu batch: `.analysis/gpt-6.1-sol-pause-partial-visibility-20261009/`;
-  five actual +0x13C member connections remain maintained. Thirteen controls and
-  the single canonical cold replay are documented in the KB; eleven exact
-  siblings pass. Current object hash remains
-  `1145e31c07bebac38e69639a835721fbdcb155761ba0251b492acdc03135f788`.
-
-- Enemy lifetime batch: `.analysis/gpt-6.1-sol-enemy-scratch-lifetime-20261009/`;
-  four controls are neutral, hoisting all four vectors regresses. One batch-end
-  cold compile agrees; precise scopes are excluded by the KB and retained proof.
-- Gameplay helper visibility: `.analysis/gpt-6.1-sol-gameplay-helper-visibility-20261009/`;
-  all four complete workers remain 1,689 bytes /171 fields /921 differences.
-  Actual declaration/implementation context and omitted helpers are rejected;
-  all present exact siblings pass. See KB for exact controls and retained recipes.
-- GameManager update arrays: `.analysis/gpt-6.1-sol-setup-input-array-20261009/`;
-  explicit publication is neutral, two-side loop regresses; see KB.
-- Latest flat ECL scope controls: `.analysis/gpt-6.1-sol-ecl-flat-local-scope-20261009/`;
-  all 67 owners and 23 exact siblings are neutral. See KB for precise exclusions.
-- Prior ECL mutation controls and code-extent correction:
-  `.analysis/gpt-6.1-sol-ecl-mutation-expressions-20261009/`. Its precise direct
-  timeout/comma-jump/opcode-snapshot controls are neutral. Decoder tests remain.
-- Type21 canonical-only proof checks all 23 ECL exact siblings and the actual
-  67-owner carrier. No need to rebuild unchanged historical cohorts.
-- Charge conversion: `.analysis/gpt-6.1-sol-charge-timer-conversion-20261009/`;
-  current carrier `build/gpt-6.1-sol-charge-timer-conversion-20261009/canonical.obj`,
-  SHA256 `4744bb7c52cce4a50b55aa7162578ce79f9cf613b56e9e454f0cc3bb1df4971d`.
-  Existing timer conversion replaces the private getter overlay; complete code
-  and effective fields remain unchanged. Original folded spelling is unknown.
-- Options: `.analysis/gpt-6.1-sol-options-index-dispatch-20261009/`; unsigned
-  selectors, index reuse and real right-input switch are neutral. Current cache
-  `build/matching/TitleScreenOptions.obj` remains hash-bound by its retained audit.
+Read prior KB controls before selecting any remaining large owner. SaveReplay's
+parked stream-row action and equivalent serializer routes stay excluded; replay
+rendering is a separate owner. Historical experiment details were removed from
+this current handoff, and remain in the KB, Git and retained commands below.
 
 ## Restart commands
 
@@ -404,6 +153,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-enemy-array-workspaces-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-pause-state-array-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-ecl-wire-prefix-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-enemy-shared-types-20261009/retained.py
