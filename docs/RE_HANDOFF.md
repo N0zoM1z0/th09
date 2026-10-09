@@ -7,10 +7,12 @@ authored bytes**, work seriously on large functions, use direct IDA Pro MCP
 and local Bash/compiler Oracles without Factory MCP, commit locally as
 `gpt-6.1-sol: ...`, and periodically clean reproducible intermediates. Do not push.
 The goal remains **active-incomplete**. No new exactness credit was obtained in
-this checkpoint. Type21 update now accesses its temporary descriptors through
-real members instead of byte-buffer casts. One batch-end canonical compile
-preserves all ECL owner bytes/effective fields and all 23 configured exact
-siblings. Type21's 15 preheader differences remain unresolved. Prior DrawResult,
+this checkpoint. Two isolated Player movement vector-family contexts preserve
+all 1,900 physical bytes and 66 effective fields; its 144 differences remain.
+Eight existing exact vector bodies also pass the strict Oracle. No canonical
+game source, shared header, profile or ledger changes follow. Type21's maintained
+descriptor-member correction and source-bound ECL canonical carrier remain.
+Type21's 15 preheader differences remain unresolved. Prior DrawResult,
 DrawReplayMenu and Enemy source corrections remain maintained and recorded in
 the knowledge base and Git.
 The October 7 stopped-state checkpoint is preserved in Git at
@@ -70,6 +72,26 @@ started. No new exactness credit or acceptance receipt is claimed by this checkp
 
 ## Latest reviewed investigation
 
+Player movement at 0x41C170 remains 1,835 code /1,900 physical bytes with 489
+instructions, 66 independently decoded fields and 23 ordered calls. One isolated
+header aliases PlayerPositionView to the existing Float3 declaration; a second
+carrier exposes all eight actual Float3.cpp bodies. Neither changes raw owner
+bytes or any effective destination, including both complete switch tables.
+All six common helper copies (35 bytes) remain unchanged. The second carrier
+adds 352 bytes of eight existing strict-exact vector bodies and their one-float
+division constant. These copies receive no new ownership or coverage credit.
+
+The first direct include attempt fails because AsciiManager.hpp and
+AnmVmLifecycle.hpp define incompatible AnmVm views. The successful isolated
+carriers use an exactly verified declaration slice and exactly verified body
+copy with only its include changed. They establish this particular context's
+neutrality, not original TU ownership, shared-type closure or runtime behavior.
+Canonical source and all profiles remain unchanged. Do not repeat these two
+controls unchanged. The complete source-bound baseline is reused without a
+new baseline compile; exact checks are grouped at the end of the two trials.
+
+## Maintained ECL checkpoint
+
 ExAttackUpdateCallbackType21 owns 1074 bytes at 0x44B500. Both bullet-conversion
 paths construct a 0x214-byte temporary via target 0x40D500. Independent target
 decoding confirms its 28-byte constructor clears 0x214 bytes and sets +0x204 to
@@ -98,9 +120,24 @@ remains 2,161 differences over 15,564 bytes/598 fields. No new exact credit.
 
 ## Evidence and artifact lifecycle
 
+Current entry at e4e723a is clean; private target, direct IDA metadata, entry and
+five mapped-byte samples pass. No Factory MCP, target patch, IDA write or
+delegation. Current packet: .analysis/gpt-6.1-sol-movement-vector-context-20261009/.
+It retains the compact source-restoration script, patches, actual compiler logs,
+two small COFFs, full losslessly compressed audit, independent parser and
+source/backend hashes. All 11/12 unique actual include inputs are bound. The
+shared compiler include resolves through the existing toolchain symlink to
+TH095's tools directory; its pinned hash agrees, without using adjacent game
+bytes as TH09 evidence. Historical loaded environment state remains unproved.
+All three compiler processes are terminal, including the failed first include.
+Owned PDBs, seven generated source/header copies and redundant full report are
+removed only after source-restoration and lossless-compression checks. Restore
+sources with prepare.py --restore before running audit.py; neither compiles.
+
+Prior ECL checkpoint:
 Entry at 44f62e4 is clean; private target, direct IDA metadata, entry and five
 mapped-byte samples pass. No Factory MCP, target patch, IDA write or delegation.
-Current packet: .analysis/gpt-6.1-sol-type21-preheader-20261009/.
+Retained ECL packet: .analysis/gpt-6.1-sol-type21-preheader-20261009/.
 It retains Git-bound reconstruct.py, patches, actual include logs, input/backend
 manifests, independent COFF parser, full losslessly compressed audit.json.gz and
 the small source-bound canonical COFF. All 43 baseline input hashes and its COFF
@@ -131,6 +168,8 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-movement-vector-context-20261009/prepare.py --restore
+python3 -B .analysis/gpt-6.1-sol-movement-vector-context-20261009/audit.py
 python3 .analysis/gpt-6.1-sol-type21-preheader-20261009/audit.py --canonical-only
 python3 scripts/inspect-exattack-type21.py build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj --diff
 python3 scripts/inspect-ecl-complete.py build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj
