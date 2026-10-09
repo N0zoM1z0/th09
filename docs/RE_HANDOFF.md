@@ -7,11 +7,11 @@ authored bytes**, work seriously on large functions, use direct IDA Pro MCP
 and local Bash/compiler Oracles without Factory MCP, commit locally as
 `gpt-6.1-sol: ...`, and periodically clean reproducible intermediates. Do not push.
 The goal remains **active-incomplete**. No new exactness credit was obtained in
-this checkpoint. Enemy draw's complete inspector now independently decodes
-all operands, reports extent deficits/excess, checks every COFF field and names
-supplied-object provenance limits. Two return/expression precision controls
-regress and are rejected. Prior ECL controls and Enemy member repair remain
-recorded in the knowledge base and Git.
+this checkpoint. DrawReplayMenu now expresses the target-observed alternating
+Float3 interpolation stages and recovers the target frame/buffer home. One
+batch-end canonical compile reproduces the reviewed isolated body; complete
+bytes and the missing caption-call structure remain nonexact. Prior Enemy draw
+operand verification remains in the knowledge base and Git.
 The October 7 stopped-state checkpoint is preserved in Git at
 7347cb3; its cleanup and evidence limits are historical, not current stop orders.
 
@@ -66,47 +66,47 @@ started. No new exactness credit or acceptance receipt is claimed by this checkp
 
 ## Latest reviewed investigation
 
-Enemy draw's target interpolation helper at 0x40F5E0 returns its final multiply
-and sum directly through ST0, with no float32 return store. Both an alternative
-long-double helper return declaration/definition and a wide right-hand operand
-in the second Abs subtraction were compiled as a batch. The helper retains all
-91 bytes/two fields, but both callers regress to 657 complete differences at
-1,758 bytes/53 fields. Their raw caller bodies are identical. No production
-signature, expression or profile change is retained; original return precision
-is still unknown. These differ from the prior left-side double/Abs-return trials.
+DrawReplayMenu owns 1280 bytes at 0x4234F6. Its interpolation alternates two real
+Float3 value groups before the final position copy. The source now expresses
+those four existing subtraction/frame/scaling/addition stages through scaled
+and target. This recovers frame 0x134 and the actual 256-byte buffer home;
+36 raw stack/frame bytes change, with all 54 relocation descriptors unchanged.
+No buffer enlargement, extra arithmetic, helper or profile change is introduced.
 
-scripts/inspect-enemy-draw.py now checks complete instruction decoding, actual
-call/data/object-immediate operands against all COFF fields, target counts and
-ordered direct call identities. The image-like TEST mask 0x400000 remains a
-scalar. It reports missing/excess bytes and resolved/target extent hashes, and
-explicitly does not bind supplied objects to source. This is a diagnostic,
-not an acceptance gate or CFG correspondence proof. Optional Capstone is needed.
+Three isolated models were inspected before one canonical-path compile.
+Direct indexed mode access emits 1250 bytes with 1181 overlap differences and 30
+absent bytes. Per-case unsigned caption lengths retain counts but change nine
+raw bytes, moving one strlen call and deferring cleanup. Neither is retained.
+The Float3 stages are retained on target storage evidence; their canonical
+raw SHA256 is 0fc1b7fd16ddc3ef4ceda4fb8cc0a2881b621171cedaee108ef5ba89026a533b.
 
-The bound baseline still decodes 495 instructions/53 fields/28 direct calls,
-with four complete differences at +0x3F3..+0x3F6 and no missing/excess bytes.
-All three collateral exact bodies retain 164 bytes/eight fields. Five targeted
-guard tests pass, including extent mismatches, unmasked operand differences,
-missing/duplicate/misbound COFF records, scalar masks and truncated decoding.
+Complete comparison still gives 1244/1280 bytes, 54 fields, 1180 overlap
+differences plus 36 absent bytes,366/376 instructions,11/13 calls and71/72
+blocks. All actual operands cover COFF fields independently; target has 57
+separately decoded fields. Every collateral copy and nondebug data remains
+unchanged. Those three copies are 37 bytes/two fields and have no target
+ownership. No exact receipt or partial credit is granted. Call merging and
+remaining stack/register allocation stay open.
 
 ## Evidence and artifact lifecycle
 
-Entry at 1a4c781 is clean; private target, direct IDA metadata, entry and five
-mapped-byte samples pass. No Factory MCP, IDA writes, target patch or delegation.
-Current packet: .analysis/gpt-6.1-sol-enemy-return-precision-20261009/.
-It retains patches, reconstruct.py, input manifest, actual include logs, full
-operand/byte reports and independent four-owner inventory. Eight actual includes
-per carrier match preobserved inputs. Source/backend hashes match after builds.
-The inherited conjunction baseline is source/dependency/object-hash matched;
+Entry at 145d1c6 is clean; private target, direct IDA metadata, entry and five
+mapped-byte samples pass. No Factory MCP, target patch, IDA write or delegation.
+Current packet: .analysis/gpt-6.1-sol-replay-mode-20261009/.
+It retains patches, Git-bound reconstruct.py, source/include/backend manifests,
+all full byte/operand reports and independent four-owner COFF cross-check.
+Six actual includes per carrier have matching before/after hashes. The old
+actual-Float3 baseline is reused with main/header/vendor/backend bindings;
 its historical environment is not retrospectively attested.
 
-Two compiles are terminal. Cleanup removes eight copied sources/objects/PDBs,
-178,552 bytes. Reconstruction is hash-checked before cleanup and preserves the
-terminal manifest. Bound baseline and canonical caches remain. No unchanged
-canonical compile or inherited cleanup is repeated.
+All four compiles are terminal. Cleanup receipts remove 15 file events totaling
+298,753 bytes, including recreated probe sources and canonical PDB. The small
+source-bound canonical object, inherited baseline and compact proofs remain.
+No unchanged baseline compile or inherited cleanup is repeated.
 
-Accumulate coherent source changes before one batch-end cold replay. Reuse
-unchanged source-bound evidence; every new exact owner still requires a pinned
-canonical build and complete zero-difference byte/relocation proof.
+Batch coherent changes before cold replay; every new exact owner requires
+complete pinned canonical source/byte/relocation proof. A same-size or same-count
+trial is not byte neutrality: compare actual bodies and field descriptors.
 
 ## Restart commands
 
@@ -117,20 +117,19 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
-python3 scripts/inspect-enemy-draw.py build/gpt-dots-enemy-draw-conjunction-20261006/EnemyManagerDraw.obj
-python3 scripts/compare-coff-function.py --unit enemy-manager-draw-high-prio
-python3 scripts/compare-coff-function.py --unit enemy-manager-draw-low-prio
-python3 scripts/compare-coff-function.py --unit enemy-draw-interpolate-wrapped-angle
+python3 .analysis/gpt-6.1-sol-replay-mode-20261009/audit.py --canonical-only
+python3 scripts/compare-coff-function.py build/gpt-6.1-sol-replay-mode-20261009/canonical.obj '?DrawReplayMenu@TitleScreenView@@QAEHXZ' 0x4234F6 1280
 python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj
 ```
 
 Call direct IDA get_metadata with exactly {} during entry attestation.
-Enemy draw's inspector exits successfully for a completed nonexact diagnostic;
-ECL's complete inspector returns1 for its measured mismatch. Neither compiles
-or establishes supplied-object source provenance. Reconstruct the current
-cleaned trial sources before rerunning audit.py and its compiler commands.
+The generic menu Oracle returns1 for its expected 1244/1280 extent mismatch;
+complete audit exits successfully after reporting all mismatch/absence bytes.
+It compares the supplied canonical object to the retained reviewed input proof;
+no new cold build is implied. Reconstruct the cleaned isolated sources through
+the packet's Git-bound recipe before a fresh trial compile.
 
-Validation: focused draw units 35/35,38/38,91/91; independent complete
-four-owner/61-field inventory; five targeted tests; tracking, progress and
-whitespace pass. Isolated CI runs72 tests (68 pass, four optional Capstone
-checks skipped). Worktree checkpoints are local and not pushed.
+Validation: complete canonical owner/decoded operands and all collateral code,
+tracking, progress, documentation and whitespace pass. Isolated CI runs 72 tests
+(68 pass, four optional Capstone checks skipped). Worktree checkpoints remain
+local and are not pushed. Native product/runtime and later phase gates remain open.

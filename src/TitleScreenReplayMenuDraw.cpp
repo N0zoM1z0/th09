@@ -156,18 +156,19 @@ int TitleScreenView::DrawReplayMenu()
         target.z = 0.0f;
         if (frame < 10)
         {
-            target.x -= position.x;
-            target.y -= position.y;
-            target.z -= position.z;
-            target.x *= (float)frame;
-            target.y *= (float)frame;
-            target.z *= (float)frame;
-            target.x *= 0.1f;
-            target.y *= 0.1f;
-            target.z *= 0.1f;
-            target.x += position.x;
-            target.y += position.y;
-            target.z += position.z;
+            Float3 scaled;
+            scaled.x = target.x - position.x;
+            scaled.y = target.y - position.y;
+            scaled.z = target.z - position.z;
+            target.x = scaled.x * (float)frame;
+            target.y = scaled.y * (float)frame;
+            target.z = scaled.z * (float)frame;
+            scaled.x = target.x * 0.1f;
+            scaled.y = target.y * 0.1f;
+            scaled.z = target.z * 0.1f;
+            target.x = scaled.x + position.x;
+            target.y = scaled.y + position.y;
+            target.z = scaled.z + position.z;
         }
         position = target;
 
