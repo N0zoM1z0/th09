@@ -85,6 +85,7 @@ typedef char EnemyCoreTrailSampleSizeIs1C[
 
 struct EnemyCoreEtamaControllerView;
 struct EnemyCorePlayerView;
+struct EnemyCoreView;
 
 struct EnemyCoreSideStateView
 {
@@ -112,7 +113,7 @@ struct EnemyCorePlayerView
     unsigned char unknown01B94[0x30364 - 0x1B94];
     Float3 trackedEnemyPosition30364;
     unsigned char unknown30370[0x3037C - 0x30370];
-    void *homingTarget3037C;
+    EnemyCoreView *homingTarget3037C;
     unsigned char unknown30380[0x303C8 - 0x30380];
     EnemyCoreTimerView stateTimer303C8;
 
@@ -782,9 +783,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                             enemy->worldPosition2DD4.x -
                             player->position1B88.x)) < 64.0f)
                     {
-                        EnemyCoreView *homing =
-                            reinterpret_cast<EnemyCoreView *>(
-                                player->homingTarget3037C);
+                        EnemyCoreView *homing = player->homingTarget3037C;
                         if (homing == 0 ||
                             homing->position2D74.y > enemy->worldPosition2DD4.y)
                         {

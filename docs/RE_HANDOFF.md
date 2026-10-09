@@ -9,13 +9,13 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at 7facad4. Target SHA, direct IDA metadata, entry
-and five distributed mapped-byte samples pass. Twelve complete Type14/22 draw
-callee/interface/reference controls precede one canonical-path cold compile.
-The callback now uses the canonical angle declaration and existing ZunTimer
-integer conversion. Complete linked code/fields remain neutral; normalization
-body visibility drops a required target call and is rejected. No new exact credit,
-profile change, target patch, IDA write or delegation. Prior corrections stay.
+This checkpoint starts clean at 5319533. Target SHA, direct IDA metadata, entry
+and five distributed mapped-byte samples pass. Seven Enemy update object/copy
+controls precede one canonical-path cold compile. The private Player homing
+field now holds the observed Enemy pointer directly; the complete code/fields
+remain neutral. Early tracked-position capture and direct memmove are rejected.
+No new exact credit, profile change, target patch, IDA write or delegation.
+Prior corrections stay.
 
 ## Live ledger snapshot
 
@@ -63,6 +63,36 @@ semantic reconstruction and portability have not started.
   descriptor member storage is maintained. Entry-owner-path controls are neutral.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
+
+## Enemy update object-copy batch
+
+Packet: `.analysis/gpt-6.1-sol-enemy-object-copies-20261009/`.
+Current cache: `build/matching/EnemyManagerCore.obj`, SHA256
+`60a054387f8a7125ec31eb44184e0bd6ed8ec711a949d61b9c29beae366aa1f9`.
+The actual former cache and unchanged compiler/header inputs were checked before
+reuse. Its production path now contains the cold build. The baseline reference
+capture is explicitly a separately compiled neutral control, corroborated against
+the prior independent complete raw capture; it is not the former whole COFF.
+
+Player +0x3037C is compared with the current Enemy, cleared on deactivation,
+read as an Enemy at +0x2D78, and assigned the current Enemy by the target.
+The private view now uses EnemyCoreView*, removing the repeated void* cast.
+The unrelated opaque focus-getter return ABI stays unchanged. Original class
+spelling, larger layout ownership and native runtime behavior remain unknown.
+
+Side/destination references and direct temporary-address memcpy are neutral.
+Capturing trackedPosition before the vector calls gives 3,888 physical bytes,
+3,289 overlap differences plus twelve missing, and is rejected. Direct memmove
+adds a seventieth call and a 98th field absent from target; its external target
+destination remains unknown and no full resolved-byte score is claimed.
+Typed homing and canonical cold preserve all five owners, 99 fields and seven
+nondebug noncode sections. Main remains 3,900 physical /3,883 code bytes with
+97 bound fields and 39 differences. Nine strict reports preserve the existing
+151-byte/two-field sibling. Cleanup removes 22 source/COFF/PDB files, 961,875
+bytes; all seven complete recipes recover after cleanup. Compressed complete
+captures, target disassembly, proof and source inversion remain below 200 KB.
+Use the new packet's retained audit and replay; older Enemy packets retain
+historical input bindings and are not current-source replay commands.
 
 ## Latest Type14/22 draw batch
 
@@ -155,8 +185,8 @@ python3 scripts/report-reconstruction-status.py
 python3 -B .analysis/gpt-6.1-sol-draw1422-callee-context-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-pause-partial-visibility-20261009/audit.py --retained-only
 python3 scripts/inspect-pause-menu.py
-python3 -B .analysis/gpt-6.1-sol-enemy-scratch-lifetime-20261009/audit.py --retained-only
-python3 -B .analysis/gpt-6.1-sol-enemy-scratch-lifetime-20261009/replay.py --retained-only
+python3 -B .analysis/gpt-6.1-sol-enemy-object-copies-20261009/audit.py --retained-only
+python3 -B .analysis/gpt-6.1-sol-enemy-object-copies-20261009/replay.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-gameplay-helper-visibility-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-setup-input-array-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-ecl-flat-local-scope-20261009/audit.py --retained-only
