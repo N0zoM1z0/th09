@@ -9,15 +9,13 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at1ff599d. Four gameplay worker failure/assignment
-controls precede one paired batch-end cold. Moving failure cleanup and joined
-assignment guards keep921 differences. Branch-local cleanup returns emit1724
-bytes/1123 overlap differences plus35 excess and an extra FinishLoading call.
-All eight exact same-profile siblings pass. Target172 address fields and
-candidate171 are now separately checked by the complete operand inspector.
-Retained/source/include replay and19-file cleanup pass. No reconstruction source,
-ABI/profile or exact-credit change is adopted. ResolveFloat is already exact;
-SaveReplay stays parked.
+This checkpoint starts clean at27fbfa1. Three Enemy update index/hitbox controls
+precede one paired batch-end cold. Borrowing the live source hitbox is neutral39;
+retaining the draw-group index emits3888 physical bytes/3299 overlap differences
+plus12 absent. The pair reproduces that regression. Full target/field/table/CFG,
+151-byte sibling, retained/Git/mixed-EOL/include and15-file cleanup checks pass.
+No reconstruction source/header/ABI/profile or exact-credit change is adopted.
+ResolveFloat is already exact; SaveReplay stays parked.
 
 ## Live ledger snapshot
 
@@ -77,43 +75,45 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest gameplay setup failure-phase batch
+## Latest Enemy update index/source-hitbox batch
 
-Packet: `.analysis/gpt-6.1-sol-gameplay-failure-phases-20261010/`.
-Canonical remains `build/gpt-dots-setup-continuations-20261006/baseline.obj`,
-COFF SHA256 `c181cf0b14561687ddf6ba9975ebce492bdfb25d055ea5269183fba608f7e186`.
-Worker raw remains `35d7f3adf469e584e8adf9f1714914db0d4c2d7d7c8dba19bbb21d6aabcc70a1`.
+Packet: `.analysis/gpt-6.1-sol-enemy-draw-index-hitbox-20261010/`.
+Canonical remains `build/matching/EnemyManagerCore.obj`,
+COFF SHA256 `60a054387f8a7125ec31eb44184e0bd6ed8ec711a949d61b9c29beae366aa1f9`.
+Main raw remains `a9ca56df7ef5a09effcd22605048b318f19f41d13cf7f1f7740ba2bafbf2b960`.
 
-Failure cleanup at the registration phase boundary and pointer assignment/null
-predicates are all12-owner neutral:1689 bytes/171 fields/416 instructions/frame4,
-35 ordered calls/77 blocks,921 differences. Branch-local cleanup returns and
-their paired predicates produce identical1724-byte/179-field/425-instruction
-mains,1123 overlap differences plus35 excess and36 physical calls. Failure cleanup
-splits into EDI=2 and ESI=2 copies, adding a FinishLoading call. Common eleven
-collateral bodies and seven data sections stay unchanged. No candidate is adopted.
+Borrowing the live repeated hitbox source is all-five-owner neutral:3883 code/
+3900 physical bytes,1026 instructions/frame2A8h/97 fields/69 calls/170 blocks,
+39 differences. Retaining draw-group index instead of its computed head pointer
+and that model's source-hitbox pair emit3870 code/3888 physical bytes,1022
+instructions/frame2A8h/97 fields/69 calls/168 blocks,3299 overlap differences
+plus12 absent. Actual MOV EDI,EDI alignment and all four switch entries remain in
+the comparison. Five private main label spellings differ between index/pair,
+with every actual coordinate unchanged; their raw/linked mains match. Neither
+model corrects the four residual clusters.
 
-Target has172 actual address operands (33 REL32/139 DIR32) versus baseline171
-(33/138). The inspector now prints both counts and requires complete candidate
-COFF-to-decoded-operand coverage. Current/source/backend/actual baseline pins
-pass. Old helper-visibility replay rejects a changed whole manifest; its eight
-selected units equal hash-bound historical Git/current definitions. Historical
-proof remains unchanged; use the latest current replay below.
+All four collateral bodies and seven data sections remain unchanged. Three warms
+precede one fresh-object paired cold; all four terminate zero. Complete nondebug
+captures, fields, linked main and decoded graph/table repeat warm. Actual13-path
+include closures and all five151-byte/two-field sibling checks pass. Full proof
+is178875 compressed/890261 decoded bytes. Fifteen pre-unlink receipts remove
+468233 disposable bytes. Retained replay parses the actual canonical, rebinds
+deleted captures and restores/removes exact recipe sources for include replay.
+54 current input/15 support pins and Git/mixed-EOL source bindings pass.
 
-Four warms precede one fresh-object paired cold; all five terminate zero. Complete
-nondebug captures, actual fields, linked main and graph repeat warm. Actual87-path
-include closures and all48 baseline/five-carrier strict sibling checks pass,
-1122 target bytes/96 fields per carrier. Full proof is157879 compressed/1156542
-decoded bytes. Nineteen pre-unlink receipts remove1105824 disposable bytes.
-Retained replay parses the actual canonical, rebinds deleted captures and restores/
-removes exact recipe sources for include replay. Original producer pins and new
-Oracle pins are distinct; constants/destination/call identities stay unchanged.
-
-The preceding GameManager snapshot/setup-state batch remains in the KB and its
-retained command. Staged/mutable captures are neutral105; local switch regresses
-and an ordinary gate member adds an unbound call. Enemy draw's lvalue/default
-contexts and RunEcl's narrow/float/index interactions also remain excluded.
+The preceding gameplay worker failure-phase batch and its improved172-target/
+171-candidate operand inspector remain in the KB and restart commands. Its
+lexical phase/assignment guards are neutral921; branch-local returns duplicate
+failure cleanup and regress. GameManager snapshot/setup-state, Enemy draw lvalues
+and RunEcl narrow/float/index contexts also remain excluded.
 
 ## Next route and current cache cautions
+
+Do not repeat Enemy update's exact draw-group-index, live-hitbox-source-reference
+or paired contexts. Earlier destination-reference/copy, whole arrays, shared
+vector/descriptor types and scratch-lifetime controls also remain excluded. The
+four39-byte frontier clusters require materially new target/source/TU evidence;
+these diagnostics do not prove compiler impossibility.
 
 Do not repeat the gameplay worker's precise failure-phase, branch-local-return
 or pointer-assignment predicate contexts. They do not correct the independent
@@ -192,6 +192,7 @@ python3 -B .analysis/gpt-6.1-sol-result-group-cursor-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-enemy-array-workspaces-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-pause-state-array-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-ecl-wire-prefix-20261009/retained.py
+python3 -B .analysis/gpt-6.1-sol-enemy-draw-index-hitbox-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-enemy-shared-types-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-ecl-flag-storage-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-movement-direct-sht-20261009/retained.py
