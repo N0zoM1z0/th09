@@ -9,13 +9,12 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at 3843644. Original target and direct IDA mapped
-bytes pass. Nine Supervisor completion/return controls precede one batch-end
-cold replay; none improves the retained 984-byte hypothesis or earns exact credit.
-A persistent complete-owner inspector now cross-checks all current controls and
-both prior candidates. Target evidence fixes the title registrar's full 32-bit
-ECX payload; its IDA prototype is corrected and read back without changing code.
-Game source, headers, ABI, profile and match ledgers remain unchanged.
+This checkpoint starts clean at 54703da. Original target and direct IDA mapped
+bytes pass. Four natural DrawResult bank-producer contexts precede one batch-end
+cold replay. Output reference/pointer producers inline but remain byte-neutral;
+array references regress the keyboard allocation, even in a short lexical scope.
+Complete 1939-byte baseline comparison still has22 differences. No source,
+header, profile, ABI, IDA metadata, match or exact-credit change is made.
 
 ## Live ledger snapshot
 
@@ -54,6 +53,8 @@ semantic reconstruction and portability have not started.
   entry-zero scheduling, plus six shifted early-return branch displacements.
 - Title Options: 2,045 target /2,048 candidate bytes, 135 fields, 610 linked
   overlap differences plus three excess; 51 calls and 121 direct blocks agree.
+- Result draw: 1,939 bytes/82 fields/22 entry differences. Output-reference and
+  array-reference producer contexts are rejected; later keyboard graph is covered.
 - Player movement: 1,835 authored /1,900 physical bytes, 66 fields, 144 differences.
 - Player charge: 1,210 target /1,197 candidate bytes, 70 fields, 1,160 linked
   overlap differences plus 13 absent. Integer conversion preserves seven regions
@@ -64,39 +65,42 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest Supervisor completion/return batch
+## Latest DrawResult bank-producer batch
 
-Packet: `.analysis/gpt-6.1-sol-supervisor-completion-20261009/`.
-Nine isolated controls test nested/flat state-2 completion, each combined with the
-real bit 7 predicate; three enum-return contexts; and two real title-return joins.
-Nested completion emits 968 bytes/92 fields/27 calls. Flat completion emits
-940/90/25 and incorrectly merges one Cut and one GameManager registration site.
-Enum return changes only mangling. Title-return joins emit 960/92/27 and replace
-TEST EAX,EAX with CMP EAX,EBX; the target's late EDI=2 lifetime remains missing.
-One cold title-return compile repeats complete runtime bytes and actual bindings.
-All 2736 limited static scene traces agree; they do not establish runtime equality.
-The complete actual 79-header closure and backend are pinned before these trials.
+Packet: `.analysis/gpt-6.1-sol-result-entry-dependencies-20261009/`.
+Current source/header/vendor/backend/COFF bindings validate reuse of the canonical
+object `build/gpt-6.1-sol-result-difficulty-20261009/canonical.obj`, SHA256
+`b8ed9aecdf99e598f885529f1a45dd949ccabf64981e05806f48fa3eca5afe7a`.
+Output-reference and output-pointer members write only the genuinely used ranking
+pointer; they inline naturally and preserve every1939-byte main body/82 fields,
+577 instructions,16 calls,92-block graph and22 complete differences. Uncalled
+26-byte producer copies each have one field and receive no target ownership.
+Function-scope and short-scope references to the actual25-record bank both emit
+1941 bytes/82 fields,319 overlap differences plus two excess. They spill keyboard
+row-base and change divisor/glyph scheduling; entry-screen hoisting stays wrong.
+One cold output-reference compile repeats complete runtime sections, numeric
+coordinates, bytes, fields and literals. All five observed includes were pinned
+before trials. The constructor and16 noncode sections remain unchanged.
 
-`scripts/inspect-supervisor-update.py` independently resolves the full code and
-owned tables from actual COFF coordinates and reviewed TH09 destinations. It
-agrees with the separate private parser on ten fresh carriers and the maintained
-980-byte/prior 984-byte candidates. Four target-independent binding guards pass.
-Exit 1 means a complete non-exact result, 2 means invalid/unsupported input.
-The 984-byte hypothesis remains at 601 overlap differences plus 12 absent;
-its retained source/COFF stay in the preceding entry-context packet. It still adds
-MOVZX ECX,AL and misplaces the shared title call/footer. No hypothesis is promoted.
+Full proof covers every instruction/operand/branch,15 literal payloads and the
+separate COFF parsers; graph agreement is not runtime or data-flow equivalence.
+Cleanup removes19 terminal files/345286 bytes, including all five new COFF/PDB
+pairs. Four source recipes restore/hash-check and are removed again. The compact
+packet stays below110 KB; retained replay rebinds deleted captures and reparses
+the actual canonical baseline. No diagnostic body is integrated or credited.
+These exact producer contexts are rejected. Reopen DrawResult only with different
+TH09-backed value/alias/TU evidence; rotate to RunEcl's live large-owner frontiers,
+after reading the KB's existing opcode and scope negatives.
 
-Fresh registrar evidence shows MOV EBX,ECX at42AB27 and the full DWORD store to
-[ESI+1B22C] at42AB6D. The unrelated byte clear at42AB5F does not narrow this input.
-IDA now reads `int __fastcall TitleScreen_RegisterChain(int registrationContext)`;
-all disassembled instructions and final mapped-byte checks remain unchanged.
-The strict existing registration Oracle passes201/201 with17 fields.
-Cleanup removes45 owned files/1789960 bytes after full captures pass; all nine
-source recipes and the private header restore/hash-check and are removed again.
-Retained replay rebinds deleted captures, without claiming to inspect deleted COFFs.
-Do not repeat these exact completion/return/qualifier/case-order models. Rotate to
-another large owner using new target-supported evidence; Supervisor requires a
-different late-constant/control-flow hypothesis before another trial batch.
+## Supervisor routing
+
+The preceding completion packet tests nine controls plus one cold, without exact
+growth. The maintained complete inspector covers the full996-byte target and
+owned tables. Prior984-byte hypothesis remains601 differences plus12 absent at
+`build/gpt-6.1-sol-supervisor-entry-context-20261009/binary-title-flag-bit.obj`.
+Its MOVZX/title-call/footer and target late EDI=2 lifetime remain open. Target
+registrar preserves full32-bit ECX; the reviewed IDA int prototype is read back.
+Do not repeat those completion, enum-return or return-join models. See the KB.
 
 ## Previous replay-save depth batch
 
@@ -186,7 +190,9 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
-python3 -B .analysis/gpt-6.1-sol-supervisor-completion-20261009/audit.py --retained-only
+python3 -B .analysis/gpt-6.1-sol-result-entry-dependencies-20261009/audit.py --retained-only
+python3 -B .analysis/gpt-6.1-sol-result-entry-dependencies-20261009/closure.py
+python3 scripts/inspect-title-result-draw.py build/gpt-6.1-sol-result-difficulty-20261009/canonical.obj
 python3 scripts/inspect-supervisor-update.py build/gpt-6.1-sol-supervisor-entry-context-20261009/binary-title-flag-bit.obj
 python3 -B .analysis/gpt-6.1-sol-replay-depth-workspace-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-ecl-jump-timer-20261009/audit.py --retained-only
