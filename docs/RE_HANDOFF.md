@@ -9,12 +9,13 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at196df91. Original target and direct IDA mapped
-bytes pass. Three complete RunEcl wire-view contexts precede one batch-end
-cold. The trailing-byte member family is neutral; the full opcode7 instruction
-view increases code and frame size. All 23 configured exact siblings pass in
-every carrier. No source/header/ABI/profile or exact-credit change is integrated.
-SaveReplay serialization remains parked.
+This checkpoint starts clean at99a790c. Original target and direct IDA mapped
+bytes pass. Three complete PauseMenu state/array contexts precede one batch-end
+cold. Enum storage is neutral; the full array reference narrows the length gap
+but changes frame/register allocation and worsens complete differences. All
+11 configured exact siblings pass in every carrier. No source/header/ABI/profile
+or exact-credit change is integrated. ResolveFloat is already exact; the prior
+next-unit routing was stale and is corrected. SaveReplay remains parked.
 
 ## Live ledger snapshot
 
@@ -73,7 +74,48 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest RunEcl wire-prefix batch
+## Latest PauseMenu state/array batch
+
+Packet: `.analysis/gpt-6.1-sol-pause-state-array-20261009/`.
+Actual canonical remains `build/matching/AsciiManagerMenu.obj`, SHA256
+`1145e31c07bebac38e69639a835721fbdcb155761ba0251b492acdc03135f788`.
+All 92 source/backend/Oracle bindings agree; each compiler records 79 actual
+source/include paths. Fresh direct IDA has 445 address/instruction lines;
+independent target decoding covers 449 instructions and all 106 fields.
+
+Existing ten-value enum storage/snapshot is neutral across all 13 owners /
+4186 physical bytes /266 fields /three noncode sections. Borrowing the actual
+seven-element AnmVm array throughout the owner gives 1732 code /1772 physical
+bytes, 450 instructions, frame 0x64 and an EBX-indexed switch. All 107 fields
+and ten actual table destinations are independently bound, giving 1583 full
+overlap differences plus four absent bytes, versus baseline 1492 plus44.
+The production inspector rejects the unreviewed dispatch operand; its strict
+gate is retained. The complete diagnostic decodes the changed operand without
+granting target callsite correspondence or credit. Combining enum and array
+views preserves this rejected carrier. All 12 collateral owners and the three
+noncode sections are neutral. All eleven configured siblings strictly equal
+the target across 2448 complete physical bytes /158 fields in each carrier.
+
+One fresh-path paired cold repeats all actual numeric owner/field records and
+complete linked bytes/graph. The first private include closure duplicated the
+canonical header through AsciiGameManagerView.hpp; copying that unchanged
+consuming header fixes the producer before measurements. Its failed log remains
+separate. Twenty pre-unlink receipts cover 660226 disposable bytes; all twelve
+original-EOL source copies restore, revalidate and are removed again. Retained
+proof reparses the real canonical object and rebinds complete deleted captures;
+it does not inspect deleted COFF. Compressed proof/scripts/recipes total124809
+bytes. No source hypothesis or partial exactness is promoted.
+
+Do not repeat these enum/whole-array controls without new evidence. Candidate
+still has three timeGetTime calls versus two target calls, including an extra
+ordinary state9 tail; prior shared-footer controls are already documented.
+Resume a distinct large-owner frontier, such as Enemy OnUpdate's remaining
+effect/descriptor and homing scheduling, after reading its precise exclusions.
+ResolveFloat @0x4068A0 is matching100 with complete2044-byte/121-field closure
+since Packet630 (KB4011 onward and correction KB5486); do not reconstruct it
+again because the older ECL-014 worklist cell or previous handoff says otherwise.
+
+## Previous RunEcl wire-prefix batch
 
 Packet: `.analysis/gpt-6.1-sol-ecl-wire-prefix-20261009/`.
 Canonical remains `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`,
@@ -108,8 +150,8 @@ All 28 original-EOL source copies restore, revalidate and are removed again.
 Retained.py reparses the actual canonical object, rebinds every complete
 deleted capture and strictly relinks all 23 captured siblings to the target.
 Do not repeat these three contexts or the older eight-byte payload/union
-controls. Review the large float resolver and its prior controls next; the tested
-wire views and bitfield storage forms do not close RunEcl's six residuals.
+controls. The tested wire views and bitfield storage forms do not close RunEcl's
+six residuals. ResolveFloat is already exact; use the live ledger for routing.
 
 ## Previous Enemy OnUpdate shared-type batch
 
@@ -362,6 +404,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-pause-state-array-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-ecl-wire-prefix-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-enemy-shared-types-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-ecl-flag-storage-20261009/retained.py
