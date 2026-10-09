@@ -109,3 +109,36 @@ Validation passed: target-required tracking, three focused canonical draw
 replays, generated progress, all 62 target-independent CI tests, documentation,
 explicitly open whole-build graph and whitespace checks. No background compiler
 or worker remains.
+
+
+## Follow-up checkpoint: complete Player movement comparison (October 9)
+
+Recovery at 25ff491 and fresh direct IDA/disk/mapped-byte attestation pass. The
+1,835-byte Player movement owner remains nonexact: 1,900 physical bytes, 489
+instructions, 66 fields and 144 complete differences. The maintained inspector
+now emits the complete physical-byte result and independently checks every
+COFF field against decoded operands/tables. Actual local positions are retained;
+no relocation is masked or fitted. Its successful exit denotes a completed
+diagnostic, not an exact verdict or current-source build attestation.
+
+Two new playfield models are closed. A private view of the four contiguous
+float globals is fully neutral after relocation. Moving both clamps into an
+ordinary member leaves a new 95-byte helper call; independent binding rejects
+it. Neither is retained. Do not repeat these exact forms under the same source
+and compiler context. Original data ownership and the remaining register/
+scheduling differences remain unresolved. Earlier Pause helper-opacity/footer
+controls were reviewed without recompiling or promoting them.
+
+The retained input-owner carrier is bound to today's source via its historical
+candidate hash, with all nine recorded headers unchanged; its old pre-retention
+source hash is not claimed as current. Canonical Player OnUpdate still replays
+522/522. All eight focused diagnostic tests pass; isolated CI runs 67 tests
+with the two optional Capstone tests skipped and all remaining checks passing.
+Tracking remains 928 exact owners and 218,501 /275,770 bytes (79.2331%).
+
+Two isolated compiles are terminal. Cleanup removes 219,619 task-owned bytes
+of sources, objects, PDBs and a duplicate report, retaining about 82 KiB below
+`.analysis/gpt-6.1-sol-player-playfield-20261009/`. Source patches, actual include
+logs, input hashes, complete comparison reports and independent collateral
+audit remain; inherited evidence is preserved. No C/C++, header, profile,
+extent or match-ledger change is retained. The 95% goal stays active.

@@ -5,6 +5,8 @@ The COFF auxiliary size includes two adjacent switch tables. Distinguish that
 physical extent from the reviewed 1835-byte target code. All destinations below
 come from TH09 operand consumers/canonical units, never fitted target fields.
 Requires Capstone for bounded instruction diagnostics. Does not build or write.
+Complete physical-byte and independently decoded field comparisons are included;
+even zero differences are diagnostic only until source/build provenance is bound.
 """
 from __future__ import annotations
 
@@ -73,6 +75,58 @@ def coff_symbols(path: Path, coff, names: set[str]) -> dict[str, tuple[int, int]
     return symbols
 
 
+def compare_extents(target: bytes, candidate: bytes) -> dict[str, object]:
+    """Compare every physical byte, including alignment and switch data."""
+    differences = [
+        offset for offset, (expected, actual) in enumerate(zip(target, candidate))
+        if expected != actual
+    ]
+    return {
+        "full_byte_agreement": target == candidate,
+        "full_difference_count": len(differences),
+        "difference_offsets": differences,
+        "missing_target_bytes": max(0, len(target) - len(candidate)),
+        "extra_candidate_bytes": max(0, len(candidate) - len(target)),
+        "resolved_function_sha256": hashlib.sha256(candidate).hexdigest(),
+        "target_extent_sha256": hashlib.sha256(target).hexdigest(),
+    }
+
+
+def decoded_fields(instructions, tables: bytes, table_offset: int):
+    """Read call/data operands and all table entries independently of COFF."""
+    import capstone
+
+    fields = []
+    for instruction in instructions:
+        if (instruction.mnemonic == "call" and instruction.operands
+                and instruction.operands[0].type == capstone.x86.X86_OP_IMM):
+            if instruction.imm_size != 4:
+                raise ValueError("expected four-byte direct call operand")
+            fields.append({
+                "offset": instruction.address - BASE + instruction.imm_offset,
+                "type": "REL32",
+                "effective_destination": instruction.operands[0].imm,
+            })
+        for operand in instruction.operands:
+            if (operand.type == capstone.x86.X86_OP_MEM
+                    and operand.mem.disp >= 0x400000):
+                if instruction.disp_size != 4:
+                    raise ValueError("expected four-byte absolute data operand")
+                fields.append({
+                    "offset": instruction.address - BASE + instruction.disp_offset,
+                    "type": "DIR32",
+                    "effective_destination": operand.mem.disp,
+                })
+    if len(tables) != 64:
+        raise ValueError("expected two complete eight-entry tables")
+    fields.extend({
+        "offset": table_offset + offset,
+        "type": "DIR32",
+        "effective_destination": struct.unpack_from("<I", tables, offset)[0],
+    } for offset in range(0, len(tables), 4))
+    return sorted(fields, key=lambda row: row["offset"])
+
+
 def inspect(path: Path) -> dict[str, object]:
     import capstone
 
@@ -88,6 +142,7 @@ def inspect(path: Path) -> dict[str, object]:
     replay = bytearray(code)
     internal_offsets = []
     table_positions = []
+    bound_fields = []
     for row in relocations:
         name, offset, addend = row["symbol"], row["offset"], row["addend"]
         if name in DESTINATIONS:
@@ -101,12 +156,22 @@ def inspect(path: Path) -> dict[str, object]:
             raise ValueError("unreviewed external relocation: " + name)
         if row["type"] == "DIR32":
             value = destination + addend
+            effective_destination = value
         elif row["type"] == "REL32":
             signed_addend = struct.unpack("<i", struct.pack("<I", addend))[0]
-            value = destination + signed_addend - (BASE + offset + 4)
+            effective_destination = destination + signed_addend
+            value = effective_destination - (BASE + offset + 4)
         else:
             raise ValueError("unsupported relocation type")
         struct.pack_into("<I", replay, offset, value & 0xFFFFFFFF)
+        bound_fields.append(dict(
+            row, destination=destination,
+            effective_destination=effective_destination & 0xFFFFFFFF,
+            symbol_section=symbols.get(name, (0, 0))[0],
+            symbol_value=symbols.get(name, (0, 0))[1],
+            owner_section=owner_section, owner_value=owner_offset,
+            owner_local=name not in DESTINATIONS,
+        ))
     tables = sorted(set(table_positions))
     if tables != [len(code) - 64, len(code) - 32] or len(internal_offsets) != 18:
         raise ValueError("expected two eight-entry tables and eighteen internal fields")
@@ -132,6 +197,13 @@ def inspect(path: Path) -> dict[str, object]:
         raise ValueError("unreviewed post-return code")
     candidate_ins = decode(replay[:body_size])
     target_ins = decode(target[:CODE_SIZE])
+    target_fields = decoded_fields(target_ins, target[-64:], PHYSICAL_SIZE - 64)
+    candidate_fields = decoded_fields(candidate_ins, replay[-64:], tables[0])
+    field_key = lambda row: (row["offset"], row["type"], row["effective_destination"])
+    if len(target_fields) != 66:
+        raise ValueError("expected 66 independently decoded target fields")
+    if Counter(map(field_key, candidate_fields)) != Counter(map(field_key, bound_fields)):
+        raise ValueError("decoded candidate operands do not cover actual COFF fields")
 
     def normalized(instruction):
         if instruction.mnemonic.startswith("j") or instruction.mnemonic == "call":
@@ -175,6 +247,15 @@ def inspect(path: Path) -> dict[str, object]:
         "normalized_aligned_instructions": sum(m.size for m in alignment.get_matching_blocks()),
         "normalized_alignment_is_not_byte_proof": True,
         "raw_function_sha256": hashlib.sha256(code).hexdigest(),
+        **compare_extents(target, replay),
+        "target_fields": target_fields,
+        "actual_resolved_fields": bound_fields,
+        "candidate_operand_fields_cover_actual_records": True,
+        "field_identity_occurrences_agree": Counter(
+            (row["type"], row["effective_destination"]) for row in target_fields
+        ) == Counter(
+            (row["type"], row["effective_destination"]) for row in bound_fields
+        ),
     }
 
 
