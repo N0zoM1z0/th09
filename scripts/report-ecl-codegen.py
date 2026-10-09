@@ -76,6 +76,48 @@ def vc71_stack_frame_size(code: bytearray) -> int:
     return int.from_bytes(code[5:9], "little")
 
 
+def code_and_alignment_sizes(code: bytes) -> tuple[int, int]:
+    """Decode the full pre-table extent and review post-return alignment."""
+    try:
+        import capstone
+    except ImportError as error:
+        raise ValueError("RunEcl extent decoding requires optional Capstone") from error
+
+    decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
+    decoder.detail = True
+    instructions = list(decoder.disasm(code, 0))
+    if sum(instruction.size for instruction in instructions) != len(code):
+        raise ValueError("incomplete RunEcl pre-table instruction decoding")
+    returns = [index for index, instruction in enumerate(instructions)
+               if instruction.mnemonic == "ret"]
+    if not returns:
+        raise ValueError("RunEcl code has no terminal return")
+    final_return = returns[-1]
+    terminal = instructions[final_return]
+    code_size = terminal.address + terminal.size
+    alignment_size = len(code) - code_size
+    if alignment_size > 15:
+        raise ValueError("RunEcl post-return alignment exceeds the reviewed bound")
+    for instruction in instructions[final_return + 1:]:
+        operands = instruction.operands
+        plain_nop = instruction.mnemonic == "nop"
+        self_lea = (
+            instruction.mnemonic == "lea" and len(operands) == 2
+            and operands[0].type == capstone.x86.X86_OP_REG
+            and operands[1].type == capstone.x86.X86_OP_MEM
+            and operands[1].mem.base == operands[0].reg
+            and operands[1].mem.index == 0 and operands[1].mem.disp == 0
+        )
+        if not (plain_nop or self_lea):
+            raise ValueError("unreviewed instruction after RunEcl terminal return")
+    for instruction in instructions[:final_return + 1]:
+        if (instruction.mnemonic.startswith("j") and instruction.operands
+                and instruction.operands[0].type == capstone.x86.X86_OP_IMM
+                and not 0 <= instruction.operands[0].imm < code_size):
+            raise ValueError("RunEcl direct branch leaves the decoded code extent")
+    return code_size, alignment_size
+
+
 def first_world_result_shape(
     code: bytearray, relocations: list[dict[str, object]]
 ) -> dict[str, object]:
@@ -114,7 +156,7 @@ def first_world_result_shape(
 
 def report(object_path: Path) -> dict[str, object]:
     compare = load_compare_module()
-    compare.verified_target()
+    image = compare.verified_target()
     code, relocations = compare.object_function(object_path, RUN_ECL_SYMBOL)
     runs = contiguous_dir32_runs(relocations)
     if not runs:
@@ -127,9 +169,15 @@ def report(object_path: Path) -> dict[str, object]:
             f"{len(compiler_tables)}/{expected_table_count}"
         )
 
-    logical_size = int(compiler_tables[0]["offset"])
-    if len(code) - logical_size != expected_table_count * 4:
+    table_offset = int(compiler_tables[0]["offset"])
+    if len(code) - table_offset != expected_table_count * 4:
         raise ValueError("RunEcl candidate has bytes after the two compiler tables")
+    logical_size, alignment_size = code_and_alignment_sizes(bytes(code[:table_offset]))
+    target_size, target_alignment = code_and_alignment_sizes(
+        compare.pe_bytes_at(image, 0x004086C0, TARGET_LOGICAL_SIZE)
+    )
+    if target_size != TARGET_LOGICAL_SIZE or target_alignment != 0:
+        raise ValueError("reviewed RunEcl target code extent differs")
 
     direct_calls = Counter(
         str(relocation["symbol"])
@@ -175,6 +223,8 @@ def report(object_path: Path) -> dict[str, object]:
             "raw_function_sha256": hashlib.sha256(code).hexdigest(),
             "logical_code_size": logical_size,
             "physical_code_and_tables_size": len(code),
+            "pre_table_size": table_offset,
+            "post_return_alignment_size": alignment_size,
             "logical_size_gap": TARGET_LOGICAL_SIZE - logical_size,
             "physical_size_gap": TARGET_PHYSICAL_SIZE - len(code),
             "direct_calls": direct_call_count,
@@ -188,7 +238,7 @@ def report(object_path: Path) -> dict[str, object]:
             ),
             "resolver_calls": resolver_calls,
             "compiler_tables": {
-                "offset": logical_size,
+                "offset": table_offset,
                 "entries": len(compiler_tables),
                 "easing_entries": EASING_TABLE_COUNT,
                 "opcode_entries": OPCODE_TABLE_COUNT,
@@ -229,7 +279,8 @@ def main() -> int:
         candidate = result["candidate"]
         print(
             "RunEcl NON-EXACT: "
-            f"{candidate['logical_code_size']}/{TARGET_LOGICAL_SIZE} logical, "
+            f"{candidate['logical_code_size']}/{TARGET_LOGICAL_SIZE} code "
+            f"+ {candidate['post_return_alignment_size']} alignment, "
             f"{candidate['physical_code_and_tables_size']}/"
             f"{TARGET_PHYSICAL_SIZE} physical, "
             f"{candidate['direct_calls']}/{TARGET_DIRECT_CALL_COUNT} immediate "

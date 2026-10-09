@@ -1,4 +1,4 @@
-"""Target-independent tests for RunEcl's first vector-result diagnostic."""
+"""Target-independent checks for RunEcl code extent and evidence scope."""
 
 import importlib.util
 from pathlib import Path
@@ -67,13 +67,55 @@ class EvidenceScopeTests(unittest.TestCase):
         code = bytearray(2000 + table_count * 4)
         code[:9] = b'\x55\x8b\xec\x81\xec\x68\x01\x00\x00'
         reader = SimpleNamespace(verified_target=lambda: None,
-                                 object_function=lambda *_: (code, relocations))
-        with patch.object(REPORT, 'load_compare_module', return_value=reader):
+                                 object_function=lambda *_: (code, relocations),
+                                 pe_bytes_at=lambda *_: bytes(REPORT.TARGET_LOGICAL_SIZE))
+        with patch.object(REPORT, 'load_compare_module', return_value=reader), \
+                patch.object(REPORT, 'code_and_alignment_sizes',
+                             side_effect=[(1999, 1), (REPORT.TARGET_LOGICAL_SIZE, 0)]):
             result = REPORT.report(Path('unreviewed-fixture.obj'))
+        self.assertEqual(result['candidate']['logical_code_size'], 1999)
+        self.assertEqual(result['candidate']['post_return_alignment_size'], 1)
+        self.assertEqual(result['candidate']['compiler_tables']['offset'], 2000)
         self.assertEqual(result['call_identity_validation'], 'not_performed')
         self.assertIsNone(result['known_callsite_mismatches'])
         self.assertIn('not validated', result['claim'])
         self.assertEqual(result['status'], 'NON-EXACT')
+
+
+@unittest.skipUnless(importlib.util.find_spec('capstone'), 'optional Capstone not installed')
+class CodeExtentTests(unittest.TestCase):
+    def extent(self, encoded):
+        return REPORT.code_and_alignment_sizes(bytes.fromhex(encoded))
+
+    def test_return_with_and_without_alignment(self):
+        self.assertEqual(self.extent('c2 04 00'), (3, 0))
+        self.assertEqual(self.extent('c2 04 00 90'), (3, 1))
+
+    def test_return_bytes_inside_immediate_are_not_a_boundary(self):
+        self.assertEqual(self.extent('b8 c2 04 00 90 c2 04 00 90'), (8, 1))
+
+    def test_self_lea_alignment_preserves_the_register(self):
+        self.assertEqual(self.extent('c2 04 00 8d 49 00'), (3, 3))
+        with self.assertRaisesRegex(ValueError, 'unreviewed instruction'):
+            self.extent('c2 04 00 8d 51 00')
+
+    def test_real_tail_instruction_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'unreviewed instruction'):
+            self.extent('c2 04 00 b8 01 00 00 00')
+
+    def test_truncated_tail_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'incomplete'):
+            self.extent('c2 04 00 8d 49')
+
+    def test_branch_into_alignment_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'direct branch'):
+            self.extent('eb 03 c2 04 00 90')
+
+    def test_missing_return_and_excessive_alignment_are_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'no terminal return'):
+            self.extent('90 90')
+        with self.assertRaisesRegex(ValueError, 'exceeds'):
+            self.extent('c2 04 00 ' + '90 ' * 16)
 
 
 if __name__ == "__main__":

@@ -2,21 +2,18 @@
 
 ## Active objective
 
-The user explicitly resumed work on **2026-10-09**: reach **95% exact reviewed
-authored bytes**, work seriously on large functions, use direct IDA Pro MCP
-and local Bash/compiler Oracles without Factory MCP, commit locally as
-`gpt-6.1-sol: ...`, and periodically clean reproducible intermediates. Do not push.
-The goal remains **active-incomplete**. No new exactness credit was obtained in
-this checkpoint. Two isolated Player movement vector-family contexts preserve
-all 1,900 physical bytes and 66 effective fields; its 144 differences remain.
-Eight existing exact vector bodies also pass the strict Oracle. No canonical
-game source, shared header, profile or ledger changes follow. Type21's maintained
-descriptor-member correction and source-bound ECL canonical carrier remain.
-Type21's 15 preheader differences remain unresolved. Prior DrawResult,
-DrawReplayMenu and Enemy source corrections remain maintained and recorded in
-the knowledge base and Git.
-The October 7 stopped-state checkpoint is preserved in Git at
-7347cb3; its cleanup and evidence limits are historical, not current stop orders.
+The user resumed on **2026-10-09**: reach **95% exact reviewed-authored bytes**,
+work on large functions, use direct IDA Pro MCP and local Bash/compiler Oracles
+without Factory MCP, commit locally as `gpt-6.1-sol: ...`, and do not push.
+Batch coherent trials before cold replay; reuse unchanged baselines only after
+checking their source/backend/object bindings. The goal remains active-incomplete.
+The October 7 stop at 7347cb3 is historical.
+
+This checkpoint starts clean at 1a716e0. Target SHA, direct IDA metadata, entry
+and five distributed mapped-byte samples pass. No target patch, IDA write or
+delegation. Three RunEcl expression controls are completely neutral and rejected.
+The codegen diagnostic now distinguishes actual code from compiler alignment;
+no game source, ABI, profile, match row or exactness credit changes.
 
 ## Live ledger snapshot
 
@@ -36,128 +33,70 @@ These totals are checked against the live ledgers by scripts/validate-docs.py.
 | Authored without maintained source | 0 |
 | Canonical exact authored bytes | 218,501 |
 
-The fixed reviewed-authored denominator is **275,770 bytes**. Exact coverage is
-**79.2331%**; reaching 95% requires another **43,481 bytes**.
-The 35 unresolved origins are separate. These numbers do not measure the entire
-executable or establish a complete game. The faithful Windows i386 product and
-runtime gates remain open; semantic reconstruction and portability have not
-started. No new exactness credit or acceptance receipt is claimed by this checkpoint.
+The fixed authored denominator is **275,770 bytes**: **79.2331%** exact.
+Another **43,481 bytes** are needed for 95%. Origin-unresolved candidates are
+separate. The faithful Windows i386 product/runtime gates remain open;
+semantic reconstruction and portability have not started.
 
 ## Active frontiers
 
-- RunEcl: 14,792 authored /15,564 physical bytes. Complete replay still has
-  2,161 differences, with handler frontiers 4/7/86/155/156/157. Use
-  `scripts/inspect-ecl-complete.py`; normalized shape agreement is diagnostic.
-- Enemy OnUpdate: 3,883 authored /3,900 physical bytes, 97 independently bound
-  fields and 39 full differences. Four residual windows concern early draw
-  index, special descriptor/effect scheduling, trail copy and homing registers.
-- Player movement: 1,835 authored /1,900 physical bytes, 66 fields and 144 full
-  differences. The maintained inspector now reports complete physical bytes and
-  independently decoded operands/table entries.
-- ExAttack type18/type24: 1,436 target bytes; corrected candidate 1,441/44 fields.
-  All 31 ordered calls and 23 direct blocks agree; full replay still has 1,051
-  overlap differences plus five excess bytes. Target stack homes remain open.
-- DirectPlay message handler: 768 authored /808 physical bytes, 46 fields and
-  125 complete differences. Its 34-block switch graph is independently checked.
-  Word-call, helper visibility and value/loop contexts are rejected; ABI and
-  maintained source stay unchanged.
-- PauseMenu update: 1,734 authored /1,776 physical bytes; complete replay has
-  1,492 overlap differences plus 44 missing bytes. Use inspect-pause-menu.py.
-- Enemy draw: 1,758 bytes and four complete differences around the second
-  subtraction/Abs argument. Other nonexact UI, gameplay, network and callbacks
-  remain in config/functions.csv. Consult docs/KNOWLEDGE_BASE.md before probes.
-- Type21 update: 1,074 bytes /29 actual fields and 15 full differences in the
-  ring preheader. Two record-owned acquisition paths are now verified neutral;
-  no simple record/extra alias-path explanation survives those exact controls.
+- RunEcl: 14,792 target code /15,564 physical bytes; current candidate has
+  **14,791 code + one alignment + 772 compiler-table bytes**. All 598 fields
+  are independently checked, with 2,161 complete differences. Handler frontiers
+  remain 4/7/86/155/156/157. Equal pre-table sizes had hidden the code-size gap.
+- Enemy OnUpdate: 3,883 authored /3,900 physical bytes, 97 fields, 39 full
+  differences; early draw index, descriptor/effect scheduling, trail and homing.
+- Player movement: 1,835 authored /1,900 physical bytes, 66 fields, 144 full
+  differences. Actual Float3 declaration/body visibility controls are neutral.
+- ExAttack type18/type24: 1,436 target bytes; corrected candidate 1,441/44 fields,
+  all 31 calls and 23 direct blocks agree; 1,051 overlap differences plus five
+  excess bytes. Target stack homes remain open.
+- DirectPlay message handler: 768 authored /808 physical bytes, 46 fields,
+  125 complete differences, complete 34-block switch graph checked.
+- PauseMenu update: 1,734 authored /1,776 physical bytes; 1,492 overlap
+  differences plus 44 absent bytes. Use inspect-pause-menu.py.
+- Enemy draw: 1,758 bytes, four differences around the second subtraction/Abs.
+- Type21 update: 1,074 bytes, 29 fields, 15 ring-preheader differences. Real
+  descriptor-member storage is maintained; two record-owned acquisitions are neutral.
+- Remaining nonexact owners and maintained source corrections are recorded in
+  config/functions.csv, docs/KNOWLEDGE_BASE.md and Git; consult these before trials.
 
-## Latest reviewed investigation
+## Current ECL evidence
 
-Player movement at 0x41C170 remains 1,835 code /1,900 physical bytes with 489
-instructions, 66 independently decoded fields and 23 ordered calls. One isolated
-header aliases PlayerPositionView to the existing Float3 declaration; a second
-carrier exposes all eight actual Float3.cpp bodies. Neither changes raw owner
-bytes or any effective destination, including both complete switch tables.
-All six common helper copies (35 bytes) remain unchanged. The second carrier
-adds 352 bytes of eight existing strict-exact vector bodies and their one-float
-division constant. These copies receive no new ownership or coverage credit.
+Current source-bound canonical carrier:
+`build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`, SHA256
+`94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
+The prior packet binds 43 current source/header/backend inputs and five Oracle
+inputs. Its canonical-only audit checks all 67 owners /28,838 physical bytes /
+1,215 effective fields, 35 nondebug noncode sections and all 23 configured
+exact siblings /9,533 physical bytes /439 fields. No unchanged baseline compile.
 
-The first direct include attempt fails because AsciiManager.hpp and
-AnmVmLifecycle.hpp define incompatible AnmVm views. The successful isolated
-carriers use an exactly verified declaration slice and exactly verified body
-copy with only its include changed. They establish this particular context's
-neutrality, not original TU ownership, shared-type closure or runtime behavior.
-Canonical source and all profiles remain unchanged. Do not repeat these two
-controls unchanged. The complete source-bound baseline is reused without a
-new baseline compile; exact checks are grouped at the end of the two trials.
+New packet: `.analysis/gpt-6.1-sol-ecl-mutation-expressions-20261009/`.
+Three isolated controls remove the opcode155 scalar capture when writing its
+existing bitfield, group opcode4's genuine ordered mutations in one built-in
+comma expression, and snapshot the actual opcode's promoted value before the
+same switch. Every owner byte/effective field and data section remains neutral.
+Private compiler labels rename only at the independently verified same actual
+COFF destinations. All three complete RunEcl replays still have 2,161 differences;
+batch-end strict PopContext checks pass 147/147 in each. None is integrated.
+Each carrier's 36 actual includes agrees with the preobserved input hashes.
+Historical loaded environment state is not retrospectively attested.
 
-## Maintained ECL checkpoint
+The maintained report now decodes all pre-table instructions, checks the actual
+last RET, accepts only bounded NOP/self-LEA alignment, and rejects incomplete
+instructions, active tail operations and direct branches leaving code. Target
+code extent is independently decoded from the verified PE. Candidate table
+positions remain 14,792; code is 14,791. The corresponding ledger evidence is
+corrected without changing target size/status. Full call identity belongs to
+inspect-ecl-complete.py, not the aggregate report.
 
-ExAttackUpdateCallbackType21 owns 1074 bytes at 0x44B500. Both bullet-conversion
-paths construct a 0x214-byte temporary via target 0x40D500. Independent target
-decoding confirms its 28-byte constructor clears 0x214 bytes and sets +0x204 to
--1. The existing private constructor view now contains a real
-BulletSpawnDescriptor member at checked offset zero, instead of char storage
-reinterpreted as a descriptor. Its constructor declaration/call and every
-field write remain. No constructor definition or shared-header change is added.
-Original class/subobject construction and native definition ownership remain
-unknown; this is a bounded maintained source model.
-
-Three isolated trials precede one batch-end canonical-path compile. Reading
-only the UV-angle seed or only the history cursor through record->extra34 is
-wholly neutral and neither is retained. The descriptor-member trial and its
-canonical replay also preserve all raw code. Type21 remains 1074 bytes,
-288 instructions, 29 independently decoded fields, 17 ordered calls, 28 blocks
-and 15 full preheader differences. Raw SHA256:
-fb14aea858101f030ca4b22f9c7c0d51699465dc1d39118e65717eb594c0fcb4.
-
-Independent COFF parsing and separate repository extraction cover all 67 ECL
-owners, 28,838 physical bytes and 1,215 fields, with all 35 nondebug noncode
-sections unchanged. Four private labels rename at unchanged actual local
-positions; only the two affected exact manifests need new spellings. All23
-configured exact siblings reproduce 9,533 physical bytes and 439 fields through
-the existing strict Oracle with a lossless object-path-only adapter. RunEcl
-remains 2,161 differences over 15,564 bytes/598 fields. No new exact credit.
-
-## Evidence and artifact lifecycle
-
-Current entry at e4e723a is clean; private target, direct IDA metadata, entry and
-five mapped-byte samples pass. No Factory MCP, target patch, IDA write or
-delegation. Current packet: .analysis/gpt-6.1-sol-movement-vector-context-20261009/.
-It retains the compact source-restoration script, patches, actual compiler logs,
-two small COFFs, full losslessly compressed audit, independent parser and
-source/backend hashes. All 11/12 unique actual include inputs are bound. The
-shared compiler include resolves through the existing toolchain symlink to
-TH095's tools directory; its pinned hash agrees, without using adjacent game
-bytes as TH09 evidence. Historical loaded environment state remains unproved.
-All three compiler processes are terminal, including the failed first include.
-Owned PDBs, seven generated source/header copies and redundant full report are
-removed only after source-restoration and lossless-compression checks. Restore
-sources with prepare.py --restore before running audit.py; neither compiles.
-
-Prior ECL checkpoint:
-Entry at 44f62e4 is clean; private target, direct IDA metadata, entry and five
-mapped-byte samples pass. No Factory MCP, target patch, IDA write or delegation.
-Retained ECL packet: .analysis/gpt-6.1-sol-type21-preheader-20261009/.
-It retains Git-bound reconstruct.py, patches, actual include logs, input/backend
-manifests, independent COFF parser, full losslessly compressed audit.json.gz and
-the small source-bound canonical COFF. All 43 baseline input hashes and its COFF
-hash match before reuse. All four carriers have exactly the 35 recorded unique
-include inputs with before/after observations. Historical loaded compiler or
-environment state is not retrospectively attested. No baseline rebuild.
-
-All four compiler processes are terminal. Six source copies reconstruct to
-their recorded hashes before cleanup. Receipts remove the three isolated COFFs,
-four PDBs, six source copies and redundant full reports, totaling 1,904,960 bytes
-including generated bytecode. Full report compression is lossless; the
-canonical-only report equals its exact retained subset. Inherited evidence,
-canonical caches and provider state remain untouched. Previous DrawResult
-member evidence is in .analysis/gpt-6.1-sol-result-difficulty-20261009/ and Git 44f62e4.
-
-Batch coherent changes before cold replay; every new exact owner requires
-complete pinned canonical source/byte/relocation proof. Same sizes/counts do
-not establish byte neutrality; compare actual bytes and full field descriptors.
-The remaining Type21 preheader schedule needs different target-supported
-source/callee evidence; do not repeat these two owner-path controls unchanged.
+Full proof is losslessly retained in audit.json.gz; actual compile logs, patches,
+source-restoration recipe, independent parser, selected direct IDA windows,
+code-extent reports and cleanup receipts remain. All processes are terminal.
+Cleanup removes 31 owned copies/COFFs/PDBs/redundant reports, **5,990,015 bytes**;
+canonical and inherited evidence stay. The retained-only audit verifies captured
+candidate proof against the actual current canonical baseline; it performs no
+new inspection of deleted candidate COFFs. Do not repeat these precise controls.
 
 ## Restart commands
 
@@ -168,24 +107,20 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
-python3 -B .analysis/gpt-6.1-sol-movement-vector-context-20261009/prepare.py --restore
-python3 -B .analysis/gpt-6.1-sol-movement-vector-context-20261009/audit.py
-python3 .analysis/gpt-6.1-sol-type21-preheader-20261009/audit.py --canonical-only
-python3 scripts/inspect-exattack-type21.py build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj --diff
+python3 -B .analysis/gpt-6.1-sol-ecl-mutation-expressions-20261009/audit.py --retained-only
+python3 -B .analysis/gpt-6.1-sol-type21-preheader-20261009/audit.py --canonical-only
+python3 scripts/report-ecl-codegen.py build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj
 python3 scripts/inspect-ecl-complete.py build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj
 ```
 
-Call direct IDA get_metadata with exactly {} during entry attestation.
-The full Type21 diagnostic reports 15 differing bytes and grants no credit.
-The canonical-only audit binds source/backend/object hashes and checks the
-entire affected carrier plus all 23 existing exact siblings, without compiling.
-RunEcl's complete diagnostic returns 1 for its expected 2,161 differences.
-Reconstruct isolated sources from their bound Git revision before a genuinely
-new trial; their original COFFs are intentionally cleaned. Absolute global
-memory displacements may be indexed by a register; actual decoding covers them
-independently of configured fields. Private labels use actual local positions.
+Call direct IDA get_metadata with exactly {} during entry attestation. Complete
+RunEcl inspection returns 1 for its expected differences. prepare.py --restore
+reproduces all 21 isolated sources without compiling; original trial COFFs were
+intentionally cleaned. Earlier movement proof remains in
+`.analysis/gpt-6.1-sol-movement-vector-context-20261009/`; restore its sources
+before its full audit. Earlier retained corrections are documented in the KB.
 
-Validation: complete canonical owner/decoded operands and all collateral code,
-tracking, progress, documentation and whitespace pass. Isolated CI runs 72 tests
-(68 pass, four optional Capstone checks skipped). Worktree checkpoints remain
-local and are not pushed. Native product/runtime and later phase gates remain open.
+Validation: focused decoder tests, complete canonical/retained proof, existing
+exact sibling Oracles, tracking, progress, isolated CI and whitespace pass.
+CI runs 79 tests: 68 pass, eleven optional Capstone checks skipped. Local
+checkpoints are not pushed. Native product/runtime and later phase gates remain open.
