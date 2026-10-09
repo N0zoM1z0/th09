@@ -9,12 +9,12 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at27fbfa1. Three Enemy update index/hitbox controls
-precede one paired batch-end cold. Borrowing the live source hitbox is neutral39;
-retaining the draw-group index emits3888 physical bytes/3299 overlap differences
-plus12 absent. The pair reproduces that regression. Full target/field/table/CFG,
-151-byte sibling, retained/Git/mixed-EOL/include and15-file cleanup checks pass.
-No reconstruction source/header/ABI/profile or exact-credit change is adopted.
+This checkpoint starts clean at c96ca8c. Six Replay menu caption-buffer controls
+precede one maintained-path batch cold. Adopted natural branch-local buffers,
+indexed mode reads and z preservation restore all13 target call identities,
+57 address fields, retaining position/buffer homes at EBP-14h/134h. Complete candidate
+remains1272 bytes/1194 overlap differences plus8 absent: no exact credit.
+Full target/operand/data/source/Git/CRLF/include and26-file cleanup checks pass.
 ResolveFloat is already exact; SaveReplay stays parked.
 
 ## Live ledger snapshot
@@ -57,8 +57,9 @@ semantic reconstruction and portability have not started.
   overlap differences plus three excess; 51 calls and 121 direct blocks agree.
 - Result draw: 1,939 bytes/82 fields/22 entry differences. Output-reference and
   array-reference producer contexts are rejected; later keyboard graph is covered.
-- Replay menu draw: 1,280 target/1,244 candidate bytes, 57 target/54 candidate
-  fields, 1,180 differences plus36 absent; row arguments leave caption merging open.
+- Replay menu draw: 1,280 target/1,272 candidate bytes, 57 target/candidate
+  fields, 1,194 differences plus8 absent; all13 ordered calls restored. Entry/list,
+  interpolation and detail-row allocation remain open.
 - Supervisor network service: 1,633 target/1,632 candidate bytes, 106 target/108
   candidate fields, 1,395 complete differences plus one absent. Actual indirect
   operands are covered; see KB for sign-test and output-workspace exclusions.
@@ -75,39 +76,53 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest Enemy update index/source-hitbox batch
+## Latest Replay menu caption lifetime/source batch
 
-Packet: `.analysis/gpt-6.1-sol-enemy-draw-index-hitbox-20261010/`.
-Canonical remains `build/matching/EnemyManagerCore.obj`,
-COFF SHA256 `60a054387f8a7125ec31eb44184e0bd6ed8ec711a949d61b9c29beae366aa1f9`.
-Main raw remains `a9ca56df7ef5a09effcd22605048b318f19f41d13cf7f1f7740ba2bafbf2b960`.
+Packet: `.analysis/gpt-6.1-sol-replay-caption-arm-buffers-20261010/`.
+Current bound cache is
+`build/gpt-6.1-sol-replay-caption-arm-buffers-20261010/canonical.obj`,
+COFF SHA256 `99c10c38cb65146edc0b39748cf29cbe54158dd43f012190e4a345e7bccf4846`.
+Main raw SHA256 is
+`db75a21ba9a2b40852d7fb6003714430960356bc04383abb2025e6d77a94ce5b`.
 
-Borrowing the live repeated hitbox source is all-five-owner neutral:3883 code/
-3900 physical bytes,1026 instructions/frame2A8h/97 fields/69 calls/170 blocks,
-39 differences. Retaining draw-group index instead of its computed head pointer
-and that model's source-hitbox pair emit3870 code/3888 physical bytes,1022
-instructions/frame2A8h/97 fields/69 calls/168 blocks,3299 overlap differences
-plus12 absent. Actual MOV EDI,EDI alignment and all four switch entries remain in
-the comparison. Five private main label spellings differ between index/pair,
-with every actual coordinate unchanged; their raw/linked mains match. Neither
-model corrects the four residual clusters.
+Maintained source now gives each mutually exclusive caption arm a consumed256-byte
+buffer, uses indexed post-row mode reads and preserves position.z. Story/Versus
+sprintf/strlen remain separate; their later conversion/drawing tail is shared.
+All13 ordered call identities and57 address fields agree with target, frame134h
+and position/buffer homes14h/134h are retained. Original buffer count/spelling is
+unknown. Full candidate is1272 bytes/372 instructions/71 blocks with1194 overlap
+differences plus8 absent against target1280/376/72; source stays NON-EXACT.
 
-All four collateral bodies and seven data sections remain unchanged. Three warms
-precede one fresh-object paired cold; all four terminate zero. Complete nondebug
-captures, fields, linked main and decoded graph/table repeat warm. Actual13-path
-include closures and all five151-byte/two-field sibling checks pass. Full proof
-is178875 compressed/890261 decoded bytes. Fifteen pre-unlink receipts remove
-468233 disposable bytes. Retained replay parses the actual canonical, rebinds
-deleted captures and restores/removes exact recipe sources for include replay.
-54 current input/15 support pins and Git/mixed-EOL source bindings pass.
+Six warm controls precede one maintained-path cold. Complete nondebug owners/data,
+raw/linked main and actual field coordinates repeat the adopted warm. Three
+collateral bodies37 bytes/two fields remain unchanged, with no configured exact
+sibling in this carrier. All17 nondebug data records are fully identical after
+an explicit five-section bijection; actual section indices are retained. Seven
+actual six-header include closures pass. Full proof is138334 compressed/956675
+decoded bytes.26 terminal-owned receipts remove486531 disposable bytes. Retained
+replay parses both actual canonical COFFs, rebinds deleted warm captures and
+restores/removes recipe sources/logs for real include replay.43 original input/
+8 support pins and historical Git/CRLF versus adopted-source bindings pass.
 
-The preceding gameplay worker failure-phase batch and its improved172-target/
-171-candidate operand inspector remain in the KB and restart commands. Its
-lexical phase/assignment guards are neutral921; branch-local returns duplicate
-failure cleanup and regress. GameManager snapshot/setup-state, Enemy draw lvalues
-and RunEcl narrow/float/index contexts also remain excluded.
+IDA's stale entry note now reflects current1272-byte nonexact evidence; exact
+readback preserves all376 observed instruction texts/addresses. No exact match,
+original object ownership or runtime/product/later-phase credit follows.
+Historical1244-byte replay row/mode packets remain in the KB; their old current-
+source pin checks no longer apply after adoption. The current packet independently
+binds that historical baseline to its original Git/raw source before comparing.
+
+The preceding Enemy draw-index/hitbox, gameplay failure-phase and GameManager
+snapshot/state batches remain in the KB and their retained restart commands.
+None changed exact coverage. All their precise negative contexts remain excluded.
 
 ## Next route and current cache cautions
+
+Replay menu caption-call separation is now restored. Do not repeat these exact
+switch/if branch-buffer, indexed-mode and z-preservation combinations. New work
+must use the current1272-byte cache and address entry/list allocation, interpolation
+or detail-row data flow. Prior direct row arguments, shared counter, outer caption
+member and selector controls remain historical negatives in their measured context.
+Do not treat the old1244-byte/54-field/11-call owner as current source evidence.
 
 Do not repeat Enemy update's exact draw-group-index, live-hitbox-source-reference
 or paired contexts. Earlier destination-reference/copy, whole arrays, shared
@@ -202,7 +217,7 @@ python3 scripts/inspect-gameplay-setup.py build/gpt-dots-setup-continuations-202
 python3 -B .analysis/gpt-6.1-sol-setup-snapshot-states-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-setup-callback-phase-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-enemy-vector-storage-20261009/retained.py
-python3 -B .analysis/gpt-6.1-sol-replay-row-arguments-20261009/retained.py
+python3 -B .analysis/gpt-6.1-sol-replay-caption-arm-buffers-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-service-workspaces-20261009/audit.py --retained-only
 python3 scripts/inspect-supervisor-service.py build/gpt-dots-service-packet-owner-20261007/baseline.obj
 python3 -B .analysis/gpt-6.1-sol-ecl-receiver-ownership-20261009/audit.py --retained-only

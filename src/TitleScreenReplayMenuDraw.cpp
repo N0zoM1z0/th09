@@ -95,7 +95,6 @@ static __inline const char *ReplayMenuPlayerName(ReplayMenuReplayView *replay)
 int TitleScreenView::DrawReplayMenu()
 {
     Float3 position;
-    char buffer[256];
 
     if (currentScreenState == 1)
     {
@@ -197,35 +196,35 @@ int TitleScreenView::DrawReplayMenu()
 
         position.x = 221.0f;
         position.y = 240.0f;
-        position.z = 0.0f;
 
-        switch (replay->replayMode)
+        if (replays[selected].replayMode == 0)
         {
-        case 0:
+            char buffer[256];
             sprintf(
                 buffer, "%s  -%s-",
                 g_ReplayStoryModeName[0],
                 g_ReplayDifficultyNames[replay->difficulty]);
-            break;
-        case 1:
+            position.x = 320.0f - (float)strlen(buffer) * 4.5f;
+            g_AsciiManager.AddFormatText(&position, buffer);
+        }
+        else if (replays[selected].replayMode == 1)
+        {
+            char buffer[256];
             sprintf(buffer, "%s", g_ReplayExtraModeName[0]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
             g_AsciiManager.AddFormatText(&position, buffer);
-            goto mode_text_done;
-        case 2:
+        }
+        else if (replays[selected].replayMode == 2)
+        {
+            char buffer[256];
             sprintf(
                 buffer, "%s  -%s-",
                 g_ReplayModeNames[replay->versusMode],
                 g_ReplayDifficultyNames[replay->difficulty]);
-            break;
-        default:
-            goto mode_text_done;
+            position.x = 320.0f - (float)strlen(buffer) * 4.5f;
+            g_AsciiManager.AddFormatText(&position, buffer);
         }
 
-        position.x = 320.0f - (float)strlen(buffer) * 4.5f;
-        g_AsciiManager.AddFormatText(&position, buffer);
-
-mode_text_done:
         position.x = 230.0f;
         position.y = 270.0f;
 
