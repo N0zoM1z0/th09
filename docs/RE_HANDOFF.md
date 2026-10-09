@@ -9,11 +9,13 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at 32a8e4e. Target SHA, direct IDA metadata, entry
-and five mapped-byte samples pass. Four Enemy draw expression/declaration
-controls precede one batch-end cold compile. Three are neutral; borrowing the
-next angle changes the x87 expression and regresses. No source, exact credit,
-profile, target, IDA or product-gate changes. Prior corrections stay.
+This checkpoint starts clean at 9b9d48f. Target SHA, direct IDA metadata, entry
+and five mapped-byte samples pass. Five RunEcl jump/timer controls precede one
+batch-end cold replay; all are neutral. The diagnostic inspector gains the
+already reviewed folded canonical timer-current ABI binding with a body check.
+Two stale ECL caches are repaired from the source-bound carrier after complete
+nondebug comparison. All23 canonical siblings pass. No game source, match,
+exact credit, profile, target, IDA or product-gate changes.
 
 ## Live ledger snapshot
 
@@ -62,28 +64,34 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest Enemy draw expression batch
+## Latest RunEcl jump/timer batch
 
-Packet: `.analysis/gpt-6.1-sol-enemy-draw-expression-20261009/`.
-The unchanged source/backend/header-bound baseline remains
-`build/gpt-dots-enemy-draw-conjunction-20261006/EnemyManagerDraw.obj`, SHA256
-`8277f8f3532feafeb77faaba2238a12e51d9ddb69410cb7968e339bb5a92897b`.
-Explicit float conversion of the complete second subtraction, unary plus and
-using the default /Gr interpolation declaration preserve all 1,758 raw bytes,
-53 numeric fields and four target differences. The convention control preserves
-the complete 91-byte helper and its physical stack/return contract; original
-source convention spelling remains unknown and no signature change is adopted.
-Borrowing the actual next-angle result gives 497 instructions and 495 complete
-byte differences, versus target 495 instructions. Its extra x87 stack operations
-replace target's single FSUBR memory operation; no float32 result home appears.
-One cold compile repeats the complete four-owner/61-field/nine-noncode carrier.
-All three accepted siblings remain exact (164 bytes/eight fields). Fifteen owned
-source/COFF/PDB files, 426,551 bytes, are removed; all four recipes recover after
-cleanup. Complete compact proof stays below 100 KB. These precise controls are
-closed; next investigate RunEcl's live handler frontiers using fresh evidence.
+Packet: `.analysis/gpt-6.1-sol-ecl-jump-timer-20261009/`.
+The source/backend/header-bound baseline remains
+`build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`, SHA256
+`94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
+Jump-time value/reference bindings, the real canonical timer assignment receiver,
+their combination and the complete timer declaration family preserve all67
+owners/28838 bytes/1215 fields. Family conversion changes31 external symbol
+spellings at identical fields; its folded integer getter independently binds
+435F00. All598 main fields retain2161 complete differences. One cold family
+compile repeats the full carrier; all23 exact siblings/9533 bytes/439 fields
+pass. The constructor/transitive ownership question stays open and no timer
+alias is adopted in game source. See KB for exact scope and rejected routes.
+Both shared ECL and CompareOperands caches now use this same source-bound
+object, after full102-section raw/effective-field comparison against their old
+caches; unmodified canonical manifests pass. Retained audit reparses the actual
+baseline and rebinds complete deleted captures. All37 source recipes recover
+after cleanup; six terminal trial COFF/PDB pairs are removed. Cleanup sizes
+that were lost during interrupted report writing remain explicitly unknown.
+Do not repeat these controls unchanged; the six handler frontiers remain open.
 
 ## Other current evidence
 
+- Enemy draw expression/declaration controls:
+  `.analysis/gpt-6.1-sol-enemy-draw-expression-20261009/`; four main differences
+  remain. Three controls are neutral; borrowed next-angle reference regresses.
+  Exact scope, cold replay and cleanup are recorded in the KB.
 - Enemy update object copies: `.analysis/gpt-6.1-sol-enemy-object-copies-20261009/`;
   typed Player +0x3037C Enemy pointer stays maintained. Current canonical cache
   `build/matching/EnemyManagerCore.obj` SHA256
@@ -142,6 +150,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-ecl-jump-timer-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-enemy-draw-expression-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-draw1422-callee-context-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-pause-partial-visibility-20261009/audit.py --retained-only

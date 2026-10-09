@@ -32,6 +32,9 @@ def require(condition, message):
 
 BASE = 0x4086c0
 ALIASES = {
+    # Same folded +8 getter used by the reviewed canonical charge timer.
+    # This is a diagnostic ABI binding, not a second physical/source owner.
+    '??BZunTimer@@QAEHXZ': 0x435f00,
     '??BTh09EclTimerStorageView@@QAEHXZ': 0x435f00,
     '??FTh09EclTimerStorageView@@QAEXH@Z': 0x406670,
     '??YTh09EclTimerStorageView@@QAEXM@Z': 0x406650,
@@ -89,7 +92,11 @@ def direct_identity(symbol, canonical, aliases, observed_destination):
         provenance = {'canonical_units': [unit for address, unit in records]}
     elif symbol in aliases:
         expected = aliases[symbol]
-        provenance = {'independent_alias_review': 'Packet 785: callee implementation, target-body and xref review; not caller-order inference'}
+        review = ('October 9 charge timer conversion and RunEcl timer-family review: '
+                  'folded four-byte +8 getter ABI; original source spelling/ownership unknown'
+                  if symbol == '??BZunTimer@@QAEHXZ' else
+                  'Packet 785: callee implementation, target-body and xref review; not caller-order inference')
+        provenance = {'independent_alias_review': review}
     else:
         expected = None
         provenance = {'unresolved': True}
@@ -186,6 +193,8 @@ def audit(object_path):
     coff = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(coff)
     image = coff.verified_target()
+    require(coff.pe_bytes_at(image, 0x435f00, 4) == bytes.fromhex('8b4108c3'),
+            'folded timer-current getter body changed')
     obj = Path(object_path)
     raw, rows = coff.object_function(obj, '?RunEcl@EclManager@@QAEHPAUEnemyView@@@Z', include_symbol_locations=True)
     # The two compiler tables follow the complete logical instruction stream.
