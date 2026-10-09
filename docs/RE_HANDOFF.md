@@ -9,12 +9,13 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at 54703da. Original target and direct IDA mapped
-bytes pass. Four natural DrawResult bank-producer contexts precede one batch-end
-cold replay. Output reference/pointer producers inline but remain byte-neutral;
-array references regress the keyboard allocation, even in a short lexical scope.
-Complete 1939-byte baseline comparison still has22 differences. No source,
-header, profile, ABI, IDA metadata, match or exact-credit change is made.
+This checkpoint starts clean at7235dbd. Original target and direct IDA mapped
+bytes pass. Four complete RunEcl source-ownership/return contexts precede one
+batch-end cold replay; all67 owners/28838 bytes/1215 fields and35 noncode
+sections remain neutral. All23 exact siblings pass. The full owner still has
+2161 linked differences, with no new exact credit. Five target callers and the
+unused incoming ECX are reviewed; alternative source spellings are not promoted.
+IDA's stale entry comment is corrected and read back with identical instructions.
 
 ## Live ledger snapshot
 
@@ -65,32 +66,47 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest DrawResult bank-producer batch
+## Latest RunEcl source-ownership/return batch
 
-Packet: `.analysis/gpt-6.1-sol-result-entry-dependencies-20261009/`.
-Current source/header/vendor/backend/COFF bindings validate reuse of the canonical
-object `build/gpt-6.1-sol-result-difficulty-20261009/canonical.obj`, SHA256
-`b8ed9aecdf99e598f885529f1a45dd949ccabf64981e05806f48fa3eca5afe7a`.
-Output-reference and output-pointer members write only the genuinely used ranking
-pointer; they inline naturally and preserve every1939-byte main body/82 fields,
-577 instructions,16 calls,92-block graph and22 complete differences. Uncalled
-26-byte producer copies each have one field and receive no target ownership.
-Function-scope and short-scope references to the actual25-record bank both emit
-1941 bytes/82 fields,319 overlap differences plus two excess. They spill keyboard
-row-base and change divisor/glyph scheduling; entry-screen hoisting stays wrong.
-One cold output-reference compile repeats complete runtime sections, numeric
-coordinates, bytes, fields and literals. All five observed includes were pinned
-before trials. The constructor and16 noncode sections remain unchanged.
+Packet: `.analysis/gpt-6.1-sol-ecl-receiver-ownership-20261009/`.
+Source/header/vendor/backend and actual canonical COFF bindings validate reuse
+of `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`, SHA256
+`94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
+The target takes Enemy from EBP+8, overwrites incoming ECX before reading it,
+and uses RET4; all five callers still explicitly supply the manager in ECX.
+Static/free stdcall and checked32-bit enum-return forms are isolated compatible
+callee hypotheses. They do not recover original membership or caller interfaces.
+TH08's member/ZunResult declaration is hypothesis material only.
 
-Full proof covers every instruction/operand/branch,15 literal payloads and the
-separate COFF parsers; graph agreement is not runtime or data-flow equivalence.
-Cleanup removes19 terminal files/345286 bytes, including all five new COFF/PDB
-pairs. Four source recipes restore/hash-check and are removed again. The compact
-packet stays below110 KB; retained replay rebinds deleted captures and reparses
-the actual canonical baseline. No diagnostic body is integrated or credited.
-These exact producer contexts are rejected. Reopen DrawResult only with different
-TH09-backed value/alias/TU evidence; rotate to RunEcl's live large-owner frontiers,
-after reading the KB's existing opcode and scope negatives.
+Four controls and one cold retain every raw body, numeric field and runtime
+section; only the main decorated symbol and equivalent local labels change.
+Actual owner selectors adapt diagnostics without rewriting target/COFF bytes or
+binding destinations. Each carrier keeps67 owners/28838 bytes/1215 fields,
+35 noncode sections and all23 exact siblings/9533 bytes/439 fields. RunEcl
+still has14791 decoded code bytes, one alignment byte,598 fields and2161 full
+differences. No source, header, ABI, profile or match change is integrated.
+All37 distinct actual source/include paths match their preobserved hashes.
+
+IDA entry comment now records the current one-byte logical gap; its old14788
+record is superseded. Every instruction remains identical and final mapped-byte
+attestation passes. Cleanup removes52 terminal files/2554505 bytes. All32 source
+copies restore to pinned hashes after deletion and are removed again. Complete
+compressed captures/recipes remain below530 KB. Retained replay reparses the
+actual baseline and rebinds deleted captures; it does not inspect deleted COFFs.
+Do not repeat these source-ownership/return forms or earlier timer/scope/operand
+controls unchanged. Next rotate to the1633-byte SupervisorServiceUpdate owner:
+recover its full current target, source and source-bound baseline before selecting
+new data-flow/control-flow probes. Native product/runtime and95% remain open.
+
+## DrawResult routing
+
+Four bank-producer contexts plus one cold leave the baseline1939-byte owner at22
+entry differences. Output-reference/pointer methods are neutral; full/short-scope
+bank references regress keyboard allocation to1941 bytes/319 differences plus two
+excess. No hypothesis is integrated. Current actual baseline stays at
+`build/gpt-6.1-sol-result-difficulty-20261009/canonical.obj`; complete proof and
+recipes are in the result-entry-dependencies packet. Reopen with different
+TH09-backed value/alias/TU evidence; see the KB for precise exclusions.
 
 ## Supervisor routing
 
@@ -190,7 +206,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
-python3 -B .analysis/gpt-6.1-sol-result-entry-dependencies-20261009/audit.py --retained-only
+python3 -B .analysis/gpt-6.1-sol-ecl-receiver-ownership-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-result-entry-dependencies-20261009/closure.py
 python3 scripts/inspect-title-result-draw.py build/gpt-6.1-sol-result-difficulty-20261009/canonical.obj
 python3 scripts/inspect-supervisor-update.py build/gpt-6.1-sol-supervisor-entry-context-20261009/binary-title-flag-bit.obj
