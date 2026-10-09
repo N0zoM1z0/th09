@@ -9,12 +9,13 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at c75bc39. Target SHA, direct IDA metadata, entry
-and five mapped-byte samples pass. One newly bound replay-save renderer baseline
-and five depth-stage controls precede one batch-end cold replay. All controls
-remain nonexact; weighted value delays multiplication and raises x87 depth.
-Complete fields/CFG/collateral and focused text Oracles pass. No game source,
-header, profile, match or exact-credit changes. Prior corrections stay.
+This checkpoint starts clean at 291a752. Target SHA, direct IDA metadata, entry
+and five mapped-byte samples pass. Supervisor OnUpdate receives eight coherent
+source-context controls and one batch-end cold replay. A binary title-context
+local plus the real bit 7 predicate removes premature constant 1 pooling and emits
+984/996 physical bytes, but still has 601 overlap differences plus 12 absent.
+Complete fields/tables/calls, bounded scene traces and focused registration
+Oracle pass. No game source, header, ABI, profile, match or exact-credit changes.
 
 ## Live ledger snapshot
 
@@ -63,7 +64,30 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest replay-save depth batch
+## Latest Supervisor entry/context batch
+
+Packet: `.analysis/gpt-6.1-sol-supervisor-entry-context-20261009/`.
+Recovered structured-cold-reregister source repeats 960 bytes/92 fields/27 calls
+under current headers; maintained source remains the separate 980-byte candidate.
+Canonical qualified low-byte access and two mode 0 case placements are neutral.
+Startup switch changes only two CMPs to SUBs; result-loop lowering loses the
+target network switch table. Binary title context gives 976 bytes; combining it
+with the previously tested bit 7 predicate gives 984 bytes/92 fields/27 calls.
+One cold compile repeats all code, data, actual symbol coordinates and bindings.
+All 2736 limited static scene traces agree; this is not runtime validation.
+Target late EDI=2 pooling, title argument preparation and footer placement remain
+unrecovered. The candidate adds MOVZX ECX,AL and still places the shared title
+call before the footer. Do not retry these eight exact controls unchanged.
+Actual retained hypothesis: `build/gpt-6.1-sol-supervisor-entry-context-20261009/binary-title-flag-bit.obj`;
+its source remains in the packet, with all other source recipes and full captures.
+Retained-only audit reparses this actual COFF and rebinds deleted captures.
+Registration 201/201 with 17 fields passes after rebuilding its absent cache.
+Cleanup removes 41 owned files/1,816,135 bytes; all nine recipes restore and eight
+disposable copies are removed again. Next investigate a target-backed shared
+completion/late constant 2 lifetime model, rather than case order or qualifier
+spelling. Keep the genuine int ECX registration ABI and separate COM prefixes.
+
+## Previous replay-save depth batch
 
 Packet: `.analysis/gpt-6.1-sol-replay-depth-workspace-20261009/`.
 The inherited source/COFF-bound candidate remains
@@ -80,8 +104,7 @@ remain unchanged. Existing text Oracles pass130/130 and55/55 after rebuilding
 only their absent canonical cache. Twenty-one terminal files/527644 bytes are
 removed; all six source recipes recover after cleanup. Full compact evidence
 stays below150 KB. Game source and all exactness claims remain unchanged.
-Next rotate to Supervisor::OnUpdate at431110 (844 code +152 table bytes),
-reviewing the complete target and prior post-COM sharing negative first.
+Supervisor's next batch recovered both historical sharing controls before probing.
 
 ## Other current evidence
 
@@ -152,6 +175,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-supervisor-entry-context-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-replay-depth-workspace-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-ecl-jump-timer-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-enemy-draw-expression-20261009/audit.py --retained-only
