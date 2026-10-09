@@ -9,13 +9,12 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at8d07f96. Seven Enemy draw caller controls and
-one actual Abs leaf check precede one combined-declaration batch-end cold.
-Angle references, short stride and default declarations keep four differences;
-difference borrowing/compound subtraction add a float home and regress to476.
-All three exact siblings pass. Complete proof,11 source restorations and45-file
-cleanup pass. IDA's stale1740-byte entry comment is corrected/read back with
-unchanged instructions. No source/ABI/profile/exact-credit change is adopted.
+This checkpoint starts clean at6658beb. Five GameManager update controls precede
+one staged-switch batch-end cold. Staged/mutable snapshots keep105 differences;
+local switch and paired assignment regress to1070 plus one absent byte. The
+ordinary gate member leaves a real unbound extra call. All eight same-profile
+exact siblings pass. Complete retained proof, raw-EOL/source/include replay and
+23-file cleanup pass. No source/ABI/profile/exact-credit change is adopted.
 ResolveFloat is already exact; SaveReplay stays parked.
 
 ## Live ledger snapshot
@@ -75,46 +74,52 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest Enemy draw operand-lvalue/declaration batch
+## Latest GameManager snapshot/setup-state batch
 
-Packet: `.analysis/gpt-6.1-sol-enemy-draw-operand-lvalues-20261010/`.
-Canonical remains `build/gpt-dots-enemy-draw-conjunction-20261006/EnemyManagerDraw.obj`,
-COFF SHA256 `8277f8f3532feafeb77faaba2238a12e51d9ddb69410cb7968e339bb5a92897b`.
-Main raw remains `72e6ddd0badbbda35fe510d2613d85f98ebdbfa2d654a079c4b795e879ff96c8`.
+Packet: `.analysis/gpt-6.1-sol-setup-snapshot-states-20261010/`.
+Canonical remains `build/gpt-dots-setup-continuations-20261006/baseline.obj`,
+COFF SHA256 `c181cf0b14561687ddf6ba9975ebce492bdfb25d055ea5269183fba608f7e186`.
+Main raw remains `4257aad1d5e47b883c2d1f46b7f3c55890b984a4a9e10ff4138e324e73f208ab`.
 
-Angle reference, signed-short stride and their combination are raw/field-neutral.
-Default /Gr Abs and combined declarations are linked-neutral; decorated symbols
-change. The real
-separately compiled default Abs matches12 bytes/zero fields/ST0/RET4; default
-interpolation matches91 bytes/two fields. Physical proofs justify only private
-aliases, not original convention spelling or a maintained API change.
+Sequential snapshot member assignment and mutable aggregate are fully neutral:
+1230 bytes/87 fields/338 instructions/frame10h/16 calls/86 blocks,105 differences.
+Target has337 instructions; its zero follows setup exits and all five WORDs are
+read before side0/side1 publication. Candidate prepares zero early and loads/
+publishes the last WORD first. Local switch and staged-switch emit1229 bytes,
+339 instructions and1070 overlap differences plus one absent; SUB/two DEC
+change dispatch without correcting input/zero scheduling. All eleven collateral
+owners and seven noncode sections remain unchanged.
 
-Difference reference and compound subtraction produce the same regressed main:
-1758 bytes/53 fields/frame88h,496 instructions and476 linked differences. FSUBR
-now precedes push but adds FSTP to EBP-C followed by MOV/push, absent from target.
-All three collateral owners and nine noncode sections remain neutral. Two other
-fabs leaf copies are unreferenced and receive no ownership or exact credit.
+The ordinary gate member leaves a real extra call at main+1Ah to its23-byte,
+zero-field body. Main1228 bytes/87 fields/339 instructions has17 calls. Actual
+section24 becomes27; eighteen common section coordinates shift by three. Full
+captures and actual-section maps preserve common owner/data records. There is
+no reviewed target destination for the helper; no full linked comparison or
+ownership credit is claimed. This precise member interface is rejected.
 
-Seven caller warms and one separate leaf check precede one fresh combined cold.
-All nine producers terminate zero. Four owner bodies/actual fields, nine noncode
-sections, full linked main/decoded graph repeat warm; debug filenames, symbol
-indices and auxiliary pointers differ and remain captured. All27 strict
-baseline/eight-caller sibling checks reproduce164 target bytes/eight fields.
-Actual8-path caller includes and the leaf's math.h include are pinned.
+Five warms precede one fresh-object staged-switch cold; all six terminate zero.
+Complete nondebug captures, fields, linked main and graph repeat warm. All87
+actual source/include paths per compiler are pinned; all56 baseline/six-carrier
+strict sibling checks reproduce1122 target bytes/96 fields. Full proof is
+152877 compressed/1111439 decoded bytes. Twenty-three pre-unlink receipts remove
+1328567 disposable bytes. Retained replay parses the actual canonical, rebinds
+deleted captures and restores/removes exact recipe sources for include replay.
+There is no deleted-object inspection or whole debug/COFF identity claim.
 
-Forty-five pre-unlink receipts cover781967 raw disposable bytes, including758272
-source/COFF/PDB bytes. Nine logs compress losslessly; seven duplicate reports are
-removed. All11 source recipes restore, revalidate and are removed again. Full
-1894046-byte proof compresses to19916 bytes. Retained replay parses the actual
-canonical and independently rebinds deleted captures. IDA's corrected entry
-comment reads back with all494 address/instruction pairs unchanged.
-
-RunEcl's preceding narrow/float/index batch remains recorded in the KB: standalone
-narrow/float expansion is main-neutral2161; combined index expansion regresses2279
-without a jump change. Its two omitted unreferenced helper copies have no target
-ownership; actual section shifts are mapped. Canonical source stays unchanged.
+The preceding Enemy draw lvalue/default-declaration batch and RunEcl narrow/
+float/index interactions remain in the KB. Draw keeps four differences; those
+precise contexts are excluded. RunEcl's narrow/float expansions remain neutral,
+while the paired index regresses without a jump change. Maintained source stays
+unchanged in each batch.
 
 ## Next route and current cache cautions
+
+Do not repeat GameManager's precise staged/mutable snapshot, local setup-state
+switch or ordinary input-gate member contexts. Earlier scalar/array/constructor,
+whole ready/else and callback-phase controls are also excluded. Rotate to the
+1689-byte gameplay setup worker after reviewing its actual reuse-base, flags
+cursor and failure-tail evidence and earlier helper-visibility controls. Further
+input-entry trials need materially new target/source/TU evidence.
 
 Do not repeat these precise Enemy draw lvalue/short-stride/default-declaration
 contexts. They do not close the four scheduling differences; compound/reference
@@ -186,6 +191,7 @@ python3 -B .analysis/gpt-6.1-sol-enemy-shared-types-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-ecl-flag-storage-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-movement-direct-sht-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-type1824-assignment-20261009/retained.py
+python3 -B .analysis/gpt-6.1-sol-setup-snapshot-states-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-setup-callback-phase-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-enemy-vector-storage-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-replay-row-arguments-20261009/retained.py
