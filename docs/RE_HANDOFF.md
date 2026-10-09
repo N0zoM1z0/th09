@@ -9,12 +9,12 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at d150ad5. Target SHA, direct IDA metadata, entry
+This checkpoint starts clean at 33f07f6. Target SHA, direct IDA metadata, entry
 and five distributed mapped-byte samples pass. No target patch, IDA write or
-delegation. Two complete RunEcl flat-switch/declaration-scope controls are
-compiled once each and rejected as neutral after complete carrier/field replay.
-No canonical source, ABI, profile, match row or exactness credit changes.
-The previous Charge timer-conversion source correction remains maintained.
+delegation. Two complete GameManager update input-array/publication controls
+are compiled once each and rejected after full owner/field inspection and
+batch-end strict sibling replay. No canonical source, ABI, profile, match row
+or exactness credit changes. Prior source corrections remain maintained.
 
 ## Live ledger snapshot
 
@@ -44,9 +44,11 @@ semantic reconstruction and portability have not started.
 - RunEcl: 14,792 target code /15,564 physical bytes; candidate has
   **14,791 code + one alignment + 772 compiler-table bytes**. All 598 fields
   are independently checked, with 2,161 complete differences. Handler frontiers
-  remain 4/7/86/155/156/157; source scope controls below are rejected.
+  remain 4/7/86/155/156/157; scope controls recorded in the KB are rejected.
 - Enemy OnUpdate: 3,883 authored /3,900 physical bytes, 97 fields, 39 differences;
   early draw index, descriptor/effect scheduling, trail and homing.
+- GameManager update: 1,230 bytes, 87 fields, 105 differences; input capture and
+  entry-zero scheduling, plus six shifted early-return branch displacements.
 - Title Options: 2,045 target /2,048 candidate bytes, 135 fields, 610 linked
   overlap differences plus three excess; 51 calls and 121 direct blocks agree.
 - Player movement: 1,835 authored /1,900 physical bytes, 66 fields, 144 differences.
@@ -59,46 +61,43 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest RunEcl batch
+## Latest GameManager update batch
 
-Packet: `.analysis/gpt-6.1-sol-ecl-flat-local-scope-20261009/`.
-Reuse the current canonical carrier after checking all 43 source/header/backend
-and five Oracle inputs:
-`build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`, SHA256
-`94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
-No unchanged baseline or canonical compile; no candidate is adopted.
+Packet: `.analysis/gpt-6.1-sol-setup-input-array-20261009/`.
+The current source and all 92 inherited source/header/backend inputs agree with
+`build/gpt-dots-setup-continuations-20261006/baseline.obj`, SHA256
+`c181cf0b14561687ddf6ba9975ebce492bdfb25d055ea5269183fba608f7e186`.
+Reuse that unchanged baseline; no canonical compile or candidate adoption.
 
-Each candidate removes the six family wrappers and places all 30 existing
-trivial scalar/pointer declarations at function entry or switch entry. Statements,
-case-local initializers, labels and macros remain. Twenty-seven bindings have
-consumers; three old unused declarations move intact, without invented uses.
-This combines two distinct
-older controls: the October 3 hoist retained wrappers in a 15,560-byte carrier;
-the October 6 flat form left declarations inside fragment positions. The precise
-combined current-context route is now measured, and should not be repeated.
+OnUpdate is still **1,230 bytes /87 fields /105 complete differences**. Five
+initialized input words are captured before either side publication. A const
+five-word array with explicit publication is neutral across all twelve carrier
+owners /4,590 bytes /406 fields and seven noncode sections. A two-side publication
+loop instead emits **1,202 bytes /79 fields /1,106 overlap differences +28 absent**.
+It retains a genuine 0x8E cursor loop; eight absolute address fields disappear.
+All present fields and all sixteen ordered calls are checked; the eleven other
+owners and seven noncode sections are neutral. Neither arrangement is retained.
+The target's five word loads and ten absolute stores remain the entry frontier.
 
-Both candidates preserve all 67 owners /28,838 bytes /1,215 effective fields and
-35 nondebug noncode sections. Independent raw COFF and repository parsers agree.
-Private spellings change 182/162 times at independently unchanged actual local
-destinations. Complete opcode-rooted identity, every field/table byte and the full
-2,161-byte difference list remain identical. Code/alignment reporting independently
-checks 14,791 code + one alignment + 772 table bytes. Batch-end strict checks of
-23 existing exact siblings pass 9,533 bytes /439 fields in each carrier. Diagnostic
-adapters alter only object paths and eight proved local label spellings; canonical
-manifests remain unchanged. All 37 actual unique includes are hash-bound, including
-the guarded canonical Control include from EclPostRuntime. These are bounded static
-and compiler observations, not original source/TU or native runtime proof.
+Both candidates pass strict replay of eight same-profile exact siblings:
+**1,122 bytes /96 fields**, with object-path-only diagnostic adapters. Independent
+COFF/PE and repository parsers agree on all owners/fields. Actual logs bind all
+86 included headers. Runtime, original source/TU ownership and whole historical
+compiler-environment attestation are not inferred.
 
-Lossless complete proof, input hashes, actual include logs, patches, selected direct
-IDA windows and source regeneration are retained. Hash-checked cleanup removes
-18 owned source/COFF/PDB files, **920,651 bytes**. `prepare.py --restore` reproduces
-all 14 source files without compiling. Retained-only audit reconstructs source
-hashes from patches and checks captured candidates against the real baseline;
-it does not inspect deleted COFFs. Next rotate coverage or use materially different
-target evidence; no unsupported forced-register/profile route is justified.
+Complete compressed proof, patches, include logs and direct IDA windows remain.
+Hash-checked cleanup removes eight owned source/COFF/PDB/report files,
+**772,996 bytes**. `prepare.py --restore` reproduces both source hashes without
+compiling; that recipe was checked after cleanup. Retained-only audit rebinds
+captured candidate bytes against the real target and checks the actual baseline,
+current inputs, source inverses and captured strict reports. Deleted candidate
+COFFs are not re-inspected. These precise array/publication models are closed
+negatives; next use materially different evidence or rotate owner coverage.
 
 ## Other current evidence
 
+- Latest flat ECL scope controls: `.analysis/gpt-6.1-sol-ecl-flat-local-scope-20261009/`;
+  all 67 owners and 23 exact siblings are neutral. See KB for precise exclusions.
 - Prior ECL mutation controls and code-extent correction:
   `.analysis/gpt-6.1-sol-ecl-mutation-expressions-20261009/`. Its precise direct
   timeout/comma-jump/opcode-snapshot controls are neutral. Decoder tests remain.
@@ -122,6 +121,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-setup-input-array-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-ecl-flat-local-scope-20261009/audit.py --retained-only
 python3 scripts/report-ecl-codegen.py build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj
 python3 scripts/inspect-ecl-complete.py build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj
