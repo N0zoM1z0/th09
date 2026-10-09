@@ -76,12 +76,16 @@ struct ExAttackType21UpdatePlayerView
 
 struct ExAttackType21BulletDescriptorStorage
 {
-    unsigned char storage[0x214];
+    // Declaration-only constructor view; original class/definition unknown.
+    // Both emission paths access the initialized bytes as this real member.
+    BulletSpawnDescriptor descriptor;
     ExAttackType21BulletDescriptorStorage();
 };
 
 typedef char ExAttackType21BulletDescriptorStorageSizeIs214[
     (sizeof(ExAttackType21BulletDescriptorStorage) == 0x214) ? 1 : -1];
+typedef char ExAttackType21BulletDescriptorAtZero[
+    (offsetof(ExAttackType21BulletDescriptorStorage, descriptor) == 0) ? 1 : -1];
 
 float __stdcall AddNormalizeAngle(float angle, float delta);
 
@@ -172,7 +176,7 @@ int __fastcall ExAttackUpdateCallbackType21(ExAttackRecord *base)
 
                     ExAttackType21BulletDescriptorStorage storage;
                     BulletSpawnDescriptor *descriptor =
-                        reinterpret_cast<BulletSpawnDescriptor *>(&storage);
+                        &storage.descriptor;
                     descriptor->position = bullet->position;
                     descriptor->bulletType = 22;
                     descriptor->aimMode = 1;
@@ -211,7 +215,7 @@ int __fastcall ExAttackUpdateCallbackType21(ExAttackRecord *base)
 
                     ExAttackType21BulletDescriptorStorage storage;
                     BulletSpawnDescriptor *descriptor =
-                        reinterpret_cast<BulletSpawnDescriptor *>(&storage);
+                        &storage.descriptor;
                     descriptor->position = bullet->position;
                     descriptor->bulletType = 22;
                     descriptor->aimMode = 1;

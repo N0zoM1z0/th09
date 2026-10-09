@@ -7,11 +7,12 @@ authored bytes**, work seriously on large functions, use direct IDA Pro MCP
 and local Bash/compiler Oracles without Factory MCP, commit locally as
 `gpt-6.1-sol: ...`, and periodically clean reproducible intermediates. Do not push.
 The goal remains **active-incomplete**. No new exactness credit was obtained in
-this checkpoint. DrawResult now reads difficulty through the target-proven
-GameManager root plus 0x11C. One canonical-path compile preserves the complete
-linked baseline; its 22 entry-byte differences remain unresolved. DrawReplayMenu's
-earlier recovered Float3 stages/frame and Enemy operand verification remain
-in maintained source, the knowledge base and Git.
+this checkpoint. Type21 update now accesses its temporary descriptors through
+real members instead of byte-buffer casts. One batch-end canonical compile
+preserves all ECL owner bytes/effective fields and all 23 configured exact
+siblings. Type21's 15 preheader differences remain unresolved. Prior DrawResult,
+DrawReplayMenu and Enemy source corrections remain maintained and recorded in
+the knowledge base and Git.
 The October 7 stopped-state checkpoint is preserved in Git at
 7347cb3; its cleanup and evidence limits are historical, not current stop orders.
 
@@ -63,51 +64,63 @@ started. No new exactness credit or acceptance receipt is claimed by this checkp
 - Enemy draw: 1,758 bytes and four complete differences around the second
   subtraction/Abs argument. Other nonexact UI, gameplay, network and callbacks
   remain in config/functions.csv. Consult docs/KNOWLEDGE_BASE.md before probes.
+- Type21 update: 1,074 bytes /29 actual fields and 15 full differences in the
+  ring preheader. Two record-owned acquisition paths are now verified neutral;
+  no simple record/extra alias-path explanation survives those exact controls.
 
 ## Latest reviewed investigation
 
-DrawResult owns 1939 bytes at 0x423D16. Its screen14 difficulty-mask read at
-0x423D53 addresses 0x4A7EAC. Independent target GameManager registration at
-0x41B9E0 uses root 0x4A7D90; exact Ending also reads 0x4A7EAC at 0x40E64A/0x40E66A.
-Current source reuses GameManagerModeView's checked difficulty +0x11C instead
-of declaring a separate g_TitleNameTableIndex. This minimal view establishes
-neither original identifiers/full layout nor native data-definition ownership.
+ExAttackUpdateCallbackType21 owns 1074 bytes at 0x44B500. Both bullet-conversion
+paths construct a 0x214-byte temporary via target 0x40D500. Independent target
+decoding confirms its 28-byte constructor clears 0x214 bytes and sets +0x204 to
+-1. The existing private constructor view now contains a real
+BulletSpawnDescriptor member at checked offset zero, instead of char storage
+reinterpreted as a descriptor. Its constructor declaration/call and every
+field write remain. No constructor definition or shared-header change is added.
+Original class/subobject construction and native definition ownership remain
+unknown; this is a bounded maintained source model.
 
-One canonical-path pinned-profile compile changes only one DIR32 identity and
-its two raw addend bytes. The full field now names g_GameManager with addend 284.
-All 1939 linked bytes equal the verified old source-bound baseline. Complete
-target replay still has 22 entry differences, 577 instructions, 82 fields,
-16 ordered calls and 92 direct blocks. Target currentScreen loads into EAX after
-the score-group store; candidate hoists it into ECX before bank multiplication.
-The field correction does not resolve this scheduling. No exact unit or partial
-credit is added. Current raw SHA256:
-449827f92c3a23f3427b71b12f44719aa62c4a459a5b91734085a08c834e447a.
+Three isolated trials precede one batch-end canonical-path compile. Reading
+only the UV-angle seed or only the history cursor through record->extra34 is
+wholly neutral and neither is retained. The descriptor-member trial and its
+canonical replay also preserve all raw code. Type21 remains 1074 bytes,
+288 instructions, 29 independently decoded fields, 17 ordered calls, 28 blocks
+and 15 full preheader differences. Raw SHA256:
+fb14aea858101f030ca4b22f9c7c0d51699465dc1d39118e65717eb594c0fcb4.
 
-The independent audit decodes every target/candidate field, verifies 15 complete
-literal payloads, all 18 nondebug sections and both emitted bodies. The uncalled
-3-byte Float3 constructor remains unchanged. The inspector retains the old
-alias binding solely for source-bound historical-object diagnosis. No extra
-helper, profile change, forced register, ABI change or target patch is used.
+Independent COFF parsing and separate repository extraction cover all 67 ECL
+owners, 28,838 physical bytes and 1,215 fields, with all 35 nondebug noncode
+sections unchanged. Four private labels rename at unchanged actual local
+positions; only the two affected exact manifests need new spellings. All23
+configured exact siblings reproduce 9,533 physical bytes and 439 fields through
+the existing strict Oracle with a lossless object-path-only adapter. RunEcl
+remains 2,161 differences over 15,564 bytes/598 fields. No new exact credit.
 
 ## Evidence and artifact lifecycle
 
-Entry at bd7a36c is clean; private target, direct IDA metadata, entry and five
-mapped-byte samples pass. No Factory MCP, IDA write or delegation.
-Current packet: .analysis/gpt-6.1-sol-result-difficulty-20261009/.
-It retains the complete audit, independent COFF parser, source patch, actual
-include log and source/header/backend/object manifests. All five actual includes
-have unchanged before/after hashes; the old baseline and its recorded source,
-headers, vendor/backend inputs are verified before reuse. Historical compiler
-environment is not retrospectively attested. No unchanged baseline is rebuilt.
+Entry at 44f62e4 is clean; private target, direct IDA metadata, entry and five
+mapped-byte samples pass. No Factory MCP, target patch, IDA write or delegation.
+Current packet: .analysis/gpt-6.1-sol-type21-preheader-20261009/.
+It retains Git-bound reconstruct.py, patches, actual include logs, input/backend
+manifests, independent COFF parser, full losslessly compressed audit.json.gz and
+the small source-bound canonical COFF. All 43 baseline input hashes and its COFF
+hash match before reuse. All four carriers have exactly the 35 recorded unique
+include inputs with before/after observations. Historical loaded compiler or
+environment state is not retrospectively attested. No baseline rebuild.
 
-The single canonical compile is terminal. Cleanup removes its 53,248-byte
-reproducible PDB. The small canonical object and compact proof remain;
-inherited evidence/caches are untouched. Previous DrawReplayMenu evidence is
-in .analysis/gpt-6.1-sol-replay-mode-20261009/ and Git bd7a36c.
+All four compiler processes are terminal. Six source copies reconstruct to
+their recorded hashes before cleanup. Receipts remove the three isolated COFFs,
+four PDBs, six source copies and redundant full reports, totaling 1,904,960 bytes
+including generated bytecode. Full report compression is lossless; the
+canonical-only report equals its exact retained subset. Inherited evidence,
+canonical caches and provider state remain untouched. Previous DrawResult
+member evidence is in .analysis/gpt-6.1-sol-result-difficulty-20261009/ and Git 44f62e4.
 
 Batch coherent changes before cold replay; every new exact owner requires
 complete pinned canonical source/byte/relocation proof. Same sizes/counts do
 not establish byte neutrality; compare actual bytes and full field descriptors.
+The remaining Type21 preheader schedule needs different target-supported
+source/callee evidence; do not repeat these two owner-path controls unchanged.
 
 ## Restart commands
 
@@ -118,18 +131,20 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
-python3 .analysis/gpt-6.1-sol-result-difficulty-20261009/audit.py
-python3 scripts/inspect-title-result-draw.py build/gpt-6.1-sol-result-difficulty-20261009/canonical.obj --summary
-python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj
+python3 .analysis/gpt-6.1-sol-type21-preheader-20261009/audit.py --canonical-only
+python3 scripts/inspect-exattack-type21.py build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj --diff
+python3 scripts/inspect-ecl-complete.py build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj
 ```
 
 Call direct IDA get_metadata with exactly {} during entry attestation.
-The generic DrawResult Oracle returns 1 for its expected complete byte mismatch;
-the complete audit exits successfully after reporting all 22 differing bytes.
-It binds the canonical object to retained reviewed input hashes; running the
-audit does not imply a new cold build. Audit address decoding distinguishes
-indexed absolute displacements from object-relative members and direct JMPs
-from relocation operands.
+The full Type21 diagnostic reports 15 differing bytes and grants no credit.
+The canonical-only audit binds source/backend/object hashes and checks the
+entire affected carrier plus all 23 existing exact siblings, without compiling.
+RunEcl's complete diagnostic returns 1 for its expected 2,161 differences.
+Reconstruct isolated sources from their bound Git revision before a genuinely
+new trial; their original COFFs are intentionally cleaned. Absolute global
+memory displacements may be indexed by a register; actual decoding covers them
+independently of configured fields. Private labels use actual local positions.
 
 Validation: complete canonical owner/decoded operands and all collateral code,
 tracking, progress, documentation and whitespace pass. Isolated CI runs 72 tests
