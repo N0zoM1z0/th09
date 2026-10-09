@@ -9,13 +9,14 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at50140c5. Four narrow/float expression controls
-precede one paired-index batch-end cold. Narrow and float-source expansion are
-main-neutral; adding remote index expansion regresses2161 differences to2279.
-Two unreferenced five-byte helper copies stop emitting, without target ownership.
-All23 exact siblings pass all five carriers. Complete proof,35 raw-EOL source
-restorations and scoped cleanup pass. No source/ABI/profile/exact-credit change
-is adopted. ResolveFloat is already exact; SaveReplay stays parked.
+This checkpoint starts clean at8d07f96. Seven Enemy draw caller controls and
+one actual Abs leaf check precede one combined-declaration batch-end cold.
+Angle references, short stride and default declarations keep four differences;
+difference borrowing/compound subtraction add a float home and regress to476.
+All three exact siblings pass. Complete proof,11 source restorations and45-file
+cleanup pass. IDA's stale1740-byte entry comment is corrected/read back with
+unchanged instructions. No source/ABI/profile/exact-credit change is adopted.
+ResolveFloat is already exact; SaveReplay stays parked.
 
 ## Live ledger snapshot
 
@@ -74,51 +75,58 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest RunEcl narrow/float expression batch
+## Latest Enemy draw operand-lvalue/declaration batch
 
-Packet: `.analysis/gpt-6.1-sol-ecl-narrow-float-expressions-20261010/`.
-Canonical remains `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`,
-COFF SHA256 `94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
-Main raw remains `93206b3996d97e62d6470b795e32c9cfdc9228a9bc8806efed073688b7420eef`.
+Packet: `.analysis/gpt-6.1-sol-enemy-draw-operand-lvalues-20261010/`.
+Canonical remains `build/gpt-dots-enemy-draw-conjunction-20261006/EnemyManagerDraw.obj`,
+COFF SHA256 `8277f8f3532feafeb77faaba2238a12e51d9ddb69410cb7968e339bb5a92897b`.
+Main raw remains `72e6ddd0badbbda35fe510d2613d85f98ebdbfa2d654a079c4b795e879ff96c8`.
 
-Four warm controls directly expand all8 byte/2 short reads, only opcode7's
-source float conditional, both, and both plus opcode86's index conditional.
-They preserve the original helper definitions, operand domains, statement/effect
-boundaries and ABI/profile. One fresh-path paired-index cold follows all four
-warms. All five producers terminate zero; all37 actual include paths are pinned.
+Angle reference, signed-short stride and their combination are raw/field-neutral.
+Default /Gr Abs and combined declarations are linked-neutral; decorated symbols
+change. The real
+separately compiled default Abs matches12 bytes/zero fields/ST0/RET4; default
+interpolation matches91 bytes/two fields. Physical proofs justify only private
+aliases, not original convention spelling or a maintained API change.
 
-Float-source retains67 owners/28838 bytes/1215 fields; narrow-bearing carriers
-retain65/28828/1215. RawByte/RawShort's unreferenced five-byte copies stop emitting.
-Actual baseline section scans prove no incoming nondebug relocation or match-unit
-ownership. Removing those code/debug sections shifts35 common owner section
-indices, including main199 to193. Full field mapping uses actual named code/data
-definitions, including nine main data references; numeric indices are not called
-identical. All35 nondebug noncode section payloads/flags/fields are unchanged.
+Difference reference and compound subtraction produce the same regressed main:
+1758 bytes/53 fields/frame88h,496 instructions and476 linked differences. FSUBR
+now precedes push but adds FSTP to EBP-C followed by MOV/push, absent from target.
+All three collateral owners and nine noncode sections remain neutral. Two other
+fabs leaf copies are unreferenced and receive no ownership or exact credit.
 
-The first three mains stay14791 code+one NOP+772 tables,598 fields,4387 instructions,
-frame168h,943 blocks,375+4 calls and2161 complete differences. Paired-index and
-cold emit14789 code+three-byte self-LEA+772 tables,4386 instructions and2279
-differences; trail157 stays158/160. No complete jump view is added. All six
-handler frontiers remain. Cold fully repeats warm inventory, actual fields,
-linked main, decoded operands/tables and graph. All23 exact siblings reproduce
-9533 target bytes/439 fields in every carrier; eight private spelling changes
-are verified against actual coordinates in diagnostic adapters only.
+Seven caller warms and one separate leaf check precede one fresh combined cold.
+All nine producers terminate zero. Four owner bodies/actual fields, nine noncode
+sections, full linked main/decoded graph repeat warm; debug filenames, symbol
+indices and auxiliary pointers differ and remain captured. All27 strict
+baseline/eight-caller sibling checks reproduce164 target bytes/eight fields.
+Actual8-path caller includes and the leaf's math.h include are pinned.
 
-Fifty-five pre-unlink receipts cover2715652 raw disposable bytes, including2327135
-source/COFF/PDB bytes. Ten logs/adapters compress losslessly; all35 raw-EOL sources
-restore, revalidate and are removed again. Complete11171633-byte proof compresses
-to126940 bytes. Retained replay parses the real canonical and independently
-rebinds deleted captures. Earlier remote-scope/Options/Enemy/DrawResult evidence
-remains in the KB, Git and retained commands below.
+Forty-five pre-unlink receipts cover781967 raw disposable bytes, including758272
+source/COFF/PDB bytes. Nine logs compress losslessly; seven duplicate reports are
+removed. All11 source recipes restore, revalidate and are removed again. Full
+1894046-byte proof compresses to19916 bytes. Retained replay parses the actual
+canonical and independently rebinds deleted captures. IDA's corrected entry
+comment reads back with all494 address/instruction pairs unchanged.
+
+RunEcl's preceding narrow/float/index batch remains recorded in the KB: standalone
+narrow/float expansion is main-neutral2161; combined index expansion regresses2279
+without a jump change. Its two omitted unreferenced helper copies have no target
+ownership; actual section shifts are mapped. Canonical source stays unchanged.
 
 ## Next route and current cache cautions
 
-Do not repeat these precise narrow/float/index expressions unchanged. Narrow
-reads and opcode7 float-source expansion alone are neutral; remote index
-expansion regresses in their combined context, although it previously restored
-the complete-jump context. Scope/goto alone is insufficient and a remote record
-is unnecessary. Pursue materially different target/source-context evidence;
-original source/type/TU identity and all4/7/86/155..157 frontiers remain open.
+Do not repeat these precise Enemy draw lvalue/short-stride/default-declaration
+contexts. They do not close the four scheduling differences; compound/reference
+difference homes regress despite matching local subtraction-before-push order.
+New draw trials need materially different target/source/TU evidence. Rotate to
+other large owners when this evidence is unavailable rather than repeating
+signature or scalar/reference variations.
+
+RunEcl's narrow/float/index expressions remain excluded unchanged. Remote index
+expansion regresses in that context although it restored the complete-jump
+context. Scope/goto alone is insufficient and a remote record is unnecessary.
+Original source/type/TU identity and all4/7/86/155..157 frontiers remain open.
 Options' actual configuration/snapshot/reference repair provides no new
 allocation lead; its precise family and prior routing/input controls are excluded.
 
@@ -133,8 +141,8 @@ borrowing regresses. Its five actual +0x13C member connections stay maintained.
 
 RunEcl's live cache is
 `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`; the recent
-narrow-float-expressions, remote-scope, complete-instruction, wire-prefix and flag-storage commands bind its
-full carrier.
+narrow-float-expressions, remote-scope, complete-instruction, wire-prefix and
+flag-storage commands bind its full carrier.
 ResolveFloat @0x4068A0 has complete2044-byte/121-field exact closure since
 Packet630. KB4011 onward and correction KB5486 supersede stale ECL-014 routing;
 never reconstruct it again because of a historical worklist cell.
@@ -189,6 +197,7 @@ python3 scripts/inspect-title-result-draw.py build/gpt-6.1-sol-result-difficulty
 python3 scripts/inspect-supervisor-update.py build/gpt-6.1-sol-supervisor-entry-context-20261009/binary-title-flag-bit.obj
 python3 -B .analysis/gpt-6.1-sol-replay-depth-workspace-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-ecl-jump-timer-20261009/audit.py --retained-only
+python3 -B .analysis/gpt-6.1-sol-enemy-draw-operand-lvalues-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-enemy-draw-expression-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-draw1422-callee-context-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-pause-partial-visibility-20261009/audit.py --retained-only
