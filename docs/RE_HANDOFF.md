@@ -9,11 +9,12 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at9775003. Original target and direct IDA mapped
-bytes pass. Four full RunEcl flag-storage/value contexts precede one batch-end
-cold. Unsigned-long/signed-int fields and int wire-value capture are neutral
-across all67 owners; all23 exact siblings pass. No source/header/ABI/profile or
-credit change is integrated. The actual canonical ECL carrier remains bound.
+This checkpoint starts clean at de7bfbe. Original target and direct IDA mapped
+bytes pass. SaveReplay serialization remains parked under its historical risk
+block; the preceding routing suggestion is superseded. Three paired Type19/21
+initializer controls precede one batch-end cold. Unsigned/countdown indices are
+neutral, center-through-rim history traversal regresses, and all23 exact siblings
+pass. No source/header/ABI/profile or exact-credit change is integrated.
 
 ## Live ledger snapshot
 
@@ -72,7 +73,36 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest RunEcl flag-storage/value batch
+## Latest paired trail initializer batch
+
+Packet: `.analysis/gpt-6.1-sol-trail-countdown-20261009/`.
+The same actual canonical ECL COFF remains at
+`build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`, SHA256
+`94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
+All57 inherited/current input bindings and36 actual source/include paths agree.
+
+Unsigned sample ordinal and explicit32-down counter with index32-remaining
+preserve all67 owners/28838 physical bytes/1215 fields/35 noncode sections.
+Type19 remains763 bytes/57 fields/27 calls/nine blocks/six differences;
+Type21 remains727/53/25/ten/nine. One genuine history cursor beginning at the
+center and advancing through rim entries emits765/727 bytes, with269/108
+linked overlap differences and two Type19 excess bytes. All65 other owners
+are neutral. These precise controls are rejected; no source model is proved.
+
+One batch-end countdown cold repeats the complete warm inventories and proofs.
+All23 exact siblings pass9533 physical bytes/439 fields in every carrier.
+Cleanup saves all20 hash/size receipts before removing1398106 bytes; all12
+source copies restore, revalidate and are removed again. Retained.py reparses
+the actual canonical and independently rebinds complete archived captures;
+it does not claim to inspect deleted trial COFFs. See KB for the adapter repair.
+
+Do not retry parked SaveReplay or repeat these initializer controls. Return to
+the large3883-byte Enemy OnUpdate owner: first review its prior negative
+controls, complete target effects and actual current source/carrier bindings.
+A new probe needs a concrete target-local contradiction or a distinct natural
+source context; unchanged baseline replay alone supplies no progress.
+
+## Previous RunEcl flag-storage/value batch
 
 Packet: `.analysis/gpt-6.1-sol-ecl-flag-storage-20261009/`.
 Canonical stays at `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`,
@@ -93,9 +123,9 @@ receipts. All28 source copies restore, revalidate and are removed again;
 complete compressed packet is590537 bytes. Retained.py reparses the actual
 canonical carrier and independently rebinds complete deleted captures and
 sibling operands. Original flag/value types, native runtime and95% stay open.
-Do not repeat these four precise contexts. Next inspect ReplayManagerView's
-1238-byte SaveReplay serialization owner, its existing controls and complete
-current source/target/carrier bindings before forming another bounded batch.
+Do not repeat these four precise contexts. The earlier SaveReplay routing
+is withdrawn: KB records its parked stream-row action and forbids equivalent
+retries. No serializer probe is run in this checkpoint.
 
 ## Recent Player movement and Type18/24 routing
 
