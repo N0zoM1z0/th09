@@ -75,9 +75,19 @@ struct PlayerCancelSupervisorView
 
 struct PlayerCancelGameManagerView
 {
+    unsigned char unknown000[0x11C];
+    int difficulty11C;
+    unsigned char unknown120[0x358 - 0x120];
+    float coordinate358;
+
     float TransformPopupX(float value);
     float TransformPopupY(float value);
 };
+
+typedef char PlayerCancelGameManagerDifficultyAt11C[
+    (offsetof(PlayerCancelGameManagerView, difficulty11C) == 0x11C) ? 1 : -1];
+typedef char PlayerCancelGameManagerCoordinateAt358[
+    (offsetof(PlayerCancelGameManagerView, coordinate358) == 0x358) ? 1 : -1];
 
 struct PlayerCancelSoundView
 {
@@ -105,8 +115,6 @@ extern PlayerCancelGameManagerView g_PlayerGameManagerRuntime;
 extern PlayerCancelSoundView g_SoundPlayer;
 extern RngRuntimeView g_ReplayRng;
 extern EffectManager *g_PlayerRewardEffectManager;
-extern float g_PlayerRewardVelocitySpan;
-extern int g_PlayerRewardModeValue;
 
 
 int PlayerLifecycleView::CheckBulletCollision(
@@ -204,7 +212,7 @@ hit:
 
             EffectFloat3 velocity;
             velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
-                g_PlayerRewardVelocitySpan * 0.5f - 8.0f);
+                g_PlayerGameManagerRuntime.coordinate358 * 0.5f - 8.0f);
             velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
             velocity.z = 0.0f;
 
@@ -237,7 +245,7 @@ hit:
                 rewardValue *= 10;
 
             int rewardMode =
-                (g_PlayerRewardModeValue >= 3) + 2;
+                (g_PlayerGameManagerRuntime.difficulty11C >= 3) + 2;
             player->ownerState30410.ApplyReward(
                 position, rewardMode, 2, 0, rewardValue);
 
