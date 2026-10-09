@@ -9,13 +9,15 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at6658beb. Five GameManager update controls precede
-one staged-switch batch-end cold. Staged/mutable snapshots keep105 differences;
-local switch and paired assignment regress to1070 plus one absent byte. The
-ordinary gate member leaves a real unbound extra call. All eight same-profile
-exact siblings pass. Complete retained proof, raw-EOL/source/include replay and
-23-file cleanup pass. No source/ABI/profile/exact-credit change is adopted.
-ResolveFloat is already exact; SaveReplay stays parked.
+This checkpoint starts clean at1ff599d. Four gameplay worker failure/assignment
+controls precede one paired batch-end cold. Moving failure cleanup and joined
+assignment guards keep921 differences. Branch-local cleanup returns emit1724
+bytes/1123 overlap differences plus35 excess and an extra FinishLoading call.
+All eight exact same-profile siblings pass. Target172 address fields and
+candidate171 are now separately checked by the complete operand inspector.
+Retained/source/include replay and19-file cleanup pass. No reconstruction source,
+ABI/profile or exact-credit change is adopted. ResolveFloat is already exact;
+SaveReplay stays parked.
 
 ## Live ledger snapshot
 
@@ -48,7 +50,8 @@ semantic reconstruction and portability have not started.
   remain 4/7/86/155/156/157; scope controls recorded in the KB are rejected.
 - Enemy OnUpdate: 3,883 authored /3,900 physical bytes, 97 fields, 39 differences;
   early draw index, descriptor/effect scheduling, trail and homing.
-- Gameplay setup worker: 1,689 bytes, 171 fields, 921 full differences; reuse-base
+- Gameplay setup worker: 1,689 bytes, target172/candidate171 address fields,
+  921 full differences; reuse-base
   caching, flags cursor and rate/failure-tail topology remain open.
 - GameManager update: 1,230 bytes, 87 fields, 105 differences; input capture and
   entry-zero scheduling, plus six shifted early-return branch displacements.
@@ -74,52 +77,54 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest GameManager snapshot/setup-state batch
+## Latest gameplay setup failure-phase batch
 
-Packet: `.analysis/gpt-6.1-sol-setup-snapshot-states-20261010/`.
+Packet: `.analysis/gpt-6.1-sol-gameplay-failure-phases-20261010/`.
 Canonical remains `build/gpt-dots-setup-continuations-20261006/baseline.obj`,
 COFF SHA256 `c181cf0b14561687ddf6ba9975ebce492bdfb25d055ea5269183fba608f7e186`.
-Main raw remains `4257aad1d5e47b883c2d1f46b7f3c55890b984a4a9e10ff4138e324e73f208ab`.
+Worker raw remains `35d7f3adf469e584e8adf9f1714914db0d4c2d7d7c8dba19bbb21d6aabcc70a1`.
 
-Sequential snapshot member assignment and mutable aggregate are fully neutral:
-1230 bytes/87 fields/338 instructions/frame10h/16 calls/86 blocks,105 differences.
-Target has337 instructions; its zero follows setup exits and all five WORDs are
-read before side0/side1 publication. Candidate prepares zero early and loads/
-publishes the last WORD first. Local switch and staged-switch emit1229 bytes,
-339 instructions and1070 overlap differences plus one absent; SUB/two DEC
-change dispatch without correcting input/zero scheduling. All eleven collateral
-owners and seven noncode sections remain unchanged.
+Failure cleanup at the registration phase boundary and pointer assignment/null
+predicates are all12-owner neutral:1689 bytes/171 fields/416 instructions/frame4,
+35 ordered calls/77 blocks,921 differences. Branch-local cleanup returns and
+their paired predicates produce identical1724-byte/179-field/425-instruction
+mains,1123 overlap differences plus35 excess and36 physical calls. Failure cleanup
+splits into EDI=2 and ESI=2 copies, adding a FinishLoading call. Common eleven
+collateral bodies and seven data sections stay unchanged. No candidate is adopted.
 
-The ordinary gate member leaves a real extra call at main+1Ah to its23-byte,
-zero-field body. Main1228 bytes/87 fields/339 instructions has17 calls. Actual
-section24 becomes27; eighteen common section coordinates shift by three. Full
-captures and actual-section maps preserve common owner/data records. There is
-no reviewed target destination for the helper; no full linked comparison or
-ownership credit is claimed. This precise member interface is rejected.
+Target has172 actual address operands (33 REL32/139 DIR32) versus baseline171
+(33/138). The inspector now prints both counts and requires complete candidate
+COFF-to-decoded-operand coverage. Current/source/backend/actual baseline pins
+pass. Old helper-visibility replay rejects a changed whole manifest; its eight
+selected units equal hash-bound historical Git/current definitions. Historical
+proof remains unchanged; use the latest current replay below.
 
-Five warms precede one fresh-object staged-switch cold; all six terminate zero.
-Complete nondebug captures, fields, linked main and graph repeat warm. All87
-actual source/include paths per compiler are pinned; all56 baseline/six-carrier
-strict sibling checks reproduce1122 target bytes/96 fields. Full proof is
-152877 compressed/1111439 decoded bytes. Twenty-three pre-unlink receipts remove
-1328567 disposable bytes. Retained replay parses the actual canonical, rebinds
-deleted captures and restores/removes exact recipe sources for include replay.
-There is no deleted-object inspection or whole debug/COFF identity claim.
+Four warms precede one fresh-object paired cold; all five terminate zero. Complete
+nondebug captures, actual fields, linked main and graph repeat warm. Actual87-path
+include closures and all48 baseline/five-carrier strict sibling checks pass,
+1122 target bytes/96 fields per carrier. Full proof is157879 compressed/1156542
+decoded bytes. Nineteen pre-unlink receipts remove1105824 disposable bytes.
+Retained replay parses the actual canonical, rebinds deleted captures and restores/
+removes exact recipe sources for include replay. Original producer pins and new
+Oracle pins are distinct; constants/destination/call identities stay unchanged.
 
-The preceding Enemy draw lvalue/default-declaration batch and RunEcl narrow/
-float/index interactions remain in the KB. Draw keeps four differences; those
-precise contexts are excluded. RunEcl's narrow/float expansions remain neutral,
-while the paired index regresses without a jump change. Maintained source stays
-unchanged in each batch.
+The preceding GameManager snapshot/setup-state batch remains in the KB and its
+retained command. Staged/mutable captures are neutral105; local switch regresses
+and an ordinary gate member adds an unbound call. Enemy draw's lvalue/default
+contexts and RunEcl's narrow/float/index interactions also remain excluded.
 
 ## Next route and current cache cautions
 
+Do not repeat the gameplay worker's precise failure-phase, branch-local-return
+or pointer-assignment predicate contexts. They do not correct the independent
+reuse-base, selector/flags cursor or rate-tail differences. Earlier globals,
+cursors, scopes, visibility and constructor controls are also in the KB. Seek
+new target-backed data-flow/source/TU evidence or rotate to another large owner.
+
 Do not repeat GameManager's precise staged/mutable snapshot, local setup-state
 switch or ordinary input-gate member contexts. Earlier scalar/array/constructor,
-whole ready/else and callback-phase controls are also excluded. Rotate to the
-1689-byte gameplay setup worker after reviewing its actual reuse-base, flags
-cursor and failure-tail evidence and earlier helper-visibility controls. Further
-input-entry trials need materially new target/source/TU evidence.
+whole ready/else and callback-phase controls are also excluded. Further input-entry
+trials need materially new target/source/TU evidence.
 
 Do not repeat these precise Enemy draw lvalue/short-stride/default-declaration
 contexts. They do not close the four scheduling differences; compound/reference
@@ -191,6 +196,8 @@ python3 -B .analysis/gpt-6.1-sol-enemy-shared-types-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-ecl-flag-storage-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-movement-direct-sht-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-type1824-assignment-20261009/retained.py
+python3 -B .analysis/gpt-6.1-sol-gameplay-failure-phases-20261010/retained.py
+python3 scripts/inspect-gameplay-setup.py build/gpt-dots-setup-continuations-20261006/baseline.obj --summary
 python3 -B .analysis/gpt-6.1-sol-setup-snapshot-states-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-setup-callback-phase-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-enemy-vector-storage-20261009/retained.py
@@ -210,7 +217,6 @@ python3 -B .analysis/gpt-6.1-sol-pause-partial-visibility-20261009/audit.py --re
 python3 scripts/inspect-pause-menu.py
 python3 -B .analysis/gpt-6.1-sol-enemy-object-copies-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-enemy-object-copies-20261009/replay.py --retained-only
-python3 -B .analysis/gpt-6.1-sol-gameplay-helper-visibility-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-setup-input-array-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-ecl-flat-local-scope-20261009/audit.py --retained-only
 python3 scripts/report-ecl-codegen.py build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj

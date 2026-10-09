@@ -72,6 +72,27 @@ def call_signature(ins):
     raise ValueError('unreviewed call operand')
 
 
+def address_fields(instructions):
+    """Decode actual address operands independently of candidate COFF fields."""
+    fields = []
+    for ins in instructions:
+        offset = ins.address - BASE
+        is_jump = ins.group(capstone.CS_GRP_JUMP)
+        if ins.mnemonic == 'call' and call_signature(ins)[0] == 'direct':
+            fields.append((offset + ins.imm_offset, 'REL32', ins.operands[0].imm))
+        if ins.disp_size == 4:
+            for operand in ins.operands:
+                if (operand.type == capstone.x86.X86_OP_MEM and
+                        0x400000 <= operand.mem.disp < 0x4E7000):
+                    fields.append((offset + ins.disp_offset, 'DIR32', operand.mem.disp))
+        if ins.imm_size == 4 and not is_jump and ins.mnemonic != 'call':
+            for operand in ins.operands:
+                if (operand.type == capstone.x86.X86_OP_IMM and
+                        0x400000 <= operand.imm < 0x4E7000):
+                    fields.append((offset + ins.imm_offset, 'DIR32', operand.imm))
+    return sorted(fields)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('object', type=Path)
@@ -97,6 +118,12 @@ def main():
     t, c = list(decoder.disasm(target, BASE)), list(decoder.disasm(code, BASE))
     if sum(i.size for i in t) != len(target) or sum(i.size for i in c) != len(code):
         raise ValueError('incomplete function decode')
+    expected_fields = sorted((row['offset'], row['type'],
+                              DESTINATIONS[row['symbol']] + row['addend'])
+                             for row in rows)
+    target_fields, candidate_fields = address_fields(t), address_fields(c)
+    if candidate_fields != expected_fields:
+        raise ValueError('COFF fields do not cover actual candidate address operands')
 
     def normalized(i):
         if i.mnemonic.startswith('j'):
@@ -109,6 +136,9 @@ def main():
     tc, cc = calls(t), calls(c)
     print('NON-CREDITING:', len(code), 'bytes', len(c), 'instructions',
           len(rows), 'fields', raw_hash)
+    print('decoded target/candidate address fields:',
+          len(target_fields), len(candidate_fields),
+          'candidate COFF operand coverage agrees:', candidate_fields == expected_fields)
     print('complete owned bytes agree:', code == target,
           'length delta:', len(code) - len(target),
           'first overlapping difference:', next(
