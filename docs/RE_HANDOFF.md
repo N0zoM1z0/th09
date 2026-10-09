@@ -9,12 +9,12 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at c96ca8c. Six Replay menu caption-buffer controls
-precede one maintained-path batch cold. Adopted natural branch-local buffers,
-indexed mode reads and z preservation restore all13 target call identities,
-57 address fields, retaining position/buffer homes at EBP-14h/134h. Complete candidate
-remains1272 bytes/1194 overlap differences plus8 absent: no exact credit.
-Full target/operand/data/source/Git/CRLF/include and26-file cleanup checks pass.
+This checkpoint starts clean at6b795a8. Three Replay detail-frame controls precede
+one maintained-path batch cold. Direct frame expressions now test side0 and reload
+side1/side0 after the color store, retaining all13 ordered calls and57 fields.
+Full candidate remains1258 bytes/1187 overlap differences plus22 absent; no exact
+credit. Position now has home EBP-10h versus target-14h, frame remains134h.
+Complete carrier/source/Git/CRLF/include and14-file cleanup checks pass.
 ResolveFloat is already exact; SaveReplay stays parked.
 
 ## Live ledger snapshot
@@ -57,9 +57,9 @@ semantic reconstruction and portability have not started.
   overlap differences plus three excess; 51 calls and 121 direct blocks agree.
 - Result draw: 1,939 bytes/82 fields/22 entry differences. Output-reference and
   array-reference producer contexts are rejected; later keyboard graph is covered.
-- Replay menu draw: 1,280 target/1,272 candidate bytes, 57 target/candidate
-  fields, 1,194 differences plus8 absent; all13 ordered calls restored. Entry/list,
-  interpolation and detail-row allocation remain open.
+- Replay menu draw: 1,280 target/1,258 candidate bytes, 57 target/candidate
+  fields, 1,187 differences plus22 absent; all13 ordered calls restored and detail
+  frame reads follow color. Owner/interpolation/position/row allocation remain open.
 - Supervisor network service: 1,633 target/1,632 candidate bytes, 106 target/108
   candidate fields, 1,395 complete differences plus one absent. Actual indirect
   operands are covered; see KB for sign-test and output-workspace exclusions.
@@ -76,53 +76,55 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest Replay menu caption lifetime/source batch
+## Latest Replay detail-frame dataflow batch
 
-Packet: `.analysis/gpt-6.1-sol-replay-caption-arm-buffers-20261010/`.
-Current bound cache is
-`build/gpt-6.1-sol-replay-caption-arm-buffers-20261010/canonical.obj`,
-COFF SHA256 `99c10c38cb65146edc0b39748cf29cbe54158dd43f012190e4a345e7bccf4846`.
+Packet: `.analysis/gpt-6.1-sol-replay-detail-frames-20261010/`.
+Current bound cache is `build/gpt-6.1-sol-replay-detail-frames-20261010/canonical.obj`,
+COFF SHA256 `3f9cad9b4a3191c3fea9c6fd958356f25631791e2b9a25c8dc494f8746a389ec`.
 Main raw SHA256 is
-`db75a21ba9a2b40852d7fb6003714430960356bc04383abb2025e6d77a94ce5b`.
+`437bc272969cfde208124008ba2c2a7d186054f0671c8c232537a3e9d9faecbc`.
 
-Maintained source now gives each mutually exclusive caption arm a consumed256-byte
-buffer, uses indexed post-row mode reads and preserves position.z. Story/Versus
-sprintf/strlen remain separate; their later conversion/drawing tail is shared.
-All13 ordered call identities and57 address fields agree with target, frame134h
-and position/buffer homes14h/134h are retained. Original buffer count/spelling is
-unknown. Full candidate is1272 bytes/372 instructions/71 blocks with1194 overlap
-differences plus8 absent against target1280/376/72; source stays NON-EXACT.
+Maintained source now directly tests side0 and supplies live frame-array arguments
+after color. Actual compiler restores side1 then side0 loads after that store.
+The equivalent post-color named pair is fully identical. Two lawful consumed
+cursors retain an unwanted actual pointer-difference home and are rejected.
+Earlier caption-call separation, indexed mode and preserved z remain. Current
+candidate1258 bytes/368 instructions/57 fields/13 ordered calls/70 direct blocks
+has1187 overlap differences plus22 absent against target1280/376/57/13/72.
+Frame134h and caption home134h remain; position now has home10h versus target14h,
+and owner is stored at28h. Original source/TU and allocation remain unknown.
 
-Six warm controls precede one maintained-path cold. Complete nondebug owners/data,
-raw/linked main and actual field coordinates repeat the adopted warm. Three
-collateral bodies37 bytes/two fields remain unchanged, with no configured exact
-sibling in this carrier. All17 nondebug data records are fully identical after
-an explicit five-section bijection; actual section indices are retained. Seven
-actual six-header include closures pass. Full proof is138334 compressed/956675
-decoded bytes.26 terminal-owned receipts remove486531 disposable bytes. Retained
-replay parses both actual canonical COFFs, rebinds deleted warm captures and
-restores/removes recipe sources/logs for real include replay.43 original input/
-8 support pins and historical Git/CRLF versus adopted-source bindings pass.
+Three warms precede one maintained-path cold, which repeats all complete nondebug
+code/data/raw/linked/actual-field/numeric records. Four owners total1295 bytes/59
+fields; three collateral bodies37 bytes/two fields and all17 nondebug data records
+are entirely unchanged, with actual coordinates checked. There is no configured
+exact sibling in this carrier. Four actual six-header include traces pass. Full
+proof is86343 compressed/594125 decoded bytes.14 terminal-owned receipts remove
+269894 disposable bytes. Retained replay parses both actual1272/1258 canonical
+COFFs, rebinds deleted warm captures and restores/removes recipe source/logs for
+real include replay.43 original input/7 support pins and historical Git/CRLF
+versus current adopted-source bindings pass.
 
-IDA's stale entry note now reflects current1272-byte nonexact evidence; exact
-readback preserves all376 observed instruction texts/addresses. No exact match,
-original object ownership or runtime/product/later-phase credit follows.
-Historical1244-byte replay row/mode packets remain in the KB; their old current-
-source pin checks no longer apply after adoption. The current packet independently
-binds that historical baseline to its original Git/raw source before comparing.
+IDA's current876-character note is read back exactly with376 instruction texts/
+addresses unchanged. No target bytes, exact match, runtime/product or later-phase
+credit changes. The prior caption packet's1272-byte cache is now historical and
+its old current-source pin no longer applies; that proof remains unchanged. The
+current packet independently binds it to the original6b795a8 Git/raw source.
+Earlier1244-byte replay mode/row packets are also historical.
 
-The preceding Enemy draw-index/hitbox, gameplay failure-phase and GameManager
-snapshot/state batches remain in the KB and their retained restart commands.
-None changed exact coverage. All their precise negative contexts remain excluded.
+Preceding Enemy draw-index/hitbox, gameplay failure-phase and GameManager snapshot/
+state batches remain in the KB and retained restart commands. Their exact-credit
+and precisely measured negative contexts remain unchanged.
 
 ## Next route and current cache cautions
 
-Replay menu caption-call separation is now restored. Do not repeat these exact
-switch/if branch-buffer, indexed-mode and z-preservation combinations. New work
-must use the current1272-byte cache and address entry/list allocation, interpolation
-or detail-row data flow. Prior direct row arguments, shared counter, outer caption
-member and selector controls remain historical negatives in their measured context.
-Do not treat the old1244-byte/54-field/11-call owner as current source evidence.
+Replay menu caption calls and detail-frame read ordering are now restored. Do not
+repeat the exact direct/post-color/dual-cursor contexts or earlier caption-buffer/
+mode/z families unchanged. New work must bind the current1258-byte cache and
+address owner/selected replay lifetimes, position homes, interpolation or row
+allocation. The1272-byte/57-field and1244-byte/54-field caches are historical.
+Prior direct row arguments, shared counter, outer caption member and selector
+controls remain negatives in their measured context, without an impossibility claim.
 
 Do not repeat Enemy update's exact draw-group-index, live-hitbox-source-reference
 or paired contexts. Earlier destination-reference/copy, whole arrays, shared
@@ -217,7 +219,7 @@ python3 scripts/inspect-gameplay-setup.py build/gpt-dots-setup-continuations-202
 python3 -B .analysis/gpt-6.1-sol-setup-snapshot-states-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-setup-callback-phase-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-enemy-vector-storage-20261009/retained.py
-python3 -B .analysis/gpt-6.1-sol-replay-caption-arm-buffers-20261010/retained.py
+python3 -B .analysis/gpt-6.1-sol-replay-detail-frames-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-service-workspaces-20261009/audit.py --retained-only
 python3 scripts/inspect-supervisor-service.py build/gpt-dots-service-packet-owner-20261007/baseline.obj
 python3 -B .analysis/gpt-6.1-sol-ecl-receiver-ownership-20261009/audit.py --retained-only

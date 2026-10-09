@@ -230,17 +230,15 @@ int TitleScreenView::DrawReplayMenu()
 
         for (i32 i = 0; i < 10; ++i)
         {
-            ReplayMenuFrameView *side0 = replay->frameStart[0][i];
-            if (side0 != 0)
+            if (replay->frameStart[0][i] != 0)
             {
-                ReplayMenuFrameView *side1 = replay->frameStart[1][i];
                 g_AsciiManager.color =
                     (i == keyboardSelection) ? 0xFFFFFFFFu : 0xFF808080u;
                 g_AsciiManager.AddFormatText(
                     &position,
                     "%.8s vs %.8s",
-                    g_ReplayCharacterNames[side0->character],
-                    g_ReplayCharacterNames[side1->character]);
+                    g_ReplayCharacterNames[replay->frameStart[0][i]->character],
+                    g_ReplayCharacterNames[replay->frameStart[1][i]->character]);
                 position.y += 13.0f;
             }
         }
