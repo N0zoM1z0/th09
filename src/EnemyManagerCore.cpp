@@ -106,7 +106,7 @@ typedef char EnemyCoreSideStateSizeIs38[
 struct EnemyCorePlayerView
 {
     unsigned char unknown00000[0x364];
-    int state364;
+    Effect *focusEffect364;
     unsigned char unknown00368[0x1B88 - 0x368];
     Float3 position1B88;
     unsigned char unknown01B94[0x30364 - 0x1B94];
@@ -125,6 +125,8 @@ struct EnemyCorePlayerView
         int *bombHit,
         int *secondaryAccumulator);
 };
+typedef char EnemyCorePlayerFocusAt364[
+    (offsetof(EnemyCorePlayerView, focusEffect364) == 0x364) ? 1 : -1];
 typedef char EnemyCorePlayerPositionAt1B88[
     (offsetof(EnemyCorePlayerView, position1B88) == 0x1B88) ? 1 : -1];
 typedef char EnemyCorePlayerHomingAt3037C[
@@ -459,7 +461,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
     manager->rewardEnemyCount2AC3B8 = 0;
 
     EnemyCoreView *enemy = manager->enemies5758;
-    if (manager->sideState320->player04->state364 != 0)
+    if (manager->sideState320->player04->focusEffect364 != 0)
         manager->sideTimer2AC3C8.Set(0);
     else
         manager->sideTimer2AC3C8++;
