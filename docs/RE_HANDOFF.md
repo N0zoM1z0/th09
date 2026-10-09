@@ -9,13 +9,12 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean atb20fcab. Original target and direct IDA mapped
-bytes pass. Five GameManager OnUpdate callback-phase/capture contexts precede one
-batch-end cold. Supervisor pointer/reference lifetimes and existing enum returns
-retain all105 complete differences; scalar captures widen reads and regress.
-All eight existing exact siblings pass1122 bytes/96 fields in every carrier.
-No game source/header/ABI/profile or credit change is integrated. IDA's stale
-entry comparison comment is corrected/read back with all instructions unchanged.
+This checkpoint starts clean at3cd40aa. Original target and direct IDA mapped
+bytes pass. Four Type18/24 assignment/lifetime contexts precede one batch-end
+cold. Delta assignment and lexical scopes coalesce target-distinct returns;
+collision assignment adds a copy and changes graph layout. No source/header/
+ABI/profile or credit change is integrated. The old matching cache is stale;
+a fresh source-bound complete canonical COFF is retained for subsequent work.
 
 ## Live ledger snapshot
 
@@ -68,72 +67,61 @@ semantic reconstruction and portability have not started.
 - Enemy draw: 1,758 bytes, four differences around the second subtraction/Abs.
 - Type21 update: 1,074 bytes, 29 fields, 15 ring-preheader differences; actual
   descriptor member storage is maintained. Entry-owner-path controls are neutral.
+- Type18/24 update: 1,436 target/1,441 candidate bytes, 44 fields, 475 instructions,
+  31 calls/23 direct blocks; 1,051 overlap differences plus five excess. Separate
+  target return homes and EAX-result consumers remain open; see current proof.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest GameManager callback-phase and capture batch
+## Latest Type18/24 assignment and lexical-lifetime batch
 
-Packet: `.analysis/gpt-6.1-sol-setup-callback-phase-20261009/`.
-Actual canonical remains `build/gpt-dots-setup-continuations-20261006/baseline.obj`,
-SHA256 `c181cf0b14561687ddf6ba9975ebce492bdfb25d055ea5269183fba608f7e186`.
-All123 current source/include/backend/Oracle bindings agree before reuse and after.
-Target has1230 bytes/337 instructions/87 fields/16 calls/86 direct blocks;
-canonical has1230/338/87/16/86, frame0x10 and105 full differences.
+Packet: `.analysis/gpt-6.1-sol-type1824-assignment-20261009/`.
+Fresh canonical is `build/gpt-6.1-sol-type1824-assignment-20261009/canonical.obj`,
+SHA256 `cb2e931946bbd3253bd8eae10f388917bb6adb6e6d1a1ac6e7c457f41b659321`.
+Current source raw hash7056b852e3bf29aabd244e7ea674dbb9129246c3f6d21001fa2515acbcf6d631
+and46 source/include/backend/Oracle inputs are checked before and after. The old
+build/matching object is1435 bytes/45 fields with wrong calls/graph; it is neither
+reused nor deleted. Fresh baseline reproduces1441 bytes/44 fields/475 instructions,
+frame0x48 and1051 complete overlap differences plus five excess.
 
-Delaying Supervisor pointer acquisition until after setup exits, then using a
-reference, preserves every main byte/field. Existing ChainCallbackResult return
-and its delayed-pointer combination are likewise neutral. Actual enum mangling
-and the registrar's one callback DIR32 at+34 are recorded explicitly; no original
-return type is inferred. Five separate ushort captures produce1225 bytes/87
-fields/338 instructions,1133 overlap differences plus five absent. Reads widen to
-DWORD; this control is rejected. Entry-zero/capture/publication scheduling stays
-open. All eleven collateral owners and seven noncode sections remain unchanged
-after the precise enum spelling adapter; eight exact siblings pass1122/96.
+Four controls and one cold all retain31 ordered calls. Separate default-construct/
+assign deltas give1454 bytes/481 instructions/frame0x24/1038 differences plus18
+excess. Short per-VM scopes give1441/475/frame0x24/1051 plus five excess; fourteen
+raw bytes change despite the same score. Collision-size assignment gives1457/
+480/frame0x48/1347 plus21 excess; combined assignment gives1470/486/frame0x24/
+1353 plus34 excess. Both collision-assignment graphs disagree. No control is
+promoted. Target requires three distinct return homes-30/-3C/-48 and copies via
+returned EAX; these controls do not recover both facts.
 
-One cold combined enum/pointer compile repeats all nondebug runtime bytes/fields
-and numeric records. All91 distinct actual source/include paths are hash-bound.
-The939-character IDA comment reads back exactly; all337 address/instruction pairs
-remain equal and distributed mapped-byte attestation passes. Cleanup removes23
-terminal files/1328112 bytes. Five source recipes restore to original-EOL hashes
-and are removed again. Retained complete proof stays below350 KB, reparses the
-real canonical COFF and independently rebinds deleted full captures/siblings.
+Independent COFF/repository extraction agrees for both emitted owners, every
+field and six noncode sections. The uncalled three-byte default constructor and
+five target-equal float literals remain unchanged. No exact unit uses this TU;
+three actual adjacent configured objects strictly rebind796 bytes/70 fields.
+Cold per-VM scopes repeat complete nondebug runtime inventories and numeric
+records. All14 actual source/include paths are hash-bound. Direct IDA has474
+lines; independent PE decoding includes the omitted alignment LEA at44924D and
+covers all475 instructions. No IDA metadata or target bytes are changed.
 
-Do not repeat these five precise contexts unchanged. Rotate to the1436-byte
-ExAttack type18/type24 callback at4491E0 after fresh full source/target/baseline
-review. Read its reflection correction and prior const-value/reference negatives
-first; target-backed collision-size/returned-vector homes remain open. Native
-runtime and95% remain open.
+Cleanup removes21 owned terminal files/496143 bytes, retains the new canonical
+COFF and verifies four original-CRLF source recipes after deletion. Complete
+retained packet stays below160 KB; retained.py reparses that actual COFF and
+independently rebinds all deleted complete captures. Do not repeat these precise
+four assignment/scope contexts unchanged. Rotate to1835-byte Player movement
+with fresh complete target/source/baseline review and its previous field/input/
+collision-layout controls in view. Native runtime and95% remain open.
 
-## Enemy update vector-storage/immutability routing
+## GameManager and Enemy update routing
 
-Packet: `.analysis/gpt-6.1-sol-enemy-vector-storage-20261009/`.
-Actual canonical remains `build/matching/EnemyManagerCore.obj`, SHA256
-`60a054387f8a7125ec31eb44184e0bd6ed8ec711a949d61b9c29beae366aa1f9`.
-All50 current source/header/backend/Oracle bindings agree before reuse and after.
-Four controls plus one cold retain3900 physical/3883 code bytes,1026 independently
-PE-decoded instructions,97 fields,69 ordered calls,170 complete blocks and frame
-0x2A8. Immutable distance values, an ordinary x/y/z storage base and their
-combination are raw/effective-field neutral. Const result references reverse the
-X/Y square-read order at eight bytes, increasing full differences from39 to47.
-No explicit copy special member or original class ownership is invented.
+GameManager's five callback-phase/capture controls plus one cold remain negative;
+canonical1230 bytes/87 fields/105 differences is source-bound in
+setup-callback-phase-20261009. Delayed Supervisor and enum-return contexts are
+neutral; scalar captures widen reads and regress. Eight exact siblings pass.
 
-Both parsers agree on all five owners/4060 bytes/99 fields. All seven noncode
-sections and four collateral owners remain unchanged; existing151-byte/two-field
-attached-effect unit passes in all five actual carriers. Five private labels
-rename solely at independently verified unchanged numeric section/value records.
-One batch-end cold reference carrier repeats complete nondebug runtime records.
-All19 actual source/include paths match preobserved bindings.
-
-IDA's obsolete3191/3512 partial comparison is replaced by a919-character full
-39-difference comment and exact readback. All1025 direct IDA line pairs stay
-unchanged; independent PE decoding, rather than line count, proves1026 machine
-instructions. Final distributed mapped-byte attestation passes. Cleanup removes
-23 owned terminal files/620062 bytes; all eight source/header copies restore to
-pinned original-EOL hashes and are removed again. Retained proof stays below250 KB
-and reparses actual canonical COFF while re-binding deleted complete captures.
-
-Do not repeat these four contexts unchanged. The four39-byte scheduling clusters
-remain open; GameManager's subsequent phase/capture controls are recorded above.
+Enemy's four const/base contexts plus one cold leave3900 physical/3883 code
+bytes/97 fields/39 differences. Const references reverse eight square accesses
+and regress to47. The151-byte attached-effect sibling passes. Actual canonical
+build/matching/EnemyManagerCore.obj remains bound by enemy-vector-storage-20261009.
+See KB for precise exclusions and restoration; do not repeat either batch.
 
 ## Replay-menu routing
 
@@ -299,6 +287,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-type1824-assignment-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-setup-callback-phase-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-enemy-vector-storage-20261009/retained.py
 python3 -B .analysis/gpt-6.1-sol-replay-row-arguments-20261009/retained.py
