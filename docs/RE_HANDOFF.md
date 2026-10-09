@@ -9,12 +9,12 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at 69fed0a. Target SHA, direct IDA metadata, entry
-and five distributed mapped-byte samples pass. No target patch, IDA write or
-delegation. Four complete GameplaySetupThread helper-visibility controls are
-compiled once each and rejected after complete target/carrier inspection and
-batch-end strict sibling replay. No canonical source, ABI, profile, match row
-or exactness credit changes. Prior source corrections remain maintained.
+This checkpoint starts clean at 28d6c82. Target SHA, direct IDA metadata, entry
+and five distributed mapped-byte samples pass. Five complete Enemy OnUpdate
+scratch-lifetime controls compile once each; one batch-end cold compile and
+strict sibling replay finish the batch. Four controls are neutral, one regresses.
+No canonical source, ABI, profile, match row or exactness credit changes.
+Prior source corrections remain maintained. No target patch, IDA write or delegation.
 
 ## Live ledger snapshot
 
@@ -63,48 +63,44 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest gameplay worker batch
+## Latest Enemy update batch
 
-Packet: `.analysis/gpt-6.1-sol-gameplay-helper-visibility-20261009/`.
-All 92 inherited source/header/backend inputs agree with the actual baseline
-`build/gpt-dots-setup-continuations-20261006/baseline.obj`, SHA256
-`c181cf0b14561687ddf6ba9975ebce492bdfb25d055ea5269183fba608f7e186`.
-No unchanged baseline or canonical compile; no candidate adoption.
+Packet: `.analysis/gpt-6.1-sol-enemy-scratch-lifetime-20261009/`.
+Current baseline is `build/matching/EnemyManagerCore.obj`, SHA256
+`b6e2ab402e8bf2ee3501c221c71e75cc8bc926e13d7530510098c040d649c14f`.
+All 24 inherited source/header/backend/Oracle inputs are checked before reuse.
+No unchanged baseline or canonical compilation; no candidate adoption.
 
-Two controls omit the unchanged AdvanceTimedState definition, or that definition
-plus ResetGameManager and FormatCurrentDateString. All remaining owners are fully
-neutral; removed literals have consumers only in omitted definitions. The complete
-worker source, declarations and call contracts stay intact. All seven/five present
-same-profile exact siblings strictly replay 1,034/889 bytes and 88/84 fields;
-omitted helpers remain independently exact in the real unchanged baseline.
+Function-scope drawHead, shared Player scratch across tracking/death, both combined,
+and function-scope trailHitbox preserve all five bodies, 4,060 physical bytes,
+99 fields and seven nondebug sections. Main stays 3,900 physical /3,883 code bytes,
+97 bound fields, 1,026 instructions and 39 differences.
 
-Two further controls expose the actual canonical opponent-selection declaration,
-then its unchanged implementation, using the same GameManager root at its four
-calls. Only the four call-symbol spellings change, at independently identical
-0x415910 destinations and field offsets/types/addends. A copied mode header drops
-only its unused conflicting extern declaration; setup's actual declaration stays.
-All twelve previous raw bodies/effective fields are neutral; eight exact siblings
-replay 1,122 bytes/96 fields. The extra helper emits 735/799 bytes under the worker's
-fixed /Os profile, versus its canonical non-/Os profile. No TU/profile migration.
+Hoisting all four existing vector scratch objects preserves acquisition sites
+but emits 3,924 physical /3,907 code bytes, frame0x2C0 and 1,035 instructions.
+All 97 records bind, only 15 fields match at target positions, with 3,318 linked
+overlap differences plus 24 excess bytes. All 69 ordered call destinations remain;
+four collateral owners and seven noncode sections are neutral. It is rejected.
 
-All four complete workers remain **1,689 bytes /171 fields /921 differences**,
-with 416 candidate versus 413 target instructions, 77 versus 78 blocks and all
-33 direct/two IAT-cell call operands agreeing in order. Current include closures
-are 86/86/91/91 paths. Independent COFF/PE and repository parsers agree on every
-owner/field. These static/compiler facts do not prove unique original ownership,
-native runtime or the whole historical compiler environment.
+A single batch-end cold vector-scratch compile reproduces all five raw owners,
+effective fields and nondebug sections. All six actual include closures agree.
+Baseline, five candidates and cold output strictly replay the 151-byte attached
+helper and both fields, using object-path-only manifest adapters.
 
-Complete compressed proof, patches, actual logs, direct IDA windows and recipes
-remain. Hash-checked cleanup removes fifteen owned source/COFF/PDB files,
-**853,825 bytes**. `prepare.py --restore` then `opponent.py --restore` reproduces
-all seven copies without compiling, checked after cleanup. Retained-only audit
-rebinds captured candidate bytes to the real target and checks the actual baseline,
-current inputs and exact source inverses. Deleted COFFs are not re-inspected.
-These precise visibility combinations are rejected; seek different evidence or
-another large owner, rather than repeating them unchanged.
+Complete owner/field captures, patches, recipes, logs and proof hashes remain.
+Seventeen owned source/COFF/PDB files, 712,756 bytes, are removed. `replay.py --restore`
+reproduces all five source copies without compiling, checked after cleanup.
+Retained-only audit rebinds captured candidates and checks the real baseline and
+current inputs; retained replay checks captured strict reports. Deleted objects
+are not re-inspected. Rotate to another large owner unless new TH09-local evidence
+changes these precise source hypotheses; do not repeat neutral scope combinations.
 
 ## Other current evidence
 
+- Gameplay helper visibility: `.analysis/gpt-6.1-sol-gameplay-helper-visibility-20261009/`;
+  all four complete workers remain 1,689 bytes /171 fields /921 differences.
+  Actual declaration/implementation context and omitted helpers are rejected;
+  all present exact siblings pass. See KB for exact controls and retained recipes.
 - GameManager update arrays: `.analysis/gpt-6.1-sol-setup-input-array-20261009/`;
   explicit publication is neutral, two-side loop regresses; see KB.
 - Latest flat ECL scope controls: `.analysis/gpt-6.1-sol-ecl-flat-local-scope-20261009/`;
@@ -132,6 +128,8 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-enemy-scratch-lifetime-20261009/audit.py --retained-only
+python3 -B .analysis/gpt-6.1-sol-enemy-scratch-lifetime-20261009/replay.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-gameplay-helper-visibility-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-setup-input-array-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-ecl-flat-local-scope-20261009/audit.py --retained-only
