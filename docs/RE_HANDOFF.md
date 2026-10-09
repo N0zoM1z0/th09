@@ -9,12 +9,12 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at7cdb66d. Three complete jump/remote instruction
-view contexts precede one paired batch-end cold. Jump alone worsens the full
-RunEcl comparison to2279 differences by shrinking unmodified trail157; remote
-and the combination remain entirely neutral at2161. All23 exact siblings pass
-in every carrier. No game source, ABI/profile or exact-credit change is adopted.
-Full retained proof,28 raw-EOL source restorations and scoped cleanup pass.
+This checkpoint starts clean atfc286bd. Five remote scope/interface controls
+precede one inline-index batch-end cold. Case scope/goto is insufficient to
+reverse the complete jump regression; expanding only the real remote index
+ReadInt expression restores baseline without a new remote record. All23 exact
+siblings pass in all six carriers. Complete proof,42 raw-EOL restorations and
+scoped cleanup pass. No source/ABI/profile/exact-credit change is adopted.
 ResolveFloat is already exact; SaveReplay stays parked.
 
 ## Live ledger snapshot
@@ -74,47 +74,46 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest RunEcl complete instruction-view batch
+## Latest RunEcl remote scope/interface batch
 
-Packet: `.analysis/gpt-6.1-sol-ecl-whole-instruction-20261010/`.
-Current canonical remains `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`,
+Packet: `.analysis/gpt-6.1-sol-ecl-remote-scope-20261010/`.
+Canonical remains `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`,
 COFF SHA256 `94875d0fa89059d7decded90e9987f79d42388f12b0980cf163cefd154d4d6b9`.
 Main raw remains `93206b3996d97e62d6470b795e32c9cfdc9228a9bc8806efed073688b7420eef`.
 
-Two complete borrowed wire views contain the fixed header and actual signed
-jump time/displacement or three remote-int slots. They preserve post-call reads,
-resolver ABIs and the shared destination store. The remote model also needs a
-legal case scope/goto; this is not an isolated type-only experiment. Original
-record/class/TU ownership and native lifetime/runtime remain unknown.
-Three warm compiles precede one fresh-path combined cold; all producers terminate
-zero. Remote and combined models preserve67 owners/28838 bytes/1215 fields and
-35 noncode sections. Main retains14791 code+one NOP+772 tables,598 fields,
-4387 instructions,943 blocks and2161 complete differences. Actual spelling-only
-field changes are verified numerically; no candidate labels are fitted to target.
+Five warm controls isolate the prior complete jump/remote interaction. Remote
+case scope/goto alone is neutral; with jump it repeats the regressed predecessor.
+A consumed family-scoped complete remote pointer, using the original store
+fallthrough, restores baseline with jump. Expanding only remote index operand2's
+ReadInt conditional also restores baseline, with the original raw/header interface
+and no remote record/pointer/scope/goto. Case scope is insufficient and the remote
+record is unnecessary; original source/type/TU identity remains unknown.
+One fresh-path inline-index cold fully repeats its warm inventory, actual fields,
+linked main, decoded operands/tables and graph. All six producers terminate zero.
 
-Jump alone emits14789 code+three-byte self-LEA alignment+772 tables,4386
-instructions and2279 differences. Its own29-byte handler is unchanged in size;
-unmodified trail157 loses MOV ECX,EAX, stays in EAX and shrinks160 to158.
-The same six handler frontiers remain. Combined warm/cold full inventories,
-actual fields, linked bytes, decoded operands/tables and graph repeat.
-All23 configured exact siblings strictly reproduce9533 bytes/439 fields in
-all four carriers after actual-position-proved spelling-only diagnostic adapters.
-All37 actual source/include paths per compile are pinned. A private alignment
-capture correction agrees with the existing production decoder; no gate changes.
+Five carriers preserve67 owners/28838 bytes/1215 fields/35 noncode sections;
+main remains14791 code+one NOP+772 tables,598 fields,4387 instructions,943 blocks
+and2161 complete differences. Jump plus scope repeats14789 code+three-byte
+self-LEA+772 tables,4386 instructions and2279 differences; trail157 stays158/160.
+All23 configured siblings strictly reproduce9533 target bytes/439 fields in every
+carrier, with actual-position-proved private spelling-only diagnostic adapters.
+All37 actual source/include paths are pinned. Cross-packet comparison normalizes
+only JSON integer-key representation and proves93 same-coordinate private fields;
+bytes, destinations and graph values remain significant. No gate changes occur.
 
-Forty-four pre-unlink receipts cover2169352 raw disposable bytes, including
-1859789 source/COFF/PDB bytes. Logs/adapters compress losslessly; all28 raw-EOL
+Sixty-six pre-unlink receipts cover3255265 raw disposable bytes, including2790532
+source/COFF/PDB bytes. Twelve logs/adapters compress losslessly; all42 raw-EOL
 source recipes restore, revalidate and are removed again. Canonical source/COFF
-survive. Retained replay parses those survivors and rebinds full deleted captures.
-The compressed8917434-byte proof is120796 bytes. Current Options consumer repair
-and its source-bound cache remain as described in the KB/previous checkpoint.
+survive. Complete12406414-byte proof compresses to124544 bytes. Retained replay
+parses survivors and independently rebinds deleted captures. Older Options/Enemy/
+DrawResult evidence remains in the KB, Git and retained commands below.
 
 ## Next route and current cache cautions
 
-Do not repeat the complete jump/remote views unchanged. Any further investigation
-of their interaction must separate the remote case scope/goto from its complete
-record/operand interface; current evidence does not attribute it to type alone.
-RunEcl remains the largest open owner;4/7/86/155..157 data flow is still open.
+Do not repeat these precise remote scope/interface arrangements unchanged.
+Scope/goto alone cannot explain the complete jump interaction, and the remote
+record is unnecessary. Continue materially different operand-helper/source-context
+work; original source/type/TU identity and all4/7/86/155..157 frontiers remain open.
 Options' actual configuration/snapshot/reference repair provides no new
 allocation lead; its precise family and prior routing/input controls are excluded.
 
@@ -129,7 +128,7 @@ borrowing regresses. Its five actual +0x13C member connections stay maintained.
 
 RunEcl's live cache is
 `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj`; the recent
-complete-instruction, wire-prefix and flag-storage retained commands bind its
+remote-scope, complete-instruction, wire-prefix and flag-storage commands bind its
 full carrier.
 ResolveFloat @0x4068A0 has complete2044-byte/121-field exact closure since
 Packet630. KB4011 onward and correction KB5486 supersede stale ECL-014 routing;
@@ -161,6 +160,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-ecl-remote-scope-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-ecl-whole-instruction-20261010/retained.py
 python3 -B .analysis/gpt-6.1-sol-options-real-config-20261010/retained.py
 python3 scripts/inspect-title-options.py build/matching/TitleScreenOptions.obj
