@@ -9,13 +9,13 @@ Batch coherent trials before cold replay; reuse unchanged baselines only after
 checking their source/backend/object bindings. The goal remains active-incomplete.
 The October 7 stop at 7347cb3 is historical.
 
-This checkpoint starts clean at 0215dcf. Target SHA, direct IDA metadata, entry
-and five distributed mapped-byte samples pass. Eight complete Player collision
-member/helper/loop-entry trials precede one canonical-path cold compile. Difficulty
-+0x11C and coordinate +0x358 now use the existing GameManager receiver; complete
-code and effective field destinations stay unchanged. All six same-TU exact
-siblings pass. No new exact credit, ABI/profile change, target patch, IDA write or
-delegation. Prior source corrections stay maintained.
+This checkpoint starts clean at 7facad4. Target SHA, direct IDA metadata, entry
+and five distributed mapped-byte samples pass. Twelve complete Type14/22 draw
+callee/interface/reference controls precede one canonical-path cold compile.
+The callback now uses the canonical angle declaration and existing ZunTimer
+integer conversion. Complete linked code/fields remain neutral; normalization
+body visibility drops a required target call and is rejected. No new exact credit,
+profile change, target patch, IDA write or delegation. Prior corrections stay.
 
 ## Live ledger snapshot
 
@@ -64,45 +64,53 @@ semantic reconstruction and portability have not started.
 - Remaining owners, including ExAttack18/24, PauseMenu and DirectPlay, are routed
   by config/functions.csv and docs/KNOWLEDGE_BASE.md. Read prior controls first.
 
-## Latest Player collision batch
+## Latest Type14/22 draw batch
 
-Packet: `.analysis/gpt-6.1-sol-collision-member-visibility-20261009/`.
-Current cache: `build/matching/PlayerCollisionHelpers.obj`, SHA256
-`c9ea2f6617302b613b16c66ec53f512df3a0a9ae07c8a0679fd83cdc886240ee`.
-Historical baseline source, all actual project headers and retained object hashes
-were checked before reuse; current backend hashes do not attest historical loading.
+Packet: `.analysis/gpt-6.1-sol-draw1422-callee-context-20261009/`.
+Current cache: `build/matching/ExAttackDrawType14Type22.obj`, SHA256
+`cf6d50537f2768a58a4b480072929db81feaa806bdb760addb9f8d02e5fc724f`.
+Historical raw source, all declared/actual project headers and retained object
+hashes were verified before reuse; new hashes do not attest historical DLL loading.
 
-CheckBulletCollision remains 849 candidate /862 target bytes, 26 fields, 804
-complete overlap differences and 13 missing, 266/277 instructions, 32/33 direct
-blocks and 12 equal ordered calls. The residual includes loop topology as well as
-preserved registers; do not describe it as allocation alone. Target +0x11C is the
-already reviewed difficulty; target +0x358 is the coordinate value initialized to
-288.0f. Both now use asserted members on the existing GameManager receiver.
+Target remains 959 bytes, 290 instructions, frame 0x20. Maintained callback is
+974 bytes, 297 instructions, frame 0x24, with 53 fully bound fields, 905 linked
+overlap differences and 15 excess. All 32 ordered calls (20 direct/12 D3D indirect)
+and 17-block direct graph agree. Removing the private timer view and using the
+existing integer conversion preserves raw bytes and the getter's 0x435F00 target.
+The angle declaration agrees with the existing math definition under /Gr; both
+float arguments still use the stack, return ST0 and RET8. Original source spelling
+of that convention and folded getter remains unknown.
 
-Actual AddRespawnResource body visibility, before/after the owner and combined
-with the members, is code-neutral; its emitted 162-byte helper/5 fields is exact.
-Actual Rotate body visibility before/after gives 865 bytes, 834 overlap differences
-and 3 excess, and homes Bullet in EBX but retains 32 blocks. Two natural loop-entry
-controls give 846 bytes, 818 differences and 16 missing despite restoring 33 blocks.
-Rotate emits a 42-byte body under this caller profile; its canonical 62-byte body
-uses /Ob0. No helper or profile migration is retained, and no credit follows.
+Actual 111-byte AddNormalizeAngle body visible before/after the callback, alone,
+with the target-observed 4-byte timer leaf, or with the conversion, gives 958 bytes,
+52 fields and 31 calls. Each drops precisely the required 0x42AED0 call at target
+0x444158. Near target size is rejected; no body migration or fake result consumer
+is retained. Timer body visibility before/after, real extra/center references
+alone/together and canonical interface changes are neutral. Added helpers exactly
+match their known physical leaves and receive no duplicated authorship credit.
 
-One batch-end canonical compile reproduces all seven owner bodies, 2,190 bytes,
-58 fields and seven nondebug data/directive sections of the isolated member trial.
-COFF debug tag/line pointers differ, with equal function lengths and symbol
-coordinates; full auxiliary records are retained. Six strict existing siblings
-cover 1,341 authored bytes and 32 fields. Exact ledgers and unit manifests stay
-unchanged. Native ownership, data closure, runtime and semantic gates stay open.
+One batch-end canonical compile matches the isolated interface trial on every
+raw owner byte, all fields, symbol coordinates and all five nondebug data/directive
+sections. There is one callback and no accepted sibling in this TU. Focused
+canonical normalization/getter physical Oracles pass 111/111 and 4/4. All thirteen
+actual traces contain 81 distinct headers plus source and 121 include events.
 
-24 owned source/COFF/PDB files, 851,200 bytes, are removed; all eight source recipes
-reconstruct to their raw hashes after cleanup. Three full reports compress
-losslessly from 479,503 to 52,565 bytes. `audit.py --retained-only` checks actual
-baseline/canonical objects and rebinds captured candidate bytes/fields against the
-verified target; it does not re-inspect deleted COFFs. `reconstruct.py --restore`
-restores isolated sources without compiling. Do not repeat these precise controls
-without a new TH09-local model.
+36 terminal owned source/COFF/PDB files, 1,796,717 bytes, are removed. Every one of
+the twelve raw CRLF source recipes was restored and checked after cleanup, then
+removed. Logs compress losslessly from 208,852 to 10,629 bytes; complete raw
+nondebug captures and all bound/decoded proof remain below 0.5 MB. Run
+`audit.py --retained-only` to reparse actual baseline/canonical objects and rebind
+captured deleted candidates, or `reconstruct.py --restore` for source-only
+reconstruction. Do not repeat these precise callee/reference contexts unchanged.
 
 ## Other current evidence
+
+- Player collision batch: `.analysis/gpt-6.1-sol-collision-member-visibility-20261009/`;
+  actual difficulty +0x11C and coordinate +0x358 connections remain maintained.
+  Eight controls precede one canonical cold replay; six existing siblings pass.
+  The 849/862-byte owner has 32/33 blocks, so its frontier includes loop layout.
+  Current object SHA remains
+  `c9ea2f6617302b613b16c66ec53f512df3a0a9ae07c8a0679fd83cdc886240ee`.
 
 - PauseMenu batch: `.analysis/gpt-6.1-sol-pause-partial-visibility-20261009/`;
   five actual +0x13C member connections remain maintained. Thirteen controls and
@@ -144,6 +152,7 @@ python3 scripts/verify-target.py
 python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 -B .analysis/gpt-6.1-sol-draw1422-callee-context-20261009/audit.py --retained-only
 python3 -B .analysis/gpt-6.1-sol-pause-partial-visibility-20261009/audit.py --retained-only
 python3 scripts/inspect-pause-menu.py
 python3 -B .analysis/gpt-6.1-sol-enemy-scratch-lifetime-20261009/audit.py --retained-only

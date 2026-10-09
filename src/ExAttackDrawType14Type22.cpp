@@ -59,16 +59,8 @@ struct ExAttackType1422DrawSupervisorView
     IDirect3DDevice8 *d3dDevice08;
 };
 
-struct ExAttackType1422TimerCurrentView
-{
-    unsigned char unknown00[8];
-    int current08;
-
-    int GetCurrent();
-};
-
 extern ExAttackType1422DrawSupervisorView g_Supervisor;
-float __stdcall AddNormalizeAngle(float angle, float delta);
+float AddNormalizeAngle(float angle, float delta);
 
 int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)
 {
@@ -93,8 +85,7 @@ int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)
         {
             alpha = static_cast<unsigned char>(
                 0xFF -
-                reinterpret_cast<ExAttackType1422TimerCurrentView *>(
-                    &record->timer10)->GetCurrent() *
+                static_cast<int>(record->timer10) *
                     0xFF / 30);
         }
 
