@@ -19,7 +19,9 @@ their boundaries and origins must be reviewed independently.
 | Authored bytes without maintained source | 0 |
 | Canonical exact functions | 929 |
 | Canonical exact authored bytes | 219,937 |
+| Exact share of reviewed-authored bytes | 79.7538% |
 
-While review remains pending or origins remain unresolved, the authored exact
-denominator is unknown. A mapped name, maintained source, successful
-compilation, or IDA similarity does not contribute to the exact totals.
+This percentage uses only confirmed authored bytes. Pending or origin-unresolved
+candidates are excluded; later classification may change this denominator.
+It does not measure whole-image, product, runtime, or port completion. Source
+presence, compilation, and IDA similarity do not contribute to exact totals.

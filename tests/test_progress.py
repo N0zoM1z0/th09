@@ -65,6 +65,14 @@ class ProgressMeasureTests(unittest.TestCase):
         self.assertEqual(values["source_nonexact"], 0)
         self.assertEqual(values["without_source"], 0)
 
+        # Unclassified candidates do not erase coverage of the reviewed subset.
+        svg = PROGRESS.render_svg(values)
+        self.assertIn("reviewed authored 100.00% exact bytes", svg)
+        self.assertIn("10 / 10 bytes", svg)
+        self.assertIn("1 pending · 1 unresolved", svg)
+        self.assertNotIn("denominator open", svg)
+        self.assertIn("| Exact share of reviewed-authored bytes | 100.0000% |", PROGRESS.render_markdown(values))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -56,20 +56,16 @@ downloaded tools are private and never committed.
 
 TH09 reconstruction was **resumed by the user on 2026-10-09**, targeting 95%
 exact reviewed-authored bytes through direct IDA Pro MCP and local compiler
-Oracles. Coverage is 218,501 / 275,770 (79.2331%), across 928 exact owners;
-43,481 further bytes are required. This is not whole-image or runnable-product
-coverage. The October 7 stop and cleanup remain historical.
+Oracles. Live coverage is generated from the ledgers in
+[`docs/PROGRESS.md`](docs/PROGRESS.md); remaining work and current evidence are in
+[`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md). This measures reviewed-authored bytes,
+not whole-image or runnable-product coverage.
 
-The latest checkpoint attested the target and live IDA database, but every new
-session must attest both again. Current ledger totals are generated in
-[`docs/PROGRESS.md`](docs/PROGRESS.md) and summarized with current investigation evidence
-in [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md); do not copy historical packet
-counts or old `remains source-absent/unknown` wording into a new decision.
-Current exact/non-exact state comes from `config/functions.csv`,
+Every new session must attest the target and live IDA database. Current
+exact/non-exact state comes from `config/functions.csv`,
 `config/matches.csv`, `config/match-units.toml`, and a fresh status report.
-`docs/KNOWLEDGE_BASE.md` preserves durable evidence and investigation history;
-its recorded state labels and packet-local “current/remains” wording are not a
-replacement for the live ledgers.
+`docs/KNOWLEDGE_BASE.md` indexes durable evidence and bounded investigation
+notes; historical measurements do not replace the live ledgers.
 
 The PE and Rich header identify Microsoft Visual C++ .NET 2003 build 3077.
 Some runtime-library contributions and compiler-generated helpers are proven,
