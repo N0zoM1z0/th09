@@ -89,10 +89,31 @@ struct ExAttackType1824GameManagerView
     ExAttackType1824SideView sides[2];
 };
 
+struct ExAttackType1824VmPositionView
+{
+    float x;
+    float y;
+    float z;
+
+    ExAttackType1824VmPositionView &operator=(const Float3 &other)
+    {
+        x = other.x;
+        y = other.y;
+        z = other.z;
+        return *this;
+    }
+};
+typedef char ExAttackType1824VmPositionSizeIs0C[
+    (sizeof(ExAttackType1824VmPositionView) == 0x0C) ? 1 : -1];
+typedef char ExAttackType1824VmPositionFieldsAreXYZ[
+    (offsetof(ExAttackType1824VmPositionView, x) == 0 &&
+     offsetof(ExAttackType1824VmPositionView, y) == 4 &&
+     offsetof(ExAttackType1824VmPositionView, z) == 8) ? 1 : -1];
+
 struct ExAttackType1824VmView
 {
     unsigned char unknown000[0x288];
-    Float3 pos2;
+    ExAttackType1824VmPositionView pos2;
     unsigned char unknown294[0x10];
 
     void SetZRotation(float angle);
@@ -110,6 +131,7 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
         reinterpret_cast<ExAttackType1824RecordView *>(base);
     ExAttackType1824UpdateExtra *extra = record->extra34;
     Float3 collisionSize(24.0f, 24.0f, 0.0f);
+    Float3 collisionPoint;
 
     switch (extra->state00)
     {
@@ -180,19 +202,18 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
 
     reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[0].SetZRotation(extra->angle4C);
 
-    Float3 trailDelta1 =
-        extra->trailPositions58[1] - record->position20;
-    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[1].pos2 = trailDelta1;
-    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[1].SetZRotation(extra->trailAngles118[1]);
+    // One sequenced publication keeps all three returned trail values alive
+    // through the last VM rotation; each value is consumed by its pos2 copy.
+    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[1].pos2 =
+        extra->trailPositions58[1] - record->position20,
+    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[1].SetZRotation(extra->trailAngles118[1]),
 
-    Float3 trailDelta3 =
-        extra->trailPositions58[3] - record->position20;
-    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[2].pos2 = trailDelta3;
-    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[2].SetZRotation(extra->trailAngles118[3]);
+    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[2].pos2 =
+        extra->trailPositions58[3] - record->position20,
+    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[2].SetZRotation(extra->trailAngles118[3]),
 
-    Float3 trailDelta5 =
-        extra->trailPositions58[5] - record->position20;
-    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[3].pos2 = trailDelta5;
+    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[3].pos2 =
+        extra->trailPositions58[5] - record->position20,
     reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[3].SetZRotation(extra->trailAngles118[5]);
 
     if (record->timer10 > 20)
@@ -237,7 +258,6 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
             }
         }
 
-        Float3 collisionPoint;
         collisionPoint.FromAngleMagnitude(
             extra->angle4C, extra->speed50);
         collisionPoint += record->position20;

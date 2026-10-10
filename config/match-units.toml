@@ -22088,3 +22088,58 @@ relocations = [
   { offset = 0x185, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x18A, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
 ]
+
+[units.exattack-type18-24-update]
+source = "src/ExAttackUpdateType18Type24.cpp"
+object = "build/matching/ExAttackUpdateType18Type24Exact.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oi", "/Oy-", "/I", "src", "/showIncludes"]
+functions = ["ExAttackUpdateCallbackType18_24"]
+symbol = "?ExAttackUpdateCallbackType18_24@@YIHPAUExAttackRecord@@@Z"
+target_address = 0x004491E0
+size = 0x59C
+relocations = [
+  { offset = 0x1E, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
+  { offset = 0x3D, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0 },
+  { offset = 0x151, type = "REL32", symbol = "?SetZRotation@ExAttackType1824VmView@@QAEXM@Z", target = 0x0040F840 },
+  { offset = 0x15E, type = "REL32", symbol = "??GFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x18C, type = "REL32", symbol = "?SetZRotation@ExAttackType1824VmView@@QAEXM@Z", target = 0x0040F840 },
+  { offset = 0x199, type = "REL32", symbol = "??GFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x1C7, type = "REL32", symbol = "?SetZRotation@ExAttackType1824VmView@@QAEXM@Z", target = 0x0040F840 },
+  { offset = 0x1D7, type = "REL32", symbol = "??GFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x205, type = "REL32", symbol = "?SetZRotation@ExAttackType1824VmView@@QAEXM@Z", target = 0x0040F840 },
+  { offset = 0x20F, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0 },
+  { offset = 0x227, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0x230, type = "DIR32", symbol = "__real@3dcccccd", target = 0x0048E4B0 },
+  { offset = 0x245, type = "DIR32", symbol = "?g_GameManager@@3UExAttackType1824GameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x24B, type = "REL32", symbol = "?CheckBulletCollision@ExAttackType1824PlayerView@@QAEHPAUPlayerPositionView@@0PAUBullet@@@Z", target = 0x0041DFF0 },
+  { offset = 0x25C, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x266, type = "REL32", symbol = "?SetInterrupt@ExAttackType1824VmView@@QAEXF@Z", target = 0x00406790 },
+  { offset = 0x276, type = "REL32", symbol = "?SetInterrupt@ExAttackType1824VmView@@QAEXF@Z", target = 0x00406790 },
+  { offset = 0x286, type = "REL32", symbol = "?SetInterrupt@ExAttackType1824VmView@@QAEXF@Z", target = 0x00406790 },
+  { offset = 0x296, type = "REL32", symbol = "?SetInterrupt@ExAttackType1824VmView@@QAEXF@Z", target = 0x00406790 },
+  { offset = 0x2AA, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
+  { offset = 0x2B9, type = "DIR32", symbol = "__real@c3100000", target = 0x0048E808 },
+  { offset = 0x2D0, type = "DIR32", symbol = "__real@40490fdb", target = 0x0048E2C4 },
+  { offset = 0x2E4, type = "DIR32", symbol = "__real@43100000", target = 0x0048E804 },
+  { offset = 0x2FB, type = "DIR32", symbol = "__real@40490fdb", target = 0x0048E2C4 },
+  { offset = 0x30D, type = "REL32", symbol = "?AddNormalizeAngle@@YGMMM@Z", target = 0x0042AED0 },
+  { offset = 0x327, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0x330, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
+  { offset = 0x347, type = "DIR32", symbol = "?g_GameManager@@3UExAttackType1824GameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x352, type = "REL32", symbol = "?AppendCircleRecord@ExAttackType1824CircleAppendView@@QAEXPBUPlayerPositionView@@MH@Z", target = 0x00440D30 },
+  { offset = 0x35B, type = "DIR32", symbol = "__real@43f00000", target = 0x004915A8 },
+  { offset = 0x382, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
+  { offset = 0x39C, type = "REL32", symbol = "?ExAttackInterpolate2D@@YIXPAM0000MM@Z", target = 0x0042AF80 },
+  { offset = 0x3A6, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0 },
+  { offset = 0x3BD, type = "DIR32", symbol = "?g_GameManager@@3UExAttackType1824GameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x3CB, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x3DA, type = "DIR32", symbol = "?g_GameManager@@3UExAttackType1824GameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x3ED, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x3FC, type = "DIR32", symbol = "?g_GameManager@@3UExAttackType1824GameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x40F, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x41E, type = "DIR32", symbol = "?g_GameManager@@3UExAttackType1824GameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x431, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
+  { offset = 0x457, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x463, type = "DIR32", symbol = "?g_GameManager@@3UExAttackType1824GameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x469, type = "REL32", symbol = "?AngleToPoint@ExAttackType1824PlayerView@@QAEMPAUPlayerPositionView@@@Z", target = 0x0041BB70 },
+]
