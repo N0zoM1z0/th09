@@ -12,7 +12,7 @@ this batch is also historical: write access and direct IDA execution are restore
 Fresh direct get_metadata({}) and entry/five distributed mapped-byte attestation
 pass on recovery, with the verified original Japanese v1.50a target.
 
-This batch starts clean at b87d93e and closes the shared type18/type24 update:
+The preceding exact batch starts clean at b87d93e and closes the shared type18/type24 update:
 **1,436 complete authored bytes and44 relocation fields exact**, through seven
 warm controls followed by one maintained-path configured canonical cold.
 Source, unit and exact ledgers are updated; all proof, cleanup and repository
@@ -117,6 +117,36 @@ PDB was already absent at cleanup; no deletion or prior producer is inferred.
 Retained replay reparses actual old/new canonical COFFs, rebinds deleted complete
 captures and restores/removes sources/logs for actual include checks.
 
+## Latest Enemy update trail-publication batch
+
+Starts clean at52929ed after committing the recovered exact owner. Packet:
+`.analysis/gpt-6.1-sol-enemy-trail-publication-20261010/`.
+Three ordinary typed trail-publication controls precede one batch-end cold;
+all four actual producers terminate0. Ordinary reference assignment and a genuine
+source snapshot retain3900 physical bytes/97 fields/39 complete differences.
+Their five changed private labels preserve all actual numeric coordinates through
+an explicit section map. By-value publication restores local all-three-loads-first
+but adds snapshot stores:3908 physical/3891 code/97 fields/1027 instructions,
+frame2B4h,169 blocks and2344 overlap differences plus eight excess. No adoption
+or exact credit; production source and current canonical cache are unchanged.
+
+Complete seven-owner carriers, four160-byte common collateral bodies and seven
+noncode sections are checked, including actual added32-byte constructor and
+28/32/26-byte assignments with no fields or incoming references. Warm/cold full
+bytes/fields/instructions/calls/branches/tables/CFG repeat. Existing attached-effect
+sibling remains151 exact bytes/two fields across the actual five baseline/trial
+carriers.54 current producer/three support pins, historical954-unit equality,
+Git/mixed-EOL recipes and four actual twelve-header logs pass. Complete proof is
+167969 compressed/869730 decoded bytes.14 scoped terminal-owned receipts remove
+455208 reproducible bytes. Actual baseline and small private cold COFF remain;
+retained replay reparses them, rebinds deleted captures and restores/removes
+recipe sources/logs for actual includes. No compiler remains live.
+
+These exact member/snapshot/by-value contexts are excluded. Target's all-reads-
+before-publication schedule remains distinct from the now-exact type18/24 model.
+New trail work needs materially different TH09 evidence; rotate to other large
+owners after reviewing their prior controls.95% and all later gates remain open.
+
 ## Current caches and next route
 
 Type18/24's old1441-byte canonical,1435-byte matching cache and old current-source
@@ -147,8 +177,9 @@ Enemy draw's lvalue/stride/default-declaration controls, gameplay failure-phase/
 cursor controls, GameManager snapshot/state controls, Options configuration/
 reference controls and Result output/bank/cursor controls remain precise negatives
 in the KB. Require new TH09 data-flow/source/TU evidence rather than repeating
-spelling variants. The new exact vector-publication model is a hypothesis lead
-for other owners, not automatic ownership or type evidence there.
+spelling variants. The exact vector-publication model is a hypothesis lead
+for other owners. The new Enemy trail member/snapshot/by-value trials above are
+measured negatives; do not repeat those contexts unchanged.
 
 ResolveFloat@0x4068A0 is already exact2044 bytes/121 fields; KB correction supersedes
 stale ECL-014 routing. SaveReplay stays parked. Direct IDA attestation is restored
@@ -165,6 +196,7 @@ python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
 python3 -B .analysis/gpt-6.1-sol-type1824-vector-publication-20261010/retained.py
+python3 -B .analysis/gpt-6.1-sol-enemy-trail-publication-20261010/audit.py --retained
 python3 scripts/compare-coff-function.py --unit exattack-type18-24-update --json
 python3 scripts/inspect-ecl-complete.py build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj
 python3 scripts/inspect-player-movement.py build/gpt-6.1-sol-movement-direct-sht-20261009/current-cold.obj
