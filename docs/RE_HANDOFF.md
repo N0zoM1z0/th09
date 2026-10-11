@@ -88,15 +88,19 @@ Details are recorded at the end of `docs/KNOWLEDGE_BASE.md`.
 
 The ExAttack Type21 update at `0x0044B500` is now **canonical exact**:
 **1,074 complete target bytes, 29 reviewed relocations**, unit
-`exattack-type21-update`. A real packed vertex UV-V cursor (0x1C-byte
-per-vertex stride) naturally recovers the target EDI/EBX preheader order;
+`exattack-type21-update`. A whole-Extra-object byte cursor pointing to the genuine adjacent U/V
+float subobjects, stepped by the checked 0x1C-byte vertex stride, naturally
+recovers the target EDI/EBX preheader order without undefined float-pointer
+arithmetic across fields or distinct vertices;
 positioning the UV-angle seed after the history-angle seed recovers target
 stack publication. Separate source-bound VC7.1 compilations produce full
 1,074/1,074 linked equality, 288 instructions, 17 calls, and 28 direct
 control blocks. All 23 same-TU exact siblings retain **9,533 bytes/439 fields**.
 Source file `src/ExAttackUpdateType21.inl` is part of the `EclManager.cpp`
-compile carrier; native product, original TU ownership and portable C++
-pointer arithmetic are independently unproven.
+compile carrier. The current cursor's byte arithmetic is confined to the real
+whole Extra object; the float accesses land on declared, aligned float members
+within valid rim samples. Native product, original TU ownership, and runtime
+behavior remain independently unproven.
 
 The **RunEcl** interpreter remains non-exact: 15,564 physical bytes,
 598 relocated fields and 2,161 full differences, with 142/148 opcode-handler

@@ -18,6 +18,11 @@ struct ExAttackType21UpdateVertex
 
 typedef char ExAttackType21UpdateVertexSizeIs1C[
     (sizeof(ExAttackType21UpdateVertex) == 0x1C) ? 1 : -1];
+// The ring cursor steps through the complete extra object's byte representation
+// and casts back only at these two actual, adjacent float subobjects.
+typedef char ExAttackType21UpdateAdjacentUvFloats[
+    (offsetof(ExAttackType21UpdateVertex, v) ==
+     offsetof(ExAttackType21UpdateVertex, u) + sizeof(float)) ? 1 : -1];
 
 struct ExAttackType21UpdateExtra
 {
@@ -130,9 +135,14 @@ int __fastcall ExAttackUpdateCallbackType21(ExAttackRecord *base)
 
     case 1:
     {
-        // UV is a tightly packed pair in each 0x1c-byte vertex.  Iterating
-        // the V component uses the original vertex stride in float words.
-        float *vertexV = &extra->vertices4C[1].v;
+        // The target advances through V offsets of rim vertices 1..32.
+        // Anchor this cursor at the enclosing object's byte representation,
+        // not at a standalone float subobject. Crossing scalar/member and
+        // vertex boundaries using float* arithmetic would be undefined C++.
+        unsigned char *vertexV = reinterpret_cast<unsigned char *>(extra) +
+            offsetof(ExAttackType21UpdateExtra, vertices4C) +
+            sizeof(ExAttackType21UpdateVertex) +
+            offsetof(ExAttackType21UpdateVertex, v);
         Float3 *history = &extra->history3E8[1];
         // One ordinal addresses the two separately owned 32-element arrays.
         int sample = 0;
@@ -143,15 +153,16 @@ int __fastcall ExAttackUpdateCallbackType21(ExAttackRecord *base)
         {
             Float3 *uv = &workspace;
             uv->FromAngleMagnitude(uvAngle, 0.5f);
-            vertexV[-1] = uv->x + 0.5f;
-            vertexV[0] = uv->y + 0.5f;
+            *reinterpret_cast<float *>(vertexV - sizeof(float)) =
+                uv->x + 0.5f;
+            *reinterpret_cast<float *>(vertexV) = uv->y + 0.5f;
             uvAngle = AddNormalizeAngle(uvAngle, 0.2026834f);
 
             extra->magnitudes578[sample] += extra->angularSteps5FC[sample];
             history->FromAngleMagnitude(historyAngle, extra->magnitudes578[sample]);
             *history += extra->spawn40;
 
-            vertexV += sizeof(ExAttackType21UpdateVertex) / sizeof(float);
+            vertexV += sizeof(ExAttackType21UpdateVertex);
             ++sample;
             ++history;
             historyAngle += 0.2026834f;
