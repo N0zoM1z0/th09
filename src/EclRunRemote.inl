@@ -135,9 +135,14 @@ struct ManagerClearView
         if ((instruction->parameterMask0A & (1U << 1)) != 0)
         {
             remoteIndex = Th09EclRunControl::ReadInt(enemy, instruction, 2);
+            // This input pair is read directly from the existing bytecode
+            // and remote-slot lvalues. A bounded qualified read keeps the
+            // real ResolveInt parameter preparation in target order.
             lhsInt = Th09EclRunControl::ResolveInt(
-                enemy->manager00->remoteSlots2AC388[remoteIndex],
-                Th09EclRunControl::RawInt(instruction, 1));
+                static_cast<EnemyView *const volatile &>(
+                    enemy->manager00->remoteSlots2AC388[remoteIndex]),
+                static_cast<const volatile int &>(
+                    Th09EclRunControl::RawInt(instruction, 1)));
         }
         else
         {
