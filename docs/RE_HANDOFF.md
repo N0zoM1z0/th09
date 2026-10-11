@@ -57,6 +57,7 @@ Measurements below belong to the maintained candidates and caches at this checkp
 | Player movement | 1,835 authored / 1,900 physical; 66 fields; 144 differences | Clamp/register allocation; direct SHT controls rejected |
 | Player charge | 1,210 target / 1,197 candidate; 70 fields; 1,160 overlap differences + 13 absent | Entry register allocation and byte-mode storage |
 | Enemy draw | 1,758 bytes; 53 fields; 4 differences | Second subtraction/Abs scheduling |
+| Supervisor received-frame queue | 213 target / 213 candidate, 0 fields, 35 full differences | Typed 20-element side queue scan fixed physical extent; `scripts/inspect-supervisor-frame-queue.py`; register allocation and write scheduling remain open |
 | ExAttack Type3 update | 780 bytes; 38 target-bound fields; 15 linked differences | `middle.z` / tail-X scheduling; use `scripts/inspect-exattack-type3.py` |
 | ExAttack Type19/21 initialization | 763/727 bytes; 57/53 fields; 6/9 linked differences | History/vertex cursor scheduling, distinct from now-exact Type21 update |
 
