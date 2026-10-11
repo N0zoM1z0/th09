@@ -17,6 +17,7 @@ import json
 from pathlib import Path
 
 import capstone
+from ecl_shape_differences import changed_instructions
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 0x004086C0
@@ -79,7 +80,15 @@ def main():
         default=ROOT / "build" / "matching" / "EclManager.obj",
     )
     parser.add_argument("--json", action="store_true")
+    parser.add_argument(
+        "--explain", metavar="OPCODE", help=(
+            "Print normalized instruction differences for one opcode (decimal), "
+            "or all mismatching handlers; requires full identity audit"
+        ),
+    )
     args = parser.parse_args()
+    if args.json and args.explain is not None:
+        parser.error("--explain is only available in the human-readable report")
 
     compare = load_module(
         "coff_compare", ROOT / "scripts" / "compare-coff-function.py"
@@ -126,6 +135,7 @@ def main():
     target_starts = sorted(set(target_entries) | {TARGET_CODE_BYTES})
 
     regions = []
+    details = {}
     seen = set()
     for opcode, (candidate_start, target_start) in enumerate(
         zip(candidate_entries, target_entries), start=1
@@ -147,6 +157,16 @@ def main():
         )
         matching = sum(block.size for block in matcher.get_matching_blocks())
         exact_shape = candidate_handler == target_handler
+        if args.explain is not None and not exact_shape:
+            candidate_lines = [
+                (offset, data) for offset, data in candidate_stream
+                if candidate_start <= offset < candidate_end
+            ]
+            target_lines = [
+                (offset, data) for offset, data in target_stream
+                if target_start <= offset < target_end
+            ]
+            details[opcode] = changed_instructions(candidate_lines, target_lines)
         regions.append({
             "opcode": opcode,
             "candidate_offset": candidate_start,
@@ -173,6 +193,14 @@ def main():
         "mismatches": mismatches,
     }
 
+    if args.explain not in (None, "all"):
+        try:
+            requested_opcode = int(args.explain, 10)
+        except ValueError:
+            parser.error("--explain must be a decimal opcode or 'all'")
+        if requested_opcode not in {row["opcode"] for row in regions}:
+            parser.error("requested opcode is not a distinct reviewed handler")
+
     if args.json:
         print(json.dumps(payload, indent=2))
         return
@@ -196,6 +224,25 @@ def main():
             f"{row['candidate_instructions']}/"
             f"{row['target_instructions']}"
         )
+
+    if args.explain is not None:
+        print()
+        print("Normalized instruction bytes only: paired relocation/call fields and "
+              "branch displacements are zeroed, while scalar immediates count.")
+        print("This is not an exact-byte replay or a target-linked difference score.")
+        selected = (
+            sorted(details) if args.explain == "all" else [requested_opcode]
+        )
+        for opcode in selected:
+            changes = details.get(opcode, [])
+            print()
+            print(f"opcode {opcode}: {len(changes)} differing aligned spans")
+            for row in changes:
+                print(" ", row["change"])
+                for offset, data in row["target"]:
+                    print(f"    target    +0x{offset:04X}: {data}")
+                for offset, data in row["candidate"]:
+                    print(f"    candidate +0x{offset:04X}: {data}")
 
 
 if __name__ == "__main__":
