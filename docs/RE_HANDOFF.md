@@ -2,17 +2,17 @@
 
 ## Active objective
 
-The user resumed on **2026-10-09**: reach **95% exact reviewed-authored bytes**,
-work on large functions, use direct IDA Pro MCP and local Bash/compiler Oracles
-without Factory MCP, and commit locally as `gpt-6.1-sol: ...`. Do not push.
-Batch coherent source trials before cold replay. Reuse unchanged baselines after
-checking source, compiler/backend and actual object bindings.
+The user resumed on **2026-10-11** with Factory/Web tools: pursue **95% exact
+reviewed-authored bytes**, attack both large functions and small leaves, reuse
+target-bound pinned VC7.1 Oracles, and commit coherent verified checkpoints as
+`gpt-web: ...` without pushing. Inspect all dirty work rather than sidestepping
+it; preserve genuine progress from recovered sessions.
 
-The preceding reconstruction checkpoint is `3d7d13b` (Enemy trail publication
-controls). The current cleanup corrects documentation and progress reporting;
-production C++, compiler profiles, boundaries and exact ledgers are unchanged.
-Direct IDA metadata and mapped-byte attestation pass against the verified original
-Japanese v1.50a executable. Historical environment interruptions are resolved.
+The starting HEAD for this batch was `8ebac88`, with no staged changes. The
+recovered Type21 UV-angle source trial was inspected, improved to complete
+exactness, replayed and promoted; no previous document claim was taken as
+independent proof. The original Japanese 1.50a target and Factory attested IDA
+module agree. Native product and runtime remain explicitly open.
 
 ## Live ledger snapshot
 
@@ -26,14 +26,14 @@ These totals are checked against the live ledgers by scripts/validate-docs.py.
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 929 |
-| Source-present non-exact functions | 51 |
-| Source-present non-exact bytes | 55,833 |
+| Canonical exact functions | 930 |
+| Source-present non-exact functions | 50 |
+| Source-present non-exact bytes | 54,759 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 219,937 |
+| Canonical exact authored bytes | 221,011 |
 
-The currently confirmed authored denominator is **275,770 bytes**: **79.7538%**
-exact. Another **42,045 bytes** are needed for 95% of that denominator. The 35
+The currently confirmed authored denominator is **275,770 bytes**: **80.1432%**
+exact. Another **40,971 bytes** are needed for 95% of that denominator. The 35
 origin-unresolved candidates are separate; later classification can change the
 denominator. Faithful Windows i386 product/runtime gates remain open; semantic
 reconstruction and portability have not started.
@@ -56,26 +56,29 @@ Measurements below belong to the maintained candidates and caches at this checkp
 | Player movement | 1,835 authored / 1,900 physical; 66 fields; 144 differences | Clamp/register allocation; direct SHT controls rejected |
 | Player charge | 1,210 target / 1,197 candidate; 70 fields; 1,160 overlap differences + 13 absent | Entry register allocation and byte-mode storage |
 | Enemy draw | 1,758 bytes; 53 fields; 4 differences | Second subtraction/Abs scheduling |
-| Type21 update | 1,074 bytes; 29 fields; **6 differences** | Ring preheader LEA order (vertex/history pointers); actual descriptor member storage maintained |
 
 Other owners, including ExAttack19, PauseMenu and DirectPlay, are routed by
 `config/functions.csv` and `docs/KNOWLEDGE_BASE.md`. SaveReplay stays parked.
 
-## October 11 source-bound checkpoint
+## October 11 canonical Type21 closure
 
-The maintained ExAttack type21 update source now seeds its real UV angle after
-initializing the ring vertex/history cursors and history-angle seed. A new pinned
-VC7.1 cold build at `build/gpt-web-type21-preheader-20261011/canonical.obj`
-(SHA-256 `db7e82bfec2b71789016cad903e139a05b4fc28925a0029bbf075d47be6c0d51`)
-reproduces the full 1,074-byte target code extent with 288 instructions, 29
-independently bound fields, 17 ordered calls and 28 direct CFG blocks, except
-for **six bytes** of swapped ring-preheader `LEA` scheduling (previously 15
-bytes). This owner remains non-exact; the local exact ledger is unchanged.
-Twenty-three configured same-TU exact siblings independently pass their full
-9,533 compared bytes and 439 relocation fields against the new cold object.
-The 203-section COFF comparison shows only this update's `.text` and two
-debug sections changed; RunEcl remains 2,161 complete physical differences,
-142/148 matching opcode shapes. Details and rejected controls are in the KB.
+The ExAttack Type21 update at `0x0044B500` is now **canonical exact**:
+**1,074 complete target bytes, 29 reviewed relocations**, unit
+`exattack-type21-update`. A real packed vertex UV-V cursor (0x1C-byte
+per-vertex stride) naturally recovers the target EDI/EBX preheader order;
+positioning the UV-angle seed after the history-angle seed recovers target
+stack publication. Separate source-bound VC7.1 compilations produce full
+1,074/1,074 linked equality, 288 instructions, 17 calls, and 28 direct
+control blocks. All 23 same-TU exact siblings retain **9,533 bytes/439 fields**.
+Source file `src/ExAttackUpdateType21.inl` is part of the `EclManager.cpp`
+compile carrier; native product, original TU ownership and portable C++
+pointer arithmetic are independently unproven.
+
+The **RunEcl** interpreter remains non-exact: 15,564 physical bytes,
+598 relocated fields and 2,161 full differences, with 142/148 opcode-handler
+shapes agreeing. No partial credit was granted to it. Previous Type21 15-byte
+and six-byte comparisons remain historical candidates, not current status.
+See the October 11 entry in `docs/KNOWLEDGE_BASE.md`.
 
 ## Latest closure and rejected controls
 
@@ -105,7 +108,7 @@ that closure. Do not reconstruct it again or credit its tables as authored code.
 
 | Owner | Cache |
 | --- | --- |
-| RunEcl and Type21 update | `build/gpt-web-type21-preheader-20261011/canonical.obj` |
+| RunEcl and Type21 update | `build/matching/EclManager.obj` |
 | Enemy update | `build/matching/EnemyManagerCore.obj` |
 | Enemy draw | `build/matching/EnemyManagerDraw.obj` |
 | Player movement | `build/gpt-6.1-sol-movement-direct-sht-20261009/current-cold.obj` |
@@ -121,7 +124,8 @@ receipts and already-indexed closed journals are recoverable from Git history.
 ## Restart and verification
 
 Read the workflow/Oracle documents and review all dirty work before mutation.
-Call direct IDA `get_metadata` with exactly `{}` and attest mapped bytes:
+Call the attested Factory/Web `th09-ida` provider `get_metadata` with exactly
+`{}` (or direct local IDA when available) and attest mapped bytes:
 
 ```bash
 git status --short --branch
@@ -132,6 +136,8 @@ python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
 python3 scripts/compare-coff-function.py --unit exattack-type18-24-update --json
 python3 scripts/compare-coff-function.py --unit ecl-resolve-float --json
+python3 scripts/build-match-unit.py --unit exattack-type21-update
+python3 scripts/compare-coff-function.py --unit exattack-type21-update --json
 ```
 
 Use the focused complete inspector for the chosen non-exact owner. Such inspectors
