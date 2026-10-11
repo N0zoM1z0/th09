@@ -191,9 +191,16 @@ __forceinline float *WriteFloat(
             goto th09_ecl_advance_instruction;
     }
 
+    // Acquire the actual raw timer operand once through a qualified read.
+    // The local's bounded lifetime also recovers the original adjacent
+    // SET_FLOAT handler scheduling without changing the ZunTimer call ABI.
     case TH09_ECL_OPCODE_JUMP:
-        context->time008 =
+    {
+        const volatile int &rawTime =
             Th09EclRunControl::RawInt(instruction, 0);
+        int value = rawTime;
+        context->time008 = value;
+    }
         instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
             reinterpret_cast<unsigned char *>(instruction) +
             Th09EclRunControl::RawInt(instruction, 1));
