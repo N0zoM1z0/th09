@@ -78,7 +78,15 @@ pointer arithmetic are independently unproven.
 
 The **RunEcl** interpreter remains non-exact: 15,564 physical bytes,
 598 relocated fields and 2,161 full differences, with 142/148 opcode-handler
-shapes agreeing. No partial credit was granted to it. Previous Type21 15-byte
+shapes agreeing. Use the target-bound per-opcode reporter
+`python3 scripts/report-ecl-handler-shapes.py --explain all build/matching/EclManager.obj`
+to inspect the six remaining codegen frontiers. An isolated declaration-only
+fastcall-member view makes opcode86's EDX/table-load instruction order agree,
+but emits an unowned member symbol with no known linker definition; a real
+inline forwarder to the existing exact resolver restores the old bad order.
+Neither is integrated. The full current **142/148** count is unchanged; any
+conditional 143rd opcode requires native symbol ownership and complete-source
+verification before adopting it. No partial credit was granted to it. Previous Type21 15-byte
 and six-byte comparisons remain historical candidates, not current status.
 See the October 11 entry in `docs/KNOWLEDGE_BASE.md`.
 
