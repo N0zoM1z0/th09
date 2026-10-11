@@ -49,11 +49,13 @@ int __fastcall TitleDrawCallback(void *object)
                 Float3 savedPosition = vm->pos;
                 vm->pos += vm->pos2;
 
+                // Equivalent source comparison; the target schedules Draw2D
+                // first and DrawNoRotation on the other branch.
                 if (*reinterpret_cast<float *>(
-                        reinterpret_cast<unsigned char *>(vm) + 0x08) == 0.0f)
-                    g_AnmManager->DrawNoRotation(vm);
-                else
+                        reinterpret_cast<unsigned char *>(vm) + 0x08) != 0.0f)
                     g_AnmManager->Draw2D(vm);
+                else
+                    g_AnmManager->DrawNoRotation(vm);
 
                 vm->pos = savedPosition;
             }
@@ -64,10 +66,13 @@ int __fastcall TitleDrawCallback(void *object)
 
         switch (title->currentScreen1B228)
         {
+        // Distinct no-draw screen branches share the existing final flush.
         case 3:
+            goto flush;
         case 4:
+            goto flush;
         case 5:
-            break;
+            goto flush;
         case 11:
             title->DrawReplayMenu();
             break;
@@ -82,7 +87,7 @@ int __fastcall TitleDrawCallback(void *object)
             title->DrawReplaySave();
             break;
         }
-
+    flush:
         g_AnmManager->FlushVertexBuffer();
     }
     return 1;
