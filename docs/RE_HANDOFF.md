@@ -56,6 +56,8 @@ Measurements below belong to the maintained candidates and caches at this checkp
 | Player movement | 1,835 authored / 1,900 physical; 66 fields; 144 differences | Clamp/register allocation; direct SHT controls rejected |
 | Player charge | 1,210 target / 1,197 candidate; 70 fields; 1,160 overlap differences + 13 absent | Entry register allocation and byte-mode storage |
 | Enemy draw | 1,758 bytes; 53 fields; 4 differences | Second subtraction/Abs scheduling |
+| ExAttack Type3 update | 780 bytes; 38 target-bound fields; 15 linked differences | `middle.z` / tail-X scheduling; use `scripts/inspect-exattack-type3.py` |
+| ExAttack Type19/21 initialization | 763/727 bytes; 57/53 fields; 6/9 linked differences | History/vertex cursor scheduling, distinct from now-exact Type21 update |
 
 Other owners, including ExAttack19, PauseMenu and DirectPlay, are routed by
 `config/functions.csv` and `docs/KNOWLEDGE_BASE.md`. SaveReplay stays parked.
@@ -79,6 +81,14 @@ The **RunEcl** interpreter remains non-exact: 15,564 physical bytes,
 shapes agreeing. No partial credit was granted to it. Previous Type21 15-byte
 and six-byte comparisons remain historical candidates, not current status.
 See the October 11 entry in `docs/KNOWLEDGE_BASE.md`.
+
+An additional Factory Type21 replay attempt bound to commit `418d83a` was
+**inconclusive**: job `job:f2439313eca24510b42c596cdc399fdd`
+failed with `worker-lease-expired` before a receipt was produced. It does not
+invalidate the fresh local strict VC7.1 match unit, but it also grants **no**
+Factory acceptance. The repository's temporary replay lock later cleared;
+inspect process/worktree state before any future factory submission rather
+than automatically retrying an orphanable native process.
 
 ## Latest closure and rejected controls
 
