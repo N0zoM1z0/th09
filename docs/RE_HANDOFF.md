@@ -56,10 +56,26 @@ Measurements below belong to the maintained candidates and caches at this checkp
 | Player movement | 1,835 authored / 1,900 physical; 66 fields; 144 differences | Clamp/register allocation; direct SHT controls rejected |
 | Player charge | 1,210 target / 1,197 candidate; 70 fields; 1,160 overlap differences + 13 absent | Entry register allocation and byte-mode storage |
 | Enemy draw | 1,758 bytes; 53 fields; 4 differences | Second subtraction/Abs scheduling |
-| Type21 update | 1,074 bytes; 29 fields; 15 differences | Ring preheader; actual descriptor member storage maintained |
+| Type21 update | 1,074 bytes; 29 fields; **6 differences** | Ring preheader LEA order (vertex/history pointers); actual descriptor member storage maintained |
 
 Other owners, including ExAttack19, PauseMenu and DirectPlay, are routed by
 `config/functions.csv` and `docs/KNOWLEDGE_BASE.md`. SaveReplay stays parked.
+
+## October 11 source-bound checkpoint
+
+The maintained ExAttack type21 update source now seeds its real UV angle after
+initializing the ring vertex/history cursors and history-angle seed. A new pinned
+VC7.1 cold build at `build/gpt-web-type21-preheader-20261011/canonical.obj`
+(SHA-256 `db7e82bfec2b71789016cad903e139a05b4fc28925a0029bbf075d47be6c0d51`)
+reproduces the full 1,074-byte target code extent with 288 instructions, 29
+independently bound fields, 17 ordered calls and 28 direct CFG blocks, except
+for **six bytes** of swapped ring-preheader `LEA` scheduling (previously 15
+bytes). This owner remains non-exact; the local exact ledger is unchanged.
+Twenty-three configured same-TU exact siblings independently pass their full
+9,533 compared bytes and 439 relocation fields against the new cold object.
+The 203-section COFF comparison shows only this update's `.text` and two
+debug sections changed; RunEcl remains 2,161 complete physical differences,
+142/148 matching opcode shapes. Details and rejected controls are in the KB.
 
 ## Latest closure and rejected controls
 
@@ -89,7 +105,7 @@ that closure. Do not reconstruct it again or credit its tables as authored code.
 
 | Owner | Cache |
 | --- | --- |
-| RunEcl | `build/gpt-6.1-sol-type21-preheader-20261009/canonical.obj` |
+| RunEcl and Type21 update | `build/gpt-web-type21-preheader-20261011/canonical.obj` |
 | Enemy update | `build/matching/EnemyManagerCore.obj` |
 | Enemy draw | `build/matching/EnemyManagerDraw.obj` |
 | Player movement | `build/gpt-6.1-sol-movement-direct-sht-20261009/current-cold.obj` |

@@ -130,12 +130,12 @@ int __fastcall ExAttackUpdateCallbackType21(ExAttackRecord *base)
 
     case 1:
     {
-        float uvAngle = extra->angle688;
         ExAttackType21UpdateVertex *vertex = &extra->vertices4C[1];
         Float3 *history = &extra->history3E8[1];
         // One ordinal addresses the two separately owned 32-element arrays.
         int sample = 0;
         float historyAngle = -3.1415927f;
+        float uvAngle = extra->angle688;
 
         do
         {
