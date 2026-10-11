@@ -26,14 +26,14 @@ These totals are checked against the live ledgers by scripts/validate-docs.py.
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 930 |
-| Source-present non-exact functions | 50 |
-| Source-present non-exact bytes | 54,759 |
+| Canonical exact functions | 931 |
+| Source-present non-exact functions | 49 |
+| Source-present non-exact bytes | 54,284 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 221,011 |
+| Canonical exact authored bytes | 221,486 |
 
-The currently confirmed authored denominator is **275,770 bytes**: **80.1432%**
-exact. Another **40,971 bytes** are needed for 95% of that denominator. The 35
+The currently confirmed authored denominator is **275,770 bytes**: **80.3155%**
+exact. Another **40,496 bytes** are needed for 95% of that denominator. The 35
 origin-unresolved candidates are separate; later classification can change the
 denominator. Faithful Windows i386 product/runtime gates remain open; semantic
 reconstruction and portability have not started.
@@ -57,6 +57,7 @@ Measurements below belong to the maintained candidates and caches at this checkp
 | Supervisor network service | 1,633 target / 1,632 candidate; 106 target / 108 candidate fields; 1,395 differences + 1 absent | Sign test and output workspace |
 | Player movement | 1,835 authored / 1,900 physical; 66 fields; 144 differences | Clamp/register allocation; direct SHT controls rejected |
 | Player charge | 1,210 target / 1,197 candidate; 70 fields; 1,160 overlap differences + 13 absent | Entry register allocation and byte-mode storage |
+| EffectManager OnUpdate | **475/475 physical exact; 11 source/target relocations** | PrimaryCount read uses a target-order volatile-qualified lvalue; 14 existing same-TU exact owners intact |
 | Enemy draw | 1,758 bytes; 53 fields; 4 differences | Second subtraction/Abs scheduling |
 | Supervisor received-frame queue | 213 target / 213 candidate, 0 fields, 35 full differences | Typed 20-element side queue scan fixed physical extent; `scripts/inspect-supervisor-frame-queue.py`; register allocation and write scheduling remain open |
 | ExAttack Type3 update | 780 bytes; 38 target-bound fields; 15 linked differences | `middle.z` / tail-X scheduling; use `scripts/inspect-exattack-type3.py` |

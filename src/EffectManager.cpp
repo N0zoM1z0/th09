@@ -259,8 +259,12 @@ int EffectManager::OnUpdate(EffectManager *effectManager)
     effectManager->drawSentinel1.nextInDrawGroup = NULL;
     effectManager->drawSentinel2.nextInDrawGroup = NULL;
 
+    // Read the live primary bound before the secondary one on each iteration.
+    // This is a volatile-qualified access to an ordinary field, not a change
+    // to the EffectManager layout or the other pool consumers.
     for (int i = 0;
-         i < effectManager->secondaryCount + effectManager->primaryCount;
+         i < static_cast<const volatile int &>(effectManager->primaryCount) +
+                 effectManager->secondaryCount;
          ++i, ++effect)
     {
         if (effect->active == 0)
