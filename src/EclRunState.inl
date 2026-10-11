@@ -626,8 +626,13 @@ __forceinline void AssignFlagField(
     {
         Th09EclRunState::EnemyStateView &state =
             *Th09EclRunState::View(enemy);
-        unsigned int value = Th09EclRunState::RawByte(instruction, 0);
-        state.primaryFlagBits337C.timeoutSpell24 = value;
+        // A bounded volatile byte read and bitfield write preserve this
+        // opcode's target instruction scheduling without changing the
+        // four-byte flags layout or any other EnemyStateView consumers.
+        const volatile unsigned char &value =
+            Th09EclRunState::RawByte(instruction, 0);
+        reinterpret_cast<volatile Th09EclRunState::EnemyStateFlagBits *>(
+            &state.primaryFlagBits337C)->timeoutSpell24 = value;
         break;
     }
 

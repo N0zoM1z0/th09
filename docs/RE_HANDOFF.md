@@ -45,7 +45,7 @@ Measurements below belong to the maintained candidates and caches at this checkp
 
 | Owner | Current comparison | Remaining work |
 | --- | --- | --- |
-| RunEcl | 14,792 target authored / 15,564 physical; candidate 14,791 code + 1 alignment + 772 table bytes; 598 fields; **2,149 full differences** | **143/148** handler shapes aligned; opcode 7 newly aligned through scoped timer read, remaining 4/86/155/156/157; frame `0x168`; full owner remains NON-EXACT |
+| RunEcl | 14,792 target authored / 15,564 physical; now **14,792 code + 772 table bytes, 598 fields, 39 full differences (0 field/table)** | **145/148** handler shapes aligned; only opcodes 4/86/155 remain; frame `0x168`; still NON-EXACT |
 | Enemy update | 3,883 authored / 3,900 physical; 97 fields; 39 differences | Draw index, descriptor/trail-copy and player/world register lifetimes; `scripts/inspect-enemy-manager-update.py` |
 | Gameplay setup worker | 1,689 target bytes; 172 target / 171 candidate fields; 921 full differences | Reuse-base caching, flags cursor, rate/failure tail |
 | GameManager update | 1,230 bytes; 87 fields; 105 differences | Input capture and entry-zero scheduling |
