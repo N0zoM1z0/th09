@@ -1,0 +1,89 @@
+"""Target-independent fail-closed checks for the large Enemy update inspector."""
+import importlib.util
+from pathlib import Path
+import struct
+import sys
+from types import ModuleType
+from unittest import TestCase, main
+from unittest.mock import patch
+
+SOURCE = Path(__file__).resolve().parents[1] / 'scripts/inspect-enemy-manager-update.py'
+with patch.dict(sys.modules, {'capstone': ModuleType('capstone')}), \
+        patch.object(sys, 'path', [str(SOURCE.parent), *sys.path]):
+    spec = importlib.util.spec_from_file_location('enemy_update_inspector_tests', SOURCE)
+    inspector = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(inspector)
+
+
+class TargetPayload:
+    def __init__(self, payload):
+        self.payload = payload
+
+    def pe_bytes_at(self, target, address, length):
+        return self.payload
+
+
+class EnemyUpdateBindingTests(TestCase):
+    def row(self, **edits):
+        base = {
+            'symbol': 'checked_external', 'symbol_section': 0,
+            'owner_section': 1, 'symbol_value': 0, 'owner_value': 0,
+            'offset': 0x14, 'type': 'REL32', 'addend': 0,
+        }
+        base.update(edits)
+        return base
+
+    def test_owner_local_label_uses_actual_coff_position(self):
+        row = self.row(symbol='$Lowner', symbol_section=1,
+                       symbol_value=0x240, owner_value=0x30, type='DIR32')
+        value, address, reason = inspector.bind_field(
+            row, {}, {}, {}, TargetPayload(b''), b'')
+        self.assertEqual(address, inspector.BASE + 0x210)
+        self.assertEqual(value, address)
+        self.assertIn('actual same-section', reason)
+
+    def test_owner_local_label_outside_physical_extent_is_rejected(self):
+        row = self.row(symbol='$Lbad', symbol_section=1,
+                       symbol_value=inspector.OWNER_SIZE, type='DIR32')
+        with self.assertRaisesRegex(ValueError, 'leaves reviewed extent'):
+            inspector.bind_field(row, {}, {}, {}, TargetPayload(b''), b'')
+
+    def test_absent_or_conflicting_external_symbol_fails_closed(self):
+        row = self.row()
+        for registry in ({}, {'checked_external': [
+                {'target': 0x411000}, {'target': 0x412000}]}):
+            with self.assertRaisesRegex(ValueError, 'absent or ambiguous'):
+                inspector.bind_field(row, {}, {}, registry, TargetPayload(b''), b'')
+
+    def test_external_relative_call_uses_independent_destination(self):
+        row = self.row()
+        destination = 0x413000
+        value, resolved, proof = inspector.bind_field(
+            row, {}, {}, {'checked_external': [{'target': destination}]},
+            TargetPayload(b''), b'')
+        self.assertEqual(resolved, destination)
+        self.assertEqual(value,
+                         (destination - (inspector.BASE + row['offset'] + 4)) & 0xFFFFFFFF)
+        self.assertIn('canonical exact unit identity', proof)
+
+    def test_literal_payload_is_verified_against_pe_bytes(self):
+        row = self.row(symbol='__real@3f000000', type='DIR32')
+        refs = {'__real@3f000000': [{'target': 0x490F54}]}
+        payload = struct.pack('<I', 0x3F000000)
+        _, destination, _ = inspector.bind_field(
+            row, {}, {}, refs, TargetPayload(payload), b'')
+        self.assertEqual(destination, 0x490F54)
+        with self.assertRaisesRegex(ValueError, 'float literal'):
+            inspector.bind_field(row, {}, {}, refs,
+                                 TargetPayload(struct.pack('<I', 0x3F800000)), b'')
+
+    def test_unreviewed_relocation_kind_rejected(self):
+        row = self.row(type='REL16')
+        with self.assertRaisesRegex(ValueError, 'relocation kind'):
+            inspector.bind_field(
+                row, {}, {}, {'checked_external': [{'target': 0x413000}]},
+                TargetPayload(b''), b'')
+
+
+if __name__ == '__main__':
+    main()

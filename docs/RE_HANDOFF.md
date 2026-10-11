@@ -46,7 +46,7 @@ Measurements below belong to the maintained candidates and caches at this checkp
 | Owner | Current comparison | Remaining work |
 | --- | --- | --- |
 | RunEcl | 14,792 target authored / 15,564 physical; candidate 14,791 code + 1 alignment + 772 table bytes; 598 fields; 2,161 full differences | Handler frontiers 4/7/86/155/156/157; frame `0x168` |
-| Enemy update | 3,883 authored / 3,900 physical; 97 fields; 39 differences | Draw index, descriptor/effect scheduling, trail and homing |
+| Enemy update | 3,883 authored / 3,900 physical; 97 fields; 39 differences | Draw index, descriptor/trail-copy and player/world register lifetimes; `scripts/inspect-enemy-manager-update.py` |
 | Gameplay setup worker | 1,689 target bytes; 172 target / 171 candidate fields; 921 full differences | Reuse-base caching, flags cursor, rate/failure tail |
 | GameManager update | 1,230 bytes; 87 fields; 105 differences | Input capture and entry-zero scheduling |
 | Title Options | 2,045 target / 2,048 candidate; 135 fields; 610 overlap differences + 3 excess | Configuration/reference allocation; 51 calls and 121 direct blocks agree |
@@ -61,6 +61,28 @@ Measurements below belong to the maintained candidates and caches at this checkp
 
 Other owners, including ExAttack19, PauseMenu and DirectPlay, are routed by
 `config/functions.csv` and `docs/KNOWLEDGE_BASE.md`. SaveReplay stays parked.
+
+## October 11 Enemy OnUpdate whole-owner oracle and remaining fronts
+
+A fresh pinned VC7.1 `EnemyManagerCore.cpp` compile reproduces the
+**3,900-byte physical** EnemyManager OnUpdate owner with **97/97 independently
+bound relocation fields, 1,026 instructions, 69 ordered calls and 170 blocks**
+(including the single fully reviewed four-way switch table). All **39
+complete target-linked differing bytes** remain, grouped near draw-index
+register choice (+0x19C), bullet descriptor address/Float3 stores (+0x252..
++0x2BD), trail-hitbox return value copy (+0x845..+0x850) and player/world
+position ESI/EDI allocation (+0x9C0..+0xA7E). This is not an exact match.
+
+The tracked diagnostic is now `python3 scripts/inspect-enemy-manager-update.py
+build/matching/EnemyManagerCore.obj`. It fails closed on unknown/ambiguous
+external symbols, noncode relocations, incorrect target float payloads,
+invalid owner-local label positions, unexpected indirect switches, missing
+jump-table edges or incomplete decoding. Target-independent binding and
+switch-graph tests guard these cases. The same-source cold replay keeps the
+151-byte/two-field attached-effect sibling strictly exact. Numerous
+source-faithful Player/world-address, draw-head cursor and trail-return
+contexts recompile identically or worsen the full owner and were not retained.
+Details are recorded at the end of `docs/KNOWLEDGE_BASE.md`.
 
 ## October 11 canonical Type21 closure
 
