@@ -137,34 +137,37 @@ Final validation passes: `validate-tracking.py`, regenerated progress,
 
 ## Current RunEcl continuation
 
-The RunEcl campaign remains **active-incomplete**, continuing from pushed
-`9779dad`. A verified target restart-prefix review shows no handler-local
-EAX/ECX/EDX/ESI value surviving from opcode4/155 to a source-level consumer under
-the maintained ABI. This bounded observation does not recover original locals.
-Twenty-four existing-scalar reuse controls and 24 one-byte payload lvalue
-controls do not improve the 30-byte best frontier; rejected physical/identity
-shapes remain separate from linked scores. Maintained game source is unchanged.
+The campaign remains **active-incomplete**, continuing from pushed `059c9d5`.
+Current-source /Ob1 and diagnostic /Ob2, with or without explicit noinline on
+known outlined helpers, produce identical complete RunEcl raw bytes and 30
+linked differences. Moving all 12 real helper definitions to a compiled
+companion TU changes the owner to 15,508 bytes /599 fields and adds a SpawnEnemy
+call; both residual handler instruction sequences remain unchanged. /Ob0 and
+these companion models fail the complete coverage gate and are not adopted.
 
-Fixed-source /Z7 and /Zd diagnostics reproduce the canonical raw owner exactly.
-The no-debug compile omits a function auxiliary record unsupported by the full
-inspector's default reader. Its independently checked dedicated COMDAT section
-has identical complete bytes and all 598 effective field identities to the
-current independently audited carrier. This is diagnostic equivalence, not a
-parser change or exactness promotion. See the latest knowledge-base entry for
-counts and compact reproduction paths.
+Eighteen fully defined scalar-value accessor controls and six nonvolatile
+bitfield-base controls also fail to improve the best frontier. These source
+families, their exact input hashes and rejected shapes are indexed by the latest
+knowledge-base entry. Maintained game source, ABI, profiles and credit stay.
 
-The final current-source cold replay remains **15,564 physical bytes /598 fields
-/30 ordinary differences**, zero field/table differences, **146/148** normalized
-shapes. Opcode4 contributes seven differences and opcode155 23. Type21 update
-replays all 1,074 bytes /29 fields exactly. Other exact units reuse their prior
-unchanged-input proofs; credit remains 931/980 units. Tracking/progress/CI
-passes (135 tests, 11 skipped). Compiler core pins and cleared CL/_CL_ remain.
+The prior 16 timer-to-ret residue paths were followed through 35 verified direct
+caller sites and one tail forwarder. No examined path reads the live returned
+EAX bits before its boundary. Two chains reach actual worker registrations via
+ThreadStart/CreateThread; Windows thread exits, indirect/unlisted callers and
+stopped paths remain outside coverage. This does not prove a source-level timer
+return type. The maintained void interface is retained.
 
-Next review the actual out-of-line helper visibility and inlining profile as a
-coupled hypothesis, preserving independently known callee definitions and ABI.
-Do not replay the excluded scalar/lvalue/debug controls or invent a timer return
-contract. Original source ownership, retail switches and native product remain
-unknown. Verified checkpoints are committed and pushed.
+The final canonical cold carrier remains **15,564 bytes /598 fields /30 ordinary
+differences**, zero field/table differences, **146/148** handler shapes. Opcode4
+contributes seven differences and opcode155 23. Type21 update replays 1,074 bytes
+/29 fields exactly; other exact units reuse unchanged-input proofs. Tracking,
+progress and CI pass (135 tests, 11 skipped); exact credit remains 931/980 units.
+
+Next test handler-local instruction advancement against the shared advance tail,
+preserving the actual read/write order. Do not replay the excluded helper,
+accessor or bitfield-base models, or manufacture a timer return contract. Original
+source ownership, retail switches and native product/runtime remain unknown.
+Verified checkpoints are committed and pushed.
 
 ## Current object caches
 
