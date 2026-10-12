@@ -2,7 +2,7 @@
 //
 // This final wire-protocol fragment covers 21 active handlers and the nine
 // target-default slots 158/164/168/174/176/179-181/184.  It is lexical source
-// for the shared 14,792-byte RunEcl switch, not a new callable subowner.
+// for the shared physical RunEcl owner, not a new callable subowner.
 //
 // Target evidence:
 //   laser/manager state: 0x0040A662..0x0040AC90

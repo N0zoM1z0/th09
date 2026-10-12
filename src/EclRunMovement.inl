@@ -1,10 +1,9 @@
 // TH09 v1.50a RunEcl ANM/movement family (wire opcodes 54..82).
 //
 // This is a lexical switch fragment, not a callable subowner.  The target
-// keeps these handlers inside the shared 14,792-byte EclManager::RunEcl stack
-// frame.  The declarations intentionally use a family-local Enemy overlay so
-// this fragment does not take ownership of the AnmManager interface or
-// overstate the intentionally incomplete public Enemy layout.
+// keeps these handlers inside the shared EclManager::RunEcl physical owner and
+// stack frame. The family-local Enemy overlay avoids taking ownership of the
+// AnmManager interface and does not overstate the incomplete public Enemy layout.
 //
 // Target evidence:
 //   family entries: opcodes 54..82 (all 29 active)

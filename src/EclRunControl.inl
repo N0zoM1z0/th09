@@ -1,11 +1,11 @@
 // TH09 v1.50a RunEcl control/arithmetic family (wire opcodes 1..53).
 //
 // This file is intentionally a lexical switch fragment.  EclManager::RunEcl
-// is one 14,792-byte owner whose handlers share locals, labels, and a stack
-// frame; splitting this family into a callable replacement would invent a
-// target boundary.  EclManager.cpp includes the declarations once and defines
-// TH09_ECL_RUN_CONTROL_BODY inside the maintained outer switch.  This fragment
-// alone does not establish exactness for the complete interpreter.
+// is one physical owner whose handlers share locals, labels, and a stack frame.
+// Splitting this family into a callable replacement would invent a target
+// boundary. EclManager.cpp includes the declarations once and defines
+// TH09_ECL_RUN_CONTROL_BODY inside the maintained outer switch. This source
+// fragment alone does not establish complete interpreter exactness.
 //
 // Target evidence:
 //   dispatcher/table: 0x0040889B / 0x0040C0A0

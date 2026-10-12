@@ -1,7 +1,7 @@
 // TH09 v1.50a RunEcl boss/state/effects family (wire opcodes 124..157).
 //
 // This lexical switch fragment covers 32 active handlers and the two target-
-// default slots 141/142.  It remains part of the unsplit 14,792-byte
+// default slots 141/142. It remains part of the unsplit physical
 // EclManager::RunEcl owner; declarations below name target-observed roles but
 // do not invent separately callable opcode handlers.
 //

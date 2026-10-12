@@ -56,11 +56,12 @@ downloaded tools are private and never committed.
 ## Current status
 
 TH09 reconstruction was **resumed by the user on 2026-10-11**, targeting 95%
-exact reviewed-authored bytes with the connected Factory/Web repository,
-attested IDA analysis provider and local pinned VC7.1 compiler Oracles. Live coverage is generated from the ledgers in
-[`docs/PROGRESS.md`](docs/PROGRESS.md); remaining work and current evidence are in
-[`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md). This measures reviewed-authored bytes,
-not whole-image or runnable-product coverage.
+exact reviewed-authored bytes. The latest work is local maintenance following
+RunEcl experiments. Factory/Web and local Codex use their respective attested
+IDA routes and the pinned VC7.1 compiler Oracles. Live coverage comes from the
+ledgers in [`docs/PROGRESS.md`](docs/PROGRESS.md). Remaining work and current
+evidence are in [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md). This measures
+reviewed-authored bytes, not whole-image or runnable-product coverage.
 
 Every new session must attest the target and live IDA database. Current
 exact/non-exact state comes from `config/functions.csv`,

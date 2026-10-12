@@ -1,20 +1,13 @@
 # TH09 reconstruction handoff
 
-## Active objective
+## Current request and scope
 
-The current local campaign was directed on **2026-10-12**: close **RunEcl**,
-use target-bound pinned VC7.1 Oracles, and save verified checkpoints with
-`gpt-6.1-sol: ...` commits and pushes. This supersedes the earlier Web no-push
-default. The wider campaign still targets **95% exact reviewed-authored bytes**.
-Inspect all dirty work rather than sidestepping it; preserve genuine progress
-from recovered sessions.
-
-The October 12 local maintenance session started at `a2e1b38` with a clean
-worktree, after reviewing `/tmp/web_sth.txt` and the three latest RunEcl commits.
-Disk target, direct IDA metadata, entry point and distributed mapped bytes all
-agree with the original Japanese 1.50a target. Local maintenance checkpoints
-use the operator-requested `gpt-6.1-sol: ...` prefix. That verified cleanup
-checkpoint (`ddd583c`) has now been pushed. Native product and runtime remain open.
+The latest operator request is code, documentation and artifact cleanup after a
+local RunEcl campaign. Use `gpt-6.1-sol: ...` for commits and push verified
+checkpoints as authorized. The **95% exact reviewed-authored-byte goal** and
+RunEcl closure remain open. Inspect dirty work before new changes; target and
+IDA identity must be attested at each session entry. Native product and runtime
+closure are separate, still-open gates.
 
 ## Live ledger snapshot
 
@@ -44,12 +37,12 @@ reconstruction and portability have not started.
 
 Read the knowledge-base controls for an owner before trying another source shape.
 The table lists selected non-exact owners, not all 49 remaining functions.
-RunEcl was cold-reproduced during this maintenance session; other measurements
-belong to the recorded candidates and must be replayed before further work.
+RunEcl was cold-reproduced at the latest checkpoint; other measurements belong
+to recorded candidates and must be replayed before further work.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| RunEcl | 0x004086C0 | 14,792 target authored / 15,564 physical; **14,792 code + 772 table bytes, 598 fields, 30 full differences (0 field/table)** | **146/148** handler shapes aligned; only opcodes 4/155 remain; frame `0x168`; still NON-EXACT |
+| RunEcl | 0x004086C0 | **15,564 physical bytes = 14,792 code + 772 table bytes**; 598 fields, 30 full differences (0 field/table) | **146/148** handler shapes aligned; only opcodes 4/155 remain; frame `0x168`; still NON-EXACT |
 | Enemy update | 0x00410730 | 3,883 authored / 3,900 physical; 97 fields; 39 differences | Draw index, descriptor/trail-copy and player/world register lifetimes; `scripts/inspect-enemy-manager-update.py` |
 | Gameplay setup worker | 0x0041AF2D | 1,689 target bytes; 172 target / 171 candidate fields; 921 full differences | Reuse-base caching, flags cursor, rate/failure tail |
 | GameManager update | 0x0041AA5F | 1,230 bytes; 87 fields; 105 differences | Input capture and entry-zero scheduling |
@@ -104,67 +97,30 @@ Historical byte plateaus, rejected source controls and the inconclusive
 `worker-lease-expired` Factory replay belong to `docs/KNOWLEDGE_BASE.md` and Git
 history. They neither describe the current candidate nor grant Factory acceptance.
 
-## October 12 maintenance verification and artifact audit
+## Latest RunEcl evidence
 
-Cold builds of all seven configured EclManager-source objects reproduce
-**24/24 canonical exact units, 10,607 complete bytes / 468 fields**. This exposed
-one stale manifest label hidden by the old CompareOperands cache: at field
-`+0x14`, the current `/DNDEBUG` object emits `$L8539`, not `$L8536`. Its actual
-same-section value is still `+0x34C`, resolving to **0x00407A4C**. Only the symbol
-spelling was corrected; target address, field kind/offset and full comparison
-extent are unchanged. No game source, compiler profile or exact credit changed.
+The current full-owner comparison is **15,564 physical bytes** (14,792 code and
+772 table bytes), **598 bound fields**, and **30 ordinary differences** with zero
+field/table differences. **146/148** normalized handler shapes agree. The two
+residuals are opcode 4 (7 bytes) and opcode 155 (23 bytes); RunEcl receives no
+exact or fractional credit. Type21 update remains exactly 1,074 bytes /29 fields.
 
-Artifact review classified the following files as generated compiler outputs.
-Only `.obj` files with i386 COFF headers and `.pdb` files with MSF signatures were
-removed; referenced objects and named baseline/canonical/cold controls were kept.
-No producer was using these directories. Source trials, manifests, compact
-results, `.analysis/`, provider state, toolchains and current matching caches stay.
+The October 12 inline assignment-helper batch tested 34 complete VC7.1
+carriers. Twenty-two pass the complete identity gate: 16 retain 30 differences,
+six regress to 2,140. Twelve fail closed on code/alignment or physical/field
+coverage. None improves the maintained source. Its compact recipe, source
+patches/hashes and results are in
+`.analysis/gpt-6.1-sol-runecl-assign-conventions-20261012/`; generated source
+copies and COFF/PDB outputs were removed after the producer finished. The
+preceding old-word and `/FAs` listing controls are indexed in the latest
+knowledge-base entries. Compiler listing source comments misattribute opcode
+155; decoded bytes and field/CFG checks remain authoritative for codegen.
 
-| Reviewed build directory | Removed COFF/PDB files | Removed bytes |
-| --- | ---: | ---: |
-| `build/gpt-dots-ecl-post-20261003` | 490 | 24,001,801 |
-| `build/gpt-web-type21-preheader-20261011` | 171 | 25,278,214 |
-| `build/gpt-web-exattack-trail-init-20261011` | 108 | 15,775,848 |
-
-These experimental outputs are not canonical inputs. Source-family controls and
-conclusions remain in the knowledge base and retained analysis; current owners
-reproduce from tracked source/config with `compile-probe.sh` or `build-match-unit.py`.
-Unclassified older analysis was preserved. The active frontier table now carries
-explicit target addresses and is checked against maintained authored-source and
-exact ledgers; duplicate summary totals are also rejected by public CI.
-Final validation passes: `validate-tracking.py`, regenerated progress,
-`ci.py` (131 tests, 11 skipped), and `git diff --check`.
-
-## Current RunEcl continuation
-
-The campaign remains **active-incomplete**, continuing from pushed `744cdf5`.
-Twenty-four previously untested old-word captures (qualified signed int,
-signed/unsigned long, and corresponding signed-int reference; byte/word inputs,
-ordinary/qualified reads) do not improve RunEcl. Three pass the full identity
-gate at 30 differences; 21 reject (11 code/alignment, ten physical/field coverage).
-All maintained game source, ABI, profiles and exact credit remain unchanged.
-
-Canonical and fresh copied-source /FAs controls produce identical complete raw
-RunEcl bytes and 30 linked differences. Actual include output confirms the six
-copied fragments. Neither residual handler has hidden stack spills. The listing
-source comments misattribute opcode155's instructions to a RawByte<<7 line from
-opcode156, even at a fresh path. Treat these comments as diagnostic hints only,
-never original source or statement-ownership evidence. The underlying cause is
-unknown; byte/field/CFG comparison is independent of these comments.
-
-The final canonical cold carrier remains **15,564 bytes /598 fields /30 ordinary
-differences**, zero field/table differences and **146/148** shapes. Opcode4 has
-seven differences and opcode155 23. Type21 update remains 1,074 bytes /29 fields
-exact; other units reuse unchanged-input proofs. Tracking/progress/CI passes
-(135 tests, 11 skipped); exact credit remains 931/980 units.
-
-Next investigate full, truthfully defined inline assignment helpers' argument
-conventions/evaluation context while preserving the real timer/flag effects and
-all target callee ABIs. Do not repeat the excluded operand/linkage, capture or
-listing controls, or fabricate a timer return. Original source ownership,
-retail switches and native product/runtime remain unknown. Compact evidence is
-indexed in the latest knowledge-base entry; generated session copies and
-compiler outputs are removed. Verified checkpoints are committed and pushed.
+Before another RunEcl source trial, read the relevant negative controls in the
+knowledge base and seek new TH09-local evidence. Original C++ spelling, retail
+switches, native product and runtime remain unknown. The earlier CompareOperands
+manifest-label correction and reviewed artifact audit are recorded in the
+knowledge base and Git history.
 
 ## Current object caches
 

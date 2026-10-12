@@ -1,8 +1,8 @@
 // TH09 v1.50a RunEcl bullet/laser family (wire opcodes 96..123).
 //
 // This lexical switch fragment covers 26 active handlers and the two target-
-// default slots 122/123.  It remains part of the shared 14,792-byte
-// EclManager::RunEcl owner; the declarations below do not invent a separately
+// default slots 122/123. It remains part of the shared EclManager::RunEcl
+// physical owner; the declarations below do not invent a separately
 // callable handler boundary.
 //
 // Target evidence:
