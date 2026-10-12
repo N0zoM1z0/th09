@@ -2,12 +2,15 @@
 
 ## Current request and scope
 
-The latest operator request is code, documentation and artifact cleanup after a
-local RunEcl campaign. Use `gpt-6.1-sol: ...` for commits and push verified
-checkpoints as authorized. The **95% exact reviewed-authored-byte goal** and
-RunEcl closure remain open. Inspect dirty work before new changes; target and
-IDA identity must be attested at each session entry. Native product and runtime
-closure are separate, still-open gates.
+The operator requests sustained TH09 reconstruction across *large boss* and
+*small leaf* functions, prioritizing RunEcl, Enemy/Etama, TitleScreen, and
+ExAttack. Use **`gpt-web: ...`** for every new local commit. Commit substantive
+verified progress, never abandon or silently discard existing dirty changes;
+this is a sole-writer worktree. The Factory repository shell has no network,
+so a local commit is **not** a remote push. The **95% exact reviewed-authored-byte
+goal** and RunEcl closure remain open. Re-attest the original target and native
+IDA on session entry. Native product/runtime closure and semantic/port stages
+are separate, still-open gates.
 
 ## Live ledger snapshot
 
@@ -181,3 +184,36 @@ New isolated full-TU compiler countermodels on both Type19/21 ExAttack initializ
 ## October 12 gpt-web Type19 update full-slot correction
 
 From clean `26241f1`, target-confirmed Type19 update now emits the target's **821 bytes / 254 instructions / 35 independently bound fields / 11 ordered direct calls / 30 direct blocks**. An actual first Player read plus separately retained Side slot, followed by independent Record/Extra view derivation, improves the complete resolved comparison from historical 206 to **198 differences**; it is explicitly still **NON-EXACT**, so the authored exact ledger remains **931/980**. The full target-bound comparison and source trial negatives (including the independently tested `MoveRandomBiased` Y-pointer variants) are in the final October 12 entry of `docs/KNOWLEDGE_BASE.md`. Rebuild the maintained update source with the pinned VC7.1 `/O2 /Ob1` profile, then run `scripts/inspect-exattack-type19.py build/matching/ExAttackUpdateType19.obj` (expected nonzero exit for genuine byte differences). The unchanged original and the remaining RunEcl/Enemy/Title priorities are still open.
+
+## October 12 gpt-web fresh ECL and current-snapshot exact checkpoint
+
+The current clean baseline was `f6aa0e9` (Type19 Player-slot correction), three
+local commits ahead of origin/main. Revalidated the original JP 1.50a disk and
+native IDA, **24/24** EclManager-source existing exact functions across **10,607
+full physical bytes and 468 fields**, and the maintained **15,564/598/30** RunEcl
+NON-EXACT owner, with only opcode4 and opcode155 still divergent. Repeat the
+focused `python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj`
+and `python3 scripts/report-ecl-handler-shapes.py --explain all
+build/matching/EclManager.obj`; the first intentionally exits nonzero until
+whole-owner exact. `python3 scripts/compare-coff-function.py --unit
+exattack-type21-update --json` is a strict exact-sibling control.
+
+Four **new Factory forced-recompile pass/accepted receipts bound specifically to
+source commit `f6aa0e9`** confirm previously exact Etama OnUpdate, ExAttack
+Type21 update, MusicRoom update and TitleSetupThread (6,061 target bytes;
+not four new exact functions). Their exact claim IDs, job IDs, receipt IDs and
+limitations are in the final October 12 KB entry. Later documentation-only
+commits do not inherit a Factory-accepted *source-binding* for their new Git
+trees; request a new cold replay for material compiler-input changes.
+
+Bounded current-source negative research without production C++ edits includes
+16 RunEcl opcode155 bitfield/ANM analogues, 15 ExAttack Type3 middle-Z/tail-X
+contexts, 24 Type19 loop-tail permutations, 14 Type19 case/tail variants,
+12 Title DrawResult producer/screen contexts and eight Controller WinMM field
+qualification contexts. Full comparisons fail to improve the maintained
+non-exact owners. The genuine Type3 target writes `middle.z` before preparing
+tail-X; the lone 14-difference alternate moves the zero store too early and is
+not adopted. Correct Type19 loop-tail scores are **12 at 198** and **12 at 201**,
+not the preliminary conversational count. Full results, source hashes, rejected
+input-shape reasons and reproducible ignored drivers are indexed in the
+corresponding KB entry. `gpt-web:` prefix overrides older handoff prefixes.
