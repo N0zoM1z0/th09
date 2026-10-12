@@ -297,3 +297,13 @@ directories. All production C++/headers and the **931/980 exact** ledger remain
 unchanged. The tracked `AGENTS.md` already correctly requires `gpt-web:`
 commits and does not advertise remote-push support. Continue RunEcl 4/155,
 Enemy four regions, and these live Type19/21 cursor and small-leaf gaps.
+
+Factory independently force-recompiled and accepted the **newly exact Enemy draw**
+claim bound to source commit `480f2028f82b790a080be6f09994736286d0bc95`:
+`job:3344c710d115479da6d85a49280a9543`,
+`receipt:44cacda296eb6f3a51916daa49d7a31f9fba8d6c1b8400983bfa3c93d1fead8f`,
+**pass/accepted** with all 1,758 claimed bytes covered. This is an external
+receipt in addition to local 53-field canonical equality, not permission to
+claim a later Git tree has been accepted. Independent Type3 update tests of
+15 float/double/long-double intermediates were neutral to the 780/38/15
+NON-EXACT baseline; see the latest KB addendum for their source-bound evidence.
