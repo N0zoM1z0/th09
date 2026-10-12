@@ -98,9 +98,10 @@ extern ExAttackType19UpdateGameManagerView g_GameManager;
 
 int __fastcall ExAttackUpdateCallbackType19(ExAttackRecord *base)
 {
+    ExAttackType19UpdateExtra *extra =
+        reinterpret_cast<ExAttackType19UpdateRecord *>(base)->extra34;
     ExAttackType19UpdateRecord *record =
         reinterpret_cast<ExAttackType19UpdateRecord *>(base);
-    ExAttackType19UpdateExtra *extra = record->extra34;
 
     switch (extra->state00)
     {
@@ -217,10 +218,13 @@ int __fastcall ExAttackUpdateCallbackType19(ExAttackRecord *base)
 
         if (record->timer10 < 300 && record->timer10 > 20)
         {
+            // Capture the current Player before the Float3 subtraction, but
+            // retain the live Side slot for the multiplier update afterward.
+            ExAttackType19UpdatePlayerView *player =
+                g_GameManager.sides[record->opponentSide04].player04;
             ExAttackType19UpdateSideView *side =
                 &g_GameManager.sides[record->opponentSide04];
-            Float3 delta =
-                side->player04->position1B88 - record->position20;
+            Float3 delta = player->position1B88 - record->position20;
 
             if (delta.x * delta.x + delta.y * delta.y <= 4096.0f)
             {
