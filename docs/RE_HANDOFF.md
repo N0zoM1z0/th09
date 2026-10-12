@@ -255,3 +255,29 @@ OnUpdate 2,216 complete physical bytes (2,195 authored), MusicRoom update
 and their comparisons are strict. RunEcl remains target-bound but non-exact
 with 30 differences. Source C++ and local canonical ledger stay unchanged;
 no new Factory receipt/owner exactness is inferred from this diagnostics batch.
+
+## October 12 gpt-web collision leaf source-bound Oracle and Etama/Type19-21 addendum
+
+The preceding Enemy four-region `--explain` report and its pure tests were
+already tracked, so no redundant analyzer was created. The *new* maintained
+`python3 scripts/inspect-enemy-collision-box.py
+build/matching/EnemyCollisionBoxAppend.obj --json` is an independent
+complete, noncrediting original-PE comparator for **82 bytes / 30 instructions /
+2 genuine target-bound REL32 calls / 31 differing bytes**. It has four pure
+negative tests, returns status 1 for a nonmatching owner and status 2 for
+badly formed or unreviewed input, and never credits a prefix or unowned code.
+The exact Float3 divide and box-append target helpers are its independent call
+anchors; the callback itself is still **NON-EXACT**.
+
+Twelve independently defined real draw-index accessor controls on the **3,900
+byte/97-field/39-difference** Enemy boss are neutral or regress. Thirteen
+separate `EtamaController::OnDraw` real VM/subobject/laser-cursor controls
+remain **594/600 bytes** at best and do not recover the target `ESI` body
+VM-position cursor. Twelve complete *paired* ExAttack Type19/21 initialization
+preheader cursor-order trials remain at best **6/9 differences** respectively.
+The additional trials are documented in the latest `docs/KNOWLEDGE_BASE.md`
+entry and indexed by source/object digests under ignored `.analysis/gpt-web-...`
+directories. All production C++/headers and the **931/980 exact** ledger remain
+unchanged. The tracked `AGENTS.md` already correctly requires `gpt-web:`
+commits and does not advertise remote-push support. Continue RunEcl 4/155,
+Enemy four regions, and these live Type19/21 cursor and small-leaf gaps.
