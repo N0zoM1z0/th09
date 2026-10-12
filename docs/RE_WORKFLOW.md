@@ -1,9 +1,9 @@
 # Reconstruction workflow
 
-The user resumed reconstruction on **2026-10-09**, targeting at least **95% of
-reviewed authored bytes exact**, through direct IDA Pro MCP and local Bash.
+The user resumed reconstruction on **2026-10-11**, targeting at least **95% of
+reviewed authored bytes exact**, through Factory/Web and pinned VC7.1 Oracles.
 See [the current handoff](RE_HANDOFF.md) for live state and retained limits.
-Existing proof, the fixed reviewed-authored denominator, and later-phase gates
+Existing proof, the currently reviewed-authored denominator, and later-phase gates
 remain independent. The October 7 stop remains historical.
 
 ## Session entry
@@ -45,9 +45,10 @@ disk target, IDA target, ledgers, and live status using the commands in
    the whole historical cohort or repeat cold builds after every edit. Each new
    exact owner still needs complete byte/relocation/source proof and a
    reproducible canonical local build/replay. Historical Factory receipts remain
-   scoped historical evidence; the October 9 operator request selects local
-   Oracles without Factory MCP. This replay scope follows the operator's 2026-10-05
-   instruction and supersedes older broad replay wording.
+   scoped historical evidence. Factory/Web uses the attested `th09-ida` provider;
+   local Codex may use direct IDA plus mapped-byte attestation. Both routes use
+   target-bound pinned compiler Oracles. This focused replay scope supersedes
+   older broad replay wording.
 
 ### Public CI
 
@@ -105,6 +106,8 @@ promoted or superseded. Classify deletion by reproducibility, tracked
 references, and whether the useful fact has been promoted. Do not blindly
 delete a recovered scratch tree before that audit. Once the remaining scratch
 has no tracked consumers and every still-useful unresolved fact is recorded in
-tracked source/ledgers/docs, a deliberate handoff cleanup may remove the whole
-.analysis/ tree; record that cleanup in docs/RE_HANDOFF.md so future agents do
-not treat vanished scratch paths as missing canonical evidence.
+tracked source/ledgers/docs, remove only individually reviewed scratch paths.
+Never bulk-delete `.analysis/` or remove unclassified legacy artifacts, provider
+databases, toolchains, or Wine prefixes. Record the paths, classification,
+reproducibility and retained evidence in `docs/RE_HANDOFF.md` so future agents
+can distinguish deliberately cleaned outputs from missing canonical evidence.

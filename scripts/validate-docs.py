@@ -125,9 +125,55 @@ def validate_handoff_totals() -> None:
         cells = table_cells(line)
         if len(cells) != 2 or cells[0] not in expected:
             continue
+        if cells[0] in observed:
+            raise ValueError(f"duplicate handoff total: {cells[0]}")
         observed[cells[0]] = int(cells[1].replace(",", ""))
     if observed != expected:
         raise ValueError(f"handoff totals differ from ledgers: {observed} != {expected}")
+
+
+def validate_active_frontiers(
+    text: str,
+    functions: list[dict[str, str]],
+    exact_addresses: set[str],
+) -> None:
+    """Keep closed or unmapped owners out of the current handoff frontier."""
+    by_address = {row["address"].lower(): row for row in functions}
+    exact = {address.lower() for address in exact_addresses}
+    seen: set[str] = set()
+    in_table = False
+    for line in text.splitlines():
+        if line == "| Owner | Target address | Current comparison | Remaining work |":
+            if in_table or seen:
+                raise ValueError("duplicate active-frontier table")
+            in_table = True
+            continue
+        if not in_table:
+            continue
+        if not line.startswith("| "):
+            in_table = False
+            continue
+        if line.startswith("| ---"):
+            continue
+        cells = table_cells(line)
+        if len(cells) != 4:
+            raise ValueError("active frontier must have four cells")
+        owner, addresses, comparison, remaining = cells
+        if not owner or not comparison or not remaining or not re.fullmatch(
+            r"0x[0-9A-Fa-f]{8}(?: / 0x[0-9A-Fa-f]{8})*", addresses
+        ):
+            raise ValueError(f"incomplete active frontier: {owner}")
+        for address in addresses.lower().split(" / "):
+            if address in seen:
+                raise ValueError(f"duplicate active frontier: {address}")
+            seen.add(address)
+            if address in exact:
+                raise ValueError(f"exact owner remains in active frontier: {owner} {address}")
+            row = by_address.get(address)
+            if row is None or row["owner"] != "authored" or not row["source_file"]:
+                raise ValueError(f"active frontier lacks maintained authored source: {address}")
+    if not seen:
+        raise ValueError("active-frontier table is missing or empty")
 
 
 def validate_frontier() -> None:
@@ -212,6 +258,11 @@ def main() -> int:
     try:
         validate_knowledge_base()
         validate_handoff_totals()
+        validate_active_frontiers(
+            HANDOFF.read_text(encoding="utf-8"),
+            rows("functions.csv"),
+            {row["address"] for row in rows("matches.csv")},
+        )
         validate_frontier()
         validate_live_guidance()
         validate_local_links()

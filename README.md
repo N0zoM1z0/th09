@@ -44,8 +44,9 @@ python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
 ```
 
-IDA attestation is environment-specific: local Codex may use the registered
-direct provider or `scripts/check-ida-mcp.py`, while Factory/Web must call
+IDA attestation is environment-specific: local Codex calls `get_metadata` with
+`{}` through the direct provider and runs `scripts/check-ida-mcp.py` for mapped-byte
+attestation, while Factory/Web must call
 `get_metadata` with `{}` through the attested `th09-ida` provider. See
 [`AGENTS.md`](AGENTS.md) and [`docs/TOOLS.md`](docs/TOOLS.md) before analysis.
 
