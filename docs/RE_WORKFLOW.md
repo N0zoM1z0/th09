@@ -56,7 +56,8 @@ disk target, IDA target, ledgers, and live status using the commands in
 prepared local machine cannot hide undeclared third-party import dependencies.
 Optional decoders belong inside private diagnostic entrypoints. This local gate
 uses the same command as GitHub Actions; a local pass does not prove a remote
-workflow run, and local checkpoints are not pushed.
+workflow run. Push verified local checkpoints when authorized by the current
+operator instructions in `AGENTS.md`.
 
 ### Current-state documentation hygiene
 

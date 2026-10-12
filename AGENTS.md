@@ -6,9 +6,12 @@ The user explicitly resumed TH09 reconstruction again on 2026-10-11 through
 the Touhou Reconstruction Factory, targeting 95% exact reviewed-authored bytes
 with substantial effort on both large functions and smaller leaves. Use the
 registered `th09-ida` attested analysis provider, the live repository shell,
-and target-bound pinned VC7.1 compile/comparison Oracles. Commit local proven
-progress as `gpt-web: ...`, do not push, and recover or finish all dirty work
-before beginning new changes. Periodically clean reproducible build/intermediate
+and target-bound pinned VC7.1 compile/comparison Oracles. On 2026-10-12 the user
+directed local Codex to focus on closing RunEcl and save verified progress with
+`gpt-6.1-sol: ...` commits and pushes. This supersedes the earlier no-push and
+Web commit-prefix defaults for the current local campaign. Local direct IDA is
+available with the metadata and mapped-byte checks below. Recover or finish all
+dirty work before beginning new changes. Periodically clean reproducible build/intermediate
 artifacts. See docs/RE_HANDOFF.md for current status; older transport and
 commit-prefix instructions are historical.
 
@@ -107,7 +110,8 @@ analysis database is working state; mirror durable conclusions into the repo.
 
 ## Checkpoints and artifacts
 
-- Use concise, coherent local commits prefixed `gpt-web: ...`. Do not push.
+- For the current local RunEcl campaign, use concise, coherent commits prefixed
+  `gpt-6.1-sol: ...` and push verified checkpoints as requested by the user.
 - Keep decompiler dumps, logs, experiments, screenshots, and generated reports
   below `.analysis/`; keep builds below `build/` and downloaded tools below
   `.tools/`.

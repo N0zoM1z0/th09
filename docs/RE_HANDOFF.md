@@ -2,18 +2,19 @@
 
 ## Active objective
 
-The user resumed on **2026-10-11** with Factory/Web tools: pursue **95% exact
-reviewed-authored bytes**, attack both large functions and small leaves, reuse
-target-bound pinned VC7.1 Oracles, and commit coherent verified checkpoints as
-`gpt-web: ...` without pushing. Inspect all dirty work rather than sidestepping
-it; preserve genuine progress from recovered sessions.
+The current local campaign was directed on **2026-10-12**: close **RunEcl**,
+use target-bound pinned VC7.1 Oracles, and save verified checkpoints with
+`gpt-6.1-sol: ...` commits and pushes. This supersedes the earlier Web no-push
+default. The wider campaign still targets **95% exact reviewed-authored bytes**.
+Inspect all dirty work rather than sidestepping it; preserve genuine progress
+from recovered sessions.
 
 The October 12 local maintenance session started at `a2e1b38` with a clean
 worktree, after reviewing `/tmp/web_sth.txt` and the three latest RunEcl commits.
 Disk target, direct IDA metadata, entry point and distributed mapped bytes all
 agree with the original Japanese 1.50a target. Local maintenance checkpoints
-use the operator-requested `gpt-6.1-sol: ...` prefix; Web campaign checkpoints
-retain `gpt-web: ...`. Native product and runtime remain open.
+use the operator-requested `gpt-6.1-sol: ...` prefix. That verified cleanup
+checkpoint (`ddd583c`) has now been pushed. Native product and runtime remain open.
 
 ## Live ledger snapshot
 
@@ -133,6 +134,23 @@ explicit target addresses and is checked against maintained authored-source and
 exact ledgers; duplicate summary totals are also rejected by public CI.
 Final validation passes: `validate-tracking.py`, regenerated progress,
 `ci.py` (131 tests, 11 skipped), and `git diff --check`.
+
+## Current RunEcl continuation
+
+The local RunEcl campaign remains **active-incomplete**. A 72-carrier matrix of
+qualified context reads, timer argument captures, real flag-word snapshots,
+XOR/AND-OR expressions and existing shared scratch finds no improvement over
+30 differences. Fifteen candidates retain that score; 12 regress and 45 fail
+closed on physical/input coverage or code/alignment. Maintained game source
+and exact credit are unchanged. The final canonical cold carrier still passes
+the complete 598-field identity gate. Precise models and exclusions are in the
+October 12 countermodel knowledge-base entry; compact reproducible scratch is
+`.analysis/gpt-6.1-sol-runecl-final-20261012/`.
+
+Next work tests genuine inlined helper scope for these same timer/flag effects,
+followed by surrounding allocator context. The original source spelling and
+native product remain unknown. The current operator authorizes verified local
+commits and pushes; the earlier no-push default is historical.
 
 ## Current object caches
 
