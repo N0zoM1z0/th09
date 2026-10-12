@@ -217,3 +217,41 @@ not adopted. Correct Type19 loop-tail scores are **12 at 198** and **12 at 201**
 not the preliminary conversational count. Full results, source hashes, rejected
 input-shape reasons and reproducible ignored drivers are indexed in the
 corresponding KB entry. `gpt-web:` prefix overrides older handoff prefixes.
+
+## October 12 gpt-web Enemy four-region owner analyzer and negative trial checkpoint
+
+Starting clean at `d4add7a`, fresh TH09 original-PE plus attested IDA identity
+and current pinned VC7.1 objects reconfirm **931/980** canonical exact,
+**49** non-exact. `RunEcl` remains **15,564/598/30** (only opcodes4/155);
+`EnemyManager::OnUpdate` remains **3,900 physical bytes, 97 fields, 69
+ordered calls, 39 ordinary linked differences**. Its new maintained `--explain`
+option shows **four target-grounded delta regions** at `+0x19C` (2 bytes),
+`+0x252` (11), `+0x845` (10), `+0x9C0` (16) with full target/candidate
+instruction bytes. Its pure helper lives in `scripts/diagnostic_byte_spans.py`;
+all three new regression tests execute even under CI's Python `-S`. Run `python3 scripts/build-match-unit.py --unit
+enemy-attached-effect-update` and `python3 scripts/inspect-enemy-manager-update.py
+--explain build/matching/EnemyManagerCore.obj`; the companion 151-byte
+attached-effect helper is separately strict exact. This is a noncrediting
+full-owner diagnostic, not a new fact about original C++ author spelling.
+
+Cohesive exploratory source-only results cover 123 attempted models across
+Enemy OnUpdate, the 82-byte collision-box leaf, 243-byte network parser,
+ExAttack Type19/21 initializers, Type19 update, EffectManager callback and
+TitleDrawCallback. The results and invalid forms are indexed in the final
+October 12 KB entry; no game C++ was promoted because none improves complete
+owner codegen with intact inputs. In particular the Type19/21 shared vertex
+cursor problem is independently located at target `ADD EDI,14h` before the
+history-cursor setup, and the parser's target newline-return block is before
+its value scan rather than after. Ordinary pointer-declaration permutations
+and goto placement were exhausted here and should not be retried unchanged.
+Original target/game-source ABI, exact ledger and whole-product gates remain
+unchanged. Follow the operator's `gpt-web: ...` commit convention. The previous
+AGENTS.md instructions naming `gpt-6.1-sol` and a push capability are stale;
+Factory Bash can make local commits but not remote pushes.
+
+Fresh focused builds of the **existing canonical exact** units passed: Etama
+OnUpdate 2,216 complete physical bytes (2,195 authored), MusicRoom update
+2,258, TitleSetupThread 534 and ExAttack Type21 update 1,074; all relocations
+and their comparisons are strict. RunEcl remains target-bound but non-exact
+with 30 differences. Source C++ and local canonical ledger stay unchanged;
+no new Factory receipt/owner exactness is inferred from this diagnostics batch.

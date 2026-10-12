@@ -20,6 +20,7 @@ import tomllib
 import capstone
 
 from diagnostic_switch_graph import switch_graph
+from diagnostic_byte_spans import describe_difference_regions
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 0x00410730
@@ -137,7 +138,7 @@ def bind_field(row, units, functions, registry, compare, target):
     return value & 0xFFFFFFFF, destination, basis
 
 
-def diagnose(path):
+def diagnose(path, *, explain=False):
     compare = load_compare()
     units, functions, registry = reference_index()
     target_file = compare.verified_target()
@@ -194,7 +195,9 @@ def diagnose(path):
     candidate_graph = switch_graph(candidate_instructions, capstone.x86.X86_OP_IMM,
                                    switch_va, switch_operand, candidate_table)
     differences = [i for i, (a, b) in enumerate(zip(data, target)) if a != b]
-    return {
+    explanation = describe_difference_regions(
+        target_instructions, candidate_instructions, differences, base=BASE) if explain else None
+    result = {
         'diagnostic_only': True,
         'exactness_credit': 'none',
         'object': str(path),
@@ -217,14 +220,19 @@ def diagnose(path):
         'difference_offsets': [f'0x{i:X}' for i in differences],
         'bindings': bindings,
     }
+    if explanation is not None:
+        result['difference_regions'] = explanation
+    return result
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('object', type=Path)
     parser.add_argument('--json', action='store_true')
+    parser.add_argument('--explain', action='store_true',
+                        help='Include full instructions around grouped byte differences')
     args = parser.parse_args()
-    report = diagnose(args.object)
+    report = diagnose(args.object, explain=args.explain)
     if args.json:
         print(json.dumps(report, indent=2))
         return
@@ -242,6 +250,18 @@ def main():
     print('complete target-linked byte differences:', report['complete_differences'],
           'at', ','.join(report['difference_offsets']))
     print('exact:', report['complete_bytes_agree'], '(never grants exactness credit)')
+    if args.explain:
+        for region in report['difference_regions']:
+            print('\nEnemy difference group', region['offset_start'],
+                  '..', region['offset_end_exclusive'],
+                  'different bytes:', region['different_bytes'])
+            for label, field in (('TARGET', 'target_instructions'),
+                                 ('CANDIDATE', 'candidate_instructions')):
+                print(' ', label)
+                for ins in region[field]:
+                    print('   %-7s %-20s %-8s %s' %
+                          (ins['offset'], ins['bytes'],
+                           ins['mnemonic'], ins['operands']))
 
 
 if __name__ == '__main__':

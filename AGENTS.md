@@ -2,15 +2,20 @@
 
 ## Current operator status
 
-The user resumed TH09 reconstruction on 2026-10-11, targeting 95% exact
-reviewed-authored bytes. On 2026-10-12 the local campaign focused on RunEcl;
-the latest request is to clean up code, documentation and reproducible artifacts.
-RunEcl and the 95% goal remain open. Use the registered `th09-ida` provider in
-Factory/Web or direct local IDA with the checks below, the live repository shell,
-and target-bound pinned VC7.1 compile/comparison Oracles. The user's local
-checkpoint convention is `gpt-6.1-sol: ...` commits and pushes, superseding
-the older Web no-push and commit-prefix defaults. Recover or finish all dirty
-work before new changes. See docs/RE_HANDOFF.md for live status.
+The current operator requests continued **TH09 original v1.50a** exact
+reconstruction across large boss functions and small leaves, with the live
+roadmap prioritizing RunEcl, Enemy/Etama, TitleScreen and ExAttack. Work from
+the real Git tree, not a historical 979/876 scoreboard or unverified document.
+**Use `gpt-web: ...` for every new commit.** Commit tested substantive progress,
+including bounded accepted source corrections and reproducible codegen evidence.
+Never skip, hide, discard or avoid existing dirty work: examine and finish it.
+Factory's live repository shell cannot push over the network; report local Git
+commit versus remote push distinctly. The earlier `gpt-6.1-sol` prefix and
+push language reflect a superseded campaign, not this operator's instructions.
+RunEcl and the 95% reviewed-authored-byte milestone remain open. Use the
+registered `th09-ida` provider in Factory/Web or direct local IDA, the live
+repository shell and the pinned VC7.1 compiler/comparison Oracles. See
+`docs/RE_HANDOFF.md` for the current ledger and verified frontiers.
 
 This repository targets only the original Japanese TH09 version 1.50a
 executable identified by SHA-256
@@ -107,8 +112,10 @@ analysis database is working state; mirror durable conclusions into the repo.
 
 ## Checkpoints and artifacts
 
-- For the current local campaign, use concise, coherent commits prefixed
-  `gpt-6.1-sol: ...` and push verified checkpoints as requested by the user.
+- For the current operator campaign, use concise, coherent local commits
+  prefixed **`gpt-web: ...`** as explicitly requested. Factory repository Bash
+  has no network transport for a remote push; never claim a local commit was
+  automatically pushed.
 - Keep decompiler dumps, logs, experiments, screenshots, and generated reports
   below `.analysis/`; keep builds below `build/` and downloaded tools below
   `.tools/`.
