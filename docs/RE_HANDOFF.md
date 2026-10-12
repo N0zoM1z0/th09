@@ -137,20 +137,26 @@ Final validation passes: `validate-tracking.py`, regenerated progress,
 
 ## Current RunEcl continuation
 
-The local RunEcl campaign remains **active-incomplete**. A 72-carrier matrix of
-qualified context reads, timer argument captures, real flag-word snapshots,
-XOR/AND-OR expressions and existing shared scratch finds no improvement over
-30 differences. Fifteen candidates retain that score; 12 regress and 45 fail
-closed on physical/input coverage or code/alignment. Maintained game source
-and exact credit are unchanged. The final canonical cold carrier still passes
-the complete 598-field identity gate. Precise models and exclusions are in the
-October 12 countermodel knowledge-base entry; compact reproducible scratch is
-`.analysis/gpt-6.1-sol-runecl-final-20261012/`.
+The local RunEcl campaign remains **active-incomplete**, continuing from pushed
+`f6714a1`. The latest 61 successfully compiled carriers test fully implemented
+inline timer/flags helpers, return-value compositions, genuine member methods,
+whole jump operations, narrow wire packet views and the whole-switch allocator
+scope. Thirty-six retain 30 differences, eleven regress, and fourteen fail
+closed on physical/input coverage or code/alignment. No maintained game source
+or exact credit changes. The earlier 72 snapshot models are recorded separately
+in the knowledge base and must not be repeated unchanged.
 
-Next work tests genuine inlined helper scope for these same timer/flag effects,
-followed by surrounding allocator context. The original source spelling and
-native product remain unknown. The current operator authorizes verified local
-commits and pushes; the earlier no-push default is historical.
+The final current-source cold carrier still reproduces 15,564 physical bytes,
+598 independent field identities, 30 ordinary differences and 146/148 handler
+shapes. All 24 configured EclManager-source exact units retain 10,607 complete
+bytes /468 fields. Precise models and the declaration/include isolation pitfall
+are in the October 12 inline-helper knowledge-base entry; compact reproducible
+scratch is `.analysis/gpt-6.1-sol-runecl-inline-20261012/`.
+
+Next work reviews the actual operand helper declarations and inline visibility,
+then the surrounding allocator source family. Original source spelling and
+native product remain unknown. Verified local checkpoints are committed and
+pushed under the current operator instructions.
 
 ## Current object caches
 
