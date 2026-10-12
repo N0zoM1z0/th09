@@ -169,3 +169,9 @@ units or editing reporting scripts can invalidate those pins without changing a
 compiler input. Never silently replace historical input hashes. Finish a bounded
 batch with its focused Oracle, tracking validation, progress generation,
 isolated CI and `git diff --check`. No compiler producer is live at this handoff.
+
+## October 12 gpt-web cold-replay and candidate checkpoint
+
+From clean `fd9e07d`, fresh forced-recompile Factory replays passed **and were accepted** for four previously canonical exact TH09 functions: EtamaController::OnUpdate (2,195 bytes), ExAttackUpdateCallbackType21 (1,074), TitleScreenView::OnUpdateMusicRoom (2,258) and TitleScreenView::TitleSetupThread (534). These receipts are bound to the **pre-checkpoint** source tree and must not be treated as fresh acceptance for later HEADs; use `factory_get_accepted_snapshot` or submit another clean-bound replay. No new exact function is claimed: 931/980 locally exact, 49 remaining.
+
+New isolated full-TU compiler countermodels on both Type19/21 ExAttack initializers (six paired rim-cursor/lifetime forms), ten EffectManager::AddedCallback small-function forms and a Supervisor::OnUpdate shared-mode-1 join did not improve complete ownership. The Supervisor join even removes two required external effects from the candidate, so is explicitly rejected. The concrete full-owner scores and ignored, reproducible probe drivers are indexed at the end of `docs/KNOWLEDGE_BASE.md`. The maintained RunEcl 15,564/598/30, EnemyDraw 1,758/53/four-difference and EnemyManager OnUpdate 3,900/97/39 baselines were independently rebuilt and verified. Next priority remains source-backed closure of these boss functions and the Type19/21 initializers, together with real leaves. Do not promote a negative control or equate a compiler-codegen diagnostic with Factory accepted exactness.
