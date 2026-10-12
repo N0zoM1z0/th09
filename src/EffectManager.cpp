@@ -392,7 +392,10 @@ int EffectManager::AddedCallback(EffectManager *effectManager)
 {
     EffectManager *manager = effectManager;
     EffectAnmManagerView *anmManager = g_AnmManager;
-    void *effectAnm = anmManager->GetAnm(8);
+    // Keep the independently observed owner in ESI and ANM resource in EDI.
+    // This first call uses the actual global resource; the generated code
+    // retains only one load and the same two canonical callees.
+    void *effectAnm = g_AnmManager->GetAnm(8);
     if (reinterpret_cast<void **>(effectAnm)[1] == NULL)
         effectAnm = anmManager->PreloadAnm(8, "etama.anm");
     manager->effectAnm = reinterpret_cast<AnmLoaded *>(effectAnm);

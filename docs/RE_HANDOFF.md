@@ -307,3 +307,30 @@ receipt in addition to local 53-field canonical equality, not permission to
 claim a later Git tree has been accepted. Independent Type3 update tests of
 15 float/double/long-double intermediates were neutral to the 780/38/15
 NON-EXACT baseline; see the latest KB addendum for their source-bound evidence.
+
+## October 12 gpt-web Effect leaf ABI-lifetime improvement and independent big-callback negatives
+
+Starting from clean `046401b`, a fresh pinned VC7.1 compile of maintained
+`src/EffectManager.cpp` now brings `EffectManager::AddedCallback @ 0x0040D1C0`
+from **51 bytes/four fields/11 differences** to **51 bytes/four fields/**
+**eight** complete differing bytes; the two exact GetAnm/PreloadAnm call targets,
+one compiled load of the global, genuine `etama.anm` literal, ESI callback-owner
+and EDI retained ANM resource all match independently verified target behavior.
+The remaining global-load/move schedule at +0x03..+0x09/+0x0D is still wrong;
+**NON-EXACT, zero change to 932/980**. `scripts/inspect-effect-added.py`
+is a new complete, fail-closed non-crediting owner validator: compile with
+`python3 scripts/build-match-unit.py --unit effect-manager-update`, then
+`python3 scripts/inspect-effect-added.py build/matching/EffectManager.obj --json`.
+Expected exit 1 for the eight differences, exit 2 for unreviewed input. All
+**15/15** same-TU existing exact units passed cold strict replay; three
+pure-input regression tests include CI's `python -S` behavior.
+
+Large-boss negative-control evidence from another current-source batch is at
+the end of `docs/KNOWLEDGE_BASE.md`: RunEcl opcode4 actual timer allocation
+forms, opcode155 direct comparison against opcode156's naturally XORing flag
+assignment, paired Type19/21 initialization 32-sample cursor lifetime, Title
+DrawResult entry bank/screen scheduling and real Player position callback
+copy/float return types. All were copied to ignored analysis carriers and
+compile from the unchanged target/profile; none is a new exact function.
+The registered Factory-accepted Enemy draw claim is still pinned to prior
+source commit `480f202`, while this Effect leaf remains nonexact.
