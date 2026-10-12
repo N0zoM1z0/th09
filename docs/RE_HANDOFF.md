@@ -334,3 +334,12 @@ copy/float return types. All were copied to ignored analysis carriers and
 compile from the unchanged target/profile; none is a new exact function.
 The registered Factory-accepted Enemy draw claim is still pinned to prior
 source commit `480f202`, while this Effect leaf remains nonexact.
+
+The **changed EffectManager source snapshot `5dcd7f2`** additionally has a
+forced-recompile Factory **pass/accepted** result for the existing exact
+`EffectManager::OnUpdate` (475/475 claimed bytes):
+`job:0032a1db442a4febbe0d97b656ceccb9`,
+`receipt:9b01a390ab05d73f20cdde28aeed7c67123343bafefd730b004e74db52eb34dd`.
+The scope is only this previously exact function; its receipt cannot promote
+`EffectManager::AddedCallback` (51 bytes, still eight different bytes) or a
+future Git HEAD to exact. The canonical ledger remains 932/980.
