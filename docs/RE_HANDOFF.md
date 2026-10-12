@@ -152,12 +152,19 @@ All 24 configured exact EclManager-source units retain 10,607 complete bytes
 knowledge-base entry; compact reproducible scratch is
 `.analysis/gpt-6.1-sol-runecl-storage-20261012/`.
 
-The actual compiler core matches its fixed provider Git blobs and no ambient
-CL/_CL_ flags are present. The current wrapper pins only the driver; strengthen
-core DLL checks next, preserving the current compiler bytes and canonical flags.
-Further source/codegen work needs a distinct hypothesis beyond these local
-models. Original source spelling, original flags and native product remain
-unknown. Verified checkpoints are committed and pushed.
+The actual compiler core matches its fixed provider Git blobs. The wrapper now
+pins cl.exe, c1.dll, c1xx.dll and c2.dll, and clears ambient
+CL/_CL_ options. Four wrapper regressions and seven genuine cold ECL objects
+verify this gate; compiler bytes and canonical profiles are unchanged. CI passes
+135 tests, with 11 skipped.
+
+Next compare the unchanged source under the pinned compiler's documented global
+CPU scheduling models as diagnostics: its help reports blended /GB as the
+default, with /G5, /G6 and /G7 alternatives. Retail switches are unknown. These
+diagnostics grant no credit and do not alter canonical profiles; an improvement
+still requires complete byte/field proof and affected exact regressions.
+Original source spelling and native product remain unknown. Verified checkpoints
+are committed and pushed.
 
 ## Current object caches
 

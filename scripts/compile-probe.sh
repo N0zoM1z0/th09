@@ -35,20 +35,32 @@ if [[ ! -f "$source_path" ]]; then
   exit 1
 fi
 
-expected_sha256=$(python3 - "$repo_root" <<'PY'
+python3 - "$repo_root" "$msvc_root" <<'PY'
+import hashlib
 from pathlib import Path
+import re
 import sys
 import tomllib
 root = Path(sys.argv[1])
+tool_root = Path(sys.argv[2])
 with (root / "config" / "tools.lock.toml").open("rb") as stream:
-    print(tomllib.load(stream)["msvc71"]["compiler_sha256"])
+    pins = tomllib.load(stream)["msvc71"]
+for name, key in (
+    ("cl.exe", "compiler_sha256"),
+    ("c1.dll", "c_frontend_sha256"),
+    ("c1xx.dll", "cpp_frontend_sha256"),
+    ("c2.dll", "backend_sha256"),
+):
+    expected = pins.get(key, "")
+    if not isinstance(expected, str) or not re.fullmatch(r"[0-9a-fA-F]{64}", expected):
+        raise SystemExit(f"missing or invalid pinned VC7.1 component hash: {name}")
+    path = tool_root / "Vc7" / "bin" / name
+    if not path.is_file():
+        raise SystemExit(f"missing pinned VC7.1 component: {name}")
+    actual = hashlib.sha256(path.read_bytes()).hexdigest()
+    if actual != expected.lower():
+        raise SystemExit(f"pinned VC7.1 component hash mismatch: {name} ({actual})")
 PY
-)
-actual_sha256=$(sha256sum "$compiler" | awk '{print $1}')
-if [[ "$actual_sha256" != "$expected_sha256" ]]; then
-  echo "pinned VC7.1 compiler hash mismatch: $actual_sha256" >&2
-  exit 1
-fi
 
 mkdir -p "$(dirname -- "$output_path")"
 source_win=$(WINEDEBUG=-all winepath -w "$(realpath "$source_path")")
@@ -61,6 +73,8 @@ vc_lib=$(WINEDEBUG=-all winepath -w "$msvc_root/Vc7/lib")
 sdk_lib=$(WINEDEBUG=-all winepath -w "$msvc_root/Vc7/PlatformSDK/Lib")
 
 WINEDEBUG=-all \
+CL= \
+_CL_= \
 INCLUDE="$vc_include;$sdk_include" \
 LIB="$vc_lib;$sdk_lib" \
 wine "$compiler" /nologo /c "$@" "$source_win" "/Fo$output_win" "/Fd$pdb_win"

@@ -34,6 +34,14 @@ The system Python's Capstone version is therefore not a replay dependency. Do
 not copy another repository's Capstone wrapper or lock into TH09 unless a real
 consumer is added; that consumer must then fail closed on its pinned identity.
 
+`compile-probe.sh` checks the pinned driver (`cl.exe`), C/C++ frontends
+(`c1.dll`, `c1xx.dll`) and optimizer backend (`c2.dll`) before invoking Wine.
+All four hashes come from the exact tool-provider commit in `tools.lock.toml`.
+The compiler invocation clears ambient `CL` and `_CL_` option variables so the
+explicit match-unit/probe profile determines the command-line flags. These
+core pins do not establish the retail game's original switches or close SDK,
+library, linker, Wine or whole-product ownership.
+
 Factory/Web clients must use their attested `th09-ida` route. Local Codex does
 not need Factory when the direct provider is available. Do not run the host-only
 `check-ida-mcp.py` from inside a Factory repository shell. Provider discovery
