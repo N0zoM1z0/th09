@@ -138,33 +138,28 @@ Final validation passes: `validate-tracking.py`, regenerated progress,
 ## Current RunEcl continuation
 
 The local RunEcl campaign remains **active-incomplete**, continuing from pushed
-`1a66880`. The latest 89 successfully compiled carriers test real helper linkage,
-aggregate storage/publication, member qualification, value/return objects,
-branch syntax, shared flag updates, TU position and operand-accessor convention.
-Fifty retain 30 differences, eleven regress and twenty-eight fail closed.
-No maintained game source, profile or exact credit changes. Earlier 72/61-model
-batches remain separate knowledge-base controls and must not be repeated unchanged.
+`7bdf13e`. Fixed-source CPU diagnostics find identical complete RunEcl raw bytes
+for /GB, /G5 and /G6, all retaining 30 linked differences. /G7 shortens the
+physical extent by 68 bytes and fails the coverage gate. Four actual ZunTimer
+interface controls also retain 30. Canonical source, profiles and credit stay
+unchanged; the earlier 72/61/89-model batches remain excluded controls.
+
+A bounded return-ABI audit of 203 IDA-listed direct timer-assignment calls finds
+no positive return-value consumer before the checked path boundaries. The
+setter physically leaves the integer input in EAX, but source-level return type,
+later/indirect callers and original spelling remain unknown. The maintained
+void contract is retained; do not invent a return to alter allocation.
 
 The final current-source cold carrier reproduces 15,564 physical bytes,
 598 independent field identities, 30 ordinary differences and 146/148 shapes.
-All 24 configured exact EclManager-source units retain 10,607 complete bytes
-/468 fields. Precise models and exclusions are in the October 12 storage/linkage
-knowledge-base entry; compact reproducible scratch is
-`.analysis/gpt-6.1-sol-runecl-storage-20261012/`.
+All 24 configured EclManager-source exact units retain 10,607 complete bytes
+/468 fields. Compiler core files are pinned and CL/_CL_ options cleared; CI
+passes 135 tests, with 11 skipped. Compact scratch and precise exclusions are
+routed by the latest CPU/timer-ABI knowledge-base entry.
 
-The actual compiler core matches its fixed provider Git blobs. The wrapper now
-pins cl.exe, c1.dll, c1xx.dll and c2.dll, and clears ambient
-CL/_CL_ options. Four wrapper regressions and seven genuine cold ECL objects
-verify this gate; compiler bytes and canonical profiles are unchanged. CI passes
-135 tests, with 11 skipped.
-
-Next compare the unchanged source under the pinned compiler's documented global
-CPU scheduling models as diagnostics: its help reports blended /GB as the
-default, with /G5, /G6 and /G7 alternatives. Retail switches are unknown. These
-diagnostics grant no credit and do not alter canonical profiles; an improvement
-still requires complete byte/field proof and affected exact regressions.
-Original source spelling and native product remain unknown. Verified checkpoints
-are committed and pushed.
+Next review the one-bit field view's relationship to its actual backing word and
+compiler lowering. Original source ownership, original switches and native
+product remain unknown. Verified checkpoints are committed and pushed.
 
 ## Current object caches
 
