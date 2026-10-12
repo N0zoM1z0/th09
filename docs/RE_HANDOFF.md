@@ -52,6 +52,7 @@ to recorded candidates and must be replayed before further work.
 | Shake envelope | 0x004227A0 | 336 target / 334 candidate, 20 reviewed relocations, 8 calls, 26 blocks, 21 normalized difference spans | `scripts/inspect-screen-shake-envelope.py`; EDI/ESI receiver residency and final-parameter read order |
 | Replay menu draw | 0x004234F6 | 1,280 target / 1,258 candidate; 57 fields; 1,187 overlap differences + 22 absent | Owner, interpolation, position and row lifetimes |
 | Supervisor network service | 0x00430AA0 | 1,633 target / 1,632 candidate; 106 target / 108 candidate fields; 1,395 differences + 1 absent | Sign test and output workspace |
+| Controller input | 0x0042B410 | **808 target / 796 candidate**, 32 independently decoded fields, 102 overlapping differences + 12 missing | Restored four true `JOYCAPSA` array-indexed member address operands; remaining X/Y register and ordering frontier, `scripts/inspect-controller-input.py` |
 | Player movement | 0x0041C170 | 1,835 authored / 1,900 physical; 66 fields; 144 differences | Clamp/register allocation; direct SHT controls rejected |
 | Player charge | 0x0041F810 | 1,210 target / 1,197 candidate; 70 fields; 1,160 overlap differences + 13 absent | Entry register allocation and byte-mode storage |
 | Enemy draw | 0x00411670 | 1,758 bytes; 53 fields; 4 differences | Second subtraction/Abs scheduling |

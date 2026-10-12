@@ -94,15 +94,23 @@ u16 __fastcall GetControllerInput(
         SetButtonFromJoystickButtons(
             &buttons, inputSlot->mappings58[8], 0x100, rawButtons);
 
-        JOYCAPSA *caps = &g_JoystickCaps[savedJoystickIndex];
-
-        UINT xDeadzone = (caps->wXmax - caps->wXmin) >> 2;
-        UINT xMidpoint = (caps->wXmin + caps->wXmax) >> 1;
+        // Each axis reads the indexed JOYCAPSA members directly; the original
+        // uses four independent array-relative address operands here.
+        UINT xDeadzone =
+            (g_JoystickCaps[savedJoystickIndex].wXmax -
+             g_JoystickCaps[savedJoystickIndex].wXmin) >> 2;
+        UINT xMidpoint =
+            (g_JoystickCaps[savedJoystickIndex].wXmin +
+             g_JoystickCaps[savedJoystickIndex].wXmax) >> 1;
         buttons |= joystickInfo.dwXpos < xMidpoint - xDeadzone ? 0x40 : 0;
         buttons |= joystickInfo.dwXpos > xMidpoint + xDeadzone ? 0x80 : 0;
 
-        UINT yDeadzone = (caps->wYmax - caps->wYmin) >> 2;
-        UINT yMidpoint = (caps->wYmin + caps->wYmax) >> 1;
+        UINT yDeadzone =
+            (g_JoystickCaps[savedJoystickIndex].wYmax -
+             g_JoystickCaps[savedJoystickIndex].wYmin) >> 2;
+        UINT yMidpoint =
+            (g_JoystickCaps[savedJoystickIndex].wYmin +
+             g_JoystickCaps[savedJoystickIndex].wYmax) >> 1;
         buttons |= joystickInfo.dwYpos < yMidpoint - yDeadzone ? 0x10 : 0;
         buttons |= joystickInfo.dwYpos > yMidpoint + yDeadzone ? 0x20 : 0;
 
