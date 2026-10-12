@@ -138,28 +138,29 @@ Final validation passes: `validate-tracking.py`, regenerated progress,
 ## Current RunEcl continuation
 
 The local RunEcl campaign remains **active-incomplete**, continuing from pushed
-`7bdf13e`. Fixed-source CPU diagnostics find identical complete RunEcl raw bytes
-for /GB, /G5 and /G6, all retaining 30 linked differences. /G7 shortens the
-physical extent by 68 bytes and fails the coverage gate. Four actual ZunTimer
-interface controls also retain 30. Canonical source, profiles and credit stay
-unchanged; the earlier 72/61/89-model batches remain excluded controls.
+`c972676`. Thirty-two complete flag-view/input controls retain the 30-byte best
+frontier: anonymous surrounding bit ranges, a fully spelled reviewed flags word,
+reference/widened byte input, and signed/plain-char input, each with ordinary or
+qualified bitfield writes. Twenty pass the full identity gate; twelve fail the
+reviewed code/alignment split. No candidate improves or replaces game code.
+The opcode155 comment now explicitly records its unresolved AND/OR versus target
+XOR update, instead of claiming target instruction scheduling was recovered.
 
-A bounded return-ABI audit of 203 IDA-listed direct timer-assignment calls finds
-no positive return-value consumer before the checked path boundaries. The
-setter physically leaves the integer input in EAX, but source-level return type,
-later/indirect callers and original spelling remain unknown. The maintained
-void contract is retained; do not invent a return to alter allocation.
-
-The final current-source cold carrier reproduces 15,564 physical bytes,
-598 independent field identities, 30 ordinary differences and 146/148 shapes.
-All 24 configured EclManager-source exact units retain 10,607 complete bytes
+The current-source carrier reproduces 15,564 physical bytes, 598 independently
+bound fields, 30 ordinary differences and 146/148 normalized shapes. Differences
+remain in opcode4 (7 bytes) and opcode155 (23 bytes); field/table differences are
+zero. All 24 configured EclManager-source exact units retain 10,607 complete bytes
 /468 fields. Compiler core files are pinned and CL/_CL_ options cleared; CI
-passes 135 tests, with 11 skipped. Compact scratch and precise exclusions are
-routed by the latest CPU/timer-ABI knowledge-base entry.
+passes 135 tests, with 11 skipped. Exact credit is unchanged at 931/980 units.
+Compact controls are indexed in the latest flag-view knowledge-base entry.
 
-Next review the one-bit field view's relationship to its actual backing word and
-compiler lowering. Original source ownership, original switches and native
-product remain unknown. Verified checkpoints are committed and pushed.
+The timer setter's EAX residue still does not establish an integer-return ABI;
+the prior bounded direct-caller audit found no positive consumer. Keep its void
+contract. Earlier CPU/interface and 72/61/89-model source controls are excluded.
+Next inspect register liveness at the actual opcode4/155 control-flow joins,
+using target versus current carrier evidence to motivate any new source family.
+Original source ownership, retail compiler switches and native product remain
+unknown. Verified checkpoints are committed and pushed.
 
 ## Current object caches
 

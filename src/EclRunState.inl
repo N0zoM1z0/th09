@@ -626,9 +626,9 @@ __forceinline void AssignFlagField(
     {
         Th09EclRunState::EnemyStateView &state =
             *Th09EclRunState::View(enemy);
-        // A bounded volatile byte read and bitfield write preserve this
-        // opcode's target instruction scheduling without changing the
-        // four-byte flags layout or any other EnemyStateView consumers.
+        // Bounded qualified accesses recover the owner's physical extent
+        // and adjacent handler scheduling. This handler still differs:
+        // the write emits AND/OR where the target uses an XOR update.
         const volatile unsigned char &value =
             Th09EclRunState::RawByte(instruction, 0);
         reinterpret_cast<volatile Th09EclRunState::EnemyStateFlagBits *>(
