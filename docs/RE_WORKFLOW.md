@@ -56,8 +56,9 @@ disk target, IDA target, ledgers, and live status using the commands in
 prepared local machine cannot hide undeclared third-party import dependencies.
 Optional decoders belong inside private diagnostic entrypoints. This local gate
 uses the same command as GitHub Actions; a local pass does not prove a remote
-workflow run. Push verified local checkpoints when authorized by the current
-operator instructions in `AGENTS.md`.
+workflow run. **Commit verified local checkpoints** using the current operator
+prefix in `AGENTS.md`; Factory shell has no network push transport. A local
+commit is never evidence of a successful remote push.
 
 ### Current-state documentation hygiene
 

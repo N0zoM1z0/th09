@@ -392,9 +392,9 @@ int EffectManager::AddedCallback(EffectManager *effectManager)
 {
     EffectManager *manager = effectManager;
     EffectAnmManagerView *anmManager = g_AnmManager;
-    // Keep the independently observed owner in ESI and ANM resource in EDI.
-    // This first call uses the actual global resource; the generated code
-    // retains only one load and the same two canonical callees.
+    // The first lookup uses the actual global ANM manager. VC7.1 keeps the
+    // callback owner in ESI and ANM resource in EDI with one global load,
+    // but this callback remains non-exact (eight bytes; inspect-effect-added.py).
     void *effectAnm = g_AnmManager->GetAnm(8);
     if (reinterpret_cast<void **>(effectAnm)[1] == NULL)
         effectAnm = anmManager->PreloadAnm(8, "etama.anm");

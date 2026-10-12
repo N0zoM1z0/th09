@@ -92,6 +92,44 @@ class ActiveFrontierTests(unittest.TestCase):
                     VALIDATE_DOCS.validate_active_frontiers(text, self.FUNCTIONS, set())
 
 
+class ReplaceInPlaceHandoffTests(unittest.TestCase):
+    SAMPLE = """# TH09 handoff
+## Live ledger snapshot
+current
+## Active frontiers
+current
+## Restart and verification
+commands
+## Evidence and cleanup boundaries
+historical references are routed by Git
+"""
+
+    def test_snapshot_only_structure_is_accepted(self) -> None:
+        VALIDATE_DOCS.validate_handoff_as_current_snapshot(self.SAMPLE)
+        VALIDATE_DOCS.validate_handoff_as_current_snapshot(
+            VALIDATE_DOCS.HANDOFF.read_text(encoding="utf-8")
+        )
+
+    def test_dated_packets_are_rejected(self) -> None:
+        for heading in ("## October 12 session notes", "## Packet 991",
+                        "## 2026-10-12 replay log"):
+            with self.subTest(heading=heading):
+                with self.assertRaisesRegex(ValueError, "dated packet journal"):
+                    VALIDATE_DOCS.validate_handoff_as_current_snapshot(
+                        self.SAMPLE + heading + "\nold checkpoint\n"
+                    )
+
+    def test_missing_or_duplicate_live_section_is_rejected(self) -> None:
+        with self.assertRaisesRegex(ValueError, "requires one live section"):
+            VALIDATE_DOCS.validate_handoff_as_current_snapshot(
+                self.SAMPLE.replace("## Active frontiers", "## Active functions")
+            )
+        with self.assertRaisesRegex(ValueError, "requires one live section"):
+            VALIDATE_DOCS.validate_handoff_as_current_snapshot(
+                self.SAMPLE + "## Live ledger snapshot\nformer totals\n"
+            )
+
+
 class HandoffTotalsTests(unittest.TestCase):
     def test_duplicate_total_cannot_hide_an_older_conflicting_count(self) -> None:
         text = VALIDATE_DOCS.HANDOFF.read_text(encoding="utf-8")

@@ -12,6 +12,7 @@
 | Replay one match | `python3 scripts/build-match-unit.py --unit NAME`, then `python3 scripts/compare-coff-function.py --unit NAME --json` | bounded VC7.1 codegen comparison |
 | Inspect complete RunEcl | `python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj` | every physical byte and independently bound field; diagnostic only |
 | Locate RunEcl handler drift | `python3 scripts/report-ecl-handler-shapes.py --explain all build/matching/EclManager.obj` | normalized instruction shapes; diagnostic only |
+| Audit ExAttack Type14/22 shared draw | `python3 scripts/inspect-exattack-type14-22-draw.py --json build/matching/ExAttackDrawType14Type22.obj` | full 959-byte original, 53 bound fields, 20 direct and 12 indirect calls; **noncrediting**, rebuild the object first |
 | Audit runtime origins | `python3 scripts/audit-runtime-origins.py` | pinned archive/import evidence |
 | Check product graph | `python3 scripts/build.py --check` | explicit open/closed graph state |
 | Run public checks | `python3 scripts/ci.py` | target-independent repository consistency |

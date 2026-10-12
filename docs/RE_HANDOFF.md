@@ -1,20 +1,34 @@
 # TH09 reconstruction handoff
 
-## Current request and scope
+> **Current-state document, not a session journal.** Refresh the live ledgers
+> and object files before new reconstruction work. Historical hypotheses,
+> rejected trials and previous snapshots remain in `docs/KNOWLEDGE_BASE.md`
+> and Git history (including `git show a02528d:docs/RE_HANDOFF.md`). Do not
+> mistake a previous commit's byte counts for the present working tree.
 
-The operator requests sustained TH09 reconstruction across *large boss* and
-*small leaf* functions, prioritizing RunEcl, Enemy/Etama, TitleScreen, and
-ExAttack. Use **`gpt-web: ...`** for every new local commit. Commit substantive
-verified progress, never abandon or silently discard existing dirty changes;
-this is a sole-writer worktree. The Factory repository shell has no network,
-so a local commit is **not** a remote push. The **95% exact reviewed-authored-byte
-goal** and RunEcl closure remain open. Re-attest the original target and native
-IDA on session entry. Native product/runtime closure and semantic/port stages
-are separate, still-open gates.
+## Operator instructions and identity
+
+Continue original Japanese **TH09 v1.50a** reconstruction, attacking large
+boss functions **and** short leaves, with RunEcl, Enemy/Etama, TitleScreen and
+ExAttack the main priorities. Use **`gpt-web: ...`** for each new local commit;
+commit substantive, verified progress. This is a single-writer worktree:
+**inspect and finish dirty/untracked changes**, not avoid or reset them.
+Factory's repository shell has no network push transport. Never claim a local
+commit is a remote push.
+
+Target: ignored `resources/th09.exe`, PE32 i386, image base `0x00400000`,
+entry `0x0047D45F`, SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+The registered Factory provider is `th09-ida`, called as `get_metadata({})`;
+its identity attestation is **not** a codegen acceptance. Follow
+[`AGENTS.md`](../AGENTS.md), [`RE_WORKFLOW.md`](RE_WORKFLOW.md), and
+[`ORACLES.md`](ORACLES.md) for source/profile and phase-gate rules.
 
 ## Live ledger snapshot
 
-These totals are checked against the live ledgers by scripts/validate-docs.py.
+Checked against `config/functions.csv`, `config/function-origins.csv`,
+`config/matches.csv` and `config/match-units.toml` by
+`python3 scripts/validate-docs.py`; run a fresh status report after any edits.
 
 | Measure | Count |
 | --- | ---: |
@@ -30,316 +44,123 @@ These totals are checked against the live ledgers by scripts/validate-docs.py.
 | Authored without maintained source | 0 |
 | Canonical exact authored bytes | 223,244 |
 
-The currently confirmed authored denominator is **275,770 bytes**: **80.9530%**
-exact. Another **38,738 bytes** are needed for 95% of that denominator. The 35
-origin-unresolved candidates are separate; later classification can change the
-denominator. Faithful Windows i386 product/runtime gates remain open; semantic
-reconstruction and portability have not started.
+**223,244 / 275,770 reviewed-authored bytes = 80.9530% exact**.
+To reach 95% of this currently classified denominator, another **38,738
+bytes** must be exact. The 35 origin-unresolved functions are excluded from
+that denominator and could alter it after review. Complete faithful Windows
+i386 product/link/runtime closure is **open**; semantic reconstruction and
+portability have **not started**. Source presence does not imply exact codegen;
+exact codegen does not imply a runnable game.
 
 ## Active frontiers
 
-Read the knowledge-base controls for an owner before trying another source shape.
-The table lists selected non-exact owners, not all 49 remaining functions.
-RunEcl was cold-reproduced at the latest checkpoint; other measurements belong
-to recorded candidates and must be replayed before further work.
+These are **selected** source-present non-exact functions, **not** a complete
+48-item inventory or a ranking by difficulty. Size is the target logical
+extent unless marked *physical*. Measurements are tied to the maintained
+candidate/profile and require fresh compilation after source edits. Consult
+`config/functions.csv` and the relevant knowledge-base evidence first.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| RunEcl | 0x004086C0 | **15,564 physical bytes = 14,792 code + 772 table bytes**; 598 fields, 30 full differences (0 field/table) | **146/148** handler shapes aligned; only opcodes 4/155 remain; frame `0x168`; still NON-EXACT |
-| Enemy update | 0x00410730 | 3,883 authored / 3,900 physical; 97 fields; 39 differences | Draw index, descriptor/trail-copy and player/world register lifetimes; `scripts/inspect-enemy-manager-update.py` |
-| Gameplay setup worker | 0x0041AF2D | 1,689 target bytes; 172 target / 171 candidate fields; 921 full differences | Reuse-base caching, flags cursor, rate/failure tail |
-| GameManager update | 0x0041AA5F | 1,230 bytes; 87 fields; 105 differences | Input capture and entry-zero scheduling |
-| Title Options | 0x004276EB | 2,045 target / 2,048 candidate; 135 fields; 610 overlap differences + 3 excess | Configuration/reference allocation; 51 calls and 121 direct blocks agree |
-| Result draw | 0x00423D16 | 1,939 bytes; 82 fields; 22 entry differences | Producer/entry allocation; later keyboard graph covered |
-| Title draw callback | 0x00424898 | 329 target / 328 candidate, 20 fields, 12 calls, 26 blocks | Recovered real Draw2D-first/JNP path and shared Flush; one target-only DEC at +0x101. `scripts/inspect-title-draw-callback.py` |
-| Shake envelope | 0x004227A0 | 336 target / 334 candidate, 20 reviewed relocations, 8 calls, 26 blocks, 21 normalized difference spans | `scripts/inspect-screen-shake-envelope.py`; EDI/ESI receiver residency and final-parameter read order |
-| Replay menu draw | 0x004234F6 | 1,280 target / 1,258 candidate; 57 fields; 1,187 overlap differences + 22 absent | Owner, interpolation, position and row lifetimes |
-| Supervisor network service | 0x00430AA0 | 1,633 target / 1,632 candidate; 106 target / 108 candidate fields; 1,395 differences + 1 absent | Sign test and output workspace |
-| Controller input | 0x0042B410 | **808 target / 796 candidate**, 32 independently decoded fields, 102 overlapping differences + 12 missing | Restored four true `JOYCAPSA` array-indexed member address operands; remaining X/Y register and ordering frontier, `scripts/inspect-controller-input.py` |
-| Player movement | 0x0041C170 | 1,835 authored / 1,900 physical; 66 fields; 144 differences | Clamp/register allocation; direct SHT controls rejected |
-| Player charge | 0x0041F810 | 1,210 target / 1,197 candidate; 70 fields; 1,160 overlap differences + 13 absent | Entry register allocation and byte-mode storage |
-| Supervisor received-frame queue | 0x0042E9E0 | 213 target / 213 candidate, 0 fields, 35 full differences | Typed 20-element side queue scan fixed physical extent; `scripts/inspect-supervisor-frame-queue.py`; register allocation and write scheduling remain open |
-| ExAttack Type19 update | 0x0044A330 | **821 physical / 254 instructions / 35 bound fields / 11 calls / 30 matching CFG blocks, 198 whole-byte differences** | Recovered distinct first-Player snapshot and live Side-slot reads; source in `src/ExAttackUpdateType19.cpp`, complete `scripts/inspect-exattack-type19.py`, remains NON-EXACT |
-| ExAttack Type3 update | 0x00442750 | 780 bytes; 38 target-bound fields; 15 linked differences | `middle.z` / tail-X scheduling; use `scripts/inspect-exattack-type3.py` |
-| ExAttack Type19/21 initialization | 0x0044A030 / 0x0044B220 | 763/727 bytes; 57/53 fields; 6/9 linked differences | History/vertex cursor scheduling, distinct from now-exact Type21 update |
+| RunEcl | 0x004086C0 | **15,564 physical** = 14,792 code + 772 table; 598 fields; **30** ordinary byte differences, zero field/table differences | 146/148 handler shapes; opcode 4 (timer argument, 7 bytes) and opcode 155 (flags, 23 bytes); `scripts/inspect-ecl-complete.py` |
+| EnemyManager OnUpdate | 0x00410730 | **3,900 physical**, 97 fields, **39** differences | Four decoded register/copy windows; `scripts/inspect-enemy-manager-update.py --explain` |
+| ExAttack Type19/21 initializers | 0x0044A030 / 0x0044B220 | 763 / 727 bytes; 57 / 53 fields; **6 / 9** differences | Vertex/history-cursor scheduling; `scripts/inspect-exattack-trail-init.py` |
+| ExAttack Type14/22 Draw | 0x00444130 | 959 target / 974 candidate; 53 fields, 20 direct + 12 indirect calls | Record/Extra lifetime, loop scheduling; `scripts/inspect-exattack-type14-22-draw.py`, **NON-EXACT** |
+| ExAttack Type19 Update | 0x0044A330 | 821 bytes, 35 fields, **198** differences | Player-slot and record register residency; `scripts/inspect-exattack-type19.py` |
+| ExAttack Type3 Update | 0x00442750 | 780 bytes, 38 fields, **15** differences | `middle.z` store / tail-X call-argument order |
+| Etama OnDraw | 0x00413BE0 | 600 target / 594 candidate; 27 candidate fields | Laser body VM base, cap and record cursors |
+| Title DrawResult | 0x00423D16 | 1,939 bytes, 82 fields, **22** differences | Score-bank pointer / screen-state read schedule |
+| Title DrawCallback | 0x00424898 | 329 target / 328 candidate, 20 fields | Single missing target `DEC EAX` at `+0x101`; `scripts/inspect-title-draw-callback.py` |
+| Title Options | 0x004276EB | 2,045 target / 2,048 candidate; 135 fields | Configuration/reference lifetimes |
+| Controller input | 0x0042B410 | 808 target / 796 candidate; 32 fields | WinMM X/Y register and read ordering; `scripts/inspect-controller-input.py` |
+| Effect AddedCallback | 0x0040D1C0 | 51 bytes; 4 fields; **8** differing bytes | Original direct global-to-EDI load; `scripts/inspect-effect-added.py` |
+| Enemy collision-box leaf | 0x00410250 | 82 bytes, 2 direct calls, **31** differing bytes | Float3 return-copy schedule; `scripts/inspect-enemy-collision-box.py` |
+| Gameplay setup worker | 0x0041AF2D | 1,689 bytes; 172 target / 171 candidate fields | Reuse-base caching, flags, tail |
+| GameManager OnUpdate | 0x0041AA5F | 1,230 bytes, 87 fields, 105 differences | Input snapshot and entry-zero schedule |
+| Player movement | 0x0041C170 | 1,835 authored / 1,900 physical; 66 fields | Position clamp and register allocation |
+| Supervisor network service | 0x00430AA0 | 1,633 target / 1,632 candidate | Sign test and output workspace |
 
-Other owners, including ExAttack19, PauseMenu and DirectPlay, are routed by
-`config/functions.csv` and `docs/KNOWLEDGE_BASE.md`. SaveReplay stays parked.
+Other unresolved owners (including PauseMenu, Replay, network and remaining
+Title helpers) live in `config/functions.csv`. The exact short-function subset
+is maintained separately in [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md).
 
-## Latest canonical closure: Enemy draw large owner
+## Closed codegen owners and accepted receipts
 
-`EnemyManagerDrawImpl @ 0x00411670` is now strict canonical **exact** in
-unit `enemy-manager-draw-impl`: **1,758/1,758 complete bytes, 53 independently
-bound relocations, 495 instructions and 28 direct calls**. Two pinned VC7.1
-cold maintained-source compilations agree on the raw COFF body and all field
-records; complete relocated SHA-256 matches the verified original at
-`a72d2b0d388417ec0c7590a0bb55451f321403b85c4b36f857ec4cd95f5b4e5b`.
-The significant natural C++ change is a named float result from the wrapped-
-angle interpolation, followed by a `long double` difference and the explicit
-float argument conversion for the existing `EnemyDrawAbs` call. This closes
-exactly the previous four-byte FSUBR/PUSH scheduling residual. Both wrappers
-(35/38 bytes) and the 91-byte interpolation leaf replay exact in the same TU.
-This is **one newly exact authored owner**, not product/runtime acceptance or
-proof of original type/declaration spelling. The Enemy **update** callback,
-3,900/97/39, and Enemy collision-box leaf, 82/2/31, remain non-exact.
+- **`EnemyManagerDrawImpl @ 0x00411670`**: **1,758 / 1,758 complete bytes,
+  53 actual relocations**; pinned match unit `enemy-manager-draw-impl`.
+  Its two draw wrappers and interpolation leaf also remain exact. A real
+  `float` interpolation result, `long double` delta, and explicit float
+  argument conversion resolved the final x87 FSUBR/PUSH scheduling. Factory
+  **pass/accepted** receipt `receipt:44cacda296eb6f3a51916daa49d7a31f9fba8d6c1b8400983bfa3c93d1fead8f`
+  is bound to source commit `480f2028f82b790a080be6f09994736286d0bc95`.
+- **`EtamaController::OnUpdate`**, **`TitleScreenView::OnUpdateMusicRoom`**,
+  **`TitleScreenView::TitleSetupThread`** and **`ExAttackUpdateCallbackType21`**
+  are *already* canonical exact. Four accepted cold replays of these existing
+  owners belong to source commit `f6aa0e960900e90b314b0fb0d77aa3d820b5ffe5`;
+  they are not four new matches.
+- **`EffectManager::OnUpdate`**: **475 authored bytes exact**, with a separate
+  Factory pass/accepted receipt
+  `receipt:9b01a390ab05d73f20cdde28aeed7c67123343bafefd730b004e74db52eb34dd`
+  bound to source commit `5dcd7f2`. The adjacent **Effect AddedCallback is
+  still non-exact**; the receipt does not apply to it.
 
-## Current evidence and rejected controls
-
-RunEcl remains **NON-EXACT**. A fresh canonical carrier compile reproduces
-**30 ordinary differing bytes**, with zero relocation-field or table differences:
-opcode 4 contributes 7 bytes at `+0x0278..+0x0280`, and opcode 155 contributes
-23 bytes at `+0x30B0..+0x30C7`. The normalized handler report agrees on
-**146/148** shapes. Opcode 4 still differs in timer argument preparation;
-opcode 155 emits an AND/OR update instead of the target XOR sequence.
-Opcode 86 now agrees using bounded qualified reads of the genuine remote-slot
-pointer and raw integer argument, calling the real exact ResolveInt helper.
-The old declaration-only member shim has no known definition and is rejected.
-Use the complete-byte inspector and handler reporter together; normalized
-handler agreement grants no canonical or fractional byte credit. Read the
-October 12 opcode7, 39-byte and opcode86 knowledge-base entries before new trials.
-
-Enemy OnUpdate remains 39 differences over its complete 3,900-byte physical
-extent and 97 bound fields. Its inspector checks the four-way switch graph and
-fails closed on unknown symbols, label positions and noncode payloads. Typed
-member assignment, genuine snapshot and by-value trail publication controls
-are already recorded in the knowledge base; do not repeat them unchanged.
-
-Closed owners are removed from the active table. Type21 update is canonical
-exact at **1,074 bytes / 29 fields**, unit `exattack-type21-update`; its whole-Extra
-byte cursor reaches aligned U/V float members with the reviewed 0x1C stride.
-The shared type18/type24 update is exact at **1,436 authored bytes / 44 fields**,
-unit `exattack-type18-24-update`. EffectManager OnUpdate is exact at
-**475 bytes / 11 fields**, unit `effect-manager-update`, using a bounded qualified
-primary-count read. ResolveFloat is exact at **1,633 authored / 2,044 physical
-bytes / 121 fields**, unit `ecl-resolve-float`. Original source/TU spelling,
-native linkage and runtime behavior remain independent of these exact claims.
-
-Historical byte plateaus, rejected source controls and the inconclusive
-`worker-lease-expired` Factory replay belong to `docs/KNOWLEDGE_BASE.md` and Git
-history. They neither describe the current candidate nor grant Factory acceptance.
-
-## Latest RunEcl evidence
-
-The current full-owner comparison is **15,564 physical bytes** (14,792 code and
-772 table bytes), **598 bound fields**, and **30 ordinary differences** with zero
-field/table differences. **146/148** normalized handler shapes agree. The two
-residuals are opcode 4 (7 bytes) and opcode 155 (23 bytes); RunEcl receives no
-exact or fractional credit. Type21 update remains exactly 1,074 bytes /29 fields.
-
-The October 12 inline assignment-helper batch tested 34 complete VC7.1
-carriers. Twenty-two pass the complete identity gate: 16 retain 30 differences,
-six regress to 2,140. Twelve fail closed on code/alignment or physical/field
-coverage. None improves the maintained source. Its compact recipe, source
-patches/hashes and results are in
-`.analysis/gpt-6.1-sol-runecl-assign-conventions-20261012/`; generated source
-copies and COFF/PDB outputs were removed after the producer finished. The
-preceding old-word and `/FAs` listing controls are indexed in the latest
-knowledge-base entries. Compiler listing source comments misattribute opcode
-155; decoded bytes and field/CFG checks remain authoritative for codegen.
-
-Before another RunEcl source trial, read the relevant negative controls in the
-knowledge base and seek new TH09-local evidence. Original C++ spelling, retail
-switches, native product and runtime remain unknown. The earlier CompareOperands
-manifest-label correction and reviewed artifact audit are recorded in the
-knowledge base and Git history.
-
-## Current object caches
-
-| Owner | Cache |
-| --- | --- |
-| RunEcl and Type21 update | `build/matching/EclManager.obj` |
-| Enemy update | `build/matching/EnemyManagerCore.obj` |
-| Enemy draw | `build/matching/EnemyManagerDraw.obj` |
-| Player movement | `build/gpt-6.1-sol-movement-direct-sht-20261009/current-cold.obj` |
-| Replay menu draw | `build/gpt-6.1-sol-replay-detail-frames-20261010/canonical.obj` |
-| Player charge | `build/gpt-6.1-sol-charge-timer-conversion-20261009/canonical.obj` |
-| Supervisor service | `build/gpt-dots-service-packet-owner-20261007/baseline.obj` |
-
-Ignored caches may be cleaned. Rebuild from maintained source/config if an actual
-object or binding is missing. Older Replay draw and type18/type24 cache sizes are
-historical. Preserve the unresolved controls in the KB; repeated operational
-receipts and already-indexed closed journals are recoverable from Git history.
+Factory receipts are **source-commit scoped**. An old accepted job cannot
+prove exactness for a changed compiler-input tree, a different owner or the
+whole product. The canonical exact ledger is local and must always be
+replayable independently.
 
 ## Restart and verification
 
-Read the workflow/Oracle documents and review all dirty work before mutation.
-Call `get_metadata` with exactly `{}` through direct local IDA or the attested
-Factory/Web `th09-ida` provider. In the local shell:
+Read the AGENT rules, active ledgers and dirty/untracked files **before**
+mutations. Through Factory/Web call `th09-ida.get_metadata` with exactly `{}`;
+its passed target attestation includes mapped-byte sampling. The host-only
+`scripts/check-ida-mcp.py` is for **local direct IDA**, not Factory shell.
 
 ```bash
 git status --short --branch
-git diff
+git diff && git diff --cached
 python3 scripts/verify-target.py
-python3 scripts/check-ida-mcp.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 scripts/build-match-unit.py --unit enemy-manager-draw-impl
+python3 scripts/compare-coff-function.py --unit enemy-manager-draw-impl --json
 python3 scripts/build-match-unit.py --unit exattack-type21-update
 python3 scripts/compare-coff-function.py --unit exattack-type21-update --json
 python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj
 python3 scripts/report-ecl-handler-shapes.py --explain all build/matching/EclManager.obj
+python3 scripts/validate-docs.py
+python3 scripts/progress.py --check
+python3 scripts/ci.py
+git diff --check
 ```
 
-Factory/Web uses its attested provider instead of the host-only
-`check-ida-mcp.py`. The RunEcl complete inspector returns 1 for the expected
-nonzero differences; identity or input failures also return 1 and must be
-resolved before using its measurements. Exact-unit comparisons must return 0.
+The **RunEcl** complete inspector returns **1 for known differences**; always
+read the full result and ensure identity/relocation/CFG checks passed. Other
+near-match diagnostics also return nonzero until truly exact. Build an object
+from the **maintained source and the unit's actual VC7.1 flags** before using
+any cached `.obj`; ignored `build/` or `.analysis/` outputs are not proof.
+Do not run the whole historical cohort unnecessarily. Preserve codegen exact
+units when cleaning, and never alter source just to manipulate comparisons.
 
-Rebuild any chosen exact unit before comparing it after cache cleanup. Historical
-proof scripts and whole-file pins belong to their recorded revision: appending
-units or editing reporting scripts can invalidate those pins without changing a
-compiler input. Never silently replace historical input hashes. Finish a bounded
-batch with its focused Oracle, tracking validation, progress generation,
-isolated CI and `git diff --check`. No compiler producer is live at this handoff.
+## Evidence and cleanup boundaries
 
-## October 12 gpt-web cold-replay and candidate checkpoint
+`docs/KNOWLEDGE_BASE.md` is the historical, source-context-bound evidence
+index. Its old **931/49** and **Enemy draw 1,758/4-difference** statements
+are historical, *not* the current state. Only the live tracking CSVs and
+fresh cold comparisons determine current status. `docs/RE_HANDOFF.md` is
+**replace-in-place**, not an append-only dated journal. The old extended
+handoff (including dated `gpt-web` sessions) remains recoverable with
+`git show a02528d:docs/RE_HANDOFF.md`.
 
-From clean `fd9e07d`, fresh forced-recompile Factory replays passed **and were accepted** for four previously canonical exact TH09 functions: EtamaController::OnUpdate (2,195 bytes), ExAttackUpdateCallbackType21 (1,074), TitleScreenView::OnUpdateMusicRoom (2,258) and TitleScreenView::TitleSetupThread (534). These receipts are bound to the **pre-checkpoint** source tree and must not be treated as fresh acceptance for later HEADs; use `factory_get_accepted_snapshot` or submit another clean-bound replay. No new exact function is claimed: 931/980 locally exact, 49 remaining.
-
-New isolated full-TU compiler countermodels on both Type19/21 ExAttack initializers (six paired rim-cursor/lifetime forms), ten EffectManager::AddedCallback small-function forms and a Supervisor::OnUpdate shared-mode-1 join did not improve complete ownership. The Supervisor join even removes two required external effects from the candidate, so is explicitly rejected. The concrete full-owner scores and ignored, reproducible probe drivers are indexed at the end of `docs/KNOWLEDGE_BASE.md`. The maintained RunEcl 15,564/598/30, EnemyDraw 1,758/53/four-difference and EnemyManager OnUpdate 3,900/97/39 baselines were independently rebuilt and verified. Next priority remains source-backed closure of these boss functions and the Type19/21 initializers, together with real leaves. Do not promote a negative control or equate a compiler-codegen diagnostic with Factory accepted exactness.
-
-## October 12 gpt-web Type19 update full-slot correction
-
-From clean `26241f1`, target-confirmed Type19 update now emits the target's **821 bytes / 254 instructions / 35 independently bound fields / 11 ordered direct calls / 30 direct blocks**. An actual first Player read plus separately retained Side slot, followed by independent Record/Extra view derivation, improves the complete resolved comparison from historical 206 to **198 differences**; it is explicitly still **NON-EXACT**, so the authored exact ledger remains **931/980**. The full target-bound comparison and source trial negatives (including the independently tested `MoveRandomBiased` Y-pointer variants) are in the final October 12 entry of `docs/KNOWLEDGE_BASE.md`. Rebuild the maintained update source with the pinned VC7.1 `/O2 /Ob1` profile, then run `scripts/inspect-exattack-type19.py build/matching/ExAttackUpdateType19.obj` (expected nonzero exit for genuine byte differences). The unchanged original and the remaining RunEcl/Enemy/Title priorities are still open.
-
-## October 12 gpt-web fresh ECL and current-snapshot exact checkpoint
-
-The current clean baseline was `f6aa0e9` (Type19 Player-slot correction), three
-local commits ahead of origin/main. Revalidated the original JP 1.50a disk and
-native IDA, **24/24** EclManager-source existing exact functions across **10,607
-full physical bytes and 468 fields**, and the maintained **15,564/598/30** RunEcl
-NON-EXACT owner, with only opcode4 and opcode155 still divergent. Repeat the
-focused `python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj`
-and `python3 scripts/report-ecl-handler-shapes.py --explain all
-build/matching/EclManager.obj`; the first intentionally exits nonzero until
-whole-owner exact. `python3 scripts/compare-coff-function.py --unit
-exattack-type21-update --json` is a strict exact-sibling control.
-
-Four **new Factory forced-recompile pass/accepted receipts bound specifically to
-source commit `f6aa0e9`** confirm previously exact Etama OnUpdate, ExAttack
-Type21 update, MusicRoom update and TitleSetupThread (6,061 target bytes;
-not four new exact functions). Their exact claim IDs, job IDs, receipt IDs and
-limitations are in the final October 12 KB entry. Later documentation-only
-commits do not inherit a Factory-accepted *source-binding* for their new Git
-trees; request a new cold replay for material compiler-input changes.
-
-Bounded current-source negative research without production C++ edits includes
-16 RunEcl opcode155 bitfield/ANM analogues, 15 ExAttack Type3 middle-Z/tail-X
-contexts, 24 Type19 loop-tail permutations, 14 Type19 case/tail variants,
-12 Title DrawResult producer/screen contexts and eight Controller WinMM field
-qualification contexts. Full comparisons fail to improve the maintained
-non-exact owners. The genuine Type3 target writes `middle.z` before preparing
-tail-X; the lone 14-difference alternate moves the zero store too early and is
-not adopted. Correct Type19 loop-tail scores are **12 at 198** and **12 at 201**,
-not the preliminary conversational count. Full results, source hashes, rejected
-input-shape reasons and reproducible ignored drivers are indexed in the
-corresponding KB entry. `gpt-web:` prefix overrides older handoff prefixes.
-
-## October 12 gpt-web Enemy four-region owner analyzer and negative trial checkpoint
-
-Starting clean at `d4add7a`, fresh TH09 original-PE plus attested IDA identity
-and current pinned VC7.1 objects reconfirm **931/980** canonical exact,
-**49** non-exact. `RunEcl` remains **15,564/598/30** (only opcodes4/155);
-`EnemyManager::OnUpdate` remains **3,900 physical bytes, 97 fields, 69
-ordered calls, 39 ordinary linked differences**. Its new maintained `--explain`
-option shows **four target-grounded delta regions** at `+0x19C` (2 bytes),
-`+0x252` (11), `+0x845` (10), `+0x9C0` (16) with full target/candidate
-instruction bytes. Its pure helper lives in `scripts/diagnostic_byte_spans.py`;
-all three new regression tests execute even under CI's Python `-S`. Run `python3 scripts/build-match-unit.py --unit
-enemy-attached-effect-update` and `python3 scripts/inspect-enemy-manager-update.py
---explain build/matching/EnemyManagerCore.obj`; the companion 151-byte
-attached-effect helper is separately strict exact. This is a noncrediting
-full-owner diagnostic, not a new fact about original C++ author spelling.
-
-Cohesive exploratory source-only results cover 123 attempted models across
-Enemy OnUpdate, the 82-byte collision-box leaf, 243-byte network parser,
-ExAttack Type19/21 initializers, Type19 update, EffectManager callback and
-TitleDrawCallback. The results and invalid forms are indexed in the final
-October 12 KB entry; no game C++ was promoted because none improves complete
-owner codegen with intact inputs. In particular the Type19/21 shared vertex
-cursor problem is independently located at target `ADD EDI,14h` before the
-history-cursor setup, and the parser's target newline-return block is before
-its value scan rather than after. Ordinary pointer-declaration permutations
-and goto placement were exhausted here and should not be retried unchanged.
-Original target/game-source ABI, exact ledger and whole-product gates remain
-unchanged. Follow the operator's `gpt-web: ...` commit convention. The previous
-AGENTS.md instructions naming `gpt-6.1-sol` and a push capability are stale;
-Factory Bash can make local commits but not remote pushes.
-
-Fresh focused builds of the **existing canonical exact** units passed: Etama
-OnUpdate 2,216 complete physical bytes (2,195 authored), MusicRoom update
-2,258, TitleSetupThread 534 and ExAttack Type21 update 1,074; all relocations
-and their comparisons are strict. RunEcl remains target-bound but non-exact
-with 30 differences. Source C++ and local canonical ledger stay unchanged;
-no new Factory receipt/owner exactness is inferred from this diagnostics batch.
-
-## October 12 gpt-web collision leaf source-bound Oracle and Etama/Type19-21 addendum
-
-The preceding Enemy four-region `--explain` report and its pure tests were
-already tracked, so no redundant analyzer was created. The *new* maintained
-`python3 scripts/inspect-enemy-collision-box.py
-build/matching/EnemyCollisionBoxAppend.obj --json` is an independent
-complete, noncrediting original-PE comparator for **82 bytes / 30 instructions /
-2 genuine target-bound REL32 calls / 31 differing bytes**. It has four pure
-negative tests, returns status 1 for a nonmatching owner and status 2 for
-badly formed or unreviewed input, and never credits a prefix or unowned code.
-The exact Float3 divide and box-append target helpers are its independent call
-anchors; the callback itself is still **NON-EXACT**.
-
-Twelve independently defined real draw-index accessor controls on the **3,900
-byte/97-field/39-difference** Enemy boss are neutral or regress. Thirteen
-separate `EtamaController::OnDraw` real VM/subobject/laser-cursor controls
-remain **594/600 bytes** at best and do not recover the target `ESI` body
-VM-position cursor. Twelve complete *paired* ExAttack Type19/21 initialization
-preheader cursor-order trials remain at best **6/9 differences** respectively.
-The additional trials are documented in the latest `docs/KNOWLEDGE_BASE.md`
-entry and indexed by source/object digests under ignored `.analysis/gpt-web-...`
-directories. All production C++/headers and the **931/980 exact** ledger remain
-unchanged. The tracked `AGENTS.md` already correctly requires `gpt-web:`
-commits and does not advertise remote-push support. Continue RunEcl 4/155,
-Enemy four regions, and these live Type19/21 cursor and small-leaf gaps.
-
-Factory independently force-recompiled and accepted the **newly exact Enemy draw**
-claim bound to source commit `480f2028f82b790a080be6f09994736286d0bc95`:
-`job:3344c710d115479da6d85a49280a9543`,
-`receipt:44cacda296eb6f3a51916daa49d7a31f9fba8d6c1b8400983bfa3c93d1fead8f`,
-**pass/accepted** with all 1,758 claimed bytes covered. This is an external
-receipt in addition to local 53-field canonical equality, not permission to
-claim a later Git tree has been accepted. Independent Type3 update tests of
-15 float/double/long-double intermediates were neutral to the 780/38/15
-NON-EXACT baseline; see the latest KB addendum for their source-bound evidence.
-
-## October 12 gpt-web Effect leaf ABI-lifetime improvement and independent big-callback negatives
-
-Starting from clean `046401b`, a fresh pinned VC7.1 compile of maintained
-`src/EffectManager.cpp` now brings `EffectManager::AddedCallback @ 0x0040D1C0`
-from **51 bytes/four fields/11 differences** to **51 bytes/four fields/**
-**eight** complete differing bytes; the two exact GetAnm/PreloadAnm call targets,
-one compiled load of the global, genuine `etama.anm` literal, ESI callback-owner
-and EDI retained ANM resource all match independently verified target behavior.
-The remaining global-load/move schedule at +0x03..+0x09/+0x0D is still wrong;
-**NON-EXACT, zero change to 932/980**. `scripts/inspect-effect-added.py`
-is a new complete, fail-closed non-crediting owner validator: compile with
-`python3 scripts/build-match-unit.py --unit effect-manager-update`, then
-`python3 scripts/inspect-effect-added.py build/matching/EffectManager.obj --json`.
-Expected exit 1 for the eight differences, exit 2 for unreviewed input. All
-**15/15** same-TU existing exact units passed cold strict replay; three
-pure-input regression tests include CI's `python -S` behavior.
-
-Large-boss negative-control evidence from another current-source batch is at
-the end of `docs/KNOWLEDGE_BASE.md`: RunEcl opcode4 actual timer allocation
-forms, opcode155 direct comparison against opcode156's naturally XORing flag
-assignment, paired Type19/21 initialization 32-sample cursor lifetime, Title
-DrawResult entry bank/screen scheduling and real Player position callback
-copy/float return types. All were copied to ignored analysis carriers and
-compile from the unchanged target/profile; none is a new exact function.
-The registered Factory-accepted Enemy draw claim is still pinned to prior
-source commit `480f202`, while this Effect leaf remains nonexact.
-
-The **changed EffectManager source snapshot `5dcd7f2`** additionally has a
-forced-recompile Factory **pass/accepted** result for the existing exact
-`EffectManager::OnUpdate` (475/475 claimed bytes):
-`job:0032a1db442a4febbe0d97b656ceccb9`,
-`receipt:9b01a390ab05d73f20cdde28aeed7c67123343bafefd730b004e74db52eb34dd`.
-The scope is only this previously exact function; its receipt cannot promote
-`EffectManager::AddedCallback` (51 bytes, still eight different bytes) or a
-future Git HEAD to exact. The canonical ledger remains 932/980.
+Scratch in `.analysis/` and object caches in `build/` are ignored and
+non-authoritative. Keep compact results and trial recipes for open frontiers.
+This handoff reviewed **19 named `gpt-web-*` trial directories** and deleted
+**491 regenerable `.obj` plus 508 `.pdb` files (90,504,679 bytes)** from their
+top level only. The audited path list, classifications and surviving recipes
+are in ignored `.analysis/gpt-web-handoff-clean-20261012/cleanup.json`.
+**Retained:** all candidate `.cpp`, probe `.py`, result JSON/TXT and copied
+`src/` trees, all other `.analysis/` directories and all `build/` files.
+To reproduce a deleted candidate, rerun that directory's recorded `probe.py`
+with the pinned compiler and compare against the verified original; ignored
+object outputs are not canonical evidence. Remaining scratch, private games,
+provider databases, Wine prefixes and toolchains were **not** bulk-deleted.

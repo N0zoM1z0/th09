@@ -103,6 +103,29 @@ def validate_knowledge_base() -> None:
         raise ValueError(f"duplicate knowledge packets: {', '.join(duplicate_packets)}")
 
 
+def validate_handoff_as_current_snapshot(text: str) -> None:
+    """Reject an append-only packet journal masquerading as live routing.
+
+    Historical ledgers and experiment narratives are intentionally preserved
+    in KNOWLEDGE_BASE and Git history, rather than repeated in the active
+    handoff where an old 931/49 measurement can be mistaken for current state.
+    """
+    required_sections = (
+        "## Live ledger snapshot",
+        "## Active frontiers",
+        "## Restart and verification",
+        "## Evidence and cleanup boundaries",
+    )
+    headings = [line for line in text.splitlines() if line.startswith("## ")]
+    for heading in required_sections:
+        if headings.count(heading) != 1:
+            raise ValueError(f"handoff requires one live section: {heading}")
+    if any(re.match(r"## (?:Packet\s+\d+|(?:20\d\d[-/]|October\s+\d+|"
+                    r"November\s+\d+|December\s+\d+))", heading)
+           for heading in headings):
+        raise ValueError("dated packet journal belongs in KNOWLEDGE_BASE, not the handoff")
+
+
 def validate_handoff_totals() -> None:
     actual = measures()
     expected = {
@@ -257,6 +280,7 @@ def validate_local_links() -> None:
 def main() -> int:
     try:
         validate_knowledge_base()
+        validate_handoff_as_current_snapshot(HANDOFF.read_text(encoding="utf-8"))
         validate_handoff_totals()
         validate_active_frontiers(
             HANDOFF.read_text(encoding="utf-8"),

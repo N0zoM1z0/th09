@@ -55,13 +55,15 @@ downloaded tools are private and never committed.
 
 ## Current status
 
-TH09 reconstruction was **resumed by the user on 2026-10-11**, targeting 95%
-exact reviewed-authored bytes. The latest work is local maintenance following
-RunEcl experiments. Factory/Web and local Codex use their respective attested
-IDA routes and the pinned VC7.1 compiler Oracles. Live coverage comes from the
-ledgers in [`docs/PROGRESS.md`](docs/PROGRESS.md). Remaining work and current
-evidence are in [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md). This measures
-reviewed-authored bytes, not whole-image or runnable-product coverage.
+The current operator targets **95% exact reviewed-authored code bytes**, with
+both large functions (especially RunEcl, Enemy/Etama, TitleScreen and ExAttack)
+and small leaves in scope. Factory/Web and local Codex use their respective
+attested IDA routes and the pinned VC7.1 compiler Oracles. The ledger-derived
+counts are in [`docs/PROGRESS.md`](docs/PROGRESS.md); the replace-in-place
+[`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) is the live routing and restart guide.
+Historical experiments in the knowledge base are not current codegen status.
+This measures confirmed authored bytes, not whole-image or runnable-product
+coverage.
 
 Every new session must attest the target and live IDA database. Current
 exact/non-exact state comes from `config/functions.csv`,
