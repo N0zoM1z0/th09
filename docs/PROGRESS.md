@@ -13,13 +13,13 @@ their boundaries and origins must be reviewed independently.
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
 | Source-present authored bytes | 275,770 |
-| Source-present but non-exact functions | 49 |
-| Source-present but non-exact bytes | 54,284 |
+| Source-present but non-exact functions | 48 |
+| Source-present but non-exact bytes | 52,526 |
 | Authored functions without maintained source | 0 |
 | Authored bytes without maintained source | 0 |
-| Canonical exact functions | 931 |
-| Canonical exact authored bytes | 221,486 |
-| Exact share of reviewed-authored bytes | 80.3155% |
+| Canonical exact functions | 932 |
+| Canonical exact authored bytes | 223,244 |
+| Exact share of reviewed-authored bytes | 80.9530% |
 
 This percentage uses only confirmed authored bytes. Pending or origin-unresolved
 candidates are excluded; later classification may change this denominator.

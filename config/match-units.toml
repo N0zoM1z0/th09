@@ -9112,9 +9112,72 @@ relocations = [
   { offset = 0x5D, type = "REL32", symbol = "?Initialize@EnemyManagerView@@QAEXXZ", target = 0x0040FA70 },
 ]
 
-# EnemyManager draw wrappers are exact while the connected 1,758-byte shared
-# draw body remains source-present/non-exact.  The file-static helper's private
-# EDX/ECX/EAX transport is emitted naturally by VC7.1 and is not a public ABI claim.
+# The complete 1,758-byte shared file-static Enemy renderer and its wrappers
+# now have separate strict canonical exact owners. Original C++ spelling is unknown.
+[units.enemy-manager-draw-impl]
+source = "src/EnemyManagerDraw.cpp"
+object = "build/matching/EnemyManagerDraw.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyManagerDrawImpl"]
+symbol = "?EnemyManagerDrawImpl@@YIHPAUEnemyManagerView@@HH@Z"
+target_address = 0x00411670
+size = 0x6DE
+relocations = [
+  { offset = 0x058, type = "REL32", symbol = "?SetZRotation@EnemyDrawVmView@@QAEXM@Z", target = 0x0040F840 },
+  { offset = 0x084, type = "REL32", symbol = "??HFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0x0A4, type = "DIR32", symbol = "?g_GameManager@@3UEnemyDrawGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x0B3, type = "REL32", symbol = "?TransformPopupX@EnemyDrawGameManagerView@@QAEMM@Z", target = 0x00401680 },
+  { offset = 0x0C1, type = "DIR32", symbol = "?g_GameManager@@3UEnemyDrawGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x0C6, type = "REL32", symbol = "?TransformPopupY@EnemyDrawGameManagerView@@QAEMM@Z", target = 0x004016B0 },
+  { offset = 0x0D2, type = "DIR32", symbol = "?g_AnmManager@@3PAUEnemyDrawAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x0D8, type = "REL32", symbol = "?Draw2D@EnemyDrawAnmManagerView@@QAEHPAUEnemyDrawVmView@@@Z", target = 0x0043AB50 },
+  { offset = 0x0FD, type = "REL32", symbol = "?SetZRotation@EnemyDrawVmView@@QAEXM@Z", target = 0x0040F840 },
+  { offset = 0x113, type = "REL32", symbol = "??HFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0x133, type = "DIR32", symbol = "?g_GameManager@@3UEnemyDrawGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x138, type = "REL32", symbol = "?TransformPopupX@EnemyDrawGameManagerView@@QAEMM@Z", target = 0x00401680 },
+  { offset = 0x146, type = "DIR32", symbol = "?g_GameManager@@3UEnemyDrawGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x14B, type = "REL32", symbol = "?TransformPopupY@EnemyDrawGameManagerView@@QAEMM@Z", target = 0x004016B0 },
+  { offset = 0x1B4, type = "DIR32", symbol = "__real@c4778000", target = 0x0048E5E4 },
+  { offset = 0x1DA, type = "REL32", symbol = "?SetZRotation@EnemyDrawVmView@@QAEXM@Z", target = 0x0040F840 },
+  { offset = 0x233, type = "REL32", symbol = "??HFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0x24D, type = "DIR32", symbol = "?g_GameManager@@3UEnemyDrawGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x25C, type = "REL32", symbol = "?TransformPopupX@EnemyDrawGameManagerView@@QAEMM@Z", target = 0x00401680 },
+  { offset = 0x26A, type = "DIR32", symbol = "?g_GameManager@@3UEnemyDrawGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x26F, type = "REL32", symbol = "?TransformPopupY@EnemyDrawGameManagerView@@QAEMM@Z", target = 0x004016B0 },
+  { offset = 0x27B, type = "DIR32", symbol = "?g_AnmManager@@3PAUEnemyDrawAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x284, type = "REL32", symbol = "?Draw2D@EnemyDrawAnmManagerView@@QAEHPAUEnemyDrawVmView@@@Z", target = 0x0043AB50 },
+  { offset = 0x2CE, type = "DIR32", symbol = "__real@c4778000", target = 0x0048E5E4 },
+  { offset = 0x345, type = "DIR32", symbol = "__real@c4778000", target = 0x0048E5E4 },
+  { offset = 0x37A, type = "REL32", symbol = "?EnemyDrawInterpolateWrappedAngle@@YGMMMM@Z", target = 0x0040F5E0 },
+  { offset = 0x3BF, type = "REL32", symbol = "?EnemyDrawAbs@@YGOM@Z", target = 0x0040F1C0 },
+  { offset = 0x3C5, type = "DIR32", symbol = "__real@3727c5ac", target = 0x0048E310 },
+  { offset = 0x3EF, type = "REL32", symbol = "?EnemyDrawInterpolateWrappedAngle@@YGMMMM@Z", target = 0x0040F5E0 },
+  { offset = 0x3FB, type = "REL32", symbol = "?EnemyDrawAbs@@YGOM@Z", target = 0x0040F1C0 },
+  { offset = 0x401, type = "DIR32", symbol = "__real@3727c5ac", target = 0x0048E310 },
+  { offset = 0x422, type = "REL32", symbol = "?EnemyDrawSin@@YGMM@Z", target = 0x00401070 },
+  { offset = 0x42E, type = "REL32", symbol = "?EnemyDrawCos@@YGMM@Z", target = 0x00401060 },
+  { offset = 0x44C, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x464, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x46A, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
+  { offset = 0x4D8, type = "DIR32", symbol = "__real@42000000", target = 0x0048E5E0 },
+  { offset = 0x4FA, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
+  { offset = 0x52F, type = "DIR32", symbol = "__real@42000000", target = 0x0048E5E0 },
+  { offset = 0x545, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
+  { offset = 0x58D, type = "DIR32", symbol = "?g_AnmManager@@3PAUEnemyDrawAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x59D, type = "REL32", symbol = "?DrawVertices@EnemyDrawAnmManagerView@@QAEHPAUEnemyDrawVmView@@PAUEnemyDrawVertex@@H@Z", target = 0x0043B4D0 },
+  { offset = 0x5D1, type = "DIR32", symbol = "?g_AnmManager@@3PAUEnemyDrawAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x5D6, type = "REL32", symbol = "?Draw2D@EnemyDrawAnmManagerView@@QAEHPAUEnemyDrawVmView@@@Z", target = 0x0043AB50 },
+  { offset = 0x607, type = "REL32", symbol = "?SetZRotation@EnemyDrawVmView@@QAEXM@Z", target = 0x0040F840 },
+  { offset = 0x626, type = "REL32", symbol = "??HFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0x659, type = "REL32", symbol = "??HFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0x679, type = "DIR32", symbol = "?g_GameManager@@3UEnemyDrawGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x688, type = "REL32", symbol = "?TransformPopupX@EnemyDrawGameManagerView@@QAEMM@Z", target = 0x00401680 },
+  { offset = 0x696, type = "DIR32", symbol = "?g_GameManager@@3UEnemyDrawGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x69B, type = "REL32", symbol = "?TransformPopupY@EnemyDrawGameManagerView@@QAEMM@Z", target = 0x004016B0 },
+  { offset = 0x6A7, type = "DIR32", symbol = "?g_AnmManager@@3PAUEnemyDrawAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x6AD, type = "REL32", symbol = "?Draw2D@EnemyDrawAnmManagerView@@QAEHPAUEnemyDrawVmView@@@Z", target = 0x0043AB50 },
+]
+
 [units.enemy-manager-draw-high-prio]
 source = "src/EnemyManagerDraw.cpp"
 object = "build/matching/EnemyManagerDraw.obj"

@@ -24,14 +24,14 @@ These totals are checked against the live ledgers by scripts/validate-docs.py.
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 931 |
-| Source-present non-exact functions | 49 |
-| Source-present non-exact bytes | 54,284 |
+| Canonical exact functions | 932 |
+| Source-present non-exact functions | 48 |
+| Source-present non-exact bytes | 52,526 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 221,486 |
+| Canonical exact authored bytes | 223,244 |
 
-The currently confirmed authored denominator is **275,770 bytes**: **80.3155%**
-exact. Another **40,496 bytes** are needed for 95% of that denominator. The 35
+The currently confirmed authored denominator is **275,770 bytes**: **80.9530%**
+exact. Another **38,738 bytes** are needed for 95% of that denominator. The 35
 origin-unresolved candidates are separate; later classification can change the
 denominator. Faithful Windows i386 product/runtime gates remain open; semantic
 reconstruction and portability have not started.
@@ -58,7 +58,6 @@ to recorded candidates and must be replayed before further work.
 | Controller input | 0x0042B410 | **808 target / 796 candidate**, 32 independently decoded fields, 102 overlapping differences + 12 missing | Restored four true `JOYCAPSA` array-indexed member address operands; remaining X/Y register and ordering frontier, `scripts/inspect-controller-input.py` |
 | Player movement | 0x0041C170 | 1,835 authored / 1,900 physical; 66 fields; 144 differences | Clamp/register allocation; direct SHT controls rejected |
 | Player charge | 0x0041F810 | 1,210 target / 1,197 candidate; 70 fields; 1,160 overlap differences + 13 absent | Entry register allocation and byte-mode storage |
-| Enemy draw | 0x00411670 | 1,758 bytes; 53 fields; 4 differences | Second subtraction/Abs scheduling |
 | Supervisor received-frame queue | 0x0042E9E0 | 213 target / 213 candidate, 0 fields, 35 full differences | Typed 20-element side queue scan fixed physical extent; `scripts/inspect-supervisor-frame-queue.py`; register allocation and write scheduling remain open |
 | ExAttack Type19 update | 0x0044A330 | **821 physical / 254 instructions / 35 bound fields / 11 calls / 30 matching CFG blocks, 198 whole-byte differences** | Recovered distinct first-Player snapshot and live Side-slot reads; source in `src/ExAttackUpdateType19.cpp`, complete `scripts/inspect-exattack-type19.py`, remains NON-EXACT |
 | ExAttack Type3 update | 0x00442750 | 780 bytes; 38 target-bound fields; 15 linked differences | `middle.z` / tail-X scheduling; use `scripts/inspect-exattack-type3.py` |
@@ -66,6 +65,23 @@ to recorded candidates and must be replayed before further work.
 
 Other owners, including ExAttack19, PauseMenu and DirectPlay, are routed by
 `config/functions.csv` and `docs/KNOWLEDGE_BASE.md`. SaveReplay stays parked.
+
+## Latest canonical closure: Enemy draw large owner
+
+`EnemyManagerDrawImpl @ 0x00411670` is now strict canonical **exact** in
+unit `enemy-manager-draw-impl`: **1,758/1,758 complete bytes, 53 independently
+bound relocations, 495 instructions and 28 direct calls**. Two pinned VC7.1
+cold maintained-source compilations agree on the raw COFF body and all field
+records; complete relocated SHA-256 matches the verified original at
+`a72d2b0d388417ec0c7590a0bb55451f321403b85c4b36f857ec4cd95f5b4e5b`.
+The significant natural C++ change is a named float result from the wrapped-
+angle interpolation, followed by a `long double` difference and the explicit
+float argument conversion for the existing `EnemyDrawAbs` call. This closes
+exactly the previous four-byte FSUBR/PUSH scheduling residual. Both wrappers
+(35/38 bytes) and the 91-byte interpolation leaf replay exact in the same TU.
+This is **one newly exact authored owner**, not product/runtime acceptance or
+proof of original type/declaration spelling. The Enemy **update** callback,
+3,900/97/39, and Enemy collision-box leaf, 82/2/31, remain non-exact.
 
 ## Current evidence and rejected controls
 

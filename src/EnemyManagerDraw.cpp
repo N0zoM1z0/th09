@@ -278,11 +278,16 @@ static int EnemyManagerDrawImpl(
                                     if (static_cast<float>(EnemyDrawAbs(previousAngle - angle)) <
                                             0.00001f)
                                     {
+                                        // Preserve the Float3/angle helper's float return,
+                                        // then the distinct long-double difference lifetime.
+                                        const float interpolated =
+                                            EnemyDrawInterpolateWrappedAngle(
+                                                enemy->trailSamples33E8[nextSample - 1].angle18,
+                                                enemy->trailSamples33E8[sampleStride].angle18,
+                                                0.5f);
+                                        long double delta = angle - interpolated;
                                         if (static_cast<float>(EnemyDrawAbs(
-                                                angle - EnemyDrawInterpolateWrappedAngle(
-                                                    enemy->trailSamples33E8[nextSample - 1].angle18,
-                                                    enemy->trailSamples33E8[sampleStride].angle18,
-                                                    0.5f))) < 0.00001f)
+                                                static_cast<float>(delta))) < 0.00001f)
                                         {
                                             vertexCount -= 2;
                                             continue;
