@@ -138,25 +138,26 @@ Final validation passes: `validate-tracking.py`, regenerated progress,
 ## Current RunEcl continuation
 
 The local RunEcl campaign remains **active-incomplete**, continuing from pushed
-`f6714a1`. The latest 61 successfully compiled carriers test fully implemented
-inline timer/flags helpers, return-value compositions, genuine member methods,
-whole jump operations, narrow wire packet views and the whole-switch allocator
-scope. Thirty-six retain 30 differences, eleven regress, and fourteen fail
-closed on physical/input coverage or code/alignment. No maintained game source
-or exact credit changes. The earlier 72 snapshot models are recorded separately
-in the knowledge base and must not be repeated unchanged.
+`1a66880`. The latest 89 successfully compiled carriers test real helper linkage,
+aggregate storage/publication, member qualification, value/return objects,
+branch syntax, shared flag updates, TU position and operand-accessor convention.
+Fifty retain 30 differences, eleven regress and twenty-eight fail closed.
+No maintained game source, profile or exact credit changes. Earlier 72/61-model
+batches remain separate knowledge-base controls and must not be repeated unchanged.
 
-The final current-source cold carrier still reproduces 15,564 physical bytes,
-598 independent field identities, 30 ordinary differences and 146/148 handler
-shapes. All 24 configured EclManager-source exact units retain 10,607 complete
-bytes /468 fields. Precise models and the declaration/include isolation pitfall
-are in the October 12 inline-helper knowledge-base entry; compact reproducible
-scratch is `.analysis/gpt-6.1-sol-runecl-inline-20261012/`.
+The final current-source cold carrier reproduces 15,564 physical bytes,
+598 independent field identities, 30 ordinary differences and 146/148 shapes.
+All 24 configured exact EclManager-source units retain 10,607 complete bytes
+/468 fields. Precise models and exclusions are in the October 12 storage/linkage
+knowledge-base entry; compact reproducible scratch is
+`.analysis/gpt-6.1-sol-runecl-storage-20261012/`.
 
-Next work reviews the actual operand helper declarations and inline visibility,
-then the surrounding allocator source family. Original source spelling and
-native product remain unknown. Verified local checkpoints are committed and
-pushed under the current operator instructions.
+The actual compiler core matches its fixed provider Git blobs and no ambient
+CL/_CL_ flags are present. The current wrapper pins only the driver; strengthen
+core DLL checks next, preserving the current compiler bytes and canonical flags.
+Further source/codegen work needs a distinct hypothesis beyond these local
+models. Original source spelling, original flags and native product remain
+unknown. Verified checkpoints are committed and pushed.
 
 ## Current object caches
 
