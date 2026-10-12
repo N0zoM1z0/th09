@@ -137,29 +137,33 @@ Final validation passes: `validate-tracking.py`, regenerated progress,
 
 ## Current RunEcl continuation
 
-The local RunEcl campaign remains **active-incomplete**, continuing from pushed
-`c972676`. Thirty-two complete flag-view/input controls retain the 30-byte best
-frontier: anonymous surrounding bit ranges, a fully spelled reviewed flags word,
-reference/widened byte input, and signed/plain-char input, each with ordinary or
-qualified bitfield writes. Twenty pass the full identity gate; twelve fail the
-reviewed code/alignment split. No candidate improves or replaces game code.
-The opcode155 comment now explicitly records its unresolved AND/OR versus target
-XOR update, instead of claiming target instruction scheduling was recovered.
+The RunEcl campaign remains **active-incomplete**, continuing from pushed
+`9779dad`. A verified target restart-prefix review shows no handler-local
+EAX/ECX/EDX/ESI value surviving from opcode4/155 to a source-level consumer under
+the maintained ABI. This bounded observation does not recover original locals.
+Twenty-four existing-scalar reuse controls and 24 one-byte payload lvalue
+controls do not improve the 30-byte best frontier; rejected physical/identity
+shapes remain separate from linked scores. Maintained game source is unchanged.
 
-The current-source carrier reproduces 15,564 physical bytes, 598 independently
-bound fields, 30 ordinary differences and 146/148 normalized shapes. Differences
-remain in opcode4 (7 bytes) and opcode155 (23 bytes); field/table differences are
-zero. All 24 configured EclManager-source exact units retain 10,607 complete bytes
-/468 fields. Compiler core files are pinned and CL/_CL_ options cleared; CI
-passes 135 tests, with 11 skipped. Exact credit is unchanged at 931/980 units.
-Compact controls are indexed in the latest flag-view knowledge-base entry.
+Fixed-source /Z7 and /Zd diagnostics reproduce the canonical raw owner exactly.
+The no-debug compile omits a function auxiliary record unsupported by the full
+inspector's default reader. Its independently checked dedicated COMDAT section
+has identical complete bytes and all 598 effective field identities to the
+current independently audited carrier. This is diagnostic equivalence, not a
+parser change or exactness promotion. See the latest knowledge-base entry for
+counts and compact reproduction paths.
 
-The timer setter's EAX residue still does not establish an integer-return ABI;
-the prior bounded direct-caller audit found no positive consumer. Keep its void
-contract. Earlier CPU/interface and 72/61/89-model source controls are excluded.
-Next inspect register liveness at the actual opcode4/155 control-flow joins,
-using target versus current carrier evidence to motivate any new source family.
-Original source ownership, retail compiler switches and native product remain
+The final current-source cold replay remains **15,564 physical bytes /598 fields
+/30 ordinary differences**, zero field/table differences, **146/148** normalized
+shapes. Opcode4 contributes seven differences and opcode155 23. Type21 update
+replays all 1,074 bytes /29 fields exactly. Other exact units reuse their prior
+unchanged-input proofs; credit remains 931/980 units. Tracking/progress/CI
+passes (135 tests, 11 skipped). Compiler core pins and cleared CL/_CL_ remain.
+
+Next review the actual out-of-line helper visibility and inlining profile as a
+coupled hypothesis, preserving independently known callee definitions and ABI.
+Do not replay the excluded scalar/lvalue/debug controls or invent a timer return
+contract. Original source ownership, retail switches and native product remain
 unknown. Verified checkpoints are committed and pushed.
 
 ## Current object caches
