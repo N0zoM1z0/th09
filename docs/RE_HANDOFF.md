@@ -137,35 +137,34 @@ Final validation passes: `validate-tracking.py`, regenerated progress,
 
 ## Current RunEcl continuation
 
-The campaign remains **active-incomplete**, continuing from pushed `08c570e`.
-Seventy complete carrier controls test actual handler-local advance tails,
-flags exposed directly in the existing union, coupled bit24/bit7 assignments,
-consumed low-bit boolean snapshots, ordinary-input XOR snapshots, and possible
-compiler narrowing of integer operands. None improves the best validated
-30-byte full-owner result. Rejected shapes are not assigned a linked score;
-all maintained game source, ABI, profiles and credit stay unchanged.
+The campaign remains **active-incomplete**, continuing from pushed `744cdf5`.
+Twenty-four previously untested old-word captures (qualified signed int,
+signed/unsigned long, and corresponding signed-int reference; byte/word inputs,
+ordinary/qualified reads) do not improve RunEcl. Three pass the full identity
+gate at 30 differences; 21 reject (11 code/alignment, ten physical/field coverage).
+All maintained game source, ABI, profiles and exact credit remain unchanged.
 
-The direct opcode155 advance keeps that handler's current instructions, but
-changes opcode156/157 allocation, leaving 144/148 normalized shapes and 2,122
-full differences. This confirms adjacent-handler coupling in this source
-context; it is not opcode155 progress. Canonical-source cold replay still has
-**15,564 bytes /598 fields /30 ordinary differences**, zero field/table
-differences and **146/148** shapes (only opcodes4/155). One short-input model
-narrows its load to a byte but changes read order and retains 31 differences;
-most wider-input models actually read wider. Wire storage remains unknown and
-no wider-payload assumption is adopted. See the latest knowledge-base entry.
+Canonical and fresh copied-source /FAs controls produce identical complete raw
+RunEcl bytes and 30 linked differences. Actual include output confirms the six
+copied fragments. Neither residual handler has hidden stack spills. The listing
+source comments misattribute opcode155's instructions to a RawByte<<7 line from
+opcode156, even at a fresh path. Treat these comments as diagnostic hints only,
+never original source or statement-ownership evidence. The underlying cause is
+unknown; byte/field/CFG comparison is independent of these comments.
 
-Type21 update replays 1,074 bytes /29 fields exactly. Other exact units reuse
-unchanged-input proofs; tracking/progress/CI pass (135 tests, 11 skipped).
-Exact credit remains 931/980 units. The prior bounded timer-return chain audit
-still establishes no source return type; keep the existing void interface.
+The final canonical cold carrier remains **15,564 bytes /598 fields /30 ordinary
+differences**, zero field/table differences and **146/148** shapes. Opcode4 has
+seven differences and opcode155 23. Type21 update remains 1,074 bytes /29 fields
+exact; other units reuse unchanged-input proofs. Tracking/progress/CI passes
+(135 tests, 11 skipped); exact credit remains 931/980 units.
 
-Next review old-flags operand signedness and reference versus scalar capture
-in the coupled update expression, then use actual compiler listings to localize
-any useful difference. Do not replay the recorded tail, union, Boolean or
-integer-narrowing controls. Original source ownership, retail switches and
-native product/runtime remain unknown. Verified checkpoints are committed and
-pushed; generated session clones and COFF/PDB caches are removed.
+Next investigate full, truthfully defined inline assignment helpers' argument
+conventions/evaluation context while preserving the real timer/flag effects and
+all target callee ABIs. Do not repeat the excluded operand/linkage, capture or
+listing controls, or fabricate a timer return. Original source ownership,
+retail switches and native product/runtime remain unknown. Compact evidence is
+indexed in the latest knowledge-base entry; generated session copies and
+compiler outputs are removed. Verified checkpoints are committed and pushed.
 
 ## Current object caches
 
