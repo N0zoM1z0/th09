@@ -96,8 +96,11 @@ is maintained separately in [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTI
 - **`DrawSingleBullet @ 0x00413AF0`**: 215/215 authored, 232/232 complete
   physical bytes with all 16 relocations. The refreshed same-TU compiler-private
   switch-table `$L1914` is independently at target +0xD8; the original jump
-  operand remains `0x00413BC8`. This **repairs an existing exact replay
-  manifest**, without adding an exact function or promoting nonexact OnDraw.
+  operand remains `0x00413BC8`. Factory `pass/accepted` cold receipt
+  `receipt:cf9834542cf3bf1116ac4e83a7599ad103611eec1df388a0ae1bc18bdf7d0260` binds the clean
+  source commit `fd63e67c16d1a0e822af4f88ed8e544665a42969` and confirms
+  this **existing** exact replay, without adding an exact function or promoting
+  nonexact OnDraw.
 - **`EtamaController::OnUpdate`**, **`TitleScreenView::OnUpdateMusicRoom`**,
   **`TitleScreenView::TitleSetupThread`** and **`ExAttackUpdateCallbackType21`**
   are *already* canonical exact. Four accepted cold replays of these existing
