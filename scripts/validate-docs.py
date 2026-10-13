@@ -6,6 +6,7 @@ from collections import Counter
 from pathlib import Path
 import re
 import sys
+import tomllib
 
 from progress import measures, rows
 
@@ -155,6 +156,108 @@ def validate_handoff_totals() -> None:
         raise ValueError(f"handoff totals differ from ledgers: {observed} != {expected}")
 
 
+def validate_accepted_owner_table(
+    text: str, match_rows: list[dict[str, str]], units: dict[str, dict]
+) -> None:
+    """Keep the handoff's recent accepted-owner table tied to live manifests.
+
+    Receipt acceptance itself is established by the separate Factory Oracle;
+    this validates only local owner identity, bytes, fields and receipt syntax.
+    """
+    section = "## Closed codegen landmarks and accepted receipts"
+    if text.count(section) != 1:
+        raise ValueError("handoff accepted-owner section is missing or duplicated")
+    body = text.split(section, 1)[1].split("\n## ", 1)[0]
+    if re.search(r"\b(?:receipt pending|acceptance pending)\b", body, re.I):
+        raise ValueError("accepted-owner section still claims a pending receipt")
+
+    by_address = {row["address"].lower(): row for row in match_rows}
+    seen: set[str] = set()
+    active = False
+    for line in body.splitlines():
+        if line.startswith("| Exact owner |"):
+            if active:
+                raise ValueError("duplicate accepted-owner table")
+            active = True
+            continue
+        if not active:
+            continue
+        if not line.startswith("| "):
+            if seen:
+                break
+            continue
+        if line.startswith("| ---"):
+            continue
+        cells = table_cells(line)
+        if len(cells) != 4:
+            raise ValueError("accepted-owner row requires four cells")
+        owner, description, unit_cell, receipt_cell = cells
+        address = re.search(r"`(0x[0-9A-Fa-f]{8})`", description)
+        sizes = re.search(r"\*\*([\d,]+)/([\d,]+)\*\*", description)
+        fields = re.search(r"(\d+) fields", description)
+        unit_name = re.fullmatch(r"`([a-z0-9-]+)`", unit_cell)
+        commit = re.search(r"`([0-9a-f]{7,40})`", receipt_cell)
+        receipt = re.search(r"`receipt:([0-9a-f]{64})`", receipt_cell)
+        if not all((address, sizes, fields, unit_name, commit, receipt)):
+            raise ValueError(f"accepted-owner evidence is incomplete: {owner}")
+        canonical_name = unit_name.group(1)
+        if canonical_name in seen:
+            raise ValueError(f"duplicate accepted exact unit: {canonical_name}")
+        seen.add(canonical_name)
+        unit = units.get(canonical_name)
+        match = by_address.get(address.group(1).lower())
+        if unit is None or match is None:
+            raise ValueError(f"accepted owner lacks canonical exact ledger: {canonical_name}")
+        expected_size = int(unit["size"])
+        if not (
+            int(unit["target_address"]) == int(address.group(1), 16)
+            and unit["functions"] == [owner.strip("`")]
+            and match["name"] == owner.strip("`")
+            and match["unit"] == canonical_name
+            and match["status"] == "matching"
+            and int(sizes.group(1).replace(",", "")) == expected_size
+            and int(sizes.group(2).replace(",", "")) == expected_size
+            and int(fields.group(1)) == len(unit["relocations"])
+        ):
+            raise ValueError(f"accepted owner differs from live manifest: {canonical_name}")
+    if not seen:
+        raise ValueError("handoff requires recent accepted-owner rows")
+
+
+def validate_handoff_derived_summary(text: str, actual: dict[str, int]) -> None:
+    """Do not let prose silently retain yesterday's exactness snapshot.
+
+    The live totals table is checked separately; this checks the percentage,
+    remaining 95% gap, and restart-summary copy of those same numbers.
+    Historical packet counters belong only in KNOWLEDGE_BASE/Git history.
+    """
+    reviewed_bytes = actual["authored_bytes"]
+    exact_bytes = actual["exact_bytes"]
+    if reviewed_bytes <= 0 or not 0 <= exact_bytes <= reviewed_bytes:
+        raise ValueError("invalid authored-byte denominator in live ledger")
+
+    ratio = (
+        f"**{exact_bytes:,} / {reviewed_bytes:,} reviewed-authored bytes = "
+        f"{100 * exact_bytes / reviewed_bytes:.4f}% exact**"
+    )
+    if text.count(ratio) != 1:
+        raise ValueError("handoff exact-byte percentage differs from live ledgers")
+
+    # Integer ceil(0.95 * reviewed_bytes), without floating-point rounding.
+    target_95 = (95 * reviewed_bytes + 99) // 100
+    remaining = max(0, target_95 - exact_bytes)
+    gap = re.search(r"(?:another|remaining) \*\*([\d,]+)\s+bytes\*\*", text)
+    if gap is None or int(gap.group(1).replace(",", "")) != remaining:
+        raise ValueError("handoff 95% gap differs from live ledgers")
+
+    snapshot = (
+        f"**{actual['implemented']} source-present / "
+        f"{actual['matches']} exact / {actual['source_nonexact']} non-exact**"
+    )
+    if text.count(snapshot) != 1:
+        raise ValueError("handoff restart snapshot differs from live ledgers")
+
+
 def validate_active_frontiers(
     text: str,
     functions: list[dict[str, str]],
@@ -282,6 +385,14 @@ def main() -> int:
         validate_knowledge_base()
         validate_handoff_as_current_snapshot(HANDOFF.read_text(encoding="utf-8"))
         validate_handoff_totals()
+        validate_handoff_derived_summary(
+            HANDOFF.read_text(encoding="utf-8"), measures()
+        )
+        with (ROOT / "config" / "match-units.toml").open("rb") as handle:
+            match_units = tomllib.load(handle)["units"]
+        validate_accepted_owner_table(
+            HANDOFF.read_text(encoding="utf-8"), rows("matches.csv"), match_units
+        )
         validate_active_frontiers(
             HANDOFF.read_text(encoding="utf-8"),
             rows("functions.csv"),

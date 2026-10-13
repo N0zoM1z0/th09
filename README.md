@@ -77,7 +77,9 @@ but the complete translation-unit graph, resources, data owners, compiler
 profiles, and link order remain open. `config/build.toml` records that state
 instead of pretending the project is buildable.
 
-Run `python3 scripts/progress.py` to regenerate the status card and
+Run `python3 scripts/progress.py` to regenerate the status card,
+`python3 scripts/validate-docs.py` to catch stale handoff totals, percentage,
+95% gap, non-exact routing and accepted-owner manifest/receipt entries, and
 `python3 scripts/ci.py` for the target-independent validation set. The ignored
 `build/` directory is deliberately cleared before handoff; replay a function
 by running `python3 scripts/build-match-unit.py --unit NAME` before its

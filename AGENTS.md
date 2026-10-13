@@ -131,4 +131,7 @@ analysis database is working state; mirror durable conclusions into the repo.
 - Never commit the original executable, game archives/data, IDA databases,
   toolchains, generated decompiler text, credentials, or private endpoints.
 - Finish with the focused Oracle, `python3 scripts/validate-tracking.py`,
-  `python3 scripts/progress.py`, `python3 scripts/ci.py`, and `git diff --check`.
+  `python3 scripts/validate-docs.py`, `python3 scripts/progress.py --check`,
+  `python3 scripts/ci.py`, and `git diff --check`. Accepted receipts are
+  source-commit scoped; document the actual accepted claim and receipt, never
+  an outstanding replay as already accepted.

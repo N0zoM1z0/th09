@@ -35,6 +35,96 @@ class KnowledgeStateTests(unittest.TestCase):
         )
 
 
+class HandoffDerivedSummaryTests(unittest.TestCase):
+    ACTUAL = {
+        "authored_bytes": 275770, "exact_bytes": 224124,
+        "implemented": 980, "matches": 935, "source_nonexact": 45,
+    }
+    SUMMARY = (
+        "**224,124 / 275,770 reviewed-authored bytes = 81.2721% exact**.\n"
+        "To reach 95%, another **37,858\nbytes** must be exact.\n"
+        "counts are the verified **980 source-present / 935 exact / "
+        "45 non-exact**.\n"
+    )
+
+    def test_live_summary_is_accepted(self) -> None:
+        VALIDATE_DOCS.validate_handoff_derived_summary(self.SUMMARY, self.ACTUAL)
+
+    def test_old_percentage_is_rejected_even_if_table_is_current(self) -> None:
+        stale = self.SUMMARY.replace("81.2721%", "81.1252%")
+        with self.assertRaisesRegex(ValueError, "percentage"):
+            VALIDATE_DOCS.validate_handoff_derived_summary(stale, self.ACTUAL)
+
+    def test_old_95_percent_gap_is_rejected(self) -> None:
+        stale = self.SUMMARY.replace("37,858", "38,263")
+        with self.assertRaisesRegex(ValueError, "95% gap"):
+            VALIDATE_DOCS.validate_handoff_derived_summary(stale, self.ACTUAL)
+
+    def test_old_restart_summary_is_rejected(self) -> None:
+        stale = self.SUMMARY.replace("935 exact / 45", "934 exact / 46")
+        with self.assertRaisesRegex(ValueError, "restart snapshot"):
+            VALIDATE_DOCS.validate_handoff_derived_summary(stale, self.ACTUAL)
+
+    def test_zero_denominator_does_not_divide_by_zero(self) -> None:
+        with self.assertRaisesRegex(ValueError, "denominator"):
+            VALIDATE_DOCS.validate_handoff_derived_summary(
+                self.SUMMARY, {**self.ACTUAL, "authored_bytes": 0}
+            )
+
+
+class AcceptedOwnerTableTests(unittest.TestCase):
+    ADDRESS = "0x004182E0"
+    UNIT = "front-message-load-for-side-count"
+    RECEIPT = "a" * 64
+    ROW = (
+        "| `FrontMessageRuntimeView::LoadForSideCount` | `0x004182E0`, "
+        "**405/405**, 18 fields | `front-message-load-for-side-count` | "
+        "`4d921a2`; `receipt:" + RECEIPT + "` |"
+    )
+    HEADER = "## Closed codegen landmarks and accepted receipts\n"
+    TABLE = (
+        "| Exact owner | Target/bytes | Canonical unit | Accepted source commit and receipt |\n"
+        "| --- | --- | --- | --- |\n"
+    )
+    UNITS = {UNIT: {
+        "size": 405, "target_address": 0x004182E0,
+        "functions": ["FrontMessageRuntimeView::LoadForSideCount"],
+        "relocations": [{}] * 18,
+    }}
+    MATCHES = [{
+        "address": ADDRESS, "name": "FrontMessageRuntimeView::LoadForSideCount",
+        "unit": UNIT, "status": "matching",
+    }]
+
+    def test_complete_recent_acceptance_row_is_valid(self) -> None:
+        VALIDATE_DOCS.validate_accepted_owner_table(
+            self.HEADER + self.TABLE + self.ROW, self.MATCHES, self.UNITS
+        )
+
+    def test_stale_address_or_field_count_is_rejected(self) -> None:
+        for row in (
+            self.ROW.replace("0x004182E0", "0x004182E1"),
+            self.ROW.replace("18 fields", "17 fields"),
+            self.ROW.replace("405/405", "403/405"),
+        ):
+            with self.subTest(row=row), self.assertRaises(ValueError):
+                VALIDATE_DOCS.validate_accepted_owner_table(
+                    self.HEADER + self.TABLE + row, self.MATCHES, self.UNITS
+                )
+
+    def test_invalid_receipt_or_stale_pending_caption_is_rejected(self) -> None:
+        broken = self.ROW.replace("receipt:" + self.RECEIPT, "receipt:pending")
+        with self.assertRaisesRegex(ValueError, "incomplete"):
+            VALIDATE_DOCS.validate_accepted_owner_table(
+                self.HEADER + self.TABLE + broken, self.MATCHES, self.UNITS
+            )
+        with self.assertRaisesRegex(ValueError, "pending receipt"):
+            VALIDATE_DOCS.validate_accepted_owner_table(
+                self.HEADER + "receipt pending\n" + self.TABLE + self.ROW,
+                self.MATCHES, self.UNITS
+            )
+
+
 class MarkdownLinkTests(unittest.TestCase):
     def test_code_examples_are_not_local_links(self) -> None:
         text = """`g_EclExInsn[READ_I(...)](enemy, instruction)` and [handoff](docs/RE_HANDOFF.md)

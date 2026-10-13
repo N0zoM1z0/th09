@@ -1,4 +1,4 @@
-# TH09 verified knowledge
+# TH09 evidence index and historical experiment archive
 
 This file stores durable TH09 facts and useful negative results. Cross-game
 promotion is a later Factory review, never an automatic action here.
@@ -20,6 +20,35 @@ in Git (for example, `git log -G '^## Packet 418 ' -- docs/KNOWLEDGE_BASE.md`).
 Ignored `build/` and `.analysis/` paths may have been cleaned; a missing artifact
 alone neither proves nor refutes a claim. Reproduce from tracked source/config,
 the verified target and pinned toolchain before relying on historical evidence.
+
+**2026-10-13 supersession guide (do not apply packet-era claims to HEAD):**
+The current canonical source ledgers and the compact
+[`RE_HANDOFF.md`](RE_HANDOFF.md) control the live routing. In particular:
+
+- Both `FrontMessageRuntimeView::LoadForSideCount @ 0x004182E0` **and**
+  `ReleaseForSideCount @ 0x00417520` are now independently exact and have
+  Factory `pass / accepted` receipts tied to source commits `4d921a2` and
+  `99ea00b`. Older packets describing either as 403/405, 268/271,
+  source-absent or permanently non-exact are **superseded**. Their separate
+  target identities and exact ledgers must not be merged.
+- `PlayerShotDrawCallbackType1 @ 0x00442220` is exact on the accepted
+  `495e944` source snapshot; previous merged-return plateaus are history.
+- `EtamaController::OnUpdate`, TitleSetupThread and MusicRoom update/draw,
+  `ExAttackUpdateCallbackType21` and `DrawSingleBullet` remain canonical
+  exact. The **distinct** `EtamaController::OnDraw` remains **non-exact**
+  (latest recorded full 600-byte comparison: 268 different bytes), and
+  `ExAttackUpdateCallbackType3` remains **non-exact** (latest 14 bytes,
+  not the older 15-byte plateau). `RunEcl` remains non-exact (30 different
+  bytes in its 15,564-byte physical owner).
+- The match unit's **current** `DrawSingleBullet` compiler-private selector
+  is `$L1937` at +0x17, whereas `$L1914`, `$L1921` and `$L1930` were observed
+  under **older source/compiler input trees**. The original absolute table
+  pointer `0x00413BC8` and normalized same-section offset are unchanged;
+  never substitute a packet's `$L` spelling for the current manifest.
+
+These are a **dated supersession index**, not a second mutable exactness
+ledger. After subsequent commits, use the verified target, `config/` ledgers
+and fresh codegen replays before copying a number into the live handoff.
 
 | ID | Recorded state | Fact | Evidence |
 | --- | --- | --- | --- |

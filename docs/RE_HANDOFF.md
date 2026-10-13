@@ -8,9 +8,12 @@
 
 ## Operator instructions and identity
 
-Continue original Japanese **TH09 v1.50a** reconstruction, attacking large
-boss functions **and** short leaves, with RunEcl, Enemy/Etama, TitleScreen and
-ExAttack the main priorities. Use **`gpt-web: ...`** for each new local commit;
+Continue original Japanese **TH09 v1.50a** reconstruction, attacking both
+large boss functions and short leaves. Prioritize `RunEcl`, `EnemyManager::OnUpdate`,
+`EtamaController::OnDraw`, ExAttack Type19/21 initialization and unresolved
+TitleScreen callbacks. **`EtamaController::OnUpdate`, TitleSetupThread,
+MusicRoom update/draw and ExAttack Type21 update are already exact**: protect
+those matches with cold regressions, do not reopen them as non-exact tasks. Use **`gpt-web: ...`** for each new local commit;
 commit substantive, verified progress. This is a single-writer worktree:
 **inspect and finish dirty/untracked changes**, not avoid or reset them.
 Factory's repository shell has no network push transport. Never claim a local
@@ -89,51 +92,45 @@ Other unresolved owners (including PauseMenu, Replay, network and remaining
 Title helpers) live in `config/functions.csv`. The exact short-function subset
 is maintained separately in [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md).
 
-## Closed codegen owners and accepted receipts
+## Closed codegen landmarks and accepted receipts
 
-- **`FrontMessageRuntimeView::LoadForSideCount @ 0x004182E0` — newly canonical exact (commit/receipt pending):** pinned VC7.1 `/O2 /Ob1 /Oi /Oy- /Gr` emits **405/405 original bytes, 146/146 instructions, 18 independently bound original COFF fields, 8 ordered calls, 32/32 identical direct CFG blocks, three `ret 0xC` exits**. Starting from the former source's **403/405 bytes, 356 linked differences and 28/32 direct blocks**, reversed the two *real* primary/secondary cache hit/miss branches to load on cache miss, expressed the primary scan as a bounded `do/while` with its actual count break, and changed the inner opcode-7 music iterator to a nullable pre-tested `while` loop. That recovers 405/405 extent and all 32 blocks with only four register-scheduling bytes different. Reusing the real `errorPath` argument for `FileSystem::OpenFile` and explicitly preserving its NULL case yields the target's `EDI → ECX` path-argument order in both file-open branches, closing the final 4 bytes without fake state effects, asm, volatile steering or padding. The canonical `front-message-load-for-side-count` unit credits this one **405-byte owner**, raising exact count **934 → 935**; Factory `strict-live-v1` forced-cold replay of committed `4d921a27925d641c253af0e938dba7e33ce9ab0b` returned **`pass / accepted`**, job `job:204fe5ee71c643fb9e6fda93c2696c2f`, receipt `receipt:8ea1d24dda7aab61c63e8e1fb288727adb1125dff033a86fecc1c81cd8658e98`. The acceptance is **commit-scoped**, while whole Windows build/runtime stages remain open.
+**Recent completed owners, all Factory `strict-live-v1` forced-cold
+`pass / accepted` on the *specified original source commit*.** Each unit must
+still be rebuilt when its compiler-input tree changes; a receipt is not a
+whole-product/runtime acceptance.
 
-- **`FrontMessageRuntimeView::ReleaseForSideCount @ 0x00417520` — newly canonical exact:** pinned `/O2 /Ob1 /Oi /Oy- /Gr` produces **271/271 full bytes**, all **14 independently original-bound code relocations, six ordered original calls, 87 original instructions, all 20/20 direct CFG blocks**. The existing pre-guarded `do/while` emitted 268 bytes, 130 complete linked byte differences, and one additional CFG block. Replacing it with the semantically equivalent nullable guarded **`while (current04->opcode02 != 0)`** naturally recovers exact jump entrance, byte-reload instruction order and the PE owner: no inserted NOPs, volatile/reg steering, padding, invented runtime calls, source-layout changes or altered Windows ABI. Strict `front-message-release-for-side-count` manifest and authoritative ledgers now credit this 271-byte owner, raising exact count **933 → 934**. Factory `strict-live-v1` forced-cold replay of committed `99ea00b320799856ab15a30644c6d081260a08df` returned **`pass / accepted`** (job `job:4b6931f5a50e4747992304c713ef85cf`, receipt `receipt:3ad8649181efbc34d2b08b5d1ead5d96ddd77d7fec074b9a0508219dfdf567a1`). This acceptance is **commit-scoped** and does not close the whole Windows build/runtime stages.
+| Exact owner | Target/bytes | Canonical unit | Accepted source commit and receipt |
+| --- | --- | --- | --- |
+| `FrontMessageRuntimeView::LoadForSideCount` | `0x004182E0`, **405/405**, 18 fields | `front-message-load-for-side-count` | `4d921a2`; `receipt:8ea1d24dda7aab61c63e8e1fb288727adb1125dff033a86fecc1c81cd8658e98` |
+| `FrontMessageRuntimeView::ReleaseForSideCount` | `0x00417520`, **271/271**, 14 fields | `front-message-release-for-side-count` | `99ea00b`; `receipt:3ad8649181efbc34d2b08b5d1ead5d96ddd77d7fec074b9a0508219dfdf567a1` |
+| `PlayerShotDrawCallbackType1` | `0x00442220`, **204/204**, 6 fields | `player-shot-draw-callback-type1` | `495e944`; `receipt:7f20349cb55183e13f66e4b1ecabc24133fd379d2f9c2b91a27256929bef1927` |
 
-- **`PlayerShotDrawCallbackType1 @ 0x00442220` — newly canonical exact in this checkpoint:** pinned VC7.1 `/O2 /Ob1` emits **204/204 complete bytes, all 6 independently bound original COFF fields** and 67/67 decoded instructions. Restoring alpha and returning on the invalid-history sentinel, independently from the normal loop exit and the zero-trip tail, naturally retains the target's two separate 14-byte return sequences. Canonical `player-shot-draw-callback-type1` match unit proves the result. Historical stand-alone early-return probes had been compiler-tail-merged; no inserted padding or fake side effects. The exact ledger increases from 932 to **933**. Factory `strict-live-v1` forced-cold replay of committed `495e944d62fcd5bc9e30f27d447002453e4a589f` returned **pass/accepted**: `job:f936b51a5ae4487eac9882e99f128b4e`, `receipt:7f20349cb55183e13f66e4b1ecabc24133fd379d2f9c2b91a27256929bef1927`. The receipt is **source-commit scoped**; whole-product/runtime closure remains open.
+The FrontMessage load/release units are *two separate* exact functions.
+Their source recovers real nullable cache miss/hit branches, finite
+message-table iteration and pre-tested opcode traversal. These exact matches
+supersede old `LoadForSideCount 403/405` and `ReleaseForSideCount 268/271`
+near-match writeups; those are historical experiments in the knowledge base.
 
-- **Etama/Supervisor Factory cold regressions on committed `4f97ccb` (existing exact only):** `EtamaController::OnUpdate @ 0x004146F0` **2,216/2,216**, 88 fields, `pass/accepted` receipt `receipt:76e9b270bf6efed193d2d371960ab4c0879ac5b687bf052b70b8a8440accc323`; `SupervisorFrameQueueView::AreFrameQueuesSynchronized @ 0x0042ECF0` **49/49**, `pass/accepted` receipt `receipt:56ef7eb17b8cdc9c35778a2e10ab222a46069b1fa17afb6f663c9960caf59df6`. These prove unchanged canonical owners, NOT new exactness. `Supervisor::OnUpdate` with recovered target single title-registration call remains **952/996 physical NON-EXACT**, and `RunEcl` remains **30 nonexact bytes**.
+**Other existing exact owners to protect:** `EtamaController::OnUpdate`
+(**2,195 authored / 2,216 complete physical bytes**),
+`TitleScreenView::TitleSetupThread` (534 bytes),
+`TitleScreenView::OnUpdateMusicRoom` (2,258 bytes),
+`TitleScreenView::DrawMusicRoom` (209 bytes),
+`ExAttackUpdateCallbackType21` (1,074 bytes),
+`EnemyManagerDrawImpl` (1,758 bytes), and the FrontMessage `Reset`,
+`Setup` and `FrontRelease::ReleaseCore` units. Existing accepted receipts
+from earlier source commits are historical proof of *those commits only*;
+current exactness comes from the match ledgers and fresh per-unit replay.
 
-- **ExAttack Type3/Type4 32-history family (already exact members):** Type3 init **454/454**, Type4 init **368/368**, Type4 update **739/739** under shared `src/ExAttackHistory32ExtraView.hpp`. Factory forced-cold `pass/accepted` on committed `76575a8`: `receipt:531b331a35d89b3385d7e13ea9803bc1dc080ca91c883f60625cf311b5135f67` (Type3 init), `receipt:401073f5b594639577acecc39900127a3af08a51e21dc1111b8dda8a5baa1922` (Type4 init) and `receipt:ffd106aaa2a1d6fe22a0c4c78f50bdf0c9cca93be31fce430663197b174b3833` (Type4 update). Type3 Update remains **NON-EXACT 780/38/15**. Unchanged accepted exact functions do not increase exact count.
-
-- **Supervisor frame-queue family (existing exact)**: `InsertPredictedFrame @ 0x0042EAC0` **191/191**, `PopFrame @ 0x0042EB80` **119/119**, and Mode4 queue `ResetTitleMode4Supervisor @ 0x0042EC30` **177/177**, after shared queue record/view corrections. Factory forced-cold `pass/accepted` receipts respectively `receipt:9d49fc892a1cb0c86ae8b17a1611c146fb8d86187cb4c8193fe27daa8d6b1d7a` and `receipt:e0a9041d000117a4304faa47bffcb476ecbb67d20c20f07f1f903a9b7de48760` for committed `f3bec14`, plus `receipt:b757b79ef7616bf001af8317cd073f0edc8356910290b4c44fd025ff3442ac30` for committed `2323c23`. The separate `AreFrameQueuesSynchronized` helper also remains exact at 49/49. **The 213-byte `InsertReceivedFrame` is still NON-EXACT (35 differences); these are regressions, not newly exact functions.**
-
-- **`EnemyManagerDrawImpl @ 0x00411670`**: **1,758 / 1,758 complete bytes,
-  53 actual relocations**; pinned match unit `enemy-manager-draw-impl`.
-  Its two draw wrappers and interpolation leaf also remain exact. A real
-  `float` interpolation result, `long double` delta, and explicit float
-  argument conversion resolved the final x87 FSUBR/PUSH scheduling. Factory
-  **pass/accepted** receipt `receipt:44cacda296eb6f3a51916daa49d7a31f9fba8d6c1b8400983bfa3c93d1fead8f`
-  is bound to source commit `480f2028f82b790a080be6f09994736286d0bc95`.
-- **`ExAttackUpdateCallbackType21 @ 0x0044B500` and shared `ExAttackDrawCallbackType19_21 @ 0x0044B940`**: already canonical exact 1,074 and 318 bytes, respectively. After the Type19/21 shared-layout source changes, Factory forced-cold `windows.msvc71.function-exact` accepted both exact claims on committed `9932230` (`receipt:b02ffddd42f7f419e72c64b6952d37440a5737b356e86172cbb1ec34c270db57` and `receipt:46d21ebe6fc8047fce2134ce5810349aad3f93b2b65608509f00a88fad9fde28`). Accepted replay of existing exact units does not promote either initializer, nor change the then-current 932/980 ledger.
-- **`DrawSingleBullet @ 0x00413AF0`**: 215/215 authored, 232/232 complete
-  physical bytes with all 16 relocations. The refreshed same-TU compiler-private
-  switch-table `$L1914` is independently at target +0xD8; the original jump
-  operand remains `0x00413BC8`. Factory `pass/accepted` cold receipt
-  `receipt:cf9834542cf3bf1116ac4e83a7599ad103611eec1df388a0ae1bc18bdf7d0260` binds the clean
-  source commit `fd63e67c16d1a0e822af4f88ed8e544665a42969` and confirms
-  this **existing** exact replay, without adding an exact function or promoting
-  nonexact OnDraw.
-- **`EtamaController::OnUpdate`**, **`TitleScreenView::OnUpdateMusicRoom`**,
-  **`TitleScreenView::TitleSetupThread`** and **`ExAttackUpdateCallbackType21`**
-  are *already* canonical exact. Four accepted cold replays of these existing
-  owners belong to source commit `f6aa0e960900e90b314b0fb0d77aa3d820b5ffe5`;
-  they are not four new matches.
-- **`EffectManager::OnUpdate`**: **475 authored bytes exact**, with a separate
-  Factory pass/accepted receipt
-  `receipt:9b01a390ab05d73f20cdde28aeed7c67123343bafefd730b004e74db52eb34dd`
-  bound to source commit `5dcd7f2`. The adjacent **Effect AddedCallback is
-  still non-exact**; the receipt does not apply to it.
-
-Factory receipts are **source-commit scoped**. An old accepted job cannot
-prove exactness for a changed compiler-input tree, a different owner or the
-whole product. The canonical exact ledger is local and must always be
-replayable independently.
+`DrawSingleBullet @ 0x00413AF0` has **215 authored / 232 physical bytes**
+including the original four-entry switch table, all 16 bound fields and the
+unchanged `0x00413BC8` table pointer. The **current** same-TU manifest in
+`config/match-units.toml` uses compiler-private `$L1937` at `+0x17`,
+not the `$L1914` label recorded by an older source-commit receipt. These
+private symbol numbers can change when adjacent `Etama::OnDraw` source
+changes; verify the actual owner-relative +0xD8 selector and full table,
+then update only the verified private spelling in the manifest. The source
+change to OnDraw remains **268 bytes different / NON-EXACT**.
 
 ## Restart and verification
 
@@ -148,6 +145,17 @@ git diff && git diff --cached
 python3 scripts/verify-target.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+python3 scripts/build-match-unit.py --unit front-message-load-for-side-count
+python3 scripts/compare-coff-function.py --unit front-message-load-for-side-count --json
+python3 scripts/build-match-unit.py --unit front-message-release-for-side-count
+python3 scripts/compare-coff-function.py --unit front-message-release-for-side-count --json
+python3 scripts/build-match-unit.py --unit player-shot-draw-callback-type1
+python3 scripts/compare-coff-function.py --unit player-shot-draw-callback-type1 --json
+python3 scripts/build-match-unit.py --unit bullet-draw-single
+python3 scripts/compare-coff-function.py --unit bullet-draw-single --json
+python3 scripts/inspect-etama-draw.py build/matching/EtamaControllerDraw.obj --json
+python3 scripts/build-match-unit.py --unit etama-controller-update
+python3 scripts/compare-coff-function.py --unit etama-controller-update --json
 python3 scripts/build-match-unit.py --unit enemy-manager-draw-impl
 python3 scripts/compare-coff-function.py --unit enemy-manager-draw-impl --json
 python3 scripts/build-match-unit.py --unit exattack-type21-update
@@ -162,65 +170,57 @@ python3 scripts/ci.py
 git diff --check
 ```
 
-The ignored `build/` tree is deliberately **absent after handoff cleanup**.
-The build commands above regenerate only the objects they need. Never run an
+The ignored `build/` tree should be **absent after the final cleanup**, not
+while builds/tests are running. The commands above regenerate the objects
+they need; `bullet-draw-single` builds the exact sibling and the non-exact
+`Etama::OnDraw` diagnostic from its current shared TU. Never run an
 inspector against a missing, older or unverified `.obj`; first compile its
 current `src/` owner under that match unit's pinned profile.
 
-The **RunEcl** complete inspector returns **1 for known differences**; always
-read the full result and ensure identity/relocation/CFG checks passed. Other
-near-match diagnostics also return nonzero until truly exact. Ignored
-`build/` and `.analysis/` objects are not proof. Do not run the whole
-historical cohort unnecessarily. Preserve codegen exact
-units when cleaning, and never alter source just to manipulate comparisons.
+The **RunEcl**, `Etama::OnDraw` and other non-exact diagnostics can return
+nonzero while correctly reporting bounded differences; always inspect their
+full identity, field, call and CFG checks rather than treating a near match as
+exactness. Ignored `build/` and `.analysis/` objects are not proof.
+Do not replay the entire historical experiment cohort unnecessarily; preserve
+all canonical exact units when cleaning and never manipulate source solely
+to improve a partial comparison score.
 
 ## Evidence and cleanup boundaries
 
-This is the **2026-10-13 clean handoff**. The canonical source/ledger and
-original target remain authoritative; local compiled objects do not. Current
-counts are the verified **980 source-present / 935 exact / 45 non-exact**,
-not the historical 979/876/103 estimate. The whole Windows i386 build and
-runtime/semantic phases remain **open**. All screen/Etama/Title/ExAttack
-exactness statements in older dated experiments and Factory receipts are
-**source-commit scoped**; a successful old replay never promotes a sibling.
+This handoff was checked on **2026-10-13** against the original executable,
+the ledgers and fresh pinned VC7.1 comparisons. The current source count is
+**980 source-present / 935 exact / 45 non-exact**, *not* the older
+979/876/103 estimate. The 35 origin-unresolved candidates remain outside the
+reviewed-authored-byte denominator. The full native Windows i386 executable,
+link/resource ownership and dual-runtime/port phases are **not closed**.
 
-`docs/KNOWLEDGE_BASE.md` contains a *historical hypothesis and negative-result
-archive*. Old "current" and "exact" prose inside a dated packet, including
-older 931/49 counts and deprecated compiler-source variants, is **not live
-status**. Consult the ledger and a fresh cold comparison. The full previous
-handoff is recoverable from Git (for example `git show a02528d:docs/RE_HANDOFF.md`).
+`docs/KNOWLEDGE_BASE.md` is a **historical evidence and negative-experiment
+archive** after its indexed facts. Phrases such as `now exact`, `still
+non-exact`, earlier 931/49 counts, old private `$L...` labels, superseded
+near-match sizes and source snapshots inside *dated* entries describe the
+experiment's source commit, not today's worktree. To reproduce a current
+claim, read the current manifest/ledger and rebuild the original-bound
+owner. Historical handoffs, including `git show a02528d:docs/RE_HANDOFF.md`,
+remain available in Git rather than being repeated here.
 
-Use `python3 scripts/clean-generated-artifacts.py` for a **dry run** or add
-`--apply` to remove ignored generated artifacts. The first 2026-10-13 cleanup sweep removed the ignored `build/` tree and
-only `.obj`, `.pdb`, `.pyc`,
-`.pch`, `.idb`, `.ilk` compiler binaries under ignored `.analysis/`;
-**10,375 files and 726,040,253 measured bytes**, without touching tracked
-code, the pinned compiler, IDA databases or the original game. The ignored
-local audit is `.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`.
-**Retained deliberately:** reproducible `.analysis` probe scripts, candidate
-C/C++ source and copied source trees, JSON/TXT/disassembly evidence and
-private analysis inputs. These remaining source/result archives were **not**
-bulk-pruned; their stale experiments are non-authoritative. The older October
-12 selective cleanup remains historical and is superseded by this inventory.
-After a build/ cleanup, follow the restart commands above to regenerate
-necessary objects; there is no missing canonical evidence simply because a
-cached `.obj` or `.pdb` is absent. A clean-room rebuild **after** this removal
-replayed `screen-effect-register-chain` **480/480 bytes, 55 relocations** and
-`etama-controller-update` **2,216/2,216 bytes, 88 relocations** as exact;
-`RunEcl` independently reproduced its complete **15,564-byte / 598-field
-non-exact owner with 30 ordinary differences**. The temporary smoke-build
-outputs were cleared again. These checks confirm the documented restart path,
-not new exact credit or full game build closure. The ignored `.analysis` still
-contains substantial historical source copies and JSON artifacts (about 1.1
-GiB after compiled-binary cleanup); they are retained pending separate,
-source-aware reproducibility review, **not endorsed as current conclusions**.
-The cleaner preserves its first cleanup audit across later no-op calls and
-appends any later removals instead of overwriting that audit. Note that
-`python3 scripts/ci.py` can regenerate `build/pycache` even when no C++ file
-is compiled; run the cleanup tool **after all final validation** to hand off
-with no build outputs. The final post-CI sweep removed another **234** generated
-Python files (**4,210,602 bytes**). The local audit now records **two sweeps,
-10,609 generated files and 730,250,855 measured bytes** in total; 121 other
-short-lived `scripts/`/`tests/` bytecode cache files were also cleared and are
-not included in that audit. At the checkpoint, `build/` is absent and no
-`.analysis/` compiler binaries remain. The next dry run should report zero.
+TH09's message-runtime `FrontMessageRuntimeView` also has distinct
+**translation-unit-local layout projections** in Load, Release, Update,
+Draw and caller code. A broad declaration merge is not an innocuous tidy-up:
+those views expose different members and sometimes only forward methods, and
+several TUs are exact. Do not unify them without mapping the entire ABI,
+validating the common object geometry, and rerunning every dependent canonical
+unit; preserving exact codegen takes priority over cosmetic refactoring.
+
+For disposable cache cleanup, preview
+`python3 scripts/clean-generated-artifacts.py` and run with `--apply` only
+after all focused validations and CI. This removes ignored `build/` and
+compiler binaries under ignored `.analysis/` while preserving private
+`resources/th09.exe`, tracked source, pinned toolchains, IDA databases,
+probe source and JSON/text evidence. The ignored local
+`.analysis/handoff-cleanup-20261013/generated-cache-manifest.json` records
+actual deletions across earlier sweeps; its historical file/byte totals
+**are not current workspace measurements**. After cleanup a subsequent dry
+run should report zero selected artifacts. `scripts/ci.py` may recreate
+Python bytecode caches, so **do not rerun CI after the final sweep** unless
+you clean those caches again. Never prune historical source or unique
+analysis evidence automatically.
