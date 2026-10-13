@@ -1,5 +1,6 @@
 #include "ReplayRuntimeLeaves.hpp"
 #include "SupervisorFrameQueueView.hpp"
+#include "SupervisorFrameQueueStorageView.hpp"
 #include "SupervisorNetworkState.hpp"
 #include <windows.h>
 #include <mmsystem.h>
@@ -18,8 +19,10 @@ struct TitleSupervisorView
     unsigned int unknown470;
     unsigned int connectionTime474;
     int networkBusy478;
-    unsigned char frameQueues47C[0xF0];
-    int lastReceived56C[6];
+    // These are the exact 0x0C-byte entries consumed by the Supervisor
+    // frame-queue APIs, not an unrelated byte or integer allocation.
+    SupervisorFrameEntryStorageView frameQueues47C[20];
+    SupervisorFrameEntryStorageView lastReceived56C[2];
 };
 
 typedef char TitleResetFrameAt458[
@@ -28,6 +31,10 @@ typedef char TitleResetQueuesAt47C[
     (offsetof(TitleSupervisorView, frameQueues47C) == 0x47C) ? 1 : -1];
 typedef char TitleResetLastReceivedAt56C[
     (offsetof(TitleSupervisorView, lastReceived56C) == 0x56C) ? 1 : -1];
+typedef char TitleResetQueueBytesAreF0[
+    (sizeof(((TitleSupervisorView *)0)->frameQueues47C) == 0xF0) ? 1 : -1];
+typedef char TitleResetLastReceivedBytesAre18[
+    (sizeof(((TitleSupervisorView *)0)->lastReceived56C) == 0x18) ? 1 : -1];
 
 extern TitleSupervisorView g_TitleSupervisor;
 extern ReplayRngView g_ReplayRng;
