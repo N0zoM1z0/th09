@@ -111,7 +111,71 @@ def decode_owner(data: bytes):
     return inst, sorted(fields), calls, indirect
 
 
-def inspect(path: Path) -> dict:
+def normalized_owner_shape(instructions, fields, *, base: int = BASE):
+    """Keep actual offsets, mask only audited operands and internal jump displacements.
+
+    The caller must first independently bind/verify every COFF field and decode
+    the complete owner. A normalized shape is a *diagnostic*, not exactness.
+    """
+    starts = {ins.address for ins in instructions}
+    if len(starts) != len(instructions):
+        raise ValueError('duplicate Type14/22 instruction boundary')
+    field_list = sorted((int(offset), kind, dest) for offset, kind, dest in fields)
+    if any(left.address + len(left.bytes) != right.address for left, right in zip(instructions, instructions[1:])):
+        raise ValueError('noncontiguous Type14/22 instruction stream')
+    field_index = 0
+    previous_field_end = -1
+    jumps = []
+    normalized = []
+    for ins in instructions:
+        start = ins.address - base
+        end = start + len(ins.bytes)
+        data = bytearray(ins.bytes)
+        while field_index < len(field_list) and field_list[field_index][0] < end:
+            offset, kind, _ = field_list[field_index]
+            if offset < previous_field_end:
+                raise ValueError('Type14/22 overlapping reviewed fields')
+            if offset < start or offset + 4 > end:
+                raise ValueError('Type14/22 reviewed field crosses an instruction')
+            if kind not in ('REL32', 'DIR32'):
+                raise ValueError('Type14/22 unknown reviewed field kind')
+            data[offset-start:offset-start+4] = bytes(4)
+            previous_field_end = offset + 4
+            field_index += 1
+        if ins.mnemonic.startswith('j'):
+            if not ins.op_str.startswith('0x'):
+                raise ValueError('Type14/22 indirect or unknown jump destination')
+            try:
+                destination = int(ins.op_str, 16)
+            except ValueError as error:
+                raise ValueError('Type14/22 unparseable jump destination') from error
+            if destination not in starts:
+                raise ValueError('Type14/22 jump does not reach an instruction boundary')
+            if ins.imm_size not in (1, 4) or not 1 <= ins.imm_offset <= len(data)-ins.imm_size:
+                raise ValueError('Type14/22 unsupported jump displacement')
+            actual_displacement = int.from_bytes(ins.bytes[ins.imm_offset:ins.imm_offset+ins.imm_size], 'little', signed=True)
+            if ins.address + len(ins.bytes) + actual_displacement != destination:
+                raise ValueError('Type14/22 decoded jump and encoded displacement disagree')
+            data[ins.imm_offset:ins.imm_offset+ins.imm_size] = bytes(ins.imm_size)
+            jumps.append((start, destination - base, ins.mnemonic))
+        normalized.append((start, bytes(data)))
+    if field_index != len(field_list):
+        raise ValueError('Type14/22 reviewed field outside decoded instruction stream')
+    return normalized, jumps
+
+
+def aligned_shape_changes(candidate_stream, target_stream):
+    """Pair only exact normalized opcode encodings, retaining unmatched spans."""
+    spec = importlib.util.spec_from_file_location(
+        'exattack1422_aligned_spans', ROOT / 'scripts/ecl_shape_differences.py')
+    if spec is None or spec.loader is None:
+        raise ValueError('aligned instruction diff is unavailable')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.changed_instructions(candidate_stream, target_stream)
+
+
+def inspect(path: Path, *, explain: bool = False) -> dict:
     spec = importlib.util.spec_from_file_location('exattack14_coff', ROOT/'scripts/compare-coff-function.py')
     if spec is None or spec.loader is None:
         raise ValueError('target-bound COFF parser unavailable')
@@ -138,13 +202,17 @@ def inspect(path: Path) -> dict:
         raise ValueError('ExAttack draw candidate call/data field order or destinations differ')
     if c_calls != t_calls or c_ind != t_ind:
         raise ValueError('ExAttack draw candidate direct/indirect call sequence changed')
+    target_stream, target_jumps = normalized_owner_shape(t_ins, t_fields)
+    candidate_stream, candidate_jumps = normalized_owner_shape(c_ins, c_fields)
     differences = [i for i, (x, y) in enumerate(zip(target, candidate)) if x != y]
-    return {
+    result = {
         'diagnostic_only': True, 'exactness_credit': 'none',
         'target_bytes': SIZE, 'candidate_bytes': len(candidate),
         'target_instructions': len(t_ins), 'candidate_instructions': len(c_ins),
         'target_fields': len(t_fields), 'candidate_fields': len(c_fields),
         'direct_calls': len(c_calls), 'indirect_calls': c_ind,
+        'target_direct_jumps': len(target_jumps),
+        'candidate_direct_jumps': len(candidate_jumps),
         'field_order_and_destinations_equal': True,
         'ordered_direct_calls_equal': True,
         'overlapping_differences': len(differences),
@@ -156,15 +224,26 @@ def inspect(path: Path) -> dict:
         'raw_sha256': hashlib.sha256(raw).hexdigest(),
         'resolved_sha256': hashlib.sha256(candidate).hexdigest(),
     }
+    if explain:
+        changes = aligned_shape_changes(candidate_stream, target_stream)
+        result['normalized_aligned_changes'] = changes
+        result['normalized_aligned_change_spans'] = len(changes)
+    return result
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('object', type=Path)
     parser.add_argument('--json', action='store_true')
+    parser.add_argument('--explain', action='store_true',
+                        help='show independently bound, aligned instruction differences')
+    parser.add_argument('--max-spans', type=int, default=12,
+                        help='maximum aligned difference spans in text output (default: 12)')
     args = parser.parse_args()
+    if args.max_spans < 1:
+        parser.error('--max-spans must be positive')
     try:
-        result = inspect(args.object)
+        result = inspect(args.object, explain=args.explain)
     except (OSError, ValueError, ImportError, KeyError, struct.error) as error:
         print(json.dumps({'error':str(error)}))
         return 2
@@ -175,6 +254,19 @@ def main() -> int:
             result['candidate_bytes'], result['target_bytes'],result['candidate_fields'],
             result['direct_calls'],result['indirect_calls'],result['overlapping_differences'],
             result['extra_candidate_bytes'],result['complete_bytes_equal']))
+        if args.explain:
+            changes = result['normalized_aligned_changes']
+            print('Direct jumps target/candidate: %d/%d; aligned spans: %d (diagnostic only)' % (
+                result['target_direct_jumps'], result['candidate_direct_jumps'], len(changes)))
+            print('Only independently bound four-byte fields and verified internal jump displacements were zeroed.')
+            for row in changes[:args.max_spans]:
+                print(' ', row['change'])
+                for offset, data in row['target']:
+                    print('    target    +0x%04X: %s' % (offset, data))
+                for offset, data in row['candidate']:
+                    print('    candidate +0x%04X: %s' % (offset, data))
+            if len(changes) > args.max_spans:
+                print('... %d further mismatched spans not displayed' % (len(changes)-args.max_spans))
     return 0 if result['complete_bytes_equal'] else 1
 
 
