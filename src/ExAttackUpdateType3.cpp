@@ -82,9 +82,11 @@ int __fastcall ExAttackUpdateCallbackType3(ExAttackRecord *base)
     PlayerPositionView middle;
     middle.x =
         g_GameManager.InverseTransformPopupX(extra->history10[12].x);
+    // Keep the independently zero-valued middle Z before the Y conversion.
+    // VC7.1 then schedules the store nearer TH09's target middle-Y boundary.
+    middle.z = 0.0f;
     middle.y =
         g_GameManager.InverseTransformPopupY(extra->history10[12].y);
-    middle.z = 0.0f;
 
     PlayerPositionView tail;
     tail.x =
