@@ -77,21 +77,26 @@ int EtamaController::OnDraw(EtamaController *controller)
              reinterpret_cast<size_t>(laser) +
              offsetof(Laser, bodyVm) + offsetof(AnmVm, pos)))
     {
-        if (laser->inUse == 0)
+        // This owner is the same real Laser that contains bodyPosition.
+        // In-use, polar angle and base position share this true owner cursor.
+        Laser *bodyOwner = reinterpret_cast<Laser *>(
+            reinterpret_cast<size_t>(bodyPosition) -
+            offsetof(Laser, bodyVm) - offsetof(AnmVm, pos));
+        if (bodyOwner->inUse == 0)
             continue;
 
         AnmVm *startCapVm = &laser->startCapVm;
 
         float sine;
         float cosine;
-        fsincos(&sine, &cosine, laser->angle);
+        fsincos(&sine, &cosine, bodyOwner->angle);
 
         float halfLength =
             (laser->endOffset - laser->startOffset) * 0.5f +
             laser->startOffset;
 
         Float3 *position = reinterpret_cast<Float3 *>(
-            laser->position.operator float *());
+            bodyOwner->position.operator float *());
         Float3 *body = reinterpret_cast<Float3 *>(
             bodyPosition->operator float *());
         body->x =
