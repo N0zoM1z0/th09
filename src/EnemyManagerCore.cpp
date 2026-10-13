@@ -84,6 +84,19 @@ struct EnemyCoreTrailSampleView
 typedef char EnemyCoreTrailSampleSizeIs1C[
     (sizeof(EnemyCoreTrailSampleView) == 0x1C) ? 1 : -1];
 
+// ECL's trail writer and the exact draw owner both use a separate vertex
+// array at +0x3E68. It is not an extension of the 96 history records.
+struct EnemyCoreTrailVertexView
+{
+    Float3 position00;
+    float rhw0C;
+    unsigned long diffuse10;
+    float u14;
+    float v18;
+};
+typedef char EnemyCoreTrailVertexSizeIs1C[
+    (sizeof(EnemyCoreTrailVertexView) == 0x1C) ? 1 : -1];
+
 struct EnemyCoreEtamaControllerView;
 struct EnemyCorePlayerView;
 struct EnemyCoreView;
@@ -240,7 +253,9 @@ struct EnemyCoreView
     int timerCallbackThreshold33D0;
     int timerCallbackSubId33D4;
     void *childEclBlocks33D8[4];
-    EnemyCoreTrailSampleView trailSamples33E8[290];
+    EnemyCoreTrailSampleView trailSamples33E8[96];
+    EnemyCoreTrailVertexView trailVertices3E68[192];
+    unsigned char unknown5368[0x53A0 - 0x5368];
     unsigned char trailFlags53A0;
     unsigned char unknown53A1;
     short trailHistoryLength53A2;
@@ -262,6 +277,10 @@ typedef char EnemyCoreFlagsAt337C[
     (offsetof(EnemyCoreView, flags337C) == 0x337C) ? 1 : -1];
 typedef char EnemyCoreTrailAt33E8[
     (offsetof(EnemyCoreView, trailSamples33E8) == 0x33E8) ? 1 : -1];
+typedef char EnemyCoreTrailVerticesAt3E68[
+    (offsetof(EnemyCoreView, trailVertices3E68) == 0x3E68) ? 1 : -1];
+typedef char EnemyCoreTrailFlagsAt53A0[
+    (offsetof(EnemyCoreView, trailFlags53A0) == 0x53A0) ? 1 : -1];
 typedef char EnemyCoreDamageTimerAt53A8[
     (offsetof(EnemyCoreView, damageReductionTimer53A8) == 0x53A8) ? 1 : -1];
 
