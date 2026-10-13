@@ -96,6 +96,7 @@ is maintained separately in [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTI
   argument conversion resolved the final x87 FSUBR/PUSH scheduling. Factory
   **pass/accepted** receipt `receipt:44cacda296eb6f3a51916daa49d7a31f9fba8d6c1b8400983bfa3c93d1fead8f`
   is bound to source commit `480f2028f82b790a080be6f09994736286d0bc95`.
+- **`ExAttackUpdateCallbackType21 @ 0x0044B500` and shared `ExAttackDrawCallbackType19_21 @ 0x0044B940`**: already canonical exact 1,074 and 318 bytes, respectively. After the Type19/21 shared-layout source changes, Factory forced-cold `windows.msvc71.function-exact` accepted both exact claims on committed `9932230` (`receipt:b02ffddd42f7f419e72c64b6952d37440a5737b356e86172cbb1ec34c270db57` and `receipt:46d21ebe6fc8047fce2134ce5810349aad3f93b2b65608509f00a88fad9fde28`). Accepted replay of existing exact units does not promote either initializer, nor change the 932/980 ledger.
 - **`DrawSingleBullet @ 0x00413AF0`**: 215/215 authored, 232/232 complete
   physical bytes with all 16 relocations. The refreshed same-TU compiler-private
   switch-table `$L1914` is independently at target +0xD8; the original jump
