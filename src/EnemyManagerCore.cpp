@@ -279,6 +279,14 @@ typedef char EnemyCoreTrailAt33E8[
     (offsetof(EnemyCoreView, trailSamples33E8) == 0x33E8) ? 1 : -1];
 typedef char EnemyCoreTrailVerticesAt3E68[
     (offsetof(EnemyCoreView, trailVertices3E68) == 0x3E68) ? 1 : -1];
+typedef char EnemyCoreTrailHistoryEndsAtVertices[
+    (offsetof(EnemyCoreView, trailSamples33E8) +
+     sizeof(((EnemyCoreView *)0)->trailSamples33E8) ==
+     offsetof(EnemyCoreView, trailVertices3E68)) ? 1 : -1];
+typedef char EnemyCoreTrailVerticesEndAt5368[
+    (offsetof(EnemyCoreView, trailVertices3E68) +
+     sizeof(((EnemyCoreView *)0)->trailVertices3E68) ==
+     offsetof(EnemyCoreView, unknown5368)) ? 1 : -1];
 typedef char EnemyCoreTrailFlagsAt53A0[
     (offsetof(EnemyCoreView, trailFlags53A0) == 0x53A0) ? 1 : -1];
 typedef char EnemyCoreDamageTimerAt53A8[
