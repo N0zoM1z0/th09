@@ -40,9 +40,11 @@ void FrontMessageRuntimeView::ReleaseForSideCount(int startIndex)
                     break;
 
                 current04 = primary00->entries04[tableIndex].instructions00;
-                if (current04 != 0 && current04->opcode02 != 0)
+                if (current04 != 0)
                 {
-                    do
+                    // The pre-test loop preserves the original empty-entry
+                    // behavior as well as the physical loop-entry schedule.
+                    while (current04->opcode02 != 0)
                     {
                         if (current04->opcode02 == 7 &&
                             releasedMusic[current04->argument04] == 0)
@@ -56,7 +58,6 @@ void FrontMessageRuntimeView::ReleaseForSideCount(int startIndex)
                                 reinterpret_cast<unsigned char *>(current04) +
                                 current04->size03 + 4);
                     }
-                    while (current04->opcode02 != 0);
                 }
 
                 ++tableIndex;
