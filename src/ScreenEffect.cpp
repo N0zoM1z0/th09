@@ -315,7 +315,12 @@ int ScreenEffect::CalcShakeEnvelope(ScreenEffect *screenEffect)
     }
     else
     {
-        endFrame += screenEffect->rawParameter1 + screenEffect->rawParameter2;
+        // The original loads the hold and fade dwords independently,
+        // combines them, then extends the final envelope endpoint.
+        const volatile int &hold = screenEffect->rawParameter1;
+        const volatile int &fade = screenEffect->rawParameter2;
+        int update = hold + fade;
+        endFrame += update;
         if (screenEffect->timer < endFrame)
         {
             shakeAmount =
