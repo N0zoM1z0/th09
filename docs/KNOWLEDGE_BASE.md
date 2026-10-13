@@ -6,11 +6,15 @@ promotion is a later Factory review, never an automatic action here.
 The evidence index describes the state at its last substantive edit. Confirm
 current ownership and exactness in `config/functions.csv`, `config/matches.csv`
 and `config/match-units.toml`; use a fresh reconstruction report for totals.
-`docs/RE_HANDOFF.md` routes the active work and current object caches.
+`docs/RE_HANDOFF.md` routes the active work; compiler object caches are
+not authoritative and may be absent after a deliberate cleanup.
 
-Later packets are historical measurements tied to their source and compiler
-context. Preserve unresolved evidence and precise rejected controls; do not use
-old sizes or partial scores as current baselines. Repeated operational receipts
+Later packets are **historical, source-commit-scoped hypotheses and results**.
+They can contain superseded compiler shapes, errors, outdated 'current' counts
+or rejected proposals. **Do not treat an old packet as present-day verified
+source, ABI, exactness or runtime truth.** Preserve the useful negative
+experiments, but recheck current claims against the original PE, ledgers and
+fresh cold objects; old partial scores cannot confer exactness. Repeated operational receipts
 and already-indexed closed journals have been removed. Their full history remains
 in Git (for example, `git log -G '^## Packet 418 ' -- docs/KNOWLEDGE_BASE.md`).
 Ignored `build/` and `.analysis/` paths may have been cleaned; a missing artifact

@@ -92,11 +92,9 @@ is maintained separately in [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTI
 
 ## Closed codegen owners and accepted receipts
 
-- **Recent Factory cold regressions on committed `4f97ccb` (existing exact only):** `EtamaController::OnUpdate @ 0x004146F0` **2,216/2,216**, 88 fields, `pass/accepted` receipt `receipt:76e9b270bf6efed193d2d371960ab4c0879ac5b687bf052b70b8a8440accc323`; `SupervisorFrameQueueView::AreFrameQueuesSynchronized @ 0x0042ECF0` **49/49**, `pass/accepted` receipt `receipt:56ef7eb17b8cdc9c35778a2e10ab222a46069b1fa17afb6f663c9960caf59df6`. These prove unchanged canonical owners, NOT new exactness. `Supervisor::OnUpdate` with recovered target single title-registration call remains **952/996 physical NON-EXACT**, and `RunEcl` remains **30 nonexact bytes**.
+- **Etama/Supervisor Factory cold regressions on committed `4f97ccb` (existing exact only):** `EtamaController::OnUpdate @ 0x004146F0` **2,216/2,216**, 88 fields, `pass/accepted` receipt `receipt:76e9b270bf6efed193d2d371960ab4c0879ac5b687bf052b70b8a8440accc323`; `SupervisorFrameQueueView::AreFrameQueuesSynchronized @ 0x0042ECF0` **49/49**, `pass/accepted` receipt `receipt:56ef7eb17b8cdc9c35778a2e10ab222a46069b1fa17afb6f663c9960caf59df6`. These prove unchanged canonical owners, NOT new exactness. `Supervisor::OnUpdate` with recovered target single title-registration call remains **952/996 physical NON-EXACT**, and `RunEcl` remains **30 nonexact bytes**.
 
 - **ExAttack Type3/Type4 32-history family (already exact members):** Type3 init **454/454**, Type4 init **368/368**, Type4 update **739/739** under shared `src/ExAttackHistory32ExtraView.hpp`. Factory forced-cold `pass/accepted` on committed `76575a8`: `receipt:531b331a35d89b3385d7e13ea9803bc1dc080ca91c883f60625cf311b5135f67` (Type3 init), `receipt:401073f5b594639577acecc39900127a3af08a51e21dc1111b8dda8a5baa1922` (Type4 init) and `receipt:ffd106aaa2a1d6fe22a0c4c78f50bdf0c9cca93be31fce430663197b174b3833` (Type4 update). Type3 Update remains **NON-EXACT 780/38/15**. Unchanged accepted exact functions do not increase exact count.
-
-- **ExAttack Type3 initializer (existing exact):** `0x00442580`, 454/454 bytes and 28 bound fields on the common Type3 0x190-byte Extra view shared with its nonexact update; Factory forced-cold `pass/accepted` on `ca196ad`, receipt `receipt:540923b335d5fd34933b84eacfeae66565096f29fd002681dd5cae37048d6f7d`. The Type3 Update remains NON-EXACT at 780 bytes/38 fields/15 differences. This is a regression receipt, not a new exact claim.
 
 - **Supervisor frame-queue family (existing exact)**: `InsertPredictedFrame @ 0x0042EAC0` **191/191**, `PopFrame @ 0x0042EB80` **119/119**, and Mode4 queue `ResetTitleMode4Supervisor @ 0x0042EC30` **177/177**, after shared queue record/view corrections. Factory forced-cold `pass/accepted` receipts respectively `receipt:9d49fc892a1cb0c86ae8b17a1611c146fb8d86187cb4c8193fe27daa8d6b1d7a` and `receipt:e0a9041d000117a4304faa47bffcb476ecbb67d20c20f07f1f903a9b7de48760` for committed `f3bec14`, plus `receipt:b757b79ef7616bf001af8317cd073f0edc8356910290b4c44fd025ff3442ac30` for committed `2323c23`. The separate `AreFrameQueuesSynchronized` helper also remains exact at 49/49. **The 213-byte `InsertReceivedFrame` is still NON-EXACT (35 differences); these are regressions, not newly exact functions.**
 
@@ -134,7 +132,7 @@ replayable independently.
 
 ## Restart and verification
 
-Read the AGENT rules, active ledgers and dirty/untracked files **before**
+Read `AGENTS.md`, the active ledgers and dirty/untracked files **before**
 mutations. Through Factory/Web call `th09-ida.get_metadata` with exactly `{}`;
 its passed target attestation includes mapped-byte sampling. The host-only
 `scripts/check-ida-mcp.py` is for **local direct IDA**, not Factory shell.
@@ -149,6 +147,7 @@ python3 scripts/build-match-unit.py --unit enemy-manager-draw-impl
 python3 scripts/compare-coff-function.py --unit enemy-manager-draw-impl --json
 python3 scripts/build-match-unit.py --unit exattack-type21-update
 python3 scripts/compare-coff-function.py --unit exattack-type21-update --json
+python3 scripts/build-match-unit.py --unit ecl-pop-context
 python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj
 python3 scripts/report-ecl-handler-shapes.py --explain all build/matching/EclManager.obj
 python3 scripts/validate-docs.py
@@ -157,33 +156,65 @@ python3 scripts/ci.py
 git diff --check
 ```
 
+The ignored `build/` tree is deliberately **absent after handoff cleanup**.
+The build commands above regenerate only the objects they need. Never run an
+inspector against a missing, older or unverified `.obj`; first compile its
+current `src/` owner under that match unit's pinned profile.
+
 The **RunEcl** complete inspector returns **1 for known differences**; always
 read the full result and ensure identity/relocation/CFG checks passed. Other
-near-match diagnostics also return nonzero until truly exact. Build an object
-from the **maintained source and the unit's actual VC7.1 flags** before using
-any cached `.obj`; ignored `build/` or `.analysis/` outputs are not proof.
-Do not run the whole historical cohort unnecessarily. Preserve codegen exact
+near-match diagnostics also return nonzero until truly exact. Ignored
+`build/` and `.analysis/` objects are not proof. Do not run the whole
+historical cohort unnecessarily. Preserve codegen exact
 units when cleaning, and never alter source just to manipulate comparisons.
 
 ## Evidence and cleanup boundaries
 
-`docs/KNOWLEDGE_BASE.md` is the historical, source-context-bound evidence
-index. Its old **931/49** and **Enemy draw 1,758/4-difference** statements
-are historical, *not* the current state. Only the live tracking CSVs and
-fresh cold comparisons determine current status. `docs/RE_HANDOFF.md` is
-**replace-in-place**, not an append-only dated journal. The old extended
-handoff (including dated `gpt-web` sessions) remains recoverable with
-`git show a02528d:docs/RE_HANDOFF.md`.
+This is the **2026-10-13 clean handoff**. The canonical source/ledger and
+original target remain authoritative; local compiled objects do not. Current
+counts are the verified **980 source-present / 932 exact / 48 non-exact**,
+not the historical 979/876/103 estimate. The whole Windows i386 build and
+runtime/semantic phases remain **open**. All screen/Etama/Title/ExAttack
+exactness statements in older dated experiments and Factory receipts are
+**source-commit scoped**; a successful old replay never promotes a sibling.
 
-Scratch in `.analysis/` and object caches in `build/` are ignored and
-non-authoritative. Keep compact results and trial recipes for open frontiers.
-This handoff reviewed **19 named `gpt-web-*` trial directories** and deleted
-**491 regenerable `.obj` plus 508 `.pdb` files (90,504,679 bytes)** from their
-top level only. The audited path list, classifications and surviving recipes
-are in ignored `.analysis/gpt-web-handoff-clean-20261012/cleanup.json`.
-**Retained:** all candidate `.cpp`, probe `.py`, result JSON/TXT and copied
-`src/` trees, all other `.analysis/` directories and all `build/` files.
-To reproduce a deleted candidate, rerun that directory's recorded `probe.py`
-with the pinned compiler and compare against the verified original; ignored
-object outputs are not canonical evidence. Remaining scratch, private games,
-provider databases, Wine prefixes and toolchains were **not** bulk-deleted.
+`docs/KNOWLEDGE_BASE.md` contains a *historical hypothesis and negative-result
+archive*. Old "current" and "exact" prose inside a dated packet, including
+older 931/49 counts and deprecated compiler-source variants, is **not live
+status**. Consult the ledger and a fresh cold comparison. The full previous
+handoff is recoverable from Git (for example `git show a02528d:docs/RE_HANDOFF.md`).
+
+Use `python3 scripts/clean-generated-artifacts.py` for a **dry run** or add
+`--apply` to remove ignored generated artifacts. The first 2026-10-13 cleanup sweep removed the ignored `build/` tree and
+only `.obj`, `.pdb`, `.pyc`,
+`.pch`, `.idb`, `.ilk` compiler binaries under ignored `.analysis/`;
+**10,375 files and 726,040,253 measured bytes**, without touching tracked
+code, the pinned compiler, IDA databases or the original game. The ignored
+local audit is `.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`.
+**Retained deliberately:** reproducible `.analysis` probe scripts, candidate
+C/C++ source and copied source trees, JSON/TXT/disassembly evidence and
+private analysis inputs. These remaining source/result archives were **not**
+bulk-pruned; their stale experiments are non-authoritative. The older October
+12 selective cleanup remains historical and is superseded by this inventory.
+After a build/ cleanup, follow the restart commands above to regenerate
+necessary objects; there is no missing canonical evidence simply because a
+cached `.obj` or `.pdb` is absent. A clean-room rebuild **after** this removal
+replayed `screen-effect-register-chain` **480/480 bytes, 55 relocations** and
+`etama-controller-update` **2,216/2,216 bytes, 88 relocations** as exact;
+`RunEcl` independently reproduced its complete **15,564-byte / 598-field
+non-exact owner with 30 ordinary differences**. The temporary smoke-build
+outputs were cleared again. These checks confirm the documented restart path,
+not new exact credit or full game build closure. The ignored `.analysis` still
+contains substantial historical source copies and JSON artifacts (about 1.1
+GiB after compiled-binary cleanup); they are retained pending separate,
+source-aware reproducibility review, **not endorsed as current conclusions**.
+The cleaner preserves its first cleanup audit across later no-op calls and
+appends any later removals instead of overwriting that audit. Note that
+`python3 scripts/ci.py` can regenerate `build/pycache` even when no C++ file
+is compiled; run the cleanup tool **after all final validation** to hand off
+with no build outputs. The final post-CI sweep removed another **234** generated
+Python files (**4,210,602 bytes**). The local audit now records **two sweeps,
+10,609 generated files and 730,250,855 measured bytes** in total; 121 other
+short-lived `scripts/`/`tests/` bytecode cache files were also cleared and are
+not included in that audit. At the checkpoint, `build/` is absent and no
+`.analysis/` compiler binaries remain. The next dry run should report zero.

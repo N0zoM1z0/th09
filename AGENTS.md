@@ -122,6 +122,12 @@ analysis database is working state; mirror durable conclusions into the repo.
 - Do not accumulate scratch indefinitely. At the end of a bounded unit, retain
   only evidence needed to reproduce an unresolved claim, turn reusable work
   into a script or durable note, and remove superseded disposable artifacts.
+- `scripts/clean-generated-artifacts.py` previews by default; `--apply`
+  removes ignored `build/` and disposable compiler binaries under `.analysis/`.
+  **After a clean handoff, `build/` may be absent**. Build each exact unit and
+  diagnostic object afresh before comparing; do not treat the absence of an
+  old `.obj`/`.pdb` as lost canonical evidence. Preserve original executable,
+  tracked source and unreproduced analysis/experiment evidence.
 - Never commit the original executable, game archives/data, IDA databases,
   toolchains, generated decompiler text, credentials, or private endpoints.
 - Finish with the focused Oracle, `python3 scripts/validate-tracking.py`,

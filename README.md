@@ -78,7 +78,13 @@ profiles, and link order remain open. `config/build.toml` records that state
 instead of pretending the project is buildable.
 
 Run `python3 scripts/progress.py` to regenerate the status card and
-`python3 scripts/ci.py` for the small target-independent validation set.
+`python3 scripts/ci.py` for the target-independent validation set. The ignored
+`build/` directory is deliberately cleared before handoff; replay a function
+by running `python3 scripts/build-match-unit.py --unit NAME` before its
+corresponding comparison or non-crediting inspector. Preview disposable-cache
+cleanup with `python3 scripts/clean-generated-artifacts.py` and explicitly
+apply it using `--apply`; original game data and historical probe source are
+not cleanup targets.
 
 ## Required phase order
 

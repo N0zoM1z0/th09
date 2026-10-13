@@ -16,6 +16,7 @@
 | Audit runtime origins | `python3 scripts/audit-runtime-origins.py` | pinned archive/import evidence |
 | Check product graph | `python3 scripts/build.py --check` | explicit open/closed graph state |
 | Run public checks | `python3 scripts/ci.py` | target-independent repository consistency |
+| Preview/generated-cache cleanup | `python3 scripts/clean-generated-artifacts.py` (preview), `python3 scripts/clean-generated-artifacts.py --apply` (delete caches) | no exactness claim; removes ignored `build/` and `.analysis/` compiler binaries only |
 
 The local IDA plugin is operator-managed and reached through the registered
 stdio provider. Always compare its metadata with `config/target.toml` before
@@ -23,7 +24,9 @@ using semantic results. IDA names, types, decompilation, and function extents do
 not independently establish exactness or source ownership.
 
 Rebuild the RunEcl carrier with `python3 scripts/build-match-unit.py --unit
-exattack-type21-update` before trusting a cached object. A complete inspector
+ecl-pop-context` before trusting a cached object. Other ECL-specific match
+units may use distinct profiles or output names; use their own configured build
+unit for canonical exact replay. A complete inspector
 exit status of 1 is expected for a non-exact owner; inspect its output to
 distinguish measured differences from an incomplete or failed identity audit.
 Canonical exact-unit comparisons must return 0.

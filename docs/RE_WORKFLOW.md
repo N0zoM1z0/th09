@@ -1,10 +1,11 @@
 # Reconstruction workflow
 
-The user resumed reconstruction on **2026-10-11**, targeting at least **95% of
-reviewed authored bytes exact**, through Factory/Web and pinned VC7.1 Oracles.
-See [the current handoff](RE_HANDOFF.md) for live state and retained limits.
-Existing proof, the currently reviewed-authored denominator, and later-phase gates
-remain independent. The October 7 stop remains historical.
+The active reconstruction target is at least **95% of reviewed authored
+bytes exact**, using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a
+executable. See [the current handoff](RE_HANDOFF.md) and refresh the ledgers
+for live totals; dated experiments and prior stop/resume records are historical.
+Exact code, the reviewed-authored denominator, the native Windows product and
+later runtime/port phases are independent gates.
 
 ## Session entry
 
@@ -100,11 +101,16 @@ the sole useful record of unresolved evidence. Once a result is accepted, move
 the durable fact to tracked source/ledgers/docs and delete its probe copy,
 compiler object, PDB, duplicate header, decompilation dump, and stale log.
 
-A normal checkpoint should therefore leave `.analysis/` small. In particular,
-`.obj`, `.pdb`, one-off probe `.cpp` files, copied `.hpp` files, and stale
-inventory CSVs are build/workspace artifacts rather than evidence. Compact
-JSON/TXT/DIS receipts for unresolved frontiers may remain until their facts are
-promoted or superseded. Classify deletion by reproducibility, tracked
+Clear generated object/PDB/bytecode caches routinely, but distinguish them
+from unique, still-reproducible experimental C++ sources, analysis tables and
+JSON audit evidence. A source-copy tree is **not automatically safe to delete**
+merely because its files look generated: first verify how to reproduce the
+original trial and whether its negative result was recorded. The handoff must
+state exactly what was removed and what large scratch archives remain.
+`python3 scripts/clean-generated-artifacts.py` is dry-run by default and
+cleans the ignored `build/` tree plus compiler binaries under `.analysis/`
+only when called with `--apply`. It intentionally leaves copied experiment
+sources, JSON evidence, and original/IDA inputs intact until separately audited. Classify deletion by reproducibility, tracked
 references, and whether the useful fact has been promoted. Do not blindly
 delete a recovered scratch tree before that audit. Once the remaining scratch
 has no tracked consumers and every still-useful unresolved fact is recorded in
