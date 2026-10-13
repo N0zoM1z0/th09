@@ -311,6 +311,18 @@ __forceinline void AssignFlagField(
     flags = (flags & ~mask) | (shiftedValue & mask);
 }
 
+// Opcode 155 updates the one true timeout bit of the shared flags word.
+// TH09's physical target uses a masked XOR of the previous word with the
+// shifted wire byte. Only bit 24 changes, for every possible wire byte.
+// This is a TU-inline implementation detail, not a separate target boundary.
+__forceinline void AssignTimeoutSpellBit(unsigned int &flags,
+                                         unsigned char value)
+{
+    unsigned int old = flags;
+    flags = old ^ ((old ^ (static_cast<unsigned int>(value) << 24)) &
+                   ENEMY_STATE_TIMEOUT_SPELL);
+}
+
 } // namespace Th09EclRunState
 
 #endif // TH09_ECL_RUN_STATE_DECLARATIONS
@@ -626,13 +638,11 @@ __forceinline void AssignFlagField(
     {
         Th09EclRunState::EnemyStateView &state =
             *Th09EclRunState::View(enemy);
-        // Bounded qualified accesses recover the owner's physical extent
-        // and adjacent handler scheduling. This handler still differs:
-        // the write emits AND/OR where the target uses an XOR update.
+        // Read the existing wire byte once. The target's masked XOR leaves
+        // all other flag bits intact, rather than clearing and OR-ing them.
         const volatile unsigned char &value =
             Th09EclRunState::RawByte(instruction, 0);
-        reinterpret_cast<volatile Th09EclRunState::EnemyStateFlagBits *>(
-            &state.primaryFlagBits337C)->timeoutSpell24 = value;
+        Th09EclRunState::AssignTimeoutSpellBit(state.primaryFlags337C, value);
         break;
     }
 
