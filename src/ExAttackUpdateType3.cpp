@@ -1,21 +1,10 @@
 #include "AnmManager.hpp"
 #include "ExAttackController.hpp"
+#include "ExAttackType3DataView.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "Supervisor.hpp"
 
 #include <stddef.h>
-
-struct ExAttackType3UpdateExtra
-{
-    int state00;
-    Float3 motion04;
-    Float3 history10[32];
-};
-
-typedef char ExAttackType3UpdateExtraSizeIs190[
-    (sizeof(ExAttackType3UpdateExtra) == 0x190) ? 1 : -1];
-typedef char ExAttackType3UpdateHistoryAt10[
-    (offsetof(ExAttackType3UpdateExtra, history10) == 0x10) ? 1 : -1];
 
 struct ExAttackType3VmView
 {
@@ -28,20 +17,6 @@ struct ExAttackType3VmView
 
 typedef char ExAttackType3VmViewSizeIs2A4[
     (sizeof(ExAttackType3VmView) == 0x2A4) ? 1 : -1];
-
-struct ExAttackType3UpdateRecord
-{
-    int unknown00;
-    int opponentSide04;
-    int side08;
-    int active0C;
-    ZunTimer timer10;
-    ExAttackType3VmView *vms1C;
-    Float3 position20;
-    int vmCount2C;
-    int unknown30;
-    ExAttackType3UpdateExtra *extra34;
-};
 
 struct ExAttackType3UpdateSideView
 {

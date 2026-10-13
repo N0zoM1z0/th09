@@ -1,32 +1,8 @@
 #include "AnmManager.hpp"
 #include "ExAttackController.hpp"
+#include "ExAttackType3DataView.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "Supervisor.hpp"
-
-struct ExAttackType3Extra
-{
-    int state00;
-    Float3 motion04;
-    Float3 history10[32];
-};
-typedef char ExAttackType3ExtraSizeIs190[
-    (sizeof(ExAttackType3Extra) == 0x190) ? 1 : -1];
-
-struct ExAttackType3RecordView
-{
-    int unknown00;
-    int opponentSide04;
-    int side08;
-    int active0C;
-    ZunTimer timer10;
-    void *dynamicData1C;
-    Float3 position20;
-    int vmCount2C;
-    int unknown30;
-    ExAttackType3Extra *extra34;
-    int parameter38;
-    float angle3C;
-};
 
 struct ExAttackType3PlayerView
 {
