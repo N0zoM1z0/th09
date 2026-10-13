@@ -2,41 +2,15 @@
 #include "AsciiGameManagerView.hpp"
 #include "AsciiManager.hpp"
 #include "ExAttackController.hpp"
+#include "ExAttackType19ExtraView.hpp"
 
 #include <stddef.h>
 
-struct ExAttackTrailVertex
-{
-    Float3 pos;
-    float rhw;
-    unsigned long diffuse;
-    float u;
-    float v;
-};
-typedef char ExAttackTrailVertexSizeIs1C[
-    (sizeof(ExAttackTrailVertex) == 0x1C) ? 1 : -1];
-
-struct ExAttackTrailExtra
-{
-    int state00;
-    unsigned char unknown004[0x4C - 0x04];
-    ExAttackTrailVertex vertices4C[33];
-    // Center sample plus the 32 samples written by initialization/update.
-    Float3 history3E8[33];
-    unsigned char unknown574[0x684 - 0x574];
-    int drawPending684;
-};
-
-typedef char ExAttackTrailExtraHistoryEndIs574[
-    (offsetof(ExAttackTrailExtra, history3E8) +
-     sizeof(((ExAttackTrailExtra *)0)->history3E8) == 0x574) ? 1 : -1];
-
-typedef char ExAttackTrailVerticesAt4C[
-    (offsetof(ExAttackTrailExtra, vertices4C) == 0x4C) ? 1 : -1];
-typedef char ExAttackTrailHistoryAt3E8[
-    (offsetof(ExAttackTrailExtra, history3E8) == 0x3E8) ? 1 : -1];
-typedef char ExAttackTrailPendingAt684[
-    (offsetof(ExAttackTrailExtra, drawPending684) == 0x684) ? 1 : -1];
+// Both Type19 and Type21 draw routes use the target-proven common prefix
+// of the Type19 initializer/update dynamic data record (through +0x684).
+// Type21 also owns an extra angle at +0x688, unused by this draw callback.
+typedef ExAttackType19Vertex ExAttackTrailVertex;
+typedef ExAttackType19Extra ExAttackTrailExtra;
 
 struct ExAttackTrailRecordView
 {
