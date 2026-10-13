@@ -68,7 +68,7 @@ candidate/profile and require fresh compilation after source edits. Consult
 | ExAttack Type14/22 Draw | 0x00444130 | 959 target / 974 candidate; 53 fields, 20 direct + 12 indirect calls; **9/9 verified jumps, 43 aligned change spans** | Record/Extra lifetime and loop scheduling; `scripts/inspect-exattack-type14-22-draw.py --explain`, **NON-EXACT** |
 | ExAttack Type19 Update | 0x0044A330 | 821 bytes, 35 fields, **198** differences | Player-slot and record register residency; `scripts/inspect-exattack-type19.py` |
 | ExAttack Type3 Update | 0x00442750 | 780 bytes, 38 fields, **15** differences | `middle.z` store / tail-X call-argument order |
-| Etama OnDraw | 0x00413BE0 | 600 target / 594 candidate; 27 candidate fields | Laser body VM base, cap and record cursors |
+| Etama OnDraw | 0x00413BE0 | 600 target / 594 candidate; 27 bound fields, 13 ordered calls; **17 / 18 direct blocks (target/candidate)** | Two independent Laser/body-position cursors, compiler loop alignment; `scripts/inspect-etama-draw.py --explain`, **NON-EXACT** |
 | Title DrawResult | 0x00423D16 | 1,939 bytes, 82 fields, **22** differences | Score-bank pointer / screen-state read schedule |
 | Title DrawCallback | 0x00424898 | 329 target / 328 candidate, 20 fields | Single missing target `DEC EAX` at `+0x101`; `scripts/inspect-title-draw-callback.py` |
 | Title Options | 0x004276EB | 2,045 target / 2,048 candidate; 135 fields | Configuration/reference lifetimes |
@@ -93,6 +93,11 @@ is maintained separately in [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTI
   argument conversion resolved the final x87 FSUBR/PUSH scheduling. Factory
   **pass/accepted** receipt `receipt:44cacda296eb6f3a51916daa49d7a31f9fba8d6c1b8400983bfa3c93d1fead8f`
   is bound to source commit `480f2028f82b790a080be6f09994736286d0bc95`.
+- **`DrawSingleBullet @ 0x00413AF0`**: 215/215 authored, 232/232 complete
+  physical bytes with all 16 relocations. The refreshed same-TU compiler-private
+  switch-table `$L1914` is independently at target +0xD8; the original jump
+  operand remains `0x00413BC8`. This **repairs an existing exact replay
+  manifest**, without adding an exact function or promoting nonexact OnDraw.
 - **`EtamaController::OnUpdate`**, **`TitleScreenView::OnUpdateMusicRoom`**,
   **`TitleScreenView::TitleSetupThread`** and **`ExAttackUpdateCallbackType21`**
   are *already* canonical exact. Four accepted cold replays of these existing
