@@ -1,26 +1,11 @@
 #include "AnmManager.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "ExAttackController.hpp"
+#include "ExAttackType1422ExtraView.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "Supervisor.hpp"
 
 #include <stddef.h>
-
-struct ExAttackType14Extra
-{
-    int state00;
-    Float3 motion04;
-    Float3 point10;
-    Float3 point1C;
-    Float3 point28;
-    Float3 point34;
-    Float3 spawnPosition40;
-    unsigned char unknown4C[4];
-    float value50;
-    unsigned char unknown54[0xF48 - 0x54];
-};
-typedef char ExAttackType14ExtraSizeIsF48[
-    (sizeof(ExAttackType14Extra) == 0xF48) ? 1 : -1];
 
 struct ExAttackType2InitRecord
 {
@@ -102,18 +87,18 @@ int __fastcall ExAttackInitializeCallbackType14(ExAttackRecord *base)
     extra->point10.y = g_GameManager.TransformPopupY(record->position20.y);
     extra->point10.z = 0.0f;
 
-    extra->spawnPosition40.x =
+    extra->spawn40.x =
         g_ReplayRng.GetRandomF32SignedInRange(
             g_ExAttackPlayfieldWidth * 0.5f - 8.0f);
-    extra->spawnPosition40.y =
+    extra->spawn40.y =
         g_ReplayRng.GetRandomF32InRange(128.0f);
-    extra->spawnPosition40.z = 0.0f;
+    extra->spawn40.z = 0.0f;
 
     g_Supervisor.SelectSide(record->opponentSide04);
     extra->point1C.x =
-        g_GameManager.TransformPopupX(extra->spawnPosition40.x);
+        g_GameManager.TransformPopupX(extra->spawn40.x);
     extra->point1C.y =
-        g_GameManager.TransformPopupY(extra->spawnPosition40.y);
+        g_GameManager.TransformPopupY(extra->spawn40.y);
     extra->point1C.z = 0.0f;
     g_Supervisor.SelectSide(record->side08);
     extra->value50 = 4.0f;

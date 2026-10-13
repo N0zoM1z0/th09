@@ -2,36 +2,10 @@
 #include "AsciiGameManagerView.hpp"
 #include "AsciiManager.hpp"
 #include "ExAttackController.hpp"
+#include "ExAttackType1422ExtraView.hpp"
 
 #include <d3d8.h>
 #include <stddef.h>
-
-struct ExAttackType1422DrawVertex
-{
-    Float3 pos;
-    float rhw;
-    unsigned long diffuse;
-};
-typedef char ExAttackType1422DrawVertexSizeIs14[
-    (sizeof(ExAttackType1422DrawVertex) == 0x14) ? 1 : -1];
-
-struct ExAttackType1422DrawExtra
-{
-    int state00;
-    Float3 motion04;
-    Float3 point10;
-    Float3 point1C;
-    Float3 point28;
-    Float3 point34;
-    Float3 spawn40;
-    int drawPending4C;
-    float value50;
-    ExAttackType1422DrawVertex centerFan54[33];
-    ExAttackType1422DrawVertex fanGroups2E8[4][33];
-    float randomD38[4][33];
-};
-typedef char ExAttackType1422DrawExtraSizeIsF48[
-    (sizeof(ExAttackType1422DrawExtra) == 0xF48) ? 1 : -1];
 
 struct ExAttackType1422DrawRecord
 {

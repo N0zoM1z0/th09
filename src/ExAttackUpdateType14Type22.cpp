@@ -1,44 +1,12 @@
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "ExAttackController.hpp"
+#include "ExAttackType1422ExtraView.hpp"
 #include "ExAttackInterpolation.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "RngRuntimeLeaves.hpp"
 
 #include <stddef.h>
-
-struct ExAttackType1422Vertex
-{
-    Float3 pos;
-    float rhw;
-    unsigned long diffuse;
-};
-typedef char ExAttackType1422VertexSizeIs14[
-    (sizeof(ExAttackType1422Vertex) == 0x14) ? 1 : -1];
-
-struct ExAttackType1422Extra
-{
-    int state00;
-    Float3 motion04;
-    Float3 point10;
-    Float3 point1C;
-    Float3 point28;
-    Float3 point34;
-    Float3 spawn40;
-    unsigned char unknown4C[4];
-    float value50;
-    ExAttackType1422Vertex centerFan54[33];
-    ExAttackType1422Vertex fanGroups2E8[4][33];
-    float randomD38[4][33];
-};
-typedef char ExAttackType1422ExtraSizeIsF48[
-    (sizeof(ExAttackType1422Extra) == 0xF48) ? 1 : -1];
-typedef char ExAttackType1422CenterAt54[
-    (offsetof(ExAttackType1422Extra, centerFan54) == 0x54) ? 1 : -1];
-typedef char ExAttackType1422GroupsAt2E8[
-    (offsetof(ExAttackType1422Extra, fanGroups2E8) == 0x2E8) ? 1 : -1];
-typedef char ExAttackType1422RandomAtD38[
-    (offsetof(ExAttackType1422Extra, randomD38) == 0xD38) ? 1 : -1];
 
 struct ExAttackType1422Record
 {
