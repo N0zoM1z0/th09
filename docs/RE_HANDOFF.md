@@ -38,14 +38,14 @@ Checked against `config/functions.csv`, `config/function-origins.csv`,
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 934 |
-| Source-present non-exact functions | 46 |
-| Source-present non-exact bytes | 52,051 |
+| Canonical exact functions | 935 |
+| Source-present non-exact functions | 45 |
+| Source-present non-exact bytes | 51,646 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 223,719 |
+| Canonical exact authored bytes | 224,124 |
 
-**223,719 / 275,770 reviewed-authored bytes = 81.1252% exact**.
-To reach 95% of this currently classified denominator, another **38,263
+**224,124 / 275,770 reviewed-authored bytes = 81.2721% exact**.
+To reach 95% of this currently classified denominator, another **37,858
 bytes** must be exact. The 35 origin-unresolved functions are excluded from
 that denominator and could alter it after review. Complete faithful Windows
 i386 product/link/runtime closure is **open**; semantic reconstruction and
@@ -55,7 +55,7 @@ exact codegen does not imply a runnable game.
 ## Active frontiers
 
 These are **selected** source-present non-exact functions, **not** a complete
-46-item inventory or a ranking by difficulty. Size is the target logical
+45-item inventory or a ranking by difficulty. Size is the target logical
 extent unless marked *physical*. Measurements are tied to the maintained
 candidate/profile and require fresh compilation after source edits. Consult
 `config/functions.csv` and the relevant knowledge-base evidence first.
@@ -79,7 +79,6 @@ candidate/profile and require fresh compilation after source edits. Consult
 | Effect AddedCallback | 0x0040D1C0 | 51 bytes; 4 fields; **8** differing bytes | Original direct global-to-EDI load; `scripts/inspect-effect-added.py` |
 | Enemy collision-box leaf | 0x00410250 | 82 bytes, 2 direct calls, **31** differing bytes | Shares exact receiver declaration with 3,900-byte EnemyManager OnUpdate; Float3 return-copy schedule still open; `scripts/inspect-enemy-collision-box.py` |
 | FileSystem TryDecryptFromTable | 0x0042C290 | **220/220** bytes, 12 physical fields, 2 calls, 11 matching blocks; **38 byte differences** | Validated 8x12-byte source wire layout, original signature/table identities; `scripts/inspect-file-decrypt-table.py` **NON-EXACT** |
-| FrontMessage LoadForSideCount | 0x004182E0 | 405 target / 403 candidate; 18 reviewed fields, 8 ordered calls, 32/28 graph blocks | Shared file-offset/pointer layout in `src/FrontMessageTableView.hpp`; `scripts/inspect-front-message-load.py --explain`; **NON-EXACT** |
 | Gameplay setup worker | 0x0041AF2D | 1,689 target/candidate; 172 / 171 operand fields; 155 aligned identities, 13 field-difference spans; 78 / 77 direct blocks | Owner/reuse-base lifetime, flags cursor and switch graph; `scripts/inspect-gameplay-setup.py --summary --field-diff`, **NON-EXACT** |
 | GameManager OnUpdate | 0x0041AA5F | 1,230 bytes, 87 fields, 105 differences | Input snapshot and entry-zero schedule |
 | Player movement | 0x0041C170 | 1,835 authored / 1,900 physical; 66 fields | Position clamp and register allocation |
@@ -91,6 +90,8 @@ Title helpers) live in `config/functions.csv`. The exact short-function subset
 is maintained separately in [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md).
 
 ## Closed codegen owners and accepted receipts
+
+- **`FrontMessageRuntimeView::LoadForSideCount @ 0x004182E0` — newly canonical exact (commit/receipt pending):** pinned VC7.1 `/O2 /Ob1 /Oi /Oy- /Gr` emits **405/405 original bytes, 146/146 instructions, 18 independently bound original COFF fields, 8 ordered calls, 32/32 identical direct CFG blocks, three `ret 0xC` exits**. Starting from the former source's **403/405 bytes, 356 linked differences and 28/32 direct blocks**, reversed the two *real* primary/secondary cache hit/miss branches to load on cache miss, expressed the primary scan as a bounded `do/while` with its actual count break, and changed the inner opcode-7 music iterator to a nullable pre-tested `while` loop. That recovers 405/405 extent and all 32 blocks with only four register-scheduling bytes different. Reusing the real `errorPath` argument for `FileSystem::OpenFile` and explicitly preserving its NULL case yields the target's `EDI → ECX` path-argument order in both file-open branches, closing the final 4 bytes without fake state effects, asm, volatile steering or padding. The canonical `front-message-load-for-side-count` unit credits this one **405-byte owner**, raising exact count **934 → 935**; independent Factory cold replay after commit is still required, and the whole Windows build/runtime stages remain open.
 
 - **`FrontMessageRuntimeView::ReleaseForSideCount @ 0x00417520` — newly canonical exact:** pinned `/O2 /Ob1 /Oi /Oy- /Gr` produces **271/271 full bytes**, all **14 independently original-bound code relocations, six ordered original calls, 87 original instructions, all 20/20 direct CFG blocks**. The existing pre-guarded `do/while` emitted 268 bytes, 130 complete linked byte differences, and one additional CFG block. Replacing it with the semantically equivalent nullable guarded **`while (current04->opcode02 != 0)`** naturally recovers exact jump entrance, byte-reload instruction order and the PE owner: no inserted NOPs, volatile/reg steering, padding, invented runtime calls, source-layout changes or altered Windows ABI. Strict `front-message-release-for-side-count` manifest and authoritative ledgers now credit this 271-byte owner, raising exact count **933 → 934**. Factory `strict-live-v1` forced-cold replay of committed `99ea00b320799856ab15a30644c6d081260a08df` returned **`pass / accepted`** (job `job:4b6931f5a50e4747992304c713ef85cf`, receipt `receipt:3ad8649181efbc34d2b08b5d1ead5d96ddd77d7fec074b9a0508219dfdf567a1`). This acceptance is **commit-scoped** and does not close the whole Windows build/runtime stages.
 
@@ -177,7 +178,7 @@ units when cleaning, and never alter source just to manipulate comparisons.
 
 This is the **2026-10-13 clean handoff**. The canonical source/ledger and
 original target remain authoritative; local compiled objects do not. Current
-counts are the verified **980 source-present / 934 exact / 46 non-exact**,
+counts are the verified **980 source-present / 935 exact / 45 non-exact**,
 not the historical 979/876/103 estimate. The whole Windows i386 build and
 runtime/semantic phases remain **open**. All screen/Etama/Title/ExAttack
 exactness statements in older dated experiments and Factory receipts are

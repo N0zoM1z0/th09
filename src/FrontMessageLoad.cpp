@@ -37,15 +37,19 @@ int FrontMessageRuntimeView::LoadForSideCount(
     ReleaseForSideCount(startIndex);
     reinterpret_cast<FrontMessageRuntimeResetView *>(this)->Reset();
 
-    if (g_FrontMessagePrimaryCache != 0)
+    if (g_FrontMessagePrimaryCache == 0)
     {
-        primary00 = g_FrontMessagePrimaryCache;
-    }
-    else
-    {
-        errorPath = primaryPath;
+        // Preserve the nullable input for both the open and error path.
+        if (primaryPath == NULL)
+        {
+            errorPath = NULL;
+        }
+        else
+        {
+            errorPath = primaryPath;
+        }
         primary00 = reinterpret_cast<FrontMessageTableView *>(
-            FileSystem::OpenFile(primaryPath, 0, 0));
+            FileSystem::OpenFile(errorPath, 0, 0));
         g_FrontMessagePrimaryCache = primary00;
         if (primary00 == 0)
             goto load_error;
@@ -61,21 +65,29 @@ int FrontMessageRuntimeView::LoadForSideCount(
             }
         }
     }
+    else
+    {
+        primary00 = g_FrontMessagePrimaryCache;
+    }
 
     if (!g_GameManager.IsGameMode2())
     {
         unsigned char loadedMusic[256];
         memset(loadedMusic, 0, sizeof(loadedMusic));
 
+        // A bounded outer do/while preserves the original zero-trip guard
+        // and the pre-body table-count exit from TH09's message worker.
         int endIndex = startIndex + 10;
         if (startIndex < endIndex)
         {
-            while (startIndex < primary00->count00)
+            do
             {
+                if (startIndex >= primary00->count00)
+                    break;
                 current04 = primary00->entries04[startIndex].instructions00;
-                if (current04 != 0 && current04->opcode02 != 0)
+                if (current04 != 0)
                 {
-                    do
+                    while (current04->opcode02 != 0)
                     {
                         if (current04->opcode02 == 7 &&
                             loadedMusic[current04->argument04] == 0)
@@ -90,26 +102,28 @@ int FrontMessageRuntimeView::LoadForSideCount(
                                 current04->size03 + 4);
                         current04 = next;
                     }
-                    while (current04->opcode02 != 0);
                 }
 
                 ++startIndex;
-                if (startIndex >= endIndex)
-                    return 0;
             }
+            while (startIndex < endIndex);
         }
         return 0;
     }
 
-    if (g_FrontMessageSecondaryCache != 0)
+    if (g_FrontMessageSecondaryCache == 0)
     {
-        secondary0C = g_FrontMessageSecondaryCache;
-    }
-    else
-    {
-        errorPath = secondaryPath;
+        // Preserve the nullable input for both the open and error path.
+        if (secondaryPath == NULL)
+        {
+            errorPath = NULL;
+        }
+        else
+        {
+            errorPath = secondaryPath;
+        }
         secondary0C = reinterpret_cast<FrontMessageTableView *>(
-            FileSystem::OpenFile(secondaryPath, 0, 0));
+            FileSystem::OpenFile(errorPath, 0, 0));
         g_FrontMessageSecondaryCache = secondary0C;
         if (secondary0C == 0)
             goto load_error;
@@ -119,6 +133,10 @@ int FrontMessageRuntimeView::LoadForSideCount(
             secondary0C->entries04[i].offset00 +=
                 reinterpret_cast<unsigned int>(secondary0C);
         }
+    }
+    else
+    {
+        secondary0C = g_FrontMessageSecondaryCache;
     }
 
     g_Supervisor.LoadMusic(g_FrontMessageSource->musicId0C);
