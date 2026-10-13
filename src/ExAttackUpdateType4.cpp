@@ -1,25 +1,9 @@
 #include "AnmManager.hpp"
 #include "ExAttackController.hpp"
+#include "ExAttackHistory32ExtraView.hpp"
 #include "PlayerLifecycleView.hpp"
 
 #include <stddef.h>
-
-struct ExAttackType4UpdateExtra
-{
-    int state00;
-    Float3 parameterVector04;
-    Float3 history10[32];
-};
-
-typedef char ExAttackType4UpdateExtraSizeIs190[
-    (sizeof(ExAttackType4UpdateExtra) == 0x190) ? 1 : -1];
-
-struct ExAttackType4SourceExtra
-{
-    int state00;
-    Float3 motion04;
-    Float3 history10[32];
-};
 
 struct ExAttackType4SourceRecord
 {
@@ -141,7 +125,7 @@ int __fastcall ExAttackUpdateCallbackType4(ExAttackRecord *base)
         }
         else if (record->timer10 >= 30)
         {
-            *position += extra->parameterVector04;
+            *position += extra->motion04;
 
             g_GameManager.sides[record->opponentSide04]
                 .player04->collisionQuery36C.AppendCircleRecord(

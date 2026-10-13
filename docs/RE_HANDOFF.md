@@ -67,7 +67,7 @@ candidate/profile and require fresh compilation after source edits. Consult
 | ExAttack Type19/21 initializers | 0x0044A030 / 0x0044B220 | 763 / 727 bytes; 57 / 53 fields; **6 / 9** differences | Type19 and Type21 each use a single shared init/update layout in `ExAttackType19ExtraView.hpp` and `ExAttackType21ExtraView.hpp`; Type21 exact Update is preserved; vertex/history-cursor scheduling still open; `scripts/inspect-exattack-trail-init.py` |
 | ExAttack Type14/22 Draw | 0x00444130 | 959 target / 974 candidate; 53 fields, 20 direct + 12 indirect calls; **9/9 verified jumps, 43 aligned change spans** | All Type14/22 init/update/draw callbacks now share 0xF48 Extra and the original 0x38 record prefix in `src/ExAttackType1422ExtraView.hpp`; Type22 alone owns parameter +0x38; Draw register/loop scheduling still open; `scripts/inspect-exattack-type14-22-draw.py --explain`, **NON-EXACT** |
 | ExAttack Type19 Update | 0x0044A330 | 821 bytes, 35 fields, **198** differences | Shared Type19 record/extra layout now enforced across init/update; player-slot and register residency remain; `scripts/inspect-exattack-type19.py` |
-| ExAttack Type3 Update | 0x00442750 | 780 bytes, 38 fields, **15** differences | Common `ExAttackType3DataView.hpp` with the 454-byte exact initializer; `middle.z` store / tail-X call-argument order remains |
+| ExAttack Type3 Update | 0x00442750 | 780 bytes, 38 fields, **15** differences | Shared `ExAttackHistory32ExtraView.hpp` with Type3/Type4 init/update; `ExAttackType3DataView.hpp` retains Type3 record; `middle.z` / tail-X scheduling still open |
 | Etama OnDraw | 0x00413BE0 | 600 target / 594 candidate; 27 bound fields, 13 ordered calls; **17 / 18 direct blocks (target/candidate)** | Two independent Laser/body-position cursors, compiler loop alignment; `scripts/inspect-etama-draw.py --explain`, **NON-EXACT** |
 | Title DrawResult | 0x00423D16 | 1,939 bytes, 82 fields, **22** differences | Score-bank pointer / screen-state read schedule |
 | Title DrawCallback | 0x00424898 | 329 target / 328 candidate, 20 fields | Single missing target `DEC EAX` at `+0x101`; `scripts/inspect-title-draw-callback.py` |
@@ -89,6 +89,8 @@ Title helpers) live in `config/functions.csv`. The exact short-function subset
 is maintained separately in [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md).
 
 ## Closed codegen owners and accepted receipts
+
+- **ExAttack Type3/Type4 32-history family (already exact members):** Type3 init **454/454**, Type4 init **368/368**, Type4 update **739/739** under the shared 0x190-byte state/vector/history Extra. Type3 update still NON-EXACT at **780 bytes / 38 fields / 15 differences**. All four complete original source carriers were cold-build byte-/physical-relocation-neutral on initial consolidation, which preserves physically identical slots without conflating attack semantics. See `src/ExAttackHistory32ExtraView.hpp`; canonical exact counts must not change for a type-view refactor.
 
 - **ExAttack Type3 initializer (existing exact):** `0x00442580`, 454/454 bytes and 28 bound fields on the common Type3 0x190-byte Extra view shared with its nonexact update; Factory forced-cold `pass/accepted` on `ca196ad`, receipt `receipt:540923b335d5fd34933b84eacfeae66565096f29fd002681dd5cae37048d6f7d`. The Type3 Update remains NON-EXACT at 780 bytes/38 fields/15 differences. This is a regression receipt, not a new exact claim.
 

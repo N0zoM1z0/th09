@@ -1,17 +1,9 @@
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "ExAttackController.hpp"
+#include "ExAttackHistory32ExtraView.hpp"
 #include "Supervisor.hpp"
 #include "ZunMemory.hpp"
-
-struct ExAttackType4Extra
-{
-    int state00;
-    Float3 parameterVector04;
-    Float3 history10[32];
-};
-typedef char ExAttackType4ExtraSizeIs190[
-    (sizeof(ExAttackType4Extra) == 0x190) ? 1 : -1];
 
 struct ExAttackType4ParameterSource
 {
@@ -97,7 +89,7 @@ int __fastcall ExAttackInitializeCallbackType4(ExAttackRecord *base)
 
     Float3 *parameterVector =
         reinterpret_cast<Float3 *>(record->parameter38->vectorOwner34 + 4);
-    extra->parameterVector04 = *parameterVector;
+    extra->motion04 = *parameterVector;
     extra->state00 = 0;
 
     Float3 *history = extra->history10;
