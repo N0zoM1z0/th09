@@ -144,6 +144,16 @@ class Type1422AlignedShapeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'displacement'):
             INSPECT.normalized_owner_shape(stream, [], base=0x1000)
 
+    def test_inconsistent_encoded_jump_and_noncontiguous_stream_fail(self):
+        altered = self.stream()
+        altered[1] = self.ins(0x1006, b'\x75\x04', 'jne', '0x100d', 1, 1)
+        with self.assertRaisesRegex(ValueError, 'displacement disagree'):
+            INSPECT.normalized_owner_shape(altered, [], base=0x1000)
+        altered = self.stream()
+        altered[2] = self.ins(0x1009, b'\xb8\x01\x00\x00\x00')
+        with self.assertRaisesRegex(ValueError, 'noncontiguous'):
+            INSPECT.normalized_owner_shape(altered, [], base=0x1000)
+
     def test_duplicate_boundaries_are_rejected(self):
         stream = self.stream()
         stream[1] = self.ins(0x1000, b'\x75\x05', 'jne', '0x100d', 1, 1)
