@@ -90,6 +90,8 @@ is maintained separately in [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTI
 
 ## Closed codegen owners and accepted receipts
 
+- **ExAttack Type3 initializer (existing exact):** `0x00442580`, 454/454 bytes and 28 bound fields on the common Type3 0x190-byte Extra view shared with its nonexact update; Factory forced-cold `pass/accepted` on `ca196ad`, receipt `receipt:540923b335d5fd34933b84eacfeae66565096f29fd002681dd5cae37048d6f7d`. The Type3 Update remains NON-EXACT at 780 bytes/38 fields/15 differences. This is a regression receipt, not a new exact claim.
+
 - **Supervisor frame-queue family (existing exact)**: `InsertPredictedFrame @ 0x0042EAC0` **191/191**, `PopFrame @ 0x0042EB80` **119/119**, and Mode4 queue `ResetTitleMode4Supervisor @ 0x0042EC30` **177/177**, after shared queue record/view corrections. Factory forced-cold `pass/accepted` receipts respectively `receipt:9d49fc892a1cb0c86ae8b17a1611c146fb8d86187cb4c8193fe27daa8d6b1d7a` and `receipt:e0a9041d000117a4304faa47bffcb476ecbb67d20c20f07f1f903a9b7de48760` for committed `f3bec14`, plus `receipt:b757b79ef7616bf001af8317cd073f0edc8356910290b4c44fd025ff3442ac30` for committed `2323c23`. The separate `AreFrameQueuesSynchronized` helper also remains exact at 49/49. **The 213-byte `InsertReceivedFrame` is still NON-EXACT (35 differences); these are regressions, not newly exact functions.**
 
 - **`EnemyManagerDrawImpl @ 0x00411670`**: **1,758 / 1,758 complete bytes,
