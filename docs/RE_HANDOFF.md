@@ -63,6 +63,7 @@ candidate/profile and require fresh compilation after source edits. Consult
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | RunEcl | 0x004086C0 | **15,564 physical** = 14,792 code + 772 table; 598 fields; **30** ordinary byte differences, zero field/table differences | 146/148 handler shapes; opcode 4 (timer load/push schedule, 7 bytes) and opcode 155 (XOR/AND/XOR now modeled, byte-load/register schedule still 23 bytes); `scripts/inspect-ecl-complete.py` |
+| ECL MoveRandomBiased leaf | 0x00407E30 | **516 target / 517 candidate**, 28 independently bound fields, 14 ordered calls, 24/24 blocks; **148 overlapping differences and 1 extra byte** | Original `LEA ECX,[EAX+4]` / twice `[ECX]` versus candidate `MOV ECX,EAX` / twice `[ECX+4]`; new strict `scripts/inspect-ecl-biased-movement.py --explain`, **NON-EXACT** |
 | EnemyManager OnUpdate | 0x00410730 | **3,900 physical**, 97 fields, **39** differences | Its 82-byte collision append leaf now shares `EnemyAppendCollisionView.hpp` (unchanged physical ABI); four register/copy windows remain; `scripts/inspect-enemy-manager-update.py --explain` |
 | ExAttack Type19/21 initializers | 0x0044A030 / 0x0044B220 | 763 / 727 bytes; 57 / 53 fields; **6 / 9** differences | Type19 and Type21 each use a single shared init/update layout in `ExAttackType19ExtraView.hpp` and `ExAttackType21ExtraView.hpp`; Type21 exact Update is preserved; vertex/history-cursor scheduling still open; `scripts/inspect-exattack-trail-init.py` |
 | ExAttack Type14/22 Draw | 0x00444130 | 959 target / 974 candidate; 53 fields, 20 direct + 12 indirect calls; **9/9 verified jumps, 43 aligned change spans** | All Type14/22 init/update/draw callbacks now share 0xF48 Extra and the original 0x38 record prefix in `src/ExAttackType1422ExtraView.hpp`; Type22 alone owns parameter +0x38; Draw register/loop scheduling still open; `scripts/inspect-exattack-type14-22-draw.py --explain`, **NON-EXACT** |
@@ -150,6 +151,7 @@ python3 scripts/compare-coff-function.py --unit exattack-type21-update --json
 python3 scripts/build-match-unit.py --unit ecl-pop-context
 python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj
 python3 scripts/report-ecl-handler-shapes.py --explain all build/matching/EclManager.obj
+python3 scripts/inspect-ecl-biased-movement.py build/matching/EclManager.obj --explain
 python3 scripts/validate-docs.py
 python3 scripts/progress.py --check
 python3 scripts/ci.py
