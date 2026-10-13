@@ -41,6 +41,25 @@ class SupervisorBindingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "overlapping fields"):
             DIAGNOSTIC.bind(bytes(32), [local_field(4), local_field(6)])
 
+    def test_title_registration_counts_actual_direct_calls_only(self):
+        target = DIAGNOSTIC.TITLE_REGISTER_TARGET
+        calls = [
+            {"address": DIAGNOSTIC.BASE + 8, "destination": target},
+            {"address": DIAGNOSTIC.BASE + 16, "indirect": "[ecx+0x14]"},
+            {"address": DIAGNOSTIC.BASE + 24, "destination": 0x0041B9D0},
+            {"address": DIAGNOSTIC.BASE + 32, "destination": target},
+        ]
+        self.assertEqual(DIAGNOSTIC.count_direct_calls_to(calls, target), 2)
+        self.assertEqual(DIAGNOSTIC.count_direct_calls_to(calls, 0x0041B9D0), 1)
+        self.assertEqual(DIAGNOSTIC.count_direct_calls_to([], target), 0)
+        with self.assertRaisesRegex(ValueError, "unreviewed destination"):
+            DIAGNOSTIC.count_direct_calls_to(calls, -1)
+        for bad in ([{"destination": target}],
+                    [{"address": DIAGNOSTIC.BASE, "unreviewed": 1}],
+                    [{"address": DIAGNOSTIC.BASE, "destination": "unknown"}]):
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                DIAGNOSTIC.count_direct_calls_to(bad, target)
+
     def test_field_and_label_must_belong_to_complete_owner(self):
         with self.assertRaisesRegex(ValueError, "field outside complete owner"):
             DIAGNOSTIC.bind(bytes(32), [local_field(30)])

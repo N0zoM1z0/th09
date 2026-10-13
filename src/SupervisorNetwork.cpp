@@ -3,6 +3,7 @@
 #include "Controller.hpp"
 #include "SupervisorNetworkState.hpp"
 #include "SupervisorFrameQueueView.hpp"
+#include "SupervisorFrameQueueStorageView.hpp"
 
 #include <windows.h>
 #include <mmsystem.h>
@@ -51,7 +52,8 @@ struct SupervisorNetworkView
     unsigned char unknown470[0x04];
     unsigned int connectionTime;
     int networkBusy;
-    unsigned char unknown47C[0x584 - 0x47C];
+    SupervisorFrameEntryStorageView entries47C[20];
+    SupervisorFrameEntryStorageView lastReceived56C[2];
     AnmVm *messageVm;
     unsigned int connectStartTime;
     unsigned char unknown58C[0x5D4 - 0x58C];
@@ -64,6 +66,14 @@ typedef char NetworkFramePacketSizeIs0C[
     (sizeof(NetworkFramePacket) == 0x0C) ? 1 : -1];
 typedef char SupervisorNetworkFrameAt458[
     (offsetof(SupervisorNetworkView, frameCounter) == 0x458) ? 1 : -1];
+typedef char SupervisorNetworkQueuesAt47C[
+    (offsetof(SupervisorNetworkView, entries47C) == 0x47C) ? 1 : -1];
+typedef char SupervisorNetworkLastReceivedAt56C[
+    (offsetof(SupervisorNetworkView, lastReceived56C) == 0x56C) ? 1 : -1];
+typedef char SupervisorNetworkQueueBytesAreF0[
+    (sizeof(((SupervisorNetworkView *)0)->entries47C) == 0xF0) ? 1 : -1];
+typedef char SupervisorNetworkLastReceivedBytesAre18[
+    (sizeof(((SupervisorNetworkView *)0)->lastReceived56C) == 0x18) ? 1 : -1];
 typedef char SupervisorNetworkMessageAt584[
     (offsetof(SupervisorNetworkView, messageVm) == 0x584) ? 1 : -1];
 typedef char SupervisorNetworkFlagsAt5D4[

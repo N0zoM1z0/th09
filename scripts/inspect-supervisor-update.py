@@ -155,6 +155,28 @@ def decode(raw, table_start, md, x86):
     )
 
 
+# Reviewed TH09 target calls RegisterTitleScreen (source alias
+# RegisterStateObject) only ONCE: mode 0 and mode 1 both reach that physical
+# call via independently observed ECX=0/1 input paths. A codegen candidate
+# with three physical calls is nonexact even if all are behaviorally valid.
+TITLE_REGISTER_TARGET = 0x0042AB13
+
+
+def count_direct_calls_to(calls, destination):
+    """Count actual decoded direct calls, never branch/indirect placeholders."""
+    require(isinstance(destination, int) and destination > 0, "unreviewed destination")
+    count = 0
+    for entry in calls:
+        require(isinstance(entry, dict) and isinstance(entry.get("address"), int),
+                "unreviewed decoded call entry")
+        if "destination" in entry:
+            require(isinstance(entry["destination"], int), "bad direct callee")
+            count += int(entry["destination"] == destination)
+        else:
+            require("indirect" in entry, "unreviewed call identity")
+    return count
+
+
 def inspect(path, symbol=SYMBOL):
     # Optional decoder is imported only for this private-target entrypoint.
     import capstone
@@ -173,6 +195,9 @@ def inspect(path, symbol=SYMBOL):
     candidate = decode(linked, table_start, md, x86)
     wanted = decode(target, CODE_SIZE, md, x86)
     require(len(wanted["fields"]) == 92, "unexpected target operand inventory")
+    original_register_calls = count_direct_calls_to(wanted["calls"], TITLE_REGISTER_TARGET)
+    require(original_register_calls == 1, "original title registration call count drifted")
+    candidate_register_calls = count_direct_calls_to(candidate["calls"], TITLE_REGISTER_TARGET)
     require(candidate["fields"] == sorted([r["offset"], r["type"], r["destination"]] for r in bindings),
             "candidate relocation/operand inventory differs")
     external = lambda rows, size: Counter((kind, destination) for p, kind, destination in rows
@@ -191,6 +216,9 @@ def inspect(path, symbol=SYMBOL):
         first_difference_offset=differences[0] if differences else None,
         target_fields=len(wanted["fields"]), candidate_fields=len(bindings),
         target_calls=len(wanted["calls"]), candidate_calls=len(candidate["calls"]),
+        target_title_register_calls=original_register_calls,
+        candidate_title_register_calls=candidate_register_calls,
+        shared_title_register_call_agree=(original_register_calls == candidate_register_calls),
         external_field_inventory_equal=candidate_external == target_external,
         missing_external_fields=[[kind, destination, count] for (kind, destination), count
                                  in (target_external - candidate_external).items()],

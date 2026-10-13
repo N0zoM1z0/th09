@@ -2,6 +2,7 @@
 #include "Chain.hpp"
 #include "AnmManager.hpp"
 #include "SupervisorNetworkState.hpp"
+#include "SupervisorFrameQueueStorageView.hpp"
 
 #include <d3d8.h>
 
@@ -34,7 +35,9 @@ struct SupervisorUpdateLayout
     int calcCount;
     unsigned char unknown458[0x478 - 0x458];
     int field478;
-    unsigned char unknown47C[0x58C - 0x47C];
+    SupervisorFrameEntryStorageView entries47C[20];
+    SupervisorFrameEntryStorageView lastReceived56C[2];
+    unsigned char unknown584[0x58C - 0x584];
     int wantedState;
     int curState;
     int wantedState2;
@@ -54,6 +57,12 @@ struct SupervisorUpdateLayout
 
 typedef char SupervisorUpdateLayoutSizeCheck[
     (sizeof(SupervisorUpdateLayout) == 0x7A8) ? 1 : -1];
+typedef char SupervisorUpdateQueuesAt47C[
+    (offsetof(SupervisorUpdateLayout, entries47C) == 0x47C) ? 1 : -1];
+typedef char SupervisorUpdateLastReceivedAt56C[
+    (offsetof(SupervisorUpdateLayout, lastReceived56C) == 0x56C) ? 1 : -1];
+typedef char SupervisorUpdateAfterQueuesAt584[
+    (offsetof(SupervisorUpdateLayout, unknown584) == 0x584) ? 1 : -1];
 
 struct AnmManagerSupervisorView
 {
@@ -104,6 +113,8 @@ int Supervisor::OnUpdate(Supervisor *supervisor)
         reinterpret_cast<SupervisorUpdateLayout *>(supervisor);
     SupervisorUpdateLayout *globalSupervisor =
         reinterpret_cast<SupervisorUpdateLayout *>(&g_Supervisor);
+    int registrationContext;
+
     s->field478 = 0;
 
     if (g_SupervisorNetworkState->active == 0)
@@ -183,9 +194,8 @@ UPDATE_FRAME:
         REGISTER_MODE0:
             s->curState = SUPERVISOR_STATE_1;
             globalSupervisor->d3dDevice->ResourceManagerDiscardBytes(0);
-            if (RegisterStateObject(0) != 0)
-                return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
-            break;
+            registrationContext = 0;
+            goto REGISTER_TITLE_MODE;
 
         case SUPERVISOR_STATE_1:
             switch (previousState)
@@ -309,14 +319,15 @@ TRANSITION_DONE:
 REGISTER_MODE1_A:
     s->curState = SUPERVISOR_STATE_1;
     globalSupervisor->d3dDevice->ResourceManagerDiscardBytes(0);
-    if (RegisterStateObject(1) != 0)
-        return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
-    goto TRANSITION_DONE;
+    registrationContext = 1;
+    goto REGISTER_TITLE_MODE;
 
 REGISTER_MODE1_B:
     s->curState = SUPERVISOR_STATE_1;
     globalSupervisor->d3dDevice->ResourceManagerDiscardBytes(0);
-    if (RegisterStateObject(1) != 0)
+    registrationContext = 1;
+REGISTER_TITLE_MODE:
+    if (RegisterStateObject(registrationContext) != 0)
         return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
     goto TRANSITION_DONE;
 
