@@ -90,6 +90,8 @@ is maintained separately in [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTI
 
 ## Closed codegen owners and accepted receipts
 
+- **Supervisor frame-queue family (existing exact)**: `InsertPredictedFrame @ 0x0042EAC0` **191/191**, `PopFrame @ 0x0042EB80` **119/119**, and Mode4 queue `ResetTitleMode4Supervisor @ 0x0042EC30` **177/177**, after shared queue record/view corrections. Factory forced-cold `pass/accepted` receipts respectively `receipt:9d49fc892a1cb0c86ae8b17a1611c146fb8d86187cb4c8193fe27daa8d6b1d7a` and `receipt:e0a9041d000117a4304faa47bffcb476ecbb67d20c20f07f1f903a9b7de48760` for committed `f3bec14`, plus `receipt:b757b79ef7616bf001af8317cd073f0edc8356910290b4c44fd025ff3442ac30` for committed `2323c23`. The separate `AreFrameQueuesSynchronized` helper also remains exact at 49/49. **The 213-byte `InsertReceivedFrame` is still NON-EXACT (35 differences); these are regressions, not newly exact functions.**
+
 - **`EnemyManagerDrawImpl @ 0x00411670`**: **1,758 / 1,758 complete bytes,
   53 actual relocations**; pinned match unit `enemy-manager-draw-impl`.
   Its two draw wrappers and interpolation leaf also remain exact. A real
