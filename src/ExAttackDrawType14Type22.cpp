@@ -7,19 +7,6 @@
 #include <d3d8.h>
 #include <stddef.h>
 
-struct ExAttackType1422DrawRecord
-{
-    int unknown00;
-    int opponentSide04;
-    int side08;
-    int active0C;
-    ZunTimer timer10;
-    AnmVm *dynamicData1C;
-    Float3 position20;
-    int vmCount2C;
-    int unknown30;
-    ExAttackType1422DrawExtra *extra34;
-};
 
 struct ExAttackType1422DrawVmView
 {

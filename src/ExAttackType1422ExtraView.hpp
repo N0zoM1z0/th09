@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AsciiManager.hpp"
+#include "ZunTimer.hpp"
 #include <stddef.h>
 
 // Shared TH09 0xF48-byte ExAttack Type14/22 dynamic-data ABI. Original
@@ -67,3 +68,48 @@ typedef char ExAttackType1422ValueAt50[
     (offsetof(ExAttackType1422Extra, value50) == 0x50) ? 1 : -1];
 typedef char ExAttackType1422DrawPendingAt4C[
     (offsetof(ExAttackType1422Extra, drawPending4C) == 0x4C) ? 1 : -1];
+
+// Common 0x38-byte ExAttack record header independently consumed by Type14
+// initialization, Type14/22 update, Type14/22 draw and Type22 initialization.
+// The VM pointer is the same +0x1C physical word that older local views
+// described as void*; there is no new pointer, vtable, or inheritance.
+struct ExAttackType1422RecordView
+{
+    union { int state00; int unknown00; };
+    int opponentSide04;
+    int side08;
+    int active0C;
+    ZunTimer timer10;
+    AnmVm *dynamicData1C;
+    Float3 position20;
+    int vmCount2C;
+    int unknown30;
+    ExAttackType1422Extra *extra34;
+};
+typedef char ExAttackType1422RecordSizeIs38[
+    (sizeof(ExAttackType1422RecordView) == 0x38) ? 1 : -1];
+typedef char ExAttackType1422RecordTimerAt10[
+    (offsetof(ExAttackType1422RecordView, timer10) == 0x10) ? 1 : -1];
+typedef char ExAttackType1422RecordVmAt1C[
+    (offsetof(ExAttackType1422RecordView, dynamicData1C) == 0x1C) ? 1 : -1];
+typedef char ExAttackType1422RecordPositionAt20[
+    (offsetof(ExAttackType1422RecordView, position20) == 0x20) ? 1 : -1];
+typedef char ExAttackType1422RecordExtraAt34[
+    (offsetof(ExAttackType1422RecordView, extra34) == 0x34) ? 1 : -1];
+
+typedef ExAttackType1422RecordView ExAttackType2InitRecord;
+typedef ExAttackType1422RecordView ExAttackType1422Record;
+typedef ExAttackType1422RecordView ExAttackType1422DrawRecord;
+
+// Type22 alone owns the additional parameter at +0x38. Model it as a
+// contiguous data prefix, never as unproven source C++ inheritance.
+struct ExAttackType22RecordView
+{
+    ExAttackType1422RecordView common00;
+    Float3 *parameter38;
+};
+typedef ExAttackType22RecordView ExAttackType22Record;
+typedef char ExAttackType22RecordParameterAt38[
+    (offsetof(ExAttackType22RecordView, parameter38) == 0x38) ? 1 : -1];
+typedef char ExAttackType22RecordSizeIs3C[
+    (sizeof(ExAttackType22RecordView) == 0x3C) ? 1 : -1];
