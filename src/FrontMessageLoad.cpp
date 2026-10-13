@@ -4,48 +4,7 @@
 #include "Supervisor.hpp"
 
 #include <string.h>
-
-struct FrontMessageInstructionView
-{
-    short time00;
-    unsigned char opcode02;
-    unsigned char size03;
-    int argument04;
-};
-
-struct FrontMessageTableEntryView
-{
-    // A file entry holds a 32-bit relative offset until the loader rewrites
-    // the same four bytes with an absolute instruction pointer.
-    union
-    {
-        unsigned int offset00;
-        FrontMessageInstructionView *instructions00;
-    };
-    int unknown04;
-};
-typedef char FrontMessageTableEntrySizeIs08[
-    (sizeof(FrontMessageTableEntryView) == 0x08) ? 1 : -1];
-typedef char FrontMessageTableEntryOffsetAt00[
-    (offsetof(FrontMessageTableEntryView, offset00) == 0) ? 1 : -1];
-
-struct FrontMessageTableView
-{
-    int count00;
-    FrontMessageTableEntryView entries04[1];
-};
-
-struct FrontMessageSourceView
-{
-    unsigned char unknown00[0x0C];
-    short musicId0C;
-};
-
-struct FrontMessageRuntimeResetView
-{
-    unsigned char storage[0x1D70];
-    int Reset();
-};
+#include "FrontMessageTableView.hpp"
 
 struct FrontMessageRuntimeView
 {

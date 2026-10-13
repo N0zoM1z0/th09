@@ -3,38 +3,7 @@
 #include "ZunMemory.hpp"
 
 #include <string.h>
-
-struct FrontMessageInstructionView
-{
-    short time00;
-    unsigned char opcode02;
-    unsigned char size03;
-    int argument04;
-};
-
-struct FrontMessageTableEntryView
-{
-    FrontMessageInstructionView *instructions00;
-    int unknown04;
-};
-
-struct FrontMessageTableView
-{
-    int count00;
-    FrontMessageTableEntryView entries04[1];
-};
-
-struct FrontMessageSourceView
-{
-    unsigned char unknown00[0x0C];
-    short musicId0C;
-};
-
-struct FrontMessageRuntimeResetView
-{
-    unsigned char storage[0x1D70];
-    int Reset();
-};
+#include "FrontMessageTableView.hpp"
 
 struct FrontMessageRuntimeView
 {
