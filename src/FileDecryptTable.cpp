@@ -1,6 +1,8 @@
 #include "FileSystem.hpp"
 #include "ZunMemory.hpp"
 
+#include <stddef.h>
+
 namespace FileSystem
 {
 struct DecryptParams
@@ -12,8 +14,18 @@ struct DecryptParams
     int chunkSize;
     int maxBytesToDecrypt;
 };
+// Original TH09 wire table contains eight 12-byte decryption parameter rows.
+// Keep the field offsets tied to the independently reviewed target layout.
+typedef char DecryptParamsSizeIs0C[(sizeof(DecryptParams) == 0x0C) ? 1 : -1];
+typedef char DecryptKeyAt00[(offsetof(DecryptParams, key) == 0x00) ? 1 : -1];
+typedef char DecryptXorAt01[(offsetof(DecryptParams, xorValue) == 0x01) ? 1 : -1];
+typedef char DecryptIncrementAt02[(offsetof(DecryptParams, xorValueInc) == 0x02) ? 1 : -1];
+typedef char DecryptChunkAt04[(offsetof(DecryptParams, chunkSize) == 0x04) ? 1 : -1];
+typedef char DecryptMaxBytesAt08[(offsetof(DecryptParams, maxBytesToDecrypt) == 0x08) ? 1 : -1];
 
 extern DecryptParams g_DecryptParams[8];
+typedef char DecryptParamRowsTotal0x60[
+    (sizeof(g_DecryptParams) == 0x60) ? 1 : -1];
 extern unsigned char g_CryptSignature[3];
 
 unsigned char *TryDecryptFromTable(
