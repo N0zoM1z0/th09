@@ -98,7 +98,13 @@ def main():
     parser.add_argument('object', type=Path)
     parser.add_argument('--summary', action='store_true')
     parser.add_argument('--instructions', action='store_true')
+    parser.add_argument('--field-diff', action='store_true',
+                        help='compare all independently decoded operand destinations in order')
+    parser.add_argument('--max-field-spans', type=int, default=12,
+                        help='maximum differing field spans printed (default: 12)')
     args = parser.parse_args()
+    if args.max_field_spans < 1:
+        parser.error('--max-field-spans must be positive')
     spec = importlib.util.spec_from_file_location(
         'coff', ROOT / 'scripts/compare-coff-function.py')
     coff = importlib.util.module_from_spec(spec)
@@ -107,6 +113,8 @@ def main():
     code, rows = coff.object_function(args.object, SYMBOL)
     raw_hash = hashlib.sha256(code).hexdigest()
     for row in rows:
+        if row['symbol'] not in DESTINATIONS:
+            raise ValueError('unreviewed gameplay setup COFF symbol: ' + row['symbol'])
         value = DESTINATIONS[row['symbol']] + row['addend']
         if row['type'] == 'REL32':
             value -= BASE + row['offset'] + 4
@@ -157,6 +165,22 @@ def main():
           'edges/per-block calls/return cleanup agree:', target_cfg == candidate_cfg)
     if len(code) == len(target):
         print('complete replay differences:', sum(a != b for a, b in zip(code, target)))
+    if args.field_diff:
+        from diagnostic_field_alignment import align_fields
+        aligned = align_fields(target_fields, candidate_fields)
+        print('ordered address-operand identities:',
+              aligned['paired_field_identities'], '/', len(target_fields),
+              '(diagnostic only, not exactness credit)')
+        print('differing field spans:', len(aligned['changes']))
+        for change in aligned['changes'][:args.max_field_spans]:
+            print(' ', change['kind'])
+            for offset, kind, destination in change['target']:
+                print('    target    +0x%04X: %s -> 0x%08X' % (offset, kind, destination))
+            for offset, kind, destination in change['candidate']:
+                print('    candidate +0x%04X: %s -> 0x%08X' % (offset, kind, destination))
+        if len(aligned['changes']) > args.max_field_spans:
+            print('... %d additional field spans omitted' % (
+                len(aligned['changes']) - args.max_field_spans))
     if args.summary:
         return
     if args.instructions:

@@ -75,7 +75,7 @@ candidate/profile and require fresh compilation after source edits. Consult
 | Controller input | 0x0042B410 | 808 target / 796 candidate; 32 fields | WinMM X/Y register and read ordering; `scripts/inspect-controller-input.py` |
 | Effect AddedCallback | 0x0040D1C0 | 51 bytes; 4 fields; **8** differing bytes | Original direct global-to-EDI load; `scripts/inspect-effect-added.py` |
 | Enemy collision-box leaf | 0x00410250 | 82 bytes, 2 direct calls, **31** differing bytes | Float3 return-copy schedule; `scripts/inspect-enemy-collision-box.py` |
-| Gameplay setup worker | 0x0041AF2D | 1,689 bytes; 172 target / 171 candidate fields | Reuse-base caching, flags, tail |
+| Gameplay setup worker | 0x0041AF2D | 1,689 target/candidate; 172 / 171 operand fields; 155 aligned identities, 13 field-difference spans; 78 / 77 direct blocks | Owner/reuse-base lifetime, flags cursor and switch graph; `scripts/inspect-gameplay-setup.py --summary --field-diff`, **NON-EXACT** |
 | GameManager OnUpdate | 0x0041AA5F | 1,230 bytes, 87 fields, 105 differences | Input snapshot and entry-zero schedule |
 | Player movement | 0x0041C170 | 1,835 authored / 1,900 physical; 66 fields | Position clamp and register allocation |
 | Supervisor network service | 0x00430AA0 | 1,633 target / 1,632 candidate | Sign test and output workspace |
