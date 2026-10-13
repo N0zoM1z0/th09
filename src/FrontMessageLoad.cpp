@@ -15,9 +15,19 @@ struct FrontMessageInstructionView
 
 struct FrontMessageTableEntryView
 {
-    FrontMessageInstructionView *instructions00;
+    // A file entry holds a 32-bit relative offset until the loader rewrites
+    // the same four bytes with an absolute instruction pointer.
+    union
+    {
+        unsigned int offset00;
+        FrontMessageInstructionView *instructions00;
+    };
     int unknown04;
 };
+typedef char FrontMessageTableEntrySizeIs08[
+    (sizeof(FrontMessageTableEntryView) == 0x08) ? 1 : -1];
+typedef char FrontMessageTableEntryOffsetAt00[
+    (offsetof(FrontMessageTableEntryView, offset00) == 0) ? 1 : -1];
 
 struct FrontMessageTableView
 {
@@ -83,9 +93,7 @@ int FrontMessageRuntimeView::LoadForSideCount(
 
         for (int i = 0; i < primary00->count00; ++i)
         {
-            unsigned int offset =
-                reinterpret_cast<unsigned int>(
-                    primary00->entries04[i].instructions00);
+            unsigned int offset = primary00->entries04[i].offset00;
             if (offset != 0)
             {
                 primary00->entries04[i].instructions00 =
@@ -149,11 +157,8 @@ int FrontMessageRuntimeView::LoadForSideCount(
 
         for (int i = 0; i < secondary0C->count00; ++i)
         {
-            secondary0C->entries04[i].instructions00 =
-                reinterpret_cast<FrontMessageInstructionView *>(
-                    reinterpret_cast<unsigned char *>(secondary0C) +
-                    reinterpret_cast<unsigned int>(
-                        secondary0C->entries04[i].instructions00));
+            secondary0C->entries04[i].offset00 +=
+                reinterpret_cast<unsigned int>(secondary0C);
         }
     }
 
