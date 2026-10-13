@@ -1,28 +1,6 @@
 #include "SupervisorFrameQueueView.hpp"
+#include "SupervisorFrameQueueStorageView.hpp"
 #include <stddef.h>
-
-struct SupervisorFrameEntryView
-{
-    short packedInput00;
-    short seed02;
-    int frame04;
-    int value08;
-};
-
-typedef char SupervisorFrameEntrySizeIs0C[
-    (sizeof(SupervisorFrameEntryView) == 0x0C) ? 1 : -1];
-
-struct SupervisorFrameQueueInsertLayout
-{
-    unsigned char unknown000[0x47C];
-    SupervisorFrameEntryView entries47C[20];
-    SupervisorFrameEntryView lastReceived56C[2];
-};
-
-typedef char SupervisorInsertEntriesAt47C[
-    (offsetof(SupervisorFrameQueueInsertLayout, entries47C) == 0x47C) ? 1 : -1];
-typedef char SupervisorInsertLastReceivedAt56C[
-    (offsetof(SupervisorFrameQueueInsertLayout, lastReceived56C) == 0x56C) ? 1 : -1];
 
 void SupervisorFrameQueueView::InsertReceivedFrame(
     int side, int frame, int packedInput, short seed)

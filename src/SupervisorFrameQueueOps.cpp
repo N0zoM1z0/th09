@@ -1,28 +1,6 @@
 #include "SupervisorFrameQueueView.hpp"
+#include "SupervisorFrameQueueStorageView.hpp"
 #include <stddef.h>
-
-struct SupervisorFrameEntryOpsView
-{
-    unsigned short packedInput00;
-    unsigned short seed02;
-    int frame04;
-    unsigned int predicted08;
-};
-
-typedef char SupervisorFrameEntryOpsSizeIs0C[
-    (sizeof(SupervisorFrameEntryOpsView) == 0x0C) ? 1 : -1];
-
-struct SupervisorFrameQueueOpsLayout
-{
-    unsigned char unknown000[0x47C];
-    SupervisorFrameEntryOpsView entries47C[20];
-    SupervisorFrameEntryOpsView lastReceived56C[2];
-};
-
-typedef char SupervisorFrameOpsEntriesAt47C[
-    (offsetof(SupervisorFrameQueueOpsLayout, entries47C) == 0x47C) ? 1 : -1];
-typedef char SupervisorFrameOpsLastAt56C[
-    (offsetof(SupervisorFrameQueueOpsLayout, lastReceived56C) == 0x56C) ? 1 : -1];
 
 struct SupervisorReplayInputHeadOpsView
 {
