@@ -3,6 +3,16 @@
 #include "AsciiGameManagerView.hpp"
 #include "Supervisor.hpp"
 
+#include <stddef.h>
+
+// Both pointers address the same reviewed Laser body-VM position in the
+// original TH09 32-bit memory model; the numeric end-of-loop cursor update
+// does not access a member of the one-past Laser.
+typedef char EtamaDrawBodyPositionOffsetIs208[
+    (offsetof(Laser, bodyVm) + offsetof(AnmVm, pos) == 0x208) ? 1 : -1];
+typedef char EtamaDrawPointerAddressIsI386[
+    (sizeof(size_t) == sizeof(void *) && sizeof(void *) == 4) ? 1 : -1];
+
 extern void __fastcall fsincos(float *sine, float *cosine, float angle);
 extern float __stdcall AddNormalizeAngle(float angle, float delta);
 
@@ -56,8 +66,16 @@ int EtamaController::OnDraw(EtamaController *controller)
 {
     g_Supervisor.ConfigureGameplayViewport(controller->sideIndex);
 
+    // TH09 carries two independent cursors through the 48 Laser records:
+    // the Laser owner and its body VM's position (+0x208). Keep the numeric
+    // address step separate: the final loop increment never dereferences
+    // an out-of-range Laser member when the cursor reaches the terminus.
     Laser *laser = controller->lasers;
-    for (int i = 0; i < 48; ++i, ++laser)
+    Float3 *bodyPosition = &laser->bodyVm.pos;
+    for (int i = 0; i < 48; ++i, ++laser,
+         bodyPosition = reinterpret_cast<Float3 *>(
+             reinterpret_cast<size_t>(laser) +
+             offsetof(Laser, bodyVm) + offsetof(AnmVm, pos)))
     {
         if (laser->inUse == 0)
             continue;
@@ -74,13 +92,13 @@ int EtamaController::OnDraw(EtamaController *controller)
 
         Float3 *position = reinterpret_cast<Float3 *>(
             laser->position.operator float *());
-        Float3 *bodyPosition = reinterpret_cast<Float3 *>(
-            laser->bodyVm.pos.operator float *());
-        bodyPosition->x =
+        Float3 *body = reinterpret_cast<Float3 *>(
+            bodyPosition->operator float *());
+        body->x =
             g_GameManager.TransformPopupX(position->x + cosine * halfLength);
-        bodyPosition->y =
+        body->y =
             g_GameManager.TransformPopupY(position->y + sine * halfLength);
-        bodyPosition->z = 0.07f;
+        body->z = 0.07f;
         laser->color = -1;
         g_AnmManager->Draw2D(&laser->bodyVm);
 
