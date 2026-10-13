@@ -4,68 +4,14 @@
 #include "ExAttackController.hpp"
 #include "ExAttackInterpolation.hpp"
 #include "ExAttackType8GameManagerView.hpp"
+#include "ExAttackType21ExtraView.hpp"
 
 #include <stddef.h>
 
-struct ExAttackType21UpdateVertex
-{
-    Float3 pos;
-    float rhw;
-    unsigned long diffuse;
-    float u;
-    float v;
-};
-
-typedef char ExAttackType21UpdateVertexSizeIs1C[
-    (sizeof(ExAttackType21UpdateVertex) == 0x1C) ? 1 : -1];
-// The ring cursor steps through the complete extra object's byte representation
-// and casts back only at these two actual, adjacent float subobjects.
+// Keep the exact Type21 ring cursor's adjacent U/V scalar assumption explicit.
 typedef char ExAttackType21UpdateAdjacentUvFloats[
     (offsetof(ExAttackType21UpdateVertex, v) ==
      offsetof(ExAttackType21UpdateVertex, u) + sizeof(float)) ? 1 : -1];
-
-struct ExAttackType21UpdateExtra
-{
-    int state00;
-    Float3 motion04;
-    Float3 point10;
-    Float3 point1C;
-    Float3 control28;
-    Float3 control34;
-    Float3 spawn40;
-    ExAttackType21UpdateVertex vertices4C[33];
-    // Center sample plus the 32 samples written by initialization/update.
-    Float3 history3E8[33];
-    unsigned char unknown574[0x578 - 0x574];
-    float magnitudes578[32];
-    float unknown5F8;
-    float angularSteps5FC[32];
-    float drift67C;
-    float drift680;
-    int drawPending684;
-    float angle688;
-};
-
-typedef char ExAttackType21UpdateExtraHistoryEndIs574[
-    (offsetof(ExAttackType21UpdateExtra, history3E8) +
-     sizeof(((ExAttackType21UpdateExtra *)0)->history3E8) == 0x574) ? 1 : -1];
-
-typedef char ExAttackType21UpdateExtraSizeIs68C[
-    (sizeof(ExAttackType21UpdateExtra) == 0x68C) ? 1 : -1];
-
-struct ExAttackType21UpdateRecord
-{
-    int unknown00;
-    int opponentSide04;
-    int side08;
-    int active0C;
-    ZunTimer timer10;
-    void *dynamicData1C;
-    Float3 position20;
-    int vmCount2C;
-    int unknown30;
-    ExAttackType21UpdateExtra *extra34;
-};
 
 struct ExAttackType21UpdateVmView
 {
