@@ -1,5 +1,6 @@
 #include "AsciiManager.hpp"
 #include "EnemyManager.hpp"
+#include "EnemyAppendCollisionView.hpp"
 #include "PlayerLifecycleView.hpp"
 
 struct EnemyCollisionPlayerView
@@ -14,14 +15,6 @@ struct EnemyCollisionSideView
     EnemyCollisionPlayerView *player04;
 };
 
-struct EnemyAppendCollisionView
-{
-    EnemyManagerView *manager00;
-
-    void AppendPlayerCollisionBox(
-        const Float3 *position,
-        const Float3 *size);
-};
 
 void EnemyAppendCollisionView::AppendPlayerCollisionBox(
     const Float3 *position,

@@ -1,5 +1,6 @@
 #include "AsciiManager.hpp"
 #include "EnemyManager.hpp"
+#include "EnemyAppendCollisionView.hpp"
 #include "Supervisor.hpp"
 #include "ZunMemory.hpp"
 
@@ -367,14 +368,6 @@ typedef char EnemyCoreGameManagerValueAtB4[
     (offsetof(EnemyCoreGameManagerPlayfieldView, valueB4) == 0xB4) ? 1 : -1];
 
 extern EnemyCoreGameManagerPlayfieldView g_EnemyCoreGameManager;
-struct EnemyAppendCollisionView
-{
-    EnemyManagerView *manager00;
-
-    void AppendPlayerCollisionBox(
-        const Float3 *position,
-        const Float3 *size);
-};
 extern void EnemyCoreReleaseChildEclBlocks(EnemyCoreView *enemy);
 extern void EnemyCoreReleaseAttachedEffects(EnemyCoreView *enemy);
 static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy);
