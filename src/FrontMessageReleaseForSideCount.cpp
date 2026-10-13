@@ -30,8 +30,8 @@ void FrontMessageRuntimeView::ReleaseForSideCount(int startIndex)
 
     if (!g_GameManager.IsGameMode2())
     {
-        int endIndex = startIndex + 10;
         int tableIndex = startIndex;
+        int endIndex = startIndex + 10;
         if (tableIndex < endIndex)
         {
             do

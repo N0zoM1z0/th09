@@ -76,7 +76,7 @@ candidate/profile and require fresh compilation after source edits. Consult
 | Effect AddedCallback | 0x0040D1C0 | 51 bytes; 4 fields; **8** differing bytes | Original direct global-to-EDI load; `scripts/inspect-effect-added.py` |
 | Enemy collision-box leaf | 0x00410250 | 82 bytes, 2 direct calls, **31** differing bytes | Float3 return-copy schedule; `scripts/inspect-enemy-collision-box.py` |
 | FrontMessage LoadForSideCount | 0x004182E0 | 405 target / 403 candidate; 18 reviewed fields, 8 ordered calls, 32/28 graph blocks | Shared file-offset/pointer layout in `src/FrontMessageTableView.hpp`; `scripts/inspect-front-message-load.py --explain`; **NON-EXACT** |
-| FrontMessage ReleaseForSideCount | 0x00417520 | 271 target / 268 current, 14 candidate fields; direct uses of relocated instruction pointers | Shares the same table/wire view as loader; target-supported release order remains; **NON-EXACT** |
+| FrontMessage ReleaseForSideCount | 0x00417520 | 271 target / 268 candidate; 14 fields, 6 calls; **130** linked byte differences, 20/21 blocks (target/candidate) | Original logical-index/end-point instruction ordering recovered; `scripts/inspect-front-message-release.py --explain`; **NON-EXACT** |
 | Gameplay setup worker | 0x0041AF2D | 1,689 target/candidate; 172 / 171 operand fields; 155 aligned identities, 13 field-difference spans; 78 / 77 direct blocks | Owner/reuse-base lifetime, flags cursor and switch graph; `scripts/inspect-gameplay-setup.py --summary --field-diff`, **NON-EXACT** |
 | GameManager OnUpdate | 0x0041AA5F | 1,230 bytes, 87 fields, 105 differences | Input snapshot and entry-zero schedule |
 | Player movement | 0x0041C170 | 1,835 authored / 1,900 physical; 66 fields | Position clamp and register allocation |
