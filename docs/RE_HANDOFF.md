@@ -64,9 +64,9 @@ candidate/profile and require fresh compilation after source edits. Consult
 | --- | --- | --- | --- |
 | RunEcl | 0x004086C0 | **15,564 physical** = 14,792 code + 772 table; 598 fields; **30** ordinary byte differences, zero field/table differences | 146/148 handler shapes; opcode 4 (timer argument, 7 bytes) and opcode 155 (flags, 23 bytes); `scripts/inspect-ecl-complete.py` |
 | EnemyManager OnUpdate | 0x00410730 | **3,900 physical**, 97 fields, **39** differences | Four decoded register/copy windows; `scripts/inspect-enemy-manager-update.py --explain` |
-| ExAttack Type19/21 initializers | 0x0044A030 / 0x0044B220 | 763 / 727 bytes; 57 / 53 fields; **6 / 9** differences | Vertex/history-cursor scheduling; `scripts/inspect-exattack-trail-init.py` |
+| ExAttack Type19/21 initializers | 0x0044A030 / 0x0044B220 | 763 / 727 bytes; 57 / 53 fields; **6 / 9** differences | Type19 now shares `ExAttackType19ExtraView.hpp` with its 821-byte update callback; vertex/history-cursor scheduling still open; `scripts/inspect-exattack-trail-init.py` |
 | ExAttack Type14/22 Draw | 0x00444130 | 959 target / 974 candidate; 53 fields, 20 direct + 12 indirect calls; **9/9 verified jumps, 43 aligned change spans** | Record/Extra lifetime and loop scheduling; `scripts/inspect-exattack-type14-22-draw.py --explain`, **NON-EXACT** |
-| ExAttack Type19 Update | 0x0044A330 | 821 bytes, 35 fields, **198** differences | Player-slot and record register residency; `scripts/inspect-exattack-type19.py` |
+| ExAttack Type19 Update | 0x0044A330 | 821 bytes, 35 fields, **198** differences | Shared Type19 record/extra layout now enforced across init/update; player-slot and register residency remain; `scripts/inspect-exattack-type19.py` |
 | ExAttack Type3 Update | 0x00442750 | 780 bytes, 38 fields, **15** differences | `middle.z` store / tail-X call-argument order |
 | Etama OnDraw | 0x00413BE0 | 600 target / 594 candidate; 27 bound fields, 13 ordered calls; **17 / 18 direct blocks (target/candidate)** | Two independent Laser/body-position cursors, compiler loop alignment; `scripts/inspect-etama-draw.py --explain`, **NON-EXACT** |
 | Title DrawResult | 0x00423D16 | 1,939 bytes, 82 fields, **22** differences | Score-bank pointer / screen-state read schedule |
