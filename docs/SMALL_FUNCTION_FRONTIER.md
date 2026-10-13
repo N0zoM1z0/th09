@@ -14,8 +14,8 @@ The filter is:
 - not canonical exact;
 - target logical size <=256 bytes.
 
-At the current checkpoint it yields **11 functions**, of which **2 are at most
-128 bytes**. The repository-wide canonical total is **932 exact functions**.
+At the current checkpoint it yields **10 functions**, of which **2 are at most
+128 bytes**. The repository-wide canonical total is **933 exact functions**.
 
 Size is only a routing heuristic. This is not a verified leaf-function set, a
 difficulty ranking, or evidence about whole-product closure.
@@ -26,7 +26,6 @@ difficulty ranking, or evidence about whole-product closure.
 | 0x00410250 | 82 | EnemyManager | EnemyAppendCollisionView::AppendPlayerCollisionBox |
 | 0x00424FB0 | 175 | TitleScreen | TitleScreenView::SetCharacterCursorReverse |
 | 0x0042505F | 175 | TitleScreen | TitleScreenView::SetCharacterCursorInactive |
-| 0x00442220 | 204 | Player | PlayerShotDrawCallbackType1 |
 | 0x00424EDD | 211 | TitleScreen | TitleScreenView::SetCharacterCursorActive |
 | 0x0042E9E0 | 213 | Supervisor | SupervisorFrameQueueView::InsertReceivedFrame |
 | 0x0042C290 | 220 | FileSystem | FileSystem::TryDecryptFromTable |

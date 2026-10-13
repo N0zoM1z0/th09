@@ -39,7 +39,10 @@ int __fastcall PlayerShotDrawCallbackType1(
             if (*reinterpret_cast<int *>(&point->x) ==
                 static_cast<int>(0xC479C000u))
             {
-                break;
+                // The invalid-history sentinel exits this drawn-trail path
+                // after restoring the shared VM alpha byte.
+                shot->alpha1F3 = static_cast<unsigned char>(alpha);
+                return 0;
             }
 
             shot->vmPosition208.x =
@@ -61,8 +64,11 @@ int __fastcall PlayerShotDrawCallbackType1(
             alphaAccumulator += alpha;
         }
         while (index < 2 * shot->trailSegmentCount46A);
+        shot->alpha1F3 = static_cast<unsigned char>(alpha);
+        return 0;
     }
 
+    // The zero-trip path has a separate physical restore/return tail in TH09.
     shot->alpha1F3 = static_cast<unsigned char>(alpha);
     return 0;
 }

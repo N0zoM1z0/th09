@@ -38,14 +38,14 @@ Checked against `config/functions.csv`, `config/function-origins.csv`,
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 932 |
-| Source-present non-exact functions | 48 |
-| Source-present non-exact bytes | 52,526 |
+| Canonical exact functions | 933 |
+| Source-present non-exact functions | 47 |
+| Source-present non-exact bytes | 52,322 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 223,244 |
+| Canonical exact authored bytes | 223,448 |
 
-**223,244 / 275,770 reviewed-authored bytes = 80.9530% exact**.
-To reach 95% of this currently classified denominator, another **38,738
+**223,448 / 275,770 reviewed-authored bytes = 81.0269% exact**.
+To reach 95% of this currently classified denominator, another **38,534
 bytes** must be exact. The 35 origin-unresolved functions are excluded from
 that denominator and could alter it after review. Complete faithful Windows
 i386 product/link/runtime closure is **open**; semantic reconstruction and
@@ -93,6 +93,8 @@ is maintained separately in [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTI
 
 ## Closed codegen owners and accepted receipts
 
+- **`PlayerShotDrawCallbackType1 @ 0x00442220` — newly canonical exact in this checkpoint:** pinned VC7.1 `/O2 /Ob1` emits **204/204 complete bytes, all 6 independently bound original COFF fields** and 67/67 decoded instructions. Restoring alpha and returning on the invalid-history sentinel, independently from the normal loop exit and the zero-trip tail, naturally retains the target's two separate 14-byte return sequences. Canonical `player-shot-draw-callback-type1` match unit proves the result. Historical stand-alone early-return probes had been compiler-tail-merged; no inserted padding or fake side effects. The exact ledger increases from 932 to **933**; Factory cold receipt and whole-product/runtime closure are separate gates.
+
 - **Etama/Supervisor Factory cold regressions on committed `4f97ccb` (existing exact only):** `EtamaController::OnUpdate @ 0x004146F0` **2,216/2,216**, 88 fields, `pass/accepted` receipt `receipt:76e9b270bf6efed193d2d371960ab4c0879ac5b687bf052b70b8a8440accc323`; `SupervisorFrameQueueView::AreFrameQueuesSynchronized @ 0x0042ECF0` **49/49**, `pass/accepted` receipt `receipt:56ef7eb17b8cdc9c35778a2e10ab222a46069b1fa17afb6f663c9960caf59df6`. These prove unchanged canonical owners, NOT new exactness. `Supervisor::OnUpdate` with recovered target single title-registration call remains **952/996 physical NON-EXACT**, and `RunEcl` remains **30 nonexact bytes**.
 
 - **ExAttack Type3/Type4 32-history family (already exact members):** Type3 init **454/454**, Type4 init **368/368**, Type4 update **739/739** under shared `src/ExAttackHistory32ExtraView.hpp`. Factory forced-cold `pass/accepted` on committed `76575a8`: `receipt:531b331a35d89b3385d7e13ea9803bc1dc080ca91c883f60625cf311b5135f67` (Type3 init), `receipt:401073f5b594639577acecc39900127a3af08a51e21dc1111b8dda8a5baa1922` (Type4 init) and `receipt:ffd106aaa2a1d6fe22a0c4c78f50bdf0c9cca93be31fce430663197b174b3833` (Type4 update). Type3 Update remains **NON-EXACT 780/38/15**. Unchanged accepted exact functions do not increase exact count.
@@ -106,7 +108,7 @@ is maintained separately in [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTI
   argument conversion resolved the final x87 FSUBR/PUSH scheduling. Factory
   **pass/accepted** receipt `receipt:44cacda296eb6f3a51916daa49d7a31f9fba8d6c1b8400983bfa3c93d1fead8f`
   is bound to source commit `480f2028f82b790a080be6f09994736286d0bc95`.
-- **`ExAttackUpdateCallbackType21 @ 0x0044B500` and shared `ExAttackDrawCallbackType19_21 @ 0x0044B940`**: already canonical exact 1,074 and 318 bytes, respectively. After the Type19/21 shared-layout source changes, Factory forced-cold `windows.msvc71.function-exact` accepted both exact claims on committed `9932230` (`receipt:b02ffddd42f7f419e72c64b6952d37440a5737b356e86172cbb1ec34c270db57` and `receipt:46d21ebe6fc8047fce2134ce5810349aad3f93b2b65608509f00a88fad9fde28`). Accepted replay of existing exact units does not promote either initializer, nor change the 932/980 ledger.
+- **`ExAttackUpdateCallbackType21 @ 0x0044B500` and shared `ExAttackDrawCallbackType19_21 @ 0x0044B940`**: already canonical exact 1,074 and 318 bytes, respectively. After the Type19/21 shared-layout source changes, Factory forced-cold `windows.msvc71.function-exact` accepted both exact claims on committed `9932230` (`receipt:b02ffddd42f7f419e72c64b6952d37440a5737b356e86172cbb1ec34c270db57` and `receipt:46d21ebe6fc8047fce2134ce5810349aad3f93b2b65608509f00a88fad9fde28`). Accepted replay of existing exact units does not promote either initializer, nor change the then-current 932/980 ledger.
 - **`DrawSingleBullet @ 0x00413AF0`**: 215/215 authored, 232/232 complete
   physical bytes with all 16 relocations. The refreshed same-TU compiler-private
   switch-table `$L1914` is independently at target +0xD8; the original jump
@@ -174,7 +176,7 @@ units when cleaning, and never alter source just to manipulate comparisons.
 
 This is the **2026-10-13 clean handoff**. The canonical source/ledger and
 original target remain authoritative; local compiled objects do not. Current
-counts are the verified **980 source-present / 932 exact / 48 non-exact**,
+counts are the verified **980 source-present / 933 exact / 47 non-exact**,
 not the historical 979/876/103 estimate. The whole Windows i386 build and
 runtime/semantic phases remain **open**. All screen/Etama/Title/ExAttack
 exactness statements in older dated experiments and Factory receipts are
