@@ -290,6 +290,49 @@ def run_camera_facing(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 
 
+
+def run_replay_playback(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    """Cold-audit a full replay-stage callback and its two exact TU siblings.
+
+    The 32 original fields must be actual SHA-pinned PE operands, resolved
+    through canonical referents, not guessed source-local labels. The lone
+    side-state load motion and two absent source bytes are nonexact frontiers.
+    """
+    build('replay-manager-begin-recording-stage')
+    current = noncrediting(parsed(['scripts/inspect-replay-begin-playback.py',
+                                    'build/matching/ReplayInputNoEh.obj', '--json']),
+                           name='Replay BeginPlaybackStage', target_size=540,
+                           fields=32, fields_key='bound_fields')
+    if (current.get('original_fields') != 32 or
+            current.get('target_instructions') != 152 or
+            not 538 <= current.get('candidate_bytes', 0) <= 540 or
+            not 151 <= current.get('candidate_instructions', 0) <= 155 or
+            current.get('ordered_calls') != 5 or
+            not current.get('ordered_calls_agree') or
+            current.get('target_blocks') != 12 or
+            current.get('candidate_blocks') != 12 or
+            not current.get('complete_direct_graphs_agree') or
+            current.get('aligned_field_identities', -1) < 31 or
+            current.get('complete_overlap_differences', 999) > 49 or
+            current.get('missing_target_bytes', 999) > 2 or
+            current.get('extra_source_bytes') != 0 or
+            current.get('complete_bytes_equal')):
+        raise RuntimeError('Replay playback 540-byte/32-field/5-call/12-block frontier regressed')
+    exact = []
+    if protect_exact:
+        # Both use the exact SAME freshly-built no-EH VC7.1 ReplayInput object.
+        exact += [canonical('replay-manager-begin-recording-stage'),
+                  canonical('replay-manager-create')]
+    return {'replay_begin_playback': {
+        'target_bytes': 540, 'candidate_bytes': current['candidate_bytes'],
+        'bound_fields': current['bound_fields'],
+        'aligned_fields': current['aligned_field_identities'],
+        'ordinary_differences': current['complete_overlap_differences'],
+        'missing_target_bytes': current['missing_target_bytes'],
+        'direct_graphs_agree': current['complete_direct_graphs_agree'],
+    }}, exact
+
+
 def run_screen_shake(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     """Cold-source complete ScreenEffect envelope plus exact same-TU owners."""
     build('screen-effect-calc-shake')
@@ -682,7 +725,7 @@ def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'player', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'screen', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'player', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'screen', 'replay', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -719,6 +762,10 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('screen', 'all'):
             owners, exact = run_screen_shake(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('replay', 'all'):
+            owners, exact = run_replay_playback(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('player', 'all'):

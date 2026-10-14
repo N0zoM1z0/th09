@@ -153,6 +153,51 @@ class BossFrontierChecks(TestCase):
                 frontiers.run_screen_shake(protect_exact=False)
 
     @staticmethod
+    def replay_evidence():
+        return {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_bytes': 540, 'candidate_bytes': 538,
+            'original_fields': 32, 'bound_fields': 32,
+            'target_instructions': 152, 'candidate_instructions': 151,
+            'ordered_calls': 5, 'ordered_calls_agree': True,
+            'target_blocks': 12, 'candidate_blocks': 12,
+            'complete_direct_graphs_agree': True,
+            'aligned_field_identities': 31,
+            'complete_overlap_differences': 49, 'missing_target_bytes': 2,
+            'extra_source_bytes': 0, 'complete_bytes_equal': False,
+        }
+
+    def test_replay_playback_cold_pinned_no_eh_and_exact_siblings(self):
+        with patch.object(frontiers, 'build') as build, patch.object(
+                frontiers, 'parsed', return_value=self.replay_evidence()) as parsed, patch.object(
+                frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
+            owners, siblings = frontiers.run_replay_playback(protect_exact=True)
+        build.assert_called_once_with('replay-manager-begin-recording-stage')
+        parsed.assert_called_once_with(['scripts/inspect-replay-begin-playback.py',
+                                        'build/matching/ReplayInputNoEh.obj', '--json'])
+        self.assertEqual(owners['replay_begin_playback']['ordinary_differences'], 49)
+        self.assertEqual(owners['replay_begin_playback']['aligned_fields'], 31)
+        self.assertEqual([x['unit'] for x in siblings],
+                         ['replay-manager-begin-recording-stage', 'replay-manager-create'])
+
+    def test_replay_playback_rejects_incomplete_original_and_worse_code(self):
+        for corruption in ({'target_bytes': 539}, {'candidate_bytes': 537},
+                           {'candidate_instructions': 150},
+                           {'target_instructions': 151}, {'original_fields': 31},
+                           {'bound_fields': 31}, {'ordered_calls': 4},
+                           {'ordered_calls_agree': False},
+                           {'target_blocks': 11}, {'candidate_blocks': 13},
+                           {'complete_direct_graphs_agree': False},
+                           {'aligned_field_identities': 30},
+                           {'complete_overlap_differences': 50},
+                           {'missing_target_bytes': 3},
+                           {'extra_source_bytes': 1},
+                           {'complete_bytes_equal': True}):
+            with self.subTest(corruption=corruption), patch.object(frontiers, 'build'), patch.object(
+                    frontiers, 'parsed', return_value={**self.replay_evidence(), **corruption}), self.assertRaises(RuntimeError):
+                frontiers.run_replay_playback(protect_exact=False)
+
+    @staticmethod
     def camera_evidence():
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',
