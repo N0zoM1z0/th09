@@ -218,6 +218,47 @@ class BossFrontierChecks(TestCase):
             frontiers.validate_exattack_trail_initializer('0', {})
 
     @staticmethod
+    def network_parser_evidence():
+        return {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_bytes': 243, 'candidate_bytes': 243,
+            'target_instructions': 116, 'candidate_instructions': 116,
+            'original_fields': 1, 'bound_fields': 1,
+            'ordered_calls': 1, 'ordered_calls_agree': True,
+            'target_blocks': 33, 'candidate_blocks': 34,
+            'direct_graphs_agree': False, 'overlap_differences': 76,
+            'missing_target_bytes': 0, 'extra_candidate_bytes': 0,
+            'complete_bytes_equal': False,
+        }
+
+    def test_network_parser_uses_true_679_byte_exact_caller_carrier(self):
+        with patch.object(frontiers, 'build') as build, patch.object(
+                frontiers, 'parsed', return_value=self.network_parser_evidence()) as read, patch.object(
+                frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
+            owners, exact = frontiers.run_network_config_parser(protect_exact=True)
+        build.assert_called_once_with('supervisor-network-config')
+        read.assert_called_once_with(['scripts/inspect-network-config-parser.py',
+                                     'build/matching/SupervisorNetworkConfig.obj', '--json'])
+        self.assertEqual(owners['network_config_parser']['overlap_differences'], 76)
+        self.assertEqual(owners['network_config_parser']['target_blocks'], 33)
+        self.assertEqual(owners['network_config_parser']['candidate_blocks'], 34)
+        self.assertEqual([item['unit'] for item in exact], ['supervisor-network-config'])
+
+    def test_network_parser_rejects_wrong_extent_operand_graph_or_false_exact(self):
+        for bad in ({'target_bytes': 242}, {'candidate_bytes': 244},
+                    {'target_instructions': 115}, {'candidate_instructions': 115},
+                    {'original_fields': 0}, {'bound_fields': 0},
+                    {'ordered_calls': 0}, {'ordered_calls_agree': False},
+                    {'target_blocks': 32}, {'candidate_blocks': 35},
+                    {'direct_graphs_agree': True},
+                    {'overlap_differences': 77}, {'missing_target_bytes': 1},
+                    {'extra_candidate_bytes': 1}, {'complete_bytes_equal': True},
+                    {'exactness_credit': 'accepted'}, {'diagnostic_only': False}):
+            with self.subTest(bad=bad), patch.object(frontiers, 'build'), patch.object(
+                    frontiers, 'parsed', return_value={**self.network_parser_evidence(), **bad}), self.assertRaises(RuntimeError):
+                frontiers.run_network_config_parser(protect_exact=False)
+
+    @staticmethod
     def replay_evidence():
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',

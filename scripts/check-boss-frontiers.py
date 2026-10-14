@@ -253,6 +253,42 @@ def run_decrypt_table(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     }}, exact
 
 
+
+def run_network_config_parser(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    """One original-bound nonexact parser plus its true exact caller carrier."""
+    build('supervisor-network-config')
+    result = noncrediting(parsed(['scripts/inspect-network-config-parser.py',
+                                  'build/matching/SupervisorNetworkConfig.obj', '--json']),
+                          name='Network config parser', target_size=243,
+                          fields=1)
+    if (result.get('candidate_bytes') != 243 or
+            result.get('target_instructions') != 116 or
+            result.get('candidate_instructions') != 116 or
+            result.get('original_fields') != 1 or
+            result.get('ordered_calls') != 1 or
+            not result.get('ordered_calls_agree') or
+            result.get('target_blocks') != 33 or
+            result.get('candidate_blocks') not in (33, 34) or
+            result.get('direct_graphs_agree') is not (result.get('candidate_blocks') == 33) or
+            not isinstance(result.get('overlap_differences'), int) or
+            result['overlap_differences'] > 76 or
+            result.get('missing_target_bytes') != 0 or
+            result.get('extra_candidate_bytes') != 0 or
+            result.get('complete_bytes_equal') is not False):
+        raise RuntimeError('network parser 243-byte/1-field/1-call/33-block original boundary regressed')
+    siblings = [canonical('supervisor-network-config')] if protect_exact else []
+    return {'network_config_parser': {
+        'target_bytes': 243, 'candidate_bytes': result['candidate_bytes'],
+        'original_fields': result['original_fields'],
+        'bound_fields': result['bound_fields'],
+        'ordered_calls': result['ordered_calls'],
+        'overlap_differences': result['overlap_differences'],
+        'target_blocks': result['target_blocks'],
+        'candidate_blocks': result['candidate_blocks'],
+        'direct_graphs_agree': result['direct_graphs_agree'],
+    }}, siblings
+
+
 def run_received_frames(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # Network frame insertion has no relocations, but 213/213 equal extent
     # alone is not evidence of code equality. Bind its entire Japanese
@@ -798,7 +834,7 @@ def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'player', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'screen', 'replay', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'player', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'parser', 'screen', 'replay', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -827,6 +863,10 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('network', 'all'):
             owners, exact = run_received_frames(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('parser', 'all'):
+            owners, exact = run_network_config_parser(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('anm', 'all'):
