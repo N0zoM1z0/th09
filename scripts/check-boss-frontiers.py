@@ -245,6 +245,27 @@ def run_exattack_type3(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 def run_title_open() -> dict:
     # These source-present owners are explicitly non-exact. Their independent
     # original operand inventories must agree before any similarity score.
+    # The cursor trio is in the same TU as the exact TitleSetup thread; rebuild
+    # it even with --skip-exact-siblings so a stale object cannot be reused.
+    build('title-screen-setup-thread')
+    cursor_obj = 'build/matching/TitleScreen.obj'
+    cursor_reports = {}
+    for variant, size, field_count, calls in (
+            ('active', 211, 6, 4), ('reverse', 175, 2, 2),
+            ('inactive', 175, 2, 2)):
+        result = noncrediting(parsed(['scripts/inspect-title-character-cursors.py',
+                                      '--variant', variant, cursor_obj]),
+                              name='Title cursor ' + variant,
+                              target_size=size, fields=field_count)
+        if result['original_fields'] != field_count or result['ordered_calls'] != calls or not result['ordered_calls_agree']:
+            raise RuntimeError('Title cursor original field/call census drifted')
+        cursor_reports['title_cursor_' + variant] = {
+            'target_bytes': size, 'candidate_bytes': result['candidate_bytes'],
+            'bound_fields': result['bound_fields'],
+            'overlap_differences': result['overlap_differences'],
+            'extra_candidate_bytes': result['extra_candidate_bytes'],
+            'direct_graphs_agree': result['direct_graphs_agree'],
+        }
     result_obj = 'build/matching/TitleResultDraw.obj'
     build_nonexact('src/TitleScreenResultDraw.cpp', result_obj,
                    reference_unit='title-screen-setup-thread')
@@ -270,7 +291,7 @@ def run_title_open() -> dict:
                           target_size=800, fields=41)
     if replay['original_fields'] != 41 or not replay['ordered_calls_agree']:
         raise RuntimeError('Title ReplaySave 41 original fields or call sequence regressed')
-    return {'title_draw_result': {
+    return {**cursor_reports, 'title_draw_result': {
                 'target_bytes': 1939, 'candidate_bytes': draw['candidate_bytes'],
                 'ordinary_differences': draw['complete_differences'],
                 'fields': draw['bound_fields'],
