@@ -1,0 +1,108 @@
+"""No-target tests: RunEcl first-include variants must actually reach VC7.1."""
+from pathlib import Path
+import hashlib
+import importlib.util
+import tempfile
+import unittest
+
+ROOT = Path(__file__).resolve().parents[1]
+spec = importlib.util.spec_from_file_location('ecl_variant', ROOT/'scripts/probe-ecl-variant.py')
+variant = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(variant)
+
+
+class EclVariantFirstIncludeTests(unittest.TestCase):
+    def test_every_lexical_first_include_fragment_is_copied(self):
+        with tempfile.TemporaryDirectory() as folder:
+            dst = Path(folder)
+            manifest = variant.stage_variants(dst)
+            self.assertEqual(set(manifest), set(variant.FRAGMENTS))
+            self.assertEqual(len(manifest), 7)
+            for name in variant.FRAGMENTS:
+                original = (ROOT/'src'/name).read_bytes()
+                self.assertEqual((dst/name).read_bytes(), original)
+                self.assertEqual(manifest[name], hashlib.sha256(original).hexdigest())
+            self.assertEqual((dst/'EclRunLate.inl').read_text().count('#include "EclRunState.inl"'), 1)
+            self.assertIn('#include "EclRunControl.inl"', (dst/'EclRunMovement.inl').read_text())
+
+    def test_changed_state_declaration_not_just_changed_late_body(self):
+        before = (ROOT/'src/EclRunState.inl').read_text()
+        probe = before.replace('__forceinline void AssignTimeoutSpellBit(',
+                               '__forceinline unsigned int AssignTimeoutSpellBit(', 1)
+        self.assertNotEqual(probe, before)
+        with tempfile.TemporaryDirectory() as folder:
+            base = Path(folder)
+            candidate = base/'state-variant.inl'
+            candidate.write_text(probe)
+            manifest = variant.stage_variants(base/'carrier', state=candidate)
+            self.assertEqual((base/'carrier/EclRunState.inl').read_text(), probe)
+            self.assertNotEqual(manifest['EclRunState.inl'],
+                                hashlib.sha256(before.encode()).hexdigest())
+            self.assertEqual((ROOT/'src/EclRunState.inl').read_text(), before)
+
+    def test_changed_control_fragment_staged_through_all_intermediate_files(self):
+        original = (ROOT/'src/EclRunControl.inl').read_text()
+        probe = original.replace('        int value = rawTime;',
+                                 '        int value = static_cast<int>(rawTime);', 1)
+        self.assertNotEqual(probe, original)
+        with tempfile.TemporaryDirectory() as folder:
+            tmp = Path(folder)
+            control = tmp/'control-variant.inl'
+            control.write_text(probe)
+            manifest = variant.stage_variants(tmp/'carrier', control=control)
+            self.assertEqual((tmp/'carrier/EclRunControl.inl').read_text(), probe)
+            self.assertNotEqual(manifest['EclRunControl.inl'],
+                                hashlib.sha256(original.encode()).hexdigest())
+            for intermediate in ('EclRunLate.inl', 'EclRunState.inl',
+                                 'EclRunBullet.inl', 'EclRunRemote.inl',
+                                 'EclRunMovement.inl'):
+                self.assertTrue((tmp/'carrier'/intermediate).is_file())
+
+    def test_first_include_chain_drift_fails_without_compilation(self):
+        source = {name: (ROOT/'src'/name).read_bytes() for name in variant.FRAGMENTS}
+        variant.attested_include_chain(source)
+        for parent, old in (
+                ('EclRunLate.inl', '#include "EclRunState.inl"'),
+                ('EclRunState.inl', '#include "EclRunBullet.inl"'),
+                ('EclRunBullet.inl', '#include "EclRunRemote.inl"'),
+                ('EclRunRemote.inl', '#include "EclRunMovement.inl"'),
+                ('EclRunMovement.inl', '#include "EclRunControl.inl"')):
+            with self.subTest(parent=parent), self.assertRaisesRegex(ValueError, 'include chain|first declaration include'):
+                candidate = dict(source)
+                candidate[parent] = candidate[parent].replace(old.encode(), b'// replaced')
+                variant.attested_include_chain(candidate)
+        altered = dict(source)
+        altered['EclManager.cpp'] = altered['EclManager.cpp'].replace(
+            b'#define TH09_ECL_RUN_STATE_BODY\n#include "EclRunState.inl"',
+            b'#define TH09_ECL_RUN_STATE_BODY\n// not the actual body include')
+        with self.assertRaisesRegex(ValueError, 'include chain|state BODY'):
+            variant.attested_include_chain(altered)
+
+    def test_output_symlink_is_rejected_before_replacement(self):
+        with tempfile.TemporaryDirectory() as folder:
+            top = Path(folder)
+            out = top/'carrier'
+            out.mkdir()
+            (out/'EclRunState.inl').symlink_to(ROOT/'src/EclRunState.inl')
+            with self.assertRaisesRegex(ValueError, 'symlink'):
+                variant.stage_variants(out)
+
+    def test_symlinked_candidate_source_does_not_reach_carrier(self):
+        with tempfile.TemporaryDirectory() as folder:
+            tmp = Path(folder)
+            source = tmp/'state-symlink.inl'
+            source.symlink_to(ROOT/'src/EclRunState.inl')
+            with self.assertRaisesRegex(ValueError, 'symlinked ECL variant source'):
+                variant.stage_variants(tmp/'carrier', state=source)
+            self.assertFalse((tmp/'carrier/EclManager.cpp').exists())
+
+    def test_profile_carries_pinned_true_ecl_compiler_context(self):
+        p = variant.pinned_profile()
+        self.assertIn('/O2', p)
+        self.assertIn('/Ob1', p)
+        self.assertIn('/Gr', p)
+        self.assertIn('/Oy-', p)
+
+
+if __name__ == '__main__':
+    unittest.main()
