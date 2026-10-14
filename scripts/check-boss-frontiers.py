@@ -289,6 +289,47 @@ def run_camera_facing(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     }}, siblings
 
 
+
+def run_screen_shake(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    """Cold-source complete ScreenEffect envelope plus exact same-TU owners."""
+    build('screen-effect-calc-shake')
+    current = noncrediting(parsed(['scripts/inspect-screen-shake-envelope.py',
+                                    'build/matching/ScreenEffect.obj', '--json']),
+                           name='ScreenEffect CalcShakeEnvelope',
+                           target_size=336, fields=20,
+                           fields_key='bound_relocations')
+    if (current.get('candidate_bytes') != 336 or
+            current.get('reviewed_target_fields') != 20 or
+            current.get('target_instructions') != 132 or
+            current.get('candidate_instructions') != 132 or
+            current.get('target_calls') != 8 or
+            current.get('candidate_calls') != 8 or
+            not current.get('ordered_calls_agree') or
+            current.get('target_blocks') != 26 or
+            current.get('candidate_blocks') != 26 or
+            not current.get('complete_direct_graphs_agree') or
+            current.get('absent_target_bytes') != 0 or
+            current.get('extra_candidate_bytes') != 0 or
+            not isinstance(current.get('overlapping_differences'), int) or
+            current['overlapping_differences'] > 28 or
+            current.get('complete_bytes_agree')):
+        raise RuntimeError('ScreenEffect 336-byte/20-field/8-call/26-block nonexact frontier drifted')
+    exact = []
+    if protect_exact:
+        # All six use the one freshly compiled ScreenEffect.obj and profile.
+        for unit in ('screen-effect-calc-shake', 'screen-effect-calc-fade-in',
+                     'screen-effect-calc-fade-out', 'screen-effect-calc-fade-hold',
+                     'screen-effect-calc-arcade-pulse', 'screen-effect-initialize-timer'):
+            exact.append(canonical(unit))
+    return {'screen_shake_envelope': {
+        'target_bytes': 336, 'candidate_bytes': current['candidate_bytes'],
+        'bound_fields': current['bound_relocations'],
+        'ordered_calls': current['candidate_calls'],
+        'direct_graphs_agree': current['complete_direct_graphs_agree'],
+        'ordinary_differences': current['overlapping_differences'],
+    }}, exact
+
+
 def run_effect(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # The 51-byte resource loader shares the live EffectManager TU with both
     # canonical 475-byte OnUpdate and 183-byte OnDraw. Compile that original
@@ -415,7 +456,12 @@ def run_enemy(*, protect_exact: bool) -> tuple[dict, list[dict]]:
                                 'build/matching/EnemyManagerCore.obj', '--json']),
                         name='EnemyManager OnUpdate', target_size=3900,
                         fields=97, fields_key='relocations')
-    if (main.get('relocation_fields_agree') != 97 or
+    if (main.get('candidate_bytes') != 3900 or
+            main.get('target_instructions') != 1026 or
+            main.get('candidate_instructions') != 1026 or
+            not isinstance(main.get('complete_differences'), int) or
+            main['complete_differences'] > 39 or main.get('complete_bytes_agree') or
+            main.get('relocation_fields_agree') != 97 or
             main.get('target_calls') != 69 or main.get('candidate_calls') != 69 or
             not main.get('ordered_calls_agree') or
             main.get('target_direct_blocks') != 170 or
@@ -636,7 +682,7 @@ def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'player', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'player', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'screen', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -669,6 +715,10 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('anm', 'all'):
             owners, exact = run_camera_facing(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('screen', 'all'):
+            owners, exact = run_screen_shake(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('player', 'all'):

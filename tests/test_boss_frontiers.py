@@ -58,6 +58,8 @@ class BossFrontierChecks(TestCase):
         main = {
             'diagnostic_only': True, 'exactness_credit': 'none',
             'target_bytes': 3900, 'candidate_bytes': 3900,
+            'target_instructions': 1026, 'candidate_instructions': 1026,
+            'complete_bytes_agree': False,
             'relocations': 97, 'relocation_fields_agree': 97,
             'target_calls': 69, 'candidate_calls': 69,
             'ordered_calls_agree': True, 'target_direct_blocks': 170,
@@ -93,6 +95,8 @@ class BossFrontierChecks(TestCase):
     def test_enemy_boss_input_rejects_false_original_call_identity(self):
         main, leaf = self.enemy_evidence()
         for corruption in ({'relocation_fields_agree': 96}, {'target_calls': 68},
+                           {'candidate_bytes': 3899}, {'candidate_instructions': 1025},
+                           {'complete_differences': 40}, {'complete_bytes_agree': True},
                            {'reviewed_control_flow_agrees': False},
                            {'switch_table_destinations_agree': False}):
             with self.subTest(corruption=corruption), patch.object(
@@ -105,6 +109,48 @@ class BossFrontierChecks(TestCase):
                     **leaf, 'ordered_call_addresses': ['0x40f8e0', '0x40f5a0']
                 }]), self.assertRaises(RuntimeError):
             frontiers.run_enemy(protect_exact=False)
+
+    @staticmethod
+    def screen_evidence():
+        return {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_bytes': 336, 'candidate_bytes': 336,
+            'reviewed_target_fields': 20, 'bound_relocations': 20,
+            'target_instructions': 132, 'candidate_instructions': 132,
+            'target_calls': 8, 'candidate_calls': 8, 'ordered_calls_agree': True,
+            'target_blocks': 26, 'candidate_blocks': 26,
+            'complete_direct_graphs_agree': True,
+            'overlapping_differences': 28,
+            'absent_target_bytes': 0, 'extra_candidate_bytes': 0,
+            'complete_bytes_agree': False,
+        }
+
+    def test_screen_shake_cold_carrier_protects_six_exact_siblings(self):
+        with patch.object(frontiers, 'build') as build, patch.object(
+                frontiers, 'parsed', return_value=self.screen_evidence()) as parsed, patch.object(
+                frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
+            owners, exact = frontiers.run_screen_shake(protect_exact=True)
+        build.assert_called_once_with('screen-effect-calc-shake')
+        parsed.assert_called_once_with(['scripts/inspect-screen-shake-envelope.py',
+                                        'build/matching/ScreenEffect.obj', '--json'])
+        self.assertEqual(owners['screen_shake_envelope']['ordinary_differences'], 28)
+        self.assertEqual([x['unit'] for x in exact],
+                         ['screen-effect-calc-shake', 'screen-effect-calc-fade-in',
+                          'screen-effect-calc-fade-out', 'screen-effect-calc-fade-hold',
+                          'screen-effect-calc-arcade-pulse', 'screen-effect-initialize-timer'])
+
+    def test_screen_shake_bad_extent_fields_calls_or_regression_fail_closed(self):
+        for bad in ({'candidate_bytes': 334}, {'target_instructions': 131},
+                    {'candidate_instructions': 133}, {'bound_relocations': 19},
+                    {'reviewed_target_fields': 19}, {'target_calls': 7},
+                    {'candidate_calls': 7}, {'ordered_calls_agree': False},
+                    {'target_blocks': 25}, {'candidate_blocks': 27},
+                    {'complete_direct_graphs_agree': False},
+                    {'overlapping_differences': 29}, {'absent_target_bytes': 1},
+                    {'extra_candidate_bytes': 1}, {'complete_bytes_agree': True}):
+            with self.subTest(bad=bad), patch.object(frontiers, 'build'), patch.object(
+                    frontiers, 'parsed', return_value={**self.screen_evidence(), **bad}), self.assertRaises(RuntimeError):
+                frontiers.run_screen_shake(protect_exact=False)
 
     @staticmethod
     def camera_evidence():
