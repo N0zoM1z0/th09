@@ -153,6 +153,71 @@ class BossFrontierChecks(TestCase):
                 frontiers.run_screen_shake(protect_exact=False)
 
     @staticmethod
+    def etama_evidence():
+        return {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_bytes': 600, 'candidate_bytes': 600,
+            'target_instructions': 157, 'candidate_instructions': 160,
+            'bound_fields': 27, 'ordered_calls': 13,
+            'target_direct_blocks': 17, 'candidate_direct_blocks': 17,
+            'complete_direct_graphs_agree': True,
+            'overlapping_byte_differences': 268,
+            'missing_target_bytes': 0, 'extra_candidate_bytes': 0,
+            'complete_bytes_equal': False,
+        }
+
+    def test_etama_big_draw_protects_two_real_exact_siblings(self):
+        with patch.object(frontiers, 'build') as build, patch.object(
+                frontiers, 'parsed', return_value=self.etama_evidence()), patch.object(
+                frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
+            owners, siblings = frontiers.run_etama(protect_exact=True)
+        self.assertEqual(owners['etama_draw']['overlapping_differences'], 268)
+        self.assertEqual([r['unit'] for r in siblings],
+                         ['bullet-draw-single', 'etama-controller-update'])
+        self.assertEqual(build.call_count, 2)
+
+    def test_etama_original_graph_register_schedule_regressions_fail(self):
+        for bad in ({'candidate_bytes': 594}, {'target_instructions': 156},
+                    {'candidate_instructions': 161}, {'ordered_calls': 12},
+                    {'target_direct_blocks': 16}, {'candidate_direct_blocks': 16},
+                    {'complete_direct_graphs_agree': False},
+                    {'overlapping_byte_differences': 269},
+                    {'missing_target_bytes': 1}, {'extra_candidate_bytes': 1},
+                    {'complete_bytes_equal': True}):
+            with self.subTest(bad=bad), patch.object(frontiers, 'build'), patch.object(
+                    frontiers, 'parsed', return_value={**self.etama_evidence(), **bad}), self.assertRaises(RuntimeError):
+                frontiers.run_etama(protect_exact=False)
+
+    def test_trail_initializers_target_extent_calls_blocks_and_gap_guarded(self):
+        for typ, size, ins, fields, calls, blocks, diff in (
+                ('19', 763, 207, 57, 27, 9, 6),
+                ('21', 727, 198, 53, 25, 10, 9)):
+            evidence = {'target_bytes': size, 'candidate_bytes': size,
+                        'target_instructions': ins, 'candidate_instructions': ins,
+                        'relocations': fields, 'target_calls': calls,
+                        'candidate_calls': calls, 'ordered_calls_agree': True,
+                        'direct_blocks': [blocks, blocks],
+                        'complete_direct_graphs_agree': True,
+                        'complete_differences_if_same_extent': diff,
+                        'complete_bytes_agree': False}
+            frontiers.validate_exattack_trail_initializer(typ, evidence)
+            for bad in ({'candidate_bytes': size + 1},
+                        {'candidate_instructions': ins - 1},
+                        {'relocations': fields - 1},
+                        {'target_calls': calls - 1},
+                        {'candidate_calls': calls - 1},
+                        {'ordered_calls_agree': False},
+                        {'direct_blocks': [blocks, blocks - 1]},
+                        {'complete_direct_graphs_agree': False},
+                        {'complete_differences_if_same_extent': diff + 1},
+                        {'complete_bytes_agree': True}):
+                with self.subTest(typ=typ, bad=bad), self.assertRaises(RuntimeError):
+                    frontiers.validate_exattack_trail_initializer(typ,
+                                                                  {**evidence, **bad})
+        with self.assertRaises(RuntimeError):
+            frontiers.validate_exattack_trail_initializer('0', {})
+
+    @staticmethod
     def replay_evidence():
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',

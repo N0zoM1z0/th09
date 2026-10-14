@@ -144,6 +144,7 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
                                           callback_type, object_file]),
                                   name='ExAttack init ' + callback_type,
                                   target_size=size, fields=relocations, fields_key='relocations')
+            validate_exattack_trail_initializer(callback_type, result)
             diagnostics['exattack_type' + callback_type + '_init'] = {
                 'target_bytes': size, 'candidate_bytes': result['candidate_bytes'],
                 'different_bytes': result['complete_differences_if_same_extent'],
@@ -153,6 +154,35 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
             build('exattack-type21-update')
             exact_units.append(canonical('exattack-type21-update'))
     return diagnostics, exact_units
+
+
+
+def validate_exattack_trail_initializer(callback_type: str, result: dict) -> None:
+    """Reject independent original/COFF ABI or complete-body regressions.
+
+    Opcode/helper topology is not exactness: this remains noncrediting until a
+    separate canonical target-bound match unit replays ALL bytes and fields.
+    """
+    specs = {'19': (763, 207, 57, 27, 9, 6),
+             '21': (727, 198, 53, 25, 10, 9)}
+    if callback_type not in specs:
+        raise RuntimeError('unsupported ExAttack trail initializer type')
+    size, instructions, relocations, calls, blocks, max_differences = specs[callback_type]
+    if (result.get('target_bytes') != size or
+            result.get('candidate_bytes') != size or
+            result.get('target_instructions') != instructions or
+            result.get('candidate_instructions') != instructions or
+            result.get('relocations') != relocations or
+            result.get('target_calls') != calls or
+            result.get('candidate_calls') != calls or
+            result.get('ordered_calls_agree') is not True or
+            result.get('direct_blocks') != [blocks, blocks] or
+            result.get('complete_direct_graphs_agree') is not True or
+            not isinstance(result.get('complete_differences_if_same_extent'), int) or
+            result['complete_differences_if_same_extent'] > max_differences or
+            result.get('complete_bytes_agree') is not False):
+        raise RuntimeError('ExAttack Type' + callback_type +
+                           ' initializer full-owner 57/53-field/6/9-byte frontier regressed')
 
 
 def run_player_collision(*, protect_exact: bool) -> tuple[dict, list[dict]]:
@@ -548,6 +578,20 @@ def run_etama(*, protect_exact: bool) -> tuple[dict, list[dict]]:
                                  'build/matching/EtamaControllerDraw.obj', '--json'],
                                 diagnostic=True), name='Etama OnDraw',
                           target_size=600, fields=27)
+    if (result.get('candidate_bytes') != 600 or
+            result.get('target_instructions') != 157 or
+            not isinstance(result.get('candidate_instructions'), int) or
+            result['candidate_instructions'] > 160 or
+            result.get('ordered_calls') != 13 or
+            result.get('target_direct_blocks') != 17 or
+            result.get('candidate_direct_blocks') != 17 or
+            result.get('complete_direct_graphs_agree') is not True or
+            not isinstance(result.get('overlapping_byte_differences'), int) or
+            result['overlapping_byte_differences'] > 268 or
+            result.get('missing_target_bytes') != 0 or
+            result.get('extra_candidate_bytes') != 0 or
+            result.get('complete_bytes_equal') is not False):
+        raise RuntimeError('Etama OnDraw 600-byte/27-field/13-call/17-block frontier regressed')
     exact_units = [canonical('bullet-draw-single')] if protect_exact else []
     if protect_exact:
         build('etama-controller-update')
