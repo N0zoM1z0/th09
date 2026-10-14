@@ -21,7 +21,7 @@ class EffectLoaderWithExactSiblings(unittest.TestCase):
             'target_instructions': 19, 'candidate_instructions': 19,
             'target_relocations': 4, 'bound_relocations': 4,
             'ordered_calls_match': True,
-            'differing_bytes': 8,
+            'differing_bytes': 8, 'complete_bytes_equal': False,
             'original_blocks': 3, 'candidate_blocks': 3,
             'complete_direct_graphs_agree': True,
         }
@@ -46,7 +46,9 @@ class EffectLoaderWithExactSiblings(unittest.TestCase):
         self.assertEqual(report['effect_added_callback']['target_bytes'], 51)
 
     def test_original_fields_full_extent_and_call_census_fail_closed(self):
-        for corrupt in ({'target_bytes': 50}, {'bound_relocations': 3},
+        for corrupt in ({'target_bytes': 50}, {'candidate_bytes': 45},
+                        {'differing_bytes': 9}, {'complete_bytes_equal': True},
+                        {'bound_relocations': 3},
                         {'target_relocations': 3}, {'target_instructions': 18},
                         {'candidate_instructions': 20}, {'ordered_calls_match': False},
                         {'exactness_credit': 'accepted'}, {'diagnostic_only': False},

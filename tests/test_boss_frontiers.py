@@ -263,6 +263,39 @@ class BossFrontierChecks(TestCase):
                 frontiers.run_replay_playback(protect_exact=False)
 
     @staticmethod
+    def title_draw_result_evidence():
+        return {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_bytes': 1939, 'candidate_bytes': 1939,
+            'target_instructions': 577, 'candidate_instructions': 577,
+            'original_fields': 82, 'bound_fields': 82,
+            'ordered_calls': 16, 'ordered_calls_agree': True,
+            'original_blocks': 92, 'candidate_blocks': 92,
+            'direct_graphs_agree': True,
+            'aligned_instructions': 574, 'paired_branch_conflicts': [],
+            'unpaired_branch_destinations': 1,
+            'complete_differences': 22, 'complete_bytes_equal': False,
+        }
+
+    def test_title_draw_result_whole_owner_byte_frontier(self):
+        frontiers.guard_title_draw_result(self.title_draw_result_evidence())
+        for changes in ({'candidate_bytes': 1938},
+                        {'candidate_instructions': 576},
+                        {'target_instructions': 576},
+                        {'bound_fields': 81}, {'original_fields': 81},
+                        {'ordered_calls': 15}, {'ordered_calls_agree': False},
+                        {'original_blocks': 91}, {'candidate_blocks': 91},
+                        {'direct_graphs_agree': False},
+                        {'aligned_instructions': 573},
+                        {'paired_branch_conflicts': [{'branch': 4}]},
+                        {'unpaired_branch_destinations': 2},
+                        {'complete_differences': 23},
+                        {'complete_bytes_equal': True},
+                        {'exactness_credit': 'accepted'}):
+            with self.subTest(changes=changes), self.assertRaises(RuntimeError):
+                frontiers.guard_title_draw_result({**self.title_draw_result_evidence(), **changes})
+
+    @staticmethod
     def camera_evidence():
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',

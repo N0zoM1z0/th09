@@ -415,7 +415,11 @@ def run_effect(*, protect_exact: bool) -> tuple[dict, list[dict]]:
                               name='EffectManager AddedCallback',
                               target_size=51, fields=4,
                               fields_key='bound_relocations')
-    if (diagnostic.get('target_instructions') != 19 or
+    if (diagnostic.get('candidate_bytes') != 51 or
+            not isinstance(diagnostic.get('differing_bytes'), int) or
+            diagnostic['differing_bytes'] > 8 or
+            diagnostic.get('complete_bytes_equal') is not False or
+            diagnostic.get('target_instructions') != 19 or
             diagnostic.get('candidate_instructions') != 19 or
             diagnostic.get('target_relocations') != 4 or
             diagnostic.get('original_blocks') != 3 or
@@ -661,6 +665,33 @@ def run_exattack_type3(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     }}, exact
 
 
+def guard_title_draw_result(result: dict) -> None:
+    """Fail closed on regression of the 1,939-byte original renderer boss.
+
+    This is a non-crediting *whole-owner* guard, not a local instruction
+    similarity threshold or a promotion to canonical exact.  The producer
+    independently binds every original source field and all 16 call identities.
+    """
+    noncrediting(result, name='Title DrawResult', target_size=1939, fields=82)
+    if (result.get('candidate_bytes') != 1939 or
+            result.get('target_instructions') != 577 or
+            result.get('candidate_instructions') != 577 or
+            result.get('original_fields') != 82 or
+            result.get('ordered_calls') != 16 or
+            not result.get('ordered_calls_agree') or
+            result.get('original_blocks') != 92 or
+            result.get('candidate_blocks') != 92 or
+            not result.get('direct_graphs_agree') or
+            not isinstance(result.get('aligned_instructions'), int) or
+            result['aligned_instructions'] < 574 or
+            result.get('paired_branch_conflicts') != [] or
+            result.get('unpaired_branch_destinations', 2) > 1 or
+            not isinstance(result.get('complete_differences'), int) or
+            result['complete_differences'] > 22 or
+            result.get('complete_bytes_equal') is not False):
+        raise RuntimeError('Title DrawResult 1939-byte/82-field/16-call/92-block frontier drifted')
+
+
 def run_title_open() -> dict:
     # These source-present owners are explicitly non-exact. Their independent
     # original operand inventories must agree before any similarity score.
@@ -727,9 +758,7 @@ def run_title_open() -> dict:
                    reference_unit='title-screen-setup-thread')
     draw = noncrediting(parsed(['scripts/inspect-title-result-draw.py', result_obj, '--json']),
                         name='Title DrawResult', target_size=1939, fields=82)
-    if (draw['original_fields'] != 82 or draw['ordered_calls'] != 16 or
-            not draw['ordered_calls_agree'] or not draw['direct_graphs_agree']):
-        raise RuntimeError('Title DrawResult original-bound calls or graph regressed')
+    guard_title_draw_result(draw)
     replay_obj = 'build/matching/TitleReplaySave.obj'
     build_nonexact('src/TitleScreenReplaySaveDraw.cpp', replay_obj,
                    reference_unit='title-screen-setup-thread')
