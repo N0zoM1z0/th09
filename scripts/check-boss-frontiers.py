@@ -337,6 +337,30 @@ def run_title_open() -> dict:
         'missing_target_bytes': update['missing_target_bytes'],
         'direct_graphs_agree': update['direct_graphs_agree'],
     }
+    # The 2,045-byte Options update is a separate 121-block boss, not part of
+    # the smaller TitleSetup exact receipts; never reuse a previously built
+    # ignored COFF object without recompiling its current tracked source.
+    options_obj = 'build/matching/TitleScreenOptions.obj'
+    build_nonexact('src/TitleScreenOptions.cpp', options_obj,
+                   reference_unit='title-screen-setup-thread')
+    options = noncrediting(parsed(['scripts/inspect-title-options.py',
+                                  options_obj, '--json']),
+                           name='Title OnUpdateOptions', target_size=2045, fields=135)
+    if (options['original_fields'] != 135 or options['target_instructions'] != 551 or
+            options['ordered_calls'] != 51 or not options['ordered_calls_agree'] or
+            options['original_blocks'] != 121 or
+            not options['direct_graphs_agree']):
+        raise RuntimeError('Title Options original 135-field/51-call/121-block identity regressed')
+    cursor_reports['title_update_options'] = {
+        'target_bytes': 2045, 'candidate_bytes': options['candidate_bytes'],
+        'bound_fields': options['bound_fields'],
+        'ordered_calls': options['ordered_calls'],
+        'target_instructions': options['target_instructions'],
+        'candidate_instructions': options['candidate_instructions'],
+        'missing_target_bytes': options['missing_target_bytes'],
+        'extra_candidate_bytes': options['extra_candidate_bytes'],
+        'direct_graphs_agree': options['direct_graphs_agree'],
+    }
     result_obj = 'build/matching/TitleResultDraw.obj'
     build_nonexact('src/TitleScreenResultDraw.cpp', result_obj,
                    reference_unit='title-screen-setup-thread')

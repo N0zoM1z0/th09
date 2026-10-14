@@ -1,18 +1,33 @@
 #!/usr/bin/env python3
-"""Read-only complete Options replay; diagnostic only, never match credit."""
+"""Original-bound, source-cold TH09 TitleScreen::OnUpdateOptions audit.
+
+The 2045-byte original has 135 external operands, 51 ordered calls and 121
+complete direct control-flow blocks. This inspector hashes and independently
+decodes the original executable *before* binding genuine source COFF fields.
+It cannot grant exactness credit, including when a local candidate is the
+same length, or when two instructions happen to have similar shape.
+"""
+
+from __future__ import annotations
+
 import argparse
-import capstone
 import difflib
 import hashlib
 import importlib.util
+import json
 from pathlib import Path
 import struct
-from diagnostic_branch_alignment import aligned_branch_conflicts, direct_control_flow
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-BASE, SIZE = 0x4276EB, 2045
+BASE, SIZE = 0x004276EB, 2045
 SYMBOL = '?OnUpdateOptions@TitleScreenView@@QAEHXZ'
-# Independently reviewed TH09 callees and literal/global operands, not fitted.
+TARGET_SHA256 = '869fec21781b663202298f8486ebf8d0d9e42c0c1d34f1d3b08bf860b247eb63'
+ORIGINAL_INSTRUCTIONS = 551
+ORIGINAL_FIELDS = 135
+ORIGINAL_CALLS = 51
+ORIGINAL_BLOCKS = 121
+
 DESTINATIONS = {
     # Shared Supervisor owner and methods used by the maintained consumer.
     # The older view/field aliases below remain for historical objects.
@@ -53,53 +68,177 @@ DESTINATIONS = {
 }
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('object', type=Path)
-    args = parser.parse_args()
-    spec = importlib.util.spec_from_file_location('coff', ROOT / 'scripts/compare-coff-function.py')
-    coff = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(coff)
-    target = coff.pe_bytes_at(coff.verified_target(), BASE, SIZE)
-    code, rows = coff.object_function(args.object, SYMBOL)
-    raw_hash = hashlib.sha256(code).hexdigest()
-    for row in rows:
-        value = DESTINATIONS[row['symbol']] + row['addend']
-        if row['type'] == 'REL32':
-            value -= BASE + row['offset'] + 4
-        elif row['type'] != 'DIR32':
-            raise ValueError('unreviewed relocation type')
-        struct.pack_into('<I', code, row['offset'], value & 0xFFFFFFFF)
+def require_original_identity(target: bytes, expected_hash: str = TARGET_SHA256) -> None:
+    if len(target) != SIZE or hashlib.sha256(target).hexdigest() != expected_hash:
+        raise ValueError('original TH09 Options physical SHA256/extent changed')
+
+
+def full_instructions(code: bytes, *, base: int = BASE):
+    import capstone
     decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
     decoder.detail = True
-    t, c = list(decoder.disasm(target, BASE)), list(decoder.disasm(code, BASE))
-    if sum(i.size for i in t) != len(target) or sum(i.size for i in c) != len(code):
-        raise ValueError('incomplete function decode')
-    def normalized(i):
-        if i.mnemonic.startswith('j') or i.mnemonic == 'call':
-            return i.mnemonic, 'direct'
-        return i.mnemonic, i.op_str
-    matcher = difflib.SequenceMatcher(None, list(map(normalized, t)), list(map(normalized, c)), autojunk=False)
-    calls = lambda ins: [i.operands[0].imm for i in ins if i.mnemonic == 'call']
-    print('NON-CREDITING:', len(code), 'bytes', len(c), 'instructions', len(rows), 'fields', raw_hash)
-    first = next((n for n, (a, b) in enumerate(zip(target, code)) if a != b), None)
-    print('complete owned bytes agree:', code == target,
-          'length delta:', len(code) - len(target), 'first overlapping difference:', first)
-    print('ordered calls agree:', calls(t) == calls(c), 'alignment:',
-          sum(b.size for b in matcher.get_matching_blocks()), '/', len(t))
-    conflicts, unpaired = aligned_branch_conflicts(t, c, matcher.get_matching_blocks(), capstone.x86.X86_OP_IMM)
-    print('paired CFG conflicts:', [tuple(map(hex, row)) for row in conflicts], 'unpaired:', unpaired)
-    target_cfg = direct_control_flow(t, capstone.x86.X86_OP_IMM)
-    candidate_cfg = direct_control_flow(c, capstone.x86.X86_OP_IMM)
-    print('complete direct block graphs:', len(target_cfg), len(candidate_cfg),
-          'edges/per-block calls/return cleanup agree:', target_cfg == candidate_cfg)
-    if len(code) == len(target):
-        print('complete replay differences:', sum(a != b for a, b in zip(code, target)))
-    for tag, a, b, x, y in matcher.get_opcodes():
-        if tag != 'equal':
-            print(tag, [(hex(i.address), i.mnemonic, i.op_str) for i in t[a:b]],
-                  '=>', [(hex(i.address), i.mnemonic, i.op_str) for i in c[x:y]])
+    instructions = list(decoder.disasm(code, base))
+    if not instructions or sum(i.size for i in instructions) != len(code):
+        raise ValueError('Options complete physical owner does not decode')
+    if instructions[-1].mnemonic != 'ret' or instructions[-1].op_str:
+        raise ValueError('Options source/target return ABI changed')
+    return instructions
+
+
+def absolute_operands(instructions, *, base: int = BASE):
+    """Discover original absolute data and real call operands; exclude jumps."""
+    import capstone
+    fields, calls = [], []
+    for instruction in instructions:
+        if instruction.mnemonic.startswith('j'):
+            continue
+        if instruction.mnemonic == 'call':
+            if (len(instruction.operands) != 1 or
+                    instruction.operands[0].type != capstone.x86.X86_OP_IMM or
+                    instruction.imm_size != 4):
+                raise ValueError('Options has an unreviewed indirect/short call')
+            address = instruction.operands[0].imm
+            fields.append((instruction.address - base + instruction.imm_offset,
+                           'REL32', address))
+            calls.append(address)
+            continue
+        for operand in instruction.operands:
+            if operand.type == capstone.x86.X86_OP_MEM and instruction.disp_size == 4:
+                if 0x00400000 <= operand.mem.disp < 0x004E7000:
+                    fields.append((instruction.address - base + instruction.disp_offset,
+                                   'DIR32', operand.mem.disp))
+            elif operand.type == capstone.x86.X86_OP_IMM and instruction.imm_size == 4:
+                if 0x00400000 <= operand.imm < 0x004E7000:
+                    fields.append((instruction.address - base + instruction.imm_offset,
+                                   'DIR32', operand.imm))
+    return fields, calls
+
+
+def bind_candidate(raw: bytes, rows: list[dict], original: list[tuple],
+                   *, symbols: dict[str, int] = DESTINATIONS) -> bytes:
+    if not 1970 <= len(raw) <= 2120:
+        raise ValueError('Options candidate has an unreviewed physical extent')
+    if len(original) != ORIGINAL_FIELDS or len(rows) != ORIGINAL_FIELDS:
+        raise ValueError('Options original/candidate 135-operand inventory changed')
+    result = bytearray(raw)
+    last_end = 0
+    for row, (original_offset, kind, original_destination) in zip(rows, original):
+        symbol = row['symbol']
+        if symbol not in symbols:
+            raise ValueError('Options unknown source COFF referent: ' + symbol)
+        candidate_offset = row['offset']
+        actual_destination = symbols[symbol] + row['addend']
+        if (row['type'] != kind or actual_destination != original_destination or
+                kind not in ('DIR32', 'REL32')):
+            raise ValueError('Options original address identity/order/addend diverged')
+        if (not isinstance(candidate_offset, int) or candidate_offset < last_end or
+                candidate_offset + 4 > len(raw)):
+            raise ValueError('Options candidate COFF field reordered/overlaps/out-of-range')
+        last_end = candidate_offset + 4
+        address_value = actual_destination
+        if kind == 'REL32':
+            address_value -= BASE + candidate_offset + 4
+        struct.pack_into('<I', result, candidate_offset, address_value & 0xFFFFFFFF)
+    return bytes(result)
+
+
+def diagnose(path: Path) -> dict:
+    import capstone
+    from diagnostic_branch_alignment import aligned_branch_conflicts, direct_control_flow
+
+    spec = importlib.util.spec_from_file_location(
+        'th09_options_complete_coff', ROOT / 'scripts/compare-coff-function.py')
+    coff = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(coff)
+    original = coff.pe_bytes_at(coff.verified_target(), BASE, SIZE)
+    require_original_identity(original)
+    target_ins = full_instructions(original)
+    target_fields, target_calls = absolute_operands(target_ins)
+    if (len(target_ins), len(target_fields), len(target_calls)) != (
+            ORIGINAL_INSTRUCTIONS, ORIGINAL_FIELDS, ORIGINAL_CALLS):
+        raise ValueError('original TH09 Options instruction/address/call census changed')
+
+    raw, rows = coff.object_function(path, SYMBOL)
+    linked = bind_candidate(raw, rows, target_fields)
+    candidate_ins = full_instructions(linked)
+    candidate_fields, candidate_calls = absolute_operands(candidate_ins)
+    expected_fields = [(row['offset'], kind, target)
+                       for row, (_, kind, target) in zip(rows, target_fields)]
+    if candidate_fields != expected_fields or candidate_calls != target_calls:
+        raise ValueError('candidate Options decoded source COFF operands or calls differ')
+
+    target_graph = direct_control_flow(target_ins, capstone.x86.X86_OP_IMM)
+    candidate_graph = direct_control_flow(candidate_ins, capstone.x86.X86_OP_IMM)
+    if len(target_graph) != ORIGINAL_BLOCKS:
+        raise ValueError('original TH09 Options 121-block graph drifted')
+
+    def normal(instruction):
+        if instruction.mnemonic.startswith('j') or instruction.mnemonic == 'call':
+            return instruction.mnemonic, 'direct'
+        return instruction.mnemonic, instruction.op_str
+
+    alignment = difflib.SequenceMatcher(
+        None, list(map(normal, target_ins)), list(map(normal, candidate_ins)),
+        autojunk=False)
+    branch_conflicts, unpaired = aligned_branch_conflicts(
+        target_ins, candidate_ins, alignment.get_matching_blocks(),
+        capstone.x86.X86_OP_IMM)
+    return {
+        'diagnostic_only': True, 'exactness_credit': 'none',
+        'target_bytes': len(original), 'candidate_bytes': len(linked),
+        'target_instructions': len(target_ins),
+        'candidate_instructions': len(candidate_ins),
+        'original_fields': len(target_fields), 'bound_fields': len(rows),
+        'ordered_calls': len(target_calls), 'ordered_calls_agree': candidate_calls == target_calls,
+        'original_blocks': len(target_graph), 'candidate_blocks': len(candidate_graph),
+        'direct_graphs_agree': target_graph == candidate_graph,
+        'aligned_instructions': sum(block.size for block in alignment.get_matching_blocks()),
+        'paired_branch_conflicts': [tuple(map(hex, row)) for row in branch_conflicts],
+        'unpaired_branch_destinations': unpaired,
+        'complete_differences': sum(a != b for a, b in zip(original, linked))
+            if len(original) == len(linked) else None,
+        'overlap_differences': sum(a != b for a, b in zip(original, linked)),
+        'missing_target_bytes': max(0, len(original) - len(linked)),
+        'extra_candidate_bytes': max(0, len(linked) - len(original)),
+        'first_overlapping_difference': next((n for n, (a, b) in
+            enumerate(zip(original, linked)) if a != b), None),
+        'complete_bytes_equal': original == linked,
+        'candidate_raw_sha256': hashlib.sha256(raw).hexdigest(),
+        'target_sha256': TARGET_SHA256,
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('object', type=Path)
+    parser.add_argument('--json', action='store_true', help='emit machine-readable full-owner audit')
+    args = parser.parse_args()
+    try:
+        report = diagnose(args.object)
+    except (OSError, ImportError, ValueError, KeyError, struct.error) as error:
+        print('Options source/target audit rejected:', error, file=sys.stderr)
+        return 2
+    if args.json:
+        print(json.dumps(report, indent=2))
+    else:
+        print('NON-CREDITING:', report['candidate_bytes'], 'bytes',
+              report['candidate_instructions'], 'instructions',
+              report['bound_fields'], 'fields', report['candidate_raw_sha256'])
+        print('complete owned bytes agree:', report['complete_bytes_equal'],
+              'length delta:', report['candidate_bytes'] - report['target_bytes'],
+              'first overlapping difference:', report['first_overlapping_difference'])
+        print('ordered calls agree:', report['ordered_calls_agree'],
+              'alignment:', report['aligned_instructions'], '/',
+              report['target_instructions'])
+        print('paired CFG conflicts:', report['paired_branch_conflicts'],
+              'unpaired:', report['unpaired_branch_destinations'])
+        print('complete direct block graphs:', report['original_blocks'],
+              report['candidate_blocks'], 'edges/per-block calls/return cleanup agree:',
+              report['direct_graphs_agree'])
+        if report['complete_differences'] is not None:
+            print('complete replay differences:', report['complete_differences'])
+    return 0
 
 
 if __name__ == '__main__':
-    main()
+    raise SystemExit(main())
