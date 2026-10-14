@@ -98,7 +98,7 @@ is maintained separately in [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTI
 
 ## Closed codegen landmarks and accepted receipts
 
-**New local exact, Factory replay receipt still pending:** `TitleDrawCallback @ 0x00424898`, **329/329 bytes, 20 original relocation identities, 12 calls and 26 complete blocks**, canonical `title-draw-callback` cold comparison. The natural low-screen switch cases 3,4,5,6 recover the original two consecutive `DEC EAX` without new effects. Treat local canonical evidence as distinct from a Factory-accepted receipt until the new committed-source replay completes.
+**New Factory-accepted exact:** `TitleDrawCallback @ 0x00424898`, **329/329 bytes, 20 original relocation identities, 12 calls and 26 complete blocks**, canonical `title-draw-callback` strict-live forced-cold replay on source commit `3bb7693`, **`pass / accepted`**, `receipt:42a46abe45f4902fb86aaa94b10235c26ece9be45578de2920fa6cd3db208d35`. The natural low-screen switch cases 3/4/5/6 recover the original two consecutive `DEC EAX` without additional effects. This is an accepted *function* receipt, not product or runtime closure.
 
 **Recent completed owners, all Factory `strict-live-v1` forced-cold
 `pass / accepted` on the *specified original source commit*.** Each unit must
