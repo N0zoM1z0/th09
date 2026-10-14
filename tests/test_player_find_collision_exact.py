@@ -68,11 +68,28 @@ class PlayerFindCollisionSourceGates(unittest.TestCase):
 
 
 class PlayerFindCollisionColdSweep(unittest.TestCase):
+    @staticmethod
+    def noncrediting_bullet():
+        return {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_bytes': 862, 'candidate_bytes': 849,
+            'target_instructions': 277, 'candidate_instructions': 266,
+            'original_fields': 26, 'bound_fields': 26,
+            'ordered_calls': 12, 'ordered_calls_agree': True,
+            'ordered_fields_agree': True, 'original_blocks': 33,
+            'candidate_blocks': 32, 'direct_graphs_agree': False,
+            'overlap_differences': 804, 'missing_target_bytes': 13,
+            'extra_candidate_bytes': 0, 'complete_bytes_equal': False,
+        }
+
     def test_real_same_tu_and_five_other_exact_helpers_are_rebuilt(self):
         with patch.object(frontier,'build') as build, patch.object(frontier,'canonical',
-                    side_effect=lambda unit:{'unit':unit}):
+                    side_effect=lambda unit:{'unit':unit}), patch.object(
+                    frontier, 'parsed', return_value=self.noncrediting_bullet()) as parsed:
             owners,exact=frontier.run_player_collision(protect_exact=True)
-        self.assertEqual(owners,{})
+        self.assertEqual(owners['player_check_bullet_collision']['target_bytes'], 862)
+        parsed.assert_called_once_with(['scripts/inspect-player-bullet-collision.py',
+                                        'build/matching/PlayerCollisionHelpers.obj', '--json'])
         self.assertEqual(len(exact),7)
         self.assertEqual([x['unit'] for x in exact],[
             'player-find-collision','player-calc-item-box-collision',
@@ -88,10 +105,13 @@ class PlayerFindCollisionColdSweep(unittest.TestCase):
 
     def test_skipping_neighbors_does_not_skip_new_exact_large_owner(self):
         with patch.object(frontier,'build') as build, patch.object(frontier,'canonical',
-                          return_value={'unit':'player-find-collision'}) as exact:
-            _, siblings=frontier.run_player_collision(protect_exact=False)
+                          return_value={'unit':'player-find-collision'}) as exact, patch.object(
+                          frontier,'parsed',return_value=self.noncrediting_bullet()):
+            owners, siblings=frontier.run_player_collision(protect_exact=False)
+        self.assertEqual(owners['player_check_bullet_collision']['candidate_bytes'], 849)
         self.assertEqual(siblings,[{'unit':'player-find-collision'}])
-        build.assert_called_once_with('player-find-collision')
+        self.assertEqual([call.args[0] for call in build.call_args_list],
+                         ['player-find-collision', 'player-check-graze-collision'])
         exact.assert_called_once_with('player-find-collision')
 
 

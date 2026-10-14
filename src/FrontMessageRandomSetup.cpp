@@ -82,14 +82,16 @@ void FrontMessageRandomView::SetupRandomForSide(int sideIndex)
     primary00 = primary;
     secondary0C = secondary;
 
-    FrontMessageRandomTableView *table = primary;
-    if (sideIndex == 1)
-        table = secondary;
+    // Save the opponent shot window end while the weighted-table state is local.
+    int end = opponentShotType * 10 + 10;
+
+    FrontMessageRandomTableView *table = secondary;
+    if (sideIndex != 1)
+        table = primary;
 
     side10 = sideIndex;
 
     int selected = opponentShotType * 10;
-    int end = selected + 10;
     int randomValue = g_Rng.GetRandomU16InRange(0x100);
 
     FrontMessageRandomEntryView *entry = &table->entries04[selected];

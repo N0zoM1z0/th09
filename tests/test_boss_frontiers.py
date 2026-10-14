@@ -54,6 +54,100 @@ class BossFrontierChecks(TestCase):
                 frontiers.parsed(['scripts/diagnostic.py'], diagnostic=True)
 
     @staticmethod
+    def front_random_evidence():
+        return {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_bytes': 693, 'candidate_bytes': 682,
+            'target_instructions': 206, 'candidate_instructions': 202,
+            'original_fields': 15, 'bound_fields': 15,
+            'ordered_calls': 6, 'ordered_calls_agree': True,
+            'target_blocks': 40, 'candidate_blocks': 41,
+            'direct_graphs_agree': False, 'aligned_instructions': 117,
+            'overlap_differences': 581,
+            'missing_target_bytes': 11, 'extra_candidate_bytes': 0,
+            'complete_bytes_equal': False,
+        }
+
+    def test_front_random_genuine_cold_carrier_and_exact_caller(self):
+        with patch.object(frontiers, 'build_nonexact') as compile_boss, patch.object(
+                frontiers, 'build') as build, patch.object(
+                frontiers, 'parsed', return_value=self.front_random_evidence()) as oracle, patch.object(
+                frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
+            owners, exact = frontiers.run_front_random(protect_exact=True)
+        compile_boss.assert_called_once_with('src/FrontMessageRandomSetup.cpp',
+            'build/matching/FrontMessageRandomSetup.obj', reference_unit='front-message-setup')
+        oracle.assert_called_once_with(['scripts/inspect-front-message-random.py',
+            'build/matching/FrontMessageRandomSetup.obj', '--json'])
+        self.assertEqual(owners['front_random_setup']['overlap_differences'], 581)
+        self.assertEqual(owners['front_random_setup']['target_blocks'], 40)
+        self.assertEqual(owners['front_random_setup']['candidate_blocks'], 41)
+        self.assertEqual([x['unit'] for x in exact],
+            ['front-calc-callback', 'front-message-setup',
+             'front-message-load-for-side-count', 'front-message-initialize-runtime'])
+        self.assertEqual(build.call_count, 4)
+
+    def test_front_random_wrong_original_operand_or_codegen_fails_closed(self):
+        wrong = ({'target_bytes': 692}, {'candidate_bytes': 681},
+                 {'target_instructions': 205}, {'candidate_instructions': 201},
+                 {'original_fields': 14}, {'bound_fields': 14},
+                 {'ordered_calls': 5}, {'ordered_calls_agree': False},
+                 {'target_blocks': 39}, {'candidate_blocks': 42},
+                 {'direct_graphs_agree': True}, {'aligned_instructions': 116},
+                 {'overlap_differences': 582}, {'missing_target_bytes': 12},
+                 {'extra_candidate_bytes': 1}, {'complete_bytes_equal': True},
+                 {'exactness_credit': 'accepted'}, {'diagnostic_only': False})
+        for change in wrong:
+            with self.subTest(change=change), patch.object(frontiers, 'build_nonexact'), patch.object(
+                    frontiers, 'parsed', return_value={**self.front_random_evidence(), **change}), self.assertRaises(RuntimeError):
+                frontiers.run_front_random(protect_exact=False)
+
+    @staticmethod
+    def player_boss_evidence():
+        return {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_bytes': 862, 'candidate_bytes': 849,
+            'target_instructions': 277, 'candidate_instructions': 266,
+            'original_fields': 26, 'bound_fields': 26,
+            'ordered_calls': 12, 'ordered_calls_agree': True,
+            'ordered_fields_agree': True,
+            'original_blocks': 33, 'candidate_blocks': 32,
+            'direct_graphs_agree': False,
+            'overlap_differences': 804, 'missing_target_bytes': 13,
+            'extra_candidate_bytes': 0, 'complete_bytes_equal': False,
+        }
+
+    def test_player_collision_boss_is_cold_bound_with_seven_exact_siblings(self):
+        with patch.object(frontiers, 'build') as build, patch.object(
+                frontiers, 'parsed', return_value=self.player_boss_evidence()) as oracle, patch.object(
+                frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
+            owners, exact = frontiers.run_player_collision(protect_exact=True)
+        self.assertEqual(owners['player_check_bullet_collision']['target_bytes'], 862)
+        self.assertEqual(owners['player_check_bullet_collision']['overlap_differences'], 804)
+        oracle.assert_called_once_with(['scripts/inspect-player-bullet-collision.py',
+                                       'build/matching/PlayerCollisionHelpers.obj', '--json'])
+        self.assertEqual([x['unit'] for x in exact],
+                         ['player-find-collision', 'player-calc-item-box-collision',
+                          'player-check-graze-collision', 'player-calc-laser-hitbox',
+                          'player-calc-item-collection-collision', 'player-calc-circle-collision',
+                          'player-find-collision-at-player'])
+        self.assertEqual(build.call_count, 6)
+
+    def test_player_collision_rejects_missing_original_fields_or_worse_layout(self):
+        for change in ({'target_bytes': 861}, {'candidate_bytes': 848},
+                       {'target_instructions': 276}, {'candidate_instructions': 265},
+                       {'original_fields': 25}, {'bound_fields': 25},
+                       {'ordered_calls': 11}, {'ordered_calls_agree': False},
+                       {'ordered_fields_agree': False}, {'original_blocks': 32},
+                       {'candidate_blocks': 31}, {'direct_graphs_agree': True},
+                       {'overlap_differences': 805}, {'missing_target_bytes': 14},
+                       {'extra_candidate_bytes': 1}, {'complete_bytes_equal': True},
+                       {'diagnostic_only': False}, {'exactness_credit': 'accepted'}):
+            with self.subTest(change=change), patch.object(frontiers, 'build'), patch.object(
+                    frontiers, 'canonical', return_value={'unit': 'exact'}), patch.object(
+                    frontiers, 'parsed', return_value={**self.player_boss_evidence(), **change}), self.assertRaises(RuntimeError):
+                frontiers.run_player_collision(protect_exact=False)
+
+    @staticmethod
     def enemy_evidence():
         main = {
             'diagnostic_only': True, 'exactness_credit': 'none',

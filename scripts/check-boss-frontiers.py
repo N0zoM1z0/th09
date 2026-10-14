@@ -196,6 +196,31 @@ def run_player_collision(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     """
     build('player-find-collision')
     exact = [canonical('player-find-collision')]
+    # The large non-exact Player cancel/collision body is an independent
+    # function in the real PlayerCollisionHelpers TU. Its full PE and all
+    # twenty-six original code operands are source-cold checked before the
+    # exact CheckGrazeCollision consumer and other same-TU siblings replay.
+    build('player-check-graze-collision')
+    bullet = noncrediting(parsed(['scripts/inspect-player-bullet-collision.py',
+                                  'build/matching/PlayerCollisionHelpers.obj', '--json']),
+                          name='Player CheckBulletCollision boss',
+                          target_size=862, fields=26)
+    if (bullet.get('candidate_bytes') != 849 or
+            bullet.get('target_instructions') != 277 or
+            bullet.get('candidate_instructions') != 266 or
+            bullet.get('original_fields') != 26 or
+            bullet.get('ordered_calls') != 12 or
+            bullet.get('ordered_calls_agree') is not True or
+            bullet.get('ordered_fields_agree') is not True or
+            bullet.get('original_blocks') != 33 or
+            bullet.get('candidate_blocks') not in (32, 33) or
+            bullet.get('direct_graphs_agree') is not (bullet.get('candidate_blocks') == 33) or
+            not isinstance(bullet.get('overlap_differences'), int) or
+            bullet['overlap_differences'] > 804 or
+            bullet.get('missing_target_bytes') != 13 or
+            bullet.get('extra_candidate_bytes') != 0 or
+            bullet.get('complete_bytes_equal') is not False):
+        raise RuntimeError('Player 862-byte original/849-byte source 26-field/12-call collision boss regressed')
     if protect_exact:
         # Same just-built object; no stale target or duplicate source definition.
         exact.append(canonical('player-calc-item-box-collision'))
@@ -207,9 +232,20 @@ def run_player_collision(*, protect_exact: bool) -> tuple[dict, list[dict]]:
             'player-find-collision-at-player',
         )
         for name in siblings:
-            build(name)
+            if name != 'player-check-graze-collision':
+                build(name)
             exact.append(canonical(name))
-    return {}, exact
+    return {'player_check_bullet_collision': {
+        'target_bytes': 862,
+        'candidate_bytes': bullet['candidate_bytes'],
+        'original_fields': bullet['original_fields'],
+        'bound_fields': bullet['bound_fields'],
+        'ordered_calls': bullet['ordered_calls'],
+        'target_blocks': bullet['original_blocks'],
+        'candidate_blocks': bullet['candidate_blocks'],
+        'overlap_differences': bullet['overlap_differences'],
+        'missing_target_bytes': bullet['missing_target_bytes'],
+    }}, exact
 
 
 def run_decrypt_table(*, protect_exact: bool) -> tuple[dict, list[dict]]:
@@ -287,6 +323,53 @@ def run_network_config_parser(*, protect_exact: bool) -> tuple[dict, list[dict]]
         'candidate_blocks': result['candidate_blocks'],
         'direct_graphs_agree': result['direct_graphs_agree'],
     }}, siblings
+
+
+def run_front_random(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    """Cold original-backed 693-byte Front weighted picker and exact family."""
+    obj='build/matching/FrontMessageRandomSetup.obj'
+    build_nonexact('src/FrontMessageRandomSetup.cpp',obj,
+                   reference_unit='front-message-setup')
+    owner=noncrediting(parsed(['scripts/inspect-front-message-random.py',obj,'--json']),
+                       name='Front weighted random setup',target_size=693,fields=15)
+    if (owner.get('candidate_bytes',0) < 682 or
+            owner['candidate_bytes'] > 693 or
+            owner.get('target_instructions') != 206 or
+            not isinstance(owner.get('candidate_instructions'),int) or
+            not 202 <= owner['candidate_instructions'] <= 206 or
+            owner.get('original_fields') != 15 or
+            owner.get('ordered_calls') != 6 or
+            owner.get('ordered_calls_agree') is not True or
+            owner.get('target_blocks') != 40 or
+            owner.get('candidate_blocks') not in (40,41) or
+            owner.get('direct_graphs_agree') is not (owner['candidate_blocks']==40) or
+            not isinstance(owner.get('aligned_instructions'),int) or
+            owner['aligned_instructions'] < 117 or
+            not isinstance(owner.get('overlap_differences'),int) or
+            owner['overlap_differences'] > 581 or
+            owner.get('missing_target_bytes',99) > 11 or
+            owner.get('extra_candidate_bytes') != 0 or
+            owner.get('complete_bytes_equal') is not False):
+        raise RuntimeError('Front random 693-byte/15-field/6-call original-bound frontier regressed')
+    exact=[]
+    if protect_exact:
+        for unit in ('front-calc-callback', 'front-message-setup',
+                     'front-message-load-for-side-count',
+                     'front-message-initialize-runtime'):
+            build(unit)
+            exact.append(canonical(unit))
+    return {'front_random_setup': {
+        'target_bytes':693,'candidate_bytes':owner['candidate_bytes'],
+        'original_fields':owner['original_fields'],
+        'bound_fields':owner['bound_fields'],
+        'ordered_calls':owner['ordered_calls'],
+        'target_blocks':owner['target_blocks'],
+        'candidate_blocks':owner['candidate_blocks'],
+        'aligned_instructions':owner['aligned_instructions'],
+        'overlap_differences':owner['overlap_differences'],
+        'missing_target_bytes':owner['missing_target_bytes'],
+        'direct_graphs_agree':owner['direct_graphs_agree'],
+    }},exact
 
 
 def run_received_frames(*, protect_exact: bool) -> tuple[dict, list[dict]]:
@@ -834,7 +917,7 @@ def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'player', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'parser', 'screen', 'replay', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'player', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -867,6 +950,10 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('parser', 'all'):
             owners, exact = run_network_config_parser(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('front', 'all'):
+            owners, exact = run_front_random(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('anm', 'all'):
