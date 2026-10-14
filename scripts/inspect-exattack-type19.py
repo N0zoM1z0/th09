@@ -21,6 +21,7 @@ import struct
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 0x0044A330
 SIZE = 821
+TARGET_SHA256 = '38c97cf98c0183ae6f75446457d495e4d8e94683e4c2920461fd580aaf184014'
 SYMBOL = '?ExAttackUpdateCallbackType19@@YIHPAUExAttackRecord@@@Z'
 
 DESTINATIONS = {
@@ -139,6 +140,8 @@ def diagnose(path: Path):
     coff = load_coff()
     pe = coff.verified_target()
     target = coff.pe_bytes_at(pe, BASE, SIZE)
+    if hashlib.sha256(target).hexdigest() != TARGET_SHA256:
+        raise ValueError('original TH09 Type19 update full-owner SHA256 changed')
     target_fields, target_instructions, target_calls = decode_owner(target, expected_size=SIZE)
     if (len(target_fields) != EXPECTED_COUNT or
             len(target_instructions) != EXPECTED_INSTRUCTIONS or
@@ -158,7 +161,13 @@ def diagnose(path: Path):
     expected = Counter((kind, dst) for _, kind, dst in target_fields)
     actual = Counter((kind, dst) for _, kind, dst in fields)
     if actual != expected:
-        raise ValueError('Type19 independent target/candidate field identities differ')
+        raise ValueError('Type19 independent original/candidate field identities differ')
+    # The current source is intentionally still non-exact: original operand
+    # fields 23..25 and candidate fields 23..25 are scheduled in a different
+    # order, despite identical inventories and 11 ordered calls. Report this
+    # disparity, rather than banning accurate non-crediting diagnostics.
+    ordered_fields_agree = ([(kind, dst) for _, kind, dst in fields] ==
+                            [(kind, dst) for _, kind, dst in target_fields])
     target_graph = direct_control_flow(target_instructions, capstone.x86.X86_OP_IMM)
     candidate_graph = direct_control_flow(candidate_instructions, capstone.x86.X86_OP_IMM)
     if len(target_graph) != EXPECTED_BLOCKS:
@@ -176,6 +185,7 @@ def diagnose(path: Path):
         candidate_instructions=len(candidate_instructions),
         target_fields=len(target_fields),
         candidate_fields=len(fields),
+        ordered_fields_agree=ordered_fields_agree,
         distinct_player_slot_fields=actual[('DIR32', GAME_MANAGER_FIELD)],
         target_calls=len(target_calls),
         candidate_calls=len(candidate_calls),
@@ -187,6 +197,7 @@ def diagnose(path: Path):
         missing_target_bytes=max(0, SIZE - len(linked)),
         extra_candidate_bytes=max(0, len(linked) - SIZE),
         first_differences=[hex(x) for x in differences[:20]],
+        target_sha256=TARGET_SHA256,
         raw_sha256=hashlib.sha256(raw).hexdigest(),
         linked_sha256=hashlib.sha256(linked).hexdigest(),
     )

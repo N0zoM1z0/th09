@@ -213,6 +213,40 @@ def run_camera_facing(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     }}, siblings
 
 
+def run_effect(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    # The 51-byte resource loader shares the live EffectManager TU with both
+    # canonical 475-byte OnUpdate and 183-byte OnDraw. Compile that original
+    # source TU once, then bind its nonexact loader independently from both
+    # complete, previously exact sibling functions.
+    build('effect-manager-update')
+    diagnostic = noncrediting(parsed(['scripts/inspect-effect-added.py',
+                                      'build/matching/EffectManager.obj', '--json'],
+                                     diagnostic=True),
+                              name='EffectManager AddedCallback',
+                              target_size=51, fields=4,
+                              fields_key='bound_relocations')
+    if (diagnostic.get('target_instructions') != 19 or
+            diagnostic.get('candidate_instructions') != 19 or
+            diagnostic.get('target_relocations') != 4 or
+            diagnostic.get('original_blocks') != 3 or
+            diagnostic.get('candidate_blocks') != 3 or
+            not diagnostic.get('complete_direct_graphs_agree') or
+            not diagnostic.get('ordered_calls_match')):
+        raise RuntimeError('EffectManager added-loader 19-instruction/4-field/3-block/call gate failed')
+    exact = []
+    if protect_exact:
+        exact.extend((canonical('effect-manager-update'),
+                      canonical('effect-manager-draw'),
+                      canonical('effect-manager-draw-shared')))
+    return {'effect_added_callback': {
+        'target_bytes': 51, 'candidate_bytes': diagnostic['candidate_bytes'],
+        'original_fields': diagnostic['target_relocations'],
+        'bound_fields': diagnostic['bound_relocations'],
+        'ordinary_differences': diagnostic['differing_bytes'],
+        'ordered_calls_agree': diagnostic['ordered_calls_match'],
+    }}, exact
+
+
 def run_enemy(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # The 3,900-byte enemy calc owner and 151-byte exact attached-effects
     # helper share the actual EnemyManagerCore TU. The collision append leaf
@@ -275,6 +309,41 @@ def run_etama(*, protect_exact: bool) -> tuple[dict, list[dict]]:
         'overlapping_differences': result['overlapping_byte_differences'],
         'direct_graphs_agree': result['complete_direct_graphs_agree'],
     }}, exact_units
+
+
+def run_exattack_type19_update(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    # This complete 821-byte/35-field update callback is *not* in the ECL
+    # translation unit. Compare its true independent source and protect the
+    # exact Type19/21 draw callback that consumes the same physical Extra.
+    obj = 'build/matching/ExAttackUpdateType19.obj'
+    build_nonexact('src/ExAttackUpdateType19.cpp', obj,
+                   reference_unit='exattack-type19-21-draw')
+    result = noncrediting(parsed(['scripts/inspect-exattack-type19.py',
+                                  obj, '--json'], diagnostic=True),
+                          name='ExAttack Type19 update', target_size=821,
+                          fields=35, fields_key='candidate_fields')
+    if (result.get('target_fields') != 35 or
+            result.get('target_instructions') != 254 or
+            result.get('candidate_instructions') != 254 or
+            result.get('target_calls') != 11 or
+            result.get('candidate_calls') != 11 or
+            result.get('target_direct_blocks') != 30 or
+            result.get('candidate_direct_blocks') != 30 or
+            result.get('distinct_player_slot_fields') != 4 or
+            not result.get('complete_direct_graphs_agree')):
+        raise RuntimeError('Type19 update 35-field/11-call/30-block/slot owner drifted')
+    siblings = []
+    if protect_exact:
+        build('exattack-type19-21-draw')
+        siblings.append(canonical('exattack-type19-21-draw'))
+    return {'exattack_type19_update': {
+        'target_bytes': 821, 'candidate_bytes': result['candidate_bytes'],
+        'ordinary_differences': result['overlapping_differences'],
+        'bound_fields': result['candidate_fields'],
+        'ordered_fields_agree': result['ordered_fields_agree'],
+        'ordered_calls': result['candidate_calls'],
+        'direct_graphs_agree': result['complete_direct_graphs_agree'],
+    }}, siblings
 
 
 def run_exattack_type3(*, protect_exact: bool) -> tuple[dict, list[dict]]:
@@ -408,7 +477,7 @@ def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'etama', 'exattack', 'type3', 'title', 'anm', 'network', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -421,6 +490,10 @@ def main() -> int:
             owners, exact = run_ecl(include_interpreter=args.owner in ('runecl', 'all'),
                                     include_trail=args.owner in ('exattack', 'all'),
                                     protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('type19', 'exattack', 'all'):
+            owners, exact = run_exattack_type19_update(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('type3', 'exattack', 'all'):
@@ -437,6 +510,10 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('enemy', 'all'):
             owners, exact = run_enemy(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('effect', 'all'):
+            owners, exact = run_effect(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('etama', 'all'):
