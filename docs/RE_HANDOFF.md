@@ -146,6 +146,10 @@ git diff && git diff --cached
 python3 scripts/verify-target.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
+# One cold, target-bound diagnostic sweep across the RunEcl/Etama/ExAttack
+# frontiers plus full exact-unit replays for ECL, Etama, Type21 and Title.
+# NON-CREDITING: this command cannot promote a function to exact.
+python3 scripts/check-boss-frontiers.py --owner all
 python3 scripts/build-match-unit.py --unit front-message-load-for-side-count
 python3 scripts/compare-coff-function.py --unit front-message-load-for-side-count --json
 python3 scripts/build-match-unit.py --unit front-message-release-for-side-count
