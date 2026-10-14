@@ -124,6 +124,24 @@ near-match writeups; those are historical experiments in the knowledge base.
 from earlier source commits are historical proof of *those commits only*;
 current exactness comes from the match ledgers and fresh per-unit replay.
 
+**Fresh Factory forced-cold regression receipts for source commit `faca071`**
+(`strict-live-v1`, `windows.msvc71.function-exact`, `pass / accepted`):
+`EtamaController::OnUpdate @ 0x004146F0` (2,195 logical / 2,216
+physical bytes), `receipt:cb9b08b26b217ff97634a574c295745682d59efcf2b48e273d827146f70b491e`;
+`TitleScreenView::TitleSetupThread @ 0x004249E1` (534),
+`receipt:c859bcc4df3b63bb4653cb44c5719cd40233b0908ad1417c7e92e13d503dada1`;
+`TitleScreenView::OnUpdateMusicRoom @ 0x00426E05` (2,258),
+`receipt:9b4457007dede09614f9511a4a2a2ad7a79814598bea9d4adb85b8fea1623033`;
+`TitleScreenView::DrawMusicRoom @ 0x004244A9` (209),
+`receipt:4007bd438035e8eb12b5aef002104f4bf032004f9a7068ca4238436ad70fe26f`;
+and `ExAttackUpdateCallbackType21 @ 0x0044B500` (1,074),
+`receipt:4044e3d113b3030c39d34ac8e319c1301e04324ab05f49fe837a8337fe7beacd`.
+These are five **independent regressions of already exact owners**, not five
+new matches, not an acceptance of the nonexact large callbacks and not proof
+of a complete Windows executable. All receipts are bound to the exact clean
+`faca071e0708efa073f60c3ac2bc5678e577c130` source commit; the later
+receipt-documentation commit must not be presented as itself replay-accepted.
+
 `DrawSingleBullet @ 0x00413AF0` has **215 authored / 232 physical bytes**
 including the original four-entry switch table, all 16 bound fields and the
 unchanged `0x00413BC8` table pointer. The **current** same-TU manifest in
