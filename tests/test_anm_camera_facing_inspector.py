@@ -98,11 +98,13 @@ class CameraBossSweepTests(unittest.TestCase):
         return {
             'diagnostic_only': True,
             'exactness_credit': 'none',
-            'target_bytes': 622, 'candidate_bytes': 619,
+            'target_bytes': 622, 'candidate_bytes': 622,
+            'target_instructions': 201, 'candidate_instructions': 201,
             'original_fields': 40, 'bound_fields': 40,
             'ordered_calls': 11, 'calls_agree': True,
-            'original_blocks': 8, 'direct_graphs_agree': True,
-            'overlap_differences': 447, 'missing_target_bytes': 3,
+            'original_blocks': 8, 'candidate_blocks': 8,
+            'direct_graphs_agree': True,
+            'overlap_differences': 24, 'missing_target_bytes': 0,
         }
 
     def test_sweep_protects_exact_same_and_neighboring_translation_units(self):
@@ -110,9 +112,11 @@ class CameraBossSweepTests(unittest.TestCase):
                 boss, 'parsed', return_value=self.evidence()), patch.object(
                 boss, 'canonical', side_effect=lambda x: {'unit': x}):
             owners, siblings = boss.run_camera_facing(protect_exact=True)
-        self.assertEqual(owners['camera_facing_projection']['missing_target_bytes'], 3)
+        self.assertEqual(owners['camera_facing_projection']['missing_target_bytes'], 0)
+        self.assertEqual(owners['camera_facing_projection']['overlap_differences'], 24)
         self.assertEqual([x['unit'] for x in siblings],
-                         ['anm-manager-project-3d-quad', 'anm-manager-translate-rotation'])
+                         ['anm-manager-translate-rotation', 'anm-manager-draw2d',
+                          'anm-manager-draw-camera-facing-quad', 'anm-manager-project-3d-quad'])
         self.assertEqual(build.call_count, 2)
 
     def test_bad_original_call_or_graph_inventory_fails_closed(self):

@@ -106,6 +106,46 @@ class BossFrontierChecks(TestCase):
                 }]), self.assertRaises(RuntimeError):
             frontiers.run_enemy(protect_exact=False)
 
+    @staticmethod
+    def camera_evidence():
+        return {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_bytes': 622, 'candidate_bytes': 622,
+            'target_instructions': 201, 'candidate_instructions': 201,
+            'original_fields': 40, 'bound_fields': 40,
+            'ordered_calls': 11, 'calls_agree': True,
+            'original_blocks': 8, 'candidate_blocks': 8,
+            'direct_graphs_agree': True, 'overlap_differences': 24,
+            'missing_target_bytes': 0,
+        }
+
+    def test_camera_replay_uses_render_carrier_and_protects_all_siblings(self):
+        from unittest.mock import call
+        with patch.object(frontiers, 'build') as build, patch.object(
+                frontiers, 'parsed', return_value=self.camera_evidence()) as parsed, patch.object(
+                frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
+            owners, exact = frontiers.run_camera_facing(protect_exact=True)
+        self.assertEqual(owners['camera_facing_projection']['overlap_differences'], 24)
+        self.assertEqual(owners['camera_facing_projection']['candidate_bytes'], 622)
+        self.assertEqual(build.call_args_list,
+                         [call('anm-manager-translate-rotation'),
+                          call('anm-manager-project-3d-quad')])
+        parsed.assert_called_once_with(['scripts/inspect-anm-camera-facing.py',
+                                        'build/matching/AnmManagerRender.obj'])
+        self.assertEqual([e['unit'] for e in exact],
+                         ['anm-manager-translate-rotation', 'anm-manager-draw2d',
+                          'anm-manager-draw-camera-facing-quad', 'anm-manager-project-3d-quad'])
+
+    def test_camera_replay_rejects_shortened_owner_wrong_fields_or_regression(self):
+        for bad in ({'candidate_bytes': 619}, {'candidate_instructions': 202},
+                    {'original_fields': 39}, {'bound_fields': 39},
+                    {'ordered_calls': 10}, {'calls_agree': False},
+                    {'candidate_blocks': 7}, {'direct_graphs_agree': False},
+                    {'overlap_differences': 25}):
+            with self.subTest(bad=bad), patch.object(frontiers, 'build'), patch.object(
+                    frontiers, 'parsed', return_value={**self.camera_evidence(), **bad}), self.assertRaises(RuntimeError):
+                frontiers.run_camera_facing(protect_exact=False)
+
     def test_network_zero_field_owner_and_both_exact_consumers(self):
         evidence = {'diagnostic_only': True, 'exactness_credit': 'none',
                     'target_bytes': 213, 'candidate_bytes': 213,

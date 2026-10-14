@@ -1,5 +1,6 @@
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
+#include "AnmCameraProjectionViews.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "Supervisor.hpp"
 
@@ -635,6 +636,8 @@ void AnmManager::TranslateRotation(
     vertex->x = x * cosine - y * sine + xOffset;
     vertex->y = x * sine + y * cosine + yOffset;
 }
+
+#include "AnmManagerCameraFacing.inl"
 
 int AnmManager::Draw2D(AnmVm *vm)
 {

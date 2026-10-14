@@ -254,24 +254,32 @@ def run_received_frames(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 
 def run_camera_facing(*, protect_exact: bool) -> tuple[dict, list[dict]]:
-    # ProjectCameraFacingQuad is nonexact in the real Projection translation
-    # unit. Its 49-byte exact geometric helper currently lives in Render.
-    # Separately protect the exact Project3DQuad from Projection itself.
-    build('anm-manager-project-3d-quad')
+    # The target-owned camera-facing method now compiles in the actual Render
+    # translation unit, immediately after the already-exact TranslateRotation.
+    # Protect this callee and the exact Render callers from TU-visibility drift.
+    build('anm-manager-translate-rotation')
     candidate = noncrediting(parsed(['scripts/inspect-anm-camera-facing.py',
-                                     'build/matching/AnmManagerProjection.obj']),
+                                     'build/matching/AnmManagerRender.obj']),
                              name='Camera-facing projection boss',
                              target_size=622, fields=40)
-    if (candidate.get('original_fields') != 40 or
+    if (candidate.get('candidate_bytes') != 622 or
+            candidate.get('target_instructions') != 201 or
+            candidate.get('candidate_instructions') != 201 or
+            candidate.get('original_fields') != 40 or
             candidate.get('ordered_calls') != 11 or
             not candidate.get('calls_agree') or
             candidate.get('original_blocks') != 8 or
-            not candidate.get('direct_graphs_agree')):
-        raise RuntimeError('original camera 40 fields / 11 calls / eight-block graph regressed')
-    siblings = [canonical('anm-manager-project-3d-quad')] if protect_exact else []
+            candidate.get('candidate_blocks') != 8 or
+            not candidate.get('direct_graphs_agree') or
+            candidate.get('overlap_differences', 999) > 24):
+        raise RuntimeError('camera 622-byte/40-field/11-call/8-block frontier regressed')
+    siblings = []
     if protect_exact:
-        build('anm-manager-translate-rotation')
-        siblings.append(canonical('anm-manager-translate-rotation'))
+        siblings += [canonical('anm-manager-translate-rotation'),
+                     canonical('anm-manager-draw2d'),
+                     canonical('anm-manager-draw-camera-facing-quad')]
+        build('anm-manager-project-3d-quad')
+        siblings.append(canonical('anm-manager-project-3d-quad'))
     return {'camera_facing_projection': {
         'target_bytes': 622, 'candidate_bytes': candidate['candidate_bytes'],
         'bound_fields': candidate['bound_fields'],
