@@ -71,6 +71,7 @@ candidate/profile and require fresh compilation after source edits. Consult
 | ExAttack Type19/21 initializers | 0x0044A030 / 0x0044B220 | 763 / 727 bytes; 57 / 53 fields; **6 / 9** differences | Type19 and Type21 each use a single shared init/update layout in `ExAttackType19ExtraView.hpp` and `ExAttackType21ExtraView.hpp`; Type21 exact Update is preserved; vertex/history-cursor scheduling still open; `scripts/inspect-exattack-trail-init.py` |
 | ExAttack Type14/22 Draw | 0x00444130 | 959 target / 974 candidate; 53 fields, 20 direct + 12 indirect calls; **9/9 verified jumps, 43 aligned change spans** | All Type14/22 init/update/draw callbacks now share 0xF48 Extra and the original 0x38 record prefix in `src/ExAttackType1422ExtraView.hpp`; Type22 alone owns parameter +0x38; Draw register/loop scheduling still open; `scripts/inspect-exattack-type14-22-draw.py --explain`, **NON-EXACT** |
 | ExAttack Type19 Update | 0x0044A330 | 821 bytes, 35 fields, **198** differences | Shared Type19 record/extra layout now enforced across init/update; player-slot and register residency remain; `scripts/inspect-exattack-type19.py` |
+| Player position Type4/Type8 | 0x00443B10 / 0x00447620 | **249 target / 250 candidate** per callback; 8 independently bound fields, 6 ordered calls, same 6-block CFG | Original positive branch carries the FromAngleMagnitude receiver in ECX and uses `MOV EDX,ECX`; VC7.1 candidate rematerializes it with `LEA EDX,[EBP-28h]`. `scripts/inspect-player-position-type48.py --type 4/8`; both **NON-EXACT**. |
 | ExAttack Type3 Update | 0x00442750 | **780/780 bytes**, 38 fields, **14** differences (previously 15) | Shared `ExAttackHistory32ExtraView.hpp` with Type3/Type4 init/update; zero middle Z moved ahead of Y conversion with 24 calls / 17 matching blocks; actual middle-Z write still scheduled ahead of the target, **NON-EXACT** |
 | Etama OnDraw | 0x00413BE0 | **600/600** physical bytes, 27 fields, 13 ordered calls; **17/17 matching direct blocks**, **268** differing bytes (previously 594/600, 465 overlapping + 6 absent, 18/17 blocks; interim dual-cursor 271) | Review-backed Laser and body VM position dual cursor restores `+0x208` anchor and loop graph; same valid body owner now supplies `inUse`, `angle` and position. Still **NON-EXACT**; pinned source uses numeric pointer-address offset for one-past terminal step, `scripts/inspect-etama-draw.py --json` |
 | Title DrawResult | 0x00423D16 | 1,939 bytes, 82 fields, **22** differences | Score-bank pointer / screen-state read schedule |
@@ -164,6 +165,10 @@ python3 scripts/build-match-unit.py --unit ecl-pop-context
 python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj
 python3 scripts/report-ecl-handler-shapes.py --explain all build/matching/EclManager.obj
 python3 scripts/inspect-ecl-biased-movement.py build/matching/EclManager.obj --explain
+scripts/compile-probe.sh src/PlayerPositionCallback30404Type4.cpp build/matching/PlayerPositionType4.obj /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- /I src
+python3 scripts/inspect-player-position-type48.py --type 4 build/matching/PlayerPositionType4.obj
+scripts/compile-probe.sh src/PlayerPositionCallback30404Type8.cpp build/matching/PlayerPositionType8.obj /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- /I src
+python3 scripts/inspect-player-position-type48.py --type 8 build/matching/PlayerPositionType8.obj
 python3 scripts/validate-docs.py
 python3 scripts/progress.py --check
 python3 scripts/ci.py
