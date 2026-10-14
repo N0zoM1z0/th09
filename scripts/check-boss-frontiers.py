@@ -155,6 +155,33 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
     return diagnostics, exact_units
 
 
+def run_player_collision(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    """Cold replay exact 602-byte Player collision query and true helper owners.
+
+    The query and the separately 121-byte exact item-box helper MUST be
+    compiled from the same TU. Making the callee body visible tells VC7.1
+    that its thiscall preserves ECX on the item-box success arm: absent that
+    visibility the query gets an extra MOV ECX,[ESI] and grows to 604 bytes.
+    All remaining collision helpers keep their own exact translation unit.
+    """
+    build('player-find-collision')
+    exact = [canonical('player-find-collision')]
+    if protect_exact:
+        # Same just-built object; no stale target or duplicate source definition.
+        exact.append(canonical('player-calc-item-box-collision'))
+        siblings = (
+            'player-check-graze-collision',
+            'player-calc-laser-hitbox',
+            'player-calc-item-collection-collision',
+            'player-calc-circle-collision',
+            'player-find-collision-at-player',
+        )
+        for name in siblings:
+            build(name)
+            exact.append(canonical(name))
+    return {}, exact
+
+
 def run_decrypt_table(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     """Check full original crypto-table leaf, plus exact decrypt/encrypt pair.
 
@@ -601,7 +628,7 @@ def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'player', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -634,6 +661,10 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('anm', 'all'):
             owners, exact = run_camera_facing(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('player', 'all'):
+            owners, exact = run_player_collision(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('gamemgr', 'all'):

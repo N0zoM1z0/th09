@@ -41,14 +41,14 @@ Checked against `config/functions.csv`, `config/function-origins.csv`,
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 937 |
-| Source-present non-exact functions | 43 |
-| Source-present non-exact bytes | 50,087 |
+| Canonical exact functions | 938 |
+| Source-present non-exact functions | 42 |
+| Source-present non-exact bytes | 49,485 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 225,683 |
+| Canonical exact authored bytes | 226,285 |
 
-**225,683 / 275,770 reviewed-authored bytes = 81.8374% exact**.
-To reach 95% of this currently classified denominator, another **36,299
+**226,285 / 275,770 reviewed-authored bytes = 82.0557% exact**.
+To reach 95% of this currently classified denominator, another **35,697
 bytes** must be exact. The 35 origin-unresolved functions are excluded from
 that denominator and could alter it after review. Complete faithful Windows
 i386 product/link/runtime closure is **open**; semantic reconstruction and
@@ -58,7 +58,7 @@ exact codegen does not imply a runnable game.
 ## Active frontiers
 
 These are **selected** source-present non-exact functions, **not** a complete
-43-item inventory or a ranking by difficulty. Size is the target logical
+42-item inventory or a ranking by difficulty. Size is the target logical
 extent unless marked *physical*. Measurements are tied to the maintained
 candidate/profile and require fresh compilation after source edits. Consult
 `config/functions.csv` and the relevant knowledge-base evidence first.
@@ -95,6 +95,10 @@ candidate/profile and require fresh compilation after source edits. Consult
 Other unresolved owners (including PauseMenu, Replay, network and remaining
 Title helpers) live in `config/functions.csv`. The exact short-function subset
 is maintained separately in [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md).
+
+## New local exact Player collision boss — Factory receipt pending
+
+`PlayerCollisionQueryStateView::FindCollision @ 0x0041D810`, **602/602 complete owner bytes**, **221 original instructions, nine original-bound COFF external fields, seven ordered calls, and the original `ret 0x0C` ABI**. The real `CalcItemBoxCollision` exact 121-byte source body is now visible in the **same** `src/PlayerCollisionQuery.cpp` translation unit. Together with a correctly scoped early `PlayerCollisionQueryRecordView *record` cursor, the pinned `/O2 /Ob1 /Oy- /Gr` VC7.1 compiler preserves ECX across the item-box success arm, eliminating the source-only `MOV ECX,[ESI]` and its two excess bytes. Strict independently cold canonical comparison reports `exact` on 602/602 complete bytes, original SHA-256 `6efe45e4437bf346cc8616739b1b135f65be92bc235032e442c73b4341845745`. The moved `CalcItemBoxCollision` remains **121/121 exact**; all five other exact source-unit collision helpers remain unchanged and independently exact. No duplicate definition, padding, inline assembler or arbitrary register forcing was used. Canonical `player-find-collision` manifest binds every original call/data field by actual offsets and destination; `scripts/check-boss-frontiers.py --owner player` cold-replays **seven** exact owners. **Factory codegen acceptance of the newly committed source remains pending** and cannot be inferred from local canonical equality. This is source reconstruction exactness, not game runtime/product closure.
 
 ## Newly accepted GameManager boss
 
@@ -228,7 +232,7 @@ to improve a partial comparison score.
 
 This handoff was checked on **2026-10-14** against the original executable,
 the ledgers and fresh pinned VC7.1 comparisons. The current source count is
-**980 source-present / 937 exact / 43 non-exact**, *not* the older
+**980 source-present / 938 exact / 42 non-exact**, *not* the older
 979/876/103 estimate. The 35 origin-unresolved candidates remain outside the
 reviewed-authored-byte denominator. The full native Windows i386 executable,
 link/resource ownership and dual-runtime/port phases are **not closed**.

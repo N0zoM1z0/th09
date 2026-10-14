@@ -292,26 +292,6 @@ int PlayerLifecycleView::CheckGrazeCollision(
     return 0;
 }
 
-int PlayerLifecycleView::CalcItemBoxCollision(
-    PlayerPositionView *position,
-    PlayerPositionView *halfSize)
-{
-    PlayerPositionView incomingMin;
-    PlayerPositionView incomingMax;
-
-    incomingMin.x = position->x - halfSize->x;
-    incomingMin.y = position->y - halfSize->y;
-    incomingMax.x = position->x + halfSize->x;
-    incomingMax.y = position->y + halfSize->y;
-
-    if (collisionBoundsMin1C60.x > incomingMax.x ||
-        collisionBoundsMin1C60.y > incomingMax.y ||
-        collisionBoundsMax1C6C.x < incomingMin.x ||
-        collisionBoundsMax1C6C.y < incomingMin.y)
-        return 0;
-    return 1;
-}
-
 int PlayerLifecycleView::CalcCircleCollision(
     PlayerPositionView *position,
     float radius)

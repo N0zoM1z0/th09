@@ -7672,8 +7672,8 @@ relocations = [
 ]
 
 [units.player-calc-item-box-collision]
-source = "src/PlayerCollisionHelpers.cpp"
-object = "build/matching/PlayerCollisionHelpers.obj"
+source = "src/PlayerCollisionQuery.cpp"
+object = "build/matching/PlayerCollisionQuery.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["PlayerLifecycleView::CalcItemBoxCollision"]
 symbol = "?CalcItemBoxCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@0@Z"
@@ -22467,4 +22467,24 @@ relocations = [
   { offset = 0x49e, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerSetupLayout@@A", target = 0x004A7D90, addend = 0x118 },
   { offset = 0x4a6, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerSetupLayout@@A", target = 0x004A7D90, addend = 0x1c },
   { offset = 0x4bc, type = "REL32", symbol = "?AdvanceTimedState@GameManagerSetupLayout@@QAEXXZ", target = 0x0041AA07 },
+]
+
+[units.player-find-collision]
+source = "src/PlayerCollisionQuery.cpp"
+object = "build/matching/PlayerCollisionQuery.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerCollisionQueryStateView::FindCollision"]
+symbol = "?FindCollision@PlayerCollisionQueryStateView@@QAEPAUPlayerCollisionQueryRecordView@@ABUPlayerPositionView@@0M@Z"
+target_address = 0x0041D810
+size = 0x25A
+relocations = [
+  { offset = 0xF, type = "REL32", symbol = "?GetUpdateState@PlayerLifecycleView@@QAEHXZ", target = 0x00435EC0 },
+  { offset = 0x1F, type = "REL32", symbol = "?IsAfter@PlayerCollisionTimerView@@QAEIH@Z", target = 0x00403DE0 },
+  { offset = 0x83, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0xA8, type = "REL32", symbol = "??HPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0xF2, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
+  { offset = 0x108, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
+  { offset = 0x120, type = "REL32", symbol = "?CalcItemBoxCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@0@Z", target = 0x0041BDF0 },
+  { offset = 0x175, type = "REL32", symbol = "?CalcLaserHitbox@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@00MH@Z", target = 0x0041BFC0 },
+  { offset = 0x1C8, type = "REL32", symbol = "?CalcCircleCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@M@Z", target = 0x0041BE70 },
 ]
