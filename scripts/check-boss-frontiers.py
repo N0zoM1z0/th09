@@ -15,6 +15,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 PYTHON = sys.executable
@@ -72,6 +73,33 @@ def build(unit: str) -> None:
     execute(['scripts/build-match-unit.py', '--unit', unit])
 
 
+def build_nonexact(source: str, obj: str, *, reference_unit: str) -> None:
+    """Cold compile a non-exact TU using a proven sibling's pinned VC7.1 profile.
+
+    This is only a reproducible source/object observation, not an exact unit
+    or a claim that the original executable used this TU ownership.
+    """
+    with (ROOT / 'config/match-units.toml').open('rb') as stream:
+        units = tomllib.load(stream)['units']
+    unit = units[reference_unit]
+    flags = unit['profile']
+    if not flags or not all(isinstance(x, str) for x in flags):
+        raise RuntimeError('non-exact diagnostic lacks a reviewed VC7.1 profile')
+    output = ROOT / obj
+    output.resolve().relative_to((ROOT / 'build').resolve())
+    # Fail closed on stale prior diagnostics: the next object must be produced
+    # by this invocation, not merely be present at a leftover ignored path.
+    if output.is_symlink():
+        raise RuntimeError('refusing a symlink at the non-exact object path')
+    if output.exists():
+        output.unlink()
+    command = [str(ROOT / 'scripts/compile-probe.sh'), source, obj, *flags]
+    response = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
+    if response.returncode != 0 or not output.is_file():
+        raise RuntimeError('cold non-exact build failed: ' +
+                           (response.stderr + response.stdout)[-1600:])
+
+
 def run_ecl(*, include_trail: bool, include_interpreter: bool,
             protect_exact: bool) -> tuple[dict, list[dict]]:
     build('ecl-pop-context')
@@ -91,6 +119,9 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
                               size_key='target_code_bytes', fields_key='unique_handlers')
         if shapes.get('identity_audit_passed') is not True:
             raise RuntimeError('RunEcl handler shapes lack complete target identity')
+        mismatches = [row['opcode'] for row in shapes['mismatches']]
+        if any(opcode not in (4, 155) for opcode in mismatches):
+            raise RuntimeError('RunEcl regressed a previously matching handler')
         biased = noncrediting(parsed(['scripts/inspect-ecl-biased-movement.py', '--json', object_file],
                                     diagnostic=True), name='ECL MoveRandomBiased',
                               target_size=516, fields=28)
@@ -101,6 +132,7 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
             'table_differences': complete['table_different_bytes'],
             'matching_handler_shapes': shapes['matching_handler_shapes'],
             'handlers': shapes['unique_handlers'],
+            'remaining_opcode_mismatches': mismatches,
         }, ecl_move_random_biased={
             'target_bytes': 516, 'candidate_bytes': biased['candidate_bytes'],
             'overlapping_differences': biased['overlapping_differences'],
@@ -140,6 +172,74 @@ def run_etama(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     }}, exact_units
 
 
+def run_exattack_type3(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    # Separate TU from the known exact Type3 initializer: build its *current*
+    # maintained update source before linking the full 38-field diagnostic.
+    object_file = 'build/matching/ExAttackUpdateType3.obj'
+    build_nonexact('src/ExAttackUpdateType3.cpp', object_file,
+                   reference_unit='ex-attack-initialize-type3')
+    result = noncrediting(parsed(['scripts/inspect-exattack-type3-schedule.py', object_file]),
+                          name='ExAttack Type3 update', target_size=780, fields=38)
+    if not result['calls_agree'] or result['ordered_calls'] != 24 or not result['direct_graphs_agree']:
+        raise RuntimeError('ExAttack Type3 full call / 17-block graph regressed')
+    exact = []
+    if protect_exact:
+        build('ex-attack-initialize-type3')
+        exact.append(canonical('ex-attack-initialize-type3'))
+    return {'exattack_type3_update': {
+        'target_bytes': 780, 'candidate_bytes': result['candidate_bytes'],
+        'ordinary_differences': result['ordinary_differences'],
+        'original_z_order': result['original_z_order']['classification'],
+        'candidate_z_order': result['candidate_z_order']['classification'],
+        'direct_graphs_agree': result['direct_graphs_agree'],
+    }}, exact
+
+
+def run_title_open() -> dict:
+    # These source-present owners are explicitly non-exact. Their independent
+    # original operand inventories must agree before any similarity score.
+    result_obj = 'build/matching/TitleResultDraw.obj'
+    build_nonexact('src/TitleScreenResultDraw.cpp', result_obj,
+                   reference_unit='title-screen-setup-thread')
+    draw = noncrediting(parsed(['scripts/inspect-title-result-draw.py', result_obj, '--json']),
+                        name='Title DrawResult', target_size=1939, fields=82)
+    if (draw['original_fields'] != 82 or draw['ordered_calls'] != 16 or
+            not draw['ordered_calls_agree'] or not draw['direct_graphs_agree']):
+        raise RuntimeError('Title DrawResult original-bound calls or graph regressed')
+    callback_obj = 'build/matching/TitleDrawCallback.obj'
+    build_nonexact('src/TitleDrawCallback.cpp', callback_obj,
+                   reference_unit='title-screen-setup-thread')
+    callback = parsed(['scripts/inspect-title-draw-callback.py', callback_obj, '--json'])
+    if (not callback.get('diagnostic_only') or callback.get('target_bytes') != 329 or
+            callback.get('bound_relocations') != 20 or callback.get('target_calls') != 12 or
+            callback.get('candidate_calls') != 12 or
+            not callback.get('complete_direct_graph_equal')):
+        raise RuntimeError('Title DrawCallback complete original field/call/graph gate failed')
+    replay_obj = 'build/matching/TitleReplaySave.obj'
+    build_nonexact('src/TitleScreenReplaySaveDraw.cpp', replay_obj,
+                   reference_unit='title-screen-setup-thread')
+    replay = noncrediting(parsed(['scripts/inspect-title-replay-save-draw.py', replay_obj,
+                                  '--json']), name='Title DrawReplaySave',
+                          target_size=800, fields=41)
+    if replay['original_fields'] != 41 or not replay['ordered_calls_agree']:
+        raise RuntimeError('Title ReplaySave 41 original fields or call sequence regressed')
+    return {'title_draw_result': {
+                'target_bytes': 1939, 'candidate_bytes': draw['candidate_bytes'],
+                'ordinary_differences': draw['complete_differences'],
+                'fields': draw['bound_fields'],
+                'direct_graphs_agree': draw['direct_graphs_agree']},
+            'title_draw_callback': {
+                'target_bytes': 329, 'candidate_bytes': callback['candidate_bytes'],
+                'fields': callback['bound_relocations'],
+                'single_reviewed_dec_gap': callback['single_reviewed_dec_gap'],
+                'direct_graphs_agree': callback['complete_direct_graph_equal']},
+            'title_draw_replay_save': {
+                'target_bytes': 800, 'candidate_bytes': replay['candidate_bytes'],
+                'fields': replay['bound_fields'],
+                'first_overlapping_difference': replay['first_overlapping_difference'],
+                'direct_graphs_agree': replay['direct_graphs_agree']}}
+
+
 def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # TitleSetup is compiled from the large TitleScreen TU, whereas both
     # MusicRoom owners share the separate TitleScreenMusicRoom TU.
@@ -157,7 +257,7 @@ def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'etama', 'exattack', 'title', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'etama', 'exattack', 'type3', 'title', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -172,6 +272,10 @@ def main() -> int:
                                     protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
+        if args.owner in ('type3', 'exattack', 'all'):
+            owners, exact = run_exattack_type3(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
         if args.owner in ('etama', 'all'):
             owners, exact = run_etama(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
@@ -180,6 +284,7 @@ def main() -> int:
             owners, exact = run_title(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
+            report['owners'].update(run_title_open())
         print(json.dumps(report, indent=2))
         return 0
     except (OSError, RuntimeError, ValueError, KeyError, json.JSONDecodeError) as exc:

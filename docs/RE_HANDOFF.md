@@ -72,10 +72,11 @@ candidate/profile and require fresh compilation after source edits. Consult
 | ExAttack Type14/22 Draw | 0x00444130 | 959 target / 974 candidate; 53 fields, 20 direct + 12 indirect calls; **9/9 verified jumps, 43 aligned change spans** | All Type14/22 init/update/draw callbacks now share 0xF48 Extra and the original 0x38 record prefix in `src/ExAttackType1422ExtraView.hpp`; Type22 alone owns parameter +0x38; Draw register/loop scheduling still open; `scripts/inspect-exattack-type14-22-draw.py --explain`, **NON-EXACT** |
 | ExAttack Type19 Update | 0x0044A330 | 821 bytes, 35 fields, **198** differences | Shared Type19 record/extra layout now enforced across init/update; player-slot and register residency remain; `scripts/inspect-exattack-type19.py` |
 | Player position Type4/Type8 | 0x00443B10 / 0x00447620 | **249 target / 250 candidate** per callback; 8 independently bound fields, 6 ordered calls, same 6-block CFG | Original positive branch carries the FromAngleMagnitude receiver in ECX and uses `MOV EDX,ECX`; VC7.1 candidate rematerializes it with `LEA EDX,[EBP-28h]`. `scripts/inspect-player-position-type48.py --type 4/8`; both **NON-EXACT**. |
-| ExAttack Type3 Update | 0x00442750 | **780/780 bytes**, 38 fields, **14** differences (previously 15) | Shared `ExAttackHistory32ExtraView.hpp` with Type3/Type4 init/update; zero middle Z moved ahead of Y conversion with 24 calls / 17 matching blocks; actual middle-Z write still scheduled ahead of the target, **NON-EXACT** |
+| ExAttack Type3 Update | 0x00442750 | **780/780 bytes**, 38 independently ordered fields, **14** differences (previously 15) | Shared `ExAttackHistory32ExtraView.hpp` with Type3/Type4 init/update; target writes middle Z **after** middle-Y call and **before** tail-X load, but candidate emits the Z store **before** middle-Y call. All 24 calls / 17 direct blocks still agree; `scripts/inspect-exattack-type3-schedule.py` verifies actual field identity and instruction chronology, **NON-EXACT** |
 | Etama OnDraw | 0x00413BE0 | **600/600** physical bytes, 27 fields, 13 ordered calls; **17/17 matching direct blocks**, **268** differing bytes (previously 594/600, 465 overlapping + 6 absent, 18/17 blocks; interim dual-cursor 271) | Review-backed Laser and body VM position dual cursor restores `+0x208` anchor and loop graph; same valid body owner now supplies `inUse`, `angle` and position. Still **NON-EXACT**; pinned source uses numeric pointer-address offset for one-past terminal step, `scripts/inspect-etama-draw.py --json` |
-| Title DrawResult | 0x00423D16 | 1,939 bytes, 82 fields, **22** differences | Score-bank pointer / screen-state read schedule |
+| Title DrawResult | 0x00423D16 | **1,939/1,939** bytes, **82 independently decoded/bound fields**, 16 ordered calls, 92 matching blocks, **22** differences | Score-bank pointer / screen-state read schedule; `scripts/inspect-title-result-draw.py --json` |
 | Title DrawCallback | 0x00424898 | 329 target / 328 candidate, 20 fields | Single missing target `DEC EAX` at `+0x101`; `scripts/inspect-title-draw-callback.py` |
+| Title DrawReplaySave | 0x004239F6 | **800 target / 793 candidate**, 41 original fields, 4 ordered calls, 28/28 blocks with unresolved edges | Renderer source remains NON-EXACT; `scripts/inspect-title-replay-save-draw.py --json` now shares full decoded field-identity gate |
 | ScreenEffect CalcShakeEnvelope | 0x004227A0 | **336/336** bytes, 20 reviewed fields, 8 ordered calls, 26/26 direct blocks; **28** remaining linked byte differences (previously 334/336 and 249) | Independent hold/fade-word loads, actual grouped endpoint sum; ESI/EDI receiver/timer coloring remains; `scripts/inspect-screen-shake-envelope.py`, **NON-EXACT** |
 | Title Options | 0x004276EB | 2,045 target / 2,048 candidate; 135 fields | Configuration/reference lifetimes |
 | Controller input | 0x0042B410 | 808 target / 796 candidate; 32 fields | WinMM X/Y register and read ordering; `scripts/inspect-controller-input.py` |
@@ -146,8 +147,9 @@ git diff && git diff --cached
 python3 scripts/verify-target.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
-# One cold, target-bound diagnostic sweep across the RunEcl/Etama/ExAttack
-# frontiers plus full exact-unit replays for ECL, Etama, Type21 and Title.
+# One cold, target-bound diagnostic sweep across RunEcl/Etama,
+# ExAttack Type3/19/21, Title DrawResult/DrawCallback/DrawReplaySave.
+# Includes eight exact-unit regressions (ECL, Etama, ExAttack and Title).
 # NON-CREDITING: this command cannot promote a function to exact.
 python3 scripts/check-boss-frontiers.py --owner all
 python3 scripts/build-match-unit.py --unit front-message-load-for-side-count
