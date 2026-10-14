@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cold replay the current TH09 large-owner ECL/Etama/ExAttack frontiers.
+"""Cold replay TH09 boss and companion-leaf ECL/Enemy/Etama/ExAttack frontiers.
 
 All non-exact outputs are diagnostics, never partial match credit. Every object
 is first rebuilt from the live source using the target-bound match-unit tool.
@@ -155,6 +155,53 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
     return diagnostics, exact_units
 
 
+def run_enemy(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    # The 3,900-byte enemy calc owner and 151-byte exact attached-effects
+    # helper share the actual EnemyManagerCore TU. The collision append leaf
+    # is a separate 82-byte owner invoked by the calc callback twice.
+    build('enemy-attached-effect-update')
+    main = noncrediting(parsed(['scripts/inspect-enemy-manager-update.py',
+                                'build/matching/EnemyManagerCore.obj', '--json']),
+                        name='EnemyManager OnUpdate', target_size=3900,
+                        fields=97, fields_key='relocations')
+    if (main.get('relocation_fields_agree') != 97 or
+            main.get('target_calls') != 69 or main.get('candidate_calls') != 69 or
+            not main.get('ordered_calls_agree') or
+            main.get('target_direct_blocks') != 170 or
+            main.get('candidate_direct_blocks') != 170 or
+            not main.get('reviewed_control_flow_agrees') or
+            not main.get('switch_table_destinations_agree')):
+        raise RuntimeError('EnemyManager 97-field / 69-call / 170-block owner changed')
+
+    obj = 'build/matching/EnemyCollisionBoxAppend.obj'
+    build_nonexact('src/EnemyCollisionBoxAppend.cpp', obj,
+                   reference_unit='enemy-attached-effect-update')
+    collision = noncrediting(parsed(['scripts/inspect-enemy-collision-box.py', obj, '--json'],
+                                  diagnostic=True), name='Enemy collision append leaf',
+                             target_size=82, fields=2, fields_key='bound_call_fields')
+    if (collision.get('target_instructions') != 30 or
+            collision.get('ordered_call_addresses') != ['0x40f5a0', '0x40f8e0']):
+        raise RuntimeError('Enemy collision append original call/ABI census changed')
+    exact = [canonical('enemy-attached-effect-update')] if protect_exact else []
+    if protect_exact:
+        build('enemy-manager-draw-impl')
+        exact.append(canonical('enemy-manager-draw-impl'))
+    return {'enemy_manager_update': {
+                'target_bytes': 3900,
+                'candidate_bytes': main['candidate_bytes'],
+                'bound_fields': main['relocations'],
+                'ordinary_differences': main['complete_differences'],
+                'ordered_calls': main['candidate_calls'],
+                'direct_graphs_agree': main['reviewed_control_flow_agrees'],
+                'switch_destinations_agree': main['switch_table_destinations_agree']},
+            'enemy_collision_append': {
+                'target_bytes': 82,
+                'candidate_bytes': collision['candidate_bytes'],
+                'ordinary_differences': collision['ordinary_differing_bytes'],
+                'ordered_calls': collision['ordered_call_addresses'],
+                'bound_fields': collision['bound_call_fields']}}, exact
+
+
 def run_etama(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     build('bullet-draw-single')
     result = noncrediting(parsed(['scripts/inspect-etama-draw.py',
@@ -257,7 +304,7 @@ def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'etama', 'exattack', 'type3', 'title', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'etama', 'exattack', 'type3', 'title', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -274,6 +321,10 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('type3', 'exattack', 'all'):
             owners, exact = run_exattack_type3(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('enemy', 'all'):
+            owners, exact = run_enemy(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('etama', 'all'):

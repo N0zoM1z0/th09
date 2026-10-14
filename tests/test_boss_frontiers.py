@@ -53,6 +53,59 @@ class BossFrontierChecks(TestCase):
                     frontiers, 'execute', return_value=output), self.assertRaises(RuntimeError):
                 frontiers.parsed(['scripts/diagnostic.py'], diagnostic=True)
 
+    @staticmethod
+    def enemy_evidence():
+        main = {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_bytes': 3900, 'candidate_bytes': 3900,
+            'relocations': 97, 'relocation_fields_agree': 97,
+            'target_calls': 69, 'candidate_calls': 69,
+            'ordered_calls_agree': True, 'target_direct_blocks': 170,
+            'candidate_direct_blocks': 170,
+            'reviewed_control_flow_agrees': True,
+            'switch_table_destinations_agree': True,
+            'complete_differences': 39,
+        }
+        leaf = {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_bytes': 82, 'candidate_bytes': 82,
+            'bound_call_fields': 2, 'target_instructions': 30,
+            'ordered_call_addresses': ['0x40f5a0', '0x40f8e0'],
+            'ordinary_differing_bytes': 31,
+        }
+        return main, leaf
+
+    def test_enemy_boss_and_leaf_require_separate_full_oracles(self):
+        main, leaf = self.enemy_evidence()
+        with patch.object(frontiers, 'build') as build, patch.object(
+                frontiers, 'build_nonexact') as compile_leaf, patch.object(
+                frontiers, 'parsed', side_effect=[main, leaf]), patch.object(
+                frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
+            owners, exact = frontiers.run_enemy(protect_exact=True)
+        self.assertEqual(owners['enemy_manager_update']['ordinary_differences'], 39)
+        self.assertEqual(owners['enemy_collision_append']['ordinary_differences'], 31)
+        self.assertTrue(owners['enemy_manager_update']['switch_destinations_agree'])
+        self.assertEqual([x['unit'] for x in exact],
+                         ['enemy-attached-effect-update', 'enemy-manager-draw-impl'])
+        self.assertEqual(build.call_count, 2)
+        compile_leaf.assert_called_once()
+
+    def test_enemy_boss_input_rejects_false_original_call_identity(self):
+        main, leaf = self.enemy_evidence()
+        for corruption in ({'relocation_fields_agree': 96}, {'target_calls': 68},
+                           {'reviewed_control_flow_agrees': False},
+                           {'switch_table_destinations_agree': False}):
+            with self.subTest(corruption=corruption), patch.object(
+                    frontiers, 'build'), patch.object(frontiers, 'parsed',
+                    return_value={**main, **corruption}), self.assertRaises(RuntimeError):
+                frontiers.run_enemy(protect_exact=False)
+        with patch.object(frontiers, 'build'), patch.object(
+                frontiers, 'build_nonexact'), patch.object(
+                frontiers, 'parsed', side_effect=[main, {
+                    **leaf, 'ordered_call_addresses': ['0x40f8e0', '0x40f5a0']
+                }]), self.assertRaises(RuntimeError):
+            frontiers.run_enemy(protect_exact=False)
+
     def test_title_protects_three_independent_exact_units(self):
         checked = []
         with patch.object(frontiers, 'build') as build, patch.object(

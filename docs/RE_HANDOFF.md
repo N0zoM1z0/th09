@@ -67,7 +67,7 @@ candidate/profile and require fresh compilation after source edits. Consult
 | --- | --- | --- | --- |
 | RunEcl | 0x004086C0 | **15,564 physical** = 14,792 code + 772 table; 598 fields; **30** ordinary byte differences, zero field/table differences | 146/148 handler shapes; opcode 4 (timer load/push schedule, 7 bytes) and opcode 155 (XOR/AND/XOR now modeled, byte-load/register schedule still 23 bytes); `scripts/inspect-ecl-complete.py` |
 | ECL MoveRandomBiased leaf | 0x00407E30 | **516 target / 517 candidate**, 28 independently bound fields, 14 ordered calls, 24/24 blocks; **148 overlapping differences and 1 extra byte** | Original `LEA ECX,[EAX+4]` / twice `[ECX]` versus candidate `MOV ECX,EAX` / twice `[ECX+4]`; new strict `scripts/inspect-ecl-biased-movement.py --explain`, **NON-EXACT** |
-| EnemyManager OnUpdate | 0x00410730 | **3,900 physical**, 97 fields, **39** differences | Its 82-byte collision append leaf now shares `EnemyAppendCollisionView.hpp` (unchanged physical ABI); four register/copy windows remain; `scripts/inspect-enemy-manager-update.py --explain` |
+| EnemyManager OnUpdate | 0x00410730 | **3,900 physical**, 97 bound fields, 69 ordered calls, 170 direct blocks, **39** differences | Its **82-byte / two-call** collision append leaf remains **31** bytes different; both are now source-cold checked by `scripts/check-boss-frontiers.py --owner enemy`. The attached-effect update helper (**151**) and shared Enemy draw boss (**1,758**) independently replay exact; four calc register/copy windows remain. |
 | ExAttack Type19/21 initializers | 0x0044A030 / 0x0044B220 | 763 / 727 bytes; 57 / 53 fields; **6 / 9** differences | Type19 and Type21 each use a single shared init/update layout in `ExAttackType19ExtraView.hpp` and `ExAttackType21ExtraView.hpp`; Type21 exact Update is preserved; vertex/history-cursor scheduling still open; `scripts/inspect-exattack-trail-init.py` |
 | ExAttack Type14/22 Draw | 0x00444130 | 959 target / 974 candidate; 53 fields, 20 direct + 12 indirect calls; **9/9 verified jumps, 43 aligned change spans** | All Type14/22 init/update/draw callbacks now share 0xF48 Extra and the original 0x38 record prefix in `src/ExAttackType1422ExtraView.hpp`; Type22 alone owns parameter +0x38; Draw register/loop scheduling still open; `scripts/inspect-exattack-type14-22-draw.py --explain`, **NON-EXACT** |
 | ExAttack Type19 Update | 0x0044A330 | 821 bytes, 35 fields, **198** differences | Shared Type19 record/extra layout now enforced across init/update; player-slot and register residency remain; `scripts/inspect-exattack-type19.py` |
@@ -165,9 +165,9 @@ git diff && git diff --cached
 python3 scripts/verify-target.py
 python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
-# One cold, target-bound diagnostic sweep across RunEcl/Etama,
-# ExAttack Type3/19/21, Title DrawResult/DrawCallback/DrawReplaySave.
-# Includes eight exact-unit regressions (ECL, Etama, ExAttack and Title).
+# One cold, target-bound diagnostic sweep across RunEcl, EnemyManager,
+# Etama, ExAttack Type3/19/21 and the Title renderer callbacks.
+# Includes the Enemy collision leaf and ten exact sibling regressions.
 # NON-CREDITING: this command cannot promote a function to exact.
 python3 scripts/check-boss-frontiers.py --owner all
 python3 scripts/build-match-unit.py --unit front-message-load-for-side-count
