@@ -324,6 +324,19 @@ def run_title_open() -> dict:
             'extra_candidate_bytes': result['extra_candidate_bytes'],
             'direct_graphs_agree': result['direct_graphs_agree'],
         }
+    update = noncrediting(parsed(['scripts/inspect-title-update-result.py', cursor_obj]),
+                          name='Title OnUpdateResult', target_size=485, fields=34)
+    if (update['original_fields'] != 34 or update['ordered_calls'] != 9 or
+            not update['calls_agree'] or update['original_blocks'] != 40 or
+            not update['direct_graphs_agree']):
+        raise RuntimeError('Title OnUpdateResult 34-field/9-call/40-block audit failed')
+    cursor_reports['title_update_result'] = {
+        'target_bytes': 485, 'candidate_bytes': update['candidate_bytes'],
+        'bound_fields': update['bound_fields'],
+        'overlap_differences': update['overlap_differences'],
+        'missing_target_bytes': update['missing_target_bytes'],
+        'direct_graphs_agree': update['direct_graphs_agree'],
+    }
     result_obj = 'build/matching/TitleResultDraw.obj'
     build_nonexact('src/TitleScreenResultDraw.cpp', result_obj,
                    reference_unit='title-screen-setup-thread')
