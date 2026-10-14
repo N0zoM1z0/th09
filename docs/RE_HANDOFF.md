@@ -41,14 +41,14 @@ Checked against `config/functions.csv`, `config/function-origins.csv`,
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 936 |
-| Source-present non-exact functions | 44 |
-| Source-present non-exact bytes | 51,317 |
+| Canonical exact functions | 937 |
+| Source-present non-exact functions | 43 |
+| Source-present non-exact bytes | 50,087 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 224,453 |
+| Canonical exact authored bytes | 225,683 |
 
-**224,453 / 275,770 reviewed-authored bytes = 81.3914% exact**.
-To reach 95% of this currently classified denominator, another **37,529
+**225,683 / 275,770 reviewed-authored bytes = 81.8374% exact**.
+To reach 95% of this currently classified denominator, another **36,299
 bytes** must be exact. The 35 origin-unresolved functions are excluded from
 that denominator and could alter it after review. Complete faithful Windows
 i386 product/link/runtime closure is **open**; semantic reconstruction and
@@ -58,7 +58,7 @@ exact codegen does not imply a runnable game.
 ## Active frontiers
 
 These are **selected** source-present non-exact functions, **not** a complete
-44-item inventory or a ranking by difficulty. Size is the target logical
+43-item inventory or a ranking by difficulty. Size is the target logical
 extent unless marked *physical*. Measurements are tied to the maintained
 candidate/profile and require fresh compilation after source edits. Consult
 `config/functions.csv` and the relevant knowledge-base evidence first.
@@ -87,7 +87,6 @@ candidate/profile and require fresh compilation after source edits. Consult
 | Enemy collision-box leaf | 0x00410250 | 82 bytes, 2 direct calls, **31** differing bytes | Shares exact receiver declaration with 3,900-byte EnemyManager OnUpdate; Float3 return-copy schedule still open; `scripts/inspect-enemy-collision-box.py` |
 | FileSystem TryDecryptFromTable | 0x0042C290 | **220/220** bytes, 12 physical fields, 2 calls, 11 matching blocks; **38 byte differences** | Validated 8x12-byte source wire layout, original signature/table identities; `scripts/inspect-file-decrypt-table.py` **NON-EXACT** |
 | Gameplay setup worker | 0x0041AF2D | 1,689 target/candidate; 172 / 171 operand fields; 155 aligned identities, 13 field-difference spans; 78 / 77 direct blocks | Owner/reuse-base lifetime, flags cursor and switch graph; `scripts/inspect-gameplay-setup.py --summary --field-diff`, **NON-EXACT** |
-| GameManager OnUpdate | 0x0041AA5F | 1,230 bytes, 87 fields, 105 differences | Input snapshot and entry-zero schedule |
 | Player movement | 0x0041C170 | 1,835 authored / 1,900 physical; 66 fields | Position clamp and register allocation |
 | Supervisor network service | 0x00430AA0 | 1,633 target / 1,632 candidate, 108 source fields | Now shares the exact Supervisor queue +0x47C/+0x56C physical storage projection; 1,395 linked differences and call scheduling remain; **NON-EXACT** |
 | Supervisor OnUpdate | 0x00431110 | 844 authored / 996 physical target; **952-byte** candidate (800 code + 152 switch data), **92/92 external fields, 27/27 calls** | RegisterStateObject physical registration tail merged from 3 source calls to **1**, matching target ECX=0/1, but 791 overlapping differences + 44 absent bytes, **NON-EXACT**; `scripts/inspect-supervisor-update.py` |
@@ -95,6 +94,10 @@ candidate/profile and require fresh compilation after source edits. Consult
 Other unresolved owners (including PauseMenu, Replay, network and remaining
 Title helpers) live in `config/functions.csv`. The exact short-function subset
 is maintained separately in [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md).
+
+## Newly exact GameManager boss awaiting Factory receipt
+
+**New local big-boss exact, Factory receipt pending:** `GameManagerSetupLayout::OnUpdate @ 0x0041AA5F–0x0041AF2C`, **1,230/1,230 complete bytes**, original **337 instructions, 87 actual address fields, 16 target-ordered direct calls**. Pinned VC7.1 `/O2 /Os /Oi /Ob1 /Oy- /Gr` source exactness uses five real `const unsigned short&` aliases of distinct `g_ReplayInputStates[2]` members, then ten unchanged state0/state1 publications. This restores original AX/CX/DX/DI/SI data capture and defers original `XOR ESI,ESI` to target +0xB5. Full canonical `game-manager-on-update` manifest contains every original PE field identity/COFF addend, and all nine GameManagerSetup exact siblings have been revalidated across their two actual compiler profiles. **No Factory-accepted claim should be inferred until the committed-source cold receipt succeeds.** This is function codegen exactness, not Windows product/runtime closure.
 
 ## Closed codegen landmarks and accepted receipts
 
@@ -172,7 +175,7 @@ python3 scripts/report-reconstruction-status.py
 # One cold, target-bound diagnostic sweep across RunEcl, EnemyManager,
 # Etama, ExAttack Type3/19/21, Title updater/renderer and character-cursor owners.
 # Includes the Enemy collision leaf, camera-facing projection, received network
-# frame insertion, EffectManager/Type19/21 Draw, and nineteen exact sibling regressions.
+# frame insertion, EffectManager/Type19/21 Draw, and twenty-nine exact sibling regressions including GameManager.
 # NON-CREDITING: this command cannot promote a function to exact.
 python3 scripts/check-boss-frontiers.py --owner all
 python3 scripts/build-match-unit.py --unit front-message-load-for-side-count
@@ -223,7 +226,7 @@ to improve a partial comparison score.
 
 This handoff was checked on **2026-10-14** against the original executable,
 the ledgers and fresh pinned VC7.1 comparisons. The current source count is
-**980 source-present / 936 exact / 44 non-exact**, *not* the older
+**980 source-present / 937 exact / 43 non-exact**, *not* the older
 979/876/103 estimate. The 35 origin-unresolved candidates remain outside the
 reviewed-authored-byte denominator. The full native Windows i386 executable,
 link/resource ownership and dual-runtime/port phases are **not closed**.

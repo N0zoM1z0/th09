@@ -308,34 +308,26 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         g_GameManager.sides[0].selector != 0 ||
         g_GameManager.sides[1].selector != 0)
     {
-        // Capture all five input words before writing either side's snapshot.
-        struct InputSnapshot
-        {
-            unsigned short currentInput;
-            unsigned short word02;
-            unsigned short repeatOutput;
-            unsigned short word06;
-            unsigned short word08;
-        };
-        const InputSnapshot snapshot =
-        {
-            g_ReplayInputStates[2].currentInput,
-            g_ReplayInputStates[2].word02,
-            g_ReplayInputStates[2].repeatOutput,
-            g_ReplayInputStates[2].word06,
-            g_ReplayInputStates[2].word08
-        };
+        // The source is the distinct third ReplayInputState: its five word
+        // members cannot alias either destination [0] or [1]. Bind each real
+        // source lvalue so VC7.1 allocates the original AX/CX/DX/DI/SI five
+        // word capture, followed by the two ordered five-word publications.
+        const unsigned short &w0 = g_ReplayInputStates[2].currentInput;
+        const unsigned short &w1 = g_ReplayInputStates[2].word02;
+        const unsigned short &w2 = g_ReplayInputStates[2].repeatOutput;
+        const unsigned short &w3 = g_ReplayInputStates[2].word06;
+        const unsigned short &w4 = g_ReplayInputStates[2].word08;
+        g_ReplayInputStates[0].currentInput = w0;
+        g_ReplayInputStates[0].word02 = w1;
+        g_ReplayInputStates[0].repeatOutput = w2;
+        g_ReplayInputStates[0].word06 = w3;
+        g_ReplayInputStates[0].word08 = w4;
+        g_ReplayInputStates[1].currentInput = w0;
+        g_ReplayInputStates[1].word02 = w1;
+        g_ReplayInputStates[1].repeatOutput = w2;
+        g_ReplayInputStates[1].word06 = w3;
+        g_ReplayInputStates[1].word08 = w4;
 
-        g_ReplayInputStates[0].currentInput = snapshot.currentInput;
-        g_ReplayInputStates[0].word02 = snapshot.word02;
-        g_ReplayInputStates[0].repeatOutput = snapshot.repeatOutput;
-        g_ReplayInputStates[0].word06 = snapshot.word06;
-        g_ReplayInputStates[0].word08 = snapshot.word08;
-        g_ReplayInputStates[1].currentInput = snapshot.currentInput;
-        g_ReplayInputStates[1].word02 = snapshot.word02;
-        g_ReplayInputStates[1].repeatOutput = snapshot.repeatOutput;
-        g_ReplayInputStates[1].word06 = snapshot.word06;
-        g_ReplayInputStates[1].word08 = snapshot.word08;
     }
 
     if (g_GameManager.gameplaySetupState != 0)

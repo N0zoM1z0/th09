@@ -247,6 +247,32 @@ def run_effect(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     }}, exact
 
 
+def run_game_manager(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    """Independently cold-validate the newly exact 1,230-byte calc boss.
+
+    Nine original owners use the pinned /O2 /Os profile, but the exact
+    Supervisor loading VMs sibling intentionally uses the no-/Os profile.
+    A single cached COFF object or a profile swap invalidates the other
+    group: force each actual profile to compile its own complete source TU.
+    """
+    primary = ('game-manager-on-update',
+               'game-manager-advance-timed-state',
+               'game-manager-added-callback',
+               'game-manager-deleted-callback',
+               'game-manager-register-chain',
+               'game-manager-on-draw',
+               'game-manager-reset-runtime',
+               'game-manager-cut-chain',
+               'game-manager-format-current-date')
+    build('game-manager-on-update')
+    owners = [canonical('game-manager-on-update')]
+    if protect_exact:
+        owners.extend(canonical(name) for name in primary[1:])
+        build('supervisor-setup-loading-vms-and-capture')
+        owners.append(canonical('supervisor-setup-loading-vms-and-capture'))
+    return {}, owners
+
+
 def run_enemy(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # The 3,900-byte enemy calc owner and 151-byte exact attached-effects
     # helper share the actual EnemyManagerCore TU. The collision append leaf
@@ -477,7 +503,7 @@ def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'gamemgr', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -506,6 +532,10 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('anm', 'all'):
             owners, exact = run_camera_facing(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('gamemgr', 'all'):
+            owners, exact = run_game_manager(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('enemy', 'all'):
