@@ -345,15 +345,6 @@ def run_title_open() -> dict:
     if (draw['original_fields'] != 82 or draw['ordered_calls'] != 16 or
             not draw['ordered_calls_agree'] or not draw['direct_graphs_agree']):
         raise RuntimeError('Title DrawResult original-bound calls or graph regressed')
-    callback_obj = 'build/matching/TitleDrawCallback.obj'
-    build_nonexact('src/TitleDrawCallback.cpp', callback_obj,
-                   reference_unit='title-screen-setup-thread')
-    callback = parsed(['scripts/inspect-title-draw-callback.py', callback_obj, '--json'])
-    if (not callback.get('diagnostic_only') or callback.get('target_bytes') != 329 or
-            callback.get('bound_relocations') != 20 or callback.get('target_calls') != 12 or
-            callback.get('candidate_calls') != 12 or
-            not callback.get('complete_direct_graph_equal')):
-        raise RuntimeError('Title DrawCallback complete original field/call/graph gate failed')
     replay_obj = 'build/matching/TitleReplaySave.obj'
     build_nonexact('src/TitleScreenReplaySaveDraw.cpp', replay_obj,
                    reference_unit='title-screen-setup-thread')
@@ -367,11 +358,6 @@ def run_title_open() -> dict:
                 'ordinary_differences': draw['complete_differences'],
                 'fields': draw['bound_fields'],
                 'direct_graphs_agree': draw['direct_graphs_agree']},
-            'title_draw_callback': {
-                'target_bytes': 329, 'candidate_bytes': callback['candidate_bytes'],
-                'fields': callback['bound_relocations'],
-                'single_reviewed_dec_gap': callback['single_reviewed_dec_gap'],
-                'direct_graphs_agree': callback['complete_direct_graph_equal']},
             'title_draw_replay_save': {
                 'target_bytes': 800, 'candidate_bytes': replay['candidate_bytes'],
                 'fields': replay['bound_fields'],
@@ -389,8 +375,10 @@ def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
         build('title-screen-music-room')
         exact_units.extend((canonical('title-screen-music-room'),
                             canonical('title-screen-draw-music-room')))
+        build('title-draw-callback')
+        exact_units.append(canonical('title-draw-callback'))
     # Existing matches stay independent: none of these receipts establishes
-    # the still-unresolved TitleScreen DrawResult/Options/DrawCallback owners.
+    # the still-unresolved TitleScreen DrawResult/Options/ReplaySave owners.
     return {}, exact_units
 
 

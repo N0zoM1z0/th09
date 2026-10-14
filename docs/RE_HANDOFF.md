@@ -41,14 +41,14 @@ Checked against `config/functions.csv`, `config/function-origins.csv`,
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 935 |
-| Source-present non-exact functions | 45 |
-| Source-present non-exact bytes | 51,646 |
+| Canonical exact functions | 936 |
+| Source-present non-exact functions | 44 |
+| Source-present non-exact bytes | 51,317 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 224,124 |
+| Canonical exact authored bytes | 224,453 |
 
-**224,124 / 275,770 reviewed-authored bytes = 81.2721% exact**.
-To reach 95% of this currently classified denominator, another **37,858
+**224,453 / 275,770 reviewed-authored bytes = 81.3914% exact**.
+To reach 95% of this currently classified denominator, another **37,529
 bytes** must be exact. The 35 origin-unresolved functions are excluded from
 that denominator and could alter it after review. Complete faithful Windows
 i386 product/link/runtime closure is **open**; semantic reconstruction and
@@ -58,7 +58,7 @@ exact codegen does not imply a runnable game.
 ## Active frontiers
 
 These are **selected** source-present non-exact functions, **not** a complete
-45-item inventory or a ranking by difficulty. Size is the target logical
+44-item inventory or a ranking by difficulty. Size is the target logical
 extent unless marked *physical*. Measurements are tied to the maintained
 candidate/profile and require fresh compilation after source edits. Consult
 `config/functions.csv` and the relevant knowledge-base evidence first.
@@ -77,7 +77,6 @@ candidate/profile and require fresh compilation after source edits. Consult
 | Title OnUpdateResult | 0x004266B5 | **485 target /483 candidate bytes**, 147/146 instructions, 34 independently bound address fields, nine ordered calls, matching 40-block graph; **2 missing target bytes** | Target reads signed role byte via `MOV ECX,[ESI]`, `MOV CL,[ECX+0x4A1DAC]`, `PUSH 2`, then `MOVSX EDI,CL`; source folds it to `MOVSX EDI,[EAX+0x4A1DAC]` before `PUSH 2`. 47+ valid type/ref/lifetime models do not close it. Full original-bound `scripts/inspect-title-update-result.py`, `--owner title`; **NON-EXACT**. |
 | Title DrawResult | 0x00423D16 | **1,939/1,939** bytes, **82 independently decoded/bound fields**, 16 ordered calls, 92 matching blocks, **22** differences | Score-bank pointer / screen-state read schedule; `scripts/inspect-title-result-draw.py --json` |
 | Title character cursor Active/Reverse/Inactive | 0x00424EDD / 0x00424FB0 / 0x0042505F | **211/217**, **175/175**, **175/175** target/candidate bytes; 6/2/2 independently decoded fields, 4/2/2 ordered calls | Active's 6 extra bytes and 189 overlapping differences keep its direct graph; Reverse/Inactive have **38** full byte differences each, and **5-target/4-candidate block graphs differ** despite equal extent. Source direct-array, prechecked-loop and count-stack-slot controls are rejected; `scripts/inspect-title-character-cursors.py --variant active/reverse/inactive` is **NON-CREDITING**. |
-| Title DrawCallback | 0x00424898 | 329 target / 328 candidate, 20 fields | Single missing target `DEC EAX` at `+0x101`; `scripts/inspect-title-draw-callback.py` |
 | Title DrawReplaySave | 0x004239F6 | **800 target / 793 candidate**, 41 original fields, 4 ordered calls, 28/28 blocks with unresolved edges | Renderer source remains NON-EXACT; `scripts/inspect-title-replay-save-draw.py --json` now shares full decoded field-identity gate |
 | AnmManager camera-facing projection | 0x00439820 | **622 target / 619 maintained source** bytes, 40 independently bound fields, 11 ordered calls, matching 8-block graph; **447 overlapping differences plus 3 missing bytes** | Isolated natural source with the **real exact TranslateRotation body visible**, `origin` after the x87 FSINCOS and `Float3 delta` declared then assigned reproduces **622/622 physical bytes, only 24 remaining differences**, preserving all fields/calls/blocks. That is **diagnostic only**, not committed as a speculative helper-owner move or exact credit. `scripts/inspect-anm-camera-facing.py`; exact `Project3DQuad` (595) and `TranslateRotation` (49) protected by `--owner anm`. |
 | ScreenEffect CalcShakeEnvelope | 0x004227A0 | **336/336** bytes, 20 reviewed fields, 8 ordered calls, 26/26 direct blocks; **28** remaining linked byte differences (previously 334/336 and 249) | Independent hold/fade-word loads, actual grouped endpoint sum; ESI/EDI receiver/timer coloring remains; `scripts/inspect-screen-shake-envelope.py`, **NON-EXACT** |
@@ -98,6 +97,8 @@ Title helpers) live in `config/functions.csv`. The exact short-function subset
 is maintained separately in [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md).
 
 ## Closed codegen landmarks and accepted receipts
+
+**New local exact, Factory replay receipt still pending:** `TitleDrawCallback @ 0x00424898`, **329/329 bytes, 20 original relocation identities, 12 calls and 26 complete blocks**, canonical `title-draw-callback` cold comparison. The natural low-screen switch cases 3,4,5,6 recover the original two consecutive `DEC EAX` without new effects. Treat local canonical evidence as distinct from a Factory-accepted receipt until the new committed-source replay completes.
 
 **Recent completed owners, all Factory `strict-live-v1` forced-cold
 `pass / accepted` on the *specified original source commit*.** Each unit must
@@ -171,7 +172,7 @@ python3 scripts/report-reconstruction-status.py
 # One cold, target-bound diagnostic sweep across RunEcl, EnemyManager,
 # Etama, ExAttack Type3/19/21, Title updater/renderer and character-cursor owners.
 # Includes the Enemy collision leaf, camera-facing projection, received network
-# frame insertion, and fourteen exact sibling regressions.
+# frame insertion, and fifteen exact sibling regressions.
 # NON-CREDITING: this command cannot promote a function to exact.
 python3 scripts/check-boss-frontiers.py --owner all
 python3 scripts/build-match-unit.py --unit front-message-load-for-side-count
@@ -220,9 +221,9 @@ to improve a partial comparison score.
 
 ## Evidence and cleanup boundaries
 
-This handoff was checked on **2026-10-13** against the original executable,
+This handoff was checked on **2026-10-14** against the original executable,
 the ledgers and fresh pinned VC7.1 comparisons. The current source count is
-**980 source-present / 935 exact / 45 non-exact**, *not* the older
+**980 source-present / 936 exact / 44 non-exact**, *not* the older
 979/876/103 estimate. The 35 origin-unresolved candidates remain outside the
 reviewed-authored-byte denominator. The full native Windows i386 executable,
 link/resource ownership and dual-runtime/port phases are **not closed**.

@@ -70,8 +70,10 @@ int __fastcall TitleDrawCallback(void *object)
         case 3:
             goto flush;
         case 4:
-            goto flush;
+            break;
         case 5:
+            goto flush;
+        case 6:
             goto flush;
         case 11:
             title->DrawReplayMenu();

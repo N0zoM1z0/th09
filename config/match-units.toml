@@ -22339,3 +22339,34 @@ relocations = [
   { offset = 0x181, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x186, type = "REL32", symbol = "?LoadMusic@Supervisor@@QAEHH@Z", target = 0x0042FC20 },
 ]
+
+[units.title-draw-callback]
+source = "src/TitleDrawCallback.cpp"
+object = "build/matching/TitleDrawCallback.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["TitleDrawCallback"]
+symbol = "?TitleDrawCallback@@YIHPAX@Z"
+target_address = 0x00424898
+size = 0x149
+relocations = [
+  { offset = 0xd, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x12, type = "REL32", symbol = "?ConfigureGameplayViewport@Supervisor@@QAEXH@Z", target = 0x00401390 },
+  { offset = 0x25, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x35, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x3b, type = "REL32", symbol = "?CopySurfaceToBackbuffer@AnmManager@@QAEXHHHHH@Z", target = 0x0043BFA0 },
+  { offset = 0x65, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x6a, type = "REL32", symbol = "?SpriteHasTexture@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x00423469 },
+  { offset = 0x88, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
+  { offset = 0x8e, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x94, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
+  { offset = 0xab, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
+  { offset = 0xb2, type = "REL32", symbol = "?DrawNoRotation@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043A950 },
+  { offset = 0xe4, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0xea, type = "REL32", symbol = "?DrawNoRotation@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043A950 },
+  { offset = 0x107, type = "REL32", symbol = "?DrawReplayMenu@TitleDrawView@@QAEHXZ", target = 0x004234F6 },
+  { offset = 0x121, type = "REL32", symbol = "?DrawReplaySave@TitleDrawView@@QAEHXZ", target = 0x004239F6 },
+  { offset = 0x12a, type = "REL32", symbol = "?DrawResult@TitleDrawView@@QAEHXZ", target = 0x00423D16 },
+  { offset = 0x133, type = "REL32", symbol = "?DrawMusicRoom@TitleDrawView@@QAEHXZ", target = 0x004244A9 },
+  { offset = 0x139, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x13e, type = "REL32", symbol = "?FlushVertexBuffer@AnmManager@@QAEXXZ", target = 0x004396A0 },
+]

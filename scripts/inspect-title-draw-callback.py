@@ -3,7 +3,8 @@
 
 Checks the full target 329-byte function, independently reviewed callee/data
 identities, twenty relocation fields, decoded instructions, direct call/branch
-block graphs and the current single-DEC source gap. No partial exact credit.
+block graphs and both the historical single-DEC gap and strictly exact current owner.
+Never grants partial exact credit.
 """
 
 import argparse

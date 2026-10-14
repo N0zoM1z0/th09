@@ -133,7 +133,7 @@ class BossFrontierChecks(TestCase):
                     frontiers, 'parsed', return_value={**evidence, **incorrect}), self.assertRaises(RuntimeError):
                 frontiers.run_received_frames(protect_exact=False)
 
-    def test_title_protects_three_independent_exact_units(self):
+    def test_title_protects_four_independent_exact_units(self):
         checked = []
         with patch.object(frontiers, 'build') as build, patch.object(
                 frontiers, 'canonical', side_effect=lambda unit: checked.append(unit) or {'unit': unit}):
@@ -141,8 +141,8 @@ class BossFrontierChecks(TestCase):
         self.assertEqual(owners, {})
         self.assertEqual([row['unit'] for row in exact],
                          ['title-screen-setup-thread', 'title-screen-music-room',
-                          'title-screen-draw-music-room'])
-        self.assertEqual(build.call_count, 2)
+                          'title-screen-draw-music-room', 'title-draw-callback'])
+        self.assertEqual(build.call_count, 3)
         self.assertEqual(checked, [row['unit'] for row in exact])
 
     def test_target_independent_title_probe_does_not_invent_receipts(self):
