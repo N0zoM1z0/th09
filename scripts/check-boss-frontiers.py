@@ -155,6 +155,47 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
     return diagnostics, exact_units
 
 
+def run_decrypt_table(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    """Check full original crypto-table leaf, plus exact decrypt/encrypt pair.
+
+    The 8 x 12-byte crypt key table and three-byte original signature are
+    checked independently in the already SHA-pinned 220-byte inspector; it
+    intentionally returns 1 for valid non-exact results. Never mistake that
+    ordinary near-match for acceptance of the separately exact Decrypt API.
+    """
+    obj = 'build/matching/FileDecryptTable.obj'
+    build_nonexact('src/FileDecryptTable.cpp', obj,
+                   reference_unit='file-system-decrypt')
+    result = noncrediting(parsed(['scripts/inspect-file-decrypt-table.py',
+                                  obj, '--json'], diagnostic=True),
+                          name='FileSystem decryption-table scan',
+                          target_size=220, fields=12)
+    if (result['candidate_bytes'] != 220 or
+            result['target_instructions'] != 77 or
+            result['candidate_instructions'] != 77 or
+            result['ordered_calls'] != 2 or
+            result['target_blocks'] != 11 or
+            result['candidate_blocks'] != 11 or
+            not result['complete_direct_graphs_agree'] or
+            result['complete_overlap_differences'] != 38 or
+            result['complete_bytes_equal']):
+        raise RuntimeError('TH09 FileSystem crypt-table target/COFF/graph frontier drifted')
+    exact = []
+    if protect_exact:
+        build('file-system-decrypt')
+        exact.append(canonical('file-system-decrypt'))
+        build('file-system-encrypt')
+        exact.append(canonical('file-system-encrypt'))
+    return {'file_decrypt_table': {
+        'target_bytes': 220,
+        'candidate_bytes': result['candidate_bytes'],
+        'bound_fields': result['bound_fields'],
+        'ordered_calls': result['ordered_calls'],
+        'ordinary_differences': result['complete_overlap_differences'],
+        'direct_graphs_agree': result['complete_direct_graphs_agree'],
+    }}, exact
+
+
 def run_received_frames(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # Network frame insertion has no relocations, but 213/213 equal extent
     # alone is not evidence of code equality. Bind its entire Japanese
@@ -560,7 +601,7 @@ def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'gamemgr', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -581,6 +622,10 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('type3', 'exattack', 'all'):
             owners, exact = run_exattack_type3(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('crypto', 'all'):
+            owners, exact = run_decrypt_table(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('network', 'all'):
