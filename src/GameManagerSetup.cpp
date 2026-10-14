@@ -812,9 +812,13 @@ void GameManagerSetupLayout::CleanupGameplayState()
             break;
         }
 
-        g_GameManager.limitB4 = newLimit - 2 * stageValue;
-        if (g_GameManager.limitB4 < 1)
-            g_GameManager.limitB4 = 1;
+        // Finish the lower-bound clamp before publishing the next stage limit.
+        // This is the same final value, and keeps the independent mode-2
+        // lower-bound branch visible to the original VC7.1 optimizer.
+        int finalLimit = newLimit - 2 * stageValue;
+        if (finalLimit < 1)
+            finalLimit = 1;
+        g_GameManager.limitB4 = finalLimit;
     }
 
     g_GameManager.valueB0 = 0;

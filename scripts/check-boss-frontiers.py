@@ -293,6 +293,36 @@ def run_game_manager(*, protect_exact: bool) -> tuple[dict, list[dict]]:
         'field_change_spans': gameplay['field_change_spans'],
         'direct_graphs_agree': gameplay['direct_graphs_agree'],
     }}
+    cleanup = noncrediting(parsed(['scripts/inspect-game-manager-cleanup.py',
+                                   'build/matching/GameManagerSetup.obj']),
+                           name='GameManager gameplay cleanup',
+                           target_size=425, fields=41)
+    if (cleanup.get('candidate_bytes') != 406 or
+            cleanup.get('target_instructions') != 117 or
+            cleanup.get('candidate_instructions') != 114 or
+            cleanup.get('original_fields') != 43 or
+            cleanup.get('ordered_calls') != 12 or
+            not cleanup.get('ordered_calls_agree') or
+            cleanup.get('original_blocks') != 24 or
+            cleanup.get('candidate_blocks') != 25 or
+            cleanup.get('mode2_lower_bound_branch_present') is not True or
+            cleanup.get('aligned_field_identities') != 40 or
+            cleanup.get('field_change_spans') != 3 or
+            cleanup.get('aligned_instructions') < 104 or
+            cleanup.get('overlap_differences') > 209 or
+            cleanup.get('direct_graphs_agree')):
+        raise RuntimeError('CleanupGameplayState mode-2 clamp / 406-byte original-bound frontier regressed')
+    diagnostics['game_manager_cleanup'] = {
+        'target_bytes': 425,
+        'candidate_bytes': cleanup['candidate_bytes'],
+        'original_fields': cleanup['original_fields'],
+        'bound_fields': cleanup['bound_fields'],
+        'aligned_field_identities': cleanup['aligned_field_identities'],
+        'aligned_instructions': cleanup['aligned_instructions'],
+        'overlap_differences': cleanup['overlap_differences'],
+        'mode2_lower_bound_branch_present': cleanup['mode2_lower_bound_branch_present'],
+        'direct_graphs_agree': cleanup['direct_graphs_agree'],
+    }
     if protect_exact:
         owners.extend(canonical(name) for name in primary[1:])
         build('supervisor-setup-loading-vms-and-capture')
