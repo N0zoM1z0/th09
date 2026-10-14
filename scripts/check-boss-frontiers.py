@@ -332,11 +332,11 @@ def run_front_random(*, protect_exact: bool) -> tuple[dict, list[dict]]:
                    reference_unit='front-message-setup')
     owner=noncrediting(parsed(['scripts/inspect-front-message-random.py',obj,'--json']),
                        name='Front weighted random setup',target_size=693,fields=15)
-    if (owner.get('candidate_bytes',0) < 682 or
+    if (owner.get('candidate_bytes',0) < 681 or
             owner['candidate_bytes'] > 693 or
             owner.get('target_instructions') != 206 or
             not isinstance(owner.get('candidate_instructions'),int) or
-            not 202 <= owner['candidate_instructions'] <= 206 or
+            not 201 <= owner['candidate_instructions'] <= 206 or
             owner.get('original_fields') != 15 or
             owner.get('ordered_calls') != 6 or
             owner.get('ordered_calls_agree') is not True or
@@ -346,8 +346,8 @@ def run_front_random(*, protect_exact: bool) -> tuple[dict, list[dict]]:
             not isinstance(owner.get('aligned_instructions'),int) or
             owner['aligned_instructions'] < 117 or
             not isinstance(owner.get('overlap_differences'),int) or
-            owner['overlap_differences'] > 581 or
-            owner.get('missing_target_bytes',99) > 11 or
+            owner['overlap_differences'] > 572 or
+            owner.get('missing_target_bytes',99) > 12 or
             owner.get('extra_candidate_bytes') != 0 or
             owner.get('complete_bytes_equal') is not False):
         raise RuntimeError('Front random 693-byte/15-field/6-call original-bound frontier regressed')

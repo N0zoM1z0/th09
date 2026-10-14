@@ -113,10 +113,9 @@ void FrontMessageRandomView::SetupRandomForSide(int sideIndex)
         randomValue = g_Rng.GetRandomU16InRange(0x100);
         selected = 210;
 
+        FrontMessageRandomEntryView *group = &table->entries04[selected];
         for (int groupMid = 212; groupMid < 222; groupMid += 5)
         {
-            FrontMessageRandomEntryView *group = &table->entries04[selected];
-
             if (group[0].instructions00 != 0 &&
                 selected < table->count00)
             {
@@ -170,6 +169,7 @@ void FrontMessageRandomView::SetupRandomForSide(int sideIndex)
             }
 
             selected += 5;
+            group += 5;
         }
 
 fallback_complete:

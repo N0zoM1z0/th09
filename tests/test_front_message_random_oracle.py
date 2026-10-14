@@ -52,7 +52,7 @@ class FrontRandomOriginalTests(unittest.TestCase):
                                          expected_sha=hashlib.sha256(modified).hexdigest())
 
     def test_binds_actual_candidate_offsets_not_original_offsets(self):
-        raw = bytes(682)
+        raw = bytes(681)
         rows = self.matching_source_rows()
         linked, bound = front.bind_candidate(raw, rows)
         self.assertEqual(len(linked), len(raw))
@@ -79,7 +79,7 @@ class FrontRandomOriginalTests(unittest.TestCase):
                   [dict(source[0], offset=source[1]['offset'])] + source[1:]]
         for rows in broken:
             with self.subTest(rows=rows[:2]), self.assertRaises(ValueError):
-                front.bind_candidate(bytes(682), rows)
+                front.bind_candidate(bytes(681), rows)
         with self.assertRaisesRegex(ValueError, 'whole body'):
             front.bind_candidate(bytes(599), source)
 
