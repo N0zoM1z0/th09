@@ -78,6 +78,7 @@ candidate/profile and require fresh compilation after source edits. Consult
 | Title character cursor Active/Reverse/Inactive | 0x00424EDD / 0x00424FB0 / 0x0042505F | **211/217**, **175/175**, **175/175** target/candidate bytes; 6/2/2 independently decoded fields, 4/2/2 ordered calls | Active's 6 extra bytes and 189 overlapping differences keep its direct graph; Reverse/Inactive have **38** full byte differences each, and **5-target/4-candidate block graphs differ** despite equal extent. Source direct-array, prechecked-loop and count-stack-slot controls are rejected; `scripts/inspect-title-character-cursors.py --variant active/reverse/inactive` is **NON-CREDITING**. |
 | Title DrawCallback | 0x00424898 | 329 target / 328 candidate, 20 fields | Single missing target `DEC EAX` at `+0x101`; `scripts/inspect-title-draw-callback.py` |
 | Title DrawReplaySave | 0x004239F6 | **800 target / 793 candidate**, 41 original fields, 4 ordered calls, 28/28 blocks with unresolved edges | Renderer source remains NON-EXACT; `scripts/inspect-title-replay-save-draw.py --json` now shares full decoded field-identity gate |
+| AnmManager camera-facing projection | 0x00439820 | **622 target / 619 maintained source** bytes, 40 independently bound fields, 11 ordered calls, matching 8-block graph; **447 overlapping differences plus 3 missing bytes** | Isolated natural source with the **real exact TranslateRotation body visible**, `origin` after the x87 FSINCOS and `Float3 delta` declared then assigned reproduces **622/622 physical bytes, only 24 remaining differences**, preserving all fields/calls/blocks. That is **diagnostic only**, not committed as a speculative helper-owner move or exact credit. `scripts/inspect-anm-camera-facing.py`; exact `Project3DQuad` (595) and `TranslateRotation` (49) protected by `--owner anm`. |
 | ScreenEffect CalcShakeEnvelope | 0x004227A0 | **336/336** bytes, 20 reviewed fields, 8 ordered calls, 26/26 direct blocks; **28** remaining linked byte differences (previously 334/336 and 249) | Independent hold/fade-word loads, actual grouped endpoint sum; ESI/EDI receiver/timer coloring remains; `scripts/inspect-screen-shake-envelope.py`, **NON-EXACT** |
 | Title Options | 0x004276EB | 2,045 target / 2,048 candidate; 135 fields | Configuration/reference lifetimes |
 | Controller input | 0x0042B410 | 808 target / 796 candidate; 32 fields | WinMM X/Y register and read ordering; `scripts/inspect-controller-input.py` |
@@ -168,7 +169,7 @@ python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
 # One cold, target-bound diagnostic sweep across RunEcl, EnemyManager,
 # Etama, ExAttack Type3/19/21, Title renderer and character-cursor owners.
-# Includes the Enemy collision leaf and ten exact sibling regressions.
+# Includes the Enemy collision leaf, camera-facing projection, and twelve exact sibling regressions.
 # NON-CREDITING: this command cannot promote a function to exact.
 python3 scripts/check-boss-frontiers.py --owner all
 python3 scripts/build-match-unit.py --unit front-message-load-for-side-count

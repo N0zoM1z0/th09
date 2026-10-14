@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cold replay TH09 boss and companion-leaf ECL/Enemy/Etama/ExAttack frontiers.
+"""Cold replay TH09 ECL/Enemy/Etama/ExAttack/ANM/Title boss-and-leaf frontiers.
 
 All non-exact outputs are diagnostics, never partial match credit. Every object
 is first rebuilt from the live source using the target-bound match-unit tool.
@@ -153,6 +153,34 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
             build('exattack-type21-update')
             exact_units.append(canonical('exattack-type21-update'))
     return diagnostics, exact_units
+
+
+def run_camera_facing(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    # ProjectCameraFacingQuad is nonexact in the real Projection translation
+    # unit. Its 49-byte exact geometric helper currently lives in Render.
+    # Separately protect the exact Project3DQuad from Projection itself.
+    build('anm-manager-project-3d-quad')
+    candidate = noncrediting(parsed(['scripts/inspect-anm-camera-facing.py',
+                                     'build/matching/AnmManagerProjection.obj']),
+                             name='Camera-facing projection boss',
+                             target_size=622, fields=40)
+    if (candidate.get('original_fields') != 40 or
+            candidate.get('ordered_calls') != 11 or
+            not candidate.get('calls_agree') or
+            candidate.get('original_blocks') != 8 or
+            not candidate.get('direct_graphs_agree')):
+        raise RuntimeError('original camera 40 fields / 11 calls / eight-block graph regressed')
+    siblings = [canonical('anm-manager-project-3d-quad')] if protect_exact else []
+    if protect_exact:
+        build('anm-manager-translate-rotation')
+        siblings.append(canonical('anm-manager-translate-rotation'))
+    return {'camera_facing_projection': {
+        'target_bytes': 622, 'candidate_bytes': candidate['candidate_bytes'],
+        'bound_fields': candidate['bound_fields'],
+        'overlap_differences': candidate['overlap_differences'],
+        'missing_target_bytes': candidate['missing_target_bytes'],
+        'direct_graphs_agree': candidate['direct_graphs_agree'],
+    }}, siblings
 
 
 def run_enemy(*, protect_exact: bool) -> tuple[dict, list[dict]]:
@@ -325,7 +353,7 @@ def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'etama', 'exattack', 'type3', 'title', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'etama', 'exattack', 'type3', 'title', 'anm', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -342,6 +370,10 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('type3', 'exattack', 'all'):
             owners, exact = run_exattack_type3(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('anm', 'all'):
+            owners, exact = run_camera_facing(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('enemy', 'all'):
