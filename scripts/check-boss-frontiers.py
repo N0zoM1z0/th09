@@ -155,6 +155,36 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
     return diagnostics, exact_units
 
 
+def run_received_frames(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    # Network frame insertion has no relocations, but 213/213 equal extent
+    # alone is not evidence of code equality. Bind its entire Japanese
+    # original SHA, 67 instructions, nine blocks, no calls and ret 16 ABI.
+    obj = 'build/matching/SupervisorFrameQueueInsert.obj'
+    build_nonexact('src/SupervisorFrameQueueInsert.cpp', obj,
+                   reference_unit='supervisor-frame-queue-insert-predicted')
+    received = noncrediting(parsed(['scripts/inspect-supervisor-frame-queue.py',
+                                    obj, '--json']),
+                            name='Supervisor received-frame insertion',
+                            target_size=213, fields=0, fields_key='relocation_fields')
+    if (received['target_instructions'] != 67 or received['candidate_instructions'] != 67
+            or received['target_calls'] != 0 or received['candidate_calls'] != 0
+            or received['target_blocks'] != 9 or received['candidate_blocks'] != 9
+            or not received['complete_direct_graphs_agree']):
+        raise RuntimeError('Supervisor received-frame no-call/67-instruction/9-block gate changed')
+    exact = []
+    if protect_exact:
+        build('supervisor-frame-queue-insert-predicted')
+        exact.append(canonical('supervisor-frame-queue-insert-predicted'))
+        build('supervisor-frame-queue-pop-frame')
+        exact.append(canonical('supervisor-frame-queue-pop-frame'))
+    return {'supervisor_received_frame': {
+                'target_bytes': 213, 'candidate_bytes': received['candidate_bytes'],
+                'ordinary_differences': received['complete_differences'],
+                'relocations': received['relocation_fields'],
+                'direct_graphs_agree': received['complete_direct_graphs_agree'],
+           }}, exact
+
+
 def run_camera_facing(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # ProjectCameraFacingQuad is nonexact in the real Projection translation
     # unit. Its 49-byte exact geometric helper currently lives in Render.
@@ -353,7 +383,7 @@ def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'etama', 'exattack', 'type3', 'title', 'anm', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'etama', 'exattack', 'type3', 'title', 'anm', 'network', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -370,6 +400,10 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('type3', 'exattack', 'all'):
             owners, exact = run_exattack_type3(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('network', 'all'):
+            owners, exact = run_received_frames(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('anm', 'all'):

@@ -1,5 +1,6 @@
 """Target-independent tests for zero-field frame-insertion comparison."""
 import importlib.util
+import hashlib
 from pathlib import Path
 from unittest import TestCase, main
 
@@ -10,6 +11,18 @@ spec.loader.exec_module(inspector)
 
 
 class FrameQueueInspectorTests(TestCase):
+    def test_original_complete_extent_and_digest_both_are_required(self):
+        target = bytes(range(inspector.SIZE))
+        inspector.require_original_identity(target, hashlib.sha256(target).hexdigest())
+        with self.assertRaisesRegex(ValueError, 'identity/extent'):
+            inspector.require_original_identity(target, '0' * 64)
+        with self.assertRaisesRegex(ValueError, 'identity/extent'):
+            inspector.require_original_identity(target[:-1], hashlib.sha256(target[:-1]).hexdigest())
+        modified = bytearray(target)
+        modified[-1] ^= 0x80
+        with self.assertRaisesRegex(ValueError, 'identity/extent'):
+            inspector.require_original_identity(bytes(modified), hashlib.sha256(target).hexdigest())
+
     def test_complete_zero_field_owner_is_accepted_for_inspection(self):
         inspector.require_owner(bytes(inspector.SIZE), [])
 

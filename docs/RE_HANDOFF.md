@@ -82,7 +82,7 @@ candidate/profile and require fresh compilation after source edits. Consult
 | ScreenEffect CalcShakeEnvelope | 0x004227A0 | **336/336** bytes, 20 reviewed fields, 8 ordered calls, 26/26 direct blocks; **28** remaining linked byte differences (previously 334/336 and 249) | Independent hold/fade-word loads, actual grouped endpoint sum; ESI/EDI receiver/timer coloring remains; `scripts/inspect-screen-shake-envelope.py`, **NON-EXACT** |
 | Title Options | 0x004276EB | 2,045 target / 2,048 candidate; 135 fields | Configuration/reference lifetimes |
 | Controller input | 0x0042B410 | 808 target / 796 candidate; 32 fields | WinMM X/Y register and read ordering; `scripts/inspect-controller-input.py` |
-| Supervisor InsertReceivedFrame | 0x0042E9E0 | 213/213 bytes; zero relocations, **35** different bytes | Shares `SupervisorFrameQueueStorageView.hpp` with exact InsertPredictedFrame/PopFrame and 177-byte exact Mode4 reset; initial 16-bit write and side-base scheduling remain; `scripts/inspect-supervisor-frame-queue.py`, **NON-EXACT** |
+| Supervisor InsertReceivedFrame | 0x0042E9E0 | **213/213 bytes, 67/67 instructions, 9/9 blocks, zero relocations/calls**, **35** different bytes | Shares `SupervisorFrameQueueStorageView.hpp` with exact InsertPredictedFrame (191) / PopFrame (119). Its complete original SHA-256 and `ret 16` ABI are now checked independently under cold `scripts/check-boss-frontiers.py --owner network`. Prefix 16-bit field scheduling and side-base register lifetime remain unresolved; near-match is **NON-EXACT**. |
 | Effect AddedCallback | 0x0040D1C0 | 51 bytes; 4 fields; **8** differing bytes | Original direct global-to-EDI load; `scripts/inspect-effect-added.py` |
 | Enemy collision-box leaf | 0x00410250 | 82 bytes, 2 direct calls, **31** differing bytes | Shares exact receiver declaration with 3,900-byte EnemyManager OnUpdate; Float3 return-copy schedule still open; `scripts/inspect-enemy-collision-box.py` |
 | FileSystem TryDecryptFromTable | 0x0042C290 | **220/220** bytes, 12 physical fields, 2 calls, 11 matching blocks; **38 byte differences** | Validated 8x12-byte source wire layout, original signature/table identities; `scripts/inspect-file-decrypt-table.py` **NON-EXACT** |
@@ -169,7 +169,8 @@ python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
 # One cold, target-bound diagnostic sweep across RunEcl, EnemyManager,
 # Etama, ExAttack Type3/19/21, Title renderer and character-cursor owners.
-# Includes the Enemy collision leaf, camera-facing projection, and twelve exact sibling regressions.
+# Includes the Enemy collision leaf, camera-facing projection, received network
+# frame insertion, and fourteen exact sibling regressions.
 # NON-CREDITING: this command cannot promote a function to exact.
 python3 scripts/check-boss-frontiers.py --owner all
 python3 scripts/build-match-unit.py --unit front-message-load-for-side-count

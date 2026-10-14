@@ -106,6 +106,33 @@ class BossFrontierChecks(TestCase):
                 }]), self.assertRaises(RuntimeError):
             frontiers.run_enemy(protect_exact=False)
 
+    def test_network_zero_field_owner_and_both_exact_consumers(self):
+        evidence = {'diagnostic_only': True, 'exactness_credit': 'none',
+                    'target_bytes': 213, 'candidate_bytes': 213,
+                    'relocation_fields': 0,
+                    'target_instructions': 67, 'candidate_instructions': 67,
+                    'target_calls': 0, 'candidate_calls': 0,
+                    'target_blocks': 9, 'candidate_blocks': 9,
+                    'complete_direct_graphs_agree': True,
+                    'complete_differences': 35}
+        with patch.object(frontiers, 'build_nonexact') as nonexact, patch.object(
+                frontiers, 'build') as build, patch.object(frontiers, 'parsed',
+                return_value=evidence), patch.object(frontiers, 'canonical',
+                side_effect=lambda unit: {'unit': unit}):
+            owners, exact = frontiers.run_received_frames(protect_exact=True)
+        self.assertEqual(owners['supervisor_received_frame']['ordinary_differences'], 35)
+        self.assertEqual([e['unit'] for e in exact],
+                         ['supervisor-frame-queue-insert-predicted',
+                          'supervisor-frame-queue-pop-frame'])
+        nonexact.assert_called_once()
+        self.assertEqual(build.call_count, 2)
+        for incorrect in ({'relocation_fields': 1}, {'target_calls': 1},
+                          {'target_instructions': 66}, {'candidate_instructions': 68},
+                          {'complete_direct_graphs_agree': False}):
+            with self.subTest(incorrect=incorrect), patch.object(frontiers, 'build_nonexact'), patch.object(
+                    frontiers, 'parsed', return_value={**evidence, **incorrect}), self.assertRaises(RuntimeError):
+                frontiers.run_received_frames(protect_exact=False)
+
     def test_title_protects_three_independent_exact_units(self):
         checked = []
         with patch.object(frontiers, 'build') as build, patch.object(
