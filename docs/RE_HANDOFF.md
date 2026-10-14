@@ -6,6 +6,15 @@
 > and Git history (including `git show a02528d:docs/RE_HANDOFF.md`). Do not
 > mistake a previous commit's byte counts for the present working tree.
 
+## Current verified handoff checkpoint
+
+- **Repository:** `th09`, `main`, checkpoint `3c90794` (`gpt-web: capture verified RunEcl and Type4/8 callee-visibility counterexamples`). **At the start of this handoff** Git was clean and `main` matched `origin/main`. Check `git status` again before any edits; commits made for documentation/cleanup naturally advance local HEAD. Never infer remote push from a local commit.
+- **Attested target:** original Japanese TH09 v1.50a, SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`. Current ledger remains **2,192 candidates / 980 authored source-present / 938 exact / 42 non-exact**; **226,285 / 275,770 authored bytes exact (82.0557%)**. The native Windows product/link/runtime gate is **still open**.
+- **Last verified regression sweep:** `python3 scripts/check-boss-frontiers.py --owner all` reported **22 open-owner non-crediting diagnostics and 38 complete canonical exact sibling replays**, all exact siblings passing. `python3 scripts/ci.py` passed **286 tests (27 skipped)**; target, tracking, documentation and progress checks also passed. Any fresh source edit invalidates this snapshot until rebuilt.
+- **Most recent independently Factory-accepted improvements:** `GameManager::OnUpdate` (1,230 bytes; source commit `b8fdbde`), `PlayerCollisionQueryStateView::FindCollision` (602 bytes; source commit `86f5305`), and the relocated **already-exact** `CalcItemBoxCollision` (121 bytes; same source commit). Exact receipts and the separate receipt-only commits are detailed below. Do not double-count the moved helper or count nonexact partial improvements.
+- **Next attack order:** `RunEcl` opcode 4/155; ExAttack Type19/21 initialization; `EnemyManager::OnUpdate`, `EtamaController::OnDraw`; then Title Result/Options/Cursors and near-exact leaves. `EtamaController::OnUpdate`, TitleSetup and MusicRoom are already exact, and should be protected, not reclassified as outstanding. Previous source probes under `.analysis/` are **counterexamples**, not authoritative original C++.
+- **Generated-artifact hygiene:** all reproducible validation runs precede cleanup. `python3 scripts/clean-generated-artifacts.py --apply` removes only ignored `build/` and `.analysis/` compiler binary caches (`.obj/.pdb/.pyc/.pch/.idb/.ilk`) and writes a local deletion manifest under `.analysis/handoff-cleanup-20261013/`. It **deliberately preserves** the 1.3 GiB-scale original/experimental analysis corpus (probe C++ and headers, JSON/disassembly/patches) because those may be the only reproduction records. This archive is *not* a build product. After cleanup, regenerate each COFF object by `scripts/build-match-unit.py --unit NAME` before comparison. Keep `resources/th09.exe` and `.tools/` untouched.
+
 ## Operator instructions and identity
 
 Continue original Japanese **TH09 v1.50a** reconstruction, attacking both
