@@ -5,6 +5,7 @@ import capstone
 import difflib
 import hashlib
 import importlib.util
+import json
 from pathlib import Path
 import struct
 
@@ -12,6 +13,11 @@ from diagnostic_branch_alignment import aligned_branch_conflicts, direct_control
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE, SIZE = 0x41AF2D, 1689
+TARGET_SHA256 = '8dc5dd11495f34c6b1998653e0094195d6d891fff374d403750141e9936f0d6a'
+TARGET_INSTRUCTIONS = 413
+TARGET_FIELDS = 172
+TARGET_CALLS = 35
+TARGET_DIRECT_BLOCKS = 78
 SYMBOL = '?GameplaySetupThread@@YIXPAX@Z'
 # TH09 instructions, callee entries and IAT operands reviewed independently.
 # Old ReleaseStageObject is deliberately bound to its real canonical entry,
@@ -96,6 +102,7 @@ def address_fields(instructions):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('object', type=Path)
+    parser.add_argument('--json', action='store_true', help='full original-bound noncrediting diagnostic')
     parser.add_argument('--summary', action='store_true')
     parser.add_argument('--instructions', action='store_true')
     parser.add_argument('--field-diff', action='store_true',
@@ -110,7 +117,11 @@ def main():
     coff = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(coff)
     target = coff.pe_bytes_at(coff.verified_target(), BASE, SIZE)
+    if len(target) != SIZE or hashlib.sha256(target).hexdigest() != TARGET_SHA256:
+        raise ValueError('TH09 original GameplaySetupThread PE SHA256/extent changed')
     code, rows = coff.object_function(args.object, SYMBOL)
+    if len(code) != SIZE:
+        raise ValueError('GameManager gameplay setup must use the verified /Os 1689-byte profile')
     raw_hash = hashlib.sha256(code).hexdigest()
     for row in rows:
         if row['symbol'] not in DESTINATIONS:
@@ -132,6 +143,10 @@ def main():
     target_fields, candidate_fields = address_fields(t), address_fields(c)
     if candidate_fields != expected_fields:
         raise ValueError('COFF fields do not cover actual candidate address operands')
+    if len(t) != TARGET_INSTRUCTIONS or len(target_fields) != TARGET_FIELDS:
+        raise ValueError('TH09 original GameplaySetupThread instruction/field inventory drifted')
+    if t[-1].mnemonic != 'ret' or c[-1].mnemonic != 'ret' or t[-1].op_str or c[-1].op_str:
+        raise ValueError('TH09 GameplaySetupThread return ABI drifted')
 
     def normalized(i):
         if i.mnemonic.startswith('j'):
@@ -142,6 +157,33 @@ def main():
         None, list(map(normalized, t)), list(map(normalized, c)), autojunk=False)
     calls = lambda ins: [call_signature(i) for i in ins if i.mnemonic == 'call']
     tc, cc = calls(t), calls(c)
+    if len(tc) != TARGET_CALLS:
+        raise ValueError('TH09 original GameplaySetupThread call inventory drifted')
+    if args.json:
+        target_cfg = direct_control_flow(t, capstone.x86.X86_OP_IMM, call_signature)
+        candidate_cfg = direct_control_flow(c, capstone.x86.X86_OP_IMM, call_signature)
+        if len(target_cfg) != TARGET_DIRECT_BLOCKS:
+            raise ValueError('TH09 original GameplaySetupThread CFG census drifted')
+        from diagnostic_field_alignment import align_fields
+        aligned = align_fields(target_fields, candidate_fields)
+        report = {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_bytes': SIZE, 'candidate_bytes': len(code),
+            'target_instructions': len(t), 'candidate_instructions': len(c),
+            'original_fields': len(target_fields), 'bound_fields': len(candidate_fields),
+            'ordered_calls': len(tc), 'candidate_calls': len(cc),
+            'ordered_calls_agree': tc == cc,
+            'original_blocks': len(target_cfg), 'candidate_blocks': len(candidate_cfg),
+            'direct_graphs_agree': target_cfg == candidate_cfg,
+            'aligned_field_identities': aligned['paired_field_identities'],
+            'field_change_spans': len(aligned['changes']),
+            'aligned_instructions': sum(z.size for z in matcher.get_matching_blocks()),
+            'overlap_differences': sum(a != b for a,b in zip(target,code)),
+            'complete_bytes_equal': target == code,
+            'candidate_raw_sha256': raw_hash, 'target_sha256': TARGET_SHA256,
+        }
+        print(json.dumps(report, indent=2))
+        return
     print('NON-CREDITING:', len(code), 'bytes', len(c), 'instructions',
           len(rows), 'fields', raw_hash)
     print('decoded target/candidate address fields:',

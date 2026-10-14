@@ -86,7 +86,7 @@ candidate/profile and require fresh compilation after source edits. Consult
 | Effect AddedCallback | 0x0040D1C0 | **51/51 bytes, 19/19 instructions, 4 independently bound fields, 2 ordered calls and 3/3 blocks**, **8** differing bytes | Original loads global ANM manager directly into EDI before binding the owner to ESI. Current compiler reverses that scheduling; branch/early-return/re-entrant pointer views compile identically or regress. SHA-pinned `scripts/inspect-effect-added.py`; `--owner effect` protects complete exact **OnUpdate 475, OnDraw 183, OnDrawShared 146** in the same TU. **NON-EXACT**. |
 | Enemy collision-box leaf | 0x00410250 | 82 bytes, 2 direct calls, **31** differing bytes | Shares exact receiver declaration with 3,900-byte EnemyManager OnUpdate; Float3 return-copy schedule still open; `scripts/inspect-enemy-collision-box.py` |
 | FileSystem TryDecryptFromTable | 0x0042C290 | **220/220** bytes, 12 physical fields, 2 calls, 11 matching blocks; **38 byte differences** | Validated 8x12-byte source wire layout, original signature/table identities; `scripts/inspect-file-decrypt-table.py` **NON-EXACT** |
-| Gameplay setup worker | 0x0041AF2D | 1,689 target/candidate; 172 / 171 operand fields; 155 aligned identities, 13 field-difference spans; 78 / 77 direct blocks | Owner/reuse-base lifetime, flags cursor and switch graph; `scripts/inspect-gameplay-setup.py --summary --field-diff`, **NON-EXACT** |
+| Gameplay setup worker | 0x0041AF2D | **1,689/1,689 bytes**, original **413** vs candidate **416** instructions, original **172** vs candidate **171** independently decoded address fields, **35 matching ordered calls**, **155 aligned identities / 13 differing field spans**; **78/77** direct blocks | Must compile its real `GameManagerSetup.cpp` owner with **`/Os`**, as in exact GameManager OnUpdate; the distinct exact Supervisor loading-VM sibling uses **no `/Os`** and yields a misleading **1,812-byte** setup worker. Original SHA-256 and profile are now gated by `scripts/inspect-gameplay-setup.py --json` and cold `scripts/check-boss-frontiers.py --owner gamemgr`. Divergent mode-0/1 timed-state and pointer-reg lifetimes remain **NON-EXACT**. |
 | Player movement | 0x0041C170 | 1,835 authored / 1,900 physical; 66 fields | Position clamp and register allocation |
 | Supervisor network service | 0x00430AA0 | 1,633 target / 1,632 candidate, 108 source fields | Now shares the exact Supervisor queue +0x47C/+0x56C physical storage projection; 1,395 linked differences and call scheduling remain; **NON-EXACT** |
 | Supervisor OnUpdate | 0x00431110 | 844 authored / 996 physical target; **952-byte** candidate (800 code + 152 switch data), **92/92 external fields, 27/27 calls** | RegisterStateObject physical registration tail merged from 3 source calls to **1**, matching target ECX=0/1, but 791 overlapping differences + 44 absent bytes, **NON-EXACT**; `scripts/inspect-supervisor-update.py` |
@@ -175,7 +175,8 @@ python3 scripts/report-reconstruction-status.py
 # One cold, target-bound diagnostic sweep across RunEcl, EnemyManager,
 # Etama, ExAttack Type3/19/21, Title updater/renderer and character-cursor owners.
 # Includes the Enemy collision leaf, camera-facing projection, received network
-# frame insertion, EffectManager/Type19/21 Draw, and twenty-nine exact sibling regressions including GameManager.
+# frame insertion, EffectManager/Type19/21 Draw, one additional GameplaySetupThread
+# boss diagnostic, and twenty-nine exact sibling regressions including GameManager.
 # NON-CREDITING: this command cannot promote a function to exact.
 python3 scripts/check-boss-frontiers.py --owner all
 python3 scripts/build-match-unit.py --unit front-message-load-for-side-count

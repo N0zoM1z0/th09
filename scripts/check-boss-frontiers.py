@@ -266,11 +266,38 @@ def run_game_manager(*, protect_exact: bool) -> tuple[dict, list[dict]]:
                'game-manager-format-current-date')
     build('game-manager-on-update')
     owners = [canonical('game-manager-on-update')]
+    # This 1,689-byte worker must use *the same /Os build* as the newly
+    # accepted large callback. The no-/Os supervisor capture profile yields
+    # an unrelated 1,812-byte candidate and private switch symbols.
+    gameplay = noncrediting(parsed(['scripts/inspect-gameplay-setup.py',
+                                    'build/matching/GameManagerSetup.obj', '--json']),
+                           name='Gameplay setup thread', target_size=1689,
+                           fields=171)
+    if (gameplay.get('candidate_bytes') != 1689 or
+            gameplay.get('target_instructions') != 413 or
+            gameplay.get('original_fields') != 172 or
+            gameplay.get('ordered_calls') != 35 or
+            gameplay.get('candidate_calls') != 35 or
+            not gameplay.get('ordered_calls_agree') or
+            gameplay.get('original_blocks') != 78 or
+            gameplay.get('candidate_blocks') != 77 or
+            gameplay.get('aligned_field_identities') != 155):
+        raise RuntimeError('GameplaySetupThread original 172/171 field/35 call/78-block proof drifted')
+    diagnostics = {'gameplay_setup_thread': {
+        'target_bytes': 1689, 'candidate_bytes': gameplay['candidate_bytes'],
+        'original_fields': gameplay['original_fields'],
+        'bound_fields': gameplay['bound_fields'],
+        'ordered_calls': gameplay['ordered_calls'],
+        'original_blocks': gameplay['original_blocks'],
+        'candidate_blocks': gameplay['candidate_blocks'],
+        'field_change_spans': gameplay['field_change_spans'],
+        'direct_graphs_agree': gameplay['direct_graphs_agree'],
+    }}
     if protect_exact:
         owners.extend(canonical(name) for name in primary[1:])
         build('supervisor-setup-loading-vms-and-capture')
         owners.append(canonical('supervisor-setup-loading-vms-and-capture'))
-    return {}, owners
+    return diagnostics, owners
 
 
 def run_enemy(*, protect_exact: bool) -> tuple[dict, list[dict]]:

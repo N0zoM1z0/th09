@@ -74,11 +74,30 @@ class GameManagerExactSource(unittest.TestCase):
 
 
 class GameManagerColdRegression(unittest.TestCase):
+    @staticmethod
+    def evidence():
+        # Non-exact worker remains explicitly noncrediting and distinct from
+        # the ten canonical full-owner exact GameManager callbacks.
+        return {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_bytes': 1689, 'candidate_bytes': 1689,
+            'target_instructions': 413, 'candidate_instructions': 416,
+            'original_fields': 172, 'bound_fields': 171,
+            'ordered_calls': 35, 'candidate_calls': 35,
+            'ordered_calls_agree': True,
+            'original_blocks': 78, 'candidate_blocks': 77,
+            'direct_graphs_agree': False,
+            'aligned_field_identities': 155,
+            'field_change_spans': 13,
+        }
+
     def test_all_ten_original_bound_functions_replayed_with_two_builds(self):
         with patch.object(boss, 'build') as build, patch.object(
+                boss, 'parsed', return_value=self.evidence()), patch.object(
                 boss, 'canonical', side_effect=lambda unit: {'unit':unit}) as canonical:
             owners, exact = boss.run_game_manager(protect_exact=True)
-        self.assertEqual(owners,{})
+        self.assertEqual(owners['gameplay_setup_thread']['bound_fields'],171)
+        self.assertFalse(owners['gameplay_setup_thread']['direct_graphs_agree'])
         self.assertEqual(len(exact),10)
         self.assertEqual(exact[0]['unit'],'game-manager-on-update')
         self.assertEqual(exact[-1]['unit'],'supervisor-setup-loading-vms-and-capture')
@@ -87,12 +106,29 @@ class GameManagerColdRegression(unittest.TestCase):
                          ['game-manager-on-update','supervisor-setup-loading-vms-and-capture'])
         self.assertEqual(canonical.call_count,10)
 
-    def test_skip_siblings_never_drops_the_new_large_boss(self):
+    def test_skip_siblings_never_drops_the_new_large_boss_or_nonexact_worker(self):
         with patch.object(boss, 'build') as build, patch.object(
+                boss, 'parsed', return_value=self.evidence()), patch.object(
                 boss, 'canonical',return_value={'unit':'game-manager-on-update'}):
-            _, exact = boss.run_game_manager(protect_exact=False)
+            owners, exact = boss.run_game_manager(protect_exact=False)
         self.assertEqual([x['unit'] for x in exact], ['game-manager-on-update'])
+        self.assertEqual(owners['gameplay_setup_thread']['original_fields'],172)
         build.assert_called_once_with('game-manager-on-update')
+
+    def test_missing_original_operand_wrong_tu_or_calls_fail_closed(self):
+        for change in (
+                {'target_bytes':1688}, {'candidate_bytes':1812},
+                {'target_instructions':412}, {'original_fields':171},
+                {'bound_fields':172}, {'ordered_calls':34},
+                {'candidate_calls':34}, {'ordered_calls_agree':False},
+                {'original_blocks':77}, {'candidate_blocks':78},
+                {'aligned_field_identities':154},
+                {'diagnostic_only':False}, {'exactness_credit':'accepted'}):
+            with self.subTest(change=change), patch.object(
+                    boss,'build'), patch.object(
+                    boss,'canonical',return_value={'unit':'game-manager-on-update'}), patch.object(
+                    boss,'parsed',return_value={**self.evidence(),**change}), self.assertRaises(RuntimeError):
+                boss.run_game_manager(protect_exact=False)
 
 
 if __name__ == '__main__':
