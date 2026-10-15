@@ -9,23 +9,26 @@
 
 ## Current verified handoff checkpoint
 
-- **Working branch / code baseline:** `th09` on `main`, last gameplay-source
-  commit **`7f1d56e`** (`gpt-web: narrow PauseMenu first VM cursor and preserve
-  exact state4 labels`). The handoff/cleanup commit will change HEAD without
-  changing the verified gameplay source. Always rerun `git status --short
-  --branch`; **review and finish dirty and untracked work**, never reset or
-  sidestep it. All new commits require the operator prefix **`gpt-web: ...`**.
-  Factory repository Bash cannot push, so local commits are **not** remote pushes.
+- **Working branch / code baseline:** `th09` on `main`. Determine the source
+  commit from the live `git log` and `git status --short --branch`, never from
+  a historical handoff ID. The preceding completed operator checkpoint was
+  `3115305` (large-function negative-frontier evidence), following `86f722c`
+  (Type3 original-order source repair); this checkpoint promotes the separate
+  Enemy collision wrapper by restoring authentic callee code visibility.
+  **Review and finish dirty or untracked work**, never reset or sidestep it.
+  New commits use **`gpt-web: ...`**; local Git commits are not remote pushes.
 - **Original target:** Japanese TH09 **v1.50a** (`resources/th09.exe`), original
   SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
   This is an ignored private, read-only user input, **never delete or commit**.
   Factory's IDA provider is `th09-ida`; its attestation is not a codegen Oracle.
-- **Last verified regression gates at this source baseline:**
-  `scripts/check-boss-frontiers.py --owner all` validated **29 distinct
-  non-crediting boss/leaf owners** and **65 already-exact sibling checks**;
-  `scripts/ci.py` passed **347 tests, 27 skipped**. These checks independently
-  guard size, original-bound bytes, field/relocation identity, calls and often
-  jump tables/CFGs. Source/profile edits require a new focused cold build.
+- **Regression scope:** Before this Enemy collision closure, the prior
+  complete `--owner all` cold sweep guarded **29 non-crediting boss/leaf
+  owners** and **65 exact sibling checks**. The new `--owner enemy` scope
+  cold-rebuilds the **3,900-byte non-exact Enemy update**, its two exact
+  same-TU helpers and the independently canonical exact **205-byte
+  `AppendBoxRecord` / 82-byte Enemy collision wrapper** from one shared
+  source object. Re-run focused Oracles for changed owners and CI; never treat
+  old full-sweep numbers as fresh checks on a new source commit.
 - **Phase:** exact reconstruction only. Faithful Windows i386 whole-product
   build/link/resource/runtime closure is **open**; dual-Oracle semantics and
   portability **have not started**. The 95%-reviewed-authored-byte goal is open.
@@ -36,7 +39,7 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current restart summary is
-**980 source-present / 938 exact / 42 non-exact**; earlier operator notes
+**980 source-present / 939 exact / 41 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
@@ -47,14 +50,14 @@ mentioning 979/876/103 are obsolete for this checkout.
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 938 |
-| Source-present non-exact functions | 42 |
-| Source-present non-exact bytes | 49,485 |
+| Canonical exact functions | 939 |
+| Source-present non-exact functions | 41 |
+| Source-present non-exact bytes | 49,403 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 226,285 |
+| Canonical exact authored bytes | 226,367 |
 
-**226,285 / 275,770 reviewed-authored bytes = 82.0557% exact**. To reach
-95% of the *currently classified* denominator, another **35,697 bytes**
+**226,367 / 275,770 reviewed-authored bytes = 82.0854% exact**. To reach
+95% of the *currently classified* denominator, another **35,615 bytes**
 must become complete original-bound exact owners. The 35 origin-unresolved
 functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
@@ -65,14 +68,14 @@ Prioritize **large bosses as well as small leaves**. Each row refers to a
 maintained, authored, **non-exact** function in `config/functions.csv`.
 Comparisons are current-source/original PE cold baselines; lengths are logical
 unless explicitly marked physical. The ledger, not this selected table, lists
-all 42 open functions. For the complete <=256-byte cohort see
+all 41 open functions. For the complete <=256-byte cohort see
 [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md).
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes (timer register/push order); opcode 155: 23 bytes (wire-byte read and masked flags). 146/148 handler shapes; `--owner runecl`, exact PopContext sibling. |
 | **ExAttack Type19/21 init** | 0x0044A030 / 0x0044B220 | **763 / 727 physical**, 57 / 53 fields, **6 / 9** byte differences | Two instruction-order residuals around vertex increment/history setup; reject candidates changing full source/code extent. `--owner exattack` protects exact Type21 update. |
-| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **39** differing bytes | Four original-reviewed register/Float3 copy windows. `--owner enemy` also protects the 82-byte non-exact collision leaf and already-exact related helpers. |
+| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **39** differing bytes | Four register/Float3 copy windows remain; `--owner enemy` separately proves the caller and newly exact 82-byte collision leaf plus its exact 205-byte callee. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor ESI ownership/register residency. `--owner etama` protects separately exact `EtamaController::OnUpdate`. |
 | **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 calls; 10-way switch; **1,453** overlapping differences + 44 missing | First seven-VM cursor improvement committed in `7f1d56e`; remaining branch/VM scheduling. `--owner pause` independently checks 11 already-exact Ascii/ANM functions and real original table/ABI. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | First effect-spawn side snapshot improved 144→129 in `7dfa553`; `--owner movement` protects exact 522-byte `Player::OnUpdate` caller. |
@@ -95,20 +98,36 @@ all 42 open functions. For the complete <=256-byte cohort see
 | **Supervisor::OnUpdate** | 0x00431110 | **844 authored / 996 target physical**, 952 candidate physical | 92 external fields, 27 calls but 44 missing physical bytes; `--owner network`. |
 | **ECL MoveRandomBiased leaf** | 0x00407E30 | **516 / 517**, 28 fields, 14 calls, 24 blocks; 148 overlap + 1 extra | Target `LEA [EAX+4]` versus candidate `MOV EAX`/offset reads. Exact family remains protected; `--owner runecl`. |
 | **Effect AddedCallback leaf** | 0x0040D1C0 | **51/51**, 4 fields, 2 calls; **8** differences | EDI ANM pointer vs ESI owner load order; `--owner effect`. |
-| **Enemy collision-box leaf** | 0x00410250 | **82/82**, 2 calls; **31** differences | Float3 dword return-copy publication order, `--owner enemy`. |
 | **FileSystem decrypt-table leaf** | 0x0042C290 | **220/220**, 12 fields, 2 calls, 11 blocks; **38** differences | Scan counter/key-bias lifetime; `--owner crypto`, exact Decrypt/Encrypt siblings. |
 | **Supervisor received-frame leaf** | 0x0042E9E0 | **213/213**, 67 instructions, 9 blocks; **35** differences | Target packed-input/seed 16-bit store register order; `--owner network`. |
 | **Network-config parser leaf** | 0x00432240 | **243/243**, 116 instructions, one strncmp call; **76** differences | Newline-clear early-return block order; `--owner parser`. |
 
 Additional non-exact owners (e.g. Player charge/update/added state,
-replay save, title replay drawing and network updates) remain in the **42-row
+replay save, title replay drawing and network updates) remain in the **41-row
 live source-present non-exact ledger**, not in a historic handoff tally.
 Review `docs/KNOWLEDGE_BASE.md` and current source before rerunning old negative
 experiments; unsupported guesses there are not target evidence.
 
+### New exact closure: Enemy collision wrapper
+
+`EnemyAppendCollisionView::AppendPlayerCollisionBox @ 0x00410250` has a
+canonical **82/82 full-byte** exact source-cold match with both independent
+`REL32` calls (to `Float3::operator/` and `AppendBoxRecord`) and 30 decoded
+instructions/`ret 8`. A genuine shared `src/PlayerCollisionAppendBox.cpp`
+translation unit exposes the unchanged previously exact `AppendBoxRecord`
+body to the optimizer. It changes the formerly 31 differing register/copy
+bytes into the original grouped return copy, without replacing either
+algorithm. Both canonical units independently cold replay from the shared
+object: **82/82** for the new wrapper and **205/205** for the existing callee.
+The original C++ translation-unit partition and other compile-unit identities remain
+unproven; this is a codegen/visibility finding, not whole-image or runtime
+closure. A **new, committed-source Factory acceptance receipt is required**
+before describing this as Factory accepted. All 3,900 bytes of the large Enemy
+update remain NON-EXACT (39 differences); there is no partial credit.
+
 ## Closed codegen landmarks and accepted receipts
 
-The exact-function ledger is the authority for **938 already-exact functions**.
+The exact-function ledger is the authority for **939 locally canonical exact functions** (the newly promoted collision wrapper still requires a source-commit-bound Factory receipt).
 These are three representative independently accepted owners whose current
 identities are validated against the canonical match-unit manifest:
 

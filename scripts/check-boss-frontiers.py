@@ -871,27 +871,37 @@ def guard_enemy_collision(result: dict) -> dict:
             result.get('candidate_instructions') != 30 or
             result.get('ordered_call_addresses') != ['0x40f5a0', '0x40f8e0']):
         raise RuntimeError('Enemy append collision original SHA/ABI/calls changed')
+    # This owner is now canonical exact through the genuine AppendBoxRecord
+    # definition visible in its shared PlayerCollisionAppendBox translation
+    # unit. Preserve the independent non-crediting original-byte diagnostic,
+    # but never allow it to regress to the earlier 31-difference source.
+    if (result.get('ordinary_differing_bytes') != 0 or
+            result.get('complete_bytes_agree') is not True):
+        raise RuntimeError('canonical Enemy collision wrapper byte equality regressed')
     return physical_difference_windows(result, count_key='ordinary_differing_bytes',
                                     windows=ENEMY_COLLISION_WINDOWS)
 
 
 def run_enemy(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # The 3,900-byte enemy calc owner and 151-byte exact attached-effects
-    # helper share the actual EnemyManagerCore TU. The collision append leaf
-    # is a separate 82-byte owner invoked by the calc callback twice.
+    # helper share EnemyManagerCore. The independent 82-byte collision wrapper
+    # is now exact in the shared PlayerCollisionAppendBox TU: exposing the real
+    # exact AppendBoxRecord callee changes its three-word copy scheduling.
     build('enemy-attached-effect-update')
     main = parsed(['scripts/inspect-enemy-manager-update.py',
                    'build/matching/EnemyManagerCore.obj', '--json'])
     main_frontier = guard_enemy_update(main)
 
-    obj = 'build/matching/EnemyCollisionBoxAppend.obj'
-    build_nonexact('src/EnemyCollisionBoxAppend.cpp', obj,
-                   reference_unit='enemy-attached-effect-update')
-    collision = parsed(['scripts/inspect-enemy-collision-box.py', obj, '--json'],
-                       diagnostic=True)
+    # Rebuild the actual shared TU *once*; validate both its independent
+    # target-bound functions against that same fresh complete COFF object.
+    build('player-collision-append-box')
+    obj = 'build/matching/PlayerCollisionAppendBox.obj'
+    collision = parsed(['scripts/inspect-enemy-collision-box.py', obj, '--json'])
     collision_frontier = guard_enemy_collision(collision)
     exact = [canonical('enemy-attached-effect-update')] if protect_exact else []
     if protect_exact:
+        exact.append(canonical('player-collision-append-box'))
+        exact.append(canonical('enemy-collision-append-box'))
         build('enemy-manager-draw-impl')
         exact.append(canonical('enemy-manager-draw-impl'))
     return {'enemy_manager_update': {

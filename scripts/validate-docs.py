@@ -306,7 +306,7 @@ def validate_frontier() -> None:
     text = FRONTIER.read_text(encoding="utf-8")
     counts = re.search(
         r"yields \*\*(\d+) functions\*\*.*?"
-        r"of which \*\*(\d+) are at most\s+128 bytes\*\*.*?"
+        r"of which \*\*(\d+) (?:are|is) at most\s+128 bytes\*\*.*?"
         r"canonical total is \*\*(\d+) exact functions\*\*",
         text,
         re.DOTALL,

@@ -253,15 +253,10 @@ class BossFrontierChecks(TestCase):
             'target_sha256': frontiers.ENEMY_COLLISION_SHA256,
             'target_bytes': 82, 'candidate_bytes': 82,
             'bound_call_fields': 2, 'target_instructions': 30,
-            'candidate_instructions': 30, 'complete_bytes_agree': False,
+            'candidate_instructions': 30, 'complete_bytes_agree': True,
             'ordered_call_addresses': ['0x40f5a0', '0x40f8e0'],
-            'ordinary_differing_bytes': 31,
-            'difference_offsets': [hex(v) for v in (
-                0x1C, 0x1D, 0x1E, 0x20, 0x21, 0x23, 0x24,
-                0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B,
-                0x2C, 0x2D, 0x2E, 0x2F, 0x30, 0x31, 0x32,
-                0x33, 0x34, 0x35, 0x37, 0x38, 0x39, 0x3A,
-                0x3B, 0x3D, 0x3E)],
+            'ordinary_differing_bytes': 0,
+            'difference_offsets': [],
         }
         return main, leaf
 
@@ -273,12 +268,13 @@ class BossFrontierChecks(TestCase):
                 frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
             owners, exact = frontiers.run_enemy(protect_exact=True)
         self.assertEqual(owners['enemy_manager_update']['ordinary_differences'], 39)
-        self.assertEqual(owners['enemy_collision_append']['ordinary_differences'], 31)
+        self.assertEqual(owners['enemy_collision_append']['ordinary_differences'], 0)
         self.assertTrue(owners['enemy_manager_update']['switch_destinations_agree'])
         self.assertEqual([x['unit'] for x in exact],
-                         ['enemy-attached-effect-update', 'enemy-manager-draw-impl'])
-        self.assertEqual(build.call_count, 2)
-        compile_leaf.assert_called_once()
+                         ['enemy-attached-effect-update', 'player-collision-append-box',
+                          'enemy-collision-append-box', 'enemy-manager-draw-impl'])
+        self.assertEqual(build.call_count, 3)
+        compile_leaf.assert_not_called()
 
     def test_enemy_boss_input_rejects_false_original_call_identity(self):
         main, leaf = self.enemy_evidence()
@@ -318,28 +314,28 @@ class BossFrontierChecks(TestCase):
         for change in ({'target_sha256': '0' * 64},
                        {'candidate_bytes': 83}, {'bound_call_fields': 1},
                        {'candidate_instructions': 29},
-                       {'difference_offsets': leaf['difference_offsets'][:-1]},
-                       {'difference_offsets': ['0x19'] + leaf['difference_offsets'][1:]},
-                       {'difference_offsets': ['0x40'] + leaf['difference_offsets'][1:]},
-                       {'difference_offsets': ['0x1c'] * 31},
-                       {'ordinary_differing_bytes': 32},
-                       {'complete_bytes_agree': True},
+                       {'difference_offsets': ['0x1c']},
+                       {'difference_offsets': ['0x19']},
+                       {'difference_offsets': ['0x40']},
+                       {'difference_offsets': ['0x1c', '0x1c']},
+                       {'ordinary_differing_bytes': 1},
+                       {'complete_bytes_agree': False},
                        {'exactness_credit': 'accepted'}):
             with self.subTest(change=change), self.assertRaises(RuntimeError):
                 frontiers.guard_enemy_collision({**leaf, **change})
 
     def test_enemy_valid_future_improvements_still_grant_no_exact_credit(self):
         main, leaf = self.enemy_evidence()
-        for result, guard, key in (
-                (main, frontiers.guard_enemy_update, 'complete_differences'),
-                (leaf, frontiers.guard_enemy_collision, 'ordinary_differing_bytes')):
-            improved = {**result, 'difference_offsets': result['difference_offsets'][1:],
-                        key: result[key] - 1}
-            self.assertEqual(guard(improved)['differences'], result[key] - 1)
-            converged = {**result, 'difference_offsets': [], key: 0,
-                         'complete_bytes_agree': True}
-            self.assertEqual(guard(converged)['differences'], 0)
-            self.assertEqual(converged['exactness_credit'], 'none')
+        improved = {**main, 'difference_offsets': main['difference_offsets'][1:],
+                    'complete_differences': main['complete_differences'] - 1}
+        self.assertEqual(frontiers.guard_enemy_update(improved)['differences'], 38)
+        converged = {**main, 'difference_offsets': [], 'complete_differences': 0,
+                     'complete_bytes_agree': True}
+        self.assertEqual(frontiers.guard_enemy_update(converged)['differences'], 0)
+        self.assertEqual(frontiers.guard_enemy_collision(leaf)['differences'], 0)
+        # The diagnostic alone still grants no new credit; both exact
+        # functions require full canonical unit comparisons in run_enemy.
+        self.assertEqual(leaf['exactness_credit'], 'none')
 
     @staticmethod
     def type3_update_evidence():

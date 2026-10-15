@@ -12638,6 +12638,19 @@ relocations = [
   { offset = 0x88, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
 ]
 
+[units.enemy-collision-append-box]
+source = "src/PlayerCollisionAppendBox.cpp"
+object = "build/matching/PlayerCollisionAppendBox.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EnemyAppendCollisionView::AppendPlayerCollisionBox"]
+symbol = "?AppendPlayerCollisionBox@EnemyAppendCollisionView@@QAEXPBUFloat3@@0@Z"
+target_address = 0x00410250
+size = 0x52
+relocations = [
+  { offset = 0x16, type = "REL32", symbol = "??KFloat3@@QBE?AU0@M@Z", target = 0x0040F5A0 },
+  { offset = 0x47, type = "REL32", symbol = "?AppendBoxRecord@PlayerCollisionQueryStateView@@QAEXPBUPlayerPositionView@@0H@Z", target = 0x0040F8E0 },
+]
+
 [units.player-shot-collision-callback-type1]
 source = "src/PlayerShotCollisionCallbacks.cpp"
 object = "build/matching/PlayerShotCollisionCallbacks.obj"
