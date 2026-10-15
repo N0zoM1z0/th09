@@ -11,10 +11,10 @@
 
 - **Working branch / code baseline:** `th09` on `main`. Determine the source
   commit from the live `git log` and `git status --short --branch`, never from
-  a historical handoff ID. The preceding completed operator checkpoint was
-  `3115305` (large-function negative-frontier evidence), following `86f722c`
-  (Type3 original-order source repair); this checkpoint promotes the separate
-  Enemy collision wrapper by restoring authentic callee code visibility.
+  a historical handoff ID. The previous operator checkpoint `ac3742a` saved Factory accepted receipts
+  for the new exact collision leaf and existing exact append callee; this
+  checkpoint recovers additional codegen fidelity in the 3,900-byte Enemy
+  boss by exposing the genuine Float3 division body to the same compiler TU.
   **Review and finish dirty or untracked work**, never reset or sidestep it.
   New commits use **`gpt-web: ...`**; local Git commits are not remote pushes.
 - **Original target:** Japanese TH09 **v1.50a** (`resources/th09.exe`), original
@@ -23,11 +23,11 @@
   Factory's IDA provider is `th09-ida`; its attestation is not a codegen Oracle.
 - **Regression scope:** Before this Enemy collision closure, the prior
   complete `--owner all` cold sweep guarded **29 non-crediting boss/leaf
-  owners** and **65 exact sibling checks**. The new `--owner enemy` scope
-  cold-rebuilds the **3,900-byte non-exact Enemy update**, its two exact
-  same-TU helpers and the independently canonical exact **205-byte
-  `AppendBoxRecord` / 82-byte Enemy collision wrapper** from one shared
-  source object. Re-run focused Oracles for changed owners and CI; never treat
+  owners** and **65 exact sibling checks**. The current `--owner enemy` scope
+  cold-rebuilds the **3,900-byte non-exact Enemy update (29 residual bytes)**
+  with its four exact **151/56/205/82-byte helpers from one real TU**, plus
+  the separate exact 1,758-byte enemy draw unit. The previous `--owner all`
+  sweep has not been rerun on this source arrangement. Re-run focused Oracles for changed owners and CI; never treat
   old full-sweep numbers as fresh checks on a new source commit.
 - **Phase:** exact reconstruction only. Faithful Windows i386 whole-product
   build/link/resource/runtime closure is **open**; dual-Oracle semantics and
@@ -75,7 +75,7 @@ all 41 open functions. For the complete <=256-byte cohort see
 | --- | --- | --- | --- |
 | **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes (timer register/push order); opcode 155: 23 bytes (wire-byte read and masked flags). 146/148 handler shapes; `--owner runecl`, exact PopContext sibling. |
 | **ExAttack Type19/21 init** | 0x0044A030 / 0x0044B220 | **763 / 727 physical**, 57 / 53 fields, **6 / 9** byte differences | Two instruction-order residuals around vertex increment/history setup; reject candidates changing full source/code extent. `--owner exattack` protects exact Type21 update. |
-| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **39** differing bytes | Four register/Float3 copy windows remain; `--owner enemy` separately proves the caller and newly exact 82-byte collision leaf plus its exact 205-byte callee. |
+| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **29** differing bytes | Genuine `Float3::operator/` plus real `AppendBoxRecord` compiler visibility closes the entire ten-byte `+0x845..+0x850` three-dword copy window. Remaining 2/11/16 bytes stay open; `--owner enemy` cold-protects all four same-TU exact helpers. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor ESI ownership/register residency. `--owner etama` protects separately exact `EtamaController::OnUpdate`. |
 | **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 calls; 10-way switch; **1,453** overlapping differences + 44 missing | First seven-VM cursor improvement committed in `7f1d56e`; remaining branch/VM scheduling. `--owner pause` independently checks 11 already-exact Ascii/ANM functions and real original table/ABI. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | First effect-spawn side snapshot improved 144→129 in `7dfa553`; `--owner movement` protects exact 522-byte `Player::OnUpdate` caller. |
@@ -113,12 +113,14 @@ experiments; unsupported guesses there are not target evidence.
 `EnemyAppendCollisionView::AppendPlayerCollisionBox @ 0x00410250` has a
 canonical **82/82 full-byte** exact source-cold match with both independent
 `REL32` calls (to `Float3::operator/` and `AppendBoxRecord`) and 30 decoded
-instructions/`ret 8`. A genuine shared `src/PlayerCollisionAppendBox.cpp`
-translation unit exposes the unchanged previously exact `AppendBoxRecord`
-body to the optimizer. It changes the formerly 31 differing register/copy
+instructions/`ret 8`. The preceding accepted `bc93e0d` source grouped the genuine definitions
+in `src/PlayerCollisionAppendBox.cpp`; the current source further groups that
+exact pair with unchanged `Float3::operator/` in `src/EnemyManagerCore.cpp`,
+which also recovers ten additional target-bound bytes in the big Enemy caller. It changes the formerly 31 differing register/copy
 bytes into the original grouped return copy, without replacing either
-algorithm. Both canonical units independently cold replay from the shared
-object: **82/82** for the new wrapper and **205/205** for the existing callee.
+algorithm. All four exact same-TU owners cold-replay independently: **82/82** wrapper,
+**205/205** append callee, **56/56** division, and **151/151** attached-effects
+helper. The original 3,900-byte Enemy boss is still NON-EXACT (29 bytes).
 The original C++ translation-unit partition and other compile-unit identities remain
 unproven; this is a codegen/visibility finding, not whole-image or runtime
 closure. **Factory strict-live-v1 accepted** a forced-cold replay of the new

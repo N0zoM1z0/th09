@@ -11247,8 +11247,8 @@ relocations = [
 ]
 
 [units.float3-divide]
-source = "src/Float3.cpp"
-object = "build/matching/Float3.obj"
+source = "src/EnemyManagerCore.cpp"
+object = "build/matching/EnemyManagerCore.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Float3::operator/"]
 symbol = "??KFloat3@@QBE?AU0@M@Z"
@@ -12626,8 +12626,8 @@ relocations = [
 ]
 
 [units.player-collision-append-box]
-source = "src/PlayerCollisionAppendBox.cpp"
-object = "build/matching/PlayerCollisionAppendBox.obj"
+source = "src/EnemyManagerCore.cpp"
+object = "build/matching/EnemyManagerCore.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["PlayerCollisionQueryStateView::AppendBoxRecord"]
 symbol = "?AppendBoxRecord@PlayerCollisionQueryStateView@@QAEXPBUPlayerPositionView@@0H@Z"
@@ -12639,8 +12639,8 @@ relocations = [
 ]
 
 [units.enemy-collision-append-box]
-source = "src/PlayerCollisionAppendBox.cpp"
-object = "build/matching/PlayerCollisionAppendBox.obj"
+source = "src/EnemyManagerCore.cpp"
+object = "build/matching/EnemyManagerCore.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["EnemyAppendCollisionView::AppendPlayerCollisionBox"]
 symbol = "?AppendPlayerCollisionBox@EnemyAppendCollisionView@@QAEXPBUFloat3@@0@Z"

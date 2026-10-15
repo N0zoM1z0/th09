@@ -239,12 +239,11 @@ class BossFrontierChecks(TestCase):
             'candidate_direct_blocks': 170,
             'reviewed_control_flow_agrees': True,
             'switch_table_destinations_agree': True,
-            'complete_differences': 39,
+            'complete_differences': 29,
             'difference_offsets': [hex(v) for v in (
                 0x19C, 0x1A3, 0x252, 0x263, 0x26D, 0x272, 0x294,
-                0x29A, 0x29C, 0x2A5, 0x2A9, 0x2B7, 0x2BD, 0x845,
-                0x846, 0x847, 0x849, 0x84A, 0x84C, 0x84D, 0x84E,
-                0x84F, 0x850, 0x9C0, 0x9C6, 0x9DF, 0x9E2, 0x9EC,
+                0x29A, 0x29C, 0x2A5, 0x2A9, 0x2B7, 0x2BD,
+                0x9C0, 0x9C6, 0x9DF, 0x9E2, 0x9EC,
                 0x9F3, 0xA1F, 0xA23, 0xA29, 0xA2E, 0xA34, 0xA3A,
                 0xA42, 0xA45, 0xA61, 0xA7E)],
         }
@@ -267,13 +266,14 @@ class BossFrontierChecks(TestCase):
                 frontiers, 'parsed', side_effect=[main, leaf]), patch.object(
                 frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
             owners, exact = frontiers.run_enemy(protect_exact=True)
-        self.assertEqual(owners['enemy_manager_update']['ordinary_differences'], 39)
+        self.assertEqual(owners['enemy_manager_update']['ordinary_differences'], 29)
         self.assertEqual(owners['enemy_collision_append']['ordinary_differences'], 0)
         self.assertTrue(owners['enemy_manager_update']['switch_destinations_agree'])
         self.assertEqual([x['unit'] for x in exact],
-                         ['enemy-attached-effect-update', 'player-collision-append-box',
-                          'enemy-collision-append-box', 'enemy-manager-draw-impl'])
-        self.assertEqual(build.call_count, 3)
+                         ['enemy-attached-effect-update', 'float3-divide',
+                          'player-collision-append-box', 'enemy-collision-append-box',
+                          'enemy-manager-draw-impl'])
+        self.assertEqual(build.call_count, 2)
         compile_leaf.assert_not_called()
 
     def test_enemy_boss_input_rejects_false_original_call_identity(self):
@@ -328,13 +328,13 @@ class BossFrontierChecks(TestCase):
         main, leaf = self.enemy_evidence()
         improved = {**main, 'difference_offsets': main['difference_offsets'][1:],
                     'complete_differences': main['complete_differences'] - 1}
-        self.assertEqual(frontiers.guard_enemy_update(improved)['differences'], 38)
+        self.assertEqual(frontiers.guard_enemy_update(improved)['differences'], 28)
         converged = {**main, 'difference_offsets': [], 'complete_differences': 0,
                      'complete_bytes_agree': True}
         self.assertEqual(frontiers.guard_enemy_update(converged)['differences'], 0)
         self.assertEqual(frontiers.guard_enemy_collision(leaf)['differences'], 0)
-        # The diagnostic alone still grants no new credit; both exact
-        # functions require full canonical unit comparisons in run_enemy.
+        # A noncrediting diagnostic alone never grants new exact credit; the
+        # four owned exact functions require canonical comparison in run_enemy.
         self.assertEqual(leaf['exactness_credit'], 'none')
 
     @staticmethod

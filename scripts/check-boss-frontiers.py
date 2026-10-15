@@ -810,7 +810,7 @@ def run_game_manager(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 ENEMY_UPDATE_SHA256 = 'a7f01c2ff0bda79d1fd17ac9170dc3560d4089457455d7928776df8556f1bc75'
 ENEMY_COLLISION_SHA256 = 'e2be799860dde7b752f525cb13f4135c4666917745006a511e734e10cd2ff9c0'
 ENEMY_UPDATE_WINDOWS = ((0x19A, 0x1A8, 2), (0x251, 0x2C1, 11),
-                        (0x843, 0x854, 10), (0x9BC, 0xA83, 16))
+                        (0x843, 0x854, 0), (0x9BC, 0xA83, 16))
 ENEMY_COLLISION_WINDOWS = ((0x1A, 0x40, 31),)
 
 
@@ -871,9 +871,8 @@ def guard_enemy_collision(result: dict) -> dict:
             result.get('candidate_instructions') != 30 or
             result.get('ordered_call_addresses') != ['0x40f5a0', '0x40f8e0']):
         raise RuntimeError('Enemy append collision original SHA/ABI/calls changed')
-    # This owner is now canonical exact through the genuine AppendBoxRecord
-    # definition visible in its shared PlayerCollisionAppendBox translation
-    # unit. Preserve the independent non-crediting original-byte diagnostic,
+    # This owner is canonical exact through the genuine AppendBoxRecord
+    # definition visible in the shared EnemyManagerCore translation unit. Preserve the independent non-crediting original-byte diagnostic,
     # but never allow it to regress to the earlier 31-difference source.
     if (result.get('ordinary_differing_bytes') != 0 or
             result.get('complete_bytes_agree') is not True):
@@ -883,25 +882,27 @@ def guard_enemy_collision(result: dict) -> dict:
 
 
 def run_enemy(*, protect_exact: bool) -> tuple[dict, list[dict]]:
-    # The 3,900-byte enemy calc owner and 151-byte exact attached-effects
-    # helper share EnemyManagerCore. The independent 82-byte collision wrapper
-    # is now exact in the shared PlayerCollisionAppendBox TU: exposing the real
-    # exact AppendBoxRecord callee changes its three-word copy scheduling.
+    # One source-cold EnemyManagerCore TU now owns the nonexact 3,900-byte
+    # calc boss, exact 151-byte effects leaf, original-exact 56-byte Float3
+    # division, and both exact 205/82-byte collision helpers. The real
+    # Float3 divider + AppendBoxRecord bodies eliminate ten genuine target
+    # mismatches inside the caller; canonical replays protect all four leaves.
     build('enemy-attached-effect-update')
     main = parsed(['scripts/inspect-enemy-manager-update.py',
                    'build/matching/EnemyManagerCore.obj', '--json'])
     main_frontier = guard_enemy_update(main)
 
-    # Rebuild the actual shared TU *once*; validate both its independent
-    # target-bound functions against that same fresh complete COFF object.
-    build('player-collision-append-box')
-    obj = 'build/matching/PlayerCollisionAppendBox.obj'
+    # Use the same freshly compiled EnemyManagerCore.obj for every source-
+    # commit-relevant codegen check; a historical PlayerCollisionAppendBox
+    # object is no longer an independent source of authority.
+    obj = 'build/matching/EnemyManagerCore.obj'
     collision = parsed(['scripts/inspect-enemy-collision-box.py', obj, '--json'])
     collision_frontier = guard_enemy_collision(collision)
     exact = [canonical('enemy-attached-effect-update')] if protect_exact else []
     if protect_exact:
-        exact.append(canonical('player-collision-append-box'))
-        exact.append(canonical('enemy-collision-append-box'))
+        exact.extend((canonical('float3-divide'),
+                      canonical('player-collision-append-box'),
+                      canonical('enemy-collision-append-box')))
         build('enemy-manager-draw-impl')
         exact.append(canonical('enemy-manager-draw-impl'))
     return {'enemy_manager_update': {

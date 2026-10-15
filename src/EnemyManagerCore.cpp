@@ -1,12 +1,68 @@
 #include "AsciiManager.hpp"
 #include "EnemyManager.hpp"
 #include "EnemyAppendCollisionView.hpp"
+#include "PlayerLifecycleView.hpp"
 #include "Supervisor.hpp"
 #include "ZunMemory.hpp"
 
 #include <math.h>
 #include <stddef.h>
 #include <string.h>
+
+// These three target-exact helpers share this translation unit with
+// EnemyManager::OnUpdate. The real callee bodies alter VC7.1 copy scheduling
+// in the 3,900-byte caller; original C++ TU partition is not proven.
+Float3 Float3::operator/(float scalar) const
+{
+    float inverse = 1.0f / scalar;
+    return Float3(this->x * inverse, this->y * inverse, this->z * inverse);
+}
+
+void PlayerCollisionQueryStateView::AppendBoxRecord(
+    const PlayerPositionView *position,
+    const PlayerPositionView *size,
+    int unknown)
+{
+    if (count1804 >= 128)
+        return;
+
+    records[count1804].position00 = *position;
+    records[count1804].halfSize18 = *size;
+    records[count1804].halfSize18.x *= 0.5f;
+    records[count1804].halfSize18.y *= 0.5f;
+    records[count1804].radius24 = 0.0f;
+    records[count1804].angle28 = 0.0f;
+    records[count1804].unknown2C = unknown;
+    ++count1804;
+}
+
+struct EnemyCollisionPlayerView
+{
+    unsigned char unknown000[0x36C];
+    PlayerCollisionQueryStateView collisionQuery36C;
+};
+
+struct EnemyCollisionSideView
+{
+    unsigned char unknown00[0x04];
+    EnemyCollisionPlayerView *player04;
+};
+
+
+void EnemyAppendCollisionView::AppendPlayerCollisionBox(
+    const Float3 *position,
+    const Float3 *size)
+{
+    Float3 scaledSize;
+    scaledSize = *size / 1.5f;
+
+    reinterpret_cast<EnemyCollisionSideView *>(
+        manager00->sideState320)->player04->collisionQuery36C
+        .AppendBoxRecord(
+            reinterpret_cast<const PlayerPositionView *>(position),
+            reinterpret_cast<const PlayerPositionView *>(&scaledSize),
+            0);
+}
 
 // Maintained non-exact reconstruction of the EnemyManager calc callback at
 // 0x410730.  The private views below expose only target-observed offsets.  The
