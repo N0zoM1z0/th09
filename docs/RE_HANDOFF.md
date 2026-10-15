@@ -131,7 +131,7 @@ regression receipt from the **same** committed source:
 `receipt:7badaa8a8ade77bd6e3824141fcbc1e15cef9a64cf15a8d5765ee4b9b463c9bd`.
 These are **one new exact function plus one already-exact regression**, not two
 new functions. All 3,900 bytes of the large Enemy update remain NON-EXACT
-(39 differences); there is no partial credit.
+(29 differences); there is no partial credit.
 
 ## Closed codegen landmarks and accepted receipts
 

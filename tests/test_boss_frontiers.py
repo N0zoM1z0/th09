@@ -306,6 +306,7 @@ class BossFrontierChecks(TestCase):
                        {'difference_offsets': ['garbage'] + main['difference_offsets'][1:]},
                        {'difference_offsets': ['0x19C', '0x1B0'] + main['difference_offsets'][2:]},
                        {'difference_offsets': ['0x19C', '0x19D', '0x1A3'] + main['difference_offsets'][2:-1]},
+                       {'difference_offsets': sorted(main['difference_offsets'][1:-1] + ['0x845'], key=lambda x: int(x, 16))},
                        {'complete_bytes_agree': True},
                        {'complete_differences': 0},
                        {'exactness_credit': 'accepted'}):
