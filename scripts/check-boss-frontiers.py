@@ -293,6 +293,60 @@ def validate_exattack_trail_initializer(callback_type: str, result: dict) -> Non
                            ' initializer full-owner 57/53-field/6/9-byte frontier regressed')
 
 
+PLAYER_MOVEMENT_TARGET_SHA = '64ea64884e978540c718d1691a4ae1b9866aaa8ec2296bafb158c4d8b1c628ca'
+
+
+def guard_player_movement(result: dict) -> dict:
+    """Check the complete 1,900-byte Player boss, not an aligned excerpt.
+
+    This non-crediting bound preserves all original relocation/table identities
+    and the source's verified 144 -> 129 byte improvement. Source-cold work
+    may narrow the residual further, but similarity does not confer exactness.
+    """
+    noncrediting(result, name='Player movement boss', target_size=1835,
+                 fields=66, size_key='target_code_bytes', fields_key='relocations')
+    changed = result.get('difference_offsets')
+    count = result.get('full_difference_count')
+    if (result.get('target_extent_sha256') != PLAYER_MOVEMENT_TARGET_SHA or
+            result.get('target_physical_bytes') != 1900 or
+            result.get('candidate_code_bytes') != 1835 or
+            result.get('candidate_physical_bytes') != 1900 or
+            result.get('candidate_post_return_alignment_bytes') != 1 or
+            result.get('candidate_table_bytes') != 64 or
+            result.get('target_instructions') != 489 or
+            result.get('candidate_instructions') != 489 or
+            result.get('internal_relocations') != 18 or
+            result.get('direct_calls') != 23 or
+            result.get('direct_call_order_agrees') is not True or
+            result.get('candidate_operand_fields_cover_actual_records') is not True or
+            result.get('field_identity_occurrences_agree') is not True or
+            not isinstance(result.get('normalized_aligned_instructions'), int) or
+            result['normalized_aligned_instructions'] < 433 or
+            type(count) is not int or not 0 <= count <= 129 or
+            not isinstance(changed, list) or len(changed) != count or
+            any(type(x) is not int or not 0 <= x < 1900 for x in changed) or
+            changed != sorted(set(changed)) or
+            result.get('missing_target_bytes') != 0 or
+            result.get('extra_candidate_bytes') != 0 or
+            result.get('full_byte_agreement') is not (count == 0)):
+        raise RuntimeError('Player movement complete physical owner, 66 fields or 129-byte frontier regressed')
+    return {'target_bytes': 1900, 'candidate_bytes': 1900,
+            'ordinary_differences': count, 'fields': 66,
+            'calls': 23, 'aligned_instructions': result['normalized_aligned_instructions']}
+
+
+def run_player_movement(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    obj = 'build/matching/PlayerMovement.obj'
+    build_nonexact('src/PlayerMovement.cpp', obj, reference_unit='player-on-update')
+    report = parsed(['scripts/inspect-player-movement.py', obj])
+    owner = guard_player_movement(report)
+    exact = []
+    if protect_exact:
+        build('player-on-update')
+        exact.append(canonical('player-on-update'))
+    return {'player_movement': owner}, exact
+
+
 def run_player_collision(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     """Cold replay exact 602-byte Player collision query and true helper owners.
 
@@ -1161,7 +1215,7 @@ def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'player', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'player', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -1210,6 +1264,10 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('replay', 'all'):
             owners, exact = run_replay_playback(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('movement', 'all'):
+            owners, exact = run_player_movement(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('player', 'all'):

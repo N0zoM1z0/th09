@@ -102,6 +102,83 @@ class BossFrontierChecks(TestCase):
                 frontiers.run_front_random(protect_exact=False)
 
     @staticmethod
+    def player_movement_evidence():
+        # Pure target-independent shape, not a fabricated exactness receipt.
+        return {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_code_bytes': 1835, 'target_physical_bytes': 1900,
+            'candidate_code_bytes': 1835, 'candidate_physical_bytes': 1900,
+            'candidate_post_return_alignment_bytes': 1,
+            'candidate_table_bytes': 64, 'target_instructions': 489,
+            'candidate_instructions': 489, 'relocations': 66,
+            'internal_relocations': 18, 'direct_calls': 23,
+            'direct_call_order_agrees': True,
+            'candidate_operand_fields_cover_actual_records': True,
+            'field_identity_occurrences_agree': True,
+            'normalized_aligned_instructions': 433,
+            'target_extent_sha256': frontiers.PLAYER_MOVEMENT_TARGET_SHA,
+            'full_difference_count': 129, 'difference_offsets': list(range(129)),
+            'missing_target_bytes': 0, 'extra_candidate_bytes': 0,
+            'full_byte_agreement': False,
+        }
+
+    def test_player_movement_cold_full_owner_and_exact_caller(self):
+        evidence = self.player_movement_evidence()
+        with patch.object(frontiers, 'build_nonexact') as compile_source, patch.object(
+                frontiers, 'parsed', return_value=evidence) as inspect, patch.object(
+                frontiers, 'build') as build, patch.object(
+                frontiers, 'canonical', return_value={'unit': 'player-on-update', 'result': 'exact'}):
+            owners, exact = frontiers.run_player_movement(protect_exact=True)
+        compile_source.assert_called_once_with('src/PlayerMovement.cpp',
+                                                'build/matching/PlayerMovement.obj',
+                                                reference_unit='player-on-update')
+        inspect.assert_called_once_with(['scripts/inspect-player-movement.py',
+                                         'build/matching/PlayerMovement.obj'])
+        build.assert_called_once_with('player-on-update')
+        self.assertEqual(owners['player_movement']['ordinary_differences'], 129)
+        self.assertEqual(owners['player_movement']['aligned_instructions'], 433)
+        self.assertEqual(exact[0]['unit'], 'player-on-update')
+
+    def test_player_movement_original_extent_fields_and_differences_fail_closed(self):
+        evidence = self.player_movement_evidence()
+        corruptions = (
+            {'diagnostic_only': False}, {'exactness_credit': 'accepted'},
+            {'target_extent_sha256': '0'*64}, {'target_code_bytes': 1834},
+            {'target_physical_bytes': 1899}, {'candidate_code_bytes': 1834},
+            {'candidate_physical_bytes': 1901},
+            {'candidate_post_return_alignment_bytes': 2},
+            {'candidate_table_bytes': 63}, {'target_instructions': 488},
+            {'candidate_instructions': 490}, {'relocations': 65},
+            {'internal_relocations': 17}, {'direct_calls': 22},
+            {'direct_call_order_agrees': False},
+            {'candidate_operand_fields_cover_actual_records': False},
+            {'field_identity_occurrences_agree': False},
+            {'normalized_aligned_instructions': 432},
+            {'full_difference_count': 130}, {'full_difference_count': 128},
+            {'difference_offsets': list(range(130))},
+            {'difference_offsets': [1]*129},
+            {'difference_offsets': list(reversed(range(129)))},
+            {'difference_offsets': list(range(128)) + [1900]},
+            {'difference_offsets': ['0'] + list(range(1,129))},
+            {'missing_target_bytes': 1}, {'extra_candidate_bytes': 1},
+            {'full_byte_agreement': True},
+        )
+        for bad in corruptions:
+            with self.subTest(bad=bad), self.assertRaises(RuntimeError):
+                frontiers.guard_player_movement({**evidence, **bad})
+
+    def test_player_movement_future_convergence_is_still_noncrediting(self):
+        evidence = self.player_movement_evidence()
+        smaller = {**evidence, 'difference_offsets': list(range(128)),
+                   'full_difference_count': 128}
+        self.assertEqual(frontiers.guard_player_movement(smaller)['ordinary_differences'], 128)
+        converged = {**evidence, 'difference_offsets': [],
+                     'full_difference_count': 0, 'full_byte_agreement': True,
+                     'normalized_aligned_instructions': 489}
+        self.assertEqual(frontiers.guard_player_movement(converged)['ordinary_differences'], 0)
+        self.assertEqual(converged['exactness_credit'], 'none')
+
+    @staticmethod
     def player_boss_evidence():
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',
