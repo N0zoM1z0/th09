@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from collections import Counter
 import re
 from pathlib import Path
 import subprocess
@@ -1213,9 +1214,104 @@ def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     return {}, exact_units
 
 
+PAUSE_SHA256 = 'a4cee1fd2b347628d97a2786ccc238b87e21489ab440c9d0b2f0e27d41f7f9b7'
+PAUSE_TARGET_TABLE = (
+    '0x43481b', '0x434881', '0x43499a', '0x434acc',
+    '0x434b54', '0x434c58', '0x434b54', '0x434c58',
+    '0x434d74', '0x434d9a',
+)
+PAUSE_CALL_CENSUS = {
+    '0x40e2d0': 14, '0x43e2f0': 12, '0x4010b0': 8,
+    '0x434370': 2, '0x415d20': 2, '0x436f30': 2,
+    '0x403e00': 1, '0x436ac0': 1, '0x434380': 1,
+    '0x423498': 1, '0x4343b0': 1, '0x42fd30': 1,
+}
+PAUSE_EXACT_SIBLINGS = (
+    'anm-vm-is-visible', 'anm-vm-set-invisible',
+    'ascii-menu-state4-update', 'ascii-menu-state5-draw',
+    'ascii-menu-state4-draw', 'ascii-manager-draw-low-prio',
+    'ascii-manager-draw-high-prio', 'ascii-manager-register-startup',
+    'ascii-manager-draw-high-prio-impl', 'ascii-game-manager-has-flag-bit0',
+    'ascii-manager-on-update',
+)
+
+
+def guard_pause_menu(result: dict) -> dict:
+    """Noncrediting cold audit of code, alignment and 10-table physical owner."""
+    target, source = result.get('target'), result.get('candidate')
+    if (result.get('diagnostic_only') is not True or
+            result.get('exactness_credit') != 'none' or
+            result.get('target_owner_sha256') != PAUSE_SHA256 or
+            not isinstance(target, dict) or not isinstance(source, dict)):
+        raise RuntimeError('PauseMenu original physical identity absent')
+    calls = target.get('ordered_direct_calls')
+    physical, missing = result.get('physical_bytes'), result.get('missing_bytes')
+    diffs = result.get('overlap_differences')
+    table = source.get('table_destinations')
+    if (target.get('code_bytes') != 1734 or
+            target.get('alignment_hex') != '8bff' or
+            target.get('table_offset') != 1736 or
+            target.get('instructions') != 449 or
+            len(target.get('fields', [])) != 106 or
+            Counter(x[1] for x in target['fields']) != {'DIR32': 60, 'REL32': 46} or
+            target.get('table_destinations') != list(PAUSE_TARGET_TABLE) or
+            len(target.get('internal_branches', [])) != 52 or
+            type(physical) is not int or not 1732 <= physical <= 1776 or
+            source.get('table_offset') != physical - 40 or
+            not 1692 <= source.get('code_bytes', 0) <= 1734 or
+            source.get('alignment_hex') not in ('', '8bff', '90', '9090') or
+            source.get('table_offset') != source.get('code_bytes', -1) +
+                len(bytes.fromhex(source.get('alignment_hex', ''))) or
+            not 449 <= source.get('instructions', 0) <= 453 or
+            not 106 <= len(result.get('fields', [])) <= 107 or
+            len(source.get('fields', [])) != len(result.get('fields', [])) or
+            not isinstance(table, list) or len(table) != 10 or
+            table[4] != table[6] or table[5] != table[7] or
+            len(set(table)) != 8 or
+            not isinstance(calls, list) or Counter(calls) != PAUSE_CALL_CENSUS or
+            Counter(source.get('ordered_direct_calls', [])) != PAUSE_CALL_CENSUS or
+            not 52 <= len(source.get('internal_branches', [])) <= 54 or
+            type(diffs) is not int or not 0 <= diffs <= 1492 or
+            type(missing) is not int or missing != 1776 - physical or
+            result.get('excess_bytes') != 0 or
+            result.get('complete_equal') is not (diffs == 0 and missing == 0)):
+        raise RuntimeError('PauseMenu source code/table/field/call frontier regressed')
+    # Unlike an aggregate similarity score, every linked physical byte
+    # residual must refer to a distinct location in the compared owner.
+    residual = result.get('differences')
+    if not isinstance(residual, list) or len(residual) != diffs:
+        raise RuntimeError('PauseMenu physical differences incomplete')
+    previous = -1
+    for entry in residual:
+        if not isinstance(entry, dict):
+            raise RuntimeError('PauseMenu malformed byte evidence')
+        offset, actual, expected = (entry.get('offset'), entry.get('candidate'),
+                                    entry.get('target'))
+        if (type(offset) is not int or not previous < offset < physical or
+                type(actual) is not int or type(expected) is not int or
+                not 0 <= actual <= 255 or not 0 <= expected <= 255 or
+                actual == expected):
+            raise RuntimeError('PauseMenu duplicated, foreign or equal byte record')
+        previous = offset
+    return {'target_bytes': 1776, 'candidate_bytes': physical,
+            'candidate_code_bytes': source['code_bytes'],
+            'bound_fields': len(result['fields']), 'calls': len(calls),
+            'switch_entries': 10, 'overlap_differences': diffs,
+            'missing_target_bytes': missing}
+
+
+def run_pause(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    obj = 'build/matching/AsciiManagerMenu.obj'
+    build_nonexact('src/AsciiManagerMenu.cpp', obj,
+                   reference_unit='ascii-manager-on-update')
+    report = parsed(['scripts/inspect-pause-menu.py', '--json', obj])
+    exact = [canonical(u) for u in PAUSE_EXACT_SIBLINGS] if protect_exact else []
+    return {'pause_menu_update': guard_pause_menu(report)}, exact
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'player', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'player', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -1224,6 +1320,10 @@ def main() -> int:
               'owners': {}, 'canonical_siblings': []}
     try:
         execute(['scripts/verify-target.py'])
+        if args.owner in ('pause', 'all'):
+            owners, exact = run_pause(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
         if args.owner in ('runecl', 'exattack', 'all'):
             owners, exact = run_ecl(include_interpreter=args.owner in ('runecl', 'all'),
                                     include_trail=args.owner in ('exattack', 'all'),

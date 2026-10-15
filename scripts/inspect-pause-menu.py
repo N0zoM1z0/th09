@@ -16,6 +16,7 @@ import struct
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE, CODE_SIZE, PHYSICAL_SIZE = 0x434740, 1734, 1776
+TARGET_SHA256 = "a4cee1fd2b347628d97a2786ccc238b87e21489ab440c9d0b2f0e27d41f7f9b7"
 SYMBOL = '?OnUpdate@PauseMenu@@QAEHXZ'
 DESTINATIONS = {
     '??0Float3@@QAE@MMM@Z': 0x4010B0,
@@ -50,6 +51,8 @@ def report(object_path):
     coff = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(coff)
     target = coff.pe_bytes_at(coff.verified_target(), BASE, PHYSICAL_SIZE)
+    if hashlib.sha256(target).hexdigest() != TARGET_SHA256:
+        raise ValueError("original TH09 PauseMenu 1776-byte physical SHA256 changed")
     raw, rows = coff.object_function(
         object_path, SYMBOL, include_symbol_locations=True)
     linked = bytearray(raw)
@@ -159,6 +162,7 @@ def report(object_path):
     ]
     return {
         'diagnostic_only': True, 'exactness_credit': 'none',
+        'target_owner_sha256': TARGET_SHA256,
         'provenance': 'Supplied-object diagnostic; source/profile not attested.',
         'object': str(object_path), 'candidate': candidate, 'target': original,
         'raw_sha256': hashlib.sha256(raw).hexdigest(),
@@ -176,10 +180,14 @@ def main():
     parser.add_argument('object', nargs='?', type=Path,
                         default=ROOT / 'build/matching/AsciiManagerMenu.obj')
     parser.add_argument('--output', type=Path)
+    parser.add_argument('--json', action='store_true', help='emit complete noncrediting JSON')
     args = parser.parse_args()
     result = report(args.object)
     if args.output:
         args.output.write_text(json.dumps(result, indent=2) + '\n')
+    if args.json:
+        print(json.dumps(result))
+        return
     print('PauseMenu diagnostic:', result['physical_bytes'], 'physical bytes,',
           len(result['fields']), 'fields,', result['overlap_differences'],
           'overlap differences,', result['missing_bytes'], 'missing,',
