@@ -353,19 +353,21 @@ class BossFrontierChecks(TestCase):
             'target_blocks': 17, 'candidate_blocks': 17,
             'direct_graphs_agree': True,
             'original_z_order': dict(frontiers.TYPE3_MIDDLE_Z_ORIGINAL),
-            'candidate_z_order': {'middle_y_call_offset': '0x195',
-                                  'middle_z_store_offset': '0x18e',
-                                  'tail_x_load_offset': '0x19d',
-                                  'classification': 'zero-before-middle-y-call'},
-            'ordinary_differences': 14,
-            'difference_offsets': [hex(i) for i in range(0x18e, 0x19d)
-                                   if i != 0x195],
+            'candidate_z_order': {'middle_y_call_offset': '0x18e',
+                                  'middle_z_store_offset': '0x1a2',
+                                  'tail_x_load_offset': '0x196',
+                                  'classification': 'zero-after-tail-x-load'},
+            'ordinary_differences': 15,
+            'difference_offsets': [hex(i) for i in
+                                   (0x196, 0x197, 0x198, 0x199, 0x19c,
+                                    0x19d, 0x19e, 0x19f, 0x1a0, 0x1a2,
+                                    0x1a3, 0x1a4, 0x1a5, 0x1a6, 0x1a7)],
             'complete_bytes_equal': False,
         }
 
     def test_type3_original_z_timing_and_complete_byte_frontier(self):
         baseline = self.type3_update_evidence()
-        self.assertEqual(frontiers.guard_exattack_type3_update(baseline)['differences'], 14)
+        self.assertEqual(frontiers.guard_exattack_type3_update(baseline)['differences'], 15)
         for key, value in (
                 ('target_sha256', '0' * 64), ('candidate_bytes', 781),
                 ('candidate_instructions', 239), ('target_fields', 37),
@@ -373,31 +375,48 @@ class BossFrontierChecks(TestCase):
                 ('target_blocks', 16), ('candidate_blocks', 16),
                 ('direct_graphs_agree', False),
                 ('original_z_order', {'classification': 'matches-original-chronology'}),
-                ('difference_offsets', baseline['difference_offsets'][:-1] + ['0x19d']),
+                ('difference_offsets', baseline['difference_offsets'][:-1] + ['0x1a8']),
                 ('difference_offsets', baseline['difference_offsets'][:-1]),
-                ('difference_offsets', ['0x18e'] * 14),
+                ('difference_offsets', ['0x196'] * 15),
                 ('difference_offsets', ['bad'] + baseline['difference_offsets'][1:]),
                 ('difference_offsets', list(reversed(baseline['difference_offsets']))),
-                ('difference_offsets', baseline['difference_offsets'] + ['0x1a0']),
-                ('ordinary_differences', 13), ('complete_bytes_equal', True),
+                ('difference_offsets', baseline['difference_offsets'] + ['0x1a8']),
+                ('ordinary_differences', 14), ('complete_bytes_equal', True),
                 ('exactness_credit', 'accepted')):
             with self.subTest(key=key, value=value), self.assertRaises(RuntimeError):
                 frontiers.guard_exattack_type3_update({**baseline, key: value})
-        for bad_class in ('zero-after-tail-x-load', 'unreviewed-order'):
+        for bad_class in ('zero-before-middle-y-call', 'unreviewed-order'):
             with self.subTest(bad_class=bad_class), self.assertRaises(RuntimeError):
                 frontiers.guard_exattack_type3_update({**baseline,
                     'candidate_z_order': {**baseline['candidate_z_order'],
                                           'classification': bad_class}})
+        old_early = {'middle_y_call_offset': '0x195',
+                     'middle_z_store_offset': '0x18e',
+                     'tail_x_load_offset': '0x19d',
+                     'classification': 'zero-before-middle-y-call'}
+        with self.assertRaises(RuntimeError):
+            frontiers.guard_exattack_type3_update({**baseline,
+                'candidate_z_order': old_early})
+        for field, replacement in (
+                ('middle_y_call_offset', '0x18f'),
+                ('middle_z_store_offset', '0x190'),
+                ('tail_x_load_offset', '0x1a9'),
+                ('middle_z_store_offset', 'invalid')):
+            with self.subTest(field=field, replacement=replacement), \
+                 self.assertRaises(RuntimeError):
+                frontiers.guard_exattack_type3_update({**baseline,
+                    'candidate_z_order': {**baseline['candidate_z_order'],
+                                          field: replacement}})
+
 
     def test_type3_valid_narrowing_never_credits_exact(self):
         baseline = self.type3_update_evidence()
-        narrow = {**baseline, 'ordinary_differences': 13,
+        narrow = {**baseline, 'ordinary_differences': 14,
                   'difference_offsets': baseline['difference_offsets'][:-1]}
-        self.assertEqual(frontiers.guard_exattack_type3_update(narrow)['differences'], 13)
+        self.assertEqual(frontiers.guard_exattack_type3_update(narrow)['differences'], 14)
         converged = {**baseline, 'ordinary_differences': 0,
                      'difference_offsets': [], 'complete_bytes_equal': True,
-                     'candidate_z_order': {**baseline['candidate_z_order'],
-                        'classification': 'matches-original-chronology'}}
+                     'candidate_z_order': dict(frontiers.TYPE3_MIDDLE_Z_ORIGINAL)}
         self.assertEqual(frontiers.guard_exattack_type3_update(converged)['differences'], 0)
         self.assertEqual(converged['exactness_credit'], 'none')
         with self.assertRaises(RuntimeError):
@@ -417,7 +436,7 @@ class BossFrontierChecks(TestCase):
         read.assert_called_once_with(['scripts/inspect-exattack-type3-schedule.py',
                                       'build/matching/ExAttackUpdateType3.obj'])
         build.assert_called_once_with('ex-attack-initialize-type3')
-        self.assertEqual(owners['exattack_type3_update']['ordinary_differences'], 14)
+        self.assertEqual(owners['exattack_type3_update']['ordinary_differences'], 15)
         self.assertEqual([x['unit'] for x in exact], ['exact'])
 
     @staticmethod

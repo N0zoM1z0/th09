@@ -985,11 +985,49 @@ TYPE3_MIDDLE_Z_ORIGINAL = {
 }
 
 
+def classify_type3_z_chronology(order: dict) -> str:
+    """Recheck actual instruction offsets; a claimed label is not evidence.
+
+    The full source-cold inspector computes these offsets from decoded real
+    instructions. Recompute here so manufactured or stale diagnostic JSON
+    cannot pass the standalone frontier guard by changing only its label.
+    """
+    names = ('middle_y_call_offset', 'middle_z_store_offset',
+             'tail_x_load_offset')
+    if (not isinstance(order, dict) or set(order) != set(names) | {'classification'}
+            or not all(isinstance(order[name], str) and
+                       re.fullmatch(r'0x[0-9a-f]+', order[name]) for name in names)):
+        raise RuntimeError('Type3 Y-call / middle-Z / tail-X offset evidence malformed')
+    y, z, tail = (int(order[name], 16) for name in names)
+    if (len({y, z, tail}) != 3 or
+            not all(0 <= offset < 780 for offset in (y, z, tail))):
+        raise RuntimeError('Type3 middle-Z chronology has duplicate/out-of-owner offsets')
+    if y < z < tail:
+        observed = 'matches-original-chronology'
+    elif z < y < tail:
+        observed = 'zero-before-middle-y-call'
+    elif y < tail < z:
+        observed = 'zero-after-tail-x-load'
+    else:
+        observed = 'unreviewed-order'
+    if order.get('classification') != observed:
+        raise RuntimeError('Type3 claimed middle-Z classification disagrees with offsets')
+    return observed
+
+
 def guard_exattack_type3_update(result: dict) -> dict:
-    """Protect all 780 bytes, not a cosmetically closer out-of-order store."""
+    """Protect all 780 bytes and the target's post-Y/pre-tail-X Z store.
+
+    Current natural source expresses the original Y-then-Z statement order,
+    but pinned VC7.1 hoists the *tail X load* before the Z store. The remaining
+    15 bytes are non-exact. Do not accept the superficially closer old variant
+    that puts the zero *before the real middle-Y call*.
+    """
     noncrediting(result, name='ExAttack Type3 update', target_size=780, fields=38)
     original = result.get('original_z_order')
     candidate = result.get('candidate_z_order')
+    target_class = classify_type3_z_chronology(original)
+    candidate_class = classify_type3_z_chronology(candidate)
     if (result.get('target_sha256') != TYPE3_UPDATE_SHA256 or
             result.get('candidate_bytes') != 780 or
             result.get('target_instructions') != 240 or
@@ -1001,15 +1039,15 @@ def guard_exattack_type3_update(result: dict) -> dict:
             result.get('candidate_blocks') != 17 or
             result.get('direct_graphs_agree') is not True or
             original != TYPE3_MIDDLE_Z_ORIGINAL or
-            not isinstance(candidate, dict) or
-            candidate.get('classification') not in (
-                'matches-original-chronology', 'zero-before-middle-y-call') or
-            candidate.get('tail_x_load_offset') != '0x19d' or
+            target_class != 'matches-original-chronology' or
+            candidate['middle_y_call_offset'] != '0x18e' or
+            candidate_class not in ('zero-after-tail-x-load',
+                                    'matches-original-chronology') or
             (result.get('complete_bytes_equal') is True and
-             candidate.get('classification') != 'matches-original-chronology')):
-        raise RuntimeError('ExAttack Type3 complete original, call graph or middle-Z chronology changed')
+             candidate_class != 'matches-original-chronology')):
+        raise RuntimeError('ExAttack Type3 original identity, full graph or Z chronology changed')
     return physical_difference_windows(
-        result, count_key='ordinary_differences', windows=((0x18E, 0x19D, 14),),
+        result, count_key='ordinary_differences', windows=((0x196, 0x1A8, 15),),
         equality_key='complete_bytes_equal')
 
 
