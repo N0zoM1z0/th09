@@ -2670,8 +2670,11 @@ int TitleScreenView::OnUpdateResult()
                     keyboardSelection -= 16;
             }
 
-            char character = g_TitleResultCharacterOrder[keyboardSelection];
-            SetCharacterCursorInactive(character, 60, 16, 2);
+            // Use the stable character-table slot for the cursor argument
+            // and retain its pre-call value for the selected result bank.
+            char *characterSlot = &g_TitleResultCharacterOrder[keyboardSelection];
+            char character = *characterSlot;
+            SetCharacterCursorInactive(*characterSlot, 60, 16, 2);
             nameBankIndex = character;
         }
 

@@ -120,13 +120,13 @@ class OptionsBossFrontierWiring(unittest.TestCase):
     def result_evidence():
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',
-            'target_bytes': 485, 'candidate_bytes': 483,
-            'target_instructions': 147, 'candidate_instructions': 146,
+            'target_bytes': 485, 'candidate_bytes': 484,
+            'target_instructions': 147, 'candidate_instructions': 147,
             'original_fields': 34, 'bound_fields': 34,
             'ordered_calls': 9, 'calls_agree': True,
             'original_blocks': 40, 'candidate_blocks': 40,
             'direct_graphs_agree': True,
-            'overlap_differences': 224, 'missing_target_bytes': 2,
+            'overlap_differences': 218, 'missing_target_bytes': 1,
             'extra_candidate_bytes': 0, 'complete_bytes_equal': False,
         }
 
@@ -162,13 +162,13 @@ class OptionsBossFrontierWiring(unittest.TestCase):
         baseline = self.result_evidence()
         boss.guard_title_update_result(baseline)
         for changed in (
-                {'candidate_bytes': 482}, {'candidate_bytes': 487},
-                {'target_instructions': 146}, {'candidate_instructions': 145},
+                {'candidate_bytes': 483}, {'candidate_bytes': 487},
+                {'target_instructions': 146}, {'candidate_instructions': 146},
                 {'original_fields': 33}, {'bound_fields': 33},
                 {'ordered_calls': 8}, {'calls_agree': False},
                 {'original_blocks': 39}, {'candidate_blocks': 39},
-                {'direct_graphs_agree': False}, {'overlap_differences': 225},
-                {'overlap_differences': -1}, {'missing_target_bytes': 3},
+                {'direct_graphs_agree': False}, {'overlap_differences': 219},
+                {'overlap_differences': -1}, {'missing_target_bytes': 2},
                 {'extra_candidate_bytes': 1}, {'complete_bytes_equal': True},
                 {'diagnostic_only': False}):
             with self.subTest(changed=changed), self.assertRaises(RuntimeError):

@@ -1061,7 +1061,7 @@ def guard_title_draw_result(result: dict) -> None:
 
 
 def guard_title_update_result(result: dict) -> None:
-    """Guard the complete 485-byte original and the 483-byte source frontier.
+    """Guard the complete 485-byte original and the 484-byte source frontier.
 
     This remains non-crediting, even if all the bytes converge in a later build.
     The producer independently SHA-pins the original and validates all 34
@@ -1070,16 +1070,16 @@ def guard_title_update_result(result: dict) -> None:
     noncrediting(result, name='Title OnUpdateResult', target_size=485, fields=34)
     source_size = result.get('candidate_bytes')
     mismatch = result.get('overlap_differences')
-    if (type(source_size) is not int or not 483 <= source_size <= 485 or
+    if (type(source_size) is not int or not 484 <= source_size <= 485 or
             result.get('target_instructions') != 147 or
-            result.get('candidate_instructions') not in (146, 147) or
+            result.get('candidate_instructions') != 147 or
             result.get('original_fields') != 34 or
             result.get('ordered_calls') != 9 or
             result.get('calls_agree') is not True or
             result.get('original_blocks') != 40 or
             result.get('candidate_blocks') != 40 or
             result.get('direct_graphs_agree') is not True or
-            type(mismatch) is not int or not 0 <= mismatch <= 224 or
+            type(mismatch) is not int or not 0 <= mismatch <= 218 or
             result.get('missing_target_bytes') != 485 - source_size or
             result.get('extra_candidate_bytes') != 0 or
             result.get('complete_bytes_equal') is not
