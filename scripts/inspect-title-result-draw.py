@@ -12,6 +12,7 @@ from diagnostic_branch_alignment import aligned_branch_conflicts, direct_control
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE, SIZE = 0x423D16, 1939
+DRAW_RESULT_ORIGINAL_SHA256 = '92279dc6d2b9ad5051fb902e6172d88eb7f9febe460d44459f16af0f45c74b0a'
 SYMBOL = '?DrawResult@TitleScreenView@@QAEHXZ'
 # TH09-local target operands and literal contents reviewed independently.
 DESTINATIONS = {
@@ -84,6 +85,9 @@ def main():
     coff = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(coff)
     target = coff.pe_bytes_at(coff.verified_target(), BASE, SIZE)
+    target_sha256 = hashlib.sha256(target).hexdigest()
+    if (BASE, SIZE) == (0x00423D16, 1939) and target_sha256 != DRAW_RESULT_ORIGINAL_SHA256:
+        raise ValueError('original TH09 DrawResult full 1939-byte owner digest differs')
     code, rows = coff.object_function(args.object, SYMBOL)
     raw_hash = hashlib.sha256(code).hexdigest()
     for row in rows:
@@ -133,13 +137,19 @@ def main():
         return i.mnemonic, i.op_str
     matcher = difflib.SequenceMatcher(None, list(map(normalized, t)), list(map(normalized, c)), autojunk=False)
     calls = lambda ins: [i.operands[0].imm for i in ins if i.mnemonic == 'call']
-    first = next((n for n, (a, b) in enumerate(zip(target, code)) if a != b), None)
+    # Physical linked differences are a complete-owner byte census. Never
+    # compare an aligned-normalized instruction slice in place of these bytes.
+    difference_offsets = ([f'0x{i:x}' for i, (a, b) in
+                           enumerate(zip(target, code)) if a != b]
+                          if len(code) == len(target) else None)
+    first = int(difference_offsets[0], 16) if difference_offsets else None
     conflicts, unpaired = aligned_branch_conflicts(t, c, matcher.get_matching_blocks(), capstone.x86.X86_OP_IMM)
     target_cfg = direct_control_flow(t, capstone.x86.X86_OP_IMM)
     candidate_cfg = direct_control_flow(c, capstone.x86.X86_OP_IMM)
     report = {
         'diagnostic_only': True, 'exactness_credit': 'none',
         'target_bytes': len(target), 'candidate_bytes': len(code),
+        'target_sha256': target_sha256,
         'target_instructions': len(t), 'candidate_instructions': len(c),
         'original_fields': len(original_address_fields(t)),
         'bound_fields': len(rows),
@@ -150,7 +160,8 @@ def main():
         'paired_branch_conflicts': [tuple(map(hex, row)) for row in conflicts],
         'unpaired_branch_destinations': unpaired,
         'first_overlapping_difference': first,
-        'complete_differences': sum(a != b for a, b in zip(code, target)) if len(code) == len(target) else None,
+        'complete_differences': len(difference_offsets) if difference_offsets is not None else None,
+        'difference_offsets': difference_offsets,
         'complete_bytes_equal': code == target,
         'candidate_raw_sha256': raw_hash,
     }

@@ -659,6 +659,7 @@ class BossFrontierChecks(TestCase):
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',
             'target_bytes': 1939, 'candidate_bytes': 1939,
+            'target_sha256': frontiers.TITLE_DRAW_RESULT_SHA256,
             'target_instructions': 577, 'candidate_instructions': 577,
             'original_fields': 82, 'bound_fields': 82,
             'ordered_calls': 16, 'ordered_calls_agree': True,
@@ -667,11 +668,17 @@ class BossFrontierChecks(TestCase):
             'aligned_instructions': 574, 'paired_branch_conflicts': [],
             'unpaired_branch_destinations': 1,
             'complete_differences': 22, 'complete_bytes_equal': False,
+            'difference_offsets': [hex(i) for i in (
+                0x0E, 0x0F, 0x10, 0x11, 0x12, 0x14, 0x15, 0x16, 0x17,
+                0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20,
+                0x21, 0x22, 0x23, 0x24, 0x39)],
         }
 
     def test_title_draw_result_whole_owner_byte_frontier(self):
         frontiers.guard_title_draw_result(self.title_draw_result_evidence())
-        for changes in ({'candidate_bytes': 1938},
+        original = self.title_draw_result_evidence()
+        for changes in ({'target_sha256': '0' * 64},
+                        {'candidate_bytes': 1938},
                         {'candidate_instructions': 576},
                         {'target_instructions': 576},
                         {'bound_fields': 81}, {'original_fields': 81},
@@ -683,9 +690,30 @@ class BossFrontierChecks(TestCase):
                         {'unpaired_branch_destinations': 2},
                         {'complete_differences': 23},
                         {'complete_bytes_equal': True},
+                        {'difference_offsets': original['difference_offsets'][:-1]},
+                        {'difference_offsets': original['difference_offsets'] + ['0x40']},
+                        {'difference_offsets': ['0x0e'] * 22},
+                        {'difference_offsets': list(reversed(original['difference_offsets']))},
+                        {'difference_offsets': ['bad'] + original['difference_offsets'][1:]},
+                        {'difference_offsets': original['difference_offsets'][:-1] + ['0x25']},
+                        {'difference_offsets': original['difference_offsets'][:-1] + ['0x38']},
+                        {'difference_offsets': original['difference_offsets'][:-1] + ['0x3a']},
+                        {'difference_offsets': original['difference_offsets'][:-1] + ['0x100']},
                         {'exactness_credit': 'accepted'}):
             with self.subTest(changes=changes), self.assertRaises(RuntimeError):
-                frontiers.guard_title_draw_result({**self.title_draw_result_evidence(), **changes})
+                frontiers.guard_title_draw_result({**original, **changes})
+
+    def test_title_draw_result_bound_future_narrowing_not_exact_credit(self):
+        baseline = self.title_draw_result_evidence()
+        narrowed = {**baseline, 'complete_differences': 21,
+                    'difference_offsets': baseline['difference_offsets'][:-1]}
+        frontiers.guard_title_draw_result(narrowed)
+        # Full owner convergence would still be a noncrediting diagnosis,
+        # not a canonical match without the separate function-level replay.
+        converged = {**baseline, 'complete_differences': 0,
+                     'difference_offsets': [], 'complete_bytes_equal': True}
+        frontiers.guard_title_draw_result(converged)
+        self.assertEqual(converged['exactness_credit'], 'none')
 
     @staticmethod
     def camera_evidence():

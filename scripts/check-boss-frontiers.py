@@ -1083,6 +1083,10 @@ def run_exattack_type3(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     }}, exact
 
 
+TITLE_DRAW_RESULT_SHA256 = '92279dc6d2b9ad5051fb902e6172d88eb7f9febe460d44459f16af0f45c74b0a'
+TITLE_DRAW_RESULT_RESIDUAL_WINDOWS = ((0x0E, 0x25, 21), (0x39, 0x3A, 1))
+
+
 def guard_title_draw_result(result: dict) -> None:
     """Fail closed on regression of the 1,939-byte original renderer boss.
 
@@ -1091,7 +1095,8 @@ def guard_title_draw_result(result: dict) -> None:
     independently binds every original source field and all 16 call identities.
     """
     noncrediting(result, name='Title DrawResult', target_size=1939, fields=82)
-    if (result.get('candidate_bytes') != 1939 or
+    if (result.get('target_sha256') != TITLE_DRAW_RESULT_SHA256 or
+            result.get('candidate_bytes') != 1939 or
             result.get('target_instructions') != 577 or
             result.get('candidate_instructions') != 577 or
             result.get('original_fields') != 82 or
@@ -1104,10 +1109,16 @@ def guard_title_draw_result(result: dict) -> None:
             result['aligned_instructions'] < 574 or
             result.get('paired_branch_conflicts') != [] or
             result.get('unpaired_branch_destinations', 2) > 1 or
-            not isinstance(result.get('complete_differences'), int) or
-            result['complete_differences'] > 22 or
-            result.get('complete_bytes_equal') is not False):
+            type(result.get('complete_differences')) is not int or
+            not 0 <= result['complete_differences'] <= 22):
         raise RuntimeError('Title DrawResult 1939-byte/82-field/16-call/92-block frontier drifted')
+    # Noncrediting future narrowing is allowed only within these *actual*
+    # unbound source-mismatched original byte positions. Preserve the entire
+    # remaining 1,939-byte owner, including source COFF fields and jump graph.
+    physical_difference_windows(
+        result, count_key='complete_differences',
+        windows=TITLE_DRAW_RESULT_RESIDUAL_WINDOWS,
+        equality_key='complete_bytes_equal')
 
 
 def guard_title_update_result(result: dict) -> None:
