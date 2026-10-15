@@ -121,18 +121,26 @@ algorithm. Both canonical units independently cold replay from the shared
 object: **82/82** for the new wrapper and **205/205** for the existing callee.
 The original C++ translation-unit partition and other compile-unit identities remain
 unproven; this is a codegen/visibility finding, not whole-image or runtime
-closure. A **new, committed-source Factory acceptance receipt is required**
-before describing this as Factory accepted. All 3,900 bytes of the large Enemy
-update remain NON-EXACT (39 differences); there is no partial credit.
+closure. **Factory strict-live-v1 accepted** a forced-cold replay of the new
+82-byte exact wrapper from source commit `bc93e0d`:
+`receipt:9ce6b5a1b03cb19de16acecb924700e1a21eb738c71291f7c82c71bf8007ba3c`.
+The formerly exact 205-byte `AppendBoxRecord` received a separate pass/accepted
+regression receipt from the **same** committed source:
+`receipt:7badaa8a8ade77bd6e3824141fcbc1e15cef9a64cf15a8d5765ee4b9b463c9bd`.
+These are **one new exact function plus one already-exact regression**, not two
+new functions. All 3,900 bytes of the large Enemy update remain NON-EXACT
+(39 differences); there is no partial credit.
 
 ## Closed codegen landmarks and accepted receipts
 
-The exact-function ledger is the authority for **939 locally canonical exact functions** (the newly promoted collision wrapper still requires a source-commit-bound Factory receipt).
+The exact-function ledger is the authority for **939 canonical exact functions** (including the newly Factory-accepted collision wrapper).
 These are three representative independently accepted owners whose current
 identities are validated against the canonical match-unit manifest:
 
 | Exact owner | Target/bytes | Canonical unit | Accepted source commit and receipt |
 | --- | --- | --- | --- |
+| `EnemyAppendCollisionView::AppendPlayerCollisionBox` | `0x00410250`, **82/82**, 2 fields | `enemy-collision-append-box` | `bc93e0d`; `receipt:9ce6b5a1b03cb19de16acecb924700e1a21eb738c71291f7c82c71bf8007ba3c` |
+| `PlayerCollisionQueryStateView::AppendBoxRecord` | `0x0040F8E0`, **205/205**, 2 fields | `player-collision-append-box` | `bc93e0d`; `receipt:7badaa8a8ade77bd6e3824141fcbc1e15cef9a64cf15a8d5765ee4b9b463c9bd` |
 | `FrontMessageRuntimeView::LoadForSideCount` | `0x004182E0`, **405/405**, 18 fields | `front-message-load-for-side-count` | `4d921a2`; `receipt:8ea1d24dda7aab61c63e8e1fb288727adb1125dff033a86fecc1c81cd8658e98` |
 | `FrontMessageRuntimeView::ReleaseForSideCount` | `0x00417520`, **271/271**, 14 fields | `front-message-release-for-side-count` | `99ea00b`; `receipt:3ad8649181efbc34d2b08b5d1ead5d96ddd77d7fec074b9a0508219dfdf567a1` |
 | `PlayerShotDrawCallbackType1` | `0x00442220`, **204/204**, 6 fields | `player-shot-draw-callback-type1` | `495e944`; `receipt:7f20349cb55183e13f66e4b1ecabc24133fd379d2f9c2b91a27256929bef1927` |
