@@ -192,12 +192,14 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         {
             EffectFloat3 *effectPosition =
                 reinterpret_cast<EffectFloat3 *>(&player->position1B88);
-            // TH09 reloads the side after the first effect-manager call.
+            // Preserve the first call's side argument before evaluating its
+            // manager receiver. The second call still reloads the side slot.
+            int spawnSide = player->sideIndex;
             PlayerMovementFocusEffect(player) =
                 PlayerMovementSide(player)->effectManager0C->SpawnEffectInFixedSlot(
                     7,
                     effectPosition,
-                    player->sideIndex,
+                    spawnSide,
                     static_cast<unsigned int>(-1));
             PlayerMovementSecondaryEffect(player) =
                 PlayerMovementSide(player)->effectManager0C->SpawnEffectInFixedSlot(
