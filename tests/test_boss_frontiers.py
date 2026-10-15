@@ -62,8 +62,8 @@ class BossFrontierChecks(TestCase):
             'original_fields': 15, 'bound_fields': 15,
             'ordered_calls': 6, 'ordered_calls_agree': True,
             'target_blocks': 40, 'candidate_blocks': 41,
-            'direct_graphs_agree': False, 'aligned_instructions': 117,
-            'overlap_differences': 572,
+            'direct_graphs_agree': False, 'aligned_instructions': 118,
+            'overlap_differences': 569,
             'missing_target_bytes': 12, 'extra_candidate_bytes': 0,
             'complete_bytes_equal': False,
         }
@@ -78,7 +78,7 @@ class BossFrontierChecks(TestCase):
             'build/matching/FrontMessageRandomSetup.obj', reference_unit='front-message-setup')
         oracle.assert_called_once_with(['scripts/inspect-front-message-random.py',
             'build/matching/FrontMessageRandomSetup.obj', '--json'])
-        self.assertEqual(owners['front_random_setup']['overlap_differences'], 572)
+        self.assertEqual(owners['front_random_setup']['overlap_differences'], 569)
         self.assertEqual(owners['front_random_setup']['target_blocks'], 40)
         self.assertEqual(owners['front_random_setup']['candidate_blocks'], 41)
         self.assertEqual([x['unit'] for x in exact],
@@ -92,8 +92,8 @@ class BossFrontierChecks(TestCase):
                  {'original_fields': 14}, {'bound_fields': 14},
                  {'ordered_calls': 5}, {'ordered_calls_agree': False},
                  {'target_blocks': 39}, {'candidate_blocks': 42},
-                 {'direct_graphs_agree': True}, {'aligned_instructions': 116},
-                 {'overlap_differences': 573}, {'missing_target_bytes': 13},
+                 {'direct_graphs_agree': True}, {'aligned_instructions': 117},
+                 {'overlap_differences': 570}, {'missing_target_bytes': 13},
                  {'extra_candidate_bytes': 1}, {'complete_bytes_equal': True},
                  {'exactness_credit': 'accepted'}, {'diagnostic_only': False})
         for change in wrong:

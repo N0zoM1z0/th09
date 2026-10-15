@@ -506,9 +506,9 @@ def run_front_random(*, protect_exact: bool) -> tuple[dict, list[dict]]:
             owner.get('candidate_blocks') not in (40,41) or
             owner.get('direct_graphs_agree') is not (owner['candidate_blocks']==40) or
             not isinstance(owner.get('aligned_instructions'),int) or
-            owner['aligned_instructions'] < 117 or
+            owner['aligned_instructions'] < 118 or
             not isinstance(owner.get('overlap_differences'),int) or
-            owner['overlap_differences'] > 572 or
+            owner['overlap_differences'] > 569 or
             owner.get('missing_target_bytes',99) > 12 or
             owner.get('extra_candidate_bytes') != 0 or
             owner.get('complete_bytes_equal') is not False):

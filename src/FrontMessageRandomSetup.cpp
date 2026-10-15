@@ -85,9 +85,9 @@ void FrontMessageRandomView::SetupRandomForSide(int sideIndex)
     // Save the opponent shot window end while the weighted-table state is local.
     int end = opponentShotType * 10 + 10;
 
-    FrontMessageRandomTableView *table = secondary;
-    if (sideIndex != 1)
-        table = primary;
+    FrontMessageRandomTableView *table = primary;
+    if (sideIndex == 1)
+        table = secondary;
 
     side10 = sideIndex;
 
