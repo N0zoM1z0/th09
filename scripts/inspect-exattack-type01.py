@@ -85,12 +85,20 @@ def main():
                                      list(map(normalized, c)), autojunk=False)
     target_cfg = direct_control_flow(t, capstone.x86.X86_OP_IMM)
     candidate_cfg = direct_control_flow(c, capstone.x86.X86_OP_IMM)
+    # Complete linked physical offsets, not difflib's instruction similarity:
+    # the two near-exact Type19/21 initializer owners differ by the order of
+    # adjacent instructions. Never move/ignore these differences or give credit.
+    differing_offsets = ([off for off, (actual, expected) in
+                          enumerate(zip(code, target)) if actual != expected]
+                         if len(code) == len(target) else None)
     print(json.dumps({
         'diagnostic_only': True, 'exactness_credit': 'none',
         'target_bytes': SIZE, 'candidate_bytes': len(raw),
         'target_instructions': len(t), 'candidate_instructions': len(c),
         'relocations': len(rows),
         'raw_sha256': hashlib.sha256(raw).hexdigest(),
+        'target_sha256': hashlib.sha256(target).hexdigest(),
+        'difference_offsets': differing_offsets,
         'complete_bytes_agree': code == target,
         'complete_differences_if_same_extent': sum(a != b for a,b in zip(code,target))
                                                if len(code) == SIZE else None,

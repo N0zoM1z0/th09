@@ -283,15 +283,21 @@ class BossFrontierChecks(TestCase):
                 frontiers.run_etama(protect_exact=False)
 
     def test_trail_initializers_target_extent_calls_blocks_and_gap_guarded(self):
-        for typ, size, ins, fields, calls, blocks, diff in (
-                ('19', 763, 207, 57, 27, 9, 6),
-                ('21', 727, 198, 53, 25, 10, 9)):
-            evidence = {'target_bytes': size, 'candidate_bytes': size,
+        for typ, size, ins, fields, calls, blocks, diff, begin, sha in (
+                ('19', 763, 207, 57, 27, 9, 6, 0x1BB,
+                 'fc7b630cff17c32048de02f169f5c39710727027941aa502db823e357563cf67'),
+                ('21', 727, 198, 53, 25, 10, 9, 0x1C2,
+                 'b5271179d169d482952d887b03ad08e10a19c74654590e32598551d0a523ca47')):
+            evidence = {'diagnostic_only': True, 'exactness_credit': 'none',
+                        'target_sha256': sha,
+                        'target_bytes': size, 'candidate_bytes': size,
                         'target_instructions': ins, 'candidate_instructions': ins,
+                        'normalized_aligned_instructions': ins - 1,
                         'relocations': fields, 'target_calls': calls,
                         'candidate_calls': calls, 'ordered_calls_agree': True,
                         'direct_blocks': [blocks, blocks],
                         'complete_direct_graphs_agree': True,
+                        'difference_offsets': list(range(begin, begin + diff)),
                         'complete_differences_if_same_extent': diff,
                         'complete_bytes_agree': False}
             frontiers.validate_exattack_trail_initializer(typ, evidence)
@@ -304,10 +310,29 @@ class BossFrontierChecks(TestCase):
                         {'direct_blocks': [blocks, blocks - 1]},
                         {'complete_direct_graphs_agree': False},
                         {'complete_differences_if_same_extent': diff + 1},
+                        {'difference_offsets': list(range(begin-1, begin+diff-1))},
+                        {'difference_offsets': [begin] * diff},
+                        {'difference_offsets': list(reversed(range(begin, begin+diff)))},
+                        {'difference_offsets': list(range(begin, begin+diff-1))},
+                        {'difference_offsets': list(range(begin+1, begin+diff+1))},
+                        {'normalized_aligned_instructions': ins - 2},
+                        {'target_sha256': '0' * 64},
+                        {'diagnostic_only': False},
+                        {'exactness_credit': 'accepted'},
                         {'complete_bytes_agree': True}):
                 with self.subTest(typ=typ, bad=bad), self.assertRaises(RuntimeError):
                     frontiers.validate_exattack_trail_initializer(typ,
                                                                   {**evidence, **bad})
+            # Even a hypothetical zero-residual diagnostic is NOT accepted exact.
+            # It must nevertheless remain valid for a future real source fix.
+            exact_looking = {**evidence, 'difference_offsets': [],
+                             'complete_differences_if_same_extent': 0,
+                             'normalized_aligned_instructions': ins,
+                             'complete_bytes_agree': True}
+            frontiers.validate_exattack_trail_initializer(typ, exact_looking)
+            with self.subTest(typ=typ), self.assertRaises(RuntimeError):
+                frontiers.validate_exattack_trail_initializer(
+                    typ, {**exact_looking, 'exactness_credit': 'accepted'})
         with self.assertRaises(RuntimeError):
             frontiers.validate_exattack_trail_initializer('0', {})
 

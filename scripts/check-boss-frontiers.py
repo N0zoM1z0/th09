@@ -249,12 +249,32 @@ def validate_exattack_trail_initializer(callback_type: str, result: dict) -> Non
     Opcode/helper topology is not exactness: this remains noncrediting until a
     separate canonical target-bound match unit replays ALL bytes and fields.
     """
-    specs = {'19': (763, 207, 57, 27, 9, 6),
-             '21': (727, 198, 53, 25, 10, 9)}
+    # The two exact original target ranges were independently read from TH09
+    # v1.50a. Each current residual is exclusively an adjacent setup-schedule
+    # permutation (Type19: vertex-add/stack-store; Type21: vertex-add/history-LEA).
+    # The window is a strict no-regression bound, not a source patch or credit.
+    specs = {
+        '19': (763, 207, 57, 27, 9, 0x1BB, 0x1C1,
+               'fc7b630cff17c32048de02f169f5c39710727027941aa502db823e357563cf67'),
+        '21': (727, 198, 53, 25, 10, 0x1C2, 0x1CB,
+               'b5271179d169d482952d887b03ad08e10a19c74654590e32598551d0a523ca47'),
+    }
     if callback_type not in specs:
         raise RuntimeError('unsupported ExAttack trail initializer type')
-    size, instructions, relocations, calls, blocks, max_differences = specs[callback_type]
-    if (result.get('target_bytes') != size or
+    size, instructions, relocations, calls, blocks, first, end, target_sha = specs[callback_type]
+    offsets = result.get('difference_offsets')
+    if (not isinstance(offsets, list) or
+            len(offsets) > end - first or
+            any(not isinstance(off, int) or isinstance(off, bool) or
+                not first <= off < end for off in offsets) or
+            len(set(offsets)) != len(offsets) or
+            offsets != sorted(offsets)):
+        raise RuntimeError('ExAttack Type' + callback_type +
+                           ' initializer changed a previously matching physical byte')
+    if (result.get('diagnostic_only') is not True or
+            result.get('exactness_credit') != 'none' or
+            result.get('target_sha256') != target_sha or
+            result.get('target_bytes') != size or
             result.get('candidate_bytes') != size or
             result.get('target_instructions') != instructions or
             result.get('candidate_instructions') != instructions or
@@ -264,9 +284,10 @@ def validate_exattack_trail_initializer(callback_type: str, result: dict) -> Non
             result.get('ordered_calls_agree') is not True or
             result.get('direct_blocks') != [blocks, blocks] or
             result.get('complete_direct_graphs_agree') is not True or
-            not isinstance(result.get('complete_differences_if_same_extent'), int) or
-            result['complete_differences_if_same_extent'] > max_differences or
-            result.get('complete_bytes_agree') is not False):
+            not isinstance(result.get('normalized_aligned_instructions'), int) or
+            result['normalized_aligned_instructions'] < instructions - 1 or
+            result.get('complete_differences_if_same_extent') != len(offsets) or
+            result.get('complete_bytes_agree') is not (len(offsets) == 0)):
         raise RuntimeError('ExAttack Type' + callback_type +
                            ' initializer full-owner 57/53-field/6/9-byte frontier regressed')
 
