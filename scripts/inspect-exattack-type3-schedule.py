@@ -18,6 +18,7 @@ import struct
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE, SIZE = 0x00442750, 780
+TARGET_SHA256 = "19acde6cfdea958c572992f6832e09f51630ce2508f4d983eba4f3cb87e05eb4"
 SYMBOL = '?ExAttackUpdateCallbackType3@@YIHPAUExAttackRecord@@@Z'
 MIDDLE_Y_CALLEE = 0x00442450
 TAIL_X_FIELD = 'eax, dword ptr [edi + 0x130]'
@@ -132,6 +133,8 @@ def analyze(object_path: Path) -> dict:
     own = module('th09_type3_schedule_dest', 'inspect-exattack-type3.py')
     pe = coff.verified_target()
     target = coff.pe_bytes_at(pe, BASE, SIZE)
+    if hashlib.sha256(target).hexdigest() != TARGET_SHA256:
+        raise ValueError("original TH09 Type3 update full-owner SHA changed")
     raw, rows = coff.object_function(object_path, SYMBOL)
     ti = decode(target)
     target_fields = addressed_fields(ti)
@@ -152,7 +155,7 @@ def analyze(object_path: Path) -> dict:
         raise ValueError('Type3 24 independently addressed call identities differ')
     tg = direct_control_flow(ti, capstone.x86.X86_OP_IMM)
     cg = direct_control_flow(ci, capstone.x86.X86_OP_IMM)
-    differences = sum(a != b for a, b in zip(target, linked))
+    different_offsets = [off for off, (a, b) in enumerate(zip(target, linked)) if a != b]
     return {
         'diagnostic_only': True, 'exactness_credit': 'none',
         'target_bytes': SIZE, 'candidate_bytes': len(raw),
@@ -163,7 +166,8 @@ def analyze(object_path: Path) -> dict:
         'direct_graphs_agree': tg == cg,
         'original_z_order': target_order,
         'candidate_z_order': candidate_order,
-        'ordinary_differences': differences,
+        'ordinary_differences': len(different_offsets),
+        'difference_offsets': [hex(off) for off in different_offsets],
         'complete_bytes_equal': target == linked,
         'candidate_raw_sha256': hashlib.sha256(raw).hexdigest(),
         'target_sha256': hashlib.sha256(target).hexdigest(),

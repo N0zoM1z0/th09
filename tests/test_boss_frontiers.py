@@ -265,6 +265,85 @@ class BossFrontierChecks(TestCase):
             self.assertEqual(converged['exactness_credit'], 'none')
 
     @staticmethod
+    def type3_update_evidence():
+        return {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_sha256': frontiers.TYPE3_UPDATE_SHA256,
+            'target_bytes': 780, 'candidate_bytes': 780,
+            'target_instructions': 240, 'candidate_instructions': 240,
+            'target_fields': 38, 'bound_fields': 38,
+            'ordered_calls': 24, 'calls_agree': True,
+            'target_blocks': 17, 'candidate_blocks': 17,
+            'direct_graphs_agree': True,
+            'original_z_order': dict(frontiers.TYPE3_MIDDLE_Z_ORIGINAL),
+            'candidate_z_order': {'middle_y_call_offset': '0x195',
+                                  'middle_z_store_offset': '0x18e',
+                                  'tail_x_load_offset': '0x19d',
+                                  'classification': 'zero-before-middle-y-call'},
+            'ordinary_differences': 14,
+            'difference_offsets': [hex(i) for i in range(0x18e, 0x19d)
+                                   if i != 0x195],
+            'complete_bytes_equal': False,
+        }
+
+    def test_type3_original_z_timing_and_complete_byte_frontier(self):
+        baseline = self.type3_update_evidence()
+        self.assertEqual(frontiers.guard_exattack_type3_update(baseline)['differences'], 14)
+        for key, value in (
+                ('target_sha256', '0' * 64), ('candidate_bytes', 781),
+                ('candidate_instructions', 239), ('target_fields', 37),
+                ('ordered_calls', 23), ('calls_agree', False),
+                ('target_blocks', 16), ('candidate_blocks', 16),
+                ('direct_graphs_agree', False),
+                ('original_z_order', {'classification': 'matches-original-chronology'}),
+                ('difference_offsets', baseline['difference_offsets'][:-1] + ['0x19d']),
+                ('difference_offsets', baseline['difference_offsets'][:-1]),
+                ('difference_offsets', ['0x18e'] * 14),
+                ('difference_offsets', ['bad'] + baseline['difference_offsets'][1:]),
+                ('difference_offsets', list(reversed(baseline['difference_offsets']))),
+                ('difference_offsets', baseline['difference_offsets'] + ['0x1a0']),
+                ('ordinary_differences', 13), ('complete_bytes_equal', True),
+                ('exactness_credit', 'accepted')):
+            with self.subTest(key=key, value=value), self.assertRaises(RuntimeError):
+                frontiers.guard_exattack_type3_update({**baseline, key: value})
+        for bad_class in ('zero-after-tail-x-load', 'unreviewed-order'):
+            with self.subTest(bad_class=bad_class), self.assertRaises(RuntimeError):
+                frontiers.guard_exattack_type3_update({**baseline,
+                    'candidate_z_order': {**baseline['candidate_z_order'],
+                                          'classification': bad_class}})
+
+    def test_type3_valid_narrowing_never_credits_exact(self):
+        baseline = self.type3_update_evidence()
+        narrow = {**baseline, 'ordinary_differences': 13,
+                  'difference_offsets': baseline['difference_offsets'][:-1]}
+        self.assertEqual(frontiers.guard_exattack_type3_update(narrow)['differences'], 13)
+        converged = {**baseline, 'ordinary_differences': 0,
+                     'difference_offsets': [], 'complete_bytes_equal': True,
+                     'candidate_z_order': {**baseline['candidate_z_order'],
+                        'classification': 'matches-original-chronology'}}
+        self.assertEqual(frontiers.guard_exattack_type3_update(converged)['differences'], 0)
+        self.assertEqual(converged['exactness_credit'], 'none')
+        with self.assertRaises(RuntimeError):
+            frontiers.guard_exattack_type3_update({**converged,
+                'candidate_z_order': baseline['candidate_z_order']})
+
+    def test_type3_update_cold_true_tu_and_exact_initializer(self):
+        baseline = self.type3_update_evidence()
+        with patch.object(frontiers, 'build_nonexact') as compile_source, \
+             patch.object(frontiers, 'parsed', return_value=baseline) as read, \
+             patch.object(frontiers, 'build') as build, \
+             patch.object(frontiers, 'canonical', return_value={'unit': 'exact'}):
+            owners, exact = frontiers.run_exattack_type3(protect_exact=True)
+        compile_source.assert_called_once_with('src/ExAttackUpdateType3.cpp',
+            'build/matching/ExAttackUpdateType3.obj',
+            reference_unit='ex-attack-initialize-type3')
+        read.assert_called_once_with(['scripts/inspect-exattack-type3-schedule.py',
+                                      'build/matching/ExAttackUpdateType3.obj'])
+        build.assert_called_once_with('ex-attack-initialize-type3')
+        self.assertEqual(owners['exattack_type3_update']['ordinary_differences'], 14)
+        self.assertEqual([x['unit'] for x in exact], ['exact'])
+
+    @staticmethod
     def screen_evidence():
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',

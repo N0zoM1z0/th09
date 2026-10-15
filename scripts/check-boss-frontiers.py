@@ -759,7 +759,8 @@ ENEMY_UPDATE_WINDOWS = ((0x19A, 0x1A8, 2), (0x251, 0x2C1, 11),
 ENEMY_COLLISION_WINDOWS = ((0x1A, 0x40, 31),)
 
 
-def enemy_difference_windows(result: dict, *, count_key: str, windows: tuple) -> dict:
+def physical_difference_windows(result: dict, *, count_key: str, windows: tuple,
+                                equality_key: str = "complete_bytes_agree") -> dict:
     """Reject changed matched regions without granting partial/exact credit."""
     words = result.get('difference_offsets')
     count = result.get(count_key)
@@ -767,21 +768,21 @@ def enemy_difference_windows(result: dict, *, count_key: str, windows: tuple) ->
             len(words) != count or not all(
                 isinstance(word, str) and re.fullmatch(r'0x[0-9a-fA-F]+', word)
                 for word in words)):
-        raise RuntimeError('Enemy residual count/format malformed')
+        raise RuntimeError('Physical owner residual count/format malformed')
     offsets = [int(word, 16) for word in words]
     if offsets != sorted(set(offsets)) or count > sum(x[2] for x in windows):
-        raise RuntimeError('Enemy residual duplicated, unsorted or increased')
+        raise RuntimeError('Physical owner residual duplicated, unsorted or increased')
     per_window = [0] * len(windows)
     for off in offsets:
         locations = [i for i, (start, end, _) in enumerate(windows)
                      if start <= off < end]
         if len(locations) != 1:
-            raise RuntimeError('Enemy residual changed previously matched code')
+            raise RuntimeError('Physical owner residual changed previously matched code')
         per_window[locations[0]] += 1
     if any(actual > window[2] for actual, window in zip(per_window, windows)):
-        raise RuntimeError('Enemy source regressed a reviewed original window')
-    if result.get('complete_bytes_agree') is not (count == 0):
-        raise RuntimeError('Enemy full-owner equality/count contradictory')
+        raise RuntimeError('Physical owner regressed a reviewed original window')
+    if result.get(equality_key) is not (count == 0):
+        raise RuntimeError('Physical owner full equality/count contradictory')
     return {'differences': count, 'per_window': per_window}
 
 
@@ -802,7 +803,7 @@ def guard_enemy_update(result: dict) -> dict:
             result.get('reviewed_control_flow_agrees') is not True or
             result.get('switch_table_destinations_agree') is not True):
         raise RuntimeError('EnemyManager 3900-byte original/COFF/call/graph changed')
-    return enemy_difference_windows(result, count_key='complete_differences',
+    return physical_difference_windows(result, count_key='complete_differences',
                                     windows=ENEMY_UPDATE_WINDOWS)
 
 
@@ -815,7 +816,7 @@ def guard_enemy_collision(result: dict) -> dict:
             result.get('candidate_instructions') != 30 or
             result.get('ordered_call_addresses') != ['0x40f5a0', '0x40f8e0']):
         raise RuntimeError('Enemy append collision original SHA/ABI/calls changed')
-    return enemy_difference_windows(result, count_key='ordinary_differing_bytes',
+    return physical_difference_windows(result, count_key='ordinary_differing_bytes',
                                     windows=ENEMY_COLLISION_WINDOWS)
 
 
@@ -920,23 +921,58 @@ def run_exattack_type19_update(*, protect_exact: bool) -> tuple[dict, list[dict]
     }}, siblings
 
 
+TYPE3_UPDATE_SHA256 = '19acde6cfdea958c572992f6832e09f51630ce2508f4d983eba4f3cb87e05eb4'
+TYPE3_MIDDLE_Z_ORIGINAL = {
+    'middle_y_call_offset': '0x18e',
+    'middle_z_store_offset': '0x196',
+    'tail_x_load_offset': '0x19d',
+    'classification': 'matches-original-chronology',
+}
+
+
+def guard_exattack_type3_update(result: dict) -> dict:
+    """Protect all 780 bytes, not a cosmetically closer out-of-order store."""
+    noncrediting(result, name='ExAttack Type3 update', target_size=780, fields=38)
+    original = result.get('original_z_order')
+    candidate = result.get('candidate_z_order')
+    if (result.get('target_sha256') != TYPE3_UPDATE_SHA256 or
+            result.get('candidate_bytes') != 780 or
+            result.get('target_instructions') != 240 or
+            result.get('candidate_instructions') != 240 or
+            result.get('target_fields') != 38 or
+            result.get('ordered_calls') != 24 or
+            result.get('calls_agree') is not True or
+            result.get('target_blocks') != 17 or
+            result.get('candidate_blocks') != 17 or
+            result.get('direct_graphs_agree') is not True or
+            original != TYPE3_MIDDLE_Z_ORIGINAL or
+            not isinstance(candidate, dict) or
+            candidate.get('classification') not in (
+                'matches-original-chronology', 'zero-before-middle-y-call') or
+            candidate.get('tail_x_load_offset') != '0x19d' or
+            (result.get('complete_bytes_equal') is True and
+             candidate.get('classification') != 'matches-original-chronology')):
+        raise RuntimeError('ExAttack Type3 complete original, call graph or middle-Z chronology changed')
+    return physical_difference_windows(
+        result, count_key='ordinary_differences', windows=((0x18E, 0x19D, 14),),
+        equality_key='complete_bytes_equal')
+
+
 def run_exattack_type3(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # Separate TU from the known exact Type3 initializer: build its *current*
     # maintained update source before linking the full 38-field diagnostic.
     object_file = 'build/matching/ExAttackUpdateType3.obj'
     build_nonexact('src/ExAttackUpdateType3.cpp', object_file,
                    reference_unit='ex-attack-initialize-type3')
-    result = noncrediting(parsed(['scripts/inspect-exattack-type3-schedule.py', object_file]),
-                          name='ExAttack Type3 update', target_size=780, fields=38)
-    if not result['calls_agree'] or result['ordered_calls'] != 24 or not result['direct_graphs_agree']:
-        raise RuntimeError('ExAttack Type3 full call / 17-block graph regressed')
+    result = parsed(['scripts/inspect-exattack-type3-schedule.py', object_file])
+    validated = guard_exattack_type3_update(result)
     exact = []
     if protect_exact:
         build('ex-attack-initialize-type3')
         exact.append(canonical('ex-attack-initialize-type3'))
     return {'exattack_type3_update': {
         'target_bytes': 780, 'candidate_bytes': result['candidate_bytes'],
-        'ordinary_differences': result['ordinary_differences'],
+        'ordinary_differences': validated['differences'],
         'original_z_order': result['original_z_order']['classification'],
         'candidate_z_order': result['candidate_z_order']['classification'],
         'direct_graphs_agree': result['direct_graphs_agree'],
