@@ -1262,7 +1262,7 @@ def guard_pause_menu(result: dict) -> dict:
             source.get('alignment_hex') not in ('', '8bff', '90', '9090') or
             source.get('table_offset') != source.get('code_bytes', -1) +
                 len(bytes.fromhex(source.get('alignment_hex', ''))) or
-            not 449 <= source.get('instructions', 0) <= 453 or
+            not 449 <= source.get('instructions', 0) <= 454 or
             not 106 <= len(result.get('fields', [])) <= 107 or
             len(source.get('fields', [])) != len(result.get('fields', [])) or
             not isinstance(table, list) or len(table) != 10 or
@@ -1271,7 +1271,7 @@ def guard_pause_menu(result: dict) -> dict:
             not isinstance(calls, list) or Counter(calls) != PAUSE_CALL_CENSUS or
             Counter(source.get('ordered_direct_calls', [])) != PAUSE_CALL_CENSUS or
             not 52 <= len(source.get('internal_branches', [])) <= 54 or
-            type(diffs) is not int or not 0 <= diffs <= 1492 or
+            type(diffs) is not int or not 0 <= diffs <= 1453 or
             type(missing) is not int or missing != 1776 - physical or
             result.get('excess_bytes') != 0 or
             result.get('complete_equal') is not (diffs == 0 and missing == 0)):

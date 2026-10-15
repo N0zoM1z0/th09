@@ -115,9 +115,11 @@ int PauseMenu::OnUpdate()
     if (g_AsciiInput.WasPressed(8) && this->state != PAUSE_MENU_STATE_CLOSING) {
         g_SoundPlayer.PlaySoundByIdx(10, 0);
         this->state = PAUSE_MENU_STATE_CLOSING;
-        for (i = 0; i < 7; i++) {
-            if (this->menuSprites[i].IsVisible()) {
-                this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_HIDE;
+        // Walk the original seven menu VMs and preserve their ordering.
+        AnmVm *end = &this->menuSprites[7];
+        for (AnmVm *vm = &this->menuSprites[0]; vm != end; ++vm) {
+            if (vm->IsVisible()) {
+                vm->pendingInterrupt = ASCII_INTERRUPT_HIDE;
             }
         }
         this->frames = 0;

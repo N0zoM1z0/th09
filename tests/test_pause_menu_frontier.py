@@ -31,12 +31,12 @@ class PauseMenuFrontierTests(unittest.TestCase):
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',
             'target_owner_sha256': frontier.PAUSE_SHA256,
-            'physical_bytes': 1732, 'overlap_differences': 1492,
+            'physical_bytes': 1732, 'overlap_differences': 1453,
             'missing_bytes': 44, 'excess_bytes': 0, 'complete_equal': False,
             'fields': [{} for _ in range(107)],
             'differences': [
                 {'offset': i, 'candidate': 1, 'target': 2}
-                for i in range(1492)
+                for i in range(1453)
             ],
             'target': {
                 'code_bytes': 1734, 'alignment_hex': '8bff',
@@ -48,7 +48,7 @@ class PauseMenuFrontierTests(unittest.TestCase):
             },
             'candidate': {
                 'code_bytes': 1692, 'alignment_hex': '',
-                'table_offset': 1692, 'instructions': 453,
+                'table_offset': 1692, 'instructions': 454,
                 'fields': [(0, 'DIR32')] * 107,
                 'table_destinations': source_table,
                 'ordered_direct_calls': list(reversed(calls)),
@@ -61,7 +61,7 @@ class PauseMenuFrontierTests(unittest.TestCase):
         r = frontier.guard_pause_menu(e)
         self.assertEqual((r['target_bytes'], r['candidate_bytes']), (1776, 1732))
         self.assertEqual((r['overlap_differences'], r['missing_target_bytes']),
-                         (1492, 44))
+                         (1453, 44))
         self.assertEqual((r['calls'], r['switch_entries']), (46, 10))
         self.assertEqual(e['exactness_credit'], 'none')
 
@@ -79,7 +79,7 @@ class PauseMenuFrontierTests(unittest.TestCase):
             'build/matching/AsciiManagerMenu.obj'])
         self.assertEqual([x['unit'] for x in exact], list(frontier.PAUSE_EXACT_SIBLINGS))
         self.assertEqual(canonical.call_count, 11)
-        self.assertEqual(owners['pause_menu_update']['overlap_differences'], 1492)
+        self.assertEqual(owners['pause_menu_update']['overlap_differences'], 1453)
 
     def test_forged_original_physical_body_and_source_boundaries_rejected(self):
         e = self.baseline()
@@ -87,8 +87,8 @@ class PauseMenuFrontierTests(unittest.TestCase):
             {'diagnostic_only': False}, {'exactness_credit': 'accepted'},
             {'target_owner_sha256': '0' * 64}, {'physical_bytes': 1731},
             {'physical_bytes': 1777}, {'missing_bytes': 43},
-            {'excess_bytes': 1}, {'overlap_differences': 1493},
-            {'overlap_differences': 1491}, {'complete_equal': True},
+            {'excess_bytes': 1}, {'overlap_differences': 1454},
+            {'overlap_differences': 1452}, {'complete_equal': True},
             {'target': {**e['target'], 'code_bytes': 1733}},
             {'target': {**e['target'], 'alignment_hex': '9090'}},
             {'target': {**e['target'], 'table_offset': 1734}},
@@ -102,7 +102,7 @@ class PauseMenuFrontierTests(unittest.TestCase):
             {'candidate': {**e['candidate'], 'code_bytes': 1691}},
             {'candidate': {**e['candidate'], 'table_offset': 1691}},
             {'candidate': {**e['candidate'], 'alignment_hex': 'ff'}},
-            {'candidate': {**e['candidate'], 'instructions': 454}},
+            {'candidate': {**e['candidate'], 'instructions': 455}},
             {'candidate': {**e['candidate'], 'fields': e['candidate']['fields'][:-2]}},
             {'candidate': {**e['candidate'], 'table_destinations':
                            e['candidate']['table_destinations'][:-1]}},
@@ -115,11 +115,11 @@ class PauseMenuFrontierTests(unittest.TestCase):
             {'fields': e['fields'][:-2]},
             {'differences': e['differences'][:-1]},
             {'differences': e['differences'][:-1] +
-                            [{'offset': 1490, 'candidate': 1, 'target': 2}]},
+                            [{'offset': 1451, 'candidate': 1, 'target': 2}]},
             {'differences': e['differences'][:-1] +
                             [{'offset': 1732, 'candidate': 1, 'target': 2}]},
             {'differences': e['differences'][:-1] +
-                            [{'offset': 1491, 'candidate': 2, 'target': 2}]},
+                            [{'offset': 1452, 'candidate': 2, 'target': 2}]},
         ]
         for change in invalid:
             with self.subTest(change=str(change)[:110]):
@@ -128,9 +128,9 @@ class PauseMenuFrontierTests(unittest.TestCase):
 
     def test_future_full_convergence_still_requires_separate_factory_acceptance(self):
         e = self.baseline()
-        better = {**e, 'overlap_differences': 1491,
+        better = {**e, 'overlap_differences': 1452,
                   'differences': e['differences'][:-1]}
-        self.assertEqual(frontier.guard_pause_menu(better)['overlap_differences'], 1491)
+        self.assertEqual(frontier.guard_pause_menu(better)['overlap_differences'], 1452)
         future_target = {**e['target']}
         future_source = {**e['candidate'], 'code_bytes': 1734,
                          'alignment_hex': '8bff', 'table_offset': 1736,
