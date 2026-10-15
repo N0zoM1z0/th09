@@ -11,6 +11,7 @@ its current source or grant exact, runtime, or partial-owner byte credit.
 
 import argparse
 import csv
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -26,6 +27,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE = 0x00410730
 OWNER_SIZE = 3900  # 3883 instructions + one alignment + four-entry table
 CODE_SIZE = 3883
+TARGET_SHA256 = "a7f01c2ff0bda79d1fd17ac9170dc3560d4089457455d7928776df8556f1bc75"
 SYMBOL = '?OnUpdate@EnemyManagerView@@SIHPAU1@@Z'
 
 
@@ -143,6 +145,8 @@ def diagnose(path, *, explain=False):
     units, functions, registry = reference_index()
     target_file = compare.verified_target()
     target = compare.pe_bytes_at(target_file, BASE, OWNER_SIZE)
+    if hashlib.sha256(target).hexdigest() != TARGET_SHA256:
+        raise ValueError("original EnemyManager full-owner SHA changed")
     source, relocations = compare.object_function(
         path, SYMBOL, include_symbol_locations=True)
     if len(source) != OWNER_SIZE:
@@ -201,6 +205,7 @@ def diagnose(path, *, explain=False):
         'diagnostic_only': True,
         'exactness_credit': 'none',
         'object': str(path),
+        'target_sha256': hashlib.sha256(target).hexdigest(),
         'target_bytes': OWNER_SIZE,
         'candidate_bytes': len(source),
         'code_bytes': CODE_SIZE,

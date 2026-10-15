@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -750,38 +751,89 @@ def run_game_manager(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     return diagnostics, owners
 
 
+# Independent original SHA-256 values for the full physical owner boundaries.
+ENEMY_UPDATE_SHA256 = 'a7f01c2ff0bda79d1fd17ac9170dc3560d4089457455d7928776df8556f1bc75'
+ENEMY_COLLISION_SHA256 = 'e2be799860dde7b752f525cb13f4135c4666917745006a511e734e10cd2ff9c0'
+ENEMY_UPDATE_WINDOWS = ((0x19A, 0x1A8, 2), (0x251, 0x2C1, 11),
+                        (0x843, 0x854, 10), (0x9BC, 0xA83, 16))
+ENEMY_COLLISION_WINDOWS = ((0x1A, 0x40, 31),)
+
+
+def enemy_difference_windows(result: dict, *, count_key: str, windows: tuple) -> dict:
+    """Reject changed matched regions without granting partial/exact credit."""
+    words = result.get('difference_offsets')
+    count = result.get(count_key)
+    if (type(count) is not int or not isinstance(words, list) or
+            len(words) != count or not all(
+                isinstance(word, str) and re.fullmatch(r'0x[0-9a-fA-F]+', word)
+                for word in words)):
+        raise RuntimeError('Enemy residual count/format malformed')
+    offsets = [int(word, 16) for word in words]
+    if offsets != sorted(set(offsets)) or count > sum(x[2] for x in windows):
+        raise RuntimeError('Enemy residual duplicated, unsorted or increased')
+    per_window = [0] * len(windows)
+    for off in offsets:
+        locations = [i for i, (start, end, _) in enumerate(windows)
+                     if start <= off < end]
+        if len(locations) != 1:
+            raise RuntimeError('Enemy residual changed previously matched code')
+        per_window[locations[0]] += 1
+    if any(actual > window[2] for actual, window in zip(per_window, windows)):
+        raise RuntimeError('Enemy source regressed a reviewed original window')
+    if result.get('complete_bytes_agree') is not (count == 0):
+        raise RuntimeError('Enemy full-owner equality/count contradictory')
+    return {'differences': count, 'per_window': per_window}
+
+
+def guard_enemy_update(result: dict) -> dict:
+    noncrediting(result, name='EnemyManager OnUpdate', target_size=3900,
+                 fields=97, fields_key='relocations')
+    if (result.get('target_sha256') != ENEMY_UPDATE_SHA256 or
+            result.get('candidate_bytes') != 3900 or
+            result.get('code_bytes') != 3883 or
+            result.get('target_instructions') != 1026 or
+            result.get('candidate_instructions') != 1026 or
+            result.get('relocation_fields_agree') != 97 or
+            result.get('target_calls') != 69 or
+            result.get('candidate_calls') != 69 or
+            result.get('ordered_calls_agree') is not True or
+            result.get('target_direct_blocks') != 170 or
+            result.get('candidate_direct_blocks') != 170 or
+            result.get('reviewed_control_flow_agrees') is not True or
+            result.get('switch_table_destinations_agree') is not True):
+        raise RuntimeError('EnemyManager 3900-byte original/COFF/call/graph changed')
+    return enemy_difference_windows(result, count_key='complete_differences',
+                                    windows=ENEMY_UPDATE_WINDOWS)
+
+
+def guard_enemy_collision(result: dict) -> dict:
+    noncrediting(result, name='Enemy collision append leaf', target_size=82,
+                 fields=2, fields_key='bound_call_fields')
+    if (result.get('target_sha256') != ENEMY_COLLISION_SHA256 or
+            result.get('candidate_bytes') != 82 or
+            result.get('target_instructions') != 30 or
+            result.get('candidate_instructions') != 30 or
+            result.get('ordered_call_addresses') != ['0x40f5a0', '0x40f8e0']):
+        raise RuntimeError('Enemy append collision original SHA/ABI/calls changed')
+    return enemy_difference_windows(result, count_key='ordinary_differing_bytes',
+                                    windows=ENEMY_COLLISION_WINDOWS)
+
+
 def run_enemy(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # The 3,900-byte enemy calc owner and 151-byte exact attached-effects
     # helper share the actual EnemyManagerCore TU. The collision append leaf
     # is a separate 82-byte owner invoked by the calc callback twice.
     build('enemy-attached-effect-update')
-    main = noncrediting(parsed(['scripts/inspect-enemy-manager-update.py',
-                                'build/matching/EnemyManagerCore.obj', '--json']),
-                        name='EnemyManager OnUpdate', target_size=3900,
-                        fields=97, fields_key='relocations')
-    if (main.get('candidate_bytes') != 3900 or
-            main.get('target_instructions') != 1026 or
-            main.get('candidate_instructions') != 1026 or
-            not isinstance(main.get('complete_differences'), int) or
-            main['complete_differences'] > 39 or main.get('complete_bytes_agree') or
-            main.get('relocation_fields_agree') != 97 or
-            main.get('target_calls') != 69 or main.get('candidate_calls') != 69 or
-            not main.get('ordered_calls_agree') or
-            main.get('target_direct_blocks') != 170 or
-            main.get('candidate_direct_blocks') != 170 or
-            not main.get('reviewed_control_flow_agrees') or
-            not main.get('switch_table_destinations_agree')):
-        raise RuntimeError('EnemyManager 97-field / 69-call / 170-block owner changed')
+    main = parsed(['scripts/inspect-enemy-manager-update.py',
+                   'build/matching/EnemyManagerCore.obj', '--json'])
+    main_frontier = guard_enemy_update(main)
 
     obj = 'build/matching/EnemyCollisionBoxAppend.obj'
     build_nonexact('src/EnemyCollisionBoxAppend.cpp', obj,
                    reference_unit='enemy-attached-effect-update')
-    collision = noncrediting(parsed(['scripts/inspect-enemy-collision-box.py', obj, '--json'],
-                                  diagnostic=True), name='Enemy collision append leaf',
-                             target_size=82, fields=2, fields_key='bound_call_fields')
-    if (collision.get('target_instructions') != 30 or
-            collision.get('ordered_call_addresses') != ['0x40f5a0', '0x40f8e0']):
-        raise RuntimeError('Enemy collision append original call/ABI census changed')
+    collision = parsed(['scripts/inspect-enemy-collision-box.py', obj, '--json'],
+                       diagnostic=True)
+    collision_frontier = guard_enemy_collision(collision)
     exact = [canonical('enemy-attached-effect-update')] if protect_exact else []
     if protect_exact:
         build('enemy-manager-draw-impl')
@@ -790,14 +842,14 @@ def run_enemy(*, protect_exact: bool) -> tuple[dict, list[dict]]:
                 'target_bytes': 3900,
                 'candidate_bytes': main['candidate_bytes'],
                 'bound_fields': main['relocations'],
-                'ordinary_differences': main['complete_differences'],
+                'ordinary_differences': main_frontier['differences'],
                 'ordered_calls': main['candidate_calls'],
                 'direct_graphs_agree': main['reviewed_control_flow_agrees'],
                 'switch_destinations_agree': main['switch_table_destinations_agree']},
             'enemy_collision_append': {
                 'target_bytes': 82,
                 'candidate_bytes': collision['candidate_bytes'],
-                'ordinary_differences': collision['ordinary_differing_bytes'],
+                'ordinary_differences': collision_frontier['differences'],
                 'ordered_calls': collision['ordered_call_addresses'],
                 'bound_fields': collision['bound_call_fields']}}, exact
 

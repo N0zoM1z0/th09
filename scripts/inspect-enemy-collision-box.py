@@ -19,6 +19,7 @@ import struct
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 0x00410250
 SIZE = 82
+TARGET_SHA256 = "e2be799860dde7b752f525cb13f4135c4666917745006a511e734e10cd2ff9c0"
 SYMBOL = '?AppendPlayerCollisionBox@EnemyAppendCollisionView@@QAEXPBUFloat3@@0@Z'
 CALL_TARGETS = {
     '??KFloat3@@QBE?AU0@M@Z': 0x0040F5A0,
@@ -75,6 +76,8 @@ def diagnose(obj: Path) -> dict:
     compare = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(compare)
     target = compare.pe_bytes_at(compare.verified_target(), BASE, SIZE)
+    if hashlib.sha256(target).hexdigest() != TARGET_SHA256:
+        raise ValueError("original Enemy collision-box full-owner SHA changed")
     ti, tc = decode_owner(target)
     if tc != ORDERED_CALLS or len(ti) != 30:
         raise ValueError('verified TH09 target call/physical extent drifted')
@@ -95,6 +98,7 @@ def diagnose(obj: Path) -> dict:
     diffs = [off for off, (a, b) in enumerate(zip(target, linked)) if a != b]
     return {
         'diagnostic_only': True, 'exactness_credit': 'none',
+        'target_sha256': hashlib.sha256(target).hexdigest(),
         'target_bytes': SIZE, 'candidate_bytes': len(linked),
         'target_instructions': len(ti), 'candidate_instructions': len(ci),
         'bound_call_fields': len(relocations), 'ordered_call_addresses':

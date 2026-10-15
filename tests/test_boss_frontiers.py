@@ -151,7 +151,9 @@ class BossFrontierChecks(TestCase):
     def enemy_evidence():
         main = {
             'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_sha256': frontiers.ENEMY_UPDATE_SHA256,
             'target_bytes': 3900, 'candidate_bytes': 3900,
+            'code_bytes': 3883,
             'target_instructions': 1026, 'candidate_instructions': 1026,
             'complete_bytes_agree': False,
             'relocations': 97, 'relocation_fields_agree': 97,
@@ -161,13 +163,28 @@ class BossFrontierChecks(TestCase):
             'reviewed_control_flow_agrees': True,
             'switch_table_destinations_agree': True,
             'complete_differences': 39,
+            'difference_offsets': [hex(v) for v in (
+                0x19C, 0x1A3, 0x252, 0x263, 0x26D, 0x272, 0x294,
+                0x29A, 0x29C, 0x2A5, 0x2A9, 0x2B7, 0x2BD, 0x845,
+                0x846, 0x847, 0x849, 0x84A, 0x84C, 0x84D, 0x84E,
+                0x84F, 0x850, 0x9C0, 0x9C6, 0x9DF, 0x9E2, 0x9EC,
+                0x9F3, 0xA1F, 0xA23, 0xA29, 0xA2E, 0xA34, 0xA3A,
+                0xA42, 0xA45, 0xA61, 0xA7E)],
         }
         leaf = {
             'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_sha256': frontiers.ENEMY_COLLISION_SHA256,
             'target_bytes': 82, 'candidate_bytes': 82,
             'bound_call_fields': 2, 'target_instructions': 30,
+            'candidate_instructions': 30, 'complete_bytes_agree': False,
             'ordered_call_addresses': ['0x40f5a0', '0x40f8e0'],
             'ordinary_differing_bytes': 31,
+            'difference_offsets': [hex(v) for v in (
+                0x1C, 0x1D, 0x1E, 0x20, 0x21, 0x23, 0x24,
+                0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B,
+                0x2C, 0x2D, 0x2E, 0x2F, 0x30, 0x31, 0x32,
+                0x33, 0x34, 0x35, 0x37, 0x38, 0x39, 0x3A,
+                0x3B, 0x3D, 0x3E)],
         }
         return main, leaf
 
@@ -203,6 +220,49 @@ class BossFrontierChecks(TestCase):
                     **leaf, 'ordered_call_addresses': ['0x40f8e0', '0x40f5a0']
                 }]), self.assertRaises(RuntimeError):
             frontiers.run_enemy(protect_exact=False)
+
+    def test_enemy_original_digest_windows_and_count_fail_closed(self):
+        main, leaf = self.enemy_evidence()
+        for change in ({'target_sha256': '0' * 64},
+                       {'code_bytes': 3882}, {'candidate_instructions': 1025},
+                       {'relocation_fields_agree': 96},
+                       {'difference_offsets': main['difference_offsets'][:-1]},
+                       {'difference_offsets': main['difference_offsets'][:-1] + ['0x1AB']},
+                       {'difference_offsets': ['0x1A3', '0x19C'] + main['difference_offsets'][2:]},
+                       {'difference_offsets': ['0x19C'] * 39},
+                       {'difference_offsets': ['garbage'] + main['difference_offsets'][1:]},
+                       {'difference_offsets': ['0x19C', '0x1B0'] + main['difference_offsets'][2:]},
+                       {'difference_offsets': ['0x19C', '0x19D', '0x1A3'] + main['difference_offsets'][2:-1]},
+                       {'complete_bytes_agree': True},
+                       {'complete_differences': 0},
+                       {'exactness_credit': 'accepted'}):
+            with self.subTest(change=change), self.assertRaises(RuntimeError):
+                frontiers.guard_enemy_update({**main, **change})
+        for change in ({'target_sha256': '0' * 64},
+                       {'candidate_bytes': 83}, {'bound_call_fields': 1},
+                       {'candidate_instructions': 29},
+                       {'difference_offsets': leaf['difference_offsets'][:-1]},
+                       {'difference_offsets': ['0x19'] + leaf['difference_offsets'][1:]},
+                       {'difference_offsets': ['0x40'] + leaf['difference_offsets'][1:]},
+                       {'difference_offsets': ['0x1c'] * 31},
+                       {'ordinary_differing_bytes': 32},
+                       {'complete_bytes_agree': True},
+                       {'exactness_credit': 'accepted'}):
+            with self.subTest(change=change), self.assertRaises(RuntimeError):
+                frontiers.guard_enemy_collision({**leaf, **change})
+
+    def test_enemy_valid_future_improvements_still_grant_no_exact_credit(self):
+        main, leaf = self.enemy_evidence()
+        for result, guard, key in (
+                (main, frontiers.guard_enemy_update, 'complete_differences'),
+                (leaf, frontiers.guard_enemy_collision, 'ordinary_differing_bytes')):
+            improved = {**result, 'difference_offsets': result['difference_offsets'][1:],
+                        key: result[key] - 1}
+            self.assertEqual(guard(improved)['differences'], result[key] - 1)
+            converged = {**result, 'difference_offsets': [], key: 0,
+                         'complete_bytes_agree': True}
+            self.assertEqual(guard(converged)['differences'], 0)
+            self.assertEqual(converged['exactness_credit'], 'none')
 
     @staticmethod
     def screen_evidence():
