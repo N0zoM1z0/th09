@@ -100,6 +100,98 @@ def build_nonexact(source: str, obj: str, *, reference_unit: str) -> None:
                            (response.stderr + response.stdout)[-1600:])
 
 
+# These offsets belong to the independently reviewed full original physical
+# 15,564-byte RunEcl owner, not a standalone 148-handler reconstruction.
+# The two residuals are 7 ordinary bytes of opcode 4 and 23 of opcode 155.
+RUNECL_TARGET_OWNER_SHA = 'e9433504219119eba40ed4d11537782178135effeb6c95d74b6274e0e7f5e7ea'
+RUNECL_WINDOWS = {4: (0x277, 29, 7, 8), 155: (0x30B0, 45, 23, 12)}
+
+
+def validate_runecl_byte_frontier(complete: dict, shapes: dict) -> dict:
+    """Reject byte/code/table/handler regressions, granting zero exact credit.
+
+    A successful diagnostic may remove existing differences or finish a handler.
+    Only canonical source-commit-bound exact replay can accept the whole owner.
+    """
+    noncrediting(complete, name='RunEcl physical original',
+                 target_size=15564, fields=598,
+                 size_key='physical_bytes', fields_key='relocations')
+    noncrediting(shapes, name='RunEcl independently reviewed handlers',
+                 target_size=14792, fields=148,
+                 size_key='target_code_bytes', fields_key='unique_handlers')
+    if (complete.get('target_owner_sha256') != RUNECL_TARGET_OWNER_SHA or
+            complete.get('identity_audit_passed') is not True or
+            shapes.get('identity_audit_passed') is not True or
+            shapes.get('candidate_code_bytes') != 14792 or
+            complete.get('field_different_bytes') != 0 or
+            complete.get('table_different_bytes') != 0):
+        raise RuntimeError('RunEcl original identity/code alignment/fields/table regressed')
+    differences = complete.get('differences')
+    amount = complete.get('ordinary_different_bytes')
+    if (not isinstance(amount, int) or isinstance(amount, bool) or
+            amount < 0 or amount > 30 or
+            complete.get('different_bytes') != amount or
+            not isinstance(differences, list) or len(differences) != amount):
+        raise RuntimeError('RunEcl full physical residual increased or is incomplete')
+    # A zero-byte residual is still a non-crediting diagnostic. Check that
+    # original-bound byte equality agrees with the complete residual count.
+    if complete.get('complete_bytes_equal') is not (amount == 0):
+        raise RuntimeError('RunEcl full physical equality disagrees with residual bytes')
+    seen = set()
+    counts = {4: 0, 155: 0}
+    for entry in differences:
+        if not isinstance(entry, dict):
+            raise RuntimeError('RunEcl residual contains an unknown record')
+        offset, actual, original = (entry.get('offset'), entry.get('candidate'),
+                                    entry.get('target'))
+        if (not isinstance(offset, int) or isinstance(offset, bool) or
+                offset in seen or not isinstance(actual, int) or
+                not isinstance(original, int) or
+                not (0 <= actual <= 255 and 0 <= original <= 255) or
+                actual == original or entry.get('relocation_field') is not False):
+            raise RuntimeError('RunEcl byte differences are duplicated/unreviewed')
+        seen.add(offset)
+        slots = [opcode for opcode, (begin, size, _, _) in RUNECL_WINDOWS.items()
+                 if begin <= offset < begin + size]
+        if len(slots) != 1:
+            raise RuntimeError('RunEcl changed an already matched physical opcode')
+        counts[slots[0]] += 1
+    for opcode, (_, _, ceiling, _) in RUNECL_WINDOWS.items():
+        if counts[opcode] > ceiling:
+            raise RuntimeError('RunEcl opcode %d residual byte frontier regressed' % opcode)
+    mismatches = shapes.get('mismatches')
+    if (not isinstance(mismatches, list) or
+            shapes.get('mismatching_handler_shapes') != len(mismatches) or
+            shapes.get('matching_handler_shapes') != 148 - len(mismatches) or
+            shapes.get('matching_handler_shapes', 0) < 146):
+        raise RuntimeError('RunEcl complete 148-handler shape census regressed')
+    seen_opcodes = set()
+    for mismatch in mismatches:
+        if not isinstance(mismatch, dict):
+            raise RuntimeError('RunEcl unreviewed handler mismatch record')
+        opcode = mismatch.get('opcode')
+        if opcode not in RUNECL_WINDOWS or opcode in seen_opcodes:
+            raise RuntimeError('RunEcl regressed a previously matching handler')
+        seen_opcodes.add(opcode)
+        begin, size, _, instrs = RUNECL_WINDOWS[opcode]
+        if (mismatch.get('candidate_offset') != begin or
+                mismatch.get('target_offset') != begin or
+                mismatch.get('candidate_bytes') != size or
+                mismatch.get('target_bytes') != size or
+                mismatch.get('candidate_instructions') != instrs or
+                mismatch.get('target_instructions') != instrs or
+                mismatch.get('matching_instructions', 0) < 6 or
+                mismatch.get('exact_shape') is not False):
+            raise RuntimeError('RunEcl opcode physical extent or instruction audit regressed')
+    for opcode in RUNECL_WINDOWS:
+        if (opcode in seen_opcodes) != (counts[opcode] > 0):
+            raise RuntimeError('RunEcl byte residual and opcode shape disagree')
+    return {'remaining_opcode_mismatches': sorted(seen_opcodes),
+            'ordinary_differences': amount,
+            'differences_by_opcode': counts,
+            'matching_handler_shapes': shapes['matching_handler_shapes']}
+
+
 def run_ecl(*, include_trail: bool, include_interpreter: bool,
             protect_exact: bool) -> tuple[dict, list[dict]]:
     build('ecl-pop-context')
@@ -112,16 +204,9 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
             execute(['scripts/inspect-ecl-complete.py', object_file, '--output', destination],
                     diagnostic=True)
             complete = json.loads(Path(destination).read_text())
-        noncrediting(complete, name='RunEcl', target_size=15564, fields=598,
-                     size_key='physical_bytes', fields_key='relocations')
-        shapes = noncrediting(parsed(['scripts/report-ecl-handler-shapes.py', '--json', object_file]),
-                              name='RunEcl handlers', target_size=14792, fields=148,
-                              size_key='target_code_bytes', fields_key='unique_handlers')
-        if shapes.get('identity_audit_passed') is not True:
-            raise RuntimeError('RunEcl handler shapes lack complete target identity')
-        mismatches = [row['opcode'] for row in shapes['mismatches']]
-        if any(opcode not in (4, 155) for opcode in mismatches):
-            raise RuntimeError('RunEcl regressed a previously matching handler')
+        shapes = parsed(['scripts/report-ecl-handler-shapes.py', '--json', object_file])
+        verified_runecl = validate_runecl_byte_frontier(complete, shapes)
+        mismatches = verified_runecl['remaining_opcode_mismatches']
         biased = noncrediting(parsed(['scripts/inspect-ecl-biased-movement.py', '--json', object_file],
                                     diagnostic=True), name='ECL MoveRandomBiased',
                               target_size=516, fields=28)
@@ -133,6 +218,7 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
             'matching_handler_shapes': shapes['matching_handler_shapes'],
             'handlers': shapes['unique_handlers'],
             'remaining_opcode_mismatches': mismatches,
+            'ordinary_differences_by_opcode': verified_runecl['differences_by_opcode'],
         }, ecl_move_random_biased={
             'target_bytes': 516, 'candidate_bytes': biased['candidate_bytes'],
             'overlapping_differences': biased['overlapping_differences'],
