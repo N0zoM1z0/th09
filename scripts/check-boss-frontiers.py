@@ -897,6 +897,65 @@ def guard_title_draw_result(result: dict) -> None:
         raise RuntimeError('Title DrawResult 1939-byte/82-field/16-call/92-block frontier drifted')
 
 
+def guard_title_update_result(result: dict) -> None:
+    """Guard the complete 485-byte original and the 483-byte source frontier.
+
+    This remains non-crediting, even if all the bytes converge in a later build.
+    The producer independently SHA-pins the original and validates all 34
+    source relocations, nine calls, decoded instructions and direct CFG blocks.
+    """
+    noncrediting(result, name='Title OnUpdateResult', target_size=485, fields=34)
+    source_size = result.get('candidate_bytes')
+    mismatch = result.get('overlap_differences')
+    if (type(source_size) is not int or not 483 <= source_size <= 485 or
+            result.get('target_instructions') != 147 or
+            result.get('candidate_instructions') not in (146, 147) or
+            result.get('original_fields') != 34 or
+            result.get('ordered_calls') != 9 or
+            result.get('calls_agree') is not True or
+            result.get('original_blocks') != 40 or
+            result.get('candidate_blocks') != 40 or
+            result.get('direct_graphs_agree') is not True or
+            type(mismatch) is not int or not 0 <= mismatch <= 224 or
+            result.get('missing_target_bytes') != 485 - source_size or
+            result.get('extra_candidate_bytes') != 0 or
+            result.get('complete_bytes_equal') is not
+            (source_size == 485 and mismatch == 0)):
+        raise RuntimeError('Title OnUpdateResult 485-byte/34-field/9-call/40-block frontier drifted')
+
+
+def guard_title_options(result: dict) -> None:
+    """Guard all 2,045 original bytes, 135 operands and 51 ordered calls.
+
+    The current 2,048-byte candidate has 610 overlapping differences. A
+    complete exact candidate is allowed through, without awarding exact credit.
+    """
+    noncrediting(result, name='Title OnUpdateOptions', target_size=2045, fields=135)
+    source_size = result.get('candidate_bytes')
+    mismatch = result.get('overlap_differences')
+    aligned = result.get('aligned_instructions')
+    unpaired = result.get('unpaired_branch_destinations')
+    if (type(source_size) is not int or not 2045 <= source_size <= 2048 or
+            result.get('target_instructions') != 551 or
+            type(result.get('candidate_instructions')) is not int or
+            not 551 <= result['candidate_instructions'] <= 554 or
+            result.get('original_fields') != 135 or
+            result.get('ordered_calls') != 51 or
+            result.get('ordered_calls_agree') is not True or
+            result.get('original_blocks') != 121 or
+            result.get('candidate_blocks') != 121 or
+            result.get('direct_graphs_agree') is not True or
+            type(aligned) is not int or not 540 <= aligned <= 551 or
+            result.get('paired_branch_conflicts') != [] or
+            type(unpaired) is not int or not 0 <= unpaired <= 5 or
+            type(mismatch) is not int or not 0 <= mismatch <= 610 or
+            result.get('missing_target_bytes') != 0 or
+            result.get('extra_candidate_bytes') != source_size - 2045 or
+            result.get('complete_bytes_equal') is not
+            (source_size == 2045 and mismatch == 0)):
+        raise RuntimeError('Title OnUpdateOptions 2045-byte/135-field/51-call/121-block frontier drifted')
+
+
 def run_title_open() -> dict:
     # These source-present owners are explicitly non-exact. Their independent
     # original operand inventories must agree before any similarity score.
@@ -921,12 +980,8 @@ def run_title_open() -> dict:
             'extra_candidate_bytes': result['extra_candidate_bytes'],
             'direct_graphs_agree': result['direct_graphs_agree'],
         }
-    update = noncrediting(parsed(['scripts/inspect-title-update-result.py', cursor_obj]),
-                          name='Title OnUpdateResult', target_size=485, fields=34)
-    if (update['original_fields'] != 34 or update['ordered_calls'] != 9 or
-            not update['calls_agree'] or update['original_blocks'] != 40 or
-            not update['direct_graphs_agree']):
-        raise RuntimeError('Title OnUpdateResult 34-field/9-call/40-block audit failed')
+    update = parsed(['scripts/inspect-title-update-result.py', cursor_obj])
+    guard_title_update_result(update)
     cursor_reports['title_update_result'] = {
         'target_bytes': 485, 'candidate_bytes': update['candidate_bytes'],
         'bound_fields': update['bound_fields'],
@@ -940,14 +995,8 @@ def run_title_open() -> dict:
     options_obj = 'build/matching/TitleScreenOptions.obj'
     build_nonexact('src/TitleScreenOptions.cpp', options_obj,
                    reference_unit='title-screen-setup-thread')
-    options = noncrediting(parsed(['scripts/inspect-title-options.py',
-                                  options_obj, '--json']),
-                           name='Title OnUpdateOptions', target_size=2045, fields=135)
-    if (options['original_fields'] != 135 or options['target_instructions'] != 551 or
-            options['ordered_calls'] != 51 or not options['ordered_calls_agree'] or
-            options['original_blocks'] != 121 or
-            not options['direct_graphs_agree']):
-        raise RuntimeError('Title Options original 135-field/51-call/121-block identity regressed')
+    options = parsed(['scripts/inspect-title-options.py', options_obj, '--json'])
+    guard_title_options(options)
     cursor_reports['title_update_options'] = {
         'target_bytes': 2045, 'candidate_bytes': options['candidate_bytes'],
         'bound_fields': options['bound_fields'],

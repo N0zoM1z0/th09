@@ -99,16 +99,89 @@ class OptionsOriginalFields(unittest.TestCase):
 
 
 class OptionsBossFrontierWiring(unittest.TestCase):
-    def test_options_identity_gate_fails_closed(self):
-        evidence = {
+    @staticmethod
+    def options_evidence():
+        return {
             'diagnostic_only': True, 'exactness_credit': 'none',
             'target_bytes': 2045, 'candidate_bytes': 2048,
             'target_instructions': 551, 'candidate_instructions': 554,
             'original_fields': 135, 'bound_fields': 135,
             'ordered_calls': 51, 'ordered_calls_agree': True,
-            'original_blocks': 121, 'direct_graphs_agree': True,
+            'original_blocks': 121, 'candidate_blocks': 121,
+            'direct_graphs_agree': True,
+            'aligned_instructions': 540, 'paired_branch_conflicts': [],
+            'unpaired_branch_destinations': 5,
+            'overlap_differences': 610,
             'extra_candidate_bytes': 3, 'missing_target_bytes': 0,
+            'complete_bytes_equal': False,
         }
+
+    @staticmethod
+    def result_evidence():
+        return {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_bytes': 485, 'candidate_bytes': 483,
+            'target_instructions': 147, 'candidate_instructions': 146,
+            'original_fields': 34, 'bound_fields': 34,
+            'ordered_calls': 9, 'calls_agree': True,
+            'original_blocks': 40, 'candidate_blocks': 40,
+            'direct_graphs_agree': True,
+            'overlap_differences': 224, 'missing_target_bytes': 2,
+            'extra_candidate_bytes': 0, 'complete_bytes_equal': False,
+        }
+
+    def test_title_options_complete_frontier_rejects_bytes_and_graph_regressions(self):
+        baseline = self.options_evidence()
+        boss.guard_title_options(baseline)
+        for changed in (
+                {'candidate_bytes': 2049}, {'candidate_bytes': 2044},
+                {'target_instructions': 550}, {'candidate_instructions': 555},
+                {'original_fields': 134}, {'bound_fields': 134},
+                {'ordered_calls': 50}, {'ordered_calls_agree': False},
+                {'original_blocks': 120}, {'candidate_blocks': 120},
+                {'direct_graphs_agree': False}, {'aligned_instructions': 539},
+                {'paired_branch_conflicts': [(7, 9)]},
+                {'unpaired_branch_destinations': 6},
+                {'overlap_differences': 611}, {'overlap_differences': -1},
+                {'extra_candidate_bytes': 4}, {'missing_target_bytes': 1},
+                {'complete_bytes_equal': True}, {'exactness_credit': 'accepted'}):
+            with self.subTest(changed=changed), self.assertRaises(RuntimeError):
+                boss.guard_title_options({**baseline, **changed})
+        # Convergence is permitted at the diagnostic gate but not promoted.
+        exact_diagnostic = {**baseline, 'candidate_bytes': 2045,
+                            'candidate_instructions': 551,
+                            'aligned_instructions': 551,
+                            'unpaired_branch_destinations': 0,
+                            'overlap_differences': 0,
+                            'extra_candidate_bytes': 0,
+                            'complete_bytes_equal': True}
+        boss.guard_title_options(exact_diagnostic)
+        self.assertEqual(exact_diagnostic['exactness_credit'], 'none')
+
+    def test_title_result_update_complete_frontier_rejects_byte_and_shape_regressions(self):
+        baseline = self.result_evidence()
+        boss.guard_title_update_result(baseline)
+        for changed in (
+                {'candidate_bytes': 482}, {'candidate_bytes': 487},
+                {'target_instructions': 146}, {'candidate_instructions': 145},
+                {'original_fields': 33}, {'bound_fields': 33},
+                {'ordered_calls': 8}, {'calls_agree': False},
+                {'original_blocks': 39}, {'candidate_blocks': 39},
+                {'direct_graphs_agree': False}, {'overlap_differences': 225},
+                {'overlap_differences': -1}, {'missing_target_bytes': 3},
+                {'extra_candidate_bytes': 1}, {'complete_bytes_equal': True},
+                {'diagnostic_only': False}):
+            with self.subTest(changed=changed), self.assertRaises(RuntimeError):
+                boss.guard_title_update_result({**baseline, **changed})
+        exact_diagnostic = {**baseline, 'candidate_bytes': 485,
+                            'candidate_instructions': 147,
+                            'overlap_differences': 0, 'missing_target_bytes': 0,
+                            'complete_bytes_equal': True}
+        boss.guard_title_update_result(exact_diagnostic)
+        self.assertEqual(exact_diagnostic['exactness_credit'], 'none')
+
+    def test_options_identity_gate_fails_closed(self):
+        evidence = self.options_evidence()
         # Selective test: let the four cursor/result audits provide valid
         # lightweight evidence before the Options audit; reject corruption
         # without invoking the remaining renderer calls.
@@ -120,12 +193,7 @@ class OptionsBossFrontierWiring(unittest.TestCase):
             'overlap_differences': 0, 'extra_candidate_bytes': 0,
             'direct_graphs_agree': True,
         } for size,fields,calls in ((211,6,4),(175,2,2),(175,2,2))]
-        update = {'diagnostic_only': True, 'exactness_credit': 'none',
-                  'target_bytes': 485, 'candidate_bytes': 483,
-                  'original_fields': 34, 'bound_fields': 34,
-                  'ordered_calls': 9, 'calls_agree': True,
-                  'original_blocks': 40, 'direct_graphs_agree': True,
-                  'overlap_differences': 0, 'missing_target_bytes': 2}
+        update = self.result_evidence()
         for changed in ({'bound_fields': 134}, {'original_fields': 134},
                         {'target_instructions': 550}, {'ordered_calls': 50},
                         {'ordered_calls_agree': False}, {'original_blocks': 120},
