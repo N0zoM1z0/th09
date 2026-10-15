@@ -1095,18 +1095,40 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
 void TitleScreenView::SetCharacterCursorActive(i32 selectedCharacter, i32 start, i32 count, i32 stride)
 {
     i32 index = start;
-    while (index < start + count * stride)
+    i32 end = index + count * stride;
+    i32 vmOffset;
+    i32 vmStride;
+    if (index < end)
     {
-        titleAnm->SetSprite(&vms[index], vms[index].baseSpriteIndex + 1);
-        vms[index].pendingInterrupt = 8;
-        g_TitleAnmManager->ExecuteScript(&vms[index]);
-        index += stride;
+        vmOffset = index * (i32)sizeof(AnmVmView);
+        vmStride = stride * (i32)sizeof(AnmVmView);
+        do
+        {
+            AnmVmView *vm = reinterpret_cast<AnmVmView *>(
+                reinterpret_cast<u8 *>(vms) + vmOffset);
+            titleAnm->SetSprite(vm, vm->baseSpriteIndex + 1);
+            vm = reinterpret_cast<AnmVmView *>(
+                reinterpret_cast<u8 *>(vms) + vmOffset);
+            vm->pendingInterrupt = 8;
+            vm = reinterpret_cast<AnmVmView *>(
+                reinterpret_cast<u8 *>(vms) + vmOffset);
+            g_TitleAnmManager->ExecuteScript(vm);
+            index += stride;
+            vmOffset += vmStride;
+        } while (index < end);
     }
 
     index = start + stride * selectedCharacter;
-    titleAnm->SetSprite(&vms[index], vms[index].baseSpriteIndex);
-    vms[index].pendingInterrupt = 7;
-    g_TitleAnmManager->ExecuteScript(&vms[index]);
+    vmOffset = index * (i32)sizeof(AnmVmView);
+    AnmVmView *selectedVm = reinterpret_cast<AnmVmView *>(
+        reinterpret_cast<u8 *>(vms) + vmOffset);
+    titleAnm->SetSprite(selectedVm, selectedVm->baseSpriteIndex);
+    selectedVm = reinterpret_cast<AnmVmView *>(
+        reinterpret_cast<u8 *>(vms) + vmOffset);
+    selectedVm->pendingInterrupt = 7;
+    selectedVm = reinterpret_cast<AnmVmView *>(
+        reinterpret_cast<u8 *>(vms) + vmOffset);
+    g_TitleAnmManager->ExecuteScript(selectedVm);
 }
 
 

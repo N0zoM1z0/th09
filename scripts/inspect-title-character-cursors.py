@@ -158,6 +158,10 @@ def diagnose(object_file: Path, variant: str) -> dict:
         raise ValueError('cursor candidate COFF fields/calls do not match actual instructions')
     tg = direct_control_flow(ti, capstone.x86.X86_OP_IMM)
     cg = direct_control_flow(ci, capstone.x86.X86_OP_IMM)
+    # Compare every physically corresponding byte, without masking relocated
+    # target fields or pretending that a matching suffix is a separate owner.
+    physical_differences = [offset for offset, (actual, expected) in
+                            enumerate(zip(linked, target)) if actual != expected]
     return {
         'diagnostic_only': True, 'exactness_credit': 'none',
         'variant': variant, 'target_address': hex(model['address']),
@@ -167,7 +171,8 @@ def diagnose(object_file: Path, variant: str) -> dict:
         'ordered_calls': len(tcalls), 'ordered_calls_agree': tcalls == ccalls,
         'original_blocks': len(tg), 'candidate_blocks': len(cg),
         'direct_graphs_agree': tg == cg,
-        'overlap_differences': sum(a != b for a, b in zip(target, linked)),
+        'overlap_differences': len(physical_differences),
+        'difference_offsets': [hex(offset) for offset in physical_differences],
         'missing_target_bytes': max(0, len(target) - len(linked)),
         'extra_candidate_bytes': max(0, len(linked) - len(target)),
         'complete_bytes_equal': linked == target,
