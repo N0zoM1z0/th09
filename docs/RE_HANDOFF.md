@@ -311,6 +311,25 @@ noncrediting open-owner diagnostics plus 68 complete exact sibling units**;
 opcode 155: 23). The exact source-commit binding above is immutable and
 does not extend to subsequent handoff/documentation changes.
 
+**Independent Title Options real-owner regression receipts** from source commit
+`7026be1ba625a1d7831685d9524c1c99fc57cd04` (TH09 v1.50a
+`strict-live-v1` forced VC7.1 cold recompile; all **pass / accepted**):
+
+- Existing exact `TitleScreenView::PlayMenuSound @0x00422F17`, **34/34** bytes,
+  genuine `SoundPlayer` method/global COFF identity:
+  `receipt:a90f090fc29a76b05e404caecb43951833090cec8e80fa7b3b6bbbc8c5f28070`.
+- Existing exact `TitleScreenView::TitleSetupThread @0x004249E1`, **534/534**
+  bytes, `receipt:88f5c28aaaa6ae5d055acc4b2d00a8c999e556ca2da3778aef3f8b105585d439`.
+- Existing exact `TitleScreenView::OnUpdateMusicRoom @0x00426E05`, **2,258/2,258**
+  bytes, `receipt:a34d356de5ae62332be86e2543171808c47d3eb1aac37d794aa34bf835a0da31`.
+
+These three are **previously exact** owner checks, not new functions;
+`OnUpdateOptions` itself remains **2,045 original /2,048 source** and
+NON-EXACT. The same source passes the real Title focused cold comparison,
+independent exact 34-byte menu sound, and **389 public CI tests (27 skipped)**.
+The immutable receipt scope is precisely the listed source commit, not a later
+history-only documentation commit.
+
 **Do not count these regressions as new exact matches.** Receipts do not bind
 later source commits, diagnose adjacent non-exact owners, establish a native
 Windows image or attest runtime semantics. Preserve current source-specific
