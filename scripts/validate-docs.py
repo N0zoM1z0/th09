@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 KNOWLEDGE = DOCS / "KNOWLEDGE_BASE.md"
 HANDOFF = DOCS / "RE_HANDOFF.md"
+RECEIPTS_ARCHIVE = DOCS / "RE_ACCEPTED_RECEIPTS.md"
 FRONTIER = DOCS / "SMALL_FUNCTION_FRONTIER.md"
 README = ROOT / "README.md"
 TABLE_SPLIT = re.compile(r"(?<!\\)\|")
@@ -159,14 +160,14 @@ def validate_handoff_totals() -> None:
 def validate_accepted_owner_table(
     text: str, match_rows: list[dict[str, str]], units: dict[str, dict]
 ) -> None:
-    """Keep the handoff's recent accepted-owner table tied to live manifests.
+    """Keep the historical accepted-owner archive tied to live manifests.
 
     Receipt acceptance itself is established by the separate Factory Oracle;
     this validates only local owner identity, bytes, fields and receipt syntax.
     """
     section = "## Closed codegen landmarks and accepted receipts"
     if text.count(section) != 1:
-        raise ValueError("handoff accepted-owner section is missing or duplicated")
+        raise ValueError("accepted-receipt archive section is missing or duplicated")
     body = text.split(section, 1)[1].split("\n## ", 1)[0]
     if re.search(r"\b(?:receipt pending|acceptance pending)\b", body, re.I):
         raise ValueError("accepted-owner section still claims a pending receipt")
@@ -221,7 +222,7 @@ def validate_accepted_owner_table(
         ):
             raise ValueError(f"accepted owner differs from live manifest: {canonical_name}")
     if not seen:
-        raise ValueError("handoff requires recent accepted-owner rows")
+        raise ValueError("accepted-receipt archive requires reviewed owner rows")
 
 
 def validate_handoff_derived_summary(text: str, actual: dict[str, int]) -> None:
@@ -391,7 +392,8 @@ def main() -> int:
         with (ROOT / "config" / "match-units.toml").open("rb") as handle:
             match_units = tomllib.load(handle)["units"]
         validate_accepted_owner_table(
-            HANDOFF.read_text(encoding="utf-8"), rows("matches.csv"), match_units
+            RECEIPTS_ARCHIVE.read_text(encoding="utf-8"),
+            rows("matches.csv"), match_units
         )
         validate_active_frontiers(
             HANDOFF.read_text(encoding="utf-8"),

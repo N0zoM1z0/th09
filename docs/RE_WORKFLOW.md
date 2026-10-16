@@ -51,6 +51,20 @@ disk target, IDA target, ledgers, and live status using the commands in
    target-bound pinned compiler Oracles. This focused replay scope supersedes
    older broad replay wording.
 
+### What to read at a fresh handoff
+
+Use [RE_HANDOFF.md](RE_HANDOFF.md) for the **current** ledger, unresolved
+large/small function fronts, exact-sibling scopes, and restart/cleanup gates.
+The separately preserved [accepted Factory receipts](RE_ACCEPTED_RECEIPTS.md)
+are a **historical source-commit-bound archive**, not a new acceptance claim
+for the current HEAD; [artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md)
+records what was actually deleted and what remained untouched. The current
+standalone 1,280-byte Title DrawReplayMenu PE/COFF auditor is
+`scripts/inspect-title-replay-menu-draw.py`; the focused
+`python3 scripts/check-boss-frontiers.py --owner title` command now
+cold-compiles and verifies it automatically, in addition to the other
+original-bound Title owners.
+
 ### Public CI
 
 `python3 scripts/ci.py` runs target-independent tests with Python `-S`, so a

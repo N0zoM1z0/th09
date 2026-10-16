@@ -125,6 +125,27 @@ class AcceptedOwnerTableTests(unittest.TestCase):
             )
 
 
+class AcceptedReceiptArchiveRoutingTests(unittest.TestCase):
+    def test_actual_archive_table_is_bound_to_live_canonical_manifest(self) -> None:
+        receipt_text = VALIDATE_DOCS.RECEIPTS_ARCHIVE.read_text(encoding="utf-8")
+        with (ROOT / "config" / "match-units.toml").open("rb") as stream:
+            import tomllib
+            units = tomllib.load(stream)["units"]
+        VALIDATE_DOCS.validate_accepted_owner_table(
+            receipt_text, VALIDATE_DOCS.rows("matches.csv"), units
+        )
+        handoff = VALIDATE_DOCS.HANDOFF.read_text(encoding="utf-8")
+        self.assertNotIn(
+            "## Closed codegen landmarks and accepted receipts", handoff
+        )
+        self.assertIn("[the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md)", handoff)
+
+    def test_historical_receipts_do_not_transmute_into_new_exact_credit(self) -> None:
+        handoff = VALIDATE_DOCS.HANDOFF.read_text(encoding="utf-8")
+        self.assertIn("980 source-present / 939 exact / 41 non-exact", handoff)
+        self.assertIn("**939 exact**", handoff)
+
+
 class MarkdownLinkTests(unittest.TestCase):
     def test_code_examples_are_not_local_links(self) -> None:
         text = """`g_EclExInsn[READ_I(...)](enemy, instruction)` and [handoff](docs/RE_HANDOFF.md)

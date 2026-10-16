@@ -116,6 +116,11 @@ analysis database is working state; mirror durable conclusions into the repo.
   prefixed **`gpt-web: ...`** as explicitly requested. Factory repository Bash
   has no network transport for a remote push; never claim a local commit was
   automatically pushed.
+- Route current work through `docs/RE_HANDOFF.md`; original-bound
+  accepted receipts now live in `docs/RE_ACCEPTED_RECEIPTS.md` with
+  immutable source commit bindings, and previous file deletions are recorded
+  in `docs/RE_ARTIFACT_CLEANUP_HISTORY.md`. Archival receipts are **not**
+  current-source exactness credit; clean handoffs may have no `build/`.
 - Keep decompiler dumps, logs, experiments, screenshots, and generated reports
   below `.analysis/`; keep builds below `build/` and downloaded tools below
   `.tools/`.

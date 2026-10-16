@@ -1385,6 +1385,52 @@ def guard_title_replay_save(result: dict) -> None:
         raise RuntimeError('Title DrawReplaySave recovered 799/245/41/4/28 frontier drifted')
 
 
+TITLE_REPLAY_MENU_TARGET_SHA256 = (
+    'd0201b3aae3727f7aa773187ac9ac6d21727c86342b657c780cb9353cdc39ed0'
+)
+
+
+def guard_title_replay_menu(result: dict) -> None:
+    """Protect the original 1,280-byte Title replay-menu renderer.
+
+    Complete retail-PE SHA, each of the 57 original address operands,
+    13 ordered calls and direct graph are decoded by the independent
+    inspector. This local gate never grants canonical exactness credit.
+    """
+    noncrediting(result, name='Title DrawReplayMenu 1280-byte owner',
+                 target_size=1280, fields=57)
+    size = result.get('candidate_bytes')
+    diffs = result.get('difference_offsets')
+    count = result.get('overlap_differences')
+    aligned = result.get('aligned_instructions')
+    candidate_blocks = result.get('candidate_blocks')
+    if (result.get('target_sha256') != TITLE_REPLAY_MENU_TARGET_SHA256 or
+            type(size) is not int or not 1258 <= size <= 1280 or
+            result.get('target_instructions') != 376 or
+            type(result.get('candidate_instructions')) is not int or
+            not 368 <= result['candidate_instructions'] <= 376 or
+            result.get('original_fields') != 57 or
+            result.get('original_calls') != 13 or
+            result.get('candidate_calls') != 13 or
+            result.get('ordered_calls_agree') is not True or
+            result.get('original_blocks') != 72 or
+            type(result.get('direct_graphs_agree')) is not bool or
+            type(candidate_blocks) is not int or
+            not 70 <= candidate_blocks <= 72 or
+            (result.get('direct_graphs_agree') is True and candidate_blocks != 72) or
+            type(aligned) is not int or not 238 <= aligned <= 376 or
+            type(count) is not int or not 0 <= count <= 1187 or
+            not isinstance(diffs, list) or len(diffs) != count or
+            any(type(i) is not int or not 0 <= i < size for i in diffs) or
+            diffs != sorted(set(diffs)) or
+            result.get('missing_target_bytes') != 1280 - size or
+            result.get('extra_candidate_bytes') != 0 or
+            result.get('complete_bytes_equal') is not
+                    (size == 1280 and count == 0)):
+        raise RuntimeError(
+            'Title DrawReplayMenu 1280-byte/57-field/13-call/72-block frontier drifted')
+
+
 def run_title_open() -> dict:
     # These source-present owners are explicitly non-exact. Their independent
     # original operand inventories must agree before any similarity score.
@@ -1436,6 +1482,12 @@ def run_title_open() -> dict:
         'extra_candidate_bytes': options['extra_candidate_bytes'],
         'direct_graphs_agree': options['direct_graphs_agree'],
     }
+    menu_obj = 'build/matching/TitleScreenReplayMenuDraw.obj'
+    build_nonexact('src/TitleScreenReplayMenuDraw.cpp', menu_obj,
+                   reference_unit='title-screen-setup-thread')
+    menu = parsed(['scripts/inspect-title-replay-menu-draw.py', menu_obj,
+                   '--json'])
+    guard_title_replay_menu(menu)
     result_obj = 'build/matching/TitleResultDraw.obj'
     build_nonexact('src/TitleScreenResultDraw.cpp', result_obj,
                    reference_unit='title-screen-setup-thread')
@@ -1449,7 +1501,17 @@ def run_title_open() -> dict:
                                   '--json']), name='Title DrawReplaySave',
                           target_size=800, fields=41)
     guard_title_replay_save(replay)
-    return {**cursor_reports, 'title_draw_result': {
+    return {**cursor_reports, 'title_draw_replay_menu': {
+                'target_bytes': 1280,
+                'candidate_bytes': menu['candidate_bytes'],
+                'bound_fields': menu['bound_fields'],
+                'ordered_calls': menu['candidate_calls'],
+                'original_blocks': menu['original_blocks'],
+                'candidate_blocks': menu['candidate_blocks'],
+                'direct_graphs_agree': menu['direct_graphs_agree'],
+                'aligned_instructions': menu['aligned_instructions'],
+                'missing_target_bytes': menu['missing_target_bytes']},
+            'title_draw_result': {
                 'target_bytes': 1939, 'candidate_bytes': draw['candidate_bytes'],
                 'ordinary_differences': draw['complete_differences'],
                 'fields': draw['bound_fields'],
