@@ -8,15 +8,13 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 DESTINATIONS = {
+    '?AllocateDynamicData@ExAttackAllocateRecordView@@QAEXHH@Z': 0x440d90,
+    '?GetSideState@ExAttackRecordSideView@@QAEPAUExAttackGameManagerSideView@@XZ': 0x440cb0,
     '??YFloat3@@QAEAAU0@ABU0@@Z': 0x405730,
-    '?AllocateDynamicData@ExAttackType19AllocateView@@QAEXHH@Z': 0x440d90,
-    '?AllocateDynamicData@ExAttackType21AllocateView@@QAEXHH@Z': 0x440d90,
     '?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z': 0x401560,
     '?FromAngleMagnitude@Float3@@QAEXMM@Z': 0x441890,
     '?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z': 0x404910,
     '?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z': 0x406200,
-    '?GetSideState@ExAttackType19SideLookupView@@QAEPAUExAttackType19SideView@@XZ': 0x440cb0,
-    '?GetSideState@ExAttackType21SideLookupView@@QAEPAUExAttackType21SideView@@XZ': 0x440cb0,
     '?SelectSide@Supervisor@@QAEXH@Z': 0x401440,
     '?TransformPopupX@ExAttackType8GameManagerView@@QAEMM@Z': 0x401680,
     '?TransformPopupY@ExAttackType8GameManagerView@@QAEMM@Z': 0x4016b0,

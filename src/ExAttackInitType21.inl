@@ -1,5 +1,6 @@
 // Included once by EclManager.cpp; the real Float3 helper is already visible.
 #include "AnmManager.hpp"
+#include "ExAttackRecordRuntimeView.hpp"
 #include "ExAttackType8GameManagerView.hpp"
 #include "AsciiManager.hpp"
 #include "ExAttackController.hpp"
@@ -10,33 +11,6 @@
 
 #include "ExAttackType21ExtraView.hpp"
 
-struct ExAttackType21AnmOwner
-{
-    unsigned char unknown000[0x2D4];
-    AnmLoaded *anm2D4;
-};
-
-struct ExAttackType21SideView
-{
-    unsigned char unknown00[0x0C];
-    ExAttackType21AnmOwner *anmOwner0C;
-    unsigned char unknown10[0x28];
-};
-
-struct ExAttackType21SideLookupView
-{
-    int state00;
-    int opponentSide04;
-    int side08;
-    ExAttackType21SideView *GetSideState();
-};
-
-struct ExAttackType21AllocateView
-{
-    unsigned char bytes[0x38];
-    void AllocateDynamicData(int vmCount, int extraBytes);
-};
-
 extern RngRuntimeView g_ReplayRng;
 extern float g_ExAttackPlayfieldWidth;
 
@@ -45,11 +19,11 @@ int __fastcall ExAttackInitializeCallbackType21(ExAttackRecord *base)
     ExAttackType21RecordView *record =
         reinterpret_cast<ExAttackType21RecordView *>(base);
 
-    reinterpret_cast<ExAttackType21AllocateView *>(record)
+    reinterpret_cast<ExAttackAllocateRecordView *>(record)
         ->AllocateDynamicData(1, sizeof(ExAttackType21Extra));
 
-    reinterpret_cast<ExAttackType21SideLookupView *>(record)
-        ->GetSideState()->anmOwner0C->anm2D4->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackRecordSideView *>(record)
+        ->GetSideState()->effectManager0C->effectAnm->ExecuteAnmIdx(
             reinterpret_cast<AnmVm *>(record->dynamicData1C), 37);
 
     ExAttackType21Extra *extra = record->extra34;
