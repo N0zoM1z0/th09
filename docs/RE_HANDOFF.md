@@ -11,24 +11,26 @@
 
 - **Working branch / code baseline:** `th09` on `main`. Determine the source
   commit from the live `git log` and `git status --short --branch`, never from
-  a historical handoff ID. The previous operator checkpoint `ac3742a` saved Factory accepted receipts
-  for the new exact collision leaf and existing exact append callee; this
-  checkpoint recovers additional codegen fidelity in the 3,900-byte Enemy
-  boss by exposing the genuine Float3 division body to the same compiler TU.
-  **Review and finish dirty or untracked work**, never reset or sidestep it.
-  New commits use **`gpt-web: ...`**; local Git commits are not remote pushes.
+  a historical handoff ID. The latest original-bound Etama OnDraw gate was
+  committed in `6f1b1d1`; it protects all 332 previously matching physical
+  bytes and allows future noncrediting zero-residual diagnostics. Earlier
+  verified Enemy 3,900-byte and ANM 622-byte codegen improvements remain
+  intact. **Review and finish dirty or untracked work**, never reset or
+  sidestep it. New commits use **`gpt-web: ...`**; local Git commits are not
+  remote pushes.
 - **Original target:** Japanese TH09 **v1.50a** (`resources/th09.exe`), original
   SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
   This is an ignored private, read-only user input, **never delete or commit**.
   Factory's IDA provider is `th09-ida`; its attestation is not a codegen Oracle.
-- **Regression scope:** Before this Enemy collision closure, the prior
-  complete `--owner all` cold sweep guarded **29 non-crediting boss/leaf
-  owners** and **65 exact sibling checks**. The current `--owner enemy` scope
-  cold-rebuilds the **3,900-byte non-exact Enemy update (29 residual bytes)**
-  with its four exact **151/56/205/82-byte helpers from one real TU**, plus
-  the separate exact 1,758-byte enemy draw unit. The previous `--owner all`
-  sweep has not been rerun on this source arrangement. Re-run focused Oracles for changed owners and CI; never treat
-  old full-sweep numbers as fresh checks on a new source commit.
+- **Regression scope:** Fresh `python3 scripts/check-boss-frontiers.py
+  --owner all` after committed source `6f1b1d1` cold-rebuilt and passed
+  **29 non-crediting non-exact boss/leaf diagnostics and 68 independent
+  complete original-bound exact sibling checks**. This now includes the
+  full **600-byte Etama OnDraw** differential-offset guard, source-cold
+  15,564-byte RunEcl, 3,900-byte Enemy update, and 1,939-byte Title DrawResult.
+  The exact receipt registry is separate from this local sweep. Repeat focused
+  Oracles whenever gameplay source changes; no stale object or historic tally
+  substitutes for a new source-commit-bound check.
 - **Phase:** exact reconstruction only. Faithful Windows i386 whole-product
   build/link/resource/runtime closure is **open**; dual-Oracle semantics and
   portability **have not started**. The 95%-reviewed-authored-byte goal is open.
