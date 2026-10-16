@@ -705,30 +705,50 @@ def run_screen_shake(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     }}, exact
 
 
+EFFECT_ADDED_ORIGINAL_SHA = 'ddad6b720c7c7d539d71ce27f74660951ebb6abb17fb58a616752a91b5760087'
+# Complete, target-bound *unmatched* byte spans of the 51-byte owner:
+# +0x03..+0x09 (seven bytes), +0x0D (one byte). They describe the genuine
+# ANM global-load/receiver instruction schedule, not relocation destinations.
+EFFECT_ADDED_RESIDUAL_WINDOWS = ((0x03, 0x0A, 7), (0x0D, 0x0E, 1))
+
+
+def guard_effect_added(diagnostic: dict) -> dict:
+    """Reject newly broken bytes in the original owner, not just 8-count.
+
+    The producer SHA-attests the retail TH09 PE and resolves every real
+    relocation/call field independently of the candidate. This remains
+    strictly non-crediting even if a future build has zero remaining bytes.
+    """
+    noncrediting(diagnostic, name='EffectManager AddedCallback',
+                 target_size=51, fields=4, fields_key='bound_relocations')
+    if (diagnostic.get('target_sha256') != EFFECT_ADDED_ORIGINAL_SHA or
+            diagnostic.get('candidate_bytes') != 51 or
+            diagnostic.get('target_instructions') != 19 or
+            diagnostic.get('candidate_instructions') != 19 or
+            diagnostic.get('target_relocations') != 4 or
+            diagnostic.get('original_blocks') != 3 or
+            diagnostic.get('candidate_blocks') != 3 or
+            diagnostic.get('complete_direct_graphs_agree') is not True or
+            diagnostic.get('ordered_calls_match') is not True or
+            type(diagnostic.get('differing_bytes')) is not int or
+            diagnostic['differing_bytes'] > 8):
+        raise RuntimeError('EffectManager 51-byte/4-field/2-call original-bound frontier drifted')
+    return physical_difference_windows(
+        diagnostic, count_key='differing_bytes',
+        windows=EFFECT_ADDED_RESIDUAL_WINDOWS,
+        equality_key='complete_bytes_equal')
+
+
 def run_effect(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # The 51-byte resource loader shares the live EffectManager TU with both
     # canonical 475-byte OnUpdate and 183-byte OnDraw. Compile that original
     # source TU once, then bind its nonexact loader independently from both
     # complete, previously exact sibling functions.
     build('effect-manager-update')
-    diagnostic = noncrediting(parsed(['scripts/inspect-effect-added.py',
-                                      'build/matching/EffectManager.obj', '--json'],
-                                     diagnostic=True),
-                              name='EffectManager AddedCallback',
-                              target_size=51, fields=4,
-                              fields_key='bound_relocations')
-    if (diagnostic.get('candidate_bytes') != 51 or
-            not isinstance(diagnostic.get('differing_bytes'), int) or
-            diagnostic['differing_bytes'] > 8 or
-            diagnostic.get('complete_bytes_equal') is not False or
-            diagnostic.get('target_instructions') != 19 or
-            diagnostic.get('candidate_instructions') != 19 or
-            diagnostic.get('target_relocations') != 4 or
-            diagnostic.get('original_blocks') != 3 or
-            diagnostic.get('candidate_blocks') != 3 or
-            not diagnostic.get('complete_direct_graphs_agree') or
-            not diagnostic.get('ordered_calls_match')):
-        raise RuntimeError('EffectManager added-loader 19-instruction/4-field/3-block/call gate failed')
+    diagnostic = parsed(['scripts/inspect-effect-added.py',
+                         'build/matching/EffectManager.obj', '--json'],
+                        diagnostic=True)
+    guard_effect_added(diagnostic)
     exact = []
     if protect_exact:
         exact.extend((canonical('effect-manager-update'),
