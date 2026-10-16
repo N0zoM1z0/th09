@@ -104,7 +104,10 @@ class CameraBossSweepTests(unittest.TestCase):
             'ordered_calls': 11, 'calls_agree': True,
             'original_blocks': 8, 'candidate_blocks': 8,
             'direct_graphs_agree': True,
-            'overlap_differences': 24, 'missing_target_bytes': 0,
+            'overlap_differences': 13,
+            'difference_offsets': sorted(boss.CAMERA_FACING_RESIDUAL_OFFSETS),
+            'target_sha256': boss.CAMERA_FACING_TARGET_SHA,
+            'extra_candidate_bytes': 0, 'complete_bytes_equal': False, 'missing_target_bytes': 0,
         }
 
     def test_sweep_protects_exact_same_and_neighboring_translation_units(self):
@@ -113,11 +116,48 @@ class CameraBossSweepTests(unittest.TestCase):
                 boss, 'canonical', side_effect=lambda x: {'unit': x}):
             owners, siblings = boss.run_camera_facing(protect_exact=True)
         self.assertEqual(owners['camera_facing_projection']['missing_target_bytes'], 0)
-        self.assertEqual(owners['camera_facing_projection']['overlap_differences'], 24)
+        self.assertEqual(owners['camera_facing_projection']['overlap_differences'], 13)
         self.assertEqual([x['unit'] for x in siblings],
                          ['anm-manager-translate-rotation', 'anm-manager-draw2d',
                           'anm-manager-draw-camera-facing-quad', 'anm-manager-project-3d-quad'])
         self.assertEqual(build.call_count, 2)
+
+    def test_closed_local_slots_can_improve_without_forging_exactness(self):
+        evidence = self.evidence()
+        with patch.object(boss, 'build'), patch.object(
+                boss, 'parsed', return_value=evidence):
+            boss.run_camera_facing(protect_exact=False)
+        improved = {**evidence, 'overlap_differences': 12,
+                    'difference_offsets': evidence['difference_offsets'][1:]}
+        with patch.object(boss, 'build'), patch.object(
+                boss, 'parsed', return_value=improved):
+            boss.run_camera_facing(protect_exact=False)
+        complete = {**evidence, 'overlap_differences': 0,
+                    'difference_offsets': [], 'complete_bytes_equal': True}
+        with patch.object(boss, 'build'), patch.object(
+                boss, 'parsed', return_value=complete):
+            boss.run_camera_facing(protect_exact=False)
+        self.assertEqual(complete['exactness_credit'], 'none')
+
+    def test_camera_closed_original_copy_window_rejects_moved_differences(self):
+        evidence = self.evidence()
+        for changed in (
+                {'difference_offsets': [0xE8] + evidence['difference_offsets'][1:]},
+                {'difference_offsets': list(reversed(evidence['difference_offsets']))},
+                {'difference_offsets': [0xE9] * 13},
+                {'difference_offsets': evidence['difference_offsets'][:-1]},
+                {'difference_offsets': None},
+                {'overlap_differences': 14},
+                {'overlap_differences': True},
+                {'complete_bytes_equal': True},
+                {'target_sha256': '0' * 64},
+                {'extra_candidate_bytes': 1},
+                {'missing_target_bytes': 1},
+        ):
+            with self.subTest(changed=changed), patch.object(
+                    boss, 'build'), patch.object(boss, 'parsed',
+                    return_value={**evidence, **changed}), self.assertRaises(RuntimeError):
+                boss.run_camera_facing(protect_exact=False)
 
     def test_bad_original_call_or_graph_inventory_fails_closed(self):
         for changed in ({'original_fields': 39}, {'ordered_calls': 10},

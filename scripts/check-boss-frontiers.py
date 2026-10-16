@@ -565,6 +565,15 @@ def run_received_frames(*, protect_exact: bool) -> tuple[dict, list[dict]]:
            }}, exact
 
 
+# Original-PE bound: source's typed three-vector workspace now reproduces
+# every camera-facing byte except this aggregate-return copy scheduling span.
+# All earlier stack-frame, local-home and call operand differences are closed.
+CAMERA_FACING_TARGET_SHA = '36fd70db08a5570fe316d9e3beb541f7a39a90ef10b1429ad767e09c973f1865'
+CAMERA_FACING_RESIDUAL_OFFSETS = frozenset((
+    0xE9, 0xEA, 0xEB, 0xED, 0xEE, 0xF0, 0xF1, 0xF2,
+    0xF3, 0xF4, 0xF5, 0xF6, 0xF7))
+
+
 def run_camera_facing(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # The target-owned camera-facing method now compiles in the actual Render
     # translation unit, immediately after the already-exact TranslateRotation.
@@ -583,8 +592,19 @@ def run_camera_facing(*, protect_exact: bool) -> tuple[dict, list[dict]]:
             candidate.get('original_blocks') != 8 or
             candidate.get('candidate_blocks') != 8 or
             not candidate.get('direct_graphs_agree') or
-            candidate.get('overlap_differences', 999) > 24):
-        raise RuntimeError('camera 622-byte/40-field/11-call/8-block frontier regressed')
+            candidate.get('target_sha256') != CAMERA_FACING_TARGET_SHA or
+            candidate.get('missing_target_bytes') != 0 or
+            candidate.get('extra_candidate_bytes') != 0):
+        raise RuntimeError('camera 622-byte/40-field/11-call/8-block original owner regressed')
+    differences = candidate.get('difference_offsets')
+    amount = candidate.get('overlap_differences')
+    if (type(amount) is not int or not isinstance(differences, list) or
+            len(differences) != amount or amount > 13 or
+            any(type(offset) is not int or
+                offset not in CAMERA_FACING_RESIDUAL_OFFSETS for offset in differences) or
+            differences != sorted(set(differences)) or
+            candidate.get('complete_bytes_equal') is not (amount == 0)):
+        raise RuntimeError('camera typed-vector 13-byte original-bound copy frontier regressed')
     siblings = []
     if protect_exact:
         siblings += [canonical('anm-manager-translate-rotation'),

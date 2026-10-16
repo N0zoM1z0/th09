@@ -724,7 +724,10 @@ class BossFrontierChecks(TestCase):
             'original_fields': 40, 'bound_fields': 40,
             'ordered_calls': 11, 'calls_agree': True,
             'original_blocks': 8, 'candidate_blocks': 8,
-            'direct_graphs_agree': True, 'overlap_differences': 24,
+            'direct_graphs_agree': True, 'overlap_differences': 13,
+            'difference_offsets': sorted(frontiers.CAMERA_FACING_RESIDUAL_OFFSETS),
+            'target_sha256': frontiers.CAMERA_FACING_TARGET_SHA,
+            'extra_candidate_bytes': 0, 'complete_bytes_equal': False,
             'missing_target_bytes': 0,
         }
 
@@ -734,7 +737,7 @@ class BossFrontierChecks(TestCase):
                 frontiers, 'parsed', return_value=self.camera_evidence()) as parsed, patch.object(
                 frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
             owners, exact = frontiers.run_camera_facing(protect_exact=True)
-        self.assertEqual(owners['camera_facing_projection']['overlap_differences'], 24)
+        self.assertEqual(owners['camera_facing_projection']['overlap_differences'], 13)
         self.assertEqual(owners['camera_facing_projection']['candidate_bytes'], 622)
         self.assertEqual(build.call_args_list,
                          [call('anm-manager-translate-rotation'),
@@ -750,7 +753,7 @@ class BossFrontierChecks(TestCase):
                     {'original_fields': 39}, {'bound_fields': 39},
                     {'ordered_calls': 10}, {'calls_agree': False},
                     {'candidate_blocks': 7}, {'direct_graphs_agree': False},
-                    {'overlap_differences': 25}):
+                    {'overlap_differences': 14}):
             with self.subTest(bad=bad), patch.object(frontiers, 'build'), patch.object(
                     frontiers, 'parsed', return_value={**self.camera_evidence(), **bad}), self.assertRaises(RuntimeError):
                 frontiers.run_camera_facing(protect_exact=False)

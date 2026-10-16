@@ -1,11 +1,28 @@
 // TH09 camera-facing projection owner; included after the exact TranslateRotation
 // implementation in the native AnmManager render translation unit.
+// Three simultaneously live 12-byte projection vectors form a typed scratch
+// area. The verified TH09 original uses contiguous origin/delta/reference
+// stack slots; this workspace recovers those physical addresses in VC7.1.
+// Its layout is a compiler-observed source hypothesis, not proof of the
+// original C++ declaration or translation-unit boundaries.
+struct CameraProjectionScratch
+{
+    Float3 origin;
+    Float3 delta;
+    D3DXVECTOR3 reference;
+    CameraProjectionScratch() : origin(0.0f, 0.0f, 0.0f) {}
+};
+typedef char CameraProjectionScratchSizeIs24[
+    (sizeof(CameraProjectionScratch) == 0x24) ? 1 : -1];
+typedef char CameraProjectionScratchDeltaAt0C[
+    (offsetof(CameraProjectionScratch, delta) == 0x0C) ? 1 : -1];
+typedef char CameraProjectionScratchReferenceAt18[
+    (offsetof(CameraProjectionScratch, reference) == 0x18) ? 1 : -1];
 int AnmManager::ProjectCameraFacingQuad(AnmVm *vm)
 {
     float rotation,sine,cosine,xOffset,yOffset,halfHeight,halfWidth;
     D3DXMATRIX worldMatrix;
     D3DXVECTOR3 projectedPosition;
-    D3DXVECTOR3 projectedReference;
     float *position;
     AnmVmProjectionView *projectionVm=reinterpret_cast<AnmVmProjectionView *>(vm);
     rotation=projectionVm->rotation.z;
@@ -19,17 +36,16 @@ int AnmManager::ProjectCameraFacingQuad(AnmVm *vm)
 #else
 #error TH09 ProjectCameraFacingQuad requires target-observed x87 FSINCOS.
 #endif
-    Float3 origin(0.0f, 0.0f, 0.0f);
+    CameraProjectionScratch scratch;
     D3DXMatrixIdentity(&worldMatrix);
     position=projectionVm->pos.operator float *();
     worldMatrix._41=position[0]; worldMatrix._42=position[1]; worldMatrix._43=position[2];
-    D3DXVec3Project(reinterpret_cast<D3DXVECTOR3 *>(&projectedPosition),reinterpret_cast<D3DXVECTOR3 *>(&origin),&g_AnmProjectionContext->viewport,&g_AnmProjectionContext->projectionMatrix,&g_AnmProjectionContext->viewMatrix,&worldMatrix);
+    D3DXVec3Project(reinterpret_cast<D3DXVECTOR3 *>(&projectedPosition),reinterpret_cast<D3DXVECTOR3 *>(&scratch.origin),&g_AnmProjectionContext->viewport,&g_AnmProjectionContext->projectionMatrix,&g_AnmProjectionContext->viewMatrix,&worldMatrix);
     if (projectedPosition.z<0.0f || projectedPosition.z>1.0f) return -1;
-    D3DXVec3Project(reinterpret_cast<D3DXVECTOR3 *>(&projectedReference),reinterpret_cast<D3DXVECTOR3 *>(&g_AnmProjectionContext->cameraRight),&g_AnmProjectionContext->viewport,&g_AnmProjectionContext->projectionMatrix,&g_AnmProjectionContext->viewMatrix,&worldMatrix);
-    Float3 delta;
-    delta = *reinterpret_cast<Float3 *>(&projectedReference) -
+    D3DXVec3Project(reinterpret_cast<D3DXVECTOR3 *>(&scratch.reference),reinterpret_cast<D3DXVECTOR3 *>(&g_AnmProjectionContext->cameraRight),&g_AnmProjectionContext->viewport,&g_AnmProjectionContext->projectionMatrix,&g_AnmProjectionContext->viewMatrix,&worldMatrix);
+    scratch.delta = *reinterpret_cast<Float3 *>(&scratch.reference) -
                    *reinterpret_cast<Float3 *>(&projectedPosition);
-    xOffset=D3DXVec3Length(reinterpret_cast<D3DXVECTOR3 *>(&delta))*0.5f;
+    xOffset=D3DXVec3Length(reinterpret_cast<D3DXVECTOR3 *>(&scratch.delta))*0.5f;
     halfWidth=xOffset*vm->spriteSize.x*vm->scale.x;
     halfHeight=xOffset*vm->spriteSize.y*vm->scale.y;
     xOffset=projectedPosition.x; yOffset=projectedPosition.y;

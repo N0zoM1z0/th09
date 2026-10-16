@@ -161,6 +161,8 @@ def diagnose(path: Path):
         raise ValueError('camera source changes original call identities/order')
     tg = direct_control_flow(ti, capstone.x86.X86_OP_IMM)
     cg = direct_control_flow(ci, capstone.x86.X86_OP_IMM)
+    differences = [offset for offset, (original, candidate) in
+                   enumerate(zip(target, linked)) if original != candidate]
     return {
         'diagnostic_only': True, 'exactness_credit': 'none',
         'target_bytes': SIZE, 'candidate_bytes': len(raw),
@@ -169,7 +171,8 @@ def diagnose(path: Path):
         'ordered_calls': len(tcalls), 'calls_agree': True,
         'original_blocks': len(tg), 'candidate_blocks': len(cg),
         'direct_graphs_agree': tg == cg,
-        'overlap_differences': sum(a != b for a, b in zip(target, linked)),
+        'overlap_differences': len(differences),
+        'difference_offsets': differences,
         'extra_candidate_bytes': max(0, len(linked) - SIZE),
         'missing_target_bytes': max(0, SIZE - len(linked)),
         'complete_bytes_equal': target == linked,
