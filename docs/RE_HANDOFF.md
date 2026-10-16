@@ -182,6 +182,25 @@ commits are not retroactively accepted. Original remaining RunEcl,
 Etama::OnDraw, ExAttack Type19/21 initializers and other nonexact owners
 still require separate full-byte acceptance.
 
+**After the GameplaySetupThread source-narrowing commit**
+`4d9d2e31c530f6bdfd0e018d9f9b5b234115e560`, three separate
+`strict-live-v1` forced-cold, source-commit-bound Factory codegen-exact
+regressions returned **`pass / accepted`**:
+
+- `GameManagerSetupLayout::OnUpdate @ 0x0041AA5F`, **1,230/1,230** bytes:
+  `receipt:82d3cc97d60aa8050d97881619aa625537eeca75ed87cfa56099953a30f78a4e`.
+- `GameManagerSetupLayout::AddedCallback @ 0x0041B76F`, **187/187** bytes:
+  `receipt:5d136ca4a2776929e0e1843fb9f446b6c5fe57e9d457265d19b96746c197acae`.
+- `GameManagerSetupLayout::DeletedCallback @ 0x0041B82A`, **422/422** bytes:
+  `receipt:03e026c805c13d8921de69700ff62f7e25c98580f7988c6a098df880d9dd1b5f`.
+
+The canonical GameManager ten-sibling local cold sweep, the 911-byte
+noncrediting GameplaySetupThread frontier and **363 target-independent CI tests
+(27 skipped)** also passed. These three receipt subjects **were already exact**;
+none certifies `GameplaySetupThread`, native linking or runtime behavior.
+This subsequent documentation-only checkpoint does not retroactively extend
+the source-commit binding.
+
 **Do not count these regressions as new exact matches.** Receipts do not bind
 later source commits, diagnose adjacent non-exact owners, establish a native
 Windows image or attest runtime semantics. Preserve current source-specific
