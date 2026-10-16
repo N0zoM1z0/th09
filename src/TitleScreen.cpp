@@ -23,54 +23,7 @@ extern "C" void __cdecl free(void *);
 extern "C" int __cdecl _mkdir(const char *);
 extern "C" int __cdecl _chdir(const char *);
 
-struct ReplayFrameDataStartView {
-    u8 bytes[0x20];
-};
-
-struct ReplayDataView {
-    u32 magic;
-    u16 formatVersion;
-    u8 value06;
-    u8 value07;
-    u8 unknown008[4];
-    i32 fileSize;
-    u32 checksum;
-    u8 unknown14;
-    u8 obfuscationKey;
-    u8 unknown16[2];
-    i32 compressedSize;
-    i32 decompressedSize;
-    ReplayFrameDataStartView *frameStart[3][10];
-    u8 *fpsStart[10];
-    u8 randomPayloadByte;
-    u8 value0C1;
-    u16 value0C2;
-    char playTime[10];
-    char playerName[8];
-    u8 unknown0D6;
-    u8 value0D7;
-    u8 unknown0D8[4];
-    u8 configSnapshot[0xCC];
-    u8 unknown1A8[0x28];
-    u32 value1D0;
-    u32 value1D4;
-    u32 value1D8;
-    char exeVersion[6];
-    u8 unknown1E2[2];
-    u8 value1E4;
-    u8 value1E5;
-    u8 value1E6;
-    u8 value1E7;
-    u8 value1E8;
-    u8 value1E9;
-    u8 unknown1EA[2];
-};
-
-typedef char ReplayDataSizeIs1EC[(sizeof(ReplayDataView) == 0x1EC) ? 1 : -1];
-typedef char ReplayDataFrame0At20[(offsetof(ReplayDataView, frameStart) == 0x20) ? 1 : -1];
-typedef char ReplayDataValueD7AtD7[(offsetof(ReplayDataView, value0D7) == 0xD7) ? 1 : -1];
-typedef char ReplayDataValue1E4At1E4[(offsetof(ReplayDataView, value1E4) == 0x1E4) ? 1 : -1];
-typedef char ReplayDataValue1E5At1E5[(offsetof(ReplayDataView, value1E5) == 0x1E5) ? 1 : -1];
+#include "ReplayDataOriginalView.hpp"
 
 struct TitleNameRecordView {
     char name[9];

@@ -6,17 +6,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef int i32;
 
-struct ReplaySaveReplayDataView
-{
-    u32 magic;
-    u8 unknown004[0xC4 - 4];
-    char playTime[10];
-    char playerName[8];
-    u8 unknown0D6[0x1EC - 0xD6];
-};
-
-typedef char ReplaySaveReplayDataSizeIs1EC[
-    (sizeof(ReplaySaveReplayDataView) == 0x1EC) ? 1 : -1];
+#include "ReplayDataOriginalView.hpp"
 
 struct TitleScreenView
 {
@@ -28,7 +18,7 @@ struct TitleScreenView
     u8 unknown00030[0x5C];
     char replayName[9];                     // +0x0008C
     u8 unknown00095[0x68E4 - 0x95];
-    ReplaySaveReplayDataView replays[50];   // +0x068E4
+    ReplayDataView replays[50];                 // +0x068E4
     u8 unknown0C8FC[0x0C];
     i32 selectedReplay;                     // +0x0C908
     u8 unknown0C90C[0x1B230 - 0xC90C];
@@ -64,7 +54,7 @@ int TitleScreenView::DrawReplaySave()
     if (replaySaveState == 2)
     {
         position.y = 90.0f;
-        ReplaySaveReplayDataView *replay = replays;
+        ReplayDataView *replay = replays;
 
         for (i32 i = 0; i < 25; ++i, ++replay)
         {

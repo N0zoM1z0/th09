@@ -8,44 +8,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef int i32;
 
-struct ReplayMenuFrameView
-{
-    u8 unknown000[6];
-    u8 character;
-    u8 unknown007[0x20 - 7];
-};
-typedef char ReplayMenuFrameSizeIs20[
-    (sizeof(ReplayMenuFrameView) == 0x20) ? 1 : -1];
-
-struct ReplayMenuReplayView
-{
-    u32 magic;
-    u8 unknown004[0x20 - 4];
-    ReplayMenuFrameView *frameStart[3][10];
-    u8 unknown098[0xC4 - 0x98];
-    char playTime[10];
-    char playerName[8];
-    u8 unknown0D6;
-    u8 difficulty;
-    u8 unknown0D8[0x1E4 - 0xD8];
-    u8 replayMode;
-    u8 versusMode;
-    u8 unknown1E6[0x1EC - 0x1E6];
-};
-typedef char ReplayMenuReplaySizeIs1EC[
-    (sizeof(ReplayMenuReplayView) == 0x1EC) ? 1 : -1];
-typedef char ReplayMenuFrameAt20[
-    (offsetof(ReplayMenuReplayView, frameStart) == 0x20) ? 1 : -1];
-typedef char ReplayMenuPlayTimeAtC4[
-    (offsetof(ReplayMenuReplayView, playTime) == 0xC4) ? 1 : -1];
-typedef char ReplayMenuPlayerNameAtCE[
-    (offsetof(ReplayMenuReplayView, playerName) == 0xCE) ? 1 : -1];
-typedef char ReplayMenuDifficultyAtD7[
-    (offsetof(ReplayMenuReplayView, difficulty) == 0xD7) ? 1 : -1];
-typedef char ReplayMenuModeAt1E4[
-    (offsetof(ReplayMenuReplayView, replayMode) == 0x1E4) ? 1 : -1];
-typedef char ReplayMenuVersusAt1E5[
-    (offsetof(ReplayMenuReplayView, versusMode) == 0x1E5) ? 1 : -1];
+#include "ReplayDataOriginalView.hpp"
 
 struct TitleScreenView
 {
@@ -55,7 +18,7 @@ struct TitleScreenView
     u8 unknown0002C[0x28C - 0x2C];
     char replayPaths[50][0x200];             // +0x0028C
     u8 unknown0668C[0x68E4 - 0x668C];
-    ReplayMenuReplayView replays[50];        // +0x068E4
+    ReplayDataView replays[50];                 // +0x068E4
     u8 unknown0C8FC[0x0C];
     i32 selectedReplay;                      // +0x0C908
     u8 unknown0C90C[0x1B230 - 0xC90C];
@@ -82,12 +45,12 @@ extern const char *g_ReplayCharacterNames[];
 extern const char *g_ReplayStoryModeName[];
 extern const char *g_ReplayExtraModeName[];
 
-static __inline const char *ReplayMenuPlayTime(ReplayMenuReplayView *replay)
+static __inline const char *ReplayMenuPlayTime(ReplayDataView *replay)
 {
     return replay->magic ? replay->playTime : "--/--/--";
 }
 
-static __inline const char *ReplayMenuPlayerName(ReplayMenuReplayView *replay)
+static __inline const char *ReplayMenuPlayerName(ReplayDataView *replay)
 {
     return replay->magic ? replay->playerName : "--------";
 }
@@ -113,7 +76,7 @@ int TitleScreenView::DrawReplayMenu()
             g_AsciiManager.color =
                 (i == keyboardSelection) ? 0xFFFFFFFFu : 0xFF808080u;
 
-            ReplayMenuReplayView *replay = &replays[i];
+            ReplayDataView *replay = &replays[i];
             if (i < 25)
             {
                 g_AsciiManager.AddFormatText(
@@ -142,7 +105,7 @@ int TitleScreenView::DrawReplayMenu()
     else if (currentScreenState == 2)
     {
         i32 selected = selectedReplay;
-        ReplayMenuReplayView *replay = &replays[selected];
+        ReplayDataView *replay = &replays[selected];
         i32 frame = stateTimer2;
 
         position.x = selected < 25 ? 32.0f : 352.0f;
@@ -197,30 +160,30 @@ int TitleScreenView::DrawReplayMenu()
         position.x = 221.0f;
         position.y = 240.0f;
 
-        if (replays[selected].replayMode == 0)
+        if (replays[selected].value1E4 == 0)
         {
             char buffer[256];
             sprintf(
                 buffer, "%s  -%s-",
                 g_ReplayStoryModeName[0],
-                g_ReplayDifficultyNames[replay->difficulty]);
+                g_ReplayDifficultyNames[replay->value0D7]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
             g_AsciiManager.AddFormatText(&position, buffer);
         }
-        else if (replays[selected].replayMode == 1)
+        else if (replays[selected].value1E4 == 1)
         {
             char buffer[256];
             sprintf(buffer, "%s", g_ReplayExtraModeName[0]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
             g_AsciiManager.AddFormatText(&position, buffer);
         }
-        else if (replays[selected].replayMode == 2)
+        else if (replays[selected].value1E4 == 2)
         {
             char buffer[256];
             sprintf(
                 buffer, "%s  -%s-",
-                g_ReplayModeNames[replay->versusMode],
-                g_ReplayDifficultyNames[replay->difficulty]);
+                g_ReplayModeNames[replay->value1E5],
+                g_ReplayDifficultyNames[replay->value0D7]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
             g_AsciiManager.AddFormatText(&position, buffer);
         }
@@ -237,8 +200,8 @@ int TitleScreenView::DrawReplayMenu()
                 g_AsciiManager.AddFormatText(
                     &position,
                     "%.8s vs %.8s",
-                    g_ReplayCharacterNames[replay->frameStart[0][i]->character],
-                    g_ReplayCharacterNames[replay->frameStart[1][i]->character]);
+                    g_ReplayCharacterNames[replay->frameStart[0][i]->value06],
+                    g_ReplayCharacterNames[replay->frameStart[1][i]->value06]);
                 position.y += 13.0f;
             }
         }
