@@ -266,6 +266,31 @@ but NON-EXACT with 268 byte differences. The independent whole-source
 cold run retained 29 noncrediting bosses and 68 exact siblings. A later
 docs-only checkpoint cannot change the above receipt source commit.
 
+**ExAttack shared true record/side exact source-bound forced-cold receipts**
+(`strict-live-v1`, attested original Japanese TH09 v1.50a,
+source commit `c25b44b06a589884dc692964526a94d145f7cc40`):
+
+- Existing exact `ExAttackRecordSideView::GetSideState @ 0x00440CB0`,
+  **12/12 physical bytes**,
+  `receipt:03c3187cbd5ff07b3a0440f35f6b4cb9e107aa3e68ab2a873d479e9725bcf29e`,
+  **pass / accepted**.
+- Existing exact `ExAttackAllocateRecordView::AllocateDynamicData @ 0x00440D90`,
+  **81/81 physical bytes**,
+  `receipt:02e13b132d444a337f55edcab5944d5ba1773fe9be38ea780173e4e18e23efe5`,
+  **pass / accepted**.
+- Existing exact `ExAttackUpdateCallbackType21 @ 0x0044B500`,
+  **1,074/1,074 bytes**,
+  `receipt:252778d75878abf02f021f3939cef92ee3b021b754802addda95ea5e0987f612`,
+  **pass / accepted**.
+
+These are **three previously exact units** after the shared C++ record,
+side and EffectManager receiver model was committed. The two nonexact
+Type19/21 initializers still differ in **6/9 target code bytes**, not
+accepted. The full `--owner all` cold verification independently covered
+29 noncrediting owners and 68 complete already exact siblings. These receipts
+bind to the above gameplay-source commit; later documentation-only commits
+do not extend that source identity.
+
 **Do not count these regressions as new exact matches.** Receipts do not bind
 later source commits, diagnose adjacent non-exact owners, establish a native
 Windows image or attest runtime semantics. Preserve current source-specific
