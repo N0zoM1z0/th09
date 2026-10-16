@@ -87,8 +87,14 @@ class GameManagerColdRegression(unittest.TestCase):
             'ordered_calls_agree': True,
             'original_blocks': 78, 'candidate_blocks': 77,
             'direct_graphs_agree': False,
-            'aligned_field_identities': 155,
-            'field_change_spans': 13,
+            'aligned_field_identities': 157,
+            'field_change_spans': 15,
+            'aligned_instructions': 394,
+            'target_sha256': boss.GAMEPLAY_SETUP_TARGET_SHA,
+            'difference_offsets': [i for i in range(1689) if
+                boss.GAMEPLAY_SETUP_RESIDUAL_MASK[i // 8] & (1 << (i % 8))],
+            'overlap_differences': 911,
+            'complete_bytes_equal': False,
         }
 
     @staticmethod

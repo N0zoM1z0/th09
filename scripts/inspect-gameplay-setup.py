@@ -160,6 +160,11 @@ def main():
     if len(tc) != TARGET_CALLS:
         raise ValueError('TH09 original GameplaySetupThread call inventory drifted')
     if args.json:
+        # Full original-linked extent, AFTER authentic COFF field binding.
+        # Callers must not turn a shorter or partially normalized comparison
+        # into exact credit. Every residual physical offset is preserved.
+        physical_differences = [i for i, (a, b) in enumerate(zip(target, code))
+                                if a != b]
         target_cfg = direct_control_flow(t, capstone.x86.X86_OP_IMM, call_signature)
         candidate_cfg = direct_control_flow(c, capstone.x86.X86_OP_IMM, call_signature)
         if len(target_cfg) != TARGET_DIRECT_BLOCKS:
@@ -178,7 +183,8 @@ def main():
             'aligned_field_identities': aligned['paired_field_identities'],
             'field_change_spans': len(aligned['changes']),
             'aligned_instructions': sum(z.size for z in matcher.get_matching_blocks()),
-            'overlap_differences': sum(a != b for a,b in zip(target,code)),
+            'overlap_differences': len(physical_differences),
+            'difference_offsets': physical_differences,
             'complete_bytes_equal': target == code,
             'candidate_raw_sha256': raw_hash, 'target_sha256': TARGET_SHA256,
         }

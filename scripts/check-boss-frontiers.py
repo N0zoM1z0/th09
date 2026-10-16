@@ -743,6 +743,63 @@ def run_effect(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     }}, exact
 
 
+GAMEPLAY_SETUP_TARGET_SHA = '8dc5dd11495f34c6b1998653e0094195d6d891fff374d403750141e9936f0d6a'
+# Bit i is 1 iff the cold VC7.1 candidate still differs at original PE
+# physical offset i. This is an independently reviewed, SOURCE-BOUND
+# NON-CREDITING residual mask; it does not contain or patch target bytes.
+# A future improvement may clear bits, never change already equal bytes.
+GAMEPLAY_SETUP_RESIDUAL_MASK = bytes.fromhex(
+    '0000000000000000000000000000000000000000000000000000000000000000'
+    '0000000000000000000000000000000000000000000000000000000800000010'
+    'c0fffffffffffffffffffefffffffffffffffffffffffffffffffffdffffffff'
+    'ffffffffffbfffffffffffffffffffffffff7ffffffffffffeffeffffffddf9f'
+    '20088078eeffffffffffffbffffffffffffddfffffffffbfffffffffff3df7f7'
+    '7ffff73fffbffffffffb0f0000000000000000000080e3fffffff7bdef7defff'
+    'ffffffffff170000000000000000000000000000'
+)
+
+
+def guard_gameplay_setup_thread(result: dict) -> None:
+    """Fail closed against regressions outside the 1,689-byte original.
+
+    The entire target/code owner, ALL original relocation/call identities,
+    branch graph and every source-linked residual byte are checked upstream by
+    inspect-gameplay-setup.py. Neither a close match nor zero local residuals
+    bypasses the separate canonical, source-commit-bound exactness workflow.
+    """
+    noncrediting(result, name='Gameplay setup thread', target_size=1689, fields=171)
+    differences = result.get('difference_offsets')
+    count = result.get('overlap_differences')
+    if (result.get('target_sha256') != GAMEPLAY_SETUP_TARGET_SHA or
+            len(GAMEPLAY_SETUP_RESIDUAL_MASK) != 212 or
+            sum(bin(x).count('1') for x in GAMEPLAY_SETUP_RESIDUAL_MASK) != 911 or
+            result.get('candidate_bytes') != 1689 or
+            result.get('target_instructions') != 413 or
+            result.get('candidate_instructions') != 416 or
+            result.get('original_fields') != 172 or
+            result.get('ordered_calls') != 35 or
+            result.get('candidate_calls') != 35 or
+            result.get('ordered_calls_agree') is not True or
+            result.get('original_blocks') != 78 or
+            result.get('candidate_blocks') != 77 or
+            result.get('direct_graphs_agree') is not False or
+            type(result.get('aligned_field_identities')) is not int or
+            result['aligned_field_identities'] < 157 or
+            type(result.get('field_change_spans')) is not int or
+            not 0 <= result['field_change_spans'] <= 15 or
+            type(result.get('aligned_instructions')) is not int or
+            result['aligned_instructions'] < 394 or
+            type(count) is not int or not 0 <= count <= 911 or
+            result.get('complete_bytes_equal') is not (count == 0) or
+            not isinstance(differences, list) or len(differences) != count or
+            any(type(i) is not int or not 0 <= i < 1689
+                for i in differences) or
+            differences != sorted(set(differences)) or
+            any(not (GAMEPLAY_SETUP_RESIDUAL_MASK[i // 8] & (1 << (i % 8)))
+                for i in differences)):
+        raise RuntimeError('GameplaySetupThread 1689-byte/171-field/35-call/911-residual frontier drifted')
+
+
 def run_game_manager(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     """Independently cold-validate the newly exact 1,230-byte calc boss.
 
@@ -769,16 +826,7 @@ def run_game_manager(*, protect_exact: bool) -> tuple[dict, list[dict]]:
                                     'build/matching/GameManagerSetup.obj', '--json']),
                            name='Gameplay setup thread', target_size=1689,
                            fields=171)
-    if (gameplay.get('candidate_bytes') != 1689 or
-            gameplay.get('target_instructions') != 413 or
-            gameplay.get('original_fields') != 172 or
-            gameplay.get('ordered_calls') != 35 or
-            gameplay.get('candidate_calls') != 35 or
-            not gameplay.get('ordered_calls_agree') or
-            gameplay.get('original_blocks') != 78 or
-            gameplay.get('candidate_blocks') != 77 or
-            gameplay.get('aligned_field_identities') != 155):
-        raise RuntimeError('GameplaySetupThread original 172/171 field/35 call/78-block proof drifted')
+    guard_gameplay_setup_thread(gameplay)
     diagnostics = {'gameplay_setup_thread': {
         'target_bytes': 1689, 'candidate_bytes': gameplay['candidate_bytes'],
         'original_fields': gameplay['original_fields'],
@@ -787,6 +835,8 @@ def run_game_manager(*, protect_exact: bool) -> tuple[dict, list[dict]]:
         'original_blocks': gameplay['original_blocks'],
         'candidate_blocks': gameplay['candidate_blocks'],
         'field_change_spans': gameplay['field_change_spans'],
+        'aligned_field_identities': gameplay['aligned_field_identities'],
+        'ordinary_differences': gameplay['overlap_differences'],
         'direct_graphs_agree': gameplay['direct_graphs_agree'],
     }}
     cleanup = noncrediting(parsed(['scripts/inspect-game-manager-cleanup.py',

@@ -1088,15 +1088,16 @@ mode_ready:
         reinterpret_cast<SetupStateBuffer *>(manager->sides[1].subsystem1)->valueA0 = 1;
         reinterpret_cast<SetupStateBuffer *>(manager->sides[1].subsystem1)->valueA4 = 1;
         manager->valueC4 = 1800;
-        if (manager->gameMode == 2)
-        {
-            manager->valueC8 = 16;
-        }
-        else
+        // For every gameMode other than 2, keep the counter-derived limits
+        // and leave this switch immediately. The fixed mode-2 rate follows
+        // below; both paths retain the same actual field writes.
+        if (manager->gameMode != 2)
         {
             manager->limitB4 = manager->counterFC / 3 + 1;
             manager->valueC8 = manager->counterFC / 2 + 6;
+            break;
         }
+        manager->valueC8 = 16;
         break;
     }
 
