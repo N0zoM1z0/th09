@@ -222,6 +222,30 @@ and 68 exact sibling replays**; CI passed **366 tests (27 skipped)**.
 NON-EXACT at 51 bytes / eight residual differences. Later documentation
 commits do not change the receipts' immutable source binding.
 
+**Current native RNG source-bound accepted replays** (`strict-live-v1`
+forced VC7.1 rebuild against original TH09 v1.50a, exact source commit
+`5a16237e18b1f13ec650b90c6b644d918ab37be4`):
+
+- Existing exact `ScreenEffect::CalcShake @ 0x00422660`, **316/316** bytes,
+  `receipt:f8170109ad5fba0372c8be8eab97f6a876db1f0c2cc30fcc6224111d57208f29`, **pass / accepted**.
+- Existing exact `ScreenEffect::RegisterChain @ 0x00422D20`, **480/480 physical**
+  (447 authored plus 33 true compiler switch bytes),
+  `receipt:58489865290e4099e5d35849805f5189ce85f54f68492f0b463ace12d274cbee`, **pass / accepted**.
+- Existing exact `ScreenEffect::DrawSquare @ 0x00422960`, **527/527**
+  bytes under its separate `/Ob0` profile,
+  `receipt:b8663157f0924c4ea888bcd2e5f1d861f66a7db7a0338b6b6380aaf2f097c41f`, **pass / accepted**.
+
+All three are **previously exact owners**, not additions to the 939
+canonical exact count. Independently, a post-change true cold
+`check-boss-frontiers.py --owner all` passes **29 complete noncrediting owner
+diagnostics and 68 full exact sibling replays**. It includes the 336/20/28
+`CalcShakeEnvelope` owner, 15,564/598/30 `RunEcl`, 3,900/97/29 Enemy update,
+600/268 Etama draw, the 763/6 and 727/9 ExAttack initializers and the
+1,689/911 GameplaySetupThread. The cold JSON is ignored under
+`.analysis/gpt-web-all-boss-native-rng-20261016.json` and earns no extra
+exactness credit. A later documentation commit does not change the Factory
+receipts' immutable gameplay-source binding.
+
 **Do not count these regressions as new exact matches.** Receipts do not bind
 later source commits, diagnose adjacent non-exact owners, establish a native
 Windows image or attest runtime semantics. Preserve current source-specific
