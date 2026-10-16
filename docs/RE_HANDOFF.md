@@ -330,6 +330,23 @@ independent exact 34-byte menu sound, and **389 public CI tests (27 skipped)**.
 The immutable receipt scope is precisely the listed source commit, not a later
 history-only documentation commit.
 
+**Player GameManager playfield-bounds source-bound receipt:**
+
+- Source commit `e7bb6db5c8b0cbc44f627bd0b5c20b3cd16cfdfe` replaces the four
+  misleading scalar playfield globals with the actual `g_GameManager`
+  `+0x360/+0x364/+0x368/+0x36C` fields. Its separate exact
+  `PlayerLifecycleView::OnUpdate @0x0041E900` **522/522**-byte forced-cold
+  `strict-live-v1` Factory replay is **pass / accepted**:
+  `receipt:7b03d4eda61a67d80344ac7f636d489ddfa1bd4773c9307cfcf0941862991c38`.
+- The immutable receipt covers this **previously exact** caller only. The
+  `UpdateMovementAndOptions` full physical owner remains **1,900 bytes,
+  66 actual fields, 23 calls and 129 differing original-linked bytes**;
+  the independent original-exact **79-byte** coordinate initializer also
+  replays exact. A new whole-source cold `--owner all` passes **29 complete
+  noncrediting boss/leaf audits and 68 exact sibling units**, without changing
+  the 939 canonical exact function count. A later docs-only checkpoint does
+  not alter this receipt's source binding.
+
 **Do not count these regressions as new exact matches.** Receipts do not bind
 later source commits, diagnose adjacent non-exact owners, establish a native
 Windows image or attest runtime semantics. Preserve current source-specific
