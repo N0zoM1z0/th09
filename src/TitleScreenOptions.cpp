@@ -3,6 +3,9 @@
 // the embedded owner, layout, menu domain, option globals, and control flow.
 
 #include "Supervisor.hpp"
+#include "AnmManager.hpp"
+#include "AsciiManager.hpp"
+#include "SoundPlayer.hpp"
 
 #include <stddef.h>
 
@@ -28,33 +31,22 @@ struct AnmVmView {
 };
 
 typedef char OptionsAnmVmSizeIs2A4[(sizeof(AnmVmView) == 0x2A4) ? 1 : -1];
+typedef char OptionsRealAnmVmSizeIs2A4[(sizeof(AnmVm) == sizeof(AnmVmView)) ? 1 : -1];
+typedef char OptionsRealBgmVolumeAt6218[(offsetof(SoundPlayer, bgmVolume) == 0x6218) ? 1 : -1];
+typedef char OptionsRealSfxVolumeAt621C[(offsetof(SoundPlayer, sfxVolume) == 0x621C) ? 1 : -1];
 typedef char OptionsAnmVmColorAt1F0[(offsetof(AnmVmView, color1) == 0x1F0) ? 1 : -1];
 typedef char OptionsAnmVmFlagsAt1F8[(offsetof(AnmVmView, flags) == 0x1F8) ? 1 : -1];
 typedef char OptionsAnmVmInterruptAt1FE[(offsetof(AnmVmView, pendingInterrupt) == 0x1FE) ? 1 : -1];
 typedef char OptionsAnmVmSpriteAt218[(offsetof(AnmVmView, baseSpriteIndex) == 0x218) ? 1 : -1];
 
-struct TitleAnmView {
-    void SetSprite(AnmVmView *vm, i32 spriteIndex);
-};
-
-struct TitleAnmManagerView {
-    void SetInterruptArray(AnmVmView *vms, i32 count, i32 interrupt);
-    void ExecuteScriptArray(AnmVmView *vms, i32 count);
-};
+// DrawTitleHelpText is a separate, independently addressed helper whose
+// original C++ declaration is not yet reconstructed. Retain its ABI-facing
+// argument tag without inventing ownership of the real ANM manager.
+struct TitleAnmManagerView;
 
 struct InputView {
     u16 currentInput;
     u16 IsPressedScrolling(i32 mask);
-};
-
-struct SoundPlayerView {
-    u8 unknown0000[0x6218];
-    i32 bgmVolume;
-    i32 sfxVolume;
-
-    void PlaySoundByIdx(i32 soundId, i32 unused);
-    void QueueCommand(i32 opcode, i32 argument, char *path);
-    int ProcessQueues();
 };
 
 typedef char OptionsConfigvalueACAtAC[(offsetof(GameConfiguration, valueAC) == 0xAC) ? 1 : -1];
@@ -79,8 +71,7 @@ typedef char OptionsSnapshotWindowedAtB1[(offsetof(TitleConfigSnapshotView, wind
 
 extern InputView g_TitleInput;
 extern u32 g_TitleInputFlags;
-extern SoundPlayerView g_SoundPlayer;
-extern TitleAnmManagerView *g_TitleAnmManager;
+
 extern const char *g_TitleOptionsHelpText[9];
 
 extern void __cdecl DrawTitleHelpText(TitleAnmManagerView *manager, AnmVmView *vm,
@@ -100,7 +91,7 @@ struct TitleScreenView {
     u8 unknown0C914[4];
     i32 optionsUiReady;                       // +0x0C918
     u8 unknown0C91C[0x5274];
-    TitleAnmView *titleAnm;                   // +0x11B90
+    AnmLoaded *titleAnm;                   // +0x11B90
     u8 unknown11B94[4];
     AnmVmView *vms;                           // +0x11B98
     AnmVmView *currentHelpTextVm;             // +0x11B9C
@@ -149,8 +140,8 @@ int TitleScreenView::OnUpdateOptions()
     case 0:
         if (stateTimer2 == 0)
         {
-            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 3);
-            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+            g_AnmManager->SetInterruptArray(reinterpret_cast<AnmVm *>(vms), vmCount, 3);
+            g_AnmManager->ExecuteScriptArray(reinterpret_cast<AnmVm *>(vms), vmCount);
             currentScreenState = 0;
             stateTimer = 0;
             previousCursor = -1;
@@ -162,7 +153,7 @@ int TitleScreenView::OnUpdateOptions()
 
         currentScreenState = 1;
         for (i = 0; i < 9; i++)
-            DrawTitleHelpText(g_TitleAnmManager, &embeddedVms[i], 0xFFF0E0, 0x300000,
+            DrawTitleHelpText(reinterpret_cast<TitleAnmManagerView *>(g_AnmManager), &embeddedVms[i], 0xFFF0E0, 0x300000,
                               g_TitleOptionsHelpText[i]);
 
     case 1:
@@ -173,7 +164,7 @@ int TitleScreenView::OnUpdateOptions()
 
         if (musicVolume >= 100)
         {
-            titleAnm->SetSprite(&vms[26], vms[26].baseSpriteIndex);
+            titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&vms[26]), vms[26].baseSpriteIndex);
             vms[26].color1Bytes[3] = 0xFF;
             vms[26].flags |= 2u;
         }
@@ -185,7 +176,7 @@ int TitleScreenView::OnUpdateOptions()
 
         if (musicVolume >= 10)
         {
-            titleAnm->SetSprite(&vms[27], vms[27].baseSpriteIndex +
+            titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&vms[27]), vms[27].baseSpriteIndex +
                                 ((musicVolume / 10) % 10) * 2);
             vms[27].color1Bytes[3] = 0xFF;
             vms[27].flags |= 2u;
@@ -196,12 +187,12 @@ int TitleScreenView::OnUpdateOptions()
             vms[27].flags &= ~2u;
         }
 
-        titleAnm->SetSprite(&vms[28], vms[28].baseSpriteIndex + (musicVolume % 10) * 2);
-        titleAnm->SetSprite(&vms[29], vms[29].baseSpriteIndex);
+        titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&vms[28]), vms[28].baseSpriteIndex + (musicVolume % 10) * 2);
+        titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&vms[29]), vms[29].baseSpriteIndex);
 
         if (sfxVolume >= 100)
         {
-            titleAnm->SetSprite(&vms[30], vms[30].baseSpriteIndex);
+            titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&vms[30]), vms[30].baseSpriteIndex);
             vms[30].color1Bytes[3] = 0xFF;
             vms[30].flags |= 2u;
         }
@@ -213,7 +204,7 @@ int TitleScreenView::OnUpdateOptions()
 
         if (sfxVolume >= 10)
         {
-            titleAnm->SetSprite(&vms[31], vms[31].baseSpriteIndex +
+            titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&vms[31]), vms[31].baseSpriteIndex +
                                 ((sfxVolume / 10) % 10) * 2);
             vms[31].color1Bytes[3] = 0xFF;
             vms[31].flags |= 2u;
@@ -444,10 +435,10 @@ int TitleScreenView::OnUpdateOptions()
             if (keyboardSelection == 8)
                 goto leave_options;
 
-            titleAnm->SetSprite(&vms[keyboardSelection + 9],
+            titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&vms[keyboardSelection + 9]),
                                 vms[keyboardSelection + 9].baseSpriteIndex + 1);
             keyboardSelection = 8;
-            titleAnm->SetSprite(&vms[17], vms[17].baseSpriteIndex);
+            titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&vms[17]), vms[17].baseSpriteIndex);
             PlayMenuSound(11, 0);
         }
         break;
