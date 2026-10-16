@@ -4,6 +4,7 @@
 #include "AnmManager.hpp"
 #include "AnmVmLifecycle.hpp"
 #include "ZunTimer.hpp"
+#include "Supervisor.hpp"
 #include "ReplayInputState.hpp"
 
 #include <stddef.h>
@@ -72,12 +73,6 @@ typedef char PlayerMovementOptionTimerAt2E0[
 typedef char PlayerMovementOptionCallbackAt2EC[
     (offsetof(PlayerMovementOptionView, updateCallback2EC) == 0x2EC) ? 1 : -1];
 
-struct PlayerMovementSupervisorView
-{
-    unsigned char unknown000[0x5B8];
-    float frameRateMultiplier5B8;
-};
-
 struct PlayerMovementEffectVmView
 {
     void SetInterrupt(short interrupt);
@@ -89,7 +84,7 @@ extern float g_PlayerPlayfieldMinX;
 extern float g_PlayerPlayfieldMinY;
 extern float g_PlayerPlayfieldWidth;
 extern float g_PlayerPlayfieldHeight;
-extern PlayerMovementSupervisorView g_PlayerMovementSupervisor;
+
 extern AnmManager *g_AnmManager;
 
 static __inline Effect *&PlayerMovementFocusEffect(
@@ -382,9 +377,9 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     player->verticalSpeed30360 = verticalSpeed;
 
     runtime->velocity1CCC.x =
-        horizontalSpeed * g_PlayerMovementSupervisor.frameRateMultiplier5B8;
+        horizontalSpeed * g_Supervisor.framerateMultiplier5B8;
     runtime->velocity1CCC.y =
-        verticalSpeed * g_PlayerMovementSupervisor.frameRateMultiplier5B8;
+        verticalSpeed * g_Supervisor.framerateMultiplier5B8;
 
     PlayerPositionView *position =
         reinterpret_cast<PlayerPositionView *>(

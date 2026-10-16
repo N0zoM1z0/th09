@@ -33,7 +33,7 @@ DESTINATIONS = {
     "?g_GameConfiguration@@3PAUGameConfiguration@@A": 0x004A7E78,
     "?g_PlayerFocusEffectIds@@3PAHA": 0x004A1A10,
     "__real@00000000": 0x0048E314,
-    "?g_PlayerMovementSupervisor@@3UPlayerMovementSupervisorView@@A": 0x004B3100,
+    "?g_Supervisor@@3VSupervisor@@A": 0x004B3100,
     "?g_PlayerPlayfieldMinX@@3MA": 0x004A80F0,
     "?g_PlayerPlayfieldMinY@@3MA": 0x004A80F4,
     "?g_PlayerPlayfieldWidth@@3MA": 0x004A80F8,
