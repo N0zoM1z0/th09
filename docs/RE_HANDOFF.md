@@ -104,8 +104,9 @@ all 41 open functions. For the complete <=256-byte cohort see
 
 
 The independent original PE and `th09-ida` CODE-xref census at `0x004343D0`
-verifies all 27 folded `Float3` helper callsites across 18 exact and nine
-nonexact caller owners. Run `python3 scripts/audit-float3-conversion-calls.py
+verifies all 27 folded `Float3` helper code callsites: 18 calls from 17
+exact functions, nine calls from seven nonexact functions. These are callsite
+counts, not 27 distinct caller functions. Run `python3 scripts/audit-float3-conversion-calls.py
 --json` for target-hash/callsite/owner evidence; the folded physical callee
 cannot be assigned unique C++ authorship from calls alone. The source-present
 `MoveRandomBiased` 517/516-byte difference remains open.
