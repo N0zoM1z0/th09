@@ -188,16 +188,42 @@ COFF comparison; never mistake a missing disposable `.obj` for lost source.
 
 ### Current cleanup and evidence boundaries
 
-Preview with `python3 scripts/clean-generated-artifacts.py`. Only after cold
-codegen/CI checks use its `--apply` option. Its strict scope is wholly ignored
-generated `build/` plus compiler .obj/.pdb/.pyc/.pch/.idb/.ilk caches
-inside `.analysis/`; **no tracked source, experiment C++, scripts, JSON
-evidence, original executable, IDA database, or toolchain may be deleted**.
-The ignored per-path audit is
-`.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`.
+**Verified handoff cleanup on 2026-10-16.** After a full original-bound
+**30 noncrediting boss/leaf + 68 exact sibling** cold replay and public CI
+(**416 tests, 27 skipped**), the reviewed generated-file cleanup removed
+**3,539 reproducible files / 209,400,948 bytes (199.7 MiB)**:
+415 files under `build/`; 3,070 OBJ/PDB/etc. compiler caches under
+`.analysis/`; and 54 reviewed `.pyc` files under only
+`scripts/__pycache__/` and `tests/__pycache__/`. The original PE, pinned
+tools, all tracked code, provider state, original-bound JSON and experiment
+source copies were **preserved**. A fresh dry-run returned **zero disposable
+generated/compiler files**; `build/` and these two bytecode cache dirs are
+**intentionally absent**. Missing .obj/.pdb is **not** missing source.
 
-The [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) preserves the
-2026-10-15 exact deletion inventory. A new scoped cleanup and the remaining
-evidence inventory will be recorded here after verifying its exact scope.
-An absent `build/` after handoff is intentional: cold-rebuild a match unit
-before comparing, rather than treating deleted .obj as missing source.
+The ignored *per-file deletion audit* is
+`.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`
+(**the last runs entry**, not its cumulative history); verified preflight,
+postcondition and source-cold results remain under
+`.analysis/handoff-cleanup-20261016/`. See
+[the cleanup and retained evidence history](RE_ARTIFACT_CLEANUP_HISTORY.md)
+for exact file counts, preconditions, current retained classifications and
+reproducer paths.
+
+**Retained and not yet individually safe to prune:** `.analysis/` contains
+93,469 historical noncompiler files in 6,271 directories:
+**1,058,738,306 logical bytes (1,009.7 MiB), roughly 1.3 GiB on disk**.
+That includes 65,151 experiment .cpp files (450.6 MiB), 5,143 JSON
+source/evidence files (377.9 MiB), and other local compiler-probe sources.
+These are **unreviewed retained experiment/legacy evidence**, not disposable
+by age, extension or bulk selection. The game target, toolchain and IDA
+provider data are never cleanup targets.
+
+**Resume:** Rebuild the relevant owner/canonical match unit before
+comparing it. `scripts/ci.py` itself sets
+`PYTHONPYCACHEPREFIX=build/pycache`, so running public CI **after a clean
+handoff** recreates disposable build bytecode. If another cache-free
+handoff is wanted, run full original-bound checks and CI first, then
+preview `python3 scripts/clean-generated-artifacts.py` and use
+`--apply` only after reviewing the exact plan. Python-only docs/progress
+validation can run read-only with `python3 -B` and
+`PYTHONDONTWRITEBYTECODE=1`; it is **not** a new codegen receipt.
