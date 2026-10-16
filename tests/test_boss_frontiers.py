@@ -482,12 +482,15 @@ class BossFrontierChecks(TestCase):
     def etama_evidence():
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_sha256': frontiers.ETAMA_DRAW_ORIGINAL_SHA,
             'target_bytes': 600, 'candidate_bytes': 600,
             'target_instructions': 157, 'candidate_instructions': 160,
             'bound_fields': 27, 'ordered_calls': 13,
             'target_direct_blocks': 17, 'candidate_direct_blocks': 17,
             'complete_direct_graphs_agree': True,
             'overlapping_byte_differences': 268,
+            'difference_offsets': [i for lo, hi in frontiers.ETAMA_DRAW_RESIDUAL_RUNS
+                                   for i in range(lo, hi)],
             'missing_target_bytes': 0, 'extra_candidate_bytes': 0,
             'complete_bytes_equal': False,
         }
@@ -501,6 +504,50 @@ class BossFrontierChecks(TestCase):
         self.assertEqual([r['unit'] for r in siblings],
                          ['bullet-draw-single', 'etama-controller-update'])
         self.assertEqual(build.call_count, 2)
+
+    def test_etama_original_physically_bound_residual_runs_are_nonoverlapping(self):
+        runs = frontiers.ETAMA_DRAW_RESIDUAL_RUNS
+        self.assertEqual(len(runs), 32)
+        self.assertTrue(all(0 <= lo < hi <= 600 for lo, hi in runs))
+        self.assertTrue(all(a[1] < b[0] for a, b in zip(runs, runs[1:])))
+        self.assertEqual(sum(hi-lo for lo, hi in runs), 268)
+        frontiers.guard_etama_draw(self.etama_evidence())
+
+    def test_etama_original_further_narrowing_and_zero_remain_noncrediting(self):
+        report = self.etama_evidence()
+        report['difference_offsets'] = report['difference_offsets'][10:]
+        report['overlapping_byte_differences'] = len(report['difference_offsets'])
+        frontiers.guard_etama_draw(report)
+        exact_looking = {**report, 'difference_offsets': [],
+                         'overlapping_byte_differences': 0,
+                         'candidate_instructions': 157,
+                         'complete_bytes_equal': True}
+        frontiers.guard_etama_draw(exact_looking)
+        self.assertEqual(exact_looking['exactness_credit'], 'none')
+        with self.assertRaises(RuntimeError):
+            frontiers.guard_etama_draw({**exact_looking, 'exactness_credit': 'accepted'})
+
+    def test_etama_rejects_changed_previously_matching_bytes_and_fake_equality(self):
+        evidence = self.etama_evidence()
+        offsets = evidence['difference_offsets']
+        for bad in (
+            {'target_sha256': 'f'*64},
+            {'difference_offsets': offsets[:-1]},
+            {'difference_offsets': offsets + [offsets[-1]]},
+            {'difference_offsets': list(reversed(offsets))},
+            {'difference_offsets': offsets[:1] + [0x02A] + offsets[2:]},
+            {'difference_offsets': offsets[:1] + [600] + offsets[2:]},
+            {'difference_offsets': offsets[:1] + ['41'] + offsets[2:]},
+            {'difference_offsets': offsets[:1] + [True] + offsets[2:]},
+            {'difference_offsets': offsets[:1] + [-1] + offsets[2:]},
+            {'difference_offsets': offsets[:1] + [offsets[0]] + offsets[2:]},
+            {'difference_offsets': None},
+            {'overlapping_byte_differences': True},
+            {'candidate_instructions': 156},
+            {'complete_bytes_equal': True},
+        ):
+            with self.subTest(bad=bad), self.assertRaises(RuntimeError):
+                frontiers.guard_etama_draw({**evidence, **bad})
 
     def test_etama_original_graph_register_schedule_regressions_fail(self):
         for bad in ({'candidate_bytes': 594}, {'target_instructions': 156},

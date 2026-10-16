@@ -941,26 +941,64 @@ def run_enemy(*, protect_exact: bool) -> tuple[dict, list[dict]]:
                 'bound_fields': collision['bound_call_fields']}}, exact
 
 
+# These are the 32 disjoint, *physical* original-v1.50a byte runs that
+# differ in the currently cold-compiled 600-byte Etama::OnDraw. The aggregate
+# count alone is insufficient: a rewrite could replace a formerly exact byte
+# with a new mismatch while preserving the same count. This is a source-bound
+# no-regression ceiling, never an acceptance/partial-exactness allowance.
+ETAMA_DRAW_ORIGINAL_SHA = '6216f7ba73f38523afb6c40385b2b74190a657dc0388b8b8192d65d7f7e8f6b1'
+ETAMA_DRAW_RESIDUAL_RUNS = (
+    (0x028, 0x02A), (0x02E, 0x032), (0x034, 0x03A), (0x03B, 0x040),
+    (0x041, 0x042), (0x04A, 0x04B), (0x04F, 0x050), (0x062, 0x064),
+    (0x068, 0x06A), (0x06D, 0x06E), (0x07A, 0x07C), (0x087, 0x088),
+    (0x0D0, 0x0D2), (0x0E4, 0x0E6), (0x0FD, 0x0FF), (0x10A, 0x10B),
+    (0x110, 0x112), (0x11A, 0x11C), (0x122, 0x123), (0x127, 0x149),
+    (0x14A, 0x14C), (0x14D, 0x165), (0x166, 0x17B), (0x182, 0x184),
+    (0x18B, 0x18E), (0x190, 0x1A4), (0x1A6, 0x202), (0x203, 0x216),
+    (0x217, 0x21F), (0x23C, 0x23D), (0x23F, 0x240), (0x245, 0x246),
+)
+
+
+def guard_etama_draw(result: dict) -> None:
+    """Protect the complete original 600-byte Laser renderer frontier.
+
+    The inspector cold-binds all 27 original COFF operands and 13 real calls;
+    this second gate keeps all 332 *already matching* physical bytes matched.
+    A hypothetical 0-byte diagnostic still gives zero exactness credit.
+    """
+    noncrediting(result, name='Etama OnDraw', target_size=600, fields=27)
+    offsets = result.get('difference_offsets')
+    if (result.get('target_sha256') != ETAMA_DRAW_ORIGINAL_SHA or
+            result.get('candidate_bytes') != 600 or
+            result.get('target_instructions') != 157 or
+            type(result.get('candidate_instructions')) is not int or
+            not 157 <= result['candidate_instructions'] <= 160 or
+            result.get('ordered_calls') != 13 or
+            result.get('target_direct_blocks') != 17 or
+            result.get('candidate_direct_blocks') != 17 or
+            result.get('complete_direct_graphs_agree') is not True or
+            result.get('missing_target_bytes') != 0 or
+            result.get('extra_candidate_bytes') != 0 or
+            type(result.get('overlapping_byte_differences')) is not int or
+            not 0 <= result['overlapping_byte_differences'] <= 268 or
+            not isinstance(offsets, list) or
+            len(offsets) != result['overlapping_byte_differences'] or
+            result.get('complete_bytes_equal') is not (len(offsets) == 0)):
+        raise RuntimeError('Etama OnDraw original 600-byte full-owner census regressed')
+    if (any(type(off) is not int or off < 0 or off >= 600 or
+            not any(lo <= off < hi for lo, hi in ETAMA_DRAW_RESIDUAL_RUNS)
+            for off in offsets) or
+            offsets != sorted(set(offsets))):
+        raise RuntimeError('Etama OnDraw changed previously matching physical bytes')
+
+
 def run_etama(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     build('bullet-draw-single')
     result = noncrediting(parsed(['scripts/inspect-etama-draw.py',
                                  'build/matching/EtamaControllerDraw.obj', '--json'],
                                 diagnostic=True), name='Etama OnDraw',
                           target_size=600, fields=27)
-    if (result.get('candidate_bytes') != 600 or
-            result.get('target_instructions') != 157 or
-            not isinstance(result.get('candidate_instructions'), int) or
-            result['candidate_instructions'] > 160 or
-            result.get('ordered_calls') != 13 or
-            result.get('target_direct_blocks') != 17 or
-            result.get('candidate_direct_blocks') != 17 or
-            result.get('complete_direct_graphs_agree') is not True or
-            not isinstance(result.get('overlapping_byte_differences'), int) or
-            result['overlapping_byte_differences'] > 268 or
-            result.get('missing_target_bytes') != 0 or
-            result.get('extra_candidate_bytes') != 0 or
-            result.get('complete_bytes_equal') is not False):
-        raise RuntimeError('Etama OnDraw 600-byte/27-field/13-call/17-block frontier regressed')
+    guard_etama_draw(result)
     exact_units = [canonical('bullet-draw-single')] if protect_exact else []
     if protect_exact:
         build('etama-controller-update')

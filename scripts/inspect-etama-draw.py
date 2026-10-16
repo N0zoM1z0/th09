@@ -149,6 +149,11 @@ def inspect(path: Path, *, explain: bool = False) -> dict:
         raise ValueError('Etama draw call destinations/order changed')
     t_graph = direct_control_flow(ti, capstone.x86.X86_OP_IMM)
     c_graph = direct_control_flow(ci, capstone.x86.X86_OP_IMM)
+    # Exact physical offsets from independently original-bound code bytes.
+    # Keep the entire owner visible: matching relocation fields cannot be
+    # masked, nor can instruction alignment move an unequal byte elsewhere.
+    difference_offsets = [offset for offset, (original, compiled) in
+                          enumerate(zip(target, candidate)) if original != compiled]
     result = {
         'diagnostic_only': True, 'exactness_credit': 'none',
         'target_bytes': SIZE, 'candidate_bytes': len(candidate),
@@ -156,7 +161,8 @@ def inspect(path: Path, *, explain: bool = False) -> dict:
         'bound_fields': len(bound_fields), 'ordered_calls': len(target_calls),
         'target_direct_blocks': len(t_graph), 'candidate_direct_blocks': len(c_graph),
         'complete_direct_graphs_agree': t_graph == c_graph,
-        'overlapping_byte_differences': sum(x != y for x, y in zip(target, candidate)),
+        'overlapping_byte_differences': len(difference_offsets),
+        'difference_offsets': difference_offsets,
         'missing_target_bytes': max(0, SIZE - len(candidate)),
         'extra_candidate_bytes': max(0, len(candidate) - SIZE),
         'complete_bytes_equal': candidate == target,
