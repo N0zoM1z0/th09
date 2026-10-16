@@ -1,5 +1,6 @@
 """Target-independent fail-closed checks for the ScreenEffect large owner."""
 import importlib.util
+import tomllib
 from pathlib import Path
 from types import SimpleNamespace
 from unittest import TestCase, main
@@ -27,6 +28,46 @@ class ShakeEnvelopeOracleTests(TestCase):
                                                   0x4A7D90, 0x348), 0x4A80D8)
         addr = inspector.target_encoding(0x4227A0, 0x021, 'REL32', 0x401510, 0)
         self.assertEqual((addr + 0x4227A0 + 0x021 + 4) & 0xFFFFFFFF, 0x401510)
+
+    def test_shared_runtime_rng_is_bound_to_actual_original_method(self):
+        repo = SOURCE.parent.parent
+        cpp = (repo / 'src/ScreenEffect.cpp').read_text()
+        self.assertIn('#include "RngRuntimeLeaves.hpp"', cpp)
+        self.assertIn('extern RngRuntimeView g_ReplayRng;', cpp)
+        self.assertNotIn('ScreenEffectReplayRngView', cpp)
+        rng_fields = [record for record in inspector.FIELDS
+                      if 'ReplayRng' in record[2] or 'GetRandomU32InRange' in record[2]]
+        self.assertEqual([(off, kind, destination) for off, kind, _, destination, _
+                          in rng_fields],
+                         [(0xA9, 'DIR32', 0x004ACE0C),
+                          (0xB5, 'REL32', 0x004048E0),
+                          (0xEE, 'DIR32', 0x004ACE0C),
+                          (0xF3, 'REL32', 0x004048E0)])
+        for _, _, symbol, _, _ in rng_fields:
+            self.assertIn('RngRuntimeView', symbol)
+        with (repo / 'config/match-units.toml').open('rb') as stream:
+            units = tomllib.load(stream)['units']
+        unit = units['screen-effect-calc-shake']
+        self.assertEqual(unit['source'], 'src/ScreenEffect.cpp')
+        linked = [(r['offset'], r['type'], r['symbol'], r['target'])
+                  for r in unit['relocations'] if 'ReplayRng' in r['symbol']
+                  or 'GetRandomU32InRange' in r['symbol']]
+        self.assertEqual([(off, kind, address) for off, kind, _, address in linked],
+                         [(0x7E, 'DIR32', 0x004ACE0C),
+                          (0x8C, 'REL32', 0x004048E0),
+                          (0xD6, 'DIR32', 0x004ACE0C),
+                          (0xDB, 'REL32', 0x004048E0)])
+        self.assertTrue(all('RngRuntimeView' in name for _, _, name, _ in linked))
+        previous = self.example
+        for original in ('?g_ReplayRng@@3UScreenEffectReplayRngView@@A',
+                         '?GetRandomU32InRange@ScreenEffectReplayRngView@@QAEII@Z'):
+            corrupted = [dict(row) for row in previous]
+            index = next(i for i, row in enumerate(corrupted)
+                         if 'RngRuntimeView' in row['symbol'])
+            corrupted[index]['symbol'] = original
+            with self.subTest(original=original), self.assertRaisesRegex(
+                    ValueError, 'field type/name/addend'):
+                inspector.require_candidate(corrupted, 336)
 
     def test_reloc_type_mutation_fails_closed(self):
         self.example[0]['type'] = 'REL32'

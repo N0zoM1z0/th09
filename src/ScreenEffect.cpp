@@ -1,6 +1,7 @@
 #include "ScreenEffect.hpp"
 
 #include "AnmManager.hpp"
+#include "RngRuntimeLeaves.hpp"
 #include "AsciiManager.hpp"
 #include "Supervisor.hpp"
 #include "ZunMemory.hpp"
@@ -14,11 +15,7 @@
 extern Chain g_Chain;
 extern ZunMemory g_ZunMemory;
 
-struct ScreenEffectReplayRngView
-{
-    unsigned int GetRandomU32InRange(unsigned int max);
-};
-extern ScreenEffectReplayRngView g_ReplayRng;
+extern RngRuntimeView g_ReplayRng;
 
 struct ScreenEffectSideStateView
 {
