@@ -71,17 +71,11 @@ int TitleScreenView::DrawReplaySave()
             g_AsciiManager.color =
                 (i == keyboardSelection) ? 0xFFFFFFFFu : 0xFF808080u;
 
-            const char *playTime = replay->playTime;
-            const char *playerName;
-            if (replay->magic != 0)
-            {
-                playerName = replay->playerName;
-            }
-            else
-            {
-                playTime = "--/--/--";
-                playerName = "--------";
-            }
+            // Use one real slot-validity value for both displayed fields.
+            // This also recovers the original direct branch/return topology.
+            int valid = replay->magic != 0;
+            const char *playTime = valid ? replay->playTime : "--/--/--";
+            const char *playerName = valid ? replay->playerName : "--------";
 
             g_AsciiManager.AddFormatText(
                 &position,
@@ -107,8 +101,9 @@ int TitleScreenView::DrawReplaySave()
             scaled.z = target.z - position.z;
 
             target.x = scaled.x * (float)frame;
-            target.y = scaled.y * (float)frame;
-            target.z = scaled.z * (float)frame;
+            float factor = (float)frame;
+            target.y = scaled.y * factor;
+            target.z = scaled.z * factor;
 
             scaled.x = target.x * 0.1f;
             scaled.y = target.y * 0.1f;

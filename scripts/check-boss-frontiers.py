@@ -1308,6 +1308,47 @@ def guard_title_options(result: dict) -> None:
         raise RuntimeError('Title OnUpdateOptions 2045-byte/135-field/51-call/121-block frontier drifted')
 
 
+TITLE_REPLAY_SAVE_TARGET_SHA256 = (
+    '1d2ba588efb25a86d2e04da91812d3026a78a666effca5cc4738797e8d5b463c'
+)
+
+
+def guard_title_replay_save(result: dict) -> None:
+    """Keep the 800-byte original replay renderer's recovered direct CFG.
+
+    This is a complete-owner original-bound diagnostic, NOT canonical exact
+    credit. Only source-commit-bound Factory acceptance may grant that.
+    """
+    noncrediting(result, name='Title DrawReplaySave 800-byte owner',
+                 target_size=800, fields=41)
+    size = result.get('candidate_bytes')
+    if (result.get('target_sha256') != TITLE_REPLAY_SAVE_TARGET_SHA256 or
+            type(size) is not int or not 799 <= size <= 800 or
+            result.get('target_instructions') != 245 or
+            result.get('candidate_instructions') != 245 or
+            result.get('original_fields') != 41 or
+            result.get('ordered_calls') != 4 or
+            result.get('ordered_calls_agree') is not True or
+            result.get('original_blocks') != 28 or
+            result.get('candidate_blocks') != 28 or
+            result.get('direct_graphs_agree') is not True or
+            result.get('paired_branch_conflicts') != [] or
+            type(result.get('unpaired_branch_destinations')) is not int or
+            not 0 <= result['unpaired_branch_destinations'] <= 5 or
+            type(result.get('aligned_instructions')) is not int or
+            not 173 <= result['aligned_instructions'] <= 245 or
+            result.get('complete_bytes_equal') is not
+                    (size == 800 and result.get('complete_differences') == 0) or
+            (size == 799 and (result.get('complete_differences') is not None or
+                              result.get('difference_offsets') is not None)) or
+            (size == 800 and
+                (type(result.get('complete_differences')) is not int or
+                 not 0 <= result['complete_differences'] <= 800 or
+                 not isinstance(result.get('difference_offsets'), list) or
+                 len(result['difference_offsets']) != result['complete_differences']))):
+        raise RuntimeError('Title DrawReplaySave recovered 799/245/41/4/28 frontier drifted')
+
+
 def run_title_open() -> dict:
     # These source-present owners are explicitly non-exact. Their independent
     # original operand inventories must agree before any similarity score.
@@ -1371,8 +1412,7 @@ def run_title_open() -> dict:
     replay = noncrediting(parsed(['scripts/inspect-title-replay-save-draw.py', replay_obj,
                                   '--json']), name='Title DrawReplaySave',
                           target_size=800, fields=41)
-    if replay['original_fields'] != 41 or not replay['ordered_calls_agree']:
-        raise RuntimeError('Title ReplaySave 41 original fields or call sequence regressed')
+    guard_title_replay_save(replay)
     return {**cursor_reports, 'title_draw_result': {
                 'target_bytes': 1939, 'candidate_bytes': draw['candidate_bytes'],
                 'ordinary_differences': draw['complete_differences'],
@@ -1382,6 +1422,9 @@ def run_title_open() -> dict:
                 'target_bytes': 800, 'candidate_bytes': replay['candidate_bytes'],
                 'fields': replay['bound_fields'],
                 'first_overlapping_difference': replay['first_overlapping_difference'],
+                'candidate_instructions': replay['candidate_instructions'],
+                'aligned_instructions': replay['aligned_instructions'],
+                'ordered_calls': replay['ordered_calls'],
                 'direct_graphs_agree': replay['direct_graphs_agree']}}
 
 
