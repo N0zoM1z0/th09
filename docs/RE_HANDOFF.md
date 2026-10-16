@@ -246,6 +246,26 @@ diagnostics and 68 full exact sibling replays**. It includes the 336/20/28
 exactness credit. A later documentation commit does not change the Factory
 receipts' immutable gameplay-source binding.
 
+**Etama/Effect genuine receiver source-commit-bound Factory cold receipts**
+(`strict-live-v1`, original Japanese TH09 v1.50a PE, source commit
+`2b216b3c96e29bd55a5af32af478ad23a33f0060`):
+
+- `EffectManager::DrawBulletLayerEffects @ 0x0040D110`, **169/169 bytes**, now
+  with actual `EffectManager` thiscall receiver:
+  `receipt:270944e49bd65f7c1da1e6824679128d84ca3b8d3bb615b54198513e67a58dd9`, **pass / accepted**.
+- `DrawSingleBullet @ 0x00413AF0`, **215 authored / 232 physical** bytes:
+  `receipt:296551f9192cdc7d4e5c3b84d86e0bcee3ac858aad33de29c2c565a5df35c82f`, **pass / accepted**.
+- `EtamaController::AddedCallback @ 0x00413E40`, **598 authored / 832 physical** bytes:
+  `receipt:797c31ef5b39437e6db9ac3e3e8e57e3291f476fc821f16239de47ae8c75233f`, **pass / accepted**.
+- `EtamaController::OnUpdate @ 0x004146F0`, **2,195 authored / 2,216 physical** bytes:
+  `receipt:3dd9d7a8762fa42cfd72dbe6622f9e7a1d092222a5d377a67eed117b2cc4eba6`, **pass / accepted**.
+
+These are **already exact** source-bound original regressions, not four
+new exact functions; `EtamaController::OnDraw` remains 600/600 physical
+but NON-EXACT with 268 byte differences. The independent whole-source
+cold run retained 29 noncrediting bosses and 68 exact siblings. A later
+docs-only checkpoint cannot change the above receipt source commit.
+
 **Do not count these regressions as new exact matches.** Receipts do not bind
 later source commits, diagnose adjacent non-exact owners, establish a native
 Windows image or attest runtime semantics. Preserve current source-specific
