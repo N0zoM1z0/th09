@@ -41,7 +41,7 @@ DESTINATIONS = {
     '__real@3dcccccd': 0x0048E4B0,
     '__real@3d800000': 0x0048E828,
     '?DrawSingleBullet@@YIHPAUBullet@@@Z': 0x00413AF0,
-    '?DrawBulletLayerEffects@BulletDrawEffectManagerView@@QAEHXZ': 0x0040D110,
+    '?DrawBulletLayerEffects@EffectManager@@QAEHXZ': 0x0040D110,
 }
 
 

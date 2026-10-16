@@ -95,6 +95,7 @@ struct EffectManager
     static int OnUpdate(EffectManager *effectManager);
     static int OnDraw(EffectManager *effectManager);
     static int OnDrawShared(EffectManager *effectManager);
+    int DrawBulletLayerEffects();
     static int AddedCallback(EffectManager *effectManager);
     static void Release(EffectManager *effectManager);
     static EffectManager *Create(int sideIndex, int primaryCount, int secondaryCount);
@@ -123,6 +124,9 @@ struct EffectManager
 };
 typedef char EffectManagerSizeIs2DC[(sizeof(EffectManager) == 0x2DC) ? 1 : -1];
 typedef char EffectManagerSideStateAt10[(offsetof(EffectManager, sideState) == 0x10) ? 1 : -1];
+typedef char EffectManagerBulletLayerHeadAt1E8[
+    (offsetof(EffectManager, drawSentinel1) +
+     offsetof(Effect, nextInDrawGroup) == 0x1E8) ? 1 : -1];
 typedef char EffectManagerOpposingSideAt14[(offsetof(EffectManager, opposingSideState) == 0x14) ? 1 : -1];
 typedef char EffectManagerPoolAt30[(offsetof(EffectManager, effects) == 0x30) ? 1 : -1];
 typedef char EffectManagerSentinel0At3C[(offsetof(EffectManager, drawSentinel0) == 0x3C) ? 1 : -1];

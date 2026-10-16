@@ -1,5 +1,6 @@
 #include "BulletManager.hpp"
 #include "AnmManager.hpp"
+#include "EffectManager.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "Supervisor.hpp"
 
@@ -16,16 +17,13 @@ typedef char EtamaDrawPointerAddressIsI386[
 extern void __fastcall fsincos(float *sine, float *cosine, float angle);
 extern float __stdcall AddNormalizeAngle(float angle, float delta);
 
-struct BulletDrawEffectManagerView
-{
-    int DrawBulletLayerEffects();
-};
-
 struct BulletDrawSideStateView
 {
     unsigned char unknown00[0x0C];
-    BulletDrawEffectManagerView *effectManager0C;
+    EffectManager *effectManager0C;
 };
+typedef char EtamaDrawSideEffectManagerAt0C[
+    (offsetof(BulletDrawSideStateView, effectManager0C) == 0x0C) ? 1 : -1];
 
 static int DrawSingleBullet(Bullet *bullet)
 {

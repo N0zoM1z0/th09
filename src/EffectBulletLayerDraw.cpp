@@ -2,14 +2,9 @@
 #include "AsciiGameManagerView.hpp"
 #include "AnmManager.hpp"
 
-struct BulletDrawEffectManagerView
+int EffectManager::DrawBulletLayerEffects()
 {
-    int DrawBulletLayerEffects();
-};
-
-int BulletDrawEffectManagerView::DrawBulletLayerEffects()
-{
-    EffectManager *manager = reinterpret_cast<EffectManager *>(this);
+    EffectManager *manager = this;
     Effect *effect = manager->drawSentinel1.nextInDrawGroup;
 
     while (effect != NULL)
