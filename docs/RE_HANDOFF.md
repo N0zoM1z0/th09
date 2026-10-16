@@ -102,6 +102,14 @@ all 41 open functions. For the complete <=256-byte cohort see
 | **Supervisor received-frame leaf** | 0x0042E9E0 | **213/213**, 67 instructions, 9 blocks; **35** differences | Target packed-input/seed 16-bit store register order; `--owner network`. |
 | **Network-config parser leaf** | 0x00432240 | **243/243**, 116 instructions, one strncmp call; **76** differences | Newline-clear early-return block order; `--owner parser`. |
 
+
+The independent original PE and `th09-ida` CODE-xref census at `0x004343D0`
+verifies all 27 folded `Float3` helper callsites across 18 exact and nine
+nonexact caller owners. Run `python3 scripts/audit-float3-conversion-calls.py
+--json` for target-hash/callsite/owner evidence; the folded physical callee
+cannot be assigned unique C++ authorship from calls alone. The source-present
+`MoveRandomBiased` 517/516-byte difference remains open.
+
 Additional non-exact owners (e.g. Player charge/update/added state,
 replay save, title replay drawing and network updates) remain in the **41-row
 live source-present non-exact ledger**, not in a historic handoff tally.

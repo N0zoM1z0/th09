@@ -22,8 +22,28 @@ FOLDED_VA = 0x004343D0
 FOLDED_BODY_SHA = '58367ffa2a0179375018fa0f5c26da24391e42ebe0ed8fdda35a21fc7bdc396f'
 BIASED_Y_LEA_VA = 0x00407F64
 BIASED_Y_LEA_SHA = '0141ec913f701eb29274212b0efb8f55b56bceec2694a516d5411995b49788f9'
-# Independent named callsite observations in the original target.
+# Every CODE xref returned independently by the target-attested th09-ida
+# get_xrefs_to(0x004343D0). Data xrefs are deliberately not counted as calls.
+# The 27 physical E8 encodings below were separately read from the retail PE.
+REVIEWED_CODE_CALLS = (
+    0x00402FE0, 0x00407C92, 0x00407F53, 0x00408452,
+    0x004101E2, 0x00410D29, 0x00412D93, 0x004138D4,
+    0x00413B35, 0x00413B43, 0x00413C61, 0x00413C6A,
+    0x00413D0C, 0x004149AC, 0x0041BB0A, 0x0041BB7A,
+    0x0041C678, 0x0041E786, 0x0041EBE3, 0x0041F39A,
+    0x0041F5E3, 0x0041FE3A, 0x0042168F, 0x00439860,
+    0x0044163D, 0x0044286F, 0x00442D04,
+)
+# Distinct exercised subsystems, not extra function boundaries or new credit.
 KNOWN_SITES = (0x00407C92, 0x00407F53, 0x004149AC, 0x00439860)
+
+
+def require_reviewed_code_calls(calls: list[int]) -> None:
+    """A raw-byte E8 search may only describe the independently reviewed set."""
+    if (not REVIEWED_CODE_CALLS or
+            tuple(sorted(set(REVIEWED_CODE_CALLS))) != REVIEWED_CODE_CALLS or
+            calls != list(REVIEWED_CODE_CALLS)):
+        raise ValueError('original folded helper E8 candidates differ from IDA code xrefs')
 
 
 def rel32_call_candidates(code: bytes, base: int, callee: int) -> list[int]:
@@ -79,17 +99,19 @@ def audit_target() -> dict:
 
     text = module.pe_bytes_at(image, TEXT_START, TEXT_END - TEXT_START)
     calls = rel32_call_candidates(text, TEXT_START, FOLDED_VA)
-    missing = set(KNOWN_SITES) - set(calls)
-    if missing:
-        raise ValueError('original independently reviewed folded-helper xref absent: ' +
-                         ', '.join(hex(value) for value in sorted(missing)))
+    require_reviewed_code_calls(calls)
+    if not set(KNOWN_SITES).issubset(calls):
+        raise ValueError('original independently reviewed folded-helper caller missing')
     owners = read_owners()
+    if any(owner_at(va, owners) is None for va in calls):
+        raise ValueError('folded-helper CODE call lacks a reviewed physical owner')
     return {
         'target': 'th09-v1.50a-original-japanese',
         'physical_callee': hex(FOLDED_VA),
         'callee_authorship': 'unresolved-folded-special-member',
         'exactness_credit': 'none',
         'call_encoding_candidates': len(calls),
+        'independent_ida_code_xrefs': len(REVIEWED_CODE_CALLS),
         'sites': [
             {
                 'address': hex(va),

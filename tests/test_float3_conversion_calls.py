@@ -38,6 +38,16 @@ class FoldedConversionCallCensus(unittest.TestCase):
             with self.subTest(address=address):
                 self.assertIsNone(audit.owner_at(address, sample))
 
+    def test_exact_code_xrefs_guard_byte_search_against_false_positives(self):
+        expected = list(audit.REVIEWED_CODE_CALLS)
+        self.assertEqual(len(expected), 27)
+        audit.require_reviewed_code_calls(expected)
+        for damaged in (expected[:-1], expected[1:], expected + [0x4343D0],
+                        expected[:-1] + [0x407F54], list(reversed(expected))):
+            with self.subTest(damaged=damaged[:2]), self.assertRaisesRegex(
+                    ValueError, 'differ from IDA code xrefs'):
+                audit.require_reviewed_code_calls(damaged)
+
     def test_known_original_xrefs_are_not_interpreted_as_authorship(self):
         self.assertEqual(audit.FOLDED_VA, 0x004343D0)
         self.assertIn(0x00407F53, audit.KNOWN_SITES)
