@@ -291,6 +291,26 @@ accepted. The full `--owner all` cold verification independently covered
 bind to the above gameplay-source commit; later documentation-only commits
 do not extend that source identity.
 
+**RunEcl opcode-4 actual ZunTimer owner source-bound exact regressions**:
+registered Factory `strict-live-v1`, forced-pinned-VC7.1 TH09 v1.50a
+original-bound replays from source commit
+`ab6b6a138895801b19fba5498e662906ceb82776`, all **pass / accepted**:
+
+- Genuine already-exact `ZunTimer::operator=(int) @0x00401500`, **9/9** bytes,
+  `receipt:82bbd6e11555c8e87d83d7088a89068ee7fab3bbc9f342635ccc51ff5f55e596`.
+- Already-exact `Th09EclRunControl::PopContext @0x00406680`, **147/147** bytes,
+  `receipt:ca6a8207f37c24dc3c3c5c0b9cbbdba98b1f65d47c4cdef269522a2572bbf2af`.
+- Already-exact `Th09EclRunMovement::BeginBoundaryAwareMove @0x00407C30`,
+  **510/510** bytes,
+  `receipt:b2383ac9f8554f29ad1f74c5efd15c499237e0915d39cab867567e9b38113e35`.
+
+All are **previously exact**, not three new matches and not acceptance of
+`RunEcl` itself. Source-cold `--owner all` also passes **29 complete
+noncrediting open-owner diagnostics plus 68 complete exact sibling units**;
+`RunEcl` remains 30 original-linked bytes different (opcode 4: 7,
+opcode 155: 23). The exact source-commit binding above is immutable and
+does not extend to subsequent handoff/documentation changes.
+
 **Do not count these regressions as new exact matches.** Receipts do not bind
 later source commits, diagnose adjacent non-exact owners, establish a native
 Windows image or attest runtime semantics. Preserve current source-specific
