@@ -42,7 +42,7 @@ ALIASES = {
     '??4Th09EclTimerStorageView@@QAEXH@Z': 0x401500,
     '??BTh09EclTimerStorageView@@QAEMXZ': 0x4014f0,
     '??8Th09EclTimerStorageView@@QAEIH@Z': 0x404950,
-    '?NextU16@RngView@Th09EclRunControl@@QAEGXZ': 0x42ae20,
+    '?NextU16@RngRuntimeView@@QAEGXZ': 0x42ae20,
     '?FloatModulo@Th09EclRunControl@@YGMMM@Z': 0x405710,
     '?Sin@Th09EclRunControl@@YGMM@Z': 0x401070,
     '?Cos@Th09EclRunControl@@YGMM@Z': 0x401060,
@@ -50,7 +50,7 @@ ALIASES = {
     '?SquareRoot@Th09EclRunControl@@YGMM@Z': 0x401080,
     '?ClampPosition@Th09EclRunMovement@@YIXPAUEnemyView@@@Z': 0x4101d0,
     '?MoveRandomBiased@Th09EclRunLate@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@@Z': 0x407e30,
-    '?GetRandomU32InRange@RngView@Th09EclRunControl@@QAEII@Z': 0x4048e0,
+    '?GetRandomU32InRange@RngRuntimeView@@QAEII@Z': 0x4048e0,
     '?SetBossMarkerState@BossUiView@Th09EclRunState@@QAEXHH@Z': 0x4067d0,
     '?SetBossMarkerPosition@BossUiView@Th09EclRunState@@QAEXHPAUFloat3@@@Z': 0x4067f0,
     '?PlaySoundPositionedByIdx@SoundPlayerView@Th09EclRunState@@QAEXHM@Z': 0x43e380,
@@ -58,7 +58,7 @@ ALIASES = {
     '?ClearBulletsForTransition@Th09EclRunBullet@@YIXPAUEtamaController@@@Z': 0x405650,
     '?RemoveBulletsInRadius@BulletControllerLateView@Th09EclRunLate@@QAEXPBUFloat3@@M@Z': 0x4125a0,
     '?RemoveAllBullets@BulletControllerLateView@Th09EclRunLate@@QAEXH@Z': 0x412590,
-    '?GetRandomF32InRange@RngView@Th09EclRunControl@@QAEMM@Z': 0x404910,
+    '?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z': 0x404910,
     '?StartSpellBackground@BackgroundLateView@Th09EclRunLate@@QAEXXZ': 0x4067b0,
 }
 DATA_ALIASES = {

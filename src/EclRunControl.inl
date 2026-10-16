@@ -22,22 +22,14 @@
 
 #include "EclOpcodes.hpp"
 #include "EnemyManager.hpp"
+#include "RngRuntimeLeaves.hpp"
+
+extern RngRuntimeView g_Rng;
 
 namespace Th09EclRunControl
 {
 
-struct RngView
-{
-    unsigned short NextU16();
-    unsigned int GetRandomU32();
-    unsigned int GetRandomU32InRange(unsigned int maximum);
-    float GetRandomF32();
-    float GetRandomF32Signed();
-    float GetRandomF32InRange(float maximum);
-    float GetRandomF32SignedInRange(float maximum);
-};
-
-extern RngView g_Rng;
+using ::g_Rng;
 
 // Target-facing operand helper declarations. ResolveInt, both lvalue resolvers,
 // and EnemyView::ResolveFloat have canonical exact TH09 implementations.
