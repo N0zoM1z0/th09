@@ -22,6 +22,7 @@
 
 #include "EclOpcodes.hpp"
 #include "EnemyManager.hpp"
+#include "ZunTimer.hpp"
 #include "RngRuntimeLeaves.hpp"
 
 extern RngRuntimeView g_Rng;
@@ -191,7 +192,11 @@ __forceinline float *WriteFloat(
         const volatile int &rawTime =
             Th09EclRunControl::RawInt(instruction, 0);
         int value = rawTime;
-        context->time008 = value;
+        // The real timer at context +0x08 has ZunTimer's exact 12-byte ABI.
+        // Use the already-exact operator=(int) target at 0x00401500 rather
+        // than a separate source-only Th09EclTimerStorageView symbol.
+        ZunTimer &timer = *reinterpret_cast<ZunTimer *>(&context->time008);
+        timer = value;
     }
         instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
             reinterpret_cast<unsigned char *>(instruction) +
