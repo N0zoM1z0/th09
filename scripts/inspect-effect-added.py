@@ -31,10 +31,10 @@ TARGET_FIELDS = (
 TARGET_BLOCKS = 3
 SYMBOL = '?AddedCallback@EffectManager@@SIHPAU1@@Z'
 DESTINATIONS = {
-    '?g_AnmManager@@3PAUEffectAnmManagerView@@A': 0x004DC550,
-    '?GetAnm@EffectAnmManagerView@@QAEPAXH@Z': 0x00401660,
+    '?g_AnmManager@@3PAVAnmManager@@A': 0x004DC550,
+    '?GetAnm@AnmManager@@QAEPAVAnmLoaded@@H@Z': 0x00401660,
     '??_C@_09NMANGJFI@etama?4anm?$AA@': 0x0048E488,
-    '?PreloadAnm@EffectAnmManagerView@@QAEPAXHPBD@Z': 0x0043C7A0,
+    '?PreloadAnm@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z': 0x0043C7A0,
 }
 CALL_ORDER = [0x00401660, 0x0043C7A0]
 EXPECTED_FIELDS = Counter([
@@ -71,8 +71,8 @@ def bind_candidate(code: bytes, rows: list[dict]) -> tuple[bytes, list[tuple]]:
         if symbol not in DESTINATIONS or kind not in ('DIR32', 'REL32') or addend != 0:
             raise ValueError('unreviewed Effect AddedCallback relocation identity')
         if kind != ('REL32' if symbol in (
-                '?GetAnm@EffectAnmManagerView@@QAEPAXH@Z',
-                '?PreloadAnm@EffectAnmManagerView@@QAEPAXHPBD@Z') else 'DIR32'):
+                '?GetAnm@AnmManager@@QAEPAVAnmLoaded@@H@Z',
+                '?PreloadAnm@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z') else 'DIR32'):
             raise ValueError('Effect AddedCallback call/data relocation kind changed')
         coverage = set(range(offset, offset+4))
         if offset < 0 or offset+4 > len(linked) or used.intersection(coverage):

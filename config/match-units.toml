@@ -7045,8 +7045,8 @@ relocations = [
   { offset = 0x9F, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
   { offset = 0xB6, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
   { offset = 0xBB, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
-  { offset = 0x108, type = "DIR32", symbol = "?g_AnmManager@@3PAUEffectAnmManagerView@@A", target = 0x004DC550 },
-  { offset = 0x10E, type = "REL32", symbol = "?ExecuteScript@EffectAnmManagerView@@QAEHPAUEffectVmView@@@Z", target = 0x00436F30 },
+  { offset = 0x108, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x10E, type = "REL32", symbol = "?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x00436F30 },
   { offset = 0x146, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
 ]
 
@@ -7066,8 +7066,8 @@ relocations = [
   { offset = 0x5B, type = "DIR32", symbol = "?g_GameManager@@3UEffectGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x60, type = "REL32", symbol = "?TransformPopupY@EffectGameManagerView@@QAEMM@Z", target = 0x004016B0 },
   { offset = 0x7E, type = "REL32", symbol = "?Add@EffectFloat3@@QAEPAU1@PBU1@@Z", target = 0x00405730 },
-  { offset = 0x84, type = "DIR32", symbol = "?g_AnmManager@@3PAUEffectAnmManagerView@@A", target = 0x004DC550 },
-  { offset = 0x8A, type = "REL32", symbol = "?Draw2D@EffectAnmManagerView@@QAEHPAUEffectVmView@@@Z", target = 0x0043AB50 },
+  { offset = 0x84, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x8A, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
 ]
 
 [units.effect-manager-draw-shared]
@@ -7082,8 +7082,8 @@ relocations = [
   { offset = 0x0C, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x11, type = "REL32", symbol = "?ConfigureGameplayViewport@Supervisor@@QAEXH@Z", target = 0x00401390 },
   { offset = 0x66, type = "REL32", symbol = "?Add@EffectFloat3@@QAEPAU1@PBU1@@Z", target = 0x00405730 },
-  { offset = 0x6C, type = "DIR32", symbol = "?g_AnmManager@@3PAUEffectAnmManagerView@@A", target = 0x004DC550 },
-  { offset = 0x72, type = "REL32", symbol = "?Draw2D@EffectAnmManagerView@@QAEHPAUEffectVmView@@@Z", target = 0x0043AB50 },
+  { offset = 0x6C, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x72, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
 ]
 
 [units.effect-manager-release-pool]

@@ -4,6 +4,7 @@ import hashlib
 import importlib.util
 from pathlib import Path
 import struct
+import tomllib
 import unittest
 
 try:
@@ -31,10 +32,10 @@ class EffectOriginalGuard(unittest.TestCase):
     def reviewed_source_rows():
         rows = []
         for offset, kind, symbol in (
-                (6, 'DIR32', '?g_AnmManager@@3PAUEffectAnmManagerView@@A'),
-                (15, 'REL32', '?GetAnm@EffectAnmManagerView@@QAEPAXH@Z'),
+                (6, 'DIR32', '?g_AnmManager@@3PAVAnmManager@@A'),
+                (15, 'REL32', '?GetAnm@AnmManager@@QAEPAVAnmLoaded@@H@Z'),
                 (27, 'DIR32', '??_C@_09NMANGJFI@etama?4anm?$AA@'),
-                (36, 'REL32', '?PreloadAnm@EffectAnmManagerView@@QAEPAXHPBD@Z')):
+                (36, 'REL32', '?PreloadAnm@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z')):
             rows.append({'offset': offset, 'type': kind,
                          'symbol': symbol, 'addend': 0})
         return rows
@@ -68,10 +69,49 @@ class EffectOriginalGuard(unittest.TestCase):
             expected = destination - (inspect.BASE + row['offset'] + 4 if kind == 'REL32' else 0)
             self.assertEqual(struct.unpack_from('<I', bound, row['offset'])[0], expected & 0xffffffff)
 
+    def test_native_anm_owner_links_real_same_address_methods(self):
+        # Original retail PE addresses and independently canonical actual
+        # member symbols, not an alternate source-only EffectAnmManager view.
+        source = (ROOT / 'src/EffectManager.cpp').read_text()
+        self.assertIn('#include "AnmManager.hpp"', source)
+        self.assertIn('AnmManager *anmManager = g_AnmManager;', source)
+        self.assertIn('AnmLoaded *effectAnm = g_AnmManager->GetAnm(8);', source)
+        self.assertNotIn('EffectAnmManagerView', source)
+        self.assertEqual(inspect.DESTINATIONS['?g_AnmManager@@3PAVAnmManager@@A'],
+                         0x004DC550)
+        self.assertEqual(inspect.DESTINATIONS['?GetAnm@AnmManager@@QAEPAVAnmLoaded@@H@Z'],
+                         0x00401660)
+        self.assertEqual(inspect.DESTINATIONS['?PreloadAnm@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z'],
+                         0x0043C7A0)
+        with (ROOT / 'config/match-units.toml').open('rb') as stream:
+            units = tomllib.load(stream)['units']
+        expected = {
+            'effect-manager-update': {
+                '?g_AnmManager@@3PAVAnmManager@@A': 0x004DC550,
+                '?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z': 0x00436F30,
+            },
+            'effect-manager-draw': {
+                '?g_AnmManager@@3PAVAnmManager@@A': 0x004DC550,
+                '?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z': 0x0043AB50,
+            },
+            'effect-manager-draw-shared': {
+                '?g_AnmManager@@3PAVAnmManager@@A': 0x004DC550,
+                '?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z': 0x0043AB50,
+            },
+        }
+        for unit_name, fields in expected.items():
+            unit = units[unit_name]
+            self.assertEqual(unit['source'], 'src/EffectManager.cpp')
+            found = {r['symbol']: r['target'] for r in unit['relocations']
+                     if 'AnmManager' in r['symbol']}
+            with self.subTest(unit=unit_name):
+                self.assertEqual(found, fields)
+
     def test_missing_wrong_order_addend_or_overlap_is_rejected(self):
         source = bytes(inspect.SIZE)
         valid = self.reviewed_source_rows()
         cases = [valid[:-1], list(reversed(valid)),
+                 [dict(valid[0], symbol='?g_AnmManager@@3PAUEffectAnmManagerView@@A')] + valid[1:],
                  [dict(valid[0], addend=1)] + valid[1:],
                  [dict(valid[0], type='REL32')] + valid[1:],
                  [dict(valid[0], symbol='?invented@@3HA')] + valid[1:],

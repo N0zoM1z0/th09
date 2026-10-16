@@ -1,4 +1,5 @@
 #include "EffectManager.hpp"
+#include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "Supervisor.hpp"
 #include "ZunMemory.hpp"
@@ -29,14 +30,6 @@ struct EffectGameManagerView
     unsigned int flags134;
 };
 
-struct EffectAnmManagerView
-{
-    void *GetAnm(int anmIndex);
-    void *PreloadAnm(int anmIndex, const char *path);
-    int ExecuteScript(EffectVmView *vm);
-    int Draw2D(EffectVmView *vm);
-};
-
 struct EffectTemplate
 {
     int scriptIndex;
@@ -49,7 +42,6 @@ struct EffectTemplate
 typedef char EffectTemplateSizeIs18[(sizeof(EffectTemplate) == 0x18) ? 1 : -1];
 
 extern EffectGameManagerView g_GameManager;
-extern EffectAnmManagerView *g_AnmManager;
 extern EffectTemplate g_EffectTemplates[];
 extern Chain g_Chain;
 extern ZunMemory g_ZunMemory;
@@ -292,7 +284,7 @@ int EffectManager::OnUpdate(EffectManager *effectManager)
         int liveVmCount = effect->vmCount;
         for (int vmIndex = 0; vmIndex < effect->vmCount; ++vmIndex)
         {
-            if (g_AnmManager->ExecuteScript(&effect->vms[vmIndex]) != 0)
+            if (g_AnmManager->ExecuteScript(reinterpret_cast<AnmVm *>(&effect->vms[vmIndex])) != 0)
                 --liveVmCount;
         }
         if (liveVmCount == 0)
@@ -348,7 +340,7 @@ int EffectManager::OnDraw(EffectManager *effectManager)
                     vm->position.y = g_GameManager.TransformPopupY(effect->position.y);
                     vm->position.z = 0.08f;
                     vm->position.Add(&vm->pos2);
-                    g_AnmManager->Draw2D(vm);
+                    g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(vm));
                     ++vm;
                 } while (--vmCount != 0);
             }
@@ -379,7 +371,7 @@ int EffectManager::OnDrawShared(EffectManager *effectManager)
                     vm->position.y = effect->position.y;
                     vm->position.z = 0.0f;
                     vm->position.Add(&vm->pos2);
-                    g_AnmManager->Draw2D(vm);
+                    g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(vm));
                     ++vm;
                 } while (--vmCount != 0);
             }
@@ -391,14 +383,14 @@ int EffectManager::OnDrawShared(EffectManager *effectManager)
 int EffectManager::AddedCallback(EffectManager *effectManager)
 {
     EffectManager *manager = effectManager;
-    EffectAnmManagerView *anmManager = g_AnmManager;
+    AnmManager *anmManager = g_AnmManager;
     // The first lookup uses the actual global ANM manager. VC7.1 keeps the
     // callback owner in ESI and ANM resource in EDI with one global load,
     // but this callback remains non-exact (eight bytes; inspect-effect-added.py).
-    void *effectAnm = g_AnmManager->GetAnm(8);
+    AnmLoaded *effectAnm = g_AnmManager->GetAnm(8);
     if (reinterpret_cast<void **>(effectAnm)[1] == NULL)
         effectAnm = anmManager->PreloadAnm(8, "etama.anm");
-    manager->effectAnm = reinterpret_cast<AnmLoaded *>(effectAnm);
+    manager->effectAnm = effectAnm;
     return 0;
 }
 
