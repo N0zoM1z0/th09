@@ -372,6 +372,34 @@ The independent complete cold sweep retains 29 noncrediting owners and
 checked byte-for-byte (22,504 physical bytes, 1,175 relocations). The
 subsequent docs checkpoint does not extend immutable gameplay-source bindings.
 
+**ScreenEffect 28→26 boss source-commit-bound accepted regressions:**
+Original Japanese TH09 v1.50a, genuine Factory strict-live-v1,
+forced-cold VC7.1 at source commit
+c30a35a920881b1dc3674959f68a9f2bf3406552:
+
+- Previously exact ScreenEffect::CalcShake @0x00422660, **316/316**
+  original bytes: receipt:
+  5b765d3491b74d87eaaff802770281171a069d07c8d19c7afe0d77f28ed43547
+  — **pass / accepted**.
+- Previously exact ScreenEffect::RegisterChain @0x00422D20,
+  **480/480 physical bytes**, including 33 real compiler-switch data
+  bytes and its separate no-EH profile: receipt:
+  522d7ae9d73f44f4c10bcc5ee2bcad23315b52c3a33cb07d3ec12fd64e5862f0
+  — **pass / accepted**.
+- Previously exact ScreenEffect::DrawSquare @0x00422960,
+  **527/527** bytes under its distinct /Ob0 profile: receipt:
+  c8df10045d0306ef3302592f876c357fe9062a03b4df49fdb85bd9ed5f07a84f
+  — **pass / accepted**.
+
+The improved **336-byte CalcShakeEnvelope** is **still nonexact** with
+26 unmatched complete original-bound physical bytes. These are three
+already-exact sibling regressions and grant no canonical new exact credit.
+All **18 exact ScreenEffect.cpp units** (2,562 physical bytes, 164
+original fields), the latest **29 complete noncrediting bosses** and
+**68 exact siblings** passed separate pinned source-cold comparison.
+The documentation-only checkpoint does not extend the immutable source
+commit binding. CI: **410 public tests, 27 skipped**, all remaining pass.
+
 **Do not count these regressions as new exact matches.** Receipts do not bind
 later source commits, diagnose adjacent non-exact owners, establish a native
 Windows image or attest runtime semantics. Preserve current source-specific

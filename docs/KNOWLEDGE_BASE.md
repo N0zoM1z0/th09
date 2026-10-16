@@ -8226,3 +8226,31 @@ attest historical producer execution.
 - From genuine complete-TU VC7.1 carriers, explored **32 natural and falsifiable source variants** covering real ScreenEffect/ZunTimer pointer or reference lifetimes, endpoint/duration declarations, guard shapes, volatile field snapshots and alias order. Changing only the **source declaration order of the real const volatile int references** from hold-then-fade to **fade-then-hold**, preserving the same actual hold + fade value and all original side effects, adjusts the compiler's scalar field-load register schedule to match the original at **two previously unlike physical bytes +0x05C and +0x05F**. The complete freshly compiled physical owner now has **26 unlike bytes**, not 28. Independent raw linked-byte set comparison proves **zero newly broken original positions**; 310/336 physical bytes are already equal. All 336 code bytes, 132 decoded instructions, 20 true source/target field operands, eight original calls, 26 control-flow blocks and original graph remain within the same trusted owners. There was no padding, target PE patch, invented register pressure or altered gameplay behavior.
 - The improved original-bound inspector now SHA-pins the **entire 336-byte target** and reports **all mismatch offsets** after binding every real COFF call/data record. A strict complete-owner guard stores the immutable **26 currently unmatched physical byte offsets** as a noncrediting ceiling: future natural improvements may clear them, but may not break any of the **310 already matching bytes**, even if the total difference count drops. It additionally checks original SHA, instruction census, 20 field records, eight ordered real calls, 26 direct blocks and CFG. Five negative-input regression tests reject the two formerly mismatched +0x5C/+0x5F bytes becoming broken again, reordered or spoofed inventories, malformed targets/fields/graphs and forged exactness.
 - Recompiled all **three genuinely different ScreenEffect.cpp VC7.1 profiles** (including the no-EH RegisterChain and /Ob0 DrawSquare profiles), then individually compared **all 18 already-canonical exact source functions** to the independently SHA-attested original: **2,562 complete physically equal original bytes and 164 real COFF relocation fields**. The 336-byte CalcShakeEnvelope remains **NON-EXACT at 26 residual bytes**; there is no new exact function credit. Isolated full-object probes and original-linked raw difference-set evidence remain retained at .analysis/gpt-web-shake-envelope-register-lifetime-20261016/. A Factory source-commit-bound replay must independently accept regressions; local cold equality is not a new canonical receipt. The Windows i386 whole-product link/runtime, later semantic and portability stages remain open.
+
+
+## October 16: accepted ScreenEffect 26-byte source-commit regressions (gpt-web)
+
+- Factory strict-live-v1 independently forced three genuine pinned VC7.1
+  Japanese TH09 v1.50a original-bound codegen exact jobs on the immutable
+  boss-fix source commit **c30a35a920881b1dc3674959f68a9f2bf3406552**.
+  Each returned **receipt_verdict=pass, acceptance_decision=accepted**:
+  already-exact ScreenEffect::CalcShake @0x00422660 **316 bytes**, receipt
+  5b765d3491b74d87eaaff802770281171a069d07c8d19c7afe0d77f28ed43547;
+  already-exact ScreenEffect::RegisterChain @0x00422D20
+  **480 physical bytes** under the separate no-EH and 33-byte switch-table
+  profile, receipt
+  522d7ae9d73f44f4c10bcc5ee2bcad23315b52c3a33cb07d3ec12fd64e5862f0;
+  and already-exact ScreenEffect::DrawSquare @0x00422960
+  **527 bytes** under a distinct /Ob0 profile, receipt
+  c8df10045d0306ef3302592f876c357fe9062a03b4df49fdb85bd9ed5f07a84f.
+- These accepted results verify **previously exact sibling units at
+  precisely the source commit changing the volatile fade/hold declaration
+  order**, not a newly exact 336-byte CalcShakeEnvelope. The larger owner
+  remains 336/336 bytes, 20 original bound fields, eight calls,
+  26 direct-flow blocks and **26 unlike physical bytes**, guarded by its
+  complete original SHA and non-regression residual set. The all-boss cold
+  replay checked **29 complete noncrediting owners, 68 exact siblings**;
+  all 18 ScreenEffect exact owners separately matched 2,562 physical bytes
+  and 164 relocation fields across three real VC7.1 profiles. Public
+  target-independent CI passed **410 tests, 27 skipped**; Windows native
+  full-product linking/runtime, semantic and portability gates remain open.
