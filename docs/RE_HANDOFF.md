@@ -349,6 +349,29 @@ history-only documentation commit.
   the 939 canonical exact function count. A later docs-only checkpoint does
   not alter this receipt's source binding.
 
+**Shared replay record, source-commit-bound exact regressions:** Against
+Japanese TH09 v1.50a under Factory strict-live-v1, independent forced-cold
+VC7.1 source commit d21c98d404cbaf83b12a2bfa6611a5119401df83:
+
+- Previously exact TitleScreen::StartMenu @0x00429E23, 1,560 authored /
+  1,592 original physical bytes (107 COFF fields):
+  receipt:fa58503f939a3548ed56a852562094dde9d33401d8b521561dd4464825c22622
+  — **pass / accepted**, including the nine source-renumbered jump labels.
+- Previously exact ReplayManager::RecordInput @0x004202A0, 460 bytes:
+  receipt:bee015670a1a64452a0228fe26528d2df78ce1a6b824dfb1f9699c3e5599cc11
+  — **pass / accepted**.
+- Previously exact ReplayManager::BeginRecordingStage @0x00421140,
+  1,323 bytes under its distinct no-/EHsc profile:
+  receipt:0181afe7c82836ca826e5a7a3b115ee0868e186f8e1764624a73075488dcd66e
+  — **pass / accepted**.
+
+These are **three already-exact** callback regressions, not three new
+matches or acceptance of DrawReplayMenu/DrawReplaySave, both still NON-EXACT.
+The independent complete cold sweep retains 29 noncrediting owners and
+68 exact siblings; all 50 shared-TU canonical code owners were separately
+checked byte-for-byte (22,504 physical bytes, 1,175 relocations). The
+subsequent docs checkpoint does not extend immutable gameplay-source bindings.
+
 **Do not count these regressions as new exact matches.** Receipts do not bind
 later source commits, diagnose adjacent non-exact owners, establish a native
 Windows image or attest runtime semantics. Preserve current source-specific

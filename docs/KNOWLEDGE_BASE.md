@@ -8191,3 +8191,30 @@ attest historical producer execution.
 - The source-cold original-bound DrawReplaySave boss at **0x004239F6** remains **799 candidate /800 target bytes, 245 decoded instructions, 41 reviewed operand identities, four calls and 28/28 identical direct-flow blocks**. DrawReplayMenu at **0x004234F6** remains **1,258 candidate /1,280 target bytes**, with the original independently disassembled **376 instructions, 57 address operands and 13 direct calls** versus 57 candidate COFF fields. Before/after source compilation for **both large renderers** gives byte-for-byte identical candidate machine code and identical relocation records. Neither open renderer was promoted to exact or credited with unseen original code.
 - All four distinct source/pinned-VC7.1 profile combinations of the two exact-heavy ReplayInput and TitleScreen TUs were cold-compiled from genuine prior files and isolated new shared-header files. **All 50 previously canonical exact functions** retain their entire **22,504 original-matching physical bytes and 1,175 original COFF fields**. The original StartMenu (one of 38 TitleScreen exact functions) has **nine compiler-private $L label renames** after the lexical type declarations moved. Each affected field offset was checked against the actual new COFF section-relative symbol coordinate and original immutable PE target address; all nine point to their previous physical VAs, including 0x0042A43B and eight original switch destinations 0x0042A1E9 to 0x0042A380. Only the nine source-local manifest spellings were refreshed, no executable, jump-table destination or original binary patches.
 - Six target-independent regression tests bind the **single shared original-sized record** across four TUs, all offset assertions, genuine frame/Title field accesses, all 50 existing canonical exact inventories, the nine approved original StartMenu jump targets and the two separate still-nonexact renderer boundaries. Separate original PE full-owner audits, canonical 50-unit source-commit-bound exact replays, CI, and Windows native whole-product/runtime gates remain independent. Ignored reproducible before/after COFF carriers and the original-rebound fields report are in .analysis/gpt-web-replay-shared-schema-20261016/. No new exactness is claimed.
+
+
+## October 16: accepted exact receipts for the shared replay data owner (gpt-web)
+
+- The actual source/manifest/header refactor was committed at immutable Git SHA
+  d21c98d404cbaf83b12a2bfa6611a5119401df83. Three independently
+  source-commit-bound Factory strict-live-v1 **forced-cold original codegen
+  exact** replays returned verdict pass and decision accepted: previously
+  exact TitleScreen::StartMenu @0x00429E23, **1,560 authored/1,592 physical
+  bytes and 107 field records**, receipt:
+  fa58503f939a3548ed56a852562094dde9d33401d8b521561dd4464825c22622;
+  previously exact ReplayManager::RecordInput @0x004202A0, **460 physical
+  bytes**, receipt:
+  bee015670a1a64452a0228fe26528d2df78ce1a6b824dfb1f9699c3e5599cc11;
+  and previously exact ReplayManager::BeginRecordingStage @0x00421140,
+  **1,323 physical bytes** compiled under the separately validated
+  no-/EHsc carrier, receipt:
+  0181afe7c82836ca826e5a7a3b115ee0868e186f8e1764624a73075488dcd66e.
+- All three are **existing canonical exact callbacks** on the real new
+  ReplayDataOriginalView shared-header commit, not new exact function credits.
+  They validate the original source/field identity at that commit, including
+  the nine StartMenu source-local COFF labels and the true ReplayInput
+  two-profile partition. The separate Source-cold whole-boss pass confirms
+  29 open noncrediting original-bound functions and 68 exact siblings.
+  DrawReplayMenu remains 1,258/1,280 candidate/original bytes, and
+  DrawReplaySave 799/800; full Windows product, runtime/semantics and port
+  acceptance remain open.
