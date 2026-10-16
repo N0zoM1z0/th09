@@ -441,12 +441,14 @@ class BossFrontierChecks(TestCase):
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',
             'target_bytes': 336, 'candidate_bytes': 336,
+            'target_sha256': frontiers.SCREEN_SHAKE_ORIGINAL_SHA256,
+            'difference_offsets': list(frontiers.SCREEN_SHAKE_RESIDUAL_OFFSETS),
             'reviewed_target_fields': 20, 'bound_relocations': 20,
             'target_instructions': 132, 'candidate_instructions': 132,
             'target_calls': 8, 'candidate_calls': 8, 'ordered_calls_agree': True,
             'target_blocks': 26, 'candidate_blocks': 26,
             'complete_direct_graphs_agree': True,
-            'overlapping_differences': 28,
+            'overlapping_differences': 26,
             'absent_target_bytes': 0, 'extra_candidate_bytes': 0,
             'complete_bytes_agree': False,
         }
@@ -459,7 +461,7 @@ class BossFrontierChecks(TestCase):
         build.assert_called_once_with('screen-effect-calc-shake')
         parsed.assert_called_once_with(['scripts/inspect-screen-shake-envelope.py',
                                         'build/matching/ScreenEffect.obj', '--json'])
-        self.assertEqual(owners['screen_shake_envelope']['ordinary_differences'], 28)
+        self.assertEqual(owners['screen_shake_envelope']['ordinary_differences'], 26)
         self.assertEqual([x['unit'] for x in exact],
                          ['screen-effect-calc-shake', 'screen-effect-calc-fade-in',
                           'screen-effect-calc-fade-out', 'screen-effect-calc-fade-hold',

@@ -314,8 +314,11 @@ int ScreenEffect::CalcShakeEnvelope(ScreenEffect *screenEffect)
     {
         // The original loads the hold and fade dwords independently,
         // combines them, then extends the final envelope endpoint.
-        const volatile int &hold = screenEffect->rawParameter1;
+        // Keep both original volatile field reads; declaring the two
+        // reference aliases fade-then-hold reproduces the original VC7.1
+        // scalar load scheduling without changing the hold + fade result.
         const volatile int &fade = screenEffect->rawParameter2;
+        const volatile int &hold = screenEffect->rawParameter1;
         int update = hold + fade;
         endFrame += update;
         if (screenEffect->timer < endFrame)

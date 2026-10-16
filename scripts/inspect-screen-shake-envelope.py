@@ -9,6 +9,7 @@ The caller must separately attest that a COFF object came from current source.
 """
 
 import argparse
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -18,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE = 0x004227A0
 SIZE = 336
 SYMBOL = '?CalcShakeEnvelope@ScreenEffect@@SIHPAU1@@Z'
+TARGET_SHA256 = '1d33957d51f8cc170471b9673a938899281cfa07fbed746eb0843e62e2597472'
 
 # Actual target instruction-field offsets (not inferred by matching the
 # candidate). Each tuple contains offset, COFF kind, symbol, base destination.
@@ -133,6 +135,8 @@ def diagnose(path):
     spec.loader.exec_module(coff)
     pe = coff.verified_target()
     target = coff.pe_bytes_at(pe, BASE, SIZE)
+    if hashlib.sha256(target).hexdigest() != TARGET_SHA256:
+        raise ValueError('original SHA-attested shake envelope bytes changed')
     original, rows = coff.object_function(path, SYMBOL)
     require_candidate(rows, len(original))
     linked = bytearray(original)
@@ -162,6 +166,8 @@ def diagnose(path):
         diagnostic_only=True,
         exactness_credit='none; canonical exact requires strict equal full-owner cold replay',
         target_bytes=len(target), candidate_bytes=len(linked),
+        target_sha256=hashlib.sha256(target).hexdigest(),
+        difference_offsets=dis,
         bound_relocations=len(rows), reviewed_target_fields=len(FIELDS),
         target_instructions=len(target_ins), candidate_instructions=len(candidate_ins),
         target_calls=len(calls(target_ins)), candidate_calls=len(calls(candidate_ins)),

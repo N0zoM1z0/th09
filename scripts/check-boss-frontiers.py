@@ -665,6 +665,57 @@ def run_replay_playback(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     }}, exact
 
 
+SCREEN_SHAKE_ORIGINAL_SHA256 = (
+    '1d33957d51f8cc170471b9673a938899281cfa07fbed746eb0843e62e2597472'
+)
+# The complete 26 unlike bytes after reconstructing the real fade/hold
+# declaration lifetime, authenticated against the private retail PE. This
+# is a RESIDUAL SET, NOT source code or an accepted partial exactness score.
+# A valid future source improvement may remove mismatches from this set, but
+# may not introduce mismatches at any of the 310 already matching positions.
+SCREEN_SHAKE_RESIDUAL_OFFSETS = (
+    0x00B, 0x00D, 0x012, 0x018, 0x01A, 0x01F, 0x026, 0x02A, 0x036,
+    0x044, 0x05B, 0x05E, 0x066, 0x085, 0x092, 0x095, 0x098, 0x0A4,
+    0x109, 0x115, 0x123, 0x12D, 0x13B, 0x142, 0x147, 0x14B,
+)
+
+
+def guard_screen_shake_frontier(diagnostic: dict) -> dict:
+    """Fail closed on EVERY newly mismatching original-linked byte.
+
+    This audit binds the entire source COFF function and all actual Japanese
+    TH09 v1.50a PE call/data destinations; zero local differences never
+    substitute for a source-commit-bound canonical exact Oracle receipt.
+    """
+    noncrediting(diagnostic, name='ScreenEffect CalcShakeEnvelope',
+                 target_size=336, fields=20, fields_key='bound_relocations')
+    actual = diagnostic.get('difference_offsets')
+    count = diagnostic.get('overlapping_differences')
+    if (diagnostic.get('target_sha256') != SCREEN_SHAKE_ORIGINAL_SHA256 or
+            len(SCREEN_SHAKE_RESIDUAL_OFFSETS) != 26 or
+            not isinstance(actual, list) or
+            type(count) is not int or count > 26 or count < 0 or
+            len(actual) != count or
+            any(type(i) is not int or not 0 <= i < 336 for i in actual) or
+            actual != sorted(set(actual)) or
+            not set(actual).issubset(SCREEN_SHAKE_RESIDUAL_OFFSETS) or
+            diagnostic.get('candidate_bytes') != 336 or
+            diagnostic.get('target_instructions') != 132 or
+            diagnostic.get('candidate_instructions') != 132 or
+            diagnostic.get('reviewed_target_fields') != 20 or
+            diagnostic.get('target_calls') != 8 or
+            diagnostic.get('candidate_calls') != 8 or
+            diagnostic.get('ordered_calls_agree') is not True or
+            diagnostic.get('target_blocks') != 26 or
+            diagnostic.get('candidate_blocks') != 26 or
+            diagnostic.get('complete_direct_graphs_agree') is not True or
+            diagnostic.get('absent_target_bytes') != 0 or
+            diagnostic.get('extra_candidate_bytes') != 0 or
+            diagnostic.get('complete_bytes_agree') is not (count == 0)):
+        raise RuntimeError('ScreenEffect 336-byte/20-field/8-call/26-block/26-residual original frontier regressed')
+    return diagnostic
+
+
 def run_screen_shake(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     """Cold-source complete ScreenEffect envelope plus exact same-TU owners."""
     build('screen-effect-calc-shake')
@@ -673,22 +724,7 @@ def run_screen_shake(*, protect_exact: bool) -> tuple[dict, list[dict]]:
                            name='ScreenEffect CalcShakeEnvelope',
                            target_size=336, fields=20,
                            fields_key='bound_relocations')
-    if (current.get('candidate_bytes') != 336 or
-            current.get('reviewed_target_fields') != 20 or
-            current.get('target_instructions') != 132 or
-            current.get('candidate_instructions') != 132 or
-            current.get('target_calls') != 8 or
-            current.get('candidate_calls') != 8 or
-            not current.get('ordered_calls_agree') or
-            current.get('target_blocks') != 26 or
-            current.get('candidate_blocks') != 26 or
-            not current.get('complete_direct_graphs_agree') or
-            current.get('absent_target_bytes') != 0 or
-            current.get('extra_candidate_bytes') != 0 or
-            not isinstance(current.get('overlapping_differences'), int) or
-            current['overlapping_differences'] > 28 or
-            current.get('complete_bytes_agree')):
-        raise RuntimeError('ScreenEffect 336-byte/20-field/8-call/26-block nonexact frontier drifted')
+    guard_screen_shake_frontier(current)
     exact = []
     if protect_exact:
         # All six use the one freshly compiled ScreenEffect.obj and profile.
