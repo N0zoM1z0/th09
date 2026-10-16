@@ -201,6 +201,24 @@ none certifies `GameplaySetupThread`, native linking or runtime behavior.
 This subsequent documentation-only checkpoint does not retroactively extend
 the source-commit binding.
 
+**New source-commit-bound ANM type-unification receipts** (same physical
+Japanese TH09 v1.50a original, registered `strict-live-v1` forced VC7.1 cold
+recompile, source commit `8c221cdbfb6ad657697599b541e829f60e71457e`):
+
+- Exact `EffectManager::OnUpdate @ 0x0040CDD0`, **475/475 bytes**:
+  `receipt:ad7dc44b3fe3bf56294dce49544434decc6acf38e0157f182094b1a658b6f45b` — **pass / accepted**.
+- Exact `EffectManager::OnDraw @ 0x0040CFB0`, **183/183 bytes**:
+  `receipt:13766e26949a07b8f1d01f3e16e48b8d36fd472ea221bda54f42526c3034228d` — **pass / accepted**.
+- Exact `EffectManager::OnDrawShared @ 0x0040D070`, **146/146 bytes**:
+  `receipt:6aa75811bcd29d39bbc31c9754c04eaf20bba60357012c2edb37acd6ced1c56a` — **pass / accepted**.
+
+These are **three existing canonical exact regression confirmations** after
+replacing an incorrect ANM source alias with genuine `AnmManager` C++ types.
+All 15 EffectManager.cpp exact owners also passed complete same-TU local
+comparison (2,530 physical bytes); `EffectManager::AddedCallback` remains
+NON-EXACT at 51 bytes / eight residual differences. Later documentation
+commits do not change the receipts' immutable source binding.
+
 **Do not count these regressions as new exact matches.** Receipts do not bind
 later source commits, diagnose adjacent non-exact owners, establish a native
 Windows image or attest runtime semantics. Preserve current source-specific
