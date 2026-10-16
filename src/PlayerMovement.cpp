@@ -5,6 +5,7 @@
 #include "AnmVmLifecycle.hpp"
 #include "ZunTimer.hpp"
 #include "Supervisor.hpp"
+#include "GameManagerResetView.hpp"
 #include "ReplayInputState.hpp"
 
 #include <stddef.h>
@@ -79,12 +80,18 @@ struct PlayerMovementEffectVmView
 };
 
 extern GameConfiguration *g_GameConfiguration;
+extern GameManagerResetView g_GameManager;
+// Actual playfield bounds are four fields within the exact GameManager
+// coordinate initializer owner, not four independent retail globals.
+typedef char PlayerMovementPlayfieldMinXAt360[
+    (offsetof(GameManagerResetView, coordinate360) == 0x360) ? 1 : -1];
+typedef char PlayerMovementPlayfieldMinYAt364[
+    (offsetof(GameManagerResetView, coordinate364) == 0x364) ? 1 : -1];
+typedef char PlayerMovementPlayfieldWidthAt368[
+    (offsetof(GameManagerResetView, coordinate368) == 0x368) ? 1 : -1];
+typedef char PlayerMovementPlayfieldHeightAt36C[
+    (offsetof(GameManagerResetView, coordinate36C) == 0x36C) ? 1 : -1];
 extern int g_PlayerFocusEffectIds[];
-extern float g_PlayerPlayfieldMinX;
-extern float g_PlayerPlayfieldMinY;
-extern float g_PlayerPlayfieldWidth;
-extern float g_PlayerPlayfieldHeight;
-
 extern AnmManager *g_AnmManager;
 
 static __inline Effect *&PlayerMovementFocusEffect(
@@ -387,15 +394,15 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     position->x += runtime->velocity1CCC.x;
     position->y += runtime->velocity1CCC.y;
 
-    if (position->x < g_PlayerPlayfieldMinX)
-        position->x = g_PlayerPlayfieldMinX;
-    else if (position->x > g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth)
-        position->x = g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth;
+    if (position->x < g_GameManager.coordinate360)
+        position->x = g_GameManager.coordinate360;
+    else if (position->x > g_GameManager.coordinate360 + g_GameManager.coordinate368)
+        position->x = g_GameManager.coordinate360 + g_GameManager.coordinate368;
 
-    if (position->y < g_PlayerPlayfieldMinY)
-        position->y = g_PlayerPlayfieldMinY;
-    else if (position->y > g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight)
-        position->y = g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight;
+    if (position->y < g_GameManager.coordinate364)
+        position->y = g_GameManager.coordinate364;
+    else if (position->y > g_GameManager.coordinate364 + g_GameManager.coordinate36C)
+        position->y = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
 
     player->collisionBoundsMin1C60 =
         player->position1B88 - player->hurtboxHalfSize;
