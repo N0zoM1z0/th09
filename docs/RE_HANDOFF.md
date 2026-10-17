@@ -35,7 +35,7 @@
   nonexact-owner improvements adds canonical exact function credit.
 - **Cold regression scope:** the live full `--owner all` suite now verifies
   **30 open non-crediting boss/leaf original-bound functions plus one
-  separately canonical-exact 220-byte crypt selector diagnostic and 72
+  separately canonical-exact 220-byte crypt selector diagnostic and 131
   strict already-exact sibling comparisons**, all passing at the current
   checkpoint. The new, separately SHA-bound **959-byte ExAttack Type14/22
   Draw** original owner is checked on every `--owner exattack` and full replay;
@@ -66,6 +66,8 @@
   the 24-unit ECL and 38-unit TitleScreen source families, plus the separate
   MusicRoom and DrawCallback checks. These are noncrediting regressions, not
   a new canonical exact function. The 980 / 940 / 40 scoreboard is unchanged.
+  The committed checkpoint passed `scripts/ci.py` with **446 tests, 28 skipped**,
+  plus target SHA, tracking, documentation, progress and whitespace checks.
 - **Phase:** original exact-reconstruction only. The 95% reviewed-authored
   byte milestone is open; whole Windows i386 build/link/resources/runtime,
   dual-Oracle semantic reconstruction and portability are still open.
