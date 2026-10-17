@@ -1,3 +1,21 @@
+// A full three-word vector copy. VC7.1 folds the source temporaries into
+// three reads before writing this local projection scratch. Two qualified
+// component stores retain the checked ordering of those physical writes.
+// This is a source codegen model, not an original C++-spelling claim.
+static __forceinline void CopyCameraFacingProjectionDelta(
+    Float3 &dst, const Float3 &src)
+{
+    const unsigned int *sourceWords =
+        reinterpret_cast<const unsigned int *>(&src);
+    unsigned int *targetWords = reinterpret_cast<unsigned int *>(&dst);
+    unsigned int x = sourceWords[0];
+    unsigned int y = sourceWords[1];
+    unsigned int z = sourceWords[2];
+    targetWords[2] = z;
+    *reinterpret_cast<volatile unsigned int *>(&targetWords[1]) = y;
+    *reinterpret_cast<volatile unsigned int *>(&targetWords[0]) = x;
+}
+
 // TH09 camera-facing projection owner; included after the exact TranslateRotation
 // implementation in the native AnmManager render translation unit.
 // Three simultaneously live 12-byte projection vectors form a typed scratch
@@ -43,8 +61,8 @@ int AnmManager::ProjectCameraFacingQuad(AnmVm *vm)
     D3DXVec3Project(reinterpret_cast<D3DXVECTOR3 *>(&projectedPosition),reinterpret_cast<D3DXVECTOR3 *>(&scratch.origin),&g_AnmProjectionContext->viewport,&g_AnmProjectionContext->projectionMatrix,&g_AnmProjectionContext->viewMatrix,&worldMatrix);
     if (projectedPosition.z<0.0f || projectedPosition.z>1.0f) return -1;
     D3DXVec3Project(reinterpret_cast<D3DXVECTOR3 *>(&scratch.reference),reinterpret_cast<D3DXVECTOR3 *>(&g_AnmProjectionContext->cameraRight),&g_AnmProjectionContext->viewport,&g_AnmProjectionContext->projectionMatrix,&g_AnmProjectionContext->viewMatrix,&worldMatrix);
-    scratch.delta = *reinterpret_cast<Float3 *>(&scratch.reference) -
-                   *reinterpret_cast<Float3 *>(&projectedPosition);
+    CopyCameraFacingProjectionDelta(scratch.delta,*reinterpret_cast<Float3 *>(&scratch.reference) -
+                   *reinterpret_cast<Float3 *>(&projectedPosition));
     xOffset=D3DXVec3Length(reinterpret_cast<D3DXVECTOR3 *>(&scratch.delta))*0.5f;
     halfWidth=xOffset*vm->spriteSize.x*vm->scale.x;
     halfHeight=xOffset*vm->spriteSize.y*vm->scale.y;

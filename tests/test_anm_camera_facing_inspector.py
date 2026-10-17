@@ -104,7 +104,7 @@ class CameraBossSweepTests(unittest.TestCase):
             'ordered_calls': 11, 'calls_agree': True,
             'original_blocks': 8, 'candidate_blocks': 8,
             'direct_graphs_agree': True,
-            'overlap_differences': 13,
+            'overlap_differences': 6,
             'difference_offsets': sorted(boss.CAMERA_FACING_RESIDUAL_OFFSETS),
             'target_sha256': boss.CAMERA_FACING_TARGET_SHA,
             'extra_candidate_bytes': 0, 'complete_bytes_equal': False, 'missing_target_bytes': 0,
@@ -116,7 +116,7 @@ class CameraBossSweepTests(unittest.TestCase):
                 boss, 'canonical', side_effect=lambda x: {'unit': x}):
             owners, siblings = boss.run_camera_facing(protect_exact=True)
         self.assertEqual(owners['camera_facing_projection']['missing_target_bytes'], 0)
-        self.assertEqual(owners['camera_facing_projection']['overlap_differences'], 13)
+        self.assertEqual(owners['camera_facing_projection']['overlap_differences'], 6)
         self.assertEqual([x['unit'] for x in siblings],
                          ['anm-manager-translate-rotation', 'anm-manager-draw2d',
                           'anm-manager-draw-camera-facing-quad', 'anm-manager-project-3d-quad'])
@@ -127,7 +127,7 @@ class CameraBossSweepTests(unittest.TestCase):
         with patch.object(boss, 'build'), patch.object(
                 boss, 'parsed', return_value=evidence):
             boss.run_camera_facing(protect_exact=False)
-        improved = {**evidence, 'overlap_differences': 12,
+        improved = {**evidence, 'overlap_differences': 5,
                     'difference_offsets': evidence['difference_offsets'][1:]}
         with patch.object(boss, 'build'), patch.object(
                 boss, 'parsed', return_value=improved):
@@ -144,10 +144,10 @@ class CameraBossSweepTests(unittest.TestCase):
         for changed in (
                 {'difference_offsets': [0xE8] + evidence['difference_offsets'][1:]},
                 {'difference_offsets': list(reversed(evidence['difference_offsets']))},
-                {'difference_offsets': [0xE9] * 13},
+                {'difference_offsets': [0xE9] * 6},
                 {'difference_offsets': evidence['difference_offsets'][:-1]},
                 {'difference_offsets': None},
-                {'overlap_differences': 14},
+                {'overlap_differences': 7},
                 {'overlap_differences': True},
                 {'complete_bytes_equal': True},
                 {'target_sha256': '0' * 64},
