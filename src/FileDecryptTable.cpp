@@ -43,19 +43,24 @@ unsigned char *TryDecryptFromTable(
 
         if (targetKey != g_DecryptParams[0].key - 0x10)
         {
-            unsigned int rowOffset = 0;
+            // The register lifetime of these two independent scan counters
+            // matches the original when the key-bias declaration comes first.
             unsigned int keyBias = 0;
+            unsigned int rowOffset = 0;
 
             for (;;)
             {
                 if (rowOffset >= sizeof(g_DecryptParams))
                     return rawData;
 
+                // Read the next 12-byte row *after* advancing the offset.
+                // This preserves the original terminal byte read at +0x60,
+                // followed by rejecting logical index eight before decrypting.
+                rowOffset += sizeof(DecryptParams);
                 unsigned int key =
                     *reinterpret_cast<unsigned char *>(
                         reinterpret_cast<unsigned char *>(g_DecryptParams) +
-                        rowOffset + sizeof(DecryptParams));
-                rowOffset += sizeof(DecryptParams);
+                        rowOffset);
                 keyBias += 0x10;
                 key -= keyBias;
                 key -= 0x10;

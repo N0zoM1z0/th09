@@ -142,8 +142,15 @@ class AcceptedReceiptArchiveRoutingTests(unittest.TestCase):
 
     def test_historical_receipts_do_not_transmute_into_new_exact_credit(self) -> None:
         handoff = VALIDATE_DOCS.HANDOFF.read_text(encoding="utf-8")
-        self.assertIn("980 source-present / 939 exact / 41 non-exact", handoff)
-        self.assertIn("**939 exact**", handoff)
+        # Historical accepted receipts are immutable, but live exact counts
+        # must be derived from the ledgers rather than frozen at a past HEAD.
+        current = VALIDATE_DOCS.measures()
+        self.assertIn(
+            f"{current['implemented']} source-present / "
+            f"{current['matches']} exact / {current['source_nonexact']} non-exact",
+            handoff,
+        )
+        self.assertIn(f"**{current['matches']} exact**", handoff)
 
 
 class MarkdownLinkTests(unittest.TestCase):

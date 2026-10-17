@@ -412,31 +412,39 @@ def run_player_collision(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 
 def run_decrypt_table(*, protect_exact: bool) -> tuple[dict, list[dict]]:
-    """Check full original crypto-table leaf, plus exact decrypt/encrypt pair.
+    """Cold-replay the NEW exact 220-byte crypt selector and its exact siblings.
 
-    The 8 x 12-byte crypt key table and three-byte original signature are
-    checked independently in the already SHA-pinned 220-byte inspector; it
-    intentionally returns 1 for valid non-exact results. Never mistake that
-    ordinary near-match for acceptance of the separately exact Decrypt API.
+    Canonical full-extent/relocation comparison grants the exact proof. The
+    separately original-SHA-pinned interpreter is a redundant *noncrediting*
+    target+source instruction, address-operand, three-return and CFG audit.
+    Both must agree; neither a locally equal diagnostic nor a prior object
+    alone can make this owner exact.
     """
+    build('file-system-try-decrypt-table')
+    selector = canonical('file-system-try-decrypt-table')
     obj = 'build/matching/FileDecryptTable.obj'
-    build_nonexact('src/FileDecryptTable.cpp', obj,
-                   reference_unit='file-system-decrypt')
     result = noncrediting(parsed(['scripts/inspect-file-decrypt-table.py',
-                                  obj, '--json'], diagnostic=True),
-                          name='FileSystem decryption-table scan',
+                                  obj, '--json']),
+                          name='FileSystem exact decryption-table selector audit',
                           target_size=220, fields=12)
-    if (result['candidate_bytes'] != 220 or
-            result['target_instructions'] != 77 or
-            result['candidate_instructions'] != 77 or
-            result['ordered_calls'] != 2 or
-            result['target_blocks'] != 11 or
-            result['candidate_blocks'] != 11 or
-            not result['complete_direct_graphs_agree'] or
-            result['complete_overlap_differences'] != 38 or
-            result['complete_bytes_equal']):
-        raise RuntimeError('TH09 FileSystem crypt-table target/COFF/graph frontier drifted')
-    exact = []
+    if (result.get('target_sha256') !=
+            'c9195eb6365a7e3d6905b3e2cead12ed480c4fd9ad968992db2b397e9b6fd8a7' or
+            result.get('candidate_bytes') != 220 or
+            result.get('target_instructions') != 77 or
+            result.get('candidate_instructions') != 77 or
+            result.get('ordered_calls') != 2 or
+            result.get('target_blocks') != 11 or
+            result.get('candidate_blocks') != 11 or
+            result.get('complete_direct_graphs_agree') is not True or
+            result.get('complete_overlap_differences') != 0 or
+            result.get('missing_target_bytes') != 0 or
+            result.get('extra_candidate_bytes') != 0 or
+            result.get('complete_bytes_equal') is not True or
+            selector['logical_bytes'] != 220 or
+            selector['physical_bytes'] != 220 or
+            selector['relocations'] != 12):
+        raise RuntimeError('TH09 FileSystem exact crypt-table 220-byte/12-field owner regressed')
+    exact = [selector]
     if protect_exact:
         build('file-system-decrypt')
         exact.append(canonical('file-system-decrypt'))
@@ -444,13 +452,14 @@ def run_decrypt_table(*, protect_exact: bool) -> tuple[dict, list[dict]]:
         exact.append(canonical('file-system-encrypt'))
     return {'file_decrypt_table': {
         'target_bytes': 220,
-        'candidate_bytes': result['candidate_bytes'],
-        'bound_fields': result['bound_fields'],
-        'ordered_calls': result['ordered_calls'],
-        'ordinary_differences': result['complete_overlap_differences'],
-        'direct_graphs_agree': result['complete_direct_graphs_agree'],
+        'candidate_bytes': 220,
+        'exact': True,
+        'ordinary_differences': 0,
+        'bound_fields': 12,
+        'ordered_calls': 2,
+        'target_blocks': 11,
+        'candidate_blocks': 11,
     }}, exact
-
 
 
 def run_network_config_parser(*, protect_exact: bool) -> tuple[dict, list[dict]]:

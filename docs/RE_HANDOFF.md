@@ -20,6 +20,7 @@
   It is ignored, private, read-only, and never a cleanup candidate.
   Factory's registered IDA source is `th09-ida`; mapping metadata is not
   canonical codegen acceptance.
+- **Newly canonical exact:** `FileSystem::TryDecryptFromTable @ 0x0042C290` cold-replays **220/220 entire code bytes and all 12 original-bound COFF fields**. Source-cold VC7.1 recovers the original row-offset/key-bias schedule without changed call/branch/return behavior. `--owner crypto` strictly rebuilds this exact selector as well as independently exact Decrypt/Encrypt siblings. Historical 38-byte nonexact experiments are superseded; this is a new *local canonical exact unit*, not a proof of whole-program link or runtime closure.
 - **Current code milestones:** Source commit `c30a35a` narrows
   ScreenEffect CalcShakeEnvelope from 28 to **26 complete unlike bytes**
   while preserving all exact siblings; source commit `d21c98d` shares the
@@ -28,8 +29,8 @@
   original bound operands/30 remaining bytes**.
 - **Cold regression scope:** after adding the original-SHA-bound
   DrawReplayMenu diagnostic, the full `--owner all` suite verifies
-  **30 non-crediting complete boss/leaf functions plus 68 complete
-  already-exact siblings**. This includes the Etama OnDraw 600-byte guard,
+  **29 open non-crediting boss/leaf functions plus one separately canonical-exact
+  220-byte crypt selector diagnostic and 68 prior exact sibling checks**. This includes the Etama OnDraw 600-byte guard,
   Enemy OnUpdate 3,900-byte guard, the 1,280-byte ReplayMenu original and
   Title DrawResult's 1,939-byte owner. These checks are *not*
   source-commit-bound accepted Factory receipts.
@@ -43,7 +44,7 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current restart summary is
-**980 source-present / 939 exact / 41 non-exact**; earlier operator notes
+**980 source-present / 940 exact / 40 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
@@ -54,14 +55,14 @@ mentioning 979/876/103 are obsolete for this checkout.
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 939 |
-| Source-present non-exact functions | 41 |
-| Source-present non-exact bytes | 49,403 |
+| Canonical exact functions | 940 |
+| Source-present non-exact functions | 40 |
+| Source-present non-exact bytes | 49,183 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 226,367 |
+| Canonical exact authored bytes | 226,587 |
 
-**226,367 / 275,770 reviewed-authored bytes = 82.0854% exact**. To reach
-95% of the *currently classified* denominator, another **35,615 bytes**
+**226,587 / 275,770 reviewed-authored bytes = 82.1652% exact**. To reach
+95% of the *currently classified* denominator, another **35,395 bytes**
 must become complete original-bound exact owners. The 35 origin-unresolved
 functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
@@ -72,7 +73,7 @@ Prioritize **large bosses as well as small leaves**. Each row refers to a
 maintained, authored, **non-exact** function in `config/functions.csv`.
 Comparisons are current-source/original PE cold baselines; lengths are logical
 unless explicitly marked physical. The ledger, not this selected table, lists
-all 41 open functions. For the complete <=256-byte cohort see
+all 40 open functions. For the complete <=256-byte cohort see
 [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md).
 
 | Owner | Target address | Current comparison | Remaining work |
@@ -104,7 +105,6 @@ all 41 open functions. For the complete <=256-byte cohort see
 | **Supervisor::OnUpdate** | 0x00431110 | **844 authored / 996 target physical**, 952 candidate physical | 92 external fields, 27 calls but 44 missing physical bytes; `--owner network`. |
 | **ECL MoveRandomBiased leaf** | 0x00407E30 | **516 / 517**, 28 fields, 14 calls, 24 blocks; 148 overlap + 1 extra | Genuine shared RNG method/global owner symbols now independently original-bound; Y-pointer target `LEA [EAX+4]` versus candidate `MOV EAX` remains unresolved. `--owner runecl`. |
 | **Effect AddedCallback leaf** | 0x0040D1C0 | **51/51**, 4 fields, 2 calls; **8** differences | Uses genuine `AnmManager`/`AnmLoaded*` types. The SHA-pinned full-owner guard permits narrowing only the target-proven `+0x03..0x09,+0x0D` residuals, protecting the other 43 matching bytes and three same-TU exact sibling checks; `--owner effect`. |
-| **FileSystem decrypt-table leaf** | 0x0042C290 | **220/220**, 12 fields, 2 calls, 11 blocks; **38** differences | Scan counter/key-bias lifetime; `--owner crypto`, exact Decrypt/Encrypt siblings. |
 | **Supervisor received-frame leaf** | 0x0042E9E0 | **213/213**, 67 instructions, 9 blocks; **35** differences | Target packed-input/seed 16-bit store register order; `--owner network`. |
 | **Network-config parser leaf** | 0x00432240 | **243/243**, 116 instructions, one strncmp call; **76** differences | Newline-clear early-return block order; `--owner parser`. |
 
@@ -126,7 +126,7 @@ experiments; unsupported guesses there are not target evidence.
 ## Exact landmark routing
 
 The canonical manifest and accepted original-bound comparison remain the
-**sole authority** for the **939 exact** functions. The independently accepted
+**sole authority** for the **940 exact** functions. The independently accepted
 Enemy collision wrapper at 0x00410250 is **82/82 exact**; the 3,900-byte
 Enemy OnUpdate caller is **still 29 bytes nonexact**. The former wrapper's
 original acceptance and several representative source-commit-bound exact

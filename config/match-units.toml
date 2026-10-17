@@ -633,6 +633,29 @@ relocations = [
   { offset = 0x3E, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
 ]
 
+[units.file-system-try-decrypt-table]
+source = "src/FileDecryptTable.cpp"
+object = "build/matching/FileDecryptTable.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["FileSystem::TryDecryptFromTable"]
+symbol = "?TryDecryptFromTable@FileSystem@@YIPAEPAEPAHH@Z"
+target_address = 0x0042C290
+size = 0xDC
+relocations = [
+  { offset = 0x006, type = "DIR32", symbol = "?g_CryptSignature@FileSystem@@3PAEA", target = 0x004A1EC0 },
+  { offset = 0x01E, type = "DIR32", symbol = "?g_CryptSignature@FileSystem@@3PAEA", target = 0x004A1EC0 },
+  { offset = 0x034, type = "DIR32", symbol = "?g_CryptSignature@FileSystem@@3PAEA", target = 0x004A1EC0 },
+  { offset = 0x04A, type = "DIR32", symbol = "?g_DecryptParams@FileSystem@@3PAUDecryptParams@1@A", target = 0x004A1E60 },
+  { offset = 0x069, type = "DIR32", symbol = "?g_DecryptParams@FileSystem@@3PAUDecryptParams@1@A", target = 0x004A1E60 },
+  { offset = 0x093, type = "DIR32", symbol = "?g_DecryptParams@FileSystem@@3PAUDecryptParams@1@A", target = 0x004A1E60 },
+  { offset = 0x099, type = "DIR32", symbol = "?g_DecryptParams@FileSystem@@3PAUDecryptParams@1@A", target = 0x004A1E60 },
+  { offset = 0x0A3, type = "DIR32", symbol = "?g_DecryptParams@FileSystem@@3PAUDecryptParams@1@A", target = 0x004A1E60 },
+  { offset = 0x0AB, type = "DIR32", symbol = "?g_DecryptParams@FileSystem@@3PAUDecryptParams@1@A", target = 0x004A1E60 },
+  { offset = 0x0BB, type = "REL32", symbol = "?Decrypt@FileSystem@@YIPAEPAEHEEHH@Z", target = 0x0042C180 },
+  { offset = 0x0C1, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
+  { offset = 0x0C8, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
+]
+
 [units.file-system-encrypt]
 source = "src/FileEncrypt.cpp"
 object = "build/matching/FileEncrypt.obj"
