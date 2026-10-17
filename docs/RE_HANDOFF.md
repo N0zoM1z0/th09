@@ -324,6 +324,41 @@ receipts, including Float3 division, are preserved in
 [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
 No sibling receipt upgrades a source-present non-exact large owner.
 
+## Active shared Etama/Effect ANM resource owner
+
+The complete original Japanese TH09 v1.50a still requires **RunEcl**,
+Etama `OnDraw`, ExAttack Type19/21 initializers and the remaining leaf owners.
+This checkpoint does **not** change 980 source / 940 exact / 40 open.
+
+- `EtamaController::AddedCallback` and `EffectManager::AddedCallback` both
+  read the **same target-proven `AnmLoaded` pointer slot `+0x04`** after
+  `GetAnm(8)` before deciding whether to load `"etama.anm"`. The source now
+  includes one `AnmLoadedResidentView.hpp` with independently asserted
+  **eight-byte prefix and +0x04 pointer** in both original callbacks; the
+  Etama-private duplicate and Effect's untyped `void **` cast are gone.
+- Source-cold entire original comparison leaves exact `DrawSingleBullet`
+  **232/232 physical bytes, 16 COFF fields** and exact Etama
+  `AddedCallback` **832/832 physical bytes, 30 fields**. The shared-header
+  change renumbered **15** compiler-private `$L` labels across these two
+  functions; every single label has been independently verified against its
+  **unchanged original PE target address** and strict exact-replayed before
+  publishing the renamed COFF manifest. The Etama **600-byte** large
+  `OnDraw` remains **600/600, 27 fields, 13 original calls, 17 matching
+  direct blocks and 268 unlike bytes**, with separately exact **2,216-byte
+  OnUpdate** protected in `--owner etama`.
+- Effect `AddedCallback @0x0040D1C0` stays **51 original/candidate bytes**, four
+  authentic fields, preserved call/graph and **8 unlike bytes**. The new
+  0x04 view is byte-neutral here; it is not a new exact claim. Thirty-six
+  full VC7.1 field-read/owner-write variants and 27 complete ExAttack
+  Type19/21 preheader/loop/lifetime variants were separately tested in
+  ignored reproducible `.analysis/` paths; none improves their complete
+  original-bound full-owner residual, so no forced register hints, source
+  padding, profile substitutions or fake ABI changes were adopted. The full
+  **31/31 owner** and **159/159 distinct strict exact sibling** cold replays
+  pass; CI has **473 tests (28 skipped, zero failures)**, with target, ledger,
+  documentation, progress and source whitespace validated. No new exact
+  function is claimed and the Windows whole-build/runtime gates remain open.
+
 ## Restart and verification
 
 Read [`AGENTS.md`](../AGENTS.md), [`RE_WORKFLOW.md`](RE_WORKFLOW.md), and

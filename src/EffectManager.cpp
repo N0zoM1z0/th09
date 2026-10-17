@@ -1,5 +1,6 @@
 #include "EffectManager.hpp"
 #include "AnmManager.hpp"
+#include "AnmLoadedResidentView.hpp"
 #include "AsciiManager.hpp"
 #include "Supervisor.hpp"
 #include "ZunMemory.hpp"
@@ -388,7 +389,7 @@ int EffectManager::AddedCallback(EffectManager *effectManager)
     // callback owner in ESI and ANM resource in EDI with one global load,
     // but this callback remains non-exact (eight bytes; inspect-effect-added.py).
     AnmLoaded *effectAnm = g_AnmManager->GetAnm(8);
-    if (reinterpret_cast<void **>(effectAnm)[1] == NULL)
+    if (reinterpret_cast<AnmLoadedResidentView *>(effectAnm)->resident04 == NULL)
         effectAnm = anmManager->PreloadAnm(8, "etama.anm");
     manager->effectAnm = effectAnm;
     return 0;

@@ -1,5 +1,6 @@
 #include "BulletManager.hpp"
 #include "AnmManager.hpp"
+#include "AnmLoadedResidentView.hpp"
 #include "EffectManager.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "Supervisor.hpp"
@@ -144,12 +145,6 @@ int EtamaController::OnDraw(EtamaController *controller)
 namespace
 {
 
-struct EtamaAnmLoadedStateView
-{
-    unsigned char unknown00[4];
-    void *loaded04;
-};
-
 struct EtamaLoadedSpriteView
 {
     unsigned char unknown00[0x30];
@@ -185,7 +180,7 @@ int EtamaController::AddedCallback(EtamaController *controller)
     {
         AnmManager *anmManager = g_AnmManager;
         AnmLoaded *anm = anmManager->GetAnm(8);
-        if (reinterpret_cast<EtamaAnmLoadedStateView *>(anm)->loaded04 == NULL)
+        if (reinterpret_cast<AnmLoadedResidentView *>(anm)->resident04 == NULL)
             anm = anmManager->PreloadAnm(8, const_cast<char *>("etama.anm"));
         controller->bulletAnm = reinterpret_cast<BulletAnmLoadedView *>(anm);
         if (anm == NULL)
