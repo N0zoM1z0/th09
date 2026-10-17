@@ -6,6 +6,41 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## ExAttackController genuine four-member exact regression receipts (October 18)
+
+Against SHA-256-verified Japanese TH09 v1.50a, all four independently
+accepted Factory `strict-live-v1` jobs performed **source-commit-bound forced
+VC7.1 cold compilation** of functions that were *already exact*. The two
+commits differ by a **documentation-only** correction that correctly records
+`Spawn` as already 321-byte canonical exact; they do NOT alter gameplay C++:
+
+- `ExAttackController::ReleaseExAttackRecords @0x00415650`, **70/70 bytes**,
+  job `job:5700c84ded8f4bc69eb727a893a23357`, source commit
+  `704e6feca3a0b0b844bbf28e1efcdcba3fcfd4d0`,
+  `receipt:04d681de7053b0fbcb36192b3ab4a84bbbbea6510e76822218bc258e75dfb509`.
+- `ExAttackController::Register @0x004157D0`, **264/264 bytes**,
+  job `job:e4877a1ba4004aae9a164e13b835dd4b`, source commit
+  `7528a7e915af69ea1da96b2c8ccfa1c48603d59e`,
+  `receipt:8bde05a971cc2fa3b367cd1027b056a5c27e62b772416719404bb1e61c1c11b6`.
+- `ExAttackController::Spawn @0x004151F0`, **321/321 bytes**,
+  job `job:46e0040084404987a91d046ef2cd9cd2`, source commit
+  `7528a7e915af69ea1da96b2c8ccfa1c48603d59e`,
+  `receipt:6d7e15e6f0a58fa14c8b1883536da7bb6fd60af9354476ce6398ac3c282cb276`.
+- `ExAttackController::Release @0x004156A0`, **66/66 bytes**,
+  job `job:5ba4194d3af94226b39dca593d77419c`, source commit
+  `7528a7e915af69ea1da96b2c8ccfa1c48603d59e`,
+  `receipt:3623171bb3ca97dc1e9d25d314f9c4f5c1d744184ab168ed184bb903c510857c`.
+
+For each: `receipt_verdict=pass` and `acceptance_decision=accepted`, with no
+rejection reasons. The native `--owner exattack` review also compiles both
+original-profile `ExAttackRecord` and `ExAttackController` special-member
+constructors **15/15** and **28/28 physical bytes**, but their authorship
+remains `unknown/review`: no claim or authored-exact credit has been made for
+those two. The still-open `RunEcl`, Etama `OnDraw` and ExAttack Type19/21
+initializers likewise receive **no new acceptance** from these four already
+exact siblings. Future documentation-only commits cannot retroactively alter
+these immutable source bindings.
+
 **Source-commit-bound Factory `strict-live-v1` forced-cold regression receipts
 (`pass / accepted`) for *already-exact* functions:**
 

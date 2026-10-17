@@ -53,6 +53,12 @@
   `scripts/ci.py` passes **489 target-independent tests (28 skipped,
   zero failures)**, plus tracking, documentation, build graph, generated
   progress, immutable target PE identity and whitespace checks.
+  Four existing exact ExAttackController functions independently returned
+  Factory `pass / accepted` on these source commits: `ReleaseExAttackRecords`
+  at `704e6fe`; `Register`, `Spawn` (321 bytes) and `Release` at the
+  documentation-corrected `7528a7e`. Their distinct source bindings and
+  immutable receipts are archived in `docs/RE_ACCEPTED_RECEIPTS.md`. The
+  two unknown-origin constructors still have **no accepted authored exact**.
 - **Current Replay big-function machine-code improvement (October 18):**
   Full SHA-bound original Japanese `ReplayManagerView::BeginPlaybackStage
   @0x00420840` is **540 physical bytes**; pinned VC7.1 candidate remains
