@@ -530,9 +530,15 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     g_ReplayHeaderValue0D7 = replayManager->replayData->value0D7;
     g_ReplayHeaderValue1E6 = replayManager->replayData->value1E6;
     g_ReplayHeaderValue1E7 = replayManager->replayData->value1E7;
+    // The original first publishes header 1E7, then loads the side-0 owner
+    // once before publishing 1E8. Preserve that distinct global pointer
+    // read: an ordinary C++ alias gets hoisted ahead of the 1E7 store by
+    // VC7.1. Later side-0 fields intentionally read the global again.
+    ReplaySideStateView *firstSide0 =
+        *reinterpret_cast<ReplaySideStateView *volatile *>(&g_ReplaySideState0);
     g_ReplayHeaderValue1E8 = replayManager->replayData->value1E8;
     g_ReplayHeaderValue1E9 = replayManager->replayData->value1E9;
-    g_ReplaySideState0->value08 = frame0->value00;
+    firstSide0->value08 = frame0->value00;
     g_ReplaySideState1->value08 = frame1->value00;
     g_ReplaySideState0->unknown04 = frame0->value00;
     g_ReplaySideState1->unknown04 = frame1->value00;

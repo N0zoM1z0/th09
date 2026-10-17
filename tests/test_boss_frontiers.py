@@ -893,8 +893,11 @@ class BossFrontierChecks(TestCase):
             'ordered_calls': 5, 'ordered_calls_agree': True,
             'target_blocks': 12, 'candidate_blocks': 12,
             'complete_direct_graphs_agree': True,
-            'aligned_field_identities': 31,
-            'complete_overlap_differences': 49, 'missing_target_bytes': 2,
+            'aligned_field_identities': 32,
+            'field_change_spans': [],
+            'field_offset_deltas': list(
+                frontiers.REPLAY_BEGIN_CURRENT_FIELD_OFFSET_DELTAS),
+            'complete_overlap_differences': 39, 'missing_target_bytes': 2,
             'target_sha256': frontiers.REPLAY_BEGIN_TARGET_SHA,
             'difference_offsets': sorted(frontiers.REPLAY_BEGIN_ORIGINAL_RESIDUAL_OFFSETS),
             'extra_source_bytes': 0, 'complete_bytes_equal': False,
@@ -909,8 +912,10 @@ class BossFrontierChecks(TestCase):
             'replay-manager-begin-recording-stage', 'replay-input-update'])
         parsed.assert_called_once_with(['scripts/inspect-replay-begin-playback.py',
                                         'build/matching/ReplayInputNoEh.obj', '--json'])
-        self.assertEqual(owners['replay_begin_playback']['ordinary_differences'], 49)
-        self.assertEqual(owners['replay_begin_playback']['aligned_fields'], 31)
+        self.assertEqual(owners['replay_begin_playback']['ordinary_differences'], 39)
+        self.assertEqual(owners['replay_begin_playback']['aligned_fields'], 32)
+        self.assertEqual(owners['replay_begin_playback']['field_offset_deltas'],
+                         [0] * 30 + [-1, -2])
         groups = frontiers.exact_source_profile_groups(
             'src/ReplayInput.cpp', frontiers.REPLAY_INPUT_EXACT_PROFILES)
         self.assertEqual([x['unit'] for x in siblings], sum(groups.values(), []))
@@ -922,7 +927,7 @@ class BossFrontierChecks(TestCase):
                 frontiers, 'parsed', return_value=self.replay_evidence()) as parsed, patch.object(
                 frontiers, 'canonical') as canonical:
             owners, siblings = frontiers.run_replay_playback(protect_exact=False)
-        self.assertEqual(owners['replay_begin_playback']['ordinary_differences'], 49)
+        self.assertEqual(owners['replay_begin_playback']['ordinary_differences'], 39)
         self.assertEqual(owners['replay_begin_playback']['missing_target_bytes'], 2)
         self.assertEqual(siblings, [])
         build.assert_called_once_with('replay-manager-begin-recording-stage')
@@ -939,7 +944,10 @@ class BossFrontierChecks(TestCase):
                            {'target_blocks': 11}, {'candidate_blocks': 13},
                            {'complete_direct_graphs_agree': False},
                            {'aligned_field_identities': 30},
-                           {'complete_overlap_differences': 50},
+                           {'aligned_field_identities': 31},
+                           {'field_change_spans': [{'kind': 'insert'}]},
+                           {'field_offset_deltas': [0] * 32},
+                           {'complete_overlap_differences': 40},
                            {'target_sha256': '0'*64},
                            {'difference_offsets': None},
                            {'difference_offsets': list(reversed(sorted(
@@ -955,26 +963,27 @@ class BossFrontierChecks(TestCase):
 
     def test_replay_begin_byte_guard_rejects_new_mismatch_with_same_count(self):
         expected = set(frontiers.REPLAY_BEGIN_ORIGINAL_RESIDUAL_OFFSETS)
-        self.assertEqual(len(expected), 49)
+        self.assertEqual(len(expected), 39)
         evidence = self.replay_evidence()
         self.assertEqual(expected, set(evidence['difference_offsets']))
-        # Even within the two original nonmatching windows, these bytes
-        # ALREADY agreed between cold source and original. Old guard only
-        # counted 49 and would have incorrectly accepted the substitutions.
-        for damaged in (0x14A, 0x150, 0x160, 0x1FA, 0x1FF, 0x1F9):
+        # The old 49-byte mask would now hide regression into newly matched
+        # header/global field order. Every newly agreed physical byte is
+        # sacred, even when a proposal keeps the *same* number of residuals.
+        for damaged in (0x14B, 0x14C, 0x14D, 0x14E,
+                        0x150, 0x151, 0x160, 0x1FA, 0x1FF, 0x1F9):
             self.assertNotIn(damaged, expected)
-            changed = sorted((expected - {0x14B}) | {damaged})
+            changed = sorted((expected - {0x152}) | {damaged})
             with self.subTest(damaged=hex(damaged)), patch.object(
                     frontiers, 'build'), patch.object(frontiers, 'parsed',
                     return_value={**evidence, 'difference_offsets': changed}), self.assertRaisesRegex(
                     RuntimeError, 'already matching original physical byte'):
                 frontiers.run_replay_playback(protect_exact=False)
-        narrowed = {**evidence, 'complete_overlap_differences': 48,
-                    'difference_offsets': sorted(expected - {0x14B})}
+        narrowed = {**evidence, 'complete_overlap_differences': 38,
+                    'difference_offsets': sorted(expected - {0x152})}
         with patch.object(frontiers, 'build'), patch.object(frontiers, 'parsed',
                 return_value=narrowed):
             result, _ = frontiers.run_replay_playback(protect_exact=False)
-        self.assertEqual(result['replay_begin_playback']['ordinary_differences'], 48)
+        self.assertEqual(result['replay_begin_playback']['ordinary_differences'], 38)
         self.assertEqual(narrowed['exactness_credit'], 'none')
 
     @staticmethod

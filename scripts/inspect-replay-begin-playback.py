@@ -231,6 +231,12 @@ def diagnose(path: Path) -> dict:
         'complete_direct_graphs_agree': target_graph == candidate_graph,
         'aligned_field_identities': field_alignment['paired_field_identities'],
         'field_change_spans': field_alignment['changes'],
+        # Independent original PE and source COFF field *positions*, not
+        # merely identities: 30 original bytes still hold their exact field
+        # offsets. The final two source fields trail by -1/-2 because the
+        # original uses XOR+MOV for the replay seed (two extra bytes).
+        'field_offset_deltas': [actual[0] - original[0]
+                                for original, actual in zip(TARGET_FIELDS, bound)],
         'complete_overlap_differences': sum(a != b for a, b in zip(target, linked)),
         # The complete original PE-linked physical mismatch set, not just
         # one count or matched-prefix sample. Existing exact bytes are sacred.

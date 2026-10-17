@@ -34,6 +34,22 @@ class ReplayPlaybackOriginalManifestTests(TestCase):
                 for i, (symbol, kind, dest, addend)
                 in enumerate(playback.SOURCE_FIELDS)]
 
+    def test_source_restores_retail_header_publication_then_distinct_owner_load(self):
+        source = (ROOT / 'src/ReplayInput.cpp').read_text()
+        start = source.index('int ReplayManagerView::BeginPlaybackStage(')
+        end = source.index('int ReplayManagerView::CaptureFrameSyncState(', start)
+        body = source[start:end]
+        publish_1e7 = body.index('g_ReplayHeaderValue1E7 =')
+        load_side = body.index(
+            '*reinterpret_cast<ReplaySideStateView *volatile *>(&g_ReplaySideState0)')
+        publish_1e8 = body.index('g_ReplayHeaderValue1E8 =')
+        save_side = body.index('firstSide0->value08 = frame0->value00;')
+        self.assertLess(publish_1e7, load_side)
+        self.assertLess(load_side, publish_1e8)
+        self.assertLess(publish_1e8, save_side)
+        self.assertEqual(body.count('g_ReplaySideState0->'), 3)
+        self.assertEqual(body.count('firstSide0->'), 1)
+
     def test_full_original_manifest_has_all_32_physical_operands(self):
         self.assertEqual(len(playback.TARGET_FIELDS), 32)
         self.assertEqual(len(playback.SOURCE_FIELDS), 32)

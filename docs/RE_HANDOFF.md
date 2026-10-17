@@ -9,11 +9,38 @@
 
 ## Current verified handoff checkpoint
 
+- **Current Replay big-function machine-code improvement (October 18):**
+  Full SHA-bound original Japanese `ReplayManagerView::BeginPlaybackStage
+  @0x00420840` is **540 physical bytes**; pinned VC7.1 candidate remains
+  **538 bytes**, but source now explicitly performs its FIRST original
+  `g_ReplaySideState0` pointer read **after publishing header 1E7 and
+  before publishing header 1E8**. Recompilation recovers the target's
+  independently decoded order of **all 32/32 call/data fields**, up from
+  31/32; the **first 30 real PE/COFF field offsets** now match literally,
+  with only the final RNG field/call shifted -1/-2 bytes by the remaining
+  two-byte code-length gap. Complete overlapping original-byte differences
+  fell from **49 to 39**, protecting **499/538** already matching physical
+  positions through an explicit 39-offset fail-closed residual guard;
+  original/compiled calls remain **5/5**, blocks **12/12**, no partial
+  mask/exact credit. The nine remaining header-window differences are solely
+  the target EDX/ESI register allocation, with 30 in the seed/tail. A late
+  scoped volatile pointer *read* preserves the original source-visible
+  distinct owner load; remaining subsequent global SideState accesses are
+  intentionally NOT cached. Twenty-four isolated header load/store variants
+  and earlier SideState variants were checked; most are byte-neutral or
+  change the original read multiplicity (32 to 29 fields), so were rejected.
+  This is **a net ten-byte full-owner improvement**, not a newly exact
+  function. The complete **12 exact ReplayInput siblings**, both real EH/noEH
+  compiler profiles and separate GameManager callee guards remain mandatory.
+  Fresh source-cold `--owner all` passes **31 complete boss/leaf original
+  diagnostics and 180/180 unique exact sibling comparisons**; CI passes
+  **482 tests (28 skipped, 0 failed)**, and immutable target, ledger,
+  documentation, progress, build-graph and whitespace checks all pass.
 - **Replay large-boss full exact-source profile guard (October 18):**
   Original `ReplayManagerView::BeginPlaybackStage @0x00420840` remains an
   original-PE-bound **540-byte** owner against **538-byte** source, 32 linked
-  operands, five ordered calls, twelve direct blocks, 49 unlike overlapping
-  bytes and two missing source bytes; it is **NON-EXACT**. Its native
+  operands, five ordered calls, twelve direct blocks, **39** unlike overlapping
+  bytes (down from 49) and two missing source bytes; it is **NON-EXACT**. Its native
   `ReplayInput.cpp` source contains **12** already exact functions in TWO
   *different* original VC7.1 profiles: **two in the no-`/EHsc`
   `ReplayInputNoEh.obj`** (BeginRecordingStage, Create) and **ten in the
@@ -27,8 +54,11 @@
   individually rebuilds/replays those real callee ABIs. Fail-closed tests
   reject missing source units, compiler profile or output swaps, duplicated
   exact functions and stale/false prebuilt carriers. The source/target
-  bytes and canonical function ledger remain **unchanged**; this is
-  full-owner regression protection, not a new exact closure. Fresh cold
+  canonical function ledger remains **unchanged**; the subsequent scoped
+  first-side-state-load correction restores all 32 linked original field
+  identities/order and narrows the open boss from 49 to 39 bytes without
+  claiming exactness. This is full-owner regression protection and genuine
+  bounded codegen progress, not a new exact closure. Fresh cold
   `--owner all` passes **31 full physical boss/leaf diagnostics and 180/180
   UNIQUE existing exact member checks** (up from 171), with both Replay
   callee identities counted just once. `scripts/ci.py` passes **481 tests
@@ -337,7 +367,7 @@ all 40 open functions. For the complete <=256-byte cohort see
 | **ExAttack Type14/22 draw** | 0x00444130 | **959 / 974**, 53 full PE/COFF fields, 20 direct + 12 indirect calls, 9 jumps, 905 overlapping differences and 15 extra source bytes | SHA-bound `--owner exattack` **now cold-replays this real owner**, individually binds all 53 fields and both call kinds, and prevents any new mismatch in its 54 already matching original bytes; three additional exact Type14/22 initializer/update controls. Remaining draw register/loop schedule stays NON-EXACT. |
 | **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **911 differing bytes** (down from 921) | Real `setupMode==0` non-mode-2 early exit recovers ten original-linked bytes and raises field identity alignment 155→157. The remaining 172-original / 171-source field gap is now independently decoded by **referent and multiplicity**: original-only `g_GameManager+0x00` (3), `+0x34` (1), `+0xA4` (1); candidate-only `+0x28` (1), `+0x98` (1), `+0xB4` (2). The target's side-registration loop anchors ESI to `side.flags (+0x34)` while VC7.1 prefers `side.selector (+0x28)`; 28 source-cold cursor/alias models were neutral or regressed. Still NON-EXACT; full 911-residual-byte and original/COFF-referent guards plus ten exact siblings run via `--owner gamemgr`. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | **862 / 849**, 26 fields, 12 calls; **804** overlap + 13 missing | Three return exits, gameplay/state collision branches; `--owner player` protects seven exact helpers. |
-| **Replay BeginPlaybackStage** | 0x00420840 | **540 / 538**, 152/151 instructions, 32 fields, 5 calls, 12 matching CFG blocks; **49** unlike prefix bytes + 2 missing | Real original byte offsets and SHA now independently pinned: mismatches exclusively at `+0x14B..+0x15F` (SideState0 header hoist) and `+0x1FB..+0x219` (seed zero-extension, exit/save ordering), while **489 already equal** physical prefix bytes are protected from new errors. Sixteen seed-source models cold-compiled back to 538/49; `--owner replay` checks both exact no-EH TU siblings. |
+| **Replay BeginPlaybackStage** | 0x00420840 | **540 / 538**, 152/151 instructions, **32/32 ordered original PE/COFF fields**, 5 calls, 12/12 matching CFG blocks; **39** overlapping unlike bytes + 2 missing (49→39) | Scoped volatile read of `g_ReplaySideState0` after header 1E7 publication restores all 32 original field referents in the correct order and all **first 30 physical field positions**, instead of the previous one reversed field pair. Nine register-scheduling residual positions `+0x152,+0x156,+0x15C,+0x162,+0x168,+0x16C,+0x172,+0x178,+0x17A` and 30 seed/tail bytes `+0x1FB..+0x1FE,+0x200..+0x219` remain guarded. All **499 already matching** candidate bytes are protected; tail fields are still shifted -1/-2 bytes. `--owner replay` source-cold replays all **12 exact members across both pinned compiler profiles**; still NON-EXACT. |
 | **ANM camera-facing quad** | 0x00439820 | **622/622**, 201 instructions, 40 fields, 11 calls, 8 blocks; **4** differences (13→6→4) | Typed three-vector scratch plus complete three-word copy keeps source and original semantics and now reproduces **618 original physical bytes**. The final two real local stores are scheduled Z-before-Y instead of retail Y-before-Z, leaving exact residual offsets `+0xF6,+0xF7,+0xF9,+0xFA`. This improves whole-owner physical equality from the earlier six-residual baseline, deliberately moving two mismatches within the same copy; all 618 currently matching original bytes are now strictly protected. All **15 same-Render-carrier exact functions** and separately compiled exact `Project3DQuad` (**16 strict checks**): `--owner anm`. No new exact function credit. |
 | **ScreenEffect shake envelope** | 0x004227A0 | **336/336**, 132 instructions, 20 fields, 8 calls, 26 blocks; **26** differences (28→26) | Authentic VC7.1 order of two real volatile references (fade, then hold; same hold + fade value) recovers original physical **+0x5C and +0x5F** with no regressed byte. Full original-SHA/26-offset guard protects **all 310 already matching bytes**; all **18 ScreenEffect exact owners** (2,562 bytes) pass across the genuine three profiles. Remaining EDI/ESI owner allocation is NON-EXACT. |
 | **Controller input** | 0x0042B410 | **808 / 796**, 32 fields | WinMM X/Y read and register chronology; use `scripts/inspect-controller-input.py`. |
