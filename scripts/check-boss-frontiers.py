@@ -99,6 +99,28 @@ TITLE_EXACT_CARRIERS = {
 # same-carrier lifecycle callback beyond the bullet sprite drawing leaf.
 ANM_RENDER_EXACT_CARRIERS = {'build/matching/AnmManagerRender.obj': 15}
 ETAMA_DRAW_EXACT_CARRIERS = {'build/matching/EtamaControllerDraw.obj': 2}
+# ScreenEffect's sixteen standard exact owners and two independent full
+# functions use *different* VC7.1 compiler profiles. DrawSquare is /Ob0;
+# RegisterChain is built without /EHsc, not inside the 336-byte shake boss'
+# ordinary /O2 /Ob1 /EHsc carrier. A source-only census without profile
+# separation previously silently skipped twelve already exact functions.
+# Count, physical carrier and the ENTIRE separately reviewed original VC7.1
+# command-line profile. A reference unit changing its own flags or object is
+# not permission to silently rebaseline exact regression verification.
+_SCREEN_EFFECT_BASE_PROFILE = (
+    '/MT', '/EHsc', '/Gs', '/DNDEBUG', '/Zi', '/Gy', '/GF', '/Oi',
+    '/Gr', '/O2', '/Ob1', '/Oy-', '/I', 'src')
+SCREEN_EFFECT_EXACT_PROFILES = {
+    'screen-effect-calc-shake': (
+        16, 'build/matching/ScreenEffect.obj', _SCREEN_EFFECT_BASE_PROFILE),
+    'screen-effect-register-chain': (
+        1, 'build/matching/ScreenEffectRegister.obj',
+        tuple(flag for flag in _SCREEN_EFFECT_BASE_PROFILE if flag != '/EHsc')),
+    'screen-effect-draw-square': (
+        1, 'build/matching/ScreenEffectDrawSquare.obj',
+        tuple('/Ob0' if flag == '/Ob1' else flag
+              for flag in _SCREEN_EFFECT_BASE_PROFILE)),
+}
 
 
 def exact_source_carriers(source: str, expected: dict[str, int],
@@ -154,6 +176,76 @@ def cold_replay_exact_source(source: str, expected: dict[str, int],
         for name in names:
             replays.append(canonical(name))
     return replays
+
+
+def exact_source_profile_groups(source: str,
+                                references: dict[str, tuple[int, str, tuple[str, ...]]],
+                                units: dict | None = None) -> dict[str, list[str]]:
+    """Inventory every exact member of a source under its distinct real profiles.
+
+    Unlike distinct physical carriers, two profile builds may overwrite the
+    *same* object path. Partition by the **full pinned compiler flags** and
+    insist that each separate compiler run uses the reviewed output object.
+    Never transfer source results from one optimization/EH profile to another.
+    """
+    if units is None:
+        with (ROOT / 'config/match-units.toml').open('rb') as stream:
+            units = tomllib.load(stream)['units']
+    all_names = {name for name, spec in units.items()
+                 if spec.get('source') == source}
+    if not all_names or not references:
+        raise RuntimeError('no exact same-source profile inventory was reviewed')
+    groups: dict[str, list[str]] = {}
+    seen: set[str] = set()
+    seen_profiles: set[tuple[str, ...]] = set()
+    for reference, contract in references.items():
+        if (not isinstance(contract, tuple) or len(contract) != 3):
+            raise RuntimeError('missing pinned exact compiler profile contract: '+reference)
+        amount, pinned_obj, pinned_flags = contract
+        unit = units.get(reference)
+        if (not isinstance(unit, dict) or unit.get('source') != source or
+                type(amount) is not int or amount < 1 or
+                not isinstance(pinned_obj, str) or
+                not pinned_obj.startswith('build/matching/') or
+                not isinstance(pinned_flags, tuple) or not pinned_flags or
+                not all(isinstance(x, str) and x for x in pinned_flags) or
+                unit.get('object') != pinned_obj or
+                unit.get('profile') != list(pinned_flags)):
+            raise RuntimeError('unreviewed exact compiler profile reference: '+reference)
+        profile = pinned_flags
+        if profile in seen_profiles:
+            raise RuntimeError('duplicate exact compiler profile reference: '+reference)
+        seen_profiles.add(profile)
+        group = {name: spec for name, spec in units.items()
+                 if name in all_names and spec.get('profile') == list(profile)}
+        # The nested check enforces full source-function identity, concrete
+        # build/matching carrier, unique functions and one correct object.
+        validated = exact_source_carriers(
+            source, {pinned_obj: amount}, units=group)
+        members = validated[pinned_obj]
+        if reference not in members or seen.intersection(members):
+            raise RuntimeError('reviewed exact compiler profile inventory overlaps')
+        groups[reference] = members
+        seen.update(members)
+    if seen != all_names:
+        raise RuntimeError('exact same-source profile coverage incomplete: '
+                           f'{sorted(all_names - seen)}')
+    return groups
+
+
+def cold_replay_exact_profiles(source: str,
+                               references: dict[str, tuple[int, str, tuple[str, ...]]],
+                               *, already_built: tuple[str, ...] = ()) -> list[dict]:
+    """One actual cold compile per reviewed profile and every exact full body."""
+    groups = exact_source_profile_groups(source, references)
+    if any(ref not in groups for ref in already_built):
+        raise RuntimeError('unreviewed already-built exact profile')
+    results = []
+    for ref, names in groups.items():
+        if ref not in already_built:
+            build(ref)
+        results.extend(canonical(unit) for unit in names)
+    return results
 
 
 def build_nonexact(source: str, obj: str, *, reference_unit: str) -> None:
@@ -1008,11 +1100,13 @@ def run_screen_shake(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     guard_screen_shake_frontier(current)
     exact = []
     if protect_exact:
-        # All six use the one freshly compiled ScreenEffect.obj and profile.
-        for unit in ('screen-effect-calc-shake', 'screen-effect-calc-fade-in',
-                     'screen-effect-calc-fade-out', 'screen-effect-calc-fade-hold',
-                     'screen-effect-calc-arcade-pulse', 'screen-effect-initialize-timer'):
-            exact.append(canonical(unit))
+        # Keep the boss' real /EHsc /O2 /Ob1 object from the cold diagnostic,
+        # check all sixteen same-profile exact owners, then independently
+        # rebuild /no-EH RegisterChain and /Ob0 DrawSquare. Each canonical
+        # comparison covers the COMPLETE real original PE/COFF owner.
+        exact = cold_replay_exact_profiles(
+            'src/ScreenEffect.cpp', SCREEN_EFFECT_EXACT_PROFILES,
+            already_built=('screen-effect-calc-shake',))
     return {'screen_shake_envelope': {
         'target_bytes': 336, 'candidate_bytes': current['candidate_bytes'],
         'bound_fields': current['bound_relocations'],

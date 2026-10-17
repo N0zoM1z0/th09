@@ -110,6 +110,107 @@ class ExactCarrierDiscovery(unittest.TestCase):
                      'anm-manager-draw-inner-flipped-x'):
             self.assertIn(name, units)
 
+    def test_screen_effect_all_eighteen_actual_source_profiles_are_reviewed(self):
+        expected = frontier.SCREEN_EFFECT_EXACT_PROFILES
+        self.assertEqual({ref: spec[0] for ref, spec in expected.items()}, {
+            'screen-effect-calc-shake': 16,
+            'screen-effect-register-chain': 1,
+            'screen-effect-draw-square': 1})
+        self.assertEqual({ref: spec[1] for ref, spec in expected.items()}, {
+            'screen-effect-calc-shake': 'build/matching/ScreenEffect.obj',
+            'screen-effect-register-chain': 'build/matching/ScreenEffectRegister.obj',
+            'screen-effect-draw-square': 'build/matching/ScreenEffectDrawSquare.obj'})
+        groups = frontier.exact_source_profile_groups(
+            'src/ScreenEffect.cpp', expected)
+        self.assertEqual(set(groups), set(expected))
+        self.assertEqual([len(v) for v in groups.values()], [16, 1, 1])
+        self.assertIn('screen-effect-calc-shake', groups['screen-effect-calc-shake'])
+        self.assertIn('screen-effect-draw-arcade-pulse',
+                      groups['screen-effect-calc-shake'])
+        self.assertIn('screen-effect-constructor', groups['screen-effect-calc-shake'])
+        self.assertEqual(groups['screen-effect-register-chain'],
+                         ['screen-effect-register-chain'])
+        self.assertEqual(groups['screen-effect-draw-square'],
+                         ['screen-effect-draw-square'])
+        all_units = sum(groups.values(), [])
+        self.assertEqual(len(set(all_units)), 18)
+        units = self.units()
+        profiles = [units[ref]['profile'] for ref in groups]
+        self.assertEqual(len({tuple(flags) for flags in profiles}), 3)
+        self.assertNotIn('/EHsc', units['screen-effect-register-chain']['profile'])
+        self.assertIn('/Ob0', units['screen-effect-draw-square']['profile'])
+        self.assertNotIn('/Ob0', units['screen-effect-calc-shake']['profile'])
+
+    def test_screen_effect_missing_mixed_or_unreviewed_profile_fails_closed(self):
+        original = self.units()
+        for missing in ('screen-effect-delete', 'screen-effect-register-chain',
+                        'screen-effect-draw-square'):
+            with self.subTest(missing=missing):
+                units = copy.deepcopy(original)
+                del units[missing]
+                with self.assertRaises(RuntimeError):
+                    frontier.exact_source_profile_groups(
+                        'src/ScreenEffect.cpp',
+                        frontier.SCREEN_EFFECT_EXACT_PROFILES, units)
+        for key, field, value in (
+            ('screen-effect-delete', 'profile', ['/O2']),
+            ('screen-effect-register-chain', 'profile', ['/O2']),
+            ('screen-effect-draw-square', 'object',
+             'build/matching/OtherUnreviewed.obj'),
+            ('screen-effect-draw-square', 'profile', []),
+            ('screen-effect-clear', 'functions',
+             original['screen-effect-calc-shake']['functions']),
+        ):
+            with self.subTest(key=key, field=field):
+                units = copy.deepcopy(original)
+                units[key][field] = value
+                with self.assertRaises(RuntimeError):
+                    frontier.exact_source_profile_groups(
+                        'src/ScreenEffect.cpp',
+                        frontier.SCREEN_EFFECT_EXACT_PROFILES, units)
+        refs_default = frontier.SCREEN_EFFECT_EXACT_PROFILES
+        for refs in (
+                {'screen-effect-calc-shake': refs_default['screen-effect-calc-shake']},
+                {**refs_default,
+                 'screen-effect-calc-shake':
+                     (17, *refs_default['screen-effect-calc-shake'][1:])},
+                {**refs_default,
+                 'screen-effect-clear': refs_default['screen-effect-calc-shake']},
+                {**refs_default,
+                 'screen-effect-calc-shake':
+                     (16, 'build/matching/Forged.obj',
+                      refs_default['screen-effect-calc-shake'][2])},
+        ):
+            with self.subTest(refs=refs), self.assertRaises(RuntimeError):
+                frontier.exact_source_profile_groups(
+                    'src/ScreenEffect.cpp', refs)
+
+    def test_screen_effect_profiles_build_once_each_and_verify_all_originals(self):
+        for prebuilt, builds in (
+                (('screen-effect-calc-shake',),
+                 ['screen-effect-register-chain', 'screen-effect-draw-square']),
+                ((), ['screen-effect-calc-shake', 'screen-effect-register-chain',
+                      'screen-effect-draw-square'])):
+            with self.subTest(prebuilt=prebuilt), patch.object(
+                    frontier, 'build') as build, patch.object(
+                    frontier, 'canonical', side_effect=lambda n: {'unit': n}) as check:
+                result = frontier.cold_replay_exact_profiles(
+                    'src/ScreenEffect.cpp', frontier.SCREEN_EFFECT_EXACT_PROFILES,
+                    already_built=prebuilt)
+                self.assertEqual(len(result), 18)
+                self.assertEqual(len(set(r['unit'] for r in result)), 18)
+                self.assertEqual([a[0][0] for a in build.call_args_list], builds)
+                self.assertEqual(check.call_count, 18)
+        with self.assertRaisesRegex(RuntimeError, 'already-built exact profile'):
+            frontier.cold_replay_exact_profiles(
+                'src/ScreenEffect.cpp', frontier.SCREEN_EFFECT_EXACT_PROFILES,
+                already_built=('not-a-real-profile',))
+        with patch.object(frontier, 'build'), patch.object(
+                frontier, 'canonical', side_effect=RuntimeError('original bytes differ')):
+            with self.assertRaisesRegex(RuntimeError, 'original bytes differ'):
+                frontier.cold_replay_exact_profiles(
+                    'src/ScreenEffect.cpp', frontier.SCREEN_EFFECT_EXACT_PROFILES)
+
     def test_real_etama_draw_carrier_has_both_exact_siblings(self):
         groups = frontier.exact_source_carriers(
             'src/EtamaControllerDraw.cpp', frontier.ETAMA_DRAW_EXACT_CARRIERS)

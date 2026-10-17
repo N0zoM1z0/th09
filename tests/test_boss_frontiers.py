@@ -628,19 +628,36 @@ class BossFrontierChecks(TestCase):
             'complete_bytes_agree': False,
         }
 
-    def test_screen_shake_cold_carrier_protects_six_exact_siblings(self):
+    def test_screen_shake_cold_carrier_protects_all_eighteen_exact_profiles(self):
         with patch.object(frontiers, 'build') as build, patch.object(
                 frontiers, 'parsed', return_value=self.screen_evidence()) as parsed, patch.object(
-                frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
+                frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}) as canonical:
             owners, exact = frontiers.run_screen_shake(protect_exact=True)
-        build.assert_called_once_with('screen-effect-calc-shake')
+        self.assertEqual([a[0][0] for a in build.call_args_list], [
+            'screen-effect-calc-shake', 'screen-effect-register-chain',
+            'screen-effect-draw-square'])
         parsed.assert_called_once_with(['scripts/inspect-screen-shake-envelope.py',
                                         'build/matching/ScreenEffect.obj', '--json'])
         self.assertEqual(owners['screen_shake_envelope']['ordinary_differences'], 26)
-        self.assertEqual([x['unit'] for x in exact],
-                         ['screen-effect-calc-shake', 'screen-effect-calc-fade-in',
-                          'screen-effect-calc-fade-out', 'screen-effect-calc-fade-hold',
-                          'screen-effect-calc-arcade-pulse', 'screen-effect-initialize-timer'])
+        inventory = frontiers.exact_source_profile_groups(
+            'src/ScreenEffect.cpp', frontiers.SCREEN_EFFECT_EXACT_PROFILES)
+        expected = sum(inventory.values(), [])
+        self.assertEqual(len(expected), 18)
+        self.assertEqual(len(set(expected)), 18)
+        self.assertEqual([row['unit'] for row in exact], expected)
+        self.assertEqual(canonical.call_count, 18)
+        self.assertEqual([row['unit'] for row in exact][-2:], [
+            'screen-effect-register-chain', 'screen-effect-draw-square'])
+
+    def test_screen_shake_skip_exact_keeps_boss_but_not_profile_builds(self):
+        with patch.object(frontiers, 'build') as build, patch.object(
+                frontiers, 'parsed', return_value=self.screen_evidence()), patch.object(
+                frontiers, 'canonical') as canonical:
+            owners, exact = frontiers.run_screen_shake(protect_exact=False)
+        self.assertEqual(owners['screen_shake_envelope']['ordinary_differences'], 26)
+        self.assertEqual(exact, [])
+        build.assert_called_once_with('screen-effect-calc-shake')
+        canonical.assert_not_called()
 
     def test_screen_shake_bad_extent_fields_calls_or_regression_fail_closed(self):
         for bad in ({'candidate_bytes': 334}, {'target_instructions': 131},

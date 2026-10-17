@@ -158,6 +158,25 @@
   **465 tests, 28 skipped**, plus tracking, docs, build graph, progress and
   whitespace validation. The canonical scoreboard remains
   **980 source-present / 940 exact / 40 nonexact**.
+- **Latest whole-carrier ScreenEffect guard (October 17):** Independently
+  re-opened the **336-byte `ScreenEffect::CalcShakeEnvelope`** and its real
+  source compiler profiles, rather than trusting the old six-function
+  dependency sample. Its maintained body still has **336 physical bytes,
+  132 instructions, 20 authentic bound fields, 8 calls, 26 matched direct
+  blocks** and **26 genuine different original bytes**; no exact credit.
+  The exact-source `ScreenEffect.cpp` manifest contains **18** functions:
+  **16** ordinary `/O2 /Ob1 /EHsc`, **one `RegisterChain` without `/EHsc`**
+  and **one `DrawSquare` with `/Ob0`**. `--owner screen` now cold-compiles
+  all **three** physical carriers, strict original-PE/COFF replays **18/18**
+  existing exact bodies (previously 6), and rejects any missing member,
+  changed compiler profile, changed object, duplicated function or false
+  reused build. Complete `--owner all` now passes **31 owner diagnostics
+  and 159/159 distinct original-byte exact sibling reports**. CI
+  passes **469 tests (28 skipped, zero failures)**; target, tracking,
+  documentation, progress and source whitespace gates pass. Separately
+  cold-compiled nineteen legal ScreenEffect owner/timer/reference-source
+  variants; neutral forms remain at 26 differences, early timer aliases
+  degrade to 337 bytes /317 mismatches. The actual target is unchanged.
 - **Phase:** original exact-reconstruction only. The 95% reviewed-authored
   byte milestone is open; whole Windows i386 build/link/resources/runtime,
   dual-Oracle semantic reconstruction and portability are still open.
