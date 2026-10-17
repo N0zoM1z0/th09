@@ -20,7 +20,7 @@
   It is ignored, private, read-only, and never a cleanup candidate.
   Factory's registered IDA source is `th09-ida`; mapping metadata is not
   canonical codegen acceptance.
-- **Newly canonical exact:** `FileSystem::TryDecryptFromTable @ 0x0042C290` cold-replays **220/220 entire code bytes and all 12 original-bound COFF fields**. Source-cold VC7.1 recovers the original row-offset/key-bias schedule without changed call/branch/return behavior. `--owner crypto` strictly rebuilds this exact selector as well as independently exact Decrypt/Encrypt siblings. Historical 38-byte nonexact experiments are superseded; this is a new *local canonical exact unit*, not a proof of whole-program link or runtime closure.
+- **Newly canonical exact:** `FileSystem::TryDecryptFromTable @ 0x0042C290` cold-replays **220/220 entire code bytes and all 12 original-bound COFF fields**. Source-cold VC7.1 recovers the original row-offset/key-bias schedule without changed call/branch/return behavior. `--owner crypto` strictly rebuilds this exact selector as well as independently exact Decrypt/Encrypt siblings. Historical 38-byte nonexact experiments are superseded. Independent Factory `strict-live-v1` forced-cold `pass / accepted` receipt `e5fbed2e35363191833752be9a9daef1968ab0ec01a83b06088188cad80ea5a9` binds exactness to gameplay-source commit `9590206`; it does not prove whole-program link/runtime closure.
 - **Current code milestones:** Source commit `c30a35a` narrows
   ScreenEffect CalcShakeEnvelope from 28 to **26 complete unlike bytes**
   while preserving all exact siblings; source commit `d21c98d` shares the

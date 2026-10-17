@@ -251,6 +251,29 @@ compiler-private labels only after verifying their real owner-relative targets;
 never transfer `$L...` spellings from older snapshots.
 
 
+## 2026-10-17: newly canonical exact TH09 crypt-table selector
+
+The newly authored complete original-bound match for
+`FileSystem::TryDecryptFromTable @ 0x0042C290` was source-cold recompiled
+by Factory's pinned VC7.1 `windows.msvc71.function-exact` Oracle under
+`strict-live-v1` **after** the gameplay-source/manifest commit
+`9590206bb00496ea2ed3e9dc8374b97dd5b143be`:
+
+- Full original physical **220/220 code bytes**, 12 exact COFF fields,
+  Japanese v1.50a original SHA256
+  `c9195eb6365a7e3d6905b3e2cead12ed480c4fd9ad968992db2b397e9b6fd8a7`;
+  forced-cold job `job:acd4abf549b14135b8bb7b0ab19cab3c`: **`pass / accepted`**,
+  `receipt:e5fbed2e35363191833752be9a9daef1968ab0ec01a83b06088188cad80ea5a9`,
+  registry `registry:80579764b4b0ce5563dcdcc3083186a08d7a0335ba08e65a479f2fbef69aca76`.
+
+This is **one genuinely newly exact function**, unlike earlier sibling-only
+receipts: canonical **940/980** authored owners after promotion. The former
+38-byte frontier and the intermediate two-byte `XOR` register-lifetime residual
+were resolved with ordinary C++ offset/declaration scheduling. The exact
+`FileSystem::Decrypt` and `FileSystem::Encrypt` bodies remain independent
+canonical siblings. This receipt does not prove the Windows i386 whole image,
+data ownership, runtime fidelity, nearby bosses, or later portability.
+
 ## Earlier exact closure and representative accepted landmark proofs
 
 ### New exact closure: Enemy collision wrapper
@@ -280,12 +303,13 @@ new functions. All 3,900 bytes of the large Enemy update remain NON-EXACT
 
 ## Closed codegen landmarks and accepted receipts
 
-The exact-function ledger is the authority for **939 canonical exact functions** (including the newly Factory-accepted collision wrapper).
+The exact-function ledger is the authority for **940 canonical exact functions**, including the newly Factory-accepted crypt-table selector and earlier collision wrapper.
 The following representative independently accepted owners have their
 identities validated against the canonical match-unit manifest:
 
 | Exact owner | Target/bytes | Canonical unit | Accepted source commit and receipt |
 | --- | --- | --- | --- |
+| `FileSystem::TryDecryptFromTable` | `0x0042C290`, **220/220**, 12 fields | `file-system-try-decrypt-table` | `9590206`; `receipt:e5fbed2e35363191833752be9a9daef1968ab0ec01a83b06088188cad80ea5a9` |
 | `EnemyCoreUpdateAttachedEffects` | `0x0040F4C0`, **151/151**, 2 fields | `enemy-attached-effect-update` | `5fdb2c1`; `receipt:02924ae8158481decead09c66f44826d72860951dbf2c1baa97e6698b6be702d` |
 | `Float3::operator/` | `0x0040F5A0`, **56/56**, 2 fields | `float3-divide` | `5fdb2c1`; `receipt:d9be0d756d2b9ab4d375d76b0a5d0bbf4d64fa1a52f6c1b594d3461d702bc330` |
 | `PlayerCollisionQueryStateView::AppendBoxRecord` | `0x0040F8E0`, **205/205**, 2 fields | `player-collision-append-box` | `5fdb2c1`; `receipt:3775bc5ca1e2bc1bc26e0e8e8be75f0d0473a28d93a585319471559a66cdefa9` |
