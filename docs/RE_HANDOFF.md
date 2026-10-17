@@ -28,6 +28,11 @@
   diagnostics** and **171/171 distinct exact functions**, up from 159;
   `scripts/ci.py` passes **477 tests, 28 skipped, zero failures** along
   with target SHA, ledger, docs, open build graph, progress and whitespace.
+  Independent Factory strict-live forced-cold `pass / accepted` regressions
+  on gameplay-source **`7d3f89b`** separately reconfirm `InitializeEffect`
+  (407 bytes), `Create` (327 bytes), `SpawnEffectWithVelocity` (175 bytes)
+  with exact physical bytes and 17/27/1 real field identities respectively.
+  Their immutable source-bound receipts are in `RE_ACCEPTED_RECEIPTS.md`.
   This is original-byte regression protection, NOT newly accepted exactness.
 - **Git state:** TH09 `main`; derive the actual HEAD and dirty work from
   `git status --short --branch` and `git log` at restart. Complete,

@@ -308,6 +308,38 @@ program and runtime. The canonical scoreboard remains **940/980 authored
 source-present exact**, with 40 unclosed. Later docs-only commits do not
 retroactively change these source commit bindings.
 
+## EffectManager full same-carrier exact protection at source `7d3f89b`
+
+The original Japanese TH09 v1.50a target (SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`)
+was independently checked by Factory's **strict-live-v1 forced-cold
+`windows.msvc71.function-exact`** replay with gameplay-source commit
+**`7d3f89b0944d5769c88c2dc5f9dbfa17a5db9f08`**. Three previously
+canonical-exact functions newly included in the complete 15-member
+EffectManager.cpp regression inventory were independently accepted:
+
+- `EffectManager::InitializeEffect @0x0040CA60`, **407/407 bytes**, 17 real
+  relocation fields; job `job:a067dc90d2ce44588fac01c492dedef2`,
+  `receipt:405a5181c4342727724719248de371e32b21091d389842753c9a5171b8707288`.
+- `EffectManager::Create @0x0040D320`, **327/327 bytes**, 27 real COFF fields;
+  job `job:6e6a791b2771475fa9fcda822afa945e`,
+  `receipt:ee442c5c6b0929456850fb15c613de0e3bcdc2b5c3abada17e0b9e18ccef3b92`.
+- `EffectManager::SpawnEffectWithVelocity @0x0040CCC0`, **175/175 bytes**, 1
+  real COFF field; job `job:1999fe38e53f4c428c1a71b23305cb5b`,
+  `receipt:a56ed8f92ad5f538f6c9ac8dc60ec5ce7e8570919d8e6722efa4d3c87f6b6e30`.
+
+For each job, **`receipt_verdict=pass`**, **`acceptance_decision=accepted`**,
+and no recorded acceptance objections. These three original codegen owners
+were already exact in the authoritative canonical 940-function ledger.
+They are immutable **source-commit-scoped regression receipts**; the newer
+script/protection/checkpoint does not add their sizes to the exact function
+count and does not certify the adjacent still-open 51-byte
+`EffectManager::AddedCallback` (8 original differences), Etama OnDraw,
+RunEcl, the whole Windows native game, or runtime fidelity. The complete
+source-cold `--owner all` at `7d3f89b` passed **31 whole original-PE/COFF
+owner diagnostics and 171/171 distinct already-exact functions**, with
+**477 tests (28 skipped, zero failed)** under `scripts/ci.py`.
+
 ## Earlier exact closure and representative accepted landmark proofs
 
 ### New exact closure: Enemy collision wrapper
