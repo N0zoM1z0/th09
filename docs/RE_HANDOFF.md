@@ -25,8 +25,9 @@
   credit `none`**. No fake authored exact ledger rows or source-profile
   rewrites. `--owner exattack` also cold-protects the **four original-exact
   ExAttackController.cpp functions** sharing the normal `/Ob1` carrier, with
-  codegen and origin fail-closed tests. The separate 321-byte Spawn and large
-  ECL/Etama/Title/ExAttack bosses remain nonexact and unpromoted.
+  codegen and origin fail-closed tests. **Spawn is separately already exact
+  (321/321)**; only the two special-member origin classifications and the
+  unrelated ECL/Etama/Title/ExAttack big-boss residuals remain open.
 - **ExAttack controller full native-carrier and special-member check (October 18):**
   Source `ExAttackController.cpp` shares an authentic VC7.1 `/O2 /Ob1 /EHsc`
   optimization context among **four already exact** functions (`ReleaseExAttackRecords`,
