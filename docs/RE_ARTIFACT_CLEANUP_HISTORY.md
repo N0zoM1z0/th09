@@ -105,3 +105,54 @@ bytecode. For a cache-free handoff run CI and cold Oracles **before**
 deleting generated caches; verify deletion via a post-run dry-run.
 Never interpret historical Factory receipts as exactness acceptance
 for a newer gameplay-source commit.
+
+### 2026-10-17: 31-owner/72-exact full replay and reviewed generated-cache cleanup
+
+**Clean baseline:** `main` at gameplay-source HEAD `944d95c`, original
+Japanese TH09 v1.50a executable SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`,
+**980 authored source functions / 940 complete exact / 40 still nonexact**.
+`python3 scripts/check-boss-frontiers.py --owner all` recompiled and passed
+**31 original-linked owner diagnostics (30 open plus one separate already
+exact crypto selector diagnostic)** and all **72 existing exact sibling
+replays**, with no new exact function credited. `python3 scripts/ci.py`
+passed **437 tests (28 skipped)**; target/tracking/docs/progress and
+diff checks passed. The original-bound pre-deletion replay, stdout/stderr,
+CI and target reports are in ignored
+`.analysis/handoff-cleanup-20261017/`.
+
+**Scope and actual deletion:** `python3 -B scripts/clean-generated-artifacts.py`
+dry-run identified **5,234** wholly generated files; `--apply` removed exactly
+**349,490,597 logical bytes**. This comprised 376 ignored `build/` files
+(9,539,846 bytes) and 4,858 ignored `.analysis/` compiler-suffix files
+(339,950,751 bytes), after checking that neither root was a symlink and
+that neither contained Git-tracked files. A separate fail-closed audit
+verified that both `scripts/__pycache__/` and `tests/__pycache__/` contained
+**only** 39 ignored, untracked, regular `.pyc` files; these contributed
+656,008 more cleaned bytes, with per-path SHA-256 records retained. The
+aggregate deleted set was **5,273 files / 350,146,605 logical bytes
+(334.0 MiB)**. The approved cache cleaner's exact path manifest is the
+**most recent `runs` entry** of
+`.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`;
+`.analysis/handoff-cleanup-20261017/pycache-cleanup-audit.json` covers the
+other 39. A second dry-run reported zero remaining generated cache files.
+
+**Preservation and postconditions:** source/config/docs/tests, all ignored
+experiment sources, original-linked PE/COFF JSON, scripts and earlier handoff
+receipts are retained. No user-supplied original exe, `.tools`, provider/IDA
+input or third-party game data was deleted. Git worktree remained clean;
+original target SHA remained unchanged. The remaining `.analysis/`
+occupied approximately **1.4 GiB allocated** and contains ~100,000
+retained evidence/source files. In particular, historical experiment C++
+source variants and ~400 MiB of JSON evidence were **not** removed because
+not all have individually verified reproduction/source-commit histories.
+Preserve them or separately audit and archive specific campaigns; do not
+bulk-delete `.analysis/` by age/extension. The absence of `build/` is normal
+and a future owner comparison must rebuild its matching object first.
+**No CI was rerun after deletion**: doing so would regenerate caches; the
+original-bound full pre-cleanup CI and replay above remain the source proofs.
+Python `-B` alone does not propagate to Python launched as a child process
+by a validator; for final cache-free document checks also export
+`PYTHONDONTWRITEBYTECODE=1`. One such validator-created bytecode file was
+noticed during final audit and re-cleaned within the same approved `.pyc`
+whitelist; this did not affect the 5,273 **distinct cache paths** cleared.

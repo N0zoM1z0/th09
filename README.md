@@ -114,6 +114,8 @@ not an acceptable shortcut around the native-product stage.
 - [`docs/KNOWLEDGE_BASE.md`](docs/KNOWLEDGE_BASE.md) — durable TH09-only facts.
 - [`docs/TOOLS.md`](docs/TOOLS.md) — local and Factory tool routing.
 - [`docs/PROGRESS.md`](docs/PROGRESS.md) — generated ledger totals.
+- [`docs/SMALL_FUNCTION_FRONTIER.md`](docs/SMALL_FUNCTION_FRONTIER.md) — short open leaf owners.
+- [`docs/RE_ARTIFACT_CLEANUP_HISTORY.md`](docs/RE_ARTIFACT_CLEANUP_HISTORY.md) — verified generated-cache deletion audits and preservation policy.
 - [Touhou Reconstruction Factory](https://github.com/N0zoM1z0/touhou-reconstruction-factory) — shared ontology, workflow, and cross-game knowledge.
 
 ## License

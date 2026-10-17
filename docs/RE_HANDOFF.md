@@ -21,12 +21,18 @@
   Factory's registered IDA source is `th09-ida`; mapping metadata is not
   canonical codegen acceptance.
 - **Newly canonical exact:** `FileSystem::TryDecryptFromTable @ 0x0042C290` cold-replays **220/220 entire code bytes and all 12 original-bound COFF fields**. Source-cold VC7.1 recovers the original row-offset/key-bias schedule without changed call/branch/return behavior. `--owner crypto` strictly rebuilds this exact selector as well as independently exact Decrypt/Encrypt siblings. Historical 38-byte nonexact experiments are superseded. Independent Factory `strict-live-v1` forced-cold `pass / accepted` receipt `e5fbed2e35363191833752be9a9daef1968ab0ec01a83b06088188cad80ea5a9` binds exactness to gameplay-source commit `9590206`; it does not prove whole-program link/runtime closure.
-- **Current code milestones:** Source commit `c30a35a` narrows
-  ScreenEffect CalcShakeEnvelope from 28 to **26 complete unlike bytes**
-  while preserving all exact siblings; source commit `d21c98d` shares the
-  genuinely proven 0x1EC replay record between four large translation
-  units. `RunEcl` remains nonexact at **15,564 physical bytes/598
-  original bound operands/30 remaining bytes**.
+- **Latest code checkpoints (pre-handoff HEAD `944d95c`):**
+  `e96bc16` narrows **ANM `ProjectCameraFacingQuad` from 13 to six**
+  independently linked ordinary byte differences, with all 40 fields, 11
+  calls and four exact siblings unchanged; `3223caf` restores the target's
+  **two observable GameManager `limitB4` publications** (function remains
+  nonexact); `ea5242d` pins 172-versus-171 `GameplaySetupThread` source/PE
+  address-referent identities; `944d95c` protects **489 already exact bytes**
+  within the still-nonexact 540/538-byte `Replay BeginPlaybackStage`.
+  Earlier CalcShakeEnvelope (28→26) and 0x1EC Replay record corrections are
+  retained. `RunEcl` remains **15,564 physical bytes / 598 authentic operand
+  fields / 30 ordinary differences**, no table/field drift. None of these
+  nonexact-owner improvements adds canonical exact function credit.
 - **Cold regression scope:** the live full `--owner all` suite now verifies
   **30 open non-crediting boss/leaf original-bound functions plus one
   separately canonical-exact 220-byte crypt selector diagnostic and 72
@@ -37,9 +43,50 @@
   the 15,564-byte RunEcl, 600-byte Etama OnDraw, 3,900-byte Enemy OnUpdate,
   1,280-byte ReplayMenu and 1,939-byte DrawResult owners. These diagnostics
   are not source-commit-bound accepted Factory receipts.
+- **Pre-cleanup verification (2026-10-17):** a **fresh cold** original-PE/COFF
+  `--owner all` sweep passed **31 owner reports (30 noncrediting plus one
+  already-exact crypto selector diagnostic)** and **72/72 separate strict
+  exact sibling units**. `scripts/ci.py`: **437 tests, 28 skipped, success**;
+  target SHA, ledger, progress and docs passed. Evidence is retained under
+  `.analysis/handoff-cleanup-20261017/`; this is not a new Factory
+  source-commit-bound exactness receipt.
 - **Phase:** original exact-reconstruction only. The 95% reviewed-authored
   byte milestone is open; whole Windows i386 build/link/resources/runtime,
   dual-Oracle semantic reconstruction and portability are still open.
+
+## Next worker: first three work packages
+
+1. **Large ECL/Etama:** attack **`RunEcl` opcode 4 (7 bytes) and opcode 155
+   (23 bytes)** against the immutable 15,564-byte/598-field owner. The ECL
+   compiler's first-include/switch table context is essential; individual
+   five-byte snippets are not acceptance. For Etama, **`OnUpdate` is already
+   2,195 authored / 2,216 physical bytes exact**; the open boss is
+   **`EtamaController::OnDraw`**, 600/600 physical with 268 differences and
+   two interdependent Laser cursor roles. Guard `--owner runecl` and
+   `--owner etama` plus exact sibling units, respectively.
+2. **TitleScreen and ExAttack:** protect exact **MusicRoom Update** and
+   **TitleSetup** while investigating **`DrawResult`'s 22 byte offsets**,
+   ReplayMenu's **1,280/1,258** and **72/70** CFG split, and options/tail
+   callbacks. ExAttack Type19/21 initializer **6/9 bytes** remain nonexact;
+   Type3 update **15 bytes**, Type14/22 Draw **959/974**, and Type19 update
+   are still open. `--owner title`, `--owner exattack` and `--owner type3`
+   run the original-bound comparisons.
+3. **Leaf and independent cross-check:** keep **Effect `AddedCallback`
+   (51 bytes, 8 differences)**, Supervisor received-frame insertion
+   (213 bytes, 35 differences), and ECL `MoveRandomBiased` (516 vs 517)
+   in scope. The separately accepted 220-byte FileSystem table-decrypt
+   selector is already exact; do not revert its real original one-past-row
+   access to an unverified safe-looking rewrite. See
+   [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md) and exact
+   manifests before selecting further leaves.
+
+**Rule:** keep experimental C++ in ignored `.analysis/` until a complete
+original-linked COFF comparison passes; do not edit `config/matches.csv` or
+advance 940 exact merely because normalized, partial, or source-level metrics
+improve. Always inspect existing dirty edits (there may be only this worker),
+then commit verified source/guard work as `gpt-web: ...`. The currently clean
+handoff deliberately removes generated OBJ/PDB/build caches; the next run
+**must rebuild** affected match units before invoking inspectors.
 
 ## Live ledger snapshot
 
@@ -189,44 +236,56 @@ individual producer/reproducibility/reference review. **Never bulk-delete
 COFF comparison; never mistake a missing disposable `.obj` for lost source.
 
 
-### Current cleanup and evidence boundaries
+### Current cleanup and evidence boundaries (2026-10-17)
 
-**Verified handoff cleanup on 2026-10-16.** After a full original-bound
-**30 noncrediting boss/leaf + 68 exact sibling** cold replay and public CI
-(**416 tests, 27 skipped**), the reviewed generated-file cleanup removed
-**3,539 reproducible files / 209,400,948 bytes (199.7 MiB)**:
-415 files under `build/`; 3,070 OBJ/PDB/etc. compiler caches under
-`.analysis/`; and 54 reviewed `.pyc` files under only
-`scripts/__pycache__/` and `tests/__pycache__/`. The original PE, pinned
-tools, all tracked code, provider state, original-bound JSON and experiment
-source copies were **preserved**. A fresh dry-run returned **zero disposable
-generated/compiler files**; `build/` and these two bytecode cache dirs are
-**intentionally absent**. Missing .obj/.pdb is **not** missing source.
+**Fresh, tested handoff cache cleanup completed.** At gameplay-source HEAD
+`944d95c`, the SHA-pinned original, 31 complete owner checks, 72/72 strict
+exact sibling checks, public CI **437 tests (28 skipped)**, tracking, docs
+and progress passed **before deletion**. The repository was clean; no
+uncommitted user source was reset or overwritten. Following the reviewed,
+preflighted `scripts/clean-generated-artifacts.py --apply` whitelist:
 
-The ignored *per-file deletion audit* is
-`.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`
-(**the last runs entry**, not its cumulative history); verified preflight,
-postcondition and source-cold results remain under
-`.analysis/handoff-cleanup-20261016/`. See
-[the cleanup and retained evidence history](RE_ARTIFACT_CLEANUP_HISTORY.md)
-for exact file counts, preconditions, current retained classifications and
-reproducer paths.
+| Proven disposable category | Files deleted | Logical bytes released |
+| --- | ---: | ---: |
+| Entire ignored generated `build/` tree | 376 | 9,539,846 |
+| Ignored `.analysis/` compiler OBJ/PDB/PCH/PYC/ILK/IDB | 4,858 | 339,950,751 |
+| Reviewed Python-only `scripts/__pycache__/` and `tests/__pycache__/` | 39 | 656,008 |
+| **Total** | **5,273** | **350,146,605 (334.0 MiB)** |
 
-**Retained and not yet individually safe to prune:** `.analysis/` contains
-93,469 historical noncompiler files in 6,271 directories:
-**1,058,738,306 logical bytes (1,009.7 MiB), roughly 1.3 GiB on disk**.
-That includes 65,151 experiment .cpp files (450.6 MiB), 5,143 JSON
-source/evidence files (377.9 MiB), and other local compiler-probe sources.
-These are **unreviewed retained experiment/legacy evidence**, not disposable
-by age, extension or bulk selection. The game target, toolchain and IDA
-provider data are never cleanup targets.
+The immediate **post-cleanup dry-run reports zero** `build/` or `.analysis/`
+compiler cache files and `build/` is absent. No tracked C++ source, manifest,
+unit test, document, target bytes, pinned tools, Factory receipt, or original
+replay evidence was removed. The target remains SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+Exact per-file deletion manifests are ignored but **retained** in:
 
-**Resume:** Rebuild the relevant owner/canonical match unit before
-comparing it. `scripts/ci.py` itself sets
-`PYTHONPYCACHEPREFIX=build/pycache`, so running public CI **after a clean
-handoff** recreates disposable build bytecode. If another cache-free
-handoff is wanted, run full original-bound checks and CI first, then
-preview `python3 scripts/clean-generated-artifacts.py` and use
-`--apply` only after reviewing the exact plan. Python-only docs/progress
-validation can run read-only with `python3 -B` and
-`PYTHONDONTWRITEBYTECODE=1`; it is **not** a new codegen receipt.
+- `.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`,
+  **last `runs` entry only** (the top-level summary is cumulative), for
+  `build/` and compiler binaries.
+- `.analysis/handoff-cleanup-20261017/pycache-cleanup-audit.json` for the
+  extra 39 bytecode files, with original SHA-256 for each.
+- `.analysis/handoff-cleanup-20261017/precleanup-full-boss.json` and
+  `precleanup-ci.log` for the complete **original-bound pre-deletion** tests.
+
+**Intentionally retained:** approximately **1.4 GiB allocated** under
+`.analysis/` remains, chiefly historical experiment C++/INL/header copies,
+original-bound JSON outputs, compiler-probe scripts and unknown legacy
+files. These are **not** classified as disposable merely by extension or
+age. Preserve the candidate/producer/input relationship until independently
+reviewed, and see
+[`RE_ARTIFACT_CLEANUP_HISTORY.md`](RE_ARTIFACT_CLEANUP_HISTORY.md)
+for earlier sweeps and the complete preservation policy. In particular,
+**never bulk-delete `.analysis/`, IDA/provenance data, `.tools/` or
+`resources/th09.exe`.**
+
+**Restart after clean handoff:** run `git status --short --branch`, verify
+original SHA and ledgers, then cold compile a relevant match unit, e.g.
+`python3 scripts/build-match-unit.py --unit title-screen-setup-thread`.
+Only then may `compare-coff-function.py` or its original-bound inspector
+consume the freshly generated `build/matching/...obj`. A new full owner
+sweep or CI **recreates ignored build outputs**; this is expected. At the
+next final handoff, run CI/boss checks *before* repeating the reviewed
+cache-cleaner dry-run/apply. For post-deletion docs-only verification, set
+`PYTHONDONTWRITEBYTECODE=1` **and** use `python3 -B ...` so that both the
+main Python interpreter **and child Python processes** skip bytecode; such
+a check is not an original-byte accepted receipt.
