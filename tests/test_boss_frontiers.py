@@ -672,14 +672,15 @@ class BossFrontierChecks(TestCase):
             'complete_bytes_equal': False,
         }
 
-    def test_etama_big_draw_protects_two_real_exact_siblings(self):
+    def test_etama_big_draw_protects_all_three_real_exact_siblings(self):
         with patch.object(frontiers, 'build') as build, patch.object(
                 frontiers, 'parsed', return_value=self.etama_evidence()), patch.object(
                 frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
             owners, siblings = frontiers.run_etama(protect_exact=True)
         self.assertEqual(owners['etama_draw']['overlapping_differences'], 268)
         self.assertEqual([r['unit'] for r in siblings],
-                         ['bullet-draw-single', 'etama-controller-update'])
+                         ['bullet-draw-single', 'etama-controller-added-callback',
+                          'etama-controller-update'])
         self.assertEqual(build.call_count, 2)
 
     def test_etama_original_physically_bound_residual_runs_are_nonoverlapping(self):
@@ -1047,9 +1048,12 @@ class BossFrontierChecks(TestCase):
                           call('anm-manager-project-3d-quad')])
         parsed.assert_called_once_with(['scripts/inspect-anm-camera-facing.py',
                                         'build/matching/AnmManagerRender.obj'])
+        expected = frontiers.exact_source_carriers(
+            'src/AnmManagerRender.cpp', frontiers.ANM_RENDER_EXACT_CARRIERS)
+        all_render_units = expected['build/matching/AnmManagerRender.obj']
+        self.assertEqual(len(all_render_units), 15)
         self.assertEqual([e['unit'] for e in exact],
-                         ['anm-manager-translate-rotation', 'anm-manager-draw2d',
-                          'anm-manager-draw-camera-facing-quad', 'anm-manager-project-3d-quad'])
+                         all_render_units + ['anm-manager-project-3d-quad'])
 
     def test_camera_replay_rejects_shortened_owner_wrong_fields_or_regression(self):
         for bad in ({'candidate_bytes': 619}, {'candidate_instructions': 202},

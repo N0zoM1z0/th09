@@ -76,6 +76,55 @@ class ExactCarrierDiscovery(unittest.TestCase):
         self.assertIn('title-screen-setup-thread',
                       groups['build/matching/TitleScreen.obj'])
 
+    def test_real_anm_render_carrier_has_all_fifteen_exact_siblings(self):
+        groups = frontier.exact_source_carriers(
+            'src/AnmManagerRender.cpp', frontier.ANM_RENDER_EXACT_CARRIERS)
+        self.assertEqual(groups.keys(), {'build/matching/AnmManagerRender.obj'})
+        units = groups['build/matching/AnmManagerRender.obj']
+        self.assertEqual(len(units), 15)
+        self.assertEqual(len(set(units)), 15)
+        for name in ('anm-manager-translate-rotation', 'anm-manager-draw2d',
+                     'anm-manager-draw-camera-facing-quad',
+                     'anm-manager-draw-projected-3d-quad',
+                     'anm-manager-flush-vertex-buffer',
+                     'anm-manager-draw-inner-flipped-x'):
+            self.assertIn(name, units)
+
+    def test_real_etama_draw_carrier_has_both_exact_siblings(self):
+        groups = frontier.exact_source_carriers(
+            'src/EtamaControllerDraw.cpp', frontier.ETAMA_DRAW_EXACT_CARRIERS)
+        self.assertEqual(groups, {'build/matching/EtamaControllerDraw.obj': [
+            'bullet-draw-single', 'etama-controller-added-callback']})
+
+    def test_partial_anm_or_etama_carrier_inventory_is_rejected(self):
+        for source, expected, missing in (
+                ('src/AnmManagerRender.cpp', frontier.ANM_RENDER_EXACT_CARRIERS,
+                 'anm-manager-draw-inner-flipped-x'),
+                ('src/EtamaControllerDraw.cpp', frontier.ETAMA_DRAW_EXACT_CARRIERS,
+                 'etama-controller-added-callback')):
+            with self.subTest(source=source):
+                units = self.units()
+                units.pop(missing)
+                with self.assertRaisesRegex(RuntimeError,
+                                            'exact sibling carrier inventory drifted'):
+                    frontier.exact_source_carriers(source, expected, units)
+
+    def test_prebuilt_anm_etama_carriers_verify_every_unit_without_rebuilding(self):
+        for source, expected, prebuilt, total in (
+                ('src/AnmManagerRender.cpp', frontier.ANM_RENDER_EXACT_CARRIERS,
+                 ('build/matching/AnmManagerRender.obj',), 15),
+                ('src/EtamaControllerDraw.cpp', frontier.ETAMA_DRAW_EXACT_CARRIERS,
+                 ('build/matching/EtamaControllerDraw.obj',), 2)):
+            with self.subTest(source=source), patch.object(
+                    frontier, 'build') as build, patch.object(
+                    frontier, 'canonical', side_effect=lambda name: {'unit': name}) as replay:
+                result = frontier.cold_replay_exact_source(
+                    source, expected, already_built=prebuilt)
+                build.assert_not_called()
+                self.assertEqual(len(result), total)
+                self.assertEqual(replay.call_count, total)
+                self.assertEqual(len({r['unit'] for r in result}), total)
+
     def test_fail_closed_on_missing_or_retargeted_exact_unit(self):
         for source, expected, missing in (
                 ('src/EclManager.cpp', frontier.ECL_EXACT_CARRIERS,

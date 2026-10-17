@@ -93,6 +93,12 @@ TITLE_EXACT_CARRIERS = {
     'build/matching/TitleScreen.obj': 37,
     'build/matching/TitleScoreRecord.obj': 1,
 }
+# The true 622-byte camera-facing boss is compiled *inside* this Render TU.
+# Protect every canonical function sharing its optimizer context, not merely
+# the three nearby rendering leaves. Etama OnDraw also has a second exact
+# same-carrier lifecycle callback beyond the bullet sprite drawing leaf.
+ANM_RENDER_EXACT_CARRIERS = {'build/matching/AnmManagerRender.obj': 15}
+ETAMA_DRAW_EXACT_CARRIERS = {'build/matching/EtamaControllerDraw.obj': 2}
 
 
 def exact_source_carriers(source: str, expected: dict[str, int],
@@ -759,9 +765,11 @@ def run_camera_facing(*, protect_exact: bool) -> tuple[dict, list[dict]]:
         raise RuntimeError('camera typed-vector 4-byte original-bound copy frontier regressed')
     siblings = []
     if protect_exact:
-        siblings += [canonical('anm-manager-translate-rotation'),
-                     canonical('anm-manager-draw2d'),
-                     canonical('anm-manager-draw-camera-facing-quad')]
+        siblings = cold_replay_exact_source(
+            'src/AnmManagerRender.cpp', ANM_RENDER_EXACT_CARRIERS,
+            already_built=('build/matching/AnmManagerRender.obj',))
+        # This 595-byte projection is a separately compiled caller/callee,
+        # and cannot be inferred exact from the native Render carrier alone.
         build('anm-manager-project-3d-quad')
         siblings.append(canonical('anm-manager-project-3d-quad'))
     return {'camera_facing_projection': {
@@ -1375,8 +1383,11 @@ def run_etama(*, protect_exact: bool) -> tuple[dict, list[dict]]:
                                 diagnostic=True), name='Etama OnDraw',
                           target_size=600, fields=27)
     guard_etama_draw(result)
-    exact_units = [canonical('bullet-draw-single')] if protect_exact else []
+    exact_units = []
     if protect_exact:
+        exact_units = cold_replay_exact_source(
+            'src/EtamaControllerDraw.cpp', ETAMA_DRAW_EXACT_CARRIERS,
+            already_built=('build/matching/EtamaControllerDraw.obj',))
         build('etama-controller-update')
         exact_units.append(canonical('etama-controller-update'))
     return {'etama_draw': {

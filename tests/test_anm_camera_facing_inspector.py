@@ -133,9 +133,12 @@ class CameraBossSweepTests(unittest.TestCase):
             owners, siblings = boss.run_camera_facing(protect_exact=True)
         self.assertEqual(owners['camera_facing_projection']['missing_target_bytes'], 0)
         self.assertEqual(owners['camera_facing_projection']['overlap_differences'], 4)
+        exact_render = boss.exact_source_carriers(
+            'src/AnmManagerRender.cpp', boss.ANM_RENDER_EXACT_CARRIERS)
+        self.assertEqual(len(exact_render['build/matching/AnmManagerRender.obj']), 15)
         self.assertEqual([x['unit'] for x in siblings],
-                         ['anm-manager-translate-rotation', 'anm-manager-draw2d',
-                          'anm-manager-draw-camera-facing-quad', 'anm-manager-project-3d-quad'])
+                         exact_render['build/matching/AnmManagerRender.obj'] +
+                         ['anm-manager-project-3d-quad'])
         self.assertEqual(build.call_count, 2)
 
     def test_closed_local_slots_can_improve_without_forging_exactness(self):
