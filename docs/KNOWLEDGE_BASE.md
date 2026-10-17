@@ -8358,3 +8358,44 @@ attest historical producer execution.
 - Reopened the independently SHA-256-attested TH09 v1.50a **`ReplayManagerView::BeginPlaybackStage @0x00420840`** complete **540-byte original** (SHA `af0dd0d85e36de147b67c07e8790bd200adb04f2862496dac928b3731dff5f64`), 152 disassembled instructions, **32 original-disassembled absolute/relative address operands, five real ordered calls and 12 CFG blocks**. The authentic pinned no-EH source carrier emits 538 bytes, 151 instructions, all 32 verified/COFF-linked operands, the same five call destinations/12 matching direct blocks and 49 physically different linked prefix bytes, with two missing target-tail bytes. Its **489 other overlapping physical bytes ALREADY match the original**. Exact source credit is NOT granted.
 - The 49 real source/PE mismatches form a noncontiguous physical set in two localized areas: original operand ownership/SidetState0 header prefetch `+0x14B..+0x15F` (19 actual mismatches), and seed-zero-extension/return-tail timing `+0x1FB..+0x219` (30 actual mismatches). The target obtains seed by zeroing EDX and then writing the 16-bit seed into DX; the candidate uses `MOVZX EAX,word`, while their values are the same. Independently cold-compiling 16 natural signed/unsigned value/reference/volatile pointer/union/zero-initialized seed variants against the REAL 538-byte source carrier produced the same complete 538-byte/49-difference owner each time, rather than recovering the target's two absent bytes. Archived source probes are retained in ignored `.analysis/gpt-web-20261017-replay-seed-cold/`.
 - Former `--owner replay` guard could accept *any 49 different bytes*, even if a compiler variation fixed an old difference while breaking a previously matching target byte. The complete source/PE/COFF decoder in `scripts/inspect-replay-begin-playback.py` now returns **every ordered physical difference offset**, and `REPLAY_BEGIN_ORIGINAL_RESIDUAL_OFFSETS` strictly pins all 49 actual legacy source mismatches and the original 540-byte SHA, verifying the source's 538-byte/missing-two chronology and real 32 fields/five calls/12 graph blocks. Same-count substitutions into previously correct `+0x14A,+0x150,+0x160,+0x1F9,+0x1FA,+0x1FF` (including inside the formerly broad diff windows) fail; genuine 49→48 reductions are accepted only as source diagnostics, NOT canonical exactness. Unrelated stale unreachable network-parser test code was rechecked and left in its correct network-specific test class. Both **already exact no-EH same-TU siblings**, BeginRecordingStage and Create, pass the focused source-cold replay. The current canonical status remains 980 source-present / 940 exact / 40 nonexact.
+
+## October 17: shared Etama side effect owner and complete ECL/Title sibling cold guards
+
+- The original Japanese TH09 v1.50a `EtamaController::OnDraw @ 0x00413BE0`
+  ends by loading a genuine `EffectManager *` via the owning side record at
+  **+0x0C** and calling `EffectManager::DrawBulletLayerEffects @0x0040D110`.
+  `src/BulletManager.hpp` now exposes this physical pointer as the typed
+  `BulletSideStateView::effectManager0C`, including the independently checked
+  side size **0x38** and field-offset assertion. The source no longer needs
+  `BulletDrawSideStateView` in `EtamaControllerDraw.cpp`. The whole
+  source-cold **600-byte / 27-COFF-field / 13-ordered-call / 17-block**
+  original-bound OnDraw audit is unchanged, still **268 byte differences**;
+  no exactness credit is claimed for that callback.
+- Rebuilding the real compiler carriers after the shared Etama header change
+  renumbered *compiler-local* `$L` labels in `DrawSingleBullet` (5),
+  `EtamaController::AddedCallback` (10), `EtamaController::OnUpdate` (6),
+  `EnemyPostEclUpdateMovement` (7) and
+  `Th09EclRunControl::CompareOperands` (13), along with other Etama exact
+  carriers. Each updated manifest internal relocation was linked to its
+  independently original-supported **same actual address**, not fit to a
+  differing target byte. Complete source-cold original-bound `--owner all`
+  compared **31 boss/leaf owner diagnostics** and **131 strict exact-sibling
+  unit reports** successfully. The original fully matched OnUpdate owns
+  **2,216 physical bytes / 88 fields**; DrawSingleBullet owns **232 / 16**;
+  `EnemyPostEclUpdateMovement` owns **992 / 41**. All remain exact.
+- `scripts/check-boss-frontiers.py` now derives the complete same-source exact
+  manifest sets, insists on each expected physical compiler carrier and its
+  pinned VC7.1 profile, rebuilds each carrier once, then independently
+  verifies *every* canonical unit. For the still-nonexact 15,564-byte RunEcl
+  it guards **24** ECL/ExAttack same-source exact units across seven objects;
+  for still-nonexact Title callbacks it guards **38** TitleScreen exact units
+  across two compiler profiles, plus two MusicRoom functions and TitleDraw
+  callback, **41** total. Repeated source-cold `--owner runecl`, `--owner
+  title` and `--owner all` compare the real PE and each reviewed field; 8
+  new pure-input tests reject missing/misplaced carriers, mixed flags, symbol
+  duplication, stale receipts and mismatched comparison results. The 30
+  RunEcl differences (opcode 4/155), 22 Title DrawResult differences and
+  268 Etama OnDraw differences are still explicitly NON-EXACT. Earlier natural
+  source variants for these plus ExAttack Type19/21 and Type3 did not improve
+  their complete original-bound owner; discarded experiments are retained
+  only as ignored `.analysis/gpt-web-*-20261017` files.

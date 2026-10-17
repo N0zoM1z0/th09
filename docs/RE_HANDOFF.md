@@ -50,6 +50,22 @@
   target SHA, ledger, progress and docs passed. Evidence is retained under
   `.analysis/handoff-cleanup-20261017/`; this is not a new Factory
   source-commit-bound exactness receipt.
+- **Latest live source-cold checkpoint (October 17):** The common
+  `BulletSideStateView` now declares the target-backed `EffectManager *` at
+  **+0x0C**. `EtamaController::OnDraw` calls the actual exact
+  `EffectManager::DrawBulletLayerEffects` through that shared owner, replacing
+  a duplicate private view without changing its physical **600/600**, 27
+  address operands, 13 real calls, 17 blocks or **268 nonexact bytes**.
+  The affected **`EtamaController::OnUpdate` 2,216/2,216**,
+  `DrawSingleBullet` **232/232** and `EnemyPostEclUpdateMovement` **992/992**
+  original physical bytes remain exact. VC7.1's source-label numbering changed
+  across Etama/ECL carrier functions; the refreshed exact manifests were
+  checked against original label destinations before a full replay. The live
+  full `--owner all` now cold-checks **31 owner diagnostics** and **131
+  independently exact sibling comparisons**, including every exact match in
+  the 24-unit ECL and 38-unit TitleScreen source families, plus the separate
+  MusicRoom and DrawCallback checks. These are noncrediting regressions, not
+  a new canonical exact function. The 980 / 940 / 40 scoreboard is unchanged.
 - **Phase:** original exact-reconstruction only. The 95% reviewed-authored
   byte milestone is open; whole Windows i386 build/link/resources/runtime,
   dual-Oracle semantic reconstruction and portability are still open.

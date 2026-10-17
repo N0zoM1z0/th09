@@ -75,6 +75,81 @@ def build(unit: str) -> None:
     execute(['scripts/build-match-unit.py', '--unit', unit])
 
 
+# Complete exact siblings of the still-nonexact RunEcl and Title large owners.
+# A source file is not necessarily one compiler carrier: some reviewed units
+# are compiled in alternate original-profile objects, and those must also be
+# rebuilt rather than silently reusing the main diagnostic's object.
+# These are manifest-verified cardinalities, not historical exactness totals.
+ECL_EXACT_CARRIERS = {
+    'build/matching/EclManager.obj': 18,
+    'build/matching/EclManager-apply-interpolation.obj': 1,
+    'build/matching/EclManager-install-interpolation-slot.obj': 1,
+    'build/matching/EclManager-call-subroutine.obj': 1,
+    'build/matching/EclManager-compare-operands.obj': 1,
+    'build/matching/EclManagerFloat3.obj': 1,
+    'build/matching/EclManagerType6Initialize.obj': 1,
+}
+TITLE_EXACT_CARRIERS = {
+    'build/matching/TitleScreen.obj': 37,
+    'build/matching/TitleScoreRecord.obj': 1,
+}
+
+
+def exact_source_carriers(source: str, expected: dict[str, int],
+                          units: dict | None = None) -> dict[str, list[str]]:
+    """Check the *full* exact manifest inventory and its compiler-carrier split.
+
+    Nonexact owners must not be counted as exact siblings. Every returned
+    member still needs its independent original-bound canonical replay; the
+    manifest discovery by itself never grants matching credit.
+    """
+    if units is None:
+        with (ROOT / 'config/match-units.toml').open('rb') as stream:
+            units = tomllib.load(stream)['units']
+    groups: dict[str, list[str]] = {}
+    profiles: dict[str, tuple[str, ...]] = {}
+    seen_functions: set[str] = set()
+    for name, spec in units.items():
+        if spec.get('source') != source:
+            continue
+        obj = spec.get('object')
+        flags = spec.get('profile')
+        funcs = spec.get('functions')
+        if (not isinstance(obj, str) or not obj.startswith('build/matching/') or
+                not isinstance(flags, list) or not flags or
+                not all(isinstance(flag, str) for flag in flags) or
+                not isinstance(funcs, list) or not funcs or
+                any(not isinstance(func, str) or not func or
+                    func in seen_functions for func in funcs)):
+            raise RuntimeError(f'non-canonical exact carrier metadata: {name}')
+        seen_functions.update(funcs)
+        profile = tuple(flags)
+        if obj in profiles and profile != profiles[obj]:
+            raise RuntimeError(f'mixed compiler profiles in exact carrier: {obj}')
+        profiles[obj] = profile
+        groups.setdefault(obj, []).append(name)
+    observed = {obj: len(group) for obj, group in groups.items()}
+    if observed != expected:
+        raise RuntimeError(f'exact sibling carrier inventory drifted for {source}: '
+                           f'{observed!r} != {expected!r}')
+    return groups
+
+
+def cold_replay_exact_source(source: str, expected: dict[str, int],
+                             *, already_built: tuple[str, ...] = ()) -> list[dict]:
+    """Rebuild every physical carrier once, verify *every* exact original unit."""
+    groups = exact_source_carriers(source, expected)
+    if any(obj not in groups for obj in already_built):
+        raise RuntimeError('prebuilt exact carrier not in the validated inventory')
+    replays = []
+    for obj, names in groups.items():
+        if obj not in already_built:
+            build(names[0])
+        for name in names:
+            replays.append(canonical(name))
+    return replays
+
+
 def build_nonexact(source: str, obj: str, *, reference_unit: str) -> None:
     """Cold compile a non-exact TU using a proven sibling's pinned VC7.1 profile.
 
@@ -210,7 +285,10 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
     build('ecl-pop-context')
     object_file = 'build/matching/EclManager.obj'
     diagnostics: dict[str, dict] = {}
-    exact_units = [canonical('ecl-pop-context')] if protect_exact else []
+    exact_units = (cold_replay_exact_source(
+        'src/EclManager.cpp', ECL_EXACT_CARRIERS,
+        already_built=('build/matching/EclManager.obj',))
+        if protect_exact else [])
     if include_interpreter:
         with tempfile.TemporaryDirectory(prefix='th09-runecl-') as directory:
             destination = str(Path(directory) / 'complete.json')
@@ -249,9 +327,8 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
                 'different_bytes': result['complete_differences_if_same_extent'],
                 'direct_graphs_agree': result['complete_direct_graphs_agree'],
             }
-        if protect_exact:
-            build('exattack-type21-update')
-            exact_units.append(canonical('exattack-type21-update'))
+        # The Type21 update is one of the 24 separately replayed exact ECL
+        # siblings above; do not rebuild/double-count its shared carrier.
     return diagnostics, exact_units
 
 
@@ -1821,19 +1898,21 @@ def run_title_open() -> dict:
 
 
 def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
-    # TitleSetup is compiled from the large TitleScreen TU, whereas both
-    # MusicRoom owners share the separate TitleScreenMusicRoom TU.
+    # TitleSetup plus 36 other original-byte exact owners use TitleScreen.obj
+    # under the same pinned /O1 profile. ScoreRecord::InsertIntoTable uses an
+    # independent /O2 carrier despite sharing TitleScreen.cpp source. Both
+    # must be cold-replayed before claiming the open Title bosses stayed safe.
     exact_units: list[dict] = []
     if protect_exact:
-        build('title-screen-setup-thread')
-        exact_units.append(canonical('title-screen-setup-thread'))
+        exact_units = cold_replay_exact_source(
+            'src/TitleScreen.cpp', TITLE_EXACT_CARRIERS)
         build('title-screen-music-room')
         exact_units.extend((canonical('title-screen-music-room'),
                             canonical('title-screen-draw-music-room')))
         build('title-draw-callback')
         exact_units.append(canonical('title-draw-callback'))
-    # Existing matches stay independent: none of these receipts establishes
-    # the still-unresolved TitleScreen DrawResult/Options/ReplaySave owners.
+    # These receipts do not establish exactness for the separately diagnosed
+    # DrawResult, ReplayMenu, ReplaySave, or Options owners.
     return {}, exact_units
 
 

@@ -9,6 +9,7 @@
 struct EtamaController;
 struct BulletTypeSprites;
 struct Bullet;
+struct EffectManager;
 
 struct BulletTransformRawPayload
 {
@@ -269,10 +270,14 @@ struct BulletSideStateView
 {
     void *unknown00;
     BulletPlayerView *player;
-    unsigned char unknown08[0x2C];
+    unsigned char unknown08[0x04];
+    EffectManager *effectManager0C;
+    unsigned char unknown10[0x24];
     unsigned int flags;
 };
 
+typedef char BulletSideEffectManagerAt0C[
+    (offsetof(BulletSideStateView, effectManager0C) == 0x0C) ? 1 : -1];
 typedef char BulletSideStateSizeIs38[(sizeof(BulletSideStateView) == 0x38) ? 1 : -1];
 
 struct BulletAnmLoadedView

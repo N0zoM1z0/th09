@@ -1116,16 +1116,20 @@ class BossFrontierChecks(TestCase):
                     frontiers, 'parsed', return_value={**evidence, **incorrect}), self.assertRaises(RuntimeError):
                 frontiers.run_received_frames(protect_exact=False)
 
-    def test_title_protects_four_independent_exact_units(self):
+    def test_title_protects_all_screen_and_music_exact_units(self):
         checked = []
         with patch.object(frontiers, 'build') as build, patch.object(
                 frontiers, 'canonical', side_effect=lambda unit: checked.append(unit) or {'unit': unit}):
             owners, exact = frontiers.run_title(protect_exact=True)
         self.assertEqual(owners, {})
-        self.assertEqual([row['unit'] for row in exact],
-                         ['title-screen-setup-thread', 'title-screen-music-room',
+        self.assertEqual(len(exact), 41)
+        self.assertEqual(len(set(checked)), 41)
+        self.assertIn('title-screen-setup-thread', checked)
+        self.assertIn('score-record-insert', checked)
+        self.assertEqual([row['unit'] for row in exact][-3:],
+                         ['title-screen-music-room',
                           'title-screen-draw-music-room', 'title-draw-callback'])
-        self.assertEqual(build.call_count, 3)
+        self.assertEqual(build.call_count, 4)
         self.assertEqual(checked, [row['unit'] for row in exact])
 
     def test_target_independent_title_probe_does_not_invent_receipts(self):

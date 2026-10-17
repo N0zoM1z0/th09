@@ -17,14 +17,6 @@ typedef char EtamaDrawPointerAddressIsI386[
 extern void __fastcall fsincos(float *sine, float *cosine, float angle);
 extern float __stdcall AddNormalizeAngle(float angle, float delta);
 
-struct BulletDrawSideStateView
-{
-    unsigned char unknown00[0x0C];
-    EffectManager *effectManager0C;
-};
-typedef char EtamaDrawSideEffectManagerAt0C[
-    (offsetof(BulletDrawSideStateView, effectManager0C) == 0x0C) ? 1 : -1];
-
 static int DrawSingleBullet(Bullet *bullet)
 {
     AnmVm *vm;
@@ -145,8 +137,7 @@ int EtamaController::OnDraw(EtamaController *controller)
         }
     }
 
-    reinterpret_cast<BulletDrawSideStateView *>(controller->sideState)
-        ->effectManager0C->DrawBulletLayerEffects();
+    controller->sideState->effectManager0C->DrawBulletLayerEffects();
     return 1;
 }
 

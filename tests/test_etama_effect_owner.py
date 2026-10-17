@@ -34,10 +34,14 @@ class EtamaSharedEffectOwner(TestCase):
         self.assertIn('int EffectManager::DrawBulletLayerEffects()', leaf)
         self.assertIn('EffectManager *manager = this;', leaf)
         self.assertIn('manager->drawSentinel1.nextInDrawGroup', leaf)
+        side = (ROOT / 'src/BulletManager.hpp').read_text()
         self.assertIn('#include "EffectManager.hpp"', boss)
-        self.assertIn('EffectManager *effectManager0C;', boss)
-        self.assertIn('EtamaDrawSideEffectManagerAt0C', boss)
-        self.assertIn('->effectManager0C->DrawBulletLayerEffects();', boss)
+        self.assertIn('struct EffectManager;', side)
+        self.assertIn('EffectManager *effectManager0C;', side)
+        self.assertIn('BulletSideEffectManagerAt0C', side)
+        self.assertIn('BulletSideStateSizeIs38', side)
+        self.assertIn('controller->sideState->effectManager0C->DrawBulletLayerEffects();', boss)
+        self.assertNotIn('BulletDrawSideStateView', boss)
         self.assertNotIn('BulletDrawEffectManagerView', leaf + boss)
 
     def test_exact_leaf_and_large_nonexact_call_resolve_to_same_original_va(self):
@@ -83,6 +87,11 @@ class EtamaSharedEffectOwner(TestCase):
             'bullet-draw-single': {0x17: 0x00413BC8, 0xD8: 0x00413B0B,
                                    0xDC: 0x00413B13, 0xE0: 0x00413B1B,
                                    0xE4: 0x00413B23},
+            'etama-controller-update': {
+                0xD0: 0x00414F84, 0x894: 0x004148A0,
+                0x898: 0x004147C4, 0x89C: 0x004147FA,
+                0x8A0: 0x00414830, 0x8A4: 0x00414C64,
+            },
             'etama-controller-added-callback': {
                 0x17F: 0x004140A4, 0x186: 0x00414098,
                 0x1EB: 0x0041411C, 0x1F2: 0x00414110,
