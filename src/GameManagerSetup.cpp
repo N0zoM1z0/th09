@@ -812,16 +812,13 @@ void GameManagerSetupLayout::CleanupGameplayState()
             break;
         }
 
-        // The final limit agrees with the target, but the ORIGINAL compiled
-        // normal-mode path stores the calculated value at +0xB4 BEFORE its
-        // lower-bound comparison, then may store 1 a second time. VC7.1
-        // currently coalesces this local preclamp to one memory store:
-        // CleanupGameplayState is still nonexact, including store chronology.
-        // Do not confuse equal final arithmetic with original codegen.
-        int finalLimit = newLimit - 2 * stageValue;
-        if (finalLimit < 1)
-            finalLimit = 1;
-        g_GameManager.limitB4 = finalLimit;
+        // Match the independently observed original write chronology:
+        // publish the calculated limit before checking the lower bound.
+        // A value below one causes a second publication of one.
+        newLimit -= 2 * stageValue;
+        g_GameManager.limitB4 = newLimit;
+        if (newLimit < 1)
+            g_GameManager.limitB4 = 1;
     }
 
     g_GameManager.valueB0 = 0;

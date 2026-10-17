@@ -66,6 +66,18 @@ class CleanupOriginalIdentityTests(unittest.TestCase):
         self.assertEqual(struct.unpack_from('<I',bound,2)[0],0x4A7E90)
         self.assertEqual(actual[0][-1],0x4A7E90)
 
+    def test_real_second_preclamp_publication_is_representable_in_coff(self):
+        rows = self.rows()
+        rows.append(dict(rows[0], offset=407))
+        linked, bound = mod.link_coff(bytes(411), rows)
+        self.assertEqual(len(bound), 42)
+        self.assertEqual(bound[-1][0], 407)
+        self.assertEqual(struct.unpack_from('<I',linked,407)[0], 0x4A7D90)
+        with self.assertRaisesRegex(ValueError, 'overlap'):
+            mod.link_coff(bytes(411), rows + [dict(rows[-1], offset=407)])
+        with self.assertRaisesRegex(ValueError, 'overlap'):
+            mod.link_coff(bytes(411), rows[:-1] + [dict(rows[-1], offset=402)])
+
     def test_missing_wrong_kind_unknown_referent_and_overlap_fail_closed(self):
         rows=self.rows()
         cases=[rows[:-1],rows+[rows[-1]],

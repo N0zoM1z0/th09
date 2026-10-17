@@ -87,9 +87,10 @@ ORIGINAL_LIMIT_TRACE={
 def cleanup_limit_trace(instructions):
     """Decode the REAL global reads/writes, not C++ comments or field counts.
 
-    Target +0x179 publishes the unclamped limit BEFORE +0x17E JGE. The
-    subsequent +0x180 conditional store applies minimum one. Current source
-    only emits one normal-mode store and is therefore still nonexact.
+    Target +0x179 publishes the unclamped limit BEFORE +0x17E JGE, and
+    +0x180 conditionally publishes one. The maintained source now preserves
+    that pair of observable writes, but its register and field schedule
+    remains nonexact at the complete 425-byte owner.
     """
     import capstone
     reads, writes, branches=[], [], []
@@ -135,8 +136,8 @@ def original_attest(target: bytes):
 
 
 def link_coff(raw: bytes, rows: list[dict]):
-    if not 360<=len(raw)<=470 or len(rows)!=41:
-        raise ValueError('Cleanup candidate has unreviewed length or 41-field inventory')
+    if not 360<=len(raw)<=470 or len(rows) not in (41, 42, 43):
+        raise ValueError('Cleanup candidate has unreviewed length or 41/42/43-field inventory')
     bound=bytearray(raw);actual=[];prev=0
     for row in rows:
         offset=row['offset'];kind=row['type'];symbol=row['symbol'];addend=row['addend']

@@ -966,15 +966,15 @@ def run_game_manager(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     cleanup = noncrediting(parsed(['scripts/inspect-game-manager-cleanup.py',
                                    'build/matching/GameManagerSetup.obj']),
                            name='GameManager gameplay cleanup',
-                           target_size=425, fields=41)
-    if (cleanup.get('candidate_bytes') != 406 or
+                           target_size=425, fields=42)
+    if (cleanup.get('candidate_bytes') != 410 or
             cleanup.get('target_instructions') != 117 or
-            cleanup.get('candidate_instructions') != 114 or
+            cleanup.get('candidate_instructions') != 115 or
             cleanup.get('original_fields') != 43 or
             cleanup.get('ordered_calls') != 12 or
             not cleanup.get('ordered_calls_agree') or
             cleanup.get('original_blocks') != 24 or
-            cleanup.get('candidate_blocks') != 25 or
+            cleanup.get('candidate_blocks') != 24 or
             cleanup.get('mode2_lower_bound_branch_present') is not True or
             cleanup.get('original_limit_double_store') is not True or
             cleanup.get('original_limit_publication') != {
@@ -982,19 +982,20 @@ def run_game_manager(*, protect_exact: bool) -> tuple[dict, list[dict]]:
                 'all_writes': [0x0A2, 0x179, 0x180],
                 'normal_clamp_branch': [0x17E],
             } or
-            not isinstance(cleanup.get('candidate_limit_publication'), dict) or
-            set(cleanup['candidate_limit_publication']) !=
-                    {'default_reads', 'all_writes', 'normal_clamp_branch'} or
-            any(not isinstance(cleanup['candidate_limit_publication'][key], list) or
-                any(type(x) is not int or not 0 <= x < cleanup['candidate_bytes']
-                    for x in cleanup['candidate_limit_publication'][key])
-                for key in ('default_reads', 'all_writes', 'normal_clamp_branch')) or
-            cleanup.get('aligned_field_identities') != 40 or
+            # Source-cold actual decoded MOVs confirm the two normal-mode
+            # publications, with the signed JGE physically between them.
+            # This is MORE than a final-value formula or a guessed C++ scope.
+            cleanup.get('candidate_limit_publication') != {
+                'default_reads': [0xC8],
+                'all_writes': [0xA2, 0x16A, 0x171],
+                'normal_clamp_branch': [0x16F],
+            } or
+            cleanup.get('aligned_field_identities') != 41 or
             cleanup.get('field_change_spans') != 3 or
-            cleanup.get('aligned_instructions') < 104 or
-            cleanup.get('overlap_differences') > 209 or
+            cleanup.get('aligned_instructions') < 95 or
+            cleanup.get('overlap_differences') > 210 or
             cleanup.get('direct_graphs_agree')):
-        raise RuntimeError('CleanupGameplayState mode-2 clamp / 406-byte original-bound frontier regressed')
+        raise RuntimeError('CleanupGameplayState original two limit writes / 410-byte source frontier regressed')
     diagnostics['game_manager_cleanup'] = {
         'target_bytes': 425,
         'candidate_bytes': cleanup['candidate_bytes'],

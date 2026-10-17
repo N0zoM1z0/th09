@@ -100,11 +100,11 @@ class GameManagerColdRegression(unittest.TestCase):
     @staticmethod
     def cleanup_evidence():
         return {'diagnostic_only': True, 'exactness_credit': 'none',
-                'target_bytes':425, 'candidate_bytes':406,
-                'target_instructions':117, 'candidate_instructions':114,
-                'original_fields':43, 'bound_fields':41,
+                'target_bytes':425, 'candidate_bytes':410,
+                'target_instructions':117, 'candidate_instructions':115,
+                'original_fields':43, 'bound_fields':42,
                 'ordered_calls':12, 'ordered_calls_agree':True,
-                'original_blocks':24, 'candidate_blocks':25,
+                'original_blocks':24, 'candidate_blocks':24,
                 'mode2_lower_bound_branch_present':True,
                 'original_limit_double_store':True,
                 'original_limit_publication':{
@@ -116,11 +116,11 @@ class GameManagerColdRegression(unittest.TestCase):
                 # without needing to re-pin this baseline offset tuple.
                 'candidate_limit_publication':{
                     'default_reads':[0xC8],
-                    'all_writes':[0xA2,0x16D],
-                    'normal_clamp_branch':[0x168],
+                    'all_writes':[0xA2,0x16A,0x171],
+                    'normal_clamp_branch':[0x16F],
                 },
-                'aligned_field_identities':40, 'field_change_spans':3,
-                'aligned_instructions':104, 'overlap_differences':209,
+                'aligned_field_identities':41, 'field_change_spans':3,
+                'aligned_instructions':95, 'overlap_differences':210,
                 'direct_graphs_agree':False}
 
     def test_all_ten_original_bound_functions_replayed_with_two_builds(self):
@@ -129,7 +129,7 @@ class GameManagerColdRegression(unittest.TestCase):
                 boss, 'canonical', side_effect=lambda unit: {'unit':unit}) as canonical:
             owners, exact = boss.run_game_manager(protect_exact=True)
         self.assertEqual(owners['gameplay_setup_thread']['bound_fields'],171)
-        self.assertEqual(owners['game_manager_cleanup']['candidate_bytes'],406)
+        self.assertEqual(owners['game_manager_cleanup']['candidate_bytes'],410)
         self.assertFalse(owners['gameplay_setup_thread']['direct_graphs_agree'])
         self.assertEqual(len(exact),10)
         self.assertEqual(exact[0]['unit'],'game-manager-on-update')
@@ -165,12 +165,12 @@ class GameManagerColdRegression(unittest.TestCase):
                 boss.run_game_manager(protect_exact=False)
 
     def test_cleanup_source_changed_or_fake_original_fields_fail_closed(self):
-        for change in ({'candidate_bytes':399}, {'candidate_bytes':425},
+        for change in ({'candidate_bytes':399}, {'candidate_bytes':406}, {'candidate_bytes':425},
                        {'target_bytes':424}, {'target_instructions':116},
-                       {'candidate_instructions':113}, {'original_fields':42},
-                       {'bound_fields':40}, {'ordered_calls':11},
+                       {'candidate_instructions':113}, {'candidate_instructions':114}, {'original_fields':42},
+                       {'bound_fields':40}, {'bound_fields':41}, {'ordered_calls':11},
                        {'ordered_calls_agree':False}, {'original_blocks':25},
-                       {'candidate_blocks':24}, {'mode2_lower_bound_branch_present':False},
+                       {'candidate_blocks':25}, {'mode2_lower_bound_branch_present':False},
                        {'original_limit_double_store':False},
                        {'original_limit_publication':{'default_reads':[0x169],
                             'all_writes':[0x0A2,0x180,0x179],
@@ -178,10 +178,19 @@ class GameManagerColdRegression(unittest.TestCase):
                        {'candidate_limit_publication':None},
                        {'candidate_limit_publication':{}},
                        {'candidate_limit_publication':{'default_reads':['0xc8'],
-                            'all_writes':[0xA2,0x16D],
-                            'normal_clamp_branch':[0x168]}},
-                       {'aligned_field_identities':39}, {'field_change_spans':4},
-                       {'aligned_instructions':100}, {'overlap_differences':225},
+                            'all_writes':[0xA2,0x16A,0x171],
+                            'normal_clamp_branch':[0x16F]}},
+                       {'candidate_limit_publication':{'default_reads':[0xC8],
+                            'all_writes':[0xA2,0x16A,0x171],
+                            'normal_clamp_branch':[0x16A]}},
+                       {'candidate_limit_publication':{'default_reads':[0xC8],
+                            'all_writes':[0xA2,0x171],
+                            'normal_clamp_branch':[0x16F]}},
+                       {'candidate_limit_publication':{'default_reads':[0xC8],
+                            'all_writes':[0xA2,0x171,0x16A],
+                            'normal_clamp_branch':[0x16F]}},
+                       {'aligned_field_identities':40}, {'field_change_spans':4},
+                       {'aligned_instructions':94}, {'overlap_differences':225},
                        {'direct_graphs_agree':True}, {'exactness_credit':'accepted'}):
             with self.subTest(change=change), patch.object(boss,'build'), patch.object(
                     boss,'canonical',return_value={'unit':'game-manager-on-update'}), patch.object(
