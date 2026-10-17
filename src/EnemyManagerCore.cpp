@@ -1,5 +1,6 @@
 #include "AsciiManager.hpp"
 #include "EnemyManager.hpp"
+#include "BulletManager.hpp"
 #include "EnemyAppendCollisionView.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "Supervisor.hpp"
@@ -153,7 +154,6 @@ struct EnemyCoreTrailVertexView
 typedef char EnemyCoreTrailVertexSizeIs1C[
     (sizeof(EnemyCoreTrailVertexView) == 0x1C) ? 1 : -1];
 
-struct EnemyCoreEtamaControllerView;
 struct EnemyCorePlayerView;
 struct EnemyCoreView;
 
@@ -161,7 +161,7 @@ struct EnemyCoreSideStateView
 {
     unsigned char unknown00[0x04];
     EnemyCorePlayerView *player04;
-    EnemyCoreEtamaControllerView *etama08;
+    EtamaController *etama08;
     EffectManager *effectManager0C;
     EnemyManagerView *enemyManager10;
     unsigned char unknown14[0x0C];
@@ -243,12 +243,40 @@ struct EnemyCoreBulletSpawnDescriptorView
 };
 typedef char EnemyCoreBulletSpawnDescriptorSizeIs214[
     (sizeof(EnemyCoreBulletSpawnDescriptorView) == 0x214) ? 1 : -1];
+// The ECL/Enemy temporary is constructed by the original 0x0040D500
+// 0x214-byte descriptor constructor. The real Etama callee at 0x004130F0
+// consumes precisely the same physical fields as BulletSpawnDescriptor.
+// Preserve the private constructor symbol but bind the call to the actual
+// shared EtamaController method, never a duplicate receiver/prototype.
+typedef char EnemyCoreBulletDescriptorMatchesEtamaFields[
+    (sizeof(EnemyCoreBulletSpawnDescriptorView) == sizeof(BulletSpawnDescriptor) &&
+     offsetof(EnemyCoreBulletSpawnDescriptorView, bulletType00) ==
+         offsetof(BulletSpawnDescriptor, bulletType) &&
+     offsetof(EnemyCoreBulletSpawnDescriptorView, color02) ==
+         offsetof(BulletSpawnDescriptor, color) &&
+     offsetof(EnemyCoreBulletSpawnDescriptorView, position04) ==
+         offsetof(BulletSpawnDescriptor, position) &&
+     offsetof(EnemyCoreBulletSpawnDescriptorView, angle10) ==
+         offsetof(BulletSpawnDescriptor, angle) &&
+     offsetof(EnemyCoreBulletSpawnDescriptorView, angleStep14) ==
+         offsetof(BulletSpawnDescriptor, angleStep) &&
+     offsetof(EnemyCoreBulletSpawnDescriptorView, speed118) ==
+         offsetof(BulletSpawnDescriptor, speed1) &&
+     offsetof(EnemyCoreBulletSpawnDescriptorView, speed21C) ==
+         offsetof(BulletSpawnDescriptor, speed2) &&
+     offsetof(EnemyCoreBulletSpawnDescriptorView, count1_1F4) ==
+         offsetof(BulletSpawnDescriptor, count1) &&
+     offsetof(EnemyCoreBulletSpawnDescriptorView, count2_1F6) ==
+         offsetof(BulletSpawnDescriptor, count2) &&
+     offsetof(EnemyCoreBulletSpawnDescriptorView, aimMode1F8) ==
+         offsetof(BulletSpawnDescriptor, aimMode) &&
+     offsetof(EnemyCoreBulletSpawnDescriptorView, unknown1FA) ==
+         offsetof(BulletSpawnDescriptor, unknown1FA) &&
+     offsetof(EnemyCoreBulletSpawnDescriptorView, transformFlags1FC) ==
+         offsetof(BulletSpawnDescriptor, transformFlags) &&
+     offsetof(EnemyCoreBulletSpawnDescriptorView, templateSprites210) ==
+         offsetof(BulletSpawnDescriptor, templateSprites)) ? 1 : -1];
 
-struct EnemyCoreEtamaControllerView
-{
-    void *SpawnBulletPatternPrimary(
-        EnemyCoreBulletSpawnDescriptorView *descriptor);
-};
 
 struct EnemyCoreEffectView
 {
@@ -622,7 +650,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                     descriptor.unknown1FA = 0;
                     descriptor.transformFlags1FC = 4;
                     descriptor.color02 = 2;
-                    spawnSide->etama08->SpawnBulletPatternPrimary(&descriptor);
+                    spawnSide->etama08->SpawnBulletPatternPrimary(
+                        reinterpret_cast<BulletSpawnDescriptor *>(&descriptor));
                     enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
                     reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();
                     continue;

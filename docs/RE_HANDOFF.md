@@ -35,7 +35,7 @@
   nonexact-owner improvements adds canonical exact function credit.
 - **Cold regression scope:** the live full `--owner all` suite now verifies
   **30 open non-crediting boss/leaf original-bound functions plus one
-  separately canonical-exact 220-byte crypt selector diagnostic and 131
+  separately canonical-exact 220-byte crypt selector diagnostic and 133
   strict already-exact sibling comparisons**, all passing at the current
   checkpoint. The new, separately SHA-bound **959-byte ExAttack Type14/22
   Draw** original owner is checked on every `--owner exattack` and full replay;
@@ -61,7 +61,7 @@
   original physical bytes remain exact. VC7.1's source-label numbering changed
   across Etama/ECL carrier functions; the refreshed exact manifests were
   checked against original label destinations before a full replay. The live
-  full `--owner all` now cold-checks **31 owner diagnostics** and **131
+  full `--owner all` now cold-checks **31 owner diagnostics** and **133
   independently exact sibling comparisons**, including every exact match in
   the 24-unit ECL and 38-unit TitleScreen source families, plus the separate
   MusicRoom and DrawCallback checks. These are noncrediting regressions, not
@@ -79,6 +79,22 @@
   replay protects **all four already exact ANM sibling functions**, with
   a new four-offset fail-closed frontier; exactness of the big owner remains
   unclaimed.
+- **Enemy large-owner genuine Etama dispatch (October 17):** The
+  **3,900-byte** `EnemyManager::OnUpdate @0x00410730` now calls the
+  separately original-exact **203-byte** `EtamaController::SpawnBulletPatternPrimary`
+  through the *real* `EtamaController` and `BulletSpawnDescriptor` interface,
+  removing `EnemyCoreEtamaControllerView`'s speculative callback type.
+  The source retains the independently exact **28-byte** descriptor-constructor
+  call and target-checked **0x214-byte layout**, with C++ offset assertions
+  for the consumed physical fields. The source-cold whole-owner audit remains
+  **3900/3900, 97 bound fields, 69 calls, 170 matching direct blocks and
+  29 ordinary unlike bytes**, and its exact same-TU owners are unchanged.
+  `--owner enemy` now adds both genuine callee cold replays to the five
+  already-exact protections, increasing the complete `--owner all` sibling
+  comparison scope from **131 to 133**. The current fresh-cold `--owner all`
+  sweep passes **31 physical owner reports and 133/133 original-bound exact
+  siblings**; `scripts/ci.py` passes **448 tests, 28 skipped** plus target,
+  tracking, docs and progress gates. No new exact credit is claimed.
 - **Phase:** original exact-reconstruction only. The 95% reviewed-authored
   byte milestone is open; whole Windows i386 build/link/resources/runtime,
   dual-Oracle semantic reconstruction and portability are still open.
@@ -159,7 +175,7 @@ all 40 open functions. For the complete <=256-byte cohort see
 | --- | --- | --- | --- |
 | **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes; opcode 155: 23 bytes, 146/148 handler shapes. Opcode 4 now directly calls the separately exact real `ZunTimer::operator=(int) @0x00401500` on the proven 12-byte context timer, rather than fake second-class timer ABI; existing genuine `RngRuntimeView`/global `g_Rng` remains. **15,564 complete instruction/table bytes and 598 source-linked original fields are unchanged**, with all **24 same-carrier exact ECL/ExAttack functions** (10,607 physical bytes) protected. `--owner runecl`; exact credit remains open. |
 | **ExAttack Type19/21 init** | 0x0044A030 / 0x0044B220 | **763 / 727 physical**, 57 / 53 fields, **6 / 9** byte differences | Real `ExAttackAllocateRecordView` and `ExAttackRecordSideView` exact callees, shared original 0x38 record/side with `EffectManager +0x0C` and `effectAnm +0x2D4` now replace fake per-type receiver classes. Remaining preheader `vertex`/history instruction-order residuals remain NON-EXACT; `--owner exattack` protects exact Type21 update plus true allocator/side leaf. |
-| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **29** differing bytes | Genuine `Float3::operator/` plus real `AppendBoxRecord` compiler visibility closes the entire ten-byte `+0x845..+0x850` three-dword copy window. Remaining 2/11/16 bytes stay open; `--owner enemy` cold-protects all four same-TU exact helpers. |
+| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **29** differing bytes | Genuine `Float3::operator/` and actual `AppendBoxRecord` compiler visibility close the ten-byte `+0x845..+0x850` copy window. The special-attack dispatch now also invokes **real `EtamaController::SpawnBulletPatternPrimary @0x004130F0`** rather than a fake private receiver, with the actual 0x214-byte descriptor's target-backed field layout. Original-linked byte/field/call/graph identity and 29 differences are unchanged. `--owner enemy` now cold-protects **five existing Enemy/Float3/collision/Draw exact siblings plus the separately exact 203-byte Etama callee and 28-byte descriptor constructor** (seven total). |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor ESI still open. The final original call is now typed as `EffectManager::DrawBulletLayerEffects` with its separately **169/169 exact** real-member source at `0x0040D110` and side owner at `+0x0C`; all original linked bytes remain unchanged. Complete SHA/offset guard preserves the 332 equal bytes; `--owner etama` protects exact OnUpdate. |
 | **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 calls; 10-way switch; **1,453** overlapping differences + 44 missing | First seven-VM cursor improvement committed in `7f1d56e`; remaining branch/VM scheduling. `--owner pause` independently checks 11 already-exact Ascii/ANM functions and real original table/ABI. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Now uses genuine shared `g_Supervisor.framerateMultiplier5B8 @0x004B36B8` and the four **real `GameManagerResetView::coordinate360/364/368/36C` fields** (original `0x004A80F0..FC`), not fake external playfield globals. The independent **79-byte exact GameManager coordinate initializer** physically writes those fields; 1,900-byte linked movement boss and 66 operand identities stay unchanged, with 129 ordinary differences still open. All 129 genuine current original-bound mismatch offsets are now pinned, protecting the other **1,771** already matching bytes (including both switch tables and after-return alignment); future improvements must not introduce mismatches elsewhere. `--owner movement` protects exact 522-byte caller. |

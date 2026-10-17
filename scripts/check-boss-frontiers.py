@@ -1294,6 +1294,13 @@ def run_enemy(*, protect_exact: bool) -> tuple[dict, list[dict]]:
                       canonical('enemy-collision-append-box')))
         build('enemy-manager-draw-impl')
         exact.append(canonical('enemy-manager-draw-impl'))
+        # OnUpdate's real 0x214-byte bullet descriptor and actual Etama
+        # dispatch cross the Enemy TU. Cold-verify both independent original
+        # exact callees, not a private lookalike method ABI.
+        for dependency in ('bullet-spawn-descriptor-constructor',
+                           'bullet-pattern-primary'):
+            build(dependency)
+            exact.append(canonical(dependency))
     return {'enemy_manager_update': {
                 'target_bytes': 3900,
                 'candidate_bytes': main['candidate_bytes'],

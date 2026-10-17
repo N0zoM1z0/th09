@@ -63,7 +63,6 @@ unit_aliases={
  '??EEnemyCoreTimerView@@QAEXH@Z':'zun-timer-post-increment',
  '?HasTicked@EnemyCoreTimerView@@QAEHH@Z':'zun-timer-has-ticked-every',
  '??0EnemyCoreBulletSpawnDescriptorView@@QAE@XZ':'bullet-spawn-descriptor-constructor',
- '?SpawnBulletPatternPrimary@EnemyCoreEtamaControllerView@@QAEPAXPAUEnemyCoreBulletSpawnDescriptorView@@@Z':'bullet-pattern-primary',
  '??FEnemyCoreTimerView@@QAEXH@Z':'zun-timer-post-decrement',
  '?IsWithinPlayfield@EnemyCoreGameManagerPlayfieldView@@QAEHMMMM@Z':'game-manager-is-within-playfield',
  '?EnemyCoreRunLifeCallback@@YIHPAUEnemyCoreView@@@Z':'player-check-state2',

@@ -33,6 +33,38 @@ class EnemyUpdateBindingTests(TestCase):
         base.update(edits)
         return base
 
+    def test_actual_etama_dispatch_uses_existing_exact_214_byte_descriptor(self):
+        text = (SOURCE.parents[1] / 'src/EnemyManagerCore.cpp').read_text()
+        self.assertIn('#include "BulletManager.hpp"', text)
+        self.assertIn('EtamaController *etama08;', text)
+        self.assertIn('EnemyCoreBulletDescriptorMatchesEtamaFields', text)
+        self.assertIn('sizeof(EnemyCoreBulletSpawnDescriptorView) == sizeof(BulletSpawnDescriptor)', text)
+        self.assertIn('reinterpret_cast<BulletSpawnDescriptor *>(&descriptor)', text)
+        self.assertNotIn('EnemyCoreEtamaControllerView', text)
+        unit_name = 'bullet-pattern-primary'
+        units, functions, registry = inspector.reference_index()
+        method = units[unit_name]['symbol']
+        self.assertEqual(method,
+            '?SpawnBulletPatternPrimary@EtamaController@@QAEPAUBullet@@PAUBulletSpawnDescriptor@@@Z')
+        self.assertEqual(units[unit_name]['target_address'], 0x004130F0)
+        self.assertEqual(units[unit_name]['size'], 203)
+        self.assertEqual(units['bullet-spawn-descriptor-constructor']['target_address'],
+                         0x0040D500)
+        self.assertEqual(units['bullet-spawn-descriptor-constructor']['size'], 28)
+        target, provenance = inspector.external_destination(
+            self.row(symbol=method), units, functions, registry)
+        self.assertEqual(target, 0x004130F0)
+        self.assertIn('canonical exact unit identity', provenance)
+        # Synthetic receiver ABI is not backed by a physical C++ owner. It
+        # may not continue to pass via a legacy fake-symbol alias.
+        self.assertNotIn(
+            '?SpawnBulletPatternPrimary@EnemyCoreEtamaControllerView@@QAEPAXPAUEnemyCoreBulletSpawnDescriptorView@@@Z',
+            inspector.unit_aliases)
+        with self.assertRaisesRegex(ValueError, 'absent or ambiguous'):
+            inspector.external_destination(
+                self.row(symbol='?SpawnBulletPatternPrimary@EnemyCoreEtamaControllerView@@QAEPAXPAUEnemyCoreBulletSpawnDescriptorView@@@Z'),
+                units, functions, registry)
+
     def test_owner_local_label_uses_actual_coff_position(self):
         row = self.row(symbol='$Lowner', symbol_section=1,
                        symbol_value=0x240, owner_value=0x30, type='DIR32')

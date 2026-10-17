@@ -293,8 +293,10 @@ class BossFrontierChecks(TestCase):
         self.assertEqual([x['unit'] for x in exact],
                          ['enemy-attached-effect-update', 'float3-divide',
                           'player-collision-append-box', 'enemy-collision-append-box',
-                          'enemy-manager-draw-impl'])
-        self.assertEqual(build.call_count, 2)
+                          'enemy-manager-draw-impl',
+                          'bullet-spawn-descriptor-constructor',
+                          'bullet-pattern-primary'])
+        self.assertEqual(build.call_count, 4)
         compile_leaf.assert_not_called()
 
     def test_enemy_boss_input_rejects_false_original_call_identity(self):
