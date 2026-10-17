@@ -76,6 +76,50 @@ def physical_fields(instructions):
     return items,calls
 
 
+LIMIT_GLOBAL=0x004A7E44  # original g_GameManager.limitB4, true +0xB4 field
+ORIGINAL_LIMIT_TRACE={
+    'default_reads': [0x169],
+    'all_writes': [0x0A2, 0x179, 0x180],
+    'normal_clamp_branch': [0x17E],
+}
+
+
+def cleanup_limit_trace(instructions):
+    """Decode the REAL global reads/writes, not C++ comments or field counts.
+
+    Target +0x179 publishes the unclamped limit BEFORE +0x17E JGE. The
+    subsequent +0x180 conditional store applies minimum one. Current source
+    only emits one normal-mode store and is therefore still nonexact.
+    """
+    import capstone
+    reads, writes, branches=[], [], []
+    for ins in instructions:
+        offset=ins.address-BASE
+        if ins.mnemonic=='mov' and len(ins.operands)==2:
+            dst,src=ins.operands
+            if (dst.type==capstone.x86.X86_OP_MEM and
+                    dst.mem.base==0 and dst.mem.index==0 and
+                    dst.mem.disp==LIMIT_GLOBAL):
+                writes.append(offset)
+            if (src.type==capstone.x86.X86_OP_MEM and
+                    src.mem.base==0 and src.mem.index==0 and
+                    src.mem.disp==LIMIT_GLOBAL):
+                reads.append(offset)
+        if ins.mnemonic=='jge' and 0x150<=offset<0x190:
+            branches.append(offset)
+    return {'default_reads':reads,'all_writes':writes,
+            'normal_clamp_branch':branches}
+
+
+def validate_original_limit_trace(trace):
+    """Fail closed on this separately confirmed original store chronology."""
+    if (not isinstance(trace,dict) or trace!=ORIGINAL_LIMIT_TRACE or
+            not (trace['all_writes'][1] < trace['normal_clamp_branch'][0] <
+                 trace['all_writes'][2])):
+        raise ValueError('Cleanup original initial limit publication / clamp order differs')
+    return trace
+
+
 def original_attest(target: bytes):
     if len(target)!=SIZE or hashlib.sha256(target).hexdigest()!=TARGET_SHA:
         raise ValueError('Cleanup original 425-byte function SHA256/extent changed')
@@ -132,6 +176,7 @@ def diagnose(path: Path):
     coff=importlib.util.module_from_spec(sp);sp.loader.exec_module(coff)
     target=coff.pe_bytes_at(coff.verified_target(),BASE,SIZE)
     ti,tf,tc=original_attest(target)
+    limit_target_trace=validate_original_limit_trace(cleanup_limit_trace(ti))
     raw,rr=coff.object_function(path,SYMBOL)
     linked,expected_fields=link_coff(raw,rr)
     ci=complete_decode(linked)
@@ -165,7 +210,13 @@ def diagnose(path: Path):
         'overlap_differences':sum(a!=b for a,b in zip(linked,target)),
         'missing_target_bytes':max(0,len(target)-len(linked)),
         'extra_candidate_bytes':max(0,len(linked)-len(target)),
+        # Original source schedule is two physical writes, not the current
+        # source's preclamp/one-write assertion. Source chronology is reported
+        # for diagnosis only; this is not an exactness certificate.
+        'original_limit_publication':limit_target_trace,
+        'candidate_limit_publication':cleanup_limit_trace(ci),
         'mode2_lower_bound_branch_present':has_mode2_clamp,
+        'original_limit_double_store':True,
         'complete_bytes_equal':linked==target,
         'target_sha256':TARGET_SHA,
         'source_raw_sha256':hashlib.sha256(raw).hexdigest(),

@@ -325,6 +325,26 @@ class BossFrontierChecks(TestCase):
             with self.subTest(change=change), self.assertRaises(RuntimeError):
                 frontiers.guard_enemy_collision({**leaf, **change})
 
+    def test_enemy_preserves_matched_bytes_even_inside_known_bad_register_spans(self):
+        baseline, _ = self.enemy_evidence()
+        self.assertEqual(len(frontiers.ENEMY_UPDATE_ORIGINAL_RESIDUAL_OFFSETS), 29)
+        self.assertEqual({int(s, 16) for s in baseline['difference_offsets']},
+                         frontiers.ENEMY_UPDATE_ORIGINAL_RESIDUAL_OFFSETS)
+        # The previous three broad windows allow each poisoned offset, even
+        # though they were matching code bytes in the verified original.
+        for known, introduced in ((0x19C, 0x19D), (0x1A3, 0x1A4),
+                                  (0x252, 0x253), (0x294, 0x295),
+                                  (0x9C0, 0x9C1), (0xA7E, 0xA7D)):
+            self.assertNotIn(introduced,
+                             frontiers.ENEMY_UPDATE_ORIGINAL_RESIDUAL_OFFSETS)
+            relocated = sorted(
+                [int(x, 16) for x in baseline['difference_offsets']
+                 if int(x, 16) != known] + [introduced])
+            with self.subTest(introduced=hex(introduced)), self.assertRaisesRegex(
+                    RuntimeError, 'already matched original physical byte'):
+                frontiers.guard_enemy_update({**baseline,
+                    'difference_offsets': [hex(x) for x in relocated]})
+
     def test_enemy_valid_future_improvements_still_grant_no_exact_credit(self):
         main, leaf = self.enemy_evidence()
         improved = {**main, 'difference_offsets': main['difference_offsets'][1:],
@@ -405,6 +425,22 @@ class BossFrontierChecks(TestCase):
                     'candidate_z_order': {**baseline['candidate_z_order'],
                                           field: replacement}})
 
+
+    def test_type3_exact_residual_set_rejects_equal_count_new_bad_bytes(self):
+        baseline = self.type3_update_evidence()
+        self.assertEqual(len(frontiers.TYPE3_UPDATE_ORIGINAL_RESIDUAL_OFFSETS), 15)
+        self.assertEqual({int(s, 16) for s in baseline['difference_offsets']},
+                         frontiers.TYPE3_UPDATE_ORIGINAL_RESIDUAL_OFFSETS)
+        # Every poisoned position lies WITHIN the previously allowed 18-byte
+        # window; the real original PE/COFF proves these three bytes matched.
+        for old, bad in ((0x196, 0x19A), (0x19D, 0x19B), (0x1A7, 0x1A1)):
+            self.assertNotIn(bad, frontiers.TYPE3_UPDATE_ORIGINAL_RESIDUAL_OFFSETS)
+            offsets = sorted((set(frontiers.TYPE3_UPDATE_ORIGINAL_RESIDUAL_OFFSETS)
+                              - {old}) | {bad})
+            with self.subTest(bad=hex(bad)), self.assertRaisesRegex(
+                    RuntimeError, 'already matched original byte'):
+                frontiers.guard_exattack_type3_update({**baseline,
+                    'difference_offsets': [hex(x) for x in offsets]})
 
     def test_type3_valid_narrowing_never_credits_exact(self):
         baseline = self.type3_update_evidence()

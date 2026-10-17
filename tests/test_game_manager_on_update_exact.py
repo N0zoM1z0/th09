@@ -106,6 +106,19 @@ class GameManagerColdRegression(unittest.TestCase):
                 'ordered_calls':12, 'ordered_calls_agree':True,
                 'original_blocks':24, 'candidate_blocks':25,
                 'mode2_lower_bound_branch_present':True,
+                'original_limit_double_store':True,
+                'original_limit_publication':{
+                    'default_reads':[0x169],
+                    'all_writes':[0x0A2,0x179,0x180],
+                    'normal_clamp_branch':[0x17E],
+                },
+                # Genuine cold-source chronology is distinct; it may improve
+                # without needing to re-pin this baseline offset tuple.
+                'candidate_limit_publication':{
+                    'default_reads':[0xC8],
+                    'all_writes':[0xA2,0x16D],
+                    'normal_clamp_branch':[0x168],
+                },
                 'aligned_field_identities':40, 'field_change_spans':3,
                 'aligned_instructions':104, 'overlap_differences':209,
                 'direct_graphs_agree':False}
@@ -158,6 +171,15 @@ class GameManagerColdRegression(unittest.TestCase):
                        {'bound_fields':40}, {'ordered_calls':11},
                        {'ordered_calls_agree':False}, {'original_blocks':25},
                        {'candidate_blocks':24}, {'mode2_lower_bound_branch_present':False},
+                       {'original_limit_double_store':False},
+                       {'original_limit_publication':{'default_reads':[0x169],
+                            'all_writes':[0x0A2,0x180,0x179],
+                            'normal_clamp_branch':[0x17E]}},
+                       {'candidate_limit_publication':None},
+                       {'candidate_limit_publication':{}},
+                       {'candidate_limit_publication':{'default_reads':['0xc8'],
+                            'all_writes':[0xA2,0x16D],
+                            'normal_clamp_branch':[0x168]}},
                        {'aligned_field_identities':39}, {'field_change_spans':4},
                        {'aligned_instructions':100}, {'overlap_differences':225},
                        {'direct_graphs_agree':True}, {'exactness_credit':'accepted'}):

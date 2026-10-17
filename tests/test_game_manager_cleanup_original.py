@@ -36,6 +36,24 @@ class CleanupOriginalIdentityTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'SHA256'):
             mod.original_attest(bytes(424))
 
+    def test_original_limit_publication_order_is_not_a_final_value_assumption(self):
+        trace={'default_reads':[0x169], 'all_writes':[0x0A2,0x179,0x180],
+               'normal_clamp_branch':[0x17E]}
+        self.assertEqual(mod.validate_original_limit_trace(trace),trace)
+        # A single post-clamp store or a swap of the two memory publications
+        # is not the original, even if the eventual numeric result is equal.
+        for broken in (
+                {**trace,'all_writes':[0x0A2,0x180]},
+                {**trace,'all_writes':[0x0A2,0x180,0x179]},
+                {**trace,'all_writes':[0x0A2,0x179,0x181]},
+                {**trace,'normal_clamp_branch':[0x174]},
+                {**trace,'default_reads':[0x0C8]},
+                {**trace,'all_writes':[0x0A2,0x179,0x180,0x185]},
+        ):
+            with self.subTest(broken=broken),self.assertRaisesRegex(
+                    ValueError,'publication / clamp order'):
+                mod.validate_original_limit_trace(broken)
+
     def test_linked_candidate_uses_actual_symbol_addends(self):
         rows=self.rows()
         bound, actual=mod.link_coff(bytes(406),rows)

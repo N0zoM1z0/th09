@@ -812,9 +812,12 @@ void GameManagerSetupLayout::CleanupGameplayState()
             break;
         }
 
-        // Finish the lower-bound clamp before publishing the next stage limit.
-        // This is the same final value, and keeps the independent mode-2
-        // lower-bound branch visible to the original VC7.1 optimizer.
+        // The final limit agrees with the target, but the ORIGINAL compiled
+        // normal-mode path stores the calculated value at +0xB4 BEFORE its
+        // lower-bound comparison, then may store 1 a second time. VC7.1
+        // currently coalesces this local preclamp to one memory store:
+        // CleanupGameplayState is still nonexact, including store chronology.
+        // Do not confuse equal final arithmetic with original codegen.
         int finalLimit = newLimit - 2 * stageValue;
         if (finalLimit < 1)
             finalLimit = 1;

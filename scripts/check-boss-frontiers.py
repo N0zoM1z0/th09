@@ -955,6 +955,19 @@ def run_game_manager(*, protect_exact: bool) -> tuple[dict, list[dict]]:
             cleanup.get('original_blocks') != 24 or
             cleanup.get('candidate_blocks') != 25 or
             cleanup.get('mode2_lower_bound_branch_present') is not True or
+            cleanup.get('original_limit_double_store') is not True or
+            cleanup.get('original_limit_publication') != {
+                'default_reads': [0x169],
+                'all_writes': [0x0A2, 0x179, 0x180],
+                'normal_clamp_branch': [0x17E],
+            } or
+            not isinstance(cleanup.get('candidate_limit_publication'), dict) or
+            set(cleanup['candidate_limit_publication']) !=
+                    {'default_reads', 'all_writes', 'normal_clamp_branch'} or
+            any(not isinstance(cleanup['candidate_limit_publication'][key], list) or
+                any(type(x) is not int or not 0 <= x < cleanup['candidate_bytes']
+                    for x in cleanup['candidate_limit_publication'][key])
+                for key in ('default_reads', 'all_writes', 'normal_clamp_branch')) or
             cleanup.get('aligned_field_identities') != 40 or
             cleanup.get('field_change_spans') != 3 or
             cleanup.get('aligned_instructions') < 104 or
@@ -970,6 +983,9 @@ def run_game_manager(*, protect_exact: bool) -> tuple[dict, list[dict]]:
         'aligned_instructions': cleanup['aligned_instructions'],
         'overlap_differences': cleanup['overlap_differences'],
         'mode2_lower_bound_branch_present': cleanup['mode2_lower_bound_branch_present'],
+        'original_limit_double_store': cleanup['original_limit_double_store'],
+        'original_limit_publication': cleanup['original_limit_publication'],
+        'candidate_limit_publication': cleanup['candidate_limit_publication'],
         'direct_graphs_agree': cleanup['direct_graphs_agree'],
     }
     if protect_exact:
@@ -985,6 +1001,15 @@ ENEMY_COLLISION_SHA256 = 'e2be799860dde7b752f525cb13f4135c4666917745006a511e734e
 ENEMY_UPDATE_WINDOWS = ((0x19A, 0x1A8, 2), (0x251, 0x2C1, 11),
                         (0x843, 0x854, 0), (0x9BC, 0xA83, 16))
 ENEMY_COLLISION_WINDOWS = ((0x1A, 0x40, 31),)
+
+# Fresh original SHA-pinned PE/full-COFF 3,900-byte owner: only these 29
+# positions remain mismatched. Preserve the other 3,871 matching physical bytes.
+ENEMY_UPDATE_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
+    0x019C, 0x01A3, 0x0252, 0x0263, 0x026D, 0x0272, 0x0294, 0x029A,
+    0x029C, 0x02A5, 0x02A9, 0x02B7, 0x02BD, 0x09C0, 0x09C6, 0x09DF,
+    0x09E2, 0x09EC, 0x09F3, 0x0A1F, 0x0A23, 0x0A29, 0x0A2E, 0x0A34,
+    0x0A3A, 0x0A42, 0x0A45, 0x0A61, 0x0A7E,
+))
 
 
 def physical_difference_windows(result: dict, *, count_key: str, windows: tuple,
@@ -1031,8 +1056,12 @@ def guard_enemy_update(result: dict) -> dict:
             result.get('reviewed_control_flow_agrees') is not True or
             result.get('switch_table_destinations_agree') is not True):
         raise RuntimeError('EnemyManager 3900-byte original/COFF/call/graph changed')
-    return physical_difference_windows(result, count_key='complete_differences',
-                                    windows=ENEMY_UPDATE_WINDOWS)
+    checked = physical_difference_windows(result, count_key='complete_differences',
+                                          windows=ENEMY_UPDATE_WINDOWS)
+    actual = {int(x, 16) for x in result['difference_offsets']}
+    if not actual.issubset(ENEMY_UPDATE_ORIGINAL_RESIDUAL_OFFSETS):
+        raise RuntimeError('EnemyManager changed an already matched original physical byte')
+    return checked
 
 
 def guard_enemy_collision(result: dict) -> dict:
@@ -1199,6 +1228,12 @@ def run_exattack_type19_update(*, protect_exact: bool) -> tuple[dict, list[dict]
 
 
 TYPE3_UPDATE_SHA256 = '19acde6cfdea958c572992f6832e09f51630ce2508f4d983eba4f3cb87e05eb4'
+# Exact 15 candidate-vs-original physical-byte positions of the 780-byte
+# TH09 Type3 boss; the other 765 bytes are already identical.
+TYPE3_UPDATE_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
+    0x0196, 0x0197, 0x0198, 0x0199, 0x019C, 0x019D, 0x019E, 0x019F,
+    0x01A0, 0x01A2, 0x01A3, 0x01A4, 0x01A5, 0x01A6, 0x01A7,
+))
 TYPE3_MIDDLE_Z_ORIGINAL = {
     'middle_y_call_offset': '0x18e',
     'middle_z_store_offset': '0x196',
@@ -1268,9 +1303,13 @@ def guard_exattack_type3_update(result: dict) -> dict:
             (result.get('complete_bytes_equal') is True and
              candidate_class != 'matches-original-chronology')):
         raise RuntimeError('ExAttack Type3 original identity, full graph or Z chronology changed')
-    return physical_difference_windows(
+    checked = physical_difference_windows(
         result, count_key='ordinary_differences', windows=((0x196, 0x1A8, 15),),
         equality_key='complete_bytes_equal')
+    actual = {int(x, 16) for x in result['difference_offsets']}
+    if not actual.issubset(TYPE3_UPDATE_ORIGINAL_RESIDUAL_OFFSETS):
+        raise RuntimeError('ExAttack Type3 changed an already matched original byte')
+    return checked
 
 
 def run_exattack_type3(*, protect_exact: bool) -> tuple[dict, list[dict]]:
