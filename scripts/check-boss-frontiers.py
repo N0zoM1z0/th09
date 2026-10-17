@@ -462,28 +462,55 @@ def run_decrypt_table(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     }}, exact
 
 
-def run_network_config_parser(*, protect_exact: bool) -> tuple[dict, list[dict]]:
-    """One original-bound nonexact parser plus its true exact caller carrier."""
-    build('supervisor-network-config')
-    result = noncrediting(parsed(['scripts/inspect-network-config-parser.py',
-                                  'build/matching/SupervisorNetworkConfig.obj', '--json']),
-                          name='Network config parser', target_size=243,
-                          fields=1)
-    if (result.get('candidate_bytes') != 243 or
+# All unmatched original-linked physical positions in the current 243-byte
+# Japanese TH09 v1.50a parser. Every other physical byte already matches.
+# The source-cold inspector independently SHA-checks original instructions and
+# the sole CRT strncmp call, and publishes ALL observed difference offsets.
+NETWORK_PARSER_ORIGINAL_SHA = 'b47499422bdbe8fb915ffa4009afae9f1cf923dc04c3668e100cc2d3afad647e'
+NETWORK_PARSER_RESIDUAL_OFFSETS = frozenset((
+    0x88, 0x90, 0x95, 0x96, 0x97, 0x98, 0x99, 0x9A, 0x9B, 0x9C, 0x9D, 0x9E,
+    0x9F, 0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8, 0xA9, 0xAB,
+    0xAE, 0xAF, 0xB0, 0xB1, 0xB2, 0xB3, 0xB4, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9,
+    0xBA, 0xBB, 0xBC, 0xBD, 0xBE, 0xBF, 0xC0, 0xC1, 0xC2, 0xC3, 0xC4, 0xC5,
+    0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xCB, 0xCC, 0xCD, 0xCE, 0xCF, 0xD0, 0xD1,
+    0xD2, 0xD3, 0xD4, 0xD5, 0xD7, 0xD8, 0xD9, 0xDA, 0xDB, 0xDC, 0xDD, 0xDE,
+    0xDF, 0xE0, 0xE1, 0xE2,
+))
+
+
+def guard_network_parser_original(result: dict) -> dict:
+    """Preserve every equal original physical byte; no local exactness credit."""
+    noncrediting(result, name='Network config parser', target_size=243, fields=1)
+    offsets = result.get('difference_offsets')
+    count = result.get('overlap_differences')
+    if (result.get('target_sha256') != NETWORK_PARSER_ORIGINAL_SHA or
+            result.get('candidate_bytes') != 243 or
             result.get('target_instructions') != 116 or
             result.get('candidate_instructions') != 116 or
             result.get('original_fields') != 1 or
             result.get('ordered_calls') != 1 or
-            not result.get('ordered_calls_agree') or
+            result.get('ordered_calls_agree') is not True or
             result.get('target_blocks') != 33 or
             result.get('candidate_blocks') not in (33, 34) or
             result.get('direct_graphs_agree') is not (result.get('candidate_blocks') == 33) or
-            not isinstance(result.get('overlap_differences'), int) or
-            result['overlap_differences'] > 76 or
+            type(count) is not int or not 0 <= count <= 76 or
+            not isinstance(offsets, list) or len(offsets) != count or
+            any(type(offset) is not int or not 0 <= offset < 243 for offset in offsets) or
+            offsets != sorted(set(offsets)) or
+            not set(offsets).issubset(NETWORK_PARSER_RESIDUAL_OFFSETS) or
             result.get('missing_target_bytes') != 0 or
             result.get('extra_candidate_bytes') != 0 or
-            result.get('complete_bytes_equal') is not False):
-        raise RuntimeError('network parser 243-byte/1-field/1-call/33-block original boundary regressed')
+            result.get('complete_bytes_equal') is not (count == 0)):
+        raise RuntimeError('network parser 243-byte original SHA/field/graph/residual-offset frontier regressed')
+    return result
+
+
+def run_network_config_parser(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    """One original-bound nonexact parser plus its true exact caller carrier."""
+    build('supervisor-network-config')
+    result = guard_network_parser_original(parsed(
+        ['scripts/inspect-network-config-parser.py',
+         'build/matching/SupervisorNetworkConfig.obj', '--json']))
     siblings = [canonical('supervisor-network-config')] if protect_exact else []
     return {'network_config_parser': {
         'target_bytes': 243, 'candidate_bytes': result['candidate_bytes'],

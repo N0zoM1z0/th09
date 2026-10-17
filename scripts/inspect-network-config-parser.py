@@ -112,7 +112,11 @@ def diagnose(object_path: Path) -> dict:
         'ordered_calls': len(tc), 'ordered_calls_agree': tc == cc,
         'target_blocks': len(target_graph), 'candidate_blocks': len(candidate_graph),
         'direct_graphs_agree': target_graph == candidate_graph,
+        # Every actual PE-linked differing physical position, not just the
+        # total count. Downstream guards protect the 167 already equal bytes.
         'overlap_differences': sum(x != y for x, y in zip(target, linked)),
+        'difference_offsets': [i for i, (original, source) in
+                               enumerate(zip(target, linked)) if original != source],
         'missing_target_bytes': max(0, SIZE - len(raw)),
         'extra_candidate_bytes': max(0, len(raw) - SIZE),
         'complete_bytes_equal': linked == target,

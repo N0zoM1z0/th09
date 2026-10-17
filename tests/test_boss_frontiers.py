@@ -627,6 +627,8 @@ class BossFrontierChecks(TestCase):
             'ordered_calls': 1, 'ordered_calls_agree': True,
             'target_blocks': 33, 'candidate_blocks': 34,
             'direct_graphs_agree': False, 'overlap_differences': 76,
+            'target_sha256': frontiers.NETWORK_PARSER_ORIGINAL_SHA,
+            'difference_offsets': sorted(frontiers.NETWORK_PARSER_RESIDUAL_OFFSETS),
             'missing_target_bytes': 0, 'extra_candidate_bytes': 0,
             'complete_bytes_equal': False,
         }
@@ -653,10 +655,40 @@ class BossFrontierChecks(TestCase):
                     {'direct_graphs_agree': True},
                     {'overlap_differences': 77}, {'missing_target_bytes': 1},
                     {'extra_candidate_bytes': 1}, {'complete_bytes_equal': True},
+                    {'target_sha256': '0'*64},
+                    {'difference_offsets': list(reversed(sorted(frontiers.NETWORK_PARSER_RESIDUAL_OFFSETS)))},
+                    {'difference_offsets': sorted(frontiers.NETWORK_PARSER_RESIDUAL_OFFSETS)[:-1]},
+                    {'difference_offsets': sorted(frontiers.NETWORK_PARSER_RESIDUAL_OFFSETS)[:-1] + [0xE3]},
+                    {'difference_offsets': [0x88]*76},
+                    {'difference_offsets': ['0x88'] + sorted(frontiers.NETWORK_PARSER_RESIDUAL_OFFSETS)[1:]},
                     {'exactness_credit': 'accepted'}, {'diagnostic_only': False}):
             with self.subTest(bad=bad), patch.object(frontiers, 'build'), patch.object(
                     frontiers, 'parsed', return_value={**self.network_parser_evidence(), **bad}), self.assertRaises(RuntimeError):
                 frontiers.run_network_config_parser(protect_exact=False)
+
+    def test_network_parser_can_narrow_without_regressing_any_equal_byte(self):
+        report = self.network_parser_evidence()
+        known = sorted(frontiers.NETWORK_PARSER_RESIDUAL_OFFSETS)
+        self.assertEqual(len(known), 76)
+        self.assertEqual(known[0], 0x88)
+        self.assertEqual(known[-1], 0xE2)
+        # One genuine code improvement may fix any of the old 76 positions,
+        # but cannot create new mismatches in the other 167 physical bytes.
+        narrowed = {**report, 'overlap_differences': 75,
+                    'difference_offsets': known[1:]}
+        self.assertEqual(frontiers.guard_network_parser_original(
+            narrowed)['overlap_differences'], 75)
+        self.assertEqual(narrowed['exactness_credit'], 'none')
+        candidate = {**report, 'overlap_differences': 0,
+                     'difference_offsets': [], 'complete_bytes_equal': True,
+                     'candidate_blocks': 33, 'direct_graphs_agree': True}
+        frontiers.guard_network_parser_original(candidate)
+        self.assertEqual(candidate['exactness_credit'], 'none')
+        for now_bad in (0x87, 0xAA, 0xAC, 0xD6, 0xE3, 0xF2):
+            with self.subTest(off=now_bad), self.assertRaises(RuntimeError):
+                moved = sorted(known[1:] + [now_bad])
+                frontiers.guard_network_parser_original(
+                    {**report, 'difference_offsets': moved})
 
     @staticmethod
     def replay_evidence():
