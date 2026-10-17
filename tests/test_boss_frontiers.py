@@ -117,7 +117,8 @@ class BossFrontierChecks(TestCase):
             'field_identity_occurrences_agree': True,
             'normalized_aligned_instructions': 433,
             'target_extent_sha256': frontiers.PLAYER_MOVEMENT_TARGET_SHA,
-            'full_difference_count': 129, 'difference_offsets': list(range(129)),
+            'full_difference_count': 129,
+            'difference_offsets': sorted(frontiers.PLAYER_MOVEMENT_ORIGINAL_RESIDUAL_OFFSETS),
             'missing_target_bytes': 0, 'extra_candidate_bytes': 0,
             'full_byte_agreement': False,
         }
@@ -167,9 +168,29 @@ class BossFrontierChecks(TestCase):
             with self.subTest(bad=bad), self.assertRaises(RuntimeError):
                 frontiers.guard_player_movement({**evidence, **bad})
 
+    def test_player_movement_rejects_new_bad_bytes_inside_and_outside_old_spans(self):
+        evidence = self.player_movement_evidence()
+        known = set(evidence['difference_offsets'])
+        self.assertEqual(len(known), 129)
+        self.assertEqual(known, frontiers.PLAYER_MOVEMENT_ORIGINAL_RESIDUAL_OFFSETS)
+        self.assertTrue(all(x < 1835 for x in known))
+        for original, poisoned in ((0x127, 0x126), (0x186, 0x189),
+                                   (0x533, 0x532), (0x569, 0x56A),
+                                   (0x5B5, 0x5BF), (0x5BE, 0x5BF),
+                                   (0x533, 1835), (0x533, 1899)):
+            self.assertIn(original, known)
+            self.assertNotIn(poisoned, known)
+            with self.subTest(poisoned=hex(poisoned)), self.assertRaisesRegex(
+                    RuntimeError, '129-byte frontier regressed'):
+                moved = sorted((known - {original}) | {poisoned})
+                # The same 129 count, all 66 original-bound operands, all
+                # 23 calls, and the complete physical extent are unchanged.
+                frontiers.guard_player_movement({**evidence,
+                                                  'difference_offsets': moved})
+
     def test_player_movement_future_convergence_is_still_noncrediting(self):
         evidence = self.player_movement_evidence()
-        smaller = {**evidence, 'difference_offsets': list(range(128)),
+        smaller = {**evidence, 'difference_offsets': evidence['difference_offsets'][1:],
                    'full_difference_count': 128}
         self.assertEqual(frontiers.guard_player_movement(smaller)['ordinary_differences'], 128)
         converged = {**evidence, 'difference_offsets': [],
