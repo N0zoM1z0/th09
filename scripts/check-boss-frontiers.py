@@ -99,6 +99,11 @@ TITLE_EXACT_CARRIERS = {
 # same-carrier lifecycle callback beyond the bullet sprite drawing leaf.
 ANM_RENDER_EXACT_CARRIERS = {'build/matching/AnmManagerRender.obj': 15}
 ETAMA_DRAW_EXACT_CARRIERS = {'build/matching/EtamaControllerDraw.obj': 2}
+# The resource-added callback is still nonexact inside EffectManager.cpp.
+# All fifteen existing original-bound exact source owners share the SAME
+# /O2 /Ob1 VC7.1 EffectManager carrier; guard the entire optimization cohort,
+# not merely the three most visible update/draw callbacks.
+EFFECT_MANAGER_EXACT_CARRIERS = {'build/matching/EffectManager.obj': 15}
 # ScreenEffect's sixteen standard exact owners and two independent full
 # functions use *different* VC7.1 compiler profiles. DrawSquare is /Ob0;
 # RegisterChain is built without /EHsc, not inside the 336-byte shake boss'
@@ -1151,10 +1156,9 @@ def guard_effect_added(diagnostic: dict) -> dict:
 
 
 def run_effect(*, protect_exact: bool) -> tuple[dict, list[dict]]:
-    # The 51-byte resource loader shares the live EffectManager TU with both
-    # canonical 475-byte OnUpdate and 183-byte OnDraw. Compile that original
-    # source TU once, then bind its nonexact loader independently from both
-    # complete, previously exact sibling functions.
+    # The 51-byte resource loader lives inside the optimizer carrier with
+    # *fifteen* canonical exact original functions. One cold real TU build
+    # must protect every one of them, not just the update/draw nearby leaves.
     build('effect-manager-update')
     diagnostic = parsed(['scripts/inspect-effect-added.py',
                          'build/matching/EffectManager.obj', '--json'],
@@ -1162,9 +1166,9 @@ def run_effect(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     guard_effect_added(diagnostic)
     exact = []
     if protect_exact:
-        exact.extend((canonical('effect-manager-update'),
-                      canonical('effect-manager-draw'),
-                      canonical('effect-manager-draw-shared')))
+        exact = cold_replay_exact_source(
+            'src/EffectManager.cpp', EFFECT_MANAGER_EXACT_CARRIERS,
+            already_built=('build/matching/EffectManager.obj',))
     return {'effect_added_callback': {
         'target_bytes': 51, 'candidate_bytes': diagnostic['candidate_bytes'],
         'original_fields': diagnostic['target_relocations'],

@@ -9,6 +9,26 @@
 
 ## Current verified handoff checkpoint
 
+- **Current EffectManager original-codegen guard (October 18):** The still-
+  nonexact **51-byte** `EffectManager::AddedCallback @0x0040D1C0` is embedded
+  in the SAME pinned `/O2 /Ob1` original VC7.1 compilation carrier as
+  **15 separately exact `EffectManager.cpp` functions**. Previously
+  `--owner effect` rebuilt that real carrier but rechecked only three
+  exact update/draw methods. The original-bound owner now checks the entire
+  **15/15** complete PE/COFF codegen family, including pool lifecycle,
+  spawning, update, initialization and drawing; the 51-byte open callback
+  remains **4 authentic fields, 3 blocks, 2 calls, 8 unlike original bytes**.
+  Missing exact units, duplicate symbols, mixed compiler profiles, changed
+  carrier and skipped comparisons fail closed. More than thirty complete
+  ExAttack Type19/21 first-vertex/iterator source-shape experiments and
+  seventeen Title cursor stack-home variants were independently compiled
+  this session against the original; they did not improve the authentic
+  **6/9** ExAttack or **38-byte** cursor frontiers and were **not** adopted.
+  A fresh source-cold `--owner all` sweep passes **31 whole owner
+  diagnostics** and **171/171 distinct exact functions**, up from 159;
+  `scripts/ci.py` passes **477 tests, 28 skipped, zero failures** along
+  with target SHA, ledger, docs, open build graph, progress and whitespace.
+  This is original-byte regression protection, NOT newly accepted exactness.
 - **Git state:** TH09 `main`; derive the actual HEAD and dirty work from
   `git status --short --branch` and `git log` at restart. Complete,
   review, and commit **every tracked/untracked change**; do not reset or

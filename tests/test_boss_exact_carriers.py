@@ -211,6 +211,101 @@ class ExactCarrierDiscovery(unittest.TestCase):
                 frontier.cold_replay_exact_profiles(
                     'src/ScreenEffect.cpp', frontier.SCREEN_EFFECT_EXACT_PROFILES)
 
+    def test_effect_big_resource_callback_protects_all_fifteen_exact_members(self):
+        groups = frontier.exact_source_carriers(
+            'src/EffectManager.cpp', frontier.EFFECT_MANAGER_EXACT_CARRIERS)
+        self.assertEqual(groups.keys(), {'build/matching/EffectManager.obj'})
+        names = groups['build/matching/EffectManager.obj']
+        self.assertEqual(len(names), 15)
+        self.assertEqual(len(set(names)), 15)
+        for name in ('effect-manager-update', 'effect-manager-draw',
+                     'effect-manager-draw-shared', 'effect-manager-create',
+                     'effect-manager-initialize-effect', 'effect-update-from-vm',
+                     'effect-manager-spawn-effect',
+                     'effect-manager-spawn-effect-with-velocity',
+                     'effect-manager-spawn-effect-fixed-slot'):
+            self.assertIn(name, names)
+
+    def test_effect_source_inventory_rejects_unreviewed_changes(self):
+        original = self.units()
+        for missing in ('effect-manager-release',
+                        'effect-manager-spawn-effect-fixed-slot',
+                        'effect-manager-update'):
+            with self.subTest(missing=missing):
+                units = copy.deepcopy(original)
+                units.pop(missing)
+                with self.assertRaisesRegex(RuntimeError,
+                                            'exact sibling carrier inventory drifted'):
+                    frontier.exact_source_carriers(
+                        'src/EffectManager.cpp',
+                        frontier.EFFECT_MANAGER_EXACT_CARRIERS, units)
+        for unit_name, field, value in (
+                ('effect-manager-update', 'profile', ['/O1']),
+                ('effect-manager-draw', 'object', 'build/matching/Other.obj'),
+                ('effect-manager-initialize-effect', 'functions',
+                 original['effect-manager-create']['functions'])):
+            with self.subTest(unit=unit_name, field=field):
+                units = copy.deepcopy(original)
+                units[unit_name][field] = value
+                with self.assertRaises(RuntimeError):
+                    frontier.exact_source_carriers(
+                        'src/EffectManager.cpp',
+                        frontier.EFFECT_MANAGER_EXACT_CARRIERS, units)
+
+    def test_effect_prebuilt_carrier_replays_all_fifteen_without_second_build(self):
+        with patch.object(frontier, 'build') as build, patch.object(
+                frontier, 'canonical', side_effect=lambda name: {'unit': name}) as canonical:
+            exact = frontier.cold_replay_exact_source(
+                'src/EffectManager.cpp', frontier.EFFECT_MANAGER_EXACT_CARRIERS,
+                already_built=('build/matching/EffectManager.obj',))
+        build.assert_not_called()
+        self.assertEqual(len(exact), 15)
+        self.assertEqual(len({item['unit'] for item in exact}), 15)
+        self.assertEqual(canonical.call_count, 15)
+        with patch.object(frontier, 'build'), patch.object(
+                frontier, 'canonical', side_effect=RuntimeError('Effect original mismatch')):
+            with self.assertRaisesRegex(RuntimeError, 'Effect original mismatch'):
+                frontier.cold_replay_exact_source(
+                    'src/EffectManager.cpp', frontier.EFFECT_MANAGER_EXACT_CARRIERS)
+
+    def test_effect_owner_builds_one_real_object_and_checks_all_fifteen(self):
+        from unittest.mock import patch
+        evidence = {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_sha256': frontier.EFFECT_ADDED_ORIGINAL_SHA,
+            'target_bytes': 51, 'candidate_bytes': 51,
+            'target_instructions': 19, 'candidate_instructions': 19,
+            'target_relocations': 4, 'bound_relocations': 4,
+            'original_blocks': 3, 'candidate_blocks': 3,
+            'complete_direct_graphs_agree': True,
+            'ordered_calls_match': True,
+            'differing_bytes': 8,
+            'difference_offsets': [f'0x{x:x}' for x in (*range(3, 10), 13)],
+            'complete_bytes_equal': False,
+        }
+        with patch.object(frontier, 'build') as build, patch.object(
+                frontier, 'parsed', return_value=evidence) as parsed, patch.object(
+                frontier, 'canonical', side_effect=lambda unit: {'unit': unit}) as canonical:
+            owners, siblings = frontier.run_effect(protect_exact=True)
+        build.assert_called_once_with('effect-manager-update')
+        parsed.assert_called_once_with([
+            'scripts/inspect-effect-added.py', 'build/matching/EffectManager.obj', '--json'],
+            diagnostic=True)
+        self.assertEqual(owners['effect_added_callback']['ordinary_differences'], 8)
+        groups = frontier.exact_source_carriers(
+            'src/EffectManager.cpp', frontier.EFFECT_MANAGER_EXACT_CARRIERS)
+        self.assertEqual([r['unit'] for r in siblings],
+                         groups['build/matching/EffectManager.obj'])
+        self.assertEqual(canonical.call_count, 15)
+        with patch.object(frontier, 'build') as build, patch.object(
+                frontier, 'parsed', return_value=evidence), patch.object(
+                frontier, 'canonical') as canonical:
+            owners, siblings = frontier.run_effect(protect_exact=False)
+        self.assertEqual(owners['effect_added_callback']['ordinary_differences'], 8)
+        self.assertEqual(siblings, [])
+        build.assert_called_once_with('effect-manager-update')
+        canonical.assert_not_called()
+
     def test_real_etama_draw_carrier_has_both_exact_siblings(self):
         groups = frontier.exact_source_carriers(
             'src/EtamaControllerDraw.cpp', frontier.ETAMA_DRAW_EXACT_CARRIERS)
