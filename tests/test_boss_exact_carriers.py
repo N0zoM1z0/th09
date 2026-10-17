@@ -211,6 +211,96 @@ class ExactCarrierDiscovery(unittest.TestCase):
                 frontier.cold_replay_exact_profiles(
                     'src/ScreenEffect.cpp', frontier.SCREEN_EFFECT_EXACT_PROFILES)
 
+    def test_replay_big_playback_owner_guards_all_twelve_true_source_profiles(self):
+        contracts = frontier.REPLAY_INPUT_EXACT_PROFILES
+        self.assertEqual({name: item[0] for name, item in contracts.items()}, {
+            'replay-manager-begin-recording-stage': 2,
+            'replay-input-update': 10,
+        })
+        groups = frontier.exact_source_profile_groups(
+            'src/ReplayInput.cpp', contracts)
+        self.assertEqual(set(groups), set(contracts))
+        self.assertEqual(groups['replay-manager-begin-recording-stage'], [
+            'replay-manager-begin-recording-stage', 'replay-manager-create'])
+        self.assertEqual(len(groups['replay-input-update']), 10)
+        self.assertIn('replay-manager-release', groups['replay-input-update'])
+        self.assertIn('replay-manager-record-input', groups['replay-input-update'])
+        self.assertIn('replay-manager-playback-input', groups['replay-input-update'])
+        self.assertIn('replay-input-state-constructor', groups['replay-input-update'])
+        self.assertEqual(len(set(sum(groups.values(), []))), 12)
+        u = self.units()
+        for ref, (n, obj, flags) in contracts.items():
+            self.assertEqual(u[ref]['source'], 'src/ReplayInput.cpp')
+            self.assertEqual(u[ref]['object'], obj)
+            self.assertEqual(u[ref]['profile'], list(flags))
+        self.assertNotIn('/EHsc', contracts['replay-manager-begin-recording-stage'][2])
+        self.assertIn('/EHsc', contracts['replay-input-update'][2])
+
+    def test_replay_profile_missing_unit_and_stale_flags_fail_closed(self):
+        originals = self.units()
+        for missing in ('replay-manager-create', 'replay-manager-release',
+                        'replay-manager-playback-input', 'replay-input-state-constructor'):
+            with self.subTest(missing=missing):
+                units = copy.deepcopy(originals)
+                del units[missing]
+                with self.assertRaises(RuntimeError):
+                    frontier.exact_source_profile_groups(
+                        'src/ReplayInput.cpp', frontier.REPLAY_INPUT_EXACT_PROFILES,
+                        units)
+        for name, field, bad in (
+                ('replay-manager-begin-recording-stage', 'profile', ['/EHsc']),
+                ('replay-input-update', 'profile', ['/O1']),
+                ('replay-manager-release', 'profile', ['/O2']),
+                ('replay-manager-create', 'object', 'build/matching/Wrong.obj'),
+                ('replay-manager-record-input', 'functions',
+                 originals['replay-manager-playback-input']['functions']),
+        ):
+            with self.subTest(unit=name, field=field):
+                units = copy.deepcopy(originals)
+                units[name][field] = bad
+                with self.assertRaises(RuntimeError):
+                    frontier.exact_source_profile_groups(
+                        'src/ReplayInput.cpp', frontier.REPLAY_INPUT_EXACT_PROFILES,
+                        units)
+        contract = frontier.REPLAY_INPUT_EXACT_PROFILES
+        for incorrect in (
+                {**contract,
+                 'replay-input-update': (9, *contract['replay-input-update'][1:])},
+                {'replay-manager-begin-recording-stage':
+                     contract['replay-manager-begin-recording-stage']},
+                {**contract,
+                 'replay-input-update':
+                    (10,'build/matching/Wrong.obj',contract['replay-input-update'][2])}):
+            with self.subTest(contract=incorrect), self.assertRaises(RuntimeError):
+                frontier.exact_source_profile_groups(
+                    'src/ReplayInput.cpp', incorrect)
+
+    def test_replay_cold_uses_original_no_eh_and_eh_carriers_once(self):
+        for prebuilt, expected_builds in (
+                (('replay-manager-begin-recording-stage',),
+                 ['replay-input-update']),
+                ((), ['replay-manager-begin-recording-stage',
+                      'replay-input-update'])):
+            with self.subTest(prebuilt=prebuilt), patch.object(
+                    frontier, 'build') as build, patch.object(
+                    frontier, 'canonical', side_effect=lambda name: {'unit': name}) as canonical:
+                result = frontier.cold_replay_exact_profiles(
+                    'src/ReplayInput.cpp', frontier.REPLAY_INPUT_EXACT_PROFILES,
+                    already_built=prebuilt)
+                self.assertEqual(len(result), 12)
+                self.assertEqual(len({item['unit'] for item in result}), 12)
+                self.assertEqual([a[0][0] for a in build.call_args_list], expected_builds)
+                self.assertEqual(canonical.call_count, 12)
+        with self.assertRaisesRegex(RuntimeError, 'already-built exact profile'):
+            frontier.cold_replay_exact_profiles(
+                'src/ReplayInput.cpp', frontier.REPLAY_INPUT_EXACT_PROFILES,
+                already_built=('not-a-real-replay-profile',))
+        with patch.object(frontier, 'build'), patch.object(
+                frontier, 'canonical', side_effect=RuntimeError('bad replay PE bytes')):
+            with self.assertRaisesRegex(RuntimeError, 'bad replay PE bytes'):
+                frontier.cold_replay_exact_profiles(
+                    'src/ReplayInput.cpp', frontier.REPLAY_INPUT_EXACT_PROFILES)
+
     def test_effect_big_resource_callback_protects_all_fifteen_exact_members(self):
         groups = frontier.exact_source_carriers(
             'src/EffectManager.cpp', frontier.EFFECT_MANAGER_EXACT_CARRIERS)

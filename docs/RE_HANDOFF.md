@@ -9,6 +9,31 @@
 
 ## Current verified handoff checkpoint
 
+- **Replay large-boss full exact-source profile guard (October 18):**
+  Original `ReplayManagerView::BeginPlaybackStage @0x00420840` remains an
+  original-PE-bound **540-byte** owner against **538-byte** source, 32 linked
+  operands, five ordered calls, twelve direct blocks, 49 unlike overlapping
+  bytes and two missing source bytes; it is **NON-EXACT**. Its native
+  `ReplayInput.cpp` source contains **12** already exact functions in TWO
+  *different* original VC7.1 profiles: **two in the no-`/EHsc`
+  `ReplayInputNoEh.obj`** (BeginRecordingStage, Create) and **ten in the
+  standard `/EHsc` `ReplayInput.obj`** (Update, Release, frame sync,
+  record/playback input and related members). `--owner replay` now guards
+  **all 12** complete exact siblings after a fresh cold compile of both
+  pinned carrier/profile combinations, up from two. The full `--owner all`
+  runs Replay before the still-open GameManager gameplay setup and therefore
+  does **not** repeat the already-verified exact `ReplayManager::Create`
+  **or** `ReplayManager::Release`; focused `--owner gamemgr` still
+  individually rebuilds/replays those real callee ABIs. Fail-closed tests
+  reject missing source units, compiler profile or output swaps, duplicated
+  exact functions and stale/false prebuilt carriers. The source/target
+  bytes and canonical function ledger remain **unchanged**; this is
+  full-owner regression protection, not a new exact closure. Fresh cold
+  `--owner all` passes **31 full physical boss/leaf diagnostics and 180/180
+  UNIQUE existing exact member checks** (up from 171), with both Replay
+  callee identities counted just once. `scripts/ci.py` passes **481 tests
+  (28 skipped, zero failures)**, along with authentic PE SHA, tracking,
+  documentation, progress, build graph and source whitespace checks.
 - **Current EffectManager original-codegen guard (October 18):** The still-
   nonexact **51-byte** `EffectManager::AddedCallback @0x0040D1C0` is embedded
   in the SAME pinned `/O2 /Ob1` original VC7.1 compilation carrier as

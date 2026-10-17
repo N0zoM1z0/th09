@@ -181,24 +181,25 @@ class GameManagerColdRegression(unittest.TestCase):
                           'replay-manager-release', 'replay-manager-create'])
         self.assertEqual(canonical.call_count,12)
 
-    def test_full_all_mode_does_not_double_count_already_replayed_create(self):
-        # The full suite runs --owner replay (with exact Create) before the
-        # GameManager owner. Only the separately true 318-byte Release is new
-        # in that combined scan; focused gamemgr still checks both methods.
+    def test_full_all_mode_does_not_double_count_either_replay_callee(self):
+        # The full suite now runs both original ReplayInput VC7.1 profiles
+        # before GameManager, including both exact Create and exact Release.
+        # Focused gamemgr still checks both callee sources independently.
         with patch.object(boss, 'build') as build, patch.object(
                 boss, 'parsed', side_effect=[self.evidence(), self.cleanup_evidence()]), patch.object(
                 boss, 'canonical', side_effect=lambda name: {'unit': name}) as canonical:
             owners, exact = boss.run_game_manager(
-                protect_exact=True, replay_create_prechecked=True)
+                protect_exact=True, replay_callees_prechecked=True)
         self.assertEqual(owners['gameplay_setup_thread']['ordinary_differences'], 911)
-        self.assertEqual(len(exact), 11)
-        self.assertEqual(exact[-1]['unit'], 'replay-manager-release')
+        self.assertEqual(len(exact), 10)
+        self.assertEqual(exact[-1]['unit'],
+                         'supervisor-setup-loading-vms-and-capture')
         self.assertNotIn('replay-manager-create', [r['unit'] for r in exact])
+        self.assertNotIn('replay-manager-release', [r['unit'] for r in exact])
         self.assertEqual([a[0][0] for a in build.call_args_list], [
             'game-manager-on-update',
-            'supervisor-setup-loading-vms-and-capture',
-            'replay-manager-release'])
-        self.assertEqual(canonical.call_count, 11)
+            'supervisor-setup-loading-vms-and-capture'])
+        self.assertEqual(canonical.call_count, 10)
 
     def test_skip_siblings_never_drops_the_new_large_boss_or_nonexact_worker(self):
         with patch.object(boss, 'build') as build, patch.object(

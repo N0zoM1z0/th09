@@ -127,6 +127,18 @@ SCREEN_EFFECT_EXACT_PROFILES = {
               for flag in _SCREEN_EFFECT_BASE_PROFILE)),
 }
 
+# Replay's 540-byte BeginPlaybackStage is compiled in the separate no-EH
+# carrier alongside two exact functions, whereas TEN OTHER exact ReplayInput
+# source functions require the true /EHsc compiler profile. The two groups
+# cannot be inferred from the source filename or a cached ReplayInput.obj.
+REPLAY_INPUT_EXACT_PROFILES = {
+    'replay-manager-begin-recording-stage': (
+        2, 'build/matching/ReplayInputNoEh.obj',
+        tuple(flag for flag in _SCREEN_EFFECT_BASE_PROFILE if flag != '/EHsc')),
+    'replay-input-update': (
+        10, 'build/matching/ReplayInput.obj', _SCREEN_EFFECT_BASE_PROFILE),
+}
+
 
 def exact_source_carriers(source: str, expected: dict[str, int],
                           units: dict | None = None) -> dict[str, list[str]]:
@@ -986,7 +998,7 @@ REPLAY_BEGIN_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
 
 
 def run_replay_playback(*, protect_exact: bool) -> tuple[dict, list[dict]]:
-    """Cold-audit a full replay-stage callback and its two exact TU siblings.
+    """Cold-audit the 540-byte boss and all twelve genuine exact ReplayInput owners.
 
     The 32 original fields must be actual SHA-pinned PE operands, resolved
     through canonical referents, not guessed source-local labels. The lone
@@ -1030,9 +1042,12 @@ def run_replay_playback(*, protect_exact: bool) -> tuple[dict, list[dict]]:
         raise RuntimeError('Replay playback damaged an already matching original physical byte')
     exact = []
     if protect_exact:
-        # Both use the exact SAME freshly-built no-EH VC7.1 ReplayInput object.
-        exact += [canonical('replay-manager-begin-recording-stage'),
-                  canonical('replay-manager-create')]
+        # Preserve the already cold-built two-function /no-EH TU, then build
+        # the distinct ten-function /EHsc carrier. Every member gets its own
+        # original-bound, entire-physical-function canonical comparison.
+        exact = cold_replay_exact_profiles(
+            'src/ReplayInput.cpp', REPLAY_INPUT_EXACT_PROFILES,
+            already_built=('replay-manager-begin-recording-stage',))
     return {'replay_begin_playback': {
         'target_bytes': 540, 'candidate_bytes': current['candidate_bytes'],
         'bound_fields': current['bound_fields'],
@@ -1285,7 +1300,7 @@ def guard_gameplay_setup_thread(result: dict) -> None:
 
 
 def run_game_manager(*, protect_exact: bool,
-                     replay_create_prechecked: bool = False) -> tuple[dict, list[dict]]:
+                     replay_callees_prechecked: bool = False) -> tuple[dict, list[dict]]:
     """Independently cold-validate the newly exact 1,230-byte calc boss.
 
     Nine original owners use the pinned /O2 /Os profile, but the exact
@@ -1379,13 +1394,12 @@ def run_game_manager(*, protect_exact: bool,
         owners.append(canonical('supervisor-setup-loading-vms-and-capture'))
         # The 1,689-byte worker genuinely creates and fully releases the
         # 0x164-byte ReplayManager via two separately exact real member ABI
-        # boundaries. Both native ReplayInput profiles must be cold-built;
-        # the older ReplayManagerSetupReleaseView fake callee is forbidden.
+        # boundaries. In focused gamemgr mode force each pinned carrier; in
+        # --owner all mode the earlier Replay sweep has already recompiled
+        # BOTH ReplayInput profiles and independently exact-replayed BOTH
+        # members, so do not double-count their canonical evidence.
         for sibling in ('replay-manager-release', 'replay-manager-create'):
-            if sibling == 'replay-manager-create' and replay_create_prechecked:
-                # Full --owner all has *already* cold-built the real no-EH
-                # ReplayInput profile and replayed this 361-byte exact unit.
-                # Preserve strict coverage, without counting it twice.
+            if replay_callees_prechecked:
                 continue
             build(sibling)
             owners.append(canonical(sibling))
@@ -2309,7 +2323,7 @@ def main() -> int:
         if args.owner in ('gamemgr', 'all'):
             owners, exact = run_game_manager(
                 protect_exact=not args.skip_exact_siblings,
-                replay_create_prechecked=args.owner == 'all' and
+                replay_callees_prechecked=args.owner == 'all' and
                 not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)

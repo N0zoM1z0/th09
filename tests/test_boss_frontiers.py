@@ -905,13 +905,30 @@ class BossFrontierChecks(TestCase):
                 frontiers, 'parsed', return_value=self.replay_evidence()) as parsed, patch.object(
                 frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
             owners, siblings = frontiers.run_replay_playback(protect_exact=True)
-        build.assert_called_once_with('replay-manager-begin-recording-stage')
+        self.assertEqual([call[0][0] for call in build.call_args_list], [
+            'replay-manager-begin-recording-stage', 'replay-input-update'])
         parsed.assert_called_once_with(['scripts/inspect-replay-begin-playback.py',
                                         'build/matching/ReplayInputNoEh.obj', '--json'])
         self.assertEqual(owners['replay_begin_playback']['ordinary_differences'], 49)
         self.assertEqual(owners['replay_begin_playback']['aligned_fields'], 31)
-        self.assertEqual([x['unit'] for x in siblings],
-                         ['replay-manager-begin-recording-stage', 'replay-manager-create'])
+        groups = frontiers.exact_source_profile_groups(
+            'src/ReplayInput.cpp', frontiers.REPLAY_INPUT_EXACT_PROFILES)
+        self.assertEqual([x['unit'] for x in siblings], sum(groups.values(), []))
+        self.assertEqual(len(siblings), 12)
+        self.assertEqual(len({x['unit'] for x in siblings}), 12)
+
+    def test_replay_skip_exact_keeps_original_boss_without_eh_carrier(self):
+        with patch.object(frontiers, 'build') as build, patch.object(
+                frontiers, 'parsed', return_value=self.replay_evidence()) as parsed, patch.object(
+                frontiers, 'canonical') as canonical:
+            owners, siblings = frontiers.run_replay_playback(protect_exact=False)
+        self.assertEqual(owners['replay_begin_playback']['ordinary_differences'], 49)
+        self.assertEqual(owners['replay_begin_playback']['missing_target_bytes'], 2)
+        self.assertEqual(siblings, [])
+        build.assert_called_once_with('replay-manager-begin-recording-stage')
+        parsed.assert_called_once_with(['scripts/inspect-replay-begin-playback.py',
+                                        'build/matching/ReplayInputNoEh.obj', '--json'])
+        canonical.assert_not_called()
 
     def test_replay_playback_rejects_incomplete_original_and_worse_code(self):
         for corruption in ({'target_bytes': 539}, {'candidate_bytes': 537},
