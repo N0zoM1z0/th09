@@ -286,6 +286,97 @@ def validate_runecl_byte_frontier(complete: dict, shapes: dict) -> dict:
             'matching_handler_shapes': shapes['matching_handler_shapes']}
 
 
+# Original-PE bound complete MoveRandomBiased @0x00407E30 (516 physical bytes).
+# The real pinned ECL translation unit currently emits 517 bytes. Original
+# x87 pointer aliasing is still different: retail materializes &Y via
+# LEA ECX,[EAX+4] after the exact Float3::operator float* call; VC7.1
+# emits MOV ECX,EAX and FCOMP [ECX+4] instead. The resulting one-byte
+# drift changes 148 *overlapping* physical positions through the return.
+# All remaining 368 positions already agree with the SHA-attested original;
+# they are not expendable merely because their source owner is still open.
+BIASED_MOVEMENT_TARGET_SHA = 'c7d16fba9a2e0759836560b3977fa5c277966929a33d6183a2bb8672ba5319ab'
+BIASED_MOVEMENT_RESIDUAL_RUNS = (
+    (0x134, 0x139), (0x165, 0x194), (0x195, 0x1A6),
+    (0x1A7, 0x1B7), (0x1B8, 0x1C2), (0x1C3, 0x1C8),
+    (0x1C9, 0x1CE), (0x1CF, 0x1D4), (0x1D5, 0x1DA),
+    (0x1DB, 0x1E2), (0x1E3, 0x1E8), (0x1ED, 0x1F1),
+    (0x1F2, 0x1FD), (0x1FE, 0x204),
+)
+BIASED_MOVEMENT_RESIDUAL_OFFSETS = frozenset(
+    i for low, high in BIASED_MOVEMENT_RESIDUAL_RUNS for i in range(low, high))
+
+
+def guard_biased_movement(report: dict) -> dict:
+    """Fail closed on new wrong TH09 bytes in the ECL movement helper.
+
+    Protect all 28 independent original call/data operands, the whole owner,
+    two independently decoded alias-scheduling instruction spans and every
+    byte which already matches. No incomplete/nonexact comparison earns
+    codegen-exact credit (even if this diagnostic later becomes all equal).
+    """
+    noncrediting(report, name='ECL MoveRandomBiased', target_size=516, fields=28)
+    words = report.get('difference_offsets')
+    count = report.get('overlapping_differences')
+    size = report.get('candidate_bytes')
+    if (report.get('target_sha256') != BIASED_MOVEMENT_TARGET_SHA or
+            size not in (516, 517) or type(count) is not int or
+            len(BIASED_MOVEMENT_RESIDUAL_OFFSETS) != 148 or
+            not 0 <= count <= 148 or
+            not isinstance(words, list) or len(words) != count or
+            report.get('extra_candidate_bytes') != size - 516 or
+            report.get('target_instructions') != 145 or
+            report.get('candidate_instructions') != 145 or
+            report.get('ordered_calls') != 14 or
+            report.get('target_direct_blocks') != 24 or
+            report.get('candidate_direct_blocks') != 24 or
+            report.get('complete_direct_graphs_agree') is not True or
+            report.get('complete_bytes_equal') is not (size == 516 and count == 0)):
+        raise RuntimeError('ECL biased movement original extent/fields/calls/graph or 148-byte ceiling regressed')
+    parsed_offsets = []
+    for word in words:
+        if (not isinstance(word, str) or
+                not re.fullmatch(r'0x[0-9A-Fa-f]+', word)):
+            raise RuntimeError('ECL biased movement residual field malformed')
+        offset = int(word, 16)
+        if offset not in BIASED_MOVEMENT_RESIDUAL_OFFSETS:
+            raise RuntimeError('ECL biased movement damaged an already matched original byte')
+        parsed_offsets.append(offset)
+    if parsed_offsets != sorted(set(parsed_offsets)):
+        raise RuntimeError('ECL biased movement residuals duplicated or unsorted')
+    # A full byte-difference count by itself is not enough: the retail and
+    # linked source can preserve a count while damaging an unrelated helper.
+    # Their only normalized instruction replacements currently occur at the
+    # Float3 conversion Y-alias and its subsequent second comparison.
+    windows = ((0x134, 0x139), (0x164, 0x168))
+    changes = report.get('normalized_instruction_changes')
+    if not isinstance(changes, list) or len(changes) > 2:
+        raise RuntimeError('ECL biased movement normalized instruction frontier regressed')
+    observed_windows = set()
+    for change in changes:
+        if not isinstance(change, dict) or change.get('change') != 'replace':
+            raise RuntimeError('ECL biased movement unexpected normalized change')
+        pair_windows = set()
+        for side in ('target', 'candidate'):
+            entries = change.get(side)
+            if not isinstance(entries, list) or not entries:
+                raise RuntimeError('ECL biased movement missing normalized instruction')
+            for ins in entries:
+                if (not isinstance(ins, list) or len(ins) != 2 or
+                        type(ins[0]) is not int or
+                        not isinstance(ins[1], str) or
+                        not re.fullmatch(r'[0-9a-fA-F]+', ins[1])):
+                    raise RuntimeError('ECL biased movement malformed normalized instruction')
+                slots = [i for i, (low, high) in enumerate(windows)
+                         if low <= ins[0] < high]
+                if len(slots) != 1:
+                    raise RuntimeError('ECL biased movement changed previously matched instruction')
+                pair_windows.add(slots[0])
+        if len(pair_windows) != 1 or observed_windows.intersection(pair_windows):
+            raise RuntimeError('ECL biased movement replaced an unrelated instruction window')
+        observed_windows.update(pair_windows)
+    return report
+
+
 def run_ecl(*, include_trail: bool, include_interpreter: bool,
             protect_exact: bool) -> tuple[dict, list[dict]]:
     build('ecl-pop-context')
@@ -304,9 +395,9 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
         shapes = parsed(['scripts/report-ecl-handler-shapes.py', '--json', object_file])
         verified_runecl = validate_runecl_byte_frontier(complete, shapes)
         mismatches = verified_runecl['remaining_opcode_mismatches']
-        biased = noncrediting(parsed(['scripts/inspect-ecl-biased-movement.py', '--json', object_file],
-                                    diagnostic=True), name='ECL MoveRandomBiased',
-                              target_size=516, fields=28)
+        biased = guard_biased_movement(parsed(
+            ['scripts/inspect-ecl-biased-movement.py', '--json', object_file],
+            diagnostic=True))
         diagnostics.update(runecl={
             'physical_bytes': complete['physical_bytes'],
             'ordinary_differences': complete['ordinary_different_bytes'],

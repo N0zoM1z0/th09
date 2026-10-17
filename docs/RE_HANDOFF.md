@@ -114,6 +114,23 @@
   (28 skipped)** with target, tracking, documentation, build-graph and
   progress checks. No source function is newly exact;
   canonical progress remains **980 source-present / 940 exact / 40 open**.
+- **ECL helper full-byte no-regression guard (October 17):** Reopened
+  the independently SHA-attested retail `MoveRandomBiased @0x00407E30`
+  in the same freshly compiled 15,564-byte `RunEcl` translation unit.
+  The helper remains **516 original / 517 candidate physical bytes**;
+  all **28 real COFF fields, 14 ordered calls, 24 CFG blocks and 145
+  instructions** agree in identity/count, but **148 overlapping bytes**
+  differ (and one source byte is extra). Full original-linked comparison now
+  pins all 14 exact residual runs and rejects any new wrong byte among the
+  already matching **368 original positions**. A second guard checks the
+  only two differing normalized instructions: the repeated post-`Float3`
+  Y-position comparisons. Independent source-cold 20-form Y-alias probes
+  either retain 517 bytes or regress to **518/526 bytes**; no source edit
+  masquerades as an exact solution. `--owner runecl` still independently
+  protects all 24 exact ECL siblings; `RunEcl` itself remains 30 bytes open.
+  The fresh full `--owner all` passes **31 diagnostics and 146/146 exact
+  siblings**; `scripts/ci.py` passes **458 tests (28 skipped)** with tracking,
+  docs, build-graph, progress and whitespace validation.
 - **Phase:** original exact-reconstruction only. The 95% reviewed-authored
   byte milestone is open; whole Windows i386 build/link/resources/runtime,
   dual-Oracle semantic reconstruction and portability are still open.
