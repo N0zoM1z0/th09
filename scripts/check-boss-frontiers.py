@@ -104,6 +104,14 @@ ETAMA_DRAW_EXACT_CARRIERS = {'build/matching/EtamaControllerDraw.obj': 2}
 # /O2 /Ob1 VC7.1 EffectManager carrier; guard the entire optimization cohort,
 # not merely the three most visible update/draw callbacks.
 EFFECT_MANAGER_EXACT_CARRIERS = {'build/matching/EffectManager.obj': 15}
+# The 321-byte still-open ExAttackController::Spawn shares its real /Ob1
+# compiler context with four exact lifecycle/spawn helpers. Two adjacent
+# special-member functions happen to compile byte-for-byte like the retail
+# under distinct /Ob1 and /Os profiles, but both remain origin UNKNOWN:
+# generated/defaulted vs explicitly authored cannot be resolved by codegen.
+EXATTACK_CONTROLLER_EXACT_CARRIERS = {
+    'build/matching/ExAttackController.obj': 4,
+}
 # ScreenEffect's sixteen standard exact owners and two independent full
 # functions use *different* VC7.1 compiler profiles. DrawSquare is /Ob0;
 # RegisterChain is built without /EHsc, not inside the 336-byte shake boss'
@@ -1862,6 +1870,89 @@ def run_exattack_type1422_draw(*, protect_exact: bool) -> tuple[dict, list[dict]
     return {'exattack_type14_22_draw': draw}, exact
 
 
+EXATTACK_CTOR_CODEGEN_EVIDENCE = {
+    'exattack_record_constructor': (15, 1,
+        'e50af3e2df667c5e2d7a761e3fecfe20b3cd7805fedbb0aeef8f2e68375ea9c0',
+        [0x00403390], 7),
+    'exattack_controller_constructor': (28, 2,
+        '39e362e7d5d17bbcc30c972966ca0114607fca2df3c3be4e4aa7d4e18685d81d',
+        [0x004157A0, 0x00401470], 11),
+}
+
+
+def guard_exattack_constructor_codegen(result: dict) -> dict:
+    """Guard codegen equality without pretending source-origin is proven.
+
+    Natural empty out-of-line and implicit special-member C++ both produce
+    the reviewed TH09 retail code. The two functions have REAL physical
+    ownership, but the target's byte stream cannot settle authorship.
+    """
+    if not isinstance(result, dict) or set(result) != set(EXATTACK_CTOR_CODEGEN_EVIDENCE):
+        raise RuntimeError('ExAttack constructor owner evidence missing')
+    for name, (size, fields, digest, targets, instructions) in EXATTACK_CTOR_CODEGEN_EVIDENCE.items():
+        d = result[name]
+        if (not isinstance(d, dict) or d.get('diagnostic_only') is not True or
+                d.get('exactness_credit') != 'none' or
+                d.get('origin_classification') != 'unknown/review' or
+                d.get('original_full_extent_bytes') != size or
+                d.get('candidate_full_extent_bytes') != size or
+                d.get('original_sha256') != digest or
+                d.get('bound_original_fields') != fields or
+                d.get('relocation_target_addresses') != targets or
+                d.get('original_instructions') != instructions or
+                d.get('original_physical_bytes_equal') is not True):
+            raise RuntimeError('ExAttack constructor full codegen/origin evidence regressed: '+name)
+    return result
+
+
+def run_exattack_controller(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    """Cold-run both real constructor profiles, and all four exact companions."""
+    # This original-profile carrier also defines nonexact 321-byte Spawn and
+    # two reviewed but origin-UNKNOWN constructors. Never alter the C++ source
+    # just to force an implicit-vs-explicit authorship story.
+    build('exattack-release-records')
+    exact = (cold_replay_exact_source(
+        'src/ExAttackController.cpp', EXATTACK_CONTROLLER_EXACT_CARRIERS,
+        already_built=('build/matching/ExAttackController.obj',))
+        if protect_exact else [])
+
+    with (ROOT / 'config/match-units.toml').open('rb') as stream:
+        manifest = tomllib.load(stream)['units']
+    unit = manifest['exattack-release-records']
+    if (unit.get('source') != 'src/ExAttackController.cpp' or
+            unit.get('object') != 'build/matching/ExAttackController.obj' or
+            unit.get('profile') != list(_SCREEN_EFFECT_BASE_PROFILE)):
+        raise RuntimeError('ExAttack real /Ob1 compiler profile/physical carrier drifted')
+    size_flags = [('/Os' if flag == '/Ob1' else flag)
+                  for flag in _SCREEN_EFFECT_BASE_PROFILE]
+    if (size_flags.count('/Os') != 1 or '/Ob1' in size_flags):
+        raise RuntimeError('ExAttack original size-optimized profile missing')
+    output = ROOT / 'build/matching/ExAttackControllerCtorOs.obj'
+    output.resolve().relative_to((ROOT / 'build').resolve())
+    if output.is_symlink():
+        raise RuntimeError('ExAttack alternate ctor object path is symlinked')
+    if output.exists():
+        output.unlink()
+    proc = subprocess.run([
+        str(ROOT / 'scripts/compile-probe.sh'),
+        'src/ExAttackController.cpp', str(output.relative_to(ROOT)), *size_flags],
+        cwd=ROOT, capture_output=True, text=True)
+    if proc.returncode or not output.is_file():
+        raise RuntimeError('ExAttack original /Os constructor cold compile failed: '
+                           +(proc.stderr + proc.stdout)[-1000:])
+    reviewed = parsed([
+        'scripts/inspect-exattack-constructors.py', '--normal',
+        'build/matching/ExAttackController.obj', '--size-optimized',
+        'build/matching/ExAttackControllerCtorOs.obj', '--json'])
+    ctor = guard_exattack_constructor_codegen(reviewed)
+    return {name: {'target_bytes': item['original_full_extent_bytes'],
+                   'candidate_bytes': item['candidate_full_extent_bytes'],
+                   'relocations': item['bound_original_fields'],
+                   'codegen_identical': True, 'origin': 'unknown/review',
+                   'exactness_credit': 'none'}
+            for name, item in ctor.items()}, exact
+
+
 TITLE_DRAW_RESULT_SHA256 = '92279dc6d2b9ad5051fb902e6172d88eb7f9febe460d44459f16af0f45c74b0a'
 TITLE_DRAW_RESULT_RESIDUAL_WINDOWS = ((0x0E, 0x25, 21), (0x39, 0x3A, 1))
 # Complete SHA-pinned 1,939-byte DrawResult PE/COFF physical residuals.
@@ -2296,6 +2387,11 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('exattack', 'all'):
             owners, exact = run_exattack_type1422_draw(
+                protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('exattack', 'all'):
+            owners, exact = run_exattack_controller(
                 protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)

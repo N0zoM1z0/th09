@@ -9,6 +9,49 @@
 
 ## Current verified handoff checkpoint
 
+- **Original-PE-attested ExAttack special members (October 18):** The
+  `ExAttackRecord` and `ExAttackController` constructors are now checked by
+  a fresh, *non-crediting*, full-owner diagnostic on **every** `--owner
+  exattack` and `--owner all`. The original **15/15-byte record constructor**
+  binds its real `ZunTimer::ZunTimer @0x00403390` REL32; the independent
+  **28/28-byte controller constructor** under `/O2 /Os` binds the record
+  constructor's real `0x004157A0` DIR32 and the original VC7 EH vector
+  constructor at `0x00401470` REL32, including the exact **257 × 0x4C**
+  array arguments. The functions' original SHA hashes, sizes, instruction
+  decodings, every COFF field, and the *separate* `/Ob1` versus `/Os` real
+  compiler profiles all agree. The original target does **not** reveal
+  whether these empty special members were explicitly authored or implicitly
+  compiler-generated, so **both remain `origin unknown/review`, exactness
+  credit `none`**. No fake authored exact ledger rows or source-profile
+  rewrites. `--owner exattack` also cold-protects the **four original-exact
+  ExAttackController.cpp functions** sharing the normal `/Ob1` carrier, with
+  codegen and origin fail-closed tests. The separate 321-byte Spawn and large
+  ECL/Etama/Title/ExAttack bosses remain nonexact and unpromoted.
+- **ExAttack controller full native-carrier and special-member check (October 18):**
+  Source `ExAttackController.cpp` shares an authentic VC7.1 `/O2 /Ob1 /EHsc`
+  optimization context among **four already exact** functions (`ReleaseExAttackRecords`,
+  `Release`, `Register` and `Spawn`). `--owner exattack` now cold-compiles
+  and independently strict-original PE/COFF replays **all four**, rather than
+  omitting this lifecycle family when checking the hard Type19/21 big callbacks.
+  Adjacent constructors `ExAttackRecord::ExAttackRecord @0x004157A0` and
+  `ExAttackController::ExAttackController @0x004157B0` independently compile
+  byte-for-byte to the entire original **15/15 (one field)** and **28/28
+  (two fields)** physical extents under the true separately pinned `/Ob1`
+  and `/Os` VC7.1 profiles. The controller's 28-byte constructor uses the
+  actual 257-record vector-construction runtime target `@0x00401470`;
+  the record's true Timer constructor is `@0x00403390`. The SHA-pinned new
+  `inspect-exattack-constructors.py` checks **every original physical byte,
+  all three independent call/address operands and complete decoded RETs**,
+  but both constructor origins remain explicitly `unknown/review` because
+  the retail binary cannot distinguish explicit empty source definitions
+  from compiler-generated special members. Neither is counted as new exact;
+  the authoritative `config/functions.csv` and exact ledger remain unchanged.
+  The fresh full `--owner all` verifies **33 independent full owners**
+  (including these two noncrediting provenance checks) plus **184/184
+  DISTINCT already exact full-source functions**, up from 31 and 180.
+  `scripts/ci.py` passes **489 target-independent tests (28 skipped,
+  zero failures)**, plus tracking, documentation, build graph, generated
+  progress, immutable target PE identity and whitespace checks.
 - **Current Replay big-function machine-code improvement (October 18):**
   Full SHA-bound original Japanese `ReplayManagerView::BeginPlaybackStage
   @0x00420840` is **540 physical bytes**; pinned VC7.1 candidate remains
