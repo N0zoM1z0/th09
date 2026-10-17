@@ -29,6 +29,14 @@ def baseline():
         'original_blocks': 78, 'candidate_blocks': 77,
         'direct_graphs_agree': False,
         'aligned_field_identities': 157, 'field_change_spans': 15,
+        # The real full-owner decoded 172/171-field *referent multisets*
+        # are part of the source-cold guard, not optional diagnostic data.
+        'original_only_field_referents': [
+            dict(type=t, address=address, count=count)
+            for t, address, count in front.GAMEPLAY_SETUP_TARGET_ONLY_REFERENTS],
+        'source_only_field_referents': [
+            dict(type=t, address=address, count=count)
+            for t, address, count in front.GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS],
         'aligned_instructions': 394,
         'overlap_differences': len(differences),
         'difference_offsets': differences, 'complete_bytes_equal': False,
@@ -84,6 +92,14 @@ class GameplaySetupOriginalBoundFrontier(TestCase):
             {'complete_bytes_equal': True},
             {'exactness_credit': 'accepted'},
             {'diagnostic_only': False},
+            {'original_only_field_referents': None},
+            {'source_only_field_referents': []},
+            {'original_only_field_referents': [dict(type='DIR32',
+                address=0x4A7D90, count=4),
+                *report['original_only_field_referents'][1:]]},
+            {'source_only_field_referents': [
+                dict(type='DIR32',address=0x4A7DA0,count=1),
+                *report['source_only_field_referents'][1:]]},
         )
         for change in invalid:
             with self.subTest(change=str(change)[:60]), self.assertRaises(RuntimeError):

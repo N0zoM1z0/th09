@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Read-only complete gameplay setup replay; diagnostic only, no match credit."""
 import argparse
+from collections import Counter
 import capstone
 import difflib
 import hashlib
@@ -99,6 +100,21 @@ def address_fields(instructions):
     return sorted(fields)
 
 
+def unmatched_field_census(original: list, compiled: list) -> tuple[list, list]:
+    """Actual PE-vs-relocated COFF field multisets, independent of offset alignment.
+
+    This detects extra source references to a WRONG global even when counts,
+    field alignment and the list of allowed COFF symbols happen to pass.
+    The field-offset origin is already checked by `address_fields` and COFF.
+    """
+    a = Counter((kind, address) for _, kind, address in original)
+    b = Counter((kind, address) for _, kind, address in compiled)
+    def sorted_residuals(counter):
+        return [dict(type=kind, address=address, count=count)
+                for (kind, address), count in sorted(counter.items())]
+    return sorted_residuals(a - b), sorted_residuals(b - a)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('object', type=Path)
@@ -171,6 +187,7 @@ def main():
             raise ValueError('TH09 original GameplaySetupThread CFG census drifted')
         from diagnostic_field_alignment import align_fields
         aligned = align_fields(target_fields, candidate_fields)
+        target_only, source_only = unmatched_field_census(target_fields, candidate_fields)
         report = {
             'diagnostic_only': True, 'exactness_credit': 'none',
             'target_bytes': SIZE, 'candidate_bytes': len(code),
@@ -182,6 +199,10 @@ def main():
             'direct_graphs_agree': target_cfg == candidate_cfg,
             'aligned_field_identities': aligned['paired_field_identities'],
             'field_change_spans': len(aligned['changes']),
+            # Every differing PHYSICAL operand referent, not an aligned-score
+            # guess: the genuine target is 172 fields, source is 171.
+            'original_only_field_referents': target_only,
+            'source_only_field_referents': source_only,
             'aligned_instructions': sum(z.size for z in matcher.get_matching_blocks()),
             'overlap_differences': len(physical_differences),
             'difference_offsets': physical_differences,

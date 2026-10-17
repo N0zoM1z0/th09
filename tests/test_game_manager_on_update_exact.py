@@ -89,6 +89,10 @@ class GameManagerColdRegression(unittest.TestCase):
             'direct_graphs_agree': False,
             'aligned_field_identities': 157,
             'field_change_spans': 15,
+            'original_only_field_referents': [dict(type=t, address=a, count=n)
+                for t,a,n in boss.GAMEPLAY_SETUP_TARGET_ONLY_REFERENTS],
+            'source_only_field_referents': [dict(type=t, address=a, count=n)
+                for t,a,n in boss.GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS],
             'aligned_instructions': 394,
             'target_sha256': boss.GAMEPLAY_SETUP_TARGET_SHA,
             'difference_offsets': [i for i in range(1689) if
@@ -96,6 +100,40 @@ class GameManagerColdRegression(unittest.TestCase):
             'overlap_differences': 911,
             'complete_bytes_equal': False,
         }
+
+    def test_gameplay_setup_exact_172_vs_171_original_referents(self):
+        example = self.evidence()
+        self.assertEqual(boss.GAMEPLAY_SETUP_TARGET_ONLY_REFERENTS, (
+            ('DIR32', 0x4A7D90, 3), ('DIR32', 0x4A7DC4, 1),
+            ('DIR32', 0x4A7E34, 1)))
+        self.assertEqual(boss.GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS, (
+            ('DIR32', 0x4A7DB8, 1), ('DIR32', 0x4A7E28, 1),
+            ('DIR32', 0x4A7E44, 2)))
+        boss.guard_gameplay_setup_field_referents(example)
+        # A real improvement may reconcile a target-only and a candidate-only
+        # memory referent without changing total field counts or calls.
+        improved = {**example,
+            'original_only_field_referents': [dict(type='DIR32',address=0x4A7D90,count=2),
+                *example['original_only_field_referents'][1:]],
+            'source_only_field_referents': [*example['source_only_field_referents'][:-1],
+                dict(type='DIR32',address=0x4A7E44,count=1)]}
+        boss.guard_gameplay_setup_field_referents(improved)
+        for change in (
+            {'original_only_field_referents': []},
+            {'source_only_field_referents': []},
+            {'original_only_field_referents': None},
+            {'original_only_field_referents': example['original_only_field_referents'][::-1]},
+            {'original_only_field_referents': example['original_only_field_referents'] +
+             [dict(type='DIR32',address=0x4A7DCC,count=1)]},
+            {'source_only_field_referents': example['source_only_field_referents'][:-1] +
+             [dict(type='DIR32',address=0x4A7E44,count=3)]},
+            {'source_only_field_referents': example['source_only_field_referents'][:-1] +
+             [dict(type='REL32',address=0x4A7E44,count=2)]},
+            {'source_only_field_referents': [dict(type='DIR32',address='0x4A7DB8',count=1)] +
+             example['source_only_field_referents'][1:]},
+        ):
+            with self.subTest(change=change), self.assertRaises(RuntimeError):
+                boss.guard_gameplay_setup_field_referents({**example, **change})
 
     @staticmethod
     def cleanup_evidence():

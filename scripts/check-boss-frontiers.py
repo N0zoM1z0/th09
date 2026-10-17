@@ -868,6 +868,54 @@ def run_effect(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 
 GAMEPLAY_SETUP_TARGET_SHA = '8dc5dd11495f34c6b1998653e0094195d6d891fff374d403750141e9936f0d6a'
+
+# Independent physical target/source referent MULTISETS (not merely code
+# offsets). All 35 callee identities are equal; the residual entries are
+# genuine GameManager storage cursor/reload roles. Target-only 5 vs source-only
+# 4 explains the outstanding 172-vs-171 field count. Preserve the ability to
+# narrow these gaps; forbid unexplained NEW wrong referents.
+GAMEPLAY_SETUP_TARGET_ONLY_REFERENTS = (
+    ('DIR32', 0x004A7D90, 3),
+    ('DIR32', 0x004A7DC4, 1),
+    ('DIR32', 0x004A7E34, 1),
+)
+GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS = (
+    ('DIR32', 0x004A7DB8, 1),
+    ('DIR32', 0x004A7E28, 1),
+    ('DIR32', 0x004A7E44, 2),
+)
+
+
+def guard_gameplay_setup_field_referents(result: dict) -> None:
+    """Reject novel unresolved operand targets even at equal field totals."""
+    readings = []
+    for field, original_limits in (
+            ('original_only_field_referents', GAMEPLAY_SETUP_TARGET_ONLY_REFERENTS),
+            ('source_only_field_referents', GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS)):
+        records = result.get(field)
+        if not isinstance(records, list):
+            raise RuntimeError('GameplaySetupThread missing original-referent multiset evidence')
+        values = []
+        for entry in records:
+            if not isinstance(entry, dict) or set(entry) != {'type', 'address', 'count'}:
+                raise RuntimeError('GameplaySetupThread malformed original-referent evidence')
+            typ, address, count = entry['type'], entry['address'], entry['count']
+            if (typ not in ('DIR32', 'REL32') or type(address) is not int or
+                    type(count) is not int or count < 1):
+                raise RuntimeError('GameplaySetupThread invalid operand type/address/multiplicity')
+            values.append((typ, address, count))
+        if values != sorted(values) or len(values) != len(set((t, a) for t, a, _ in values)):
+            raise RuntimeError('GameplaySetupThread duplicate or shuffled operand identities')
+        ceiling = {(t, a): n for t, a, n in original_limits}
+        if any((t, a) not in ceiling or n > ceiling[(t, a)] for t, a, n in values):
+            raise RuntimeError('GameplaySetupThread new incorrect original/codegen field referent')
+        readings.append(sum(n for _, _, n in values))
+    # The original 172-field inventory and source 171-field inventory are
+    # checked elsewhere; their multiset-count difference must ALSO balance.
+    if readings[0] - readings[1] != result.get('original_fields', 0) - result.get('bound_fields', 0):
+        raise RuntimeError('GameplaySetupThread referent multiset count does not reconcile')
+
+
 # Bit i is 1 iff the cold VC7.1 candidate still differs at original PE
 # physical offset i. This is an independently reviewed, SOURCE-BOUND
 # NON-CREDITING residual mask; it does not contain or patch target bytes.
@@ -922,6 +970,7 @@ def guard_gameplay_setup_thread(result: dict) -> None:
             any(not (GAMEPLAY_SETUP_RESIDUAL_MASK[i // 8] & (1 << (i % 8)))
                 for i in differences)):
         raise RuntimeError('GameplaySetupThread 1689-byte/171-field/35-call/911-residual frontier drifted')
+    guard_gameplay_setup_field_referents(result)
 
 
 def run_game_manager(*, protect_exact: bool) -> tuple[dict, list[dict]]:
@@ -959,6 +1008,8 @@ def run_game_manager(*, protect_exact: bool) -> tuple[dict, list[dict]]:
         'original_blocks': gameplay['original_blocks'],
         'candidate_blocks': gameplay['candidate_blocks'],
         'field_change_spans': gameplay['field_change_spans'],
+        'original_only_field_referents': gameplay['original_only_field_referents'],
+        'source_only_field_referents': gameplay['source_only_field_referents'],
         'aligned_field_identities': gameplay['aligned_field_identities'],
         'ordinary_differences': gameplay['overlap_differences'],
         'direct_graphs_agree': gameplay['direct_graphs_agree'],
