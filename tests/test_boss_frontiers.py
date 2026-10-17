@@ -875,6 +875,8 @@ class BossFrontierChecks(TestCase):
             'complete_direct_graphs_agree': True,
             'aligned_field_identities': 31,
             'complete_overlap_differences': 49, 'missing_target_bytes': 2,
+            'target_sha256': frontiers.REPLAY_BEGIN_TARGET_SHA,
+            'difference_offsets': sorted(frontiers.REPLAY_BEGIN_ORIGINAL_RESIDUAL_OFFSETS),
             'extra_source_bytes': 0, 'complete_bytes_equal': False,
         }
 
@@ -901,12 +903,42 @@ class BossFrontierChecks(TestCase):
                            {'complete_direct_graphs_agree': False},
                            {'aligned_field_identities': 30},
                            {'complete_overlap_differences': 50},
+                           {'target_sha256': '0'*64},
+                           {'difference_offsets': None},
+                           {'difference_offsets': list(reversed(sorted(
+                               frontiers.REPLAY_BEGIN_ORIGINAL_RESIDUAL_OFFSETS)))},
+                           {'difference_offsets': sorted(
+                               frontiers.REPLAY_BEGIN_ORIGINAL_RESIDUAL_OFFSETS)[:-1]},
                            {'missing_target_bytes': 3},
                            {'extra_source_bytes': 1},
                            {'complete_bytes_equal': True}):
             with self.subTest(corruption=corruption), patch.object(frontiers, 'build'), patch.object(
                     frontiers, 'parsed', return_value={**self.replay_evidence(), **corruption}), self.assertRaises(RuntimeError):
                 frontiers.run_replay_playback(protect_exact=False)
+
+    def test_replay_begin_byte_guard_rejects_new_mismatch_with_same_count(self):
+        expected = set(frontiers.REPLAY_BEGIN_ORIGINAL_RESIDUAL_OFFSETS)
+        self.assertEqual(len(expected), 49)
+        evidence = self.replay_evidence()
+        self.assertEqual(expected, set(evidence['difference_offsets']))
+        # Even within the two original nonmatching windows, these bytes
+        # ALREADY agreed between cold source and original. Old guard only
+        # counted 49 and would have incorrectly accepted the substitutions.
+        for damaged in (0x14A, 0x150, 0x160, 0x1FA, 0x1FF, 0x1F9):
+            self.assertNotIn(damaged, expected)
+            changed = sorted((expected - {0x14B}) | {damaged})
+            with self.subTest(damaged=hex(damaged)), patch.object(
+                    frontiers, 'build'), patch.object(frontiers, 'parsed',
+                    return_value={**evidence, 'difference_offsets': changed}), self.assertRaisesRegex(
+                    RuntimeError, 'already matching original physical byte'):
+                frontiers.run_replay_playback(protect_exact=False)
+        narrowed = {**evidence, 'complete_overlap_differences': 48,
+                    'difference_offsets': sorted(expected - {0x14B})}
+        with patch.object(frontiers, 'build'), patch.object(frontiers, 'parsed',
+                return_value=narrowed):
+            result, _ = frontiers.run_replay_playback(protect_exact=False)
+        self.assertEqual(result['replay_begin_playback']['ordinary_differences'], 48)
+        self.assertEqual(narrowed['exactness_credit'], 'none')
 
     @staticmethod
     def title_draw_result_evidence():

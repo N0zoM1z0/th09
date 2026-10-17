@@ -693,6 +693,20 @@ def run_camera_facing(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 
 
+# Exact 49 original-linked mismatching physical positions of the current
+# 540-byte replay-stage owner (source produces 538, two bytes still missing).
+# Every other compared byte already matches SHA-pinned Japanese TH09 v1.50a.
+# A new source proposal may CLEAR any of these, never introduce another.
+REPLAY_BEGIN_TARGET_SHA = 'af0dd0d85e36de147b67c07e8790bd200adb04f2862496dac928b3731dff5f64'
+REPLAY_BEGIN_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
+    0x14B, 0x14C, 0x14D, 0x14E, 0x151, 0x152, 0x153, 0x154, 0x155, 0x156, 0x157,
+    0x158, 0x159, 0x15A, 0x15B, 0x15C, 0x15D, 0x15E, 0x15F, 0x1FB, 0x1FC, 0x1FD,
+    0x1FE, 0x200, 0x201, 0x202, 0x203, 0x204, 0x205, 0x206, 0x207, 0x208, 0x209,
+    0x20A, 0x20B, 0x20C, 0x20D, 0x20E, 0x20F, 0x210, 0x211, 0x212, 0x213, 0x214,
+    0x215, 0x216, 0x217, 0x218, 0x219,
+))
+
+
 def run_replay_playback(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     """Cold-audit a full replay-stage callback and its two exact TU siblings.
 
@@ -715,11 +729,27 @@ def run_replay_playback(*, protect_exact: bool) -> tuple[dict, list[dict]]:
             current.get('candidate_blocks') != 12 or
             not current.get('complete_direct_graphs_agree') or
             current.get('aligned_field_identities', -1) < 31 or
-            current.get('complete_overlap_differences', 999) > 49 or
+            current.get('target_sha256') != REPLAY_BEGIN_TARGET_SHA or
+            type(current.get('complete_overlap_differences')) is not int or
+            current['complete_overlap_differences'] > 49 or
+            current['complete_overlap_differences'] < 0 or
             current.get('missing_target_bytes', 999) > 2 or
+            current.get('missing_target_bytes') !=
+                max(0, 540 - current['candidate_bytes']) or
             current.get('extra_source_bytes') != 0 or
-            current.get('complete_bytes_equal')):
+            current.get('complete_bytes_equal') is not False):
         raise RuntimeError('Replay playback 540-byte/32-field/5-call/12-block frontier regressed')
+    # Count-based acceptance was unsafe: a changed compiler candidate could
+    # fix one bad byte while breaking another that already equaled the PE.
+    offsets = current.get('difference_offsets')
+    if (len(REPLAY_BEGIN_ORIGINAL_RESIDUAL_OFFSETS) != 49 or
+            not isinstance(offsets, list) or
+            len(offsets) != current['complete_overlap_differences'] or
+            offsets != sorted(set(x for x in offsets if type(x) is int)) or
+            any(type(x) is not int or not 0 <= x < current['candidate_bytes']
+                for x in offsets) or
+            not set(offsets).issubset(REPLAY_BEGIN_ORIGINAL_RESIDUAL_OFFSETS)):
+        raise RuntimeError('Replay playback damaged an already matching original physical byte')
     exact = []
     if protect_exact:
         # Both use the exact SAME freshly-built no-EH VC7.1 ReplayInput object.

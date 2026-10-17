@@ -232,6 +232,10 @@ def diagnose(path: Path) -> dict:
         'aligned_field_identities': field_alignment['paired_field_identities'],
         'field_change_spans': field_alignment['changes'],
         'complete_overlap_differences': sum(a != b for a, b in zip(target, linked)),
+        # The complete original PE-linked physical mismatch set, not just
+        # one count or matched-prefix sample. Existing exact bytes are sacred.
+        'difference_offsets': [i for i, (original, compiled) in
+                               enumerate(zip(target, linked)) if original != compiled],
         'missing_target_bytes': max(0, SIZE - len(linked)),
         'extra_source_bytes': max(0, len(linked) - SIZE),
         'complete_bytes_equal': linked == target,
