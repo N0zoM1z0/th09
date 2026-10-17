@@ -274,6 +274,40 @@ were resolved with ordinary C++ offset/declaration scheduling. The exact
 canonical siblings. This receipt does not prove the Windows i386 whole image,
 data ownership, runtime fidelity, nearby bosses, or later portability.
 
+## Current shared Etama/Effect ANM-8 resident-prefix regression receipts
+
+Original Japanese TH09 v1.50a, authenticated SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+All four independent **`strict-live-v1` forced-cold** Factory jobs bind
+**exact gameplay source commit `74b973eba7b14c8ee35aea921809c60b88ca8d66`**,
+where Etama's earlier private `AnmLoaded +0x04` resource-state view and Effect's
+raw `void**` alias were consolidated into one asserted 8-byte prefix. The two
+Etama exact carrier methods' 15 compiler-private `$L` label renames were
+original-address reviewed before this commit. For each job:
+**`receipt_verdict=pass`, `acceptance_decision=accepted`**, with no rejection reasons.
+
+- `EtamaController::AddedCallback @0x00413E40`, **832/832 physical bytes** and
+  30 original-bound COFF fields: job `job:0e861f19d06941c8a5878462423c2294`,
+  `receipt:bead406a957aa191b580de896f5d42dd8cc24e92a14a93e982c881b7ae583ac4`.
+- `DrawSingleBullet @0x00413AF0`, **215 authored /232 physical bytes** and
+  16 original COFF fields: job `job:ca7c0b5330bb49378ad6146ddbb6e240`,
+  `receipt:5eb1b56b7e59e9076dffed71c861badd2e5ec7a61f02063c02257a0b3781d91d`.
+- `EtamaController::OnUpdate @0x004146F0`, **2,195 authored /2,216 physical bytes**:
+  job `job:0fe5e33b4e3e455d8c4847bef4abcb0d`,
+  `receipt:121530694ccd731bb92a3c71854a1c8b086225db1af221bdd407889b9a7a5270`.
+- `EffectManager::OnUpdate @0x0040CDD0`, **475/475 physical bytes**:
+  job `job:2d7248df74be4b55a040ca234d4a1f14`,
+  `receipt:8bdb90d0e4eb5c03576683f00aeee5ff3ba9801ab1bb17b6fac2456892f93d0b`.
+
+These are **four already exact source-owner regression confirmations**, not
+four newly reconstructed exact functions. They do **not** accept the adjacent
+600-byte `EtamaController::OnDraw` (268 full-owner differences), the 51-byte
+`EffectManager::AddedCallback` (eight differences), RunEcl (30), the
+Type19/21 initialization preheaders (six/nine), or the whole Windows i386
+program and runtime. The canonical scoreboard remains **940/980 authored
+source-present exact**, with 40 unclosed. Later docs-only commits do not
+retroactively change these source commit bindings.
+
 ## Earlier exact closure and representative accepted landmark proofs
 
 ### New exact closure: Enemy collision wrapper

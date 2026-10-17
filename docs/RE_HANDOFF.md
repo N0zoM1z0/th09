@@ -358,6 +358,12 @@ This checkpoint does **not** change 980 source / 940 exact / 40 open.
   pass; CI has **473 tests (28 skipped, zero failures)**, with target, ledger,
   documentation, progress and source whitespace validated. No new exact
   function is claimed and the Windows whole-build/runtime gates remain open.
+  Independent Factory forced-cold source-commit-bound replay at `74b973e`
+  returned **pass / accepted** for four previously exact functions:
+  Etama `AddedCallback` (832), `DrawSingleBullet` (232), Etama `OnUpdate`
+  (2,216), and Effect `OnUpdate` (475). Full receipt IDs and immutable
+  source binding are archived in `docs/RE_ACCEPTED_RECEIPTS.md`. The
+  adjacent **nonexact** Etama/Effect callbacks do not inherit acceptance.
 
 ## Restart and verification
 
