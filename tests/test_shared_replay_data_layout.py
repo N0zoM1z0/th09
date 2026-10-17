@@ -30,7 +30,16 @@ class SharedReplayDataPhysicalLayout(TestCase):
         for filename, expected in consumers.items():
             with self.subTest(filename=filename):
                 body = (ROOT / filename).read_text()
-                self.assertIn('#include "ReplayDataOriginalView.hpp"', body)
+                if filename == "src/ReplayInput.cpp":
+                    # ReplayInput now includes the original 0x1EC record
+                    # through the shared, physical 0x164-byte manager owner.
+                    # Require the complete include chain rather than an
+                    # obsolete direct source-only include convention.
+                    self.assertIn('#include "ReplayManagerRuntimeView.hpp"', body)
+                    manager = (ROOT / "src/ReplayManagerRuntimeView.hpp").read_text()
+                    self.assertIn('#include "ReplayDataOriginalView.hpp"', manager)
+                else:
+                    self.assertIn('#include "ReplayDataOriginalView.hpp"', body)
                 self.assertIn(expected, body)
                 self.assertNotIn("struct ReplayDataView", body)
                 self.assertNotIn("struct ReplayFrameDataStartView", body)

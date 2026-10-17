@@ -15,6 +15,7 @@
 #include "GameConfiguration.hpp"
 #include "ScreenEffect.hpp"
 #include "ReplayInputState.hpp"
+#include "ReplayManagerRuntimeView.hpp"
 #include "Supervisor.hpp"
 
 #include <windows.h>
@@ -101,13 +102,6 @@ struct GameSubsystemSetupView
     int IsActive();
 };
 
-// Call-facing view of the full ReplayManager release at 0x00420AD0.
-// It is distinct from ReleaseStageObject's alternate teardown at 0x00420C10;
-// no complete ReplayManager layout or original class spelling is claimed.
-struct ReplayManagerSetupReleaseView
-{
-    void Release();
-};
 
 struct SetupRngView
 {
@@ -916,7 +910,7 @@ mode_ready:
         else
             reinterpret_cast<SetupStateBuffer *>(manager->sides[0].state)->value00 = 0.0f;
 
-        reinterpret_cast<ReplayManagerSetupReleaseView *>(manager->stageObject)
+        reinterpret_cast<ReplayManagerView *>(manager->stageObject)
             ->Release();
         manager->stageObject = NULL;
 

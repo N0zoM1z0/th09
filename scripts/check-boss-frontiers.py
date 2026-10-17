@@ -1186,7 +1186,8 @@ def guard_gameplay_setup_thread(result: dict) -> None:
     guard_gameplay_setup_field_referents(result)
 
 
-def run_game_manager(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+def run_game_manager(*, protect_exact: bool,
+                     replay_create_prechecked: bool = False) -> tuple[dict, list[dict]]:
     """Independently cold-validate the newly exact 1,230-byte calc boss.
 
     Nine original owners use the pinned /O2 /Os profile, but the exact
@@ -1278,6 +1279,18 @@ def run_game_manager(*, protect_exact: bool) -> tuple[dict, list[dict]]:
         owners.extend(canonical(name) for name in primary[1:])
         build('supervisor-setup-loading-vms-and-capture')
         owners.append(canonical('supervisor-setup-loading-vms-and-capture'))
+        # The 1,689-byte worker genuinely creates and fully releases the
+        # 0x164-byte ReplayManager via two separately exact real member ABI
+        # boundaries. Both native ReplayInput profiles must be cold-built;
+        # the older ReplayManagerSetupReleaseView fake callee is forbidden.
+        for sibling in ('replay-manager-release', 'replay-manager-create'):
+            if sibling == 'replay-manager-create' and replay_create_prechecked:
+                # Full --owner all has *already* cold-built the real no-EH
+                # ReplayInput profile and replayed this 361-byte exact unit.
+                # Preserve strict coverage, without counting it twice.
+                continue
+            build(sibling)
+            owners.append(canonical(sibling))
     return diagnostics, owners
 
 
@@ -2196,7 +2209,10 @@ def main() -> int:
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('gamemgr', 'all'):
-            owners, exact = run_game_manager(protect_exact=not args.skip_exact_siblings)
+            owners, exact = run_game_manager(
+                protect_exact=not args.skip_exact_siblings,
+                replay_create_prechecked=args.owner == 'all' and
+                not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('enemy', 'all'):

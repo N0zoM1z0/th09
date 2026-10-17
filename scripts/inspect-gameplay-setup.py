@@ -57,7 +57,7 @@ DESTINATIONS = {
     '__real@40000000': 0x48EF5C,
     '_free': 0x47B249,
     '??2@YAPAXI@Z': 0x47B24E,
-    '?Release@ReplayManagerSetupReleaseView@@QAEXXZ': 0x420AD0,
+    '?Release@ReplayManagerView@@QAEXXZ': 0x420AD0,
     '?InitializeViewports@Supervisor@@QAEXXZ': 0x4307C0,
     '?PreloadPlayerAnmResources@@YIHXZ': 0x41CDE0,
 }

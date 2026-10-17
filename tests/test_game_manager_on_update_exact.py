@@ -161,7 +161,7 @@ class GameManagerColdRegression(unittest.TestCase):
                 'aligned_instructions':95, 'overlap_differences':210,
                 'direct_graphs_agree':False}
 
-    def test_all_ten_original_bound_functions_replayed_with_two_builds(self):
+    def test_all_twelve_original_bound_functions_replayed_across_four_builds(self):
         with patch.object(boss, 'build') as build, patch.object(
                 boss, 'parsed', side_effect=[self.evidence(), self.cleanup_evidence()]), patch.object(
                 boss, 'canonical', side_effect=lambda unit: {'unit':unit}) as canonical:
@@ -169,13 +169,36 @@ class GameManagerColdRegression(unittest.TestCase):
         self.assertEqual(owners['gameplay_setup_thread']['bound_fields'],171)
         self.assertEqual(owners['game_manager_cleanup']['candidate_bytes'],410)
         self.assertFalse(owners['gameplay_setup_thread']['direct_graphs_agree'])
-        self.assertEqual(len(exact),10)
+        self.assertEqual(len(exact),12)
         self.assertEqual(exact[0]['unit'],'game-manager-on-update')
-        self.assertEqual(exact[-1]['unit'],'supervisor-setup-loading-vms-and-capture')
-        self.assertEqual(build.call_count,2)
+        self.assertEqual([row['unit'] for row in exact[-3:]],
+                         ['supervisor-setup-loading-vms-and-capture',
+                          'replay-manager-release', 'replay-manager-create'])
+        self.assertEqual(build.call_count,4)
         self.assertEqual([args[0][0] for args in build.call_args_list],
-                         ['game-manager-on-update','supervisor-setup-loading-vms-and-capture'])
-        self.assertEqual(canonical.call_count,10)
+                         ['game-manager-on-update',
+                          'supervisor-setup-loading-vms-and-capture',
+                          'replay-manager-release', 'replay-manager-create'])
+        self.assertEqual(canonical.call_count,12)
+
+    def test_full_all_mode_does_not_double_count_already_replayed_create(self):
+        # The full suite runs --owner replay (with exact Create) before the
+        # GameManager owner. Only the separately true 318-byte Release is new
+        # in that combined scan; focused gamemgr still checks both methods.
+        with patch.object(boss, 'build') as build, patch.object(
+                boss, 'parsed', side_effect=[self.evidence(), self.cleanup_evidence()]), patch.object(
+                boss, 'canonical', side_effect=lambda name: {'unit': name}) as canonical:
+            owners, exact = boss.run_game_manager(
+                protect_exact=True, replay_create_prechecked=True)
+        self.assertEqual(owners['gameplay_setup_thread']['ordinary_differences'], 911)
+        self.assertEqual(len(exact), 11)
+        self.assertEqual(exact[-1]['unit'], 'replay-manager-release')
+        self.assertNotIn('replay-manager-create', [r['unit'] for r in exact])
+        self.assertEqual([a[0][0] for a in build.call_args_list], [
+            'game-manager-on-update',
+            'supervisor-setup-loading-vms-and-capture',
+            'replay-manager-release'])
+        self.assertEqual(canonical.call_count, 11)
 
     def test_skip_siblings_never_drops_the_new_large_boss_or_nonexact_worker(self):
         with patch.object(boss, 'build') as build, patch.object(

@@ -61,11 +61,9 @@ struct SoundPlayerView {
 
 
 
-struct ReplayManagerView {
-    static ReplayDataView *LoadReplayData(ReplayDataView *data, i32 fileSize);
-    static int SaveReplay(ReplayManagerView *replayManager, const char *replayPath, const char *replayName);
-    void Release();
-};
+
+
+#include "ReplayManagerRuntimeView.hpp"
 
 struct TitleFloat3View {
     TitleFloat3View() {}

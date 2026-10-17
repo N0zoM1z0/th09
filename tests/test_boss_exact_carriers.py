@@ -66,6 +66,26 @@ class ExactCarrierDiscovery(unittest.TestCase):
                     self.assertEqual(fields[off]['target'], target)
                     self.assertEqual(fields[off]['type'], 'DIR32')
 
+    def test_replay_owner_publication_keeps_all_nine_original_title_labels(self):
+        # The genuine shared 0x164-byte ReplayManager view introduces new
+        # compiler-private labels but changes zero target bytes. Validate
+        # each old retail address rather than accepting symbol-string churn.
+        unit = self.units()['title-screen-start-menu']
+        self.assertEqual(unit['source'], 'src/TitleScreen.cpp')
+        expected = {
+            0x3C2: 0x0042A43B,
+            0x618: 0x0042A1E9, 0x61C: 0x0042A208,
+            0x620: 0x0042A23C, 0x624: 0x0042A286,
+            0x628: 0x0042A2D2, 0x62C: 0x0042A293,
+            0x630: 0x0042A302, 0x634: 0x0042A380,
+        }
+        actual = {row['offset']: row['target'] for row in unit['relocations']
+                  if row['type']=='DIR32' and row['symbol'].startswith('$L')}
+        for off, address in expected.items():
+            with self.subTest(offset=hex(off)):
+                self.assertEqual(actual[off], address)
+        self.assertEqual(set(expected), set(actual))
+
     def test_real_title_main_and_o2_score_carriers_are_all_covered(self):
         groups = frontier.exact_source_carriers(
             'src/TitleScreen.cpp', frontier.TITLE_EXACT_CARRIERS)

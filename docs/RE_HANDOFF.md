@@ -131,6 +131,33 @@
   The fresh full `--owner all` passes **31 diagnostics and 146/146 exact
   siblings**; `scripts/ci.py` passes **458 tests (28 skipped)** with tracking,
   docs, build-graph, progress and whitespace validation.
+- **ReplayManager true owner shared across three source families (October 17):**
+  The still-open **1,689-byte** `GameplaySetupThread @0x0041AF2D`
+  now calls the *genuine* independently exact **318-byte**
+  `ReplayManagerView::Release @0x00420AD0`, not the speculative
+  `ReplayManagerSetupReleaseView` method alias. A common reviewed
+  `ReplayManagerRuntimeView.hpp` holds the real **0x164-byte** ReplayManager
+  layout and 0x18-byte ReplayBufferLink, with compile-time field offsets,
+  for `ReplayInput.cpp`, `GameManagerSetup.cpp` and `TitleScreen.cpp`.
+  The separate **42-byte** `ReleaseStageObject @0x00420C10` remains a distinct
+  teardown contract. The original-linked GameplaySetupThread retains
+  **1,689/1,689 physical bytes, 171/172 source/original fields, 35 ordered
+  calls, 77/78 source/original blocks and 911 unequal bytes**; this is a
+  real call/type correctness gain, **not** a newly exact boss. Independently
+  cold compiled all **60/60** existing exact source functions across their
+  **six real compiler carrier/profile groups** without a byte/field failure:
+  12 ReplayInput, 10 GameManagerSetup and 38 TitleScreen. Nine compiler-local
+  `OnUpdateStartMenu` `$L` labels changed only in spelling and were checked
+  individually against their unchanged real original target addresses before
+  refreshing their manifest names. Focused `--owner gamemgr` now additionally
+  protects the true 318-byte Release and 361-byte Create exact callees;
+  full `--owner all` de-duplicates Create because the replay owner already
+  checked that no-EH source TU. The complete fresh `--owner all` passes
+  **31 original-bound diagnostics and 147/147 DISTINCT strict exact sibling
+  reports** (no duplicate Create credit); full `scripts/ci.py` passes
+  **465 tests, 28 skipped**, plus tracking, docs, build graph, progress and
+  whitespace validation. The canonical scoreboard remains
+  **980 source-present / 940 exact / 40 nonexact**.
 - **Phase:** original exact-reconstruction only. The 95% reviewed-authored
   byte milestone is open; whole Windows i386 build/link/resources/runtime,
   dual-Oracle semantic reconstruction and portability are still open.
