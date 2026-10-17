@@ -219,6 +219,10 @@ def inspect(path: Path, *, explain: bool = False) -> dict:
         'absent_target_bytes': max(0, SIZE-len(candidate)),
         'extra_candidate_bytes': max(0, len(candidate)-SIZE),
         'first_differences': [hex(x) for x in differences[:24]],
+        # Never hide the other original-bound differing code bytes from the
+        # boss gate. Exact prior byte positions need preservation even when
+        # the candidate is longer than the original owner.
+        'difference_offsets': differences,
         'complete_bytes_equal': candidate == target,
         'target_sha256': hashlib.sha256(target).hexdigest(),
         'raw_sha256': hashlib.sha256(raw).hexdigest(),

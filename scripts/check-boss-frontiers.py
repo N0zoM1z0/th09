@@ -1354,8 +1354,108 @@ def run_exattack_type3(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     }}, exact
 
 
+EXATTACK_1422_DRAW_SHA256 = 'af3c06ea2c9f68861067f5feb784206035dd67ea3eb07ef3994ed4ec17df74f4'
+# Full cold original SHA+53-field PE/COFF prefix comparison of the 959-byte
+# original Type14/22 Draw owner against its 974-byte current real TU source.
+# One bit per original physical byte: 905 still differ and 54 already match.
+# A truly improved candidate may CLEAR these positions, never poison an
+# original-matching position, regardless of codegen reordering or length.
+EXATTACK_1422_DRAW_ORIGINAL_RESIDUAL_MASK = bytes.fromhex(
+    'a04bfffffffffffffffffffffffffffbfeffffff'
+    'ffbfffffdffffcffffff1ffff7ffffffffffffff'
+    'ffff3fffffffeffffffffeffefffdffcffcdffdf'
+    'ffffff7fffbefffff6ffffffffbfdfffff77feff'
+    'ffffff7ffffffffffffffffffbffffffffffffff'
+    'ffffffffffffffffffdffb7fbffef7fb7fbfbf7f'
+)
+
+EXATTACK_1422_DRAW_EXACT_FAMILY = (
+    'exattack-type14-init', 'exattack-type22-init', 'exattack-type14-22-update',
+)
+
+
+def guard_exattack_type1422_draw(result: dict) -> dict:
+    """Noncrediting original/COFF coverage of the complete 959-byte draw boss.
+
+    Decode and bind the entire callback, all 53 address fields and the exact
+    20 direct/12 indirect call sequence in the independent inspector. A near
+    match here cannot credit a function or bypass the three exact siblings.
+    """
+    noncrediting(result, name='ExAttack Type14/22 Draw', target_size=959,
+                 fields=53, fields_key='candidate_fields')
+    size = result.get('candidate_bytes')
+    count = result.get('overlapping_differences')
+    candidate_jumps = result.get('candidate_direct_jumps')
+    first = result.get('first_differences')
+    if (result.get('target_sha256') != EXATTACK_1422_DRAW_SHA256 or
+            type(size) is not int or not 959 <= size <= 974 or
+            result.get('target_instructions') != 290 or
+            type(result.get('candidate_instructions')) is not int or
+            not 290 <= result['candidate_instructions'] <= 297 or
+            result.get('target_fields') != 53 or
+            result.get('direct_calls') != 20 or
+            result.get('indirect_calls') != 12 or
+            result.get('field_order_and_destinations_equal') is not True or
+            result.get('ordered_direct_calls_equal') is not True or
+            result.get('target_direct_jumps') != 9 or
+            type(candidate_jumps) is not int or candidate_jumps != 9 or
+            type(count) is not int or not 0 <= count <= 905 or
+            len(EXATTACK_1422_DRAW_ORIGINAL_RESIDUAL_MASK) != 120 or
+            sum(x.bit_count() for x in EXATTACK_1422_DRAW_ORIGINAL_RESIDUAL_MASK) != 905 or
+            result.get('absent_target_bytes') != 0 or
+            result.get('extra_candidate_bytes') != size - 959 or
+            result.get('complete_bytes_equal') is not (size == 959 and count == 0) or
+            not isinstance(first, list) or len(first) != min(count, 24) or
+            any(not isinstance(x, str) or not re.fullmatch(r'0x[0-9a-f]+', x)
+                for x in first) or
+            [int(x, 16) for x in first] !=
+                sorted(set(int(x, 16) for x in first)) or
+            any(int(x, 16) >= 959 for x in first)):
+        raise RuntimeError('ExAttack Type14/22 959-byte SHA/53-field/32-call/9-jump original owner regressed')
+    # The public producer must supply every full original-linked physical
+    # mismatch, not only the first 24 diagnostic offsets. This also detects
+    # a candidate that silently breaks an already matched code/data operand.
+    actual = result.get('difference_offsets')
+    if (not isinstance(actual, list) or len(actual) != count or
+            any(type(i) is not int or not 0 <= i < 959 for i in actual) or
+            actual != sorted(set(actual)) or
+            [int(x, 16) for x in first] != actual[:24] or
+            any(not (EXATTACK_1422_DRAW_ORIGINAL_RESIDUAL_MASK[i // 8] &
+                     (1 << (i % 8))) for i in actual)):
+        raise RuntimeError('ExAttack Type14/22 changed an already matching original physical byte')
+    return {'target_bytes': 959, 'candidate_bytes': size,
+            'target_instructions': 290, 'candidate_instructions': result['candidate_instructions'],
+            'bound_fields': 53, 'ordered_direct_calls': 20,
+            'ordered_indirect_calls': 12, 'direct_jumps': candidate_jumps,
+            'overlap_differences': count, 'extra_candidate_bytes': size - 959}
+
+
+def run_exattack_type1422_draw(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    # Was previously inspected manually but missing from BOTH the EXATTACK
+    # owner and ALL cold suites. Rebuild the real draw carrier on each run.
+    obj = 'build/matching/ExAttackDrawType14Type22.obj'
+    build_nonexact('src/ExAttackDrawType14Type22.cpp', obj,
+                   reference_unit='exattack-type14-init')
+    result = parsed(['scripts/inspect-exattack-type14-22-draw.py', obj, '--json'],
+                    diagnostic=True)
+    draw = guard_exattack_type1422_draw(result)
+    exact = []
+    if protect_exact:
+        for unit in EXATTACK_1422_DRAW_EXACT_FAMILY:
+            build(unit)
+            exact.append(canonical(unit))
+    return {'exattack_type14_22_draw': draw}, exact
+
+
 TITLE_DRAW_RESULT_SHA256 = '92279dc6d2b9ad5051fb902e6172d88eb7f9febe460d44459f16af0f45c74b0a'
 TITLE_DRAW_RESULT_RESIDUAL_WINDOWS = ((0x0E, 0x25, 21), (0x39, 0x3A, 1))
+# Complete SHA-pinned 1,939-byte DrawResult PE/COFF physical residuals.
+# +0x13 and +0x18 were ALREADY equal inside the first residual window.
+# The other 1,917 bytes (including both positions) cannot regress.
+TITLE_DRAW_RESULT_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
+    0x0E, 0x0F, 0x10, 0x11, 0x12, 0x14, 0x15, 0x16, 0x17, 0x19, 0x1A,
+    0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23, 0x24, 0x39,
+))
 
 
 def guard_title_draw_result(result: dict) -> None:
@@ -1390,6 +1490,9 @@ def guard_title_draw_result(result: dict) -> None:
         result, count_key='complete_differences',
         windows=TITLE_DRAW_RESULT_RESIDUAL_WINDOWS,
         equality_key='complete_bytes_equal')
+    observed = {int(x, 16) for x in result['difference_offsets']}
+    if not observed.issubset(TITLE_DRAW_RESULT_ORIGINAL_RESIDUAL_OFFSETS):
+        raise RuntimeError('Title DrawResult damaged an already matched original byte')
 
 
 def guard_title_update_result(result: dict) -> None:
@@ -1772,6 +1875,11 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('type3', 'exattack', 'all'):
             owners, exact = run_exattack_type3(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('exattack', 'all'):
+            owners, exact = run_exattack_type1422_draw(
+                protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('crypto', 'all'):

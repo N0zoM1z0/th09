@@ -27,13 +27,16 @@
   genuinely proven 0x1EC replay record between four large translation
   units. `RunEcl` remains nonexact at **15,564 physical bytes/598
   original bound operands/30 remaining bytes**.
-- **Cold regression scope:** after adding the original-SHA-bound
-  DrawReplayMenu diagnostic, the full `--owner all` suite verifies
-  **29 open non-crediting boss/leaf functions plus one separately canonical-exact
-  220-byte crypt selector diagnostic and 68 prior exact sibling checks**. This includes the Etama OnDraw 600-byte guard,
-  Enemy OnUpdate 3,900-byte guard, the 1,280-byte ReplayMenu original and
-  Title DrawResult's 1,939-byte owner. These checks are *not*
-  source-commit-bound accepted Factory receipts.
+- **Cold regression scope:** the live full `--owner all` suite now verifies
+  **30 open non-crediting boss/leaf original-bound functions plus one
+  separately canonical-exact 220-byte crypt selector diagnostic and 72
+  strict already-exact sibling comparisons**, all passing at the current
+  checkpoint. The new, separately SHA-bound **959-byte ExAttack Type14/22
+  Draw** original owner is checked on every `--owner exattack` and full replay;
+  it emits 974 source bytes and remains NON-EXACT. The suite also protects
+  the 15,564-byte RunEcl, 600-byte Etama OnDraw, 3,900-byte Enemy OnUpdate,
+  1,280-byte ReplayMenu and 1,939-byte DrawResult owners. These diagnostics
+  are not source-commit-bound accepted Factory receipts.
 - **Phase:** original exact-reconstruction only. The 95% reviewed-authored
   byte milestone is open; whole Windows i386 build/link/resources/runtime,
   dual-Oracle semantic reconstruction and portability are still open.
@@ -88,13 +91,13 @@ all 40 open functions. For the complete <=256-byte cohort see
 | **TitleScreen::OnUpdateResult** | 0x004266B5 | **485 / 484**, 147/147 instructions, 34 fields, 9 calls; **218** overlap + 1 missing | Pointer-backed character snapshot in `4fe7cb0`; original CL/EAX codegen still differs. Protect all 37 existing exact `TitleScreen.cpp` units, including privately relabeled StartMenu. |
 | **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280 target / 1,258 source bytes**, 376/368 instructions, **57/57 original decoded/COFF operands**, **13/13 ordered calls**, **72/70 CFG blocks** | Complete original-SHA-bound source-cold diagnostics now run via `--owner title`; the candidate is still **22 bytes short and NON-EXACT**. The shared replay record is exact-sized but does not imply the function is exact. |
 | **TitleScreen::DrawReplaySave** | 0x004239F6 | **800 target / 799 source**, 245/245 instructions, 41 fields, 4 calls, 28/28 original-direct blocks | Shares the ReplayInput-proven 0x1EC record with DrawReplayMenu. Real validity-shared text pointers and frame factor improve **793→799** physical bytes, **241→245** instructions and recover the complete original CFG (formerly divergent). SHA-bound noncrediting 799/245/41/4/28 guard plus `--owner title`; still missing one byte and NON-EXACT. |
-| **TitleScreen::DrawResult** | 0x00423D16 | **1,939/1,939**, 82 fields, 16 calls, 92 blocks; **22** differences | All 22 SHA-pinned linked differences are in the entry: 21 at `+0x0E..+0x24`, one at `+0x39` (bank-pointer store vs `currentScreen` prefetch). The entire remaining owner is byte-exact; full physical-window guard plus `--owner title` protects it. |
+| **TitleScreen::DrawResult** | 0x00423D16 | **1,939/1,939**, 82 fields, 16 calls, 92 blocks; **22** differences | All 22 SHA-pinned linked differences are in the entry: 21 at `+0x0E..+0x24`, one at `+0x39` (bank-pointer store vs `currentScreen` prefetch). The entire remaining owner is byte-exact; the strengthened guard now pins **all 22 exact residual positions**, including preserving previously matching `+0x13` and `+0x18` inside the old entry window. `--owner title` protects the original full owner. |
 | **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 / 2,048**, 135 fields, 51 calls, 121 blocks | The 2,048-byte boss now uses genuine `AnmManager`/`AnmLoaded` and `SoundPlayer` receivers for **29 reviewed original-linked fields** rather than private C++ fake managers. Full codegen/call/CFG identity unchanged; 3 extra candidate bytes in input/confirmation menu remain NON-EXACT. Exact same-TU `PlayMenuSound` 34/34 and `--owner title` are required regressions. |
 | **Title character cursors** | 0x00424EDD / 0x00424FB0 / 0x0042505F | Active target/candidate **211/215**; Reverse/Inactive **175/175** | Active reduced 217→215 in `69165b2`, but none is exact. Loop pre-check and VM register/sprite reload schedules; `--owner title`. |
 | **GameManager CleanupGameplayState** | 0x0041B5C6 | **425 / 406**, 43 / 41 fields, 12 calls, **209** overlap | Preserve actual stage clamp/return contract; naive switch/if permutations regress. `--owner gamemgr`. |
 | **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15** differences | Source now places middle-Z assignment after the middle-Y call; VC7.1 still hoists the tail-X load before the store (non-exact). The old 14-difference candidate wrongly wrote Z before the Y call. Strict chronology/offset guard; `--owner type3`. |
 | **ExAttack Type19 update** | 0x0044A330 | **821/821**, 35 fields, 11 calls, 30 blocks; **198** differences | Target EDI/ESI record–extra ownership and Player-slot lifetime; `--owner exattack`. |
-| **ExAttack Type14/22 draw** | 0x00444130 | **959 / 974**, 53 fields, 20 direct calls | Draw register/loop schedule after shared Type14/22 extra layout; `--owner exattack`. |
+| **ExAttack Type14/22 draw** | 0x00444130 | **959 / 974**, 53 full PE/COFF fields, 20 direct + 12 indirect calls, 9 jumps, 905 overlapping differences and 15 extra source bytes | SHA-bound `--owner exattack` **now cold-replays this real owner**, individually binds all 53 fields and both call kinds, and prevents any new mismatch in its 54 already matching original bytes; three additional exact Type14/22 initializer/update controls. Remaining draw register/loop schedule stays NON-EXACT. |
 | **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **911 differing bytes** (down from 921) | Real `setupMode==0` non-mode-2 early exit recovers ten original-linked bytes and raises field identity alignment 155→157. Still NON-EXACT; the full residual-bitmask guard and ten existing exact siblings run via `--owner gamemgr`. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | **862 / 849**, 26 fields, 12 calls; **804** overlap + 13 missing | Three return exits, gameplay/state collision branches; `--owner player` protects seven exact helpers. |
 | **Replay BeginPlaybackStage** | 0x00420840 | **540 / 538**, 32 fields, 5 calls, 12 blocks; **49** overlap + 2 missing | One hoisted SideState0 header field and seed zero-extension; `--owner replay`. |

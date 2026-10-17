@@ -494,6 +494,122 @@ class BossFrontierChecks(TestCase):
         self.assertEqual([x['unit'] for x in exact], ['exact'])
 
     @staticmethod
+    def exattack_1422_draw_evidence():
+        # The real SHA and byte/field/call/jump counts are independently
+        # decoded from retail TH09; the fixture remains target-independent.
+        return {
+            'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_sha256': frontiers.EXATTACK_1422_DRAW_SHA256,
+            'target_bytes': 959, 'candidate_bytes': 974,
+            'target_instructions': 290, 'candidate_instructions': 297,
+            'target_fields': 53, 'candidate_fields': 53,
+            'direct_calls': 20, 'indirect_calls': 12,
+            'target_direct_jumps': 9, 'candidate_direct_jumps': 9,
+            'field_order_and_destinations_equal': True,
+            'ordered_direct_calls_equal': True,
+            'overlapping_differences': 905,
+            'difference_offsets': [i for i in range(959) if
+                frontiers.EXATTACK_1422_DRAW_ORIGINAL_RESIDUAL_MASK[i // 8] &
+                (1 << (i % 8))],
+            'absent_target_bytes': 0, 'extra_candidate_bytes': 15,
+            'first_differences': [hex(x) for x in
+                                  (0x5, 0x7, 0x8, 0x9, 0xB, 0xE, 0x10, 0x11,
+                                   0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+                                   0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D,
+                                   0x1E, 0x1F, 0x20, 0x21)],
+            'complete_bytes_equal': False,
+        }
+
+    def test_exattack_1422_draw_cold_original_owner_and_three_exact_siblings(self):
+        evidence = self.exattack_1422_draw_evidence()
+        with patch.object(frontiers, 'build_nonexact') as compile_source, \
+             patch.object(frontiers, 'parsed', return_value=evidence) as read, \
+             patch.object(frontiers, 'build') as build, \
+             patch.object(frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
+            owners, siblings = frontiers.run_exattack_type1422_draw(protect_exact=True)
+        compile_source.assert_called_once_with(
+            'src/ExAttackDrawType14Type22.cpp',
+            'build/matching/ExAttackDrawType14Type22.obj',
+            reference_unit='exattack-type14-init')
+        read.assert_called_once_with(
+            ['scripts/inspect-exattack-type14-22-draw.py',
+             'build/matching/ExAttackDrawType14Type22.obj', '--json'], diagnostic=True)
+        self.assertEqual(owners['exattack_type14_22_draw']['target_bytes'], 959)
+        self.assertEqual(owners['exattack_type14_22_draw']['extra_candidate_bytes'], 15)
+        self.assertEqual(build.call_count, 3)
+        self.assertEqual([x['unit'] for x in siblings],
+                         list(frontiers.EXATTACK_1422_DRAW_EXACT_FAMILY))
+
+    def test_exattack_1422_draw_wrong_extent_fields_calls_graph_or_credit_fails(self):
+        baseline = self.exattack_1422_draw_evidence()
+        bad = (
+            {'target_sha256': '0'*64}, {'candidate_bytes': 975},
+            {'target_instructions': 289}, {'candidate_instructions': 298},
+            {'target_fields': 52}, {'candidate_fields': 52},
+            {'direct_calls': 19}, {'indirect_calls': 11},
+            {'target_direct_jumps': 8}, {'candidate_direct_jumps': 10},
+            {'field_order_and_destinations_equal': False},
+            {'ordered_direct_calls_equal': False},
+            {'overlapping_differences': 906},
+            {'absent_target_bytes': 1}, {'extra_candidate_bytes': 14},
+            {'complete_bytes_equal': True},
+            {'first_differences': ['0x3'] + baseline['first_differences'][:-1]},
+            {'difference_offsets': baseline['difference_offsets'][1:] + [1000]},
+            {'difference_offsets': baseline['difference_offsets'][:-1]},
+            {'difference_offsets': list(reversed(baseline['difference_offsets']))},
+            {'difference_offsets': baseline['difference_offsets'][:1] * 905},
+            {'first_differences': baseline['first_differences'][:-1]},
+            {'first_differences': baseline['first_differences'][::-1]},
+            {'first_differences': baseline['first_differences'][:-1] + ['0x3c1']},
+            {'difference_offsets': [True] + baseline['difference_offsets'][1:]},
+            {'difference_offsets': baseline['difference_offsets'][:-1] + [959]},
+            {'diagnostic_only': False}, {'exactness_credit': 'accepted'},
+        )
+        for mutation in bad:
+            with self.subTest(mutation=mutation), self.assertRaises(RuntimeError):
+                frontiers.guard_exattack_type1422_draw({**baseline, **mutation})
+
+    def test_exattack_1422_draw_cannot_exchange_a_real_difference_for_a_matching_byte(self):
+        baseline = self.exattack_1422_draw_evidence()
+        known = set(baseline['difference_offsets'])
+        self.assertEqual(len(known), 905)
+        self.assertEqual(959 - len(known), 54)
+        first = baseline['first_differences']
+        self.assertTrue(first)
+        self.assertEqual([int(x, 16) for x in first], baseline['difference_offsets'][:24])
+        # Every inserted mismatch was *already equal* in the original owner.
+        # The 905 count, all 53 COFF fields, both call kinds and jump count
+        # stay unchanged. A count-only guard would incorrectly accept these.
+        for bad in (3, 0x6, 0xA, 0x7A, 0xC5, 0x157, 0x208, 0x3B6):
+            self.assertNotIn(bad, known)
+            moved = sorted((known - {0x5}) | {bad})
+            changed = {**baseline, 'difference_offsets': moved,
+                       'first_differences': [hex(x) for x in moved[:24]]}
+            with self.subTest(bad=hex(bad)), self.assertRaisesRegex(
+                    RuntimeError, 'already matching original physical byte'):
+                frontiers.guard_exattack_type1422_draw(changed)
+        # A genuine reduction of one old difference is permitted as a
+        # noncrediting diagnostic, not accepted source exactness.
+        narrowed = sorted(known - {0x5})
+        improved = {**baseline, 'overlapping_differences': 904,
+                    'difference_offsets': narrowed,
+                    'first_differences': [hex(x) for x in narrowed[:24]]}
+        self.assertEqual(frontiers.guard_exattack_type1422_draw(improved)[
+            'overlap_differences'], 904)
+        self.assertEqual(improved['exactness_credit'], 'none')
+
+    def test_exattack_1422_draw_future_full_size_convergence_remains_noncrediting(self):
+        baseline = self.exattack_1422_draw_evidence()
+        true_shape = {**baseline, 'candidate_bytes': 959,
+                      'candidate_instructions': 290,
+                      'overlapping_differences': 0, 'difference_offsets': [],
+                      'first_differences': [],
+                      'extra_candidate_bytes': 0, 'complete_bytes_equal': True}
+        report = frontiers.guard_exattack_type1422_draw(true_shape)
+        self.assertEqual(report['overlap_differences'], 0)
+        self.assertEqual(true_shape['exactness_credit'], 'none')
+
+    @staticmethod
     def screen_evidence():
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',
@@ -840,6 +956,21 @@ class BossFrontierChecks(TestCase):
                         {'exactness_credit': 'accepted'}):
             with self.subTest(changes=changes), self.assertRaises(RuntimeError):
                 frontiers.guard_title_draw_result({**original, **changes})
+
+    def test_title_draw_result_protects_two_originally_equal_entry_bytes(self):
+        baseline = self.title_draw_result_evidence()
+        old = set(map(lambda x: int(x, 16), baseline['difference_offsets']))
+        self.assertEqual(old, frontiers.TITLE_DRAW_RESULT_ORIGINAL_RESIDUAL_OFFSETS)
+        self.assertEqual(len(old), 22)
+        for damaged in (0x13, 0x18):
+            self.assertNotIn(damaged, old)
+            # Both offsets fell INSIDE the prior allowed first window, so
+            # same-count swaps passed the old window-only count bound.
+            replaced = sorted((old - {0x0E}) | {damaged})
+            with self.subTest(damaged=hex(damaged)), self.assertRaisesRegex(
+                    RuntimeError, 'already matched original byte'):
+                frontiers.guard_title_draw_result({**baseline,
+                    'difference_offsets': [hex(x) for x in replaced]})
 
     def test_title_draw_result_bound_future_narrowing_not_exact_credit(self):
         baseline = self.title_draw_result_evidence()
