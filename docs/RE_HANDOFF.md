@@ -177,6 +177,19 @@
   cold-compiled nineteen legal ScreenEffect owner/timer/reference-source
   variants; neutral forms remain at 26 differences, early timer aliases
   degrade to 337 bytes /317 mismatches. The actual target is unchanged.
+- **Independent Factory acceptance, ScreenEffect three source profiles:**
+  Original-bound strict-live forced-cold jobs bound to exact gameplay-source
+  commit **`cbfae2185e4ab8bacbc8cf95b1b5bc77c80f5c5f`** each return
+  **`receipt_verdict=pass`, `acceptance_decision=accepted`**:
+  standard `/O2 /Ob1 /EHsc` exact `ScreenEffect::CalcShake @0x00422660`
+  (316 bytes; `receipt:4a636fe2e0141d41075ae7b69ced9123ba98a66aae7bff3002bb0f8f6fff4d83`),
+  separately compiled no-EH exact `ScreenEffect::RegisterChain @0x00422D20`
+  (447 authored/480 physical bytes; `receipt:ec759b50d81d19c2095b023d53e46cc94bb4bbe42aee92e8bcccdb958e2ea8dd`),
+  and `/Ob0` exact `ScreenEffect::DrawSquare @0x00422960`
+  (527 bytes; `receipt:a076aa0b462bca701b2b8f33e61081f9cdd5e0d36b8374f01382f2656f673379`).
+  These confirm **three already exact functions under the new code commit**,
+  not a previously open `CalcShakeEnvelope` match. Native whole-product
+  link/gameplay, semantic and port stages are still open.
 - **Phase:** original exact-reconstruction only. The 95% reviewed-authored
   byte milestone is open; whole Windows i386 build/link/resources/runtime,
   dual-Oracle semantic reconstruction and portability are still open.
