@@ -1,7 +1,9 @@
-// A full three-word vector copy. VC7.1 folds the source temporaries into
-// three reads before writing this local projection scratch. Two qualified
-// component stores retain the checked ordering of those physical writes.
-// This is a source codegen model, not an original C++-spelling claim.
+// A full three-word vector copy of the actual subtraction result. The
+// source words are all loaded before the destination is touched. Keeping the
+// stores as ordinary unsigned words lets VC7.1 preserve the target's initial
+// X store and the immediately following delta-address calculation. Its two
+// trailing stores still differ in order from the original Y-then-Z schedule.
+// This is a compiler-observed source model, not a retail C++ spelling claim.
 static __forceinline void CopyCameraFacingProjectionDelta(
     Float3 &dst, const Float3 &src)
 {
@@ -12,8 +14,8 @@ static __forceinline void CopyCameraFacingProjectionDelta(
     unsigned int y = sourceWords[1];
     unsigned int z = sourceWords[2];
     targetWords[2] = z;
-    *reinterpret_cast<volatile unsigned int *>(&targetWords[1]) = y;
-    *reinterpret_cast<volatile unsigned int *>(&targetWords[0]) = x;
+    targetWords[0] = x;
+    targetWords[1] = y;
 }
 
 // TH09 camera-facing projection owner; included after the exact TranslateRotation

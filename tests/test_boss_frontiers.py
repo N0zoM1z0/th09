@@ -1025,7 +1025,7 @@ class BossFrontierChecks(TestCase):
             'original_fields': 40, 'bound_fields': 40,
             'ordered_calls': 11, 'calls_agree': True,
             'original_blocks': 8, 'candidate_blocks': 8,
-            'direct_graphs_agree': True, 'overlap_differences': 6,
+            'direct_graphs_agree': True, 'overlap_differences': 4,
             'difference_offsets': sorted(frontiers.CAMERA_FACING_RESIDUAL_OFFSETS),
             'target_sha256': frontiers.CAMERA_FACING_TARGET_SHA,
             'extra_candidate_bytes': 0, 'complete_bytes_equal': False,
@@ -1038,7 +1038,7 @@ class BossFrontierChecks(TestCase):
                 frontiers, 'parsed', return_value=self.camera_evidence()) as parsed, patch.object(
                 frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
             owners, exact = frontiers.run_camera_facing(protect_exact=True)
-        self.assertEqual(owners['camera_facing_projection']['overlap_differences'], 6)
+        self.assertEqual(owners['camera_facing_projection']['overlap_differences'], 4)
         self.assertEqual(owners['camera_facing_projection']['candidate_bytes'], 622)
         self.assertEqual(build.call_args_list,
                          [call('anm-manager-translate-rotation'),
@@ -1054,39 +1054,39 @@ class BossFrontierChecks(TestCase):
                     {'original_fields': 39}, {'bound_fields': 39},
                     {'ordered_calls': 10}, {'calls_agree': False},
                     {'candidate_blocks': 7}, {'direct_graphs_agree': False},
-                    {'overlap_differences': 7}):
+                    {'overlap_differences': 5}):
             with self.subTest(bad=bad), patch.object(frontiers, 'build'), patch.object(
                     frontiers, 'parsed', return_value={**self.camera_evidence(), **bad}), self.assertRaises(RuntimeError):
                 frontiers.run_camera_facing(protect_exact=False)
 
-    def test_camera_6_byte_copy_frontier_preserves_all_616_already_matching_bytes(self):
+    def test_camera_4_byte_copy_frontier_preserves_all_618_already_matching_bytes(self):
         current = self.camera_evidence()
         self.assertEqual(frontiers.CAMERA_FACING_RESIDUAL_OFFSETS,
-                         {0xF0, 0xF1, 0xF2, 0xF5, 0xF6, 0xF7})
-        self.assertEqual(622 - len(current['difference_offsets']), 616)
+                         {0xF6, 0xF7, 0xF9, 0xFA})
+        self.assertEqual(622 - len(current['difference_offsets']), 618)
         # A count-only guard would accept exchanging one old mismatch for
         # a new regression in the three-load sequence or target stack slots.
         for previously_equal in (0xE7, 0xE9, 0xEA, 0xEB, 0xEC,
-                                 0xED, 0xEE, 0xEF, 0xF3, 0xF4, 0xF8,
-                                 0xF9, 0xFA, 0xFB):
+                                 0xED, 0xEE, 0xEF, 0xF0, 0xF1, 0xF2,
+                                 0xF3, 0xF4, 0xF5, 0xF8, 0xFB):
             self.assertNotIn(previously_equal,
                              frontiers.CAMERA_FACING_RESIDUAL_OFFSETS)
             with self.subTest(offset=hex(previously_equal)), patch.object(
                     frontiers, 'build'), patch.object(frontiers, 'canonical'), patch.object(
                     frontiers, 'parsed', return_value={**current,
                         'difference_offsets': sorted(
-                            (frontiers.CAMERA_FACING_RESIDUAL_OFFSETS - {0xF0}) |
+                            (frontiers.CAMERA_FACING_RESIDUAL_OFFSETS - {0xF6}) |
                             {previously_equal})}), self.assertRaises(RuntimeError):
                 frontiers.run_camera_facing(protect_exact=False)
         # A genuine physical improvement is still noncrediting unless a
         # separate canonical full-owner original-PE/COFF replay accepts it.
-        narrower = {**current, 'overlap_differences': 5,
+        narrower = {**current, 'overlap_differences': 3,
                     'difference_offsets': sorted(
-                        frontiers.CAMERA_FACING_RESIDUAL_OFFSETS - {0xF0})}
+                        frontiers.CAMERA_FACING_RESIDUAL_OFFSETS - {0xF6})}
         with patch.object(frontiers, 'build'), patch.object(
                 frontiers, 'parsed', return_value=narrower):
             owners, _ = frontiers.run_camera_facing(protect_exact=False)
-        self.assertEqual(owners['camera_facing_projection']['overlap_differences'], 5)
+        self.assertEqual(owners['camera_facing_projection']['overlap_differences'], 3)
         self.assertEqual(narrower['exactness_credit'], 'none')
 
     def test_network_zero_field_owner_and_both_exact_consumers(self):

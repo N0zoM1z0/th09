@@ -104,11 +104,27 @@ class CameraBossSweepTests(unittest.TestCase):
             'ordered_calls': 11, 'calls_agree': True,
             'original_blocks': 8, 'candidate_blocks': 8,
             'direct_graphs_agree': True,
-            'overlap_differences': 6,
+            'overlap_differences': 4,
             'difference_offsets': sorted(boss.CAMERA_FACING_RESIDUAL_OFFSETS),
             'target_sha256': boss.CAMERA_FACING_TARGET_SHA,
             'extra_candidate_bytes': 0, 'complete_bytes_equal': False, 'missing_target_bytes': 0,
         }
+
+    def test_source_copy_is_three_real_words_and_no_longer_injects_volatile(self):
+        source = (ROOT / 'src/AnmManagerCameraFacing.inl').read_text()
+        start = source.index('static __forceinline void CopyCameraFacingProjectionDelta(')
+        stop = source.index('// TH09 camera-facing projection owner;', start)
+        helper = source[start:stop]
+        self.assertIn('unsigned int x = sourceWords[0];', helper)
+        self.assertIn('unsigned int y = sourceWords[1];', helper)
+        self.assertIn('unsigned int z = sourceWords[2];', helper)
+        self.assertNotIn('volatile unsigned int', helper)
+        # No hand-authored opcode, padding or fake callee; ordinary local
+        # stores reproduce the complete owner's natural copy scheduling.
+        self.assertLess(helper.index('targetWords[2] = z;'),
+                        helper.index('targetWords[0] = x;'))
+        self.assertLess(helper.index('targetWords[0] = x;'),
+                        helper.index('targetWords[1] = y;'))
 
     def test_sweep_protects_exact_same_and_neighboring_translation_units(self):
         with patch.object(boss, 'build') as build, patch.object(
@@ -116,7 +132,7 @@ class CameraBossSweepTests(unittest.TestCase):
                 boss, 'canonical', side_effect=lambda x: {'unit': x}):
             owners, siblings = boss.run_camera_facing(protect_exact=True)
         self.assertEqual(owners['camera_facing_projection']['missing_target_bytes'], 0)
-        self.assertEqual(owners['camera_facing_projection']['overlap_differences'], 6)
+        self.assertEqual(owners['camera_facing_projection']['overlap_differences'], 4)
         self.assertEqual([x['unit'] for x in siblings],
                          ['anm-manager-translate-rotation', 'anm-manager-draw2d',
                           'anm-manager-draw-camera-facing-quad', 'anm-manager-project-3d-quad'])
@@ -127,7 +143,7 @@ class CameraBossSweepTests(unittest.TestCase):
         with patch.object(boss, 'build'), patch.object(
                 boss, 'parsed', return_value=evidence):
             boss.run_camera_facing(protect_exact=False)
-        improved = {**evidence, 'overlap_differences': 5,
+        improved = {**evidence, 'overlap_differences': 3,
                     'difference_offsets': evidence['difference_offsets'][1:]}
         with patch.object(boss, 'build'), patch.object(
                 boss, 'parsed', return_value=improved):
@@ -144,10 +160,10 @@ class CameraBossSweepTests(unittest.TestCase):
         for changed in (
                 {'difference_offsets': [0xE8] + evidence['difference_offsets'][1:]},
                 {'difference_offsets': list(reversed(evidence['difference_offsets']))},
-                {'difference_offsets': [0xE9] * 6},
+                {'difference_offsets': [0xE9] * 4},
                 {'difference_offsets': evidence['difference_offsets'][:-1]},
                 {'difference_offsets': None},
-                {'overlap_differences': 7},
+                {'overlap_differences': 5},
                 {'overlap_differences': True},
                 {'complete_bytes_equal': True},
                 {'target_sha256': '0' * 64},

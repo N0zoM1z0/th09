@@ -714,11 +714,16 @@ def run_received_frames(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 # every camera-facing byte except this aggregate-return copy scheduling span.
 # All earlier stack-frame, local-home and call operand differences are closed.
 CAMERA_FACING_TARGET_SHA = '36fd70db08a5570fe316d9e3beb541f7a39a90ef10b1429ad767e09c973f1865'
-# Maintained real-TU C++ delta copy now matches the original in 616/622
-# physical byte positions, independently of all forty relocation payloads.
-# The seven formerly residual-but-now-exact positions are ALSO protected.
+# The current natural three-word copy preserves 618 of the original's 622
+# complete physical byte positions, including all 40 linked operands. The
+# original stores X, then materializes &delta, then stores Y and Z; the
+# compiler still swaps the last two stores, leaving exactly four unlike bytes.
+# Earlier source had six different offsets (F0..F2/F5..F7) from a different
+# store permutation. This bounded 6-to-4 full-owner improvement deliberately
+# changes the residual coordinates; from this baseline all 618 matching byte
+# positions, including the newly matched three-byte X store, are protected.
 CAMERA_FACING_RESIDUAL_OFFSETS = frozenset((
-    0xF0, 0xF1, 0xF2, 0xF5, 0xF6, 0xF7))
+    0xF6, 0xF7, 0xF9, 0xFA))
 
 
 def run_camera_facing(*, protect_exact: bool) -> tuple[dict, list[dict]]:
@@ -746,12 +751,12 @@ def run_camera_facing(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     differences = candidate.get('difference_offsets')
     amount = candidate.get('overlap_differences')
     if (type(amount) is not int or not isinstance(differences, list) or
-            len(differences) != amount or amount > 6 or
+            len(differences) != amount or amount > 4 or
             any(type(offset) is not int or
                 offset not in CAMERA_FACING_RESIDUAL_OFFSETS for offset in differences) or
             differences != sorted(set(differences)) or
             candidate.get('complete_bytes_equal') is not (amount == 0)):
-        raise RuntimeError('camera typed-vector 6-byte original-bound copy frontier regressed')
+        raise RuntimeError('camera typed-vector 4-byte original-bound copy frontier regressed')
     siblings = []
     if protect_exact:
         siblings += [canonical('anm-manager-translate-rotation'),

@@ -68,6 +68,17 @@
   a new canonical exact function. The 980 / 940 / 40 scoreboard is unchanged.
   The committed checkpoint passed `scripts/ci.py` with **446 tests, 28 skipped**,
   plus target SHA, tracking, documentation, progress and whitespace checks.
+- **Latest big-owner source improvement (October 17):**
+  `ProjectCameraFacingQuad @0x00439820` now cold-compiles **622/622**
+  bytes with **only four full-owner original-linked ordinary differences**,
+  down from six. The natural unsigned-word copy maintains the actual
+  three-word data flow and all **40 real target fields, 11 calls, eight
+  blocks, 201 instructions**. The four residual offsets are
+  `+0xF6,+0xF7,+0xF9,+0xFA`, reflecting only the final Y/Z store order;
+  the previous six-offset copy model is now superseded. The focused original
+  replay protects **all four already exact ANM sibling functions**, with
+  a new four-offset fail-closed frontier; exactness of the big owner remains
+  unclaimed.
 - **Phase:** original exact-reconstruction only. The 95% reviewed-authored
   byte milestone is open; whole Windows i386 build/link/resources/runtime,
   dual-Oracle semantic reconstruction and portability are still open.
@@ -166,7 +177,7 @@ all 40 open functions. For the complete <=256-byte cohort see
 | **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **911 differing bytes** (down from 921) | Real `setupMode==0` non-mode-2 early exit recovers ten original-linked bytes and raises field identity alignment 155→157. The remaining 172-original / 171-source field gap is now independently decoded by **referent and multiplicity**: original-only `g_GameManager+0x00` (3), `+0x34` (1), `+0xA4` (1); candidate-only `+0x28` (1), `+0x98` (1), `+0xB4` (2). The target's side-registration loop anchors ESI to `side.flags (+0x34)` while VC7.1 prefers `side.selector (+0x28)`; 28 source-cold cursor/alias models were neutral or regressed. Still NON-EXACT; full 911-residual-byte and original/COFF-referent guards plus ten exact siblings run via `--owner gamemgr`. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | **862 / 849**, 26 fields, 12 calls; **804** overlap + 13 missing | Three return exits, gameplay/state collision branches; `--owner player` protects seven exact helpers. |
 | **Replay BeginPlaybackStage** | 0x00420840 | **540 / 538**, 152/151 instructions, 32 fields, 5 calls, 12 matching CFG blocks; **49** unlike prefix bytes + 2 missing | Real original byte offsets and SHA now independently pinned: mismatches exclusively at `+0x14B..+0x15F` (SideState0 header hoist) and `+0x1FB..+0x219` (seed zero-extension, exit/save ordering), while **489 already equal** physical prefix bytes are protected from new errors. Sixteen seed-source models cold-compiled back to 538/49; `--owner replay` checks both exact no-EH TU siblings. |
-| **ANM camera-facing quad** | 0x00439820 | **622/622**, 201 instructions, 40 fields, 11 calls, 8 blocks; **6** differences (13→6), zero new wrong bytes | Typed three-vector scratch plus a real three-word local vector-copy helper restores original full three-load scheduling and seven formerly unequal bytes, preserving 616 original-equal bytes. Remaining differences exclusively at `+0xF0..F2,+0xF5..F7` from the ordering of two actual local stores/LEA; not exact. New strict six-offset PE/COFF guard and four canonical exact siblings: `--owner anm`. |
+| **ANM camera-facing quad** | 0x00439820 | **622/622**, 201 instructions, 40 fields, 11 calls, 8 blocks; **4** differences (13→6→4) | Typed three-vector scratch plus complete three-word copy keeps source and original semantics and now reproduces **618 original physical bytes**. The final two real local stores are scheduled Z-before-Y instead of retail Y-before-Z, leaving exact residual offsets `+0xF6,+0xF7,+0xF9,+0xFA`. This improves whole-owner physical equality from the earlier six-residual baseline, deliberately moving two mismatches within the same copy; all 618 currently matching original bytes are now strictly protected. Four full exact siblings: `--owner anm`. No new exact function credit. |
 | **ScreenEffect shake envelope** | 0x004227A0 | **336/336**, 132 instructions, 20 fields, 8 calls, 26 blocks; **26** differences (28→26) | Authentic VC7.1 order of two real volatile references (fade, then hold; same hold + fade value) recovers original physical **+0x5C and +0x5F** with no regressed byte. Full original-SHA/26-offset guard protects **all 310 already matching bytes**; all **18 ScreenEffect exact owners** (2,562 bytes) pass across the genuine three profiles. Remaining EDI/ESI owner allocation is NON-EXACT. |
 | **Controller input** | 0x0042B410 | **808 / 796**, 32 fields | WinMM X/Y read and register chronology; use `scripts/inspect-controller-input.py`. |
 | **Supervisor network service** | 0x00430AA0 | **1,633 / 1,632**, 108 source fields | Real queue ownership and 1,395 overlap differences still open; `--owner network`. |
