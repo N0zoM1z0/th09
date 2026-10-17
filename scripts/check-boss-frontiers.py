@@ -108,6 +108,17 @@ def build_nonexact(source: str, obj: str, *, reference_unit: str) -> None:
 RUNECL_TARGET_OWNER_SHA = 'e9433504219119eba40ed4d11537782178135effeb6c95d74b6274e0e7f5e7ea'
 RUNECL_WINDOWS = {4: (0x277, 29, 7, 8), 155: (0x30B0, 45, 23, 12)}
 
+# Source-cold full original PE/COFF audit yields exactly these 30 positions.
+# The prior guard restricted only the two OPCODE WINDOWS, accidentally letting
+# a 30-byte candidate damage previously matching bytes *inside* a window.
+# A legitimate source fix may remove any of these, never introduce another.
+RUNECL_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
+    0x0278, 0x027A, 0x027B, 0x027C, 0x027D, 0x027E, 0x0280, 0x30B0,
+    0x30B1, 0x30B2, 0x30B3, 0x30B4, 0x30B5, 0x30B6, 0x30B7, 0x30B9,
+    0x30BA, 0x30BB, 0x30BC, 0x30BD, 0x30BE, 0x30BF, 0x30C0, 0x30C1,
+    0x30C2, 0x30C4, 0x30C5, 0x30C6, 0x30C8, 0x30CA,
+))
+
 
 def validate_runecl_byte_frontier(complete: dict, shapes: dict) -> dict:
     """Reject byte/code/table/handler regressions, granting zero exact credit.
@@ -155,8 +166,8 @@ def validate_runecl_byte_frontier(complete: dict, shapes: dict) -> dict:
         seen.add(offset)
         slots = [opcode for opcode, (begin, size, _, _) in RUNECL_WINDOWS.items()
                  if begin <= offset < begin + size]
-        if len(slots) != 1:
-            raise RuntimeError('RunEcl changed an already matched physical opcode')
+        if len(slots) != 1 or offset not in RUNECL_ORIGINAL_RESIDUAL_OFFSETS:
+            raise RuntimeError('RunEcl damaged an already matched original physical byte')
         counts[slots[0]] += 1
     for opcode, (_, _, ceiling, _) in RUNECL_WINDOWS.items():
         if counts[opcode] > ceiling:

@@ -56,6 +56,9 @@ class OriginalBoundRunEclFrontier(unittest.TestCase):
 
     def test_exact_full_physical_30_byte_frontier_is_noncrediting(self):
         complete, shapes = self.canonical_evidence()
+        self.assertEqual(
+            {entry['offset'] for entry in complete['differences']},
+            frontier.RUNECL_ORIGINAL_RESIDUAL_OFFSETS)
         report = frontier.validate_runecl_byte_frontier(complete, shapes)
         self.assertEqual(report['ordinary_differences'], 30)
         self.assertEqual(report['differences_by_opcode'], {4: 7, 155: 23})
@@ -100,6 +103,32 @@ class OriginalBoundRunEclFrontier(unittest.TestCase):
         shapes.update(matching_handler_shapes=147, mismatching_handler_shapes=1)
         with self.assertRaisesRegex(RuntimeError, 'residual and opcode shape'):
             frontier.validate_runecl_byte_frontier(complete, shapes)
+
+    def test_new_mismatch_inside_original_opcode_window_fails_even_with_equal_count(self):
+        complete, shapes = self.canonical_evidence()
+        for fresh in (0x277, 0x279, 0x27F, 0x281, 0x30B8, 0x30C3, 0x30C7, 0x30C9):
+            self.assertNotIn(fresh, frontier.RUNECL_ORIGINAL_RESIDUAL_OFFSETS)
+            example = copy.deepcopy(complete)
+            # The candidate still has exactly 7+23 mismatches, inside both
+            # reviewed original handler windows, and the graph is unchanged.
+            # Mere per-opcode byte counts must NOT accept a damaged byte.
+            if fresh < 0x300:
+                example['differences'][0]['offset'] = fresh
+            else:
+                example['differences'][7]['offset'] = fresh
+            with self.subTest(fresh=hex(fresh)), self.assertRaisesRegex(
+                    RuntimeError, 'already matched original physical byte'):
+                frontier.validate_runecl_byte_frontier(example, shapes)
+
+    def test_same_opcode_narrowing_of_an_existing_residual_is_allowed(self):
+        complete, shapes = self.canonical_evidence()
+        # Removing an ordinary byte difference in opcode 155 is an acceptable
+        # physical improvement even while its handler still differs elsewhere.
+        complete['differences'].pop(12)
+        complete.update(different_bytes=29, ordinary_different_bytes=29)
+        report = frontier.validate_runecl_byte_frontier(complete, shapes)
+        self.assertEqual(report['differences_by_opcode'], {4: 7, 155: 22})
+        self.assertEqual(complete['exactness_credit'], 'none')
 
     def test_changed_target_identity_field_table_or_code_extent_fails(self):
         for key, value in (
