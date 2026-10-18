@@ -21,12 +21,18 @@
   `activeContext+0x08` receiver, unmodified argument, one call, sole
   original ECL pointer advance and direct redispatch @`0x00408750`.
   Unknown instructions, memory/width changes, wrong call/branch/offset
-  and false exactness are rejected by ten pure-input tests. The retained
+  and false exactness are rejected by eleven pure-input tests. The retained
   source still emits the same **seven opcode-4 different bytes** (the
   `MOV ECX; PUSH ECX; MOV ECX` vs `MOV EAX; MOV ECX; PUSH EAX` register
   allocation), while opcode 155 still differs by 23 ordinary bytes.
-  **146/148** handlers and all **24 same-source exact siblings** still pass;
-  neither semantic gate grants codegen exactness. Old 979/876/103 counts
+  **146/148** handlers and all **24 same-source exact ECL/ExAttack
+  siblings**, plus the genuine **9-byte ZunTimer::operator=(int)** and
+  **25-byte ZunTimer::SetCurrent** exact callee bodies (**26 strict
+  focused replays**) still pass; neither semantic gate grants codegen
+  exactness. The full source-cold `--owner all` independently checks
+  **35 diagnostics and 186/186 distinct complete exact functions**.
+  Current target-independent CI passes **519 tests (28 skipped, zero
+  failures)**; full Windows product/runtime remains open. Old 979/876/103 counts
   remain superseded by **980/940/40**. The original target and native-product
   state are unchanged; focused codegen proof and CI stay mandatory.
 

@@ -6,6 +6,33 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## Title real AsciiManager source-bound exact regressions (October 18)
+
+Two independent Factory `strict-live-v1` forced-cold original-bound jobs
+were accepted for the **clean** gameplay-source commit
+`787583c43aed2ab124bbaafdb17469e3df3d130c` after unifying the exact
+Title callback's real `g_AsciiManager` and `AsciiManager::Reset` C++ symbol
+identities. The separately unresolved one-byte folded call `@0x0043D2B0`
+remains origin `unknown/review` and is **not** newly accepted:
+
+- Existing exact `TitleScreenView::ActualAddedCallback @0x00424BF7`,
+  **335/335 bytes**, 27 original reviewed PE/COFF fields, job
+  `job:5b55a73af29045f4af49e3b686935439`,
+  `receipt:daac95eafa24c694057298a3c7d8dd42df2e4cd07fd644f0da792ed36ef70dac`.
+- Existing exact `TitleScreenView::OnUpdateStartMenu @0x00429E23`,
+  **1,560 logical / 1,592 full physical bytes**, 107 reviewed fields
+  including the independently original-address-attested switch labels, job
+  `job:1aedbc266d6049d3b3a3b74e4b8f1fad`,
+  `receipt:3dd1a0080f0fac30b53f9751483081dea940c264fe1ff1f1f484fec4c5a17281`.
+
+Both jobs finished with `receipt_verdict=pass` and
+`acceptance_decision=accepted`, no rejection reasons. These are **two new
+verifications of already exact source**; they do not count two more canonical
+matches, do not verify the still-open `DrawResult` 22-byte residual, and do
+not imply native whole-product linkage, completed resource/data ownership,
+or runtime validation. This immutable receipt is bound to `787583c`, **not**
+to the subsequent RunEcl diagnostic/docs commit.
+
 ## Shared TitleScoreRecordView source-bound exact regressions (October 18)
 
 After the real shared score-record type/header, producer/renderer global-symbol

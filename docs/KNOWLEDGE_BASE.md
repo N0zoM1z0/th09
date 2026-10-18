@@ -8672,10 +8672,17 @@ attest historical producer execution.
   call or divergent instruction-pointer update. The new
   `guard_runecl_timer_jump` requires the current full-owner original SHA,
   actual 30-byte mismatch accounting, complete window/instruction census,
-  and noncrediting 90-case output. Ten pure-input target-independent tests
+  and noncrediting 90-case output. Eleven pure-input target-independent tests
   poison call target, operand, receiver, stored next pointer, opcode,
   window size, semantic behavior, fake equality, and spoofed evidence.
   `--owner runecl` verifies this guard and existing opcode-155 bitfield
-  semantics with 24 independently cold exact ECL/ExAttack siblings. This is
-  a stronger physical-behavior/ABI regression gate **not** a newly exact
+  semantics with 24 independently cold exact ECL/ExAttack siblings
+  and the genuine 9-byte `ZunTimer::operator=(int)` and 25-byte
+  `ZunTimer::SetCurrent` leaf functions from their shared real VC7.1
+  timer carrier (**26 focused exact replays**). The full source-cold
+  `--owner all` passes **35 noncrediting open-owner diagnostics and
+  186/186 distinct already-exact full owners**. Public target-independent
+  CI passes **519 tests (28 skipped, zero failures)**; original-game runtime
+  and whole Windows native product gates remain open. This is a stronger
+  physical-behavior/ABI regression gate **not** a newly exact
   `RunEcl` or an assertion of original authored C++ spelling.
