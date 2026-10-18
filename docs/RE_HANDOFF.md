@@ -9,67 +9,32 @@
 
 ## Current verified handoff checkpoint
 
-- **EnemyManager OnUpdate authentic ANM/sound/ASCII cross-owner references (October 18):**
-  The **3,900-byte** source-present nonexact boss at `0x00410730`
-  formerly called two `EnemyCoreAnmManagerView` members, the positioned
-  sound method on a made-up `g_EnemyCoreSoundPlayer`, and two fake UI
-  members on `g_EnemyCoreUi`. These now call the real `AnmManager`,
-  `SoundPlayer` and `AsciiManager` objects, with the original-validated
-  `0x2A4` VM ABI, and reuse an explicit header for the independently exact
-  `AsciiBossMarkerVmView::SetBossMarkerPosition` owner. Cold compiled
-  **before/after physical 3,900-byte raw code matches byte-for-byte**:
-  97 actual COFF field offsets/kinds/addends are identical. Fifteen
-  symbol names change (the real global/member referents, plus five compiler-
-  private `$L` labels); all target addresses are established independently
-  from exact callee units or original section-relative offsets. The
-  maintained boss stays **3,900/3,900, 97 fields, 69 ordered calls,
-  170 direct blocks, same table, 29 different bytes**. Seven matching
-  pre-existing Enemy-family siblings are now joined *inside* the automatic
-  `--owner enemy` replay by **five distinct genuine sound/ANM/ASCII exact
-  callees**: **12/12 full-function exact checks across four new cold object
-  carriers**. The two 32-byte/42-byte boss-marker helpers share one carrier,
-  while the 9,776-physical-byte ANM ExecuteScript uses its separate pinned
-  `/Ob0` profile. The 42- and 32-byte Ascii marker
-  helpers were also independently Factory `strict-live-v1` forced-cold
-  `pass / accepted` on the clean committed source `6e1f3b4` (immutable
-  receipts in `RE_ACCEPTED_RECEIPTS.md`). Those are rechecks of previously
-  exact functions. The focused `--owner enemy` now additionally cold
-  replays the five **real** ANM ExecuteScript, SoundPlayer positioned audio,
-  ASCII marker position/interrupt and AsciiManager marker-state exact callees
-  across **four genuinely distinct compiler carriers**, including the true
-  ANM `/Ob0` profile. This expands the Enemy regression net to **12/12 exact
-  functions, 12,506 complete physical bytes and 437 actual relocation
-  fields** (previously seven). Full `--owner all` replays **35 owner
-  diagnostics and 191 distinct already-exact full functions**. The newly
-  shared member/global symbols improve source-to-source native identity,
-  NOT byte exactness. Complete Windows i386 link/static data/runtime still
-  remain open.
-
-- **Enemy OnUpdate source-global and boss-marker callee identity correction (October 18):**
-  The still-open **3,900-byte EnemyManager::OnUpdate** now uses independently
-  canonical **`g_SoundPlayer` / `PlaySoundPositionedByIdx @0x0043E380`,
-  `g_AnmManager` / `ExecuteScript @0x00436F30`, and `g_AsciiManager` /
-  `SetBossMarkerState @0x0040F890`** rather than unrelated fake source-only
-  `EnemyCoreSoundPlayerView`, `EnemyCoreAnmManagerView`, `EnemyCoreUiView`
-  globals/callees. The separate **42-byte exact** boss-marker-position
-  callback @0x004067F0 is shared via a new bounded
-  `AsciiBossMarkerVmView.hpp` member projection and genuine AsciiManager
-  receiver; its adjacent **32-byte exact** interrupt helper uses the same
-  actual view. The header introduces NO data definitions, new original
-  names, or inferred native product closure. Three real original global
-  owners now produce authentic source COFF identities at all the original
-  callsites, eliminating redundant linker names without changing codegen.
-  Fresh pinned VC7.1 complete original PE/COFF comparison reproduces
-  **3,900/3,900 bytes, 97 actual fields, 69 ordered calls, the exact 170-block
-  CFG, four-entry switch table and unchanged 29 physical differences at the
-  same offsets**. The seven same-Enemy-family exact siblings plus five
-  additional ANM/sound/boss-marker exact callees now replay automatically
-  together (**12 exact units**); the four true physical callee profiles are
-  cold-built individually, with the marker twins sharing their actual object.
-  Their original VA, decorated symbol, source and carrier split are validated,
-  including fail-closed negative cases. All five
-  new source/manifest tests pass. This is concrete typed source-reference
-  progress on a LARGE boss, **not** new exact function credit (940/980).
+- **EnemyManager OnUpdate real ANM/sound/ASCII owner and full callee protection (October 18):**
+  Maintained **3,900-byte** nonexact `EnemyManager::OnUpdate @0x00410730`
+  now refers to genuine `g_AnmManager`/`ExecuteScript`,
+  `g_SoundPlayer`/`PlaySoundPositionedByIdx` and real
+  `g_AsciiManager`/`SetBossMarkerState`; its separately exact 42-byte
+  `AsciiBossMarkerVmView::SetBossMarkerPosition` has a common declaration
+  with the genuine 32-byte interrupt sibling. Exact pre/post VC7.1 builds
+  have **byte-identical 3,900-byte raw owners and all 97 unshifted relocation
+  offsets/kinds/addends**; only external C++ symbol identities and verified
+  section-local label names change. The boss still has **29** real differing
+  original bytes, **69** ordered calls, **170** original control-flow blocks
+  and the identical four-entry switch table. These repairs are native
+  source-reference progress, NOT new byte-exact credit.
+  `--owner enemy` now builds all **four distinct genuine external callee
+  profiles**, including ANM ExecuteScript's separate pinned `/Ob0`
+  9,358-logical/9,776-physical owner and the once-compiled shared ASCII
+  marker carrier. It checks **12/12 already exact full-function owners,
+  12,506 physical bytes and 437 relocation fields** (seven Enemy-family
+  siblings plus five authentic ANM/sound/ASCII callees). Target-independent
+  tests reject missing/swapped methods, addresses, profiles, source and
+  carrier splits. Factory `strict-live-v1` `pass / accepted` source-commit-
+  bound replays on `6e1f3b4` for the existing 32- and 42-byte ASCII marker
+  siblings are archived in `RE_ACCEPTED_RECEIPTS.md`; they do not accept
+  the Enemy boss itself. Full `--owner all` checks **35 original-bound
+  noncrediting diagnostics and 191 distinct exact owners**. Overall
+  **940/980** canonical exact; native linking/resources/runtime remain open.
 
 - **RunEcl opcode-4 original-machine timer/redispatch safety (October 18):**
   The previously unfinished source-cold `scripts/audit-ecl-timer-jump.py` is
@@ -92,8 +57,8 @@
   **25-byte ZunTimer::SetCurrent** exact callee bodies (**26 strict
   focused replays**) still pass; neither semantic gate grants codegen
   exactness. The full source-cold `--owner all` independently checks
-  **35 diagnostics and 186/186 distinct complete exact functions**.
-  Current target-independent CI passes **519 tests (28 skipped, zero
+  **35 diagnostics and 191/191 distinct complete exact functions**.
+  Current target-independent CI passes **527 tests (28 skipped, zero
   failures)**; full Windows product/runtime remains open. Old 979/876/103 counts
   remain superseded by **980/940/40**. The original target and native-product
   state are unchanged; focused codegen proof and CI stay mandatory.

@@ -8826,44 +8826,8 @@ attest historical producer execution.
   against **prior clean gameplay source commit `6e1f3b4`** with receipts
   archived in `docs/RE_ACCEPTED_RECEIPTS.md`. Those are already exact
   regressions, not new matches or acceptance of the remaining 29-byte boss
-  gap; native whole-i386 product/resources/runtime remains open.
-
-## October 18: Enemy's genuine large-callee profile and exact-sibling replay protection (gpt-web)
-
-- Following the physical **3,900-byte EnemyManager::OnUpdate** source-owner
-  correction at `6e1f3b4`, expanded actual cold `--owner enemy` replay from
-  the previous seven local exact siblings to **12 distinct original-exact
-  functions**, totaling **12,506 original physical bytes and 437 real COFF
-  relocation fields**. Five independently proven *newly guarded* callee
-  families are `SoundPlayer::PlaySoundPositionedByIdx @0x0043E380`
-  (153 bytes), the unusually large **9,358-byte** genuine
-  `AnmManager::ExecuteScript @0x00436F30`,
-  `AsciiBossMarkerVmView::SetBossMarkerPosition @0x004067F0` (42),
-  `SetBossMarkerInterrupt @0x004067D0` (32), and the real
-  `AsciiManager::SetBossMarkerState @0x0040F890` (20). The real ANM
-  candidate must retain its originally verified **separate `/Ob0` VC7.1
-  profile**, and the two Ascii boss-marker members share exactly one
-  distinct `/Ob1` carrier: incorrectly reusing the Enemy TU's optimization
-  profile is not acceptable.
-- The independently original-address-anchored
-  `ENEMY_REAL_CALLEE_EXACT_CARRIERS` inventory in
-  `scripts/check-boss-frontiers.py` rejects absent/swapped target entries,
-  wrong decorated methods, source names, build objects and compiler profiles.
-  It compiles each of the **four real physical callee carriers once**, then
-  independently replays all **five actual complete exact owners**. Added
-  target-independent tests reject wrong addresses, symbols, source paths,
-  private marker-object split profiles or bad `/Ob0` carrier, as well as
-  verifying expected cold-build count and actual five-unit original identity.
-  The full `--owner all` cold replay independently returns **35 noncrediting
-  owner diagnostics and 191/191 distinct exact full-source checks**.
-- These are regressions for **already accepted code**, not five new exact
-  functions: the source-present/nonexact Enemy boss retains
-  **3,900/3,900 physical, 97 original bound operands, 69 ordered calls,
-  170 direct blocks, 29 ordinary physical mismatches**. The separate
-  Factory `pass/accepted` receipt pair for the 42-byte and 32-byte already
-  exact Ascii helper units is bound to clean committed gameplay source
-  `6e1f3b4` and recorded in `docs/RE_ACCEPTED_RECEIPTS.md`. The other
-  genuine dependency units are strict local original-bound cold checks;
-  no Factory receipt is asserted for a callee without one. Original target,
-  canonical exact **940/980**, native whole-product, and runtime/semantic
-  phases remain unchanged/open.
+  gap; native whole-i386 product/resources/runtime remains open. Full
+  source-cold `--owner all` additionally rechecked **35 noncrediting
+  original owners and 191 distinct exact full-function source bodies**.
+  The 12 Enemy checks account for **437 authentic COFF relocation fields**
+  in addition to their 12,506 physical bytes.
