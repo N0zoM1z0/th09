@@ -111,6 +111,7 @@ not an acceptable shortcut around the native-product stage.
 - [`docs/RE_WORKFLOW.md`](docs/RE_WORKFLOW.md) — bounded reconstruction loop and stage gates.
 - [`docs/ORACLES.md`](docs/ORACLES.md) — what can falsify or accept each claim.
 - [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) — current state, retained evidence, and restart checks.
+- [`docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md`](docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md) — frozen historical checkpoints; use the active handoff, not this archive, for current facts.
 - [`docs/KNOWLEDGE_BASE.md`](docs/KNOWLEDGE_BASE.md) — durable TH09-only facts.
 - [`docs/TOOLS.md`](docs/TOOLS.md) — local and Factory tool routing.
 - [`docs/PROGRESS.md`](docs/PROGRESS.md) — generated ledger totals.

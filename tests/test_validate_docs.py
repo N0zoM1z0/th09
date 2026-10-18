@@ -237,6 +237,33 @@ historical references are routed by Git
                         self.SAMPLE + heading + "\nold checkpoint\n"
                     )
 
+    def test_history_bullets_cannot_accumulate_in_live_checkpoint(self) -> None:
+        snapshot = self.SAMPLE.replace(
+            "## Live ledger snapshot\n",
+            "## Current verified handoff checkpoint\n"
+            "- **RunEcl notebook (October 18):** historical attempt\n"
+            "## Live ledger snapshot\n", 1)
+        with self.assertRaisesRegex(ValueError, "dated checkpoint bullet"):
+            VALIDATE_DOCS.validate_handoff_as_current_snapshot(snapshot)
+        long_notes = self.SAMPLE.replace(
+            "## Live ledger snapshot\n",
+            "## Current verified handoff checkpoint\n" +
+            "\n".join("Review note %d" % i for i in range(110)) +
+            "\n## Live ledger snapshot\n", 1)
+        with self.assertRaisesRegex(ValueError, "append-only history"):
+            VALIDATE_DOCS.validate_handoff_as_current_snapshot(long_notes)
+
+    def test_historical_checkpoints_are_preserved_outside_active_handoff(self) -> None:
+        archive = ROOT / "docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md"
+        self.assertTrue(archive.is_file())
+        saved = archive.read_text(encoding="utf-8")
+        self.assertIn("historical", saved.lower())
+        self.assertIn("## Archived checkpoints", saved)
+        self.assertIn("SetBossMarkerInterrupt", saved)
+        active = VALIDATE_DOCS.HANDOFF.read_text(encoding="utf-8")
+        self.assertIn("[the historical checkpoint archive]", active)
+        self.assertLess(len(active.splitlines()), 500)
+
     def test_missing_or_duplicate_live_section_is_rejected(self) -> None:
         with self.assertRaisesRegex(ValueError, "requires one live section"):
             VALIDATE_DOCS.validate_handoff_as_current_snapshot(

@@ -118,8 +118,10 @@ analysis database is working state; mirror durable conclusions into the repo.
   automatically pushed.
 - Route current work through `docs/RE_HANDOFF.md`; original-bound
   accepted receipts now live in `docs/RE_ACCEPTED_RECEIPTS.md` with
-  immutable source commit bindings, and previous file deletions are recorded
-  in `docs/RE_ARTIFACT_CLEANUP_HISTORY.md`. Archival receipts are **not**
+  immutable source commit bindings. Superseded long-form checkpoint details
+  are preserved in `docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md`, not
+  appended to the active handoff; previous file deletions are recorded in
+  `docs/RE_ARTIFACT_CLEANUP_HISTORY.md`. Archival receipts are **not**
   current-source exactness credit; clean handoffs may have no `build/`.
 - Keep decompiler dumps, logs, experiments, screenshots, and generated reports
   below `.analysis/`; keep builds below `build/` and downloaded tools below

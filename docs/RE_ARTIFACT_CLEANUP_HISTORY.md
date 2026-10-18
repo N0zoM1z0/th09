@@ -156,3 +156,81 @@ by a validator; for final cache-free document checks also export
 `PYTHONDONTWRITEBYTECODE=1`. One such validator-created bytecode file was
 noticed during final audit and re-cleaned within the same approved `.pyc`
 whitelist; this did not affect the 5,273 **distinct cache paths** cleared.
+
+
+### 2026-10-18: 35-owner/204-exact clean handoff with historical-checkpoint archival
+
+**Verified evidence before deletion:** original Japanese TH09 v1.50a
+`resources/th09.exe` retained SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+The tracked source/ledger baseline was `0df4c1d` on `main` (**980
+source-present / 940 canonical exact / 40 nonexact**, 49,183 open physical
+bytes). The target-bound `python3 -B scripts/check-boss-frontiers.py --owner
+all` freshly rebuilt and passed **35 noncrediting original-linked owner
+checks and 204 *distinct* already-exact full-function comparisons**.
+`python3 -B scripts/ci.py` passed **584 tests (28 skipped, zero failed)**,
+including the new documentation archive/anti-journal tests, plus tracking,
+original/build graph, docs, progress and whitespace checks. These witnesses
+were saved under ignored `.analysis/handoff-cleanup-20261018/` **before**
+removing any compiled object. The 204 checked units are a regression-suite
+cardinality, not 204 new codegen acceptances.
+
+**Explicit, fail-closed scope:** `clean-generated-artifacts.py` previews and
+removes only the wholly ignored `build/` cache and compiler binaries/bytecode
+(`.obj/.pdb/.pch/.idb/.ilk/.pyc`) under the ignored `.analysis/` tree.
+The extra `scripts/__pycache__` and `tests/__pycache__` directories were
+individually checked for ignored, untracked, regular **`.pyc` files only**,
+with each file's bytes and SHA-256 recorded in `reviewed-preflight.json`
+*before* unlinking. Every bytecode hash was checked again before deletion.
+No symlink cache roots, tracked cache files, unexpected Python cache entries,
+or unstaged source edits were allowed into the deletion set.
+
+| Approved, actually deleted artifact | Files | Logical bytes |
+| --- | ---: | ---: |
+| Wholly ignored generated `build/` | 486 | 15,757,511 |
+| `.analysis/` compiler binaries and bytecode only | 2,326 | 197,796,698 |
+| Separately SHA-256-reviewed Python bytecode caches | 68 | 1,069,658 |
+| **Total** | **2,880** | **214,623,867 (~204.7 MiB)** |
+
+**After deletion:** `build/`, `scripts/__pycache__` and `tests/__pycache__`
+are absent. A post-apply `python3 -B scripts/clean-generated-artifacts.py`
+returned **zero candidate files and zero bytes**. SHA-256 of the original
+game remained unchanged; Git-tracked code, manifests and docs were retained.
+The cleanup script's append-only precise path inventory is kept in
+`.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`:
+use the **last `runs` record**, not the cumulative top-level summary, for
+this deletion. The separate Python bytecode file hashes, preflight approval,
+postconditions and original/CI witnesses are in:
+
+- `.analysis/handoff-cleanup-20261018/reviewed-preflight.json`
+- `.analysis/handoff-cleanup-20261018/verified-deletion.json`
+- `.analysis/handoff-cleanup-20261018/precleanup-full-boss.json`
+- `.analysis/handoff-cleanup-20261018/precleanup-ci.log`
+
+**Deliberate preservation:** roughly **1.5 GiB allocated** remains in
+ignored `.analysis/`: **104,476 files / 1,263,262,173 logical bytes** of
+legacy and recent C++/INL/HPP probe sources, JSON original-PE/COFF evidence,
+reproducers, analysis snapshots and uniquely sourced or still-unclassified
+artifacts. These were not declared disposable by extension or age. Preserve
+operator-input `resources/th09.exe`, installed `.tools/`, IDA databases,
+real source/ledgers/receipts and all unknown legacy experiments. This is a
+bounded **cache** cleanup, not historical evidence deletion; never run
+`git clean -X` or `rm -rf .analysis` as a shortcut.
+
+**Documentation handoff:** the former **683 detailed chronological checkpoint
+lines** were frozen (not thrown away) in
+[`RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md`](RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md).
+The active [`RE_HANDOFF.md`](RE_HANDOFF.md) shrank from **968 lines to a
+concise current routing document**, with live ledger, priority bosses and
+small leaves, exact validation commands, and the artifact boundary.
+`validate-docs.py` and tests now fail on dated checkpoint bullets or an
+append-only multi-hundred-line active checkpoint section. Accepted original
+Factory receipts remain source-commit-scoped in `RE_ACCEPTED_RECEIPTS.md`.
+
+**Restart:** missing `build/matching/*.obj` is intentional. Start with
+`git status`, target+ledger verification, then cold-build the exact source
+unit before a COFF comparison. Full CI/`--owner all` **will regenerate
+ignored build caches**. No full CI was rerun *after* cleanup, since doing so
+would undo the cache-free handoff; post-deletion doc-only verification must
+use `PYTHONDONTWRITEBYTECODE=1` **plus** `python3 -B` to avoid recreating
+Python bytecode. The original-bound pre-deletion results remain the proof.

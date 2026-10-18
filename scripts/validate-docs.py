@@ -127,6 +127,18 @@ def validate_handoff_as_current_snapshot(text: str) -> None:
            for heading in headings):
         raise ValueError("dated packet journal belongs in KNOWLEDGE_BASE, not the handoff")
 
+    # The previous active handoff became a 680-line list of dated checkpoint
+    # bullets despite having no prohibited dated ## headings. Keep provenance
+    # in the frozen archive/knowledge base, not in the current restart page.
+    checkpoint = "## Current verified handoff checkpoint"
+    if checkpoint in headings:
+        body = text.split(checkpoint, 1)[1].split("\n## ", 1)[0]
+        if len(body.splitlines()) > 100:
+            raise ValueError("active checkpoint is an append-only history; archive detail")
+        if re.search(r"^[-*] \*\*[^\n*]+\((?:October|November|December)\s+\d+\):",
+                     body, re.MULTILINE):
+            raise ValueError("dated checkpoint bullet belongs in historical archive")
+
 
 def validate_handoff_totals() -> None:
     actual = measures()
