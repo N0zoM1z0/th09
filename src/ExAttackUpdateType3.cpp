@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "AsciiGameManagerView.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackType3DataView.hpp"
 #include "PlayerLifecycleView.hpp"
@@ -17,23 +18,6 @@ struct ExAttackType3VmView
 
 typedef char ExAttackType3VmViewSizeIs2A4[
     (sizeof(ExAttackType3VmView) == 0x2A4) ? 1 : -1];
-
-struct ExAttackType3UpdateSideView
-{
-    unsigned char unknown00[0x04];
-    PlayerLifecycleView *player04;
-    unsigned char unknown08[0x30];
-};
-
-struct ExAttackType3UpdateGameManagerView
-{
-    ExAttackType3UpdateSideView sides[2];
-
-    float InverseTransformPopupX(float value);
-    float InverseTransformPopupY(float value);
-};
-
-extern ExAttackType3UpdateGameManagerView g_GameManager;
 
 int __fastcall ExAttackUpdateCallbackType3(ExAttackRecord *base)
 {
@@ -96,18 +80,15 @@ int __fastcall ExAttackUpdateCallbackType3(ExAttackRecord *base)
         g_GameManager.InverseTransformPopupY(extra->history10[24].y);
     tail.z = 0.0f;
 
-    if (g_GameManager.sides[record->opponentSide04]
-                .player04->CheckBulletCollision(
+    if (reinterpret_cast<PlayerLifecycleView *>(g_GameManager.sides[record->opponentSide04].player)->CheckBulletCollision(
                     &current,
                     &collisionSize,
                     0) == 2 ||
-        g_GameManager.sides[record->opponentSide04]
-                .player04->CheckBulletCollision(
+        reinterpret_cast<PlayerLifecycleView *>(g_GameManager.sides[record->opponentSide04].player)->CheckBulletCollision(
                     &middle,
                     &collisionSize,
                     0) == 2 ||
-        g_GameManager.sides[record->opponentSide04]
-                .player04->CheckBulletCollision(
+        reinterpret_cast<PlayerLifecycleView *>(g_GameManager.sides[record->opponentSide04].player)->CheckBulletCollision(
                     &tail,
                     &collisionSize,
                     0) == 2)

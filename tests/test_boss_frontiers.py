@@ -550,9 +550,16 @@ class BossFrontierChecks(TestCase):
             reference_unit='ex-attack-initialize-type3')
         read.assert_called_once_with(['scripts/inspect-exattack-type3-schedule.py',
                                       'build/matching/ExAttackUpdateType3.obj'])
-        build.assert_called_once_with('ex-attack-initialize-type3')
+        self.assertEqual([r.args[0] for r in build.call_args_list], [
+            'ex-attack-initialize-type3',
+            'game-manager-transform-popup-x',
+            'exattack-type4-initialize'])
+        self.assertEqual(build.call_count, 3)
         self.assertEqual(owners['exattack_type3_update']['ordinary_differences'], 15)
-        self.assertEqual([x['unit'] for x in exact], ['exact'])
+        # Five real exact GameManager/Type4 references add regression checks,
+        # NOT new canonical exact credit to the still-unmatched Type3 update.
+        self.assertEqual(len(exact), 6)
+        self.assertTrue(all(row['unit'] == 'exact' for row in exact))
 
     @staticmethod
     def exattack_1422_draw_evidence():

@@ -9,6 +9,35 @@
 
 ## Current verified handoff checkpoint
 
+- **ExAttack Type3 boss + Type4 exact initializer share the real GameManager (October 18):**
+  Original `ExAttackUpdateCallbackType3 @0x00442750` (780-byte nonexact
+  owner) and previously exact `ExAttackInitializeCallbackType4 @0x00442A60`
+  (368-byte exact owner) were using two *different*, invented C++ types for
+  the SAME real global `g_GameManager @0x004A7D90` and exact
+  `InverseTransformPopupX/Y @0x00442420 / 0x00442450` callees. Both now
+  include the original-backed shared `AsciiGameManagerView.hpp`. Actual
+  side-array player pointer is `side+0x04` in a `0x38`-byte side record;
+  Type3 uses genuine `PlayerLifecycleView::CheckBulletCollision`, and
+  Type4 retains only its independently bounded player ANM field at
+  `+0xBC`, with a compile-time member-offset assertion. Verified pinned
+  before/after **complete raw machine code byte-for-byte equal** for Type3
+  **780/780, 38 unchanged COFF fields** (15 renamed authentic caller
+  symbols) and Type4 **368/368, 22 unchanged fields** (nine renamed source
+  symbols). For Type4, all seven real global DIR32 fields and both real
+  inverse-transform REL32 fields independently resolve back to the SAME
+  immutable original PE VAs, field positions/types and actual COFF addends.
+  Its strictly bound entire 368-byte exact match manifest was updated only
+  in the nine decorated C++ name strings. Type3's original PE/COFF auditor
+  now rejects the two fake GameManager names: it still protects all 38
+  actual fields, 24 call targets, full CFG and 15 genuine still-different
+  bytes (`middle.z` store after tail-X load vs original pre-load chronology).
+  A focused `--owner type3` now source-cold replays the **four 46-byte
+  already exact** `AsciiGameManagerView` coordinate methods in one actual
+  optimizer carrier and the separately exact **368-byte Type4 initializer**,
+  as well as the already exact Type3 initializer: **six independent exact
+  original-bound units**, zero new exact credit. All native whole-program
+  linking and runtime behavior remain open; canonical ledger **940/980**.
+
 - **Full ECL timer type now genuinely shares ZunTimer (October 18):**
   Revisited `RunEcl` rather than relying on its former 0x0C source-only
   `Th09EclTimerStorageView` class. Original-target-backed

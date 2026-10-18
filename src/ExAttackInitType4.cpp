@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "AsciiGameManagerView.hpp"
 #include "AsciiManager.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackHistory32ExtraView.hpp"
@@ -34,23 +35,8 @@ struct ExAttackType4PlayerView
     unsigned char unknown000[0xBC];
     AnmLoaded *anmFileBC;
 };
-
-struct ExAttackType4SideView
-{
-    unsigned char unknown00[0x04];
-    ExAttackType4PlayerView *player04;
-    unsigned char unknown08[0x30];
-};
-
-struct ExAttackType4GameManagerView
-{
-    ExAttackType4SideView sides[2];
-
-    float InverseTransformPopupX(float value);
-    float InverseTransformPopupY(float value);
-};
-
-extern ExAttackType4GameManagerView g_GameManager;
+typedef char ExAttackType4PlayerAnmAtBC[
+    (offsetof(ExAttackType4PlayerView, anmFileBC) == 0xBC) ? 1 : -1];
 
 int __fastcall ExAttackInitializeCallbackType4(ExAttackRecord *base)
 {
@@ -61,15 +47,15 @@ int __fastcall ExAttackInitializeCallbackType4(ExAttackRecord *base)
     record->dynamicData1C =
         g_ZunMemory.Alloc(5 * sizeof(AnmVm), "./system\\global.h");
 
-    g_GameManager.sides[record->side08].player04->anmFileBC->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackType4PlayerView *>(g_GameManager.sides[record->side08].player)->anmFileBC->ExecuteAnmIdx(
         reinterpret_cast<AnmVm *>(record->dynamicData1C) + 0, 14);
-    g_GameManager.sides[record->side08].player04->anmFileBC->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackType4PlayerView *>(g_GameManager.sides[record->side08].player)->anmFileBC->ExecuteAnmIdx(
         reinterpret_cast<AnmVm *>(record->dynamicData1C) + 1, 15);
-    g_GameManager.sides[record->side08].player04->anmFileBC->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackType4PlayerView *>(g_GameManager.sides[record->side08].player)->anmFileBC->ExecuteAnmIdx(
         reinterpret_cast<AnmVm *>(record->dynamicData1C) + 2, 16);
-    g_GameManager.sides[record->side08].player04->anmFileBC->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackType4PlayerView *>(g_GameManager.sides[record->side08].player)->anmFileBC->ExecuteAnmIdx(
         reinterpret_cast<AnmVm *>(record->dynamicData1C) + 3, 17);
-    g_GameManager.sides[record->side08].player04->anmFileBC->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackType4PlayerView *>(g_GameManager.sides[record->side08].player)->anmFileBC->ExecuteAnmIdx(
         reinterpret_cast<AnmVm *>(record->dynamicData1C) + 4, 18);
 
     Float3 *position;

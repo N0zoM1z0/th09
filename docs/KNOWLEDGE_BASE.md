@@ -9017,3 +9017,61 @@ attest historical producer execution.
   source-present 980; product native link/static resources/runtime remain
   incomplete. The original unclassified folded getter at 0x435F00 is not
   promoted merely because an exact-looking source C++ operator is available.
+
+## October 18: genuine GameManager native ABI shared by ExAttack Type3 and Type4 (gpt-web)
+
+- Reopened original Japanese TH09 1.50a physical referents, not just a
+  structure-compatible view. `ExAttackUpdateCallbackType3 @0x00442750`
+  (780-byte nonexact, 240 physical instructions, 38 fields, 24 direct calls)
+  and **already exact** `ExAttackInitializeCallbackType4 @0x00442A60`
+  (368 bytes/22 fields) both referenced `g_GameManager @0x004A7D90` under
+  DIFFERENT source-only `ExAttackType3UpdateGameManagerView` and
+  `ExAttackType4GameManagerView` C++ types. They also called two separately
+  canonical exact 46-byte real `AsciiGameManagerView` methods,
+  `InverseTransformPopupX @0x00442420` and `InverseTransformPopupY @0x00442450`,
+  through different fake C++ names. The original target binds the exact
+  same real global and those two exact methods in both callbacks; neither
+  a source-only type alias nor its decorated linker symbol is retail proof.
+- Both maintained callbacks now include `AsciiGameManagerView.hpp` and
+  use its **one real global owner and two genuine method C++ names**. The
+  true 0x38-byte side array has `player` at +0x04. Type3's three player
+  collision calls cast this source-facing pointer to the already genuine
+  `PlayerLifecycleView`, whose `CheckBulletCollision` target is separately
+  tracked (still a nonexact owner; no false exact promotion). Type4's five
+  original ANM initializations retain a narrow, target-backed
+  `ExAttackType4PlayerView` with `anmFileBC` field **+0xBC** and a new
+  compile-time offset assertion. The untouched unknown prefix is NOT given
+  invented original semantics. No new global object is defined or exported.
+- Cold before/after *separate full genuine source TUs* with the pinned
+  VC7.1 `/O2 /Ob1` original profile:
+  `src/ExAttackUpdateType3.cpp` emits the exact same **780 physical raw
+  bytes**, **38 actual COFF fields at exactly the same offsets/kinds/addends**,
+  and precisely 15 source-only decorated symbol changes: nine genuine
+  GameManager global fields and six exact coordinate-callee method fields. The complete original SHA+field/CFG/chronology gate still
+  observes **15 ordinary PE-linked differences exclusively at
+  +0x196..+0x1A7** (15 noncontiguous offsets), because the candidate still
+  schedules middle-Z `=0` *after* the tail-X load. The same change in
+  `src/ExAttackInitType4.cpp` emits the exact same **368 full raw bytes and
+  all 22 original relocations**, with precisely nine C++ symbol-name
+  changes; seven global loads (five have real COFF +0x04 addends) and two
+  genuine 46-byte transform calls. A separate full original-PE-byte
+  comparison checked every target field encoding including addends before
+  updating only those nine manifest decorated symbol names. Canonical
+  `compare-coff-function.py --unit exattack-type4-initialize` remains
+  **368/368 exact**, not merely overlapping-byte or original-tag similarity.
+- `scripts/inspect-exattack-type3.py` now accepts *only* the true three
+  global/member symbols with independently verified original source VAs,
+  while its strict `inspect-exattack-type3-schedule.py` retains the 780-byte
+  38-field 24-call/correct CFG/15-difference gate. New
+  `EXATTACK_TYPE3_REAL_GAME_MANAGER_CARRIERS` in
+  `scripts/check-boss-frontiers.py` cold-builds the real
+  `GameManagerCoordinates.cpp` physical carrier **once**, checking ALL FOUR
+  canonical **46/46-byte** TransformPopupX/Y and InverseTransformPopupX/Y
+  methods, plus the separate **368-byte exact Type4 initializer** and
+  independent exact Type3 initializer. The five newly protected full
+  exact units are previously accepted ledger entries, not newly exact;
+  pure tests reject invented global types, original VA/routing changes,
+  duplicate player owner classes and unpinned source/VC7.1 profiles.
+  Native whole-product link/data/static-init and deterministic runtime
+  comparison remain separate open gates. **940 of 980** authored sources
+  still have complete original accepted exact codegen.
