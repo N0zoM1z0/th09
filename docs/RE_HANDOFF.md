@@ -34,6 +34,14 @@
   audio callees from two additional pinned cold carriers. This fixes a real
   source-referent/ABI naming mistake and native linker split; **no new exact
   function** (940/980) and no completed product/native link/runtime claim.
+  Independent Factory `strict-live-v1` forced-cold, source-commit-bound
+  `pass / accepted` receipts on **clean `5808950`** reconfirm both the
+  **992-byte physical exact Post-ECL Movement** and **892-byte physical
+  exact CompareOperands**, not the nonexact RunEcl owner; see
+  `RE_ACCEPTED_RECEIPTS.md`. The full `--owner all` run protected **35
+  complete-owner diagnostics and 192 distinct exact full-function units**
+  with no duplicate acceptance credit. CI **539 tests, 28 skipped, zero
+  failures**; native product still open.
 
 - **Front message runtime exact callee shared across two large lifecycle callers (October 18):**
   The independently canonical exact **133-byte / nine-field**

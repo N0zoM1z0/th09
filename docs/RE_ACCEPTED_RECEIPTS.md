@@ -6,6 +6,37 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## RunEcl authentic boss interrupt/SoundPlayer owner: exact ECL carrier regressions (October 18)
+
+After correcting the source-only false `BossUiView::SetBossMarkerState`
+reference to the real `AsciiBossMarkerVmView::SetBossMarkerInterrupt @0x4067D0`
+(**NOT** distinct `AsciiManager::SetBossMarkerState @0x40F890`), unifying the
+boss marker/sound globals across the genuine ECL interpreter and post-ECL
+code, and validating unchanged original PE-linked bytes, Factory's independent
+`strict-live-v1` service performed **forced-cold VC7.1 recompilation** from
+precisely the **clean immutable source commit
+`5808950a87a44def2ec708901974192e05f2d945`**, original Japanese TH09
+1.50a, on these two already canonical exact functions:
+
+- `EnemyPostEclUpdateMovement @0x00408180`, **967 logical / 992 complete
+  physical bytes**, 41 reviewed PE/COFF relocations including real global
+  `g_SoundPlayer @0x004DC698` and `SoundPlayer::PlaySoundByIdx @0x0043E2F0`,
+  `job:0cabbe1637864891847dfbdee955b787`,
+  `receipt:e7ec8a43d6f4274e998f927566ccada240ab9956152378e261a123687f4bea58`.
+- `Th09EclRunControl::CompareOperands @0x00407700`, **842 logical / 892
+  physical bytes**, 37 original-bound COFF relocations with 13 actual local
+  VC7.1 label addresses proven unchanged,
+  `job:da3d237c4820414eb9c58c644b1d2602`,
+  `receipt:958830223941f4568d7db193fc32cb12c306c0b80bb86e71825daf9ccda1fd24`.
+
+Both jobs independently finished `receipt_verdict=pass` and
+`acceptance_decision=accepted`, without rejection reasons.
+These were **already exact source functions**, not new exact credits; the
+still nonexact **15,564-byte RunEcl 30-byte residual** itself has no accepted
+exact claim from these jobs. The unchanged source-linked entire opcode/table
+caller, canonical count **940/980**, and open Windows x86 product/resource/
+runtime stages remain distinct. These receipts do not apply to future commits.
+
 ## Shared Front message exact callee across gameplay and Front lifecycle bosses (October 18)
 
 After unifying `FrontMessageOwnerView` declarations into one checked
