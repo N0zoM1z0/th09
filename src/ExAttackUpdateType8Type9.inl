@@ -3,6 +3,7 @@
 // call; visibility of that maintained definition reproduces this call site.
 
 #include "AnmManager.hpp"
+#include "RuntimeAngleMath.hpp"
 #include "AsciiManager.hpp"
 #include "BulletManager.hpp"
 #include "ExAttackController.hpp"
@@ -57,7 +58,7 @@ struct ExAttackType89BulletDescriptorStorage
 typedef char ExAttackType89BulletDescriptorStorageSizeIs214[
     (sizeof(ExAttackType89BulletDescriptorStorage) == 0x214) ? 1 : -1];
 
-float __stdcall AddNormalizeAngle(float angle, float delta);
+
 
 int __fastcall ExAttackUpdateCallbackType8_9(ExAttackRecord *base)
 {

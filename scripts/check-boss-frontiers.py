@@ -728,9 +728,123 @@ def replay_runecl_real_etama_exact() -> list[dict]:
     return [canonical(name) for name, _, _ in RUNECL_REAL_ETAMA_REMOVE_CALLEES]
 
 
+# Original RunEcl has eight direct references to the independently exact
+# native global AddNormalizeAngle, NOT a source-private __stdcall alias.
+# All argument types are float: the retail callee at 0x42AED0 reads the two
+# stack arguments and terminates in RET 8. The real /Gr C++ owner is fastcall
+# but has exactly this physical argument convention for two floating values.
+RUNECL_REAL_ANGLE_SYMBOL = '?AddNormalizeAngle@@YIMMM@Z'
+RUNECL_REAL_ANGLE_ORIGINAL_VA = 0x0042AED0
+RUNECL_REAL_ANGLE_CALL_OFFSETS = frozenset((
+    0x0C36, 0x0CAB, 0x1192, 0x120C, 0x12D4, 0x1370, 0x1F7E, 0x33DB,
+))
+RUNECL_REAL_ANGLE_LEAVES = (
+    ('runtime-add-normalize-angle', 0x0042AED0,
+     RUNECL_REAL_ANGLE_SYMBOL, 111),
+    ('runtime-vector-angle', 0x00405700,
+     '?VectorAngle@Th09EclRunControl@@YGMMM@Z', 15),
+)
+RUNECL_REAL_ANGLE_EXATTACK_FRAGMENTS = (
+    'ExAttackInitType8.inl', 'ExAttackUpdateType8Type9.inl',
+    'ExAttackUpdateType11Type12.inl', 'ExAttackUpdateType7.inl',
+    'ExAttackUpdateType21.inl',
+)
+
+
+def validate_runecl_real_angle_owners(units: dict) -> None:
+    """Require the exact global *C++* original, not merely its numeric VA."""
+    header = (ROOT/'src/RuntimeAngleMath.hpp').read_text()
+    control = (ROOT/'src/EclRunControl.inl').read_text()
+    runtime = (ROOT/'src/RuntimeAngleMath.cpp').read_text()
+    aliases = (ROOT/'scripts/audit-ecl-callsite-identities.py').read_text()
+    if ('float __fastcall AddNormalizeAngle(float angle, float delta);' not in header or
+            'float __stdcall AddNormalizeAngle' in header or
+            '#include "RuntimeAngleMath.hpp"' not in control or
+            'using ::AddNormalizeAngle;' not in control or
+            'float __stdcall AddNormalizeAngle' in control or
+            'float __stdcall AddNormalizeAngle' in runtime or
+            '#include "RuntimeAngleMath.hpp"' not in runtime or
+            '?AddNormalizeAngle@Th09EclRunControl@@YGMMM@Z' in aliases):
+        raise RuntimeError('RunEcl real AddNormalizeAngle shared-header ABI regressed')
+    for filename in RUNECL_REAL_ANGLE_EXATTACK_FRAGMENTS:
+        source = (ROOT/'src'/filename).read_text()
+        if ('#include "RuntimeAngleMath.hpp"' not in source or
+                'float __stdcall AddNormalizeAngle' in source):
+            raise RuntimeError('ExAttack shared carrier redeclares a fake global angle ABI: '+filename)
+    for unit, va, symbol, size in RUNECL_REAL_ANGLE_LEAVES:
+        entry = units.get(unit)
+        if (not isinstance(entry, dict) or
+                entry.get('source') != 'src/RuntimeAngleMath.cpp' or
+                entry.get('object') != 'build/matching/RuntimeAngleMath.obj' or
+                entry.get('profile') != list(_SCREEN_EFFECT_BASE_PROFILE) or
+                entry.get('symbol') != symbol or entry.get('target_address') != va or
+                entry.get('size') != size):
+            raise RuntimeError('RunEcl genuine angle original method/profile drifted: '+unit)
+    exact_ref_count = 0
+    for entry in units.values():
+        if entry.get('source') != 'src/EclManager.cpp':
+            continue
+        for field in entry['relocations']:
+            sym = field['symbol']
+            if 'AddNormalizeAngle' not in sym:
+                continue
+            if (sym != RUNECL_REAL_ANGLE_SYMBOL or
+                    (field['type'],field['target'],field.get('addend',0)) !=
+                    ('REL32', RUNECL_REAL_ANGLE_ORIGINAL_VA, 0)):
+                raise RuntimeError('ECL/ExAttack exact source contains false angle-call identity')
+            exact_ref_count += 1
+    if exact_ref_count != 12:
+        raise RuntimeError('ECL/ExAttack twelve exact C++ angle callsites missing')
+
+
+def guard_runecl_real_angle_callsite_report(report: dict) -> dict:
+    """Fail closed on the eight real direct-call sites inside 15,564-byte boss."""
+    calls = report.get('direct_calls')
+    if (report.get('diagnostic_only') is not True or
+            report.get('exactness_credit') != 'none' or
+            report.get('audit_passed') is not True or
+            report.get('failures') != [] or
+            report.get('accounted_relocations') != 598 or
+            report.get('total_relocations') != 598 or
+            report.get('candidate_physical_bytes') != 15564 or
+            report.get('target_physical_bytes') != 15564 or
+            not isinstance(calls,list) or len(calls) != 375):
+        raise RuntimeError('RunEcl true angle callsite whole-owner audit incomplete')
+    angle = [item for item in calls if isinstance(item,dict) and
+             'AddNormalizeAngle' in item.get('symbol','')]
+    offsets = set()
+    for entry in angle:
+        offset = entry.get('candidate_offset')
+        if (type(offset) is not int or
+                entry.get('symbol') != RUNECL_REAL_ANGLE_SYMBOL or
+                entry.get('expected_destination') != RUNECL_REAL_ANGLE_ORIGINAL_VA or
+                entry.get('target_destination') != RUNECL_REAL_ANGLE_ORIGINAL_VA or
+                entry.get('identity_agrees') is not True or
+                not isinstance(entry.get('provenance'),dict) or
+                entry['provenance'].get('canonical_units') !=
+                ['runtime-add-normalize-angle'] or offset in offsets):
+            raise RuntimeError('RunEcl angle call is not the exact original real method')
+        offsets.add(offset)
+    if offsets != RUNECL_REAL_ANGLE_CALL_OFFSETS:
+        raise RuntimeError('RunEcl original eight true angle callsite offsets changed')
+    return {'diagnostic_only':True,'exactness_credit':'none',
+            'original_bound_angle_calls':len(offsets)}
+
+
+def replay_runecl_real_angle_exact() -> list[dict]:
+    """Cold compile the real 111-byte angle method and its 15-byte sibling."""
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        units = tomllib.load(stream)['units']
+    validate_runecl_real_angle_owners(units)
+    build('runtime-add-normalize-angle')
+    return [canonical(name) for name,_,_,_ in RUNECL_REAL_ANGLE_LEAVES]
+
+
 def run_ecl(*, include_trail: bool, include_interpreter: bool,
             protect_exact: bool,
             shared_real_callees_in_enemy: bool = False) -> tuple[dict, list[dict]]:
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        validate_runecl_real_angle_owners(tomllib.load(stream)['units'])
     build('ecl-pop-context')
     object_file = 'build/matching/EclManager.obj'
     diagnostics: dict[str, dict] = {}
@@ -738,6 +852,8 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
         'src/EclManager.cpp', ECL_EXACT_CARRIERS,
         already_built=('build/matching/EclManager.obj',))
         if protect_exact else [])
+    if protect_exact:
+        exact_units.extend(replay_runecl_real_angle_exact())
     if include_interpreter:
         with tempfile.TemporaryDirectory(prefix='th09-runecl-') as directory:
             destination = str(Path(directory) / 'complete.json')
@@ -746,6 +862,14 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
             complete = json.loads(Path(destination).read_text())
         shapes = parsed(['scripts/report-ecl-handler-shapes.py', '--json', object_file])
         verified_runecl = validate_runecl_byte_frontier(complete, shapes)
+        # A second independent original-body/COFF graph census validates
+        # all 375 calls; demand the eight distinct canonical angle referents.
+        with tempfile.TemporaryDirectory(prefix='th09-runecl-angle-') as directory:
+            audit_path = Path(directory) / 'callsite-report.json'
+            execute(['scripts/audit-ecl-callsite-identities.py', object_file,
+                     '--output', str(audit_path)], diagnostic=True)
+            angle_audit = guard_runecl_real_angle_callsite_report(
+                json.loads(audit_path.read_text()))
         mismatches = verified_runecl['remaining_opcode_mismatches']
         # The other still-different handler must pass exactly the authentic
         # ZunTimer thiscall receiver/stack argument and redispatch behavior.
@@ -784,6 +908,7 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
             'handlers': shapes['unique_handlers'],
             'remaining_opcode_mismatches': mismatches,
             'ordinary_differences_by_opcode': verified_runecl['differences_by_opcode'],
+            'canonical_angle_calls':angle_audit['original_bound_angle_calls'],
         }, ecl_move_random_biased={
             'target_bytes': 516, 'candidate_bytes': biased['candidate_bytes'],
             'overlapping_differences': biased['overlapping_differences'],

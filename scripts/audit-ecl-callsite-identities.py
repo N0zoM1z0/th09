@@ -39,7 +39,6 @@ ALIASES = {
     '?FloatModulo@Th09EclRunControl@@YGMMM@Z': 0x405710,
     '?Sin@Th09EclRunControl@@YGMM@Z': 0x401070,
     '?Cos@Th09EclRunControl@@YGMM@Z': 0x401060,
-    '?AddNormalizeAngle@Th09EclRunControl@@YGMMM@Z': 0x42aed0,
     '?SquareRoot@Th09EclRunControl@@YGMM@Z': 0x401080,
     '?ClampPosition@Th09EclRunMovement@@YIXPAUEnemyView@@@Z': 0x4101d0,
     '?MoveRandomBiased@Th09EclRunLate@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@@Z': 0x407e30,

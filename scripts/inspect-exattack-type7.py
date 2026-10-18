@@ -15,7 +15,7 @@ diagnostic.DESTINATIONS = {
     '??0Float3@@QAE@MMM@Z': 0x4010B0,
     '??OZunTimer@@QAEIH@Z': 0x403DE0,
     '?HasTickedEvery@ZunTimer@@QAEHH@Z': 0x404920,
-    '?AddNormalizeAngle@@YGMMM@Z': 0x42AED0,
+    '?AddNormalizeAngle@@YIMMM@Z': 0x42AED0,
     '??0ExAttackType7BulletDescriptorStorage@@QAE@XZ': 0x40D500,
     '?InstallWaitTransform@BulletSpawnDescriptor@@QAEXHHH@Z': 0x412760,
     '?InstallVectorAccelerationTransform@BulletSpawnDescriptor@@QAEXHHHMM@Z': 0x412730,

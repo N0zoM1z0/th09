@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AnmManager.hpp"
+#include "RuntimeAngleMath.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackType8GameManagerView.hpp"
 #include "RngRuntimeLeaves.hpp"
@@ -181,7 +182,7 @@ int __fastcall ExAttackInitializeCallbackType7(ExAttackRecord *base)
 
     return 0;
 }
-float __stdcall AddNormalizeAngle(float angle, float delta);
+
 
 int __fastcall ExAttackInitializeCallbackType6(ExAttackRecord *base)
 {

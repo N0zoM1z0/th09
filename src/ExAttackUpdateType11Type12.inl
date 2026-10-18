@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "RuntimeAngleMath.hpp"
 #include "AsciiManager.hpp"
 #include "BulletManager.hpp"
 #include "ExAttackController.hpp"
@@ -57,7 +58,7 @@ struct ExAttackType1112BulletDescriptorStorage
 typedef char ExAttackType1112BulletDescriptorStorageSizeIs214[
     (sizeof(ExAttackType1112BulletDescriptorStorage) == 0x214) ? 1 : -1];
 
-float __stdcall AddNormalizeAngle(float angle, float delta);
+
 
 int __fastcall ExAttackUpdateCallbackType11(ExAttackRecord *base)
 {

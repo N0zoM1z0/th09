@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "RuntimeAngleMath.hpp"
 #include "BulletManager.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackInterpolation.hpp"
@@ -59,7 +60,7 @@ struct ExAttackType7BulletDescriptorStorage
 typedef char ExAttackType7BulletDescriptorStorageSizeIs214[
     (sizeof(ExAttackType7BulletDescriptorStorage) == 0x214) ? 1 : -1];
 
-float __stdcall AddNormalizeAngle(float angle, float delta);
+
 
 int __fastcall ExAttackUpdateCallbackType7(ExAttackRecord *base)
 {

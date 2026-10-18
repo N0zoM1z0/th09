@@ -24,6 +24,7 @@
 #include "EnemyManager.hpp"
 #include "ZunTimer.hpp"
 #include "RngRuntimeLeaves.hpp"
+#include "RuntimeAngleMath.hpp"
 
 extern RngRuntimeView g_Rng;
 
@@ -31,6 +32,7 @@ namespace Th09EclRunControl
 {
 
 using ::g_Rng;
+using ::AddNormalizeAngle;
 
 // Target-facing operand helper declarations. ResolveInt, both lvalue resolvers,
 // and EnemyView::ResolveFloat have canonical exact TH09 implementations.
@@ -58,7 +60,7 @@ float __stdcall Cos(float value);
 float __stdcall SquareRoot(float value);
 float __stdcall FloatModulo(float dividend, float divisor);
 float __stdcall VectorAngle(float y, float x);
-float __stdcall AddNormalizeAngle(float angle, float delta);
+
 
 static void ApplyInterpolationOperation(
     EnemyView *enemy,

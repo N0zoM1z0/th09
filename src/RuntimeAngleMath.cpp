@@ -1,4 +1,5 @@
 #include <math.h>
+#include "RuntimeAngleMath.hpp"
 
 typedef float f32;
 typedef int i32;

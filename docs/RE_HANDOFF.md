@@ -48,6 +48,11 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   were rejected or byte-neutral; their reproducers are under `.analysis/`,
   not tracked game source. Guard and malicious-evidence tests are documented
   in `KNOWLEDGE_BASE.md`; no exact count change.
+- **RunEcl true math linkage:** Its eight original calls and 12 same-TU
+  exact ECL/ExAttack referents now use genuine 111-byte `AddNormalizeAngle`
+  at `0x42AED0` (not invented namespace stdcall); 24 ECL exact owners
+  preserve 10,607 bytes, 20 renumbered labels retain original VAs. The
+  **15,564-byte / 598-field** boss still has **30** residual differences.
 - **Shared Etama/Bullet/ECL C++ identities:** `BulletManager.cpp` and
   Bullet Advance use real `SoundPlayer` (19 unchanged exact bodies, 18 real
   symbols / 23 verified private labels). RunEcl late opcodes use the real

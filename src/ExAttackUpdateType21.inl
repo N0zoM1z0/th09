@@ -1,5 +1,6 @@
 // Included once by EclManager.cpp after the existing Float3 helper definition.
 #include "AnmManager.hpp"
+#include "RuntimeAngleMath.hpp"
 #include "BulletManager.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackInterpolation.hpp"
@@ -38,7 +39,7 @@ typedef char ExAttackType21BulletDescriptorStorageSizeIs214[
 typedef char ExAttackType21BulletDescriptorAtZero[
     (offsetof(ExAttackType21BulletDescriptorStorage, descriptor) == 0) ? 1 : -1];
 
-float __stdcall AddNormalizeAngle(float angle, float delta);
+
 
 int __fastcall ExAttackUpdateCallbackType21(ExAttackRecord *base)
 {
