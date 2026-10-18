@@ -28,7 +28,7 @@ DESTINATIONS = {
     '??NZunTimer@@QAEIH@Z': 0x406720,
     '??PZunTimer@@QAEIH@Z': 0x401520,
     '??YFloat3@@QAEAAU0@ABU0@@Z': 0x405730,
-    '?AddNormalizeAngle@@YGMMM@Z': 0x42AED0,
+    '?AddNormalizeAngle@@YIMMM@Z': 0x42AED0,
     '?AdvanceTransformProgram@Bullet@@QAEXXZ': 0x4141C0,
     '?AppendBoxRecord@PlayerCollisionQueryStateView@@QAEXPBUPlayerPositionView@@0H@Z': 0x40F8E0,
     '?AppendLaserRecord@PlayerCollisionQueryStateView@@QAEXPBUPlayerPositionView@@00MH@Z': 0x412830,

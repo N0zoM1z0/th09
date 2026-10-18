@@ -2,6 +2,7 @@
 #include "AnmManager.hpp"
 #include "AnmLoadedResidentView.hpp"
 #include "EffectManager.hpp"
+#include "RuntimeAngleMath.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "Supervisor.hpp"
 
@@ -16,7 +17,6 @@ typedef char EtamaDrawPointerAddressIsI386[
     (sizeof(size_t) == sizeof(void *) && sizeof(void *) == 4) ? 1 : -1];
 
 extern void __fastcall fsincos(float *sine, float *cosine, float angle);
-extern float __stdcall AddNormalizeAngle(float angle, float delta);
 
 static int DrawSingleBullet(Bullet *bullet)
 {

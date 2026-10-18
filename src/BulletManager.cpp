@@ -1,6 +1,7 @@
 #include "BulletManager.hpp"
 #include "ZunMemory.hpp"
 #include "SoundPlayer.hpp"
+#include "RuntimeAngleMath.hpp"
 
 #include <math.h>
 #include <new>
@@ -93,7 +94,7 @@ extern BulletAnmManagerView *g_AnmManager;
 
 extern int g_BulletSpriteOffsetSmall[];
 extern int g_BulletSpriteOffsetMedium[];
-extern float __stdcall AddNormalizeAngle(float angle, float delta);
+
 
 static const float kPi = 3.1415927f;
 static const float kTwoPi = 6.2831855f;

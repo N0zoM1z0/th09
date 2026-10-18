@@ -53,16 +53,15 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   at `0x42AED0` (not invented namespace stdcall); 24 ECL exact owners
   preserve 10,607 bytes, 20 renumbered labels retain original VAs. The
   **15,564-byte / 598-field** boss still has **30** residual differences.
-- **Shared Etama/Bullet/ECL C++ identities:** `BulletManager.cpp` and
-  Bullet Advance use real `SoundPlayer` (19 unchanged exact bodies, 18 real
-  symbols / 23 verified private labels). RunEcl late opcodes use the real
-  `EtamaController` for two exact removal leaves, with 13 original-VA-
-  identical ECL labels. Recheck `--owner all`: RunEcl stays at **30**
-  residual bytes; OnUpdate is **2,216/2,216** exact, Bullet Advance
-  **1,320/1,320** exact. Clean `0508a96` source replay validates
-  **35 original-bound noncrediting owners and 223 distinct exact siblings**;
-  seven Factory `pass/accepted` regressions are bound to that source
-  commit and archived in `RE_ACCEPTED_RECEIPTS.md`.
+- **Current Etama/Bullet true math ABI:** Both real drawing and main
+  BulletManager compiler TUs now use genuine `__fastcall` global
+  `AddNormalizeAngle @0x42AED0`, not fake stdcall: **6 real C++ calls /31
+  original-VA-preserved private labels**, **20 full exact functions /7,775
+  bytes** unchanged, including **Etama OnUpdate 2,216/2,216**.
+  The 600-byte Etama `OnDraw` is still **268 different bytes**. The earlier
+  `0508a96` original `EtamaController` and sound link receipts remain in
+  `RE_ACCEPTED_RECEIPTS.md`; `RunEcl` still has 30 residual bytes.
+  Fresh full cold replay: **35 boss diagnoses /247 distinct exact rechecks**.
 - **Fresh October 19 source-bound replays:** Factory `strict-live-v1`
   independently accepted four *already exact* owners from clean source
   commit `7edc447`: Etama `OnUpdate` 2,216 physical, Title MusicRoom

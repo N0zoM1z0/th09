@@ -2223,7 +2223,78 @@ def run_card_real_sound(*, protect_exact: bool,
     return {},exact
 
 
-def run_bullet_sound(*, protect_exact: bool, sound_prechecked: bool = False) -> tuple[dict, list[dict]]:
+# The SAME real global 111-byte fastcall math function is consumed by the
+# big 2,216-byte EtamaController::OnUpdate and four neighboring exact Bullet
+# functions. Earlier BulletManager.cpp compiled `__stdcall` fake math labels
+# at the correct numeric VA; preserve full original address AND C++ identity.
+BULLET_REAL_ANGLE_CALLS = {
+    'bullet-update-polar-acceleration': 0x52,
+    'bullet-update-aimed-direction-change': 0x81,
+    'bullet-update-boundary-bounce': 0x8D,
+    'etama-spawn-single-bullet': 0x400,
+    'etama-controller-update': 0x546,
+}
+
+
+def validate_bullet_real_angle_abi(units: dict) -> None:
+    """Protect five true original math call offsets across 18 exact leaves/bosses."""
+    source=(ROOT/'src/BulletManager.cpp').read_text()
+    if (source.count('#include "RuntimeAngleMath.hpp"')!=1 or
+            'extern float __stdcall AddNormalizeAngle' in source or
+            source.count('AddNormalizeAngle(')!=5):
+        raise RuntimeError('Bullet main Etama controller uses false math ABI/source')
+    math=units.get('runtime-add-normalize-angle')
+    if (not isinstance(math,dict) or
+            math.get('source')!='src/RuntimeAngleMath.cpp' or
+            math.get('object')!='build/matching/RuntimeAngleMath.obj' or
+            math.get('symbol')!='?AddNormalizeAngle@@YIMMM@Z' or
+            math.get('target_address')!=0x0042AED0 or math.get('size')!=111 or
+            math.get('profile')!=list(_SCREEN_EFFECT_BASE_PROFILE)):
+        raise RuntimeError('Bullet math callee must be genuine original 111-byte exact global')
+    primary=units.get('etama-controller-update')
+    if (not isinstance(primary,dict) or
+            primary.get('source')!='src/BulletManager.cpp' or
+            primary.get('target_address')!=0x004146F0 or
+            primary.get('size')!=2195 or primary.get('compare_size')!=2216 or
+            primary.get('profile')!=list(_SCREEN_EFFECT_BASE_PROFILE) or
+            len(primary.get('relocations',[]))!=88):
+        raise RuntimeError('Etama big OnUpdate original 2216-byte exact carrier was changed')
+    observed={}
+    all_sound=[]
+    for name,unit in units.items():
+        if unit.get('source')!='src/BulletManager.cpp':
+            continue
+        if unit.get('profile')!=list(_SCREEN_EFFECT_BASE_PROFILE):
+            raise RuntimeError('Bullet math caller compiler profile changed')
+        for field in unit.get('relocations',[]):
+            if 'AddNormalizeAngle' in field.get('symbol',''):
+                if name in observed:
+                    raise RuntimeError('Bullet original math call count/identity duplicated')
+                observed[name]=(field.get('offset'),field.get('type'),
+                                field.get('symbol'),field.get('target'),
+                                field.get('addend',0))
+    if set(observed)!=set(BULLET_REAL_ANGLE_CALLS):
+        raise RuntimeError('Bullet Etama expected five actual global math calls disappeared')
+    for unit,offset in BULLET_REAL_ANGLE_CALLS.items():
+        if observed[unit]!=(offset,'REL32','?AddNormalizeAngle@@YIMMM@Z',0x0042AED0,0):
+            raise RuntimeError('Bullet original Etama callsite symbol/offset/VA changed: '+unit)
+    inspector=(ROOT/'scripts/inspect-etama-update.py').read_text()
+    if ('?AddNormalizeAngle@@YGMMM@Z' in inspector or
+            '?AddNormalizeAngle@@YIMMM@Z' not in inspector):
+        raise RuntimeError('Etama original-owner update inspector uses obsolete math symbol')
+
+
+def replay_bullet_real_angle_exact(*, already_checked: bool) -> list[dict]:
+    with (ROOT/'config/match-units.toml').open('rb') as f:
+        validate_bullet_real_angle_abi(tomllib.load(f)['units'])
+    if already_checked:
+        return []
+    build('runtime-add-normalize-angle')
+    return [canonical('runtime-add-normalize-angle')]
+
+
+def run_bullet_sound(*, protect_exact: bool, sound_prechecked: bool = False,
+                     real_angle_prechecked: bool = False) -> tuple[dict, list[dict]]:
     """Cold recheck all nineteen genuine Etama/Bullet source carriers.
 
     In the complete all-owner sweep the two independently exact sound leaves
@@ -2234,6 +2305,7 @@ def run_bullet_sound(*, protect_exact: bool, sound_prechecked: bool = False) -> 
     with (ROOT / 'config/match-units.toml').open('rb') as stream:
         units = tomllib.load(stream)['units']
     validate_bullet_sound_real_owners(units)
+    validate_bullet_real_angle_abi(units)
     if not protect_exact:
         return {}, []
     exact = cold_replay_exact_source('src/BulletManager.cpp', BULLET_MAIN_EXACT_CARRIERS)
@@ -2243,6 +2315,8 @@ def run_bullet_sound(*, protect_exact: bool, sound_prechecked: bool = False) -> 
         build('soundplayer-play-sound-by-idx')
         exact.extend((canonical('soundplayer-play-sound-by-idx'),
                       canonical('soundplayer-play-positioned-sound-by-idx')))
+    exact.extend(replay_bullet_real_angle_exact(
+        already_checked=real_angle_prechecked))
     return {}, exact
 
 
@@ -2265,7 +2339,69 @@ def unique_canonical_siblings(checks: list[dict]) -> list[dict]:
     return list(unique.values())
 
 
-def run_etama(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+# The genuine Etama OnDraw translation unit contains a different 232-byte
+# exact bullet-draw leaf, which invokes the same retail 0x0042AED0 math
+# routine as 15K RunEcl. The former Ecl/Etama source-only stdcall forward
+# declaration was NOT the C++ owner of this native __fastcall runtime leaf.
+ETAMA_TRUE_ANGLE_CALL = ('bullet-draw-single', 0x00413AF0, 215, 232,
+                         0xB7, '?AddNormalizeAngle@@YIMMM@Z', 0x0042AED0)
+
+
+def validate_etama_real_angle_abi(units: dict) -> None:
+    """Reject invented Etama math callee ABI and wrong full callsite VA."""
+    source=(ROOT/'src/EtamaControllerDraw.cpp').read_text()
+    header=(ROOT/'src/RuntimeAngleMath.hpp').read_text()
+    if (source.count('#include "RuntimeAngleMath.hpp"') != 1 or
+            'extern float __stdcall AddNormalizeAngle' in source or
+            source.count('AddNormalizeAngle(') != 1 or
+            header.count('float __fastcall AddNormalizeAngle(float angle, float delta);') != 1):
+        raise RuntimeError('Etama uses non-native angle runtime math C++ source/ABI')
+    name,va,logical,physical,offset,method,call_target=ETAMA_TRUE_ANGLE_CALL
+    src=units.get(name)
+    if (not isinstance(src,dict) or src.get('target_address')!=va or
+            src.get('size')!=logical or src.get('compare_size')!=physical or
+            src.get('source')!='src/EtamaControllerDraw.cpp' or
+            src.get('object')!='build/matching/EtamaControllerDraw.obj' or
+            src.get('profile')!=list(_SCREEN_EFFECT_BASE_PROFILE)):
+        raise RuntimeError('Etama independently exact DrawSingleBullet source/profile changed')
+    fields=src.get('relocations')
+    found=[row for row in fields if row.get('symbol')==method or
+           'AddNormalizeAngle' in row.get('symbol','')]
+    if (len(found)!=1 or
+            (found[0].get('offset'),found[0].get('type'),found[0].get('symbol'),
+             found[0].get('target'),found[0].get('addend',0)) !=
+            (offset,'REL32',method,call_target,0)):
+        raise RuntimeError('Etama original bullet-draw math callsite/callee identity changed')
+    unit=units.get('runtime-add-normalize-angle')
+    if (not isinstance(unit,dict) or unit.get('source')!='src/RuntimeAngleMath.cpp' or
+            unit.get('object')!='build/matching/RuntimeAngleMath.obj' or
+            unit.get('profile')!=list(_SCREEN_EFFECT_BASE_PROFILE) or
+            unit.get('symbol')!=method or unit.get('target_address')!=call_target or
+            unit.get('size')!=111 or unit.get('relocations') is None):
+        raise RuntimeError('Etama uses nonexistent/altered original 111-byte math callee')
+    # Guard the second exact same-TU callback: a private $L compiler rebinding
+    # cannot count as a new source function or retarget the original 832 bytes.
+    added=units.get('etama-controller-added-callback')
+    if (not isinstance(added,dict) or
+            added.get('source')!=src['source'] or added.get('object')!=src['object'] or
+            added.get('target_address')!=0x00413E40 or added.get('size')!=598 or
+            added.get('compare_size')!=832):
+        raise RuntimeError('Etama 832-byte already-exact AddedCallback lost shared source carrier')
+
+
+def replay_etama_real_angle_exact(*, already_checked: bool) -> list[dict]:
+    with (ROOT/'config/match-units.toml').open('rb') as f:
+        validate_etama_real_angle_abi(tomllib.load(f)['units'])
+    if already_checked:
+        return []
+    build('runtime-add-normalize-angle')
+    return [canonical('runtime-add-normalize-angle')]
+
+
+def run_etama(*, protect_exact: bool,
+              real_angle_prechecked: bool = False) -> tuple[dict, list[dict]]:
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        validate_etama_real_angle_abi(tomllib.load(stream)['units'])
     build('bullet-draw-single')
     result = noncrediting(parsed(['scripts/inspect-etama-draw.py',
                                  'build/matching/EtamaControllerDraw.obj', '--json'],
@@ -2279,6 +2415,8 @@ def run_etama(*, protect_exact: bool) -> tuple[dict, list[dict]]:
             already_built=('build/matching/EtamaControllerDraw.obj',))
         build('etama-controller-update')
         exact_units.append(canonical('etama-controller-update'))
+        exact_units.extend(replay_etama_real_angle_exact(
+            already_checked=real_angle_prechecked))
     return {'etama_draw': {
         'target_bytes': 600, 'candidate_bytes': result['candidate_bytes'],
         'overlapping_differences': result['overlapping_byte_differences'],
@@ -3580,7 +3718,9 @@ def main() -> int:
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('etama', 'all'):
-            owners, exact = run_etama(protect_exact=not args.skip_exact_siblings)
+            owners, exact = run_etama(
+                protect_exact=not args.skip_exact_siblings,
+                real_angle_prechecked=args.owner == 'all')
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('card', 'all'):
@@ -3592,7 +3732,8 @@ def main() -> int:
         if args.owner in ('bullet', 'all'):
             owners, exact = run_bullet_sound(
                 protect_exact=not args.skip_exact_siblings,
-                sound_prechecked=args.owner == 'all')
+                sound_prechecked=args.owner == 'all',
+                real_angle_prechecked=args.owner == 'all')
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('title', 'all'):

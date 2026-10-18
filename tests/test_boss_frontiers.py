@@ -755,7 +755,7 @@ class BossFrontierChecks(TestCase):
             'complete_bytes_equal': False,
         }
 
-    def test_etama_big_draw_protects_all_three_real_exact_siblings(self):
+    def test_etama_big_draw_protects_all_four_real_exact_siblings(self):
         with patch.object(frontiers, 'build') as build, patch.object(
                 frontiers, 'parsed', return_value=self.etama_evidence()), patch.object(
                 frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
@@ -763,8 +763,8 @@ class BossFrontierChecks(TestCase):
         self.assertEqual(owners['etama_draw']['overlapping_differences'], 268)
         self.assertEqual([r['unit'] for r in siblings],
                          ['bullet-draw-single', 'etama-controller-added-callback',
-                          'etama-controller-update'])
-        self.assertEqual(build.call_count, 2)
+                          'etama-controller-update', 'runtime-add-normalize-angle'])
+        self.assertEqual(build.call_count, 3)
 
     def test_etama_original_physically_bound_residual_runs_are_nonoverlapping(self):
         runs = frontiers.ETAMA_DRAW_RESIDUAL_RUNS

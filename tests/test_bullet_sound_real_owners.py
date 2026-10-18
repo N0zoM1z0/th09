@@ -111,15 +111,19 @@ class BulletRealSound(unittest.TestCase):
         self.assertEqual(owners,{})
         self.assertEqual([x['unit'] for x in checked],
             ['first-main','second-main','only-advance',
-             'soundplayer-play-sound-by-idx','soundplayer-play-positioned-sound-by-idx'])
+             'soundplayer-play-sound-by-idx','soundplayer-play-positioned-sound-by-idx',
+             'runtime-add-normalize-angle'])
         self.assertEqual(units.call_count,2)
-        build.assert_called_once_with('soundplayer-play-sound-by-idx')
+        self.assertEqual(build.call_args_list,[call('soundplayer-play-sound-by-idx'),
+                                              call('runtime-add-normalize-angle')])
         self.assertEqual(canonical.call_args_list,[call('soundplayer-play-sound-by-idx'),
-                                                    call('soundplayer-play-positioned-sound-by-idx')])
+                                                    call('soundplayer-play-positioned-sound-by-idx'),
+                                                    call('runtime-add-normalize-angle')])
         with (patch.object(frontiers,'cold_replay_exact_source',side_effect=replay),
               patch.object(frontiers,'build') as build,
               patch.object(frontiers,'canonical') as canonical):
-            _,checked=frontiers.run_bullet_sound(protect_exact=True,sound_prechecked=True)
+            _,checked=frontiers.run_bullet_sound(protect_exact=True,sound_prechecked=True,
+                                              real_angle_prechecked=True)
         self.assertEqual([r['unit'] for r in checked],['first-main','second-main','only-advance'])
         build.assert_not_called();canonical.assert_not_called()
         with (patch.object(frontiers,'cold_replay_exact_source') as units,
