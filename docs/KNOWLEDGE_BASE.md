@@ -9322,3 +9322,47 @@ attest historical producer execution.
   This corrects source-owner naming and enhances native link plausibility;
   it neither raises 940 canonical exact nor proves Windows native
   product, data/resource closure, deterministic gameplay or later port.
+
+## October 19: source-cold RunEcl/Etama/Title/ExAttack residual reconfirmation (gpt-web)
+
+- Reattested `th09-ida` target SHA, real original Japanese v1.50a SHA, clean
+  source state and original VC7.1 compiler. The local direct `check-ida-mcp.py`
+  entrypoint was unavailable (`mcp==1.26.0` missing in that local Python), so
+  the successfully target-attested **Factory `th09-ida`** `get_metadata` and
+  original-hash-bound compiler/PE checks are independent evidence; the local
+  direct check was not silently counted as passed.
+- Rebuilt from current source and independently executed
+  `scripts/check-boss-frontiers.py --owner runecl`, `--owner etama`,
+  `--owner title` and `--owner exattack`. All four focused families passed
+  the original-linked noncrediting owner guards and complete exact sibling
+  comparisons: RunEcl **15,564 physical / 598 fields / 30 ordinary
+  differences / 146 of 148 handler shapes**, only opcode 4 (seven) and opcode
+  155 (23); Etama Draw **600 physical / 27 fields / 268 differences**;
+  Title DrawResult **1,939 / 82 / 22 differences**; ExAttack Type19/21 init
+  **763/727 physical with six/nine remaining schedule differences**.
+  Their target/codegen/field/branch similarities are not exact-credit claims.
+- Inspected full original and freshly built i386 disassembly around the
+  Type19 and Type21 residuals: Type19 original `LEA EDX,[ESI+3F4h]`,
+  `ADD EDI,14h`, `MOV [EBP-0Ch],EDX`, but VC7.1 emits the last two in the
+  opposite order. Type21 original `ADD EDI,14h` before
+  `LEA EBX,[ESI+3F4h]`, but source VC7.1 emits the LEA first. These
+  different schedules preserve all original calls and reloc identities.
+  **32 additional true-carrier source-only trials** (`16` variants for each
+  type) varied the vertex cursor increment, history pointer lifetime and
+  counter introduction; valid equal-extent/field forms retained the six/nine
+  residual, while some malformed target inventories or regressions were
+  rejected. Reproducer and individual inspect evidence stay in ignored
+  `.analysis/gpt-web-20261019-exattack-cursor/`, not maintained code.
+- Decoded the exact 51-byte EffectManager `AddedCallback` entry versus the
+  8-byte source residual: original loads global ANM through EDI before ESI
+  takes the callback receiver, while source VC7.1 loads the receiver first
+  and moves the ANM pointer via ECX. Reopened Etama `OnDraw` cursor: target
+  starts from one ESI body-VM position cursor (`ADD ESI,208h`), while source
+  materializes separate EDI/ESI cursors (`LEA EDI,[ESI+208h]` then
+  `ADD ESI,494h`). Both still need original evidence and natural source
+  progress, not forced assembly or fabricated structure ownership.
+- Factory `strict-live-v1` accepted four **previously** canonical exact
+  full-function replays (Etama OnUpdate, Title MusicRoom Update, TitleSetup,
+  DrawSingleBullet) strictly from **source commit `7edc4472933707224156aaabc2b8664aa316fa5e`**;
+  immutable job/receipt IDs are in `RE_ACCEPTED_RECEIPTS.md`. This does not
+  increase 940 / 980 or transfer their acceptance to subsequent source trees.

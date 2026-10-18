@@ -21,6 +21,15 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   The current canonical ledger contains **980 source-present / 940 exact /
   40 non-exact** functions. The 95% exact reviewed-authored-byte goal is open;
   run the commands below for current numbers, not old 979/876/103 snapshots.
+- **Fresh October 19 source-bound replays:** Factory `strict-live-v1`
+  independently accepted four *already exact* owners from clean source
+  commit `7edc447`: Etama `OnUpdate` 2,216 physical, Title MusicRoom
+  Update 2,258, TitleSetup 534, and Etama `DrawSingleBullet` 232. Immutable
+  jobs/receipts are in `RE_ACCEPTED_RECEIPTS.md`, and the 940/980 ledger
+  is unchanged. Focused cold `--owner runecl`, `--owner etama`,
+  `--owner title`, `--owner exattack` preserve the 30/268/22/6+9 open
+  residuals and their exact siblings; 32 additional natural ExAttack
+  initializer cursor/lifetime compilation trials found no new exact owner.
 - **Most recent proven cold baseline:** the independent, original-linked
   `check-boss-frontiers.py --owner all` replay passed **35 noncrediting owner
   diagnostics** and **204 distinct previously exact complete-function

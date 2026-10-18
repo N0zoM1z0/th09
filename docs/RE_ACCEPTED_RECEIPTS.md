@@ -6,6 +6,38 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## October 19: Etama update and Title exact regression quartet
+
+The independent Factory `strict-live-v1` forced a fresh original-bound VC7.1
+function comparison from **clean gameplay-source commit
+`7edc4472933707224156aaabc2b8664aa316fa5e`** against the attested
+Japanese TH09 v1.50a original SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+Each separate completed job returned `receipt_verdict=pass` and
+`acceptance_decision=accepted`, with no recorded acceptance objections:
+
+- `EtamaController::OnUpdate @0x004146F0`, **2,195 logical / 2,216
+  complete physical exact bytes**, including post-function tail and all
+  reviewed COFF/retail fields: `job:1b89c6f17d974e93bafa526043e336be`,
+  `receipt:94b633a2b55f91f419e18ba1adea67eb8151d47d91ff0082d55fb3db7b1bf438`.
+- `TitleScreenView::OnUpdateMusicRoom @0x00426E05`, **2,258 physical exact
+  bytes**: `job:d65f64978eef477bbeabee064adb6147`,
+  `receipt:5e21808fb9704988e41968160ac4003f82808c180a1f107aef9792fcd9f0c3bd`.
+- `TitleScreenView::TitleSetupThread @0x004249E1`, **534 physical exact
+  bytes**: `job:60d5acfe159141d1bca67d2ff5b5c592`,
+  `receipt:1372474eaba35ff1510d7f7c527e110dc1dfcef3c92c70f2e8d1f3dd2ea0e1cf`.
+- `DrawSingleBullet @0x00413AF0`, **215 logical / 232 complete physical
+  exact bytes** (including its carrier tail):
+  `job:824b70faba52400aabadb8cb33a56b3a`,
+  `receipt:4ed5446dfca2e5cab8ffb2b5a22c802558ce799fe265390e9ffebb7bec298be8`.
+
+These four are **revalidations of already canonical exact functions**, not
+new exact credit: the ledger remains **940 / 980**. The four original-bound
+receipts are scoped to the identified earlier clean source commit only,
+**not** to this later notes-only checkpoint. No replay in this batch accepted
+`RunEcl`, `EtamaController::OnDraw`, `TitleScreenView::DrawResult`, the
+ExAttack Type19/21 initializers, whole-native-image closure or gameplay runtime.
+
 ## ScreenEffect authentic GameManager owner: three independent exact regressions (October 18)
 
 After the original-PE-backed `ScreenEffectGameManagerView` duplicate global
