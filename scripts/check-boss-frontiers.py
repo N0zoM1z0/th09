@@ -99,6 +99,19 @@ TITLE_EXACT_CARRIERS = {
 # same-carrier lifecycle callback beyond the bullet sprite drawing leaf.
 ANM_RENDER_EXACT_CARRIERS = {'build/matching/AnmManagerRender.obj': 15}
 ETAMA_DRAW_EXACT_CARRIERS = {'build/matching/EtamaControllerDraw.obj': 2}
+# One real BulletManager.cpp compiler profile has three independently named
+# physical object carriers, all previously exact. The 2,216-byte physical
+# OnUpdate includes its compiler switch/data tail; all 18 source functions
+# need a complete original-bound replay after changing shared declarations.
+BULLET_MAIN_EXACT_CARRIERS = {
+    'build/matching/BulletManager.obj': 15,
+    'build/matching/BulletManagerPatterns.obj': 2,
+    'build/matching/BulletManagerSelectSprite.obj': 1,
+}
+BULLET_ADVANCE_EXACT_CARRIERS = {
+    'build/matching/BulletAdvanceTransformProgram.obj': 1,
+}
+
 # The resource-added callback is still nonexact inside EffectManager.cpp.
 # All fifteen existing original-bound exact source owners share the SAME
 # /O2 /Ob1 VC7.1 EffectManager carrier; guard the entire optimization cohort,
@@ -666,6 +679,55 @@ def replay_runecl_real_state_callees(*, shared_with_enemy_prechecked: bool) -> l
     return exact
 
 
+# RunEcl opcodes 161/162 use the *real* side EtamaController pointer.
+# Both original directly called methods are already canonical exact three-byte
+# no-op leaves; old private BulletControllerLateView symbols were merely fake
+# aliases numerically retargeted to the real original addresses. The genuine
+# shared C++ member identity must survive when other TU declarations change.
+RUNECL_REAL_ETAMA_REMOVE_CALLEES = (
+    ('etama-controller-remove-all-bullets', 0x00412590,
+     '?RemoveAllBullets@EtamaController@@QAEXH@Z'),
+    ('etama-controller-remove-bullets-in-radius', 0x004125A0,
+     '?RemoveBulletsInRadius@EtamaController@@QAEXPBUFloat3@@M@Z'),
+)
+
+
+def validate_runecl_real_etama_callees(units: dict) -> None:
+    fragment = (ROOT/'src/EclRunLate.inl').read_text()
+    audit = (ROOT/'scripts/audit-ecl-callsite-identities.py').read_text()
+    if (fragment.count('EtamaController *bulletController08;') != 1 or
+            fragment.count('inline EtamaController *BulletController(') != 1 or
+            'struct BulletControllerLateView' in fragment or
+            'BulletControllerLateView@Th09EclRunLate' in audit or
+            fragment.count('->RemoveAllBullets(') != 1 or
+            fragment.count('->RemoveBulletsInRadius(') != 1):
+        raise RuntimeError('RunEcl side Etama uses a fake controller/method C++ identity')
+    seen = []
+    for name, address, symbol in RUNECL_REAL_ETAMA_REMOVE_CALLEES:
+        unit = units.get(name)
+        if (not isinstance(unit, dict) or
+                unit.get('source') != 'src/EtamaRemoval.cpp' or
+                unit.get('object') != 'build/matching/EtamaRemoval.obj' or
+                unit.get('profile') != list(_SCREEN_EFFECT_BASE_PROFILE) or
+                unit.get('target_address') != address or
+                unit.get('symbol') != symbol or
+                unit.get('size') != 3 or
+                unit.get('relocations') != []):
+            raise RuntimeError('RunEcl genuine Etama three-byte exact callee drifted: '+name)
+        seen.append(unit.get('object'))
+    if len(set(seen)) != 1:
+        raise RuntimeError('RunEcl true Etama removal members split between C++ carriers')
+
+
+def replay_runecl_real_etama_exact() -> list[dict]:
+    """Cold replay the two real three-byte member callees, once per TU."""
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        units = tomllib.load(stream)['units']
+    validate_runecl_real_etama_callees(units)
+    build('etama-controller-remove-all-bullets')
+    return [canonical(name) for name, _, _ in RUNECL_REAL_ETAMA_REMOVE_CALLEES]
+
+
 def run_ecl(*, include_trail: bool, include_interpreter: bool,
             protect_exact: bool,
             shared_real_callees_in_enemy: bool = False) -> tuple[dict, list[dict]]:
@@ -690,7 +752,13 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
         timer_jump = parsed(['scripts/audit-ecl-timer-jump.py', object_file])
         timer_jump_summary = guard_runecl_timer_jump(
             timer_jump, ordinary_differences=verified_runecl['ordinary_differences'])
+        # Always check the real Etama source/manifest symbols, even in the
+        # noncrediting --skip-exact-siblings path. Canonical byte replay below
+        # is gated by the caller's explicit exact-regression request.
+        with (ROOT/'config/match-units.toml').open('rb') as stream:
+            validate_runecl_real_etama_callees(tomllib.load(stream)['units'])
         if protect_exact:
+            exact_units.extend(replay_runecl_real_etama_exact())
             exact_units.extend(replay_runecl_real_state_callees(
                 shared_with_enemy_prechecked=shared_real_callees_in_enemy))
             # Shared genuine ZunTimer class: exact source-cold bodies from
@@ -1874,6 +1942,109 @@ def guard_etama_draw(result: dict) -> None:
         raise RuntimeError('Etama OnDraw changed previously matching physical bytes')
 
 
+BULLET_REAL_SOUND_FIELDS = {
+    '?g_SoundPlayer@@3VSoundPlayer@@A': ('DIR32', 0x004DC698),
+    '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z': ('REL32', 0x0043E2F0),
+    '?PlaySoundPositionedByIdx@SoundPlayer@@QAEXHM@Z': ('REL32', 0x0043E380),
+}
+
+
+def validate_bullet_sound_real_owners(units: dict) -> None:
+    """Reject a fake receiver, wrong real sound source, or missing true calls.
+
+    Each previously exact function's complete target-bound field identity is
+    independently checked again by canonical() after the cold original-profile
+    build. The pure guard pins the C++ type/callee ownership (which bare
+    numerical address matching cannot prove by itself).
+    """
+    groups = (
+        ('src/BulletManager.cpp', BULLET_MAIN_EXACT_CARRIERS,
+         'BulletSoundPlayerView', ('PlaySoundByIdx(', 'PlaySoundPositionedByIdx(')),
+        ('src/BulletAdvanceTransformProgram.cpp', BULLET_ADVANCE_EXACT_CARRIERS,
+         'BulletAdvanceSoundPlayerView', ('PlaySoundByIdx(', 'PlaySoundPositionedByIdx(')),
+    )
+    expected = {'?g_SoundPlayer@@3VSoundPlayer@@A': 9,
+                '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z': 6,
+                '?PlaySoundPositionedByIdx@SoundPlayer@@QAEXHM@Z': 3}
+    actual = Counter()
+    for source, carriers, fake, calls in groups:
+        exact_source_carriers(source, carriers, units)
+        content = (ROOT / source).read_text()
+        if ('#include "SoundPlayer.hpp"' not in content or fake in content or
+                any(('g_SoundPlayer.'+call) not in content for call in calls)):
+            raise RuntimeError('Bullet/Etama source uses a fake or missing SoundPlayer owner: '+source)
+        for unit in units.values():
+            if unit.get('source') != source:
+                continue
+            if unit.get('profile') != list(_SCREEN_EFFECT_BASE_PROFILE):
+                raise RuntimeError('Bullet source original compiler profile changed')
+            for row in unit['relocations']:
+                symbol = row['symbol']
+                if 'SoundPlayer' in symbol or 'PlaySound' in symbol:
+                    real = BULLET_REAL_SOUND_FIELDS.get(symbol)
+                    if real is None or (row['type'], row['target'],
+                                        row.get('addend', 0)) != (*real, 0):
+                        raise RuntimeError('Bullet/Etama exact unit uses a false sound link identity')
+                    actual[symbol] += 1
+    if dict(actual) != expected:
+        raise RuntimeError('Bullet/Etama original sound call/global cardinality changed')
+    for name, symbol, addr, size in (
+            ('soundplayer-play-sound-by-idx',
+             '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z', 0x0043E2F0, 140),
+            ('soundplayer-play-positioned-sound-by-idx',
+             '?PlaySoundPositionedByIdx@SoundPlayer@@QAEXHM@Z', 0x0043E380, 153)):
+        row = units.get(name)
+        if (not isinstance(row, dict) or
+                row.get('source') != 'src/SoundPlayerProcessQueues.cpp' or
+                row.get('object') != 'build/matching/SoundPlayerPlaySound.obj' or
+                row.get('symbol') != symbol or
+                row.get('target_address') != addr or row.get('size') != size or
+                row.get('profile') != list(_SCREEN_EFFECT_BASE_PROFILE)):
+            raise RuntimeError('Bullet genuine sound callee source/provenance changed: '+name)
+
+
+def run_bullet_sound(*, protect_exact: bool, sound_prechecked: bool = False) -> tuple[dict, list[dict]]:
+    """Cold recheck all nineteen genuine Etama/Bullet source carriers.
+
+    In the complete all-owner sweep the two independently exact sound leaves
+    have already been checked by RunEcl and Enemy; in focused bullet mode
+    compile the genuine sound source too. The 19 exact owners are never
+    promoted by this function; canonical() only verifies retained ledger rows.
+    """
+    with (ROOT / 'config/match-units.toml').open('rb') as stream:
+        units = tomllib.load(stream)['units']
+    validate_bullet_sound_real_owners(units)
+    if not protect_exact:
+        return {}, []
+    exact = cold_replay_exact_source('src/BulletManager.cpp', BULLET_MAIN_EXACT_CARRIERS)
+    exact.extend(cold_replay_exact_source(
+        'src/BulletAdvanceTransformProgram.cpp', BULLET_ADVANCE_EXACT_CARRIERS))
+    if not sound_prechecked:
+        build('soundplayer-play-sound-by-idx')
+        exact.extend((canonical('soundplayer-play-sound-by-idx'),
+                      canonical('soundplayer-play-positioned-sound-by-idx')))
+    return {}, exact
+
+
+def unique_canonical_siblings(checks: list[dict]) -> list[dict]:
+    """Report distinct validated originals without double-counting a replay.
+
+    Calling a complete Oracle twice is allowed; presenting two identical
+    function addresses as two separate exact credits is not.
+    """
+    unique: dict[str, dict] = {}
+    for check in checks:
+        unit = check.get('unit') if isinstance(check, dict) else None
+        if not isinstance(unit, str) or not unit:
+            raise RuntimeError('empty canonical sibling identity')
+        if unit in unique:
+            if unique[unit] != check:
+                raise RuntimeError('same canonical unit has conflicting cold replay results: '+unit)
+            continue
+        unique[unit] = check
+    return list(unique.values())
+
+
 def run_etama(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     build('bullet-draw-single')
     result = noncrediting(parsed(['scripts/inspect-etama-draw.py',
@@ -2846,7 +3017,7 @@ def run_pause(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'player', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'player', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -2940,12 +3111,21 @@ def main() -> int:
             owners, exact = run_etama(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
+        if args.owner in ('bullet', 'all'):
+            owners, exact = run_bullet_sound(
+                protect_exact=not args.skip_exact_siblings,
+                sound_prechecked=args.owner == 'all')
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
         if args.owner in ('title', 'all'):
             owners, exact = run_title(protect_exact=not args.skip_exact_siblings,
                                       play_sound_prechecked=args.owner == 'all')
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
             report['owners'].update(run_title_open())
+        if args.owner == 'all':
+            report['canonical_siblings'] = unique_canonical_siblings(
+                report['canonical_siblings'])
         print(json.dumps(report, indent=2))
         return 0
     except (OSError, RuntimeError, ValueError, KeyError, json.JSONDecodeError) as exc:

@@ -47,15 +47,13 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   were rejected or byte-neutral; their reproducers are under `.analysis/`,
   not tracked game source. Guard and malicious-evidence tests are documented
   in `KNOWLEDGE_BASE.md`; no exact count change.
-- **ExAttack Spawn genuine SoundPlayer ABI:** Removed the source-only
-  `ExAttackSoundPlayerView` in favor of existing authentic `SoundPlayer`
-  global/member; the entire **321/321 exact** Spawn is raw-byte neutral,
-  seven original-bound fields retain offsets/destinations, and exactly two
-  COFF symbols now use the true class. `--owner exattack` cold-checks the
-  separate real **140/140 exact** PlaySoundByIdx leaf, plus 38 previous
-  exact siblings. All-mode deduplicates that callee with earlier ECL replay;
-  Type19/21 init still has six/nine residual bytes. Tests guard the genuine
-  C++ link identities; see `KNOWLEDGE_BASE.md` for independent evidence.
+- **Shared Etama/Bullet/ECL C++ identities:** `BulletManager.cpp` and
+  Bullet Advance use real `SoundPlayer` (19 unchanged exact bodies, 18 real
+  symbols / 23 verified private labels). RunEcl late opcodes use the real
+  `EtamaController` for two exact removal leaves, with 13 original-VA-
+  identical ECL labels. Recheck `--owner all`: RunEcl stays at **30**
+  residual bytes; OnUpdate is **2,216/2,216** exact, Bullet Advance
+  **1,320/1,320** exact. The precise evidence is in `KNOWLEDGE_BASE.md`.
 - **Fresh October 19 source-bound replays:** Factory `strict-live-v1`
   independently accepted four *already exact* owners from clean source
   commit `7edc447`: Etama `OnUpdate` 2,216 physical, Title MusicRoom

@@ -1,4 +1,5 @@
 #include "BulletManager.hpp"
+#include "SoundPlayer.hpp"
 
 #include <string.h>
 
@@ -27,13 +28,6 @@ enum BulletAdvanceState
 {
     ADVANCE_BULLET_STATE_DESPAWNING = 5,
 };
-
-struct BulletAdvanceSoundPlayerView
-{
-    void PlaySoundByIdx(int soundIndex, int pan);
-    void PlaySoundPositionedByIdx(int soundIndex, float positionX);
-};
-extern BulletAdvanceSoundPlayerView g_SoundPlayer;
 
 struct BulletAdvanceSupervisorView
 {

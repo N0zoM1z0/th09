@@ -1,5 +1,6 @@
 #include "BulletManager.hpp"
 #include "ZunMemory.hpp"
+#include "SoundPlayer.hpp"
 
 #include <math.h>
 #include <new>
@@ -18,13 +19,6 @@ struct BulletLoadedSpriteView
     float widthPx;
     float heightPx;
 };
-
-struct BulletSoundPlayerView
-{
-    void PlaySoundByIdx(int soundIndex, int pan);
-    void PlaySoundAtPosition(int soundIndex, float x);
-};
-extern BulletSoundPlayerView g_SoundPlayer;
 
 struct BulletRngView
 {
@@ -610,7 +604,7 @@ Bullet *EtamaController::SpawnBulletPatternPrimary(BulletSpawnDescriptor *descri
     }
 done:
     if ((descriptor->transformFlags & BULLET_TRANSFORM_PLAY_SPAWN_SOUND) != 0)
-        g_SoundPlayer.PlaySoundAtPosition(descriptor->spawnSound, descriptor->position.x);
+        g_SoundPlayer.PlaySoundPositionedByIdx(descriptor->spawnSound, descriptor->position.x);
     return result;
 }
 
@@ -633,7 +627,7 @@ Bullet *EtamaController::SpawnBulletPatternSecondary(BulletSpawnDescriptor *desc
     }
 done:
     if ((descriptor->transformFlags & BULLET_TRANSFORM_PLAY_SPAWN_SOUND) != 0)
-        g_SoundPlayer.PlaySoundAtPosition(descriptor->spawnSound, descriptor->position.x);
+        g_SoundPlayer.PlaySoundPositionedByIdx(descriptor->spawnSound, descriptor->position.x);
     return result;
 }
 

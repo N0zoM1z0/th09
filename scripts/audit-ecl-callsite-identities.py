@@ -45,8 +45,6 @@ ALIASES = {
     '?MoveRandomBiased@Th09EclRunLate@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@@Z': 0x407e30,
     '?GetRandomU32InRange@RngRuntimeView@@QAEII@Z': 0x4048e0,
     '?ClearBulletsForTransition@Th09EclRunBullet@@YIXPAUEtamaController@@@Z': 0x405650,
-    '?RemoveBulletsInRadius@BulletControllerLateView@Th09EclRunLate@@QAEXPBUFloat3@@M@Z': 0x4125a0,
-    '?RemoveAllBullets@BulletControllerLateView@Th09EclRunLate@@QAEXH@Z': 0x412590,
     '?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z': 0x404910,
     '?StartSpellBackground@BackgroundLateView@Th09EclRunLate@@QAEXXZ': 0x4067b0,
 }

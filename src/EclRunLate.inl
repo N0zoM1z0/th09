@@ -106,12 +106,6 @@ typedef char Th09EclLateManagerTimelineAt2AC440[
         ? 1
         : -1];
 
-struct BulletControllerLateView
-{
-    void RemoveAllBullets(int mode);
-    void RemoveBulletsInRadius(const Float3 *position, float radius);
-};
-
 inline Th09EclRunState::EnemyStateView *View(EnemyView *enemy)
 {
     return Th09EclRunState::View(enemy);
@@ -122,10 +116,9 @@ inline ManagerLateView *Manager(EnemyView *enemy)
     return reinterpret_cast<ManagerLateView *>(View(enemy)->manager0000);
 }
 
-inline BulletControllerLateView *BulletController(EnemyView *enemy)
+inline EtamaController *BulletController(EnemyView *enemy)
 {
-    return reinterpret_cast<BulletControllerLateView *>(
-        Manager(enemy)->sideState320->bulletController08);
+    return Manager(enemy)->sideState320->bulletController08;
 }
 
 inline float &MainAnmRotation(EnemyView *enemy)
