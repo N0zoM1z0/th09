@@ -1,6 +1,7 @@
 // Target-bound TH09 TitleScreen reconstruction views. The physical TitleScreen
 // owner is target-proved; original identifier spelling, TU partition, and data-definition ownership remain unresolved.
 
+#include "AsciiManager.hpp"
 #include "Chain.hpp"
 #include "FileSystem.hpp"
 #include "ScreenEffect.hpp"
@@ -242,8 +243,10 @@ typedef char TitleSupervisorRecordingState790[
 typedef char TitleSupervisorTotalPlayTimeAt798[
     (offsetof(TitleSupervisorView, totalPlayTime798) == 0x798) ? 1 : -1];
 
+// Source-facing alias only for the independently unclassified one-byte
+// folded no-op at 0x0043D2B0. Its original owner is unknown; do not add
+// a fabricated InitializeVms method to the genuine AsciiManager type.
 struct TitleAsciiManagerView {
-    void Reset();
     void InitializeVms();
 };
 
@@ -414,7 +417,7 @@ extern i32 g_GameMode;
 extern u32 g_TitleGameFlags;
 extern TitleAnmManagerView *g_TitleAnmManager;
 extern TitleSupervisorView g_TitleSupervisor;
-extern TitleAsciiManagerView g_AsciiManager;
+extern AsciiManager g_AsciiManager;
 extern Chain g_Chain;
 extern TitleMidiOutputView *g_TitleMidiOutput;
 extern u8 g_TitleLockedMenuItem;
@@ -564,7 +567,7 @@ int TitleScreenView::ActualAddedCallback()
 {
     g_ScreenEffectCounter = 0;
     g_AsciiManager.Reset();
-    g_AsciiManager.InitializeVms();
+    reinterpret_cast<TitleAsciiManagerView *>(&g_AsciiManager)->InitializeVms();
     g_TitleSupervisor.frameRateMultiplier = 1.0f;
 
     if (g_TitleGameFlags & 8)

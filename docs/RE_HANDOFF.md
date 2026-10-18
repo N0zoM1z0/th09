@@ -9,6 +9,27 @@
 
 ## Current verified handoff checkpoint
 
+- **Title actual-added callback's genuine ASCII global/callee identity (October 18):**
+  `TitleScreen.cpp` previously declared the physical `g_AsciiManager`
+  `@0x004CE458` as a separate `TitleAsciiManagerView`, producing a linker
+  symbol different from the canonical `AsciiManager` global used by other
+  exact functions. The same exact `TitleScreenView::ActualAddedCallback`
+  `@0x00424BF7` called the original **exact** `AsciiManager::Reset
+  @0x004343E0` under a fabricated `TitleAsciiManagerView::Reset` method name.
+  Both now use the genuine shared `AsciiManager` type/method, whose target
+  address and ABI were independently proven. The next original **one-byte
+  folded** call `@0x0043D2B0` still has `origin unknown/review` and remains
+  behind a separate *declaration-only* adapter; no `AsciiManager::InitializeVms`
+  origin is invented. Source-cold `ActualAddedCallback` is still **335/335
+  full original bytes, 27 authentic fields**, with only the two reviewed
+  assembler/COFF external names changed. The genuine `OnUpdateStartMenu`
+  1,560/1,592 physical owner changes only **nine** compiler-private `$L`
+  names, individually verified to the *same* original VAs/field offsets;
+  all **41 Title exact siblings** still replay. The separate 1,939-byte
+  DrawResult boss keeps its own **22** original-bound residual bytes.
+  `--owner title`; this is a native source-reference repair, **not**
+  newly exact codegen or a closed native product. 980/940/40 unchanged.
+
 - **Title score-record producer/renderer unification (October 18):**
   `TitleScreen.cpp`'s exact `TitleScoreRecordView::InsertIntoTable` and the
   still-open **1,939-byte `DrawResult` boss** now share the *same* typed

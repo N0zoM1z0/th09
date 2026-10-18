@@ -8589,3 +8589,55 @@ attest historical producer execution.
   rejects split record types or reintroduced renderer-only decorated names.
   This is real typed linkage reconstruction and exact sibling preservation;
   canonical exact stays **940/980**, with native link/data/static-init gates open.
+
+## October 18: Title ActualAddedCallback shared AsciiManager global and Reset ABI (gpt-web)
+
+- Reopened the genuine TH09 Japanese 1.50a `TitleScreenView::ActualAddedCallback
+  @0x00424BF7` and independently decoded its first physical instructions:
+  original `MOV EDI,0x004CE458; MOV ECX,EDI; CALL 0x004343E0; MOV ECX,EDI;
+  CALL 0x0043D2B0`. The first callee has an **already canonical-exact**
+  `AsciiManager::Reset` body with that same member-call ABI; the second
+  entry is the **shared one-byte RET**, independently tracked as
+  **origin unknown/review**, not proved to belong to any named source class.
+  Original call targets and receiver lifetime are physical PE facts; C++
+  names remain reconstructed source-facing identities, not retail symbols.
+- The previous `src/TitleScreen.cpp` declared `extern TitleAsciiManagerView
+  g_AsciiManager` with `Reset` and `InitializeVms` member stubs. That made
+  **two distinct decorated C++ linker names for the SAME physical global
+  `0x004CE458`** across exact Title and real AsciiManager owners, and a
+  redundant source-only `TitleAsciiManagerView::Reset` referent for the
+  separate canonical exact method `AsciiManager::Reset @0x004343E0`.
+  Replaced the shared global with the real `AsciiManager` type from
+  `AsciiManager.hpp`, and the Reset call with its genuine member interface.
+  For the unclassified folded no-op at `0x0043D2B0`, retained an independent
+  `TitleAsciiManagerView::InitializeVms` *declaration-only* call through the
+  unchanged real receiver. This deliberately does not promote or invent an
+  `AsciiManager::InitializeVms` definition, original C++ ownership, or
+  synthetic link mapping for the folded code body.
+- Complete cold pinned `/O1 /Ob1` rebuild of the **same** TitleScreen.cpp
+  carrier reproduces `ActualAddedCallback` **335/335 code bytes and all 27
+  original-PE-bound fields**, including the original global read at `+0x0C`,
+  Reset REL32 at `+0x1B` and folded RET call at `+0x22`. Only the two
+  reviewed C++ COFF names changed; **neither offset, referent, field kind,
+  call order nor original byte changes**. Including the actual AsciiManager
+  header renumbers nine VC7.1 compiler-private `$L` symbols inside
+  `OnUpdateStartMenu`. Each was recalculated from its **actual COFF section
+  relative destination** and separately checked against original 1.50a PE
+  addresses at `+0x3C2, +0x618..+0x634`; all nine original targets and
+  1,592 full physical bytes remain unchanged. Exactly those nine private
+  names (no target/addend/offset) were updated in the exact match manifest.
+- Full `check-boss-frontiers.py --owner title` now cold-protects **41
+  independently exact** Title/MusicRoom/score record siblings, including
+  335-byte actual-added, 1,592-byte physical StartMenu and 534-byte
+  TitleSetupThread. The unrelated open `DrawResult` still has 1,939/1,939
+  physical bytes with exactly 22 residuals; no newly accepted exact function
+  is created. Separate trial from `.analysis/gpt-web-20261018/` compiled
+  `DrawResult` lexically together with the genuine full TitleScreen source
+  and found its **identical** 1,939-byte/82-field/22-residual producer,
+  falsifying a naive compiler-context explanation. Direct/raw integer
+  `replay->magic` alternatives in the other 800-byte DrawReplaySave boss
+  recovered a local retail-style MOV/TEST but shrank the whole candidate to
+  794/800 and 243/245 instructions, so those probes were **rejected** rather
+  than promoted from a superficial local match. This source change only
+  closes an internally contradictory source-global/referent type, not final
+  source TU provenance, faithful native linking, or runtime semantics.
