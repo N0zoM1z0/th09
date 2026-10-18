@@ -21,12 +21,12 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   The current canonical ledger contains **980 source-present / 940 exact /
   40 non-exact** functions. The 95% exact reviewed-authored-byte goal is open;
   run the commands below for current numbers, not old 979/876/103 snapshots.
-- **October 19 source-bound ExAttack acceptance:** 3 Factory
-  `strict-live-v1` receipts were independently `pass/accepted`, all from
-  immutable source commit `fc087e3`: already exact Spawn 321 bytes (real
-  SoundPlayer global/call references), already exact sound callee 140,
-  and already exact Register 264. Full IDs are in
-  `RE_ACCEPTED_RECEIPTS.md`; still **940/980**, with no new exact credit.
+- **Current ReplayInput genuine memory ABI:** Across BOTH original VC7.1
+  profiles, 12 exact replay methods (**4,093 complete bytes /232 fields**)
+  now use real `ZunMemory` (`38` global + `9` Alloc + `22` Free + `7`
+  registry references); three separate **19/19, 19/19, 10/10 exact**
+  allocator leaves are also replayed. `BeginPlaybackStage` remains original
+  **540/source 538 NON-EXACT** (39 unequal overlapping bytes and two absent).
 - **ExAttack genuine sound:** `Spawn` remains **321/321 exact** with true
   `SoundPlayer` C++ symbols and **140/140 exact** callee (source `fc087e3`);
   7 original relocations unchanged. Initializers Type19/21 remain nonexact.

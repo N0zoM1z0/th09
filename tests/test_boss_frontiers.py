@@ -975,7 +975,8 @@ class BossFrontierChecks(TestCase):
                 frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
             owners, siblings = frontiers.run_replay_playback(protect_exact=True)
         self.assertEqual([call[0][0] for call in build.call_args_list], [
-            'replay-manager-begin-recording-stage', 'replay-input-update'])
+            'replay-manager-begin-recording-stage', 'replay-input-update',
+            'zun-memory-alloc'])
         parsed.assert_called_once_with(['scripts/inspect-replay-begin-playback.py',
                                         'build/matching/ReplayInputNoEh.obj', '--json'])
         self.assertEqual(owners['replay_begin_playback']['ordinary_differences'], 39)
@@ -984,9 +985,11 @@ class BossFrontierChecks(TestCase):
                          [0] * 30 + [-1, -2])
         groups = frontiers.exact_source_profile_groups(
             'src/ReplayInput.cpp', frontiers.REPLAY_INPUT_EXACT_PROFILES)
-        self.assertEqual([x['unit'] for x in siblings], sum(groups.values(), []))
-        self.assertEqual(len(siblings), 12)
-        self.assertEqual(len({x['unit'] for x in siblings}), 12)
+        self.assertEqual([x['unit'] for x in siblings],
+                         sum(groups.values(), []) +
+                         list(frontiers.REPLAY_REAL_MEMORY_CALLEES))
+        self.assertEqual(len(siblings), 15)
+        self.assertEqual(len({x['unit'] for x in siblings}), 15)
 
     def test_replay_skip_exact_keeps_original_boss_without_eh_carrier(self):
         with patch.object(frontiers, 'build') as build, patch.object(

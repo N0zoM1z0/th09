@@ -1401,13 +1401,130 @@ REPLAY_BEGIN_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
 REPLAY_BEGIN_CURRENT_FIELD_OFFSET_DELTAS = (0,) * 30 + (-1, -2)
 
 
+# Original-v1.50a PE/COFF pinned native memory ABI in large replay and
+# recorder methods. The old fake ZunMemoryReplayView produced 76 phony C++
+# global/method linker names to the correct numeric native addresses. Real
+# VC7.1 /EHsc and no-EH profiles both preserve their entire exact code.
+REPLAY_REAL_MEMORY_SYMBOLS = {
+    'g': ('?g_ZunMemory@@3VZunMemory@@A', 'DIR32', 0x004AD018),
+    'a': ('?Alloc@ZunMemory@@QAEPAXIPBD@Z', 'REL32', 0x00401340),
+    'f': ('?Free@ZunMemory@@QAEXPAX@Z', 'REL32', 0x00401360),
+    'r': ('?AddToRegistry@ZunMemory@@QAEPAXPAXIPAD@Z', 'REL32', 0x00401380),
+}
+# Independently reviewed original fixed field locations, not inferred from
+# current manifest. Every PE-bound original absolute data operand and direct
+# member call is accounted for by its complete canonical source comparison.
+REPLAY_REAL_MEMORY_SITES = {
+    'replay-manager-record-input': (460, 25, {
+        'g': (0xDB, 0x107, 0x11B, 0x132, 0x146),
+        'a': (0x10C, 0x123, 0x13A, 0x14E),
+        'r': (0xE0,),
+    }),
+    'replay-manager-load-replay-data': (591, 14, {
+        'g': (0x75, 0x9D, 0x118, 0x123, 0x23D),
+        'a': (0xA2,),
+        'f': (0x7A, 0x11D, 0x128, 0x242),
+    }),
+    'replay-manager-begin-recording-stage': (1323, 82, {
+        'g': (0x51, 0x1EE, 0x201, 0x214, 0x22A, 0x246, 0x268,
+              0x28D, 0x2B3, 0x3CC, 0x3E6, 0x3FD, 0x411, 0x441,
+              0x453, 0x465, 0x477, 0x4A1),
+        'a': (0x3D4, 0x3EE, 0x405, 0x419),
+        'f': (0x1F3, 0x206, 0x219, 0x22F, 0x446, 0x458,
+              0x46A, 0x47C, 0x4A6),
+        'r': (0x56, 0x24B, 0x26D, 0x292, 0x2B8),
+    }),
+    'replay-manager-create': (361, 28, {
+        'g': (0x34,),
+        'r': (0x39,),
+    }),
+    'replay-manager-release-core': (104, 8, {
+        'g': (0x46, 0x5B),
+        'f': (0x4B, 0x60),
+    }),
+    'replay-manager-release': (318, 20, {
+        'g': (0x2E, 0x40, 0x52, 0x64, 0x8C, 0xBE, 0xE6),
+        'f': (0x33, 0x45, 0x57, 0x69, 0x91, 0xC3, 0xEB),
+    }),
+}
+REPLAY_REAL_MEMORY_CALLEES = {
+    'zun-memory-alloc': ('a', 0x00401340, 19),
+    'zun-memory-free': ('f', 0x00401360, 19),
+    'zun-memory-add-to-registry': ('r', 0x00401380, 10),
+}
+
+
+def validate_replay_real_memory_abi(units: dict) -> None:
+    """All 76 original PE ZunMemory source fields must use one native C++ ABI."""
+    code = (ROOT/'src/ReplayInput.cpp').read_text()
+    header = (ROOT/'src/ZunMemory.hpp').read_text()
+    if ('#include "ZunMemory.hpp"' not in code or
+            'ZunMemoryReplayView' in code or
+            'extern ZunMemory g_ZunMemory;' not in header or
+            any('.' + method + '(' not in code for method in
+                ('Alloc', 'Free', 'AddToRegistry'))):
+        raise RuntimeError('Replay big callback source reintroduced fake ZunMemory class')
+    exact_source_profile_groups('src/ReplayInput.cpp', REPLAY_INPUT_EXACT_PROFILES, units)
+    listed = []
+    expected = []
+    for name, (size, count, site_groups) in REPLAY_REAL_MEMORY_SITES.items():
+        row = units.get(name)
+        if (not isinstance(row, dict) or
+                row.get('source') != 'src/ReplayInput.cpp' or
+                row.get('target_address') is None or row.get('size') != size or
+                len(row.get('relocations', [])) != count):
+            raise RuntimeError('Replay source exact large callback original extent drifted: '+name)
+        current = [
+            (field.get('offset'),field.get('symbol'),field.get('type'),
+             field.get('target'),field.get('addend',0))
+            for field in row['relocations'] if
+            'ZunMemory' in field.get('symbol','') or
+            any(method+'@' in field.get('symbol','') for method in
+                ('Alloc', 'Free', 'AddToRegistry'))]
+        required = sorted((off, *REPLAY_REAL_MEMORY_SYMBOLS[short], 0)
+                          for short, offsets in site_groups.items()
+                          for off in offsets)
+        if current != required:
+            raise RuntimeError('Replay original PE field offset/kind/global/method VA changed: '+name)
+        listed.extend(current)
+        expected.extend(required)
+    if len(expected) != 76 or len(listed) != 76:
+        raise RuntimeError('Replay large callback source has incomplete 76-field native memory census')
+    for name, (short, address, size) in REPLAY_REAL_MEMORY_CALLEES.items():
+        row = units.get(name)
+        if (not isinstance(row, dict) or
+                row.get('source') != 'src/ZunMemoryRelease.cpp' or
+                row.get('object') != 'build/matching/ZunMemoryRelease.obj' or
+                row.get('symbol') != REPLAY_REAL_MEMORY_SYMBOLS[short][0] or
+                row.get('target_address') != address or row.get('size') != size or
+                row.get('profile') != list(_SCREEN_EFFECT_BASE_PROFILE)):
+            raise RuntimeError('Replay genuine ZunMemory callee is not source-cold exact: '+name)
+    # No missing/unreviewed fake aliases in other existing exact Replay units.
+    for unit in units.values():
+        if unit.get('source') != 'src/ReplayInput.cpp':
+            continue
+        for field in unit.get('relocations', []):
+            if 'ZunMemoryReplayView' in field.get('symbol',''):
+                raise RuntimeError('Replay canonical exact unit has fake memory linker symbol')
+
+
+def replay_replay_real_memory_exact() -> list[dict]:
+    """Build one genuine source TU and replay all three existing exact leaves."""
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        validate_replay_real_memory_abi(tomllib.load(stream)['units'])
+    build('zun-memory-alloc')
+    return [canonical(unit) for unit in REPLAY_REAL_MEMORY_CALLEES]
+
+
 def run_replay_playback(*, protect_exact: bool) -> tuple[dict, list[dict]]:
-    """Cold-audit the 540-byte boss and all twelve genuine exact ReplayInput owners.
+    """Cold-audit the 540-byte boss, twelve exact owners and true ZunMemory leaves.
 
     The 32 original fields must be actual SHA-pinned PE operands, resolved
     through canonical referents, not guessed source-local labels. The lone
     side-state load motion and two absent source bytes are nonexact frontiers.
     """
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        validate_replay_real_memory_abi(tomllib.load(stream)['units'])
     build('replay-manager-begin-recording-stage')
     current = noncrediting(parsed(['scripts/inspect-replay-begin-playback.py',
                                     'build/matching/ReplayInputNoEh.obj', '--json']),
@@ -1455,6 +1572,7 @@ def run_replay_playback(*, protect_exact: bool) -> tuple[dict, list[dict]]:
         exact = cold_replay_exact_profiles(
             'src/ReplayInput.cpp', REPLAY_INPUT_EXACT_PROFILES,
             already_built=('replay-manager-begin-recording-stage',))
+        exact.extend(replay_replay_real_memory_exact())
     return {'replay_begin_playback': {
         'target_bytes': 540, 'candidate_bytes': current['candidate_bytes'],
         'bound_fields': current['bound_fields'],

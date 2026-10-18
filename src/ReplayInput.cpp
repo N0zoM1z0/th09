@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <windows.h>
 #include "Chain.hpp"
+#include "ZunMemory.hpp"
 #include "ReplayRuntimeLeaves.hpp"
 #include "ReplayInputState.hpp"
 
@@ -68,13 +69,6 @@ typedef char GameManagerInputGateAtE8[(offsetof(GameManagerReplayView, inputGate
 typedef char GameManagerReplayPauseAt130[(offsetof(GameManagerReplayView, replayPauseRecorded) == 0x130) ? 1 : -1];
 typedef char GameManagerReplayFlagsAt134[(offsetof(GameManagerReplayView, flags) == 0x134) ? 1 : -1];
 
-struct ZunMemoryReplayView
-{
-    void *Alloc(size_t size, const char *debugText);
-    void Free(void *ptr);
-    void *AddToRegistry(void *ptr, size_t size, char *name);
-};
-
 struct LzssReplayView
 {
     static u8 *Decode(u8 *in, i32 inSize, u8 *out, i32 outSize);
@@ -96,7 +90,6 @@ extern Chain g_Chain;
 extern ReplayRngView g_ReplayRng;
 extern GameManagerReplayView g_GameManager;
 extern SupervisorReplayView g_Supervisor;
-extern ZunMemoryReplayView g_ZunMemory;
 extern i32 g_ReplayStageIndex;
 extern u8 *g_ReplayConfigSnapshot;
 extern u32 g_ReplayHeaderValue1D4;
