@@ -6,6 +6,57 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## October 19: true RunEcl/ExAttack shared runtime-angle ABI accepted exact siblings
+
+Five separate Factory `strict-live-v1` forced-cold source-compilation jobs
+verified previously exact function bodies against the attested original
+Japanese TH09 v1.50a SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`
+and the pinned original VC7.1 compiler. All job source bindings are the
+**one immutable clean gameplay-source commit
+`8e92ce0c09fd8fcb0862fa8f540900275183c684`**. Each job completed with
+**`receipt_verdict=pass`** and **`acceptance_decision=accepted`**, without
+acceptance objections:
+
+- **Global `AddNormalizeAngle @0x0042AED0`**, genuine fastcall C++ original
+  `?AddNormalizeAngle@@YIMMM@Z`, **111/111 full exact bytes** with six
+  independently original-bound COFF operands:
+  `job:33643bec119242d698ef94a750f61ada`,
+  `receipt:8e85a1325d03f2c471758171627781dbefcf5d89ea2b74a058e43e31155e9ed5`.
+- **`ExAttackUpdateCallbackType21 @0x0044B500`**, **1,074/1,074 complete
+  exact bytes** after shared true C++ math declaration replaced its
+  source-only stdcall alias:
+  `job:73ed03fd57934e2aa356c79b9e80a472`,
+  `receipt:49dd0272e3553c82c6effb210cc640cd91c419235597fd48d17d9e4f1d7e54df`.
+- **`EnemyPostEclUpdateMovement @0x00408180`**, **967 logical / 992 complete
+  physical exact bytes**, including local compiler-tail data and true angle
+  symbol/call addresses:
+  `job:98a65ccca92b40e295349829e7ae21fd`,
+  `receipt:5758423429365e0eb2a125e1cec3b8e6d1e82ccf2c4ff98eb79993fa34fe9246`.
+- **`ExAttackUpdateCallbackType7 @0x004464A0`**, **799/799 physical exact
+  bytes**, another genuine large ExAttack callback using the real callee:
+  `job:1cf724e72d674cda99f0f385d90825d2`,
+  `receipt:380c8900a676fb6f3a4bc59c888a9bbfb230ea6ae518784995ebc29c29eab9ae`.
+- **`Th09EclRunControl::CompareOperands @0x00407700`**, **842 logical /
+  892 complete physical exact bytes** despite safe renumbering of the
+  actual original-target-identical VC7.1 `$L...` switch labels:
+  `job:651db76a3e034880bee646dc8037d6d4`,
+  `receipt:12d4f5ada3f64a7a13778357122285bb9735e6fd0baf01eb284db53bf03a8ac2`.
+
+These are **revalidated existing exact** functions, NOT five newly exact
+functions. The complete cold `--owner all` independently passed **35
+noncrediting boss/leaf original-target diagnostics and 234 distinct complete
+already-exact function replays** from the same gameplay source commit.
+The **15,564-byte, 598-original-field `RunEcl` remains nonexact with 30
+ordinary differences** exclusively in opcodes 4 and 155. The eight real
+angle call identities and the 24 exact ECL translation-unit siblings are
+protected, but that is **not** a Factory acceptance of RunEcl. Etama OnDraw
+(268 differing bytes), Title DrawResult (22) and ExAttack Type19/21
+initializers (six/nine) remain open. Native game product link, runtime
+behavior and later semantic/port claims remain open. The ledger is unchanged
+at **940 exact / 980 source-present**; acceptance is bound **only** to
+`8e92ce0`, not to this later documentation-only commit.
+
 ## October 19: genuine CardAttack sound ABI across two large original callbacks
 
 Factory `strict-live-v1` separately forced cold the SHA-verified original
