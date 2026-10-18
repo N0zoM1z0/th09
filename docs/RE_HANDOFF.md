@@ -34,8 +34,9 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   COFF symbol *names* changed; all seven bound field offsets and all
   321 source machine bytes are unchanged and match the original.
   Focused ExAttack now also replays the real sound leaf and enforces
-  linker identity; the full `--owner all` cold replay passes 35 owner
-  diagnostics and 204 distinct exact sibling functions. The nearby
+  linker identity; the earlier `fc087e3` whole sweep checked 35 owner
+  diagnostics and 204 distinct exact siblings. The newer `0508a96`
+  sweep above checked 223 distinct ones. The nearby
   Type19/21 init and Etama OnDraw bosses remain non-exact.
 - **October 19 Title leaf protection:** Original-PE/COFF-cold Reverse/Inactive
   character cursor owners are each 175 bytes / 55 instructions / 2 bound
@@ -53,7 +54,10 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   `EtamaController` for two exact removal leaves, with 13 original-VA-
   identical ECL labels. Recheck `--owner all`: RunEcl stays at **30**
   residual bytes; OnUpdate is **2,216/2,216** exact, Bullet Advance
-  **1,320/1,320** exact. The precise evidence is in `KNOWLEDGE_BASE.md`.
+  **1,320/1,320** exact. Clean `0508a96` source replay validates
+  **35 original-bound noncrediting owners and 223 distinct exact siblings**;
+  seven Factory `pass/accepted` regressions are bound to that source
+  commit and archived in `RE_ACCEPTED_RECEIPTS.md`.
 - **Fresh October 19 source-bound replays:** Factory `strict-live-v1`
   independently accepted four *already exact* owners from clean source
   commit `7edc447`: Etama `OnUpdate` 2,216 physical, Title MusicRoom
@@ -63,9 +67,9 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   `--owner title`, `--owner exattack` preserve the 30/268/22/6+9 open
   residuals and their exact siblings; 32 additional natural ExAttack
   initializer cursor/lifetime compilation trials found no new exact owner.
-- **Most recent proven cold baseline:** the independent, original-linked
-  `check-boss-frontiers.py --owner all` replay passed **35 noncrediting owner
-  diagnostics** and **204 distinct previously exact complete-function
+- **Current cold baseline:** the independent, original-linked
+  `check-boss-frontiers.py --owner all` replay at clean `0508a96` passed
+  **35 noncrediting owners and 223 distinct complete already exact function
   comparisons**. The corresponding pre-cleanup evidence remains under ignored
   `.analysis/`. These replay counts are NOT the 940-function ledger and do
   not create new exact credit.
