@@ -2455,6 +2455,77 @@ def guard_title_replay_menu(result: dict) -> None:
             'Title DrawReplayMenu 1280-byte/57-field/13-call/72-block frontier drifted')
 
 
+# These two 175-byte non-exact Title leaves are not arbitrary near-matches:
+# fresh VC7.1/retail-bound comparison proves that precisely 38 bytes differ
+# in BOTH functions. All other 137 physical bytes (including the two original
+# call fields, final selected-character branch and ret 16) already agree.
+# The independently SHA-pinned original target and actual COFF field/call
+# inventory are also enforced by inspect-title-character-cursors.py.
+# Preserve every previously equal byte while allowing genuine narrowing.
+TITLE_CURSOR_REVERSE_INACTIVE_TARGET_SHA256 = {
+    'reverse': '4039ba94e3b451d55013c80bd3e2099b66a8d13f71969c0d8d2166862dedc68b',
+    'inactive': '5bc94b6728de835e7d4e15fa8d28fb3f98089a92499051e1db9233cca4e9a13f',
+}
+TITLE_CURSOR_REVERSE_INACTIVE_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
+    0x08, 0x09, 0x0A, 0x0B, 0x11, 0x14, 0x15, 0x16, 0x17, 0x18,
+    0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22,
+    0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C,
+    0x2D, 0x2E, 0x36, 0x55, 0x63, 0x64, 0x65, 0x66,
+))
+
+
+def guard_title_cursor_reverse_inactive(variant: str, report: dict) -> None:
+    """Prohibit even one *new* unequal byte in either complete 175-byte leaf.
+
+    The 5-block retail and 4-block source graphs remain distinct. Byte counts,
+    complete field identity and a matching tail do not create exactness credit.
+    A later true five-block/equal-byte source remains eligible for independent
+    canonical matching and strict Factory replay; this guard never grants it.
+    """
+    if variant not in TITLE_CURSOR_REVERSE_INACTIVE_TARGET_SHA256:
+        raise RuntimeError('unreviewed Title cursor residual variant')
+    noncrediting(report, name='Title cursor '+variant, target_size=175, fields=2)
+    raw = report.get('difference_offsets')
+    if not isinstance(raw, list) or len(raw) > len(TITLE_CURSOR_REVERSE_INACTIVE_ORIGINAL_RESIDUAL_OFFSETS):
+        raise RuntimeError('Title cursor residual inventory absent/expanded')
+    # These come from the independent PE-to-relocated-COFF physical byte
+    # comparison. Reject malformed/canonicalized-away duplicate positions.
+    offsets = []
+    for item in raw:
+        if not isinstance(item, str) or not item.startswith('0x'):
+            raise RuntimeError('Title cursor byte offset is not an original-relative hex position')
+        try:
+            number = int(item, 16)
+        except ValueError as error:
+            raise RuntimeError('Title cursor malformed hex offset') from error
+        if item != hex(number):
+            raise RuntimeError('Title cursor byte offset has an ambiguous representation')
+        offsets.append(number)
+    if (offsets != sorted(set(offsets)) or
+            not set(offsets).issubset(TITLE_CURSOR_REVERSE_INACTIVE_ORIGINAL_RESIDUAL_OFFSETS) or
+            report.get('original_sha256') != TITLE_CURSOR_REVERSE_INACTIVE_TARGET_SHA256[variant] or
+            report.get('variant') != variant or
+            report.get('target_bytes') != 175 or
+            report.get('candidate_bytes') != 175 or
+            report.get('target_instructions') != 55 or
+            report.get('candidate_instructions') != 55 or
+            report.get('original_fields') != 2 or
+            report.get('ordered_calls') != 2 or
+            report.get('ordered_calls_agree') is not True or
+            report.get('original_blocks') != 5 or
+            type(report.get('candidate_blocks')) is not int or
+            report['candidate_blocks'] not in (4, 5) or
+            type(report.get('direct_graphs_agree')) is not bool or
+            (report['direct_graphs_agree'] and report['candidate_blocks'] != 5) or
+            (not offsets and not report['direct_graphs_agree']) or
+            type(report.get('overlap_differences')) is not int or
+            report['overlap_differences'] != len(offsets) or
+            report.get('missing_target_bytes') != 0 or
+            report.get('extra_candidate_bytes') != 0 or
+            report.get('complete_bytes_equal') is not (len(offsets) == 0)):
+        raise RuntimeError('Title cursor '+variant+' full-original residual/graph frontier regressed')
+
+
 def run_title_open() -> dict:
     # These source-present owners are explicitly non-exact. Their independent
     # original operand inventories must agree before any similarity score.
@@ -2472,6 +2543,8 @@ def run_title_open() -> dict:
                               target_size=size, fields=field_count)
         if result['original_fields'] != field_count or result['ordered_calls'] != calls or not result['ordered_calls_agree']:
             raise RuntimeError('Title cursor original field/call census drifted')
+        if variant in TITLE_CURSOR_REVERSE_INACTIVE_TARGET_SHA256:
+            guard_title_cursor_reverse_inactive(variant, result)
         cursor_reports['title_cursor_' + variant] = {
             'target_bytes': size, 'candidate_bytes': result['candidate_bytes'],
             'bound_fields': result['bound_fields'],

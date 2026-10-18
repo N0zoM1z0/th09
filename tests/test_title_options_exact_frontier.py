@@ -187,12 +187,34 @@ class OptionsBossFrontierWiring(unittest.TestCase):
         # without invoking the remaining renderer calls.
         cursors = [{
             'diagnostic_only': True, 'exactness_credit': 'none',
-            'target_bytes': size, 'candidate_bytes': size,
-            'original_fields': fields, 'bound_fields': fields,
-            'ordered_calls': calls, 'ordered_calls_agree': True,
-            'overlap_differences': 0, 'extra_candidate_bytes': 0,
+            'target_bytes': 211, 'candidate_bytes': 215,
+            'original_fields': 6, 'bound_fields': 6,
+            'ordered_calls': 4, 'ordered_calls_agree': True,
+            'overlap_differences': 185, 'extra_candidate_bytes': 4,
             'direct_graphs_agree': True,
-        } for size,fields,calls in ((211,6,4),(175,2,2),(175,2,2))]
+        }]
+        # Reverse/Inactive are NOT exact. The full independent original
+        # source-cold diagnostic has 38 real unequal offsets, 55 instructions,
+        # two original calls and a 5-vs-4 direct-block gap. A fabricated zero-
+        # difference stub would now correctly fail before the Options audit.
+        residuals = [hex(offset) for offset in sorted(
+            boss.TITLE_CURSOR_REVERSE_INACTIVE_ORIGINAL_RESIDUAL_OFFSETS)]
+        for variant in ('reverse', 'inactive'):
+            cursors.append({
+                'diagnostic_only': True, 'exactness_credit': 'none',
+                'variant': variant,
+                'original_sha256': boss.TITLE_CURSOR_REVERSE_INACTIVE_TARGET_SHA256[variant],
+                'target_bytes': 175, 'candidate_bytes': 175,
+                'target_instructions': 55, 'candidate_instructions': 55,
+                'original_fields': 2, 'bound_fields': 2,
+                'ordered_calls': 2, 'ordered_calls_agree': True,
+                'original_blocks': 5, 'candidate_blocks': 4,
+                'direct_graphs_agree': False,
+                'difference_offsets': residuals,
+                'overlap_differences': 38,
+                'missing_target_bytes': 0, 'extra_candidate_bytes': 0,
+                'complete_bytes_equal': False,
+            })
         update = self.result_evidence()
         for changed in ({'bound_fields': 134}, {'original_fields': 134},
                         {'target_instructions': 550}, {'ordered_calls': 50},
