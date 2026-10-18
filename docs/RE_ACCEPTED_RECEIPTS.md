@@ -6,6 +6,38 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## Shared TitleScoreRecordView source-bound exact regressions (October 18)
+
+After the real shared score-record type/header, producer/renderer global-symbol
+correction, and nine separately original-VA-checked private-label updates were
+committed, Factory `strict-live-v1` independently forced a **cold VC7.1
+recompile** of three distinct already-exact owners. All three jobs bind to
+precisely the **clean source commit
+`6b47d0642dc231147bf493c07df26f88ecbc194d`**, Japanese original TH09
+v1.50a and the `codegen_exact` claim at their own target entry:
+
+- `TitleScoreRecordView::InsertIntoTable @0x00421800`, **216/216** full
+  bytes (five real score-table DIR32 referents), job
+  `job:8f06d81494274c4d979e4e7c6b1278ab`,
+  `receipt:2e67473c8287e2b4878c337564b56565fb4d8deca0c5676f1c46052ebfba13a4`.
+- `TitleScreenView::OnUpdateStartMenu @0x00429E23`, **1,560 authored /
+  1,592 physical** code/table bytes, all 107 original-bound relocations
+  including the nine correctly section-derived private switch labels, job
+  `job:ba903cef47ee4239a365a27256d7aca8`,
+  `receipt:f05f57a42fa90c857ee2234406222ca0e48a7a3a7dd59a87c303477b222c9c61`.
+- `TitleScreenView::TitleSetupThread @0x004249E1`, **534/534** bytes,
+  job `job:6e67c32f15404f299b78ab3e802a8428`,
+  `receipt:b9e3bf3827501de70cb17c4bfb34a56f552070fdcafe28cbce11eebb1d68cf52`.
+
+Each actual job finished with **`receipt_verdict=pass` and
+`acceptance_decision=accepted`**, with zero reported rejection reasons.
+These are independent new confirmations of *already canonical exact*
+functions, **not three newly exact units**. The nonexact 1,939-byte
+`DrawResult` is still 22 original-linked bytes apart. The canonical ledger
+remains **940/980**; this archived receipt entry cannot establish native
+whole-product linkage, data initializer closure, or acceptance for later
+commits with a different source tree.
+
 ## Three established exact large owners, independently cold reverified (October 18)
 
 All three Factory `strict-live-v1` jobs below were bound to clean, unchanged

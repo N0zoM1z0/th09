@@ -27,8 +27,13 @@
   independently yields the SAME original VA at all nine immutable manifest
   field offsets; only the private symbol spelling was updated. The full
   **1,592-byte physical StartMenu remains exact** with 107 relocations,
-  and **all 41 Title exact siblings** cold-replay. This is a genuine source-
-  owner/linker identity correction, NOT a newly exact function: 980/940/40.
+  and **all 41 Title exact siblings** cold-replay. Independent Factory
+  forced-cold `pass / accepted` replays on clean source commit `6b47d06`
+  reconfirm the already-exact 216-byte `InsertIntoTable`, 1,592-byte
+  physical `OnUpdateStartMenu`, and 534-byte `TitleSetupThread`;
+  immutable source-bound receipts are in `RE_ACCEPTED_RECEIPTS.md`.
+  This is a genuine source-owner/linker identity correction, NOT a newly
+  exact function: 980/940/40.
 
 - **RunEcl opcode-155 original-machine semantic guard (October 18):** A new
   source-cold `scripts/audit-ecl-timeout-bit.py`, invoked by the full
