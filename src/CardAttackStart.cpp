@@ -1,5 +1,6 @@
 #include "AnmManager.hpp"
 #include "CardAttack.hpp"
+#include "SoundPlayer.hpp"
 #include "EnemyManager.hpp"
 
 #include <stddef.h>
@@ -93,13 +94,7 @@ struct CardAttackCallbackRow
     CardAttackEndCallback end;
 };
 
-struct CardAttackStartSoundPlayerView
-{
-    void PlaySoundByIdx(int soundIndex, int pan);
-};
-
 extern CardAttackStartGameManagerView g_GameManager;
-extern CardAttackStartSoundPlayerView g_SoundPlayer;
 extern CardAttackCallbackRow g_CardAttackCallbackRows[];
 
 struct CardAttackStartView

@@ -1,4 +1,5 @@
 #include "CardAttack.hpp"
+#include "SoundPlayer.hpp"
 
 #include "AnmManager.hpp"
 #include "Background.hpp"
@@ -32,11 +33,6 @@ struct CardAttackSupervisorView
     void PreparePlayerDraw(int sideIndex);
 };
 
-struct CardAttackSoundPlayerView
-{
-    void PlaySoundByIdx(int soundIndex, int pan);
-};
-
 struct CardAttackResourceView
 {
     unsigned char unknown00[8];
@@ -46,7 +42,6 @@ struct CardAttackResourceView
 extern Chain g_Chain;
 extern CardAttackGameManagerView g_GameManager;
 extern CardAttackSupervisorView g_Supervisor;
-extern CardAttackSoundPlayerView g_SoundPlayer;
 extern CardAttackResourceView *g_CardAttackResource;
 extern AnmLoaded *g_CardAttackTextAnm;
 extern unsigned int g_CardAttackInputFlags;

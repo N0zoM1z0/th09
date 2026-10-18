@@ -68,9 +68,9 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   residuals and their exact siblings; 32 additional natural ExAttack
   initializer cursor/lifetime compilation trials found no new exact owner.
 - **Current cold baseline:** the independent, original-linked
-  `check-boss-frontiers.py --owner all` replay at clean `0508a96` passed
-  **35 noncrediting owners and 223 distinct complete already exact function
-  comparisons**. The corresponding pre-cleanup evidence remains under ignored
+  `check-boss-frontiers.py --owner all` replay at the current CardAttack source passed
+  **35 noncrediting owners and 232 distinct complete already exact function
+  comparisons** after the current CardAttack real SoundPlayer update. The corresponding pre-cleanup evidence remains under ignored
   `.analysis/`. These replay counts are NOT the 940-function ledger and do
   not create new exact credit.
 - **Highest-priority bosses:** `RunEcl` (15,564 physical/598 fields, 30
@@ -82,10 +82,12 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
 - **Recent source-bound interface work:** shared genuine `ZunTimer`,
   `AsciiGameManagerView`, `AsciiBossMarkerVmView`, `FrontMessageOwnerView`,
   `TitleScoreRecordView`, and `SoundPlayer` declarations now span the
-  ECL, Etama, Enemy, Title/MusicRoom, ExAttack and ScreenEffect carriers.
-  Original-PE/COFF complete-owner checks preserve existing bytes and exact
-  siblings; this improves C++ linker provenance, **not** native product
-  closure or remaining nonexact register/instruction schedules.
+  ECL, Etama, Enemy, Title/MusicRoom, ExAttack, CardAttack and ScreenEffect
+  carriers. The genuine CardAttack sound class update preserves **nine**
+  original exact source bodies, including 536- and 923-byte large callbacks,
+  and separately guards four original sound fields. Complete PE/COFF owner
+  checks improve C++ linker provenance, **not** native product closure or
+  remaining nonexact register/instruction schedules.
 - **Next agent contract:** inspect `git status` and preserve dirty changes;
   prioritize a big boss **and** small leaves, challenge prior assumptions,
   compile with the exact original VC7.1 profile, run focused complete-function

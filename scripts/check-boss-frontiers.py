@@ -2003,6 +2003,101 @@ def validate_bullet_sound_real_owners(units: dict) -> None:
             raise RuntimeError('Bullet genuine sound callee source/provenance changed: '+name)
 
 
+# CardAttack's original large OnUpdate and Start callback are two further
+# genuine consumers of SoundPlayer::PlaySoundByIdx. Their old private
+# CardAttack*SoundPlayerView aliases produced phantom C++ linker identities;
+# replacing them with SoundPlayer is raw-byte neutral for nine existing exact
+# source bodies across five genuine original VC7.1 compilation carriers.
+CARD_REAL_SOUND_EXACT_CARRIERS = {
+    'build/matching/CardAttack.obj': 5,
+    'build/matching/CardAttackCtor.obj': 1,
+    'build/matching/CardAttackOnDraw.obj': 1,
+    'build/matching/CardAttackOnUpdate.obj': 1,
+}
+CARD_START_SOUND_EXACT_CARRIERS = {'build/matching/CardAttackStart.obj': 1}
+
+
+def validate_card_real_sound_owners(units: dict) -> None:
+    expected = (('src/CardAttack.cpp', CARD_REAL_SOUND_EXACT_CARRIERS,
+                 'CardAttackSoundPlayerView'),
+                ('src/CardAttackStart.cpp', CARD_START_SOUND_EXACT_CARRIERS,
+                 'CardAttackStartSoundPlayerView'))
+    sound = units.get('soundplayer-play-sound-by-idx')
+    if (not isinstance(sound,dict) or
+            sound.get('source') != 'src/SoundPlayerProcessQueues.cpp' or
+            sound.get('object') != 'build/matching/SoundPlayerPlaySound.obj' or
+            sound.get('target_address') != 0x0043E2F0 or
+            sound.get('symbol') != '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z' or
+            sound.get('size') != 140 or
+            sound.get('profile') != list(_SCREEN_EFFECT_BASE_PROFILE)):
+        raise RuntimeError('Card real SoundPlayer exact method source changed')
+    original_sound_fields = {
+        '?g_SoundPlayer@@3VSoundPlayer@@A': ('DIR32', 0x004DC698),
+        '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z': ('REL32', 0x0043E2F0),
+    }
+    # Independently fixed original retail owner extents, field offsets and
+    # the full two-entry sound call pair. Pure provenance tests must reject
+    # malformed COFF manifests before any new compiler run receives credit.
+    exact_sound_sites = {
+        'card-attack-on-update': (0x004041F0, 536, (402, 425)),
+        'card-attack-start': (0x00403E50, 923, (562, 567)),
+    }
+    counts=Counter()
+    for source,carriers,fake in expected:
+        exact_source_carriers(source, carriers, units)
+        text=(ROOT/source).read_text()
+        if ('#include "SoundPlayer.hpp"' not in text or
+                fake in text or 'g_SoundPlayer.PlaySoundByIdx(' not in text):
+            raise RuntimeError('Card large callback uses false SoundPlayer receiver: '+source)
+        for unit_name, unit in units.items():
+            if unit.get('source') != source:
+                continue
+            flags = unit.get('profile')
+            if (not isinstance(flags,list) or
+                    any(x not in ('/Ob0','/Ob1') for x in flags if x.startswith('/Ob')) or
+                    '/O2' not in flags or '/Gr' not in flags):
+                raise RuntimeError('Card original VC7.1 compile family changed')
+            sound_rows=[r for r in unit['relocations']
+                        if 'SoundPlayer' in r['symbol'] or 'PlaySound' in r['symbol']]
+            pinned = exact_sound_sites.get(unit_name)
+            if pinned is None and sound_rows:
+                raise RuntimeError('Card unreviewed callback acquired new sound fields')
+            if pinned is not None:
+                original_va, original_size, offsets=pinned
+                if (unit.get('target_address') != original_va or
+                        unit.get('size') != original_size or
+                        tuple(row['offset'] for row in sound_rows) != offsets or
+                        tuple(row['symbol'] for row in sound_rows) !=
+                        tuple(original_sound_fields)):
+                    raise RuntimeError('Card original 536/923-byte sound field extent/order drifted')
+            for field in sound_rows:
+                symbol=field['symbol']
+                if (symbol not in original_sound_fields or
+                        (field['type'],field['target'],field.get('addend',0)) !=
+                        (*original_sound_fields[symbol],0)):
+                    raise RuntimeError('Card large callback authentic sound field drifted')
+                counts[symbol]+=1
+    if dict(counts) != {'?g_SoundPlayer@@3VSoundPlayer@@A':2,
+                        '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z':2}:
+        raise RuntimeError('Card large callback original sound call order/count drifted')
+
+
+def run_card_real_sound(*, protect_exact: bool,
+                        sound_prechecked: bool = False) -> tuple[dict, list[dict]]:
+    with (ROOT/'config/match-units.toml').open('rb') as file:
+        units=tomllib.load(file)['units']
+    validate_card_real_sound_owners(units)
+    if not protect_exact:
+        return {},[]
+    exact=cold_replay_exact_source('src/CardAttack.cpp',CARD_REAL_SOUND_EXACT_CARRIERS)
+    exact.extend(cold_replay_exact_source('src/CardAttackStart.cpp',
+                                         CARD_START_SOUND_EXACT_CARRIERS))
+    if not sound_prechecked:
+        build('soundplayer-play-sound-by-idx')
+        exact.append(canonical('soundplayer-play-sound-by-idx'))
+    return {},exact
+
+
 def run_bullet_sound(*, protect_exact: bool, sound_prechecked: bool = False) -> tuple[dict, list[dict]]:
     """Cold recheck all nineteen genuine Etama/Bullet source carriers.
 
@@ -3017,7 +3112,7 @@ def run_pause(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'player', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'player', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -3109,6 +3204,12 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('etama', 'all'):
             owners, exact = run_etama(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('card', 'all'):
+            owners, exact = run_card_real_sound(
+                protect_exact=not args.skip_exact_siblings,
+                sound_prechecked=args.owner == 'all')
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('bullet', 'all'):
