@@ -27,7 +27,7 @@ class CleanupOriginalIdentityTests(unittest.TestCase):
         self.assertEqual(mod.SIZE,425)
         self.assertEqual(mod.TARGET_SHA,'e31f3c176b3b735008612b07823982a646248cbae4fb8ac826e2f2cff2d6a798')
         self.assertEqual(mod.SOURCES['?ResetGameManager@@YIXPAUGameManagerSetupLayout@@@Z'],0x41A7C3)
-        self.assertEqual(mod.SOURCES['?InitializeMessageRuntime@SetupFrontMessageResetView@@QAEXXZ'],0x4181E0)
+        self.assertEqual(mod.SOURCES['?InitializeMessageRuntime@FrontMessageOwnerView@@QAEXXZ'],0x4181E0)
         self.assertEqual(mod.SOURCES['?ResetTransitionState@SetupFrontSideResetView@@QAEXXZ'],0x41A230)
         # Fabricated original image identity may never be accepted, even when
         # the size is correct or the source happens to have 41 COFF fields.

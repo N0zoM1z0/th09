@@ -12,7 +12,7 @@ units=tomllib.loads(Path('config/match-units.toml').read_text())['units'];known=
 for v in units.values():
  known.setdefault(v['symbol'],set()).add(v['target_address'])
  for z in v.get('relocations',[]):known.setdefault(z['symbol'],set()).add(z['target'])
-views={'?InitializeAddedState@PlayerLifecycleView@@QAEXXZ':0x41EBC0,'?InitializeMessageRuntime@SetupFrontMessageResetView@@QAEXXZ':0x4181E0,'?ClearSpellBackgroundState@SetupBackgroundResetView@@QAEXXZ':0x4011C0,'?RefreshResource@SetupCardAttackResetView@@QAEXXZ':0x403D80,'?ResetTransitionState@SetupFrontSideResetView@@QAEXXZ':0x41A230}
+views={'?InitializeAddedState@PlayerLifecycleView@@QAEXXZ':0x41EBC0,'?InitializeMessageRuntime@FrontMessageOwnerView@@QAEXXZ':0x4181E0,'?ClearSpellBackgroundState@SetupBackgroundResetView@@QAEXXZ':0x4011C0,'?RefreshResource@SetupCardAttackResetView@@QAEXXZ':0x403D80,'?ResetTransitionState@SetupFrontSideResetView@@QAEXXZ':0x41A230}
 base=0x41B5C6;target=c.pe_bytes_at(c.verified_target(),base,425);raw,rows=c.object_function(Path(sys.argv[1]),'?CleanupGameplayState@GameManagerSetupLayout@@SIXXZ');code=bytearray(raw);out=[];covered=set()
 for r in rows:
  sym=r['symbol']

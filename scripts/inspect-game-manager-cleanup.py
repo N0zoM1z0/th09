@@ -28,7 +28,7 @@ SOURCES={
  '?ResetGameManager@@YIXPAUGameManagerSetupLayout@@@Z':0x0041A7C3,
  '?g_AsciiManager@@3VAsciiManager@@A':0x004CE458,
  '?Reset@AsciiManager@@QAEXXZ':0x004343E0,
- '?InitializeMessageRuntime@SetupFrontMessageResetView@@QAEXXZ':0x004181E0,
+ '?InitializeMessageRuntime@FrontMessageOwnerView@@QAEXXZ':0x004181E0,
  '?ResetExAttackRecords@@YIXPAUExAttackController@@@Z':0x004156F0,
  '?ClearSpellBackgroundState@SetupBackgroundResetView@@QAEXXZ':0x004011C0,
  '?InitializeAddedState@PlayerLifecycleView@@QAEXXZ':0x0041EBC0,

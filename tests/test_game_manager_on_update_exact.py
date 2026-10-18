@@ -161,7 +161,7 @@ class GameManagerColdRegression(unittest.TestCase):
                 'aligned_instructions':95, 'overlap_differences':210,
                 'direct_graphs_agree':False}
 
-    def test_all_twelve_original_bound_functions_replayed_across_four_builds(self):
+    def test_all_thirteen_original_bound_functions_replayed_across_five_builds(self):
         with patch.object(boss, 'build') as build, patch.object(
                 boss, 'parsed', side_effect=[self.evidence(), self.cleanup_evidence()]), patch.object(
                 boss, 'canonical', side_effect=lambda unit: {'unit':unit}) as canonical:
@@ -169,22 +169,26 @@ class GameManagerColdRegression(unittest.TestCase):
         self.assertEqual(owners['gameplay_setup_thread']['bound_fields'],171)
         self.assertEqual(owners['game_manager_cleanup']['candidate_bytes'],410)
         self.assertFalse(owners['gameplay_setup_thread']['direct_graphs_agree'])
-        self.assertEqual(len(exact),12)
+        self.assertEqual(len(exact),13)
         self.assertEqual(exact[0]['unit'],'game-manager-on-update')
-        self.assertEqual([row['unit'] for row in exact[-3:]],
+        self.assertIn('front-message-initialize-runtime', [a['unit'] for a in exact])
+        self.assertEqual([row['unit'] for row in exact[-4:]],
                          ['supervisor-setup-loading-vms-and-capture',
+                          'front-message-initialize-runtime',
                           'replay-manager-release', 'replay-manager-create'])
-        self.assertEqual(build.call_count,4)
+        self.assertEqual(build.call_count,5)
         self.assertEqual([args[0][0] for args in build.call_args_list],
                          ['game-manager-on-update',
                           'supervisor-setup-loading-vms-and-capture',
+                          'front-message-initialize-runtime',
                           'replay-manager-release', 'replay-manager-create'])
-        self.assertEqual(canonical.call_count,12)
+        self.assertEqual(canonical.call_count,13)
 
     def test_full_all_mode_does_not_double_count_either_replay_callee(self):
         # The full suite now runs both original ReplayInput VC7.1 profiles
         # before GameManager, including both exact Create and exact Release.
-        # Focused gamemgr still checks both callee sources independently.
+        # Full --owner all checks the Front exact member in the prior front
+        # sweep. Focused gamemgr builds it alongside the Replay callees.
         with patch.object(boss, 'build') as build, patch.object(
                 boss, 'parsed', side_effect=[self.evidence(), self.cleanup_evidence()]), patch.object(
                 boss, 'canonical', side_effect=lambda name: {'unit': name}) as canonical:
@@ -196,6 +200,7 @@ class GameManagerColdRegression(unittest.TestCase):
                          'supervisor-setup-loading-vms-and-capture')
         self.assertNotIn('replay-manager-create', [r['unit'] for r in exact])
         self.assertNotIn('replay-manager-release', [r['unit'] for r in exact])
+        self.assertNotIn('front-message-initialize-runtime', [r['unit'] for r in exact])
         self.assertEqual([a[0][0] for a in build.call_args_list], [
             'game-manager-on-update',
             'supervisor-setup-loading-vms-and-capture'])

@@ -8831,3 +8831,59 @@ attest historical producer execution.
   original owners and 191 distinct exact full-function source bodies**.
   The 12 Enemy checks account for **437 authentic COFF relocation fields**
   in addition to their 12,506 physical bytes.
+
+## October 18: exact Front message method consolidated across Cleanup and FrontAdded (gpt-web)
+
+- Independently checked the *current* ledger, original Japanese TH09 1.50a
+  target, and source-cold compiler evidence before trusting older narrative:
+  `FrontMessageOwnerView::InitializeMessageRuntime @0x004181E0` is **already
+  canonical exact 133/133 physical bytes and all nine original relocations**
+  in `config/matches.csv` / `units.front-message-initialize-runtime`. Its
+  runtime storage begins at Front `+0xE944`; the method also updates the
+  transition fields `+0x1095C`, `+0x10960`, `+0x10964` and `+0x11EA8`.
+  Older source notes calling the method nonexact were superseded by the
+  actual accepted ledger, not by a new guess about its name or source origin.
+- The two **distinct** nonexact original callers were already compiling
+  this one real TH09 target as separate C++ linker identifiers:
+  `?InitializeMessageRuntime@SetupFrontMessageResetView@@QAEXXZ` in
+  `GameManagerSetupLayout::CleanupGameplayState @0x0041B5C6` and
+  `?InitializeMessageRuntime@FrontAddedMessageOwnerView@@QAEXXZ` in the
+  706-byte `FrontAddedCallback @0x00418480`; neither would natively resolve
+  to the already exact original source member name
+  `?InitializeMessageRuntime@FrontMessageOwnerView@@QAEXXZ` without
+  a manufactured alias. Shared `src/FrontMessageOwnerView.hpp` now declares
+  the source-backed real class and message initialization method just ONCE,
+  with independently observed exact member offsets/size, and all three
+  translation units use the same authentic member-call-facing declaration.
+- Compile experiment, using the **unchanged pinned actual profiles** and
+  the backed-up original three complete TUs: real `GameManagerSetup.cpp`
+  `/O2 /Os` emits the SAME **410-byte** Cleanup body with 42 fields,
+  retaining the previous genuine original **425-byte/43-field/12-call**
+  nonexact gap; the exact **1,230-byte** `GameManager::OnUpdate` is also
+  raw/field neutral; `FrontMessageInitializeRuntime.cpp` `/O2 /Ob1`
+  emits the SAME **133-byte / nine-field** exact body; and
+  `FrontAddedCallback.cpp` `/O2 /Ob1` emits the SAME complete **706-byte /
+  37-COFF-field** nonexact body. Every field offset/kind/addend stays fixed.
+  Exactly the two already target-backed callsites change their *decorated
+  symbol identity*, at Cleanup `+0x1C` and FrontAdded `+0x2B8`, with no
+  alternate code bytes or invented target addresses. Source overlays now
+  preserve native caller/callee identity, not just isolated relocated bytes.
+- Updated `scripts/inspect-game-manager-cleanup.py` and the independent
+  companion `scripts/inspect-gameplay-cleanup.py` to accept **only** the real
+  callee symbol with the same original `0x004181E0` target, preserving
+  all whole-owner SHA, side-effect/limit clamp, stack ABI and relocation
+  provenance gates. The focused source-cold `--owner gamemgr` now also
+  recompiles and exact-checks its genuine separate FrontMessage callee,
+  producing **13** already exact GameManager/replay/front owners, while
+  `--owner all` reuses the prior Front-family replay and avoids duplicate
+  exact credit. New target-independent tests reject duplicate/façade class
+  declarations and wrong source/target owner identities.
+- Attempting to merge the other three provisional reset classes via complete
+  `Background.hpp`, `CardAttack.hpp` and `FrontSide.hpp` directly into the
+  genuine combined GameManager TU failed on existing independently typed
+  `AnmVm` class definitions from `AnmVmLifecycle.hpp` vs `AsciiManager.hpp`.
+  That is a *genuine incomplete native source-boundary problem*, not evidence
+  for promoting unknown class ownership; the incompatible experiment was
+  isolated in ignored `.analysis/gpt-web-20261018/` and the production
+  source deliberately retains those three truthful bounded ABI views.
+  No source/ledger exact credit or native runtime result is manufactured.

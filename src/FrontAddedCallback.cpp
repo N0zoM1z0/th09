@@ -1,6 +1,7 @@
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "FrontSupport.hpp"
+#include "FrontMessageOwnerView.hpp"
 #include "GameManagerMode.hpp"
 
 #include <stddef.h>
@@ -29,11 +30,6 @@ struct FrontAddedMessageRuntimeView
         char *primaryPath,
         char *secondaryPath,
         int startIndex);
-};
-
-struct FrontAddedMessageOwnerView
-{
-    void InitializeMessageRuntime();
 };
 
 struct FrontAddedView
@@ -175,7 +171,7 @@ int FrontAddedCallback(void *frontArg)
             return -1;
     }
 
-    reinterpret_cast<FrontAddedMessageOwnerView *>(front)
+    reinterpret_cast<FrontMessageOwnerView *>(front)
         ->InitializeMessageRuntime();
     return 0;
 }

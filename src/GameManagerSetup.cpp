@@ -1,4 +1,5 @@
 #include "EffectManager.hpp"
+#include "FrontMessageOwnerView.hpp"
 #include "EnemyManager.hpp"
 #include "BulletManager.hpp"
 #include "ExAttackController.hpp"
@@ -26,7 +27,6 @@
 
 // Call-facing reset views keep lifecycle and render AnmVm layouts separate.
 // They introduce no helper bodies and do not claim native owner unification.
-struct SetupFrontMessageResetView { void InitializeMessageRuntime(); };
 struct SetupBackgroundResetView { void ClearSpellBackgroundState(); };
 struct SetupCardAttackResetView { void RefreshResource(); };
 struct SetupFrontSideResetView { void ResetTransitionState(); };
@@ -745,7 +745,7 @@ void GameManagerSetupLayout::CleanupGameplayState()
 {
     ResetGameManager(&g_GameManager);
     g_AsciiManager.Reset();
-    static_cast<SetupFrontMessageResetView *>(g_GameManager.gameSubsystem)->InitializeMessageRuntime();
+    static_cast<FrontMessageOwnerView *>(g_GameManager.gameSubsystem)->InitializeMessageRuntime();
     ResetExAttackRecords(static_cast<ExAttackController *>(g_GameManager.secondarySubsystem));
 
     for (int sideIndex = 0; sideIndex < 2; sideIndex++)

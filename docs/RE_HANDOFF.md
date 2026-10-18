@@ -9,6 +9,34 @@
 
 ## Current verified handoff checkpoint
 
+- **Front message runtime exact callee shared across two large lifecycle callers (October 18):**
+  The independently canonical exact **133-byte / nine-field**
+  `FrontMessageOwnerView::InitializeMessageRuntime @0x004181E0` previously
+  had three different C++ caller/declaration type identities. Its real
+  type and compile-time-checked `+0xE944 /+0x1095C /+0x10960 /+0x10964 /
+  +0x11EA8` member offsets now reside in `src/FrontMessageOwnerView.hpp`.
+  `GameManagerSetupLayout::CleanupGameplayState` (425-byte original /
+  **410-byte nonexact candidate**) and `FrontAddedCallback` (706-byte
+  nonexact candidate) both use the same true `FrontMessageOwnerView`
+  thiscall, without inventing the retail C++ source name. Separate
+  **before/after source-cold VC7.1 compile** confirms identical full raw
+  machine bytes and unchanged COFF field positions/kinds/addends for
+  Cleanup **410/410, 42 fields**, FrontAdded **706/706, 37 fields**,
+  their independent exact 1,230-byte `GameManager OnUpdate` and exact
+  **133-byte FrontMessage InitializeRuntime**. Only one genuine decorated
+  external callee symbol changed in each nonexact caller, at Cleanup
+  `+0x1C` and FrontAdded `+0x2B8`, both bound to target @0x004181E0.
+  The Cleanup full-original inspector and its independent auxiliary caller
+  diagnostic now accept that *one* authentic C++ method identity with
+  unchanged target VA, not a convenient fake alias. Focused
+  `--owner gamemgr` additionally cold-replays the already exact 133-byte
+  callee (**13** protected exact owners, formerly 12); `--owner all`
+  reuses the preceding Front-family cold replay without double credit.
+  Full Background/CardAttack/FrontSide headers have an independently real
+  `AnmVm` class declaration conflict with the separate AsciiManager TU;
+  unsafe header replacement was **rejected** rather than hidden.
+  Both large nonexact caller functions remain nonexact; **940/980** unchanged.
+
 - **EnemyManager OnUpdate real ANM/sound/ASCII owner and full callee protection (October 18):**
   Maintained **3,900-byte** nonexact `EnemyManager::OnUpdate @0x00410730`
   now refers to genuine `g_AnmManager`/`ExecuteScript`,

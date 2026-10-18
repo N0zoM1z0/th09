@@ -1491,6 +1491,13 @@ def run_game_manager(*, protect_exact: bool,
         owners.extend(canonical(name) for name in primary[1:])
         build('supervisor-setup-loading-vms-and-capture')
         owners.append(canonical('supervisor-setup-loading-vms-and-capture'))
+        # Gameplay cleanup now calls the same exact, 133-byte
+        # FrontMessageOwnerView::InitializeMessageRuntime as FrontAddedCallback.
+        # The --owner all Front sweep already replayed this true member;
+        # a focused gamemgr replay must independently build and check it.
+        if not replay_callees_prechecked:
+            build('front-message-initialize-runtime')
+            owners.append(canonical('front-message-initialize-runtime'))
         # The 1,689-byte worker genuinely creates and fully releases the
         # 0x164-byte ReplayManager via two separately exact real member ABI
         # boundaries. In focused gamemgr mode force each pinned carrier; in
