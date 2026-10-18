@@ -38,31 +38,13 @@
   diagnostics / 204 distinct previously exact complete owners**. Native
   Windows link/data/resources and runtime proof remain open; ledger stays
   **980 authored / 940 canonical exact / 40 open**.
-
-- **ScreenEffect uses genuine AsciiGameManager global and +0x348 field (October 18):**
-  The 336-byte `ScreenEffect::CalcShakeEnvelope` boss (20 original fields,
-  eight calls, 26 direct blocks) and its real exact ScreenEffect siblings
-  still referenced an incompatible `ScreenEffectGameManagerView` C++ global
-  at the same target address `0x004A7D90`. The source now reuses the one
-  `AsciiGameManagerView` global, target-backed flags at side+0x34 and
-  manager+0x134, menu bytes +0x13C/+0x13D, and a newly surfaced i32 at
-  manager+0x348, with source compile-time offset guard. Its first genuine
-  original COFF global field carries **+0x348 addend**; that addend and all
-  bytes are unchanged. Pinned real VC7.1 before/after builds preserve the
-  **complete 336-byte nonexact boss**, 316-byte `CalcShake` exact and
-  123-byte `CalcFadeOut` exact raw code; all original-bound **18 exact
-  ScreenEffect functions in three distinct compiler profiles** replay
-  **2,562/2,562 physical bytes /164 fields**. Only four genuine
-  exact-function GameManager C++ symbol spellings and nine verified local
-  RegisterChain label spellings required manifest changes inside this TU.
-  Because the shared GameManager header is also consumed elsewhere,
-  another **43 compiler-private names** changed in pre-existing exact ASCII
-  Menu, ECL and Etama carriers. Each was individually tied to the unchanged
-  original PE VA/relocation operand before updating its source manifest;
-  total **52** same-address private renames. The final source-cold
-  `--owner all` passes **35 noncrediting diagnostics, 204 distinct exact
-  whole-owner replays**. No new canonical exact: **980 source /940 exact,
-  40 nonexact**, and ScreenEffect still differs in **26 ordinary bytes**.
+  The actual retail GameManager field carries an original `+0x348`
+  COFF addend, verified without changing its decoded encoding.
+  Three Factory `strict-live-v1` forced-cold `pass / accepted` receipts
+  independently recheck the already exact **316-byte CalcShake**,
+  **123-byte CalcFadeOut**, and **480-byte RegisterChain** at immutable
+  clean source commit `868a572`. See `RE_ACCEPTED_RECEIPTS.md` for
+  job/receipt identifiers; none accepts the open 336-byte shake boss.
 
 - **Title/MusicRoom genuine SoundPlayer native owner (October 18):**
   Separate `TitleScreen.cpp` and `TitleScreenMusicRoom.cpp` compiled the
