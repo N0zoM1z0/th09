@@ -6,6 +6,34 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## Shared Front message exact callee across gameplay and Front lifecycle bosses (October 18)
+
+After unifying `FrontMessageOwnerView` declarations into one checked
+`src/FrontMessageOwnerView.hpp` and replacing the two fabricated call-facing
+class names in nonexact `CleanupGameplayState` and `FrontAddedCallback`, the
+Factory `strict-live-v1` independent replay service performed **forced-cold
+VC7.1 recompilation** of these already exact owners from precisely the clean
+source commit **`76d283d88f82c0f03c66b50042150c10651fd76d`**, against the
+pinned, SHA-verified Japanese TH09 v1.50a original:
+
+- `FrontMessageOwnerView::InitializeMessageRuntime @0x004181E0` — complete
+  **133/133 bytes**, all **nine original reviewed relocations**; job
+  `job:565ed20eb9494e948e7edef57e4b9a71`,
+  `receipt:95e50ca1b479b1e245bac71b485eb76a6ced44594e6a7e5f363f474ccbfba9ab`.
+- `GameManagerSetupLayout::OnUpdate @0x0041AA5F` — complete **1,230/1,230
+  bytes**, **87 original reviewed relocations**; job
+  `job:785a937e7706402f95034643fa61f616`,
+  `receipt:981263782f7c7eb65631f68aa940dbf0e82d10f6d8807b7638701c6487c3e401`.
+
+Both finished `receipt_verdict=pass`, `acceptance_decision=accepted`, with no
+rejection reasons. They **reconfirm already exact** body ownership and
+compilation at that immutable source commit; there are **zero newly exact
+functions**. The independent GameManager Cleanup **425 target /410 source**
+and FrontAdded **706-byte nonexact** callers were not accepted by either
+receipt. Their native C++ external method symbols now agree with the genuine
+FrontMessage callee, but whole-image native linking, data/resource closure and
+runtime validation remain open. Canonical authored exact stays **940/980**.
+
 ## Enemy source-owner unification: Ascii boss-marker exact regressions (October 18)
 
 After committing the real ANM/SoundPlayer/AsciiManager references and the

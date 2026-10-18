@@ -36,6 +36,10 @@
   `AnmVm` class declaration conflict with the separate AsciiManager TU;
   unsafe header replacement was **rejected** rather than hidden.
   Both large nonexact caller functions remain nonexact; **940/980** unchanged.
+  Factory `pass / accepted` forced-cold receipts at clean source commit
+  `76d283d` independently reconfirm the already exact **133-byte FrontMessage
+  initializer** and **1,230-byte GameManager OnUpdate**; see
+  `RE_ACCEPTED_RECEIPTS.md`. Neither nonexact caller is promoted.
 
 - **EnemyManager OnUpdate real ANM/sound/ASCII owner and full callee protection (October 18):**
   Maintained **3,900-byte** nonexact `EnemyManager::OnUpdate @0x00410730`
