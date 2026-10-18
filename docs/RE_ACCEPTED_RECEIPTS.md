@@ -6,6 +6,61 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## October 19: Etama/Bullet genuine audio and RunEcl exact-callee regressions
+
+Factory `strict-live-v1` performed **seven independent forced-cold, original-
+PE-bound VC7.1 comparisons** of previously exact TH09 functions from the
+**one clean immutable gameplay-source commit**
+`0508a96b736eb5a1b78b305eaadbd4e2b12012b0`. The target is the original
+Japanese TH09 1.50a SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+Each completed job independently returned `receipt_verdict=pass` and
+`acceptance_decision=accepted` without acceptance objections:
+
+- **`EtamaController::OnUpdate @0x004146F0`**, 2,195 logical / **2,216
+  complete physical exact bytes** including all 88 original COFF fields and
+  compiler-owned tail, genuine shared BulletManager source:
+  `job:993630a7057b4449acce11ebd0663140`,
+  `receipt:be9886642552ee4b6e2cfae07154a0c3edd068efa4987e4e49f019b6965d5c03`.
+- **`Bullet::AdvanceTransformProgram @0x004141C0`**, 1,236 logical / **1,320
+  complete physical exact bytes**, all 26 real relocated fields including
+  the authentic SoundPlayer global and positioned/sound-index methods:
+  `job:27f2d945df1b411fa901eee61d2963da`,
+  `receipt:3edc646abf5d8b3395f9ae0a27b6356bf152fe298ae847a56cf980f63e0581ff`.
+- **`Th09EclRunControl::CompareOperands @0x00407700`**, 842 logical / **892
+  complete physical exact bytes**, with 13 rebuilt VC7.1-private `$L` labels
+  each independently resolving to the unchanged original VA:
+  `job:9bd619f9dc044fd5a698d71933b1ebb0`,
+  `receipt:8838b1c4d83e4372fed54f7f25d51f0ab5dc6a58f221908ceabecf1e5399e6a2`.
+- **`EtamaController::RemoveAllBullets @0x00412590`**, separately canonical
+  true member **3/3 exact bytes**:
+  `job:268b64976df446c184adeb573f8f7759`,
+  `receipt:de02d6ae715cb13760d806ed248a8a9db59cd537227cec9dad3e0ff301e616f7`.
+- **`EtamaController::RemoveBulletsInRadius @0x004125A0`**, separately
+  canonical true member **3/3 exact bytes**:
+  `job:ab89338745a0468e8ae220499a9137b9`,
+  `receipt:0d03e7e1a61b8ed2b444080bace97cb05e501e52c2016826d9cd0805c8387bd3`.
+- **`EtamaController::SpawnBulletPatternPrimary @0x004130F0`**, **203/203
+  complete original-bound exact bytes** with authentic positioned audio:
+  `job:bc5d8added004f3bb90005567fedc355`,
+  `receipt:d1e4e0fae72916901fc55aaa9c2e6558ce9395c3c438752b5e433f58fd80e588`.
+- **`SoundPlayer::PlaySoundPositionedByIdx @0x0043E380`**, **153/153
+  complete exact bytes**, genuine separate method/callee source:
+  `job:01743a67bae643989fd01d0d28891a6e`,
+  `receipt:f07327207b674ff0634cbab91e0b9c6cf933f1a17d0d77d46767b8d54bc492ae`.
+
+These are **seven revalidations of already canonical exact bodies**, not
+seven newly exact functions or credits for the entire RunEcl interpreter.
+All receipts bind only to the immutable `0508a96` gameplay source, **not to
+this later receipt-archiving/docs commit**. An independent fresh complete
+`--owner all` run passed **35 noncrediting owner diagnostics and 223 distinct
+original-bound whole exact function regressions**. The still-open bosses
+remain RunEcl (**15,564 physical / 598 original fields / 30 differences**),
+Etama OnDraw (**600/268 differences**), Title DrawResult (**1,939/22**),
+ExAttack Type19/21 init (**763/6**, **727/9**); no native Windows whole
+product, exercised runtime, semantic, or portability closure is implied.
+The authoritative canonical ledger remains **940 exact / 980 source-present**.
+
 ## October 19: ExAttack genuine SoundPlayer linkage accepted from source
 
 The original TH09 v1.50a Japanese PE, SHA-256
