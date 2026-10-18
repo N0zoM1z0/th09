@@ -33,9 +33,17 @@
   helpers were also independently Factory `strict-live-v1` forced-cold
   `pass / accepted` on the clean committed source `6e1f3b4` (immutable
   receipts in `RE_ACCEPTED_RECEIPTS.md`). Those are rechecks of previously
-  exact functions. The newly shared member/global symbols improve
-  source-to-source native identity, NOT byte exactness.
-  Complete Windows i386 link/static data/runtime still remain open.
+  exact functions. The focused `--owner enemy` now additionally cold
+  replays the five **real** ANM ExecuteScript, SoundPlayer positioned audio,
+  ASCII marker position/interrupt and AsciiManager marker-state exact callees
+  across **four genuinely distinct compiler carriers**, including the true
+  ANM `/Ob0` profile. This expands the Enemy regression net to **12/12 exact
+  functions, 12,506 complete physical bytes and 437 actual relocation
+  fields** (previously seven). Full `--owner all` replays **35 owner
+  diagnostics and 191 distinct already-exact full functions**. The newly
+  shared member/global symbols improve source-to-source native identity,
+  NOT byte exactness. Complete Windows i386 link/static data/runtime still
+  remain open.
 
 - **Enemy OnUpdate source-global and boss-marker callee identity correction (October 18):**
   The still-open **3,900-byte EnemyManager::OnUpdate** now uses independently
