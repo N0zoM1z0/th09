@@ -27,17 +27,14 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   SoundPlayer global/call references), already exact sound callee 140,
   and already exact Register 264. Full IDs are in
   `RE_ACCEPTED_RECEIPTS.md`; still **940/980**, with no new exact credit.
-- **October 19 ExAttack real audio ABI:** the formerly fake
-  `ExAttackSoundPlayerView` in the exact 321-byte
-  `ExAttackController::Spawn` has been replaced with the real
-  `SoundPlayer` global and exact 140-byte method. Only two compiler
-  COFF symbol *names* changed; all seven bound field offsets and all
-  321 source machine bytes are unchanged and match the original.
-  Focused ExAttack now also replays the real sound leaf and enforces
-  linker identity; the earlier `fc087e3` whole sweep checked 35 owner
-  diagnostics and 204 distinct exact siblings. The newer `0508a96`
-  sweep above checked 223 distinct ones. The nearby
-  Type19/21 init and Etama OnDraw bosses remain non-exact.
+- **ExAttack genuine sound:** `Spawn` remains **321/321 exact** with true
+  `SoundPlayer` C++ symbols and **140/140 exact** callee (source `fc087e3`);
+  7 original relocations unchanged. Initializers Type19/21 remain nonexact.
+- **EffectManager genuine ANM ABI:** Large `InitializeEffect` **407/407**
+  and all 15 same-TU exact functions (**2,530 physical bytes**) unchanged;
+  its source now directly calls the real **41/41 exact** `AnmLoaded`
+  method at original `0x403E00` rather than a fake class alias. Effect
+  `AddedCallback` still nonexact (51-byte original, **8 unlike bytes**).
 - **October 19 Title leaf protection:** Original-PE/COFF-cold Reverse/Inactive
   character cursor owners are each 175 bytes / 55 instructions / 2 bound
   calls, with **38 differing bytes** and **137 already equal bytes**.

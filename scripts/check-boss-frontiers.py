@@ -1578,7 +1578,71 @@ def guard_effect_added(diagnostic: dict) -> dict:
         equality_key='complete_bytes_equal')
 
 
+# The 407-byte exact EffectManager::InitializeEffect physically calls the
+# independently exact 41-byte *actual* AnmLoaded::SetAndExecuteScriptIdx.
+# The older EffectAnmLoadedMethodView overlay changed the C++ member symbol
+# while preserving the target numeric VA; enforce both native link ownership
+# and the reviewed original full-physical field offset for that big caller.
+EFFECT_NATIVE_ANM_SITE = (
+    'effect-manager-initialize-effect', 0x0040CA60, 407,
+    0x0E6, '?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z', 0x00403E00,
+)
+
+
+def validate_effect_real_anm_loaded_abi(units: dict) -> None:
+    """Fail closed on invented ANM method, moved field, or fake TU origin."""
+    source = (ROOT/'src/EffectManager.cpp').read_text()
+    header = (ROOT/'src/AnmManager.hpp').read_text()
+    effect_header = (ROOT/'src/EffectManager.hpp').read_text()
+    if ('#include "AnmManager.hpp"' not in source or
+            'EffectAnmLoadedMethodView' in source or
+            'this->effectAnm->SetAndExecuteScriptIdx(' not in source or
+            'class AnmLoaded' not in header or
+            'void SetAndExecuteScriptIdx(AnmVm *vm, int scriptIndex);' not in header or
+            'AnmLoaded *effectAnm;' not in effect_header):
+        raise RuntimeError('EffectManager originally exact ANM source has fake C++ method owner')
+    name,va,size,offset,symbol,callee_va = EFFECT_NATIVE_ANM_SITE
+    caller = units.get(name)
+    if (not isinstance(caller,dict) or
+            caller.get('source')!='src/EffectManager.cpp' or
+            caller.get('object')!='build/matching/EffectManager.obj' or
+            caller.get('target_address')!=va or caller.get('size')!=size or
+            caller.get('profile')!=[f for f in _SCREEN_EFFECT_BASE_PROFILE if f != '/EHsc']):
+        raise RuntimeError('EffectManager 407-byte exact InitializeEffect original carrier changed')
+    expected_site=(offset,'REL32',symbol,callee_va,0)
+    found=[]
+    for unit_name,unit in units.items():
+        if unit.get('source')!='src/EffectManager.cpp':
+            continue
+        for field in unit.get('relocations',[]):
+            val=field.get('symbol','')
+            if 'SetAndExecuteScriptIdx' in val or 'EffectAnmLoadedMethodView' in val:
+                found.append((unit_name,(field.get('offset'),field.get('type'),
+                          val,field.get('target'),field.get('addend',0))))
+    if found != [(name,expected_site)]:
+        raise RuntimeError('EffectManager exact original ANM callsite/ABI changed')
+    callee=units.get('anm-loaded-set-and-execute-script-idx')
+    if (not isinstance(callee,dict) or
+            callee.get('symbol')!=symbol or callee.get('target_address')!=callee_va or
+            callee.get('source')!='src/AnmLoadedExecute.cpp' or
+            callee.get('object')!='build/matching/AnmLoadedExecute.obj' or
+            callee.get('size')!=41 or
+            callee.get('profile') != [
+                '/MT','/EHsc','/Gs','/DNDEBUG','/Zi','/Gy','/GF','/Oi','/Gr',
+                '/O2','/Ob1','/Oy-','/I','src']):
+        raise RuntimeError('EffectManager original ANM callee is not its authentic 41-byte exact source')
+
+
+def replay_effect_real_anm_loaded_exact() -> list[dict]:
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        validate_effect_real_anm_loaded_abi(tomllib.load(stream)['units'])
+    build('anm-loaded-set-and-execute-script-idx')
+    return [canonical('anm-loaded-set-and-execute-script-idx')]
+
+
 def run_effect(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        validate_effect_real_anm_loaded_abi(tomllib.load(stream)['units'])
     # The 51-byte resource loader lives inside the optimizer carrier with
     # *fifteen* canonical exact original functions. One cold real TU build
     # must protect every one of them, not just the update/draw nearby leaves.
@@ -1592,6 +1656,7 @@ def run_effect(*, protect_exact: bool) -> tuple[dict, list[dict]]:
         exact = cold_replay_exact_source(
             'src/EffectManager.cpp', EFFECT_MANAGER_EXACT_CARRIERS,
             already_built=('build/matching/EffectManager.obj',))
+        exact.extend(replay_effect_real_anm_loaded_exact())
     return {'effect_added_callback': {
         'target_bytes': 51, 'candidate_bytes': diagnostic['candidate_bytes'],
         'original_fields': diagnostic['target_relocations'],

@@ -9,11 +9,6 @@
 #include <string.h>
 
 struct AnmVm;
-struct EffectAnmLoadedMethodView
-{
-    void SetAndExecuteScriptIdx(AnmVm *vm, int scriptIndex);
-};
-
 struct EffectGameManagerSideView
 {
     unsigned char unknown000[0x34];
@@ -137,8 +132,7 @@ Effect *EffectManager::InitializeEffect(
         int scriptIndex = g_EffectTemplates[effectId].scriptIndex;
         for (int i = 0; i < g_EffectTemplates[effectId].vmCount; ++i)
         {
-            reinterpret_cast<EffectAnmLoadedMethodView *>(this->effectAnm)
-                ->SetAndExecuteScriptIdx(
+            this->effectAnm->SetAndExecuteScriptIdx(
                     reinterpret_cast<AnmVm *>(&effect->vms[i]), scriptIndex);
             scriptIndex += g_EffectTemplates[effectId].scriptStep;
             effect->vms[i].flags |= 0x2000;

@@ -377,7 +377,8 @@ class ExactCarrierDiscovery(unittest.TestCase):
                 frontier, 'parsed', return_value=evidence) as parsed, patch.object(
                 frontier, 'canonical', side_effect=lambda unit: {'unit': unit}) as canonical:
             owners, siblings = frontier.run_effect(protect_exact=True)
-        build.assert_called_once_with('effect-manager-update')
+        self.assertEqual([call.args[0] for call in build.call_args_list],
+                         ['effect-manager-update', 'anm-loaded-set-and-execute-script-idx'])
         parsed.assert_called_once_with([
             'scripts/inspect-effect-added.py', 'build/matching/EffectManager.obj', '--json'],
             diagnostic=True)
@@ -385,8 +386,9 @@ class ExactCarrierDiscovery(unittest.TestCase):
         groups = frontier.exact_source_carriers(
             'src/EffectManager.cpp', frontier.EFFECT_MANAGER_EXACT_CARRIERS)
         self.assertEqual([r['unit'] for r in siblings],
-                         groups['build/matching/EffectManager.obj'])
-        self.assertEqual(canonical.call_count, 15)
+                         groups['build/matching/EffectManager.obj'] +
+                         ['anm-loaded-set-and-execute-script-idx'])
+        self.assertEqual(canonical.call_count, 16)
         with patch.object(frontier, 'build') as build, patch.object(
                 frontier, 'parsed', return_value=evidence), patch.object(
                 frontier, 'canonical') as canonical:

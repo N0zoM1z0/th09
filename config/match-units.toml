@@ -7228,7 +7228,7 @@ relocations = [
   { offset = 0xB3, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
   { offset = 0xBC, type = "DIR32", symbol = "?g_EffectTemplates@@3PAUEffectTemplate@@A", target = 0x004A0B48, addend = 0x08 },
   { offset = 0xC2, type = "DIR32", symbol = "?g_EffectTemplates@@3PAUEffectTemplate@@A", target = 0x004A0B48 },
-  { offset = 0xE6, type = "REL32", symbol = "?SetAndExecuteScriptIdx@EffectAnmLoadedMethodView@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
+  { offset = 0xE6, type = "REL32", symbol = "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
   { offset = 0xEC, type = "DIR32", symbol = "?g_EffectTemplates@@3PAUEffectTemplate@@A", target = 0x004A0B48, addend = 0x04 },
   { offset = 0x13E, type = "DIR32", symbol = "?g_EffectTemplates@@3PAUEffectTemplate@@A", target = 0x004A0B48, addend = 0x08 },
   { offset = 0x152, type = "DIR32", symbol = "?g_EffectTemplates@@3PAUEffectTemplate@@A", target = 0x004A0B48, addend = 0x10 },
