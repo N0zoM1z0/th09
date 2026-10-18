@@ -9,6 +9,32 @@
 
 ## Current verified handoff checkpoint
 
+- **RunEcl opcode-155 original-machine semantic guard (October 18):** A new
+  source-cold `scripts/audit-ecl-timeout-bit.py`, invoked by the full
+  `--owner runecl` / `--owner all` frontier, independently links the current
+  real VC7.1 PE/COFF candidate to TH09's SHA-verified 15,564-byte original.
+  It decodes the 45-byte opcode-155 handler at `0x0040B770`, interprets the
+  eight real flag-update instructions on both sides, and checks **all 256
+  wire-byte values across 12 whole-word flag patterns (3,072 transitions)**.
+  Both implementations update **only bit 24** and agree for every checked
+  case. Unknown instructions, operand widths and extra or displaced memory
+  writes are rejected, with eleven pure-input semantic and orchestration tests. This is
+  **semantic protection, NOT codegen exactness**: the full RunEcl remains
+  **15,564/15,564 physical bytes, 598 bound fields, 30 unequal ordinary
+  bytes**, divided as opcode 4 = 7 and 155 = 23; 24 same-carrier/alternate-
+  profile exact siblings remain independently cold-protected. Additional
+  source-cold variants in `.analysis/gpt-web-20261018/` (ignored diagnostic
+  artifacts) were rejected when whole-owner relocations, byte positions or
+  handler extents regressed rather than trusting local instruction similarity.
+- **Current-source Factory regressions of three established exact big owners
+  (October 18):** On the clean source commit `83a94cfb204a17518d4efd9db7f8ec8d2e87a4fe`,
+  fresh Factory `strict-live-v1` *forced-cold*, original-bound receipts
+  returned **`pass / accepted`** for Etama `OnUpdate` **2,216** physical
+  bytes, `TitleSetupThread` **534** bytes and MusicRoom `OnUpdate` **2,258**
+  bytes. Exact receipt IDs and their immutable pre-audit-change source binding
+  are archived in `docs/RE_ACCEPTED_RECEIPTS.md`. No new exact match unit is
+  claimed: the canonical ledger remains **940 / 980**, with **40** open.
+
 - **Original-PE-attested ExAttack special members (October 18):** The
   `ExAttackRecord` and `ExAttackController` constructors are now checked by
   a fresh, *non-crediting*, full-owner diagnostic on **every** `--owner

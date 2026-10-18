@@ -6,6 +6,29 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## Three established exact large owners, independently cold reverified (October 18)
+
+All three Factory `strict-live-v1` jobs below were bound to clean, unchanged
+source commit `83a94cfb204a17518d4efd9db7f8ec8d2e87a4fe` and original
+Japanese TH09 v1.50a; each was actually forced recompiled and returned both
+`receipt_verdict=pass` and `acceptance_decision=accepted`:
+
+- **EtamaController::OnUpdate @0x004146F0**, **2,195 authored / 2,216
+  physical** bytes; `job:050a5dfd52064836a29d9d410094c86e`,
+  `receipt:4c65923a9a9fd47686ed38da882cbf649200a2b139c6b7ac95ea3567c34e4c75`.
+- **TitleScreenView::TitleSetupThread @0x004249E1**, **534** bytes;
+  `job:9414ae004ab542ffba434f29f0f35f28`,
+  `receipt:ce0716bb454c60f074ac171f2be4545e69306eb6b977a05b7308493692004c14`.
+- **TitleScreenView::OnUpdateMusicRoom @0x00426E05**, **2,258** bytes;
+  `job:5941e8e7472b4c51af776cd8ce7b56f8`,
+  `receipt:f72ac52baac3f14d195a37c191ab49de02da601e7affd4a4b8ea66c5966c8856`.
+
+These are **source-bound new verifications of three *previously* exact
+functions**, not three new matches or acceptance of RunEcl, Etama OnDraw,
+Title Results, ExAttack Type19/21 initializers, native linking or runtime.
+The subsequent opcode-155 semantic-gate commit changes diagnostics/docs/tests;
+these receipts do not automatically attach to that later commit.
+
 ## ExAttackController genuine four-member exact regression receipts (October 18)
 
 Against SHA-256-verified Japanese TH09 v1.50a, all four independently

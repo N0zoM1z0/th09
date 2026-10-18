@@ -8488,3 +8488,56 @@ attest historical producer execution.
 - Reopened the actual original Japanese TH09 v1.50a immutable PE, both physical function extents and raw i386 instructions at `ExAttackRecord::ExAttackRecord @0x004157A0` (original **15 bytes**, SHA-256 `e50af3e2df667c5e2d7a761e3fecfe20b3cd7805fedbb0aeef8f2e68375ea9c0`) and `ExAttackController::ExAttackController @0x004157B0` (**28 bytes**, SHA-256 `39e362e7d5d17bbcc30c972966ca0114607fca2df3c3be4e4aa7d4e18685d81d`). Independently generated pinned real VC7.1 COFF without changing `src/ExAttackController.cpp` and resolved **each original operand at its fixed physical offset**: record ctor `+0x07` REL32 `ZunTimer::ZunTimer @0x00403390` (a separately canonical exact function), and controller ctor `+0x02` DIR32 `ExAttackRecord::ExAttackRecord @0x004157A0` and `+0x14` REL32 `??_H@YGXPAXIHP6EPAX0@Z@Z @0x00401470` (the target's compiler EH/vector-constructor helper). With the actual original-linked fields, both entire byte streams are **15/15** and **28/28** identical. The constructor count is 257 records of 0x4C bytes at offset +0x1C; there is no guessed inlined C++ workaround.
 - The record constructor compiles naturally in the normal source `ExAttackController.obj` pinned `/O2 /Ob1`; controller ctor only matches its exact 28-byte original in a distinct `/O2 /Os` compilation (`/Ob1` produces 35 bytes by explicitly looping over the array). Both `/O2 /Os` flag-shape trials and a no-`/Ob1` spelling yield the same 28-byte source codegen; the explicit out-of-line and implicit synthesized special-member source hypotheses are observationally equivalent. **Neither original PE nor debug-free disassembly resolves whether authors explicitly declared these empty constructors.** Both original reviewed candidate records still have owner=`unknown`, status=`unclassified`, and are absent from `config/matches.csv` despite matching codegen; exact `codegen` evidence ≠ proof of authored-source origin. This is a source/ownership gate, not a missing compiler trick.
 - `scripts/inspect-exattack-constructors.py` now checks SHA-bound complete extents and target-side encoded original operands before binding the actual COFF's correct kind/symbol/addend/offset into the full physical comparison; it rejects missing/moved/extra operands, changed target SHA, size, code, a substituted ctor/helper, or counterfeit promotion of the unresolved source origin. `scripts/check-boss-frontiers.py --owner exattack` and `--owner all` source-cold build *two real compiler profiles* with actual `src/ExAttackController.cpp`, independently check both unknown-origin codegen owners, and replay all **four complete canonical exact normal-carrier functions** `ReleaseExAttackRecords`, `Release`, `Register`, and `Spawn`. The independent **321/321-byte already-exact `Spawn`** target remains fully protected. A historical 314/321 `Spawn` source probe was superseded by its later canonical exact closure; that old negative observation cannot be used as its live status. The newly added `tests/test_exattack_constructor_codegen.py` has seven independent pure-input fail-closed test groups including intentional changes to 15/28 bytes, field identities, target digests, size, compiler context and unknown origin. This is non-crediting comparison, not 2 new authored exact functions or a whole Windows i386 build acceptance.
+
+## October 18: original opcode-155 i386 semantics and source-cold large-owner controls (gpt-web)
+
+- Reattested the real TH09 Japanese v1.50a target and separately force-built
+  the actual `EclManager.cpp` VC7.1 carrier. Full original-bound `RunEcl
+  @0x004086C0` remains **15,564/15,564 bytes, 598 relocations, 148 handlers,
+  146 matching handler shapes**, with exactly **30 unequal non-field bytes**
+  (opcode 4 at physical `+0x277`, 7; opcode 155 at `+0x30B0`, 23).
+  Target opcode 4 @0x00408937 starts `MOV ECX,[EBX+0xC]; PUSH ECX;
+  MOV ECX,[EDI+0x2CE0]`; the maintained source starts `MOV EAX,[EBX+0xC];
+  MOV ECX,[EDI+0x2CE0]; PUSH EAX`. Both subsequently call the *real exact*
+  `ZunTimer::operator=(int) @0x00401500`; neither address fields nor the
+  rest of this opcode are source-matched by substituting target register bytes.
+- Target opcode 155 @0x0040B770 first reads the wire byte using `MOVZX ECX`,
+  captures the original enemy flag word from `+0x337C` in ESI, shifts the
+  byte left 24, computes `(old XOR shifted) AND 0x01000000`, and XORs that
+  difference into the original word. The maintained candidate reads the
+  same wire byte through `MOV CL; MOVZX ECX,CL`, uses EAX for the original
+  word and produces the same mask/XOR result in ECX. They are each 45-byte,
+  12-instruction complete handler windows but their **23 machine bytes differ**.
+- New `scripts/audit-ecl-timeout-bit.py` independently verifies the complete
+  original owner SHA, target/VC7.1 external bindings and both 45-byte decoded
+  handlers, then *executes* the actual 8-operation flag-update prefixes in
+  a narrow fail-closed interpreter. It compares **256 input bytes x 12 old
+  32-bit flag words = 3,072 observed transitions** against the target's
+  independently derived masked-XOR truth table. Every case agrees: new
+  bit 24 equals `(wire_byte & 1)`; all remaining 31 bits are preserved.
+  Unknown/mixed-width machine instructions, unknown memory fields, extra
+  stores and mutated flag masks fail. Eleven new target-independent tests
+  exercise these semantics and intentional counterexamples. The new real
+  `--owner runecl` path cold-compiles the original source, checks this
+  behavior AND the existing exact-source family; it passed with **24/24
+  canonical exact siblings**. This is **strictly NON-CREDITING** and does
+  not establish original C++ syntax, all runtime scenarios or whole-product
+  reconstruction.
+- Source-cold rejected controls retained under ignored
+  `.analysis/gpt-web-20261018/` include opcode-155 bitfield, masked-XOR,
+  argument-width and local-state rewrites; opcode-4 receiver/value lifetime
+  reordering; both real ExAttack Type19/21 initializer vertex/history pointer
+  lifetimes; and the genuine 622-byte/40-field/11-call ANM camera-facing
+  copy-store ordering. Some have attractive local disassemblies but shift
+  call fields, handler boundaries or previously exact physical bytes on
+  complete-owner checking. The unmodified source frontiers remain ExAttack
+  Type19 init 763 bytes/6 mismatches, Type21 init 727 bytes/9 mismatches,
+  ANM ProjectCameraFacingQuad 622 bytes/4 mismatches, Effect
+  AddedCallback 51 bytes/8 mismatches, and Etama `OnDraw` 600 bytes/268
+  mismatches. None was promoted on false partial credit.
+- Factory forced-cold original-bound replays on **earlier clean committed
+  `83a94cf` source** independently returned `pass / accepted` for
+  `EtamaController::OnUpdate` 2,216 physical bytes, `TitleSetupThread` 534
+  and `OnUpdateMusicRoom` 2,258. See `docs/RE_ACCEPTED_RECEIPTS.md` for
+  immutable receipt IDs and exact source bindings. **All three functions
+  were already exact**, so the canonical 980/940/40 ledger is unchanged.

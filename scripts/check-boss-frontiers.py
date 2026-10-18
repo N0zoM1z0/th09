@@ -494,6 +494,34 @@ def guard_biased_movement(report: dict) -> dict:
     return report
 
 
+def guard_runecl_timeout_semantics(report: dict, *, ordinary_differences: int) -> dict:
+    """Reject a missing/spoofed opcode-155 semantic check; never award exact credit.
+
+    Each report is generated from the genuine, whole-PE-linked 15,564-byte
+    owner and the current VC7.1 candidate; a byte-count alone does not prove
+    behavior of the 32-bit flag update. Keep the second guard independent of
+    the exact-byte gate so we can distinguish byte schedule from behavior.
+    """
+    expected = {
+        'diagnostic_only': True, 'exactness_credit': 'none',
+        'full_owner_original_sha256': RUNECL_TARGET_OWNER_SHA,
+        'full_owner_ordinary_differences': ordinary_differences,
+        'flag_transition_equal': True,
+        'behavior_cases': 3072, 'wire_values_tested': 256, 'flags_tested': 12,
+        'original_opcode_va': '0x40b770', 'opcode_bytes': 45,
+        'original_instructions': 12, 'candidate_instructions': 12,
+        'original_flag_prefix_instructions': 8,
+        'candidate_flag_prefix_instructions': 8,
+    }
+    if not isinstance(report, dict) or any(report.get(key) != value
+                                           for key, value in expected.items()):
+        raise RuntimeError('RunEcl original opcode-155 machine-semantic gate regressed')
+    return {'source': 'decoded original PE / current VC7.1 source COFF',
+            'flag_transition_equal': True,
+            'behavior_cases': report['behavior_cases'],
+            'exactness_credit': 'none'}
+
+
 def run_ecl(*, include_trail: bool, include_interpreter: bool,
             protect_exact: bool) -> tuple[dict, list[dict]]:
     build('ecl-pop-context')
@@ -512,10 +540,17 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
         shapes = parsed(['scripts/report-ecl-handler-shapes.py', '--json', object_file])
         verified_runecl = validate_runecl_byte_frontier(complete, shapes)
         mismatches = verified_runecl['remaining_opcode_mismatches']
+        # Codegen-near opcode 155 is also checked for actual behavior, using
+        # decoded PE/COFF operations rather than trusting its C++ description.
+        # This protects bit 24 and the other 31 existing flag bits but grants
+        # no function exactness or evidence of original source spelling.
+        timeout_semantics = parsed(['scripts/audit-ecl-timeout-bit.py', object_file])
+        timeout_summary = guard_runecl_timeout_semantics(
+            timeout_semantics, ordinary_differences=verified_runecl['ordinary_differences'])
         biased = guard_biased_movement(parsed(
             ['scripts/inspect-ecl-biased-movement.py', '--json', object_file],
             diagnostic=True))
-        diagnostics.update(runecl={
+        diagnostics.update(runecl_timeout_bit_semantics=timeout_summary, runecl={
             'physical_bytes': complete['physical_bytes'],
             'ordinary_differences': complete['ordinary_different_bytes'],
             'field_differences': complete['field_different_bytes'],
