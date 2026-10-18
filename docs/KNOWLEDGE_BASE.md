@@ -8641,3 +8641,41 @@ attest historical producer execution.
   than promoted from a superficial local match. This source change only
   closes an internally contradictory source-global/referent type, not final
   source TU provenance, faithful native linking, or runtime semantics.
+
+## October 18: RunEcl opcode-4 original thiscall and instruction-pointer audit (gpt-web)
+
+- Direct independent disassembly of Japanese v1.50a `RunEcl @0x004086C0`
+  finds the 29-byte/8-instruction opcode-4 handler at physical owner
+  `+0x277` / `0x00408937`. Original sequence is `MOV ECX,[EBX+0x0C];
+  PUSH ECX; MOV ECX,[EDI+0x2CE0]; ADD ECX,8;
+  CALL ZunTimer::operator=(int) @0x00401500;
+  ADD EBX,[EBX+0x10]; MOV [EBP-8],EBX; JMP 0x00408750`.
+  Pinned current VC7.1 code differs only in the first three instructions:
+  it uses `MOV EAX,[EBX+0x0C]; MOV ECX,[EDI+0x2CE0]; PUSH EAX`.
+  Both are 29 bytes with the same original-linked call field, stack argument,
+  12-byte timer receiver and redispatch branch. Seven machine bytes still
+  genuinely differ. Adjacent TH08's timer-current field assignment alone
+  does NOT override TH09's exact independently proven timer method call.
+- `scripts/audit-ecl-timer-jump.py` now performs a **NON-CREDITING** real
+  source-cold 15,564-byte/598-field SHA/relocation/operand-identity check,
+  then decodes both full opcode handlers. A small strict i386 interpreter
+  executes the **actual** decoded load/push/add/call/store/branch operations,
+  rather than a symbolic C++ stand-in, for six bytecode timer values,
+  five signed/unsigned jump offsets and three possible active-context
+  addresses: **90 transitions per variant**. Each preserves the unmodified
+  bytecode timer argument (including 0x80000000 and -1), passes its value to
+  genuine `ZunTimer::operator=(int)` at owner `context+8`, and publishes
+  `old instruction + signed relative offset` before the genuine redispatch
+  @0x00408750. Original and VC7.1 candidate agree in all checked cases.
+- The strict decoder rejects any unreviewed memory read/write, wrong timer
+  callee or receiver, changed stack argument, jump destination, missing
+  call or divergent instruction-pointer update. The new
+  `guard_runecl_timer_jump` requires the current full-owner original SHA,
+  actual 30-byte mismatch accounting, complete window/instruction census,
+  and noncrediting 90-case output. Ten pure-input target-independent tests
+  poison call target, operand, receiver, stored next pointer, opcode,
+  window size, semantic behavior, fake equality, and spoofed evidence.
+  `--owner runecl` verifies this guard and existing opcode-155 bitfield
+  semantics with 24 independently cold exact ECL/ExAttack siblings. This is
+  a stronger physical-behavior/ABI regression gate **not** a newly exact
+  `RunEcl` or an assertion of original authored C++ spelling.

@@ -9,6 +9,27 @@
 
 ## Current verified handoff checkpoint
 
+- **RunEcl opcode-4 original-machine timer/redispatch safety (October 18):**
+  The previously unfinished source-cold `scripts/audit-ecl-timer-jump.py` is
+  now retained and executed by `--owner runecl` / `--owner all`, alongside
+  the existing opcode-155 masked-XOR behavior gate. From the verified
+  **15,564-byte /598-field** real PE/VC7.1 owner it separately decodes the
+  **29-byte / eight-instruction opcode-4** sequence, tests all six raw signed
+  and unsigned time operands x five positive/negative relative offsets x three
+  context addresses (**90 original/candidate transitions**) and verifies the
+  actual `ZunTimer::operator=(int) @0x00401500` thiscall's
+  `activeContext+0x08` receiver, unmodified argument, one call, sole
+  original ECL pointer advance and direct redispatch @`0x00408750`.
+  Unknown instructions, memory/width changes, wrong call/branch/offset
+  and false exactness are rejected by ten pure-input tests. The retained
+  source still emits the same **seven opcode-4 different bytes** (the
+  `MOV ECX; PUSH ECX; MOV ECX` vs `MOV EAX; MOV ECX; PUSH EAX` register
+  allocation), while opcode 155 still differs by 23 ordinary bytes.
+  **146/148** handlers and all **24 same-source exact siblings** still pass;
+  neither semantic gate grants codegen exactness. Old 979/876/103 counts
+  remain superseded by **980/940/40**. The original target and native-product
+  state are unchanged; focused codegen proof and CI stay mandatory.
+
 - **Title actual-added callback's genuine ASCII global/callee identity (October 18):**
   `TitleScreen.cpp` previously declared the physical `g_AsciiManager`
   `@0x004CE458` as a separate `TitleAsciiManagerView`, producing a linker

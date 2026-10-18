@@ -522,6 +522,33 @@ def guard_runecl_timeout_semantics(report: dict, *, ordinary_differences: int) -
             'exactness_credit': 'none'}
 
 
+def guard_runecl_timer_jump(report: dict, *, ordinary_differences: int) -> dict:
+    """Guard real opcode-4 timer argument/receiver and ECL-pointer behavior.
+
+    The supplier checks the entire source-cold, original-SHA-bound 15,564-byte
+    linked owner before decoding either 29-byte instruction window. It
+    emulates only reviewed original i386 forms and verifies a real thiscall
+    and pointer advance. This is semantic provenance, NOT byte-exact credit.
+    """
+    required = {
+        'diagnostic_only': True, 'exactness_credit': 'none',
+        'full_owner_original_sha256': RUNECL_TARGET_OWNER_SHA,
+        'full_owner_ordinary_differences': ordinary_differences,
+        'original_opcode_va': '0x408937', 'opcode_bytes': 29,
+        'original_instructions': 8, 'candidate_instructions': 8,
+        'timer_call_va': '0x401500', 'redispatch_va': '0x408750',
+        'time_values_tested': 6, 'offsets_tested': 5, 'contexts_tested': 3,
+        'behavior_cases': 90, 'timer_and_advance_equal': True,
+    }
+    if not isinstance(report, dict) or any(report.get(key) != value
+                                           for key, value in required.items()):
+        raise RuntimeError('RunEcl original opcode-4 timer-jump semantic gate regressed')
+    return {'source': 'decoded original PE / current VC7.1 source COFF',
+            'timer_and_advance_equal': True,
+            'behavior_cases': report['behavior_cases'],
+            'exactness_credit': 'none'}
+
+
 def run_ecl(*, include_trail: bool, include_interpreter: bool,
             protect_exact: bool) -> tuple[dict, list[dict]]:
     build('ecl-pop-context')
@@ -540,6 +567,19 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
         shapes = parsed(['scripts/report-ecl-handler-shapes.py', '--json', object_file])
         verified_runecl = validate_runecl_byte_frontier(complete, shapes)
         mismatches = verified_runecl['remaining_opcode_mismatches']
+        # The other still-different handler must pass exactly the authentic
+        # ZunTimer thiscall receiver/stack argument and redispatch behavior.
+        timer_jump = parsed(['scripts/audit-ecl-timer-jump.py', object_file])
+        timer_jump_summary = guard_runecl_timer_jump(
+            timer_jump, ordinary_differences=verified_runecl['ordinary_differences'])
+        if protect_exact:
+            # The physical opcode-4 call and its real SetCurrent callee are
+            # independent authored exact *leaf* owners. Rebuild the actual
+            # shared ZunTimer VC7.1 carrier cold; verify both full functions,
+            # not just RunEcl's agreed CALL REL32 destination.
+            build('zun-timer-assign-int')
+            exact_units.extend((canonical('zun-timer-assign-int'),
+                                canonical('zun-timer-set-current')))
         # Codegen-near opcode 155 is also checked for actual behavior, using
         # decoded PE/COFF operations rather than trusting its C++ description.
         # This protects bit 24 and the other 31 existing flag bits but grants
@@ -550,7 +590,8 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
         biased = guard_biased_movement(parsed(
             ['scripts/inspect-ecl-biased-movement.py', '--json', object_file],
             diagnostic=True))
-        diagnostics.update(runecl_timeout_bit_semantics=timeout_summary, runecl={
+        diagnostics.update(runecl_timer_jump_semantics=timer_jump_summary,
+                           runecl_timeout_bit_semantics=timeout_summary, runecl={
             'physical_bytes': complete['physical_bytes'],
             'ordinary_differences': complete['ordinary_different_bytes'],
             'field_differences': complete['field_different_bytes'],
