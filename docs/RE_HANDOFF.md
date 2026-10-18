@@ -85,9 +85,11 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   ECL, Etama, Enemy, Title/MusicRoom, ExAttack, CardAttack and ScreenEffect
   carriers. The genuine CardAttack sound class update preserves **nine**
   original exact source bodies, including 536- and 923-byte large callbacks,
-  and separately guards four original sound fields. Complete PE/COFF owner
-  checks improve C++ linker provenance, **not** native product closure or
-  remaining nonexact register/instruction schedules.
+  and separately guards four original sound fields. Two previously exact
+  large Card callbacks (536/923 bytes) received Factory `pass/accepted`
+  from clean source `6f601f0`; full `--owner all` protects **232 distinct
+  exact owners**. This improves C++ linker provenance, **not** native
+  product closure or remaining nonexact register/instruction schedules.
 - **Next agent contract:** inspect `git status` and preserve dirty changes;
   prioritize a big boss **and** small leaves, challenge prior assumptions,
   compile with the exact original VC7.1 profile, run focused complete-function

@@ -6,6 +6,37 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## October 19: genuine CardAttack sound ABI across two large original callbacks
+
+Factory `strict-live-v1` separately forced cold the SHA-verified original
+Japanese TH09 v1.50a and pinned VC7.1 compiler against **clean immutable
+CardAttack gameplay-source commit
+`6f601f09c516656b6327f6c2d33f209733bd6236`**. This change replaces two
+source-only fake `CardAttack*SoundPlayerView` linker types with the one genuine
+`SoundPlayer g_SoundPlayer @0x004DC698` receiver and canonical method
+`PlaySoundByIdx @0x0043E2F0`, without changing raw machine code. Two
+independent completed jobs returned **`receipt_verdict=pass`** and
+**`acceptance_decision=accepted`** with no rejection reasons:
+
+- `CardAttack::OnUpdate @0x004041F0`, **536/536 entire physical exact bytes**,
+  all **22** original-VA-bound COFF fields and genuine sound global/call
+  symbols at original `+0x192/+0x1A9`: job
+  `job:13cace2ea8db4f718a949a7c9ea864e1`,
+  `receipt:63e7e2458d68eef32d444aa6cce8bf33a72e0fb904a373272ab2c727ea00ef23`.
+- `CardAttackStart @0x00403E50`, **923/923 entire physical exact bytes**,
+  all **29** source COFF fields and the true singleton/member at original
+  `+0x232/+0x237`: job `job:5ff9331a91304b129950ae33bf2de3e7`,
+  `receipt:bf4a114e6c80acbd83e279c6b9c9737e863ef663d804d89eb319e7e458b716ad`.
+
+Both were **already canonical exact functions**, not newly exact codegen.
+An independent full cold `--owner all` replay of the clean source separately
+passes **35 noncrediting whole-boss/leaf diagnostics and 232 DISTINCT complete
+previously exact functions**, including nine protected CardAttack source bodies.
+The accepted source binding does **not** transfer to this later documentation
+commit. Canonical totals stay **940 exact / 980 source-present**; the
+RunEcl (30), Etama OnDraw (268), Title DrawResult (22), and Type19/21 ExAttack
+init (six/nine) real original-code gaps and native product/runtime remain open.
+
 ## October 19: Etama/Bullet genuine audio and RunEcl exact-callee regressions
 
 Factory `strict-live-v1` performed **seven independent forced-cold, original-
