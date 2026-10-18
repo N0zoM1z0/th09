@@ -6,6 +6,46 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## TitleScreen and MusicRoom genuine SoundPlayer ABI: three strict-live-v1 exact regressions (October 18)
+
+After unifying the fake `SoundPlayerView` globals in both the main
+`TitleScreen.cpp` and separately compiled `TitleScreenMusicRoom.cpp` with the
+canonical `SoundPlayer g_SoundPlayer @0x004DC698`, real
+`PlaySoundByIdx @0x0043E2F0` and `QueueCommand @0x0043EE40`, the independent
+Factory `strict-live-v1` source service forced fresh pinned VC7.1 builds
+against the SHA-verified Japanese TH09 v1.50a original from **exactly** the
+clean immutable source commit **`d867bbcb2e3d8228090cca37545f69ee57cb238e`**:
+
+- Previously exact `TitleScreenView::OnUpdateMusicRoom @0x00426E05`:
+  **2,258/2,258 physical bytes, all 74 original-bound COFF fields**,
+  including the authentic SoundPlayer global and three real queued-command
+  call referents. Job `job:2a8078fe13e04753bceb35ef0013ee8a`,
+  `receipt:c98fda03e9e45227b6e6bcb73872d3ea92b13df57f047ae29c4e4e7f34789638`.
+- Previously exact `SoundPlayer::QueueCommand @0x0043EE40`:
+  **105/105 complete physical bytes**, its independently compiled true
+  source method whose original-target CALLs are now shared by MusicRoom.
+  Job `job:dd59fb7644b14f09a554150bd096e7fc`,
+  `receipt:9e3b9af6d9751fe277c94f28cd2dd202b1ba365b4638c300e52ad666975d7524`.
+- Previously exact `TitleScreenView::OnUpdateStartMenu @0x00429E23`:
+  **1,560 logical / 1,592 complete physical bytes, all 107 original
+  relocation fields**, including nine same-original-VA compiler-local `$L`
+  switch labels independently reattested after the shared header changed.
+  Job `job:31de3e3e7d174e369d36fbe9c5ba2d49`,
+  `receipt:bb7a1ceafe724c039282cf7b43547c398af1c480594105dc07169ad12b5035f8`.
+
+All three jobs independently returned `receipt_verdict=pass`,
+`acceptance_decision=accepted`, with no rejection reasons. These **reconfirm
+three already canonical exact functions** and do NOT create newly exact
+codegen: the open Title `OnUpdateResult` is still 485 target vs 484 source
+bytes, `DrawResult` remains 1,939/1,939 with 22 different ordinary bytes,
+and MusicRoom's full native Title ANM/data dependencies and whole-product
+Windows i386 build/runtime are not closed. The same source-cold `--owner all`
+full-PE audit verifies **35 noncrediting owner diagnostics and 204 distinct
+already-exact full functions** (including one newly checked, not newly
+accepted, SoundPlayer::QueueCommand leaf); the canonical ledger remains
+**940 exact among 980 source-present**. Receipts bind only the named clean
+Git source commit, not subsequent commits or fresh native product claims.
+
 ## ExAttack Type3/Type4 shared original GameManager ABI: source-bound exact regressions (October 18)
 
 After correcting the two non-equivalent Type3 and Type4 source-only

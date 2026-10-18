@@ -34,6 +34,11 @@
   DrawResult still 1,939/1,939 with 22 ordinary mismatches; ReplaySave,
   Options, cursor leaves and whole native Title ANM/data closure are open.
   No new canonical exact credit: still **940/980**, not 941.
+  Independent Factory `strict-live-v1` forced-cold **pass / accepted**
+  receipts for MusicRoom **2,258/2,258**, QueueCommand **105/105** and
+  physical StartMenu **1,592/1,592** are archived in
+  `RE_ACCEPTED_RECEIPTS.md`, each bound to clean source commit `d867bbc`.
+  Those are regressions of existing exact owners, not new exact functions.
 
 - **Real GameManager unified across RunEcl, ExAttack, ASCII/Etama exact owners (October 18):**
   The source-only `ExAttackType8GameManagerView` previously redeclared
