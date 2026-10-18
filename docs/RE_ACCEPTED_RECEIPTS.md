@@ -6,6 +6,50 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## October 19: genuine ANM receiver in EffectManager large callbacks accepted
+
+Three independent Factory `strict-live-v1` forced-cold pinned VC7.1 replays
+against SHA-verified original Japanese TH09 v1.50a
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`
+returned **`receipt_verdict=pass` / `acceptance_decision=accepted`**
+with no reported acceptance objections. Every replay binds to the **one
+immutable clean gameplay source commit
+`b094fa0a399af050eec0e10c76f23a10c92536cc`**:
+
+- **`EffectManager::InitializeEffect @0x0040CA60`**, **407/407 entire
+  original physical exact bytes**, 17 PE/COFF-bound relocations, now using
+  the genuine `AnmLoaded::SetAndExecuteScriptIdx` C++ method at native VA
+  `0x00403E00` (source call field `+0xE6 REL32`) rather than the old
+  source-only `EffectAnmLoadedMethodView` pseudo-class:
+  `job:be8b1f639ed9480b97ac0a39ef8e0dfd`,
+  `receipt:e72f921553dbacb9173b33368d3ca9756316c80c9604387c986ec6f266a5e77c`.
+- **`EffectManager::OnUpdate @0x0040CDD0`**, **475/475 complete exact
+  bytes** from the *same* 15-function EffectManager compilation carrier,
+  confirming this source class correction preserves other large actual
+  callbacks: `job:19771f2bb5a44885ba14b617d5403c18`,
+  `receipt:a927d5f97699eed94481a9c287fe99715ebe64b91472e105a868cbb279c81a9f`.
+- **Native `AnmLoaded::SetAndExecuteScriptIdx @0x00403E00`**, **41/41
+  complete physical exact bytes** independently compiled from genuine
+  `src/AnmLoadedExecute.cpp` with its own `/EHsc`-enabled original profile:
+  `job:ebd5f03491844e30be29797d905dbba4`,
+  `receipt:68e0019733088d6d7d54bfa67df890d2ae08496bedb111ad4686f678a47d9679`.
+
+All three were previously canonical exact and this is **no rise above
+940/980 existing exact**. The full real VC7.1 `/O2 /Ob1` `EffectManager.cpp`
+source carrier has **15 physical original-exact functions / 2,530 bytes**
+with unchanged COFF field offsets/kinds and exactly one genuine C++ callee
+spelling repair. Its neighboring **51-byte nonexact `AddedCallback` remains
+8 unlike original bytes**, all four relocations and two ordered calls intact.
+The current original-bound complete `--owner all` cold report independently
+checks **35 noncrediting boss/leaf groups plus 248 distinct full original-exact
+functions**, with no duplicate callee credit. The target-independent CI
+passed **637 tests, 28 skipped, zero failed**, with canonical ledgers,
+original SHA, handoff and build graph current. There is no Factory acceptance
+of the still-nonexact Effect added callback, RunEcl, Etama OnDraw or Title
+DrawResult; neither whole native-game linkage nor runtime/port semantics are
+accepted. These source-bound receipts apply **only** to `b094fa0`, not this
+later documentation-only commit or subsequent gameplay-source changes.
+
 ## October 19: Etama OnUpdate and Bullet DrawSingle native runtime-angle ABI accepted
 
 Four independent Factory `strict-live-v1` original-Japanese-TH09-v1.50a,
