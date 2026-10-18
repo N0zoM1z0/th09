@@ -6,6 +6,43 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## ScreenEffect authentic GameManager owner: three independent exact regressions (October 18)
+
+After the original-PE-backed `ScreenEffectGameManagerView` duplicate global
+was replaced by the ONE genuine `AsciiGameManagerView` global at
+`0x004A7D90` and `int value348` given its original observed byte offset,
+Factory `strict-live-v1` independently forced the pinned VC7.1 source cold
+build against the SHA-verified TH09 v1.50a Japanese original. All three
+jobs are bound to precisely **clean source commit
+`868a572bf872bc6f839989b966d224f1cae4decf`**:
+
+- Previously exact `ScreenEffect::CalcShake @0x00422660`, complete
+  **316/316 physical bytes** and its genuine **16 original relocation
+  fields**, including two canonical `g_GameManager` native symbol fields.
+  Job `job:8b39ae93702444b0b547d6c1b099d75f`,
+  `receipt:7e7d28fa787028c452ae18972ed4b31e65645d6785d4117150a87dd74c1fa1b7`.
+- Previously exact `ScreenEffect::CalcFadeOut @0x00422470`, complete
+  **123/123 physical bytes**, eight original fields and two canonical
+  global references. Job `job:5841d49e054f44339bf2548afc3c2c0d`,
+  `receipt:06e67a387f3904a90b2557588e64ebcd1eeb13a1eaf202596e458dbc807bf3c8`.
+- Previously exact `ScreenEffect::RegisterChain @0x00422D20`, **447 logical
+  /480 complete physical bytes**, including the source-carrier table tail
+  and all **55 original relocations**, including nine verified
+  same-original-VA compiler-private `$L` labels. Job
+  `job:a0b5baa25c804eb9ad33c3b95255601e`,
+  `receipt:33c6a2e05c48b2b60be127be29c99ed0e69b620871d37622f4094a3ec54de8f4`.
+
+All three separately returned `receipt_verdict=pass`,
+`acceptance_decision=accepted` with no rejection reasons. These receipts
+**reconfirm three previously accepted exact bodies** and DO NOT accept the
+still-nonexact 336-byte `ScreenEffect::CalcShakeEnvelope` (26 different
+ordinary bytes), much less create three new exact functions. Source-cold
+complete `--owner all` checks **35 noncrediting original-bound diagnostics,
+204 DISTINCT already canonical exact source functions**. Canonical count
+remains **940/980** and whole native link/runtime/data closure are open.
+Receipt provenance applies ONLY to the named clean commit; subsequent
+commits and partial near matches do not inherit Factory acceptance.
+
 ## TitleScreen and MusicRoom genuine SoundPlayer ABI: three strict-live-v1 exact regressions (October 18)
 
 After unifying the fake `SoundPlayerView` globals in both the main
