@@ -1593,6 +1593,63 @@ def guard_enemy_collision(result: dict) -> dict:
                                     windows=ENEMY_COLLISION_WINDOWS)
 
 
+
+# These five independently canonical-exact callees now have their REAL C++
+# owner/symbol references in the 3,900-byte Enemy update. Keep all physical
+# source-carrier profiles protected: ANM ExecuteScript has its separate /Ob0
+# carrier; the two ASCII boss-marker members share a single /Ob1 object.
+# All target VAs were established independently of the candidate COFF binder.
+ENEMY_REAL_CALLEE_EXACT_CARRIERS = (
+    ('src/SoundPlayerProcessQueues.cpp',
+     (('soundplayer-play-positioned-sound-by-idx', 0x0043E380,
+       '?PlaySoundPositionedByIdx@SoundPlayer@@QAEXHM@Z'),)),
+    ('src/AnmManagerExecuteScript.cpp',
+     (('anm-manager-execute-script', 0x00436F30,
+       '?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z'),)),
+    ('src/AsciiBossMarkerVm.cpp',
+     (('ascii-boss-marker-set-position', 0x004067F0,
+       '?SetBossMarkerPosition@AsciiBossMarkerVmView@@QAEXHPBUFloat3@@@Z'),
+      ('ascii-boss-marker-set-interrupt', 0x004067D0,
+       '?SetBossMarkerInterrupt@AsciiBossMarkerVmView@@QAEXHF@Z'))),
+    ('src/AsciiManagerBossMarker.cpp',
+     (('ascii-manager-set-boss-marker-state', 0x0040F890,
+       '?SetBossMarkerState@AsciiManager@@QAEXHH@Z'),)),
+)
+
+
+def replay_enemy_real_callee_exact() -> list[dict]:
+    """Cold verify all five authentic callee-family members once per carrier.
+
+    This is *additional* exact-sibling regression of already-accepted source,
+    never extra exactness credit for the still-unmatched Enemy OnUpdate boss.
+    Fail closed on a missing/repointed unit or a split marker source profile.
+    """
+    with (ROOT / 'config/match-units.toml').open('rb') as stream:
+        registry = tomllib.load(stream)['units']
+    result = []
+    objects = set()
+    for source, group in ENEMY_REAL_CALLEE_EXACT_CARRIERS:
+        members = [registry.get(name) for name, _, _ in group]
+        if any(not isinstance(member, dict) for member in members):
+            raise RuntimeError('Enemy authentic callee match unit absent')
+        obj = members[0].get('object')
+        profile = members[0].get('profile')
+        if (not isinstance(obj, str) or not obj.startswith('build/matching/') or
+                obj in objects or not isinstance(profile, list) or not profile or
+                any(not isinstance(flag, str) or not flag for flag in profile)):
+            raise RuntimeError('Enemy authentic callee carrier/profile changed')
+        objects.add(obj)
+        for (name, address, symbol), member in zip(group, members):
+            if (member.get('target_address') != address or
+                    member.get('object') != obj or
+                    member.get('profile') != profile or
+                    member.get('symbol') != symbol or member.get('source') != source):
+                raise RuntimeError('Enemy exact callee identity/carrier changed: '+name)
+        build(group[0][0])
+        result.extend(canonical(name) for name, _, _ in group)
+    return result
+
+
 def run_enemy(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # One source-cold EnemyManagerCore TU now owns the nonexact 3,900-byte
     # calc boss, exact 151-byte effects leaf, original-exact 56-byte Float3
@@ -1624,6 +1681,9 @@ def run_enemy(*, protect_exact: bool) -> tuple[dict, list[dict]]:
                            'bullet-pattern-primary'):
             build(dependency)
             exact.append(canonical(dependency))
+        # Independently replay every genuine Sound/ANM/ASCII target after
+        # correcting the Enemy TU's formerly duplicated fake C++ symbols.
+        exact.extend(replay_enemy_real_callee_exact())
     return {'enemy_manager_update': {
                 'target_bytes': 3900,
                 'candidate_bytes': main['candidate_bytes'],

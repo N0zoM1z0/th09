@@ -24,9 +24,17 @@
   from exact callee units or original section-relative offsets. The
   maintained boss stays **3,900/3,900, 97 fields, 69 ordered calls,
   170 direct blocks, same table, 29 different bytes**. Seven matching
-  Enemy siblings and the separately exact 32-byte/42-byte boss-marker
-  helpers replay without regression; the newly shared member/global
-  symbols improve source-to-source native identity, NOT byte exactness.
+  pre-existing Enemy-family siblings are now joined *inside* the automatic
+  `--owner enemy` replay by **five distinct genuine sound/ANM/ASCII exact
+  callees**: **12/12 full-function exact checks across four new cold object
+  carriers**. The two 32-byte/42-byte boss-marker helpers share one carrier,
+  while the 9,776-physical-byte ANM ExecuteScript uses its separate pinned
+  `/Ob0` profile. The 42- and 32-byte Ascii marker
+  helpers were also independently Factory `strict-live-v1` forced-cold
+  `pass / accepted` on the clean committed source `6e1f3b4` (immutable
+  receipts in `RE_ACCEPTED_RECEIPTS.md`). Those are rechecks of previously
+  exact functions. The newly shared member/global symbols improve
+  source-to-source native identity, NOT byte exactness.
   Complete Windows i386 link/static data/runtime still remain open.
 
 - **Enemy OnUpdate source-global and boss-marker callee identity correction (October 18):**
@@ -46,8 +54,12 @@
   Fresh pinned VC7.1 complete original PE/COFF comparison reproduces
   **3,900/3,900 bytes, 97 actual fields, 69 ordered calls, the exact 170-block
   CFG, four-entry switch table and unchanged 29 physical differences at the
-  same offsets**. The seven same-Enemy-family exact siblings and five
-  separate ANM/sound/boss-marker exact callees remain protected; all five
+  same offsets**. The seven same-Enemy-family exact siblings plus five
+  additional ANM/sound/boss-marker exact callees now replay automatically
+  together (**12 exact units**); the four true physical callee profiles are
+  cold-built individually, with the marker twins sharing their actual object.
+  Their original VA, decorated symbol, source and carrier split are validated,
+  including fail-closed negative cases. All five
   new source/manifest tests pass. This is concrete typed source-reference
   progress on a LARGE boss, **not** new exact function credit (940/980).
 

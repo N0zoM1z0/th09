@@ -6,6 +6,32 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## Enemy source-owner unification: Ascii boss-marker exact regressions (October 18)
+
+After committing the real ANM/SoundPlayer/AsciiManager references and the
+shared `AsciiBossMarkerVmView.hpp` for EnemyManager's open 3,900-byte boss,
+Factory `strict-live-v1` independently **forced VC7.1 cold recompilation**
+from the clean, immutable source commit
+`6e1f3b43abdf0f8356ab75bc9f214a4e36ac8c9c` against the SHA-verified
+Japanese TH09 v1.50a original for two **previously canonical exact** helper
+functions in the same real AsciiBossMarkerVm translation unit:
+
+- `AsciiBossMarkerVmView::SetBossMarkerPosition @0x004067F0`, **42/42 physical**
+  bytes, `job:90cdb8dd87ee46afb807b3d281eb2e78`,
+  `receipt:f6a06e8ac77ebb5041a90bf7b70c2eb1fb8712d88424752343aa9f4b90b0ee32`.
+- `AsciiBossMarkerVmView::SetBossMarkerInterrupt @0x004067D0`, **32/32 physical**
+  bytes, `job:56f7e51bf7534e4db89859d72dba0e99`,
+  `receipt:69a834dc627a84c5c6dc4b8d2f07b9dd27d5d4bd8784ece6aa8eb17ac6bd704c`.
+
+Both independently finished with `receipt_verdict=pass`,
+`acceptance_decision=accepted` and zero rejection reasons. These receipts
+confirm the reconstructed helper definitions remain exact **after** the
+shared-header and real Enemy-callsite change. They **do not** accept the
+still-nonexact EnemyManager OnUpdate itself (29 byte differences), create any
+new exact function, prove whole i386 linking or settle source ownership for
+unreviewed compiler-generated/folded bodies. The canonical total at this
+source commit remains **940 of 980**.
+
 ## Title real AsciiManager source-bound exact regressions (October 18)
 
 Two independent Factory `strict-live-v1` forced-cold original-bound jobs

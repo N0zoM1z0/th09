@@ -1,5 +1,6 @@
 """No-target input-gate regressions for cold large-owner replay orchestration."""
 
+import copy
 import importlib.util
 from pathlib import Path
 from unittest import TestCase
@@ -295,9 +296,67 @@ class BossFrontierChecks(TestCase):
                           'player-collision-append-box', 'enemy-collision-append-box',
                           'enemy-manager-draw-impl',
                           'bullet-spawn-descriptor-constructor',
-                          'bullet-pattern-primary'])
-        self.assertEqual(build.call_count, 4)
+                          'bullet-pattern-primary',
+                          'soundplayer-play-positioned-sound-by-idx',
+                          'anm-manager-execute-script',
+                          'ascii-boss-marker-set-position',
+                          'ascii-boss-marker-set-interrupt',
+                          'ascii-manager-set-boss-marker-state'])
+        self.assertEqual(build.call_count, 8)
         compile_leaf.assert_not_called()
+
+    def test_enemy_all_real_callee_carriers_are_cold_replayed_once(self):
+        # The true AsciiBossMarkerVm two-function carrier is compiled ONCE;
+        # ANM ExecuteScript must keep its separate target-matching /Ob0 TU.
+        from pathlib import Path
+        import tomllib
+        with (ROOT / 'config/match-units.toml').open('rb') as file:
+            units = tomllib.load(file)['units']
+        cases = frontiers.ENEMY_REAL_CALLEE_EXACT_CARRIERS
+        self.assertEqual([len(group) for _, group in cases], [1, 1, 2, 1])
+        self.assertEqual(len({units[group[0][0]]['object']
+                              for _, group in cases}), 4)
+        self.assertIn('/Ob0', units['anm-manager-execute-script']['profile'])
+        with patch.object(frontiers, 'build') as build, patch.object(
+                frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
+            result = frontiers.replay_enemy_real_callee_exact()
+        self.assertEqual([r['unit'] for r in result], [
+            'soundplayer-play-positioned-sound-by-idx',
+            'anm-manager-execute-script',
+            'ascii-boss-marker-set-position',
+            'ascii-boss-marker-set-interrupt',
+            'ascii-manager-set-boss-marker-state'])
+        self.assertEqual([call.args[0] for call in build.call_args_list], [
+            'soundplayer-play-positioned-sound-by-idx',
+            'anm-manager-execute-script',
+            'ascii-boss-marker-set-position',
+            'ascii-manager-set-boss-marker-state'])
+
+    def test_enemy_real_exact_callee_missing_swapped_or_split_rejected(self):
+        import tomllib
+        with (ROOT / 'config/match-units.toml').open('rb') as file:
+            manifest = tomllib.load(file)['units']
+        wrongs = (
+            ('anm-manager-execute-script', 'target_address', 0x00436F31),
+            ('anm-manager-execute-script', 'symbol', '?Faked@@QAEHXZ'),
+            ('anm-manager-execute-script', 'source', 'src/Fake.cpp'),
+            ('anm-manager-execute-script', 'object', '../outside.obj'),
+            ('ascii-boss-marker-set-interrupt', 'object', 'build/matching/Wrong.obj'),
+            ('ascii-boss-marker-set-interrupt', 'profile', ['/Ob0']),
+            ('soundplayer-play-positioned-sound-by-idx', 'target_address', 0x0043E381),
+        )
+        for name, field, wrong_value in wrongs:
+            bad = copy.deepcopy(manifest)
+            bad[name][field] = wrong_value
+            with self.subTest(name=name, field=field), patch.object(
+                    frontiers.tomllib, 'load', return_value={'units': bad}), patch.object(
+                    frontiers, 'build'), patch.object(frontiers, 'canonical'), self.assertRaises(RuntimeError):
+                frontiers.replay_enemy_real_callee_exact()
+        bad = copy.deepcopy(manifest)
+        del bad['ascii-boss-marker-set-position']
+        with patch.object(frontiers.tomllib, 'load', return_value={'units': bad}), patch.object(
+                frontiers, 'build'), patch.object(frontiers, 'canonical'), self.assertRaises(RuntimeError):
+            frontiers.replay_enemy_real_callee_exact()
 
     def test_enemy_boss_input_rejects_false_original_call_identity(self):
         main, leaf = self.enemy_evidence()

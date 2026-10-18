@@ -101,6 +101,15 @@ class Opcode4MachineSemantics(unittest.TestCase):
                 AUDIT.validate_transitions(AUDIT.parsed_instructions(ORIGINAL),
                                            AUDIT.parsed_instructions(broken))
 
+    def test_post_call_register_residue_cannot_replace_true_ebx_cursor(self):
+        # EAX is volatile across the original exact ZunTimer thiscall; its
+        # leftover value cannot replace EBX as the published ECL cursor.
+        bad = copy.deepcopy(CANDIDATE)
+        bad[6].op_str = 'dword ptr [ebp - 8], eax'
+        with self.assertRaisesRegex(ValueError, 'different next instruction'):
+            AUDIT.validate_transitions(AUDIT.parsed_instructions(ORIGINAL),
+                                       AUDIT.parsed_instructions(bad))
+
     def test_wrong_next_pointer_and_spurious_memory_write_fail(self):
         for index, operand in ((5, 'ebx, dword ptr [ebx + 0xc]'),
                                (6, 'dword ptr [ebx + 0x10], ebx')):
