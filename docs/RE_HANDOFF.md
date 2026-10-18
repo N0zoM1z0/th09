@@ -21,6 +21,12 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   The current canonical ledger contains **980 source-present / 940 exact /
   40 non-exact** functions. The 95% exact reviewed-authored-byte goal is open;
   run the commands below for current numbers, not old 979/876/103 snapshots.
+- **October 19 source-bound ExAttack acceptance:** 3 Factory
+  `strict-live-v1` receipts were independently `pass/accepted`, all from
+  immutable source commit `fc087e3`: already exact Spawn 321 bytes (real
+  SoundPlayer global/call references), already exact sound callee 140,
+  and already exact Register 264. Full IDs are in
+  `RE_ACCEPTED_RECEIPTS.md`; still **940/980**, with no new exact credit.
 - **October 19 ExAttack real audio ABI:** the formerly fake
   `ExAttackSoundPlayerView` in the exact 321-byte
   `ExAttackController::Spawn` has been replaced with the real

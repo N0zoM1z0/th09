@@ -6,6 +6,42 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## October 19: ExAttack genuine SoundPlayer linkage accepted from source
+
+The original TH09 v1.50a Japanese PE, SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`,
+was independently bound to the **clean immutable gameplay-source commit
+`fc087e3ef1e0fb33c5e23ae674dae347b56b7407`** through Factory
+`strict-live-v1` / forced-cold pinned VC7.1 compilation. Three separately
+completed jobs returned **`receipt_verdict=pass`** and
+**`acceptance_decision=accepted`** with no rejection reasons:
+
+- **`ExAttackController::Spawn @0x004151F0`**: previously exact **321/321
+  complete bytes**, all **seven source COFF original-bound relocation
+  fields**, including actual `SoundPlayer g_SoundPlayer @0x004DC698`
+  (`+0x8E`, `DIR32`) and genuine method
+  `SoundPlayer::PlaySoundByIdx @0x0043E2F0` (`+0x93`, `REL32`) rather
+  than the removed `ExAttackSoundPlayerView` alias. Job
+  `job:8cfd6de4af32426282037ba11febd242`,
+  `receipt:fd674b0860bdaadf7bc9c558c3b1f36b5c1d73ee9bb7ccc70a6494d29151a473`.
+- **`SoundPlayer::PlaySoundByIdx @0x0043E2F0`**: real separately compiled
+  receiver/callee, previously exact **140/140 complete bytes**,
+  `job:e5ebfa2842634cc98adb14fc3aebef60`,
+  `receipt:147b0acc95deb385d344b0b24bbe6e3a5346733af64a1b3459080429c9e41ea2`.
+- **`ExAttackController::Register @0x004157D0`**: another true
+  ExAttack-controller translation-unit sibling, previously exact **264/264
+  complete bytes**, `job:c9dd70e6fd764165ba14cf4dc32f6b7a`,
+  `receipt:51da231d2d6627d4482d64108edf9adc629fc9990b4229b98463cd040b8df1f1`.
+
+This is newly **reconfirmed real cross-owner C++ native linker identity**, not
+three newly reconstructed functions: the canonical ledger remains
+**940 exact / 980 source-present**. All three receipts bind only the named
+clean source commit, **not this later docs-only commit**. The 35 still-open
+boss and leaf diagnostics from `--owner all` are not Exact Oracle receipts.
+`RunEcl` (30 residual bytes), `EtamaController::OnDraw` (268), Title
+`DrawResult` (22), ExAttack Type19/21 initialization (six/nine), native
+whole-game link/runtime, and later semantic/port validation remain open.
+
 ## October 19: Etama update and Title exact regression quartet
 
 The independent Factory `strict-live-v1` forced a fresh original-bound VC7.1

@@ -9433,3 +9433,7 @@ attest historical producer execution.
   **600/600 with 268 original-linked differences**, RunEcl opcode 4/155
   remains **30**, and ExAttack Type19/21 initializer callbacks remain
   **six/nine**. No new exact count, native game link or runtime claim.
+
+## October 19: independent Factory accepted ExAttack SoundPlayer exact-owner regressions (gpt-web)
+
+- At immutable real gameplay source `fc087e3ef1e0fb33c5e23ae674dae347b56b7407`, the verified TH09 v1.50a original and pinned compiler were forced cold by Factory `strict-live-v1` in **three independent accepted jobs**: `ExAttackController::Spawn` **321/321** exact with its real SoundPlayer global and method COFF targets, `receipt:fd674b0860bdaadf7bc9c558c3b1f36b5c1d73ee9bb7ccc70a6494d29151a473`; the real `SoundPlayer::PlaySoundByIdx` independently **140/140** exact, `receipt:147b0acc95deb385d344b0b24bbe6e3a5346733af64a1b3459080429c9e41ea2`; and the same-carrier `ExAttackController::Register` independently **264/264** exact, `receipt:51da231d2d6627d4482d64108edf9adc629fc9990b4229b98463cd040b8df1f1`. All returned `pass/accepted` with no recorded objections. Jobs and immutable source bindings are archived in `RE_ACCEPTED_RECEIPTS.md`; these reconfirm three **already exact** functions, not new ledger exact matches or native product closure.
