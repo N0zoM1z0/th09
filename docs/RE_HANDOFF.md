@@ -37,6 +37,10 @@
   as well as the already exact Type3 initializer: **six independent exact
   original-bound units**, zero new exact credit. All native whole-program
   linking and runtime behavior remain open; canonical ledger **940/980**.
+  Independent Factory forced-cold `pass / accepted` receipts for **Type4
+  Initialize 368/368** and the two true **InverseTransformPopup 46/46**
+  exact methods are archived in `RE_ACCEPTED_RECEIPTS.md`, all bound to
+  clean source commit `bc80608`. They do not accept Type3 Update itself.
 
 - **Full ECL timer type now genuinely shares ZunTimer (October 18):**
   Revisited `RunEcl` rather than relying on its former 0x0C source-only

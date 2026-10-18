@@ -6,6 +6,44 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## ExAttack Type3/Type4 shared original GameManager ABI: source-bound exact regressions (October 18)
+
+After correcting the two non-equivalent Type3 and Type4 source-only
+`g_GameManager` C++ types to one genuine `AsciiGameManagerView @0x004A7D90`,
+using the independently exact `InverseTransformPopupX/Y` methods at
+`0x00442420 / 0x00442450`, Factory `strict-live-v1` performed three
+**independent forced-cold VC7.1 compilations** of *already exact* source
+functions against the SHA-verified original Japanese TH09 v1.50a, strictly
+bound to the **clean immutable source commit
+`bc80608010b64d321332761c81a0e3a1e27dec0c`**:
+
+- `ExAttackInitializeCallbackType4 @0x00442A60`: **368/368 complete physical
+  bytes, 22 original-PE-linked COFF fields**, including nine canonical
+  `AsciiGameManagerView` global/member identities (five global accesses have
+  a real +0x04 COFF addend): `job:ae7194437f914602a4af2345042cf480`,
+  `receipt:56bb237c5044bcc38f6b1ed50aaafbce7afa0db8b4c589364b6c5ce66f8decbd`.
+- `AsciiGameManagerView::InverseTransformPopupX @0x00442420`: **46/46
+  physical bytes**, two independently reviewed original COFF fields,
+  `job:dedb741604c34e0bad4dd0a68f6939c2`,
+  `receipt:6b9eb8acdfdea6fbe80376bba2e6aabd98befdcd12ede4bfd9407e6ff934b946`.
+- `AsciiGameManagerView::InverseTransformPopupY @0x00442450`: **46/46
+  physical bytes**, two independently reviewed original COFF fields,
+  `job:8616c4efb17d45c0888b313ee564c733`,
+  `receipt:ba7f80d1b88a36e4a9db1e294d39136d4311ff67a4e7f48243032145e1e21a01`.
+
+All three returned `receipt_verdict=pass`,
+`acceptance_decision=accepted`, without rejection reasons. These are
+**rechecks of three previously canonical exact functions**, not newly exact
+code; Type3 Update itself is **nonexact (780/780 bytes, 38 original fields,
+15 residual machine bytes)** and was not accepted by these jobs. The
+original-target-bound source-cold `--owner all` suite passes **35
+noncrediting owner diagnostics and 203 distinct already-exact functions**,
+including four 46-byte GameManagerCoordinates functions as one compilation
+carrier and the separately exact 368-byte Type4 initializer. The canonical
+accepted count remains **940/980**. Native full-image linking, static data,
+resources and deterministic gameplay/runtime comparison remain open and are
+not proven by these receipts. Future commits require fresh source binding.
+
 ## Shared ECL ZunTimer ABI across exact compiler profiles (October 18)
 
 After the former source-only `Th09EclTimerStorageView` class was replaced
