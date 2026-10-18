@@ -43,6 +43,11 @@
   and masked-bit semantic gates remain noncrediting. Canonical total stays
   **940/980**; no game product, static resource graph or native link is
   claimed complete. The separate Etama, Title, ExAttack frontiers remain open.
+  Independent Factory forced-cold `pass / accepted` receipts for the
+  **992-byte PostEclMovement**, **892-byte CompareOperands**, and the
+  special `/Ob0` 20-byte `ZunTimer::operator>=` are archived in
+  `RE_ACCEPTED_RECEIPTS.md` and tied to clean commit `61dfa79`. They
+  reconfirm existing exact owners, not the unfinished RunEcl boss.
 
 - **RunEcl authentic boss-marker interrupt and SoundPlayer owners (October 18):**
   Reopened **original** code at four RunEcl opcode-124..157 callsites.

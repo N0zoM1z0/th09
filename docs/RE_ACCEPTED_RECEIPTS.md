@@ -6,6 +6,40 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## Shared ECL ZunTimer ABI across exact compiler profiles (October 18)
+
+After the former source-only `Th09EclTimerStorageView` class was replaced
+with the already genuine, source-defined `ZunTimer` type and its 0x0C-byte
+original-backed memory layout, the independent Factory `strict-live-v1`
+service forced a **new cold VC7.1 build** against verified original TH09
+v1.50a Japanese code, bound to exactly the clean source commit
+**`61dfa79e1a1dab3bc73cb9b99f73a7166d7f9890`**:
+
+- Already exact `EnemyPostEclUpdateMovement @0x00408180`, **967 logical /
+  992 complete physical bytes, all 41 true relocation fields**, from the
+  main `/O2 /Ob1` EclManager carrier: `job:3fe4c719c3ab492cbb35e882a10fb777`,
+  `receipt:7a2bb7354477059d76a4008a87ab2c18df7d9cf675529ef35dd9798eded68cca`.
+- Already exact `Th09EclRunControl::CompareOperands @0x00407700`,
+  **842 logical / 892 complete physical bytes, all 37 true fields**,
+  from its independently pinned original reviewed EclManager compiler profile:
+  `job:da38da846af24eeca5d67078a024fbcb`,
+  `receipt:b8f61673eb373114b38f08063c09c1aa8fe2f11b5a55f84559d770ba76c47425`.
+- Already exact `ZunTimer::operator>=(int) @0x00401520`, **20/20 bytes**
+  from the genuine **`/Ob0`** BackgroundStageScript source-carrier profile,
+  which must not be silently replaced by the normal `/Ob1` ECL profile:
+  `job:ee1c53ebe7984fb8b6df0242ae4e7e7d`,
+  `receipt:eb67aa33c6fa96e1d0c4577c79d9f8da8b922fcac54208e2494f7b3a66e33f3e`.
+
+All three jobs completed with `receipt_verdict=pass`,
+`acceptance_decision=accepted`, and no rejection reasons. These are
+**re-verifications of three previously canonical exact functions**;
+**no 941st exact function** is claimed. They do not accept the still-open
+15,564-byte RunEcl boss (30 different bytes), the 517-vs-516-byte biased
+movement helper, the full native i386 link, or any later source commit.
+The `--owner all` original-PE-linked local source-cold gate checks 35
+noncrediting diagnostics and **198 different already exact complete owners**;
+the separate canonical function count remains **940/980**.
+
 ## RunEcl authentic boss interrupt/SoundPlayer owner: exact ECL carrier regressions (October 18)
 
 After correcting the source-only false `BossUiView::SetBossMarkerState`
