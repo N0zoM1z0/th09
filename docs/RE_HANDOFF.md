@@ -21,6 +21,16 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   The current canonical ledger contains **980 source-present / 940 exact /
   40 non-exact** functions. The 95% exact reviewed-authored-byte goal is open;
   run the commands below for current numbers, not old 979/876/103 snapshots.
+- **October 19 ExAttack real audio ABI:** the formerly fake
+  `ExAttackSoundPlayerView` in the exact 321-byte
+  `ExAttackController::Spawn` has been replaced with the real
+  `SoundPlayer` global and exact 140-byte method. Only two compiler
+  COFF symbol *names* changed; all seven bound field offsets and all
+  321 source machine bytes are unchanged and match the original.
+  Focused ExAttack now also replays the real sound leaf and enforces
+  linker identity; the full `--owner all` cold replay passes 35 owner
+  diagnostics and 204 distinct exact sibling functions. The nearby
+  Type19/21 init and Etama OnDraw bosses remain non-exact.
 - **October 19 Title leaf protection:** Original-PE/COFF-cold Reverse/Inactive
   character cursor owners are each 175 bytes / 55 instructions / 2 bound
   calls, with **38 differing bytes** and **137 already equal bytes**.
@@ -31,6 +41,15 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   were rejected or byte-neutral; their reproducers are under `.analysis/`,
   not tracked game source. Guard and malicious-evidence tests are documented
   in `KNOWLEDGE_BASE.md`; no exact count change.
+- **ExAttack Spawn genuine SoundPlayer ABI:** Removed the source-only
+  `ExAttackSoundPlayerView` in favor of existing authentic `SoundPlayer`
+  global/member; the entire **321/321 exact** Spawn is raw-byte neutral,
+  seven original-bound fields retain offsets/destinations, and exactly two
+  COFF symbols now use the true class. `--owner exattack` cold-checks the
+  separate real **140/140 exact** PlaySoundByIdx leaf, plus 38 previous
+  exact siblings. All-mode deduplicates that callee with earlier ECL replay;
+  Type19/21 init still has six/nine residual bytes. Tests guard the genuine
+  C++ link identities; see `KNOWLEDGE_BASE.md` for independent evidence.
 - **Fresh October 19 source-bound replays:** Factory `strict-live-v1`
   independently accepted four *already exact* owners from clean source
   commit `7edc447`: Etama `OnUpdate` 2,216 physical, Title MusicRoom

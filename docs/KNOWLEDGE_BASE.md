@@ -9373,3 +9373,63 @@ attest historical producer execution.
 - Confirmed the source/original loop entry distinction rather than trusting earlier comments: retail loads stride into EBX, computes and spills the loop end before scaling VM byte offsets, whereas source precomputes scaled stride/index and preserves the end in ESI. **60 isolated real-VC7.1 Title compilation variants** under `.analysis/gpt-web-20261019-title-cursor-loop/{results.json,count/,reg/}` and `.analysis/gpt-web-20261019-title-drawresult-helper/` tested 6 loop-gate forms, 16 count/condition forms, 18 register/lifetime/operand-order forms and 20 genuine score-bank helper forms. The later Title DrawResult helpers all preserve the entire **1,939-byte/82-field/22-difference** baseline except the register-bank version (1,941 bytes, rejected). Cursor loop-gate variants fall to 173 source bytes with 158 overlapping differences, while viable count and register forms remain 175/38: **none is promoted** and all live tracked game C++ source is preserved.
 - Strengthened `scripts/check-boss-frontiers.py --owner title`: independent `inspect-title-character-cursors.py` still SHA-binds the genuine original and exact relocated PE/COFF call targets; now both 175-byte leaves must also keep their **38 physical residual positions as a strict upper-bound set**, protecting all 137 previously equal bytes rather than merely requiring two plausible calls. This is intentionally **non-crediting**; future genuine reductions to 37..0 differences are allowed only without damaging previously equal bytes, and equal 175/175 still requires separate canonical comparison/Factory acceptance. Enforced original and candidate instruction counts (55), original five blocks, candidate four or five blocks, call/field counts, ret-sized extent, numerical unique ordered offsets, and consistent evidence claims. `tests/test_title_cursor_residual_frontier.py` exercises both leaves, malformed original/candidate/source-offset evidence, false exactness, and hypothetical strictly narrower/equal future diagnostic cases, without requiring the private executable in CI.
 - The independently exact `TitleScreenView::TitleSetupThread` (534 bytes), `TitleScreenView::OnUpdateMusicRoom` (2,258 bytes), and all 43 cold title-focused canonical sibling comparisons still pass. No newly exact function, Windows build closure or runtime fidelity is claimed.
+
+## October 19: ExAttack Spawn uses the genuine SoundPlayer owner (gpt-web)
+
+- Reopened the verified Japanese v1.50a executable and the **complete** `ExAttackController::Spawn @0x004151F0` real VC7.1 `/O2 /Ob1` carrier: 321 original/source physical bytes, all seven unchanged original-VA COFF operand fields. The previous `src/ExAttackController.cpp` used a private `ExAttackSoundPlayerView` with distinct compiler-decorated global/callee spellings (`?g_SoundPlayer@@3UExAttackSoundPlayerView@@A` and `?PlaySoundByIdx@ExAttackSoundPlayerView@@QAEXHH@Z`). Both were linked only by numeric original addresses, not the genuine runtime C++ interface. The actual real `SoundPlayer g_SoundPlayer @0x004DC698` and **separately canonical exact** member `SoundPlayer::PlaySoundByIdx @0x0043E2F0` already have one shared definition in `SoundPlayer.hpp` and the maintained separate 140-byte sound leaf.
+- Cold-compiling a side-by-side isolated source candidate including that real header and removing the fake struct emitted **bit-for-bit identical 321-byte raw Spawn function code**, including every real COFF relocation offset/addend. Exactly **two** relocation *symbols* changed to the authentic class/global names while their unchanged target VAs, kinds, call order and seven original fields remained identical. Promoted the natural source repair and updated only these two manifest symbol names. The strictly complete original-bound `scripts/compare-coff-function.py --unit exattack-controller-spawn --json` still yields `exact`, **321/321** with seven correct referents. No special C++ field alias, target-byte patch or new function was added.
+- `scripts/check-boss-frontiers.py --owner exattack` now first rejects the old fake SoundPlayer source/manifest identity, independently verifies the original two source-field descriptors and the real **140-byte exact** `SoundPlayer::PlaySoundByIdx` source/ABI/compile profile, and cold-replays that leaf in the focused ExAttack mode. The all-owners mode reuses its already checked ECL sound leaf once, so the global cold sweep avoids double counting. `tests/test_exattack_controller_real_sound.py` tests authentic source header, source/target symbols, original offsets/addends/profiles, negative-corruption cases, and fail-closed leaf replay/dedup. Fresh focused replay passes **seven noncrediting ExAttack diagnostic owners and 39 complete exact siblings** including true SoundPlayer.
+- The separately nonexact ExAttack Type19/21 initializers retain **six/nine** ordinary source/retail byte differences; ExAttack Type3/14/22 and controller constructors remain independently tracked. This is a real C++ link-provenance repair of a 321-byte **already exact** major gameplay callback. The canonical ledger remains **940/980**, with 40 source-present nonexact owners. Source-bound Factory acceptance and whole-native-image link/runtime must still be tracked independently.
+
+## October 19: ExAttack true SoundPlayer ABI and Etama byte-alpha negative control (gpt-web)
+
+- Reopened the original Japanese TH09 v1.50a PE (SHA-256
+  `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`)
+  and the **entire already-exact** `ExAttackController::Spawn @0x004151F0`,
+  321 physical bytes with all seven original relocation fields. Its sound
+  site binds independently to **`g_SoundPlayer @0x004DC698`** at original
+  field `+0x8E` (`DIR32`) and to **`SoundPlayer::PlaySoundByIdx
+  @0x0043E2F0`** at `+0x93` (`REL32`). The receiver/method were previously
+  declared by a fake private `ExAttackSoundPlayerView` merely aliased to
+  these numeric target addresses; that created incompatible C++ linker
+  names compared with the genuine source owner already used by Title,
+  MusicRoom and ECL.
+- `src/ExAttackController.cpp` now imports the **real `SoundPlayer.hpp`**
+  singleton and class declaration, removing the fake method/global. An
+  isolated genuine source-cold `/O2 /Ob1` VC7.1 before/after experiment
+  compiled both variants to the **identical raw 321-byte machine code and
+  seven same-offset COFF fields**; only the two sound C++ symbol names
+  changed, to `?g_SoundPlayer@@3VSoundPlayer@@A` and
+  `?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z`. The actual complete original-PE/
+  COFF `compare-coff-function.py --unit exattack-controller-spawn` proves
+  **321/321 exact**, the genuine separately compiled 140-byte sound method
+  also proves **140/140 exact**, and a focused `--owner exattack` cold
+  sweep now protects **39 already-exact full bodies**, including the sound
+  callee and 38 sibling bodies, while preserving seven noncrediting
+  boss/constructor diagnostic groups. The `--owner all` source-cold
+  sweep passes **35 noncrediting owner diagnostics and 204 distinct
+  already-exact whole-function comparisons**, reusing the sound leaf once.
+- The `scripts/check-boss-frontiers.py` ExAttack focused path now fails
+  closed if original sound global/callee source, address, order, member
+  ABI, profile or C++ symbol is replaced by an alias. Its independent sound
+  leaf is cold-rebuilt only if a prior real RunEcl/Title replay did not
+  already check it. `tests/test_exattack_controller_real_sound.py` tests
+  genuine C++ spelling, fake global/callee corruption, bad relocation
+  kind/offset/addend, wrong exact callee/profile, and focused vs all-mode
+  replay counts. No constructor origin is fabricated: the two byte-matched
+  ExAttack constructors still require unknown/compiler-origin resolution.
+- Independently re-decoded the 600-byte original
+  `EtamaController::OnDraw` Laser start-cap alpha site at physical `+0x1AB`:
+  `MOV BYTE PTR [ECX+497h],0FFh`, using the authentic Laser-owner start-cap
+  color high byte. The maintained code currently emits a whole-dword
+  `OR 0FF000000h`; the operations have identical effect on alpha, but the
+  surrounding register/VM layout is not equivalent. Eleven genuine
+  typed byte-store, ordering, receiver and alias source variants compiled
+  cold under the same pinned VC7.1 profile shortened the physical owner
+  to 594 (or widened to 610), damaged the 17-block original graph and
+  increased the 268-byte baseline differences to at least 318; none is
+  promoted. Isolated reproducer/results:
+  `.analysis/gpt-web-20261019-etama-alpha-byte/`. Etama OnDraw remains
+  **600/600 with 268 original-linked differences**, RunEcl opcode 4/155
+  remains **30**, and ExAttack Type19/21 initializer callbacks remain
+  **six/nine**. No new exact count, native game link or runtime claim.

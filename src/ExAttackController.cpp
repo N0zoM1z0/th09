@@ -1,17 +1,12 @@
 #include "ExAttackController.hpp"
 #include "ZunMemory.hpp"
+#include "SoundPlayer.hpp"
 
 #include <new>
 #include <string.h>
 
 extern Chain g_Chain;
 extern ZunMemory g_ZunMemory;
-
-struct ExAttackSoundPlayerView
-{
-    void PlaySoundByIdx(int soundIndex, int pan);
-};
-extern ExAttackSoundPlayerView g_SoundPlayer;
 
 extern ExAttackTemplate g_ExAttackTemplates[];
 

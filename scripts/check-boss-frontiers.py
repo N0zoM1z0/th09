@@ -2213,8 +2213,69 @@ def guard_exattack_constructor_codegen(result: dict) -> dict:
     return result
 
 
-def run_exattack_controller(*, protect_exact: bool) -> tuple[dict, list[dict]]:
-    """Cold-run both real constructor profiles, and all four exact companions."""
+# ExAttack Spawn's original COFF global @0x004DC698 and thiscall target
+# @0x0043E2F0 have true SoundPlayer symbols and one real source body. The
+# earlier private ExAttackSoundPlayerView was a source-only linker alias.
+EXATTACK_REAL_SOUND_GLOBAL = '?g_SoundPlayer@@3VSoundPlayer@@A'
+EXATTACK_REAL_SOUND_CALLEE = '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z'
+EXATTACK_SOUNDPLAYER_CARRIER = 'build/matching/SoundPlayerPlaySound.obj'
+
+
+def validate_exattack_controller_real_sound(units: dict) -> None:
+    """Check two real original-linked sound fields and actual compiler owner."""
+    spawn = units.get('exattack-controller-spawn')
+    sound = units.get('soundplayer-play-sound-by-idx')
+    if (not isinstance(spawn, dict) or
+            spawn.get('source') != 'src/ExAttackController.cpp' or
+            spawn.get('object') != 'build/matching/ExAttackController.obj' or
+            spawn.get('symbol') != '?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z' or
+            spawn.get('size') != 321 or
+            spawn.get('target_address') != 0x004151F0 or
+            spawn.get('profile') != list(_SCREEN_EFFECT_BASE_PROFILE)):
+        raise RuntimeError('ExAttack Spawn authentic VC7.1 source/ABI/profile drifted')
+    fields = spawn.get('relocations')
+    if not isinstance(fields, list) or len(fields) != 7 or any(
+            not isinstance(row, dict) for row in fields):
+        raise RuntimeError('ExAttack Spawn COFF relocation inventory incomplete')
+    expected = ((0x8E, 'DIR32', EXATTACK_REAL_SOUND_GLOBAL, 0x004DC698),
+                (0x93, 'REL32', EXATTACK_REAL_SOUND_CALLEE, 0x0043E2F0))
+    for row, (offset, kind, symbol, destination) in zip(fields, expected):
+        if (row.get('offset'), row.get('type'), row.get('symbol'),
+                row.get('target'), row.get('addend', 0)) != (
+                    offset, kind, symbol, destination, 0):
+            raise RuntimeError('ExAttack Spawn uses a false SoundPlayer global/call')
+    if (not isinstance(sound, dict) or
+            sound.get('source') != 'src/SoundPlayerProcessQueues.cpp' or
+            sound.get('object') != EXATTACK_SOUNDPLAYER_CARRIER or
+            sound.get('symbol') != EXATTACK_REAL_SOUND_CALLEE or
+            sound.get('target_address') != 0x0043E2F0 or
+            sound.get('size') != 140 or
+            sound.get('profile') != list(_SCREEN_EFFECT_BASE_PROFILE)):
+        raise RuntimeError('ExAttack real SoundPlayer callee is not canonical')
+    source = (ROOT / 'src/ExAttackController.cpp').read_text()
+    header = (ROOT / 'src/SoundPlayer.hpp').read_text()
+    if ('#include "SoundPlayer.hpp"' not in source or
+            'ExAttackSoundPlayerView' in source or
+            'extern SoundPlayer g_SoundPlayer;' not in header or
+            'void PlaySoundByIdx(int index, int pan);' not in header or
+            'g_SoundPlayer.PlaySoundByIdx(45,' not in source):
+        raise RuntimeError('ExAttack source reintroduced fake SoundPlayer type')
+
+
+def replay_exattack_real_sound_exact(*, prechecked: bool) -> list[dict]:
+    """Cold-check the original sound callee only when not already done."""
+    with (ROOT / 'config/match-units.toml').open('rb') as stream:
+        units = tomllib.load(stream)['units']
+    validate_exattack_controller_real_sound(units)
+    if prechecked:
+        return []
+    build('soundplayer-play-sound-by-idx')
+    return [canonical('soundplayer-play-sound-by-idx')]
+
+
+def run_exattack_controller(*, protect_exact: bool,
+                            sound_prechecked: bool = False) -> tuple[dict, list[dict]]:
+    """Cold-run real sound callee, both ctor profiles, and four siblings."""
     # This original-profile carrier also defines nonexact 321-byte Spawn and
     # two reviewed but origin-UNKNOWN constructors. Never alter the C++ source
     # just to force an implicit-vs-explicit authorship story.
@@ -2227,6 +2288,9 @@ def run_exattack_controller(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     with (ROOT / 'config/match-units.toml').open('rb') as stream:
         manifest = tomllib.load(stream)['units']
     unit = manifest['exattack-release-records']
+    validate_exattack_controller_real_sound(manifest)
+    if protect_exact:
+        exact.extend(replay_exattack_real_sound_exact(prechecked=sound_prechecked))
     if (unit.get('source') != 'src/ExAttackController.cpp' or
             unit.get('object') != 'build/matching/ExAttackController.obj' or
             unit.get('profile') != list(_SCREEN_EFFECT_BASE_PROFILE)):
@@ -2817,7 +2881,8 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('exattack', 'all'):
             owners, exact = run_exattack_controller(
-                protect_exact=not args.skip_exact_siblings)
+                protect_exact=not args.skip_exact_siblings,
+                sound_prechecked=args.owner == 'all')
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('crypto', 'all'):
