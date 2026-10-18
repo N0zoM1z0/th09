@@ -54,6 +54,7 @@ class SoundPlayer
     int StartBGM(char *path);
     int LoadSound(int index, char *path);
     void PlaySoundByIdx(int index, int pan);
+    void ResumeAfterPause();
     void PlaySoundPositionedByIdx(int index, float positionX);
     int ProcessQueues();
     void UpdateFades();

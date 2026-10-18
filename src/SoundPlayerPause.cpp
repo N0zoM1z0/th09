@@ -1,10 +1,6 @@
-struct AsciiSoundPlayerView
-{
-    void QueueCommand(int opcode, int argument, char *path);
-    void ResumeAfterPause();
-};
+#include "SoundPlayer.hpp"
 
-void AsciiSoundPlayerView::ResumeAfterPause()
+void SoundPlayer::ResumeAfterPause()
 {
     QueueCommand(7, 0, "unpause");
 }

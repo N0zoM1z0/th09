@@ -3226,12 +3226,117 @@ def guard_pause_menu(result: dict) -> dict:
             'missing_target_bytes': missing}
 
 
+# The two 1KB+ menu callback bodies and the 15-byte resume method all
+# receive the same genuine SoundPlayer singleton at 0x004DC698. Original
+# TH09 dispatch resolves the small Pause wrapper at 0x00423498 to the real
+# 105-byte SoundPlayer::QueueCommand, not to another invented C++ receiver.
+PAUSE_REAL_SOUND_GLOBAL = '?g_SoundPlayer@@3VSoundPlayer@@A'
+PAUSE_REAL_SOUND_PLAY = '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z'
+PAUSE_REAL_SOUND_RESUME = '?ResumeAfterPause@SoundPlayer@@QAEXXZ'
+PAUSE_REAL_SOUND_QUEUE = '?QueueCommand@SoundPlayer@@QAEXHHPAD@Z'
+# SHA-backed retail menu original callsite offsets (global receiver and next
+# member-call operand). This is independent of candidate manifest spelling.
+PAUSE_REAL_SOUND_CALLSITE_PAIRS = {
+    'ascii-menu-state4-update': (
+        (0x121,0x12C), (0x146,0x151), (0x16E,0x173),
+        (0x26A,0x275), (0x28F,0x29A), (0x2BB,0x2C0),
+        (0x389,0x394), (0x3AE,0x3B9), (0x3DA,0x3DF)),
+    'ascii-menu-state5-update': (
+        (0x1B5,0x1C0), (0x1DD,0x1E2),
+        (0x2E6,0x2F1), (0x312,0x317)),
+}
+PAUSE_REAL_SOUND_CARRIERS = (
+    ('ascii-menu-state5-update',0x00434E90,1213,1236,
+     'src/AsciiMenuState5Update.cpp', 'build/matching/AsciiMenuState5Update.obj',
+     '?OnUpdate@AsciiMenuState5@@QAEHXZ'),
+    ('soundplayer-resume-after-pause',0x00423498,15,15,
+     'src/SoundPlayerPause.cpp', 'build/matching/SoundPlayerPause.obj',
+     PAUSE_REAL_SOUND_RESUME),
+    ('soundplayer-play-sound-by-idx',0x0043E2F0,140,140,
+     'src/SoundPlayerProcessQueues.cpp', 'build/matching/SoundPlayerPlaySound.obj',
+     PAUSE_REAL_SOUND_PLAY),
+    ('soundplayer-queue-command',0x0043EE40,105,105,
+     'src/SoundPlayerProcessQueues.cpp', 'build/matching/SoundPlayerLifecycle.obj',
+     PAUSE_REAL_SOUND_QUEUE),
+)
+
+
+def validate_pause_real_sound(units: dict) -> None:
+    """Original sound call targets and real C++ linker spelling are mandatory."""
+    sources = ('src/AsciiManagerMenu.cpp','src/AsciiMenuState5Update.cpp',
+               'src/SoundPlayerPause.cpp')
+    for source in sources:
+        contents = (ROOT/source).read_text()
+        if ('#include "SoundPlayer.hpp"' not in contents or
+                'AsciiSoundPlayerView' in contents or
+                ('SoundPlayerPause.cpp' in source and
+                 'void SoundPlayer::ResumeAfterPause()' not in contents)):
+            raise RuntimeError('Pause source uses fabricated SoundPlayer identity: '+source)
+    header = (ROOT/'src/SoundPlayer.hpp').read_text()
+    if (header.count('void ResumeAfterPause();') != 1 or
+            'extern SoundPlayer g_SoundPlayer;' not in header):
+        raise RuntimeError('Pause real sound resume declaration changed')
+    for name,address,size,physical,source,obj,symbol in PAUSE_REAL_SOUND_CARRIERS:
+        row=units.get(name)
+        if (not isinstance(row,dict) or
+                row.get('target_address')!=address or row.get('size')!=size or
+                row.get('compare_size',size)!=physical or
+                row.get('source')!=source or row.get('object')!=obj or
+                row.get('symbol')!=symbol or
+                row.get('profile')!=list(_SCREEN_EFFECT_BASE_PROFILE)):
+            raise RuntimeError('Pause genuine exact callback/callee origin drifted: '+name)
+    counted=0
+    for name,pairs in PAUSE_REAL_SOUND_CALLSITE_PAIRS.items():
+        row=units.get(name)
+        if not isinstance(row,dict) or row.get('source') not in sources[:2]:
+            raise RuntimeError('Pause menu original callback source missing')
+        sound=[f for f in row['relocations'] if
+               'SoundPlayer' in f['symbol'] or 'PlaySound' in f['symbol']]
+        expected=[(offset,symbol,kind,target,0) for pair in pairs
+                  for offset,symbol,kind,target in (
+                    (pair[0],PAUSE_REAL_SOUND_GLOBAL,'DIR32',0x004DC698),
+                    (pair[1],PAUSE_REAL_SOUND_PLAY,'REL32',0x0043E2F0))]
+        actual=[(f['offset'],f['symbol'],f['type'],f['target'],f.get('addend',0))
+                for f in sound]
+        if actual!=expected:
+            raise RuntimeError('Pause exact menu callback original SoundPlayer field/site census changed')
+        counted+=len(sound)
+    if counted!=26:
+        raise RuntimeError('Pause original sound field census incomplete')
+    wrapper=units['soundplayer-resume-after-pause']['relocations']
+    if (len(wrapper)!=2 or
+            [(r.get('offset'),r.get('symbol'),r.get('type'),
+              r.get('target'),r.get('addend',0)) for r in wrapper] != [
+                (0x01,'??_C@_07BIEIMCKD@unpause?$AA@','DIR32',0x0048F510,0),
+                (0x0A,PAUSE_REAL_SOUND_QUEUE,'REL32',0x0043EE40,0)]):
+        raise RuntimeError('Pause resume wrapper not bound to real QueueCommand')
+    inspector=(ROOT/'scripts/inspect-pause-menu.py').read_text()
+    if ('AsciiSoundPlayerView' in inspector or
+            PAUSE_REAL_SOUND_RESUME not in inspector or
+            PAUSE_REAL_SOUND_GLOBAL not in inspector or
+            PAUSE_REAL_SOUND_PLAY not in inspector):
+        raise RuntimeError('Pause physical-target inspector permits false C++ audio identity')
+
+
+def replay_pause_real_sound_exact() -> list[dict]:
+    """Cold-check independent original source carriers for two big callbacks."""
+    build('ascii-menu-state5-update')
+    build('soundplayer-resume-after-pause')
+    build('soundplayer-play-sound-by-idx')
+    build('soundplayer-queue-command')
+    return [canonical(name) for name,_,_,_,_,_,_ in PAUSE_REAL_SOUND_CARRIERS]
+
+
 def run_pause(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        validate_pause_real_sound(tomllib.load(stream)['units'])
     obj = 'build/matching/AsciiManagerMenu.obj'
     build_nonexact('src/AsciiManagerMenu.cpp', obj,
                    reference_unit='ascii-manager-on-update')
     report = parsed(['scripts/inspect-pause-menu.py', '--json', obj])
     exact = [canonical(u) for u in PAUSE_EXACT_SIBLINGS] if protect_exact else []
+    if protect_exact:
+        exact.extend(replay_pause_real_sound_exact())
     return {'pause_menu_update': guard_pause_menu(report)}, exact
 
 

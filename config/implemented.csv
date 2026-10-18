@@ -688,7 +688,7 @@ PlayerSharedTransitionView::GetTransitionBlockFlag
 PlayerOwnerStateView::ApplyRewardWithStateAdvance
 PlayerState4OpsView::SetUpdateState
 AsciiGameManagerView::HasFlagBit0
-AsciiSoundPlayerView::ResumeAfterPause
+SoundPlayer::ResumeAfterPause
 ZunMemory::ZunMemory
 GameErrorContext::GameErrorContext
 ReplayInputState::ReplayInputState

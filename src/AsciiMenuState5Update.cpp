@@ -3,6 +3,7 @@
 // menu TU keeps the real helper definition for its separately verified owners.
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
+#include "SoundPlayer.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "Supervisor.hpp"
 
@@ -12,12 +13,6 @@
 struct AsciiInputView
 {
     unsigned short WasPressed(unsigned short buttons);
-};
-
-struct AsciiSoundPlayerView
-{
-    void PlaySoundByIdx(int soundIndex, int pan);
-    void ResumeAfterPause();
 };
 
 struct AsciiState5SupervisorView
@@ -45,7 +40,6 @@ typedef char AsciiSupervisorSystemTimeAt79C[
     (offsetof(AsciiState5SupervisorView, systemTime79C) == 0x79C) ? 1 : -1];
 
 extern AsciiInputView g_AsciiInput;
-extern AsciiSoundPlayerView g_SoundPlayer;
 extern AsciiManager g_AsciiManager;
 extern unsigned char *g_AsciiMenuConfig;
 

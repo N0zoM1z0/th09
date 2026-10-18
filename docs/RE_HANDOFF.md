@@ -72,12 +72,12 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   `--owner title`, `--owner exattack` preserve the 30/268/22/6+9 open
   residuals and their exact siblings; 32 additional natural ExAttack
   initializer cursor/lifetime compilation trials found no new exact owner.
-- **Current cold baseline:** the independent, original-linked
-  `check-boss-frontiers.py --owner all` replay at the current CardAttack source passed
-  **35 noncrediting owners and 232 distinct complete already exact function
-  comparisons** after the current CardAttack real SoundPlayer update. The corresponding pre-cleanup evidence remains under ignored
-  `.analysis/`. These replay counts are NOT the 940-function ledger and do
-  not create new exact credit.
+- **Current Ascii/Pause ABI repair:** both large Ascii menu callbacks
+  (State4 **1,172**, State5 **1,236** full exact bytes) and genuine 15-byte
+  `SoundPlayer::ResumeAfterPause` now share authentic global/method class;
+  six previously stale State5 `$L` labels now pass exact cold comparison.
+  Cross-TU original-VA checks and cold sweep passed **35 noncrediting
+  groups / 236 exact functions**. PauseMenu remains **1,776/1,732 NON-EXACT**.
 - **Highest-priority bosses:** `RunEcl` (15,564 physical/598 fields, 30
   unlike ordinary bytes at opcode 4/155), `EtamaController::OnDraw`
   (600/600, 268 unlike bytes; `OnUpdate` already exact 2,216 physical),

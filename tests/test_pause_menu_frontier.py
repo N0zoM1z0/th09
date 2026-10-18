@@ -67,9 +67,11 @@ class PauseMenuFrontierTests(unittest.TestCase):
 
     def test_one_cold_compile_and_all_exact_siblings(self):
         e = self.baseline()
-        with patch.object(frontier, 'build_nonexact') as compile_owner, patch.object(
-                frontier, 'parsed', return_value=e) as inspect, patch.object(
-                frontier, 'canonical', side_effect=lambda name: {'unit': name, 'result': 'exact'}) as canonical:
+        with (patch.object(frontier, 'build_nonexact') as compile_owner,
+              patch.object(frontier, 'build') as build_sound,
+              patch.object(frontier, 'parsed', return_value=e) as inspect,
+              patch.object(frontier, 'canonical', side_effect=lambda name: {
+                  'unit': name, 'result': 'exact'}) as canonical):
             owners, exact = frontier.run_pause(protect_exact=True)
         compile_owner.assert_called_once_with(
             'src/AsciiManagerMenu.cpp', 'build/matching/AsciiManagerMenu.obj',
@@ -77,8 +79,12 @@ class PauseMenuFrontierTests(unittest.TestCase):
         inspect.assert_called_once_with([
             'scripts/inspect-pause-menu.py', '--json',
             'build/matching/AsciiManagerMenu.obj'])
-        self.assertEqual([x['unit'] for x in exact], list(frontier.PAUSE_EXACT_SIBLINGS))
-        self.assertEqual(canonical.call_count, 11)
+        self.assertEqual([x['unit'] for x in exact],
+                         list(frontier.PAUSE_EXACT_SIBLINGS)+
+                         [r[0] for r in frontier.PAUSE_REAL_SOUND_CARRIERS])
+        self.assertEqual([x.args[0] for x in build_sound.call_args_list],
+                         [r[0] for r in frontier.PAUSE_REAL_SOUND_CARRIERS])
+        self.assertEqual(canonical.call_count, 15)
         self.assertEqual(owners['pause_menu_update']['overlap_differences'], 1453)
 
     def test_forged_original_physical_body_and_source_boundaries_rejected(self):
