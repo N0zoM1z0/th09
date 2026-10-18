@@ -2,6 +2,7 @@
 // owner is target-proved; original identifier spelling, TU partition, and data-definition ownership remain unresolved.
 
 #include "AsciiManager.hpp"
+#include "SoundPlayer.hpp"
 #include "Chain.hpp"
 #include "FileSystem.hpp"
 #include "ScreenEffect.hpp"
@@ -56,9 +57,7 @@ struct TitleCharacterConfigView {
     int GetOptionState(char character, i32 option);
 };
 
-struct SoundPlayerView {
-    void PlaySoundByIdx(i32 soundId, i32 unused);
-};
+
 
 
 
@@ -407,7 +406,7 @@ extern u32 g_TitleInputFlags;
 // Read-width view at replay side0 +6, overlapping its known +6/+8 words.
 // This is not an independent data-owner or original-layout claim.
 extern u32 g_TitleSide0InputFlags;
-extern SoundPlayerView g_SoundPlayer;
+
 extern ReplayManagerView *g_ReplayManager;
 extern char *g_TitleAlphabet;
 extern char g_ReplayName[];

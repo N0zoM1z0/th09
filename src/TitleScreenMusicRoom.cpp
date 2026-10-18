@@ -3,6 +3,7 @@
 // input, rendering, audio, and file-format details used below.
 
 #include "FileSystem.hpp"
+#include "SoundPlayer.hpp"
 
 #include <stddef.h>
 
@@ -59,14 +60,12 @@ struct TitleSupervisorView {
     i32 FadeOutMusic(float durationSeconds);
 };
 
-struct SoundPlayerView {
-    void QueueCommand(i32 opcode, i32 argument, char *path);
-};
+
 
 extern TitleAnmLoadedView *g_TitleMusicDescriptionAnm;
 extern TitleAnmManagerView *g_TitleAnmManager;
 extern TitleSupervisorView g_TitleSupervisor;
-extern SoundPlayerView g_SoundPlayer;
+
 extern u32 g_TitleInputFlags;
 extern u8 g_TitleBgmUnlocked[32];
 extern const char *g_TitleBgmNotUnlockedWarning[8];

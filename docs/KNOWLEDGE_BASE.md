@@ -9144,3 +9144,59 @@ attest historical producer execution.
   7+23, Type19/21 initializer six/nine, Etama OnDraw 268, Title ResultDraw
   22. The native Windows product/library/data/resource initialization and
   original-vs-native gameplay scenarios remain unresolved.
+
+## October 18: TitleScreen + MusicRoom shared real SoundPlayer C++ owner (gpt-web)
+
+- Reopened source/target cross-owner provenance instead of treating matching
+  physical addresses as equivalent native C++ data symbols. The main
+  `TitleScreen.cpp` declared `extern SoundPlayerView g_SoundPlayer` with
+  `SoundPlayerView::PlaySoundByIdx(int,int)`, while the independently compiled
+  exact MusicRoom declared the *same fabricated type name* with only
+  `QueueCommand`. Neither C++ decorated symbol matched the existing
+  canonical `SoundPlayer g_SoundPlayer @0x004DC698`, genuine exact
+  `SoundPlayer::PlaySoundByIdx @0x0043E2F0` (140 bytes) or genuine exact
+  `SoundPlayer::QueueCommand @0x0043EE40` (105 bytes). Title options already
+  had the correct source-facing global. Replaced these **two separate false
+  native global class declarations** with `#include "SoundPlayer.hpp"` and
+  reused its one real C++ global/method ABI. No new object definition,
+  thunk, alias target address or SoundPlayer field is fabricated.
+- Cold pinned original VC7.1 source-compiler TUs rebuilt from both the
+  unchanged prior source and proposed genuine header: **all 38** main exact
+  `TitleScreen.cpp` entries, across the 37-function `/O1 /Ob1` TitleScreen
+  carrier and one separately exact ScoreRecord carrier, **plus two**
+  independently exact `TitleScreenMusicRoom.cpp` entries. Full machine code
+  is **byte-for-byte identical** in each existing source carrier. A separate
+  target PE/COFF binding checked **20,878 complete exact physical bytes and
+  1,023 original fields** before allowing any manifest name changes.
+  Exactly **44** COFF source symbol spellings changed: 12 global,
+  20 PlaySoundByIdx, three QueueCommand, and nine compiler-private `$L`
+  StartMenu switch labels. Original target VAs are unchanged; each local
+  label was calculated from the actual current COFF owner-relative
+  section address and checked against the genuine Japanese retail DWORD
+  operand, not inferred from a previous label string or patched code byte.
+  Full exact `StartMenu` 1,560 logical /1,592 physical bytes and all 107
+  original fields, `OnUpdateResultNameEntry` 966 bytes, SetupThread 534,
+  exact MusicRoom 2,258, and the other 35 original-bound peers strictly
+  replay from the maintained source. No compiler optimizer flags changed.
+- Three original-bound open diagnostics (`inspect-title-character-selection`,
+  `inspect-title-update-result`, `inspect-title-music-room`) now bind only
+  genuine source/target SoundPlayer symbols. OnUpdateResult retains its
+  entire **485-byte original /484-byte source**, all **34** original fields,
+  all nine original calls and 40 direct CFG blocks; its remaining register
+  schedule near the result-character table is NOT falsely credited or
+  solved by the sound ABI correction. The separate DrawResult 1,939-byte
+  owner retains its 22 unequal ordinary bytes. Eighteen fresh natural
+  character-byte/index/ref/lifetime source probes under the pinned VC7.1
+  profile yielded 483,484,488 or longer code and no true complete match;
+  all were isolated in ignored `.analysis/gpt-web-20261018/` and restored.
+- Focused `scripts/check-boss-frontiers.py --owner title` now rebuilds both
+  distinct exact `SoundPlayerProcessQueues.cpp` source objects for the true
+  140-byte PlaySoundByIdx and 105-byte QueueCommand methods, protecting
+  **43 already canonical exact functions** after cold compiling Title/Music.
+  Full `--owner all` previously checked PlaySound with genuine RunEcl
+  and will verify QueueCommand as its only newly covered unique exact
+  leaf. The new pure regression suite rejects fabricated sound names,
+  wrong source/profile/callee addresses, prior private-label address drift,
+  and accidental double counting. This repairs native C++ reference identity
+  of two large TUs **without** granting newly exact code or proving a full
+  Windows i386 link, static globals/resources or deterministic gameplay.

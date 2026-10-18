@@ -9,6 +9,32 @@
 
 ## Current verified handoff checkpoint
 
+- **Title/MusicRoom genuine SoundPlayer native owner (October 18):**
+  Separate `TitleScreen.cpp` and `TitleScreenMusicRoom.cpp` compiled the
+  *same original* `g_SoundPlayer @0x004DC698` as two fake
+  `SoundPlayerView` types, hiding real exact callees
+  `PlaySoundByIdx @0x0043E2F0` and `QueueCommand @0x0043EE40` behind
+  incompatible C++ linker symbols. Both now include genuine
+  `SoundPlayer.hpp` and have NO fabricated global, method or stub.
+  Independently rebuilt **three real pinned source compiler carriers**:
+  38 complete already-exact `TitleScreen.cpp` owners plus two independently
+  exact MusicRoom owners — **40 full original-bound functions, 20,878
+  verified physical bytes, 1,023 real COFF fields**. All generated raw
+  function bytes are identical before/after. Only 35 genuine audio
+  C++-symbol references (12 global, 20 PlaySound, three QueueCommand)
+  and **nine** compiler-private `$L` StartMenu labels changed names.
+  Original PE addresses, relocation offsets/kinds/addends, actual local-label
+  section-relative VAs and all code bytes were independently held fixed;
+  manifest edits touch only those 44 exact-reviewed symbol spellings.
+  `--owner title` now also cold-builds the authentic 140-byte sound-play and
+  105-byte queue-command exact leaves in their two real source carriers;
+  **43 distinct already exact owners** pass, while `--owner all` avoids
+  double-counting sound-play, already checked by RunEcl. Open Title
+  OnUpdateResult remains 485 original /484 candidate, 34 original fields;
+  DrawResult still 1,939/1,939 with 22 ordinary mismatches; ReplaySave,
+  Options, cursor leaves and whole native Title ANM/data closure are open.
+  No new canonical exact credit: still **940/980**, not 941.
+
 - **Real GameManager unified across RunEcl, ExAttack, ASCII/Etama exact owners (October 18):**
   The source-only `ExAttackType8GameManagerView` previously redeclared
   `g_GameManager @0x004A7D90`, `TransformPopupX/Y @0x00401680/0x004016B0`,

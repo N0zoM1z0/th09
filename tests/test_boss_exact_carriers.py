@@ -495,17 +495,30 @@ class ExactCarrierDiscovery(unittest.TestCase):
                 frontier.cold_replay_exact_source(
                     'src/TitleScreen.cpp', frontier.TITLE_EXACT_CARRIERS)
 
-    def test_title_owner_runs_38_screen_plus_two_music_plus_draw_callback(self):
+    def test_title_owner_runs_38_screen_two_music_draw_and_two_real_audio_callees(self):
         with patch.object(frontier, 'build') as build, patch.object(
                 frontier, 'canonical', side_effect=lambda unit: {'unit': unit}):
             owners, exact = frontier.run_title(protect_exact=True)
             self.assertEqual(owners, {})
-            self.assertEqual(len(exact), 41)
-            self.assertEqual(len({r['unit'] for r in exact}), 41)
-            self.assertEqual(build.call_count, 4)
+            self.assertEqual(len(exact), 43)
+            self.assertEqual(len({r['unit'] for r in exact}), 43)
+            self.assertEqual(build.call_count, 6)
             self.assertEqual([r['unit'] for r in exact[-3:]], [
-                'title-screen-music-room', 'title-screen-draw-music-room',
-                'title-draw-callback'])
+                'title-draw-callback', 'soundplayer-play-sound-by-idx',
+                'soundplayer-queue-command'])
+        # In --owner all RunEcl has already rechecked PlaySoundByIdx.
+        # Only QueueCommand is a newly distinct Title-side exact regression.
+        with patch.object(frontier, 'build') as build, patch.object(
+                frontier, 'canonical', side_effect=lambda unit: {'unit': unit}):
+            owners, exact = frontier.run_title(protect_exact=True,
+                                               play_sound_prechecked=True)
+            self.assertEqual(owners, {})
+            self.assertEqual(len(exact), 42)
+            self.assertEqual(len({r['unit'] for r in exact}), 42)
+            self.assertEqual(build.call_count, 5)
+            self.assertNotIn('soundplayer-play-sound-by-idx',
+                             [r['unit'] for r in exact])
+            self.assertEqual(exact[-1]['unit'], 'soundplayer-queue-command')
         with patch.object(frontier, 'build') as build:
             owners, exact = frontier.run_title(protect_exact=False)
             self.assertEqual((owners, exact), ({}, []))

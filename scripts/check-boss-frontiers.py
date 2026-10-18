@@ -2550,7 +2550,48 @@ def run_title_open() -> dict:
                 'direct_graphs_agree': replay['direct_graphs_agree']}}
 
 
-def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+
+# Two genuine, separately compiled SoundPlayer members originally consumed
+# by Title result/cursor/menu (0x43E2F0) and exact MusicRoom (0x43EE40).
+# The old SoundPlayerView class invented separate C++ linker identities for
+# ONE real global @0x4DC698. Verify original physical callees as independent
+# source bodies, not just their agreed CALL REL32 instructions.
+TITLE_REAL_SOUND_CARRIERS = (
+    ('soundplayer-play-sound-by-idx', 0x0043E2F0,
+     '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z', 140,
+     'build/matching/SoundPlayerPlaySound.obj'),
+    ('soundplayer-queue-command', 0x0043EE40,
+     '?QueueCommand@SoundPlayer@@QAEXHHPAD@Z', 105,
+     'build/matching/SoundPlayerLifecycle.obj'),
+)
+TITLE_REAL_SOUND_VC71_PROFILE = (
+    '/MT', '/EHsc', '/Gs', '/DNDEBUG', '/Zi', '/Gy', '/GF',
+    '/Oi', '/Gr', '/O2', '/Ob1', '/Oy-', '/I', 'src')
+
+
+def replay_title_real_sound_exact(*, play_sound_prechecked: bool) -> list[dict]:
+    """Rebuild genuine Title audio leaves, avoiding duplicate all-mode credit."""
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        units=tomllib.load(stream)['units']
+    exact=[]
+    for name,va,symbol,size,obj in TITLE_REAL_SOUND_CARRIERS:
+        u=units.get(name)
+        if (not isinstance(u,dict) or
+                u.get('source')!='src/SoundPlayerProcessQueues.cpp' or
+                u.get('object')!=obj or u.get('target_address')!=va or
+                u.get('symbol')!=symbol or u.get('size')!=size or
+                u.get('profile')!=list(TITLE_REAL_SOUND_VC71_PROFILE)):
+            raise RuntimeError('Title true SoundPlayer exact callee identity/profile drift: '+name)
+        if play_sound_prechecked and name=='soundplayer-play-sound-by-idx':
+            # --owner all first verified the very same source/VA with RunEcl;
+            # do not build/credit it twice in a distinct exact sibling list.
+            continue
+        build(name)
+        exact.append(canonical(name))
+    return exact
+
+
+def run_title(*, protect_exact: bool, play_sound_prechecked: bool = False) -> tuple[dict, list[dict]]:
     # TitleSetup plus 36 other original-byte exact owners use TitleScreen.obj
     # under the same pinned /O1 profile. ScoreRecord::InsertIntoTable uses an
     # independent /O2 carrier despite sharing TitleScreen.cpp source. Both
@@ -2564,6 +2605,8 @@ def run_title(*, protect_exact: bool) -> tuple[dict, list[dict]]:
                             canonical('title-screen-draw-music-room')))
         build('title-draw-callback')
         exact_units.append(canonical('title-draw-callback'))
+        exact_units.extend(replay_title_real_sound_exact(
+            play_sound_prechecked=play_sound_prechecked))
     # These receipts do not establish exactness for the separately diagnosed
     # DrawResult, ReplayMenu, ReplaySave, or Options owners.
     return {}, exact_units
@@ -2760,7 +2803,8 @@ def main() -> int:
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('title', 'all'):
-            owners, exact = run_title(protect_exact=not args.skip_exact_siblings)
+            owners, exact = run_title(protect_exact=not args.skip_exact_siblings,
+                                      play_sound_prechecked=args.owner == 'all')
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
             report['owners'].update(run_title_open())
