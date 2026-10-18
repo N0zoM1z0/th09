@@ -4,6 +4,10 @@
 
 #include <stddef.h>
 
+struct ExAttackType8AnmOwner;
+class EtamaController;
+struct PlayerLifecycleView;
+
 struct AsciiPlayerPopupPositionView
 {
     unsigned char unknown0000[0x1B88];
@@ -23,8 +27,15 @@ struct AsciiGameSideRuntimeView
 struct AsciiGameManagerSideView
 {
     unsigned char unknown00[4];
-    AsciiPlayerPopupPositionView *player;
-    unsigned char unknown08[0x14];
+    // Existing caller sees the player as the known popup-position prefix;
+    // ECL/ExAttack reads the same +0x04 pointer as the full player runtime.
+    union {
+        AsciiPlayerPopupPositionView *player;
+        PlayerLifecycleView *player04;
+    };
+    EtamaController *etama08;
+    ExAttackType8AnmOwner *anmOwner0C;
+    unsigned char unknown10[0x0C];
     AsciiGameSideRuntimeView *runtime;
     unsigned char unknown20[0x14];
     unsigned int flags;
@@ -36,14 +47,16 @@ typedef char AsciiGameManagerSideViewSizeIs38[
 struct AsciiGameManagerView
 {
     AsciiGameManagerSideView sides[2];
-    unsigned char unknown070[0x8C];
+    unsigned char unknown070[0x7C];
+    float speedEC;
+    unsigned char unknown0F0[0x0C];
     int field0FC;
     unsigned char unknown100[8];
     int field108;
     int field10C;
     unsigned char unknown110[8];
     int gameMode;
-    int difficulty;
+    union { int difficulty; int difficulty11C; };
     unsigned char unknown120[0x14];
     unsigned int flags;
     unsigned char unknown138[4];
@@ -68,8 +81,14 @@ typedef char AsciiGameManagerSidePlayerAt04[
     (offsetof(AsciiGameManagerSideView, player) == 0x04) ? 1 : -1];
 typedef char AsciiGameManagerSideRuntimeAt1C[
     (offsetof(AsciiGameManagerSideView, runtime) == 0x1C) ? 1 : -1];
+typedef char AsciiGameManagerSideEtamaAt08[
+    (offsetof(AsciiGameManagerSideView, etama08) == 0x08) ? 1 : -1];
+typedef char AsciiGameManagerSideAnmOwnerAt0C[
+    (offsetof(AsciiGameManagerSideView, anmOwner0C) == 0x0C) ? 1 : -1];
 typedef char AsciiGameManagerField0FC[
     (offsetof(AsciiGameManagerView, field0FC) == 0x0FC) ? 1 : -1];
+typedef char AsciiGameManagerSpeedAtEC[
+    (offsetof(AsciiGameManagerView, speedEC) == 0xEC) ? 1 : -1];
 typedef char AsciiGameManagerGameModeAt118[
     (offsetof(AsciiGameManagerView, gameMode) == 0x118) ? 1 : -1];
 typedef char AsciiGameManagerDifficultyAt11C[

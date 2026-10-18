@@ -21,7 +21,7 @@ diagnostic.DESTINATIONS = {
     '?AddNormalizeAngle@@YGMMM@Z': 0x42aed0,
     '??YFloat3@@QAEAAU0@ABU0@@Z': 0x405730,
     '__real@3e4f8c3d': 0x491608,
-    '?g_GameManager@@3UExAttackType8GameManagerView@@A': 0x4a7d90,
+    '?g_GameManager@@3UAsciiGameManagerView@@A': 0x4a7d90,
     '??GFloat3@@QBE?AU0@ABU0@@Z': 0x401140,
     '__real@44800000': 0x491660,
     '??0ExAttackType21BulletDescriptorStorage@@QAE@XZ': 0x40d500,

@@ -9075,3 +9075,72 @@ attest historical producer execution.
   Native whole-product link/data/static-init and deterministic runtime
   comparison remain separate open gates. **940 of 980** authored sources
   still have complete original accepted exact codegen.
+
+## October 18: global TH09 GameManager C++ symbol unified across real ECL/ExAttack owners (gpt-web)
+
+- A fresh source/original target audit discovered an unresolved whole-image
+  linker identity even *after* earlier Title, Type3 and Type4 GameManager
+  unifications: `src/ExAttackType8GameManagerView.hpp` still defined an
+  independent class and declared `extern ExAttackType8GameManagerView
+  g_GameManager` for the SAME retail physical `0x004A7D90`. Its genuine
+  `TransformPopupX/Y` calls target independent canonical exact 46-byte
+  `AsciiGameManagerView::TransformPopupX @0x00401680` and `TransformPopupY
+  @0x004016B0`, but generated different decorated external symbol names.
+  The full interpreter's `+0xEC` speed and exact type7/8/9/11/12/21
+  ExAttack callbacks further confirmed the same entity, but without
+  implying that the original Japanese binary retained native C++ type
+  information. Source ABI identities are reconstructed, not decompiled.
+- `src/AsciiGameManagerView.hpp` now owns the ONE real class/global: a
+  0x38-byte per-side prefix with already target-observed player+4,
+  EtamaController+8 and ANM-owner+0x0C (and separately tracked runtime
+  pointer +0x1C), distinct nominal `player`/`player04` pointer access
+  modes in the same union; speed at manager +0xEC and difficulty
+  at +0x11C. Compile-time layout assertions lock the original offsets
+  without fabricating runtime storage, alternate global definitions or
+  linkage thunks. `ExAttackType8GameManagerView` is now only a typedef of
+  that class, and its header deliberately contains **no second extern
+  global definition/declaration**. The actual EclManager TU continues to
+  use the source-facing logical alias for readability, but native compiled
+  member/global symbols now agree with `GameManagerCoordinates.cpp`.
+- Controlled source-cold before/after compiler builds from the entire
+  original EclManager TU at pinned VC7.1 flags: complete original-bound
+  RunEcl remains **15,564/15,564 raw bytes, all 598 COFF fields unchanged
+  at identical position/kind/addend**, and Type19/21 initialization both
+  maintain **763/763 bytes, 57 fields, six residual ordinary bytes** and
+  **727/727 bytes, 53 fields, nine residual bytes**. In the strict
+  EclManager exact carriers, 18 main objects cover **8,715 original
+  physical bytes and 378 relocations**, six separately profiled objects
+  cover **1,892 physical bytes and 90 relocations**, and two EclHelpers
+  preserve **262 bytes/12 fields**. All are WHOLE-FUNCTION byte exact
+  after authentic target relocation, not mere code-slice similarities;
+  their changed C++ source names and compiler-private labels were validated
+  against the unchanged original PE target destination for every field.
+- Updating this same shared header naturally renumbered original-matching
+  VC7.1 local labels in unrelated exact `AsciiMenuState4::OnUpdate`
+  (1,144 logical/1,172 physical bytes, eight local fields) and the real
+  EtamaControllerDraw TU's `DrawSingleBullet` (215 logical/232 physical
+  bytes, five labels) and `AddedCallback` (598 logical/832 physical bytes,
+  ten labels). Each of those **23** section-local COFF destinations was
+  separately recalculated as `original owner VA + symbol-section offset -
+  function-section offset` and verified equal to the same original PE
+  encoded address; only the manifest *symbol spelling* was changed. All
+  complete bytes and unrelated relocations remain identical. The original
+  GameManager, boss and side layouts are still unknown outside asserted
+  actual fields; source decls are not automatically native-image closure.
+- Strict `scripts/inspect-exattack-trail-init.py`,
+  `scripts/inspect-exattack-type21.py`, and
+  `scripts/inspect-exattack-type7.py` now bind exclusively to the real
+  decorated global/transform symbols, removing fake GameManager class
+  fallbacks. Whole-owner `--owner runecl`, `--owner exattack`,
+  `--owner etama`, `--owner pause` and complete `--owner all` all check
+  current live source against the Japanese original SHA, including
+  **35 noncrediting complete-function diagnostics and 203 unique
+  already-canonical exact function replays**. New pure tests validate the
+  independent four 46-byte source-backed original coordinate methods,
+  true side/speed/flag members, absence of a second global, all EclManager
+  original symbol destinations and the 23 preexisting switch/table VAs;
+  they are regression contracts rather than exactness grants.
+  Current open physical differences are unchanged: RunEcl opcode 4/155
+  7+23, Type19/21 initializer six/nine, Etama OnDraw 268, Title ResultDraw
+  22. The native Windows product/library/data/resource initialization and
+  original-vs-native gameplay scenarios remain unresolved.

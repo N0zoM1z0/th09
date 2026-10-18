@@ -9,6 +9,38 @@
 
 ## Current verified handoff checkpoint
 
+- **Real GameManager unified across RunEcl, ExAttack, ASCII/Etama exact owners (October 18):**
+  The source-only `ExAttackType8GameManagerView` previously redeclared
+  `g_GameManager @0x004A7D90`, `TransformPopupX/Y @0x00401680/0x004016B0`,
+  side `+0x04/+0x08/+0x0C` and speed `+0xEC` as a SECOND native C++ owner.
+  It now is just a typedef to the already genuine `AsciiGameManagerView`,
+  whose physically verified 0x38 side prefix, original player/Etama/ANM
+  pointers, speed `+0xEC`, difficulty `+0x11C`, and exact transform callee
+  symbols have one source declaration and compile-time field checks.
+  Independent pinned whole-source TU before/after VC7.1 builds confirm
+  **byte-for-byte identical RunEcl 15,564/598 COFF fields**, Type19/21
+  initializers **763/57 and 727/53 fields** and all exact EclManager
+  owners. Source-cold full original PE compares confirm **18 main + six
+  alternate-profile + two EclHelpers exact** owners, with only verified
+  C++-decorated / private `$L` symbol-name changes (immutable field
+  positions, original targets/addends and matched physical bytes).
+  Shared-header label renumbering also touched the separately exact
+  **1,172-byte full ASCII menu state4** and two Etama physical owners
+  (**232-byte single bullet / 832-byte AddedCallback**). All 23 renamed
+  private labels were independently checked against original PE destination
+  bytes and current COFF section-relative offsets; both related cold
+  owner families now replay exact. The updated Type7/Type21 and Type19/21
+  strict inspectors recognize only the real global name with the same
+  target-bound address. Focused RunEcl/ExAttack/Etama/Pause checks and
+  `--owner all` verify **35 noncrediting owner diagnostics / 203 distinct
+  existing complete exact units**; updated tests reject a second global,
+  fake method referents, wrong speed/side offsets or altered jump-table VAs.
+  Crucially **NO big-function byte-exact credit**: RunEcl still differs by
+  30 ordinary bytes, Type19/21 by 6/9, Etama OnDraw 268; all former
+  original identities, dispatch graphs and semantically gated behavior
+  remain intact. Canonical authored exact remains **940/980**, native
+  whole-program link and runtime/port gates still open.
+
 - **ExAttack Type3 boss + Type4 exact initializer share the real GameManager (October 18):**
   Original `ExAttackUpdateCallbackType3 @0x00442750` (780-byte nonexact
   owner) and previously exact `ExAttackInitializeCallbackType4 @0x00442A60`
