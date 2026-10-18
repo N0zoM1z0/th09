@@ -64,7 +64,10 @@ struct AsciiGameManagerView
     unsigned char menuState97C8Active;
     unsigned char menuStateA7A8Active;
     unsigned char unknown13F;
-    unsigned char unknown140[0x350 - 0x140];
+    unsigned char unknown140[0x348 - 0x140];
+    // Original TH09 ScreenEffect::CalcShakeEnvelope reads this i32 counter.
+    int value348;
+    unsigned char unknown34C[0x350 - 0x34C];
     float coordinateOffsetX;
     float coordinateOffsetY;
 
@@ -97,6 +100,8 @@ typedef char AsciiGameManagerFlagsAt134[
     (offsetof(AsciiGameManagerView, flags) == 0x134) ? 1 : -1];
 typedef char AsciiGameManagerMenuAt13C[
     (offsetof(AsciiGameManagerView, inGameMenu) == 0x13C) ? 1 : -1];
+typedef char AsciiGameManagerValue348At348[
+    (offsetof(AsciiGameManagerView, value348) == 0x348) ? 1 : -1];
 typedef char AsciiGameManagerCoordinateXAt350[
     (offsetof(AsciiGameManagerView, coordinateOffsetX) == 0x350) ? 1 : -1];
 typedef char AsciiGameManagerCoordinateYAt354[

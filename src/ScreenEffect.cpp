@@ -3,6 +3,7 @@
 #include "AnmManager.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "AsciiManager.hpp"
+#include "AsciiGameManagerView.hpp"
 #include "Supervisor.hpp"
 #include "ZunMemory.hpp"
 
@@ -17,28 +18,7 @@ extern ZunMemory g_ZunMemory;
 
 extern RngRuntimeView g_ReplayRng;
 
-struct ScreenEffectSideStateView
-{
-    unsigned char unknown000[0x34];
-    unsigned char flags34;
-    unsigned char unknown035[3];
-};
 
-typedef char ScreenEffectSideStateSizeIs38[
-    (sizeof(ScreenEffectSideStateView) == 0x38) ? 1 : -1];
-
-struct ScreenEffectGameManagerView
-{
-    ScreenEffectSideStateView sides[2];
-    unsigned char unknown070[0x134 - 0x70];
-    unsigned int flags134;
-    unsigned char unknown138[4];
-    unsigned char inGameMenu;
-    unsigned char menuBlock13D;
-    unsigned char unknown13E[0x348 - 0x13E];
-    int value348;
-};
-extern ScreenEffectGameManagerView g_GameManager;
 
 struct ScreenEffectSupervisorView
 {
@@ -164,7 +144,7 @@ int ScreenEffect::CalcFadeOut(ScreenEffect *screenEffect)
     if (screenEffect->timer >= duration)
         return CHAIN_CALLBACK_RESULT_CONTINUE_AND_REMOVE_JOB;
 
-    if (g_GameManager.inGameMenu == 0 && g_GameManager.menuBlock13D == 0)
+    if (g_GameManager.inGameMenu == 0 && g_GameManager.menuState97C8Active == 0)
         screenEffect->timer++;
 
     return CHAIN_CALLBACK_RESULT_CONTINUE;
@@ -237,10 +217,10 @@ int ScreenEffect::CalcArcadePulse(ScreenEffect *screenEffect)
 
 int ScreenEffect::CalcShake(ScreenEffect *screenEffect)
 {
-    if ((g_GameManager.sides[screenEffect->contextIndex].flags34 & 1) != 0)
+    if ((reinterpret_cast<unsigned char *>(&g_GameManager.sides[screenEffect->contextIndex].flags)[0] & 1) != 0)
         return CHAIN_CALLBACK_RESULT_CONTINUE;
 
-    if ((g_GameManager.flags134 & 0x1800) != 0)
+    if ((g_GameManager.flags & 0x1800) != 0)
         return CHAIN_CALLBACK_RESULT_CONTINUE;
 
     if (g_ScreenEffectCounter != 0)

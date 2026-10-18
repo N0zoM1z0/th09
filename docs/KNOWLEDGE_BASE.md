@@ -9200,3 +9200,125 @@ attest historical producer execution.
   and accidental double counting. This repairs native C++ reference identity
   of two large TUs **without** granting newly exact code or proving a full
   Windows i386 link, static globals/resources or deterministic gameplay.
+
+## October 18: actual ScreenEffect/GameManager cross-owner global and +0x348 source ABI (gpt-web)
+
+- Original TH09 Japanese v1.50a `ScreenEffect::CalcShakeEnvelope @0x004227A0`
+  uses `g_GameManager @0x004A7D90` plus a **genuine `+0x348` COFF addend**
+  at its source-owner `+0x006`. That same original global is the single
+  canonical `AsciiGameManagerView` already shared by RunEcl/ExAttack and
+  exact GameManager coordinate methods; earlier `ScreenEffect.cpp` used
+  an independently mangled `ScreenEffectGameManagerView` for its own
+  player-side flags (`+0x34`), global flags (`+0x134`), menu state
+  (`+0x13C/+0x13D`) and `value348` (`+0x348`). This represented a real
+  native C++ symbol identity split even though local relocated bytes matched.
+- `src/AsciiGameManagerView.hpp` now exposes the original target-backed
+  `int value348` while retaining every known side and coordinate offset.
+  The split opaque bytes before/after it still occupy `+0x140..+0x34F`;
+  compile-time assertions enforce `value348==+0x348` and existing
+  `coordinateOffsetX==+0x350`, `Y==+0x354` without changing the class
+  physical extent. ScreenEffect removes its duplicate native global/class,
+  consumes the genuine real global, reads side flag bit 0 through the actual
+  first byte of side+0x34 (instead of widening the read to an unsigned
+  word), uses the original `flags +0x134`, and reads the same
+  `+0x13D` menu byte through the existing bounded GameManager field.
+  These names express reconstruction roles, not claimed retail RTTI or
+  proof about high-order bits/concurrency/complete data definitions.
+- Cold before/after pinned VC7.1 main source-TU builds establish identical
+  **336/336 physical** `CalcShakeEnvelope` machine code with **20** original
+  independently bound COFF fields, **eight** original ordered calls,
+  **132 decoded instructions and 26 true direct CFG blocks**. The
+  **26 nonfield different bytes persist**; this is NOT exact codegen.
+  Both same-TU exact `CalcShake @0x00422660` (316 bytes, 16 fields) and
+  `CalcFadeOut @0x00422470` (123 bytes, eight fields) retain byte-identical
+  raw machine bodies and relocation geometry; only the two global field
+  C++ names in each function change to the one real global. The nonexact
+  full-owner auditor now binds only `?g_GameManager@@3UAsciiGameManagerView@@A`
+  at original address `0x004A7D90` and the unchanged **+0x348 addend**.
+- The strict full original-PE/COFF equality migration recompiled **three
+  genuinely different ScreenEffect VC7.1 profile carriers**, validating
+  all **18 canonical exact functions, 2,562 independently fully matched
+  physical bytes and 164 real fields**; it changed only four genuine global
+  C++ symbol names and nine compiler-private `$L` RegisterChain label names
+  in match manifests. All nine `RegisterChain` jumps/table entries were
+  independently decoded from current COFF section-local positions, checked
+  against exact retail original VAs, with zero moved or fabricated target
+  references, bytes, counts or addends.
+- Header source inclusion also renumbered compiler-private labels in
+  **other genuine exact** carriers. The independently target-verifying
+  migration scripts under ignored `.analysis/gpt-web-20261018/` accepted
+  only: ASCII menu state4 (1,172 bytes, eight labels), ECL
+  PostEclMovement (992 bytes, seven labels), ECL CompareOperands
+  (892 bytes, thirteen labels), Etama DrawSingleBullet (232 bytes, five
+  labels) and Etama AddedCallback (832 bytes, ten labels). Every one of
+  these **43 extra** local names had the SAME physical TH09 original
+  target VA derived from actual current COFF local section offsets,
+  before its manifest's *symbol spelling only* was updated. Original
+  encoded field values, profile vectors and full code bytes stayed equal;
+  all genuinely different call/globals remain enforced by their existing
+  source-cold audits. Altogether nine+43 = **52** checked private labels.
+- The final `scripts/check-boss-frontiers.py --owner screen` and
+  `--owner all` checks retain 35 noncrediting complete owners and **204
+  distinct, already canonical exact function replays**. Six new
+  target-independent tests in `test_screen_real_game_manager_owner.py`
+  reject the fake native global, incorrect `value348` layout, wrong
+  first original 0x348 COFF addend, false ScreenEffect callsite names, and
+  shifted jump-table VAs without ever awarding byte-exact credit. The
+  authored-source ledger remains **940/980**, and native whole-image
+  link/static-init/resources/runtime port are still unresolved.
+
+## October 18: original ScreenEffect game manager resolves to canonical shared global (gpt-web)
+
+- Re-audited `ScreenEffect.cpp` against the Japanese TH09 v1.50a SHA-verified
+  PE and the already exact coordinates/ECL/ExAttack/Title `AsciiGameManagerView`.
+  ScreenEffect retained an independent `extern ScreenEffectGameManagerView
+  g_GameManager` with an incompatible C++ decorated global symbol at
+  **the same** physical original `0x004A7D90`. Its retail callsites
+  observe side flags at side-relative `+0x34` (in each 0x38 side), manager
+  flags `+0x134`, menu bytes `+0x13C/0x13D`, and integer `value348 +0x348`.
+  Added only the real `+0x348` member/size-padding to the existing one
+  canonical `AsciiGameManagerView`, with a compile-time offset guard, and
+  converted the ScreenEffect source to that genuine global. Access to the
+  side's flag low byte remains a bounded byte cast rather than inventing
+  flag bitfield ownership. `ScreenEffect::CalcShake` uses the true same
+  manager flags; fade uses the verified two menu bytes. No new global
+  storage, thunk or source method is fabricated.
+- Cold pinned VC7.1 experiments first compiled original and changed
+  `ScreenEffect.cpp` separately and showed **identical whole raw byte bodies**
+  for its nonexact 336-byte `CalcShakeEnvelope`, canonical-exact 316-byte
+  `CalcShake` and 123-byte `CalcFadeOut`, with every COFF field offset,
+  type and addend unchanged. Independently SHA-bound complete PE/COFF
+  comparison subsequently replayed **all 18 already accepted exact
+  ScreenEffect owners** in their three actual compiler profiles, covering
+  **2,562 complete original bytes and 164 exact relocation records**.
+  Precisely four known real GameManager source-external names and nine
+  compiler-private `$L` strings changed in these exact manifests, with
+  original retail VAs and complete code still byte exact.
+- Strict `inspect-screen-shake-envelope.py` now requires the authentic
+  `?g_GameManager@@3UAsciiGameManagerView@@A` field at complete-owner
+  `+0x006` with its **real +0x348 COFF addend**, independently checked
+  against target `0x004A7D90+0x348`. It retains 336 original physical
+  bytes/132 instructions/20 fields/eight calls/26 CFG blocks and exactly
+  **26 actual unlike machine bytes**. No new `CalcShakeEnvelope` exact
+  match is claimed; provenance-only type consistency is distinct from
+  byte-matching and from whole-image native static data closure.
+- Extending the genuine shared header naturally renumbered unaffected
+  local `$L` symbols in three *other* translation units. Full original
+  bytes/field checks permitted only same-target-VA spelling changes:
+  eight in `AsciiMenuState4::OnUpdate` (1,172 physical bytes), seven in
+  `EnemyPostEclUpdateMovement` (992 physical), 13 in `CompareOperands`
+  (892 physical), five in `DrawSingleBullet` (232 physical), and ten in
+  `EtamaController::AddedCallback` (832 physical): **43 original-address
+  proven compiler-private fields**. All original PE-encoded branch/table
+  pointers and every ordinary code byte remain exact after cold builds.
+  The remaining large-owner frontiers RunEcl 30, Etama OnDraw 268,
+  Type19/21 initialization 6/9 and Title DrawResult 22 remain untouched.
+- The final `scripts/check-boss-frontiers.py --owner all` from current
+  committed-source candidates passes **35 noncrediting original-bound owner
+  diagnostics and 204 distinct already exact full-function cold replays**.
+  A new pure source/layout/negative-provenance test checks one true global,
+  the genuine side/gameplay offsets, original SHA/relocations in
+  CalcShakeEnvelope and authentic private branch table destinations.
+  This corrects source-owner naming and enhances native link plausibility;
+  it neither raises 940 canonical exact nor proves Windows native
+  product, data/resource closure, deterministic gameplay or later port.

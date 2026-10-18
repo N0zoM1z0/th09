@@ -9,6 +9,61 @@
 
 ## Current verified handoff checkpoint
 
+- **ScreenEffect and all-gameplay exact GameManager native owner (October 18):**
+  Original `ScreenEffect::CalcShakeEnvelope @0x004227A0` (336-byte
+  authored/nonexact boss) and 18 independently exact ScreenEffect source
+  owners previously declared the same genuine `g_GameManager @0x004A7D90`
+  as a *different native C++ `ScreenEffectGameManagerView` global*, despite
+  exact `AsciiGameManagerView` elsewhere. The shared genuine header now
+  preserves source-backed `value348` as a 32-bit member at `+0x348`, alongside
+  the previously verified flags `+0x134`, two side records (0x38 bytes each),
+  side flag low byte `+0x34`, menu `+0x13C/0x13D`, and coordinates
+  `+0x350/+0x354`. `ScreenEffect.cpp` uses the real class/global; opaque
+  side-flag low-byte access is explicit without claiming unreviewed fields.
+  Original-target SHA-bound full source-cold exact proof covers **18 full
+  ScreenEffect owners**, split across all three real pinned VC7.1 profiles:
+  **2,562 physical bytes and 164 relocation fields**, with only four genuine
+  GameManager global C++ names and nine locally renumbered `$L` switch labels
+  changed. `CalcShakeEnvelope` still generates **336/336 physical bytes,
+  all 20 original relocations, eight call targets and 26 CFG blocks**, with
+  precisely its original **26 unlike bytes** (NO new exact credit).
+  The shared-header change also renumbered **8** exact ASCII menu-state4,
+  **seven** exact PostEclMovement, **13** exact ECL CompareOperands,
+  **five** exact Etama DrawSingleBullet and **ten** exact Etama AddedCallback
+  private labels. Every one of these 43 symbols was independently checked
+  from the current section-relative COFF offset against the unchanged
+  Japanese retail VA/encoded DWORD before its *spelling only* was updated;
+  the full related owner bytes and field geometry stay exact.
+  Whole `--owner all` reports **35 noncrediting original-bound function
+  diagnostics / 204 distinct previously exact complete owners**. Native
+  Windows link/data/resources and runtime proof remain open; ledger stays
+  **980 authored / 940 canonical exact / 40 open**.
+
+- **ScreenEffect uses genuine AsciiGameManager global and +0x348 field (October 18):**
+  The 336-byte `ScreenEffect::CalcShakeEnvelope` boss (20 original fields,
+  eight calls, 26 direct blocks) and its real exact ScreenEffect siblings
+  still referenced an incompatible `ScreenEffectGameManagerView` C++ global
+  at the same target address `0x004A7D90`. The source now reuses the one
+  `AsciiGameManagerView` global, target-backed flags at side+0x34 and
+  manager+0x134, menu bytes +0x13C/+0x13D, and a newly surfaced i32 at
+  manager+0x348, with source compile-time offset guard. Its first genuine
+  original COFF global field carries **+0x348 addend**; that addend and all
+  bytes are unchanged. Pinned real VC7.1 before/after builds preserve the
+  **complete 336-byte nonexact boss**, 316-byte `CalcShake` exact and
+  123-byte `CalcFadeOut` exact raw code; all original-bound **18 exact
+  ScreenEffect functions in three distinct compiler profiles** replay
+  **2,562/2,562 physical bytes /164 fields**. Only four genuine
+  exact-function GameManager C++ symbol spellings and nine verified local
+  RegisterChain label spellings required manifest changes inside this TU.
+  Because the shared GameManager header is also consumed elsewhere,
+  another **43 compiler-private names** changed in pre-existing exact ASCII
+  Menu, ECL and Etama carriers. Each was individually tied to the unchanged
+  original PE VA/relocation operand before updating its source manifest;
+  total **52** same-address private renames. The final source-cold
+  `--owner all` passes **35 noncrediting diagnostics, 204 distinct exact
+  whole-owner replays**. No new canonical exact: **980 source /940 exact,
+  40 nonexact**, and ScreenEffect still differs in **26 ordinary bytes**.
+
 - **Title/MusicRoom genuine SoundPlayer native owner (October 18):**
   Separate `TitleScreen.cpp` and `TitleScreenMusicRoom.cpp` compiled the
   *same original* `g_SoundPlayer @0x004DC698` as two fake

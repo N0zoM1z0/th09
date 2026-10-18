@@ -25,7 +25,7 @@ TARGET_SHA256 = '1d33957d51f8cc170471b9673a938899281cfa07fbed746eb0843e62e259747
 # candidate). Each tuple contains offset, COFF kind, symbol, base destination.
 # Addends come from the actual corresponding COFF field and are reviewed below.
 FIELDS = [
-    (0x006, 'DIR32', '?g_GameManager@@3UScreenEffectGameManagerView@@A', 0x004A7D90, 0x348),
+    (0x006, 'DIR32', '?g_GameManager@@3UAsciiGameManagerView@@A', 0x004A7D90, 0x348),
     (0x021, 'REL32', '??EZunTimer@@QAEXH@Z', 0x00401510, 0),
     (0x02F, 'REL32', '??MZunTimer@@QAEIH@Z', 0x00401540, 0),
     (0x03A, 'REL32', '??BZunTimer@@QAEMXZ', 0x004014F0, 0),
