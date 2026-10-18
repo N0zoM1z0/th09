@@ -6,6 +6,50 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## October 19: real 9,776-byte AnmManager interpreter linked from entire Etama OnUpdate
+
+Two **independent** Factory `strict-live-v1` forced-cold pinned VC7.1
+replays against Japanese TH09 v1.50a original PE SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`
+returned **`receipt_verdict=pass` / `acceptance_decision=accepted`**
+without objections, bound exclusively to immutable clean gameplay source
+commit **`346ca097f710a6f234e5ec1d147fb902e4ed0822`**:
+
+- **`EtamaController::OnUpdate @0x004146F0`**, complete **2,195 authored /
+  2,216 physical exact bytes**, **88 original-target-VA-bound COFF fields**.
+  The actual `src/BulletManager.cpp` now uses the genuine C++
+  `AnmManager *g_AnmManager @0x004DC550` and real
+  `AnmManager::ExecuteScript @0x00436F30` member, replacing the source-only
+  `BulletAnmManagerView` global and method aliases. Both original call sites
+  and each of their four respective global loads are unchanged, including
+  the original method `REL32` field offsets `+0x17B,+0x3F9,+0x5A2,+0x83D`:
+  `job:d74dd7720b174365b455dc12ff7a41d0`,
+  `receipt:44a7a740243ccc6b663f0e9e8bca2e913f9772be0a3f95f93e0735034a4acce2`.
+- **`AnmManager::ExecuteScript @0x00436F30`**, **9,358 logical / 9,776
+  complete physical exact bytes** with **368 original-bound relocations**.
+  This is the actual major ANM interpreter, independently compiled from
+  genuine `src/AnmManagerExecuteScript.cpp` with its distinct original
+  `/O2 /Ob0 /EHsc` VC7.1 profile, NOT a fabricated stub or proxy:
+  `job:b0258aa2f1fc4bf0bd7f1a514423850f`,
+  `receipt:12746fda45a58e89f26a6ed9f6b891cd1f3086c2a5d4c4c1375ff3db783a6043`.
+
+These are **previously canonical exact** functions. Their acceptance rechecks
+new genuine source/linker provenance; the ledger remains **940 exact / 980
+source-present**, not +2 newly exact. In addition to eight true class global
+and member C++ field spellings, the actual three original `BulletManager.cpp`
+compiler carriers preserve **16 compiler-private `$L` labels** with unchanged
+retail target VAs. Across all **18** exact BulletManager owner bodies, **6,711
+complete bytes and 259 original relocations** remain byte-for-byte equal to
+the retail PE. The full source-cold `--owner all` completed **35 noncrediting
+boss/leaf diagnoses and 251 distinct complete previously exact function
+regressions**. CI completed **647 tests, 28 skipped, zero failed**.
+The nonexact `EtamaController::OnDraw` still has 268 unlike source bytes,
+`RunEcl` 30, `Title DrawResult` 22, ExAttack initializer Type19/21 six/nine
+and Replay BeginPlaybackStage has original 540/source 538. No whole-native
+Windows game binary, runtime semantics or portability acceptance is implied.
+The immutable Factory receipts apply ONLY to source commit `346ca09`, not
+this later documentation checkpoint or subsequent gameplay source commits.
+
 ## October 19: ReplayInput twelve large owners share authentic ZunMemory ABI accepted
 
 Five independent Factory `strict-live-v1` forced-cold pinned VC7.1 jobs
