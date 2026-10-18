@@ -6,6 +6,56 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## October 19: ReplayInput twelve large owners share authentic ZunMemory ABI accepted
+
+Five independent Factory `strict-live-v1` forced-cold pinned VC7.1 jobs
+checked true Japanese TH09 v1.50a original PE SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+All returned **`receipt_verdict=pass` / `acceptance_decision=accepted`**
+without objections and bind **only** to the exact clean gameplay source
+commit **`dcd441c71d069f07d9ea86cbd4004c3fc0d42d0a`**:
+
+- **`ReplayManagerView::BeginRecordingStage @0x00421140`**, complete
+  **1,323/1,323 original exact bytes** and 82 bound COFF fields, with native
+  `ZunMemory` `Alloc/Free/AddToRegistry` and singleton source C++ identities,
+  under its independently correct `/O2 /Ob1 /Gr` **no-EH** source carrier:
+  `job:91e598623a2d4dbe87333f01239c322c`,
+  `receipt:39fc7923bd9414d4e840f0e666146f562f8540819552129afb7eccc996286aff`.
+- **`ReplayManagerView::LoadReplayData @0x004205E0`**, **591/591 full
+  original exact bytes** from the **EH-enabled** original ReplayInput
+  compiler carrier, including the actual `ZunMemory` global and Free/Alloc
+  referents: `job:175d1bfca34f4258a1e01966bcef8c3f`,
+  `receipt:f2084261d22a430804527dccfdd5c38eb1503c34cfed09813ac1ca2e6933a992`.
+- **`ZunMemory::Alloc @0x00401340`**, **19/19 original exact bytes**,
+  genuine original library/runtime memory source `ZunMemoryRelease.cpp`:
+  `job:8f32359ae9b148b9ae4623b126804fd0`,
+  `receipt:b1984a8032b5b22ebc4c720e1ed46077b35c838259b4726fe5c52989b1c3d8b5`.
+- **`ZunMemory::Free @0x00401360`**, **19/19 original exact bytes**, from
+  the same true runtime memory TU:
+  `job:819b1839a68c40faa20a6208b24a00ae`,
+  `receipt:37fba420fe2b62ee7bc44b51fd585e32b27a0d57821261732560fc461891dd21`.
+- **`ZunMemory::AddToRegistry @0x00401380`**, **10/10 original exact
+  bytes**, same genuine original runtime memory TU:
+  `job:d79b0575c1d240f88055d8310bd7350d`,
+  `receipt:58f5ada47f4e1350226462afabf1dc2f0b5edc38b29bdeeb5f9391ecfecea3ae`.
+
+These receipts revalidate **five already canonical exact functions**;
+they do **not** increase the **940 exact / 980 source-present** ledger.
+The source-bound change restores **76 true COFF C++ identities** across
+12 ReplayInput original exact functions, preserving **4,093 complete bytes
+and all 232 reviewed original PE fields**, in two distinct real compiler
+profiles. The full `scripts/check-boss-frontiers.py --owner all` cold report
+checks **35 noncrediting bosses/leaf diagnoses and 251 DISTINCT complete
+original-exact functions**, with no double counting. CI passes **642 tests,
+28 skipped, zero failures**. The still nonexact
+`ReplayManagerView::BeginPlaybackStage` has original 540 versus source 538
+physical bytes, 39 overlapping unlike bytes and two absent original bytes;
+`RunEcl` 30, Etama `OnDraw` 268, Title `DrawResult` 22, and ExAttack
+Type19/21 initializer six/nine also remain open. No whole native Windows
+image link/runtime semantic or portability result has been accepted.
+**These receipts apply only to `dcd441c`, not to this later notes-only commit
+or any subsequent gameplay source change.**
+
 ## October 19: genuine ANM receiver in EffectManager large callbacks accepted
 
 Three independent Factory `strict-live-v1` forced-cold pinned VC7.1 replays
