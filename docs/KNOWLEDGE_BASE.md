@@ -8541,3 +8541,51 @@ attest historical producer execution.
   and `OnUpdateMusicRoom` 2,258. See `docs/RE_ACCEPTED_RECEIPTS.md` for
   immutable receipt IDs and exact source bindings. **All three functions
   were already exact**, so the canonical 980/940/40 ledger is unchanged.
+
+## October 18: original score-table global type unified across Title producer and DrawResult (gpt-web)
+
+- Audited the source **rather than assuming an old offset-compatible alias
+  was a harmless renderer detail**. The exact `TitleScoreRecordView::InsertIntoTable
+  @0x00421800` uses the original-bound C++ table symbol
+  `?g_TitleScoreTable@@3PAY144UTitleScoreRecordView@@A` in its **five** actual
+  DIR32 relocations, all independently resolving to TH09 Japanese v1.50a
+  `0x004A8380`. The open 1,939-byte `TitleScreenView::DrawResult` had instead
+  used an incompatible source-only record type, which generated
+  `?g_TitleScoreTable@@3PAY144UResultDrawScoreRecord@@A`: same physical VA
+  under the standalone comparison binder but *different real linker symbol*.
+  That old declaration must not count as native-product data closure.
+- `src/TitleScoreRecordView.hpp` now declares **one** original-backed 0x2C
+  record, exact `score +0x0C`, difficulty/category `+0x14/+0x15`, rank
+  `+0x16`, name `+0x18` and `char scoreDigit +0x2B`, shared by the authentic
+  source producer and result renderer. Singleton and 16 × 5 × 5 table externs
+  are declaration-only with precisely one symbol identity. Source-only
+  unknown region is not silently reinterpreted; the 400-record retail
+  constructor/data definition remain separate unresolved product tasks.
+  The result renderer explicitly casts the common unsigned score to signed
+  32-bit for its original `%d` varargs contract; that cast preserves the
+  **same target-observed physical 32-bit bits and machine instructions** as
+  the former renderer's independent signed-word view. No new runtime semantics or format change is claimed.
+- Source-cold pinned VC7.1 `/O1 /Ob1` `DrawResult` keeps its complete
+  **1,939-byte original/candidate extent, 577 instructions, 82 original
+  PE-linked/COFF fields, 16 call identities, 92 matching direct CFG blocks**
+  and exactly the former **22 entry-only differences**. The source change
+  removes a fabricated *decorated* global name, not the still-open first
+  `currentScreen` load scheduling. The entire `TitleScreen` source family has
+  **41** individually exact checked full owners, including the 534-byte
+  TitleSetupThread, the independently compiled MusicRoom callbacks and the
+  216-byte `InsertIntoTable` with all five real score-table DIR32 fields.
+- Moving the 0x2C record declaration into one header changed the VC7 compiler's
+  internal `$L` enumeration for only **nine** records in otherwise exact
+  `OnUpdateStartMenu`: table/JMP addresses at owner-relative
+  `+0x3C2,+0x618,+0x61C,+0x620,+0x624,+0x628,+0x62C,+0x630,+0x634`.
+  Each new COFF label's *actual* original-base plus section-relative
+  destination equals the prior independently original-reviewed manifest
+  target `0x0042A43B,0x0042A1E9,0x0042A208,0x0042A23C,0x0042A286,
+  0x0042A2D2,0x0042A293,0x0042A302,0x0042A380`; only those nine
+  `symbol` strings changed, without new or moved relocations, altered
+  destinations, source ABI, or byte drift. The separately rebuilt StartMenu
+  **1,560 logical/1,592 complete physical bytes, all 107 COFF relocations**
+  strictly replay exact. A new target-independent source/manifest test
+  rejects split record types or reintroduced renderer-only decorated names.
+  This is real typed linkage reconstruction and exact sibling preservation;
+  canonical exact stays **940/980**, with native link/data/static-init gates open.

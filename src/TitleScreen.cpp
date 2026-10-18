@@ -251,26 +251,7 @@ struct TitleMidiOutputView {
     void PlayFile(i32 track);
 };
 
-struct TitleScoreRecordView {
-    u8 unknown00[0x0C];
-    u32 score;
-    u8 unknown10[4];
-    u8 category0;
-    u8 category1;
-    u8 rank;
-    u8 unknown17;
-    char name[9];
-    u8 unknown21[0x0B];
-
-    int InsertIntoTable();
-};
-
-typedef char TitleScoreRecordSizeIs2C[(sizeof(TitleScoreRecordView) == 0x2C) ? 1 : -1];
-typedef char TitleScoreRecordScoreAt0C[(offsetof(TitleScoreRecordView, score) == 0x0C) ? 1 : -1];
-typedef char TitleScoreRecordCategory0At14[(offsetof(TitleScoreRecordView, category0) == 0x14) ? 1 : -1];
-typedef char TitleScoreRecordCategory1At15[(offsetof(TitleScoreRecordView, category1) == 0x15) ? 1 : -1];
-typedef char TitleScoreRecordRankAt16[(offsetof(TitleScoreRecordView, rank) == 0x16) ? 1 : -1];
-typedef char TitleScoreRecordNameAt18[(offsetof(TitleScoreRecordView, name) == 0x18) ? 1 : -1];
+#include "TitleScoreRecordView.hpp"
 
 struct TitleConfigSnapshotView {
     u32 words[0x33];
@@ -429,8 +410,6 @@ extern char *g_TitleAlphabet;
 extern char g_ReplayName[];
 extern TitleNameRecordView g_TitleNameTable[][5][5];
 extern i32 g_TitleNameTableIndex;
-extern TitleScoreRecordView g_TitleScoreRecord;
-extern TitleScoreRecordView g_TitleScoreTable[16][5][5];
 extern i32 g_GameMode;
 extern u32 g_TitleGameFlags;
 extern TitleAnmManagerView *g_TitleAnmManager;

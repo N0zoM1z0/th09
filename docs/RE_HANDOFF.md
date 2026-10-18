@@ -9,6 +9,27 @@
 
 ## Current verified handoff checkpoint
 
+- **Title score-record producer/renderer unification (October 18):**
+  `TitleScreen.cpp`'s exact `TitleScoreRecordView::InsertIntoTable` and the
+  still-open **1,939-byte `DrawResult` boss** now share the *same* typed
+  0x2C-byte record, singleton and 16×5×5 global table declarations in
+  `src/TitleScoreRecordView.hpp`. The real target/VC7.1 C++ table symbol
+  `?g_TitleScoreTable@@3PAY144UTitleScoreRecordView@@A` binds both consumers
+  to **0x004A8380**, instead of the old renderer-only
+  `ResultDrawScoreRecord` type with a *different* mangled linker symbol.
+  Original TH09 independently fixes score `+0x0C`, category/rank, name
+  `+0x18` and signed digit `+0x2B`; no data definition, allocation or native
+  link/runtime acceptance is invented. On fresh source-cold compilation,
+  `DrawResult` preserves **1,939/1,939 physical, 82 original address fields,
+  16 ordered calls, 92 direct blocks and the identical 22 non-exact offsets**.
+  Including the shared declaration shifts only nine compiler-private `$L`
+  names in exact `OnUpdateStartMenu`. Each new COFF local-label section offset
+  independently yields the SAME original VA at all nine immutable manifest
+  field offsets; only the private symbol spelling was updated. The full
+  **1,592-byte physical StartMenu remains exact** with 107 relocations,
+  and **all 41 Title exact siblings** cold-replay. This is a genuine source-
+  owner/linker identity correction, NOT a newly exact function: 980/940/40.
+
 - **RunEcl opcode-155 original-machine semantic guard (October 18):** A new
   source-cold `scripts/audit-ecl-timeout-bit.py`, invoked by the full
   `--owner runecl` / `--owner all` frontier, independently links the current

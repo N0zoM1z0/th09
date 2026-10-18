@@ -25,7 +25,7 @@ DESTINATIONS = {
     # addresses the same +0x11C field through the reviewed GameManager root.
     '?g_TitleNameTableIndex@@3HA': 0x4A7EAC,
     '?g_TitleRankLabels@@3PAPBDA': 0x4A1D68,
-    '?g_TitleScoreTable@@3PAY144UResultDrawScoreRecord@@A': 0x4A8380,
+    '?g_TitleScoreTable@@3PAY144UTitleScoreRecordView@@A': 0x4A8380,
     '??_C@_01IDAFKMJL@_?$AA@': 0x48F5A8,
     '??_C@_04FOHLOOIG@?$CF?48s?$AA@': 0x48F5A0,
     '??_C@_0BA@EHBBDLHE@Lunatic?5Ranking?$AA@': 0x48F5E8,

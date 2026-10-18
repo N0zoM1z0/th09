@@ -7,23 +7,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef int i32;
 
-struct ResultDrawScoreRecord
-{
-    u8 unknown00[0x0C];
-    i32 score;
-    u8 unknown10[0x08];
-    char name[9];
-    u8 unknown21[0x0A];
-    char scoreDigit;
-};
-typedef char ResultDrawScoreRecordSizeIs2C[
-    (sizeof(ResultDrawScoreRecord) == 0x2C) ? 1 : -1];
-typedef char ResultDrawScoreAt0C[
-    (offsetof(ResultDrawScoreRecord, score) == 0x0C) ? 1 : -1];
-typedef char ResultDrawNameAt18[
-    (offsetof(ResultDrawScoreRecord, name) == 0x18) ? 1 : -1];
-typedef char ResultDrawDigitAt2B[
-    (offsetof(ResultDrawScoreRecord, scoreDigit) == 0x2B) ? 1 : -1];
+#include "TitleScoreRecordView.hpp"
 
 struct TitleScreenView
 {
@@ -60,7 +44,6 @@ typedef char ResultDrawTimer2At1B230[
     (offsetof(TitleScreenView, stateTimer2) == 0x1B230) ? 1 : -1];
 
 extern AsciiManager g_AsciiManager;
-extern ResultDrawScoreRecord g_TitleScoreTable[16][5][5];
 extern const char *g_TitleRankLabels[];
 extern char *g_TitleAlphabet;
 
@@ -80,7 +63,7 @@ extern char *g_TitleAlphabet;
         g_AsciiManager.AddFormatText(&position, (headingText)); \
         position.y += 16.0f; \
         i32 row = 0; \
-        ResultDrawScoreRecord *entry = *scoreGroup; \
+        TitleScoreRecordView *entry = *scoreGroup; \
         while (row < 5) { \
             if (active) { \
                 if (selectedRank == row) \
@@ -99,7 +82,7 @@ extern char *g_TitleAlphabet;
             } \
             g_AsciiManager.AddFormatText( \
                 &position, "%s %.8s %.9d%d", \
-                g_TitleRankLabels[row], entry->name, entry->score, \
+                g_TitleRankLabels[row], entry->name, static_cast<i32>(entry->score), \
                 entry->scoreDigit); \
             ++row; \
             ++entry; \
@@ -115,7 +98,7 @@ int TitleScreenView::DrawResult()
     i32 temp;
     i32 difficultyMask;
     i32 selectedRank;
-    ResultDrawScoreRecord (*scoreGroup)[5];
+    TitleScoreRecordView (*scoreGroup)[5];
     u32 alphaColor;
 
     scoreGroup = g_TitleScoreTable[nameBankIndex];
