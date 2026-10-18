@@ -8787,3 +8787,83 @@ attest historical producer execution.
   typed boss-marker declarations. Native whole-product linking, runtime
   behavior and remaining nonexact owner registers remain separate open
   gates, and the 940/980 authored-source exact total does not change.
+
+## October 18: protect all five real Enemy-boss callsite owners in source-cold exact replay (gpt-web)
+
+- Rechecked the real post-unification `EnemyManager::OnUpdate` against the
+  hash-attested TH09 1.50a original, **3,900/3,900 physical bytes, 97/97
+  original-bound COFF fields, 69/69 ordered calls, 170 unchanged direct CFG
+  blocks and the same 29 residual bytes**. These values remain NON-EXACT:
+  successful local syntax/alias experiments and source-reference repairs do
+  not add to the canonical accepted count.
+- The previous `scripts/check-boss-frontiers.py --owner enemy` only rebuilt
+  seven independent exact Enemy/Etama/Float3/collision functions. The
+  subsequent real `SoundPlayer`, `AnmManager` and `AsciiManager` callsite
+  source corrections exposed an omission in the automated regression scope:
+  callers with authentic original referents must also protect the newly used
+  true external callee carriers against independent codegen changes.
+- New `ENEMY_REAL_CALLEE_EXACT_CARRIERS` and
+  `replay_enemy_real_callee_exact()` bind **five** exact functions to their
+  independently original-approved *target VA, complete decorated symbol,
+  source translation unit, exact compiler profile and compiled object*:
+  `SoundPlayer::PlaySoundPositionedByIdx` 153 bytes @0x43E380;
+  `AnmManager::ExecuteScript` 9,358 authored /9,776 physical @0x436F30;
+  `AsciiBossMarkerVmView::SetBossMarkerPosition` 42 bytes @0x4067F0;
+  `AsciiBossMarkerVmView::SetBossMarkerInterrupt` 32 bytes @0x4067D0;
+  `AsciiManager::SetBossMarkerState` 20 bytes @0x40F890. The two ASCII
+  marker callbacks are built **once from their shared real TU**, whereas the
+  **ANM ExecuteScript `/Ob0`** carrier cannot be replaced by a convenient
+  normal `/Ob1` AnmManager profile.
+- `python3 scripts/check-boss-frontiers.py --owner enemy` now directly
+  performs **12/12** full original-bound exact function replays (seven
+  existing + five authentic external callees), **12,506 independent physical
+  bytes**, from genuine cold source builds. Two new pure-input tests reject
+  deletion, readdressing, fabricated decorated symbols, moved/wrong source,
+  unsupported object path, incorrect profile, split marker build and fake
+  accepted credit. The source/target physical Owner and 940/980 authored
+  canonical exact ledger are **unchanged**. The two original-linked 32-/42-
+  byte marker callbacks were *independently* forced-cold Factory accepted
+  against **prior clean gameplay source commit `6e1f3b4`** with receipts
+  archived in `docs/RE_ACCEPTED_RECEIPTS.md`. Those are already exact
+  regressions, not new matches or acceptance of the remaining 29-byte boss
+  gap; native whole-i386 product/resources/runtime remains open.
+
+## October 18: Enemy's genuine large-callee profile and exact-sibling replay protection (gpt-web)
+
+- Following the physical **3,900-byte EnemyManager::OnUpdate** source-owner
+  correction at `6e1f3b4`, expanded actual cold `--owner enemy` replay from
+  the previous seven local exact siblings to **12 distinct original-exact
+  functions**, totaling **12,506 original physical bytes and 437 real COFF
+  relocation fields**. Five independently proven *newly guarded* callee
+  families are `SoundPlayer::PlaySoundPositionedByIdx @0x0043E380`
+  (153 bytes), the unusually large **9,358-byte** genuine
+  `AnmManager::ExecuteScript @0x00436F30`,
+  `AsciiBossMarkerVmView::SetBossMarkerPosition @0x004067F0` (42),
+  `SetBossMarkerInterrupt @0x004067D0` (32), and the real
+  `AsciiManager::SetBossMarkerState @0x0040F890` (20). The real ANM
+  candidate must retain its originally verified **separate `/Ob0` VC7.1
+  profile**, and the two Ascii boss-marker members share exactly one
+  distinct `/Ob1` carrier: incorrectly reusing the Enemy TU's optimization
+  profile is not acceptable.
+- The independently original-address-anchored
+  `ENEMY_REAL_CALLEE_EXACT_CARRIERS` inventory in
+  `scripts/check-boss-frontiers.py` rejects absent/swapped target entries,
+  wrong decorated methods, source names, build objects and compiler profiles.
+  It compiles each of the **four real physical callee carriers once**, then
+  independently replays all **five actual complete exact owners**. Added
+  target-independent tests reject wrong addresses, symbols, source paths,
+  private marker-object split profiles or bad `/Ob0` carrier, as well as
+  verifying expected cold-build count and actual five-unit original identity.
+  The full `--owner all` cold replay independently returns **35 noncrediting
+  owner diagnostics and 191/191 distinct exact full-source checks**.
+- These are regressions for **already accepted code**, not five new exact
+  functions: the source-present/nonexact Enemy boss retains
+  **3,900/3,900 physical, 97 original bound operands, 69 ordered calls,
+  170 direct blocks, 29 ordinary physical mismatches**. The separate
+  Factory `pass/accepted` receipt pair for the 42-byte and 32-byte already
+  exact Ascii helper units is bound to clean committed gameplay source
+  `6e1f3b4` and recorded in `docs/RE_ACCEPTED_RECEIPTS.md`. The other
+  genuine dependency units are strict local original-bound cold checks;
+  no Factory receipt is asserted for a callee without one. Original target,
+  canonical exact **940/980**, native whole-product, and runtime/semantic
+  phases remain unchanged/open.
