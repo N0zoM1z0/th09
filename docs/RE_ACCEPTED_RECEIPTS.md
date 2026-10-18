@@ -6,6 +6,53 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## October 19: Etama OnUpdate and Bullet DrawSingle native runtime-angle ABI accepted
+
+Four independent Factory `strict-live-v1` original-Japanese-TH09-v1.50a,
+SHA-256-attested (`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`),
+original VC7.1 compiler cold-replay jobs returned
+**`receipt_verdict=pass` / `acceptance_decision=accepted`** and no recorded
+acceptance objections. Each binds to the same **immutable clean gameplay-source
+commit `6d647f697274d99665f41c000c59ba4e88ac08b1`**:
+
+- **`EtamaController::OnUpdate @0x004146F0`** — **2,195 authored / 2,216
+  complete physical exact bytes**, 88 original PE/COFF-bound relocations.
+  Its existing real `AddNormalizeAngle` call now uses the genuine global
+  fastcall C++ owner rather than a source-only stdcall symbol at the same VA:
+  `job:36eab768e0f149dfbf39e941b9c0bde5`,
+  `receipt:31596edc7af74a9e64aa9b81c85402446ecfec0cee9e9678a40baa48114ce3e3`.
+- **`DrawSingleBullet @0x00413AF0`** — **215 authored / 232 complete physical
+  exact bytes**, 16 bound relocations including real math callee at
+  `0x0042AED0`: `job:e82dd78c559745078bffddddc6e01d33`,
+  `receipt:6c1997827b9ab9024160861dad19d187b90d733ff869709e5edaf83a77a22052`.
+- **`EtamaController::AddedCallback @0x00413E40`** — **598 authored / 832
+  complete physical exact bytes**, 30 true relocations; all related private
+  `$L` spelling changes were original-VA-verified:
+  `job:7b362dd0f732485e807da3a6197efef4`,
+  `receipt:7d1345ce87888af00d1e44f2a2d2b3d7db35ec367c5b7c70483573ebd2cc0589`.
+- **Native global `AddNormalizeAngle @0x0042AED0`** — **111/111 physical
+  exact bytes** with authentic `?AddNormalizeAngle@@YIMMM@Z` C++ identity,
+  the independent genuine target runtime-math leaf:
+  `job:b7029d0910394cf48891b8540f8568a5`,
+  `receipt:c0f36716ea35737af0e5dd160941cd9b8ba10e42e8432c977acf45d025728ad1`.
+
+All four functions were **already canonical exact**; these receipts are
+source-commit-bound regression acceptance, not four newly exact functions.
+The independently compiled real `src/BulletManager.cpp` three compiler
+carriers and `src/EtamaControllerDraw.cpp` preserve **20 distinct previously
+exact function bodies / 7,775 full original physical bytes**, six genuine
+original-VA fastcall call labels and 31 original-VA-preserving compiler-private
+names. The clean-source complete `--owner all` cold replay checks **35
+noncrediting full boss/leaf diagnostics and 247 distinct already-exact
+canonical functions** (no duplicate shared math/sound leaf credit). Public CI
+passed **633 tests / 28 skipped / zero failures**. The source-present exact
+ledger stays **940/980**; `RunEcl` remains 15,564 physical bytes with 30
+ordinary mismatches, Etama `OnDraw` remains 600/600 with 268, Title
+`DrawResult` 1,939/1,939 with 22, ExAttack Type19/21 initializers six/nine.
+These are not an accepted nonexact boss, whole-game native link, runtime
+semantic proof or port result. They do not transfer to this later notes-only
+checkpoint or to subsequent modified gameplay source.
+
 ## October 19: real SoundPlayer ExAttack Front GameWindow and Supervisor ABI receipts
 
 Six independent Factory `strict-live-v1` forced-cold pinned VC7.1 comparisons
