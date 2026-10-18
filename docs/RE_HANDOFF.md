@@ -9,6 +9,48 @@
 
 ## Current verified handoff checkpoint
 
+- **EnemyManager OnUpdate authentic ANM/sound/ASCII cross-owner references (October 18):**
+  The **3,900-byte** source-present nonexact boss at `0x00410730`
+  formerly called two `EnemyCoreAnmManagerView` members, the positioned
+  sound method on a made-up `g_EnemyCoreSoundPlayer`, and two fake UI
+  members on `g_EnemyCoreUi`. These now call the real `AnmManager`,
+  `SoundPlayer` and `AsciiManager` objects, with the original-validated
+  `0x2A4` VM ABI, and reuse an explicit header for the independently exact
+  `AsciiBossMarkerVmView::SetBossMarkerPosition` owner. Cold compiled
+  **before/after physical 3,900-byte raw code matches byte-for-byte**:
+  97 actual COFF field offsets/kinds/addends are identical. Fifteen
+  symbol names change (the real global/member referents, plus five compiler-
+  private `$L` labels); all target addresses are established independently
+  from exact callee units or original section-relative offsets. The
+  maintained boss stays **3,900/3,900, 97 fields, 69 ordered calls,
+  170 direct blocks, same table, 29 different bytes**. Seven matching
+  Enemy siblings and the separately exact 32-byte/42-byte boss-marker
+  helpers replay without regression; the newly shared member/global
+  symbols improve source-to-source native identity, NOT byte exactness.
+  Complete Windows i386 link/static data/runtime still remain open.
+
+- **Enemy OnUpdate source-global and boss-marker callee identity correction (October 18):**
+  The still-open **3,900-byte EnemyManager::OnUpdate** now uses independently
+  canonical **`g_SoundPlayer` / `PlaySoundPositionedByIdx @0x0043E380`,
+  `g_AnmManager` / `ExecuteScript @0x00436F30`, and `g_AsciiManager` /
+  `SetBossMarkerState @0x0040F890`** rather than unrelated fake source-only
+  `EnemyCoreSoundPlayerView`, `EnemyCoreAnmManagerView`, `EnemyCoreUiView`
+  globals/callees. The separate **42-byte exact** boss-marker-position
+  callback @0x004067F0 is shared via a new bounded
+  `AsciiBossMarkerVmView.hpp` member projection and genuine AsciiManager
+  receiver; its adjacent **32-byte exact** interrupt helper uses the same
+  actual view. The header introduces NO data definitions, new original
+  names, or inferred native product closure. Three real original global
+  owners now produce authentic source COFF identities at all the original
+  callsites, eliminating redundant linker names without changing codegen.
+  Fresh pinned VC7.1 complete original PE/COFF comparison reproduces
+  **3,900/3,900 bytes, 97 actual fields, 69 ordered calls, the exact 170-block
+  CFG, four-entry switch table and unchanged 29 physical differences at the
+  same offsets**. The seven same-Enemy-family exact siblings and five
+  separate ANM/sound/boss-marker exact callees remain protected; all five
+  new source/manifest tests pass. This is concrete typed source-reference
+  progress on a LARGE boss, **not** new exact function credit (940/980).
+
 - **RunEcl opcode-4 original-machine timer/redispatch safety (October 18):**
   The previously unfinished source-cold `scripts/audit-ecl-timer-jump.py` is
   now retained and executed by `--owner runecl` / `--owner all`, alongside

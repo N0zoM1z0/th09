@@ -8686,3 +8686,104 @@ attest historical producer execution.
   and whole Windows native product gates remain open. This is a stronger
   physical-behavior/ABI regression gate **not** a newly exact
   `RunEcl` or an assertion of original authored C++ spelling.
+
+## October 18: Enemy OnUpdate uses real ANM/SoundPlayer/ASCII C++ global and marker owners (gpt-web)
+
+- Independent SHA-verified Japanese TH09 v1.50a original `EnemyManager::OnUpdate
+  @0x00410730` and live pinned `/O2 /Ob1` VC7.1 source-cold replay agree on
+  the **3,900-byte physical owner** (3,883 instructions + one alignment +
+  four-table entries), **all 97 PE/COFF destination/kind/addend identities**,
+  69 ordered direct calls and **all 170 direct flow blocks**. The same 29
+  non-field mismatches at the original-preserving positions
+  `+0x19C,+0x1A3,+0x252,+0x263,+0x26D,+0x272,+0x294,+0x29A,+0x29C,
+  +0x2A5,+0x2A9,+0x2B7,+0x2BD,+0x9C0,+0x9C6,+0x9DF,+0x9E2,+0x9EC,
+  +0x9F3,+0xA1F,+0xA23,+0xA29,+0xA2E,+0xA34,+0xA3A,+0xA42,+0xA45,
+  +0xA61,+0xA7E` remain **non-exact**, not fractional/accepted credit.
+  A repeated genuine draw-group-index/position-pointer source-cold probe
+  panel rejected identical 29-mismatch output or 3,872/3,892/3,908-byte
+  source-extent regressions; none was retained based on two locally pretty
+  instructions.
+- Three fake **C++ decorated** global/method families existed in
+  `src/EnemyManagerCore.cpp` despite independent exact target referents:
+  `g_EnemyCoreSoundPlayer/EnemyCoreSoundPlayerView::PlaySoundPositionedByIdx`,
+  `g_EnemyCoreAnmManager/EnemyCoreAnmManagerView::ExecuteScript`, and
+  `g_EnemyCoreUi/EnemyCoreUiView` marker methods. These separate C++ symbols
+  all masqueraded as already-established distinct **real same-address game
+  globals and separately exact original code bodies**. Local target evidence
+  supports `g_SoundPlayer @0x004DC698`, genuine `SoundPlayer` positioned sound
+  @0x0043E380 (153 full bytes), `g_AnmManager @0x004DC550`, genuine
+  `AnmManager::ExecuteScript @0x00436F30` (9,358 authored/9,776 physical),
+  and `g_AsciiManager @0x004CE458`, genuine `AsciiManager::SetBossMarkerState
+  @0x0040F890` (20 full bytes). Direct source calls now use these real
+  header-declared types/functions with the identical TH09 original receiver
+  pointers and arguments. The original stripped binary proves addresses,
+  ABI, member layouts and call behavior, not their precise C++ variable names.
+- The separate original **`AsciiBossMarkerVmView::SetBossMarkerPosition`
+  @0x004067F0` (42-byte exact)** and **`SetBossMarkerInterrupt @0x004067D0`
+  (32-byte exact)** already owned one genuine 0x17C4-offset array of four
+  0x2A4-byte ANM views in `src/AsciiBossMarkerVm.cpp`. A new bounded shared
+  `src/AsciiBossMarkerVmView.hpp` moves exactly this original-offset-asserted
+  view declaration out of the local source; the real enemy call now passes
+  the identical actual `&g_AsciiManager` root through that separate member
+  projection. The type is not falsely folded into `AsciiManager`'s declared
+  public methods; exact `AsciiManager::SetBossMarkerState` remains invoked
+  directly on the real owner. There are no invented body/data definitions.
+- Cold-produced `build/matching/EnemyManagerCore.obj` before and after each
+  canonical symbol unification has **byte-identical 3,900 original-linked
+  physical bytes (29 residual differences unchanged), all 97 genuine
+  relocations and original call order/CFG**. Separate strict original-bound
+  match-unit replays pass 7/7 same-Enemy siblings plus exact ANM ExecuteScript
+  9,358/9,776, positioned sound 153/153, ASCII marker position 42/42,
+  interrupt 32/32 and marker-state 20/20. Five new pure-input tests guard
+  against reintroducing fake global/callee names, splitting the boss-marker
+  typed view, losing exact callee original identities or pretending the
+  still-open `EnemyManager::OnUpdate` is canonical exact. Full native
+  linking/product/data initialization and runtime semantic gates stay OPEN.
+
+## October 18: EnemyManager 3,900-byte boss binds genuine ANM, sound and ASCII owners (gpt-web)
+
+- Re-evaluated actual Japanese TH09 v1.50a `EnemyManagerView::OnUpdate @0x00410730`
+  against independently exact `AnmManager::ExecuteScript @0x00436F30`,
+  `SoundPlayer::PlaySoundPositionedByIdx @0x0043E380`,
+  `AsciiManager::SetBossMarkerState @0x0040F890`, and
+  `AsciiBossMarkerVmView::SetBossMarkerPosition @0x004067F0`. All are
+  physically target-backed member calls. `g_AnmManager @0x004DC550`,
+  `g_SoundPlayer @0x004DC698`, and `g_AsciiManager @0x004CE458` are
+  already known real owners, not three new game globals. The previous
+  `EnemyCoreAnmManagerView`, `EnemyCoreSoundPlayerView` and `EnemyCoreUiView`
+  façade types in this caller gave completely different C++ decorated
+  external linker names for these genuine original objects and methods.
+  Replaced only those signatures and member calls with their authentic
+  source-defined types; the 0x2A4 `EnemyCoreAnmVmView` is cast to real
+  `AnmVm` at the two script callsites, preserving its already measured
+  offset/width. The unreviewed portions of the 0x2A4 VM and full UI class
+  remain unknown rather than claiming an original retail header.
+- The previously separate, already exact `AsciiBossMarkerVmView` member
+  declarations and the TH09-proven `bossMarkerVms17C4` physical prefix
+  now live in `src/AsciiBossMarkerVmView.hpp`; the exact source in
+  `AsciiBossMarkerVm.cpp` and this 3,900-byte Enemy caller use the same
+  C++ method symbol. Its `SetBossMarkerPosition` takes a `const Float3*`,
+  and target-backed native calls use that actual const-facing symbol,
+  not the invented mutable `EnemyCoreUiView::SetBossMarkerPosition`.
+  The 42-byte SetBossMarkerPosition and 32-byte SetBossMarkerInterrupt
+  helpers remain independently canonical exact. SetBossMarkerState uses
+  the separately exact, genuine 20-byte `AsciiManager` method directly.
+- Original bound source-cold before/after the same pinned VC7.1 profile:
+  **all 3,900 generated bytes are IDENTICAL**, including register, call,
+  switch and relocation encodings, across the true 97-operand Enemy
+  `OnUpdate` owner; all 97 COFF offsets, kinds and addends also agree.
+  Exactly 15 COFF source symbol strings move to the established real
+  declarations or compiler-internal names, with original target referents
+  validated by full `scripts/inspect-enemy-manager-update.py` replay:
+  two ANM ExecuteScript calls, one positioned-sound call, one boss-marker
+  position and two boss-marker state calls, and the original 69-call sequence
+  plus owner-local jump labels. The 29 nonfield physical residual bytes
+  are unchanged, and none is falsely promoted. Source-cold
+  `python3 scripts/check-boss-frontiers.py --owner enemy` independently
+  protects seven exact Enemy/collision/Etama sibling units, with full
+  **3,900/3,900-byte, 97-field, 170-block, 29-mismatch** noncrediting
+  diagnostics. Add test `test_enemy_core_real_managers.py` to reject
+  recreated façade globals, wrong exact callee identities, or duplicate
+  typed boss-marker declarations. Native whole-product linking, runtime
+  behavior and remaining nonexact owner registers remain separate open
+  gates, and the 940/980 authored-source exact total does not change.

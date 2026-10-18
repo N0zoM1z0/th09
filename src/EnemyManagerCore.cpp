@@ -4,6 +4,9 @@
 #include "EnemyAppendCollisionView.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "Supervisor.hpp"
+#include "SoundPlayer.hpp"
+#include "AnmManager.hpp"
+#include "AsciiBossMarkerVmView.hpp"
 #include "ZunMemory.hpp"
 
 #include <math.h>
@@ -411,11 +414,6 @@ typedef char EnemyManagerCoreEnemiesAt5758[
 typedef char EnemyManagerCoreDrawHeadsAt2AC410[
     (offsetof(EnemyManagerCoreView, drawGroupHeads2AC410) == 0x2AC410) ? 1 : -1];
 
-struct EnemyCoreAnmManagerView
-{
-    int ExecuteScript(EnemyCoreAnmVmView *vm);
-};
-
 struct EnemyCoreEclManagerView
 {
     int RunEcl(EnemyCoreView *enemy);
@@ -433,12 +431,6 @@ struct ManagerStateView
 };
 }
 
-struct EnemyCoreUiView
-{
-    void SetBossMarkerPosition(int slot, Float3 *position);
-    void SetBossMarkerState(int slot, int state);
-};
-
 struct EnemyCoreFrontView
 {
     unsigned char unknown00000[0x1095C];
@@ -450,8 +442,7 @@ struct EnemyCoreFrontView
 typedef char EnemyCoreFrontFreezeAt1095C[
     (offsetof(EnemyCoreFrontView, scriptedUpdateFreeze1095C) == 0x1095C) ? 1 : -1];
 
-extern EnemyCoreAnmManagerView *g_EnemyCoreAnmManager;
-extern EnemyCoreUiView g_EnemyCoreUi;
+extern AsciiManager g_AsciiManager;
 extern EnemyCoreFrontView *g_EnemyCoreFront;
 extern unsigned int g_EnemyCoreRuntimeFlags;
 extern unsigned char g_EnemyCoreSchedule[];
@@ -482,12 +473,6 @@ extern EnemyCoreGameManagerPlayfieldView g_EnemyCoreGameManager;
 extern void EnemyCoreReleaseChildEclBlocks(EnemyCoreView *enemy);
 extern void EnemyCoreReleaseAttachedEffects(EnemyCoreView *enemy);
 static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy);
-struct EnemyCoreSoundPlayerView
-{
-    void PlaySoundPositionedByIdx(int soundIndex, float positionX);
-};
-
-extern EnemyCoreSoundPlayerView g_EnemyCoreSoundPlayer;
 
 struct EnemyAttachedEffectUpdateView
 {
@@ -763,13 +748,13 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 goto run_enemy_ecl;
 
             enemy->primaryVm008.color1_1F0 = enemy->displayColor2E70;
-            g_EnemyCoreAnmManager->ExecuteScript(&enemy->primaryVm008);
+            g_AnmManager->ExecuteScript(reinterpret_cast<AnmVm *>(&enemy->primaryVm008));
             enemy->displayColor2E70 = enemy->primaryVm008.color1_1F0;
             for (int vmIndex = 0; vmIndex < 2; ++vmIndex)
             {
                 if (enemy->secondaryVms2AC[vmIndex].scriptIndex21A >= 0 &&
-                    g_EnemyCoreAnmManager->ExecuteScript(
-                        &enemy->secondaryVms2AC[vmIndex]))
+                    g_AnmManager->ExecuteScript(
+                        reinterpret_cast<AnmVm *>(&enemy->secondaryVms2AC[vmIndex])))
                 {
                     enemy->secondaryVms2AC[vmIndex].scriptIndex21A = -1;
                 }
@@ -1017,9 +1002,9 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             else if (damageOccurred)
             {
                 if ((enemy->flags3380 & 6) < 4)
-                    g_EnemyCoreSoundPlayer.PlaySoundPositionedByIdx(20, enemy->worldPosition2DD4.x);
+                    g_SoundPlayer.PlaySoundPositionedByIdx(20, enemy->worldPosition2DD4.x);
                 else
-                    g_EnemyCoreSoundPlayer.PlaySoundPositionedByIdx(37, enemy->worldPosition2DD4.x);
+                    g_SoundPlayer.PlaySoundPositionedByIdx(37, enemy->worldPosition2DD4.x);
 
                 enemy->primaryVm008.color2_1F4.r = 0xFF;
                 enemy->primaryVm008.color2_1F4.g = 0x60;
@@ -1047,14 +1032,14 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                     markerPosition.x = -999.0f;
                 markerPosition.y = 472.0f;
                 markerPosition.z = 0.0f;
-                g_EnemyCoreUi.SetBossMarkerPosition(enemy->bossSlot336B,
+                reinterpret_cast<AsciiBossMarkerVmView *>(&g_AsciiManager)->SetBossMarkerPosition(enemy->bossSlot336B,
                                                    &markerPosition);
                 int markerState = (enemy->flags3380 >> 1) & 3;
                 if (markerState == 0)
-                    g_EnemyCoreUi.SetBossMarkerState(enemy->bossSlot336B,
+                    g_AsciiManager.SetBossMarkerState(enemy->bossSlot336B,
                         (enemy->primaryVm008.flags1F8 >> 17) & 1);
                 else
-                    g_EnemyCoreUi.SetBossMarkerState(enemy->bossSlot336B,
+                    g_AsciiManager.SetBossMarkerState(enemy->bossSlot336B,
                                                     markerState + 1);
             }
 
