@@ -50,15 +50,15 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   at `0x42AED0` (not invented namespace stdcall); 24 ECL exact owners
   preserve 10,607 bytes, 20 renumbered labels retain original VAs. The
   **15,564-byte / 598-field** boss still has **30** residual differences.
-- **Current Etama/Bullet true math ABI:** Both real drawing and main
-  BulletManager compiler TUs now use genuine `__fastcall` global
-  `AddNormalizeAngle @0x42AED0`, not fake stdcall: **6 real C++ calls /31
-  original-VA-preserved private labels**, **20 full exact functions /7,775
-  bytes** unchanged, including **Etama OnUpdate 2,216/2,216**.
-  The 600-byte Etama `OnDraw` is still **268 different bytes**. The earlier
-  `0508a96` original `EtamaController` and sound link receipts remain in
-  `RE_ACCEPTED_RECEIPTS.md`; `RunEcl` still has 30 residual bytes.
-  Fresh full cold replay: **35 boss diagnoses /247 distinct exact rechecks**.
+- **Etama/Bullet true math and ANM ABI:** Genuine `__fastcall` global
+  `AddNormalizeAngle` replaces six fake stdcall math calls; now also four
+  **real `AnmManager::ExecuteScript` original direct calls** and four real
+  AnmManager globals in the **2,216/2,216 exact** Etama `OnUpdate` boss.
+  Its original-PE/COFF checked native script callee is **9,776/9,776 exact**;
+  all 18 Bulletin exact functions (**6,711 physical bytes**) remain intact.
+  Etama `OnDraw` remains 600-byte nonexact (268 differences); `RunEcl`
+  still has 30 unlike bytes. `RE_ACCEPTED_RECEIPTS.md` has older source-
+  commit-bound Etama receipts, not assumed applicable to changed source.
 - **Fresh October 19 source-bound replays:** Factory `strict-live-v1`
   independently accepted four *already exact* owners from clean source
   commit `7edc447`: Etama `OnUpdate` 2,216 physical, Title MusicRoom

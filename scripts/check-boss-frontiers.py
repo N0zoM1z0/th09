@@ -2476,8 +2476,83 @@ def replay_bullet_real_angle_exact(*, already_checked: bool) -> list[dict]:
     return [canonical('runtime-add-normalize-angle')]
 
 
+# Four big Etama OnUpdate scripts dispatch through the REAL AnmManager
+# singleton/class. The previous BulletAnmManagerView alias hid different C++
+# decorated names behind the same original numeric global/callee addresses.
+# Pin every independent retail PE operand location, not only the counts.
+BULLET_TRUE_ANM_GLOBAL = '?g_AnmManager@@3PAVAnmManager@@A'
+BULLET_TRUE_ANM_SCRIPT = '?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z'
+BULLET_TRUE_ANM_SITES = (
+    (0x176, 'DIR32', BULLET_TRUE_ANM_GLOBAL, 0x004DC550),
+    (0x17B, 'REL32', BULLET_TRUE_ANM_SCRIPT, 0x00436F30),
+    (0x3F4, 'DIR32', BULLET_TRUE_ANM_GLOBAL, 0x004DC550),
+    (0x3F9, 'REL32', BULLET_TRUE_ANM_SCRIPT, 0x00436F30),
+    (0x596, 'DIR32', BULLET_TRUE_ANM_GLOBAL, 0x004DC550),
+    (0x5A2, 'REL32', BULLET_TRUE_ANM_SCRIPT, 0x00436F30),
+    (0x837, 'DIR32', BULLET_TRUE_ANM_GLOBAL, 0x004DC550),
+    (0x83D, 'REL32', BULLET_TRUE_ANM_SCRIPT, 0x00436F30),
+)
+
+
+def validate_bullet_true_anm_manager_abi(units: dict) -> None:
+    """Enforce real 9,776-byte AnmManager callee in 2,216-byte Etama boss."""
+    source=(ROOT/'src/BulletManager.cpp').read_text()
+    header=(ROOT/'src/AnmManager.hpp').read_text()
+    if (source.count('#include "AnmManager.hpp"')!=1 or
+            'BulletAnmManagerView' in source or
+            source.count('g_AnmManager->ExecuteScript(')!=6 or
+            'extern AnmManager *g_AnmManager;' not in header or
+            'int ExecuteScript(AnmVm *vm);' not in header):
+        raise RuntimeError('Etama OnUpdate uses fabricated ANM manager source ABI')
+    exact_source_carriers('src/BulletManager.cpp',BULLET_MAIN_EXACT_CARRIERS,units)
+    unit=units.get('etama-controller-update')
+    if (not isinstance(unit,dict) or
+            unit.get('source')!='src/BulletManager.cpp' or
+            unit.get('object')!='build/matching/BulletManager.obj' or
+            unit.get('target_address')!=0x004146F0 or unit.get('size')!=2195 or
+            unit.get('compare_size')!=2216 or
+            len(unit.get('relocations',[]))!=88 or
+            unit.get('profile')!=list(_SCREEN_EFFECT_BASE_PROFILE)):
+        raise RuntimeError('Etama true ANM caller lost entire 2,216-byte original source owner')
+    found=[(f.get('offset'),f.get('type'),f.get('symbol'),f.get('target'),f.get('addend',0))
+           for f in unit['relocations'] if
+           'AnmManager' in f.get('symbol','') or 'ExecuteScript@' in f.get('symbol','')]
+    expected=[(*site,0) for site in BULLET_TRUE_ANM_SITES]
+    if found!=expected:
+        raise RuntimeError('Etama OnUpdate original native ANM field offsets/order/callee drifted')
+    for name,row in units.items():
+        if row.get('source')!='src/BulletManager.cpp':
+            continue
+        if row.get('profile')!=list(_SCREEN_EFFECT_BASE_PROFILE):
+            raise RuntimeError('Etama native ANM source real VC7.1 profile drifted')
+        if any('BulletAnmManagerView' in f.get('symbol','')
+               for f in row.get('relocations',[])):
+            raise RuntimeError('Etama exact neighbor reintroduced fake ANM C++ class')
+    callee=units.get('anm-manager-execute-script')
+    profile=tuple('/Ob0' if flag=='/Ob1' else flag
+                  for flag in _SCREEN_EFFECT_BASE_PROFILE)
+    if (not isinstance(callee,dict) or
+            callee.get('source')!='src/AnmManagerExecuteScript.cpp' or
+            callee.get('object')!='build/matching/AnmManagerExecuteScriptExact.obj' or
+            callee.get('target_address')!=0x00436F30 or
+            callee.get('symbol')!=BULLET_TRUE_ANM_SCRIPT or
+            callee.get('size')!=9358 or callee.get('compare_size')!=9776 or
+            callee.get('profile')!=list(profile)):
+        raise RuntimeError('Etama original script callee not independently canonical 9,776-byte exact')
+
+
+def replay_bullet_true_anm_exact(*, already_checked: bool) -> list[dict]:
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        validate_bullet_true_anm_manager_abi(tomllib.load(stream)['units'])
+    if already_checked:
+        return []
+    build('anm-manager-execute-script')
+    return [canonical('anm-manager-execute-script')]
+
+
 def run_bullet_sound(*, protect_exact: bool, sound_prechecked: bool = False,
-                     real_angle_prechecked: bool = False) -> tuple[dict, list[dict]]:
+                     real_angle_prechecked: bool = False,
+                     real_anm_prechecked: bool = False) -> tuple[dict, list[dict]]:
     """Cold recheck all nineteen genuine Etama/Bullet source carriers.
 
     In the complete all-owner sweep the two independently exact sound leaves
@@ -2489,6 +2564,7 @@ def run_bullet_sound(*, protect_exact: bool, sound_prechecked: bool = False,
         units = tomllib.load(stream)['units']
     validate_bullet_sound_real_owners(units)
     validate_bullet_real_angle_abi(units)
+    validate_bullet_true_anm_manager_abi(units)
     if not protect_exact:
         return {}, []
     exact = cold_replay_exact_source('src/BulletManager.cpp', BULLET_MAIN_EXACT_CARRIERS)
@@ -2500,6 +2576,8 @@ def run_bullet_sound(*, protect_exact: bool, sound_prechecked: bool = False,
                       canonical('soundplayer-play-positioned-sound-by-idx')))
     exact.extend(replay_bullet_real_angle_exact(
         already_checked=real_angle_prechecked))
+    exact.extend(replay_bullet_true_anm_exact(
+        already_checked=real_anm_prechecked))
     return {}, exact
 
 
@@ -3916,7 +3994,8 @@ def main() -> int:
             owners, exact = run_bullet_sound(
                 protect_exact=not args.skip_exact_siblings,
                 sound_prechecked=args.owner == 'all',
-                real_angle_prechecked=args.owner == 'all')
+                real_angle_prechecked=args.owner == 'all',
+                real_anm_prechecked=args.owner == 'all')
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('title', 'all'):

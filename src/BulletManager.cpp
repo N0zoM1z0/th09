@@ -2,6 +2,7 @@
 #include "ZunMemory.hpp"
 #include "SoundPlayer.hpp"
 #include "RuntimeAngleMath.hpp"
+#include "AnmManager.hpp"
 
 #include <math.h>
 #include <new>
@@ -85,12 +86,6 @@ struct BulletGameManagerView
     int IsWithinPlayfield(float x, float y, float height, float width);
 };
 extern BulletGameManagerView g_GameManager;
-
-struct BulletAnmManagerView
-{
-    int ExecuteScript(AnmVm *vm);
-};
-extern BulletAnmManagerView *g_AnmManager;
 
 extern int g_BulletSpriteOffsetSmall[];
 extern int g_BulletSpriteOffsetMedium[];
