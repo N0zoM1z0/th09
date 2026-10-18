@@ -6,6 +6,46 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## October 19: authentic Ascii menu audio and SoundPlayer resume C++ ABI accepted
+
+Three separate Factory `strict-live-v1` original-linked, forced-cold pinned
+VC7.1 replays completed **`receipt_verdict=pass`** and
+**`acceptance_decision=accepted`** with no acceptance objections. The
+original is Japanese TH09 1.50a SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+All three are scoped **only to the clean source commit
+`e2da5e03907d28b9b7ba83c46cd41223c58cae9d`**:
+
+- `AsciiMenuState4::OnUpdate @0x004355F0`, **1,144 logical / 1,172 full
+  physical exact bytes**, 64 original-target-bound COFF fields, with nine
+  genuine `g_SoundPlayer @0x004DC698` / native `PlaySoundByIdx @0x0043E2F0`
+  pairs: `job:d971ed150f77462c8748516d77a1047b`,
+  `receipt:1532d60a5c2c8218e666ecd46fd91bafe748b716cf6d375da19835f21fa58b0e`.
+- `AsciiMenuState5::OnUpdate @0x00434E90`, **1,213 logical / 1,236 full
+  physical exact bytes**, 86 COFF fields and four native sound pairs.
+  This separately demonstrates the canonical exactness of the repaired
+  **six previously stale VC7.1 private `$L` manifest symbol spellings**:
+  `job:f89e58c4f4654beb93aed8431a6fa7df`,
+  `receipt:e7c935c768aa6f4f98dae2772939f4ea9c4b96f66473864d2f904435831a9584`.
+- `SoundPlayer::ResumeAfterPause @0x00423498`, authentic C++ method
+  replacing the earlier source-only `AsciiSoundPlayerView` name, **15/15
+  exact bytes** and independent native `SoundPlayer::QueueCommand` target
+  `0x0043EE40`: `job:d31f9a058c954da5a9a8342f326ae468`,
+  `receipt:fc96c1eaac06774a1d4c5a9341d29ff597fa62985ec13d0421cbc8a159578e1d`.
+
+These are **revalidations of three previously canonical functions** and a
+real cross-TU C++ linker/manifest correction. They are not a rise in the
+**940 exact / 980 source-present** ledger. The independent full original
+cold `--owner all` from this clean source passed **35 noncrediting whole-boss
+and leaf diagnoses plus 236 distinct complete already-exact functions**,
+including 122 functions rebuilt because the shared `SoundPlayer.hpp` changed
+and 63 private-label VA-preserving renames. `PauseMenu::OnUpdate` is
+**still nonexact**, 1,776 original vs 1,732 source physical bytes, with 44
+missing bytes. `RunEcl` still has 30 ordinary original-linked differences,
+Etama OnDraw 268, Title DrawResult 22, and ExAttack initializer Type19/21
+six/nine. The receipts do **not** claim native whole-image linkage, runtime
+behavior, a newly exact boss, or acceptance of subsequent commits.
+
 ## October 19: true RunEcl/ExAttack shared runtime-angle ABI accepted exact siblings
 
 Five separate Factory `strict-live-v1` forced-cold source-compilation jobs
