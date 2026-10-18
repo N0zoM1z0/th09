@@ -8950,3 +8950,70 @@ attest historical producer execution.
   already-covered Enemy external siblings and checks the fourth alone.
   This is a *stronger noncrediting large-owner/source-callee ABI gate*,
   **not** a 941st exact function or a native Windows product/runtime proof.
+
+## October 18: unify RunEcl/EclHelpers true ZunTimer member ABI across C++ carriers (gpt-web)
+
+- Challenge the old ECL storage symbol hypothesis: `src/EclOpcodes.hpp`
+  formerly introduced a distinct `struct Th09EclTimerStorageView` with the
+  same 0x0C bytes and method-looking declarations as genuine `ZunTimer`.
+  This *compiled into a different decorated C++ symbol identity*, even at
+  physical CALLs independently known to target real exact `ZunTimer`
+  methods (assignment @0x401500, postdecrement @0x406670, float add-assign
+  @0x406650, integer add-assign @0x406640, float conversion @0x4014F0,
+  comparator @0x401520, equality @0x404950). TH09 original PE addresses,
+  24 such RunEcl candidate calls, and exact independent leaf bodies—not
+  analogous TH08 source or a guessed retail type name—ground this change.
+- ECL shared header now aliases the one genuine `ZunTimer` C++ class,
+  without adding another data definition, synthetic wrapper or exported
+  compatibility thunk. Compile-time checks verify 0x0C size and fields
+  previous+0, subFrame+4, current+8, as well as the already established
+  0x22C ECL context and 0x30 interpolation slot. One direct current+8
+  write inside `CompareOperands` was corrected to the real field name.
+  The source retains its logical ECL type alias for readability, but the
+  generated native member symbols are the authentic `ZunTimer` ones.
+- **Before/after source-cold pinned VC7.1 experiment** in ignored
+  `.analysis/gpt-web-20261018/ecl-zuntimer-real-type.log`: complete RunEcl
+  source object is **15,564/15,564 raw-byte identical with 598 unchanged
+  field offsets, kinds and addends**, despite 24 true timer C++ CALL symbol
+  changes and compiler-private-label renumbering. Full original-PE bound
+  RunEcl still has **30 unequal ordinary bytes, zero unequal fields/table
+  bytes, 146/148 handler shapes**; opcode 4 and 155 machine-semantic guards
+  retain 90 and 3,072 input checks. The separate nonexact 516-byte target
+  `MoveRandomBiased` is a **517-byte** VC7.1 candidate, unchanged 28 real
+  fields, 14 ordered calls, 24 direct blocks and **148 overlapping byte
+  differences**; its address binder now uses the real assignment symbol.
+- Rebuilt each *distinct* canonical exact compiler source carrier, applying
+  no original bytes or relocated labels to the candidate: main
+  `EclManager.obj` (18 exact full functions, **8,715 physical bytes /378
+  relocations**), six alternate EclManager profiles (six exact complete
+  functions, **1,892 bytes /90 relocations**) and EclHelpers (two exact
+  functions, **262 bytes /12 relocations**). Only original-target-VA-attested
+  COFF symbol spellings in `config/match-units.toml` were updated, including
+  the few true timer member symbols and VC7.1 private `$L` renumberings;
+  every original target VA, offset, field type/addend, complete linked code
+  extent and direct graph remain unchanged. A later checked addition of
+  three timer field layout assertions caused **seven further private-label
+  renumberings in otherwise byte-identical PostEclMovement**, individually
+  verified against original PE and the actual local COFF destinations.
+- Strengthened `--owner runecl` to check eight **independently exact** real
+  ZunTimer bodies from three actual source/compiler profiles (six from
+  `ZunTimer.cpp`, the unusual `/Ob0` greater-equal from
+  `BackgroundStageScript.cpp`, and the separately owned equality from
+  `EnemyScheduleRuntimeAdvance.cpp`). Pinned the full VC7.1 flag vectors,
+  including `/Ob0` vs `/Ob1`; a deliberately forged profile was caught by
+  new regression tests and no longer slips through a same-carrier-only
+  consistency check. Both `tests/test_ecl_shared_zuntimer.py` and
+  `tests/test_runecl_shared_zuntimer_abi.py` check true type, names, exact
+  original VA and source/profile closure, and fail on fabricated names,
+  profile, object, source or address. Existing switch/private-label and
+  original exact-function comparisons remain independently mandatory.
+- Final original-bound full-cold sweep at
+  `.analysis/gpt-web-20261018/all-zuntimer-verified.json` passes
+  **35 noncrediting complete-owner diagnostics and 198 distinct canonical
+  exact full-function replays**, including the new eight true timer leaves;
+  that 198 is a regression suite cardinality, **not newly accepted code**.
+  RunEcl 30, ExAttack initialization 6/9, Title DrawResult 22 and Etama
+  OnDraw 268 overlapping bytes remain open. Canonical exact is still 940
+  source-present 980; product native link/static resources/runtime remain
+  incomplete. The original unclassified folded getter at 0x435F00 is not
+  promoted merely because an exact-looking source C++ operator is available.

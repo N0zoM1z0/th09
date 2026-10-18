@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stddef.h>
+#include "ZunTimer.hpp"
 
 // TH09 v1.50a ECL wire protocol recovered from EclManager::RunEcl at
 // 0x004086C0.  Identifiers are maintained role names, not claimed original
@@ -242,25 +243,23 @@ typedef char Th09EclDifficultyMaskAt09[
 typedef char Th09EclParameterMaskAt0A[
     (offsetof(Th09EclRawInstructionHeaderView, parameterMask0A) == 0x0A) ? 1 : -1];
 
-struct Th09EclTimerStorageView
-{
-    operator int();
-    operator float();
-    unsigned int operator==(int value);
-    unsigned int operator>=(int value);
-    void operator=(int value);
-    void SetCurrent(int value);
-    void AddCurrent(int value);
-    void operator+=(int value);
-    void operator+=(float value);
-    void operator--(int value);
+// Reuse the separately canonical exact ZunTimer member ABI and genuine C++
+// decorated symbol identities. This alias preserves the source-facing ECL
+// context role without creating a second incompatible timer class definition.
+typedef ZunTimer Th09EclTimerStorageView;
 
-    int previous00;
-    float subFrame04;
-    int current08;
-};
 typedef char Th09EclTimerStorageSizeIs0C[
     (sizeof(Th09EclTimerStorageView) == 0x0C) ? 1 : -1];
+typedef char Th09EclTimerStorageRealFieldsAt00_04_08[
+    (offsetof(Th09EclTimerStorageView, previous) == 0x00 &&
+     offsetof(Th09EclTimerStorageView, subFrame) == 0x04 &&
+     offsetof(Th09EclTimerStorageView, current) == 0x08) ? 1 : -1];
+typedef char Th09EclTimerPreviousAt00[
+    (offsetof(Th09EclTimerStorageView, previous) == 0x00) ? 1 : -1];
+typedef char Th09EclTimerSubFrameAt04[
+    (offsetof(Th09EclTimerStorageView, subFrame) == 0x04) ? 1 : -1];
+typedef char Th09EclTimerCurrentAt08[
+    (offsetof(Th09EclTimerStorageView, current) == 0x08) ? 1 : -1];
 
 struct Th09EclInterpolationSlotView
 {

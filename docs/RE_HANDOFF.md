@@ -9,6 +9,41 @@
 
 ## Current verified handoff checkpoint
 
+- **Full ECL timer type now genuinely shares ZunTimer (October 18):**
+  Revisited `RunEcl` rather than relying on its former 0x0C source-only
+  `Th09EclTimerStorageView` class. Original-target-backed
+  `ZunTimer` is independently exact at several separate method entries;
+  source now `typedef ZunTimer Th09EclTimerStorageView` so all ECL call
+  contexts, interpolation slots, boss/movement timers and source helper
+  functions refer to the SAME decorated C++ member ABI. The 0x0C timer
+  and `previous +0x00,subFrame +0x04,current +0x08` layout are compile-time
+  asserted; the one original raw current-store callsite is updated.
+  Source-cold before/after **15,564 physical RunEcl bytes and all 598
+  COFF fields are completely identical**, with **24 genuine timer method
+  call records** replacing fake C++ names in RunEcl; actual PE-linked
+  referents, switch/easing tables, operand positions, direct and indirect
+  call order remain unchanged. Strict complete physical checks cover all
+  **18 canonical exact** main EclManager functions, **six alternate-profile
+  exact** EclManager functions, and **two exact** EclHelpers functions;
+  their compiler-private `$L` names were reattested by section-relative VA
+  and updated ONLY in reviewed manifest symbol strings. The nonexact
+  `MoveRandomBiased` is still **517 candidate/516 target** with 148
+  overlapping differing bytes; old alias bindings were removed from its
+  28-original-field auditor and the 598-field full-callsite auditor.
+  Eight separate real ZunTimer exact methods (including `/Ob0`
+  greater-equal and distinct exact equality owner) are now rebuilt from
+  **three pinned compiler/source carriers** under focused `--owner runecl`.
+  Pure tests reject any faked class/target/address/carrier/profile, and
+  specifically require the original `/Ob0` vs `/Ob1` optimization setting;
+  the four-byte folded integer getter @0x435F00 stays origin unknown.
+  Focused RunEcl checks **36 already exact** owners, whole
+  `--owner all` **35 original-bound noncrediting diagnostics and 198
+  distinct complete exact owners**. The true RunEcl nonexact residual is
+  unchanged at **30 bytes** (7 opcode 4, 23 opcode 155); the signed-time
+  and masked-bit semantic gates remain noncrediting. Canonical total stays
+  **940/980**; no game product, static resource graph or native link is
+  claimed complete. The separate Etama, Title, ExAttack frontiers remain open.
+
 - **RunEcl authentic boss-marker interrupt and SoundPlayer owners (October 18):**
   Reopened **original** code at four RunEcl opcode-124..157 callsites.
   The previous `Th09EclRunState::BossUiView::SetBossMarkerState` was **misnamed**:

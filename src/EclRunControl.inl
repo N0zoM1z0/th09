@@ -194,7 +194,8 @@ __forceinline float *WriteFloat(
         int value = rawTime;
         // The real timer at context +0x08 has ZunTimer's exact 12-byte ABI.
         // Use the already-exact operator=(int) target at 0x00401500 rather
-        // than a separate source-only Th09EclTimerStorageView symbol.
+        // than any source-only timer method symbol. The shared timer context
+        // is the genuine ZunTimer type throughout the ECL layout.
         ZunTimer &timer = *reinterpret_cast<ZunTimer *>(&context->time008);
         timer = value;
     }

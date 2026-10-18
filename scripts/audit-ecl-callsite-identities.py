@@ -35,13 +35,6 @@ ALIASES = {
     # Same folded +8 getter used by the reviewed canonical charge timer.
     # This is a diagnostic ABI binding, not a second physical/source owner.
     '??BZunTimer@@QAEHXZ': 0x435f00,
-    '??BTh09EclTimerStorageView@@QAEHXZ': 0x435f00,
-    '??FTh09EclTimerStorageView@@QAEXH@Z': 0x406670,
-    '??YTh09EclTimerStorageView@@QAEXM@Z': 0x406650,
-    '??PTh09EclTimerStorageView@@QAEIH@Z': 0x401520,
-    '??4Th09EclTimerStorageView@@QAEXH@Z': 0x401500,
-    '??BTh09EclTimerStorageView@@QAEMXZ': 0x4014f0,
-    '??8Th09EclTimerStorageView@@QAEIH@Z': 0x404950,
     '?NextU16@RngRuntimeView@@QAEGXZ': 0x42ae20,
     '?FloatModulo@Th09EclRunControl@@YGMMM@Z': 0x405710,
     '?Sin@Th09EclRunControl@@YGMM@Z': 0x401070,
@@ -51,7 +44,6 @@ ALIASES = {
     '?ClampPosition@Th09EclRunMovement@@YIXPAUEnemyView@@@Z': 0x4101d0,
     '?MoveRandomBiased@Th09EclRunLate@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@@Z': 0x407e30,
     '?GetRandomU32InRange@RngRuntimeView@@QAEII@Z': 0x4048e0,
-    '??YTh09EclTimerStorageView@@QAEXH@Z': 0x406640,
     '?ClearBulletsForTransition@Th09EclRunBullet@@YIXPAUEtamaController@@@Z': 0x405650,
     '?RemoveBulletsInRadius@BulletControllerLateView@Th09EclRunLate@@QAEXPBUFloat3@@M@Z': 0x4125a0,
     '?RemoveAllBullets@BulletControllerLateView@Th09EclRunLate@@QAEXH@Z': 0x412590,

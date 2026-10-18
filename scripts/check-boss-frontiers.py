@@ -550,6 +550,66 @@ def guard_runecl_timer_jump(report: dict, *, ordinary_differences: int) -> dict:
 
 
 
+
+# All RunEcl 0x0C-byte timer instances now use the genuine ZunTimer ABI.
+# Guard every separately exact timer method used here, including the unusual
+# /Ob0 comparison carrier and the independent 20-byte equality owner.
+# The one-byte/folded int getter @0x435F00 retains UNKNOWN origin; no credit.
+RUNECL_TIMER_VC71_PROFILE = (
+    '/MT', '/EHsc', '/Gs', '/DNDEBUG', '/Zi', '/Gy', '/GF',
+    '/Oi', '/Gr', '/O2', '/Ob1', '/Oy-', '/I', 'src')
+RUNECL_TIMER_VC71_OB0_PROFILE = tuple(
+    '/Ob0' if option == '/Ob1' else option
+    for option in RUNECL_TIMER_VC71_PROFILE)
+RUNECL_REAL_TIMER_CARRIERS = {
+    'src/ZunTimer.cpp': ('build/matching/ZunTimer.obj', RUNECL_TIMER_VC71_PROFILE),
+    'src/BackgroundStageScript.cpp': (
+        'build/matching/BackgroundStageScript.obj', RUNECL_TIMER_VC71_OB0_PROFILE),
+    'src/EnemyScheduleRuntimeAdvance.cpp': (
+        'build/matching/EnemyScheduleRuntimeAdvance.obj', RUNECL_TIMER_VC71_PROFILE),
+}
+RUNECL_REAL_TIMER_EXACT_CARRIERS = (
+    ('src/ZunTimer.cpp', (
+        ('zun-timer-assign-int', 0x00401500, '??4ZunTimer@@QAEXH@Z'),
+        ('zun-timer-set-current', 0x004014D0, '?SetCurrent@ZunTimer@@QAEXH@Z'),
+        ('zun-timer-post-decrement', 0x00406670, '??FZunTimer@@QAEXH@Z'),
+        ('zun-timer-add-assign-int', 0x00406640, '??YZunTimer@@QAEXH@Z'),
+        ('zun-timer-add-assign-float', 0x00406650, '??YZunTimer@@QAEXM@Z'),
+        ('zun-timer-float-conversion', 0x004014F0, '??BZunTimer@@QAEMXZ'))),
+    ('src/BackgroundStageScript.cpp', (
+        ('zun-timer-greater-equal', 0x00401520, '??PZunTimer@@QAEIH@Z'),)),
+    ('src/EnemyScheduleRuntimeAdvance.cpp', (
+        ('zun-timer-equal-int', 0x00404950, '??8ZunTimer@@QAEHH@Z'),)),
+)
+
+
+def replay_runecl_real_timer_exact() -> list[dict]:
+    """Cold exact eight authentic timer bodies from three real VC7 profiles."""
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        units = tomllib.load(stream)['units']
+    results = []
+    objects = set()
+    for source, members in RUNECL_REAL_TIMER_EXACT_CARRIERS:
+        group = [units.get(name) for name, _, _ in members]
+        if any(not isinstance(u, dict) for u in group):
+            raise RuntimeError('RunEcl true ZunTimer exact callee missing')
+        obj, flags = group[0].get('object'), group[0].get('profile')
+        if (source not in RUNECL_REAL_TIMER_CARRIERS or
+                obj != RUNECL_REAL_TIMER_CARRIERS[source][0] or
+                flags != list(RUNECL_REAL_TIMER_CARRIERS[source][1]) or
+                obj in objects):
+            raise RuntimeError('RunEcl ZunTimer original carrier/profile drifted')
+        objects.add(obj)
+        for (name, address, symbol), unit in zip(members, group):
+            if (unit.get('source') != source or unit.get('object') != obj or
+                    unit.get('profile') != flags or unit.get('target_address') != address or
+                    unit.get('symbol') != symbol):
+                raise RuntimeError('RunEcl genuine ZunTimer callee referent drifted: '+name)
+        build(members[0][0])
+        results.extend(canonical(name) for name, _, _ in members)
+    return results
+
+
 # RunEcl opcodes 124..157 genuinely call the 32-/42-byte ASCII boss VM
 # members and SoundPlayer's two exact member methods. The older 'BossUi::
 # SetBossMarkerState' source alias was WRONG: its observed callee @0x4067D0
@@ -633,13 +693,9 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
         if protect_exact:
             exact_units.extend(replay_runecl_real_state_callees(
                 shared_with_enemy_prechecked=shared_real_callees_in_enemy))
-            # The physical opcode-4 call and its real SetCurrent callee are
-            # independent authored exact *leaf* owners. Rebuild the actual
-            # shared ZunTimer VC7.1 carrier cold; verify both full functions,
-            # not just RunEcl's agreed CALL REL32 destination.
-            build('zun-timer-assign-int')
-            exact_units.extend((canonical('zun-timer-assign-int'),
-                                canonical('zun-timer-set-current')))
+            # Shared genuine ZunTimer class: exact source-cold bodies from
+            # the normal owner, /Ob0 greater-equal and separate equality TU.
+            exact_units.extend(replay_runecl_real_timer_exact())
         # Codegen-near opcode 155 is also checked for actual behavior, using
         # decoded PE/COFF operations rather than trusting its C++ description.
         # This protects bit 24 and the other 31 existing flag bits but grants

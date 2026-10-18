@@ -445,7 +445,7 @@ static Th09EclRawInstructionHeaderView *CompareOperands(
     }
 
 comparison_succeeded:
-    Th09EclRunState::View(enemy)->activeContext2CE0->time008.current08 =
+    Th09EclRunState::View(enemy)->activeContext2CE0->time008.current =
         RawInt(instruction, 2);
     return reinterpret_cast<Th09EclRawInstructionHeaderView *>(
         reinterpret_cast<unsigned char *>(instruction) + RawInt(instruction, 3));

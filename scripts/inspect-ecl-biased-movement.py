@@ -36,7 +36,7 @@ REFERENTS = {
     '??BFloat3@@QAEPAMXZ': 0x004343D0,
     '?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z': 0x00405760,
     '?ResolveFloat@EnemyView@@QAEMM@Z': 0x004068A0,
-    '??4Th09EclTimerStorageView@@QAEXH@Z': 0x00401500,
+    '??4ZunTimer@@QAEXH@Z': 0x00401500,
     '?StartTimedPolarDisplacement@Th09EclRunMovement@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@M@Z': 0x00407200,
     '__real@43c00000': 0x0048E45C,
     '__real@4016cbe4': 0x0048E458,
@@ -74,7 +74,7 @@ TARGET_OPERANDS = [
     (0x172, 'DIR32', '__real@00000000'),
     (0x191, 'REL32', '?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z'),
     (0x1B4, 'REL32', '?ResolveFloat@EnemyView@@QAEMM@Z'),
-    (0x1EE, 'REL32', '??4Th09EclTimerStorageView@@QAEXH@Z'),
+    (0x1EE, 'REL32', '??4ZunTimer@@QAEXH@Z'),
     (0x1FA, 'REL32', '?StartTimedPolarDisplacement@Th09EclRunMovement@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@M@Z'),
 ]
 
