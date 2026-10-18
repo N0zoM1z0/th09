@@ -6,6 +6,57 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## October 19: real SoundPlayer ExAttack Front GameWindow and Supervisor ABI receipts
+
+Six independent Factory `strict-live-v1` forced-cold pinned VC7.1 comparisons
+of the genuine Japanese TH09 v1.50a SHA-verified original executable
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`
+returned **`receipt_verdict=pass`** and **`acceptance_decision=accepted`**
+with no recorded objections. Their exact source binding is the **immutable
+clean gameplay-source commit `a328381a7cbb5b8c4fafa58e92c3b7476f89cb6b`**:
+
+- `FrontCalcCallback @0x00417630`, **1,491/1,491 entire exact bytes**,
+  107 genuine source/original-PE-bound fields, and native `SoundPlayer`
+  global/member references: `job:1f1880ff9bb449b4b79f7198a7f4df05`,
+  `receipt:aa3bdce93ac3a33605f7e48812c4f6408e925cfd1f99bb883a919f35694a7c62`.
+- `ExAttackUpdateCallbackType14_22 @0x00443DF0`, **805 logical / 824
+  complete physical exact bytes**, 44 COFF fields including five
+  original-VA-equivalent compiler-private switch labels and true global
+  sound call: `job:7904b6fca1d3432b8de87e84e7dc3282`,
+  `receipt:11c604ee69c3ecaa380bd90da82faae5d96c71aa09464d75e4b03f0beb75346c`.
+- `GameWindow::Render @0x0042DC40`, **326/326 complete exact bytes**,
+  30 original-bound fields including native `SoundPlayer::ProcessQueues`:
+  `job:9c0abf1c79314aaa80c33766c19a2883`,
+  `receipt:c2b959142ce175c9eecdedc18385f5117854f53e65b5c72f825c82308a858749`.
+- `SoundPlayer::ProcessQueues @0x0043F1F0`, **1,414 logical / 1,456
+  physical exact bytes**, independently rebuilt true sound callee with
+  the canonical full original-owned tail:
+  `job:3e618f4dd5f2414084140193099f3846`,
+  `receipt:138a2d178ab9deca6da84aa3e072a32301789801ca31476114ffe9ac364f5f6e`.
+- `SupervisorDeletedCallback @0x00431B70`, **405/405 complete exact
+  bytes**, 44 original-bound fields, canonical-source-path anonymous C++
+  namespace identity and genuine `QueueCommand` method:
+  `job:1b1bbb6809a5472990b2b5482b4d9b37`,
+  `receipt:5852845b897c5655bfa65621bc20111521f40e798797600aa52aea1ac88bf561`.
+- `Supervisor::PlayMusic @0x00431930`, **254/254 complete exact bytes**,
+  26 original-bound fields, with both genuine `SoundPlayer::QueueCommand`
+  calls and canonical `src/`-path anonymous namespace symbol identities:
+  `job:19839d5b2b6140fc8bba5655984daad5`,
+  `receipt:a7a9ed17d7b760da90c1894755c6c8fd6c19b9dd57555816958496b2d0447e21`.
+
+Each function was **already recorded as canonical exact**. These receipts
+validate a real C++ linker/source identity repair, not six new matches. The
+independent complete `--owner all` replay of that same clean source commit
+passed **35 noncrediting original-linked boss/leaf diagnostics plus 247
+distinct previously exact full-function comparisons**, with all unchanged
+RunEcl, Etama, Title, Pause and ExAttack open residuals preserved. The
+canonical count remains **940 exact / 980 source-present**. Staging-path
+anonymous namespace compiler fingerprints were explicitly rejected in favor
+of actual maintained `src/` source-path cold compilation. No completed native
+whole-game executable, runtime semantic test, new nonexact-to-exact owner or
+portability claim is implied. **These receipts do not transfer to this later
+documentation-only commit or any subsequently modified gameplay source.**
+
 ## October 19: authentic Ascii menu audio and SoundPlayer resume C++ ABI accepted
 
 Three separate Factory `strict-live-v1` original-linked, forced-cold pinned
