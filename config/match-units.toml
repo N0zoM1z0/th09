@@ -1824,8 +1824,8 @@ relocations = [
   { offset = 0x9F, type = "REL32", symbol = "?ReleaseSurface@DeletedAnmManagerView@?A0x4471bc32@@QAEXH@Z", target = 0x0043BF30 },
   { offset = 0xA4, type = "REL32", symbol = "?CutChain@AsciiManager@@SIXXZ", target = 0x00434280 },
   { offset = 0xA9, type = "DIR32", symbol = "??_C@_05JLNEMJLN@dummy?$AA@", target = 0x00490A70 },
-  { offset = 0xB1, type = "DIR32", symbol = "?g_SoundPlayer@@3UDeletedSoundPlayerView@?A0x4471bc32@@A", target = 0x004DC698 },
-  { offset = 0xB6, type = "REL32", symbol = "?QueueCommand@DeletedSoundPlayerView@?A0x4471bc32@@QAEXHHPAD@Z", target = 0x0043EE40 },
+  { offset = 0xB1, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0xB6, type = "REL32", symbol = "?QueueCommand@SoundPlayer@@QAEXHHPAD@Z", target = 0x0043EE40 },
   { offset = 0xBC, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0xC5, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0xD0, type = "REL32", symbol = "?PlayFile@DeletedMidiOutputView@?A0x4471bc32@@QAEXH@Z", target = 0x00423361 },
@@ -3961,11 +3961,11 @@ relocations = [
   { offset = 0x95, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x9A, type = "REL32", symbol = "?IsMusicPreloaded@Supervisor@@QAEHXZ", target = 0x0042ED40 },
   { offset = 0xA3, type = "DIR32", symbol = "??_C@_05JLNEMJLN@dummy?$AA@", target = 0x00490A70 },
-  { offset = 0xAC, type = "DIR32", symbol = "?g_SoundPlayer@@3USupervisorAudioSoundPlayerView@?A0xfb5c156d@@A", target = 0x004DC698 },
-  { offset = 0xB1, type = "REL32", symbol = "?QueueCommand@SupervisorAudioSoundPlayerView@?A0xfb5c156d@@QAEXHHPAD@Z", target = 0x0043EE40 },
+  { offset = 0xAC, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0xB1, type = "REL32", symbol = "?QueueCommand@SoundPlayer@@QAEXHHPAD@Z", target = 0x0043EE40 },
   { offset = 0xB6, type = "DIR32", symbol = "??_C@_05JLNEMJLN@dummy?$AA@", target = 0x00490A70 },
-  { offset = 0xBE, type = "DIR32", symbol = "?g_SoundPlayer@@3USupervisorAudioSoundPlayerView@?A0xfb5c156d@@A", target = 0x004DC698 },
-  { offset = 0xC3, type = "REL32", symbol = "?QueueCommand@SupervisorAudioSoundPlayerView@?A0xfb5c156d@@QAEXHHPAD@Z", target = 0x0043EE40 },
+  { offset = 0xBE, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0xC3, type = "REL32", symbol = "?QueueCommand@SoundPlayer@@QAEXHHPAD@Z", target = 0x0043EE40 },
   { offset = 0xC8, type = "DIR32", symbol = "?g_GameManager@@3USupervisorAudioGameManagerView@?A0xfb5c156d@@A", target = 0x004A7D90 },
   { offset = 0xCD, type = "REL32", symbol = "?IsReplayMode@SupervisorAudioGameManagerView@?A0xfb5c156d@@QAEHXZ", target = 0x00415D20 },
   { offset = 0xD6, type = "DIR32", symbol = "?g_GameManager@@3USupervisorAudioGameManagerView@?A0xfb5c156d@@A", target = 0x004A7D90 },
@@ -3988,8 +3988,8 @@ relocations = [
   { offset = 0x14, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x5BC },
   { offset = 0x21, type = "REL32", symbol = "?PlayPath@SupervisorAudioMidiOutputView@?A0xfb5c156d@@QAEXPBD@Z", target = 0x0042EC00 },
   { offset = 0x4A, type = "REL32", symbol = "_strrchr", target = 0x0047CAF0 },
-  { offset = 0x69, type = "DIR32", symbol = "?g_SoundPlayer@@3USupervisorAudioSoundPlayerView@?A0xfb5c156d@@A", target = 0x004DC698 },
-  { offset = 0x6E, type = "REL32", symbol = "?QueueCommand@SupervisorAudioSoundPlayerView@?A0xfb5c156d@@QAEXHHPAD@Z", target = 0x0043EE40 },
+  { offset = 0x69, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0x6E, type = "REL32", symbol = "?QueueCommand@SoundPlayer@@QAEXHHPAD@Z", target = 0x0043EE40 },
   { offset = 0x73, type = "DIR32", symbol = "?g_GameManager@@3USupervisorAudioGameManagerView@?A0xfb5c156d@@A", target = 0x004A7D90 },
   { offset = 0x78, type = "REL32", symbol = "?IsReplayMode@SupervisorAudioGameManagerView@?A0xfb5c156d@@QAEHXZ", target = 0x00415D20 },
   { offset = 0x81, type = "DIR32", symbol = "?g_GameManager@@3USupervisorAudioGameManagerView@?A0xfb5c156d@@A", target = 0x004A7D90 },
@@ -4026,8 +4026,8 @@ relocations = [
   { offset = 0x76, type = "DIR32", symbol = "?g_SupervisorMusicTracks@@3PAUSupervisorMusicTrackRecord@?A0xfb5c156d@@A", target = 0x004A21D0, addend = 0x4 },
   { offset = 0x96, type = "REL32", symbol = "_strrchr", target = 0x0047CAF0 },
   { offset = 0xB1, type = "DIR32", symbol = "?g_SupervisorMusicTracks@@3PAUSupervisorMusicTrackRecord@?A0xfb5c156d@@A", target = 0x004A21D0 },
-  { offset = 0xBA, type = "DIR32", symbol = "?g_SoundPlayer@@3USupervisorAudioSoundPlayerView@?A0xfb5c156d@@A", target = 0x004DC698 },
-  { offset = 0xBF, type = "REL32", symbol = "?QueueCommand@SupervisorAudioSoundPlayerView@?A0xfb5c156d@@QAEXHHPAD@Z", target = 0x0043EE40 },
+  { offset = 0xBA, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0xBF, type = "REL32", symbol = "?QueueCommand@SoundPlayer@@QAEXHHPAD@Z", target = 0x0043EE40 },
 ]
 
 [units.supervisor-start-loaded-music]
@@ -4043,8 +4043,8 @@ relocations = [
   { offset = 0xB, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x5BC },
   { offset = 0x14, type = "REL32", symbol = "?Play@SupervisorAudioMidiOutputView@?A0xfb5c156d@@QAEHXZ", target = 0x0043D750 },
   { offset = 0x20, type = "DIR32", symbol = "??_C@_05JLNEMJLN@dummy?$AA@", target = 0x00490A70 },
-  { offset = 0x29, type = "DIR32", symbol = "?g_SoundPlayer@@3USupervisorAudioSoundPlayerView@?A0xfb5c156d@@A", target = 0x004DC698 },
-  { offset = 0x2E, type = "REL32", symbol = "?QueueCommand@SupervisorAudioSoundPlayerView@?A0xfb5c156d@@QAEXHHPAD@Z", target = 0x0043EE40 },
+  { offset = 0x29, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0x2E, type = "REL32", symbol = "?QueueCommand@SoundPlayer@@QAEXHHPAD@Z", target = 0x0043EE40 },
 ]
 
 [units.supervisor-release-music]
@@ -4062,8 +4062,8 @@ relocations = [
   { offset = 0x4A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x5BC },
   { offset = 0x54, type = "REL32", symbol = "?ReleaseFileData@SupervisorAudioMidiOutputView@?A0xfb5c156d@@QAEXH@Z", target = 0x0043D550 },
   { offset = 0x64, type = "DIR32", symbol = "??_C@_05JLNEMJLN@dummy?$AA@", target = 0x00490A70 },
-  { offset = 0x6C, type = "DIR32", symbol = "?g_SoundPlayer@@3USupervisorAudioSoundPlayerView@?A0xfb5c156d@@A", target = 0x004DC698 },
-  { offset = 0x71, type = "REL32", symbol = "?QueueCommand@SupervisorAudioSoundPlayerView@?A0xfb5c156d@@QAEXHHPAD@Z", target = 0x0043EE40 },
+  { offset = 0x6C, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0x71, type = "REL32", symbol = "?QueueCommand@SoundPlayer@@QAEXHHPAD@Z", target = 0x0043EE40 },
 ]
 
 [units.supervisor-stop-audio]
@@ -4081,9 +4081,9 @@ relocations = [
   { offset = 0x20, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x25, type = "REL32", symbol = "?IsMusicPreloaded@Supervisor@@QAEHXZ", target = 0x0042ED40 },
   { offset = 0x2C, type = "DIR32", symbol = "??_C@_05JLNEMJLN@dummy?$AA@", target = 0x00490A70 },
-  { offset = 0x31, type = "DIR32", symbol = "?g_SoundPlayer@@3USupervisorAudioSoundPlayerView@?A0xfb5c156d@@A", target = 0x004DC698 },
-  { offset = 0x3C, type = "REL32", symbol = "?QueueCommand@SupervisorAudioSoundPlayerView@?A0xfb5c156d@@QAEXHHPAD@Z", target = 0x0043EE40 },
-  { offset = 0x46, type = "REL32", symbol = "?QueueCommand@SupervisorAudioSoundPlayerView@?A0xfb5c156d@@QAEXHHPAD@Z", target = 0x0043EE40 },
+  { offset = 0x31, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0x3C, type = "REL32", symbol = "?QueueCommand@SoundPlayer@@QAEXHHPAD@Z", target = 0x0043EE40 },
+  { offset = 0x46, type = "REL32", symbol = "?QueueCommand@SoundPlayer@@QAEXHHPAD@Z", target = 0x0043EE40 },
 ]
 
 [units.supervisor-fade-out-music]
@@ -4104,8 +4104,8 @@ relocations = [
   { offset = 0x5A, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x6F, type = "DIR32", symbol = "??_C@_00CNPNBAHC@?$AA@", target = 0x00490A76 },
   { offset = 0x74, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
-  { offset = 0x7C, type = "DIR32", symbol = "?g_SoundPlayer@@3USupervisorAudioSoundPlayerView@?A0xfb5c156d@@A", target = 0x004DC698 },
-  { offset = 0x81, type = "REL32", symbol = "?QueueCommand@SupervisorAudioSoundPlayerView@?A0xfb5c156d@@QAEXHHPAD@Z", target = 0x0043EE40 },
+  { offset = 0x7C, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0x81, type = "REL32", symbol = "?QueueCommand@SoundPlayer@@QAEXHHPAD@Z", target = 0x0043EE40 },
 ]
 
 
@@ -14260,8 +14260,8 @@ relocations = [
   { offset = 0x60, type = "REL32", symbol = "?ConfigureScreenViewport@Supervisor@@QAEXH@Z", target = 0x00403D90 },
   { offset = 0x65, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
   { offset = 0x6A, type = "REL32", symbol = "?RunCalcChain@Chain@@QAEHXZ", target = 0x0042C700 },
-  { offset = 0x6F, type = "DIR32", symbol = "?g_SoundPlayer@@3UGameWindowSoundPlayerView@@A", target = 0x004DC698 },
-  { offset = 0x76, type = "REL32", symbol = "?ProcessQueues@GameWindowSoundPlayerView@@QAEHXZ", target = 0x0043F1F0 },
+  { offset = 0x6F, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0x76, type = "REL32", symbol = "?ProcessQueues@SoundPlayer@@QAEHXZ", target = 0x0043F1F0 },
   { offset = 0x7F, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x84, type = "REL32", symbol = "?ThreadClose@GameWindowSupervisorThreadView@@QAEXXZ", target = 0x00430230 },
   { offset = 0x96, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
@@ -21597,7 +21597,7 @@ addend = 0
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x30
 type = "DIR32"
-symbol = "$L1977"
+symbol = "$L58744"
 target = 0x444118
 addend = 0
 
@@ -21695,14 +21695,14 @@ addend = 0
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x15f
 type = "DIR32"
-symbol = "?g_SoundPlayer@@3UExAttackType1422SoundPlayerView@@A"
+symbol = "?g_SoundPlayer@@3VSoundPlayer@@A"
 target = 0x4dc698
 addend = 0
 
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x164
 type = "REL32"
-symbol = "?PlaySoundByIdx@ExAttackType1422SoundPlayerView@@QAEXHH@Z"
+symbol = "?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z"
 target = 0x43e2f0
 addend = 0
 
@@ -21870,28 +21870,28 @@ addend = 0
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x328
 type = "DIR32"
-symbol = "$L1897"
+symbol = "$L58660"
 target = 0x443e24
 addend = 0
 
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x32c
 type = "DIR32"
-symbol = "$L1900"
+symbol = "$L58663"
 target = 0x443ea9
 addend = 0
 
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x330
 type = "DIR32"
-symbol = "$L1912"
+symbol = "$L58675"
 target = 0x443f91
 addend = 0
 
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x334
 type = "DIR32"
-symbol = "$L1922"
+symbol = "$L58685"
 target = 0x444047
 addend = 0
 
@@ -22088,8 +22088,8 @@ relocations = [
   { offset = 0x39e, type = "REL32", symbol = "?Reset@FrontCalcAddedOwnerStateView@@QAEXXZ", target = 0x41d7e0 },
   { offset = 0x3a4, type = "DIR32", symbol = "?g_GameManager@@3UFrontCalcGameManagerView@@A", target = 0x4a7d90 },
   { offset = 0x3af, type = "REL32", symbol = "?Reset@FrontCalcAddedOwnerStateView@@QAEXXZ", target = 0x41d7e0 },
-  { offset = 0x3c6, type = "DIR32", symbol = "?g_SoundPlayer@@3UFrontCalcSoundPlayerView@@A", target = 0x4dc698 },
-  { offset = 0x3cb, type = "REL32", symbol = "?PlaySoundByIdx@FrontCalcSoundPlayerView@@QAEXHH@Z", target = 0x43e2f0 },
+  { offset = 0x3c6, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x4dc698 },
+  { offset = 0x3cb, type = "REL32", symbol = "?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z", target = 0x43e2f0 },
   { offset = 0x3d9, type = "DIR32", symbol = "?g_GameManager@@3UFrontCalcGameManagerView@@A", target = 0x4a7d90 },
   { offset = 0x3f2, type = "DIR32", symbol = "?g_GameManager@@3UFrontCalcGameManagerView@@A", target = 0x4a7d90 },
   { offset = 0x422, type = "REL32", symbol = "?RegisterChain@ScreenEffect@@SIPAU1@W4ScreenEffectType@@HHHHHH@Z", target = 0x422d20 },

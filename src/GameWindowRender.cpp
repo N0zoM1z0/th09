@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "SoundPlayer.hpp"
 #include "Chain.hpp"
 #include "GameWindow.hpp"
 #include "Supervisor.hpp"
@@ -23,11 +24,6 @@ typedef char GameWindowRenderFrameskipAt43A[
 typedef char GameWindowRenderFogStateAt794[
     (offsetof(GameWindowRenderSupervisorView, fogState794) == 0x794) ? 1 : -1];
 
-struct GameWindowSoundPlayerView
-{
-    int ProcessQueues();
-};
-extern GameWindowSoundPlayerView g_SoundPlayer;
 extern Chain g_Chain;
 
 struct GameWindowSupervisorThreadView

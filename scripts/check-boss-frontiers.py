@@ -3340,9 +3340,151 @@ def run_pause(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     return {'pause_menu_update': guard_pause_menu(report)}, exact
 
 
+# Genuine native SoundPlayer provenance across five further long callbacks,
+# not just nearby 3-byte or constructor leaves.  The source-only fake receiver
+# once made 12 canonical exact units numerically linkable but declared an
+# inconsistent C++ symbol for one global and its three real member methods.
+AUDIO_TRUE_GLOBAL = '?g_SoundPlayer@@3VSoundPlayer@@A'
+AUDIO_TRUE_PLAY = '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z'
+AUDIO_TRUE_QUEUE = '?QueueCommand@SoundPlayer@@QAEXHHPAD@Z'
+AUDIO_TRUE_PROCESS = '?ProcessQueues@SoundPlayer@@QAEHXZ'
+AUDIO_TRUE_METHODS = {
+    AUDIO_TRUE_GLOBAL: ('DIR32',0x004DC698),
+    AUDIO_TRUE_PLAY: ('REL32',0x0043E2F0),
+    AUDIO_TRUE_QUEUE: ('REL32',0x0043EE40),
+    AUDIO_TRUE_PROCESS: ('REL32',0x0043F1F0),
+}
+AUDIO_TRUE_CARRIERS = {
+    'src/ExAttackUpdateType14Type22.cpp': {'build/matching/ExAttackUpdateType14Type22.obj':1},
+    'src/FrontCalcCallback.cpp': {'build/matching/FrontCalcCallback.obj':1},
+    'src/GameWindowRender.cpp': {'build/matching/GameWindowRender.obj':1},
+    'src/SupervisorAudio.cpp': {'build/matching/SupervisorAudio.obj':8},
+    'src/SupervisorDeletedCallback.cpp': {'build/matching/SupervisorDeletedCallback.obj':1},
+}
+# Original PE-bound full function extents (not candidate-derived length hints).
+AUDIO_TRUE_EXACT_OWNERS = {
+    'exattack-type14-22-update': ('src/ExAttackUpdateType14Type22.cpp',0x443DF0,805,824),
+    'front-calc-callback': ('src/FrontCalcCallback.cpp',0x417630,1491,1491),
+    'game-window-render': ('src/GameWindowRender.cpp',0x42DC40,326,326),
+    'supervisor-play-music': ('src/SupervisorAudio.cpp',0x431930,254,254),
+    'supervisor-play-audio': ('src/SupervisorAudio.cpp',0x431A30,169,169),
+    'supervisor-load-music': ('src/SupervisorAudio.cpp',0x42FC20,207,207),
+    'supervisor-start-loaded-music': ('src/SupervisorAudio.cpp',0x42FCF0,53,53),
+    'supervisor-release-music': ('src/SupervisorAudio.cpp',0x42FD90,130,130),
+    'supervisor-stop-audio': ('src/SupervisorAudio.cpp',0x42FD30,81,81),
+    'supervisor-fade-out-music': ('src/SupervisorAudio.cpp',0x42FE20,148,148),
+    'supervisor-audio-has-flag-bit1': ('src/SupervisorAudio.cpp',0x41A9AC,12,12),
+    'supervisor-deleted-callback': ('src/SupervisorDeletedCallback.cpp',0x431B70,405,405),
+}
+# Every native sound global/member operand offset is attested independently
+# against the original PE by the complete canonical comparator.
+AUDIO_TRUE_ORIGINAL_FIELDS = {
+    'exattack-type14-22-update': ((0x15F,AUDIO_TRUE_GLOBAL),(0x164,AUDIO_TRUE_PLAY)),
+    'front-calc-callback': ((0x3C6,AUDIO_TRUE_GLOBAL),(0x3CB,AUDIO_TRUE_PLAY)),
+    'game-window-render': ((0x6F,AUDIO_TRUE_GLOBAL),(0x76,AUDIO_TRUE_PROCESS)),
+    'supervisor-play-music': ((0xAC,AUDIO_TRUE_GLOBAL),(0xB1,AUDIO_TRUE_QUEUE),
+                              (0xBE,AUDIO_TRUE_GLOBAL),(0xC3,AUDIO_TRUE_QUEUE)),
+    'supervisor-play-audio': ((0x69,AUDIO_TRUE_GLOBAL),(0x6E,AUDIO_TRUE_QUEUE)),
+    'supervisor-load-music': ((0xBA,AUDIO_TRUE_GLOBAL),(0xBF,AUDIO_TRUE_QUEUE)),
+    'supervisor-start-loaded-music': ((0x29,AUDIO_TRUE_GLOBAL),(0x2E,AUDIO_TRUE_QUEUE)),
+    'supervisor-release-music': ((0x6C,AUDIO_TRUE_GLOBAL),(0x71,AUDIO_TRUE_QUEUE)),
+    'supervisor-stop-audio': ((0x31,AUDIO_TRUE_GLOBAL),(0x3C,AUDIO_TRUE_QUEUE),
+                              (0x46,AUDIO_TRUE_QUEUE)),
+    'supervisor-fade-out-music': ((0x7C,AUDIO_TRUE_GLOBAL),(0x81,AUDIO_TRUE_QUEUE)),
+    'supervisor-audio-has-flag-bit1': (),
+    'supervisor-deleted-callback': ((0xB1,AUDIO_TRUE_GLOBAL),(0xB6,AUDIO_TRUE_QUEUE)),
+}
+AUDIO_TRUE_EXACT_CALLEES = {
+    'soundplayer-play-sound-by-idx': (0x43E2F0,140,140,AUDIO_TRUE_PLAY),
+    'soundplayer-queue-command': (0x43EE40,105,105,AUDIO_TRUE_QUEUE),
+    'soundplayer-process-queues': (0x43F1F0,1414,1456,AUDIO_TRUE_PROCESS),
+}
+
+
+def validate_audio_true_cpp_owners(units: dict) -> None:
+    """Fail closed on fake linker names and any original callsite changes."""
+    if len(AUDIO_TRUE_EXACT_OWNERS) != 12:
+        raise RuntimeError('native sound callback inventory is not complete')
+    observations = set()
+    for source,carriers in AUDIO_TRUE_CARRIERS.items():
+        groups=exact_source_carriers(source,carriers,units)
+        observations.update(name for names in groups.values() for name in names)
+        body=(ROOT/source).read_text()
+        if ('#include "SoundPlayer.hpp"' not in body or
+                'SoundPlayerView' in body or
+                'g_SoundPlayer.' not in body):
+            raise RuntimeError('original game/ExAttack/Front/Supervisor source has fake sound C++ owner: '+source)
+    if observations != set(AUDIO_TRUE_EXACT_OWNERS):
+        raise RuntimeError('native sound exact source carrier census incomplete')
+    total_real_fields=0
+    for name,(source,va,size,physical) in AUDIO_TRUE_EXACT_OWNERS.items():
+        row=units.get(name)
+        if (not isinstance(row,dict) or row.get('source')!=source or
+                row.get('target_address')!=va or row.get('size')!=size or
+                row.get('compare_size',size)!=physical or
+                row.get('profile')!=list(_SCREEN_EFFECT_BASE_PROFILE)):
+            raise RuntimeError('native source-cold sound callback function/profile/boundary changed: '+name)
+        if name=='supervisor-audio-has-flag-bit1' and row.get('symbol') != (
+                '?HasFlagBit1@SupervisorAudioGameManagerView@?A0xfb5c156d@@QAEHXZ'):
+            raise RuntimeError('SupervisorAudio anonymous owner label drifted')
+        if source=='src/SupervisorAudio.cpp':
+            anon='@?A0xfb5c156d@@'
+        elif source=='src/SupervisorDeletedCallback.cpp':
+            anon='@?A0x4471bc32@@'
+        else:anon=None
+        for field in row['relocations']:
+            symbol=field['symbol']
+            if '@?A0x' in symbol and (anon is None or anon not in symbol):
+                raise RuntimeError('anonymous namespace C++ symbol hash was not original-VA bound')
+        actual=[(x['offset'],x['symbol'],x['type'],x['target'],x.get('addend',0))
+                for x in row['relocations'] if
+                x['symbol'] in AUDIO_TRUE_METHODS or
+                'SoundPlayerView' in x['symbol'] or 'PlaySoundByIdx@' in x['symbol'] or
+                'QueueCommand@' in x['symbol'] or 'ProcessQueues@' in x['symbol']]
+        expected=[(offset,symbol,*AUDIO_TRUE_METHODS[symbol],0)
+                  for offset,symbol in AUDIO_TRUE_ORIGINAL_FIELDS[name]]
+        if actual!=expected:
+            raise RuntimeError('native audio original source field/call order or VA changed: '+name)
+        total_real_fields+=len(actual)
+    if total_real_fields!=25:
+        raise RuntimeError('original sound global/member field count incorrect')
+    for name,(va,size,physical,symbol) in AUDIO_TRUE_EXACT_CALLEES.items():
+        row=units.get(name)
+        if (not isinstance(row,dict) or
+                row.get('source')!='src/SoundPlayerProcessQueues.cpp' or
+                row.get('target_address')!=va or row.get('size')!=size or
+                row.get('compare_size',size)!=physical or
+                row.get('symbol')!=symbol or
+                row.get('profile')!=list(_SCREEN_EFFECT_BASE_PROFILE)):
+            raise RuntimeError('native audio call does not target an independently exact true C++ member: '+name)
+    inspector=(ROOT/'scripts/replay-front-calc-regions.py').read_text()
+    if ('FrontCalcSoundPlayerView' in inspector or
+            AUDIO_TRUE_GLOBAL not in inspector or
+            AUDIO_TRUE_PLAY not in inspector):
+        raise RuntimeError('FrontCalc physical original-region inspector uses fake sound linking')
+
+
+def run_audio_true_exact(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    """Cold check ALL 12 existing exact owners, plus three actual sound callees."""
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        units=tomllib.load(stream)['units']
+    validate_audio_true_cpp_owners(units)
+    if not protect_exact:
+        return {}, []
+    exact=[]
+    for source,carriers in AUDIO_TRUE_CARRIERS.items():
+        exact.extend(cold_replay_exact_source(source,carriers))
+    # The real sound methods are distinct source/target owners. Their flags
+    # and physical size are tested independently by each canonical replay.
+    for name in AUDIO_TRUE_EXACT_CALLEES:
+        build(name)
+        exact.append(canonical(name))
+    return {},exact
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'player', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -3351,6 +3493,11 @@ def main() -> int:
               'owners': {}, 'canonical_siblings': []}
     try:
         execute(['scripts/verify-target.py'])
+        if args.owner in ('audio', 'all'):
+            owners, exact = run_audio_true_exact(
+                protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
         if args.owner in ('pause', 'all'):
             owners, exact = run_pause(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)

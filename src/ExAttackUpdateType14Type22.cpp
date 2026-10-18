@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "SoundPlayer.hpp"
 #include "AsciiManager.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackType1422ExtraView.hpp"
@@ -60,13 +61,7 @@ struct ExAttackType1422GameManagerView
     ExAttackType1422SideView sides[2];
 };
 
-struct ExAttackType1422SoundPlayerView
-{
-    void PlaySoundByIdx(int soundIndex, int pan);
-};
-
 extern ExAttackType1422GameManagerView g_GameManager;
-extern ExAttackType1422SoundPlayerView g_SoundPlayer;
 extern RngRuntimeView g_ReplayRng;
 
 int __fastcall ExAttackUpdateCallbackType14_22(ExAttackRecord *base)

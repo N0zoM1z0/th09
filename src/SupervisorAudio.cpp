@@ -1,4 +1,5 @@
 #include "Supervisor.hpp"
+#include "SoundPlayer.hpp"
 
 #include <stddef.h>
 #include <string.h>
@@ -14,11 +15,6 @@ struct SupervisorAudioMidiOutputView
     int Play();
     void StopPlayback();
     void SetFadeOut(unsigned int milliseconds);
-};
-
-struct SupervisorAudioSoundPlayerView
-{
-    void QueueCommand(int opcode, int argument, char *path);
 };
 
 struct SupervisorAudioGameManagerView
@@ -57,7 +53,6 @@ typedef char SupervisorMusicTrackRecordSizeIs10[
     (sizeof(SupervisorMusicTrackRecord) == 0x10) ? 1 : -1];
 }
 
-extern SupervisorAudioSoundPlayerView g_SoundPlayer;
 extern SupervisorAudioGameManagerView g_GameManager;
 extern SupervisorMusicTrackRecord g_SupervisorMusicTracks[];
 extern unsigned char g_MusicUnlocked[];

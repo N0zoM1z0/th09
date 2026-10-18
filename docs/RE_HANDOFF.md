@@ -72,12 +72,12 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   `--owner title`, `--owner exattack` preserve the 30/268/22/6+9 open
   residuals and their exact siblings; 32 additional natural ExAttack
   initializer cursor/lifetime compilation trials found no new exact owner.
-- **Current Ascii/Pause ABI repair:** both large Ascii menu callbacks
-  (State4 **1,172**, State5 **1,236** full exact bytes) and genuine 15-byte
-  `SoundPlayer::ResumeAfterPause` now share authentic global/method class;
-  six previously stale State5 `$L` labels now pass exact cold comparison.
-  Cross-TU original-VA checks and cold sweep passed **35 noncrediting
-  groups / 236 exact functions**. PauseMenu remains **1,776/1,732 NON-EXACT**.
+- **Native audio across five TUs:** ExAttack 14/22, FrontCalc, GameWindow,
+  Supervisor Audio/Deleted now use real `SoundPlayer` with **12 existing
+  exact / 4,100 physical bytes**; **25 true globals/calls** retain retail
+  VAs. Rechecked anonymous hashes at canonical `src/` paths, not staging.
+  Prior Ascii State4/5 (**1,172/1,236**), Pause Resume (**15**) are exact;
+  PauseMenu remains **1,776 original / 1,732 source, NON-EXACT**.
 - **Highest-priority bosses:** `RunEcl` (15,564 physical/598 fields, 30
   unlike ordinary bytes at opcode 4/155), `EtamaController::OnDraw`
   (600/600, 268 unlike bytes; `OnUpdate` already exact 2,216 physical),

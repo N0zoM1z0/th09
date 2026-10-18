@@ -1,4 +1,5 @@
 #include "Supervisor.hpp"
+#include "SoundPlayer.hpp"
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "ZunMemory.hpp"
@@ -15,11 +16,6 @@ struct DeletedAnmManagerView
     void ReleaseVertexBuffer();
     void ReleaseAnm(int slot);
     void ReleaseSurface(int slot);
-};
-
-struct DeletedSoundPlayerView
-{
-    void QueueCommand(int opcode, int argument, char *path);
 };
 
 struct DeletedMidiOutputView
@@ -86,7 +82,6 @@ typedef char DeletedMidiAt5BC[(offsetof(SupervisorDeletedGlobalLayout, midiOutpu
 typedef char DeletedVersionAt7AC[(offsetof(SupervisorDeletedGlobalLayout, versionData) == 0x7AC) ? 1 : -1];
 }
 
-extern DeletedSoundPlayerView g_SoundPlayer;
 extern DeletedGameManagerLayout g_GameManager;
 extern DeletedPbgArchiveView g_PbgArchive;
 extern DeletedReplayStateView *g_DeletedReplayState;

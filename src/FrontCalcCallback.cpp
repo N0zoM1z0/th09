@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "SoundPlayer.hpp"
 #include "AsciiManager.hpp"
 #include "FrontSupport.hpp"
 #include "ScreenEffect.hpp"
@@ -120,11 +121,6 @@ struct FrontCalcCollisionView
         int delay);
 };
 
-struct FrontCalcSoundPlayerView
-{
-    void PlaySoundByIdx(int soundIndex, int pan);
-};
-
 struct FrontCalcView
 {
     unsigned char unknown00000[0x08];
@@ -164,7 +160,6 @@ typedef char FrontCalcResultAt11EAC[
     (offsetof(FrontCalcView, resultVm11EAC) == 0x11EAC) ? 1 : -1];
 
 extern FrontCalcGameManagerView g_GameManager;
-extern FrontCalcSoundPlayerView g_SoundPlayer;
 extern int g_FrontDynamicSprite;
 extern int g_EndingLifecycleState;
 extern unsigned char g_FrontMode0Done;
