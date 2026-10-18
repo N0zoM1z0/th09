@@ -9,6 +9,32 @@
 
 ## Current verified handoff checkpoint
 
+- **RunEcl authentic boss-marker interrupt and SoundPlayer owners (October 18):**
+  Reopened **original** code at four RunEcl opcode-124..157 callsites.
+  The previous `Th09EclRunState::BossUiView::SetBossMarkerState` was **misnamed**:
+  its actual callee `0x004067D0` is the canonical **32-byte
+  `AsciiBossMarkerVmView::SetBossMarkerInterrupt(int,short)`**, NOT
+  `AsciiManager::SetBossMarkerState @0x0040F890` (20-byte distinct owner).
+  Updated RunEcl's two interrupt calls, 42-byte exact marker-position call
+  `@0x004067F0` and positioned audio @`0x0043E380` to their genuine shared
+  C++ type/receiver/symbol; the exact post-ECL movement helper now also uses
+  genuine `g_SoundPlayer` and `PlaySoundByIdx @0x0043E2F0`, not the old
+  invented `EnemyEclSoundPlayerView` global. **Before/after full source-cold
+  15,564-byte RunEcl raw function is byte-for-byte identical; all 598
+  original-bound fields and 193 switch-table destinations agree**, leaving
+  exactly the original **30** ordinary differences (opcode 4 seven,
+  155 twenty-three), 146/148 handler shapes. Its **992-byte physical**
+  `EnemyPostEclUpdateMovement` and **892-byte physical** alternate-carrier
+  `CompareOperands` replay canonically exact; all source-identity-only
+  symbols (two genuine SoundPlayer C++ names and **20 private-label spellings** across these two exact carriers)
+  were updated only after confirming independently retail original VAs.
+  The strict original callsite audit now requires eight genuine call/global
+  source symbols, not old misleading aliases. Focused `--owner runecl`
+  protects **30 existing full exact bodies**, including four genuine ASCII/
+  audio callees from two additional pinned cold carriers. This fixes a real
+  source-referent/ABI naming mistake and native linker split; **no new exact
+  function** (940/980) and no completed product/native link/runtime claim.
+
 - **Front message runtime exact callee shared across two large lifecycle callers (October 18):**
   The independently canonical exact **133-byte / nine-field**
   `FrontMessageOwnerView::InitializeMessageRuntime @0x004181E0` previously

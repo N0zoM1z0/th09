@@ -19,10 +19,14 @@
 
 #include "EclRunBullet.inl"
 #include "EffectManager.hpp"
+#include "AsciiBossMarkerVmView.hpp"
+#include "SoundPlayer.hpp"
 #include "ZunMemory.hpp"
 
 #include <stddef.h>
 #include <string.h>
+
+extern AsciiManager g_AsciiManager;
 
 namespace Th09EclRunState
 {
@@ -246,23 +250,10 @@ typedef char Th09EclStateChildDepthAt06[
 typedef char Th09EclStateChildCallStackAt234[
     (offsetof(ChildEclBlock, callStack0234) == 0x0234) ? 1 : -1];
 
-struct BossUiView
-{
-    void SetBossMarkerState(int slot, int state);
-    void SetBossMarkerPosition(int slot, Float3 *position);
-};
-
-struct SoundPlayerView
-{
-    void PlaySoundPositionedByIdx(int soundIndex, float x);
-};
-
 typedef void (__fastcall *ExInstructionCallback)(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
 
-extern BossUiView g_BossUi;
-extern SoundPlayerView g_SoundPlayer;
 extern ExInstructionCallback g_ExInstructionCallbacks[];
 extern int g_BossLifeMarkerProtocolValue;
 
@@ -349,7 +340,9 @@ __forceinline void AssignTimeoutSpellBit(unsigned int &flags,
             Th09EclRunState::View(enemy)->bossSlot336B =
                 static_cast<unsigned char>(
                     Th09EclRunControl::ReadInt(enemy, instruction, 0));
-            Th09EclRunState::g_BossUi.SetBossMarkerState(
+            // Retail calls exact SetBossMarkerInterrupt @0x4067D0 here,
+            // not the distinct AsciiManager::SetBossMarkerState @0x40F890.
+            reinterpret_cast<AsciiBossMarkerVmView *>(&::g_AsciiManager)->SetBossMarkerInterrupt(
                 Th09EclRunState::View(enemy)->bossSlot336B,
                 1);
             Th09EclRunState::View(enemy)->minimumPlayerDistanceSquared33A8 =
@@ -361,11 +354,11 @@ __forceinline void AssignTimeoutSpellBit(unsigned int &flags,
                 Th09EclRunState::View(enemy)->bossSlot336B] = 0;
             Th09EclRunState::View(enemy)->primaryFlags337C &=
                 ~Th09EclRunState::ENEMY_STATE_BOSS;
-            Th09EclRunState::g_BossUi.SetBossMarkerState(
+            reinterpret_cast<AsciiBossMarkerVmView *>(&::g_AsciiManager)->SetBossMarkerInterrupt(
                 Th09EclRunState::View(enemy)->bossSlot336B,
                 2);
             Th09EclRunState::ReleaseAttachedEffects(enemy);
-            Th09EclRunState::g_BossUi.SetBossMarkerPosition(
+            reinterpret_cast<AsciiBossMarkerVmView *>(&::g_AsciiManager)->SetBossMarkerPosition(
                 Th09EclRunState::View(enemy)->bossSlot336B,
                 &Float3(-999.0f, -999.0f, 0.0f));
         }
@@ -386,7 +379,7 @@ __forceinline void AssignTimeoutSpellBit(unsigned int &flags,
 
     case TH09_ECL_OPCODE_PLAY_POSITIONED_SOUND:
         stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunState::g_SoundPlayer.PlaySoundPositionedByIdx(
+        ::g_SoundPlayer.PlaySoundPositionedByIdx(
             stateInt,
             Th09EclRunState::View(enemy)->position2D74.x);
         break;

@@ -549,8 +549,66 @@ def guard_runecl_timer_jump(report: dict, *, ordinary_differences: int) -> dict:
             'exactness_credit': 'none'}
 
 
+
+# RunEcl opcodes 124..157 genuinely call the 32-/42-byte ASCII boss VM
+# members and SoundPlayer's two exact member methods. The older 'BossUi::
+# SetBossMarkerState' source alias was WRONG: its observed callee @0x4067D0
+# is SetBossMarkerInterrupt(short), not AsciiManager::SetBossMarkerState
+# @0x40F890. These separate original functions must never be interchanged.
+RUNECL_REAL_STATE_EXACT_CARRIERS = (
+    ('src/AsciiBossMarkerVm.cpp', (
+        ('ascii-boss-marker-set-interrupt', 0x004067D0,
+         '?SetBossMarkerInterrupt@AsciiBossMarkerVmView@@QAEXHF@Z'),
+        ('ascii-boss-marker-set-position', 0x004067F0,
+         '?SetBossMarkerPosition@AsciiBossMarkerVmView@@QAEXHPBUFloat3@@@Z'))),
+    ('src/SoundPlayerProcessQueues.cpp', (
+        ('soundplayer-play-sound-by-idx', 0x0043E2F0,
+         '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z'),
+        ('soundplayer-play-positioned-sound-by-idx', 0x0043E380,
+         '?PlaySoundPositionedByIdx@SoundPlayer@@QAEXHM@Z'))),
+)
+
+
+def replay_runecl_real_state_callees(*, shared_with_enemy_prechecked: bool) -> list[dict]:
+    """Protect 4 true owners once per cold source carrier, no double credit.
+
+    The full all-sweep checks the ASCII twins and positioned audio later in
+    Enemy's independently cold callee sweep. Focused RunEcl must check all
+    four itself; all-mode adds only the distinct PlaySoundByIdx owner.
+    """
+    with (ROOT / 'config/match-units.toml').open('rb') as stream:
+        manifest = tomllib.load(stream)['units']
+    exact = []
+    seen = set()
+    for source, group in RUNECL_REAL_STATE_EXACT_CARRIERS:
+        units = [manifest.get(name) for name, _, _ in group]
+        if any(not isinstance(u, dict) for u in units):
+            raise RuntimeError('missing genuine RunEcl boss/sound exact callee')
+        obj = units[0].get('object')
+        flags = units[0].get('profile')
+        if (not isinstance(obj, str) or not obj.startswith('build/matching/') or
+                not isinstance(flags, list) or not flags or obj in seen):
+            raise RuntimeError('RunEcl boss/sound callee carrier/profile drifted')
+        seen.add(obj)
+        for (name, address, symbol), unit in zip(group, units):
+            if (unit.get('source') != source or unit.get('object') != obj or
+                    unit.get('profile') != flags or unit.get('symbol') != symbol or
+                    unit.get('target_address') != address):
+                raise RuntimeError('RunEcl exact boss/sound callee identity changed: '+name)
+        # In all-mode, Enemy's true-source replay covers both ASCII owners
+        # and positioned sound, so count only the separate 140-byte sound.
+        if source == 'src/AsciiBossMarkerVm.cpp' and shared_with_enemy_prechecked:
+            continue
+        build(group[0][0])
+        exact.extend(canonical(name) for name, _, _ in group
+                     if not shared_with_enemy_prechecked or
+                     name == 'soundplayer-play-sound-by-idx')
+    return exact
+
+
 def run_ecl(*, include_trail: bool, include_interpreter: bool,
-            protect_exact: bool) -> tuple[dict, list[dict]]:
+            protect_exact: bool,
+            shared_real_callees_in_enemy: bool = False) -> tuple[dict, list[dict]]:
     build('ecl-pop-context')
     object_file = 'build/matching/EclManager.obj'
     diagnostics: dict[str, dict] = {}
@@ -573,6 +631,8 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
         timer_jump_summary = guard_runecl_timer_jump(
             timer_jump, ordinary_differences=verified_runecl['ordinary_differences'])
         if protect_exact:
+            exact_units.extend(replay_runecl_real_state_callees(
+                shared_with_enemy_prechecked=shared_real_callees_in_enemy))
             # The physical opcode-4 call and its real SetCurrent callee are
             # independent authored exact *leaf* owners. Rebuild the actual
             # shared ZunTimer VC7.1 carrier cold; verify both full functions,
@@ -2517,7 +2577,8 @@ def main() -> int:
         if args.owner in ('runecl', 'exattack', 'all'):
             owners, exact = run_ecl(include_interpreter=args.owner in ('runecl', 'all'),
                                     include_trail=args.owner in ('exattack', 'all'),
-                                    protect_exact=not args.skip_exact_siblings)
+                                    protect_exact=not args.skip_exact_siblings,
+                                    shared_real_callees_in_enemy=args.owner == 'all')
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('type19', 'exattack', 'all'):

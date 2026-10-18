@@ -51,9 +51,6 @@ ALIASES = {
     '?ClampPosition@Th09EclRunMovement@@YIXPAUEnemyView@@@Z': 0x4101d0,
     '?MoveRandomBiased@Th09EclRunLate@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@@Z': 0x407e30,
     '?GetRandomU32InRange@RngRuntimeView@@QAEII@Z': 0x4048e0,
-    '?SetBossMarkerState@BossUiView@Th09EclRunState@@QAEXHH@Z': 0x4067d0,
-    '?SetBossMarkerPosition@BossUiView@Th09EclRunState@@QAEXHPAUFloat3@@@Z': 0x4067f0,
-    '?PlaySoundPositionedByIdx@SoundPlayerView@Th09EclRunState@@QAEXHM@Z': 0x43e380,
     '??YTh09EclTimerStorageView@@QAEXH@Z': 0x406640,
     '?ClearBulletsForTransition@Th09EclRunBullet@@YIXPAUEtamaController@@@Z': 0x405650,
     '?RemoveBulletsInRadius@BulletControllerLateView@Th09EclRunLate@@QAEXPBUFloat3@@M@Z': 0x4125a0,
@@ -63,8 +60,6 @@ ALIASES = {
 }
 DATA_ALIASES = {
     '?g_DifficultyMask@Th09EclRunOwner@@3IA': 0x4a7eb0,
-    '?g_BossUi@Th09EclRunState@@3UBossUiView@1@A': 0x4ce458,
-    '?g_SoundPlayer@Th09EclRunState@@3USoundPlayerView@1@A': 0x4dc698,
     '??_C@_06IPGJPKLK@ECLInt?$AA@': 0x48e468,
     '?g_ExInstructionCallbacks@Th09EclRunState@@3PAP6IXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@@ZA': 0x4a0b14,
     '?g_BossLifeMarkerProtocolValue@Th09EclRunState@@3HA': 0x4a8110,
@@ -186,6 +181,57 @@ def target_data(ins):
                 result.append({'address': i.address + i.imm_offset, 'value': op.imm, 'role': 'immediate', 'mnemonic': i.mnemonic})
     require(len({row['address'] for row in result}) == len(result), 'overlapping target operand fields')
     return sorted(result, key=lambda row: row['address'])
+
+
+# Real retail CALL targets, independently fixed by canonical full-function
+# source units (not by a convenient façade method's C++ spelling). In
+# particular @0x4067D0 is SetBossMarkerInterrupt(slot, short) and is NEVER
+# AsciiManager::SetBossMarkerState @0x40F890. These are distinct behaviors.
+RUNECL_REAL_RUNSTATE_CALLS = {
+    0x2503: ('?SetBossMarkerInterrupt@AsciiBossMarkerVmView@@QAEXHF@Z', 0x4067D0),
+    0x2542: ('?SetBossMarkerInterrupt@AsciiBossMarkerVmView@@QAEXHF@Z', 0x4067D0),
+    0x2572: ('?SetBossMarkerPosition@AsciiBossMarkerVmView@@QAEXHPBUFloat3@@@Z', 0x4067F0),
+    0x2605: ('?PlaySoundPositionedByIdx@SoundPlayer@@QAEXHM@Z', 0x43E380),
+}
+RUNECL_REAL_RUNSTATE_GLOBALS = {
+    0x24FF: ('?g_AsciiManager@@3VAsciiManager@@A', 0x4CE458),
+    0x253E: ('?g_AsciiManager@@3VAsciiManager@@A', 0x4CE458),
+    0x256E: ('?g_AsciiManager@@3VAsciiManager@@A', 0x4CE458),
+    0x2601: ('?g_SoundPlayer@@3VSoundPlayer@@A', 0x4DC698),
+}
+
+
+def validate_real_runstate_callees(calls: list, fields: list) -> dict:
+    """Guard four original-address-backed calls and four genuine globals.
+
+    This rejects the older *wrongly named* SetBossMarkerState façade even
+    though its former alias happened to be bound to the correct 0x4067D0
+    address. Physical/semantic provenance remains separate from byte credit.
+    """
+    call_lookup = {r['candidate_offset']: r for r in calls}
+    data_lookup = {r['candidate_offset']: r for r in fields}
+    for offset, (symbol, va) in RUNECL_REAL_RUNSTATE_CALLS.items():
+        r = call_lookup.get(offset)
+        if (not isinstance(r, dict) or r.get('symbol') != symbol or
+                r.get('expected_destination') != va or
+                r.get('target_destination') != va or
+                r.get('identity_agrees') is not True or
+                'canonical_units' not in r.get('provenance', {})):
+            raise ValueError('RunEcl original boss marker/sound call C++ owner drifted')
+    for offset, (symbol, va) in RUNECL_REAL_RUNSTATE_GLOBALS.items():
+        r = data_lookup.get(offset)
+        if (not isinstance(r, dict) or r.get('symbol') != symbol or
+                r.get('expected_value') != va or r.get('target_value') != va or
+                r.get('identity_agrees') is not True or
+                'canonical_reference_units' not in r.get('provenance', {})):
+            raise ValueError('RunEcl original boss marker/sound global C++ owner drifted')
+    return {'diagnostic_only': True, 'exactness_credit': 'none',
+            'original_bound_calls': len(RUNECL_REAL_RUNSTATE_CALLS),
+            'original_bound_globals': len(RUNECL_REAL_RUNSTATE_GLOBALS),
+            'boss_marker_interrupt_va': hex(0x4067D0),
+            'unrelated_ascii_boss_marker_state_va': hex(0x40F890),
+            'all_eight_real_owners_agree': True}
+
 
 def audit(object_path):
     require(capstone is not None, 'Capstone is required for this optional private-target audit')
@@ -381,6 +427,8 @@ def audit(object_path):
         target_value = coff.pe_bytes_at(image, address, len(value))
         literals.append({'symbol': sym, 'bytes': len(value), 'object_and_target_match_declared_bits': actual == value == target_value})
 
+    real_runstate = validate_real_runstate_callees(call_matrix, body_data)
+
     # Counts are observed, not copied from the historical expected totals.
     failures = []
     if any(row['identity_agrees'] is not True for row in call_matrix):
@@ -424,6 +472,7 @@ def audit(object_path):
         'complete_graph_shapes_agree': cs == ts,
         'observed_table_use_counts': C['table_use_counts'],
         'table_roots_agree': C['roots'] == T['roots'],
+        'real_runstate_owner_gate': real_runstate,
         'direct_calls': call_matrix,
         'indirect_calls': indirect_matrix,
         'manual_indirect_contracts_candidate_sha256': '20fd67dfb8b6e1f066823dc11159f133af022d09e617ef02d4b3eb7b75ae522f',

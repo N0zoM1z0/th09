@@ -7,6 +7,7 @@
 #include "EnemyManager.hpp"
 #include "ExAttackType8GameManagerView.hpp"
 #include "Supervisor.hpp"
+#include "SoundPlayer.hpp"
 
 #include <stddef.h>
 
@@ -15,12 +16,6 @@
 // compiler-private ESI/EDI Enemy transport rather than ordinary member ABI.
 // Their natural file-static source is canonical exact only in this TU; the
 // adjacent-game member spelling is retained as historical corroboration only.
-
-struct EnemyEclSoundPlayerView
-{
-    void PlaySoundByIdx(int soundIndex, int pan);
-};
-extern EnemyEclSoundPlayerView g_SoundPlayer;
 
 struct EnemyEclPlayerView;
 typedef void (__fastcall *EnemySpecialInteractionCallback)(

@@ -8887,3 +8887,66 @@ attest historical producer execution.
   isolated in ignored `.analysis/gpt-web-20261018/` and the production
   source deliberately retains those three truthful bounded ABI views.
   No source/ledger exact credit or native runtime result is manufactured.
+
+## October 18: RunEcl opcode-124..157 original boss interrupt vs state and real audio owners (gpt-web)
+
+- Challenged a previous document/alias rather than trusting a semantic
+  convenience name. Actual TH09 Japanese v1.50a direct calls in the complete
+  `EclManager::RunEcl @0x4086C0`, at **caller +0x2503/+0x2542**, both target
+  **`0x4067D0`**. This is independently canonical exact
+  `AsciiBossMarkerVmView::SetBossMarkerInterrupt(int, short)` (32 bytes,
+  `ret 8`), **NOT** `AsciiManager::SetBossMarkerState(int,int) @0x40F890`
+  (20 bytes, separate target behavior). The old
+  `BossUiView::SetBossMarkerState` spelling accidentally pointed to the former
+  under a hand-maintained call alias, so a source-only name match was
+  **incorrect even though the old PE/COFF bytes matched**. The other
+  original RunEcl CALL `+0x2572` is canonical `SetBossMarkerPosition`
+  @`0x4067F0` (42 bytes, real ABI accepts const Float3*); `+0x2605` is
+  `SoundPlayer::PlaySoundPositionedByIdx` @`0x43E380` (153 bytes).
+  Three absolute receiver loads `+0x24FF/+0x253E/+0x256E` are genuinely
+  `g_AsciiManager @0x004CE458`; the one at `+0x2601` is the *global*
+  `g_SoundPlayer @0x004DC698`, not a namespace-local separate definition.
+- `src/EclRunState.inl` now includes the already original-backed
+  `AsciiBossMarkerVmView.hpp` and `SoundPlayer.hpp`, calls the **true**
+  `SetBossMarkerInterrupt` for the two boss state transitions, true
+  `SetBossMarkerPosition` for the nulling position, and real positioned sound.
+  An exact source `SoundPlayer` global conflict exposed a second fabricated
+  `EnemyEclSoundPlayerView` type in the same actual VC7.1 translation unit.
+  `src/EclPostRuntime.inl` no longer redeclares that global: the exact
+  `EnemyPostEclUpdateMovement @0x408180` now calls genuine
+  `SoundPlayer::PlaySoundByIdx @0x43E2F0` (140-byte exact callee) through
+  the canonical object. These modifications fix **source C++ decorated
+  external identities**, not retail symbol names, original class layouts,
+  or inferred source-TU boundaries.
+- Built the real `/O2 /Ob1` complete EclManager owner *before and after*
+  with both fragments restored/copied source-cold: RunEcl is **15,564/15,564
+  physically byte-identical raw**, with all **598 COFF field offsets,
+  kinds and addends unchanged**. Exactly eight genuine original-bound
+  call/global fields change to canonical decorated C++ names, and 195
+  compiler-private `$L` switch/branch labels renumber without a single
+  moved local target. Independent full PE-linked audit still confirms
+  **30 original unequal nonfield bytes, zero different relocation/table
+  bytes, 146/148 handlers**, with opcode 4/155 semantics separately guarded.
+  In the exact same source TU, `EnemyPostEclUpdateMovement` is **992/992
+  complete physical exact** with 41 unchanged true field positions, nine
+  changed names (two genuine sound methods/globals plus seven private
+  labels). The separately pinned physical **892/892 `CompareOperands`
+  exact** carrier's 13 private labels also remain at the same authentic
+  original VAs. Manifest name updates only touch the two full exact units'
+  confirmed same-address symbol fields, *never* the original target VAs,
+  offsets, compiler flags, field kinds/addends or matching bytes.
+- Removed the wrong boss/audio name-to-address fallbacks from
+  `scripts/audit-ecl-callsite-identities.py`. All four direct calls and four
+  absolute globals are now independently mapped through genuine canonical
+  exact unit/global references, with actual decoded PE/COFF original fields.
+  Its new `validate_real_runstate_callees` fails closed on a fake state method,
+  the *different* real state method VA, wrong marker receiver, missing/wrong
+  sound globals, and unreviewed evidence provenance. The focused
+  `--owner runecl` also recompiles two **real** external source carriers:
+  the ASCII marker pair (32 + 42 bytes, same object) and SoundPlayer pair
+  (140 + 153 bytes, same object) before exact-checking **30** function
+  bodies total (24 already canonical RunEcl/ExAttack source siblings, two
+  real ZunTimer callees and these four); all-mode avoids repeating three
+  already-covered Enemy external siblings and checks the fourth alone.
+  This is a *stronger noncrediting large-owner/source-callee ABI gate*,
+  **not** a 941st exact function or a native Windows product/runtime proof.
