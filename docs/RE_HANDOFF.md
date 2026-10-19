@@ -11,18 +11,18 @@
 
 Read the live ledgers first. The original Japanese v1.50a target SHA-256 is
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-Current state: **982 authored/source-present, 948 canonical exact, 34 nonexact**;
-**230,914/276,755 reviewed-authored bytes = 83.4363%**.
-The **95%** milestone still needs **32,004** complete exact authored bytes.
+Current state: **983 authored/source-present, 949 canonical exact, 34 nonexact**;
+**231,122/276,963 reviewed-authored bytes = 83.4487%**.
+The **95%** milestone still needs **31,993** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
-- **New exact Effect 1/2 update:** **`0x0040D600`** was absent from the inventory.
-  The original shared callback now cold-replays **775 bytes/33 fields**, with
-  **203 instructions/13 calls/26 blocks**. It adds 775 authored and exact bytes.
-  Its initializer stays **210/19 exact** with the corrected float delay at +0x98.
-  Shared native declarations preserve the real **28-byte** constructor and both
-  transition/reward leaves. Original C++ names and object lifetimes remain open.
+- **New exact Effect 34 update:** original template `0x004A0E78` identifies
+  the omitted **`0x00444A20..0x00444AEF`** callback. It cold-replays **208 bytes
+  /11 fields /71 instructions /six calls /ten blocks**, using genuine Timer/RNG.
+  The continuing return and else-local Timer reference preserve original flow.
+  Its **178-byte initializer** and **946-byte draw** remain separate open owners.
+  All 203 previously captured Timer-assignment callsites now have catalogued owners.
 - **Enemy native call boundaries:** the 3,900-byte boss now uses shared
   `ZunTimer` and the real descriptor constructor for **14 original calls**.
   Seven private method aliases are removed. Complete byte/call/field/graph
@@ -92,16 +92,16 @@ remain separate open gates.
   physical helper `0x004343D0` remains source-ownership unknown.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   `gpt-6.1-sol: ...` commits, followed by the explicitly requested push.
-  The previous successful push verified remote `main` at `84fab70`. Preserve all dirty
+  The previous successful push verified remote `main` at `b2229bc`. Preserve all dirty
   work, never patch the target or commit private inputs, and verify remote state.
   Clean reproducible generated files only after their producers stop.
-- **Focused validation:** **45** cold exact functions pass **26,038 physical
-  bytes/1,071 fields**, including all **37** shared ECL owners across both profiles.
-  CI passes **714 tests/28 skipped**; the same object preserves RunEcl/Type19/Enemy.
-  **680** unchanged public inputs stay bound to `84fab70` (638 raw, 42 checkout EOL
-  normalization); five public compiler/tracking inputs change within this batch.
-  After all producers stopped, cleanup removed **401 reproducible files /12,026,488
-  bytes**, including 20 private source copies; `build/` is absent. No new exact credit.
+- **Focused validation:** three canonical functions pass **1,090 physical bytes
+  /39 fields**, plus the same-object **20-byte** Timer comparison. CI passes
+  **714 tests/28 skipped**. **679** unchanged public inputs bind to `b2229bc`
+  (637 raw, 42 checkout EOL normalization); six configs add only the new owner/unit.
+  After all five producers stopped, cleanup removed **359 reproducible files
+  /6,259,654 bytes**, including five private source copies; `build/` is absent.
+  No prior nonexact owner closes. The 95% and whole Windows runtime gates stay open.
 
 
 
@@ -151,7 +151,7 @@ excludes deleted old paths while hashing actual bytes, including line endings.
 
 **Rule:** keep experimental C++ in ignored `.analysis/` until a complete
 original-linked COFF comparison passes; do not edit `config/matches.csv` or
-advance 948 exact merely because normalized, partial, or source-level metrics
+advance 949 exact merely because normalized, partial, or source-level metrics
 improve. Always inspect existing dirty edits (there may be only this worker),
 then commit verified source/guard work as `gpt-6.1-sol: ...`. The currently clean
 handoff deliberately removes generated OBJ/PDB/build caches; the next run
@@ -163,33 +163,36 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current restart summary is
-**982 source-present / 948 exact / 34 non-exact**; earlier operator notes
+**983 source-present / 949 exact / 34 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
 | --- | ---: |
-| Function candidates | 2,194 |
+| Function candidates | 2,195 |
 | Boundary/origin unreviewed | 0 |
 | Reviewed but origin-unresolved | 35 |
-| Confirmed authored | 982 |
+| Confirmed authored | 983 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 982 |
-| Canonical exact functions | 948 |
+| Source-present authored mappings | 983 |
+| Canonical exact functions | 949 |
 | Source-present non-exact functions | 34 |
 | Source-present non-exact bytes | 45,841 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 230,914 |
+| Canonical exact authored bytes | 231,122 |
 
-**230,914 / 276,755 reviewed-authored bytes = 83.4363% exact**. To reach
-95% of the *currently classified* denominator, another **32,004 bytes**
+**231,122 / 276,963 reviewed-authored bytes = 83.4487% exact**. To reach
+95% of the *currently classified* denominator, another **31,993 bytes**
 must become complete original-bound exact owners. The 35 origin-unresolved
 functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
 
-The catalog is not proof of complete executable-code inventory. The original
-**0x0040D677** timer reference now belongs to the exact shared Effect 1/2 update.
-The **0x00444A78** reference still falls outside catalogued extents; review its
-entry/boundary next. Do not silently treat uncatalogued code as excluded.
+The catalog is not proof of complete executable-code inventory. The formerly
+uncatalogued **0x0040D677 /0x00444A78** Timer references now belong to the exact
+Effect 1/2 and Effect 34 updates. All **203** captured assignment callsites have
+catalogued owners; that bounded census proves neither complete executable
+coverage nor a return ABI. The Effect 34 **178-byte initializer at 0x00444960**
+and **946-byte draw at 0x00444AF0** remain independent reconstruction frontiers.
+Do not silently treat uncatalogued code as excluded.
 
 ## Active frontiers
 
@@ -248,7 +251,7 @@ experiments; unsupported guesses there are not target evidence.
 ## Exact landmark routing
 
 The canonical manifest and accepted original-bound comparison remain the
-**sole authority** for the **948 exact** functions. The independently accepted
+**sole authority** for the **949 exact** functions. The independently accepted
 Enemy collision wrapper at 0x00410250 is **82/82 exact**; the 3,900-byte
 Enemy OnUpdate caller is **still 29 bytes nonexact**. The former wrapper's
 original acceptance and several representative source-commit-bound exact
