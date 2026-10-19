@@ -981,3 +981,5 @@ PlayerOwnerRewardCallbackType0
 EffectInitializeCallbackType1Type2
 EffectUpdateCallbackType1Type2
 EffectUpdateCallbackType34
+EffectInitializeCallbackType34
+EffectDrawCallbackType34

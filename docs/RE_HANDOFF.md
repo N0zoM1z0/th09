@@ -11,18 +11,18 @@
 
 Read the live ledgers first. The original Japanese v1.50a target SHA-256 is
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-Current state: **983 authored/source-present, 949 canonical exact, 34 nonexact**;
-**231,122/276,963 reviewed-authored bytes = 83.4487%**.
-The **95%** milestone still needs **31,993** complete exact authored bytes.
+Current state: **985 authored/source-present, 950 canonical exact, 35 nonexact**;
+**231,300/278,087 reviewed-authored bytes = 83.1754%**.
+The **95%** milestone still needs **32,883** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
-- **New exact Effect 34 update:** original template `0x004A0E78` identifies
-  the omitted **`0x00444A20..0x00444AEF`** callback. It cold-replays **208 bytes
-  /11 fields /71 instructions /six calls /ten blocks**, using genuine Timer/RNG.
-  The continuing return and else-local Timer reference preserve original flow.
-  Its **178-byte initializer** and **946-byte draw** remain separate open owners.
-  All 203 previously captured Timer-assignment callsites now have catalogued owners.
+- **Effect 34 family:** the newly inventoried initializer now cold-replays
+  **178 bytes/three fields**. The existing **208-byte/11-field** update stays exact.
+  The **946-byte draw** now has maintained source: **959 bytes, 53 original referents,
+  20 direct/12 COM calls**, correct SDK arguments, **593 differences +13 extra bytes**.
+  `--owner effect34` protects all 353 already equal draw bytes and the shared cohort.
+  This adds 1,124 authored bytes and 178 exact bytes; no prior nonexact owner closes.
 - **Enemy native call boundaries:** the 3,900-byte boss now uses shared
   `ZunTimer` and the real descriptor constructor for **14 original calls**.
   Seven private method aliases are removed. Complete byte/call/field/graph
@@ -71,7 +71,7 @@ remain separate open gates.
   and is included once by EclManager. All real math definitions remain single.
   Type11's previous **732-byte/36-field exact** result stays protected.
 - **Focused scope:** `--owner positions` builds the two changed ECL profiles
-  and checks **37 complete functions /14,026 physical bytes /642 fields**.
+  and checks **37 complete functions /14,204 physical bytes /645 fields**.
   It also checks full RunEcl, biased movement, Enemy and Type19 update.
   The separate four-function Float3 source is unchanged from `c5f2c31` and
   its source-bound evidence is reused. `--owner type11` additionally rebuilds
@@ -92,16 +92,16 @@ remain separate open gates.
   physical helper `0x004343D0` remains source-ownership unknown.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   `gpt-6.1-sol: ...` commits, followed by the explicitly requested push.
-  The previous successful push verified remote `main` at `9a77670`. Preserve all dirty
+  The previous successful push verified remote `main` at `8e857e7`. Preserve all dirty
   work, never patch the target or commit private inputs, and verify remote state.
   Clean reproducible generated files only after their producers stop.
-- **Focused validation:** three canonical functions pass **1,090 physical bytes
-  /39 fields**, plus the same-object **20-byte** Timer comparison. CI passes
-  **714 tests/28 skipped**. **679** unchanged public inputs bind to `b2229bc`
-  (637 raw, 42 checkout EOL normalization); six configs add only the new owner/unit.
-  After all six producers stopped, cleanup removed **361 reproducible files
-  /6,316,317 bytes**, including five private source copies; `build/` is absent.
-  No prior nonexact owner closes. The 95% and whole Windows runtime gates stay open.
+- **Focused validation:** **39** canonical functions pass **14,412 physical bytes
+  /656 fields**; CI passes **718 tests/28 skipped**. RunEcl/Enemy/Type19 stay guarded.
+  **677** public inputs bind unchanged to `8e857e7` (636 raw, 41 checkout EOL
+  normalization); ten reviewed inputs change and three new source/tool/test files join.
+  After all 14 producers stopped, cleanup removed **478 reproducible files
+  /21,022,296 bytes**, including 60 private source copies; `build/` is absent.
+  The broader denominator includes the nonexact draw. No prior exact owner regresses.
 
 
 
@@ -151,7 +151,7 @@ excludes deleted old paths while hashing actual bytes, including line endings.
 
 **Rule:** keep experimental C++ in ignored `.analysis/` until a complete
 original-linked COFF comparison passes; do not edit `config/matches.csv` or
-advance 949 exact merely because normalized, partial, or source-level metrics
+advance 950 exact merely because normalized, partial, or source-level metrics
 improve. Always inspect existing dirty edits (there may be only this worker),
 then commit verified source/guard work as `gpt-6.1-sol: ...`. The currently clean
 handoff deliberately removes generated OBJ/PDB/build caches; the next run
@@ -163,25 +163,25 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current restart summary is
-**983 source-present / 949 exact / 34 non-exact**; earlier operator notes
+**985 source-present / 950 exact / 35 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
 | --- | ---: |
-| Function candidates | 2,195 |
+| Function candidates | 2,197 |
 | Boundary/origin unreviewed | 0 |
 | Reviewed but origin-unresolved | 35 |
-| Confirmed authored | 983 |
+| Confirmed authored | 985 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 983 |
-| Canonical exact functions | 949 |
-| Source-present non-exact functions | 34 |
-| Source-present non-exact bytes | 45,841 |
+| Source-present authored mappings | 985 |
+| Canonical exact functions | 950 |
+| Source-present non-exact functions | 35 |
+| Source-present non-exact bytes | 46,787 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 231,122 |
+| Canonical exact authored bytes | 231,300 |
 
-**231,122 / 276,963 reviewed-authored bytes = 83.4487% exact**. To reach
-95% of the *currently classified* denominator, another **31,993 bytes**
+**231,300 / 278,087 reviewed-authored bytes = 83.1754% exact**. To reach
+95% of the *currently classified* denominator, another **32,883 bytes**
 must become complete original-bound exact owners. The 35 origin-unresolved
 functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
@@ -190,8 +190,8 @@ The catalog is not proof of complete executable-code inventory. The formerly
 uncatalogued **0x0040D677 /0x00444A78** Timer references now belong to the exact
 Effect 1/2 and Effect 34 updates. All **203** captured assignment callsites have
 catalogued owners; that bounded census proves neither complete executable
-coverage nor a return ABI. The Effect 34 **178-byte initializer at 0x00444960**
-and **946-byte draw at 0x00444AF0** remain independent reconstruction frontiers.
+coverage nor a return ABI. The Effect 34 **178-byte initializer at 0x00444960** is now exact; its
+**946-byte draw at 0x00444AF0** is a maintained, explicitly nonexact frontier.
 Do not silently treat uncatalogued code as excluded.
 
 ## Active frontiers
@@ -200,13 +200,14 @@ Prioritize **large bosses as well as small leaves**. Each row refers to a
 maintained, authored, **non-exact** function in `config/functions.csv`.
 Comparisons are current-source/original PE cold baselines; lengths are logical
 unless explicitly marked physical. The ledger, not this selected table, lists
-all 34 open functions. For the complete <=256-byte cohort see
+all 35 open functions. For the complete <=256-byte cohort see
 [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md).
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes; opcode 155: 23 bytes, 146/148 handler shapes. Opcode 4 now directly calls the separately exact real `ZunTimer::operator=(int) @0x00401500` on the proven 12-byte context timer, rather than fake second-class timer ABI; existing genuine `RngRuntimeView`/global `g_Rng` remains. **15,564 complete instruction/table bytes and 598 source-linked original fields are unchanged**, with all **37 exact ECL/Enemy/position/math functions across two profiles** (14,026 physical bytes) protected. `--owner runecl`; exact credit remains open. |
-| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **29** differing bytes | Genuine `Float3::operator/` and actual `AppendBoxRecord` compiler visibility close the ten-byte `+0x845..+0x850` copy window. The special-attack dispatch invokes **real `EtamaController::SpawnBulletPatternPrimary @0x004130F0`** with its target-backed 0x214-byte descriptor. Fourteen Timer/descriptor calls now use seven shared native symbols; the corresponding private aliases are removed. Original-linked byte/field/call/graph identity and 29 differences are unchanged. `--owner enemy` now cold-protects **37 exact shared-TU functions, the separate draw and seven genuine external callees** (45 exact checks). |
+| **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes; opcode 155: 23 bytes, 146/148 handler shapes. Opcode 4 now directly calls the separately exact real `ZunTimer::operator=(int) @0x00401500` on the proven 12-byte context timer, rather than fake second-class timer ABI; existing genuine `RngRuntimeView`/global `g_Rng` remains. **15,564 complete instruction/table bytes and 598 source-linked original fields are unchanged**, with all **38 exact ECL/Enemy/position/math functions across two profiles** (14,204 physical bytes) protected. `--owner runecl`; exact credit remains open. |
+| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **29** differing bytes | Genuine `Float3::operator/` and actual `AppendBoxRecord` compiler visibility close the ten-byte `+0x845..+0x850` copy window. The special-attack dispatch invokes **real `EtamaController::SpawnBulletPatternPrimary @0x004130F0`** with its target-backed 0x214-byte descriptor. Fourteen Timer/descriptor calls now use seven shared native symbols; the corresponding private aliases are removed. Original-linked byte/field/call/graph identity and 29 differences are unchanged. `--owner enemy` now cold-protects **38 exact shared-TU functions, the separate draw and seven genuine external callees** (46 exact checks). |
+| **Effect 34 draw** | 0x00444AF0 | **946/959 physical**, 53 source-linked original referents, 20 direct +12 COM calls, target/candidate 16/15 blocks; **593 overlap differences +13 extra bytes** | Exact native initialization (178) and update (208) protect the original 0xEF8 buffer: fan33 at +0x54, four line32 groups at +0x2E8, four random33 rows at +0xCE8. The genuine ECL/math context removes two redundant receiver reload bytes from the 961-byte standalone candidate. All 353 equal original bytes and exact D3D arguments are protected by `--owner effect34`; byte-register alpha/cursor homes and loop layout stay open. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor ESI still open. The final original call is now typed as `EffectManager::DrawBulletLayerEffects` with its separately **169/169 exact** real-member source at `0x0040D110` and side owner at `+0x0C`; all original linked bytes remain unchanged. Complete SHA/offset guard preserves the 332 equal bytes; `--owner etama` protects **both exact same-carrier helpers plus the separately exact OnUpdate (3 checks)**. |
 | **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 calls; 10-way switch; **1,453** overlapping differences + 44 missing | First seven-VM cursor improvement committed in `7f1d56e`; remaining branch/VM scheduling. `--owner pause` independently checks 11 already-exact Ascii/ANM functions and real original table/ABI. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Now uses genuine shared `g_Supervisor.framerateMultiplier5B8 @0x004B36B8` and the four **real `GameManagerResetView::coordinate360/364/368/36C` fields** (original `0x004A80F0..FC`), not fake external playfield globals. The independent **79-byte exact GameManager coordinate initializer** physically writes those fields; 1,900-byte linked movement boss and 66 operand identities stay unchanged, with 129 ordinary differences still open. All 129 genuine current original-bound mismatch offsets are now pinned, protecting the other **1,771** already matching bytes (including both switch tables and after-return alignment); future improvements must not introduce mismatches elsewhere. `--owner movement` protects exact 522-byte caller. |
@@ -243,7 +244,7 @@ cannot be assigned unique C++ authorship from calls alone. The source-present
 `MoveRandomBiased` 517/516-byte difference remains open.
 
 Additional non-exact owners (e.g. Player charge/update/added state,
-replay save, title replay drawing and network updates) remain in the **34-row
+replay save, title replay drawing and network updates) remain in the **35-row
 live source-present non-exact ledger**, not in a historic handoff tally.
 Review `docs/KNOWLEDGE_BASE.md` and current source before rerunning old negative
 experiments; unsupported guesses there are not target evidence.
@@ -251,7 +252,7 @@ experiments; unsupported guesses there are not target evidence.
 ## Exact landmark routing
 
 The canonical manifest and accepted original-bound comparison remain the
-**sole authority** for the **949 exact** functions. The independently accepted
+**sole authority** for the **950 exact** functions. The independently accepted
 Enemy collision wrapper at 0x00410250 is **82/82 exact**; the 3,900-byte
 Enemy OnUpdate caller is **still 29 bytes nonexact**. The former wrapper's
 original acceptance and several representative source-commit-bound exact

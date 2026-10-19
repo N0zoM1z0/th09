@@ -81,7 +81,7 @@ def build(unit: str) -> None:
 # rebuilt rather than silently reusing the main diagnostic's object.
 # These are manifest-verified cardinalities, not historical exactness totals.
 ECL_EXACT_CARRIERS = {
-    'build/matching/EclManager.obj': 35,
+    'build/matching/EclManager.obj': 36,
     'build/matching/EclManager-Type11.obj': 2,
 }
 TITLE_EXACT_CARRIERS = {
@@ -4364,9 +4364,133 @@ def run_player_type11(*, protect_exact: bool,
     return owners, exact
 
 
+
+EFFECT34_DRAW_SHA256 = 'd32652c2e08ffbd02a103e379724cde773716f964bbb962e9e4cbd12f58c88a2'
+EFFECT34_DRAW_RESIDUAL_RUNS = (
+    (0x005, 0x006),
+    (0x00A, 0x00B),
+    (0x00C, 0x00D),
+    (0x01C, 0x01E),
+    (0x020, 0x021),
+    (0x02D, 0x02E),
+    (0x02F, 0x03C),
+    (0x03D, 0x049),
+    (0x04A, 0x0A9),
+    (0x0AA, 0x0C0),
+    (0x0C1, 0x0C5),
+    (0x0C6, 0x0D0),
+    (0x0D2, 0x0D3),
+    (0x0E2, 0x0E3),
+    (0x0EB, 0x0EC),
+    (0x0EE, 0x0EF),
+    (0x0F7, 0x0F8),
+    (0x104, 0x105),
+    (0x12D, 0x12E),
+    (0x130, 0x131),
+    (0x13C, 0x13D),
+    (0x149, 0x14A),
+    (0x14D, 0x14E),
+    (0x152, 0x153),
+    (0x15F, 0x160),
+    (0x1E8, 0x1E9),
+    (0x1EE, 0x1EF),
+    (0x1F4, 0x1F5),
+    (0x1F9, 0x209),
+    (0x211, 0x213),
+    (0x214, 0x215),
+    (0x216, 0x245),
+    (0x246, 0x25B),
+    (0x25C, 0x25F),
+    (0x261, 0x295),
+    (0x296, 0x2B6),
+    (0x2B7, 0x306),
+    (0x307, 0x360),
+    (0x361, 0x36F),
+    (0x370, 0x374),
+    (0x375, 0x383),
+    (0x384, 0x388),
+    (0x389, 0x397),
+    (0x398, 0x39C),
+    (0x39D, 0x3A4),
+    (0x3A5, 0x3AA),
+    (0x3AC, 0x3B2),
+)
+
+def guard_effect_type34_draw(result: dict) -> dict:
+    noncrediting(result, name='Effect 34 draw', target_size=946,
+                 fields=53, fields_key='fields')
+    if (result.get('target_sha256') != EFFECT34_DRAW_SHA256 or
+            result.get('target_instructions') != 286 or
+            result.get('target_blocks') != 16 or
+            result.get('candidate_blocks') not in (15, 16) or
+            not 946 <= result.get('candidate_bytes', -1) <= 959 or
+            result.get('ordered_calls_agree') is not True or
+            result.get('field_referent_order_agrees') is not True or
+            result.get('COM_immediate_arguments_agree') is not True or
+            result.get('missing_bytes') != 0 or
+            not 0 <= result.get('extra_bytes', -1) <= 13):
+        raise RuntimeError('Effect 34 original extent/fields/calls/SDK arguments changed')
+    calls = result.get('target_calls', [])
+    if (len(calls) != 32 or
+            sum(row[0] == 'direct' for row in calls) != 20 or
+            result.get('candidate_calls') != calls or
+            len(result.get('target_COM_arguments', [])) != 12 or
+            result.get('candidate_COM_arguments') != result.get('target_COM_arguments')):
+        raise RuntimeError('Effect 34 original direct/COM call trace changed')
+    offsets = result.get('difference_offsets', [])
+    known = {i for a, b in EFFECT34_DRAW_RESIDUAL_RUNS for i in range(a, b)}
+    if (not isinstance(offsets, list) or len(offsets) != len(set(offsets)) or
+            any(not isinstance(i, int) or i not in known for i in offsets) or
+            result.get('overlapping_differences') != len(offsets) or len(offsets) > 593):
+        raise RuntimeError('Effect 34 changed an already equal original byte')
+    return {'target_bytes': 946, 'candidate_bytes': result['candidate_bytes'],
+            'fields': 53, 'ordinary_differences': len(offsets),
+            'extra_bytes': result['extra_bytes']}
+
+
+def run_effect_type34(*, protect_exact: bool,
+                      already_built: tuple[str, ...] = ()) -> tuple[dict, list[dict]]:
+    obj = 'build/matching/EclManager.obj'
+    allowed = set(ECL_EXACT_CARRIERS) | {'build/matching/EffectUpdateType34.obj'}
+    if any(item not in allowed for item in already_built):
+        raise RuntimeError('unreviewed Effect 34 prebuilt carrier')
+    if obj not in already_built:
+        build('effect-initialize-callback-type34')
+    draw = parsed(['scripts/inspect-effect-type34.py', obj, '--json'])
+    summary = guard_effect_type34_draw(draw)
+    # The same compiler source also owns the existing open bosses. Reuse this
+    # freshly built object rather than rebuilding the ECL carrier per reader.
+    with tempfile.TemporaryDirectory(prefix='th09-effect34-ecl-') as directory:
+        destination = str(Path(directory)/'complete.json')
+        execute(['scripts/inspect-ecl-complete.py', obj, '--output', destination],
+                diagnostic=True)
+        complete = json.loads(Path(destination).read_text())
+    shapes = parsed(['scripts/report-ecl-handler-shapes.py', '--json', obj])
+    validate_runecl_byte_frontier(complete, shapes)
+    enemy = parsed(['scripts/inspect-enemy-manager-update.py', obj, '--json'])
+    guard_enemy_update(enemy)
+    trail = parsed(['scripts/inspect-exattack-type19.py', obj, '--json'], diagnostic=True)
+    guard_exattack_type19_update(trail)
+    biased = parsed(['scripts/inspect-ecl-biased-movement.py', '--json', obj], diagnostic=True)
+    guard_biased_movement(biased)
+    exact = []
+    if protect_exact:
+        exact.extend(cold_replay_exact_source(
+            'src/EclManager.cpp', ECL_EXACT_CARRIERS,
+            already_built=tuple(item for item in ECL_EXACT_CARRIERS
+                                if item == obj or item in already_built)))
+        update_obj = 'build/matching/EffectUpdateType34.obj'
+        if update_obj not in already_built:
+            build('effect-update-callback-type34')
+        exact.append(canonical('effect-update-callback-type34'))
+    return {'effect_type34_draw': summary,
+            'runecl': {'ordinary_differences': complete['ordinary_different_bytes']},
+            'enemy_manager_update': {'ordinary_differences': enemy['complete_differences']},
+            'exattack_type19_update': {'ordinary_differences': trail['overlapping_differences']}}, exact
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'replaymenu', 'anm', 'network', 'queue', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'replaymenu', 'anm', 'network', 'queue', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -4379,6 +4503,10 @@ def main() -> int:
             owners, exact = run_player_type11(
                 protect_exact=not args.skip_exact_siblings,
                 include_detached_math=args.owner == 'type11')
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('effect34', 'all'):
+            owners, exact = run_effect_type34(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('audio', 'all'):
