@@ -833,3 +833,6 @@ th09_ecl_select_next_context:
 #include "PlayerPositionCallback30404Type11.inl"
 #include "PlayerPositionCallback30404Type4Type8.inl"
 #include "EffectType34Family.inl"
+
+#include "EffectPolarScale.inl"
+#include "EffectRingFamily.inl"

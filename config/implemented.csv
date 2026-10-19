@@ -985,3 +985,5 @@ EffectInitializeCallbackType34
 EffectDrawCallbackType34
 EffectInitializeCallbackType3Type4
 EffectUpdateCallbackType3Type4
+EffectInitializeCallbackRing
+EffectDrawCallbackRing

@@ -10434,3 +10434,93 @@ attest historical producer execution.
 - Totals become **2,199 candidates; 987 authored/source-present; 952 exact; 35 nonexact**, **231,964/278,751 reviewed-authored bytes =83.2155%**, leaving **32,850** complete exact authored bytes for95%. These are new previously uncounted bytes, not closure of the existing46,787-byte nonexact backlog. **44 Effect prefix code entries remain uncatalogued** after this family; their boundary/origin/source claims remain unreviewed and cannot inherit exactness. First next entries are **0x0040DBB0/0x0040DC70**, initialization/draw shared by Effect6/8/13/14/15. Whole Windows i386 product/runtime and semantic/port gates stay open.
 - Bounded rejected controls remain distinct: Player flat float-array/pointer/reference forms and genuine Float3 view stay **572/22**, incrementing cursors grow to **588**; one initially wrong include path was corrected and only that source was recompiled. Controller single-bound UINT/DWORD casts leave direct forms **830/36 fields** and scalar helper forms **797/32**, with **100 overlap+11 missing**; the helper regains five old mismatches but damages two previously equal bytes, so it is not adopted. Type3 genuine SDK staged constructors emit **786/38**, SDK temporary assignment **798/38**, versus the unchanged **780/38/15** baseline. Earlier CPU-scheduling and draw-index negatives were read before avoiding duplicate full ECL compiles. Recipes/hashes/complete diagnostics live under the three `gpt-61sol-20261020-{player-flat-position,controller-mixed-types,type3-sdk-construction}` roots and the main Effect-family packet.
 - Final CI passes **739 tests/28 skipped**, followed by target-bound tracking, documentation, generated progress and whitespace checks. The first CI caught a second stale current-count paragraph/table in the handoff; it was corrected and the full public suite rerun successfully. Parent source binding proves **683 unchanged public inputs (644 raw +39 checkout EOL normalization)**, thirteen changed inputs and six additions; every pre-existing unit/profile/extent/target/operand is unchanged modulo the two real Spawn symbols and the 19 independently verified private names. A conservative quoted-include closure confirms changed headers are absent from reused ECL, Title, Player initialization and Etama draw carriers. After own producers became terminal and a TH09-cwd-scoped process guard passed, cleanup removes **455 reproducible files/9,432,824 bytes**, including **31** source/header copies whose hashes were actually recreated first. Only this turn's four analysis roots and initially absent build cache are touched. Original target/toolchain/IDA, older unresolved evidence, all recipes and complete comparisons remain; build/ is absent. No foreign game process is stopped or treated as our producer.
+
+## October 20: exact circular, elliptical and modulated Effect rings (gpt-6.1-sol)
+
+- Recovery starts from clean pushed **652726c558f3e1b0c74ebfb097826f574246f342**.
+  The original Japanese v1.50a disk SHA, direct local IDA metadata, entry and
+  distributed mapped bytes pass again. IDA has no functions at **0x0040DBB0**
+  or **0x0040DC70**; boundaries and behavior below come from the verified PE,
+  independently decoded table pointers/instructions and native COFF comparisons.
+  No target bytes or IDA metadata are modified.
+- Original 24-byte Effect rows **6/8/13/14/15** at prefix **0x004A0B48** carry
+  script IDs **0x56/0x57/0x5B/0x5C/0x5D**, then **0,1**, then the same callback
+  triplet **0x0040DBB0 /0x0040D470 /0x0040DC70**. The update is already catalogued;
+  the two missing physical callbacks count once each. The pinned 38-row prefix
+  now has **42** uncatalogued code entries; this bounded census still cannot
+  establish complete executable inventory or automatically classify origin.
+- Initializer **0x0040DBB0..0x0040DC67**, original SHA256
+  **`0d89ac586172704744f9fdaf7e56b6d0f91a12774eb2f5fbef2a8a90e05052e1`**,
+  is **184 bytes /53 instructions /five fields /two calls /three blocks**.
+  Following **eight CC bytes** are unowned. It allocates **0x1C38** bytes
+  (258 vertices of 0x1C), returns -1 on failure, copies origin +0x48, captures
+  angle +0x80/radius +0x7C/thickness +0x88 from velocity, initializes two axes,
+  calls the real horizontal texture-strip initializer with count6, clears
+  +0x94/+0x98/+0x9C, marks +0xC9 dirty, and publishes 24 segments at +0x8C.
+  Both the earlier segments=3 store and the later segments=24 store are real.
+  Moving radius/thickness publication after the axis stores closes all 184 bytes.
+- Draw **0x0040DC70..0x0040E073**, original SHA256
+  **`f90abe928b89f047763b77c06f881787877b116f4e38e893dafa5a50a94f411e`**,
+  is **1,028 bytes /309 instructions /56 fields /30 ordered calls /22 blocks**.
+  Following **12 CC bytes** are unowned; all direct branch destinations belong
+  to this complete owner. Dirty geometry uses step=2pi/segments and half-width
+  thickness/sin((pi-step)/2), initializes vertical UVs, then selects circle,
+  rotated ellipse, or cosine-modulated radius. The full original loop chronology
+  is retained: one-step angle wrapping, native XY transforms, path-specific Z
+  publication, post-call segment reloads, zero-trip dirty clearing, and a fresh
+  final vertex/count read for real `AnmManager::DrawVertices`. Return is1.
+- Compiler observations: **/Ob1** inlines sinf/cosf and emits **1,024 bytes /
+  54 fields /28 calls**, whereas the already used **/Ob0** profile emits the
+  genuine compiler-generated **@sinf@4 at0x00401070** and **@cosf@4 at0x00401060**
+  wrappers and restores the full **1,028/56/30** inventory. Function-scope
+  counter/cursor/inner-radius locals, in-place outer-radius accumulation and
+  direct origin references reduce residuals to291. A real two-axis polar
+  reference into the existing 12-byte point storage recovers native ECX reuse
+  and reduces residuals to119. Declaring wave angle/angle/step/ripple first,
+  assigning rotation then angle then step, and updating wave angle as step+angle
+  closes the complete owner: **zero byte/field/call/graph differences**.
+  Moving the ellipse angle declaration alone is neutral at119. The combined
+  control is also exact; the smaller wave-lifetime change is maintained.
+- Read-only TH08 radial-trail source suggested shared locals and in-place radius
+  mutation after the TH09 flow had been independently decoded. Its addresses,
+  layouts, names, unused local and var_order pragma are not TH09 evidence or
+  adopted source. Exact TH09 source uses no new assembly, pragmas, synthetic
+  side effects, fake aliases/ABI, register steering, copied bytes or padding.
+  The existing 32-byte `EffectPolarScaleView::SetFromAngleAxes` legacy primitive
+  moves **unchanged** from its separate cpp into `EffectPolarScale.inl`, included
+  once by ECL before `EffectRingFamily.inl`. Its complete original bytes remain
+  exact. Existing Float3 polar visibility also stays genuine. Original TU
+  partition, complete C++ ownership/lifetimes and runtime equivalence remain open.
+- Both new canonical units pass **two maintained-path cold VC7.1 replays**.
+  Their independent `inspect-effect-ring.py` audit uses explicit immutable
+  original owner hashes and the existing field/literal/native-identity audit;
+  diagnostic equality alone does not grant ledger credit. All **41** affected
+  canonical ECL-carried functions pass across **two profiles /15,448 physical
+  bytes /706 fields**. Two compiler-local names change, at movement+0x139 and
+  CompareOperands+0x14; actual same-section owner-relative positions, old
+  destinations, encoded original fields and complete bytes are checked before
+  changing those names. No target address, offset, addend, extent or profile is
+  redirected. Current full boss guards retain RunEcl **15,564/598/30**, Enemy
+  **3,900/97/29**, Type19 **821/35/44**, biased movement and Effect34 draw
+  **946 target /959 candidate /593 overlap differences +13 extra bytes**.
+- New catalog totals are **2,201 candidates /989 authored/source-present /
+  954 exact /35 nonexact**. Exact bytes are **233,176/279,963 =83.2881%**;
+  **32,789** further complete exact authored bytes are needed for95% of this
+  reviewed denominator. The existing **46,787-byte** nonexact backlog has not
+  decreased. No new Factory acceptance, product/runtime, semantic or portability
+  closure is claimed. Private recipes, source hashes, complete comparisons and
+  negative controls are under `.analysis/gpt-61sol-20261020-effect-ring/`.
+- Final public CI passes **739 tests /28 skipped**. Its first run caught the
+  old exact-cohort count of24 native coordinate calls; the ring contributes
+  six genuine XY pairs, so the guard now expects36 and still checks each native
+  target. Documentation also routes Effect11/12 correctly: their table has only
+  initializer **0x0040E080**; no update/draw pointer is present. Parent binding
+  proves **691 unchanged public inputs (650 raw +41 checkout EOL normalization)**,
+  ten modified inputs, one removed old helper path and four new paths. Seven
+  unchanged external source closures reuse their source-bound parent proofs.
+  After every own producer terminates and a TH09-cwd process guard passes,
+  cleanup removes **379 reproducible files /10,731,236 bytes**, including eight
+  duplicated carriers actually recreated and hash-checked first. All retained
+  fragments, recipes, negative/complete comparison reports and source hashes
+  remain. Only this packet and the initially absent build/ cache are touched;
+  build/ is absent again. No foreign-game job or historical evidence is removed.
