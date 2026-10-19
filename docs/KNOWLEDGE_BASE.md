@@ -10923,3 +10923,70 @@ attest historical producer execution.
   TH08 supplies a source-family hypothesis only and does not justify replacing
   TH09's independently observed call. The original **30-byte** RunEcl residual
   and95% objective remain open.
+
+## October 20: complete exact Effect16 half-fan family (gpt-6.1-sol)
+
+- Original Effect row16 supplies three previously uncatalogued entries, all
+  absent from local IDA. Full original decoding independently bounds initializer
+  **0x00441C80..0x00441D24 /165 bytes**, update
+  **0x00441D30..0x00441D9D /110 bytes**, and draw
+  **0x00441DA0..0x00441EE6 /327 bytes**. Their original SHA256 hashes are
+  `c8809bcbaeb8dec719bc663b40e19b197751e39fdc7d4d006a1cc2db7001b908`,
+  `3cfcff9c154657e6b5e2bbdc531f375ef966d3de2fefee4509131f3015f1324d`,
+  `46d3a70e97f4433321a8cc4e428db4cfddc63d26e0d69c899e159c7f013b3a2a`
+  respectively. Following11/2/9 CC bytes remain unowned. The next entry at
+  0x00441EF0 is the separately catalogued Player shot callback; the larger gap
+  to the next Effect callback is not a draw extent or new-byte claim.
+- Initialization allocates **0x294 bytes =33 diffuse vertices**, returns-1 on
+  failure, otherwise captures the existing fan origin/parameters, sets axes,
+  radius16, segments32, frequency1, dirty1 and Type16 horizontal scale+0x84 to
+  **0.01**; returns0. This meaning is specific to Type16. The shared Effect
+  workspace remains unknown for other IDs rather than globally retyping it.
+- Update marks dirty before the real **ZunTimer::operator>= @0x00401520**,
+  tests timer>=30 and scale<0.08, then increments scale by0.001 without an
+  added clamp. It copies the owning-side Player position1B88 and returns1.
+  Independent original instructions at+0x45/+0x48/+0x4E prove side stride0x38,
+  indexed player04 static base0x004A7D94 and Player position1B88. The original
+  static DIR32 field is at **+0x4A**. The private audit adds that decoded
+  indexed field to the generic absolute-only scanner before separately comparing
+  all actual compiled operands; no target or COFF bytes are changed.
+- Draw uses the current Effect position, not the saved origin48, as its center.
+  It computes step pi/(segments-1), starts at angle0, builds one center plus
+  segments perimeter vertices of magnitude448, multiplies perimeter X by the
+  current Type16 horizontal scale, adds the current origin, then applies
+  Y-432 and native XY transforms. Z is zero before the actual polar method;
+  rhw is1, colors are0x30600040/0x50600040. Native DrawTriangleFan receives
+  segments+1. The callback returns1 and does not clear dirty.
+- Seven bounded source controls explain the final x87 order. Baseline already
+  matches165/110 bytes but has14 draw differences. Separate Y snapshots taken
+  before publishing the vertex Y close eight positions; compound X multiplication
+  alone is neutral. Loop-local scale reference, shared scale reference and scale
+  value snapshot each retain the remaining six differences. Borrowing the actual
+  **Effect unknown084 storage as a const float reference** reproduces the target
+  scale-first FLD/FMUL and closes all327 bytes. Every value is consumed; no
+  artificial volatile, inert work, register forcing or source-ABI change is used.
+- The initial standalone diagnostic reuses the existing polar body verbatim;
+  the accepted maintained `EffectType16Family.inl` contains **no assembly** and
+  uses the genuine ECL carrier's unchanged polar definition. Its now-unused
+  intermediate scale-view local is removed before the private ECL and maintained
+  cold builds. Both still reproduce all three complete owners and **22 original
+  fields**. The32-byte polar and20-byte Timer comparison also independently
+  match their original bodies; neither receives new credit here.
+- Canonical units `effect-initialize-type16`, `effect-update-type16` and
+  `effect-draw-type16` join the original-bound manifest. All **48 complete exact
+  functions /16,686 physical bytes /752 fields across two ECL profiles** pass;
+  two changed private label names are checked against actual same-owner COFF
+  positions and every original byte before any manifest name is changed.
+  Existing genuine XY method references rise40 to44. Reused prebuilt-object
+  full guards preserve RunEcl **15,564/598/30**, Enemy **3,900/97/29**,
+  Type19 **821/35/44**, biased movement, and Effect34 draw **946/959 /593
+  overlapping differences plus13 extra**. Unchanged source-bound other-TU
+  proofs are reused. Recipes, hashes and full reports remain under
+  `.analysis/gpt-61sol-20261020-effect16/`.
+- Adds **602 newly reviewed authored and exact bytes**, not closure of the
+  existing46,787-byte nonexact backlog. Current **1,001 source-present /
+  966 canonical exact /35 nonexact**, **234,830/281,617 reviewed-authored bytes
+  =83.3863%**; another32,707 complete exact authored bytes are needed for95%
+  of the current denominator. The original Effect prefix retains30 missing
+  entries. Original source spelling, unique TU partition, native Windows
+  product/runtime, semantic reconstruction and portability remain unproved/open.

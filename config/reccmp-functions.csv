@@ -997,3 +997,6 @@ EffectUpdateCallbackType35,0x00445C80,function
 EffectInitializeCallbackStripType27Type36,0x004459A0,function
 EffectUpdateCallbackType27,0x004454E0,function
 EffectUpdateCallbackType36,0x0044BC30,function
+EffectInitializeCallbackType16,0x00441C80,function
+EffectUpdateCallbackType16,0x00441D30,function
+EffectDrawCallbackType16,0x00441DA0,function

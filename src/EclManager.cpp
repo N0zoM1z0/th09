@@ -838,3 +838,4 @@ th09_ecl_select_next_context:
 #include "EffectRingFamily.inl"
 #include "EffectInitializeOrientedOffset.inl"
 #include "EffectRadialFanFamily.inl"
+#include "EffectType16Family.inl"

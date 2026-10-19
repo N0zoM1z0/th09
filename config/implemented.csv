@@ -996,3 +996,6 @@ EffectUpdateCallbackType35
 EffectInitializeCallbackStripType27Type36
 EffectUpdateCallbackType27
 EffectUpdateCallbackType36
+EffectInitializeCallbackType16
+EffectUpdateCallbackType16
+EffectDrawCallbackType16
