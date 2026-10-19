@@ -41,23 +41,33 @@ remain separate open gates.
   **15,564/598/30**, Enemy **3,900/97/29**, Type19 **821/35/44**, biased movement
   and Effect34 draw **946/959 /593 overlap +13 extra** remain unchanged. Three
   new Type34 storage-reference controls emit identical code and stay negative.
+- **Latest large-owner source correction:** ChargeAttack now uses native
+  GameManager/Supervisor global identities. Cold full1197/1210-byte diagnostics
+  preserve70 fields,58 ordered calls and1160 overlap differences+13 missing.
+  Both emitted owners/1217 bytes and six nondebug noncode sections stay identical;
+  four COFF symbol names alone change, with original roots/addends. The focused
+  seven-region inspector now offers `--require-native-globals`. Full native
+  GameManager headers expose an existing AnmVm redefinition; a wider SoundPlayer
+  header adds SDK library directives. Those controls are not adopted; the bounded
+  source legally forward declares the native global type. Details and recipes:
+  `.analysis/gpt-61sol-20261020-charge-native-globals/`. No exact credit follows.
 - **Open scope:** **36 nonexact functions /46,996 bytes** and **18 uncatalogued
   original Effect entries** remain. Current packet:
   `.analysis/gpt-61sol-20261020-effect26-28/`; inspect the knowledge base and
   retained controls before reopening an old source family. Earlier checkpoint
-  **eca14e7** was pushed and its remote main SHA independently verified.
+  **5d4380e** was pushed and its remote main SHA independently verified.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay only affected
   cohorts, and clean only own reproducible outputs after producers stop.
 
-- **Final checks:** CI passes751 tests/28 skipped; tracking, docs, generated
-  progress and whitespace pass. The strict exact-source angle-call census is
-  now26, including the six independently bound new draw calls. Of716 engineering
-  inputs,702 retain parent bindings,11 change and3 are new. After all own
-  producers stop, cleanup removes **367 reproducible files /8,816,402 bytes**
-  from this packet, initially absent `build/` and the new test bytecode. Recipes,
-  source hashes, all unresolved controls and unrelated legacy evidence remain.
+- **Final checks:** CI passes752 tests/28 skipped; tracking, docs, generated
+  progress and whitespace pass. Charge's two full owners/1217 bytes and seven
+  regions are freshly checked. Unchanged ECL cohort proofs remain source-bound
+  to5d4380e. Of716 engineering inputs,712 retain parent bindings and4 change.
+  After all own producers stop, cleanup removes **362 reproducible files /
+  6,374,622 bytes** from the charge packet and initially absent `build/`.
+  Every source recipe, failed wider control and unrelated legacy artifact remains.
 
 ## Next worker: first three work packages
 

@@ -11223,3 +11223,54 @@ attest historical producer execution.
   field/graph proofs and input bindings remain in
   `.analysis/gpt-61sol-20261020-effect26-28/`. Original C++ names, unique TU
   partition, native Windows product/runtime and later gates remain unknown/open.
+
+## October 20: ChargeAttack native GameManager/Supervisor global identities (gpt-6.1-sol)
+
+- Recovered clean5d4380e1b403395d02710829ff10047b41f90009 and reverified the
+  original target plus direct IDA metadata/distributed mapped bytes. Fresh
+  ChargeAttack baseline and maintained cold builds retain **1197/1210 bytes /
+  342/350 instructions /70 linked fields /58 ordered calls /1160 overlap
+  differences +13 missing bytes**. Original complete decoding, all branch
+  destinations, field multiplicities and call order are rechecked; no partial
+  regions receive exact credit. Raw SHA256 stays
+  `f26cb3cba95c56a6ae3466be009fc4bf6ec214e892ef7f70e617f023c7832de6`.
+- Charge previously declared the GameManager root as `GameManagerReplayView`
+  and the Supervisor root as an independent `g_PlayerSupervisorRuntime`.
+  The current source uses the shared native `AsciiGameManagerView g_GameManager`
+  identity and the actual `Supervisor` declaration. Exactly four COFF symbol
+  names change: three input-gate accesses keep root0x004A7D90 plus0xE8, effective
+  0x004A7E78; the framerate multiplier keeps root0x004B3100 plus0x5B8, effective
+  0x004B36B8. Roots and offsets are independently supported by existing canonical
+  consumers and the original operands. Current source only needs the GameManager
+  address, so the native type is legally forward declared while the measured
+  replay-input prefix remains a local view. Original C++ spelling and storage
+  definition ownership are still unknown.
+- Both complete emitted owners total **1217 code bytes** and remain byte-identical;
+  the existing20-byte Timer comparator independently target-matches without new
+  credit or unique folded-source ownership. All **six nondebug noncode sections /
+  64 bytes** and every other COFF identity remain unchanged. Independent bounded
+  COFF/PE parsing agrees with the repository extractor; all four changed fields
+  retain their original type, addend and effective destination.
+- A full native GameManager-header control fails on the existing two definitions
+  of `AnmVm` in `AsciiManager.hpp` and `AnmVmLifecycle.hpp`. This is actual native
+  build evidence, separate from function exactness; the duplicate views remain
+  an open product concern. A second control including full SoundPlayer headers
+  keeps all code but adds two `uuid.lib` default-library directives, changing
+  `.drectve` from44 to90 bytes. That wider dependency change is not adopted.
+  The bounded source correction leaves those headers and the existing SoundPlayer
+  declaration unchanged. Compiler failures/directive differences remain recorded.
+- `inspect-player-charge-text.py` retains historical input-gate alias support
+  for source-bound objects, reports actual global field identities, and adds
+  `--require-native-globals`. The maintained gate demands all three native
+  GameManager operands and the native Supervisor operand with original roots/
+  addends; it rejects both old aliases, retargeting, wrong relocation kinds,
+  duplicate positions and missing/extra fields. Its seven existing original text,
+  side-reload, duration and shot-argument regions still pass. One pure corruption
+  test covers the new identity contract.
+- No native cohort outside this standalone source is rebuilt: every unrelated
+  engineering input retains its parent source binding. Exact coverage remains
+  **977 functions /237697 of284693 bytes (83.4924%)**, with36 nonexact functions /
+  46996 bytes and the95% milestone still open. Full recipes, fresh code/field/
+  helper proof, failed wider controls and source bindings are retained in
+  `.analysis/gpt-61sol-20261020-charge-native-globals/`. Windows i386 product,
+  runtime, semantic reconstruction and portability remain open.

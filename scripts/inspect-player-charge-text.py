@@ -19,6 +19,25 @@ REGIONS = ((0xAC, 0x41F999, 0x41F9B1),
            (0x2C, 0x41FBA1, 0x41FBB7))
 
 
+NATIVE_GAME_MANAGER = '?g_GameManager@@3UAsciiGameManagerView@@A'
+NATIVE_SUPERVISOR = '?g_Supervisor@@3VSupervisor@@A'
+GLOBAL_ROOTS = {
+    NATIVE_GAME_MANAGER: 0x4A7D90,
+    '?g_GameManager@@3UGameManagerReplayView@@A': 0x4A7D90,
+    NATIVE_SUPERVISOR: 0x4B3100,
+    '?g_PlayerSupervisorRuntime@@3UPlayerSupervisorRuntimeView@@A': 0x4B3100,
+}
+
+
+def require_native_globals(fields):
+    expected = [(NATIVE_GAME_MANAGER, 'DIR32', 0x4A7D90, 0xE8, 0x4A7E78)] * 3
+    expected += [(NATIVE_SUPERVISOR, 'DIR32', 0x4B3100, 0x5B8, 0x4B36B8)]
+    keys = ('symbol', 'type', 'target', 'addend', 'effective_target')
+    if (len(fields) != 4 or len({r['offset'] for r in fields}) != 4 or
+            sorted(tuple(r.get(k) for k in keys) for r in fields) != sorted(expected)):
+        raise ValueError('charge native GameManager/Supervisor identity drifted')
+
+
 def replay_region(code, relocations, row, start, call):
     size = call + 5 - start
     offset = row["offset"] - 1 - (call - start)
@@ -54,7 +73,8 @@ def inspect(path):
     # independently known GameManager +0xE8 field; compare the complete side
     # reload, gate reload and byte comparison against the target window.
     gates = [r for r in relocations
-             if r["symbol"] == "?g_GameManager@@3UGameManagerReplayView@@A"]
+             if r["symbol"] in (NATIVE_GAME_MANAGER,
+                                   "?g_GameManager@@3UGameManagerReplayView@@A")]
     if len(gates) != 3:
         raise ValueError("expected three input-gate accesses")
     gate = gates[-1]
@@ -126,18 +146,24 @@ def inspect(path):
             "bytes": 18,
             "region_agrees": region == coff.pe_bytes_at(target, start, 18),
         })
+    globals_ = [{**r, 'target': GLOBAL_ROOTS[r['symbol']],
+                 'effective_target': GLOBAL_ROOTS[r['symbol']] + r['addend']}
+                for r in relocations if r['symbol'] in GLOBAL_ROOTS]
     return {"diagnostic_only": True, "whole_owner_exact_credit": "none",
             "target_code_bytes": 1210, "candidate_code_bytes": len(code),
-            "relocations": len(relocations),
+            "relocations": len(relocations), "native_global_fields": globals_,
             "raw_function_sha256": hashlib.sha256(code).hexdigest(), "regions": results}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("object", type=Path)
+    parser.add_argument("--require-native-globals", action="store_true")
     args = parser.parse_args()
     try:
         result = inspect(args.object)
+        if args.require_native_globals:
+            require_native_globals(result['native_global_fields'])
         print(json.dumps(result, indent=2))
         return 0 if all(r["region_agrees"] for r in result["regions"]) else 1
     except (OSError, ValueError, struct.error) as exc:

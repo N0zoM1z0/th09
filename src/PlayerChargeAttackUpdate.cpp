@@ -3,6 +3,10 @@
 #include "PlayerLifecycleView.hpp"
 #include "ReplayInputState.hpp"
 #include "ZunTimer.hpp"
+// Only the native global identity is needed here.
+struct AsciiGameManagerView;
+extern AsciiGameManagerView g_GameManager;
+#include "Supervisor.hpp"
 
 #include <stddef.h>
 
@@ -93,15 +97,7 @@ class SoundPlayer
     void PlaySoundByIdx(int soundIndex, int pan);
 };
 
-struct PlayerSupervisorRuntimeView
-{
-    u8 unknown000[0x5B8];
-    float framerateMultiplier5B8;
-};
-
-extern GameManagerReplayView g_GameManager;
 extern SoundPlayer g_SoundPlayer;
-extern PlayerSupervisorRuntimeView g_PlayerSupervisorRuntime;
 
 struct PlayerChargeAttackView : PlayerLifecycleView
 {
@@ -114,9 +110,9 @@ int PlayerChargeAttackView::UpdateChargeAttack()
     u8 sideMode;
 
     if ((g_ReplayInputStates[side].WasPressed(1) &&
-         (g_GameManager.inputGateE8->sideMode[side] != 1 ||
+         (reinterpret_cast<const GameManagerReplayView *>(&g_GameManager)->inputGateE8->sideMode[side] != 1 ||
           !g_ReplayInputStates[side].IsHeld(4))) ||
-        ((sideMode = g_GameManager.inputGateE8->sideMode[side]) == 1 &&
+        ((sideMode = reinterpret_cast<const GameManagerReplayView *>(&g_GameManager)->inputGateE8->sideMode[side]) == 1 &&
          g_ReplayInputStates[side].IsHeld(1) &&
          !g_ReplayInputStates[side].IsHeld(4)))
     {
@@ -143,7 +139,7 @@ int PlayerChargeAttackView::UpdateChargeAttack()
 
         // The post-timer gate reloads the player side; the initial input
         // disjunction intentionally keeps its entry-side snapshot.
-        if (g_GameManager.inputGateE8->sideMode[sideIndex] == 1)
+        if (reinterpret_cast<const GameManagerReplayView *>(&g_GameManager)->inputGateE8->sideMode[sideIndex] == 1)
             goto resolveAttack;
         goto afterCharge;
     }
@@ -179,7 +175,7 @@ int PlayerChargeAttackView::UpdateChargeAttack()
             reinterpret_cast<PlayerChargeShtView *>(primaryShtFile);
 
         scalar30384 +=
-            g_PlayerSupervisorRuntime.framerateMultiplier5B8 *
+            g_Supervisor.framerateMultiplier5B8 *
             sht->chargeRate24;
 
         if (scalar30384 >= scalar30388)
