@@ -2785,18 +2785,27 @@ def run_etama(*, protect_exact: bool,
     }}, exact_units
 
 
-def run_exattack_type19_update(*, protect_exact: bool) -> tuple[dict, list[dict]]:
-    # This complete 821-byte/35-field update callback is *not* in the ECL
-    # translation unit. Compare its true independent source and protect the
-    # exact Type19/21 draw callback that consumes the same physical Extra.
-    obj = 'build/matching/ExAttackUpdateType19.obj'
-    build_nonexact('src/ExAttackUpdateType19.cpp', obj,
-                   reference_unit='exattack-type19-21-draw')
-    result = noncrediting(parsed(['scripts/inspect-exattack-type19.py',
-                                  obj, '--json'], diagnostic=True),
-                          name='ExAttack Type19 update', target_size=821,
-                          fields=35, fields_key='candidate_fields')
-    if (result.get('target_fields') != 35 or
+TYPE19_UPDATE_TARGET_SHA256 = '38c97cf98c0183ae6f75446457d495e4d8e94683e4c2920461fd580aaf184014'
+# Full original-linked 821-byte comparison after the history-index correction.
+# The eight recovered bytes at +0xF0..0xF3/+0xF5..0xF8 stay protected along
+# with the other 623 previously matching bytes. No partial exactness credit.
+TYPE19_UPDATE_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
+    0x008, 0x009, 0x00A, 0x00C, 0x00F, 0x014, 0x029, 0x045,
+    0x048, 0x04B, 0x068, 0x069, 0x09E, 0x0B4, 0x0F4, 0x0FA,
+    0x111, 0x12A, 0x15E, 0x173, 0x1AB, 0x1B4, 0x1BC, 0x1C7,
+    *range(0x1CA, 0x1F6), *range(0x1F7, 0x25C),
+    0x26F, 0x28D, 0x2AA, 0x2B2, 0x2BE, 0x2C2, 0x2C6,
+    0x2CA, 0x2D6, 0x2E2, 0x2E4, 0x2E7, 0x2EB, 0x2EE, 0x2F4,
+    0x2F9, 0x2FF, 0x306, 0x309, 0x323, 0x326,
+))
+
+
+def guard_exattack_type19_update(result: dict) -> dict:
+    noncrediting(result, name='ExAttack Type19 update', target_size=821,
+                 fields=35, fields_key='candidate_fields')
+    if (result.get('target_sha256') != TYPE19_UPDATE_TARGET_SHA256 or
+            result.get('candidate_bytes') != 821 or
+            result.get('target_fields') != 35 or
             result.get('target_instructions') != 254 or
             result.get('candidate_instructions') != 254 or
             result.get('target_calls') != 11 or
@@ -2804,8 +2813,30 @@ def run_exattack_type19_update(*, protect_exact: bool) -> tuple[dict, list[dict]
             result.get('target_direct_blocks') != 30 or
             result.get('candidate_direct_blocks') != 30 or
             result.get('distinct_player_slot_fields') != 4 or
-            not result.get('complete_direct_graphs_agree')):
-        raise RuntimeError('Type19 update 35-field/11-call/30-block/slot owner drifted')
+            result.get('missing_target_bytes') != 0 or
+            result.get('extra_candidate_bytes') != 0 or
+            result.get('complete_direct_graphs_agree') is not True):
+        raise RuntimeError('Type19 update original/35-field/11-call/30-block owner drifted')
+    checked = physical_difference_windows(
+        result, count_key='overlapping_differences', windows=((0, 821, 190),))
+    actual = {int(offset, 16) for offset in result['difference_offsets']}
+    if not actual.issubset(TYPE19_UPDATE_ORIGINAL_RESIDUAL_OFFSETS):
+        raise RuntimeError('Type19 update changed an already matched original byte')
+    if not actual and result.get('ordered_fields_agree') is not True:
+        raise RuntimeError('Type19 update full equality contradicts ordered fields')
+    return checked
+
+
+def run_exattack_type19_update(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    # This complete 821-byte/35-field update callback is *not* in the ECL
+    # translation unit. Compare its true independent source and protect the
+    # exact Type19/21 draw callback that consumes the same physical Extra.
+    obj = 'build/matching/ExAttackUpdateType19.obj'
+    build_nonexact('src/ExAttackUpdateType19.cpp', obj,
+                   reference_unit='exattack-type19-21-draw')
+    result = parsed(['scripts/inspect-exattack-type19.py', obj, '--json'],
+                    diagnostic=True)
+    guard_exattack_type19_update(result)
     siblings = []
     if protect_exact:
         build('exattack-type19-21-draw')

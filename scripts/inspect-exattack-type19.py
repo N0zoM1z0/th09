@@ -194,6 +194,7 @@ def diagnose(path: Path):
         complete_direct_graphs_agree=target_graph == candidate_graph,
         complete_bytes_agree=linked == target,
         overlapping_differences=len(differences),
+        difference_offsets=[hex(offset) for offset in differences],
         missing_target_bytes=max(0, SIZE - len(linked)),
         extra_candidate_bytes=max(0, len(linked) - SIZE),
         first_differences=[hex(x) for x in differences[:20]],

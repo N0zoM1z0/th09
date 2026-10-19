@@ -23,6 +23,13 @@ separate **unproven** milestones.
   `history3E8[sample + 1]` indexing retains the separate vertex cursor and
   closes both former preheader gaps under the unchanged VC7.1 profile.
   This adds **1,490 exact authored bytes**; no Factory receipt is claimed.
+- **Latest bounded source improvement:** Type19 update's history ring now uses
+  `history3E8[sample + 1]` while retaining the vertex cursor. Its complete
+  **821-byte /35-field /254-instruction** owner improves **198 to 190**
+  differing bytes, recovering **eight bytes without any newly differing byte**.
+  The vertex-cursor save now precedes history-address materialization, as in
+  the original. Full original-SHA/residual-offset protection preserves all
+  **631 matching bytes**. This remains a nonexact owner with no count credit.
 - **Latest C++ data-owner correction:** the already exact StartMenu's
   **0xCC-byte** snapshot now reads the genuine `g_Supervisor.config388`.
   Its original `+0x47` address operand stays **0x004B3488**, represented by
@@ -30,27 +37,25 @@ separate **unproven** milestones.
   declaration. The complete **1,560 code +32 table bytes /107 fields**
   remain exact; nine private labels retain independently checked original
   destinations. This adds no exact-count credit.
-- **Current focused regression:** `--owner title` passed **eight original-bound
+- **Previous Title focused regression:** `--owner title` passed **eight original-bound
   diagnostics and 46 distinct canonical exact function checks**. Both actual
   `TitleScreen.cpp` compiler carriers retain **38 exact owners /18,411 physical
   bytes /943 fields**. CI passes **663 tests, 28 skipped, zero failures**.
   Source-bound witnesses and recipes are below
   `.analysis/gpt-61sol-20261019-options/`. After validation, removed
   **41 generated files /2,855,840 bytes**; compact evidence remains.
-- **Latest bounded controls:** 82 Controller trial compile attempts, four
-  Options input-width/owner controls and five parser output-clear controls
-  produce no new exact owner; maintained gameplay inputs are unchanged from
-  `ac55675`. Controller remains **808 original/796 source**, with its first
-  **674 complete instruction bytes** identical and the residual in the WinMM
-  axis tail. Separate comparison helpers retain duplicate midpoint arithmetic
-  but also duplicate range arithmetic; caching the range restores midpoint
-  CSE or reloads globals. These tested forms do not close the owner. Options
-  remains **2,048/2,045** and parser **243/243 with 76 differences**. Four
-  freshly built canonical sibling checks pass (**797 complete exact bytes**).
-  Recipes/results are in `.analysis/gpt-61sol-20261019-{controller,input-width,parser-clear}/`;
-  earlier controls remain in the knowledge base. Negative results apply only
-  to their tested source/compiler contexts. CI again passes **663 tests /28
-  skipped**; after it exited, removed **189 generated files /3,698,861 bytes**.
+- **Current focused regression:** `--owner type19` passes the complete
+  original-bound update and separately cold-replays the **318-byte exact**
+  shared Type19/21 draw. The unchanged ECL core was also cold-built: **20
+  existing exact owners /10,205 physical bytes** pass, with full RunEcl still
+  **15,564 bytes /598 fields /30 differences**. Six ordinary timer-forwarding
+  controls are neutral; signed timeout-bitfield controls disturb original
+  fields/tables and are rejected. Type19 vertex-index and magnitude/step-pointer
+  controls regress; history indexing alone provides the accepted eight-byte
+  improvement. Recipes and complete results remain below
+  `.analysis/gpt-61sol-20261019-{ecl-forward,type19-history}/`. CI passes
+  **666 tests /28 skipped**; post-validation cleanup removes **127 generated
+  files /2,629,856 bytes**, retaining source-bound recipes and comparisons.
 - **Most recent Factory-accepted source checkpoint:** `7324b4e` (`gpt-web: restore native ANM
   and Supervisor ABI across MusicRoom callbacks`). It preserves the **2,258
   byte exact** MusicRoom update and **209 byte exact** drawing function while
@@ -197,7 +202,7 @@ all 38 open functions. For the complete <=256-byte cohort see
 | **Title character cursors** | 0x00424EDD / 0x00424FB0 / 0x0042505F | Active target/candidate **211/215**; Reverse/Inactive **175/175** | Active reduced 217→215 in `69165b2`, but none is exact. Loop pre-check and VM register/sprite reload schedules; `--owner title`. |
 | **GameManager CleanupGameplayState** | 0x0041B5C6 | **425 / 410**, 43 / 42 fields, 12 calls, **210** overlap; 24/24 blocks | **Recovered two real limitB4 memory writes** with first store before signed lower-bound `JGE` and conditional second store of 1. Previous 406/41 candidate only stored once and had 25 blocks. Still 15 bytes short and NON-EXACT; `--owner gamemgr` checks original/source publication traces and ten exact siblings. |
 | **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15** differences | Source now places middle-Z assignment after the middle-Y call; VC7.1 still hoists the tail-X load before the store (non-exact). The old 14-difference candidate wrongly wrote Z before the Y call. Strict chronology/offset guard; `--owner type3`. |
-| **ExAttack Type19 update** | 0x0044A330 | **821/821**, 35 fields, 11 calls, 30 blocks; **198** differences | Target EDI/ESI record–extra ownership and Player-slot lifetime; `--owner exattack`. |
+| **ExAttack Type19 update** | 0x0044A330 | **821/821**, 35 fields, 11 calls, 30 blocks; **190** differences (198→190) | History indexing restores the vertex-cursor save before history-address materialization, recovering eight bytes with no regressed byte. All 631 matching bytes are protected by full original SHA/residual offsets. Record/extra register roles and Player-slot lifetime remain open; `--owner type19` or `--owner exattack`. |
 | **ExAttack Type14/22 draw** | 0x00444130 | **959 / 974**, 53 full PE/COFF fields, 20 direct + 12 indirect calls, 9 jumps, 905 overlapping differences and 15 extra source bytes | SHA-bound `--owner exattack` **now cold-replays this real owner**, individually binds all 53 fields and both call kinds, and prevents any new mismatch in its 54 already matching original bytes; three additional exact Type14/22 initializer/update controls. Remaining draw register/loop schedule stays NON-EXACT. |
 | **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **911 differing bytes** (down from 921) | Real `setupMode==0` non-mode-2 early exit recovers ten original-linked bytes and raises field identity alignment 155→157. The remaining 172-original / 171-source field gap is now independently decoded by **referent and multiplicity**: original-only `g_GameManager+0x00` (3), `+0x34` (1), `+0xA4` (1); candidate-only `+0x28` (1), `+0x98` (1), `+0xB4` (2). The target's side-registration loop anchors ESI to `side.flags (+0x34)` while VC7.1 prefers `side.selector (+0x28)`; 28 source-cold cursor/alias models were neutral or regressed. Still NON-EXACT; full 911-residual-byte and original/COFF-referent guards plus ten exact siblings run via `--owner gamemgr`. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | **862 / 849**, 26 fields, 12 calls; **804** overlap + 13 missing | Three return exits, gameplay/state collision branches; `--owner player` protects seven exact helpers. |

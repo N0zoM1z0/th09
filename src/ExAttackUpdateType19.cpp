@@ -108,7 +108,6 @@ int __fastcall ExAttackUpdateCallbackType19(ExAttackRecord *base)
         }
 
         ++vertex;
-        Float3 *history = &extra->history3E8[1];
         // Magnitudes and angular steps belong to separate 32-element arrays.
         int sample = 0;
 
@@ -146,11 +145,11 @@ int __fastcall ExAttackUpdateCallbackType19(ExAttackRecord *base)
 
             extra->magnitudes578[sample] += extra->angularSteps5FC[sample];
 
-            history->FromAngleMagnitude(angle, extra->magnitudes578[sample]);
-            *history += extra->spawn40;
+            extra->history3E8[sample + 1].FromAngleMagnitude(
+                angle, extra->magnitudes578[sample]);
+            extra->history3E8[sample + 1] += extra->spawn40;
 
             ++vertex;
-            ++history;
             ++sample;
             angle += 0.2026834f;
         }
