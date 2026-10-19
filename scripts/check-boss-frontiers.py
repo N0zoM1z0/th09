@@ -81,7 +81,7 @@ def build(unit: str) -> None:
 # rebuilt rather than silently reusing the main diagnostic's object.
 # These are manifest-verified cardinalities, not historical exactness totals.
 ECL_EXACT_CARRIERS = {
-    'build/matching/EclManager.obj': 18,
+    'build/matching/EclManager.obj': 20,
     'build/matching/EclManager-apply-interpolation.obj': 1,
     'build/matching/EclManager-install-interpolation-slot.obj': 1,
     'build/matching/EclManager-call-subroutine.obj': 1,
@@ -926,7 +926,7 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
                 'different_bytes': result['complete_differences_if_same_extent'],
                 'direct_graphs_agree': result['complete_direct_graphs_agree'],
             }
-        # The Type21 update is one of the 24 separately replayed exact ECL
+        # The Type21 update is one of the 26 separately replayed exact ECL
         # siblings above; do not rebuild/double-count its shared carrier.
     return diagnostics, exact_units
 
@@ -938,26 +938,20 @@ def validate_exattack_trail_initializer(callback_type: str, result: dict) -> Non
     Opcode/helper topology is not exactness: this remains noncrediting until a
     separate canonical target-bound match unit replays ALL bytes and fields.
     """
-    # The two exact original target ranges were independently read from TH09
-    # v1.50a. Each current residual is exclusively an adjacent setup-schedule
-    # permutation (Type19: vertex-add/stack-store; Type21: vertex-add/history-LEA).
-    # The window is a strict no-regression bound, not a source patch or credit.
+    # Indexed history induction closes both former preheader scheduling gaps.
+    # The diagnostic path now protects every byte, including the old residuals;
+    # canonical units separately replay the full original relocation manifests.
     specs = {
-        '19': (763, 207, 57, 27, 9, 0x1BB, 0x1C1,
+        '19': (763, 207, 57, 27, 9,
                'fc7b630cff17c32048de02f169f5c39710727027941aa502db823e357563cf67'),
-        '21': (727, 198, 53, 25, 10, 0x1C2, 0x1CB,
+        '21': (727, 198, 53, 25, 10,
                'b5271179d169d482952d887b03ad08e10a19c74654590e32598551d0a523ca47'),
     }
     if callback_type not in specs:
         raise RuntimeError('unsupported ExAttack trail initializer type')
-    size, instructions, relocations, calls, blocks, first, end, target_sha = specs[callback_type]
+    size, instructions, relocations, calls, blocks, target_sha = specs[callback_type]
     offsets = result.get('difference_offsets')
-    if (not isinstance(offsets, list) or
-            len(offsets) > end - first or
-            any(not isinstance(off, int) or isinstance(off, bool) or
-                not first <= off < end for off in offsets) or
-            len(set(offsets)) != len(offsets) or
-            offsets != sorted(offsets)):
+    if not isinstance(offsets, list) or offsets:
         raise RuntimeError('ExAttack Type' + callback_type +
                            ' initializer changed a previously matching physical byte')
     if (result.get('diagnostic_only') is not True or
@@ -973,12 +967,12 @@ def validate_exattack_trail_initializer(callback_type: str, result: dict) -> Non
             result.get('ordered_calls_agree') is not True or
             result.get('direct_blocks') != [blocks, blocks] or
             result.get('complete_direct_graphs_agree') is not True or
-            not isinstance(result.get('normalized_aligned_instructions'), int) or
-            result['normalized_aligned_instructions'] < instructions - 1 or
-            result.get('complete_differences_if_same_extent') != len(offsets) or
-            result.get('complete_bytes_agree') is not (len(offsets) == 0)):
+            result.get('normalized_aligned_instructions') != instructions or
+            type(result.get('complete_differences_if_same_extent')) is not int or
+            result['complete_differences_if_same_extent'] != 0 or
+            result.get('complete_bytes_agree') is not True):
         raise RuntimeError('ExAttack Type' + callback_type +
-                           ' initializer full-owner 57/53-field/6/9-byte frontier regressed')
+                           ' initializer full-owner 57/53-field exact frontier regressed')
 
 
 PLAYER_MOVEMENT_TARGET_SHA = '64ea64884e978540c718d1691a4ae1b9866aaa8ec2296bafb158c4d8b1c628ca'

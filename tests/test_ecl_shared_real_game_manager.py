@@ -70,7 +70,7 @@ class SharedRealGameManagerEclOwners(unittest.TestCase):
         globals_ = [r for r in actual if r['symbol']==GM]
         real_calls = [r for r in actual if r['symbol'] in (TRANSFORM_X,TRANSFORM_Y)]
         self.assertGreaterEqual(len(globals_),20)
-        self.assertEqual(len(real_calls),16)
+        self.assertEqual(len(real_calls),24)
         self.assertTrue(all(r['target']==0x004A7D90 for r in globals_))
         self.assertTrue(all((r['symbol'],r['target']) in (
             (TRANSFORM_X,0x00401680),(TRANSFORM_Y,0x004016B0))
@@ -90,7 +90,8 @@ class SharedRealGameManagerEclOwners(unittest.TestCase):
                                 r.get('addend',0)==0x11C and r['target']==0x4A7D90
                                 for r in rows))
         for name in ('exattack-type8-init','exattack-type7-init','exattack-type9-init',
-                     'exattack-type6-initialize'):
+                     'exattack-type6-initialize','exattack-type19-init',
+                     'exattack-type21-init'):
             rows=self.units[name]['relocations']
             self.assertEqual(sum(r['symbol'] in (TRANSFORM_X,TRANSFORM_Y)
                                  for r in rows),4)

@@ -68,7 +68,6 @@ int __fastcall ExAttackInitializeCallbackType19(ExAttackRecord *base)
     ++vertex;
     float angularStep =
         g_ReplayRng.GetRandomF32SignedInRange(0.06666667f);
-    Float3 *history = &extra->history3E8[1];
     Float3 *spawn = &extra->spawn40;
     // Radius and angular-step arrays have distinct bounds and ownership.
     int sample = 0;
@@ -85,7 +84,8 @@ int __fastcall ExAttackInitializeCallbackType19(ExAttackRecord *base)
         vertex->u = uvVector.x + 0.5f;
         (vertex++)->v = uvVector.y + 0.5f;
 
-        history->z = 0.0f;
+        // Ring samples occupy history slots 1..32 after the center at zero.
+        extra->history3E8[sample + 1].z = 0.0f;
         extra->magnitudes578[sample] =
             g_ReplayRng.GetRandomF32SignedInRange(8.0f) + 80.0f;
         extra->angularSteps5FC[sample] = angularStep;
@@ -97,11 +97,11 @@ int __fastcall ExAttackInitializeCallbackType19(ExAttackRecord *base)
         else if (angularStep > 0.06666667f)
             angularStep = 0.06666667f;
 
-        history->FromAngleMagnitude(angle, extra->magnitudes578[sample]);
-        *history += *spawn;
+        extra->history3E8[sample + 1].FromAngleMagnitude(
+            angle, extra->magnitudes578[sample]);
+        extra->history3E8[sample + 1] += *spawn;
 
         ++sample;
-        ++history;
         angle += 0.2026834f;
     }
     while (sample != 32);

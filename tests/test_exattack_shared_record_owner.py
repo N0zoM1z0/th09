@@ -1,13 +1,14 @@
 """Shared TH09 ExAttack record/side/EffectManager owner ABI checks.
 
 Target-independent assertions only. The original 12/81-byte exact leaves,
-full 763/727-byte nonexact boss, and EclManager same-TU exact functions
+full 763/727-byte exact owners, and EclManager same-TU exact functions
 require separate authenticated VC7.1 cold replays.
 """
 
 import csv
 import importlib.util
 from pathlib import Path
+import tomllib
 from unittest import TestCase
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -50,8 +51,11 @@ class OriginalSharedRecordOwner(TestCase):
         self.assertIn('AnmLoaded *effectAnm;',effect)
         self.assertIn('EffectManagerSizeIs2DC',effect)
 
-    def test_full_original_bosses_use_same_true_receiver_and_keep_loop(self):
-        for type_number in ('19','21'):
+    def test_full_original_bosses_use_same_true_receiver_and_canonical_owner(self):
+        with (ROOT/'config/match-units.toml').open('rb') as stream:
+            units=tomllib.load(stream)['units']
+        for type_number,address,size,nfields in (
+                ('19',0x0044A030,763,57),('21',0x0044B220,727,53)):
             source=(ROOT/f'src/ExAttackInitType{type_number}.inl').read_text()
             with self.subTest(type=type_number):
                 self.assertIn('#include "ExAttackRecordRuntimeView.hpp"',source)
@@ -59,8 +63,13 @@ class OriginalSharedRecordOwner(TestCase):
                 self.assertIn('reinterpret_cast<ExAttackRecordSideView *>(record)',source)
                 self.assertIn('->GetSideState()->effectManager0C->effectAnm->ExecuteAnmIdx(',source)
                 self.assertIn('g_ReplayRng.GetRandomF32SignedInRange(0.06666667f)',source)
-                self.assertIn('history->FromAngleMagnitude(angle, extra->magnitudes578[sample]);',source)
-                self.assertIn('while (sample != 32);',source)
+                self.assertEqual(reviewed_row(address)['status'],'matching')
+                unit=units[f'exattack-type{type_number}-init']
+                self.assertEqual((unit['source'],unit['target_address'],unit['size'],
+                                  len(unit['relocations'])),
+                                 ('src/EclManager.cpp',address,size,nfields))
+                self.assertEqual(unit['functions'],
+                                 [f'ExAttackInitializeCallbackType{type_number}'])
                 for false_type in ('ExAttackType'+type_number+'AllocateView',
                                    'ExAttackType'+type_number+'SideLookupView',
                                    'ExAttackType'+type_number+'AnmOwner'):

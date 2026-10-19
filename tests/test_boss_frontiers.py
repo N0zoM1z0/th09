@@ -822,7 +822,7 @@ class BossFrontierChecks(TestCase):
                     frontiers, 'parsed', return_value={**self.etama_evidence(), **bad}), self.assertRaises(RuntimeError):
                 frontiers.run_etama(protect_exact=False)
 
-    def test_trail_initializers_target_extent_calls_blocks_and_gap_guarded(self):
+    def test_trail_initializers_target_extent_calls_blocks_and_all_bytes_guarded(self):
         for typ, size, ins, fields, calls, blocks, diff, begin, sha in (
                 ('19', 763, 207, 57, 27, 9, 6, 0x1BB,
                  'fc7b630cff17c32048de02f169f5c39710727027941aa502db823e357563cf67'),
@@ -832,14 +832,14 @@ class BossFrontierChecks(TestCase):
                         'target_sha256': sha,
                         'target_bytes': size, 'candidate_bytes': size,
                         'target_instructions': ins, 'candidate_instructions': ins,
-                        'normalized_aligned_instructions': ins - 1,
+                        'normalized_aligned_instructions': ins,
                         'relocations': fields, 'target_calls': calls,
                         'candidate_calls': calls, 'ordered_calls_agree': True,
                         'direct_blocks': [blocks, blocks],
                         'complete_direct_graphs_agree': True,
-                        'difference_offsets': list(range(begin, begin + diff)),
-                        'complete_differences_if_same_extent': diff,
-                        'complete_bytes_agree': False}
+                        'difference_offsets': [],
+                        'complete_differences_if_same_extent': 0,
+                        'complete_bytes_agree': True}
             frontiers.validate_exattack_trail_initializer(typ, evidence)
             for bad in ({'candidate_bytes': size + 1},
                         {'candidate_instructions': ins - 1},
@@ -855,16 +855,22 @@ class BossFrontierChecks(TestCase):
                         {'difference_offsets': list(reversed(range(begin, begin+diff)))},
                         {'difference_offsets': list(range(begin, begin+diff-1))},
                         {'difference_offsets': list(range(begin+1, begin+diff+1))},
-                        {'normalized_aligned_instructions': ins - 2},
+                        {'normalized_aligned_instructions': ins - 1},
+                        {'complete_differences_if_same_extent': False},
                         {'target_sha256': '0' * 64},
                         {'diagnostic_only': False},
                         {'exactness_credit': 'accepted'},
-                        {'complete_bytes_agree': True}):
+                        {'complete_bytes_agree': False}):
                 with self.subTest(typ=typ, bad=bad), self.assertRaises(RuntimeError):
                     frontiers.validate_exattack_trail_initializer(typ,
                                                                   {**evidence, **bad})
-            # Even a hypothetical zero-residual diagnostic is NOT accepted exact.
-            # It must nevertheless remain valid for a future real source fix.
+            # Restoring any former six/nine-byte residual is a regression.
+            with self.subTest(typ=typ, old_gap=True), self.assertRaises(RuntimeError):
+                frontiers.validate_exattack_trail_initializer(typ, {
+                    **evidence, 'difference_offsets': list(range(begin, begin + diff)),
+                    'complete_differences_if_same_extent': diff,
+                    'complete_bytes_agree': False})
+            # A diagnostic pass still cannot claim canonical acceptance.
             exact_looking = {**evidence, 'difference_offsets': [],
                              'complete_differences_if_same_extent': 0,
                              'normalized_aligned_instructions': ins,
