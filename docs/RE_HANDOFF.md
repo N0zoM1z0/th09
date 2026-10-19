@@ -31,6 +31,14 @@ separate **unproven** milestones.
   **48 generated files /3,633,158 bytes** after validation; recipes, source-bound
   local witnesses and per-path cleanup hashes remain below
   `.analysis/gpt-61sol-20261019-exact/`.
+- **Post-checkpoint controls at `98430d2`:** 35 cold RunEcl probes and seven
+  Type3 update probes produce no additional exact owner. Direct native
+  bitfields, shared scalars, returned flag words and timer-member calls do not
+  close RunEcl; vector aggregate initialization does not close Type3. Maintained
+  gameplay inputs remain unchanged. The source-bound packet is
+  `post-trail-probe-packet.json` below the same analysis directory; its scoped
+  cleanup removed another **59 generated files /3,335,148 bytes**. These
+  bounded results do not rule out other source models.
 - **Most recent Factory-accepted source checkpoint:** `7324b4e` (`gpt-web: restore native ANM
   and Supervisor ABI across MusicRoom callbacks`). It preserves the **2,258
   byte exact** MusicRoom update and **209 byte exact** drawing function while
