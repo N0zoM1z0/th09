@@ -25,6 +25,7 @@
 #include "ZunTimer.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "RuntimeAngleMath.hpp"
+#include <math.h>
 
 extern RngRuntimeView g_Rng;
 
@@ -55,10 +56,29 @@ __forceinline float ResolveFloat(EnemyView *enemy, float rawValue)
     return enemy->ResolveFloat(rawValue);
 }
 
-float __stdcall Sin(float value);
-float __stdcall Cos(float value);
-float __stdcall SquareRoot(float value);
-float __stdcall FloatModulo(float dividend, float divisor);
+// Call the real VC7.1 <math.h> entry through its actual function type.
+// A local callable preserves the compiler wrapper under the reviewed /Ob1
+// profile; these inline adapters do not invent external game boundaries.
+inline float Sin(float value)
+{
+    float (*operation)(float) = ::sinf;
+    return operation(value);
+}
+inline float Cos(float value)
+{
+    float (*operation)(float) = ::cosf;
+    return operation(value);
+}
+inline float SquareRoot(float value)
+{
+    float (*operation)(float) = ::sqrtf;
+    return operation(value);
+}
+inline float FloatModulo(float dividend, float divisor)
+{
+    float (*operation)(float,float) = ::fmodf;
+    return operation(dividend, divisor);
+}
 float __stdcall VectorAngle(float y, float x);
 
 

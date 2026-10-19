@@ -17,6 +17,17 @@ The **95%** milestone still needs **32,789** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
+- **Current RunEcl source correction:** the four opaque Sin/Cos/SquareRoot/
+  FloatModulo externals are replaced by real VC7.1 math calls through typed
+  local callables. All **54 compiler-helper bytes**, including the single
+  pinned CRT fmod field, independently match the original. The nine native
+  calls retain full **15,564/598/30** RunEcl results; no new exact-byte credit.
+  The separate authored VectorAngle boundary remains unchanged. Both full
+  call auditors now reject altered helper bodies/fields and retired aliases.
+  Fresh dependency closure also repairs **20 stale RNG/Timer field names** in
+  operand/subroutine manifests, independently preserving all native targets.
+  All **49 affected canonical functions /21,893 bytes /1,100 fields** pass across
+  six carriers; **311** private names are proven from actual COFF positions.
 - **New exact Effect ring family:** original table rows **6/8/13/14/15**
   share initializer **0x0040DBB0 /184 bytes /five fields** and draw
   **0x0040DC70 /1,028 bytes /56 fields**. Both pass independent complete
@@ -48,22 +59,24 @@ remain separate open gates.
   guarded. Small leaves and large RunEcl/Enemy/Title/ExAttack owners stay in scope.
 - **Evidence routing:** durable target/compiler facts are in `KNOWLEDGE_BASE.md`;
   latest Factory-accepted source remains **7324b4e**. This direct-local
-  checkpoint claims no new Factory acceptance. Recipes, source bindings,
-  complete comparisons and bounded negative controls live in
-  `.analysis/gpt-61sol-20261020-effect-ring/`.
+  checkpoint claims no new Factory acceptance. Current native-math recipes,
+  source bindings, complete comparisons and bounded controls live in
+  `.analysis/gpt-61sol-20261020-runecl-native-math/`; the exact ring packet
+  remains in `.analysis/gpt-61sol-20261020-effect-ring/`.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
-  verification. Parent remote `main` was verified at **652726c**.
+  verification. Parent remote `main` was verified at **a3243f0**.
   Native compilers run serially at lowered priority. Clean only owned
   reproducible artifacts after own producers stop; preserve private inputs
   and unresolved historical evidence.
-- **Final checks and cleanup:** CI passes **739 tests/28 skipped**; tracking,
-  docs, progress and whitespace pass. **691** parent public inputs remain
-  unchanged (650 raw, 41 checkout EOL normalization), ten change, one old
-  helper path moves and four new paths join. Seven external source closures
-  retain their parent proofs. After TH09-local producers stop, cleanup removes
-  **379 reproducible files /10,731,236 bytes**, including eight hash-recreated
-  carrier copies; fragments, recipes and full evidence remain. `build/` is absent.
+- **Final checks and cleanup:** CI passes **743 tests/28 skipped**; tracking,
+  docs, progress and whitespace pass. The complete focused proof covers **55
+  canonical functions /22,042 physical bytes /1,111 fields**, plus54 excluded
+  compiler-helper bytes. **700** parent engineering inputs remain unchanged
+  (658 raw, 42 checkout EOL normalization); five change. After TH09-local
+  producers stop, cleanup removes **397 reproducible files /9,297,341 bytes**,
+  including24 source copies recreated from immutable recipes and verified hashes.
+  Full reports, recipes and hashes remain; `build/` is absent.
 
 ## Next worker: first three work packages
 

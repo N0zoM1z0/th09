@@ -10524,3 +10524,86 @@ attest historical producer execution.
   fragments, recipes, negative/complete comparison reports and source hashes
   remain. Only this packet and the initially absent build/ cache are touched;
   build/ is absent again. No foreign-game job or historical evidence is removed.
+
+## October 20: real compiler math boundaries in complete RunEcl (gpt-6.1-sol)
+
+- Recovery starts from clean pushed **a3243f02e8da5edb9d387fdc92ed43ae4975db95**.
+  Original Japanese v1.50a disk SHA, direct local IDA metadata, entry and
+  distributed mapped bytes pass. This packet follows the ring callback's new
+  evidence for actual compiler math wrappers while retaining the complete
+  **15,564-byte /598-field** RunEcl owner as the comparison boundary.
+- A small pinned **/Ob1** control distinguishes ordinary `cosf(x)` and
+  `(&cosf)(x)` (both inline FCOS) from a correctly typed local function pointer
+  or reference (a real **@cosf@4** call). A generic template keeps an extra
+  source-only helper and is not adopted. The complete ECL pointer control keeps
+  **15,564 bytes /598 fields /30 ordinary differences**, with no field or table
+  difference. Six real sinf/cosf calls replace the two opaque namespace aliases;
+  complete byte/graph results are checked after independently proving the
+  compiler-generated helper bodies. An unfamiliar symbol alone is never bound
+  from its convenient call position.
+- Maintained `EclRunControl.inl` now defines four ordinary inline adapters with
+  correctly typed local callables for **sinf/cosf/sqrtf/fmodf**. They lower to
+  the real compiler identities under the existing profile. The former undefined
+  external Sin/Cos/SquareRoot/FloatModulo declarations and diagnostic bindings
+  are removed. RunEcl has **3/3/1/2** respective direct calls; all **375** ordered
+  direct calls, the original-rooted graph, local tables and all598 operand
+  identities remain intact. No new ABI claim, target boundary, assembly,
+  padding, register hint, compiler pragma or profile change is introduced.
+- The three one-argument wrappers are independently **12 exact bytes** each at
+  **0x00401070 /0x00401060 /0x00401080**. The real **18-byte @fmodf@8** at
+  **0x00405710** has one native **__CIfmod REL32 at+0xA**, bound to the previously
+  pinned CRT entry **0x0047B73A**. All **54 complete helper bytes** match the
+  original after that one independently sourced field. They remain classified
+  compiler-generated/excluded and earn no authored-byte credit.
+- The all-five private control also asks the compiler for @atan2f@8. Its complete
+  **15-byte** body equals the already exact **Th09EclRunControl::VectorAngle**
+  original entry at **0x00405700**. Equal machine code cannot settle original
+  authorship or ownership: the existing independently authored source/canonical
+  boundary stays unchanged. An initial read-only report used16 instead of15
+  bytes for this helper and left fmod's field unresolved; the corrected full
+  span/field proof is retained separately and explicitly supersedes those raw
+  comparison flags. The all-five source is not adopted.
+- Full RunEcl inspection still reports **30 ordinary differences** only at
+  opcode4/seven and opcode155/23; zero field/table differences and146/148
+  normalized shapes remain. This is an accepted source/native-boundary
+  correction, **not RunEcl exactness or new authored-byte credit**. Complete
+  guards also retain Enemy **3,900/97/29**, Type19 **821/35/44**, biased movement
+  and Effect34 draw **946 target /959 candidate /593 overlap differences +13
+  extra bytes**. Original native product/runtime and95% gates remain open.
+- Both full-call auditors now verify every used compiler wrapper's complete
+  original bytes, exact size and complete relocation set. The fmod field must
+  name __CIfmod with the reviewed offset/type/zero addend. Four new pure tests
+  reject changed extent/body/fields, wrong CRT symbol/offset/addend, and retired
+  opaque aliases; matched names alone cannot pass the new body gate.
+  Recipes, original-bound comparisons, immutable source hashes and bounded
+  controls live under `.analysis/gpt-61sol-20261020-runecl-native-math/`.
+- A conservative quoted-include closure finds **six affected compiler carriers**,
+  including EclHelpers, EclOperands, EclInitializeSubroutine and EnemyManagerClear.
+  Fresh builds expose a pre-existing manifest defect: **18 RNG fields** in the
+  operand resolvers and **two Timer assignment fields** in subroutine setup
+  still named obsolete facades despite their source already using genuine
+  native APIs. Each replacement is independently bound from another canonical
+  callee/global definition, not this caller's target operand. Full original
+  bytes and field encodings agree before publication. **311 private-label
+  names** across the six carriers are separately derived from actual same-owner
+  COFF coordinates; all old target addresses/addends/extents stay unchanged.
+- All **49 affected canonical functions /21,893 physical bytes /1,100 fields**
+  pass strict original-bound comparisons. The four math references in the two
+  polar helpers now name the genuine compiler entries. Existing exact count
+  stays954; cold recovery makes the stale dependent manifests reproducible
+  rather than granting new or duplicate credit. Independent RNG and Timer
+  boundary checks are included with this packet's focused proof.
+- The focused proof also cold-checks four genuine RNG functions and the real
+  **nine-byte Timer assignment wrapper /25-byte SetCurrent callee**: six
+  complete native units /149 bytes /11 fields. Combined strict closure is
+  **55 canonical functions /22,042 physical bytes /1,111 fields**, plus54
+  independently exact excluded compiler-helper bytes. CI passes **743 tests
+  /28 skipped**; tracking, docs, generated progress and whitespace pass.
+  Parent source binding proves **700 unchanged engineering inputs (658 raw
+  +42 checkout EOL normalization)** and five modified inputs. No canonical
+  target, profile, extent or addend changes, and no ledger exact count rises.
+  After all own producers stop, TH09-cwd-scoped cleanup removes **397
+  reproducible files /9,297,341 bytes**, including24 copied fragments/controls
+  recreated from the immutable parent recipe and hash-checked first. Only this
+  packet and initially absent build/ are touched; build/ is absent again.
+  Recipes, full original comparisons, rejected controls and hashes remain.

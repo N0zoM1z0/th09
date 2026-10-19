@@ -36,10 +36,10 @@ ALIASES = {
     # This is a diagnostic ABI binding, not a second physical/source owner.
     '??BZunTimer@@QAEHXZ': 0x435f00,
     '?NextU16@RngRuntimeView@@QAEGXZ': 0x42ae20,
-    '?FloatModulo@Th09EclRunControl@@YGMMM@Z': 0x405710,
-    '?Sin@Th09EclRunControl@@YGMM@Z': 0x401070,
-    '?Cos@Th09EclRunControl@@YGMM@Z': 0x401060,
-    '?SquareRoot@Th09EclRunControl@@YGMM@Z': 0x401080,
+    '@fmodf@8': 0x405710,
+    '@sinf@4': 0x401070,
+    '@cosf@4': 0x401060,
+    '@sqrtf@4': 0x401080,
     '?ClampPosition@Th09EclRunMovement@@YIXPAUEnemyView@@@Z': 0x4101d0,
     '?MoveRandomBiased@Th09EclRunLate@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@@Z': 0x407e30,
     '?GetRandomU32InRange@RngRuntimeView@@QAEII@Z': 0x4048e0,
@@ -47,6 +47,42 @@ ALIASES = {
     '?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z': 0x404910,
     '?StartSpellBackground@BackgroundLateView@Th09EclRunLate@@QAEXXZ': 0x4067b0,
 }
+# Compiler-generated entries, independently reviewed/excluded in the origin
+# ledger. __CIfmod is the pinned CRT contribution entry at 0x0047B73A.
+COMPILER_MATH_WRAPPERS = {
+    '@sinf@4': (0x00401070, 12),
+    '@cosf@4': (0x00401060, 12),
+    '@sqrtf@4': (0x00401080, 12),
+    '@fmodf@8': (0x00405710, 18),
+}
+
+
+def validate_compiler_math_wrappers(coff, obj, image, symbols):
+    """A familiar math symbol cannot hide a changed or absent helper body."""
+    result = []
+    for symbol in sorted(set(symbols) & set(COMPILER_MATH_WRAPPERS)):
+        base, size = COMPILER_MATH_WRAPPERS[symbol]
+        raw, fields = coff.object_function(Path(obj), symbol)
+        expected = ([{'offset': 10, 'type_id': 20, 'type': 'REL32',
+                      'symbol': '__CIfmod', 'addend': 0}]
+                    if symbol == '@fmodf@8' else [])
+        require(len(raw) == size and fields == expected,
+                'compiler math wrapper extent/fields changed: ' + symbol)
+        linked = bytearray(raw)
+        if fields:
+            struct.pack_into('<I', linked, 10, (0x0047B73A - (base + 14)) & 0xffffffff)
+        target = coff.pe_bytes_at(image, base, size)
+        require(bytes(linked) == target,
+                'compiler math wrapper complete original bytes changed: ' + symbol)
+        result.append({'symbol': symbol, 'target': base, 'bytes': size,
+                       'original_sha256': hashlib.sha256(target).hexdigest(),
+                       'raw_sha256': hashlib.sha256(raw).hexdigest(),
+                       'resolved_sha256': hashlib.sha256(linked).hexdigest(),
+                       'fields': fields, 'complete_bytes_equal': True,
+                       'origin': 'compiler_generated; excluded, no authored credit'})
+    return result
+
+
 DATA_ALIASES = {
     '?g_DifficultyMask@Th09EclRunOwner@@3IA': 0x4a7eb0,
     '??_C@_06IPGJPKLK@ECLInt?$AA@': 0x48e468,
@@ -80,7 +116,10 @@ def direct_identity(symbol, canonical, aliases, observed_destination):
                   'folded four-byte +8 getter ABI; original source spelling/ownership unknown'
                   if symbol == '??BZunTimer@@QAEHXZ' else
                   'Packet 785: callee implementation, target-body and xref review; not caller-order inference')
-        provenance = {'independent_alias_review': review}
+        provenance = ({'compiler_generated_wrapper_review':
+                       'Complete original/COFF wrapper and pinned CRT field checked in this audit'}
+                      if symbol in COMPILER_MATH_WRAPPERS else
+                      {'independent_alias_review': review})
     else:
         expected = None
         provenance = {'unresolved': True}
@@ -235,6 +274,8 @@ def audit(object_path):
     # The two compiler tables follow the complete logical instruction stream.
     # Every relocation must own one distinct, recognized four-byte field.
     rows = validate_relocation_fields(raw, rows)
+    compiler_math = validate_compiler_math_wrappers(
+        coff, obj, image, [row['symbol'] for row in rows])
     table_offset = len(raw) - 193 * 4
     require(table_offset == 14792 and len(rows) == 598, 'unreviewed input shape or incomplete coverage')
     # The compiler may place one or more alignment-NOP instructions between the
@@ -463,6 +504,7 @@ def audit(object_path):
         'table_roots_agree': C['roots'] == T['roots'],
         'real_runstate_owner_gate': real_runstate,
         'direct_calls': call_matrix,
+        'compiler_math_wrappers': compiler_math,
         'indirect_calls': indirect_matrix,
         'manual_indirect_contracts_candidate_sha256': '20fd67dfb8b6e1f066823dc11159f133af022d09e617ef02d4b3eb7b75ae522f',
         'manual_indirect_contracts_apply_to_candidate': hashlib.sha256(raw).hexdigest() == '20fd67dfb8b6e1f066823dc11159f133af022d09e617ef02d4b3eb7b75ae522f',

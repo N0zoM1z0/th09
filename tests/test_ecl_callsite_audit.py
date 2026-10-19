@@ -60,5 +60,54 @@ class EclCallsiteAuditTests(unittest.TestCase):
         self.assertEqual(result['table_use_counts'], {'opcode': 1})
 
 
+class CompilerMathBodyTests(unittest.TestCase):
+    @staticmethod
+    def coff(raw, fields, target):
+        return NS(object_function=lambda path, symbol: (bytearray(raw), fields),
+                  pe_bytes_at=lambda image, base, size: target)
+
+    def test_native_symbol_requires_complete_equal_body_and_no_authored_credit(self):
+        raw = bytes(range(12))
+        rows = audit.validate_compiler_math_wrappers(
+            self.coff(raw, [], raw), 'object', b'image', ['@sinf@4'])
+        self.assertEqual(len(rows), 1)
+        self.assertTrue(rows[0]['complete_bytes_equal'])
+        self.assertIn('excluded, no authored credit', rows[0]['origin'])
+        self.assertEqual(rows[0]['target'], 0x401070)
+
+    def test_familiar_symbol_cannot_hide_changed_extent_fields_or_body(self):
+        raw = bytes(range(12))
+        for data, fields, target in (
+                (raw[:-1], [], raw), (raw, [{'offset': 0}], raw),
+                (raw[:-1]+b'X', [], raw)):
+            with self.subTest(data=data, fields=fields), self.assertRaises(ValueError):
+                audit.validate_compiler_math_wrappers(
+                    self.coff(data, fields, target), 'object', b'image', ['@cosf@4'])
+
+    def test_fmod_requires_the_pinned_crt_field_and_complete_linked_body(self):
+        import struct
+        raw = bytes(18)
+        fields = [{'offset': 10, 'type_id': 20, 'type': 'REL32',
+                   'symbol': '__CIfmod', 'addend': 0}]
+        target = bytearray(raw)
+        struct.pack_into('<I', target, 10, 0x47B73A-(0x405710+14))
+        rows = audit.validate_compiler_math_wrappers(
+            self.coff(raw, fields, bytes(target)), 'object', b'image', ['@fmodf@8'])
+        self.assertTrue(rows[0]['complete_bytes_equal'])
+        for changed in (dict(fields[0], symbol='other'), dict(fields[0], addend=1),
+                        dict(fields[0], offset=9)):
+            with self.subTest(changed=changed), self.assertRaises(ValueError):
+                audit.validate_compiler_math_wrappers(
+                    self.coff(raw, [changed], bytes(target)),
+                    'object', b'image', ['@fmodf@8'])
+
+    def test_retired_opaque_math_alias_cannot_borrow_native_identity(self):
+        for name, signature in [('Sin', 'YGMM'), ('Cos', 'YGMM'),
+                                ('SquareRoot', 'YGMM'), ('FloatModulo', 'YGMMM')]:
+            symbol = '?'+name+'@Th09EclRunControl@@'+signature+'@Z'
+            self.assertNotIn(symbol, audit.ALIASES)
+            self.assertIsNone(audit.direct_identity(symbol, {}, audit.ALIASES, 0x401070)[2])
+
+
 if __name__ == '__main__':
     unittest.main()

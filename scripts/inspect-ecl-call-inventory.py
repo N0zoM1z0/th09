@@ -143,9 +143,10 @@ def inspect(path: Path) -> dict:
         raise ValueError('original direct-call inventory changed')
     with (ROOT/'config/match-units.toml').open('rb') as stream:
         units = tomllib.load(stream)['units']
+    compiler_math = audit.validate_compiler_math_wrappers(coff, path, pe, symbols)
     result = compare_calls(symbols, target_calls, symbol_destinations(units, audit.ALIASES))
     result.update(
-        diagnostic_only=True, object=str(path),
+        diagnostic_only=True, object=str(path), compiler_math_wrappers=compiler_math,
         object_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
         raw_sha256=hashlib.sha256(raw).hexdigest(), target_owner_sha256=OWNER_SHA256,
         physical_bytes=len(raw), target_physical_bytes=PHYSICAL_BYTES,
