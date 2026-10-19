@@ -3,6 +3,7 @@
 
 #include "AsciiManager.hpp"
 #include "SoundPlayer.hpp"
+#include "Supervisor.hpp"
 #include "Chain.hpp"
 #include "FileSystem.hpp"
 #include "ScreenEffect.hpp"
@@ -260,6 +261,9 @@ struct TitleConfigSnapshotView {
 };
 
 typedef char TitleConfigSnapshotSizeIsCC[(sizeof(TitleConfigSnapshotView) == 0xCC) ? 1 : -1];
+typedef char TitleConfigSnapshotMatchesSupervisorConfig[
+    (sizeof(TitleConfigSnapshotView) == sizeof(GameConfiguration) &&
+     offsetof(Supervisor, config388) == 0x388) ? 1 : -1];
 
 extern void __cdecl DrawTitleHelpText(TitleAnmManagerView *manager, AnmVmView *vm,
                                       u32 color, i32 width, const char *text);
@@ -438,7 +442,6 @@ extern u8 g_OptionB;
 extern u8 g_OptionC;
 extern u8 g_OptionD;
 extern const char *g_TitleHelpText[8];
-extern TitleConfigSnapshotView g_TitleConfigSnapshot;
 extern i32 g_GameSide0Value20;
 extern i32 g_GameSide1Value20;
 extern i32 g_GameSide0Value30;
@@ -3424,7 +3427,9 @@ int TitleScreenView::OnUpdateStartMenu()
         {
             ChangeCurrentScreen(9);
             keyboardSelection = 0;
-            configSnapshot = g_TitleConfigSnapshot;
+            // Copy the live configuration through the existing 0xCC snapshot view.
+            configSnapshot = *reinterpret_cast<const TitleConfigSnapshotView *>(
+                &g_Supervisor.config388);
             return 1;
         }
         break;

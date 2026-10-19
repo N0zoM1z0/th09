@@ -3480,11 +3480,38 @@ def guard_title_cursor_reverse_inactive(variant: str, report: dict) -> None:
         raise RuntimeError('Title cursor '+variant+' full-original residual/graph frontier regressed')
 
 
+def guard_title_config_snapshot_owner(units: dict) -> None:
+    """Keep the exact StartMenu copy bound to Supervisor's real config data.
+
+    At owner +0x47, the original loads 0x004B3488 before REP MOVSD copies
+    0x33 DWORDs. The real root is g_Supervisor at 0x004B3100; the cold COFF
+    addend is config388's 0x388. A fake independent global at 0x004B3488
+    would also link to the same bytes, so byte equality alone cannot protect
+    the C++ data-owner identity established here.
+    """
+    unit = units.get('title-screen-start-menu', {})
+    rows = unit.get('relocations', [])
+    field = [row for row in rows if row.get('offset') == 0x47]
+    if (unit.get('source') != 'src/TitleScreen.cpp' or
+            unit.get('object') != 'build/matching/TitleScreen.obj' or
+            unit.get('symbol') != '?OnUpdateStartMenu@TitleScreenView@@QAEHXZ' or
+            unit.get('target_address') != 0x00429E23 or
+            unit.get('size') != 1560 or unit.get('compare_size') != 1592 or
+            len(rows) != 107 or len(field) != 1 or
+            field[0].get('type') != 'DIR32' or
+            field[0].get('symbol') != '?g_Supervisor@@3VSupervisor@@A' or
+            field[0].get('target') != 0x004B3100 or
+            any('g_TitleConfigSnapshot' in row.get('symbol', '') for row in rows)):
+        raise RuntimeError('Title StartMenu original config copy lost the genuine Supervisor owner')
+
+
 def run_title_open() -> dict:
     # These source-present owners are explicitly non-exact. Their independent
     # original operand inventories must agree before any similarity score.
     # The cursor trio is in the same TU as the exact TitleSetup thread; rebuild
     # it even with --skip-exact-siblings so a stale object cannot be reused.
+    with (ROOT / 'config/match-units.toml').open('rb') as stream:
+        guard_title_config_snapshot_owner(tomllib.load(stream)['units'])
     build('title-screen-setup-thread')
     cursor_obj = 'build/matching/TitleScreen.obj'
     cursor_reports = {}

@@ -23,26 +23,26 @@ separate **unproven** milestones.
   `history3E8[sample + 1]` indexing retains the separate vertex cursor and
   closes both former preheader gaps under the unchanged VC7.1 profile.
   This adds **1,490 exact authored bytes**; no Factory receipt is claimed.
-- **Current focused regression:** `--owner runecl` passed **four original-bound
-  diagnostics and 42 distinct canonical exact function checks**. The ECL source
-  contributes **26** of those exact owners across seven declared carriers.
-  RunEcl remains **30 ordinary differences**, with no field/table drift.
-  CI passed **659 tests, 28 skipped, zero failures**. This bounded batch removed
-  **48 generated files /3,633,158 bytes** after validation; recipes, source-bound
-  local witnesses and per-path cleanup hashes remain below
-  `.analysis/gpt-61sol-20261019-exact/`.
-- **Latest bounded controls, gameplay source `f18e905`:** 28 complete Enemy
-  TU compiles, 14 Title DrawResult compiles and 13 network-parser compiles
-  produce no new exact owner. Enemy remains **29**, DrawResult **22**, and
-  the parser **76** original-linked differences. The Enemy ledger's old
-  current-looking **39**-difference prose is corrected; its earlier ten-byte
-  trail-copy improvement was already established. Four exact same-TU Enemy
-  siblings replay independently; CI passes **659 tests, 28 skipped**. Removed
-  **27 generated files /1,185,919 bytes**, retaining compact recipes and
-  source-bound results in `.analysis/gpt-61sol-20261019-enemy/packet.json`.
-  Prior RunEcl/Type3 controls remain
-  in the knowledge base and `post-trail-probe-packet.json`; these bounded
-  negative results do not rule out other source models.
+- **Latest C++ data-owner correction:** the already exact StartMenu's
+  **0xCC-byte** snapshot now reads the genuine `g_Supervisor.config388`.
+  Its original `+0x47` address operand stays **0x004B3488**, represented by
+  root **0x004B3100 +0x388**, replacing one independent private global
+  declaration. The complete **1,560 code +32 table bytes /107 fields**
+  remain exact; nine private labels retain independently checked original
+  destinations. This adds no exact-count credit.
+- **Current focused regression:** `--owner title` passed **eight original-bound
+  diagnostics and 46 distinct canonical exact function checks**. Both actual
+  `TitleScreen.cpp` compiler carriers retain **38 exact owners /18,411 physical
+  bytes /943 fields**. CI passes **663 tests, 28 skipped, zero failures**.
+  Source-bound witnesses and recipes are below
+  `.analysis/gpt-61sol-20261019-options/`. After validation, removed
+  **41 generated files /2,855,840 bytes**; compact evidence remains.
+- **Latest bounded controls:** 14 Options exit/return/case-order compiles and
+  13 Effect leaf compiles produce no new exact owner. Options remains
+  **2,048 versus 2,045 bytes**; its EBX zero-versus-six constant lifetime
+  still differs. Effect remains **51 bytes/eight differences**. Earlier Enemy,
+  RunEcl and Type3 controls remain in the knowledge base and their source-bound
+  analysis packets; these failures do not rule out other natural source models.
 - **Most recent Factory-accepted source checkpoint:** `7324b4e` (`gpt-web: restore native ANM
   and Supervisor ABI across MusicRoom callbacks`). It preserves the **2,258
   byte exact** MusicRoom update and **209 byte exact** drawing function while
