@@ -55,9 +55,10 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   Controller's `bulletAnm @+0x25E1BC` now has real `AnmLoaded*` type:
   **8** native SetSprite calls, **23 existing exact / 10,119 physical bytes**
   source-cold preserved across FIVE TUs, and the native SetSprite callee is
-  **189/189 exact**. Etama `OnDraw` stays **600/600 nonexact, 268 different**;
-  RunEcl still has 30 unlike. `RE_ACCEPTED_RECEIPTS.md` records earlier
-  source-bound receipts, not transferable to changed gameplay source.
+  **189/189 exact**. The shared header also renumbers 20 exact ECL private
+  `$L` symbols; all 24 ECL exact originals (10,607 bytes) and RunEcl
+  15,564/598-field +30 residual pass focused cold replay. Etama `OnDraw`
+  stays 600-byte nonexact (+268). Prior Factory receipts remain source-bound.
 - **Fresh October 19 source-bound replays:** Factory `strict-live-v1`
   independently accepted four *already exact* owners from clean source
   commit `7edc447`: Etama `OnUpdate` 2,216 physical, Title MusicRoom
