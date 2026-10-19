@@ -106,8 +106,10 @@ class BulletRealSound(unittest.TestCase):
             return [{'unit':'only-advance'}]
         with (patch.object(frontiers,'cold_replay_exact_source',side_effect=replay) as units,
               patch.object(frontiers,'build') as build,
+              patch.object(frontiers,'replay_bullet_true_loaded_exact',return_value=[]) as loaded,
               patch.object(frontiers,'canonical',side_effect=lambda s:{'unit':s}) as canonical):
             owners,checked=frontiers.run_bullet_sound(protect_exact=True)
+        loaded.assert_called_once_with(etama_prechecked=False)
         self.assertEqual(owners,{})
         self.assertEqual([x['unit'] for x in checked],
             ['first-main','second-main','only-advance',
@@ -122,10 +124,13 @@ class BulletRealSound(unittest.TestCase):
                                                     call('runtime-add-normalize-angle'),
                                                     call('anm-manager-execute-script')])
         with (patch.object(frontiers,'cold_replay_exact_source',side_effect=replay),
+              patch.object(frontiers,'replay_bullet_true_loaded_exact',return_value=[]) as loaded,
               patch.object(frontiers,'build') as build,
               patch.object(frontiers,'canonical') as canonical):
             _,checked=frontiers.run_bullet_sound(protect_exact=True,sound_prechecked=True,
-                                              real_angle_prechecked=True,real_anm_prechecked=True)
+                                              real_angle_prechecked=True,real_anm_prechecked=True,
+                                              etama_prechecked=True)
+        loaded.assert_called_once_with(etama_prechecked=True)
         self.assertEqual([r['unit'] for r in checked],['first-main','second-main','only-advance'])
         build.assert_not_called();canonical.assert_not_called()
         with (patch.object(frontiers,'cold_replay_exact_source') as units,

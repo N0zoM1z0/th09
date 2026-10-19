@@ -50,15 +50,14 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   at `0x42AED0` (not invented namespace stdcall); 24 ECL exact owners
   preserve 10,607 bytes, 20 renumbered labels retain original VAs. The
   **15,564-byte / 598-field** boss still has **30** residual differences.
-- **Etama/Bullet true math and ANM ABI:** Genuine `__fastcall` global
-  `AddNormalizeAngle` replaces six fake stdcall math calls; now also four
-  **real `AnmManager::ExecuteScript` original direct calls** and four real
-  AnmManager globals in the **2,216/2,216 exact** Etama `OnUpdate` boss.
-  Its original-PE/COFF checked native script callee is **9,776/9,776 exact**;
-  all 18 Bulletin exact functions (**6,711 physical bytes**) remain intact.
-  Etama `OnDraw` remains 600-byte nonexact (268 differences); `RunEcl`
-  still has 30 unlike bytes. `RE_ACCEPTED_RECEIPTS.md` has older source-
-  commit-bound Etama receipts, not assumed applicable to changed source.
+- **Etama/Bullet true AnmManager + AnmLoaded:** `OnUpdate` **2,216/2,216**
+  remains exact, its four script calls bind true **9,776-byte** ANM runtime.
+  Controller's `bulletAnm @+0x25E1BC` now has real `AnmLoaded*` type:
+  **8** native SetSprite calls, **23 existing exact / 10,119 physical bytes**
+  source-cold preserved across FIVE TUs, and the native SetSprite callee is
+  **189/189 exact**. Etama `OnDraw` stays **600/600 nonexact, 268 different**;
+  RunEcl still has 30 unlike. `RE_ACCEPTED_RECEIPTS.md` records earlier
+  source-bound receipts, not transferable to changed gameplay source.
 - **Fresh October 19 source-bound replays:** Factory `strict-live-v1`
   independently accepted four *already exact* owners from clean source
   commit `7edc447`: Etama `OnUpdate` 2,216 physical, Title MusicRoom

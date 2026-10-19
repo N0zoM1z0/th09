@@ -182,7 +182,7 @@ int EtamaController::AddedCallback(EtamaController *controller)
         AnmLoaded *anm = anmManager->GetAnm(8);
         if (reinterpret_cast<AnmLoadedResidentView *>(anm)->resident04 == NULL)
             anm = anmManager->PreloadAnm(8, const_cast<char *>("etama.anm"));
-        controller->bulletAnm = reinterpret_cast<BulletAnmLoadedView *>(anm);
+        controller->bulletAnm = anm;
         if (anm == NULL)
             return -1;
     }
@@ -190,15 +190,15 @@ int EtamaController::AddedCallback(EtamaController *controller)
     for (unsigned int i = 0; i < 23; ++i)
     {
         BulletTypeSprites *sprites = &controller->bulletTypeSprites[i];
-        reinterpret_cast<AnmLoaded *>(controller->bulletAnm)
+        controller->bulletAnm
             ->SetAndExecuteScriptIdx(&sprites->bulletVm, kBulletSpriteScripts[i][0]);
-        reinterpret_cast<AnmLoaded *>(controller->bulletAnm)
+        controller->bulletAnm
             ->SetAndExecuteScriptIdx(&sprites->spawnFastVm, kBulletSpriteScripts[i][1]);
-        reinterpret_cast<AnmLoaded *>(controller->bulletAnm)
+        controller->bulletAnm
             ->SetAndExecuteScriptIdx(&sprites->spawnNormalVm, kBulletSpriteScripts[i][2]);
-        reinterpret_cast<AnmLoaded *>(controller->bulletAnm)
+        controller->bulletAnm
             ->SetAndExecuteScriptIdx(&sprites->spawnSlowVm, kBulletSpriteScripts[i][3]);
-        reinterpret_cast<AnmLoaded *>(controller->bulletAnm)
+        controller->bulletAnm
             ->SetAndExecuteScriptIdx(&sprites->despawnVm, kBulletSpriteScripts[i][4]);
 
         sprites->bulletVm.flagsWord |= 0x2000;

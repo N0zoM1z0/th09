@@ -1,5 +1,6 @@
-#include "EnemyManager.hpp"
 #include "BulletManager.hpp"
+#include "EnemyManager.hpp"
+#include "AnmManager.hpp"
 #include "RngRuntimeLeaves.hpp"
 
 struct EnemyEclOpcode2ContextView

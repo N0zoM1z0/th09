@@ -27,13 +27,13 @@ Laser *EtamaController::SpawnLaserPattern(BulletSpawnDescriptor *descriptor)
         return laser;
 
     found_laser:
-        reinterpret_cast<AnmLoaded *>(this->bulletAnm)->
+        this->bulletAnm->
             SetAndExecuteScriptIdx(
                 &laser->bodyVm, descriptor->bulletType + 10);
-        reinterpret_cast<AnmLoaded *>(this->bulletAnm)->SetSprite(
+        this->bulletAnm->SetSprite(
             &laser->bodyVm,
             laser->bodyVm.activeSpriteIndex + descriptor->color);
-        reinterpret_cast<AnmLoaded *>(this->bulletAnm)->
+        this->bulletAnm->
             InitializeAndSetSprite(
                 &laser->startCapVm,
                 g_LaserColorSpriteOffsets[descriptor->color] + 146);

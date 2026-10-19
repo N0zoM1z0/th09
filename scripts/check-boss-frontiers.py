@@ -2550,9 +2550,113 @@ def replay_bullet_true_anm_exact(*, already_checked: bool) -> list[dict]:
     return [canonical('anm-manager-execute-script')]
 
 
+# The side EtamaController's last pointer (+0x25E1BC) is an actual
+# AnmLoaded*, not a second source-only BulletAnmLoadedView C++ class.
+# The real standalone original AnmLoaded::SetSprite @0x00436AC0 is 189/189
+# byte exact. Cover all eight original call fields across BulletManager,
+# Bullet Advance and Enemy ECL *plus* the exact laser/draw consumers that
+# once recast the same pointer to the native class.
+BULLET_TRUE_LOADED_SET_SPRITE = '?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z'
+BULLET_TRUE_LOADED_CALLS = {
+    'etama-controller-select-bullet-sprite': (
+        'src/BulletManager.cpp', 0x004124E0, 161, 161, (0x52,0x82,0x96)),
+    'etama-spawn-single-bullet': (
+        'src/BulletManager.cpp', 0x00412960, 1893, 1932, (0x577,0x605)),
+    'bullet-advance-transform-program': (
+        'src/BulletAdvanceTransformProgram.cpp',0x004141C0,1236,1320,(0xCC,)),
+    'enemy-ecl-opcode2': (
+        'src/EnemyEclOpcode2.cpp',0x0040C530,574,574,(0x71,0x158)),
+}
+BULLET_TRUE_LOADED_CARRIERS = {
+    'src/EnemyEclOpcode2.cpp': {'build/matching/EnemyEclOpcode2.obj':1},
+    'src/BulletLaserSpawn.cpp': {'build/matching/BulletLaserSpawn.obj':1},
+    'src/EtamaControllerDraw.cpp': {'build/matching/EtamaControllerDraw.obj':2},
+}
+
+
+def validate_bullet_true_loaded_abi(units: dict) -> None:
+    """Original PE field-level native C++ pointer proof across four real TUs."""
+    bullet_header=(ROOT/'src/BulletManager.hpp').read_text()
+    anm_header=(ROOT/'src/AnmManager.hpp').read_text()
+    if (bullet_header.count('class AnmLoaded;')!=1 or
+            bullet_header.count('AnmLoaded *bulletAnm;')!=1 or
+            'BulletAnmLoadedView' in bullet_header or
+            'offsetof(EtamaController, bulletAnm) == 0x25E1BC' not in bullet_header or
+            'int SetSprite(AnmVm *vm, int spriteIndex);' not in anm_header):
+        raise RuntimeError('Etama side controller original +0x25E1BC has fake ANM C++ storage/ABI')
+    for source in ('src/BulletManager.cpp','src/BulletAdvanceTransformProgram.cpp',
+                   'src/EnemyEclOpcode2.cpp','src/EtamaControllerDraw.cpp',
+                   'src/BulletLaserSpawn.cpp'):
+        actual=(ROOT/source).read_text()
+        if ('BulletAnmLoadedView' in actual or
+                '#include "AnmManager.hpp"' not in actual):
+            raise RuntimeError('Etama / Enemy code imported fake ANM class: '+source)
+    drawing=(ROOT/'src/EtamaControllerDraw.cpp').read_text()
+    laser=(ROOT/'src/BulletLaserSpawn.cpp').read_text()
+    if ('controller->bulletAnm = anm;' not in drawing or
+            re.search(r'controller->bulletAnm\s*->SetAndExecuteScriptIdx\(', drawing) is None or
+            'this->bulletAnm->SetSprite(' not in laser):
+        raise RuntimeError('Etama/laser exact sources are not true native AnmLoaded receivers')
+    exact_source_carriers('src/BulletManager.cpp',BULLET_MAIN_EXACT_CARRIERS,units)
+    exact_source_carriers('src/BulletAdvanceTransformProgram.cpp',
+                          BULLET_ADVANCE_EXACT_CARRIERS,units)
+    for source,carriers in BULLET_TRUE_LOADED_CARRIERS.items():
+        exact_source_carriers(source,carriers,units)
+    names=set()
+    for name,(source,va,size,complete,sites) in BULLET_TRUE_LOADED_CALLS.items():
+        row=units.get(name)
+        if (not isinstance(row,dict) or row.get('source')!=source or
+                row.get('target_address')!=va or row.get('size')!=size or
+                row.get('compare_size',size)!=complete or
+                row.get('profile')!=list(_SCREEN_EFFECT_BASE_PROFILE)):
+            raise RuntimeError('original Etama/Enemy/Advance exact SetSprite owner changed: '+name)
+        relevant=[(f.get('offset'),f.get('type'),f.get('symbol'),f.get('target'),f.get('addend',0))
+                  for f in row['relocations'] if
+                  'SetSprite@' in f.get('symbol','') or
+                  'BulletAnmLoadedView' in f.get('symbol','')]
+        expected=[(offset,'REL32',BULLET_TRUE_LOADED_SET_SPRITE,0x00436AC0,0)
+                  for offset in sites]
+        if relevant!=expected:
+            raise RuntimeError('native original SetSprite C++ identity/field offset/order changed: '+name)
+        names.add(name)
+    if len(names)!=4:
+        raise RuntimeError('true Bullet AnmLoaded SetSprite original caller census incomplete')
+    for unit in units.values():
+        if unit.get('source') not in (
+                'src/BulletManager.cpp','src/BulletAdvanceTransformProgram.cpp',
+                'src/EtamaControllerDraw.cpp','src/EnemyEclOpcode2.cpp',
+                'src/BulletLaserSpawn.cpp'):
+            continue
+        if any('BulletAnmLoadedView' in f.get('symbol','') for f in unit.get('relocations',[])):
+            raise RuntimeError('false C++ AnmLoaded class reintroduced on exact sibling')
+    callee=units.get('anm-loaded-set-sprite')
+    if (not isinstance(callee,dict) or
+            callee.get('source')!='src/AnmLoadedSetSprite.cpp' or
+            callee.get('object')!='build/matching/AnmLoadedSetSprite.obj' or
+            callee.get('target_address')!=0x00436AC0 or callee.get('size')!=189 or
+            callee.get('symbol')!=BULLET_TRUE_LOADED_SET_SPRITE or
+            callee.get('profile')!=list(_SCREEN_EFFECT_BASE_PROFILE)):
+        raise RuntimeError('native AnmLoaded SetSprite actual independent 189-byte exact method drifted')
+
+
+def replay_bullet_true_loaded_exact(*, etama_prechecked: bool) -> list[dict]:
+    """Extra full owner replays outside the 18+1 Bullet/Advance carriers."""
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        validate_bullet_true_loaded_abi(tomllib.load(stream)['units'])
+    result=[]
+    for source,carriers in BULLET_TRUE_LOADED_CARRIERS.items():
+        if etama_prechecked and source=='src/EtamaControllerDraw.cpp':
+            continue
+        result.extend(cold_replay_exact_source(source,carriers))
+    build('anm-loaded-set-sprite')
+    result.append(canonical('anm-loaded-set-sprite'))
+    return result
+
+
 def run_bullet_sound(*, protect_exact: bool, sound_prechecked: bool = False,
                      real_angle_prechecked: bool = False,
-                     real_anm_prechecked: bool = False) -> tuple[dict, list[dict]]:
+                     real_anm_prechecked: bool = False,
+                     etama_prechecked: bool = False) -> tuple[dict, list[dict]]:
     """Cold recheck all nineteen genuine Etama/Bullet source carriers.
 
     In the complete all-owner sweep the two independently exact sound leaves
@@ -2565,6 +2669,7 @@ def run_bullet_sound(*, protect_exact: bool, sound_prechecked: bool = False,
     validate_bullet_sound_real_owners(units)
     validate_bullet_real_angle_abi(units)
     validate_bullet_true_anm_manager_abi(units)
+    validate_bullet_true_loaded_abi(units)
     if not protect_exact:
         return {}, []
     exact = cold_replay_exact_source('src/BulletManager.cpp', BULLET_MAIN_EXACT_CARRIERS)
@@ -2578,6 +2683,7 @@ def run_bullet_sound(*, protect_exact: bool, sound_prechecked: bool = False,
         already_checked=real_angle_prechecked))
     exact.extend(replay_bullet_true_anm_exact(
         already_checked=real_anm_prechecked))
+    exact.extend(replay_bullet_true_loaded_exact(etama_prechecked=etama_prechecked))
     return {}, exact
 
 
@@ -3995,7 +4101,8 @@ def main() -> int:
                 protect_exact=not args.skip_exact_siblings,
                 sound_prechecked=args.owner == 'all',
                 real_angle_prechecked=args.owner == 'all',
-                real_anm_prechecked=args.owner == 'all')
+                real_anm_prechecked=args.owner == 'all',
+                etama_prechecked=args.owner == 'all')
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('title', 'all'):

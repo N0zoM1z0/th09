@@ -1,4 +1,5 @@
 #include "BulletManager.hpp"
+#include "AnmManager.hpp"
 #include "SoundPlayer.hpp"
 
 #include <string.h>

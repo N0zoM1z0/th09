@@ -6,6 +6,7 @@
 
 #include <stddef.h>
 
+class AnmLoaded;
 struct EtamaController;
 struct BulletTypeSprites;
 struct Bullet;
@@ -280,11 +281,6 @@ typedef char BulletSideEffectManagerAt0C[
     (offsetof(BulletSideStateView, effectManager0C) == 0x0C) ? 1 : -1];
 typedef char BulletSideStateSizeIs38[(sizeof(BulletSideStateView) == 0x38) ? 1 : -1];
 
-struct BulletAnmLoadedView
-{
-    int SetSprite(AnmVm *vm, int spriteIndex);
-};
-
 struct EtamaController
 {
     BulletTypeSprites bulletTypeSprites[32];
@@ -306,7 +302,7 @@ struct EtamaController
     Bullet *primaryPoolStart;
     Bullet *secondaryPoolStart;
     int cancelItemType;
-    BulletAnmLoadedView *bulletAnm;
+    AnmLoaded *bulletAnm;
 
     EtamaController();
     void Initialize();
