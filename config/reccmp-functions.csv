@@ -980,3 +980,4 @@ GameManagerPlayfieldView::IsWithinPlayfield,0x0041A6EB,function
 EffectPolarScaleView::SetFromAngleAxes,0x0040D4D0,function
 PlayerOwnerRewardCallbackType0,0x004412E0,function
 EffectInitializeCallbackType1Type2,0x0040D520,function
+EffectUpdateCallbackType1Type2,0x0040D600,function
