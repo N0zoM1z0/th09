@@ -40,6 +40,7 @@ DESTINATIONS = {
     "?IsHeld@ReplayInputState@@QAEGG@Z": 0x00415CB0,
     "?SpawnEffectInFixedSlot@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@HI@Z": 0x0040CD70,
     "?SetInterrupt@PlayerMovementEffectVmView@@QAEXF@Z": 0x00406790,
+    "?SetInterrupt@AnmVm@@QAEXF@Z": 0x00406790,
     "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z": 0x00403E00,
     "??BPlayerPositionView@@QAEPAMXZ": 0x004343D0,
     "??GPlayerPositionView@@QBE?AU0@ABU0@@Z": 0x00401140,

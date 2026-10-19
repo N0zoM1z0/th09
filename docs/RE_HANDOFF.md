@@ -17,12 +17,12 @@ The **95%** milestone still needs **32,053** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
-- **Title cursor lead, unadopted:** both Reverse/Inactive remain **175/38**
-  in maintained source. A parameter-bound latch read emits **175/18**, restoring
-  the original five-block CFG and loop body but damaging **10** previously equal
-  positions per owner; the maintained guard rejects it. Reproduce independently:
-  `nice -n 10 python3 -B scripts/probe-title-cursor-bound.py`. Entry register roles
-  remain open; `.analysis/gpt-61sol-20261019-title-native-cursor/` retains evidence.
+- **Player movement native interrupt:** the full **1,900/66/129** boss now calls
+  the real **`AnmVm::SetInterrupt @0x00406790`**, replacing a private method alias.
+  All raw bytes and numeric field identities stay unchanged; eighteen private
+  labels renumber at the same actual coordinates. Its ledger supersedes old
+  144-byte counts. `--owner movement` also cold-replays the **522/18-byte** exact
+  caller/callee; `.analysis/gpt-61sol-20261019-player-movement-callees/` holds proof.
 - **Menu/queue physical-byte guards:** original-bound cold comparisons now
   protect all **71** already equal ReplayMenu positions and **178** received-frame
   positions, rejecting same-count exchanges that damage old matches. Use
@@ -38,12 +38,12 @@ remain separate open gates.
 - **RunEcl call census:** `inspect-ecl-call-inventory.py OBJECT` independently
   checks real call identities. Matching counts never confer exactness.
 - **Current ECL controls:** baseline stays **15,564/598/30**, with 146/148
-  paired shapes. Sixty further controls yield no improvement. A native bitfield
-  return emits **44/45 opcode155 bytes** because its EAX mask encoding is shorter;
-  complete comparison rejects **1,938 ordinary /202 field /26 table differences**.
+  paired shapes. DWORD, mixed-width bitfields, argument order and actual pointer
+  advancement controls yield no improvement. A native bitfield return emits
+  **44/45 opcode155 bytes**, moving fields despite unchanged physical owner size.
   Reproduce with `nice -n 10 python3 -B scripts/probe-ecl-native-timeout.py`.
-  No game-source, timer ABI or profile change. Recipes/results and timer evidence:
-  `.analysis/gpt-61sol-20261019-runecl-native-return/`.
+  The added storage/advance controls are retained in
+  `.analysis/gpt-61sol-20261019-runecl-field-storage/`; no ECL/profile change.
 - **New exact camera projection:** `AnmManager::ProjectCameraFacingQuad`
   at **0x00439820** now reproduces **622 bytes, 40 fields, 201 instructions,
   11 calls and eight blocks**. Genuine SDK math types, ordinary vector locals
@@ -92,16 +92,16 @@ remain separate open gates.
   physical helper `0x004343D0` remains source-ownership unknown.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   `gpt-6.1-sol: ...` commits, followed by the explicitly requested push.
-  The previous successful push verified remote `main` at `d63669d`. Preserve all dirty
+  The previous successful push verified remote `main` at `6c8c3f3`. Preserve all dirty
   work, never patch the target or commit private inputs, and verify remote state.
   Clean reproducible generated files only after their producers stop.
-- **Final validation:** Etama draw cold-reproduces **600/27/268**, and its two
-  exact siblings pass **1,064 physical bytes/46 fields**. Its ledger supersedes
-  historical 594-byte counts. Title renderer remains **1,939/82/22**; the cursor
-  reproducer confirms **38/18** and rejects the new positions. **702 CI tests/28
-  skipped** pass. **675** pre-existing public inputs stay content-bound; only one
-  documentary ledger row changes. Removed **383 files/11,164,576 bytes**, including
-  **15** source copies. No game/profile/exact changes; unchanged proofs are reused.
+- **Final validation:** the maintained movement boss cold-reproduces **1,900
+  physical bytes/66 fields/129 differences**, protecting all **1,771** equal bytes.
+  Two related strict exact owners pass **540 bytes/40 fields**, including all
+  **18** mapped interrupt bytes. The guard rejects the old byte-equivalent fake
+  method name. Callee-body visibility and the other isolated experiments remain
+  unadopted. **708 CI tests/28 skipped** pass; unchanged exact proofs are reused.
+  Removed **397 owned files/9,019,749 bytes** after producers stopped; `build/` is absent.
 
 
 
@@ -123,6 +123,9 @@ remain separate open gates.
    Type3 update **15 bytes**, Type14/22 Draw **959/974**, and Type19 update
    are still open. `--owner title`, `--owner exattack` and `--owner type3`
    run the original-bound comparisons.
+   Reverse/Inactive's **175/18** cursor candidates remain unadopted: they damage
+   ten previously equal positions. `scripts/probe-title-cursor-bound.py` reproduces
+   that result; entry register roles still need resolution against the 175/38 source.
 3. **Leaf and independent cross-check:** keep **Effect `AddedCallback`
    (51 bytes, 8 differences)**, Supervisor received-frame insertion
    (213 bytes, 35 differences), and ECL `MoveRandomBiased` (516 vs 517)

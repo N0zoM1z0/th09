@@ -74,11 +74,6 @@ typedef char PlayerMovementOptionTimerAt2E0[
 typedef char PlayerMovementOptionCallbackAt2EC[
     (offsetof(PlayerMovementOptionView, updateCallback2EC) == 0x2EC) ? 1 : -1];
 
-struct PlayerMovementEffectVmView
-{
-    void SetInterrupt(short interrupt);
-};
-
 extern GameConfiguration *g_GameConfiguration;
 extern GameManagerResetView g_GameManager;
 // Actual playfield bounds are four fields within the exact GameManager
@@ -281,7 +276,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     {
         if (PlayerMovementFocusEffect(player) != NULL)
         {
-            reinterpret_cast<PlayerMovementEffectVmView *>(
+            reinterpret_cast<AnmVm *>(
                 PlayerMovementFocusEffect(player)->vms)
                 ->SetInterrupt(1);
             PlayerMovementFocusEffect(player) = NULL;

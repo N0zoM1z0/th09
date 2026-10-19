@@ -1078,15 +1078,62 @@ def run_player_added_state(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     return {'player_added_state': owner}, exact
 
 
+PLAYER_MOVEMENT_INTERRUPT_SYMBOL = '?SetInterrupt@AnmVm@@QAEXF@Z'
+
+
+def validate_player_movement_interrupt_abi(units: dict) -> None:
+    unit = units.get('anm-vm-set-interrupt')
+    reference = units.get('player-on-update')
+    if (not isinstance(unit, dict) or not isinstance(reference, dict) or
+            unit.get('source') != 'src/AnmManagerRuntime.cpp' or
+            unit.get('object') != 'build/matching/AnmManagerRuntime.obj' or
+            unit.get('symbol') != PLAYER_MOVEMENT_INTERRUPT_SYMBOL or
+            unit.get('target_address') != 0x00406790 or unit.get('size') != 18 or
+            unit.get('relocations') != [] or
+            not unit.get('profile') or unit.get('profile') != reference.get('profile')):
+        raise RuntimeError('Player movement genuine AnmVm interrupt ABI changed')
+
+
+def guard_player_movement_interrupt(report: dict) -> None:
+    original = report.get('target_fields')
+    actual = report.get('actual_resolved_fields')
+    if not isinstance(original, list) or not isinstance(actual, list):
+        raise RuntimeError('Player movement original/source field inventory absent')
+    target = [row for row in original if isinstance(row, dict) and
+              row.get('effective_destination') == 0x00406790]
+    source = [row for row in actual if isinstance(row, dict) and
+              (row.get('effective_destination') == 0x00406790 or
+               'SetInterrupt' in str(row.get('symbol', '')))]
+    if (len(target) != 1 or len(source) != 1 or
+            target[0].get('offset') != 0x31D or target[0].get('type') != 'REL32' or
+            source[0].get('offset') != 0x31D or source[0].get('type') != 'REL32' or
+            source[0].get('symbol') != PLAYER_MOVEMENT_INTERRUPT_SYMBOL or
+            source[0].get('addend') != 0 or source[0].get('owner_local') is not False or
+            source[0].get('destination') != 0x00406790 or
+            source[0].get('effective_destination') != 0x00406790):
+        raise RuntimeError('Player movement original +0x31D native interrupt identity changed')
+
+
+def replay_player_movement_interrupt_exact() -> list[dict]:
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        validate_player_movement_interrupt_abi(tomllib.load(stream)['units'])
+    build('anm-vm-set-interrupt')
+    return [canonical('anm-vm-set-interrupt')]
+
+
 def run_player_movement(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        validate_player_movement_interrupt_abi(tomllib.load(stream)['units'])
     obj = 'build/matching/PlayerMovement.obj'
     build_nonexact('src/PlayerMovement.cpp', obj, reference_unit='player-on-update')
     report = parsed(['scripts/inspect-player-movement.py', obj])
     owner = guard_player_movement(report)
+    guard_player_movement_interrupt(report)
     exact = []
     if protect_exact:
         build('player-on-update')
         exact.append(canonical('player-on-update'))
+        exact.extend(replay_player_movement_interrupt_exact())
     return {'player_movement': owner}, exact
 
 

@@ -122,6 +122,12 @@ class BossFrontierChecks(TestCase):
             'difference_offsets': sorted(frontiers.PLAYER_MOVEMENT_ORIGINAL_RESIDUAL_OFFSETS),
             'missing_target_bytes': 0, 'extra_candidate_bytes': 0,
             'full_byte_agreement': False,
+            'target_fields': [{'offset': 0x31D, 'type': 'REL32',
+                               'effective_destination': 0x00406790}],
+            'actual_resolved_fields': [{'offset': 0x31D, 'type': 'REL32',
+                'symbol': frontiers.PLAYER_MOVEMENT_INTERRUPT_SYMBOL, 'addend': 0,
+                'destination': 0x00406790, 'effective_destination': 0x00406790,
+                'owner_local': False, 'symbol_section': 0}],
         }
 
     def test_player_movement_cold_full_owner_and_exact_caller(self):
@@ -129,17 +135,19 @@ class BossFrontierChecks(TestCase):
         with patch.object(frontiers, 'build_nonexact') as compile_source, patch.object(
                 frontiers, 'parsed', return_value=evidence) as inspect, patch.object(
                 frontiers, 'build') as build, patch.object(
-                frontiers, 'canonical', return_value={'unit': 'player-on-update', 'result': 'exact'}):
+                frontiers, 'canonical', side_effect=lambda name: {'unit': name, 'result': 'exact'}):
             owners, exact = frontiers.run_player_movement(protect_exact=True)
         compile_source.assert_called_once_with('src/PlayerMovement.cpp',
                                                 'build/matching/PlayerMovement.obj',
                                                 reference_unit='player-on-update')
         inspect.assert_called_once_with(['scripts/inspect-player-movement.py',
                                          'build/matching/PlayerMovement.obj'])
-        build.assert_called_once_with('player-on-update')
+        self.assertEqual([entry.args[0] for entry in build.call_args_list],
+                         ['player-on-update', 'anm-vm-set-interrupt'])
         self.assertEqual(owners['player_movement']['ordinary_differences'], 129)
         self.assertEqual(owners['player_movement']['aligned_instructions'], 433)
         self.assertEqual(exact[0]['unit'], 'player-on-update')
+        self.assertEqual(exact[1]['unit'], 'anm-vm-set-interrupt')
 
     def test_player_movement_original_extent_fields_and_differences_fail_closed(self):
         evidence = self.player_movement_evidence()
