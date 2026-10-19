@@ -1020,6 +1020,8 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00445740,authored_game,ExAttackController,authored,high,exattack-type15-update-exact-2026-09-21
 0x00445930,authored_game,Player,authored,high,player-owner-reward-callback-type6-exact-2026-09-21
 0x00445A40,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
+0x00445C30,authored_game,Effect,authored,high,effect-type35-original-exact-2026-10-20
+0x00445C80,authored_game,Effect,authored,high,effect-type35-original-exact-2026-10-20
 0x00445CB0,authored_game,Player,authored,high,player-shot-spawn-callbacks-exact-2026-09-20
 0x00445D00,authored_game,Player,authored,high,player-shot-spawn-callback6-exact-2026-09-20
 0x00445D80,authored_game,Player,authored,high,player-owner-reward-callback-type7-exact-2026-09-21

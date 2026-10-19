@@ -10758,3 +10758,72 @@ attest historical producer execution.
   disassembly dumps superseded by the bounded owners. Only this packet and
   initially absent build/ are touched. Compact baseline fragments, immutable
   recipes, complete/corrected comparisons and hashes remain; build/ is absent.
+
+## October 20: exact Effect35 Player-shot callbacks and shared native type (gpt-6.1-sol)
+
+- Recovered original Effect template row35 initialize/update pointers at
+  **0x00445C30 /0x00445C80**. Direct local IDA reports no function at either
+  address. Target control flow independently bounds the initializer to
+  **72 bytes /21 instructions /one REL32**, SHA256
+  `1ec3aa4393c4b308e34334dd6c4f5e0e4321d01714a3f11300ee4240310476a4`,
+  followed by eight unowned CC bytes. Update is **38 bytes /13 instructions /
+  two REL32**, SHA256
+  `3c3a5106d8b2daf9cea17035011d306cb69eb675c466092258466fabc8679c21`,
+  followed by ten unowned CC bytes. The Player functions beginning0x00445CB0
+  are separate catalogued owners, not a larger Effect35 update.
+- Initialization traverses Effect manager+0 /sideState+0x10 /Player+4, loads
+  Player ANM pointer+0xBC and calls real `AnmLoaded::SetAndExecuteScriptIdx
+  @0x00403E00` with Effect VM and script7. It sets VM flag0x2000, then clears
+  pos2 X/Y/Z at+0x288/+0x28C/+0x290 through three original VM pointer reloads.
+  Returns0. Update obtains actual `ZunTimer::operator int @0x00435F00` on
+  Effect timer+0xAC and passes the result to native
+  `PlayerSpawnShotsView::SpawnShots @0x0041F4C0` with stack powerLevel2;
+  returns1. This is a consumed getter result, not an invented Timer mutator
+  return contract. The getter is physically folded with other +8 getters;
+  its unique original source spelling/ownership remains unknown.
+- `src/EffectType35.cpp` uses the real existing methods and callback ABI.
+  The existing `PlayerSpawnShots.cpp` declarations move into
+  `PlayerSpawnShotsView.hpp`; only the previously unknown Player prefix gains
+  the independently observed `AnmLoaded *anmFileBC` field. Shot/SHT layouts,
+  method names/signatures, and actual SpawnShots body remain unchanged.
+  No assembly, byte patch, padding, artificial volatile, source-ABI invention
+  or compiler-profile search is used.
+- Isolated candidate, maintained-path cold object and fresh canonical object
+  each reproduce both complete target owners and all three original fields.
+  Changed-header canonical `player-spawn-shots` separately remains **190/190
+  bytes /one field** exact. Focused replay scope is **three functions /300
+  physical bytes /four fields**; existing source-bound unrelated native proofs
+  are reused. Canonical units are `effect-initialize-type35` and
+  `effect-update-type35`. Packet recipes, original disassembly and full
+  diagnostics are retained below `.analysis/gpt-61sol-20261020-effect35/`.
+- Adds110 newly reviewed authored/exact bytes and two catalog entries:
+  **995 source-present /960 canonical exact /35 nonexact**;
+  **233,922/280,709 reviewed-authored bytes =83.3326%**. At least32,752 more
+  complete exact authored bytes remain for95%; the denominator can still grow.
+  Effect prefix now retains **36 missing entries**. Native Windows product,
+  runtime, semantic and portability gates remain open.
+
+## October 20: fourteen fresh whole-owner ReplayMenu controls remain negative (gpt-6.1-sol)
+
+- Immutable original DrawReplayMenu is **1,280 bytes /376 instructions /
+  57 fields /13 calls /72 blocks**, SHA256
+  `d0201b3aae3727f7aa773187ac9ac6d21727c86342b657c780cb9353cdc39ed0`.
+  Current source cold baseline remains **1,258 /368 /57 /13 /70**, rawSHA256
+  `437bc272969cfde208124008ba2c2a7d186054f0671c8c232537a3e9d9faecbc`.
+- Five storage/reference controls test a union covering name[8]+unknownD6,
+  borrowed name-array references, const member access, selection lvalue
+  references and an actually consumed four-character aggregate. First four
+  preserve all raw bytes; aggregate changes four byte positions and is rejected.
+  Native UI copying an eight-character name plus terminator suggests a
+  nine-byte storage hypothesis, but proves neither original field capacity nor
+  ownership. Public `ReplayDataOriginalView.hpp` remains unchanged.
+- Four complete ABI-equivalent owned definitions (static/free explicit ECX
+  owner, const member, owner reference) all retain the entire baseline raw hash.
+  Five indexed access controls produce1263/69 (list/both), unchanged1258/70
+  (selected only),1216 (inline owner methods, outside reviewed extent) or
+  1264/69 (delay detail pointer). All retain57 fields where decoded; none matches
+  the original full extent or graph. Smaller mismatch counts do not earn credit.
+- Recipes, all source hashes and diagnostics are retained in
+  `.analysis/gpt-61sol-20261020-title-replay-menu/`. No public Title source,
+  layout, match or exactness claim changes. This bounded result does not close
+  the large-function frontier or95% objective.

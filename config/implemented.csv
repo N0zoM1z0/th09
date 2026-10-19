@@ -991,3 +991,5 @@ EffectInitializeCallbackOrientedOffset
 EffectInitializeCallbackRadialFan
 EffectUpdateCallbackPlayerOffsetFan
 EffectDrawCallbackPlayerOffsetFan
+EffectInitializeCallbackType35
+EffectUpdateCallbackType35

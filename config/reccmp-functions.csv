@@ -992,3 +992,5 @@ EffectInitializeCallbackOrientedOffset,0x0040E080,function
 EffectInitializeCallbackRadialFan,0x00447C40,function
 EffectUpdateCallbackPlayerOffsetFan,0x00445E00,function
 EffectDrawCallbackPlayerOffsetFan,0x00447480,function
+EffectInitializeCallbackType35,0x00445C30,function
+EffectUpdateCallbackType35,0x00445C80,function
