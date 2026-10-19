@@ -52,12 +52,13 @@ separate **unproven** milestones.
   `gpt-web: ...` for every substantive local Git commit. A Git checkpoint
   or local replay is **not** a Factory acceptance. Do not assume remote
   Git has been pushed from this shell.
-- **Handoff cache policy:** `build/`, `.analysis/` OBJ/PDB/bytecode and
-  reviewed `__pycache__` are disposable after pre-clean checks; private
-  `resources/th09.exe`, `.tools/`, tracked code, candidate C++/INL,
-  original PE/COFF JSON, negative-probe scripts and receipts are preserved.
-  Missing generated objects after cleanup are intentional: cold-build them
-  again using `scripts/build-match-unit.py`.
+- **Verified handoff cleanup:** 1,570 proven disposable cache
+  files / **131,018,261 bytes** were removed *after* the 35/257 original
+  owner and 659-test CI witness. `build/` and Python bytecode caches are
+  intentionally absent; private PE/toolchain, tracked source, unique probe
+  C++/INL and original-bound JSON remain. See
+  [`RE_ARTIFACT_CLEANUP_HISTORY.md`](RE_ARTIFACT_CLEANUP_HISTORY.md) for
+  file-by-file audit, and cold-build a match unit before any COFF inspection.
 
 ## Next worker: first three work packages
 
@@ -282,54 +283,32 @@ individual producer/reproducibility/reference review. **Never bulk-delete
 COFF comparison; never mistake a missing disposable `.obj` for lost source.
 
 
-### Most recent generated-cache cleanup (2026-10-18)
+### Most recent generated-cache cleanup (2026-10-19)
 
-The current cleanup record is in
-[`RE_ARTIFACT_CLEANUP_HISTORY.md`](RE_ARTIFACT_CLEANUP_HISTORY.md) and the
-ignored per-file audit `.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`
-(**last `runs` entry**, never the cumulative historical total). Cleanup is
-scoped to the wholly ignored `build/` tree and compiler-object/bytecode
-suffixes inside `.analysis/`, plus separately verified bytecode-only
-`__pycache__` directories. Reproducibility scripts, candidate source files,
-PE/COFF disassembly, unique JSON evidence and unreviewed historical data
-remain untouched, even if large. `resources/th09.exe`, `.tools/`, IDA
-state and all tracked files are outside the deletion scope.
+The most recent **completed** reviewed cleanup is documented in
+[`RE_ARTIFACT_CLEANUP_HISTORY.md`](RE_ARTIFACT_CLEANUP_HISTORY.md) with exact
+ignored per-path proofs under `.analysis/handoff-cleanup-20261019/`.
+The cleaner's cumulative historical manifest lives at
+`.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`;
+**only its last `runs` entry** identifies the current deletion.
 
-**Verified completed cleanup, not merely a proposal:** after original-target
-SHA attestation, all **35 complete noncrediting boss/leaf diagnostics**, all
-**204 distinct existing canonical exact function comparisons**, and the full
-**584-test CI (28 skipped, zero failed)** passed, a fail-closed artifact audit
-approved and removed the following ignored generated files:
-
-| Disposable category | Files removed | Logical bytes |
+| Verified removed, October 19 | Files | Logical bytes |
 | --- | ---: | ---: |
-| Entire generated `build/` tree | 486 | 15,757,511 |
-| Compiler binaries and bytecode in `.analysis/` | 2,326 | 197,796,698 |
-| SHA-256-rechecked bytecode-only `scripts/tests __pycache__` | 68 | 1,069,658 |
-| **Total** | **2,880** | **214,623,867 (~204.7 MiB)** |
+| Ignored `build/` | 523 | 18,442,237 |
+| Compiler binaries/bytecode in `.analysis/` | 997 | 111,683,705 |
+| Two separately SHA-256-reviewed Python caches | 50 | 892,319 |
+| **Total removed** | **1,570** | **131,018,261 (~125.0 MiB)** |
 
-The post-deletion cleanup dry run returned **zero files / zero bytes**, both
-selected Python cache roots are absent, `build/` no longer exists, and the
-private original executable still has its canonical SHA-256. Ignored
-`.analysis/` retains **104,476 evidence/source files, ~1.5 GiB allocated**;
-its unknown historical sources and provenance were **not** bulk-deleted.
-The specific verified cleanup audit and original-bound pre-deletion replay/
-CI witness are in `.analysis/handoff-cleanup-20261018/` (`reviewed-preflight.json`,
-`verified-deletion.json`, `precleanup-full-boss.json`, `precleanup-ci.log`).
-No production code or canonical exact ledger entry changed in this handoff.
+**Post-clean original target SHA and Git source checks passed**, and the
+cleanup dry-run found **zero remaining selected artifacts**. Deliberately
+preserved around **1.6 GiB** of historic ignored C++/INL/JSON evidence,
+the actual `resources/th09.exe`, pinned toolchains, and every tracked file.
+A missing `build/` is intentional. Recreate only the match unit required by
+an investigation; do not run `git clean -X` or delete `.analysis/` wholesale.
 
-**Handoff verification order:** run complete cold boss/leaf comparisons and CI
-**before** cleanup; after cleanup run the preview-only cleaner to ensure zero
-selected files. Do not rerun CI merely to validate deletion: that recreates
-`build/` and bytecode caches. On the next session, rebuild before inspecting:
-
-```bash
-python3 scripts/build-match-unit.py --unit ecl-pop-context
-python3 scripts/check-boss-frontiers.py --owner runecl
-```
-
-For docs-only checks after deletion, set `PYTHONDONTWRITEBYTECODE=1` and use
-`python3 -B` so validators and child Python processes do not recreate
-bytecode. Details of the prior October 17 cleanup remain preserved in
-[`RE_ARTIFACT_CLEANUP_HISTORY.md`](RE_ARTIFACT_CLEANUP_HISTORY.md), rather
-than competing as a second active cleanup status here.
+**Validation after cleanup:** restrict checks to documentation, ledger and
+Git commands with `PYTHONDONTWRITEBYTECODE=1 python3 -B`; running the full
+CI or a new `--owner all` rebuilds the exact cache that was intentionally
+removed. The original-bound **35/257** complete-source and **659-test CI**
+proofs were executed and archived *before* deletion, not inferred from a
+Git commit or post-clean similarity report.

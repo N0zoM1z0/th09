@@ -4,6 +4,68 @@
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 
+### 2026-10-19: 257-exact original-bound MusicRoom handoff and generated-cache removal
+
+**Proof first, cleanup second.** On current gameplay-source commit
+`7324b4ecc5b0eb77b2245751b6b2c4732f794e9a`, the SHA-attested original
+Japanese TH09 1.50a target passed `check-boss-frontiers.py --owner all`:
+**35 complete noncrediting original-linked boss/leaf groups and 257 DISTINCT
+complete already-exact function checks**. The three independently accepted
+Factory MusicRoom/DrawTextLeft receipts are archived in
+[`RE_ACCEPTED_RECEIPTS.md`](RE_ACCEPTED_RECEIPTS.md) and bound only to this
+gameplay-source commit. The fresh pre-clean `scripts/ci.py` passed **659 tests,
+28 skipped, zero failed**, plus exact-ledger, documentation, original-target,
+progress and build-graph checks. This does not create any new exact ledger
+credit: **940/980** remains the canonical count. Ignored reproducible
+witnesses: `.analysis/handoff-cleanup-20261019/precleanup-full-boss.json`,
+`precleanup-ci.log`, `target-verification.txt`, `source-commit.txt`.
+
+**Explicit generated-cache preflight:** Git's tracked path inventory for
+`build/` and `.analysis/` was empty, the worktree was clean and neither root
+was a symlink. The immutable original target SHA remained
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+Every extra `scripts/__pycache__` and `tests/__pycache__` file was an untracked,
+regular **`.pyc` only**, checked by SHA-256 before and again during deletion.
+The reviewed dry-run and individual bytecode hashes live in
+`.analysis/handoff-cleanup-20261019/reviewed-preflight.json`.
+
+| Approved, actually deleted category | Files | Logical bytes |
+| --- | ---: | ---: |
+| Entire ignored generated `build/` tree | 523 | 18,442,237 |
+| Compiler `.obj/.pdb/.pyc/.pch/.idb/.ilk` inside `.analysis/` | 997 | 111,683,705 |
+| Separately SHA-256-reviewed Python caches in `scripts/` and `tests/` | 50 | 892,319 |
+| **Verified total** | **1,570** | **131,018,261 (~125.0 MiB)** |
+
+**Postconditions checked after actual deletion:** `build/` and both top-level
+`__pycache__` roots no longer exist; a second
+`PYTHONDONTWRITEBYTECODE=1 python3 -B scripts/clean-generated-artifacts.py`
+dry-run selected **zero files and zero bytes**; Git tracked source/ledgers and
+the private original SHA remained unchanged. Precise removed compiler paths
+are the **latest `runs` entry**, not the lifetime cumulative count, in
+`.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`. Reviewed
+per-file bytecode SHA and exact post-clean results are recorded in
+`.analysis/handoff-cleanup-20261019/verified-deletion.json`. That audit
+records the current docs-only HEAD before cleanup as `7239806` and preserves
+the distinct source-commit binding to `7324b4e`.
+
+**Intentionally preserved:** private `resources/th09.exe`, pinned `.tools/`,
+tracked source/config/docs/tests, and roughly **1.6 GiB allocated** of
+ignored `.analysis/` original PE/COFF JSON, source/INL variants, old experiment
+scripts and unclassified research provenance (**106,690 retained files** at
+post-clean review). These historical materials are not automatically
+reproducible solely by extension, and were **not** bulk-deleted. Do not
+mistake retained, currently unused `.analysis/` study sources for safe cache.
+Before deleting a specific old campaign, review its producer, unique target
+observations, source-commit binding and tracked documentation references.
+
+**Handoff:** no CI or compiler replay is rerun *after* the cache deletion,
+since it would recreate ignored binaries and erase the cache-free result.
+Use `PYTHONDONTWRITEBYTECODE=1` plus `python3 -B` for documentation-only
+post-clean checks. The next operator starts with the clean Git worktree,
+attests target/ledgers, and runs `python3 scripts/build-match-unit.py --unit NAME`
+before any COFF inspector. A missing `build/matching/*.obj` is intentional,
+not a missing original function or proof.
+
 ### 2026-10-15 cleanup execution and preservation audit
 
 The clean baseline was checked **before deletion**: target and tracking passed,
