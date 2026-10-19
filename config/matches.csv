@@ -965,3 +965,5 @@ address,name,size,status,match_percent,unit,evidence
 0x00441C80,EffectInitializeCallbackType16,165,matching,100.00,effect-initialize-type16,python3 scripts/build-match-unit.py --unit effect-initialize-type16 && python3 scripts/compare-coff-function.py --unit effect-initialize-type16 --json
 0x00441D30,EffectUpdateCallbackType16,110,matching,100.00,effect-update-type16,python3 scripts/build-match-unit.py --unit effect-update-type16 && python3 scripts/compare-coff-function.py --unit effect-update-type16 --json
 0x00441DA0,EffectDrawCallbackType16,327,matching,100.00,effect-draw-type16,python3 scripts/build-match-unit.py --unit effect-draw-type16 && python3 scripts/compare-coff-function.py --unit effect-draw-type16 --json
+0x00443250,EffectUpdateCallbackType18,79,matching,100.00,effect-update-type18,python3 scripts/build-match-unit.py --unit effect-update-type18 && python3 scripts/compare-coff-function.py --unit effect-update-type18 --json
+0x004437F0,EffectDrawCallbackType18,314,matching,100.00,effect-draw-type18,python3 scripts/build-match-unit.py --unit effect-draw-type18 && python3 scripts/compare-coff-function.py --unit effect-draw-type18 --json

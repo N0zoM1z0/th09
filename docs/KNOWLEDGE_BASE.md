@@ -11045,3 +11045,51 @@ attest historical producer execution.
   already cover the inspected block-order hypothesis, so they are not rerun.
   No parser game source changes. Its compact baseline is retained in
   `.analysis/gpt-61sol-20261020-parser-control/`.
+
+## October 20: Effect18 player-following radial fan callbacks (gpt-6.1-sol)
+
+- Original Effect template row18 independently names update0x00443250 and
+  draw0x004437F0. Its initializer0x00447C40 is the already exact shared radial
+  fan initializer; it receives no second credit. Both new entries are absent
+  from local IDA. Target control flow proves **79 bytes through0x0044329E** and
+  **314 bytes through0x00443929**, excluding one and six trailing CC bytes.
+  Intervening Player and ExAttack owners remain separately catalogued; the
+  distance between callbacks is not a function extent.
+- Update sets dirty, adds0.7 to radius only while below144 (without a clamp),
+  copies its owning-side Player position1B88 and returns1. Original FPU literals
+  are144 at0x0048E804 and0.7 at0x004915F4. The indexed static operand at+0x2D
+  follows original `imul edx,edx,0x38`, `mov eax,[edx+0x004A7D94]`, then
+  `add eax,0x1B88`. It independently proves GameManager root0x004A7D90+4;
+  no compiled field is substituted into the original field inventory.
+  Original SHA256:
+  `62b517c2493b0301434cd22480821bb16419c04b07073e115ee058282516c644`.
+- Draw uses the same natural fan source shape as the already exact player-offset
+  draw at0x00447480: center plus segments perimeter vertices, step2pi/(segments-1),
+  initial angle-pi and a single wrap, Z=0 before the actual polar method,
+  addition of the current Effect origin, real native XY transforms, rhw1 and
+  colors0x40600040/0x70600040. It calls DrawTriangleFan and leaves dirty set.
+  Original SHA256:
+  `7c89b46204f4718551ae6863af25ecf8df656226d9b9ecff142612252c4e314e`.
+  The two original314-byte draws independently agree outside seven decoded
+  relative call operands, with identical direct referents at all seven calls.
+  This source hypothesis is separate from each full original-bound comparison.
+- Both functions now live in the existing `EffectRadialFanFamily.inl`, included
+  by the genuine ECL source. They reuse existing views and the unchanged
+  32-byte polar method; no new assembly, helper ABI, padding, inert operations,
+  register steering or target-byte copying is added. Private and maintained
+  cold builds both match **79/3** and **314/15 bytes/fields** completely.
+  Canonical units are `effect-update-type18` and `effect-draw-type18`.
+- The affected ECL exact cohort passes **50 functions across two profiles /
+  17,079 physical bytes /770 original-linked fields**. Two private label names
+  change only after independently checking actual same-owner COFF coordinates
+  and every original byte. Native GameManager XY call references total48.
+  Fresh prebuilt-object diagnostics retain RunEcl15564/598/30, Enemy3900/97/29,
+  Type19 update821/35/44, biased movement517vs516/148overlap+1, and Effect34
+  draw946vs959/593overlap+13. No unrelated native cohort is replayed.
+- Reviewed authored source becomes **1,003 functions /282,010 bytes**, canonical
+  exact **968 /235,223 bytes (83.4095%)**; **35 /46,787 nonexact bytes** remain.
+  The95% milestone needs32,687 further complete exact bytes at this denominator.
+  The original Effect prefix retains28 missing code entries. Recipe, full field
+  audits and source-bound closure are in `.analysis/gpt-61sol-20261020-effect18/`.
+  Original C++ spelling, unique TU ownership, Windows i386 product/runtime,
+  semantic reconstruction and portability remain unknown/open.
