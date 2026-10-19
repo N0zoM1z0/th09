@@ -3521,6 +3521,12 @@ def guard_title_draw_result(result: dict) -> None:
     independently binds every original source field and all 16 call identities.
     """
     noncrediting(result, name='Title DrawResult', target_size=1939, fields=82)
+    if result.get('game_manager_fields') != [{
+            'offset': 0x3F, 'type': 'DIR32',
+            'symbol': '?g_GameManager@@3UAsciiGameManagerView@@A',
+            'target': 0x004A7D90, 'addend': 0x11C,
+            'effective_target': 0x004A7EAC}]:
+        raise RuntimeError('Title DrawResult shared GameManager field identity drifted')
     if (result.get('target_sha256') != TITLE_DRAW_RESULT_SHA256 or
             result.get('candidate_bytes') != 1939 or
             result.get('target_instructions') != 577 or

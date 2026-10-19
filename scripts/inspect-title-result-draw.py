@@ -19,6 +19,8 @@ DESTINATIONS = {
     '?AddFormatText@AsciiManager@@QAAXPAUFloat3@@PBDZZ': 0x434330,
     '?AddString@AsciiManager@@QAEXPAUFloat3@@PBD@Z': 0x4342A0,
     '?g_AsciiManager@@3VAsciiManager@@A': 0x4CE458,
+    '?g_GameManager@@3UAsciiGameManagerView@@A': 0x4A7D90,
+    # Source-bound historical objects used this other view of the same root.
     '?g_GameManager@@3UGameManagerModeView@@A': 0x4A7D90,
     '?g_TitleAlphabet@@3PADA': 0x4A1CF4,
     # Retained only to inspect source-bound historical objects. Current source
@@ -164,6 +166,15 @@ def main():
         'difference_offsets': difference_offsets,
         'complete_bytes_equal': code == target,
         'candidate_raw_sha256': raw_hash,
+        'game_manager_fields': [
+            {'offset': row['offset'], 'type': row['type'],
+             'symbol': row['symbol'], 'target': DESTINATIONS[row['symbol']],
+             'addend': row['addend'],
+             'effective_target': DESTINATIONS[row['symbol']] + row['addend']}
+            for row in rows if row['symbol'] in (
+                '?g_GameManager@@3UAsciiGameManagerView@@A',
+                '?g_GameManager@@3UGameManagerModeView@@A',
+                '?g_TitleNameTableIndex@@3HA')],
     }
     if args.json:
         print(json.dumps(report, indent=2))

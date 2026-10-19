@@ -1082,6 +1082,11 @@ class BossFrontierChecks(TestCase):
             'diagnostic_only': True, 'exactness_credit': 'none',
             'target_bytes': 1939, 'candidate_bytes': 1939,
             'target_sha256': frontiers.TITLE_DRAW_RESULT_SHA256,
+            'game_manager_fields': [{
+                'offset': 0x3F, 'type': 'DIR32',
+                'symbol': '?g_GameManager@@3UAsciiGameManagerView@@A',
+                'target': 0x004A7D90, 'addend': 0x11C,
+                'effective_target': 0x004A7EAC}],
             'target_instructions': 577, 'candidate_instructions': 577,
             'original_fields': 82, 'bound_fields': 82,
             'ordered_calls': 16, 'ordered_calls_agree': True,
@@ -1124,6 +1129,22 @@ class BossFrontierChecks(TestCase):
                         {'exactness_credit': 'accepted'}):
             with self.subTest(changes=changes), self.assertRaises(RuntimeError):
                 frontiers.guard_title_draw_result({**original, **changes})
+
+    def test_title_draw_result_native_global_cannot_be_aliased_or_retargeted(self):
+        baseline = self.title_draw_result_evidence()
+        original = baseline['game_manager_fields'][0]
+        for fields in ([], [original, original],
+                       [{**original, 'offset': 0x40}],
+                       [{**original, 'type': 'REL32'}],
+                       [{**original, 'target': 0x004A7EAC}],
+                       [{**original, 'addend': 0}],
+                       [{**original, 'effective_target': 0x004A7D90}],
+                       [{**original, 'symbol': '?g_GameManager@@3UGameManagerModeView@@A'}],
+                       [{**original, 'symbol': '?g_TitleNameTableIndex@@3HA'}]):
+            with self.subTest(fields=fields), self.assertRaisesRegex(
+                    RuntimeError, 'shared GameManager field'):
+                frontiers.guard_title_draw_result({**baseline,
+                    'game_manager_fields': fields})
 
     def test_title_draw_result_protects_two_originally_equal_entry_bytes(self):
         baseline = self.title_draw_result_evidence()

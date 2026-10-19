@@ -10990,3 +10990,58 @@ attest historical producer execution.
   of the current denominator. The original Effect prefix retains30 missing
   entries. Original source spelling, unique TU partition, native Windows
   product/runtime, semantic reconstruction and portability remain unproved/open.
+
+## October 20: DrawResult shared GameManager declaration and bounded field controls (gpt-6.1-sol)
+
+- From source922ebc953d1c8c2595705469372697059e108974, fresh direct IDA and
+  distributed mapped-byte attestation agree with the original Japanese1.50a
+  target. Maintained DrawResult baseline remains **1,939 bytes /577 instructions /
+  82 fields /16 calls /92 blocks /22 ordinary differences**, rawSHA256
+  `449827f92c3a23f3427b71b12f44719aa62c4a459a5b91734085a08c834e447a`.
+  Original entry computes/stores the score group before loading currentScreen;
+  source still hoists that screen read. This is not fixed or credited exact.
+- The renderer used another C++ declaration of the known GameManager root:
+  `GameManagerModeView g_GameManager`. It now includes the existing shared
+  `AsciiGameManagerView.hpp`. Original **+0x3F DIR32** remains root0x004A7D90
+  plus the independently observed difficulty offset0x11C, effective0x004A7EAC.
+  Only the one COFF symbol changes from the mode-view spelling to the established
+  shared declaration. Actual offset, type, addend, all1939 raw bytes and
+  **18 nondebug sections /2,107 bytes** remain identical in the private control
+  and maintained-path cold replay. This is source/global consistency, not a
+  recovered original C++ spelling or a new native storage-definition claim.
+- The inspector retains old mode-view/name-index aliases solely for inspecting
+  source-bound historical objects. Its current report exposes the actual COFF
+  root/symbol/addend/operand. The focused whole-owner guard requires the one
+  shared native field and rejects missing/duplicate fields, shifted offsets,
+  wrong kind/root/addend/effective address and both superseded source aliases.
+  A new pure corruption test covers those identity failures independently of
+  byte similarity. The existing22-residual-position guard is unchanged.
+- Seven natural aggregate/constructor/field-view controls remain rejected:
+  local/file aggregate, value constructor and screen-reference aggregate each
+  emit **1,953 bytes /83 fields**; the owner constructor emits **1,933/82** but
+  introduces a seventeenth call to its own defined constructor; both screen
+  and screen-plus-timer field views emit **1,941/82**. None establishes the
+  complete original owner. No constructor is aliased to an unrelated target,
+  flags changed, padding introduced or partial score credited.
+- The separately initialized16x5x5 score table remains at0x004A8380. Its
+  address proximity to GameManager does not establish subobject ownership.
+  Existing original static-initializer/record observations remain separate from
+  the shared root correction; no score-array ownership/layout change is made.
+  Recipes, all source hashes, full diagnostics and section/field comparisons
+  remain in `.analysis/gpt-61sol-20261020-title-result-native-fields/`.
+- Four additional genuine Enemy-storage controls for MoveRandomBiased test
+  native conversion receiver, native position fields throughout, native byte
+  storage references for the two boundary-Y fields, and their combination.
+  All retain the complete rawSHA256
+  `75b24a79a6038e592e7597a0446a464b066cd8cf7d401c439542eb826a4fc02c`,
+  **517 versus516 bytes /28 fields /148 overlap differences plus one extra**.
+  Full RunEcl remains **15,564/598/30**, with zero field/table differences and
+  146/148 handler shapes. The Effect16 storage-reference result does not
+  transfer to these tested source shapes. Private sources/reports remain in
+  `.analysis/gpt-61sol-20261020-biased-native-fields/`.
+- A fresh unchanged parser TU confirms **243 bytes /one field /76 differences /
+  34 versus33 blocks**, and its real679-byte/22-field network-config caller
+  remains completely original-bound exact. Existing newline/return matrices
+  already cover the inspected block-order hypothesis, so they are not rerun.
+  No parser game source changes. Its compact baseline is retained in
+  `.analysis/gpt-61sol-20261020-parser-control/`.

@@ -1,5 +1,5 @@
 #include "AsciiManager.hpp"
-#include "GameManagerMode.hpp"
+#include "AsciiGameManagerView.hpp"
 
 #include <stddef.h>
 
