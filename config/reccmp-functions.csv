@@ -1008,3 +1008,7 @@ EffectUpdateCallbackType24,0x00444EB0,function
 EffectDrawCallbackType24,0x004453A0,function
 EffectUpdateCallbackType33,0x0044B1D0,function
 EffectDrawCallbackType33,0x0044BAF0,function
+EffectUpdateCallbackType26,0x00443A30,function
+EffectDrawCallbackType26,0x00444700,function
+EffectUpdateCallbackType28,0x004475C0,function
+EffectDrawCallbackType28,0x00447CE0,function

@@ -71,7 +71,7 @@ class SharedRealGameManagerEclOwners(unittest.TestCase):
         real_calls = [r for r in actual if r['symbol'] in (TRANSFORM_X,TRANSFORM_Y)]
         self.assertGreaterEqual(len(globals_),20)
         # Fan draw callbacks retain genuine native GameManager XY calls.
-        self.assertEqual(len(real_calls),60)
+        self.assertEqual(len(real_calls),72)
         self.assertTrue(all(r['target']==0x004A7D90 for r in globals_))
         self.assertTrue(all((r['symbol'],r['target']) in (
             (TRANSFORM_X,0x00401680),(TRANSFORM_Y,0x004016B0))

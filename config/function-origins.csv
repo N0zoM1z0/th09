@@ -1005,6 +1005,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00443790,authored_game,Player,authored,high,player-owner-reward-callback-type3-exact-2026-09-21
 0x004437F0,authored_game,Effect,authored,high,effect-type18-original-exact-2026-10-20
 0x00443930,authored_game,Player,authored,high,player-shot-update-callback4-source-2026-09-20
+0x00443A30,authored_game,Effect,authored,high,effect-type26-28-original-callback-review-2026-10-20
 0x00443B10,authored_game,Player,authored,high,player-position-callback30404-type4-source-review-2026-09-21
 0x00443C10,authored_game,Player,authored,high,player-enemy-callback30408-exact-2026-09-20
 0x00443C70,authored_game,ExAttackController,authored,high,exattack-type14-init-exact-2026-09-21
@@ -1013,6 +1014,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x004444F0,authored_game,Player,authored,high,player-owner-reward-callback-type4-exact-2026-09-21
 0x00444560,authored_game,ExAttackController,authored,high,exattack-type22-init-exact-2026-09-21
 0x004446A0,authored_game,Player,authored,high,player-shot-update-callback5-exact-2026-09-20
+0x00444700,authored_game,Effect,authored,high,effect-type26-28-original-callback-review-2026-10-20
 0x00444960,authored_game,Effect,authored,high,effect-type34-initialize-original-table-code-and-native-20261020
 0x00444A20,authored_game,Effect,authored,high,effect-type34-update-original-template-and-code-20261020
 0x00444AF0,authored_game,Effect,authored,high,effect-type34-draw-original-table-code-and-native-20261020
@@ -1049,12 +1051,14 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00446EE0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x004471B0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00447480,authored_game,Effect,authored,high,effect-radial-fan-original-exact-2026-10-20
+0x004475C0,authored_game,Effect,authored,high,effect-type26-28-original-callback-review-2026-10-20
 0x00447620,authored_game,Player,authored,high,player-position-callback30404-type8-source-review-2026-09-21
 0x00447720,authored_game,ExAttackController,authored,high,exattack-type16-init-exact-2026-09-21
 0x00447890,authored_game,ExAttackController,authored,high,exattack-type16-23-update-exact-2026-09-21
 0x00447A80,authored_game,Player,authored,high,player-owner-reward-callback-type8-exact-2026-09-21
 0x00447AF0,authored_game,ExAttackController,authored,high,exattack-type23-init-exact-2026-09-21
 0x00447C40,authored_game,Effect,authored,high,effect-radial-fan-original-exact-2026-10-20
+0x00447CE0,authored_game,Effect,authored,high,effect-type26-28-original-callback-review-2026-10-20
 0x00447FB0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00448320,authored_game,ExAttackController,authored,high,exattack-type17-init-exact-2026-09-21
 0x00448490,authored_game,ExAttackController,authored,high,exattack-type17-update-exact-2026-09-21

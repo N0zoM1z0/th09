@@ -81,7 +81,7 @@ def build(unit: str) -> None:
 # rebuilt rather than silently reusing the main diagnostic's object.
 # These are manifest-verified cardinalities, not historical exactness totals.
 ECL_EXACT_CARRIERS = {
-    'build/matching/EclManager.obj': 53,
+    'build/matching/EclManager.obj': 56,
     'build/matching/EclManager-Type11.obj': 3,
 }
 TITLE_EXACT_CARRIERS = {
@@ -742,7 +742,7 @@ RUNECL_REAL_ANGLE_LEAVES = (
 RUNECL_REAL_ANGLE_EXATTACK_FRAGMENTS = (
     'ExAttackInitType8.inl', 'ExAttackUpdateType8Type9.inl',
     'ExAttackUpdateType11Type12.inl', 'ExAttackUpdateType7.inl',
-    'ExAttackUpdateType21.inl',
+    'ExAttackUpdateType21.inl', 'EffectDoubleFanFamily.inl',
 )
 
 
@@ -788,8 +788,8 @@ def validate_runecl_real_angle_owners(units: dict) -> None:
                     ('REL32', RUNECL_REAL_ANGLE_ORIGINAL_VA, 0)):
                 raise RuntimeError('ECL/ExAttack exact source contains false angle-call identity')
             exact_ref_count += 1
-    if exact_ref_count != 20:
-        raise RuntimeError('ECL/Enemy/position/Effect twenty exact C++ angle callsites missing')
+    if exact_ref_count != 26:
+        raise RuntimeError('ECL/Enemy/position/Effect 26 exact C++ angle callsites missing')
 
 
 def guard_runecl_real_angle_callsite_report(report: dict) -> dict:
@@ -835,6 +835,46 @@ def replay_runecl_real_angle_exact() -> list[dict]:
     return [canonical(name) for name,_,_,_ in RUNECL_REAL_ANGLE_LEAVES]
 
 
+EFFECT26_UPDATE_RESIDUAL_OFFSETS = frozenset((
+    0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3E, 0x56, 0x59, 0x63, 0xB2, 0xBB))
+
+
+def guard_effect_type26_update(result: dict) -> dict:
+    """Protect all198 equal original bytes without crediting the eleven residuals."""
+    noncrediting(result, name='Effect26 update', target_size=209,
+                 fields=10, fields_key='fields')
+    calls = [['direct', 0x0042AED0], ['direct', 0x0042AED0]]
+    if (result.get('target_sha256') !=
+            'e22152173d39a96b45457ee3d79faec4d4e53a8afa309dfad53cc3509419f7a4' or
+            result.get('candidate_bytes') != 209 or
+            result.get('target_instructions') != 64 or
+            result.get('candidate_instructions') != 64 or
+            result.get('target_blocks') != 8 or result.get('candidate_blocks') != 8 or
+            result.get('missing_bytes') != 0 or result.get('extra_bytes') != 0 or
+            any(result.get(key) is not True for key in (
+                'all_original_fields_agree', 'field_referent_order_agrees',
+                'ordered_calls_agree', 'direct_graphs_agree')) or
+            result.get('target_calls') != calls or result.get('candidate_calls') != calls):
+        raise RuntimeError('Effect26 original extent/fields/calls/graph changed')
+    globals_ = [r for r in result.get('bindings', [])
+                if r.get('symbol', '').startswith('?g_GameManager@@')]
+    if (len(globals_) != 1 or
+            any(globals_[0].get(key) != value for key, value in {
+                'offset': 0x34, 'type': 'DIR32',
+                'symbol': '?g_GameManager@@3UAsciiGameManagerView@@A',
+                'target': 0x004A7D90, 'addend': 4,
+                'effective_target': 0x004A7D94}.items())):
+        raise RuntimeError('Effect26 native GameManager field identity changed')
+    offsets = result.get('difference_offsets')
+    if (not isinstance(offsets, list) or len(offsets) != len(set(offsets)) or
+            any(type(i) is not int or i not in EFFECT26_UPDATE_RESIDUAL_OFFSETS
+                for i in offsets) or
+            result.get('overlapping_differences') != len(offsets)):
+        raise RuntimeError('Effect26 changed an already equal original byte')
+    return {'target_bytes': 209, 'candidate_bytes': 209, 'fields': 10,
+            'ordinary_differences': len(offsets)}
+
+
 def run_ecl(*, include_trail: bool, include_interpreter: bool,
             protect_exact: bool,
             shared_real_callees_in_enemy: bool = False) -> tuple[dict, list[dict]]:
@@ -842,7 +882,9 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
         validate_runecl_real_angle_owners(tomllib.load(stream)['units'])
     build('ecl-pop-context')
     object_file = 'build/matching/EclManager.obj'
-    diagnostics: dict[str, dict] = {}
+    diagnostics: dict[str, dict] = {
+        'effect_type26_update': guard_effect_type26_update(parsed([
+            'scripts/inspect-effect-double-fan.py', object_file, '--json']))}
     exact_units = (cold_replay_exact_source(
         'src/EclManager.cpp', ECL_EXACT_CARRIERS,
         already_built=('build/matching/EclManager.obj',))
@@ -4617,6 +4659,8 @@ def run_effect_type34(*, protect_exact: bool,
         build('effect-initialize-callback-type34')
     draw = parsed(['scripts/inspect-effect-type34.py', obj, '--json'])
     summary = guard_effect_type34_draw(draw)
+    effect26 = guard_effect_type26_update(parsed([
+        'scripts/inspect-effect-double-fan.py', obj, '--json']))
     # The same compiler source also owns the existing open bosses. Reuse this
     # freshly built object rather than rebuilding the ECL carrier per reader.
     with tempfile.TemporaryDirectory(prefix='th09-effect34-ecl-') as directory:
@@ -4642,7 +4686,7 @@ def run_effect_type34(*, protect_exact: bool,
         if update_obj not in already_built:
             build('effect-update-callback-type34')
         exact.append(canonical('effect-update-callback-type34'))
-    return {'effect_type34_draw': summary,
+    return {'effect_type34_draw': summary, 'effect_type26_update': effect26,
             'runecl': {'ordinary_differences': complete['ordinary_different_bytes']},
             'enemy_manager_update': {'ordinary_differences': enemy['complete_differences']},
             'exattack_type19_update': {'ordinary_differences': trail['overlapping_differences']}}, exact

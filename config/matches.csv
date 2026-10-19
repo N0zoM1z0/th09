@@ -973,3 +973,6 @@ address,name,size,status,match_percent,unit,evidence
 0x004453A0,EffectDrawCallbackType24,314,matching,100.00,effect-draw-type24,python3 scripts/build-match-unit.py --unit effect-draw-type24 && python3 scripts/compare-coff-function.py --unit effect-draw-type24 --json
 0x0044B1D0,EffectUpdateCallbackType33,79,matching,100.00,effect-update-type33,python3 scripts/build-match-unit.py --unit effect-update-type33 && python3 scripts/compare-coff-function.py --unit effect-update-type33 --json
 0x0044BAF0,EffectDrawCallbackType33,314,matching,100.00,effect-draw-type33,python3 scripts/build-match-unit.py --unit effect-draw-type33 && python3 scripts/compare-coff-function.py --unit effect-draw-type33 --json
+0x00444700,EffectDrawCallbackType26,602,matching,100.00,effect-draw-type26,python3 scripts/build-match-unit.py --unit effect-draw-type26 && python3 scripts/compare-coff-function.py --unit effect-draw-type26 --json
+0x004475C0,EffectUpdateCallbackType28,91,matching,100.00,effect-update-type28,python3 scripts/build-match-unit.py --unit effect-update-type28 && python3 scripts/compare-coff-function.py --unit effect-update-type28 --json
+0x00447CE0,EffectDrawCallbackType28,602,matching,100.00,effect-draw-type28,python3 scripts/build-match-unit.py --unit effect-draw-type28 && python3 scripts/compare-coff-function.py --unit effect-draw-type28 --json

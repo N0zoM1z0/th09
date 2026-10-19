@@ -11146,3 +11146,80 @@ attest historical producer execution.
   in that packet remain provisional and uncredited. Original C++ spelling,
   unique TU partition, native Windows product/runtime and later phase gates
   remain unknown/open.
+
+## October 20: Effect26/28 double-arc fans and the open209-byte steering update (gpt-6.1-sol)
+
+- Recovered cleaneca14e73af159a16203885a6a7b821e9a3c167ca and reverified original
+  Japanese1.50a disk target, direct IDA metadata, entry and distributed mapped
+  bytes. Original Effect prefix rows26/28 independently bind update0x00443A30
+  /209, draw0x00444700 /602, update0x004475C0 /91 and draw0x00447CE0 /602.
+  All four entries are absent from IDA. Complete target decode and branch
+  destinations establish each owner;15/6/5/6 trailing CC bytes remain unowned.
+  Callback spacing does not include adjacent ExAttack/Player/Effect functions.
+- Both draws build a center and two arcs using the current Effect origin plus
+  then minus a perpendicular radius-scaled offset. The original17 direct calls
+  have identical referents in both owners, including genuine Float3 plus at
+  0x00401100, minus at0x00401140, native XY transforms, AddNormalizeAngle and
+  DrawTriangleFan. The four differing non-call fields establish separate policies:
+  Type26 startpi/6, arc step(2pi/3)/(segments/2-1), gap pi/3-step, offset radius/2;
+  Type28 startpi/3, step(pi/3)/(segments/2-1), gap2pi/3-step, offset radius*sqrt(3)/2.
+  Center/perimeter colors are0x40600040/0x70600040; dirty remains set. Original
+  vertex-Z stores occur after the XY transforms and remain in that source order.
+- The first natural loops reload segments after opaque calls, emitting **628
+  versus602 bytes /31 fields /237 overlap differences +26 extra**. Three source
+  controls show that an explicit bound snapshot and a remaining-count loop
+  decreasing by2 both reproduce the complete **602 bytes /31 fields**. A
+  `(segments+1)/2` countdown emits602 bytes but retains34 differences and the
+  wrong graph; it is rejected. Maintained source uses the natural remaining-count
+  loop. Both new draws pass complete original-bound canonical comparisons.
+- Type28 update marks dirty, adds8 to radius while below320 without clamping,
+  copies owning Player position1B88, resets angle80 to0 and returns1.
+  Its complete **91 bytes /three fields** are canonical exact. All three new
+  exact owners use the genuine ECL source and unchanged polar body, with no
+  new assembly, fake ABI, padding, target copying or register steering.
+- Type26 update adds8 below112, follows owning Player position, then reads the
+  same player's movementAngle1CD8 through **EffectManager.sideState+0x10,
+  side.player+4**. This is the own-side slot, not manager.opposingSideState+0x14.
+  Target angle is movementAngle+pi via the real normalization method. The update
+  wraps its signed delta across +/-pi and adjusts current angle by one eighth
+  of the delta through a second normalization call. Existing TH09 Player movement
+  and added-state sources corroborate the1CD8 field; a private view asserts its
+  offset without widening shared headers or claiming the original C++ name.
+- Type26 update is maintained but **NON-EXACT:209/209 bytes /64 instructions /
+  ten original fields /two ordered calls /eight blocks /11 ordinary differences**.
+  Original SHA256
+  `e22152173d39a96b45457ee3d79faec4d4e53a8afa309dfad53cc3509419f7a4`.
+  Its198 equal bytes and all actual fields/calls/graphs are guarded. The11
+  original-bound residual offsets are38/39/3A/3B/3C/3E/56/59/63/B2/BB hex:
+  saved-register placement and register choices in the two angle argument loads.
+  Eight real storage/source controls remain rejected: native copy, field reference,
+  manager reload, two position references, position snapshot, early side capture
+  and the existing PlayerSideState view. No partial credit or match unit is added.
+- New `inspect-effect-double-fan.py` independently decodes the static indexed
+  GameManager field at update26+0x34/update28+0x2D, actual side stride0x38,
+  Player position1B88 and the Type26 side/player/movement-angle chain. Complete
+  original fields are never copied from compiler rows. Both `--owner runecl`
+  and `--owner effect34` guard the new nonexact update as well as their existing
+  owners. Three pure tests reject changed provenance/extents, call/field/global
+  identities and same-count substitutions at every one of the198 equal bytes.
+- Full affected-source closure passes **59 exact functions across two profiles /
+  19,553 physical bytes /889 fields**. Two private labels change only after
+  checking actual same-owner COFF coordinates and every original byte. Native
+  GameManager XY call fields total72. The exact-source AddNormalizeAngle census
+  is26, with all six new direct references independently bound to the real
+  C++ identity at0x0042AED0; the old20-reference guard/tests are updated without
+  changing native source or accepting a false callee. Full prebuilt guards retain RunEcl15564/
+  598/30, Enemy3900/97/29, Type19update821/35/44 and biased movement517vs516.
+  Three new Type34 radius/position-reference controls all retain the same raw
+  SHA256 `f9a4df3b7b3ac026aca7757e0d55de939990cbeb3a1ee5d652279f730731cf80`,
+  **959vs946 bytes /53 referents in order /593 overlap differences +13 extra**.
+  Type16's storage-reference result does not transfer to these Type34 forms.
+- Live totals are **1,013 authored/source-present,977 exact,36 nonexact**;
+  **237,697/284,693 reviewed-authored bytes =83.4924%**. This records all1504
+  reviewed authored bytes while crediting only1295 exact bytes; the new209-byte
+  open owner increases the nonexact inventory to46,996 bytes. The95% milestone
+  still needs32,762 complete exact bytes at this denominator;18 original Effect
+  entries remain uncatalogued. Full hashes, source recipes, all private controls,
+  field/graph proofs and input bindings remain in
+  `.analysis/gpt-61sol-20261020-effect26-28/`. Original C++ names, unique TU
+  partition, native Windows product/runtime and later gates remain unknown/open.
