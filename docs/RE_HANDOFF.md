@@ -17,11 +17,12 @@ The **95%** milestone still needs **32,053** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
-- **Type14/22 draw native object:** twelve device fields now bind the actual
-  **`Supervisor g_Supervisor + 8`**, through a bounded projection and shared
-  angle-runtime declaration. The complete **974/53/20 direct/12 indirect**
-  candidate is byte-neutral and remains **905 differences +15 excess bytes**.
-  Recipes: `.analysis/gpt-61sol-20261019-exattack1422-supervisor/`.
+- **Title cursor lead, unadopted:** both Reverse/Inactive remain **175/38**
+  in maintained source. A parameter-bound latch read emits **175/18**, restoring
+  the original five-block CFG and loop body but damaging **10** previously equal
+  positions per owner; the maintained guard rejects it. Reproduce independently:
+  `nice -n 10 python3 -B scripts/probe-title-cursor-bound.py`. Entry register roles
+  remain open; `.analysis/gpt-61sol-20261019-title-native-cursor/` retains evidence.
 - **Menu/queue physical-byte guards:** original-bound cold comparisons now
   protect all **71** already equal ReplayMenu positions and **178** received-frame
   positions, rejecting same-count exchanges that damage old matches. Use
@@ -91,16 +92,16 @@ remain separate open gates.
   physical helper `0x004343D0` remains source-ownership unknown.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   `gpt-6.1-sol: ...` commits, followed by the explicitly requested push.
-  The previous successful push verified remote `main` at `9ab16db`. Preserve all dirty
+  The previous successful push verified remote `main` at `d63669d`. Preserve all dirty
   work, never patch the target or commit private inputs, and verify remote state.
   Clean reproducible generated files only after their producers stop.
-- **Final validation:** fresh complete RunEcl baseline/native controls reproduce
-  **30 /1,938 ordinary differences** with independent original-bound fields.
-  The setter/assignment's **34 mapped bytes** match the original. **702 CI
-  tests/28 skipped** pass with **675 pre-existing public input hashes stable**.
-  Removed **959 owned reproducible files/17,229,190 bytes**, including **577**
-  source copies, after producers stopped. Unchanged game sources reuse their
-  previous source-bound proofs; no additional exact comparison is claimed.
+- **Final validation:** Etama draw cold-reproduces **600/27/268**, and its two
+  exact siblings pass **1,064 physical bytes/46 fields**. Its ledger supersedes
+  historical 594-byte counts. Title renderer remains **1,939/82/22**; the cursor
+  reproducer confirms **38/18** and rejects the new positions. **702 CI tests/28
+  skipped** pass. **675** pre-existing public inputs stay content-bound; only one
+  documentary ledger row changes. Removed **383 files/11,164,576 bytes**, including
+  **15** source copies. No game/profile/exact changes; unchanged proofs are reused.
 
 
 
