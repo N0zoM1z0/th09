@@ -70,8 +70,8 @@ class SharedRealGameManagerEclOwners(unittest.TestCase):
         globals_ = [r for r in actual if r['symbol']==GM]
         real_calls = [r for r in actual if r['symbol'] in (TRANSFORM_X,TRANSFORM_Y)]
         self.assertGreaterEqual(len(globals_),20)
-        # The ring draw adds six genuine XY transform pairs.
-        self.assertEqual(len(real_calls),36)
+        # The ring and player-offset fan add eight genuine XY transform pairs.
+        self.assertEqual(len(real_calls),40)
         self.assertTrue(all(r['target']==0x004A7D90 for r in globals_))
         self.assertTrue(all((r['symbol'],r['target']) in (
             (TRANSFORM_X,0x00401680),(TRANSFORM_Y,0x004016B0))

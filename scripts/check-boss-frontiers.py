@@ -81,7 +81,7 @@ def build(unit: str) -> None:
 # rebuilt rather than silently reusing the main diagnostic's object.
 # These are manifest-verified cardinalities, not historical exactness totals.
 ECL_EXACT_CARRIERS = {
-    'build/matching/EclManager.obj': 39,
+    'build/matching/EclManager.obj': 42,
     'build/matching/EclManager-Type11.obj': 3,
 }
 TITLE_EXACT_CARRIERS = {

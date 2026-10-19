@@ -10678,3 +10678,83 @@ attest historical producer execution.
   including21 copied fragments/carriers actually recreated and hash-checked.
   Only the two named packet roots and initially absent build/ are touched;
   build/ is absent. Original target/toolchain/IDA and older evidence remain.
+
+## October 20: exact Effect25 fan family and callback-boundary correction (gpt-6.1-sol)
+
+- Recovered clean pushed **e2cbda7a48cdd2e9859f33e9ff87016d3c406e65** and
+  reverified the original Japanese v1.50a disk target, direct local IDA metadata,
+  entry and distributed mapped bytes. Direct IDA has no function/decompilation
+  at **0x00445E00**, and no function at **0x00447480/0x00447C40**. Complete
+  observations below come from the verified PE and native compiler comparisons.
+- Original Effect25 row is **[0x58,0,1,0x00447C40,0x00445E00,0x00447480]**.
+  The update is only **96 bytes**, ending **0x00445E5F**, immediately before
+  the already exact Player callback at **0x00445E60**. Its0x1680 distance to
+  the draw pointer includes already catalogued/exact Player and ExAttack
+  functions. The earlier live routing's suggestion of a large Effect update
+  was an unverified hypothesis and is corrected; none of that gap receives
+  new ownership or exact credit. Table spacing never establishes function size.
+- Shared initializer **0x00447C40..0x00447CDA** is **155 bytes /43 instructions
+  /three fields /one call /three blocks**, followed by five unowned CC bytes;
+  SHA256 **`3452a8267be4360ec76080a6e7b90b01c386cd57394acd58c8676ee6b835870f`**.
+  Rows **10/18/24/25/26/28/33** share this one physical entry. It allocates
+  **0x294** bytes (33 vertices of20), captures origin/angle/thickness, seeds two
+  axes, radius16, segments32, frequency1 and dirty1; failure returns-1. The
+  existing checked ring-state prefix is reused without asserting unique
+  original class ownership. The natural first source has13 unequal bytes,
+  caused solely by the position of the shared 1.0f register load. Moving the
+  actual axis-Z initialization before angle capture closes all155 bytes.
+  Moving frequency before/after angle regresses to30; a shared scalar is neutral.
+- Update **0x00445E00..0x00445E5F**, SHA256
+  **`08a67945a622c9d03c7b511ae9ce35d4f374a26c983dcb35863104ac241a3d46`**,
+  is **96 bytes /29 instructions /four fields /no calls /three blocks**.
+  It marks dirty, adds4 to radius only when radius<56, copies the owning-side
+  Player position, subtracts1.5*radius from Y, and returns1. There is no clamp
+  of an overshooting value, timer update or invented null check. Natural source
+  is byte-exact on its first complete native compile.
+- The generic Effect scanner did not count **indexed** static-base operands:
+  its raw full-byte comparison was already exact, but original-field equality
+  correctly remained false. New `inspect-effect-player-offset-fan.py` separately
+  decodes and checks **IMUL EDX,EDX,0x38; MOV EAX,[EDX+0x004A7D94]; ADD EAX,0x1B88**,
+  then adds the actual original DIR32 field at **+0x36** to the independent
+  inventory. Native global identity/root+4 and side/player layout are already
+  independently reviewed. Candidate bindings are never used to invent the
+  original field; neither target nor compiled bytes are altered. All four
+  fields now agree. Four pure tests reject missing/wrong/duplicate original
+  fields and a candidate redirected to another global address.
+- Draw **0x00447480..0x004475B9**, SHA256
+  **`a323e9a45a707fa428a4991deeff9a06e9c31f0ee3c80ed4d55428abf4995b67`**,
+  is **314 bytes /97 instructions /15 fields /seven calls**, followed by six
+  unowned CC bytes. It fills one center plus segment-count perimeter vertices,
+  uses step2pi/(segments-1), wraps angle once, retains the original Z-write
+  chronology and native XY transforms, and sets colors **0x40600040/0x70600040**
+  with rhw1. It calls the genuine **AnmManager::DrawTriangleFan** for segments+1.
+  Dirty is **not** cleared by this draw. First natural source matches all314
+  bytes, full native calls, fields and graph. The actual co-visible Float3
+  polar definition is reused; no new assembly or register constraints are added.
+- All three callbacks pass **two maintained-path cold canonical replays** and
+  complete original-field/call/graph diagnostics. All **45** affected canonical
+  ECL-carried functions pass **16,084 physical bytes /730 fields** across two
+  profiles. Two compiler-private names are refreshed only after actual
+  same-owner coordinates, old target fields and complete bodies pass. The
+  second carrier preserves all45 raw function hashes. RunEcl **15,564/598/30**,
+  Enemy **3,900/97/29**, Type19 **821/35/44**, biased movement and Effect34
+  **946/959 /593 overlap differences +13 extra bytes** remain guarded. Other
+  unchanged source closures retain their parent proofs; no broad replay occurs.
+- Totals become **2,205 candidates /993 authored/source-present /958 exact**;
+  **233,812/280,599 reviewed-authored bytes =83.3260%**, still **32,758** complete
+  exact authored bytes short of95%. The565 newly reviewed bytes do not reduce
+  the existing35-function /46,787-byte nonexact backlog. The original Effect
+  prefix retains **38 missing code entries**. No new Factory receipt, native
+  product/runtime, semantic or port closure is claimed. Recipes, immutable
+  source hashes, corrected field reports and all bounded controls live in
+  `.analysis/gpt-61sol-20261020-effect25/`.
+- Final CI passes **747 tests /28 skipped**, including four new indexed-field
+  rejection checks. The genuine XY transform call census rises36 to40; native
+  identities/targets remain fully checked. Parent source binding proves **696
+  unchanged engineering inputs (655 raw +41 checkout EOL normalization)**,
+  ten modified inputs and three additions. After all own producers terminate,
+  TH09-cwd-scoped cleanup removes **376 reproducible files /9,430,033 bytes**,
+  including nine source copies actually recreated/hash-checked and the broad
+  disassembly dumps superseded by the bounded owners. Only this packet and
+  initially absent build/ are touched. Compact baseline fragments, immutable
+  recipes, complete/corrected comparisons and hashes remain; build/ is absent.
