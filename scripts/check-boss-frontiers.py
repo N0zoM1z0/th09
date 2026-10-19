@@ -1038,6 +1038,51 @@ def guard_player_movement(result: dict) -> dict:
             'calls': 23, 'aligned_instructions': result['normalized_aligned_instructions']}
 
 
+PLAYER_ADDED_SHA256 = 'b9b3e4115f8fb3857c373215f960b8eb0a73967cb33d581bb19d0cc8e868fb98'
+PLAYER_ADDED_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
+    0x03A, 0x03B, 0x03C, 0x03D, 0x03E, 0x03F, 0x040, 0x041,
+    0x042, 0x043, 0x044, 0x046, 0x047, 0x048, 0x049, 0x04A,
+    0x051, 0x052, 0x053, 0x054, 0x055, 0x056,
+))
+
+
+def guard_player_added_state(result: dict) -> dict:
+    noncrediting(result, name='Player added state', target_size=572, fields=25)
+    if (result.get('target_sha256') != PLAYER_ADDED_SHA256 or
+            result.get('candidate_bytes') != 572 or result.get('code_bytes') != 552 or
+            result.get('fields_agree') != 25 or
+            result.get('target_instructions') != 136 or
+            result.get('candidate_instructions') != 136 or
+            result.get('target_calls') != 11 or result.get('candidate_calls') != 11 or
+            result.get('ordered_calls_agree') is not True or
+            result.get('target_blocks') != 20 or result.get('candidate_blocks') != 20 or
+            result.get('direct_graph_agrees') is not True or
+            result.get('switch_table_agrees') is not True):
+        raise RuntimeError('Player added-state complete owner/fields/calls/graph changed')
+    checked = physical_difference_windows(
+        result, count_key='complete_differences', windows=((0x03A, 0x057, 22),),
+        equality_key='complete_bytes_equal')
+    if not {int(x, 16) for x in result['difference_offsets']}.issubset(
+            PLAYER_ADDED_ORIGINAL_RESIDUAL_OFFSETS):
+        raise RuntimeError('Player added-state changed a previously matching byte')
+    return {'target_bytes': 572, 'candidate_bytes': 572, 'bound_fields': 25,
+            'ordinary_differences': checked['differences'], 'ordered_calls': 11}
+
+
+def run_player_added_state(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    # One actual source-cold carrier covers the boss and all three exact resets.
+    build('player-added-collision-reset')
+    evidence = parsed(['scripts/inspect-player-added-state.py',
+                       'build/matching/PlayerAddedState.obj', '--json'])
+    owner = guard_player_added_state(evidence)
+    exact = []
+    if protect_exact:
+        exact = cold_replay_exact_source(
+            'src/PlayerAddedState.cpp', {'build/matching/PlayerAddedState.obj': 3},
+            already_built=('build/matching/PlayerAddedState.obj',))
+    return {'player_added_state': owner}, exact
+
+
 def run_player_movement(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     obj = 'build/matching/PlayerMovement.obj'
     build_nonexact('src/PlayerMovement.cpp', obj, reference_unit='player-on-update')
@@ -4159,7 +4204,7 @@ def run_audio_true_exact(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -4235,6 +4280,10 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('movement', 'all'):
             owners, exact = run_player_movement(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('added', 'all'):
+            owners, exact = run_player_added_state(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('player', 'all'):

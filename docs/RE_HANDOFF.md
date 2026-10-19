@@ -46,7 +46,7 @@ separate **unproven** milestones.
   Source-bound witnesses and recipes are below
   `.analysis/gpt-61sol-20261019-options/`. After validation, removed
   **41 generated files /2,855,840 bytes**; compact evidence remains.
-- **Current focused regression:** seven cold ECL carriers preserve **26
+- **Prior ECL regression (`3b7c564`):** seven cold carriers preserve **26
   existing exact functions /12,097 physical bytes /578 fields**; two renamed
   private labels retain independently checked owner-relative positions and
   original encoded destinations. The shared **318-byte exact** draw brings
@@ -58,12 +58,12 @@ separate **unproven** milestones.
   are below `.analysis/gpt-61sol-20261019-type19-slot/`. CI passes **668 tests
   /28 skipped**. After all processes exited, removed **184 generated files
   /8,311,472 bytes**; source-bound evidence and recipes remain.
-- **Latest bounded context controls:** production inputs remain unchanged from
-  `3b7c564`; no new exact credit. Timer setter visibility breaks the matching
-  `CANCEL_LASER` segment; typed jump/wire, Effect getter, Type19 owner and
-  camera SDK-copy controls also fail to close their complete owners. Detailed
-  results and reproducible packet paths are in the October 19 timer/resource
-  section of [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md).
+- **Current Player initialization frontier:** a cold full-owner replay corrects
+  stale 65-difference ledger wording to **22**; gameplay source is unchanged.
+  New `--owner added` checks **572 physical bytes/25 fields**, protects all
+  **550 matching bytes**, and replays the three exact resets (**93 bytes**)
+  from one source-cold carrier. Current controls and evidence paths are in
+  the October 19 Player initialization section of [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md).
 - **Most recent Factory-accepted source checkpoint:** `7324b4e` (`gpt-web: restore native ANM
   and Supervisor ABI across MusicRoom callbacks`). It preserves the **2,258
   byte exact** MusicRoom update and **209 byte exact** drawing function while
