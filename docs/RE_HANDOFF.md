@@ -36,12 +36,13 @@ remain separate open gates.
   Recipes: `.analysis/gpt-61sol-20261019-replay-callee-context/`.
 - **RunEcl call census:** `inspect-ecl-call-inventory.py OBJECT` independently
   checks real call identities. Matching counts never confer exactness.
-- **Current ECL controls:** current baseline stays **15,564/598/30**, with
-  146/148 paired handler shapes. Twenty-five full-chain operand construction,
-  Win32 flag-word and real returned-value controls yield no improvement. All
-  seven source fragments are staged before their first declaration include;
-  no source or compiler profile change is adopted. Recipes/results:
-  `.analysis/gpt-61sol-20261019-runecl-operand-construction/`.
+- **Current ECL controls:** baseline stays **15,564/598/30**, with 146/148
+  paired shapes. Sixty further controls yield no improvement. A native bitfield
+  return emits **44/45 opcode155 bytes** because its EAX mask encoding is shorter;
+  complete comparison rejects **1,938 ordinary /202 field /26 table differences**.
+  Reproduce with `nice -n 10 python3 -B scripts/probe-ecl-native-timeout.py`.
+  No game-source, timer ABI or profile change. Recipes/results and timer evidence:
+  `.analysis/gpt-61sol-20261019-runecl-native-return/`.
 - **New exact camera projection:** `AnmManager::ProjectCameraFacingQuad`
   at **0x00439820** now reproduces **622 bytes, 40 fields, 201 instructions,
   11 calls and eight blocks**. Genuine SDK math types, ordinary vector locals
@@ -90,16 +91,16 @@ remain separate open gates.
   physical helper `0x004343D0` remains source-ownership unknown.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   `gpt-6.1-sol: ...` commits, followed by the explicitly requested push.
-  The previous successful push verified remote `main` at `983a609`. Preserve all dirty
+  The previous successful push verified remote `main` at `9ab16db`. Preserve all dirty
   work, never patch the target or commit private inputs, and verify remote state.
   Clean reproducible generated files only after their producers stop.
-- **Final validation:** maintained Type14/22 draw cold-reproduces
-  **974 bytes/53 fields/905 differences**, with four complete exact related
-  owners (**1,614 physical bytes/110 fields**). All 959 mapped draw bytes
-  match the original. **702 CI tests/28 skipped** pass with **675 public input
-  hashes stable**. Removed **404 owned reproducible files/8,842,962 bytes**,
-  including **20** source copies, after producers stopped. Unchanged ECL,
-  Type3, parser and Title sources retain their previous source-bound proofs.
+- **Final validation:** fresh complete RunEcl baseline/native controls reproduce
+  **30 /1,938 ordinary differences** with independent original-bound fields.
+  The setter/assignment's **34 mapped bytes** match the original. **702 CI
+  tests/28 skipped** pass with **675 pre-existing public input hashes stable**.
+  Removed **959 owned reproducible files/17,229,190 bytes**, including **577**
+  source copies, after producers stopped. Unchanged game sources reuse their
+  previous source-bound proofs; no additional exact comparison is claimed.
 
 
 
