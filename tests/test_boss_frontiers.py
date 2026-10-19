@@ -1213,6 +1213,10 @@ class BossFrontierChecks(TestCase):
                     'target_calls': 0, 'candidate_calls': 0,
                     'target_blocks': 9, 'candidate_blocks': 9,
                     'complete_direct_graphs_agree': True,
+                    'target_sha256': frontiers.RECEIVED_FRAME_TARGET_SHA256,
+                    'differing_offsets': [hex(x) for x in sorted(
+                        frontiers.RECEIVED_FRAME_RESIDUAL_OFFSETS)],
+                    'complete_bytes_equal': False,
                     'complete_differences': 35}
         with patch.object(frontiers, 'build_nonexact') as nonexact, patch.object(
                 frontiers, 'build') as build, patch.object(frontiers, 'parsed',
@@ -1231,6 +1235,38 @@ class BossFrontierChecks(TestCase):
             with self.subTest(incorrect=incorrect), patch.object(frontiers, 'build_nonexact'), patch.object(
                     frontiers, 'parsed', return_value={**evidence, **incorrect}), self.assertRaises(RuntimeError):
                 frontiers.run_received_frames(protect_exact=False)
+
+    def test_focused_queue_and_menu_cli_verify_target_and_avoid_other_owners(self):
+        import io
+        import json
+        import sys
+        for owner in ('queue', 'replaymenu'):
+            order = []
+            def received(**kwargs):
+                self.assertEqual(kwargs, {'protect_exact': True})
+                order.append('queue')
+                return {'queue': {}}, [{'unit': 'predicted'}, {'unit': 'pop'}]
+            def menu():
+                order.append('replaymenu')
+                return {'replaymenu': {}}
+            output = io.StringIO()
+            with self.subTest(owner=owner), patch.object(
+                    sys, 'argv', ['check-boss-frontiers.py', '--owner', owner]), patch.object(
+                    frontiers, 'execute', side_effect=lambda args: order.append(args)), patch.object(
+                    frontiers, 'run_received_frames', side_effect=received) as queue, patch.object(
+                    frontiers, 'run_title_replay_menu', side_effect=menu) as replaymenu, patch.object(
+                    frontiers, 'run_title') as title, patch.object(
+                    frontiers, 'run_ecl') as ecl, patch('sys.stdout', output):
+                self.assertEqual(frontiers.main(), 0)
+            self.assertEqual(order, [['scripts/verify-target.py'], owner])
+            self.assertEqual(queue.call_count, owner == 'queue')
+            self.assertEqual(replaymenu.call_count, owner == 'replaymenu')
+            title.assert_not_called()
+            ecl.assert_not_called()
+            report = json.loads(output.getvalue())
+            self.assertEqual(list(report['owners']), [owner])
+            self.assertEqual(len(report['canonical_siblings']), 2 if owner == 'queue' else 0)
+            self.assertEqual(report['exactness_credit'], 'none')
 
     def test_title_protects_all_screen_and_music_exact_units(self):
         checked = []

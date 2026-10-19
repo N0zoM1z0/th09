@@ -8,6 +8,29 @@ SOURCE = Path(__file__).resolve().parents[1] / 'scripts/inspect-supervisor-frame
 spec = importlib.util.spec_from_file_location('supervisor_frame_inspector', SOURCE)
 inspector = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(inspector)
+spec = importlib.util.spec_from_file_location(
+    'supervisor_frame_frontier', SOURCE.with_name('check-boss-frontiers.py'))
+frontier = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(frontier)
+
+
+def current_frontier():
+    # Actual cold original-bound residuals, independent of the guard's set.
+    offsets = [*range(0x1C, 0x29), *range(0x2A, 0x30),
+               *range(0x31, 0x3E), 0xBC, 0xBD, 0xBE]
+    return {
+        'diagnostic_only': True, 'exactness_credit': 'none',
+        'target_sha256': inspector.TARGET_SHA256,
+        'target_bytes': 213, 'candidate_bytes': 213,
+        'relocation_fields': 0,
+        'target_instructions': 67, 'candidate_instructions': 67,
+        'target_calls': 0, 'candidate_calls': 0,
+        'target_blocks': 9, 'candidate_blocks': 9,
+        'complete_direct_graphs_agree': True,
+        'complete_differences': 35,
+        'differing_offsets': [hex(x) for x in offsets],
+        'complete_bytes_equal': False,
+    }
 
 
 class FrameQueueInspectorTests(TestCase):
@@ -52,6 +75,46 @@ class FrameQueueInspectorTests(TestCase):
             inspector.differing_offsets(bytes(inspector.SIZE - 1), bytes(inspector.SIZE))
         with self.assertRaisesRegex(ValueError, 'incomplete'):
             inspector.differing_offsets(bytes(inspector.SIZE), bytes(inspector.SIZE + 1))
+
+
+class FrameQueueFrontierTests(TestCase):
+    def test_current_and_narrower_valid_diagnostics_remain_noncrediting(self):
+        current = current_frontier()
+        self.assertEqual(frontier.RECEIVED_FRAME_TARGET_SHA256, inspector.TARGET_SHA256)
+        frontier.guard_received_frames(current)
+        frontier.guard_received_frames({**current, 'complete_differences': 34,
+                                       'differing_offsets': current['differing_offsets'][1:]})
+        exact = {**current, 'complete_differences': 0,
+                 'differing_offsets': [], 'complete_bytes_equal': True}
+        frontier.guard_received_frames(exact)
+        self.assertEqual(exact['exactness_credit'], 'none')
+
+    def test_equal_difference_count_cannot_damage_matching_bytes(self):
+        current = current_frontier()
+        for offset in (0, 0x29, 0x30, 0xBF, 212):
+            changed = {**current, 'differing_offsets': [hex(x) for x in sorted(
+                [int(x, 16) for x in current['differing_offsets'][1:]] + [offset])]}
+            with self.subTest(offset=hex(offset)), self.assertRaisesRegex(
+                    RuntimeError, 'already matched'):
+                frontier.guard_received_frames(changed)
+
+    def test_incomplete_forged_and_malformed_evidence_is_rejected(self):
+        current = current_frontier()
+        changes = (
+            {'diagnostic_only': False}, {'exactness_credit': 'accepted'},
+            {'target_sha256': '0' * 64}, {'candidate_bytes': 212},
+            {'target_bytes': 212}, {'relocation_fields': 1},
+            {'complete_direct_graphs_agree': 1}, {'candidate_calls': 1},
+            {'target_instructions': 66}, {'candidate_blocks': 8},
+            {'complete_differences': True}, {'complete_differences': 34},
+            {'complete_bytes_equal': True}, {'differing_offsets': None},
+            {'differing_offsets': [0x1C] * 35},
+            {'differing_offsets': ['0x1C'] * 35},
+            {'differing_offsets': list(reversed(current['differing_offsets']))},
+        )
+        for change in changes:
+            with self.subTest(change=change), self.assertRaises(RuntimeError):
+                frontier.guard_received_frames({**current, **change})
 
 
 if __name__ == '__main__':

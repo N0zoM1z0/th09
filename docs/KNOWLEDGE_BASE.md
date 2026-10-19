@@ -10024,3 +10024,52 @@ attest historical producer execution.
   files/2,331,306 bytes**, including **8** individually classified source
   copies. Recipes, compact comparisons and metadata readback remain; original
   target, SDK/compiler, private database and unrelated analysis are preserved.
+
+## October 19: original-byte guards and focused replay for menu/queue
+
+- Recovered clean `26004e5`, reattested the original JP v1.50a disk target and
+  direct local IDA, and independently compared all **1,280 mapped menu bytes**
+  to the PE: SHA-256 `d0201b3aae3727f7aa773187ac9ac6d21727c86342b657c780cb9353cdc39ed0`.
+  No target/database byte writes or Factory MCP calls were used.
+- **25 full-chain RunEcl compiles** test byte/time value construction, genuine
+  Win32 `unsigned long` flag words and returned updated flags actually stored
+  by the caller. All seven fragments are staged before first declaration
+  inclusion. Complete layout-preserving candidates retain **15,564 bytes/598
+  fields/30 differences** and 146/148 handler shapes; others fail code/alignment,
+  physical-extent or field guards. No game source, ABI or profile is adopted.
+  Recipes: `.analysis/gpt-61sol-20261019-runecl-operand-construction/`.
+- **Eight menu SDK controls** include a fresh source baseline, real SDK vector
+  storage, pointer-output stages, in-place stages, native operators and direct
+  character arguments. Pointer stages retain **1,258 bytes/368 instructions/57
+  fields/13 calls/70 blocks**, versus original **1,280/376/57/13/72**. Native
+  operator stages expand to 1,296 bytes; the combined expression emits 1,267
+  but worsens linked overlap differences to 1,200. None improves the full owner.
+  Recipes: `.analysis/gpt-61sol-20261019-menu-sdk/`.
+- **Seven queue controls** compare baseline, four real eight-byte received-value
+  object lifetimes, record assignment and a three-field member setter. Values
+  retain **213 bytes/67 instructions/zero fields/nine blocks/35 differences**;
+  assignment/setter emit 219/211 bytes and fail extent. No field, output effect
+  or stack ABI change is promoted. Recipes:
+  `.analysis/gpt-61sol-20261019-queue-values/`.
+- The old batch checks could accept a same-count exchange of a recovered
+  residual for a newly damaged matching byte. `guard_received_frames` now pins
+  the original SHA and **all 35 actual residual offsets**, preserving **178**
+  matched bytes. The menu guard pins **all 71** already matched overlapping
+  positions while allowing recovery of the 22 absent target bytes. New tests
+  reject same-count exchanges, malformed evidence and contradictory equality;
+  a genuine narrowing or zero-difference report remains explicitly noncrediting.
+- **`check-boss-frontiers.py --owner replaymenu`** cold-builds the separate menu
+  TU without unrelated Title compiles; the broad Title path uses this same
+  guard. **`--owner queue`** is an explicit alias for the existing network queue
+  scope, retaining the two complete exact **191/119-byte** members and their
+  one field. Both focused maintained-source replays pass. Canonical progress
+  stays **946/980**, **229,929/275,770 bytes (83.3771%)**; 95%, native product,
+  runtime and later gates remain open. These checks are local evidence, not a
+  new Factory acceptance or partial exactness credit.
+- Final tracking, docs, generated progress, whitespace and public CI pass:
+  **701 tests/28 skipped**, with **675** public input hashes stable. This
+  snapshot additionally includes the existing `src/README.md` and origin-cohort
+  text file; these are not newly introduced source inputs. After all owned
+  producers stopped, removed **433 files/9,570,830 bytes**, including **54**
+  reproducible source copies. Recipes, reports and the mapped-byte witness
+  remain in the three packets; original inputs and unrelated work are preserved.

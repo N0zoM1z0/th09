@@ -29,7 +29,8 @@ def current():
         'ordered_calls_agree': True, 'original_blocks': 72,
         'candidate_blocks': 70, 'direct_graphs_agree': False,
         'aligned_instructions': 238, 'overlap_differences': 1187,
-        'difference_offsets': list(range(1187)),
+        'difference_offsets': sorted(set(range(1258)) -
+                                   frontier.TITLE_REPLAY_MENU_MATCHED_OFFSETS),
         'missing_target_bytes': 22, 'extra_candidate_bytes': 0,
         'complete_bytes_equal': False,
     }
@@ -60,6 +61,39 @@ class TitleReplayMenuOriginalFrontierTests(TestCase):
         for symbol, physical in symbols.items():
             with self.subTest(symbol=symbol):
                 self.assertEqual(original.DESTINATIONS[symbol], physical)
+
+    def test_same_count_exchange_cannot_damage_a_matching_physical_byte(self):
+        report = current()
+        self.assertEqual(len(frontier.TITLE_REPLAY_MENU_MATCHED_OFFSETS), 71)
+        self.assertEqual(len(report['difference_offsets']), 1187)
+        # A lower total or better aligned score cannot pay for losing a byte
+        # that already equals the independently linked original.
+        for offset in (0, 0x19, 0x1A2, 0x2CF, 0x492):
+            with self.subTest(offset=hex(offset)):
+                changed = {**report, 'difference_offsets': sorted(
+                    report['difference_offsets'][1:] + [offset])}
+                self.assertEqual(len(changed['difference_offsets']), 1187)
+                with self.assertRaisesRegex(RuntimeError, 'already matched'):
+                    frontier.guard_title_replay_menu(changed)
+
+    def test_standalone_menu_rebuilds_its_only_source_and_checks_the_guard(self):
+        from unittest.mock import patch
+        with patch.object(frontier, 'build_nonexact') as build, patch.object(
+                frontier, 'parsed', return_value=current()) as inspect:
+            report = frontier.run_title_replay_menu()
+        build.assert_called_once_with(
+            'src/TitleScreenReplayMenuDraw.cpp',
+            'build/matching/TitleScreenReplayMenuDraw.obj',
+            reference_unit='title-screen-setup-thread')
+        inspect.assert_called_once_with([
+            'scripts/inspect-title-replay-menu-draw.py',
+            'build/matching/TitleScreenReplayMenuDraw.obj', '--json'])
+        self.assertEqual(report['title_draw_replay_menu']['overlap_differences'], 1187)
+        corrupted = current()
+        corrupted['difference_offsets'] = [0] + corrupted['difference_offsets'][1:]
+        with patch.object(frontier, 'build_nonexact'), patch.object(
+                frontier, 'parsed', return_value=corrupted), self.assertRaises(RuntimeError):
+            frontier.run_title_replay_menu()
 
     def test_narrower_valid_or_exact_bound_source_never_claims_acceptance(self):
         report = current()

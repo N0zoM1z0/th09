@@ -1313,6 +1313,38 @@ def run_front_random(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     }},exact
 
 
+RECEIVED_FRAME_TARGET_SHA256 = (
+    'c7d33d3a0ca15df698c2c66916c24aa0b0b7527e769c08bbd1d0ed88ac245c17'
+)
+RECEIVED_FRAME_RESIDUAL_OFFSETS = frozenset((
+    0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23, 0x24,
+    0x25, 0x26, 0x27, 0x28, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E,
+    0x2F, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38,
+    0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0xBC, 0xBD, 0xBE,
+))
+
+
+def guard_received_frames(received: dict) -> None:
+    """Protect all 178 matching bytes of the original received-frame leaf."""
+    noncrediting(received, name='Supervisor received-frame insertion',
+                 target_size=213, fields=0, fields_key='relocation_fields')
+    if (received.get('target_sha256') != RECEIVED_FRAME_TARGET_SHA256 or
+            received.get('candidate_bytes') != 213 or
+            received.get('target_instructions') != 67 or
+            received.get('candidate_instructions') != 67 or
+            received.get('target_calls') != 0 or received.get('candidate_calls') != 0 or
+            received.get('target_blocks') != 9 or received.get('candidate_blocks') != 9 or
+            received.get('complete_direct_graphs_agree') is not True):
+        raise RuntimeError('Supervisor received-frame no-call/67-instruction/9-block gate changed')
+    physical_difference_windows(
+        {**received, 'difference_offsets': received.get('differing_offsets')},
+        count_key='complete_differences', windows=((0, 213, 35),),
+        equality_key='complete_bytes_equal')
+    observed = {int(x, 16) for x in received['differing_offsets']}
+    if not observed.issubset(RECEIVED_FRAME_RESIDUAL_OFFSETS):
+        raise RuntimeError('Supervisor received-frame damaged an already matched original byte')
+
+
 def run_received_frames(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # Network frame insertion has no relocations, but 213/213 equal extent
     # alone is not evidence of code equality. Bind its entire Japanese
@@ -1320,15 +1352,8 @@ def run_received_frames(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     obj = 'build/matching/SupervisorFrameQueueInsert.obj'
     build_nonexact('src/SupervisorFrameQueueInsert.cpp', obj,
                    reference_unit='supervisor-frame-queue-insert-predicted')
-    received = noncrediting(parsed(['scripts/inspect-supervisor-frame-queue.py',
-                                    obj, '--json']),
-                            name='Supervisor received-frame insertion',
-                            target_size=213, fields=0, fields_key='relocation_fields')
-    if (received['target_instructions'] != 67 or received['candidate_instructions'] != 67
-            or received['target_calls'] != 0 or received['candidate_calls'] != 0
-            or received['target_blocks'] != 9 or received['candidate_blocks'] != 9
-            or not received['complete_direct_graphs_agree']):
-        raise RuntimeError('Supervisor received-frame no-call/67-instruction/9-block gate changed')
+    received = parsed(['scripts/inspect-supervisor-frame-queue.py', obj, '--json'])
+    guard_received_frames(received)
     exact = []
     if protect_exact:
         build('supervisor-frame-queue-insert-predicted')
@@ -3441,6 +3466,21 @@ def guard_title_replay_save(result: dict) -> None:
 TITLE_REPLAY_MENU_TARGET_SHA256 = (
     'd0201b3aae3727f7aa773187ac9ac6d21727c86342b657c780cb9353cdc39ed0'
 )
+# Fresh original-linked comparison of the 1,258-byte maintained candidate.
+# The other 1,187 overlapping positions differ, and 22 target bytes are
+# absent. Newly recovered bytes may extend the candidate through 1,280;
+# every one of these 71 already equal physical positions must stay equal.
+TITLE_REPLAY_MENU_MATCHED_OFFSETS = frozenset((
+    0x000, 0x001, 0x002, 0x003, 0x004, 0x005, 0x006, 0x007, 0x008,
+    0x019, 0x020, 0x021, 0x02A, 0x043, 0x081, 0x0A2, 0x0A8,
+    0x0AF, 0x0DB, 0x16C, 0x1A2, 0x1A3, 0x1A5, 0x1A6, 0x1BA,
+    0x22D, 0x236, 0x23B, 0x260, 0x267, 0x268, 0x269, 0x280,
+    0x286, 0x28D, 0x28E, 0x2BD, 0x2BE, 0x2BF, 0x2C1, 0x2C2,
+    0x2C3, 0x2C5, 0x2C7, 0x2C9, 0x2CA, 0x2CD, 0x2CE, 0x2CF,
+    0x2D0, 0x2E1, 0x2F9, 0x311, 0x334, 0x35B, 0x362, 0x37C,
+    0x38D, 0x39D, 0x3C2, 0x3C5, 0x3D0, 0x3D4, 0x3D5, 0x409,
+    0x40C, 0x40F, 0x415, 0x42D, 0x477, 0x492,
+))
 
 
 def guard_title_replay_menu(result: dict) -> None:
@@ -3482,6 +3522,27 @@ def guard_title_replay_menu(result: dict) -> None:
                     (size == 1280 and count == 0)):
         raise RuntimeError(
             'Title DrawReplayMenu 1280-byte/57-field/13-call/72-block frontier drifted')
+    if not TITLE_REPLAY_MENU_MATCHED_OFFSETS.isdisjoint(diffs):
+        raise RuntimeError('Title DrawReplayMenu damaged an already matched original byte')
+
+
+def run_title_replay_menu() -> dict:
+    """Cold-check the separate menu source without rebuilding unrelated TUs."""
+    obj = 'build/matching/TitleScreenReplayMenuDraw.obj'
+    build_nonexact('src/TitleScreenReplayMenuDraw.cpp', obj,
+                   reference_unit='title-screen-setup-thread')
+    menu = parsed(['scripts/inspect-title-replay-menu-draw.py', obj, '--json'])
+    guard_title_replay_menu(menu)
+    return {'title_draw_replay_menu': {
+        'target_bytes': 1280, 'candidate_bytes': menu['candidate_bytes'],
+        'bound_fields': menu['bound_fields'],
+        'ordered_calls': menu['candidate_calls'],
+        'original_blocks': menu['original_blocks'],
+        'candidate_blocks': menu['candidate_blocks'],
+        'direct_graphs_agree': menu['direct_graphs_agree'],
+        'aligned_instructions': menu['aligned_instructions'],
+        'overlap_differences': menu['overlap_differences'],
+        'missing_target_bytes': menu['missing_target_bytes']}}
 
 
 # These two 175-byte non-exact Title leaves are not arbitrary near-matches:
@@ -3635,12 +3696,7 @@ def run_title_open() -> dict:
         'extra_candidate_bytes': options['extra_candidate_bytes'],
         'direct_graphs_agree': options['direct_graphs_agree'],
     }
-    menu_obj = 'build/matching/TitleScreenReplayMenuDraw.obj'
-    build_nonexact('src/TitleScreenReplayMenuDraw.cpp', menu_obj,
-                   reference_unit='title-screen-setup-thread')
-    menu = parsed(['scripts/inspect-title-replay-menu-draw.py', menu_obj,
-                   '--json'])
-    guard_title_replay_menu(menu)
+    menu_report = run_title_replay_menu()
     result_obj = 'build/matching/TitleResultDraw.obj'
     build_nonexact('src/TitleScreenResultDraw.cpp', result_obj,
                    reference_unit='title-screen-setup-thread')
@@ -3654,16 +3710,7 @@ def run_title_open() -> dict:
                                   '--json']), name='Title DrawReplaySave',
                           target_size=800, fields=41)
     guard_title_replay_save(replay)
-    return {**cursor_reports, 'title_draw_replay_menu': {
-                'target_bytes': 1280,
-                'candidate_bytes': menu['candidate_bytes'],
-                'bound_fields': menu['bound_fields'],
-                'ordered_calls': menu['candidate_calls'],
-                'original_blocks': menu['original_blocks'],
-                'candidate_blocks': menu['candidate_blocks'],
-                'direct_graphs_agree': menu['direct_graphs_agree'],
-                'aligned_instructions': menu['aligned_instructions'],
-                'missing_target_bytes': menu['missing_target_bytes']},
+    return {**cursor_reports, **menu_report,
             'title_draw_result': {
                 'target_bytes': 1939, 'candidate_bytes': draw['candidate_bytes'],
                 'ordinary_differences': draw['complete_differences'],
@@ -4272,7 +4319,7 @@ def run_player_type11(*, protect_exact: bool,
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'replaymenu', 'anm', 'network', 'queue', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -4328,7 +4375,7 @@ def main() -> int:
             owners, exact = run_decrypt_table(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
-        if args.owner in ('network', 'all'):
+        if args.owner in ('queue', 'network', 'all'):
             owners, exact = run_received_frames(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
@@ -4406,6 +4453,8 @@ def main() -> int:
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
             report['owners'].update(run_title_open())
+        if args.owner == 'replaymenu':
+            report['owners'].update(run_title_replay_menu())
         if args.owner == 'all':
             report['canonical_siblings'] = unique_canonical_siblings(
                 report['canonical_siblings'])

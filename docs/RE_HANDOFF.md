@@ -17,6 +17,12 @@ The **95%** milestone still needs **32,053** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
+- **Menu/queue physical-byte guards:** original-bound cold comparisons now
+  protect all **71** already equal ReplayMenu positions and **178** received-frame
+  positions, rejecting same-count exchanges that damage old matches. Use
+  **`--owner replaymenu`** for the separate menu TU without the unrelated Title
+  builds. **`--owner queue`** explicitly names the existing network queue scope,
+  retaining the two exact queue members (**310 bytes/one field**).
 - **ReplaySave text construction:** the two-byte single-character temporary
   now restores nine more physical positions: **800 bytes, 245 instructions,
   41 fields, four calls, 28 matching blocks, 96 linked differences**. All **704**
@@ -24,15 +30,13 @@ remain separate open gates.
   and the existing buffer width remain. Original C++ type spelling is unknown.
   Recipes: `.analysis/gpt-61sol-20261019-replay-callee-context/`.
 - **RunEcl call census:** `inspect-ecl-call-inventory.py OBJECT` independently
-  classifies actual COFF call symbols. A partial macro model has **375 calls**
-  but substitutes **nine source-only laser wrappers** for three ResolveInt
-  and six ResolveFloat calls; its call multiset is rejected. A full macro
-  model restores all real calls yet remains **15,540/15,564 bytes** with
-  **947/943 blocks**. Matching counts or multisets never confer exactness.
+  checks real call identities. Matching counts never confer exactness.
 - **Current ECL controls:** current baseline stays **15,564/598/30**, with
-  146/148 paired handler shapes. Operand/procedural macro, native bitfield,
-  typed wire and SDK-biased-movement models add no accepted game-source
-  change. Recipes/results: `.analysis/gpt-61sol-20261019-runecl-macro-ob0/`.
+  146/148 paired handler shapes. Twenty-five full-chain operand construction,
+  Win32 flag-word and real returned-value controls yield no improvement. All
+  seven source fragments are staged before their first declaration include;
+  no source or compiler profile change is adopted. Recipes/results:
+  `.analysis/gpt-61sol-20261019-runecl-operand-construction/`.
 - **New exact camera projection:** `AnmManager::ProjectCameraFacingQuad`
   at **0x00439820** now reproduces **622 bytes, 40 fields, 201 instructions,
   11 calls and eight blocks**. Genuine SDK math types, ordinary vector locals
@@ -74,11 +78,6 @@ remain separate open gates.
   Effect AddedCallback **51/eight**. There are six <=256-byte open functions.
   Type19/21 initializers remain **763/727 exact** and Etama OnUpdate
   **2,216 physical bytes exact**. Keep large and small functions in scope.
-- **Options controls remain nonexact:** placing the exit once inside case 8,
-  the adjacent TH08 pattern, retains the full **2,048/135/51/121** baseline.
-  Input-body, signed-index and relative-command forms lose the original field
-  inventory/order; the Chain result enum is neutral. No Options source change
-  or exact credit is claimed from these experiments.
 - **Evidence routing:** `.analysis/gpt-61sol-20261019-type48-context/` retains
   the joint visibility experiment, complete original comparisons and recipes;
   the companion `...-options-local-flow/` retains rejected whole-owner controls.
@@ -89,14 +88,16 @@ remain separate open gates.
   physical helper `0x004343D0` remains source-ownership unknown.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   `gpt-6.1-sol: ...` commits, followed by the explicitly requested push.
-  The previous successful push verified remote `main` at `05f95f0`. Preserve all dirty
+  The previous successful push verified remote `main` at `26004e5`. Preserve all dirty
   work, never patch the target or commit private inputs, and verify remote state.
   Clean reproducible generated files only after their producers stop.
-- **Final validation:** maintained source-cold ReplaySave reproduces
-  **800/245/41/4/28/96**; **695 CI tests/28 skipped** pass with all **673**
-  public input hashes stable. The stale IDA comment is corrected/read back,
-  with all 800 mapped bytes equal to the target before/after. Removed **121
-  owned reproducible files/2,331,306 bytes**, including **8** source copies.
+- **Final validation:** maintained source-cold ReplayMenu remains
+  **1,258/57/13/70**, with **1,187** unlike overlap bytes and **22** absent bytes;
+  received-frame remains **213/67/0/9/35**. Both exact queue members pass. Eight
+  genuine SDK menu controls and seven queue value/record controls are negative;
+  all 1,280 mapped menu bytes match the original. **701 CI tests/28 skipped**
+  pass with **675 public input hashes stable**. Removed **433 owned reproducible
+  files/9,570,830 bytes**, including **54** source copies, after producers stopped.
 
 
 
@@ -196,7 +197,7 @@ all 34 open functions. For the complete <=256-byte cohort see
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Now uses genuine shared `g_Supervisor.framerateMultiplier5B8 @0x004B36B8` and the four **real `GameManagerResetView::coordinate360/364/368/36C` fields** (original `0x004A80F0..FC`), not fake external playfield globals. The independent **79-byte exact GameManager coordinate initializer** physically writes those fields; 1,900-byte linked movement boss and 66 operand identities stay unchanged, with 129 ordinary differences still open. All 129 genuine current original-bound mismatch offsets are now pinned, protecting the other **1,771** already matching bytes (including both switch tables and after-return alignment); future improvements must not introduce mismatches elsewhere. `--owner movement` protects exact 522-byte caller. |
 | **Front weighted message RNG** | 0x004162D0 | **693 target / 681 candidate**, 15 fields, 6 calls, **569** overlap + 12 missing | Primary-first table selection refined in `09bb2a6`; target/candidate CFG 40/41 blocks. `--owner front` protects exact FrontCalc and siblings. |
 | **TitleScreen::OnUpdateResult** | 0x004266B5 | **485 / 484**, 147/147 instructions, 34 fields, 9 calls; **218** overlap + 1 missing | Pointer-backed character snapshot in `4fe7cb0`; original CL/EAX codegen still differs. Protect all 37 existing exact `TitleScreen.cpp` units, including privately relabeled StartMenu. |
-| **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280 target / 1,258 source bytes**, 376/368 instructions, **57/57 original decoded/COFF operands**, **13/13 ordered calls**, **72/70 CFG blocks** | Complete original-SHA-bound source-cold diagnostics now run via `--owner title`; the candidate is still **22 bytes short and NON-EXACT**. The shared replay record is exact-sized but does not imply the function is exact. |
+| **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280 target / 1,258 source bytes**, 376/368 instructions, **57/57 original decoded/COFF operands**, **13/13 ordered calls**, **72/70 CFG blocks** | Complete original-SHA-bound source-cold diagnostics run via `--owner replaymenu` or `--owner title`. All **71** equal physical positions are now protected against regression; the candidate is still **22 bytes short and NON-EXACT**. The shared replay record is exact-sized but does not imply the function is exact. |
 | **TitleScreen::DrawReplaySave** | 0x004239F6 | **800/800 physical**, 245 instructions, 41 fields, 4 calls, 28/28 matching blocks; **96 linked differences** | Raw replay magic, genuine SDK subtraction/two scales/addition and two-byte character construction restore the full extent and nine more loop-counter/FILD home bytes. All **704** equal positions are SHA-bound and protected; no old matching byte regresses from the 105-residual source. Remaining vector/text homes, replay-pointer and keyboard schedules stay NON-EXACT. No enlarged buffer, extra storage or new target helper claim. |
 | **TitleScreen::DrawResult** | 0x00423D16 | **1,939/1,939**, 82 fields, 16 calls, 92 blocks; **22** differences | All 22 SHA-pinned linked differences are in the entry: 21 at `+0x0E..+0x24`, one at `+0x39` (bank-pointer store vs `currentScreen` prefetch). The entire remaining owner is byte-exact; the strengthened guard now pins **all 22 exact residual positions**, including preserving previously matching `+0x13` and `+0x18` inside the old entry window. `--owner title` protects the original full owner. |
 | **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 / 2,048**, 135 fields, 51 calls, 121 blocks | The 2,048-byte boss now uses genuine `AnmManager`/`AnmLoaded` and `SoundPlayer` receivers for **29 reviewed original-linked fields** rather than private C++ fake managers. Full codegen/call/CFG identity unchanged; 3 extra candidate bytes in input/confirmation menu remain NON-EXACT. Exact same-TU `PlayMenuSound` 34/34 and `--owner title` are required regressions. |
@@ -214,7 +215,7 @@ all 34 open functions. For the complete <=256-byte cohort see
 | **Supervisor::OnUpdate** | 0x00431110 | **844 authored / 996 target physical**, 952 candidate physical | 92 external fields, 27 calls but 44 missing physical bytes; `--owner network`. |
 | **ECL MoveRandomBiased leaf** | 0x00407E30 | **516 / 517**, 28 fields, 14 calls, 24 blocks; 148 overlap + 1 extra | Genuine shared RNG method/global owner symbols now independently original-bound; Y-pointer target `LEA [EAX+4]` versus candidate `MOV EAX` remains unresolved. `--owner runecl`. |
 | **Effect AddedCallback leaf** | 0x0040D1C0 | **51/51**, 4 fields, 2 calls; **8** differences | Uses genuine `AnmManager`/`AnmLoaded*` types. The SHA-pinned full-owner guard permits narrowing only the target-proven `+0x03..0x09,+0x0D` residuals, protecting the other 43 matching bytes and three same-TU exact sibling checks; `--owner effect`. |
-| **Supervisor received-frame leaf** | 0x0042E9E0 | **213/213**, 67 instructions, 9 blocks; **35** differences | Target packed-input/seed 16-bit store register order; `--owner network`. |
+| **Supervisor received-frame leaf** | 0x0042E9E0 | **213/213**, 67 instructions, 9 blocks; **35** differences | Target packed-input/seed 16-bit store register order. All **178** equal physical positions are protected; `--owner queue` (alias of the existing network scope) also checks the two exact queue members. |
 | **Network-config parser leaf** | 0x00432240 | **243/243**, 116 instructions, one strncmp call; **76** differences, 167 equal bytes | Original newline-clear block occurs before token scanning; candidate puts it after. Full original SHA/76-residual-offset guard now protects all 167 matching bytes, one call/field, 33/34 blocks; `--owner parser` protects the exact 679-byte caller. |
 
 
