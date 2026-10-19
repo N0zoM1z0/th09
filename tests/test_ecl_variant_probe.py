@@ -2,8 +2,11 @@
 from pathlib import Path
 import hashlib
 import importlib.util
+import json
 import tempfile
+from types import SimpleNamespace
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('ecl_variant', ROOT/'scripts/probe-ecl-variant.py')
@@ -118,6 +121,66 @@ class EclVariantFirstIncludeTests(unittest.TestCase):
         self.assertIn('/Ob1', p)
         self.assertIn('/Gr', p)
         self.assertIn('/Oy-', p)
+
+    def test_failed_compile_cannot_reuse_a_previous_trial_report(self):
+        with tempfile.TemporaryDirectory() as folder:
+            dst = Path(folder)
+            for name in ('EclManager.obj', 'complete.json', 'replay-diagnostic.json', 'probe-result.json'):
+                (dst/name).write_text('previous trial')
+            with mock.patch.object(variant, 'command', side_effect=RuntimeError('compile failed')):
+                with self.assertRaisesRegex(RuntimeError, 'compile failed'):
+                    variant.replay(dst)
+            for name in ('EclManager.obj', 'complete.json', 'replay-diagnostic.json', 'probe-result.json'):
+                self.assertFalse((dst/name).exists())
+
+    def test_shifted_fields_remain_rejected_but_keep_audited_handler_evidence(self):
+        complete = dict(
+            diagnostic_only=True, identity_audit_passed=True,
+            physical_bytes=15564, relocations=598,
+            ordinary_different_bytes=1912, field_different_bytes=201,
+            table_different_bytes=25, raw_sha256='a'*64,
+            target_owner_sha256='b'*64,
+            object_source_binding={'status': 'test fixture'})
+        shapes = dict(
+            identity_audit_passed=True, matching_handler_shapes=144,
+            unique_handlers=148, candidate_code_bytes=14791,
+            target_code_bytes=14792,
+            mismatches=[dict(opcode=156, candidate_bytes=51, target_bytes=52)])
+        with tempfile.TemporaryDirectory() as folder:
+            dst = Path(folder)
+
+            def fake_command(args):
+                if args[0].endswith('compile-probe.sh'):
+                    (dst/'EclManager.obj').write_bytes(b'fixture only')
+                    return ''
+                return json.dumps(shapes)
+
+            def fake_audit(*args, **kwargs):
+                (dst/'complete.json').write_text(json.dumps(complete))
+                return SimpleNamespace(returncode=1, stdout='', stderr='')
+
+            with mock.patch.object(variant, 'command', side_effect=fake_command), \
+                    mock.patch.object(variant.subprocess, 'run', side_effect=fake_audit):
+                with self.assertRaisesRegex(ValueError, 'field positions changed: 201 field bytes'):
+                    variant.replay(dst)
+            diagnostic = json.loads((dst/'replay-diagnostic.json').read_text())
+            self.assertFalse(diagnostic['field_positions_agree'])
+            self.assertEqual(diagnostic['matching_handler_shapes'], 144)
+            self.assertEqual(diagnostic['handler_mismatches'], shapes['mismatches'])
+            self.assertEqual(diagnostic['object_source_binding'], complete['object_source_binding'])
+            self.assertEqual(diagnostic['exactness_credit'], 'none')
+
+    def test_replay_checks_all_output_symlinks_before_discarding_old_object(self):
+        with tempfile.TemporaryDirectory() as folder:
+            dst = Path(folder)
+            obj = dst/'EclManager.obj'
+            obj.write_bytes(b'previous object')
+            (dst/'replay-diagnostic.json').symlink_to(ROOT/'src/EclManager.cpp')
+            with mock.patch.object(variant, 'command') as compile_command:
+                with self.assertRaisesRegex(ValueError, 'symlink ECL replay output'):
+                    variant.replay(dst)
+                compile_command.assert_not_called()
+            self.assertEqual(obj.read_bytes(), b'previous object')
 
 
 if __name__ == '__main__':

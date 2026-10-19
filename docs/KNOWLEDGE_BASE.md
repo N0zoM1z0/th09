@@ -9659,3 +9659,67 @@ attest historical producer execution.
 - Kept the large **Options** frontier under direct investigation. Its maintained full-owner baseline is **2,048 candidate/2,045 original bytes, 554/551 instructions, 135 fields, 51 calls and 121 matching blocks**. A TH08 source-family lead places one shared exit label inside the final confirmation case; both scoped/unscoped TH09 forms retain the entire baseline. Ten Options trial builds also test the actual eight-byte Input view, ordinary 42-byte input-body visibility before/after, signed help indices, the existing 32-bit Chain result enum, unified input storage with visible body and a relative-command if-chain. The enum/view-only forms are neutral; the others fail the original field inventory or referent order and are not adopted. The visible-input-body final object has **2,046 bytes/134 fields/50 calls**, losing one original SetMenuSelectionSprites call: shorter code is not exact. The first audit selected the unrelated main Title carrier and correctly failed on a missing Options symbol; the ledger then supplied the actual separate Options carrier. That wrapper setup error is not source evidence.
 - Research records contain **six Player trials** (the first two context baselines plus four geometric forms) and **ten Options trials**, separately from maintained-source context/replay builds. Frozen recipes, full original-bound results and the rejected workspaces remain under `.analysis/gpt-61sol-20261019-type48-context/` and `...-options-local-flow/`. Local canonical totals advance **943 to 945 functions**, **228,809 to 229,307 exact authored bytes**, **82.9710% to 83.1515%** of the unchanged **275,770-byte** denominator. **35 functions/46,463 bytes** remain nonexact; 95% still needs **32,675** complete exact authored bytes. The <=256-byte frontier now has **six functions/1,068 bytes**. No new Factory receipt, native product/runtime closure or semantic/port milestone is claimed.
 - Final validation passes **684 CI tests/28 skipped**, target-required tracking, docs, generated progress and staged/unstaged whitespace checks. The **671 final source/tool/test hashes** stay stable through all gates. Two new provenance tests cover deleted-to-untracked source recovery and raw line-ending identity; the focused replay test confirms that positions mode omits unchanged detached math. The unchanged **34-byte Options menu-sound sibling** is independently replayed from its existing fresh source-cold object. After every producer stopped, removed **128 owned generated files/5,186,716 bytes**; about **491 KB** of compact two-directory recipes/results remains. The audited cleanup preserves the original PE, IDA, compiler/SDK and unrelated historical analysis. `packet.json` is source-commit bound after the local commit, not a Factory receipt.
+
+## October 19: RunEcl reference controls distinguish a moved tail from changed handlers (gpt-6.1-sol)
+
+- Recovered clean `fb7e9518086e04a9bfaf5a45ba1e92b2f482fc95` and re-attested
+  the original disk target, direct local IDA metadata and distributed mapped
+  bytes. The maintained source-cold full RunEcl baseline remains **15,564
+  physical bytes, 598 fields, 30 ordinary differences, no field/table byte
+  differences and 146/148 paired handler shapes**. No canonical game source,
+  ABI, compiler profile or exactness ledger changes in this batch.
+- A const-volatile wire-reference XOR helper variant initially appeared to
+  change much of RunEcl: **1,912 ordinary, 201 field and 25 table byte
+  differences**. Independent original-linked field/CFG identity and opcode
+  pairing instead establish **144/148 identical handler shapes**. Opcode 155
+  stays **45/45 bytes** with different registers; opcode 156 becomes **51/52**
+  because `AND EAX,80h` uses the five-byte accumulator encoding in place of
+  six-byte `AND EDX,80h`. Opcode 157 moves from **+0x3111 to +0x3110**;
+  its remaining two normalized instruction differences are local register
+  choices. All later paired handler shapes agree. Code ends one byte earlier,
+  and after-return alignment retains the same full physical extent. Do not
+  infer wholesale downstream data-flow regression from the raw byte count.
+- The 27 bounded RunEcl trials cover four reference-helper forms, four native
+  or generic field forms, two joint 155/156 field forms, eight timer reference
+  forms, six qualified expression/shared-value forms and three whole-jump
+  helpers. None improves the accepted baseline. Timer reference forwarding
+  produces **42/47** ordinary differences with a newly changed opcode 7, or
+  fails complete layout checks. Whole-jump helpers fail the original
+  identity/layout audit; no complete numeric comparison is claimed for them.
+  Generic/native bitfield results are not proof that all other genuine
+  contexts fail. `context` in the control fragment is a macro for the live
+  active-context slot, not a cached local pointer.
+- Six Type19 update controls use the actual current ECL/math carrier: history,
+  magnitude, Extra and Record references, plus two joint forms. Complete
+  comparisons preserve **821 bytes, 35 ordered fields, 11 calls and 30 blocks**;
+  Extra-only remains **44 differences**, while history and magnitude/Record
+  forms produce **50/51**. No variant is adopted. The previous standalone
+  owner-color negatives and the Type4/8 joint-context success neither prove
+  nor disprove this distinct owner's source shape.
+- `probe-ecl-variant.py` now preserves an independently audited
+  `replay-diagnostic.json` before rejecting shifted field/table positions.
+  The CLI still exits **2** for the measured shifted candidate and grants no
+  exact or partial credit. A failed compiler clears stale OBJ and complete,
+  diagnostic and primary result JSON before another trial can read them;
+  all output symlinks are checked before previous outputs are removed.
+  Regression tests cover the stale-success failure, retained shifted-handler
+  evidence and refusal to mutate earlier output through a symlink.
+- Evidence and reproduction scripts are retained under
+  `.analysis/gpt-61sol-20261019-runecl-ref-context/` and
+  `.analysis/gpt-61sol-20261019-type19-joint-references/`. Recover the bound
+  game/config/compiler inputs before replaying these historical recipes;
+  their current-source includes are not a promise of identical future HEAD
+  codegen. Canonical progress remains **945 functions/229,307 authored bytes,
+  83.1515%**, with **35 functions/46,463 bytes** open and **32,675** more
+  complete exact bytes needed for 95%. Native product/runtime and later
+  semantic/port gates remain open.
+- Final full baseline/rejected-candidate CLI replays pass their distinct
+  **0/2** exit expectations. All required tracking, docs, progress, CI and
+  whitespace checks pass with **687 tests/28 skipped** and **671 stable
+  source/tool/test inputs**. Since game source, match configuration and
+  compiler inputs are unchanged, the previous complete 37-function exact
+  cohort is reused without another compiler-profile sweep. After every
+  producer stopped, removed **116 owned generated files/5,535,753 bytes**;
+  full comparisons, source variants, recipes and compact failure evidence
+  remain. This is a local tooling/evidence checkpoint, not an exactness or
+  Factory acceptance increment.

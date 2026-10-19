@@ -17,6 +17,22 @@ The **95%** milestone still needs **32,675** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
+- **RunEcl diagnostic correction:** a current wire-reference candidate has
+  **1,912 ordinary /201 field /25 table byte differences**, yet **144/148**
+  independently paired handler shapes still agree. Handler 156 is **51/52
+  bytes**, moving handler 157 and later fields by one byte. This is a measured
+  local size change with downstream displacement, not evidence that every
+  downstream handler changed. `probe-ecl-variant.py` now saves the audited
+  `replay-diagnostic.json` before strictly rejecting changed field positions;
+  failed compilation clears previous trial reports. Baseline remains
+  **15,564 bytes/598 fields/30 differences/146 matching handlers**.
+- **Bounded current controls:** 27 RunEcl and six Type19 reference/context
+  trials produce no accepted game-source change. Timer forwards retain
+  **42/47** differences or fail the original identity/layout audit; Type19's
+  actual ECL context retains **44** at best, with history/magnitude references
+  worsening to **50/51**. Recipes and complete reports are in
+  `.analysis/gpt-61sol-20261019-runecl-ref-context/` and
+  `...-type19-joint-references/`. Keep these negatives source-scoped.
 - **New exact owners:** Type4/8 position callbacks at **0x00443B10 /0x00447620**
   now reproduce **249 bytes/eight fields each**. `Float3 &offset` aliases the
   single genuine offset object. Both that reference and the real ECL/math
@@ -59,9 +75,11 @@ remain separate open gates.
   `gpt-6.1-sol: ...` commits. Preserve all dirty work, never patch the target
   or commit private inputs, and distinguish local commit from remote push.
   Clean reproducible generated files only after their producers stop.
-- **Final validation:** positions Oracle and **684 CI tests/28 skipped** pass;
-  all required gates pass with 671 stable inputs. Removed **128 generated
-  files/5,186,716 bytes**; compact two-directory evidence remains.
+- **Final validation:** full RunEcl baseline/rejection Oracle and **687 CI
+  tests/28 skipped** pass; all required gates pass with 671 stable inputs.
+  Game source, match configuration and compiler inputs are unchanged, so the
+  previous source-bound 37-function exact cohort is reused. Removed **116
+  generated files/5,535,753 bytes**; compact two-directory evidence remains.
 
 ## Next worker: first three work packages
 

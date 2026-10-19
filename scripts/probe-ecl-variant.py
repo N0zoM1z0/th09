@@ -104,20 +104,28 @@ def command(args: list[str], *, acceptable: tuple[int, ...] = (0,)) -> str:
     return out.stdout
 
 
+def clear_replay_outputs(destination: Path) -> None:
+    outputs = [destination / name for name in (
+        'EclManager.obj', 'complete.json', 'replay-diagnostic.json', 'probe-result.json')]
+    for output in outputs:
+        if output.is_symlink():
+            raise ValueError('refusing stale/symlink ECL replay output')
+    # A failed compiler must not leave an earlier trial's successful report.
+    # Check all destinations before removing any of the previous outputs.
+    for output in outputs:
+        output.unlink(missing_ok=True)
+
+
 def replay(destination: Path) -> dict:
+    clear_replay_outputs(destination)
     obj = destination / 'EclManager.obj'
-    if obj.is_symlink():
-        raise ValueError('refusing stale/symlink compiler object')
-    obj.unlink(missing_ok=True)
+    json_path = destination / 'complete.json'
+    diagnostic_path = destination / 'replay-diagnostic.json'
     command([str(ROOT/'scripts/compile-probe.sh'),
              str(destination/'EclManager.cpp'), str(obj), *pinned_profile()])
     if not obj.is_file():
         raise ValueError('cold ECL object missing')
     # inspect-ecl-complete intentionally exits 1 on any valid nonexact result.
-    json_path = destination / 'complete.json'
-    if json_path.is_symlink():
-        raise ValueError('refusing stale/symlink complete-ECL diagnostic')
-    json_path.unlink(missing_ok=True)
     audit = subprocess.run([sys.executable, str(ROOT/'scripts/inspect-ecl-complete.py'),
                             str(obj), '--output', str(json_path)],
                            cwd=ROOT, capture_output=True, text=True)
@@ -125,17 +133,20 @@ def replay(destination: Path) -> dict:
         raise ValueError('original-bound complete ECL owner rejected altered layout: '
                          + (audit.stdout+audit.stderr)[-700:])
     complete = json.loads(json_path.read_text())
-    if (not complete.get('diagnostic_only') or complete.get('physical_bytes') != 15564 or
-            complete.get('relocations') != 598 or
-            complete.get('field_different_bytes') != 0 or
-            complete.get('table_different_bytes') != 0):
-        raise ValueError('unreviewed RunEcl input identity, physical range or fields')
+    if (not complete.get('diagnostic_only') or
+            complete.get('identity_audit_passed') is not True or
+            complete.get('physical_bytes') != 15564 or
+            complete.get('relocations') != 598):
+        raise ValueError('unreviewed RunEcl input identity or physical range')
+    # A shortened handler moves later fields while leaving many handler shapes
+    # unchanged. Preserve the independently audited shape report even when the
+    # strict field-position comparison below will reject this candidate.
     shapes = json.loads(command([sys.executable,
                                  str(ROOT/'scripts/report-ecl-handler-shapes.py'),
                                  '--json', str(obj)]))
     if shapes.get('identity_audit_passed') is not True:
         raise ValueError('ECL handler identity audit did not pass')
-    return {
+    result = {
         'diagnostic_only': True, 'exactness_credit': 'none',
         'physical_bytes': complete['physical_bytes'],
         'original_field_count': complete['relocations'],
@@ -145,7 +156,24 @@ def replay(destination: Path) -> dict:
         'matching_handler_shapes': shapes['matching_handler_shapes'],
         'unique_handlers': shapes['unique_handlers'],
         'mismatched_handlers': [e['opcode'] for e in shapes['mismatches']],
+        'handler_mismatches': shapes['mismatches'],
+        'candidate_code_bytes': shapes['candidate_code_bytes'],
+        'target_code_bytes': shapes['target_code_bytes'],
+        'raw_sha256': complete['raw_sha256'],
+        'target_owner_sha256': complete['target_owner_sha256'],
+        'object_source_binding': complete['object_source_binding'],
     }
+    result['field_positions_agree'] = (
+        result['field_differences'] == 0 and result['table_differences'] == 0)
+    diagnostic_path.write_text(json.dumps(result, indent=2) + '\n')
+    if not result['field_positions_agree']:
+        raise ValueError(
+            'RunEcl field positions changed: '
+            f"{result['field_differences']} field bytes, "
+            f"{result['table_differences']} table bytes; "
+            f"{result['matching_handler_shapes']}/{result['unique_handlers']} "
+            f'handler shapes agree; diagnostic saved to {diagnostic_path}')
+    return result
 
 
 def main() -> int:
@@ -164,6 +192,7 @@ def main() -> int:
             raise ValueError('probe output must be inside repository .analysis/')
         if args.output.is_symlink():
             raise ValueError('probe output must not be a symlink')
+        clear_replay_outputs(out)
         manifest = stage_variants(out, state=args.state, control=args.control)
         report: dict[str, object] = {
             'diagnostic_only': True, 'exactness_credit': 'none',
