@@ -10278,3 +10278,68 @@ attest historical producer execution.
   sizes and are listed separately. `build/` is absent. Canonical coverage stays
   **950/985 functions, 231,300/278,087 bytes (83.1754%)**, **32,883 bytes** short
   of 95%; whole native-product/runtime and semantic gates remain open.
+
+
+## October 20: cold shake/renderer context falsification (gpt-6.1-sol)
+
+- Recovered clean **`a1182fa6f16c689435506ceb95580a2a4b214032`** and reverified
+  the original Japanese v1.50a disk target, direct local IDA metadata, entry
+  point and distributed mapped bytes. All **690** previous source/config/tool/
+  test inputs stay unchanged (648 raw, 42 checkout EOL normalization); no game
+  source, compiler profile, target bytes, exact ledger or current score changes.
+- Fresh complete **ScreenEffect::CalcShakeEnvelope @0x004227A0** reproduces
+  **336 bytes /132 instructions /20 fields /eight calls /26 blocks /26 linked
+  differences**. Fourteen Timer/RNG definition contexts show that RNG,
+  postincrement and less-than visibility retain this baseline; float-conversion
+  visibility emits **332 bytes /20 fields /213 overlap differences**. The actual
+  **ZunTimer::operator float @0x004014F0** still reproduces its complete **four
+  bytes /zero fields**, raw SHA256
+  **`3d9caa687bfd020f329312b20ca9c531cd40547c4648197c719e25efa84fdab0`**.
+  The change is caller optimization, not a different return ABI or callee body.
+- Independent complete instruction pairing explains the four-byte shortening:
+  original **+0x86** spills the converted endpoint to `[ebp-4]` before the second
+  timer-float call, then **+0x8E** subtracts through memory. With the true float
+  body visible, VC7.1 keeps the endpoint on the x87 stack and emits `FSUBP`.
+  All eight original call identities remain; source receiver/timer register homes
+  still differ. A high raw difference count after this point includes shifted
+  fields/branches and does not establish a wholesale semantic divergence.
+- Seven scalar endpoint/update/scope controls retain **336/26**. The read-only
+  TH095 envelope suggests repeated raw-field expressions as a hypothesis only;
+  six TH09 controls pair left/right sums with declaration-only or real less-than
+  definition context. Declaration-only emits **355/312**, visible less-than
+  **333/289**. They do not reproduce TH09's exact owner. No adjacent-game layout,
+  address, ownership, behavior or exactness claim is promoted. Five initial
+  scaffolding errors (missing header or ambiguous comparison conversion) are
+  corrected before interpreting compiler results; failed attempts earn no evidence
+  of a matching source model.
+- **18 full DrawResult controls** include baseline, actual signed/unsigned field
+  types, mask/rank types, real SDK `D3DXVECTOR3`/`D3DVECTOR`, and character buffers
+  of 2/4/8/12 bytes. The first fourteen all retain **1,939 bytes /82 fields /22
+  differences**; buffer changes give **237/153/111/32** differences and damage
+  already matching frame/stack positions. They are rejected. The current buffer
+  declaration remains; these experiments do not establish unique original capacity.
+- **20 Etama controls** include baseline, per-iteration position pointer/reference
+  scopes, independent cursor initialization/step/count order, real private-helper
+  definition order and actual coordinate-definition visibility. Baseline and both
+  helper-order forms stay **600 bytes /27 fields /268 differences**. Local cursor
+  forms give **594/465**, independent forms **610/538 or 552/484**, with wrong CFGs.
+  Visible coordinate definitions emit **584 bytes /25 fields**, rejected by the
+  original 27-field census. No shortened or reordered candidate replaces maintained
+  source. The target's two cursor roles remain open.
+- New public **`scripts/probe-screen-shake-context.py`** generates eight contexts
+  from actual current definitions, defaulting to one serial, lowered-priority cold
+  compile. `--prepare-only --all` reports source hashes without compiling/deleting
+  outputs. Both baseline and `--variant timer-float` independently reproduce the
+  recorded original-bound diagnostics, and all eight generated source hashes bind
+  to the captured controls. Wrong target identity stops before output mutation;
+  a failed compile clears old object/receipt state; unsupported field identities
+  cannot inherit a previous successful report; zero differences remain noncrediting.
+  Five target-independent tests cover these and changed canonical reference data.
+- CI passes **723 tests /28 skipped**. The three ignored roots
+  `.analysis/gpt-61sol-20261020-{screen-register-context,result-native-types,etama-induction}/`
+  retain immutable-parent recipes, native receipts, comparison details and hashes.
+  Recover the bound game/header/compiler inputs before replaying historical trials.
+  After all producers stopped, cleanup removed **547 reproducible files /14,927,851
+  bytes**, including 68 hash-reproduced source copies; `build/` is absent. Canonical
+  state stays **950/985, 231,300/278,087 bytes (83.1754%)**, still **32,883 bytes**
+  short of 95%; native product/runtime and semantic gates remain open.

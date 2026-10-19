@@ -17,6 +17,16 @@ The **95%** milestone still needs **32,883** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
+- **Shake/Title/Etama controls:** the new
+  `scripts/probe-screen-shake-context.py` cold-builds one selected context by
+  default. Its baseline reproduces **336/20 fields/26 differences**. Actual
+  float-conversion visibility retains the genuine **four-byte exact callee**
+  but removes an x87 spill, shortening the caller to **332**; it is rejected.
+  Title SDK/integer controls retain **1,939/82/22**; smaller text buffers regress.
+  Etama helper order retains **600/27/268**; visible coordinate definitions give
+  **584/25**, while cursor-scope/induction controls change extent/CFG. No game
+  source, profile, exact ledger or score changes. Recipes are in the three
+  `.analysis/gpt-61sol-20261020-{screen-register-context,result-native-types,etama-induction}/` roots.
 - **Type3 VM boundary:** the update now uses the shared `AnmVm` array and five
   real `SetInterrupt` calls at **0x00406790**, removing the private method alias.
   Complete **780 bytes /38 fields /24 calls /15 differences** stay unchanged.
@@ -55,17 +65,17 @@ remain separate open gates.
   remain in `RE_ACCEPTED_RECEIPTS.md` and Git history.
 - **Operator contract:** direct local IDA Pro MCP and Bash; `gpt-6.1-sol: ...`
   commits followed by the requested push. The parent push verified remote `main`
-  at `6869e36`. Preserve dirty work and verify remote state independently. Never
+  at `a1182fa`. Preserve dirty work and verify remote state independently. Never
   patch the target or commit private inputs; clean artifacts after producers stop.
-- **Focused validation:** seven exact functions pass **1,024 bytes /58 fields**;
-  CI passes **718 tests/28 skipped**. **683** public inputs bind unchanged to
-  `6869e36` (641 raw, 42 checkout EOL normalization); seven reviewed inputs change.
-  Every match/profile/origin/source-mapping row is unchanged; only Type3 ledger
-  notes change. Unaffected cohorts reuse the parent proof and fresh ECL baseline.
-  Cleanup removed **441 reproducible files /11,029,986 bytes**, including 69
-  hash-reproduced source copies; seven earlier-cleared COFFs are separately audited.
-  Recipes/hashes/comparisons remain in the two current analysis roots;
-  Type3 evidence is under `.analysis/gpt-61sol-20261020-type3-native-vm/`.
+- **Focused validation:** the public baseline and float-context command both
+  reproduce complete original-bound diagnostics; the actual four-byte Timer
+  callee is independently byte exact. CI passes **723 tests/28 skipped**, including
+  wrong-target/stale-object/stale-receipt/field-identity/profile rejection cases.
+  All **690** pre-existing public inputs bind unchanged to `a1182fa` (648 raw,
+  42 checkout EOL normalization); two new public probe/test files join. Unchanged
+  game-source cohorts reuse their parent proofs. After all producers stopped,
+  cleanup removed **547 reproducible files /14,927,851 bytes**, including 68
+  hash-reproduced C++ copies. Recipes, diagnostics and source hashes remain;
   `build/` is absent. Exact credit stays **950/985, 83.1754%**.
 
 ## Next worker: first three work packages
@@ -187,7 +197,7 @@ all 35 open functions. For the complete <=256-byte cohort see
 | **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **911 differing bytes** (down from 921) | Real `setupMode==0` non-mode-2 early exit recovers ten original-linked bytes and raises field identity alignment 155→157. The remaining 172-original / 171-source field gap is now independently decoded by **referent and multiplicity**: original-only `g_GameManager+0x00` (3), `+0x34` (1), `+0xA4` (1); candidate-only `+0x28` (1), `+0x98` (1), `+0xB4` (2). The target's side-registration loop anchors ESI to `side.flags (+0x34)` while VC7.1 prefers `side.selector (+0x28)`; 28 source-cold cursor/alias models were neutral or regressed. Still NON-EXACT; full 911-residual-byte and original/COFF-referent guards plus ten exact siblings run via `--owner gamemgr`. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | **862 / 849**, 26 fields, 12 calls; **804** overlap + 13 missing | Three return exits, gameplay/state collision branches; `--owner player` protects seven exact helpers. |
 | **Replay BeginPlaybackStage** | 0x00420840 | **540 / 538**, 152/151 instructions, **32/32 ordered original PE/COFF fields**, 5 calls, 12/12 matching CFG blocks; **39** overlapping unlike bytes + 2 missing (49→39) | Scoped volatile read of `g_ReplaySideState0` after header 1E7 publication restores all 32 original field referents in the correct order and all **first 30 physical field positions**, instead of the previous one reversed field pair. Nine register-scheduling residual positions `+0x152,+0x156,+0x15C,+0x162,+0x168,+0x16C,+0x172,+0x178,+0x17A` and 30 seed/tail bytes `+0x1FB..+0x1FE,+0x200..+0x219` remain guarded. All **499 already matching** candidate bytes are protected; tail fields are still shifted -1/-2 bytes. `--owner replay` source-cold replays all **12 exact members across both pinned compiler profiles**; still NON-EXACT. |
-| **ScreenEffect shake envelope** | 0x004227A0 | **336/336**, 132 instructions, 20 fields, 8 calls, 26 blocks; **26** differences (28→26) | Authentic VC7.1 order of two real volatile references (fade, then hold; same hold + fade value) recovers original physical **+0x5C and +0x5F** with no regressed byte. Full original-SHA/26-offset guard protects **all 310 already matching bytes**; all **18 ScreenEffect exact owners** (2,562 bytes) pass across the genuine three profiles. Remaining EDI/ESI owner allocation is NON-EXACT. |
+| **ScreenEffect shake envelope** | 0x004227A0 | **336/336**, 132 instructions, 20 fields, 8 calls, 26 blocks; **26** differences (28→26) | Authentic VC7.1 order of two real volatile references (fade, then hold; same hold + fade value) recovers original physical **+0x5C and +0x5F** with no regressed byte. `probe-screen-shake-context.py --variant timer-float` reproduces the measured 332-byte rejection: the actual four-byte conversion body stays exact, but the caller retains an x87 value across that call instead of spilling it. Full original-SHA/26-offset guard protects **all 310 already matching bytes**; the unchanged **18 ScreenEffect exact owners** (2,562 bytes across three profiles) reuse their source-bound proof. Remaining EDI/ESI owner allocation is NON-EXACT. |
 | **Controller input** | 0x0042B410 | **808 / 796**, 32 fields; **102** overlap differences /12 missing bytes | First **674 complete instruction bytes** match. WinMM axis midpoint/range CSE and register chronology remain open; split helpers, POD bounds, SDK value/reference types and loop controls have not closed the owner. Use `scripts/inspect-controller-input.py`. |
 | **Supervisor network service** | 0x00430AA0 | **1,633 / 1,632**, 108 source fields | Real queue ownership and 1,395 overlap differences still open; `--owner network`. |
 | **Supervisor::OnUpdate** | 0x00431110 | **844 authored / 996 target physical**, 952 candidate physical | 92 external fields, 27 calls but 44 missing physical bytes; `--owner network`. |
