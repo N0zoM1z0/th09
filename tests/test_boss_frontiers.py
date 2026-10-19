@@ -1240,15 +1240,15 @@ class BossFrontierChecks(TestCase):
                 frontiers, 'canonical', side_effect=lambda unit: checked.append(unit) or {'unit': unit}):
             owners, exact = frontiers.run_title(protect_exact=True)
         self.assertEqual(owners, {})
-        self.assertEqual(len(exact), 43)
-        self.assertEqual(len(set(checked)), 43)
+        self.assertEqual(len(exact), 46)
+        self.assertEqual(len(set(checked)), 46)
         self.assertIn('title-screen-setup-thread', checked)
         self.assertIn('score-record-insert', checked)
         self.assertEqual([row['unit'] for row in exact][-3:],
-                         ['title-draw-callback',
-                          'soundplayer-play-sound-by-idx',
-                          'soundplayer-queue-command'])
-        self.assertEqual(build.call_count, 6)
+                         ['anm-manager-draw-text-left',
+                          'anm-manager-load-surface',
+                          'anm-manager-set-interrupt-array'])
+        self.assertEqual(build.call_count, 9)
         self.assertEqual(checked, [row['unit'] for row in exact])
 
     def test_target_independent_title_probe_does_not_invent_receipts(self):

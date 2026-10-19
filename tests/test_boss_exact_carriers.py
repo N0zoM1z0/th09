@@ -502,12 +502,12 @@ class ExactCarrierDiscovery(unittest.TestCase):
                 frontier, 'canonical', side_effect=lambda unit: {'unit': unit}):
             owners, exact = frontier.run_title(protect_exact=True)
             self.assertEqual(owners, {})
-            self.assertEqual(len(exact), 43)
-            self.assertEqual(len({r['unit'] for r in exact}), 43)
-            self.assertEqual(build.call_count, 6)
+            self.assertEqual(len(exact), 46)
+            self.assertEqual(len({r['unit'] for r in exact}), 46)
+            self.assertEqual(build.call_count, 9)
             self.assertEqual([r['unit'] for r in exact[-3:]], [
-                'title-draw-callback', 'soundplayer-play-sound-by-idx',
-                'soundplayer-queue-command'])
+                'anm-manager-draw-text-left', 'anm-manager-load-surface',
+                'anm-manager-set-interrupt-array'])
         # In --owner all RunEcl has already rechecked PlaySoundByIdx.
         # Only QueueCommand is a newly distinct Title-side exact regression.
         with patch.object(frontier, 'build') as build, patch.object(
@@ -515,12 +515,12 @@ class ExactCarrierDiscovery(unittest.TestCase):
             owners, exact = frontier.run_title(protect_exact=True,
                                                play_sound_prechecked=True)
             self.assertEqual(owners, {})
-            self.assertEqual(len(exact), 42)
-            self.assertEqual(len({r['unit'] for r in exact}), 42)
-            self.assertEqual(build.call_count, 5)
+            self.assertEqual(len(exact), 45)
+            self.assertEqual(len({r['unit'] for r in exact}), 45)
+            self.assertEqual(build.call_count, 8)
             self.assertNotIn('soundplayer-play-sound-by-idx',
                              [r['unit'] for r in exact])
-            self.assertEqual(exact[-1]['unit'], 'soundplayer-queue-command')
+            self.assertEqual(exact[-1]['unit'], 'anm-manager-set-interrupt-array')
         with patch.object(frontier, 'build') as build:
             owners, exact = frontier.run_title(protect_exact=False)
             self.assertEqual((owners, exact), ({}, []))

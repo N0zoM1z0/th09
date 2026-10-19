@@ -35,16 +35,16 @@ belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
   its source now directly calls the real **41/41 exact** `AnmLoaded`
   method at original `0x403E00` rather than a fake class alias. Effect
   `AddedCallback` still nonexact (51-byte original, **8 unlike bytes**).
-- **October 19 Title leaf protection:** Original-PE/COFF-cold Reverse/Inactive
-  character cursor owners are each 175 bytes / 55 instructions / 2 bound
-  calls, with **38 differing bytes** and **137 already equal bytes**.
-  `--owner title` now pins the exact 38 permissible residual positions and
-  both independent original SHA identities, rejecting any damage to the 137
-  formerly equal bytes. The original five-block vs candidate four-block loop
-  schedule remains open. 60 cold syntactic/helper source-only Title trials
-  were rejected or byte-neutral; their reproducers are under `.analysis/`,
-  not tracked game source. Guard and malicious-evidence tests are documented
-  in `KNOWLEDGE_BASE.md`; no exact count change.
+- **Title MusicRoom authentic ANM/Supervisor ABI:** The entire existing
+  MusicRoom **2,258/2,258 exact** update (74 fields) and **209/209 exact**
+  draw (six fields) now call true ANM/Supervisor members. All **29** changed
+  C++ linker identities preserve independently attested original VAs;
+  DrawTextLeft (139), LoadSurface (486), SetInterruptArray (72) are exact
+  separately source-cold replayed native methods. Main TitleSetup remains
+  534 exact. `--owner title` protects **46 exact sibling originals**.
+- **Open Title cursor:** Reverse/Inactive each have 175 physical bytes,
+  38 unlike bytes and 137 already equal; five original/four compiled blocks.
+  Strict guards forbid damage to those 137 bytes; see `KNOWLEDGE_BASE.md`.
 - **RunEcl true math linkage:** Its eight original calls and 12 same-TU
   exact ECL/ExAttack referents now use genuine 111-byte `AddNormalizeAngle`
   at `0x42AED0` (not invented namespace stdcall); 24 ECL exact owners

@@ -3624,11 +3624,125 @@ def replay_title_real_sound_exact(*, play_sound_prechecked: bool) -> list[dict]:
     return exact
 
 
+# Two complete already-exact MusicRoom functions (2258/209 bytes, 74/6
+# fields) must call native AnmManager/AnmLoaded/Supervisor methods rather
+# than fabricated TitleAnmManagerView/TitleAnmLoadedView/free-cdecl names.
+# The pointer g_TitleMusicDescriptionAnm is physically the original
+# 0x004B36CC, now typed as the native AnmLoaded class. Numeric destinations
+# alone do not establish C++ linker identity; keep EVERY changed PE field
+# offset, kind, call order and native decorated symbol.
+TITLE_MUSIC_NATIVE_SYMBOLS = {
+    'G': ('?g_AnmManager@@3PAVAnmManager@@A','DIR32',0x004DC550),
+    'T': ('?DrawTextLeft@AnmManager@@QAAXPAUAnmVm@@KKPBDZZ','REL32',0x0043BDC0),
+    'S': ('?g_Supervisor@@3VSupervisor@@A','DIR32',0x004B3100),
+    'F': ('?FadeOutMusic@Supervisor@@QAEHM@Z','REL32',0x0042FE20),
+    'P': ('?PlayAudio@Supervisor@@QAEHPADH@Z','REL32',0x00431A30),
+    'D': ('?g_TitleMusicDescriptionAnm@@3PAVAnmLoaded@@A','DIR32',0x004B36CC),
+    'I': ('?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z','REL32',0x00403E00),
+    'L': ('?LoadSurface@AnmManager@@QAEHHPBD@Z','REL32',0x0043CAE0),
+    'Z': ('?SetInterruptArray@AnmManager@@QAEXPAUAnmVm@@HF@Z','REL32',0x00436DE0),
+    'A': ('?ExecuteScriptArray@AnmManager@@QAEXPAUAnmVm@@H@Z','REL32',0x00439560),
+    'E': ('?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z','REL32',0x00436F30),
+    'R': ('?DrawNoRotation@AnmManager@@QAEHPAUAnmVm@@@Z','REL32',0x0043A950),
+}
+TITLE_MUSIC_NATIVE_ORIGINAL_SITES = {
+    'title-screen-music-room': (
+        (0x216,'G'), (0x21B,'T'), (0x348,'S'), (0x350,'F'),
+        (0x3D0,'S'), (0x3D5,'P'), (0x41B,'S'), (0x422,'P'),
+        (0x436,'D'), (0x440,'I'), (0x48C,'G'), (0x497,'L'),
+        (0x4A8,'G'), (0x4BD,'Z'), (0x4C5,'G'), (0x4D0,'A'),
+        (0x696,'I'), (0x6C1,'G'), (0x6C6,'T'), (0x701,'G'),
+        (0x70A,'T'), (0x865,'D'), (0x871,'I'), (0x8A8,'G'),
+        (0x8AE,'E')),
+    'title-screen-draw-music-room': (
+        (0x07C,'G'), (0x081,'R'), (0x0B6,'G'), (0x0BC,'R')),
+}
+TITLE_MUSIC_NATIVE_BOUNDS = {
+    'title-screen-music-room': (0x00426E05,2258,74),
+    'title-screen-draw-music-room': (0x004244A9,209,6),
+}
+TITLE_MUSIC_REAL_INDEPENDENT_CALLEES = {
+    'anm-manager-draw-text-left': (
+        '?DrawTextLeft@AnmManager@@QAAXPAUAnmVm@@KKPBDZZ',0x0043BDC0,
+        'src/AnmManagerUtility.cpp',139),
+    'anm-manager-load-surface': (
+        '?LoadSurface@AnmManager@@QAEHHPBD@Z',0x0043CAE0,
+        'src/AnmManagerLoad.cpp',486),
+    'anm-manager-set-interrupt-array': (
+        '?SetInterruptArray@AnmManager@@QAEXPAUAnmVm@@HF@Z',0x00436DE0,
+        'src/AnmManagerRuntime.cpp',72),
+}
+
+
+def validate_title_music_native_abi(units: dict) -> None:
+    """Protect original large MusicRoom source and 29 actual native call fields."""
+    source=(ROOT/'src/TitleScreenMusicRoom.cpp').read_text()
+    inspector=(ROOT/'scripts/inspect-title-music-room.py').read_text()
+    if (source.count('#include "AnmManager.hpp"')!=1 or
+            source.count('#include "Supervisor.hpp"')!=1 or
+            'TitleAnmManagerView' in source or
+            'TitleAnmLoadedView' in source or
+            'TitleSupervisorView' in source or
+            'DrawTitleMusicText' in source or
+            'g_TitleAnmManager' in source or
+            'g_TitleSupervisor' in source or
+            'extern AnmLoaded *g_TitleMusicDescriptionAnm;' not in source or
+            'AnmLoaded *musicAnm;' not in source or
+            'g_AnmManager->DrawTextLeft(' not in source or
+            'g_Supervisor.PlayAudio(' not in source or
+            'offsetof(TitleScreenView, musicAnm) == 0x11B90' not in source or
+            'DrawTitleMusicText' in inspector or
+            '?DrawTextLeft@AnmManager@@QAAXPAUAnmVm@@KKPBDZZ' not in inspector):
+        raise RuntimeError('MusicRoom exact game source still uses fabricated ANM/Supervisor ABI')
+    profile=('/MT','/EHsc','/Gs','/DNDEBUG','/Zi','/Gy','/GF',
+             '/Gr','/O1','/Ob1','/Oy-','/I','src')
+    for name,(va,size,nfields) in TITLE_MUSIC_NATIVE_BOUNDS.items():
+        unit=units.get(name)
+        if (not isinstance(unit,dict) or
+                unit.get('source')!='src/TitleScreenMusicRoom.cpp' or
+                unit.get('object')!='build/matching/TitleScreenMusicRoom.obj' or
+                unit.get('target_address')!=va or unit.get('size')!=size or
+                unit.get('profile')!=list(profile) or
+                len(unit.get('relocations',[]))!=nfields):
+            raise RuntimeError('MusicRoom original function/profile/full field extent changed: '+name)
+        expected=[(off,*TITLE_MUSIC_NATIVE_SYMBOLS[k],0)
+                  for off,k in TITLE_MUSIC_NATIVE_ORIGINAL_SITES[name]]
+        sites={off for off,k in TITLE_MUSIC_NATIVE_ORIGINAL_SITES[name]}
+        actual=[(f.get('offset'),f.get('symbol'),f.get('type'),f.get('target'),f.get('addend',0))
+                for f in unit['relocations'] if f.get('offset') in sites]
+        if actual!=expected or any('TitleAnm' in f.get('symbol','') or
+                                   'TitleSupervisorView' in f.get('symbol','') or
+                                   'DrawTitleMusicText' in f.get('symbol','')
+                                   for f in unit['relocations']):
+            raise RuntimeError('MusicRoom original 29 method/global field offsets, kinds or C++ symbols changed: '+name)
+    for name,(symbol,va,source_file,size) in TITLE_MUSIC_REAL_INDEPENDENT_CALLEES.items():
+        unit=units.get(name)
+        if (not isinstance(unit,dict) or
+                unit.get('source')!=source_file or
+                unit.get('target_address')!=va or unit.get('symbol')!=symbol or
+                unit.get('size')!=size or
+                unit.get('profile')!=list(_SCREEN_EFFECT_BASE_PROFILE)):
+            raise RuntimeError('MusicRoom native independent original exact ANM method altered: '+name)
+
+
+def replay_title_music_native_callees() -> list[dict]:
+    """Cold check three independently maintained native called source owners."""
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        validate_title_music_native_abi(tomllib.load(stream)['units'])
+    results=[]
+    for name in TITLE_MUSIC_REAL_INDEPENDENT_CALLEES:
+        build(name)
+        results.append(canonical(name))
+    return results
+
+
 def run_title(*, protect_exact: bool, play_sound_prechecked: bool = False) -> tuple[dict, list[dict]]:
     # TitleSetup plus 36 other original-byte exact owners use TitleScreen.obj
     # under the same pinned /O1 profile. ScoreRecord::InsertIntoTable uses an
     # independent /O2 carrier despite sharing TitleScreen.cpp source. Both
     # must be cold-replayed before claiming the open Title bosses stayed safe.
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        validate_title_music_native_abi(tomllib.load(stream)['units'])
     exact_units: list[dict] = []
     if protect_exact:
         exact_units = cold_replay_exact_source(
@@ -3640,6 +3754,7 @@ def run_title(*, protect_exact: bool, play_sound_prechecked: bool = False) -> tu
         exact_units.append(canonical('title-draw-callback'))
         exact_units.extend(replay_title_real_sound_exact(
             play_sound_prechecked=play_sound_prechecked))
+        exact_units.extend(replay_title_music_native_callees())
     # These receipts do not establish exactness for the separately diagnosed
     # DrawResult, ReplayMenu, ReplaySave, or Options owners.
     return {}, exact_units
