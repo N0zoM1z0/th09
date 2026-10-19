@@ -40,7 +40,7 @@ DESTINATIONS = {
     '?g_AnmManager@@3PAVAnmManager@@A': 0x004DC550,
     '?DrawTriangleFan@AnmManager@@QAEHPAUAnmVm@@PAUVertexDiffuseXyzrhw@@H@Z': 0x0043B7B0,
     '?FlushVertexBuffer@AnmManager@@QAEXXZ': 0x004396A0,
-    '?g_Supervisor@@3UExAttackType1422DrawSupervisorView@@A': 0x004B3100,
+    '?g_Supervisor@@3VSupervisor@@A': 0x004B3100,
     '__real@3d4f8c3d': 0x00491604,
     '?ClearVertexShader@AnmManager@@QAEXXZ': 0x0040E380,
     '?ClearSprite@AnmManager@@QAEXXZ': 0x0040E390,
@@ -67,7 +67,7 @@ def bind_candidate(raw: bytes, rows: list[dict]) -> tuple[bytes, list[tuple]]:
         is_code_symbol |= symbol.startswith('??Y') or symbol.startswith('??B')
         if kind != ('REL32' if is_code_symbol else 'DIR32'):
             raise ValueError('ExAttack draw call/data relocation identity altered')
-        if addend != (8 if symbol.startswith('?g_Supervisor@@3UExAttackType1422') else 0):
+        if addend != (8 if symbol == '?g_Supervisor@@3VSupervisor@@A' else 0):
             raise ValueError('unreviewed ExAttack draw field addend')
         covered = set(range(offset, offset + 4))
         if offset < 0 or offset + 4 > len(linked) or used.intersection(covered):

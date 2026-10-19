@@ -3,6 +3,8 @@
 #include "AsciiManager.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackType1422ExtraView.hpp"
+#include "Supervisor.hpp"
+#include "RuntimeAngleMath.hpp"
 
 #include <d3d8.h>
 #include <stddef.h>
@@ -20,8 +22,15 @@ struct ExAttackType1422DrawSupervisorView
     IDirect3DDevice8 *d3dDevice08;
 };
 
-extern ExAttackType1422DrawSupervisorView g_Supervisor;
-float AddNormalizeAngle(float angle, float delta);
+// Device access projects +8 of the genuine Supervisor object.
+typedef char ExAttackDrawDeviceAt08[
+    (offsetof(ExAttackType1422DrawSupervisorView, d3dDevice08) == 8) ? 1 : -1];
+
+static __inline IDirect3DDevice8 *ExAttackDrawDevice()
+{
+    return reinterpret_cast<ExAttackType1422DrawSupervisorView *>(
+        &g_Supervisor)->d3dDevice08;
+}
 
 int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)
 {
@@ -96,16 +105,16 @@ int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)
             33);
         g_AnmManager->FlushVertexBuffer();
 
-        g_Supervisor.d3dDevice08->SetTextureStageState(
+        ExAttackDrawDevice()->SetTextureStageState(
             0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-        g_Supervisor.d3dDevice08->SetTextureStageState(
+        ExAttackDrawDevice()->SetTextureStageState(
             0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-        g_Supervisor.d3dDevice08->SetTextureStageState(
+        ExAttackDrawDevice()->SetTextureStageState(
             0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-        g_Supervisor.d3dDevice08->SetTextureStageState(
+        ExAttackDrawDevice()->SetTextureStageState(
             0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-        g_Supervisor.d3dDevice08->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-        g_Supervisor.d3dDevice08->SetRenderState(
+        ExAttackDrawDevice()->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+        ExAttackDrawDevice()->SetRenderState(
             D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
         unsigned long lineColor =
@@ -146,9 +155,9 @@ int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)
             }
             while (--lineRemaining != 0);
 
-            g_Supervisor.d3dDevice08->SetVertexShader(
+            ExAttackDrawDevice()->SetVertexShader(
                 D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
-            g_Supervisor.d3dDevice08->DrawPrimitiveUP(
+            ExAttackDrawDevice()->DrawPrimitiveUP(
                 D3DPT_LINESTRIP,
                 31,
                 *group,
@@ -171,13 +180,13 @@ int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)
         g_AnmManager->ClearBlendMode();
         g_AnmManager->ClearZWrite();
 
-        g_Supervisor.d3dDevice08->SetTextureStageState(
+        ExAttackDrawDevice()->SetTextureStageState(
             0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-        g_Supervisor.d3dDevice08->SetTextureStageState(
+        ExAttackDrawDevice()->SetTextureStageState(
             0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-        g_Supervisor.d3dDevice08->SetTextureStageState(
+        ExAttackDrawDevice()->SetTextureStageState(
             0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-        g_Supervisor.d3dDevice08->SetTextureStageState(
+        ExAttackDrawDevice()->SetTextureStageState(
             0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
     }
 

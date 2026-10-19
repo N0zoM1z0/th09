@@ -17,6 +17,11 @@ The **95%** milestone still needs **32,053** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
+- **Type14/22 draw native object:** twelve device fields now bind the actual
+  **`Supervisor g_Supervisor + 8`**, through a bounded projection and shared
+  angle-runtime declaration. The complete **974/53/20 direct/12 indirect**
+  candidate is byte-neutral and remains **905 differences +15 excess bytes**.
+  Recipes: `.analysis/gpt-61sol-20261019-exattack1422-supervisor/`.
 - **Menu/queue physical-byte guards:** original-bound cold comparisons now
   protect all **71** already equal ReplayMenu positions and **178** received-frame
   positions, rejecting same-count exchanges that damage old matches. Use
@@ -69,9 +74,6 @@ remain separate open gates.
   The separate four-function Float3 source is unchanged from `c5f2c31` and
   its source-bound evidence is reused. `--owner type11` additionally rebuilds
   that separate source when the broader math scope is wanted.
-- **Private labels:** actual COFF owner offsets and original encoded operands
-  independently preserve movement **+0x139 →0x00408548** and operand comparison
-  **+0x14 →0x00407A4C**. Only their compiler-private spellings changed.
 - **Other verified open work:** RunEcl **15,564/598/30 differences**;
   Enemy **3,900/97/29**; Type19 update **821/35/44**; Title DrawResult
   **1,939/22**; Etama OnDraw **600/268**; Player initialization **572/22**;
@@ -88,16 +90,16 @@ remain separate open gates.
   physical helper `0x004343D0` remains source-ownership unknown.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   `gpt-6.1-sol: ...` commits, followed by the explicitly requested push.
-  The previous successful push verified remote `main` at `26004e5`. Preserve all dirty
+  The previous successful push verified remote `main` at `983a609`. Preserve all dirty
   work, never patch the target or commit private inputs, and verify remote state.
   Clean reproducible generated files only after their producers stop.
-- **Final validation:** maintained source-cold ReplayMenu remains
-  **1,258/57/13/70**, with **1,187** unlike overlap bytes and **22** absent bytes;
-  received-frame remains **213/67/0/9/35**. Both exact queue members pass. Eight
-  genuine SDK menu controls and seven queue value/record controls are negative;
-  all 1,280 mapped menu bytes match the original. **701 CI tests/28 skipped**
-  pass with **675 public input hashes stable**. Removed **433 owned reproducible
-  files/9,570,830 bytes**, including **54** source copies, after producers stopped.
+- **Final validation:** maintained Type14/22 draw cold-reproduces
+  **974 bytes/53 fields/905 differences**, with four complete exact related
+  owners (**1,614 physical bytes/110 fields**). All 959 mapped draw bytes
+  match the original. **702 CI tests/28 skipped** pass with **675 public input
+  hashes stable**. Removed **404 owned reproducible files/8,842,962 bytes**,
+  including **20** source copies, after producers stopped. Unchanged ECL,
+  Type3, parser and Title sources retain their previous source-bound proofs.
 
 
 
@@ -205,7 +207,7 @@ all 34 open functions. For the complete <=256-byte cohort see
 | **GameManager CleanupGameplayState** | 0x0041B5C6 | **425 / 410**, 43 / 42 fields, 12 calls, **210** overlap; 24/24 blocks | **Recovered two real limitB4 memory writes** with first store before signed lower-bound `JGE` and conditional second store of 1. Previous 406/41 candidate only stored once and had 25 blocks. Still 15 bytes short and NON-EXACT; `--owner gamemgr` checks original/source publication traces and ten exact siblings. |
 | **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15** differences | Source now places middle-Z assignment after the middle-Y call; VC7.1 still hoists the tail-X load before the store (non-exact). The old 14-difference candidate wrongly wrote Z before the Y call. Strict chronology/offset guard; `--owner type3`. |
 | **ExAttack Type19 update** | 0x0044A330 | **821/821**, 35 fields, 11 calls, 30 blocks; **44** differences (198→190→44) | ECL's genuine ordinary Float3 callee visibility and the retained native GameManager Player slot recover 146 more bytes, with all fields in original order and no newly differing byte. All 777 matching bytes are protected. Remaining Record/Extra and magnitude-cursor register roles stay open; `--owner type19` protects both shared ECL compiler profiles and the separate draw. |
-| **ExAttack Type14/22 draw** | 0x00444130 | **959 / 974**, 53 full PE/COFF fields, 20 direct + 12 indirect calls, 9 jumps, 905 overlapping differences and 15 extra source bytes | SHA-bound `--owner exattack` **now cold-replays this real owner**, individually binds all 53 fields and both call kinds, and prevents any new mismatch in its 54 already matching original bytes; three additional exact Type14/22 initializer/update controls. Remaining draw register/loop schedule stays NON-EXACT. |
+| **ExAttack Type14/22 draw** | 0x00444130 | **959 / 974**, 53 full PE/COFF fields, 20 direct + 12 indirect calls, 9 jumps, 905 overlapping differences and 15 extra source bytes | Twelve device fields use the genuine `Supervisor g_Supervisor +8`; the old fictitious global type is rejected. Original-bound bytes, fields and calls remain unchanged. `--owner exattack` protects all 54 equal original positions and the three exact Type14/22 initializer/update controls. Remaining draw register/loop schedule stays NON-EXACT. |
 | **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **911 differing bytes** (down from 921) | Real `setupMode==0` non-mode-2 early exit recovers ten original-linked bytes and raises field identity alignment 155→157. The remaining 172-original / 171-source field gap is now independently decoded by **referent and multiplicity**: original-only `g_GameManager+0x00` (3), `+0x34` (1), `+0xA4` (1); candidate-only `+0x28` (1), `+0x98` (1), `+0xB4` (2). The target's side-registration loop anchors ESI to `side.flags (+0x34)` while VC7.1 prefers `side.selector (+0x28)`; 28 source-cold cursor/alias models were neutral or regressed. Still NON-EXACT; full 911-residual-byte and original/COFF-referent guards plus ten exact siblings run via `--owner gamemgr`. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | **862 / 849**, 26 fields, 12 calls; **804** overlap + 13 missing | Three return exits, gameplay/state collision branches; `--owner player` protects seven exact helpers. |
 | **Replay BeginPlaybackStage** | 0x00420840 | **540 / 538**, 152/151 instructions, **32/32 ordered original PE/COFF fields**, 5 calls, 12/12 matching CFG blocks; **39** overlapping unlike bytes + 2 missing (49→39) | Scoped volatile read of `g_ReplaySideState0` after header 1E7 publication restores all 32 original field referents in the correct order and all **first 30 physical field positions**, instead of the previous one reversed field pair. Nine register-scheduling residual positions `+0x152,+0x156,+0x15C,+0x162,+0x168,+0x16C,+0x172,+0x178,+0x17A` and 30 seed/tail bytes `+0x1FB..+0x1FE,+0x200..+0x219` remain guarded. All **499 already matching** candidate bytes are protected; tail fields are still shifted -1/-2 bytes. `--owner replay` source-cold replays all **12 exact members across both pinned compiler profiles**; still NON-EXACT. |

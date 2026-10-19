@@ -10073,3 +10073,54 @@ attest historical producer execution.
   producers stopped, removed **433 files/9,570,830 bytes**, including **54**
   reproducible source copies. Recipes, reports and the mapped-byte witness
   remain in the three packets; original inputs and unrelated work are preserved.
+
+## October 19: Type14/22 draw uses the native Supervisor object
+
+- Recovered clean `983a609`, reverified the original Japanese v1.50a disk
+  target and direct local IDA entry/distributed mappings, then matched all
+  **959 mapped draw bytes** to original SHA-256
+  `af3c06ea2c9f68861067f5feb784206035dd67ea3eb07ef3994ed4ec17df74f4`.
+- `ExAttackDrawCallbackType14_22 @0x00444130` formerly declared a fictitious
+  `ExAttackType1422DrawSupervisorView g_Supervisor`. It now uses the existing
+  **`Supervisor g_Supervisor @0x004B3100`** declaration. A narrow device
+  projection, compile-time offset assertion and ordinary inline accessor read
+  its target-proven **+8** pointer, without extending the shared class layout.
+  `AddNormalizeAngle` uses the common explicit fastcall header; its former
+  unqualified declaration already acquired that ABI under pinned `/Gr`.
+- Whole-TU cold controls for baseline, native projection and native inline
+  accessor emit identical **974 raw bytes**. Exactly **12 of 53 actual COFF
+  records** change only the global's C++ symbol, retaining offset, DIR32 kind
+  and **+8 addend**. The original independently decoded field/call inventory
+  still agrees: **20 direct/12 indirect calls**, nine jumps, **905 unequal
+  overlap bytes and 15 excess source bytes**. The draw remains NON-EXACT.
+  The inspector rejects the old fictitious global and every wrong device
+  addend; no native address is inferred from candidate bytes.
+- Five native/TU controls include genuine Float3 and full ECL definitions.
+  Full ECL emits **972 bytes/900 overlap differences**, but damages old equal
+  physical positions and fails the existing 54-byte protection. It is not
+  adopted merely because two aggregate metrics improve. Recipes and full
+  original-linked witnesses:
+  `.analysis/gpt-61sol-20261019-exattack1422-supervisor/`.
+- Ten Type3 controls test real Float3/SDK position locals and actual Float3/ECL
+  definition visibility. All retain **780/38/15**, with middle-Z still after
+  the tail-X load; no game source is adopted. Five parser controls compare
+  baseline with meaningful borrowed-count/cursor objects: baseline stays
+  **243/76**, count objects emit 240 bytes and cursors 257. No extent-drifting
+  leaf is adopted. Recipes:
+  `.analysis/gpt-61sol-20261019-type3-sdk-context/` and
+  `.analysis/gpt-61sol-20261019-parser-cursor/`. These bounded negatives do not
+  prove that the remaining source shapes are impossible.
+- Final maintained-source cold replay confirms the draw's raw SHA-256 remains
+  `2d53e39a9dc8b6acedb8e1b19ca0090942d8bf5f575632ebcca5ccf566fd08f3`,
+  with only the twelve reviewed symbols changed. Full original-bound exact
+  family controls pass **371/308/824 physical bytes**, plus the real **111-byte**
+  angle leaf: **1,614 physical bytes/110 fields** across four exact functions.
+  No unrelated ECL cohort is rebuilt; its game source/profile is unchanged.
+- Tracking, docs, generated progress, whitespace and CI pass: **702 tests/28
+  skipped**, **675** public input hashes stable. Removed **404 owned files /
+  8,842,962 bytes**, including **20** reproducible source copies, after all owned
+  compiler/CI producers stopped. Recipes, full comparison records and mapped
+  witness remain; original PE, toolchains, database and unrelated analysis are
+  untouched. Canonical progress stays **946/980**, **229,929/275,770 bytes
+  (83.3771%)**. The 95% and native-product/runtime gates remain open; no new
+  Factory receipt is claimed.

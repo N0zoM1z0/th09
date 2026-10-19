@@ -63,12 +63,24 @@ class Type1422DrawBindingTests(unittest.TestCase):
     def test_supervisor_field_addend_is_precise(self):
         rows = self.rows()
         rows[1].update(
-            symbol='?g_Supervisor@@3UExAttackType1422DrawSupervisorView@@A',
+            symbol='?g_Supervisor@@3VSupervisor@@A',
             addend=8,
         )
         linked, fields = INSPECT.bind_candidate(bytes(974), rows)
         self.assertEqual(fields[1][2], 0x004B3108)
         self.assertEqual(struct.unpack_from('<I', linked, 4)[0], 0x004B3108)
+        for addend in (0, 4, 12):
+            rows[1]['addend'] = addend
+            with self.subTest(addend=addend), self.assertRaisesRegex(ValueError, 'addend'):
+                INSPECT.bind_candidate(bytes(974), rows)
+
+    def test_fictitious_supervisor_global_is_not_a_native_object_binding(self):
+        rows = self.rows()
+        rows[1].update(
+            symbol='?g_Supervisor@@3UExAttackType1422DrawSupervisorView@@A',
+            addend=8)
+        with self.assertRaisesRegex(ValueError, 'unreviewed'):
+            INSPECT.bind_candidate(bytes(974), rows)
 
     @unittest.skipUnless(importlib.util.find_spec('capstone') is not None,
                          'CI python -S intentionally has no Capstone decoder')
