@@ -9948,3 +9948,79 @@ attest historical producer execution.
   stopped, removed **136 owned files/2,568,762 bytes**, including **15**
   individually classified reproducible source copies. Compact recipes/receipts
   remain; target, SDK/compiler, IDA and unrelated legacy evidence are untouched.
+
+
+## October 19: two-byte ReplaySave character construction preserves nine more original positions (gpt-6.1-sol)
+
+- Recovered clean pushed `05f95f075cf93a5f49b66cd58b63eb6d7d9f8da0`, verified
+  the original Japanese disk target and direct local IDA metadata/mapped
+  samples. Maintained ReplaySave independently rebuilds **800/245/41/4/28**
+  with **105** complete linked differences; Effect AddedCallback remains
+  **51/19/four fields/two calls/eight differences**. No historical document
+  alone is treated as current source or codegen evidence.
+- Six source-cold visibility controls use the actual AsciiManagerText.cpp or
+  actual `AnmManager::GetAnm` implementation before/after their callers.
+  Exposing the text definitions produces **794 bytes/243 instructions**, all
+  **41** original field identities, **four** ordered calls and the same
+  **28-block** ReplaySave graph. Exposing the getter produces **45 bytes/15
+  instructions/four fields/two original calls** in Effect. The real calls
+  remain, despite the smaller bodies; call counts cannot explain codegen or
+  establish original TU ownership. These contexts are rejected, not adopted.
+- Five original-profile lifetime controls test a real common row counter,
+  common row/column counters, declaration order, and two exact-size character
+  objects. Common counters are byte-neutral. Both meaningful two-byte
+  constructors initialize the real character plus NUL and narrow **105→96**
+  differences, retaining **800 bytes/245 instructions/41 fields/four calls/
+  28 matching blocks**. Aligned instruction count rises **177→184**. The nine
+  recovered physical positions are **+0xCD,+0xD0,+0x1C3,+0x1D3,+0x1E7,
+  +0x2D6,+0x2D9,+0x2E6,+0x2E9**; no previously equal position regresses.
+- Seven glyph-helper controls distinguish this from merely wrapping two
+  writes: pointer/reference output helpers in both argument orders remain
+  **105**; a genuine constructed return value also remains **105**. Direct
+  copy-initialization and a constant terminator retain **96**. Seven further
+  source/reference/default-constructor/vector controls keep **96** except
+  for the default-terminator form (**107**, rejected). Actual native Float3,
+  SDK POD and SDK derived vector local views are neutral in this bounded
+  context. Four supported default-calling-convention/intrinsic/size-profile
+  controls reproduce **96**; no compiler profile changes are retained.
+- The maintained private `ReplayGlyphText` has exactly the existing **two
+  bytes**, a meaningful initializer, and no new target-bound ABI. Its bytes
+  are passed to the genuine text API, with the same special 0x7F/0x80 updates.
+  The class spelling and original source organization remain unknown. No
+  enlarged capacity, inert padding, register directive, dummy object, fake
+  return or fabricated standalone target helper is introduced. This remains
+  a bounded nonexact source correction, not new exact credit.
+- A cold compile of the actual maintained CRLF source reproduces the staged
+  **c8857ae28f6ae7fad82c54689a582a0aced9f62f7ea02de122f86d0d6306315e**
+  raw owner and every actual COFF record. The complete original-owner SHA is
+  still **1d2ba588efb25a86d2e04da91812d3026a78a666effca5cc4738797e8d5b463c**.
+  The focused guard now fixes all **96** remaining offsets and protects every
+  other **704** byte positions. Public tests corrupt each protected position
+  individually and keep false equality, broken inventories and malformed
+  residuals rejected. Canonical match manifests and all other game source
+  remain unchanged; their source-bound exact sibling evidence is reused.
+- Revisited the RunEcl timer lead before scheduling another build. ZunTimer.cpp,
+  ZunTimer.hpp, EclRunControl.inl and EclRunState.inl are identical to the four
+  directly relevant files in the recorded `3b7c564` visibility experiment.
+  The real wrapper-alone **30-difference** and setter-visible opcode-121
+  regression were already measured; no new timer compile or universal
+  negative conclusion is claimed from this review.
+- The IDA entry comment still described the historical **793-byte/divergent
+  graph** source. After both typed-global readers failed on the function,
+  directly read and compared all **800 mapped bytes** to the verified PE,
+  replaced the stale comment with the current explicitly NON-EXACT facts,
+  read it back exactly and rechecked all 800 bytes. Only comment metadata
+  changed. The target hash, bytes, names and types are untouched; the current
+  facts are mirrored here rather than residing only in the working database.
+- Recipes, all 29 trial controls, the focused maintained comparison and IDA
+  readback proof are under `.analysis/gpt-61sol-20261019-replay-callee-context/`.
+  Canonical progress remains **946/980 functions, 229,929/275,770 authored
+  bytes (83.3771%)**. **32,053** additional complete exact bytes are still
+  required for 95%; native product/runtime and later phases remain open.
+- Final focused source replay, target-required tracking, documentation,
+  generated progress, public CI and whitespace checks pass: **695 tests/28
+  skipped**, with all **673** source/tool/test inputs stable through the gates.
+  After all compiler/CI producers stopped, removed **121 owned reproducible
+  files/2,331,306 bytes**, including **8** individually classified source
+  copies. Recipes, compact comparisons and metadata readback remain; original
+  target, SDK/compiler, private database and unrelated analysis are preserved.

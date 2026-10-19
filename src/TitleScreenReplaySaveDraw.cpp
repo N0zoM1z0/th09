@@ -51,6 +51,20 @@ extern AsciiManager g_AsciiManager;
 extern char *g_TitleAlphabet;
 extern char g_ReplayPlayTimeText[];
 
+// One character and its terminator occupy the existing two-byte temporary.
+struct ReplayGlyphText
+{
+    char bytes[2];
+
+    explicit ReplayGlyphText(char character)
+    {
+        bytes[0] = character;
+        bytes[1] = 0;
+    }
+};
+typedef char ReplayGlyphTextSizeIs02[(sizeof(ReplayGlyphText) == 2) ? 1 : -1];
+typedef char ReplayGlyphTextBytesAt0[(offsetof(ReplayGlyphText, bytes) == 0) ? 1 : -1];
+
 int TitleScreenView::DrawReplaySave()
 {
     D3DXVECTOR3 position;
@@ -150,17 +164,17 @@ int TitleScreenView::DrawReplaySave()
                     characterPosition.x = position.x + offsetX;
                     characterPosition.y = position.y + offsetY;
                     characterPosition.z = position.z;
-                    char text[2] = {g_TitleAlphabet[rowBase + column], 0};
+                    ReplayGlyphText text(g_TitleAlphabet[rowBase + column]);
                     if (row == 5)
                     {
                         if (column == 14)
-                            text[0] = 0x7F;
+                            text.bytes[0] = 0x7F;
                         else if (column == 15)
-                            text[0] = (char)0x80;
+                            text.bytes[0] = (char)0x80;
                     }
 
                     g_AsciiManager.AddString(
-                        reinterpret_cast<Float3 *>(&characterPosition), text);
+                        reinterpret_cast<Float3 *>(&characterPosition), text.bytes);
                 }
                 position.y += 16.0f;
             }

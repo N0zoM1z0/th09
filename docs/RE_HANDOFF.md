@@ -17,11 +17,12 @@ The **95%** milestone still needs **32,053** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
-- **ReplaySave full extent recovered:** the genuine SDK pointer-output
-  arithmetic plus raw replay magic now emits **800/800 bytes, 245 instructions,
-  41 original fields, four calls and the same 28-block CFG**. It remains
-  **105 linked bytes nonexact**; the focused guard protects all **695** equal
-  bytes. No new exact credit. Recipes: `.analysis/gpt-61sol-20261019-title-effect-sdk/`.
+- **ReplaySave text construction:** the two-byte single-character temporary
+  now restores nine more physical positions: **800 bytes, 245 instructions,
+  41 fields, four calls, 28 matching blocks, 96 linked differences**. All **704**
+  equal bytes are protected, with no old equal position regressed. SDK math
+  and the existing buffer width remain. Original C++ type spelling is unknown.
+  Recipes: `.analysis/gpt-61sol-20261019-replay-callee-context/`.
 - **RunEcl call census:** `inspect-ecl-call-inventory.py OBJECT` independently
   classifies actual COFF call symbols. A partial macro model has **375 calls**
   but substitutes **nine source-only laser wrappers** for three ResolveInt
@@ -88,14 +89,15 @@ remain separate open gates.
   physical helper `0x004343D0` remains source-ownership unknown.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   `gpt-6.1-sol: ...` commits, followed by the explicitly requested push.
-  Remote `main` was verified at `1b52dce` before this batch. Preserve all dirty
+  The previous successful push verified remote `main` at `05f95f0`. Preserve all dirty
   work, never patch the target or commit private inputs, and verify remote state.
   Clean reproducible generated files only after their producers stop.
-- **Final validation:** the source-cold maintained ReplaySave comparison and
-  residual guard pass with **800/245/41/4/28/105**; **695 CI tests/28 skipped**
-  pass with all **673** public input hashes stable. Removed **136 owned
-  reproducible files/2,568,762 bytes**, including **15** staging source copies.
-  Unchanged exact siblings reuse their source-bound proof.
+- **Final validation:** maintained source-cold ReplaySave reproduces
+  **800/245/41/4/28/96**; **695 CI tests/28 skipped** pass with all **673**
+  public input hashes stable. The stale IDA comment is corrected/read back,
+  with all 800 mapped bytes equal to the target before/after. Removed **121
+  owned reproducible files/2,331,306 bytes**, including **8** source copies.
+
 
 
 
@@ -195,7 +197,7 @@ all 34 open functions. For the complete <=256-byte cohort see
 | **Front weighted message RNG** | 0x004162D0 | **693 target / 681 candidate**, 15 fields, 6 calls, **569** overlap + 12 missing | Primary-first table selection refined in `09bb2a6`; target/candidate CFG 40/41 blocks. `--owner front` protects exact FrontCalc and siblings. |
 | **TitleScreen::OnUpdateResult** | 0x004266B5 | **485 / 484**, 147/147 instructions, 34 fields, 9 calls; **218** overlap + 1 missing | Pointer-backed character snapshot in `4fe7cb0`; original CL/EAX codegen still differs. Protect all 37 existing exact `TitleScreen.cpp` units, including privately relabeled StartMenu. |
 | **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280 target / 1,258 source bytes**, 376/368 instructions, **57/57 original decoded/COFF operands**, **13/13 ordered calls**, **72/70 CFG blocks** | Complete original-SHA-bound source-cold diagnostics now run via `--owner title`; the candidate is still **22 bytes short and NON-EXACT**. The shared replay record is exact-sized but does not imply the function is exact. |
-| **TitleScreen::DrawReplaySave** | 0x004239F6 | **800/800 physical**, 245 instructions, 41 fields, 4 calls, 28/28 matching blocks; **105 linked differences** | Raw replay magic and the genuine SDK subtraction/two scales/addition recover the complete extent. The old 799-byte model actually had 696 overlapping differences plus one missing byte; new code restores 593 positions and changes one old equal position. All **695** currently matching bytes are protected by the SHA-bound full residual guard. Remaining stack homes, replay-pointer and keyboard schedules stay NON-EXACT; no oversized buffer or extra object. |
+| **TitleScreen::DrawReplaySave** | 0x004239F6 | **800/800 physical**, 245 instructions, 41 fields, 4 calls, 28/28 matching blocks; **96 linked differences** | Raw replay magic, genuine SDK subtraction/two scales/addition and two-byte character construction restore the full extent and nine more loop-counter/FILD home bytes. All **704** equal positions are SHA-bound and protected; no old matching byte regresses from the 105-residual source. Remaining vector/text homes, replay-pointer and keyboard schedules stay NON-EXACT. No enlarged buffer, extra storage or new target helper claim. |
 | **TitleScreen::DrawResult** | 0x00423D16 | **1,939/1,939**, 82 fields, 16 calls, 92 blocks; **22** differences | All 22 SHA-pinned linked differences are in the entry: 21 at `+0x0E..+0x24`, one at `+0x39` (bank-pointer store vs `currentScreen` prefetch). The entire remaining owner is byte-exact; the strengthened guard now pins **all 22 exact residual positions**, including preserving previously matching `+0x13` and `+0x18` inside the old entry window. `--owner title` protects the original full owner. |
 | **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 / 2,048**, 135 fields, 51 calls, 121 blocks | The 2,048-byte boss now uses genuine `AnmManager`/`AnmLoaded` and `SoundPlayer` receivers for **29 reviewed original-linked fields** rather than private C++ fake managers. Full codegen/call/CFG identity unchanged; 3 extra candidate bytes in input/confirmation menu remain NON-EXACT. Exact same-TU `PlayMenuSound` 34/34 and `--owner title` are required regressions. |
 | **Title character cursors** | 0x00424EDD / 0x00424FB0 / 0x0042505F | Active target/candidate **211/215**; Reverse/Inactive **175/175** | Active reduced 217→215 in `69165b2`, but none is exact. Loop pre-check and VM register/sprite reload schedules; `--owner title`. |

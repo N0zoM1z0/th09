@@ -26,8 +26,8 @@ def current_report():
         'original_blocks': 28, 'candidate_blocks': 28,
         'direct_graphs_agree': True, 'paired_branch_conflicts': [],
         'unpaired_branch_destinations': 5,
-        'aligned_instructions': 177,
-        'complete_differences': 105,
+        'aligned_instructions': 184,
+        'complete_differences': 96,
         'difference_offsets': [hex(x) for x in sorted(front.TITLE_REPLAY_SAVE_RESIDUAL_OFFSETS)],
         'complete_bytes_equal': False,
     }
@@ -61,7 +61,7 @@ class TitleReplaySaveTargetBoundFrontier(TestCase):
             {'candidate_bytes': 798},
             {'candidate_bytes': 799},
             {'candidate_instructions': 244},
-            {'aligned_instructions': 176},
+            {'aligned_instructions': 183},
             {'paired_branch_conflicts': [['0x1','0x2','0x3']]},
             {'unpaired_branch_destinations': 6},
             {'original_blocks': 27}, {'candidate_blocks': 27},
@@ -72,10 +72,10 @@ class TitleReplaySaveTargetBoundFrontier(TestCase):
             with self.subTest(change=change), self.assertRaises(RuntimeError):
                 front.guard_title_replay_save({**old, **change})
 
-    def test_each_of_the_695_equal_original_bytes_is_protected(self):
+    def test_each_of_the_704_equal_original_bytes_is_protected(self):
         old = current_report()
         baseline = set(front.TITLE_REPLAY_SAVE_RESIDUAL_OFFSETS)
-        self.assertEqual(len(baseline), 105)
+        self.assertEqual(len(baseline), 96)
         for position in sorted(set(range(800)) - baseline):
             differences = sorted((baseline - {min(baseline)}) | {position})
             with self.subTest(position=hex(position)), self.assertRaises(RuntimeError):
