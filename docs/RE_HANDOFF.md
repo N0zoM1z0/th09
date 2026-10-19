@@ -31,14 +31,18 @@ separate **unproven** milestones.
   **48 generated files /3,633,158 bytes** after validation; recipes, source-bound
   local witnesses and per-path cleanup hashes remain below
   `.analysis/gpt-61sol-20261019-exact/`.
-- **Post-checkpoint controls at `98430d2`:** 35 cold RunEcl probes and seven
-  Type3 update probes produce no additional exact owner. Direct native
-  bitfields, shared scalars, returned flag words and timer-member calls do not
-  close RunEcl; vector aggregate initialization does not close Type3. Maintained
-  gameplay inputs remain unchanged. The source-bound packet is
-  `post-trail-probe-packet.json` below the same analysis directory; its scoped
-  cleanup removed another **59 generated files /3,335,148 bytes**. These
-  bounded results do not rule out other source models.
+- **Latest bounded controls, gameplay source `f18e905`:** 28 complete Enemy
+  TU compiles, 14 Title DrawResult compiles and 13 network-parser compiles
+  produce no new exact owner. Enemy remains **29**, DrawResult **22**, and
+  the parser **76** original-linked differences. The Enemy ledger's old
+  current-looking **39**-difference prose is corrected; its earlier ten-byte
+  trail-copy improvement was already established. Four exact same-TU Enemy
+  siblings replay independently; CI passes **659 tests, 28 skipped**. Removed
+  **27 generated files /1,185,919 bytes**, retaining compact recipes and
+  source-bound results in `.analysis/gpt-61sol-20261019-enemy/packet.json`.
+  Prior RunEcl/Type3 controls remain
+  in the knowledge base and `post-trail-probe-packet.json`; these bounded
+  negative results do not rule out other source models.
 - **Most recent Factory-accepted source checkpoint:** `7324b4e` (`gpt-web: restore native ANM
   and Supervisor ABI across MusicRoom callbacks`). It preserves the **2,258
   byte exact** MusicRoom update and **209 byte exact** drawing function while
