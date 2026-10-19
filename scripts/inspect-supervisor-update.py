@@ -21,13 +21,14 @@ CODE_SIZE = 844
 OWNED_SIZE = 996
 SYMBOL = "?OnUpdate@Supervisor@@SIHPAV1@@Z"
 TARGET_SHA256 = "10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822"
+OWNED_SHA256 = "c3ccfdefb056e202f64d3f31a313e200b1494fa49184d0fcd5ea3c6de248327c"
 
 # TH09-local identities reviewed through callback registration, target operands
 # and callee/global evidence. Source aliases and view names remain provisional.
 # In particular, RegisterStateObject is the genuine int/ECX title registrar;
 # RegisterState9Object is Ending registration. Neither is a fabricated helper.
 DESTINATIONS = {
-    "?CheckVersion@SupervisorMethodView@?ANON@@QAEHPADHH@Z": 0x00430150,
+    "?CheckVersion@SupervisorVersionView@@QAEHPBDHH@Z": 0x00430150,
     "?GameManager_CutChain@@YIXXZ": 0x0041A827,
     "?GameManager_RegisterChain@@YIHXZ": 0x0041B9D0,
     "?RegisterState9Object@@YIHXZ": 0x0040F080,
@@ -35,20 +36,18 @@ DESTINATIONS = {
     "?ResetForSupervisorFrame@AnmManager@@QAEXXZ": 0x0042F770,
     "?ResetSession@SupervisorNetworkState@@QAEHXZ": 0x00432F70,
     "?ResetSupervisorServiceChannels@@YIXXZ": 0x0042E9C0,
-    "?ServiceSupervisorResources@AnmManagerSupervisorView@?ANON@@QAEHXZ": 0x0043CDD0,
+    "?ServicePreloadedAnims@AnmManager@@QAEHXZ": 0x0043CDD0,
     "?SupervisorNetworkMarkInactive@@YIXPAX@Z": 0x0042E9B0,
     "?SupervisorServiceUpdate@@YIHPAVSupervisor@@@Z": 0x00430AA0,
     "?SupervisorSubthreadIsRunning@@YIHPAVSupervisor@@@Z": 0x0042ED70,
-    "?UpdateLoadingVms@AnmManagerSupervisorView@?ANON@@QAEXPAXH@Z": 0x00439560,
-    "?UpdateSupervisorFrame@SoundPlayerSupervisorView@?ANON@@QAEXXZ": 0x0042FBE0,
+    "?ExecuteScriptArray@AnmManager@@QAEXPAUAnmVm@@H@Z": 0x00439560,
+    "?UpdateFades@SoundPlayer@@QAEXXZ": 0x0042FBE0,
     "?g_AnmManager@@3PAVAnmManager@@A": 0x004DC550,
     "?g_ScreenEffectCounter@@3HA": 0x004AC884,
-    "?g_SoundPlayerSupervisorView@@3USoundPlayerSupervisorView@?ANON@@A": 0x004DC698,
+    "?g_SoundPlayer@@3VSoundPlayer@@A": 0x004DC698,
     "?g_Supervisor@@3VSupervisor@@A": 0x004B3100,
-    "?g_SupervisorFrameOffsets@@3PAUSupervisorFrameOffset@?ANON@@A": 0x004B3260,
-    "?g_SupervisorLoadingVms@@3PAEA": 0x004B38B0,
+    "?g_SupervisorLoadingVms@@3PAUAnmVm@@A": 0x004B38B0,
     "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A": 0x004B42D0,
-    "?g_SupervisorState794@@3HA": 0x004B3894,
     "?g_VersionString@@3PADA": 0x0048F1C4,
 }
 
@@ -188,6 +187,7 @@ def inspect(path, symbol=SYMBOL):
     image = coff.verified_target()
     require(hashlib.sha256(image).hexdigest() == TARGET_SHA256, "wrong TH09 target")
     target = coff.pe_bytes_at(image, BASE, OWNED_SIZE)
+    require(hashlib.sha256(target).hexdigest() == OWNED_SHA256, "wrong complete Supervisor owner")
     raw, relocations = coff.object_function(Path(path), symbol, include_symbol_locations=True)
     linked, bindings, table_start = bind(raw, relocations)
     md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
@@ -205,13 +205,17 @@ def inspect(path, symbol=SYMBOL):
     target_external = external(wanted["fields"], OWNED_SIZE)
     candidate_external = external(candidate["fields"], len(linked))
     differences = [n for n, (a, b) in enumerate(zip(linked, target)) if a != b]
+    missing = list(range(len(linked), len(target)))
     report = dict(
+        diagnostic_only=True, exactness_credit="none",
         object=str(path), object_sha256=hashlib.sha256(Path(path).read_bytes()).hexdigest(), symbol=symbol,
-        target_sha256=TARGET_SHA256, raw_sha256=hashlib.sha256(raw).hexdigest(),
+        target_sha256=TARGET_SHA256, original_owned_sha256=OWNED_SHA256,
+        raw_sha256=hashlib.sha256(raw).hexdigest(),
         linked_sha256=hashlib.sha256(linked).hexdigest(), target_address=BASE,
         target_authored_bytes=CODE_SIZE, target_owned_bytes=OWNED_SIZE,
         candidate_owned_bytes=len(linked), candidate_pre_table_bytes=table_start,
         complete_equal=linked == target, overlapping_differences=len(differences),
+        original_difference_offsets=differences + missing,
         absent_bytes=max(0, OWNED_SIZE - len(linked)), excess_bytes=max(0, len(linked) - OWNED_SIZE),
         first_difference_offset=differences[0] if differences else None,
         target_fields=len(wanted["fields"]), candidate_fields=len(bindings),

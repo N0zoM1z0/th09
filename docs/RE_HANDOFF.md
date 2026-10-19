@@ -17,6 +17,18 @@ The **95%** milestone still needs **32,883** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
+- **Supervisor native boundaries:** main update now calls the real ANM array,
+  preload-service, SoundPlayer fades and shared version-check methods. Seven
+  frame-state writes use the real Supervisor root. Version loading also uses
+  that native global; its two symbol corrections retain exact bytes. Fresh
+  source corrects the stale ledger: **952/996 physical, 92 fields, 27 calls,
+  791 overlap differences +44 missing**. `--owner supervisor` protects all
+  161 equal bytes and replays **six existing exact functions /720 bytes /56 fields**.
+  This is native-boundary repair; exact coverage does not increase.
+- **New bounded negatives:** five ABI-equivalent implicit/explicit owner-parameter
+  declarations all retain DrawResult **1,939/82/22**. Fresh ECL stays
+  **15,564/598/30**; biased movement remains **517 versus516**. Prior Y-pointer
+  and bitfield-context trials were checked before avoiding duplicate compiles.
 - **Front initialization:** ordered Z writes and a reference to the actual
   closing-vertex source reduce the full **706-byte** callback from **236 to 222
   differences**, restoring **14** bytes without damaging any prior equal byte.
@@ -68,18 +80,21 @@ remain separate open gates.
   remain in `RE_ACCEPTED_RECEIPTS.md` and Git history.
 - **Operator contract:** direct local IDA Pro MCP and Bash; `gpt-6.1-sol: ...`
   commits followed by the requested push. The parent push verified remote `main`
-  at `36774a4`. Preserve dirty work and verify remote state independently. Never
+  at `30fe774`. Preserve dirty work and verify remote state independently. Never
   patch the target or commit private inputs; clean artifacts after producers stop.
-- **Focused validation:** Front's complete maintained-path comparison stays
-  **706/37/21 calls/222 differences**. Four related exact methods pass **832 bytes
-  /41 fields**; CI passes **729 tests/28 skipped**. **687** previous public inputs
-  bind unchanged to `36774a4` (645 raw, 42 checkout EOL normalization); five inputs
-  change and three join. Every exact/profile/origin/mapping entry is unchanged;
-  only Front callback evidence/notes change. Unaffected cohorts reuse parent proofs.
-  After owned producers stopped, cleanup removed **410 reproducible files
-  /8,005,121 bytes**, including 19 hash-reproduced source copies. Recipes and
-  complete original comparisons remain in `.analysis/gpt-61sol-20261020-front-panel-source/`.
-  `build/` is absent. Exact credit stays **950/985, 83.1754%**.
+- **Focused validation:** the new Supervisor gate passes the complete open
+  owner and six exact functions **720 bytes/56 fields**. Earlier unaffected
+  cohorts reuse parent source-bound proofs; only the loader's two native global
+  symbol identities change in exact manifests. Current evidence/recipes live in
+  `.analysis/gpt-61sol-20261020-supervisor-native-boundaries/`; related Title/ECL
+  controls remain under their October 20 roots. Exact credit stays
+  **950/985, 83.1754%**. CI passes **735 tests/28 skipped**; tracking,
+  documentation, generated progress and whitespace pass. **688** parent public
+  inputs bind unchanged (646 raw, 42 checkout EOL normalization); seven change
+  and one header joins. After owned producers stopped, cleanup removed
+  **391 reproducible files /8,014,121 bytes**, including 14 hash-recreated source
+  copies. Recipes/hashes/reports remain; `build/` is absent.
+
 
 ## Next worker: first three work packages
 

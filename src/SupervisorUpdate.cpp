@@ -3,6 +3,8 @@
 #include "AnmManager.hpp"
 #include "SupervisorNetworkState.hpp"
 #include "SupervisorFrameQueueStorageView.hpp"
+#include "SupervisorVersionView.hpp"
+#include "SoundPlayer.hpp"
 
 #include <d3d8.h>
 
@@ -31,7 +33,16 @@ struct SupervisorUpdateLayout
 {
     unsigned char unknown000[0x08];
     IDirect3DDevice8 *d3dDevice;
-    unsigned char unknown00C[0x454 - 0x0C];
+    unsigned char unknown00C[0x160 - 0x0C];
+    float frameOffsetX160;
+    float frameOffsetY164;
+    unsigned char unknown168[0x250 - 0x168];
+    float frameOffsetX250;
+    float frameOffsetY254;
+    unsigned char unknown258[0x340 - 0x258];
+    float frameOffsetX340;
+    float frameOffsetY344;
+    unsigned char unknown348[0x454 - 0x348];
     int calcCount;
     unsigned char unknown458[0x478 - 0x458];
     int field478;
@@ -50,7 +61,9 @@ struct SupervisorUpdateLayout
     unsigned char unknown6B0[8];
     int subthreadActive;
     int startupThreadState;
-    unsigned char unknown6C0[0x7A0 - 0x6C0];
+    unsigned char unknown6C0[0x794 - 0x6C0];
+    int frameState794;
+    unsigned char unknown798[8];
     int exeChecksum;
     int exeSize;
 };
@@ -63,38 +76,19 @@ typedef char SupervisorUpdateLastReceivedAt56C[
     (offsetof(SupervisorUpdateLayout, lastReceived56C) == 0x56C) ? 1 : -1];
 typedef char SupervisorUpdateAfterQueuesAt584[
     (offsetof(SupervisorUpdateLayout, unknown584) == 0x584) ? 1 : -1];
+typedef char SupervisorUpdateFrameOffsetsAt160[
+    (offsetof(SupervisorUpdateLayout, frameOffsetX160) == 0x160 &&
+     offsetof(SupervisorUpdateLayout, frameOffsetY164) == 0x164 &&
+     offsetof(SupervisorUpdateLayout, frameOffsetX250) == 0x250 &&
+     offsetof(SupervisorUpdateLayout, frameOffsetY254) == 0x254 &&
+     offsetof(SupervisorUpdateLayout, frameOffsetX340) == 0x340 &&
+     offsetof(SupervisorUpdateLayout, frameOffsetY344) == 0x344) ? 1 : -1];
+typedef char SupervisorUpdateFrameStateAt794[
+    (offsetof(SupervisorUpdateLayout, frameState794) == 0x794) ? 1 : -1];
 
-struct AnmManagerSupervisorView
-{
-    void UpdateLoadingVms(void *vms, int count);
-    int ServiceSupervisorResources();
-};
-
-struct SoundPlayerSupervisorView
-{
-    void UpdateSupervisorFrame();
-};
-
-struct SupervisorFrameOffset
-{
-    float x;
-    float y;
-    unsigned char unknown008[0xE8];
-};
-
-typedef char SupervisorFrameOffsetSizeCheck[
-    (sizeof(SupervisorFrameOffset) == 0xF0) ? 1 : -1];
-
-struct SupervisorMethodView
-{
-    int CheckVersion(char *versionString, int exeSize, int exeChecksum);
-};
 }
 
-extern SoundPlayerSupervisorView g_SoundPlayerSupervisorView;
-extern unsigned char g_SupervisorLoadingVms[];
-extern SupervisorFrameOffset g_SupervisorFrameOffsets[3];
-extern int g_SupervisorState794;
+extern AnmVm g_SupervisorLoadingVms[3];
 extern int g_ScreenEffectCounter;
 extern char g_VersionString[];
 
@@ -156,18 +150,16 @@ UPDATE_FRAME:
     if (s->flags5D4 < 0 && !SupervisorSubthreadIsRunning(supervisor))
         return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
 
-    g_SupervisorState794 = 0xff;
+    globalSupervisor->frameState794 = 0xff;
     g_AnmManager->ResetForSupervisorFrame();
-    g_SupervisorFrameOffsets[0].x = 0.0f;
-    g_SupervisorFrameOffsets[0].y = 0.0f;
-    g_SupervisorFrameOffsets[1].x = 0.0f;
-    g_SupervisorFrameOffsets[1].y = 0.0f;
-    g_SupervisorFrameOffsets[2].x = 0.0f;
-    g_SupervisorFrameOffsets[2].y = 0.0f;
-    reinterpret_cast<AnmManagerSupervisorView *>(g_AnmManager)
-        ->UpdateLoadingVms(g_SupervisorLoadingVms, 3);
-    if (reinterpret_cast<AnmManagerSupervisorView *>(g_AnmManager)
-            ->ServiceSupervisorResources() != 0)
+    globalSupervisor->frameOffsetX160 = 0.0f;
+    globalSupervisor->frameOffsetY164 = 0.0f;
+    globalSupervisor->frameOffsetX250 = 0.0f;
+    globalSupervisor->frameOffsetY254 = 0.0f;
+    globalSupervisor->frameOffsetX340 = 0.0f;
+    globalSupervisor->frameOffsetY344 = 0.0f;
+    g_AnmManager->ExecuteScriptArray(g_SupervisorLoadingVms, 3);
+    if (g_AnmManager->ServicePreloadedAnims() != 0)
     {
         return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
     }
@@ -181,7 +173,7 @@ UPDATE_FRAME:
         s->startupThreadState = 0;
     }
 
-    g_SoundPlayerSupervisorView.UpdateSupervisorFrame();
+    g_SoundPlayer.UpdateFades();
 
     if (s->wantedState != s->curState)
     {
@@ -305,7 +297,7 @@ TRANSITION_DONE:
     s->wantedState = s->curState;
     s->calcCount++;
     if (s->calcCount % 4000 == 3999 &&
-        reinterpret_cast<SupervisorMethodView *>(globalSupervisor)->CheckVersion(
+        reinterpret_cast<SupervisorVersionView *>(globalSupervisor)->CheckVersion(
             g_VersionString, globalSupervisor->exeSize,
             globalSupervisor->exeChecksum) != 0)
     {

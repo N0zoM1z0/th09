@@ -1333,6 +1333,93 @@ FRONT_ADDED_CALLEES = (
 )
 
 
+SUPERVISOR_UPDATE_SHA256 = 'c3ccfdefb056e202f64d3f31a313e200b1494fa49184d0fcd5ea3c6de248327c'
+# Residuals include the 44 currently absent owner bytes. Protect the other
+# 161 original positions independently of a total mismatch count.
+SUPERVISOR_UPDATE_RESIDUAL_MASK = bytes.fromhex(
+    '000080e3fffffffffffbffffbffffefbefbfffee7fffffff3fdff7fdf77d7fffbeffefe7'
+    'f7df0800209efff7bffff9fefffffefdffffffffffffffffffffffdffffff7f3ff7fefff'
+    'ffffffffffeffffffffff3fffffaffffff1f88ffffeffffff9fffff7fffffff7ff1f3131'
+    '3131ff3f133331f1ff1311ffffffffff0f'
+)
+
+SUPERVISOR_UPDATE_CALLEES = (
+    ('supervisor-check-version', 'src/SupervisorVersion.cpp',
+     '?CheckVersion@SupervisorVersionView@@QAEHPBDHH@Z', 0x00430150, 199),
+    ('supervisor-load-version-data', 'src/SupervisorVersion.cpp',
+     '?SupervisorAddedLoadDat@@YIHXZ', 0x0042F100, 145),
+    ('anm-manager-execute-script-array', 'src/AnmManagerRuntime.cpp',
+     '?ExecuteScriptArray@AnmManager@@QAEXPAUAnmVm@@H@Z', 0x00439560, 53),
+    ('anm-manager-service-preloaded-anims', 'src/AnmManagerLoad.cpp',
+     '?ServicePreloadedAnims@AnmManager@@QAEHXZ', 0x0043CDD0, 87),
+    ('soundplayer-update-fades', 'src/SoundPlayerProcessQueues.cpp',
+     '?UpdateFades@SoundPlayer@@QAEXXZ', 0x0042FBE0, 54),
+    ('supervisor-register-chain', 'src/SupervisorRegisterChain.cpp',
+     '?SupervisorRegisterChain@@YIHXZ', 0x00432180, 182),
+)
+
+
+def guard_supervisor_update(result: dict) -> dict:
+    noncrediting(result, name='Supervisor OnUpdate', target_size=996, fields=92,
+                 size_key='target_owned_bytes', fields_key='candidate_fields')
+    offsets = result.get('original_difference_offsets')
+    overlap, absent = result.get('overlapping_differences'), result.get('absent_bytes')
+    allowed = {n for n in range(996)
+               if SUPERVISOR_UPDATE_RESIDUAL_MASK[n//8] & (1 << (n % 8))}
+    size = result.get('candidate_owned_bytes')
+    if (result.get('original_owned_sha256') != SUPERVISOR_UPDATE_SHA256 or
+            result.get('target_authored_bytes') != 844 or
+            result.get('target_fields') != 92 or
+            result.get('target_instructions') != 217 or
+            type(size) is not int or not 952 <= size <= 996 or
+            result.get('candidate_pre_table_bytes') != size - 152 or
+            result.get('target_calls') != 27 or result.get('candidate_calls') != 27 or
+            result.get('target_title_register_calls') != 1 or
+            result.get('candidate_title_register_calls') != 1 or
+            result.get('shared_title_register_call_agree') is not True or
+            result.get('external_field_inventory_equal') is not True or
+            result.get('missing_external_fields') != [] or result.get('extra_external_fields') != [] or
+            result.get('target_table_counts') != [10, 4, 6, 15] or
+            result.get('candidate_table_counts') != [10, 4, 6, 15] or
+            result.get('case_index_alignment_equal') is not True or
+            type(overlap) is not int or overlap < 0 or
+            type(absent) is not int or absent != 996 - size or
+            result.get('excess_bytes') != 0 or
+            not isinstance(offsets, list) or len(offsets) != overlap + absent or
+            any(type(n) is not int for n in offsets) or offsets != sorted(set(offsets)) or
+            not set(offsets).issubset(allowed) or
+            any(n not in offsets for n in range(size, 996)) or
+            result.get('complete_equal') is not (len(offsets) == 0) or
+            (not offsets and result.get('candidate_instructions') != 217)):
+        raise RuntimeError('Supervisor OnUpdate complete original/field/call/table frontier regressed')
+    return result
+
+
+def run_supervisor_update(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    obj = 'build/matching/SupervisorUpdate.obj'
+    build_nonexact('src/SupervisorUpdate.cpp', obj, reference_unit='supervisor-register-chain')
+    result = guard_supervisor_update(parsed(['scripts/inspect-supervisor-update.py', obj], diagnostic=True))
+    exact = []
+    if protect_exact:
+        with (ROOT/'config/match-units.toml').open('rb') as stream:
+            units = tomllib.load(stream)['units']
+        for name, source, symbol, address, size in SUPERVISOR_UPDATE_CALLEES:
+            unit = units[name]
+            profile = list(_SCREEN_EFFECT_BASE_PROFILE)
+            if name == 'supervisor-check-version':
+                profile.remove('/Oi')
+            if (unit['source'] != source or unit['symbol'] != symbol or
+                    unit['target_address'] != address or unit['size'] != size or
+                    unit['profile'] != profile):
+                raise RuntimeError('Supervisor native dependency/source/profile drift: ' + name)
+            build(name)
+            exact.append(canonical(name))
+    return {'supervisor_update': {k: result[k] for k in (
+        'target_authored_bytes', 'target_owned_bytes', 'candidate_owned_bytes',
+        'candidate_fields', 'candidate_calls', 'overlapping_differences', 'absent_bytes',
+        'external_field_inventory_equal', 'complete_equal')}}, exact
+
+
 def guard_front_added(result: dict) -> dict:
     noncrediting(result, name='Front AddedCallback', target_size=706, fields=37)
     count, offsets = result.get('differences'), result.get('difference_offsets')
@@ -4556,7 +4643,7 @@ def run_effect_type34(*, protect_exact: bool,
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'replaymenu', 'anm', 'network', 'queue', 'parser', 'front', 'frontadded', 'screen', 'replay', 'pause', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'replaymenu', 'anm', 'network', 'queue', 'parser', 'front', 'frontadded', 'supervisor', 'screen', 'replay', 'pause', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -4632,6 +4719,10 @@ def main() -> int:
             owners, exact = run_front_added(
                 protect_exact=not args.skip_exact_siblings,
                 shared_callees_prechecked=args.owner == 'all')
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('supervisor', 'all'):
+            owners, exact = run_supervisor_update(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('anm', 'all'):

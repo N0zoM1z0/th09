@@ -1,9 +1,12 @@
 """Target-independent operand binding guards; no private target or decoder."""
 
 import importlib.util
+import copy
 from pathlib import Path
 import struct
+import tomllib
 import unittest
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -12,6 +15,11 @@ SPEC = importlib.util.spec_from_file_location(
 )
 DIAGNOSTIC = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(DIAGNOSTIC)
+SPEC = importlib.util.spec_from_file_location(
+    "supervisor_update_frontier", ROOT / "scripts/check-boss-frontiers.py"
+)
+BOSS = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(BOSS)
 
 
 def local_field(offset=4, symbol_value=28):
@@ -65,6 +73,100 @@ class SupervisorBindingTests(unittest.TestCase):
             DIAGNOSTIC.bind(bytes(32), [local_field(30)])
         with self.assertRaisesRegex(ValueError, "local label outside owner"):
             DIAGNOSTIC.bind(bytes(32), [local_field(symbol_value=36)])
+
+    def test_real_supervisor_addend_and_native_methods_reject_old_aliases(self):
+        field = dict(local_field(12), symbol='?g_Supervisor@@3VSupervisor@@A',
+                     symbol_section=0, symbol_value=0, addend=0x794)
+        linked, rows, _ = DIAGNOSTIC.bind(bytes(32), [local_field(), field])
+        self.assertEqual(struct.unpack_from('<I', linked, 12)[0], 0x004B3894)
+        self.assertEqual(rows[1]['destination'], 0x004B3894)
+        for alias in ('?g_SupervisorState794@@3HA',
+                      '?g_SupervisorFrameOffsets@@3PAUSupervisorFrameOffset@?ANON@@A',
+                      '?UpdateLoadingVms@AnmManagerSupervisorView@?ANON@@QAEXPAXH@Z',
+                      '?UpdateSupervisorFrame@SoundPlayerSupervisorView@?ANON@@QAEXXZ',
+                      '?CheckVersion@SupervisorMethodView@?ANON@@QAEHPADHH@Z'):
+            with self.subTest(alias=alias), self.assertRaisesRegex(ValueError, 'unreviewed external'):
+                DIAGNOSTIC.bind(bytes(32), [local_field(), dict(field, symbol=alias)])
+
+
+class SupervisorFrontierTests(unittest.TestCase):
+    def fixture(self):
+        offsets = [n for n in range(996)
+                   if BOSS.SUPERVISOR_UPDATE_RESIDUAL_MASK[n//8] & (1 << (n % 8))]
+        self.assertEqual(len(offsets), 835)
+        return dict(diagnostic_only=True, exactness_credit='none', target_owned_bytes=996,
+                    original_owned_sha256=BOSS.SUPERVISOR_UPDATE_SHA256,
+                    target_authored_bytes=844, candidate_fields=92, target_fields=92,
+                    target_instructions=217, candidate_instructions=205,
+                    candidate_owned_bytes=952, candidate_pre_table_bytes=800,
+                    target_calls=27, candidate_calls=27, target_title_register_calls=1,
+                    candidate_title_register_calls=1, shared_title_register_call_agree=True,
+                    external_field_inventory_equal=True, missing_external_fields=[],
+                    extra_external_fields=[], target_table_counts=[10, 4, 6, 15],
+                    candidate_table_counts=[10, 4, 6, 15], case_index_alignment_equal=True,
+                    overlapping_differences=791, absent_bytes=44, excess_bytes=0,
+                    original_difference_offsets=offsets, complete_equal=False)
+
+    def test_same_count_exchange_may_not_damage_a_matching_original_byte(self):
+        row = self.fixture()
+        BOSS.guard_supervisor_update(row)
+        good = next(n for n in range(952) if n not in row['original_difference_offsets'])
+        row['original_difference_offsets'] = sorted([good] + row['original_difference_offsets'][1:])
+        with self.assertRaises(RuntimeError):
+            BOSS.guard_supervisor_update(row)
+
+    def test_improvement_is_allowed_but_missing_tail_cannot_be_hidden(self):
+        row = self.fixture()
+        BOSS.guard_supervisor_update({**row, 'overlapping_differences': 790,
+            'original_difference_offsets': row['original_difference_offsets'][1:]})
+        for bad in ({**row, 'absent_bytes': 0},
+                    {**row, 'overlapping_differences': 790,
+                     'original_difference_offsets': row['original_difference_offsets'][:-1]},
+                    {**row, 'overlapping_differences': True},
+                    {**row, 'original_difference_offsets': row['original_difference_offsets'][::-1]},
+                    {**row, 'candidate_calls': 26}, {**row, 'candidate_title_register_calls': 3},
+                    {**row, 'candidate_table_counts': [10, 4, 5, 15]},
+                    {**row, 'original_owned_sha256': '0'*64}):
+            with self.subTest(bad=bad.keys()), self.assertRaises(RuntimeError):
+                BOSS.guard_supervisor_update(bad)
+
+    def test_zero_requires_complete_extent_and_instruction_census_and_stays_noncrediting(self):
+        row = {**self.fixture(), 'original_difference_offsets': [],
+               'overlapping_differences': 0, 'complete_equal': True}
+        with self.assertRaises(RuntimeError):
+            BOSS.guard_supervisor_update(row)
+        row.update(candidate_owned_bytes=996, candidate_pre_table_bytes=844, absent_bytes=0)
+        with self.assertRaises(RuntimeError):
+            BOSS.guard_supervisor_update(row)
+        row['candidate_instructions'] = 217
+        self.assertEqual(BOSS.guard_supervisor_update(row)['exactness_credit'], 'none')
+
+    def test_focused_owner_replays_all_six_actual_dependencies(self):
+        with patch.object(BOSS, 'build_nonexact') as build_nonexact, \
+                patch.object(BOSS, 'parsed', return_value=self.fixture()), \
+                patch.object(BOSS, 'build') as build, \
+                patch.object(BOSS, 'canonical', side_effect=lambda name: {'unit': name}):
+            _, exact = BOSS.run_supervisor_update(protect_exact=True)
+        build_nonexact.assert_called_once_with('src/SupervisorUpdate.cpp',
+            'build/matching/SupervisorUpdate.obj', reference_unit='supervisor-register-chain')
+        self.assertEqual(build.call_count, 6)
+        self.assertEqual(len({x['unit'] for x in exact}), 6)
+
+    def test_native_symbol_source_address_and_profile_substitution_fail(self):
+        with (ROOT/'config/match-units.toml').open('rb') as stream:
+            units = tomllib.load(stream)['units']
+        for name, field, bad in (
+                ('supervisor-check-version', 'symbol', '?CheckVersion@SupervisorMethodView@@QAEHPADHH@Z'),
+                ('supervisor-load-version-data', 'target_address', 0x0042F101),
+                ('soundplayer-update-fades', 'source', 'src/Other.cpp'),
+                ('anm-manager-execute-script-array', 'profile', ['/Ob0'])):
+            changed = copy.deepcopy(units)
+            changed[name][field] = bad
+            with self.subTest(name=name), patch.object(BOSS.tomllib, 'load', return_value={'units': changed}), \
+                    patch.object(BOSS, 'build_nonexact'), \
+                    patch.object(BOSS, 'parsed', return_value=self.fixture()), \
+                    patch.object(BOSS, 'build'), patch.object(BOSS, 'canonical'), self.assertRaises(RuntimeError):
+                BOSS.run_supervisor_update(protect_exact=True)
 
 
 if __name__ == "__main__":
