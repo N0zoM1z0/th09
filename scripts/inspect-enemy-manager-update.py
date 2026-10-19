@@ -58,12 +58,6 @@ def reference_index():
 
 unit_aliases={
  '?SetSideEnemyIndicatorPosition@EnemyCoreFrontView@@QAEXHPAUFloat3@@@Z':'front-enemy-indicator',
- '?IsAfter@EnemyCoreTimerView@@QAEHH@Z':'zun-timer-greater',
- '?Set@EnemyCoreTimerView@@QAEXH@Z':'zun-timer-assign-int',
- '??EEnemyCoreTimerView@@QAEXH@Z':'zun-timer-post-increment',
- '?HasTicked@EnemyCoreTimerView@@QAEHH@Z':'zun-timer-has-ticked-every',
- '??0EnemyCoreBulletSpawnDescriptorView@@QAE@XZ':'bullet-spawn-descriptor-constructor',
- '??FEnemyCoreTimerView@@QAEXH@Z':'zun-timer-post-decrement',
  '?IsWithinPlayfield@EnemyCoreGameManagerPlayfieldView@@QAEHMMMM@Z':'game-manager-is-within-playfield',
  '?EnemyCoreRunLifeCallback@@YIHPAUEnemyCoreView@@@Z':'player-check-state2',
  '?EnemyCoreRunTimerCallback@@YIHPAUEnemyCoreView@@@Z':'player-check-state2',
@@ -84,7 +78,6 @@ symbol_aliases={
  '?RunEcl@EnemyEclManagerView@@QAEHPAUEnemyView@@@Z':'?RunEcl@EnemySpawnEclManagerBoundary@@QAEHPAUEnemyView@@@Z',
  '?g_EnemyCoreGameManager@@3UEnemyCoreGameManagerPlayfieldView@@A':'?g_GameManager@@3UGameManagerSetupLayout@@A',
  '?g_EnemyCoreAnmManager@@3PAUEnemyCoreAnmManagerView@@A':'?g_AnmManager@@3PAVAnmManager@@A',
- '?Current@EnemyCoreTimerView@@QAEHXZ':'??BZunTimer@@QAEHXZ',
  '?g_EnemyCoreSoundPlayer@@3UEnemyCoreSoundPlayerView@@A':'?g_SoundPlayer@@3VSoundPlayer@@A',
  '?g_EnemyCoreUi@@3UEnemyCoreUiView@@A':'?g_AsciiManager@@3VAsciiManager@@A',
 }

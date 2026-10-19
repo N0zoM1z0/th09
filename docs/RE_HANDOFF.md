@@ -23,12 +23,12 @@ remain separate open gates.
   Its initializer stays **210/19 exact** with the corrected float delay at +0x98.
   Shared native declarations preserve the real **28-byte** constructor and both
   transition/reward leaves. Original C++ names and object lifetimes remain open.
-- **Menu/queue physical-byte guards:** original-bound cold comparisons now
-  protect all **71** already equal ReplayMenu positions and **178** received-frame
-  positions, rejecting same-count exchanges that damage old matches. Use
-  **`--owner replaymenu`** for the separate menu TU without the unrelated Title
-  builds. **`--owner queue`** explicitly names the existing network queue scope,
-  retaining the two exact queue members (**310 bytes/one field**).
+- **Enemy native call boundaries:** the 3,900-byte boss now uses shared
+  `ZunTimer` and the real descriptor constructor for **14 original calls**.
+  Seven private method aliases are removed. Complete byte/call/field/graph
+  identity stays at **29 differences**; ten new ECL-context controls do not close it.
+  Two private label names are bound to actual COFF positions and unchanged targets.
+  Current native replay and CI results are recorded below.
 - **ReplaySave text construction:** the two-byte single-character temporary
   now restores nine more physical positions: **800 bytes, 245 instructions,
   41 fields, four calls, 28 matching blocks, 96 linked differences**. All **704**
@@ -92,16 +92,16 @@ remain separate open gates.
   physical helper `0x004343D0` remains source-ownership unknown.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   `gpt-6.1-sol: ...` commits, followed by the explicitly requested push.
-  The previous successful push verified remote `main` at `113863e`. Preserve all dirty
+  The previous successful push verified remote `main` at `84fab70`. Preserve all dirty
   work, never patch the target or commit private inputs, and verify remote state.
   Clean reproducible generated files only after their producers stop.
-- **Focused validation:** six cold original-bound functions pass **1,507 complete
-  physical bytes/64 fields**. Full CI passes **713 tests/28 skipped**.
-  **672** pre-existing public inputs stay bound to `113863e` (630 raw,
-  42 checkout EOL normalization); nine old inputs change within this scoped batch.
-  After all six producer sessions stopped, cleanup removed **368 reproducible files
-  /6,975,358 bytes**, including six private source copies; `build/` is absent.
-  The prior 34 nonexact owners are not credited as closed by this inventory addition.
+- **Focused validation:** **45** cold exact functions pass **26,038 physical
+  bytes/1,071 fields**, including all **37** shared ECL owners across both profiles.
+  CI passes **714 tests/28 skipped**; the same object preserves RunEcl/Type19/Enemy.
+  **680** unchanged public inputs stay bound to `84fab70` (638 raw, 42 checkout EOL
+  normalization); five public compiler/tracking inputs change within this batch.
+  After all producers stopped, cleanup removed **401 reproducible files /12,026,488
+  bytes**, including 20 private source copies; `build/` is absent. No new exact credit.
 
 
 
@@ -203,7 +203,7 @@ all 34 open functions. For the complete <=256-byte cohort see
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes; opcode 155: 23 bytes, 146/148 handler shapes. Opcode 4 now directly calls the separately exact real `ZunTimer::operator=(int) @0x00401500` on the proven 12-byte context timer, rather than fake second-class timer ABI; existing genuine `RngRuntimeView`/global `g_Rng` remains. **15,564 complete instruction/table bytes and 598 source-linked original fields are unchanged**, with all **37 exact ECL/Enemy/position/math functions across two profiles** (14,026 physical bytes) protected. `--owner runecl`; exact credit remains open. |
-| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **29** differing bytes | Genuine `Float3::operator/` and actual `AppendBoxRecord` compiler visibility close the ten-byte `+0x845..+0x850` copy window. The special-attack dispatch now also invokes **real `EtamaController::SpawnBulletPatternPrimary @0x004130F0`** rather than a fake private receiver, with the actual 0x214-byte descriptor's target-backed field layout. Original-linked byte/field/call/graph identity and 29 differences are unchanged. `--owner enemy` now cold-protects **37 exact shared-TU functions, the separate draw and seven genuine external callees** (45 exact checks). |
+| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **29** differing bytes | Genuine `Float3::operator/` and actual `AppendBoxRecord` compiler visibility close the ten-byte `+0x845..+0x850` copy window. The special-attack dispatch invokes **real `EtamaController::SpawnBulletPatternPrimary @0x004130F0`** with its target-backed 0x214-byte descriptor. Fourteen Timer/descriptor calls now use seven shared native symbols; the corresponding private aliases are removed. Original-linked byte/field/call/graph identity and 29 differences are unchanged. `--owner enemy` now cold-protects **37 exact shared-TU functions, the separate draw and seven genuine external callees** (45 exact checks). |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor ESI still open. The final original call is now typed as `EffectManager::DrawBulletLayerEffects` with its separately **169/169 exact** real-member source at `0x0040D110` and side owner at `+0x0C`; all original linked bytes remain unchanged. Complete SHA/offset guard preserves the 332 equal bytes; `--owner etama` protects **both exact same-carrier helpers plus the separately exact OnUpdate (3 checks)**. |
 | **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 calls; 10-way switch; **1,453** overlapping differences + 44 missing | First seven-VM cursor improvement committed in `7f1d56e`; remaining branch/VM scheduling. `--owner pause` independently checks 11 already-exact Ascii/ANM functions and real original table/ABI. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Now uses genuine shared `g_Supervisor.framerateMultiplier5B8 @0x004B36B8` and the four **real `GameManagerResetView::coordinate360/364/368/36C` fields** (original `0x004A80F0..FC`), not fake external playfield globals. The independent **79-byte exact GameManager coordinate initializer** physically writes those fields; 1,900-byte linked movement boss and 66 operand identities stay unchanged, with 129 ordinary differences still open. All 129 genuine current original-bound mismatch offsets are now pinned, protecting the other **1,771** already matching bytes (including both switch tables and after-return alignment); future improvements must not introduce mismatches elsewhere. `--owner movement` protects exact 522-byte caller. |

@@ -33,6 +33,27 @@ class EnemyUpdateBindingTests(TestCase):
         base.update(edits)
         return base
 
+    def test_timer_and_descriptor_calls_require_canonical_link_symbols(self):
+        units, functions, registry = inspector.reference_index()
+        cases = (
+            ('?IsAfter@EnemyCoreTimerView@@QAEHH@Z', '??OZunTimer@@QAEIH@Z', 0x00403DE0),
+            ('?Set@EnemyCoreTimerView@@QAEXH@Z', '??4ZunTimer@@QAEXH@Z', 0x00401500),
+            ('??EEnemyCoreTimerView@@QAEXH@Z', '??EZunTimer@@QAEXH@Z', 0x00401510),
+            ('?HasTicked@EnemyCoreTimerView@@QAEHH@Z', '?HasTickedEvery@ZunTimer@@QAEHH@Z', 0x00404920),
+            ('??FEnemyCoreTimerView@@QAEXH@Z', '??FZunTimer@@QAEXH@Z', 0x00406670),
+            ('?Current@EnemyCoreTimerView@@QAEHXZ', '??BZunTimer@@QAEHXZ', 0x00435F00),
+            ('??0EnemyCoreBulletSpawnDescriptorView@@QAE@XZ', '??0BulletSpawnDescriptorCtorView@@QAE@XZ', 0x0040D500),
+        )
+        for legacy, canonical, expected in cases:
+            with self.subTest(symbol=canonical):
+                destination, proof = inspector.external_destination(
+                    self.row(symbol=canonical), units, functions, registry)
+                self.assertEqual(destination, expected)
+                self.assertIn('canonical exact unit identity', proof)
+                with self.assertRaisesRegex(ValueError, 'absent or ambiguous'):
+                    inspector.external_destination(
+                        self.row(symbol=legacy), units, functions, registry)
+
     def test_actual_etama_dispatch_uses_existing_exact_214_byte_descriptor(self):
         text = (SOURCE.parents[1] / 'src/EnemyManagerCore.inl').read_text()
         self.assertIn('#include "BulletManager.hpp"', text)

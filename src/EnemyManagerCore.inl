@@ -1,3 +1,5 @@
+#include "BulletSpawnDescriptorCtorView.hpp"
+#include "ZunTimer.hpp"
 // Lexical member of EclManager.cpp; reuses Th09EclRunState::ManagerStateView.
 #include "AsciiManager.hpp"
 #include "EnemyManager.hpp"
@@ -90,20 +92,6 @@ enum EnemyCoreFlags
     ENEMY_CORE_PAUSE_WITH_PLAYER = 0x08000000
 };
 
-struct EnemyCoreTimerView
-{
-    unsigned char storage00[0x0C];
-
-    void Set(int value);
-    void operator++(int value);
-    void operator--(int value);
-    int IsAfter(int value);
-    int HasTicked(int interval);
-    int Current();
-};
-typedef char EnemyCoreTimerSizeIs0C[
-    (sizeof(EnemyCoreTimerView) == 0x0C) ? 1 : -1];
-
 struct EnemyCoreLoadedSpriteView
 {
     unsigned char unknown00[0x30];
@@ -189,7 +177,7 @@ struct EnemyCorePlayerView
     unsigned char unknown30370[0x3037C - 0x30370];
     EnemyCoreView *homingTarget3037C;
     unsigned char unknown30380[0x303C8 - 0x30380];
-    EnemyCoreTimerView stateTimer303C8;
+    ZunTimer stateTimer303C8;
 
     int GetState();
     void SetState(int state);
@@ -242,16 +230,15 @@ struct EnemyCoreBulletSpawnDescriptorView
     unsigned char extraAttribute20C;
     unsigned char unknown20D[3];
     void *templateSprites210;
-
-    EnemyCoreBulletSpawnDescriptorView();
 };
 typedef char EnemyCoreBulletSpawnDescriptorSizeIs214[
     (sizeof(EnemyCoreBulletSpawnDescriptorView) == 0x214) ? 1 : -1];
 // The ECL/Enemy temporary is constructed by the original 0x0040D500
 // 0x214-byte descriptor constructor. The real Etama callee at 0x004130F0
 // consumes precisely the same physical fields as BulletSpawnDescriptor.
-// Preserve the private constructor symbol but bind the call to the actual
-// shared EtamaController method, never a duplicate receiver/prototype.
+// Construct through the single shared native carrier and project this payload
+// view over its storage. The real EtamaController method consumes these fields;
+// original C++ type names and the complete lifetime model remain unknown.
 typedef char EnemyCoreBulletDescriptorMatchesEtamaFields[
     (sizeof(EnemyCoreBulletSpawnDescriptorView) == sizeof(BulletSpawnDescriptor) &&
      offsetof(EnemyCoreBulletSpawnDescriptorView, bulletType00) ==
@@ -318,7 +305,7 @@ struct EnemyCoreView
     int sequenceIndex2E58;
     int primaryDamageAccumulator2E5C;
     int secondaryDamageAccumulator2E60;
-    EnemyCoreTimerView bossTimer2E64;
+    ZunTimer bossTimer2E64;
     unsigned int displayColor2E70;
     unsigned char bulletState2E74[0x30B4 - 0x2E74];
     int shootInterval30B4;
@@ -349,13 +336,13 @@ struct EnemyCoreView
     short trailHistoryLength53A2;
     short trailCollisionLength53A4;
     short trailSampleStride53A6;
-    EnemyCoreTimerView damageReductionTimer53A8;
+    ZunTimer damageReductionTimer53A8;
     EnemyCoreEffectView *attachedEffects53B4[24];
     int attachedEffectCount5414;
     float attachedEffectDistance5418;
     EnemyCoreEffectView *alignmentEffect541C;
     int phaseEndSeconds5420;
-    EnemyCoreTimerView specialAttackTimer5424;
+    ZunTimer specialAttackTimer5424;
 };
 typedef char EnemyCoreViewSizeIs5430[
     (sizeof(EnemyCoreView) == 0x5430) ? 1 : -1];
@@ -394,14 +381,14 @@ struct EnemyManagerCoreView
     int specialEnemyCount2AC3B4;
     int rewardEnemyCount2AC3B8;
     unsigned char unknown2AC3BC[0x2AC3C8 - 0x2AC3BC];
-    EnemyCoreTimerView sideTimer2AC3C8;
+    ZunTimer sideTimer2AC3C8;
     unsigned char scheduleIndex2AC3D4;
     unsigned char unknown2AC3D5[0x2AC3E0 - 0x2AC3D5];
     EnemyScheduleRuntimeView scheduleRuntime2AC3E0;
     int scheduleHighBit2AC3F8;
     unsigned char unknown2AC3FC[0x04];
     void *scheduleObject2AC400;
-    EnemyCoreTimerView frameTimer2AC404;
+    ZunTimer frameTimer2AC404;
     EnemyCoreView *drawGroupHeads2AC410[4];
     unsigned char unknown2AC420[0x24];
     EnemyCoreView *priorityEnemy2AC444;
@@ -525,7 +512,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             manager->scheduleRuntime2AC3E0.Run();
         }
         else if (manager->normalEnemyCount2AC3B0 == 0 ||
-                 manager->sideTimer2AC3C8.IsAfter(0))
+                 (manager->sideTimer2AC3C8 > 0))
         {
             manager->scheduleHighBit2AC3F8 =
                 g_EnemyCoreSchedule[manager->scheduleIndex2AC3D4] >> 7;
@@ -545,7 +532,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 
     EnemyCoreView *enemy = manager->enemies5758;
     if (manager->sideState320->player04->focusEffect364 != 0)
-        manager->sideTimer2AC3C8.Set(0);
+        manager->sideTimer2AC3C8 = 0;
     else
         manager->sideTimer2AC3C8++;
 
@@ -595,7 +582,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 
             if ((enemy->flags3380 & 0x1000) != 0)
             {
-                if (enemy->specialAttackTimer5424.HasTicked(2))
+                if (enemy->specialAttackTimer5424.HasTickedEvery(2))
                 {
                     manager->sideState320->effectManager0C->SpawnEffect(
                         9,
@@ -604,10 +591,12 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                         static_cast<unsigned int>(-1));
                 }
 
-                if (enemy->specialAttackTimer5424.IsAfter(
-                        manager->specialAttackThreshold2AC44C))
+                if (enemy->specialAttackTimer5424 >
+                        manager->specialAttackThreshold2AC44C)
                 {
-                    EnemyCoreBulletSpawnDescriptorView descriptor;
+                    BulletSpawnDescriptorCtorView storage;
+                    EnemyCoreBulletSpawnDescriptorView &descriptor =
+                        *reinterpret_cast<EnemyCoreBulletSpawnDescriptorView *>(&storage);
                     descriptor.position04 = enemy->position2D74;
                     EnemyCoreSideStateView *spawnSide = manager->sideState320;
                     descriptor.bulletType00 = 1;
@@ -808,7 +797,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                     {
                         if ((enemy->flags337C & ENEMY_CORE_DAMAGEABLE) != 0)
                         {
-                            if (enemy->damageReductionTimer53A8.IsAfter(0))
+                            if (enemy->damageReductionTimer53A8 > 0)
                             {
                                 if ((enemy->flags337C & ENEMY_CORE_BOSS) != 0)
                                     damage /= 9;
@@ -881,7 +870,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             enemy->flags3380 |= 1;
             enemy->phaseEndSeconds5420 =
                 (enemy->timerCallbackThreshold33D0 -
-                 enemy->bossTimer2E64.Current()) / 60;
+                 static_cast<int>(enemy->bossTimer2E64)) / 60;
             enemy->timerCallbackThreshold33D0 = -1;
             for (int callbackIndex = 0; callbackIndex < 4; ++callbackIndex)
                 enemy->lifeCallbackThresholds33B0[callbackIndex] = -1;
@@ -924,7 +913,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 EnemyCorePlayerView *player = manager->sideState320->player04;
                 if (player->GetState() == 0)
                 {
-                    player->stateTimer303C8.Set(90);
+                    player->stateTimer303C8 = 90;
                     manager->sideState320->player04->SetState(3);
                 }
                 enemy->flags337C &= 0xE7FFFFFF;
@@ -1053,7 +1042,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 
             EnemyCoreUpdateAttachedEffects(enemy);
             enemy->bossTimer2E64++;
-            if (enemy->damageReductionTimer53A8.IsAfter(0))
+            if (enemy->damageReductionTimer53A8 > 0)
                 enemy->damageReductionTimer53A8--;
         }
 
