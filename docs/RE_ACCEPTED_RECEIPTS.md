@@ -6,6 +6,65 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## October 19: true native AnmLoaded pointer accepted across six large Etama/Bullet/Enemy owners
+
+Six separate Factory `strict-live-v1` forced-cold original VC7.1 comparisons
+against the SHA-attested Japanese TH09 v1.50a executable
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`
+returned **`receipt_verdict=pass` / `acceptance_decision=accepted`** with
+no acceptance objections. Each receipt is exclusively bound to the **same
+immutable gameplay-source commit `dfc7e241ba410c7b79cd0348fcc6ea8af378d901`**:
+
+- **`EtamaController::OnUpdate @0x004146F0`**, **2,195 logical / 2,216
+  complete physical exact bytes**, **88 reviewed original PE/COFF fields**;
+  side-controller `AnmLoaded*` storage at `+0x25E1BC` is now the genuine
+  original C++ class: `job:dc17a7b9debb40a294e8ad987f4f12f9`,
+  `receipt:ff0c45d9cfb9278d22ce59530314d452f366c9d69244598004890cd9c11e1e48`.
+- **`Bullet::AdvanceTransformProgram @0x004141C0`**, **1,236 logical /
+  1,320 complete physical exact bytes**, **26 original relocation fields**,
+  with real `AnmLoaded::SetSprite` in its 1,320-byte callback:
+  `job:25e6e9be3a63473a99a5408a31ada588`,
+  `receipt:1d6d45d2fe18da56b438953dbddadb15adfcca14d2d56680bec8cb4924b26a07`.
+- **`AnmLoaded::SetSprite @0x00436AC0`**, **189/189 complete exact bytes**,
+  the independently compiled genuine C++ callee used by BulletManager,
+  Enemy and Bullet Advance: `job:d3806f2820e94128b299c9cbf173c3e9`,
+  `receipt:cbd80a5ca6e13dc61d4fbf23a0e74680930adde35fe779fd82a398502d730832`.
+- **`EnemyEclOpcode2 @0x0040C530`**, **574/574 complete exact bytes**,
+  both original `SetSprite` call sites now real C++ identities:
+  `job:98ed41952353445f9ff97382d1c24241`,
+  `receipt:95539da268d24bc5f5a7c43a6ca706547833bd57799553a6b4dac598e9f7ae82`.
+- **`EtamaController::SpawnLaserPattern @0x00413290`**, **450/450 full
+  physical exact bytes**, formerly redundant fake-controller cast replaced
+  with a genuine native `AnmLoaded*` receiver:
+  `job:4c1fea2a7d6f42beab4da5f38c715434`,
+  `receipt:c8fc826e4ef33f14420b10617bfafbf64f11f1a73c4130388bf574b463dd40b6`.
+- **`EtamaController::AddedCallback @0x00413E40`**, **598 logical / 832
+  complete physical exact bytes** (including its authentic source-owned
+  compiler-tail data and COFF fields), stores a real `AnmLoaded*` in the
+  controller field: `job:7a89e76f16784795b31d0b08008ecd9e`,
+  `receipt:8655dfac9a0958c18862f0de8a5cc438948b4dce2bee7a31149f7a332425e490`.
+
+The actual maintained `src/` compiler path and complete original target
+function bytes were checked for **23 PREVIOUSLY canonical exact owners / 10,119
+full bytes and 355 original-bound COFF fields**. Exactly **eight** originally
+numeric-only `BulletAnmLoadedView::SetSprite` C++ identities now use genuine
+`AnmLoaded::SetSprite`, and **38** private `$L` names remain anchored to the
+identical retail original VAs. A separate header-induced source renumbering
+in `EclManager.cpp` was rechecked and source-cold compared across **24 other
+previously exact functions, 10,607 original bytes, 468 fields, 20 same-VA
+private label names**. The completed original-bound `--owner all` checks
+**35 noncrediting boss/leaf diagnostics and 254 DISTINCT complete previously
+exact function replays**; CI passed **653 tests, 28 skipped, zero failed**.
+
+The canonical ledger therefore remains **940 exact / 980 source-present**,
+NOT six additional exact functions. The complete 15,564-byte `RunEcl` still
+has 30 ordinary unlike bytes (opcodes 4 and 155); Etama `OnDraw` still has
+268; Title `DrawResult` 22; and ExAttack Type19/21 init six/nine. These
+receipts do **not** accept the nonexact bosses, runtime semantics, native
+whole-game linking, source-port completeness or any future commit. All six
+Factory acceptances apply exclusively to source commit **`dfc7e24`**, NOT
+this later documentation-only checkpoint.
+
 ## October 19: real 9,776-byte AnmManager interpreter linked from entire Etama OnUpdate
 
 Two **independent** Factory `strict-live-v1` forced-cold pinned VC7.1
