@@ -14,8 +14,8 @@ The filter is:
 - not canonical exact;
 - target logical size <=256 bytes.
 
-At the current checkpoint it yields **8 functions**, of which **1 is at most
-128 bytes**. The repository-wide canonical total is **943 exact functions**.
+At the current checkpoint it yields **6 functions**, of which **1 is at most
+128 bytes**. The repository-wide canonical total is **945 exact functions**.
 
 Size is only a routing heuristic. This is not a verified leaf-function set, a
 difficulty ranking, or evidence about whole-product closure.
@@ -28,8 +28,6 @@ difficulty ranking, or evidence about whole-product closure.
 | 0x00424EDD | 211 | TitleScreen | TitleScreenView::SetCharacterCursorActive |
 | 0x0042E9E0 | 213 | Supervisor | SupervisorFrameQueueView::InsertReceivedFrame |
 | 0x00432240 | 243 | SupervisorNetwork | ParseNetworkConfigValue |
-| 0x00443B10 | 249 | Player | PlayerPositionCallback30404Type4 |
-| 0x00447620 | 249 | Player | PlayerPositionCallback30404Type8 |
 
 ## How to use this list
 

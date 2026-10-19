@@ -16950,7 +16950,7 @@ relocations = [
   { offset = 0xFB, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
   { offset = 0x107, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x110, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
-  { offset = 0x139, type = "DIR32", symbol = "$L66549", target = 0x00408548 },
+  { offset = 0x139, type = "DIR32", symbol = "$L66647", target = 0x00408548 },
   { offset = 0x169, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x176, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x183, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
@@ -17137,7 +17137,7 @@ target_address = 0x00407700
 size = 0x34A
 compare_size = 0x37C
 relocations = [
-  { offset = 0x14, type = "DIR32", symbol = "$L66030", target = 0x00407A4C },
+  { offset = 0x14, type = "DIR32", symbol = "$L66098", target = 0x00407A4C },
   { offset = 0x24, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
   { offset = 0x3B, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
   { offset = 0x60, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
@@ -22702,4 +22702,42 @@ relocations = [
   { offset = 0x2A4, type = "REL32", symbol = "?PlayerType11OrientationSign@@YIHPBUFloat3@@00@Z", target = 0x00449B50 },
   { offset = 0x2B6, type = "REL32", symbol = "?PlayerType11OrientationSign@@YIHPBUFloat3@@00@Z", target = 0x00449B50 },
   { offset = 0x2C5, type = "REL32", symbol = "?PlayerType11OrientationSign@@YIHPBUFloat3@@00@Z", target = 0x00449B50 },
+]
+
+[units.player-position-callback-type4]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerPositionCallback30404Type4"]
+symbol = "?PlayerPositionCallback30404Type4@@YIHPAUPlayerPositionCallbackType4View@@PBUFloat3@@@Z"
+target_address = 0x00443B10
+size = 0xF9
+relocations = [
+  { offset = 0x1B, type = "REL32", symbol = "??GFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x32, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0 },
+  { offset = 0x45, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x54, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0x68, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
+  { offset = 0x7D, type = "REL32", symbol = "??GFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x8E, type = "REL32", symbol = "??HFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0xAC, type = "REL32", symbol = "??GFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+]
+
+[units.player-position-callback-type8]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerPositionCallback30404Type8"]
+symbol = "?PlayerPositionCallback30404Type8@@YIHPAUPlayerPositionCallbackType4View@@PBUFloat3@@@Z"
+target_address = 0x00447620
+size = 0xF9
+relocations = [
+  { offset = 0x1B, type = "REL32", symbol = "??GFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x32, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0 },
+  { offset = 0x45, type = "DIR32", symbol = "__real@3f5db3d7", target = 0x00491630 },
+  { offset = 0x54, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0x68, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
+  { offset = 0x7D, type = "REL32", symbol = "??GFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x8E, type = "REL32", symbol = "??HFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0xAC, type = "REL32", symbol = "??GFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
 ]

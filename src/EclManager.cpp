@@ -831,3 +831,4 @@ th09_ecl_select_next_context:
 #include "Float3Core.inl"
 #include "EnemyManagerCore.inl"
 #include "PlayerPositionCallback30404Type11.inl"
+#include "PlayerPositionCallback30404Type4Type8.inl"

@@ -81,7 +81,7 @@ def build(unit: str) -> None:
 # rebuilt rather than silently reusing the main diagnostic's object.
 # These are manifest-verified cardinalities, not historical exactness totals.
 ECL_EXACT_CARRIERS = {
-    'build/matching/EclManager.obj': 33,
+    'build/matching/EclManager.obj': 35,
     'build/matching/EclManager-Type11.obj': 2,
 }
 TITLE_EXACT_CARRIERS = {
@@ -788,8 +788,8 @@ def validate_runecl_real_angle_owners(units: dict) -> None:
                     ('REL32', RUNECL_REAL_ANGLE_ORIGINAL_VA, 0)):
                 raise RuntimeError('ECL/ExAttack exact source contains false angle-call identity')
             exact_ref_count += 1
-    if exact_ref_count != 17:
-        raise RuntimeError('ECL/Enemy/Type11 seventeen exact C++ angle callsites missing')
+    if exact_ref_count != 19:
+        raise RuntimeError('ECL/Enemy/position nineteen exact C++ angle callsites missing')
 
 
 def guard_runecl_real_angle_callsite_report(report: dict) -> dict:
@@ -4196,7 +4196,31 @@ def run_audio_true_exact(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     return {},exact
 
 
-def run_player_type11(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+def inspect_player_position_pair(obj: str) -> dict:
+    """Original-hashed complete comparisons from the same freshly built TU."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        'position_pair', ROOT/'scripts/probe-player-position-visibility.py')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        units = tomllib.load(stream)['units']
+    coff = module.load_coff()
+    owners = {}
+    for owner in module.OWNERS:
+        result = module.compare(coff, ROOT/obj, owner, units)
+        if (result['complete_bytes_equal'] is not True or
+                result['candidate_bytes'] != 249 or len(result['bindings']) != 8 or
+                result['overlapping_differences'] != 0 or
+                result['missing_bytes'] != 0 or result['extra_bytes'] != 0):
+            raise RuntimeError('Player position Type4/8 complete original owner drifted')
+        owners['player_position_type'+str(owner[0])] = {
+            'physical_bytes': 249, 'fields': 8, 'different_bytes': 0}
+    return owners
+
+
+def run_player_type11(*, protect_exact: bool,
+                      include_detached_math: bool = True) -> tuple[dict, list[dict]]:
     """Replay the genuine shared source once per profile, including its bosses."""
     owners, _ = run_ecl(include_trail=False, include_interpreter=True,
                         protect_exact=False)
@@ -4210,8 +4234,9 @@ def run_player_type11(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     if protect_exact:
         exact.extend(cold_replay_exact_source(
             'src/EclManager.cpp', ECL_EXACT_CARRIERS, already_built=(obj,)))
-        exact.extend(cold_replay_exact_source(
-            'src/Float3.cpp', {'build/matching/Float3.obj': 4}))
+        if include_detached_math:
+            exact.extend(cold_replay_exact_source(
+                'src/Float3.cpp', {'build/matching/Float3.obj': 4}))
     else:
         build('player-position-callback-type11')
     caller = parsed(['scripts/inspect-player-position-type11.py',
@@ -4233,6 +4258,7 @@ def run_player_type11(*, protect_exact: bool) -> tuple[dict, list[dict]]:
             caller.get('difference_offsets') != [] or
             caller.get('complete_bytes_agree') is not True):
         raise RuntimeError('Type11 complete original owner no longer agrees')
+    owners.update(inspect_player_position_pair(obj))
     owners.update(player_position_type11={'physical_bytes': 732, 'fields': 36,
                                          'different_bytes': 0},
                   exattack_type19_update={'physical_bytes': 821,
@@ -4244,7 +4270,7 @@ def run_player_type11(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -4253,8 +4279,10 @@ def main() -> int:
               'owners': {}, 'canonical_siblings': []}
     try:
         execute(['scripts/verify-target.py'])
-        if args.owner == 'type11':
-            owners, exact = run_player_type11(protect_exact=not args.skip_exact_siblings)
+        if args.owner in ('type11', 'positions'):
+            owners, exact = run_player_type11(
+                protect_exact=not args.skip_exact_siblings,
+                include_detached_math=args.owner == 'type11')
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('audio', 'all'):

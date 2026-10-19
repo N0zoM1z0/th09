@@ -26,7 +26,7 @@ class Type11SharedReplay(unittest.TestCase):
             'complete_bytes_agree': True,
         }
 
-    def replay(self, evidence, protect_exact=True):
+    def replay(self, evidence, protect_exact=True, include_detached_math=True):
         # The three existing boss guards have independent corruption tests;
         # isolate source/profile reuse and the newly exact caller contract here.
         with patch.object(boss, 'run_ecl', return_value=({'runecl': {}}, [])) as ecl, \
@@ -37,8 +37,11 @@ class Type11SharedReplay(unittest.TestCase):
                 patch.object(boss, 'guard_enemy_update') as enemy, \
                 patch.object(boss, 'cold_replay_exact_source', side_effect=[
                     [{'unit': 'shared'}], [{'unit': 'remaining-math'}]]) as exact, \
+                patch.object(boss, 'inspect_player_position_pair', return_value={}) as pair, \
                 patch.object(boss, 'build') as build:
-            result = boss.run_player_type11(protect_exact=protect_exact)
+            result = boss.run_player_type11(protect_exact=protect_exact,
+                                            include_detached_math=include_detached_math)
+            pair.assert_called_once_with('build/matching/EclManager.obj')
             return result, ecl, trail, enemy, exact, build
 
     def test_reuses_boss_object_and_replays_only_changed_sources(self):
@@ -54,6 +57,14 @@ class Type11SharedReplay(unittest.TestCase):
         build.assert_not_called()
         self.assertEqual(len(exact), 2)
         self.assertEqual(owners['player_position_type11']['different_bytes'], 0)
+
+    def test_position_mode_reuses_unchanged_detached_math(self):
+        (_, exact), _, _, _, replay, build = self.replay(self.caller(), True, False)
+        replay.assert_called_once_with(
+            'src/EclManager.cpp', boss.ECL_EXACT_CARRIERS,
+            already_built=('build/matching/EclManager.obj',))
+        self.assertEqual(exact, [{'unit': 'shared'}])
+        build.assert_not_called()
 
     def test_diagnostics_only_still_cold_builds_the_caller_profile(self):
         (_, exact), _, _, _, replay, build = self.replay(self.caller(), False)

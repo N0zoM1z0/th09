@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Cold-test the real Float3 callee visibility hypothesis for Player types 4/8.
+"""Cold-test maintained Player types 4/8 in standalone and real ECL contexts.
 
 Compare complete original owners in both the standalone caller context and the
 actual EclManager carrier. This diagnostic never grants exactness credit. The
 callee's real void ABI, compiler flags and all source bodies remain unchanged.
+The ECL context includes all current genuine math bodies; a context difference
+must not be attributed to one callee without separately isolating that cause.
 Only a compact JSON report survives; temporary source/OBJ/PDB files are removed.
 """
 from __future__ import annotations
@@ -36,10 +38,10 @@ def load_coff():
 
 def source_snapshot() -> dict[str, str]:
     paths = subprocess.check_output(
-        ['git', 'ls-files', '-z', '--', 'src', 'config/match-units.toml',
+        ['git', 'ls-files', '--cached', '--others', '--exclude-standard', '-z', '--', 'src', 'config/match-units.toml',
          'config/tools.lock.toml', 'scripts/compile-probe.sh'], cwd=ROOT)
     return {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
-            for name in paths.decode().split('\0') if name}
+            for name in paths.decode().split('\0') if name and (ROOT / name).is_file()}
 
 
 def original_fields(target: bytes, base: int) -> list[tuple[int, str, int]]:
@@ -124,17 +126,17 @@ def run(output: Path) -> dict:
             callee['target_address'] != 0x00441890 or callee['profile'] != profile):
         raise ValueError('real Float3 owner/profile changed; review probe first')
     before = source_snapshot()
-    callers = [(ROOT / f'src/PlayerPositionCallback30404Type{k}.cpp').read_text()
-               for k in (4, 8)]
-    starts = [text.index(f'int __fastcall PlayerPositionCallback30404Type{k}(')
-              for text, k in zip(callers, (4, 8))]
-    if callers[0][:starts[0]] != callers[1][:starts[1]]:
-        raise ValueError('Player callers no longer share the same reviewed prefix')
-    shared = callers[0] + '\n' + callers[1][starts[1]:]
+    fragment = 'PlayerPositionCallback30404Type4Type8.inl'
+    shared = (ROOT / 'src' / fragment).read_text()
+    if any(shared.count(f'int __fastcall PlayerPositionCallback30404Type{k}(') != 1
+           for k in (4, 8)):
+        raise ValueError('shared Player fragment lacks one complete definition per owner')
     ecl = (ROOT / 'src/EclManager.cpp').read_text()
-    if '#include "ExAttackInitType8.inl"' not in ecl:
+    if ('#include "ExAttackInitType8.inl"' not in ecl or
+            ecl.count(f'#include "{fragment}"') != 1):
         raise ValueError('actual Float3 definition is no longer in the ECL carrier')
-    contexts = {'standalone': shared, 'real_ecl_carrier': ecl + '\n' + shared}
+    contexts = {'standalone': shared,
+                'real_ecl_carrier': '#include "EclManager.cpp"\n'}
     result = dict(diagnostic_only=True, exactness_credit='none', profile=profile,
                   source_head=subprocess.check_output(
                       ['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
