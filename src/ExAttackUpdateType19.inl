@@ -1,3 +1,8 @@
+#pragma once
+
+// Compile with EclManager's visible ordinary Float3::FromAngleMagnitude.
+// The original retains its receiver in ECX for the following vector addition.
+
 #include "AnmManager.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackInterpolation.hpp"
@@ -34,18 +39,24 @@ struct ExAttackType19UpdateGameManagerView
     ExAttackType19UpdateSideView sides[2];
 };
 
-extern ExAttackType19UpdateGameManagerView g_GameManager;
+#include "AsciiGameManagerView.hpp"
+
+
+
+inline ExAttackType19UpdatePlayerView *& GetType19PlayerSlot(ExAttackType19UpdateRecord *owner)
+{ return reinterpret_cast<ExAttackType19UpdateGameManagerView &>(g_GameManager).sides[owner->opponentSide04].player04; }
+inline ExAttackType19UpdatePlayerView *GetType19PlayerValue(ExAttackType19UpdateRecord *owner)
+{ return reinterpret_cast<ExAttackType19UpdateGameManagerView &>(g_GameManager).sides[owner->opponentSide04].player04; }
 
 int __fastcall ExAttackUpdateCallbackType19(ExAttackRecord *base)
 {
-    ExAttackType19UpdateExtra *extra =
-        reinterpret_cast<ExAttackType19UpdateRecord *>(base)->extra34;
-    ExAttackType19UpdateRecord *record =
-        reinterpret_cast<ExAttackType19UpdateRecord *>(base);
+    ExAttackType19UpdateExtra *extra = reinterpret_cast<ExAttackType19UpdateRecord *>(base)->extra34;
 
     switch (extra->state00)
     {
     case 0:
+    {
+    ExAttackType19UpdateRecord *record = reinterpret_cast<ExAttackType19UpdateRecord *>(base);
         ExAttackInterpolate2D(
             &record->position20.x,
             &extra->point1C.x,
@@ -62,7 +73,7 @@ int __fastcall ExAttackUpdateCallbackType19(ExAttackRecord *base)
             record->unknown00 = record->opponentSide04;
             record->timer10 = 0;
 
-            g_GameManager.sides[record->side08]
+            reinterpret_cast<ExAttackType19UpdateGameManagerView &>(g_GameManager).sides[record->side08]
                 .player04->anmFileBC->ExecuteAnmIdx(
                     reinterpret_cast<AnmVm *>(record->dynamicData1C),
                     9);
@@ -72,6 +83,7 @@ int __fastcall ExAttackUpdateCallbackType19(ExAttackRecord *base)
         }
         break;
 
+    }
     case 1:
     {
         ExAttackType19UpdateVertex *vertex = &extra->vertices4C[0];
@@ -155,20 +167,17 @@ int __fastcall ExAttackUpdateCallbackType19(ExAttackRecord *base)
         }
         while (sample != 32);
 
+    ExAttackType19UpdateRecord *record = reinterpret_cast<ExAttackType19UpdateRecord *>(base);
         if (record->timer10 < 300 && record->timer10 > 20)
         {
-            // Capture the current Player before the Float3 subtraction, but
-            // retain the live Side slot for the multiplier update afterward.
-            ExAttackType19UpdatePlayerView *player =
-                g_GameManager.sides[record->opponentSide04].player04;
-            ExAttackType19UpdateSideView *side =
-                &g_GameManager.sides[record->opponentSide04];
+            ExAttackType19UpdatePlayerView *player = GetType19PlayerValue(record);
+            ExAttackType19UpdatePlayerView *&slot = GetType19PlayerSlot(record);
             Float3 delta = player->position1B88 - record->position20;
 
             if (delta.x * delta.x + delta.y * delta.y <= 4096.0f)
             {
-                side->player04->multiplier1CE4 *= 0.40000001f;
-                g_GameManager.sides[record->opponentSide04]
+                slot->multiplier1CE4 *= 0.40000001f;
+                reinterpret_cast<ExAttackType19UpdateGameManagerView &>(g_GameManager).sides[record->opponentSide04]
                     .player04->multiplier1CE8 *= 0.40000001f;
             }
         }
@@ -182,10 +191,13 @@ int __fastcall ExAttackUpdateCallbackType19(ExAttackRecord *base)
     }
 
     case 2:
+    {
+    ExAttackType19UpdateRecord *record = reinterpret_cast<ExAttackType19UpdateRecord *>(base);
         if (record->timer10 > 20)
             return 1;
         break;
 
+    }
     default:
         break;
     }

@@ -14,7 +14,7 @@ spec.loader.exec_module(INSPECT)
 class Type19BindingTests(unittest.TestCase):
     def row(self, **changes):
         row = dict(offset=0, type='DIR32',
-                   symbol='?g_GameManager@@3UExAttackType19UpdateGameManagerView@@A',
+                   symbol='?g_GameManager@@3UAsciiGameManagerView@@A',
                    addend=4)
         row.update(changes)
         return row
@@ -26,6 +26,12 @@ class Type19BindingTests(unittest.TestCase):
     def test_unknown_symbol_rejected_before_binding(self):
         rows = [self.row(offset=i * 4) for i in range(INSPECT.EXPECTED_COUNT)]
         rows[0]['symbol'] = '?InventedGlobal@@3IA'
+        with self.assertRaisesRegex(ValueError, 'unreviewed Type19 COFF symbol'):
+            INSPECT.bind_candidate(bytes(INSPECT.SIZE), rows)
+
+    def test_old_independent_game_manager_alias_rejected(self):
+        rows = [self.row(offset=i * 4) for i in range(INSPECT.EXPECTED_COUNT)]
+        rows[0]['symbol'] = '?g_GameManager@@3UExAttackType19UpdateGameManagerView@@A'
         with self.assertRaisesRegex(ValueError, 'unreviewed Type19 COFF symbol'):
             INSPECT.bind_candidate(bytes(INSPECT.SIZE), rows)
 

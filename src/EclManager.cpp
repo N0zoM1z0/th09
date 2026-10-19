@@ -823,3 +823,4 @@ th09_ecl_select_next_context:
 
 #include "ExAttackInitType19.inl"
 #include "ExAttackInitType21.inl"
+#include "ExAttackUpdateType19.inl"

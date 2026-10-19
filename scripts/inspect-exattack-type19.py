@@ -34,7 +34,7 @@ DESTINATIONS = {
     '??GFloat3@@QBE?AU0@ABU0@@Z': 0x00401140,
     '?ExAttackInterpolate2D@@YIXPAM0000MM@Z': 0x0042AF80,
     '?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z': 0x00401560,
-    '?g_GameManager@@3UExAttackType19UpdateGameManagerView@@A': 0x004A7D90,
+    '?g_GameManager@@3UAsciiGameManagerView@@A': 0x004A7D90,
     '__real@00000000': 0x0048E314,
     '__real@3f800000': 0x0048E2A4,
     '__real@3e4f8c3d': 0x00491608,
