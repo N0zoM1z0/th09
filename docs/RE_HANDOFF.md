@@ -58,6 +58,12 @@ separate **unproven** milestones.
   are below `.analysis/gpt-61sol-20261019-type19-slot/`. CI passes **668 tests
   /28 skipped**. After all processes exited, removed **184 generated files
   /8,311,472 bytes**; source-bound evidence and recipes remain.
+- **Latest bounded context controls:** production inputs remain unchanged from
+  `3b7c564`; no new exact credit. Timer setter visibility breaks the matching
+  `CANCEL_LASER` segment; typed jump/wire, Effect getter, Type19 owner and
+  camera SDK-copy controls also fail to close their complete owners. Detailed
+  results and reproducible packet paths are in the October 19 timer/resource
+  section of [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md).
 - **Most recent Factory-accepted source checkpoint:** `7324b4e` (`gpt-web: restore native ANM
   and Supervisor ABI across MusicRoom callbacks`). It preserves the **2,258
   byte exact** MusicRoom update and **209 byte exact** drawing function while
