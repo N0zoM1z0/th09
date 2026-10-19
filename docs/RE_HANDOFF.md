@@ -62,8 +62,9 @@ separate **unproven** milestones.
   stale 65-difference ledger wording to **22**; gameplay source is unchanged.
   New `--owner added` checks **572 physical bytes/25 fields**, protects all
   **550 matching bytes**, and replays the three exact resets (**93 bytes**)
-  from one source-cold carrier. Current controls and evidence paths are in
-  the October 19 Player initialization section of [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md).
+  from one source-cold carrier. Camera SDK/callee controls retain four
+  differences; Front's exhausted-group exit is now correctly recorded.
+  Current evidence paths are in [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md).
 - **Most recent Factory-accepted source checkpoint:** `7324b4e` (`gpt-web: restore native ANM
   and Supervisor ABI across MusicRoom callbacks`). It preserves the **2,258
   byte exact** MusicRoom update and **209 byte exact** drawing function while
