@@ -48,6 +48,17 @@ remain separate open gates.
   57 fields /13 calls /70 blocks** against the1,280-byte original. A nine-byte
   name storage hypothesis remains unadopted. Recipes, source hashes and full
   diagnostics remain in `.analysis/gpt-61sol-20261020-title-replay-menu/`.
+- **Latest large-owner control:** seven complete native Etama visibility
+  contexts retain **600 bytes /27 fields /13 calls /17 blocks /268 differences**.
+  Four Float3 conversion-visible contexts regress the previously exact
+  DrawSingleBullet field positions and are explicitly rejected; the baseline,
+  Effect-only contexts and all seven AddedCallback bodies remain exact.
+  Full reports and source hashes are retained in
+  `.analysis/gpt-61sol-20261020-etama-native-context/`. No game/Oracle input or
+  exactness credit changes. See the knowledge base before repeating this family.
+  Final CI again passes747 tests/28 skipped. After all producers stop, this
+  follow-up removes **365 reproducible files /6,533,792 bytes** from its
+  own packet and initially absent build cache; sources and reports remain.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Parent remote main was verified at **c4848e8**. Compilers run

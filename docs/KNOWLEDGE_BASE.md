@@ -10875,3 +10875,51 @@ attest historical producer execution.
   at least32,737 more complete exact authored bytes remain for95%. Original
   Effect prefix retains **33 missing entries**. Original names, unique TU
   partition, native-product/runtime/semantic/port gates remain unknown/open.
+
+## October 20: Etama native visibility controls and exact-sibling rejection (gpt-6.1-sol)
+
+- From immutable source **4e9776d3dfda7ffdab6c604c10b146c2c3352152**,
+  seven complete original-profile Etama carriers test baseline, a modeled
+  `Float3::operator float*` body before/after the caller, the maintained native
+  `EffectManager::DrawBulletLayerEffects` body before/after, and both bodies
+  before/after. The conversion uses ordinary `return &this->x`; all four emitted
+  conversion bodies independently match the folded **three-byte original
+  0x004343D0**. This does not settle that shared entry's source ownership/origin,
+  and it receives no authored/exact credit.
+- All seven full `EtamaController::OnDraw` functions retain **600 bytes /
+  27 original-bound fields /13 calls /17 blocks /268 linked differences** and
+  identical raw SHA256
+  `74200e31761283cffa486c7b2b719b4b39a53f987471de5c93f086913aeb7d5d`.
+  No compiler flags, caller ABI, external return contracts or target bytes change.
+- Exact collateral checks matter even when the large caller is byte-neutral:
+  **all four conversion-visible contexts regress DrawSingleBullet**. Its
+  physical extent stays232 bytes, but the second conversion field moves from
+  original+0x54 to+0x56 and several later call fields move by one byte. The
+  complete native field inventory rejects those contexts; no label rebinding,
+  field relocation or partial similarity can accept them. AddedCallback remains
+  **832/832 physical exact** in all seven contexts. Baseline and Effect-only
+  contexts preserve **232/232 exact DrawSingleBullet**; the four actually
+  co-visible Effect bodies are **169/169 exact**, even under this carrier's EH
+  profile. Thus **14 of18** whole collateral/callee comparisons pass, with four
+  explicit rejected sibling results. Neither new source context is adopted.
+- Reproduce from that source commit with the unchanged `bullet-draw-single`
+  compiler profile: concatenate the existing Etama TU with the unchanged
+  `EffectBulletLayerDraw.cpp` and/or the above ordinary conversion definition
+  on each side, cold-compile serially, then run `inspect-etama-draw.py`. Bind
+  sibling objects through their original canonical identities, checking actual
+  same-owner positions for any compiler-private labels. The private recipe,
+  all seven source hashes, full diagnostics and rejection reports are retained
+  under `.analysis/gpt-61sol-20261020-etama-native-context/`.
+- The supplemental private comparator initially treated an omitted manifest
+  addend as zero; it was corrected to replay the actual COFF addend, matching
+  the canonical comparator. Already cleaned reproducible objects were rebuilt
+  from retained sources to finish this audit. Its later four field-position
+  rejections are actual context regressions, not the addend bug. Reports
+  explicitly distinguish both. No maintained game/Oracle engineering input or
+  canonical exact claim changes; **963 exact /83.3507%** remains the live state.
+- RunEcl's existing timer/reference/wrapper controls were reviewed, not rerun.
+  Adjacent TH08's current Jump source directly assigns its timer current field;
+  original TH09 instead calls actual assignment wrapper0x00401500 at0x00408944.
+  TH08 supplies a source-family hypothesis only and does not justify replacing
+  TH09's independently observed call. The original **30-byte** RunEcl residual
+  and95% objective remain open.
