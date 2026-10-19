@@ -37,12 +37,20 @@ separate **unproven** milestones.
   Source-bound witnesses and recipes are below
   `.analysis/gpt-61sol-20261019-options/`. After validation, removed
   **41 generated files /2,855,840 bytes**; compact evidence remains.
-- **Latest bounded controls:** 14 Options exit/return/case-order compiles and
-  13 Effect leaf compiles produce no new exact owner. Options remains
-  **2,048 versus 2,045 bytes**; its EBX zero-versus-six constant lifetime
-  still differs. Effect remains **51 bytes/eight differences**. Earlier Enemy,
-  RunEcl and Type3 controls remain in the knowledge base and their source-bound
-  analysis packets; these failures do not rule out other natural source models.
+- **Latest bounded controls:** 82 Controller trial compile attempts, four
+  Options input-width/owner controls and five parser output-clear controls
+  produce no new exact owner; maintained gameplay inputs are unchanged from
+  `ac55675`. Controller remains **808 original/796 source**, with its first
+  **674 complete instruction bytes** identical and the residual in the WinMM
+  axis tail. Separate comparison helpers retain duplicate midpoint arithmetic
+  but also duplicate range arithmetic; caching the range restores midpoint
+  CSE or reloads globals. These tested forms do not close the owner. Options
+  remains **2,048/2,045** and parser **243/243 with 76 differences**. Four
+  freshly built canonical sibling checks pass (**797 complete exact bytes**).
+  Recipes/results are in `.analysis/gpt-61sol-20261019-{controller,input-width,parser-clear}/`;
+  earlier controls remain in the knowledge base. Negative results apply only
+  to their tested source/compiler contexts. CI again passes **663 tests /28
+  skipped**; after it exited, removed **189 generated files /3,698,861 bytes**.
 - **Most recent Factory-accepted source checkpoint:** `7324b4e` (`gpt-web: restore native ANM
   and Supervisor ABI across MusicRoom callbacks`). It preserves the **2,258
   byte exact** MusicRoom update and **209 byte exact** drawing function while
@@ -196,7 +204,7 @@ all 38 open functions. For the complete <=256-byte cohort see
 | **Replay BeginPlaybackStage** | 0x00420840 | **540 / 538**, 152/151 instructions, **32/32 ordered original PE/COFF fields**, 5 calls, 12/12 matching CFG blocks; **39** overlapping unlike bytes + 2 missing (49→39) | Scoped volatile read of `g_ReplaySideState0` after header 1E7 publication restores all 32 original field referents in the correct order and all **first 30 physical field positions**, instead of the previous one reversed field pair. Nine register-scheduling residual positions `+0x152,+0x156,+0x15C,+0x162,+0x168,+0x16C,+0x172,+0x178,+0x17A` and 30 seed/tail bytes `+0x1FB..+0x1FE,+0x200..+0x219` remain guarded. All **499 already matching** candidate bytes are protected; tail fields are still shifted -1/-2 bytes. `--owner replay` source-cold replays all **12 exact members across both pinned compiler profiles**; still NON-EXACT. |
 | **ANM camera-facing quad** | 0x00439820 | **622/622**, 201 instructions, 40 fields, 11 calls, 8 blocks; **4** differences (13→6→4) | Typed three-vector scratch plus complete three-word copy keeps source and original semantics and now reproduces **618 original physical bytes**. The final two real local stores are scheduled Z-before-Y instead of retail Y-before-Z, leaving exact residual offsets `+0xF6,+0xF7,+0xF9,+0xFA`. This improves whole-owner physical equality from the earlier six-residual baseline, deliberately moving two mismatches within the same copy; all 618 currently matching original bytes are now strictly protected. All **15 same-Render-carrier exact functions** and separately compiled exact `Project3DQuad` (**16 strict checks**): `--owner anm`. No new exact function credit. |
 | **ScreenEffect shake envelope** | 0x004227A0 | **336/336**, 132 instructions, 20 fields, 8 calls, 26 blocks; **26** differences (28→26) | Authentic VC7.1 order of two real volatile references (fade, then hold; same hold + fade value) recovers original physical **+0x5C and +0x5F** with no regressed byte. Full original-SHA/26-offset guard protects **all 310 already matching bytes**; all **18 ScreenEffect exact owners** (2,562 bytes) pass across the genuine three profiles. Remaining EDI/ESI owner allocation is NON-EXACT. |
-| **Controller input** | 0x0042B410 | **808 / 796**, 32 fields | WinMM X/Y read and register chronology; use `scripts/inspect-controller-input.py`. |
+| **Controller input** | 0x0042B410 | **808 / 796**, 32 fields; **102** overlap differences /12 missing bytes | First **674 complete instruction bytes** match. WinMM axis midpoint/range CSE and register chronology remain open; split helpers, POD bounds, SDK value/reference types and loop controls have not closed the owner. Use `scripts/inspect-controller-input.py`. |
 | **Supervisor network service** | 0x00430AA0 | **1,633 / 1,632**, 108 source fields | Real queue ownership and 1,395 overlap differences still open; `--owner network`. |
 | **Supervisor::OnUpdate** | 0x00431110 | **844 authored / 996 target physical**, 952 candidate physical | 92 external fields, 27 calls but 44 missing physical bytes; `--owner network`. |
 | **ECL MoveRandomBiased leaf** | 0x00407E30 | **516 / 517**, 28 fields, 14 calls, 24 blocks; 148 overlap + 1 extra | Genuine shared RNG method/global owner symbols now independently original-bound; Y-pointer target `LEA [EAX+4]` versus candidate `MOV EAX` remains unresolved. `--owner runecl`. |
