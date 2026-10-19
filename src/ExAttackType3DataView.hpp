@@ -7,8 +7,6 @@
 // TH09 Type3 exact initializer and nonexact 780-byte update allocate/use
 // the same 0x190-byte Extra object: state +0, motion +4, 32 history vectors
 // starting at +0x10. Original authored class names remain unverified.
-struct ExAttackType3VmView;
-
 // Init also consumes the two tail arguments at +0x38/+0x3C; update uses
 // only the common +0x00..+0x37 prefix. +0x1C is one pointer-sized slot,
 // viewed as void* during initialization and a VM-array pointer on update.
@@ -22,7 +20,7 @@ struct ExAttackType3RecordView
     union
     {
         void *dynamicData1C;
-        ExAttackType3VmView *vms1C;
+        AnmVm *vms1C;
     };
     Float3 position20;
     int vmCount2C;

@@ -7,17 +7,10 @@
 
 #include <stddef.h>
 
-struct ExAttackType3VmView
-{
-    unsigned char unknown000[0x288];
-    Float3 pos2;
-    unsigned char unknown294[0x2A4 - 0x294];
-
-    void SetInterrupt(short interrupt);
-};
-
-typedef char ExAttackType3VmViewSizeIs2A4[
-    (sizeof(ExAttackType3VmView) == 0x2A4) ? 1 : -1];
+typedef char ExAttackType3NativeVmPositionAt288[
+    (offsetof(AnmVm, pos2) == 0x288) ? 1 : -1];
+typedef char ExAttackType3NativeVmInterruptAt1FE[
+    (offsetof(AnmVm, pendingInterrupt) == 0x1FE) ? 1 : -1];
 
 int __fastcall ExAttackUpdateCallbackType3(ExAttackRecord *base)
 {

@@ -17,94 +17,56 @@ The **95%** milestone still needs **32,883** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
-- **Effect 34 family:** the newly inventoried initializer now cold-replays
-  **178 bytes/three fields**. The existing **208-byte/11-field** update stays exact.
-  The **946-byte draw** now has maintained source: **959 bytes, 53 original referents,
-  20 direct/12 COM calls**, correct SDK arguments, **593 differences +13 extra bytes**.
-  `--owner effect34` protects all 353 already equal draw bytes and the shared cohort.
-  This adds 1,124 authored bytes and 178 exact bytes; no prior nonexact owner closes.
-- **Enemy native call boundaries:** the 3,900-byte boss now uses shared
-  `ZunTimer` and the real descriptor constructor for **14 original calls**.
-  Seven private method aliases are removed. Complete byte/call/field/graph
-  identity stays at **29 differences**; ten new ECL-context controls do not close it.
-  Two private label names are bound to actual COFF positions and unchanged targets.
-  Current native replay and CI results are recorded below.
-- **ReplaySave text construction:** the two-byte single-character temporary
-  now restores nine more physical positions: **800 bytes, 245 instructions,
-  41 fields, four calls, 28 matching blocks, 96 linked differences**. All **704**
-  equal bytes are protected, with no old equal position regressed. SDK math
-  and the existing buffer width remain. Original C++ type spelling is unknown.
-  Recipes: `.analysis/gpt-61sol-20261019-replay-callee-context/`.
-- **RunEcl call census:** `inspect-ecl-call-inventory.py OBJECT` independently
-  checks real call identities. Matching counts never confer exactness.
-- **Current ECL controls:** baseline stays **15,564/598/30**, with 146/148
-  paired shapes. DWORD, mixed-width bitfields, argument order and actual pointer
-  advancement controls yield no improvement. A native bitfield return emits
-  **44/45 opcode155 bytes**, moving fields despite unchanged physical owner size.
-  Reproduce with `nice -n 10 python3 -B scripts/probe-ecl-native-timeout.py`.
-  The added storage/advance controls are retained in
-  `.analysis/gpt-61sol-20261019-runecl-field-storage/`; no ECL/profile change.
-- **New exact camera projection:** `AnmManager::ProjectCameraFacingQuad`
-  at **0x00439820** now reproduces **622 bytes, 40 fields, 201 instructions,
-  11 calls and eight blocks**. Genuine SDK math types, ordinary vector locals
-  and native assignment under **/O2 /Ob0** replace the hand-written word copy
-  and aggregate workspace. No new assembly, padding or register directives.
-- **SDK and controls:** the shared view includes the real pinned
-  `d3dx8math.h`, preserving its extern-C stdcall declarations. Ten old
-  Project3DQuad COFF fields use the genuine five SDK API symbol spellings;
-  their target addresses and every linked byte stay unchanged. Six local
-  declaration orders all close the camera. The same ordinary source with
-  simplified SDK views remains **622/24 differences** under either profile.
-- **Focused camera gate:** `--owner anm` builds the unified /Ob0 Render profile
-  and the separate Projection source, strictly replaying **17 functions /6,409
-  physical bytes /420 fields**. Its camera guard now rejects every nonzero
-  difference. The unchanged ECL/Player cohort reuses its prior source-bound
-  proof. Recipes/results: `.analysis/gpt-61sol-20261019-camera-joint-context/`.
-- **New exact owners:** Type4/8 position callbacks at **0x00443B10 /0x00447620**
-  now reproduce **249 bytes/eight fields each**. `Float3 &offset` aliases the
-  single genuine offset object. Both that reference and the real ECL/math
-  context are required by the measured four-cell experiment: standalone
-  reference and ECL value forms still emit 250 bytes. No new vector storage,
-  fake non-void angle API, register directives or padding.
-- **One maintained source:** the shared
-  `PlayerPositionCallback30404Type4Type8.inl` replaces two private CPP copies
-  and is included once by EclManager. All real math definitions remain single.
-  Type11's previous **732-byte/36-field exact** result stays protected.
-- **Focused scope:** `--owner positions` builds the two changed ECL profiles
-  and checks **37 complete functions /14,204 physical bytes /645 fields**.
-  It also checks full RunEcl, biased movement, Enemy and Type19 update.
-  The separate four-function Float3 source is unchanged from `c5f2c31` and
-  its source-bound evidence is reused. `--owner type11` additionally rebuilds
-  that separate source when the broader math scope is wanted.
-- **Other verified open work:** RunEcl **15,564/598/30 differences**;
-  Enemy **3,900/97/29**; Type19 update **821/35/44**; Title DrawResult
-  **1,939/22**; Etama OnDraw **600/268**; Player initialization **572/22**;
-  Effect AddedCallback **51/eight**. There are six <=256-byte open functions.
-  Type19/21 initializers remain **763/727 exact** and Etama OnUpdate
-  **2,216 physical bytes exact**. Keep large and small functions in scope.
-- **Evidence routing:** `.analysis/gpt-61sol-20261019-type48-context/` retains
-  the joint visibility experiment, complete original comparisons and recipes;
-  the companion `...-options-local-flow/` retains rejected whole-owner controls.
-  Durable facts and historical receipts remain in `KNOWLEDGE_BASE.md`,
-  `RE_ACCEPTED_RECEIPTS.md` and Git history. Original TU ownership is unknown.
-- **Receipt boundary:** latest Factory-accepted source remains `7324b4e`.
-  Current local canonical results are not new Factory acceptances. The folded
-  physical helper `0x004343D0` remains source-ownership unknown.
-- **Operator contract:** direct local IDA Pro MCP and Bash;
-  `gpt-6.1-sol: ...` commits, followed by the explicitly requested push.
-  The previous successful push verified remote `main` at `8e857e7`. Preserve all dirty
-  work, never patch the target or commit private inputs, and verify remote state.
-  Clean reproducible generated files only after their producers stop.
-- **Focused validation:** **39** canonical functions pass **14,412 physical bytes
-  /656 fields**; CI passes **718 tests/28 skipped**. RunEcl/Enemy/Type19 stay guarded.
-  **677** public inputs bind unchanged to `8e857e7` (636 raw, 41 checkout EOL
-  normalization); ten reviewed inputs change and three new source/tool/test files join.
-  After all 14 producers stopped, cleanup removed **478 reproducible files
-  /21,022,296 bytes**, including 60 private source copies; `build/` is absent.
-  The broader denominator includes the nonexact draw. No prior exact owner regresses.
-
-
-
+- **Type3 VM boundary:** the update now uses the shared `AnmVm` array and five
+  real `SetInterrupt` calls at **0x00406790**, removing the private method alias.
+  Complete **780 bytes /38 fields /24 calls /15 differences** stay unchanged.
+  `--owner type3` protects **seven exact functions /1,024 bytes /58 fields**,
+  including the separate 18-byte interrupt body. Coordinate-definition visibility
+  removes three global loads and shrinks the owner to 765/35; it is rejected.
+- **RunEcl:** the fresh full baseline stays **15,564/598/30**, with 146/148
+  paired shapes. Six actual DWORD-wire controls all shrink the owner to
+  **15,560 bytes** and are rejected. Five native bitfield forms keep a DWORD
+  load and emit a 43-byte opcode155; the byte-parameter helper narrows the load
+  but also emits 43 bytes. No wire-width or source change is accepted.
+  Recipe: `.analysis/gpt-61sol-20261020-ecl-wire-word/probe.py`.
+  `inspect-ecl-call-inventory.py OBJECT` independently checks real call identities.
+- **Effect 34 family:** initializer **178/three fields** and update **208/11**
+  are exact. The maintained **946-byte draw** emits **959 bytes /53 referents
+  /20 direct +12 COM calls /593 overlap differences +13 extra bytes**.
+  `--owner effect34` protects all 353 already equal draw bytes and 39 exact
+  shared/separate functions. The draw's broader authored denominator is intentional.
+- **Current large/small fronts:** Enemy **3,900/97/29 differences** uses shared
+  Timer and descriptor calls; Type19 update remains **821/35/44**; Title
+  DrawResult **1,939/22**; ReplaySave **800/96**; Etama OnDraw **600/268**;
+  Player initialization **572/22**; Effect AddedCallback **51/eight**.
+  All previously equal positions remain guarded. Six <=256-byte functions stay open.
+  Type19/21 initializers are **763/727 exact**; Etama OnUpdate is **2,216 physical
+  bytes exact**. See the active-frontier table and short-function routing below.
+- **Exact context controls:** camera projection stays **622 exact** under the
+  real SDK /Ob0 carrier; `--owner anm` protects 17 functions /6,409 bytes /420 fields.
+  Type4/8 position callbacks stay **249 exact each**, using the shared Float3
+  reference fragment through ECL. `--owner positions` protects **38 complete
+  functions /14,204 physical bytes /645 fields** across two ECL profiles, plus
+  the guarded open owners. The separate unchanged Float3 source reuses its proof.
+- **Evidence routing:** durable target/compiler facts are in `KNOWLEDGE_BASE.md`;
+  original TU ownership remains unknown. Latest Factory-accepted source is still
+  `7324b4e`; current local results are not new Factory acceptances. The folded
+  helper **0x004343D0** remains source-ownership unknown. Historical receipts
+  remain in `RE_ACCEPTED_RECEIPTS.md` and Git history.
+- **Operator contract:** direct local IDA Pro MCP and Bash; `gpt-6.1-sol: ...`
+  commits followed by the requested push. The parent push verified remote `main`
+  at `6869e36`. Preserve dirty work and verify remote state independently. Never
+  patch the target or commit private inputs; clean artifacts after producers stop.
+- **Focused validation:** seven exact functions pass **1,024 bytes /58 fields**;
+  CI passes **718 tests/28 skipped**. **683** public inputs bind unchanged to
+  `6869e36` (641 raw, 42 checkout EOL normalization); seven reviewed inputs change.
+  Every match/profile/origin/source-mapping row is unchanged; only Type3 ledger
+  notes change. Unaffected cohorts reuse the parent proof and fresh ECL baseline.
+  Cleanup removed **441 reproducible files /11,029,986 bytes**, including 69
+  hash-reproduced source copies; seven earlier-cleared COFFs are separately audited.
+  Recipes/hashes/comparisons remain in the two current analysis roots;
+  Type3 evidence is under `.analysis/gpt-61sol-20261020-type3-native-vm/`.
+  `build/` is absent. Exact credit stays **950/985, 83.1754%**.
 
 ## Next worker: first three work packages
 
@@ -219,7 +181,7 @@ all 35 open functions. For the complete <=256-byte cohort see
 | **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 / 2,048**, 135 fields, 51 calls, 121 blocks | The 2,048-byte boss now uses genuine `AnmManager`/`AnmLoaded` and `SoundPlayer` receivers for **29 reviewed original-linked fields** rather than private C++ fake managers. Full codegen/call/CFG identity unchanged; 3 extra candidate bytes in input/confirmation menu remain NON-EXACT. Exact same-TU `PlayMenuSound` 34/34 and `--owner title` are required regressions. |
 | **Title character cursors** | 0x00424EDD / 0x00424FB0 / 0x0042505F | Active target/candidate **211/215**; Reverse/Inactive **175/175** | Active reduced 217→215 in `69165b2`, but none is exact. Loop pre-check and VM register/sprite reload schedules; `--owner title`. |
 | **GameManager CleanupGameplayState** | 0x0041B5C6 | **425 / 410**, 43 / 42 fields, 12 calls, **210** overlap; 24/24 blocks | **Recovered two real limitB4 memory writes** with first store before signed lower-bound `JGE` and conditional second store of 1. Previous 406/41 candidate only stored once and had 25 blocks. Still 15 bytes short and NON-EXACT; `--owner gamemgr` checks original/source publication traces and ten exact siblings. |
-| **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15** differences | Source now places middle-Z assignment after the middle-Y call; VC7.1 still hoists the tail-X load before the store (non-exact). The old 14-difference candidate wrongly wrote Z before the Y call. Strict chronology/offset guard; `--owner type3`. |
+| **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15** differences | Uses the real shared `AnmVm` array (stride 0x2A4, pos2 +0x288) and five canonical `AnmVm::SetInterrupt` calls. The separately compiled 18-byte callee stays exact; full update codegen and all 15 residual positions are unchanged. VC7.1 still hoists tail-X before middle-Z. Real coordinate-definition visibility removes three global loads and shrinks the owner to 765/35, so it is rejected. `--owner type3` protects seven exact functions. |
 | **ExAttack Type19 update** | 0x0044A330 | **821/821**, 35 fields, 11 calls, 30 blocks; **44** differences (198→190→44) | ECL's genuine ordinary Float3 callee visibility and the retained native GameManager Player slot recover 146 more bytes, with all fields in original order and no newly differing byte. All 777 matching bytes are protected. Remaining Record/Extra and magnitude-cursor register roles stay open; `--owner type19` protects both shared ECL compiler profiles and the separate draw. |
 | **ExAttack Type14/22 draw** | 0x00444130 | **959 / 974**, 53 full PE/COFF fields, 20 direct + 12 indirect calls, 9 jumps, 905 overlapping differences and 15 extra source bytes | Twelve device fields use the genuine `Supervisor g_Supervisor +8`; the old fictitious global type is rejected. Original-bound bytes, fields and calls remain unchanged. `--owner exattack` protects all 54 equal original positions and the three exact Type14/22 initializer/update controls. Remaining draw register/loop schedule stays NON-EXACT. |
 | **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **911 differing bytes** (down from 921) | Real `setupMode==0` non-mode-2 early exit recovers ten original-linked bytes and raises field identity alignment 155→157. The remaining 172-original / 171-source field gap is now independently decoded by **referent and multiplicity**: original-only `g_GameManager+0x00` (3), `+0x34` (1), `+0xA4` (1); candidate-only `+0x28` (1), `+0x98` (1), `+0xB4` (2). The target's side-registration loop anchors ESI to `side.flags (+0x34)` while VC7.1 prefers `side.selector (+0x28)`; 28 source-cold cursor/alias models were neutral or regressed. Still NON-EXACT; full 911-residual-byte and original/COFF-referent guards plus ten exact siblings run via `--owner gamemgr`. |

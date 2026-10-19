@@ -10225,3 +10225,56 @@ attest historical producer execution.
 - New **`scripts/inspect-effect-type34.py`** independently verifies original whole-owner hashes, decoded operands, actual COFF string/literal payloads, canonical symbols, genuine Supervisor addends, complete instructions/graphs and the 12 SDK stack-argument traces. **`--owner effect34`** protects **all 353 previously equal draw bytes** against same-count exchanges, checks every changed-source exact owner across both existing ECL profiles, and cold-checks the separate update. Four target-independent tests reject SDK argument changes, call reordering, damaged old equal positions and unreviewed prebuilt objects. Two compiler-private ECL labels change spelling only; actual COFF positions reproduce their unchanged original addresses before manifest maintenance.
 - Focused maintained-source replay passes **39 canonical functions /14,412 complete physical bytes /656 fields**, including **38 ECL-source functions /14,204 bytes /645 fields** and the separate update. The same main object preserves RunEcl **15,564/598/30**, Enemy **3,900/97/29**, Type19 **821/35/44** and the existing biased-movement guard. The unchanged factory/manager consumer proofs remain source-bound to `8e857e7`. Both new authored functions enter the inventory: **950/985 exact/source-present, 231,300/278,087 reviewed-authored bytes (83.1754%)**, with **35 nonexact functions /46,787 bytes** and **32,883** complete exact bytes still needed for 95%. The ratio decreases because the 946-byte missing nonexact owner joins the denominator; every prior exact owner remains protected and exact bytes rise by 178. Original C++ names, full lifetimes, unique TU partition, whole Windows linkage/runtime, semantic reconstruction, portability and new Factory acceptance remain open. No original target bytes or IDA metadata are written.
 - Full target-independent CI passes **718 tests /28 skipped**. The **687** parent-bound public inputs comprise **636 raw-identical +41 checkout-EOL-normalized unchanged inputs**, with ten reviewed modifications and three new maintained files; config changes are restricted to the two new functions, only one new exact match/unit, and the two position-proven label spellings. After all **14** compiler/CI handles reached terminal state, cleanup removed **478 reproducible files /21,022,296 bytes**, including **60** private source copies, and left `build/` absent. `reproduce_sources.py` derives all **31** trial sources and **29** exact ECL carriers from the parent commit and recorded recipes, verifies every source hash, and can rebuild one selected control. Only compact comparison/provenance reports, recipes and per-file cleanup hashes remain under `.analysis/gpt-61sol-20261020-effect34-family/`. The optional decoder import is scoped to the diagnostic call; module loading passes Python **-S**, and both full native diagnostic JSON results remain identical.
+
+
+## October 20: Type3 genuine VM boundary and actual wire-word controls (gpt-6.1-sol)
+
+- From clean **`6869e36c31cb704e0c063c59f0c78c28b005ff3b`**, the original Japanese
+  v1.50a disk/IDA identity and distributed bytes pass the local gates. A fresh
+  full RunEcl baseline remains **15,564 physical bytes /598 fields /30 ordinary
+  differences /146 of 148 shapes**. Six new controls read the actual nonvolatile
+  DWORD wire operand, rather than merely promoting a byte result. Five native
+  bitfield forms retain the DWORD load and emit **43 opcode155 bytes**, versus
+  the original byte load and **45 bytes**. Passing the word through the real
+  byte-parameter helper does narrow the load, but emits a different 43-byte
+  sequence. All six physical owners become **15,560 bytes** and fail the complete
+  owner gate. No field-width claim, ECL source/profile change or exact credit follows.
+  Recipe/results: `.analysis/gpt-61sol-20261020-ecl-wire-word/`; `probe.py
+  --prepare-only` and `--prepare-baseline` reproduce every recorded lexical source
+  hash from the immutable parent, including the measured checkout line endings.
+- Original **Type3 update @0x00442750** uses five VM slots at **0x2A4** stride,
+  writes `pos2` at **+0x288**, and calls **AnmVm::SetInterrupt @0x00406790** five
+  times. Direct local IDA xrefs agree with the original PE calls at
+  **0x00442A0E /1E /2E /3E /4E**. The separately canonical interrupt body writes
+  the short at **+0x1FE**, returning with `RET 4`. The existing shared `AnmVm`
+  already exposes all these fields and methods. The maintained Type3 record
+  now uses `AnmVm *vms1C`; the private VM class and undefined method alias are
+  removed. Both the initializer and update still use the same +0x1C pointer slot.
+- Seven cold Type3 controls compare the baseline, genuine VM type, actual
+  coordinate definitions before/after, actual interrupt definition before/after,
+  and both before. Genuine VM substitution and interrupt visibility preserve
+  the complete **780 bytes /240 instructions /38 fields /24 ordered calls /17
+  blocks /15 differences**, with identical raw function hash
+  **`e6a940a0e75b2dad895f8ba72f5533441502586ae8dd74c02397edcebebe1c2a`**.
+  Coordinate visibility retains all 24 original calls but removes three genuine
+  GameManager global loads (**nine to six**), giving **765 bytes /237 instructions
+  /35 fields**. It is rejected. These are compiler observations about the tested
+  contexts; the original TU partition and exact middle-Z scheduling remain unknown.
+- Maintained-path **`--owner type3`** confirms all 15 residual positions unchanged
+  and cold-replays **seven existing exact owners /1,024 physical bytes /58 fields**:
+  Type3 initializer, four real coordinate leaves, Type4 initializer and the real
+  18-byte interrupt leaf. The focused gate now rejects a private method alias,
+  wrong callee address/source or changed profile. Existing negative tests cover
+  these cases. CI passes **718 tests /28 skipped**. **683 of 690** public inputs
+  bind unchanged to the parent (641 raw, 42 checkout EOL normalization); only the
+  seven reviewed source/guard/test/ledger-note inputs change. Every canonical
+  match/profile and origin/source-mapping row remains unchanged.
+- Recipes, native diagnostics, direct IDA observations and input bindings remain
+  under `.analysis/gpt-61sol-20261020-type3-native-vm/`. Its `probe.py --prepare-only`
+  reproduces all seven source/header pairs; `--compile NAME` cold-builds one
+  selected control. After producer termination, the audited cleanup removes
+  **441 reproducible files /11,029,986 bytes**, including 69 source copies; seven
+  previously cleared reproducible COFFs have retained hashes but no captured file
+  sizes and are listed separately. `build/` is absent. Canonical coverage stays
+  **950/985 functions, 231,300/278,087 bytes (83.1754%)**, **32,883 bytes** short
+  of 95%; whole native-product/runtime and semantic gates remain open.

@@ -3040,11 +3040,9 @@ def guard_exattack_type3_update(result: dict) -> dict:
 
 
 
-# Type3 Update and previously exact Type4 Init now share the real
-# g_GameManager/AsciiGameManagerView global and X/Y inverse popup methods.
-# Keep the complete four-method GameManagerCoordinates /O2 /Ob1 optimizer
-# carrier exact, rather than checking only the two called inverse methods.
-EXATTACK_TYPE3_REAL_GAME_MANAGER_CARRIERS = (
+# Type3 uses the genuine GameManager and AnmVm boundaries. Keep the whole
+# four-method coordinate carrier, exact Type4 caller and interrupt leaf exact.
+EXATTACK_TYPE3_NATIVE_CARRIERS = (
     ('src/GameManagerCoordinates.cpp', 'build/matching/GameManagerCoordinates.obj', (
         ('game-manager-transform-popup-x', 0x00401680,
          '?TransformPopupX@AsciiGameManagerView@@QAEMM@Z', 46),
@@ -3057,31 +3055,35 @@ EXATTACK_TYPE3_REAL_GAME_MANAGER_CARRIERS = (
     ('src/ExAttackInitType4.cpp', 'build/matching/ExAttackInitType4.obj', (
         ('exattack-type4-initialize', 0x00442A60,
          '?ExAttackInitializeCallbackType4@@YIHPAUExAttackRecord@@@Z', 368),)),
+    ('src/AnmManagerRuntime.cpp', 'build/matching/AnmManagerRuntime.obj', (
+        ('anm-vm-set-interrupt', 0x00406790,
+         '?SetInterrupt@AnmVm@@QAEXF@Z', 18),)),
 )
 EXATTACK_TYPE3_GAME_MANAGER_VC71_PROFILE = (
     '/MT', '/EHsc', '/Gs', '/DNDEBUG', '/Zi', '/Gy', '/GF',
     '/Oi', '/Gr', '/O2', '/Ob1', '/Oy-', '/I', 'src')
 
 
-def replay_exattack_type3_real_game_manager_exact() -> list[dict]:
-    """Rebuild two authentic source carriers / five already exact owners.
+def replay_exattack_type3_native_exact() -> list[dict]:
+    """Rebuild three authentic source carriers / six already exact owners.
 
     The fake Type3/Type4 g_GameManager member declarations were two distinct
     native linker names for one real TH09 global @0x4A7D90. The real callee
     sources independently establish the inverse-coordinate function addresses.
-    This is strict source identity closure, not a new exact Type3 update.
+    All five VM calls use the real AnmVm::SetInterrupt with its separately
+    exact 18-byte body. This does not confer exactness on the Type3 update.
     """
     with (ROOT/'config/match-units.toml').open('rb') as stream:
         units = tomllib.load(stream)['units']
     results = []
-    for source, obj, entries in EXATTACK_TYPE3_REAL_GAME_MANAGER_CARRIERS:
+    for source, obj, entries in EXATTACK_TYPE3_NATIVE_CARRIERS:
         for name, va, symbol, size in entries:
             unit = units.get(name)
             if (not isinstance(unit, dict) or unit.get('source') != source or
                     unit.get('object') != obj or unit.get('target_address') != va or
                     unit.get('symbol') != symbol or unit.get('size') != size or
                     unit.get('profile') != list(EXATTACK_TYPE3_GAME_MANAGER_VC71_PROFILE)):
-                raise RuntimeError('ExAttack Type3 real GameManager exact source/profile/callee drift: '+name)
+                raise RuntimeError('ExAttack Type3 native exact source/profile/callee drift: '+name)
         build(entries[0][0])
         results.extend(canonical(name) for name, _, _, _ in entries)
     return results
@@ -3099,7 +3101,7 @@ def run_exattack_type3(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     if protect_exact:
         build('ex-attack-initialize-type3')
         exact.append(canonical('ex-attack-initialize-type3'))
-        exact.extend(replay_exattack_type3_real_game_manager_exact())
+        exact.extend(replay_exattack_type3_native_exact())
     return {'exattack_type3_update': {
         'target_bytes': 780, 'candidate_bytes': result['candidate_bytes'],
         'ordinary_differences': validated['differences'],

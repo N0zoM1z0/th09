@@ -1,4 +1,4 @@
-"""TH09 Type3/Type4 share the proven g_GameManager + inverse popup ABI.
+"""TH09 Type3/Type4 share genuine GameManager and AnmVm call boundaries.
 
 These tests do not credit byte equivalence: full 780-byte Type3 PE/COFF and
 368-byte exact Type4 plus genuine coordinate-transform carrier are rebuilt
@@ -81,11 +81,12 @@ class SharedOriginalGameManagerOwner(unittest.TestCase):
         self.assertNotIn('ExAttackType4GameManagerView@@',str(reloc))
 
     def test_coordinate_callee_carrier_replays_all_four_original_leaves(self):
-        groups = BOSS.EXATTACK_TYPE3_REAL_GAME_MANAGER_CARRIERS
-        self.assertEqual([len(row[2]) for row in groups],[4,1])
-        self.assertEqual(len(groups),2)
+        groups = BOSS.EXATTACK_TYPE3_NATIVE_CARRIERS
+        self.assertEqual([len(row[2]) for row in groups],[4,1,1])
+        self.assertEqual(len(groups),3)
         self.assertEqual(groups[0][1],'build/matching/GameManagerCoordinates.obj')
         self.assertEqual(groups[1][1],'build/matching/ExAttackInitType4.obj')
+        self.assertEqual(groups[2][1],'build/matching/AnmManagerRuntime.obj')
         for source, obj, group in groups:
             for name,va,symbol,size in group:
                 unit = self.units[name]
@@ -100,12 +101,13 @@ class SharedOriginalGameManagerOwner(unittest.TestCase):
     def test_cold_exact_callees_build_once_per_true_source_carrier(self):
         with patch.object(BOSS,'build') as build,patch.object(
             BOSS,'canonical',side_effect=lambda n:{'unit':n}) as exact:
-            result=BOSS.replay_exattack_type3_real_game_manager_exact()
-        self.assertEqual(len(result),5)
-        self.assertEqual(len({x['unit'] for x in result}),5)
+            result=BOSS.replay_exattack_type3_native_exact()
+        self.assertEqual(len(result),6)
+        self.assertEqual(len({x['unit'] for x in result}),6)
         self.assertEqual([b.args[0] for b in build.call_args_list],
-                         ['game-manager-transform-popup-x','exattack-type4-initialize'])
-        self.assertEqual(exact.call_count,5)
+                         ['game-manager-transform-popup-x','exattack-type4-initialize',
+                          'anm-vm-set-interrupt'])
+        self.assertEqual(exact.call_count,6)
 
     def test_incorrect_original_address_C_plus_plus_symbol_or_profile_fail(self):
         for name,field,value in (
@@ -116,13 +118,18 @@ class SharedOriginalGameManagerOwner(unittest.TestCase):
             ('game-manager-transform-popup-y','profile',['/Ob0']),
             ('exattack-type4-initialize','source','src/Different.cpp'),
             ('exattack-type4-initialize','target_address',0x442A61),
+            ('anm-vm-set-interrupt','symbol',
+             '?SetInterrupt@ExAttackType3VmView@@QAEXF@Z'),
+            ('anm-vm-set-interrupt','target_address',0x406791),
+            ('anm-vm-set-interrupt','source','src/ExAttackUpdateType3.cpp'),
+            ('anm-vm-set-interrupt','profile',['/Ob0']),
         ):
             tampered=copy.deepcopy(self.units)
             tampered[name][field]=value
             with self.subTest(name=name,field=field),patch.object(
                 BOSS.tomllib,'load',return_value={'units':tampered}),patch.object(
                 BOSS,'build'),patch.object(BOSS,'canonical'),self.assertRaises(RuntimeError):
-                BOSS.replay_exattack_type3_real_game_manager_exact()
+                BOSS.replay_exattack_type3_native_exact()
 
 
 if __name__=='__main__':

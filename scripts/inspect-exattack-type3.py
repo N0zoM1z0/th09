@@ -22,7 +22,7 @@ spec.loader.exec_module(diagnostic)
 
 # The same relocation identities are also exercised by the exact units for
 # Float3, ZunTimer, Supervisor, and Player collision handling.  The two
-# inverse-popup transforms and the VM interrupt are TH09 target-local calls.
+# inverse-popup transforms and VM interrupt have separate canonical owners.
 diagnostic.BASE = 0x00442750
 diagnostic.SIZE = 780
 diagnostic.SYMBOL = "?ExAttackUpdateCallbackType3@@YIHPAUExAttackRecord@@@Z"
@@ -41,7 +41,7 @@ diagnostic.DESTINATIONS = {
     "__real@44280000": 0x004915EC,
     "__real@44000000": 0x004915E8,
     "??4ZunTimer@@QAEXH@Z": 0x00401500,
-    "?SetInterrupt@ExAttackType3VmView@@QAEXF@Z": 0x00406790,
+    "?SetInterrupt@AnmVm@@QAEXF@Z": 0x00406790,
 }
 
 

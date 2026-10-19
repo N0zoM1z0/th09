@@ -567,12 +567,13 @@ class BossFrontierChecks(TestCase):
         self.assertEqual([r.args[0] for r in build.call_args_list], [
             'ex-attack-initialize-type3',
             'game-manager-transform-popup-x',
-            'exattack-type4-initialize'])
-        self.assertEqual(build.call_count, 3)
+            'exattack-type4-initialize',
+            'anm-vm-set-interrupt'])
+        self.assertEqual(build.call_count, 4)
         self.assertEqual(owners['exattack_type3_update']['ordinary_differences'], 15)
-        # Five real exact GameManager/Type4 references add regression checks,
+        # Six real exact GameManager/Type4/AnmVm owners add regression checks,
         # NOT new canonical exact credit to the still-unmatched Type3 update.
-        self.assertEqual(len(exact), 6)
+        self.assertEqual(len(exact), 7)
         self.assertTrue(all(row['unit'] == 'exact' for row in exact))
 
     @staticmethod
