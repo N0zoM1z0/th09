@@ -10343,3 +10343,69 @@ attest historical producer execution.
   bytes**, including 68 hash-reproduced source copies; `build/` is absent. Canonical
   state stays **950/985, 231,300/278,087 bytes (83.1754%)**, still **32,883 bytes**
   short of 95%; native product/runtime and semantic gates remain open.
+
+
+## October 20: Front panel publication and native message boundaries (gpt-6.1-sol)
+
+- Recovered clean **`36774a44a7341e73d520015716087e88cbfc5e01`** and reverified
+  the original Japanese TH09 v1.50a disk target and direct local IDA metadata,
+  entry and distributed mapped bytes. Fresh original-bound Front AddedCallback
+  **0x00418480..0x00418741** matches the older **706 bytes /37 fields /21 calls
+  /19 blocks /236 linked differences** baseline. Original full-owner SHA256 is
+  **`a1faabe117043306799d2c256fb5d0d76d0755b3c8e9015019c57dbd6a8377e1`**;
+  original/candidate instructions are **192/189**. No stale scoreboard is used.
+- Two chains of panel Z stores are now explicit ascending-vertex assignments;
+  the closing right vertex copies the actual source `Float3` through a const
+  reference. Isolated zero-store controls each restore four original positions;
+  the reference restores six. Their combination restores **14**, introducing
+  **zero** newly mismatching positions. Whole length, ordered original referents,
+  21 call destinations and full 19-block graph remain unchanged. The maintained
+  function is **222 differences**, with **484** equal bytes protected; it remains
+  NON-EXACT and earns no partial exactness credit. Maintained raw COFF hash is
+  **`69453103f27a5e8e49c839175bdab3ebc8b8c3840819471939ba7c6e4e20245f`**.
+- A broader scalar rewrite emits **706/203**, restoring 54 positions but damaging
+  21 formerly equal ones, and is rejected. SDK field-type substitutions are
+  neutral; native SDK three-float constructor controls emit **738 bytes** and
+  change original referent order. Two SDK component-access controls retain the
+  maintained **706/222** result. Explicit receiver/character-index snapshots are
+  neutral. These bounded controls do not establish unique original vector types,
+  capacity, variable names or constructor source. Every trial remains reproducible.
+- The callback previously declared undefined private message methods solely to
+  refer to the physical reset/load targets. It now invokes the real
+  **FrontMessageRuntimeResetView::Reset @0x00415C90**, with REL32 at owner
+  **+0x245**, and **FrontMessageRuntimeView::LoadForSideCount @0x004182E0**,
+  at **+0x289**. Both source mode arms reach the same physical load call; do not
+  count the decompiler's duplicated expression as two physical calls. Target
+  addresses, stack/receiver contracts, addends and the complete linked body stay
+  unchanged after the two native C++ alias repairs.
+- Shared **`FrontMessageRuntimeView.hpp`** supplies the already independently
+  observed load/release prefix: table pointer +0, current pointer +4, index +8,
+  secondary pointer +0x0C, complete reserved size **0x1D70**. The callback and
+  the two genuine method-definition sources consume it. Richer update/draw
+  overlays remain separate; complete original class/ODR ownership and faithful
+  Windows product closure are not claimed. Reset remains its real bounded
+  overlapping view, with no fabricated member implementation or return value.
+- New **`scripts/inspect-front-added.py`** SHA-pins the entire original, decodes
+  every original operand independently, binds all 37 real COFF fields at their
+  actual source positions, verifies the actual `front.anm` COFF/PE payload,
+  then compares every byte, call and control block. Some source operand positions
+  still differ from original; identical counts are not enough. The focused
+  **`--owner frontadded`** protects every currently equal byte and strictly replays
+  **four existing exact methods /832 physical bytes /41 fields**: Reset **23**,
+  LoadForSideCount **405**, ReleaseForSideCount **271**, InitializeMessageRuntime
+  **133**. Both changed callee sources and all consumers of the new header are
+  rebuilt. All-mode reuses only the two exact methods already checked by its
+  preceding Front scope. Six target-independent tests reject forged referents,
+  kinds/addends, corrupt original encodings, overlapping/reordered records,
+  same-count byte exchanges, false zero claims and native callee/profile drift.
+- CI passes **729 tests /28 skipped**. **687** prior public inputs bind unchanged
+  to the parent (645 raw, 42 checkout EOL normalization), five reviewed inputs
+  change and three are new. All exact manifests/profiles, origin and source
+  mappings remain unchanged; only the callback evidence/notes change in its row.
+  Ignored `.analysis/gpt-61sol-20261020-front-panel-source/` retains recipes,
+  source hashes and complete comparisons. `restore_sources.py` recreates all
+  retained trial inputs; restore the bound header/compiler inputs before native
+  historical replay. After owned producers stopped, cleanup removed **410 files
+  /8,005,121 bytes**, including 19 reproducible C++ copies. `build/` is absent.
+  Coverage remains **950/985, 231,300/278,087 (83.1754%)**, **32,883 bytes** short
+  of 95%; the Windows product/runtime and semantic gates remain open.

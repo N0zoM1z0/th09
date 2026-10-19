@@ -2,6 +2,7 @@
 #include "AsciiManager.hpp"
 #include "FrontSupport.hpp"
 #include "FrontMessageOwnerView.hpp"
+#include "FrontMessageRuntimeView.hpp"
 #include "GameManagerMode.hpp"
 
 #include <stddef.h>
@@ -21,17 +22,6 @@ struct FrontAddedAnmLoadedView
     void *rawData04;
 };
 
-struct FrontAddedMessageRuntimeView
-{
-    unsigned char storage00[0x1D70];
-
-    int Reset();
-    int LoadForSideCount(
-        char *primaryPath,
-        char *secondaryPath,
-        int startIndex);
-};
-
 struct FrontAddedView
 {
     unsigned char unknown00000[0x08];
@@ -40,7 +30,7 @@ struct FrontAddedView
     unsigned char unknown01288[0xE86C - 0x1288];
     FrontAddedVertex panelVerticesE86C[2][5];
     unsigned char unknown0E934[0xE944 - 0xE934];
-    FrontAddedMessageRuntimeView messageRuntimeE944;
+    FrontMessageRuntimeView messageRuntimeE944;
     unsigned char unknown106B4[0x11EAC - 0x106B4];
     AnmVm resultVm11EAC;
     AnmVm resultVm12150;
@@ -139,20 +129,21 @@ int FrontAddedCallback(void *frontArg)
 
     front->panelVerticesE86C[1][2].pos.x =
         front->panelVerticesE86C[1][3].pos.x = 624.0f;
-    front->panelVerticesE86C[1][4].pos =
-        front->panelVerticesE86C[1][0].pos;
+    const Float3 &rightCorner = front->panelVerticesE86C[1][0].pos;
+    front->panelVerticesE86C[1][4].pos = rightCorner;
 
-    front->panelVerticesE86C[0][0].pos.z =
-        front->panelVerticesE86C[0][1].pos.z =
-        front->panelVerticesE86C[0][2].pos.z =
-        front->panelVerticesE86C[0][3].pos.z = 0.0f;
+    front->panelVerticesE86C[0][0].pos.z = 0.0f;
+    front->panelVerticesE86C[0][1].pos.z = 0.0f;
+    front->panelVerticesE86C[0][2].pos.z = 0.0f;
+    front->panelVerticesE86C[0][3].pos.z = 0.0f;
 
     front->panelVerticesE86C[1][1].pos.x = 335.0f;
-    front->panelVerticesE86C[1][1].pos.z =
-        front->panelVerticesE86C[1][2].pos.z =
-        front->panelVerticesE86C[1][3].pos.z = 0.0f;
+    front->panelVerticesE86C[1][1].pos.z = 0.0f;
+    front->panelVerticesE86C[1][2].pos.z = 0.0f;
+    front->panelVerticesE86C[1][3].pos.z = 0.0f;
 
-    front->messageRuntimeE944.Reset();
+    reinterpret_cast<FrontMessageRuntimeResetView *>(
+        &front->messageRuntimeE944)->Reset();
 
     if (g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1())
     {

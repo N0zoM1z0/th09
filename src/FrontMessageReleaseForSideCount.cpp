@@ -3,18 +3,7 @@
 #include "ZunMemory.hpp"
 
 #include <string.h>
-#include "FrontMessageTableView.hpp"
-
-struct FrontMessageRuntimeView
-{
-    FrontMessageTableView *primary00;
-    FrontMessageInstructionView *current04;
-    int currentIndex08;
-    FrontMessageTableView *secondary0C;
-    unsigned char unknown10[0x1D70 - 0x10];
-
-    void ReleaseForSideCount(int startIndex);
-};
+#include "FrontMessageRuntimeView.hpp"
 
 extern FrontMessageTableView *g_FrontMessagePrimaryCache;
 extern FrontMessageTableView *g_FrontMessageSecondaryCache;

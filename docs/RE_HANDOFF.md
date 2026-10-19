@@ -17,16 +17,19 @@ The **95%** milestone still needs **32,883** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
-- **Shake/Title/Etama controls:** the new
-  `scripts/probe-screen-shake-context.py` cold-builds one selected context by
-  default. Its baseline reproduces **336/20 fields/26 differences**. Actual
-  float-conversion visibility retains the genuine **four-byte exact callee**
-  but removes an x87 spill, shortening the caller to **332**; it is rejected.
-  Title SDK/integer controls retain **1,939/82/22**; smaller text buffers regress.
-  Etama helper order retains **600/27/268**; visible coordinate definitions give
-  **584/25**, while cursor-scope/induction controls change extent/CFG. No game
-  source, profile, exact ledger or score changes. Recipes are in the three
-  `.analysis/gpt-61sol-20261020-{screen-register-context,result-native-types,etama-induction}/` roots.
+- **Front initialization:** ordered Z writes and a reference to the actual
+  closing-vertex source reduce the full **706-byte** callback from **236 to 222
+  differences**, restoring **14** bytes without damaging any prior equal byte.
+  All **484** equal positions are protected, alongside 37 original referents,
+  21 ordered calls and 19 matching blocks. Reset/Load use the real native method
+  names; load/release share their reviewed **0x1D70** runtime prefix.
+  `--owner frontadded` cold-checks four existing exact methods /832 bytes /41 fields.
+- **Context evidence:** `probe-screen-shake-context.py` reproduces the
+  **336/26** shake baseline and the rejected **332-byte** float-visibility
+  context; the genuine four-byte callee stays exact. Title SDK/integer controls
+  retain **1,939/82/22** and smaller buffers regress; Etama helper order stays
+  **600/27/268**, coordinate visibility **584/25** is rejected. Recipes and
+  conclusions remain in `KNOWLEDGE_BASE.md` and the original analysis roots.
 - **Type3 VM boundary:** the update now uses the shared `AnmVm` array and five
   real `SetInterrupt` calls at **0x00406790**, removing the private method alias.
   Complete **780 bytes /38 fields /24 calls /15 differences** stay unchanged.
@@ -65,17 +68,17 @@ remain separate open gates.
   remain in `RE_ACCEPTED_RECEIPTS.md` and Git history.
 - **Operator contract:** direct local IDA Pro MCP and Bash; `gpt-6.1-sol: ...`
   commits followed by the requested push. The parent push verified remote `main`
-  at `a1182fa`. Preserve dirty work and verify remote state independently. Never
+  at `36774a4`. Preserve dirty work and verify remote state independently. Never
   patch the target or commit private inputs; clean artifacts after producers stop.
-- **Focused validation:** the public baseline and float-context command both
-  reproduce complete original-bound diagnostics; the actual four-byte Timer
-  callee is independently byte exact. CI passes **723 tests/28 skipped**, including
-  wrong-target/stale-object/stale-receipt/field-identity/profile rejection cases.
-  All **690** pre-existing public inputs bind unchanged to `a1182fa` (648 raw,
-  42 checkout EOL normalization); two new public probe/test files join. Unchanged
-  game-source cohorts reuse their parent proofs. After all producers stopped,
-  cleanup removed **547 reproducible files /14,927,851 bytes**, including 68
-  hash-reproduced C++ copies. Recipes, diagnostics and source hashes remain;
+- **Focused validation:** Front's complete maintained-path comparison stays
+  **706/37/21 calls/222 differences**. Four related exact methods pass **832 bytes
+  /41 fields**; CI passes **729 tests/28 skipped**. **687** previous public inputs
+  bind unchanged to `36774a4` (645 raw, 42 checkout EOL normalization); five inputs
+  change and three join. Every exact/profile/origin/mapping entry is unchanged;
+  only Front callback evidence/notes change. Unaffected cohorts reuse parent proofs.
+  After owned producers stopped, cleanup removed **410 reproducible files
+  /8,005,121 bytes**, including 19 hash-reproduced source copies. Recipes and
+  complete original comparisons remain in `.analysis/gpt-61sol-20261020-front-panel-source/`.
   `build/` is absent. Exact credit stays **950/985, 83.1754%**.
 
 ## Next worker: first three work packages
@@ -184,6 +187,7 @@ all 35 open functions. For the complete <=256-byte cohort see
 | **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 calls; 10-way switch; **1,453** overlapping differences + 44 missing | First seven-VM cursor improvement committed in `7f1d56e`; remaining branch/VM scheduling. `--owner pause` independently checks 11 already-exact Ascii/ANM functions and real original table/ABI. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Now uses genuine shared `g_Supervisor.framerateMultiplier5B8 @0x004B36B8` and the four **real `GameManagerResetView::coordinate360/364/368/36C` fields** (original `0x004A80F0..FC`), not fake external playfield globals. The independent **79-byte exact GameManager coordinate initializer** physically writes those fields; 1,900-byte linked movement boss and 66 operand identities stay unchanged, with 129 ordinary differences still open. All 129 genuine current original-bound mismatch offsets are now pinned, protecting the other **1,771** already matching bytes (including both switch tables and after-return alignment); future improvements must not introduce mismatches elsewhere. `--owner movement` protects exact 522-byte caller. |
 | **Front weighted message RNG** | 0x004162D0 | **693 target / 681 candidate**, 15 fields, 6 calls, **569** overlap + 12 missing | Primary-first table selection refined in `09bb2a6`; target/candidate CFG 40/41 blocks. `--owner front` protects exact FrontCalc and siblings. |
+| **Front added initialization** | 0x00418480 | **706/706**, 37 original fields, 21 calls, 19 equal blocks; **222 differences** (236→222) | Explicit Z stores and the actual source-vector reference restore 14 physical positions while preserving all 470 previously equal bytes. All 484 equal bytes are guarded. Two private method aliases are replaced by real Reset/Load calls; a shared runtime prefix preserves 0x1D70 and +0/+4/+8/+0C. `--owner frontadded` protects the whole callback plus four exact methods /832 bytes /41 fields. Receiver and remaining panel-store scheduling stay open. |
 | **TitleScreen::OnUpdateResult** | 0x004266B5 | **485 / 484**, 147/147 instructions, 34 fields, 9 calls; **218** overlap + 1 missing | Pointer-backed character snapshot in `4fe7cb0`; original CL/EAX codegen still differs. Protect all 37 existing exact `TitleScreen.cpp` units, including privately relabeled StartMenu. |
 | **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280 target / 1,258 source bytes**, 376/368 instructions, **57/57 original decoded/COFF operands**, **13/13 ordered calls**, **72/70 CFG blocks** | Complete original-SHA-bound source-cold diagnostics run via `--owner replaymenu` or `--owner title`. All **71** equal physical positions are now protected against regression; the candidate is still **22 bytes short and NON-EXACT**. The shared replay record is exact-sized but does not imply the function is exact. |
 | **TitleScreen::DrawReplaySave** | 0x004239F6 | **800/800 physical**, 245 instructions, 41 fields, 4 calls, 28/28 matching blocks; **96 linked differences** | Raw replay magic, genuine SDK subtraction/two scales/addition and two-byte character construction restore the full extent and nine more loop-counter/FILD home bytes. All **704** equal positions are SHA-bound and protected; no old matching byte regresses from the 105-residual source. Remaining vector/text homes, replay-pointer and keyboard schedules stay NON-EXACT. No enlarged buffer, extra storage or new target helper claim. |

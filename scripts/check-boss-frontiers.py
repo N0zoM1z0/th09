@@ -1313,6 +1313,70 @@ def run_network_config_parser(*, protect_exact: bool) -> tuple[dict, list[dict]]
     }}, siblings
 
 
+FRONT_ADDED_SHA256 = 'a1faabe117043306799d2c256fb5d0d76d0755b3c8e9015019c57dbd6a8377e1'
+# Original-bound residual positions after the fourteen-byte source correction.
+# Every other byte must stay equal; counts cannot justify an offset exchange.
+FRONT_ADDED_RESIDUAL_MASK = bytes.fromhex(
+    '0000000000f8ff1ffc3f0042f0ffe0ff011082ff07ff3f00080100000000c0ff030000c21f00'
+    '000000000000e0f7fbffff1bfffbbeef270483f9fffbfaf3ff03000000000000000000000000'
+    '00000000000000000000000000'
+)
+FRONT_ADDED_CALLEES = (
+    ('front-message-runtime-reset', 'src/FrontMessageRuntimeReset.cpp',
+     '?Reset@FrontMessageRuntimeResetView@@QAEHXZ', 0x00415C90, 23),
+    ('front-message-load-for-side-count', 'src/FrontMessageLoad.cpp',
+     '?LoadForSideCount@FrontMessageRuntimeView@@QAEHPAD0H@Z', 0x004182E0, 405),
+    ('front-message-release-for-side-count', 'src/FrontMessageReleaseForSideCount.cpp',
+     '?ReleaseForSideCount@FrontMessageRuntimeView@@QAEXH@Z', 0x00417520, 271),
+    ('front-message-initialize-runtime', 'src/FrontMessageInitializeRuntime.cpp',
+     '?InitializeMessageRuntime@FrontMessageOwnerView@@QAEXXZ', 0x004181E0, 133),
+)
+
+
+def guard_front_added(result: dict) -> dict:
+    noncrediting(result, name='Front AddedCallback', target_size=706, fields=37)
+    count, offsets = result.get('differences'), result.get('difference_offsets')
+    allowed = {n for n in range(706) if FRONT_ADDED_RESIDUAL_MASK[n//8] & (1 << (n % 8))}
+    if (result.get('target_sha256') != FRONT_ADDED_SHA256 or
+            result.get('candidate_bytes') != 706 or result.get('original_fields') != 37 or
+            result.get('target_instructions') != 192 or
+            type(result.get('candidate_instructions')) is not int or
+            not 189 <= result['candidate_instructions'] <= 192 or
+            result.get('ordered_calls') != 21 or result.get('calls_agree') is not True or
+            result.get('target_blocks') != 19 or result.get('candidate_blocks') != 19 or
+            result.get('direct_graphs_agree') is not True or
+            type(count) is not int or not 0 <= count <= 222 or
+            not isinstance(offsets, list) or len(offsets) != count or
+            any(type(n) is not int for n in offsets) or offsets != sorted(set(offsets)) or
+            not set(offsets).issubset(allowed) or
+            (count == 0 and result['candidate_instructions'] != 192) or
+            result.get('complete_bytes_equal') is not (count == 0)):
+        raise RuntimeError('Front AddedCallback complete original byte/field/call/graph frontier regressed')
+    return result
+
+
+def run_front_added(*, protect_exact: bool, shared_callees_prechecked: bool = False) -> tuple[dict, list[dict]]:
+    obj = 'build/matching/FrontAddedCallback.obj'
+    build_nonexact('src/FrontAddedCallback.cpp', obj, reference_unit='front-message-setup')
+    result = guard_front_added(parsed(['scripts/inspect-front-added.py', obj, '--json']))
+    exact = []
+    if protect_exact:
+        with (ROOT/'config/match-units.toml').open('rb') as stream:
+            units = tomllib.load(stream)['units']
+        for name, source, symbol, address, size in FRONT_ADDED_CALLEES:
+            unit = units[name]
+            if (unit['source'] != source or unit['symbol'] != symbol or
+                    unit['target_address'] != address or unit['size'] != size or
+                    unit['profile'] != list(_SCREEN_EFFECT_BASE_PROFILE)):
+                raise RuntimeError('Front native message callee/source/profile drift: ' + name)
+            if shared_callees_prechecked and name in (
+                    'front-message-load-for-side-count', 'front-message-initialize-runtime'):
+                continue
+            build(name)
+            exact.append(canonical(name))
+    return {'front_added_callback': result}, exact
+
+
 def run_front_random(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     """Cold original-backed 693-byte Front weighted picker and exact family."""
     obj='build/matching/FrontMessageRandomSetup.obj'
@@ -4492,7 +4556,7 @@ def run_effect_type34(*, protect_exact: bool,
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'replaymenu', 'anm', 'network', 'queue', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'replaymenu', 'anm', 'network', 'queue', 'parser', 'front', 'frontadded', 'screen', 'replay', 'pause', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -4562,6 +4626,12 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('front', 'all'):
             owners, exact = run_front_random(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('frontadded', 'all'):
+            owners, exact = run_front_added(
+                protect_exact=not args.skip_exact_siblings,
+                shared_callees_prechecked=args.owner == 'all')
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('anm', 'all'):
