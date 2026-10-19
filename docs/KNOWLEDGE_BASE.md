@@ -492,7 +492,7 @@ name into a TH09 fact without target-local evidence.
 | BOUNDARY-093 | reviewed / authored-only | The Packet-102 authored code extent is exactly `0x0043AD40-0x0043AFD1` (658 bytes), ending in `ret 4`. `0x0043AFD2-0x0043AFDF` is fourteen bytes of unowned `CC`; independent candidate `0x0043AFE0` begins immediately afterward. No table or shared compiler tail is attached. | Native IDA function extent/disassembly and bounded target bytes across the following candidate. |
 | TOOLCHAIN-093 | stable non-exact / adjacent-migration | Natural pinned-VC7.1 `/O2 /Ob1 /Oy- /Gr + /Oi` source adapted from the TH08 body produces the exact 658-byte physical function and resolves all 48 relocations. Two genuine cold diagnostics are byte-identical (SHA-256 `737f214ab8b76fc02f52c39d916bd21c9ff570df9b0352030afbf90f8a129fe5`) and match 461/466 comparable bytes. The only residual is relative `+0x81..+0x85`: the object schedules `mov eax,sine` before the x87 half-width `fmul 0.5`, while the target performs the multiply first. Reordering declarations to the TH08 `var_order` intent without the pragma, reordering half-width versus x/y-offset assignments, and combining both produce byte-identical output. No pragma, register/volatile forcing, padding, fake return, or artificial encoding bridge is retained. All six existing exact functions sharing `src/AnmManagerRender.cpp` remain exact in both cold passes. | Packet-102 A/B diagnostic receipts plus exact regressions for FlushVertexBuffer, DrawNoRotation, AddSpriteToDrawBuffer, SetRenderStateForVm, DrawNoRotationFlippedX, and TranslateRotation. |
 
-| ANM-014 | mixed exact / source-present | The remaining TH09 ANM draw-mode chain resolves as `ProjectCameraFacingQuad @ 0x00439820` -> exact `DrawCameraFacingQuad @ 0x0043B0E0`, exact `DrawNoRotationNoRound @ 0x0043AFE0`, and `Project3DQuad @ 0x00439A90` -> exact `DrawProjected3DQuad @ 0x0043B140`. TH09 independently binds the wrappers to draw modes 1/4/5 in `sub_436D70`. The camera-facing owner projects origin and camera-right through the context pointer at `0x004B3448`, derives screen-space half extents, translates the shared quad, propagates projected z and applies anchor offsets. The projected-3D owner uses VM matrices `+0x130/+0x170`, update/rotation bits in flags `+0x1F8`, manager cached world matrix `+0x12024`, four 0x14 source vertices at `+0x12894`, and four projections into the shared quad. | Fresh TH09 native IDA callers/decompilation/boundary bytes, two cold VC7.1 passes, and clean committed TH08 family after TH09 role closure. The complete projection-context and manager-data definition owners remain unresolved. |
+| ANM-014 | exact / genuine SDK projection context | The remaining TH09 ANM draw-mode chain resolves as `ProjectCameraFacingQuad @ 0x00439820` -> exact `DrawCameraFacingQuad @ 0x0043B0E0`, exact `DrawNoRotationNoRound @ 0x0043AFE0`, and `Project3DQuad @ 0x00439A90` -> exact `DrawProjected3DQuad @ 0x0043B140`. TH09 independently binds the wrappers to draw modes 1/4/5 in `sub_436D70`. The camera-facing owner projects origin and camera-right through the context pointer at `0x004B3448`, derives screen-space half extents, translates the shared quad, propagates projected z and applies anchor offsets. The projected-3D owner uses VM matrices `+0x130/+0x170`, update/rotation bits in flags `+0x1F8`, manager cached world matrix `+0x12024`, four 0x14 source vertices at `+0x12894`, and four projections into the shared quad. | Fresh TH09 native IDA callers/decompilation/boundary bytes, two cold VC7.1 passes, and clean committed TH08 family after TH09 role closure. The complete projection-context and manager-data definition owners remain unresolved. |
 | BOUNDARY-094 | mixed exact / authored-only | Packet 103 closes five independent authored extents: `0x00439820-0x00439A8D` then 2 unowned CC; `0x00439A90-0x00439CE2` then 13 unowned CC; exact `0x0043AFE0-0x0043B0DD` then 2 unowned CC; exact `0x0043B0E0-0x0043B137` then 8 unowned CC; exact `0x0043B140-0x0043B193` then 12 unowned CC. No table/shared tail is assigned to these functions. | Native IDA extents, bounded target bytes across every seam, and canonical wrapper replays. |
 | TOOLCHAIN-094 | mixed exact / stable non-exact / adjacent-migration | Natural pinned-VC7.1 `/O2 /Ob1 /Oy- /Gr + /Oi` migration makes all three draw wrappers exact on the first attempt: 254 bytes/20 relocs, 88/3, and 84/3. Two cold passes are byte-identical (`d672a8e1...`, `b814972f...`, `e3c1af26...`). The two large owners are repeatable but remain non-exact: camera-facing geometry is 615 versus 622 bytes (A/B report SHA-256 `09a62c45086b6008ce8401c9971b9130fc5a6fbb08832c8d5cf23eee0b648076`), projected-3D is 568 versus 595 (`17b7f67589161951e5f332d1e26453697b5f03a3e6cfaf32762ff5b24894abcd`). Removing `/Oi` does not change either owner, and expanding camera anchor updates from a loop to four explicit statements is byte-identical; exact chasing stops without var_order, register/volatile forcing, padding, or artificial ABI bridges. Packet-102's 658-byte near-match and six existing exact functions in `AnmManagerRender.cpp` remain unchanged in both cold passes. | Packet-103 cold receipts and connected exact regressions; TH08/TH095 committed source supplies only the algorithm family, while TH09 rejects TH095-only positionOffset/render-state evolution where the target disagrees. |
 
@@ -583,7 +583,7 @@ name into a TH09 fact without target-local evidence.
 | BOUNDARY-116 | exact / reviewed compiler ownership | Packet 128 reviews all seven logical seams independently: SetInterrupt `0x00406790-0x004067A1` plus 14 unowned CC; SpriteHasTexture `0x00423469-0x00423497` immediately followed by independent code; DrawPlayerBullet logical code `0x00436D70-0x00436DC3` plus owned six-dword switch table `0x00436DC4-0x00436DDB`, then four unowned CC; SetInterruptArray `0x00436DE0-0x00436E27` plus eight CC; ExecuteScriptArray `0x00439560-0x00439594` plus eleven CC; SetAndExecuteScript `0x004395A0-0x0043962E` plus one CC; ExecuteAnmIdxArray `0x00439630-0x00439671` plus fourteen CC. Authored-byte accounting counts only the 483 logical C++ bytes; the 24-byte DrawPlayerBullet compiler table is comparison coverage, not extra authored source. | Fresh attested function objects and bounded target-byte reads across every boundary; DrawPlayerBullet canonical unit compares the complete 108-byte code-plus-table physical extent with all 13 relocations. |
 | TOOLCHAIN-119 | exact / local profile split / profile ambiguity retained | Six Packet-128 ANM runtime methods naturally reproduce TH09 under the established pinned VC7.1 `/MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- /I src` family. Header-inline-family `SpriteHasTexture @ 0x00423469` is 51 bytes under O2/Ob1 and O2/Ob0 but exactly 47 bytes under both `/O1 /Ob1` and `/O2 /Os /Ob1`; Packet 128 therefore uses the demonstrated O1 profile for its canonical unit while explicitly leaving the original emitting TU/profile ambiguous. No register/volatile forcing, `var_order`, padding, assembly, or broad flag sweep is used. | Focused O2/Ob0/O1/Os falsification, raw target/object byte alignment, two cold exact passes for all seven units, and unchanged exactness across 21 affected object groups / 58 configured units. |
 | ANM-019 | exact / authored-game | `AnmManager::Project3DQuad @ 0x00439A90-0x00439CE2` is repository-canonical exact at 595/595 bytes with 25 reviewed relocations. The target-backed natural source shape requires stack-based `WINAPI` declarations for D3DX matrix rotation/multiply and `D3DXVec3Project`, double `0.0` rotation comparisons, a single `flagsWord >> 11` anchor snapshot reused across both anchor branches, and two out-of-line float-absolute calls to still-independent `0x0040F1C0`. Four projected vertices use the shared quad at `0x004DC558`; the context pointer remains at `0x004B3448`. The maintained source is void-shaped, while the original TH09 return contract and the source/data owner of `0x0040F1C0` remain unresolved. | Fresh TH09 disassembly and call graph, target/object instruction alignment, clean committed TH08 source-family comparison, followed by two byte-identical cold canonical receipts (`3bfa8c193b70c7e0899058033dc597a1895198ae4bb82676724e9fc3c6586858`). |
-| TOOLCHAIN-120 | non-exact / source-lifetime boundary | The same Packet-129 D3DX stack-ABI correction improves maintained `AnmManager::ProjectCameraFacingQuad @ 0x00439820` from the Packet-103 615-byte object to stable 619 bytes versus the 622-byte target. Fresh target alignment shows a 0x90-byte frame and an explicit `Float3::operator-` hidden-return buffer copied into a separate delta local. Broadly restoring all TH08 local declarations grows the object to 652 bytes, and a narrower default-constructed delta/lifetime experiment also overgrows; no register, padding, `var_order`, volatile or encoding-directed fix is retained. Camera-facing projection therefore remains source-present/NON-EXACT while Project3D is promoted independently. | Two byte-identical cold camera negative receipts (`fc584555f02ecb03c96bafa4460e6a5e1a1b48d17368bfb18554c081507666ff`), fresh target disassembly and bounded rejected natural-lifetime probes. |
+| TOOLCHAIN-120 | exact / genuine SDK context | `AnmManager::ProjectCameraFacingQuad @0x00439820` is canonical exact: 622/622 bytes and 40 original fields. Genuine SDK math types, ordinary vector locals and native assignment under /O2 /Ob0 replace the old aggregate/custom copy model. | Current `anm-manager-project-camera-facing-quad` complete canonical replay; `--owner anm` protects 17 functions across three affected objects. |
 | ANM-020 | mixed exact / authored-game / reusable loader module | Packet 130 reconstructs the TH09 version-3 ANM loader/lifecycle seam as fifteen authored source functions spanning 2,670 logical bytes. Fourteen are repository-canonical exact: `CreateEmptyTexture @ 0x0043BBA0`, `LoadExternalTextureData @ 0x0043BBE0`, `ReleaseAnmEntry @ 0x0043BC80`, `AnmLoaded::LoadSprite @ 0x0043BCB0`, `AnmGetFormat @ 0x0043C430`, `CreateTextureFromFile @ 0x0043C470`, `CreateTextureFromAnm @ 0x0043C4C0`, `ReadAnmEntries @ 0x0043C610`, `PreloadAnm @ 0x0043C7A0`, `LoadTextureData @ 0x0043C800`, `ReleaseAnm @ 0x0043CA30`, `PostloadAnmEntry @ 0x0043CD40`, `ServicePreloadedAnims @ 0x0043CDD0`, and `LoadAnm @ 0x0043CF90`. `AnmManager::AnmManager @ 0x0043CE30` remains maintained source-present/NON-EXACT. TH09 independently fixes a 0x120-byte per-file slot with the `AnmLoaded` payload at +0x24, release flag +0x40 and path +0x44, a 256-slot service domain, `ReadAnmEntries`' 20-slot file-index guard, version-3 raw-entry semantics, external `@` texture behavior, and Supervisor D3D/shutdown fields at +0x08/+0x6B4. | Fresh TH09 callers/disassembly/physical seams, target-bound VC7.1 comparison, clean committed TH08 `a45e99fb1942714e6edded20847e32a654d56f97` source-family migration after TH09 closure, committed-only TH095 corroboration, and cold exact function receipts and the accepted ReadAnmEntries replay in Packet 665. |
 | BOUNDARY-117 | reviewed / mixed exactness | Packet 130 reviews all fifteen ANM loader/lifecycle logical extents independently. Every candidate ends at a target `ret`/`ret N`; following alignment bytes are excluded: BBA0-BBD1 +14 CC, BBE0-BC75 +10 CC, BC80-BCAF then immediate BCB0, BCB0-BD39 +6 CC, C430-C461 +14 CC, C470-C4BA +5 CC, C4C0-C609 +6 CC, C610-C795 +10 CC, C7A0-C7F9 +6 CC, C800-CA2D +2 CC, CA30-CAD2 +13 CC, CD40-CDCC +3 CC, CDD0-CE26 +9 CC, CE30-CF84 +11 CC, and CF90-CFCA +5 CC. No compiler padding or neighboring table is counted as authored source. The existing 90-byte `PreloadAnm` inventory boundary was revalidated, not newly corrected. | Complete target seam disassembly plus individual function extents and target-bound compile feedback. |
 | TOOLCHAIN-121 | exact / adjacent migration / owner recovery | The established TH09 VC7.1 `/MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- /I src` profile closes thirteen Packet-130 loader functions without `var_order`, register/volatile forcing, padding or assembly. Several bodies do not consume `this`, but fresh TH09 caller instructions preserve/restore the AnmManager receiver in ECX before `LoadExternalTextureData`, `LoadTextureData`, `ReleaseAnmEntry`, and the three texture-creation helpers; restoring natural member ownership simultaneously closes the callers and callees. `AnmLoaded::LoadSprite` becomes exact only with the committed-family repeated `this->sprites[index]` source shape; `ReleaseAnm` becomes exact with the natural direct raw-data check followed by a persistent slot pointer. Thirteen target-bound function receipts are identical across two cold passes; whole COFF object SHA differs because non-function/debug metadata is not part of the exact claim. A shared-header regression across 22 real object/profile groups and 70 configured units is 70/70 exact after refreshing only fifteen compiler-local `$L...` spellings whose relocation offsets/types/target destinations were independently unchanged. | Canonical match-unit receipts, focused source-shape probes, positional relocation verification, and full affected-header cold replay. |
@@ -9723,3 +9723,75 @@ attest historical producer execution.
   full comparisons, source variants, recipes and compact failure evidence
   remain. This is a local tooling/evidence checkpoint, not an exactness or
   Factory acceptance increment.
+
+
+## October 19: genuine SDK context closes the camera projection (gpt-6.1-sol)
+
+- Recovered clean `00f565861f0ac64a5ba3154dca307a1651fc4458`; original
+  Japanese target hash, direct local IDA metadata and distributed mapped
+  bytes pass again. Fresh Render control confirms the complete **622-byte,
+  201-instruction, 40-field, 11-call, eight-block** owner had four differences.
+  The old function-ledger explanation of 24 differences was source-scoped
+  history, not a current baseline.
+- Twelve measured source/context controls test maintained copy, an actual
+  delta reference, a returned-result reference and native assignment through
+  Render, Render with real Float3 bodies, and actual ECL/TranslateRotation
+  context. None closes it: maintained/reference stay **622/4**, the extended
+  temporary produces **619/408**, and ordinary assignment stays **622/13**.
+  Do not infer identical bytes only from equal lengths or totals.
+- The simplified `D3DXVECTOR3` and `D3DXMATRIX` declarations omit the real
+  SDK class surface and inline definitions. Eight subsequent SDK/profile/
+  inheritance controls expose another false source constraint: under /Ob0
+  the old aggregate constructor and custom helper become out-of-line calls,
+  so their 603/616-byte results do not retain the original field census.
+  Actual SDK types with /Ob1 also lose two original math call fields; their
+  742-byte owners are rejected, not numerically accepted near matches.
+- Replacing that aggregate/helper with **three ordinary vector locals and
+  native assignment**, using the genuine SDK and **/O2 /Ob0**, reproduces all
+  **622 original bytes and 40 fields**, including the target X/LEA/Y/Z copy.
+  All six declaration permutations reproduce the same complete exact owner.
+  Neither extra storage, an artificial word-copy order, a register hint,
+  a fake return nor new assembly is needed. Existing target-observed FSINCOS
+  is unchanged. Two counterchecks use the same ordinary locals with the old
+  simplified view: both /Ob0 and /Ob1 remain **622/24 differences**. This
+  establishes the successful joint model and its tested controls, not unique
+  original declarations or translation-unit ownership.
+- Maintained source now includes the real pinned `d3dx8math.h` with checked
+  vector/matrix sizes, and deletes the custom word-copy helper and aggregate
+  workspace. SDK's genuine extern-C entry points replace ten C++ alias fields
+  in the separately exact Project3DQuad manifest: MatrixMultiply, RotationX/Y/Z
+  and Vec3Project. Every field preserves its independently reviewed original
+  referent. **All 16 prior complete exact functions remain exact**, with no
+  private-label changes. A further complete control proves that the same /Ob0 object reproduces all
+  **16 Render functions**. Their manifests now share that single original-
+  compatible profile; the dedicated camera object is unnecessary. Together
+  with the separate /Ob1 Project3DQuad, the affected cohort is **17 functions/
+  6,409 physical bytes/420 fields** across **two** objects. The guard permits zero differences only;
+  diagnostics alone still confer no exactness credit.
+- Complete SDK COMDAT sections emitted by that same cold camera object
+  independently match original matrix identity **0x00401300, 57 bytes/no
+  fields**, and vector length **0x00401290, 40 bytes/one sqrtf field**. Extents
+  come from complete COFF section sizes, not target-sized truncation. No SDK
+  authored credit is added. The identity body's overlap with the earlier
+  authored AnmMatrixRuntime model opens a separate origin/ownership review;
+  byte identity alone does not prove a unique C++ owner. Library/data ownership
+  and whole-product linkage remain open, and the denominator can change after
+  that review.
+- Canonical totals advance **945 to 946 exact functions**, **229,307 to
+  229,929 exact authored bytes**, **83.1515% to 83.3771%** of the currently
+  classified **275,770-byte** denominator. **34 functions/45,841 bytes** remain
+  nonexact; 95% needs **32,053** further complete exact bytes. Source, config,
+  SDK hashes, full controls, maintained comparisons and recipes are retained
+  in `.analysis/gpt-61sol-20261019-camera-joint-context/`. No new Factory
+  acceptance, native runtime closure, semantic reconstruction or port claim.
+
+- Final validation passes **687 CI tests/28 skipped**, all tracking/docs/
+  progress/whitespace gates and the final two-object **17-owner** cold Oracle.
+  The initial CI found four stale tests asserting a four-byte residual or the
+  prior carrier inventory; these now require complete equality and the single
+  /Ob0 Render cohort. All **671 final inputs** remain stable. After every
+  producer stopped, removed **582 owned reproducible files/5,457,063 bytes**,
+  including **466** source copies checked against their baseline Git contents
+  or retained source-generation recipe before removal. No unreproduced input,
+  private executable, IDA database, toolchain or unrelated analysis is removed.
+  The packet is bound to the local source commit after checkpoint creation.

@@ -11,28 +11,28 @@
 
 Read the live ledgers first. The original Japanese v1.50a target SHA-256 is
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-Current state: **980 authored/source-present, 945 canonical exact, 35 nonexact**;
-**229,307/275,770 reviewed-authored bytes = 83.1515%**.
-The **95%** milestone still needs **32,675** complete exact authored bytes.
+Current state: **980 authored/source-present, 946 canonical exact, 34 nonexact**;
+**229,929/275,770 reviewed-authored bytes = 83.3771%**.
+The **95%** milestone still needs **32,053** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
-- **RunEcl diagnostic correction:** a current wire-reference candidate has
-  **1,912 ordinary /201 field /25 table byte differences**, yet **144/148**
-  independently paired handler shapes still agree. Handler 156 is **51/52
-  bytes**, moving handler 157 and later fields by one byte. This is a measured
-  local size change with downstream displacement, not evidence that every
-  downstream handler changed. `probe-ecl-variant.py` now saves the audited
-  `replay-diagnostic.json` before strictly rejecting changed field positions;
-  failed compilation clears previous trial reports. Baseline remains
-  **15,564 bytes/598 fields/30 differences/146 matching handlers**.
-- **Bounded current controls:** 27 RunEcl and six Type19 reference/context
-  trials produce no accepted game-source change. Timer forwards retain
-  **42/47** differences or fail the original identity/layout audit; Type19's
-  actual ECL context retains **44** at best, with history/magnitude references
-  worsening to **50/51**. Recipes and complete reports are in
-  `.analysis/gpt-61sol-20261019-runecl-ref-context/` and
-  `...-type19-joint-references/`. Keep these negatives source-scoped.
+- **New exact camera projection:** `AnmManager::ProjectCameraFacingQuad`
+  at **0x00439820** now reproduces **622 bytes, 40 fields, 201 instructions,
+  11 calls and eight blocks**. Genuine SDK math types, ordinary vector locals
+  and native assignment under **/O2 /Ob0** replace the hand-written word copy
+  and aggregate workspace. No new assembly, padding or register directives.
+- **SDK and controls:** the shared view includes the real pinned
+  `d3dx8math.h`, preserving its extern-C stdcall declarations. Ten old
+  Project3DQuad COFF fields use the genuine five SDK API symbol spellings;
+  their target addresses and every linked byte stay unchanged. Six local
+  declaration orders all close the camera. The same ordinary source with
+  simplified SDK views remains **622/24 differences** under either profile.
+- **Focused camera gate:** `--owner anm` builds the unified /Ob0 Render profile
+  and the separate Projection source, strictly replaying **17 functions /6,409
+  physical bytes /420 fields**. Its camera guard now rejects every nonzero
+  difference. The unchanged ECL/Player cohort reuses its prior source-bound
+  proof. Recipes/results: `.analysis/gpt-61sol-20261019-camera-joint-context/`.
 - **New exact owners:** Type4/8 position callbacks at **0x00443B10 /0x00447620**
   now reproduce **249 bytes/eight fields each**. `Float3 &offset` aliases the
   single genuine offset object. Both that reference and the real ECL/math
@@ -75,11 +75,11 @@ remain separate open gates.
   `gpt-6.1-sol: ...` commits. Preserve all dirty work, never patch the target
   or commit private inputs, and distinguish local commit from remote push.
   Clean reproducible generated files only after their producers stop.
-- **Final validation:** full RunEcl baseline/rejection Oracle and **687 CI
-  tests/28 skipped** pass; all required gates pass with 671 stable inputs.
-  Game source, match configuration and compiler inputs are unchanged, so the
-  previous source-bound 37-function exact cohort is reused. Removed **116
-  generated files/5,535,753 bytes**; compact two-directory evidence remains.
+- **Final validation:** the unified two-object **17-function Oracle** and
+  **687 CI tests/28 skipped** pass; all 671 final source/tool/test hashes stay
+  stable. Removed **582 owned reproducible files/5,457,063 bytes**, including
+  466 individually reviewed source copies; compact recipes/results remain.
+
 
 ## Next worker: first three work packages
 
@@ -123,7 +123,7 @@ excludes deleted old paths while hashing actual bytes, including line endings.
 
 **Rule:** keep experimental C++ in ignored `.analysis/` until a complete
 original-linked COFF comparison passes; do not edit `config/matches.csv` or
-advance 945 exact merely because normalized, partial, or source-level metrics
+advance 946 exact merely because normalized, partial, or source-level metrics
 improve. Always inspect existing dirty edits (there may be only this worker),
 then commit verified source/guard work as `gpt-6.1-sol: ...`. The currently clean
 handoff deliberately removes generated OBJ/PDB/build caches; the next run
@@ -135,7 +135,7 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current restart summary is
-**980 source-present / 945 exact / 35 non-exact**; earlier operator notes
+**980 source-present / 946 exact / 34 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
@@ -146,14 +146,14 @@ mentioning 979/876/103 are obsolete for this checkout.
 | Confirmed authored | 980 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 980 |
-| Canonical exact functions | 945 |
-| Source-present non-exact functions | 35 |
-| Source-present non-exact bytes | 46,463 |
+| Canonical exact functions | 946 |
+| Source-present non-exact functions | 34 |
+| Source-present non-exact bytes | 45,841 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 229,307 |
+| Canonical exact authored bytes | 229,929 |
 
-**229,307 / 275,770 reviewed-authored bytes = 83.1515% exact**. To reach
-95% of the *currently classified* denominator, another **32,675 bytes**
+**229,929 / 275,770 reviewed-authored bytes = 83.3771% exact**. To reach
+95% of the *currently classified* denominator, another **32,053 bytes**
 must become complete original-bound exact owners. The 35 origin-unresolved
 functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
@@ -164,7 +164,7 @@ Prioritize **large bosses as well as small leaves**. Each row refers to a
 maintained, authored, **non-exact** function in `config/functions.csv`.
 Comparisons are current-source/original PE cold baselines; lengths are logical
 unless explicitly marked physical. The ledger, not this selected table, lists
-all 35 open functions. For the complete <=256-byte cohort see
+all 34 open functions. For the complete <=256-byte cohort see
 [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md).
 
 | Owner | Target address | Current comparison | Remaining work |
@@ -188,7 +188,6 @@ all 35 open functions. For the complete <=256-byte cohort see
 | **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **911 differing bytes** (down from 921) | Real `setupMode==0` non-mode-2 early exit recovers ten original-linked bytes and raises field identity alignment 155→157. The remaining 172-original / 171-source field gap is now independently decoded by **referent and multiplicity**: original-only `g_GameManager+0x00` (3), `+0x34` (1), `+0xA4` (1); candidate-only `+0x28` (1), `+0x98` (1), `+0xB4` (2). The target's side-registration loop anchors ESI to `side.flags (+0x34)` while VC7.1 prefers `side.selector (+0x28)`; 28 source-cold cursor/alias models were neutral or regressed. Still NON-EXACT; full 911-residual-byte and original/COFF-referent guards plus ten exact siblings run via `--owner gamemgr`. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | **862 / 849**, 26 fields, 12 calls; **804** overlap + 13 missing | Three return exits, gameplay/state collision branches; `--owner player` protects seven exact helpers. |
 | **Replay BeginPlaybackStage** | 0x00420840 | **540 / 538**, 152/151 instructions, **32/32 ordered original PE/COFF fields**, 5 calls, 12/12 matching CFG blocks; **39** overlapping unlike bytes + 2 missing (49→39) | Scoped volatile read of `g_ReplaySideState0` after header 1E7 publication restores all 32 original field referents in the correct order and all **first 30 physical field positions**, instead of the previous one reversed field pair. Nine register-scheduling residual positions `+0x152,+0x156,+0x15C,+0x162,+0x168,+0x16C,+0x172,+0x178,+0x17A` and 30 seed/tail bytes `+0x1FB..+0x1FE,+0x200..+0x219` remain guarded. All **499 already matching** candidate bytes are protected; tail fields are still shifted -1/-2 bytes. `--owner replay` source-cold replays all **12 exact members across both pinned compiler profiles**; still NON-EXACT. |
-| **ANM camera-facing quad** | 0x00439820 | **622/622**, 201 instructions, 40 fields, 11 calls, 8 blocks; **4** differences (13→6→4) | Typed three-vector scratch plus complete three-word copy keeps source and original semantics and now reproduces **618 original physical bytes**. The final two real local stores are scheduled Z-before-Y instead of retail Y-before-Z, leaving exact residual offsets `+0xF6,+0xF7,+0xF9,+0xFA`. This improves whole-owner physical equality from the earlier six-residual baseline, deliberately moving two mismatches within the same copy; all 618 currently matching original bytes are now strictly protected. All **15 same-Render-carrier exact functions** and separately compiled exact `Project3DQuad` (**16 strict checks**): `--owner anm`. No new exact function credit. |
 | **ScreenEffect shake envelope** | 0x004227A0 | **336/336**, 132 instructions, 20 fields, 8 calls, 26 blocks; **26** differences (28→26) | Authentic VC7.1 order of two real volatile references (fade, then hold; same hold + fade value) recovers original physical **+0x5C and +0x5F** with no regressed byte. Full original-SHA/26-offset guard protects **all 310 already matching bytes**; all **18 ScreenEffect exact owners** (2,562 bytes) pass across the genuine three profiles. Remaining EDI/ESI owner allocation is NON-EXACT. |
 | **Controller input** | 0x0042B410 | **808 / 796**, 32 fields; **102** overlap differences /12 missing bytes | First **674 complete instruction bytes** match. WinMM axis midpoint/range CSE and register chronology remain open; split helpers, POD bounds, SDK value/reference types and loop controls have not closed the owner. Use `scripts/inspect-controller-input.py`. |
 | **Supervisor network service** | 0x00430AA0 | **1,633 / 1,632**, 108 source fields | Real queue ownership and 1,395 overlap differences still open; `--owner network`. |
@@ -208,7 +207,7 @@ cannot be assigned unique C++ authorship from calls alone. The source-present
 `MoveRandomBiased` 517/516-byte difference remains open.
 
 Additional non-exact owners (e.g. Player charge/update/added state,
-replay save, title replay drawing and network updates) remain in the **35-row
+replay save, title replay drawing and network updates) remain in the **34-row
 live source-present non-exact ledger**, not in a historic handoff tally.
 Review `docs/KNOWLEDGE_BASE.md` and current source before rerunning old negative
 experiments; unsupported guesses there are not target evidence.
@@ -216,7 +215,7 @@ experiments; unsupported guesses there are not target evidence.
 ## Exact landmark routing
 
 The canonical manifest and accepted original-bound comparison remain the
-**sole authority** for the **945 exact** functions. The independently accepted
+**sole authority** for the **946 exact** functions. The independently accepted
 Enemy collision wrapper at 0x00410250 is **82/82 exact**; the 3,900-byte
 Enemy OnUpdate caller is **still 29 bytes nonexact**. The former wrapper's
 original acceptance and several representative source-commit-bound exact
@@ -231,6 +230,15 @@ hashes, all **110** address operands and unchanged real helper ABI are bound
 in the manifests; both diagnostic guards now reject **any** byte difference.
 This is a local canonical reconstruction claim, separate from the archived
 Factory acceptance plane.
+
+The camera-facing projection at **0x00439820** is now **622/622 exact** through
+`anm-manager-project-camera-facing-quad`. Both real SDK helper COMDAT sections
+also independently reproduce matrix identity **57 bytes** and vector length
+**40 bytes/one field**; they receive no new authored credit. The 57-byte SDK
+identity overlap with the older authored matrix-helper model needs a separate
+origin/ownership review before any source attribution is promoted. The original
+TU and unique C++ spelling remain unknown. `--owner anm` cold-protects all
+**17** current complete exact functions across the two affected objects.
 
 ## Active shared Etama/Effect ANM resource owner
 

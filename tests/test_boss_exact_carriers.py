@@ -100,13 +100,15 @@ class ExactCarrierDiscovery(unittest.TestCase):
         self.assertIn('title-screen-setup-thread',
                       groups['build/matching/TitleScreen.obj'])
 
-    def test_real_anm_render_carrier_has_all_fifteen_exact_siblings(self):
+    def test_real_anm_render_ob0_carrier_covers_all_sixteen_owners(self):
         groups = frontier.exact_source_carriers(
             'src/AnmManagerRender.cpp', frontier.ANM_RENDER_EXACT_CARRIERS)
         self.assertEqual(groups.keys(), {'build/matching/AnmManagerRender.obj'})
+        self.assertIn('anm-manager-project-camera-facing-quad',
+                      groups['build/matching/AnmManagerRender.obj'])
         units = groups['build/matching/AnmManagerRender.obj']
-        self.assertEqual(len(units), 15)
-        self.assertEqual(len(set(units)), 15)
+        self.assertEqual(len(units), 16)
+        self.assertEqual(len(set(units)), 16)
         for name in ('anm-manager-translate-rotation', 'anm-manager-draw2d',
                      'anm-manager-draw-camera-facing-quad',
                      'anm-manager-draw-projected-3d-quad',
@@ -424,7 +426,7 @@ class ExactCarrierDiscovery(unittest.TestCase):
     def test_prebuilt_anm_etama_carriers_verify_every_unit_without_rebuilding(self):
         for source, expected, prebuilt, total in (
                 ('src/AnmManagerRender.cpp', frontier.ANM_RENDER_EXACT_CARRIERS,
-                 ('build/matching/AnmManagerRender.obj',), 15),
+                 ('build/matching/AnmManagerRender.obj',), 16),
                 ('src/EtamaControllerDraw.cpp', frontier.ETAMA_DRAW_EXACT_CARRIERS,
                  ('build/matching/EtamaControllerDraw.obj',), 2)):
             with self.subTest(source=source), patch.object(

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Independent original-PE/full-COFF audit for TH09's camera-facing boss.
 
-ProjectCameraFacingQuad is a 622-byte source-present/non-exact owner.  This
+ProjectCameraFacingQuad is a 622-byte canonical exact owner. This
 verifies every physical original operand/call before applying the source's
 independently reviewed relocation symbols and addends.  Complete near matches
 are diagnostics, never accepted exactness or proof of original TU placement.
@@ -25,15 +25,16 @@ FLOAT3_CTOR = '??0Float3@@QAE@MMM@Z'
 FLOAT3_FLOATPTR = '??BFloat3@@QAEPAMXZ'
 FLOAT3_SUBTRACT = '??GFloat3@@QBE?AU0@ABU0@@Z'
 D3DX_IDENTITY = '?D3DXMatrixIdentity@@YIPAUD3DXMATRIX@@PAU1@@Z'
-D3DX_PROJECT = '?D3DXVec3Project@@YGPAUD3DXVECTOR3@@PAU1@PBU1@PBU_D3DVIEWPORT8@@PBUD3DXMATRIX@@33@Z'
+D3DX_PROJECT = '_D3DXVec3Project@24'
 D3DX_LENGTH = '?D3DXVec3Length@@YIMPBUD3DXVECTOR3@@@Z'
 TRANSLATE = '?TranslateRotation@AnmManager@@QAEXPAUVertexTex1DiffuseXyzrhw@@MMMMMM@Z'
 CONTEXT = '?g_AnmProjectionContext@@3PAUAnmProjectionContextView@@A'
 QUAD = '?g_AnmRenderQuad@@3PAUVertexTex1DiffuseXyzrhw@@A'
 
 # Physical field offsets, kinds, actual COFF identities and target-owned
-# referents. D3DX_IDENTITY is a historical source alias to the independently
-# exact matrix-identity helper at 0x401300, NOT a retail original name.
+# referents. The real SDK supplies its C++ inline identity/length helpers and
+# the extern-C six-pointer stdcall projection declaration. These declarations
+# do not establish unique original C++ authorship of folded physical helpers.
 HEAD = (
     (0x02B, 'REL32', FLOAT3_CTOR, 0x4010B0, 0),
     (0x036, 'REL32', D3DX_IDENTITY, 0x401300, 0),

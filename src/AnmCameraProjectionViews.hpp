@@ -6,14 +6,11 @@
 #include <windows.h>
 #include <d3d8.h>
 
-struct D3DXVECTOR3 : public D3DVECTOR {};
-struct D3DXMATRIX : public D3DMATRIX {};
-D3DXMATRIX *D3DXMatrixIdentity(D3DXMATRIX *matrix);
-D3DXMATRIX *WINAPI D3DXMatrixMultiply(D3DXMATRIX *out, const D3DXMATRIX *left, const D3DXMATRIX *right);
-D3DXMATRIX *WINAPI D3DXMatrixRotationX(D3DXMATRIX *out, float angle);
-D3DXMATRIX *WINAPI D3DXMatrixRotationY(D3DXMATRIX *out, float angle);
-D3DXMATRIX *WINAPI D3DXMatrixRotationZ(D3DXMATRIX *out, float angle);
-float D3DXVec3Length(const D3DXVECTOR3 *vector);
+#include <d3dx8math.h>
+
+typedef char AnmSdkVector3SizeIs0C[(sizeof(D3DXVECTOR3)==0x0C)?1:-1];
+typedef char AnmSdkMatrixSizeIs40[(sizeof(D3DXMATRIX)==0x40)?1:-1];
+
 // Neutral view of target 0x0040F1C0; source owner and original name remain unresolved.
 long double __stdcall AnmProjectionAbs(float value);
 D3DXVECTOR3 *WINAPI D3DXVec3Project(D3DXVECTOR3 *out, const D3DXVECTOR3 *vector, const D3DVIEWPORT8 *viewport, const D3DXMATRIX *projection, const D3DXMATRIX *view, const D3DXMATRIX *world);

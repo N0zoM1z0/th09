@@ -92,7 +92,7 @@ TITLE_EXACT_CARRIERS = {
 # Protect every canonical function sharing its optimizer context, not merely
 # the three nearby rendering leaves. Etama OnDraw also has a second exact
 # same-carrier lifecycle callback beyond the bullet sprite drawing leaf.
-ANM_RENDER_EXACT_CARRIERS = {'build/matching/AnmManagerRender.obj': 15}
+ANM_RENDER_EXACT_CARRIERS = {'build/matching/AnmManagerRender.obj': 16}
 ETAMA_DRAW_EXACT_CARRIERS = {'build/matching/EtamaControllerDraw.obj': 2}
 # One real BulletManager.cpp compiler profile has three independently named
 # physical object carriers, all previously exact. The 2,216-byte physical
@@ -1343,27 +1343,16 @@ def run_received_frames(*, protect_exact: bool) -> tuple[dict, list[dict]]:
            }}, exact
 
 
-# Original-PE bound: source's typed three-vector workspace now reproduces
-# every camera-facing byte except this aggregate-return copy scheduling span.
-# All earlier stack-frame, local-home and call operand differences are closed.
+# The genuine SDK types, ordinary locals and /Ob0 close the entire owner.
 CAMERA_FACING_TARGET_SHA = '36fd70db08a5570fe316d9e3beb541f7a39a90ef10b1429ad767e09c973f1865'
-# The current natural three-word copy preserves 618 of the original's 622
-# complete physical byte positions, including all 40 linked operands. The
-# original stores X, then materializes &delta, then stores Y and Z; the
-# compiler still swaps the last two stores, leaving exactly four unlike bytes.
-# Earlier source had six different offsets (F0..F2/F5..F7) from a different
-# store permutation. This bounded 6-to-4 full-owner improvement deliberately
-# changes the residual coordinates; from this baseline all 618 matching byte
-# positions, including the newly matched three-byte X store, are protected.
-CAMERA_FACING_RESIDUAL_OFFSETS = frozenset((
-    0xF6, 0xF7, 0xF9, 0xFA))
+CAMERA_FACING_RESIDUAL_OFFSETS = frozenset()
 
 
 def run_camera_facing(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # The target-owned camera-facing method now compiles in the actual Render
     # translation unit, immediately after the already-exact TranslateRotation.
     # Protect this callee and the exact Render callers from TU-visibility drift.
-    build('anm-manager-translate-rotation')
+    build('anm-manager-project-camera-facing-quad')
     candidate = noncrediting(parsed(['scripts/inspect-anm-camera-facing.py',
                                      'build/matching/AnmManagerRender.obj']),
                              name='Camera-facing projection boss',
@@ -1384,12 +1373,12 @@ def run_camera_facing(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     differences = candidate.get('difference_offsets')
     amount = candidate.get('overlap_differences')
     if (type(amount) is not int or not isinstance(differences, list) or
-            len(differences) != amount or amount > 4 or
+            len(differences) != amount or amount != 0 or
             any(type(offset) is not int or
                 offset not in CAMERA_FACING_RESIDUAL_OFFSETS for offset in differences) or
             differences != sorted(set(differences)) or
             candidate.get('complete_bytes_equal') is not (amount == 0)):
-        raise RuntimeError('camera typed-vector 4-byte original-bound copy frontier regressed')
+        raise RuntimeError('camera complete original 622-byte equality regressed')
     siblings = []
     if protect_exact:
         siblings = cold_replay_exact_source(
