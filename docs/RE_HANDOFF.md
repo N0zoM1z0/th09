@@ -11,18 +11,18 @@
 
 Read the live ledgers first. The original Japanese v1.50a target SHA-256 is
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-Current state: **980 authored/source-present, 946 canonical exact, 34 nonexact**;
-**229,929/275,770 reviewed-authored bytes = 83.3771%**.
-The **95%** milestone still needs **32,053** complete exact authored bytes.
+Current state: **981 authored/source-present, 947 canonical exact, 34 nonexact**;
+**230,139/275,980 reviewed-authored bytes = 83.3897%**.
+The **95%** milestone still needs **32,042** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
-- **Effect native resource context:** the maintained callback stays **51/eight**.
-  `scripts/probe-effect-resource-context.py` cold-compares the actual GetAnm
-  definition before/after it: **45 bytes/15 instructions/four fields**, with
-  **six missing bytes**, while the actual **20-byte** callee stays exact.
-  It preserves the strict baseline inspector and cleans temporary carriers.
-  Original TU ownership is unknown; this route supplies no new exact credit.
+- **New exact Effect callback:** **`0x0040D520`** was absent from the inventory.
+  Original templates **1/2** independently point to this shared initializer.
+  `effect-initialize-random-axes-type1-type2` cold-replays **210 bytes/19 fields**,
+  with **57 instructions/nine calls**; fourteen following CC bytes are unowned.
+  Source uses the real Effect callback, Float3 and RNG APIs. It adds **210**
+  authored and exact bytes; it is one physical owner, counted once.
 - **Menu/queue physical-byte guards:** original-bound cold comparisons now
   protect all **71** already equal ReplayMenu positions and **178** received-frame
   positions, rejecting same-count exchanges that damage old matches. Use
@@ -92,16 +92,16 @@ remain separate open gates.
   physical helper `0x004343D0` remains source-ownership unknown.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   `gpt-6.1-sol: ...` commits, followed by the explicitly requested push.
-  The previous successful push verified remote `main` at `c7e7234`. Preserve all dirty
+  The previous successful push verified remote `main` at `c3a11b0`. Preserve all dirty
   work, never patch the target or commit private inputs, and verify remote state.
   Clean reproducible generated files only after their producers stop.
-- **Final validation:** the source-cold Effect context reproducer checks full
-  **51/45-byte** callbacks, all four fields and both calls, plus both actual
-  **20-byte** co-visible GetAnm bodies. **713 CI tests/28 skipped** pass.
-  All **678** pre-existing public inputs stay bound to `c7e7234` (636 raw,
-  42 checkout EOL normalization); unchanged exact proofs are reused.
-  Etama's 600/265 candidate damages 35 old matches and remains unadopted.
-  Removed **721 files/10,521,321 bytes** after producers stopped; `build/` is absent.
+- **Final validation:** the new initializer and its actual Effect factory
+  cold-replay **617 complete bytes/36 fields**. The new callback has zero byte,
+  field or call differences; its original data-table owner is independently checked.
+  **674** pre-existing public inputs are unchanged from `c3a11b0` (632 raw,
+  42 checkout EOL normalization); six configuration files add only this owner.
+  **713 CI tests/28 skipped** pass; unchanged exact proofs are reused.
+  Removed **452 files/11,902,325 bytes** after producers stopped; `build/` is absent.
 
 
 
@@ -151,7 +151,7 @@ excludes deleted old paths while hashing actual bytes, including line endings.
 
 **Rule:** keep experimental C++ in ignored `.analysis/` until a complete
 original-linked COFF comparison passes; do not edit `config/matches.csv` or
-advance 946 exact merely because normalized, partial, or source-level metrics
+advance 947 exact merely because normalized, partial, or source-level metrics
 improve. Always inspect existing dirty edits (there may be only this worker),
 then commit verified source/guard work as `gpt-6.1-sol: ...`. The currently clean
 handoff deliberately removes generated OBJ/PDB/build caches; the next run
@@ -163,28 +163,34 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current restart summary is
-**980 source-present / 946 exact / 34 non-exact**; earlier operator notes
+**981 source-present / 947 exact / 34 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
 | --- | ---: |
-| Function candidates | 2,192 |
+| Function candidates | 2,193 |
 | Boundary/origin unreviewed | 0 |
 | Reviewed but origin-unresolved | 35 |
-| Confirmed authored | 980 |
+| Confirmed authored | 981 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 980 |
-| Canonical exact functions | 946 |
+| Source-present authored mappings | 981 |
+| Canonical exact functions | 947 |
 | Source-present non-exact functions | 34 |
 | Source-present non-exact bytes | 45,841 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 229,929 |
+| Canonical exact authored bytes | 230,139 |
 
-**229,929 / 275,770 reviewed-authored bytes = 83.3771% exact**. To reach
-95% of the *currently classified* denominator, another **32,053 bytes**
+**230,139 / 275,980 reviewed-authored bytes = 83.3897% exact**. To reach
+95% of the *currently classified* denominator, another **32,042 bytes**
 must become complete original-bound exact owners. The 35 origin-unresolved
 functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
+
+The catalog is not proof of complete executable-code inventory. Original timer
+references **0x0040D677 /0x00444A78** fall outside the current ledger extents.
+The former is in the shared Effect **1/2 update @0x0040D600**, established by
+the same original template records. Review that owner and the latter call's
+entry/boundary next; do not silently treat uncatalogued code as excluded.
 
 ## Active frontiers
 
@@ -243,7 +249,7 @@ experiments; unsupported guesses there are not target evidence.
 ## Exact landmark routing
 
 The canonical manifest and accepted original-bound comparison remain the
-**sole authority** for the **946 exact** functions. The independently accepted
+**sole authority** for the **947 exact** functions. The independently accepted
 Enemy collision wrapper at 0x00410250 is **82/82 exact**; the 3,900-byte
 Enemy OnUpdate caller is **still 29 bytes nonexact**. The former wrapper's
 original acceptance and several representative source-commit-bound exact

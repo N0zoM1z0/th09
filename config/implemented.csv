@@ -978,3 +978,4 @@ ApplyNetworkInput
 GameManagerPlayfieldView::IsWithinPlayfield
 EffectPolarScaleView::SetFromAngleAxes
 PlayerOwnerRewardCallbackType0
+EffectInitializeCallbackType1Type2
