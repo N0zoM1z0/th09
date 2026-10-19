@@ -86,6 +86,21 @@ separate **unproven** milestones.
    [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md) and exact
    manifests before selecting further leaves.
 
+**Local Player visibility countercheck (October 19):**
+`python3 -B scripts/probe-player-position-visibility.py --output
+.analysis/player-position-visibility` cold-compiles Type4/8 in standalone and
+genuine ECL contexts. Both remain **250 versus 249 bytes**, with **132
+overlapping differences plus one extra byte** and all eight original fields
+bound. The exposed real `Float3::FromAngleMagnitude` itself is **32/32 exact**;
+merely making its definition visible leaves both caller bodies and fields
+unchanged. This falsifies that narrow proposed fix, not all possible source
+contexts. The tool preserves the void ABI/profile and removes its temporary
+compiler files. No gameplay source, exact ledger or acceptance changed.
+For this local campaign use direct IDA Pro MCP/Bash and `gpt-6.1-sol: ...`
+commit subjects. The bounded experiment cleanup removed **38 generated files /
+2,214,529 bytes**, retaining compact recipes/results under
+`.analysis/gpt-61sol-20261019-exact/`; the 659-test CI passed (28 skipped).
+
 **Rule:** keep experimental C++ in ignored `.analysis/` until a complete
 original-linked COFF comparison passes; do not edit `config/matches.csv` or
 advance 940 exact merely because normalized, partial, or source-level metrics
@@ -285,7 +300,7 @@ COFF comparison; never mistake a missing disposable `.obj` for lost source.
 
 ### Most recent generated-cache cleanup (2026-10-19)
 
-The most recent **completed** reviewed cleanup is documented in
+The last **full** reviewed cleanup is documented in
 [`RE_ARTIFACT_CLEANUP_HISTORY.md`](RE_ARTIFACT_CLEANUP_HISTORY.md) with exact
 ignored per-path proofs under `.analysis/handoff-cleanup-20261019/`.
 The cleaner's cumulative historical manifest lives at
