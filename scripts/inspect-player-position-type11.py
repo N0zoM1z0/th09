@@ -10,16 +10,16 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE, SIZE = 0x449D50, 732
-SYMBOL = '?PlayerPositionCallback30404Type11@@YIHPAUPlayerPositionCallbackType11View@@PBUPlayerType11Point@@@Z'
+SYMBOL = '?PlayerPositionCallback30404Type11@@YIHPAUPlayerPositionCallbackType11View@@PBUFloat3@@@Z'
 DESTINATIONS = {
-    '??GPlayerType11Point@@QBE?AU0@ABU0@@Z': 0x401140,
-    '??HPlayerType11Point@@QBE?AU0@ABU0@@Z': 0x401100,
-    '??KPlayerType11Point@@QBE?AU0@M@Z': 0x40F5A0,
-    '??0PlayerType11Point@@QAE@XZ': 0x4343D0,
+    '??GFloat3@@QBE?AU0@ABU0@@Z': 0x401140,
+    '??HFloat3@@QBE?AU0@ABU0@@Z': 0x401100,
+    '??KFloat3@@QBE?AU0@M@Z': 0x40F5A0,
+    '??0Float3@@QAE@XZ': 0x4343D0,
     '??_H@YGXPAXIHP6EPAX0@Z@Z': 0x401470,
-    '?FromAngleMagnitude@PlayerType11Point@@QAEXMM@Z': 0x441890,
+    '?FromAngleMagnitude@Float3@@QAEXMM@Z': 0x441890,
     '?AddNormalizeAngle@@YIMMM@Z': 0x42AED0,
-    '?PlayerType11OrientationSign@@YIHPBUPlayerType11Point@@00@Z': 0x449B50,
+    '?PlayerType11OrientationSign@@YIHPBUFloat3@@00@Z': 0x449B50,
 }
 
 

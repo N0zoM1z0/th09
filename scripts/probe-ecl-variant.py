@@ -28,7 +28,9 @@ FRAGMENTS = ('EclManager.cpp', 'EclRunLate.inl', 'EclRunState.inl',
 
 def attested_include_chain(data: dict[str, bytes]) -> None:
     """Require the first DECLARATIONS include and the BODY include to share path."""
-    cpp = data['EclManager.cpp'].decode()
+    # Normalize only this textual predicate; stage_variants preserves and
+    # hashes the original bytes that the compiler will actually consume.
+    cpp = data['EclManager.cpp'].decode().replace('\r\n', '\n')
     late = data['EclRunLate.inl'].decode()
     early = '#include "EclRunLate.inl"'
     body = '#include "EclRunState.inl"'

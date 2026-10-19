@@ -59,7 +59,8 @@ class EclVariantFirstIncludeTests(unittest.TestCase):
                 self.assertTrue((tmp/'carrier'/intermediate).is_file())
 
     def test_first_include_chain_drift_fails_without_compilation(self):
-        source = {name: (ROOT/'src'/name).read_bytes() for name in variant.FRAGMENTS}
+        source = {name: (ROOT/'src'/name).read_bytes().replace(b'\r\n', b'\n')
+                  for name in variant.FRAGMENTS}
         variant.attested_include_chain(source)
         for parent, old in (
                 ('EclRunLate.inl', '#include "EclRunState.inl"'),
@@ -77,6 +78,21 @@ class EclVariantFirstIncludeTests(unittest.TestCase):
             b'#define TH09_ECL_RUN_STATE_BODY\n// not the actual body include')
         with self.assertRaisesRegex(ValueError, 'include chain|state BODY'):
             variant.attested_include_chain(altered)
+
+    def test_include_attestation_accepts_both_eols_without_weakening_body_check(self):
+        source = {name: (ROOT/'src'/name).read_bytes().replace(b'\r\n', b'\n')
+                  for name in variant.FRAGMENTS}
+        for newline in (b'\n', b'\r\n'):
+            data = {name: blob.replace(b'\n', newline) for name, blob in source.items()}
+            before = dict(data)
+            variant.attested_include_chain(data)
+            self.assertEqual(data, before)
+            actual = b'#define TH09_ECL_RUN_STATE_BODY' + newline + b'#include "EclRunState.inl"'
+            data['EclManager.cpp'] = data['EclManager.cpp'].replace(
+                actual, actual.replace(b'_STATE_BODY', b'_STATE_WRONG'))
+            self.assertNotEqual(data, before)
+            with self.subTest(newline=newline), self.assertRaisesRegex(ValueError, 'state BODY'):
+                variant.attested_include_chain(data)
 
     def test_output_symlink_is_rejected_before_replacement(self):
         with tempfile.TemporaryDirectory() as folder:

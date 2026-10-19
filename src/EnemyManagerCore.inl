@@ -1,3 +1,4 @@
+// Lexical member of EclManager.cpp; reuses Th09EclRunState::ManagerStateView.
 #include "AsciiManager.hpp"
 #include "EnemyManager.hpp"
 #include "BulletManager.hpp"
@@ -419,18 +420,6 @@ struct EnemyCoreEclManagerView
     int RunEcl(EnemyCoreView *enemy);
 };
 
-struct Th09EclContextView;
-
-namespace Th09EclRunState
-{
-struct ManagerStateView
-{
-    int InitializeSubroutine(
-        Th09EclContextView *context,
-        short subroutineId);
-};
-}
-
 struct EnemyCoreFrontView
 {
     unsigned char unknown00000[0x1095C];
@@ -483,7 +472,7 @@ struct EnemyAttachedEffectUpdateView
     float angle80;
 };
 
-extern float __stdcall AddNormalizeAngle(float angle, float delta);
+#include "RuntimeAngleMath.hpp"
 extern long double __stdcall AnmProjectionAbs(float value);
 
 static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy)

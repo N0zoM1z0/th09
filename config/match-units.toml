@@ -189,7 +189,7 @@ relocations = [
 
 [units.ecl-apply-interpolation]
 source = "src/EclManager.cpp"
-object = "build/matching/EclManager-apply-interpolation.obj"
+object = "build/matching/EclManager.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Th09EclRunControl::ApplyInterpolationOperation"]
 symbol = "?ApplyInterpolationOperation@Th09EclRunControl@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@@Z"
@@ -205,7 +205,7 @@ relocations = [
 
 [units.ecl-install-interpolation-slot]
 source = "src/EclManager.cpp"
-object = "build/matching/EclManager-install-interpolation-slot.obj"
+object = "build/matching/EclManager.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Th09EclRunControl::InstallInterpolationSlot"]
 symbol = "?InstallInterpolationSlot@Th09EclRunControl@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@@Z"
@@ -225,7 +225,7 @@ relocations = [
 
 [units.ecl-call-subroutine]
 source = "src/EclManager.cpp"
-object = "build/matching/EclManager-call-subroutine.obj"
+object = "build/matching/EclManager.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Th09EclRunControl::CallSubroutine"]
 symbol = "?CallSubroutine@Th09EclRunControl@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@H@Z"
@@ -1140,8 +1140,8 @@ relocations = [
 ]
 
 [units.float3-constructor]
-source = "src/Float3.cpp"
-object = "build/matching/Float3.obj"
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Float3::Float3"]
 symbol = "??0Float3@@QAE@MMM@Z"
@@ -1176,8 +1176,8 @@ relocations = [
 ]
 
 [units.float3-add]
-source = "src/Float3.cpp"
-object = "build/matching/Float3.obj"
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Float3::operator+"]
 symbol = "??HFloat3@@QBE?AU0@ABU0@@Z"
@@ -1188,8 +1188,8 @@ relocations = [
 ]
 
 [units.float3-subtract]
-source = "src/Float3.cpp"
-object = "build/matching/Float3.obj"
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Float3::operator-"]
 symbol = "??GFloat3@@QBE?AU0@ABU0@@Z"
@@ -11270,8 +11270,8 @@ relocations = [
 ]
 
 [units.float3-divide]
-source = "src/EnemyManagerCore.cpp"
-object = "build/matching/EnemyManagerCore.obj"
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Float3::operator/"]
 symbol = "??KFloat3@@QBE?AU0@M@Z"
@@ -12649,8 +12649,8 @@ relocations = [
 ]
 
 [units.player-collision-append-box]
-source = "src/EnemyManagerCore.cpp"
-object = "build/matching/EnemyManagerCore.obj"
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["PlayerCollisionQueryStateView::AppendBoxRecord"]
 symbol = "?AppendBoxRecord@PlayerCollisionQueryStateView@@QAEXPBUPlayerPositionView@@0H@Z"
@@ -12662,8 +12662,8 @@ relocations = [
 ]
 
 [units.enemy-collision-append-box]
-source = "src/EnemyManagerCore.cpp"
-object = "build/matching/EnemyManagerCore.obj"
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["EnemyAppendCollisionView::AppendPlayerCollisionBox"]
 symbol = "?AppendPlayerCollisionBox@EnemyAppendCollisionView@@QAEXPBUFloat3@@0@Z"
@@ -13657,11 +13657,11 @@ relocations = [
 ]
 
 [units.player-type11-orientation-sign]
-source = "src/PlayerPositionCallback30404Type11.cpp"
-object = "build/matching/PlayerPositionCallback30404Type11.obj"
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager-Type11.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerType11OrientationSign"]
-symbol = "?PlayerType11OrientationSign@@YIHPBUPlayerType11Point@@00@Z"
+symbol = "?PlayerType11OrientationSign@@YIHPBUFloat3@@00@Z"
 target_address = 0x00449B50
 size = 0x47
 relocations = [
@@ -13860,8 +13860,8 @@ relocations = [
 ]
 
 [units.enemy-attached-effect-update]
-source = "src/EnemyManagerCore.cpp"
-object = "build/matching/EnemyManagerCore.obj"
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["EnemyCoreUpdateAttachedEffects"]
 symbol = "?EnemyCoreUpdateAttachedEffects@@YIXPAUEnemyCoreView@@@Z"
@@ -13869,7 +13869,7 @@ target_address = 0x0040F4C0
 size = 0x97
 relocations = [
   { offset = 0x54, type = "DIR32", symbol = "__real@3e99999a", target = 0x0048E4B4 },
-  { offset = 0x73, type = "REL32", symbol = "?AddNormalizeAngle@@YGMMM@Z", target = 0x0042AED0 },
+  { offset = 0x73, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0 },
 ]
 
 [units.enemy-ecl-load]
@@ -16950,7 +16950,7 @@ relocations = [
   { offset = 0xFB, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
   { offset = 0x107, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x110, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
-  { offset = 0x139, type = "DIR32", symbol = "$L65633", target = 0x00408548 },
+  { offset = 0x139, type = "DIR32", symbol = "$L66549", target = 0x00408548 },
   { offset = 0x169, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x176, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x183, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
@@ -17129,7 +17129,7 @@ relocations = [
 # table; the four following target CC bytes remain outside this comparison.
 [units.ecl-compare-operands]
 source = "src/EclManager.cpp"
-object = "build/matching/EclManager-compare-operands.obj"
+object = "build/matching/EclManager.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Th09EclRunControl::CompareOperands"]
 symbol = "?CompareOperands@Th09EclRunControl@@YIPAUTh09EclRawInstructionHeaderView@@PAUEnemyView@@PAU2@@Z"
@@ -17137,7 +17137,7 @@ target_address = 0x00407700
 size = 0x34A
 compare_size = 0x37C
 relocations = [
-  { offset = 0x14, type = "DIR32", symbol = "$L65239", target = 0x00407A4C },
+  { offset = 0x14, type = "DIR32", symbol = "$L66030", target = 0x00407A4C },
   { offset = 0x24, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
   { offset = 0x3B, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
   { offset = 0x60, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
@@ -17916,7 +17916,7 @@ relocations = []
 
 [units.float3-from-angle-magnitude]
 source = "src/EclManager.cpp"
-object = "build/matching/EclManagerFloat3.obj"
+object = "build/matching/EclManager.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Float3::FromAngleMagnitude"]
 symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z"
@@ -22163,7 +22163,7 @@ relocations = [
 
 [units.exattack-type6-initialize]
 source = "src/EclManager.cpp"
-object = "build/matching/EclManagerType6Initialize.obj"
+object = "build/matching/EclManager.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["ExAttackInitializeCallbackType6"]
 symbol = "?ExAttackInitializeCallbackType6@@YIHPAUExAttackRecord@@@Z"
@@ -22655,4 +22655,51 @@ relocations = [
   { offset = 0x2A2, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
   { offset = 0x2AB, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
   { offset = 0x2B7, type = "DIR32", symbol = "__real@3e4f8c3d", target = 0x00491608 },
+]
+
+[units.player-position-callback-type11]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager-Type11.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["PlayerPositionCallback30404Type11"]
+symbol = "?PlayerPositionCallback30404Type11@@YIHPAUPlayerPositionCallbackType11View@@PBUFloat3@@@Z"
+target_address = 0x00449D50
+size = 0x2DC
+relocations = [
+  { offset = 0x1A, type = "REL32", symbol = "??GFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x1F, type = "DIR32", symbol = "??0Float3@@QAE@XZ", target = 0x004343D0 },
+  { offset = 0x2F, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x50, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0x5B, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0 },
+  { offset = 0x6E, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0x79, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0 },
+  { offset = 0x8C, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0x97, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0 },
+  { offset = 0xAA, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0xB5, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0 },
+  { offset = 0xC8, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0xF2, type = "REL32", symbol = "??GFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0xF9, type = "REL32", symbol = "??KFloat3@@QBE?AU0@M@Z", target = 0x0040F5A0 },
+  { offset = 0x100, type = "REL32", symbol = "??HFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0x138, type = "REL32", symbol = "??GFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x13F, type = "REL32", symbol = "??KFloat3@@QBE?AU0@M@Z", target = 0x0040F5A0 },
+  { offset = 0x146, type = "REL32", symbol = "??HFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0x17E, type = "REL32", symbol = "??GFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x185, type = "REL32", symbol = "??KFloat3@@QBE?AU0@M@Z", target = 0x0040F5A0 },
+  { offset = 0x18C, type = "REL32", symbol = "??HFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0x1C7, type = "REL32", symbol = "??GFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x1CE, type = "REL32", symbol = "??KFloat3@@QBE?AU0@M@Z", target = 0x0040F5A0 },
+  { offset = 0x1D5, type = "REL32", symbol = "??HFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0x20D, type = "REL32", symbol = "??GFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
+  { offset = 0x214, type = "REL32", symbol = "??KFloat3@@QBE?AU0@M@Z", target = 0x0040F5A0 },
+  { offset = 0x21B, type = "REL32", symbol = "??HFloat3@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
+  { offset = 0x23D, type = "REL32", symbol = "?PlayerType11OrientationSign@@YIHPBUFloat3@@00@Z", target = 0x00449B50 },
+  { offset = 0x24D, type = "REL32", symbol = "?PlayerType11OrientationSign@@YIHPBUFloat3@@00@Z", target = 0x00449B50 },
+  { offset = 0x25F, type = "REL32", symbol = "?PlayerType11OrientationSign@@YIHPBUFloat3@@00@Z", target = 0x00449B50 },
+  { offset = 0x271, type = "REL32", symbol = "?PlayerType11OrientationSign@@YIHPBUFloat3@@00@Z", target = 0x00449B50 },
+  { offset = 0x280, type = "REL32", symbol = "?PlayerType11OrientationSign@@YIHPBUFloat3@@00@Z", target = 0x00449B50 },
+  { offset = 0x28F, type = "REL32", symbol = "?PlayerType11OrientationSign@@YIHPBUFloat3@@00@Z", target = 0x00449B50 },
+  { offset = 0x2A4, type = "REL32", symbol = "?PlayerType11OrientationSign@@YIHPBUFloat3@@00@Z", target = 0x00449B50 },
+  { offset = 0x2B6, type = "REL32", symbol = "?PlayerType11OrientationSign@@YIHPBUFloat3@@00@Z", target = 0x00449B50 },
+  { offset = 0x2C5, type = "REL32", symbol = "?PlayerType11OrientationSign@@YIHPBUFloat3@@00@Z", target = 0x00449B50 },
 ]

@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class EnemyUpdateSharedRealOwner(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.enemy = (ROOT/'src/EnemyManagerCore.cpp').read_text()
+        cls.enemy = (ROOT/'src/EnemyManagerCore.inl').read_text()
         cls.ascii_marker = (ROOT/'src/AsciiBossMarkerVm.cpp').read_text()
         cls.marker_header = (ROOT/'src/AsciiBossMarkerVmView.hpp').read_text()
         cls.sound_header = (ROOT/'src/SoundPlayer.hpp').read_text()
@@ -97,7 +97,7 @@ class EnemyUpdateSharedRealOwner(unittest.TestCase):
     def test_boss_remains_nonexact_and_source_present_only(self):
         row = self.functions['0x00410730']
         self.assertEqual((row['owner'],row['status'],row['source_file'],int(row['size'])),
-                         ('authored','unclassified','src/EnemyManagerCore.cpp',3883))
+                         ('authored','unclassified','src/EclManager.cpp',3883))
         self.assertIn('EnemyManager::OnUpdate PE/VC7.1 diagnostic',self.inspector)
         self.assertIn('owner-local label destinations and all 97',self.inspector)
 

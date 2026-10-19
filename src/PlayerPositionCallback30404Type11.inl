@@ -1,19 +1,7 @@
-struct PlayerType11Point
-{
-    PlayerType11Point();
-    PlayerType11Point operator+(const PlayerType11Point &other) const;
-    PlayerType11Point operator-(const PlayerType11Point &other) const;
-    PlayerType11Point operator/(float scalar) const;
-    // The shared 0x441890 method writes XY and has no returned-value contract.
-    void FromAngleMagnitude(float angle, float magnitude);
-
-    float x;
-    float y;
-    float z;
-};
-
-typedef char PlayerType11PointSizeIs0C[
-    (sizeof(PlayerType11Point) == 0x0C) ? 1 : -1];
+// Lexical member of EclManager.cpp. Ordinary Float3 bodies select the
+// target temporary lifetimes; the constructor callback owner stays unknown.
+#include "AsciiManager.hpp"
+#include "RuntimeAngleMath.hpp"
 
 struct PlayerType11RangeSourceView
 {
@@ -27,15 +15,22 @@ struct PlayerPositionCallbackType11View
     unsigned char unknown00000[0x368];
     PlayerType11RangeSourceView *rangeSource368;
     unsigned char unknown0036C[0x1B88 - 0x36C];
-    PlayerType11Point position1B88;
+    Float3 position1B88;
 };
 
-float AddNormalizeAngle(float angle, float delta);
+typedef char PlayerType11RadiusAt7C[
+    (offsetof(PlayerType11RangeSourceView, radius7C) == 0x7C) ? 1 : -1];
+typedef char PlayerType11AngleAt80[
+    (offsetof(PlayerType11RangeSourceView, angle80) == 0x80) ? 1 : -1];
+typedef char PlayerType11RangeSourceAt368[
+    (offsetof(PlayerPositionCallbackType11View, rangeSource368) == 0x368) ? 1 : -1];
+typedef char PlayerType11PositionAt1B88[
+    (offsetof(PlayerPositionCallbackType11View, position1B88) == 0x1B88) ? 1 : -1];
 
 static int PlayerType11OrientationSign(
-    const PlayerType11Point *a,
-    const PlayerType11Point *b,
-    const PlayerType11Point *c)
+    const Float3 *a,
+    const Float3 *b,
+    const Float3 *c)
 {
     float value =
         (c->y - a->y) * b->x +
@@ -51,10 +46,10 @@ static int PlayerType11OrientationSign(
 
 int __fastcall PlayerPositionCallback30404Type11(
     PlayerPositionCallbackType11View *player,
-    const PlayerType11Point *other)
+    const Float3 *other)
 {
-    PlayerType11Point delta = *other - player->position1B88;
-    PlayerType11Point points[10];
+    Float3 delta = *other - player->position1B88;
+    Float3 points[10];
     PlayerType11RangeSourceView *source = player->rangeSource368;
 
     float angle = source->angle80;
@@ -75,13 +70,13 @@ int __fastcall PlayerPositionCallback30404Type11(
     points[9] = (points[8] - points[2]) / 1.618f + points[2];
 
     return
-        (PlayerType11OrientationSign(&points[4], &delta, &points[0]) >= 0 &&
-         PlayerType11OrientationSign(&points[7], &delta, &points[4]) >= 0 &&
-         PlayerType11OrientationSign(&points[0], &delta, &points[7]) >= 0) ||
-        (PlayerType11OrientationSign(&points[2], &delta, &points[8]) >= 0 &&
-         PlayerType11OrientationSign(&points[5], &delta, &points[2]) >= 0 &&
-         PlayerType11OrientationSign(&points[8], &delta, &points[5]) >= 0) ||
-        (PlayerType11OrientationSign(&points[0], &delta, &points[6]) >= 0 &&
-         PlayerType11OrientationSign(&points[3], &delta, &points[0]) >= 0 &&
-         PlayerType11OrientationSign(&points[6], &delta, &points[3]) >= 0);
+        (PlayerType11OrientationSign(&delta, &points[0], &points[4]) >= 0 &&
+         PlayerType11OrientationSign(&delta, &points[4], &points[7]) >= 0 &&
+         PlayerType11OrientationSign(&delta, &points[7], &points[0]) >= 0) ||
+        (PlayerType11OrientationSign(&delta, &points[8], &points[2]) >= 0 &&
+         PlayerType11OrientationSign(&delta, &points[2], &points[5]) >= 0 &&
+         PlayerType11OrientationSign(&delta, &points[5], &points[8]) >= 0) ||
+        (PlayerType11OrientationSign(&delta, &points[6], &points[0]) >= 0 &&
+         PlayerType11OrientationSign(&delta, &points[0], &points[3]) >= 0 &&
+         PlayerType11OrientationSign(&delta, &points[3], &points[6]) >= 0);
 }

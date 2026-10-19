@@ -286,7 +286,10 @@ class BossFrontierChecks(TestCase):
         with patch.object(frontiers, 'build') as build, patch.object(
                 frontiers, 'build_nonexact') as compile_leaf, patch.object(
                 frontiers, 'parsed', side_effect=[main, leaf]), patch.object(
-                frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
+                frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}), patch.object(
+                frontiers, 'cold_replay_exact_source', return_value=[{'unit': name} for name in (
+                    'enemy-attached-effect-update', 'float3-divide',
+                    'player-collision-append-box', 'enemy-collision-append-box')]) as shared:
             owners, exact = frontiers.run_enemy(protect_exact=True)
         self.assertEqual(owners['enemy_manager_update']['ordinary_differences'], 29)
         self.assertEqual(owners['enemy_collision_append']['ordinary_differences'], 0)
@@ -303,6 +306,9 @@ class BossFrontierChecks(TestCase):
                           'ascii-boss-marker-set-interrupt',
                           'ascii-manager-set-boss-marker-state'])
         self.assertEqual(build.call_count, 8)
+        shared.assert_called_once_with(
+            'src/EclManager.cpp', frontiers.ECL_EXACT_CARRIERS,
+            already_built=('build/matching/EclManager.obj',))
         compile_leaf.assert_not_called()
 
     def test_enemy_all_real_callee_carriers_are_cold_replayed_once(self):

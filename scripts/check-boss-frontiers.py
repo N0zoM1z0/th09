@@ -81,13 +81,8 @@ def build(unit: str) -> None:
 # rebuilt rather than silently reusing the main diagnostic's object.
 # These are manifest-verified cardinalities, not historical exactness totals.
 ECL_EXACT_CARRIERS = {
-    'build/matching/EclManager.obj': 20,
-    'build/matching/EclManager-apply-interpolation.obj': 1,
-    'build/matching/EclManager-install-interpolation-slot.obj': 1,
-    'build/matching/EclManager-call-subroutine.obj': 1,
-    'build/matching/EclManager-compare-operands.obj': 1,
-    'build/matching/EclManagerFloat3.obj': 1,
-    'build/matching/EclManagerType6Initialize.obj': 1,
+    'build/matching/EclManager.obj': 33,
+    'build/matching/EclManager-Type11.obj': 2,
 }
 TITLE_EXACT_CARRIERS = {
     'build/matching/TitleScreen.obj': 37,
@@ -793,8 +788,8 @@ def validate_runecl_real_angle_owners(units: dict) -> None:
                     ('REL32', RUNECL_REAL_ANGLE_ORIGINAL_VA, 0)):
                 raise RuntimeError('ECL/ExAttack exact source contains false angle-call identity')
             exact_ref_count += 1
-    if exact_ref_count != 12:
-        raise RuntimeError('ECL/ExAttack twelve exact C++ angle callsites missing')
+    if exact_ref_count != 17:
+        raise RuntimeError('ECL/Enemy/Type11 seventeen exact C++ angle callsites missing')
 
 
 def guard_runecl_real_angle_callsite_report(report: dict) -> dict:
@@ -2189,27 +2184,26 @@ def replay_enemy_real_callee_exact() -> list[dict]:
 
 
 def run_enemy(*, protect_exact: bool) -> tuple[dict, list[dict]]:
-    # One source-cold EnemyManagerCore TU now owns the nonexact 3,900-byte
+    # One source-cold EclManager TU now owns the nonexact 3,900-byte
     # calc boss, exact 151-byte effects leaf, original-exact 56-byte Float3
     # division, and both exact 205/82-byte collision helpers. The real
     # Float3 divider + AppendBoxRecord bodies eliminate ten genuine target
     # mismatches inside the caller; canonical replays protect all four leaves.
     build('enemy-attached-effect-update')
     main = parsed(['scripts/inspect-enemy-manager-update.py',
-                   'build/matching/EnemyManagerCore.obj', '--json'])
+                   'build/matching/EclManager.obj', '--json'])
     main_frontier = guard_enemy_update(main)
 
-    # Use the same freshly compiled EnemyManagerCore.obj for every source-
+    # Use the same freshly compiled EclManager.obj for every source-
     # commit-relevant codegen check; a historical PlayerCollisionAppendBox
     # object is no longer an independent source of authority.
-    obj = 'build/matching/EnemyManagerCore.obj'
+    obj = 'build/matching/EclManager.obj'
     collision = parsed(['scripts/inspect-enemy-collision-box.py', obj, '--json'])
     collision_frontier = guard_enemy_collision(collision)
-    exact = [canonical('enemy-attached-effect-update')] if protect_exact else []
+    exact = []
     if protect_exact:
-        exact.extend((canonical('float3-divide'),
-                      canonical('player-collision-append-box'),
-                      canonical('enemy-collision-append-box')))
+        exact.extend(cold_replay_exact_source(
+            'src/EclManager.cpp', ECL_EXACT_CARRIERS, already_built=(obj,)))
         build('enemy-manager-draw-impl')
         exact.append(canonical('enemy-manager-draw-impl'))
         # OnUpdate's real 0x214-byte bullet descriptor and actual Etama
@@ -4202,9 +4196,55 @@ def run_audio_true_exact(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     return {},exact
 
 
+def run_player_type11(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    """Replay the genuine shared source once per profile, including its bosses."""
+    owners, _ = run_ecl(include_trail=False, include_interpreter=True,
+                        protect_exact=False)
+    obj = 'build/matching/EclManager.obj'
+    trail = parsed(['scripts/inspect-exattack-type19.py', obj, '--json'],
+                   diagnostic=True)
+    guard_exattack_type19_update(trail)
+    enemy = parsed(['scripts/inspect-enemy-manager-update.py', obj, '--json'])
+    guard_enemy_update(enemy)
+    exact = []
+    if protect_exact:
+        exact.extend(cold_replay_exact_source(
+            'src/EclManager.cpp', ECL_EXACT_CARRIERS, already_built=(obj,)))
+        exact.extend(cold_replay_exact_source(
+            'src/Float3.cpp', {'build/matching/Float3.obj': 4}))
+    else:
+        build('player-position-callback-type11')
+    caller = parsed(['scripts/inspect-player-position-type11.py',
+                     'build/matching/EclManager-Type11.obj'])
+    if (caller.get('diagnostic_only') is not True or
+            caller.get('exactness_credit') != 'none' or
+            caller.get('target_sha256') !=
+            '3d6ac30acacf80d7a3b9919c4afeb541a9a42b8793e7f7035eab86d384760e92' or
+            caller.get('target_bytes') != 732 or caller.get('candidate_bytes') != 732 or
+            caller.get('relocations') != 36 or
+            caller.get('target_instructions') != 233 or
+            caller.get('candidate_instructions') != 233 or
+            caller.get('target_calls') != 35 or caller.get('candidate_calls') != 35 or
+            caller.get('ordered_calls_agree') is not True or
+            caller.get('direct_blocks') != [11, 11] or
+            caller.get('complete_direct_graphs_agree') is not True or
+            type(caller.get('complete_differences_if_same_extent')) is not int or
+            caller.get('complete_differences_if_same_extent') != 0 or
+            caller.get('difference_offsets') != [] or
+            caller.get('complete_bytes_agree') is not True):
+        raise RuntimeError('Type11 complete original owner no longer agrees')
+    owners.update(player_position_type11={'physical_bytes': 732, 'fields': 36,
+                                         'different_bytes': 0},
+                  exattack_type19_update={'physical_bytes': 821,
+                                          'different_bytes': trail['overlapping_differences']},
+                  enemy_manager_update={'physical_bytes': 3900,
+                                        'different_bytes': enemy['complete_differences']})
+    return owners, exact
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'movement', 'gamemgr', 'crypto', 'effect', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'anm', 'network', 'parser', 'front', 'screen', 'replay', 'pause', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -4213,6 +4253,10 @@ def main() -> int:
               'owners': {}, 'canonical_siblings': []}
     try:
         execute(['scripts/verify-target.py'])
+        if args.owner == 'type11':
+            owners, exact = run_player_type11(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
         if args.owner in ('audio', 'all'):
             owners, exact = run_audio_true_exact(
                 protect_exact=not args.skip_exact_siblings)

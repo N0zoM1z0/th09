@@ -34,7 +34,7 @@ class EnemyUpdateBindingTests(TestCase):
         return base
 
     def test_actual_etama_dispatch_uses_existing_exact_214_byte_descriptor(self):
-        text = (SOURCE.parents[1] / 'src/EnemyManagerCore.cpp').read_text()
+        text = (SOURCE.parents[1] / 'src/EnemyManagerCore.inl').read_text()
         self.assertIn('#include "BulletManager.hpp"', text)
         self.assertIn('EtamaController *etama08;', text)
         self.assertIn('EnemyCoreBulletDescriptorMatchesEtamaFields', text)
