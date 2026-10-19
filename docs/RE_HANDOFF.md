@@ -17,6 +17,11 @@ The **95%** milestone still needs **32,053** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
+- **ReplaySave full extent recovered:** the genuine SDK pointer-output
+  arithmetic plus raw replay magic now emits **800/800 bytes, 245 instructions,
+  41 original fields, four calls and the same 28-block CFG**. It remains
+  **105 linked bytes nonexact**; the focused guard protects all **695** equal
+  bytes. No new exact credit. Recipes: `.analysis/gpt-61sol-20261019-title-effect-sdk/`.
 - **RunEcl call census:** `inspect-ecl-call-inventory.py OBJECT` independently
   classifies actual COFF call symbols. A partial macro model has **375 calls**
   but substitutes **nine source-only laser wrappers** for three ResolveInt
@@ -82,14 +87,16 @@ remain separate open gates.
   Current local canonical results are not new Factory acceptances. The folded
   physical helper `0x004343D0` remains source-ownership unknown.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
-  `gpt-6.1-sol: ...` commits. Preserve all dirty work, never patch the target
-  or commit private inputs, and distinguish local commit from remote push.
+  `gpt-6.1-sol: ...` commits, followed by the explicitly requested push.
+  Remote `main` was verified at `1b52dce` before this batch. Preserve all dirty
+  work, never patch the target or commit private inputs, and verify remote state.
   Clean reproducible generated files only after their producers stop.
-- **Final validation:** source-cold maintained/partial/full call-census
-  controls pass their expected **0/1/0** outcomes; **693 CI tests/28 skipped**
-  pass and all **673** source/tool/test hashes stay stable. Removed **173
-  owned reproducible files/5,984,025 bytes**, including **56** reviewed source
-  copies. Recipes, compact comparisons and cleanup receipts remain.
+- **Final validation:** the source-cold maintained ReplaySave comparison and
+  residual guard pass with **800/245/41/4/28/105**; **695 CI tests/28 skipped**
+  pass with all **673** public input hashes stable. Removed **136 owned
+  reproducible files/2,568,762 bytes**, including **15** staging source copies.
+  Unchanged exact siblings reuse their source-bound proof.
+
 
 
 ## Next worker: first three work packages
@@ -188,7 +195,7 @@ all 34 open functions. For the complete <=256-byte cohort see
 | **Front weighted message RNG** | 0x004162D0 | **693 target / 681 candidate**, 15 fields, 6 calls, **569** overlap + 12 missing | Primary-first table selection refined in `09bb2a6`; target/candidate CFG 40/41 blocks. `--owner front` protects exact FrontCalc and siblings. |
 | **TitleScreen::OnUpdateResult** | 0x004266B5 | **485 / 484**, 147/147 instructions, 34 fields, 9 calls; **218** overlap + 1 missing | Pointer-backed character snapshot in `4fe7cb0`; original CL/EAX codegen still differs. Protect all 37 existing exact `TitleScreen.cpp` units, including privately relabeled StartMenu. |
 | **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280 target / 1,258 source bytes**, 376/368 instructions, **57/57 original decoded/COFF operands**, **13/13 ordered calls**, **72/70 CFG blocks** | Complete original-SHA-bound source-cold diagnostics now run via `--owner title`; the candidate is still **22 bytes short and NON-EXACT**. The shared replay record is exact-sized but does not imply the function is exact. |
-| **TitleScreen::DrawReplaySave** | 0x004239F6 | **800 target / 799 source**, 245/245 instructions, 41 fields, 4 calls, 28/28 original-direct blocks | Shares the ReplayInput-proven 0x1EC record with DrawReplayMenu. Real validity-shared text pointers and frame factor improve **793→799** physical bytes, **241→245** instructions and recover the complete original CFG (formerly divergent). SHA-bound noncrediting 799/245/41/4/28 guard plus `--owner title`; still missing one byte and NON-EXACT. |
+| **TitleScreen::DrawReplaySave** | 0x004239F6 | **800/800 physical**, 245 instructions, 41 fields, 4 calls, 28/28 matching blocks; **105 linked differences** | Raw replay magic and the genuine SDK subtraction/two scales/addition recover the complete extent. The old 799-byte model actually had 696 overlapping differences plus one missing byte; new code restores 593 positions and changes one old equal position. All **695** currently matching bytes are protected by the SHA-bound full residual guard. Remaining stack homes, replay-pointer and keyboard schedules stay NON-EXACT; no oversized buffer or extra object. |
 | **TitleScreen::DrawResult** | 0x00423D16 | **1,939/1,939**, 82 fields, 16 calls, 92 blocks; **22** differences | All 22 SHA-pinned linked differences are in the entry: 21 at `+0x0E..+0x24`, one at `+0x39` (bank-pointer store vs `currentScreen` prefetch). The entire remaining owner is byte-exact; the strengthened guard now pins **all 22 exact residual positions**, including preserving previously matching `+0x13` and `+0x18` inside the old entry window. `--owner title` protects the original full owner. |
 | **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 / 2,048**, 135 fields, 51 calls, 121 blocks | The 2,048-byte boss now uses genuine `AnmManager`/`AnmLoaded` and `SoundPlayer` receivers for **29 reviewed original-linked fields** rather than private C++ fake managers. Full codegen/call/CFG identity unchanged; 3 extra candidate bytes in input/confirmation menu remain NON-EXACT. Exact same-TU `PlayMenuSound` 34/34 and `--owner title` are required regressions. |
 | **Title character cursors** | 0x00424EDD / 0x00424FB0 / 0x0042505F | Active target/candidate **211/215**; Reverse/Inactive **175/175** | Active reduced 217→215 in `69165b2`, but none is exact. Loop pre-check and VM register/sprite reload schedules; `--owner title`. |

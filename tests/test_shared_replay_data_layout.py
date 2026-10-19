@@ -81,7 +81,7 @@ class SharedReplayDataPhysicalLayout(TestCase):
         save = (ROOT / "src/TitleScreenReplaySaveDraw.cpp").read_text()
         menu = (ROOT / "src/TitleScreenReplayMenuDraw.cpp").read_text()
         self.assertIn("ReplayDataView *replay = replays;", save)
-        self.assertIn("replay->magic != 0;", save)
+        self.assertIn("replay->magic", save)
         self.assertIn("valid ? replay->playTime", save)
         self.assertIn("valid ? replay->playerName", save)
         self.assertIn("ReplayDataView *replay = &replays[i];", menu)

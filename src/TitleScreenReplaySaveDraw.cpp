@@ -1,3 +1,4 @@
+#include <d3dx8math.h>
 #include "AsciiManager.hpp"
 
 #include <stddef.h>
@@ -7,6 +8,12 @@ typedef unsigned int u32;
 typedef int i32;
 
 #include "ReplayDataOriginalView.hpp"
+
+// The text API reads the same three-float representation through its shared view.
+typedef char ReplaySdkVectorSizeIs0C[(sizeof(D3DXVECTOR3) == sizeof(Float3)) ? 1 : -1];
+typedef char ReplaySdkVectorXAt0[(offsetof(D3DXVECTOR3, x) == offsetof(Float3, x)) ? 1 : -1];
+typedef char ReplaySdkVectorYAt4[(offsetof(D3DXVECTOR3, y) == offsetof(Float3, y)) ? 1 : -1];
+typedef char ReplaySdkVectorZAt8[(offsetof(D3DXVECTOR3, z) == offsetof(Float3, z)) ? 1 : -1];
 
 struct TitleScreenView
 {
@@ -46,7 +53,7 @@ extern char g_ReplayPlayTimeText[];
 
 int TitleScreenView::DrawReplaySave()
 {
-    Float3 position;
+    D3DXVECTOR3 position;
     position.x = 32.0f;
     position.y = 64.0f;
     position.z = 0.0f;
@@ -61,14 +68,13 @@ int TitleScreenView::DrawReplaySave()
             g_AsciiManager.color =
                 (i == keyboardSelection) ? 0xFFFFFFFFu : 0xFF808080u;
 
-            // Use one real slot-validity value for both displayed fields.
-            // This also recovers the original direct branch/return topology.
-            int valid = replay->magic != 0;
+            // Reuse the stored magic directly for both displayed fields.
+            u32 valid = replay->magic;
             const char *playTime = valid ? replay->playTime : "--/--/--";
             const char *playerName = valid ? replay->playerName : "--------";
 
             g_AsciiManager.AddFormatText(
-                &position,
+                reinterpret_cast<Float3 *>(&position),
                 "No.%.2d %.8s %8s",
                 i + 1, playerName, playTime);
             position.y += 13.0f;
@@ -80,40 +86,29 @@ int TitleScreenView::DrawReplaySave()
         i32 frame = stateTimer2;
 
         position.y = (float)row * 13.0f + 90.0f;
-        Float3 target = position;
-        target.x = target.y = 224.0f;
+        D3DXVECTOR3 target = position;
+        target.y = target.x = 224.0f;
 
         if (frame < 10)
         {
-            Float3 scaled;
-            scaled.x = target.x - position.x;
-            scaled.y = target.y - position.y;
-            scaled.z = target.z - position.z;
-
-            target.x = scaled.x * (float)frame;
-            float factor = (float)frame;
-            target.y = scaled.y * factor;
-            target.z = scaled.z * factor;
-
-            scaled.x = target.x * 0.1f;
-            scaled.y = target.y * 0.1f;
-            scaled.z = target.z * 0.1f;
-
-            target.x = scaled.x + position.x;
-            target.y = scaled.y + position.y;
-            target.z = scaled.z + position.z;
+            D3DXVECTOR3 scaled;
+            // Preserve the two original scale operations and their order.
+            D3DXVec3Subtract(&scaled, &target, &position);
+            D3DXVec3Scale(&target, &scaled, (float)frame);
+            D3DXVec3Scale(&scaled, &target, 0.1f);
+            D3DXVec3Add(&target, &scaled, &position);
         }
         position = target;
 
         g_AsciiManager.color = 0xFFFFFFFFu;
         g_AsciiManager.AddFormatText(
-            &position,
+            reinterpret_cast<Float3 *>(&position),
             "No.%.2d %.8s %8s",
             row + 1, replayName, g_ReplayPlayTimeText);
 
         position.x += (float)((replayNameCursor + 6) * 9);
         g_AsciiManager.AddFormatText(
-            &position, "%.8s", "_");
+            reinterpret_cast<Float3 *>(&position), "%.8s", "_");
 
         if (replaySaveState == 4)
         {
@@ -151,7 +146,7 @@ int TitleScreenView::DrawReplaySave()
                         g_AsciiManager.scaleY = 1.0f;
                     }
 
-                    Float3 characterPosition;
+                    D3DXVECTOR3 characterPosition;
                     characterPosition.x = position.x + offsetX;
                     characterPosition.y = position.y + offsetY;
                     characterPosition.z = position.z;
@@ -165,7 +160,7 @@ int TitleScreenView::DrawReplaySave()
                     }
 
                     g_AsciiManager.AddString(
-                        &characterPosition, text);
+                        reinterpret_cast<Float3 *>(&characterPosition), text);
                 }
                 position.y += 16.0f;
             }

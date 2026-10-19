@@ -9873,3 +9873,78 @@ attest historical producer execution.
   including **56** individually classified staging source copies. Retained
   recipes bind unchanged copies to the baseline commit and changed copies to
   their generation recipes; no unreproduced input or unrelated work is removed.
+
+
+## October 19: ReplaySave SDK operations recover its complete physical extent (gpt-6.1-sol)
+
+- Recovered clean `1b52dce6578af9da345723983a7405e23eddf7e4`, reverified the
+  original Japanese target, direct IDA metadata and mapped samples. The prior
+  call-inventory/camera/position checkpoints were pushed successfully, and an
+  independent `git ls-remote` confirmed remote `main` at that same full SHA.
+  This is an actual local-Bash push, separate from Factory transport limits.
+- Four DrawResult SDK include/vector-local controls retain the entire original
+  **1,939-byte/82-field/22-difference** baseline and identical raw hash. Six
+  Effect complete-resource-operation/acquisition helpers, with real pointer/
+  reference inputs in both orders, retain **51 bytes/four fields/eight
+  differences** and the same raw hash. Neither game function is modified.
+- Nine ReplaySave baseline/SDK scalar/operator/profile controls and six actual
+  SDK pointer-output/Lerp models distinguish object type from arithmetic.
+  SDK scalar substitution and /Ob0 alone reproduce the maintained **799/245**
+  code. Native operator expressions emit **814 or 848 bytes**; grouped-factor
+  and Lerp models lose original field identity/order or extent and are rejected.
+  The real `D3DXVec3Subtract`, two `D3DXVec3Scale` operations and `D3DXVec3Add`
+  emit **805 bytes/247 instructions/41 fields**, with the original calls/CFG.
+- The original replay-list path directly reuses its stored magic; the old
+  source's `int valid = magic != 0` creates two extra instructions. Six new
+  combined raw-magic/SDK-output controls now emit **800 bytes/245 instructions**.
+  The separate-output model has **106** complete linked differences; in-place
+  and chained variants have **112**. Seven glyph scope/storage and target-XY
+  controls leave the scopes byte-neutral; reversing the two equal 224.0f target
+  assignments narrows **106→105**. The retained source keeps the original
+  two-byte char buffer and existing vectors; no added storage or padding.
+- The maintained source uses genuine SDK vector locals and actual SDK inline
+  arithmetic, with compile-time width/member-offset compatibility checks for
+  the shared AsciiManager position view. Both text APIs retain their real
+  declarations and independently original-bound calls. A source-cold maintained
+  replay reproduces the staged raw bytes and every COFF record: **800/800
+  bytes, 245/245 instructions, 41 original operands, four ordered calls,
+  28/28 identical direct blocks and 105 linked differences**. Original complete
+  SHA remains `1d2ba588efb25a86d2e04da91812d3026a78a666effca5cc4738797e8d5b463c`.
+- Full physical comparison corrects the misleading one-byte-short intuition:
+  the former maintained **799**-byte raw hash also had **696 overlapping unlike
+  bytes plus one missing byte**, not one total difference. The new model
+  recovers **593** target positions and changes one previously equal position
+  at **+0x1AE**, for **105** residuals and **695** equal bytes. Normalized aligned
+  instructions rise **173→177**; these are diagnostic counts, never exact
+  credit. Remaining differences include stack homes and instruction scheduling.
+- Optional profile observations remain separate: /GS and line-only/no debug
+  metadata reproduce the **800-byte/41-field** raw body; the aux-less cases use
+  the entire actual unique-function CODE COMDAT, not a target-sized slice.
+  Their complete raw bytes and relocation records equal the bound baseline.
+  /Op changes to **882 bytes/47 fields** and fails original operand coverage.
+  The requested /GS- control emits an ignored-option warning and is an invalid
+  control; it does not prove that /GS- was tested. No compiler profile changes.
+- `guard_title_replay_save` now fixes the complete 800-byte extent and all 105
+  actual residual offsets, preserving every other original byte while allowing
+  genuine future narrowing. Public negative tests independently corrupt each
+  of the **695** equal positions and reject duplicate/unordered/out-of-owner
+  offsets, broken field/call/CFG inventories and forged equality/credit. The
+  old `config/functions.csv` documentary row still described **793 bytes and
+  a divergent graph**; its evidence/notes are superseded without changing
+  status, size, origin, match percentage or canonical ledgers.
+- Other game sources and exact compiler/match manifests remain hash-bound to
+  the baseline, so their existing source-bound sibling evidence is reused.
+  Compact recipes and full original comparisons live under
+  `.analysis/gpt-61sol-20261019-title-effect-sdk/`. Canonical progress remains
+  **946/980 functions, 229,929/275,770 bytes (83.3771%)**; 95% still requires
+  **32,053** complete exact bytes. Native build/runtime and later phases remain
+  open. Local source improvement is not Factory acceptance or new exact credit.
+- Final focused Oracle, tracking, documentation, generated progress, public CI
+  and whitespace gates pass: **695 tests/28 skipped**, all **673** final public
+  input hashes stable. The first CI exposed an old shared-layout fixture that
+  required `magic != 0` syntax; it now checks the genuine magic field access,
+  while the complete original-byte Oracle checks the generated operations.
+  Its six focused tests and the repeated complete CI pass. After producers
+  stopped, removed **136 owned files/2,568,762 bytes**, including **15**
+  individually classified reproducible source copies. Compact recipes/receipts
+  remain; target, SDK/compiler, IDA and unrelated legacy evidence are untouched.

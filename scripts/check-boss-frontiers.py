@@ -3389,17 +3389,32 @@ TITLE_REPLAY_SAVE_TARGET_SHA256 = (
 )
 
 
-def guard_title_replay_save(result: dict) -> None:
-    """Keep the 800-byte original replay renderer's recovered direct CFG.
+TITLE_REPLAY_SAVE_RESIDUAL_OFFSETS = frozenset((
+    0x00D, 0x018, 0x01F, 0x02C, 0x031, 0x032, 0x033, 0x034, 0x035, 0x036,
+    0x037, 0x038, 0x074, 0x07C, 0x086, 0x08F, 0x09E, 0x0CD, 0x0D0, 0x0D3,
+    0x0D6, 0x0D9, 0x0E8, 0x0F4, 0x101, 0x104, 0x10F, 0x117, 0x128, 0x130,
+    0x149, 0x151, 0x154, 0x160, 0x165, 0x17D, 0x196, 0x19E, 0x1A6, 0x1AA,
+    0x1AE, 0x1C3, 0x1C9, 0x1CC, 0x1D3, 0x1D4, 0x1D5, 0x1D6, 0x1D7, 0x1D8,
+    0x1D9, 0x1DA, 0x1DB, 0x1DC, 0x1DD, 0x1DE, 0x1DF, 0x1E0, 0x1E1, 0x1E4,
+    0x1E7, 0x1F4, 0x1FB, 0x223, 0x226, 0x239, 0x23C, 0x263, 0x280, 0x281,
+    0x282, 0x283, 0x284, 0x285, 0x286, 0x287, 0x288, 0x289, 0x28A, 0x28B,
+    0x28C, 0x28D, 0x28E, 0x28F, 0x290, 0x294, 0x295, 0x296, 0x297, 0x298,
+    0x299, 0x29E, 0x2A1, 0x2A7, 0x2AA, 0x2AD, 0x2B8, 0x2C3, 0x2C7, 0x2D6,
+    0x2D9, 0x2E3, 0x2E6, 0x2E9, 0x2F3,
+))
 
-    This is a complete-owner original-bound diagnostic, NOT canonical exact
-    credit. Only source-commit-bound Factory acceptance may grant that.
+
+def guard_title_replay_save(result: dict) -> None:
+    """Protect all 800 linked bytes outside the reviewed 105 residuals.
+
+    The complete target/COFF comparison remains diagnostic. A separate complete
+    canonical source build and comparison is required for exactness credit.
     """
     noncrediting(result, name='Title DrawReplaySave 800-byte owner',
                  target_size=800, fields=41)
-    size = result.get('candidate_bytes')
     if (result.get('target_sha256') != TITLE_REPLAY_SAVE_TARGET_SHA256 or
-            type(size) is not int or not 799 <= size <= 800 or
+            type(result.get('candidate_bytes')) is not int or
+            result['candidate_bytes'] != 800 or
             result.get('target_instructions') != 245 or
             result.get('candidate_instructions') != 245 or
             result.get('original_fields') != 41 or
@@ -3412,17 +3427,16 @@ def guard_title_replay_save(result: dict) -> None:
             type(result.get('unpaired_branch_destinations')) is not int or
             not 0 <= result['unpaired_branch_destinations'] <= 5 or
             type(result.get('aligned_instructions')) is not int or
-            not 173 <= result['aligned_instructions'] <= 245 or
-            result.get('complete_bytes_equal') is not
-                    (size == 800 and result.get('complete_differences') == 0) or
-            (size == 799 and (result.get('complete_differences') is not None or
-                              result.get('difference_offsets') is not None)) or
-            (size == 800 and
-                (type(result.get('complete_differences')) is not int or
-                 not 0 <= result['complete_differences'] <= 800 or
-                 not isinstance(result.get('difference_offsets'), list) or
-                 len(result['difference_offsets']) != result['complete_differences']))):
-        raise RuntimeError('Title DrawReplaySave recovered 799/245/41/4/28 frontier drifted')
+            not 177 <= result['aligned_instructions'] <= 245 or
+            type(result.get('complete_differences')) is not int or
+            not 0 <= result['complete_differences'] <= 105):
+        raise RuntimeError('Title DrawReplaySave 800/245/41/4/28 frontier drifted')
+    physical_difference_windows(
+        result, count_key='complete_differences', windows=((0, 800, 105),),
+        equality_key='complete_bytes_equal')
+    observed = {int(x, 16) for x in result['difference_offsets']}
+    if not observed.issubset(TITLE_REPLAY_SAVE_RESIDUAL_OFFSETS):
+        raise RuntimeError('Title DrawReplaySave damaged an already matched original byte')
 
 
 TITLE_REPLAY_MENU_TARGET_SHA256 = (

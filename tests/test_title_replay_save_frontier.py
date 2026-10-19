@@ -18,7 +18,7 @@ spec.loader.exec_module(front)
 def current_report():
     return {
         'diagnostic_only': True, 'exactness_credit': 'none',
-        'target_bytes': 800, 'candidate_bytes': 799,
+        'target_bytes': 800, 'candidate_bytes': 800,
         'target_sha256': front.TITLE_REPLAY_SAVE_TARGET_SHA256,
         'target_instructions': 245, 'candidate_instructions': 245,
         'original_fields': 41, 'bound_fields': 41,
@@ -26,30 +26,25 @@ def current_report():
         'original_blocks': 28, 'candidate_blocks': 28,
         'direct_graphs_agree': True, 'paired_branch_conflicts': [],
         'unpaired_branch_destinations': 5,
-        'aligned_instructions': 173,
-        'complete_differences': None, 'difference_offsets': None,
+        'aligned_instructions': 177,
+        'complete_differences': 105,
+        'difference_offsets': [hex(x) for x in sorted(front.TITLE_REPLAY_SAVE_RESIDUAL_OFFSETS)],
         'complete_bytes_equal': False,
     }
 
 
 class TitleReplaySaveTargetBoundFrontier(TestCase):
-    def test_current_799_byte_graph_recovered_but_not_exact(self):
+    def test_current_complete_graph_and_extent_do_not_grant_exactness(self):
         value = current_report()
         front.guard_title_replay_save(value)
         self.assertEqual(value['exactness_credit'], 'none')
-        source = (ROOT/'src/TitleScreenReplaySaveDraw.cpp').read_text()
-        self.assertIn('int valid = replay->magic != 0;', source)
-        self.assertIn('const char *playTime = valid ? replay->playTime : "--/--/--";', source)
-        self.assertIn('const char *playerName = valid ? replay->playerName : "--------";', source)
-        self.assertIn('float factor = (float)frame;', source)
-        self.assertIn('target.y = scaled.y * factor;', source)
-        self.assertIn('target.z = scaled.z * factor;', source)
+        self.assertFalse(value['complete_bytes_equal'])
 
     def test_strict_source_snapshot_can_narrow_without_locally_granting_credit(self):
         report = current_report()
         candidate = {**report, 'candidate_bytes': 800,
                      'complete_differences': 7,
-                     'difference_offsets': [hex(i) for i in range(7)]}
+                     'difference_offsets': report['difference_offsets'][:7]}
         front.guard_title_replay_save(candidate)
         self.assertEqual(candidate['exactness_credit'], 'none')
         no_local_credit = {**candidate, 'complete_differences': 0,
@@ -64,8 +59,9 @@ class TitleReplaySaveTargetBoundFrontier(TestCase):
              'aligned_instructions': 164, 'direct_graphs_agree': False},
             {'candidate_bytes': 800, 'candidate_instructions': 242},
             {'candidate_bytes': 798},
+            {'candidate_bytes': 799},
             {'candidate_instructions': 244},
-            {'aligned_instructions': 172},
+            {'aligned_instructions': 176},
             {'paired_branch_conflicts': [['0x1','0x2','0x3']]},
             {'unpaired_branch_destinations': 6},
             {'original_blocks': 27}, {'candidate_blocks': 27},
@@ -75,6 +71,30 @@ class TitleReplaySaveTargetBoundFrontier(TestCase):
         for change in cases:
             with self.subTest(change=change), self.assertRaises(RuntimeError):
                 front.guard_title_replay_save({**old, **change})
+
+    def test_each_of_the_695_equal_original_bytes_is_protected(self):
+        old = current_report()
+        baseline = set(front.TITLE_REPLAY_SAVE_RESIDUAL_OFFSETS)
+        self.assertEqual(len(baseline), 105)
+        for position in sorted(set(range(800)) - baseline):
+            differences = sorted((baseline - {min(baseline)}) | {position})
+            with self.subTest(position=hex(position)), self.assertRaises(RuntimeError):
+                front.guard_title_replay_save({
+                    **old, 'difference_offsets': [hex(x) for x in differences]})
+
+    def test_duplicate_unordered_and_out_of_owner_residuals_are_rejected(self):
+        old = current_report()
+        offsets = old['difference_offsets']
+        cases = (
+            [offsets[0], offsets[0], *offsets[2:]],
+            list(reversed(offsets)),
+            [*offsets[:-1], '0x320'],
+            [*offsets[:-1], '-0x1'],
+            [*offsets[:-1], 'unknown'],
+        )
+        for offsets in cases:
+            with self.subTest(offsets=offsets[:2]), self.assertRaises(RuntimeError):
+                front.guard_title_replay_save({**old, 'difference_offsets': offsets})
 
     def test_reject_unreviewed_target_and_forged_acceptance(self):
         old = current_report()
