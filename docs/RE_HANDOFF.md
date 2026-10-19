@@ -11,60 +11,61 @@
 
 Read the live ledgers first. The original Japanese v1.50a target SHA-256 is
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-Current state: **995 authored/source-present, 960 canonical exact, 35 nonexact**;
-**233,922/280,709 reviewed-authored bytes = 83.3326%**.
-The **95%** milestone still needs **32,752** complete exact authored bytes.
+Current state: **998 authored/source-present, 963 canonical exact, 35 nonexact**;
+**234,228/281,015 reviewed-authored bytes = 83.3507%**.
+The **95%** milestone still needs **32,737** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
-- **New exact Effect35 callbacks:** original initializer **0x00445C30 /72
-  bytes** and update **0x00445C80 /38 bytes** pass complete original-bound
-  canonical comparisons. They add **110** newly reviewed authored/exact bytes.
-  Initialization uses the owning Player ANM script7, enables VM flag0x2000 and
-  clears pos2. Update calls the existing native Player shot routine with the
-  genuine Timer integer conversion and powerLevel2.
-- **Boundary and type recovery:** both complete leaves end before unowned CC
-  tails. Already catalogued Player functions follow the update; their bytes
-  are not part of this callback. The existing Player shot type declarations
-  move unchanged into `PlayerSpawnShotsView.hpp`, with the independently
-  observed Player ANM pointer at+0xBC added to its previously unknown prefix.
-  No new Timer return contract, fake method owner or byte patch is used.
-- **Focused exact closure:** two new callbacks plus the changed-header
-  **190-byte PlayerSpawnShotsView::SpawnShots** pass all **300 physical bytes /
-  four fields**. New callbacks also match in the isolated candidate and the
-  maintained source cold build before canonical replay. Unchanged source-bound
-  ECL, Enemy, Title, ExAttack and other proofs are reused; no full historical
-  native replay was run.
-- **Large-function investigation:** fourteen complete Title DrawReplayMenu
-  controls test string storage/reference forms, actual owner definitions and
-  indexed replay access. None passes the complete 1,280-byte original owner;
-  maintained source stays **1,258 bytes /57 fields /13 calls /70 blocks**.
-  A nine-byte name storage hypothesis remains unadopted. Recipes, source hashes
-  and full diagnostics remain in `.analysis/gpt-61sol-20261020-title-replay-menu/`.
+- **New exact Effect27/36 strip family:** original shared initializer
+  **0x004459A0 /148 bytes**, row27 update **0x004454E0 /79 bytes** and row36
+  update **0x0044BC30 /79 bytes** pass complete original-bound canonical
+  comparisons. They add **306** newly reviewed authored/exact bytes, counting
+  the shared initializer once. Initialization allocates0x78 bytes and sets the
+  existing strip state. Updates increment radius by0.5 below16/24 respectively,
+  copy the owning-side Player position and mark geometry dirty.
+- **Boundary and fields:** initialization ends before twelve unowned CC bytes;
+  each update ends before one unowned CC byte and a separately catalogued
+  Player callback. Neither callback-to-draw spacing belongs to these owners.
+  Independent target decoding adds each update's indexed static base at+0x2D:
+  GameManager sides[index].player04 at root0x004A7D90+4 after stride0x38.
+  The generic absolute-only scanner's omission is documented in the private
+  audit; no target or compiled bytes are changed.
+- **Focused exact closure:** all **three functions /306 physical bytes /nine
+  fields** match in the accepted candidate, maintained-path cold object and
+  fresh canonical object. Four natural initializer order controls close33
+  initial differences without changing flags or ABI. The standalone new TU
+  changes no existing source/header; unchanged source-bound ECL, Enemy, Title,
+  ExAttack, Effect and Player proofs are reused.
 - **Open scope:** the35 existing nonexact functions /46,787 bytes remain open,
-  alongside **36 uncatalogued code entries** in the original Effect prefix.
+  alongside **33 uncatalogued code entries** in the original Effect prefix.
   Large bosses and short leaves remain in scope. The current exact packet is
-  `.analysis/gpt-61sol-20261020-effect35/`; durable facts are in
+  `.analysis/gpt-61sol-20261020-effect27-36/`; durable facts are in
   `KNOWLEDGE_BASE.md`. Original names, unique TU partition and runtime behavior
   beyond the observed code remain unproved.
+- **Large-function continuity:** fourteen Title DrawReplayMenu controls in
+  parent **c4848e8** remain negative. Maintained source stays **1,258 bytes /
+  57 fields /13 calls /70 blocks** against the1,280-byte original. A nine-byte
+  name storage hypothesis remains unadopted. Recipes, source hashes and full
+  diagnostics remain in `.analysis/gpt-61sol-20261020-title-replay-menu/`.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
-  verification. Parent remote main was verified at **02908f5**. Compilers run
+  verification. Parent remote main was verified at **c4848e8**. Compilers run
   serially at lowered priority. Cleanup is limited to this worker's reproducible
   outputs after its producers stop; compact recipes and reports are preserved.
 - **Validation and cleanup:** CI passes **747 tests/28 skipped**; tracking,
-  documentation, generated progress and whitespace pass. **702** parent
-  engineering inputs remain byte-identical; seven change and two new inputs
-  join. After producers stop, cleanup removes **391 reproducible files /
-  7,247,445 bytes**, limited to this packet, this turn's Title compiler
-  outputs and the initially absent `build/`. Recipes, hashes and unresolved
-  Title sources remain. The next private Effect27/36 packet is preserved.
+  documentation, generated progress and whitespace pass. **705** parent
+  engineering inputs remain byte-identical; six change and one new input
+  joins. After producers stop, cleanup removes **365 reproducible files /
+  6,489,024 bytes**, limited to this packet's compiler outputs and the
+  initially absent `build/`. Baseline/control sources, source hashes, recipes
+  and full diagnostic reports remain. No legacy scratch is deleted.
 
 ## Next worker: first three work packages
 
 1. **Catalog recovery plus large ECL/Etama:** first follow the original Effect
-   prefix's remaining **36** missing code entries, after the newly exact
-   Effect25 family and Effect35 pair. The report lists all current
+   prefix's remaining **33** missing code entries, after the newly exact
+   Effect25 family, Effect35 pair and Effect27/36 strip callbacks. The report lists all current
    gaps with exact original slot addresses. Prove boundaries/origin/source and
    complete target bytes independently. Alongside this recovery,
    keep the existing large-code goal: attack **`RunEcl` opcode 4 (7 bytes) and opcode 155
@@ -122,25 +123,25 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current restart summary is
-**995 source-present / 960 exact / 35 non-exact**; earlier operator notes
+**998 source-present / 963 exact / 35 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
 | --- | ---: |
-| Function candidates | 2,207 |
+| Function candidates | 2,210 |
 | Boundary/origin unreviewed | 0 |
 | Reviewed but origin-unresolved | 35 |
-| Confirmed authored | 995 |
+| Confirmed authored | 998 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 995 |
-| Canonical exact functions | 960 |
+| Source-present authored mappings | 998 |
+| Canonical exact functions | 963 |
 | Source-present non-exact functions | 35 |
 | Source-present non-exact bytes | 46,787 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 233,922 |
+| Canonical exact authored bytes | 234,228 |
 
-**233,922 / 280,709 reviewed-authored bytes = 83.3326% exact**. To reach
-95% of the *currently classified* denominator, another **32,752 bytes**
+**234,228 / 281,015 reviewed-authored bytes = 83.3507% exact**. To reach
+95% of the *currently classified* denominator, another **32,737 bytes**
 must become complete original-bound exact owners. The 35 origin-unresolved
 functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
@@ -212,7 +213,7 @@ experiments; unsupported guesses there are not target evidence.
 ## Exact landmark routing
 
 The canonical manifest and accepted original-bound comparison remain the
-**sole authority** for the **960 exact** functions. The independently accepted
+**sole authority** for the **963 exact** functions. The independently accepted
 Enemy collision wrapper at 0x00410250 is **82/82 exact**; the 3,900-byte
 Enemy OnUpdate caller is **still 29 bytes nonexact**. The former wrapper's
 original acceptance and several representative source-commit-bound exact

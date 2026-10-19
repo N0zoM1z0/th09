@@ -10827,3 +10827,51 @@ attest historical producer execution.
   `.analysis/gpt-61sol-20261020-title-replay-menu/`. No public Title source,
   layout, match or exactness claim changes. This bounded result does not close
   the large-function frontier or95% objective.
+
+## October 20: exact Effect27/36 Player-follow strip callbacks (gpt-6.1-sol)
+
+- Original Effect rows27/36 share initializer **0x004459A0..0x00445A33 /
+  148 bytes**, SHA256
+  `f6099f21518d80449e49dd6caaaf1e0f4857a216f7d3127fc6a6f9d281d293aa`.
+  It allocates **0x78 bytes**, copies origin48, captures angle80/thickness88
+  from Effect velocity X/Z, sets axes, frequency9C=1, segments8C=32, radius7C=0
+  and dirtyC9=1; returns-1 on allocation failure and0 on success. The32 state
+  value does not imply a33-vertex allocation here. Twelve following CC bytes
+  remain unowned.
+- Row27 update **0x004454E0..0x0044552E /79 bytes**, SHA256
+  `027dec29b437800e78dbccc860f070727a98073287130406af335b3b2e72aec7`,
+  and row36 update **0x0044BC30..0x0044BC7E /79 bytes**, SHA256
+  `a3b699f2a1aa86b5e13b8429976840434e380787efd51d6a65713d560c030440`,
+  mark dirty, add0.5 to radius only while below16/24 respectively, and copy
+  the owning-side Player position1B88. They add no clamp and return1. Each ends
+  before one unowned CC byte and an independently catalogued Player callback.
+  Address gaps to draw/initializer entries are not physical owner extents.
+- Local IDA has no function at any of the three entries. Complete original
+  decoding independently establishes all **nine fields**. Each update's
+  **+0x2D DIR32** is an indexed memory static base0x004A7D94, after
+  `imul edx,edx,0x38` at+0x28 and before Player position adjustment+0x1B88
+  at+0x31. The private `audit.py` supplements the generic absolute-only
+  scanner from this original instruction sequence, then separately compares
+  actual compiled fields. It never derives original fields from the candidate,
+  fits destinations to residuals or changes target/COFF bytes.
+- `src/EffectPlayerStripFamily.cpp` uses the existing Effect/ring runtime
+  prefix, genuine GameManager/Player layouts and ZunMemory. Initial natural
+  source already matched both updates fully. Initializer started148/148 with33
+  differences; frequency-at-end and after-thickness controls leave13,
+  frequency-before-angle leaves30. Placing the actual axis54.z assignment
+  before angle capture, with frequency assignment at the end, reproduces all148
+  bytes. This source shape also matches the already exact shared radial-fan
+  initializer; no ABI, flags, alias qualifier or fake compiler context changes.
+- Accepted candidate, maintained-path cold object and canonical cold object
+  reproduce all **306 physical bytes /nine original fields /full call and
+  branch graphs**. Canonical units: `effect-initialize-strip-type27-type36`,
+  `effect-update-type27`, `effect-update-type36`. Standalone new TU changes no
+  existing source/header; hash-bound parent proofs are reused. Recipes,
+  original boundaries, four controls, hashes and full reports remain in
+  `.analysis/gpt-61sol-20261020-effect27-36/`.
+- Three physical entries add306 authored and exact bytes, counting the shared
+  initializer once. Current **998 source-present /963 canonical exact /
+  35 nonexact**, **234,228/281,015 reviewed-authored bytes =83.3507%**;
+  at least32,737 more complete exact authored bytes remain for95%. Original
+  Effect prefix retains **33 missing entries**. Original names, unique TU
+  partition, native-product/runtime/semantic/port gates remain unknown/open.
