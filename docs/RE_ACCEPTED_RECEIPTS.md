@@ -6,6 +6,48 @@
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## October 19: native Title MusicRoom whole-callback ANM/Supervisor ABI accepted
+
+Three independently completed Factory `strict-live-v1` pinned VC7.1 forced-cold
+original-PE replays returned **`receipt_verdict=pass`** and
+**`acceptance_decision=accepted`**, with no objections, against Japanese TH09
+v1.50a SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+**All three bind exclusively to gameplay-source commit
+`7324b4ecc5b0eb77b2245751b6b2c4732f794e9a`:**
+
+- **`TitleScreenView::OnUpdateMusicRoom @0x00426E05`** — **2,258/2,258
+  complete physical exact bytes** and **74 original PE-bound COFF fields**.
+  The restored real C++ receivers include `AnmManager`, `AnmLoaded`,
+  `Supervisor`, and `AnmManager::DrawTextLeft` instead of fake source-local
+  class/free-function aliases: `job:7877a96701374b2da9d2ea887734ddfb`,
+  `receipt:0bfaa101e31e326133cf12fc54661b1feb778c1f436876ecc2abb435ac90e701`.
+- **`TitleScreenView::DrawMusicRoom @0x004244A9`** — **209/209 complete exact
+  bytes** and **six original-bound COFF fields**, with genuine
+  `AnmManager::DrawNoRotation` and shared manager global:
+  `job:4c9c6554778e4df1a1020f3f3ca017db`,
+  `receipt:39661f207864114b0915bf09535e9746e7d74db849fd0195c74181117c21851e`.
+- **`AnmManager::DrawTextLeft @0x0043BDC0`** — **139/139 complete physical
+  exact bytes**, independently cold compiled from the original real ANM
+  utility carrier, confirming the actual variadic member called by MusicRoom:
+  `job:09578bed6dde4a8aaf56c3d70f01de0b`,
+  `receipt:0a4858231d5cf98d5fd852dff6ebf55a22b3785b2b0e3181b7f47e83e8f1214f`.
+
+These are **three revalidated existing canonical exact functions, not new
+exact credits**. The maintained `src/TitleScreenMusicRoom.cpp` `/O1 /Ob1`
+carrier preserved **both original exact owners / 2,467 complete bytes and 80
+relocations** while restoring **29 C++ class/global/method identities** at
+reviewed original operand offsets and target VAs. Focused Title replay
+passed eight noncrediting diagnostic groups and 46 previously exact complete
+sibling functions. After the source commit, the final cold `--owner all`
+completed **35 diagnostic groups / 257 distinct complete existing exact
+functions**, and CI passed **659 tests (28 skipped, none failed)**. The
+ledger is unchanged at **940/980**, with RunEcl, Etama OnDraw, Title
+DrawResult, ExAttack init and other nonexact owners still OPEN. Neither a
+whole native image link nor runtime semantic behavior is accepted. These
+receipts apply **only** to `7324b4e`, not the later documentation or cleanup
+commits.
+
 ## October 19: true native AnmLoaded pointer accepted across six large Etama/Bullet/Enemy owners
 
 Six separate Factory `strict-live-v1` forced-cold original VC7.1 comparisons

@@ -9,100 +9,55 @@
 
 ## Current verified handoff checkpoint
 
-This is a **replace-in-place next-session routing page**, not a daily
-experiment journal. Older detailed checkpoint entries have been preserved in
-[the historical checkpoint archive](RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md);
-target-specific experiments and negative controls remain in
-[`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md). Source-commit-bound Factory proof
-belongs in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
+**Use the ledgers and the source tree as the authority, not prior session
+estimates.** The original target is Japanese TH09 v1.50a SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+The current maintained source ledger is **980 authored/source-present, 940
+canonical exact, 40 nonexact**. The reviewed-authored-byte objective is
+**95%**; whole executable linkage, native gameplay and portability remain
+separate **unproven** milestones.
 
-- **Retail target and ledgers:** Japanese TH09 v1.50a, SHA-256
-  `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-  The current canonical ledger contains **980 source-present / 940 exact /
-  40 non-exact** functions. The 95% exact reviewed-authored-byte goal is open;
-  run the commands below for current numbers, not old 979/876/103 snapshots.
-- **Current ReplayInput genuine memory ABI:** Across BOTH original VC7.1
-  profiles, 12 exact replay methods (**4,093 complete bytes /232 fields**)
-  now use real `ZunMemory` (`38` global + `9` Alloc + `22` Free + `7`
-  registry references); three separate **19/19, 19/19, 10/10 exact**
-  allocator leaves are also replayed. `BeginPlaybackStage` remains original
-  **540/source 538 NON-EXACT** (39 unequal overlapping bytes and two absent).
-- **ExAttack genuine sound:** `Spawn` remains **321/321 exact** with true
-  `SoundPlayer` C++ symbols and **140/140 exact** callee (source `fc087e3`);
-  7 original relocations unchanged. Initializers Type19/21 remain nonexact.
-- **EffectManager genuine ANM ABI:** Large `InitializeEffect` **407/407**
-  and all 15 same-TU exact functions (**2,530 physical bytes**) unchanged;
-  its source now directly calls the real **41/41 exact** `AnmLoaded`
-  method at original `0x403E00` rather than a fake class alias. Effect
-  `AddedCallback` still nonexact (51-byte original, **8 unlike bytes**).
-- **Title MusicRoom authentic ANM/Supervisor ABI:** The entire existing
-  MusicRoom **2,258/2,258 exact** update (74 fields) and **209/209 exact**
-  draw (six fields) now call true ANM/Supervisor members. All **29** changed
-  C++ linker identities preserve independently attested original VAs;
-  DrawTextLeft (139), LoadSurface (486), SetInterruptArray (72) are exact
-  separately source-cold replayed native methods. Main TitleSetup remains
-  534 exact. `--owner title` protects **46 exact sibling originals**.
-- **Open Title cursor:** Reverse/Inactive each have 175 physical bytes,
-  38 unlike bytes and 137 already equal; five original/four compiled blocks.
-  Strict guards forbid damage to those 137 bytes; see `KNOWLEDGE_BASE.md`.
-- **RunEcl true math linkage:** Its eight original calls and 12 same-TU
-  exact ECL/ExAttack referents now use genuine 111-byte `AddNormalizeAngle`
-  at `0x42AED0` (not invented namespace stdcall); 24 ECL exact owners
-  preserve 10,607 bytes, 20 renumbered labels retain original VAs. The
-  **15,564-byte / 598-field** boss still has **30** residual differences.
-- **Etama/Bullet true AnmManager + AnmLoaded:** `OnUpdate` **2,216/2,216**
-  remains exact, its four script calls bind true **9,776-byte** ANM runtime.
-  Controller's `bulletAnm @+0x25E1BC` now has real `AnmLoaded*` type:
-  **8** native SetSprite calls, **23 existing exact / 10,119 physical bytes**
-  source-cold preserved across FIVE TUs, and the native SetSprite callee is
-  **189/189 exact**. The shared header also renumbers 20 exact ECL private
-  `$L` symbols; all 24 ECL exact originals (10,607 bytes) and RunEcl
-  15,564/598-field +30 residual pass focused cold replay. Etama `OnDraw`
-  stays 600-byte nonexact (+268). Prior Factory receipts remain source-bound.
-- **Fresh October 19 source-bound replays:** Factory `strict-live-v1`
-  independently accepted four *already exact* owners from clean source
-  commit `7edc447`: Etama `OnUpdate` 2,216 physical, Title MusicRoom
-  Update 2,258, TitleSetup 534, and Etama `DrawSingleBullet` 232. Immutable
-  jobs/receipts are in `RE_ACCEPTED_RECEIPTS.md`, and the 940/980 ledger
-  is unchanged. Focused cold `--owner runecl`, `--owner etama`,
-  `--owner title`, `--owner exattack` preserve the 30/268/22/6+9 open
-  residuals and their exact siblings; 32 additional natural ExAttack
-  initializer cursor/lifetime compilation trials found no new exact owner.
-- **Native audio across five TUs:** ExAttack 14/22, FrontCalc, GameWindow,
-  Supervisor Audio/Deleted now use real `SoundPlayer` with **12 existing
-  exact / 4,100 physical bytes**; **25 true globals/calls** retain retail
-  VAs. Rechecked anonymous hashes at canonical `src/` paths, not staging.
-  Prior Ascii State4/5 (**1,172/1,236**), Pause Resume (**15**) are exact;
-  PauseMenu remains **1,776 original / 1,732 source, NON-EXACT**.
-- **Highest-priority bosses:** `RunEcl` (15,564 physical/598 fields, 30
-  unlike ordinary bytes at opcode 4/155), `EtamaController::OnDraw`
-  (600/600, 268 unlike bytes; `OnUpdate` already exact 2,216 physical),
-  TitleScreen DrawResult (1,939/1,939, 22 differences), and ExAttack
-  Type19/21 initialization (763/727, 6/9 differences). Secondary original-
-  backed open functions and smaller leaf opportunities are routed below.
-- **Recent source-bound interface work:** shared genuine `ZunTimer`,
-  `AsciiGameManagerView`, `AsciiBossMarkerVmView`, `FrontMessageOwnerView`,
-  `TitleScoreRecordView`, and `SoundPlayer` declarations now span the
-  ECL, Etama, Enemy, Title/MusicRoom, ExAttack, CardAttack and ScreenEffect
-  carriers. The genuine CardAttack sound class update preserves **nine**
-  original exact source bodies, including 536- and 923-byte large callbacks,
-  and separately guards four original sound fields. Two previously exact
-  large Card callbacks (536/923 bytes) received Factory `pass/accepted`
-  from clean source `6f601f0`; full `--owner all` protects **232 distinct
-  exact owners**. This improves C++ linker provenance, **not** native
-  product closure or remaining nonexact register/instruction schedules.
-- **Next agent contract:** inspect `git status` and preserve dirty changes;
-  prioritize a big boss **and** small leaves, challenge prior assumptions,
-  compile with the exact original VC7.1 profile, run focused complete-function
-  comparisons and exact siblings, and commit substantive verified source work
-  with **`gpt-web: ...`**. Do not claim exactness until a complete original-
-  bound canonical replay is accepted. Factory-shell Git commits are local;
-  remote push must be checked separately.
-- **After artifact cleanup:** generated `build/` objects may be absent by
-  design. Use a fresh `scripts/build-match-unit.py --unit NAME` before any
-  compare/inspector, never assume the last ignored `.obj` is current.
-  The original executable, verified source/ledgers, toolchains, receipts and
-  unique `.analysis/` experiments must be preserved.
+- **Latest gameplay-source commit:** `7324b4e` (`gpt-web: restore native ANM
+  and Supervisor ABI across MusicRoom callbacks`). It preserves the **2,258
+  byte exact** MusicRoom update and **209 byte exact** drawing function while
+  correcting 29 original-bound C++ symbol identities. Factory separately
+  accepted those two functions and the real **139-byte exact**
+  `AnmManager::DrawTextLeft`, all bound to `7324b4e`. Receipts are in
+  [`RE_ACCEPTED_RECEIPTS.md`](RE_ACCEPTED_RECEIPTS.md). Earlier accepted
+  receipts belong **only to their named source commits**.
+- **Current complete local regression:** the source-bound `--owner all`
+  report passed **35 noncrediting large/leaf diagnostics and 257 distinct
+  complete existing exact function checks**. CI passed **659 tests, 28
+  skipped, zero failures**. Both witnesses are retained under ignored
+  `.analysis/handoff-cleanup-20261019/`; these are not 257 new acceptances.
+- **Largest unresolved bosses:** `RunEcl` **15,564 bytes/598 fields, 30
+  residual bytes** (opcode 4: seven; opcode 155: 23); Etama `OnDraw`
+  **600 bytes, 268 unlike** (`OnUpdate` already exact **2,216/2,216**);
+  Title `DrawResult` **1,939 bytes, 22 unlike**; ExAttack Type19/21
+  initialization **763/727 bytes, six/nine unlike**. Keep big functions
+  and small leaf functions in scope; focused commands are below.
+- **Other open work:** Replay `BeginPlaybackStage` **540 original/538 source**,
+  Effect `AddedCallback` **51 bytes/eight unlike**, PauseMenu **1,776
+  original/1,732 source**. No near match contributes exact credit.
+- **Proven cross-TU source identities:** genuine `AnmManager`, `AnmLoaded`,
+  `SoundPlayer`, `ZunMemory`, `ZunTimer` and global runtime math are reused
+  across Etama, ECL, Title, Replay, ExAttack and other callers. Changes to
+  shared headers can rename original-VA-equivalent compiler-private `$L`
+  symbols in *other* TUs: never auto-rewrite those without cold PE/COFF
+  owner-relative relocation checks. Full chronology and failed hypotheses
+  are in [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md).
+- **Operator contract:** preserve and investigate *all* dirty changes;
+  never reset them just to find a clean path. Test complete function bytes,
+  address operands, original compiler profile and exact siblings; use
+  `gpt-web: ...` for every substantive local Git commit. A Git checkpoint
+  or local replay is **not** a Factory acceptance. Do not assume remote
+  Git has been pushed from this shell.
+- **Handoff cache policy:** `build/`, `.analysis/` OBJ/PDB/bytecode and
+  reviewed `__pycache__` are disposable after pre-clean checks; private
+  `resources/th09.exe`, `.tools/`, tracked code, candidate C++/INL,
+  original PE/COFF JSON, negative-probe scripts and receipts are preserved.
+  Missing generated objects after cleanup are intentional: cold-build them
+  again using `scripts/build-match-unit.py`.
 
 ## Next worker: first three work packages
 
