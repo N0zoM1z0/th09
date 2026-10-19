@@ -17,6 +17,16 @@ The **95%** milestone still needs **32,053** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
+- **RunEcl call census:** `inspect-ecl-call-inventory.py OBJECT` independently
+  classifies actual COFF call symbols. A partial macro model has **375 calls**
+  but substitutes **nine source-only laser wrappers** for three ResolveInt
+  and six ResolveFloat calls; its call multiset is rejected. A full macro
+  model restores all real calls yet remains **15,540/15,564 bytes** with
+  **947/943 blocks**. Matching counts or multisets never confer exactness.
+- **Current ECL controls:** current baseline stays **15,564/598/30**, with
+  146/148 paired handler shapes. Operand/procedural macro, native bitfield,
+  typed wire and SDK-biased-movement models add no accepted game-source
+  change. Recipes/results: `.analysis/gpt-61sol-20261019-runecl-macro-ob0/`.
 - **New exact camera projection:** `AnmManager::ProjectCameraFacingQuad`
   at **0x00439820** now reproduces **622 bytes, 40 fields, 201 instructions,
   11 calls and eight blocks**. Genuine SDK math types, ordinary vector locals
@@ -75,10 +85,11 @@ remain separate open gates.
   `gpt-6.1-sol: ...` commits. Preserve all dirty work, never patch the target
   or commit private inputs, and distinguish local commit from remote push.
   Clean reproducible generated files only after their producers stop.
-- **Final validation:** the unified two-object **17-function Oracle** and
-  **687 CI tests/28 skipped** pass; all 671 final source/tool/test hashes stay
-  stable. Removed **582 owned reproducible files/5,457,063 bytes**, including
-  466 individually reviewed source copies; compact recipes/results remain.
+- **Final validation:** source-cold maintained/partial/full call-census
+  controls pass their expected **0/1/0** outcomes; **693 CI tests/28 skipped**
+  pass and all **673** source/tool/test hashes stay stable. Removed **173
+  owned reproducible files/5,984,025 bytes**, including **56** reviewed source
+  copies. Recipes, compact comparisons and cleanup receipts remain.
 
 
 ## Next worker: first three work packages

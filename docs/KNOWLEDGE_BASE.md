@@ -9795,3 +9795,81 @@ attest historical producer execution.
   or retained source-generation recipe before removal. No unreproduced input,
   private executable, IDA database, toolchain or unrelated analysis is removed.
   The packet is bound to the local source commit after checkpoint creation.
+
+
+## October 19: complete RunEcl macro controls separate call counts from identity (gpt-6.1-sol)
+
+- Recovered clean `5d75aa544f4ff29ff0983bb0705c904526bbdbb9`, verified
+  the original private target and direct local IDA metadata/mapped bytes,
+  and rebuilt the complete current interpreter. Its **15,564 physical bytes,
+  598 fields, 375 direct calls, 30 ordinary differences and 146/148 paired
+  handler shapes** remain the maintained source-bound baseline.
+- A compiler-profile lead from the exact camera is tested on the actual ECL
+  first-include chain. Unchanged /Ob0 emits **12,804 bytes/690 fields/467
+  calls**. Operand macros alone emit **16,352/685/461** under /Ob0. Pure
+  accessor expansion reduces that to **15,236/604/381**, but still leaves six
+  artificial wrapper families while hiding real calls inside their bodies.
+  Neither smaller code nor a smaller call count is exactness evidence.
+- The six remaining wrapper families are laser int/float readers, ANM script
+  forwarding, flag-field assignment, timeout-bit assignment and spawn-position
+  resolution. Actual helper bodies are expanded with stable expression args
+  or once-only captures of real inputs. An initial conservative literal check
+  did not expand nine hexadecimal-offset laser calls; those three setup
+  controls are recorded as partial models, not complete macro tests. After
+  correcting that setup, all **375 direct-call destination counts** and **598
+  fields** are restored. The XOR model is **15,544 bytes**; native timeout/
+  interaction fields produce **15,540** versus **15,564 original bytes**.
+- The fully expanded native-field model still has **947 basic blocks versus
+  943 original**, and independent original CFG pairing fails. A separately
+  labeled unpaired instruction-shape exploration also shows broad stack/
+  register drift; it neither pairs address identities nor supplies an exact
+  score. The production full-owner Oracle is unchanged and rejects every
+  altered-layout candidate. Four explicitly typed-argument macro controls
+  reproduce their corresponding untyped raw hashes exactly; no improvement
+  or universal negative is inferred beyond this bound source context.
+- Six fresh MoveRandomBiased controls use the real SDK vector class and/or
+  scoped /Ob0 operand expressions. Baseline and SDK-field-only remain
+  **517 bytes/28 fields/148 overlap differences**; scoped macros and genuine
+  SDK conversion give **517/28/150**. Y-pointer/reference variants emit **518
+  bytes** and fail the reviewed extent before a numeric whole-owner result.
+  Binding the SDK conversion to the known folded three-byte identity is a
+  compatibility hypothesis, not unique original ownership or new helper
+  credit. Eight target-offset-asserted wire views also fail to close RunEcl:
+  snapshot forms preserve **30**, direct-reference forms regress, and native
+  flag fields move downstream fields. Five additional opcode-155 controls
+  test masked word/short reads and byte integer promotion, with the real
+  helper or native bitfield assignment. None improves the strict comparison;
+  the word-mask/helper case shortens that handler to **42/45 bytes** and
+  changes **242 field bytes/26 table bytes**. These are bounded negative
+  observations, not proof that other natural source forms cannot match.
+  No game-source variant is adopted.
+- New `scripts/inspect-ecl-call-inventory.py` reads the complete COFF owner,
+  validates its actual 193 local table destinations and fully decodes code
+  and ret-4 ABI. It derives the original 375 calls from the verified PE and
+  resolves candidate symbols only from canonical or reviewed alias addresses.
+  Ambiguous/unknown symbols are never assigned a target merely to balance
+  the census. Equal counts with a changed known destination or source-only
+  wrapper fail the multiset test. Even a matching multiset explicitly grants
+  **no order, CFG, field-site or byte-equality claim** and **no exact credit**.
+- Focused source-cold controls reproduce the distinction: maintained baseline
+  exits **0** with 375 real calls; the **15,464-byte** partial model also has
+  375 calls but exits **1**, identifying **six ReadLaserFloat and three
+  ReadLaserInt wrappers**, plus the missing six EnemyView::ResolveFloat and
+  three ResolveInt calls. The complete **15,540-byte** model exits **0** for
+  its correct call multiset while remaining rejected by the full-byte Oracle.
+  This is a diagnostic contract, not a new acceptance route.
+- Canonical progress stays **946 functions/229,929 reviewed-authored exact
+  bytes, 83.3771%** of **275,770**; **34 functions/45,841 bytes** remain
+  nonexact and 95% still needs **32,053** complete exact bytes. Unchanged
+  game/config/compiler inputs reuse their source-bound ECL/ANM exact evidence.
+  Compact recipes, all measurements and the deliberately separate weak-shape
+  diagnostic are retained in `.analysis/gpt-61sol-20261019-runecl-macro-ob0/`.
+  Native-product/runtime, the SDK identity-origin review and later semantic/
+  portability phases remain open. No Factory acceptance or game-source
+  exactness increment is claimed from this batch.
+- Final tracking, documentation, generated progress, public CI and whitespace
+  checks pass: **693 tests/28 skipped**, with all **673** final source/tool/test
+  inputs unchanged through the gates. Owned cleanup removes **173 files/5,984,025 bytes**,
+  including **56** individually classified staging source copies. Retained
+  recipes bind unchanged copies to the baseline commit and changed copies to
+  their generation recipes; no unreproduced input or unrelated work is removed.
