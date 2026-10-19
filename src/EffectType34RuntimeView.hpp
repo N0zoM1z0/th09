@@ -17,4 +17,3 @@ typedef char EffectType34VerticesSizeIsEF8[
     (sizeof(EffectType34VerticesView) == 0xEF8) ? 1 : -1];
 typedef char EffectType34JitterAtCE8[
     (offsetof(EffectType34VerticesView, jitterCE8) == 0xCE8) ? 1 : -1];
-

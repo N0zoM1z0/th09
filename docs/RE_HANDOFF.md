@@ -92,15 +92,15 @@ remain separate open gates.
   physical helper `0x004343D0` remains source-ownership unknown.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   `gpt-6.1-sol: ...` commits, followed by the explicitly requested push.
-  The previous successful push verified remote `main` at `b2229bc`. Preserve all dirty
+  The previous successful push verified remote `main` at `9a77670`. Preserve all dirty
   work, never patch the target or commit private inputs, and verify remote state.
   Clean reproducible generated files only after their producers stop.
 - **Focused validation:** three canonical functions pass **1,090 physical bytes
   /39 fields**, plus the same-object **20-byte** Timer comparison. CI passes
   **714 tests/28 skipped**. **679** unchanged public inputs bind to `b2229bc`
   (637 raw, 42 checkout EOL normalization); six configs add only the new owner/unit.
-  After all five producers stopped, cleanup removed **359 reproducible files
-  /6,259,654 bytes**, including five private source copies; `build/` is absent.
+  After all six producers stopped, cleanup removed **361 reproducible files
+  /6,316,317 bytes**, including five private source copies; `build/` is absent.
   No prior nonexact owner closes. The 95% and whole Windows runtime gates stay open.
 
 
