@@ -11093,3 +11093,56 @@ attest historical producer execution.
   audits and source-bound closure are in `.analysis/gpt-61sol-20261020-effect18/`.
   Original C++ spelling, unique TU ownership, Windows i386 product/runtime,
   semantic reconstruction and portability remain unknown/open.
+
+## October 20: Effect10/24/33 radial fan callbacks recovered independently (gpt-6.1-sol)
+
+- Row10: update0x00440CE0 /79 bytes, radius limit96/increment4;
+  draw0x004414A0 /314 bytes.
+- Row24: update0x00444EB0 /79 bytes, radius limit48/increment8;
+  draw0x004453A0 /314 bytes.
+- Row33: update0x0044B1D0 /79 bytes, radius limit96/increment16;
+  draw0x0044BAF0 /314 bytes.
+
+- Original callback prefix slots independently bind all six entries. Direct
+  local IDA reports no function at any of them. Each original owner decodes
+  completely through one final return; every direct branch points to an
+  instruction inside that owner. Update ends are0x00440D2E/0x00444EFE/0x0044B21E;
+  draw ends0x004415D9/0x004454D9/0x0044BC29. One/six trailing CC bytes and adjacent
+  already catalogued Player, ExAttack and Effect owners remain unowned.
+  This is complete boundary review, beyond the private first-return survey.
+- Update semantics follow the original Type18 fan pattern: dirty=1, increase
+  radius only when below the row's limit without clamping, copy the owning
+  Player's position1B88, return1. Independently decoded FPU literal pairs are
+  0x0048E3D4/0x004915A0 (96/4),0x0048E3B0/0x0048E5D8 (48/8), and
+  0x0048E3D4/0x0048E470 (96/16). Every static indexed operand at+0x2D is
+  independently decoded after side stride0x38 and before Player position1B88;
+  it binds the real GameManager root0x004A7D90 plus4.
+- Each original draw independently has the same314-byte instruction shape as
+  Type18. Outside seven decoded relative-call operands every byte agrees;
+  all seven original direct referents also agree. Natural source uses a center
+  plus32 perimeter vertices, angle-pi, step2pi/(segments-1), single wrap, Z=0
+  before the actual polar method, current Effect origin, native XY transforms,
+  rhw1 and colors0x40600040/0x70600040. DrawTriangleFan receives the owned
+  vertices, and dirty remains set. No draw-function alias or shared physical
+  extent is manufactured; all three disjoint callbacks are compared separately.
+- Six natural callbacks join the existing radial fan fragment. Private and
+  maintained cold ECL builds each prove **3x(79/3 +314/15) bytes/fields** exact.
+  The original shared initializer0x00447C40 receives no duplicate credit.
+  Existing views and the unchanged genuine polar body are reused; no new
+  assembly, fake ABI, padding, target-byte copying or register steering.
+- Full affected-source closure is **56 exact functions across two profiles /
+  18,258 physical bytes /824 fields**. Two private label names change only after
+  checking actual same-owner COFF coordinates and all original bytes. Actual
+  native GameManager XY call fields total60. Fresh prebuilt-object guards retain
+  RunEcl15564/598/30, Enemy3900/97/29, Type19update821/35/44, biased movement
+  517vs516/148overlap+1, and Effect34draw946vs959/593overlap+13.
+- New credit is **1,179 authored/exact bytes**. Live totals become **1,009
+  authored/source-present,974 canonical exact,35 nonexact /46,787 bytes**;
+  **236,402/283,189 bytes =83.4785%**. The95% milestone still needs32,628
+  complete exact bytes at this denominator. The original Effect prefix now
+  has22 missing code entries. Full original hashes, boundary/IDA observations,
+  literal/field proofs, recipes and source bindings remain in
+  `.analysis/gpt-61sol-20261020-effect-fan-survey/`. Other first-return surveys
+  in that packet remain provisional and uncredited. Original C++ spelling,
+  unique TU partition, native Windows product/runtime and later phase gates
+  remain unknown/open.

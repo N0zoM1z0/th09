@@ -1002,3 +1002,9 @@ EffectUpdateCallbackType16,0x00441D30,function
 EffectDrawCallbackType16,0x00441DA0,function
 EffectUpdateCallbackType18,0x00443250,function
 EffectDrawCallbackType18,0x004437F0,function
+EffectUpdateCallbackType10,0x00440CE0,function
+EffectDrawCallbackType10,0x004414A0,function
+EffectUpdateCallbackType24,0x00444EB0,function
+EffectDrawCallbackType24,0x004453A0,function
+EffectUpdateCallbackType33,0x0044B1D0,function
+EffectDrawCallbackType33,0x0044BAF0,function

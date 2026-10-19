@@ -16950,7 +16950,7 @@ relocations = [
   { offset = 0xFB, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
   { offset = 0x107, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x110, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
-  { offset = 0x139, type = "DIR32", symbol = "$L73239", target = 0x00408548 },
+  { offset = 0x139, type = "DIR32", symbol = "$L73360", target = 0x00408548 },
   { offset = 0x169, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x176, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x183, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
@@ -17137,7 +17137,7 @@ target_address = 0x00407700
 size = 0x34A
 compare_size = 0x37C
 relocations = [
-  { offset = 0x14, type = "DIR32", symbol = "$L72599", target = 0x00407A4C },
+  { offset = 0x14, type = "DIR32", symbol = "$L72686", target = 0x00407A4C },
   { offset = 0x24, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
   { offset = 0x3B, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
   { offset = 0x60, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
@@ -23258,6 +23258,126 @@ profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr",
 functions = ["EffectDrawCallbackType18"]
 symbol = "?EffectDrawCallbackType18@@YIHPAUEffect@@@Z"
 target_address = 0x004437F0
+size = 314
+relocations = [
+  { offset = 0x2E, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4, addend = 0x00000000 },
+  { offset = 0x4D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0x5C, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680, addend = 0x00000000 },
+  { offset = 0x67, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0x6C, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0, addend = 0x00000000 },
+  { offset = 0x9A, type = "DIR32", symbol = "__real@40490fdb", target = 0x0048E2C4, addend = 0x00000000 },
+  { offset = 0xAA, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4, addend = 0x00000000 },
+  { offset = 0xC3, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890, addend = 0x00000000 },
+  { offset = 0xC9, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730, addend = 0x00000000 },
+  { offset = 0xD1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0xD6, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680, addend = 0x00000000 },
+  { offset = 0xE1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0xE6, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0, addend = 0x00000000 },
+  { offset = 0x127, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550, addend = 0x00000000 },
+  { offset = 0x12C, type = "REL32", symbol = "?DrawTriangleFan@AnmManager@@QAEHPAUAnmVm@@PAUVertexDiffuseXyzrhw@@H@Z", target = 0x0043B7B0, addend = 0x00000000 },
+]
+
+[units.effect-update-type10]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectUpdateCallbackType10"]
+symbol = "?EffectUpdateCallbackType10@@YIHPAUEffect@@@Z"
+target_address = 0x00440CE0
+size = 79
+relocations = [
+  { offset = 0xC, type = "DIR32", symbol = "__real@42c00000", target = 0x0048E3D4, addend = 0x00000000 },
+  { offset = 0x1C, type = "DIR32", symbol = "__real@40800000", target = 0x004915A0, addend = 0x00000000 },
+  { offset = 0x2D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000004 },
+]
+
+[units.effect-draw-type10]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectDrawCallbackType10"]
+symbol = "?EffectDrawCallbackType10@@YIHPAUEffect@@@Z"
+target_address = 0x004414A0
+size = 314
+relocations = [
+  { offset = 0x2E, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4, addend = 0x00000000 },
+  { offset = 0x4D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0x5C, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680, addend = 0x00000000 },
+  { offset = 0x67, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0x6C, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0, addend = 0x00000000 },
+  { offset = 0x9A, type = "DIR32", symbol = "__real@40490fdb", target = 0x0048E2C4, addend = 0x00000000 },
+  { offset = 0xAA, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4, addend = 0x00000000 },
+  { offset = 0xC3, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890, addend = 0x00000000 },
+  { offset = 0xC9, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730, addend = 0x00000000 },
+  { offset = 0xD1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0xD6, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680, addend = 0x00000000 },
+  { offset = 0xE1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0xE6, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0, addend = 0x00000000 },
+  { offset = 0x127, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550, addend = 0x00000000 },
+  { offset = 0x12C, type = "REL32", symbol = "?DrawTriangleFan@AnmManager@@QAEHPAUAnmVm@@PAUVertexDiffuseXyzrhw@@H@Z", target = 0x0043B7B0, addend = 0x00000000 },
+]
+
+[units.effect-update-type24]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectUpdateCallbackType24"]
+symbol = "?EffectUpdateCallbackType24@@YIHPAUEffect@@@Z"
+target_address = 0x00444EB0
+size = 79
+relocations = [
+  { offset = 0xC, type = "DIR32", symbol = "__real@42400000", target = 0x0048E3B0, addend = 0x00000000 },
+  { offset = 0x1C, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8, addend = 0x00000000 },
+  { offset = 0x2D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000004 },
+]
+
+[units.effect-draw-type24]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectDrawCallbackType24"]
+symbol = "?EffectDrawCallbackType24@@YIHPAUEffect@@@Z"
+target_address = 0x004453A0
+size = 314
+relocations = [
+  { offset = 0x2E, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4, addend = 0x00000000 },
+  { offset = 0x4D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0x5C, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680, addend = 0x00000000 },
+  { offset = 0x67, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0x6C, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0, addend = 0x00000000 },
+  { offset = 0x9A, type = "DIR32", symbol = "__real@40490fdb", target = 0x0048E2C4, addend = 0x00000000 },
+  { offset = 0xAA, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4, addend = 0x00000000 },
+  { offset = 0xC3, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890, addend = 0x00000000 },
+  { offset = 0xC9, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730, addend = 0x00000000 },
+  { offset = 0xD1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0xD6, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680, addend = 0x00000000 },
+  { offset = 0xE1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0xE6, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0, addend = 0x00000000 },
+  { offset = 0x127, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550, addend = 0x00000000 },
+  { offset = 0x12C, type = "REL32", symbol = "?DrawTriangleFan@AnmManager@@QAEHPAUAnmVm@@PAUVertexDiffuseXyzrhw@@H@Z", target = 0x0043B7B0, addend = 0x00000000 },
+]
+
+[units.effect-update-type33]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectUpdateCallbackType33"]
+symbol = "?EffectUpdateCallbackType33@@YIHPAUEffect@@@Z"
+target_address = 0x0044B1D0
+size = 79
+relocations = [
+  { offset = 0xC, type = "DIR32", symbol = "__real@42c00000", target = 0x0048E3D4, addend = 0x00000000 },
+  { offset = 0x1C, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470, addend = 0x00000000 },
+  { offset = 0x2D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000004 },
+]
+
+[units.effect-draw-type33]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectDrawCallbackType33"]
+symbol = "?EffectDrawCallbackType33@@YIHPAUEffect@@@Z"
+target_address = 0x0044BAF0
 size = 314
 relocations = [
   { offset = 0x2E, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4, addend = 0x00000000 },

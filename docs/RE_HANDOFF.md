@@ -11,44 +11,45 @@
 
 Read the live ledgers first. The original Japanese v1.50a target SHA-256 is
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-Current state: **1,003 authored/source-present, 968 canonical exact, 35 nonexact**;
-**235,223/282,010 reviewed-authored bytes = 83.4095%**.
-The **95%** milestone still needs **32,687** complete exact authored bytes.
+Current state: **1,009 authored/source-present, 974 canonical exact, 35 nonexact**;
+**236,402/283,189 reviewed-authored bytes = 83.4785%**.
+The **95%** milestone still needs **32,628** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
-- **New exact Effect18 callbacks:** update **0x00443250 /79 bytes** and draw
-  **0x004437F0 /314 bytes** pass maintained-source complete original-bound
-  canonical comparisons: **393 newly reviewed authored/exact bytes /18 fields**.
-  Update follows the owning Player and grows radius by0.7 while below144.
-  Draw builds a full radial fan using native XY transforms and DrawTriangleFan.
-  The already exact shared initializer0x00447C40 is credited only once.
-- **Boundaries and compiler context:** local IDA has neither new function.
-  Independent original control flow excludes trailing1/6 CC bytes and all
-  intervening Player/ExAttack owners. Both natural callbacks join the existing
-  radial fan fragment in the genuine ECL TU, reusing its unchanged polar method.
+- **New exact Effect10/24/33 fan callbacks:** updates at **0x00440CE0,
+  0x00444EB0,0x0044B1D0 /79 bytes each** and draws at **0x004414A0,
+  0x004453A0,0x0044BAF0 /314 bytes each** pass maintained full original-bound
+  canonical comparisons: **1,179 newly reviewed authored/exact bytes /54 fields**.
+  Update radius limit/increment pairs are96/4,48/8,96/16; each follows its
+  owning Player. Draw uses current Effect origin and real XY/triangle-fan calls.
+  Shared initializer0x00447C40 receives no duplicate credit.
+- **Boundaries and compiler context:** all six entries are absent from local
+  IDA. Independent full decode, internal branch destinations, final return and
+  trailing1/6 CC bytes establish each physical owner, excluding adjacent
+  Player/ExAttack/Effect functions. Natural source joins the existing radial
+  fan fragment in the genuine ECL TU and reuses the unchanged polar method.
   No new assembly, fake ABI, padding, flags or register steering is introduced.
-  Independent decoding proves the update's indexed GameManager root+4 operand
-  at+0x2D, with side stride0x38 and Player position1B88.
-- **Focused exact closure:** all **50 ECL-carried exact functions across two
-  profiles /17,079 physical bytes /770 fields** pass. Two compiler-private
-  label names change only after same-owner COFF coordinates and all original
-  bytes agree. Prebuilt-object guards preserve RunEcl **15,564/598/30**, Enemy
-  **3,900/97/29**, Type19 **821/35/44**, biased movement, and Effect34 draw
-  **946/959 /593 overlap differences +13 extra**. Unchanged source-bound
-  proofs cover unrelated native cohorts.
-- **Previous source correction:** DrawResult now uses the established shared
-  GameManager declaration. Cold full **1,939/577/82/16/92** code/field/call/block
-  proof remains unchanged, with22 ordinary entry differences. Its native
-  +0x3F difficulty field identity is guarded. Seven new snapshot controls and
-  four native-storage biased-movement controls remain negative; see the
-  knowledge base before repeating them. Checkpoint **6e676b4** was pushed and
-  its remote main SHA independently verified; CI passed748 tests/28 skipped.
+  Every update's indexed GameManager field+0x2D is independently original-bound
+  to side stride0x38, root0x004A7D90+4 and Player position1B88.
+- **Focused exact closure:** all **56 ECL-carried exact functions across two
+  profiles /18,258 physical bytes /824 fields** pass. Two private label names
+  change only after same-owner COFF coordinates and every original byte agree.
+  Prebuilt-object guards retain RunEcl **15,564/598/30**, Enemy **3,900/97/29**,
+  Type19 **821/35/44**, biased movement and Effect34 draw **946/959 /593 overlap
+  differences +13 extra**. Unchanged source-bound proofs cover unrelated cohorts.
+- **Earlier checkpoints:** Effect18's79-byte update and314-byte draw were
+  accepted in **16d6a3e**, pushed and independently verified. DrawResult's shared
+  native GameManager correction was pushed as **6e676b4**; its full1939-byte
+  guard still has22 entry differences. Seven snapshot and four native-storage
+  biased-movement controls remain negative. Review the knowledge base before
+  repeating them. Both checkpoints passed748 tests/28 skipped.
 - **Open scope:** the35 existing nonexact functions /46,787 bytes remain open,
-  alongside **28 uncatalogued code entries** in the original Effect prefix.
-  Current packet: `.analysis/gpt-61sol-20261020-effect18/`. Durable facts and
-  natural-source controls are in `KNOWLEDGE_BASE.md`. Earlier Etama visibility
-  contexts remain negative, with exact-sibling regressions explicitly rejected.
+  alongside **22 uncatalogued code entries** in the original Effect prefix.
+  Current packet: `.analysis/gpt-61sol-20261020-effect-fan-survey/`. Durable facts
+  and natural-source controls are in `KNOWLEDGE_BASE.md`; unaccepted survey
+  entries remain provisional. Earlier Etama contexts with exact-sibling
+  regressions remain rejected.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compilers run serially at lowered priority. Cleanup is limited
@@ -57,16 +58,16 @@ remain separate open gates.
 
 - **Final checks:** CI passes748 tests/28 skipped; tracking, docs, generated
   progress and whitespace pass. All703 unchanged engineering inputs retain
-  their parent bindings; ten inputs change. After all producers stop, cleanup
-  removes **357 reproducible files /7,322,467 bytes** from this
-  packet and initially absent `build/`. All source recipes and full reports
-  remain; original inputs, the next private survey and legacy scratch are preserved.
+  their parent bindings; ten inputs change. After all own producers stop,
+  cleanup removes **357 reproducible files /7,340,766 bytes**
+  from this packet and initially absent `build/`. Sources, recipes, original
+  input, provisional surveys and unrelated legacy artifacts remain preserved.
 
 ## Next worker: first three work packages
 
 1. **Catalog recovery plus large ECL/Etama:** first follow the original Effect
-   prefix's remaining **28** missing code entries, after the newly exact
-   Effect25 family, Effect35 pair, Effect27/36 strip callbacks, Effect16 and Effect18. The report lists all current
+   prefix's remaining **22** missing code entries, after the newly exact
+   Effect25 family, Effect35 pair, Effect27/36 strip callbacks, Effect16, Effect18 and Effect10/24/33. The report lists all current
    gaps with exact original slot addresses. Prove boundaries/origin/source and
    complete target bytes independently. Alongside this recovery,
    keep the existing large-code goal: attack **`RunEcl` opcode 4 (7 bytes) and opcode 155
@@ -124,25 +125,25 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current restart summary is
-**1003 source-present / 968 exact / 35 non-exact**; earlier operator notes
+**1009 source-present / 974 exact / 35 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
 | --- | ---: |
-| Function candidates | 2,215 |
+| Function candidates | 2,221 |
 | Boundary/origin unreviewed | 0 |
 | Reviewed but origin-unresolved | 35 |
-| Confirmed authored | 1,003 |
+| Confirmed authored | 1,009 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 1,003 |
-| Canonical exact functions | 968 |
+| Source-present authored mappings | 1,009 |
+| Canonical exact functions | 974 |
 | Source-present non-exact functions | 35 |
 | Source-present non-exact bytes | 46,787 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 235,223 |
+| Canonical exact authored bytes | 236,402 |
 
-**235,223 / 282,010 reviewed-authored bytes = 83.4095% exact**. To reach
-95% of the *currently classified* denominator, another **32,687 bytes**
+**236,402 / 283,189 reviewed-authored bytes = 83.4785% exact**. To reach
+95% of the *currently classified* denominator, another **32,628 bytes**
 must become complete original-bound exact owners. The 35 origin-unresolved
 functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
@@ -166,8 +167,8 @@ all 35 open functions. For the complete <=256-byte cohort see
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes; opcode 155: 23 bytes, 146/148 handler shapes. Opcode 4 now directly calls the separately exact real `ZunTimer::operator=(int) @0x00401500` on the proven 12-byte context timer, rather than fake second-class timer ABI; existing genuine `RngRuntimeView`/global `g_Rng` remains. **15,564 complete instruction/table bytes and 598 source-linked original fields are unchanged**, with all **50 exact ECL/Enemy/position/math functions across two profiles** (17,079 physical bytes) protected. `--owner runecl`; exact credit remains open. |
-| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **29** differing bytes | Genuine `Float3::operator/` and actual `AppendBoxRecord` compiler visibility close the ten-byte `+0x845..+0x850` copy window. The special-attack dispatch invokes **real `EtamaController::SpawnBulletPatternPrimary @0x004130F0`** with its target-backed 0x214-byte descriptor. Fourteen Timer/descriptor calls now use seven shared native symbols; the corresponding private aliases are removed. Original-linked byte/field/call/graph identity and 29 differences are unchanged. `--owner enemy` now cold-protects **50 exact shared-TU functions, the separate draw and seven genuine external callees** (58 exact checks). |
+| **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes; opcode 155: 23 bytes, 146/148 handler shapes. Opcode 4 now directly calls the separately exact real `ZunTimer::operator=(int) @0x00401500` on the proven 12-byte context timer, rather than fake second-class timer ABI; existing genuine `RngRuntimeView`/global `g_Rng` remains. **15,564 complete instruction/table bytes and 598 source-linked original fields are unchanged**, with all **56 exact ECL/Enemy/position/math functions across two profiles** (18,258 physical bytes) protected. `--owner runecl`; exact credit remains open. |
+| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **29** differing bytes | Genuine `Float3::operator/` and actual `AppendBoxRecord` compiler visibility close the ten-byte `+0x845..+0x850` copy window. The special-attack dispatch invokes **real `EtamaController::SpawnBulletPatternPrimary @0x004130F0`** with its target-backed 0x214-byte descriptor. Fourteen Timer/descriptor calls now use seven shared native symbols; the corresponding private aliases are removed. Original-linked byte/field/call/graph identity and 29 differences are unchanged. `--owner enemy` now cold-protects **56 exact shared-TU functions, the separate draw and seven genuine external callees** (64 exact checks). |
 | **Effect 34 draw** | 0x00444AF0 | **946/959 physical**, 53 source-linked original referents, 20 direct +12 COM calls, target/candidate 16/15 blocks; **593 overlap differences +13 extra bytes** | Exact native initialization (178) and update (208) protect the original 0xEF8 buffer: fan33 at +0x54, four line32 groups at +0x2E8, four random33 rows at +0xCE8. The genuine ECL/math context removes two redundant receiver reload bytes from the 961-byte standalone candidate. All 353 equal original bytes and exact D3D arguments are protected by `--owner effect34`; byte-register alpha/cursor homes and loop layout stay open. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor ESI still open. The final original call is now typed as `EffectManager::DrawBulletLayerEffects` with its separately **169/169 exact** real-member source at `0x0040D110` and side owner at `+0x0C`; all original linked bytes remain unchanged. Complete SHA/offset guard preserves the 332 equal bytes; `--owner etama` protects **both exact same-carrier helpers plus the separately exact OnUpdate (3 checks)**. |
 | **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 calls; 10-way switch; **1,453** overlapping differences + 44 missing | First seven-VM cursor improvement committed in `7f1d56e`; remaining branch/VM scheduling. `--owner pause` independently checks 11 already-exact Ascii/ANM functions and real original table/ABI. |
@@ -214,7 +215,7 @@ experiments; unsupported guesses there are not target evidence.
 ## Exact landmark routing
 
 The canonical manifest and accepted original-bound comparison remain the
-**sole authority** for the **968 exact** functions. The independently accepted
+**sole authority** for the **974 exact** functions. The independently accepted
 Enemy collision wrapper at 0x00410250 is **82/82 exact**; the 3,900-byte
 Enemy OnUpdate caller is **still 29 bytes nonexact**. The former wrapper's
 original acceptance and several representative source-commit-bound exact
