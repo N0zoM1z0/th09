@@ -988,3 +988,4 @@ EffectInitializeCallbackType3Type4,0x0040D910,function
 EffectUpdateCallbackType3Type4,0x0040D9E0,function
 EffectInitializeCallbackRing,0x0040DBB0,function
 EffectDrawCallbackRing,0x0040DC70,function
+EffectInitializeCallbackOrientedOffset,0x0040E080,function

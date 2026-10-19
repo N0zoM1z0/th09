@@ -987,3 +987,4 @@ EffectInitializeCallbackType3Type4
 EffectUpdateCallbackType3Type4
 EffectInitializeCallbackRing
 EffectDrawCallbackRing
+EffectInitializeCallbackOrientedOffset

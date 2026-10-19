@@ -836,3 +836,4 @@ th09_ecl_select_next_context:
 
 #include "EffectPolarScale.inl"
 #include "EffectRingFamily.inl"
+#include "EffectInitializeOrientedOffset.inl"

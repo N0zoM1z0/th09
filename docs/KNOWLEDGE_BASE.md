@@ -10607,3 +10607,74 @@ attest historical producer execution.
   recreated from the immutable parent recipe and hash-checked first. Only this
   packet and initially absent build/ are touched; build/ is absent again.
   Recipes, full original comparisons, rejected controls and hashes remain.
+
+## October 20: Enemy lifetime controls and exact oriented Effect initialization (gpt-6.1-sol)
+
+- Recovered clean pushed **ee76ec5c83c8f32830d70644421fc2187ee752cb**; original
+  Japanese v1.50a disk SHA, direct local IDA metadata, entry and distributed
+  mapped bytes pass. A fresh complete Enemy update is **3,900 bytes /97 fields
+  /69 calls /170 blocks /29 differences**. Independent instruction grouping
+  confirms **two bytes** in the draw-head index at+0x19C/+0x1A3, **11** around
+  Effect spawning/descriptor copying, and **16** in the Player tracking region.
+- Eight complete real-ECL controls test four borrowed world-position pointer/
+  reference lifetimes, a named descriptor source reference, draw-head pointer
+  arithmetic, a genuine inline reference helper, and separately declared Float3
+  pairs. The first seven preserve the same complete raw Enemy SHA256
+  **`d6cf9828a4ac395356973c34be18b8d4d4bf323db3e7457ed4d4716ddf85e713`**
+  and all29 differences. Separate vector declarations emit **3,924 bytes** and
+  fail the complete extent gate; no shortened comparison is accepted. Two
+  additional controls expose the actual maintained `EffectManager::SpawnEffect`
+  body before/after Enemy; both remain **3,900/97/29**, with no formerly equal
+  byte damaged or differing position recovered. No control replaces product
+  source. These observations apply to this compiler/source context, not every
+  possible original lifetime, ownership or TU model.
+- Original Effect table rows **11/12**, scripts **0x59/0x5A**, are respectively
+  **[script,0,1,0x0040E080,0,0]**. Direct IDA has no function at the initializer.
+  The verified original PE decodes **0x0040E080..0x0040E0C6** into **71 bytes /
+  27 instructions /two direct calls /one block**. Following **nine CC bytes**
+  are unowned. Full original SHA256 is
+  **`0cd08c609597f85baeb6cbec0d9d0dda55210d4833675b637f4747883bbd01bb`**.
+- The callback obtains a local polar vector at velocity.x angle and magnitude
+  **256**, adds its XY to Effect position, writes VM0 rotation.z as
+  **AddNormalizeAngle(velocity.x,pi/2)**, and returns0. It neither writes Effect
+  position.z nor adds update/draw pointers. Natural first-candidate source
+  reproduces **71/71 bytes**. The genuine co-visible **32-byte Float3 polar
+  definition** and independently exact angle normalizer supply both actual call
+  identities. The existing checked ANM projection view supplies the rotation
+  prefix. No new assembly, padding, pragma, fake ABI or target patch is used;
+  original full class/TU ownership and runtime validation remain open.
+- New canonical **`effect-initialize-oriented-offset`** preserves all71 bytes
+  and both fields; raw COFF SHA256 is
+  **`94b0e224079dca40ebdbd2c7e70371c600257ef2f28311f9d431d3f54e3c2a70`**.
+  Complete independent field/call/graph inspection and two maintained-path cold
+  canonical replays pass. All **42** affected ECL-carried canonical functions
+  pass across **two profiles /15,519 physical bytes /708 fields**. Two private
+  names are refreshed only after their actual same-owner COFF coordinates,
+  old target fields and complete bodies pass; no address/extent/profile changes.
+  Original-bound RunEcl, Enemy, Type19, biased movement and Effect34 guards stay
+  unchanged. The remaining eight ECL header-dependent units and independent
+  native boundary sources are unchanged and reuse the parent source-bound proof.
+- Totals become **2,202 candidates /990 authored/source-present /955 exact**,
+  with **35 nonexact functions /46,787 bytes** still open. Coverage is
+  **233,247/280,034 reviewed-authored bytes =83.2924%**; **32,786** further
+  complete exact authored bytes are needed for95%. The newly counted71 bytes
+  do not close the old backlog. The pinned Effect prefix still has **41 missing
+  entries**, including the large Effect25 update **0x00445E00** and seven-row
+  shared initializer **0x00447C40**, whose boundaries/origin still need review.
+  No new Factory acceptance or product/runtime/semantic/port closure is claimed.
+- Complete comparisons, immutable-parent recipes, source hashes and negative
+  controls live under `.analysis/gpt-61sol-20261020-enemy-lifetimes/` and
+  `.analysis/gpt-61sol-20261020-effect-oriented-offset/`. Parent frozen sources
+  must be recovered before historical experiment replay; canonical units always
+  rebuild the maintained path. Native compilers remain serial at lowered priority.
+- Final CI passes **743 tests /28 skipped**. The first run exposed the old
+  nineteen-call angle census; the new exact owner contributes one genuine
+  AddNormalizeAngle call, so the full-source gate now expects20 while retaining
+  every original target/symbol/type/addend check and the separate eight-call
+  RunEcl boss census. Parent binding proves **695 unchanged engineering inputs
+  (654 raw +41 checkout EOL normalization)**, ten modified inputs and one new
+  maintained fragment. After all native/CI producers terminate and a TH09-cwd
+  guard passes, cleanup removes **396 reproducible files /12,466,740 bytes**,
+  including21 copied fragments/carriers actually recreated and hash-checked.
+  Only the two named packet roots and initially absent build/ are touched;
+  build/ is absent. Original target/toolchain/IDA and older evidence remain.
