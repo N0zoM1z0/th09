@@ -17,12 +17,12 @@ The **95%** milestone still needs **32,053** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
-- **Player movement native interrupt:** the full **1,900/66/129** boss now calls
-  the real **`AnmVm::SetInterrupt @0x00406790`**, replacing a private method alias.
-  All raw bytes and numeric field identities stay unchanged; eighteen private
-  labels renumber at the same actual coordinates. Its ledger supersedes old
-  144-byte counts. `--owner movement` also cold-replays the **522/18-byte** exact
-  caller/callee; `.analysis/gpt-61sol-20261019-player-movement-callees/` holds proof.
+- **Effect native resource context:** the maintained callback stays **51/eight**.
+  `scripts/probe-effect-resource-context.py` cold-compares the actual GetAnm
+  definition before/after it: **45 bytes/15 instructions/four fields**, with
+  **six missing bytes**, while the actual **20-byte** callee stays exact.
+  It preserves the strict baseline inspector and cleans temporary carriers.
+  Original TU ownership is unknown; this route supplies no new exact credit.
 - **Menu/queue physical-byte guards:** original-bound cold comparisons now
   protect all **71** already equal ReplayMenu positions and **178** received-frame
   positions, rejecting same-count exchanges that damage old matches. Use
@@ -92,16 +92,16 @@ remain separate open gates.
   physical helper `0x004343D0` remains source-ownership unknown.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   `gpt-6.1-sol: ...` commits, followed by the explicitly requested push.
-  The previous successful push verified remote `main` at `6c8c3f3`. Preserve all dirty
+  The previous successful push verified remote `main` at `c7e7234`. Preserve all dirty
   work, never patch the target or commit private inputs, and verify remote state.
   Clean reproducible generated files only after their producers stop.
-- **Final validation:** the maintained movement boss cold-reproduces **1,900
-  physical bytes/66 fields/129 differences**, protecting all **1,771** equal bytes.
-  Two related strict exact owners pass **540 bytes/40 fields**, including all
-  **18** mapped interrupt bytes. The guard rejects the old byte-equivalent fake
-  method name. Callee-body visibility and the other isolated experiments remain
-  unadopted. **708 CI tests/28 skipped** pass; unchanged exact proofs are reused.
-  Removed **397 owned files/9,019,749 bytes** after producers stopped; `build/` is absent.
+- **Final validation:** the source-cold Effect context reproducer checks full
+  **51/45-byte** callbacks, all four fields and both calls, plus both actual
+  **20-byte** co-visible GetAnm bodies. **713 CI tests/28 skipped** pass.
+  All **678** pre-existing public inputs stay bound to `c7e7234` (636 raw,
+  42 checkout EOL normalization); unchanged exact proofs are reused.
+  Etama's 600/265 candidate damages 35 old matches and remains unadopted.
+  Removed **721 files/10,521,321 bytes** after producers stopped; `build/` is absent.
 
 
 
