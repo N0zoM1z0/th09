@@ -9,7 +9,7 @@ void *EnemyManagerCardAttackSpawnView::SpawnFromCardAttack(
     int mirrorMovementX)
 {
     return SpawnEnemyRecord(
-        static_cast<short>(subroutine),
+        subroutine,
         position,
         life,
         static_cast<char>(defeatTokenType),

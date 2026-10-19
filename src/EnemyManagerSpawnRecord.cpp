@@ -57,7 +57,7 @@ struct EnemySpawnRecordManagerView
 };
 
 void *EnemyManagerCardAttackSpawnView::SpawnEnemyRecord(
-    short subroutine,
+    int subroutine,
     CardAttackSpawnPosition *position,
     int life,
     char defeatTokenType,

@@ -10,7 +10,7 @@ struct CardAttackSpawnPosition
 struct EnemyManagerCardAttackSpawnView
 {
     void *SpawnEnemyRecord(
-        short subroutine,
+        int subroutine,
         CardAttackSpawnPosition *position,
         int life,
         char defeatTokenType,

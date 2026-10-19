@@ -18,6 +18,7 @@ def main() -> int:
         **values,
         "target": "th09-v1.50a-original-japanese",
         "current_stage": "exact-reconstruction",
+        "complete_function_inventory_proven": False,
         "whole_build_closed": False,
         "windows_i386_runtime_validated": False,
         "semantic_reconstruction_started": False,
@@ -29,6 +30,7 @@ def main() -> int:
         print(f"target:                    {report['target']}")
         print(f"stage:                     {report['current_stage']}")
         print(f"function candidates:       {values['functions']}")
+        print("complete inventory:       unproven; audit callback tables separately")
         print(f"origin/boundary unreviewed:{values['pending']:>5}")
         print(f"reviewed but unresolved:  {values['unresolved']:>5}")
         print(f"authored / excluded:       {values['authored']} / {values['excluded']}")

@@ -11,24 +11,34 @@
 
 Read the live ledgers first. The original Japanese v1.50a target SHA-256 is
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-Current state: **985 authored/source-present, 950 canonical exact, 35 nonexact**;
-**231,300/278,087 reviewed-authored bytes = 83.1754%**.
-The **95%** milestone still needs **32,883** complete exact authored bytes.
+Current state: **987 authored/source-present, 952 canonical exact, 35 nonexact**;
+**231,964/278,751 reviewed-authored bytes = 83.2155%**.
+The **95%** milestone still needs **32,850** complete exact authored bytes.
 Whole Windows i386 linkage/runtime, semantic reconstruction and portability
 remain separate open gates.
 
-- **Supervisor native boundaries:** main update now calls the real ANM array,
-  preload-service, SoundPlayer fades and shared version-check methods. Seven
-  frame-state writes use the real Supervisor root. Version loading also uses
-  that native global; its two symbol corrections retain exact bytes. Fresh
-  source corrects the stale ledger: **952/996 physical, 92 fields, 27 calls,
-  791 overlap differences +44 missing**. `--owner supervisor` protects all
-  161 equal bytes and replays **six existing exact functions /720 bytes /56 fields**.
-  This is native-boundary repair; exact coverage does not increase.
-- **New bounded negatives:** five ABI-equivalent implicit/explicit owner-parameter
-  declarations all retain DrawResult **1,939/82/22**. Fresh ECL stays
-  **15,564/598/30**; biased movement remains **517 versus516**. Prior Y-pointer
-  and bitfield-context trials were checked before avoiding duplicate compiles.
+- **New exact Effect 3/4 family:** original table rows 3/4 reveal two
+  previously uncatalogued shared callbacks: initialization **200 bytes/19 fields**
+  and update **464/20**. Both pass two maintained-path cold canonical replays.
+  Original table pointers, full SHA-bound bytes, 17 ordered calls and complete
+  graphs agree. The family shares the real RNG, Timer, coordinate, Enemy spawn
+  and Player-angle boundaries. No delay word is cleared by this initializer.
+- **Spawn argument recovery:** original caller sign-extends the short payload
+  into its complete stack word. The native subroutine formal is now represented
+  by `int`; its unchanged callee still narrows at the ECL calls. Removing the
+  wrapper's redundant short cast preserves **364/38 exact bytes** and closes the
+  new update. **19** Schedule compiler-local names are independently rebound
+  from actual COFF coordinates; all **1,048** physical bytes remain exact.
+- **Catalog is incomplete:** `report-callback-coverage.py` pins the original
+  Effect prefix (38 rows/79 nonzero slots) and ExAttack prefix (27/108). After
+  adding this family, **44 Effect code entries are still missing from the
+  catalog**; no interior pointers are mistaken for new functions. These are
+  review candidates, without automatic origin, source or exact-byte credit.
+  Ledger source-presence totals cover only catalogued functions.
+- **Bounded negatives:** direct flat-array Player positions stay **572/22**;
+  incrementing cursors grow to 588. Controller mixed UINT/DWORD types do not
+  resolve midpoint CSE; the 797-byte helper damages two prior matches and is
+  rejected. Type3 actual SDK constructors grow to **786/798**, also rejected.
 - **Front initialization:** ordered Z writes and a reference to the actual
   closing-vertex source reduce the full **706-byte** callback from **236 to 222
   differences**, restoring **14** bytes without damaging any prior equal byte.
@@ -80,25 +90,30 @@ remain separate open gates.
   remain in `RE_ACCEPTED_RECEIPTS.md` and Git history.
 - **Operator contract:** direct local IDA Pro MCP and Bash; `gpt-6.1-sol: ...`
   commits followed by the requested push. The parent push verified remote `main`
-  at `30fe774`. Preserve dirty work and verify remote state independently. Never
+  at `3442209`. Preserve dirty work and verify remote state independently. Never
   patch the target or commit private inputs; clean artifacts after producers stop.
-- **Focused validation:** the new Supervisor gate passes the complete open
-  owner and six exact functions **720 bytes/56 fields**. Earlier unaffected
-  cohorts reuse parent source-bound proofs; only the loader's two native global
-  symbol identities change in exact manifests. Current evidence/recipes live in
-  `.analysis/gpt-61sol-20261020-supervisor-native-boundaries/`; related Title/ECL
-  controls remain under their October 20 roots. Exact credit stays
-  **950/985, 83.1754%**. CI passes **735 tests/28 skipped**; tracking,
-  documentation, generated progress and whitespace pass. **688** parent public
-  inputs bind unchanged (646 raw, 42 checkout EOL normalization); seven change
-  and one header joins. After owned producers stopped, cleanup removed
-  **391 reproducible files /8,014,121 bytes**, including 14 hash-recreated source
-  copies. Recipes/hashes/reports remain; `build/` is absent.
-
+- **Focused validation:** nine strict canonical comparisons pass
+  **3,220 physical bytes/143 fields**, with eight source carriers; the two new
+  callbacks also pass independent complete original-field/call/graph inspectors
+  and a second cold canonical replay. Unaffected ECL/Enemy/Title cohorts reuse
+  their parent source-bound proofs. Recipes and evidence live in
+  `.analysis/gpt-61sol-20261020-effect-type3-type4/`. Native Windows linkage/runtime,
+  semantic reconstruction and portability remain open; no new Factory receipt
+  is claimed. CI passes **739 tests/28 skipped**; tracking, docs, generated
+  progress and whitespace pass. **683** parent public inputs bind unchanged
+  (644 raw, 39 checkout EOL normalization), thirteen change and six join.
+  After own producers stopped, cleanup removes **455 reproducible files
+  /9,432,824 bytes**, including 31 hash-recreated source/header copies. Recipes,
+  full original comparisons and hashes remain; `build/` is absent.
 
 ## Next worker: first three work packages
 
-1. **Large ECL/Etama:** attack **`RunEcl` opcode 4 (7 bytes) and opcode 155
+1. **Catalog recovery plus large ECL/Etama:** first follow the original Effect
+   prefix's missing code entries, beginning with initializer **0x0040DBB0** and
+   draw **0x0040DC70** shared by IDs 6/8/13/14/15. The report lists all 44 current
+   gaps with exact original slot addresses. Prove boundaries/origin/source and
+   complete target bytes independently. Alongside this recovery,
+   keep the existing large-code goal: attack **`RunEcl` opcode 4 (7 bytes) and opcode 155
    (23 bytes)** against the immutable 15,564-byte/598-field owner. The ECL
    compiler's first-include/switch table context is essential; individual
    five-byte snippets are not acceptance. For Etama, **`OnUpdate` is already
@@ -141,7 +156,7 @@ excludes deleted old paths while hashing actual bytes, including line endings.
 
 **Rule:** keep experimental C++ in ignored `.analysis/` until a complete
 original-linked COFF comparison passes; do not edit `config/matches.csv` or
-advance 950 exact merely because normalized, partial, or source-level metrics
+advance the exact count merely because normalized, partial, or source-level metrics
 improve. Always inspect existing dirty edits (there may be only this worker),
 then commit verified source/guard work as `gpt-6.1-sol: ...`. The currently clean
 handoff deliberately removes generated OBJ/PDB/build caches; the next run
@@ -153,25 +168,25 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current restart summary is
-**985 source-present / 950 exact / 35 non-exact**; earlier operator notes
+**987 source-present / 952 exact / 35 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
 | --- | ---: |
-| Function candidates | 2,197 |
+| Function candidates | 2,199 |
 | Boundary/origin unreviewed | 0 |
 | Reviewed but origin-unresolved | 35 |
-| Confirmed authored | 985 |
+| Confirmed authored | 987 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 985 |
-| Canonical exact functions | 950 |
+| Source-present authored mappings | 987 |
+| Canonical exact functions | 952 |
 | Source-present non-exact functions | 35 |
 | Source-present non-exact bytes | 46,787 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 231,300 |
+| Canonical exact authored bytes | 231,964 |
 
-**231,300 / 278,087 reviewed-authored bytes = 83.1754% exact**. To reach
-95% of the *currently classified* denominator, another **32,883 bytes**
+**231,964 / 278,751 reviewed-authored bytes = 83.2155% exact**. To reach
+95% of the *currently classified* denominator, another **32,850 bytes**
 must become complete original-bound exact owners. The 35 origin-unresolved
 functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
@@ -243,7 +258,7 @@ experiments; unsupported guesses there are not target evidence.
 ## Exact landmark routing
 
 The canonical manifest and accepted original-bound comparison remain the
-**sole authority** for the **950 exact** functions. The independently accepted
+**sole authority** for the **952 exact** functions. The independently accepted
 Enemy collision wrapper at 0x00410250 is **82/82 exact**; the 3,900-byte
 Enemy OnUpdate caller is **still 29 bytes nonexact**. The former wrapper's
 original acceptance and several representative source-commit-bound exact

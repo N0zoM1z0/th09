@@ -5,7 +5,7 @@
 
 #include <stddef.h>
 
-// Original Effect template IDs 1/2 share this prefix and both callbacks.
+// Original Effect template families 1/2 and 3/4 share this runtime prefix.
 // The original C++ names and the full lifetime model remain unknown.
 struct EffectRandomAxesRuntimeView
 {
@@ -21,7 +21,10 @@ struct EffectRandomAxesRuntimeView
     float delay98;
     float duration9C;
     float speedA0;
-    short bulletTypeA4;
+    union {
+        short bulletTypeA4;
+        short subroutineA4;
+    };
     short colorA6;
     short sideIndexA8;
     short levelAA;

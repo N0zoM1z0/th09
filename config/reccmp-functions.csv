@@ -984,3 +984,5 @@ EffectUpdateCallbackType1Type2,0x0040D600,function
 EffectUpdateCallbackType34,0x00444A20,function
 EffectInitializeCallbackType34,0x00444960,function
 EffectDrawCallbackType34,0x00444AF0,function
+EffectInitializeCallbackType3Type4,0x0040D910,function
+EffectUpdateCallbackType3Type4,0x0040D9E0,function

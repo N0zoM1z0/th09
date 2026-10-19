@@ -12942,7 +12942,7 @@ symbol = "?SpawnFromCardAttack@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAt
 target_address = 0x00440C80
 size = 0x26
 relocations = [
-  { offset = 0x1E, type = "REL32", symbol = "?SpawnEnemyRecord@EnemyManagerCardAttackSpawnView@@QAEPAXFPAUCardAttackSpawnPosition@@HDHHH@Z", target = 0x0040F1D0 },
+  { offset = 0x1E, type = "REL32", symbol = "?SpawnEnemyRecord@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HDHHH@Z", target = 0x0040F1D0 },
 ]
 
 [units.card-attack-begin-pl00-type0]
@@ -15687,7 +15687,7 @@ source = "src/EnemyManagerSpawnRecord.cpp"
 object = "build/matching/EnemyManagerSpawnRecord.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["EnemyManagerCardAttackSpawnView::SpawnEnemyRecord"]
-symbol = "?SpawnEnemyRecord@EnemyManagerCardAttackSpawnView@@QAEPAXFPAUCardAttackSpawnPosition@@HDHHH@Z"
+symbol = "?SpawnEnemyRecord@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HDHHH@Z"
 target_address = 0x0040F1D0
 size = 0x16C
 relocations = [
@@ -20671,7 +20671,7 @@ relocations = [
   { offset = 0x3C, type = "REL32", symbol = "??FZunTimer@@QAEXH@Z", target = 0x00406670 },
   { offset = 0x5E, type = "REL32", symbol = "??8ZunTimer@@QAEHH@Z", target = 0x00404950 },
   { offset = 0x6C, type = "DIR32", symbol = "?g_EnemyTimelineInstructionMask@@3EA", target = 0x004A7EB0 },
-  { offset = 0x89, type = "DIR32", symbol = "$L1203", target = 0x00410090 },
+  { offset = 0x89, type = "DIR32", symbol = "$L1212", target = 0x00410090 },
   { offset = 0x8F, type = "DIR32", symbol = "?g_FrontMode0Done@@3EA", target = 0x004A7ECD },
   { offset = 0xCA, type = "REL32", symbol = "?SpawnEnemyRecord@EnemyTimelineSpawnManagerView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHHH@Z", target = 0x0040F1D0 },
   { offset = 0x104, type = "REL32", symbol = "?SpawnEnemyRecord@EnemyTimelineSpawnManagerView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHHH@Z", target = 0x0040F1D0 },
@@ -20688,24 +20688,24 @@ relocations = [
   { offset = 0x392, type = "REL32", symbol = "??MZunTimer@@QAEIH@Z", target = 0x00401540 },
   { offset = 0x3BC, type = "DIR32", symbol = "?g_EnemyTimelineStep@@3MA", target = 0x004A7E7C },
   { offset = 0x3C2, type = "REL32", symbol = "??YZunTimer@@QAEXM@Z", target = 0x00406650 },
-  { offset = 0x3D0, type = "DIR32", symbol = "$L1060", target = 0x0040FD59 },
-  { offset = 0x3D4, type = "DIR32", symbol = "$L1060", target = 0x0040FD59 },
-  { offset = 0x3D8, type = "DIR32", symbol = "$L1106", target = 0x0040FE69 },
-  { offset = 0x3DC, type = "DIR32", symbol = "$L1117", target = 0x0040FEBE },
-  { offset = 0x3E0, type = "DIR32", symbol = "$L1105", target = 0x0040FE62 },
-  { offset = 0x3E4, type = "DIR32", symbol = "$L1116", target = 0x0040FEB7 },
-  { offset = 0x3E8, type = "DIR32", symbol = "$L1197", target = 0x0041005E },
-  { offset = 0x3EC, type = "DIR32", symbol = "$L1197", target = 0x0041005E },
-  { offset = 0x3F0, type = "DIR32", symbol = "$L1124", target = 0x0040FF04 },
-  { offset = 0x3F4, type = "DIR32", symbol = "$L1197", target = 0x0041005E },
-  { offset = 0x3F8, type = "DIR32", symbol = "$L1129", target = 0x0040FF21 },
-  { offset = 0x3FC, type = "DIR32", symbol = "$L1087", target = 0x0040FE18 },
-  { offset = 0x400, type = "DIR32", symbol = "$L1086", target = 0x0040FE11 },
-  { offset = 0x404, type = "DIR32", symbol = "$L1136", target = 0x0040FF74 },
-  { offset = 0x408, type = "DIR32", symbol = "$L1147", target = 0x0040FFEB },
-  { offset = 0x40C, type = "DIR32", symbol = "$L1078", target = 0x0040FDD7 },
-  { offset = 0x410, type = "DIR32", symbol = "$L1059", target = 0x0040FD4D },
-  { offset = 0x414, type = "DIR32", symbol = "$L1068", target = 0x0040FD93 },
+  { offset = 0x3D0, type = "DIR32", symbol = "$L1069", target = 0x0040FD59 },
+  { offset = 0x3D4, type = "DIR32", symbol = "$L1069", target = 0x0040FD59 },
+  { offset = 0x3D8, type = "DIR32", symbol = "$L1115", target = 0x0040FE69 },
+  { offset = 0x3DC, type = "DIR32", symbol = "$L1126", target = 0x0040FEBE },
+  { offset = 0x3E0, type = "DIR32", symbol = "$L1114", target = 0x0040FE62 },
+  { offset = 0x3E4, type = "DIR32", symbol = "$L1125", target = 0x0040FEB7 },
+  { offset = 0x3E8, type = "DIR32", symbol = "$L1206", target = 0x0041005E },
+  { offset = 0x3EC, type = "DIR32", symbol = "$L1206", target = 0x0041005E },
+  { offset = 0x3F0, type = "DIR32", symbol = "$L1133", target = 0x0040FF04 },
+  { offset = 0x3F4, type = "DIR32", symbol = "$L1206", target = 0x0041005E },
+  { offset = 0x3F8, type = "DIR32", symbol = "$L1138", target = 0x0040FF21 },
+  { offset = 0x3FC, type = "DIR32", symbol = "$L1096", target = 0x0040FE18 },
+  { offset = 0x400, type = "DIR32", symbol = "$L1095", target = 0x0040FE11 },
+  { offset = 0x404, type = "DIR32", symbol = "$L1145", target = 0x0040FF74 },
+  { offset = 0x408, type = "DIR32", symbol = "$L1156", target = 0x0040FFEB },
+  { offset = 0x40C, type = "DIR32", symbol = "$L1087", target = 0x0040FDD7 },
+  { offset = 0x410, type = "DIR32", symbol = "$L1068", target = 0x0040FD4D },
+  { offset = 0x414, type = "DIR32", symbol = "$L1077", target = 0x0040FD93 },
 ]
 
 [units.game-manager-select-opponent]
@@ -22901,4 +22901,65 @@ relocations = [
   { offset = 0x3, type = "DIR32", symbol = "??_C@_06LBEFNKEP@Effect?$AA@", target = 0x0048E4BC },
   { offset = 0xF, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
   { offset = 0x14, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
+]
+
+[units.effect-initialize-enemy-trail-type3-type4]
+source = "src/EffectInitializeEnemyTrail.cpp"
+object = "build/matching/EffectInitializeEnemyTrail.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectInitializeCallbackType3Type4"]
+symbol = "?EffectInitializeCallbackType3Type4@@YIHPAUEffect@@@Z"
+target_address = 0x0040D910
+size = 200
+relocations = [
+  { offset = 0x1E, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x23, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
+  { offset = 0x2F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x34, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
+  { offset = 0x44, type = "DIR32", symbol = "?g_Rng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0x4C, type = "REL32", symbol = "?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z", target = 0x00404910 },
+  { offset = 0x52, type = "DIR32", symbol = "__real@42800000", target = 0x0048E4A8 },
+  { offset = 0x58, type = "DIR32", symbol = "?g_Rng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0x65, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
+  { offset = 0x71, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0x7B, type = "DIR32", symbol = "?g_Rng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0x80, type = "REL32", symbol = "?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z", target = 0x00404910 },
+  { offset = 0x86, type = "DIR32", symbol = "__real@42800000", target = 0x0048E4A8 },
+  { offset = 0x8C, type = "DIR32", symbol = "?g_Rng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0x99, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
+  { offset = 0xA5, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890 },
+  { offset = 0xAF, type = "DIR32", symbol = "?g_Rng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0xB4, type = "REL32", symbol = "?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z", target = 0x00404910 },
+  { offset = 0xBA, type = "DIR32", symbol = "__real@42700000", target = 0x0048E4A4 },
+]
+
+[units.effect-update-enemy-trail-type3-type4]
+source = "src/EffectUpdateEnemyTrail.cpp"
+object = "build/matching/EffectUpdateEnemyTrail.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectUpdateCallbackType3Type4"]
+symbol = "?EffectUpdateCallbackType3Type4@@YIHPAUEffect@@@Z"
+target_address = 0x0040D9E0
+size = 464
+relocations = [
+  { offset = 0x13, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
+  { offset = 0x2B, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
+  { offset = 0x43, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x4C, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0x5D, type = "DIR32", symbol = "__real@40400000", target = 0x0048E2A0 },
+  { offset = 0x67, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
+  { offset = 0xBB, type = "DIR32", symbol = "?g_PlayerSharedRuntime@@3PAUPlayerSharedRuntimeView@@A", target = 0x004A7E38 },
+  { offset = 0xC0, type = "REL32", symbol = "?GetTransitionBlockFlag@PlayerSharedTransitionView@@QAEHXZ", target = 0x0040D4F0 },
+  { offset = 0xD7, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000048 },
+  { offset = 0x106, type = "REL32", symbol = "?SpawnEnemyRecord@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HDHHH@Z", target = 0x0040F1D0 },
+  { offset = 0x12D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000058 },
+  { offset = 0x15E, type = "DIR32", symbol = "?g_Rng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0x163, type = "REL32", symbol = "?GetRandomU32InRange@RngRuntimeView@@QAEII@Z", target = 0x004048E0 },
+  { offset = 0x171, type = "DIR32", symbol = "?g_Rng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0x176, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
+  { offset = 0x17C, type = "DIR32", symbol = "__real@3fc90fdb", target = 0x0048E450 },
+  { offset = 0x199, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x0000003C },
+  { offset = 0x1A9, type = "REL32", symbol = "?AngleToPoint@PlayerAngleView@@QAEMPAUPlayerAngleFloat3View@@@Z", target = 0x0041BB70 },
+  { offset = 0x1B3, type = "DIR32", symbol = "?g_Rng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0x1BB, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
 ]

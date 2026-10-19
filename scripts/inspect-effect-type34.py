@@ -11,9 +11,9 @@ def string_at_symbol(path,row):
 def optional_pe_bytes(image,address,size):
  try:return c.pe_bytes_at(image,address,size)
  except ValueError:return None
-def inspect(obj,role):
+def inspect(obj,role,*,owners=None):
  import capstone
- base,size,symbol,expected=OWNERS[role];image=c.verified_target();target=c.pe_bytes_at(image,base,size);assert hashlib.sha256(target).hexdigest()==expected
+ base,size,symbol,expected=(OWNERS if owners is None else owners)[role];image=c.verified_target();target=c.pe_bytes_at(image,base,size);assert hashlib.sha256(target).hexdigest()==expected
  cs=capstone.Cs(capstone.CS_ARCH_X86,capstone.CS_MODE_32);cs.detail=True;ti=list(cs.disasm(target,base));assert sum(i.size for i in ti)==size and ti[-1].mnemonic=='ret'
  original_fields=[];literal_registry={};absolute_addresses=set()
  for i in ti:
