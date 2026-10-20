@@ -20,6 +20,9 @@ BASE = {'role': 'draw',
  'target_instructions': 286,
  'candidate_instructions': 291,
  'fields': 53,
+ 'candidate_address_field_count': 53,
+ 'candidate_fields_cover_instructions': True,
+ 'literal_definitions_checked': 4,
  'ordered_calls_agree': True,
  'field_referent_order_agrees': True,
  'COM_immediate_arguments_agree': True,
@@ -103,6 +106,14 @@ class Effect34FrontierTests(TestCase):
         result['candidate_calls'][:2] = reversed(result['candidate_calls'][:2])
         with self.assertRaisesRegex(RuntimeError, 'call trace'):
             boss.guard_effect_type34_draw(result)
+
+    def test_unchecked_literal_or_operand_definitions_fail_closed(self):
+        for change in ({'literal_definitions_checked': 3},
+                       {'candidate_address_field_count': 52},
+                       {'candidate_fields_cover_instructions': False},
+                       {'literal_definitions_checked': None}):
+            with self.subTest(change=change), self.assertRaises(RuntimeError):
+                boss.guard_effect_type34_draw({**baseline(), **change})
 
     def test_unreviewed_prebuilt_carrier_fails_before_build_or_decode(self):
         with patch.object(boss, 'build') as build, patch.object(boss, 'parsed') as parsed:

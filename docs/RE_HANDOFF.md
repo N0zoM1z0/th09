@@ -9,49 +9,48 @@
 
 The operator requests continued exact reconstruction across **large functions
 and small leaves**, serial low-priority compiles, focused affected replays and
-regular cleanup. This checkpoint starts from pushed `e0ad322` and supplies
-**two previously declared pointer-conversion interfaces**, each reproducing the
-complete **three-byte shared identity body @0x004343D0**. This is **one physical
-body with unknown origin/unique class ownership**, not two new authored exact
-functions. RunEcl/Enemy/Title DrawResult/Type3 stay **30 /29 /22 /15** differences;
-GameManager setup stays **904**. The 95% milestone and product/runtime gates
-remain open.
+regular cleanup. This checkpoint starts from pushed `0611108` and closes an
+actual **Effect COFF literal/operand verification gap**. No maintained game
+source, compiler profile, unit definition, original target or exact ledger row
+changes. RunEcl/Enemy/Title DrawResult/Type3 remain **30 /29 /22 /15**; Effect34
+Draw stays **959/946 bytes, 593 overlap differences +13 extra**. The 95%
+milestone and product/runtime gates remain open.
 
-- `src/VectorPointerViews.cpp` defines existing `Float3::operator float*` and
-  `PlayerPositionView::operator float*` through their actual first component.
-  Both compile to all three original bytes, no fields, with the established
-  Type3 caller profile. Independent original SHA256:
-  `58367ffa2a0179375018fa0f5c26da24391e42ebe0ed8fdda35a21fc7bdc396f`.
-- Canonical alias-byte units are `float3-pointer-identity-view` and
-  `player-position-pointer-identity-view`. The original row gains a source
-  evidence route, but keeps blank proposed name/module/owner, unknown/review
-  origin and no authored mapping or matches.csv row. Other constructor aliases
-  remain distinct unresolved interfaces. No unique original class or native
-  product closure is inferred.
-- `python3 -B scripts/check-vector-pointer-views.py --json` recompiles the
-  single new TU at nice10 and compares both complete aliases. It pins recursive
-  inputs, real ABI/profile, original body hash and conservative origin policy.
-  Four pure regressions reject changed metadata, wrong ABI/extent and either
-  alias being counted as authored exact. Caller source/header bytes are unchanged,
-  so their existing exact source/profile proofs are reused.
-- Six private Type3 state/return joint builds reproduce maintained **780/38/15**,
-  the rejected **780/38/four** lead, and nonmatching **779/777/781-byte** control
-  shapes. An inverted Timer comparison introduces a different native operator
-  symbol and fails referent binding; it is not rebound to the original >= call.
-  No state/control model enters maintained gameplay source. The original 15-byte
-  guard remains intact; the read-only helper census repeats all 27 reviewed calls.
-- Focused canonical and independent frozen-source replays both pass for the
-  complete three-byte aliases. CI passes **845 tests /28 skips**, tracking,
-  documentation, progress and whitespace checks. No full-cohort replay is used.
-- After all producers terminate, **51** verified loose evidence members become
-  a **638,027-byte** ZIP. Those archived duplicates and **383** reproduced
-  compiler/bytecode files reclaim **10,036,816 bytes (~9.57 MiB)** total.
-  All 489 game inputs, 1,029 previous unit definitions, four canonical config
-  inputs, 24 provider/input pins and the archive pass post-clean verification.
-  Only VectorPointerViews.cpp is new; existing game inputs are unchanged.
-- Evidence and frozen recipes: `.analysis/gpt-61sol-20261021-type3-state-joint/`.
-  No Factory accepted receipt, authored exact credit or complete product/runtime
-  validation is claimed.
+- A private counterexample changes only the actual COFF definition of pi from
+  `0x40490FDB` to `0x3F800000`; raw draw code and all 53 relocation records stay
+  identical. The previous inspector and production frontier accept that object.
+  The corrected inspector rejects it before using the source constant.
+- All **four actual scalar definitions** now must match their symbol names and
+  original PE values, with real section bounds/provenance and zero addends.
+  All **53 candidate instruction address fields** must independently match the
+  actual COFF operands, including indexed global displacements. Existing
+  Type26/28/25 original indexed-field proofs remain intact. The production
+  Type34 gate requires both complete checks; stale reports cannot pass.
+- Twelve private source models yield eleven successful full comparisons and
+  one C++ rejection of a nonexistent Supervisor member assumption. Six valid
+  models are byte-neutral; five position-helper/wide-alpha models regress to
+  975 bytes and damage old matches. No trial source, type, profile or expanded
+  residual mask is adopted. The original loop/cursor/alpha allocation remains
+  unresolved; a smaller generic score is insufficient.
+- Focused replay checks **12 existing exact owners /4,123 physical bytes**
+  across **four real source/profile carriers**, plus **13 related Effect
+  diagnostics**. Other **989 unchanged exact source/profile proofs** are reused.
+  The same fresh ECL object preserves RunEcl30, Enemy29, Type19 44 and Type29's
+  existing frontier. No full-cohort replay or new authored exact credit.
+- CI passes **852 tests /28 skips**. Frozen-source replay repeats the normal
+  **959/53/593** draw and independently demonstrates that the old inspector
+  accepts a wrong literal definition while the new one rejects it. The existing
+  **178-byte initializer** also stays canonical exact. An initial private TOML
+  serialization failure is retained; the corrected recipe passes.
+- After all producers terminate, **144** verified loose evidence members become
+  a **1,014,593-byte ZIP**. Archived duplicates plus **388** source-bound compiler/
+  bytecode caches reclaim **12,937,994 bytes (~12.34 MiB)**. All 489 game inputs,
+  1,031 unchanged unit definitions, four canonical config hashes, 95 source/
+  provider pins and archive identity pass after cleanup. Earlier unique research
+  and unrelated canonical objects remain.
+- Evidence and frozen recipe: `.analysis/gpt-61sol-20261021-effect34-loops/`.
+  No Factory accepted receipt, new authored exact credit or whole native
+  product/runtime validation is claimed.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
 
@@ -110,7 +109,7 @@ For the complete <=256-byte cohort see
 | **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes; opcode 155: 23 bytes, 146/148 handler shapes. Opcode 4 now directly calls the separately exact real `ZunTimer::operator=(int) @0x00401500` on the proven 12-byte context timer, rather than fake second-class timer ABI; existing genuine `RngRuntimeView`/global `g_Rng` remains. **15,564 complete instruction/table bytes and 598 source-linked original fields are unchanged**, with all **77 exact ECL/Enemy/position/math functions across two profiles** (24,374 physical bytes) protected. `--owner runecl`; exact credit remains open. |
 | **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **29** differing bytes | Genuine `Float3::operator/` and actual `AppendBoxRecord` compiler visibility close the ten-byte `+0x845..+0x850` copy window. The special-attack dispatch invokes **real `EtamaController::SpawnBulletPatternPrimary @0x004130F0`** with its target-backed 0x214-byte descriptor. Fourteen Timer/descriptor calls now use seven shared native symbols; the corresponding private aliases are removed. Original-linked byte/field/call/graph identity and 29 differences are unchanged. State calls also use the shared native getter/setter interfaces; the getter origin remains unknown. `check-enemy-player-state.py --scope damage` protects all **79 current affected exact units**, including both native damage callees. The earlier state scope covers 102 after shared-state changes. `--owner enemy` retains its 85 checks for the broader Enemy frontier. |
 | **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Maintained src/EffectDrawType29.inl preserves flag-scoped main plus six satellite fans. The inspector also records all 13 polar/accumulation receiver windows and the independently differing ordinal graph. Bounded original/native-helper emulator comparison covers all672 reachable original instructions across26 cases; it is not byte-exact or whole-product validation. The full-byte guard protects1035 equal positions. Source presence is independent of exactness; `--owner effect29` protects77 shared exact functions across two profiles. |
-| **Effect 34 draw** | 0x00444AF0 | **946/959 physical**, 53 source-linked original referents, 20 direct +12 COM calls, target/candidate 16/15 blocks; **593 overlap differences +13 extra bytes** | Exact native initialization (178) and update (208) protect the original 0xEF8 buffer: fan33 at +0x54, four line32 groups at +0x2E8, four random33 rows at +0xCE8. The genuine ECL/math context removes two redundant receiver reload bytes from the 961-byte standalone candidate. All 353 equal original bytes and exact D3D arguments are protected by `--owner effect34`; byte-register alpha/cursor homes and loop layout stay open. |
+| **Effect 34 draw** | 0x00444AF0 | **946/959 physical**, 53 source-linked original referents, 20 direct +12 COM calls, target/candidate 16/15 blocks; **593 overlap differences +13 extra bytes** | Exact native initialization (178) and update (208) protect the original 0xEF8 buffer: fan33 at +0x54, four line32 groups at +0x2E8, four random33 rows at +0xCE8. The genuine ECL/math context removes two redundant receiver reload bytes from the 961-byte standalone candidate. All four actual scalar definitions and all 53 decoded candidate address fields are now checked against real COFF sections and original values; a wrong-definition object with unchanged code/relocations is rejected. All 353 equal original bytes and exact D3D arguments remain protected by `--owner effect34`; byte-register alpha/cursor homes and loop layout stay open. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor ESI still open. The final original call is now typed as `EffectManager::DrawBulletLayerEffects` with its separately **169/169 exact** real-member source at `0x0040D110` and side owner at `+0x0C`; all original linked bytes remain unchanged. Complete SHA/offset guard preserves the 332 equal bytes; `--owner etama` protects **both exact same-carrier helpers plus the separately exact OnUpdate (3 checks)**. |
 | **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 calls; 10-way switch; **1,453** overlapping differences + 44 missing | First seven-VM cursor improvement committed in `7f1d56e`; remaining branch/VM scheduling. `--owner pause` independently checks 11 already-exact Ascii/ANM functions and real original table/ABI. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Now uses genuine shared `g_Supervisor.framerateMultiplier5B8 @0x004B36B8` and the four **real `GameManagerResetView::coordinate360/364/368/36C` fields** (original `0x004A80F0..FC`), not fake external playfield globals. The independent **79-byte exact GameManager coordinate initializer** physically writes those fields; 1,900-byte linked movement boss and 66 operand identities stay unchanged, with 129 ordinary differences still open. All 129 genuine current original-bound mismatch offsets are now pinned, protecting the other **1,771** already matching bytes (including both switch tables and after-return alignment); future improvements must not introduce mismatches elsewhere. `--owner movement` protects exact 522-byte caller. |
@@ -244,20 +243,15 @@ It preserves all four differing offsets and the production guard rejection.
 
 ## Evidence and cleanup boundaries
 
-The source/ledger baseline for the older 28 Charge/Effect controls is `085343b`;
-that historical checkpoint changed diagnostics and documentation only. The
-current cleanup checkpoint retains **487 game-source files,
-1,029 manifest units and 1,001 exact rows**. The earlier construction checkpoint
-added two byte-evidence units for unknown-origin owners, with no accepted exact
-credit. Its historical 61-unit source/profile replay remains commit-scoped; the
-current inventory is 62, with all 11 affected GameManager owners rechecked and
-the other 51 source/profile proofs reused. The
-previous shared-state batch rechecked 102 units across four sources; the last
-damage/header batch rechecked 79 across two. The preceding checkpoint changed only GameManagerSetup.cpp among 488 game inputs.
-This checkpoint adds VectorPointerViews.cpp; its original shared owner remains unknown. The
-prior Front/GameManager prefix checkpoint retains its source-bound 12-unit
-/6,668-byte proof for unchanged consumers.
-Native product/runtime, complete inventory, semantic and port gates stay open.
+The current tree retains **488 game-source files, 1,031 comparison units and
+1,001 authored exact rows**. The two pointer-interface units and two Replay
+constructor units remain unknown-origin byte evidence, with no authored exact
+credit. This checkpoint changes no game input among **489 files including the
+source README**, and no existing unit definition. Twelve existing owners are
+rechecked only because their diagnostic parser changes; the other 989 exact
+source/profile proofs are reused. Earlier layout/state/damage replay inventories
+remain source-commit scoped. Native product/runtime, complete inventory,
+semantic and port gates stay open.
 
 The KB holds bounded observations and unresolved hypotheses. Old packet numbers,
 source shapes and current-state claims are dated history, not acceptance.

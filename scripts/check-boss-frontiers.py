@@ -4722,6 +4722,9 @@ def guard_effect_type34_draw(result: dict) -> dict:
                  fields=53, fields_key='fields')
     if (result.get('target_sha256') != EFFECT34_DRAW_SHA256 or
             result.get('target_instructions') != 286 or
+            result.get('literal_definitions_checked') != 4 or
+            result.get('candidate_address_field_count') != 53 or
+            result.get('candidate_fields_cover_instructions') is not True or
             result.get('target_blocks') != 16 or
             result.get('candidate_blocks') not in (15, 16) or
             not 946 <= result.get('candidate_bytes', -1) <= 959 or

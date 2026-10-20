@@ -14316,3 +14316,99 @@ observation, source blobs and exact alias recipes remain in the ignored archive
 .analysis/gpt-61sol-20261021-type3-state-joint. Authored exact coverage stays
 1001/1035 and 243,853/291,883 bytes; the requested four fronts remain 30/29/22/15.
 Whole native i386 product, runtime, semantic and port gates remain open.
+
+
+## 2026-10-21 Effect34 source controls and actual COFF scalar verification
+
+Recovery starts from clean independently pushed 0611108. Original Japanese
+v1.50a disk SHA, direct IDA metadata and entry/distributed mapped bytes pass.
+A new low-priority real ECL /O2 /Ob1 compile repeats the complete original-bound
+Type34 draw: 959 source /946 target bytes, 53 referents, 291/286 instructions,
+15/16 blocks, 20 direct plus 12 COM calls, 593 overlap differences and 13 extra
+bytes. Original SHA remains
+d32652c2e08ffbd02a103e379724cde773716f964bbb962e9e4cbd12f58c88a2.
+
+Target decoding identifies the source's additional stack slots and line-loop
+cursor conversion; the original keeps buffer EDI, vertex ESI and later jitter
+EBX, with a byte alpha reuse. These are observed compiler outcomes, not register
+requirements. Twelve private source models test real alpha helpers, geometry
+helpers, SDK color macros, flat/inherited vertex fields and final-channel alpha
+narrowing. Eleven compile and receive full comparisons: six reproduce the exact
+same 959/53/593 candidate; three geometry-helper forms emit975/53/841 and damage
+267 old equal positions; two wider alpha calculation forms emit975/53/859 and
+damage290. Their apparently restored bytes cannot compensate for those losses.
+A tentative native Supervisor field form fails C++ compilation because that
+header's +8 prefix is still opaque, not because the TH09 device offset changed.
+No failed/neutral/regressed source or profile is adopted. Adjacent TH08 embedded
+Float3 and TH095 flat vertex fields are hypotheses only; both complete TH09-local
+storage models remain neutral, so neither supplies original class ownership.
+
+A distinct real Oracle defect is independently reproduced. Changing only the
+actual __real@40490fdb COFF definition from pi bits40490FDB to1.0 bits3F800000,
+while preserving all959 raw function bytes and all53 actual relocation records,
+still passes the old inspector and production guard at593 differences. This
+counterexample changes a disposable compiler object only; no original target,
+IDA bytes or maintained game source is patched. Both object hashes and the
+before/after result remain preserved.
+
+The shared inspector now reads each actual four-byte scalar definition from its
+real i386 COFF section, bounds section/value/raw extents, requires zero literal
+addends and independently checks source payload, symbol bits and original PE
+value. Type34 has four distinct scalar definitions used at seven operands.
+It also decodes all candidate address operands and requires exact coverage by
+actual COFF fields, including indexed static bases. The production gate requires
+all four definitions and all53 fields to be verified in the report. No residual
+mask, complete-owner boundary or match credit is relaxed. Pure regressions reject
+wrong definitions/PE values, undefined or out-of-range provenance, truncation,
+nonzero addends and stale coverage; independent operand tests cover indexed
+globals versus stack displacements and one REL32 field per direct call.
+
+Candidate coverage initially missed indexed globals in a dependent checker.
+The corrected source census includes them while preserving the specialized
+Type26/28/25 original side-stride/player proofs. An intermediate generic target
+census duplicated those wrappers' independently supplied fields; their duplicate
+checks reject it and that intermediate change is removed. One driver initially
+passes a whole role dictionary to a single-owner guard, and initial trail reads
+use the wrong ECL carrier after those definitions had moved to standalone TUs.
+These driver/schema/carrier errors are recorded separately from source negatives;
+correct carriers and role selection pass below. No failure is counted as success.
+
+Four actual source/profile carriers are cold-built serially: ECL /Ob1, ECL /Ob0,
+and the two real no-EH trail sources. Twelve existing canonical exact owners
+repeat all4,123 physical bytes, including Type34 init178, four Type26/28 owners,
+three player-offset fan owners, two ring owners and two native trail owners.
+Thirteen related Effect diagnostic owners all pass the strengthened literal and
+candidate-operand checks. The same fresh main ECL object preserves RunEcl30,
+Enemy29, Type19 44, Type29's existing frontier and the biased-movement guard.
+No game C++, header, canonical unit/profile, authored classification or exact
+row changes; the other989 unchanged exact source/profile proofs are reused.
+The live ledger remains1001/1035 functions and243,853/291,883 authored bytes.
+
+CI passes852 tests /28 skips, plus target-required tracking, docs, generated
+progress and whitespace checks. Frozen source independently repeats the full
+959-byte /53-field /593-difference draw, all four actual scalar definitions,
+and the canonical 178-byte initializer. A disposable object with only pi's
+constant definition changed again passes the frozen old inspector/guard and
+fails the new inspector with the explicit scalar-definition error. All raw code
+and actual COFF rows remain identical. The private canonical unit changes only
+its object path; original target, size, profile and every relocation stay fixed.
+
+The first frozen run compiles successfully but fails while serializing nonempty
+relocation dictionaries into TOML. The error log and original recipe remain
+sidecars; corrected TOML field serialization and its subsequent whole replay
+pass. This is a replay-driver failure, not a source/target negative or a pass.
+
+After every compiler/CI producer is terminal, ZIP CRC and all member hashes
+verify144 loose members /6,371,883 bytes in a1,014,593-byte ZIP. Removing those
+archived duplicates reclaims5,357,290 bytes. Another388 source-bound compiler/
+bytecode files /7,580,704 bytes are removed: the four freshly replayed carriers'
+eight OBJ/PDB files and380 terminal CI cache files. Net reduction is12,937,994
+bytes (~12.34 MiB). Original executable, tools, IDA state, older unique evidence
+and unrelated canonical objects remain untouched.
+
+Post-clean checks verify all489 game inputs, unchanged1,031 unit definitions,
+four canonical config/ledger hashes,95 current source/provider pins, two old
+provider snapshots and seven sidecars/archive identity. No maintained game
+source, header, canonical metadata or exact credit changes. Evidence and frozen
+recipe: .analysis/gpt-61sol-20261021-effect34-loops. Original class/TU ownership,
+whole native product/runtime closure and new Factory acceptance are not claimed.
