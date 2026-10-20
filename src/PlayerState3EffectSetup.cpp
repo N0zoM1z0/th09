@@ -1,3 +1,4 @@
+#include "PlayerState4OpsView.hpp"
 #include "EffectManager.hpp"
 #include "ZunTimer.hpp"
 
@@ -16,11 +17,7 @@ struct PlayerCollisionRegionCreateView
         const PlayerRegionPointView *center, float radius, float radiusGrowth,
         int value, int lifetime, int delay);
 };
-struct PlayerState4OpsView
-{
-    int updateState00;
-    void SetUpdateState(int state);
-};
+
 struct PlayerStateEffectSideView
 {
     unsigned char unknown00[0x0C];

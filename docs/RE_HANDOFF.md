@@ -9,51 +9,51 @@
 
 The operator requests continued exact reconstruction across **large functions
 and small leaves**, serial low-priority compiles, focused affected replays and
-regular disposal of reproducible artifacts. Current network-packet work starts
-from pushed `2a89e73`. RunEcl/Enemy/Title DrawResult/Type3 remain
-**30 /29 /22 /15** differing bytes, and SaveReplay remains **3**. None of these
-fronts or the 95% milestone is complete. The last accepted exact addition is
-Player initialization in `8ff6ce1`. This batch adds **no exact ledger row**.
+regular disposal of reproducible artifacts. Current Enemy/Player state work
+starts from pushed `3f13337`. RunEcl/Enemy/Title DrawResult/Type3 remain
+**30 /29 /22 /15** differing bytes; SaveReplay stays **3**, network HandleMessage
+**105**. None of these fronts or 95% is complete. The last accepted exact addition
+is Player initialization in `8ff6ce1`. This batch adds **no exact ledger row**.
 
-- **Network HandleMessage:** snapshots of the actual frame/input packet reads
-  recover **six** more original-linked bytes: **808 physical bytes /46 fields
-  /105 differences** (111→105), with no newly mismatching position. The
-  earlier ordinal/completion checkpoint recovered 14 bytes (125→111).
-  Both queue calls' ABI, packet layout and compiler profile stay unchanged.
-  All 17 direct/two virtual call operands, six switch destinations, the 16-byte
-  map and 34 direct blocks agree. It remains NON-EXACT, with 234/235
-  instructions. The full guard protects **703** equal bytes and rejects the
-  former 111-difference source or same-count damage to any restored position.
-- `scripts/inspect-network-message.py --build --guard --json` or
-  `check-boss-frontiers.py --owner netmessage` cold-checks only this standalone
-  TU. It has **no canonical exact sibling**. Unchanged source/profile proofs
-  are reused, including the prior constructor checkpoint's 61 accepted units.
-  Scope-qualified actual reads preserve frame-before-input chronology; original
-  volatile declarations, packet signedness and concurrent behavior stay unknown.
-- **23** private complete source/raw/actual-COFF pairs distinguish the adopted
-  read model from signed wire fields, snapshots, packet forwarding and wide/WORD
-  decoders. One further partial diagnostic rejects operand multiplicity before
-  a complete comparison and is preserved as a failed recipe. A verified
-  **67-member** archive in `.analysis/gpt-61sol-20261021-network-wire/` holds those
-  pairs, the maintained pair, five shared headers, exact profiles and diagnostic
-  reports. Its selected maintained replay independently reproduces 808 bytes
-  and all 46 actual fields, retaining the 105-difference frontier.
-  CI passes **822 tests /28 skips**. After terminal producer checks, the
-  67 loose archived files are removed: 610,540 bytes become a 118,439-byte ZIP,
-  a net reduction of **492,101 bytes (~481 KiB)**. All private compiler
-  carriers self-clean; public/canonical objects and older research remain.
-- **Replay construction remains source-bound to `2a89e73`:** both complete
-  15/18-byte bodies reproduce naturally, but their origins stay unknown/review,
-  unclassified and 0%, with no authored exact credit. Payload +0x1C plus outer
-  +0xC0 resolves to replay +0xDC, invoking the real GameConfiguration initializer.
-  Prior 61-unit/ten-consumer diagnostics and nine StartMenu local-label
-  proofs are preserved in the construction packet; no dependent header changes
-  in this network checkpoint. Use `check-replay-data-layout.py` for fresh replay.
-- The private Type3 four-byte candidate still damages four equal positions and
-  is not adopted. Previous checkpoints and cleanup remain in `2a89e73`,
-  `6671a75`, `88cf47e`, `0123c7e`, `26e0fd3` and
-  [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md). Diagnostic archives are
-  source-scoped reports, not accepted exact receipts.
+- **Enemy Player state interfaces:** both original state-read calls now use
+  the existing `PlayerLifecycleView::GetUpdateState`, and the write calls the
+  real `PlayerState4OpsView::SetUpdateState`. Private Enemy GetState/SetState
+  declarations and their inspector alias mappings are removed. A shared
+  `PlayerState4OpsView.hpp` replaces three inconsistent local class definitions
+  across setter, state-effect setup and Player runtime, exposing the observed
+  first DWORD plus the existing method declarations. The setter stays **12/12
+  exact**; the shared/folded getter at 0x435EC0 remains **unknown/review**, with
+  no new source-body or authored credit. Original C++ class identity is unproved.
+- `check-enemy-player-state.py` cold-checks only **102 accepted units /30,059
+  physical bytes**, across four affected sources and six existing source/profile groups.
+  Both production/recovery checks pass; the final public CLI is also cold-run.
+  Source/profile-sharing reuses one compiled object for units with distinct
+  cache filenames. All **135 main-carrier functions /49,099 emitted raw bytes**
+  are neutral against the parent object. RunEcl stays 15,564/598/30 and Enemy
+  3,900/97/29; unchanged other-owner proofs are reused. Thirteen local-label
+  renames in three accepted units retain original section-relative destinations
+  and complete byte/operand equality. Native state call fields +36B,+BE5,+C06
+  are independently pinned, rejecting old names even at equal numeric addresses.
+- Six original-profile RunEcl value-boundary controls retain 30 differences or
+  shrink the complete owner to 15,560 and are rejected. Four new Type3 controls
+  combine the four-byte private lead with real SDK middle/tail/three-point
+  vector types; all retain +1B2,+1B7,+247,+249 and remain unadopted. They do not
+  close the original 15-offset production frontier. No fake returns, changed
+  ABI/profile, source padding, assembly or target edits are introduced.
+- Previous network and Replay construction progress remains source-bound to
+  `3f13337` and `2a89e73`. Network snapshots restored six bytes (111→105),
+  protecting all 703 equal positions. Both 15/18-byte replay constructor bodies
+  reproduce naturally without origin promotion; their prior 61-unit closure
+  is reused. Diagnostic archives and cleanup are routed below and through
+  [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md); they are not new receipts.
+- CI passes **826 tests /28 skips**. Three verified archives retain **244
+  members**, including all 10 ECL/Type3 countermodels, original/live input
+  snapshots, native state call/label proofs and the full 102-unit report.
+  Selected frozen replays reproduce the native setter's complete 12 bytes
+  and the unadopted SDK Type3's 780 bytes /38 actual fields. After all producers
+  terminate, 3,493,723 loose bytes become 591,058 ZIP bytes: **2,902,665 bytes
+  (~2.77 MiB)** reclaimed. Private compiler carriers self-clean; public/canonical
+  objects and older research remain.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
 
@@ -110,7 +110,7 @@ For the complete <=256-byte cohort see
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes; opcode 155: 23 bytes, 146/148 handler shapes. Opcode 4 now directly calls the separately exact real `ZunTimer::operator=(int) @0x00401500` on the proven 12-byte context timer, rather than fake second-class timer ABI; existing genuine `RngRuntimeView`/global `g_Rng` remains. **15,564 complete instruction/table bytes and 598 source-linked original fields are unchanged**, with all **77 exact ECL/Enemy/position/math functions across two profiles** (24,374 physical bytes) protected. `--owner runecl`; exact credit remains open. |
-| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **29** differing bytes | Genuine `Float3::operator/` and actual `AppendBoxRecord` compiler visibility close the ten-byte `+0x845..+0x850` copy window. The special-attack dispatch invokes **real `EtamaController::SpawnBulletPatternPrimary @0x004130F0`** with its target-backed 0x214-byte descriptor. Fourteen Timer/descriptor calls now use seven shared native symbols; the corresponding private aliases are removed. Original-linked byte/field/call/graph identity and 29 differences are unchanged. `--owner enemy` now cold-protects **77 exact shared-TU functions, the separate draw and seven genuine external callees** (85 exact checks). |
+| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **29** differing bytes | Genuine `Float3::operator/` and actual `AppendBoxRecord` compiler visibility close the ten-byte `+0x845..+0x850` copy window. The special-attack dispatch invokes **real `EtamaController::SpawnBulletPatternPrimary @0x004130F0`** with its target-backed 0x214-byte descriptor. Fourteen Timer/descriptor calls now use seven shared native symbols; the corresponding private aliases are removed. Original-linked byte/field/call/graph identity and 29 differences are unchanged. State calls also use the shared native getter/setter interfaces; the getter origin remains unknown. `check-enemy-player-state.py` protects all **102 affected exact units**. `--owner enemy` retains its 85 checks for the broader Enemy frontier. |
 | **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Maintained src/EffectDrawType29.inl preserves flag-scoped main plus six satellite fans. Bounded original/native-helper emulator comparison covers all672 reachable original instructions across26 cases; it is not byte-exact or whole-product validation. The full-byte guard protects1035 equal positions. Source presence is independent of exactness; `--owner effect29` protects77 shared exact functions across two profiles. |
 | **Effect 34 draw** | 0x00444AF0 | **946/959 physical**, 53 source-linked original referents, 20 direct +12 COM calls, target/candidate 16/15 blocks; **593 overlap differences +13 extra bytes** | Exact native initialization (178) and update (208) protect the original 0xEF8 buffer: fan33 at +0x54, four line32 groups at +0x2E8, four random33 rows at +0xCE8. The genuine ECL/math context removes two redundant receiver reload bytes from the 961-byte standalone candidate. All 353 equal original bytes and exact D3D arguments are protected by `--owner effect34`; byte-register alpha/cursor homes and loop layout stay open. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor ESI still open. The final original call is now typed as `EffectManager::DrawBulletLayerEffects` with its separately **169/169 exact** real-member source at `0x0040D110` and side owner at `+0x0C`; all original linked bytes remain unchanged. Complete SHA/offset guard preserves the 332 equal bytes; `--owner etama` protects **both exact same-carrier helpers plus the separately exact OnUpdate (3 checks)**. |
@@ -180,6 +180,8 @@ python3 -B scripts/report-reconstruction-status.py
 python3 -B scripts/check-ida-mcp.py
 # Choose one affected owner; reuse unchanged source/profile-bound proofs.
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner netmessage
+# After shared Player state declarations change, replay their affected closure:
+nice -n 10 python3 -B scripts/check-enemy-player-state.py
 # Constructor chain only by default; add --with-dependents after layout changes.
 nice -n 10 python3 -B scripts/check-replay-data-layout.py
 # One new Type3 compiler-visibility control; temporary sources/objects self-clean.
@@ -214,15 +216,21 @@ It stages all required frozen headers, verifies the original target and pinned
 providers, and self-cleans its temporary sources/objects. Byte equality gives
 no authored-origin credit; use the tracked public checker for maintained inputs.
 
+The current state-interface packet has a compact frozen replayer:
+`python3 -B .analysis/gpt-61sol-20261021-enemy-player-state/replay.py`
+checks the unchanged exact setter; `--case type3-sdk-three` checks the rejected
+SDK joint candidate. These selected archival replays give no new exact credit.
+
 ## Evidence and cleanup boundaries
 
 The source/ledger baseline for the older 28 Charge/Effect controls is `085343b`;
 that historical checkpoint changed diagnostics and documentation only. The
-current network-packet checkpoint retains **486 game-source files, 1,028
+current Enemy/Player state checkpoint retains **486 game-source files, 1,028
 manifest units and 1,000 exact rows**. The previous construction checkpoint
 added two byte-evidence units for unknown-origin owners, with no accepted exact
-credit. Its bounded 61-unit source/profile replay is reused unchanged; only the
-standalone network TU and its diagnostic guard change here.
+credit. Its bounded 61-unit source/profile replay is reused unchanged. The
+shared state declaration changes four compiler sources; their 102-unit affected
+closure is cold-replayed, preserving all existing exact credit.
 Native product/runtime, complete inventory, semantic and port gates stay open.
 
 The KB holds bounded observations and unresolved hypotheses. Old packet numbers,

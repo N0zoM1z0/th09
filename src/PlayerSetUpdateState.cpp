@@ -1,9 +1,5 @@
-struct PlayerState4OpsView
-{
-    int updateState00;
+#include "PlayerState4OpsView.hpp"
 
-    void SetUpdateState(int state);
-};
 
 void PlayerState4OpsView::SetUpdateState(int state)
 {

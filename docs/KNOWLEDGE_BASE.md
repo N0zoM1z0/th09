@@ -13631,3 +13631,76 @@ complete reports. Its default frozen replay stages those inputs, verifies
 target/provider hashes and reproduces every maintained raw byte and actual
 COFF row; temporary source/OBJ/PDB self-clean. Public tracked restart uses
 `inspect-network-message.py --build --guard` or `--owner netmessage`.
+
+
+## 2026-10-21 Enemy Player state interfaces and shared native setter view
+
+Recovery starts at clean pushed `3f13337`; original Japanese v1.50a disk and
+direct IDA metadata/entry/distributed mapped samples pass. RunEcl value-boundary
+probes cover baseline, direct native timer-object reference, pure byte/wide
+flag-result helpers, wide reference input and explicit wide acquisition. The
+first three retain 15,564/598/30; the remaining three emit 15,560 and fail full
+coverage. No helper result, Timer ABI or codegen change is adopted. Separately,
+four Type3 controls combine the unadopted four-byte word/forwarding lead with
+real SDK middle-only, tail-only, three D3DXVECTOR3 or three D3DVECTOR locals.
+All retain 780 bytes /38 fields /four differences at +1B2,+1B7,+247,+249. These
+joint-context negatives do not promote the candidate or close production's 15.
+
+Inspection finds two private Enemy `GetState` calls at field offsets +36B/+BE5
+mapped to the native shared/folded getter 0x435EC0, and one private `SetState`
+call at +C06 mapped to the existing exact setter 0x403C20. They now name the
+existing PlayerLifecycleView::GetUpdateState and PlayerState4OpsView::SetUpdateState
+interfaces directly. The former Enemy declarations and numeric alias mappings
+are removed. The full inspector checks actual names, REL32 offsets/addends,
+undefined-symbol provenance, original E8 instructions/destinations and canonical
+setter ownership independently of later numeric relocation binding.
+
+The setter's real 12-byte body writes its incoming DWORD to receiver +0 and
+cleans four stack bytes. Its original SHA is
+`b29587fe7e842c797d06fed2d130573e0eb5e6703abb1086752a05ee88ad6fc6`.
+The getter's three bytes read that first DWORD, SHA
+`19d200194d49b34530548575f37a1bb4203ee60f18d42f0084e86b7a8c899faa`.
+Direct IDA independently agrees on both bodies; its setter `int` return type
+is provisional. The maintained native setter stays void, without a manufactured
+return contract. Getter origin remains unknown/review: several unrelated logical
+interfaces share its physical body. No getter implementation, exact unit, origin
+promotion or new authored credit follows from removing Enemy's private alias.
+
+One shared PlayerState4OpsView.hpp replaces the setter/state-effect/runtime's
+three inconsistent class declarations. It exposes only the known first state
+word and their existing four method declarations; it is not the complete Player
+or proof of original retail class spelling. The runtime formerly declared an
+empty method-only view, while the other two declared its first state word.
+Every use is an existing pointer projection, with no new allocated object or
+storage. The state getter already uses PlayerLifecycleView's shared declaration.
+Native caller values, thiscall transport, shared field geometry and all target
+addresses stay unchanged.
+
+Four sources are affected: EclManager, PlayerRuntime, PlayerSetUpdateState and
+PlayerState3EffectSetup. Six serial nice10 source/profile groups cold-check all
+102 accepted units /30,059 complete physical bytes. The final public
+check-enemy-player-state.py also cold-passes this same bounded closure, verifies
+live source/header/profile/provider hashes before/after and reuses one fresh
+object for identical source/profile units with distinct canonical cache paths.
+The first recovery comparison exposed those alternate cache filenames after
+compilation; it did not expose a source mismatch. Four confirmed fresh objects
+are reused while completing the remaining groups, rather than restarting them.
+
+Thirteen compiler-local names change in CompareOperands, Enemy post-update
+movement and Player before-state update. Each actual COFF same-section value
+plus owner target and addend reproduces the original encoded destination before
+updating its spelling; offsets, kinds, target values, profiles and unit bounds
+are unchanged. All 135 emitted main-carrier functions retain 49,099 raw extent
+bytes against the parent object. This emitted inventory is not authored/exact
+credit. Enemy stays 3,900/97/29 and RunEcl 15,564/598/30; no accepted function
+regresses. Pure tests reject the old aliases even with unchanged target numbers,
+wrong native owner, changed call/addend/section/target, incomplete physical tails,
+missing affected units, cross-profile object reuse and producer input races.
+Authored/source-present totals stay 1,035, with 1,000 exact and 37 unresolved origins. The four
+requested fronts, 95%, whole Windows product/runtime and later phases stay open.
+
+Bounded source/pairs, native callee observations, original label-coordinate
+proofs and complete affected reports are retained under
+`.analysis/gpt-61sol-20261021-{ecl-value-boundaries,type3-sdk-joint,enemy-player-state}/`.
+They are diagnostic research and local source/profile proofs, not new accepted
+Factory receipts. Unchanged source/profile proofs are reused outside this closure.

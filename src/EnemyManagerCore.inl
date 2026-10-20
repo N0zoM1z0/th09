@@ -1,3 +1,4 @@
+#include "PlayerState4OpsView.hpp"
 #include "BulletSpawnDescriptorCtorView.hpp"
 #include "ZunTimer.hpp"
 // Lexical member of EclManager.cpp; reuses Th09EclRunState::ManagerStateView.
@@ -179,8 +180,6 @@ struct EnemyCorePlayerView
     unsigned char unknown30380[0x303C8 - 0x30380];
     ZunTimer stateTimer303C8;
 
-    int GetState();
-    void SetState(int state);
     int CalcDamageToEnemy(
         Float3 *position,
         Float3 *hitbox,
@@ -617,7 +616,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             }
 
             if (((enemy->flags337C & ENEMY_CORE_PAUSE_WITH_PLAYER) != 0 &&
-                 manager->sideState320->player04->GetState() != 0) ||
+                 reinterpret_cast<PlayerLifecycleView *>(manager->sideState320->player04)->GetUpdateState() != 0) ||
                 (enemy->flags3380 & 0x10) != 0)
             {
                 enemy->bossTimer2E64--;
@@ -906,10 +905,10 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                         static_cast<unsigned int>(-1));
                 }
                 EnemyCorePlayerView *player = manager->sideState320->player04;
-                if (player->GetState() == 0)
+                if (reinterpret_cast<PlayerLifecycleView *>(player)->GetUpdateState() == 0)
                 {
                     player->stateTimer303C8 = 90;
-                    manager->sideState320->player04->SetState(3);
+                    reinterpret_cast<PlayerState4OpsView *>(manager->sideState320->player04)->SetUpdateState(3);
                 }
                 enemy->flags337C &= 0xE7FFFFFF;
                 break;

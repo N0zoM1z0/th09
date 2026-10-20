@@ -4,6 +4,47 @@
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 
+### 2026-10-21: Enemy native state interfaces and two countermodel families
+
+From pushed `3f13337`, Enemy's two state reads and one state write now name
+the existing native Player interfaces. One shared state-prefix declaration
+replaces three inconsistent local class definitions. The final public cold
+checker passes all **102 affected exact units /30,059 physical bytes** across
+four sources and six source/profile groups. All 135 emitted main-carrier raw
+functions remain neutral; 13 configured local labels retain independently
+verified original destinations. Enemy stays 3900/97/29, RunEcl15564/598/30;
+the folded getter remains unknown/review without new credit. CI passes
+**826 tests /28 skips**, with all standard validations green.
+
+Three packets `gpt-61sol-20261021-{ecl-value-boundaries,type3-sdk-joint,
+enemy-player-state}` retain six full ECL countermodels, four rejected Type3
+SDK joint candidates, original/live header inputs, native setter/call evidence,
+complete affected reports and original-address label proofs. The selected
+setter cold-reproduces all 12 exact bytes and the SDK joint candidate all
+780 raw bytes /38 actual COFF records, retaining its four differences and
+unadopted status. All temporary source/OBJ/PDB carriers self-clean.
+
+Once every compiler/replay/CI handle is terminal, a TH09-cwd-scoped `/proc`
+producer check passes and no session compiler cache remains. All three ZIP
+digests and 244 member hashes are verified. Each loose path is regular,
+ignored, untracked and rehashed immediately before removal; the native-state
+packet's `cleanup.json` records every path, size, SHA and disposition.
+
+| Actually removed/replaced | Files | Logical bytes |
+| --- | ---: | ---: |
+| ECL loose verified members | 121 | 2,438,642 |
+| Type3 loose verified members | 25 | 121,085 |
+| Native-state loose verified members | 98 | 933,996 |
+| Retained verified ZIPs | 3 | 591,058 |
+| **Net reduction** | | **2,902,665 (~2.77 MiB)** |
+
+The original target, toolchain/SDK/Wine/IDA state, current canonical/public
+objects, compact manifests/replayer/cold receipts/CI log and old unclassified
+research remain. No broad or age-based deletion occurs. Post-clean original
+identity, full Enemy/state-call diagnostic, source/profile pins, tracking,
+documentation, progress and whitespace checks pass; this is not new acceptance
+or whole-product/runtime closure.
+
 ### 2026-10-21: network packet read progress and self-cleaning probes
 
 From pushed `2a89e73`, real frame/input snapshots improve the complete network

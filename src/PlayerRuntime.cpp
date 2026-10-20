@@ -1,3 +1,4 @@
+#include "PlayerState4OpsView.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "FileSystem.hpp"
 #include "ZunMemory.hpp"
@@ -473,16 +474,7 @@ struct PlayerState4TimerCurrentView
     int GetCurrent();
 };
 
-struct PlayerState4OpsView
-{
-    void AddRespawnResource(float value);
-    void SetUpdateState(int state);
-    void SpawnTransitionA(
-        PlayerPositionView *position, float x, float y, int kind, int zero);
-    void SpawnTransitionB(
-        PlayerPositionView *position, float x, float y,
-        int subtype, int kind, int zero);
-};
+
 
 extern float g_PlayerState4MinX;
 extern float g_PlayerState4MinY;

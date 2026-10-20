@@ -30,6 +30,32 @@ CODE_SIZE = 3883
 TARGET_SHA256 = "a7f01c2ff0bda79d1fd17ac9170dc3560d4089457455d7928776df8556f1bc75"
 SYMBOL = '?OnUpdate@EnemyManagerView@@SIHPAU1@@Z'
 RUNECL_SYMBOL = '?RunEcl@EnemyEclManagerView@@QAEHPAUEnemyView@@@Z'
+PLAYER_STATE_CALLS = (
+    (0x36B, '?GetUpdateState@PlayerLifecycleView@@QAEHXZ', 0x00435EC0),
+    (0xBE5, '?GetUpdateState@PlayerLifecycleView@@QAEHXZ', 0x00435EC0),
+    (0xC06, '?SetUpdateState@PlayerState4OpsView@@QAEXH@Z', 0x00403C20),
+)
+
+
+def require_player_state_calls(fields, units, target):
+    """Bind the real interfaces independently of numeric alias resolution."""
+    expected = units['player-set-update-state']
+    if (expected['source'] != 'src/PlayerSetUpdateState.cpp'
+            or expected['symbol'] != PLAYER_STATE_CALLS[2][1]
+            or expected['target_address'] != 0x403C20 or expected['size'] != 12):
+        raise ValueError('native Player state setter owner changed')
+    observed = [row for row in fields if row['offset'] in {x[0] for x in PLAYER_STATE_CALLS}]
+    if len(observed) != 3:
+        raise ValueError('Enemy Player state call inventory changed')
+    for row, (offset, symbol, destination) in zip(observed, PLAYER_STATE_CALLS):
+        if (row['offset'] != offset or row['type'] != 'REL32'
+                or row['symbol'] != symbol or row['addend'] != 0
+                or row.get('symbol_section') != 0
+                or target[offset-1] != 0xE8
+                or BASE+offset+4+struct.unpack_from('<i', target, offset)[0] != destination):
+            raise ValueError('Enemy state call lost its native source/target identity')
+    return dict(calls=3, setter_unit='player-set-update-state', setter_bytes=12,
+                getter_address='0x00435EC0', getter_exact_credit='none; shared/folded origin unresolved')
 
 
 def load_compare():
@@ -63,7 +89,6 @@ unit_aliases={
  '?EnemyCoreRunLifeCallback@@YIHPAUEnemyCoreView@@@Z':'player-check-state2',
  '?EnemyCoreRunTimerCallback@@YIHPAUEnemyCoreView@@@Z':'player-check-state2',
  '?ExecuteScript@EnemyCoreAnmManagerView@@QAEHPAUEnemyCoreAnmVmView@@@Z':'anm-manager-execute-script',
- '?SetState@EnemyCorePlayerView@@QAEXH@Z':'player-set-update-state',
  '?AddScore@EnemyCoreSideStateView@@QAEXH@Z':'game-manager-side-add-score',
  '?EnemyCoreReleaseAttachedEffects@@YIXPAUEnemyCoreView@@@Z':'enemy-ecl-release-attached-effects',
  '?PlaySoundPositionedByIdx@EnemyCoreSoundPlayerView@@QAEXHM@Z':'soundplayer-play-positioned-sound-by-idx',
@@ -75,7 +100,6 @@ symbol_aliases={
  '?g_EnemyCoreFront@@3PAUEnemyCoreFrontView@@A':'?g_PlayerSharedRuntime@@3PAUPlayerSharedRuntimeView@@A',
  '?g_EnemyCoreSchedule@@3PAEA':'?g_EnemySubroutineSchedule@@3PAEA',
  '?g_EnemyCoreDifficultyValue@@3HA':'?g_PlayerRewardBaseValue@@3HA',
- '?GetState@EnemyCorePlayerView@@QAEHXZ':'?GetUpdateState@PlayerLifecycleView@@QAEHXZ',
  '?g_EnemyCoreGameManager@@3UEnemyCoreGameManagerPlayfieldView@@A':'?g_GameManager@@3UGameManagerSetupLayout@@A',
  '?g_EnemyCoreAnmManager@@3PAUEnemyCoreAnmManagerView@@A':'?g_AnmManager@@3PAVAnmManager@@A',
  '?g_EnemyCoreSoundPlayer@@3UEnemyCoreSoundPlayerView@@A':'?g_SoundPlayer@@3VSoundPlayer@@A',
@@ -168,6 +192,7 @@ def diagnose(path, *, explain=False):
     callee_raw, callee_fields = compare.object_function(
         path, RUNECL_SYMBOL, include_symbol_locations=True)
     native_run_owner = require_runecl_definition(relocations, callee_raw, callee_fields)
+    native_player_state = require_player_state_calls(relocations, units, target)
     if len(source) != OWNER_SIZE:
         raise ValueError('unreviewed candidate physical extent: ' + str(len(source)))
     if len(relocations) != 97:
@@ -225,6 +250,7 @@ def diagnose(path, *, explain=False):
         'exactness_credit': 'none',
         'object': str(path),
         'native_run_owner': native_run_owner,
+        'native_player_state': native_player_state,
         'target_sha256': hashlib.sha256(target).hexdigest(),
         'target_bytes': OWNER_SIZE,
         'candidate_bytes': len(source),
