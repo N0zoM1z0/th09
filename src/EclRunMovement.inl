@@ -19,6 +19,7 @@
 #ifndef TH09_ECL_RUN_MOVEMENT_DECLARATIONS
 #define TH09_ECL_RUN_MOVEMENT_DECLARATIONS
 
+#include "EclEnemyPrimaryFlags.hpp"
 #include "AnmManager.hpp"
 #include "EclRunControl.inl"
 
@@ -46,20 +47,7 @@ struct EnemyFloat2
     float y;
 };
 
-struct EnemyPrimaryFlagBits
-{
-    unsigned int unknown00 : 2;
-    unsigned int collision02 : 1;
-    unsigned int damageable03 : 1;
-    unsigned int noSprite04 : 1;
-    unsigned int unknown05 : 1;
-    unsigned int acceptsDamage06 : 1;
-    unsigned int unknown07 : 9;
-    unsigned int clampPosition16 : 1;
-    unsigned int unknown17 : 8;
-    unsigned int allowOffscreen25 : 1;
-    unsigned int unknown26 : 6;
-};
+typedef Th09EclEnemyPrimaryFlagBits EnemyPrimaryFlagBits;
 
 struct EnemySecondaryFlagBits
 {

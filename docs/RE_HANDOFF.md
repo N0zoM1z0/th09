@@ -18,67 +18,59 @@ The **95%** milestone still needs **34,415** complete exact authored bytes.
 The earlier5d7b2d2 callback checkpoint added323 authored/exact bytes. Type29 now
 has maintained nonexact C++; whole inventory/product/runtime and later gates stay open.
 
-- **Type29 source presence, zero new exact credit:** EffectDrawCallbackType29
-  now lives in src/EffectDrawType29.inl, included once by EclManager.cpp after
-  the shared radial-fan type. Its natural unrolled main/six-satellite C++ uses
-  the unchanged existing polar primitive and real renderer APIs. Source now
-  covers all1033 confirmed authored functions; complete executable inventory
-  remains unproven. The original2220-byte owner stays NON-EXACT.
-- **Bounded fidelity countercheck:** native original helpers execute inside an
-  isolated Unicorn1.0.2 fixture, with the renderer intercepted to capture draws.
-  Twenty-six original/candidate cases agree on all recorded call arguments,
-  full fixture/vertex memory, return and nonvolatile registers. They execute
-  all672 original reachable instructions and666 candidate instructions. The
-  real initialized32-segment case issues seven draws/135 vertices. This is
-  bounded compiler/runtime evidence, not complete Windows or semantic closure.
-- **Whole codegen frontier:** candidate2205 versus2220 bytes,129 independently
-  bound referents,72 ordered calls,41 physical blocks,1170 overlap differences
-  and15 missing bytes; raw SHA
-  dd4b7e5d8d70d4a1eb8dba7a7bc32fc3d95bd3b89126abdfd186dfad4844c8e4.
-  The new complete-owner guard protects1035 already equal positions and rejects
-  missing-tail, call-identity, boundary/source and counterfeit-equality reports.
-  Six local-center receiver reloads, saved/working homes and branch placement
-  remain open. A flat mnemonic comparison disproves reducing the entire
-  remaining problem to those six reloads alone. No new assembly is introduced.
-- **Focused replay route:** check-boss-frontiers.py --owner effect29 cold-builds
-  the two affected ECL profiles and guards Type29, Type34, Type26, RunEcl,
-  Enemy, Type19 and biased movement. It protects the77 existing shared exact
-  functions and skips the unchanged detached Type34 update object. Two actual
-  main-profile private labels are refreshed only after complete original-byte
-  comparisons and same-owner COFF coordinates reproduce their fixed target VAs.
-- **Enemy source countermodels:**14 private compile attempts include12 valid
-  complete3900/97/29 owners and two source-construction failures, both followed
-  by corrected passing models. Genuine Abs visibility, existing native position
-  methods, actual member views, primary-damage borrowing and scalar-workspace
-  lifetimes recover no residual byte; none changes maintained Enemy source.
-- **Classification remains conservative:** fsincos412780 retains unknown/review
-  after the prior TH08-only library exclusion was withdrawn. Authored1033 /
-  excluded1176 / origin-unresolved36 remain unchanged. Exact997/242841 bytes,
-  denominator291848 and34415-byte distance to95% stay unchanged.
+- **Shared original Enemy flags:** movement/state now use one maintained
+  src/EclEnemyPrimaryFlags.hpp DWORD layout for Enemy+0x337C. Existing reviewed
+  positions and unknown ranges are retained; opcode124 sets/clears boss01
+  through that common view. Fresh local IDA confirms original40AB96 OR2 and
+  40ABEC AND~2. This does not establish a unique original class or full layout.
+- **Complete unchanged output:** all136 emitted main-profile functions retain
+  their49137 raw bytes and2043 actual COFF field coordinates/addends; all64
+  nondebug noncode sections/348 bytes remain identical. Compiler-private names
+  change in220 rows. Only20 canonical rows need spelling updates, each checked
+  against actual same-owner COFF coordinates and its unchanged original VA.
+- **Focused exact replay:** four affected carriers pass80 distinct complete
+  canonical units/24709 physical bytes/1105 fields. Other917 hash-bound exact
+  proofs are reused. Shared Type29/Type34/Type26/RunEcl/Enemy/Type19/biased
+  guards pass from the same cold object. RunEcl remains15564/598/30 and146/148
+  opcode shapes; Type29 remains2205/2220 with1170 overlap differences+15 missing.
+  No new function or byte receives exact credit.
+- **Bounded new exclusions:** six shared-bitfield trials show that unifying
+  the type alone or adding native boss writes is fully neutral. Native timeout
+  writes still regress whole-owner layout (1938..2019 ordinary differences,
+  plus shifted fields/table). Five real Timer visibility trials keep30
+  residuals when call boundaries remain; ordinary class-body inlining changes
+  direct-call identity and is rejected. The real void ABI is retained.
+- **Type29 local lifetime evidence:** four shared-start/angle/step models stay
+ 2205/129. The1099-difference shared-start model recovers72 physical positions
+  but regresses one formerly equal position; other models also regress equal
+  bytes. None restores the six receiver reloads or closes the whole owner,
+  and none is adopted. Maintained source and its full-byte guard are unchanged.
+- **First-include reproducibility:** probe-ecl-variant.py now stages/hashes the
+  shared header as its eighth input and can replace it via --primary-flags.
+  Both declaration consumers must include the same staged header. Twelve
+  focused tests pass, including shared-header replacement and missing includes.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
-- **Reproduction/evidence:** retained packets
-  .analysis/gpt-61sol-20261020-effect29-maintained and
-  .analysis/gpt-61sol-20261020-enemy-tracking contain source/target-bound full
-  byte/field comparisons, original instruction coverage, bounded native-helper
-  emulation, explicit failed/corrected cases and source bindings. Build with
-  build-match-unit.py --unit effect-initialize-type29, then run
-  inspect-effect-type29.py build/matching/EclManager.obj --json. The retained
-  emulate_draw.py --matrix consumes that current object without target patches.
-- **Verified finish:** focused77-function/24374-byte/1091-field replay and all
-  shared boss guards pass; CI777 tests/28 skips, tracking/docs/progress and
-  whitespace checks pass. A frozen-parent Enemy single-case replay reproduces
-  the full3900 raw bytes and all97 COFF rows. All727 engineering inputs are
-  bound:718 retained parent hashes, seven changes and two additions;482 old
-  source/header paths remain raw-identical, EclManager adds only the new include.
-  After own producers terminate and the repository-cwd guard passes, cleanup
-  removes431 reproducible files/17776456 bytes. Build/ and own OBJ/PDB are
-  absent. All14 unique Enemy cores/12 valid pairs, both failed construction
-  records, maintained Type29 C++, emulator/field/byte evidence and frozen-parent
-  recipes remain. Source commit and independently verified push are recorded
-  separately; original EXE, IDA, tools and unrelated work remain untouched.
+- **Evidence/replay:** .analysis/gpt-61sol-20261020-runecl-shared-flags retains
+  full baseline/current inventories, original/COFF reports,80 canonical replays,
+  actual local-name coordinates and source bindings. Its replay_one.py reads
+ 15 frozen-parent controls across flags, Timer and Type29, independently of
+  newer public headers. The related packets runecl-timer-class and
+  effect29-shared-locals retain their complete failed/negative comparisons.
+  Previous Type2926-case native-helper fidelity evidence remains in
+  .analysis/gpt-61sol-20261020-effect29-maintained; full product/runtime stays open.
+- **Verified finish:** CI778 tests/28 skips, tracking/docs/progress and whitespace
+  pass. All728 engineering inputs bind722 retained parent hashes, five changes
+  and one addition;482 prior game source paths stay raw-identical. Scoped cleanup
+  removes930 reproducible/duplicate files/19296821 bytes, plus one duplicate
+  failure report. All79 unique sources remain. After cleanup, a fresh two-root
+  frozen timeout replay reproduces every15564 raw byte and all598 actual COFF
+  rows; flattening those include roots had changed two private names only and
+  is recorded as a failed context control. Build/ and temporary outputs are
+  absent. Source commit and independently verified remote push are recorded
+  separately in the packet. Exact997/242841 bytes and95% remain unchanged/open.
 
 
 ## Next worker: first three work packages

@@ -23,7 +23,8 @@ SRC = ROOT / 'src'
 MANIFEST = ROOT / 'config/match-units.toml'
 FRAGMENTS = ('EclManager.cpp', 'EclRunLate.inl', 'EclRunState.inl',
              'EclRunBullet.inl', 'EclRunRemote.inl',
-             'EclRunMovement.inl', 'EclRunControl.inl')
+             'EclRunMovement.inl', 'EclRunControl.inl',
+             'EclEnemyPrimaryFlags.hpp')
 
 
 def attested_include_chain(data: dict[str, bytes]) -> None:
@@ -50,19 +51,24 @@ def attested_include_chain(data: dict[str, bytes]) -> None:
             ('EclRunState.inl', 'EclRunBullet.inl'),
             ('EclRunBullet.inl', 'EclRunRemote.inl'),
             ('EclRunRemote.inl', 'EclRunMovement.inl'),
-            ('EclRunMovement.inl', 'EclRunControl.inl')):
+            ('EclRunMovement.inl', 'EclRunControl.inl'),
+            ('EclRunMovement.inl', 'EclEnemyPrimaryFlags.hpp'),
+            ('EclRunState.inl', 'EclEnemyPrimaryFlags.hpp')):
         if data[parent].decode().count(f'#include "{child}"') < 1:
             raise ValueError(f'RunEcl first declaration include drifted: {parent} -> {child}')
 
 
 def stage_variants(destination: Path, *, state: Path | None = None,
-                   control: Path | None = None) -> dict[str, str]:
+                   control: Path | None = None,
+                   primary_flags: Path | None = None) -> dict[str, str]:
     """Copy the entire first-include path, even when only a helper body changes."""
     sources = {name: SRC / name for name in FRAGMENTS}
     if state is not None:
         sources['EclRunState.inl'] = state
     if control is not None:
         sources['EclRunControl.inl'] = control
+    if primary_flags is not None:
+        sources['EclEnemyPrimaryFlags.hpp'] = primary_flags
     if any(path.is_symlink() for path in sources.values()):
         raise ValueError('refusing symlinked ECL variant source input')
     data = {name: path.read_bytes() for name, path in sources.items()}
@@ -180,6 +186,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--state', type=Path, help='complete variant EclRunState.inl')
     parser.add_argument('--control', type=Path, help='complete variant EclRunControl.inl')
+    parser.add_argument('--primary-flags', type=Path,
+                        help='shared Enemy+0x337C bitfield header variant')
     parser.add_argument('--output', type=Path, required=True,
                         help='an ignored .analysis/ subdirectory for the staged cold compiler TU')
     parser.add_argument('--stage-only', action='store_true',
@@ -193,7 +201,8 @@ def main() -> int:
         if args.output.is_symlink():
             raise ValueError('probe output must not be a symlink')
         clear_replay_outputs(out)
-        manifest = stage_variants(out, state=args.state, control=args.control)
+        manifest = stage_variants(out, state=args.state, control=args.control,
+                                  primary_flags=args.primary_flags)
         report: dict[str, object] = {
             'diagnostic_only': True, 'exactness_credit': 'none',
             'staged_sources_sha256': manifest,

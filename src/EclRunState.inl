@@ -23,6 +23,7 @@
 #include "SoundPlayer.hpp"
 #include "ZunMemory.hpp"
 
+#include "EclEnemyPrimaryFlags.hpp"
 #include <stddef.h>
 #include <string.h>
 
@@ -46,20 +47,7 @@ enum TrailFlag
     TRAIL_BUILD_GEOMETRY = 0x08
 };
 
-struct EnemyStateFlagBits
-{
-    unsigned int unknown00 : 1;
-    unsigned int boss01 : 1;
-    unsigned int unknown02_06 : 5;
-    unsigned int specialInteraction07 : 1;
-    unsigned int unknown08_16 : 9;
-    unsigned int deathMode17 : 3;
-    unsigned int unknown20_21 : 2;
-    unsigned int anmRotation22 : 1;
-    unsigned int callStackDisabled23 : 1;
-    unsigned int timeoutSpell24 : 1;
-    unsigned int unknown25_31 : 7;
-};
+typedef Th09EclEnemyPrimaryFlagBits EnemyStateFlagBits;
 typedef char Th09EclStateFlagBitsSizeIs04[
     (sizeof(EnemyStateFlagBits) == 0x04) ? 1 : -1];
 
@@ -343,8 +331,7 @@ __forceinline void AssignTimeoutSpellBit(unsigned int &flags,
         {
             Th09EclRunState::BossSlots(enemy)[
                 Th09EclRunControl::ReadInt(enemy, instruction, 0)] = enemy;
-            Th09EclRunState::View(enemy)->primaryFlags337C |=
-                Th09EclRunState::ENEMY_STATE_BOSS;
+            Th09EclRunState::View(enemy)->primaryFlagBits337C.boss01 = 1;
             Th09EclRunState::View(enemy)->bossSlot336B =
                 static_cast<unsigned char>(
                     Th09EclRunControl::ReadInt(enemy, instruction, 0));
@@ -360,8 +347,7 @@ __forceinline void AssignTimeoutSpellBit(unsigned int &flags,
         {
             Th09EclRunState::BossSlots(enemy)[
                 Th09EclRunState::View(enemy)->bossSlot336B] = 0;
-            Th09EclRunState::View(enemy)->primaryFlags337C &=
-                ~Th09EclRunState::ENEMY_STATE_BOSS;
+            Th09EclRunState::View(enemy)->primaryFlagBits337C.boss01 = 0;
             reinterpret_cast<AsciiBossMarkerVmView *>(&::g_AsciiManager)->SetBossMarkerInterrupt(
                 Th09EclRunState::View(enemy)->bossSlot336B,
                 2);

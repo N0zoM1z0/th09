@@ -20,13 +20,31 @@ class EclVariantFirstIncludeTests(unittest.TestCase):
             dst = Path(folder)
             manifest = variant.stage_variants(dst)
             self.assertEqual(set(manifest), set(variant.FRAGMENTS))
-            self.assertEqual(len(manifest), 7)
+            self.assertEqual(len(manifest), 8)
             for name in variant.FRAGMENTS:
                 original = (ROOT/'src'/name).read_bytes()
                 self.assertEqual((dst/name).read_bytes(), original)
                 self.assertEqual(manifest[name], hashlib.sha256(original).hexdigest())
             self.assertEqual((dst/'EclRunLate.inl').read_text().count('#include "EclRunState.inl"'), 1)
             self.assertIn('#include "EclRunControl.inl"', (dst/'EclRunMovement.inl').read_text())
+
+    def test_shared_flags_variant_reaches_both_first_declarations(self):
+        original = (ROOT/'src/EclEnemyPrimaryFlags.hpp').read_bytes()
+        probe = original.replace(b'unsigned int boss01 : 1;',
+                                 b'unsigned int reviewedBoss01 : 1;', 1)
+        self.assertNotEqual(probe, original)
+        with tempfile.TemporaryDirectory() as folder:
+            tmp = Path(folder)
+            header = tmp/'flags-variant.hpp'
+            header.write_bytes(probe)
+            manifest = variant.stage_variants(tmp/'carrier', primary_flags=header)
+            self.assertEqual((tmp/'carrier/EclEnemyPrimaryFlags.hpp').read_bytes(), probe)
+            self.assertEqual(manifest['EclEnemyPrimaryFlags.hpp'],
+                             hashlib.sha256(probe).hexdigest())
+            for consumer in ('EclRunMovement.inl', 'EclRunState.inl'):
+                self.assertIn('#include "EclEnemyPrimaryFlags.hpp"',
+                              (tmp/'carrier'/consumer).read_text())
+            self.assertEqual((ROOT/'src/EclEnemyPrimaryFlags.hpp').read_bytes(), original)
 
     def test_changed_state_declaration_not_just_changed_late_body(self):
         before = (ROOT/'src/EclRunState.inl').read_text()
@@ -70,7 +88,9 @@ class EclVariantFirstIncludeTests(unittest.TestCase):
                 ('EclRunState.inl', '#include "EclRunBullet.inl"'),
                 ('EclRunBullet.inl', '#include "EclRunRemote.inl"'),
                 ('EclRunRemote.inl', '#include "EclRunMovement.inl"'),
-                ('EclRunMovement.inl', '#include "EclRunControl.inl"')):
+                ('EclRunMovement.inl', '#include "EclRunControl.inl"'),
+                ('EclRunMovement.inl', '#include "EclEnemyPrimaryFlags.hpp"'),
+                ('EclRunState.inl', '#include "EclEnemyPrimaryFlags.hpp"')):
             with self.subTest(parent=parent), self.assertRaisesRegex(ValueError, 'include chain|first declaration include'):
                 candidate = dict(source)
                 candidate[parent] = candidate[parent].replace(old.encode(), b'// replaced')

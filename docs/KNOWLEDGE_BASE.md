@@ -12376,3 +12376,72 @@ attest historical producer execution.
   Build/ and own OBJ/PDB are absent. The original EXE, IDA, tools, older packets
   and foreign games remain untouched. Immutable source binding and independent
   remote verification are recorded separately.
+
+### 2026-10-20 — Shared Enemy primary flags; complete neutral source correction
+
+- Clean recovery at89576af verifies the original JP v1.50a disk target, direct
+  local IDA metadata exactly{}, entry and five distributed mapped-byte samples.
+  Fresh RunEcl disassembly confirms boss writes at40AB96 (OR DWORD+337C,2)
+  and40ABEC (AND DWORD+337C,FFFFFFFD). Movement and state already observe
+  the same Enemy DWORD+337C through two separate partial bitfield classes.
+- EclEnemyPrimaryFlags.hpp now unifies those reviewed fields, preserving unknown
+  bit ranges and four-byte storage. The two existing family names become aliases.
+  Opcode124's two boss writes use boss01 directly. This is bounded TH09-local
+  storage/codegen evidence, not unique original C++ class or full Enemy ownership.
+- Public cold VC7.1 output is fully neutral:136 main-profile function bodies,
+ 49137 raw bytes and2043 actual COFF fields retain bytes, offsets, kinds,
+  addends and owner coordinates. All64 nondebug noncode sections/348 bytes agree.
+ 220 compiler-private names change;20 canonical manifest rows are refreshed
+  only after actual local coordinates reproduce each unchanged original VA.
+  No target, profile, call ABI, static initializer or library identity changes.
+- Four affected compiler carriers (main73, Ob0 four, EclHelpers two,
+  InitializeSubroutine one) pass80 distinct complete canonical comparisons:
+ 24709 physical bytes/1105 fields. The other917 source-bound proofs are reused.
+  Shared whole-owner guards pass for Type29/34/26, RunEcl, Enemy, Type19 and
+  biased movement using the current main object. RunEcl stays15564 physical
+  bytes/598 fields/30 ordinary differences, zero field/table differences and
+ 146/148 opcode shapes. Opcode4/155 bounded transition audits also pass.
+- Six private common-type controls distinguish a neutral shared declaration
+  and native boss writes from timeout writes. Native timeout forms yield2019
+  ordinary/239 field/26 table differences; explicit volatile-byte binding gives
+ 1938/202/26. Both retain15564 bytes/598 fields. Sharing the type therefore does
+  not explain the current timeout scheduling mismatch under this real context.
+- Five actual Timer-class visibility controls use the maintained void assignment
+  wrapper and genuine SetCurrent body. Frozen closure baseline, out-of-line
+  noinline wrapper, class noinline wrapper and class noinline setter retain
+ 15564/598/30. The emitted real wrapper is9 bytes; SetCurrent is25. Ordinary
+  class-body inline visibility changes the direct callee identity and fails the
+  independent complete audit. No nonvoid Timer hypothesis is used or adopted.
+- Four additional Type29 shared scalar/start-pointer lifetime controls retain
+ 2205 bytes/129 ordered referents/72 calls. Shared start yields1099 overlap
+  differences but regresses one equal position while recovering72; shared angle,
+  shared scalars and shared all give1174/1157/1177 differences and regress4/7/7
+  positions. Every model still misses15 bytes and all six center receiver reloads.
+  None is promoted, and the maintained Type29 guard remains unchanged. Diagnostic
+  sequence alignment is not a CFG or exactness proof.
+- The first-include probe now stages/hashes all eight actual inputs, including
+  the shared header, with an explicit --primary-flags replacement and both
+  consumers' include checks. Twelve focused tests pass. Fifteen frozen-parent
+  source cases bind79 unique source copies;527 duplicate source files can be
+  removed without losing the independently reproducible raw/COFF comparisons.
+  The replay_one.py recipe consumes only saved, individually hashed project
+  includes rather than current public headers. Full evidence is retained in
+  .analysis/gpt-61sol-20261020-runecl-shared-flags, runecl-timer-class and
+  effect29-shared-locals. No Factory MCP, new assembly or target patch is used.
+- This checkpoint adds zero exact bytes/functions:997 exact,1033 authored and
+  source-present,242841/291848 bytes (83.2080%);95% still needs34415 complete
+  exact authored bytes. Full inventory, Windows product/runtime, semantic and
+  port gates remain open. Final CI passes778 tests/28 skips; target-required
+  tracking, docs, generated progress and whitespace pass. All728 engineering
+  inputs bind722 unchanged parent hashes, five changes and the shared header;
+ 482 prior game source paths remain byte-identical. Scoped cleanup removes930
+  reproducible/duplicate files/19296821 bytes while retaining79 unique sources.
+- Post-cleanup reproduction exposes a concrete include-context distinction:
+  flattening the original flags probe's private eight-file carrier and separate
+  src fallback root preserves every15564 raw byte but renumbers two actual
+  switch-table labels. Reinstating those two physical include roots reproduces
+  all15564 raw bytes AND every598 actual COFF row, without spelling exemptions
+  or fitted destinations. The failed flat-context report is retained; its one
+  duplicate JSON is removed by byte/hash equality. Temporary compiler outputs
+  self-clean after producer termination; build/ remains absent. Source-commit
+  binding and independent remote-push proof are recorded separately.
