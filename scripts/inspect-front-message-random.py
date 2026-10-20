@@ -47,7 +47,7 @@ CALL_ORDER = (0x004048B0, 0x004048B0, 0x00403E00, 0x00403E00,
 # Actual VC7.1 COFF symbols and original referents; the GameManager offset
 # is a verified +0x58 member of the already-mapped global, not a new global.
 REFERENTS = {
-    '?g_GameManager@@3UGameManagerModeView@@A': ('DIR32', 0x004A7D90, (0x58,)),
+    '?g_GameManager@@3UAsciiGameManagerView@@A': ('DIR32', 0x004A7D90, (0x58,)),
     '?g_Rng@@3URngRuntimeView@@A': ('DIR32', 0x004ACE0C, (0,)),
     '?GetRandomU16InRange@RngRuntimeView@@QAEGG@Z': ('REL32', 0x004048B0, (0,)),
     '?g_FrontMessageAnm@@3PAVAnmLoaded@@A': ('DIR32', 0x004B36CC, (0,)),

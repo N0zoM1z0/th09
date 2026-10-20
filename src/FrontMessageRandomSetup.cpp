@@ -1,6 +1,6 @@
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
-#include "GameManagerMode.hpp"
+#include "AsciiGameManagerView.hpp"
 #include "RngRuntimeLeaves.hpp"
 
 #include <stddef.h>
@@ -24,6 +24,11 @@ struct FrontMessageRandomSideView
     int shotType20;
     unsigned char unknown24[0x38 - 0x24];
 };
+
+typedef char FrontMessageRandomSideStrideIs38[
+    (sizeof(FrontMessageRandomSideView) == sizeof(AsciiGameManagerSideView)) ? 1 : -1];
+typedef char FrontMessageRandomShotTypeAt20[
+    (offsetof(FrontMessageRandomSideView, shotType20) == 0x20) ? 1 : -1];
 
 struct FrontMessageRandomGameManagerView
 {

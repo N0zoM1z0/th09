@@ -67,6 +67,17 @@ class FrontRandomOriginalTests(unittest.TestCase):
         self.assertEqual(bound_new[1][2], bound[1][2])
         self.assertNotEqual(linked_new, linked)
 
+    def test_shared_game_manager_rejects_legacy_cpp_owner_at_the_same_address(self):
+        rows = self.matching_source_rows()
+        self.assertEqual(rows[0]['symbol'], '?g_GameManager@@3UAsciiGameManagerView@@A')
+        self.assertEqual(rows[0]['addend'], 0x58)
+        self.assertEqual(front.REFERENTS[rows[0]['symbol']],
+                         ('DIR32', 0x004A7D90, (0x58,)))
+        legacy = [dict(row) for row in rows]
+        legacy[0]['symbol'] = '?g_GameManager@@3UGameManagerModeView@@A'
+        with self.assertRaisesRegex(ValueError, 'unreviewed Front random COFF symbol'):
+            front.bind_candidate(bytes(681), legacy)
+
     def test_unknown_symbol_wrong_type_addend_and_field_reorder_rejected(self):
         source = self.matching_source_rows()
         broken = [source[:14], source + [source[-1]],

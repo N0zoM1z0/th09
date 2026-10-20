@@ -15,54 +15,51 @@ Current state: **1,035 authored, 1,035 source-present, 999 canonical exact**;
 **36 source-present nonexact; no confirmed authored owner lacks maintained source**.
 **242,876/291,883 reviewed-authored bytes = 83.2101%**.
 The **95%** milestone still needs **34,413** complete exact authored bytes.
-This checkpoint records21 closed compiler counterchecks and the fresh
-production baseline. No gameplay/header/API/profile or exactness state changes.
+This checkpoint fixes Front's global C++ identity and records bounded loop
+and queue-store counterchecks. No new exact owner or byte is credited.
 Native product/runtime, complete inventory and later gates remain open.
 
-- **Real Timer contracts:** three assignment-formal alternatives(long,unsigned
-  int,unsigned long) and three real throw() declaration placements preserve the
-  complete9-byte assignment wrapper plus25-byte int setter. Each full RunEcl
-  caller remains raw-identical15564/598/30 ordinary differences,zero field/table
-  differences. Exact callee bytes do not uniquely determine those original C++
-  formals or exception declarations; no non-void return is manufactured.
-- **Eight-bit input fields:** six whole63-input carriers use a full-byte-domain
-  unsigned-int bitfield view at instruction+C. Three fail the code/alignment
-  split,two emit15560 and fail extent. The final15564-byte form gives70 ordinary
-  differences,field=1/table=1,and actually loads a DWORD at+C instead of the
-  original BYTE. Equivalent low-bit arithmetic cannot accept that read footprint.
-- **Local inline forms:** void and used-result byte-argument helpers under
-  cdecl/stdcall(four cases) retain every raw main byte. The two used-result
-  word-argument forms emit15560 and are rejected. No utility address, artificial
-  return value, external clobber promise or original source ownership is invented.
-- **Small caller/callee control:** actual GetAnm implementations returning
-  void*,unsigned char* or resident-prefix pointers each reproduce20 original
-  bytes/no fields. Complete Effect AddedCallback remains raw-identical51/4/eight
-  differences for all three. Original C++ pointee and object extent are not
-  established by the20-byte getter or120-byte slot stride; current API stays.
-- **Fresh production proof:** current maintained ECL,Timer and ANM background
-  objects cold-build under their pinned profiles. Full RunEcl repeats15564/598/30,
-  every raw byte/actual field matches its source-bound baseline,and the3072-case
-  opcode155 flag check passes. Three distinct existing exact leaves reproduce
- 54 bytes/one field. The other996 exact proofs reuse unchanged source/profile
-  inputs. No repository-wide or77-owner replay is repeated for unchanged code.
-- **Reproducible evidence:** .analysis/gpt-61sol-20261020-runecl-assignment-formal
-  routes21 frozen carriers sharing97 unique inputs, complete actual COFF/raw
-  reports, true callee proofs and decoded input-width observations. Its replay.py
-  timer/both-throw rebuilds one closed64-input caller/callee pair, checks all34
-  actual callee bytes before the full15564/598/30 diagnostic,and self-cleans.
-  Adjacent runecl-byte-field,runecl-timeout-inline-contract and
-  effect-getter-pointer-view packets route through that same frozen manifest.
-- **Resource cleanup:** after scoped terminal-producer checks,1269 files/
- 22313194 bytes are removed, including1182 duplicate source copies and own OBJ/PDB.
-  Full3503300-byte reports compress losslessly to301646 bytes. The frozen pair
-  replay passes after cleanup. After terminal CI, another359 bytecode-cache
-  files/6083218 bytes are removed; build/ and own binaries are absent.
-- **Final validation:** CI787 tests/28 skips, target-required tracking, docs,
-  generated progress and whitespace pass.727/728 engineering inputs retain
-  parent hashes; all485 game source files are unchanged. Only four ledger
-  evidence notes and the two documentation files change; signatures, extents,
-  origins, manifests, profiles and exactness credit stay unchanged. Source
-  commit and independent remote push verification are bound separately.
+- **Front native global:** FrontMessageRandomSetup.cpp now includes the shared
+  AsciiGameManagerView declaration. Its main +0x11 DIR32 still names original
+  root0x004A7D90 plus actual0x58 addend; the six-byte uncalled accessor also uses
+  that root. Two independent private carriers and the maintained-path build
+  preserve both emitted raw functions/687 bytes and both nondebug noncode
+  sections. Exactly two COFF rows change only the global's C++ identity. The
+  inspector rejects the old mode-view symbol even at the same effective VA.
+- **Front loop counterchecks:** 35 cases include the cold baseline, natural
+  for/break and do loops, weight-field cursors, shared miss exits, actual scalar
+  lifetimes, fixed groups and real RNG-body visibility. A natural for loop can
+  produce the observed five-way expansion; that does not identify retail C++.
+  A693-byte/205-instruction/41-block carrier has351 differences but regresses25
+  baseline-equal bytes; primary reuse gives310 differences with42 blocks.
+  Neither is adopted. Maintained state stays681/693 bytes,15 fields,six calls,
+  41 versus40 blocks,569 overlap differences plus12 missing bytes.
+- **Real callee controls:** all eight range-only/full-RNG before/after contexts
+  retain their respective main bytes. Every actual range callee independently
+  reproduces41 original bytes and its one NextU16 field. These repeated callee
+  proofs add no exact credit and establish no unique original TU partition.
+- **Queue leaf:** baseline plus six qualified stores to actual last-received
+  members preserve every213-byte main byte and all35 residual positions. Direct
+  IDA's stale char-pointer prototype and211-byte comment are synchronized/read
+  back to the maintained void source and current213/35 frontier. Original C++
+  return intent remains unknown; EAX cursor residue alone cannot establish it.
+- **Focused validation:** the maintained Front original-bound gate passes.
+  No canonical exact unit uses the changed source; all999 existing proofs
+  retain their unchanged source/profile bindings. No unrelated sibling cohort
+  is recompiled. Original disk/direct IDA/mapped-byte entry checks pass.
+- **Evidence and resources:** .analysis/gpt-61sol-20261020-front-loop-break routes
+  44 frozen cases through55 unique inputs, whole raw/actual-COFF captures,
+  genuine callee proofs and source-bound diagnostics. Its replay.py defaults
+  to front/native-owner-1 and self-cleans; the adjacent queue-observed-stores
+  packet retains the reviewed IDA readback. Only own reproducible outputs and
+  duplicate source copies are removed after scoped producer checks.
+- **Final checks and cleanup:** CI788 tests/28 skips, target-required tracking,
+  docs, generated progress and whitespace pass.724/728 engineering inputs
+  retain parent hashes;484/485 game source files are unchanged. Only the
+  Front source,its inspector/test and two ledger notes change. Scoped cleanup
+  removes417 files/3813571 bytes, then terminal-CI cleanup removes
+ 359 cache files/6084367 bytes. Build/ and own OBJ/PDB are absent.
+  Source commit and independent remote push verification are bound separately.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,

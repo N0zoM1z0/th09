@@ -12947,3 +12947,74 @@ attest historical producer execution.
   and exactness credit do not. After terminal CI,359 bytecode-cache files/
  6083218 bytes are removed; build/ and own OBJ/PDB are absent. Source commit
   and independent remote push verification are bound separately in the packet.
+
+
+### 2026-10-20 — Front loop lowering and shared native global; queue store controls
+
+- Recovered clean72170bb and verified original Japanese v1.50a disk target,
+  direct local IDA metadata, entry and distributed mapped bytes. The maintained
+  Front weighted picker is still681/693 bytes,201/206 instructions,15 original-
+  bound fields,six ordered calls,41/40 direct blocks,569 overlap differences
+  plus12 missing bytes. No historical near-match count supplies exact credit.
+- Thirty-five full Front controls cover one baseline and34 alternatives:
+  six natural loop forms,eight shared-default/weight-cursor/real scalar-lifetime
+  forms,four word/byte cursor models,four fixed-group forms,four pointer-owner
+  lifetimes and eight actual range-only/full-RNG before/after contexts. Natural
+  for/break loops can generate a five-way expansion; do-loop forms instead
+  emit546/547 bytes and fail the full-owner gate. This gives compiler evidence
+  against inferring manual source unrolling solely from the original expansion.
+- One694-byte form has206 instructions but41 blocks. A full693-byte form gives
+  205 instructions/41 blocks/351 differences,while losing25 baseline-equal
+  positions. Reusing the primary pointer can give310 differences but42 blocks.
+  Neither establishes the original graph or preserves the maintained matching
+  positions,so no loop is adopted. Pure word tests and byte-based weight cursors
+  reproduce the same respective main bytes; original table element C++ types,
+  complete flexible-payload ownership and TU partition remain unknown.
+- All eight actual RNG-definition contexts preserve the respective681 or693
+  main bytes. Each genuine GetRandomU16InRange body independently reproduces
+  all41 original bytes at4048B0 and its actual +0x0E REL32 to genuine NextU16
+  at42AE20. This concerns one existing physical callee eight times,not eight new
+  exact owners. No fake return, surrogate helper or external clobber is used.
+- The maintained Front source still included GameManagerMode.hpp,producing a
+  different global symbol from the shared native GameManager declaration.
+  It now includes AsciiGameManagerView.hpp,keeping its target-bound +0x20 shot
+  projection and statically checking the native38-byte side stride. Two private
+  cold carriers plus the maintained-path build preserve both emitted functions:
+  main681 plus an uncalled six-byte accessor,and both nondebug noncode sections.
+  Exactly two actual COFF rows change only the C++ root: main+0x11 DIR32/addend58
+  and accessor+1 DIR32/addend0. Main independently still encodes4A7DE8 as known
+  root4A7D90+58. The accessor gets no target ownership or exact credit.
+- The whole original-bound inspector now rejects the superseded mode-view
+  symbol,including at that same effective address. One new corruption test
+  exercises that case; all five focused inspector tests pass. An initial audit
+  assumption that only the main function emitted a global field is corrected
+  after the actual COFF census exposes the additional uncalled accessor field.
+  The source correction does not establish original class spelling,complete
+  native storage definition,Windows product closure or runtime equivalence.
+- The queue leaf baseline plus six qualified real last-received stores remain
+  entirely raw-identical213 bytes/zero fields/67 instructions/nine direct blocks/
+  35 differences. No queue source or API changes. Direct IDA still had the old
+  char-pointer return and211-byte/two-byte-frontier comment. Its prototype and
+  comment are synchronized/read back to maintained void transport and213/35.
+  EAX's final object-relative cursor is incidental machine residue unless a
+  return contract is established independently; original C++ intent stays open.
+- Forty-four private compiles are serial and lowered-priority. Frozen evidence
+  under .analysis/gpt-61sol-20261020-front-loop-break and the adjacent
+  queue-observed-stores packet shares55 unique inputs. Full raw/actual-COFF
+  captures and true callee proofs remain. The default replay rebuilds a frozen
+  native-owner carrier and removes its own outputs. Scoped cleanup removes
+  only own reproducible compiler files and duplicate source copies; unrelated
+  historical evidence,original executable,IDA state and toolchains are retained.
+- No configured exact unit uses FrontMessageRandomSetup.cpp. All999 unchanged
+  exact proofs retain source/profile bindings without a broad sibling replay.
+  State remains999/1035 and242876/291883 authored bytes(83.2101%);95% still
+  requires34413 complete exact bytes. No experimental score is promoted.
+- Final CI788 tests/28 skips, target-required tracking, docs, generated progress
+  and whitespace pass.724/728 engineering inputs retain parent hashes;484/485
+  game source files are unchanged. Only FrontMessageRandomSetup.cpp,its actual
+  inspector/test and the two ledger evidence notes change among these inputs.
+  Signatures,extents,origins,canonical manifests/profiles and exact credit stay
+  unchanged. Scoped cleanup removes417 files/3813571 bytes; after terminal
+  CI,another359 cache files/6084367 bytes are removed. Build/ and
+  own OBJ/PDB are absent. Source commit and independently verified remote push
+  are bound separately in the packet.
