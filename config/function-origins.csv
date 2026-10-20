@@ -419,6 +419,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0041EE50,authored_game,Player,authored,high,player-added-callback-source-2026-09-15
 0x0041F010,unknown,,review,unknown,game-special-member-origin-review-2026-09-19
 0x0041F030,unknown,,review,unknown,game-special-member-origin-review-2026-09-19
+0x0041F060,unknown,Player,review,unknown,player-tail-constructor-provenance-review-2026-10-20
 0x0041F070,authored_game,Player,authored,high,player-constructor-vc71-exact-2026-09-15
 0x0041F170,authored_game,Player,authored,high,player-register-chain-vc71-exact-2026-09-15
 0x0041F2C0,authored_game,Player,authored,high,player-damage-source-2026-09-20
@@ -482,6 +483,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00422C50,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15
 0x00422CD0,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15
 0x00422D20,authored_game,ScreenEffect,authored,high,screen-effect-module-2026-09-15
+0x00422F00,authored_game,TitleScreen,authored,high,title-music-entry-clear-exact-2026-10-20
 0x00422F17,authored_game,TitleScreen,authored,high,packet156-title-options-recovery-2026-09-15
 0x00422F39,authored_game,TitleScreen,authored,high,packet191-small-exact-leaves-2026-09-17
 0x00422F67,authored_game,TitleScreen,authored,high,title-character-index-swap-exact-2026-09-20
@@ -869,6 +871,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0043D170,authored_game,Midi,authored,high,packet125-midi-module-vc71-gxminus-2026-09-14
 0x0043D1E0,authored_game,Midi,authored,high,packet125-midi-module-vc71-gxminus-2026-09-14
 0x0043D210,authored_game,Midi,authored,high,packet125-midi-module-vc71-gxminus-2026-09-14
+0x0043D290,authored_game,Midi,authored,high,dummy-midi-timer-callback-exact-2026-10-20
 0x0043D2A0,authored_game,Midi,authored,high,packet125-midi-module-vc71-gxminus-2026-09-14
 0x0043D2B0,unknown,,review,unknown,game-special-member-origin-review-2026-09-19
 0x0043D2C0,authored_game,Midi,authored,high,packet125-midi-module-vc71-gxminus-2026-09-14

@@ -7,3 +7,8 @@ TitleFactoryConstructView::TitleFactoryConstructView()
     config1B2BC.Initialize();
     memset(this, 0, sizeof(*this));
 }
+
+TitleMusicConstructView::TitleMusicConstructView()
+{
+    memset(this, 0, sizeof(*this));
+}

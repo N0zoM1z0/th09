@@ -11,66 +11,69 @@
 
 Read the live ledgers first. The original Japanese v1.50a target SHA-256 is
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-Current state: **1,033 authored, 1,033 source-present, 997 canonical exact**;
+Current state: **1,035 authored, 1,035 source-present, 999 canonical exact**;
 **36 source-present nonexact; no confirmed authored owner lacks maintained source**.
-**242,841/291,848 reviewed-authored bytes = 83.2080%**.
-The **95%** milestone still needs **34,415** complete exact authored bytes.
-The earlier5d7b2d2 callback checkpoint added323 authored/exact bytes. Type29 now
-has maintained nonexact C++; whole inventory/product/runtime and later gates stay open.
+**242,876/291,883 reviewed-authored bytes = 83.2101%**.
+The **95%** milestone still needs **34,413** complete exact authored bytes.
+This checkpoint adds two complete owners and35 authored/exact bytes. Native
+product/runtime, complete inventory and later gates remain open.
 
-- **Shared original Enemy flags:** movement/state now use one maintained
-  src/EclEnemyPrimaryFlags.hpp DWORD layout for Enemy+0x337C. Existing reviewed
-  positions and unknown ranges are retained; opcode124 sets/clears boss01
-  through that common view. Fresh local IDA confirms original40AB96 OR2 and
-  40ABEC AND~2. This does not establish a unique original class or full layout.
-- **Complete unchanged output:** all136 emitted main-profile functions retain
-  their49137 raw bytes and2043 actual COFF field coordinates/addends; all64
-  nondebug noncode sections/348 bytes remain identical. Compiler-private names
-  change in220 rows. Only20 canonical rows need spelling updates, each checked
-  against actual same-owner COFF coordinates and its unchanged original VA.
-- **Focused exact replay:** four affected carriers pass80 distinct complete
-  canonical units/24709 physical bytes/1105 fields. Other917 hash-bound exact
-  proofs are reused. Shared Type29/Type34/Type26/RunEcl/Enemy/Type19/biased
-  guards pass from the same cold object. RunEcl remains15564/598/30 and146/148
-  opcode shapes; Type29 remains2205/2220 with1170 overlap differences+15 missing.
-  No new function or byte receives exact credit.
-- **Bounded new exclusions:** six shared-bitfield trials show that unifying
-  the type alone or adding native boss writes is fully neutral. Native timeout
-  writes still regress whole-owner layout (1938..2019 ordinary differences,
-  plus shifted fields/table). Five real Timer visibility trials keep30
-  residuals when call boundaries remain; ordinary class-body inlining changes
-  direct-call identity and is rejected. The real void ABI is retained.
-- **Type29 local lifetime evidence:** four shared-start/angle/step models stay
- 2205/129. The1099-difference shared-start model recovers72 physical positions
-  but regresses one formerly equal position; other models also regress equal
-  bytes. None restores the six receiver reloads or closes the whole owner,
-  and none is adopted. Maintained source and its full-byte guard are unchanged.
-- **First-include reproducibility:** probe-ecl-variant.py now stages/hashes the
-  shared header as its eighth input and can replace it via --primary-flags.
-  Both declaration consumers must include the same staged header. Twelve
-  focused tests pass, including shared-header replacement and missing includes.
+- **New exact MIDI callback:** DummyMidiTimer::OnTimerElapsed at43D290 owns
+ 12 bytes, SHA260bac7bea032d15c1d49f49634c20ee4169705ab770d498def75431c3f06828.
+  Its pre-existing Midi.cpp body calls QueryPerformanceCounter on the real
+  LARGE_INTEGER at4DC688. Original vtable slot4907E0 and the vptr write42F3BA
+  identify the indirect route through default timer callback43D0F0. Independent
+  PE import parsing confirms KERNEL32 QueryPerformanceCounter at IAT48E098.
+  Two cold compilations reproduce all12 bytes and both actual COFF rows.
+- **New exact Title constructor:** TitleMusicConstructView's real clearing body
+  now lives in TitleScreenConstructor.cpp. The complete23-byte owner422F00 ends
+  immediately before the existing422F17 entry. Its single memset call clears
+  the full292-byte record, selected32 times by the exact parent at429D83.
+  Two maintained-path cold compilations reproduce the owner and preserve the
+  parent160/160 bytes. A bounded implicit all-char-array value-init control emits
+  only3 bytes and no clear; it does not reproduce this per-record operation.
+- **Conservative Player census addition:**41F060 is a reviewed15-byte constructor
+  callback for four2C4-byte tail records. It only constructs an ANM VM at+20 and
+  returns this; explicit versus implicit origin remains unknown. It receives
+  no source/exact credit. Candidate count is2248 and origin-unresolved37.
+- **Focused Oracle:**33 MIDI units/4271 physical bytes/132 fields plus two Title
+  constructor units/183 bytes/12 fields pass:35 distinct complete checks,
+ 4454 bytes/144 fields. Two functions/35 bytes are new;32 checks preserve prior
+  authored exact owners. One empty1-byte MIDI unit remains origin-unknown and
+  uncredited. The other965 previous authored exact proofs retain their input hashes.
+  Only the Title constructor game source changes; its old prefix is preserved.
+- **Large-owner counterchecks:** seven closed first-include ECL controls unfold
+  the real Enemy+2CE0 context pointer and+337C primary flags. Named-cell, masked
+  real-cell and real-context Timer access remain15564/598/30; native bitfield
+  writes still give1938 or2019 ordinary differences plus shifted fields/table.
+  None is adopted. RunEcl opcode4/155 and all other large frontiers stay open.
+- **Why inventory remains open:** the parent1033 authored logical extents contain
+ 6346 direct calls, all aimed at catalogued entries, yet the aligned data scan
+  still found the missing MIDI virtual callback. Non-call immediate analysis
+  independently found both constructor entries. A complete direct-call map
+  therefore does not prove complete executable inventory. Raw data candidates,
+  padding, CRT metadata and constructor provenance remain separate checks.
+- **Reproduction:** build midi-th09-dummy-timer-on-elapsed and
+  title-music-entry-constructor with build-match-unit.py, then run their complete
+  compare-coff-function.py --unit replays. Evidence packets are
+  .analysis/gpt-61sol-20261020-dummy-midi-callback,
+  .analysis/gpt-61sol-20261020-title-music-constructor and
+  .analysis/gpt-61sol-20261020-runecl-owner-view. The MIDI packet's census.py
+  reproduces the immutable-parent or --current bounded reference census;
+  review.py independently checks the original callback/vtable/import chain.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
-- **Evidence/replay:** .analysis/gpt-61sol-20261020-runecl-shared-flags retains
-  full baseline/current inventories, original/COFF reports,80 canonical replays,
-  actual local-name coordinates and source bindings. Its replay_one.py reads
- 15 frozen-parent controls across flags, Timer and Type29, independently of
-  newer public headers. The related packets runecl-timer-class and
-  effect29-shared-locals retain their complete failed/negative comparisons.
-  Previous Type2926-case native-helper fidelity evidence remains in
-  .analysis/gpt-61sol-20261020-effect29-maintained; full product/runtime stays open.
-- **Verified finish:** CI778 tests/28 skips, tracking/docs/progress and whitespace
-  pass. All728 engineering inputs bind722 retained parent hashes, five changes
-  and one addition;482 prior game source paths stay raw-identical. Scoped cleanup
-  removes930 reproducible/duplicate files/19296821 bytes, plus one duplicate
-  failure report. All79 unique sources remain. After cleanup, a fresh two-root
-  frozen timeout replay reproduces every15564 raw byte and all598 actual COFF
-  rows; flattening those include roots had changed two private names only and
-  is recorded as a failed context control. Build/ and temporary outputs are
-  absent. Source commit and independently verified remote push are recorded
-  separately in the packet. Exact997/242841 bytes and95% remain unchanged/open.
+- **Verified finish:** CI778 tests/28 skips, target-required tracking, docs,
+  generated progress and whitespace pass. All728 engineering inputs bind721
+  retained parent hashes and seven changes;484 prior game source paths remain
+  raw-identical. Scoped cleanup removes757 reproducible files/15968373 bytes,
+  including373 duplicate ECL source copies. All68 unique ECL inputs and the
+  Title value-init control remain. After cleanup, one frozen ECL replay matches
+  all15564 raw bytes and598 actual COFF rows; build/ and temporary outputs are
+  absent. Source commit and independently verified push are recorded separately
+  in the packet. No Factory acceptance or Windows product/runtime claim follows.
 
 
 ## Next worker: first three work packages
@@ -136,26 +139,26 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current restart summary is
-**1033 source-present / 997 exact / 36 non-exact**; earlier operator notes
+**1035 source-present / 999 exact / 36 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
 | --- | ---: |
-| Function candidates | 2,245 |
+| Function candidates | 2,248 |
 | Boundary/origin unreviewed | 0 |
-| Reviewed but origin-unresolved | 36 |
-| Confirmed authored | 1,033 |
+| Reviewed but origin-unresolved | 37 |
+| Confirmed authored | 1,035 |
 | Classified exclusions | 1,176 |
-| Source-present authored mappings | 1,033 |
-| Canonical exact functions | 997 |
+| Source-present authored mappings | 1,035 |
+| Canonical exact functions | 999 |
 | Source-present non-exact functions | 36 |
 | Source-present non-exact bytes | 49,007 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 242,841 |
+| Canonical exact authored bytes | 242,876 |
 
-**242,841 / 291,848 reviewed-authored bytes = 83.2080% exact**. To reach
-95% of the *currently classified* denominator, another **34,415 bytes**
-must become complete original-bound exact owners. The 36 origin-unresolved
+**242,876 / 291,883 reviewed-authored bytes = 83.2101% exact**. To reach
+95% of the *currently classified* denominator, another **34,413 bytes**
+must become complete original-bound exact owners. The 37 origin-unresolved
 functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
 
@@ -229,7 +232,7 @@ experiments; unsupported guesses there are not target evidence.
 ## Exact landmark routing
 
 The canonical manifest and accepted original-bound comparison remain the
-**sole authority** for the **997 exact** functions. The independently accepted
+**sole authority** for the **999 exact** functions. The independently accepted
 Enemy collision wrapper at 0x00410250 is **82/82 exact**; the 3,900-byte
 Enemy OnUpdate caller is **still 29 bytes nonexact**. The former wrapper's
 original acceptance and several representative source-commit-bound exact
@@ -353,7 +356,7 @@ The cleaner's cumulative historical manifest lives at
 | Verified removed, October 19 | Files | Logical bytes |
 | --- | ---: | ---: |
 | Ignored `build/` | 523 | 18,442,237 |
-| Compiler binaries/bytecode in `.analysis/` | 997 | 111,683,705 |
+| Compiler binaries/bytecode in `.analysis/` | 999 | 111,683,705 |
 | Two separately SHA-256-reviewed Python caches | 50 | 892,319 |
 | **Total removed** | **1,570** | **131,018,261 (~125.0 MiB)** |
 

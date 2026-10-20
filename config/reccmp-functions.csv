@@ -1032,3 +1032,5 @@ EffectDrawCallbackType37,0x0044C790,function
 ReplayManagerView::ControlPlaybackFrameAdvance,0x00420470,function
 TitleCalcCallback,0x0042A9CB,function
 EffectDrawCallbackType29,0x00448750,function
+DummyMidiTimer::OnTimerElapsed,0x0043D290,function
+TitleMusicConstructView::TitleMusicConstructView,0x00422F00,function

@@ -12445,3 +12445,86 @@ attest historical producer execution.
   duplicate JSON is removed by byte/hash equality. Temporary compiler outputs
   self-clean after producer termination; build/ remains absent. Source-commit
   binding and independent remote-push proof are recorded separately.
+
+### 2026-10-20 — Recover omitted MIDI and Title owners through indirect references
+
+- Clean recovery at34f3971 re-attests the original JP v1.50a disk executable,
+  direct local IDA metadata exactly{}, entry/five distributed mapped-byte samples,
+  tracking and current source. No Factory MCP or target patch is used.
+- Seven new full first-include RunEcl controls expose only target-proven real
+  Enemy cells: activeContext+2CE0 and the common primary-flags DWORD+337C. The
+  closed baseline, header-only control, masked real flag-cell, direct real timer
+  member and combined access all retain15564 physical bytes/598 fields/30
+  ordinary differences and no field/table differences. Native timeout writes
+  emit1938/202/26 or2019/239/26 ordinary/field/table differences. No public Enemy
+  layout or ECL code changes. These controls exclude this bounded owner-type
+  explanation without claiming compiler impossibility.
+- A parent-bound linear decode of all1033 authored logical extents covers88916
+  instructions and6346 direct calls without an incomplete decode; every direct
+  call target is a catalogued entry. An independent aligned rdata/data scan finds
+ 947 code-address candidates,249 nonentry targets. These are candidate values,
+  not pointer or complete-inventory proof. Game-range review separates real code
+  from padding, data and library metadata. The real omitted callback43D290 shows
+  why direct-call closure alone cannot establish executable inventory.
+- Original43D290..43D29B is a complete12-byte member body, SHA256
+ 260bac7bea032d15c1d49f49634c20ee4169705ab770d498def75431c3f06828,
+  preceded by11 and followed by4 unowned CC bytes. Vtable slot4907E0 points to
+  it; constructor42F3B0 installs that vptr at42F3BA after calling the exact base
+  MidiTimer constructor. The exact WinMM default callback43D0F0 retrieves dwUser,
+  loads the vtable and calls slot0. Constructor authorship remains unknown.
+- The callback performs QueryPerformanceCounter on the8-byte LARGE_INTEGER at
+ 4DC688. Parsing the original import descriptor and terminated thunk sequence
+  independently identifies KERNEL32 QueryPerformanceCounter at48E098. Its actual
+  maintained DummyMidiTimer::OnTimerElapsed body already exists in Midi.cpp;
+  no new MIDI code, data definition or return fiction is introduced. The ignored
+  Win32 BOOL residue does not establish a nonvoid virtual contract.
+- Two cold native source compilations reproduce every12 original byte and both
+  actual DIR32 rows. New canonical unit midi-th09-dummy-timer-on-elapsed and all
+ 32 existing same-TU units pass:33 comparisons/4271 physical bytes/132 fields
+  under the unchanged GX-/O2/Ob1 profile. The existing one-byte empty base virtual
+  at43D2B0 remains origin-unknown and is only an uncredited byte check. This adds
+  one authored/exact owner,12 bytes;31 existing authored MIDI exact owners persist.
+- The follow-on non-call immediate census identifies41F060 and422F00, previously
+  relocation-only dependencies absent from the function catalog. Fresh IDA and
+  PE independently review15- and23-byte terminal-ret extents.41F060 constructs
+  only the ANM VM at receiver+20 through403A10; the exact Player constructor
+  passes it at41F147 for four2C4-byte records. Explicit versus compiler-generated
+  special-member origin remains unknown. Its new ledger row receives no source
+  or exact credit; the next41F070 owner begins after one unowned CC byte.
+- Title422F00..422F16 explicitly clears the complete292-byte music record via
+  CRT memset47C390; the next catalogued owner begins immediately at422F17.
+  Complete SHA256 is
+ 1ea6836802efdd7c256180cc247cd7937a69d2e001ef651b902ea5c5d3b08376.
+  The independently exact160-byte parent429D83 selects this constructor at
+ 429DA0 for32 records of stride292 at+C934. Separately reviewed music-room
+  descriptors contain path/title/description char arrays covering that size.
+  A bounded VC7.1 all-char-array value-init control emits a3-byte return-this
+  function with no clear/helper; it does not explain the target per-record clear.
+- Natural TitleMusicConstructView::TitleMusicConstructView now adds only
+  memset(this,0,sizeof(*this)) after the existing Title constructor definition.
+  Its old source prefix is unchanged. One private and two maintained-path cold
+  compilations reproduce all23 bytes/one REL32 and preserve the parent's160
+  bytes/11 fields. New unit title-music-entry-constructor uses the parent's
+  existing O1/Ob1 profile. Original class spelling and full native data/lifetime
+  ownership remain separate unknowns, not consequences of byte equality.
+- Focused final scope is35 distinct units/4454 physical bytes/144 fields. Two
+  owners/35 authored bytes are new;32 units are existing authored exact
+  regressions, plus the uncredited empty virtual check. The other965 previous
+  authored exact proofs are reused through unchanged game inputs.
+  Counts become2248 reviewed candidates,1035 authored/source-present,999 exact,
+ 1176 exclusions and37 origin-unresolved. The36 maintained nonexact owners still
+  total49007 bytes. Coverage is242876/291883 (83.2101%);95% needs34413 more whole
+  exact authored bytes. Native product/runtime, semantic and port gates stay open.
+- Reproducible original/candidate/COFF inventories and bounded census recipes
+  live in .analysis/gpt-61sol-20261020-dummy-midi-callback,
+  .analysis/gpt-61sol-20261020-title-music-constructor and
+  .analysis/gpt-61sol-20261020-runecl-owner-view. CI passes778 tests/28 skips;
+  target-required tracking, docs, generated progress and whitespace pass. All728
+  engineering inputs bind721 retained parent hashes and seven changes;484 old
+  game source paths remain byte-identical. After own producers terminate and
+  the repository-cwd guard passes, cleanup removes757 reproducible files/
+ 15968373 bytes, including373 duplicate ECL copies. All68 unique ECL source
+  inputs and the Title value-init control remain. A post-clean frozen masked
+  real-cell replay reproduces all15564 raw bytes and598 actual COFF rows.
+  Build/ and temporary outputs are absent. Local commit binding and independent
+  remote push verification are recorded separately; no Factory receipt is claimed.

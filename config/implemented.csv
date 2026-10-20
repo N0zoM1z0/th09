@@ -1031,3 +1031,5 @@ EffectDrawCallbackType37
 ReplayManagerView::ControlPlaybackFrameAdvance
 TitleCalcCallback
 EffectDrawCallbackType29
+DummyMidiTimer::OnTimerElapsed
+TitleMusicConstructView::TitleMusicConstructView
