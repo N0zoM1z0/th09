@@ -9,46 +9,49 @@
 
 The operator requests continued exact reconstruction across **large functions
 and small leaves**, serial low-priority compiles, focused affected replays and
-regular cleanup. This checkpoint starts from pushed `773f38a` and narrows the
-**1,689-byte GameplaySetupThread from 911 to 904 physical differences**.
-RunEcl/Enemy/Title DrawResult/Type3 remain **30 /29 /22 /15** differences;
-SaveReplay stays **3**, network HandleMessage **105**. No new exact owner is
-claimed in this batch; the 95% milestone and product/runtime gates remain open.
+regular cleanup. This checkpoint starts from pushed `e0ad322` and supplies
+**two previously declared pointer-conversion interfaces**, each reproducing the
+complete **three-byte shared identity body @0x004343D0**. This is **one physical
+body with unknown origin/unique class ownership**, not two new authored exact
+functions. RunEcl/Enemy/Title DrawResult/Type3 stay **30 /29 /22 /15** differences;
+GameManager setup stays **904**. The 95% milestone and product/runtime gates
+remain open.
 
-- Moving the real case-1 `valueC4 = 1200` store before its counter-derived
-  `limitB4` assignment restores **seven** original byte positions
-  (**+5AF /+5B0 /+5B1 /+5B5 /+5B6 /+5B7 /+5B8**) and damages none. Full extent,
-  416 compiled instructions, 171 actual COFF fields, 35 ordered calls and
-  77 compiled blocks stay intact; field identity alignment rises **157→164**.
-  The original remains 413 instructions /172 fields /78 blocks. Still nonexact.
-- Calls now use the actual exact `ReplayManagerView::Create @0x00421670` and
-  `DispatchReplayStage @0x004217E0` symbols, replacing the old CreateStageObject /
-  SetStageObjectMode aliases. Dispatch chooses the stage recording/playback
-  entry; it does not set replay mode. The independently proven fastcall
-  contracts preserve every call destination and byte. The `+145` path pointer
-  is target-observed; no unknown array extent or original class spelling is
-  inferred.
-- Fifteen private source models yield thirteen successful full comparisons and
-  two rejected source compilations. Case-2's similar reorder breaks an existing
-  byte; ascending/global/shared-tail forms change full extent and are rejected.
-  The chosen source is the smallest valid case-1 change. No ABI/profile change,
-  variable-order hint, assembly, padding or target patch is used.
-- The residual guard now protects all **785 already equal physical bytes**,
-  the full 904-offset residual mask, actual operand referents and the two native
-  replay call identities (two calls each). Restoring another bit can pass;
-  introducing a mismatch in any already equal position fails.
-- Focused cold replay passes **12 exact functions /3,012 bytes**: eleven same-TU
-  owners across the two pinned profiles plus the native 21-byte dispatcher.
-  Fresh native Create adds a separate **361-byte** exact proof. Other unchanged
-  source/profile proofs are reused. CI passes **841 tests /28 skips**, tracking,
-  docs, progress and whitespace checks.
-- Frozen source replay reproduces the full **1,689 /171 /904** worker, identical
-  raw bytes/actual COFF identities, exactly seven restorations and zero new
-  mismatches. After all producers terminate, 75 verified loose members become
-  a 1,109,230-byte ZIP, reclaiming **5,791,053 bytes (~5.52 MiB)**. Source/config/
-  provider and archive pins pass after cleanup. Evidence and frozen recipes:
-  `.analysis/gpt-61sol-20261021-setup-limit/`. No canonical exact or Factory
-  accepted credit is granted to this partial worker.
+- `src/VectorPointerViews.cpp` defines existing `Float3::operator float*` and
+  `PlayerPositionView::operator float*` through their actual first component.
+  Both compile to all three original bytes, no fields, with the established
+  Type3 caller profile. Independent original SHA256:
+  `58367ffa2a0179375018fa0f5c26da24391e42ebe0ed8fdda35a21fc7bdc396f`.
+- Canonical alias-byte units are `float3-pointer-identity-view` and
+  `player-position-pointer-identity-view`. The original row gains a source
+  evidence route, but keeps blank proposed name/module/owner, unknown/review
+  origin and no authored mapping or matches.csv row. Other constructor aliases
+  remain distinct unresolved interfaces. No unique original class or native
+  product closure is inferred.
+- `python3 -B scripts/check-vector-pointer-views.py --json` recompiles the
+  single new TU at nice10 and compares both complete aliases. It pins recursive
+  inputs, real ABI/profile, original body hash and conservative origin policy.
+  Four pure regressions reject changed metadata, wrong ABI/extent and either
+  alias being counted as authored exact. Caller source/header bytes are unchanged,
+  so their existing exact source/profile proofs are reused.
+- Six private Type3 state/return joint builds reproduce maintained **780/38/15**,
+  the rejected **780/38/four** lead, and nonmatching **779/777/781-byte** control
+  shapes. An inverted Timer comparison introduces a different native operator
+  symbol and fails referent binding; it is not rebound to the original >= call.
+  No state/control model enters maintained gameplay source. The original 15-byte
+  guard remains intact; the read-only helper census repeats all 27 reviewed calls.
+- Focused canonical and independent frozen-source replays both pass for the
+  complete three-byte aliases. CI passes **845 tests /28 skips**, tracking,
+  documentation, progress and whitespace checks. No full-cohort replay is used.
+- After all producers terminate, **51** verified loose evidence members become
+  a **638,027-byte** ZIP. Those archived duplicates and **383** reproduced
+  compiler/bytecode files reclaim **10,036,816 bytes (~9.57 MiB)** total.
+  All 489 game inputs, 1,029 previous unit definitions, four canonical config
+  inputs, 24 provider/input pins and the archive pass post-clean verification.
+  Only VectorPointerViews.cpp is new; existing game inputs are unchanged.
+- Evidence and frozen recipes: `.analysis/gpt-61sol-20261021-type3-state-joint/`.
+  No Factory accepted receipt, authored exact credit or complete product/runtime
+  validation is claimed.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
 
@@ -144,6 +147,9 @@ The manifests govern **1001 exact** functions. Historical Factory receipts
 remain in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md), with
 immutable source-commit bindings; they do not accept a later HEAD.
 
+- Two pointer conversion interfaces now have complete three-byte source aliases
+  for physical 0x4343D0. Its origin and unique class ownership stay unknown;
+  alias-byte units carry no authored exact credit.
 - GameManager CleanupGameplayState is **425/425 exact**, with all 43 fields
   and both final limit publications. Original high-level return intent remains
   unknown; the separate setup worker remains nonexact.
@@ -177,6 +183,8 @@ python3 -B scripts/report-reconstruction-status.py
 python3 -B scripts/check-ida-mcp.py
 # Choose one affected owner; reuse unchanged source/profile-bound proofs.
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner netmessage
+# Two logical aliases of one unknown-origin body; no authored credit:
+python3 -B scripts/check-vector-pointer-views.py --json
 # Latest damage interface closure (79 units); unchanged proofs are reused:
 nice -n 10 python3 -B scripts/check-enemy-player-state.py --scope damage
 # After shared state declarations change, use the 102-unit default scope:
@@ -245,7 +253,8 @@ credit. Its historical 61-unit source/profile replay remains commit-scoped; the
 current inventory is 62, with all 11 affected GameManager owners rechecked and
 the other 51 source/profile proofs reused. The
 previous shared-state batch rechecked 102 units across four sources; the last
-damage/header batch rechecked 79 across two. This checkpoint changes only GameManagerSetup.cpp among 488 game inputs. The
+damage/header batch rechecked 79 across two. The preceding checkpoint changed only GameManagerSetup.cpp among 488 game inputs.
+This checkpoint adds VectorPointerViews.cpp; its original shared owner remains unknown. The
 prior Front/GameManager prefix checkpoint retains its source-bound 12-unit
 /6,668-byte proof for unchanged consumers.
 Native product/runtime, complete inventory, semantic and port gates stay open.

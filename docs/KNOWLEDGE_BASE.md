@@ -14237,3 +14237,82 @@ unit definitions, four canonical config/ledger hashes and live provider pins.
 Only GameManagerSetup.cpp changes among game inputs. Evidence and frozen recipe:
 .analysis/gpt-61sol-20261021-setup-limit. No complete worker exactness, native
 product/runtime closure or Factory accepted receipt is claimed.
+
+
+## 2026-10-21 Shared vector pointer body: native source aliases, origin still unknown
+
+Recovery starts from clean independently pushed e0ad322. Original Japanese
+v1.50a disk SHA, direct IDA metadata and entry/distributed mapped bytes pass.
+Previous setup work is preserved at 904 differences and all 1,001 authored exact
+rows. Type3's original full owner still has 780 bytes /240 instructions /38
+fields /24 calls /17 blocks. A fresh maintained-source compile repeats all
+15 differing positions and the unchanged production guard accepts it.
+
+Six private state/return models are compiled serially at nice10. The rejected
+word-read/collision-forwarding lead repeats 780/38/four at
++1B2/+1B7/+247/+249; these positions are already equal in production. A case-0
+return gives 779/38/714 overlapping differences, independent early state returns
+777/38/748, and independent state arms 781/38/703. An early motion return using
+Timer < introduces the actual distinct ??M operator symbol and is rejected by
+the original referent map. It is not aliased to the original ??P >= boundary.
+Five complete comparisons and one binding rejection are distinct observations;
+none of these source controls is adopted. No compiler profile, genuine ABI or
+production residual mask changes.
+
+The local target and direct IDA confirm physical 0x4343D0..0x4343D2 is the
+three-byte receiver identity body, original SHA256
+58367ffa2a0179375018fa0f5c26da24391e42ebe0ed8fdda35a21fc7bdc396f.
+The existing read-only census independently repeats all 27 reviewed ordinary
+CALL sites, including Type3 +11F and exact Type4. Separate constructor-shaped
+code/data references remain. This physical body cannot be assigned a unique
+original class or authored/compiler/library origin from these uses alone.
+
+Source inspection finds the existing Float3 and PlayerPositionView float-pointer
+conversions are declared and used, with no out-of-line implementation. New
+VectorPointerViews.cpp supplies both existing native decorated interfaces by
+returning the address of the first x component, with compile-time offset-zero
+checks. A first private compile and the maintained canonical cold replay each
+reproduce the full three bytes and zero fields for both symbols. These are two
+logical compatibility aliases of one physical target, not six distinct bytes,
+new original functions or proof of original class spelling. Other constructor
+aliases at the same address are not resolved by these two definitions.
+
+Units float3-pointer-identity-view and player-position-pointer-identity-view
+share the same source/object and authentic existing Type3 /O2 /Ob1 profile.
+The single unknown original ledger row gains that source evidence route while
+keeping blank proposed name/module/owner, unclassified status, 0.00 match
+percentage, unknown/review origin and no matches.csv or authored mapping row.
+The authored exact count, byte denominator and 95% gap do not change.
+
+The public check-vector-pointer-views.py cold-replays the two complete aliases
+from one serial nice10 compile. It requires the full original SHA, empty actual
+COFF fields, three complete bytes, the real native symbols/profile and unchanged
+recursive inputs/tool/config pins. Its result explicitly reports two aliases,
+one physical three-byte body, unknown original class/origin and no exactness
+credit. Four target-independent regressions reject source/profile/ABI/extent
+changes, mistaken ownership promotion, and either alias receiving authored exact
+credit. Existing callers and headers are unchanged, so their source/profile
+proofs are reused; no full cohort or whole-product replay is implied.
+
+Final CI passes 845 tests /28 skips plus target-required tracking,
+documentation, progress and both whitespace checks. The independent frozen
+source replay reproduces both complete three-byte /zero-field aliases through
+private canonical units with only their object paths changed. Source, compiler
+profile, target, extent and every original-bound unit field stay intact.
+
+All producers are terminal before cleanup. ZIP CRC and every member hash verify
+51 evidence members /4,136,791 bytes in a 638,027-byte ZIP, reclaiming 3,498,764
+bytes. Another 383 reproduced compiler/bytecode files /6,538,052 bytes are
+removed: the new pointer probes' four OBJ/PDB files and 379 terminal CI cache
+files. Net reduction is 10,036,816 bytes (~9.57 MiB). Other canonical objects,
+unique prior research, original executable, native tools and IDA state remain.
+
+Post-clean source/config/archive checks pass: all 489 game inputs, unchanged
+1,029 existing unit definitions, four canonical config/ledger hashes, 24 current
+provider/input pins and five sidecars are verified. Only VectorPointerViews.cpp
+is new among game inputs; no prior source or header changes. The six Type3
+models, all complete raw/actual-COFF evidence, binding rejection, original IDA
+observation, source blobs and exact alias recipes remain in the ignored archive
+.analysis/gpt-61sol-20261021-type3-state-joint. Authored exact coverage stays
+1001/1035 and 243,853/291,883 bytes; the requested four fronts remain 30/29/22/15.
+Whole native i386 product, runtime, semantic and port gates remain open.
