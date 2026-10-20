@@ -2,7 +2,8 @@
 
 The project milestone is at least **95% of reviewed authored bytes exact**,
 using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
-The current operator task is handoff cleanup; the milestone remains unfinished.
+The operator resumed exact work on RunEcl, EnemyManager::OnUpdate, Title
+DrawResult, and ExAttack Type3; all four and the milestone remain unfinished.
 See [the current handoff](RE_HANDOFF.md) and refresh the ledgers for live totals;
 dated experiments and prior stop/resume records are historical.
 Exact code, the reviewed-authored denominator, the native Windows product and

@@ -35,6 +35,48 @@ def chronology(y_offset, z_offset, tail_offset):
 
 
 class ExAttackType3ScheduleTests(unittest.TestCase):
+    @staticmethod
+    def literal_fixture():
+        data = bytearray(64)
+        struct.pack_into('<HH', data, 0, 0x14C, 1)
+        struct.pack_into('<II', data, 36, 4, 60)
+        data[60:64] = struct.pack('<I', 0xC2000000)
+        row = {'symbol': '__real@c2000000', 'symbol_section': 1, 'symbol_value': 0}
+        return data, row
+
+    def test_named_literal_with_corrupt_definition_cannot_pass(self):
+        data, row = self.literal_fixture()
+        expected = struct.pack('<I', 0xC2000000)
+        coff = SimpleNamespace(pe_bytes_at=lambda *args: expected)
+        destinations = {row['symbol']: 0x004915F0}
+        self.assertEqual(inspection.check_literal_definitions(
+            data, [row, row], b'original', coff, destinations), 1)
+        data[60] ^= 1
+        with self.assertRaisesRegex(ValueError, 'literal definition differs'):
+            inspection.check_literal_definitions(data, [row], b'original', coff, destinations)
+        data[60] ^= 1
+        coff.pe_bytes_at = lambda *args: b'bad!'
+        with self.assertRaisesRegex(ValueError, 'literal definition differs'):
+            inspection.check_literal_definitions(data, [row], b'original', coff, destinations)
+
+    def test_literal_requires_a_real_bounded_definition(self):
+        data, row = self.literal_fixture()
+        for changes in ({'symbol_section': 0}, {'symbol_section': True},
+                        {'symbol_section': 2}, {'symbol_value': -1},
+                        {'symbol_value': True}, {'symbol_value': 1}):
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                inspection.literal_payload(data, dict(row, **changes))
+        for data_offset, replacement in ((0, b'xx'), (16, b'\x01\x00'),
+                                         (40, struct.pack('<I', 59)),
+                                         (36, struct.pack('<I', 100))):
+            corrupt = bytearray(data)
+            corrupt[data_offset:data_offset + len(replacement)] = replacement
+            with self.subTest(offset=data_offset), self.assertRaises(ValueError):
+                inspection.literal_payload(corrupt, row)
+        for size in (0, 19, 59, 63):
+            with self.subTest(size=size), self.assertRaises(ValueError):
+                inspection.literal_payload(data[:size], row)
+
     @unittest.skipIf(capstone is None, "Capstone unavailable under python -S")
     def test_the_verified_original_and_two_wrong_instruction_schedules(self):
         cases = [(0x18E, 0x196, 0x19D, 'matches-original-chronology'),

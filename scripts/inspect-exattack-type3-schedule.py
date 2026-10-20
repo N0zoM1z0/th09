@@ -125,6 +125,111 @@ def middle_z_order(instructions) -> dict:
             'tail_x_load_offset': hex(tail_x), 'classification': classification}
 
 
+def literal_payload(data: bytes, row: dict) -> bytes:
+    """Read a defined scalar from its COFF section, independently of its name."""
+    if len(data) < 20:
+        raise ValueError('truncated Type3 COFF header')
+    machine, count = struct.unpack_from('<HH', data)
+    optional = struct.unpack_from('<H', data, 16)[0]
+    section, value = row.get('symbol_section'), row.get('symbol_value')
+    if (machine != 0x14C or optional != 0 or type(section) is not int or
+            not 1 <= section <= count or type(value) is not int or value < 0):
+        raise ValueError('Type3 literal lacks an actual i386 COFF definition')
+    header = 20 + (section - 1) * 40
+    if header + 40 > len(data):
+        raise ValueError('truncated Type3 COFF section header')
+    size, start = struct.unpack_from('<II', data, header + 16)
+    if (start < 20 + count * 40 or value + 4 > size or
+            start + size > len(data)):
+        raise ValueError('Type3 literal definition leaves its actual section')
+    return data[start + value:start + value + 4]
+
+
+def check_literal_definitions(data, rows, image, coff, destinations):
+    literals = set()
+    for row in rows:
+        symbol = row['symbol']
+        if not symbol.startswith('__real@'):
+            continue
+        expected = struct.pack('<I', int(symbol[7:], 16))
+        if (symbol not in destinations or
+                literal_payload(data, row) != expected or
+                coff.pe_bytes_at(image, destinations[symbol], 4) != expected):
+            raise ValueError('Type3 source/original literal definition differs: ' + symbol)
+        literals.add(symbol)
+    return len(literals)
+
+
+def context_report(object_path: Path) -> dict:
+    """Diagnose a complete experimental owner with changed extents or fields.
+
+    This never relaxes bind_candidate or the production frontier. Relocation
+    values come from the reviewed referent map, not a candidate-offset match.
+    """
+    from collections import Counter
+    import capstone
+    from diagnostic_branch_alignment import direct_control_flow
+    coff = module('type3_context_coff', 'compare-coff-function.py')
+    own = module('type3_context_dest', 'inspect-exattack-type3.py')
+    destinations = own.diagnostic.DESTINATIONS
+    image = coff.verified_target()
+    target = coff.pe_bytes_at(image, BASE, SIZE)
+    if hashlib.sha256(target).hexdigest() != TARGET_SHA256:
+        raise ValueError('original TH09 Type3 update full-owner SHA changed')
+    ti = decode(target)
+    target_fields = addressed_fields(ti)
+    if len(ti) != 240 or len(target_fields) != 38:
+        raise ValueError('original Type3 instruction/field inventory changed')
+    original_referents = {(kind, dest) for _, kind, dest in target_fields}
+    raw, rows = coff.object_function(object_path, SYMBOL, include_symbol_locations=True)
+    linked = bytearray(raw)
+    previous_end = 0
+    for row in rows:
+        off, kind = row['offset'], row['type']
+        if (row['symbol'] not in destinations or kind not in ('DIR32', 'REL32') or
+                type(off) is not int or off < previous_end or off + 4 > len(raw)):
+            raise ValueError('unreviewed or overlapping Type3 context field')
+        destination = destinations[row['symbol']] + row['addend']
+        if (kind, destination) not in original_referents:
+            raise ValueError('Type3 context introduced a new original referent')
+        value = destination - (BASE + off + 4 if kind == 'REL32' else 0)
+        struct.pack_into('<I', linked, off, value & 0xFFFFFFFF)
+        previous_end = off + 4
+    ci = decode(linked)
+    candidate_fields = addressed_fields(ci)
+    expected_fields = [(r['offset'], r['type'], destinations[r['symbol']] + r['addend'])
+                       for r in rows]
+    if candidate_fields != expected_fields:
+        raise ValueError('Type3 context actual instruction/COFF coverage differs')
+    literal_count = check_literal_definitions(
+        object_path.read_bytes(), rows, image, coff, destinations)
+    original_counts = Counter((kind, dest) for _, kind, dest in target_fields)
+    candidate_counts = Counter((kind, dest) for _, kind, dest in candidate_fields)
+    calls = lambda ins: [i.operands[0].imm for i in ins if i.mnemonic == 'call']
+    differences = [hex(i) for i, (a, b) in enumerate(zip(target, linked)) if a != b]
+    def census(counts):
+        return [{'type': k, 'destination': hex(d), 'count': count}
+                for (k, d), count in sorted(counts.items())]
+    return {
+        'diagnostic_only': True, 'exactness_credit': 'none',
+        'target_sha256': hashlib.sha256(target).hexdigest(),
+        'candidate_raw_sha256': hashlib.sha256(raw).hexdigest(),
+        'target_bytes': len(target), 'candidate_bytes': len(raw),
+        'target_instructions': len(ti), 'candidate_instructions': len(ci),
+        'original_fields': len(target_fields), 'bound_fields': len(rows),
+        'literal_definitions_checked': literal_count,
+        'original_only_referents': census(original_counts - candidate_counts),
+        'candidate_only_referents': census(candidate_counts - original_counts),
+        'ordered_calls_agree': calls(ti) == calls(ci),
+        'direct_graphs_agree': direct_control_flow(ti, capstone.x86.X86_OP_IMM) ==
+                              direct_control_flow(ci, capstone.x86.X86_OP_IMM),
+        'overlap_differences': len(differences), 'difference_offsets': differences,
+        'missing_target_bytes': max(0, len(target) - len(raw)),
+        'extra_candidate_bytes': max(0, len(raw) - len(target)),
+        'complete_bytes_equal': target == linked,
+    }
+
+
 def analyze(object_path: Path) -> dict:
     from diagnostic_branch_alignment import direct_control_flow
     import capstone
@@ -135,7 +240,9 @@ def analyze(object_path: Path) -> dict:
     target = coff.pe_bytes_at(pe, BASE, SIZE)
     if hashlib.sha256(target).hexdigest() != TARGET_SHA256:
         raise ValueError("original TH09 Type3 update full-owner SHA changed")
-    raw, rows = coff.object_function(object_path, SYMBOL)
+    raw, rows = coff.object_function(object_path, SYMBOL, include_symbol_locations=True)
+    literal_count = check_literal_definitions(
+        object_path.read_bytes(), rows, pe, coff, own.diagnostic.DESTINATIONS)
     ti = decode(target)
     target_fields = addressed_fields(ti)
     if len(ti) != 240 or len(target_fields) != 38:
@@ -161,6 +268,7 @@ def analyze(object_path: Path) -> dict:
         'target_bytes': SIZE, 'candidate_bytes': len(raw),
         'target_instructions': len(ti), 'candidate_instructions': len(ci),
         'target_fields': len(target_fields), 'bound_fields': len(rows),
+        'literal_definitions_checked': literal_count,
         'ordered_calls': len(calls(ti)), 'calls_agree': True,
         'target_blocks': len(tg), 'candidate_blocks': len(cg),
         'direct_graphs_agree': tg == cg,
@@ -177,9 +285,12 @@ def analyze(object_path: Path) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('object', type=Path)
+    parser.add_argument('--context', action='store_true',
+                        help='diagnose a changed owner; never production acceptance')
     args = parser.parse_args()
     try:
-        print(json.dumps(analyze(args.object), indent=2))
+        result = context_report(args.object) if args.context else analyze(args.object)
+        print(json.dumps(result, indent=2))
         return 0
     except (OSError, ValueError, KeyError, ImportError, struct.error) as err:
         print('Type3 schedule input rejected:', err, file=__import__('sys').stderr)

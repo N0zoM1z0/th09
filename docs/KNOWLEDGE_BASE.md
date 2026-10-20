@@ -13301,3 +13301,62 @@ Build and top-level Python caches are absent; a final dry-run is zero.
 Original/toolchain/IDA inputs,all tracked files and around 1.6 GiB of older
 unclassified or useful evidence remain. See `RE_ARTIFACT_CLEANUP_HISTORY.md`
 for category counts; local commit and independent push proof remain separate.
+
+
+## October 20: four-owner fresh baselines and native-context controls (gpt-6-astra)
+
+- The operator resumed exact reconstruction of RunEcl, EnemyManager OnUpdate,
+  Title DrawResult and ExAttack Type3, with `gpt-6-astra:` checkpoints. Recovery
+  started at clean, independently remote-verified `e26a30e`. Original Japanese
+  v1.50a disk SHA, direct IDA metadata, entry point and five mapped samples pass.
+  Cold maintained-source comparisons reproduce 15,564/598/30 RunEcl,
+  3,900/97/29 Enemy, 1,939/82/22 DrawResult and 780/38/15 Type3. These are
+  NON-EXACT baselines, not newly accepted receipts. No game C++, canonical unit,
+  authored boundary or exact row changes in this batch.
+- New full-Title-carrier and full-Title-declaration controls retain all 22
+  original DrawResult residual positions; simply replacing the abbreviated
+  class or exposing the actual Title compiler carrier does not recover the
+  entry. Bank references, flat/const record cursors and a real bank accessor
+  likewise do not improve it. Enemy direct-player/world-reference/descriptor
+  memcpy and draw-head accessor controls all retain exactly the 29 maintained
+  residuals, all 97 independently bound fields, 69 calls and 170 blocks. These
+  negatives do not establish unique original C++ spellings or TU ownership.
+- A target-layout-backed jump-wire member view keeps the complete RunEcl owner
+  at 15,564 bytes/598 fields with the same 30 differences, zero field/table
+  differences. Native timeout-bitfield/member-read controls do not close opcode
+  155. A complete native member-read comparison still totals 15,564 bytes but
+  differs at 2,140 positions: 1,938 ordinary and 202 relocation-field bytes,
+  including 26 table bytes. Equal total size cannot substitute for the original
+  physical field/table positions. Natural typed operands, shared state/lhs
+  captures and native flag lvalues remain counterexamples, not adopted source.
+- `scripts/inspect-exattack-type3-schedule.py` now verifies all three actual
+  COFF float definitions against their names and original PE payloads. A local
+  mutation of the real -32.0f definition, leaving every callback byte and COFF
+  relocation record identical, is rejected. Public pure tests also corrupt the
+  definition, original value, section provenance and extents. The production
+  780/38/15 guard is retained; the new `--context` mode is a distinct diagnostic
+  of changed complete owners and never grants acceptance.
+- `python3 -B scripts/probe-type3-native-context.py --case coordinates` cold-
+  compiles the actual coordinate bodies with the unchanged callback/profile.
+  It emits **765 bytes/237 instructions/35 fields**, with **405 overlapping
+  unlike bytes and 15 missing bytes**. The independent original/COFF operand
+  census identifies exactly three missing `g_GameManager @0x004A7D90` references;
+  all 24 ordered calls and 17 direct graph blocks agree. The `baseline`,
+  `collision`, `float-core` and `float-ops` cases each cold-repeat the maintained
+  **780/240/38/15** and its original-only/extra referent sets are empty. These
+  genuine visibility tests do not justify including the coordinate bodies in
+  production. One selected case builds once at nice10, records recursive input,
+  profile/tool/manifest hashes and full raw/actual-COFF evidence, rechecks live
+  inputs, and cleans both temporary source and compiler carriers on success or
+  failure. Wrong-target input preserves older evidence; a failed compiler or
+  changed input cannot leave an earlier successful report at the requested path.
+- The previously private forwarded-collision candidate cold-repeats four
+  residuals at +1B2,+1B7,+247,+249. Reference/boolean single-query helpers remain
+  four-difference diagnostics; a combined three-point query emits 781 bytes.
+  None is adopted. The original 15-offset guard and all seven exact Type3
+  siblings pass. Exact coverage remains 1,000 /243,428 bytes; the four requested
+  owners, native product/runtime and semantic/port gates remain open.
+- Public native-context reproducer cases are source-bound to this maintained
+  baseline and need fresh builds after relevant source/profile changes. Current
+  ignored evidence is below `.analysis/gpt6astra-20261020-exact-four/`; older
+  packet wording and old compiler objects are not substituted for these checks.

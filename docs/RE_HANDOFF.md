@@ -7,8 +7,10 @@
 
 ## Current verified handoff checkpoint
 
-The operator requested documentation/artifact cleanup and handoff. The earlier
-long-running goal was cleared; **95% has not been achieved**. This checkpoint
+The operator resumed exact reconstruction of **RunEcl, EnemyManager::OnUpdate,
+Title DrawResult, and ExAttack Type3** from clean pushed `e26a30e`. Fresh original-
+bound baselines reproduce **30 /29 /22 /15** differing bytes respectively.
+**None of the four is exact; 95% has not been achieved.** This diagnostic batch
 changes no game C++, canonical unit or exact ledger row. The last accepted
 addition remains Player initialization in `8ff6ce1`:552 authored bytes,
 complete 572-byte physical owner and 25 fields. It is exact, not an open frontier.
@@ -23,12 +25,26 @@ complete 572-byte physical owner and 25 fields. It is exact, not an open frontie
   candidate regresses four formerly equal positions and the guard rejects it.
   `probe-exattack-type3-word-order.py --case forwarded-collision` rebuilds only
   that candidate; default `all` builds three models.
-- The cleaner now preserves ambiguous `.idb` files, which may be IDA databases.
-  **796 tests/28 skips** pass before final cache deletion. Cleanup removes
+- Type3's complete comparator now checks the actual three COFF float definitions
+  against their symbols and original PE values. Its separate `--context` lane
+  diagnoses changed complete owners without relaxing production acceptance.
+  `probe-type3-native-context.py --case coordinates` cold-reproduces765 bytes,
+  35 fields,405 overlap differences and15 missing bytes: three original
+  `g_GameManager` references disappear, while24 calls and17 graph blocks agree.
+  Collision/math body visibility controls retain780/38/15. These controls and
+  full Title carrier/declaration controls do not improve the maintained fronts.
+- The diagnostic checkpoint passes **802 tests/28 skips** and all seven exact
+  Type3 sibling replays. Private rejected carriers/reports are verified in
+  `.analysis/gpt6astra-20261020-exact-four/exploratory-carriers.zip`; the manifest
+  binds 320 members and the unchanged source/profile baseline. Five fresh
+  native-context receipts remain separately under that packet's `native-context/`.
+- The prior `e26a30e` cleaner preserved ambiguous `.idb` files, which may be IDA databases.
+  Its **796 tests/28 skips** preceded final cache deletion. That cleanup removed
   **874 files/11,153,946 bytes**; [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md)
-  records scope and preservation. Missing `build/` at handoff is deliberate.
+  records scope and preservation. This resumed session rebuilds affected objects;
+  missing older `build/` artifacts remain deliberate.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
-  `gpt-6.1-sol: ...` commits, push and independent remote verification.
+  `gpt-6-astra: ...` commits, push and independent remote verification.
   Historical Factory-only prefix/transport instructions are stale.
 
 ## Live ledger snapshot
@@ -152,6 +168,8 @@ python3 -B scripts/report-reconstruction-status.py
 python3 -B scripts/check-ida-mcp.py
 # Choose one affected owner; reuse unchanged source/profile-bound proofs.
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner runecl
+# One new Type3 compiler-visibility control; temporary sources/objects self-clean.
+python3 -B scripts/probe-type3-native-context.py --case coordinates
 # Complete Charge diagnostic with the maintained recorded profile:
 nice -n 10 scripts/compile-probe.sh src/PlayerChargeAttackUpdate.cpp build/diagnostics/charge.obj /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- /I src
 python3 -B scripts/inspect-player-charge-update.py build/diagnostics/charge.obj
