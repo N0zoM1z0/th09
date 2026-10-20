@@ -269,13 +269,14 @@ class BossFrontierChecks(TestCase):
             'candidate_direct_blocks': 170,
             'reviewed_control_flow_agrees': True,
             'switch_table_destinations_agree': True,
-            'complete_differences': 29,
+            'native_timer_greater': dict(
+                unit='zun-timer-greater', source='src/EclManager.cpp', calls=4,
+                bytes=20, fields=0, same_object_definition=True,
+                original_body_sha256='f4946c0b7b22e556c3b758435c2c7bdd468104acc285e40dda5ec2a737d36126'),
+            'complete_differences': 13,
             'difference_offsets': [hex(v) for v in (
                 0x19C, 0x1A3, 0x252, 0x263, 0x26D, 0x272, 0x294,
-                0x29A, 0x29C, 0x2A5, 0x2A9, 0x2B7, 0x2BD,
-                0x9C0, 0x9C6, 0x9DF, 0x9E2, 0x9EC,
-                0x9F3, 0xA1F, 0xA23, 0xA29, 0xA2E, 0xA34, 0xA3A,
-                0xA42, 0xA45, 0xA61, 0xA7E)],
+                0x29A, 0x29C, 0x2A5, 0x2A9, 0x2B7, 0x2BD)],
         }
         leaf = {
             'diagnostic_only': True, 'exactness_credit': 'none',
@@ -299,7 +300,7 @@ class BossFrontierChecks(TestCase):
                     'enemy-attached-effect-update', 'float3-divide',
                     'player-collision-append-box', 'enemy-collision-append-box')]) as shared:
             owners, exact = frontiers.run_enemy(protect_exact=True)
-        self.assertEqual(owners['enemy_manager_update']['ordinary_differences'], 29)
+        self.assertEqual(owners['enemy_manager_update']['ordinary_differences'], 13)
         self.assertEqual(owners['enemy_collision_append']['ordinary_differences'], 0)
         self.assertTrue(owners['enemy_manager_update']['switch_destinations_agree'])
         self.assertEqual([x['unit'] for x in exact],
@@ -423,14 +424,13 @@ class BossFrontierChecks(TestCase):
 
     def test_enemy_preserves_matched_bytes_even_inside_known_bad_register_spans(self):
         baseline, _ = self.enemy_evidence()
-        self.assertEqual(len(frontiers.ENEMY_UPDATE_ORIGINAL_RESIDUAL_OFFSETS), 29)
+        self.assertEqual(len(frontiers.ENEMY_UPDATE_ORIGINAL_RESIDUAL_OFFSETS), 13)
         self.assertEqual({int(s, 16) for s in baseline['difference_offsets']},
                          frontiers.ENEMY_UPDATE_ORIGINAL_RESIDUAL_OFFSETS)
         # The previous three broad windows allow each poisoned offset, even
         # though they were matching code bytes in the verified original.
         for known, introduced in ((0x19C, 0x19D), (0x1A3, 0x1A4),
-                                  (0x252, 0x253), (0x294, 0x295),
-                                  (0x9C0, 0x9C1), (0xA7E, 0xA7D)):
+                                  (0x252, 0x253), (0x294, 0x295)):
             self.assertNotIn(introduced,
                              frontiers.ENEMY_UPDATE_ORIGINAL_RESIDUAL_OFFSETS)
             relocated = sorted(
@@ -441,11 +441,29 @@ class BossFrontierChecks(TestCase):
                 frontiers.guard_enemy_update({**baseline,
                     'difference_offsets': [hex(x) for x in relocated]})
 
+    def test_enemy_protects_every_recovered_tracking_byte_and_native_definition(self):
+        baseline, _ = self.enemy_evidence()
+        recovered = (0x9C0, 0x9C6, 0x9DF, 0x9E2, 0x9EC, 0x9F3, 0xA1F,
+                     0xA23, 0xA29, 0xA2E, 0xA34, 0xA3A, 0xA42, 0xA45,
+                     0xA61, 0xA7E)
+        for offset in recovered:
+            changed = sorted([int(x, 16) for x in baseline['difference_offsets'][1:]]
+                             + [offset])
+            with self.subTest(offset=hex(offset)), self.assertRaises(RuntimeError):
+                frontiers.guard_enemy_update({**baseline,
+                    'difference_offsets': [hex(x) for x in changed]})
+        for changes in ({'same_object_definition': False}, {'calls': 3},
+                        {'bytes': 19}, {'source': 'src/ZunTimer.cpp'},
+                        {'original_body_sha256': '0' * 64}):
+            proof = {**baseline['native_timer_greater'], **changes}
+            with self.subTest(changes=changes), self.assertRaises(RuntimeError):
+                frontiers.guard_enemy_update({**baseline, 'native_timer_greater': proof})
+
     def test_enemy_valid_future_improvements_still_grant_no_exact_credit(self):
         main, leaf = self.enemy_evidence()
         improved = {**main, 'difference_offsets': main['difference_offsets'][1:],
                     'complete_differences': main['complete_differences'] - 1}
-        self.assertEqual(frontiers.guard_enemy_update(improved)['differences'], 28)
+        self.assertEqual(frontiers.guard_enemy_update(improved)['differences'], 12)
         converged = {**main, 'difference_offsets': [], 'complete_differences': 0,
                      'complete_bytes_agree': True}
         self.assertEqual(frontiers.guard_enemy_update(converged)['differences'], 0)

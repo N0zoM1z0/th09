@@ -14581,3 +14581,119 @@ research remain. All 489 game input hashes, unchanged 1,031 unit definitions,
 Exact coverage remains 1001/1035 and 243,853/291,883 bytes (83.5448%), with 33,436
 bytes still required for 95%; whole native product/runtime and later gates stay
 open. No new Factory acceptance or authored exact credit is claimed.
+
+
+## October 21: native Timer visibility restores Enemy tracking bytes (gpt-6.1-sol)
+
+Recovered clean independently pushed d5e0bf6, verified original Japanese v1.50a
+disk identity, direct IDA metadata and entry/distributed mapped bytes. A fresh
+actual EclManager source/profile repeats Enemy's 3900 physical bytes, 3883 code,
+97 original referents, 69 calls, 1026 instructions, 170 blocks and 29 differences.
+Direct IDA/original bytes divide the residual into draw index 2, special-attack/
+descriptor 11, tracking/homing 16. These are current target observations; older
+plateaus are dated history.
+
+The decisive control exposes the existing **ZunTimer::operator>(int)** body:
+`return this->current > value;`. Its full 20 bytes /zero fields remain identical
+to original 0x403DE0..0x403DF3, SHA256
+f4946c0b7b22e556c3b758435c2c7bdd468104acc285e40dda5ec2a737d36126.
+With that genuine definition visible, all 16 tracking/homing differences vanish.
+The whole callback stays 3900/97/1026/69/170 with the same four switch targets;
+none of its previously equal bytes changes. No caller algorithm, public ABI,
+Timer field layout, compiler profile, assembly, variable-order hint, padding or
+dummy clobber is introduced. This is a compiler-context observation, not proof
+of a unique original TU partition.
+
+The sole method definition moves out of ZunTimer.cpp into ZunTimerGreater.inl,
+lexically included by EnemyManagerCore.inl in EclManager.cpp. The existing
+zun-timer-greater canonical unit changes source/object to that real carrier;
+its profile, native symbol, 20-byte extent, empty field manifest and original
+address stay fixed. No duplicate implementation or new authored exact row.
+All shared headers are unchanged. Other Timer methods stay in their existing
+source. The canonical source row follows the real definition.
+
+The inspector now independently requires four original calls at owner fields
++0xA1,+0x276,+0x921,+0xEC6: real native symbol, REL32/addend0, positive same-object
+callee section, consistent definition coordinates and original E8 destinations.
+It reads the full actual callee and requires its original 20-byte SHA with no
+fields, plus the canonical source/profile metadata. A byte-equivalent unresolved
+external alias, mismatched definition or altered body no longer passes.
+The production frontier narrows from 29 to 13 exact residual positions and
+protects **all 3887 equal physical bytes**, including all 16 newly recovered ones.
+Pure regressions reject each recovered byte independently and poison native
+source, profile, extent, symbol, provenance and actual call operands.
+
+The remaining offsets are +019C,+01A3,+0252,+0263,+026D,+0272,+0294,+029A,+029C,
++02A5,+02A9,+02B7,+02BD: draw-head EAX/ECX selection and special-attack/descriptor
+copy/register chronology. Maintained raw callback SHA is
+5e0b14168853e07552206bb24065e19f6047cc6108103fb948193c1107b268fb;
+original-linked SHA is
+ddf419ae5bfb1793dc37e0e1af8668f013fd9017e35ce41e0d99ed123b454440.
+All 97 encoded field identities/positions, all 3871 old equal bytes and every code,
+alignment and table byte are compared; similarity earns no partial exact credit.
+
+Cold focused replay passes **94 existing exact units /24707 complete physical
+bytes** across three real carriers: 74 ECL main units, 4 ECL alternate units and
+16 remaining Timer units. ECL's genuine method ownership grows 77 to 78 units;
+Timer's shrinks 17 to 16. This relocates one existing 20-byte exact owner without
+changing the authored exact total. Source-scoped state/damage inventories become
+103/80; external Player sources and their unchanged proofs are reused. Other 907
+unaffected exact source/profile proofs are reused, not claimed freshly replayed.
+
+Two private symbol spellings change. Before editing manifests, complete actual
+COFF binding proves every original byte and each label's owner-relative position:
+movement +0x139 changes $L74130->$L74138, relative 0x3C8, original 0x408548;
+CompareOperands +0x14 changes $L73360->$L73366, relative 0x34C, original 0x407A4C.
+Offsets, kinds, addends and original destinations do not change. Strict canonical
+comparison subsequently passes. The same fresh main object repeats full RunEcl
+**15564/598/30**, with zero differing field/table bytes; it remains nonexact.
+
+Twenty-two successful private compiler controls comprise 21 whole Enemy carriers
+and one typed-carrier constructor. Thirteen main controls allow complete strict
+3900/97 comparisons: nine retain 29, Greater-only gives 13, HasTickedEvery-only 61,
+both native Timer bodies 45, and reversed distance comparison 33. Both Timer
+bodies themselves remain original-equal 20/33 bytes; the combined 45-byte lead
+restores all old 29 differences but damages 45 previously equal positions and is
+not adopted. Eight other main controls change extent, original call positions or
+source-linked RunEcl closure and are rejected before promotion. The typed native
+constructor control independently remains 28/28 exact; inheritance/payload type
+hypotheses provide no original ownership fact and are not adopted.
+
+All three genuine pointer-body contexts (before ECL, before Enemy, after Enemy)
+emit 3876 bytes /96 fields /68 direct E8 fields and both original-equal three-byte
+aliases. The missing static operand is CleanupAfterDeactivation, not the pointer
+conversion call. An initial pointer-call-removal hypothesis is falsified by the
+actual COFF census. Fewer static sites may reflect sharing; runtime call
+multiplicity remains unknown. These contexts are rejected and stay separate
+from the retained Greater-only implementation. Read-only TH08 declarations were
+consulted as hypothesis material only; no adjacent bytes/layouts/ownership are
+promoted to TH09 evidence.
+
+Trial sources, actual COFF rows, complete negative results, independent label
+proof and frozen recipes: .analysis/gpt-61sol-20261021-enemy-draw-tracking/.
+Private driver construction errors are recorded separately from compiler
+observations; all 22 actual C++ compiler runs succeed. Whole native product/runtime,
+new Factory acceptance and the full Enemy/95% exact gates remain open.
+
+Final CI passes **862 tests /28 skips**, plus target-required tracking,
+documentation, progress and both whitespace checks. Initial CI correctly rejects
+an unchanged 73+4 carrier count after the native method moves; the current
+inventory is 74+4. Updated 24 carrier regressions and the repeated full CI pass.
+No machine-code proof is weakened to correct this bookkeeping. Frozen replay
+independently repeats current 13 differences and 74 complete exact main units,
+and keeps the old combined-native-body 45 context rejected. The pre-counter-fix
+provider is retained as its own immutable snapshot; final archive replay uses
+the corrected provider.
+
+After every producer is terminal, all 157 members /15094766 bytes are ZIP CRC/
+hash verified in a 2301114-byte archive. Removing only those duplicates and 387
+source-bound compiler/bytecode caches /7535929 bytes reclaims 20329581 bytes
+(~19.39 MiB). The three fresh carriers' six OBJ/PDB files and terminal CI caches
+are gone; original target, tools, IDA and older unique evidence stay. Post-clean
+checks cover 490 game inputs, 1031 units and canonical input hashes. Only two old
+game inputs change and one fragment is added; no header changes.
+
+Authored exact coverage remains **1001/1035 functions**, **243853/291883 bytes
+(83.5448%)**. The 95% gap stays **33436 complete bytes**; sixteen restored positions
+inside a nonexact owner are not deducted from that gap. RunEcl 30, Enemy 13,
+Title DrawResult 22 and Type3 15 remain unfinished.

@@ -18,6 +18,9 @@
 #include <stddef.h>
 #include <string.h>
 
+// The real comparison body preserves the original Player tracking allocation.
+#include "ZunTimerGreater.inl"
+
 // These three target-exact helpers share this translation unit with
 // EnemyManager::OnUpdate. The real callee bodies alter VC7.1 copy scheduling
 // in the 3,900-byte caller; original C++ TU partition is not proven.

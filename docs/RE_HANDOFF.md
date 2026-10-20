@@ -9,46 +9,48 @@
 
 The operator requests continued exact reconstruction across **large functions
 and small leaves**, serial low-priority compiles, focused affected replays and
-regular cleanup. Starting from pushed `7294483`, this checkpoint tests the
-**Type3 query-order interaction and newly implemented native pointer bodies**.
-All maintained game source/headers, compiler profiles and unit definitions stay
-unchanged. No new authored exact credit: RunEcl/Enemy/Title DrawResult/Type3
-remain **30 /29 /22 /15**; the 95% and product/runtime gates remain open.
+regular cleanup. Starting from pushed `d5e0bf6`, this checkpoint restores
+**sixteen Enemy tracking bytes: 29 ->13 differences**, without damaging any
+previously equal byte. RunEcl/Enemy/Title DrawResult/Type3 are now
+**30 /13 /22 /15**. No complete new exact owner; the 95% and product/runtime
+gates remain open.
 
-- Eight component controls separate the existing query forwarding helper, qualified
-  middle-Z writes and qualified tail-X word reads. All retain 780 bytes /38
-  original referents /24 calls /17 blocks; differences are respectively
-  **15,27,15,27,67,19,52,4**. The original Z chronology appears only with both
-  qualifications in this tested panel. That helper alone regresses to 27.
-  The four-byte model still damages four previously equal bytes and remains
-  rejected. No original volatile type, aliasing intent or source spelling follows.
-- Eight genuine definition-visibility controls test the two existing pointer
-  conversion bodies before/after baseline/rejected callers, and each actual
-  inverse-X/Y method separately. Pointer visibility is byte-neutral: caller 15
-  or 4; both aliases retain the same original three-byte body and zero fields.
-  Original ownership/origin is unknown; two aliases do not earn six authored bytes.
-  Partial coordinate visibility changes extent/field inventory to 770/36,
-  765/35 or 775/37 while each genuine 46-byte callee stays original-equal.
-- Public producers now expose five component cases and `--case pointer-views`.
-  Default word-order scope and all three previous compiled source hashes stay
-  unchanged. New component reports are isolated; invalid/stale results cannot
-  replace independent evidence. Seven focused public compiles reproduce all
-  captured raw bytes and actual COFF rows, plus both three-byte aliases.
-- Only diagnostic scripts/tests and evidence notes change. All **1,001 existing
-  canonical exact source/profile proofs** are reused because no game input or
-  canonical unit changes. Joint callee-body comparisons are separate from a
-  canonical source-carrier replay and from new authored exact credit.
-- CI passes **858 tests /28 skips**; target-required tracking, documentation,
-  progress and whitespace checks pass. Five frozen source controls reproduce
-  complete raw code/COFF fields, including both alias bodies and the rejected
-  partial-Y context. A post-archive baseline reads only frozen archive inputs.
-- **64** evidence members /2,636,841 loose bytes become a **395,124-byte ZIP**.
-  Removing verified duplicates and **380** terminal CI bytecode caches reclaims
-  **8,691,375 bytes (~8.29 MiB)**. All 489 game inputs, unchanged 1,031 unit
-  definitions, 28 frozen source/provider inputs and four canonical input hashes
-  are checked after cleanup; original input, tools and older unique research stay.
-- Evidence, full sources/COFF records and frozen recipes:
-  `.analysis/gpt-61sol-20261021-type3-query-factorial/`.
+- The genuine **20-byte ZunTimer::operator>(int)** becomes co-visible with
+  Enemy through one ZunTimerGreater.inl definition in EclManager.cpp. Its old
+  definition is removed from ZunTimer.cpp, keeping one implementation and the
+  existing native symbol/ABI. Original TU ownership is not inferred.
+- The full 3900-byte Enemy owner retains all 97 encoded original fields, 69 calls,
+  1026 instructions, 170 blocks and four switch destinations. All 16 restored
+  positions belong to tracking/homing; the guard now protects **3887 equal
+  physical bytes** and permits only the **13** remaining draw/descriptor bytes.
+  Four same-object native comparison calls and its complete original body are
+  checked independently, including definition provenance and actual target E8s.
+- All **94 affected existing exact units /24707 physical bytes** pass from
+  three freshly compiled real source/profile carriers: ECL main/alternate and
+  the remaining Timer source. The method moves between sources; no exact row
+  is added. Other **907** unchanged exact source/profile proofs are reused.
+- Two private label names change in movement/comparison. Full original bytes
+  and actual owner-relative positions are proved before changing the manifests:
+  +0x139 still targets 0x408548; +0x14 still targets 0x407A4C. Their offsets,
+  kinds/addends and original destinations remain unchanged.
+- Twenty-two successful private compiles comprise 21 Enemy controls and one
+  typed-carrier constructor check. Greater-only visibility gives 13 with no
+  damage. HasTickedEvery alone gives 61; both real bodies give 45, restoring old
+  mismatches but damaging 45 old equal bytes. Those leads remain private. List,
+  copy, typed payload, pointer visibility and expression alternatives do not
+  close the owner. Native body equality does not validate a changed caller.
+- CI passes **862 tests /28 skips**, with target-required tracking,
+  documentation, generated progress and both whitespace checks. The first CI
+  caught an old 73+4 carrier inventory; it is corrected to 74+4, and all 24 carrier
+  regressions pass. Frozen source replay repeats retained 13/74 main exact units
+  and rejects the real-bodies 45 lead; the archive replay uses the corrected gate.
+- **157** evidence members /15094766 loose bytes become a **2301114-byte ZIP**.
+  Removing verified duplicates and **387** source-bound compiler/bytecode caches
+  reclaims **20329581 bytes (~19.39 MiB)**. Only the three fresh carriers' six
+  OBJ/PDB files and terminal CI caches are removed. All 490 game inputs, 1031 unit
+  definitions, canonical ledger hashes and frozen provider blobs are checked.
+- Evidence, complete sources/COFF inventories and frozen recipes:
+  `.analysis/gpt-61sol-20261021-enemy-draw-tracking/`.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
 
@@ -104,8 +106,8 @@ For the complete <=256-byte cohort see
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes; opcode 155: 23 bytes, 146/148 handler shapes. Opcode 4 now directly calls the separately exact real `ZunTimer::operator=(int) @0x00401500` on the proven 12-byte context timer, rather than fake second-class timer ABI; existing genuine `RngRuntimeView`/global `g_Rng` remains. **15,564 complete instruction/table bytes and 598 source-linked original fields are unchanged**, with all **77 exact ECL/Enemy/position/math functions across two profiles** (24,374 physical bytes) protected. `--owner runecl`; exact credit remains open. |
-| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **29** differing bytes | Genuine `Float3::operator/` and actual `AppendBoxRecord` compiler visibility close the ten-byte `+0x845..+0x850` copy window. The special-attack dispatch invokes **real `EtamaController::SpawnBulletPatternPrimary @0x004130F0`** with its target-backed 0x214-byte descriptor. Fourteen Timer/descriptor calls now use seven shared native symbols; the corresponding private aliases are removed. Original-linked byte/field/call/graph identity and 29 differences are unchanged. State calls also use the shared native getter/setter interfaces; the getter origin remains unknown. `check-enemy-player-state.py --scope damage` protects all **79 current affected exact units**, including both native damage callees. The earlier state scope covers 102 after shared-state changes. `--owner enemy` retains its 85 checks for the broader Enemy frontier. |
+| **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes; opcode 155: 23 bytes, 146/148 handler shapes. Opcode 4 now directly calls the separately exact real `ZunTimer::operator=(int) @0x00401500` on the proven 12-byte context timer, rather than fake second-class timer ABI; existing genuine `RngRuntimeView`/global `g_Rng` remains. **15,564 complete instruction/table bytes and 598 source-linked original fields are unchanged**, with all **78 exact ECL/Enemy/position/math functions across two profiles** (24,394 physical bytes) protected. `--owner runecl`; exact credit remains open. |
+| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**,97 fields, 69 calls,170 blocks; **13 differing bytes** (29->13) | Genuine co-visible **ZunTimer::operator>(int)** restores all 16 tracking/homing bytes with no damaged match. The sole 20-byte definition now lives in ZunTimerGreater.inl through EclManager.cpp; four same-object call identities and its complete body are required. All **3887 equal bytes** are protected. Remaining draw index2 and special-attack/descriptor11 stay open. All 94 affected existing exact units /24707 bytes pass across three source/profile carriers. Current state/damage scopes include 103/80 units; unchanged external Player proofs are reused. Original source partition and native product/runtime remain open. |
 | **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Maintained src/EffectDrawType29.inl preserves flag-scoped main plus six satellite fans. The inspector also records all 13 polar/accumulation receiver windows and the independently differing ordinal graph. Bounded original/native-helper emulator comparison covers all672 reachable original instructions across26 cases; it is not byte-exact or whole-product validation. The full-byte guard protects1035 equal positions. Source presence is independent of exactness; `--owner effect29` protects77 shared exact functions across two profiles. |
 | **Effect 34 draw** | 0x00444AF0 | **946/959 physical**, 53 source-linked original referents, 20 direct +12 COM calls, target/candidate 16/15 blocks; **593 overlap differences +13 extra bytes** | Exact native initialization (178) and update (208) protect the original 0xEF8 buffer: fan33 at +0x54, four line32 groups at +0x2E8, four random33 rows at +0xCE8. The genuine ECL/math context removes two redundant receiver reload bytes from the 961-byte standalone candidate. All four actual scalar definitions and all 53 decoded candidate address fields are now checked against real COFF sections and original values; a wrong-definition object with unchanged code/relocations is rejected. All 353 equal original bytes and exact D3D arguments remain protected by `--owner effect34`; byte-register alpha/cursor homes and loop layout stay open. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor ESI still open. The final original call is now typed as `EffectManager::DrawBulletLayerEffects` with its separately **169/169 exact** real-member source at `0x0040D110` and side owner at `+0x0C`; all original linked bytes remain unchanged. Complete SHA/offset guard preserves the 332 equal bytes; `--owner etama` protects **both exact same-carrier helpers plus the separately exact OnUpdate (3 checks)**. |
@@ -182,9 +184,9 @@ python3 -B scripts/check-ida-mcp.py
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner netmessage
 # Two logical aliases of one unknown-origin body; no authored credit:
 python3 -B scripts/check-vector-pointer-views.py --json
-# Latest damage interface closure (79 units); unchanged proofs are reused:
+# Current damage scope (80 units); unchanged external proofs are reused:
 nice -n 10 python3 -B scripts/check-enemy-player-state.py --scope damage
-# After shared state declarations change, use the 102-unit default scope:
+# After shared state declarations change, use the 103-unit default scope:
 # nice -n 10 python3 -B scripts/check-enemy-player-state.py
 # Constructor chain only by default; add --with-dependents after layout changes.
 nice -n 10 python3 -B scripts/check-replay-data-layout.py
@@ -245,15 +247,16 @@ It preserves all four differing offsets and the production guard rejection.
 
 ## Evidence and cleanup boundaries
 
-The current tree retains **488 game-source files, 1,031 comparison units and
+The current tree retains **489 game-source files, 1,031 comparison units and
 1,001 authored exact rows**. The two pointer-interface units and two Replay
 constructor units remain unknown-origin byte evidence, with no authored exact
-credit. This checkpoint changes no game input among **489 files including the
-source README**, and no canonical unit definition. All 1,001 unchanged exact
-source/profile proofs are reused. Twenty-three serial private/public diagnostic
-compiles test the Type3 interaction and actual leaf-body visibility; they are
-not new canonical receipts. Native product/runtime, complete inventory, semantic
-and port gates remain open.
+credit. Among 490 game inputs including the source README, this checkpoint
+changes EnemyManagerCore.inl and ZunTimer.cpp and adds ZunTimerGreater.inl.
+All headers remain unchanged. One existing method changes canonical carrier;
+two private label spellings change only after independent full-byte/location
+proof. All 94 affected exact units pass; the other 907 source/profile proofs are
+reused. Native product/runtime, complete inventory, semantic and port gates
+remain open.
 
 The KB holds bounded observations and unresolved hypotheses. Old packet numbers,
 source shapes and current-state claims are dated history, not acceptance.

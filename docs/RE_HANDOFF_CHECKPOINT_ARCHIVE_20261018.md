@@ -790,3 +790,51 @@ differences +12 missing**. The 95% milestone and product/runtime gates stay open
   whole native link/runtime closure or new authored exact credit is claimed.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
+
+
+## October 21: Type3 query and pointer controls (d5e0bf6)
+
+The operator requests continued exact reconstruction across **large functions
+and small leaves**, serial low-priority compiles, focused affected replays and
+regular cleanup. Starting from pushed `7294483`, this checkpoint tests the
+**Type3 query-order interaction and newly implemented native pointer bodies**.
+All maintained game source/headers, compiler profiles and unit definitions stay
+unchanged. No new authored exact credit: RunEcl/Enemy/Title DrawResult/Type3
+remain **30 /29 /22 /15**; the 95% and product/runtime gates remain open.
+
+- Eight component controls separate the existing query forwarding helper, qualified
+  middle-Z writes and qualified tail-X word reads. All retain 780 bytes /38
+  original referents /24 calls /17 blocks; differences are respectively
+  **15,27,15,27,67,19,52,4**. The original Z chronology appears only with both
+  qualifications in this tested panel. That helper alone regresses to 27.
+  The four-byte model still damages four previously equal bytes and remains
+  rejected. No original volatile type, aliasing intent or source spelling follows.
+- Eight genuine definition-visibility controls test the two existing pointer
+  conversion bodies before/after baseline/rejected callers, and each actual
+  inverse-X/Y method separately. Pointer visibility is byte-neutral: caller 15
+  or 4; both aliases retain the same original three-byte body and zero fields.
+  Original ownership/origin is unknown; two aliases do not earn six authored bytes.
+  Partial coordinate visibility changes extent/field inventory to 770/36,
+  765/35 or 775/37 while each genuine 46-byte callee stays original-equal.
+- Public producers now expose five component cases and `--case pointer-views`.
+  Default word-order scope and all three previous compiled source hashes stay
+  unchanged. New component reports are isolated; invalid/stale results cannot
+  replace independent evidence. Seven focused public compiles reproduce all
+  captured raw bytes and actual COFF rows, plus both three-byte aliases.
+- Only diagnostic scripts/tests and evidence notes change. All **1,001 existing
+  canonical exact source/profile proofs** are reused because no game input or
+  canonical unit changes. Joint callee-body comparisons are separate from a
+  canonical source-carrier replay and from new authored exact credit.
+- CI passes **858 tests /28 skips**; target-required tracking, documentation,
+  progress and whitespace checks pass. Five frozen source controls reproduce
+  complete raw code/COFF fields, including both alias bodies and the rejected
+  partial-Y context. A post-archive baseline reads only frozen archive inputs.
+- **64** evidence members /2,636,841 loose bytes become a **395,124-byte ZIP**.
+  Removing verified duplicates and **380** terminal CI bytecode caches reclaims
+  **8,691,375 bytes (~8.29 MiB)**. All 489 game inputs, unchanged 1,031 unit
+  definitions, 28 frozen source/provider inputs and four canonical input hashes
+  are checked after cleanup; original input, tools and older unique research stay.
+- Evidence, full sources/COFF records and frozen recipes:
+  `.analysis/gpt-61sol-20261021-type3-query-factorial/`.
+- Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
+  English `gpt-6.1-sol: ...` commits, push and independent remote verification.

@@ -92,7 +92,7 @@ def run_network_message() -> dict:
 # rebuilt rather than silently reusing the main diagnostic's object.
 # These are manifest-verified cardinalities, not historical exactness totals.
 ECL_EXACT_CARRIERS = {
-    'build/matching/EclManager.obj': 73,
+    'build/matching/EclManager.obj': 74,
     'build/matching/EclManager-Type11.obj': 4,
 }
 TITLE_EXACT_CARRIERS = {
@@ -2387,16 +2387,14 @@ def run_game_manager(*, protect_exact: bool,
 ENEMY_UPDATE_SHA256 = 'a7f01c2ff0bda79d1fd17ac9170dc3560d4089457455d7928776df8556f1bc75'
 ENEMY_COLLISION_SHA256 = 'e2be799860dde7b752f525cb13f4135c4666917745006a511e734e10cd2ff9c0'
 ENEMY_UPDATE_WINDOWS = ((0x19A, 0x1A8, 2), (0x251, 0x2C1, 11),
-                        (0x843, 0x854, 0), (0x9BC, 0xA83, 16))
+                        (0x843, 0x854, 0), (0x9BC, 0xA83, 0))
 ENEMY_COLLISION_WINDOWS = ((0x1A, 0x40, 31),)
 
-# Fresh original SHA-pinned PE/full-COFF 3,900-byte owner: only these 29
-# positions remain mismatched. Preserve the other 3,871 matching physical bytes.
+# Fresh original SHA-pinned PE/full-COFF 3,900-byte owner: only these 13
+# positions remain mismatched. Preserve the other 3,887 matching physical bytes.
 ENEMY_UPDATE_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
     0x019C, 0x01A3, 0x0252, 0x0263, 0x026D, 0x0272, 0x0294, 0x029A,
-    0x029C, 0x02A5, 0x02A9, 0x02B7, 0x02BD, 0x09C0, 0x09C6, 0x09DF,
-    0x09E2, 0x09EC, 0x09F3, 0x0A1F, 0x0A23, 0x0A29, 0x0A2E, 0x0A34,
-    0x0A3A, 0x0A42, 0x0A45, 0x0A61, 0x0A7E,
+    0x029C, 0x02A5, 0x02A9, 0x02B7, 0x02BD,
 ))
 
 
@@ -2430,6 +2428,11 @@ def physical_difference_windows(result: dict, *, count_key: str, windows: tuple,
 def guard_enemy_update(result: dict) -> dict:
     noncrediting(result, name='EnemyManager OnUpdate', target_size=3900,
                  fields=97, fields_key='relocations')
+    if result.get('native_timer_greater') != dict(
+            unit='zun-timer-greater', source='src/EclManager.cpp', calls=4,
+            bytes=20, fields=0, same_object_definition=True,
+            original_body_sha256='f4946c0b7b22e556c3b758435c2c7bdd468104acc285e40dda5ec2a737d36126'):
+        raise RuntimeError('Enemy native Timer greater definition proof changed')
     if (result.get('target_sha256') != ENEMY_UPDATE_SHA256 or
             result.get('candidate_bytes') != 3900 or
             result.get('code_bytes') != 3883 or

@@ -37,6 +37,44 @@ PLAYER_STATE_CALLS = (
 )
 PLAYER_DAMAGE_SYMBOL = '?CalcDamageToEnemy@PlayerDamagePlayerView@@QAEHPAUPlayerDamageFloat3@@0PAH11@Z'
 PLAYER_DAMAGE_FIELDS = (0x8BF, 0x8FF)
+TIMER_GREATER_SYMBOL = '??OZunTimer@@QAEIH@Z'
+TIMER_GREATER_FIELDS = (0x0A1, 0x276, 0x921, 0xEC6)
+TIMER_GREATER_SHA256 = 'f4946c0b7b22e556c3b758435c2c7bdd468104acc285e40dda5ec2a737d36126'
+
+
+def require_timer_greater_definition(fields, units, body, body_fields, target):
+    """Preserve the real co-visible comparison body, not merely its address."""
+    unit = units['zun-timer-greater']
+    if (unit['source'] != 'src/EclManager.cpp'
+            or unit['object'] != 'build/matching/EclManager.obj'
+            or unit['symbol'] != TIMER_GREATER_SYMBOL
+            or unit['target_address'] != 0x403DE0 or unit['size'] != 20
+            or unit['profile'] != units['enemy-attached-effect-update']['profile']
+            or unit.get('relocations', []) != []):
+        raise ValueError('native Timer greater source/profile/extent changed')
+    if (len(body) != 20 or body_fields
+            or hashlib.sha256(body).hexdigest() != TIMER_GREATER_SHA256):
+        raise ValueError('native Timer greater complete body differs from original')
+    observed = [row for row in fields if row['symbol'] == TIMER_GREATER_SYMBOL
+                or row['offset'] in TIMER_GREATER_FIELDS]
+    if len(observed) != 4:
+        raise ValueError('Enemy native Timer greater call inventory changed')
+    coordinates = set()
+    for row, offset in zip(observed, TIMER_GREATER_FIELDS):
+        section = row.get('symbol_section')
+        if (row['offset'] != offset or row['symbol'] != TIMER_GREATER_SYMBOL
+                or row['type'] != 'REL32' or row['addend'] != 0
+                or type(section) is not int or section <= 0
+                or section == row.get('owner_section')
+                or row.get('symbol_value') != 0 or target[offset-1] != 0xE8
+                or BASE+offset+4+struct.unpack_from('<i', target, offset)[0] != 0x403DE0):
+            raise ValueError('Enemy Timer greater call lacks its native definition')
+        coordinates.add(section)
+    if len(coordinates) != 1:
+        raise ValueError('Enemy Timer greater definitions disagree')
+    return dict(unit='zun-timer-greater', source='src/EclManager.cpp', calls=4,
+                bytes=20, fields=0, same_object_definition=True,
+                original_body_sha256=TIMER_GREATER_SHA256)
 
 
 def require_player_damage_calls(fields, units, target):
@@ -215,6 +253,9 @@ def diagnose(path, *, explain=False):
     native_run_owner = require_runecl_definition(relocations, callee_raw, callee_fields)
     native_player_state = require_player_state_calls(relocations, units, target)
     native_player_damage = require_player_damage_calls(relocations, units, target)
+    greater_raw, greater_fields = compare.object_function(path, TIMER_GREATER_SYMBOL)
+    native_timer_greater = require_timer_greater_definition(
+        relocations, units, greater_raw, greater_fields, target)
     if len(source) != OWNER_SIZE:
         raise ValueError('unreviewed candidate physical extent: ' + str(len(source)))
     if len(relocations) != 97:
@@ -274,6 +315,7 @@ def diagnose(path, *, explain=False):
         'native_run_owner': native_run_owner,
         'native_player_state': native_player_state,
         'native_player_damage': native_player_damage,
+        'native_timer_greater': native_timer_greater,
         'target_sha256': hashlib.sha256(target).hexdigest(),
         'target_bytes': OWNER_SIZE,
         'candidate_bytes': len(source),

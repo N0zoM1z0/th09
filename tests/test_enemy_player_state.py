@@ -74,7 +74,7 @@ class EnemyPlayerStateTests(unittest.TestCase):
             matches = list(csv.DictReader(stream))
         groups = runner.groups(manifest(), matches, 'damage')
         names = [name for _, group in groups for name in group]
-        self.assertEqual((len(groups), len(names), len(set(names))), (3, 79, 79))
+        self.assertEqual((len(groups), len(names), len(set(names))), (3, 80, 80))
         self.assertIn('player-build-aabb', names)
         self.assertIn('player-calc-damage-to-enemy', names)
         with self.assertRaises(ValueError):
@@ -110,7 +110,7 @@ class EnemyPlayerStateTests(unittest.TestCase):
             matches = list(csv.DictReader(stream))
         groups = runner.groups(manifest(), matches)
         names = [n for _, group in groups for n in group]
-        self.assertEqual((len(groups), len(names), len(set(names))), (6, 102, 102))
+        self.assertEqual((len(groups), len(names), len(set(names))), (6, 103, 103))
         with self.assertRaises(ValueError):
             runner.groups(manifest(), [r for r in matches if r['unit'] != names[0]])
         with tempfile.TemporaryDirectory() as td:
@@ -154,7 +154,7 @@ class EnemyPlayerStateTests(unittest.TestCase):
                 patch.object(runner, 'inputs', return_value={'fixture': 'same'}) as hashes, \
                 patch.object(runner.subprocess, 'run', return_value=SimpleNamespace(returncode=0)) as compiler:
             report = runner.run()
-            self.assertEqual(len(report['checked']), 102)
+            self.assertEqual(len(report['checked']), 103)
             self.assertEqual(compiler.call_count, 6)
             self.assertTrue(all(c.args[0][:3] == ['nice', '-n', '10'] for c in compiler.call_args_list))
             hashes.side_effect = [{'fixture': 'before'}, {'fixture': 'after'}]

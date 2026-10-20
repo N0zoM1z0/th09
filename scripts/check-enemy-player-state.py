@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Cold-check the accepted units affected by shared Enemy/Player interfaces.
 
-State scope covers 102 units in six source/profile groups; damage scope checks
-79 in three groups. Serial nice-10 builds grant no new exact or origin credit.
+State scope covers 103 units in six source/profile groups; damage scope checks
+80 in three groups. Serial nice-10 builds grant no new exact or origin credit.
 """
 from __future__ import annotations
 
@@ -19,10 +19,10 @@ import sys
 import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
-COUNTS = {'src/EclManager.cpp': 77, 'src/PlayerRuntime.cpp': 21,
+COUNTS = {'src/EclManager.cpp': 78, 'src/PlayerRuntime.cpp': 21,
           'src/PlayerSetUpdateState.cpp': 1, 'src/PlayerState3EffectSetup.cpp': 3}
 SCOPES = {'state': (COUNTS, 6),
-          'damage': ({'src/EclManager.cpp': 77, 'src/PlayerDamage.cpp': 2}, 3)}
+          'damage': ({'src/EclManager.cpp': 78, 'src/PlayerDamage.cpp': 2}, 3)}
 
 
 def module(name, filename):

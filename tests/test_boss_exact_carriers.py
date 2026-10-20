@@ -29,7 +29,7 @@ class ExactCarrierDiscovery(unittest.TestCase):
         groups = frontier.exact_source_carriers(
             'src/EclManager.cpp', frontier.ECL_EXACT_CARRIERS)
         self.assertEqual(len(groups), 2)
-        self.assertEqual(sum(map(len, groups.values())), 77)
+        self.assertEqual(sum(map(len, groups.values())), 78)
         self.assertIn('ecl-pop-context', groups['build/matching/EclManager.obj'])
         self.assertIn('effect-polar-set-from-angle-axes', groups['build/matching/EclManager.obj'])
         self.assertIn('effect-initialize-callback-ring', groups['build/matching/EclManager.obj'])
@@ -42,7 +42,7 @@ class ExactCarrierDiscovery(unittest.TestCase):
         self.assertIn('player-position-callback-type8', groups['build/matching/EclManager.obj'])
         self.assertIn('exattack-type6-initialize',
                       groups['build/matching/EclManager.obj'])
-        self.assertEqual(len(set(sum(groups.values(), []))), 77)
+        self.assertEqual(len(set(sum(groups.values(), []))), 78)
 
     def test_ecl_private_label_targets_remain_original_across_carriers(self):
         # These entries used different compiler-private $L spellings before
@@ -487,7 +487,7 @@ class ExactCarrierDiscovery(unittest.TestCase):
     def test_cold_builds_every_distinct_carrier_once_and_replays_every_unit(self):
         for source, expected, prebuilt, nbuild, nexact in (
                 ('src/EclManager.cpp', frontier.ECL_EXACT_CARRIERS,
-                 ('build/matching/EclManager.obj',), 1, 77),
+                 ('build/matching/EclManager.obj',), 1, 78),
                 ('src/TitleScreen.cpp', frontier.TITLE_EXACT_CARRIERS,
                  (), 2, 38)):
             with self.subTest(source=source), patch.object(
