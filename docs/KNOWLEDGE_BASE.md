@@ -13787,3 +13787,78 @@ source-bound 79-unit cold replay. All 25,425 physical bytes pass with final 82
 input pins and Enemy/RunEcl 29/30 unchanged. Its current report/header snapshots
 are retained separately from the earlier frozen archive. No broad replay is
 needed for the remaining unchanged owners.
+
+## 2026-10-21 Type3 joint visibility controls and bounded entry census
+
+Recovery starts from clean pushed `9c6f9a3`, with original Japanese v1.50a disk,
+direct IDA metadata and entry/distributed mapped bytes attested. Existing Title
+cursor/camera/parser/Replay hypotheses are read before selecting new controls;
+their dated notes are not current status. No game C++, header, ABI, compiler
+profile, boundary, origin or exact ledger changes in this batch.
+
+The rejected Type3 word/forwarding lead cold-reproduces all 780 bytes /38 actual
+COFF fields, retaining four differences at +1B2,+1B7,+247,+249. Whole-owner
+original decoding identifies two independent residuals: tail-Y argument uses
+MOV/PUSH EAX rather than ECX, and motion-address LEA/PUSH uses ECX rather than
+EDX. They are already equal in production's 15-byte frontier. Fewer differences
+alone cannot adopt this lead or promote partial byte credit.
+
+Twelve successful private full comparisons include the lead; actual coordinate,
+collision and ordinary Float3 bodies; standard inline instead of force-inline;
+position/half-size/both reference forwarding; explicit operator+=; the combined
+reference/operator form; and the actual native interrupt body. All complete
+780-byte models retain the same four residuals, ordered 24 calls and full graph.
+Coordinate visibility instead gives 760 bytes /236 instructions /34 fields /
+391 overlap differences and 20 missing bytes, while retaining ordered calls and
+graph. No neutral/regressed context enters game code. One whole runtime CPP
+attempt fails because it owns a different partial AnmVm declaration, and one
+method-only attempt omits its local i16 typedef; both failed recipes remain.
+
+The corrected method control uses the existing `typedef short i16` and actual
+SetInterrupt body with the caller's complete native AnmVm layout. It independently
+reproduces **18/18 original bytes, zero fields @0x406790**. This is the existing
+canonical owner, not new authored credit or proof of original TU ownership.
+The caller stays 780/38/four and the unchanged production guard rejects it.
+
+The maintained `probe-type3-native-context.py` now accepts the existing rejected
+`--variant forwarded-collision` for each genuine context, and `--case interrupt`
+for the above real method. Variant-specific report names preserve baseline
+evidence. It validates canonical callee identity, extent/profile, exact complete
+callee bytes, original full caller/fields/literal definitions and the unchanged
+production byte guard. Rejected reports explicitly retain `passed:false` and no
+exactness credit. Source/tool/profile hashes and temporary cleanup remain.
+Two new pure tests reject stale/changed method bodies or owner/profile metadata,
+ensure the runtime's private class is not copied, and preserve guard failures
+without overwriting earlier baseline evidence. Three public serial cold runs
+verify production 780/38/15, interrupt joint 780/38/four and coordinates 760/34/391.
+
+A separate read-only inventory check captures five direct IDA pages: 2165 starts
+versus 2248 catalog rows, with 84 catalog starts absent from IDA. The sole unlisted
+IDA start is 0x47D760, exactly the RET endpoint already inside the 121-byte `_longjmp`
+catalog span beginning 0x47D6E8; it is not a new authored function claim. A raw
+scan considers E8-relative encodings and aligned non-executable DWORD values
+whose numeric destinations lie in executable bytes outside every catalog span.
+There are 123 distinct candidate values /137 sites: 135 data DWORD observations
+and two raw E8 encodings. Decoding their catalogued CRT owner independently
+proves 0x47B615 and 0x47B62C are the E8 displacement byte in `LEA EAX,[EBP-18]` and
+`MOV EAX,[EBP-18]`, not calls to 0x48597E/0x485995. The remaining data values remain
+unclassified; indirect references, interior entries, code/data boundaries and
+complete executable inventory are not established by this bounded census.
+
+All 487 game-source files plus src/README and four canonical config/ledger files
+retain their original input hashes. Only diagnostic code/tests and docs change;
+existing accepted source/profile proofs are reused. The packet
+`.analysis/gpt-61sol-20261021-entry-census/` retains all 14 private attempts,
+three public cold reports, actual source/COFF pairs, real native method proof,
+original input snapshots and reproducible census recipes. Its selected frozen
+joint replay checks all 780 raw bytes /38 actual COFF rows and the 18-byte native
+body while preserving the four offsets and guard rejection. Canonical coverage
+stays 1000/1035; the requested four fronts, 95%, product/runtime and later gates
+remain unfinished.
+
+Final CI passes 830 tests /28 skips. The selected archive replay independently
+reproduces the rejected 780-byte/38-field caller and original-equal 18-byte
+interrupt, preserving the four offsets and guard rejection. After all producers
+terminate, 72 verified loose files /1,019,539 bytes become a 256,440-byte ZIP,
+reclaiming 763,099 bytes (~745 KiB). Post-clean source/provider/archive hashes
+remain stable; old unclassified research and canonical objects are retained.

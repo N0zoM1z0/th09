@@ -1,4 +1,5 @@
 """Fail-closed source/build provenance for the Type3 visibility experiment."""
+import copy
 import importlib.util
 from pathlib import Path
 import tempfile
@@ -15,6 +16,62 @@ spec.loader.exec_module(probe)
 
 
 class Type3NativeContextTests(unittest.TestCase):
+    def test_joint_model_keeps_real_caller_and_only_the_native_interrupt_body(self):
+        inputs, profile = probe.inputs_for('interrupt')
+        before = copy.deepcopy(inputs)
+        maintained = inputs[probe.SOURCE]
+        self.assertEqual(probe.render_source(inputs, 'baseline', 'baseline'), maintained)
+        joint = probe.render_source(inputs, 'interrupt', 'forwarded-collision')
+        self.assertIn(b'ReadType3TailWord', joint)
+        self.assertIn(b'CheckType3Position', joint)
+        self.assertIn(b'typedef short i16;', joint)
+        self.assertEqual(joint.count(b'void AnmVm::SetInterrupt(i16 interrupt)'), 1)
+        self.assertNotIn(b'#include "AnmManagerRuntime.cpp"', joint)
+        self.assertNotIn(b'struct AnmVm\n', joint)
+        self.assertEqual(inputs, before)
+        changed = copy.deepcopy(inputs)
+        changed['AnmManagerRuntime.cpp'] = changed['AnmManagerRuntime.cpp'].replace(
+            b'pendingInterrupt = interrupt;', b'pendingInterrupt = 0;')
+        with self.assertRaisesRegex(ValueError, 'interrupt source changed'):
+            probe.render_source(changed, 'interrupt', 'forwarded-collision')
+        unit = tomllib.loads((ROOT/'config/match-units.toml').read_text())['units'][
+            'anm-vm-set-interrupt']
+        probe.require_interrupt_unit(unit, profile)
+        for changes in ({'source': 'src/unrelated.cpp'}, {'size': 17},
+                        {'target_address': 0x406791}, {'profile': ['/Ob2']},
+                        {'symbol': '?SetInterrupt@Unrelated@@QAEXF@Z'}):
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                probe.require_interrupt_unit({**unit, **changes}, profile)
+
+    def test_rejected_joint_model_keeps_its_guard_failure_and_separate_report(self):
+        modules = self.modules()
+        def imports(name, filename):
+            result = modules(name, filename)
+            if filename == 'check-boss-frontiers.py':
+                result.guard_exattack_type3_update = lambda _: (_ for _ in ()).throw(
+                    RuntimeError('damaged formerly matching bytes'))
+            return result
+        def compile_one(command, **kwargs):
+            Path(command[5]).write_bytes(b'fixture object')
+            return SimpleNamespace(returncode=0, stdout='', stderr='')
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            baseline = output/probe.report_name('baseline', 'baseline')
+            baseline.write_bytes(b'earlier maintained proof')
+            with (patch.object(probe, 'module', side_effect=imports),
+                  patch.object(probe, 'inputs_for', return_value=(self.inputs, self.profile)),
+                  patch.object(probe, 'render_source', return_value=b'joint fixture'),
+                  patch.object(probe.subprocess, 'run', side_effect=compile_one),
+                  patch.object(probe.subprocess, 'check_output', return_value='fixture\n')):
+                report = probe.run(output, 'baseline', 'forwarded-collision')
+            self.assertEqual(report['exactness_credit'], 'none')
+            self.assertFalse(report['production_frontier']['passed'])
+            self.assertIn('damaged formerly matching', report['production_frontier']['reason'])
+            self.assertEqual(report['source_variant'], 'forwarded-collision')
+            self.assertEqual(baseline.read_bytes(), b'earlier maintained proof')
+            self.assertNotEqual(probe.report_name('baseline', 'baseline'),
+                                probe.report_name('baseline', 'forwarded-collision'))
+
     def setUp(self):
         unit = tomllib.loads((ROOT / 'config/match-units.toml').read_text())['units'][
             'ex-attack-initialize-type3']

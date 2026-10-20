@@ -4,6 +4,41 @@
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 
+### 2026-10-21: Type3 joint visibility and bounded entry-census evidence
+
+From pushed `9c6f9a3`, 12 private successful full Type3 comparisons and three
+public cold checks confirm the maintained 780/38/15, rejected native interrupt
+joint 780/38/four and coordinate joint 760/34/391 with 20 missing bytes. Two failed
+private recipes remain explicit. The actual native interrupt is independently
+18/18 original-equal with zero fields. No gameplay source, header, ABI, compiler
+profile, boundary/origin or exact ledger changes; unchanged proofs are reused.
+
+The selected frozen replay independently reproduces every 780 raw byte and all 38
+actual COFF records, its four differences and guard rejection, plus the true
+18-byte native callee. The archive also preserves five direct IDA pages, the
+limited entry census, 12 complete private pairs, both failed attempts, public
+reports, original source/provider snapshots and an all-src/config stability map.
+No inventory completeness or new authored credit follows from these observations.
+
+CI passes **830 tests /28 skips**. All compiler/replay/CI handles are terminal
+and a repository-scoped `/proc` check finds no active producers before cleanup.
+The ZIP digest, CRCs and all 72 member hashes are verified. Every removed path
+is regular, ignored, untracked, confined to this packet and rehashed immediately
+before unlink. `cleanup.json` records every file's size, SHA and classification.
+
+| Actually removed/replaced | Files | Logical bytes |
+| --- | ---: | ---: |
+| Verified loose evidence members | 72 | 1,019,539 |
+| Retained verified ZIP | 1 | 256,440 |
+| **Net reduction** | | **763,099 (~745 KiB)** |
+
+Packet: `.analysis/gpt-61sol-20261021-entry-census/`. Original target,
+provider/toolchain/SDK/Wine/IDA state, canonical/public objects, prior research,
+compact manifest/replayer, selected cold result and CI log remain. Post-clean
+hash checks preserve all 487 game-source files plus src/README, the four canonical
+ledger/config inputs, providers and all archived members. No broad or age-based
+deletion occurs; no full 1000-function replay is needed for diagnostic-only edits.
+
 ### 2026-10-21: native Enemy damage calls and bounded visibility controls
 
 From pushed `53a7564`, Enemy's two damage calls use the existing shared native
