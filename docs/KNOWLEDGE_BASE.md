@@ -256,7 +256,7 @@ name into a TH09 fact without target-local evidence.
 | GAMECONFIG-003 | layout-observed | The controller data used by TH09 configuration code is naturally modeled as one 0xC4 layout rooted at `0x004ACE70`: three 0x12 bindings at `+0x00/+0x12/+0x24`, an opaque 0x58-byte middle span, and three more 0x12 bindings at `+0x8E/+0xA0/+0xB2`. Refactoring exact `Supervisor::LoadConfig` from two temporary 0x36 globals to this single-base layout preserves its 1,054-byte target body and resolves all 30 affected relocation sites back to base `0x004ACE70` with field addends. The original target identifier and semantics of the opaque middle span remain unknown. | Target addresses, `GameConfiguration::Initialize` six-block copies, and relocation-aware tracked-source probes for both Initialize and LoadConfig. |
 | TOOLCHAIN-037 | compiler-observed | The natural `GameConfiguration::Initialize` source is 444 bytes under the established `/O2 /Ob1 /Oy-` profile, but exactly 233 bytes under both `/O1 /Ob1 /Oy-` and `/O2 /Os /Ob1 /Oy-`; the latter is the canonical replay profile. Conversely, exact `Supervisor::LoadConfig` shrinks from 1,054 to 957 bytes under `/O2 /Os`. This proves a local size-preference requirement for the initializer but does not decide original TU partition, source-level optimization pragmas, or project-wide flags. | Focused VC7.1 profile probes and exact canonical replays. |
 | BOUNDARY-040 | observed | `GameConfiguration::Initialize` ends at `0x0041A98A`; the constructor starts immediately at `0x0041A98B` and ends at `0x0041A996`; independent candidate `0x0041A997` starts at the next byte. No padding is assigned between these three logical extents. | Native IDA function extents and attested target-byte read across `0x0041A980`. |
-| GAMEMGR-001 | source-present / codegen-blocked / authored-game | `GameplaySetupThread @ 0x0041AF2D-0x0041B5C5` is the 0x699-byte thread entry registered by exact `GameManagerSetupLayout::AddedCallback @ 0x0041B76F` through the Supervisor thread wrapper with a NULL parameter. Its target-local body owns GameManager reset/configuration, two-side state allocation, stage-object setup, fourteen side-subsystem registrations, setup-mode parameter selection, success wait, and failure state transitions before exact `SupervisorCalculateFps(0)`. These game-specific ownership and lifecycle facts independently establish `authored_game / GameManager / high`; original TU/object ownership and exact source shape remain unresolved. Maintained source remains non-exact. | Exact TH09 AddedCallback function-pointer relocation, attested boundary/decompilation/disassembly/dataflow, exact GameConfiguration/AdvanceTimedState/SupervisorCalculateFps dependencies, and repeatable pinned-VC7.1 source probes. Adjacent TH08 supplies only naming/lifecycle corroboration after TH09 evidence. |
+| GAMEMGR-001 | source-present / codegen-blocked / authored-game | `GameplaySetupThread @ 0x0041AF2D-0x0041B5C5` is the 0x699-byte thread entry registered by exact `GameManagerSetupLayout::AddedCallback @ 0x0041B76F` through the Supervisor thread wrapper with a NULL parameter. Its target-local body owns GameManager reset/configuration, two-side state allocation, stage-object setup, fourteen side-subsystem registrations, setup-mode parameter selection, success wait, and failure state transitions before exact `SupervisorCalculateFps(0)`. These game-specific ownership and lifecycle facts independently establish `authored_game / GameManager / high`; original TU/object ownership and exact source shape remain unresolved. Maintained source remains non-exact: the complete 1,689-byte /171-field candidate has 904 physical differences (911→904), preserves all prior equal bytes and uses the actual Replay Create/Dispatch symbols. Seven restored case-1 positions and 164 aligned field identities do not close the original 172-field/78-block owner. | Exact TH09 AddedCallback function-pointer relocation, attested boundary/decompilation/disassembly/dataflow, exact GameConfiguration/AdvanceTimedState/SupervisorCalculateFps dependencies, and repeatable pinned-VC7.1 source probes. Adjacent TH08 supplies only naming/lifecycle corroboration after TH09 evidence. |
 | GAMEMGR-002 | observed-layout / ABI | The gameplay setup packet proves a bounded GameManager-facing layout seam rooted at `0x004A7D90`: two 0x38-byte side records contain seven subsystem pointers at `+0x00..+0x18`, a 0xA0-state pointer at `+0x1C`, selector at `+0x28`, and flags at `+0x34`. The same packet observes manager fields including game mode `+0x118`, setup mode `+0x11C`, gameplay-setup state `+0x124`, flags `+0x134`, stage object `+0xD4`, and selected setup counters/limits. The Supervisor seam includes embedded `GameConfiguration @ +0x388`, setup flags `+0x5D4`, thread state around `+0x6AC`, total-play-time baseline `+0x798`, and system/game-time baseline `+0x79C`. These are packet-local field observations, not a complete original class layout or data-definition ownership claim. | Attested TH09 effective-address arithmetic, two-record 0x38-stride loop, exact GameConfiguration dependency, and success/failure stores |
 | TOOLCHAIN-038 | unresolved-codegen | The maintained gameplay-setup source emits exactly 1689 bytes under tested `/O2 /Os /Ob1 /Oy-` and `/O1 /Ob1 /Oy-`, but relocation-masked comparison matches only 402 of 1005 directly comparable bytes and first diverges at function offset `+0x1DB`. The target repeatedly reloads the GameManager address into ECX around timed-state/stage-object calls and uses an ESI induction base at side-record flags, while stock VC7.1 hoists the manager address into ESI and chooses a different side-loop base. Rewriting the source to use the global object directly emits 1688 bytes without solving the register choice, and `/Og-` expands the function to 2564 bytes. No volatile address forcing, padding, assembly, patched compiler, or target-specific byte trick is introduced. | Pinned VC7.1 build-3077 profile probes and relocation-masked target comparison of `src/GameManagerSetup.cpp` |
 | BOUNDARY-041 | observed | The gameplay setup thread owns exactly `0x0041AF2D-0x0041B5C5` and ends in a plain `ret`; independent candidate `0x0041B5C6` starts at the next byte, so no following padding is assigned to the setup routine. Its otherwise missing code caller is explained by the data-reference thread registration from `0x0041B80A`. | Attested native IDA boundary/xref evidence, target disassembly, and Supervisor thread-wrapper call site |
@@ -14162,3 +14162,78 @@ GameManagerSetup.cpp differs from aca9e74), four canonical inputs, all live
 providers and archive identity. Earlier unique evidence, native toolchains,
 original executable, IDA database and canonical objects are retained. The new
 exact unit is a local canonical claim, not a fresh Factory accepted receipt.
+
+
+## 2026-10-21 GameplaySetupThread: seven preserved improvements and native replay calls
+
+Recovery starts from clean, independently pushed 773f38a. Target hash, direct
+IDA metadata and the entry/distributed mapped bytes pass. A new serial nice-10
+compile of the pinned GameManager /O2 /Os /Ob1 carrier repeats the complete
+1,689-byte worker baseline: 911 physical differences, 416 instructions, 171
+actual COFF fields, 35 ordered calls and 77 blocks. Original SHA256 remains
+8dc5dd11495f34c6b1998653e0094195d6d891fff374d403750141e9936f0d6a798,
+with 413 instructions /172 fields /35 calls /78 blocks.
+
+Target disassembly places case-1's duration store before the final shared limit
+and threshold publication. Reordering only the existing C4=1200 assignment before
+its counter-derived B4 assignment gives 904 differences and 164 aligned field
+identities, recovering +5AF/+5B0/+5B1/+5B5/+5B6/+5B7/+5B8. The set of new
+mismatches is empty; all 778 previous equal positions are preserved, now 785.
+Field count/multiplicity, extent, calls and block census remain unchanged.
+The original common B4 output joins cases 1/2/3; its seven static references
+versus the source's nine reflect different branch sharing. This is not evidence
+of extra source runtime writes or a license to delete required field effects.
+
+Fifteen private source models produce thirteen successful full byte/field
+comparisons and two rejected source compilations. Case-1 local counter/output
+variants also reach 904 but add unneeded locals; case 3 is neutral, and case 2
+breaks matching byte +54A. Combining all three has 905 differences and is rejected.
+Ascending switches give 1,683 bytes /169 fields; bounded global ownership gives
+1,692/169, ascending-global 1,686/167, and an explicit shared publication gives
+1,674/169. None satisfies the complete original or preserves existing matches.
+Two early global models accidentally match the forward declaration while
+extracting the worker, modifying unrelated source contexts and failing compilation.
+The corrected definition-bounded models are separate, and the failed sources,
+logs and raw/COFF successful controls remain preserved in the ignored packet.
+
+The caller's old CreateStageObject alias is replaced by actual independently
+exact ReplayManagerView::Create (361 bytes @421670). Its second argument is the
+observed pointer to GameManager+145, passed as a const char pointer under the
+real canonical contract; no filename buffer extent is inferred. The two old
+SetStageObjectMode calls now use the actual DispatchReplayStage function
+(21 bytes @4217E0) and its existing bounded ReplayStageDispatchView declaration.
+That function dispatches BeginRecordingStage /BeginPlaybackStage by its second
+argument and does not change the replay mode field. Names/layout ownership
+remain reconstruction views, not unique original C++ spellings. Each native
+callee symbol occurs twice in actual caller COFF, with zero addend; original
+35-call order and all bytes are independently preserved.
+
+The maintained whole-owner residual mask clears exactly the seven restored
+bits. Tests reject their reintroduction, a new mismatch anywhere outside the
+mask, stale field alignment, legacy call aliases, wrong native destinations,
+missing calls, incomplete extents and forged credit. The retained 172/171 actual
+referent multiset gap remains root/flags/A4 versus selector/98/two B4 references.
+The worker stays outside matches.csv; exact ledger remains 1001/1035 functions,
+243,853/291,883 authored bytes. The requested four fronts remain 30/29/22/15.
+Reconstruction source uses its unchanged signature/profile without artificial
+clobbers, variable-order hints, assembly, dummy effects or target byte patches.
+
+Focused serial cold replay passes twelve canonical functions /3,012 physical
+bytes: all eleven GameManagerSetup owners across their two authentic profiles,
+plus the 21-byte dispatcher. The separate fresh Create replay passes all
+361 bytes /28 fields. Other unchanged source/profile proofs are reused; no full
+cohort replay is performed. CI passes 841 tests /28 skips plus tracking, docs,
+progress and whitespace checks.
+
+Frozen input compilation independently repeats the full 1,689-byte /171-field
+worker: identical raw code and actual COFF identities, 904 differences, all seven
+restorations and no new mismatches. Before deleting any loose evidence, ZIP CRC
+and every member hash pass after all producers terminate. Seventy-five members
+/6,900,283 bytes become a 1,109,230-byte ZIP; net reclaimed 5,791,053 bytes
+(~5.52 MiB). All fifteen models, source errors, original/current input blobs,
+real carrier profiles, target-bound reports and producer ledger snapshot remain
+archived. Post-clean checks preserve 488 game inputs, unchanged 1,029 canonical
+unit definitions, four canonical config/ledger hashes and live provider pins.
+Only GameManagerSetup.cpp changes among game inputs. Evidence and frozen recipe:
+.analysis/gpt-61sol-20261021-setup-limit. No complete worker exactness, native
+product/runtime closure or Factory accepted receipt is claimed.

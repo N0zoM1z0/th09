@@ -2218,7 +2218,7 @@ GAMEPLAY_SETUP_RESIDUAL_MASK = bytes.fromhex(
     'c0fffffffffffffffffffefffffffffffffffffffffffffffffffffdffffffff'
     'ffffffffffbfffffffffffffffffffffffff7ffffffffffffeffeffffffddf9f'
     '20088078eeffffffffffffbffffffffffffddfffffffffbfffffffffff3df7f7'
-    '7ffff73fffbffffffffb0f0000000000000000000080e3fffffff7bdef7defff'
+    '7ffff73fffbffffffffb0f000000000000000000000000fefffff7bdef7defff'
     'ffffffffff170000000000000000000000000000'
 )
 
@@ -2236,7 +2236,7 @@ def guard_gameplay_setup_thread(result: dict) -> None:
     count = result.get('overlap_differences')
     if (result.get('target_sha256') != GAMEPLAY_SETUP_TARGET_SHA or
             len(GAMEPLAY_SETUP_RESIDUAL_MASK) != 212 or
-            sum(bin(x).count('1') for x in GAMEPLAY_SETUP_RESIDUAL_MASK) != 911 or
+            sum(bin(x).count('1') for x in GAMEPLAY_SETUP_RESIDUAL_MASK) != 904 or
             result.get('candidate_bytes') != 1689 or
             result.get('target_instructions') != 413 or
             result.get('candidate_instructions') != 416 or
@@ -2248,12 +2248,12 @@ def guard_gameplay_setup_thread(result: dict) -> None:
             result.get('candidate_blocks') != 77 or
             result.get('direct_graphs_agree') is not False or
             type(result.get('aligned_field_identities')) is not int or
-            result['aligned_field_identities'] < 157 or
+            result['aligned_field_identities'] < 164 or
             type(result.get('field_change_spans')) is not int or
             not 0 <= result['field_change_spans'] <= 15 or
             type(result.get('aligned_instructions')) is not int or
             result['aligned_instructions'] < 394 or
-            type(count) is not int or not 0 <= count <= 911 or
+            type(count) is not int or not 0 <= count <= 904 or
             result.get('complete_bytes_equal') is not (count == 0) or
             not isinstance(differences, list) or len(differences) != count or
             any(type(i) is not int or not 0 <= i < 1689
@@ -2261,7 +2261,13 @@ def guard_gameplay_setup_thread(result: dict) -> None:
             differences != sorted(set(differences)) or
             any(not (GAMEPLAY_SETUP_RESIDUAL_MASK[i // 8] & (1 << (i % 8)))
                 for i in differences)):
-        raise RuntimeError('GameplaySetupThread 1689-byte/171-field/35-call/911-residual frontier drifted')
+        raise RuntimeError('GameplaySetupThread 1689-byte/171-field/35-call/904-residual frontier drifted')
+    if result.get('native_replay_calls') != [
+            dict(symbol='?Create@ReplayManagerView@@SIPAU1@HPBD@Z',
+                 target=0x421670, count=2),
+            dict(symbol='?DispatchReplayStage@@YIXPAUReplayStageDispatchView@@H@Z',
+                 target=0x4217E0, count=2)]:
+        raise RuntimeError('GameplaySetupThread native Replay Create/Dispatch identities drifted')
     guard_gameplay_setup_field_referents(result)
 
 
@@ -2371,6 +2377,9 @@ def run_game_manager(*, protect_exact: bool,
                 continue
             build(sibling)
             owners.append(canonical(sibling))
+        # Dispatch is a separate 21-byte owner, outside the ReplayInput sweep.
+        build('replay-stage-dispatch')
+        owners.append(canonical('replay-stage-dispatch'))
     return diagnostics, owners
 
 

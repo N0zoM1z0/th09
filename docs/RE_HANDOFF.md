@@ -9,48 +9,46 @@
 
 The operator requests continued exact reconstruction across **large functions
 and small leaves**, serial low-priority compiles, focused affected replays and
-regular cleanup. This checkpoint starts from pushed `aca9e74` and adds one
-canonical exact owner: **GameManager CleanupGameplayState, 425 bytes**.
+regular cleanup. This checkpoint starts from pushed `773f38a` and narrows the
+**1,689-byte GameplaySetupThread from 911 to 904 physical differences**.
 RunEcl/Enemy/Title DrawResult/Type3 remain **30 /29 /22 /15** differences;
-SaveReplay stays **3**, network HandleMessage **105**. The 95% milestone,
-whole Windows product/runtime and later gates remain unfinished.
+SaveReplay stays **3**, network HandleMessage **105**. No new exact owner is
+claimed in this batch; the 95% milestone and product/runtime gates remain open.
 
-- **Complete original equality:** the maintained real GameManagerSetup TU now
-  reproduces **425 bytes /117 instructions /43 actual original-bound fields /
-  12 native calls /24 blocks** at `0x0041B5C6`. Canonical unit:
-  `game-manager-cleanup-gameplay-state`. The original SHA remains
-  `e31f3c176b3b735008612b07823982a646248cbae4fb8ac826e2f2cff2d6a798`.
-- Direct per-case assignments to the actual `limitB4` field, in the natural
-  ascending **0..4** switch, recover the original shared arithmetic/publication
-  paths, ESI stage/ECX limit and late default read. All three writes at
-  **+A2 /+179 /+180** and signed branch **+17E** match. Existing void source and
-  pinned `/O2 /Os /Ob1` profile stay intact; the unique original C++ return
-  contract/class spelling remains unproved.
-- Maintained-source cold compilation and the canonical whole-byte/field
-  comparison pass. A focused **11-unit /2,991-byte** source replay across
-  **two profiles** passes, including affected small leaves. The separate
-  1,689-byte setup worker stays at **911** differences. The other **990 exact
-  source/profile proofs** and unchanged Front/Replay callees are reused; no
-  unrelated or full cohort replay is performed.
-- The whole-owner gate now requires exact equality, full linked SHA, all
-  original fields/blocks and publication positions. Pure tests reject old
-  410/422-byte fronts, missing operands, changed schedules, forged zero counts,
-  partial extents and wrong hashes; the canonical COFF comparison independently
-  awards exact credit. IDA's old 399-byte void/412-byte int note is superseded
-  and read back, while keeping the return contract unknown.
-- Source-bound recipes, full raw/actual COFF pairs, original/current snapshots
-  and failed controls live under `.analysis/gpt-61sol-20261021-game-cleanup/`.
-  Rejected controls and a driver namespace error remain recorded. This is a
-  local canonical claim; no new Factory accepted receipt or product/runtime
-  validation is asserted.
-- CI passes **840 tests /28 skips**. The Replay-layout accepted dependency
-  inventory grows **61→62** with this same-source addition; its cleanup path
-  uses the new exact gate, without replaying unchanged layout consumers. The
-  frozen canonical replay independently repeats all 425 bytes /43 fields and
-  the related cleanup/setup guards. After all producers terminate, 71 verified
-  loose members /4,696,669 bytes become a 759,825-byte ZIP, reclaiming
-  **3,936,844 bytes (~3.75 MiB)**. Source/config/provider and archive pins pass
-  after cleanup; earlier unique evidence and canonical objects are retained.
+- Moving the real case-1 `valueC4 = 1200` store before its counter-derived
+  `limitB4` assignment restores **seven** original byte positions
+  (**+5AF /+5B0 /+5B1 /+5B5 /+5B6 /+5B7 /+5B8**) and damages none. Full extent,
+  416 compiled instructions, 171 actual COFF fields, 35 ordered calls and
+  77 compiled blocks stay intact; field identity alignment rises **157→164**.
+  The original remains 413 instructions /172 fields /78 blocks. Still nonexact.
+- Calls now use the actual exact `ReplayManagerView::Create @0x00421670` and
+  `DispatchReplayStage @0x004217E0` symbols, replacing the old CreateStageObject /
+  SetStageObjectMode aliases. Dispatch chooses the stage recording/playback
+  entry; it does not set replay mode. The independently proven fastcall
+  contracts preserve every call destination and byte. The `+145` path pointer
+  is target-observed; no unknown array extent or original class spelling is
+  inferred.
+- Fifteen private source models yield thirteen successful full comparisons and
+  two rejected source compilations. Case-2's similar reorder breaks an existing
+  byte; ascending/global/shared-tail forms change full extent and are rejected.
+  The chosen source is the smallest valid case-1 change. No ABI/profile change,
+  variable-order hint, assembly, padding or target patch is used.
+- The residual guard now protects all **785 already equal physical bytes**,
+  the full 904-offset residual mask, actual operand referents and the two native
+  replay call identities (two calls each). Restoring another bit can pass;
+  introducing a mismatch in any already equal position fails.
+- Focused cold replay passes **12 exact functions /3,012 bytes**: eleven same-TU
+  owners across the two pinned profiles plus the native 21-byte dispatcher.
+  Fresh native Create adds a separate **361-byte** exact proof. Other unchanged
+  source/profile proofs are reused. CI passes **841 tests /28 skips**, tracking,
+  docs, progress and whitespace checks.
+- Frozen source replay reproduces the full **1,689 /171 /904** worker, identical
+  raw bytes/actual COFF identities, exactly seven restorations and zero new
+  mismatches. After all producers terminate, 75 verified loose members become
+  a 1,109,230-byte ZIP, reclaiming **5,791,053 bytes (~5.52 MiB)**. Source/config/
+  provider and archive pins pass after cleanup. Evidence and frozen recipes:
+  `.analysis/gpt-61sol-20261021-setup-limit/`. No canonical exact or Factory
+  accepted credit is granted to this partial worker.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
 
@@ -125,7 +123,7 @@ For the complete <=256-byte cohort see
 | **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15 maintained differences** | New private word-read plus real collision-forward model restores original middle-Z chronology and has **four differences** at +1B2,+1B7,+247,+249. These are previously equal bytes, so it is not adopted and the production guard stays unchanged. Reproduce with `probe-exattack-type3-word-order.py`; native/inline/reference joint controls retain four or lose 20 physical bytes. The extended native-context producer also checks the real 18-byte interrupt. Real shared `AnmVm` and five canonical interrupts remain; `--owner type3` protects seven exact functions. |
 | **ExAttack Type19 update** | 0x0044A330 | **821/821**, 35 fields, 11 calls, 30 blocks; **44** differences (198→190→44) | ECL's genuine ordinary Float3 callee visibility and the retained native GameManager Player slot recover 146 more bytes, with all fields in original order and no newly differing byte. All 777 matching bytes are protected. Remaining Record/Extra and magnitude-cursor register roles stay open; `--owner type19` protects both shared ECL compiler profiles and the separate draw. |
 | **ExAttack Type14/22 draw** | 0x00444130 | **959 / 974**, 53 full PE/COFF fields, 20 direct + 12 indirect calls, 9 jumps, 905 overlapping differences and 15 extra source bytes | Twelve device fields use the genuine `Supervisor g_Supervisor +8`; the old fictitious global type is rejected. Original-bound bytes, fields and calls remain unchanged. `--owner exattack` protects all 54 equal original positions and the three exact Type14/22 initializer/update controls. Remaining draw register/loop schedule stays NON-EXACT. |
-| **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **911 differing bytes** (down from 921) | Real `setupMode==0` non-mode-2 early exit recovers ten original-linked bytes and raises field identity alignment 155→157. The remaining 172-original / 171-source field gap is now independently decoded by **referent and multiplicity**: original-only `g_GameManager+0x00` (3), `+0x34` (1), `+0xA4` (1); candidate-only `+0x28` (1), `+0x98` (1), `+0xB4` (2). The target's side-registration loop anchors ESI to `side.flags (+0x34)` while VC7.1 prefers `side.selector (+0x28)`; 28 source-cold cursor/alias models were neutral or regressed. Still NON-EXACT; full 911-residual-byte and original/COFF-referent guards plus eleven exact siblings run via `--owner gamemgr`. |
+| **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **904 differing bytes** (911→904, no damaged matches) | Real case-1 C4 publication before the counter-derived limit restores seven bytes; alignment is 164 field identities. Both Create and stage dispatch now call their actual canonical symbols. The remaining referent multiset gap is unchanged: original-only root (3), +0x34 (1), +0xA4 (1); candidate-only +0x28 (1), +0x98 (1), +0xB4 (2). The side-registration cursor and shared final limit/rate publications remain unresolved. The B4 multiplicity gap is different static branch sharing, not proof of extra runtime writes. Complete residual/referent/native-call guards and eleven same-TU exact siblings remain required. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | **862 / 849**, 26 fields, 12 calls; **804** overlap + 13 missing | Three return exits, gameplay/state collision branches; `--owner player` protects seven exact helpers. |
 | **Replay SaveReplay** | 0x00420C60 | **1,238/1,238 bytes**, 380 instructions, 53 fields, 23 call operands, 49 matching blocks; **3 differences** (152→3) | Stage-indexed chain roots acquired before copying/publishing headers recover 149 bytes with no new mismatch. Residual +0xB7/+0xBB selects ECX versus EDI for the frame destination; +0x3F6 is an equivalent checksum SIB. Actual string/float COFF definitions and all 1,235 equal bytes are guarded. `--owner replaysave` checks all 12 exact same-source siblings across two profiles; NON-EXACT. |
 | **Replay BeginPlaybackStage** | 0x00420840 | **540 / 538**, 152/151 instructions, **32/32 ordered original PE/COFF fields**, 5 calls, 12/12 matching CFG blocks; **39** overlapping unlike bytes + 2 missing (49→39) | Scoped volatile read of `g_ReplaySideState0` after header 1E7 publication restores all 32 original field referents in the correct order and all **first 30 physical field positions**, instead of the previous one reversed field pair. Nine register-scheduling residual positions `+0x152,+0x156,+0x15C,+0x162,+0x168,+0x16C,+0x172,+0x178,+0x17A` and 30 seed/tail bytes `+0x1FB..+0x1FE,+0x200..+0x219` remain guarded. All **499 already matching** candidate bytes are protected; tail fields are still shifted -1/-2 bytes. `--owner replay` source-cold replays all **12 exact members across both pinned compiler profiles**; still NON-EXACT. |

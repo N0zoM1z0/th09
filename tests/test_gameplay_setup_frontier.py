@@ -26,9 +26,14 @@ def baseline():
         'original_fields': 172, 'bound_fields': 171,
         'ordered_calls': 35, 'candidate_calls': 35,
         'ordered_calls_agree': True,
+        'native_replay_calls': [
+                dict(symbol='?Create@ReplayManagerView@@SIPAU1@HPBD@Z',
+                     target=0x421670, count=2),
+                dict(symbol='?DispatchReplayStage@@YIXPAUReplayStageDispatchView@@H@Z',
+                     target=0x4217E0, count=2)],
         'original_blocks': 78, 'candidate_blocks': 77,
         'direct_graphs_agree': False,
-        'aligned_field_identities': 157, 'field_change_spans': 15,
+        'aligned_field_identities': 164, 'field_change_spans': 15,
         # The real full-owner decoded 172/171-field *referent multisets*
         # are part of the source-cold guard, not optional diagnostic data.
         'original_only_field_referents': [
@@ -44,10 +49,10 @@ def baseline():
 
 
 class GameplaySetupOriginalBoundFrontier(TestCase):
-    def test_complete_candidate_mask_is_911_different_bytes(self):
+    def test_complete_candidate_mask_is_904_different_bytes(self):
         report = baseline()
         self.assertEqual(len(front.GAMEPLAY_SETUP_RESIDUAL_MASK), 212)
-        self.assertEqual(report['overlap_differences'], 911)
+        self.assertEqual(report['overlap_differences'], 904)
         self.assertNotIn(0x62B, report['difference_offsets'])
         self.assertNotIn(0x635, report['difference_offsets'])
         self.assertIn(0x62C, report['difference_offsets'])
@@ -69,11 +74,22 @@ class GameplaySetupOriginalBoundFrontier(TestCase):
         report = baseline()
         allowed = report['difference_offsets']
         outside = [i for i in range(1689) if i not in set(allowed)]
-        for off in (0, 0x62B, 0x635, outside[-1]):
+        for off in (0, 0x5AF, 0x5B0, 0x5B1, 0x5B5, 0x5B6, 0x5B7, 0x5B8, 0x62B, 0x635, outside[-1]):
             with self.subTest(offset=hex(off)), self.assertRaises(RuntimeError):
                 candidate = sorted(allowed[:-1] + [off])
                 front.guard_gameplay_setup_thread({**report,
                     'difference_offsets': candidate})
+
+    def test_reject_old_aliases_or_incomplete_native_replay_calls(self):
+        report = baseline()
+        calls = report['native_replay_calls']
+        invalid = (None, [], calls[::-1],
+                   [{**calls[0], 'symbol': '?CreateStageObject@@YIPAXHPAX@Z'}, calls[1]],
+                   [calls[0], {**calls[1], 'target': 0x420C10}],
+                   [{**calls[0], 'count': 1}, calls[1]])
+        for value in invalid:
+            with self.subTest(value=value), self.assertRaises(RuntimeError):
+                front.guard_gameplay_setup_thread({**report, 'native_replay_calls': value})
 
     def test_reject_malformed_byte_inventory_and_forged_acceptance(self):
         report = baseline()
@@ -87,8 +103,8 @@ class GameplaySetupOriginalBoundFrontier(TestCase):
             {'difference_offsets': differences[:-1] + [1689]},
             {'difference_offsets': differences[:-1] + [-1]},
             {'difference_offsets': differences[:-1] + [True]},
-            {'overlap_differences': 912},
-            {'overlap_differences': '911'},
+            {'overlap_differences': 905},
+            {'overlap_differences': '904'},
             {'complete_bytes_equal': True},
             {'exactness_credit': 'accepted'},
             {'diagnostic_only': False},
@@ -116,7 +132,7 @@ class GameplaySetupOriginalBoundFrontier(TestCase):
             {'ordered_calls_agree': False},
             {'original_blocks': 77}, {'candidate_blocks': 78},
             {'direct_graphs_agree': True},
-            {'aligned_field_identities': 156},
+            {'aligned_field_identities': 163},
             {'field_change_spans': 16},
             {'aligned_instructions': 393},
         )

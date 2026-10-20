@@ -275,8 +275,8 @@ extern void __fastcall ReleaseSubsystem6(void *object);
 extern void __fastcall ResetGameManager(GameManagerSetupLayout *manager);
 extern void __fastcall FormatCurrentDateString(char *buffer);
 extern void __fastcall ReleaseStageObject(void *object);
-extern void *__fastcall CreateStageObject(int mode, void *context);
-extern void __fastcall SetStageObjectMode(void *object, int mode);
+struct ReplayStageDispatchView;
+extern void __fastcall DispatchReplayStage(ReplayStageDispatchView *manager, int replayMode);
 extern void __fastcall FinishLoading(Supervisor *supervisor);
 extern void *__fastcall CreateGameSubsystem();
 extern int __fastcall PreloadPlayerAnmResources();
@@ -914,11 +914,12 @@ mode_ready:
         {
             manager->seedCopy346 = g_SetupSeedSource;
             g_GameManager.UpdateProgress();
-            manager->stageObject = CreateStageObject(0, NULL);
+            manager->stageObject = ReplayManagerView::Create(0, NULL);
         }
         else
         {
-            manager->stageObject = CreateStageObject(1, &manager->modeByte145);
+            manager->stageObject = ReplayManagerView::Create(
+                1, reinterpret_cast<const char *>(&manager->modeByte145));
             g_GameManager.UpdateProgress();
         }
     }
@@ -943,11 +944,13 @@ mode_ready:
         {
             manager->seedCopy346 = g_SetupSeedSource;
             g_GameManager.UpdateProgress();
-            SetStageObjectMode(manager->stageObject, 0);
+            DispatchReplayStage(
+                static_cast<ReplayStageDispatchView *>(manager->stageObject), 0);
         }
         else
         {
-            SetStageObjectMode(manager->stageObject, 1);
+            DispatchReplayStage(
+                static_cast<ReplayStageDispatchView *>(manager->stageObject), 1);
             g_GameManager.UpdateProgress();
         }
 
@@ -1065,8 +1068,8 @@ mode_ready:
         }
         else
         {
-            manager->limitB4 = manager->counterFC + 1;
             manager->valueC4 = 1200;
+            manager->limitB4 = manager->counterFC + 1;
             manager->valueC8 = manager->counterFC + 10;
         }
         break;

@@ -28,6 +28,8 @@ DESTINATIONS = {
     '?BeginLoading@@YIXPAVSupervisor@@@Z': 0x4307C0,
     '?CreateGameSubsystem@@YIPAXXZ': 0x418840,
     '?CreateStageObject@@YIPAXHPAX@Z': 0x421670,
+    '?Create@ReplayManagerView@@SIPAU1@HPBD@Z': 0x421670,
+    '?DispatchReplayStage@@YIXPAUReplayStageDispatchView@@H@Z': 0x4217E0,
     '?FinishLoading@@YIXPAVSupervisor@@@Z': 0x4304A0,
     '?FormatCurrentDateString@@YIXPAD@Z': 0x41A796,
     '?Initialize@GameConfiguration@@QAEXXZ': 0x41A8A2,
@@ -195,6 +197,12 @@ def main():
             'original_fields': len(target_fields), 'bound_fields': len(candidate_fields),
             'ordered_calls': len(tc), 'candidate_calls': len(cc),
             'ordered_calls_agree': tc == cc,
+            'native_replay_calls': [
+                dict(symbol=symbol, target=DESTINATIONS[symbol], count=sum(
+                    r['symbol'] == symbol and r['type'] == 'REL32' and r['addend'] == 0
+                    for r in rows))
+                for symbol in ('?Create@ReplayManagerView@@SIPAU1@HPBD@Z',
+                               '?DispatchReplayStage@@YIXPAUReplayStageDispatchView@@H@Z')],
             'original_blocks': len(target_cfg), 'candidate_blocks': len(candidate_cfg),
             'direct_graphs_agree': target_cfg == candidate_cfg,
             'aligned_field_identities': aligned['paired_field_identities'],
