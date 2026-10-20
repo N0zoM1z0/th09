@@ -1028,3 +1028,5 @@ EffectUpdateCallbackType29
 EffectUpdateCallbackType31
 EffectDrawCallbackType31
 EffectDrawCallbackType37
+ReplayManagerView::ControlPlaybackFrameAdvance
+TitleCalcCallback

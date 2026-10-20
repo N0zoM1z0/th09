@@ -439,6 +439,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00420180,authored_game,Supervisor,authored,high,packet184-replay-runtime-leaves-2026-09-16
 0x00420190,authored_game,ReplayManager,authored,high,replay-frame-sync-source-nearmatch-2026-09-11
 0x004202A0,authored_game,ReplayManager,authored,high,replay-manager-record-input-vc71-exact-2026-09-11
+0x00420470,authored_game,ReplayManager,authored,high,replay-frame-control-original-exact-20261020
 0x004204B0,authored_game,ReplayManager,authored,high,replay-manager-playback-input-vc71-exact-2026-09-11
 0x004205E0,authored_game,ReplayManager,authored,high,replay-manager-load-data-source-nearmatch-2026-09-11
 0x00420830,unknown,,review,unknown,game-special-member-origin-review-2026-09-19
@@ -539,6 +540,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00429E23,authored_game,TitleScreen,authored,high,title-screen-start-menu-source-nearmatch-2026-09-12
 0x0042A45B,authored_game,TitleScreen,authored,high,title-screen-difficulty-select-exact-2026-09-28
 0x0042A7D1,authored_game,TitleScreen,authored,high,title-screen-mode-select-exact-2026-09-12
+0x0042A9CB,authored_game,TitleScreen,authored,high,title-calc-callback-original-exact-20261020
 0x0042AB13,authored_game,TitleScreen,authored,high,title-screen-register-exact-2026-09-21
 0x0042ABE0,authored_game,Chain,authored,high,chain-elem-constructor-vc71-exact-2026-09-10
 0x0042AC00,authored_game,Chain,authored,high,chain-elem-destructor-vc71-exact-2026-09-10

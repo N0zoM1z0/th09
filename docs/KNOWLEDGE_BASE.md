@@ -11885,3 +11885,100 @@ attest historical producer execution.
   original executable, IDA database, toolchain and other games are untouched.
   Local source commit and independent remote-push proof are recorded separately;
   no numerical exact increase, Factory acceptance or later phase is claimed.
+
+## October 20: omitted Title calculation and Replay frame-control callbacks exact (gpt-6.1-sol)
+
+- Recovery at pushedb1635261d9b7b62ac742f30d0e1f1bcb39cc6c5e passes original
+  Japanese1.50a disk identity, direct IDA metadata and the full direct-entry/
+  distributed-byte checker (terminal session11524). The worktree was clean.
+  Player movement's fresh complete source stays1900 physical/489 instructions/
+ 66 fields/23 direct calls/129 differences, raw
+ 0e568638931abec68e63e65a9d2e178b9681c72a0355ac59808646db793c651b.
+- Twelve bounded movement compiles cover the baseline, direct SHT expressions,
+  shared-function/shared-switch snapshots, const/mutable SHT references, actual
+  configuration array pointer/reference and owner reference, no explicit self
+  local, direct local SHT initialization and a physically ECX-compatible explicit
+  fastcall owner. Direct SHT gives259 differences; shared pointers138/137;
+  explicit owner forms140. Other tested views are raw-neutral129. No control
+  recovers an old residual without harming previously equal positions. No losing
+  source, signature or compiler profile is promoted; the1771-byte guard remains.
+- A separate read-only census decodes88,807 instructions from the logical-size
+  prefixes of catalogued authored functions and reports22 outside-catalog
+  immediate references. This is deliberately incomplete for noncontiguous
+  physical owners and does not certify whole-image coverage. Static aligned
+  data scanning is weaker: pointer-looking44CB60 and44D5A0 are data in.text,
+  not function entries. Review—not the numerical address range—excludes them.
+- The census finds an actual missing authored callback at42A9CB. Existing exact
+  RegisterTitleScreen's push42AB66 binds the callback at calc priority4. Direct
+  IDA identifies a264-byte body; independent PE decode/reachability visits all
+ 88 instructions, expands the sole indirect dispatch using the16 independently
+  read DWORD targets at42AAD3 and terminates at RET42AAD2. The64-byte table ends
+  immediately before the separate exact registration entry42AB13. No padding,
+  EH body, invented tail or logical-size inflation is included.
+- Maintained TitleCalcCallback dispatches all16 screen states to existing real
+  TitleScreen methods, including two independently nonexact handlers without
+  inheriting or granting callee exactness. A nonzero chainState1B238 bypasses all
+  UI updates and returns4 for state2, otherwise1. Normal dispatch defaults to1,
+  retains the selected handler result, executes the actual VM array, then an
+  optional help VM. Field offsets11B98/11B9C/1B224/1B228/1B238 are asserted.
+  Native AnmManager declarations and global are reused. Layout views remain
+  provisional; exact code does not recover unique original class/TU ownership.
+- Original inner mode selection is4A7EA4, already independently bound as
+  g_TitleModeSelection by exact mode-selector writers/callees. It is distinct
+  from gameplay mode g_GameMode4A7EA8. The initial wrong-selector/grouped-arm
+  draft fails both field identity and full328-byte comparison at324 bytes;
+  no target operand is fitted. Correct existing selector plus separate source
+  arms for modes0..4 naturally yields the target shared call sites and linear
+  tests under the already established Title/O1/Ob1 profile.
+- New canonical title-screen-calc-callback cold-reproduces **328/328 physical
+  bytes /36 fields**, including264 authored code bytes and64 uncredited table
+  bytes. Complete target SHA256
+ 6cc692c0e84502b1a008e27f22db54cc5832ae4e092edd35fdf87f0679916eee,
+  code SHA4384a2fcfc13178c566ac6e0965841ad98425966bb547ef77a68879a74ff4f89,
+  raw SHA5b4bdc84945b586900f323502f9fb9bf2a640ac52383eced082286d20fc22945.
+  All16 calls, three global reads, dispatch field and16 table fields are bound
+  from existing callee/global identities and actual same-owner COFF definitions;
+  a separate maintained-path cold build/comparison independently passes.
+- The other omitted authored callback is420470, already named and declared but
+  lacking source/catalog coverage. Exact ReplayManager::Create assigns it at
+ 421722, priority27. Independent target traversal covers all21 instructions/
+ 59 bytes through RET4204AA; five followingCC bytes precede independent4204B0.
+  It tests native GameManager.flags134 bit4 and absent bit200, calls existing
+  PlayerSharedRuntimeView::IsBlocked, and returns Chain restart6 exactly when
+  signed frameCounter%3!=2. All remaining paths return continue1. Existing
+  ReplayManager0x164 schema and the native GameManager/shared-runtime API remain.
+- New canonical replay-control-frame-advance reproduces **59/59 bytes /three
+  fields** from a separate maintained-source cold build using the existing
+  Replay/O2/Oi/Ob1 profile. Original/resolved SHA256
+  f4447b957710a7cceb69cf9f786e07179d65c746d045ec10acdbea8a6e47d73c,
+  raw94a389d3d13bfe102764dca7040d6310d7959522d1ceef3066d5bf68f435f40e.
+  The size profile emits55 bytes; a genuine shared-result local emits63. Both
+  are rejected. No new asm, fake callee/return contract, forced storage, padding,
+  target patch, ABI change or invented field destination is used.
+- All481 pre-existing public game-source files/headers retain parent hashes.
+  Only two new TUs are compiled canonically;995 unaffected existing source-bound
+  proofs are reused. The two new complete owners add323 authored/exact bytes,
+ 387 full physical compared bytes and39 true fields: **997 exact /242841 of
+ 291848 authored bytes =83.2080%**, another34415 complete exact bytes for95%.
+ 2245 candidates are reviewed:1033 authored,1032 source-present,1177 exclusions
+  and35 origin-unresolved. The35 maintained nonexact functions/46787 bytes and
+  Type29's2220 authored bytes without maintained source remain unchanged.
+- IDA Title calc name and both entry comments are updated and read back; no
+  function boundary or target byte is changed. Compact original-bound tables,
+  full source/COFF comparisons, rejected controls and input hashes remain in
+  .analysis/gpt-61sol-20261020-{player-movement-lifetimes,title-calc-callback,replay-frame-advance}/.
+  Native Windows product/runtime, semantic/port gates and new Factory receipts
+  remain open; a source/canonical local comparison is not an external receipt.
+- Final CI passes **769 tests /28 skipped**; target-required tracking, docs,
+  generated progress and staged/unstaged whitespace pass.725 engineering input
+  bindings contain717 retained parent hashes, six changed tracking ledgers and
+  two new source files, with685 raw and40 checkout-CRLF-to-LF relations. No
+  existing game source or public header changes. After all own native/compiler
+  and CI producers terminate, repository-cwd-scoped cleanup removes396 files /
+ 7,415,528 bytes from only this turn's three packets and initially absent build/.
+  Unique experimental sources, profiles, all17 private full raw/COFF snapshots,
+  original-bound flow proofs, both maintained canonical source/field proofs,
+  immutable-parent census reproduction and a one-case replay recipe remain.
+  Build/ and own OBJ/PDB are absent; original EXE, IDA, tools and foreign games
+  are preserved. Local source commit and independently checked remote push are
+  recorded separately.95% and all later gates remain active/incomplete.

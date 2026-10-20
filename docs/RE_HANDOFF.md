@@ -11,65 +11,66 @@
 
 Read the live ledgers first. The original Japanese v1.50a target SHA-256 is
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-Current state: **1,031 authored, 1,030 source-present, 995 canonical exact**;
+Current state: **1,033 authored, 1,032 source-present, 997 canonical exact**;
 **35 source-present nonexact plus one authored owner without maintained source**.
-**242,518/291,525 reviewed-authored bytes = 83.1894%**.
-The **95%** milestone still needs **34,431** complete exact authored bytes.
-The denominator now includes the newly reviewed2,220-byte Type29 draw; exact
-bytes are unchanged. Whole Windows i386 product/runtime and later gates stay open.
+**242,841/291,848 reviewed-authored bytes = 83.2080%**.
+The **95%** milestone still needs **34,415** complete exact authored bytes.
+The two newly reviewed callbacks add323 authored and323 exact bytes. Type29
+remains without maintained source; whole product/runtime and later gates stay open.
 
-- **Player initialization native owners corrected:** maintained
-  `PlayerLifecycleView::InitializeAddedState @41EBC0` now uses the real shared
-  `ZunTimer` and existing `GameManagerResetView::coordinate35C`. Four actual
-  Timer call fields retain canonical401500; the real coordinate field has
-  root4A7D90+35C =4A80EC, written to448 by the independently exact initializer.
-  Main linked bytes remain identical: **572 physical /552 authored /25 fields /
-  11 calls /136 instructions /20 blocks /22 differences**. All550 already equal
-  bytes are protected; other provisional aliases and the preheader stay open.
-- **Focused original-bound closure:** `nice -n 10 python3 -B
-  scripts/check-boss-frontiers.py --owner added` compiles the affected carrier
-  once and independently exact-replays all three reset siblings: **93 bytes /
-  five fields**. Their three Timer symbols now name the already canonical
-  native member, preserving every original target/addend and raw body byte.
-  The main owner's original-bound inspector retains historical aliases solely
-  for old objects; the focused guard requires all five current native fields.
-  New corruption tests reject facade/address/kind/addend/offset substitutions.
-- **Type29 remains open after bounded dispatch/lifetime controls:** ten serial
-  small-context objects test genuine member pointers, a real wrapper, one-element
-  native center array, placement construction, composition and inheritance.
-  Viable controls retain2205/2220 bytes /129 fields /1170 overlap differences
-  plus15 missing; outlined wrappers/constructors or EH fields fail independent
-  binding. No target is invented for them, and no new assembly or fake clobber
-  contract is introduced. The ten-header context reproduces the original full
-  ECL candidate hash; no unique original TU or type family is established.
-- **RunEcl current-source checks:** a complete baseline stays15564/598/30 with
-  zero field/table differences and146/148 handler shapes. Six wider-value
-  controls emit15560..15580 and fail the complete owner. Real void Timer member
-  pointer dispatch stays30; a direct operand form regresses to42 and harms
-  opcode7. No Timer return ABI, ECL source or profile is changed. Recipes and
-  full reports stay in `.analysis/gpt-61sol-20261020-effect29-source-order/`.
-- **Unchanged canonical proofs reused:** only PlayerAddedState game source
-  changes; the other480 sources retain parent **82bbc55** hashes. The three
-  affected reset owners are cold-replayed; unrelated cohorts are not rebuilt.
-  Canonical totals stay995 exact /242518 of291525 bytes =83.1894%;95% needs34431
-  further complete exact bytes. RunEcl's14792 authored bytes remain necessary
-  at this denominator. Type29 remains authored without maintained source.
-- **ReplayMenu frontier is retained:**1280/376/57/13/72 with29 differences,
-  all1251 equal bytes protected. `probe-title-replay-menu-context.py` reproduces
-  the previously measured complete declarations/native-TU neutrality; those
-  unchanged controls are not recompiled here without new evidence.
+- **Two previously omitted callbacks are now canonical exact:**
+  `TitleCalcCallback @42A9CB` contributes264 authored code bytes and independently
+  compares **328/328 physical bytes /36 fields**, including its entire16-entry
+  table. `ReplayManagerView::ControlPlaybackFrameAdvance @420470` contributes
+  and compares **59/59 bytes /three fields**. Both have maintained source,
+  original caller-registration identity, reviewed complete control flow and
+  separate configured cold canonical replays. No table/alignment bytes inflate
+  the authored total; no Factory or native runtime acceptance is claimed.
+- **Exact sources and reproduction:** `title-screen-calc-callback` builds
+  `src/TitleCalcCallback.cpp` with the existing Title/O1 profile;
+  `replay-control-frame-advance` builds `src/ReplayPlaybackFrameAdvance.cpp`
+  with the existing Replay/O2 profile. Build each unit and run
+  `scripts/compare-coff-function.py --unit UNIT --json`. All39 actual original
+  address fields, complete bytes and real local table definitions must agree.
+  No original byte, public header, existing caller source or ABI is changed.
+- **Title behavior and source evidence:** chainState1B238 bypasses updates for
+  nonzero states, returning4 only for2 and1 otherwise. The normal path dispatches
+  all16 screens, carries the called handler result, then updates the actual VM
+  array and optional help VM. Its inner selector is the already known
+  **g_TitleModeSelection4A7EA4**, distinct from g_GameMode4A7EA8. Individual inner
+  mode arms naturally merge to target calls; a grouped-arm draft emitted324 and
+  was rejected. Full code SHA and all16 table targets are independently pinned.
+- **Replay behavior:** with gameplay bit4, no transition200 and a true existing
+  shared-runtime predicate, signed frameCounter%3!=2 returns Chain restart6;
+  other paths continue1. Native GameManager+134 and shared-runtime method are
+  retained. The size profile emits55 and a shared-result model63; both are
+  rejected. Original21-instruction59-byte code excludes five followingCC bytes.
+- **Discovery and unchanged frontiers:** a bounded decoded-reference census
+  exposed the registration-referenced omissions; it is not a complete executable
+  inventory. Raw pointer-looking44CB60/44D5A0 are data, not new code owners.
+  Player movement remains1900/66/129 after12 current-source controls; direct SHT
+  reads regress to259, shared pointer lifetimes137/138 and explicit-owner forms
+ 140, while typed references/configuration views are neutral. No losing model
+  is adopted; all1771 equal positions remain protected.
+- **Focused scope and source proofs:** two new source TUs leave all481 previous
+  game sources and headers unchanged. Their995 existing canonical proofs are
+  reused; only the new exact units receive maintained-path cold builds. The
+  live total is997 exact /242841 of291848 authored bytes =83.2080%;95% still
+  needs34415 complete exact bytes. RunEcl's14792 authored bytes remain necessary
+  at this denominator;35 maintained nonexact owners and Type29's2220 bytes
+  without maintained source stay open.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
-- **Checkpoint validation:** original disk, direct IDA metadata/full checker,
-  focused added-owner/three-reset checks and11 targeted tests pass. CI passes
-  **769 tests /28 skipped**. Of723 engineering inputs,717 retain hashes and six
-  change (683 raw/40 checkout-CRLF-to-LF); no new input is added. Scoped cleanup
-  after own producer termination removes486 reproducible files /13,168,218 bytes,
-  including73 hash-restored source derivatives. Build/ is absent. Unique
-  controls, actual hashes and complete reports remain. Local source commit and
-  independently verified remote push are recorded separately in the packet.
+- **Checkpoint validation:** original identity/mapped bytes, both new canonical
+  cold replays and CI pass (**769 tests /28 skipped**). IDA names/comments are
+  read back without changing bytes/boundaries.725 engineering inputs bind717
+  retained, six changed ledger paths and two new sources (685 raw/40 checkout
+  CRLF-to-LF); all481 old sources/headers retain hashes. After every own producer
+  terminates, scoped cleanup removes396 reproducible files /7,415,528 bytes.
+  Build/ and own OBJ/PDB are absent; unique controls, profiles and complete
+  comparisons remain. Local commit and independent remote push bind separately.
 
 
 ## Next worker: first three work packages
@@ -135,25 +136,25 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current restart summary is
-**1030 source-present / 995 exact / 35 non-exact**; earlier operator notes
+**1032 source-present / 997 exact / 35 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
 | --- | ---: |
-| Function candidates | 2,243 |
+| Function candidates | 2,245 |
 | Boundary/origin unreviewed | 0 |
 | Reviewed but origin-unresolved | 35 |
-| Confirmed authored | 1,031 |
+| Confirmed authored | 1,033 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 1,030 |
-| Canonical exact functions | 995 |
+| Source-present authored mappings | 1,032 |
+| Canonical exact functions | 997 |
 | Source-present non-exact functions | 35 |
 | Source-present non-exact bytes | 46,787 |
 | Authored without maintained source | 1 |
-| Canonical exact authored bytes | 242,518 |
+| Canonical exact authored bytes | 242,841 |
 
-**242,518 / 291,525 reviewed-authored bytes = 83.1894% exact**. To reach
-95% of the *currently classified* denominator, another **34,431 bytes**
+**242,841 / 291,848 reviewed-authored bytes = 83.2080% exact**. To reach
+95% of the *currently classified* denominator, another **34,415 bytes**
 must become complete original-bound exact owners. The 35 origin-unresolved
 functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
@@ -227,7 +228,7 @@ experiments; unsupported guesses there are not target evidence.
 ## Exact landmark routing
 
 The canonical manifest and accepted original-bound comparison remain the
-**sole authority** for the **995 exact** functions. The independently accepted
+**sole authority** for the **997 exact** functions. The independently accepted
 Enemy collision wrapper at 0x00410250 is **82/82 exact**; the 3,900-byte
 Enemy OnUpdate caller is **still 29 bytes nonexact**. The former wrapper's
 original acceptance and several representative source-commit-bound exact
