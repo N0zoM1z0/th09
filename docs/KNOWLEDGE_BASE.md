@@ -11425,3 +11425,89 @@ attest historical producer execution.
   source hashes, full reports and unrelated legacy evidence remain. `build/`
   is absent. Of718 public engineering inputs,706 retain parent hashes,11
   change and one is new; final commit bindings are in the packet.
+
+
+## October 20: Type29 authored boundary and native common-subexpression lead (gpt-6.1-sol)
+
+- Recovery starts at clean pushed **91de5b021e20abf25095461fd88067176145e1d8**.
+  Original disk identity, direct local IDA metadata and distributed mapped bytes
+  pass. Direct IDA still has no function at448750. The original immutable Effect
+  row29 draw slot **4A0E14** points to **448750**. The complete38-row prefix SHA
+  is318a2c5a7e469179735911b94d8837b8b96651b2c89153ea2a15023ec20942b8.
+- Independent direct-flow traversal reaches672 instructions and the return at
+  **448FFB**. The full owner **448750..448FFB /2,220 bytes /675 physical
+  instructions** includes three unreachable alignment instructions and excludes
+  four following CC bytes; no existing catalog owner overlaps. Full SHA256
+  **8ecf5d55f2ef0de67316f09b3a6d9422b4475bf9a7fdf1ea9dd10919247a3455**.
+  Game-specific dirty geometry and native renderer operations establish authored
+  origin. The new ledger row has an empty source_file and no source mapping or
+  exact match. All55 distinct code entries in the bounded Effect prefix are now
+  catalogued; complete executable inventory and runtime semantics remain open.
+- New `inspect-effect-type29.py` pins the original prefix pointer and whole-owner
+  hash, walks direct branches/fallthrough/returns without following calls, rejects
+  out-of-range/indirect/overlapping flow and checks following CC separately.
+  Optional object comparison resolves actual COFF fields through pre-existing
+  canonical callees/literal payloads and compares complete bytes/calls/graphs;
+  it explicitly attests neither arbitrary object source nor canonical exactness.
+  Five pure tests cover both return paths, loops, call-vs-owned-tail distinction,
+  unreachable alignment, bounds, indirect flow, overlaps, invalid instructions
+  and a returnless loop. No target bytes become candidate code.
+- Context observations: actual ECL baseline2172 bytes /129 fields /72 calls /
+  1792 overlap differences+48 missing. A genuine-header standalone context gives
+ 2222/1426+2 extra. Visible Float3 core, arithmetic or constructor definitions are
+  neutral. Exposing only the unchanged existing32-byte Float3 polar body produces
+  the **same raw candidate SHA** as full ECL:
+  **a14b28d6c5eaed06624d77f71aa4855e5dfb77c084afb151692673dae7a70de1**.
+  The actual emitted polar body itself independently matches all32 original bytes
+  at441890 with zero fields. The earlier first polar-control filename referred
+  to the distinct EffectPolarScale helper; that neutral control is retained and
+  explicitly superseded by the correctly bound Float3 body, never conflated.
+- The important source hypothesis is **repeating the natural per-fan division**,
+  rather than explicitly sharing one saved step. VC7.1 itself performs common-
+  subexpression elimination and emits both a saved value and working value.
+  Full candidate becomes **2205/2220 bytes /129 referents /72 ordered calls**,
+  **1170 overlap differences+15 missing**; raw SHA256
+  **dd4b7e5d8d70d4a1eb8dba7a7bc32fc3d95bd3b89126abdfd186dfad4844c8e4**.
+  Full ECL, the genuine small polar context and added native Float3 bodies all
+  reproduce that same raw result. Original and candidate both have36-byte frames,
+  one main-step store and a saved/working pair after the satellite division;
+  the explicit-share candidate has32 bytes and only one satellite-step store.
+  This is compiler evidence for a tested expression family, not unique original
+  source spelling. The original still has six LEA ECX local-center reloads before
+  += absent from the candidate; stack homes and branch placement remain unlike.
+- Shared fan cursor/angle lifetimes, direct native position reference, named
+  center pointer, copy initialization, comma-expression geometry, typed whole
+  Effect prefix and position-only view do not close the owner. Center assignment
+  expands to2316 bytes and is rejected. Ascending and latch loop controls are
+  raw-neutral in the tested explicit-share context. `/G5` and `/G6` preserve the
+ 2205 raw result; `/Os` moves pi/3 into a new __real@3f860a92 rodata operand absent
+  from original decoded floating-memory operands. The independent binder rejects
+  it; no address is fitted. Detailed per-control bytes/fields/graph reports and
+  failed construction evidence remain in the packet; no source family is ruled
+  out universally, no opaque call is falsely declared register-preserving.
+- All481 public game-source files retain the parent hashes. Its77 exact ECL
+  owners/24374 bytes/1091 fields and unchanged canonical source proofs are reused,
+  rather than needlessly recompiling them. A fresh full Enemy observation stays
+ 3900/97/29. New authored inventory increases the denominator to291525, while
+ 995 exact owners/242518 bytes are unchanged: **83.1894%**, another34431 complete
+  exact bytes needed for95% at this classified denominator. There are35 maintained
+  nonexact owners/46787 bytes plus this2220-byte owner without maintained source.
+  The original executable, ABIs, profiles and all exact matches stay unchanged.
+  Full recipes, hashes and witness reports live in
+  `.analysis/gpt-61sol-20261020-effect29-step-ownership/`.
+- Two final natural center-helper controls preserve ordinary source contracts.
+  The by-value Float3 return helper remains a real extra call under/Ob1 and is
+  rejected as an unbound callee; no invented target address or forced inlining
+  follows. The ordinary inline reference-output helper is fully expanded but
+  stays2205 bytes/129 referents/72 calls, with1218 overlap differences+15 missing.
+  Neither closes the original receiver reloads. The complete existing CI passes
+  **757 tests/28 skipped**; all game-source/ABI/exact-manifest hashes remain at
+  the parent. No unrelated historical Oracle cohort is replayed.
+- After every own producer is terminal, scoped cleanup removes **495 files /
+  13,857,501 bytes**: owned native/CI outputs and54 byte-identical generated
+  report/disassembly duplicates, each bound to its retained copy by hash and
+  byte equality. Unique unresolved sources, recipes, profiles and reports remain.
+  The private original/toolchains and unrelated legacy evidence are untouched;
+  build/ is absent. Of720 public engineering inputs,716 retain parent hashes,
+  two catalog ledgers change and the new auditor/test are added. Committed
+  source and remote-push bindings are recorded separately in the packet.

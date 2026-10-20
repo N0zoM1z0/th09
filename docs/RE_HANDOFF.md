@@ -11,62 +11,63 @@
 
 Read the live ledgers first. The original Japanese v1.50a target SHA-256 is
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-Current state: **1,030 authored/source-present, 995 canonical exact, 35 nonexact**;
-**242,518/289,305 reviewed-authored bytes = 83.8278%**.
-The **95%** milestone still needs **32,322** complete exact authored bytes.
-Whole Windows i386 linkage/runtime, semantic reconstruction and portability
-remain separate open gates.
+Current state: **1,031 authored, 1,030 source-present, 995 canonical exact**;
+**35 source-present nonexact plus one authored owner without maintained source**.
+**242,518/291,525 reviewed-authored bytes = 83.1894%**.
+The **95%** milestone still needs **34,431** complete exact authored bytes.
+The denominator now includes the newly reviewed2,220-byte Type29 draw; exact
+bytes are unchanged. Whole Windows i386 product/runtime and later gates stay open.
 
-- **Five more original Effect callbacks are exact:** updates17/29/31 and
-  draws31/37, **2,415 bytes /120 fields**. Their original table pointers,
-  complete control flow, return extents and following CC are reviewed directly
-  from the verified target. Local IDA has no functions at these entries.
-  Native C++ uses the genuine existing ECL/math/vertex context; no new assembly,
-  ABI fiction, padding or register hints.
-- **Source/compiler observations:** Type31 draw needs the already established
-  **/Ob0** ECL profile to retain the natural Float3 array-constructor iterator.
-  Its callback remains the already canonical symbol at4343D0; original folded
-  class ownership is unknown. Type37 uses two six-vertex triangle strips,
-  both inside dirty; positive-radius references close the eight FPU bytes.
-  Type31 update independently binds two indexed Player accesses, first for
-  velocityX1CCC, then position1B88. Three updates pass on the first full probe.
-- **Focused closure:** **77 exact ECL functions across two profiles /24,374
-  physical bytes /1,091 fields** pass complete maintained canonical replay.
-  Two private labels change only after full original bytes and actual same-owner
-  positions pass. Native XY references total114, strict angle references39.
-  RunEcl **15,564/598/30**, Enemy **3,900/97/29**, Type19 **821/35/44**,
-  biased movement, Type34 draw and exact Type26 update remain unchanged.
-  Unchanged source cohorts reuse their parent/hash-bound proof.
-- **Remaining original Effect entry:** Type29 draw **448750 /2,220 bytes**.
-  The natural candidate is **2,172 bytes /129 fields /72 ordered calls**,
-  with1,792 overlapping differences plus48 missing bytes. Main fan plus six
-  satellites and dirty-scoped draws are established; saved/working step homes,
-  frame size and branch layout stay open. Reuse/const/reference controls do
-  not close it; /Op regresses and the natural inline helper remains a call.
-  No source/exactness credit is granted. Full source, recipes and comparisons:
-  `.analysis/gpt-61sol-20261020-effect-final-prefix/`.
+- **Original Effect prefix catalog closed:** row29 draw **448750..448FFB**,
+  **2,220 bytes /675 physical instructions /672 reachable /72 calls /129 fields**,
+  is now a reviewed authored owner with **no maintained source or exact credit**.
+  A direct-flow walk from the immutable table pointer covers its return and
+  excludes following four CC bytes and adjacent owners. Full owner SHA and
+  table-prefix SHA are pinned by `scripts/inspect-effect-type29.py`.
+  All55 code entries in the bounded38-row prefix are now catalogued, with no
+  interior-entry gap. This does not prove complete executable inventory.
+- **New compiler lead:** six separate per-satellite division expressions induce
+  common-subexpression elimination. The candidate becomes **2,205/2,220 bytes**,
+  **1,170 overlap differences +15 missing**, preserving129 referents and72
+  ordered calls. Both original and candidate now have a36-byte frame and the
+  single saved/working FPU-store pair. Explicit shared step stays2,172/1,792/+48.
+  The original still has **six local-center ECX reloads** absent from the new
+  candidate; stack homes and branch layout also differ. No partial credit.
+- **Small native context established:** exposing only the unchanged exact32-byte
+  `Float3::FromAngleMagnitude` body reproduces the full ECL candidate raw hash.
+  Opaque standalone context gives2,222 bytes; Float3 constructor/arithmetic
+  definition visibility does not explain that change. Repeated-expression ECL
+  and small contexts agree completely. `/G5` and `/G6` are neutral; `/Os` adds
+  an unbound rodata operand and is rejected without fitting a target address.
+  Full sources, recipes and original-linked reports are retained in
+  `.analysis/gpt-61sol-20261020-effect29-step-ownership/`.
+- **Focused verification:** new target-only and complete object audits reproduce
+  both old and CSE candidates; five pure boundary-walk tests pass. All481 public
+  game-source files retain parent **91de5b0** hashes, so its **77 exact ECL
+  owners /24,374 bytes /1,091 fields** and unaffected canonical proofs are reused.
+  A fresh full Enemy observation remains **3,900/97/29**. No game source,
+  canonical match, ABI, original bytes or accepted-receipt claim changes.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
-- **Final checks and cleanup:** CI passes752 tests/28 skipped; tracking,
-  docs, generated progress and whitespace pass. Of718 engineering inputs,
-  706 retain parent bindings,11 change and one is new. After all own producers
-  stop, scoped cleanup removes **1,099 files /20,509,134 bytes**, including717
-  hash-recreated parent input copies. The isolated original-parent native replay
-  reproduces Type29's complete baseline after public promotion. Unresolved
-  sources, hashes, recipes and full comparisons remain; `build/` is absent.
-  The earlier batch **b538551** is pushed and remote verified.
+- **Final checks and cleanup:** CI passes757 tests/28 skipped; tracking,
+  docs, progress and whitespace pass. Of720 engineering inputs,716 retain parent
+  bindings, two ledgers change and the new auditor/test are added. After all own
+  producers stop, scoped cleanup removes **495 files /13,857,501 bytes**, including
+  54 byte-identical report/disassembly duplicates with retained-copy hashes.
+  Unique unresolved source, recipes and comparisons remain; `build/` is absent.
+  The previous source checkpoint **91de5b0** is pushed and remote verified.
 
 
 ## Next worker: first three work packages
 
-1. **Catalog recovery plus large ECL/Etama:** the bounded Effect prefix now
-   has one missing code entry: **draw29@0x00448750 /2,220 bytes**. Start from
-   the full source/call/field controls in the final-prefix packet, not a guessed
-   generic fan or the superseded six-entry gap count.
-   Prove boundaries/origin/source and
-   complete target bytes independently. Alongside this recovery,
+1. **Large Effect/ECL/Etama:** **draw29@0x00448750 /2,220 bytes** is now
+   catalogued authored code without maintained source. Start from the new2,205
+   repeated-expression candidate and exact small/ECL context equivalence.
+   Resolve six local-center ECX reloads, stack homes and branch layout before
+   promoting source/exactness. The prefix has no missing catalog entry; full
+   executable inventory remains unproven. Alongside this recovery,
    keep the existing large-code goal: attack **`RunEcl` opcode 4 (7 bytes) and opcode 155
    (23 bytes)** against the immutable 15,564-byte/598-field owner. The ECL
    compiler's first-include/switch table context is essential; individual
@@ -127,20 +128,20 @@ mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
 | --- | ---: |
-| Function candidates | 2,242 |
+| Function candidates | 2,243 |
 | Boundary/origin unreviewed | 0 |
 | Reviewed but origin-unresolved | 35 |
-| Confirmed authored | 1,030 |
+| Confirmed authored | 1,031 |
 | Classified exclusions | 1,177 |
 | Source-present authored mappings | 1,030 |
 | Canonical exact functions | 995 |
 | Source-present non-exact functions | 35 |
 | Source-present non-exact bytes | 46,787 |
-| Authored without maintained source | 0 |
+| Authored without maintained source | 1 |
 | Canonical exact authored bytes | 242,518 |
 
-**242,518 / 289,305 reviewed-authored bytes = 83.8278% exact**. To reach
-95% of the *currently classified* denominator, another **32,322 bytes**
+**242,518 / 291,525 reviewed-authored bytes = 83.1894% exact**. To reach
+95% of the *currently classified* denominator, another **34,431 bytes**
 must become complete original-bound exact owners. The 35 origin-unresolved
 functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
@@ -159,7 +160,9 @@ Prioritize **large bosses as well as small leaves**. Each row refers to a
 maintained, authored, **non-exact** function in `config/functions.csv`.
 Comparisons are current-source/original PE cold baselines; lengths are logical
 unless explicitly marked physical. The ledger, not this selected table, lists
-all 35 open functions. For the complete <=256-byte cohort see
+all 35 maintained nonexact functions. The additional2,220-byte authored Type29
+draw has no maintained source; its private candidate remains nonexact.
+For the complete <=256-byte cohort see
 [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md).
 
 | Owner | Target address | Current comparison | Remaining work |

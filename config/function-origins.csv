@@ -1068,6 +1068,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00448490,authored_game,ExAttackController,authored,high,exattack-type17-update-exact-2026-09-21
 0x00448640,authored_game,Player,authored,high,player-owner-reward-callback-type9-exact-2026-09-21
 0x004486B0,authored_game,Effect,authored,high,effect-fan-variants-original-exact-2026-10-20
+0x00448750,authored_game,Effect,authored,high,effect-type29-original-boundary-review-2026-10-20
 0x00449000,authored_game,Effect,authored,high,effect-fan-variants-original-exact-2026-10-20
 0x00449070,authored_game,ExAttackController,authored,high,exattack-type18-init-exact-2026-09-21
 0x004491E0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
