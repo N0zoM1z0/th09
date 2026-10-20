@@ -12115,3 +12115,79 @@ attest historical producer execution.
   reproducible files /14688581 bytes, including35 hash-regenerable source copies.
   Build/ and own OBJ/PDB are absent; all unique sources and proofs remain.
   Local source commit and independently verified push are recorded separately.
+
+
+### 2026-10-20 — Parser private ABI and bounded origin/call-context counterchecks
+
+- Clean dc99b73 recovery verifies the original Japanese v1.50a disk target,
+  direct local IDA metadata and distributed mapped bytes. All35 unresolved
+  function extents decode completely. Their member-only construction/destruction,
+  folded identity/empty bodies and virtual-table setup do not establish unique
+  authored origin. A bounded scan of1168 excluded candidates for immediates or
+  address operands in selected game-global address windows finds only five
+  existing generated lifecycle wrappers. The scan explicitly leaves one linear
+  decode incomplete: pinned-library memcpy47CF40/829bytes includes a contribution
+  not covered by this linear decoder. No origin, boundary, exclusion or authored
+  denominator changes; neither survey proves full executable inventory.
+- Original ParseNetworkConfigValue432240 has243 bytes/116 instructions,
+  SHA b47499422bdbe8fb915ffa4009afae9f1cf923dc04c3668e100cc2d3afad647e.
+  Prologue saves incoming cursorEAX toESI, reads out atEBP+C and key atEBP+8,
+  and uses the unchanged incomingEBX as remaining pointer. All three returns
+  at4322E0/432328/432330 useRET8. Complete original679-byte caller SHA
+  ba4747c14991619ba0ac0c1579f0c6ea3a6d6b915fb5cc98b09e9407e98dbc55
+  decodes before selecting any windows, avoiding misaligned instruction reads.
+  Four calls43257E/4325B7/4325EE/4326D6 each form out atEBP-114, push out then
+  the IPAddress/Port/Sync/Side key, form EBX=&remaining atEBP-8 and EAX=cursor.
+  This proves the physical private ABI; the nominal static /Gr C++ source is
+  compiled with its actual caller. The catalog's formerly empty convention
+  field now states this contract; current names and reviewed IDA prototype/
+  comments are synchronized/read back. No target bytes or boundaries change.
+- One real token-count cache changes the compiler-private calling contract:
+  key is promoted toEBX and remaining moves to the stack. Helper shrinks243->240
+  while caller grows679->683, with22 fields. The linked diagnostic witnesses
+  use only already reviewed original symbol destinations and mutate no files.
+  This is a concrete reason to check the complete caller when comparing a
+  static helper; helper extent/one strncmp alone cannot prove its original ABI.
+- **17** initial full-TU controls cover the cold baseline, six meaningful character
+  snapshots, four newline dispatch forms, four token-loop forms and two fixed-
+  source size preferences. Five variants emit255/118 instructions/35 blocks/
+  134 overlapping differences; the integer snapshot277/119/35/162; cached-do
+  243/116/34/80; counted-do240/115/32/195 plus three missing. Seven remaining
+  source forms are baseline-neutral243/116/34/76. Both /O2+/Os and /O1 controls
+  instead emit220/105/35/210 plus23 missing, and caller613/21fields; neither
+  profile is adopted. Fourteen initial cases preserve the complete679/22 caller;
+  the counted loop and both size profiles fail its original complete comparison.
+- **24** C++ argument-order permutations change each helper definition and all four
+  calls together, preserving actual argument roles without forcing registers.
+  Every helper stays243 bytes/34 blocks: twelve have76 differences and twelve78.
+  Six callers remain679-byte exact, six679-byte callers differ and twelve679-byte
+  callers fail the original COFF-field inventory. Neither helper similarity nor
+  equal caller extent justifies a signature promotion. The full source symbol
+  is extracted from actual COFF and each private caller check changes only its
+  object path and the independently known parser symbol at the same original VA.
+- Two nominal-convention controls keep source algorithm and all other flags.
+  Explicit stdcall is raw-equivalent to baseline parser243/76 and exact caller
+  679/22 after its private decorated symbol is bound; explicit cdecl emits237
+  with nonoriginal cleanup and caller697. Thus physical private transport does
+  not identify a unique nominal C++ convention. Total43 codegen cases contain
+  zero new exact parsers;21 passing caller replays concern the same one existing
+  function and receive no repeated credit. Maintained source/profile stay fixed.
+- Final source-cold --owner parser confirms the entire original-bound243-byte
+  parser, all76 residual positions/167 equal bytes,116 instructions,one field,
+  34 versus33 blocks, and the real679/679-byte/22-field exact caller. All483
+  game source/header files and configured profiles/units remain byte-identical.
+  Only catalog names/ABI metadata change among725 engineering inputs;724 retain
+  parent hashes and996 other exact proofs are reused. Totals remain997 exact /
+  242841 of291848 authored bytes,83.2080%;95% still needs34415 exact bytes.
+- Retained .analysis/gpt-61sol-20261020-origin-crosscheck contains whole original
+  decoder/caller ABI proofs, the private-transport counterexample, bounded origin
+  census, full raw/COFF pair captures, actual profiles and41 C++ sources. Its
+  one-case replay verifies current inputs and source hashes, compiles serially
+  at nice10, compares full parser/caller bytes and every field, then deletes its
+  temporary binaries. One independent stdcall-case replay reproduces both
+  complete raw owners and all actual COFF fields, then removes its temporary
+  binaries. Tracking/docs/progress/whitespace and CI769 tests/28 skips pass.
+  After all own producers stop and the repository-cwd guard passes, cleanup
+  removes458 reproducible files /13928296 bytes. All41 unique C++ sources and
+ 43 pair captures remain; build/ and own OBJ/PDB are absent. Immutable catalog/
+  source binding and independently verified push are recorded separately.

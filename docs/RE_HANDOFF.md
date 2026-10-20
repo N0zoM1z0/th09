@@ -18,62 +18,62 @@ The **95%** milestone still needs **34,415** complete exact authored bytes.
 The earlier5d7b2d2 callback checkpoint added323 authored/exact bytes. Type29
 remains without maintained source; whole product/runtime and later gates stay open.
 
-- **Current RunEcl source improvement:** the existing flag-word union now
-  exposes target-backed bit positions1/7/17..19/22/23/24. Four handlers
-  (129/145/151/156) assign the observed three-bit death mode and one-bit
-  rotation/call-stack/interaction fields directly from the real wire byte,
-  replacing synthetic mask/shift helper expressions. Original C++ declarations
-  and complete object ownership remain unknown; the existing four-byte size
-  and owner+337C location are preserved. No new helper, volatile, forced
-  register, ABI, profile or target-byte change is introduced.
-- **Complete affected proof:** the main cold carrier preserves all135 emitted
-  function-symbol raw extents (46,932 bytes), all1,914 effective COFF records
-  and64 nondebug noncode sections.220 local label spellings change while
-  same-owner coordinates remain identical; only20 belong to exact manifests
-  (CompareOperands13, post-movement7). Each new spelling is checked against
-  its old original target address before the manifest refresh. Source staging
-  and maintained paths have distinct compiler label numbers; both are checked.
-- **Focused source closure:** all80 existing exact units across3 sources and
-  4 compiler carriers replay **24,709/24,709 physical bytes /1,105 fields**.
-  This includes73 main-ECL, four alternate-Ob0, two interpolation and one
-  subroutine initializer units.917 unaffected exact proofs reuse unchanged
-  parent inputs. No global997-function replay is performed.
-- **Open large owner:** full RunEcl remains15,564 physical bytes /598 fields /
-  30 ordinary differences, zero field/table differences and146/148 handler
-  shapes. Opcode4's seven and155's23 residual bytes are unchanged. Five coherent
-  flag-family controls test four native fields, with/without timeout and Boss
-  bit assignments: the maintained four-field form is neutral; broader forms
-  produce2258 or2140 total linked differences, including239 or202 field bytes
-  and26 table bytes. All retain15564 bytes/598 fields, demonstrating why equal
-  extent alone cannot grant credit. No broader losing model is adopted.
-- **Coverage remains open:**997 exact /242,841 of291,848 authored bytes
-  =83.2080%;95% still needs34,415 complete exact bytes.35 maintained nonexact
-  owners and Type29's2,220 bytes without source remain. Prior collision native
-  timer/reward-owner corrections in e8af235 stay intact. Whole executable
-  inventory, native product/runtime and semantic/port gates remain open.
+- **Current verified parser ABI:** complete original243-byte
+  ParseNetworkConfigValue takes cursor inEAX, remaining pointer inEBX, key at
+  entryESP+4 and out atESP+8, returning withRET8. All four original calls
+  (43257E/4325B7/4325EE/4326D6) in the exact679-byte caller prove this transport.
+  The catalog now records that optimized private ABI, and both IDA names plus
+  parser prototype/comments are reviewed and read back. The maintained static
+  C++ source and its same-TU caller must remain together for compilation.
+- **Nominal C++ convention remains unknown:** an explicit stdcall control
+  preserves the current243/76 parser and679-byte exact caller; cdecl emits237
+  bytes with a different cleanup contract and a697-byte caller. A physical
+  register contract does not identify the original C++ spelling. No nominal
+  convention, prototype order or compiler flag is changed in maintained source.
+- **Observed compiler coupling:** one real cached-count model shrinks the
+  helper243->240 but promotes key toEBX and moves remaining to the stack,
+  growing the caller679->683. Its whole-function result is rejected.24 complete
+  argument-order permutations give12 parser243/76 and12 parser243/78; six
+  preserve the exact caller, six have full caller differences and12 fail its
+  original field inventory. Equal helper metrics do not imply the same call
+  contract or full caller equality.
+- **Bounded countermodels:**43 complete private codegen cases cover character
+  snapshots, token-loop/dispatch forms, two size profiles, all24 argument orders
+  and two nominal conventions. None closes the parser.21 cases repeat the same
+  existing exact679-byte caller; those are not21 new functions. The unchanged
+  maintained path cold-replays parser243/116 instructions/one field/76 residual
+  bytes and34 versus33 blocks, protecting its167 equal bytes, plus the exact
+  caller679/679 bytes and22 fields. /Os and/O1 each give parser220 and caller613
+  and are rejected. No losing source or profile is adopted.
+- **Origin countercheck:** all35 origin-unresolved extents are independently
+  decoded completely and remain unresolved. A bounded address-window scan of
+  1168 excluded candidates finds five existing generated-wrapper references;
+  it creates no authored promotion. Linear decode is incomplete for the829-byte
+  memcpy contribution47CF40, whose existing pinned-library identity remains
+  separate. This is not proof of complete executable inventory.
+- **Source/coverage scope:** all483 game source/header files, match units and
+  compiler inputs stay unchanged. Only two catalog names and the parser ABI
+  metadata change among725 engineering inputs;724 retain raw parent hashes.
+  The other996 exact proofs are reused. Prior dc99b73 RunEcl bitfields and its
+  80-function/24709-byte source closure stay intact. Coverage stays997 exact /
+  242841 of291848 authored bytes =83.2080%;95% still needs34415 complete exact
+  bytes.35 maintained nonexact owners and Type29's2220 bytes without source,
+  RunEcl's30 residual bytes, native product/runtime and later gates stay open.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
-- **Reproduction:** build the four affected carriers using ecl-pop-context,
-  player-type11-orientation-sign, ecl-interpolate-linear and
-  ecl-initialize-subroutine; compare their complete configured80 units.
-  scripts/inspect-ecl-complete.py plus the opcode4/155 audits check the whole
-  nonexact interpreter. The retained
-  .analysis/gpt-61sol-20261020-runecl-source-shape packet contains complete raw
-  inventories, physical coordinate/field proofs, five countermodels, canonical
-  comparisons, profile, source bindings and a one-case replay recipe.
-  725 engineering inputs bind723 retained hashes and two changed paths:
-  EclRunState.inl and20 manifest label spellings.482 of483 game source/header
-  files remain byte-identical; all unaffected proofs are reused.
-- **Checkpoint validation and cleanup:** original target/mapped bytes, affected
-  Oracles, tracking/docs/generated progress and CI pass (**769 tests /28 skipped**).
-  After all own producers terminate, a repository-cwd guard permits removal of
-  **415 reproducible files /14,688,581 bytes**, including35 hash-regenerable source
-  copies. Build/ and own OBJ/PDB are absent; five private states, original state,
-  full comparisons and tested one-case reproduction remain. Immutable source
-  and independently verified remote bindings are separate. Original target,
-  IDA, tools, foreign games and unique controls are preserved.
+- **Reproduction:** check-boss-frontiers.py --owner parser cold-compiles the
+  maintained TU and checks both complete owners. Retained packet
+  .analysis/gpt-61sol-20261020-origin-crosscheck contains43 full raw/COFF pair
+  captures,41 private C++ sources, the original ABI proof, compiler-promotion
+  counterexample, origin census, profiles, source hashes and a one-case replay.
+  CI passes769 tests/28 skips. After all own producers terminate and the
+  repository-cwd guard passes, cleanup removes458 reproducible files /
+  13,928,296 bytes. Build/ and own OBJ/PDB are absent; all41 unique C++ sources,
+ 43 paired captures and tested one-case reproduction remain. Immutable catalog/
+  source binding and independent remote verification are recorded separately.
+  Original EXE, IDA, tools, other campaigns and foreign games are preserved.
 
 
 ## Next worker: first three work packages
