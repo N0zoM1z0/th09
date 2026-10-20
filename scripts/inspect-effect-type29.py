@@ -19,6 +19,41 @@ SHA256 = '8ecf5d55f2ef0de67316f09b3a6d9422b4475bf9a7fdf1ea9dd10919247a3455'
 SYMBOL = '?EffectDrawCallbackType29@@YIHPAUEffect@@@Z'
 PREFIX_BASE = 0x004A0B48
 PREFIX_SHA256 = '318a2c5a7e469179735911b94d8837b8b96651b2c89153ea2a15023ec20942b8'
+POLAR, ACCUMULATE = 0x00441890, 0x00405730
+CENTER_RELOAD_OFFSETS = (0x17C, 0x2BA, 0x3F5, 0x534, 0x674, 0x7B4)
+
+
+def receiver_windows(instructions, *, original=False):
+    """Observe MOV/LEA ECX reloads between each real polar call and its += call.
+
+    These are physical instruction windows, not a register-preservation ABI,
+    source-type inference or permission to insert artificial reloads.
+    """
+    calls = [(n, ins) for n, ins in enumerate(instructions) if ins.mnemonic == 'call']
+    windows = []
+    for k, (n, ins) in enumerate(calls):
+        if ins.operands[0].imm != POLAR:
+            continue
+        if k+1 == len(calls) or calls[k+1][1].operands[0].imm != ACCUMULATE:
+            raise ValueError('Type29 polar call is not followed by the native accumulator')
+        end, accumulation = calls[k+1]
+        writes = [dict(offset=q.address-BASE, instruction=q.mnemonic+' '+q.op_str)
+                  for q in instructions[n+1:end]
+                  if q.mnemonic in ('mov', 'lea') and q.op_str.startswith('ecx,')]
+        windows.append(dict(polar_offset=ins.address-BASE,
+                            accumulation_offset=accumulation.address-BASE,
+                            ecx_reloads=writes))
+    if len(windows) != 13:
+        raise ValueError('Type29 complete thirteen polar/accumulation pairs changed')
+    centers, vertices = windows[1::2], windows[0::2]
+    if original:
+        expected = [[dict(offset=offset, instruction='lea ecx, [ebp - 0x24]')]
+                    for offset in CENTER_RELOAD_OFFSETS]
+        if ([w['ecx_reloads'] for w in centers] != expected
+                or any(w['ecx_reloads'] for w in vertices)):
+            raise ValueError('original Type29 six local-center receiver windows changed')
+    return dict(windows=windows, center_ecx_reloads=sum(len(w['ecx_reloads']) for w in centers),
+                vertex_ecx_reloads=sum(len(w['ecx_reloads']) for w in vertices))
 
 
 def direct_extent(base, decode, *, limit=0x1800):
@@ -134,9 +169,19 @@ def main():
             'original': target_review(auditor),
         }
         if args.object:
-            report, _, _ = auditor.inspect(args.object, 'draw29', owners={
+            report, ti, ci = auditor.inspect(args.object, 'draw29', owners={
                 'draw29': (BASE, SIZE, SYMBOL, SHA256)})
             result['comparison'] = report
+            result['receiver_windows'] = dict(original=receiver_windows(ti, original=True),
+                                              candidate=receiver_windows(ci))
+            # The older inspector's graph compares physical byte offsets.
+            # Keep the independent ordinal graph/call/return observation too;
+            # equal block counts alone establish neither graph nor byte equality.
+            import capstone
+            from diagnostic_branch_alignment import direct_control_flow
+            tg = direct_control_flow(ti, capstone.x86.X86_OP_IMM)
+            cg = direct_control_flow(ci, capstone.x86.X86_OP_IMM)
+            result['ordinal_control_flow'] = dict(original=tg, candidate=cg, agree=tg == cg)
     except (OSError, ValueError, AssertionError, KeyError, struct.error) as exc:
         print(json.dumps({'result': 'error', 'message': str(exc)}))
         return 2

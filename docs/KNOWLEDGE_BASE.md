@@ -13948,3 +13948,106 @@ removed: 4,368,256 bytes become 722,466 bytes, reclaiming 3,645,790 bytes
 provider snapshot. All 45 current producer pins, frozen replay/CI sidecars and
 archive hashes remain valid after cleanup. Unique earlier campaign evidence
 and canonical objects are retained. No accepted receipt or new exact is claimed.
+
+
+## 2026-10-21 Type29 receiver windows and actual source-context controls
+
+Clean pushed `801997d` recovery passes original Japanese v1.50a disk identity,
+direct IDA metadata and entry/distributed mapped bytes. Previous Type29 context,
+SDK, XY, shared-local and source-order controls are read before new probes.
+TH08 radial trail and TH095 photo effects supply only geometry/source-family
+hypotheses; their pragmas, addresses and layout are not TH09 evidence. No new
+assembly, register/variable-order hints, fake return/clobber contract, target
+patch, profile change or game-source edit follows.
+
+A fresh maintained EclManager source compile repeats the complete Type29 draw
+frontier: 2,220 original /2,205 candidate bytes, 675/670 physical instructions,
+129 referents in original order, 72 ordered calls, 41/41 physical blocks,
+1,170 overlap differences plus 15 missing. Raw SHA stays
+`dd4b7e5d8d70d4a1eb8dba7a7bc32fc3d95bd3b89126abdfd186dfad4844c8e4`;
+all 1,035 already equal physical positions pass the existing complete guard.
+
+Full-stream decoding locates the six local-center receiver reloads precisely:
+original offsets +17C,+2BA,+3F5,+534,+674,+7B4 each contain
+LEA ECX,[EBP-24], after native polar 0x441890 and before native accumulation
+0x405730. Their seven intervening vertex pairs do not reload ECX. Maintained
+source has zero such reloads in either group. This is distinct from the ordinary
+receiver setup before the polar call. The public inspector now records all 13
+ordered physical windows and independently validates the original six locations,
+operands, native adjacency and seven no-reload vertex windows. MOV/LEA writes
+are observations, not complete ECX liveness or a stronger preservation ABI.
+
+The existing shared ordinal block/call/return decoder also compares both complete
+streams and reports differing graphs, despite equal 41-block counts. This is
+independent of the older inspector's byte-offset graph. Physical padding blocks
+and jump trampolines are included; no graph isomorphism, predicate equivalence,
+behavior disagreement or unique original source arrangement is inferred. The
+older bounded emulator's 26-fixture agreement remains a separate claim.
+
+Eleven private source models compile serially under the unchanged original-bound
+main profile. Six retain every baseline raw byte and all 129 actual fields:
+constructor body hidden while its native declaration remains; the complete
+constructor/add/sub core hidden; real ordinary out-of-line Float3::operator+=
+visibility; explicit inline representation-preserving memcpy assignment; explicit
+inline three-component copy constructor; and an ordinary inline reference helper
+performing the actual polar/accumulation center operations. The latter is fully
+expanded with all 72 native calls, and supplies the selected frozen replay.
+Each altered declaration/body is actual C++ with recorded source inputs; no
+external compiler ABI is invented from an incidental register value.
+
+Merging accumulation and vertex copy into the actual expression
+vertex->pos = (origin += position), with and without the real accumulation body
+visible, emits 2,222/129 and 1,600 overlap differences plus two extra bytes. Both
+recover 96 formerly different positions but damage 511 equal ones; neither is
+adopted. An explicit ordinary inline three-float copy assignment emits 2,191/129
+with 1,867 overlap differences plus 29 missing, restoring 38 and damaging 749.
+The earlier shared-start lead remains rejected: its sole newly damaged physical
+byte +234 lies in a shifted arithmetic/displacement window, not proof that it
+solves the missing receiver or branch arrangement. No losing lead is promoted.
+
+Two meaningful geometry helpers remain out of line under the fixed /Ob1 profile:
+MakeSatelliteOrigin returning its actual computed Float3 yields a 2,212-byte /
+126-field caller; AppendSatelliteFan returning the real advanced vertex cursor
+yields 381/21. Both have actual native call fields with no independently known
+original helper referent, so binding fails explicitly. No target is fitted to
+these helpers, they receive no similarity/exact claim, and inlining is not forced.
+All eleven sources, full raw/COFF caller pairs, successful complete diagnostics
+and these two rejection reasons are retained. No private compile fails.
+
+The cold main carrier independently replays the real 26-byte Float3 constructor
+and 32-byte polar body; one fresh Float3.cpp compile replays 36-byte accumulation.
+All three complete bodies are zero-field and exact (94 bytes total). Their
+original class ownership/return contracts are not expanded by this check. All
+487 game-source files plus src/README, four canonical ledgers/configs and compiler
+profiles remain unchanged; no broad 77-unit or 1000-function replay is needed.
+Pure tests reject missing/interposed/wrong native calls, shifted center operands,
+wrong center/vertex attribution and read-only ECX operands masquerading as loads.
+The complete whole-owner guard is unchanged and gives no new exact credit.
+
+The source-bound packet is .analysis/gpt-61sol-20261021-effect29-cursors. Its
+selected reference-helper replay stages individually hashed quoted dependencies,
+checks all 2,205 raw bytes /129 actual COFF rows, the original/candidate receiver
+windows, full ordinal graphs and all three native small callees. Temporary
+sources/compiler objects self-clean. No new exact owner, accepted receipt,
+product/runtime closure or later-phase validation is claimed; the requested
+four fronts and 95% remain unfinished.
+
+
+Final CI passes 837 tests /28 skips, plus the focused original-bound diagnostic,
+three complete native replays and tracking/docs/progress/whitespace gates. The
+first frozen replay rejects Python tuple-versus-JSON-list report equality after
+raw/COFF equality passed; the second rejects parsing the canonical report's hex
+address string as an integer. These are replayer metadata errors, not compiler
+or target failures. Both logs remain; the repaired replayer checks metadata
+before compilation and then independently passes the complete caller, all
+actual fields/windows/graphs and three small callees. It never labels a failed
+run as a passing receipt.
+
+After every producer terminates, ZIP CRC and per-member SHA256 verify all 103
+loose evidence members before deletion: 6,221,790 bytes become 876,305 bytes,
+reclaiming 5,345,485 bytes (~5.1 MiB). The 66 source inputs, original/current
+reports and full raw/COFF pairs remain archived. Post-clean checks preserve all
+488 game input hashes, four canonical config/ledger hashes, 12 live provider
+pins, successful/failed sidecars and archive identity. Earlier unique research,
+original target, toolchains and canonical objects are retained. Exact coverage
+remains 1000/1035; product/runtime and later gates are still open.
