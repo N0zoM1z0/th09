@@ -27,6 +27,16 @@ ORIGINAL_INSTRUCTIONS = 551
 ORIGINAL_FIELDS = 135
 ORIGINAL_CALLS = 51
 ORIGINAL_BLOCKS = 121
+NATIVE_INPUT_SYMBOL = '?g_ReplayInputStates@@3PAUReplayInputState@@A'
+NATIVE_INPUT_ROOT = 0x004ACE18
+# Independently decoded original operands: two scrolling receivers and six
+# front-word reads. The third native input slot starts at root + 2 * 0x8E.
+ORIGINAL_INPUT_FIELDS = (
+    (0x2DD, 0x004ACF34), (0x408, 0x004ACF3A),
+    (0x44E, 0x004ACF3A), (0x49D, 0x004ACF3A),
+    (0x4DC, 0x004ACF3A), (0x532, 0x004ACF34),
+    (0x68F, 0x004ACF3A), (0x738, 0x004ACF3A),
+)
 
 DESTINATIONS = {
     # Shared Supervisor owner and methods used by the maintained consumer.
@@ -60,12 +70,37 @@ DESTINATIONS = {
     '?g_AnmManager@@3PAVAnmManager@@A': 0x4DC550,
     '?g_TitleInput@@3UInputView@@A': 0x4ACF34,
     '?g_TitleInputFlags@@3IA': 0x4ACF3A,
+    NATIVE_INPUT_SYMBOL: NATIVE_INPUT_ROOT,
     '?g_TitleMusicVolume@@3CA': 0x4B3542,
     '?g_TitleOptionsHelpText@@3PAPBDA': 0x4A1DDC,
     '?g_TitleSfxVolume@@3CA': 0x4B3543,
     '?g_TitleSupervisor@@3UTitleSupervisorView@@A': 0x4B3100,
     '??_C@_06EAGAPDIF@SetVol?$AA@': 0x48F518,
 }
+
+
+def require_native_input_references(references: list[dict], candidate_bytes: int) -> None:
+    """Reject old subobject globals even when their numeric addresses agree."""
+    if (type(candidate_bytes) is not int or candidate_bytes < SIZE or
+            not isinstance(references, list) or len(references) != 8):
+        raise ValueError('Options native input reference inventory changed')
+    previous_end = 0
+    for row, (original_offset, destination) in zip(references, ORIGINAL_INPUT_FIELDS):
+        if (not isinstance(row, dict) or
+                any(type(row.get(key)) is not int for key in
+                    ('original_offset', 'original_target', 'root', 'addend')) or
+                row.get('original_offset') != original_offset or
+                row.get('original_target') != destination or
+                row.get('type') != 'DIR32' or
+                row.get('symbol') != NATIVE_INPUT_SYMBOL or
+                row.get('root') != NATIVE_INPUT_ROOT or
+                row.get('addend') != destination - NATIVE_INPUT_ROOT):
+            raise ValueError('Options input must refer to the native array slot/member')
+        offset = row.get('candidate_offset')
+        if (type(offset) is not int or offset < previous_end or
+                offset + 4 > candidate_bytes):
+            raise ValueError('Options native input source field bounds/order changed')
+        previous_end = offset + 4
 
 
 def require_original_identity(target: bytes, expected_hash: str = TARGET_SHA256) -> None:
@@ -142,7 +177,7 @@ def bind_candidate(raw: bytes, rows: list[dict], original: list[tuple],
     return bytes(result)
 
 
-def diagnose(path: Path) -> dict:
+def diagnose(path: Path, *, require_native_input: bool = False) -> dict:
     import capstone
     from diagnostic_branch_alignment import aligned_branch_conflicts, direct_control_flow
 
@@ -183,6 +218,21 @@ def diagnose(path: Path) -> dict:
     branch_conflicts, unpaired = aligned_branch_conflicts(
         target_ins, candidate_ins, alignment.get_matching_blocks(),
         capstone.x86.X86_OP_IMM)
+    input_references = [
+        {'original_offset': field[0], 'original_target': field[2],
+         'candidate_offset': row['offset'], 'type': row['type'],
+         'symbol': row['symbol'], 'root': DESTINATIONS[row['symbol']],
+         'addend': row['addend']}
+        for row, field in zip(rows, target_fields)
+        if field[1] == 'DIR32' and field[2] in (0x4ACF34, 0x4ACF3A)
+    ]
+    native_input = True
+    try:
+        require_native_input_references(input_references, len(linked))
+    except ValueError:
+        if require_native_input:
+            raise
+        native_input = False
     return {
         'diagnostic_only': True, 'exactness_credit': 'none',
         'target_bytes': len(original), 'candidate_bytes': len(linked),
@@ -205,6 +255,8 @@ def diagnose(path: Path) -> dict:
         'complete_bytes_equal': original == linked,
         'candidate_raw_sha256': hashlib.sha256(raw).hexdigest(),
         'target_sha256': TARGET_SHA256,
+        'input_references': input_references,
+        'native_input_array_references_verified': native_input,
     }
 
 
@@ -212,9 +264,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('object', type=Path)
     parser.add_argument('--json', action='store_true', help='emit machine-readable full-owner audit')
+    parser.add_argument('--require-native-input', action='store_true',
+                        help='require the native ReplayInputState[2] root and all eight actual addends')
     args = parser.parse_args()
     try:
-        report = diagnose(args.object)
+        report = diagnose(args.object, require_native_input=args.require_native_input)
     except (OSError, ImportError, ValueError, KeyError, struct.error) as error:
         print('Options source/target audit rejected:', error, file=sys.stderr)
         return 2

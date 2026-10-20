@@ -3927,7 +3927,8 @@ def run_title_open() -> dict:
     options_obj = 'build/matching/TitleScreenOptions.obj'
     build_nonexact('src/TitleScreenOptions.cpp', options_obj,
                    reference_unit='title-screen-setup-thread')
-    options = parsed(['scripts/inspect-title-options.py', options_obj, '--json'])
+    options = parsed(['scripts/inspect-title-options.py', options_obj,
+                      '--require-native-input', '--json'])
     guard_title_options(options)
     cursor_reports['title_update_options'] = {
         'target_bytes': 2045, 'candidate_bytes': options['candidate_bytes'],

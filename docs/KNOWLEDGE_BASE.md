@@ -11511,3 +11511,104 @@ attest historical producer execution.
   build/ is absent. Of720 public engineering inputs,716 retain parent hashes,
   two catalog ledgers change and the new auditor/test are added. Committed
   source and remote-push bindings are recorded separately in the packet.
+
+## October 20: Options native input array; receiver and ECL wire controls (gpt-6.1-sol)
+
+- Recovery from clean pushed **7e423d9857500df93f4cdcfa2b81576c12e71316**
+  passes the original disk hash, direct local IDA metadata and distributed mapped
+  bytes. Work uses only local IDA/Bash and serial low-priority VC7.1 probes.
+- Maintained Options originally declared fake standalone `g_TitleInputFlags`
+  at4ACF3A and a separate `g_TitleInput` receiver at4ACF34. The existing native
+  `ReplayInputState[3]` array root is **4ACE18**, with **8E-byte slots**;54
+  canonical manifest operands independently share its real COFF symbol/root.
+  Existing native GameManager synchronization and decoded original code copy
+  five16-bit prefix words from slot2 into slots0/1. The third slot therefore
+  begins at4ACF34 and its16-bit word06 lies at4ACF3A. This promotes a bounded
+  native storage relationship, not unique original source names or complete
+  executable data ownership/link/runtime closure.
+- Options now reads `g_ReplayInputStates[2].word06` six times and passes the same
+  slot twice through the existing scrolling helper's bounded `InputView` prefix.
+  The prefix contains four16-bit fields at0/2/4/6 and is8 bytes; compile-time
+  checks independently match those offsets, native slot8E and word06 width2.
+  The scrolling method keeps its existing canonical ABI; no inferred EAX residue
+  changes a return declaration. The two fake globals are removed only from this
+  consumer, without inventing a new data definition or target address.
+- Complete public-source COFF proof: all **2,048 resolved candidate bytes**
+  equal the immutable parent baseline; resolved SHA256 is
+  **e19753a3dcaed8d98768964d4ae5acd6e16e2be4f7b0807c9e95a4ccbf98452f**.
+  Exactly **eight** actual input operands change source identity to native array
+  root+11C or root+122; other127 fields remain identical. Raw changes occur only
+  inside these real operands. Both nondebug noncode sections/97 bytes match,
+  including compiler directives; no new static initialization/default library.
+  Current Options source SHA256 is
+  **96dff024f3104b2060a76d80128af064d0c0e93fa90693df43b6b6ec167173f0**.
+- `inspect-title-options.py --require-native-input` independently pins the eight
+  original operand coordinates/targets and actual COFF symbol/root/addends.
+  Candidate coordinates are checked for type, ordering, overlap and bounds but
+  allowed to converge in later reconstruction. Historical globals resolving to
+  identical addresses fail this mode; diagnostic default still reports them
+  without claiming native ownership. The normal Title frontier now requires this
+  mode. Four pure tests exercise inventory, aliases, mutations and bounds.
+- Whole original Options remains **2,045 bytes /551 instructions /135 fields /
+  51 calls**, SHA256
+  **869fec21781b663202298f8486ebf8d0d9e42c0c1d34f1d3b08bf860b247eb63**.
+  Candidate remains **2,048/554**,121 matching blocks,610 overlap differences
+  plus3 extra bytes. No exact credit follows from source-identity correction.
+  The actual changed TU's `PlayMenuSound` passes **34/34 bytes /three fields**.
+  Independent fresh canonical scrolling-helper42/42 and native array sync257/257
+  with28 fields also pass: **333 bytes /31 fields** across three strict checks.
+  Other480 source files are unchanged; unaffected hash-bound proofs are reused.
+- Type29 context evidence: the target has six **LEA ECX,[EBP-24]** reloads for
+  local centers but no receiver reload at seven vertex polar calls. The actual
+  unchanged32-byte polar primitive defined out of line emits zero reloads in the
+  candidate. Moving that same body into the class gives all13 reloads (six LEA
+  and seven MOV ECX,ESI), **2,239 bytes /129 fields /1,990 overlap differences
+  plus19 extra**, under both/Ob1 and/Ob0. No new assembly instruction is written.
+- Twenty-one completed Type29 controls cover class-body visibility, genuine
+  pointer-return/reference arithmetic, explicit/qualified local receivers,
+  per-vertex syntax, pinned SDK D3DXVECTOR3 centers/vertices and genuine XY-prefix
+  inheritance/delegation hypotheses. Before allowing a private compatible-symbol
+  binding, actual natural pointer-return/SDK += bodies are proved **36/36 exact
+  at405730**, SDK scalar constructor **26/26 at4010B0**, and polar body **32/32
+  at441890**, each with zero fields. Body equality does not establish original
+  class ownership or return contract. The final three XY cases all retain the
+ 2205 raw baseline SHA dd4b7e5d8d70d4a1eb8dba7a7bc32fc3d95bd3b89126abdfd186dfad4844c8e4.
+  TH08/TH095 source supplies hypotheses only. No prototype, global vector header
+  or fake second-class clobber contract is promoted; Type29 is still nonexact.
+- Nine full first-include RunEcl controls test actual byte-wire bitfields,
+  volatile/plain reads, byte/wide helper arguments, returned words/references
+  and destination bitfields. The byte/uint volatile wire with byte helper stays
+  **15,564 physical bytes /598 fields /30 ordinary differences**. Widened-return
+  forms have70 ordinary differences, one field byte and one table byte changed;
+  they read a DWORD+AND FF instead of the target's MOVZX BYTE and are rejected.
+  The byte-return form is15,560 bytes and its42-byte opcode155 loses one original
+  instruction. Native destination-bitfield forms alter fields/table layout and
+  are also rejected. These are bounded negative controls, not universal source
+  impossibility. No public ECL, Timer ABI, profile or match changes result.
+- RunEcl logical authored coverage is **14,792**, separately from its772-byte
+  physical table. At the current291,525 denominator,95% permits only14,576
+  nonexact bytes: this boss remains mathematically necessary unless substantial
+  new reviewed inventory changes the denominator. Current canonical totals stay
+  **995 exact /242,518 bytes /83.1894%**,34,431 complete bytes short of95%.
+- Reproduction sources, per-case headers/variants, original-bound reports and
+  input hashes live in `.analysis/gpt-61sol-20261020-effect29-center-receiver/`.
+  `restore_parent.py --restore` reconstructs all481 parent source copies and63
+  ECL include-chain derivatives from immutable Git7e423d9 plus saved variants,
+  preserving original working line endings and checking every recorded hash.
+  `replay_case.py` serially reproduces saved Type29 raw candidate hashes; it is
+  explicitly noncrediting. Existing full probe scripts intentionally fail their
+  old public-input guards after authorized source changes; use parent restoration
+  or an isolated parent checkout instead of bypassing provenance checks.
+- Final gates pass **761 CI tests/28 skipped**, target-required tracking,
+  documentation, generated progress and staged/unstaged whitespace. Of721
+  engineering inputs,716 retain parent hashes, four change and one test is new
+  (681 raw and40 working-CRLF-to-LF bindings). Only the Options source TU changes;
+  its34-byte exact sibling is freshly replayed, rather than incorrectly called
+  source-unchanged. No new match/exact receipt or native product gate is claimed.
+  The immutable-parent Type29 replay reproduces2205 bytes/129 fields and the
+  saved raw SHA before cleanup. After every scoped own producer is terminal,
+  cleanup removes **974 files /16,762,597 bytes**, including544 independently
+  hash-reconstructed source derivatives. All unique unresolved source/variants,
+  recipes, reports and original/SDK/toolchain inputs are retained; build/ is
+  absent. Local commit identity and independent remote push proof are recorded
+  separately after these checks.

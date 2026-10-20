@@ -6,6 +6,7 @@
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "SoundPlayer.hpp"
+#include "ReplayInputState.hpp"
 
 #include <stddef.h>
 
@@ -44,10 +45,27 @@ typedef char OptionsAnmVmSpriteAt218[(offsetof(AnmVmView, baseSpriteIndex) == 0x
 // argument tag without inventing ownership of the real ANM manager.
 struct TitleAnmManagerView;
 
+// Bounded scrolling-helper prefix of the native ReplayInputState slot.
 struct InputView {
-    u16 currentInput;
+    u16 held00;
+    u16 previous02;
+    u16 repeatOutput04;
+    u16 frontState06;
     u16 IsPressedScrolling(i32 mask);
 };
+
+typedef char OptionsInputSizeIs08[(sizeof(InputView) == 8) ? 1 : -1];
+typedef char OptionsInputRepeatAt04[(offsetof(InputView, repeatOutput04) == 4) ? 1 : -1];
+typedef char OptionsInputFrontAt06[(offsetof(InputView, frontState06) == 6) ? 1 : -1];
+
+typedef char OptionsNativeInputSizeIs8E[(sizeof(ReplayInputState) == 0x8E) ? 1 : -1];
+typedef char OptionsNativeInputWord06At06[(offsetof(ReplayInputState, word06) == 6) ? 1 : -1];
+typedef char OptionsNativeInputWordIs16[(sizeof(((ReplayInputState *)0)->word06) == 2) ? 1 : -1];
+typedef char OptionsInputPrefixMatchesNative[
+    (offsetof(InputView, held00) == offsetof(ReplayInputState, currentInput) &&
+     offsetof(InputView, previous02) == offsetof(ReplayInputState, word02) &&
+     offsetof(InputView, repeatOutput04) == offsetof(ReplayInputState, repeatOutput) &&
+     offsetof(InputView, frontState06) == offsetof(ReplayInputState, word06)) ? 1 : -1];
 
 typedef char OptionsConfigvalueACAtAC[(offsetof(GameConfiguration, valueAC) == 0xAC) ? 1 : -1];
 typedef char OptionsConfigvalueADAtAD[(offsetof(GameConfiguration, valueAD) == 0xAD) ? 1 : -1];
@@ -69,8 +87,6 @@ typedef char OptionsConfigSnapshotSizeIsCC[(sizeof(TitleConfigSnapshotView) == 0
 typedef char OptionsSnapshotValueADAtAD[(offsetof(TitleConfigSnapshotView, valueAD) == 0xAD) ? 1 : -1];
 typedef char OptionsSnapshotWindowedAtB1[(offsetof(TitleConfigSnapshotView, windowed) == 0xB1) ? 1 : -1];
 
-extern InputView g_TitleInput;
-extern u32 g_TitleInputFlags;
 
 extern const char *g_TitleOptionsHelpText[9];
 
@@ -227,7 +243,7 @@ int TitleScreenView::OnUpdateOptions()
         if (stateTimer2 < 4)
             break;
 
-        if (g_TitleInput.IsPressedScrolling(0x40))
+        if (reinterpret_cast<InputView *>(&g_ReplayInputStates[2])->IsPressedScrolling(0x40))
         {
             switch (keyboardSelection)
             {
@@ -273,7 +289,7 @@ int TitleScreenView::OnUpdateOptions()
         }
     left_scrolling_done:
 
-        if (g_TitleInputFlags & 0x40)
+        if (g_ReplayInputStates[2].word06 & 0x40)
         {
             switch (keyboardSelection)
             {
@@ -294,7 +310,7 @@ int TitleScreenView::OnUpdateOptions()
             }
         }
 
-        if (g_TitleInputFlags & 0x80)
+        if (g_ReplayInputStates[2].word06 & 0x80)
         {
             switch (keyboardSelection)
             {
@@ -315,7 +331,7 @@ int TitleScreenView::OnUpdateOptions()
             }
         }
 
-        if (g_TitleInputFlags & 0x40)
+        if (g_ReplayInputStates[2].word06 & 0x40)
         {
             switch (keyboardSelection)
             {
@@ -334,7 +350,7 @@ int TitleScreenView::OnUpdateOptions()
             }
         }
 
-        if (g_TitleInputFlags & 0x80)
+        if (g_ReplayInputStates[2].word06 & 0x80)
         {
             switch (keyboardSelection)
             {
@@ -356,7 +372,7 @@ int TitleScreenView::OnUpdateOptions()
         g_SoundPlayer.bgmVolume = musicVolume;
         g_SoundPlayer.sfxVolume = sfxVolume;
 
-        if (g_TitleInput.IsPressedScrolling(0x80))
+        if (reinterpret_cast<InputView *>(&g_ReplayInputStates[2])->IsPressedScrolling(0x80))
         {
             switch (keyboardSelection)
             {
@@ -406,7 +422,7 @@ int TitleScreenView::OnUpdateOptions()
             g_SoundPlayer.PlaySoundByIdx(29, 0);
 
         optionsFrameCounter = 0;
-        if (g_TitleInputFlags & 0x1001)
+        if (g_ReplayInputStates[2].word06 & 0x1001)
         {
             switch (keyboardSelection)
             {
@@ -430,7 +446,7 @@ int TitleScreenView::OnUpdateOptions()
             }
         }
 
-        if (g_TitleInputFlags & 0xA)
+        if (g_ReplayInputStates[2].word06 & 0xA)
         {
             if (keyboardSelection == 8)
                 goto leave_options;
