@@ -2,6 +2,7 @@
 #include "AnmManager.hpp"
 #include "AnmLoadedResidentView.hpp"
 #include "AsciiManager.hpp"
+#include "AsciiGameManagerView.hpp"
 #include "Supervisor.hpp"
 #include "ZunMemory.hpp"
 
@@ -9,22 +10,9 @@
 #include <string.h>
 
 struct AnmVm;
-struct EffectGameManagerSideView
-{
-    unsigned char unknown000[0x34];
-    unsigned char flags34;
-    unsigned char unknown035[3];
-};
-typedef char EffectGameManagerSideSizeIs38[(sizeof(EffectGameManagerSideView) == 0x38) ? 1 : -1];
-
-struct EffectGameManagerView
-{
-    float TransformPopupX(float value);
-    float TransformPopupY(float value);
-    EffectGameManagerSideView sides[3];
-    unsigned char unknown0A8[0x134 - 0xA8];
-    unsigned int flags134;
-};
+// The shared view has two typed sides; other context addresses remain opaque.
+typedef char EffectSharedSideFlagsAt34[
+    (offsetof(AsciiGameManagerSideView, flags) == 0x34) ? 1 : -1];
 
 struct EffectTemplate
 {
@@ -37,7 +25,6 @@ struct EffectTemplate
 };
 typedef char EffectTemplateSizeIs18[(sizeof(EffectTemplate) == 0x18) ? 1 : -1];
 
-extern EffectGameManagerView g_GameManager;
 extern EffectTemplate g_EffectTemplates[];
 extern Chain g_Chain;
 extern ZunMemory g_ZunMemory;
@@ -234,7 +221,7 @@ Effect *EffectManager::SpawnEffectInFixedSlot(
 int EffectManager::OnUpdate(EffectManager *effectManager)
 {
     Effect *effect = effectManager->effects;
-    if ((g_GameManager.flags134 & 0x1800) != 0 || (g_GameManager.sides[0].flags34 & 1) != 0)
+    if ((g_GameManager.flags & 0x1800) != 0 || (g_GameManager.sides[0].flags & 1) != 0)
         return CHAIN_CALLBACK_RESULT_CONTINUE;
 
     g_Supervisor.SelectSide(effectManager->sideIndex);
@@ -437,12 +424,15 @@ EffectManager *EffectManager::Create(int sideIndex, int primaryCount, int second
     effectManager->sideIndex = sideIndex;
     if (sideIndex < 2)
     {
-        effectManager->sideState = &g_GameManager.sides[sideIndex];
-        effectManager->opposingSideState = &g_GameManager.sides[1 - sideIndex];
+        effectManager->sideState = reinterpret_cast<unsigned char *>(&g_GameManager) +
+            sideIndex * sizeof(AsciiGameManagerSideView);
+        effectManager->opposingSideState = reinterpret_cast<unsigned char *>(&g_GameManager) +
+            (1 - sideIndex) * sizeof(AsciiGameManagerSideView);
     }
     else
     {
-        effectManager->sideState = &g_GameManager.sides[sideIndex];
+        effectManager->sideState = reinterpret_cast<unsigned char *>(&g_GameManager) +
+            sideIndex * sizeof(AsciiGameManagerSideView);
         effectManager->opposingSideState = effectManager->sideState;
     }
     effectManager->primaryCount = primaryCount;

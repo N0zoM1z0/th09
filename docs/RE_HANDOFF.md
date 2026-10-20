@@ -15,56 +15,58 @@ Current state: **1,035 authored, 1,035 source-present, 999 canonical exact**;
 **36 source-present nonexact; no confirmed authored owner lacks maintained source**.
 **242,876/291,883 reviewed-authored bytes = 83.2101%**.
 The **95%** milestone still needs **34,413** complete exact authored bytes.
-This checkpoint strengthens original-bound Type14/22 SDK call validation and
-records bounded large/leaf compiler controls. It adds no exact owner/byte and
-adopts no gameplay source, profile or callback contract. Native product/runtime,
-complete inventory and later gates remain open.
+This checkpoint unifies exact Effect callers with the shared GameManager view
+and corrects a stale ScreenEffect frontier row. It adds no exact owner/byte.
+Native product/runtime, complete inventory and later gates remain open.
 
-- **New SDK constraint:** original Type14/22 Draw444130 now independently
-  requires all12 ordered D3D8 vtable slots, reverse-stack constant argument sets
-  and each actual device/vtable load from Supervisor+8 (4B3108). Unknown, missing,
-  reordered or clobbered receiver/stack evidence fails. The DrawPrimitiveUP row
-  pointer stays dynamic; the trace does not prove its full runtime value. The
-  boss guard validates both complete traces rather than a passed boolean/count.
-- **Complete-owner replay:** one maintained-path cold draw matches the closed
-  baseline on all974 raw bytes and53 actual COFF rows. Original959/290 versus
-  source974/297 instructions,20 direct/12 indirect calls,nine jumps,905 overlap
-  differences+15 excess remain unchanged and nonexact. The54 previously equal
-  positions stay protected. Original bytes independently hash to
-  af3c06ea2c9f68861067f5feb784206035dd67ea3eb07ef3994ed4ec17df74f4.
-- **Rejected controls:** six typed pointer/reference/member/static callback
-  models have identical raw974-byte bodies. Original C++ callback ownership is
-  not inferred. Two RunEcl rotate expressions preserve15564/598/30 ordinary
-  differences and zero field/table differences; multiplication changes extent
-  to15576 and is rejected. No wire-domain assumption or extra side effect is
-  adopted. Four parser definition-order/inline models all preserve243/116/34
-  blocks/76 differences and the complete679-byte/22-field exact real caller.
-- **Focused scope:** one distinct existing exact caller replays679 bytes/22
-  fields across four controls. The other998 exact proofs retain input/profile
-  hashes; all485 game sources remain unchanged. Current RunEcl baseline proof
-  is reused only after all63 actual inputs match the prior frozen source hashes.
-  No repository-wide cold cohort or duplicate byte credit is introduced.
-- **Reproducible packet:** .analysis/gpt-61sol-20261020-exattack1422-callback-contract
-  routes13 frozen carriers sharing81 unique inputs, full raw/actual-COFF pairs,
-  original IDA observations, SDK traces and the focused cold boss proof. Run
-  replay.py draw/typed-pointer there for one frozen whole-owner comparison with
-  the new12-call device/argument checks. Adjacent runecl-shift-expression and
-  parser-definition-order packets route through the same manifest.
-- **Resource cleanup:** after scoped terminal-producer checks,329 files/
- 5180539 bytes are removed, including283 duplicated source copies and own OBJ/PDB.
-  Full807142-byte pair evidence compresses losslessly to89242 bytes. The frozen
-  typed-pointer replay passes, reproducing974 raw bytes/53 actual fields and all
- 12 SDK calls, then removes its own outputs. Build/ and own binaries are absent.
+- **Effect source correction:** EffectManager.cpp now uses the existing
+  AsciiGameManagerView and actual TransformPopupX/Y definitions. Nine C++
+  references across OnUpdate475,OnDraw183 and Create327 change only their
+  reviewed symbol identities. Original field offsets/kinds/addends/targets,
+  all16 emitted raw bodies and four ordered nondebug noncode sections agree.
+  The extra context address remains a void byte-offset pointer; the shared
+  two-side array is not extended into an unproved third typed object.
+- **Focused exact proof:** the15 affected existing exact Effect functions
+  replay2530 bytes/100 fields. The actual two46-byte coordinate methods and
+  unchanged316-byte Screen CalcShake also replay;18 distinct existing exact
+  owners total2938 physical bytes/120 fields. The other981 exact proofs retain
+  unchanged inputs/profiles. AddedCallback stays51/4/eight differences and
+  gains no partial credit. Complete GameManager global-storage/product
+  ownership remains open despite the corrected native member references.
+- **Original bindings:** the focused Effect guard checks all nine original
+  field identities and both actual coordinate source/profile owners before
+  building. The packet independently decodes all nine original field values,
+  including native134/34/38 addends, and checks the actual compiled definitions.
+  It does not solve destinations from candidate bytes or rename a fake callee.
+- **Screen ledger recovery:** current cold CalcShakeEnvelope is336 bytes/132
+  instructions/20 fields/eight calls/26 blocks/26 differences,no missing bytes.
+  The ledger's334/131/two-missing-byte claim was stale and is replaced. Current
+  raw SHA is20cc1e0eb986ac1f42f4452ffa2427e0df1dd5391778e877757e214a761adb89.
+  Four modular-addition/unsigned-view and five Chain enum/argument models all
+  preserve336 raw bytes. No Screen source, callback contract or type is adopted;
+  adjacent TH08/TH095 source remains hypothesis material only.
+- **Reproducible evidence:** .analysis/gpt-61sol-20261020-effect-game-manager
+  routes13 frozen Effect/Screen/coordinate carriers sharing32 unique inputs.
+  It retains full raw/actual-COFF inventories, original field values, canonical
+  reports and source hashes. Its replay.py effect/shared-owner rebuilds one
+  closed13-input carrier and compares all16 bodies/fields and15 full exact
+  functions; the fresh post-cleanup replay passes and self-cleans. See the
+  packet README for the three-object public canonical audit. The adjacent
+  screen-envelope-width packet retains all nine bounded negative controls.
+- **Resource cleanup:** after scoped terminal-producer checks,187 files/
+ 2987620 bytes are removed, including143 duplicated source copies and own OBJ/PDB.
+  Full403747-byte reports compress losslessly to49080 bytes. Build/ and own
+  compiler binaries are absent after the frozen replay.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
-- **Verified finish:** CI785 tests/28 skips, target-required tracking, docs,
-  progress and whitespace pass.723 of728 engineering inputs retain parent
-  hashes; all485 game source files are unchanged. Five changes cover one
-  ledger note, two inspectors and two tests. CI bytecode caches are removed
-  after terminal checks. The source binding and independent remote push
-  verification are recorded separately in the packet. No new exactness follows.
+- **Verified finish:** CI787 tests/28 skips, target-required tracking, docs,
+  generated progress and whitespace pass.723 of728 engineering inputs retain
+  parent hashes;484 of485 game source files are unchanged. Only EffectManager.cpp,
+  one guard, one test and two ledger/manifest files change. Final CI caches are
+  removed after terminal checks. Build/ and own OBJ/PDB are absent. Source commit
+  and independent remote push verification are bound separately in the packet.
 
 
 ## Next worker: first three work packages

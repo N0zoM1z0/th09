@@ -2062,9 +2062,62 @@ def replay_effect_real_anm_loaded_exact() -> list[dict]:
     return [canonical('anm-loaded-set-and-execute-script-idx')]
 
 
+
+EFFECT_GAME_MANAGER_SITES = {
+    'effect-manager-update': (0x0040CDD0, 475, (
+        (0x07, 'DIR32', '?g_GameManager@@3UAsciiGameManagerView@@A', 0x004A7D90, 0x134),
+        (0x1D, 'DIR32', '?g_GameManager@@3UAsciiGameManagerView@@A', 0x004A7D90, 0x34))),
+    'effect-manager-draw': (0x0040CFB0, 183, (
+        (0x45, 'DIR32', '?g_GameManager@@3UAsciiGameManagerView@@A', 0x004A7D90, 0),
+        (0x50, 'REL32', '?TransformPopupX@AsciiGameManagerView@@QAEMM@Z', 0x00401680, 0),
+        (0x5B, 'DIR32', '?g_GameManager@@3UAsciiGameManagerView@@A', 0x004A7D90, 0),
+        (0x60, 'REL32', '?TransformPopupY@AsciiGameManagerView@@QAEMM@Z', 0x004016B0, 0))),
+    'effect-manager-create': (0x0040D320, 327, (
+        (0x52, 'DIR32', '?g_GameManager@@3UAsciiGameManagerView@@A', 0x004A7D90, 0x38),
+        (0x58, 'DIR32', '?g_GameManager@@3UAsciiGameManagerView@@A', 0x004A7D90, 0),
+        (0x68, 'DIR32', '?g_GameManager@@3UAsciiGameManagerView@@A', 0x004A7D90, 0))),
+}
+
+
+def validate_effect_real_game_manager_abi(units: dict) -> None:
+    """Bind the exact Effect callers to shared source, not numeric aliases."""
+    source = (ROOT/'src/EffectManager.cpp').read_text()
+    if ('#include "AsciiGameManagerView.hpp"' not in source or
+            'EffectGameManager' in source or
+            'g_GameManager.sides[0].flags' not in source or
+            'sideIndex * sizeof(AsciiGameManagerSideView)' not in source or
+            '(1 - sideIndex) * sizeof(AsciiGameManagerSideView)' not in source):
+        raise RuntimeError('Effect GameManager has a split owner or invented third typed side')
+    for name, (address, size, sites) in EFFECT_GAME_MANAGER_SITES.items():
+        unit = units.get(name)
+        if (not isinstance(unit, dict) or unit.get('source') != 'src/EffectManager.cpp'
+                or unit.get('object') != 'build/matching/EffectManager.obj'
+                or unit.get('target_address') != address or unit.get('size') != size
+                or unit.get('profile') != [f for f in _SCREEN_EFFECT_BASE_PROFILE if f != '/EHsc']):
+            raise RuntimeError('Effect GameManager original caller/source/profile changed')
+        for offset, kind, symbol, target, addend in sites:
+            rows = [row for row in unit.get('relocations', []) if row.get('offset') == offset]
+            # Omitted metadata is not an assertion that actual COFF addend is zero.
+            # Complete canonical replay verifies its original +134/+34/+38 bytes.
+            if (len(rows) != 1 or
+                    (rows[0].get('type'), rows[0].get('symbol'), rows[0].get('target')) !=
+                    (kind, symbol, target) or rows[0].get('addend', addend) != addend):
+                raise RuntimeError('Effect GameManager original native field identity changed')
+    for axis, address in (('x', 0x00401680), ('y', 0x004016B0)):
+        unit = units.get('game-manager-transform-popup-' + axis)
+        if (not isinstance(unit, dict) or unit.get('source') != 'src/GameManagerCoordinates.cpp'
+                or unit.get('object') != 'build/matching/GameManagerCoordinates.obj'
+                or unit.get('symbol') != '?TransformPopup' + axis.upper() + '@AsciiGameManagerView@@QAEMM@Z'
+                or unit.get('target_address') != address or unit.get('size') != 46
+                or unit.get('profile') != list(_SCREEN_EFFECT_BASE_PROFILE)):
+            raise RuntimeError('Effect GameManager coordinate callee has no native exact owner')
+
+
 def run_effect(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     with (ROOT/'config/match-units.toml').open('rb') as stream:
-        validate_effect_real_anm_loaded_abi(tomllib.load(stream)['units'])
+        units = tomllib.load(stream)['units']
+    validate_effect_real_anm_loaded_abi(units)
+    validate_effect_real_game_manager_abi(units)
     # The 51-byte resource loader lives inside the optimizer carrier with
     # *fifteen* canonical exact original functions. One cold real TU build
     # must protect every one of them, not just the update/draw nearby leaves.

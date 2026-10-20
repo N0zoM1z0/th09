@@ -12793,3 +12793,78 @@ attest historical producer execution.
   change. CI bytecode caches are removed after terminal checks; build/ and own
   compiler binaries remain absent. Source commit and independent remote push
   verification are bound separately in the local packet.
+
+
+### 2026-10-20 — Effect native GameManager references and current Screen frontier
+
+- Recovered clean0b8b9fd; original Japanese v1.50a disk, direct IDA metadata,
+  entry and distributed mapped-byte checks pass. Current-source cold Screen
+  CalcShakeEnvelope4227A0 is336 bytes/132 instructions/20 fields/eight calls/
+ 26 original-equal direct blocks/26 ordinary differences. Its source and physical
+  owner are unchanged. The active ledger's334/131/two-missing-byte description
+  was stale and is replaced, without changing any boundary, origin or credit.
+  Current raw SHA:20cc1e0eb986ac1f42f4452ffa2427e0df1dd5391778e877757e214a761adb89.
+- Original4227FA/FD independently load hold/fade dwords;422800/02 perform the
+  two32-bit additions before the signed Timer comparison. Later unsigned32-
+  to-float conversion/spill and fresh timer/fade loads remain independent target
+  facts. Four closed carriers test unsigned promotion before the update sum,
+  both sums, corresponding unsigned field references and their combination.
+  All reproduce336 raw bytes/26 differences. No broad runtime-domain or original
+  C++ overflow/type claim is inferred and no Screen source is adopted.
+- Five separate full-TU Screen controls test const pointer, reference, genuine
+  void Chain argument, existing ChainCallbackResult enum return and enum plus
+  reference. They use the existing full38-byte Screen object and observed ECX/
+  no-stack/EAX interface. Every336-byte body is identical to baseline. Original
+  C++ callback/return type remains unknown; this does not validate arbitrary
+  callback table casts. Read-only TH08/TH095 corroborate only possible source
+  families, never TH09 layouts, addresses, runtime or exactness.
+- Found remaining Effect source identity splits: private EffectGameManagerView
+  and two method declarations produced a distinct global symbol and references
+  to non-defining class methods at the existing shared coordinate addresses.
+  EffectManager.cpp now includes AsciiGameManagerView.hpp, consumes its real
+  flags/side prefix, and calls actual shared TransformPopupX/Y definitions.
+  The native side flags+34 layout is asserted. The former three-element local
+  side declaration is removed: Create publishes opaque byte-offset addresses
+  using the observed38-byte stride, preserving the third context without
+  pretending that the shared two-side array owns a third typed side object.
+- Two independent whole Effect carriers and a maintained-path cold compile
+  preserve all16 emitted raw function bodies and all four ordered nondebug
+  noncode sections. Exactly nine actual COFF rows change only C++ names:
+  OnUpdate40CDD0 fields07/1D (global addends134/34);
+  OnDraw40CFB0 fields45/50/5B/60 (two global roots and actual401680/4016B0
+  coordinate methods); Create40D320 fields52/58/68 (global addends38/0/0).
+  Original PE field values are decoded independently and agree with every
+  offset/kind/addend/destination. No private label, profile or raw byte changes.
+- All15 affected previously exact Effect owners replay2530 physical bytes/
+ 100 fields. The actual two46-byte coordinate source methods also cold-replay
+  exactly, with four fields and their positive COFF definitions. The already
+  cold-built unchanged316-byte CalcShake independently passes16 fields.
+ 18 DISTINCT existing exact functions total2938 bytes/120 fields;981 unaffected
+  proofs reuse unchanged inputs/profiles. These are regression confirmations,
+  not18 new owners. AddedCallback remains51/4/eight differences. Shared global
+  storage definition, original class spelling and whole native/runtime closure
+  are not thereby established.
+- The focused Effect guard now rejects the old C++ owner, wrong original
+  caller/source/profile, moved/retargeted/missing fields or substituted coordinate
+  source/callee. Optional manifest addend metadata cannot contradict observed
+ 134/34/38 values; full canonical replay checks actual compiled addends. Two
+  target-independent tests challenge all nine identities and both true callees.
+  An initial list-versus-tuple profile check is corrected before interpreting
+  test results. No compiler failure or stale report is counted as a negative
+  source hypothesis or accepted codegen.
+- Evidence routes through .analysis/gpt-61sol-20261020-effect-game-manager and
+  the adjacent screen-envelope-width packet:13 frozen carriers,32 unique inputs,
+  complete raw/actual-COFF pairs, current-source hashes and original observations.
+  Scoped terminal-producer cleanup removes187 files/2987620 bytes, deduplicates
+ 143 source copies and losslessly compresses403747 report bytes to49080 bytes.
+  A frozen shared-owner replay rebuilds13 inputs, reproduces all16 bodies/fields
+  and15 complete previously exact comparisons, and self-cleans. Build/ and own
+  OBJ/PDB are absent. Coverage remains999/1035 and242876/291883 bytes;95% still
+  needs34413 complete exact bytes. Source commit and remote push are bound
+  separately; no new exactness, product/runtime or later-phase claim follows.
+- Final CI787 tests/28 skips, target-required tracking, docs, generated progress
+  and whitespace pass.723/728 engineering inputs retain parent hashes and484/485
+  game source files remain unchanged. Only EffectManager.cpp, its guard/test and
+  two ledger/manifest files change. Final CI caches are removed after terminal
+  checks; build/ and own OBJ/PDB remain absent. Source commit and independent
+  remote verification are bound separately in the packet.

@@ -90,4 +90,35 @@ class EffectTrueAnmLoaded(unittest.TestCase):
             frontier.replay_effect_real_anm_loaded_exact()
         build.assert_not_called();canon.assert_not_called()
 
+    def test_native_game_manager_shared_source_and_exact_coordinate_callees(self):
+        frontier.validate_effect_real_game_manager_abi(self.units)
+        self.assertEqual(sum(len(sites) for _, _, sites in
+                             frontier.EFFECT_GAME_MANAGER_SITES.values()), 9)
+        source = (ROOT/'src/EffectManager.cpp').read_text()
+        self.assertNotIn('EffectGameManager', source)
+        self.assertIn('offsetof(AsciiGameManagerSideView, flags) == 0x34', source)
+        for axis in ('x', 'y'):
+            callee = self.units['game-manager-transform-popup-' + axis]
+            self.assertEqual(callee['size'], 46)
+            self.assertEqual(callee['source'], 'src/GameManagerCoordinates.cpp')
+
+    def test_native_game_manager_rejects_alias_fields_and_callee_substitution(self):
+        for name, (_, _, sites) in frontier.EFFECT_GAME_MANAGER_SITES.items():
+            for offset, _, _, _, addend in sites:
+                index = next(i for i, row in enumerate(self.units[name]['relocations'])
+                             if row['offset'] == offset)
+                for key, value in (('offset', offset + 1), ('type', 'invalid'),
+                                   ('symbol', '?g_GameManager@@3UEffectGameManagerView@@A'),
+                                   ('target', 0x004A7D94), ('addend', addend + 1)):
+                    wrong = deepcopy(self.units)
+                    wrong[name]['relocations'][index][key] = value
+                    with self.subTest(name=name, offset=offset, key=key), self.assertRaises(RuntimeError):
+                        frontier.validate_effect_real_game_manager_abi(wrong)
+        for name in (*frontier.EFFECT_GAME_MANAGER_SITES,
+                     'game-manager-transform-popup-x', 'game-manager-transform-popup-y'):
+            for field, value in (('source', 'src/Fake.cpp'), ('size', 0), ('profile', ['/Ob0'])):
+                wrong = deepcopy(self.units); wrong[name][field] = value
+                with self.subTest(name=name, field=field), self.assertRaises(RuntimeError):
+                    frontier.validate_effect_real_game_manager_abi(wrong)
+
 if __name__=='__main__':unittest.main()
