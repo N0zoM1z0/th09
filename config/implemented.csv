@@ -1023,3 +1023,8 @@ EffectUpdateCallbackType37
 EffectDrawCallbackType17
 EffectDrawCallbackType30
 EffectDrawCallbackType32
+EffectUpdateCallbackType17
+EffectUpdateCallbackType29
+EffectUpdateCallbackType31
+EffectDrawCallbackType31
+EffectDrawCallbackType37

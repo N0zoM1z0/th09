@@ -11351,3 +11351,77 @@ attest historical producer execution.
   `.analysis/gpt-61sol-20261020-effect-pattern-survey/`. Original C++ spelling,
   unique TU partition, complete executable inventory, Windows product/runtime,
   semantic reconstruction and portability remain unknown/open.
+
+
+## October 20: five final Effect callbacks exact; Type29 draw remains open (gpt-6.1-sol)
+
+- Recovery starts at clean pushed **b5385510c4cd47c8d62b62d898f3b9eef4d6e6f5**.
+  Original disk identity, direct local IDA metadata and distributed mapped-byte
+  checks pass. Direct IDA reports no function at any of the six remaining
+  callback entries. All below target facts use independently decoded immutable
+  table pointers and complete PE control flow; IDA bytes are never patched.
+- Exact original extents are update17 **4422F0 /218 bytes /10 fields**,
+  update29 **447F40 /106 /4**, update31 **449BA0 /198 /12**, draw31
+  **44A780 /921 /42** and draw37 **44C790 /972 /52**. All five complete
+  maintained canonical replays have zero differences, **2,415 bytes /120 fields**.
+  Following CC and unrelated adjacent owners are excluded. Sparse Player
+  velocityX1CCC is observed independently from position1B88; Type31's two
+  indexed GameManager player04 operands each bind stride38/root4A7D90+4.
+- Target behavior: update17 widens aperture84 by0.052359879 below pi/2, follows
+  the player and steers by one quarter of the wrapped difference toward movement
+  angle1CD8+pi. Update29 grows radius by4 below48, rotates by0.052359879 and
+  follows the player. Update31 grows radius by6 below128; negative/positive/zero
+  velocityX select -2pi/3, -pi/3 and -pi/2 with0.02/0.02/0.05 smoothing.
+  Comparisons are strict floating-point comparisons, preserving NaN branches.
+- Target draw31 builds five outer polar points and five golden interpolants,
+  clears all ten Z values, emits a center plus ten perimeter points and closing
+  point, and calls a12-vertex fan outside dirty. Compiler **/Ob1** emits905
+  bytes without the natural default-constructor iterator; the already canonical
+  **/Ob0** ECL profile gives all921 bytes, all42 fields and the complete graph.
+  The push4343D0 constructor operand is independently decoded (generic rodata
+  scanning alone misses code-pointer immediates). The actual three-byte retail
+  body is8BC1C3 and the pre-existing natural Float3 ctor referent is retained;
+  this does not establish original folded class ownership.
+- Target draw37 writes twelve20-byte diffuse vertices, two six-vertex triangle
+  strips. Both draw calls are inside dirty. Vertical Y endpoints are0/448;
+  horizontal X endpoints are-144/+144. The X/Y call order differs between
+  vertical and horizontal points. Plain radius-plus-position expressions retain
+  eight different FPU bytes; existing Type27/36-style positive-radius float
+  references close all972 bytes without extra storage or altered ABI.
+- Original draw29 **448750..448FFB /2,220 bytes**, hash and complete CFG in
+  the packet, includes one main fan and six satellites at offsets0,pi/3,2pi/3,
+  pi,4pi/3,5pi/3; every draw is dirty-scoped. Main count is segments8C;
+  satellite count is signed half, radius24 and centers radius7C+24. At the
+  initializer's32 segments, this path emits33+6*17=135 vertices; the existing
+  raw allocation0xF78 is retained without inventing a different allocation size
+  or asserting complete runtime buffer ownership/capacity usage.
+- Type29 compiler frontier: full natural baseline2172/2220 bytes,129 actual
+  fields and72 ordered calls,1792 overlapping differences plus48 missing;
+  target/candidate frames36/32 bytes and41/38 decoded direct blocks. Reusing
+  mutable fan locals changes the diff count to1782 or1769, still48 short.
+  Const common step, common-step reference and reusing the original step are
+  neutral; **/Op** worsens to2156/2038 differences+64 missing. A natural inline
+  satellite helper remains an actual unresolved helper call and is rejected.
+  No new Type29 source mapping or exact claim is promoted. Saved/working
+  angular-step homes, original local lifetimes and unique TU partition remain
+  unknown. Adjacent TH08/TH095 source searches provided no matching hypothesis.
+- Cold current ECL closure is **77 functions /24,374 physical bytes /1,091
+  fields** across73 /Ob1 and4 /Ob0 owners. Two private labels are renamed only
+  after all original bytes and actual owner-relative positions pass. Native
+  XY references total114; strict exact-source angle references39. Complete
+  RunEcl, Enemy, Type19, biased movement, Type34 and Type26 guards pass unchanged.
+  The original Effect prefix now has one uncatalogued entry, draw29; complete
+  function inventory, Windows product/runtime and later phase gates remain open.
+  Full recipes, source hashes, field/byte/graph reports and parent717-input
+  bindings live in `.analysis/gpt-61sol-20261020-effect-final-prefix/`.
+- Final CI passes752 tests/28 skipped; tracking, documentation, generated
+  progress and whitespace pass. The historical private source recipe is now
+  explicitly isolated from the new public ECL: all717 parent inputs are
+  recreated at their recorded working hashes (including41 CRLF/LF bindings),
+  then one serial low-priority native replay reproduces Type29's2172/1792/48
+  baseline after promotion. After all own producers stop, scoped cleanup removes
+  **1,099 reproducible files /20,509,134 bytes**, including those717 derivative
+  input copies. The private original, toolchains, unresolved source/recipes,
+  source hashes, full reports and unrelated legacy evidence remain. `build/`
+  is absent. Of718 public engineering inputs,706 retain parent hashes,11
+  change and one is new; final commit bindings are in the packet.

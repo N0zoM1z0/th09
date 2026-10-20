@@ -81,8 +81,8 @@ def build(unit: str) -> None:
 # rebuilt rather than silently reusing the main diagnostic's object.
 # These are manifest-verified cardinalities, not historical exactness totals.
 ECL_EXACT_CARRIERS = {
-    'build/matching/EclManager.obj': 69,
-    'build/matching/EclManager-Type11.obj': 3,
+    'build/matching/EclManager.obj': 73,
+    'build/matching/EclManager-Type11.obj': 4,
 }
 TITLE_EXACT_CARRIERS = {
     'build/matching/TitleScreen.obj': 37,
@@ -742,7 +742,8 @@ RUNECL_REAL_ANGLE_LEAVES = (
 RUNECL_REAL_ANGLE_EXATTACK_FRAGMENTS = (
     'ExAttackInitType8.inl', 'ExAttackUpdateType8Type9.inl',
     'ExAttackUpdateType11Type12.inl', 'ExAttackUpdateType7.inl',
-    'ExAttackUpdateType21.inl', 'EffectDoubleFanFamily.inl', 'EffectFanVariants.inl',
+    'ExAttackUpdateType21.inl', 'EffectDoubleFanFamily.inl',
+    'EffectFanVariants.inl', 'EffectFanFinalCallbacks.inl',
 )
 
 
@@ -788,8 +789,8 @@ def validate_runecl_real_angle_owners(units: dict) -> None:
                     ('REL32', RUNECL_REAL_ANGLE_ORIGINAL_VA, 0)):
                 raise RuntimeError('ECL/ExAttack exact source contains false angle-call identity')
             exact_ref_count += 1
-    if exact_ref_count != 32:
-        raise RuntimeError('ECL/Enemy/position/Effect 32 exact C++ angle callsites missing')
+    if exact_ref_count != 39:
+        raise RuntimeError('ECL/Enemy/position/Effect 39 exact C++ angle callsites missing')
 
 
 def guard_runecl_real_angle_callsite_report(report: dict) -> dict:

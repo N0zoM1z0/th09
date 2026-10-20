@@ -984,6 +984,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00441EF0,authored_game,Player,authored,high,player-shot-spawn-callback1-exact-2026-09-20
 0x00441F90,authored_game,Player,authored,high,player-shot-update-callback2-source-2026-09-20
 0x00442220,authored_game,Player,authored,high,player-shot-draw-callback1-source-2026-09-20
+0x004422F0,authored_game,Effect,authored,high,effect-final-prefix-original-callback-review-2026-10-20
 0x004423D0,authored_game,Player,authored,high,player-shot-spawn-callbacks-exact-2026-09-20
 0x00442420,authored_game,GameManager,authored,high,game-manager-inverse-coordinate-exact-2026-09-21
 0x00442450,authored_game,GameManager,authored,high,game-manager-inverse-coordinate-exact-2026-09-21
@@ -1061,6 +1062,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00447AF0,authored_game,ExAttackController,authored,high,exattack-type23-init-exact-2026-09-21
 0x00447C40,authored_game,Effect,authored,high,effect-radial-fan-original-exact-2026-10-20
 0x00447CE0,authored_game,Effect,authored,high,effect-type26-28-original-callback-review-2026-10-20
+0x00447F40,authored_game,Effect,authored,high,effect-final-prefix-original-callback-review-2026-10-20
 0x00447FB0,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x00448320,authored_game,ExAttackController,authored,high,exattack-type17-init-exact-2026-09-21
 0x00448490,authored_game,ExAttackController,authored,high,exattack-type17-update-exact-2026-09-21
@@ -1074,6 +1076,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00449940,authored_game,Effect,authored,high,effect-fan-variants-original-exact-2026-10-20
 0x00449A10,authored_game,Effect,authored,high,effect-fan-variants-original-exact-2026-10-20
 0x00449B50,authored_game,Player,authored,high,player-type11-orientation-exact-2026-09-21
+0x00449BA0,authored_game,Effect,authored,high,effect-final-prefix-original-callback-review-2026-10-20
 0x00449C70,authored_game,Player,authored,high,player-shot-update-callback6-exact-2026-09-20
 0x00449CE0,authored_game,Player,authored,high,player-shot-update-callback7-exact-2026-09-20
 0x00449D50,authored_game,Player,authored,high,player-position-callback-type11-source-2026-09-21
@@ -1081,6 +1084,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0044A330,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0044A670,authored_game,Player,authored,high,player-owner-reward-callback-type11-exact-2026-09-21
 0x0044A6E0,authored_game,Effect,authored,high,effect-fan-variants-original-exact-2026-10-20
+0x0044A780,authored_game,Effect,authored,high,effect-final-prefix-original-callback-review-2026-10-20
 0x0044AB20,authored_game,Game,authored,high,game-code-origin-sweep-2026-09-19
 0x0044AB30,authored_game,Effect,authored,high,effect-fan-variants-original-exact-2026-10-20
 0x0044AB90,authored_game,Player,authored,high,player-shot-spawn-callback7-exact-2026-09-20
@@ -1107,6 +1111,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x0044C4C0,authored_game,ExAttackController,authored,high,exattack-type26-update-exact-2026-09-21
 0x0044C680,authored_game,Player,authored,high,player-owner-reward-callback-type15-exact-2026-09-21
 0x0044C6F0,authored_game,Effect,authored,high,effect-fan-variants-original-exact-2026-10-20
+0x0044C790,authored_game,Effect,authored,high,effect-final-prefix-original-callback-review-2026-10-20
 0x0044E1C4,data,Data,exclude,high,transition-record-data-review-2026-09-19
 0x0044E1D4,data,Data,exclude,high,transition-record-data-review-2026-09-19
 0x0044E244,data,Data,exclude,high,transition-record-data-review-2026-09-19

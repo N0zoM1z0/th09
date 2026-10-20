@@ -5,21 +5,21 @@ their boundaries and origins must be reviewed independently.
 
 | Measure | Count |
 | --- | ---: |
-| Tracked 1.50a function candidates | 2,237 |
+| Tracked 1.50a function candidates | 2,242 |
 | Origin/boundary review pending | 0 |
 | Reviewed but origin-unresolved | 35 |
-| Confirmed authored functions | 1,025 |
-| Confirmed authored code bytes | 286,890 |
+| Confirmed authored functions | 1,030 |
+| Confirmed authored code bytes | 289,305 |
 | Classified exclusions | 1,177 |
-| Source-present authored mappings | 1,025 |
-| Source-present authored bytes | 286,890 |
+| Source-present authored mappings | 1,030 |
+| Source-present authored bytes | 289,305 |
 | Source-present but non-exact functions | 35 |
 | Source-present but non-exact bytes | 46,787 |
 | Authored functions without maintained source | 0 |
 | Authored bytes without maintained source | 0 |
-| Canonical exact functions | 990 |
-| Canonical exact authored bytes | 240,103 |
-| Exact share of reviewed-authored bytes | 83.6917% |
+| Canonical exact functions | 995 |
+| Canonical exact authored bytes | 242,518 |
+| Exact share of reviewed-authored bytes | 83.8278% |
 
 This percentage uses only confirmed authored bytes. Pending or origin-unresolved
 candidates are excluded; later classification may change this denominator.
