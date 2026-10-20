@@ -172,5 +172,72 @@ class Type1422AlignedShapeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'duplicate'):
             INSPECT.normalized_owner_shape(stream, [], base=0x1000)
 
+class Type1422ComArgumentTests(unittest.TestCase):
+    @staticmethod
+    def events():
+        def reg(name): return dict(kind='reg', reg=name, size=4)
+        def imm(value): return dict(kind='imm', imm=value, size=4)
+        def mem(base, disp=0):
+            return dict(kind='mem', base=base, index=None, disp=disp, size=4)
+        def event(name, operands, writes=()):
+            return dict(mnemonic=name, operands=operands, writes=list(writes), entry=False)
+        events = []
+        for row in INSPECT.reference_com_calls():
+            events.extend((event('mov', [reg('eax'), mem(None, 0x004B3108)], ['eax']),
+                           event('mov', [reg('edx'), mem('eax')], ['edx'])))
+            for arg in row['reverse_arguments']:
+                operand = reg('esi') if arg == 'dynamic' else imm(arg)
+                events.append(event('push', [operand], ['esp']))
+            events.append(event('push', [reg('eax')], ['esp']))
+            events.append(event('call', [mem('edx', row['slot'])], ['esp']))
+        return events
+
+    def test_com_dataflow_checks_the_actual_device_vtable_and_sdk_arguments(self):
+        rows = INSPECT.trace_com_events(self.events())
+        self.assertEqual(len(rows), 12)
+        self.assertEqual(rows[0], dict(slot=0xFC, reverse_arguments=[2, 4, 0],
+                                      receiver_address=0x004B3108))
+        self.assertEqual(rows[7]['reverse_arguments'], [20, 'dynamic', 31, 3])
+        self.assertEqual(rows[-1]['reverse_arguments'], [2, 2, 0])
+
+    def test_com_dataflow_rejects_clobbered_receivers_and_incomplete_stack(self):
+        import copy
+        baseline = self.events()
+        variants = []
+        for index, operand, field, value in (
+                (0, 1, 'disp', 0x004B310C), (1, 1, 'disp', 4),
+                (6, 0, 'disp', 0xF8), (6, 0, 'index', 'ebx'),
+                (2, 0, 'imm', 4), (5, 0, 'kind', 'imm')):
+            events = copy.deepcopy(baseline)
+            events[index]['operands'][operand][field] = value
+            if index == 5: events[index]['operands'][operand]['imm'] = 0
+            variants.append(events)
+        events = copy.deepcopy(baseline); events.pop(2); variants.append(events)
+        events = copy.deepcopy(baseline); events.insert(2, copy.deepcopy(events[2])); variants.append(events)
+        for index, register in ((1, 'al'), (2, 'dl')):
+            events = copy.deepcopy(baseline)
+            events.insert(index, dict(mnemonic='xor', operands=[], writes=[register], entry=False))
+            variants.append(events)
+        events = copy.deepcopy(baseline); events[5]['entry'] = True; variants.append(events)
+        events = copy.deepcopy(baseline); events[6]['operands'] = [dict(kind='reg', reg='edx', size=4)]; variants.append(events)
+        for index, events in enumerate(variants):
+            with self.subTest(variant=index), self.assertRaises(ValueError):
+                INSPECT.trace_com_events(events)
+
+    def test_com_argument_summary_cannot_replace_typed_evidence_with_a_boolean(self):
+        import copy
+        baseline = INSPECT.reference_com_calls()
+        for row_index in range(12):
+            for field, value in (('slot', True), ('receiver_address', 0x004B3100),
+                                 ('reverse_arguments', [])):
+                rows = copy.deepcopy(baseline); rows[row_index][field] = value
+                with self.subTest(row=row_index, field=field), self.assertRaises(ValueError):
+                    INSPECT.require_com_calls(rows)
+        for rows in (None, True, [], baseline[:-1], baseline + baseline[:1],
+                     list(reversed(baseline))):
+            with self.subTest(rows=rows), self.assertRaises(ValueError):
+                INSPECT.require_com_calls(rows)
+
+
 if __name__ == '__main__':
     unittest.main()

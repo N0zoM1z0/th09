@@ -15,59 +15,56 @@ Current state: **1,035 authored, 1,035 source-present, 999 canonical exact**;
 **36 source-present nonexact; no confirmed authored owner lacks maintained source**.
 **242,876/291,883 reviewed-authored bytes = 83.2101%**.
 The **95%** milestone still needs **34,413** complete exact authored bytes.
-This checkpoint repairs actual RunEcl source linkage without adding exact
-owners or bytes. Native product/runtime, complete inventory and later gates
-stay open.
+This checkpoint strengthens original-bound Type14/22 SDK call validation and
+records bounded large/leaf compiler controls. It adds no exact owner/byte and
+adopts no gameplay source, profile or callback contract. Native product/runtime,
+complete inventory and later gates remain open.
 
-- **Native owner correction:** EclManager now aliases the reviewed0x188-byte
-  EnemyEclManagerView. The implementation and five original direct callsites
-  share its actual C++ symbol. Previously a separate empty implementation class
-  and two private spawn declarations produced unresolved, differently named
-  references; numeric address bindings hid this source-linkage gap. The Enemy
-  inspector now requires its real same-object definition and records its callee
-  as source-present nonexact. InitializeSubroutine projections remain deferred.
-- **Affected exact cohort:** four cold canonical carriers replay all79 affected
-  existing exact units:25036 authored/25111 physical bytes and1099 fields.
-  The other920 exact proofs reuse unchanged source/profile bindings. All1025
-  manifest units retain sources, profiles, targets, extents and field geometry;
-  only four native call symbols and20 compiler-private label spellings change.
-  Each private spelling preserves its independently checked owner-relative
-  destination. No match row or exactness credit is added.
-- **Complete-owner protection:** both compiler profiles preserve all136 emitted
-  raw functions. RunEcl stays15564 bytes/598 fields/30 ordinary differences,
-  zero field/table differences; Enemy update stays3900/97/29. Original five E8
-  calls independently decode to4086C0. Same-carrier Effect29/34/26, Type19 and
-  biased-movement guards also pass without redundant builds. Each profile's64
-  noncode sections retain their exact content/relocation multiset and63 named
-  data payload bindings, but their physical order changes. Whole-product link
-  order and runtime closure are not established by this batch.
-- **Rejected controls:** six GetAnm const/reference/nonthrowing contracts keep
-  the genuine callee20/20 exact and leave Effect AddedCallback51/4/8 nonexact.
-  Seven full63-input RunEcl bool/wire controls are neutral or regress/reject
-  the owner shape. No bool representation/domain assumption or nonzero-for-lowbit
-  shortcut is adopted. These are source-scoped negatives, not universal proofs.
-- **Reproducible evidence:** .analysis/gpt-61sol-20261020-ecl-native-run-owner
-  retains full raw/actual-COFF reports, original xrefs, manifest/link audits,
-  parent Oracles and21 frozen carriers sharing92 unique inputs. Run replay.py
-  native-main there to rebuild one frozen63-input carrier and check all136 raw
-  functions/actual fields plus the full30/29 boss diagnostics and native link.
-  This post-cleanup replay passes and removes its temporary outputs. The two
-  adjacent getter/bool experiment packets route through that frozen manifest.
-- **Resource cleanup:** after terminal-producer checks, scoped cleanup removes
- 812 files/27108545 bytes, including734 duplicate source copies, own OBJ/PDB and
-  superseded adapter manifests. Full8004022-byte JSON evidence compresses
-  losslessly to503352 bytes. Build/ and own compiler binaries are absent.
+- **New SDK constraint:** original Type14/22 Draw444130 now independently
+  requires all12 ordered D3D8 vtable slots, reverse-stack constant argument sets
+  and each actual device/vtable load from Supervisor+8 (4B3108). Unknown, missing,
+  reordered or clobbered receiver/stack evidence fails. The DrawPrimitiveUP row
+  pointer stays dynamic; the trace does not prove its full runtime value. The
+  boss guard validates both complete traces rather than a passed boolean/count.
+- **Complete-owner replay:** one maintained-path cold draw matches the closed
+  baseline on all974 raw bytes and53 actual COFF rows. Original959/290 versus
+  source974/297 instructions,20 direct/12 indirect calls,nine jumps,905 overlap
+  differences+15 excess remain unchanged and nonexact. The54 previously equal
+  positions stay protected. Original bytes independently hash to
+  af3c06ea2c9f68861067f5feb784206035dd67ea3eb07ef3994ed4ec17df74f4.
+- **Rejected controls:** six typed pointer/reference/member/static callback
+  models have identical raw974-byte bodies. Original C++ callback ownership is
+  not inferred. Two RunEcl rotate expressions preserve15564/598/30 ordinary
+  differences and zero field/table differences; multiplication changes extent
+  to15576 and is rejected. No wire-domain assumption or extra side effect is
+  adopted. Four parser definition-order/inline models all preserve243/116/34
+  blocks/76 differences and the complete679-byte/22-field exact real caller.
+- **Focused scope:** one distinct existing exact caller replays679 bytes/22
+  fields across four controls. The other998 exact proofs retain input/profile
+  hashes; all485 game sources remain unchanged. Current RunEcl baseline proof
+  is reused only after all63 actual inputs match the prior frozen source hashes.
+  No repository-wide cold cohort or duplicate byte credit is introduced.
+- **Reproducible packet:** .analysis/gpt-61sol-20261020-exattack1422-callback-contract
+  routes13 frozen carriers sharing81 unique inputs, full raw/actual-COFF pairs,
+  original IDA observations, SDK traces and the focused cold boss proof. Run
+  replay.py draw/typed-pointer there for one frozen whole-owner comparison with
+  the new12-call device/argument checks. Adjacent runecl-shift-expression and
+  parser-definition-order packets route through the same manifest.
+- **Resource cleanup:** after scoped terminal-producer checks,329 files/
+ 5180539 bytes are removed, including283 duplicated source copies and own OBJ/PDB.
+  Full807142-byte pair evidence compresses losslessly to89242 bytes. The frozen
+  typed-pointer replay passes, reproducing974 raw bytes/53 actual fields and all
+ 12 SDK calls, then removes its own outputs. Build/ and own binaries are absent.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
-- **Verified finish:** CI781 tests/28 skips, target-required tracking, docs,
-  progress and whitespace pass.714 of728 engineering inputs retain parent
-  hashes;481 of485 game source files are unchanged. Four game files, seven
-  inspectors, two ledger/manifest files and one test change. CI bytecode caches
-  are also removed after terminal checks. Build/ and own OBJ/PDB are absent.
-  Committed-input and independent remote-verification packets bind the final
-  source checkpoint separately; no new exactness or runtime claim follows.
+- **Verified finish:** CI785 tests/28 skips, target-required tracking, docs,
+  progress and whitespace pass.723 of728 engineering inputs retain parent
+  hashes; all485 game source files are unchanged. Five changes cover one
+  ledger note, two inspectors and two tests. CI bytecode caches are removed
+  after terminal checks. The source binding and independent remote push
+  verification are recorded separately in the packet. No new exactness follows.
 
 
 ## Next worker: first three work packages

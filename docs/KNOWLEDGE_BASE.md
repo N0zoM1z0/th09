@@ -12720,3 +12720,76 @@ attest historical producer execution.
   two ledger/manifest files and one test change. The final CI bytecode cache is
   removed after producers terminate. Source-commit binding and independent
   remote push verification are recorded separately in the local packet.
+
+
+### 2026-10-20 — Type14/22 native D3D call constraints and codegen counterchecks
+
+- Recovered clean9c3d52a, independently verified Japanese v1.50a disk identity,
+  direct local IDA metadata and entry/distributed mapped bytes. Original draw
+ 444130 remains959 bytes/290 instructions/53 fields,20 direct+12 indirect calls
+  and nine jumps. Its original SHA is
+  af3c06ea2c9f68861067f5feb784206035dd67ea3eb07ef3994ed4ec17df74f4.
+  The maintained source remains974/297/53,905 linked overlap differences and15
+  excess bytes. No target, IDA metadata, callback API, profile or gameplay source
+  is edited or credited exact.
+- Six closed original-profile carriers test the baseline, typed record pointer,
+  typed record reference, member on the complete reviewed38-byte record view,
+  static member and member on the existing4C-byte record. Every complete raw
+  body is identical to baseline974 bytes; all53 actual fields are preserved.
+  These physically ECX-input/no-stack controls do not settle the original C++
+  callback/member ownership or prove interchangeable product callback tables.
+  No empty-class receiver, fake return, forced register or inert storage is used.
+- Two full63-input ECL carriers replace the shifted byte expression with the
+  genuine VC7.1 _rotl(value,24) or _rotr(value,8) intrinsic under the unchanged
+  /Oi profile. Full RunEcl stays15564/598/30 ordinary,zero field/table differences.
+  These retain actual ROL/ROR instructions: raw comparison changes one/two bytes
+  inside the already differing set, with no newly matching original positions.
+  Equal counts must not be reported as identical machine code.
+  Unsigned multiplication by01000000 has the same low-byte arithmetic semantics
+  but emits15576 bytes and is rejected by full owner coverage. These limited
+  expression controls do not establish a unique original spelling. The existing
+  baseline is reused after all63 frozen inputs equal current actual source.
+- Four whole parser/caller carriers test helper before/after its real caller,
+  forward declaration and ordinary inline forms. All retain helper243 bytes/
+ 116 instructions/34 blocks/76 differences and exact679-byte real caller with
+ 22 fields. Four strict replays count as one distinct existing exact owner;
+ 998 unrelated exact proofs reuse unchanged source/profile bindings. This new
+  definition-order evidence does not erase the earlier counterexample where a
+  count cache changes the compiler-private register ABI and damages the caller.
+- Found a bounded Oracle gap: twelve indirect-call counts did not independently
+  constrain SDK methods, constant arguments or receiver dataflow. The inspector
+  now decodes the original and actual complete candidate call setup. Each COM
+  call must locally load the native device pointer at4B3108, read its vtable
+  through that same object, and push that device as receiver. Partial-register
+  writes, control-flow entries, direct calls and stack changes invalidate facts;
+  unknown slots, indexed vtables, missing/excess arguments or clobbers fail closed.
+- Actual original reverse-stack arguments (excluding the device receiver) are:
+  slotFC texture-stage calls(2,4,0),(2,1,0),(0,5,0),(0,2,0);
+  slotC8 render states(0,14),(6,20); slot130 vertex shader(44 hex);
+  slot120 DrawPrimitiveUP(20,dynamic-row-pointer,31,3); and slotFC restoration
+  (4,4,0),(4,1,0),(2,5,0),(2,2,0). Slot displacements are bytes in the pinned
+  D3D8 interface; constants remain original numeric observations. The dynamic
+  row pointer is deliberately not claimed as a proved complete runtime address.
+  Both target and candidate must independently satisfy all twelve sets. The
+  boss guard revalidates the full typed traces, never only a success flag/count.
+- One maintained-path cold draw reproduces all974 raw bytes and all53 actual
+  COFF rows of the first closed baseline. The new SDK/receiver checks and old
+  complete physical-difference protection both pass. Added negative tests cover
+  method/constant/device changes, partial-register clobbers, wrong vtable base,
+  indexed or register calls, missing/extra stack words, control-flow invalidation
+  and forged/missing/reordered summaries without private inputs or Capstone.
+- Evidence routes through .analysis/gpt-61sol-20261020-exattack1422-callback-contract,
+  including the adjacent runecl-shift-expression and parser-definition-order
+  packets. Thirteen frozen carriers share81 unique inputs. Scoped terminal-
+  producer cleanup removes329 files/5180539 bytes, deduplicates283 source copies
+  and losslessly compresses807142 bytes of full pairs to89242 bytes. A frozen
+  typed-pointer replay rebuilds its13 inputs, reproduces974 raw bytes/53 actual
+  fields and all12 SDK call proofs, then self-cleans. Build/ and own OBJ/PDB are
+  absent. Coverage stays999/1035 and242876/291883 bytes;95% still needs34413
+  complete exact bytes. Whole-product/runtime and later phase gates stay open.
+- Final CI785 tests/28 skips, target-required tracking, docs, generated progress
+  and whitespace pass.723/728 engineering inputs retain parent hashes and all485
+  game source files are unchanged. One ledger note, two inspectors and two tests
+  change. CI bytecode caches are removed after terminal checks; build/ and own
+  compiler binaries remain absent. Source commit and independent remote push
+  verification are bound separately in the local packet.

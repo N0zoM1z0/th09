@@ -586,6 +586,22 @@ class BossFrontierChecks(TestCase):
             'target_bytes': 959, 'candidate_bytes': 974,
             'target_instructions': 290, 'candidate_instructions': 297,
             'target_fields': 53, 'candidate_fields': 53,
+            'target_COM_calls': [dict(slot=slot, reverse_arguments=list(args),
+                                     receiver_address=0x004B3108) for slot, args in (
+                (0xFC, (2, 4, 0)), (0xFC, (2, 1, 0)),
+                (0xFC, (0, 5, 0)), (0xFC, (0, 2, 0)),
+                (0xC8, (0, 14)), (0xC8, (6, 20)),
+                (0x130, (0x44,)), (0x120, (20, 'dynamic', 31, 3)),
+                (0xFC, (4, 4, 0)), (0xFC, (4, 1, 0)),
+                (0xFC, (2, 5, 0)), (0xFC, (2, 2, 0)))],
+            'candidate_COM_calls': [dict(slot=slot, reverse_arguments=list(args),
+                                        receiver_address=0x004B3108) for slot, args in (
+                (0xFC, (2, 4, 0)), (0xFC, (2, 1, 0)),
+                (0xFC, (0, 5, 0)), (0xFC, (0, 2, 0)),
+                (0xC8, (0, 14)), (0xC8, (6, 20)),
+                (0x130, (0x44,)), (0x120, (20, 'dynamic', 31, 3)),
+                (0xFC, (4, 4, 0)), (0xFC, (4, 1, 0)),
+                (0xFC, (2, 5, 0)), (0xFC, (2, 2, 0)))],
             'direct_calls': 20, 'indirect_calls': 12,
             'target_direct_jumps': 9, 'candidate_direct_jumps': 9,
             'field_order_and_destinations_equal': True,
@@ -629,6 +645,7 @@ class BossFrontierChecks(TestCase):
             {'target_sha256': '0'*64}, {'candidate_bytes': 975},
             {'target_instructions': 289}, {'candidate_instructions': 298},
             {'target_fields': 52}, {'candidate_fields': 52},
+            {'target_COM_calls': None}, {'candidate_COM_calls': []},
             {'direct_calls': 19}, {'indirect_calls': 11},
             {'target_direct_jumps': 8}, {'candidate_direct_jumps': 10},
             {'field_order_and_destinations_equal': False},
@@ -651,6 +668,21 @@ class BossFrontierChecks(TestCase):
         for mutation in bad:
             with self.subTest(mutation=mutation), self.assertRaises(RuntimeError):
                 frontiers.guard_exattack_type1422_draw({**baseline, **mutation})
+
+    def test_exattack_1422_draw_rejects_com_argument_or_device_forgery(self):
+        import copy
+        baseline = self.exattack_1422_draw_evidence()
+        for key in ('target_COM_calls', 'candidate_COM_calls'):
+            for change in ('slot', 'argument', 'device', 'pointer', 'order'):
+                evidence = copy.deepcopy(baseline)
+                rows = evidence[key]
+                if change == 'slot': rows[0]['slot'] = 0xF8
+                elif change == 'argument': rows[0]['reverse_arguments'][0] = 4
+                elif change == 'device': rows[0]['receiver_address'] += 4
+                elif change == 'pointer': rows[7]['reverse_arguments'][1] = 0
+                else: rows[0], rows[1] = rows[1], rows[0]
+                with self.subTest(key=key, change=change), self.assertRaises(RuntimeError):
+                    frontiers.guard_exattack_type1422_draw(evidence)
 
     def test_exattack_1422_draw_cannot_exchange_a_real_difference_for_a_matching_byte(self):
         baseline = self.exattack_1422_draw_evidence()

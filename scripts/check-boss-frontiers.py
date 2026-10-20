@@ -3344,11 +3344,22 @@ def guard_exattack_type1422_draw(result: dict) -> dict:
     """Noncrediting original/COFF coverage of the complete 959-byte draw boss.
 
     Decode and bind the entire callback, all 53 address fields and the exact
-    20 direct/12 indirect call sequence in the independent inspector. A near
-    match here cannot credit a function or bypass the three exact siblings.
+    20 direct/12 indirect call sequence and all twelve SDK argument/device
+    traces in the independent inspector. A near match here cannot credit a
+    function or bypass the three exact siblings.
     """
     noncrediting(result, name='ExAttack Type14/22 Draw', target_size=959,
                  fields=53, fields_key='candidate_fields')
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        'exattack1422_com_guard', ROOT/'scripts/inspect-exattack-type14-22-draw.py')
+    inspector = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(inspector)
+    try:
+        inspector.require_com_calls(result.get('target_COM_calls'))
+        inspector.require_com_calls(result.get('candidate_COM_calls'))
+    except ValueError as error:
+        raise RuntimeError('ExAttack Type14/22 original COM argument evidence changed') from error
     size = result.get('candidate_bytes')
     count = result.get('overlapping_differences')
     candidate_jumps = result.get('candidate_direct_jumps')
@@ -3392,7 +3403,8 @@ def guard_exattack_type1422_draw(result: dict) -> dict:
     return {'target_bytes': 959, 'candidate_bytes': size,
             'target_instructions': 290, 'candidate_instructions': result['candidate_instructions'],
             'bound_fields': 53, 'ordered_direct_calls': 20,
-            'ordered_indirect_calls': 12, 'direct_jumps': candidate_jumps,
+            'ordered_indirect_calls': 12, 'verified_COM_argument_sets': 12,
+            'direct_jumps': candidate_jumps,
             'overlap_differences': count, 'extra_candidate_bytes': size - 959}
 
 
