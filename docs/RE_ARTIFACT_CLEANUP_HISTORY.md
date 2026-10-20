@@ -4,6 +4,44 @@
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 
+### 2026-10-21: native Enemy damage calls and bounded visibility controls
+
+From pushed `53a7564`, Enemy's two damage calls use the existing shared native
+Player interface; the exact damage body uses the actual SoundPlayer class/global.
+The affected cold closure passes **79 units /25,425 physical bytes** in three
+source/profile groups, preserving Enemy 3900/97/29 and RunEcl 15564/598/30. A later
+diagnostic-provenance text correction reuses all unchanged C++/profile proofs
+and rechecks all 79 full comparisons plus both live owner guards. Final header
+EOF normalization is followed by another bounded 79-unit cold check, binding
+the final live inputs. No full 1000-unit replay is needed.
+
+The packet `.analysis/gpt-61sol-20261021-enemy-damage-context/` retains seven
+successful source/visibility controls, three failed private cast recipes,
+original/live input snapshots, complete raw/actual-COFF pairs and both original
+address label proofs. Frozen cold replays independently reproduce the canonical
+996/55-byte damage/AABB pair with 21 fields and the unadopted 45-byte Effect joint
+query/loader candidate with its exact 20-byte query. Getter folded origin stays
+unknown/review; no new accepted function, authored-origin claim or receipt.
+
+CI passes **828 tests /28 skips**. The first CI's provenance-description failure
+and final passing log remain as sidecars. After all compile/replay/CI handles
+terminate, a repository-scoped `/proc` producer check returns no active writers.
+The ZIP digest, CRCs and all 185 member hashes are verified; every loose path is
+regular, ignored, untracked, confined to this packet and rehashed before removal.
+`cleanup.json` records all paths, byte counts, hashes and classifications.
+
+| Actually removed/replaced | Files | Logical bytes |
+| --- | ---: | ---: |
+| Verified loose evidence members | 185 | 9,797,776 |
+| Retained verified ZIP | 1 | 1,330,748 |
+| **Net reduction** | | **8,467,028 (~8.07 MiB)** |
+
+The original target, provider/toolchain/SDK/Wine/IDA state, canonical/public
+objects, selected cold results, current diagnostic/proof sidecars, compact
+manifest/replayer and old unclassified evidence remain. No age-based or broad
+cleanup occurs. Final target, current source/profile inputs, full Enemy/native
+call guard, tracking, docs, progress and whitespace are rechecked after cleanup.
+
 ### 2026-10-21: Enemy native state interfaces and two countermodel families
 
 From pushed `3f13337`, Enemy's two state reads and one state write now name

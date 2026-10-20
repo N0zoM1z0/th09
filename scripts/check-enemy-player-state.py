@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Cold-check only the 102 accepted units affected by shared Player state declarations.
+"""Cold-check the accepted units affected by shared Enemy/Player interfaces.
 
-Serial nice-10 builds cover four sources and six existing profiles. No origin,
-new exactness or runtime claim follows from preserving these comparisons.
+State scope covers 102 units in six source/profile groups; damage scope checks
+79 in three groups. Serial nice-10 builds grant no new exact or origin credit.
 """
 from __future__ import annotations
 
@@ -21,6 +21,8 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[1]
 COUNTS = {'src/EclManager.cpp': 77, 'src/PlayerRuntime.cpp': 21,
           'src/PlayerSetUpdateState.cpp': 1, 'src/PlayerState3EffectSetup.cpp': 3}
+SCOPES = {'state': (COUNTS, 6),
+          'damage': ({'src/EclManager.cpp': 77, 'src/PlayerDamage.cpp': 2}, 3)}
 
 
 def module(name, filename):
@@ -30,21 +32,22 @@ def module(name, filename):
     return result
 
 
-def groups(units, matches):
+def groups(units, matches, scope='state'):
+    counts, group_count = SCOPES[scope]
     grouped = defaultdict(list)
     for name in sorted({row['unit'] for row in matches}):
         unit = units[name]
-        if unit['source'] in COUNTS:
+        if unit['source'] in counts:
             grouped[(unit['source'], tuple(unit['profile']))].append(name)
     count = Counter()
     for (source, _), names in grouped.items():
         count[source] += len(names)
-    if dict(count) != COUNTS or len(grouped) != 6:
-        raise ValueError('shared Player state affected-unit inventory changed')
+    if dict(count) != counts or len(grouped) != group_count:
+        raise ValueError('shared Player interface affected-unit inventory changed')
     return sorted(grouped.items())
 
 
-def inputs():
+def inputs(scope='state'):
     hashes = {}
     def visit(path):
         name = str(path.relative_to(ROOT))
@@ -56,7 +59,7 @@ def inputs():
             child = path.parent/include.decode()
             if child.is_file():
                 visit(child)
-    for source in COUNTS:
+    for source in SCOPES[scope][0]:
         visit(ROOT/source)
     for name in ('config/match-units.toml', 'config/matches.csv', 'config/functions.csv',
                  'config/tools.lock.toml', 'config/target.toml', 'scripts/build-match-unit.py',
@@ -88,13 +91,13 @@ def share_object(units, names):
         path.write_bytes(data)
 
 
-def run():
+def run(scope='state'):
     coff = module('enemy_state_complete_coff', 'compare-coff-function.py')
     coff.verified_target()
     units = tomllib.loads((ROOT/'config/match-units.toml').read_text())['units']
     with (ROOT/'config/matches.csv').open(newline='') as stream:
-        affected = groups(units, list(csv.DictReader(stream)))
-    before, checked, frontiers = inputs(), [], {}
+        affected = groups(units, list(csv.DictReader(stream)), scope)
+    before, checked, frontiers = inputs(scope), [], {}
     for (source, profile), names in affected:
         built = subprocess.run(['nice', '-n', '10', sys.executable, '-B',
                                 'scripts/build-match-unit.py', '--unit', names[0]],
@@ -123,17 +126,19 @@ def run():
             frontiers['runecl'] = {key: ecl[key] for key in (
                 'physical_bytes', 'relocations', 'ordinary_different_bytes',
                 'field_different_bytes', 'table_different_bytes')}
-    if inputs() != before:
-        raise ValueError('shared Player state producer inputs changed')
-    return dict(diagnostic_only=True, exactness_credit='no new credit',
+    if inputs(scope) != before:
+        raise ValueError('shared Player interface producer inputs changed')
+    return dict(diagnostic_only=True, exactness_credit='no new credit', scope=scope,
                 authored_exact_delta=0, checked=checked, frontiers=frontiers,
                 producer_inputs_sha256=before)
 
 
 def main():
-    argparse.ArgumentParser(description=__doc__).parse_args()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--scope', choices=tuple(SCOPES), default='state')
+    args = parser.parse_args()
     try:
-        print(json.dumps(run(), indent=2))
+        print(json.dumps(run(args.scope), indent=2))
         return 0
     except (OSError, ValueError, RuntimeError, KeyError, ImportError) as error:
         print('Enemy Player state replay rejected:', error, file=sys.stderr)

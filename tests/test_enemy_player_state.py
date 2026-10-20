@@ -14,9 +14,11 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 tree = ast.parse((ROOT/'scripts/inspect-enemy-manager-update.py').read_text())
 nodes = [node for node in tree.body
-         if isinstance(node, ast.FunctionDef) and node.name == 'require_player_state_calls'
+         if isinstance(node, ast.FunctionDef) and node.name in
+            ('require_player_state_calls', 'require_player_damage_calls')
          or isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and t.id in
-                                                 ('BASE', 'PLAYER_STATE_CALLS') for t in node.targets)]
+            ('BASE', 'PLAYER_STATE_CALLS', 'PLAYER_DAMAGE_SYMBOL', 'PLAYER_DAMAGE_FIELDS')
+            for t in node.targets)]
 scope = {'struct': struct}
 exec(compile(ast.Module(body=nodes, type_ignores=[]), '<state-identity-guard>', 'exec'), scope)
 spec = importlib.util.spec_from_file_location('enemy_player_state_runner', ROOT/'scripts/check-enemy-player-state.py')
@@ -39,6 +41,46 @@ def fixture():
 
 
 class EnemyPlayerStateTests(unittest.TestCase):
+    def test_damage_interface_rejects_an_equal_address_private_alias(self):
+        rows, target = [], bytearray(3900)
+        for offset in scope['PLAYER_DAMAGE_FIELDS']:
+            target[offset-1] = 0xE8
+            struct.pack_into('<i', target, offset, 0x41FCD0-(scope['BASE']+offset+4))
+            rows.append(dict(offset=offset, symbol=scope['PLAYER_DAMAGE_SYMBOL'],
+                             type='REL32', addend=0, symbol_section=0))
+        guard = scope['require_player_damage_calls']
+        self.assertEqual(guard(rows, manifest(), target)['calls'], 2)
+        for index in range(2):
+            for changes in ({'symbol': '?CalcDamageToEnemy@EnemyCorePlayerView@@QAEHPAUFloat3@@0PAH11@Z'},
+                            {'type': 'DIR32'}, {'addend': 4}, {'symbol_section': 1}):
+                changed = copy.deepcopy(rows)
+                changed[index].update(changes)
+                with self.subTest(index=index, changes=changes), self.assertRaises(ValueError):
+                    guard(changed, manifest(), target)
+        for changed in (rows[:1], rows[::-1], rows+[rows[0]]):
+            with self.assertRaises(ValueError):
+                guard(changed, manifest(), target)
+        wrong_target = bytearray(target)
+        wrong_target[rows[1]['offset']] ^= 1
+        with self.assertRaises(ValueError):
+            guard(rows, manifest(), wrong_target)
+        wrong_owner = manifest()
+        wrong_owner['player-calc-damage-to-enemy']['size'] = 995
+        with self.assertRaises(ValueError):
+            guard(rows, wrong_owner, target)
+
+    def test_damage_scope_covers_79_units_and_both_callee_bodies(self):
+        with (ROOT/'config/matches.csv').open(newline='') as stream:
+            matches = list(csv.DictReader(stream))
+        groups = runner.groups(manifest(), matches, 'damage')
+        names = [name for _, group in groups for name in group]
+        self.assertEqual((len(groups), len(names), len(set(names))), (3, 79, 79))
+        self.assertIn('player-build-aabb', names)
+        self.assertIn('player-calc-damage-to-enemy', names)
+        with self.assertRaises(ValueError):
+            runner.groups(manifest(), [row for row in matches
+                                      if row['unit'] != 'player-build-aabb'], 'damage')
+
     def test_native_names_are_required_even_at_the_same_numeric_destination(self):
         rows, target = fixture()
         report = scope['require_player_state_calls'](rows, manifest(), target)

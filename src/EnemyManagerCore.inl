@@ -1,3 +1,4 @@
+#include "PlayerDamageView.hpp"
 #include "PlayerState4OpsView.hpp"
 #include "BulletSpawnDescriptorCtorView.hpp"
 #include "ZunTimer.hpp"
@@ -180,12 +181,6 @@ struct EnemyCorePlayerView
     unsigned char unknown30380[0x303C8 - 0x30380];
     ZunTimer stateTimer303C8;
 
-    int CalcDamageToEnemy(
-        Float3 *position,
-        Float3 *hitbox,
-        int *primaryAccumulator,
-        int *bombHit,
-        int *secondaryAccumulator);
 };
 typedef char EnemyCorePlayerFocusAt364[
     (offsetof(EnemyCorePlayerView, focusEffect364) == 0x364) ? 1 : -1];
@@ -771,17 +766,23 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 enemy->lastDamage33AC = 0;
                 if ((enemy->flags337C & ENEMY_CORE_ACCEPTS_DAMAGE) != 0)
                 {
-                    int damage = manager->sideState320->player04->CalcDamageToEnemy(
-                        &enemy->worldPosition2DD4,
-                        &enemy->hitbox2DBC,
+                    int damage = reinterpret_cast<PlayerDamagePlayerView *>(
+                        manager->sideState320->player04)->CalcDamageToEnemy(
+                        reinterpret_cast<PlayerDamageFloat3 *>(
+                            &enemy->worldPosition2DD4),
+                        reinterpret_cast<PlayerDamageFloat3 *>(
+                            &enemy->hitbox2DBC),
                         &enemy->primaryDamageAccumulator2E5C,
                         &bombHit,
                         &enemy->secondaryDamageAccumulator2E60);
                     if (enemy->secondaryHitbox2DC8.x > 0.0f)
                     {
-                        manager->sideState320->player04->CalcDamageToEnemy(
-                            &enemy->worldPosition2DD4,
-                            &enemy->secondaryHitbox2DC8,
+                        reinterpret_cast<PlayerDamagePlayerView *>(
+                            manager->sideState320->player04)->CalcDamageToEnemy(
+                            reinterpret_cast<PlayerDamageFloat3 *>(
+                                &enemy->worldPosition2DD4),
+                            reinterpret_cast<PlayerDamageFloat3 *>(
+                                &enemy->secondaryHitbox2DC8),
                             &enemy->primaryDamageAccumulator2E5C,
                             &bombHit,
                             &enemy->secondaryDamageAccumulator2E60);

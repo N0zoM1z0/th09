@@ -35,6 +35,27 @@ PLAYER_STATE_CALLS = (
     (0xBE5, '?GetUpdateState@PlayerLifecycleView@@QAEHXZ', 0x00435EC0),
     (0xC06, '?SetUpdateState@PlayerState4OpsView@@QAEXH@Z', 0x00403C20),
 )
+PLAYER_DAMAGE_SYMBOL = '?CalcDamageToEnemy@PlayerDamagePlayerView@@QAEHPAUPlayerDamageFloat3@@0PAH11@Z'
+PLAYER_DAMAGE_FIELDS = (0x8BF, 0x8FF)
+
+
+def require_player_damage_calls(fields, units, target):
+    """Require the shared damage interface and both original thiscall operands."""
+    owner = units['player-calc-damage-to-enemy']
+    if (owner['source'] != 'src/PlayerDamage.cpp'
+            or owner['symbol'] != PLAYER_DAMAGE_SYMBOL
+            or owner['target_address'] != 0x41FCD0 or owner['size'] != 996):
+        raise ValueError('native Player damage owner changed')
+    observed = [row for row in fields if row['offset'] in PLAYER_DAMAGE_FIELDS]
+    if len(observed) != 2:
+        raise ValueError('Enemy Player damage call inventory changed')
+    for row, offset in zip(observed, PLAYER_DAMAGE_FIELDS):
+        if (row['offset'] != offset or row['type'] != 'REL32'
+                or row['symbol'] != PLAYER_DAMAGE_SYMBOL or row['addend'] != 0
+                or row.get('symbol_section') != 0 or target[offset-1] != 0xE8
+                or BASE+offset+4+struct.unpack_from('<i', target, offset)[0] != 0x41FCD0):
+            raise ValueError('Enemy damage call lost its native source/target identity')
+    return dict(calls=2, unit='player-calc-damage-to-enemy', bytes=996)
 
 
 def require_player_state_calls(fields, units, target):
@@ -108,7 +129,6 @@ symbol_aliases={
 semantic_aliases={
  RUNECL_SYMBOL:'EclManager::RunEcl',
  '?AppendPlayerCollisionBox@EnemyAppendCollisionView@@QAEXPBUFloat3@@0@Z':'EnemyAppendCollisionView::AppendPlayerCollisionBox',
- '?CalcDamageToEnemy@EnemyCorePlayerView@@QAEHPAUFloat3@@0PAH11@Z':'PlayerDamagePlayerView::CalcDamageToEnemy',
 }
 
 
@@ -142,7 +162,8 @@ def external_destination(row, units, functions, registry):
         function = functions.get(name)
         if function is None or function['owner'] != 'authored' or not function['source_file']:
             raise ValueError('unreviewed non-exact call boundary: ' + symbol)
-        return int(function['address'], 0), 'reviewed source-present non-exact owner ' + name
+        state = 'matching' if function['status'] == 'matching' else 'non-exact'
+        return int(function['address'], 0), 'reviewed source-present ' + state + ' owner ' + name
     if symbol in unit_aliases:
         unit_name = unit_aliases[symbol]
         unit = units.get(unit_name)
@@ -193,6 +214,7 @@ def diagnose(path, *, explain=False):
         path, RUNECL_SYMBOL, include_symbol_locations=True)
     native_run_owner = require_runecl_definition(relocations, callee_raw, callee_fields)
     native_player_state = require_player_state_calls(relocations, units, target)
+    native_player_damage = require_player_damage_calls(relocations, units, target)
     if len(source) != OWNER_SIZE:
         raise ValueError('unreviewed candidate physical extent: ' + str(len(source)))
     if len(relocations) != 97:
@@ -251,6 +273,7 @@ def diagnose(path, *, explain=False):
         'object': str(path),
         'native_run_owner': native_run_owner,
         'native_player_state': native_player_state,
+        'native_player_damage': native_player_damage,
         'target_sha256': hashlib.sha256(target).hexdigest(),
         'target_bytes': OWNER_SIZE,
         'candidate_bytes': len(source),

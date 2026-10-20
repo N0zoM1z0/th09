@@ -13704,3 +13704,86 @@ proofs and complete affected reports are retained under
 `.analysis/gpt-61sol-20261021-{ecl-value-boundaries,type3-sdk-joint,enemy-player-state}/`.
 They are diagnostic research and local source/profile proofs, not new accepted
 Factory receipts. Unchanged source/profile proofs are reused outside this closure.
+
+## 2026-10-21 Enemy's native Player damage interface and visibility countermodels
+
+Recovery starts at clean pushed `53a7564`. Original Japanese v1.50a target,
+tracking and direct IDA metadata/mapped-byte checks pass. Fresh live rows confirm
+that CalcDamageToEnemy is already **996-byte exact**, despite the older 983-byte
+notes and Enemy inspector's obsolete "non-exact owner" explanation. Direct IDA
+xrefs at 0x410FEE /0x41102E and the original PE independently identify the two
+Enemy calls to **0x41FCD0**. Their actual COFF operand offsets are **+8BF /+8FF**.
+
+The caller now names the real PlayerDamagePlayerView method through the shared
+PlayerDamageView.hpp declaration. The old EnemyCorePlayerView method and alias
+mapping are removed. Existing shot/region/timer layouts and offset assertions
+move from the callee CPP into that header without changing its algorithm. The
+distinct Float3 projection is cast explicitly at the API boundary; this proves
+neither original C++ class identity nor complete Player layout. The callee's
+private SoundPlayer projection is also removed in favor of the real existing
+SoundPlayer class and global. Two actual COFF names change at +1EF/+1F4 while
+their original addresses, offset, kind and arguments remain unchanged.
+
+The full Enemy inspector independently requires both native method names,
+REL32 offsets, zero addends, undefined external provenance, original E8 targets
+and the canonical 996-byte callee metadata. Numerically equivalent old aliases
+fail. Its generic source-present explanation no longer mislabels already-exact
+callees as nonexact. Two pure guard tests cover alias/target/kind/addend/section
+spoofs, missing/reordered/duplicated calls and the bounded affected inventory.
+
+`check-enemy-player-state.py --scope damage` cold-passes **79 accepted units /
+25,425 complete physical bytes**, across EclManager's two existing profiles and
+PlayerDamage's one. It includes both **996/17** damage and **55/four** AABB owners,
+freezes 82 source/header/config/provider inputs and preserves full Enemy
+**3900/97/69/170/29** plus RunEcl **15564/598/30**. Two private labels in
+CompareOperands and Enemy post-movement are renamed only after actual COFF
+section/value plus original owner VA independently reproduces each target;
+full byte/field comparisons pass before canonical manifest maintenance. All 135
+previously inventoried main-carrier functions remain raw-neutral over 49,099
+bytes against the parent inventory. This is no additional origin/exact credit.
+Unchanged state/runtime and other owners reuse their source/profile proofs.
+
+Fresh bounded controls use complete natural callee bodies, unchanged ABI and
+recorded compiler profiles; none is adopted:
+
+- Native damage declarations alone preserve 29 differences and all 97 fields.
+  Actual damage-body visibility both before and after ECL gives 3900/97/382,
+  with 83 field positions agreeing, the same 69 ordered calls and 170 blocks.
+  It recovers two former mismatches but damages 355 formerly equal positions.
+- The natural Player state getter reproduces the physical three-byte body at
+  0x435EC0, but visibility yields 852 caller differences and 823 new mismatches.
+  Including the actual 12-byte setter with it retains 852; setter alone stays 29.
+  Production rejects defined-body/changed-field provenance. Getter origin stays
+  unknown/review with no new source unit, authored claim or exact ledger row.
+- The small Effect callback's actual ANM query and actual loader are jointly
+  visible after the maintained source. The complete candidate has 45 bytes /
+  15 instructions /four fields /two calls,42 overlap differences and six missing
+  original bytes. The actual GetAnm body remains 20/20 target-equal with no fields.
+  This extends the read-before-reuse historical individual-query negatives;
+  neither those individual controls nor unaffected full cohorts are rerun.
+
+The first three damage recipes failed because their private coordinate cast
+also touched one collision call. They are retained as failed experiments, then
+superseded by restricted call-block casts. They establish no target conclusion.
+All seven successful controls retain their complete raw/actual-COFF pairs,
+original/live inputs, tool/profile hashes and full reports under
+`.analysis/gpt-61sol-20261021-enemy-damage-context/`. The selected frozen native
+damage/AABB replay reproduces all 1,051 original bytes and 21 actual fields;
+the small joint replay remains a rejected 45-byte diagnostic. The canonical
+ledger stays 1000/1035, four requested frontiers stay 30/29/22/15, and 95%, complete
+Windows product/runtime, semantic and portability gates remain unfinished.
+
+Final CI passes **828 tests /28 skips** after preserving the explicit nonexact
+RunEcl provenance label while reporting matching aliases truthfully. The final
+metadata-only correction reuses frozen C++/profile proofs and rechecks all 79
+full comparisons plus current owner guards, without recompilation. Both selected
+frozen replays pass independently. Once all producers terminate, 185 verified
+loose members /9,797,776 bytes become a 1,330,748-byte verified ZIP, reclaiming
+8,467,028 bytes (~8.07 MiB). Current proof/Oracle/CI sidecars and canonical objects
+remain; no older or unclassified research is deleted.
+
+The final staged-header EOF normalization is followed by another serial,
+source-bound 79-unit cold replay. All 25,425 physical bytes pass with final 82
+input pins and Enemy/RunEcl 29/30 unchanged. Its current report/header snapshots
+are retained separately from the earlier frozen archive. No broad replay is
+needed for the remaining unchanged owners.
