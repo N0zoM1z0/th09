@@ -781,7 +781,7 @@ name into a TH09 fact without target-local evidence.
 | BOUNDARY-151 | reviewed / Supervisor and ANM frame-reset leaves | Packet 183 independently reviews four logical extents: `0x0042E9A0-0x0042E9AA`, `0x0042E9B0-0x0042E9BA`, `0x0042E9C0-0x0042E9DA`, and `0x0042F770-0x0042F7B9`. The first three are followed by five `CC` bytes each; the ANM wrapper is followed by six `CC` bytes before exact `Supervisor::LoadConfig @ 0x0042F7C0`. No alignment byte is charged to authored code. | PE-aware target disassembly and candidate-ledger extents. |
 | TOOLCHAIN-154 | exact / pinned VC7.1 / shared-owner cleanup | Packet 183 adds four canonical units totaling 123 authored bytes under the established `/MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- /I src` profile. Two independent cold rounds reproduce all four units; a final affected-surface replay also keeps 19 pre-existing AnmManager units exact, for 23/23 total. The maintained hard `Supervisor::OnUpdate` source was owner-corrected from the older local `g_SupervisorServiceState/Reset432F70` aliases to shared target-backed `g_SupervisorNetworkState/ResetSession`; its object remains the same 980-byte section versus the 844-byte target logical body and therefore stays SOURCE-PRESENT/NON-EXACT. No exactness is inferred from successful compilation of that hard owner. | Canonical two-round log, final 23-unit replay, pinned compiler diagnostics for `SupervisorUpdate.cpp`/`SupervisorNetwork.cpp`, and target caller/global-address evidence. |
 | REPLAY-020 | exact / authored-game / shared RNG replay-runtime leaves | Packet 184 closes three target-backed RNG helpers used by Replay plus network/runtime callers. `ReplayRngView::GetSeed @ 0x0041A89E` returns the 16-bit seed at +0 and is called by `ReplayManager::CaptureFrameSyncState`, network initialization/service, and adjacent runtime code. `ReplayRngView::SetSeed @ 0x00420160` stores the 16-bit seed; TH09 callers pass `g_ReplayRng @ 0x004ACE0C` plus replay-stage/startup/network seeds. `ReplayRngView::ResetGenerationCount @ 0x00420170` clears the dword at +0x04 and is called by CaptureFrameSyncState immediately after GetSeed. Natural source reproduces 4, 14 and 8 bytes exactly in two cold VC7.1 rounds. `ReplayRngView` is a neutral reconstruction view; clean committed TH08 corroborates the Rng source-family names only. | Fresh native-IDA bodies/xrefs, exact Replay caller context, TH09 global/field dataflow, natural source in `ReplayRuntimeLeaves.cpp`, and repeated repository-defined replay. |
-| RUNTIME-010 | exact Supervisor replay predicate plus constructor-origin guard | `SupervisorReplayView::IsSpeedhackDetected @ 0x00420180` is repository-canonical exact at 13 bytes: exact `ReplayManager::RecordInputAndFps` passes `g_Supervisor @ 0x004B3100` in ECX and the helper returns bit 3 of target-backed Supervisor flags `+0x5D4`. The maintained type is explicitly a reconstruction view rather than a claim about original TH09 class spelling. Nearby `0x00420830` is not promoted despite its 15-byte constructor shape: it calls constructor-shaped `0x0041A98B` on `this+0x1C`, which conflicts with the currently maintained ReplayManager stage-buffer interpretation, so owner/source/origin remain `unknown/review` until reconciled. | TH09 caller/disassembly evidence, existing Supervisor +0x5D4 layouts, two cold exact replays, and conservative constructor review. |
+| RUNTIME-010 | exact Supervisor replay predicate; byte-exact unknown-origin constructor chain | `SupervisorReplayView::IsSpeedhackDetected @ 0x00420180` remains canonical exact at 13 bytes, testing Supervisor +0x5D4 bit3. The earlier claimed ReplayManager stage-buffer conflict at `0x00420830` is withdrawn: its 15-byte body receives the replay payload at root+0xC0 and calls the separately exact GameConfiguration constructor `0x0041A98B` at payload+0x1C, hence replay root+0xDC. The 18-byte outer body at `0x00420C40` supplies that payload receiver. Natural maintained source reproduces both complete bodies and fields; the real configuration constructor calls Initialize, rather than being a no-op. Original composition/inheritance, spelling and explicit-authored versus compiler-generated constructor origin remain unknown/review. No authored exact credit follows from this byte proof. | Fresh original target/IDA calls and xrefs, target-backed 0x1EC replay/0xCC configuration geometry, two complete constructor replays, and 61 affected accepted units. See the 2026-10-21 construction note. |
 | BOUNDARY-152 | reviewed / RNG and Supervisor support leaves | Packet 184 fixes four independent logical extents without charging alignment: `GetSeed 0x0041A89E-0x0041A8A1` is immediately followed by independent `0x0041A8A2`; `SetSeed 0x00420160-0x0042016D` is followed by two `CC`; `ResetGenerationCount 0x00420170-0x00420177` is followed by eight `CC`; `IsSpeedhackDetected 0x00420180-0x0042018C` is followed by three `CC` before independent `ReplayManager::CaptureFrameSyncState @ 0x00420190`. | PE-aware target disassembly and candidate inventory extents. |
 | TOOLCHAIN-155 | exact / pinned VC7.1 / shared Replay view refactor | Packet 184 moves the already-maintained `ReplayRngView` and `SupervisorReplayView` declarations from `ReplayInput.cpp` into `ReplayRuntimeLeaves.hpp`, exposing target-backed `generationCount +0x04` and Supervisor `flags5D4 +0x5D4` without changing object geometry. Four new units totaling 39 bytes are exact in two independent cold `/O2 /Ob1 /Oy-` rounds, and all seven pre-existing exact `ReplayInput.cpp` units replay 7/7 exact after the header extraction. `SetSeed` naturally retains the target frame-pointer prologue under the established `/Oy-` profile; no register/volatile forcing, assembly, padding, fake returns or target-byte material is used. | Two-round canonical log, seven-unit ReplayInput regression log, pinned compiler, and final source audit. |
 | SCOREDATA-006 | exact / authored-game / startup score-load closure | Packet 185 closes the small startup seam immediately after `ScoreFileView::OpenScore`. `InitializeScoreDataStartup @ 0x00421EA0-0x00421F01` was already named by exact `Supervisor::StartupThread` relocation evidence; it opens target literal `score.dat`, copies the complete 0x18 `ScoreFileView` header into `g_ScoreFileHeader @ 0x004AC840`, invokes `LoadScoreRecords`, `LoadLastName`, exact `LoadPlayStats`, releases the same buffer, and returns 0. `ReleaseScoreFileBuffer @ 0x00421E90-0x00421E9B` is a neutral reconstruction alias for the independent ECX-pointer wrapper over exact `g_ZunMemory.Free`. Natural C++ reproduces 98 and 12 bytes exactly in two cold VC7.1 rounds. Ordinary `g_ScoreFileHeader = *scoreFile` assignment naturally emits the target's six scalar dword copies; no manual copy shaping is retained. | Exact StartupThread caller relocation, passed native-IDA bodies/xrefs/string readback, target-backed ScoreFileView geometry, natural pinned-VC7.1 source, and repeated canonical replay. |
@@ -13499,3 +13499,64 @@ return inventory and fail closed. Maintained Player source and SaveReplay stay
 unchanged. Their frozen raw/actual-COFF pairs remain under this date's
 `save-context` and `collision-branches` packets. Exact totals remain 1000;
 95%, whole native product/runtime, semantic and portability gates remain open.
+
+
+## 2026-10-21 Replay configuration construction and independent origin policy
+
+Recovery starts from clean pushed `6671a75`; the original Japanese v1.50a disk
+target and direct IDA metadata plus distributed mapped samples pass again.
+Two previously unsourced constructor-shaped owners now have bounded maintained
+source. `0x420C40..0x420C51` is 18 bytes, takes the replay root, constructs
+its payload at +0xC0 and returns the root. `0x420830..0x42083E` is 15 bytes,
+constructs GameConfiguration at payload +0x1C and returns the payload. Each
+has seven instructions and one real REL32 field. Following 14/1 CC bytes
+remain outside the respective extents. Original complete SHA256 values are
+`52a4edf7dc418fd43b7e6c542b8b27e2ca719a607b591e05a60910d199b4d114`
+and `61dabff3b73f4e562392c124ba87fc9d41d141b9cce11a1635314299e2600a6e`.
+
+The effective configuration address is record +0xDC, matching its established
+0xCC snapshot. The existing canonical 12-byte GameConfiguration constructor at
+0x41A98B calls its real Initialize method. It is neither a no-op nor a competing
+ReplayManager stage-buffer constructor. The payload helper has one observed
+code caller, the outer constructor; the latter has SaveReplay, BeginRecording
+and Title array-construction references. The second GameConfiguration call at
+0x43151F belongs to the already inventoried exact Supervisor constructor at
+0x431500; an IDA xref lacking a containing function is not an inventory gap.
+
+`ReplayDataOriginalView.hpp` now models a 0xC0 header and 0x12C payload, with
+an actual GameConfiguration member at payload +0x1C. Two ordinary out-of-line
+constructors reproduce all 33 bytes and both fields under the existing replay
+profile. Inheritance is a compatibility view for established flat member access,
+not evidence of the original C++ class relationship. Layout assertions preserve
+all earlier offsets and total size 0x1EC. Config snapshot copies take its address;
+no header initialization is added, and the existing SaveReplay header pre-scan
+is preserved. An implicit payload constructor instead inlines its configuration
+initialization into the outer constructor, changing its call identity; this
+countermodel is not adopted. Defining the explicit bodies before or after the
+existing ReplayInput body retains SaveReplay's 1,238 bytes /53 fields /3 residuals.
+Compiler success and equality cannot distinguish historical explicit authorship
+from implicit compiler generation, so both rows remain unknown/review, unclassified,
+0%, owner blank. There is no `matches.csv`, implemented mapping or origin-ledger
+promotion. Authored exact remains 1,000/1,035; the 37 unresolved origins remain.
+
+The changed header reaches six existing C++ sources. Only their seven accepted
+source/profile groups are rebuilt, yielding all 61 accepted exact units. Ten
+nonexact frontiers are also checked: SaveReplay, BeginPlayback, GameManager
+Setup/Cleanup, three Title cursors, OnUpdateResult and both replay renderers.
+No protected frontier regresses. StartMenu's nine local `$L` names renumber;
+actual same-section offsets prove each unchanged target destination, followed
+by the complete 1,592-byte /107-field strict comparison. Fresh parent-header
+Setup/Cleanup controls retain all 1,689/410 raw bytes and 171/42 actual fields,
+respectively. Unrelated accepted source/profile proofs are reused.
+
+`scripts/check-replay-data-layout.py` cold-builds the constructor source once,
+checks both complete owners, verifies their target hashes and native callee,
+and separately enforces unknown origin/no exact-credit policy. Its optional
+`--with-dependents` reproduces the bounded 61-unit closure and ten diagnostics.
+Target-independent tests reject model/callee drift, partial table-tail equality,
+origin promotion, missing accepted dependencies, wrong targets and producer
+input races. The ignored construction packet preserves 15 complete source/profile
+cases, 91 function/actual-COFF pairs and every required header, in a verified
+98-member archive. Its selected maintained-constructor replay is independent
+of loose experiment directories and self-cleans temporary source/OBJ/PDB.
+Native product/runtime and later semantic/portability gates remain open.

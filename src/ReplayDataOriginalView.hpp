@@ -3,6 +3,7 @@
 // PE-attested i386 0x1EC replay layout shared by replay input and both
 // Title renderers. Retail C++ naming and TU partition remain unproven.
 #include <stddef.h>
+#include "GameConfiguration.hpp"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,10 +27,10 @@ struct ReplayFrameDataStartView
 
 typedef char ReplayFrameDataStartSizeIs20[(sizeof(ReplayFrameDataStartView) == 0x20) ? 1 : -1];
 
-struct ReplayDataView
+// These two subobjects model the observed constructor calls and wire ranges.
+// Their inheritance is a reconstruction view, not an original C++ class claim.
+struct ReplayHeaderView
 {
-    ReplayDataView();
-
     u32 magic;
     u16 formatVersion;
     u8 value06;
@@ -44,6 +45,12 @@ struct ReplayDataView
     i32 decompressedSize;
     ReplayFrameDataStartView *frameStart[3][10];
     u8 *fpsStart[10];
+};
+
+struct ReplayPayloadView
+{
+    ReplayPayloadView();
+
     u8 randomPayloadByte;
     u8 value0C1;
     u16 value0C2;
@@ -52,7 +59,7 @@ struct ReplayDataView
     u8 unknown0D6;
     u8 value0D7;
     u8 unknown0D8[4];
-    u8 configSnapshot[0xCC];
+    GameConfiguration configSnapshot;
     u8 unknown1A8[0x28];
     u32 value1D0;
     u32 value1D4;
@@ -68,6 +75,15 @@ struct ReplayDataView
     u8 unknown1EA[2];
 };
 
+struct ReplayDataView : ReplayHeaderView, ReplayPayloadView
+{
+    ReplayDataView();
+};
+
+typedef char ReplayHeaderSizeIsC0[(sizeof(ReplayHeaderView) == 0xC0) ? 1 : -1];
+typedef char ReplayPayloadSizeIs12C[(sizeof(ReplayPayloadView) == 0x12C) ? 1 : -1];
+typedef char ReplayPayloadConfigAt1C[(offsetof(ReplayPayloadView, configSnapshot) == 0x1C) ? 1 : -1];
+typedef char ReplayDataPayloadAtC0[(offsetof(ReplayDataView, randomPayloadByte) == 0xC0) ? 1 : -1];
 typedef char ReplayDataSizeIs1EC[(sizeof(ReplayDataView) == 0x1EC) ? 1 : -1];
 typedef char ReplayDataFrame0At20[(offsetof(ReplayDataView, frameStart) == 0x20) ? 1 : -1];
 typedef char ReplayDataFrame1At48[(offsetof(ReplayDataView, frameStart) + sizeof(((ReplayDataView *)0)->frameStart[0]) == 0x48) ? 1 : -1];

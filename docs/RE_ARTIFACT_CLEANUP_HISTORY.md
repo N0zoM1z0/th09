@@ -4,6 +4,46 @@
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 
+### 2026-10-21: replay constructor chain and bounded dependent closure
+
+From pushed parent `6671a75`, the maintained 0x1EC replay view recovers the
+15-byte payload and 18-byte outer constructor bodies and both real REL32
+fields. Their original authored/compiler origin remains unknown/review; no
+accepted exact row or authored denominator changes. Focused serial low-priority
+builds reproduce all 61 affected accepted units across seven source/profile
+groups, plus ten nonexact consumer guards without regression. StartMenu's
+nine renamed compiler-local labels retain every section-relative destination
+and the full 1,592-byte /107-field comparison. Unaffected proofs are reused.
+CI passes **821 tests /28 skips** and the standard validations pass.
+
+The packet `.analysis/gpt-61sol-20261020-replay-construction/` preserves a
+verified 98-member archive, manifest, selected cold replay and maintained cohort
+report. Its 15 source/profile cases contain 91 raw function/actual-COFF pairs
+and every required source/header input, including prior-header Setup/Cleanup
+controls. Both maintained constructors cold-reproduce all 33 bytes and fields
+from the archive independently of the loose directories. Temporary replay
+sources/OBJ/PDB self-clean; this is diagnostic evidence, not accepted origin
+or runtime proof.
+
+After all CI/compiler/replay handles terminate, a TH09-cwd-scoped `/proc`
+producer check and per-file ignored/untracked/regular-file checks pass.
+`cleanup.json` records each removed path, size and SHA. The archive's complete
+member hashes are verified first and every loose file is rehashed immediately
+before removal.
+
+| Actually removed/replaced | Files | Logical bytes |
+| --- | ---: | ---: |
+| Loose verified archive members | 98 | 3,627,615 |
+| Session-owned reproducible OBJ/PDB | 30 | 2,128,948 |
+| Retained verified ZIP | 1 | 427,610 |
+| **Net reduction** | | **5,328,953 (~5.08 MiB)** |
+
+Original target, toolchains, Wine/IDA state, public/canonical objects, CI log,
+replay receipt, frozen manifest and older unclassified research remain. The
+archive contains all removed source/report evidence. No broad cache or
+age-based deletion is performed. Post-clean target, constructor, ledger,
+documentation, progress and whitespace checks pass.
+
 ### 2026-10-20: network prefill progress and three-family diagnostic packet
 
 From pushed source parent `88cf47e`, the maintained network-message function

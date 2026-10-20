@@ -385,7 +385,7 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
         replayManager->replayData->value1E8 = g_ReplayHeaderValue1E8;
         replayManager->replayData->value1E9 = g_ReplayHeaderValue1E9;
         memcpy(replayData->playerName, "NO NAME", 4);
-        memcpy(replayData->configSnapshot, g_ReplayConfigSnapshot, sizeof(replayData->configSnapshot));
+        memcpy(&replayData->configSnapshot, g_ReplayConfigSnapshot, sizeof(replayData->configSnapshot));
         for (int i = 0; i < 10; i++)
         {
             replayData->frameStart[0][i] = NULL;
@@ -542,7 +542,7 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     replayManager->fpsCursor = fpsStart;
     replayManager->inputCursor0 = (u16 *)((u8 *)frame0 + 0x20);
     replayManager->inputCursor2 = (u16 *)((u8 *)frame2 + 0x20);
-    memcpy(g_ReplayConfigSnapshot, replayManager->replayData->configSnapshot, 0xCC);
+    memcpy(g_ReplayConfigSnapshot, &replayManager->replayData->configSnapshot, 0xCC);
     g_ReplayRng.SetSeed(frame0->stageSeed);
     replayManager->inputDelay = 0;
     return 0;

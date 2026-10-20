@@ -9,36 +9,45 @@
 
 The operator requests continued exact reconstruction across **large functions
 and small leaves**, serial low-priority compiles, focused affected replays and
-regular disposal of reproducible artifacts. Current network-message progress
-starts from pushed `88cf47e`. RunEcl/Enemy/Title DrawResult/Type3 remain
+regular disposal of reproducible artifacts. Current replay-construction work
+starts from pushed `6671a75`. RunEcl/Enemy/Title DrawResult/Type3 remain
 **30 /29 /22 /15** differing bytes, and SaveReplay remains **3**. None of these
 fronts or the 95% milestone is complete. The last accepted exact addition is
 Player initialization in `8ff6ce1`. This batch adds **no exact ledger row**.
 
-- **Network HandleMessage:** a zero-based prefill ordinal plus explicit
-  per-case critical-section completion recovers **14** original bytes without
-  a new mismatch: **808 physical bytes /46 fields /111 differences** (125→111).
-  All 17 direct and two virtual call operands, six switch destinations, the
-  16-byte map and 34 direct blocks agree. It remains NON-EXACT, with 234
-  source versus 235 original instructions. The new public full-owner guard
-  protects all 697 equal bytes; `--owner netmessage` builds only this TU.
-- No canonical exact unit uses the changed standalone source. Reuse unrelated
-  source/profile-bound proofs; no whole-cohort replay is needed. The earlier
-  SaveReplay checkpoint's 12 exact same-source siblings and two profiles remain
-  unchanged. Its full-byte guard still permits only +0xB7,+0xBB,+0x3F6 residuals.
-- Five SaveReplay native RNG/LZSS/head-cursor controls and sixteen Player
-  collision geometry/cursor models do not close their original owners.
-  Narrow queue-call and network copied/union wire-word controls are also
-  rejected; no ABI/header/profile change or reduced graph is adopted.
-- CI passes **815 tests /28 skips**. A verified 88-member archive and manifest
-  in `.analysis/gpt-61sol-20261020-network-ordinal/` preserve all 32 SaveReplay,
-  Player collision and network source/actual-COFF pairs. The selected network
-  case cold-replays all 808 bytes and 46 rows from that archive. Compaction
-  replaces 1,056,939 loose bytes with 198,610 bytes; post-CI cleanup removes
-  64 owned OBJ/PDB files /4,034,953 bytes and 22 reproducible diagnostic renders
-  /90,116 bytes. Original target, public/canonical objects and older unclassified
-  research stay. See [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md).
-- Prior checkpoints and cleanup remain in `88cf47e`, `0123c7e`, `26e0fd3` and
+- **Replay constructor chain:** natural maintained source reproduces the full
+  **15 bytes at 0x420830 and 18 bytes at 0x420C40**, including both REL32 fields.
+  Payload-relative configuration +0x1C plus outer +0xC0 resolves to record
+  +0xDC. The payload contains the real 0xCC GameConfiguration and invokes its
+  existing exact constructor/initializer. The old claimed stage-buffer conflict
+  is withdrawn. Header/payload inheritance preserves the flat reconstruction
+  view; original class spelling, composition and explicit/implicit constructor
+  authorship remain unproved. Both rows stay **unknown/review**, unclassified
+  and 0%, with no `matches.csv` credit or authored denominator change.
+- The shared header affects six existing TUs. Focused serial cold builds cover
+  **61 accepted units in seven source/profile groups**, all exact, plus ten
+  nonexact consumer frontiers without regression. StartMenu's nine compiler
+  local label names change; section-relative destinations and the complete
+  **1,592 bytes /107 fields** still match. GameManager Setup and Cleanup also
+  retain their complete raw code and actual referents against the parent header.
+  Unrelated source/profile proofs are reused; no 1,000-unit replay is needed.
+- Public `scripts/check-replay-data-layout.py` cold-checks just the 33-byte
+  chain by default; `--with-dependents` reproduces the bounded closure above.
+  It rejects incorrect target/model/origin bindings, partial comparisons and
+  source changes during production. Source coverage and byte equality alone
+  never promote constructor origin. SaveReplay remains **1,238/53/3**, with
+  protected residuals +0xB7,+0xBB,+0x3F6. Network HandleMessage remains
+  **808/46/111**, preserving the preceding checkpoint's 14-byte improvement.
+- A verified **98-member** archive in
+  `.analysis/gpt-61sol-20261020-replay-construction/` retains **15** source/profile
+  cases and **91** raw function/actual-COFF pairs, all required source/header
+  inputs, local-label proofs and the complete maintained cohort report.
+  Its default selected cold replay reproduces both maintained constructors.
+  CI passes **821 tests /28 skips**. Post-CI cleanup removes 30 owned OBJ/PDB
+  files and replaces 98 loose evidence members with the verified ZIP, reducing
+  storage by **5,328,953 bytes (~5.08 MiB)**. Public/canonical objects and old
+  unclassified evidence remain. See [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md).
+- Prior checkpoints and cleanup remain in `6671a75`, `88cf47e`, `0123c7e`, `26e0fd3` and
   [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md). The private Type3 four-byte
   candidate still damages four equal positions and is not adopted. Diagnostic
   archives are source-scoped reports, not accepted exact receipts.
@@ -168,6 +177,8 @@ python3 -B scripts/report-reconstruction-status.py
 python3 -B scripts/check-ida-mcp.py
 # Choose one affected owner; reuse unchanged source/profile-bound proofs.
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner netmessage
+# Constructor chain only by default; add --with-dependents after layout changes.
+nice -n 10 python3 -B scripts/check-replay-data-layout.py
 # One new Type3 compiler-visibility control; temporary sources/objects self-clean.
 python3 -B scripts/probe-type3-native-context.py --case coordinates
 # Complete Charge diagnostic with the maintained recorded profile:
@@ -194,11 +205,20 @@ Temporary sources/OBJ/PDB self-clean. These ignored packets are local evidence;
 public restart commands above use tracked maintained inputs. Rebuild a canonical
 match unit before asking for a fresh exact COFF comparison.
 
+The construction archive's selected 33-byte pair also cold-replays with
+`python3 -B .analysis/gpt-61sol-20261020-replay-construction/replay.py`.
+It stages all required frozen headers, verifies the original target and pinned
+providers, and self-cleans its temporary sources/objects. Byte equality gives
+no authored-origin credit; use the tracked public checker for maintained inputs.
+
 ## Evidence and cleanup boundaries
 
-The source/ledger baseline for the final 28 controls is `085343b`; this checkpoint
-adds diagnostics and documentation, not gameplay changes. All 485 game sources,
-1,026 manifest units and 1,000 exact rows retain that source/profile binding.
+The source/ledger baseline for the older 28 Charge/Effect controls is `085343b`;
+that historical checkpoint changed diagnostics and documentation only. The
+current replay-construction checkpoint has **486 game-source files, 1,028
+manifest units and 1,000 exact rows**. Its two new units preserve byte evidence
+for unknown-origin owners; they add no accepted exact credit. Existing affected
+source/profile proofs are revalidated by the bounded 61-unit replay above.
 Native product/runtime, complete inventory, semantic and port gates stay open.
 
 The KB holds bounded observations and unresolved hypotheses. Old packet numbers,

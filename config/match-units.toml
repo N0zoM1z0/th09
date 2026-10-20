@@ -18955,7 +18955,7 @@ relocations = [
   { offset = 0x396, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
   { offset = 0x39C, type = "DIR32", symbol = "?g_DemoReplayIndex@@3EA", target = 0x004A7ECF },
   { offset = 0x3A8, type = "DIR32", symbol = "?g_TitleInputFlags@@3IA", target = 0x004ACF3A },
-  { offset = 0x3C2, type = "DIR32", symbol = "$L62482", target = 0x0042A43B },
+  { offset = 0x3C2, type = "DIR32", symbol = "$L62506", target = 0x0042A43B },
   { offset = 0x3C8, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
   { offset = 0x3D2, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x3E7, type = "DIR32", symbol = "?g_TitleLockedMenuItem@@3EA", target = 0x004A81F8 },
@@ -18999,14 +18999,14 @@ relocations = [
   { offset = 0x5E9, type = "REL32", symbol = "?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z", target = 0x00436AC0 },
   { offset = 0x5F3, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x612, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
-  { offset = 0x618, type = "DIR32", symbol = "$L61967", target = 0x0042A1E9 },
-  { offset = 0x61C, type = "DIR32", symbol = "$L61969", target = 0x0042A208 },
-  { offset = 0x620, type = "DIR32", symbol = "$L61972", target = 0x0042A23C },
-  { offset = 0x624, type = "DIR32", symbol = "$L61973", target = 0x0042A286 },
-  { offset = 0x628, type = "DIR32", symbol = "$L61975", target = 0x0042A2D2 },
-  { offset = 0x62C, type = "DIR32", symbol = "$L61974", target = 0x0042A293 },
-  { offset = 0x630, type = "DIR32", symbol = "$L61976", target = 0x0042A302 },
-  { offset = 0x634, type = "DIR32", symbol = "$L61977", target = 0x0042A380 },
+  { offset = 0x618, type = "DIR32", symbol = "$L61991", target = 0x0042A1E9 },
+  { offset = 0x61C, type = "DIR32", symbol = "$L61993", target = 0x0042A208 },
+  { offset = 0x620, type = "DIR32", symbol = "$L61996", target = 0x0042A23C },
+  { offset = 0x624, type = "DIR32", symbol = "$L61997", target = 0x0042A286 },
+  { offset = 0x628, type = "DIR32", symbol = "$L61999", target = 0x0042A2D2 },
+  { offset = 0x62C, type = "DIR32", symbol = "$L61998", target = 0x0042A293 },
+  { offset = 0x630, type = "DIR32", symbol = "$L62000", target = 0x0042A302 },
+  { offset = 0x634, type = "DIR32", symbol = "$L62001", target = 0x0042A380 },
 ]
 
 [units.anm-manager-read-anm-entries]
@@ -24017,4 +24017,30 @@ relocations = [
   { offset = 0x230, type = "DIR32", symbol = "$L1512", target = 0x41ed74 },
   { offset = 0x234, type = "DIR32", symbol = "$L1514", target = 0x41ed79 },
   { offset = 0x238, type = "DIR32", symbol = "$L1516", target = 0x41ed7e },
+]
+
+# Complete constructor-byte replays only. Both original owners retain unknown
+# authored/compiler origin and carry no config/matches.csv exact credit.
+[units.replay-payload-constructor]
+source = "src/ReplayDataConstructors.cpp"
+object = "build/matching/ReplayDataConstructors.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ReplayPayloadView::ReplayPayloadView"]
+symbol = "??0ReplayPayloadView@@QAE@XZ"
+target_address = 0x00420830
+size = 15
+relocations = [
+  { offset = 0x007, type = "REL32", symbol = "??0GameConfiguration@@QAE@XZ", target = 0x0041A98B },
+]
+
+[units.replay-data-constructor]
+source = "src/ReplayDataConstructors.cpp"
+object = "build/matching/ReplayDataConstructors.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ReplayDataView::ReplayDataView"]
+symbol = "??0ReplayDataView@@QAE@XZ"
+target_address = 0x00420C40
+size = 18
+relocations = [
+  { offset = 0x00A, type = "REL32", symbol = "??0ReplayPayloadView@@QAE@XZ", target = 0x00420830 },
 ]
