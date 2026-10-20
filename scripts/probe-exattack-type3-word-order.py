@@ -30,6 +30,7 @@ SOURCE = 'ExAttackUpdateType3.cpp'
 BASELINE_SHA256 = 'c57cf9b9277f967832c5ab85031a4610716a88cb03fe02e96efa6389cac030a2'
 PROFILE = ['/MT', '/EHsc', '/Gs', '/DNDEBUG', '/Zi', '/Gy', '/GF', '/Oi',
            '/Gr', '/O2', '/Ob1', '/Oy-', '/I', 'src']
+CASE_NAMES = ('baseline', 'ordered-word', 'forwarded-collision')
 sys.path.insert(0, str(ROOT / 'scripts'))
 
 WORD_READER = '''union Type3FloatWord
@@ -112,11 +113,20 @@ def source_inputs():
     return result
 
 
-def run(output):
+def run(output, selected_case='all'):
+    if selected_case not in ('all', *CASE_NAMES):
+        raise ValueError('unknown Type3 experiment case')
     coff = module('word_order_coff', 'compare-coff-function.py')
     audit = module('word_order_audit', 'inspect-exattack-type3-schedule.py')
     guard = module('word_order_guard', 'check-boss-frontiers.py')
     target = coff.verified_target()
+    # Once the target is attested, invalidate an earlier successful report
+    # before source validation or a compiler can fail. A failed run must not
+    # leave a stale success at the requested output path.
+    report_path = output / 'type3-word-order.json.gz'
+    if report_path.is_symlink():
+        raise ValueError('refusing symlinked experiment report')
+    report_path.unlink(missing_ok=True)
     inputs = source_inputs()
     config = (ROOT / 'config/match-units.toml').read_bytes()
     unit = tomllib.loads(config.decode())['units']['ex-attack-initialize-type3']
@@ -146,9 +156,11 @@ def run(output):
                         for name, raw in tools.items()},
         'manifest_sha256': hashlib.sha256(config).hexdigest(),
         'target_sha256': hashlib.sha256(target).hexdigest(),
-        'profile': PROFILE, 'rows': [],
+        'profile': PROFILE, 'requested_case': selected_case, 'rows': [],
     }
     for name, source in variants(inputs[SOURCE].decode().replace('\r\n', '\n')):
+        if selected_case not in ('all', name):
+            continue
         with tempfile.TemporaryDirectory(prefix=name + '-', dir=output) as temporary:
             directory = Path(temporary)
             for filename, raw in inputs.items():
@@ -197,6 +209,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True,
                         help='directory below .analysis/ for the compact compressed result')
+    parser.add_argument('--case', choices=('all', *CASE_NAMES), default='all',
+                        help='cold-build only the selected candidate (default: all three)')
     args = parser.parse_args()
     try:
         output = args.output.resolve()
@@ -208,7 +222,7 @@ def main():
         path = output / 'type3-word-order.json.gz'
         if path.is_symlink():
             raise ValueError('refusing symlinked experiment report')
-        report = run(output)
+        report = run(output, args.case)
         with gzip.open(path, 'wt') as stream:
             json.dump(report, stream, indent=2)
         return 0

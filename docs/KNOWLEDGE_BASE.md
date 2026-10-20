@@ -13155,3 +13155,70 @@ attest historical producer execution.
   script. After terminal CI,360 cache files/6097988 bytes are removed; build/
   is absent. The source commit and independently verified remote push are
   recorded separately in the packet.
+
+
+### 2026-10-20 — Selective Type3 replay and complete-owner access countermodels
+
+- Cleanaf4b0cf recovery verifies original Japanese1.50a disk/direct IDA metadata,
+  entry and distributed mapped bytes. Previous four-byte Type3 evidence changes
+  the next investigation; this batch tests actual value/owner contexts rather
+  than accepting its lower mismatch count. No target or IDA state is modified.
+- Eight additional complete Type3 controls start from the frozen four-byte
+  candidate. Motion-reference accessor/local reference,word-plus-coordinate
+  conversion helpers and a genuine SDK include control retain780/38/four.
+  Qualified tail-Y word transport,alone/with the motion accessor,has seven
+  differences: the old four plus+1C6,+1C9,+1CC. The actual SDK motion += model
+  emits798 bytes/37 fields,losing the required original motion-call boundary.
+  Its separately emitted actual SDK += body independently matches original
+ 405730 in all36 bytes with zero fields. Callee equality does not make its
+  changed caller faithful or establish original class ownership. None adopted.
+- Four complete RunEcl builds include current15564/598/30,qualification of the
+  actual active-context pointer-object read at opcode4(33 ordinary differences),
+  and two genuine in-class inline masked-timeout updates. The byte member stays
+ 15564/598/30 with zero field/table drift; the word member emits15560 and fails
+  complete-owner coverage. Unlike the old out-of-line member control,this tests
+  a genuinely inline source owner with no added target call. It still does not
+  close opcode155 or authorize a different Timer/Enemy ABI. No ECL source adopted.
+- Four DrawResult builds compare baseline1939/82/22,qualification of the actual
+  scoreGroup publication(1939/82/38),a single qualified screen snapshot(1941/82,
+ 319 overlap differences/two extra bytes),and both(1941/82/316+two extra).
+  All82 independently original-bound referents remain accounted for; these are
+  rejected whole owners. Eight received-frame models cover every subset of the
+  three actual frame/input/seed publications. All raw functions are identical:
+ 213 bytes/zero fields/67 instructions/nine blocks/35 differences. Qualifying
+  actual writes is not a universal fix inferred from the earlier Player result.
+- `probe-exattack-type3-word-order.py --case forwarded-collision` now rebuilds
+  only that chosen candidate,at lowered priority. Default all still generates
+  exactly the three previously captured source hashes. A new cold single-case
+  run reproduces every780 raw byte and all38 actual COFF rows; unchanged
+  production guard rejection is explicit. Failed builds invalidate old reports
+  after target attestation; wrong targets stop before compiling and preserve
+  earlier evidence. Three pure tests cover those producer boundaries and ensure
+  selection invokes exactly one compiler. No new exactness is assigned.
+- Freezing all63 ECL inputs and staging every header changes two compiler-private
+  labels while preserving every15564 raw byte and all598 effective fields.
+  Two cold observations show the complete bytes agree; the retained raw/actual-
+  COFF pair proves only the names at+1A1/+1EE differ. Actual same-owner coordinates
+  independently resolve to original40C088/40C0A0. No production manifest is
+  rewritten. The frozen replay retains the original eight-file include route
+  and verifies the other55 real source hashes. Literal private-name equality and
+  effective target equality remain separate observations,not an ignored error.
+- Four packets `gpt-61sol-20261020-{type3-argument-transport,ecl-context-publication,
+  result-paired-accesses,queue-paired-stores}` retain24 frozen models,complete
+  raw/actual-COFF pairs,profiles and recipe/input hashes. Their content stores
+  contain21/66/9/10 unique inputs respectively. SDK header hashes and the
+  include-routing counterexample are retained explicitly. All485 game sources,
+ 1026 canonical units/profiles and1000 exact rows remain unchanged fromaf4b0cf.
+  Current coverage stays243428/291883=83.3992%;95% still needs33861 complete bytes.
+- The route-preserving frozen ECL cold replay subsequently verifies63 inputs,
+  every15564 raw byte and all598 literal actual COFF rows against the capture,
+  then repeats complete original30/0/0 ordinary/field/table differences. The
+  source bytes and operand coordinates are not rewritten to hide the two-label
+  routing observation. Temporary replay sources/OBJ/PDB self-clean.
+- Final CI passes791 tests/28 skips; tracking,documentation,generated progress
+  and whitespace pass. Engineering binding retains728/729 previous hashes,
+  changes only the Type3 producer and adds one test file. After all producers
+  stop,the TH09-cwd-scoped guard removes244 reproducible files/4716726 bytes;
+  after terminal CI,362 cache files/6140146 bytes are removed. Build/ and own
+  OBJ/PDB are absent. Source commit and independent remote push verification
+  are recorded separately in the main packet.

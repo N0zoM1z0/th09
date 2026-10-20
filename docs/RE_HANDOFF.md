@@ -17,7 +17,8 @@ Current state: **1,035 authored, 1,035 source-present, 1,000 canonical exact**;
 The **95%** milestone still needs **33,861** complete exact authored bytes.
 The last accepted addition is Player initialization: **552 authored bytes**,
 independently replayed over its complete572-byte physical owner in `8ff6ce1`.
-This checkpoint adds reproducible Type3 codegen evidence, **no exact credit**.
+This checkpoint makes Type3 replay selective and fail closed on stale reports,
+and records bounded original-owner countermodels, **no exact credit**.
 Native product/runtime, complete inventory and later gates remain open.
 
 - **Type3 update @0x00442750:** maintained source stays780 bytes/38 fields/15
@@ -31,37 +32,47 @@ Native product/runtime, complete inventory and later gates remain open.
   argument,and EDX versus ECX for the motion-reference argument. The unchanged
   production guard correctly rejects these regressions. No residual window is
   widened,no maintained C++ or ABI is changed,and no partial credit is assigned.
-- **Bounded controls:**40 private full-TU Type3 builds distinguish actual Y/Z
+- **Bounded controls:**48 private full-TU Type3 builds distinguish actual Y/Z
   stores,word/float transport,query interfaces,native vectors and real callee
-  visibility. The exposed actual Float3 += body independently stays36/36 exact.
-  Four complete Effect AddedCallback access controls remain51/4/8; none adopted.
-  Old negative notes did not cover this word-read plus real-query combination.
+  visibility. The latest eight retain four/seven differences or emit798 bytes
+  with37 fields. The real SDK += body is36/36 original-equal but its caller
+  loses the required motion-call boundary; it is rejected. All eight received-
+  frame field-publication combinations retain213/0/35 with identical raw bytes.
 - **Reproduction:** `nice -n 10 python3 -B scripts/probe-exattack-type3-word-order.py
-  --output .analysis/type3-word-order` cold-builds the baseline15,ordered-word52
-  and forwarded-query4 models serially. It binds all38 real COFF operands,
-  preserves whole raw bodies/records in a compact compressed report,states
-  production-guard rejection explicitly,and self-cleans compiler outputs.
-- **Evidence:** .analysis/gpt-61sol-20261020-type3-paired-stores retains frozen
-  source inputs,complete raw/actual-COFF pairs and direct IDA observations.
-  .analysis/gpt-61sol-20261020-effect-resident-publication retains the four
-  full-source leaf controls. Original disk/direct IDA/entry and distributed
-  mapped-byte checks pass. All1000 canonical proofs retain unchanged source
-  and profile bindings; full exact-cohort replay is unnecessary for this batch.
-- **Cleanup:**40 Type3 frozen cases share54 unique inputs; four Effect cases
-  share16. An independent14-input frozen replay reproduces every raw byte,
-  actual COFF row and complete four-difference diagnostic. After all producers
-  stop,a TH09-cwd-scoped check permits removing702 reproducible files/5644105
-  bytes. Own OBJ/PDB are absent; unrelated evidence and game inputs remain.
-- **Validation:** CI788 tests/28 skips,target-required tracking,documentation,
-  generated progress and whitespace pass.727/728 previous engineering inputs
-  retain parent hashes; only the Type3 ledger note changes and one diagnostic
-  script is added. All485 game sources,1026 units and1000 exact rows are
-  unchanged. After terminal CI,360 cache files/6097988 bytes are removed;
-  build/ is absent. Local commit and independent remote verification are
-  recorded separately in the packet.
+  --case forwarded-collision --output .analysis/type3-word-order` cold-builds
+  only the four-difference candidate. Default `--case all` retains the three
+  baseline15/ordered-word52/forwarded-query4 models. All three generated-source
+  hashes are unchanged; the selected cold replay reproduces every original-bound
+  raw byte/actual COFF row. A failed build cannot leave a stale success report.
+  Wrong targets preserve prior evidence and stop before compiling. Three pure
+  tests check those failures,one-build scope and unchanged guard rejection.
+- **Evidence:** the four .analysis/gpt-61sol-20261020 packets named
+  type3-argument-transport,ecl-context-publication,result-paired-accesses and
+  queue-paired-stores retain24 frozen models and complete raw/actual-COFF pairs.
+  They share21/66/9/10 unique inputs respectively. Original disk/direct IDA/
+  entry and distributed mapped-byte checks pass. All1000 canonical proofs
+  retain unchanged source/profile bindings; broad replay is unnecessary.
+- **Include routing:** staging all63 ECL inputs preserves every raw byte but
+  renumbers two private table labels. Actual COFF coordinates still prove
+  original40C088/40C0A0. A frozen replay using the original eight-file routing,
+  with the other55 hashes verified,now reproduces every actual COFF row and
+  the full15564/598/30 original comparison. No manifest spelling is changed.
+- **Cleanup:** after all producers stop,a TH09-cwd-scoped check permits removing
+ 244 reproducible files/4716726 bytes. After terminal CI,362 cache files/6140146
+  bytes are removed. Build/ and own OBJ/PDB are absent; unrelated evidence,
+  target/toolchain/IDA inputs and the frozen sources remain.
+- **Validation:** CI791 tests/28 skips,target-required tracking,documentation,
+  generated progress and whitespace pass.728/729 previous engineering inputs
+  retain parent hashes; only the Type3 producer changes and one test file is
+  added. All485 game sources,1026 units and1000 exact rows are unchanged.
+  Local commit and independent remote verification are recorded separately.
 - **Open large frontier:** RunEcl remains15564/598/30: opcode4 seven residual
   bytes,opcode155 twenty-three. Both current and target opcode155 use masked
   XOR; byte zero-extension and old/result register allocation remain unresolved.
+  Qualifying the actual context-slot read increases differences to33; a genuine
+  inline byte-member timeout update stays30,while its word form emits15560 and
+  fails the whole-owner gate. DrawResult pointer publication gives1939/38;
+  one screen snapshot,alone/paired,gives1941 and is rejected. No model adopted.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
