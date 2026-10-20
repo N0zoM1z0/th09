@@ -15,52 +15,54 @@ Current state: **1,035 authored, 1,035 source-present, 999 canonical exact**;
 **36 source-present nonexact; no confirmed authored owner lacks maintained source**.
 **242,876/291,883 reviewed-authored bytes = 83.2101%**.
 The **95%** milestone still needs **34,413** complete exact authored bytes.
-This checkpoint corrects Player collision service identities; it adds no exact
-owner or byte. Native product/runtime, complete inventory and later gates stay open.
+This checkpoint strengthens the Supervisor entry-predicate Oracle and records
+bounded codegen controls. It adds no exact owner/byte or gameplay source change.
+Native product/runtime, complete inventory and later gates stay open.
 
-- **Maintained correction:** Player CheckBulletCollision uses the existing
-  AsciiGameManagerView, Supervisor and SoundPlayer service declarations.
-  Three private classes and their global aliases are removed. The existing
-  GameManagerResetView supplies the independently observed coordinate+358;
-  the whole GameManager class remains provisional. Original operands still bind
-  GameManager4A7D90, Supervisor4B3100 and SoundPlayer4DC698, with unchanged ABI.
-- **Whole-carrier evidence:** individual service controls and the combined
-  source preserve all six functions/2069 raw bytes/58 actual COFF fields,
-  except12 reviewed symbol spellings. The actual SoundPlayer include adds
-  two uuid.lib default-library directives; all runtime data sections agree.
-  The final maintained-path cold object equals the combined private object.
-  Five existing exact siblings replay1220 bytes/32 fields. The other994 exact
-  proofs retain their source/profile hashes; no full-cohort rebuild is needed.
-- **Player frontier:** the full862-byte original still compares against849
-  candidate bytes,26 fields,12 ordered calls,32 versus33 blocks,804 overlapping
-  differences and13 missing bytes. Native vectors/empty constructor and
-  outer-hit/loop controls remain nonexact. The latest original-bound inspector
-  rejects the obsolete private service symbols and unreviewed GameManager offsets.
-- **Boss negatives:** all five Type19 actual-record/native-vector controls stay
- 821/35/44. All-real Timer bodies with and without private noinline declarations
-  both shorten RunEcl to15560; both preserve all28 ZunTimer direct calls.
-  Equality-only or equality+float visibility keeps15564/598 but increases the
-  complete difference count30 to38. This rules out attributing that four-byte
-  shrink simply to lost Timer calls. No Timer experiment is integrated.
-- **Evidence and reproduction:** .analysis/gpt-61sol-20261020-boss-callee-contracts
-  holds the full raw/COFF pairs, frozen sources, recipes, five fresh direct IDA
-  callee observations, maintained-path proof and independent input bindings.
-  Rebuild player-check-graze-collision, run inspect-player-bullet-collision.py,
-  and compare the five PlayerCollisionHelpers units from that fresh object.
-  The prior MIDI/Title constructors remain exact at source6d46ba0; their full
-  evidence and inventory limits remain in the KB and their original packets.
+- **New focused coverage:** original OnUpdate431110 has two actual direct
+  predicate calls42ED70, independently decoded before accepting its full
+ 996-byte owner/92-field diagnostic. The guard requires both calls and now
+  cold-replays the predicate's real14-byte canonical implementation, source,
+  address and compiler profile. Seven existing exact units pass734 bytes/
+ 56 fields; the other992 exact proofs retain their source/profile hashes.
+- **Supervisor current baseline:** maintained source remains952 physical bytes
+  (800 pre-table+152 artifacts),205 instructions,92 fields,27 calls,791 overlap
+  differences+44 missing bytes. Its public cold raw body and all actual COFF
+  rows equal the first private closed baseline. All485 game source inputs are
+  unchanged. No experimental C++ type, annotation, CFG or TU change is promoted.
+- **Bounded controls:**36 successful private carriers explore network-loop
+  placement/result lifetime, shared state tails, startup branch forms, typed
+  bit7/Chain/startup state models and genuine predicate visibility. A cold
+  network tail gives980/216/809 differences; moving5/6/8 before2 gives972/216/803.
+  These are not improvements over the full original bytes. Two explicit-result
+  scan forms lose five local fields and the original network table shape.
+- **Actual-callee countercheck:** the real14-byte subthread predicate stays
+  complete exact when visible before/after the callback, but that source context
+  gives204 instructions/793 differences (cold-network215/811). Calls/tables stay
+  intact; a reload is removed. This context is rejected, not proof of the
+  unique original TU. Adjacent TH08 types are hypotheses only and do not close
+  this TH09 owner. One incorrectly nested case reorder failed construction,
+  was corrected and rerun; the failure is not a semantic negative.
+- **IDA recovery:** replaced and read back the stale Packet64/828-code/
+  three-title-call annotation with the current original217/current205 instruction
+  and single-title/two-predicate facts. Target bytes/boundaries remain unchanged.
+- **Evidence:** .analysis/gpt-61sol-20261020-supervisor-transition-flow retains
+  complete raw/actual-COFF pairs, canonical reports, source bindings, frozen
+  inputs and replay recipes. Reproduce current checks with
+  check-boss-frontiers.py --owner supervisor; it checks the full nonexact
+  callback and seven selected original-exact dependencies/caller.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
 - **Verified finish:** CI779 tests/28 skips, target-required tracking, docs,
-  generated progress and whitespace pass. Of728 engineering inputs,724 retain
-  parent hashes; four changes include the one ledger note, inspector, test and
-  game source. Scoped cleanup removes1186 files/18434375 bytes, retaining87
-  unique inputs for23 frozen cases. One post-cleanup Timer replay reproduces
-  all15564 raw bytes and598 actual COFF rows. Build/ and own OBJ/PDB are absent.
-  Source commit and independently verified remote push are recorded separately
-  in the packet. No current-source Factory acceptance or runtime claim follows.
+  generated progress and whitespace pass.724 of728 engineering inputs retain
+  parent hashes; four changes cover the ledger note, two inspectors and test.
+  Scoped cleanup removes956 files/18962079 bytes. Fifty unique inputs and36
+  losslessly compressed raw/COFF pairs remain. A frozen getter-visible replay
+  reproduces all952 caller bytes/92 actual fields and the14-byte exact predicate,
+  then removes its own outputs. Build/ and own OBJ/PDB are absent. Source commit
+  and independent remote push verification are recorded separately in the packet.
 
 
 ## Next worker: first three work packages

@@ -1397,6 +1397,8 @@ SUPERVISOR_UPDATE_RESIDUAL_MASK = bytes.fromhex(
 )
 
 SUPERVISOR_UPDATE_CALLEES = (
+    ('supervisor-subthread-is-running', 'src/SupervisorSubthread.cpp',
+     '?SupervisorSubthreadIsRunning@@YIHPAVSupervisor@@@Z', 0x0042ED70, 14),
     ('supervisor-check-version', 'src/SupervisorVersion.cpp',
      '?CheckVersion@SupervisorVersionView@@QAEHPBDHH@Z', 0x00430150, 199),
     ('supervisor-load-version-data', 'src/SupervisorVersion.cpp',
@@ -1420,7 +1422,10 @@ def guard_supervisor_update(result: dict) -> dict:
     allowed = {n for n in range(996)
                if SUPERVISOR_UPDATE_RESIDUAL_MASK[n//8] & (1 << (n % 8))}
     size = result.get('candidate_owned_bytes')
-    if (result.get('original_owned_sha256') != SUPERVISOR_UPDATE_SHA256 or
+    if (result.get('target_subthread_predicate_calls') != 2 or
+            result.get('candidate_subthread_predicate_calls') != 2 or
+            result.get('subthread_predicate_calls_agree') is not True or
+            result.get('original_owned_sha256') != SUPERVISOR_UPDATE_SHA256 or
             result.get('target_authored_bytes') != 844 or
             result.get('target_fields') != 92 or
             result.get('target_instructions') != 217 or

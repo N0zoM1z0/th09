@@ -159,6 +159,7 @@ def decode(raw, table_start, md, x86):
 # call via independently observed ECX=0/1 input paths. A codegen candidate
 # with three physical calls is nonexact even if all are behaviorally valid.
 TITLE_REGISTER_TARGET = 0x0042AB13
+SUBTHREAD_PREDICATE_TARGET = 0x0042ED70
 
 
 def count_direct_calls_to(calls, destination):
@@ -198,6 +199,9 @@ def inspect(path, symbol=SYMBOL):
     original_register_calls = count_direct_calls_to(wanted["calls"], TITLE_REGISTER_TARGET)
     require(original_register_calls == 1, "original title registration call count drifted")
     candidate_register_calls = count_direct_calls_to(candidate["calls"], TITLE_REGISTER_TARGET)
+    original_subthread_calls = count_direct_calls_to(wanted["calls"], SUBTHREAD_PREDICATE_TARGET)
+    require(original_subthread_calls == 2, "original subthread predicate call count drifted")
+    candidate_subthread_calls = count_direct_calls_to(candidate["calls"], SUBTHREAD_PREDICATE_TARGET)
     require(candidate["fields"] == sorted([r["offset"], r["type"], r["destination"]] for r in bindings),
             "candidate relocation/operand inventory differs")
     external = lambda rows, size: Counter((kind, destination) for p, kind, destination in rows
@@ -223,6 +227,9 @@ def inspect(path, symbol=SYMBOL):
         target_title_register_calls=original_register_calls,
         candidate_title_register_calls=candidate_register_calls,
         shared_title_register_call_agree=(original_register_calls == candidate_register_calls),
+        target_subthread_predicate_calls=original_subthread_calls,
+        candidate_subthread_predicate_calls=candidate_subthread_calls,
+        subthread_predicate_calls_agree=(original_subthread_calls == candidate_subthread_calls),
         external_field_inventory_equal=candidate_external == target_external,
         missing_external_fields=[[kind, destination, count] for (kind, destination), count
                                  in (target_external - candidate_external).items()],

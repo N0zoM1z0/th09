@@ -12583,3 +12583,65 @@ attest historical producer execution.
   replay reproduces15564 raw bytes/all598 actual COFF rows after cleanup,
   then removes its own outputs. Build/ and own OBJ/PDB stay absent. This is
   reproducibility of a nonexact experiment, not a RunEcl exactness claim.
+
+
+### 2026-10-20 — Supervisor entry-predicate Oracle and current-context controls
+
+- Recovered clean sourcece2d9e8, attested the original Japanese v1.50a disk
+  target and direct local IDA metadata/mapped bytes. Original OnUpdate431110
+  remains844 authored+152 owned switch bytes=996 physical, SHA
+  c3ccfdefb056e202f64d3f31a313e200b1494fa49184d0fcd5ea3c6de248327c,
+ 217 instructions/92 fields/27 calls. Two direct42ED70 predicate calls govern
+  entry-service and close-message routes; Title registration42AB13 occurs once.
+  Its old IDA Packet64/828-code/three-registrar comment was stale and is now
+  replaced/read back. A first long comment was truncated by the tool; the
+ 826-character replacement is read back exactly. No bytes/boundaries are changed.
+- The complete inspector now independently counts those two predicate calls;
+  the boss guard rejects missing/duplicated or inconsistent predicate counts.
+  Its selected exact cohort adds the already canonical14-byte
+  SupervisorSubthreadIsRunning from SupervisorSubthread.cpp, checking actual
+  source, address, symbol, size and unchanged pinned profile. Seven cold
+  exact owners reproduce734 physical bytes/56 fields;992 other existing exact
+  proofs reuse unchanged inputs. No new exact unit or match row is credited.
+- Fresh maintained callback and private baseline agree on every raw byte and
+  actual COFF row:952=800+152 bytes/205 instructions/92 fields/27 calls,
+ 791 overlapping differences+44 missing. All485 game source files remain
+  raw-identical. Thirty-six successful private compiles use the same profile;
+  no source/type/annotation/ownership hypothesis is integrated.
+- Structured network else, explicit wanted/previous snapshots, carried network
+  return-value/continue/break forms, six shared state-tail controls, startup else,
+  true volatile-byte access, Chain result and startup enum controls are neutral
+  within their respective contexts. Moving the unchanged network loop to the
+  function's cold tail gives980/216/809; moving5/6/8 before2 gives952/205/799,
+  or972/216/803 in that cold context. These have more full-overlap differences
+  than the baseline and remain rejected. Two explicit service-result while
+  scans give928/206/813 and956/217/820, with87 instead of92 fields, losing the
+  target four-entry network dispatch shape despite equal external multiplicities.
+- Genuine bit7 field models (unsigned and signed) give952/205/800 or980/216/818.
+  Adjacent TH08 corroborates possible bitfield/Chain/startup source families,
+  never TH09 ownership, signedness or exactness. One initial case reorder
+  accidentally selected an inner case and failed C2196; the corrected outer
+  source is compiled separately. Its failed source/log remain construction
+  evidence, not a result for the intended model.
+- Actual SupervisorSubthread.cpp is made visible before/after both baseline and
+  cold-network callbacks in four controls. Its canonical14 bytes remain exact,
+  with zero fields. The two callback predicate calls and all27 calls/92 fields/
+  four tables stay present, but a redundant reload is removed:952/204/793, or
+ 980/215/811. All four contexts are rejected by the complete original comparison.
+  Do not merge these TUs based only on the leaf match; other source contexts
+  and the unique original TU remain unknown.
+- Evidence lives in .analysis/gpt-61sol-20261020-supervisor-transition-flow,
+  including complete PE-linked diagnostics, every actual COFF pair, frozen
+  source inputs, corrected construction error and canonical proofs. Exact
+  coverage remains999/1035 and242876/291883 bytes;95% still needs34413 complete
+  exact bytes. The native product/runtime and later semantic/port gates stay open.
+- Final focused seven-owner Oracle, CI779 tests/28 skips, target-required
+  tracking, docs, progress and whitespace pass.724 of728 engineering inputs
+  retain parent hashes; only the ledger note, two inspectors and their test
+  change. Scoped terminal-producer cleanup removes956 files/18962079 bytes,
+  retaining50 unique source inputs. The5188710 bytes of36 full pair reports
+  compress losslessly to507574 bytes. One frozen getter-visible replay then
+  reproduces952 raw caller bytes/92 actual COFF rows, the same complete
+  original-linked differences and the14-byte exact predicate; outputs are
+  self-cleaned. Build/ and own OBJ/PDB are absent. Local commit and remote
+  verification remain separately recorded; no Factory or runtime claim follows.

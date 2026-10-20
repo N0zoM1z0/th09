@@ -101,6 +101,8 @@ class SupervisorFrontierTests(unittest.TestCase):
                     candidate_owned_bytes=952, candidate_pre_table_bytes=800,
                     target_calls=27, candidate_calls=27, target_title_register_calls=1,
                     candidate_title_register_calls=1, shared_title_register_call_agree=True,
+                    target_subthread_predicate_calls=2, candidate_subthread_predicate_calls=2,
+                    subthread_predicate_calls_agree=True,
                     external_field_inventory_equal=True, missing_external_fields=[],
                     extra_external_fields=[], target_table_counts=[10, 4, 6, 15],
                     candidate_table_counts=[10, 4, 6, 15], case_index_alignment_equal=True,
@@ -125,6 +127,9 @@ class SupervisorFrontierTests(unittest.TestCase):
                     {**row, 'overlapping_differences': True},
                     {**row, 'original_difference_offsets': row['original_difference_offsets'][::-1]},
                     {**row, 'candidate_calls': 26}, {**row, 'candidate_title_register_calls': 3},
+                    {**row, 'target_subthread_predicate_calls': 1},
+                    {**row, 'candidate_subthread_predicate_calls': 1},
+                    {**row, 'subthread_predicate_calls_agree': False},
                     {**row, 'candidate_table_counts': [10, 4, 5, 15]},
                     {**row, 'original_owned_sha256': '0'*64}):
             with self.subTest(bad=bad.keys()), self.assertRaises(RuntimeError):
@@ -141,7 +146,7 @@ class SupervisorFrontierTests(unittest.TestCase):
         row['candidate_instructions'] = 217
         self.assertEqual(BOSS.guard_supervisor_update(row)['exactness_credit'], 'none')
 
-    def test_focused_owner_replays_all_six_actual_dependencies(self):
+    def test_focused_owner_replays_all_seven_actual_dependencies(self):
         with patch.object(BOSS, 'build_nonexact') as build_nonexact, \
                 patch.object(BOSS, 'parsed', return_value=self.fixture()), \
                 patch.object(BOSS, 'build') as build, \
@@ -149,8 +154,9 @@ class SupervisorFrontierTests(unittest.TestCase):
             _, exact = BOSS.run_supervisor_update(protect_exact=True)
         build_nonexact.assert_called_once_with('src/SupervisorUpdate.cpp',
             'build/matching/SupervisorUpdate.obj', reference_unit='supervisor-register-chain')
-        self.assertEqual(build.call_count, 6)
-        self.assertEqual(len({x['unit'] for x in exact}), 6)
+        self.assertEqual(build.call_count, 7)
+        self.assertEqual(len({x['unit'] for x in exact}), 7)
+        self.assertIn('supervisor-subthread-is-running', {x['unit'] for x in exact})
 
     def test_native_symbol_source_address_and_profile_substitution_fail(self):
         with (ROOT/'config/match-units.toml').open('rb') as stream:
@@ -159,6 +165,9 @@ class SupervisorFrontierTests(unittest.TestCase):
                 ('supervisor-check-version', 'symbol', '?CheckVersion@SupervisorMethodView@@QAEHPADHH@Z'),
                 ('supervisor-load-version-data', 'target_address', 0x0042F101),
                 ('soundplayer-update-fades', 'source', 'src/Other.cpp'),
+                ('supervisor-subthread-is-running', 'symbol', '?UnreviewedPredicate@@YIHXZ'),
+                ('supervisor-subthread-is-running', 'size', 13),
+                ('supervisor-subthread-is-running', 'target_address', 0x0042ED71),
                 ('anm-manager-execute-script-array', 'profile', ['/Ob0'])):
             changed = copy.deepcopy(units)
             changed[name][field] = bad
