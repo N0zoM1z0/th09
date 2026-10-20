@@ -18,61 +18,57 @@ The **95%** milestone still needs **34,431** complete exact authored bytes.
 The denominator now includes the newly reviewed2,220-byte Type29 draw; exact
 bytes are unchanged. Whole Windows i386 product/runtime and later gates stay open.
 
-- **ReplayMenu restores the complete original structure:** maintained
-  `TitleScreenView::DrawReplayMenu @4234F6` now emits **1,280/1,280 bytes,
- 376/376 instructions and72/72 direct blocks with equal edges/call identities**.
-  All57 original address fields and13 ordered calls remain bound, and each
-  corresponding block has the same original referent sequence. The old candidate
-  was1,258 bytes/368 instructions/70 blocks with1,187 overlap differences+22 absent.
-- **29 actual byte differences remain, no new exact credit:** the new candidate
-  preserves every prior71 equal position and recovers1,180 more. All **1,251**
-  equal physical positions are guarded, allowing changes only at the actual29
-  residual offsets. Those differences lie at **+185..+321** in selected-row
-  ECX/EDX choices and two local-store order. Frame134h, position home-14h and
-  caption home-134h now agree. The first388 bytes and everything after+321
-  already match, but neither matching ranges nor CFG equality count as exact.
-- **Target-backed source correction:** list rows directly index the real0x1EC
-  replay array; user rows acquire date/name before characters18,17,16,15. The
-  selected record is acquired before the selected-index snapshot, while the
-  interpolation timer is acquired after coordinate setup. This restores the
-  original six list-user conditional tests and correct record/timer chronology
-  without assembly, added storage, fake ABI, forced registers or profile changes.
-  Original source names and TU ownership remain unproven.
-- **Focused verification:** fresh public-source cold compilation reproduces all
- 1,280 warm bytes and57 fields. The other three emitted bodies/37 bytes/two
-  fields and all17 nondebug noncode sections/157 bytes retain bytes, fields and
-  physical order. This isolated source has no canonical exact units; other480
-  game-source files retain parent **a28a0a0** hashes, so unaffected exact proofs
-  (including77 ECL owners/24,374 physical bytes/1,091 fields) are reused.
-- **Large-boss investigation:** a fresh complete RunEcl baseline stays
-  **15,564 physical bytes /598 fields /30 differences**. Four genuine typed
-  aggregate-return controls emit extra helper calls absent from the target and
-  fail the full owner gate; no ABI or ECL change follows. ReplayMenu SDK function
-  controls are neutral; native operator syntax, old argument forms in the new
-  caption context, and pointer/reference/const/getter/calling-convention controls
-  are retained with separate full reports. Recipes and source bindings live in
-  `.analysis/gpt-61sol-20261020-runecl-value-carriers/`.
-- **Inventory unchanged:**995 canonical exact /242,518 authored bytes. Type29
-  draw448750..448FFB remains reviewed authored2,220 bytes without maintained source.
-  RunEcl's14,792 authored bytes exceed the14,576-byte nonexact allowance at95%
-  of the current denominator, so that boss remains necessary unless substantial
-  new reviewed inventory changes the denominator. Whole native/runtime gates stay open.
+- **Current source frontier remains29 bytes:** maintained
+  `TitleScreenView::DrawReplayMenu @4234F6` is1,280/1,280 bytes,376/376
+  instructions,57 original-bound fields,13 ordered calls and72 equal direct
+  blocks. All1,251 equal positions stay protected. The actual differences at
+  +185..+321 concern selected-row ECX/EDX and two local-store order; no matching
+  range or diagnostic result is promoted to canonical exactness.
+- **Real TitleScreen context counterexample is now reproducible:**
+  `nice -n 10 python3 -B scripts/probe-title-replay-menu-context.py` cold-compares
+  the standalone source, actual complete owner declarations, and actual native
+  `TitleScreen.cpp` definitions plus this complete method. All three reproduce
+  **every1,280 raw candidate byte and all57 COFF rows**, SHA256
+  d83b9d48e715d95fde6fd6729b9f6630b5a88befd4bbf422edcc003ac77caca9.
+  Thus these particular complete types/union aliases and existing native bodies
+  do not close the29-byte residual. This is not a universal TU/context negative.
+- **Bounded tool and evidence:** `--context declarations` or `--context native`
+  selects one context plus its baseline. The tool pins the original owner,
+  preserves the manifest profile and complete method, hashes repository inputs
+  and actual carriers, checks input stability and cleans temporary OBJ/PDB/source
+  automatically. It claims only this complete owner; other emitted native-TU
+  functions receive no new exactness claim. Four pure marker/path tests pass.
+- **Other tested models stay private:** whole-row index reuse, geometry/member
+  snapshot timing, actual record text accessors, signed32 type choices, real SDK
+  storage/functions/constructors, intrinsic copy, ordinary selection values and
+  real getters fail to improve this complete source. Stock/G5 and/G6 remain29;
+  global/Oi changes original CRT-call coverage and is rejected. No ABI, field
+  layout, compiler profile, game source or target byte is changed.
+- **Small-leaf checks:** parser mutable-cursor models preserve243/116/one
+  field/76 differences and the679-byte caller's raw code; external linkage
+  produces256-byte parser and639-byte caller, so is rejected. Effect AddedCallback
+  typed/void arguments and a real referenced owner all retain51/four fields/eight
+  differences. Actual compiled symbols are recorded; no signature is inferred
+  merely from equivalent machine bytes. Recipes and complete reports remain in
+  `.analysis/gpt-61sol-20261020-replay-selection-values/`.
+- **Unchanged canonical source proofs are reused:** all481 game-source files,
+  profiles, match units and ledgers retain parent **14405d9** hashes. Canonical
+  totals remain995 exact /242,518 of291,525 bytes =83.1894%;95% still needs34,431
+  complete exact bytes. RunEcl's14,792 authored bytes remain necessary at the
+  current denominator. Type29 draw remains reviewed authored without maintained
+  source; native product/runtime, later gates and complete inventory stay open.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
-- **Final checks and cleanup:** all **763 CI tests /28 skipped** pass, including
-  eight focused tests protecting every1,251 equal position. A stale shared-layout
-  test now checks the actual native array/record reads instead of the removed
-  local-pointer spelling. Tracking, docs, progress and staged/unstaged whitespace
-  pass. Of721 engineering inputs,715 retain parent hashes and six change; other480
-  game-source files remain unchanged. After every own producer stops, scoped
-  cleanup removes **470 files /11,870,616 bytes**, including35 source derivatives
-  reconstructed by hash from Git and retained variants. One-case native replay
-  also reproduces the saved full1280-byte/57-field raw hash. Unique unresolved
-  evidence remains; build/ is absent. Parent **a28a0a0** was pushed and independently
-  remote verified; this checkpoint's source/push binding is recorded separately
-  in its private packet.
+- **Checkpoint validation:** source/target recovery, the public three-context
+  native probe and CI pass (**767 tests /28 skipped**). All721 parent engineering
+  inputs retain hashes; the two new tool/test inputs yield723 bindings
+  (683 raw/40 working-CRLF-to-LF). Scoped cleanup after producer termination
+  removes456 reproducible files /10,130,721 bytes, including two hash-restored
+  full-context derivatives. Build/ is absent; unique controls and reports stay.
+  Parent14405d9 was pushed and independently remote verified; this checkpoint's
+  local source commit and remote-push proof are recorded in the private packet.
 
 
 ## Next worker: first three work packages

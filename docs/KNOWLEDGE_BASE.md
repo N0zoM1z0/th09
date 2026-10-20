@@ -11717,3 +11717,86 @@ attest historical producer execution.
   PE, IDA database, toolchains and unrelated legacy evidence are untouched.
   This checkpoint's local source commit and independent remote-push proof are
   recorded separately; no canonical or Factory acceptance is inferred.
+
+## October 20: complete TitleScreen context counterexample and bounded leaf controls (gpt-6.1-sol)
+
+- Clean recovery from pushed **14405d9944d29674a544d6d2e77d60644eb04b57**
+  passes original Japanese1.50a disk identity, direct local IDA metadata, entry
+  and distributed mapped bytes. Previous source progress is retained: ReplayMenu
+ 1280/376/57/13/72 with29 ordinary differences, all1251 equal bytes protected.
+- Actual repository `TitleScreen.cpp` has a fuller owner, including union aliases
+  for currentScreenState and phaseTimer/stateTimer2. The isolated draw view is
+  smaller. Copied genuine full declarations plus the whole maintained draw
+  method compile successfully; the actual complete native TU plus that method
+  also compiles. Both reproduce **all1280 raw bytes and57 actual COFF rows** of
+  the standalone candidate, SHA256
+  **d83b9d48e715d95fde6fd6729b9f6630b5a88befd4bbf422edcc003ac77caca9**.
+  This falsifies those specific complete-layout/union/body-visibility remedies;
+  it neither recovers unique original C++ types/TU nor rules out other contexts.
+  Only the draw owner is compared, not every other function emitted by the TU.
+- New maintained `probe-title-replay-menu-context.py` reproduces baseline,
+  declarations and native-body contexts without editing game source or profile.
+  It requires unique real class/method boundaries and the shared replay schema,
+  attests the original owner through the existing full inspector, records raw
+  repository/carrier hashes and all COFF rows, checks input stability and removes
+  temporary sources/native outputs after terminal compilation. Output resolves
+  below this repository.analysis, including rejecting a symlink escape; ambient
+  CL/_CL_ overrides fail closed. Four pure tests cover complete-method/real-owner
+  preservation, declaration versus body scope, stale/duplicate markers and
+  output bounds. Module import works with Python-S; optional decoding stays local.
+- Native countermodels are source-bound to this new complete29-byte frontier,
+  rather than silently reusing old1258-byte observations. Index reuse in all
+  phases or selection/detail gives59 differences; list/selection reuse stays29.
+  Direct geometry-member reads and later selected snapshots produce1283..1286
+  bytes and fail the complete extent. Real const/mutable text accessors in the
+  actual replay record keep29 when used only for the selected row; using them
+  throughout the list changes geometry/CFG and is rejected.
+- Signed32 long field/local choices (with a truthful int variadic argument),
+  true SDK storage/function and target-constructor controls stay29. Position
+  constructors/operator expressions change physical extent. Actual standard
+  memcpy without intrinsic adds a real original-absent call at1290/58 fields;
+  honest memcpy intrinsic copies the same twelve-byte objects but remains29.
+  Global/Oi removes original CRT call/field coverage and is rejected, without
+  adding a fake callee/return/clobber contract or forcing original addresses.
+  Stock/G5 and/G6 scheduling models all retain the complete29-byte candidate.
+- Genuine two-field local selection values, actual constructors/std::pair and
+  index-capture expressions do not close the original separate pointer/index
+  lifetime. Values contain only the two consumed fields, no padding/dummy state.
+  Frame acquisition inside the condition, a real const-reference or actual
+  value/reference getter body remains raw/field-neutral. A dispatch snapshot is
+  neutral; a switch changes independently bound original operand order and is
+  rejected. None is adopted and no profile or source-authorship inference follows.
+- Small leaf `ParseNetworkConfigValue` baseline remains243 bytes/116 instructions,
+  one independently bound strncmp call,34 versus33 blocks and76 differences.
+  Mutable input/return pointers produce the same complete raw helper and679-byte
+  caller code under their actual decorated symbols. External linkage instead
+  produces256/121/161 overlap differences+13 extra and a639-byte caller, losing40
+  bytes from the already-exact679-byte caller. This is a measured rejected
+  source/interface context, not permission to relabel an unproved ABI or source.
+- Effect AddedCallback baseline and genuine void-pointer Chain-argument/real
+  reference-owner models all reproduce51 bytes/19 instructions/four fields/
+  three equal blocks/eight differences. Raw helper SHA256 stays
+  d94bc571d098067bce66be1c5964ef867e4a4974660c8687bc806e14130ccc17.
+  Actual mangled symbols and complete bodies are selected explicitly; equivalent
+  code does not establish unique original callback parameter types. No public
+  header, callback signature, data owner, canonical symbol or match is changed.
+- Private recipes, source/profile/header hashes and complete per-control reports
+  are retained at `.analysis/gpt-61sol-20261020-replay-selection-values/`.
+  The public native probe independently reproduces all three context observations
+  and deletes its own temporary compiler outputs. Every one of the481 public
+  game-source files retains parent14405d9 hashes, so unaffected canonical proofs
+  are reused. Local canonical totals remain995 exact /242518 of291525 authored
+  bytes (83.1894%);95% still needs34431 complete exact bytes. No new Factory
+  acceptance, native product/runtime closure, semantics or portability is claimed.
+- Final CI passes **767 tests /28 skipped**; target-required tracking, docs,
+  generated progress and whitespace pass. All721 parent engineering inputs keep
+  their raw working hashes; two new tool/test paths yield723 index bindings
+  (683 raw/40 working-CRLF-to-LF). Canonical source/profile/ledger inputs are
+  unchanged, with no affected exact cohort. After all own producers terminate,
+  repository-cwd-scoped cleanup removes456 files /10,130,721 bytes, including
+  two source derivatives reconstructed and hash-checked against immutable parent
+  Git plus the public probe. Build/ and own OBJ/PDB are absent. Unique private
+  controls, per-case source/header/profile hashes, reports and a one-case replay
+  recipe remain. Local source commit and independently checked remote push are
+  recorded separately in the private packet. No numerical exact progress is
+  claimed for this bounded evidence checkpoint.
