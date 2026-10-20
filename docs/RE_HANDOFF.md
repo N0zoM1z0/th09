@@ -9,40 +9,41 @@
 
 The operator requests continued exact reconstruction across **large functions
 and small leaves**, serial low-priority compiles, focused affected replays and
-regular disposal of reproducible artifacts. Current SaveReplay progress starts
-from pushed `26e0fd3`; the previous RunEcl/Enemy/Title DrawResult/Type3 fronts
-remain **30 /29 /22 /15** differing bytes. None of those four, SaveReplay, or
-the 95% milestone is complete. The last accepted exact addition remains Player
-initialization in `8ff6ce1`: 552 authored bytes, 572 complete physical bytes and 25
-fields. This batch changes maintained game C++ but adds **no exact ledger row**.
+regular disposal of reproducible artifacts. Current network-message progress
+starts from pushed `88cf47e`. RunEcl/Enemy/Title DrawResult/Type3 remain
+**30 /29 /22 /15** differing bytes, and SaveReplay remains **3**. None of these
+fronts or the 95% milestone is complete. The last accepted exact addition is
+Player initialization in `8ff6ce1`. This batch adds **no exact ledger row**.
 
-- **ReplayManagerView::SaveReplay:** natural stage-indexed root acquisition
-  before copying/publishing each header recovers **149** original bytes without
-  introducing any new mismatch: **1,238 bytes /53 fields /3 differences**.
-  Both owners decode to 380 instructions; all 23 call operands, 49 direct
-  blocks and 53 original field offsets agree. `inspect-replay-save.py --guard` checks the actual two COFF
-  literal definitions and protects all 1,235 equal bytes. Remaining offsets
-  are **+0xB7,+0xBB,+0x3F6**; do not count this owner as exact.
-- Focused `--owner replaysave` cold-replays the **12 existing exact siblings
-  across the two established ReplayInput.cpp profiles**. BeginPlaybackStage's
-  full 32-field/39-residual/538-byte frontier is unchanged. No whole-cohort
-  replay is needed for unrelated unchanged sources and profiles.
-- Three private network-parser reference controls preserve 243/1/76 and 34
-  candidate blocks. They are rejected; its 679-byte exact caller is unchanged.
-- CI passes **809 tests /28 skips**. The source/report packet is
-  `.analysis/gpt-61sol-20261020-parser-replay/`: 93 verified archive members,
-  41 source/report cases, and a one-case raw/COFF replay. Compaction replaces
-  2,054,858 duplicate bytes with a 370,685-byte archive; subsequent reviewed
-  cleanup removes 83 session-owned OBJ/PDB files /4,924,968 bytes. Original
-  target, unknown older analysis and canonical matching objects stay. See
-  [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md).
-- Prior four-front controls remain in `0123c7e`/`26e0fd3` and
-  `.analysis/gpt6astra-20261020-exact-four/`. The Type3 private four-difference
-  candidate still regresses four equal bytes and is not adopted. Those
-  diagnostic archives are source-scoped reports, not exact receipts.
+- **Network HandleMessage:** a zero-based prefill ordinal plus explicit
+  per-case critical-section completion recovers **14** original bytes without
+  a new mismatch: **808 physical bytes /46 fields /111 differences** (125→111).
+  All 17 direct and two virtual call operands, six switch destinations, the
+  16-byte map and 34 direct blocks agree. It remains NON-EXACT, with 234
+  source versus 235 original instructions. The new public full-owner guard
+  protects all 697 equal bytes; `--owner netmessage` builds only this TU.
+- No canonical exact unit uses the changed standalone source. Reuse unrelated
+  source/profile-bound proofs; no whole-cohort replay is needed. The earlier
+  SaveReplay checkpoint's 12 exact same-source siblings and two profiles remain
+  unchanged. Its full-byte guard still permits only +0xB7,+0xBB,+0x3F6 residuals.
+- Five SaveReplay native RNG/LZSS/head-cursor controls and sixteen Player
+  collision geometry/cursor models do not close their original owners.
+  Narrow queue-call and network copied/union wire-word controls are also
+  rejected; no ABI/header/profile change or reduced graph is adopted.
+- CI passes **815 tests /28 skips**. A verified 88-member archive and manifest
+  in `.analysis/gpt-61sol-20261020-network-ordinal/` preserve all 32 SaveReplay,
+  Player collision and network source/actual-COFF pairs. The selected network
+  case cold-replays all 808 bytes and 46 rows from that archive. Compaction
+  replaces 1,056,939 loose bytes with 198,610 bytes; post-CI cleanup removes
+  64 owned OBJ/PDB files /4,034,953 bytes and 22 reproducible diagnostic renders
+  /90,116 bytes. Original target, public/canonical objects and older unclassified
+  research stay. See [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md).
+- Prior checkpoints and cleanup remain in `88cf47e`, `0123c7e`, `26e0fd3` and
+  [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md). The private Type3 four-byte
+  candidate still damages four equal positions and is not adopted. Diagnostic
+  archives are source-scoped reports, not accepted exact receipts.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
-  Historical Factory-only prefix/transport instructions are stale.
 
 ## Live ledger snapshot
 
@@ -122,6 +123,7 @@ For the complete <=256-byte cohort see
 | **Replay BeginPlaybackStage** | 0x00420840 | **540 / 538**, 152/151 instructions, **32/32 ordered original PE/COFF fields**, 5 calls, 12/12 matching CFG blocks; **39** overlapping unlike bytes + 2 missing (49→39) | Scoped volatile read of `g_ReplaySideState0` after header 1E7 publication restores all 32 original field referents in the correct order and all **first 30 physical field positions**, instead of the previous one reversed field pair. Nine register-scheduling residual positions `+0x152,+0x156,+0x15C,+0x162,+0x168,+0x16C,+0x172,+0x178,+0x17A` and 30 seed/tail bytes `+0x1FB..+0x1FE,+0x200..+0x219` remain guarded. All **499 already matching** candidate bytes are protected; tail fields are still shifted -1/-2 bytes. `--owner replay` source-cold replays all **12 exact members across both pinned compiler profiles**; still NON-EXACT. |
 | **ScreenEffect shake envelope** | 0x004227A0 | **336/336**, 132 instructions, 20 fields, 8 calls, 26 blocks; **26** differences (28→26) | Authentic VC7.1 order of two real volatile references (fade, then hold; same hold + fade value) recovers original physical **+0x5C and +0x5F** with no regressed byte. `probe-screen-shake-context.py --variant timer-float` reproduces the measured 332-byte rejection: the actual four-byte conversion body stays exact, but the caller retains an x87 value across that call instead of spilling it. Full original-SHA/26-offset guard protects **all 310 already matching bytes**; the unchanged **18 ScreenEffect exact owners** (2,562 bytes across three profiles) reuse their source-bound proof. Remaining EDI/ESI owner allocation is NON-EXACT. |
 | **Controller input** | 0x0042B410 | **808 / 796**, 32 fields; **102** overlap differences /12 missing bytes | First **674 complete instruction bytes** match. WinMM axis midpoint/range CSE and register chronology remain open; split helpers, POD bounds, SDK value/reference types and loop controls have not closed the owner. Use `scripts/inspect-controller-input.py`. |
+| **Supervisor network HandleMessage** | 0x00432B70 | **768 authored /808 physical bytes**, 46 fields, 17 direct +2 virtual calls, 34 matching blocks; **111 differences** (125→111) | Natural zero-based prefill ordinal and per-case critical-section completion recover 14 bytes without a new mismatch. All six switch targets and 16 map bytes enter the full guard; 234/235 instructions remain nonexact. `--owner netmessage` compiles only this standalone TU and protects all 697 equal bytes; unrelated exact proofs are reused. |
 | **Supervisor network service** | 0x00430AA0 | **1,633 / 1,632**, 108 source fields | Real queue ownership and 1,395 overlap differences still open; `--owner network`. |
 | **Supervisor::OnUpdate** | 0x00431110 | **844 authored / 996 target physical**, 952 candidate physical | 92 external fields, 27 calls but 44 missing physical bytes; `--owner network`. |
 | **ECL MoveRandomBiased leaf** | 0x00407E30 | **516 / 517**, 28 fields, 14 calls, 24 blocks; 148 overlap + 1 extra | Genuine shared RNG method/global owner symbols now independently original-bound; Y-pointer target `LEA [EAX+4]` versus candidate `MOV EAX` remains unresolved. `--owner runecl`. |
@@ -165,7 +167,7 @@ python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/report-reconstruction-status.py
 python3 -B scripts/check-ida-mcp.py
 # Choose one affected owner; reuse unchanged source/profile-bound proofs.
-nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner replaysave
+nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner netmessage
 # One new Type3 compiler-visibility control; temporary sources/objects self-clean.
 python3 -B scripts/probe-type3-native-context.py --case coordinates
 # Complete Charge diagnostic with the maintained recorded profile:

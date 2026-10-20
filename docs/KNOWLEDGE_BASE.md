@@ -13442,3 +13442,60 @@ frozen candidates, unchanged dependencies, profiles and pinned compiler.
 Authored inventory, exact counts, product/runtime and later phase gates do
 not change. Continue large and small exact work; use English `gpt-6.1-sol:`
 commits and verify the pushed remote ref independently.
+
+## 2026-10-20 Network-message prefill ordinal and complete physical frontier
+
+From pushed `88cf47e`, fresh original disk/IDA metadata and mapped-byte checks
+pass. Supervisor network HandleMessage owns 768 authored code bytes at
+`0x00432B70..0x00432E6F`, then six DWORD switch destinations and a 16-byte map
+through `0x00432E97`: **808 complete physical bytes**, SHA-256
+`c77e9349bb3a63990969608fc2570bfb15d17575f8b0b2b86dc32f1ce16c5cd3`.
+Independent original decoding gives 235 instructions, 46 address fields,
+17 direct calls, two vtable-slot 0x54 call operands, 34 blocks and ret 12 exits.
+The target's prefill latch reconstructs an ordinal as frame +9998. This is a
+source-shape clue, not proof of historical C++ spelling or loop authorship.
+
+The maintained source now uses a zero-based prefill ordinal and passes
+`index - 9998` to each side's received-frame insertion. It retains the original
+rate reads/divisions, queue calls and seed reads. This restores seven original
+physical positions. Completing each message case with its existing critical-
+section leave and return restores seven more; the compiler still merges the
+common physical tail. The complete 808-byte linked comparison falls **125 to
+111 differences, 14 recovered bytes with zero newly mismatching position**.
+Both owners retain all 46 field identities, ordered 19 call operands, six switch
+destinations, the full byte map and the same 34-block graph. Candidate instruction
+count remains 234, versus original 235. This is **NON-EXACT**, with no partial
+code credit. No ABI, queue prototype, profile or original target byte changes.
+
+`scripts/inspect-network-message.py --build --guard` supplies a reproducible
+maintained-source producer and full-owner audit. It verifies the private target
+before one serial nice-10 pinned VC7.1 compile, and hashes the live project
+include closure and compiler pins before/after production. Actual COFF local
+labels resolve through their real owner section/value, not fitted target label
+names. The 46 original operands are decoded independently; each source field
+must agree with its actual instruction or switch-table position. The guard
+protects all **697 equal linked bytes**, rejects same-count mismatch moves,
+and permits an eventual 235-instruction complete match only as a diagnostic.
+`check-boss-frontiers.py --owner netmessage` runs this isolated scope. There are
+no canonical exact owners in this standalone source TU; unrelated exact
+source/profile proofs are reused.
+
+Eleven network controls distinguish the adopted model from rejected ones.
+Narrow received-input call views damage 81 formerly equal bytes in the ordinal
+completion context and lose an original CFG block. They are not adopted.
+Zeroed DWORD memcpy/union wire-word models grow the owner to 824 bytes; a
+copied WORD gives 808/202 differences and 33 blocks. An explicit handshake-seed
+copy is byte-neutral. Original packed-input C++ width remains unknown beyond
+its independently observed low-16-bit consumption; these controls do not
+justify a fake declaration. The default private packet is
+`.analysis/gpt-61sol-20261020-network-ordinal/`.
+
+The same bounded session rejects five SaveReplay native RNG/LZSS/head-cursor
+contexts: genuine native declarations retain 1238/53/3, and moving traversal
+initialization past the header copy regresses to 149 differences. Sixteen
+Player CheckBulletCollision geometry/ordinal/reference contexts fail to improve
+its complete 862-byte owner and 33-block graph; some lose the original three-
+return inventory and fail closed. Maintained Player source and SaveReplay stay
+unchanged. Their frozen raw/actual-COFF pairs remain under this date's
+`save-context` and `collision-branches` packets. Exact totals remain 1000;
+95%, whole native product/runtime, semantic and portability gates remain open.

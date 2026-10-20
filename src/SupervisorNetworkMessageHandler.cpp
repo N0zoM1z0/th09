@@ -117,7 +117,8 @@ int SupervisorNetworkMessageView::HandleMessage(
             {
                 packetReadyB0 = 1;
                 g_NetworkLastReceiveTime = g_NetworkCurrentTime;
-                break;
+                g_Supervisor.LeaveCriticalSectionWrapper(4);
+                return 0;
             }
         }
         else if (data[0] == 2)
@@ -136,19 +137,18 @@ int SupervisorNetworkMessageView::HandleMessage(
 
                 if (60 / syncRateC4 > 1)
                 {
-                    int frame = -9998;
-                    while (frame + 9998 < 60 / syncRateC4 - 1)
+                    for (int index = 0; index < 60 / syncRateC4 - 1; ++index)
                     {
                         reinterpret_cast<SupervisorFrameQueueView *>(
                             &g_Supervisor)->InsertReceivedFrame(
                                 0,
-                                frame,
+                                index - 9998,
                                 0,
                                 static_cast<short>(g_ReplayRng.GetSeed()));
                         reinterpret_cast<SupervisorFrameQueueView *>(
                             &g_Supervisor)->InsertReceivedFrame(
                                 1,
-                                frame++,
+                                index - 9998,
                                 0,
                                 static_cast<short>(g_ReplayRng.GetSeed()));
                     }
@@ -157,7 +157,8 @@ int SupervisorNetworkMessageView::HandleMessage(
         }
 
         g_NetworkLastReceiveTime = g_NetworkCurrentTime;
-        break;
+        g_Supervisor.LeaveCriticalSectionWrapper(4);
+        return 0;
     }
 
     case DPN_MSGID_CREATE_PLAYER:
@@ -189,7 +190,8 @@ int SupervisorNetworkMessageView::HandleMessage(
             peerIds1C[1 - localSideAC] = msg->dpnidPlayer;
 
         ::operator delete(info);
-        break;
+        g_Supervisor.LeaveCriticalSectionWrapper(4);
+        return 0;
     }
 
     case DPN_MSGID_DESTROY_PLAYER:
@@ -202,13 +204,15 @@ int SupervisorNetworkMessageView::HandleMessage(
             peerIds1C[0] = 0;
         if (peerIds1C[1] == msg->dpnidPlayer)
             peerIds1C[1] = 0;
-        break;
+        g_Supervisor.LeaveCriticalSectionWrapper(4);
+        return 0;
     }
 
     case DPN_MSGID_SEND_COMPLETE:
         g_Supervisor.EnterCriticalSectionWrapper(4);
         packetReadyB0 = 1;
-        break;
+        g_Supervisor.LeaveCriticalSectionWrapper(4);
+        return 0;
 
     case DPN_MSGID_CONNECT_COMPLETE:
     {
@@ -220,13 +224,11 @@ int SupervisorNetworkMessageView::HandleMessage(
             connectionStateB8 = 3;
             localSideAC = 1;
         }
-        break;
+        g_Supervisor.LeaveCriticalSectionWrapper(4);
+        return 0;
     }
 
     default:
         return 0;
     }
-
-    g_Supervisor.LeaveCriticalSectionWrapper(4);
-    return 0;
 }

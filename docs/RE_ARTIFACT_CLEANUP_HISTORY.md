@@ -4,6 +4,45 @@
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 
+### 2026-10-20: network prefill progress and three-family diagnostic packet
+
+From pushed source parent `88cf47e`, the maintained network-message function
+improves from 125 to 111 linked physical differences with no newly mismatching
+position. Its complete 808-byte/46-field/19-call/34-block diagnostic passes,
+with no new exact credit. The changed standalone TU has no canonical exact
+siblings; unrelated source/profile-bound exact proofs are reused. Pre-clean
+CI passes **815 tests /28 skips** and all standard ledger/docs/build-graph/
+progress/whitespace gates.
+
+All 32 private source/actual-COFF pairs (five SaveReplay, sixteen Player
+collision, eleven network models), their diagnostic reports and recipes are
+frozen into the verified 88-member archive in
+`.analysis/gpt-61sol-20261020-network-ordinal/`. The manifest binds profiles,
+live project headers, compiler pins and original target. The selected ordinal
+completion case cold-reproduces every one of its 808 raw bytes and 46 actual
+COFF records from this archive; the temporary replay source/OBJ/PDB self-clean.
+The raw SHA is `8e31ac88b9922a32d830af5edc7613b768b29b22248d51d679f3042e7fbf7722`.
+No rejected signature/graph change or copied/union wire-word model is adopted.
+
+After all compiler/replay/CI handles terminate, a TH09-cwd-scoped `/proc` check
+finds no live producer. Cleanup selects only manifest-named session cache
+prefixes and reproducible per-case disassembly/diff renders. Each selected path
+is a regular ignored, untracked file, with size and SHA rechecked immediately
+before deletion; `cleanup.json` records all 86 paths.
+
+| Actually removed/replaced | Files | Logical bytes |
+| --- | ---: | ---: |
+| Loose frozen source/report/helper members | 88 | 1,056,939 |
+| Session-owned reproducible OBJ/PDB | 64 | 4,034,953 |
+| Reproducible diagnostic renders | 22 | 90,116 |
+| Retained verified ZIP | 1 | 198,610 |
+| **Net reduction** | | **4,983,398 (~4.75 MiB)** |
+
+Original executable, pinned toolchain, IDA databases, canonical matching and
+current public diagnostic objects, CI log and old unclassified research remain.
+Post-clean target/complete network/ledger/docs/progress/Git checks follow CI.
+No full build-tree or age-based cleanup is performed.
+
 ### 2026-10-20: SaveReplay source progress and bounded cache removal
 
 From pushed source parent `26e0fd3`, maintained SaveReplay improves from 152 to

@@ -1048,6 +1048,19 @@ class BossFrontierChecks(TestCase):
         self.assertEqual(siblings, [])
         self.assertIn('--guard', parsed.call_args.args[0])
 
+    def test_network_message_builds_only_its_standalone_guarded_owner(self):
+        report = {'diagnostic_only': True, 'exactness_credit': 'none',
+                  'target_bytes': 808, 'bound_fields': 46}
+        with patch.object(frontiers, 'build') as build, patch.object(
+                frontiers, 'canonical') as canonical, patch.object(
+                frontiers, 'parsed', return_value=report) as parsed:
+            owners = frontiers.run_network_message()
+        parsed.assert_called_once_with(['scripts/inspect-network-message.py',
+                                        '--build', '--guard', '--json'])
+        build.assert_not_called()
+        canonical.assert_not_called()
+        self.assertEqual(owners['network_message'], report)
+
     def test_replay_playback_cold_pinned_no_eh_and_exact_siblings(self):
         with patch.object(frontiers, 'build') as build, patch.object(
                 frontiers, 'parsed', return_value=self.replay_evidence()) as parsed, patch.object(

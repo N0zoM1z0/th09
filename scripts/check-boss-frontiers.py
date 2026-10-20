@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Cold replay TH09 ECL/Enemy/Etama/ExAttack/ANM/Title boss-and-leaf frontiers.
 
-All non-exact outputs are diagnostics, never partial match credit. Every object
-is first rebuilt from the live source using the target-bound match-unit tool.
+All non-exact outputs are diagnostics, never partial match credit. Canonical
+carriers are rebuilt using the target-bound match-unit tool. A standalone
+nonexact owner uses its recorded diagnostic profile and pinned compiler.
 For unchanged canonical siblings we additionally demand full match-unit replay.
 No stored experiment, previous object or historical percentage is accepted.
 """
@@ -73,6 +74,16 @@ def canonical(unit: str) -> dict:
 
 def build(unit: str) -> None:
     execute(['scripts/build-match-unit.py', '--unit', unit])
+
+
+def run_network_message() -> dict:
+    # This standalone source has no canonical exact siblings. The producer
+    # binds its live project inputs before/after one low-priority compile.
+    current = noncrediting(parsed(['scripts/inspect-network-message.py',
+                                  '--build', '--guard', '--json']),
+                           name='Supervisor network message', target_size=808,
+                           fields=46)
+    return {'network_message': current}
 
 
 # Complete exact siblings of the still-nonexact RunEcl and Title large owners.
@@ -4892,7 +4903,7 @@ def run_effect_type34(*, protect_exact: bool,
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'effect29', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'replaymenu', 'anm', 'network', 'queue', 'parser', 'front', 'frontadded', 'supervisor', 'screen', 'replay', 'replaysave', 'pause', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'effect29', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'replaymenu', 'anm', 'network', 'netmessage', 'queue', 'parser', 'front', 'frontadded', 'supervisor', 'screen', 'replay', 'replaysave', 'pause', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -4984,6 +4995,8 @@ def main() -> int:
             owners, exact = run_screen_shake(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
+        if args.owner in ('netmessage', 'all'):
+            report['owners'].update(run_network_message())
         if args.owner in ('replay', 'all'):
             owners, exact = run_replay_playback(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
