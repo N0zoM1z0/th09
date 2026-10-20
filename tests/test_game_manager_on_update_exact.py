@@ -21,6 +21,20 @@ class GameManagerExactSource(unittest.TestCase):
         cls.unit = cls.units['game-manager-on-update']
         cls.source = (ROOT / 'src/GameManagerSetup.cpp').read_text()
 
+    def test_cleanup_manifest_keeps_original_extent_native_calls_and_os_profile(self):
+        unit = self.units['game-manager-cleanup-gameplay-state']
+        self.assertEqual((unit['source'], unit['object'], unit['profile']),
+                         (self.unit['source'], self.unit['object'], self.unit['profile']))
+        self.assertEqual((unit['target_address'], unit['size'], unit.get('compare_size', 425)),
+                         (0x41B5C6, 425, 425))
+        self.assertEqual(unit['symbol'], '?CleanupGameplayState@GameManagerSetupLayout@@SIXXZ')
+        rows = unit['relocations']
+        self.assertEqual(len(rows), 43)
+        self.assertEqual([r['offset'] for r in rows], sorted({r['offset'] for r in rows}))
+        self.assertEqual([r['target'] for r in rows if r['type'] == 'REL32'],
+                         [0x41A7C3, 0x4343E0, 0x4181E0, 0x4156F0, 0x4011C0, 0x41EBC0,
+                          0x412470, 0x40C990, 0x411FD0, 0x403D80, 0x41A230, 0x40C990])
+
     def test_complete_full_target_relocation_inventory(self):
         unit = self.unit
         self.assertEqual(unit['target_address'], 0x0041AA5F)
@@ -137,39 +151,58 @@ class GameManagerColdRegression(unittest.TestCase):
 
     @staticmethod
     def cleanup_evidence():
-        return {'diagnostic_only': True, 'exactness_credit': 'none',
-                'target_bytes':425, 'candidate_bytes':410,
-                'target_instructions':117, 'candidate_instructions':115,
-                'original_fields':43, 'bound_fields':42,
-                'ordered_calls':12, 'ordered_calls_agree':True,
-                'original_blocks':24, 'candidate_blocks':24,
-                'mode2_lower_bound_branch_present':True,
-                'original_limit_double_store':True,
-                'original_limit_publication':{
-                    'default_reads':[0x169],
-                    'all_writes':[0x0A2,0x179,0x180],
-                    'normal_clamp_branch':[0x17E],
-                },
-                # Genuine cold-source chronology is distinct; it may improve
-                # without needing to re-pin this baseline offset tuple.
-                'candidate_limit_publication':{
-                    'default_reads':[0xC8],
-                    'all_writes':[0xA2,0x16A,0x171],
-                    'normal_clamp_branch':[0x16F],
-                },
-                'aligned_field_identities':41, 'field_change_spans':3,
-                'aligned_instructions':95, 'overlap_differences':210,
-                'direct_graphs_agree':False}
+        return {'diagnostic_only': True,
+         'exactness_credit': 'none',
+         'target_bytes': 425,
+         'candidate_bytes': 425,
+         'target_instructions': 117,
+         'candidate_instructions': 117,
+         'original_fields': 43,
+         'bound_fields': 43,
+         'ordered_calls': 12,
+         'ordered_calls_agree': True,
+         'original_blocks': 24,
+         'candidate_blocks': 24,
+         'direct_graphs_agree': True,
+         'aligned_field_identities': 43,
+         'field_change_spans': 0,
+         'aligned_instructions': 117,
+         'overlap_differences': 0,
+         'difference_offsets': [],
+         'missing_target_bytes': 0,
+         'extra_candidate_bytes': 0,
+         'original_limit_publication': {'default_reads': [361],
+                                        'all_writes': [162, 377, 384],
+                                        'normal_clamp_branch': [382]},
+         'candidate_limit_publication': {'default_reads': [361],
+                                         'all_writes': [162, 377, 384],
+                                         'normal_clamp_branch': [382]},
+         'mode2_lower_bound_branch_present': True,
+         'original_limit_double_store': True,
+         'complete_bytes_equal': True,
+         'target_sha256': 'e31f3c176b3b735008612b07823982a646248cbae4fb8ac826e2f2cff2d6a798',
+         'source_raw_sha256': '4c4f1d42b1d0f651287714bf4fda111e2351e09450ee378319f9c1442b9af62d',
+         'source_linked_sha256': 'e31f3c176b3b735008612b07823982a646248cbae4fb8ac826e2f2cff2d6a798'}
 
-    def test_all_thirteen_original_bound_functions_replayed_across_five_builds(self):
+    def test_cleanup_zero_byte_gate_remains_noncrediting_and_rejects_old_frontiers(self):
+        row = self.cleanup_evidence()
+        self.assertIs(boss.guard_game_manager_cleanup(row), row)
+        self.assertEqual(row['exactness_credit'], 'none')
+        for stale in (dict(candidate_bytes=410, bound_fields=42, overlap_differences=210),
+                      dict(candidate_bytes=422, bound_fields=43, missing_target_bytes=3),
+                      dict(source_linked_sha256='0'*64), dict(overlap_differences=False)):
+            with self.subTest(stale=stale), self.assertRaises(RuntimeError):
+                boss.guard_game_manager_cleanup({**row, **stale})
+
+    def test_all_fourteen_original_bound_functions_replayed_across_five_builds(self):
         with patch.object(boss, 'build') as build, patch.object(
                 boss, 'parsed', side_effect=[self.evidence(), self.cleanup_evidence()]), patch.object(
                 boss, 'canonical', side_effect=lambda unit: {'unit':unit}) as canonical:
             owners, exact = boss.run_game_manager(protect_exact=True)
         self.assertEqual(owners['gameplay_setup_thread']['bound_fields'],171)
-        self.assertEqual(owners['game_manager_cleanup']['candidate_bytes'],410)
+        self.assertEqual(owners['game_manager_cleanup']['candidate_bytes'],425)
         self.assertFalse(owners['gameplay_setup_thread']['direct_graphs_agree'])
-        self.assertEqual(len(exact),13)
+        self.assertEqual(len(exact),14)
         self.assertEqual(exact[0]['unit'],'game-manager-on-update')
         self.assertIn('front-message-initialize-runtime', [a['unit'] for a in exact])
         self.assertEqual([row['unit'] for row in exact[-4:]],
@@ -182,7 +215,7 @@ class GameManagerColdRegression(unittest.TestCase):
                           'supervisor-setup-loading-vms-and-capture',
                           'front-message-initialize-runtime',
                           'replay-manager-release', 'replay-manager-create'])
-        self.assertEqual(canonical.call_count,13)
+        self.assertEqual(canonical.call_count,14)
 
     def test_full_all_mode_does_not_double_count_either_replay_callee(self):
         # The full suite now runs both original ReplayInput VC7.1 profiles
@@ -195,7 +228,7 @@ class GameManagerColdRegression(unittest.TestCase):
             owners, exact = boss.run_game_manager(
                 protect_exact=True, replay_callees_prechecked=True)
         self.assertEqual(owners['gameplay_setup_thread']['ordinary_differences'], 911)
-        self.assertEqual(len(exact), 10)
+        self.assertEqual(len(exact), 11)
         self.assertEqual(exact[-1]['unit'],
                          'supervisor-setup-loading-vms-and-capture')
         self.assertNotIn('replay-manager-create', [r['unit'] for r in exact])
@@ -204,14 +237,14 @@ class GameManagerColdRegression(unittest.TestCase):
         self.assertEqual([a[0][0] for a in build.call_args_list], [
             'game-manager-on-update',
             'supervisor-setup-loading-vms-and-capture'])
-        self.assertEqual(canonical.call_count, 10)
+        self.assertEqual(canonical.call_count, 11)
 
     def test_skip_siblings_never_drops_the_new_large_boss_or_nonexact_worker(self):
         with patch.object(boss, 'build') as build, patch.object(
                 boss, 'parsed', side_effect=[self.evidence(), self.cleanup_evidence()]), patch.object(
-                boss, 'canonical',return_value={'unit':'game-manager-on-update'}):
+                boss, 'canonical',side_effect=lambda name: {'unit':name}):
             owners, exact = boss.run_game_manager(protect_exact=False)
-        self.assertEqual([x['unit'] for x in exact], ['game-manager-on-update'])
+        self.assertEqual([x['unit'] for x in exact], ['game-manager-on-update', 'game-manager-cleanup-gameplay-state'])
         self.assertEqual(owners['gameplay_setup_thread']['original_fields'],172)
         self.assertTrue(owners['game_manager_cleanup']['mode2_lower_bound_branch_present'])
         build.assert_called_once_with('game-manager-on-update')
@@ -232,10 +265,10 @@ class GameManagerColdRegression(unittest.TestCase):
                 boss.run_game_manager(protect_exact=False)
 
     def test_cleanup_source_changed_or_fake_original_fields_fail_closed(self):
-        for change in ({'candidate_bytes':399}, {'candidate_bytes':406}, {'candidate_bytes':425},
+        for change in ({'candidate_bytes':399}, {'candidate_bytes':406}, {'candidate_bytes':422},
                        {'target_bytes':424}, {'target_instructions':116},
                        {'candidate_instructions':113}, {'candidate_instructions':114}, {'original_fields':42},
-                       {'bound_fields':40}, {'bound_fields':41}, {'ordered_calls':11},
+                       {'bound_fields':40}, {'bound_fields':41}, {'bound_fields':42}, {'ordered_calls':11},
                        {'ordered_calls_agree':False}, {'original_blocks':25},
                        {'candidate_blocks':25}, {'mode2_lower_bound_branch_present':False},
                        {'original_limit_double_store':False},
@@ -258,7 +291,10 @@ class GameManagerColdRegression(unittest.TestCase):
                             'normal_clamp_branch':[0x16F]}},
                        {'aligned_field_identities':40}, {'field_change_spans':4},
                        {'aligned_instructions':94}, {'overlap_differences':225},
-                       {'direct_graphs_agree':True}, {'exactness_credit':'accepted'}):
+                       {'direct_graphs_agree':False}, {'exactness_credit':'accepted'},
+                       {'overlap_differences':1}, {'overlap_differences':False},
+                       {'difference_offsets':[424]}, {'missing_target_bytes':1},
+                       {'source_linked_sha256':'0'*64}, {'complete_bytes_equal':False}):
             with self.subTest(change=change), patch.object(boss,'build'), patch.object(
                     boss,'canonical',return_value={'unit':'game-manager-on-update'}), patch.object(
                     boss,'parsed',side_effect=[self.evidence(),

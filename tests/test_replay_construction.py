@@ -6,7 +6,7 @@ from pathlib import Path
 from types import SimpleNamespace
 import tomllib
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('replay_construction_audit', ROOT/'scripts/check-replay-data-layout.py')
@@ -58,17 +58,32 @@ class ReplayConstructionPolicyTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 audit.validate_origin_policy(functions, origins, matches+[dict(address=hex(address))])
 
-    def test_dependent_replay_covers_each_of_61_accepted_units_once(self):
+    def test_dependent_replay_covers_each_of_62_accepted_units_once(self):
         manifest, matches = units(), audit.ledger('matches.csv')
         groups = audit.dependent_groups(manifest, matches)
         names = [name for source, profile, group in groups for name in group]
-        self.assertEqual(len(names), 61)
-        self.assertEqual(len(set(names)), 61)
+        self.assertEqual(len(names), 62)
+        self.assertEqual(len(set(names)), 62)
         self.assertEqual(len(groups), 7)
         self.assertNotIn('replay-payload-constructor', names)
         missing = [r for r in matches if r['unit'] != names[0]]
         with self.assertRaises(ValueError):
             audit.dependent_groups(manifest, missing)
+
+    def test_game_manager_dependency_uses_the_complete_exact_cleanup_guard(self):
+        guard = SimpleNamespace(guard_gameplay_setup_thread=Mock(),
+                                guard_game_manager_cleanup=Mock())
+        setup, cleanup = {'setup': 'observed'}, {'cleanup': 'observed'}
+        with patch.object(audit, 'module', return_value=guard), \
+                patch.object(audit, 'diagnostic', side_effect=[setup, cleanup]):
+            report = audit.collect_frontiers('src/GameManagerSetup.cpp', ['/Os'], Path('fresh.obj'))
+        self.assertEqual(report, {'setup': setup, 'cleanup': cleanup})
+        guard.guard_game_manager_cleanup.assert_called_once_with(cleanup)
+        guard.guard_game_manager_cleanup.side_effect = RuntimeError('not complete original equality')
+        with patch.object(audit, 'module', return_value=guard), \
+                patch.object(audit, 'diagnostic', side_effect=[setup, cleanup]), \
+                self.assertRaisesRegex(RuntimeError, 'not complete'):
+            audit.collect_frontiers('src/GameManagerSetup.cpp', ['/Os'], Path('fresh.obj'))
 
     def test_exact_check_includes_physical_table_tail(self):
         report = complete('full-owner', 1560)

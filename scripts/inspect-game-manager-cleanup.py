@@ -2,8 +2,7 @@
 """TH09 Japanese 1.50a GameplayCleanup complete nonexact original/COFF audit.
 
 The original has 425 bytes, 117 instructions, 43 independently decoded data/
-call fields, 12 direct calls and 24 control-flow blocks. Source is currently
-nonexact with 41 bound fields. This diagnostic ties every candidate field to
+call fields, 12 direct calls and 24 control-flow blocks. The maintained source now replays all 425 bytes and 43 bound fields. This diagnostic ties every candidate field to
 its real symbol/destination, reports alignment of original identities, and
 checks a genuine branch restoring the mode-2 minimum clamp. It never grants
 accepted exactness or partial-byte credit.
@@ -89,8 +88,8 @@ def cleanup_limit_trace(instructions):
 
     Target +0x179 publishes the unclamped limit BEFORE +0x17E JGE, and
     +0x180 conditionally publishes one. The maintained source now preserves
-    that pair of observable writes, but its register and field schedule
-    remains nonexact at the complete 425-byte owner.
+    that pair of observable writes together with the complete original
+    425-byte register and field schedule.
     """
     import capstone
     reads, writes, branches=[], [], []
@@ -209,11 +208,11 @@ def diagnose(path: Path):
         'field_change_spans':len(align['changes']),
         'aligned_instructions':sum(q.size for q in matches.get_matching_blocks()),
         'overlap_differences':sum(a!=b for a,b in zip(linked,target)),
+        'difference_offsets':[n for n,(a,b) in enumerate(zip(linked,target)) if a!=b],
         'missing_target_bytes':max(0,len(target)-len(linked)),
         'extra_candidate_bytes':max(0,len(linked)-len(target)),
-        # Original source schedule is two physical writes, not the current
-        # source's preclamp/one-write assertion. Source chronology is reported
-        # for diagnosis only; this is not an exactness certificate.
+        # Preserve the original publication order as an independent observation;
+        # the canonical complete byte/field comparison grants exact credit.
         'original_limit_publication':limit_target_trace,
         'candidate_limit_publication':cleanup_limit_trace(ci),
         'mode2_lower_bound_branch_present':has_mode2_clamp,
@@ -221,6 +220,7 @@ def diagnose(path: Path):
         'complete_bytes_equal':linked==target,
         'target_sha256':TARGET_SHA,
         'source_raw_sha256':hashlib.sha256(raw).hexdigest(),
+        'source_linked_sha256':hashlib.sha256(linked).hexdigest(),
     }
 
 

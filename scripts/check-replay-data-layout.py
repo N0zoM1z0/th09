@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Replay the 33-byte constructor chain without promoting unknown origins.
 
---with-dependents cold-checks only the 61 accepted owners whose source includes
+--with-dependents cold-checks only the 62 accepted owners whose source includes
 this layout, plus the existing nonexact consumers. Whole-product and runtime
 closure remain separate. Every compile is serial and runs at nice level 10.
 """
@@ -30,7 +30,7 @@ MODELS = {
         '??0ReplayDataView@@QAE@XZ', 10, '??0ReplayPayloadView@@QAE@XZ', 0x420830),
 }
 DEPENDENT_COUNTS = {
-    'src/GameManagerSetup.cpp': 10,
+    'src/GameManagerSetup.cpp': 11,
     'src/ReplayInput.cpp': 12,
     'src/ReplayPlaybackFrameAdvance.cpp': 1,
     'src/TitleScreen.cpp': 38,
@@ -158,11 +158,7 @@ def collect_frontiers(source, profile, obj):
         results['setup'] = diagnostic('inspect-gameplay-setup.py', obj, '--json')
         frontier.guard_gameplay_setup_thread(results['setup'])
         results['cleanup'] = diagnostic('inspect-game-manager-cleanup.py', obj)
-        if (results['cleanup']['candidate_bytes'] != 410
-                or results['cleanup']['overlap_differences'] != 210
-                or not results['cleanup']['original_limit_double_store']
-                or not results['cleanup']['mode2_lower_bound_branch_present']):
-            raise ValueError('typed replay layout changed the cleanup frontier')
+        frontier.guard_game_manager_cleanup(results['cleanup'])
     if source == 'src/TitleScreen.cpp' and '/O1' in profile:
         for kind in ('active', 'reverse', 'inactive'):
             result = diagnostic('inspect-title-character-cursors.py', obj, '--variant', kind)

@@ -2265,16 +2265,41 @@ def guard_gameplay_setup_thread(result: dict) -> None:
     guard_gameplay_setup_field_referents(result)
 
 
+def guard_game_manager_cleanup(result: dict) -> dict:
+    """The complete newly exact 425-byte owner; diagnostics grant no credit."""
+    noncrediting(result, name='GameManager gameplay cleanup', target_size=425, fields=43)
+    digest = 'e31f3c176b3b735008612b07823982a646248cbae4fb8ac826e2f2cff2d6a798'
+    expected = dict(target_bytes=425, candidate_bytes=425,
+                    target_instructions=117, candidate_instructions=117,
+                    original_fields=43, bound_fields=43, ordered_calls=12,
+                    ordered_calls_agree=True, original_blocks=24, candidate_blocks=24,
+                    mode2_lower_bound_branch_present=True, original_limit_double_store=True,
+                    aligned_field_identities=43, field_change_spans=0,
+                    aligned_instructions=117, overlap_differences=0,
+                    missing_target_bytes=0, extra_candidate_bytes=0,
+                    direct_graphs_agree=True, complete_bytes_equal=True,
+                    target_sha256=digest, source_linked_sha256=digest, difference_offsets=[])
+    trace = dict(default_reads=[0x169], all_writes=[0xA2,0x179,0x180],
+                 normal_clamp_branch=[0x17E])
+    if (any(type(result.get(key)) is not type(value) or result[key] != value
+            for key, value in expected.items())
+            or result.get('original_limit_publication') != trace
+            or result.get('candidate_limit_publication') != trace):
+        raise RuntimeError('CleanupGameplayState complete 425-byte/43-field exact owner regressed')
+    return result
+
+
 def run_game_manager(*, protect_exact: bool,
                      replay_callees_prechecked: bool = False) -> tuple[dict, list[dict]]:
     """Independently cold-validate the newly exact 1,230-byte calc boss.
 
-    Nine original owners use the pinned /O2 /Os profile, but the exact
+    Ten original owners use the pinned /O2 /Os profile, but the exact
     Supervisor loading VMs sibling intentionally uses the no-/Os profile.
     A single cached COFF object or a profile swap invalidates the other
     group: force each actual profile to compile its own complete source TU.
     """
     primary = ('game-manager-on-update',
+               'game-manager-cleanup-gameplay-state',
                'game-manager-advance-timed-state',
                'game-manager-added-callback',
                'game-manager-deleted-callback',
@@ -2307,39 +2332,9 @@ def run_game_manager(*, protect_exact: bool,
         'ordinary_differences': gameplay['overlap_differences'],
         'direct_graphs_agree': gameplay['direct_graphs_agree'],
     }}
-    cleanup = noncrediting(parsed(['scripts/inspect-game-manager-cleanup.py',
-                                   'build/matching/GameManagerSetup.obj']),
-                           name='GameManager gameplay cleanup',
-                           target_size=425, fields=42)
-    if (cleanup.get('candidate_bytes') != 410 or
-            cleanup.get('target_instructions') != 117 or
-            cleanup.get('candidate_instructions') != 115 or
-            cleanup.get('original_fields') != 43 or
-            cleanup.get('ordered_calls') != 12 or
-            not cleanup.get('ordered_calls_agree') or
-            cleanup.get('original_blocks') != 24 or
-            cleanup.get('candidate_blocks') != 24 or
-            cleanup.get('mode2_lower_bound_branch_present') is not True or
-            cleanup.get('original_limit_double_store') is not True or
-            cleanup.get('original_limit_publication') != {
-                'default_reads': [0x169],
-                'all_writes': [0x0A2, 0x179, 0x180],
-                'normal_clamp_branch': [0x17E],
-            } or
-            # Source-cold actual decoded MOVs confirm the two normal-mode
-            # publications, with the signed JGE physically between them.
-            # This is MORE than a final-value formula or a guessed C++ scope.
-            cleanup.get('candidate_limit_publication') != {
-                'default_reads': [0xC8],
-                'all_writes': [0xA2, 0x16A, 0x171],
-                'normal_clamp_branch': [0x16F],
-            } or
-            cleanup.get('aligned_field_identities') != 41 or
-            cleanup.get('field_change_spans') != 3 or
-            cleanup.get('aligned_instructions') < 95 or
-            cleanup.get('overlap_differences') > 210 or
-            cleanup.get('direct_graphs_agree')):
-        raise RuntimeError('CleanupGameplayState original two limit writes / 410-byte source frontier regressed')
+    cleanup = guard_game_manager_cleanup(parsed([
+        'scripts/inspect-game-manager-cleanup.py', 'build/matching/GameManagerSetup.obj']))
+    owners.append(canonical('game-manager-cleanup-gameplay-state'))
     diagnostics['game_manager_cleanup'] = {
         'target_bytes': 425,
         'candidate_bytes': cleanup['candidate_bytes'],
@@ -2355,7 +2350,7 @@ def run_game_manager(*, protect_exact: bool,
         'direct_graphs_agree': cleanup['direct_graphs_agree'],
     }
     if protect_exact:
-        owners.extend(canonical(name) for name in primary[1:])
+        owners.extend(canonical(name) for name in primary[2:])
         build('supervisor-setup-loading-vms-and-capture')
         owners.append(canonical('supervisor-setup-loading-vms-and-capture'))
         # Gameplay cleanup now calls the same exact, 133-byte

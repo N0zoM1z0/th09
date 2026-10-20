@@ -772,46 +772,42 @@ void GameManagerSetupLayout::CleanupGameplayState()
     else
     {
         int stageValue = g_GameManager.value100;
-        int newLimit;
 
         switch (g_GameManager.setupMode)
         {
-        case 4:
-            newLimit = 18;
-            g_GameManager.valueC8 = 22;
-            g_GameManager.valueC4 = 600 * (stageValue + 1);
-            break;
-        case 3:
-            newLimit = g_GameManager.counterFC + 6;
-            g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 17;
-            g_GameManager.valueC4 = 600 * stageValue + 900;
-            break;
-        case 2:
-            newLimit = g_GameManager.counterFC + 3;
-            g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 15;
-            g_GameManager.valueC4 = 600 * stageValue + 900;
-            break;
-        case 1:
-            newLimit = g_GameManager.counterFC + 1;
-            g_GameManager.valueC8 = g_GameManager.counterFC + 10;
-            g_GameManager.valueC4 = 600 * (stageValue + 2);
-            break;
         case 0:
-            newLimit = g_GameManager.counterFC / 3 + 1;
+            g_GameManager.limitB4 = g_GameManager.counterFC / 3 + 1;
             g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 6;
             g_GameManager.valueC4 = 600 * (stageValue + 3);
             break;
+        case 1:
+            g_GameManager.limitB4 = g_GameManager.counterFC + 1;
+            g_GameManager.valueC8 = g_GameManager.counterFC + 10;
+            g_GameManager.valueC4 = 600 * (stageValue + 2);
+            break;
+        case 2:
+            g_GameManager.limitB4 = g_GameManager.counterFC + 3;
+            g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 15;
+            g_GameManager.valueC4 = 600 * stageValue + 900;
+            break;
+        case 3:
+            g_GameManager.limitB4 = g_GameManager.counterFC + 6;
+            g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 17;
+            g_GameManager.valueC4 = 600 * stageValue + 900;
+            break;
+        case 4:
+            g_GameManager.limitB4 = 18;
+            g_GameManager.valueC8 = 22;
+            g_GameManager.valueC4 = 600 * (stageValue + 1);
+            break;
         default:
-            newLimit = g_GameManager.limitB4;
             break;
         }
 
-        // Match the independently observed original write chronology:
-        // publish the calculated limit before checking the lower bound.
-        // A value below one causes a second publication of one.
-        newLimit -= 2 * stageValue;
-        g_GameManager.limitB4 = newLimit;
-        if (newLimit < 1)
+        // The pinned build coalesces the per-case limits into this final
+        // publication, followed by the conditional minimum publication.
+        g_GameManager.limitB4 -= 2 * stageValue;
+        if (g_GameManager.limitB4 < 1)
             g_GameManager.limitB4 = 1;
     }
 

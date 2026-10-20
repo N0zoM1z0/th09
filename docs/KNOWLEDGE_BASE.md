@@ -262,7 +262,7 @@ name into a TH09 fact without target-local evidence.
 | BOUNDARY-041 | observed | The gameplay setup thread owns exactly `0x0041AF2D-0x0041B5C5` and ends in a plain `ret`; independent candidate `0x0041B5C6` starts at the next byte, so no following padding is assigned to the setup routine. Its otherwise missing code caller is explained by the data-reference thread registration from `0x0041B80A`. | Attested native IDA boundary/xref evidence, target disassembly, and Supervisor thread-wrapper call site |
 | GAMEMGR-003 | exact | `GameManagerSetupLayout::AdvanceTimedState @ 0x0041AA07-0x0041AA5E` is target-exact. It reads side-0 state through `g_GameManager + 0x1C`; while `value00 < 7.0f` it adds `1.0f` and calls the target-observed SoundPlayer object at `0x004DC698` through `PlaySoundByIdx @ 0x0043E2F0` with `(0x1C, 0)`, then increments the state counter at `+0x10`. Game mode `1` uses threshold `8`, other modes threshold `5`; reaching the threshold stores `99999`. The target `JL` proves the counter is compared as signed, correcting the provisional unsigned field. | Two repeatable canonical pinned-VC7.1 replays match all 88 bytes and eight relocation targets; packet 47 independently identifies the same object/callee as the TH09 SoundPlayer SFX queue path, corroborated by clean committed TH08 source. |
 | BOUNDARY-042 | exact | `GameManagerSetupLayout::AdvanceTimedState` owns `0x0041AA07-0x0041AA5E`; independent candidate `0x0041AA5F` starts at the next byte with no padding assigned to the helper. | Attested native IDA extent plus target disassembly and canonical 88-byte replay. |
-| GAMEMGR-004 | source-present / codegen-blocked / authored-game | `GameManagerSetupLayout::CleanupGameplayState @ 0x0041B5C6-0x0041B76E` is a 425-byte GameManager lifecycle routine called from two central TH09 lifecycle paths. It resets GameManager transient fields and exact `AsciiManager::Reset`, releases the two global gameplay objects plus seven subsystem pointers for each of two 0x38-byte side records and the shared subsystem, then rebalances `limitB4/valueC4/valueC8` from `gameMode`, `setupMode`, `counterFC`, and `value100`. It finally clears `valueB0/value348` and subtracts 1000 from `valueCC` with a zero clamp. Both reviewed callers ignore EAX, but packet 66 corrected the earlier inference that this proves a void source return: fresh path-by-path review instead shows different register residues: the gameMode == 2 path leaves value100 in EAX, while the ordinary path leaves the pre-clamp newLimit - 2*stageValue. The return contract therefore remains unresolved; maintained source stays provisional and non-exact. | Attested TH09 callers/callees/disassembly plus pinned-VC7.1 source probes. Origin remains authored-game from TH09-local GameManager state and game-subsystem lifecycle use; IDA return inference has no exactness credit. |
+| GAMEMGR-004 | exact / authored-game | `GameManagerSetupLayout::CleanupGameplayState @ 0x0041B5C6-0x0041B76E` is now canonical exact: 425 bytes, 117 instructions, 43 independently bound fields, 12 calls and 24 blocks. It resets GameManager/Ascii/Front/ExAttack state and the two side subsystem sets, then rebalances the real limit/duration/threshold fields. Direct per-case limit assignments and ascending 0..4 switch recover all original bytes, including the late default read and three limit writes. The maintained existing void source matches completely; original return intent and complete class ownership remain unknown. | Original SHA256 e31f3c176b3b735008612b07823982a646248cbae4fb8ac826e2f2cff2d6a798; canonical unit game-manager-cleanup-gameplay-state; repeated cold VC7.1 /O2 /Os /Ob1 original-TU comparisons and focused 11-unit /2,991-byte two-profile closure. This supersedes the old codegen-blocked state, without changing authored origin or proving a unique return contract/product closure. |
 | TOOLCHAIN-060 | unresolved-codegen / return-contract-open | Fresh path-by-path target review supersedes Packet 66's return interpretation: the gameMode == 2 path carries value100 to `ret`, while the ordinary switch path carries the pre-clamp computed limit. Its two callers ignore EAX, so these inconsistent residues do not establish a source return type. The maintained provisional void source still emits 399 bytes under pinned VC7.1 `/O2 /Os /Ob1 /Oy-`. A natural int-return probe emits 412 bytes and restores the target's independent `gameMode == 2` `JGE / store / JMP` topology in the correct instruction shape; `/O1 /Ob1 /Oy-` produces the same 412-byte object. A single-result probe emits 410 bytes and naturally recovers the target-style `NEG` plus `LEA` normal-tail arithmetic but swaps the target register roles, while chained assignment emits 413 bytes. Removing `/Os` produces a 512-byte jump-table form. Remaining non-exact drift is concentrated in case-0 scheduling/tail sharing and normal-tail register allocation, so no return ABI or canonical exactness promotion is made. | Complete 425-byte target disassembly, both fresh TH09 callers, pinned stock VC7.1 probes, and IDA readback. No source-shape probe is retained; no volatile/register forcing, padding, inline assembly, target bytes, or fake return is used. |
 | BOUNDARY-043 | observed | `GameManagerSetupLayout::CleanupGameplayState` owns `0x0041B5C6-0x0041B76E` and ends in a plain `ret`; the independent routine at `0x0041B76F` starts immediately after it. | Attested native IDA extent, target disassembly, and the already-reviewed adjacent setup-thread boundary. |
 
@@ -14051,3 +14051,114 @@ reports and full raw/COFF pairs remain archived. Post-clean checks preserve all
 pins, successful/failed sidecars and archive identity. Earlier unique research,
 original target, toolchains and canonical objects are retained. Exact coverage
 remains 1000/1035; product/runtime and later gates are still open.
+
+
+## 2026-10-21 GameManager gameplay cleanup: complete 425-byte exact owner
+
+Recovery starts from clean, independently pushed aca9e74. Original Japanese
+v1.50a disk, direct IDA metadata and mapped entry/distributed bytes pass. Current
+ledgers initially show 1000 exact /35 nonexact; the maintained cleanup is 410/425,
+115/117 instructions, 42/43 fields, 210 overlap differences and 15 missing bytes.
+Historical 399/406-byte source/return and switch hypotheses are read as history.
+
+Independent original decoding identifies a concrete missing field: the separate
+case-0 valueC4 store. Original physical sharing places the common C4 multiply /
+publication in the case-4 path, the shared C8 publication in case 2, and the
+fallback limit read at +169. The local-newLimit source instead places default
+read +C8 and merges the C4 output differently. Target ESI holds the real stage
+value, ECX the case limit. Those registers are observed consequences; no register
+hint or artificial clobber is used.
+
+Fourteen private models have thirteen successful compiles and one source error.
+Nine complete comparisons pass their independent binding requirements; four
+reject the full field/extent inventory. Case-0 limit computation moved after its
+genuine C8/C4 stores gives 419/43 with 221 overlap differences; the explicit
+negative-stage calculation alone is byte-neutral at 410/42/210, and their combined
+form stays 419. Applying late limit computations to all cases gives 472/47 and
+fails the bounded inventory. Direct per-case real limit stores give 422/43/204,
+110 aligned instructions and three missing bytes, with and without a stage cache.
+The first reference version incorrectly scopes its alias inside else while using
+it in the earlier mode-2 arm; compilation rejects it. Correctly scoped reference
+is valid but neutral to the 422-byte lead. Scalar-return/output-reference inline
+calculation helpers remain out of line (232/32 and 245/32 callers), so the whole
+owner rejects them without assigning an invented helper target.
+
+The direct-global ascending 0..4 switch is the complete exact model: all
+425 bytes, 117 instructions, 43 fields, 12 calls and 24 blocks match. Two explicit
+shared-publication/threshold alternatives remain 422/43/204 (114 aligned), and
+are not adopted. One driver extraction fails because an exec-loaded helper
+shadows the auditor module with an integer; isolating its namespace repairs the
+driver. This failure is retained separately, not counted as a target mismatch
+or a successful comparison. No profile roulette, assembly, variable-order or
+register directive, padding, fake return, callee-address fitting or target patch
+is used.
+
+Maintained GameManagerSetup.cpp now uses those natural global assignments and
+ascending cases, with the existing void static signature and exact pinned /Os
+profile. The compiler coalesces case limits into the final ordinary publication.
+The original mode-2 write +A2 and normal +179 /JGE +17E /conditional +180 all match;
+normal default read is +169. Raw COFF SHA256 is
+4c4f1d42b1d0f651287714bf4fda111e2351e09450ee378319f9c1442b9af62d;
+linked/target SHA256 is
+e31f3c176b3b735008612b07823982a646248cbae4fb8ac826e2f2cff2d6a798.
+Boundary remains 0x41B5C6..0x41B76E, all 425 logical/physical bytes with no owned
+padding/table. The independent target decoder supplies all field VAs; actual
+43 COFF offsets/kinds/native symbols/member addends are checked before creating
+canonical unit game-manager-cleanup-gameplay-state. No old unit target/profile/
+relocation is changed, and no source-presence or origin credit is added.
+
+Public maintained-source compilation and canonical full comparison repeat zero
+differences. Focused two-profile source replays protect all eleven exact owners
+(2,991 physical bytes), including affected small leaves and the new cleanup.
+The 1,689-byte setup worker retains 911 differences and the same field census;
+Front/Replay callees and the other 990 accepted source/profile proofs are reused
+because their actual inputs are unchanged. No whole-cohort replay is claimed.
+The diagnostic gate now demands full 425-byte equality, 43 actual fields, exact
+publication positions, original linked SHA, zero missing/extra bytes and matching
+graphs; separate canonical comparison grants exact credit. Tests reject former
+410/422 fronts, incomplete/fake fields/graphs/schedules, a forged zero Boolean,
+wrong hash and extents. They require the same native call sequence and pinned
+/Os profile in the new manifest.
+
+IDA's entry comment still described an old 399-byte void /412-byte int-return
+probe. It is replaced and read back with the new complete byte evidence; mapped
+bytes are rechecked. The historical comment is preserved in the packet. Current
+void-source equality disproves the need for that old return-type workaround,
+while leaving a unique original C++ return contract, names and class ownership
+unproved. No native runtime/product or later phase is inferred from exact bytes.
+
+Canonical coverage becomes 1001/1035 functions, 243,853/291,883 authored bytes
+(83.5448%); 34 source-present nonexact functions /48,030 bytes remain, and 33,436
+additional complete exact bytes are needed for 95% of the unchanged reviewed
+denominator. The requested four fronts remain 30/29/22/15. Source-bound proof,
+all rejected controls, compiler/driver errors, original/current inputs and the
+focused replay live under .analysis/gpt-61sol-20261021-game-cleanup. Local
+canonical equality is not a new Factory accepted receipt or product closure.
+
+
+Final CI initially catches the Replay-layout dependent inventory's deliberate
+61-owner pin: this new accepted GameManager unit makes it 62 across the same
+seven source/profile groups. The inventory is updated from 10 to 11 GameManager
+owners, and its consumer checker delegates to the new complete exact cleanup
+guard. A pure test checks that guard and failure propagation. No layout header
+changes, so the other dependent source/profile proofs are reused rather than
+recompiling 62 owners. The final full CI passes 840 tests /28 skips; the initial
+839-test inventory failure remains recorded and is not reported as a pass.
+
+The frozen maintained-source replay independently compiles from hashed input
+blobs and compares all 425 bytes and all 43 field identities through a private
+copy of the canonical unit. Only its object path changes; target, profile,
+symbol, extent and every relocation remain identical. Both complete-cleanup
+routes pass on that same fresh object; the setup worker remains at 911 differing
+positions. No source or target is fitted to the diagnostic object.
+
+After every producer terminates, ZIP CRC and per-member SHA256 verify all 71
+loose evidence members before deletion: 4,696,669 bytes become 759,825 bytes,
+reclaiming 3,936,844 bytes (~3.75 MiB). Historical/current source blobs, every
+model's raw/COFF evidence, compiler/driver errors, original/current IDA notes
+and focused reports remain archived. CI and the downstream checker repair are
+pinned sidecars. Post-clean checks preserve 488 current game inputs (only
+GameManagerSetup.cpp differs from aca9e74), four canonical inputs, all live
+providers and archive identity. Earlier unique evidence, native toolchains,
+original executable, IDA database and canonical objects are retained. The new
+exact unit is a local canonical claim, not a fresh Factory accepted receipt.
