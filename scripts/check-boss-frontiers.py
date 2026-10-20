@@ -1071,11 +1071,6 @@ def guard_player_movement(result: dict) -> dict:
 
 
 PLAYER_ADDED_SHA256 = 'b9b3e4115f8fb3857c373215f960b8eb0a73967cb33d581bb19d0cc8e868fb98'
-PLAYER_ADDED_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
-    0x03A, 0x03B, 0x03C, 0x03D, 0x03E, 0x03F, 0x040, 0x041,
-    0x042, 0x043, 0x044, 0x046, 0x047, 0x048, 0x049, 0x04A,
-    0x051, 0x052, 0x053, 0x054, 0x055, 0x056,
-))
 
 
 def guard_player_added_native_owners(result: dict) -> None:
@@ -1107,12 +1102,10 @@ def guard_player_added_state(result: dict) -> dict:
             result.get('direct_graph_agrees') is not True or
             result.get('switch_table_agrees') is not True):
         raise RuntimeError('Player added-state complete owner/fields/calls/graph changed')
+    # The complete owner is now canonical exact; every code/table byte is protected.
     checked = physical_difference_windows(
-        result, count_key='complete_differences', windows=((0x03A, 0x057, 22),),
+        result, count_key='complete_differences', windows=(),
         equality_key='complete_bytes_equal')
-    if not {int(x, 16) for x in result['difference_offsets']}.issubset(
-            PLAYER_ADDED_ORIGINAL_RESIDUAL_OFFSETS):
-        raise RuntimeError('Player added-state changed a previously matching byte')
     return {'target_bytes': 572, 'candidate_bytes': 572, 'bound_fields': 25,
             'ordinary_differences': checked['differences'], 'ordered_calls': 11}
 
@@ -1126,7 +1119,7 @@ def run_player_added_state(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     exact = []
     if protect_exact:
         exact = cold_replay_exact_source(
-            'src/PlayerAddedState.cpp', {'build/matching/PlayerAddedState.obj': 3},
+            'src/PlayerAddedState.cpp', {'build/matching/PlayerAddedState.obj': 4},
             already_built=('build/matching/PlayerAddedState.obj',))
     return {'player_added_state': owner}, exact
 

@@ -23981,3 +23981,40 @@ relocations = [
   { offset = 0x13, type = "DIR32", symbol = "?g_PlayerSharedRuntime@@3PAUPlayerSharedRuntimeView@@A", target = 0x004A7E38 },
   { offset = 0x18, type = "REL32", symbol = "?IsBlocked@PlayerSharedRuntimeView@@QAEHXZ", target = 0x00404980 },
 ]
+
+[units.player-initialize-added-state]
+source = "src/PlayerAddedState.cpp"
+object = "build/matching/PlayerAddedState.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerLifecycleView::InitializeAddedState"]
+symbol = "?InitializeAddedState@PlayerLifecycleView@@QAEXXZ"
+target_address = 0x41ebc0
+size = 0x228
+compare_size = 0x23c
+relocations = [
+  { offset = 0x19, type = "REL32", symbol = "?SetAndExecuteScriptIdx@PlayerAddedAnmLoadedView@@QAEXPAUPlayerAnmVmView@@H@Z", target = 0x403e00 },
+  { offset = 0x24, type = "REL32", symbol = "??BPlayerPositionView@@QAEPAMXZ", target = 0x4343d0 },
+  { offset = 0x30, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerResetView@@A", target = 0x4a7d90, addend = 0x35c },
+  { offset = 0x36, type = "DIR32", symbol = "__real@42800000", target = 0x48e4a8 },
+  { offset = 0x5a, type = "REL32", symbol = "?Reset@PlayerAddedCollisionRegionView@@QAEHXZ", target = 0x41bda0 },
+  { offset = 0x9c, type = "REL32", symbol = "?SetState@PlayerAddedStateSetterView@@QAEHH@Z", target = 0x403c20 },
+  { offset = 0xa9, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x401500 },
+  { offset = 0x136, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x401500 },
+  { offset = 0x141, type = "DIR32", symbol = "?g_PlayerAddedRng@@3UPlayerAddedRngView@@A", target = 0x4ace0c },
+  { offset = 0x146, type = "REL32", symbol = "?SampleRange@PlayerAddedRngView@@QAEMM@Z", target = 0x404910 },
+  { offset = 0x14c, type = "DIR32", symbol = "__real@42c80000", target = 0x48e3c8 },
+  { offset = 0x155, type = "DIR32", symbol = "__real@43c80000", target = 0x48e3c4 },
+  { offset = 0x16a, type = "REL32", symbol = "?Reset@PlayerAddedOwnerStateView@@QAEXXZ", target = 0x41d7e0 },
+  { offset = 0x176, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x401500 },
+  { offset = 0x186, type = "DIR32", symbol = "?g_PlayerAddedSideTable@@3PAHA", target = 0x4a8108 },
+  { offset = 0x191, type = "DIR32", symbol = "?g_PlayerAddedClampValue@@3HA", target = 0x4a7e90 },
+  { offset = 0x1a1, type = "DIR32", symbol = "?g_PlayerAddedModeSelector@@3HA", target = 0x4a7eac },
+  { offset = 0x1ad, type = "DIR32", symbol = "$L1556", target = 0x41ede8 },
+  { offset = 0x1f6, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x401500 },
+  { offset = 0x20e, type = "REL32", symbol = "?Reset@PlayerAddedHeaderResetView@@QAEXXZ", target = 0x41bdc0 },
+  { offset = 0x228, type = "DIR32", symbol = "$L1510", target = 0x41ed71 },
+  { offset = 0x22c, type = "DIR32", symbol = "$L1510", target = 0x41ed71 },
+  { offset = 0x230, type = "DIR32", symbol = "$L1512", target = 0x41ed74 },
+  { offset = 0x234, type = "DIR32", symbol = "$L1514", target = 0x41ed79 },
+  { offset = 0x238, type = "DIR32", symbol = "$L1516", target = 0x41ed7e },
+]

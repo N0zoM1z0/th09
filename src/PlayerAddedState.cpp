@@ -197,8 +197,10 @@ void PlayerLifecycleView::InitializeAddedState()
     PlayerPositionView *position = reinterpret_cast<PlayerPositionView *>(
         player->position1B88.operator float *());
     position->x = -160.0f;
-    position->y = g_GameManager.coordinate35C - 64.0f;
-    position->z = 0.49f;
+    // Preserve the two original scalar publications in this preheader.
+    // Access qualification stays local to the actual Y and Z stores.
+    static_cast<volatile float &>(position->y) = g_GameManager.coordinate35C - 64.0f;
+    static_cast<volatile float &>(position->z) = 0.49f;
 
     for (i = 0; i < 512; ++i)
     {

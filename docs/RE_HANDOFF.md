@@ -11,54 +11,57 @@
 
 Read the live ledgers first. The original Japanese v1.50a target SHA-256 is
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-Current state: **1,035 authored, 1,035 source-present, 999 canonical exact**;
-**36 source-present nonexact; no confirmed authored owner lacks maintained source**.
-**242,876/291,883 reviewed-authored bytes = 83.2101%**.
-The **95%** milestone still needs **34,413** complete exact authored bytes.
-This checkpoint fixes Front's global C++ identity and records bounded loop
-and queue-store counterchecks. No new exact owner or byte is credited.
+Current state: **1,035 authored, 1,035 source-present, 1,000 canonical exact**;
+**35 source-present nonexact; no confirmed authored owner lacks maintained source**.
+**243,428/291,883 reviewed-authored bytes = 83.3992%**.
+The **95%** milestone still needs **33,861** complete exact authored bytes.
+This checkpoint makes Player initialization canonical exact: **552 new authored
+bytes**, independently replayed over its complete572-byte physical owner.
 Native product/runtime, complete inventory and later gates remain open.
 
-- **Front native global:** FrontMessageRandomSetup.cpp now includes the shared
-  AsciiGameManagerView declaration. Its main +0x11 DIR32 still names original
-  root0x004A7D90 plus actual0x58 addend; the six-byte uncalled accessor also uses
-  that root. Two independent private carriers and the maintained-path build
-  preserve both emitted raw functions/687 bytes and both nondebug noncode
-  sections. Exactly two COFF rows change only the global's C++ identity. The
-  inspector rejects the old mode-view symbol even at the same effective VA.
-- **Front loop counterchecks:** 35 cases include the cold baseline, natural
-  for/break and do loops, weight-field cursors, shared miss exits, actual scalar
-  lifetimes, fixed groups and real RNG-body visibility. A natural for loop can
-  produce the observed five-way expansion; that does not identify retail C++.
-  A693-byte/205-instruction/41-block carrier has351 differences but regresses25
-  baseline-equal bytes; primary reuse gives310 differences with42 blocks.
-  Neither is adopted. Maintained state stays681/693 bytes,15 fields,six calls,
-  41 versus40 blocks,569 overlap differences plus12 missing bytes.
-- **Real callee controls:** all eight range-only/full-RNG before/after contexts
-  retain their respective main bytes. Every actual range callee independently
-  reproduces41 original bytes and its one NextU16 field. These repeated callee
-  proofs add no exact credit and establish no unique original TU partition.
-- **Queue leaf:** baseline plus six qualified stores to actual last-received
-  members preserve every213-byte main byte and all35 residual positions. Direct
-  IDA's stale char-pointer prototype and211-byte comment are synchronized/read
-  back to the maintained void source and current213/35 frontier. Original C++
-  return intent remains unknown; EAX cursor residue alone cannot establish it.
-- **Focused validation:** the maintained Front original-bound gate passes.
-  No canonical exact unit uses the changed source; all999 existing proofs
-  retain their unchanged source/profile bindings. No unrelated sibling cohort
-  is recompiled. Original disk/direct IDA/mapped-byte entry checks pass.
-- **Evidence and resources:** .analysis/gpt-61sol-20261020-front-loop-break routes
-  44 frozen cases through55 unique inputs, whole raw/actual-COFF captures,
-  genuine callee proofs and source-bound diagnostics. Its replay.py defaults
-  to front/native-owner-1 and self-cleans; the adjacent queue-observed-stores
-  packet retains the reviewed IDA readback. Only own reproducible outputs and
-  duplicate source copies are removed after scoped producer checks.
-- **Final checks and cleanup:** CI788 tests/28 skips, target-required tracking,
-  docs, generated progress and whitespace pass.724/728 engineering inputs
-  retain parent hashes;484/485 game source files are unchanged. Only the
-  Front source,its inspector/test and two ledger notes change. Scoped cleanup
-  removes417 files/3813571 bytes, then terminal-CI cleanup removes
- 359 cache files/6084367 bytes. Build/ and own OBJ/PDB are absent.
+- **Player initialization @0x0041EBC0:** two independent maintained-path cold
+  VC7.1 builds reproduce552 code+20 owned switch-table bytes,all25 original-
+  bound fields,136 instructions,11 ordered calls and20 direct blocks. Unit
+  player-initialize-added-state receives one new exact owner/552 authored bytes;
+  the20 table bytes are compared but not added to authored coverage.
+- **Bounded source correction:** only the existing position Y/Z scalar stores
+  gain local volatile-float reference qualification. All values,addresses,read/
+  write widths,three position publications and512 region iterations remain.
+  This restores pool/countdown setup before Y/Z publication,closing all22 old
+  residuals while preserving all550 already equal bytes. Retail field types,
+  C++ spelling,concurrency intent and return-type intent are not inferred.
+- **Focused closure:** the same single cold carrier replays the main and three
+  existing reset functions: four distinct exact owners/665 physical bytes/30
+  fields. Both cold builds agree in every raw body and actual COFF record.
+  All996 unaffected exact proofs reuse unchanged source/profile bindings.
+  The focused --owner added gate rejects any code/table difference and checks
+  all four exact units; its11 pure tests challenge all572 physical positions.
+- **Counterchecks:** ten source-bound private models include five22-difference
+  forms and five complete exact forms; these concern one physical main owner.
+  The shared names,headers,layouts and compiler profiles stay unchanged. Full
+  original disk/direct IDA/mapped-byte checks pass; updated IDA entry comment
+  is read back with every address/instruction pair unchanged.
+- **RunEcl clarification:** all63 current ECL source inputs retain the prior
+  native-owner baseline hashes. Both current and target opcode155 use masked
+  XOR; the old AND/OR description was stale. Its23 residual bytes concern the
+  byte zero-extension and old/result register allocation. Opcode4 remains seven
+  differing bytes. No new ECL source,profile,ABI or exactness claim follows.
+- **Evidence and resources:** .analysis/gpt-61sol-20261020-player-position-stores
+  retains the whole raw/actual-COFF pairs,two cold canonical proofs and decoded
+  preheader/IDA observations. Only own reproducible compiler outputs/source
+  duplicates are cleaned after scoped terminal-producer checks.
+- **Reproduction and cleanup:** the frozen maintained replay rebuilds six
+  hash-bound inputs and passes the same four complete canonical comparisons.
+  Eleven frozen cases share16 unique inputs. Scoped terminal-producer cleanup
+  removes82 reproducible files/1059919 bytes; IDA readback compresses
+  losslessly77376 to6326 bytes. Build/ and own OBJ/PDB are absent.
+- **Final validation:** CI788 tests/28 skips, target-required tracking,docs,
+  generated progress and whitespace pass.722/728 engineering inputs retain
+  parent hashes;484/485 game source files are unchanged. All1025 existing
+  manifest units and999 old exact rows remain unchanged. After terminal CI,
+ 359 cache files/6083838 bytes and two superseded format-failure logs
+  are removed; build/ and own binaries are absent. The initial thousand-
+  separator documentation mismatch is corrected before the final passing CI.
   Source commit and independent remote push verification are bound separately.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
@@ -129,7 +132,7 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current restart summary is
-**1035 source-present / 999 exact / 36 non-exact**; earlier operator notes
+**1035 source-present / 1000 exact / 35 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
@@ -140,14 +143,14 @@ mentioning 979/876/103 are obsolete for this checkout.
 | Confirmed authored | 1,035 |
 | Classified exclusions | 1,176 |
 | Source-present authored mappings | 1,035 |
-| Canonical exact functions | 999 |
-| Source-present non-exact functions | 36 |
-| Source-present non-exact bytes | 49,007 |
+| Canonical exact functions | 1,000 |
+| Source-present non-exact functions | 35 |
+| Source-present non-exact bytes | 48,455 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 242,876 |
+| Canonical exact authored bytes | 243,428 |
 
-**242,876 / 291,883 reviewed-authored bytes = 83.2101% exact**. To reach
-95% of the *currently classified* denominator, another **34,413 bytes**
+**243,428 / 291,883 reviewed-authored bytes = 83.3992% exact**. To reach
+95% of the *currently classified* denominator, another **33,861 bytes**
 must become complete original-bound exact owners. The 37 origin-unresolved
 functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
@@ -166,7 +169,7 @@ Prioritize **large bosses as well as small leaves**. Each row refers to a
 maintained, authored, **non-exact** function in `config/functions.csv`.
 Comparisons are current-source/original PE cold baselines; lengths are logical
 unless explicitly marked physical. The ledger, not this selected table, lists
-all36 maintained nonexact functions, including the2,220-byte authored Type29
+all35 maintained nonexact functions, including the2,220-byte authored Type29
 draw whose maintained candidate remains nonexact.
 For the complete <=256-byte cohort see
 [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md).
@@ -214,7 +217,7 @@ cannot be assigned unique C++ authorship from calls alone. The source-present
 `MoveRandomBiased` 517/516-byte difference remains open.
 
 Additional non-exact owners (e.g. Player charge/update/added state,
-replay save, title replay drawing and network updates) remain in the **36-row
+replay save, title replay drawing and network updates) remain in the **35-row
 live source-present non-exact ledger**, not in a historic handoff tally.
 Review `docs/KNOWLEDGE_BASE.md` and current source before rerunning old negative
 experiments; unsupported guesses there are not target evidence.
@@ -222,7 +225,7 @@ experiments; unsupported guesses there are not target evidence.
 ## Exact landmark routing
 
 The canonical manifest and accepted original-bound comparison remain the
-**sole authority** for the **999 exact** functions. The independently accepted
+**sole authority** for the **1000 exact** functions. The independently accepted
 Enemy collision wrapper at 0x00410250 is **82/82 exact**; the 3,900-byte
 Enemy OnUpdate caller is **still 29 bytes nonexact**. The former wrapper's
 original acceptance and several representative source-commit-bound exact

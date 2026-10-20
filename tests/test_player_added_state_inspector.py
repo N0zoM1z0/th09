@@ -44,8 +44,8 @@ def evidence():
         target_instructions=136, candidate_instructions=136,
         target_calls=11, candidate_calls=11, ordered_calls_agree=True,
         target_blocks=20, candidate_blocks=20, direct_graph_agrees=True,
-        switch_table_agrees=True, complete_bytes_equal=False,
-        complete_differences=22,
+        switch_table_agrees=True, complete_bytes_equal=True,
+        complete_differences=0,
         native_owner_fields=[
             dict(offset=0x30, type='DIR32',
                  symbol='?g_GameManager@@3UGameManagerResetView@@A',
@@ -53,8 +53,7 @@ def evidence():
             *[dict(offset=off, type='REL32', symbol='??4ZunTimer@@QAEXH@Z',
                    target=0x00401500, addend=0, effective_target=0x00401500)
               for off in (0xA9, 0x136, 0x176, 0x1F6)]],
-        difference_offsets=[hex(x) for x in sorted(
-            frontiers.PLAYER_ADDED_ORIGINAL_RESIDUAL_OFFSETS)])
+        difference_offsets=[])
 
 
 class PlayerAddedInspectorTests(TestCase):
@@ -154,15 +153,13 @@ class PlayerAddedInspectorTests(TestCase):
             linked, _ = inspector.link_candidate(raw, rows)
             self.assertEqual(linked[off], 0xA5, hex(off))
 
-    def test_every_previously_matching_byte_is_protected(self):
+    def test_every_code_and_table_byte_is_protected(self):
         baseline = evidence()
-        expected = frontiers.PLAYER_ADDED_ORIGINAL_RESIDUAL_OFFSETS
-        self.assertEqual(len(expected), 22)
         self.assertEqual(inspector.TARGET_SHA256, frontiers.PLAYER_ADDED_SHA256)
-        self.assertEqual(frontiers.guard_player_added_state(baseline)['ordinary_differences'], 22)
-        for off in set(range(572)) - expected:
-            changed = (set(expected) - {min(expected)}) | {off}
-            candidate = {**baseline, 'difference_offsets': [hex(x) for x in sorted(changed)]}
+        self.assertEqual(frontiers.guard_player_added_state(baseline)['ordinary_differences'], 0)
+        for off in range(572):
+            candidate = {**baseline, 'complete_bytes_equal': False,
+                         'complete_differences': 1, 'difference_offsets': [hex(off)]}
             with self.subTest(off=off), self.assertRaises(RuntimeError):
                 frontiers.guard_player_added_state(candidate)
 
@@ -174,32 +171,35 @@ class PlayerAddedInspectorTests(TestCase):
                 ('candidate_instructions', 135), ('target_calls', 10),
                 ('candidate_calls', 12), ('ordered_calls_agree', False),
                 ('candidate_blocks', 19), ('direct_graph_agrees', False),
-                ('switch_table_agrees', False), ('complete_bytes_equal', True),
-                ('complete_differences', 21), ('difference_offsets', ['0x3a'] * 22),
+                ('switch_table_agrees', False), ('complete_bytes_equal', False),
+                ('complete_differences', 1), ('difference_offsets', ['0x3a']),
                 ('exactness_credit', 'accepted'), ('diagnostic_only', False)):
             with self.subTest(field=field), self.assertRaises(RuntimeError):
                 frontiers.guard_player_added_state({**baseline, field: value})
 
-    def test_real_convergence_stays_noncrediting(self):
+    def test_complete_diagnostic_stays_noncrediting_and_partial_regression_is_rejected(self):
         baseline = evidence()
-        for remaining in (21, 0):
+        self.assertEqual(frontiers.guard_player_added_state(baseline)['ordinary_differences'], 0)
+        self.assertEqual(baseline['exactness_credit'], 'none')
+        for remaining in (1, 21, 22):
             candidate = {**baseline, 'complete_differences': remaining,
-                         'complete_bytes_equal': remaining == 0,
-                         'difference_offsets': baseline['difference_offsets'][:remaining]}
-            self.assertEqual(frontiers.guard_player_added_state(candidate)['ordinary_differences'], remaining)
+                         'complete_bytes_equal': False,
+                         'difference_offsets': [hex(x) for x in range(remaining)]}
+            with self.subTest(remaining=remaining), self.assertRaises(RuntimeError):
+                frontiers.guard_player_added_state(candidate)
 
     def test_focused_replay_reuses_the_one_actual_cold_carrier(self):
         for protect in (True, False):
             with self.subTest(protect=protect), patch.object(frontiers, 'build') as build, patch.object(
                     frontiers, 'parsed', return_value=evidence()), patch.object(
-                    frontiers, 'cold_replay_exact_source', return_value=['three exact resets']) as replay:
+                    frontiers, 'cold_replay_exact_source', return_value=['four exact owners']) as replay:
                 _, exact = frontiers.run_player_added_state(protect_exact=protect)
                 build.assert_called_once_with('player-added-collision-reset')
                 if protect:
                     replay.assert_called_once_with(
-                        'src/PlayerAddedState.cpp', {'build/matching/PlayerAddedState.obj': 3},
+                        'src/PlayerAddedState.cpp', {'build/matching/PlayerAddedState.obj': 4},
                         already_built=('build/matching/PlayerAddedState.obj',))
-                    self.assertEqual(exact, ['three exact resets'])
+                    self.assertEqual(exact, ['four exact owners'])
                 else:
                     replay.assert_not_called()
                     self.assertEqual(exact, [])

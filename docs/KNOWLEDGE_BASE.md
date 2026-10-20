@@ -13018,3 +13018,76 @@ attest historical producer execution.
   CI,another359 cache files/6084367 bytes are removed. Build/ and
   own OBJ/PDB are absent. Source commit and independently verified remote push
   are bound separately in the packet.
+
+
+### 2026-10-20 — Player initialization canonical exact through paired scalar publications
+
+- Clean6ac5c19 recovery verifies original Japanese v1.50a disk/direct IDA/entry
+  and distributed mapped bytes. The current RunEcl baseline's63 inputs remain
+  hash-identical to the native-owner proof. Full14792-byte code decode confirms
+  that both target and current opcode155 already execute masked XOR. The stale
+  ledger AND/OR description is corrected; remaining23 bytes concern byte-load
+  zero-extension and ESI/EAX/ECX lifetimes. Opcode4 has seven mismatched byte
+  positions inside its29-byte handler. Such byte offsets need not be instruction
+  boundaries: one initial slice was misaligned,then corrected by full-stream
+  decoding before extracting the real handler at408937. No ECL source changes.
+- Player InitializeAddedState41EBC0 has the unchanged original SHA
+  b9b3e4115f8fb3857c373215f960b8eb0a73967cb33d581bb19d0cc8e868fb98,
+  552 authored code bytes plus20 owned switch-table bytes,136 instructions,
+  25 independently bound fields,11 calls and20 matching direct blocks. The
+  previous source's22 residual bytes were confined to the initial position/pool
+  preheader. All remaining550 physical bytes already matched.
+- Eight initial whole-source controls qualify only actual position X/Y/Z stores.
+  Baseline,X,Y,Z and XZ remain572/22. YZ,XYZ and a qualified position pointer
+  reproduce the entire572 bytes with zero differences. Two readable reference
+  formulations also reproduce all572 bytes. Ten private cases therefore contain
+  five old-plateau forms and five equivalent complete exact forms,not five new
+  functions. No new storage,extra memory access,alignment directive,assembly,
+  forced register,invented helper,return contract or compiler profile is used.
+- Maintained source adds local volatile-float reference qualification only to
+  the actual Y/Z lvalues. Original X is published41EBE8; Y computation follows,
+  then active/pool addresses41EBFA/41EC00 and512-countdown41EC06 are acquired;
+  Y publishes41EC0D and Z41EC10 before the existing region loop. The complete
+  target-backed instruction chronology now matches. This bounded access model
+  does not establish original volatile declarations or concurrent observation.
+  Actual values,4-byte stores,512 region resets/publications and untouched
+  active/released slots512/513 remain unchanged.
+- Two independent maintained-path cold builds under the existing reset profile
+  reproduce the full original owner and every actual COFF row. Three same-TU
+  reset owners stay byte/field-identical to the pre-change source. Canonical
+  player-initialize-added-state compares572 bytes while crediting552; both
+  cold runs pass four DISTINCT canonical owners/665 physical bytes/30 fields.
+  The25 new-unit fields come from independently pinned original referents and
+  actual reviewed COFF definitions,including all five table targets and the
+  actual +35C GameManager addend. No symbol/target is fitted to a failed body.
+- The focused added gate now permits zero differing bytes and cold-replays all
+  four same-carrier exact units once. Its11 target-independent tests reject
+  corruption at every one of572 code/table byte positions,old partial scores,
+  invalid native Timer/coordinate identities,malformed fields and contradictory
+  physical/graph evidence. Complete diagnostic equality remains separate from
+  the canonical comparison; the three existing resets receive no new credit.
+- Direct IDA independently confirms the original preheader. Its entry comment
+  is updated/read back with every address/instruction pair unchanged; its
+  provisional return type is not promoted to original C++ fact. Other ANM/RNG/
+  side aliases,folded helper ownership,whole native linking/runtime and later
+  phase gates remain open. No game archives or target bytes are modified.
+- Canonical total advances999 to1000,242876 to243428 of291883 reviewed-authored
+  bytes(83.3992%).35 functions/48455 authored bytes remain nonexact;95% still
+  needs33861 complete exact bytes. All996 unaffected exact proofs retain their
+  source/profile bindings. The packet .analysis/gpt-61sol-20261020-player-position-stores
+  holds all source-bound private/cold pairs and original observations.
+- The frozen maintained replay rebuilds six exact input files and repeats all
+  four canonical comparisons after cleanup,then self-cleans. Eleven frozen
+  cases share16 unique inputs. Scoped terminal-producer cleanup removes
+ 82 reproducible files/1059919 bytes; complete IDA readback compresses
+  losslessly77376 to6326 bytes. Build/ and own OBJ/PDB are absent; unrelated
+  source/evidence,original target,toolchains and IDA state remain untouched.
+- Final CI788 tests/28 skips, target-required tracking,docs,generated progress
+  and whitespace pass.722/728 engineering inputs retain parent hashes;484/485
+  game source files are unchanged. All1025 existing manifest units and999 old
+  exact rows remain unchanged; one new552-byte exact row is added. Two thousand-
+  separator documentation literals are corrected before the final passing CI;
+  no game source or cold-proof input changes after those formatting failures.
+  After terminal CI,359 cache files/6083838 bytes plus two superseded
+  failure logs are removed. Build/ and own OBJ/PDB are absent. Source commit
+  and independently verified remote push are bound separately in the packet.
