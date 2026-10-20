@@ -691,3 +691,53 @@
 - **Phase:** original exact-reconstruction only. The 95% reviewed-authored
   byte milestone is open; whole Windows i386 build/link/resources/runtime,
   dual-Oracle semantic reconstruction and portability are still open.
+
+
+## October 21: Effect literal and operand proof (962d501)
+
+The operator requests continued exact reconstruction across **large functions
+and small leaves**, serial low-priority compiles, focused affected replays and
+regular cleanup. This checkpoint starts from pushed `0611108` and closes an
+actual **Effect COFF literal/operand verification gap**. No maintained game
+source, compiler profile, unit definition, original target or exact ledger row
+changes. RunEcl/Enemy/Title DrawResult/Type3 remain **30 /29 /22 /15**; Effect34
+Draw stays **959/946 bytes, 593 overlap differences +13 extra**. The 95%
+milestone and product/runtime gates remain open.
+
+- A private counterexample changes only the actual COFF definition of pi from
+  `0x40490FDB` to `0x3F800000`; raw draw code and all 53 relocation records stay
+  identical. The previous inspector and production frontier accept that object.
+  The corrected inspector rejects it before using the source constant.
+- All **four actual scalar definitions** now must match their symbol names and
+  original PE values, with real section bounds/provenance and zero addends.
+  All **53 candidate instruction address fields** must independently match the
+  actual COFF operands, including indexed global displacements. Existing
+  Type26/28/25 original indexed-field proofs remain intact. The production
+  Type34 gate requires both complete checks; stale reports cannot pass.
+- Twelve private source models yield eleven successful full comparisons and
+  one C++ rejection of a nonexistent Supervisor member assumption. Six valid
+  models are byte-neutral; five position-helper/wide-alpha models regress to
+  975 bytes and damage old matches. No trial source, type, profile or expanded
+  residual mask is adopted. The original loop/cursor/alpha allocation remains
+  unresolved; a smaller generic score is insufficient.
+- Focused replay checks **12 existing exact owners /4,123 physical bytes**
+  across **four real source/profile carriers**, plus **13 related Effect
+  diagnostics**. Other **989 unchanged exact source/profile proofs** are reused.
+  The same fresh ECL object preserves RunEcl30, Enemy29, Type19 44 and Type29's
+  existing frontier. No full-cohort replay or new authored exact credit.
+- CI passes **852 tests /28 skips**. Frozen-source replay repeats the normal
+  **959/53/593** draw and independently demonstrates that the old inspector
+  accepts a wrong literal definition while the new one rejects it. The existing
+  **178-byte initializer** also stays canonical exact. An initial private TOML
+  serialization failure is retained; the corrected recipe passes.
+- After all producers terminate, **144** verified loose evidence members become
+  a **1,014,593-byte ZIP**. Archived duplicates plus **388** source-bound compiler/
+  bytecode caches reclaim **12,937,994 bytes (~12.34 MiB)**. All 489 game inputs,
+  1,031 unchanged unit definitions, four canonical config hashes, 95 source/
+  provider pins and archive identity pass after cleanup. Earlier unique research
+  and unrelated canonical objects remain.
+- Evidence and frozen recipe: `.analysis/gpt-61sol-20261021-effect34-loops/`.
+  No Factory accepted receipt, new authored exact credit or whole native
+  product/runtime validation is claimed.
+- Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
+  English `gpt-6.1-sol: ...` commits, push and independent remote verification.

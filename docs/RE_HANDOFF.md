@@ -9,48 +9,47 @@
 
 The operator requests continued exact reconstruction across **large functions
 and small leaves**, serial low-priority compiles, focused affected replays and
-regular cleanup. This checkpoint starts from pushed `0611108` and closes an
-actual **Effect COFF literal/operand verification gap**. No maintained game
-source, compiler profile, unit definition, original target or exact ledger row
-changes. RunEcl/Enemy/Title DrawResult/Type3 remain **30 /29 /22 /15**; Effect34
-Draw stays **959/946 bytes, 593 overlap differences +13 extra**. The 95%
-milestone and product/runtime gates remain open.
+regular cleanup. Starting from pushed `962d501`, this checkpoint unifies the
+**Controller input native global interfaces** while preserving every candidate
+byte. No new authored exact credit: RunEcl/Enemy/Title DrawResult/Type3 remain
+**30 /29 /22 /15**; Controller remains **796/808 bytes, 102 overlapping
+differences +12 missing**. The 95% milestone and product/runtime gates stay open.
 
-- A private counterexample changes only the actual COFF definition of pi from
-  `0x40490FDB` to `0x3F800000`; raw draw code and all 53 relocation records stay
-  identical. The previous inspector and production frontier accept that object.
-  The corrected inspector rejects it before using the source constant.
-- All **four actual scalar definitions** now must match their symbol names and
-  original PE values, with real section bounds/provenance and zero addends.
-  All **53 candidate instruction address fields** must independently match the
-  actual COFF operands, including indexed global displacements. Existing
-  Type26/28/25 original indexed-field proofs remain intact. The production
-  Type34 gate requires both complete checks; stale reports cannot pass.
-- Twelve private source models yield eleven successful full comparisons and
-  one C++ rejection of a nonexistent Supervisor member assumption. Six valid
-  models are byte-neutral; five position-helper/wide-alpha models regress to
-  975 bytes and damage old matches. No trial source, type, profile or expanded
-  residual mask is adopted. The original loop/cursor/alpha allocation remains
-  unresolved; a smaller generic score is insufficient.
-- Focused replay checks **12 existing exact owners /4,123 physical bytes**
-  across **four real source/profile carriers**, plus **13 related Effect
-  diagnostics**. Other **989 unchanged exact source/profile proofs** are reused.
-  The same fresh ECL object preserves RunEcl30, Enemy29, Type19 44 and Type29's
-  existing frontier. No full-cohort replay or new authored exact credit.
-- CI passes **852 tests /28 skips**. Frozen-source replay repeats the normal
-  **959/53/593** draw and independently demonstrates that the old inspector
-  accepts a wrong literal definition while the new one rejects it. The existing
-  **178-byte initializer** also stays canonical exact. An initial private TOML
-  serialization failure is retained; the corrected recipe passes.
-- After all producers terminate, **144** verified loose evidence members become
-  a **1,014,593-byte ZIP**. Archived duplicates plus **388** source-bound compiler/
-  bytecode caches reclaim **12,937,994 bytes (~12.34 MiB)**. All 489 game inputs,
-  1,031 unchanged unit definitions, four canonical config hashes, 95 source/
-  provider pins and archive identity pass after cleanup. Earlier unique research
-  and unrelated canonical objects remain.
-- Evidence and frozen recipe: `.analysis/gpt-61sol-20261021-effect34-loops/`.
-  No Factory accepted receipt, new authored exact credit or whole native
-  product/runtime validation is claimed.
+- `ControllerInput.cpp` now uses the real shared `ReplayInputState` array and
+  `Supervisor` declaration. Its two fictitious external object types disappear.
+  The Supervisor device prefix remains an explicitly bounded view; configuration
+  thresholds use the existing fields with signed reads, preserving original
+  MOVSX semantics. Shared headers, compiler profiles and unit definitions do not
+  change. Original class spelling/ownership is not established by these names.
+- All **nine native global COFF fields** must have their actual shared symbol,
+  DIR32 kind, reviewed field position/addend and undefined-symbol provenance.
+  Old aliases fail even though their encoded destination bytes agree. Complete
+  decoding still checks all **32 original fields**, 18 ordered helper calls and
+  eight direct branches. All **694 already equal bytes**, including the first
+  **674 complete instruction bytes**, remain equal.
+- **30 serial private source controls** compile: 23 complete diagnostics and
+  seven excess-field rejections. Shared-axis range snapshots reduce the generic
+  score to 98, but damage the previously equal +0x2C4; none is adopted. Measured
+  UINT/DWORD conversions and commuted midpoint expressions do not recover the
+  missing 12 bytes. These negatives do not prove the remaining source impossible.
+- Focused canonical replay passes both affected same-TU exact helpers:
+  **37 +47 =84 complete bytes**. Other **999 unchanged exact source/profile
+  proofs** are reused. Full raw code, linked code and all 32 field destinations
+  remain identical to the starting source; only nine external symbol identities
+  change. Object-local section ordinals shift after header inclusion, and actual
+  helper definitions are separately replayed rather than treating those ordinals
+  as global identities.
+- CI passes **854 tests /28 skips**, alongside target-required tracking,
+  documentation, generated progress and whitespace checks. Frozen replay from
+  the verified archive repeats the maintained/old-alias/candidate controls.
+- **74** evidence members /4,322,717 loose bytes become a **494,392-byte ZIP**.
+  Removing only verified archived duplicates and **383** terminal compiler/
+  bytecode caches reclaims **10,398,135 bytes (~9.92 MiB)**. All 489 game input
+  hashes, unchanged 1,031 unit definitions and canonical ledger hashes are checked;
+  original input, toolchain, IDA and older unique research remain untouched.
+- Evidence, full trial sources/COFF inventories and the frozen-source replay:
+  `.analysis/gpt-61sol-20261021-controller-axis/`. No Factory accepted receipt,
+  whole native link/runtime closure or new authored exact credit is claimed.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
 
@@ -130,7 +129,7 @@ For the complete <=256-byte cohort see
 | **Replay SaveReplay** | 0x00420C60 | **1,238/1,238 bytes**, 380 instructions, 53 fields, 23 call operands, 49 matching blocks; **3 differences** (152→3) | Stage-indexed chain roots acquired before copying/publishing headers recover 149 bytes with no new mismatch. Residual +0xB7/+0xBB selects ECX versus EDI for the frame destination; +0x3F6 is an equivalent checksum SIB. Actual string/float COFF definitions and all 1,235 equal bytes are guarded. `--owner replaysave` checks all 12 exact same-source siblings across two profiles; NON-EXACT. |
 | **Replay BeginPlaybackStage** | 0x00420840 | **540 / 538**, 152/151 instructions, **32/32 ordered original PE/COFF fields**, 5 calls, 12/12 matching CFG blocks; **39** overlapping unlike bytes + 2 missing (49→39) | Scoped volatile read of `g_ReplaySideState0` after header 1E7 publication restores all 32 original field referents in the correct order and all **first 30 physical field positions**, instead of the previous one reversed field pair. Nine register-scheduling residual positions `+0x152,+0x156,+0x15C,+0x162,+0x168,+0x16C,+0x172,+0x178,+0x17A` and 30 seed/tail bytes `+0x1FB..+0x1FE,+0x200..+0x219` remain guarded. All **499 already matching** candidate bytes are protected; tail fields are still shifted -1/-2 bytes. `--owner replay` source-cold replays all **12 exact members across both pinned compiler profiles**; still NON-EXACT. |
 | **ScreenEffect shake envelope** | 0x004227A0 | **336/336**, 132 instructions, 20 fields, 8 calls, 26 blocks; **26** differences (28→26) | Authentic VC7.1 order of two real volatile references (fade, then hold; same hold + fade value) recovers original physical **+0x5C and +0x5F** with no regressed byte. `probe-screen-shake-context.py --variant timer-float` reproduces the measured 332-byte rejection: the actual four-byte conversion body stays exact, but the caller retains an x87 value across that call instead of spilling it. Full original-SHA/26-offset guard protects **all 310 already matching bytes**; the unchanged **18 ScreenEffect exact owners** (2,562 bytes across three profiles) reuse their source-bound proof. Remaining EDI/ESI owner allocation is NON-EXACT. |
-| **Controller input** | 0x0042B410 | **808 / 796**, 32 fields; **102** overlap differences /12 missing bytes | First **674 complete instruction bytes** match. WinMM axis midpoint/range CSE and register chronology remain open; split helpers, POD bounds, SDK value/reference types and loop controls have not closed the owner. Use `scripts/inspect-controller-input.py`. |
+| **Controller input** | 0x0042B410 | **808 / 796**, 32 fields; **102** overlap differences /12 missing bytes | First **674 complete instruction bytes** match. Uses shared native ReplayInputState/Supervisor declarations; all **nine actual COFF global identities/addends/provenance** are now guarded, with every original-linked byte unchanged. WinMM midpoint/range CSE and register chronology remain open; a private98-difference snapshot damages one old match and is rejected. Use `scripts/inspect-controller-input.py`. |
 | **Supervisor network HandleMessage** | 0x00432B70 | **768 authored /808 physical bytes**, 46 fields, 17 direct +2 virtual calls, 34 matching blocks; **105 differences** (125→111→105) | Earlier ordinal/case completion recovers 14 bytes; real frame/input snapshots recover six more with no newly differing byte. All six switch targets and 16 map bytes enter the full guard; 234/235 instructions remain nonexact. `--owner netmessage` compiles only this standalone TU and protects all 703 equal bytes; unrelated exact proofs are reused. |
 | **Supervisor network service** | 0x00430AA0 | **1,633 / 1,632**, 108 source fields | Real queue ownership and 1,395 overlap differences still open; `--owner network`. |
 | **Supervisor::OnUpdate** | 0x00431110 | **844 authored / 996 target physical**, 952 candidate physical | 92 external fields, 27 calls but 44 missing physical bytes; `--owner network`. |

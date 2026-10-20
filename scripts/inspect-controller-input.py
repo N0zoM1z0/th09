@@ -22,13 +22,28 @@ BASE = 0x0042B410
 SIZE = 808
 SYMBOL = '?GetControllerInput@Controller@@YIGHHG@Z'
 DESTINATIONS = {
-    '?g_Supervisor@@3UControllerSupervisorInputView@@A': 0x004B3100,
-    '?g_ReplayInputStates@@3PAUControllerInputSlotView@@A': 0x004ACE18,
+    '?g_Supervisor@@3VSupervisor@@A': 0x004B3100,
+    '?g_ReplayInputStates@@3PAUReplayInputState@@A': 0x004ACE18,
     '?SetButtonFromDirectInputState@Controller@@YIIPAGFGPAE@Z': 0x0042AC80,
     '?SetButtonFromJoystickButtons@Controller@@YIIPAGFGI@Z': 0x0042ACB0,
     '__imp__joyGetPosEx@8': 0x0048E23C,
     '?g_JoystickCaps@Controller@@3PAUtagJOYCAPSA@@A': 0x004AC8D8,
 }
+SUPERVISOR = '?g_Supervisor@@3VSupervisor@@A'
+INPUT_STATES = '?g_ReplayInputStates@@3PAUReplayInputState@@A'
+# Actual shared declarations and their target-backed fields. These are COFF
+# identities, independently required even if an alias could link to equal bytes.
+NATIVE_GLOBAL_FIELDS = (
+    (0x00A, SUPERVISOR, 0x14),
+    (0x018, INPUT_STATES, 0),
+    (0x02D, SUPERVISOR, 0x18),
+    (0x03C, SUPERVISOR, 0x14),
+    (0x04D, SUPERVISOR, 0x14),
+    (0x063, SUPERVISOR, 0x14),
+    (0x08D, SUPERVISOR, 0x14),
+    (0x17D, SUPERVISOR, 0x430),
+    (0x18A, SUPERVISOR, 0x432),
+)
 # Independently decoded target field offsets, kinds and destinations. Includes
 # the one true ADD address immediate and the IAT-indirect call memory operand.
 TARGET_FIELDS = (
@@ -113,6 +128,20 @@ def decode_fields(code: bytes):
     return sorted(found), instructions, calls
 
 
+def validate_native_globals(rows: list[dict]):
+    native = [row for row in rows if row['symbol'] in (SUPERVISOR, INPUT_STATES)]
+    expected = Counter(NATIVE_GLOBAL_FIELDS)
+    actual = Counter((int(row['offset']), row['symbol'], int(row['addend']))
+                     for row in native)
+    if actual != expected:
+        raise ValueError('Controller native global field identities disagree')
+    for row in native:
+        if (row['type'] != 'DIR32' or row.get('symbol_section') != 0
+                or row.get('symbol_value') != 0):
+            raise ValueError('Controller native globals must be undefined DIR32 symbols')
+    return len(native)
+
+
 def bind_candidate(code: bytes, rows: list[dict]):
     if len(rows) != len(TARGET_FIELDS):
         raise ValueError('Controller candidate does not cover all 32 fields')
@@ -137,6 +166,7 @@ def bind_candidate(code: bytes, rows: list[dict]):
         encoded = dst - (BASE + offset + 4 if row['type'] == 'REL32' else 0)
         struct.pack_into('<I', linked, offset, encoded & 0xFFFFFFFF)
         bound.append((offset, row['type'], dst))
+    validate_native_globals(rows)
     return bytes(linked), sorted(bound)
 
 
@@ -153,7 +183,7 @@ def diagnose(obj: Path):
     target_fields, t_ins, t_calls = decode_fields(target)
     if target_fields != list(TARGET_FIELDS) or len(t_ins) != 246:
         raise ValueError('verified target Controller fields/instructions disagree')
-    original, rows = coff.object_function(obj, SYMBOL)
+    original, rows = coff.object_function(obj, SYMBOL, include_symbol_locations=True)
     linked, bound_fields = bind_candidate(original, rows)
     candidate_fields, c_ins, c_calls = decode_fields(linked)
     if candidate_fields != bound_fields:
@@ -181,6 +211,8 @@ def diagnose(obj: Path):
         target_bytes=SIZE, candidate_bytes=len(linked),
         target_instructions=len(t_ins), candidate_instructions=len(c_ins),
         target_fields=len(TARGET_FIELDS), bound_candidate_fields=len(candidate_fields),
+        native_global_fields_checked=validate_native_globals(rows),
+        prefix_674_equal=linked[:674] == target[:674],
         controller_slot_fields=sum(dst in (0x4AC900, 0x4AC8FC, 0x4AC908, 0x4AC904)
                                    for _, _, dst in candidate_fields),
         ordered_direct_calls_agree=t_calls == c_calls,

@@ -14412,3 +14412,80 @@ provider snapshots and seven sidecars/archive identity. No maintained game
 source, header, canonical metadata or exact credit changes. Evidence and frozen
 recipe: .analysis/gpt-61sol-20261021-effect34-loops. Original class/TU ownership,
 whole native product/runtime closure and new Factory acceptance are not claimed.
+
+
+## October 21: Controller native globals and axis controls (gpt-6.1-sol)
+
+The original Japanese v1.50a target and direct local IDA metadata/distributed
+mapped bytes were reverified from clean pushed `962d501`. A fresh pinned VC7.1
+compile independently repeats GetControllerInput at **796/808 bytes**, all
+**32** source-linked original fields, **239/246 instructions**, 18 ordered
+helper calls and eight identical direct branch edges. **102 overlapping bytes**
+differ and 12 original bytes are absent; first unlike byte is +0x2A3. The first
+674 complete instruction bytes agree. The original WinMM tail computes the range
+once and the midpoint twice per axis. A real extra minimum copy plus repeated
+sum/shift is consistent with the six-byte per-axis extent gap; that observation
+is not a unique source reconstruction.
+
+Thirty serial source controls explore direct versus snapshotted axis bounds,
+shared real range/midpoint values, grouped versus separate direction masks,
+SDK UINT/DWORD conversions and commuted midpoint sums. All compile; 23 permit a
+complete 32-field diagnostic, while seven produce 34 or 36 fields and are rejected
+as different referent inventories. Fourteen controls yield 98 overlapping
+mismatches, three 99, and five 102, but all 22 damage the formerly equal +0x2C4.
+The remaining valid control is the byte-neutral native declaration model.
+Conversions do not prevent midpoint CSE in these measured contexts. No lower
+score with damaged matches is adopted, and these negatives do not rule out
+other natural source forms. Earlier TH095 code is only hypothesis material.
+
+The maintained source now includes **ReplayInputState.hpp** and **Supervisor.hpp**.
+ReplayInputState is independently 0x8E bytes, with keyCodes58 at +0x58. The actual
+Supervisor declaration keeps its first 0x78 bytes opaque; a bounded local device
+view reads the independently known +0x14/+0x18 slots. Existing configuration at
++0x388 has unsigned padXAxis at +0xA8 and padYAxis at +0xAA; this input path explicitly
+casts each word to signed short, retaining the original MOVSX/negation and signed
+comparisons at Supervisor+0x430/+0x432. Compile-time offsets fail closed. No
+shared header, global storage definition, ABI, compiler profile or unit changes.
+
+The two old fictitious global declarations disappear. All **nine DIR32 COFF
+fields** now identify the existing native globals: ReplayInputState array at
+owner +0x18/addend 0, Supervisor at +0x0A/+0x2D/+0x3C/+0x4D/+0x63/+0x8D with
++0x14/+0x18 slot addends, and +0x17D/+0x18A with +0x430/+0x432 threshold addends.
+The new inspector requires these exact field identities and actual undefined
+COFF symbol provenance (section/value zero). Merely assigning equal destination
+addresses to the old types no longer passes. Target-independent tests reject
+missing/duplicate/shifted fields, wrong roots/addends/kinds and false or absent
+symbol provenance. It still independently decodes every candidate address operand.
+
+The complete raw 796-byte function SHA is
+`6716c806647549578a941f7226c6f464932db1bb9671f2c3eacdec689242e4af`;
+original-linked SHA is
+`2dccd606ac57488d58901a8b5f58def945f9f28e21119714d642832e8bc84091`.
+Both are unchanged. All 32 field offsets/kinds/addends/destinations and all 694
+equal original positions remain. Header inclusion renumbers actual object-local
+sections; an initial private proof incorrectly compared their ordinal numbers.
+The corrected proof records those changes and independently checks both exact
+helper definitions, **37 +47 =84 bytes**. These are the only affected exact units;
+the other 999 unchanged source/profile proofs are reused. New authored exact
+credit is zero. Native class spelling/ownership, whole product/runtime gates and
+Factory acceptance remain separate unknowns.
+
+All 30 trial records retain full source, profile, input hashes, raw function bytes
+and actual COFF fields. Frozen replay covers the maintained source, its old
+byte-equivalent aliases, the rejected 98-difference control and an excess-field
+control; it can replay every captured trial. Two initial build-driver invocation
+errors are kept apart from successful compiler observations. Evidence and recipe:
+`.analysis/gpt-61sol-20261021-controller-axis/`.
+
+CI passes **854 tests /28 skipped**. Target-required tracking, documentation,
+generated progress and whitespace checks also pass. After every producer is
+terminal, all **74** evidence members /4,322,717 bytes are ZIP CRC/hash verified
+in a **494,392-byte** archive. Removing only those verified duplicates and
+**383** freshly reproduced compiler/bytecode files /6,569,810 bytes reclaims
+**10,398,135 bytes (~9.92 MiB)**. The original target, tools, IDA state, older
+unique research and unrelated build carriers remain. Frozen replay reads the
+archive directly and independently rechecks original-bound native/legacy code,
+the two helpers and rejected controls. All 489 maintained game input hashes,
+1,031 unchanged unit definitions and four canonical input hashes are checked
+after cleanup. Authored exact coverage remains **1001/1035 functions** and
+**243,853/291,883 bytes (83.5448%)**, still **33,436 bytes** short of 95%.

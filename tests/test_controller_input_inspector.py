@@ -12,6 +12,34 @@ spec.loader.exec_module(INSPECT)
 
 
 class ControllerInputManifestTests(unittest.TestCase):
+    def native_rows(self):
+        return [dict(offset=offset, symbol=symbol, addend=addend,
+                     type='DIR32', symbol_section=0, symbol_value=0)
+                for offset, symbol, addend in INSPECT.NATIVE_GLOBAL_FIELDS]
+
+    def test_native_fields_require_complete_shared_symbol_identities(self):
+        rows = self.native_rows()
+        self.assertEqual(INSPECT.validate_native_globals(rows), 9)
+        variants = [rows[:-1], rows + [rows[0]]]
+        for key, value in (
+                ('symbol', '?g_Supervisor@@3UControllerSupervisorInputView@@A'),
+                ('offset', 0x0B), ('addend', 0x18)):
+            variants.append([dict(rows[0], **{key: value})] + rows[1:])
+        for bad in variants:
+            with self.subTest(rows=bad):
+                with self.assertRaisesRegex(ValueError, 'native global field identities'):
+                    INSPECT.validate_native_globals(bad)
+
+    def test_native_fields_require_actual_undefined_dir32_provenance(self):
+        rows = self.native_rows()
+        for key, value in (('type', 'REL32'), ('symbol_section', 1),
+                           ('symbol_value', 4), ('symbol_section', None),
+                           ('symbol_value', None)):
+            with self.subTest(key=key, value=value):
+                bad = [dict(rows[0], **{key: value})] + rows[1:]
+                with self.assertRaisesRegex(ValueError, 'undefined DIR32'):
+                    INSPECT.validate_native_globals(bad)
+
     def test_target_manifest_has_four_distinct_axis_members(self):
         INSPECT.validate_manifest()
         members = [(pos, addr) for pos, kind, addr in INSPECT.TARGET_FIELDS

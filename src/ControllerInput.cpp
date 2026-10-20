@@ -1,33 +1,40 @@
 #include "Controller.hpp"
+#include "ReplayInputState.hpp"
+#include "Supervisor.hpp"
 
 #include <windows.h>
 #include <mmsystem.h>
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <string.h>
+#include <stddef.h>
 
 typedef unsigned char u8;
 typedef signed short i16;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-struct ControllerInputSlotView
-{
-    u8 unknown00[0x58];
-    i16 mappings58[27];
-};
-
-struct ControllerSupervisorInputView
+// The shared Supervisor keeps its device prefix opaque; the published slots
+// are independently observed at +0x14/+0x18 in TH09.
+struct ControllerSupervisorDevicesView
 {
     u8 unknown000[0x14];
     IDirectInputDevice8A *controllers14[2];
-    u8 unknown01C[0x430 - 0x1C];
-    i16 axisThresholdX430;
-    i16 axisThresholdY432;
 };
 
-extern ControllerInputSlotView g_ReplayInputStates[3];
-extern ControllerSupervisorInputView g_Supervisor;
+typedef char ControllerDevicesAt14[
+    (offsetof(ControllerSupervisorDevicesView, controllers14) == 0x14) ? 1 : -1];
+typedef char ControllerMappingsAt58[
+    (offsetof(ReplayInputState, keyCodes58) == 0x58) ? 1 : -1];
+typedef char ControllerThresholdXAt430[
+    (offsetof(Supervisor, config388) + offsetof(GameConfiguration, padXAxis) == 0x430) ? 1 : -1];
+typedef char ControllerThresholdYAt432[
+    (offsetof(Supervisor, config388) + offsetof(GameConfiguration, padYAxis) == 0x432) ? 1 : -1];
+
+static inline ControllerSupervisorDevicesView &ControllerDevices()
+{
+    return *reinterpret_cast<ControllerSupervisorDevicesView *>(&g_Supervisor);
+}
 
 namespace Controller
 {
@@ -62,11 +69,11 @@ u16 __fastcall GetControllerInput(
     DIJOYSTATE2 joystickState;
     JOYINFOEX joystickInfo;
     int savedJoystickIndex = joystickIndex;
-    ControllerInputSlotView *inputSlot =
+    ReplayInputState *inputSlot =
         &g_ReplayInputStates[controllerIndex];
 
-    if (g_Supervisor.controllers14[0] == NULL ||
-        g_Supervisor.controllers14[1] == NULL)
+    if (ControllerDevices().controllers14[0] == NULL ||
+        ControllerDevices().controllers14[1] == NULL)
     {
         memset(&joystickInfo, 0, sizeof(joystickInfo));
         joystickInfo.dwSize = sizeof(joystickInfo);
@@ -76,23 +83,23 @@ u16 __fastcall GetControllerInput(
 
         u32 rawButtons = joystickInfo.dwButtons;
         SetButtonFromJoystickButtons(
-            &buttons, inputSlot->mappings58[0], 0x001, rawButtons);
+            &buttons, inputSlot->keyCodes58[0], 0x001, rawButtons);
         SetButtonFromJoystickButtons(
-            &buttons, inputSlot->mappings58[1], 0x002, rawButtons);
+            &buttons, inputSlot->keyCodes58[1], 0x002, rawButtons);
         SetButtonFromJoystickButtons(
-            &buttons, inputSlot->mappings58[2], 0x004, rawButtons);
+            &buttons, inputSlot->keyCodes58[2], 0x004, rawButtons);
         SetButtonFromJoystickButtons(
-            &buttons, inputSlot->mappings58[3], 0x008, rawButtons);
+            &buttons, inputSlot->keyCodes58[3], 0x008, rawButtons);
         SetButtonFromJoystickButtons(
-            &buttons, inputSlot->mappings58[4], 0x010, rawButtons);
+            &buttons, inputSlot->keyCodes58[4], 0x010, rawButtons);
         SetButtonFromJoystickButtons(
-            &buttons, inputSlot->mappings58[5], 0x020, rawButtons);
+            &buttons, inputSlot->keyCodes58[5], 0x020, rawButtons);
         SetButtonFromJoystickButtons(
-            &buttons, inputSlot->mappings58[6], 0x040, rawButtons);
+            &buttons, inputSlot->keyCodes58[6], 0x040, rawButtons);
         SetButtonFromJoystickButtons(
-            &buttons, inputSlot->mappings58[7], 0x080, rawButtons);
+            &buttons, inputSlot->keyCodes58[7], 0x080, rawButtons);
         SetButtonFromJoystickButtons(
-            &buttons, inputSlot->mappings58[8], 0x100, rawButtons);
+            &buttons, inputSlot->keyCodes58[8], 0x100, rawButtons);
 
         // Each axis reads the indexed JOYCAPSA members directly; the original
         // uses four independent array-relative address operands here.
@@ -119,15 +126,15 @@ u16 __fastcall GetControllerInput(
 
     // Poll and Acquire may change the published device slot. The target
     // reloads it for every call, then retains it only for GetDeviceState.
-    if (g_Supervisor.controllers14[savedJoystickIndex]->Poll() < 0)
+    if (ControllerDevices().controllers14[savedJoystickIndex]->Poll() < 0)
     {
         int acquireAttempts = 0;
-        HRESULT result = g_Supervisor.controllers14[savedJoystickIndex]->Acquire();
+        HRESULT result = ControllerDevices().controllers14[savedJoystickIndex]->Acquire();
         if (result == DIERR_INPUTLOST)
         {
             do
             {
-                result = g_Supervisor.controllers14[savedJoystickIndex]->Acquire();
+                result = ControllerDevices().controllers14[savedJoystickIndex]->Acquire();
                 ++acquireAttempts;
                 if (acquireAttempts >= 400)
                     return buttons;
@@ -138,34 +145,35 @@ u16 __fastcall GetControllerInput(
     }
 
     IDirectInputDevice8A *device =
-        g_Supervisor.controllers14[savedJoystickIndex];
+        ControllerDevices().controllers14[savedJoystickIndex];
     memset(&joystickState, 0, sizeof(joystickState));
     if (device->GetDeviceState(sizeof(joystickState), &joystickState) < 0)
         return buttons;
 
     SetButtonFromDirectInputState(
-        &buttons, inputSlot->mappings58[0], 0x001, joystickState.rgbButtons);
+        &buttons, inputSlot->keyCodes58[0], 0x001, joystickState.rgbButtons);
     SetButtonFromDirectInputState(
-        &buttons, inputSlot->mappings58[1], 0x002, joystickState.rgbButtons);
+        &buttons, inputSlot->keyCodes58[1], 0x002, joystickState.rgbButtons);
     SetButtonFromDirectInputState(
-        &buttons, inputSlot->mappings58[2], 0x004, joystickState.rgbButtons);
+        &buttons, inputSlot->keyCodes58[2], 0x004, joystickState.rgbButtons);
     SetButtonFromDirectInputState(
-        &buttons, inputSlot->mappings58[3], 0x008, joystickState.rgbButtons);
+        &buttons, inputSlot->keyCodes58[3], 0x008, joystickState.rgbButtons);
     SetButtonFromDirectInputState(
-        &buttons, inputSlot->mappings58[4], 0x010, joystickState.rgbButtons);
+        &buttons, inputSlot->keyCodes58[4], 0x010, joystickState.rgbButtons);
     SetButtonFromDirectInputState(
-        &buttons, inputSlot->mappings58[5], 0x020, joystickState.rgbButtons);
+        &buttons, inputSlot->keyCodes58[5], 0x020, joystickState.rgbButtons);
     SetButtonFromDirectInputState(
-        &buttons, inputSlot->mappings58[6], 0x040, joystickState.rgbButtons);
+        &buttons, inputSlot->keyCodes58[6], 0x040, joystickState.rgbButtons);
     SetButtonFromDirectInputState(
-        &buttons, inputSlot->mappings58[7], 0x080, joystickState.rgbButtons);
+        &buttons, inputSlot->keyCodes58[7], 0x080, joystickState.rgbButtons);
     SetButtonFromDirectInputState(
-        &buttons, inputSlot->mappings58[8], 0x100, joystickState.rgbButtons);
+        &buttons, inputSlot->keyCodes58[8], 0x100, joystickState.rgbButtons);
 
-    buttons |= joystickState.lX < -g_Supervisor.axisThresholdX430 ? 0x40 : 0;
-    buttons |= joystickState.lY < -g_Supervisor.axisThresholdY432 ? 0x10 : 0;
-    buttons |= joystickState.lX > g_Supervisor.axisThresholdX430 ? 0x80 : 0;
-    buttons |= joystickState.lY > g_Supervisor.axisThresholdY432 ? 0x20 : 0;
+    // Configuration stores unsigned words; this target path reads signed words.
+    buttons |= joystickState.lX < -static_cast<i16>(g_Supervisor.config388.padXAxis) ? 0x40 : 0;
+    buttons |= joystickState.lY < -static_cast<i16>(g_Supervisor.config388.padYAxis) ? 0x10 : 0;
+    buttons |= joystickState.lX > static_cast<i16>(g_Supervisor.config388.padXAxis) ? 0x80 : 0;
+    buttons |= joystickState.lY > static_cast<i16>(g_Supervisor.config388.padYAxis) ? 0x20 : 0;
     return buttons;
 
 }
