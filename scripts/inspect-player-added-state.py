@@ -32,6 +32,8 @@ EXTERNALS = {
     '?Reset@PlayerAddedCollisionRegionView@@QAEHXZ': 0x0041BDA0,
     '?SetState@PlayerAddedStateSetterView@@QAEHH@Z': 0x00403C20,
     '??4PlayerAddedTimerView@@QAEXH@Z': 0x00401500,
+    '??4ZunTimer@@QAEXH@Z': 0x00401500,
+    '?g_GameManager@@3UGameManagerResetView@@A': 0x004A7D90,
     '?g_PlayerAddedRng@@3UPlayerAddedRngView@@A': 0x004ACE0C,
     '?SampleRange@PlayerAddedRngView@@QAEMM@Z': 0x00404910,
     '__real@42c80000': 0x0048E3C8,
@@ -66,11 +68,18 @@ def require_original(target):
 def field_destination(row):
     off = row['offset']
     if (type(off) is not int or off not in TARGET_FIELDS or
-            row['type'] != TARGET_FIELDS[off][0] or row['addend'] != 0):
+            row['type'] != TARGET_FIELDS[off][0]):
         raise ValueError('Player added-state field position, kind or addend changed')
     symbol = row['symbol']
+    # Historical objects used a standalone float alias. Current source reads
+    # the coordinate owner's independently observed +0x35C field instead.
+    expected_addend = (0x35C if symbol ==
+                       '?g_GameManager@@3UGameManagerResetView@@A' else 0)
+    if (row['addend'] != expected_addend or
+            expected_addend and off != 0x30):
+        raise ValueError('Player added-state native field/addend changed')
     if symbol in EXTERNALS:
-        destination = EXTERNALS[symbol]
+        destination = EXTERNALS[symbol] + row['addend']
     elif (symbol.startswith('$L') and row['symbol_section'] > 0 and
           row['symbol_section'] == row['owner_section']):
         relative = row['symbol_value'] - row['owner_value']
@@ -100,7 +109,8 @@ def link_candidate(raw, rows):
         seen.add(off)
         value = destination - (BASE + off + 4 if row['type'] == 'REL32' else 0)
         struct.pack_into('<I', linked, off, value & 0xFFFFFFFF)
-        bindings.append({**row, 'destination': destination})
+        bindings.append({**row, 'target': destination - row['addend'],
+                         'destination': destination})
     if seen != set(TARGET_FIELDS):
         raise ValueError('Player added-state incomplete field census')
     return bytes(linked), bindings
@@ -162,7 +172,13 @@ def diagnose(path):
         complete_bytes_equal=linked == target, complete_differences=len(offsets),
         difference_offsets=[f'0x{i:03X}' for i in offsets],
         raw_sha256=hashlib.sha256(raw).hexdigest(),
-        linked_sha256=hashlib.sha256(linked).hexdigest())
+        linked_sha256=hashlib.sha256(linked).hexdigest(),
+        native_owner_fields=[
+            {'offset': row['offset'], 'type': row['type'],
+             'symbol': row['symbol'], 'target': row['target'],
+             'addend': row['addend'], 'effective_target': row['destination']}
+            for row in bindings
+            if row['offset'] in (0x30, 0xA9, 0x136, 0x176, 0x1F6)])
 
 
 def main():

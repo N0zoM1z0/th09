@@ -11800,3 +11800,88 @@ attest historical producer execution.
   recipe remain. Local source commit and independently checked remote push are
   recorded separately in the private packet. No numerical exact progress is
   claimed for this bounded evidence checkpoint.
+
+## October 20: Player initialization true Timer and coordinate consumers (gpt-6.1-sol)
+
+- Clean recovery at pushed82bbc55858c242fd2851639552004ed5b09a0ec8 passes the
+  original Japanese1.50a disk identity, direct IDA metadata, entry and five
+  distributed mapped-byte samples. The full check-ida-mcp process13841 completed
+  normally with exit0 after startup delay; it was polled without restarting.
+- Target Player initialization41EBC0 retains552 code+20 switch-table bytes,
+  independently SHA-pinned as b9b3e4115f8fb3857c373215f960b8eb0a73967cb33d581bb19d0cc8e868fb98.
+  Its four existing assignment calls at+A9,+136,+176,+1F6 all independently
+  target the actual nine-byte ZunTimer assignment401500. Source previously
+  declared an unrelated PlayerAddedTimerView facade. All actual12-byte timer
+  fields now use shared ZunTimer.hpp, preserving void assignment ABI, layouts,
+  arguments and effects. No nonvoid result is inferred from EAX residue.
+- The +30 original absolute field is4A80EC. Independently maintained coordinate
+  initializer41A9B8 writes448 to GameManager+35C; its canonical79-byte owner,
+  existing field declaration and known GameManager root4A7D90 establish the
+  real root/addend. The caller now reads GameManagerResetView.coordinate35C
+  with an explicit offsetof assertion, replacing standalone g_PlayerAddedStartY.
+  This uses a target layout view; it does not recover a unique original class
+  spelling, whole global storage model or runtime ownership closure.
+- Four private cold models (baseline, actual Timer only, coordinate only, both)
+  independently retain complete linked main SHA256
+  0ba5746a5fec219b0fb99f73820779f9da8b33b198d4a6022798d2422e31876b.
+  Timer-only is raw-neutral. Coordinate models change only the actual field's
+  zero-to35C raw addend; all decoded target bytes stay the same. Main remains
+ 572/572 physical,136 instructions,25 fields,11 ordered calls,20 equal blocks,
+ 22 differences in the position/pool preheader, and550 protected equal bytes.
+- Three configured same-TU reset owners preserve all93 raw bytes/five fields.
+  Exactly three existing Timer relocation spellings change to ??4ZunTimer@@QAEXH@Z;
+  all offsets, kinds, addends and original destinations remain independently
+  pinned. No private-label address or callee is fitted. One maintained-path
+  focused cold carrier passes all three complete canonical reset comparisons
+  and the noncrediting whole-main inspector. This revalidates existing exact
+  functions; it adds no exact owner or authored byte.
+- The complete inspector verifies the native coordinate root+addend against
+  the independently pinned effective address and raw COFF field. It exposes the
+  five actual native-owner fields. Historical facades remain inspectable only
+  for source-bound old objects; current focused guards reject them even when
+  numerical destinations agree. Two new pure corruption tests cover all five
+  offsets/kinds/symbols/roots/addends/effective addresses, incomplete/duplicate
+  evidence and malformed raw addends; the previous full-byte guard still
+  protects every formerly equal position. Eleven focused tests pass.
+- Type29 new observations are bounded to this current source. One cold baseline
+  and four genuine member-pointer dispatch variants (const/mutable/local/shared,
+  and all polar calls) reproduce every2205 raw byte and129 COFF rows, hash
+  dd4b7e5d8d70d4a1eb8dba7a7bc32fc3d95bd3b89126abdfd186dfad4844c8e4,
+ 1170 overlap differences+15 missing against the full2220-byte owner. One-element
+  explicitly initialized native-center arrays are also neutral. A real wrapper
+  emits2236 bytes with an independently unbound helper; placement construction
+  emits2374/133 fields with target-absent EH; actual composition/inheritance
+  emit2159 with unbound constructors. They are rejected without inventing a
+  target address. Original six local-center ECX reloads versus seven no-reload
+  vertex calls remain unresolved. No new assembly, return fiction or opaque
+  second-class register-preservation contract is introduced.
+- Current complete RunEcl baseline stays15564/598/30 and146/148 shapes with zero
+  field/table differences. Six real wide-integer old/input/mask/returned-value
+  models emit15560..15580 and fail complete ownership, despite retaining598
+  fields. A real void Timer member pointer stays30; directly evaluating its raw
+  operand instead regresses to42, harming opcode7 as well as the existing4/155.
+  No alternative is adopted, and no Timer ABI is modified.
+- All private controls, actual source/header/profile hashes, full comparisons,
+  native reports and reproduction recipes are retained below
+  .analysis/gpt-61sol-20261020-effect29-source-order/. Only one public game
+  source changes, with the other480 bound to parent82bbc55. The992 unaffected
+  proofs are reused; the three affected exact owners receive fresh full checks.
+  Canonical totals remain995 exact /242518 of291525 authored bytes (83.1894%).
+ 95% still needs34431 complete exact bytes, including RunEcl at this denominator.
+  Type29 maintained source, native product/runtime, semantics and port remain open.
+- Final target-independent CI passes769 tests /28 skipped; target-required
+  tracking, docs, generated progress and whitespace pass. Four emitted owners
+  total665 physical bytes with no new function; four nondebug noncode sections
+  remain identical at56 bytes. Of723 engineering inputs,717 retain parent hashes
+  and six change, with no new path (683 raw/40 working-CRLF-to-LF bindings).
+ 992 unaffected canonical proofs are reused and three affected resets are freshly
+  exact. After all own native/CI producers terminate, cleanup scoped by repository
+  cwd removes486 files /13,168,218 bytes, including73 source derivatives first
+  reconstructed from immutable parent Git and retained unique variants. Redundant
+  full disassemblies are removed after saving compact13-call receiver witnesses.
+  Build/ and own OBJ/PDB are absent. Unique experimental source, actual profiles,
+  all23 private raw/COFF row snapshots, ten unchanged32-byte polar-body checks,
+  three canonical reset comparisons and a one-case replay recipe remain. The
+  original executable, IDA database, toolchain and other games are untouched.
+  Local source commit and independent remote-push proof are recorded separately;
+  no numerical exact increase, Factory acceptance or later phase is claimed.

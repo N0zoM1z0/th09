@@ -1078,8 +1078,24 @@ PLAYER_ADDED_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
 ))
 
 
+def guard_player_added_native_owners(result: dict) -> None:
+    expected = [
+        {'offset': 0x30, 'type': 'DIR32',
+         'symbol': '?g_GameManager@@3UGameManagerResetView@@A',
+         'target': 0x004A7D90, 'addend': 0x35C,
+         'effective_target': 0x004A80EC},
+        *[{'offset': offset, 'type': 'REL32',
+           'symbol': '??4ZunTimer@@QAEXH@Z', 'target': 0x00401500,
+           'addend': 0, 'effective_target': 0x00401500}
+          for offset in (0xA9, 0x136, 0x176, 0x1F6)],
+    ]
+    if result.get('native_owner_fields') != expected:
+        raise RuntimeError('Player added-state native Timer/coordinate identity changed')
+
+
 def guard_player_added_state(result: dict) -> dict:
     noncrediting(result, name='Player added state', target_size=572, fields=25)
+    guard_player_added_native_owners(result)
     if (result.get('target_sha256') != PLAYER_ADDED_SHA256 or
             result.get('candidate_bytes') != 572 or result.get('code_bytes') != 552 or
             result.get('fields_agree') != 25 or

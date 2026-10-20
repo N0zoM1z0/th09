@@ -1,14 +1,9 @@
 #include "PlayerLifecycleView.hpp"
+#include "GameManagerResetView.hpp"
+#include "ZunTimer.hpp"
 
 #include <stddef.h>
 #include <string.h>
-
-struct PlayerAddedTimerView
-{
-    unsigned char storage[0x0C];
-    void operator=(int value);
-};
-typedef char PlayerAddedTimerSizeIsC[(sizeof(PlayerAddedTimerView) == 0x0C) ? 1 : -1];
 
 struct PlayerAddedAnmLoadedView
 {
@@ -39,8 +34,8 @@ typedef char PlayerAddedCollisionRegionSizeIs44[
 struct PlayerAddedHeaderResetView
 {
     unsigned char unknown00[0x5C];
-    PlayerAddedTimerView timer5C;
-    PlayerAddedTimerView timer68;
+    ZunTimer timer5C;
+    ZunTimer timer68;
     unsigned int flags74;
 
     void Reset();
@@ -65,7 +60,7 @@ struct PlayerAddedOwnerStateView
     unsigned char unknown04[0x08];
     void *field0C;
     void *handle10;
-    PlayerAddedTimerView timer14;
+    ZunTimer timer14;
     unsigned char unknown20[0x1C];
     int activeFrameCounter3C;
     void *callback40;
@@ -98,7 +93,7 @@ struct PlayerAddedStateLayout
     PlayerAnmVmView mainVmC0;
     int field364;
     unsigned char unknown368[0x1B74 - 0x368];
-    PlayerAddedTimerView timer1B74;
+    ZunTimer timer1B74;
     unsigned int flags1B80;
     int addedMarker1B84;
     PlayerPositionView position1B88;
@@ -124,13 +119,13 @@ struct PlayerAddedStateLayout
     unsigned char unknown3035C[0x30384 - 0x3035C];
     float scalar30384;
     float scalar30388;
-    PlayerAddedTimerView timer3038C;
-    PlayerAddedTimerView timer30398;
-    PlayerAddedTimerView timer303A4;
-    PlayerAddedTimerView timer303B0;
-    PlayerAddedTimerView timer303BC;
-    PlayerAddedTimerView timer303C8;
-    PlayerAddedTimerView timer303D4;
+    ZunTimer timer3038C;
+    ZunTimer timer30398;
+    ZunTimer timer303A4;
+    ZunTimer timer303B0;
+    ZunTimer timer303BC;
+    ZunTimer timer303C8;
+    ZunTimer timer303D4;
     unsigned char unknown303E0[0x08];
     int field303E8;
     unsigned char unknown303EC[0x30410 - 0x303EC];
@@ -161,7 +156,8 @@ typedef char PlayerAddedOwnerAt30410[
 typedef char PlayerAddedTailAt30454[
     (offsetof(PlayerAddedStateLayout, tailStates30454) == 0x30454) ? 1 : -1];
 
-extern float g_PlayerAddedStartY;
+extern GameManagerResetView g_GameManager;
+typedef char PlayerAddedStartYAt35C[(offsetof(GameManagerResetView, coordinate35C)==0x35C)?1:-1];
 extern int g_PlayerAddedSideTable[];
 extern int g_PlayerAddedClampValue;
 extern int g_PlayerAddedModeSelector;
@@ -201,7 +197,7 @@ void PlayerLifecycleView::InitializeAddedState()
     PlayerPositionView *position = reinterpret_cast<PlayerPositionView *>(
         player->position1B88.operator float *());
     position->x = -160.0f;
-    position->y = g_PlayerAddedStartY - 64.0f;
+    position->y = g_GameManager.coordinate35C - 64.0f;
     position->z = 0.49f;
 
     for (i = 0; i < 512; ++i)

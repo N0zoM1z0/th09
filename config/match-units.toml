@@ -7658,8 +7658,8 @@ symbol = "?Reset@PlayerAddedHeaderResetView@@QAEXXZ"
 target_address = 0x0041BDC0
 size = 0x1D
 relocations = [
-  { offset = 0x9, type = "REL32", symbol = "??4PlayerAddedTimerView@@QAEXH@Z", target = 0x00401500 },
-  { offset = 0x13, type = "REL32", symbol = "??4PlayerAddedTimerView@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x9, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x13, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
 ]
 
 [units.player-added-owner-reset]
@@ -7673,7 +7673,7 @@ size = 0x29
 relocations = [
   { offset = 0x4, type = "REL32", symbol = "?PlayerAddedOwnerPrepareReset@@YIXXZ", target = 0x0040F8C0 },
   { offset = 0x12, type = "REL32", symbol = "?ReleaseHandle@PlayerAddedHandleManagerView@@QAEXPAX@Z", target = 0x0040F860 },
-  { offset = 0x23, type = "REL32", symbol = "??4PlayerAddedTimerView@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x23, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
 ]
 
 [units.player-check-graze-collision]

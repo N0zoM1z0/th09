@@ -18,57 +18,58 @@ The **95%** milestone still needs **34,431** complete exact authored bytes.
 The denominator now includes the newly reviewed2,220-byte Type29 draw; exact
 bytes are unchanged. Whole Windows i386 product/runtime and later gates stay open.
 
-- **Current source frontier remains29 bytes:** maintained
-  `TitleScreenView::DrawReplayMenu @4234F6` is1,280/1,280 bytes,376/376
-  instructions,57 original-bound fields,13 ordered calls and72 equal direct
-  blocks. All1,251 equal positions stay protected. The actual differences at
-  +185..+321 concern selected-row ECX/EDX and two local-store order; no matching
-  range or diagnostic result is promoted to canonical exactness.
-- **Real TitleScreen context counterexample is now reproducible:**
-  `nice -n 10 python3 -B scripts/probe-title-replay-menu-context.py` cold-compares
-  the standalone source, actual complete owner declarations, and actual native
-  `TitleScreen.cpp` definitions plus this complete method. All three reproduce
-  **every1,280 raw candidate byte and all57 COFF rows**, SHA256
-  d83b9d48e715d95fde6fd6729b9f6630b5a88befd4bbf422edcc003ac77caca9.
-  Thus these particular complete types/union aliases and existing native bodies
-  do not close the29-byte residual. This is not a universal TU/context negative.
-- **Bounded tool and evidence:** `--context declarations` or `--context native`
-  selects one context plus its baseline. The tool pins the original owner,
-  preserves the manifest profile and complete method, hashes repository inputs
-  and actual carriers, checks input stability and cleans temporary OBJ/PDB/source
-  automatically. It claims only this complete owner; other emitted native-TU
-  functions receive no new exactness claim. Four pure marker/path tests pass.
-- **Other tested models stay private:** whole-row index reuse, geometry/member
-  snapshot timing, actual record text accessors, signed32 type choices, real SDK
-  storage/functions/constructors, intrinsic copy, ordinary selection values and
-  real getters fail to improve this complete source. Stock/G5 and/G6 remain29;
-  global/Oi changes original CRT-call coverage and is rejected. No ABI, field
-  layout, compiler profile, game source or target byte is changed.
-- **Small-leaf checks:** parser mutable-cursor models preserve243/116/one
-  field/76 differences and the679-byte caller's raw code; external linkage
-  produces256-byte parser and639-byte caller, so is rejected. Effect AddedCallback
-  typed/void arguments and a real referenced owner all retain51/four fields/eight
-  differences. Actual compiled symbols are recorded; no signature is inferred
-  merely from equivalent machine bytes. Recipes and complete reports remain in
-  `.analysis/gpt-61sol-20261020-replay-selection-values/`.
-- **Unchanged canonical source proofs are reused:** all481 game-source files,
-  profiles, match units and ledgers retain parent **14405d9** hashes. Canonical
-  totals remain995 exact /242,518 of291,525 bytes =83.1894%;95% still needs34,431
-  complete exact bytes. RunEcl's14,792 authored bytes remain necessary at the
-  current denominator. Type29 draw remains reviewed authored without maintained
-  source; native product/runtime, later gates and complete inventory stay open.
+- **Player initialization native owners corrected:** maintained
+  `PlayerLifecycleView::InitializeAddedState @41EBC0` now uses the real shared
+  `ZunTimer` and existing `GameManagerResetView::coordinate35C`. Four actual
+  Timer call fields retain canonical401500; the real coordinate field has
+  root4A7D90+35C =4A80EC, written to448 by the independently exact initializer.
+  Main linked bytes remain identical: **572 physical /552 authored /25 fields /
+  11 calls /136 instructions /20 blocks /22 differences**. All550 already equal
+  bytes are protected; other provisional aliases and the preheader stay open.
+- **Focused original-bound closure:** `nice -n 10 python3 -B
+  scripts/check-boss-frontiers.py --owner added` compiles the affected carrier
+  once and independently exact-replays all three reset siblings: **93 bytes /
+  five fields**. Their three Timer symbols now name the already canonical
+  native member, preserving every original target/addend and raw body byte.
+  The main owner's original-bound inspector retains historical aliases solely
+  for old objects; the focused guard requires all five current native fields.
+  New corruption tests reject facade/address/kind/addend/offset substitutions.
+- **Type29 remains open after bounded dispatch/lifetime controls:** ten serial
+  small-context objects test genuine member pointers, a real wrapper, one-element
+  native center array, placement construction, composition and inheritance.
+  Viable controls retain2205/2220 bytes /129 fields /1170 overlap differences
+  plus15 missing; outlined wrappers/constructors or EH fields fail independent
+  binding. No target is invented for them, and no new assembly or fake clobber
+  contract is introduced. The ten-header context reproduces the original full
+  ECL candidate hash; no unique original TU or type family is established.
+- **RunEcl current-source checks:** a complete baseline stays15564/598/30 with
+  zero field/table differences and146/148 handler shapes. Six wider-value
+  controls emit15560..15580 and fail the complete owner. Real void Timer member
+  pointer dispatch stays30; a direct operand form regresses to42 and harms
+  opcode7. No Timer return ABI, ECL source or profile is changed. Recipes and
+  full reports stay in `.analysis/gpt-61sol-20261020-effect29-source-order/`.
+- **Unchanged canonical proofs reused:** only PlayerAddedState game source
+  changes; the other480 sources retain parent **82bbc55** hashes. The three
+  affected reset owners are cold-replayed; unrelated cohorts are not rebuilt.
+  Canonical totals stay995 exact /242518 of291525 bytes =83.1894%;95% needs34431
+  further complete exact bytes. RunEcl's14792 authored bytes remain necessary
+  at this denominator. Type29 remains authored without maintained source.
+- **ReplayMenu frontier is retained:**1280/376/57/13/72 with29 differences,
+  all1251 equal bytes protected. `probe-title-replay-menu-context.py` reproduces
+  the previously measured complete declarations/native-TU neutrality; those
+  unchanged controls are not recompiled here without new evidence.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
-- **Checkpoint validation:** source/target recovery, the public three-context
-  native probe and CI pass (**767 tests /28 skipped**). All721 parent engineering
-  inputs retain hashes; the two new tool/test inputs yield723 bindings
-  (683 raw/40 working-CRLF-to-LF). Scoped cleanup after producer termination
-  removes456 reproducible files /10,130,721 bytes, including two hash-restored
-  full-context derivatives. Build/ is absent; unique controls and reports stay.
-  Parent14405d9 was pushed and independently remote verified; this checkpoint's
-  local source commit and remote-push proof are recorded in the private packet.
+- **Checkpoint validation:** original disk, direct IDA metadata/full checker,
+  focused added-owner/three-reset checks and11 targeted tests pass. CI passes
+  **769 tests /28 skipped**. Of723 engineering inputs,717 retain hashes and six
+  change (683 raw/40 checkout-CRLF-to-LF); no new input is added. Scoped cleanup
+  after own producer termination removes486 reproducible files /13,168,218 bytes,
+  including73 hash-restored source derivatives. Build/ is absent. Unique
+  controls, actual hashes and complete reports remain. Local source commit and
+  independently verified remote push are recorded separately in the packet.
 
 
 ## Next worker: first three work packages

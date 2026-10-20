@@ -1,6 +1,7 @@
 """No-target regressions for complete Player initialization evidence."""
 
 import hashlib
+import copy
 import importlib.util
 from pathlib import Path
 import struct
@@ -45,11 +46,59 @@ def evidence():
         target_blocks=20, candidate_blocks=20, direct_graph_agrees=True,
         switch_table_agrees=True, complete_bytes_equal=False,
         complete_differences=22,
+        native_owner_fields=[
+            dict(offset=0x30, type='DIR32',
+                 symbol='?g_GameManager@@3UGameManagerResetView@@A',
+                 target=0x004A7D90, addend=0x35C, effective_target=0x004A80EC),
+            *[dict(offset=off, type='REL32', symbol='??4ZunTimer@@QAEXH@Z',
+                   target=0x00401500, addend=0, effective_target=0x00401500)
+              for off in (0xA9, 0x136, 0x176, 0x1F6)]],
         difference_offsets=[hex(x) for x in sorted(
             frontiers.PLAYER_ADDED_ORIGINAL_RESIDUAL_OFFSETS)])
 
 
 class PlayerAddedInspectorTests(TestCase):
+    def test_native_coordinate_root_addend_and_actual_timer_are_linked(self):
+        rows = fields()
+        raw = bytearray(572)
+        for row in rows:
+            if row['offset'] == 0x30:
+                row.update(symbol='?g_GameManager@@3UGameManagerResetView@@A', addend=0x35C)
+                struct.pack_into('<I', raw, 0x30, 0x35C)
+            if row['offset'] in (0xA9, 0x136, 0x176, 0x1F6):
+                row['symbol'] = '??4ZunTimer@@QAEXH@Z'
+        linked, bound = inspector.link_candidate(raw, rows)
+        coordinate = next(row for row in bound if row['offset'] == 0x30)
+        self.assertEqual(coordinate['target'], 0x004A7D90)
+        self.assertEqual(coordinate['destination'], 0x004A80EC)
+        self.assertEqual(struct.unpack_from('<I', linked, 0x30)[0], 0x004A80EC)
+        for change in ({'addend': 0}, {'addend': 0x360}, {'offset': 0x186},
+                       {'symbol': '?g_PlayerAddedStartY@@3MA'}):
+            candidate = copy.deepcopy(rows)
+            next(row for row in candidate if row['offset'] == 0x30).update(change)
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                inspector.link_candidate(raw, candidate)
+
+    def test_native_owner_guard_rejects_all_alias_or_address_substitutions(self):
+        baseline = evidence()
+        frontiers.guard_player_added_native_owners(baseline)
+        for index, field in enumerate(baseline['native_owner_fields']):
+            changes = dict(offset=field['offset'] + 1,
+                           type='REL32' if field['type'] == 'DIR32' else 'DIR32',
+                           symbol='?g_PlayerAddedStartY@@3MA' if index == 0 else
+                                  '??4PlayerAddedTimerView@@QAEXH@Z',
+                           target=field['target'] + 4, addend=field['addend'] + 4,
+                           effective_target=field['effective_target'] + 4)
+            for key, value in changes.items():
+                candidate = copy.deepcopy(baseline)
+                candidate['native_owner_fields'][index][key] = value
+                with self.subTest(index=index, key=key), self.assertRaises(RuntimeError):
+                    frontiers.guard_player_added_native_owners(candidate)
+        for rows in (None, [], baseline['native_owner_fields'][:-1],
+                     baseline['native_owner_fields'] + [baseline['native_owner_fields'][0]]):
+            with self.assertRaises(RuntimeError):
+                frontiers.guard_player_added_native_owners({'native_owner_fields': rows})
+
     def test_original_requires_complete_extent_and_digest(self):
         target = bytes(i % 256 for i in range(572))
         with patch.object(inspector, 'TARGET_SHA256', hashlib.sha256(target).hexdigest()):
