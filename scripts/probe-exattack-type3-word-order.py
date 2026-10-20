@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cold-reproduce Type3's complete 15 -> 52 -> 4 byte diagnostic candidates.
+"""Cold-reproduce Type3's complete word/query component diagnostics.
 
 The private models qualify the actual middle-Z store, transport the tail-X
 float through one real volatile word read, and forward the three real collision
@@ -31,6 +31,8 @@ BASELINE_SHA256 = 'c57cf9b9277f967832c5ab85031a4610716a88cb03fe02e96efa6389cac03
 PROFILE = ['/MT', '/EHsc', '/Gs', '/DNDEBUG', '/Zi', '/Gy', '/GF', '/Oi',
            '/Gr', '/O2', '/Ob1', '/Oy-', '/I', 'src']
 CASE_NAMES = ('baseline', 'ordered-word', 'forwarded-collision')
+COMPONENT_CASES = ('forwarding-only', 'middle-qualified', 'tail-word-only',
+                   'forwarded-middle', 'forwarded-word')
 sys.path.insert(0, str(ROOT / 'scripts'))
 
 WORD_READER = '''union Type3FloatWord
@@ -71,15 +73,9 @@ def replace_once(text, before, after):
     return text.replace(before, after, 1)
 
 
-def variants(source):
+def forward_queries(source):
     entry = 'int __fastcall ExAttackUpdateCallbackType3'
-    ordered = replace_once(source, entry, WORD_READER + entry)
-    ordered = replace_once(ordered, '    middle.z = 0.0f;',
-                           '    static_cast<volatile float &>(middle.z) = 0.0f;')
-    ordered = replace_once(
-        ordered, 'g_GameManager.InverseTransformPopupX(extra->history10[24].x)',
-        'g_GameManager.InverseTransformPopupX(ReadType3TailWord(extra->history10[24]))')
-    forwarded = replace_once(ordered, entry, COLLISION_FORWARD + entry)
+    forwarded = replace_once(source, entry, COLLISION_FORWARD + entry)
     receiver = ('reinterpret_cast<PlayerLifecycleView *>'
                 '(g_GameManager.sides[record->opponentSide04].player)')
     for position in ('current', 'middle', 'tail'):
@@ -88,8 +84,44 @@ def variants(source):
         after = ('CheckType3Position(' + receiver + ', &' + position +
                  ', &collisionSize)')
         forwarded = replace_once(forwarded, before, after)
+    return forwarded
+
+
+def variants(source):
+    entry = 'int __fastcall ExAttackUpdateCallbackType3'
+    ordered = replace_once(source, entry, WORD_READER + entry)
+    ordered = replace_once(ordered, '    middle.z = 0.0f;',
+                           '    static_cast<volatile float &>(middle.z) = 0.0f;')
+    ordered = replace_once(
+        ordered, 'g_GameManager.InverseTransformPopupX(extra->history10[24].x)',
+        'g_GameManager.InverseTransformPopupX(ReadType3TailWord(extra->history10[24]))')
+    forwarded = forward_queries(ordered)
     return (('baseline', source), ('ordered-word', ordered),
             ('forwarded-collision', forwarded))
+
+
+def component_variants(source):
+    """Separate ordinary forwarding from the two experimental qualifications.
+
+    No original volatile type or ordering requirement is inferred. The original
+    three recipes and the default compile scope remain byte-for-byte unchanged.
+    """
+    entry = 'int __fastcall ExAttackUpdateCallbackType3'
+    qualified = replace_once(source, '    middle.z = 0.0f;',
+                             '    static_cast<volatile float &>(middle.z) = 0.0f;')
+    word = replace_once(source, entry, WORD_READER + entry)
+    word = replace_once(word,
+                        'g_GameManager.InverseTransformPopupX(extra->history10[24].x)',
+                        'g_GameManager.InverseTransformPopupX(ReadType3TailWord(extra->history10[24]))')
+    return (('forwarding-only', forward_queries(source)),
+            ('middle-qualified', qualified), ('tail-word-only', word),
+            ('forwarded-middle', forward_queries(qualified)),
+            ('forwarded-word', forward_queries(word)))
+
+
+def report_name(case):
+    suffix = '-' + case if case in COMPONENT_CASES else ''
+    return 'type3-word-order' + suffix + '.json.gz'
 
 
 def source_inputs():
@@ -114,7 +146,7 @@ def source_inputs():
 
 
 def run(output, selected_case='all'):
-    if selected_case not in ('all', *CASE_NAMES):
+    if selected_case not in ('all', *CASE_NAMES, *COMPONENT_CASES):
         raise ValueError('unknown Type3 experiment case')
     coff = module('word_order_coff', 'compare-coff-function.py')
     audit = module('word_order_audit', 'inspect-exattack-type3-schedule.py')
@@ -123,7 +155,7 @@ def run(output, selected_case='all'):
     # Once the target is attested, invalidate an earlier successful report
     # before source validation or a compiler can fail. A failed run must not
     # leave a stale success at the requested output path.
-    report_path = output / 'type3-word-order.json.gz'
+    report_path = output / report_name(selected_case)
     if report_path.is_symlink():
         raise ValueError('refusing symlinked experiment report')
     report_path.unlink(missing_ok=True)
@@ -158,7 +190,10 @@ def run(output, selected_case='all'):
         'target_sha256': hashlib.sha256(target).hexdigest(),
         'profile': PROFILE, 'requested_case': selected_case, 'rows': [],
     }
-    for name, source in variants(inputs[SOURCE].decode().replace('\r\n', '\n')):
+    source = inputs[SOURCE].decode().replace('\r\n', '\n')
+    cases = (component_variants(source) if selected_case in COMPONENT_CASES
+             else variants(source))
+    for name, source in cases:
         if selected_case not in ('all', name):
             continue
         with tempfile.TemporaryDirectory(prefix=name + '-', dir=output) as temporary:
@@ -209,8 +244,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True,
                         help='directory below .analysis/ for the compact compressed result')
-    parser.add_argument('--case', choices=('all', *CASE_NAMES), default='all',
-                        help='cold-build only the selected candidate (default: all three)')
+    parser.add_argument('--case', choices=('all', *CASE_NAMES, *COMPONENT_CASES), default='all',
+                        help='cold-build one candidate (default: original three recipes)')
     args = parser.parse_args()
     try:
         output = args.output.resolve()
@@ -219,7 +254,7 @@ def main():
                 args.output.is_symlink()):
             raise ValueError('output must be a nonsymlink directory below .analysis/')
         output.mkdir(parents=True, exist_ok=True)
-        path = output / 'type3-word-order.json.gz'
+        path = output / report_name(args.case)
         if path.is_symlink():
             raise ValueError('refusing symlinked experiment report')
         report = run(output, args.case)

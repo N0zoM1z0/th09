@@ -28,9 +28,14 @@ CASES = {
     'float-core': ('Float3Core.inl',),
     'float-ops': ('Float3Core.inl', 'Float3.cpp'),
     'interrupt': ('AnmManagerRuntime.cpp',),
+    'pointer-views': ('VectorPointerViews.cpp',),
 }
 VARIANTS = ('baseline', 'forwarded-collision')
 INTERRUPT_SYMBOL = '?SetInterrupt@AnmVm@@QAEXF@Z'
+POINTER_VIEW_UNITS = (
+    ('float3-pointer-identity-view', '??BFloat3@@QAEPAMXZ'),
+    ('player-position-pointer-identity-view', '??BPlayerPositionView@@QAEPAMXZ'),
+)
 
 
 def module(name, filename):
@@ -94,6 +99,15 @@ def require_interrupt_unit(unit, profile):
         raise ValueError('native AnmVm interrupt owner/profile changed')
 
 
+def require_pointer_view_units(units, profile):
+    for name, symbol in POINTER_VIEW_UNITS:
+        unit = units[name]
+        if (unit['source'], unit['symbol'], unit['target_address'], unit['size'],
+                unit['profile'], unit.get('relocations', [])) != (
+                'src/VectorPointerViews.cpp', symbol, 0x4343D0, 3, profile, []):
+            raise ValueError('native pointer-view alias extent/profile changed: ' + name)
+
+
 def run(output, case, variant='baseline'):
     if case not in CASES or variant not in VARIANTS:
         raise ValueError('unknown Type3 native context')
@@ -114,6 +128,8 @@ def run(output, case, variant='baseline'):
         raise ValueError('Type3 original-profile reference changed')
     if case == 'interrupt':
         require_interrupt_unit(units['anm-vm-set-interrupt'], profile)
+    if case == 'pointer-views':
+        require_pointer_view_units(units, profile)
     tool_names = (
         'config/tools.lock.toml', 'config/target.toml', 'scripts/compile-probe.sh',
         'scripts/compare-coff-function.py', 'scripts/inspect-exattack-type3-schedule.py',
@@ -151,6 +167,7 @@ def run(output, case, variant='baseline'):
         if case == 'baseline' and variant == 'baseline' and not frontier['passed']:
             raise ValueError('maintained Type3 source no longer passes its frontier')
         native_interrupt = None
+        native_pointer_views = None
         if case == 'interrupt':
             body, fields = coff.object_function(
                 obj, INTERRUPT_SYMBOL, include_symbol_locations=True)
@@ -159,9 +176,22 @@ def run(output, case, variant='baseline'):
             native_interrupt = dict(unit='anm-vm-set-interrupt', bytes=18,
                                     fields=0, complete_original_equal=True,
                                     raw_hex=body.hex(), coff=fields)
+        if case == 'pointer-views':
+            aliases = []
+            for name, symbol in POINTER_VIEW_UNITS:
+                body, fields = coff.object_function(
+                    obj, symbol, include_symbol_locations=True)
+                if fields or body != coff.pe_bytes_at(target, 0x4343D0, 3):
+                    raise ValueError('visible native pointer view lost complete original equality')
+                aliases.append(dict(unit=name, symbol=symbol, bytes=3, fields=0,
+                                    complete_original_equal=True, raw_hex=body.hex()))
+            native_pointer_views = dict(aliases=aliases, physical_bodies=1,
+                                        physical_bytes=3, original_origin='unknown',
+                                        authored_exact_credit=0)
         report = {
             'diagnostic_only': True, 'exactness_credit': 'none', 'case': case,
             'source_variant': variant, 'native_interrupt': native_interrupt,
+            'native_pointer_views': native_pointer_views,
             'source_commit': subprocess.check_output(
                 ['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
             'target_sha256': hashlib.sha256(target).hexdigest(), 'profile': profile,

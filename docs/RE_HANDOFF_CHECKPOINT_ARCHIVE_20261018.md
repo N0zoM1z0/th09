@@ -741,3 +741,52 @@ milestone and product/runtime gates remain open.
   product/runtime validation is claimed.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
+
+
+## October 21: Controller native global interfaces (7294483)
+
+The operator requests continued exact reconstruction across **large functions
+and small leaves**, serial low-priority compiles, focused affected replays and
+regular cleanup. Starting from pushed `962d501`, this checkpoint unifies the
+**Controller input native global interfaces** while preserving every candidate
+byte. No new authored exact credit: RunEcl/Enemy/Title DrawResult/Type3 remain
+**30 /29 /22 /15**; Controller remains **796/808 bytes, 102 overlapping
+differences +12 missing**. The 95% milestone and product/runtime gates stay open.
+
+- `ControllerInput.cpp` now uses the real shared `ReplayInputState` array and
+  `Supervisor` declaration. Its two fictitious external object types disappear.
+  The Supervisor device prefix remains an explicitly bounded view; configuration
+  thresholds use the existing fields with signed reads, preserving original
+  MOVSX semantics. Shared headers, compiler profiles and unit definitions do not
+  change. Original class spelling/ownership is not established by these names.
+- All **nine native global COFF fields** must have their actual shared symbol,
+  DIR32 kind, reviewed field position/addend and undefined-symbol provenance.
+  Old aliases fail even though their encoded destination bytes agree. Complete
+  decoding still checks all **32 original fields**, 18 ordered helper calls and
+  eight direct branches. All **694 already equal bytes**, including the first
+  **674 complete instruction bytes**, remain equal.
+- **30 serial private source controls** compile: 23 complete diagnostics and
+  seven excess-field rejections. Shared-axis range snapshots reduce the generic
+  score to 98, but damage the previously equal +0x2C4; none is adopted. Measured
+  UINT/DWORD conversions and commuted midpoint expressions do not recover the
+  missing 12 bytes. These negatives do not prove the remaining source impossible.
+- Focused canonical replay passes both affected same-TU exact helpers:
+  **37 +47 =84 complete bytes**. Other **999 unchanged exact source/profile
+  proofs** are reused. Full raw code, linked code and all 32 field destinations
+  remain identical to the starting source; only nine external symbol identities
+  change. Object-local section ordinals shift after header inclusion, and actual
+  helper definitions are separately replayed rather than treating those ordinals
+  as global identities.
+- CI passes **854 tests /28 skips**, alongside target-required tracking,
+  documentation, generated progress and whitespace checks. Frozen replay from
+  the verified archive repeats the maintained/old-alias/candidate controls.
+- **74** evidence members /4,322,717 loose bytes become a **494,392-byte ZIP**.
+  Removing only verified archived duplicates and **383** terminal compiler/
+  bytecode caches reclaims **10,398,135 bytes (~9.92 MiB)**. All 489 game input
+  hashes, unchanged 1,031 unit definitions and canonical ledger hashes are checked;
+  original input, toolchain, IDA and older unique research remain untouched.
+- Evidence, full trial sources/COFF inventories and the frozen-source replay:
+  `.analysis/gpt-61sol-20261021-controller-axis/`. No Factory accepted receipt,
+  whole native link/runtime closure or new authored exact credit is claimed.
+- Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
+  English `gpt-6.1-sol: ...` commits, push and independent remote verification.

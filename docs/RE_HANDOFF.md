@@ -9,47 +9,46 @@
 
 The operator requests continued exact reconstruction across **large functions
 and small leaves**, serial low-priority compiles, focused affected replays and
-regular cleanup. Starting from pushed `962d501`, this checkpoint unifies the
-**Controller input native global interfaces** while preserving every candidate
-byte. No new authored exact credit: RunEcl/Enemy/Title DrawResult/Type3 remain
-**30 /29 /22 /15**; Controller remains **796/808 bytes, 102 overlapping
-differences +12 missing**. The 95% milestone and product/runtime gates stay open.
+regular cleanup. Starting from pushed `7294483`, this checkpoint tests the
+**Type3 query-order interaction and newly implemented native pointer bodies**.
+All maintained game source/headers, compiler profiles and unit definitions stay
+unchanged. No new authored exact credit: RunEcl/Enemy/Title DrawResult/Type3
+remain **30 /29 /22 /15**; the 95% and product/runtime gates remain open.
 
-- `ControllerInput.cpp` now uses the real shared `ReplayInputState` array and
-  `Supervisor` declaration. Its two fictitious external object types disappear.
-  The Supervisor device prefix remains an explicitly bounded view; configuration
-  thresholds use the existing fields with signed reads, preserving original
-  MOVSX semantics. Shared headers, compiler profiles and unit definitions do not
-  change. Original class spelling/ownership is not established by these names.
-- All **nine native global COFF fields** must have their actual shared symbol,
-  DIR32 kind, reviewed field position/addend and undefined-symbol provenance.
-  Old aliases fail even though their encoded destination bytes agree. Complete
-  decoding still checks all **32 original fields**, 18 ordered helper calls and
-  eight direct branches. All **694 already equal bytes**, including the first
-  **674 complete instruction bytes**, remain equal.
-- **30 serial private source controls** compile: 23 complete diagnostics and
-  seven excess-field rejections. Shared-axis range snapshots reduce the generic
-  score to 98, but damage the previously equal +0x2C4; none is adopted. Measured
-  UINT/DWORD conversions and commuted midpoint expressions do not recover the
-  missing 12 bytes. These negatives do not prove the remaining source impossible.
-- Focused canonical replay passes both affected same-TU exact helpers:
-  **37 +47 =84 complete bytes**. Other **999 unchanged exact source/profile
-  proofs** are reused. Full raw code, linked code and all 32 field destinations
-  remain identical to the starting source; only nine external symbol identities
-  change. Object-local section ordinals shift after header inclusion, and actual
-  helper definitions are separately replayed rather than treating those ordinals
-  as global identities.
-- CI passes **854 tests /28 skips**, alongside target-required tracking,
-  documentation, generated progress and whitespace checks. Frozen replay from
-  the verified archive repeats the maintained/old-alias/candidate controls.
-- **74** evidence members /4,322,717 loose bytes become a **494,392-byte ZIP**.
-  Removing only verified archived duplicates and **383** terminal compiler/
-  bytecode caches reclaims **10,398,135 bytes (~9.92 MiB)**. All 489 game input
-  hashes, unchanged 1,031 unit definitions and canonical ledger hashes are checked;
-  original input, toolchain, IDA and older unique research remain untouched.
-- Evidence, full trial sources/COFF inventories and the frozen-source replay:
-  `.analysis/gpt-61sol-20261021-controller-axis/`. No Factory accepted receipt,
-  whole native link/runtime closure or new authored exact credit is claimed.
+- Eight component controls separate the existing query forwarding helper, qualified
+  middle-Z writes and qualified tail-X word reads. All retain 780 bytes /38
+  original referents /24 calls /17 blocks; differences are respectively
+  **15,27,15,27,67,19,52,4**. The original Z chronology appears only with both
+  qualifications in this tested panel. That helper alone regresses to 27.
+  The four-byte model still damages four previously equal bytes and remains
+  rejected. No original volatile type, aliasing intent or source spelling follows.
+- Eight genuine definition-visibility controls test the two existing pointer
+  conversion bodies before/after baseline/rejected callers, and each actual
+  inverse-X/Y method separately. Pointer visibility is byte-neutral: caller 15
+  or 4; both aliases retain the same original three-byte body and zero fields.
+  Original ownership/origin is unknown; two aliases do not earn six authored bytes.
+  Partial coordinate visibility changes extent/field inventory to 770/36,
+  765/35 or 775/37 while each genuine 46-byte callee stays original-equal.
+- Public producers now expose five component cases and `--case pointer-views`.
+  Default word-order scope and all three previous compiled source hashes stay
+  unchanged. New component reports are isolated; invalid/stale results cannot
+  replace independent evidence. Seven focused public compiles reproduce all
+  captured raw bytes and actual COFF rows, plus both three-byte aliases.
+- Only diagnostic scripts/tests and evidence notes change. All **1,001 existing
+  canonical exact source/profile proofs** are reused because no game input or
+  canonical unit changes. Joint callee-body comparisons are separate from a
+  canonical source-carrier replay and from new authored exact credit.
+- CI passes **858 tests /28 skips**; target-required tracking, documentation,
+  progress and whitespace checks pass. Five frozen source controls reproduce
+  complete raw code/COFF fields, including both alias bodies and the rejected
+  partial-Y context. A post-archive baseline reads only frozen archive inputs.
+- **64** evidence members /2,636,841 loose bytes become a **395,124-byte ZIP**.
+  Removing verified duplicates and **380** terminal CI bytecode caches reclaims
+  **8,691,375 bytes (~8.29 MiB)**. All 489 game inputs, unchanged 1,031 unit
+  definitions, 28 frozen source/provider inputs and four canonical input hashes
+  are checked after cleanup; original input, tools and older unique research stay.
+- Evidence, full sources/COFF records and frozen recipes:
+  `.analysis/gpt-61sol-20261021-type3-query-factorial/`.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
 
@@ -121,7 +120,7 @@ For the complete <=256-byte cohort see
 | **TitleScreen::DrawResult** | 0x00423D16 | **1,939/1,939**, 82 fields, 16 calls, 92 blocks; **22** differences | All 22 SHA-pinned linked differences are in the entry: 21 at `+0x0E..+0x24`, one at `+0x39` (bank-pointer store vs `currentScreen` prefetch). The entire remaining owner is byte-exact; the strengthened guard now pins **all 22 exact residual positions**, including preserving previously matching `+0x13` and `+0x18` inside the old entry window. The shared native GameManager field at+0x3F now has its actual COFF symbol/root/addend identity guarded; superseded mode/name-index aliases are rejected. `--owner title` protects the original full owner. |
 | **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 / 2,048**, 135 fields, 51 calls, 121 blocks | Uses genuine `AnmManager`/`AnmLoaded` and `SoundPlayer` receivers for29 fields, plus **eight native input array references**: two receivers at `g_ReplayInputStates[2]` and six16-bit word06 reads. Strict root/addend checking rejects fake standalone globals even at equal effective addresses. All2,048 linked candidate bytes and 135 referents are preserved; 610 overlap differences+3 extra bytes remain NON-EXACT. Exact same-TU `PlayMenuSound`34/34 and `--owner title` protect this frontier. |
 | **Title character cursors** | 0x00424EDD / 0x00424FB0 / 0x0042505F | Active target/candidate **211/215**; Reverse/Inactive **175/175** | Active reduced 217→215 in `69165b2`, but none is exact. Loop pre-check and VM register/sprite reload schedules; `--owner title`. |
-| **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15 maintained differences** | New private word-read plus real collision-forward model restores original middle-Z chronology and has **four differences** at +1B2,+1B7,+247,+249. These are previously equal bytes, so it is not adopted and the production guard stays unchanged. Reproduce with `probe-exattack-type3-word-order.py`; native/inline/reference joint controls retain four or lose 20 physical bytes. The extended native-context producer also checks the real 18-byte interrupt. Real shared `AnmVm` and five canonical interrupts remain; `--owner type3` protects seven exact functions. |
+| **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15 maintained differences** | New private word-read plus real collision-forward model restores original middle-Z chronology and has **four differences** at +1B2,+1B7,+247,+249. These are previously equal bytes, so it is not adopted and the production guard stays unchanged. Reproduce with `probe-exattack-type3-word-order.py`; native/inline/reference joint controls retain four or lose 20 physical bytes. The component panel proves ordinary forwarding alone gives 27; the four-byte result depends on both experimental qualifications in the tested panel. New real pointer-body visibility preserves 15/four; partial X/Y visibility changes full extents and is rejected. The extended native-context producer checks the real 18-byte interrupt and both three-byte pointer aliases without origin credit. Real shared `AnmVm` and five canonical interrupts remain; `--owner type3` protects seven exact functions. |
 | **ExAttack Type19 update** | 0x0044A330 | **821/821**, 35 fields, 11 calls, 30 blocks; **44** differences (198→190→44) | ECL's genuine ordinary Float3 callee visibility and the retained native GameManager Player slot recover 146 more bytes, with all fields in original order and no newly differing byte. All 777 matching bytes are protected. Remaining Record/Extra and magnitude-cursor register roles stay open; `--owner type19` protects both shared ECL compiler profiles and the separate draw. |
 | **ExAttack Type14/22 draw** | 0x00444130 | **959 / 974**, 53 full PE/COFF fields, 20 direct + 12 indirect calls, 9 jumps, 905 overlapping differences and 15 extra source bytes | Twelve device fields use the genuine `Supervisor g_Supervisor +8`; the old fictitious global type is rejected. Original-bound bytes, fields and calls remain unchanged. `--owner exattack` protects all 54 equal original positions and the three exact Type14/22 initializer/update controls. Remaining draw register/loop schedule stays NON-EXACT. |
 | **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **904 differing bytes** (911→904, no damaged matches) | Real case-1 C4 publication before the counter-derived limit restores seven bytes; alignment is 164 field identities. Both Create and stage dispatch now call their actual canonical symbols. The remaining referent multiset gap is unchanged: original-only root (3), +0x34 (1), +0xA4 (1); candidate-only +0x28 (1), +0x98 (1), +0xB4 (2). The side-registration cursor and shared final limit/rate publications remain unresolved. The B4 multiplicity gap is different static branch sharing, not proof of extra runtime writes. Complete residual/referent/native-call guards and eleven same-TU exact siblings remain required. |
@@ -189,6 +188,10 @@ nice -n 10 python3 -B scripts/check-enemy-player-state.py --scope damage
 # nice -n 10 python3 -B scripts/check-enemy-player-state.py
 # Constructor chain only by default; add --with-dependents after layout changes.
 nice -n 10 python3 -B scripts/check-replay-data-layout.py
+# Isolated component control; default all still builds only the old three:
+python3 -B scripts/probe-exattack-type3-word-order.py --case forwarding-only --output .analysis/type3-components
+# Native pointer visibility, two logical aliases of one unknown-origin body:
+python3 -B scripts/probe-type3-native-context.py --case pointer-views --variant forwarded-collision
 # One rejected Type3 joint context, plus the real 18-byte callee:
 python3 -B scripts/probe-type3-native-context.py --case interrupt --variant forwarded-collision
 # Complete Charge diagnostic with the maintained recorded profile:
@@ -246,11 +249,11 @@ The current tree retains **488 game-source files, 1,031 comparison units and
 1,001 authored exact rows**. The two pointer-interface units and two Replay
 constructor units remain unknown-origin byte evidence, with no authored exact
 credit. This checkpoint changes no game input among **489 files including the
-source README**, and no existing unit definition. Twelve existing owners are
-rechecked only because their diagnostic parser changes; the other 989 exact
-source/profile proofs are reused. Earlier layout/state/damage replay inventories
-remain source-commit scoped. Native product/runtime, complete inventory,
-semantic and port gates stay open.
+source README**, and no canonical unit definition. All 1,001 unchanged exact
+source/profile proofs are reused. Twenty-three serial private/public diagnostic
+compiles test the Type3 interaction and actual leaf-body visibility; they are
+not new canonical receipts. Native product/runtime, complete inventory, semantic
+and port gates remain open.
 
 The KB holds bounded observations and unresolved hypotheses. Old packet numbers,
 source shapes and current-state claims are dated history, not acceptance.

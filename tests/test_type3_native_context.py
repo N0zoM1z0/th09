@@ -16,6 +16,52 @@ spec.loader.exec_module(probe)
 
 
 class Type3NativeContextTests(unittest.TestCase):
+    def test_pointer_context_requires_both_real_alias_units_without_extent_drift(self):
+        inputs, profile = probe.inputs_for('pointer-views')
+        units = tomllib.loads((ROOT/'config/match-units.toml').read_text())['units']
+        probe.require_pointer_view_units(units, profile)
+        source = probe.render_source(inputs, 'pointer-views', 'baseline')
+        self.assertTrue(source.startswith(b'#include "VectorPointerViews.cpp"\n'))
+        self.assertEqual(source.split(b'\n', 1)[1], inputs[probe.SOURCE])
+        for name, _ in probe.POINTER_VIEW_UNITS:
+            for changes in ({'source': 'src/unrelated.cpp'}, {'size': 6},
+                            {'target_address': 0x4343D1}, {'profile': ['/Ob2']},
+                            {'symbol': '?FakeIdentity@@QAEPAMXZ'},
+                            {'relocations': [{'offset': 0, 'type': 'DIR32'}]}):
+                bad = copy.deepcopy(units)
+                bad[name].update(changes)
+                with self.subTest(name=name, changes=changes):
+                    with self.assertRaisesRegex(ValueError, 'pointer-view alias'):
+                        probe.require_pointer_view_units(bad, profile)
+
+    def test_bad_emitted_pointer_body_cannot_leave_a_report(self):
+        factory = self.modules()
+
+        def modules(name, filename):
+            result = factory(name, filename)
+            if filename == 'compare-coff-function.py':
+                result.pe_bytes_at = lambda *args: bytes.fromhex('8bc1c3')
+                result.object_function = lambda obj, symbol, **kw: (
+                    (bytes.fromhex('33c0c3'), []) if symbol.startswith('??B')
+                    else (bytes(780), []))
+            return result
+
+        def compile_one(command, **kwargs):
+            Path(command[5]).write_bytes(b'fixture object')
+            return SimpleNamespace(returncode=0, stdout='', stderr='')
+
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            stale = output / probe.report_name('pointer-views', 'baseline')
+            stale.write_bytes(b'stale successful result')
+            with (patch.object(probe, 'module', side_effect=modules),
+                  patch.object(probe, 'inputs_for', return_value=(self.inputs, self.profile)),
+                  patch.object(probe, 'render_source', return_value=b'fixture caller'),
+                  patch.object(probe.subprocess, 'run', side_effect=compile_one)):
+                with self.assertRaisesRegex(ValueError, 'pointer view lost'):
+                    probe.run(output, 'pointer-views')
+            self.assertEqual(list(output.iterdir()), [])
+
     def test_joint_model_keeps_real_caller_and_only_the_native_interrupt_body(self):
         inputs, profile = probe.inputs_for('interrupt')
         before = copy.deepcopy(inputs)

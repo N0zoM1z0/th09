@@ -14489,3 +14489,95 @@ the two helpers and rejected controls. All 489 maintained game input hashes,
 1,031 unchanged unit definitions and four canonical input hashes are checked
 after cleanup. Authored exact coverage remains **1001/1035 functions** and
 **243,853/291,883 bytes (83.5448%)**, still **33,436 bytes** short of 95%.
+
+
+## October 21: Type3 query components and new pointer-body visibility (gpt-6.1-sol)
+
+Recovery starts from clean pushed 7294483; disk original Japanese v1.50a target,
+direct local IDA metadata and entry/distributed mapped bytes pass. Direct IDA
+again confirms middle-Y CALL+0x18E, middle-Z store+0x196, tail-X load+0x19D;
+tail-Y uses ECX at+0x1B1/+0x1B7 and motion reference EDX at+0x246/+0x249.
+No target or IDA metadata changes. The previous Controller native-interface
+checkpoint stays intact. All 489 maintained game inputs and 1,031 unit definitions
+are unchanged in this batch; Type3 production remains 780/38/15.
+
+Eight serial pinned-VC7.1 component controls isolate three independent changes:
+the existing inline forwarding of the three real collision queries (F), qualified
+middle-Z write (Z), and qualified unsigned-word tail-X read/union transport (W).
+F uses the same __forceinline utility as the older rejected lead.
+All eight have 780 bytes, 38 independently original-bound fields, 240 instructions,
+24 ordered calls and 17 identical direct blocks, with actual literal definitions
+checked. Complete differences, not a substring score:
+
+Counts below are differences / old mismatches restored / old equal bytes damaged:
+
+- No component: 15 /0 /0.
+- F: 27 /0 /12.
+- Z: 15 /0 /0.
+- F+Z: 27 /0 /12.
+- W: 67 /0 /52.
+- F+W: 19 /0 /4.
+- Z+W: 52 /15 /52.
+- F+Z+W: 4 /15 /4.
+
+Thus the existing forwarding helper alone is not a 15-byte improvement. In this measured
+panel, only Z+W together restore original post-Y/pre-tail-X chronology; F then
+changes the broader register schedule. The lower four-byte count depends on
+experimental qualifications and still changes previously original-equal
++0x1B2/+0x1B7/+0x247/+0x249. It is not adopted. None of this establishes an
+original volatile declaration, aliasing requirement, source spelling or portable
+semantics; it bounds the old hypothesis rather than proving it.
+
+The new native VectorPointerViews.cpp gives a fresh callee-visibility control,
+not available to older Float3/SDK tests. Four caller controls include its actual
+source before/after maintained and rejected callers. They stay byte-neutral at
+780/38/15 or 780/38/four, with complete raw bytes/COFF rows retained. Each actual
+Float3 and PlayerPositionView conversion independently equals the original
+three-byte identity at 0x4343D0 with zero fields. They are two logical native aliases
+of one physical body; original class/origin remains unknown, not six authored
+bytes or new exact credit. Four further controls append only the real inverse-X
+or inverse-Y definition, taken verbatim from GameManagerCoordinates.cpp. X gives
+770/36/416 on baseline and 765/35/406 on the rejected lead; Y gives 775/37/367 and
+775/37/357. The caller loses actual global-reference multiplicity and full
+extent. Both genuine 46-byte callee bodies remain complete original-equal under
+unchanged reviewed relocation manifests. Equal callees do not validate a changed
+caller or establish original TU ownership.
+
+Public probe-exattack-type3-word-order.py now exposes forwarding-only,
+middle-qualified, tail-word-only,forwarded-middle and forwarded-word as individual
+cases. Default all still compiles exactly the previous three cases; all three
+compiled source SHA256s are unchanged. Component output names are isolated from
+the earlier reports. Public probe-type3-native-context.py adds pointer-views,
+checks both actual unit identities/source/profile/extent and both emitted bodies,
+and explicitly reports one unknown-origin physical body with zero authored
+credit. Invalid/stale reports are removed only after correct-target attestation;
+other case evidence remains. Tests reject profile/extent/source/symbol changes,
+a bad emitted identity body and stale successes without losing independent proof.
+
+Seven public serial compiles reproduce every raw caller byte and actual COFF row
+from the private captures. Together with the sixteen private controls, this is
+23 diagnostic compiles. All 1,001 current canonical exact source/profile proofs
+are reused: no game C++, header, profile, unit or exact ledger changes. Joint
+callee-body checks are explicitly distinct from a canonical carrier replay or
+new authored exact credit. Production's full 15-offset guard is unchanged.
+Evidence, full trial sources/fields and frozen replay:
+.analysis/gpt-61sol-20261021-type3-query-factorial/.
+
+CI passes **858 tests /28 skips**, with target-required tracking, documentation,
+generated progress and whitespace checks. A first diagnostic-table draft was
+rejected by the KB ledger-table parser and changed to prose/list form; no source,
+compiler or target inference followed from that documentation failure. Five
+frozen-source controls reproduce every raw code byte/COFF row and separately
+check both pointer aliases plus the real 46-byte Y body; a final archived baseline
+uses only ZIP source/provider inputs. These are focused diagnostic replays.
+
+After all producers become terminal, all 64 members /2,636,841 loose bytes are
+ZIP CRC/hash verified in a 395,124-byte archive. Removing those verified duplicates
+and 380 terminal CI bytecode caches /6,449,658 bytes reclaims 8,691,375 bytes
+(~8.29 MiB). Trial/frozen OBJ/PDB files already self-clean at the end of each
+compile; unrelated carriers, original executable, IDA, tools and older unique
+research remain. All 489 game input hashes, unchanged 1,031 unit definitions,
+28 frozen source/provider inputs and four canonical input hashes are rechecked.
+Exact coverage remains 1001/1035 and 243,853/291,883 bytes (83.5448%), with 33,436
+bytes still required for 95%; whole native product/runtime and later gates stay
+open. No new Factory acceptance or authored exact credit is claimed.
