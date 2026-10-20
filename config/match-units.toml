@@ -24122,3 +24122,13 @@ symbol = "??BPlayerPositionView@@QAEPAMXZ"
 target_address = 0x004343D0
 size = 3
 relocations = []
+
+[units.zun-timer-current-value-alias]
+source = "src/ZunTimer.cpp"
+object = "build/matching/ZunTimer.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ZunTimer::operator int"]
+symbol = "??BZunTimer@@QAEHXZ"
+target_address = 0x00435F00
+size = 4
+relocations = []

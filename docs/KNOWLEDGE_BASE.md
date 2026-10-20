@@ -14697,3 +14697,60 @@ Authored exact coverage remains **1001/1035 functions**, **243853/291883 bytes
 (83.5448%)**. The 95% gap stays **33436 complete bytes**; sixteen restored positions
 inside a nonexact owner are not deducted from that gap. RunEcl 30, Enemy 13,
 Title DrawResult 22 and Type3 15 remain unfinished.
+
+### Native Timer integer alias and periodic visibility controls (October 21)
+
+Starting source is pushed a44c9ef. Target/IDA observations: the complete
+four-byte original entry at 0x435F00 loads receiver +0x08 and returns. The live
+ledger already assigns this physical entry to authored TextHelper::GetHeight;
+that canonical name, source, origin and match row are retained. Existing
+target-bound Timer conversion relocations use the same address, and the native
+ZunTimer declaration already exposes operator int with current at +0x08.
+The method previously lacked its own native source definition. ZunTimer.cpp
+now defines the natural current getter and asserts its member offset.
+
+Compiler observation: pinned VC7.1 emits a complete four-byte/zero-field body
+equal to original SHA256
+916ae10aa3fd76a4d5b25b2fb66e9df0fd04957c7ab10930268d1ed7808be689.
+The new zun-timer-current-value-alias unit is not entered in matches.csv.
+The public checker requires the original TextHelper identity/credit and the
+native Timer ABI, unchanged source/profile inputs, and complete equality for
+all 16 existing same-source exact units plus the alias (317 physical comparison
+bytes, of which four are already credited to TextHelper). No unique original
+class, original translation unit or linker-folding mechanism is established.
+No native link/runtime or new authored exact claim follows from the alias.
+
+Fifteen private successful ECL compiles investigate the remaining Enemy caller:
+
+- Five real HasTickedEvery forms all give 3900 bytes/97 fields and 45 caller
+  differences. Original, nested and negated-remainder forms preserve the full
+  original 33-byte callee. Early-return and ternary forms emit 31-byte callees,
+  which are not original-equal. All restore the current 13 differing caller
+  bytes while damaging 45 equal positions, so none is adopted.
+- Typed int/bool forwarders, with the real periodic body opaque, retain the
+  current 13 caller differences. Making its genuine 33-byte body co-visible
+  gives 45 differences in both forwarders. Wrapper return type does not solve
+  the conflict; compiler observations do not prove original source partition.
+- Genuine post-increment, post-decrement, Tick, assignment and combined
+  Tick/increment contexts retain 13 differences with their native callees
+  original-equal. The private integer-getter visibility context emits the
+  exact four-byte callee but fails the existing RunEcl definition inventory.
+  The maintained new getter stays in separate ZunTimer.cpp; ECL source/header
+  exposure does not change. Callee equality cannot validate a changed caller.
+
+Only ZunTimer.cpp changes among 490 game inputs; all 1031 old unit definitions
+are unchanged, with one noncrediting unit appended. The 16 affected canonical
+Timer units pass; 985 unchanged source/profile proofs are reused. Current Enemy
+is still 13, RunEcl 30, Title 22 and Type3 15. Authored exact remains1001/1035,
+243853/291883 bytes (83.5448%); the 33436-byte 95% gap is unchanged.
+Evidence and frozen serial replay:
+.analysis/gpt-61sol-20261021-enemy-periodic-context/.
+
+CI passes 865 tests/28 skips, alongside target-required tracking, documentation,
+progress and both whitespace checks. Frozen replay repeats all 17 Timer proofs,
+the rejected 45-difference caller and the integer-getter RunEcl closure rejection.
+After producers terminate, 130 evidence members/9200430 loose bytes are ZIP CRC
+and SHA256 verified in 1444742 bytes. Removing duplicates and 387 owned compiler/
+bytecode caches/7058854 bytes reclaims 14814542 bytes (~14.13 MiB). Only the fresh
+ECL/Timer OBJ/PDB pairs and terminal CI caches are removed; original target,
+tools, IDA and older unique evidence stay. No new Factory receipt is claimed.

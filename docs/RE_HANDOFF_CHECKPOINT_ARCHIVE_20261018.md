@@ -838,3 +838,54 @@ remain **30 /29 /22 /15**; the 95% and product/runtime gates remain open.
   `.analysis/gpt-61sol-20261021-type3-query-factorial/`.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
+
+## Enemy tracking checkpoint at a44c9ef (October 21)
+
+## Current verified handoff checkpoint
+
+The operator requests continued exact reconstruction across **large functions
+and small leaves**, serial low-priority compiles, focused affected replays and
+regular cleanup. Starting from pushed `d5e0bf6`, this checkpoint restores
+**sixteen Enemy tracking bytes: 29 ->13 differences**, without damaging any
+previously equal byte. RunEcl/Enemy/Title DrawResult/Type3 are now
+**30 /13 /22 /15**. No complete new exact owner; the 95% and product/runtime
+gates remain open.
+
+- The genuine **20-byte ZunTimer::operator>(int)** becomes co-visible with
+  Enemy through one ZunTimerGreater.inl definition in EclManager.cpp. Its old
+  definition is removed from ZunTimer.cpp, keeping one implementation and the
+  existing native symbol/ABI. Original TU ownership is not inferred.
+- The full 3900-byte Enemy owner retains all 97 encoded original fields, 69 calls,
+  1026 instructions, 170 blocks and four switch destinations. All 16 restored
+  positions belong to tracking/homing; the guard now protects **3887 equal
+  physical bytes** and permits only the **13** remaining draw/descriptor bytes.
+  Four same-object native comparison calls and its complete original body are
+  checked independently, including definition provenance and actual target E8s.
+- All **94 affected existing exact units /24707 physical bytes** pass from
+  three freshly compiled real source/profile carriers: ECL main/alternate and
+  the remaining Timer source. The method moves between sources; no exact row
+  is added. Other **907** unchanged exact source/profile proofs are reused.
+- Two private label names change in movement/comparison. Full original bytes
+  and actual owner-relative positions are proved before changing the manifests:
+  +0x139 still targets 0x408548; +0x14 still targets 0x407A4C. Their offsets,
+  kinds/addends and original destinations remain unchanged.
+- Twenty-two successful private compiles comprise 21 Enemy controls and one
+  typed-carrier constructor check. Greater-only visibility gives 13 with no
+  damage. HasTickedEvery alone gives 61; both real bodies give 45, restoring old
+  mismatches but damaging 45 old equal bytes. Those leads remain private. List,
+  copy, typed payload, pointer visibility and expression alternatives do not
+  close the owner. Native body equality does not validate a changed caller.
+- CI passes **862 tests /28 skips**, with target-required tracking,
+  documentation, generated progress and both whitespace checks. The first CI
+  caught an old 73+4 carrier inventory; it is corrected to 74+4, and all 24 carrier
+  regressions pass. Frozen source replay repeats retained 13/74 main exact units
+  and rejects the real-bodies 45 lead; the archive replay uses the corrected gate.
+- **157** evidence members /15094766 loose bytes become a **2301114-byte ZIP**.
+  Removing verified duplicates and **387** source-bound compiler/bytecode caches
+  reclaims **20329581 bytes (~19.39 MiB)**. Only the three fresh carriers' six
+  OBJ/PDB files and terminal CI caches are removed. All 490 game inputs, 1031 unit
+  definitions, canonical ledger hashes and frozen provider blobs are checked.
+- Evidence, complete sources/COFF inventories and frozen recipes:
+  `.analysis/gpt-61sol-20261021-enemy-draw-tracking/`.
+- Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
+  English `gpt-6.1-sol: ...` commits, push and independent remote verification.

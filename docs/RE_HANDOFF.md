@@ -9,48 +9,38 @@
 
 The operator requests continued exact reconstruction across **large functions
 and small leaves**, serial low-priority compiles, focused affected replays and
-regular cleanup. Starting from pushed `d5e0bf6`, this checkpoint restores
-**sixteen Enemy tracking bytes: 29 ->13 differences**, without damaging any
-previously equal byte. RunEcl/Enemy/Title DrawResult/Type3 are now
-**30 /13 /22 /15**. No complete new exact owner; the 95% and product/runtime
-gates remain open.
+regular cleanup. Starting from pushed `a44c9ef`, this checkpoint supplies the
+already-declared **ZunTimer::operator int** native implementation. Its complete
+**4-byte /zero-field** body equals original 0x00435F00. This address already has
+the canonical exact **TextHelper::GetHeight** row; its source, origin, name and
+physical credit stay unchanged. The new comparison unit is a **noncrediting
+alias**. No unique original class or linker-folding mechanism is inferred.
 
-- The genuine **20-byte ZunTimer::operator>(int)** becomes co-visible with
-  Enemy through one ZunTimerGreater.inl definition in EclManager.cpp. Its old
-  definition is removed from ZunTimer.cpp, keeping one implementation and the
-  existing native symbol/ABI. Original TU ownership is not inferred.
-- The full 3900-byte Enemy owner retains all 97 encoded original fields, 69 calls,
-  1026 instructions, 170 blocks and four switch destinations. All 16 restored
-  positions belong to tracking/homing; the guard now protects **3887 equal
-  physical bytes** and permits only the **13** remaining draw/descriptor bytes.
-  Four same-object native comparison calls and its complete original body are
-  checked independently, including definition provenance and actual target E8s.
-- All **94 affected existing exact units /24707 physical bytes** pass from
-  three freshly compiled real source/profile carriers: ECL main/alternate and
-  the remaining Timer source. The method moves between sources; no exact row
-  is added. Other **907** unchanged exact source/profile proofs are reused.
-- Two private label names change in movement/comparison. Full original bytes
-  and actual owner-relative positions are proved before changing the manifests:
-  +0x139 still targets 0x408548; +0x14 still targets 0x407A4C. Their offsets,
-  kinds/addends and original destinations remain unchanged.
-- Twenty-two successful private compiles comprise 21 Enemy controls and one
-  typed-carrier constructor check. Greater-only visibility gives 13 with no
-  damage. HasTickedEvery alone gives 61; both real bodies give 45, restoring old
-  mismatches but damaging 45 old equal bytes. Those leads remain private. List,
-  copy, typed payload, pointer visibility and expression alternatives do not
-  close the owner. Native body equality does not validate a changed caller.
-- CI passes **862 tests /28 skips**, with target-required tracking,
-  documentation, generated progress and both whitespace checks. The first CI
-  caught an old 73+4 carrier inventory; it is corrected to 74+4, and all 24 carrier
-  regressions pass. Frozen source replay repeats retained 13/74 main exact units
-  and rejects the real-bodies 45 lead; the archive replay uses the corrected gate.
-- **157** evidence members /15094766 loose bytes become a **2301114-byte ZIP**.
-  Removing verified duplicates and **387** source-bound compiler/bytecode caches
-  reclaims **20329581 bytes (~19.39 MiB)**. Only the three fresh carriers' six
-  OBJ/PDB files and terminal CI caches are removed. All 490 game inputs, 1031 unit
-  definitions, canonical ledger hashes and frozen provider blobs are checked.
-- Evidence, complete sources/COFF inventories and frozen recipes:
-  `.analysis/gpt-61sol-20261021-enemy-draw-tracking/`.
+- All **16 affected existing exact Timer units /313 physical bytes**, plus the
+  four-byte alias, pass from one freshly compiled real source/profile carrier.
+  The other **985** unchanged canonical source/profile proofs are reused.
+  No header or ECL source changes. The maintained Enemy baseline repeats
+  **13** differences; RunEcl/Enemy/Title DrawResult/Type3 stay **30 /13 /22 /15**.
+- Fifteen successful private Enemy controls test five periodic source forms,
+  four typed forwarders and six other genuine Timer body contexts. Co-visible
+  periodic bodies still give **45** caller differences, restoring 13 but
+  damaging 45 previously equal bytes. Early-return/ternary callees also shrink
+  from 33 to 31 bytes and are not original-equal. Other native contexts retain
+  13 or fail the existing RunEcl closure check. No private control is adopted.
+- The tracked `check-timer-current-view.py` binds the alias ABI/layout/extent,
+  existing TextHelper identity/credit, target and source/profile inputs. Three
+  regressions reject metadata/credit substitutions and a wrong target before
+  compiling. Native product/link/runtime closure remains unproved.
+- CI passes **865 tests /28 skips**, plus target-required tracking,
+  documentation, generated progress and both whitespace checks. Frozen replay
+  repeats all 17 Timer units and the two selected rejected Enemy contexts.
+- **130** evidence members /9200430 loose bytes become a **1444742-byte ZIP**.
+  Removing verified duplicates and **387** owned compiler/bytecode caches
+  reclaims **14814542 bytes (~14.13 MiB)**. Only the two fresh carriers' four
+  OBJ/PDB files and terminal CI caches are removed; older unique evidence stays.
+- Evidence, complete private sources/COFF rows, frozen sources/providers and
+  selected serial cold replays:
+  `.analysis/gpt-61sol-20261021-enemy-periodic-context/`.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
 
@@ -146,6 +136,8 @@ The manifests govern **1001 exact** functions. Historical Factory receipts
 remain in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md), with
 immutable source-commit bindings; they do not accept a later HEAD.
 
+- The native Timer integer conversion has a complete four-byte source alias
+  at 0x435F00; existing TextHelper::GetHeight keeps canonical authored credit.
 - Two pointer conversion interfaces now have complete three-byte source aliases
   for physical 0x4343D0. Its origin and unique class ownership stay unknown;
   alias-byte units carry no authored exact credit.
@@ -182,6 +174,8 @@ python3 -B scripts/report-reconstruction-status.py
 python3 -B scripts/check-ida-mcp.py
 # Choose one affected owner; reuse unchanged source/profile-bound proofs.
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner netmessage
+# One native Timer alias plus its 16 affected canonical siblings:
+python3 -B scripts/check-timer-current-view.py
 # Two logical aliases of one unknown-origin body; no authored credit:
 python3 -B scripts/check-vector-pointer-views.py --json
 # Current damage scope (80 units); unchanged external proofs are reused:
@@ -240,23 +234,28 @@ The current damage packet cold-replays the frozen complete 996/55-byte pair:
 `--case effect-joint` reproduces the unadopted small 45-byte callback and its
 exact 20-byte query. These are diagnostic source/profile proofs, not receipts.
 
-The current joint-context archive cold-replays 780 raw bytes /38 actual fields
+The entry-census archive cold-replays 780 raw bytes /38 actual fields
 and its independently original-equal 18-byte native interrupt:
 `python3 -B .analysis/gpt-61sol-20261021-entry-census/replay.py`.
 It preserves all four differing offsets and the production guard rejection.
 
 ## Evidence and cleanup boundaries
 
-The current tree retains **489 game-source files, 1,031 comparison units and
+The current tree retains **489 game-source files, 1,032 comparison units and
 1,001 authored exact rows**. The two pointer-interface units and two Replay
-constructor units remain unknown-origin byte evidence, with no authored exact
-credit. Among 490 game inputs including the source README, this checkpoint
-changes EnemyManagerCore.inl and ZunTimer.cpp and adds ZunTimerGreater.inl.
-All headers remain unchanged. One existing method changes canonical carrier;
-two private label spellings change only after independent full-byte/location
-proof. All 94 affected exact units pass; the other 907 source/profile proofs are
-reused. Native product/runtime, complete inventory, semantic and port gates
-remain open.
+constructor units remain unknown-origin byte evidence. The new Timer alias adds
+no physical credit to its existing canonical TextHelper owner. Among 490 game
+inputs including the source README, only ZunTimer.cpp changes in this checkpoint.
+All headers and ECL sources remain unchanged; all 1031 previous unit definitions
+stay unchanged. All 16 affected canonical exact units and the alias pass; the
+other 985 source/profile proofs are reused. Native product/runtime, complete
+inventory, semantic and port gates remain open.
+
+The periodic-context packet cold-replays the frozen Timer 17-unit cohort and
+rejected 45-difference periodic caller with
+`python3 -B .analysis/gpt-61sol-20261021-enemy-periodic-context/replay.py`.
+`native-integer-getter` selects the private co-visible getter that fails the
+RunEcl definition inventory. Frozen controls are diagnostics, not new receipts.
 
 The KB holds bounded observations and unresolved hypotheses. Old packet numbers,
 source shapes and current-state claims are dated history, not acceptance.

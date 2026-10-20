@@ -3,6 +3,9 @@
 
 #include <stddef.h>
 
+typedef char ZunTimerCurrentAt08[
+    (offsetof(ZunTimer, current) == 0x08) ? 1 : -1];
+
 namespace
 {
 struct ZunTimerSupervisorLayout
@@ -42,6 +45,12 @@ int ZunTimer::Tick()
 {
     this->previous = this->current;
     g_Supervisor.TickTimer(&this->current, &this->subFrame);
+    return this->current;
+}
+
+// Byte-compatible with the existing shared getter at 0x00435F00.
+ZunTimer::operator int()
+{
     return this->current;
 }
 
