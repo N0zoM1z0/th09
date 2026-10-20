@@ -1,3 +1,7 @@
+#include "SoundPlayer.hpp"
+#include "Supervisor.hpp"
+#include "AsciiGameManagerView.hpp"
+#include "GameManagerResetView.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "BulletManager.hpp"
 #include "EffectManager.hpp"
@@ -57,31 +61,8 @@ typedef char PlayerCancelEffectTypeA4[
 typedef char PlayerCancelEffectExtraAA[
     (offsetof(PlayerCancelEffectView, extraAA) == 0xAA) ? 1 : -1];
 
-struct PlayerCancelSupervisorView
-{
-    void SelectSide(int side);
-};
-
-struct PlayerCancelGameManagerView
-{
-    unsigned char unknown000[0x11C];
-    int difficulty11C;
-    unsigned char unknown120[0x358 - 0x120];
-    float coordinate358;
-
-    float TransformPopupX(float value);
-    float TransformPopupY(float value);
-};
-
-typedef char PlayerCancelGameManagerDifficultyAt11C[
-    (offsetof(PlayerCancelGameManagerView, difficulty11C) == 0x11C) ? 1 : -1];
 typedef char PlayerCancelGameManagerCoordinateAt358[
-    (offsetof(PlayerCancelGameManagerView, coordinate358) == 0x358) ? 1 : -1];
-
-struct PlayerCancelSoundView
-{
-    void PlaySoundByIdx(int soundId, int pan);
-};
+    (offsetof(GameManagerResetView, coordinate358) == 0x358) ? 1 : -1];
 
 struct PlayerCancelSideView
 {
@@ -93,9 +74,6 @@ struct PlayerCancelState4OpsView
     void AddRespawnResource(float value);
 };
 
-extern PlayerCancelSupervisorView g_PlayerSupervisorRuntime;
-extern PlayerCancelGameManagerView g_PlayerGameManagerRuntime;
-extern PlayerCancelSoundView g_SoundPlayer;
 extern RngRuntimeView g_ReplayRng;
 extern EffectManager *g_PlayerRewardEffectManager;
 
@@ -186,16 +164,17 @@ hit:
         {
             EffectFloat3 effectPosition;
             effectPosition.x =
-                g_PlayerGameManagerRuntime.TransformPopupX(position->x);
+                g_GameManager.TransformPopupX(position->x);
             effectPosition.y =
-                g_PlayerGameManagerRuntime.TransformPopupY(position->y);
+                g_GameManager.TransformPopupY(position->y);
             effectPosition.z = 0.0f;
 
-            g_PlayerSupervisorRuntime.SelectSide(1 - player->sideIndex);
+            g_Supervisor.SelectSide(1 - player->sideIndex);
 
             EffectFloat3 velocity;
             velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
-                g_PlayerGameManagerRuntime.coordinate358 * 0.5f - 8.0f);
+                reinterpret_cast<GameManagerResetView *>(&g_GameManager)
+                    ->coordinate358 * 0.5f - 8.0f);
             velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
             velocity.z = 0.0f;
 
@@ -203,7 +182,7 @@ hit:
                 g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
                     player->sideIndex + 1, &effectPosition, &velocity,
                     1, static_cast<unsigned int>(-1));
-            g_PlayerSupervisorRuntime.SelectSide(player->sideIndex);
+            g_Supervisor.SelectSide(player->sideIndex);
 
             PlayerCancelEffectView *effect =
                 reinterpret_cast<PlayerCancelEffectView *>(effectBase);
@@ -227,7 +206,7 @@ hit:
                 rewardValue *= 10;
 
             int rewardMode =
-                (g_PlayerGameManagerRuntime.difficulty11C >= 3) + 2;
+                (g_GameManager.difficulty11C >= 3) + 2;
             player->ownerState30410.ApplyReward(
                 position, rewardMode, 2, 0, rewardValue);
 

@@ -27,7 +27,7 @@ class PlayerBulletOriginalTests(unittest.TestCase):
             matches = []
             for symbol, base in player.SOURCE_TARGETS.items():
                 good_kind = 'DIR32' if symbol.startswith(('?g_', '__real@')) else 'REL32'
-                addends = (0, 0x11C, 0x358) if symbol.startswith('?g_PlayerGameManagerRuntime') else (0,)
+                addends = (0, 0x11C, 0x358) if symbol.startswith('?g_GameManager@@') else (0,)
                 for addend in addends:
                     if good_kind == kind and base + addend == dest:
                         matches.append((symbol, addend))
@@ -86,3 +86,36 @@ class PlayerBulletOriginalTests(unittest.TestCase):
         self.assertEqual(player.TARGET_FIELDS[0], (0x50, 'DIR32', 0x48E818))
         with self.assertRaises(ValueError):
             player.encode('unknown-field-type', 0x401680, 0x1c5)
+
+    def test_private_service_aliases_and_unreviewed_game_offset_fail(self):
+        rows = self.source_rows()
+        aliases = {
+            '?g_GameManager@@3UAsciiGameManagerView@@A':
+                '?g_PlayerGameManagerRuntime@@3UPlayerCancelGameManagerView@@A',
+            '?TransformPopupX@AsciiGameManagerView@@QAEMM@Z':
+                '?TransformPopupX@PlayerCancelGameManagerView@@QAEMM@Z',
+            '?TransformPopupY@AsciiGameManagerView@@QAEMM@Z':
+                '?TransformPopupY@PlayerCancelGameManagerView@@QAEMM@Z',
+            '?g_Supervisor@@3VSupervisor@@A':
+                '?g_PlayerSupervisorRuntime@@3UPlayerCancelSupervisorView@@A',
+            '?SelectSide@Supervisor@@QAEXH@Z':
+                '?SelectSide@PlayerCancelSupervisorView@@QAEXH@Z',
+            '?g_SoundPlayer@@3VSoundPlayer@@A':
+                '?g_SoundPlayer@@3UPlayerCancelSoundView@@A',
+            '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z':
+                '?PlaySoundByIdx@PlayerCancelSoundView@@QAEXHH@Z',
+        }
+        self.assertEqual(set(aliases), set(aliases) & set(player.SOURCE_TARGETS))
+        for index, row in enumerate(rows):
+            if row['symbol'] in aliases:
+                bad = [dict(r) for r in rows]
+                bad[index]['symbol'] = aliases[row['symbol']]
+                with self.subTest(symbol=row['symbol']), self.assertRaisesRegex(
+                        ValueError, 'unreviewed Player collision'):
+                    player.bind_candidate(bytes(849), bad)
+        index = next(i for i, row in enumerate(rows)
+                     if row['symbol'].startswith('?g_GameManager@@'))
+        bad = [dict(r) for r in rows]
+        bad[index]['addend'] = 0x354
+        with self.assertRaisesRegex(ValueError, 'member offset'):
+            player.bind_candidate(bytes(849), bad)

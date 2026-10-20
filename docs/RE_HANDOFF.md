@@ -15,65 +15,52 @@ Current state: **1,035 authored, 1,035 source-present, 999 canonical exact**;
 **36 source-present nonexact; no confirmed authored owner lacks maintained source**.
 **242,876/291,883 reviewed-authored bytes = 83.2101%**.
 The **95%** milestone still needs **34,413** complete exact authored bytes.
-This checkpoint adds two complete owners and35 authored/exact bytes. Native
-product/runtime, complete inventory and later gates remain open.
+This checkpoint corrects Player collision service identities; it adds no exact
+owner or byte. Native product/runtime, complete inventory and later gates stay open.
 
-- **New exact MIDI callback:** DummyMidiTimer::OnTimerElapsed at43D290 owns
- 12 bytes, SHA260bac7bea032d15c1d49f49634c20ee4169705ab770d498def75431c3f06828.
-  Its pre-existing Midi.cpp body calls QueryPerformanceCounter on the real
-  LARGE_INTEGER at4DC688. Original vtable slot4907E0 and the vptr write42F3BA
-  identify the indirect route through default timer callback43D0F0. Independent
-  PE import parsing confirms KERNEL32 QueryPerformanceCounter at IAT48E098.
-  Two cold compilations reproduce all12 bytes and both actual COFF rows.
-- **New exact Title constructor:** TitleMusicConstructView's real clearing body
-  now lives in TitleScreenConstructor.cpp. The complete23-byte owner422F00 ends
-  immediately before the existing422F17 entry. Its single memset call clears
-  the full292-byte record, selected32 times by the exact parent at429D83.
-  Two maintained-path cold compilations reproduce the owner and preserve the
-  parent160/160 bytes. A bounded implicit all-char-array value-init control emits
-  only3 bytes and no clear; it does not reproduce this per-record operation.
-- **Conservative Player census addition:**41F060 is a reviewed15-byte constructor
-  callback for four2C4-byte tail records. It only constructs an ANM VM at+20 and
-  returns this; explicit versus implicit origin remains unknown. It receives
-  no source/exact credit. Candidate count is2248 and origin-unresolved37.
-- **Focused Oracle:**33 MIDI units/4271 physical bytes/132 fields plus two Title
-  constructor units/183 bytes/12 fields pass:35 distinct complete checks,
- 4454 bytes/144 fields. Two functions/35 bytes are new;32 checks preserve prior
-  authored exact owners. One empty1-byte MIDI unit remains origin-unknown and
-  uncredited. The other965 previous authored exact proofs retain their input hashes.
-  Only the Title constructor game source changes; its old prefix is preserved.
-- **Large-owner counterchecks:** seven closed first-include ECL controls unfold
-  the real Enemy+2CE0 context pointer and+337C primary flags. Named-cell, masked
-  real-cell and real-context Timer access remain15564/598/30; native bitfield
-  writes still give1938 or2019 ordinary differences plus shifted fields/table.
-  None is adopted. RunEcl opcode4/155 and all other large frontiers stay open.
-- **Why inventory remains open:** the parent1033 authored logical extents contain
- 6346 direct calls, all aimed at catalogued entries, yet the aligned data scan
-  still found the missing MIDI virtual callback. Non-call immediate analysis
-  independently found both constructor entries. A complete direct-call map
-  therefore does not prove complete executable inventory. Raw data candidates,
-  padding, CRT metadata and constructor provenance remain separate checks.
-- **Reproduction:** build midi-th09-dummy-timer-on-elapsed and
-  title-music-entry-constructor with build-match-unit.py, then run their complete
-  compare-coff-function.py --unit replays. Evidence packets are
-  .analysis/gpt-61sol-20261020-dummy-midi-callback,
-  .analysis/gpt-61sol-20261020-title-music-constructor and
-  .analysis/gpt-61sol-20261020-runecl-owner-view. The MIDI packet's census.py
-  reproduces the immutable-parent or --current bounded reference census;
-  review.py independently checks the original callback/vtable/import chain.
+- **Maintained correction:** Player CheckBulletCollision uses the existing
+  AsciiGameManagerView, Supervisor and SoundPlayer service declarations.
+  Three private classes and their global aliases are removed. The existing
+  GameManagerResetView supplies the independently observed coordinate+358;
+  the whole GameManager class remains provisional. Original operands still bind
+  GameManager4A7D90, Supervisor4B3100 and SoundPlayer4DC698, with unchanged ABI.
+- **Whole-carrier evidence:** individual service controls and the combined
+  source preserve all six functions/2069 raw bytes/58 actual COFF fields,
+  except12 reviewed symbol spellings. The actual SoundPlayer include adds
+  two uuid.lib default-library directives; all runtime data sections agree.
+  The final maintained-path cold object equals the combined private object.
+  Five existing exact siblings replay1220 bytes/32 fields. The other994 exact
+  proofs retain their source/profile hashes; no full-cohort rebuild is needed.
+- **Player frontier:** the full862-byte original still compares against849
+  candidate bytes,26 fields,12 ordered calls,32 versus33 blocks,804 overlapping
+  differences and13 missing bytes. Native vectors/empty constructor and
+  outer-hit/loop controls remain nonexact. The latest original-bound inspector
+  rejects the obsolete private service symbols and unreviewed GameManager offsets.
+- **Boss negatives:** all five Type19 actual-record/native-vector controls stay
+ 821/35/44. All-real Timer bodies with and without private noinline declarations
+  both shorten RunEcl to15560; both preserve all28 ZunTimer direct calls.
+  Equality-only or equality+float visibility keeps15564/598 but increases the
+  complete difference count30 to38. This rules out attributing that four-byte
+  shrink simply to lost Timer calls. No Timer experiment is integrated.
+- **Evidence and reproduction:** .analysis/gpt-61sol-20261020-boss-callee-contracts
+  holds the full raw/COFF pairs, frozen sources, recipes, five fresh direct IDA
+  callee observations, maintained-path proof and independent input bindings.
+  Rebuild player-check-graze-collision, run inspect-player-bullet-collision.py,
+  and compare the five PlayerCollisionHelpers units from that fresh object.
+  The prior MIDI/Title constructors remain exact at source6d46ba0; their full
+  evidence and inventory limits remain in the KB and their original packets.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
-- **Verified finish:** CI778 tests/28 skips, target-required tracking, docs,
-  generated progress and whitespace pass. All728 engineering inputs bind721
-  retained parent hashes and seven changes;484 prior game source paths remain
-  raw-identical. Scoped cleanup removes757 reproducible files/15968373 bytes,
-  including373 duplicate ECL source copies. All68 unique ECL inputs and the
-  Title value-init control remain. After cleanup, one frozen ECL replay matches
-  all15564 raw bytes and598 actual COFF rows; build/ and temporary outputs are
-  absent. Source commit and independently verified push are recorded separately
-  in the packet. No Factory acceptance or Windows product/runtime claim follows.
+- **Verified finish:** CI779 tests/28 skips, target-required tracking, docs,
+  generated progress and whitespace pass. Of728 engineering inputs,724 retain
+  parent hashes; four changes include the one ledger note, inspector, test and
+  game source. Scoped cleanup removes1186 files/18434375 bytes, retaining87
+  unique inputs for23 frozen cases. One post-cleanup Timer replay reproduces
+  all15564 raw bytes and598 actual COFF rows. Build/ and own OBJ/PDB are absent.
+  Source commit and independently verified remote push are recorded separately
+  in the packet. No current-source Factory acceptance or runtime claim follows.
 
 
 ## Next worker: first three work packages

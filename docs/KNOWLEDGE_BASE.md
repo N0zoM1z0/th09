@@ -12528,3 +12528,58 @@ attest historical producer execution.
   real-cell replay reproduces all15564 raw bytes and598 actual COFF rows.
   Build/ and temporary outputs are absent. Local commit binding and independent
   remote push verification are recorded separately; no Factory receipt is claimed.
+
+
+### 2026-10-20 — Player collision service identities and bounded boss controls
+
+- From source6d46ba0, original disk target, direct local IDA metadata and mapped
+  samples pass. Fresh IDA revisits CheckBulletCollision41DFF0 and the actual
+  TransformPopupX401680, TransformPopupY4016B0, Supervisor SelectSide401440,
+  SoundPlayer PlaySoundByIdx43E2F0 and coordinate initializer41A9CA. Their
+  existing target-bound interfaces supply the same receiver addresses and ABI.
+  The initializer stores288.0f at GameManager+358; collision reads that address.
+- Maintained PlayerCollisionHelpers.cpp removes its three private GameManager,
+  Supervisor and SoundPlayer service classes/extern aliases, and includes the
+  existing declarations. Difficulty uses AsciiGameManagerView+11C; coordinate
+  +358 uses existing GameManagerResetView over the same global with an offset
+  assertion. This is bounded interface/storage evidence, not proof of the full
+  original class. The respawn/score views and Effect global remain separate.
+- Four private individual/combined service controls preserve six owners/2069
+  physical bytes and all58 COFF offsets, kinds and addends. Twelve symbol sites
+  change only to the existing canonical interfaces, preserving independent PE
+  destinations. Actual SoundPlayer headers add two uuid.lib directives; the
+  six runtime constant sections remain identical. The final maintained-path
+  cold object reproduces the complete combined private inventory, including
+  directives. Five same-TU exact siblings pass1220 bytes/32 fields. The other
+ 994 exact source proofs are reused; only one of485 game source paths changes.
+- Original collision stays862/277 instructions/26 fields/12 ordered calls/
+ 33 blocks. Maintained source stays849/266/26/12/32, with804 whole overlap
+  differences and13 missing bytes. A native Float3 geometry control, native
+  effect vectors, their combination and an empty PlayerPosition constructor
+  are each completely neutral against the fresh closed baseline. Three
+  outer-hit while/for/explicit-check forms give849,849 and830 bytes; the830
+  form loses the original three-return ABI-exit inventory and is rejected.
+  Outer-for with difficulty acquired first gives865/272/32/819, still nonexact.
+- All five Type19 actual-record/native-vector controls retain821 bytes/35 fields/
+ 44 differences. Five actual Timer visibility controls distinguish call removal
+  from backend knowledge. Plain/all-method-noinline real bodies both give15560
+  bytes/598 fields, with the same28 direct ZunTimer call operands/eight symbols.
+  Equality-only and equality+float keep15564/598 and zero field/table differences,
+  but ordinary differences rise30 to38. Setter+assignment+float+equality again
+  gives15560. No nonvoid ABI or original annotation is inferred; no private
+  noinline annotation, target patch, forced register, padding or assembly is adopted.
+- The collision inspector now accepts only the actual service symbols. Five
+  focused tests include rejection of all seven obsolete symbol identities and
+  an unreviewed GameManager addend. Complete frozen source/COFF pairs and recipes
+  are retained below .analysis/gpt-61sol-20261020-boss-callee-contracts; superseded
+  compiler outputs and duplicate input copies are removed only after terminal
+  producer checks. Exact coverage remains999/1035 and242876/291883 bytes;
+ 95% still needs34413 complete exact bytes. Product/runtime and later gates stay open.
+- Final verification passes CI779 tests/28 skips, target-required tracking,
+  docs, progress and whitespace. All728 engineering inputs bind724 unchanged
+  parent hashes and four changes; the function ledger changes only the collision
+  notes. Scoped terminal-producer cleanup removes1186 files/18434375 bytes,
+  retaining87 unique input bodies for23 frozen cases. Frozen Timer-equality
+  replay reproduces15564 raw bytes/all598 actual COFF rows after cleanup,
+  then removes its own outputs. Build/ and own OBJ/PDB stay absent. This is
+  reproducibility of a nonexact experiment, not a RunEcl exactness claim.

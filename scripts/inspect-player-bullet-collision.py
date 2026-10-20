@@ -55,19 +55,19 @@ SOURCE_TARGETS = {
     '__real@3f000000': 0x00490F54,
     '__real@41000000': 0x0048E5D8,
     '?RotatePlayerCollisionVector@@YIXPAUPlayerPositionView@@0M@Z': 0x0042AF40,
-    '?g_PlayerGameManagerRuntime@@3UPlayerCancelGameManagerView@@A': 0x004A7D90,
-    '?TransformPopupX@PlayerCancelGameManagerView@@QAEMM@Z': 0x00401680,
-    '?TransformPopupY@PlayerCancelGameManagerView@@QAEMM@Z': 0x004016B0,
-    '?g_PlayerSupervisorRuntime@@3UPlayerCancelSupervisorView@@A': 0x004B3100,
-    '?SelectSide@PlayerCancelSupervisorView@@QAEXH@Z': 0x00401440,
+    '?g_GameManager@@3UAsciiGameManagerView@@A': 0x004A7D90,
+    '?TransformPopupX@AsciiGameManagerView@@QAEMM@Z': 0x00401680,
+    '?TransformPopupY@AsciiGameManagerView@@QAEMM@Z': 0x004016B0,
+    '?g_Supervisor@@3VSupervisor@@A': 0x004B3100,
+    '?SelectSide@Supervisor@@QAEXH@Z': 0x00401440,
     '?g_ReplayRng@@3URngRuntimeView@@A': 0x004ACE0C,
     '?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z': 0x00406200,
     '?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z': 0x00404910,
     '?g_PlayerRewardEffectManager@@3PAUEffectManager@@A': 0x004A7E0C,
     '?SpawnEffectWithVelocity@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@0HI@Z': 0x0040CCC0,
     '?AddRespawnResource@PlayerCancelState4OpsView@@QAEXM@Z': 0x0041BC90,
-    '?g_SoundPlayer@@3UPlayerCancelSoundView@@A': 0x004DC698,
-    '?PlaySoundByIdx@PlayerCancelSoundView@@QAEXHH@Z': 0x0043E2F0,
+    '?g_SoundPlayer@@3VSoundPlayer@@A': 0x004DC698,
+    '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z': 0x0043E2F0,
     '?ApplyReward@PlayerOwnerStateView@@QAEXPAUPlayerPositionView@@HHHH@Z': 0x0041D150,
     '?AddScore@PlayerCancelSideView@@QAEXH@Z': 0x0040F860,
 }
@@ -106,7 +106,7 @@ def bind_candidate(raw: bytes, rows: list[dict]) -> tuple[bytes, list[tuple]]:
             raise ValueError('Player collision source relocation order/ABI/bounds changed')
         if sym.startswith('__real@') and add != 0:
             raise ValueError('Player collision float literal addend changed')
-        if sym.startswith('?g_PlayerGameManagerRuntime') and add not in (0, 0x11C, 0x358):
+        if sym.startswith('?g_GameManager@@') and add not in (0, 0x11C, 0x358):
             raise ValueError('Player collision GameManager member offset changed')
         if not sym.startswith('?g_') and not sym.startswith('__real@') and add != 0:
             raise ValueError('Player collision callee ABI/addend changed')
