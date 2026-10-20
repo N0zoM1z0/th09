@@ -9,48 +9,51 @@
 
 The operator requests continued exact reconstruction across **large functions
 and small leaves**, serial low-priority compiles, focused affected replays and
-regular disposal of reproducible artifacts. Current replay-construction work
-starts from pushed `6671a75`. RunEcl/Enemy/Title DrawResult/Type3 remain
+regular disposal of reproducible artifacts. Current network-packet work starts
+from pushed `2a89e73`. RunEcl/Enemy/Title DrawResult/Type3 remain
 **30 /29 /22 /15** differing bytes, and SaveReplay remains **3**. None of these
 fronts or the 95% milestone is complete. The last accepted exact addition is
 Player initialization in `8ff6ce1`. This batch adds **no exact ledger row**.
 
-- **Replay constructor chain:** natural maintained source reproduces the full
-  **15 bytes at 0x420830 and 18 bytes at 0x420C40**, including both REL32 fields.
-  Payload-relative configuration +0x1C plus outer +0xC0 resolves to record
-  +0xDC. The payload contains the real 0xCC GameConfiguration and invokes its
-  existing exact constructor/initializer. The old claimed stage-buffer conflict
-  is withdrawn. Header/payload inheritance preserves the flat reconstruction
-  view; original class spelling, composition and explicit/implicit constructor
-  authorship remain unproved. Both rows stay **unknown/review**, unclassified
-  and 0%, with no `matches.csv` credit or authored denominator change.
-- The shared header affects six existing TUs. Focused serial cold builds cover
-  **61 accepted units in seven source/profile groups**, all exact, plus ten
-  nonexact consumer frontiers without regression. StartMenu's nine compiler
-  local label names change; section-relative destinations and the complete
-  **1,592 bytes /107 fields** still match. GameManager Setup and Cleanup also
-  retain their complete raw code and actual referents against the parent header.
-  Unrelated source/profile proofs are reused; no 1,000-unit replay is needed.
-- Public `scripts/check-replay-data-layout.py` cold-checks just the 33-byte
-  chain by default; `--with-dependents` reproduces the bounded closure above.
-  It rejects incorrect target/model/origin bindings, partial comparisons and
-  source changes during production. Source coverage and byte equality alone
-  never promote constructor origin. SaveReplay remains **1,238/53/3**, with
-  protected residuals +0xB7,+0xBB,+0x3F6. Network HandleMessage remains
-  **808/46/111**, preserving the preceding checkpoint's 14-byte improvement.
-- A verified **98-member** archive in
-  `.analysis/gpt-61sol-20261020-replay-construction/` retains **15** source/profile
-  cases and **91** raw function/actual-COFF pairs, all required source/header
-  inputs, local-label proofs and the complete maintained cohort report.
-  Its default selected cold replay reproduces both maintained constructors.
-  CI passes **821 tests /28 skips**. Post-CI cleanup removes 30 owned OBJ/PDB
-  files and replaces 98 loose evidence members with the verified ZIP, reducing
-  storage by **5,328,953 bytes (~5.08 MiB)**. Public/canonical objects and old
-  unclassified evidence remain. See [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md).
-- Prior checkpoints and cleanup remain in `6671a75`, `88cf47e`, `0123c7e`, `26e0fd3` and
-  [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md). The private Type3 four-byte
-  candidate still damages four equal positions and is not adopted. Diagnostic
-  archives are source-scoped reports, not accepted exact receipts.
+- **Network HandleMessage:** snapshots of the actual frame/input packet reads
+  recover **six** more original-linked bytes: **808 physical bytes /46 fields
+  /105 differences** (111→105), with no newly mismatching position. The
+  earlier ordinal/completion checkpoint recovered 14 bytes (125→111).
+  Both queue calls' ABI, packet layout and compiler profile stay unchanged.
+  All 17 direct/two virtual call operands, six switch destinations, the 16-byte
+  map and 34 direct blocks agree. It remains NON-EXACT, with 234/235
+  instructions. The full guard protects **703** equal bytes and rejects the
+  former 111-difference source or same-count damage to any restored position.
+- `scripts/inspect-network-message.py --build --guard --json` or
+  `check-boss-frontiers.py --owner netmessage` cold-checks only this standalone
+  TU. It has **no canonical exact sibling**. Unchanged source/profile proofs
+  are reused, including the prior constructor checkpoint's 61 accepted units.
+  Scope-qualified actual reads preserve frame-before-input chronology; original
+  volatile declarations, packet signedness and concurrent behavior stay unknown.
+- **23** private complete source/raw/actual-COFF pairs distinguish the adopted
+  read model from signed wire fields, snapshots, packet forwarding and wide/WORD
+  decoders. One further partial diagnostic rejects operand multiplicity before
+  a complete comparison and is preserved as a failed recipe. A verified
+  **67-member** archive in `.analysis/gpt-61sol-20261021-network-wire/` holds those
+  pairs, the maintained pair, five shared headers, exact profiles and diagnostic
+  reports. Its selected maintained replay independently reproduces 808 bytes
+  and all 46 actual fields, retaining the 105-difference frontier.
+  CI passes **822 tests /28 skips**. After terminal producer checks, the
+  67 loose archived files are removed: 610,540 bytes become a 118,439-byte ZIP,
+  a net reduction of **492,101 bytes (~481 KiB)**. All private compiler
+  carriers self-clean; public/canonical objects and older research remain.
+- **Replay construction remains source-bound to `2a89e73`:** both complete
+  15/18-byte bodies reproduce naturally, but their origins stay unknown/review,
+  unclassified and 0%, with no authored exact credit. Payload +0x1C plus outer
+  +0xC0 resolves to replay +0xDC, invoking the real GameConfiguration initializer.
+  Prior 61-unit/ten-consumer diagnostics and nine StartMenu local-label
+  proofs are preserved in the construction packet; no dependent header changes
+  in this network checkpoint. Use `check-replay-data-layout.py` for fresh replay.
+- The private Type3 four-byte candidate still damages four equal positions and
+  is not adopted. Previous checkpoints and cleanup remain in `2a89e73`,
+  `6671a75`, `88cf47e`, `0123c7e`, `26e0fd3` and
+  [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md). Diagnostic archives are
+  source-scoped reports, not accepted exact receipts.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
 
@@ -132,7 +135,7 @@ For the complete <=256-byte cohort see
 | **Replay BeginPlaybackStage** | 0x00420840 | **540 / 538**, 152/151 instructions, **32/32 ordered original PE/COFF fields**, 5 calls, 12/12 matching CFG blocks; **39** overlapping unlike bytes + 2 missing (49→39) | Scoped volatile read of `g_ReplaySideState0` after header 1E7 publication restores all 32 original field referents in the correct order and all **first 30 physical field positions**, instead of the previous one reversed field pair. Nine register-scheduling residual positions `+0x152,+0x156,+0x15C,+0x162,+0x168,+0x16C,+0x172,+0x178,+0x17A` and 30 seed/tail bytes `+0x1FB..+0x1FE,+0x200..+0x219` remain guarded. All **499 already matching** candidate bytes are protected; tail fields are still shifted -1/-2 bytes. `--owner replay` source-cold replays all **12 exact members across both pinned compiler profiles**; still NON-EXACT. |
 | **ScreenEffect shake envelope** | 0x004227A0 | **336/336**, 132 instructions, 20 fields, 8 calls, 26 blocks; **26** differences (28→26) | Authentic VC7.1 order of two real volatile references (fade, then hold; same hold + fade value) recovers original physical **+0x5C and +0x5F** with no regressed byte. `probe-screen-shake-context.py --variant timer-float` reproduces the measured 332-byte rejection: the actual four-byte conversion body stays exact, but the caller retains an x87 value across that call instead of spilling it. Full original-SHA/26-offset guard protects **all 310 already matching bytes**; the unchanged **18 ScreenEffect exact owners** (2,562 bytes across three profiles) reuse their source-bound proof. Remaining EDI/ESI owner allocation is NON-EXACT. |
 | **Controller input** | 0x0042B410 | **808 / 796**, 32 fields; **102** overlap differences /12 missing bytes | First **674 complete instruction bytes** match. WinMM axis midpoint/range CSE and register chronology remain open; split helpers, POD bounds, SDK value/reference types and loop controls have not closed the owner. Use `scripts/inspect-controller-input.py`. |
-| **Supervisor network HandleMessage** | 0x00432B70 | **768 authored /808 physical bytes**, 46 fields, 17 direct +2 virtual calls, 34 matching blocks; **111 differences** (125→111) | Natural zero-based prefill ordinal and per-case critical-section completion recover 14 bytes without a new mismatch. All six switch targets and 16 map bytes enter the full guard; 234/235 instructions remain nonexact. `--owner netmessage` compiles only this standalone TU and protects all 697 equal bytes; unrelated exact proofs are reused. |
+| **Supervisor network HandleMessage** | 0x00432B70 | **768 authored /808 physical bytes**, 46 fields, 17 direct +2 virtual calls, 34 matching blocks; **105 differences** (125→111→105) | Earlier ordinal/case completion recovers 14 bytes; real frame/input snapshots recover six more with no newly differing byte. All six switch targets and 16 map bytes enter the full guard; 234/235 instructions remain nonexact. `--owner netmessage` compiles only this standalone TU and protects all 703 equal bytes; unrelated exact proofs are reused. |
 | **Supervisor network service** | 0x00430AA0 | **1,633 / 1,632**, 108 source fields | Real queue ownership and 1,395 overlap differences still open; `--owner network`. |
 | **Supervisor::OnUpdate** | 0x00431110 | **844 authored / 996 target physical**, 952 candidate physical | 92 external fields, 27 calls but 44 missing physical bytes; `--owner network`. |
 | **ECL MoveRandomBiased leaf** | 0x00407E30 | **516 / 517**, 28 fields, 14 calls, 24 blocks; 148 overlap + 1 extra | Genuine shared RNG method/global owner symbols now independently original-bound; Y-pointer target `LEA [EAX+4]` versus candidate `MOV EAX` remains unresolved. `--owner runecl`. |
@@ -215,10 +218,11 @@ no authored-origin credit; use the tracked public checker for maintained inputs.
 
 The source/ledger baseline for the older 28 Charge/Effect controls is `085343b`;
 that historical checkpoint changed diagnostics and documentation only. The
-current replay-construction checkpoint has **486 game-source files, 1,028
-manifest units and 1,000 exact rows**. Its two new units preserve byte evidence
-for unknown-origin owners; they add no accepted exact credit. Existing affected
-source/profile proofs are revalidated by the bounded 61-unit replay above.
+current network-packet checkpoint retains **486 game-source files, 1,028
+manifest units and 1,000 exact rows**. The previous construction checkpoint
+added two byte-evidence units for unknown-origin owners, with no accepted exact
+credit. Its bounded 61-unit source/profile replay is reused unchanged; only the
+standalone network TU and its diagnostic guard change here.
 Native product/runtime, complete inventory, semantic and port gates stay open.
 
 The KB holds bounded observations and unresolved hypotheses. Old packet numbers,

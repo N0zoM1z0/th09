@@ -4,6 +4,38 @@
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 
+### 2026-10-21: network packet read progress and self-cleaning probes
+
+From pushed `2a89e73`, real frame/input snapshots improve the complete network
+message owner from 111 to 105 differences, without a new mismatch. Its full
+808-byte /46-field /19-call /34-block cold diagnostic and the selected frozen
+source/actual-COFF replay pass. The standalone TU has no accepted exact sibling;
+unchanged source/profile proofs are reused. CI passes **822 tests /28 skips**;
+target-required ledgers, documentation, progress and whitespace checks pass.
+
+The packet `.analysis/gpt-61sol-20261021-network-wire/` freezes 23 complete
+private source/raw/COFF pairs plus the maintained pair, five real shared headers,
+profiles, full reports, bounded inventory counterchecks and one failed recipe.
+Every private compiler/replay carrier uses a temporary directory and self-cleans
+OBJ/PDB on success or failure. No private compiler cache remains at cleanup.
+
+After all CI/compiler/replay handles terminate, a TH09-cwd-scoped `/proc`
+producer check passes. The ZIP digest and all 67 member hashes are verified;
+each loose path is regular, ignored, untracked and rehashed immediately before
+removal. `cleanup.json` retains every path/size/SHA and classification.
+
+| Actually removed/replaced | Files | Logical bytes |
+| --- | ---: | ---: |
+| Loose verified evidence members | 67 | 610,540 |
+| Retained verified ZIP | 1 | 118,439 |
+| **Net reduction** | | **492,101 (~481 KiB)** |
+
+Original executable, provider/toolchain/Wine/IDA state, public/canonical objects,
+older unclassified research, frozen manifest/replayer, CI log and selected cold
+receipt remain. The complete public diagnostic passes again on the retained
+source/profile-bound object after cleanup. No broad or age-based deletion is
+performed. This source improvement adds no authored exact credit.
+
 ### 2026-10-21: replay constructor chain and bounded dependent closure
 
 From pushed parent `6671a75`, the maintained 0x1EC replay view recovers the

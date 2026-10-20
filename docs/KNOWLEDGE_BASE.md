@@ -13560,3 +13560,74 @@ cases, 91 function/actual-COFF pairs and every required header, in a verified
 98-member archive. Its selected maintained-constructor replay is independent
 of loose experiment directories and self-cleans temporary source/OBJ/PDB.
 Native product/runtime and later semantic/portability gates remain open.
+
+
+## 2026-10-21 Network frame/input snapshots recover six physical bytes
+
+Recovery from clean pushed `2a89e73` reattests the original Japanese v1.50a
+executable, direct local IDA metadata and entry/distributed mapped bytes.
+Original HandleMessage at 0x432B70 owns 768 authored code bytes and 40 switch
+bytes; the complete original SHA remains
+`c77e9349bb3a63990969608fc2570bfb15d17575f8b0b2b86dc32f1ce16c5cd3`.
+The original frame-packet path reads frame +4 before input word +8 after
+publishing the 12-byte packet copy. Ordinary argument evaluation and plain
+snapshots had moved the input read ahead of frame. The retained source captures
+both real fields through scope-qualified reads, then forwards their values,
+the original side and the original narrowed seed to the unchanged queue ABI.
+This restores six physical positions **+0x6C,+0x6E,+0x7C,+0x7D,+0x7F,+0x80**:
+**111→105 complete linked differences, zero new mismatches**. The raw source
+SHA is `d4e82a0d15b5d3afeba0da804ecdea3a708e3f5b18d553a7d1afbdabe8d195df`.
+It does not establish original volatile declarations, concurrent mutation,
+packet-field signedness or portable behavior.
+
+The complete maintained cold diagnostic and selected frozen cold replay both
+retain 808 bytes, 46 independently original-bound operands, 17 direct/two
+virtual call operands, all six switch targets, 16 map bytes and 34 direct
+blocks. There are still 234 versus 235 original instructions. In particular,
+the received-input argument still uses MOVZX rather than the original separate
+clear/word load; Ack and handshake register schedules remain different. This
+is a source improvement without whole-owner exact credit. The production guard
+now protects **703** equal physical positions; pure negative tests reject the
+old 111-difference source and same-count substitutions at each restored byte.
+
+Twenty-three private complete source/actual-COFF captures test baseline, signed
+frame/handshake seed storage, plain value snapshots, packet forwarding,
+qualified actual reads, wider input values and fully defined word decoders.
+Signed storage and ordinary forwarding are neutral at 111. Sequencing actual
+frame/input reads produces 105; additionally qualifying seed is neutral.
+Unsigned-int/unsigned-long input values and wide result decoders retain 105,
+while WORD locals/results or copied-word decoding produce 199/201 differences,
+102 newly damaged positions and only 33 blocks. Global field qualification
+alone is neutral. A qualified partial-union word-copy recipe fails the strict
+operand-multiplicity check before a complete report; its failed log and source
+are retained, with no invented raw capture or exactness result. Earlier typed
+SaveReplay frame-copy controls are inspected from their frozen packet rather
+than rebuilt; they already retain its three-difference frontier.
+
+The changed network source has no accepted exact unit or dependent source
+include. Only that TU is rebuilt; unrelated source/profile proofs, including
+all 61 units checked for the previous replay-layout checkpoint, are reused.
+No ABI, shared header, packet layout, compiler profile, exact manifest,
+implemented mapping or origin classification changes. Both unknown-origin
+replay constructors stay independently byte-exact without authored credit.
+Authored exact coverage remains 1,000/1,035 and 243,428/291,883 bytes; the four
+requested fronts, 95%, native product/runtime and later phases remain open.
+
+A separate bounded inventory countercheck observes 8,770 decoded direct CALL
+sites inside catalogued logical extents, with no destination outside the
+catalogued extents. Scanning aligned words in non-executable PE sections finds
+947 values falling in executable sections, including 121 distinct values
+outside logical function extents. These are candidate values, not proven code
+pointers: 0x0044455A occurs inside DSERR string text, and 0x0044CB60/0x0044D5A0
+refer to data tables in executable-section storage, without an IDA function.
+Other candidates include compiler funclet/jump-table coverage not settled by
+this scan. No new function or complete-inventory claim follows. These bounded
+scan reports remain private diagnostics.
+
+The verified 67-member archive under
+`.analysis/gpt-61sol-20261021-network-wire/` preserves 23 private pairs plus the
+maintained pair, five genuine project headers, failed recipe, profiles and
+complete reports. Its default frozen replay stages those inputs, verifies
+target/provider hashes and reproduces every maintained raw byte and actual
+COFF row; temporary source/OBJ/PDB self-clean. Public tracked restart uses
+`inspect-network-message.py --build --guard` or `--owner netmessage`.

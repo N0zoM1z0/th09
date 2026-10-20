@@ -33,7 +33,7 @@ def frontier():
                 ordered_call_operands_agree=True, direct_calls=17, virtual_calls=2,
                 target_blocks=34, candidate_blocks=34, direct_graphs_agree=True,
                 switch_destinations=6, switch_map_bytes=16, missing_target_bytes=0,
-                extra_candidate_bytes=0, overlap_differences=111,
+                extra_candidate_bytes=0, overlap_differences=105,
                 difference_offsets=sorted(audit.RESIDUAL_OFFSETS), complete_bytes_equal=False)
 
 
@@ -87,7 +87,7 @@ class NetworkMessageAuditTests(unittest.TestCase):
 
     def test_same_count_mismatch_move_is_rejected_but_real_improvement_is_allowed(self):
         original = frontier()
-        self.assertEqual(len(original['difference_offsets']), 111)
+        self.assertEqual(len(original['difference_offsets']), 105)
         audit.guard(original)
         bad = copy.deepcopy(original)
         outside = next(i for i in range(audit.SIZE) if i not in audit.RESIDUAL_OFFSETS)
@@ -102,6 +102,20 @@ class NetworkMessageAuditTests(unittest.TestCase):
                         {'candidate_code_bytes': 784}, {'virtual_calls': 1}):
             with self.subTest(changes=changes), self.assertRaises(ValueError):
                 audit.guard(dict(original, **changes))
+
+    def test_restored_frame_read_positions_cannot_regress(self):
+        report = frontier()
+        restored = (0x6C, 0x6E, 0x7C, 0x7D, 0x7F, 0x80)
+        self.assertTrue(set(restored).isdisjoint(audit.RESIDUAL_OFFSETS))
+        for offset in restored:
+            # Replacing an old mismatch with a newly damaged byte keeps the
+            # count at 105, and must still fail the complete physical guard.
+            moved = sorted(report['difference_offsets'][1:]+[offset])
+            with self.subTest(offset=hex(offset)), self.assertRaises(ValueError):
+                audit.guard(dict(report, difference_offsets=moved))
+        prior = sorted(report['difference_offsets']+list(restored))
+        with self.assertRaises(ValueError):
+            audit.guard(dict(report, difference_offsets=prior, overlap_differences=111))
 
     def test_build_attests_target_first_and_detects_mid_compile_header_changes(self):
         with patch.object(audit, 'module', return_value=SimpleNamespace(

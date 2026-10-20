@@ -99,12 +99,14 @@ int SupervisorNetworkMessageView::HandleMessage(
             {
                 lastReceivedC8 = *packet;
 
+                // The original reads the frame before the input word. Keep
+                // these actual packet reads visible before the queue call.
+                int receivedFrame = static_cast<volatile int &>(packet->frame);
+                unsigned short receivedSeed = packet->seed;
+                int receivedInput = static_cast<volatile unsigned short &>(packet->input);
                 reinterpret_cast<SupervisorFrameQueueView *>(&g_Supervisor)
-                    ->InsertReceivedFrame(
-                        packet->side,
-                        packet->frame,
-                        packet->input,
-                        static_cast<short>(packet->seed));
+                    ->InsertReceivedFrame(packet->side, receivedFrame, receivedInput,
+                        static_cast<short>(receivedSeed));
             }
         }
         else if (data[0] == 1)
