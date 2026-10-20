@@ -13091,3 +13091,67 @@ attest historical producer execution.
   After terminal CI,359 cache files/6083838 bytes plus two superseded
   failure logs are removed. Build/ and own OBJ/PDB are absent. Source commit
   and independently verified remote push are bound separately in the packet.
+
+
+### 2026-10-20 — Type3 original chronology recovered in a four-byte private candidate
+
+- Clean8ff6ce1 recovery verifies the original Japanese1.50a target,direct IDA
+  metadata and entry/distributed mapped bytes. No target or IDA metadata is
+  modified. Direct IDA independently confirms all240 original instructions,
+  including the post-middle-Y Z store and both remaining argument sequences.
+- The maintained Type3 update442750 remains780/38/15. Qualifying its actual
+  middle-Y/Z stores together does not transfer the previous Player result:
+  four baseline/paired/reference/pointer controls all retain15 differences.
+  Old negative chronology notes therefore apply only to their tested models.
+- A private fully defined inline reader transports the actual tail-X float
+  through one volatile unsigned-word read and a four-byte union. Paired with
+  qualification of the actual middle-Z store,it restores original chronology:
+  middle-Y call+18E,Z store+196,tail-X load+19D. This first model has52 complete
+  linked differences; it is not a production improvement. No original volatile
+  declaration,word type,aliasing intent,concurrency or portable semantics follows.
+- Forwarding each of the three real collision queries through a fully defined
+  inline helper preserves receiver reloads,argument values,short-circuit order,
+  the genuine int result and real CheckBulletCollision ABI. The complete owner
+  then has only four differences: +1B2/+1B7 select EAX instead of original ECX
+  for tail-Y's argument;+247/+249 select ECX instead of EDX for the actual
+  Float3 motion-reference argument. All780 bytes,38 independently bound address
+  fields,240 instructions,24 original calls and17 direct blocks are checked.
+- These four offsets were already equal in maintained source. The unchanged
+  production frontier correctly rejects the candidate. No experimental gameplay
+  source,callee declaration,compiler profile or expanded residual allowance is
+  adopted; the canonical ledger receives zero exact functions/bytes.
+- Forty private full-TU cases comprise23 four-difference models,nine52,four15,
+  one67,one7,one11 and one785-byte extent rejection. Real query return predicates,
+  references,inline calling conventions,native Float3 samples,actual position
+  lifetimes,word transport and genuine callee visibility remain distinct tests.
+  Actual Float3 += visibility before/after the caller leaves four differences;
+  its separately emitted36-byte body independently equals original405730,
+  SHA ac5a4b23ae37aa608b00e72c113088fa7e0617ada95c50e71cb4742db5219212.
+- Public `scripts/probe-exattack-type3-word-order.py` cold-reproduces baseline15,
+  ordered-word52 and forwarded-query4 serially at lowered priority. Every raw
+  body and actual COFF row independently equals its private capture. It checks
+  complete original identity/chronology/CFG and explicitly reports unchanged
+  production-guard rejection for52/four. Input hashes bind the real recursive
+  header closure,compiler profile,tool lock and comparison scripts. It removes
+  temporary source/OBJ/PDB and retains only a compressed diagnostic report.
+- Separately,four complete Effect AddedCallback models qualify the real+4
+  resident pointer-object read,the actual manager publication,or both. All stay
+ 51 bytes/four fields/eight differences. These differ from older local-pointer
+  controls but provide no source correction or exact credit. Source-bound raw/
+  COFF pairs and recipes remain in the two ignored gpt-61sol-20261020 packets.
+- All485 game source files,1026 manifest units/profiles and1000 exact rows remain
+  unchanged from8ff6ce1. Current coverage stays243428/291883=83.3992%;95% needs
+ 33861 complete exact bytes. RunEcl and native product/runtime remain open.
+- Forty frozen Type3 cases share54 unique inputs; four Effect cases share16.
+  An independent14-input frozen replay reproduces the complete four-difference
+  candidate,including every raw byte and actual COFF record. After all producers
+  stop,the TH09-cwd-scoped guard passes and removes702 reproducible source/header/
+  OBJ/PDB files totaling5644105 bytes. Recipes,full reports and source content
+  store remain; own compiler binaries are absent. Existing unrelated evidence,
+  original target,toolchain and IDA state remain untouched.
+- Final CI passes788 tests/28 skips; target-required tracking,documentation,
+  generated progress and whitespace pass. Engineering binding reuses727 of728
+  previous inputs,changes only the Type3 ledger note and adds one diagnostic
+  script. After terminal CI,360 cache files/6097988 bytes are removed; build/
+  is absent. The source commit and independently verified remote push are
+  recorded separately in the packet.
