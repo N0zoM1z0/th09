@@ -11612,3 +11612,108 @@ attest historical producer execution.
   recipes, reports and original/SDK/toolchain inputs are retained; build/ is
   absent. Local commit identity and independent remote push proof are recorded
   separately after these checks.
+
+## October 20: ReplayMenu complete geometry/CFG restored; 29 bytes remain (gpt-6.1-sol)
+
+- Recovery from pushed **a28a0a08637b63ebaf084a3c8a160707e8f7ea3a** is clean.
+  Original Japanese v1.50a disk hash, direct local IDA metadata, entry and
+  distributed mapped bytes pass. Large RunEcl and Title owners remain active;
+  all native compilation is serial and lowered priority.
+- Fresh full RunEcl baseline reproduces **15,564 physical bytes /598 fields /
+  30 ordinary differences**, zero field/table differences. Four natural typed
+  flag-value returns use a real four-byte union/struct or real union member,
+  preserving raw/bitfield storage and byte reads. VC7.1 does not inline these
+  aggregate-return helpers under the genuine/Ob1 profile; every case emits a
+  real extra call absent from the target. The local handler becomes35/36/35/62
+  bytes rather than45, and full-owner coverage is rejected. Raw unlinked call
+  disassembly is not an original callee address; no invented binding/ABI,
+  fabricated clobber, forced-inline workaround or production ECL edit follows.
+- ReplayMenu original **4234F6..4239F5 /1,280 bytes /376 instructions /57 fields /
+  13 calls /72 blocks** retains full SHA256
+  **d0201b3aae3727f7aa773187ac9ac6d21727c86342b657c780cb9353cdc39ed0**.
+  Fresh parent candidate is1,258/368/57/13/70 with1,187 overlap differences and22
+  missing bytes. Its scalar interpolation and true SDK function equivalent have
+  identical complete codegen; SDK operator syntax gives1,267/373/70 and remains
+  nonexact. No SDK vector/header change is promoted.
+- Original/actual COFF correspondence and direct-flow inspection identify one
+  missing conditional test, localized to the list user-file row. Original first
+  acquires date/name, then characters18,17,16,15. The old candidate computes
+  characters15..18 first and combines its subsequent date/name predicate.
+  Plain reverse-character or direct variadic-argument forms alone do not close
+  the current full13-call caption model. The earlier direct-argument negatives
+  were scoped to the older11-call model; this fresh comparison does not silently
+  reuse that result across changed source context.
+- Two useful source changes combine: direct native `replays[i]` list access
+  avoids the wrong fully biased row-pointer lifetime, and named consumed
+  date/name values precede reversed character acquisition in both user-file
+  arms. The candidate first reproduces **all72 physical-order direct blocks and
+  equal edges/call identities**, at1,264 bytes/371 instructions. Every paired
+  block also has the same ordered original field referents; no graph alignment
+  substitutes for an address binding or grants partial exact credit.
+- Block comparison then separates real acquisition points. The original selected
+  record pointer is full `owner+selected*1EC+68E4`, held independently of the
+  selected index used later for mode lookup; the old model commoned those into
+  one biased base. Acquiring the actual record before the selected snapshot
+  restores the full extent. Acquiring the timer only after coordinate setup
+  restores its memory-read chronology and FPU/stack homes. No stale snapshot
+  crosses a new call, no extra object storage is invented and no byte is patched.
+- Maintained source now emits **1,280 bytes /376 instructions /57 fields /
+  13 ordered calls /72 equal direct blocks**. Frame134h, position EBP-14h and
+  caption EBP-134h agree with the target. Actual **29** unlike byte offsets are
+  185,18B,193,19D,19E,1A0,1A1,1B6,1BC,1D3,24A,25A,25C,271,272,29D,2A3,
+  2C6,2D7,2F0,2F5,2FD,304,308,316,319,31C,31E,321 (hex). They are confined
+  to selected-row ECX/EDX assignment and two stack-store order, not a broad
+  permitted interval. Every prior71 equal byte stays equal;1,180 additional
+  positions now agree, **1,251 total**. Complete source remains NON-EXACT.
+- Pointer/reference/const record and index controls, actual pointer/reference
+  getters with complete ordinary bodies, direct selected expressions, shared
+  index lifetime and genuine __cdecl controls do not close those residuals.
+  Getter controls do not invent an opaque register-preservation promise.
+  Profile/default calling convention and helper declarations stay unchanged in
+  production. These are bounded negatives, not compiler impossibility or unique
+  original source/type/TU recovery.
+- Actual maintained-source cold compile equals the private warm's full1,280
+  bytes and all57 COFF rows; raw function SHA256 is
+  **d83b9d48e715d95fde6fd6729b9f6630b5a88befd4bbf422edcc003ac77caca9**.
+  Public CRLF source SHA256 is
+  **03370ceae2b45c4bbb01953b8cdb2a091e620d812d0b9cf8c619bbb6a84bdb85**.
+  The two emitted but uncalled17-byte selectors and three-byte constructor
+  retain all37 bytes/two fields. All17 nondebug noncode sections/157 bytes keep
+  bytes, flags, fields and physical order, including compiler directives.
+  No unrelated exact owner is rebuilt: this isolated TU has no canonical exact
+  units, and all other480 game-source files retain parent hashes.
+- `guard_title_replay_menu` now requires complete1280/376/72 geometry and equal
+  direct CFG, and protects all1,251 equal physical positions. It allows only a
+  subset of the actual29 residual coordinates, not regressions elsewhere inside
+  +185..321. Eight pure focused tests pass: every protected byte is independently
+  mutated, old missing geometry/CFG is rejected, malformed source/target proof
+  fails, and even a future zero-byte diagnostic must still claim no acceptance.
+  The inspector still binds/compares historical objects but the maintained
+  frontier rejects their superseded geometry. No matches.csv/unit/count changes.
+- Full recipes, immutable parent/actual source hashes, target-only IDA notes,
+  original/COFF flow witnesses, complete candidate reports and focused proof
+  remain under `.analysis/gpt-61sol-20261020-runecl-value-carriers/`. Canonical
+  totals stay **995 exact /242,518 of291,525 bytes /83.1894%**;95% still needs
+ 34,431 complete exact bytes. Native product/runtime, later semantic/port gates
+  and complete executable inventory stay open.
+- Direct local IDA entry comment is updated from its superseded October10
+  candidate and read back exactly; old/new comments are retained separately.
+  No target bytes, boundaries, type/prototype or database identity are changed.
+  The full decompiler dump is disposable because independent PE/COFF block
+  witnesses and the unique before/after metadata text retain the useful evidence.
+- Final CI passes **763 tests/28 skipped**. Its first run found one old layout
+  assertion requiring a removed local-pointer spelling; the replacement checks
+  the real native array's magic/playTime/playerName and selected-record access,
+  retaining the complete shared physical schema and50-unit manifest checks.
+  No native recompile is required for that test-only correction. Eight focused
+  tests, target-required tracking, docs, progress and staged/unstaged whitespace
+  pass. Of721 engineering inputs,715 retain parent hashes, six change and none
+  are added (681 raw/40 working-CRLF-to-LF bindings). A single retained-case
+  native replay independently reproduces its saved1280-byte/57-field raw hash.
+  After all own producers terminate, scoped cleanup removes **470 files /
+  11,870,616 bytes**, including35 hash-reconstructed ECL include derivatives.
+  Native outputs/build/ and redundant full decompilation are removed; compact
+  source/variants, profiles, reports, raw hashes and comments remain. The original
+  PE, IDA database, toolchains and unrelated legacy evidence are untouched.
+  This checkpoint's local source commit and independent remote-push proof are
+  recorded separately; no canonical or Factory acceptance is inferred.

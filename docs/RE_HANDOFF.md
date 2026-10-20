@@ -18,54 +18,61 @@ The **95%** milestone still needs **34,431** complete exact authored bytes.
 The denominator now includes the newly reviewed2,220-byte Type29 draw; exact
 bytes are unchanged. Whole Windows i386 product/runtime and later gates stay open.
 
-- **Options now uses native input storage:** all six front-word reads and two
-  scrolling receivers refer to `g_ReplayInputStates[2]`, the existing three-slot
-  native array rooted at **4ACE18**, stride **8E**. Receiver **4ACF34** is root
-  +11C; its actual16-bit word06 at **4ACF3A** is root +122. The fake standalone
-  input globals are removed from this consumer. Compile-time checks pin the
-  bounded8-byte scrolling prefix to the native slot's fields; they do not call
-  that prefix a complete input object or recover unique original class ownership.
-- **Complete Options codegen preserved:** all **2,048 linked candidate bytes**,
-  other127 operands and97 nondebug noncode bytes remain equal to the parent.
-  Eight real COFF references now carry the array symbol/root/member addends.
-  The strengthened `--require-native-input` audit rejects historical aliases
-  even when they resolve to identical numeric addresses. Options stays
-  **2,048/2,045**, 135 fields,51 calls,121 matching blocks, **NON-EXACT**.
-- **Focused canonical checks:** the changed TU's **34-byte menu-sound sibling**
-  passes all bytes/three fields. Fresh independent canonical checks also pass
-  the42-byte scrolling helper and257-byte array synchronization function:
-  **333 exact bytes /31 fields**, no new exact count. Other480 public game-source
-  files retain parent **7e423d9** hashes, allowing unaffected proofs, including
-  the77 exact ECL owners/24,374 physical bytes/1,091 fields, to be reused.
-- **Large-boss controls retained:**21 genuine Type29 receiver/context controls
-  do not close the six missing local-center ECX reloads. Outlined body stays
-  **2,205/2,220**,129 fields,1,170 overlap differences+15 missing; class-inline
-  visibility gives2,239 and adds unwanted per-vertex reloads. SDK, pointer-return
-  arithmetic and XY-prefix hypotheses have independently exact actual callee
-  bodies but no caller match. No ABI, shared vector header or new assembly is
-  promoted. Nine RunEcl byte/bitfield controls are neutral or rejected for wrong
-  field/table layout or widened volatile reads; the **15,564/598/30** frontier
-  remains open. Recipes, complete reports and parent restoration are retained in
-  `.analysis/gpt-61sol-20261020-effect29-center-receiver/`.
-- **Inventory unchanged:** Type29 draw448750..448FFB remains reviewed authored
-  **2,220 bytes without maintained source**. All55 code entries in the bounded
- 38-row Effect prefix are catalogued; complete executable inventory is unproven.
-  RunEcl's14,792 authored bytes exceed the entire14,576-byte nonexact allowance
-  at95% of the current denominator, so that boss remains necessary unless the
-  reviewed denominator changes substantially.
+- **ReplayMenu restores the complete original structure:** maintained
+  `TitleScreenView::DrawReplayMenu @4234F6` now emits **1,280/1,280 bytes,
+ 376/376 instructions and72/72 direct blocks with equal edges/call identities**.
+  All57 original address fields and13 ordered calls remain bound, and each
+  corresponding block has the same original referent sequence. The old candidate
+  was1,258 bytes/368 instructions/70 blocks with1,187 overlap differences+22 absent.
+- **29 actual byte differences remain, no new exact credit:** the new candidate
+  preserves every prior71 equal position and recovers1,180 more. All **1,251**
+  equal physical positions are guarded, allowing changes only at the actual29
+  residual offsets. Those differences lie at **+185..+321** in selected-row
+  ECX/EDX choices and two local-store order. Frame134h, position home-14h and
+  caption home-134h now agree. The first388 bytes and everything after+321
+  already match, but neither matching ranges nor CFG equality count as exact.
+- **Target-backed source correction:** list rows directly index the real0x1EC
+  replay array; user rows acquire date/name before characters18,17,16,15. The
+  selected record is acquired before the selected-index snapshot, while the
+  interpolation timer is acquired after coordinate setup. This restores the
+  original six list-user conditional tests and correct record/timer chronology
+  without assembly, added storage, fake ABI, forced registers or profile changes.
+  Original source names and TU ownership remain unproven.
+- **Focused verification:** fresh public-source cold compilation reproduces all
+ 1,280 warm bytes and57 fields. The other three emitted bodies/37 bytes/two
+  fields and all17 nondebug noncode sections/157 bytes retain bytes, fields and
+  physical order. This isolated source has no canonical exact units; other480
+  game-source files retain parent **a28a0a0** hashes, so unaffected exact proofs
+  (including77 ECL owners/24,374 physical bytes/1,091 fields) are reused.
+- **Large-boss investigation:** a fresh complete RunEcl baseline stays
+  **15,564 physical bytes /598 fields /30 differences**. Four genuine typed
+  aggregate-return controls emit extra helper calls absent from the target and
+  fail the full owner gate; no ABI or ECL change follows. ReplayMenu SDK function
+  controls are neutral; native operator syntax, old argument forms in the new
+  caption context, and pointer/reference/const/getter/calling-convention controls
+  are retained with separate full reports. Recipes and source bindings live in
+  `.analysis/gpt-61sol-20261020-runecl-value-carriers/`.
+- **Inventory unchanged:**995 canonical exact /242,518 authored bytes. Type29
+  draw448750..448FFB remains reviewed authored2,220 bytes without maintained source.
+  RunEcl's14,792 authored bytes exceed the14,576-byte nonexact allowance at95%
+  of the current denominator, so that boss remains necessary unless substantial
+  new reviewed inventory changes the denominator. Whole native/runtime gates stay open.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
-- **Final checks and cleanup:** CI passes **761 tests /28 skipped**, including
-  four new native-input identity/bounds tests. Tracking, docs, progress and
-  staged/unstaged whitespace pass. Of721 engineering inputs,716 retain parent
-  hashes, four change and one test is added. After every own producer stops,
-  scoped cleanup removes **974 files /16,762,597 bytes**, including544 source
-  derivatives verified reproducible from Git and retained variants. Unique
-  unresolved sources/reports remain; `build/` is absent. The parent **7e423d9**
-  was pushed and independently remote verified; this checkpoint's source/push
-  binding is recorded separately in its private packet.
+- **Final checks and cleanup:** all **763 CI tests /28 skipped** pass, including
+  eight focused tests protecting every1,251 equal position. A stale shared-layout
+  test now checks the actual native array/record reads instead of the removed
+  local-pointer spelling. Tracking, docs, progress and staged/unstaged whitespace
+  pass. Of721 engineering inputs,715 retain parent hashes and six change; other480
+  game-source files remain unchanged. After every own producer stops, scoped
+  cleanup removes **470 files /11,870,616 bytes**, including35 source derivatives
+  reconstructed by hash from Git and retained variants. One-case native replay
+  also reproduces the saved full1280-byte/57-field raw hash. Unique unresolved
+  evidence remains; build/ is absent. Parent **a28a0a0** was pushed and independently
+  remote verified; this checkpoint's source/push binding is recorded separately
+  in its private packet.
 
 
 ## Next worker: first three work packages
@@ -86,8 +93,8 @@ bytes are unchanged. Whole Windows i386 product/runtime and later gates stay ope
    `--owner etama` plus exact sibling units, respectively.
 2. **TitleScreen and ExAttack:** protect exact **MusicRoom Update** and
    **TitleSetup** while investigating **`DrawResult`'s 22 byte offsets**,
-   ReplayMenu's **1,280/1,258** and **72/70** CFG split, and options/tail
-   callbacks. ExAttack Type19/21 initializers are now **763/727 bytes exact**;
+   ReplayMenu's newly restored full **1,280/1,280** owner and **29 selected-row
+   residual bytes**, plus options/tail callbacks. ExAttack Type19/21 initializers are now **763/727 bytes exact**;
    Type3 update **15 bytes**, Type14/22 Draw **959/974**, and Type19 update
    are still open. `--owner title`, `--owner exattack` and `--owner type3`
    run the original-bound comparisons.
@@ -184,7 +191,7 @@ For the complete <=256-byte cohort see
 | **Front weighted message RNG** | 0x004162D0 | **693 target / 681 candidate**, 15 fields, 6 calls, **569** overlap + 12 missing | Primary-first table selection refined in `09bb2a6`; target/candidate CFG 40/41 blocks. `--owner front` protects exact FrontCalc and siblings. |
 | **Front added initialization** | 0x00418480 | **706/706**, 37 original fields, 21 calls, 19 equal blocks; **222 differences** (236→222) | Explicit Z stores and the actual source-vector reference restore 14 physical positions while preserving all 470 previously equal bytes. All 484 equal bytes are guarded. Two private method aliases are replaced by real Reset/Load calls; a shared runtime prefix preserves 0x1D70 and +0/+4/+8/+0C. `--owner frontadded` protects the whole callback plus four exact methods /832 bytes /41 fields. Receiver and remaining panel-store scheduling stay open. |
 | **TitleScreen::OnUpdateResult** | 0x004266B5 | **485 / 484**, 147/147 instructions, 34 fields, 9 calls; **218** overlap + 1 missing | Pointer-backed character snapshot in `4fe7cb0`; original CL/EAX codegen still differs. Protect all 37 existing exact `TitleScreen.cpp` units, including privately relabeled StartMenu. |
-| **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280 target / 1,258 source bytes**, 376/368 instructions, **57/57 original decoded/COFF operands**, **13/13 ordered calls**, **72/70 CFG blocks** | Complete original-SHA-bound source-cold diagnostics run via `--owner replaymenu` or `--owner title`. All **71** equal physical positions are now protected against regression; the candidate is still **22 bytes short and NON-EXACT**. The shared replay record is exact-sized but does not imply the function is exact. |
+| **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280/1,280 bytes**,376/376 instructions,57 original-bound fields,13 ordered calls,72 matching direct blocks; **29 differences** | Native indexed list reads, date/name-before-character evaluation, record-before-index acquisition and later timer snapshot recover1,180 more equal bytes. All1,251 matching positions and complete geometry/CFG are now protected. Remaining +185..+321 differences are selected-row ECX/EDX choices and two local-store order. `--owner replaymenu` cold-checks this isolated TU; still NON-EXACT. |
 | **TitleScreen::DrawReplaySave** | 0x004239F6 | **800/800 physical**, 245 instructions, 41 fields, 4 calls, 28/28 matching blocks; **96 linked differences** | Raw replay magic, genuine SDK subtraction/two scales/addition and two-byte character construction restore the full extent and nine more loop-counter/FILD home bytes. All **704** equal positions are SHA-bound and protected; no old matching byte regresses from the 105-residual source. Remaining vector/text homes, replay-pointer and keyboard schedules stay NON-EXACT. No enlarged buffer, extra storage or new target helper claim. |
 | **TitleScreen::DrawResult** | 0x00423D16 | **1,939/1,939**, 82 fields, 16 calls, 92 blocks; **22** differences | All 22 SHA-pinned linked differences are in the entry: 21 at `+0x0E..+0x24`, one at `+0x39` (bank-pointer store vs `currentScreen` prefetch). The entire remaining owner is byte-exact; the strengthened guard now pins **all 22 exact residual positions**, including preserving previously matching `+0x13` and `+0x18` inside the old entry window. The shared native GameManager field at+0x3F now has its actual COFF symbol/root/addend identity guarded; superseded mode/name-index aliases are rejected. `--owner title` protects the original full owner. |
 | **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 / 2,048**, 135 fields, 51 calls, 121 blocks | Uses genuine `AnmManager`/`AnmLoaded` and `SoundPlayer` receivers for29 fields, plus **eight native input array references**: two receivers at `g_ReplayInputStates[2]` and six16-bit word06 reads. Strict root/addend checking rejects fake standalone globals even at equal effective addresses. All2,048 linked candidate bytes and135 referents are preserved; 610 overlap differences+3 extra bytes remain NON-EXACT. Exact same-TU `PlayMenuSound`34/34 and `--owner title` protect this frontier. |

@@ -5,8 +5,9 @@ Retail Japanese TH09 v1.50a:
   0x004234F6, 1,280 physical bytes, 376 decoded x86 instructions,
   57 independently decoded code/data address fields, 13 calls, 72 CFG blocks.
 
-The authentic source is currently a 1,258-byte, 368-instruction, 70-block
-candidate. Neither the source's field count nor a normalized alignment score
+The maintained source is currently a complete 1,280-byte, 376-instruction,
+72-block candidate with 29 ordinary byte differences. Neither field/CFG
+agreement nor a normalized alignment score
 can certify exactness. Strict exactness needs a separate source-commit-bound
 Factory replay of the entire original-owned physical byte range.
 """

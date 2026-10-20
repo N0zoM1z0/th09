@@ -3709,21 +3709,18 @@ def guard_title_replay_save(result: dict) -> None:
 TITLE_REPLAY_MENU_TARGET_SHA256 = (
     'd0201b3aae3727f7aa773187ac9ac6d21727c86342b657c780cb9353cdc39ed0'
 )
-# Fresh original-linked comparison of the 1,258-byte maintained candidate.
-# The other 1,187 overlapping positions differ, and 22 target bytes are
-# absent. Newly recovered bytes may extend the candidate through 1,280;
-# every one of these 71 already equal physical positions must stay equal.
-TITLE_REPLAY_MENU_MATCHED_OFFSETS = frozenset((
-    0x000, 0x001, 0x002, 0x003, 0x004, 0x005, 0x006, 0x007, 0x008,
-    0x019, 0x020, 0x021, 0x02A, 0x043, 0x081, 0x0A2, 0x0A8,
-    0x0AF, 0x0DB, 0x16C, 0x1A2, 0x1A3, 0x1A5, 0x1A6, 0x1BA,
-    0x22D, 0x236, 0x23B, 0x260, 0x267, 0x268, 0x269, 0x280,
-    0x286, 0x28D, 0x28E, 0x2BD, 0x2BE, 0x2BF, 0x2C1, 0x2C2,
-    0x2C3, 0x2C5, 0x2C7, 0x2C9, 0x2CA, 0x2CD, 0x2CE, 0x2CF,
-    0x2D0, 0x2E1, 0x2F9, 0x311, 0x334, 0x35B, 0x362, 0x37C,
-    0x38D, 0x39D, 0x3C2, 0x3C5, 0x3D0, 0x3D4, 0x3D5, 0x409,
-    0x40C, 0x40F, 0x415, 0x42D, 0x477, 0x492,
+# Complete source-cold original comparison: protect all 1,251 equal bytes,
+# including every previously equal position. These are actual unlike bytes,
+# not a broad interval in which unrelated regressions may hide.
+TITLE_REPLAY_MENU_RESIDUAL_OFFSETS = frozenset((
+    0x185, 0x18B, 0x193, 0x19D, 0x19E, 0x1A0, 0x1A1,
+    0x1B6, 0x1BC, 0x1D3, 0x24A, 0x25A, 0x25C, 0x271,
+    0x272, 0x29D, 0x2A3, 0x2C6, 0x2D7, 0x2F0, 0x2F5,
+    0x2FD, 0x304, 0x308, 0x316, 0x319, 0x31C, 0x31E, 0x321,
 ))
+TITLE_REPLAY_MENU_MATCHED_OFFSETS = (
+    frozenset(range(1280)) - TITLE_REPLAY_MENU_RESIDUAL_OFFSETS
+)
 
 
 def guard_title_replay_menu(result: dict) -> None:
@@ -3741,21 +3738,20 @@ def guard_title_replay_menu(result: dict) -> None:
     aligned = result.get('aligned_instructions')
     candidate_blocks = result.get('candidate_blocks')
     if (result.get('target_sha256') != TITLE_REPLAY_MENU_TARGET_SHA256 or
-            type(size) is not int or not 1258 <= size <= 1280 or
+            type(size) is not int or size != 1280 or
             result.get('target_instructions') != 376 or
             type(result.get('candidate_instructions')) is not int or
-            not 368 <= result['candidate_instructions'] <= 376 or
+            result['candidate_instructions'] != 376 or
             result.get('original_fields') != 57 or
             result.get('original_calls') != 13 or
             result.get('candidate_calls') != 13 or
             result.get('ordered_calls_agree') is not True or
             result.get('original_blocks') != 72 or
-            type(result.get('direct_graphs_agree')) is not bool or
+            result.get('direct_graphs_agree') is not True or
             type(candidate_blocks) is not int or
-            not 70 <= candidate_blocks <= 72 or
-            (result.get('direct_graphs_agree') is True and candidate_blocks != 72) or
-            type(aligned) is not int or not 238 <= aligned <= 376 or
-            type(count) is not int or not 0 <= count <= 1187 or
+            candidate_blocks != 72 or
+            type(aligned) is not int or not 350 <= aligned <= 376 or
+            type(count) is not int or not 0 <= count <= 29 or
             not isinstance(diffs, list) or len(diffs) != count or
             any(type(i) is not int or not 0 <= i < size for i in diffs) or
             diffs != sorted(set(diffs)) or

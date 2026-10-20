@@ -76,37 +76,39 @@ int TitleScreenView::DrawReplayMenu()
             g_AsciiManager.color =
                 (i == keyboardSelection) ? 0xFFFFFFFFu : 0xFF808080u;
 
-            ReplayDataView *replay = &replays[i];
             if (i < 25)
             {
                 g_AsciiManager.AddFormatText(
                     &position,
                     "No.%.2d %8s %8s",
                     i + 1,
-                    ReplayMenuPlayerName(replay),
-                    ReplayMenuPlayTime(replay));
+                    (replays[i].magic ? replays[i].playerName : "--------"),
+                    (replays[i].magic ? replays[i].playTime : "--/--/--"));
             }
             else
             {
-                char c0 = replay->magic ? replayPaths[i][15] : 'u';
-                char c1 = replay->magic ? replayPaths[i][16] : 's';
-                char c2 = replay->magic ? replayPaths[i][17] : 'e';
-                char c3 = replay->magic ? replayPaths[i][18] : 'r';
+                // Evaluate the two strings before filename characters 18..15.
+                const char *date = (replays[i].magic ? replays[i].playTime : "--/--/--");
+                const char *name = (replays[i].magic ? replays[i].playerName : "--------");
+                char c3 = replays[i].magic ? replayPaths[i][18] : 'r';
+                char c2 = replays[i].magic ? replayPaths[i][17] : 'e';
+                char c1 = replays[i].magic ? replayPaths[i][16] : 's';
+                char c0 = replays[i].magic ? replayPaths[i][15] : 'u';
                 g_AsciiManager.AddFormatText(
                     &position,
                     "%c%c%c%c  %8s %8s",
                     c0, c1, c2, c3,
-                    ReplayMenuPlayerName(replay),
-                    ReplayMenuPlayTime(replay));
+                    name,
+                    date);
             }
             position.y += 13.0f;
         }
     }
     else if (currentScreenState == 2)
     {
+        // Acquire the record before the selected-index snapshot.
+        ReplayDataView *replay = &replays[selectedReplay];
         i32 selected = selectedReplay;
-        ReplayDataView *replay = &replays[selected];
-        i32 frame = stateTimer2;
 
         position.x = selected < 25 ? 32.0f : 352.0f;
         position.y = (float)selected * 13.0f + 90.0f;
@@ -116,6 +118,8 @@ int TitleScreenView::DrawReplayMenu()
         target.x = 216.5f;
         target.y = 160.0f;
         target.z = 0.0f;
+        // Acquire the interpolation timer after setting up the coordinates.
+        i32 frame = stateTimer2;
         if (frame < 10)
         {
             Float3 scaled;
@@ -145,16 +149,18 @@ int TitleScreenView::DrawReplayMenu()
         }
         else
         {
-            char c0 = replay->magic ? replayPaths[selected][15] : 'u';
-            char c1 = replay->magic ? replayPaths[selected][16] : 's';
-            char c2 = replay->magic ? replayPaths[selected][17] : 'e';
+            const char *date = ReplayMenuPlayTime(replay);
+            const char *name = ReplayMenuPlayerName(replay);
             char c3 = replay->magic ? replayPaths[selected][18] : 'r';
+            char c2 = replay->magic ? replayPaths[selected][17] : 'e';
+            char c1 = replay->magic ? replayPaths[selected][16] : 's';
+            char c0 = replay->magic ? replayPaths[selected][15] : 'u';
             g_AsciiManager.AddFormatText(
                 &position,
                 "%c%c%c%c  %8s %8s",
                 c0, c1, c2, c3,
-                ReplayMenuPlayerName(replay),
-                ReplayMenuPlayTime(replay));
+                name,
+                date);
         }
 
         position.x = 221.0f;

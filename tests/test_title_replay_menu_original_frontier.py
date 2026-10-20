@@ -1,6 +1,6 @@
 """Fail-closed source/target input tests for the separate 1,280-byte Title boss.
 
-Original PE field values/CFG and the full 1,258-byte source are read by the
+Original PE field values/CFG and the full 1,280-byte source with29 residual bytes are read by the
 pinned standalone inspector; none of these no-target tests grants exactness.
 """
 import importlib.util
@@ -18,20 +18,29 @@ original = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(original)
 
 
+
+# Independently recorded complete native comparison, not derived from the guard.
+CURRENT_DIFFERENCES = (
+    0x185, 0x18B, 0x193, 0x19D, 0x19E, 0x1A0, 0x1A1,
+    0x1B6, 0x1BC, 0x1D3, 0x24A, 0x25A, 0x25C, 0x271,
+    0x272, 0x29D, 0x2A3, 0x2C6, 0x2D7, 0x2F0, 0x2F5,
+    0x2FD, 0x304, 0x308, 0x316, 0x319, 0x31C, 0x31E, 0x321,
+)
+
+
 def current():
     return {
         'diagnostic_only': True, 'exactness_credit': 'none',
         'target_sha256': original.ORIGINAL_SHA256,
-        'target_bytes': 1280, 'candidate_bytes': 1258,
-        'target_instructions': 376, 'candidate_instructions': 368,
+        'target_bytes': 1280, 'candidate_bytes': 1280,
+        'target_instructions': 376, 'candidate_instructions': 376,
         'original_fields': 57, 'bound_fields': 57,
         'original_calls': 13, 'candidate_calls': 13,
         'ordered_calls_agree': True, 'original_blocks': 72,
-        'candidate_blocks': 70, 'direct_graphs_agree': False,
-        'aligned_instructions': 238, 'overlap_differences': 1187,
-        'difference_offsets': sorted(set(range(1258)) -
-                                   frontier.TITLE_REPLAY_MENU_MATCHED_OFFSETS),
-        'missing_target_bytes': 22, 'extra_candidate_bytes': 0,
+        'candidate_blocks': 72, 'direct_graphs_agree': True,
+        'aligned_instructions': 350, 'overlap_differences': 29,
+        'difference_offsets': list(CURRENT_DIFFERENCES),
+        'missing_target_bytes': 0, 'extra_candidate_bytes': 0,
         'complete_bytes_equal': False,
     }
 
@@ -64,15 +73,15 @@ class TitleReplayMenuOriginalFrontierTests(TestCase):
 
     def test_same_count_exchange_cannot_damage_a_matching_physical_byte(self):
         report = current()
-        self.assertEqual(len(frontier.TITLE_REPLAY_MENU_MATCHED_OFFSETS), 71)
-        self.assertEqual(len(report['difference_offsets']), 1187)
+        self.assertEqual(len(frontier.TITLE_REPLAY_MENU_MATCHED_OFFSETS), 1251)
+        self.assertEqual(len(report['difference_offsets']), 29)
         # A lower total or better aligned score cannot pay for losing a byte
         # that already equals the independently linked original.
-        for offset in (0, 0x19, 0x1A2, 0x2CF, 0x492):
+        for offset in sorted(set(range(1280)) - set(CURRENT_DIFFERENCES)):
             with self.subTest(offset=hex(offset)):
                 changed = {**report, 'difference_offsets': sorted(
                     report['difference_offsets'][1:] + [offset])}
-                self.assertEqual(len(changed['difference_offsets']), 1187)
+                self.assertEqual(len(changed['difference_offsets']), 29)
                 with self.assertRaisesRegex(RuntimeError, 'already matched'):
                     frontier.guard_title_replay_menu(changed)
 
@@ -88,20 +97,18 @@ class TitleReplayMenuOriginalFrontierTests(TestCase):
         inspect.assert_called_once_with([
             'scripts/inspect-title-replay-menu-draw.py',
             'build/matching/TitleScreenReplayMenuDraw.obj', '--json'])
-        self.assertEqual(report['title_draw_replay_menu']['overlap_differences'], 1187)
+        self.assertEqual(report['title_draw_replay_menu']['overlap_differences'], 29)
         corrupted = current()
         corrupted['difference_offsets'] = [0] + corrupted['difference_offsets'][1:]
         with patch.object(frontier, 'build_nonexact'), patch.object(
                 frontier, 'parsed', return_value=corrupted), self.assertRaises(RuntimeError):
             frontier.run_title_replay_menu()
 
-    def test_narrower_valid_or_exact_bound_source_never_claims_acceptance(self):
+    def test_fewer_residuals_or_exact_bound_source_never_claims_acceptance(self):
         report = current()
-        closer = {**report, 'candidate_bytes': 1260,
-                  'candidate_instructions': 370, 'candidate_blocks': 71,
-                  'aligned_instructions': 250, 'missing_target_bytes': 20,
-                  'overlap_differences': 1175,
-                  'difference_offsets': report['difference_offsets'][:1175]}
+        closer = {**report, 'aligned_instructions': 355,
+                  'overlap_differences': 20,
+                  'difference_offsets': report['difference_offsets'][:20]}
         frontier.guard_title_replay_menu(closer)
         self.assertEqual(closer['exactness_credit'], 'none')
         exact = {**report, 'candidate_bytes': 1280,
@@ -117,27 +124,42 @@ class TitleReplayMenuOriginalFrontierTests(TestCase):
         changes = (
             {'diagnostic_only': False}, {'exactness_credit': 'accepted'},
             {'target_sha256': '0' * 64},
-            {'target_bytes': 1279}, {'candidate_bytes': 1257},
+            {'target_bytes': 1279}, {'candidate_bytes': 1279},
             {'candidate_bytes': 1281},
             {'target_instructions': 375},
-            {'candidate_instructions': 367}, {'candidate_instructions': 377},
+            {'candidate_instructions': 375}, {'candidate_instructions': 377},
             {'original_fields': 56}, {'bound_fields': 56},
             {'original_calls': 12}, {'candidate_calls': 14},
             {'ordered_calls_agree': False}, {'original_blocks': 71},
-            {'candidate_blocks': 69}, {'candidate_blocks': 73},
-            {'direct_graphs_agree': True}, {'direct_graphs_agree': None},
-            {'aligned_instructions': 237},
-            {'overlap_differences': 1188},
-            {'overlap_differences': '1187'},
+            {'candidate_blocks': 71}, {'candidate_blocks': 73},
+            {'direct_graphs_agree': False}, {'direct_graphs_agree': None},
+            {'aligned_instructions': 349},
+            {'overlap_differences': 30},
+            {'overlap_differences': '29'},
             {'difference_offsets': report['difference_offsets'][:-1]},
             {'difference_offsets': list(reversed(report['difference_offsets']))},
             {'difference_offsets': [str(i) for i in report['difference_offsets']]},
-            {'difference_offsets': [0] * 1187},
-            {'difference_offsets': [*range(1186), 1258]},
+            {'difference_offsets': [0] * 29},
+            {'difference_offsets': [*range(28), 1280]},
             {'difference_offsets': None},
-            {'missing_target_bytes': 21}, {'extra_candidate_bytes': 1},
+            {'missing_target_bytes': 1}, {'extra_candidate_bytes': 1},
             {'complete_bytes_equal': True},
         )
         for patch in changes:
             with self.subTest(patch=str(patch)[:100]), self.assertRaises(RuntimeError):
                 frontier.guard_title_replay_menu({**report, **patch})
+
+    def test_legacy_missing_geometry_and_nonmatching_cfg_are_rejected(self):
+        legacy = {**current(), 'candidate_bytes': 1258,
+                  'candidate_instructions': 368, 'candidate_blocks': 70,
+                  'direct_graphs_agree': False, 'missing_target_bytes': 22}
+        with self.assertRaises(RuntimeError):
+            frontier.guard_title_replay_menu(legacy)
+        with self.assertRaises(RuntimeError):
+            frontier.guard_title_replay_menu({**current(), 'direct_graphs_agree': False})
+
+    def test_actual_residual_set_pins_complete_comparison(self):
+        self.assertEqual(set(CURRENT_DIFFERENCES),
+                         frontier.TITLE_REPLAY_MENU_RESIDUAL_OFFSETS)
+        frontier.guard_title_replay_menu(current())
+        self.assertEqual(len(CURRENT_DIFFERENCES), 29)
