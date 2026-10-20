@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Original-bound Type29 Effect draw boundary and non-crediting COFF audit.
 
-The callback is authored but has no maintained source or canonical match unit.
+The callback has maintained non-exact C++ source and no canonical exact unit.
 An arbitrary supplied object is a compiler experiment, never source attestation.
 """
 from pathlib import Path

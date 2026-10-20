@@ -11,75 +11,83 @@
 
 Read the live ledgers first. The original Japanese v1.50a target SHA-256 is
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-Current state: **1,033 authored, 1,032 source-present, 997 canonical exact**;
-**35 source-present nonexact plus one authored owner without maintained source**.
+Current state: **1,033 authored, 1,033 source-present, 997 canonical exact**;
+**36 source-present nonexact; no confirmed authored owner lacks maintained source**.
 **242,841/291,848 reviewed-authored bytes = 83.2080%**.
 The **95%** milestone still needs **34,415** complete exact authored bytes.
-The earlier5d7b2d2 callback checkpoint added323 authored/exact bytes. Type29
-remains without maintained source; whole product/runtime and later gates stay open.
+The earlier5d7b2d2 callback checkpoint added323 authored/exact bytes. Type29 now
+has maintained nonexact C++; whole inventory/product/runtime and later gates stay open.
 
-- **Origin correction from TH09 evidence:** fsincos412780/33bytes returns to
-  unknown/review. Its former high-confidence library exclusion relied only on
-  TH08 classification, which cannot establish TH09 provenance. Complete target
-  SHA d949efa79204e2332ebfe977142934ba6e539d41133086b5fc98803663f50630,
-  ECX=sine/EDX=cosine/stack-angle/RET4 and fifteen following CC bytes are
-  reviewed. The sole observed caller ignores the EAX pointer residue; nominal
-  return and original C++ spelling remain unknown. No maintained body or
-  authored/exact credit is added.
-- **Bounded library countercheck:** all944 members/8460 code templates in the
-  installed pinned d3dx8/libcmt/libcpmt archives contain no full33-byte body.
-  D3DX's sincosf is a distinct19-byte cdecl contribution. This negative search
-  neither exhausts possible libraries nor proves authored origin. Classification
-  is now1033 authored/1176 excluded/36 origin-unresolved; source/exact bytes
-  and denominator remain unchanged. Reviewed IDA comments are corrected/read back.
-- **Etama full-owner countermodels:**26 complete private compiles test actual
-  Float3 outputs, early/late/direct cap access, native viewport visibility,
-  derived/independent cursors, actual body-color source and bitfield spelling,
-  plus supported processor scheduling. No complete exact OnDraw is found.
-  One594-byte candidate aligns the instruction stream through the cap geometry
-  but still has211 overlap differences, six missing bytes and56 newly damaged
-  old-equal positions. It is not adopted. Remaining cap RMW/scheduling and final
-  induction roles need source/context evidence, not forced registers.
-- **Focused source closure:** the maintained cold object retains OnDraw600/
-  160instructions/27fields/13calls/268differences and332 protected equal bytes.
-  Same-TU DrawSingleBullet232/16 and AddedCallback832/30 remain wholly exact.
-  Twenty-four private cases retain both; two G7 cases regress them to224/792.
-  Forty-eight passing private checks concern two existing functions, not new
-  exact credit. The995 unchanged exact proofs, including OnUpdate, reuse their
-  source-bound evidence. All483 source/header files and all match/profile inputs
-  remain unchanged; only two origin/catalog CSVs change among725 engineering inputs.
-- **Prior parser frontier:** original243-byte parser uses cursorEAX,
-  remainingEBX, key/out on stack andRET8, proved by all four calls in the exact
-  679-byte caller. Maintained parser stays243/76; its43 rejected controls and
-  nominal-convention caveat are recorded in the previous Git checkpoint and KB.
+- **Type29 source presence, zero new exact credit:** EffectDrawCallbackType29
+  now lives in src/EffectDrawType29.inl, included once by EclManager.cpp after
+  the shared radial-fan type. Its natural unrolled main/six-satellite C++ uses
+  the unchanged existing polar primitive and real renderer APIs. Source now
+  covers all1033 confirmed authored functions; complete executable inventory
+  remains unproven. The original2220-byte owner stays NON-EXACT.
+- **Bounded fidelity countercheck:** native original helpers execute inside an
+  isolated Unicorn1.0.2 fixture, with the renderer intercepted to capture draws.
+  Twenty-six original/candidate cases agree on all recorded call arguments,
+  full fixture/vertex memory, return and nonvolatile registers. They execute
+  all672 original reachable instructions and666 candidate instructions. The
+  real initialized32-segment case issues seven draws/135 vertices. This is
+  bounded compiler/runtime evidence, not complete Windows or semantic closure.
+- **Whole codegen frontier:** candidate2205 versus2220 bytes,129 independently
+  bound referents,72 ordered calls,41 physical blocks,1170 overlap differences
+  and15 missing bytes; raw SHA
+  dd4b7e5d8d70d4a1eb8dba7a7bc32fc3d95bd3b89126abdfd186dfad4844c8e4.
+  The new complete-owner guard protects1035 already equal positions and rejects
+  missing-tail, call-identity, boundary/source and counterfeit-equality reports.
+  Six local-center receiver reloads, saved/working homes and branch placement
+  remain open. A flat mnemonic comparison disproves reducing the entire
+  remaining problem to those six reloads alone. No new assembly is introduced.
+- **Focused replay route:** check-boss-frontiers.py --owner effect29 cold-builds
+  the two affected ECL profiles and guards Type29, Type34, Type26, RunEcl,
+  Enemy, Type19 and biased movement. It protects the77 existing shared exact
+  functions and skips the unchanged detached Type34 update object. Two actual
+  main-profile private labels are refreshed only after complete original-byte
+  comparisons and same-owner COFF coordinates reproduce their fixed target VAs.
+- **Enemy source countermodels:**14 private compile attempts include12 valid
+  complete3900/97/29 owners and two source-construction failures, both followed
+  by corrected passing models. Genuine Abs visibility, existing native position
+  methods, actual member views, primary-damage borrowing and scalar-workspace
+  lifetimes recover no residual byte; none changes maintained Enemy source.
+- **Classification remains conservative:** fsincos412780 retains unknown/review
+  after the prior TH08-only library exclusion was withdrawn. Authored1033 /
+  excluded1176 / origin-unresolved36 remain unchanged. Exact997/242841 bytes,
+  denominator291848 and34415-byte distance to95% stay unchanged.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
-- **Reproduction:** packet .analysis/gpt-61sol-20261020-etama-loop retains
-  complete raw/COFF pairs, actual sources/profiles, independently original-bound
-  comparisons, all sibling field/label-coordinate checks and the three-archive
-  provenance audit. Its one-case replay rebuilds one complete TU and verifies
-  all three owners, then removes temporary binaries. Exact units may be rebuilt
-  together with build-match-unit.py --unit bullet-draw-single; compare both
-  bullet-draw-single and etama-controller-added-callback, then inspect-etama-draw.py.
-- **Verified finish/cleanup:** target/tracking/docs/progress/whitespace and
-  CI769 tests/28 skips pass. Independent derived-copy replay reproduces all
-  three complete owners and every COFF record, then removes temporary binaries.
+- **Reproduction/evidence:** retained packets
+  .analysis/gpt-61sol-20261020-effect29-maintained and
+  .analysis/gpt-61sol-20261020-enemy-tracking contain source/target-bound full
+  byte/field comparisons, original instruction coverage, bounded native-helper
+  emulation, explicit failed/corrected cases and source bindings. Build with
+  build-match-unit.py --unit effect-initialize-type29, then run
+  inspect-effect-type29.py build/matching/EclManager.obj --json. The retained
+  emulate_draw.py --matrix consumes that current object without target patches.
+- **Verified finish:** focused77-function/24374-byte/1091-field replay and all
+  shared boss guards pass; CI777 tests/28 skips, tracking/docs/progress and
+  whitespace checks pass. A frozen-parent Enemy single-case replay reproduces
+  the full3900 raw bytes and all97 COFF rows. All727 engineering inputs are
+  bound:718 retained parent hashes, seven changes and two additions;482 old
+  source/header paths remain raw-identical, EclManager adds only the new include.
   After own producers terminate and the repository-cwd guard passes, cleanup
-  removes445 reproducible files/8469613 bytes, including five SHA-equal duplicate
-  source copies. All22 unique C++ sources/26 paired captures remain; build/
-  and own OBJ/PDB are absent. Immutable source binding and independent remote
-  verification are recorded separately. EXE, IDA, tools and other work remain.
+  removes431 reproducible files/17776456 bytes. Build/ and own OBJ/PDB are
+  absent. All14 unique Enemy cores/12 valid pairs, both failed construction
+  records, maintained Type29 C++, emulator/field/byte evidence and frozen-parent
+  recipes remain. Source commit and independently verified push are recorded
+  separately; original EXE, IDA, tools and unrelated work remain untouched.
 
 
 ## Next worker: first three work packages
 
-1. **Large Effect/ECL/Etama:** **draw29@0x00448750 /2,220 bytes** is now
-   catalogued authored code without maintained source. Start from the new2,205
-   repeated-expression candidate and exact small/ECL context equivalence.
-   Resolve six local-center ECX reloads, stack homes and branch layout before
-   promoting source/exactness. The prefix has no missing catalog entry; full
+1. **Large Effect/ECL/Etama:** **draw29@0x00448750 /2,220 bytes** now has
+   maintained nonexact source in src/EffectDrawType29.inl. Start from its2205-byte
+   repeated-expression model, full-byte guard and bounded fidelity evidence.
+   Resolve local-center ECX reloads, stack homes and branch layout before
+   promoting exactness. The prefix has no missing catalog entry; full
    executable inventory remains unproven. Alongside this recovery,
    keep the existing large-code goal: attack **`RunEcl` opcode 4 (7 bytes) and opcode 155
    (23 bytes)** against the immutable 15,564-byte/598-field owner. The ECL
@@ -136,7 +144,7 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current restart summary is
-**1032 source-present / 997 exact / 35 non-exact**; earlier operator notes
+**1033 source-present / 997 exact / 36 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
@@ -146,11 +154,11 @@ mentioning 979/876/103 are obsolete for this checkout.
 | Reviewed but origin-unresolved | 36 |
 | Confirmed authored | 1,033 |
 | Classified exclusions | 1,176 |
-| Source-present authored mappings | 1,032 |
+| Source-present authored mappings | 1,033 |
 | Canonical exact functions | 997 |
-| Source-present non-exact functions | 35 |
-| Source-present non-exact bytes | 46,787 |
-| Authored without maintained source | 1 |
+| Source-present non-exact functions | 36 |
+| Source-present non-exact bytes | 49,007 |
+| Authored without maintained source | 0 |
 | Canonical exact authored bytes | 242,841 |
 
 **242,841 / 291,848 reviewed-authored bytes = 83.2080% exact**. To reach
@@ -173,8 +181,8 @@ Prioritize **large bosses as well as small leaves**. Each row refers to a
 maintained, authored, **non-exact** function in `config/functions.csv`.
 Comparisons are current-source/original PE cold baselines; lengths are logical
 unless explicitly marked physical. The ledger, not this selected table, lists
-all 35 maintained nonexact functions. The additional2,220-byte authored Type29
-draw has no maintained source; its private candidate remains nonexact.
+all36 maintained nonexact functions, including the2,220-byte authored Type29
+draw whose maintained candidate remains nonexact.
 For the complete <=256-byte cohort see
 [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md).
 
@@ -182,6 +190,7 @@ For the complete <=256-byte cohort see
 | --- | --- | --- | --- |
 | **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes; opcode 155: 23 bytes, 146/148 handler shapes. Opcode 4 now directly calls the separately exact real `ZunTimer::operator=(int) @0x00401500` on the proven 12-byte context timer, rather than fake second-class timer ABI; existing genuine `RngRuntimeView`/global `g_Rng` remains. **15,564 complete instruction/table bytes and 598 source-linked original fields are unchanged**, with all **77 exact ECL/Enemy/position/math functions across two profiles** (24,374 physical bytes) protected. `--owner runecl`; exact credit remains open. |
 | **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**, 97 fields, 69 calls, 170 blocks; **29** differing bytes | Genuine `Float3::operator/` and actual `AppendBoxRecord` compiler visibility close the ten-byte `+0x845..+0x850` copy window. The special-attack dispatch invokes **real `EtamaController::SpawnBulletPatternPrimary @0x004130F0`** with its target-backed 0x214-byte descriptor. Fourteen Timer/descriptor calls now use seven shared native symbols; the corresponding private aliases are removed. Original-linked byte/field/call/graph identity and 29 differences are unchanged. `--owner enemy` now cold-protects **77 exact shared-TU functions, the separate draw and seven genuine external callees** (85 exact checks). |
+| **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Maintained src/EffectDrawType29.inl preserves flag-scoped main plus six satellite fans. Bounded original/native-helper emulator comparison covers all672 reachable original instructions across26 cases; it is not byte-exact or whole-product validation. The full-byte guard protects1035 equal positions. Source presence is independent of exactness; `--owner effect29` protects77 shared exact functions across two profiles. |
 | **Effect 34 draw** | 0x00444AF0 | **946/959 physical**, 53 source-linked original referents, 20 direct +12 COM calls, target/candidate 16/15 blocks; **593 overlap differences +13 extra bytes** | Exact native initialization (178) and update (208) protect the original 0xEF8 buffer: fan33 at +0x54, four line32 groups at +0x2E8, four random33 rows at +0xCE8. The genuine ECL/math context removes two redundant receiver reload bytes from the 961-byte standalone candidate. All 353 equal original bytes and exact D3D arguments are protected by `--owner effect34`; byte-register alpha/cursor homes and loop layout stay open. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor ESI still open. The final original call is now typed as `EffectManager::DrawBulletLayerEffects` with its separately **169/169 exact** real-member source at `0x0040D110` and side owner at `+0x0C`; all original linked bytes remain unchanged. Complete SHA/offset guard preserves the 332 equal bytes; `--owner etama` protects **both exact same-carrier helpers plus the separately exact OnUpdate (3 checks)**. |
 | **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 calls; 10-way switch; **1,453** overlapping differences + 44 missing | First seven-VM cursor improvement committed in `7f1d56e`; remaining branch/VM scheduling. `--owner pause` independently checks 11 already-exact Ascii/ANM functions and real original table/ABI. |
@@ -220,7 +229,7 @@ cannot be assigned unique C++ authorship from calls alone. The source-present
 `MoveRandomBiased` 517/516-byte difference remains open.
 
 Additional non-exact owners (e.g. Player charge/update/added state,
-replay save, title replay drawing and network updates) remain in the **35-row
+replay save, title replay drawing and network updates) remain in the **36-row
 live source-present non-exact ledger**, not in a historic handoff tally.
 Review `docs/KNOWLEDGE_BASE.md` and current source before rerunning old negative
 experiments; unsupported guesses there are not target evidence.

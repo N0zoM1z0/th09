@@ -12271,3 +12271,108 @@ attest historical producer execution.
   source hash verifies. Build/ and own OBJ/PDB are absent. No EXE/IDA/toolchain,
   other campaign or foreign-game artifacts are removed. Source commit and
   independently verified push are recorded separately.
+
+
+### 2026-10-20 — Maintain the complete Type29 draw hypothesis with independent gates
+
+- Clean pushed f9e255c recovery verifies the original Japanese v1.50a disk
+  target, direct local IDA metadata and distributed mapped bytes. Enemy's
+  current full3900-byte/1026-instruction owner retains97 independently bound
+  fields,69 ordered calls,170 blocks and29 byte differences. Twelve valid
+  complete-ECL controls test actual Abs definition visibility, already real
+  PlayerPositionView subtraction/member views, primary-damage pointer/reference
+  borrowing and function-scope workspaces. All retain the same29 positions;
+  two initial source-construction failures are recorded separately and their
+  corrected models pass compilation. No invalid construction is counted as a
+  byte comparison, and no losing Enemy source is adopted. Forty-eight whole
+  sibling replays concern the same four existing functions, not new credit.
+- Type29's complete original2220-byte owner and immutable row29 draw pointer
+  remain independently bound by inspect-effect-type29.py. Current natural
+  repeated-expression source cold-emits2205 bytes/670 physical instructions,
+  129 original referents in order,72 ordered calls and41 physical blocks,
+  with1170 overlap differences+15 missing bytes. Raw SHA remains
+  dd4b7e5d8d70d4a1eb8dba7a7bc32fc3d95bd3b89126abdfd186dfad4844c8e4.
+  Static graph/stack positions still differ. Six original local-center receiver
+  reloads are absent, but removing only those from a flat mnemonic stream does
+  not make that stream identical: branch placement must remain a separate open
+  issue. No fictitious second-class clobber contract or new assembly is added.
+- A new bounded original/candidate execution countercheck uses installed
+  Unicorn1.0.2 with the verified PE mapped read-only as comparison input and
+  the candidate linked at a separate guest address. Actual original Float3
+  constructor, polar, +=, angle-normalizer and popup-coordinate helpers execute
+  natively in the emulator. Only DrawTriangleFan is intercepted to capture its
+  receiver, buffer, count and complete vertices; its volatile registers are
+  clobbered and its actual stack cleanup is modeled. No original code bytes,
+  disk file or IDA bytes are patched. Synthetic RAM and stack are isolated.
+- Twenty-six fixtures exercise the false/true flag paths, segment counts
+  0/1/2/3/16/31/32/33, three radius/angle combinations, nonzero XYZ positions,
+  signed render origins and coordinate offsets. All recorded argument traces,
+  complete vertex and fixture RAM, EAX return, stack balance and nonvolatile
+  registers agree. The fixtures execute all672 reachable original instructions
+  and all666 reachable candidate instructions. The initialized32-segment path
+  produces seven draws/135 vertices in the unchanged0xF78 allocation. This
+  finite fixture plus static review supports maintained source presence; it
+  proves neither universal runtime equivalence, exact bytes, native Windows
+  renderer/link closure nor entry to the later semantic phase. FPU control in
+  this experiment is the recorded masked extended-precision0x037F fixture.
+- The natural unrolled main/six-satellite body is now maintained once in
+  src/EffectDrawType29.inl, included by EclManager.cpp after the existing
+  radial-fan vertex type. All129 call/data identities still resolve through
+  independently established native helpers/literal payloads. The existing
+  32-byte polar primitive remains unchanged and singly defined; no assembly is
+  copied or newly written. The source mapping and implemented/reccmp rows are
+  added, while the exact-match ledger stays unchanged. Original class names,
+  unique source spelling/TU partition and full buffer ownership remain unknown.
+- New guard_effect_type29_draw pins the full original owner SHA, row pointer,
+  prefix SHA, return boundary, reachable/physical counts and following CC. It
+  checks all72 ordered call identities,129 referents, complete extent/missing
+  tail and the112 runs containing1170 residual positions. All1035 currently
+  equal candidate bytes are protected. Eight new pure corruption/recovery
+  tests reject same-count byte exchanges, malformed evidence, wrong callee or
+  field identities, missing-tail fiction and unsupported full-equality claims;
+  legitimate partial recovery still receives no exactness credit. The focused
+  --owner effect29 route reuses the two affected ECL profiles and skips the
+  unchanged detached Effect34 update object. Other shared boss guards run on
+  the same fresh main object without redundant compiles.
+- All77 existing exact shared functions/24374 physical bytes/1091 fields pass
+  across73 main-profile functions/21622 bytes/955 fields and four alternate
+  functions/2752 bytes/136 fields. Two main compiler-local names change only
+  after their actual same-section owner-relative coordinates independently
+  reproduce the original VAs: movement +139 stays408548 at relative3C8,
+  CompareOperands +14 stays407A4C at relative34C. The private include-wrapper
+  control has20 local renames; those are separately reviewed and not confused
+  with the two actual maintained-output names. No field offset/addend/target,
+  profile, function extent or existing exact body changes. The complete shared
+  nonexact frontiers remain RunEcl15564/598/30, Enemy3900/97/29, Type19update
+  821/35/44, biased movement517vs516, Type34draw959vs946/593 and Type26update.
+- Source presence becomes1033/1033 confirmed authored functions:36 maintained
+  nonexact owners/49007 bytes, zero confirmed authored owners without source.
+  Exact997/242841 bytes and denominator291848 remain unchanged,83.2080%;95%
+  still needs34415 complete exact authored bytes. Complete executable inventory,
+  the36 origin-unresolved entries, native product/runtime and later gates remain
+  open. Coverage by source is not accepted byte coverage. The920 unaffected
+  exact proofs reuse their unchanged source-bound evidence.
+- Retained packets .analysis/gpt-61sol-20261020-effect29-maintained and
+  .analysis/gpt-61sol-20261020-enemy-tracking hold the complete native field/
+  byte/graph witnesses, failed/corrected models, per-instruction emulator
+  coverage, fixture parameters, source/object bindings and reconstruction
+  recipes. The emulator consumes a current cold EclManager.obj; historical
+  reports remain source-commit scoped. No Factory acceptance is claimed.
+- Final focused gates pass77 existing exact functions/24374 physical bytes/
+  1091 fields and all complete shared boss frontiers. CI passes777 tests/28
+  skips; tracking/docs/progress/whitespace pass. One frozen-parent Enemy replay
+  independently reproduces all3900 raw bytes and97 actual COFF rows, then
+  removes temporary binaries. The stale IDA39-difference/old-source-path note
+  is corrected to the current29/inl source and read back, without byte patches.
+  Bound engineering inputs total727:718 old raw hashes retained, seven reviewed
+  changes and two additions;482 old game sources/headers stay unchanged and
+  the existing ECL raw prefix/EOLs are preserved before appending the include.
+- After all own producers terminate and the repository-cwd guard passes,
+  scoped cleanup removes431 reproducible files/17776456 bytes. All14 unique
+  Enemy cores,12 complete valid pairs and both failed-construction records
+  remain; frozen parent carriers and the one-case recipe retain their hashes.
+  Maintained Type29 source replaces the duplicate private source/glue; complete
+  native-helper emulation retains26 paired observable digests and fan witnesses.
+  Build/ and own OBJ/PDB are absent. The original EXE, IDA, tools, older packets
+  and foreign games remain untouched. Immutable source binding and independent
+  remote verification are recorded separately.

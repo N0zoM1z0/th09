@@ -1031,3 +1031,4 @@ EffectDrawCallbackType31,0x0044A780,function
 EffectDrawCallbackType37,0x0044C790,function
 ReplayManagerView::ControlPlaybackFrameAdvance,0x00420470,function
 TitleCalcCallback,0x0042A9CB,function
+EffectDrawCallbackType29,0x00448750,function

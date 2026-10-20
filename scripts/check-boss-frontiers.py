@@ -4657,7 +4657,117 @@ def guard_effect_type34_draw(result: dict) -> dict:
             'extra_bytes': result['extra_bytes']}
 
 
+
+
+EFFECT29_DRAW_SHA256 = '8ecf5d55f2ef0de67316f09b3a6d9422b4475bf9a7fdf1ea9dd10919247a3455'
+# Complete original-linked residual set from the maintained 2205-byte source.
+# Missing tail bytes receive no equality claim. All 1035 old-equal positions
+# remain protected when a later source model changes length or scheduling.
+EFFECT29_DRAW_RESIDUAL_RUNS = (
+    (0x13, 0x14), (0x23, 0x24), (0x26, 0x27), (0x53, 0x54),
+    (0x5A, 0x5B), (0x5D, 0x5E), (0x91, 0x92), (0x94, 0x95),
+    (0xA4, 0xA5), (0xAD, 0xAE), (0xB0, 0xB1), (0xEF, 0xF0),
+    (0xF2, 0xF3), (0xF5, 0xF6), (0x10A, 0x10B), (0x10D, 0x10E),
+    (0x112, 0x113), (0x135, 0x136), (0x13E, 0x13F), (0x150, 0x151),
+    (0x153, 0x154), (0x156, 0x157), (0x167, 0x168), (0x16E, 0x16F),
+    (0x17C, 0x184), (0x185, 0x187), (0x188, 0x191), (0x192, 0x1C1),
+    (0x1C2, 0x1FD), (0x1FE, 0x22C), (0x22D, 0x230), (0x231, 0x233),
+    (0x235, 0x25A), (0x25B, 0x26C), (0x26D, 0x273), (0x274, 0x27E),
+    (0x27F, 0x297), (0x298, 0x2C2), (0x2C3, 0x331), (0x332, 0x33B),
+    (0x33E, 0x342), (0x343, 0x379), (0x37A, 0x3A5), (0x3A6, 0x3AD),
+    (0x3AF, 0x3EF), (0x3F0, 0x403), (0x404, 0x44F), (0x452, 0x453),
+    (0x462, 0x463), (0x46B, 0x46C), (0x46E, 0x46F), (0x4AE, 0x4AF),
+    (0x4B1, 0x4B2), (0x4C9, 0x4CA), (0x4CC, 0x4CD), (0x4D1, 0x4D2),
+    (0x4D4, 0x4D5), (0x4E8, 0x4E9), (0x4FD, 0x4FE), (0x505, 0x506),
+    (0x513, 0x514), (0x519, 0x51A), (0x526, 0x527), (0x534, 0x53C),
+    (0x53D, 0x53F), (0x540, 0x549), (0x54A, 0x579), (0x57A, 0x58F),
+    (0x592, 0x593), (0x5A2, 0x5A3), (0x5AB, 0x5AC), (0x5AE, 0x5AF),
+    (0x5EE, 0x5EF), (0x5F1, 0x5F2), (0x609, 0x60A), (0x60C, 0x60D),
+    (0x611, 0x612), (0x614, 0x615), (0x628, 0x629), (0x63D, 0x63E),
+    (0x645, 0x646), (0x653, 0x654), (0x659, 0x65A), (0x666, 0x667),
+    (0x674, 0x67C), (0x67D, 0x67F), (0x680, 0x689), (0x68A, 0x6B9),
+    (0x6BA, 0x6CF), (0x6D2, 0x6D3), (0x6E2, 0x6E3), (0x6EB, 0x6EC),
+    (0x6EE, 0x6EF), (0x72E, 0x72F), (0x731, 0x732), (0x749, 0x74A),
+    (0x74C, 0x74D), (0x751, 0x752), (0x754, 0x755), (0x768, 0x769),
+    (0x77D, 0x77E), (0x785, 0x786), (0x793, 0x794), (0x799, 0x79A),
+    (0x7A6, 0x7A7), (0x7B4, 0x7BC), (0x7BD, 0x7BF), (0x7C0, 0x7C9),
+    (0x7CA, 0x7F9), (0x7FA, 0x84C), (0x84D, 0x863), (0x864, 0x89D),
+)
+EFFECT29_DRAW_CALLS = (
+    0x401680, 0x4016b0, 0x441890, 0x405730, 0x401680, 0x4016b0, 0x43b7b0, 0x4010b0,
+    0x441890, 0x405730, 0x401680, 0x4016b0, 0x441890, 0x405730, 0x401680, 0x4016b0,
+    0x43b7b0, 0x4010b0, 0x42aed0, 0x441890, 0x405730, 0x401680, 0x4016b0, 0x441890,
+    0x405730, 0x401680, 0x4016b0, 0x43b7b0, 0x4010b0, 0x42aed0, 0x441890, 0x405730,
+    0x401680, 0x4016b0, 0x441890, 0x405730, 0x401680, 0x4016b0, 0x43b7b0, 0x4010b0,
+    0x42aed0, 0x441890, 0x405730, 0x401680, 0x4016b0, 0x441890, 0x405730, 0x401680,
+    0x4016b0, 0x43b7b0, 0x4010b0, 0x42aed0, 0x441890, 0x405730, 0x401680, 0x4016b0,
+    0x441890, 0x405730, 0x401680, 0x4016b0, 0x43b7b0, 0x4010b0, 0x42aed0, 0x441890,
+    0x405730, 0x401680, 0x4016b0, 0x441890, 0x405730, 0x401680, 0x4016b0, 0x43b7b0,
+)
+
+def guard_effect_type29_draw(document: dict) -> dict:
+    original = document.get('original', {})
+    if not isinstance(original, dict):
+        raise RuntimeError('Effect 29 malformed original evidence')
+    if (document.get('diagnostic_only') is not True or
+            document.get('exactness_credit') != 'none' or
+            document.get('maintained_source_present') is not True or
+            document.get('object_source_attested') is not False or
+            original.get('target_address') != 0x448750 or
+            original.get('target_bytes') != 2220 or
+            original.get('target_sha256') != EFFECT29_DRAW_SHA256 or
+            original.get('table_pointer_address') != 0x4A0E14 or
+            original.get('prefix_sha256') !=
+            '318a2c5a7e469179735911b94d8837b8b96651b2c89153ea2a15023ec20942b8' or
+            original.get('reachable_instructions') != 672 or
+            original.get('physical_instructions') != 675 or
+            original.get('returns') != [0x448FFB] or
+            original.get('following_CC_bytes') != 4):
+        raise RuntimeError('Effect 29 original boundary/source evidence changed')
+    result = document.get('comparison', {})
+    if not isinstance(result, dict):
+        raise RuntimeError('Effect 29 malformed comparison evidence')
+    noncrediting(result, name='Effect 29 draw', target_size=2220,
+                 fields=129, fields_key='fields')
+    size = result.get('candidate_bytes')
+    if (result.get('target_sha256') != EFFECT29_DRAW_SHA256 or
+            result.get('target_address') != 0x448750 or
+            result.get('target_instructions') != 675 or
+            type(size) is not int or not 2205 <= size <= 2220 or
+            result.get('missing_bytes') != 2220 - size or
+            result.get('extra_bytes') != 0 or
+            result.get('target_blocks') != 41 or
+            result.get('candidate_blocks') != 41 or
+            result.get('field_referent_order_agrees') is not True or
+            result.get('ordered_calls_agree') is not True):
+        raise RuntimeError('Effect 29 full owner/fields/calls changed')
+    expected_calls = [['direct', address] for address in EFFECT29_DRAW_CALLS]
+    if (result.get('target_calls') != expected_calls or
+            result.get('candidate_calls') != expected_calls):
+        raise RuntimeError('Effect 29 original ordered call trace changed')
+    offsets = result.get('difference_offsets')
+    known = {i for a, b in EFFECT29_DRAW_RESIDUAL_RUNS for i in range(a, b)}
+    if (not isinstance(offsets, list) or
+            any(type(i) is not int or i not in known or i >= size for i in offsets) or
+            offsets != sorted(set(offsets)) or
+            result.get('overlapping_differences') != len(offsets) or
+            len(offsets) > 1170):
+        raise RuntimeError('Effect 29 changed an already equal original byte')
+    equal = not offsets and size == 2220
+    if result.get('complete_bytes_agree') is not equal:
+        raise RuntimeError('Effect 29 contradictory complete-byte equality')
+    if equal and (result.get('resolved_sha256') != EFFECT29_DRAW_SHA256 or
+                  result.get('candidate_instructions') != 675 or
+                  result.get('all_original_fields_agree') is not True or
+                  result.get('direct_graphs_agree') is not True):
+        raise RuntimeError('Effect 29 incomplete equality evidence')
+    return {'target_bytes': 2220, 'candidate_bytes': size, 'fields': 129,
+            'ordinary_differences': len(offsets), 'missing_bytes': 2220 - size,
+            'source_present': True, 'exactness_credit': 'none'}
+
+
 def run_effect_type34(*, protect_exact: bool,
+                      protect_update_exact: bool = True,
                       already_built: tuple[str, ...] = ()) -> tuple[dict, list[dict]]:
     obj = 'build/matching/EclManager.obj'
     allowed = set(ECL_EXACT_CARRIERS) | {'build/matching/EffectUpdateType34.obj'}
@@ -4667,6 +4777,8 @@ def run_effect_type34(*, protect_exact: bool,
         build('effect-initialize-callback-type34')
     draw = parsed(['scripts/inspect-effect-type34.py', obj, '--json'])
     summary = guard_effect_type34_draw(draw)
+    effect29 = guard_effect_type29_draw(parsed([
+        'scripts/inspect-effect-type29.py', obj, '--json']))
     effect26 = guard_effect_type26_update(parsed([
         'scripts/inspect-effect-double-fan.py', obj, '--json']))
     # The same compiler source also owns the existing open bosses. Reuse this
@@ -4690,18 +4802,20 @@ def run_effect_type34(*, protect_exact: bool,
             'src/EclManager.cpp', ECL_EXACT_CARRIERS,
             already_built=tuple(item for item in ECL_EXACT_CARRIERS
                                 if item == obj or item in already_built)))
-        update_obj = 'build/matching/EffectUpdateType34.obj'
-        if update_obj not in already_built:
-            build('effect-update-callback-type34')
-        exact.append(canonical('effect-update-callback-type34'))
-    return {'effect_type34_draw': summary, 'effect_type26_update': effect26,
+        if protect_update_exact:
+            update_obj = 'build/matching/EffectUpdateType34.obj'
+            if update_obj not in already_built:
+                build('effect-update-callback-type34')
+            exact.append(canonical('effect-update-callback-type34'))
+    return {'effect_type29_draw': effect29,
+            'effect_type34_draw': summary, 'effect_type26_update': effect26,
             'runecl': {'ordinary_differences': complete['ordinary_different_bytes']},
             'enemy_manager_update': {'ordinary_differences': enemy['complete_differences']},
             'exattack_type19_update': {'ordinary_differences': trail['overlapping_differences']}}, exact
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'replaymenu', 'anm', 'network', 'queue', 'parser', 'front', 'frontadded', 'supervisor', 'screen', 'replay', 'pause', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'effect29', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'replaymenu', 'anm', 'network', 'queue', 'parser', 'front', 'frontadded', 'supervisor', 'screen', 'replay', 'pause', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -4716,8 +4830,10 @@ def main() -> int:
                 include_detached_math=args.owner == 'type11')
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
-        if args.owner in ('effect34', 'all'):
-            owners, exact = run_effect_type34(protect_exact=not args.skip_exact_siblings)
+        if args.owner in ('effect34', 'effect29', 'all'):
+            owners, exact = run_effect_type34(
+                protect_exact=not args.skip_exact_siblings,
+                protect_update_exact=args.owner != 'effect29')
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('audio', 'all'):
