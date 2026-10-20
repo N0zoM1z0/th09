@@ -3680,6 +3680,8 @@ def guard_title_draw_result(result: dict) -> None:
             result.get('target_instructions') != 577 or
             result.get('candidate_instructions') != 577 or
             result.get('original_fields') != 82 or
+            result.get('literal_definitions_checked') != 15 or
+            result.get('literal_definitions_original_equal') is not True or
             result.get('ordered_calls') != 16 or
             not result.get('ordered_calls_agree') or
             result.get('original_blocks') != 92 or
@@ -3796,6 +3798,8 @@ def guard_title_replay_save(result: dict) -> None:
             result.get('target_instructions') != 245 or
             result.get('candidate_instructions') != 245 or
             result.get('original_fields') != 41 or
+            result.get('literal_definitions_checked') != 18 or
+            result.get('literal_definitions_original_equal') is not True or
             result.get('ordered_calls') != 4 or
             result.get('ordered_calls_agree') is not True or
             result.get('original_blocks') != 28 or
@@ -3991,6 +3995,21 @@ def guard_title_config_snapshot_owner(units: dict) -> None:
         raise RuntimeError('Title StartMenu original config copy lost the genuine Supervisor owner')
 
 
+def run_title_result() -> dict:
+    """Replay only the complete DrawResult owner using its recorded profile."""
+    result_obj = 'build/matching/TitleResultDraw.obj'
+    build_nonexact('src/TitleScreenResultDraw.cpp', result_obj,
+                   reference_unit='title-screen-setup-thread')
+    draw = parsed(['scripts/inspect-title-result-draw.py', result_obj, '--json'])
+    guard_title_draw_result(draw)
+    return {'title_draw_result': {
+        'target_bytes': 1939, 'candidate_bytes': draw['candidate_bytes'],
+        'ordinary_differences': draw['complete_differences'],
+        'fields': draw['bound_fields'],
+        'literal_definitions_checked': draw['literal_definitions_checked'],
+        'direct_graphs_agree': draw['direct_graphs_agree']}}
+
+
 def run_title_open() -> dict:
     # These source-present owners are explicitly non-exact. Their independent
     # original operand inventories must agree before any similarity score.
@@ -4048,12 +4067,7 @@ def run_title_open() -> dict:
         'direct_graphs_agree': options['direct_graphs_agree'],
     }
     menu_report = run_title_replay_menu()
-    result_obj = 'build/matching/TitleResultDraw.obj'
-    build_nonexact('src/TitleScreenResultDraw.cpp', result_obj,
-                   reference_unit='title-screen-setup-thread')
-    draw = noncrediting(parsed(['scripts/inspect-title-result-draw.py', result_obj, '--json']),
-                        name='Title DrawResult', target_size=1939, fields=82)
-    guard_title_draw_result(draw)
+    draw_report = run_title_result()
     replay_obj = 'build/matching/TitleReplaySave.obj'
     build_nonexact('src/TitleScreenReplaySaveDraw.cpp', replay_obj,
                    reference_unit='title-screen-setup-thread')
@@ -4061,12 +4075,7 @@ def run_title_open() -> dict:
                                   '--json']), name='Title DrawReplaySave',
                           target_size=800, fields=41)
     guard_title_replay_save(replay)
-    return {**cursor_reports, **menu_report,
-            'title_draw_result': {
-                'target_bytes': 1939, 'candidate_bytes': draw['candidate_bytes'],
-                'ordinary_differences': draw['complete_differences'],
-                'fields': draw['bound_fields'],
-                'direct_graphs_agree': draw['direct_graphs_agree']},
+    return {**cursor_reports, **menu_report, **draw_report,
             'title_draw_replay_save': {
                 'target_bytes': 800, 'candidate_bytes': replay['candidate_bytes'],
                 'fields': replay['bound_fields'],
@@ -4913,7 +4922,7 @@ def run_effect_type34(*, protect_exact: bool,
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'effect29', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'replaymenu', 'anm', 'network', 'netmessage', 'queue', 'parser', 'front', 'frontadded', 'supervisor', 'screen', 'replay', 'replaysave', 'pause', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'effect29', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'resultdraw', 'replaymenu', 'anm', 'network', 'netmessage', 'queue', 'parser', 'front', 'frontadded', 'supervisor', 'screen', 'replay', 'replaysave', 'pause', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -5073,6 +5082,8 @@ def main() -> int:
             report['owners'].update(run_title_open())
         if args.owner == 'replaymenu':
             report['owners'].update(run_title_replay_menu())
+        if args.owner == 'resultdraw':
+            report['owners'].update(run_title_result())
         if args.owner == 'all':
             report['canonical_siblings'] = unique_canonical_siblings(
                 report['canonical_siblings'])

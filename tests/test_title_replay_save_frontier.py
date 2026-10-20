@@ -22,6 +22,8 @@ def current_report():
         'target_sha256': front.TITLE_REPLAY_SAVE_TARGET_SHA256,
         'target_instructions': 245, 'candidate_instructions': 245,
         'original_fields': 41, 'bound_fields': 41,
+        'literal_definitions_checked': 18,
+        'literal_definitions_original_equal': True,
         'ordered_calls': 4, 'ordered_calls_agree': True,
         'original_blocks': 28, 'candidate_blocks': 28,
         'direct_graphs_agree': True, 'paired_branch_conflicts': [],
@@ -67,6 +69,9 @@ class TitleReplaySaveTargetBoundFrontier(TestCase):
             {'original_blocks': 27}, {'candidate_blocks': 27},
             {'direct_graphs_agree': False},
             {'ordered_calls_agree': False}, {'ordered_calls': 3},
+            {'literal_definitions_checked': 17},
+            {'literal_definitions_checked': 19},
+            {'literal_definitions_original_equal': False},
         )
         for change in cases:
             with self.subTest(change=change), self.assertRaises(RuntimeError):

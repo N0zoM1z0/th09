@@ -14754,3 +14754,70 @@ and SHA256 verified in 1444742 bytes. Removing duplicates and 387 owned compiler
 bytecode caches/7058854 bytes reclaims 14814542 bytes (~14.13 MiB). Only the fresh
 ECL/Timer OBJ/PDB pairs and terminal CI caches are removed; original target,
 tools, IDA and older unique evidence stay. No new Factory receipt is claimed.
+
+## October 21: Title actual literal definitions and entry controls (gpt-6.1-sol)
+
+Recovery starts at pushed d2637e8 with a clean worktree, original Japanese
+v1.50a disk/IDA metadata and mapped-byte checks. Fresh maintained DrawResult
+repeats the complete 1939 bytes, 577 instructions, 82 original fields, 16 calls,
+92 blocks and 22 differences. Original entry saves the computed score-group
+pointer before reading currentScreen; maintained code hoists that field read.
+All 1917 already equal positions remain protected. No original source ordering,
+class identity or translation unit is inferred from that scheduling observation.
+
+Four successful natural entry controls use no forced-inline, register/local-order
+or profile changes. A member screen accessor retains 1939/82/22. Preparation
+helpers returning either the screen or score pointer produce 1941/82, still 577
+instructions/16 calls/92 blocks, with two extra bytes. A member selection helper
+produces 1910/83 and a new ReadResultSelection call, rejected by the original
+identity manifest. No private helper is aliased to unrelated target code or
+adopted. Previous actual Ascii helper visibility controls are already bound to
+unchanged sources and are not recompiled: those contexts change extent/fields.
+
+The Title producer previously resolved local literal operands from reviewed
+symbol/address identities without reading their actual COFF definitions.
+New coff_literal_definitions.py requires an actual i386 definition, valid
+section/value/extent, initialized read-only data and complete payload equality
+against the original PE. Scalar float names must also encode the same original
+32-bit value. Narrow strings include their bounded NUL terminator. Repeated
+references must have one consistent definition. External globals and callees
+retain separate ownership/proof obligations; this is not native data closure.
+
+Actual-object counterexample: separately flip the first byte of each of the
+15 referenced DrawResult local definitions. All original main bytes and all
+actual COFF relocation rows remain identical. All 15 mutated objects are
+accepted by the old inspector with the same 22 differences and are rejected by
+the new producer. This falsifies the sufficiency of name/address-only literal
+evidence. The original target is never modified; mutated compiler outputs are
+temporary and self-clean. Frozen replay repeats all fifteen adversarial cases.
+
+The maintained DrawResult passes all 15 local definitions (seven scalar floats,
+eight strings). Shared-inspector DrawReplaySave passes all 18 (13 floats, five
+strings) and retains 800 bytes/245 instructions/41 fields/four calls/28 blocks/
+96 differences. Guards require the actual-definition checks as well as the
+existing complete original byte/field/call/graph proofs. No equal byte, field,
+ABI or profile is weakened. Six pure tests reject changed scalar/string/NUL
+payloads, wrong original data, undefined/invalid section coordinates, flags,
+truncation, scalar width, addend and inconsistent provenance. Existing frontier
+tests also reject missing definition proof and cover focused CLI isolation.
+
+`nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner resultdraw`
+now compiles and guards only DrawResult. Full Title/all routes call the same
+function; unrelated exact carriers need not be rebuilt. All 490 game inputs,
+all 1032 previous unit definitions and all 1001 canonical exact rows remain
+unchanged. Only the two nonexact function note cells change in the ledger.
+Authored exact remains 1001/1035 and 243853/291883 bytes (83.5448%); the 33436-byte
+95% gap and RunEcl 30 / Enemy 13 / Title 22 / Type3 15 remain open. No new Factory receipt,
+whole native product or runtime claim. Sources, actual object metadata, complete
+controls and frozen recipe: .analysis/gpt-61sol-20261021-title-entry/.
+
+CI passes 871 tests/28 skips with target-required tracking, documentation,
+progress and both whitespace checks. Frozen source/provider replay independently
+repeats both complete owner diagnostics and all fifteen actual definition
+mutations. No main/body, call identity, field manifest or protected byte changes.
+
+After all producers terminate, 56 evidence members/4233218 loose bytes are ZIP
+CRC and SHA256 verified in 651924 bytes. Removing only verified duplicates and
+389 owned compiler/bytecode caches/6697461 bytes reclaims 10278755 bytes
+(~9.80 MiB). The two fresh Title OBJ/PDB pairs and terminal CI caches are gone;
+original target, tools, IDA and older unique/unclassified evidence remain.

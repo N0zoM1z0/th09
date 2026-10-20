@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 import struct
 from diagnostic_branch_alignment import aligned_branch_conflicts, direct_control_flow
+from coff_literal_definitions import check_literal_definitions
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE, SIZE = 0x423D16, 1939
@@ -86,11 +87,14 @@ def main():
     spec = importlib.util.spec_from_file_location('coff', ROOT / 'scripts/compare-coff-function.py')
     coff = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(coff)
-    target = coff.pe_bytes_at(coff.verified_target(), BASE, SIZE)
+    image = coff.verified_target()
+    target = coff.pe_bytes_at(image, BASE, SIZE)
     target_sha256 = hashlib.sha256(target).hexdigest()
     if (BASE, SIZE) == (0x00423D16, 1939) and target_sha256 != DRAW_RESULT_ORIGINAL_SHA256:
         raise ValueError('original TH09 DrawResult full 1939-byte owner digest differs')
-    code, rows = coff.object_function(args.object, SYMBOL)
+    code, rows = coff.object_function(args.object, SYMBOL, include_symbol_locations=True)
+    literal_definitions = check_literal_definitions(
+        args.object.read_bytes(), rows, image, coff, DESTINATIONS)
     raw_hash = hashlib.sha256(code).hexdigest()
     for row in rows:
         value = DESTINATIONS[row['symbol']] + row['addend']
@@ -166,6 +170,9 @@ def main():
         'difference_offsets': difference_offsets,
         'complete_bytes_equal': code == target,
         'candidate_raw_sha256': raw_hash,
+        'literal_definitions_checked': len(literal_definitions),
+        'literal_definitions_original_equal': True,
+        'literal_definitions': literal_definitions,
         'game_manager_fields': [
             {'offset': row['offset'], 'type': row['type'],
              'symbol': row['symbol'], 'target': DESTINATIONS[row['symbol']],

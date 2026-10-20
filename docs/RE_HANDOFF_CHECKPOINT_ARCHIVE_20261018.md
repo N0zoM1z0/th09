@@ -889,3 +889,44 @@ gates remain open.
   `.analysis/gpt-61sol-20261021-enemy-draw-tracking/`.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
+
+## Native Timer alias checkpoint at d2637e8 (October 21)
+
+## Current verified handoff checkpoint
+
+The operator requests continued exact reconstruction across **large functions
+and small leaves**, serial low-priority compiles, focused affected replays and
+regular cleanup. Starting from pushed `a44c9ef`, this checkpoint supplies the
+already-declared **ZunTimer::operator int** native implementation. Its complete
+**4-byte /zero-field** body equals original 0x00435F00. This address already has
+the canonical exact **TextHelper::GetHeight** row; its source, origin, name and
+physical credit stay unchanged. The new comparison unit is a **noncrediting
+alias**. No unique original class or linker-folding mechanism is inferred.
+
+- All **16 affected existing exact Timer units /313 physical bytes**, plus the
+  four-byte alias, pass from one freshly compiled real source/profile carrier.
+  The other **985** unchanged canonical source/profile proofs are reused.
+  No header or ECL source changes. The maintained Enemy baseline repeats
+  **13** differences; RunEcl/Enemy/Title DrawResult/Type3 stay **30 /13 /22 /15**.
+- Fifteen successful private Enemy controls test five periodic source forms,
+  four typed forwarders and six other genuine Timer body contexts. Co-visible
+  periodic bodies still give **45** caller differences, restoring 13 but
+  damaging 45 previously equal bytes. Early-return/ternary callees also shrink
+  from 33 to 31 bytes and are not original-equal. Other native contexts retain
+  13 or fail the existing RunEcl closure check. No private control is adopted.
+- The tracked `check-timer-current-view.py` binds the alias ABI/layout/extent,
+  existing TextHelper identity/credit, target and source/profile inputs. Three
+  regressions reject metadata/credit substitutions and a wrong target before
+  compiling. Native product/link/runtime closure remains unproved.
+- CI passes **865 tests /28 skips**, plus target-required tracking,
+  documentation, generated progress and both whitespace checks. Frozen replay
+  repeats all 17 Timer units and the two selected rejected Enemy contexts.
+- **130** evidence members /9200430 loose bytes become a **1444742-byte ZIP**.
+  Removing verified duplicates and **387** owned compiler/bytecode caches
+  reclaims **14814542 bytes (~14.13 MiB)**. Only the two fresh carriers' four
+  OBJ/PDB files and terminal CI caches are removed; older unique evidence stays.
+- Evidence, complete private sources/COFF rows, frozen sources/providers and
+  selected serial cold replays:
+  `.analysis/gpt-61sol-20261021-enemy-periodic-context/`.
+- Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
+  English `gpt-6.1-sol: ...` commits, push and independent remote verification.

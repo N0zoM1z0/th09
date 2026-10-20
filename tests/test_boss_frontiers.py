@@ -1178,6 +1178,8 @@ class BossFrontierChecks(TestCase):
                 'effective_target': 0x004A7EAC}],
             'target_instructions': 577, 'candidate_instructions': 577,
             'original_fields': 82, 'bound_fields': 82,
+            'literal_definitions_checked': 15,
+            'literal_definitions_original_equal': True,
             'ordered_calls': 16, 'ordered_calls_agree': True,
             'original_blocks': 92, 'candidate_blocks': 92,
             'direct_graphs_agree': True,
@@ -1198,6 +1200,9 @@ class BossFrontierChecks(TestCase):
                         {'candidate_instructions': 576},
                         {'target_instructions': 576},
                         {'bound_fields': 81}, {'original_fields': 81},
+                        {'literal_definitions_checked': 14},
+                        {'literal_definitions_checked': 16},
+                        {'literal_definitions_original_equal': False},
                         {'ordered_calls': 15}, {'ordered_calls_agree': False},
                         {'original_blocks': 91}, {'candidate_blocks': 91},
                         {'direct_graphs_agree': False},
@@ -1359,7 +1364,7 @@ class BossFrontierChecks(TestCase):
         import io
         import json
         import sys
-        for owner in ('queue', 'replaymenu'):
+        for owner in ('queue', 'replaymenu', 'resultdraw'):
             order = []
             def received(**kwargs):
                 self.assertEqual(kwargs, {'protect_exact': True})
@@ -1368,18 +1373,23 @@ class BossFrontierChecks(TestCase):
             def menu():
                 order.append('replaymenu')
                 return {'replaymenu': {}}
+            def draw_result():
+                order.append('resultdraw')
+                return {'resultdraw': {}}
             output = io.StringIO()
             with self.subTest(owner=owner), patch.object(
                     sys, 'argv', ['check-boss-frontiers.py', '--owner', owner]), patch.object(
                     frontiers, 'execute', side_effect=lambda args: order.append(args)), patch.object(
                     frontiers, 'run_received_frames', side_effect=received) as queue, patch.object(
                     frontiers, 'run_title_replay_menu', side_effect=menu) as replaymenu, patch.object(
+                    frontiers, 'run_title_result', side_effect=draw_result) as resultdraw, patch.object(
                     frontiers, 'run_title') as title, patch.object(
                     frontiers, 'run_ecl') as ecl, patch('sys.stdout', output):
                 self.assertEqual(frontiers.main(), 0)
             self.assertEqual(order, [['scripts/verify-target.py'], owner])
             self.assertEqual(queue.call_count, owner == 'queue')
             self.assertEqual(replaymenu.call_count, owner == 'replaymenu')
+            self.assertEqual(resultdraw.call_count, owner == 'resultdraw')
             title.assert_not_called()
             ecl.assert_not_called()
             report = json.loads(output.getvalue())
