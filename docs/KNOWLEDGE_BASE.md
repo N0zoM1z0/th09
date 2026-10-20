@@ -13862,3 +13862,89 @@ interrupt, preserving the four offsets and guard rejection. After all producers
 terminate, 72 verified loose files /1,019,539 bytes become a 256,440-byte ZIP,
 reclaiming 763,099 bytes (~745 KiB). Post-clean source/provider/archive hashes
 remain stable; old unclassified research and canonical objects are retained.
+
+
+## 2026-10-21 Front native GameManager data and bounded initialization controls
+
+Recovery starts from pushed `5a0476a`; original Japanese v1.50a disk identity,
+direct IDA metadata and entry/distributed mapped bytes pass. Historical notes
+and adjacent TH08/TH095 UI initialization are hypothesis material only. Their
+resource loading and loops differ; no adjacent layout or exactness is promoted.
+
+The complete original Front AddedCallback spans 0x418480..0x418742 (706 bytes),
+SHA256 `a1faabe117043306799d2c256fb5d0d76d0755b3c8e9015019c57dbd6a8377e1`.
+At physical operand offsets +11A,+266,+277,+299,+2A4 its DWORDs are respectively
+0x4A7E8C,0x4A7DE8,0x4A7DB0,0x4A7DE8,0x4A7DB0. These are the existing native
+GameManager root 0x4A7D90 plus +FC,+58,+20,+58,+20. Existing native side stride
+0x38 and the Ascii prefix independently corroborate the corresponding fields.
+The source now uses GameManagerModeView members side0Character, side1Character
+and neutral field0FC, removing three independent data aliases from this caller.
+This does not remove Title's separate legacy aliases or establish a unique
+original complete C++ class. The prefix's +118/+11C/+134 fields and 0x138 extent
+are unchanged; new compile-time offset guards protect +58 and +FC.
+
+Actual COFF now contains five external-section DIR32 fields with the real root
+symbol and member addends. Independently decoding the original PE validates the
+addresses; the strengthened inspector rejects the old aliases even if supplied
+at the numerically correct addresses. Before/after binding compares all 706
+candidate bytes and finds them identical. The original SHA, 37 ordered fields,
+21 calls, 19-block graph and all 222 genuine residual offsets stay unchanged;
+this preserves 484 equal positions without awarding exact or partial credit.
+
+Twenty-two private cold compiles comprise 19 Front and three Effect leaf cases,
+including both initial and proposed-member baselines. Member/null/assignment
+checks, a two-marker array, typed ECX callback and static fastcall callback are
+neutral at 706/37/222. The seven-VM loop emits 626/31, marker loop 728/35, both
+loops 628/29: complete extents reject them. The actual flat consumer vertex
+representation gives scalar initialization 703/37; memcpy gives 706/37/228 with
+six newly damaged positions; a Float3 position projection is neutral. Genuine
+standard-inline resource acquisition return/assignment helpers give 706/37/230,
+restore zero positions and damage eight entry bytes. The analogous 51-byte
+Effect callback retains its four fields and eight differences in both cases.
+A genuine VM/resource reference helper across all eleven VM calls is neutral;
+slot-reference acquisition and its combined VM form give 706/37/230. The small
+Effect slot-reference case stays 51/4/eight. These controls are measured source
+countermodels, not proof of original TU ownership or permission for artificial
+compiler hints. No rejected or neutral hypothesis enters maintained game code.
+
+The public check-front-game-data.py scans actual accepted source/include closures
+and requires 12 affected units in nine source/profile groups: Ending callback,
+Front message initialization/load/release, Front result bonus, four GameManager
+mode methods, opponent selection and two Player gameplay units. These span eight
+accepted sources and the existing /Ob0 and /Ob1 profiles. Compiles are serial;
+CLI lowers its inherited nice priority as well as explicitly lowering accepted
+unit builds, so Front's delegated compile is also low priority. The target is
+verified before compiling, complete logical AND physical equality is required,
+and all 45 producer inputs must remain unchanged before/after the run. Front's
+37-field native identity/full-byte guard runs separately and awards no credit.
+Other 988 accepted source/profile proofs are unchanged and reused.
+
+Two preliminary affected runs pass 11 units /6,256 bytes and expose the same
+18 private-label spellings in player-resolve-pattern-offset. The shared-header
+expansion renumbers each of those labels by ten. Each actual COFF owner section/value
+and local symbol position is checked against its pre-existing target, then the
+complete 412 bytes (346 logical plus tables/alignment) compare exact. Only those
+18 manifest symbol names change; referents, offsets, kinds, addends, bounds and
+profiles do not. A subsequent affected run passes all 12 /6,668 physical bytes;
+the final current-provider run additionally enforces inherited nice10. Earlier
+failed reports remain explicit and are not represented as passing checks.
+
+Pure tests reject independent aliases, wrong native addends/target bytes,
+incomplete physical comparison, missing dependency owners, wrong target before
+compilation and source-input races. Evidence under
+.analysis/gpt-61sol-20261021-front-init retains recipes, source hashes, historical
+inputs, full raw/actual COFF pairs, failed reports and the final affected check.
+A frozen current-member replay checks all 706 raw bytes and all 37 actual fields,
+the native five-member provenance and the unchanged 222-offset guard. This is a
+source correction with no exact increase: four requested fronts remain
+30/29/22/15; 1000/1035, 83.3992%, product/runtime and later gates stay open.
+
+
+Final CI passes 834 tests /28 skips, plus focused original comparison and
+tracking/docs/progress/whitespace gates. After all producers terminate, all 124
+loose archive members are checked against ZIP CRC and individual SHA256, then
+removed: 4,368,256 bytes become 722,466 bytes, reclaiming 3,645,790 bytes
+(~3.48 MiB). The duplicate reviewed manifest is represented by its identical
+provider snapshot. All 45 current producer pins, frozen replay/CI sidecars and
+archive hashes remain valid after cleanup. Unique earlier campaign evidence
+and canonical objects are retained. No accepted receipt or new exact is claimed.

@@ -9,46 +9,51 @@
 
 The operator requests continued exact reconstruction across **large functions
 and small leaves**, serial low-priority compiles, focused affected replays and
-regular cleanup. Current diagnostic work starts from pushed `9c6f9a3`; game C++,
-headers, ABI, compiler profiles and exact ledgers are unchanged. RunEcl/Enemy/
+regular cleanup. This checkpoint starts from pushed `5a0476a`. RunEcl/Enemy/
 Title DrawResult/Type3 remain **30 /29 /22 /15** differences; SaveReplay stays
 **3**, network HandleMessage **105**. None of these fronts or 95% is complete.
 The last accepted exact addition is Player initialization in `8ff6ce1`.
 This batch adds **no exact ledger row**.
 
-- **Type3 joint contexts:** the public native-context producer now also accepts
-  `--variant forwarded-collision`, keeping its rejected four-byte word model
-  separate from the maintained 15-byte source. Default behavior and production
-  byte guards remain unchanged; separate report names preserve each result.
-  New `--case interrupt` compiles only the actual native method/typedef with the
-  caller's VM declaration, requiring the canonical owner/profile and complete
-  **18-byte original SetInterrupt** body before reporting its caller.
-- Twelve private complete comparisons and three public cold checks cover the
-  lead, real coordinate/collision/Float3 bodies, native interrupt and ordinary
-  inline/reference/explicit-operator forms. All valid 780-byte contexts retain
-  +1B2,+1B7,+247,+249. Coordinates instead emits **760/34/391**, with 20 original
-  bytes missing. Both private compile failures remain recorded. The public
-  maintained source still passes **780/38/15**; rejected contexts are never
-  counted as progress toward exactness or adopted into game code.
-- **Bounded entry census:** direct IDA lists 2,165 functions against 2,248 catalog
-  entries. Its only unlisted start is the existing longjmp span's terminal RET.
-  A raw-value scan finds 123 uncovered executable-address values: 135 aligned
-  non-executable DWORD observations and two apparent E8 encodings. Both E8 bytes
-  are actually EBP-18 displacement operands inside CRT instructions. Remaining
-  data values stay unclassified; this proves neither complete inventory nor
-  new authored origin. No boundary or ledger changes follow.
-- Only diagnostic source/tests change. All 487 game-source files plus src/README,
-  the four canonical ledger/config inputs and their source/profile proofs remain
-  unchanged. The previous **79-unit /25,425-byte** Enemy/damage closure is reused
-  from `9c6f9a3`; no full 1000-function or unrelated cohort replay is performed.
-- Original/live inputs, full raw/COFF pairs and the census observations are
-  retained under `.analysis/gpt-61sol-20261021-entry-census/`. Private/native
-  compiler carriers self-clean. Source-bound research is not an accepted receipt.
-- CI passes **830 tests /28 skips**. The frozen joint replay independently
-  reproduces 780 raw bytes /38 actual fields, the four residuals, guard rejection
-  and exact 18-byte native callee. After all producers terminate, 72 verified
-  loose members /1,019,539 bytes become a 256,440-byte ZIP, reclaiming
-  **763,099 bytes (~745 KiB)**. Current source/provider pins pass after cleanup.
+- **Front native data:** five reads in the 706-byte AddedCallback now use the
+  existing `g_GameManager @0x004A7D90` root plus **+20 /+58 /+FC**, replacing
+  three standalone aliases in this caller. The shared prefix exposes those
+  fields with offset guards; its existing +118/+11C/+134 fields and total size
+  stay unchanged. +FC remains neutrally named. Other callers' legacy aliases
+  and full original class ownership are outside this claim.
+- All **706 original-linked candidate bytes are identical** before and after
+  this source correction: **37 fields /21 ordered calls /19 blocks /222
+  differences** remain. The inspector now rejects the old independent aliases,
+  incorrect native member addends and wrong original DWORDs. The full original
+  SHA and existing 222-residual guard continue to protect all 484 equal bytes.
+- Twenty-two private serial compiles cover **19 Front and three 51-byte Effect
+  leaf** controls: member/null checks, resource/VM reference helpers, actual
+  vertex representation, callback typing and loops. None improves the guarded
+  whole owner; neutral/regressed hypotheses remain unadopted. Resource helpers
+  yield Front 230 differences, Effect retains eight; loops change full extents.
+- `python3 scripts/check-front-game-data.py` dynamically follows quoted-source
+  dependencies and cold-checks exactly **12 affected accepted units**, across
+  **nine source/profile groups** (eight source files, two distinct profiles),
+  plus Front. All **6,668 physical accepted bytes** pass. Two preliminary runs
+  expose the same private-label issue; a subsequent complete pass and a final
+  pass with inherited compiler priority lowered are retained. After the shared-header expansion, only 18 private `$L` names in the
+  412-byte Player pattern unit change, each numeric suffix increasing by ten. Actual owner-local coordinates and every complete byte
+  were independently reviewed before updating those names. Targets, relocation
+  offsets/types, compiler flags and bounds are unchanged.
+- The other **988 exact source/profile proofs are reused**; no full 1000-function
+  replay is performed. Current ledgers remain 1000 exact /1035 authored. New
+  tests cover native data provenance, complete physical tails, dependency
+  inventory, wrong-target rejection and producer-input changes.
+- Source-bound research, full raw/COFF pairs, original/current inputs and the
+  exact affected-closure report live under
+  `.analysis/gpt-61sol-20261021-front-init/`. Private compiler carriers self-clean.
+  The selected frozen replay independently checks the current 706-byte native
+  member source. Research and current-source checks are not accepted receipts.
+- CI passes **834 tests /28 skips**, with tracking/docs/progress/whitespace
+  gates passing. After all producers terminate, 124 verified loose members
+  /4,368,256 bytes become a 722,466-byte ZIP, reclaiming **3,645,790 bytes
+  (~3.48 MiB)**. All current producer and archive pins pass after cleanup;
+  unique earlier research and canonical objects are retained.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
 
@@ -113,7 +118,7 @@ For the complete <=256-byte cohort see
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Now uses genuine shared `g_Supervisor.framerateMultiplier5B8 @0x004B36B8` and the four **real `GameManagerResetView::coordinate360/364/368/36C` fields** (original `0x004A80F0..FC`), not fake external playfield globals. The independent **79-byte exact GameManager coordinate initializer** physically writes those fields; 1,900-byte linked movement boss and 66 operand identities stay unchanged, with 129 ordinary differences still open. All 129 genuine current original-bound mismatch offsets are now pinned, protecting the other **1,771** already matching bytes (including both switch tables and after-return alignment); future improvements must not introduce mismatches elsewhere. `--owner movement` protects exact 522-byte caller. |
 | **Player charge update** | 0x0041F810 | **1,210 target /1,197 candidate bytes**, 70 fields, 58 calls, 350/342 instructions; **1,160 overlap differences +13 missing** | Complete diagnostic `scripts/inspect-player-charge-update.py` checks all original bytes, actual COFF operands, literal definitions and direct graph. Seven older region checks pass despite this whole-owner mismatch. A private 1,210-byte mode-local candidate still differs at 561 positions, damages 20 previously equal positions and fails five regions; it is not adopted. |
 | **Front weighted message RNG** | 0x004162D0 | **693 target / 681 candidate**, 15 fields, 6 calls, **569** overlap + 12 missing | Primary-first table selection refined in `09bb2a6`; target/candidate CFG 40/41 blocks. `--owner front` protects exact FrontCalc and siblings. |
-| **Front added initialization** | 0x00418480 | **706/706**, 37 original fields, 21 calls, 19 equal blocks; **222 differences** (236→222) | Explicit Z stores and the actual source-vector reference restore 14 physical positions while preserving all 470 previously equal bytes. All 484 equal bytes are guarded. Two private method aliases are replaced by real Reset/Load calls; a shared runtime prefix preserves 0x1D70 and +0/+4/+8/+0C. `--owner frontadded` protects the whole callback plus four exact methods /832 bytes /41 fields. Receiver and remaining panel-store scheduling stay open. |
+| **Front added initialization** | 0x00418480 | **706/706**, 37 original fields, 21 calls, 19 equal blocks; **222 differences** (236→222) | Explicit Z stores and the actual source-vector reference restore 14 physical positions while preserving all 470 previously equal bytes. All 484 equal bytes are guarded. Two private method aliases are replaced by real Reset/Load calls; a shared runtime prefix preserves 0x1D70 and +0/+4/+8/+0C. Five data reads now use the existing native GameManager root with +20/+58/+FC members and independently checked COFF addends; all 706 linked bytes remain identical. `--owner frontadded` protects the whole callback plus four exact methods /832 bytes /41 fields; `check-front-game-data.py` protects all 12 affected accepted consumers /6,668 physical bytes. Receiver and remaining panel-store scheduling stay open. |
 | **TitleScreen::OnUpdateResult** | 0x004266B5 | **485 / 484**, 147/147 instructions, 34 fields, 9 calls; **218** overlap + 1 missing | Pointer-backed character snapshot in `4fe7cb0`; original CL/EAX codegen still differs. Protect all 37 existing exact `TitleScreen.cpp` units, including privately relabeled StartMenu. |
 | **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280/1,280 bytes**,376/376 instructions,57 original-bound fields,13 ordered calls,72 matching direct blocks; **29 differences** | Native indexed list reads, date/name-before-character evaluation, record-before-index acquisition and later timer snapshot recover1,180 more equal bytes. All1,251 matching positions and complete geometry/CFG are now protected. Remaining +185..+321 differences are selected-row ECX/EDX choices and two local-store order. `--owner replaymenu` cold-checks this isolated TU; still NON-EXACT. |
 | **TitleScreen::DrawReplaySave** | 0x004239F6 | **800/800 physical**, 245 instructions, 41 fields, 4 calls, 28/28 matching blocks; **96 linked differences** | Raw replay magic, genuine SDK subtraction/two scales/addition and two-byte character construction restore the full extent and nine more loop-counter/FILD home bytes. All **704** equal positions are SHA-bound and protected; no old matching byte regresses from the 105-residual source. Remaining vector/text homes, replay-pointer and keyboard schedules stay NON-EXACT. No enlarged buffer, extra storage or new target helper claim. |

@@ -13,6 +13,12 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE, SIZE = 0x00418480, 706
 SYMBOL = '?FrontAddedCallback@@YIHPAX@Z'
 TARGET_SHA256 = 'a1faabe117043306799d2c256fb5d0d76d0755b3c8e9015019c57dbd6a8377e1'
+GAME_MANAGER_SYMBOL = '?g_GameManager@@3UGameManagerModeView@@A'
+GAME_MANAGER_BASE = 0x004A7D90
+GAME_MANAGER_DATA_FIELDS = (
+    (0x11A, 0xFC), (0x266, 0x58), (0x277, 0x20),
+    (0x299, 0x58), (0x2A4, 0x20),
+)
 DESTINATIONS = {
     '?g_AnmManager@@3PAVAnmManager@@A': 0x004DC550,
     '?GetAnm@AnmManager@@QAEPAVAnmLoaded@@H@Z': 0x00401660,
@@ -23,15 +29,28 @@ DESTINATIONS = {
     '?g_GameManager@@3UGameManagerModeView@@A': 0x004A7D90,
     '?IsGameMode0@GameManagerModeView@@QAEHXZ': 0x0040E470,
     '?IsGameMode1@GameManagerModeView@@QAEHXZ': 0x00404970,
-    '?g_FrontCharacterIndex@@3HA': 0x004A7E8C,
     '?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z': 0x00436AC0,
     '?Reset@FrontMessageRuntimeResetView@@QAEHXZ': 0x00415C90,
-    '?g_GameSide1Value20@@3HA': 0x004A7DE8,
-    '?g_GameSide0Value20@@3HA': 0x004A7DB0,
     '?g_PlayerResourcePaths@@3PAY05PBDA': 0x004A1238,
     '?LoadForSideCount@FrontMessageRuntimeView@@QAEHPAD0H@Z': 0x004182E0,
     '?InitializeMessageRuntime@FrontMessageOwnerView@@QAEXXZ': 0x004181E0,
 }
+
+
+def require_game_manager_fields(rows, target):
+    """Reject standalone aliases even when they encode the same addresses."""
+    observed = [row for row in rows if row['offset'] in
+                {offset for offset, _ in GAME_MANAGER_DATA_FIELDS}]
+    if len(target) != SIZE or len(observed) != len(GAME_MANAGER_DATA_FIELDS):
+        raise ValueError('Front GameManager data inventory changed')
+    for row, (offset, member) in zip(observed, GAME_MANAGER_DATA_FIELDS):
+        if (row['offset'] != offset or row['type'] != 'DIR32'
+                or row['symbol'] != GAME_MANAGER_SYMBOL or row['addend'] != member
+                or row.get('symbol_section') != 0
+                or struct.unpack_from('<I', target, offset)[0] != GAME_MANAGER_BASE+member):
+            raise ValueError('Front GameManager member root/addend identity changed')
+    return dict(symbol=GAME_MANAGER_SYMBOL, root=GAME_MANAGER_BASE,
+                fields=len(observed), members=[member for _, member in GAME_MANAGER_DATA_FIELDS])
 
 
 def module(name, file):
@@ -102,6 +121,7 @@ def inspect(path):
             ti[-1].mnemonic != 'ret' or len(tf) != 37):
         raise ValueError('original Front extent/instruction/field review changed')
     raw, rows = coff.object_function(Path(path), SYMBOL, include_symbol_locations=True)
+    native_game_data = require_game_manager_fields(rows, target)
     linked = bind_candidate(raw, rows, target, tf)
     strings = [row for row in rows if row['symbol'].startswith('??_C@')]
     if len(strings) != 1 or coff.pe_bytes_at(image, 0x0048EE68, 10) != b'front.anm\0':
@@ -121,6 +141,7 @@ def inspect(path):
     cg = direct_control_flow(ci, capstone.x86.X86_OP_IMM)
     offsets = [i for i, (a, b) in enumerate(zip(target, linked)) if a != b]
     return {'diagnostic_only': True, 'exactness_credit': 'none',
+            'native_game_manager_data': native_game_data,
             'target_bytes': SIZE, 'candidate_bytes': len(raw), 'target_sha256': TARGET_SHA256,
             'target_instructions': len(ti), 'candidate_instructions': len(ci),
             'original_fields': len(tf), 'bound_fields': len(rows), 'ordered_calls': 21,

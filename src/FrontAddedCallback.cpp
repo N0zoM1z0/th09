@@ -50,9 +50,6 @@ typedef char FrontAddedMarkerAt123F4[
     (offsetof(FrontAddedView, markerVm123F4) == 0x123F4) ? 1 : -1];
 
 extern AsciiManager g_AsciiManager;
-extern int g_GameSide0Value20;
-extern int g_GameSide1Value20;
-extern int g_FrontCharacterIndex;
 extern const char *g_PlayerResourcePaths[][6];
 
 int FrontAddedCallback(void *frontArg)
@@ -87,7 +84,7 @@ int FrontAddedCallback(void *frontArg)
         front->frontAnm08->ExecuteAnmIdx(&front->resultVm12150, 86);
         front->frontAnm08->SetSprite(
             &front->resultVm12150,
-            g_FrontCharacterIndex + 73);
+            g_GameManager.field0FC + 73);
     }
 
     int panel = 0;
@@ -148,16 +145,16 @@ int FrontAddedCallback(void *frontArg)
     if (g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1())
     {
         if (front->messageRuntimeE944.LoadForSideCount(
-            const_cast<char *>(g_PlayerResourcePaths[g_GameSide0Value20][3]),
+            const_cast<char *>(g_PlayerResourcePaths[g_GameManager.side0Character][3]),
             0,
-            10 * g_GameSide1Value20) != 0)
+            10 * g_GameManager.side1Character) != 0)
             return -1;
     }
     else
     {
         if (front->messageRuntimeE944.LoadForSideCount(
-            const_cast<char *>(g_PlayerResourcePaths[g_GameSide0Value20][4]),
-            const_cast<char *>(g_PlayerResourcePaths[g_GameSide1Value20][4]),
+            const_cast<char *>(g_PlayerResourcePaths[g_GameManager.side0Character][4]),
+            const_cast<char *>(g_PlayerResourcePaths[g_GameManager.side1Character][4]),
             0) != 0)
             return -1;
     }

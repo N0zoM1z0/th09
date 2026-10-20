@@ -22,6 +22,33 @@ boss = load('front_added_gate_test', 'check-boss-frontiers.py')
 
 
 class FrontAddedFieldTests(unittest.TestCase):
+    def test_game_data_requires_native_root_and_five_original_member_addends(self):
+        target, rows = bytearray(audit.SIZE), []
+        aliases = {0xFC: '?g_FrontCharacterIndex@@3HA',
+                   0x58: '?g_GameSide1Value20@@3HA', 0x20: '?g_GameSide0Value20@@3HA'}
+        for offset, member in audit.GAME_MANAGER_DATA_FIELDS:
+            struct.pack_into('<I', target, offset, audit.GAME_MANAGER_BASE+member)
+            rows.append(dict(offset=offset, type='DIR32', symbol=audit.GAME_MANAGER_SYMBOL,
+                             addend=member, symbol_section=0))
+        self.assertEqual(audit.require_game_manager_fields(rows, target)['fields'], 5)
+        for index, (_, member) in enumerate(audit.GAME_MANAGER_DATA_FIELDS):
+            for changes in ({'symbol': aliases[member], 'addend': 0}, {'addend': member+4},
+                            {'type': 'REL32'}, {'symbol_section': 1}):
+                changed = copy.deepcopy(rows)
+                changed[index].update(changes)
+                with self.subTest(index=index, changes=changes), self.assertRaises(ValueError):
+                    audit.require_game_manager_fields(changed, target)
+        for changed in (rows[:-1], rows+[rows[0]], rows[::-1]):
+            with self.assertRaises(ValueError):
+                audit.require_game_manager_fields(changed, target)
+        damaged = bytearray(target)
+        damaged[audit.GAME_MANAGER_DATA_FIELDS[0][0]] ^= 1
+        with self.assertRaises(ValueError):
+            audit.require_game_manager_fields(rows, damaged)
+        with self.assertRaises(ValueError):
+            audit.require_game_manager_fields(rows, target[:-1])
+        self.assertTrue(all(symbol not in audit.DESTINATIONS for symbol in aliases.values()))
+
     def fixture(self):
         target = bytearray(audit.SIZE)
         source, fields = [], []
