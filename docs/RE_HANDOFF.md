@@ -15,54 +15,59 @@ Current state: **1,035 authored, 1,035 source-present, 999 canonical exact**;
 **36 source-present nonexact; no confirmed authored owner lacks maintained source**.
 **242,876/291,883 reviewed-authored bytes = 83.2101%**.
 The **95%** milestone still needs **34,413** complete exact authored bytes.
-This checkpoint strengthens the Supervisor entry-predicate Oracle and records
-bounded codegen controls. It adds no exact owner/byte or gameplay source change.
-Native product/runtime, complete inventory and later gates stay open.
+This checkpoint repairs actual RunEcl source linkage without adding exact
+owners or bytes. Native product/runtime, complete inventory and later gates
+stay open.
 
-- **New focused coverage:** original OnUpdate431110 has two actual direct
-  predicate calls42ED70, independently decoded before accepting its full
- 996-byte owner/92-field diagnostic. The guard requires both calls and now
-  cold-replays the predicate's real14-byte canonical implementation, source,
-  address and compiler profile. Seven existing exact units pass734 bytes/
- 56 fields; the other992 exact proofs retain their source/profile hashes.
-- **Supervisor current baseline:** maintained source remains952 physical bytes
-  (800 pre-table+152 artifacts),205 instructions,92 fields,27 calls,791 overlap
-  differences+44 missing bytes. Its public cold raw body and all actual COFF
-  rows equal the first private closed baseline. All485 game source inputs are
-  unchanged. No experimental C++ type, annotation, CFG or TU change is promoted.
-- **Bounded controls:**36 successful private carriers explore network-loop
-  placement/result lifetime, shared state tails, startup branch forms, typed
-  bit7/Chain/startup state models and genuine predicate visibility. A cold
-  network tail gives980/216/809 differences; moving5/6/8 before2 gives972/216/803.
-  These are not improvements over the full original bytes. Two explicit-result
-  scan forms lose five local fields and the original network table shape.
-- **Actual-callee countercheck:** the real14-byte subthread predicate stays
-  complete exact when visible before/after the callback, but that source context
-  gives204 instructions/793 differences (cold-network215/811). Calls/tables stay
-  intact; a reload is removed. This context is rejected, not proof of the
-  unique original TU. Adjacent TH08 types are hypotheses only and do not close
-  this TH09 owner. One incorrectly nested case reorder failed construction,
-  was corrected and rerun; the failure is not a semantic negative.
-- **IDA recovery:** replaced and read back the stale Packet64/828-code/
-  three-title-call annotation with the current original217/current205 instruction
-  and single-title/two-predicate facts. Target bytes/boundaries remain unchanged.
-- **Evidence:** .analysis/gpt-61sol-20261020-supervisor-transition-flow retains
-  complete raw/actual-COFF pairs, canonical reports, source bindings, frozen
-  inputs and replay recipes. Reproduce current checks with
-  check-boss-frontiers.py --owner supervisor; it checks the full nonexact
-  callback and seven selected original-exact dependencies/caller.
+- **Native owner correction:** EclManager now aliases the reviewed0x188-byte
+  EnemyEclManagerView. The implementation and five original direct callsites
+  share its actual C++ symbol. Previously a separate empty implementation class
+  and two private spawn declarations produced unresolved, differently named
+  references; numeric address bindings hid this source-linkage gap. The Enemy
+  inspector now requires its real same-object definition and records its callee
+  as source-present nonexact. InitializeSubroutine projections remain deferred.
+- **Affected exact cohort:** four cold canonical carriers replay all79 affected
+  existing exact units:25036 authored/25111 physical bytes and1099 fields.
+  The other920 exact proofs reuse unchanged source/profile bindings. All1025
+  manifest units retain sources, profiles, targets, extents and field geometry;
+  only four native call symbols and20 compiler-private label spellings change.
+  Each private spelling preserves its independently checked owner-relative
+  destination. No match row or exactness credit is added.
+- **Complete-owner protection:** both compiler profiles preserve all136 emitted
+  raw functions. RunEcl stays15564 bytes/598 fields/30 ordinary differences,
+  zero field/table differences; Enemy update stays3900/97/29. Original five E8
+  calls independently decode to4086C0. Same-carrier Effect29/34/26, Type19 and
+  biased-movement guards also pass without redundant builds. Each profile's64
+  noncode sections retain their exact content/relocation multiset and63 named
+  data payload bindings, but their physical order changes. Whole-product link
+  order and runtime closure are not established by this batch.
+- **Rejected controls:** six GetAnm const/reference/nonthrowing contracts keep
+  the genuine callee20/20 exact and leave Effect AddedCallback51/4/8 nonexact.
+  Seven full63-input RunEcl bool/wire controls are neutral or regress/reject
+  the owner shape. No bool representation/domain assumption or nonzero-for-lowbit
+  shortcut is adopted. These are source-scoped negatives, not universal proofs.
+- **Reproducible evidence:** .analysis/gpt-61sol-20261020-ecl-native-run-owner
+  retains full raw/actual-COFF reports, original xrefs, manifest/link audits,
+  parent Oracles and21 frozen carriers sharing92 unique inputs. Run replay.py
+  native-main there to rebuild one frozen63-input carrier and check all136 raw
+  functions/actual fields plus the full30/29 boss diagnostics and native link.
+  This post-cleanup replay passes and removes its temporary outputs. The two
+  adjacent getter/bool experiment packets route through that frozen manifest.
+- **Resource cleanup:** after terminal-producer checks, scoped cleanup removes
+ 812 files/27108545 bytes, including734 duplicate source copies, own OBJ/PDB and
+  superseded adapter manifests. Full8004022-byte JSON evidence compresses
+  losslessly to503352 bytes. Build/ and own compiler binaries are absent.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
-- **Verified finish:** CI779 tests/28 skips, target-required tracking, docs,
-  generated progress and whitespace pass.724 of728 engineering inputs retain
-  parent hashes; four changes cover the ledger note, two inspectors and test.
-  Scoped cleanup removes956 files/18962079 bytes. Fifty unique inputs and36
-  losslessly compressed raw/COFF pairs remain. A frozen getter-visible replay
-  reproduces all952 caller bytes/92 actual fields and the14-byte exact predicate,
-  then removes its own outputs. Build/ and own OBJ/PDB are absent. Source commit
-  and independent remote push verification are recorded separately in the packet.
+- **Verified finish:** CI781 tests/28 skips, target-required tracking, docs,
+  progress and whitespace pass.714 of728 engineering inputs retain parent
+  hashes;481 of485 game source files are unchanged. Four game files, seven
+  inspectors, two ledger/manifest files and one test change. CI bytecode caches
+  are also removed after terminal checks. Build/ and own OBJ/PDB are absent.
+  Committed-input and independent remote-verification packets bind the final
+  source checkpoint separately; no new exactness or runtime claim follows.
 
 
 ## Next worker: first three work packages

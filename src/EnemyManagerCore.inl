@@ -402,11 +402,6 @@ typedef char EnemyManagerCoreEnemiesAt5758[
 typedef char EnemyManagerCoreDrawHeadsAt2AC410[
     (offsetof(EnemyManagerCoreView, drawGroupHeads2AC410) == 0x2AC410) ? 1 : -1];
 
-struct EnemyCoreEclManagerView
-{
-    int RunEcl(EnemyCoreView *enemy);
-};
-
 struct EnemyCoreFrontView
 {
     unsigned char unknown00000[0x1095C];

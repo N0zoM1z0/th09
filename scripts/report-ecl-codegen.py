@@ -14,7 +14,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 COMPARE_SCRIPT = ROOT / "scripts" / "compare-coff-function.py"
-RUN_ECL_SYMBOL = "?RunEcl@EclManager@@QAEHPAUEnemyView@@@Z"
+RUN_ECL_SYMBOL = "?RunEcl@EnemyEclManagerView@@QAEHPAUEnemyView@@@Z"
 TARGET_LOGICAL_SIZE = 0x39C8
 TARGET_PHYSICAL_SIZE = 0x3CCC
 EASING_TABLE_COUNT = 6

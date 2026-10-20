@@ -29,6 +29,7 @@ OWNER_SIZE = 3900  # 3883 instructions + one alignment + four-entry table
 CODE_SIZE = 3883
 TARGET_SHA256 = "a7f01c2ff0bda79d1fd17ac9170dc3560d4089457455d7928776df8556f1bc75"
 SYMBOL = '?OnUpdate@EnemyManagerView@@SIHPAU1@@Z'
+RUNECL_SYMBOL = '?RunEcl@EnemyEclManagerView@@QAEHPAUEnemyView@@@Z'
 
 
 def load_compare():
@@ -75,16 +76,39 @@ symbol_aliases={
  '?g_EnemyCoreSchedule@@3PAEA':'?g_EnemySubroutineSchedule@@3PAEA',
  '?g_EnemyCoreDifficultyValue@@3HA':'?g_PlayerRewardBaseValue@@3HA',
  '?GetState@EnemyCorePlayerView@@QAEHXZ':'?GetUpdateState@PlayerLifecycleView@@QAEHXZ',
- '?RunEcl@EnemyEclManagerView@@QAEHPAUEnemyView@@@Z':'?RunEcl@EnemySpawnEclManagerBoundary@@QAEHPAUEnemyView@@@Z',
  '?g_EnemyCoreGameManager@@3UEnemyCoreGameManagerPlayfieldView@@A':'?g_GameManager@@3UGameManagerSetupLayout@@A',
  '?g_EnemyCoreAnmManager@@3PAUEnemyCoreAnmManagerView@@A':'?g_AnmManager@@3PAVAnmManager@@A',
  '?g_EnemyCoreSoundPlayer@@3UEnemyCoreSoundPlayerView@@A':'?g_SoundPlayer@@3VSoundPlayer@@A',
  '?g_EnemyCoreUi@@3UEnemyCoreUiView@@A':'?g_AsciiManager@@3VAsciiManager@@A',
 }
 semantic_aliases={
+ RUNECL_SYMBOL:'EclManager::RunEcl',
  '?AppendPlayerCollisionBox@EnemyAppendCollisionView@@QAEXPBUFloat3@@0@Z':'EnemyAppendCollisionView::AppendPlayerCollisionBox',
  '?CalcDamageToEnemy@EnemyCorePlayerView@@QAEHPAUFloat3@@0PAH11@Z':'PlayerDamagePlayerView::CalcDamageToEnemy',
 }
+
+
+def require_runecl_definition(caller_fields, callee_raw, callee_fields):
+    """Require the caller's native symbol to resolve in this actual COFF.
+
+    A source-present callee may remain nonexact. A matching numeric address
+    through an unrelated class declaration does not prove this source link.
+    """
+    calls = [row for row in caller_fields if row['symbol'] == RUNECL_SYMBOL]
+    if len(calls) != 1 or len(callee_raw) != 15564 or len(callee_fields) != 598:
+        raise ValueError('incomplete native RunEcl caller/definition inventory')
+    call = calls[0]
+    coordinates = {(row['owner_section'], row['owner_value']) for row in callee_fields}
+    if len(coordinates) != 1:
+        raise ValueError('inconsistent native RunEcl owner coordinates')
+    section, value = next(iter(coordinates))
+    if (section <= 0 or call['offset'] != 0x397 or call['type'] != 'REL32'
+            or call['addend'] != 0 or call['symbol_section'] != section
+            or call['symbol_value'] != value or call['owner_section'] == section):
+        raise ValueError('Enemy RunEcl call does not resolve to its native definition')
+    return dict(symbol=RUNECL_SYMBOL, call_offset=call['offset'],
+                same_object_definition=True, definition_bytes=len(callee_raw),
+                definition_fields=len(callee_fields))
 
 
 def external_destination(row, units, functions, registry):
@@ -141,6 +165,9 @@ def diagnose(path, *, explain=False):
         raise ValueError("original EnemyManager full-owner SHA changed")
     source, relocations = compare.object_function(
         path, SYMBOL, include_symbol_locations=True)
+    callee_raw, callee_fields = compare.object_function(
+        path, RUNECL_SYMBOL, include_symbol_locations=True)
+    native_run_owner = require_runecl_definition(relocations, callee_raw, callee_fields)
     if len(source) != OWNER_SIZE:
         raise ValueError('unreviewed candidate physical extent: ' + str(len(source)))
     if len(relocations) != 97:
@@ -197,6 +224,7 @@ def diagnose(path, *, explain=False):
         'diagnostic_only': True,
         'exactness_credit': 'none',
         'object': str(path),
+        'native_run_owner': native_run_owner,
         'target_sha256': hashlib.sha256(target).hexdigest(),
         'target_bytes': OWNER_SIZE,
         'candidate_bytes': len(source),

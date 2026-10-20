@@ -119,6 +119,39 @@ class EnemyUpdateBindingTests(TestCase):
                          (destination - (inspector.BASE + row['offset'] + 4)) & 0xFFFFFFFF)
         self.assertIn('canonical exact unit identity', proof)
 
+    def test_runecl_reference_is_source_present_without_claiming_callee_exactness(self):
+        units, functions, registry = inspector.reference_index()
+        destination, proof = inspector.external_destination(
+            self.row(symbol=inspector.RUNECL_SYMBOL), units, functions, registry)
+        self.assertEqual(destination, 0x004086C0)
+        self.assertIn('source-present non-exact owner', proof)
+        self.assertNotIn('canonical exact', proof)
+        for old in ('?RunEcl@EclManager@@QAEHPAUEnemyView@@@Z',
+                    '?RunEcl@EnemySpawnEclManagerBoundary@@QAEHPAUEnemyView@@@Z',
+                    '?RunEcl@EnemySpawnRecordEclManagerBoundary@@QAEHPAUEnemyView@@@Z'):
+            with self.subTest(symbol=old), self.assertRaisesRegex(ValueError, 'absent or ambiguous'):
+                inspector.external_destination(self.row(symbol=old), units, functions, registry)
+
+    def test_native_runecl_call_must_resolve_to_the_actual_definition(self):
+        call = self.row(symbol=inspector.RUNECL_SYMBOL, offset=0x397,
+                        owner_section=5, symbol_section=8, symbol_value=0x10)
+        definitions = [{'owner_section': 8, 'owner_value': 0x10} for _ in range(598)]
+        report = inspector.require_runecl_definition([call], bytes(15564), definitions)
+        self.assertTrue(report['same_object_definition'])
+        for fields, raw, defined in (
+                ([], bytes(15564), definitions),
+                ([call, call], bytes(15564), definitions),
+                ([self.row(**{**call, 'symbol_section': 0})], bytes(15564), definitions),
+                ([self.row(**{**call, 'symbol_value': 0})], bytes(15564), definitions),
+                ([self.row(**{**call, 'type': 'DIR32'})], bytes(15564), definitions),
+                ([self.row(**{**call, 'addend': 4})], bytes(15564), definitions),
+                ([self.row(**{**call, 'offset': 0x396})], bytes(15564), definitions),
+                ([call], bytes(15563), definitions),
+                ([call], bytes(15564), definitions[:-1]),
+                ([call], bytes(15564), [dict(definitions[0], owner_value=0)] + definitions[1:])):
+            with self.subTest(fields=fields[:1], size=len(raw)), self.assertRaises(ValueError):
+                inspector.require_runecl_definition(fields, raw, defined)
+
     def test_literal_payload_is_verified_against_pe_bytes(self):
         row = self.row(symbol='__real@3f000000', type='DIR32')
         refs = {'__real@3f000000': [{'target': 0x490F54}]}

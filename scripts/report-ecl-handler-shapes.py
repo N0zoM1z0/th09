@@ -22,7 +22,7 @@ from ecl_shape_differences import changed_instructions
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 0x004086C0
 TARGET_CODE_BYTES = 14792
-RUN_ECL_SYMBOL = "?RunEcl@EclManager@@QAEHPAUEnemyView@@@Z"
+RUN_ECL_SYMBOL = "?RunEcl@EnemyEclManagerView@@QAEHPAUEnemyView@@@Z"
 
 
 def load_module(name, path):

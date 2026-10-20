@@ -23,7 +23,7 @@ PHYSICAL_BYTES = 15564
 CODE_BYTES = 14792
 TABLE_ENTRIES = 193
 OWNER_SHA256 = 'e9433504219119eba40ed4d11537782178135effeb6c95d74b6274e0e7f5e7ea'
-SYMBOL = '?RunEcl@EclManager@@QAEHPAUEnemyView@@@Z'
+SYMBOL = '?RunEcl@EnemyEclManagerView@@QAEHPAUEnemyView@@@Z'
 
 
 def symbol_destinations(units: dict, aliases: dict) -> dict:

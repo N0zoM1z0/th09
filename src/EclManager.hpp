@@ -2,7 +2,5 @@
 
 #include "EnemyManager.hpp"
 
-struct EclManager
-{
-    int RunEcl(EnemyView *enemy);
-};
+// RunEcl uses the same reviewed 0x188-byte ECL manager as its callers.
+typedef EnemyEclManagerView EclManager;

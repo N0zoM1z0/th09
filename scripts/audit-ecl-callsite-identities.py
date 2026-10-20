@@ -270,7 +270,7 @@ def audit(object_path):
     require(coff.pe_bytes_at(image, 0x435f00, 4) == bytes.fromhex('8b4108c3'),
             'folded timer-current getter body changed')
     obj = Path(object_path)
-    raw, rows = coff.object_function(obj, '?RunEcl@EclManager@@QAEHPAUEnemyView@@@Z', include_symbol_locations=True)
+    raw, rows = coff.object_function(obj, '?RunEcl@EnemyEclManagerView@@QAEHPAUEnemyView@@@Z', include_symbol_locations=True)
     # The two compiler tables follow the complete logical instruction stream.
     # Every relocation must own one distinct, recognized four-byte field.
     rows = validate_relocation_fields(raw, rows)

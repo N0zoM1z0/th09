@@ -15,7 +15,7 @@ import struct
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 0x004086C0
 SIZE = 15564
-SYMBOL = '?RunEcl@EclManager@@QAEHPAUEnemyView@@@Z'
+SYMBOL = '?RunEcl@EnemyEclManagerView@@QAEHPAUEnemyView@@@Z'
 
 
 def load_module(name, filename):

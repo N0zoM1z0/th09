@@ -12,7 +12,7 @@ import struct
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RUN_ECL_SYMBOL = "?RunEcl@EclManager@@QAEHPAUEnemyView@@@Z"
+RUN_ECL_SYMBOL = "?RunEcl@EnemyEclManagerView@@QAEHPAUEnemyView@@@Z"
 RUN_ECL_TARGET = 0x004086C0
 OPCODE_TABLE_TARGET = 0x0040C0A0
 OPCODE_COUNT = 187

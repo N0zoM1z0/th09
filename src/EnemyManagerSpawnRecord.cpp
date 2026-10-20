@@ -6,7 +6,7 @@ struct EnemySpawnRecordEclManagerBoundary
     unsigned char storage[0x188];
 
     int InitializeSubroutine(void *context, short subroutineId);
-    int RunEcl(EnemyView *enemy);
+
 };
 typedef char EnemySpawnRecordEclManagerBoundarySizeIs188[
     (sizeof(EnemySpawnRecordEclManagerBoundary) == 0x188) ? 1 : -1];
@@ -93,7 +93,7 @@ void *EnemyManagerCardAttackSpawnView::SpawnEnemyRecord(
             manager->primaryEcl000.InitializeSubroutine(
                 enemy->mainContext7F4,
                 subroutine);
-            if (manager->primaryEcl000.RunEcl(
+            if (reinterpret_cast<EnemyEclManagerView *>(&manager->primaryEcl000)->RunEcl(
                     reinterpret_cast<EnemyView *>(enemy)) == -1)
             {
                 enemy->flags337C &= ~1U;
@@ -106,7 +106,7 @@ void *EnemyManagerCardAttackSpawnView::SpawnEnemyRecord(
             manager->opposingEcl188.InitializeSubroutine(
                 enemy->mainContext7F4,
                 subroutine);
-            if (manager->opposingEcl188.RunEcl(
+            if (reinterpret_cast<EnemyEclManagerView *>(&manager->opposingEcl188)->RunEcl(
                     reinterpret_cast<EnemyView *>(enemy)) == -1)
             {
                 enemy->flags337C &= ~1U;

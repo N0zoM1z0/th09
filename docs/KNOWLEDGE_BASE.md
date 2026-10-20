@@ -12645,3 +12645,78 @@ attest historical producer execution.
   original-linked differences and the14-byte exact predicate; outputs are
   self-cleaned. Build/ and own OBJ/PDB are absent. Local commit and remote
   verification remain separately recorded; no Factory or runtime claim follows.
+
+
+### 2026-10-20 — RunEcl native source linkage and bounded contract controls
+
+- Recovered clean2f526c2; disk original Japanese v1.50a identity, direct local
+  IDA metadata and distributed mapped-byte checks pass. Original RunEcl4086C0
+  has five reviewed direct callers at40F297,40F2CC,40F3EB,40F438 and410AC6;
+  all original E8 operands independently decode to4086C0. IDA xref enclosing
+  addresses are provisional; actual owner starts come from the original-bound
+  ledger and complete canonical comparisons.
+- Found a real source resolution defect. EnemyEclManagerView already declares
+  the reviewed0x188-byte manager and RunEcl, but the implementation belonged to
+  a distinct empty EclManager class. SpawnEnemy and SpawnEnemyRecord used two
+  further private RunEcl declarations. Thus five numeric target bindings did
+  not resolve to the maintained implementation's C++ symbol. EclManager now
+  aliases EnemyEclManagerView; the implementation body itself stays raw-identical.
+  Spawn calls project their existing manager storage to that reviewed native
+  view. The unused EnemyCoreEclManagerView declaration is removed. Original C++
+  names and source-file partition remain unknown; this is a reviewed source
+  binding, not proof of historical class spelling or full object lifetime.
+- Both canonical ECL profiles preserve all136 emitted raw function bodies.
+  Each profile has64 runtime noncode sections whose complete content/field
+  multiset stays equal and63 named data payload bindings remain equal. Their
+  physical order changes:32.0,64.0 and0.1 constants move among sections. Do not
+  report ordered data layout or whole-PE equality. Private explicit-owner and
+  alias-qualified controls emit the same136 raw functions. Main RunEcl remains
+ 15564/598/30 ordinary differences, zero field/table differences; Enemy update
+  remains3900/97/29 with69 calls and170 direct blocks. No fractional credit.
+- Four public cold carriers replay all79 affected credited exact functions:
+ 25036 authored/25111 physical bytes,1099 fields. The two exact spawn owners
+  remain373/373 and364/364 with four fields each. Their four RunEcl references
+  now use the actual native symbol. Twenty private label spellings across two
+  other units change only after proving actual same-owner section/value and
+  immutable original destinations. An independent parent-manifest comparison
+  permits exactly these24 symbol changes, retaining all1025 unit definitions,
+  profiles, target addresses, extents, offsets, kinds and remaining fields.
+ 920 unaffected exact proofs reuse unchanged inputs. No match row is added.
+- The Enemy full-owner inspector now rejects undefined or stale-class RunEcl
+  references and checks the one +397 REL32/addend0 reference against the actual
+ 15564-byte/598-field same-object definition. It binds this callee through the
+  source-present nonexact ledger rather than an unrelated exact caller's
+  relocation. Two new tests cover provenance and corrupt definition coordinates;
+  the focused10-test suite passes. InitializeSubroutine private views, full
+  Windows object/link closure and runtime remain open.
+- Six independent GetAnm const/reference/nonthrowing contract carriers compile
+  both genuine callee and complete caller. Actual callee code remains20/20
+  original bytes, no fields, for all six; Effect AddedCallback remains51 bytes,
+  four fields and eight differences. A diagnostic symbol adapter is used only
+  after full callee equality; raw actual symbols/fields remain in the packet.
+  No contract is promoted and no full AnmLoaded120-byte owner is inferred.
+- Seven separate63-input RunEcl controls test bool source references, native
+  timeout bit assignment and byte/bool/lowbit helper arguments. Baseline,
+  raw-bool-existing-helper and bool-helper-bool-wire preserve30 ordinary/zero
+  field/table differences. Two native-field forms regress to1938 ordinary,
+ 202 field and26 table differences. Bool-helper-byte-wire gives15576 bytes and
+  fails the complete extent/shape; bool-helper-lowbit-wire gives15564 but fails
+  code/alignment split. Arbitrary bytecode bool representation/domain is not
+  established; lowbit truncation cannot be replaced by nonzero semantics.
+  These source contexts remain rejected rather than generalized impossibility.
+- .analysis/gpt-61sol-20261020-ecl-native-run-owner retains parent Oracles,
+  complete actual COFF/raw evidence, original call windows, input hashes,
+  four-carrier exact replay, whole-boss guards and symbol/destination proofs.
+  Its21 frozen carriers share92 unique source inputs. Scoped cleanup after
+  terminal producers removes812 files/27108545 bytes, deduplicates734 source
+  copies and losslessly compresses8004022 bytes of reports to503352 bytes.
+  A frozen native-main replay then rebuilds63 inputs, reproduces all136 raw
+  functions and actual COFF rows, full30/29 diagnostics and native definition,
+  and self-cleans. Build/ and own OBJ/PDB remain absent. Exact coverage stays
+ 999/1035 and242876/291883 bytes;95% still needs34413 complete exact bytes.
+- Final CI781 tests/28 skips, target-required tracking, docs, generated progress
+  and whitespace pass.714/728 engineering inputs retain immutable parent hashes;
+ 481/485 game source files are unchanged. Only four game files, seven inspectors,
+  two ledger/manifest files and one test change. The final CI bytecode cache is
+  removed after producers terminate. Source-commit binding and independent
+  remote push verification are recorded separately in the local packet.
