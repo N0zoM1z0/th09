@@ -1813,6 +1813,20 @@ def replay_replay_real_memory_exact() -> list[dict]:
     return [canonical(unit) for unit in REPLAY_REAL_MEMORY_CALLEES]
 
 
+def run_replay_save(*, protect_exact: bool, already_checked: bool = False) -> tuple[dict, list[dict]]:
+    """Protect SaveReplay's complete owner and the two real carrier profiles."""
+    if not already_checked:
+        build('replay-manager-begin-recording-stage')
+    current = parsed(['scripts/inspect-replay-save.py',
+                      'build/matching/ReplayInputNoEh.obj', '--json', '--guard'])
+    exact = []
+    if protect_exact and not already_checked:
+        exact = cold_replay_exact_profiles(
+            'src/ReplayInput.cpp', REPLAY_INPUT_EXACT_PROFILES,
+            already_built=('replay-manager-begin-recording-stage',))
+    return {'replay_save': current}, exact
+
+
 def run_replay_playback(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     """Cold-audit the 540-byte boss, twelve exact owners and true ZunMemory leaves.
 
@@ -4878,7 +4892,7 @@ def run_effect_type34(*, protect_exact: bool,
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'effect29', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'replaymenu', 'anm', 'network', 'queue', 'parser', 'front', 'frontadded', 'supervisor', 'screen', 'replay', 'pause', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'effect29', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'replaymenu', 'anm', 'network', 'queue', 'parser', 'front', 'frontadded', 'supervisor', 'screen', 'replay', 'replaysave', 'pause', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -4972,6 +4986,12 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('replay', 'all'):
             owners, exact = run_replay_playback(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner in ('replaysave', 'all'):
+            owners, exact = run_replay_save(
+                protect_exact=not args.skip_exact_siblings,
+                already_checked=args.owner == 'all')
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('movement', 'all'):

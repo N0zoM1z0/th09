@@ -4,6 +4,43 @@
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 
+### 2026-10-20: SaveReplay source progress and bounded cache removal
+
+From pushed source parent `26e0fd3`, maintained SaveReplay improves from 152 to
+3 complete linked byte differences with no new mismatching position. It is
+still NON-EXACT. The focused Oracle passes all 12 exact same-source owners
+across two compiler profiles; unrelated source/profile proofs are reused.
+Pre-clean CI passes **809 tests /28 skips**, plus tracking, documentation,
+progress and whitespace. Native product/runtime gates remain open.
+
+The current session's 93 source/report/helper files are first frozen in
+`.analysis/gpt-61sol-20261020-parser-replay/exploratory-carriers.zip`. Full
+readback hashes and ZIP CRC verification cover every member. Its manifest
+binds 41 source/report cases, profiles, transitive local headers and compiler
+pins. The selected stage-indexed candidate is cold-replayed from that archive,
+reproducing all 1,238 raw bytes and all 53 actual COFF records. It earns no
+exact credit. Only verified duplicate loose members are replaced by this
+archive; the failed counter-scope source is also preserved without a result.
+
+After CI, a TH09-cwd-scoped `/proc` check finds no active compiler/CI producer.
+The cleaner selects only this manifest's `build/diagnostics/sol-<case>.obj/pdb`
+regular ignored files, confirms none is tracked, and rechecks each size/SHA
+immediately before unlinking. The exact 83-file deletion manifest is
+`.analysis/gpt-61sol-20261020-parser-replay/cleanup.json`.
+
+| Actually removed/replaced | Files | Logical bytes |
+| --- | ---: | ---: |
+| Loose source/report duplicates, replaced by verified ZIP | 93 | 2,054,858 |
+| Session-owned reproducible OBJ/PDB caches | 83 | 4,924,968 |
+| Retained verified ZIP | 1 | 370,685 |
+| **Net reduction** | | **6,609,141 (~6.30 MiB)** |
+
+Canonical matching objects are retained for unchanged source/profile reuse.
+The private target, pinned tools, IDA databases and older unclassified analysis
+are untouched. CI precedes final cache deletion; post-clean original-bound
+SaveReplay/target/ledger/docs/progress/Git checks follow. No whole build tree
+or age-based cleanup is performed.
+
 ### 2026-10-20: local handoff, complete Charge diagnostic and frozen controls
 
 The operator requested cleanup/handoff after clearing the long-running goal;

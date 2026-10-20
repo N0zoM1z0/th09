@@ -749,15 +749,15 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
 
     for (int stream = 0; stream < 3; stream++)
     {
-        ReplayBufferLink *stageRoot = &replayManager->stageBuffers[0];
-        for (int stage = 0; stage < 10; stage++, stageRoot++)
+        for (int stage = 0; stage < 10; stage++)
         {
             if (replayCopy.frameStart[stream][stage] != NULL)
             {
+                ReplayBufferLink *link = &replayManager->stageBuffers[stage];
                 memcpy(tempBuffer + currentOffset - 0xC0, replayCopy.frameStart[stream][stage], sizeof(ReplayFrameDataStartView));
                 replayCopy.frameStart[stream][stage] = (ReplayFrameDataStartView *)currentOffset;
                 currentOffset += sizeof(ReplayFrameDataStartView);
-                for (ReplayBufferLink *link = stageRoot; link != NULL; link = link->next)
+                for (; link != NULL; link = link->next)
                 {
                     int streamSize = 2 * link->frameCount;
                     memcpy(tempBuffer + currentOffset - 0xC0, link->input[stream], streamSize);
@@ -767,14 +767,14 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
         }
     }
 
-    // Restart the root cursor for FPS data; link contents remain live reads.
-    ReplayBufferLink *stageRoot = &replayManager->stageBuffers[0];
-    for (int stage = 0; stage < 10; stage++, stageRoot++)
+    // Each stage owns a distinct FPS chain; link contents remain live reads.
+    for (int stage = 0; stage < 10; stage++)
     {
         if (replayCopy.fpsStart[stage] != NULL)
         {
+            ReplayBufferLink *link = &replayManager->stageBuffers[stage];
             replayCopy.fpsStart[stage] = (u8 *)currentOffset;
-            for (ReplayBufferLink *link = stageRoot; link != NULL; link = link->next)
+            for (; link != NULL; link = link->next)
             {
                 int fpsSize = link->frameCount / 30;
                 memcpy(tempBuffer + currentOffset - 0xC0, link->fps, fpsSize);

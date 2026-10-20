@@ -2,12 +2,13 @@
 
 ## Current operator status
 
-The current operator resumed **TH09 original v1.50a** exact reconstruction of
-RunEcl, EnemyManager::OnUpdate, Title DrawResult, and ExAttack Type3 update.
-All four and the 95% milestone remain unfinished. Recheck old hypotheses against
-the original target and fresh compiler evidence. Work from the real Git tree
-and live ledgers.
-**Use `gpt-6-astra: ...` for every new commit and push the checkpoint.**
+The current operator requests continued **TH09 original v1.50a** exact
+reconstruction across large functions and small leaves. The 95% milestone and
+the four prior RunEcl/Enemy/Title/Type3 fronts remain unfinished. Recheck old
+hypotheses against the original target and fresh compiler evidence. Work from
+the real Git tree and live ledgers. Limit CPU/memory, compile serially at lowered
+priority, replay only affected units, and clean reproducible generated artifacts.
+**Use `gpt-6.1-sol: ...` for every new English commit and push the checkpoint.**
 Verify the remote ref independently; distinguish local commit from remote push.
 Commit tested substantive progress, including reproducible diagnostic evidence.
 Never skip, hide, discard or avoid existing dirty work: examine and finish it.
@@ -114,7 +115,7 @@ analysis database is working state; mirror durable conclusions into the repo.
 ## Checkpoints and artifacts
 
 - For the current local campaign, use concise, coherent commits prefixed
-  **`gpt-6-astra: ...`**, push, and independently verify the remote ref.
+  **`gpt-6.1-sol: ...`**, push, and independently verify the remote ref.
   Historical Factory transport limits do not describe this local shell.
 - Route current work through `docs/RE_HANDOFF.md`; original-bound
   accepted receipts now live in `docs/RE_ACCEPTED_RECEIPTS.md` with

@@ -1022,6 +1022,32 @@ class BossFrontierChecks(TestCase):
             'extra_source_bytes': 0, 'complete_bytes_equal': False,
         }
 
+    def test_save_replay_uses_complete_guard_and_only_two_affected_profiles(self):
+        report = {'diagnostic_only': True, 'overlap_differences': 3}
+        with patch.object(frontiers, 'build') as build, patch.object(
+                frontiers, 'parsed', return_value=report) as parsed, patch.object(
+                frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
+            owners, siblings = frontiers.run_replay_save(protect_exact=True)
+        self.assertEqual([call[0][0] for call in build.call_args_list], [
+            'replay-manager-begin-recording-stage', 'replay-input-update'])
+        parsed.assert_called_once_with(['scripts/inspect-replay-save.py',
+                                        'build/matching/ReplayInputNoEh.obj', '--json', '--guard'])
+        self.assertEqual(owners['replay_save'], report)
+        groups = frontiers.exact_source_profile_groups(
+            'src/ReplayInput.cpp', frontiers.REPLAY_INPUT_EXACT_PROFILES)
+        self.assertEqual([x['unit'] for x in siblings], sum(groups.values(), []))
+        self.assertEqual(len(siblings), 12)
+
+    def test_save_replay_all_scope_reuses_the_just_checked_carriers(self):
+        with patch.object(frontiers, 'build') as build, patch.object(
+                frontiers, 'parsed', return_value={}) as parsed, patch.object(
+                frontiers, 'canonical') as canonical:
+            _, siblings = frontiers.run_replay_save(protect_exact=True, already_checked=True)
+        build.assert_not_called()
+        canonical.assert_not_called()
+        self.assertEqual(siblings, [])
+        self.assertIn('--guard', parsed.call_args.args[0])
+
     def test_replay_playback_cold_pinned_no_eh_and_exact_siblings(self):
         with patch.object(frontiers, 'build') as build, patch.object(
                 frontiers, 'parsed', return_value=self.replay_evidence()) as parsed, patch.object(

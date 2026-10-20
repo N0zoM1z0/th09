@@ -13393,3 +13393,52 @@ for category counts; local commit and independent push proof remain separate.
   28 skips, seven exact Type3 siblings and tracking/docs/progress/whitespace gates.
   This follow-up changes documentation only. RunEcl30, Enemy29, DrawResult22 and
   maintained Type3 15 remain open; no new exact function or byte is claimed.
+
+## 2026-10-20 SaveReplay stage-chain acquisition: 152 to 3 bytes
+
+The current original Japanese v1.50a SaveReplay owner is exactly
+`0x00420C60..0x00421135`, 1,238 bytes, SHA-256
+`a225c9a1aae3db79d6e31b22e77ccba892b38c44fe9572233cd6df24edb1cef3`.
+The ten following CC bytes are unowned. Direct local IDA and independent PE
+instruction decoding agree on the remaining header-copy and checksum windows;
+Capstone decodes the complete owner into 380 instructions. Original transport
+is ECX manager, EDX path, one stack name and ret 4. This is not evidence for
+original C++ static/member spelling or TU ownership.
+
+The maintained source now acquires `&replayManager->stageBuffers[stage]`
+inside each populated input/FPS stage, before copying its frame header or
+publishing its FPS offset, and walks that captured link chain. This removes
+the independently maintained root cursor in those two serialization passes.
+Under the unchanged pinned no-EH VC7.1 profile it restores the original loop
+spills/reloads and physical layout: **152 to 3 complete linked byte differences,
+149 recovered positions and zero new mismatches**. A fresh compile of immutable
+parent `26e0fd39c5752dbbf7fb00c5323fc9706402aa48` independently reproduces the
+152-byte residual. The 0x618 stack frame, real transaction-scoped DWORD output
+count, uninitialized pre-copy header scan, original error handling, and live
+link-content reads remain. No padding, ABI adjustment, register hint, target
+byte insertion or compiler-profile change is used.
+
+`scripts/inspect-replay-save.py` independently checks the original full SHA,
+53 decoded original operands, actual COFF symbol/root/addend/ordered bindings,
+and the actual eight-byte `rep tmp` and four-byte float 0.5 definitions. All
+53 source fields now occur at the original physical offsets. All 23 ordered
+call operands and their offsets agree, as do all 49 direct graph blocks. The
+four EDI calls are recorded as register operands, alongside the independently
+observed WriteFile IAT load; the diagnostic does not claim runtime resolution.
+Remaining physical differences are `+0xB7,+0xBB` (frame destination ECX versus
+EDI) and `+0x3F6` (equivalent checksum SIB base/index encoding). `--guard`
+protects all other **1,235 bytes**, including rejecting a new mismatch with the
+same total count. This is **NON-EXACT**, never partial exactness credit.
+
+`check-boss-frontiers.py --owner replaysave` rebuilds only the two affected
+ReplayInput.cpp profiles and protects all 12 existing exact owners. The full
+BeginPlaybackStage diagnostic remains 538/540 bytes, 32 ordered fields, the
+same 39 residual positions and two absent bytes. The three small network-parser
+array/count-reference controls stay 243 bytes, one field, 76 differences and
+34 candidate blocks; their source is rejected. Additional real cursor/header
+view controls do not justify promoting any exact claim. The source/report
+packet is `.analysis/gpt-61sol-20261020-parser-replay/`; its manifest binds the
+frozen candidates, unchanged dependencies, profiles and pinned compiler.
+Authored inventory, exact counts, product/runtime and later phase gates do
+not change. Continue large and small exact work; use English `gpt-6.1-sol:`
+commits and verify the pushed remote ref independently.
