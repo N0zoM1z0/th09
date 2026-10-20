@@ -13360,3 +13360,36 @@ for category counts; local commit and independent push proof remain separate.
   baseline and need fresh builds after relevant source/profile changes. Current
   ignored evidence is below `.analysis/gpt6astra-20261020-exact-four/`; older
   packet wording and old compiler objects are not substituted for these checks.
+
+
+## October 20: follow-up zeroing and actual SDK local-vector controls (gpt-6-astra)
+
+- Continued from independently pushed `0123c7e`, with all maintained game source
+  hashes unchanged. The actual local PlatformSDK `d3dx8math.h`, `d3dx8math.inl`
+  and `d3d8types.h` are inspected and hash-bound; these are not the repository's
+  thin camera D3DXVECTOR3 view or adjacent-game port headers. TH08's FVector and
+  port-side SDK view remain hypothesis material only.
+- Eight additional cold original-profile controls produce no adopted change.
+  Type3 middle-vector aggregate zero initialization emits794/38 with385 overlap
+  differences and14 extra bytes; whole-vector memset emits784/38 with410 and4
+  extra; z-only memset retains780/38/15. Genuine SDK middle-only/three-local
+  D3DXVECTOR3 declarations retain780/38/15. Sequenced X/Y snapshots followed by
+  the real SDK three-float constructor or copy initialization emit786/38 with
+  348 overlap differences and6 extra bytes. All seven Type3 controls retain24
+  ordered calls and17 direct blocks, and their three actual literal definitions
+  pass; this does not establish physical equality. Actual SDK vector locals in
+  DrawResult retain all22 residuals at1939/82. No native SDK identity, inheritance
+  or original constructor spelling is promoted.
+- The 16 complete private source/report files are read-back verified in
+  `.analysis/gpt6astra-20261020-exact-four/zeroing-and-sdk-controls.zip` (27,173
+  bytes). `followup-manifest.json` records each full comparison, source checkpoint,
+  unchanged maintained-source bindings, vendor-header hashes and archive digest;
+  `manifest.json` supplies the exact pinned compiler profiles. The first archive
+  and five public-reproducer native-context reports remain. Both archives hold
+  rejected diagnostics, not exact receipts. Session-owned `astra-*` compiler
+  caches are removed only after this verified source/report preservation; canonical
+  matching objects remain reusable against unchanged inputs.
+- The tested diagnostic code remains exactly that of `0123c7e`:802 public tests,
+  28 skips, seven exact Type3 siblings and tracking/docs/progress/whitespace gates.
+  This follow-up changes documentation only. RunEcl30, Enemy29, DrawResult22 and
+  maintained Type3 15 remain open; no new exact function or byte is claimed.

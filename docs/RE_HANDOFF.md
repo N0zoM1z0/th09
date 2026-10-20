@@ -38,6 +38,11 @@ complete 572-byte physical owner and 25 fields. It is exact, not an open frontie
   `.analysis/gpt6astra-20261020-exact-four/exploratory-carriers.zip`; the manifest
   binds 320 members and the unchanged source/profile baseline. Five fresh
   native-context receipts remain separately under that packet's `native-context/`.
+- Eight follow-up zeroing/actual-SDK-local controls also fail to improve the
+  fronts. They are preserved in the same packet's `zeroing-and-sdk-controls.zip`
+  and `followup-manifest.json`; maintained sources and all exact counts stay
+  unchanged. Session-owned `astra-*` compiler caches are disposable after the
+  verified source/report archives; canonical matching objects are retained.
 - The prior `e26a30e` cleaner preserved ambiguous `.idb` files, which may be IDA databases.
   Its **796 tests/28 skips** preceded final cache deletion. That cleanup removed
   **874 files/11,153,946 bytes**; [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md)
