@@ -26,6 +26,8 @@ class GeneratedArtifactCleanupTests(unittest.TestCase):
                 ('.analysis/probe/probe.py', b'print(1)'),
                 ('.analysis/probe/candidate.cpp', b'int candidate;'),
                 ('.analysis/probe/result.json', b'{"exact": false}'),
+                ('.analysis/probe/original.idb', b'IDA DATABASE'),
+                ('.analysis/probe/original.i64', b'IDA DATABASE 64'),
                 ('resources/th09.exe', b'ORIGINAL GAME'),
             ]:
                 path = root / relative
@@ -42,6 +44,8 @@ class GeneratedArtifactCleanupTests(unittest.TestCase):
             self.assertFalse((root / '.analysis/probe/result.pdb').exists())
             self.assertEqual((root / '.analysis/probe/probe.py').read_bytes(), b'print(1)')
             self.assertEqual((root / '.analysis/probe/result.json').read_bytes(), b'{"exact": false}')
+            self.assertEqual((root / '.analysis/probe/original.idb').read_bytes(), b'IDA DATABASE')
+            self.assertEqual((root / '.analysis/probe/original.i64').read_bytes(), b'IDA DATABASE 64')
             self.assertEqual((root / 'resources/th09.exe').read_bytes(), b'ORIGINAL GAME')
             self.assertTrue((root / CLEAN.MANIFEST).is_file())
             import json

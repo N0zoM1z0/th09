@@ -2,19 +2,16 @@
 
 ## Current operator status
 
-The current operator requests continued **TH09 original v1.50a** exact
-reconstruction across large boss functions and small leaves, with the live
-roadmap prioritizing RunEcl, Enemy/Etama, TitleScreen and ExAttack. Work from
-the real Git tree, not a historical 979/876 scoreboard or unverified document.
-**Use `gpt-web: ...` for every new commit.** Commit tested substantive progress,
-including bounded accepted source corrections and reproducible codegen evidence.
+The current operator requests a clean **TH09 original v1.50a** handoff.
+Further reconstruction is not the current task; RunEcl and the 95% milestone
+remain unfinished. Work from the real Git tree and live ledgers.
+**Use `gpt-6.1-sol: ...` for every new commit and push the checkpoint.**
+Verify the remote ref independently; distinguish local commit from remote push.
+Commit tested substantive progress, including reproducible diagnostic evidence.
 Never skip, hide, discard or avoid existing dirty work: examine and finish it.
-Factory's live repository shell cannot push over the network; report local Git
-commit versus remote push distinctly. The earlier `gpt-6.1-sol` prefix and
-push language reflect a superseded campaign, not this operator's instructions.
-RunEcl and the 95% reviewed-authored-byte milestone remain open. Use the
-registered `th09-ida` provider in Factory/Web or direct local IDA, the live
-repository shell and the pinned VC7.1 compiler/comparison Oracles. See
+Use direct local IDA Pro MCP and Bash, with the pinned VC7.1 compiler/comparison
+Oracles. Do not route this local campaign through Factory MCP. Compile serially
+at lowered priority, and reuse unchanged source/profile-bound proofs. See
 `docs/RE_HANDOFF.md` for the current ledger and verified frontiers.
 
 This repository targets only the original Japanese TH09 version 1.50a
@@ -88,6 +85,8 @@ differ or the comparison is inconclusive, keep the TH09 fact unknown.
   `config/matches.csv`. Near matches remain candidates.
 - Use natural source. Never copy target bytes, manufacture fake returns, add
   inert padding, lie about the ABI, or patch target code to force equality.
+  Do not introduce assembly, register/variable-order hints, dummy clobbers or
+  compiler-profile roulette to force a match.
 - Record durable TH09 facts in `docs/KNOWLEDGE_BASE.md`. Cross-game promotion
   belongs to a later Factory review and is not performed by a game session.
 
@@ -112,10 +111,9 @@ analysis database is working state; mirror durable conclusions into the repo.
 
 ## Checkpoints and artifacts
 
-- For the current operator campaign, use concise, coherent local commits
-  prefixed **`gpt-web: ...`** as explicitly requested. Factory repository Bash
-  has no network transport for a remote push; never claim a local commit was
-  automatically pushed.
+- For the current local campaign, use concise, coherent commits prefixed
+  **`gpt-6.1-sol: ...`**, push, and independently verify the remote ref.
+  Historical Factory transport limits do not describe this local shell.
 - Route current work through `docs/RE_HANDOFF.md`; original-bound
   accepted receipts now live in `docs/RE_ACCEPTED_RECEIPTS.md` with
   immutable source commit bindings. Superseded long-form checkpoint details

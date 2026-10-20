@@ -1,143 +1,38 @@
 # TH09 reconstruction — active handoff
 
-> **Current-state routing, not a history log.** Read the live Git tree and
-> original-bound ledgers before trusting any number here. Historical experiments,
-> previous handoff revisions and older Factory receipts remain in
+> Current routing only. Use the live Git tree and ledgers before historical
+> numbers or hypotheses. Earlier details remain in
 > [the historical checkpoint archive](RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md),
-> [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md) and Git history. Do not treat a source-present or
-> near-exact owner as accepted exact.
+> [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md) and Git history.
 
 ## Current verified handoff checkpoint
 
-Read the live ledgers first. The original Japanese v1.50a target SHA-256 is
-`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-Current state: **1,035 authored, 1,035 source-present, 1,000 canonical exact**;
-**35 source-present nonexact; no confirmed authored owner lacks maintained source**.
-**243,428/291,883 reviewed-authored bytes = 83.3992%**.
-The **95%** milestone still needs **33,861** complete exact authored bytes.
-The last accepted addition is Player initialization: **552 authored bytes**,
-independently replayed over its complete572-byte physical owner in `8ff6ce1`.
-This checkpoint makes Type3 replay selective and fail closed on stale reports,
-and records bounded original-owner countermodels, **no exact credit**.
-Native product/runtime, complete inventory and later gates remain open.
+The operator requested documentation/artifact cleanup and handoff. The earlier
+long-running goal was cleared; **95% has not been achieved**. This checkpoint
+changes no game C++, canonical unit or exact ledger row. The last accepted
+addition remains Player initialization in `8ff6ce1`:552 authored bytes,
+complete 572-byte physical owner and 25 fields. It is exact, not an open frontier.
 
-- **Type3 update @0x00442750:** maintained source stays780 bytes/38 fields/15
-  differences. A private actual middle-Z qualified store plus tail-X word read
-  restores original Y-call -> Z-store -> tail-X-load chronology,at52 differences.
-  A fully defined inline utility forwarding all three real collision queries
-  reduces this to **four** differences,with240 instructions,24 original calls
-  and17 matching direct blocks. Every comparison covers the complete owner.
-- **Four-byte candidate is not adopted:** offsets+1B2,+1B7,+247,+249 were all
-  previously equal. Target uses ECX versus candidate EAX for the tail-Y float
-  argument,and EDX versus ECX for the motion-reference argument. The unchanged
-  production guard correctly rejects these regressions. No residual window is
-  widened,no maintained C++ or ABI is changed,and no partial credit is assigned.
-- **Bounded controls:**48 private full-TU Type3 builds distinguish actual Y/Z
-  stores,word/float transport,query interfaces,native vectors and real callee
-  visibility. The latest eight retain four/seven differences or emit798 bytes
-  with37 fields. The real SDK += body is36/36 original-equal but its caller
-  loses the required motion-call boundary; it is rejected. All eight received-
-  frame field-publication combinations retain213/0/35 with identical raw bytes.
-- **Reproduction:** `nice -n 10 python3 -B scripts/probe-exattack-type3-word-order.py
-  --case forwarded-collision --output .analysis/type3-word-order` cold-builds
-  only the four-difference candidate. Default `--case all` retains the three
-  baseline15/ordered-word52/forwarded-query4 models. All three generated-source
-  hashes are unchanged; the selected cold replay reproduces every original-bound
-  raw byte/actual COFF row. A failed build cannot leave a stale success report.
-  Wrong targets preserve prior evidence and stop before compiling. Three pure
-  tests check those failures,one-build scope and unchanged guard rejection.
-- **Evidence:** the four .analysis/gpt-61sol-20261020 packets named
-  type3-argument-transport,ecl-context-publication,result-paired-accesses and
-  queue-paired-stores retain24 frozen models and complete raw/actual-COFF pairs.
-  They share21/66/9/10 unique inputs respectively. Original disk/direct IDA/
-  entry and distributed mapped-byte checks pass. All1000 canonical proofs
-  retain unchanged source/profile bindings; broad replay is unnecessary.
-- **Include routing:** staging all63 ECL inputs preserves every raw byte but
-  renumbers two private table labels. Actual COFF coordinates still prove
-  original40C088/40C0A0. A frozen replay using the original eight-file routing,
-  with the other55 hashes verified,now reproduces every actual COFF row and
-  the full15564/598/30 original comparison. No manifest spelling is changed.
-- **Cleanup:** after all producers stop,a TH09-cwd-scoped check permits removing
- 244 reproducible files/4716726 bytes. After terminal CI,362 cache files/6140146
-  bytes are removed. Build/ and own OBJ/PDB are absent; unrelated evidence,
-  target/toolchain/IDA inputs and the frozen sources remain.
-- **Validation:** CI791 tests/28 skips,target-required tracking,documentation,
-  generated progress and whitespace pass.728/729 previous engineering inputs
-  retain parent hashes; only the Type3 producer changes and one test file is
-  added. All485 game sources,1026 units and1000 exact rows are unchanged.
-  Local commit and independent remote verification are recorded separately.
-- **Open large frontier:** RunEcl remains15564/598/30: opcode4 seven residual
-  bytes,opcode155 twenty-three. Both current and target opcode155 use masked
-  XOR; byte zero-extension and old/result register allocation remain unresolved.
-  Qualifying the actual context-slot read increases differences to33; a genuine
-  inline byte-member timeout update stays30,while its word form emits15560 and
-  fails the whole-owner gate. DrawResult pointer publication gives1939/38;
-  one screen snapshot,alone/paired,gives1941 and is rejected. No model adopted.
-- **Operator contract:** direct local IDA Pro MCP and Bash;
-  **`gpt-6.1-sol: ...`** commits followed by push and independent remote
-  verification. Compile serially at lowered priority, replay affected cohorts,
-  and clean only own reproducible outputs after producers stop.
-
-
-## Next worker: first three work packages
-
-1. **Large Effect/ECL/Etama:** **draw29@0x00448750 /2,220 bytes** now has
-   maintained nonexact source in src/EffectDrawType29.inl. Start from its2205-byte
-   repeated-expression model, full-byte guard and bounded fidelity evidence.
-   Resolve local-center ECX reloads, stack homes and branch layout before
-   promoting exactness. The prefix has no missing catalog entry; full
-   executable inventory remains unproven. Alongside this recovery,
-   keep the existing large-code goal: attack **`RunEcl` opcode 4 (7 bytes) and opcode 155
-   (23 bytes)** against the immutable 15,564-byte/598-field owner. The ECL
-   compiler's first-include/switch table context is essential; individual
-   five-byte snippets are not acceptance. For Etama, **`OnUpdate` is already
-   2,195 authored / 2,216 physical bytes exact**; the open boss is
-   **`EtamaController::OnDraw`**, 600/600 physical with 268 differences and
-   two interdependent Laser cursor roles. Guard `--owner runecl` and
-   `--owner etama` plus exact sibling units, respectively.
-2. **TitleScreen and ExAttack:** protect exact **MusicRoom Update** and
-   **TitleSetup** while investigating **`DrawResult`'s 22 byte offsets**,
-   ReplayMenu's newly restored full **1,280/1,280** owner and **29 selected-row
-   residual bytes**, plus options/tail callbacks. ExAttack Type19/21 initializers are now **763/727 bytes exact**;
-   Type3 update **15 maintained differences / four-byte private candidate**,
-   Type14/22 Draw **959/974**, and Type19 update
-   are still open. `--owner title`, `--owner exattack` and `--owner type3`
-   run the original-bound comparisons.
-   Reverse/Inactive's **175/18** cursor candidates remain unadopted: they damage
-   ten previously equal positions. `scripts/probe-title-cursor-bound.py` reproduces
-   that result; entry register roles still need resolution against the 175/38 source.
-3. **Leaf and independent cross-check:** keep **Effect `AddedCallback`
-   (51 bytes, 8 differences)**, Supervisor received-frame insertion
-   (213 bytes, 35 differences), and ECL `MoveRandomBiased` (516 vs 517)
-   in scope. The separately accepted 220-byte FileSystem table-decrypt
-   selector is already exact; do not revert its real original one-past-row
-   access to an unverified safe-looking rewrite. See
-   [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md) and exact
-   manifests before selecting further leaves.
-
-**Current Player context countercheck:**
-`python3 -B scripts/probe-player-position-visibility.py --output
-.analysis/player-position-visibility` compares the same maintained reference
-fragment in isolation and through the actual ECL include. Standalone remains
-**250/249 bytes with 132 overlap differences plus one extra byte**; real ECL
-is **249/249 exact** for both callers, with all eight fields bound. The exposed
-void angle body itself remains **32/32 exact**. This tests the complete current
-context, not an isolated attribution to one callee. Pre-reference value-source
-results under `c5f2c31` changed two raw byte positions between contexts but had
-identical size/difference counts. The earlier `b761e2d` “unchanged” report is
-source-scoped history, not a universal negative. Temporary compiler files are
-removed automatically; the compact snapshot includes untracked new source and
-excludes deleted old paths while hashing actual bytes, including line endings.
-
-**Rule:** keep experimental C++ in ignored `.analysis/` until a complete
-original-linked COFF comparison passes; do not edit `config/matches.csv` or
-advance the exact count merely because normalized, partial, or source-level metrics
-improve. Always inspect existing dirty edits (there may be only this worker),
-then commit verified source/guard work as `gpt-6.1-sol: ...`. The currently clean
-handoff deliberately removes generated OBJ/PDB/build caches; the next run
-**must rebuild** affected match units before invoking inspectors.
+- Retain the recovered complete Charge auditor and five pure test groups.
+  It checks 1,210 original bytes,70 operands,58 calls,actual float definitions
+  and 53 original direct blocks. An object alone does not attest its source/build.
+- Freeze 24 Charge and four Effect models with full raw/actual-COFF pairs and
+  shared hashed inputs. No candidate is adopted. Selected cold replays repeat
+  every captured byte/COFF row and complete original comparison.
+- Type3 maintained780/38/15 remains unchanged. The private four-difference
+  candidate regresses four formerly equal positions and the guard rejects it.
+  `probe-exattack-type3-word-order.py --case forwarded-collision` rebuilds only
+  that candidate; default `all` builds three models.
+- The cleaner now preserves ambiguous `.idb` files, which may be IDA databases.
+  **796 tests/28 skips** pass before final cache deletion. Cleanup removes
+  **874 files/11,153,946 bytes**; [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md)
+  records scope and preservation. Missing `build/` at handoff is deliberate.
+- Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
+  `gpt-6.1-sol: ...` commits, push and independent remote verification.
+  Historical Factory-only prefix/transport instructions are stale.
 
 ## Live ledger snapshot
+
 
 The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
@@ -176,6 +71,7 @@ Do not silently treat uncatalogued code as excluded.
 
 ## Active frontiers
 
+
 Prioritize **large bosses as well as small leaves**. Each row refers to a
 maintained, authored, **non-exact** function in `config/functions.csv`.
 Comparisons are current-source/original PE cold baselines; lengths are logical
@@ -194,13 +90,14 @@ For the complete <=256-byte cohort see
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor ESI still open. The final original call is now typed as `EffectManager::DrawBulletLayerEffects` with its separately **169/169 exact** real-member source at `0x0040D110` and side owner at `+0x0C`; all original linked bytes remain unchanged. Complete SHA/offset guard preserves the 332 equal bytes; `--owner etama` protects **both exact same-carrier helpers plus the separately exact OnUpdate (3 checks)**. |
 | **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 calls; 10-way switch; **1,453** overlapping differences + 44 missing | First seven-VM cursor improvement committed in `7f1d56e`; remaining branch/VM scheduling. `--owner pause` independently checks 11 already-exact Ascii/ANM functions and real original table/ABI. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Now uses genuine shared `g_Supervisor.framerateMultiplier5B8 @0x004B36B8` and the four **real `GameManagerResetView::coordinate360/364/368/36C` fields** (original `0x004A80F0..FC`), not fake external playfield globals. The independent **79-byte exact GameManager coordinate initializer** physically writes those fields; 1,900-byte linked movement boss and 66 operand identities stay unchanged, with 129 ordinary differences still open. All 129 genuine current original-bound mismatch offsets are now pinned, protecting the other **1,771** already matching bytes (including both switch tables and after-return alignment); future improvements must not introduce mismatches elsewhere. `--owner movement` protects exact 522-byte caller. |
+| **Player charge update** | 0x0041F810 | **1,210 target /1,197 candidate bytes**, 70 fields, 58 calls, 350/342 instructions; **1,160 overlap differences +13 missing** | Complete diagnostic `scripts/inspect-player-charge-update.py` checks all original bytes, actual COFF operands, literal definitions and direct graph. Seven older region checks pass despite this whole-owner mismatch. A private 1,210-byte mode-local candidate still differs at 561 positions, damages 20 previously equal positions and fails five regions; it is not adopted. |
 | **Front weighted message RNG** | 0x004162D0 | **693 target / 681 candidate**, 15 fields, 6 calls, **569** overlap + 12 missing | Primary-first table selection refined in `09bb2a6`; target/candidate CFG 40/41 blocks. `--owner front` protects exact FrontCalc and siblings. |
 | **Front added initialization** | 0x00418480 | **706/706**, 37 original fields, 21 calls, 19 equal blocks; **222 differences** (236→222) | Explicit Z stores and the actual source-vector reference restore 14 physical positions while preserving all 470 previously equal bytes. All 484 equal bytes are guarded. Two private method aliases are replaced by real Reset/Load calls; a shared runtime prefix preserves 0x1D70 and +0/+4/+8/+0C. `--owner frontadded` protects the whole callback plus four exact methods /832 bytes /41 fields. Receiver and remaining panel-store scheduling stay open. |
 | **TitleScreen::OnUpdateResult** | 0x004266B5 | **485 / 484**, 147/147 instructions, 34 fields, 9 calls; **218** overlap + 1 missing | Pointer-backed character snapshot in `4fe7cb0`; original CL/EAX codegen still differs. Protect all 37 existing exact `TitleScreen.cpp` units, including privately relabeled StartMenu. |
 | **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280/1,280 bytes**,376/376 instructions,57 original-bound fields,13 ordered calls,72 matching direct blocks; **29 differences** | Native indexed list reads, date/name-before-character evaluation, record-before-index acquisition and later timer snapshot recover1,180 more equal bytes. All1,251 matching positions and complete geometry/CFG are now protected. Remaining +185..+321 differences are selected-row ECX/EDX choices and two local-store order. `--owner replaymenu` cold-checks this isolated TU; still NON-EXACT. |
 | **TitleScreen::DrawReplaySave** | 0x004239F6 | **800/800 physical**, 245 instructions, 41 fields, 4 calls, 28/28 matching blocks; **96 linked differences** | Raw replay magic, genuine SDK subtraction/two scales/addition and two-byte character construction restore the full extent and nine more loop-counter/FILD home bytes. All **704** equal positions are SHA-bound and protected; no old matching byte regresses from the 105-residual source. Remaining vector/text homes, replay-pointer and keyboard schedules stay NON-EXACT. No enlarged buffer, extra storage or new target helper claim. |
 | **TitleScreen::DrawResult** | 0x00423D16 | **1,939/1,939**, 82 fields, 16 calls, 92 blocks; **22** differences | All 22 SHA-pinned linked differences are in the entry: 21 at `+0x0E..+0x24`, one at `+0x39` (bank-pointer store vs `currentScreen` prefetch). The entire remaining owner is byte-exact; the strengthened guard now pins **all 22 exact residual positions**, including preserving previously matching `+0x13` and `+0x18` inside the old entry window. The shared native GameManager field at+0x3F now has its actual COFF symbol/root/addend identity guarded; superseded mode/name-index aliases are rejected. `--owner title` protects the original full owner. |
-| **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 / 2,048**, 135 fields, 51 calls, 121 blocks | Uses genuine `AnmManager`/`AnmLoaded` and `SoundPlayer` receivers for29 fields, plus **eight native input array references**: two receivers at `g_ReplayInputStates[2]` and six16-bit word06 reads. Strict root/addend checking rejects fake standalone globals even at equal effective addresses. All2,048 linked candidate bytes and135 referents are preserved; 610 overlap differences+3 extra bytes remain NON-EXACT. Exact same-TU `PlayMenuSound`34/34 and `--owner title` protect this frontier. |
+| **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 / 2,048**, 135 fields, 51 calls, 121 blocks | Uses genuine `AnmManager`/`AnmLoaded` and `SoundPlayer` receivers for29 fields, plus **eight native input array references**: two receivers at `g_ReplayInputStates[2]` and six16-bit word06 reads. Strict root/addend checking rejects fake standalone globals even at equal effective addresses. All2,048 linked candidate bytes and 135 referents are preserved; 610 overlap differences+3 extra bytes remain NON-EXACT. Exact same-TU `PlayMenuSound`34/34 and `--owner title` protect this frontier. |
 | **Title character cursors** | 0x00424EDD / 0x00424FB0 / 0x0042505F | Active target/candidate **211/215**; Reverse/Inactive **175/175** | Active reduced 217→215 in `69165b2`, but none is exact. Loop pre-check and VM register/sprite reload schedules; `--owner title`. |
 | **GameManager CleanupGameplayState** | 0x0041B5C6 | **425 / 410**, 43 / 42 fields, 12 calls, **210** overlap; 24/24 blocks | **Recovered two real limitB4 memory writes** with first store before signed lower-bound `JGE` and conditional second store of 1. Previous 406/41 candidate only stored once and had 25 blocks. Still 15 bytes short and NON-EXACT; `--owner gamemgr` checks original/source publication traces and ten exact siblings. |
 | **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15 maintained differences** | New private word-read plus real collision-forward model restores original middle-Z chronology and has **four differences** at +1B2,+1B7,+247,+249. These are previously equal bytes, so it is not adopted and the production guard stays unchanged. Reproduce with `probe-exattack-type3-word-order.py`. Real shared `AnmVm` and five canonical interrupts remain; `--owner type3` protects seven exact functions. |
@@ -219,161 +116,90 @@ For the complete <=256-byte cohort see
 | **Network-config parser leaf** | 0x00432240 | **243/243**, 116 instructions, one strncmp call; **76** differences, 167 equal bytes | Original newline-clear block occurs before token scanning; candidate puts it after. Full original SHA/76-residual-offset guard now protects all 167 matching bytes, one call/field, 33/34 blocks; `--owner parser` protects the exact 679-byte caller. |
 
 
-The independent original PE and `th09-ida` CODE-xref census at `0x004343D0`
-verifies all 27 folded `Float3` helper code callsites: 18 calls from 17
-exact functions, nine calls from seven nonexact functions. These are callsite
-counts, not 27 distinct caller functions. Run `python3 scripts/audit-float3-conversion-calls.py
---json` for target-hash/callsite/owner evidence; the folded physical callee
-cannot be assigned unique C++ authorship from calls alone. The source-present
-`MoveRandomBiased` 517/516-byte difference remains open.
+## Exact landmarks and evidence routing
 
-Additional non-exact owners (e.g. Player charge/update/added state,
-replay save, title replay drawing and network updates) remain in the **35-row
-live source-present non-exact ledger**, not in a historic handoff tally.
-Review `docs/KNOWLEDGE_BASE.md` and current source before rerunning old negative
-experiments; unsupported guesses there are not target evidence.
+The manifests govern **1000 exact** functions. Historical Factory receipts
+remain in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md), with
+immutable source-commit bindings; they do not accept a later HEAD.
 
-## Exact landmark routing
-
-The canonical manifest and accepted original-bound comparison remain the
-**sole authority** for the **1000 exact** functions. The independently accepted
-Enemy collision wrapper at 0x00410250 is **82/82 exact**; the 3,900-byte
-Enemy OnUpdate caller is **still 29 bytes nonexact**. The former wrapper's
-original acceptance and several representative source-commit-bound exact
-receipts, including Float3 division, are preserved in
-[the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md).
-No sibling receipt upgrades a source-present non-exact large owner.
-
-The two ExAttack initializers are now canonical exact through
-`exattack-type19-init` and `exattack-type21-init`. The original 33-slot history
-covers the center at zero plus ring samples 1..32. Their complete PE owner
-hashes, all **110** address operands and unchanged real helper ABI are bound
-in the manifests; both diagnostic guards now reject **any** byte difference.
-This is a local canonical reconstruction claim, separate from the archived
-Factory acceptance plane.
-
-The camera-facing projection at **0x00439820** is now **622/622 exact** through
-`anm-manager-project-camera-facing-quad`. Both real SDK helper COMDAT sections
-also independently reproduce matrix identity **57 bytes** and vector length
-**40 bytes/one field**; they receive no new authored credit. The 57-byte SDK
-identity overlap with the older authored matrix-helper model needs a separate
-origin/ownership review before any source attribution is promoted. The original
-TU and unique C++ spelling remain unknown. `--owner anm` cold-protects all
-**17** current complete exact functions across the two affected objects.
-
-## Active shared Etama/Effect ANM resource owner
-
-The complete original Japanese TH09 v1.50a still requires **RunEcl**,
-Etama `OnDraw`, remaining ExAttack update/draw callbacks and leaf owners.
-The Type19/21 initializers are independently canonical exact; no adjacent
-nonexact owner inherits their credit.
-
-- `EtamaController::AddedCallback` and `EffectManager::AddedCallback` both
-  read the **same target-proven `AnmLoaded` pointer slot `+0x04`** after
-  `GetAnm(8)` before deciding whether to load `"etama.anm"`. The source now
-  includes one `AnmLoadedResidentView.hpp` with independently asserted
-  **eight-byte prefix and +0x04 pointer** in both original callbacks; the
-  Etama-private duplicate and Effect's untyped `void **` cast are gone.
-- Source-cold entire original comparison leaves exact `DrawSingleBullet`
-  **232/232 physical bytes, 16 COFF fields** and exact Etama
-  `AddedCallback` **832/832 physical bytes, 30 fields**. The shared-header
-  change renumbered **15** compiler-private `$L` labels across these two
-  functions; every single label has been independently verified against its
-  **unchanged original PE target address** and strict exact-replayed before
-  publishing the renamed COFF manifest. The Etama **600-byte** large
-  `OnDraw` remains **600/600, 27 fields, 13 original calls, 17 matching
-  direct blocks and 268 unlike bytes**, with separately exact **2,216-byte
-  OnUpdate** protected in `--owner etama`.
-- Effect `AddedCallback @0x0040D1C0` stays **51 original/candidate bytes**, four
-  authentic fields, preserved call/graph and **8 unlike bytes**. The new
-  0x04 view is byte-neutral here; it is not a new exact claim. The Windows
-  whole-build/runtime gates remain open.
-  Independent Factory forced-cold source-commit-bound replay at `74b973e`
-  returned **pass / accepted** for four previously exact functions:
-  Etama `AddedCallback` (832), `DrawSingleBullet` (232), Etama `OnUpdate`
-  (2,216), and Effect `OnUpdate` (475). Full receipt IDs and immutable
-  source binding are archived in `docs/RE_ACCEPTED_RECEIPTS.md`. The
-  adjacent **nonexact** Etama/Effect callbacks do not inherit acceptance.
+- Etama `OnUpdate` is2,195 authored/2,216 physical bytes exact. Its distinct
+ 600-byte `OnDraw` remains nonexact. TitleSetup and MusicRoom update/draw,
+ ExAttack Type19/21 initializers and Player initialization are exact.
+- Effect/Etama added callbacks share the target-proven `AnmLoaded` pointer at
+ +0x04. The shared eight-byte view does not make Effect's51-byte callback exact.
+- `audit-float3-conversion-calls.py --json` bounds 27 physical callsites;
+  folded helper identity does not prove unique C++ authorship or full inventory.
+- `probe-player-position-visibility.py` demonstrates real ECL 249/249 exact
+  versus standalone 250 bytes. Preserve actual include routing in a replay.
+- Staging all 63 ECL files preserves bytes but renumbers two private labels.
+  Frozen replay stages the original eight files and hashes the other 55;
+  all 598 literal COFF rows reproduce. The KB retains that routing evidence.
 
 ## Restart and verification
 
 Read [`AGENTS.md`](../AGENTS.md), [`RE_WORKFLOW.md`](RE_WORKFLOW.md), and
-[`ORACLES.md`](ORACLES.md) before mutations. Factory/Web calls the attested
-`th09-ida.get_metadata({})`; local `scripts/check-ida-mcp.py` requires a direct
-IDA setup and is not a Factory identity check.
+[`ORACLES.md`](ORACLES.md). Inspect staged, unstaged and untracked work first.
+Call direct IDA Pro MCP `get_metadata` with exactly `{}`, then check mapped
+bytes; metadata hashes alone are insufficient.
 
 ```bash
 git status --short --branch
-git diff && git diff --cached
-python3 scripts/verify-target.py
-python3 scripts/validate-tracking.py --require-target
-python3 scripts/report-reconstruction-status.py
-# For a focused boss/leaf source change, choose --owner runecl, exattack,
-# enemy, etama, title, pause, movement, player, etc. before the broad sweep.
-python3 scripts/check-boss-frontiers.py --owner etama
-python3 scripts/ci.py
-python3 scripts/validate-docs.py
-python3 scripts/progress.py --check
+git diff
+git diff --cached
+python3 -B scripts/verify-target.py
+python3 -B scripts/validate-tracking.py --require-target
+python3 -B scripts/report-reconstruction-status.py
+python3 -B scripts/check-ida-mcp.py
+# Choose one affected owner; reuse unchanged source/profile-bound proofs.
+nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner runecl
+# Complete Charge diagnostic with the maintained recorded profile:
+nice -n 10 scripts/compile-probe.sh src/PlayerChargeAttackUpdate.cpp build/diagnostics/charge.obj /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- /I src
+python3 -B scripts/inspect-player-charge-update.py build/diagnostics/charge.obj
+# Stage reviewed work before CI. Run validation before deleting artifacts.
+python3 -B scripts/validate-tracking.py
+python3 -B scripts/validate-docs.py
+python3 -B scripts/progress.py --check
+python3 -B scripts/ci.py
 git diff --check
-# `build/` is generated and may have been removed by handoff cleanup.
-python3 scripts/build-match-unit.py --unit title-screen-setup-thread
-python3 scripts/compare-coff-function.py --unit title-screen-setup-thread --json
-# Preview disposable output. Use --apply only after all codegen/CI checks.
-python3 scripts/clean-generated-artifacts.py
+python3 -B scripts/clean-generated-artifacts.py
 ```
 
-Local canonical exactness requires a cold build and complete original-byte/
-relocation replay of its declared match unit. Factory acceptance separately
-requires a source-commit-bound **accepted** receipt; local `--owner`, CI and
-Git commands do not establish that acceptance.
+The Charge CLI exits zero for a valid **nonexact diagnostic**; inspect
+`complete_bytes_equal`, differences and size deficits. It adds no exact credit.
+`inspect-player-charge-text.py` checks only seven regions.
+`check-boss-frontiers.py --owner player` checks collision, **not Charge**.
+
+The frozen controls replay with
+`python3 -B .analysis/gpt-61sol-20261020-charge-receiver-owner/replay.py
+--case volatile-mode-local` or `--owner effect --case member-result`.
+Temporary sources/OBJ/PDB self-clean. These ignored packets are local evidence;
+public restart commands above use tracked maintained inputs. Rebuild a canonical
+match unit before asking for a fresh exact COFF comparison.
 
 ## Evidence and cleanup boundaries
 
-`docs/KNOWLEDGE_BASE.md` holds older experiments, negative hypotheses and
-original-bound observations; the current Git tree plus the ledger is
-normative. Earlier session details are frozen in
-[the historical checkpoint archive](RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md)
-(and in Git history), never a second competing active-state table.
+The source/ledger baseline for the final 28 controls is `085343b`; this checkpoint
+adds diagnostics and documentation, not gameplay changes. All 485 game sources,
+1,026 manifest units and 1,000 exact rows retain that source/profile binding.
+Native product/runtime, complete inventory, semantic and port gates stay open.
 
-The original target under `resources/`, pinned toolchain under `.tools/`,
-tracked source, exact manifests and non-reproducible evidence are **not**
-cleanup targets. The ignored `build/` tree and compiler `.obj/.pdb/.pyc/.pch`
-artifacts inside `.analysis/` may be regenerated by cold scripts. The existing
-`python3 scripts/clean-generated-artifacts.py --apply` writes its individual
-path/byte audit to `.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`.
-Old ignored experiment C++/INL, JSON provenance, hypotheses, scripts and
-unknown legacy data are not automatically disposable; they require an
-individual producer/reproducibility/reference review. **Never bulk-delete
-`.analysis/`**. After cleanup, rebuild match units before asking for a fresh
-COFF comparison; never mistake a missing disposable `.obj` for lost source.
+The KB holds bounded observations and unresolved hypotheses. Old packet numbers,
+source shapes and current-state claims are dated history, not acceptance.
+The charge-receiver-owner and effect-added-inline-owner packets under
+`.analysis/gpt-61sol-20261020-*` retain 28 compressed comparisons,36/18 unique
+shared inputs,profiles,tool hashes and selected cold replays. Duplicate staged
+copies and compiler output are removed only after verifying this frozen evidence.
 
+Never delete `resources/th09.exe`, toolchains, Wine prefixes, IDA databases,
+tracked source or unclassified evidence. Never bulk-delete `.analysis/` or run
+`git clean -X`. Around 1.6 GiB of older evidence remains pending individual
+producer/source/reference review; age alone does not make it disposable.
 
-### Most recent generated-cache cleanup (2026-10-19)
-
-The last **full** reviewed cleanup is documented in
-[`RE_ARTIFACT_CLEANUP_HISTORY.md`](RE_ARTIFACT_CLEANUP_HISTORY.md) with exact
-ignored per-path proofs under `.analysis/handoff-cleanup-20261019/`.
-The cleaner's cumulative historical manifest lives at
-`.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`;
-**only its last `runs` entry** identifies the current deletion.
-
-| Verified removed, October 19 | Files | Logical bytes |
-| --- | ---: | ---: |
-| Ignored `build/` | 523 | 18,442,237 |
-| Compiler binaries/bytecode in `.analysis/` | 999 | 111,683,705 |
-| Two separately SHA-256-reviewed Python caches | 50 | 892,319 |
-| **Total removed** | **1,570** | **131,018,261 (~125.0 MiB)** |
-
-**Post-clean original target SHA and Git source checks passed**, and the
-cleanup dry-run found **zero remaining selected artifacts**. Deliberately
-preserved around **1.6 GiB** of historic ignored C++/INL/JSON evidence,
-the actual `resources/th09.exe`, pinned toolchains, and every tracked file.
-A missing `build/` is intentional. Recreate only the match unit required by
-an investigation; do not run `git clean -X` or delete `.analysis/` wholesale.
-
-**Validation after cleanup:** restrict checks to documentation, ledger and
-Git commands with `PYTHONDONTWRITEBYTECODE=1 python3 -B`; running the full
-CI or a new `--owner all` rebuilds the exact cache that was intentionally
-removed. The original-bound **35/257** complete-source and **659-test CI**
-proofs were executed and archived *before* deletion, not inferred from a
-Git commit or post-clean similarity report.
+`clean-generated-artifacts.py` previews by default. Once producers and CI finish,
+review its manifest before `--apply`; it clears ignored `build/` and unambiguous
+compiler caches in `.analysis/`. Its per-path history lives in
+`.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`; use the last
+`runs` entry, not the cumulative total. See
+[artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for actual deletions.
+Post-clean checks use `PYTHONDONTWRITEBYTECODE=1 python3 -B`; rerunning CI would
+recreate caches. Missing OBJ/PDB is intentional and must be rebuilt.

@@ -18,7 +18,9 @@ import shutil
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
-COMPILER_SUFFIXES = frozenset({'.obj', '.pdb', '.pyc', '.pch', '.idb', '.ilk'})
+# .idb is also an IDA database. Never classify it as a disposable compiler
+# cache by extension, even though MSVC can use the same suffix.
+COMPILER_SUFFIXES = frozenset({'.obj', '.pdb', '.pyc', '.pch', '.ilk'})
 MANIFEST = Path('.analysis/handoff-cleanup-20261013/generated-cache-manifest.json')
 
 

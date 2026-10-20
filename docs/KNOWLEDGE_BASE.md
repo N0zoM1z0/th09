@@ -37,8 +37,9 @@ The current canonical source ledgers and the compact
   `ExAttackUpdateCallbackType21` and `DrawSingleBullet` remain canonical
   exact. The **distinct** `EtamaController::OnDraw` remains **non-exact**
   (latest recorded full 600-byte comparison: 268 different bytes), and
-  `ExAttackUpdateCallbackType3` remains **non-exact** (latest 14 bytes,
-  not the older 15-byte plateau). `RunEcl` remains non-exact (30 different
+  `ExAttackUpdateCallbackType3` remains **non-exact**. The packet-era14-byte
+  model is superseded; use the active handoff for the maintained15-byte source
+  and rejected four-byte private candidate. `RunEcl` remains non-exact (30 different
   bytes in its 15,564-byte physical owner).
 - The match unit's **current** `DrawSingleBullet` compiler-private selector
   is `$L1937` at +0x17, whereas `$L1914`, `$L1921` and `$L1930` were observed
@@ -13222,3 +13223,81 @@ attest historical producer execution.
   after terminal CI,362 cache files/6140146 bytes are removed. Build/ and own
   OBJ/PDB are absent. Source commit and independent remote push verification
   are recorded separately in the main packet.
+
+## Complete Charge owner and handoff recovery (2026-10-20)
+
+This bounded investigation starts from source/ledger commit `085343b`; it adds
+no exact function or authored byte. The operator subsequently cleared the long
+goal and requested cleanup/handoff. The95% milestone remains unfinished:
+243,428/291,883 reviewed-authored bytes, 83.3992%,another 33,861 bytes required.
+All 485 game-source files,1,026 manifest units and 1,000 exact rows are unchanged.
+
+**Target observation:** Player charge update at 0x0041F810 owns 1,210 bytes,
+SHA-256 `6c24be1a012fc3fa6148bd09954443318cc9db33d6b69a26ca1a778dfe6e5015`,
+350 decoded instructions,70 address fields,58 ordered direct calls and 53 direct
+blocks. Original byte-local `[EBP-1]` is written at+0x55 and read at+0x1C7/+0x1DB;
+the direct IDA readback agrees. This does not establish its unique C++ owner.
+
+**Compiler observation:** the maintained `player-on-update` profile produces
+1,197 bytes/342 instructions/70 fields,with 1,160 linked overlap differences
+and 13 missing bytes. All seven older region checks pass despite this full-owner
+mismatch. `scripts/inspect-player-charge-update.py` independently checks the
+complete original SHA, decoded operand positions, actual COFF kind/addend/root,
+actual literal definitions,58 calls and direct graph. It rebases REL32 using
+candidate operand positions and reports deficits/excess as well as differences.
+Valid nonexact input exits0; no diagnostic output grants exactness or attests a
+source/build by itself. Five pure test groups challenge false field provenance,
+missing/duplicate/mistyped/retargeted fields, wrong raw/addend/extent, wrong target
+encoding and unbounded/undefined literal definitions without private inputs.
+
+Twenty-four full-TU Charge controls preserve the real callee inventory and
+compiler profile. Moving the genuine method to the existing native Player base,
+removing the empty derived wrapper, real inline input-query forwards, selector
+references and signed mode locals leave 1,197/1,160+13 unchanged. Qualifying the
+actual mode-local reads yields 1,211/1,062+one extra byte and agrees in direct
+graph; a true volatile local or paired accesses gives 1,210/561 with a different
+graph. The latter damages 20 formerly equal physical positions and fails five
+old regions,so it is not adopted. It emits an extra mode-byte read and does not
+reproduce the original entry compare/store order. Genuine capture helpers,
+structured initial gating and signed/unsigned/enum locals do not close the
+owner. Input-pointer controls give 1,195/1,153+15 missing or 1,209/929+one missing.
+The public complete auditor independently agrees with the prior complete
+auditor for all 14 earlier controls; all 24 receive complete public checks.
+
+Four Effect `AddedCallback` controls use fully defined genuine member-return,
+member-void, static or reference forwards. They all retain 51 bytes/four fields/
+eight differences; neither an inline owner nor a changed local interface closes
+the callback. No register hints, ABI changes, target patches or source models
+are promoted. No game C++ or exact manifest is changed.
+
+**Reproduction/preservation:** ignored packets
+`.analysis/gpt-61sol-20261020-charge-receiver-owner/` and
+`.analysis/gpt-61sol-20261020-effect-added-inline-owner/` retain 28 compressed
+raw/actual-COFF/full-comparison pairs,36/18 content-addressed unique inputs,
+profiles and tool/SDK hashes. The Charge packet's `replay.py --case
+volatile-mode-local` and `--owner effect --case member-result` each cold-build
+one frozen model at lowered priority, reproduce every raw byte/actual COFF row,
+repeat the full original Oracle and self-clean. All producers are terminal;
+a TH09-cwd-scoped `/proc` audit precedes deleting 468 duplicate staged files/
+4,138,775 bytes. Per-path SHA/size proof remains in `cleanup-result.json`.
+
+**Documentation correction:** the active handoff is routing, not a packet
+journal. Player initialization is already exact; old nonexact routing and the
+659-test October19 proof are not current status. Historical counts/receipts
+remain in their dated archives. The workflow and operator rules now describe
+the local direct-IDA campaign, required prefix/push and the handoff task.
+The cache cleaner no longer selects `.idb`: that extension may be an IDA
+database. Preservation tests cover both `.idb` and `.i64`. Historical cleanup
+suffix lists describe those executions, not today's deletion permission.
+
+Final validation passes 796 tests/28 skips,target-required tracking,docs,
+generated progress,open product graph and whitespace. Engineering binding has
+732 inputs:728/730 prior hashes retained,only the cleaner and its existing
+test change,and the complete Charge inspector/test are added. All 1,000 exact
+source/profile proofs are reused unchanged. After terminal CI,a second scoped
+producer check permits removing 406 cache files/7,015,171 bytes. Together with
+the 468 frozen duplicate stages,this removes 874 files/11,153,946 bytes.
+Build and top-level Python caches are absent; a final dry-run is zero.
+Original/toolchain/IDA inputs,all tracked files and around 1.6 GiB of older
+unclassified or useful evidence remain. See `RE_ARTIFACT_CLEANUP_HISTORY.md`
+for category counts; local commit and independent push proof remain separate.

@@ -4,6 +4,50 @@
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 
+### 2026-10-20: local handoff, complete Charge diagnostic and frozen controls
+
+The operator requested cleanup/handoff after clearing the long-running goal;
+the 95% milestone remains unfinished. Baseline `085343b` and this checkpoint
+have identical 485 game-source files,1,026 manifest units and 1,000 exact rows:
+243,428/291,883 reviewed-authored bytes, 83.3992%. Recoverable dirty work was
+the complete Charge auditor and its five pure test groups; both were reviewed
+and retained. The cleaner now preserves `.idb`, whose suffix is ambiguous with
+IDA databases, with explicit `.idb`/`.i64` preservation checks.
+
+**Proof before deletion:** direct local IDA metadata and distributed mapped
+bytes agree with the verified Japanese v1.50a target. All 24 Charge models pass
+the new complete 1,210-byte/70-field/58-call input checks; none is exact.
+Four genuine inline Effect callback models remain51/4/8. Selected Charge and
+Effect cold replays reproduce every captured raw byte/actual COFF row and full
+original comparison. CI passes **796 tests, 28 skipped**, with tracking,docs,
+progress,open build graph and whitespace checks. No new runtime/product claim.
+
+Before removing duplicate stages,28 full comparisons and all candidate inputs
+were frozen into36 Charge/18 Effect unique content-addressed inputs,with
+profiles,tool/SDK hashes and a one-case replay. Per-path deletion records live
+in `.analysis/gpt-61sol-20261020-charge-receiver-owner/`:
+`cleanup-result.json` and `cache-cleanup-result.json`. Both deletion phases
+require a TH09-cwd-scoped `/proc` check with no active compiler/CI producers;
+selected paths are ignored,regular files and rechecked by SHA before deletion.
+
+| Actually deleted | Files | Logical bytes |
+| --- | ---: | ---: |
+| Frozen/reproducible duplicate candidate stages, including OBJ/PDB | 468 | 4,138,775 |
+| Generated CI `build/` | 364 | 6,169,370 |
+| Remaining `.analysis/` Python cache | 1 | 6,342 |
+| Reviewed `scripts/` and `tests/` bytecode caches | 41 | 839,459 |
+| **Total** | **874** | **11,153,946 (~10.64 MiB)** |
+
+Postconditions: `build/` and both top-level Python caches are absent; cleanup
+dry-run selects zero files; original target SHA remains
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+All tracked input and source/profile bindings are retained. Around 1.6 GiB of
+older `.analysis/` evidence remains deliberately unclassified or still useful;
+no age-based deletion or provider/toolchain/IDA cleanup was performed.
+CI ran before final cache deletion; only cache-free target/docs/ledger/Git
+checks follow it. A later reconstruction must rebuild its affected object.
+Commit and independently verified remote push are recorded separately.
+
 ### 2026-10-19: 257-exact original-bound MusicRoom handoff and generated-cache removal
 
 **Proof first, cleanup second.** On current gameplay-source commit

@@ -1,9 +1,10 @@
 # Reconstruction workflow
 
-The active reconstruction target is at least **95% of reviewed authored
-bytes exact**, using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a
-executable. See [the current handoff](RE_HANDOFF.md) and refresh the ledgers
-for live totals; dated experiments and prior stop/resume records are historical.
+The project milestone is at least **95% of reviewed authored bytes exact**,
+using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
+The current operator task is handoff cleanup; the milestone remains unfinished.
+See [the current handoff](RE_HANDOFF.md) and refresh the ledgers for live totals;
+dated experiments and prior stop/resume records are historical.
 Exact code, the reviewed-authored denominator, the native Windows product and
 later runtime/port phases are independent gates.
 
@@ -72,8 +73,9 @@ prepared local machine cannot hide undeclared third-party import dependencies.
 Optional decoders belong inside private diagnostic entrypoints. This local gate
 uses the same command as GitHub Actions; a local pass does not prove a remote
 workflow run. **Commit verified local checkpoints** using the current operator
-prefix in `AGENTS.md`; Factory shell has no network push transport. A local
-commit is never evidence of a successful remote push.
+prefix in `AGENTS.md`, then push from the local shell and independently check
+the remote ref. A local commit is never evidence of a successful remote push;
+historical Factory transport limits apply only to that environment.
 
 ### Current-state documentation hygiene
 
@@ -123,8 +125,9 @@ original trial and whether its negative result was recorded. The handoff must
 state exactly what was removed and what large scratch archives remain.
 `python3 scripts/clean-generated-artifacts.py` is dry-run by default and
 cleans the ignored `build/` tree plus compiler binaries under `.analysis/`
-only when called with `--apply`. It intentionally leaves copied experiment
-sources, JSON evidence, and original/IDA inputs intact until separately audited. Classify deletion by reproducibility, tracked
+only when called with `--apply`. Ambiguous `.idb` files are preserved because
+they may be IDA databases. It intentionally leaves copied experiment sources,
+JSON evidence, and original/IDA inputs intact until separately audited. Classify deletion by reproducibility, tracked
 references, and whether the useful fact has been promoted. Do not blindly
 delete a recovered scratch tree before that audit. Once the remaining scratch
 has no tracked consumers and every still-useful unresolved fact is recorded in
