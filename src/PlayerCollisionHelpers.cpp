@@ -2,18 +2,7 @@
 #include "BulletManager.hpp"
 #include "EffectManager.hpp"
 #include "RngRuntimeLeaves.hpp"
-
-struct PlayerCollisionTimerView2
-{
-    int previous;
-    float subFrame;
-    int current;
-
-    unsigned int IsAfter(int value);
-};
-
-typedef char PlayerCollisionTimer2SizeIsC[
-    (sizeof(PlayerCollisionTimerView2) == 0x0C) ? 1 : -1];
+#include "ZunTimer.hpp"
 
 void RotatePlayerCollisionVector(
     PlayerPositionView *outVector,
@@ -97,12 +86,6 @@ struct PlayerCancelSoundView
 struct PlayerCancelSideView
 {
     void AddScore(int score);
-};
-
-struct PlayerCancelOwnerStateView
-{
-    unsigned char unknown00[0x38];
-    int state38;
 };
 
 struct PlayerCancelState4OpsView
@@ -237,8 +220,7 @@ hit:
                 46, player->sideIndex != 0 ? 500 : -500);
 
             int rewardValue =
-                reinterpret_cast<PlayerCancelOwnerStateView *>(
-                    &player->ownerState30410)->state38;
+                player->ownerState30410.state38;
             if (rewardValue > 100)
                 rewardValue = 1000;
             else
@@ -358,7 +340,7 @@ PlayerCollisionQueryRecordView *PlayerCollisionQueryStateView::FindCollisionAtPl
     PlayerLifecycleView *player = player00;
     if (player->GetUpdateState() != 0)
         return NULL;
-    if (reinterpret_cast<PlayerCollisionTimerView2 *>(&player->timer1B74)->IsAfter(0))
+    if (*reinterpret_cast<ZunTimer *>(&player->timer1B74) > 0)
         return NULL;
 
     PlayerCollisionQueryRecordView *record = records;

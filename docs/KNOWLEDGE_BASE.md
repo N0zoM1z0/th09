@@ -11982,3 +11982,69 @@ attest historical producer execution.
   Build/ and own OBJ/PDB are absent; original EXE, IDA, tools and foreign games
   are preserved. Local source commit and independently checked remote push are
   recorded separately.95% and all later gates remain active/incomplete.
+
+
+### 2026-10-20 — Player collision native timer and existing reward owner
+
+- Direct local IDA plus original PE review revisits CheckBulletCollision41DFF0
+  rather than trusting its old register-only comment. Its entire862-byte SHA
+  stays9dcfe1aca4ac06526072014ee6f956120d9c1d84cc1bba044638556b9b82445c:
+  277 instructions,26 independent operands,12 ordered calls,33 direct blocks
+  and three ret12 exits. Fresh x87 status-word/branch review confirms the
+  maintained circle/rotated-box/axis-box unordered predicates. The current
+  source's849/266/26/12/32 and804 overlap differences plus13 missing are still
+  nonexact. IDA comments now state the combined CFG/layout/register frontier,
+  and are read back; no target byte or boundary is changed.
+- Six new natural source controls replace the shared next label with actual
+  for/continue, explicit while increments, and separate Bullet null/type
+  checks, each also tested with original difficulty-before-reward acquisition.
+  In order these emit849/266/32/804,812/267/32/773,849/266/32/804,
+  865/272/32/819,824/271/32/576,865/272/32/819
+  (bytes/instructions/blocks/overlap differences). Missing bytes are13/50/13/
+  0/38/0; both865-byte controls add three bytes. All26 fields and12 ordered
+  calls remain independently bound. All five exact siblings /1220 bytes /
+  32 fields and all seven nondebug noncode sections remain unchanged. These
+  controls are distinct from the old loop-entry panel, which kept goto next;
+  none is integrated and none proves a compiler limitation or gameplay equality.
+- Original41DA88 forms Player+1B74 and41DA8E calls403DE0. That complete20-byte
+  callee reads receiver+8, performs signed greater-than against its int argument,
+  returns unsigned0/1 and cleans four stack bytes; it is the existing canonical
+  ZunTimer::operator>. FindCollisionAtPlayer now uses that declaration instead
+  of the source-only PlayerCollisionTimerView2::IsAfter alias. Its actual COFF
+  field at+1F changes spelling to ??OZunTimer@@QAEIH@Z, with the same REL32
+  destination/addend and ABI. The outer opaque PlayerTimerCtorView storage
+  remains provisional and still requires an explicit view conversion; no
+  complete timer/Player class ownership claim is made.
+- Original41E2CB loads Player+30448, exactly the existing ownerState30410 plus
+  state38 field. Maintained CheckBulletCollision now reads that existing member
+  directly and removes the private PlayerCancelOwnerStateView reinterpretation.
+  This removes a redundant unrelated type view; integer acquisition, clamp,
+  scaling, reward arguments and all game behavior expressions stay unchanged.
+- Owner-only, timer-only and combined current-source controls preserve all six
+  actual COFF owners /2069 bytes /58 records, except the one reviewed timer
+  symbol, and seven nondebug noncode sections. A final maintained-path cold
+  compile with the explicit native timer include exactly reproduces the combined
+  carrier. Five complete canonical sibling replays pass1220/1220 bytes /
+  32 fields using an adapter changing only object paths; independent cold
+  zun-timer-greater passes20/20. The historical seven-owner/2190-byte carrier
+  no longer describes this TU: CalcItemBoxCollision121 is elsewhere. Its
+  unchanged source and the unchanged602-byte FindCollision query reuse their
+  existing proofs. No unaffected carrier is rebuilt.
+- Only src/PlayerCollisionHelpers.cpp and one config/match-units.toml field
+  change among725 engineering inputs:723 retain parent hashes and482 of483
+  game source/header files retain raw hashes.992 unaffected canonical exact
+  proofs are reused. No new source owner, authored boundary, profile, match row,
+  exact count or byte credit is added. Current totals stay997 exact /242841 of
+  291848 authored bytes (83.2080%);95% still needs34415 complete exact bytes.
+- Retained packet .analysis/gpt-61sol-20261020-player-collision-geometry contains
+  baseline, all six flow controls and three connection controls, full raw owner
+  bytes/COFF fields, original-bound strict reports, native callee proof, pinned
+  profile, IDA readbacks and a current-input-bound one-case replay recipe.
+  Target/mapped-byte attestation, focused Oracles, tracking, docs, progress, CI
+  (769 tests /28 skipped) and whitespace pass. After all own producers stop,
+  repository-cwd-scoped cleanup removes383 reproducible files /12213829 bytes,
+  preserving ten private sources and every complete comparison; build/ and own
+  OBJ/PDB are absent. A one-case current-input replay independently reproduces
+  all six raw owners/58 fields/seven noncode sections for the824-byte while
+  control and removes its temporary binaries. Local source commit and independent
+  remote push are recorded separately; later gates stay open.

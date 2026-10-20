@@ -18,59 +18,59 @@ The **95%** milestone still needs **34,415** complete exact authored bytes.
 The two newly reviewed callbacks add323 authored and323 exact bytes. Type29
 remains without maintained source; whole product/runtime and later gates stay open.
 
-- **Two previously omitted callbacks are now canonical exact:**
-  `TitleCalcCallback @42A9CB` contributes264 authored code bytes and independently
-  compares **328/328 physical bytes /36 fields**, including its entire16-entry
-  table. `ReplayManagerView::ControlPlaybackFrameAdvance @420470` contributes
-  and compares **59/59 bytes /three fields**. Both have maintained source,
-  original caller-registration identity, reviewed complete control flow and
-  separate configured cold canonical replays. No table/alignment bytes inflate
-  the authored total; no Factory or native runtime acceptance is claimed.
-- **Exact sources and reproduction:** `title-screen-calc-callback` builds
-  `src/TitleCalcCallback.cpp` with the existing Title/O1 profile;
-  `replay-control-frame-advance` builds `src/ReplayPlaybackFrameAdvance.cpp`
-  with the existing Replay/O2 profile. Build each unit and run
-  `scripts/compare-coff-function.py --unit UNIT --json`. All39 actual original
-  address fields, complete bytes and real local table definitions must agree.
-  No original byte, public header, existing caller source or ABI is changed.
-- **Title behavior and source evidence:** chainState1B238 bypasses updates for
-  nonzero states, returning4 only for2 and1 otherwise. The normal path dispatches
-  all16 screens, carries the called handler result, then updates the actual VM
-  array and optional help VM. Its inner selector is the already known
-  **g_TitleModeSelection4A7EA4**, distinct from g_GameMode4A7EA8. Individual inner
-  mode arms naturally merge to target calls; a grouped-arm draft emitted324 and
-  was rejected. Full code SHA and all16 table targets are independently pinned.
-- **Replay behavior:** with gameplay bit4, no transition200 and a true existing
-  shared-runtime predicate, signed frameCounter%3!=2 returns Chain restart6;
-  other paths continue1. Native GameManager+134 and shared-runtime method are
-  retained. The size profile emits55 and a shared-result model63; both are
-  rejected. Original21-instruction59-byte code excludes five followingCC bytes.
-- **Discovery and unchanged frontiers:** a bounded decoded-reference census
-  exposed the registration-referenced omissions; it is not a complete executable
-  inventory. Raw pointer-looking44CB60/44D5A0 are data, not new code owners.
-  Player movement remains1900/66/129 after12 current-source controls; direct SHT
-  reads regress to259, shared pointer lifetimes137/138 and explicit-owner forms
- 140, while typed references/configuration views are neutral. No losing model
-  is adopted; all1771 equal positions remain protected.
-- **Focused scope and source proofs:** two new source TUs leave all481 previous
-  game sources and headers unchanged. Their995 existing canonical proofs are
-  reused; only the new exact units receive maintained-path cold builds. The
-  live total is997 exact /242841 of291848 authored bytes =83.2080%;95% still
-  needs34415 complete exact bytes. RunEcl's14792 authored bytes remain necessary
-  at this denominator;35 maintained nonexact owners and Type29's2220 bytes
-  without maintained source stay open.
+- **Current source correction:** `src/PlayerCollisionHelpers.cpp` now calls
+  existing `ZunTimer::operator>` for the actual Player+0x1B74 receiver, removing
+  the declaration-only `PlayerCollisionTimerView2::IsAfter` alias. The reward
+  load uses existing `ownerState30410.state38` directly instead of a private
+  overlay. Original operands41DA8E/41E2CB independently prove the callee and
+  owner+0x30448 load; original class spelling and whole-object ownership remain
+  provisional. Only one COFF symbol identity changes; its destination/ABI stay
+  fixed at403DE0, unsigned-int thiscall with one int and `ret 4`.
+- **Focused complete proof:** one maintained-path cold compile preserves all
+  **six emitted owners /2,069 raw bytes /58 fields**, apart from the reviewed
+  timer symbol, and all seven nondebug noncode sections. Five exact same-TU
+  owners replay **1,220/1,220 bytes /32 fields**; the native timer independently
+  cold-replays **20/20**. Three isolated owner-only/timer-only/combined controls
+  prove each connection separately. The old seven-owner carrier count is
+  historical: the121-byte item-box owner now lives in another TU. Its source,
+  and the602-byte query source, are unchanged and their proofs are reused.
+- **Large collision remains open:** complete original862 bytes /277
+  instructions /26 fields /12 calls /33 direct blocks versus maintained849 /
+  266/26/12/32, with804 overlap differences and13 missing. Fresh original
+  x87/status-word review confirms the maintained NaN predicates. Six genuine
+  direct-continue models preserve all five exact siblings but remain849,812,
+  849,865,824,865 bytes; none is adopted. CFG/layout as well as pointer register
+  lifetimes remain open; the old IDA register-only explanation is withdrawn.
+- **No new exact credit:**997 exact /242,841 of291,848 authored bytes =83.2080%;
+  95% still needs34,415 complete exact bytes.35 maintained nonexact owners and
+  Type29's2,220 bytes without maintained source remain. The preceding
+  `5d7b2d2` checkpoint's new exact TitleCalcCallback264 authored/328 physical
+  and Replay frame-advance59 bytes remain independently proved; its detailed
+  evidence and omitted-reference census are in the knowledge base. Whole
+  executable inventory, native product/runtime and semantic/port gates remain
+  unproven/open.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
-- **Checkpoint validation:** original identity/mapped bytes, both new canonical
-  cold replays and CI pass (**769 tests /28 skipped**). IDA names/comments are
-  read back without changing bytes/boundaries.725 engineering inputs bind717
-  retained, six changed ledger paths and two new sources (685 raw/40 checkout
-  CRLF-to-LF); all481 old sources/headers retain hashes. After every own producer
-  terminates, scoped cleanup removes396 reproducible files /7,415,528 bytes.
-  Build/ and own OBJ/PDB are absent; unique controls, profiles and complete
-  comparisons remain. Local commit and independent remote push bind separately.
+- **Reproduction and input scope:** build `player-check-graze-collision` once;
+  its six-owner carrier supplies all five complete exact siblings through an
+  object-path-only manifest adapter. The source-independent collision inspector
+  checks the entire main owner. `zun-timer-greater` supplies the real callee.
+  `.analysis/gpt-61sol-20261020-player-collision-geometry` retains complete raw
+  owners/fields, strict reports, profiles, ten private sources, before/after IDA
+  comments and a one-case replay recipe.725 engineering inputs bind723 retained
+  hashes and two changed paths: one C++ TU and its one manifest field.482 of483
+  game source/header files remain byte-identical;992 unaffected canonical exact
+  proofs are reused. No public header, profile, boundary or match count changes.
+- **Checkpoint validation:** original target/mapped bytes, all affected canonical
+  checks, tracking/docs/generated progress and CI pass (**769 tests /28 skipped**).
+  After all own producers terminate, the repository-cwd guard allows removal of
+  **383 reproducible files /12,213,829 bytes** from this packet and initially
+  absent build/. Build/ and own OBJ/PDB are absent; ten private sources and full
+  proofs remain. Immutable source and independently verified remote bindings
+  are recorded separately. Original target, IDA, tools and foreign repositories
+  are preserved.
 
 
 ## Next worker: first three work packages
