@@ -18,62 +18,59 @@ The **95%** milestone still needs **34,415** complete exact authored bytes.
 The earlier5d7b2d2 callback checkpoint added323 authored/exact bytes. Type29
 remains without maintained source; whole product/runtime and later gates stay open.
 
-- **Current verified parser ABI:** complete original243-byte
-  ParseNetworkConfigValue takes cursor inEAX, remaining pointer inEBX, key at
-  entryESP+4 and out atESP+8, returning withRET8. All four original calls
-  (43257E/4325B7/4325EE/4326D6) in the exact679-byte caller prove this transport.
-  The catalog now records that optimized private ABI, and both IDA names plus
-  parser prototype/comments are reviewed and read back. The maintained static
-  C++ source and its same-TU caller must remain together for compilation.
-- **Nominal C++ convention remains unknown:** an explicit stdcall control
-  preserves the current243/76 parser and679-byte exact caller; cdecl emits237
-  bytes with a different cleanup contract and a697-byte caller. A physical
-  register contract does not identify the original C++ spelling. No nominal
-  convention, prototype order or compiler flag is changed in maintained source.
-- **Observed compiler coupling:** one real cached-count model shrinks the
-  helper243->240 but promotes key toEBX and moves remaining to the stack,
-  growing the caller679->683. Its whole-function result is rejected.24 complete
-  argument-order permutations give12 parser243/76 and12 parser243/78; six
-  preserve the exact caller, six have full caller differences and12 fail its
-  original field inventory. Equal helper metrics do not imply the same call
-  contract or full caller equality.
-- **Bounded countermodels:**43 complete private codegen cases cover character
-  snapshots, token-loop/dispatch forms, two size profiles, all24 argument orders
-  and two nominal conventions. None closes the parser.21 cases repeat the same
-  existing exact679-byte caller; those are not21 new functions. The unchanged
-  maintained path cold-replays parser243/116 instructions/one field/76 residual
-  bytes and34 versus33 blocks, protecting its167 equal bytes, plus the exact
-  caller679/679 bytes and22 fields. /Os and/O1 each give parser220 and caller613
-  and are rejected. No losing source or profile is adopted.
-- **Origin countercheck:** all35 origin-unresolved extents are independently
-  decoded completely and remain unresolved. A bounded address-window scan of
-  1168 excluded candidates finds five existing generated-wrapper references;
-  it creates no authored promotion. Linear decode is incomplete for the829-byte
-  memcpy contribution47CF40, whose existing pinned-library identity remains
-  separate. This is not proof of complete executable inventory.
-- **Source/coverage scope:** all483 game source/header files, match units and
-  compiler inputs stay unchanged. Only two catalog names and the parser ABI
-  metadata change among725 engineering inputs;724 retain raw parent hashes.
-  The other996 exact proofs are reused. Prior dc99b73 RunEcl bitfields and its
-  80-function/24709-byte source closure stay intact. Coverage stays997 exact /
-  242841 of291848 authored bytes =83.2080%;95% still needs34415 complete exact
-  bytes.35 maintained nonexact owners and Type29's2220 bytes without source,
-  RunEcl's30 residual bytes, native product/runtime and later gates stay open.
+- **Origin correction from TH09 evidence:** fsincos412780/33bytes returns to
+  unknown/review. Its former high-confidence library exclusion relied only on
+  TH08 classification, which cannot establish TH09 provenance. Complete target
+  SHA d949efa79204e2332ebfe977142934ba6e539d41133086b5fc98803663f50630,
+  ECX=sine/EDX=cosine/stack-angle/RET4 and fifteen following CC bytes are
+  reviewed. The sole observed caller ignores the EAX pointer residue; nominal
+  return and original C++ spelling remain unknown. No maintained body or
+  authored/exact credit is added.
+- **Bounded library countercheck:** all944 members/8460 code templates in the
+  installed pinned d3dx8/libcmt/libcpmt archives contain no full33-byte body.
+  D3DX's sincosf is a distinct19-byte cdecl contribution. This negative search
+  neither exhausts possible libraries nor proves authored origin. Classification
+  is now1033 authored/1176 excluded/36 origin-unresolved; source/exact bytes
+  and denominator remain unchanged. Reviewed IDA comments are corrected/read back.
+- **Etama full-owner countermodels:**26 complete private compiles test actual
+  Float3 outputs, early/late/direct cap access, native viewport visibility,
+  derived/independent cursors, actual body-color source and bitfield spelling,
+  plus supported processor scheduling. No complete exact OnDraw is found.
+  One594-byte candidate aligns the instruction stream through the cap geometry
+  but still has211 overlap differences, six missing bytes and56 newly damaged
+  old-equal positions. It is not adopted. Remaining cap RMW/scheduling and final
+  induction roles need source/context evidence, not forced registers.
+- **Focused source closure:** the maintained cold object retains OnDraw600/
+  160instructions/27fields/13calls/268differences and332 protected equal bytes.
+  Same-TU DrawSingleBullet232/16 and AddedCallback832/30 remain wholly exact.
+  Twenty-four private cases retain both; two G7 cases regress them to224/792.
+  Forty-eight passing private checks concern two existing functions, not new
+  exact credit. The995 unchanged exact proofs, including OnUpdate, reuse their
+  source-bound evidence. All483 source/header files and all match/profile inputs
+  remain unchanged; only two origin/catalog CSVs change among725 engineering inputs.
+- **Prior parser frontier:** original243-byte parser uses cursorEAX,
+  remainingEBX, key/out on stack andRET8, proved by all four calls in the exact
+  679-byte caller. Maintained parser stays243/76; its43 rejected controls and
+  nominal-convention caveat are recorded in the previous Git checkpoint and KB.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
-- **Reproduction:** check-boss-frontiers.py --owner parser cold-compiles the
-  maintained TU and checks both complete owners. Retained packet
-  .analysis/gpt-61sol-20261020-origin-crosscheck contains43 full raw/COFF pair
-  captures,41 private C++ sources, the original ABI proof, compiler-promotion
-  counterexample, origin census, profiles, source hashes and a one-case replay.
-  CI passes769 tests/28 skips. After all own producers terminate and the
-  repository-cwd guard passes, cleanup removes458 reproducible files /
-  13,928,296 bytes. Build/ and own OBJ/PDB are absent; all41 unique C++ sources,
- 43 paired captures and tested one-case reproduction remain. Immutable catalog/
-  source binding and independent remote verification are recorded separately.
-  Original EXE, IDA, tools, other campaigns and foreign games are preserved.
+- **Reproduction:** packet .analysis/gpt-61sol-20261020-etama-loop retains
+  complete raw/COFF pairs, actual sources/profiles, independently original-bound
+  comparisons, all sibling field/label-coordinate checks and the three-archive
+  provenance audit. Its one-case replay rebuilds one complete TU and verifies
+  all three owners, then removes temporary binaries. Exact units may be rebuilt
+  together with build-match-unit.py --unit bullet-draw-single; compare both
+  bullet-draw-single and etama-controller-added-callback, then inspect-etama-draw.py.
+- **Verified finish/cleanup:** target/tracking/docs/progress/whitespace and
+  CI769 tests/28 skips pass. Independent derived-copy replay reproduces all
+  three complete owners and every COFF record, then removes temporary binaries.
+  After own producers terminate and the repository-cwd guard passes, cleanup
+  removes445 reproducible files/8469613 bytes, including five SHA-equal duplicate
+  source copies. All22 unique C++ sources/26 paired captures remain; build/
+  and own OBJ/PDB are absent. Immutable source binding and independent remote
+  verification are recorded separately. EXE, IDA, tools and other work remain.
 
 
 ## Next worker: first three work packages
@@ -146,9 +143,9 @@ mentioning 979/876/103 are obsolete for this checkout.
 | --- | ---: |
 | Function candidates | 2,245 |
 | Boundary/origin unreviewed | 0 |
-| Reviewed but origin-unresolved | 35 |
+| Reviewed but origin-unresolved | 36 |
 | Confirmed authored | 1,033 |
-| Classified exclusions | 1,177 |
+| Classified exclusions | 1,176 |
 | Source-present authored mappings | 1,032 |
 | Canonical exact functions | 997 |
 | Source-present non-exact functions | 35 |
@@ -158,7 +155,7 @@ mentioning 979/876/103 are obsolete for this checkout.
 
 **242,841 / 291,848 reviewed-authored bytes = 83.2080% exact**. To reach
 95% of the *currently classified* denominator, another **34,415 bytes**
-must become complete original-bound exact owners. The 35 origin-unresolved
+must become complete original-bound exact owners. The 36 origin-unresolved
 functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
 
@@ -305,7 +302,7 @@ python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
 # For a focused boss/leaf source change, choose --owner runecl, exattack,
 # enemy, etama, title, pause, movement, player, etc. before the broad sweep.
-python3 scripts/check-boss-frontiers.py --owner all
+python3 scripts/check-boss-frontiers.py --owner etama
 python3 scripts/ci.py
 python3 scripts/validate-docs.py
 python3 scripts/progress.py --check

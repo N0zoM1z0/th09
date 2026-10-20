@@ -758,7 +758,7 @@ name into a TH09 fact without target-local evidence.
 
 - `EtamaController::Initialize @ 0x004123C0` is canonical exact at 173 bytes with no relocations. TH09 independently fixes the complete `0x25E1C0` owner clear, primary/secondary pool starts at `bullets[0]` / `bullets[176]`, sentinels at `bullets[175]` / `bullets[536]` with state 6, `cancelItemType=5`, and the five AnmVm `scriptIndex=-1` writes for each of 175 primary and 360 secondary live bullets. Exact `EtamaController::Register` already binds the source-level `Initialize` member name.
 - Neutral reconstruction alias `EtamaController::ResetProjectiles @ 0x00412470` is canonical exact at 95 bytes with no relocations. Its sole target caller is `GameManager::CleanupGameplayState`; it clears 176 primary-pool records including the sentinel, 361 secondary-pool records including the sentinel, all 48 Laser records, then restores both pool pointers, state-6 sentinels, and `cancelItemType=5` without clearing sprite templates, Chain ownership, or side bindings.
-- `fsincos @ 0x00412780` is not an authored leaf. TH09 exposes a 33-byte x87 helper with `ECX=sine`, `EDX=cosine`, stack `float angle`, one Etama draw caller, and an `FSINCOS` instruction. Clean committed TH08 independently classifies the same helper family as math-runtime/library. TH09 therefore records `library / MathRuntime / exclude`; no maintained authored replacement, canonical match, or inline-assembly workaround is added.
+- `fsincos @ 0x00412780` has **unknown origin** after the 2026-10-20 TH09 provenance countercheck. Its complete 33-byte target extent uses `ECX=sine`, `EDX=cosine`, a stack `float angle`, `FSINCOS` and `RET4`, with one Etama draw caller. The former library exclusion relied only on adjacent TH08 classification and is withdrawn. None of the three installed pinned `d3dx8/libcmt/libcpmt` archives contains that complete body; D3DX has a distinct 19-byte cdecl `sincosf`. This bounded negative neither proves authored origin nor exhausts all possible libraries. No maintained body, authored denominator, canonical match or assembly workaround is added.
 - Boundaries remain independent: three `CC` bytes after Initialize, one after ResetProjectiles, and fifteen after fsincos. Two independent cold pinned-VC7.1 `/O2 /Ob1` builds reproduce both authored functions exactly. Adding only the ResetProjectiles declaration to the shared Bullet header leaves the seven pre-existing Packet-179 BulletManager exact units exact.
 
 ## Packet 181 Player collision queue and Etama constructor knowledge
@@ -2837,7 +2837,7 @@ this document. The current canonical unit is controller-get-input.
 - GameManagerPlayfieldView::IsWithinPlayfield @ 0x0041A6EB-0x0041A75E is now maintained source-present/non-exact. TH09 callers fix a thiscall GameManager receiver and four float arguments; target x87 dataflow fixes rectangle intersection against x [-144,144] and y [0,448]. Clean TH08 independently supplies the same four early-return source family, adapted only to TH09's bounds.
 - Pinned VC7.1 emits 114 bytes for that natural early-return source versus target 116. Bounded alternatives do not justify promotion: nested guards remain 114, a boolean chain is 117, constants-left forms are 118, and a local-result form happens to be 116 bytes but diverges near the start by carrying an ECX result value absent from the target. The remaining two-byte frontier is x87 status/pop scheduling; no source is retained merely for matching size.
 - EffectPolarScaleView::SetFromAngleAxes @ 0x0040D4D0-0x0040D4EF is now maintained source-present/non-exact. TH09 target evidence fixes x = cos(angle) * xScale and y = sin(angle) * yScale; both ordinary float and double sin/cos spellings compile to the same 30-byte FCOS/reload/FSIN body, while the target is 32 bytes with one FSINCOS and a spilled receiver.
-- Clean TH08 compiler notes independently classify its fsincos helper as runtime/library machinery and explicitly reject manufacturing inline-assembly wrappers when VC7 sin/cos intrinsics do not fuse. Accordingly the TH09 source keeps ordinary cosf/sinf semantics and records the 30/32 plateau rather than introducing assembly, fake runtime calls, volatile/register steering, pragmas or profile roulette.
+- Historical TH08 compiler notes classify their fsincos helper as runtime/library machinery and reject manufacturing inline-assembly wrappers when VC7 sin/cos intrinsics do not fuse. That adjacent classification is hypothesis material only: the later 2026-10-20 TH09 review withdraws the library exclusion for `0x00412780` as unproved. This historical 30/32 plateau is not current exactness evidence. It does not justify assembly, fake runtime calls, volatile/register steering, pragmas or profile roulette.
 - With these two source mappings, every one of the 979 confirmed authored functions now has maintained source. This closes the authored/no-source frontier at an honest plateau; canonical exact work remains incomplete and semantic/port work must still wait.
 
 ## Packet 466 RunEcl call-structure closure
@@ -12191,3 +12191,83 @@ attest historical producer execution.
   removes458 reproducible files /13928296 bytes. All41 unique C++ sources and
  43 pair captures remain; build/ and own OBJ/PDB are absent. Immutable catalog/
   source binding and independently verified push are recorded separately.
+
+
+### 2026-10-20 — Etama cursor/cap countermodels and withdrawn fsincos provenance
+
+- Clean3680f14 recovery attests the original Japanese v1.50a disk target,
+  direct local IDA metadata and distributed mapped bytes. Complete original
+  OnDraw413BE0 remains600 bytes/157 instructions/27 fields/13 ordered calls,
+  SHA6216f7ba73f38523afb6c40385b2b74190a657dc0388b8b8192d65d7f7e8f6b1.
+  The maintained cold TU gives600/160/27 with268 complete linked differences,
+  preserving332 equal bytes and the17-block graph. Original ESI is the body VM
+  position at Laser+208; the Laser owner has a separate stack home. Cap alpha
+  writes one byte at owner+497; EAX left by fsincos is ignored by the caller.
+- Eight full-TU controls test native Float3 conversion outputs for base/body/cap,
+  const base coordinates, late cap-pointer declaration and genuine unchanged
+  SupervisorViewport.cpp visibility before/after the source. Every OnDraw
+  remains600/268. Seven further controls remove the early cap pointer and vary
+  direct members, derived/independent cursor updates and actual byte-alpha
+  ownership, including native/implicit/const conversions. Direct cap alone
+  emits601/528; derived mixed fields594/227; independent variants562/509,
+  except the word-alpha control578/519. All are rejected on complete extent,
+  bytes/graph or previously equal positions, never accepted by aggregate score.
+- Six source cross-checks vary actual bodyVm.color1 copy ownership and the
+  existing native unknownFlags6_10 bitfield spelling in both cursor models.
+  The derived color correction emits594 bytes/155 instructions/18 blocks with
+  211 overlap differences, six missing and56 newly damaged old-equal positions.
+  Its prefix follows the original instruction structure through cap geometry;
+  the flags RMW, owner scheduling and final cursor induction remain different.
+  Flags spelling alone is raw-neutral; independent forms stay562/509. No
+  previously rejected partial candidate is promoted or substituted for source.
+- Five supported CPU-scheduling controls challenge the flags RMW hypothesis:
+  G5/G6/GB preserve derived594/211; G7 gives586/478, while the maintained-source
+  G7 control580/495. Both G7 cases regress the two exact siblings to224/792
+  bytes versus232/832. Thus no source or compiler-profile change is adopted.
+  The26 complete cases contain22 unique C++ source texts, including baseline;
+  24 cases each preserve both exact siblings. Their48 passing checks refer to
+  two already counted functions, not48 new functions. Actual compiler-local
+  renames are accepted privately only after same-section owner-relative
+  coordinates reproduce their immutable target VAs; no operand/offset is fitted.
+- A separate provenance audit withdraws the old TH08-only library exclusion
+  for fsincos412780..4127A0. The complete33-byte TH09 extent has SHA
+  d949efa79204e2332ebfe977142934ba6e539d41133086b5fc98803663f50630,
+  fastcall-compatible ECX=sine/EDX=cosine with stack float angle andRET4;
+  fifteen following CC bytes stay unowned. The sole IDA caller is413C3B.
+  EAX incidentally retains the sine pointer; its nominal return contract and
+  original C++ declaration are unproved. A call-facing extern declaration
+  does not establish source presence or ownership of this helper.
+- All944 archive members/8460 code templates in the three installed pinned
+  runtime-origin libraries contain no complete matching33-byte code. D3DX's
+  named sincosf is a distinct19-byte cdecl contribution, not this target body.
+  Archive identities: d3dx8 SHA39a8e21889a7c1f0b966f04a9e7d392de14ddebb3e091dfa1e5ce3e19564fc28,
+  libcmt SHA6e2b3742e58245de52149137f64281b73db1487a07a31e165fff269fbf9b2ee8,
+  libcpmt SHAc887292bc98d87ab18d151289c68ade30fa078f680b042911312a42a34d659f5.
+  This bounded negative proves neither authored provenance nor exhaustion of
+  possible libraries. Adjacent-game origin remains hypothesis material only.
+  Origin becomes unknown/review: excluded1177->1176, unresolved35->36;
+  authored1033, denominator291848 and exact997/242841 bytes remain unchanged.
+  IDA's stale library and568-byte OnDraw comments are corrected and read back;
+  no target bytes or inferred nominal return are changed.
+- Focused canonical replay protects232-byte DrawSingleBullet/16 fields and
+  832-byte AddedCallback/30 fields,1064 physical bytes and813 authored bytes.
+  All483 maintained game source/header paths and all compiler/match inputs are
+  unchanged. Only functions.csv and function-origins.csv change among725
+  engineering inputs;723 retain parent raw hashes and995 unaffected exact
+  proofs are reused. No unrelated full-cohort replay is required. Exact share
+  remains83.2080%, with34415 more complete authored bytes needed for95%.
+  Whole executable inventory, native product/runtime and later gates stay open.
+- Retained .analysis/gpt-61sol-20261020-etama-loop contains the complete paired
+  raw/COFF captures, original-bound diagnostics, private sources/profiles,
+  sibling destination-coordinate reviews, archive audit, input bindings and
+  one-case replay recipe. No losing C++ model or new assembly is maintained.
+- Tracking/docs/progress/whitespace and CI769 tests/28 skips pass. One
+  independent derived-copy replay reproduces all three whole emitted functions
+  and every actual COFF field, then deletes its temporary compiler binaries.
+  After all own producers terminate and the repository-cwd guard passes,
+  cleanup removes445 reproducible files/8469613 bytes, including five duplicate
+  CPU-control source copies whose SHA-equal canonical private source is kept.
+  All22 unique C++ sources and26 paired captures remain; each case's retained
+  source hash verifies. Build/ and own OBJ/PDB are absent. No EXE/IDA/toolchain,
+  other campaign or foreign-game artifacts are removed. Source commit and
+  independently verified push are recorded separately.

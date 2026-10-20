@@ -252,7 +252,7 @@ address,origin,subsystem,disposition,confidence,evidence_id
 0x00412700,authored_game,BulletManager,authored,high,packet179-bullet-transform-leaves-2026-09-16
 0x00412730,authored_game,BulletManager,authored,high,packet179-bullet-transform-leaves-2026-09-16
 0x00412760,authored_game,BulletManager,authored,high,packet179-bullet-transform-leaves-2026-09-16
-0x00412780,library,MathRuntime,exclude,high,math-runtime-fsincos-th08-family-2026-09-16
+0x00412780,unknown,,review,unknown,fsincos-th09-provenance-countercheck-2026-10-20
 0x004127B0,authored_game,AnmManager,authored,high,anm-math-leaf-target-replay-2026-09-16
 0x00412800,authored_game,AnmManager,authored,high,anm-math-leaf-target-replay-2026-09-16
 0x00412830,authored_game,Player,authored,high,player-collision-append-target-replay-2026-09-16
