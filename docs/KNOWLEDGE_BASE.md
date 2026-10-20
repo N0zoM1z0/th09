@@ -12048,3 +12048,70 @@ attest historical producer execution.
   all six raw owners/58 fields/seven noncode sections for the824-byte while
   control and removes its temporary binaries. Local source commit and independent
   remote push are recorded separately; later gates stay open.
+
+
+### 2026-10-20 — RunEcl coherent flag-family source and whole-owner countermodels
+
+- Clean e8af235 recovery verifies the original Japanese v1.50a target,
+  direct local IDA metadata and distributed mapped bytes. Current-source cold
+  RunEcl again has15564 physical bytes /598 independent fields /30 ordinary
+  differences /146 of148 shapes. Original owner SHA stays
+  e9433504219119eba40ed4d11537782178135effeb6c95d74b6274e0e7f5e7ea.
+  Opcode4 remains the original load-ECX/push-before-receiver seven-byte frontier;
+  opcode155 remains the MOVZX/old-ESI/result-EAX23-byte frontier. Existing exact
+  Timer contracts stay void; incidental EAX is not a new ABI return.
+- Five whole-family source controls expand the existing four-byte flags union
+  into observed bit positions1,7,17..19,22,23,24. The four-field variant uses
+  real bitfield assignments for opcode129 death-mode(low three wire bits),145
+  ANM rotation,151 call-stack disable and156 special interaction(low one bit).
+  It preserves all main-carrier raw function extents and full RunEcl30/0/0
+  ordinary/field/table differences. This more direct natural source is adopted;
+  original C++ bitfield declarations/complete class ownership remain unproven.
+  Other flag operations, masked timeout helper, wire read width, scalar
+  acquisition ordering, ABI, flags and bytecode advance remain unchanged.
+- Adding timeout assignment gives2258 total differences (2019 ordinary,239
+  fields,26 table bytes); using the existing qualified timeout input gives2140
+  (1938/202/26). Adding Boss set/clear bitfield writes to each broader context
+  preserves its2258/2140 result. All five retain15564 physical bytes and598
+  records. These are distinct coherent-family controls, rather than another
+  opcode155-only spelling panel. Local field resemblance cannot override full
+  owner failures; none of the broader candidates is integrated.
+- The main baseline and accepted source each emit135 function symbols,
+  summing46932 raw extent bytes and1914 records, with64 nondebug noncode
+  sections. All raw extents/data/directive bytes and effective record identities
+  are unchanged. This carrier inventory is not authored/exact credit; auxiliary-
+  free emitted helpers use explicitly recorded section-bounded extents.
+  220 compiler-local references change names while their actual same-section
+  owner-relative coordinates, relocation kinds, offsets and addends agree.
+  Twenty references occur in exact manifests: CompareOperands13 and
+  EnemyPostEclUpdateMovement7. Each same-owner coordinate reproduces the
+  already accepted original target VA before its private spelling refresh.
+- The staged countermodel and maintained-path compiler assign different local
+  label numbers despite identical raw bytes. The final manifest binds actual
+  canonical output, with separate original-address proofs for both contexts;
+  raw equality alone is not claimed to imply symbol identity. No external
+  symbol, target address, ABI, unit extent or compiler profile changes.
+- Source include review finds two additional direct State declaration consumers:
+  EclHelpers.cpp and EclInitializeSubroutine.cpp. Four cold carriers therefore
+  replay80 existing exact units /24709 complete physical bytes /1105 fields:
+  main73/21622/955, alternate-Ob0 four/2752/136, interpolation two/262/12,
+  initializer one/73/2. The full main RunEcl inspector, both original machine
+  opcode audits and complete handler shapes retain their exact baseline
+  residuals. No unrelated997-unit replay or new Factory acceptance is claimed.
+- Only EclRunState.inl and20 match-unit private names change among725
+  engineering inputs;723 retain parent hashes and482 of483 source/header paths
+  retain raw hashes.917 unaffected exact proofs are reused. Exact totals stay
+  997 /242841 of291848 authored bytes,83.2080%;95% needs34415 more complete
+  exact bytes. Native product/runtime, whole inventory and later gates stay open.
+- Retained packet .analysis/gpt-61sol-20261020-runecl-source-shape keeps five
+  private variant states, the old state input, all seven first-include source
+  hashes, complete original-bound reports, full emitted inventories, canonical
+  private-label coordinate proofs, source bindings and a one-case replay recipe.
+  Target/tracking/docs/progress/whitespace and CI769 tests/28 skips pass.
+  One independent private five-field replay reproduces all seven source hashes,
+  full15564 raw bytes and598 actual COFF records, with no changed private labels;
+  its temporary source/OBJ/PDB are automatically removed. After all own
+  producers terminate and the repository-cwd guard passes, cleanup removes415
+  reproducible files /14688581 bytes, including35 hash-regenerable source copies.
+  Build/ and own OBJ/PDB are absent; all unique sources and proofs remain.
+  Local source commit and independently verified push are recorded separately.

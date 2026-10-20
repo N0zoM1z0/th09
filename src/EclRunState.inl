@@ -48,7 +48,15 @@ enum TrailFlag
 
 struct EnemyStateFlagBits
 {
-    unsigned int unknown00_23 : 24;
+    unsigned int unknown00 : 1;
+    unsigned int boss01 : 1;
+    unsigned int unknown02_06 : 5;
+    unsigned int specialInteraction07 : 1;
+    unsigned int unknown08_16 : 9;
+    unsigned int deathMode17 : 3;
+    unsigned int unknown20_21 : 2;
+    unsigned int anmRotation22 : 1;
+    unsigned int callStackDisabled23 : 1;
     unsigned int timeoutSpell24 : 1;
     unsigned int unknown25_31 : 7;
 };
@@ -385,11 +393,8 @@ __forceinline void AssignTimeoutSpellBit(unsigned int &flags,
         break;
 
     case TH09_ECL_OPCODE_SET_DEATH_MODE:
-        Th09EclRunState::AssignFlagField(
-            Th09EclRunState::View(enemy)->primaryFlags337C,
-            Th09EclRunState::ENEMY_STATE_DEATH_MODE_MASK,
-            static_cast<unsigned int>(
-                Th09EclRunState::RawByte(instruction, 0)) << 17);
+        Th09EclRunState::View(enemy)->primaryFlagBits337C.deathMode17 =
+            Th09EclRunState::RawByte(instruction, 0);
         break;
 
     case TH09_ECL_OPCODE_SET_DEATH_CALLBACK:
@@ -522,11 +527,8 @@ __forceinline void AssignTimeoutSpellBit(unsigned int &flags,
         break;
 
     case TH09_ECL_OPCODE_SET_ANM_ROTATION_ENABLED:
-        Th09EclRunState::AssignFlagField(
-            Th09EclRunState::View(enemy)->primaryFlags337C,
-            Th09EclRunState::ENEMY_STATE_ANM_ROTATION_ENABLED,
-            static_cast<unsigned int>(
-                Th09EclRunState::RawByte(instruction, 0)) << 22);
+        Th09EclRunState::View(enemy)->primaryFlagBits337C.anmRotation22 =
+            Th09EclRunState::RawByte(instruction, 0);
         break;
 
     case TH09_ECL_OPCODE_CALL_EX_INSTRUCTION:
@@ -593,11 +595,8 @@ __forceinline void AssignTimeoutSpellBit(unsigned int &flags,
     }
 
     case TH09_ECL_OPCODE_SET_CALL_STACK_DISABLED:
-        Th09EclRunState::AssignFlagField(
-            Th09EclRunState::View(enemy)->primaryFlags337C,
-            Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED,
-            static_cast<unsigned int>(
-                Th09EclRunState::RawByte(instruction, 0)) << 23);
+        Th09EclRunState::View(enemy)->primaryFlagBits337C.callStackDisabled23 =
+            Th09EclRunState::RawByte(instruction, 0);
         break;
 
     case TH09_ECL_OPCODE_SET_BULLET_RANK_INFLUENCE:
@@ -643,11 +642,8 @@ __forceinline void AssignTimeoutSpellBit(unsigned int &flags,
     {
         Th09EclRunState::EnemyStateView &state =
             *Th09EclRunState::View(enemy);
-        Th09EclRunState::AssignFlagField(
-            state.primaryFlags337C,
-            Th09EclRunState::ENEMY_STATE_SPECIAL_INTERACTION,
-            static_cast<unsigned int>(
-                Th09EclRunState::RawByte(instruction, 0)) << 7);
+        state.primaryFlagBits337C.specialInteraction07 =
+            Th09EclRunState::RawByte(instruction, 0);
         state.drawGroup3387 = 2;
         break;
     }

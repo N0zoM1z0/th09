@@ -15,62 +15,65 @@ Current state: **1,033 authored, 1,032 source-present, 997 canonical exact**;
 **35 source-present nonexact plus one authored owner without maintained source**.
 **242,841/291,848 reviewed-authored bytes = 83.2080%**.
 The **95%** milestone still needs **34,415** complete exact authored bytes.
-The two newly reviewed callbacks add323 authored and323 exact bytes. Type29
+The earlier5d7b2d2 callback checkpoint added323 authored/exact bytes. Type29
 remains without maintained source; whole product/runtime and later gates stay open.
 
-- **Current source correction:** `src/PlayerCollisionHelpers.cpp` now calls
-  existing `ZunTimer::operator>` for the actual Player+0x1B74 receiver, removing
-  the declaration-only `PlayerCollisionTimerView2::IsAfter` alias. The reward
-  load uses existing `ownerState30410.state38` directly instead of a private
-  overlay. Original operands41DA8E/41E2CB independently prove the callee and
-  owner+0x30448 load; original class spelling and whole-object ownership remain
-  provisional. Only one COFF symbol identity changes; its destination/ABI stay
-  fixed at403DE0, unsigned-int thiscall with one int and `ret 4`.
-- **Focused complete proof:** one maintained-path cold compile preserves all
-  **six emitted owners /2,069 raw bytes /58 fields**, apart from the reviewed
-  timer symbol, and all seven nondebug noncode sections. Five exact same-TU
-  owners replay **1,220/1,220 bytes /32 fields**; the native timer independently
-  cold-replays **20/20**. Three isolated owner-only/timer-only/combined controls
-  prove each connection separately. The old seven-owner carrier count is
-  historical: the121-byte item-box owner now lives in another TU. Its source,
-  and the602-byte query source, are unchanged and their proofs are reused.
-- **Large collision remains open:** complete original862 bytes /277
-  instructions /26 fields /12 calls /33 direct blocks versus maintained849 /
-  266/26/12/32, with804 overlap differences and13 missing. Fresh original
-  x87/status-word review confirms the maintained NaN predicates. Six genuine
-  direct-continue models preserve all five exact siblings but remain849,812,
-  849,865,824,865 bytes; none is adopted. CFG/layout as well as pointer register
-  lifetimes remain open; the old IDA register-only explanation is withdrawn.
-- **No new exact credit:**997 exact /242,841 of291,848 authored bytes =83.2080%;
-  95% still needs34,415 complete exact bytes.35 maintained nonexact owners and
-  Type29's2,220 bytes without maintained source remain. The preceding
-  `5d7b2d2` checkpoint's new exact TitleCalcCallback264 authored/328 physical
-  and Replay frame-advance59 bytes remain independently proved; its detailed
-  evidence and omitted-reference census are in the knowledge base. Whole
-  executable inventory, native product/runtime and semantic/port gates remain
-  unproven/open.
+- **Current RunEcl source improvement:** the existing flag-word union now
+  exposes target-backed bit positions1/7/17..19/22/23/24. Four handlers
+  (129/145/151/156) assign the observed three-bit death mode and one-bit
+  rotation/call-stack/interaction fields directly from the real wire byte,
+  replacing synthetic mask/shift helper expressions. Original C++ declarations
+  and complete object ownership remain unknown; the existing four-byte size
+  and owner+337C location are preserved. No new helper, volatile, forced
+  register, ABI, profile or target-byte change is introduced.
+- **Complete affected proof:** the main cold carrier preserves all135 emitted
+  function-symbol raw extents (46,932 bytes), all1,914 effective COFF records
+  and64 nondebug noncode sections.220 local label spellings change while
+  same-owner coordinates remain identical; only20 belong to exact manifests
+  (CompareOperands13, post-movement7). Each new spelling is checked against
+  its old original target address before the manifest refresh. Source staging
+  and maintained paths have distinct compiler label numbers; both are checked.
+- **Focused source closure:** all80 existing exact units across3 sources and
+  4 compiler carriers replay **24,709/24,709 physical bytes /1,105 fields**.
+  This includes73 main-ECL, four alternate-Ob0, two interpolation and one
+  subroutine initializer units.917 unaffected exact proofs reuse unchanged
+  parent inputs. No global997-function replay is performed.
+- **Open large owner:** full RunEcl remains15,564 physical bytes /598 fields /
+  30 ordinary differences, zero field/table differences and146/148 handler
+  shapes. Opcode4's seven and155's23 residual bytes are unchanged. Five coherent
+  flag-family controls test four native fields, with/without timeout and Boss
+  bit assignments: the maintained four-field form is neutral; broader forms
+  produce2258 or2140 total linked differences, including239 or202 field bytes
+  and26 table bytes. All retain15564 bytes/598 fields, demonstrating why equal
+  extent alone cannot grant credit. No broader losing model is adopted.
+- **Coverage remains open:**997 exact /242,841 of291,848 authored bytes
+  =83.2080%;95% still needs34,415 complete exact bytes.35 maintained nonexact
+  owners and Type29's2,220 bytes without source remain. Prior collision native
+  timer/reward-owner corrections in e8af235 stay intact. Whole executable
+  inventory, native product/runtime and semantic/port gates remain open.
 - **Operator contract:** direct local IDA Pro MCP and Bash;
   **`gpt-6.1-sol: ...`** commits followed by push and independent remote
   verification. Compile serially at lowered priority, replay affected cohorts,
   and clean only own reproducible outputs after producers stop.
-- **Reproduction and input scope:** build `player-check-graze-collision` once;
-  its six-owner carrier supplies all five complete exact siblings through an
-  object-path-only manifest adapter. The source-independent collision inspector
-  checks the entire main owner. `zun-timer-greater` supplies the real callee.
-  `.analysis/gpt-61sol-20261020-player-collision-geometry` retains complete raw
-  owners/fields, strict reports, profiles, ten private sources, before/after IDA
-  comments and a one-case replay recipe.725 engineering inputs bind723 retained
-  hashes and two changed paths: one C++ TU and its one manifest field.482 of483
-  game source/header files remain byte-identical;992 unaffected canonical exact
-  proofs are reused. No public header, profile, boundary or match count changes.
-- **Checkpoint validation:** original target/mapped bytes, all affected canonical
-  checks, tracking/docs/generated progress and CI pass (**769 tests /28 skipped**).
-  After all own producers terminate, the repository-cwd guard allows removal of
-  **383 reproducible files /12,213,829 bytes** from this packet and initially
-  absent build/. Build/ and own OBJ/PDB are absent; ten private sources and full
-  proofs remain. Immutable source and independently verified remote bindings
-  are recorded separately. Original target, IDA, tools and foreign repositories
-  are preserved.
+- **Reproduction:** build the four affected carriers using ecl-pop-context,
+  player-type11-orientation-sign, ecl-interpolate-linear and
+  ecl-initialize-subroutine; compare their complete configured80 units.
+  scripts/inspect-ecl-complete.py plus the opcode4/155 audits check the whole
+  nonexact interpreter. The retained
+  .analysis/gpt-61sol-20261020-runecl-source-shape packet contains complete raw
+  inventories, physical coordinate/field proofs, five countermodels, canonical
+  comparisons, profile, source bindings and a one-case replay recipe.
+  725 engineering inputs bind723 retained hashes and two changed paths:
+  EclRunState.inl and20 manifest label spellings.482 of483 game source/header
+  files remain byte-identical; all unaffected proofs are reused.
+- **Checkpoint validation and cleanup:** original target/mapped bytes, affected
+  Oracles, tracking/docs/generated progress and CI pass (**769 tests /28 skipped**).
+  After all own producers terminate, a repository-cwd guard permits removal of
+  **415 reproducible files /14,688,581 bytes**, including35 hash-regenerable source
+  copies. Build/ and own OBJ/PDB are absent; five private states, original state,
+  full comparisons and tested one-case reproduction remain. Immutable source
+  and independently verified remote bindings are separate. Original target,
+  IDA, tools, foreign games and unique controls are preserved.
 
 
 ## Next worker: first three work packages
