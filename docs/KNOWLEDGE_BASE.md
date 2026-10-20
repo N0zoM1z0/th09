@@ -12868,3 +12868,82 @@ attest historical producer execution.
   two ledger/manifest files change. Final CI caches are removed after terminal
   checks; build/ and own OBJ/PDB remain absent. Source commit and independent
   remote verification are bound separately in the packet.
+
+
+### 2026-10-20 — RunEcl true-contract and full-byte input counterchecks
+
+- Recovered clean20456b9, verified original Japanese v1.50a disk identity,
+  direct local IDA metadata and entry/distributed mapped bytes. All current63
+  ECL project inputs match the previous frozen native-owner baseline before
+  reusing it. No source/header/API/profile or target/database mutation occurs.
+- Six paired real-ZunTimer.cpp/EclManager.cpp models test assignment formals
+  long,unsigned int,unsigned long and assignment-only,setter-only,both throw()
+  declarations. The setter formal remains int. Every real setter is25 original
+  bytes/no fields; every actual delegating assignment is9 original bytes with
+  its one genuine SetCurrent field. Only after full34-byte callee comparison
+  may the private diagnostic bind an alternative mangled assignment symbol.
+  Actual untouched caller/callee COFF rows and all raw code are retained.
+- All six full callers preserve every15564 raw byte and all598 field positions,
+  with30 ordinary/zero field/table differences. Formal type and exception
+  specification equality here do not establish unique original C++ spelling or
+  authorize changing the shared production API. Void remains void; incidental
+  EAX residue is not a non-void return contract. No surrogate helper replaces
+  the actual setter or assignment implementation.
+- Six additional63-input carriers model the entire0..255 input byte as an
+  unsigned-int8-bit field in a target-offset-asserted packet view. This differs
+  from the earlier one-bit/bool-domain controls. Ordinary and qualified sources
+  feed the real native destination bitfield or masked helper,with byte/word
+  arguments. Three retain15564 bytes but fail the complete code/alignment split;
+  two emit15560 and fail the complete extent. Qualified wide-helper gives
+ 15564/598 with70 ordinary differences and field=1/table=1. These diagnostic
+  counts are not acceptance or partial exactness.
+- Independent full-stream decode pinpoints an additional physical contradiction:
+  original40B770 is MOVZX ECX,BYTE[EBX+C]; this qualified word-field candidate
+  instead executes MOV EAX,DWORD[EBX+C] and AND EAX,FF. Full-byte value coverage
+  and later bit masking do not reproduce the original read width. Its extra
+  input read is rejected rather than hidden by a transition-only formula.
+  Target/current partial-register survey also finds the split MOV CL/MOVZX
+  sequence only in the maintained opcode155; the original has none in this
+  bounded instruction family. Existing CPU-profile negatives remain applicable
+  and are not rerun merely because this pattern looks suboptimal.
+- Six local inline utility forms vary cdecl/stdcall and return the actual
+  updated word,which the caller stores. Void/byte-argument forms(four) preserve
+  every main raw byte at15564/598/30; the two word-argument result forms emit
+ 15560 and fail the owner extent. No result is discarded to manufacture effects,
+  no external helper address or clobber is invented,and no original utility ABI
+  or TU ownership is inferred from an inlined source form. All remain rejected.
+- Three real AnmManagerBackground.cpp/EffectManager.cpp pairs return void*,
+  unsigned char* or the existing resident-prefix pointer from GetAnm. Complete
+  actual callee20 bytes/no fields match original401660 before any private symbol
+  adapter is allowed. Each complete caller remains raw-identical51 bytes/four
+  fields/eight differences. This verifies the physical pointer-return interface
+  while leaving original C++ pointee identity and complete loaded-object extent
+  unknown. The120-byte slot stride is not proof of sizeof(AnmLoaded).
+- A fresh maintained-path production ECL/Timer/ANM cold compile reproduces full
+ 15564-byte/598-field RunEcl,its exact raw/actual-COFF baseline and only30 ordinary
+  differences. The existing independent actual-machine-prefix audit passes
+ 256 wire bytes x12 prior flag words=3072 observed transitions. This is not full
+  runtime validation. Three distinct already-exact production leaves(25+9+20)
+  replay54 physical bytes/one field;996 other exact proofs retain unchanged
+  source/profile bindings. No broad unchanged sibling cohort is recompiled.
+- Twenty-one frozen carriers and all30 successful serial low-priority private
+  compiles are source-bound under
+  .analysis/gpt-61sol-20261020-runecl-assignment-formal and adjacent
+  runecl-byte-field,runecl-timeout-inline-contract,effect-getter-pointer-view
+  packets. The shared97-input content store preserves exact raw bytes and
+  each actual COFF pair. Scoped terminal-producer cleanup removes1269 files/
+ 22313194 bytes,deduplicates1182 source copies and losslessly compresses3503300
+  report bytes to301646 bytes. A frozen both-throw replay rebuilds64 inputs,
+  verifies34 true callee bytes before the complete15564/598/30 caller and
+  removes its own outputs. Build/ and own OBJ/PDB remain absent.
+- Canonical state stays999/1035,242876/291883 authored bytes(83.2101%);95%
+  still requires34413 complete exact bytes. No experimental model is promoted,
+  no signature/data ownership or product/runtime gate is changed,and no
+  near-match score is counted as source progress in the exact-byte ledger.
+- Final CI787 tests/28 skips, target-required tracking, docs, generated progress
+  and whitespace pass.727/728 engineering inputs retain parent hashes and all485
+  game source files are unchanged. Exactly four ledger evidence notes and two
+  documentation files change; signatures, extents, origins, manifests, profiles
+  and exactness credit do not. After terminal CI,359 bytecode-cache files/
+ 6083218 bytes are removed; build/ and own OBJ/PDB are absent. Source commit
+  and independent remote push verification are bound separately in the packet.
