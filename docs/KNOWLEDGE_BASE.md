@@ -11274,3 +11274,80 @@ attest historical producer execution.
   helper proof, failed wider controls and source bindings are retained in
   `.analysis/gpt-61sol-20261020-charge-native-globals/`. Windows i386 product,
   runtime, semantic reconstruction and portability remain open.
+
+## October 20: twelve Effect fan callbacks and complete Type26 update closure (gpt-6.1-sol)
+
+- From clean1caddb941b28c84e99e2541e9771f7622084d926, original Effect prefix
+  slots and full target control flow recover these twelve disjoint owners:
+  initialize17@0x00442F50/187, initialize29@0x004486B0/152,
+  initialize30@0x00449940/193, initialize31@0x0044A6E0/156,
+  initialize32@0x0044AFF0/155, initialize37@0x0044C6F0/151,
+  update30@0x00449000/100, update32@0x0044AB30/88,
+  update37@0x0044C290/79, draw17@0x00443010/311,
+  draw30@0x00449A10/311 and draw32@0x0044B090/314.
+  Local IDA has none of these functions. Reachable-flow traversal includes both
+  initializer returns; the first RET is not a boundary. All branch destinations,
+  full instruction extents and adjacent CC/known-owner separation are checked.
+- Initializers preserve native allocation sizes660 bytes for17/30/31/32,
+  0xF78 for29 and0xF0 for37. Detailed29/37 buffer layout remains unknown, so
+  source uses those raw allocation sizes without inventing array ownership.
+  The common origin/axes/parameter setup is independently compared at each
+  entry. Row17 starts radius160/segments16/aperture0 and angle=own movement+pi;
+  row30 preserves the observed ignored normalization call, then fixes angle-pi/2
+  with radius128/segments16/aperture0. Rows29/31/32/37 start radius32/16/640/0
+  with32 segments; their angle policies are0/fixed-pi/2/velocity.x/velocity.x.
+- Target write/call order matters. Publishing all axis fields before the opaque
+  angle call and frequency before radius closes initializer30's24 residual
+  bytes. Moving row29's angle0 write after axes closes22. Initializer17 still
+  has six register bytes with a named side-pointer temporary; directly reading
+  the same existing side/player/movement-angle member chain closes all six.
+  A named movement-angle value emits202 bytes with171 differences and15 extra;
+  substituting the existing PlayerSideState type keeps six differences. Neither
+  rejected form is adopted. No new helper, ABI, flags or register directive.
+- Draw17/30 use aperture84/(segments-1), initial angle80-aperture/2, and the
+  genuine AddNormalizeAngle(angle,0) inside the sampled loop. Native XY and
+  colors0x30600040/0x50600040 precede a final triangle-fan draw outside the dirty
+  rebuild gate. Both complete311-byte owners independently match. Update30
+  grows aperture bypi/100 while belowpi/2, follows Player and fixes angle-pi/2.
+- Draw32 differs behaviorally from the earlier Type18 hypothesis: **its final
+  DrawTriangleFan call is INSIDE the dirty conditional**. A clean frame returns
+  without drawing. The initial314-byte candidate has32 linked differences and
+  a different graph; keeping that real call in its original conditional closes
+  every byte. Update32 sets dirty and subtracts32 only while radius>0, otherwise
+  clears dirty, and always follows Player. Update37 grows radius by0.5 below8
+  and follows Player. None adds a clamp or overwrites unobserved fields.
+- The direct member-chain observation also resolves the previously open
+  **Effect26 update0x00443A30 /209 bytes**. Two genuine source controls remove
+  the named side pointer, with/without the existing manager snapshot; both fully
+  match all209 bytes and ten independently decoded fields. Maintained source
+  keeps the manager snapshot and reads the same proven side/player/1CD8 chain
+  directly. All former11 residual positions close while preserving every old
+  equal byte. `effect-update-type26` is now canonical exact. Its diagnostic
+  guard requires zero differences/complete-byte agreement across all209 bytes;
+  pure tests reject corruption at every position. No invented clobber, volatile,
+  return contract, assembly, padding or target-byte modification is used.
+- New `EffectFanVariants.inl` joins the genuine ECL source after the existing
+  double-fan fragment, reusing the unchanged polar method and native math/vertex
+  declarations. Main69 plus alternate3 = **72 exact functions /21,959 physical
+  bytes /971 original fields** all pass cold full original comparison. Two
+  private labels change only after checking actual same-owner COFF coordinates
+  and every byte. Actual native XY fields total84; the strict global angle-call
+  census becomes32. All original referents/addends/types remain independently
+  verified. Shared headers and the native angle callee source remain unchanged.
+- Prebuilt-object guards preserve complete RunEcl15564/598/30, Enemy3900/97/29,
+  Type19update821/35/44, biased movement517vs516/148overlap+1 and Type34draw
+  946vs959/593overlap+13. The exact Type26 diagnostic now reports zero. Unrelated
+  native cohorts reuse unchanged parent input bindings. A fresh read of the
+  original Timer setter/assignment and RunEcl opcode4 confirms caller EAX is
+  not consumed; incidental setter EAX contents still do not establish a new
+  return ABI, and those contracts remain unchanged.
+- New authored/exact inventory is2197 bytes; closing the already authored
+  Type26 adds209 more exact bytes: **2406 new exact bytes /13 functions**.
+  Live totals are **1025 authored/source-present,990 exact,35 nonexact**;
+  **240103/286890 bytes =83.6917%**, still32443 complete exact bytes short of95%.
+  The Effect prefix retains six missing entries: update17,update29,draw29,
+  update31,draw31,draw37. Full extents/hashes, failed controls, source recipes,
+  every original field and parent/current input bindings are preserved under
+  `.analysis/gpt-61sol-20261020-effect-pattern-survey/`. Original C++ spelling,
+  unique TU partition, complete executable inventory, Windows product/runtime,
+  semantic reconstruction and portability remain unknown/open.

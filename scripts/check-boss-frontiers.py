@@ -81,7 +81,7 @@ def build(unit: str) -> None:
 # rebuilt rather than silently reusing the main diagnostic's object.
 # These are manifest-verified cardinalities, not historical exactness totals.
 ECL_EXACT_CARRIERS = {
-    'build/matching/EclManager.obj': 56,
+    'build/matching/EclManager.obj': 69,
     'build/matching/EclManager-Type11.obj': 3,
 }
 TITLE_EXACT_CARRIERS = {
@@ -742,7 +742,7 @@ RUNECL_REAL_ANGLE_LEAVES = (
 RUNECL_REAL_ANGLE_EXATTACK_FRAGMENTS = (
     'ExAttackInitType8.inl', 'ExAttackUpdateType8Type9.inl',
     'ExAttackUpdateType11Type12.inl', 'ExAttackUpdateType7.inl',
-    'ExAttackUpdateType21.inl', 'EffectDoubleFanFamily.inl',
+    'ExAttackUpdateType21.inl', 'EffectDoubleFanFamily.inl', 'EffectFanVariants.inl',
 )
 
 
@@ -788,8 +788,8 @@ def validate_runecl_real_angle_owners(units: dict) -> None:
                     ('REL32', RUNECL_REAL_ANGLE_ORIGINAL_VA, 0)):
                 raise RuntimeError('ECL/ExAttack exact source contains false angle-call identity')
             exact_ref_count += 1
-    if exact_ref_count != 26:
-        raise RuntimeError('ECL/Enemy/position/Effect 26 exact C++ angle callsites missing')
+    if exact_ref_count != 32:
+        raise RuntimeError('ECL/Enemy/position/Effect 32 exact C++ angle callsites missing')
 
 
 def guard_runecl_real_angle_callsite_report(report: dict) -> dict:
@@ -835,12 +835,8 @@ def replay_runecl_real_angle_exact() -> list[dict]:
     return [canonical(name) for name,_,_,_ in RUNECL_REAL_ANGLE_LEAVES]
 
 
-EFFECT26_UPDATE_RESIDUAL_OFFSETS = frozenset((
-    0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3E, 0x56, 0x59, 0x63, 0xB2, 0xBB))
-
-
 def guard_effect_type26_update(result: dict) -> dict:
-    """Protect all198 equal original bytes without crediting the eleven residuals."""
+    """Require complete original bytes now that this209-byte owner is exact."""
     noncrediting(result, name='Effect26 update', target_size=209,
                  fields=10, fields_key='fields')
     calls = [['direct', 0x0042AED0], ['direct', 0x0042AED0]]
@@ -865,14 +861,12 @@ def guard_effect_type26_update(result: dict) -> dict:
                 'target': 0x004A7D90, 'addend': 4,
                 'effective_target': 0x004A7D94}.items())):
         raise RuntimeError('Effect26 native GameManager field identity changed')
-    offsets = result.get('difference_offsets')
-    if (not isinstance(offsets, list) or len(offsets) != len(set(offsets)) or
-            any(type(i) is not int or i not in EFFECT26_UPDATE_RESIDUAL_OFFSETS
-                for i in offsets) or
-            result.get('overlapping_differences') != len(offsets)):
-        raise RuntimeError('Effect26 changed an already equal original byte')
+    if (result.get('complete_bytes_agree') is not True or
+            result.get('difference_offsets') != [] or
+            result.get('overlapping_differences') != 0):
+        raise RuntimeError('Effect26 complete original bytes regressed')
     return {'target_bytes': 209, 'candidate_bytes': 209, 'fields': 10,
-            'ordinary_differences': len(offsets)}
+            'ordinary_differences': 0}
 
 
 def run_ecl(*, include_trail: bool, include_interpreter: bool,

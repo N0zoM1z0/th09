@@ -16950,7 +16950,7 @@ relocations = [
   { offset = 0xFB, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
   { offset = 0x107, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x110, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
-  { offset = 0x139, type = "DIR32", symbol = "$L73504", target = 0x00408548 },
+  { offset = 0x139, type = "DIR32", symbol = "$L73716", target = 0x00408548 },
   { offset = 0x169, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x176, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x183, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
@@ -17137,7 +17137,7 @@ target_address = 0x00407700
 size = 0x34A
 compare_size = 0x37C
 relocations = [
-  { offset = 0x14, type = "DIR32", symbol = "$L72785", target = 0x00407A4C },
+  { offset = 0x14, type = "DIR32", symbol = "$L72948", target = 0x00407A4C },
   { offset = 0x24, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
   { offset = 0x3B, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
   { offset = 0x60, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
@@ -23493,4 +23493,229 @@ relocations = [
   { offset = 0x1FB, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0, addend = 0x00000000 },
   { offset = 0x245, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550, addend = 0x00000000 },
   { offset = 0x24C, type = "REL32", symbol = "?DrawTriangleFan@AnmManager@@QAEHPAUAnmVm@@PAUVertexDiffuseXyzrhw@@H@Z", target = 0x0043B7B0, addend = 0x00000000 },
+]
+
+[units.effect-initialize-type17]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectInitializeCallbackType17"]
+symbol = "?EffectInitializeCallbackType17@@YIHPAUEffect@@@Z"
+target_address = 0x00442F50
+size = 187
+relocations = [
+  { offset = 0x3, type = "DIR32", symbol = "??_C@_06LBEFNKEP@Effect?$AA@", target = 0x0048E4BC, addend = 0x00000000 },
+  { offset = 0xF, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018, addend = 0x00000000 },
+  { offset = 0x14, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340, addend = 0x00000000 },
+  { offset = 0x6F, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0, addend = 0x00000000 },
+]
+
+[units.effect-initialize-type29]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectInitializeCallbackType29"]
+symbol = "?EffectInitializeCallbackType29@@YIHPAUEffect@@@Z"
+target_address = 0x004486B0
+size = 152
+relocations = [
+  { offset = 0x2, type = "DIR32", symbol = "??_C@_06LBEFNKEP@Effect?$AA@", target = 0x0048E4BC, addend = 0x00000000 },
+  { offset = 0xE, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018, addend = 0x00000000 },
+  { offset = 0x13, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340, addend = 0x00000000 },
+]
+
+[units.effect-initialize-type30]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectInitializeCallbackType30"]
+symbol = "?EffectInitializeCallbackType30@@YIHPAUEffect@@@Z"
+target_address = 0x00449940
+size = 193
+relocations = [
+  { offset = 0x3, type = "DIR32", symbol = "??_C@_06LBEFNKEP@Effect?$AA@", target = 0x0048E4BC, addend = 0x00000000 },
+  { offset = 0xF, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018, addend = 0x00000000 },
+  { offset = 0x14, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340, addend = 0x00000000 },
+  { offset = 0x6F, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0, addend = 0x00000000 },
+]
+
+[units.effect-initialize-type31]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectInitializeCallbackType31"]
+symbol = "?EffectInitializeCallbackType31@@YIHPAUEffect@@@Z"
+target_address = 0x0044A6E0
+size = 156
+relocations = [
+  { offset = 0x2, type = "DIR32", symbol = "??_C@_06LBEFNKEP@Effect?$AA@", target = 0x0048E4BC, addend = 0x00000000 },
+  { offset = 0xE, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018, addend = 0x00000000 },
+  { offset = 0x13, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340, addend = 0x00000000 },
+]
+
+[units.effect-initialize-type32]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectInitializeCallbackType32"]
+symbol = "?EffectInitializeCallbackType32@@YIHPAUEffect@@@Z"
+target_address = 0x0044AFF0
+size = 155
+relocations = [
+  { offset = 0x2, type = "DIR32", symbol = "??_C@_06LBEFNKEP@Effect?$AA@", target = 0x0048E4BC, addend = 0x00000000 },
+  { offset = 0xE, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018, addend = 0x00000000 },
+  { offset = 0x13, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340, addend = 0x00000000 },
+]
+
+[units.effect-initialize-type37]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectInitializeCallbackType37"]
+symbol = "?EffectInitializeCallbackType37@@YIHPAUEffect@@@Z"
+target_address = 0x0044C6F0
+size = 151
+relocations = [
+  { offset = 0x2, type = "DIR32", symbol = "??_C@_06LBEFNKEP@Effect?$AA@", target = 0x0048E4BC, addend = 0x00000000 },
+  { offset = 0xE, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018, addend = 0x00000000 },
+  { offset = 0x13, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340, addend = 0x00000000 },
+]
+
+[units.effect-update-type30]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectUpdateCallbackType30"]
+symbol = "?EffectUpdateCallbackType30@@YIHPAUEffect@@@Z"
+target_address = 0x00449000
+size = 100
+relocations = [
+  { offset = 0xF, type = "DIR32", symbol = "__real@3fc90fdb", target = 0x0048E450, addend = 0x00000000 },
+  { offset = 0x22, type = "DIR32", symbol = "__real@3d00adfd", target = 0x00491638, addend = 0x00000000 },
+  { offset = 0x36, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000004 },
+]
+
+[units.effect-update-type32]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectUpdateCallbackType32"]
+symbol = "?EffectUpdateCallbackType32@@YIHPAUEffect@@@Z"
+target_address = 0x0044AB30
+size = 88
+relocations = [
+  { offset = 0x5, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314, addend = 0x00000000 },
+  { offset = 0x1C, type = "DIR32", symbol = "__real@42000000", target = 0x0048E5E0, addend = 0x00000000 },
+  { offset = 0x36, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000004 },
+]
+
+[units.effect-update-type37]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectUpdateCallbackType37"]
+symbol = "?EffectUpdateCallbackType37@@YIHPAUEffect@@@Z"
+target_address = 0x0044C290
+size = 79
+relocations = [
+  { offset = 0xC, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8, addend = 0x00000000 },
+  { offset = 0x1C, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54, addend = 0x00000000 },
+  { offset = 0x2D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000004 },
+]
+
+[units.effect-draw-type17]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectDrawCallbackType17"]
+symbol = "?EffectDrawCallbackType17@@YIHPAUEffect@@@Z"
+target_address = 0x00443010
+size = 311
+relocations = [
+  { offset = 0x46, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54, addend = 0x00000000 },
+  { offset = 0x65, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0x6A, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680, addend = 0x00000000 },
+  { offset = 0x75, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0x7A, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0, addend = 0x00000000 },
+  { offset = 0xAE, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0, addend = 0x00000000 },
+  { offset = 0xC0, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890, addend = 0x00000000 },
+  { offset = 0xC6, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730, addend = 0x00000000 },
+  { offset = 0xCE, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0xD3, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680, addend = 0x00000000 },
+  { offset = 0xDE, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0xE3, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0, addend = 0x00000000 },
+  { offset = 0x123, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550, addend = 0x00000000 },
+  { offset = 0x129, type = "REL32", symbol = "?DrawTriangleFan@AnmManager@@QAEHPAUAnmVm@@PAUVertexDiffuseXyzrhw@@H@Z", target = 0x0043B7B0, addend = 0x00000000 },
+]
+
+[units.effect-draw-type30]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectDrawCallbackType30"]
+symbol = "?EffectDrawCallbackType30@@YIHPAUEffect@@@Z"
+target_address = 0x00449A10
+size = 311
+relocations = [
+  { offset = 0x46, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54, addend = 0x00000000 },
+  { offset = 0x65, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0x6A, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680, addend = 0x00000000 },
+  { offset = 0x75, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0x7A, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0, addend = 0x00000000 },
+  { offset = 0xAE, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0, addend = 0x00000000 },
+  { offset = 0xC0, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890, addend = 0x00000000 },
+  { offset = 0xC6, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730, addend = 0x00000000 },
+  { offset = 0xCE, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0xD3, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680, addend = 0x00000000 },
+  { offset = 0xDE, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0xE3, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0, addend = 0x00000000 },
+  { offset = 0x123, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550, addend = 0x00000000 },
+  { offset = 0x129, type = "REL32", symbol = "?DrawTriangleFan@AnmManager@@QAEHPAUAnmVm@@PAUVertexDiffuseXyzrhw@@H@Z", target = 0x0043B7B0, addend = 0x00000000 },
+]
+
+[units.effect-draw-type32]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectDrawCallbackType32"]
+symbol = "?EffectDrawCallbackType32@@YIHPAUEffect@@@Z"
+target_address = 0x0044B090
+size = 314
+relocations = [
+  { offset = 0x2E, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4, addend = 0x00000000 },
+  { offset = 0x4D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0x5C, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680, addend = 0x00000000 },
+  { offset = 0x67, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0x6C, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0, addend = 0x00000000 },
+  { offset = 0x9A, type = "DIR32", symbol = "__real@40490fdb", target = 0x0048E2C4, addend = 0x00000000 },
+  { offset = 0xAA, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4, addend = 0x00000000 },
+  { offset = 0xC3, type = "REL32", symbol = "?FromAngleMagnitude@Float3@@QAEXMM@Z", target = 0x00441890, addend = 0x00000000 },
+  { offset = 0xC9, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730, addend = 0x00000000 },
+  { offset = 0xD1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0xD6, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680, addend = 0x00000000 },
+  { offset = 0xE1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000000 },
+  { offset = 0xE6, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0, addend = 0x00000000 },
+  { offset = 0x125, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550, addend = 0x00000000 },
+  { offset = 0x12A, type = "REL32", symbol = "?DrawTriangleFan@AnmManager@@QAEHPAUAnmVm@@PAUVertexDiffuseXyzrhw@@H@Z", target = 0x0043B7B0, addend = 0x00000000 },
+]
+
+[units.effect-update-type26]
+source = "src/EclManager.cpp"
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["EffectUpdateCallbackType26"]
+symbol = "?EffectUpdateCallbackType26@@YIHPAUEffect@@@Z"
+target_address = 0x00443A30
+size = 209
+relocations = [
+  { offset = 0x13, type = "DIR32", symbol = "__real@42e00000", target = 0x0048EE74, addend = 0x00000000 },
+  { offset = 0x23, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8, addend = 0x00000000 },
+  { offset = 0x34, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000004 },
+  { offset = 0x65, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0, addend = 0x00000000 },
+  { offset = 0x85, type = "DIR32", symbol = "__real@40490fdb", target = 0x0048E2C4, addend = 0x00000000 },
+  { offset = 0x92, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4, addend = 0x00000000 },
+  { offset = 0x9A, type = "DIR32", symbol = "__real@c0490fdb", target = 0x0048E448, addend = 0x00000000 },
+  { offset = 0xA7, type = "DIR32", symbol = "__real@40c90fdb", target = 0x0048E4C4, addend = 0x00000000 },
+  { offset = 0xAD, type = "DIR32", symbol = "__real@3e000000", target = 0x0048EFB0, addend = 0x00000000 },
+  { offset = 0xBD, type = "REL32", symbol = "?AddNormalizeAngle@@YIMMM@Z", target = 0x0042AED0, addend = 0x00000000 },
 ]

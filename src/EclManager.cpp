@@ -841,3 +841,5 @@ th09_ecl_select_next_context:
 #include "EffectType16Family.inl"
 
 #include "EffectDoubleFanFamily.inl"
+
+#include "EffectFanVariants.inl"

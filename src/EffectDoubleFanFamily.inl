@@ -18,10 +18,9 @@ int __fastcall EffectUpdateCallbackType26(Effect *effect)
     EffectManager *manager = effect->manager;
     effect->position = *reinterpret_cast<const EffectFloat3 *>(
         &g_GameManager.sides[manager->sideIndex].player04->position1B88);
-    const AsciiGameManagerSideView *side =
-        static_cast<const AsciiGameManagerSideView *>(manager->sideState);
     float targetAngle = AddNormalizeAngle(
-        reinterpret_cast<const EffectFanPlayerMovementAngleView *>(side->player04)->movementAngle1CD8,
+        reinterpret_cast<const EffectFanPlayerMovementAngleView *>(
+            static_cast<const AsciiGameManagerSideView *>(manager->sideState)->player04)->movementAngle1CD8,
         3.1415927f);
     float difference = targetAngle - state->angle80;
     if (targetAngle > state->angle80)
