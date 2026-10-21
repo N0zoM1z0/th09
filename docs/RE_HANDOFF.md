@@ -9,37 +9,36 @@
 
 The operator requests continued exact reconstruction, serial low-priority
 compiles, focused affected replays and regular cleanup. This checkpoint starts
-from pushed `8e7e2fb` and bounds six new inline-accessor/flag-domain models.
+from pushed `deaba69` and bounds six geometry/resource/serialization models.
 **No game source or exact ledger changes; no new exact owner.** Latest exact
 code progress remains Type19's821/821 bytes/35 fields.
 
-- Enemy's ordinary-inline draw-group helper removes the old extra call but stays
-  **3900/97/13**, with RunEcl30 and its native definitions protected.
-- RunEcl's enum-backed timeout bitfield retains four-byte storage and masks the
-  actual wire low bit before converting. It emits15564/598 but has1938 ordinary,
-  202 field and26 table differences;144/148 shapes. The strict gate rejects it.
-- Current DrawReplayMenu cold baseline remains1280/57/29. Free/member accessors
-  returning the selected record and outputting its index both emit the same1271
-  raw bytes,860 overlapping differences and9 missing bytes. Neither is adopted.
-- Effect's residency-query helper remains51/4 but gives11 differences, restoring
-  one old mismatch and damaging four old matches. Delegating initialization to
-  an ordinary inline void helper is byte-identical to maintained51/4/8.
-- Original CheckBulletCollision's entire862-byte CFG has277 decoded instructions,
-  276 reachable and one unreachable alignment LEA. Conservative EAX reaching-value
-  analysis gives2/2/0 at the three normal RET12 sites. Calls and other complete/
-  partial EAX writes become unknown; no unique C++ return type is inferred and
-  no enum/boolean collision interface is introduced.
+- CheckBulletCollision's live slot-pointer reference preserves callback-time
+  reloads, but stays849/26/804 differences plus13 missing. Four ordinary bytes
+  change within the existing mismatch set; none of the old matches is lost or
+  recovered. The ordinary-inline geometry helper instead outlines a new call,
+  leaving509/24; it cannot satisfy the original862/26 owner.
+- Effect's genuine manager/resource result pair emits51/4/23 differences,
+  recovering one old mismatch but damaging16 old matches. Maintained51/4/8 stays.
+- SaveReplay's ordinary checksum and frame-header serialization helpers emit
+  1243/53/308 and1254/53/1069 overlapping differences, with5/16 extra bytes and
+  50/51 blocks versus original49. Fresh baseline stays1238/53/3; both controls
+  retain actual scalar/string definition checks and receive no exact credit.
+- Enemy's special-attack descriptor initialization helper outlines a real new
+  call. Its3724/95 caller moves the native RunEcl operand from+397 to+309 and
+  fails the complete owner gate. RunEcl itself stays15564/598/30.
 - All490 game inputs and1003 exact source/profile proofs stay unchanged. The
   primary RunEcl/Enemy/DrawResult/Type3 fronts remain **30 /13 /22 /15**;95%
-  and native product/runtime gates stay open. Eight source compiles cover the
-  six controls and two fresh small/large baselines; no broad exact replay.
+  and native product/runtime gates stay open. Nine serial source compiles cover
+  six controls and three fresh baselines; no broad exact replay.
+- Full source/COFF captures and nine input-bound self-cleaning replay cases:
+  `.analysis/gpt-61sol-20261021-geometry-serialization-context/`.
+  Frame-header and Enemy controls are independently cold-reproduced; after
+  cleanup the live collision-reference case also reproduces from the archive.
+  Prior accessor/domain and Options evidence stays in earlier checkpoint packets.
 - Target-required tracking, docs, progress, whitespace and CI pass:883 tests/28
-  skips. Verified cleanup removes432 owned duplicate/compiler/new-cache files,
-  8061403 bytes (~7.69 MiB); original inputs and unclassified older evidence stay.
-- Hash/CRC-verified source/COFF captures and selected self-cleaning cold recipes:
-  `.analysis/gpt-61sol-20261021-accessor-domain-context/`.
-  Older Options and native-contract counterexamples remain in their preceding
-  `.analysis/gpt-61sol-20261021-*` checkpoint archives.
+  skips. CRC/SHA-verified cleanup removes418 owned duplicates/new-cache files,
+  6973852 bytes (~6.65 MiB);73 preexisting build files and36 old caches remain.
 - Use direct local IDA, serial `nice -n 10` compiles, English
   `gpt-6.1-sol: ...` commits, push and independent remote verification.
 

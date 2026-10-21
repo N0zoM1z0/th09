@@ -15383,3 +15383,87 @@ owned duplicate/compiler/new-cache files,8061403 bytes (~7.69 MiB). Compact
 archive, manifest, replay/cleanup recipes and terminal CI/checkpoint receipts
 remain. No original inputs, IDA state, toolchains or unclassified older evidence
 are removed. The source and exactness ledgers are unchanged.
+
+
+## October 21: bounded collision geometry and serialization helpers (gpt-6.1-sol)
+
+Recovery starts from clean pushed deaba698c15bb987ac180dcde17ad2f7716045d0.
+The original Japanese v1.50a disk identity, direct local IDA metadata and
+entry/distributed mapped bytes pass. The original862-byte CheckBulletCollision
+is reopened through IDA and independent PE decoding; its three-return domain
+proof from the preceding checkpoint is not mistaken for a unique C++ type.
+All490 maintained game inputs remain unchanged, as do all1003 exact proofs.
+
+Nine serial nice-10 source builds cover six new ordinary C++ models and three
+fresh baselines. A live reference to each cancel-region slot pointer preserves
+re-reading the actual slot after callbacks. It stays849 bytes/26 fields/266
+instructions/32 blocks against original862/26/277/33, with804 overlap differences
+and13 missing. Four ordinary candidate bytes change in an already unequal x87
+addition window; no old matching position is damaged and no mismatch is fixed.
+The alternative ordinary-inline geometry predicate contains real type/delay,
+circle and rotated/axis box checks and preserves the native Rotate call. Under
+the fixed /Ob1 profile it outlines: caller509/24 contains a new local REL32 at+2A
+to IsInsideActiveCancelRegion, with a positive separate COFF definition section.
+The original full-owner inventory rejects it; no helper is mapped to an invented
+target address and no new physical boundary or ABI is adopted.
+
+Effect's two-field EffectAnmLookup returns the genuinely consumed AnmManager
+and AnmLoaded pointers. Both lookup and fallback use the real GetAnm/PreloadAnm
+interfaces. It emits51 bytes/four fields/19 instructions/three blocks with23
+physical differences versus the fresh maintained8. It restores old offset+8
+but damages16 previously equal positions. This is distinct from the preceding
+bool-plus-output-reference query; neither source model is adopted.
+
+SaveReplay's maintained cold baseline repeats1238 bytes/53 fields/380
+instructions/49 blocks and3 physical differences. An ordinary inline checksum
+accumulator shared by the actual header/payload sums emits1243/53/378/50,
+308 overlap differences and5 extra bytes. A real frame-header serialization
+helper takes the live frame-start field and output offset by reference, performs
+the original copy/rebase/increment, and emits1254/53/384/51 with1069 overlapping
+differences and16 extra bytes. The actual rep-tmp string and float definition
+checks both pass in all three objects. Neither is an improvement to the strict
+1235-position preserved frontier; original constructors, uninitialized pre-scan,
+random-byte generation, error handling and serialization behavior expressions
+are not silently repaired or assigned fake return contracts.
+
+Enemy's special-attack descriptor helper configures the same real fields from
+position, character and power, after the actual descriptor constructor. Under
+the unchanged ECL profile it outlines a new ConfigureSpecialAttackDescriptor
+call at relocation+2A1, in its own actual COFF section. Caller3724/95 moves the
+native RunEcl field from original+397 to+309 and is rejected. Its full raw/COFF
+and same-object RunEcl diagnostic are retained: RunEcl stays15564/598/30 ordinary,
+zero field/table differences. The source/profile-bound Type19 checkpoint supplies
+the unchanged maintained Enemy3900/97/13 baseline; it is not rebuilt unnecessarily.
+
+Packet .analysis/gpt-61sol-20261021-geometry-serialization-context retains28
+CRC/SHA-verified members,399795 uncompressed bytes in93018 archived bytes,
+SHA256 1aea7a857e6a50c58e3e95b81c215e5e612d931669eee518aa4e910e76d02ec9.
+Its manifest binds all490 game inputs, the actual compiler/Oracle configuration,
+the unchanged baseline archive and the private target hash. Nine selected replay
+cases fail closed on input drift and remove their own temporary compiler outputs.
+The frame-header and Enemy controls are independently cold-replayed, requiring
+full raw bytes, actual COFF records, compiled input hashes and diagnostic agreement;
+Enemy additionally preserves complete RunEcl raw/linked hashes and its full
+original difference list. The first frame-header replay passes complete raw/COFF
+but rejects whole-report equality because its whole OBJ SHA includes timestamp
+and /Zi paths. The repaired replayer excludes only that container hash, preserves
+every other diagnostic field, and cold-repeats successfully; the initial rejection
+is retained explicitly. No unrelated exact cohort is replayed.
+
+No game source, profile, ledger row or exact claim changes. Canonical exact stays
+1003/1035 and244917/291883 authored bytes (83.9093%), with32372 exact bytes still
+needed for95%. RunEcl30/Enemy13/DrawResult22/Type315 and native product/runtime,
+semantic and portability gates remain unfinished. Final verification and scoped
+archive-backed cleanup are recorded before the English checkpoint commit and
+independently verified remote push; these are separate from any Factory receipt.
+
+Final target-required tracking, documentation, generated progress, whitespace
+and CI pass:883 tests/28 skips. After terminal producer checks, CRC/SHA-verified
+cleanup removes418 owned archived duplicates/new CI outputs/caches,6973852 bytes
+(~6.65 MiB). All73 preexisting build files and36 pre-session caches retain their
+hashes; original target, IDA, toolchains and unrelated historical evidence remain.
+
+A post-clean selected replay extracts only the archived live-slot-reference
+recipe, reproduces all849 raw bytes/26 actual COFF fields and its full diagnostic,
+and removes temporary outputs. This independently checks archive usability after
+the28 loose files are gone; it adds no exact credit or broad replay requirement.
