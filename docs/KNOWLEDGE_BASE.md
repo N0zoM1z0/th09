@@ -15797,3 +15797,91 @@ cleanup removes407 owned files/6918581 bytes (~6.60 MiB), including this source'
 two canonical compiler outputs and own terminal CI caches. All69 preexisting
 build files remain byte-identical; original EXE/IDA/tools and unclassified older
 evidence are untouched. Replay temporary binaries self-clean.
+
+
+## October 21: Replay serialization views and direct ECL operand controls
+
+Recovery starts at clean pushed b0c70542a552966674ee5ba051056eb59bf5a09e.
+Original Japanese v1.50a disk/IDA metadata and mapped-byte attestations pass.
+All492 game inputs, all1035 unit definitions and authored exact ledgers remain
+unchanged. These are compiler/target diagnostics, not new exact credit.
+
+Fresh SaveReplay baseline repeats1238 bytes/53 fields/380 instructions/23 call
+operands/49 direct blocks and exactly B7/BB/3F6 differences. The original first
+two differ in frame-destination EDI versus source ECX; the last is an equivalent
+checksum SIB base/index encoding. Old typed-copy, RNG/LZSS and helper controls
+are reviewed before selecting different local ownership models.
+
+| ID | State | Durable fact | Evidence |
+| --- | ---: | ---: | --- |
+| REPLAY-CURSOR-001 | compiler observation | Maintained baseline1238 bytes/three differences. | Complete original-bound current Replay carrier; nonexact. |
+| REPLAY-CURSOR-002 | compiler observation | Output cursor holding actual buffer/offset with ordinary Address/Advance emits1238/56. | Restores none and damages53 equal bytes; rejected. |
+| REPLAY-CURSOR-003 | compiler observation | Read-only compressed byte span with ordinary At emits1238/3. | Complete raw caller neutral; no adoption. |
+| REPLAY-CURSOR-004 | compiler observation | Cursor plus byte span emits1238/56. | Same rejected cursor bytes. |
+| REPLAY-CURSOR-005 | compiler observation | Frame offset derived from actual memcpy return emits1270/1057. | 387 instructions/50 blocks and32 extra bytes; rejected. |
+| REPLAY-CURSOR-006 | compiler observation | Actual replay constructor definitions visible emit1238/3. | Complete raw caller neutral; native15/18-byte bodies independently checked. |
+
+The first four source-sized outcomes retain380 instructions,53 original-bound
+fields,23 call operands and49 blocks; matching those counts is insufficient.
+The memcpy model genuinely consumes that API's actual returned destination to
+publish the format offset; no fake return/prototype is introduced. It still
+fails complete original-byte/extent/graph coverage and is not adopted.
+
+The constructor model copies unchanged ReplayDataConstructors.cpp before the
+real SaveReplay body. Under its existing no-EH profile, the complete15-byte
+payload and18-byte outer definitions independently match both original bodies
+and their one reviewed call operand each. The caller's one positive outer
+definition and outer-to-payload positive definition are linked by actual COFF
+section/value coordinates. This confirms real visibility, not a declaration-only
+proxy. Constructor origin and original composition/class spelling stay unknown;
+there is no new authored exact row or whole native product claim.
+
+Seven current ECL compiles preserve the genuine Timer and primary-flag layouts:
+
+| ID | State | Durable fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-DIRECT-001 | compiler observation | Baseline15564 bytes/598 fields retains30 ordinary differences. | Zero field/table differences; complete owner remains nonexact. |
+| ECL-DIRECT-002 | compiler observation | Direct time008 assignment from the existing qualified raw operand retains15564/598 but gives42 ordinary differences. | Zero restored and12 new mismatches; rejected. |
+| ECL-DIRECT-003 | compiler observation | Direct native timeout bitfield from the plain wire byte retains15564/598 but gives2258 total differences. | 2019 ordinary+239 field bytes;26 table bytes are included in239; rejected. |
+| ECL-DIRECT-004 | compiler observation | Both direct members retain15564/598 but give2270 total differences. | 2031 ordinary+239 field bytes;26 table bytes included; rejected. |
+| ECL-DIRECT-005 | compiler observation | Existing lhsInt reused for actual time operand retains15564/598/30. | Complete raw neutral; actual private labels retained. |
+| ECL-DIRECT-006 | compiler observation | Existing stateInt reused for timeout operand emits15568/598. | Complete RunEcl shape and native Enemy inventory rejected. |
+| ECL-DIRECT-007 | compiler observation | Both existing scratch values reused emit15568/598. | Same full-owner rejections. |
+
+The direct bitfield cases recover13 old mismatches but introduce2241/2253 new
+ones, respectively. No field/table mask or local-handler score substitutes for
+whole-owner equality. The15564-byte controls keep Enemy3900/97/13; the longer
+two callers are rejected before that native definition can be accepted. No new
+qualifier, forced inline, register/variable-order hint, ABI or profile is used.
+The raw-neutral shared-time case renames171 local-label field rows; each actual
+COFF kind/addend/section/value/owner-relative destination remains identical.
+No canonical private-symbol manifest is rewritten for a private experiment.
+The first ECL driver attempt stops on a missing provider filename before any
+compiler starts; its corrected seven compiler runs are distinct evidence.
+
+Direct IDA independently confirms the original SaveReplay EDI frame destination
+and checksum operand. Its stale793/1026 source comparison is replaced by current
+1238/380/53/23/49 and three residuals, then read back exactly. All378 rows returned
+by that IDA instruction API retain identical address/instruction pairs; the
+separate complete PE decoder counts380 instructions. No prototype or mapped
+code is written. Post-comment target/mapped-byte attestation passes again.
+
+Thirteen primary serial nice10 compiles cover six Replay and seven ECL cases.
+All1003 authored exact source/profile proofs are reused. No new exact or source
+change is adopted;1003/1035 and244917/291883 bytes (83.9093%), the32372-byte95%
+gap and30/13/22/15 fronts stay open. Full sources/raw/actual COFF, distinct setup
+failure, native constructor proofs and bounded IDA readback are retained in
+.analysis/gpt-61sol-20261021-serializer-opcode-checkpoint/.
+
+Its46-member archive compresses2734553 bytes to310496, SHA256
+16c87cf6a6fbe0dabd9c004722997876d53a289e93ca613493fb3d0c3269bcfd.
+After CRC/member-hash verification and loose cleanup, selected cold replays
+repeat the complete constructor/caller raw and actual COFF, native bodies and
+full diagnostics, plus the rejected15568-byte/598-field ECL object and both
+original owner/definition rejections. Only object-file timestamp/Zi-path hashes
+are excluded; every owned byte, actual field and residual remains checked.
+CI passes899 tests/28 skips. The initial knowledge-table format error is
+corrected to the existing four-column ID/state/fact/evidence schema before the
+passing documentation gate; no game/Oracle input changes. Scoped cleanup
+removes439 owned files/9333879 bytes (~8.90 MiB), preserving all69 old build
+files byte-for-byte. Original EXE/IDA/tools and unclassified evidence remain.

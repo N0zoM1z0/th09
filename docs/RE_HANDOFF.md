@@ -9,37 +9,35 @@
 
 The operator requests continued exact reconstruction, serial low-priority
 compiles, affected replays and cleanup. This checkpoint starts from pushed
-`ea3c582`. All 491 previous game inputs and 1,034 old unit definitions remain
-unchanged; one separate getter source and noncrediting comparison unit are added.
-All 1,003 existing authored exact source/profile proofs are reused.
+`b0c7054`. All 492 game inputs, 1,035 comparison-unit definitions and exact
+ledgers are unchanged; all 1,003 authored exact source/profile proofs are reused.
 
-- `PlayerLifecycleView::GetUpdateState` now has its missing natural definition
-  in `PlayerGetUpdateState.cpp`, reading the existing offset-zero state field.
-  The canonical alias reproduces the complete three-byte/no-field body at
-  `0x435EC0`. Shared/folded physical origin and unique class ownership remain
-  unknown; the physical row stays unclassified/review, with no matches.csv row.
-- `python3 -B scripts/check-player-state-getter.py --json` cold-builds only
-  that source, requires complete actual-body equality and conservative ledgers,
-  and binds current source/provider hashes. Four policy regressions reject
-  changed ABI/profile/extent and fabricated origin or duplicate exact credit.
-- The new definition is separately compiled; existing declarations and caller
-  sources stay unchanged. It is not exposed inside ECL/Enemy. The earlier
-  getter-visible 852-difference experiment remains rejected history.
-- `probe-enemy-native-spawn-context.py` now selects real constructor+periodic
-  visibility, optionally with real SpawnEffect. Both new complete contexts give
-  Enemy3900/97/45 and RunEcl15564/598/30, restoring the old13 but damaging45 equal
-  positions. Native 28/33/184-byte bodies and actual 1/1/4 same-object call
-  bindings pass independently. Neither context is adopted.
-- Existing spawn/spawn-periodic source recipes remain byte-identical; a new
-  pure test checks selected exposure, preserved ordering and source boundaries.
-- Evidence, selected recipes and checks are retained in
-  `.analysis/gpt-61sol-20261021-player-getter-checkpoint/`: 12 CRC/SHA-checked
-  members, 65154 compressed bytes. Selected post-clean cold replays reproduce
-  the complete getter and Enemy combination under current metadata. CI passes
-  899 tests/28 skips. Scoped cleanup removes 407 owned files/6918581 bytes
-  (~6.60 MiB); all 69 preexisting build files retain their hashes.
-- Exact stays 1003/1035 and 244917/291883 bytes; primary fronts remain
-  **RunEcl30 /Enemy13 /DrawResult22 /Type315**. The 95% and later gates stay open.
+- SaveReplay's complete current baseline repeats1238/53/380 instructions/
+  23 call operands/49 blocks/three differences. A read-only byte span and the
+  actual15/18-byte constructor-chain visibility preserve every raw caller byte.
+  The real caller/outer/payload COFF definition chain is independently checked.
+- An ordinary output cursor and cursor+span retain the full owner/census but
+  damage53 previously equal positions (56 differences). Publishing the frame
+  offset from the actual memcpy return gives1270 bytes/53 fields/387 instructions/
+  50 blocks/1057 overlap differences and32 extra bytes. None is adopted.
+- Current ECL direct-member controls retain15564/598 but give42,2258 or2270
+  complete differences. The latter two include239 differing field bytes and26
+  table bytes; those26 are part of239, not additional credit or a masked score.
+  Real time scratch reuse is raw-neutral30; timeout scratch reuse, alone/joint,
+  emits15568 and fails both complete RunEcl shape and Enemy native inventory.
+- The original SaveReplay IDA entry's old793/1026 comparison is corrected to
+  current three residuals B7/BB/3F6 and read back exactly. All378 reported IDA
+  address/instruction pairs stay unchanged; the complete PE Oracle separately
+  covers380 instructions. Post-comment mapped-byte attestation passes.
+- Sources, actual raw/COFF, setup-error distinction and selected cold recipes
+  are retained in `.analysis/gpt-61sol-20261021-serializer-opcode-checkpoint/`.
+  Its46-member CRC/SHA-checked archive is310496 bytes. Selected post-clean
+  cold replays reproduce the constructor chain/caller and the rejected15568-byte
+  ECL owner. CI passes899 tests/28 skips. Scoped cleanup removes439 owned files/
+  9333879 bytes (~8.90 MiB), preserving all69 preexisting build files.
+- No game C++, header, ABI, profile, unit, match or guard change is adopted.
+  Exact stays1003/1035 and244917/291883 bytes; the32372-byte95% gap and main
+  **RunEcl30 /Enemy13 /DrawResult22 /Type315** fronts remain open.
 
 ## Live ledger snapshot
 
@@ -265,8 +263,8 @@ The current tree retains **491 game-source files, 1,035 comparison units and
 remain unknown-origin byte evidence. The Timer alias adds no credit to its
 existing canonical TextHelper owner. The new Player getter adds a separate
 logical source alias of shared435EC0, retaining its unknown/review physical row.
-All491 previous inputs including the source README are unchanged; there are
-492 current inputs. All1003 exact source/profile proofs are reused. No game
+All492 current inputs including the source README are unchanged in this batch.
+All1003 exact source/profile proofs are reused. No game
 header, existing caller/profile, boundary or authored exactness claim changes.
 Native product/runtime, complete
 inventory, semantic and port gates remain open.
