@@ -15885,3 +15885,76 @@ corrected to the existing four-column ID/state/fact/evidence schema before the
 passing documentation gate; no game/Oracle input changes. Scoped cleanup
 removes439 owned files/9333879 bytes (~8.90 MiB), preserving all69 old build
 files byte-for-byte. Original EXE/IDA/tools and unclassified evidence remain.
+
+
+## October 21: native Player getter visibility and complete Enemy state-call inventory (gpt-6.1-sol)
+
+Recovery starts at pushed c91cdd3 with clean Git, the verified original Japanese
+v1.50a disk target, direct IDA metadata and mapped-byte attestation. No maintained
+game input or comparison-unit definition changes in this batch. The previous
+checkpoint supplied the actual PlayerLifecycleView getter source, so its real
+co-visible definition is a new testable context, distinct from the older Timer
+integer-conversion context. Native equality is not original class/TU provenance.
+
+The original complete Enemy owner remains3900 physical bytes:3883 code bytes,
+one alignment byte and16 switch-table bytes. The fresh maintained carrier
+repeats1026 instructions/97 fields/69 calls/170 blocks/13 linked differences,
+with the original offsets and both full frontier guards passing. RunEcl repeats
+15564/598/30 with zero differing field/table bytes and146/148 handler shapes.
+One focused current-source/profile compile suffices; all1003 unchanged authored
+exact source/profile proofs are reused, rather than freshly replayed.
+
+| ID | Recorded state | Fact | Evidence / limits |
+| --- | --- | --- | --- |
+| ENEMY-NATIVE-STATE-001 | compiler observation | The actual three-byte Player getter before Enemy retains3900 physical bytes/97 fields/69 ordered call destinations but emits3881 code bytes, three alignment bytes and16 table bytes;1025 actual code instructions. | All3900 linked bytes are compared independently:836 differences,738 ordinary plus98 field bytes. Full native getter3/0 and Timer greater20/0 bodies are original-equal; both getter references resolve to their actual positive same-object definition. Strict caller remains rejected. |
+| ENEMY-NATIVE-STATE-002 | compiler observation | The same getter jointly visible with real HasTickedEvery33/0 has the same3881+3+16 partition and ordered call destinations. | Complete physical comparison gives868 differences,770 ordinary plus98 field bytes. Actual getter, greater and periodic bodies independently match original. No byte masking, shortened-head score or caller credit. |
+| ENEMY-NATIVE-STATE-003 | compiler observation | Getter plus the actual12-byte Player setter retains the same physical inventory and partition as getter alone. | Complete physical comparison gives836 differences,738 ordinary plus98 field bytes. Actual3/20/12-byte native bodies and2/4/1 same-object call references are checked. Caller raw remains unadopted; all three contexts retain complete RunEcl15564/598/30. |
+| QUEUE-FRAME-VALUE-001 | compiler observation | A real incoming aggregate of the existing12-byte frame record feeds the same three last-received fields, scan bound and final four publications. | Complete raw owner is byte-identical to current213-byte baseline:zero fields,67 instructions,nine blocks,35 differences. The predicted field supplies the actual final zero publication; no padding/storage is added. |
+| QUEUE-FRAME-VALUE-002 | compiler observation | An ordinary inline constructor for a local value derived from the existing record publishes those same four real fields. | Every emitted213-byte raw position remains identical to baseline. No original constructor, class ownership, signature or exactness inference is made. |
+| QUEUE-FRAME-VALUE-003 | compiler observation | A genuine inline helper writes the existing last-received frame/input/seed fields in their maintained order. | Emits211 bytes/zero fields. Complete213-byte extent check rejects before similarity scoring; maintained void/four-stack-slot ABI and source are unchanged. |
+| ENEMY-STATE-CALL-001 | source and test observation | State-call inventory now includes original field offsets OR the two real native symbols, so an additional same-named field elsewhere cannot be silently omitted. | Three extra-call counterexamples previously escaped the isolated check. Two new pure tests also distinguish all three moved-call cases from unreviewed same-object definitions. Exact offsets, names, REL32/addend0, external provenance and original E8 destinations are still required; no diagnostic acceptance is broadened. |
+
+The co-visible candidates' second getter and setter fields move fromBE5/C06
+toBE3/C04; the final greater field also movesEC6 toEC4. Native bodies cannot
+justify changing the strict original offsets or original code/table partition.
+A private exploratory adapter for native state/Timer coordinates still fails
+at the complete code boundary; the retained independent observation compares
+all physical bytes and actual COFF positions without using that adapter to pass
+any production check. These controls give no new authored exact credit.
+
+Eight primary C++ compiles all succeed, serially at nice10:three Enemy contexts,
+four queue controls including baseline, and one fresh maintained ECL carrier.
+Driver setup errors remain separate from compiler observations:an initial queue
+unit key fails before compiling; two guard API errors occur after successful
+compiles and their inspections are rerun on those same objects, not recompiled.
+The focused Player-state test module passes8 tests. The selected native-getter
+cold recipe independently reproduces full raw/COFF, genuine getter/greater
+bodies, two positive getter call identities and the strict rejection.
+
+The compact packet is .analysis/gpt-61sol-20261021-enemy-state-visibility/.
+Its97 CRC/SHA-verified archive members deduplicate actual source blobs:
+1808130 uncompressed bytes become294242 bytes, SHA256
+03cfba85894dc9788267e9a7755a79ad16d4b48df4e059dc582163f16435951d.
+Selected recipes are `python3 -B .../replay.py --case player-getter` and
+`--case queue-inline-publication`; they verify all627 current game/Oracle inputs,
+the original target and every archive member, then remove temporary OBJ/PDB.
+All492 game inputs and1035 unit definitions stay unchanged. Canonical exact
+remains1003/1035 and244917/291883 reviewed-authored bytes,83.9093%;95% still needs
+32372 complete bytes. Native product/runtime, full inventory, semantic and port
+claims remain open. No new Factory receipt or original ownership is inferred.
+
+Final CI passes901 tests/28 skips, plus target-required tracking, docs, generated
+progress and whitespace checks. The three extra-call counterexamples are also
+executed against both old/current isolated checks:old accepts all three and
+current rejects all three. Selected native-getter cold replay passes before
+cleanup; the selected211-byte queue rejection cold-replays after cleanup.
+Both compare all actual raw/COFF and remove temporary compiler outputs.
+
+After every primary compiler and CI process is terminal, archive CRC/member
+SHA verification allows removing253 owned files/4993023 bytes (~4.76 MiB):
+archived source/evidence duplicates, eight current compiler OBJ/PDB pairs and
+superseded diagnostic adapters. All69 preexisting build files and35 pre-CI
+cache files remain byte-identical. The original EXE, tools, IDA and unclassified
+older analysis stay untouched. A redundant cleanup preview is removed only
+after its full per-path inventory equals the retained final cleanup receipt.
+No game code or exact-credit ledger changes; the goal remains active/incomplete.

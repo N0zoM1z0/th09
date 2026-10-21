@@ -9,35 +9,40 @@
 
 The operator requests continued exact reconstruction, serial low-priority
 compiles, affected replays and cleanup. This checkpoint starts from pushed
-`b0c7054`. All 492 game inputs, 1,035 comparison-unit definitions and exact
-ledgers are unchanged; all 1,003 authored exact source/profile proofs are reused.
+`c91cdd3`. All492 game inputs, all1035 comparison-unit definitions and exact
+ledgers remain unchanged; all1003 authored exact source/profile proofs are reused.
 
-- SaveReplay's complete current baseline repeats1238/53/380 instructions/
-  23 call operands/49 blocks/three differences. A read-only byte span and the
-  actual15/18-byte constructor-chain visibility preserve every raw caller byte.
-  The real caller/outer/payload COFF definition chain is independently checked.
-- An ordinary output cursor and cursor+span retain the full owner/census but
-  damage53 previously equal positions (56 differences). Publishing the frame
-  offset from the actual memcpy return gives1270 bytes/53 fields/387 instructions/
-  50 blocks/1057 overlap differences and32 extra bytes. None is adopted.
-- Current ECL direct-member controls retain15564/598 but give42,2258 or2270
-  complete differences. The latter two include239 differing field bytes and26
-  table bytes; those26 are part of239, not additional credit or a masked score.
-  Real time scratch reuse is raw-neutral30; timeout scratch reuse, alone/joint,
-  emits15568 and fails both complete RunEcl shape and Enemy native inventory.
-- The original SaveReplay IDA entry's old793/1026 comparison is corrected to
-  current three residuals B7/BB/3F6 and read back exactly. All378 reported IDA
-  address/instruction pairs stay unchanged; the complete PE Oracle separately
-  covers380 instructions. Post-comment mapped-byte attestation passes.
-- Sources, actual raw/COFF, setup-error distinction and selected cold recipes
-  are retained in `.analysis/gpt-61sol-20261021-serializer-opcode-checkpoint/`.
-  Its46-member CRC/SHA-checked archive is310496 bytes. Selected post-clean
-  cold replays reproduce the constructor chain/caller and the rejected15568-byte
-  ECL owner. CI passes899 tests/28 skips. Scoped cleanup removes439 owned files/
-  9333879 bytes (~8.90 MiB), preserving all69 preexisting build files.
-- No game C++, header, ABI, profile, unit, match or guard change is adopted.
-  Exact stays1003/1035 and244917/291883 bytes; the32372-byte95% gap and main
-  **RunEcl30 /Enemy13 /DrawResult22 /Type315** fronts remain open.
+- The Enemy Player-state guard now collects both the three original field
+  positions and every occurrence of the actual getter/setter symbols. An extra
+  native call outside those positions is rejected. Moved fields, wrong native
+  identities and unreviewed same-object definitions have distinct failures;
+  the original offsets, external provenance and E8 destinations remain required.
+- Three genuine Player getter contexts (alone, with the actual33-byte periodic
+  Timer body, or with the actual12-byte Player setter) retain3900 physical
+  bytes/97 fields/69 ordered calls, but emit3881 code bytes plus three alignment
+  bytes and16 table bytes, versus original3883+1+16. Their native3/20/33/12-byte
+  definitions independently match their complete original bodies. Full linked
+  comparisons give836/868/836 differences and stay rejected. Equal physical
+  length and exact leaves do not establish caller equality or original TU origin.
+- Small received-frame controls retain213/0/67 instructions/nine blocks/35
+  differences with an actual aggregate record or ordinary record constructor;
+  every raw byte equals baseline. An inline three-field publication emits211
+  bytes and fails the complete213-byte owner. No queue source or ABI is adopted.
+- A fresh maintained ECL carrier passes both complete frontier guards:
+  RunEcl15564/598/30 and Enemy3900/97/13. This is one focused compile; unrelated
+  exact proofs are reused. The native getter selected cold replay reproduces
+  all raw/COFF and the strict rejection while RunEcl stays30.
+- Sources, all actual raw/COFF, full physical comparisons and setup/driver-error
+  distinctions are retained in `.analysis/gpt-61sol-20261021-enemy-state-visibility/`.
+  Its97-member CRC/SHA-checked archive is294242 bytes. Selected replay recipes
+  are `python3 -B .../replay.py --case player-getter` and
+  `--case queue-inline-publication`; they use temporary serial nice10 builds.
+  Both selected cold replays pass; the queue recipe runs after cleanup. CI
+  passes901 tests/28 skips. Cleanup removes253 owned files/4993023 bytes
+  (~4.76 MiB), preserving all69 old build files and35 old cache files.
+- No maintained game C++, header, ABI, profile, unit or exact-credit change is
+  adopted. Exact stays1003/1035 and244917/291883 bytes; the32372-byte95% gap and
+  main **RunEcl30 /Enemy13 /DrawResult22 /Type315** fronts remain open.
 
 ## Live ledger snapshot
 

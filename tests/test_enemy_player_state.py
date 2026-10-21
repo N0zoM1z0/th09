@@ -105,6 +105,29 @@ class EnemyPlayerStateTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             scope['require_player_state_calls'](rows, wrong, target)
 
+    def test_extra_native_state_calls_outside_original_offsets_are_not_ignored(self):
+        rows, target = fixture()
+        for original in rows:
+            extra = {**original, 'offset': 0x400}
+            changed = sorted(rows + [extra], key=lambda row: row['offset'])
+            with self.subTest(symbol=extra['symbol']), self.assertRaisesRegex(
+                    ValueError, 'state call inventory changed'):
+                scope['require_player_state_calls'](changed, manifest(), target)
+
+    def test_shifted_native_call_and_unreviewed_definition_have_distinct_errors(self):
+        rows, target = fixture()
+        for index in range(3):
+            moved = copy.deepcopy(rows)
+            moved[index]['offset'] -= 2
+            with self.subTest(index=index), self.assertRaisesRegex(
+                    ValueError, 'moved from original offset'):
+                scope['require_player_state_calls'](moved, manifest(), target)
+            defined = copy.deepcopy(rows)
+            defined[index]['symbol_section'] = 7
+            with self.subTest(index=index), self.assertRaisesRegex(
+                    ValueError, 'unreviewed same-object definition'):
+                scope['require_player_state_calls'](defined, manifest(), target)
+
     def test_scope_covers_all_104_units_once_in_six_serial_profiles(self):
         with (ROOT/'config/matches.csv').open(newline='') as stream:
             matches = list(csv.DictReader(stream))

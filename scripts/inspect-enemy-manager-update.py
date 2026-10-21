@@ -103,14 +103,22 @@ def require_player_state_calls(fields, units, target):
             or expected['symbol'] != PLAYER_STATE_CALLS[2][1]
             or expected['target_address'] != 0x403C20 or expected['size'] != 12):
         raise ValueError('native Player state setter owner changed')
-    observed = [row for row in fields if row['offset'] in {x[0] for x in PLAYER_STATE_CALLS}]
+    offsets = {row[0] for row in PLAYER_STATE_CALLS}
+    symbols = {row[1] for row in PLAYER_STATE_CALLS}
+    observed = [row for row in fields
+                if row['offset'] in offsets or row['symbol'] in symbols]
     if len(observed) != 3:
         raise ValueError('Enemy Player state call inventory changed')
     for row, (offset, symbol, destination) in zip(observed, PLAYER_STATE_CALLS):
-        if (row['offset'] != offset or row['type'] != 'REL32'
-                or row['symbol'] != symbol or row['addend'] != 0
-                or row.get('symbol_section') != 0
-                or target[offset-1] != 0xE8
+        if (row['type'] != 'REL32' or row['symbol'] != symbol
+                or row['addend'] != 0):
+            raise ValueError('Enemy state call lost its native source/target identity')
+        if row['offset'] != offset:
+            raise ValueError('Enemy native Player state call moved from original offset '
+                             f'{offset:#x} to {row["offset"]:#x}')
+        if row.get('symbol_section') != 0:
+            raise ValueError('Enemy state call has an unreviewed same-object definition')
+        if (target[offset-1] != 0xE8
                 or BASE+offset+4+struct.unpack_from('<i', target, offset)[0] != destination):
             raise ValueError('Enemy state call lost its native source/target identity')
     return dict(calls=3, setter_unit='player-set-update-state', setter_bytes=12,
