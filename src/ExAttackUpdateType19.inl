@@ -92,31 +92,19 @@ int __fastcall ExAttackUpdateCallbackType19(ExAttackRecord *base)
         vertex->u += extra->drift67C;
         if (vertex->u < 0.0f)
         {
-            ExAttackType19UpdateVertex *wrap = &extra->vertices4C[0];
-            int wrapRemaining = 11;
-            do
+            for (int wrapIndex = 0; wrapIndex < 33; ++wrapIndex)
             {
-                wrap[0].u += 1.0f;
-                wrap[1].u += 1.0f;
-                wrap[2].u += 1.0f;
-                wrap += 3;
+                extra->vertices4C[wrapIndex].u += 1.0f;
             }
-            while (--wrapRemaining != 0);
         }
 
         vertex->v += extra->drift67C;
         if (vertex->v < 0.0f)
         {
-            ExAttackType19UpdateVertex *wrap = &extra->vertices4C[0];
-            int wrapRemaining = 11;
-            do
+            for (int wrapIndex = 0; wrapIndex < 33; ++wrapIndex)
             {
-                wrap[0].v += 1.0f;
-                wrap[1].v += 1.0f;
-                wrap[2].v += 1.0f;
-                wrap += 3;
+                extra->vertices4C[wrapIndex].v += 1.0f;
             }
-            while (--wrapRemaining != 0);
         }
 
         ++vertex;
@@ -128,31 +116,19 @@ int __fastcall ExAttackUpdateCallbackType19(ExAttackRecord *base)
             vertex->u += extra->drift67C;
             if (vertex->u < 0.0f)
             {
-                ExAttackType19UpdateVertex *wrap = &extra->vertices4C[0];
-                int wrapRemaining = 11;
-                do
+                for (int wrapIndex = 0; wrapIndex < 33; ++wrapIndex)
                 {
-                    wrap[0].u += 1.0f;
-                    wrap[1].u += 1.0f;
-                    wrap[2].u += 1.0f;
-                    wrap += 3;
+                    extra->vertices4C[wrapIndex].u += 1.0f;
                 }
-                while (--wrapRemaining != 0);
             }
 
             vertex->v += extra->drift67C;
             if (vertex->v < 0.0f)
             {
-                ExAttackType19UpdateVertex *wrap = &extra->vertices4C[0];
-                int wrapRemaining = 11;
-                do
+                for (int wrapIndex = 0; wrapIndex < 33; ++wrapIndex)
                 {
-                    wrap[0].v += 1.0f;
-                    wrap[1].v += 1.0f;
-                    wrap[2].v += 1.0f;
-                    wrap += 3;
+                    extra->vertices4C[wrapIndex].v += 1.0f;
                 }
-                while (--wrapRemaining != 0);
             }
 
             extra->magnitudes578[sample] += extra->angularSteps5FC[sample];

@@ -15069,3 +15069,82 @@ reclaims11835014 bytes (~11.29 MiB) in total. All temporary compiler roots
 self-clean; the original executable, toolchain/prefix, IDA database and older
 unclassified evidence remain untouched. Cleanup manifests preserve member and
 removed-file hashes; missing objects are rebuilt from canonical commands.
+
+
+## 2026-10-21 — Exact Type19 update from ordinary UV loops
+
+Recovery at pushed8c781dc passes original Japanese1.50a disk target, direct
+IDA metadata and distributed mapped-byte checks. Prior turn is progress:
+ParseNetworkConfigValue became243-byte exact. This turn first tests six full
+Title DrawResult carriers (baseline plus five ordinary inline predicate and
+selection forms); all remain1939/82/22 with the same complete original owner.
+Old bank-helper/aggregate/ABI matrices are reviewed and not repeated.
+
+Type19 update44A330 is independently pinned to821 bytes,254 instructions,
+35 original fields,11 ordered calls and30 direct blocks. Twelve serial nice10
+controls use the real ECL carrier/profile. Baseline and the genuine20-byte
+Timer-less body before/after the caller retain44 differences; the emitted
+comparison and its one same-object call remain exact. Static record member
+retains44; physical-ABI-compatible nonstatic member gives57. Neither identifies
+unique original callback ownership. Four UV-wrap helper forms leave original-
+absent calls/fields and emit633/727/724/636 bytes. They are rejected, without
+forced-inline, fake ABI/returns, register ordering or profile changes.
+
+The retained source had four hand-expanded UV loops over11 triples. A natural
+indexed loop over all33 vertices lets VC7.1 perform its own three-way unrolling.
+Replacing all four manual loops fixes every44 residual byte, including Record,
+Extra and magnitude cursor homes: complete821/35/254/11/30 and identical direct
+CFG. Flat pointer/end-loop controls instead emit709/741 bytes and fail complete
+field coverage. The indexed form is adopted; its precise original source
+spelling is not inferred. Shared0x688 Extra layout, genuine Float3 visibility,
+GameManager Player slots and callback transport stay unchanged.
+
+Two independent public canonical cold compiles reproduce all821 bytes and35
+reviewed relocations. The complete affected ECL closure is79 units across two
+profiles:25215 physical bytes/1126 fields, including all78 prior exact owners.
+Two source-private names change: ecl-post-update-movement at field+139 uses
+$L74138->$L74134, and ecl-compare-operands at+14 uses$L73366->$L73362. Actual
+positive same-section symbol/value/addend coordinates independently equal the
+existing original destinations408548/407A4C. Only these source label spellings
+are updated; original field positions, target addresses and extents stay fixed.
+The other77 proofs are reused when the two reviewed comparisons pass; no
+unchanged object is needlessly recompiled or whole1003-function replay claimed.
+
+Before exact promotion, the Type19 producer is strengthened with the existing
+coff_literal_definitions checker. All five actual initialized read-only float
+definitions agree with the original image. Flip each actual definition in a
+temporary compiler object: original main bytes and all COFF rows stay identical,
+and the legacy producer reports zero differences. The new producer rejects all
+five. Target bytes are never changed. The active Type19 gate requires zero even
+without sibling replay, protects all821 positions and requires the five literal
+proofs; tests reject the old44-byte near match and missing literal proof. The
+inspector alone remains noncrediting; canonical manifest replay awards exactness.
+
+Only ExAttackUpdateType19.inl changes among490 game inputs. The78 existing
+shared-ECL exact proofs are revalidated,924 other proofs reused, and the new
+unit raises1033->1034 units and1002->1003 exact owners. Reviewed-authored bytes
+become244917/291883 (83.9093%), with32 nonexact owners/46966 bytes and32372
+bytes still needed for95%. RunEcl/Enemy/Title/Type3 remain30/13/22/15; native
+product/runtime, semantic and port gates stay open. Minimal recipes, actual
+COFF, bounded negative controls and source/profile hashes are retained under
+.analysis/gpt-61sol-20261021-type19-comparison-context/ and
+.analysis/gpt-61sol-20261021-title-predicate-context/.
+
+
+The first CI run catches fixed shared-Player unit inventories after the new
+canonical ECL owner enters matches.csv. Their ECL count becomes79, total
+state/damage counts104/81, with unchanged six/three profiles. Update only these
+metadata counts and their tests; no additional Player compilation is needed.
+Final CI passes881 tests/28 skips. Target-required tracking, docs, progress and
+both whitespace checks pass. Reading the existing second ECL object protects
+all other affected frontiers without another compile: Effect29 draw2205/1170
+plus15 missing, Effect34 draw959/593 plus13 extra, biased movement517/148 plus
+one extra, RunEcl30 and Enemy13. Type26's209-byte exact diagnostic stays equal.
+
+After all producers terminate,138 evidence members/2484008 loose bytes become
+two CRC and member-SHA-verified ZIPs totalling426615 bytes. Removing387 terminal
+CI caches and two owned ECL objects (389 files/7071058 bytes) reclaims9128451
+bytes (~8.71 MiB) in total. Minimal recipes and complete comparison receipts
+remain; no elaborate new public replay framework, original executable, game
+archive, toolchain, prefix, IDA database or older unclassified evidence is
+added or removed. No new Factory receipt or native runtime claim is made.

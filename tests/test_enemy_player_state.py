@@ -69,12 +69,12 @@ class EnemyPlayerStateTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             guard(rows, wrong_owner, target)
 
-    def test_damage_scope_covers_79_units_and_both_callee_bodies(self):
+    def test_damage_scope_covers_81_units_and_both_callee_bodies(self):
         with (ROOT/'config/matches.csv').open(newline='') as stream:
             matches = list(csv.DictReader(stream))
         groups = runner.groups(manifest(), matches, 'damage')
         names = [name for _, group in groups for name in group]
-        self.assertEqual((len(groups), len(names), len(set(names))), (3, 80, 80))
+        self.assertEqual((len(groups), len(names), len(set(names))), (3, 81, 81))
         self.assertIn('player-build-aabb', names)
         self.assertIn('player-calc-damage-to-enemy', names)
         with self.assertRaises(ValueError):
@@ -105,12 +105,12 @@ class EnemyPlayerStateTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             scope['require_player_state_calls'](rows, wrong, target)
 
-    def test_scope_covers_all_102_units_once_in_six_serial_profiles(self):
+    def test_scope_covers_all_104_units_once_in_six_serial_profiles(self):
         with (ROOT/'config/matches.csv').open(newline='') as stream:
             matches = list(csv.DictReader(stream))
         groups = runner.groups(manifest(), matches)
         names = [n for _, group in groups for n in group]
-        self.assertEqual((len(groups), len(names), len(set(names))), (6, 103, 103))
+        self.assertEqual((len(groups), len(names), len(set(names))), (6, 104, 104))
         with self.assertRaises(ValueError):
             runner.groups(manifest(), [r for r in matches if r['unit'] != names[0]])
         with tempfile.TemporaryDirectory() as td:
@@ -154,7 +154,7 @@ class EnemyPlayerStateTests(unittest.TestCase):
                 patch.object(runner, 'inputs', return_value={'fixture': 'same'}) as hashes, \
                 patch.object(runner.subprocess, 'run', return_value=SimpleNamespace(returncode=0)) as compiler:
             report = runner.run()
-            self.assertEqual(len(report['checked']), 103)
+            self.assertEqual(len(report['checked']), 104)
             self.assertEqual(compiler.call_count, 6)
             self.assertTrue(all(c.args[0][:3] == ['nice', '-n', '10'] for c in compiler.call_args_list))
             hashes.side_effect = [{'fixture': 'before'}, {'fixture': 'after'}]

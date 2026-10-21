@@ -18,6 +18,8 @@ import json
 from pathlib import Path
 import struct
 
+from coff_literal_definitions import check_literal_definitions
+
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 0x0044A330
 SIZE = 821
@@ -153,7 +155,9 @@ def diagnose(path: Path):
         if symbol.startswith('__real@') and coff.pe_bytes_at(pe, destination, 4) != struct.pack(
                 '<I', int(symbol[7:], 16)):
             raise ValueError('Type19 float literal identity disagrees: ' + symbol)
-    raw, rows = coff.object_function(path, SYMBOL)
+    raw, rows = coff.object_function(path, SYMBOL, include_symbol_locations=True)
+    literal_definitions = check_literal_definitions(
+        path.read_bytes(), rows, pe, coff, DESTINATIONS)
     linked, fields = bind_candidate(raw, rows)
     candidate_fields, candidate_instructions, candidate_calls = decode_owner(linked)
     if candidate_fields != fields:
@@ -162,10 +166,7 @@ def diagnose(path: Path):
     actual = Counter((kind, dst) for _, kind, dst in fields)
     if actual != expected:
         raise ValueError('Type19 independent original/candidate field identities differ')
-    # The current source is intentionally still non-exact: original operand
-    # fields 23..25 and candidate fields 23..25 are scheduled in a different
-    # order, despite identical inventories and 11 ordered calls. Report this
-    # disparity, rather than banning accurate non-crediting diagnostics.
+    # Preserve ordered-field evidence for source-bound historical controls too.
     ordered_fields_agree = ([(kind, dst) for _, kind, dst in fields] ==
                             [(kind, dst) for _, kind, dst in target_fields])
     target_graph = direct_control_flow(target_instructions, capstone.x86.X86_OP_IMM)
@@ -185,6 +186,9 @@ def diagnose(path: Path):
         candidate_instructions=len(candidate_instructions),
         target_fields=len(target_fields),
         candidate_fields=len(fields),
+        literal_definitions_checked=len(literal_definitions),
+        literal_definitions_original_equal=True,
+        literal_definitions=literal_definitions,
         ordered_fields_agree=ordered_fields_agree,
         distinct_player_slot_fields=actual[('DIR32', GAME_MANAGER_FIELD)],
         target_calls=len(target_calls),

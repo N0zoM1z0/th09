@@ -92,7 +92,7 @@ def run_network_message() -> dict:
 # rebuilt rather than silently reusing the main diagnostic's object.
 # These are manifest-verified cardinalities, not historical exactness totals.
 ECL_EXACT_CARRIERS = {
-    'build/matching/EclManager.obj': 74,
+    'build/matching/EclManager.obj': 75,
     'build/matching/EclManager-Type11.obj': 4,
 }
 TITLE_EXACT_CARRIERS = {
@@ -3177,9 +3177,8 @@ def run_etama(*, protect_exact: bool,
 
 
 TYPE19_UPDATE_TARGET_SHA256 = '38c97cf98c0183ae6f75446457d495e4d8e94683e4c2920461fd580aaf184014'
-# Complete original-linked comparison with real Float3 callee visibility and
-# the live Player slot. All 777 matching bytes, including the eight history
-# setup bytes recovered previously, stay protected without partial credit.
+# Historical 44-byte residual with real Float3 visibility and the live Player
+# slot. The active exact owner below now protects all 821 physical bytes.
 TYPE19_UPDATE_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
     0x008, 0x009, 0x00A, 0x00C, 0x00F, 0x014, 0x029, 0x045,
     0x048, 0x04B, 0x068, 0x069, 0x09E, 0x0B4, 0x0F4, 0x0FA,
@@ -3198,6 +3197,8 @@ def guard_exattack_type19_update(result: dict) -> dict:
             result.get('target_fields') != 35 or
             result.get('target_instructions') != 254 or
             result.get('candidate_instructions') != 254 or
+            result.get('literal_definitions_checked') != 5 or
+            result.get('literal_definitions_original_equal') is not True or
             result.get('target_calls') != 11 or
             result.get('candidate_calls') != 11 or
             result.get('target_direct_blocks') != 30 or
@@ -3208,12 +3209,13 @@ def guard_exattack_type19_update(result: dict) -> dict:
             result.get('extra_candidate_bytes') != 0 or
             result.get('complete_direct_graphs_agree') is not True):
         raise RuntimeError('Type19 update original/35-field/11-call/30-block owner drifted')
-    checked = physical_difference_windows(
-        result, count_key='overlapping_differences', windows=((0, 821, 44),))
-    actual = {int(offset, 16) for offset in result['difference_offsets']}
-    if not actual.issubset(TYPE19_UPDATE_ORIGINAL_RESIDUAL_OFFSETS):
-        raise RuntimeError('Type19 update changed an already matched original byte')
-    return checked
+    if (result.get('complete_bytes_agree') is not True or
+            result.get('overlapping_differences') != 0 or
+            result.get('difference_offsets') != []):
+        raise RuntimeError('canonical 821-byte Type19 update regressed')
+    return physical_difference_windows(
+        result, count_key='overlapping_differences', windows=((0, 821, 0),),
+        equality_key='complete_bytes_agree')
 
 
 def run_exattack_type19_update(*, protect_exact: bool,
