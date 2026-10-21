@@ -635,3 +635,24 @@ ignored build caches**. No full CI was rerun *after* cleanup, since doing so
 would undo the cache-free handoff; post-deletion doc-only verification must
 use `PYTHONDONTWRITEBYTECODE=1` **plus** `python3 -B` to avoid recreating
 Python bytecode. The original-bound pre-deletion results remain the proof.
+
+
+## October 22: resumed Replay context prototype cleanup
+
+After all producer and CI handles reached terminal success, removed only88
+individually reviewed files below
+`.analysis/gpt-61sol-20261021-resumed-runecl/seed-contexts/`:56 header copies,
+16 C++ copies, eight compiler objects and eight PDBs, totaling1444083 logical
+bytes. Unmodified dependency copies match the frozen include manifest; each
+modified caller matches its case source hash. The retained prototype scripts,
+immutable starting game-source commit7e178d8, full raw caller/actual COFF reports
+and tracked `scripts/probe-replay-seed-context.py` reproduce the observations.
+All eight public cases were cold-tested before cleanup and self-removed their
+temporary source/OBJ/PDB directories.
+
+The compact caller/native comparisons, compiler logs, source/profile hashes,
+recipes and `cleanup.json` per-path deletion hashes remain. No existing build
+file, old separate cache, private target, toolchain, IDA database or unclassified
+artifact was removed. This packet's cleanup does not classify the older1.6GiB
+of retained evidence. Final CI is921 tests/28 skips, exit zero; post-clean checks
+use `PYTHONDONTWRITEBYTECODE=1 python3 -B` to avoid creating caches.

@@ -16766,3 +16766,66 @@ cleanup receipt remain. Post-clean timer-shared independently reproduces all
 17 complete canonical units /317 bytes /16 fields against the original target;
 its temporary source/OBJ/PDB tree self-cleans. Original EXE, tools, IDA state
 and older unclassified research remain preserved.
+
+
+## October 22: resumed campaign and Replay native seed-context counterchecks (gpt-6.1-sol)
+
+The operator explicitly resumes exact reconstruction from clean, pushed
+`7e178d8282eafb2d6469ae78d33e82b1ea2f4d60`. Original Japanese v1.50a disk
+identity, direct local IDA metadata, entry point and five distributed mapped
+samples pass. A fresh maintained ECL carrier reproduces RunEcl15564/598/30;
+a fresh no-EH Replay carrier reproduces SaveReplay1238/53/3. These are bounded
+noncrediting diagnostics, not replay of the unchanged exact cohort.
+
+The old BeginPlaybackStage ledger prose still said49 differences/31 aligned
+fields, despite its maintained source and strict diagnostic already having
+39/32. A new maintained-path complete540-byte original/538-byte COFF comparison
+confirms152/151 instructions,32 ordered original-bound fields, five calls and
+12 equal direct blocks. Thirty field offsets agree; final offsets trail1/2
+bytes. Nine early register-selection bytes and30 shifted seed/epilogue bytes
+remain. Only the stale evidence/notes cells are corrected; no ABI, boundary,
+origin, source, profile or exact-match entry changes.
+
+Eight source-cold compiler models test baseline; the genuine SetSeed definition
+before/after the actual ReplayInput carrier; all four ReplayRuntimeLeaves
+before/after; typed GameConfiguration assignment; and that assignment with the
+setter or all leaves. Each preserves every538 raw caller byte and all32 actual
+field identities, including the complete39-position original mismatch set.
+All actual setters independently equal the complete14-byte original at420160.
+Full contexts also check GetSeed4 at41A89E, ResetGenerationCount8 at420170 and
+IsSpeedhackDetected13 at420180, for39 distinct original runtime bytes. These
+are already catalogued leaves; repeated contexts grant no new exact credit.
+The single actual native SetSeed caller record must have the true decorated
+name, REL32, zero addend/value and a positive separate same-object definition.
+An undefined or surrogate reference is rejected before visibility is claimed.
+
+Thus real setter visibility and the tested adjacent configuration-copy shapes
+do not repair the two missing bytes. This does not prove original TU ownership,
+original source spelling, a general compiler impossibility or runtime behavior.
+No losing source model is adopted. The public reproducer is
+`python3 -B scripts/probe-replay-seed-context.py --case seed-before`;
+`--case config-assignment-leaves` additionally tests the real packed0xCC-byte
+configuration type and all four native leaves. It freezes the quoted project
+include graph, hashes target/source/profile/diagnostic inputs, builds only one
+serial nice10 case, checks complete original/candidate streams and actual native
+bodies, and self-cleans its temporary source/OBJ/PDB even on rejection. Eight
+pure test groups falsify forged full bodies/extents, callee identities/definition
+coordinates, source boundaries, project includes and output routing. The eight
+public cold replays and earlier prototypes are retained under
+`.analysis/gpt-61sol-20261021-resumed-runecl/`.
+
+All491 maintained game-source files and the canonical exact manifests/profiles
+remain unchanged. Exact stays1003/1035 functions and244917/291883 authored
+bytes;95% still needs32372 complete bytes. RunEcl30,Enemy13,DrawResult22 and
+Type315 remain open, as do full inventory, native product/runtime and later
+phases. Resume status is synchronized in AGENTS, workflow and active handoff.
+
+Final validation passes921 tests/28 skips with exit zero, target-required
+tracking, documentation, generated progress and whitespace. After all compiler,
+comparison and CI handles terminate, individually reviewed cleanup removes88
+hash-verified source/OBJ/PDB copies totaling1444083 logical bytes. Compact
+caller raw/actual COFF/native reports, prototype recipes and per-file deletion
+hashes remain; no existing build file or unrelated cache is deleted. The public
+one-case producer has itself cold-replayed all eight cases and removed each
+temporary carrier. Source commit and independently observed remote push remain
+separate checkpoint facts.

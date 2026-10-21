@@ -7,39 +7,40 @@
 
 ## Current verified handoff checkpoint
 
-The operator has paused reconstruction and requests a clean handoff. This
-checkpoint finishes the tested work left after pushed `b95e198`; further
-reconstruction awaits an explicit resume. The 95% milestone and all four
-RunEcl/Enemy/Title/Type3 fronts remain unfinished.
+The operator has explicitly resumed exact reconstruction after the clean pushed
+`7e178d8` handoff. The 95% milestone and all four RunEcl/Enemy/Title/Type3
+fronts remain unfinished. Continue bounded source/target/compiler work, commit
+and push tested checkpoints, and reuse unchanged source/profile-bound proofs.
 
-- `src/ZunTimer.cpp` now uses the existing shared Supervisor fields instead of
-  a duplicate layout view. The header already pins both offsets and declares
-  the flag volatile. All **17 affected canonical units /317 complete bytes /
-  16 fields** remain original-equal, including one noncredit getter alias.
-  The 16 authored Timer proofs are rechecked; 987 unaffected authored exact
-  proofs are reused. Unit definitions, profiles, interfaces and ledgers stay fixed.
-- Nine completed serial low-priority controls retain the typed constructor,
-  Type29 primitive and whole-Timer visibility evidence. The measured class-inline
-  constructor removes an original call; whole-Timer groupings shorten RunEcl.
-  Both fail the existing complete-owner guards. These results are diagnostics;
-  details and limits are in the final October 21 section of
-  [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md).
-- The local packet `.analysis/gpt-61sol-20261021-enemy-typed-constructor-context/`
-  retains 109 CRC/SHA-verified archive members, compressed from 4,578,595 to
-  574,684 bytes, plus source bindings and reproduction recipes. Its post-clean
-  `timer-shared` replay passes all 17 complete canonical comparisons and removes
-  its temporary source/OBJ/PDB tree. The retained `inline` replay recipe has not
-  been cold-tested after cleanup.
-- CI completes with **913 tests /28 skips**, exit zero. Reviewed cleanup removes
-  **983 files /18,728,191 logical bytes (~17.86 MiB)**. All 69 preexisting build
-  files and 35 old separate caches remain byte-identical. Detailed classifications
-  are in [artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md). Post-clean
-  target/tracking, docs, progress and whitespace checks pass; all 24 focused
-  documentation tests pass after the handoff edits.
+- Recovery finds a clean worktree. Original Japanese v1.50a disk identity,
+  direct IDA metadata, entry point and all five distributed mapped samples pass.
+  Fresh maintained-path diagnostics repeat RunEcl **15,564 bytes /598 fields /
+  30 ordinary differences** and SaveReplay **1,238 bytes /53 fields /3 differences**.
+- `scripts/probe-replay-seed-context.py` tests eight real Replay source contexts:
+  baseline, actual setter before/after, complete runtime leaves before/after,
+  typed `GameConfiguration` copy and its two native-definition combinations.
+  All repeat BeginPlaybackStage **538/540 bytes /32 fields /39 differences**,
+  its complete raw body and twelve-block graph. The actual 14-byte setter,
+  and all four native leaves in full contexts (39 bytes total), remain
+  original-equal. A same-object call is independently required before calling
+  a definition visible. No context improves or becomes maintained game source.
+- The public producer freezes the actual quoted include graph, binds source,
+  profile, target and diagnostic inputs, and removes its temporary source/OBJ/PDB
+  after each single serial nice10 compile. Eight focused pure tests reject
+  incorrect complete bodies, target extents, callee identities/definitions,
+  source boundaries, project includes and output destinations.
+- All game source, original ABI, profiles and exact ledgers remain unchanged.
+  The previous Timer proof is source-commit-bound to `7e178d8`; no broad exact
+  cohort replay is needed for these isolated diagnostics. Native product/runtime
+  and full executable inventory remain separate unfinished gates.
+- Local evidence is `.analysis/gpt-61sol-20261021-resumed-runecl/`. CI passes
+  **921 tests /28 skips**, exit zero; target-required tracking, docs, progress
+  and whitespace pass. Reviewed cleanup removes **88 files /1,444,083 logical
+  bytes** of owned prototype source/OBJ/PDB copies; complete reports and recipes
+  remain. No existing build file or unrelated cache is removed.
 - No new exact credit is claimed. Exact remains **1003/1035**, with
   **244917/291883 authored bytes**; the **32372-byte** 95% gap and main
-  **RunEcl30 /Enemy13 /DrawResult22 /Type315** fronts remain open. Native
-  product/runtime and full executable inventory are separate, unfinished gates.
+  **RunEcl30 /Enemy13 /DrawResult22 /Type315** fronts remain open.
 
 ## Live ledger snapshot
 
@@ -166,8 +167,9 @@ immutable source-commit bindings; they do not accept a later HEAD.
 
 Read [`AGENTS.md`](../AGENTS.md), [`RE_WORKFLOW.md`](RE_WORKFLOW.md), and
 [`ORACLES.md`](ORACLES.md). Inspect staged, unstaged and untracked work first.
-The reconstruction task is paused. The commands below are routing for a later
-explicit resume, not pending work needed to finish this handoff.
+The reconstruction task is active. Use one affected owner at a time and
+reuse unchanged proofs; historical countermodels are bounded negative evidence,
+not a reason to assume that an entire source family is exhausted.
 
 ```bash
 git status --short --branch
@@ -207,22 +209,25 @@ results, fields and deficits before making an exactness claim.
 ## Evidence and cleanup boundaries
 
 The current tree retains **491 game-source files, 1,035 comparison units and
-1,003 authored exact rows**. Of 492 game inputs including the source README,
-491 are unchanged in this batch. The 17 affected Timer units include 16 authored
-functions and one noncredit alias; 987 other authored exact proofs are reused.
-All profiles, boundaries and authored exact counts stay fixed. Pointer-interface
+1,003 authored exact rows**. All 492 game inputs including the source README
+are unchanged in this diagnostic batch. All 1,003 authored exact source/profile
+proofs are reused; isolated compiler contexts do not reaccept those claims.
+The previous `7e178d8` Timer checkpoint replayed 17 units including 16 authored
+functions and one noncredit alias. All profiles, boundaries and authored exact
+counts stay fixed. Pointer-interface
 and Replay constructor units remain unknown-origin byte evidence; shared Timer
 and Player getter aliases add no authored credit. Native product/runtime,
 complete inventory, semantic and port gates remain open.
 
-The current packet retains `evidence.zip`, `frozen-manifest.json`, `replay.py`,
-`timer-shared-cold-receipt.json`, `ci.log`, `ci-completed.json` and `cleanup.json`.
-The archive binds the nine completed controls, exact source/include blobs,
-profiles, full raw/COFF captures and native callee/call proofs. Cleanup removes
-only verified duplicates, 18 current native outputs, 395 verified CI caches and
-one redundant preview. All 69 preexisting build files (including the Type11
-PDB) and 35 old separate caches are preserved by hash. The remaining build tree
-is intentionally retained evidence, not a fresh current-source Oracle.
+The current packet retains fresh RunEcl/SaveReplay baseline logs, the eight
+Replay context source bindings and full caller/native reports, and the private
+prototype's compact reproduction source. The tracked public producer is the
+current replay entrypoint; each invocation self-cleans its temporary source and
+compiler output. Old Timer packet details and reviewed deletion records remain
+in [artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) and the final
+October 21 Timer section of the knowledge base. Its 69 preexisting build files
+and 35 separate caches were retained deliberately; no broad cleanup is authorized
+by their age or by this restart.
 
 Ignored packets are local evidence and are not included in Git commits or
 pushes. Tracked source, scripts and durable observations provide the public
@@ -240,4 +245,4 @@ than this handoff's reviewed cleanup. Inspect every proposed path before using
 record is the current packet's `cleanup.json`; older removals are documented in
 [artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md).
 Post-clean checks use `PYTHONDONTWRITEBYTECODE=1 python3 -B`; rerunning CI would
-recreate caches. Compiler and replay carriers are terminal at this handoff.
+recreate caches. Check all compiler and replay handles are terminal before cleaning their outputs.
