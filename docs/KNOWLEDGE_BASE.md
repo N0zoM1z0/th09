@@ -16300,3 +16300,89 @@ Both selected post-clean cold recipes pass again using only frozen variant
 sources and verified live providers. Full actual raw/COFF and native callees
 repeat; the2239-byte Type29 and49-byte callback remain strictly rejected.
 Temporary outputs self-clean and all628 maintained fingerprints remain stable.
+
+## October 21: Options confirmation structure and preserved byte positions (gpt-6.1-sol)
+
+Recovery starts at clean independently pushed3c1039e. Original Japanese v1.50a
+disk, direct IDA metadata, entry and distributed mapped-byte checks pass. A fresh
+canonical O1/no-Oi source/profile repeats2048 candidate/2045 original bytes,
+554/551 instructions,135 original-bound fields,51 ordered calls,121 blocks and
+610 overlap differences plus3 extra. Complete alignment repeats540 matched
+instructions. Original+540 establishes EBX0; maintained source instead reuses
+EBX6 later. This is an observed allocation difference,not permission for dummy
+clobbers or register/variable-order hints.
+
+Nine private natural source controls retain actual input,UI,sound and state
+operations. Explicit unsigned confirmation-index normalization uses modulo32
+subtraction and preserves default behavior for all nonselected values. The
+ordinary getter returns the genuinely consumed index; no fake return is used.
+An explicit menu enum preserves the existing four-byte field and owner offsets.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| OPTIONS-CONFIRM-001 | compiler observation | Normalized switch and its real getter both emit2050 bytes/135 fields/553 instructions/122 blocks. | 550 original instructions align,343 positions differ,274 old mismatches recover,but seven old matching positions are damaged. Extra SUB EAX,EBX and a later zero reload remain. No promotion. |
+| OPTIONS-CONFIRM-002 | compiler observation | Normalized reverse-if retains2047/135/553 and121 blocks,with330 overlap differences. | Restores285 old mismatches but damages five equal positions; the complete directed graph differs. Both original and strengthened guards reject it. |
+| OPTIONS-CONFIRM-003 | compiler observation | Other branch/exit forms emit2041,2045 or2067 bytes and fail the original field identity/order or135-field inventory. | Complete raw/actual COFF is retained; the2045-byte extent is not treated as equality. Independent symbol/root binding for reordered controls is exploratory and never replaces the strict ordered Oracle. |
+| OPTIONS-CONFIRM-004 | compiler observation | A genuine raw-selection getter and real menu enum repeat2048/135/610. | No maintained source/profile or public type is changed. Earlier unsigned-selector,duplicate-exit and helper controls are read as historical evidence,not new hypotheses. |
+
+Ten proper-profile compiles (one baseline,nine source controls) succeed serially
+at nice10. An initial shell invocation accidentally reuses the ECL O2/Oi flags;
+it is captured only as a producer setup error,not a profile hypothesis or an
+Options baseline. Its actual raw/COFF and log are preserved before cleanup.
+The canonical O1/no-Oi compile corrects that invocation. A Python sys.path
+setup error is repaired by reusing the existing correct object,without another
+compile. No profile roulette,assembly,target patch,fake ABI or losing source
+change is adopted.
+
+The Options report previously exposed aggregate difference counts. It now
+emits every actual unmasked difference offset. The frontier pins the full
+original SHA and all610 residual positions,protecting the other1435 physical
+positions while permitting a genuine subset to converge. Counts,complete CFG,
+135 operands,51 calls,the actual seven-byte SetVol definition and native input
+root/addends remain required. Three new tests check all1435 same-count mismatch
+substitutions,missing/malformed/duplicate/unsorted offsets,wrong target hash and
+legitimate narrowing/exact diagnostic evidence. Synthetic guard tests are
+counterfactual reports,not target or candidate code patches. Partial byte
+recovery and a smaller overlap score earn no exact-owner credit.
+
+The focused Options suite passes22 tests,with two optional Capstone skips under
+Python-S. The separately exact PlayMenuSound cold body passes34/34 and all three
+canonical fields,using the same fresh source/profile-bound object rather than
+an unnecessary second native build. All492 game inputs,1035 units and exact
+ledgers remain unchanged. Of628 src/scripts/config inputs,626 are unchanged;
+only the two reviewed Python Oracle providers change. Their old copies and
+source epoch remain separate from current-provider replay bindings. No broad
+Title/ECL/Player or1003-owner replay is claimed or required.
+
+The evidence packet .analysis/gpt-61sol-20261021-options-loop-structure/ retains
+47 archive members,1250241 uncompressed bytes in247644 bytes,SHA256
+f1e6003427da8753b3b5357d4a52a2441a131b70f81fb5d78ad880dcf60055e4.
+Selected serial temporary replays are `python3 -B .../replay.py --case baseline`
+and `--case normalized-if-reverse`; they check every actual raw byte/COFF row,
+all new actual residual offsets,the native34-byte menu-sound body and unchanged
+complete guard acceptance/rejection. All source/provider/profile hashes fail
+closed on drift; temporary compiler outputs self-clean.
+
+Canonical exact stays1003/1035 and244917/291883 authored bytes (83.9093%);
+95% still needs32372 whole bytes. RunEcl30,Enemy13,DrawResult22 andType315 stay
+unfinished. No new Factory receipt,original-source uniqueness,native product/
+runtime,full inventory,semantic or port claim follows.
+
+Final CI passes911 tests/28 skips,plus target-required tracking,documentation,
+open build-graph,generated progress and whitespace. After all producers become
+terminal,CRC/member SHA and source/cache proof permit removing545 owned files/
+9688412 bytes (~9.24 MiB): verified source/report duplicates,11 private OBJ/PDB
+pairs (including the discarded producer-error pair),one fresh canonical object
+copy,395 current CI caches and a redundant cleanup preview. Of395 caches,392
+reuse byte-identical/source-identical independent proofs; the three changed
+source caches are independently compiled and compared as code objects without
+execution. Original source/runtime,EXE,tools,IDA,69 old build files and35 old
+separate caches stay unchanged. No unclassified older research is removed.
+
+Both selected post-clean cold replays pass again. Complete main raw/actual COFF,
+new residual positions and native34-byte/three-field menu-sound body repeat.
+The maintained610-difference guard passes; the330-difference,five-regressed-byte
+lead stays rejected. Temporary outputs self-clean. All628 final provider/source
+bindings remain stable,with the two deliberate Oracle updates distinguished
+from their original captured versions. Exact reconstruction and the active
+campaign remain incomplete.

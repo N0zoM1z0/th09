@@ -3748,11 +3748,28 @@ def guard_title_update_result(result: dict) -> None:
         raise RuntimeError('Title OnUpdateResult 485-byte/34-field/9-call/40-block frontier drifted')
 
 
+TITLE_OPTIONS_TARGET_SHA256 = (
+    '869fec21781b663202298f8486ebf8d0d9e42c0c1d34f1d3b08bf860b247eb63'
+)
+TITLE_OPTIONS_RESIDUAL_RUNS = (
+    (0x015, 0x016), (0x2D6, 0x2D7), (0x540, 0x54D), (0x551, 0x552),
+    (0x558, 0x559), (0x564, 0x565), (0x595, 0x596), (0x599, 0x5AE),
+    (0x5AF, 0x5BE), (0x5BF, 0x5CF), (0x5D0, 0x5DA), (0x5DB, 0x5ED),
+    (0x5EE, 0x5FF), (0x600, 0x608), (0x609, 0x60B), (0x60C, 0x611),
+    (0x612, 0x618), (0x619, 0x63A), (0x63B, 0x655), (0x656, 0x65F),
+    (0x660, 0x6AE), (0x6B1, 0x740), (0x741, 0x75A), (0x75B, 0x761),
+    (0x762, 0x763), (0x764, 0x7F0), (0x7F1, 0x7FD),
+)
+TITLE_OPTIONS_RESIDUAL_OFFSETS = frozenset(
+    offset for start, end in TITLE_OPTIONS_RESIDUAL_RUNS for offset in range(start, end))
+
+
 def guard_title_options(result: dict) -> None:
     """Guard all 2,045 original bytes, 135 operands and 51 ordered calls.
 
-    The current 2,048-byte candidate has 610 overlapping differences. A
-    complete exact candidate is allowed through, without awarding exact credit.
+    The current 2,048-byte candidate has 610 overlapping differences. Preserve
+    all 1,435 equal original positions while allowing that residual set to
+    shrink. A complete exact diagnostic still receives no exact credit.
     """
     noncrediting(result, name='Title OnUpdateOptions', target_size=2045, fields=135)
     if (type(result.get('literal_definitions_checked')) is not int or
@@ -3762,6 +3779,13 @@ def guard_title_options(result: dict) -> None:
     mismatch = result.get('overlap_differences')
     aligned = result.get('aligned_instructions')
     unpaired = result.get('unpaired_branch_destinations')
+    offsets = result.get('difference_offsets')
+    if (result.get('target_sha256') != TITLE_OPTIONS_TARGET_SHA256 or
+            not isinstance(offsets, list) or
+            any(type(offset) is not int or offset not in TITLE_OPTIONS_RESIDUAL_OFFSETS
+                for offset in offsets) or
+            offsets != sorted(set(offsets)) or mismatch != len(offsets)):
+        raise RuntimeError('Title OnUpdateOptions changed an already equal original byte')
     if (type(source_size) is not int or not 2045 <= source_size <= 2048 or
             result.get('target_instructions') != 551 or
             type(result.get('candidate_instructions')) is not int or

@@ -9,35 +9,42 @@
 
 The operator requests continued exact reconstruction, serial low-priority
 compiles, affected replays and cleanup. This checkpoint starts from pushed
-`0250a91`. All492 game inputs, all1035 comparison-unit definitions and exact
-ledgers remain unchanged; all1003 authored exact source/profile proofs are reused.
+`3c1039e`. All492 game inputs, all1035 units and exact ledgers remain unchanged;
+all1003 authored exact source/profile proofs are reused. The two Options Oracle
+providers and their tests change; no game source or compiler profile is adopted.
 
-- The Type29 center-polar member-pointer control still emits2205 bytes/129
-  fields/72 calls/41 blocks,1170 overlap differences plus15 missing bytes.
-  It repeats every maintained raw byte; older same-family controls were found
-  and read before expanding the context panel. No receiver reload is recovered.
-- A private class-body relocation of the unchanged existing32-byte polar method
-  gives2239 bytes/129 fields/676 instructions/37 blocks. It reloads all6 center
-  and7 vertex receivers, versus original6/0. Calling vertices through a genuine
-  member pointer changes no raw byte. Both contexts damage840 previously equal
-  positions and fail the complete frontier; no assembly instruction is authored
-  or changed, and no private header/body is adopted.
-- Four small Effect AddedCallback carriers (baseline,GetAnm,PreloadAnm or both
-  actual member-pointer calls with opaque callees) repeat every51 raw bytes and
-  the same4 fields/eight differences. With the original20-byte GetAnm body
-  visible, global-Get member dispatch emits49 bytes; cached-manager dispatch
-  emits45. Both stay strict physical-extent rejections despite exact callees.
-- `.analysis/gpt-61sol-20261021-effect29-member-calls/` retains92 CRC/SHA-verified
-  archive members:1341833 uncompressed bytes become255836 bytes. Selected nice10
-  recipes are `python3 -B .../replay.py --case class-vertex` and
-  `--case effect-get-visible`; both reproduce full actual raw/COFF, original
-  native callees and unchanged complete rejection. All628 source/provider
-  inputs and the original target fail closed on drift. Compiles remain serial.
-- CI passes908 tests/28 skips. Scoped cleanup removes721 files/11817255 bytes
-  (~11.27 MiB), including10 private OBJ/PDB pairs,395 current CI caches and
-  three independently source/code-object-verified local import caches. All69
-  old build files and35 old separate caches remain byte-identical; original
-  EXE,tools,IDA and unclassified older evidence are preserved.
+- Fresh proper-profile Options repeats2048/2045 bytes,135 fields,51 calls,
+  121 blocks and610 overlap differences plus3 extra. Actual full comparison
+  now reports all610 residual offsets; the guard pins the original full SHA
+  and protects all1435 already equal positions. Same-count mismatch moves,
+  malformed offsets and changed original hashes reject; convergence remains
+  noncrediting. The three new tests cover every protected position.
+- Nine private source controls test confirmation normalization,branch structures,
+  genuine selection getters and a width-preserving menu enum. Normalized switch
+  and its genuine getter emit2050/135/343,550 aligned instructions,seven damaged
+  old matches. Normalized reverse-if emits2047/135/330 but damages five old
+  matches and changes the directed graph. Both remain rejected,despite lower
+  overlap counts. The original baseline stays maintained.
+- Other source forms preserve2048/610 or fail original field identity/order;
+  full physical size alone is not exactness. Older index/exit controls are read
+  and distinguished from the new explicit normalization combinations. An initial
+  wrong-profile shell command and Python import setup error are recorded as
+  producer mistakes,corrected before scoring; profiles are never varied to fit.
+- The separately exact PlayMenuSound passes34/34 with all three canonical fields
+  using this turn's fresh unchanged source/profile-bound object. Options has
+  one canonical sibling; unrelated Title/ECL/Player proofs are reused.
+- `.analysis/gpt-61sol-20261021-options-loop-structure/` retains47 CRC/SHA-verified
+  archive members:1250241 uncompressed bytes become247644 bytes. Selected nice10
+  recipes `python3 -B .../replay.py --case baseline` and
+  `--case normalized-if-reverse` compare every actual raw byte/COFF row, the
+  strengthened full guard and the actual34-byte native menu-sound body. Inputs
+  distinguish the original capture providers from the two reviewed updates.
+- CI passes911 tests/28 skips. Scoped cleanup removes545 files/9688412 bytes
+  (~9.24 MiB),including11 private OBJ/PDB pairs and the fresh canonical object
+  copy. Of395 current CI caches,392 reuse identical verified source/cache bytes;
+  three changed-source caches are independently code-object verified. All69
+  old build files and35 old separate caches remain byte-identical. Both selected
+  post-clean cold replays pass; original EXE,tools,IDA and old evidence stay.
 - No new exact credit is claimed. Exact stays1003/1035 and244917/291883 bytes;
   the32372-byte95% gap and main **RunEcl30 /Enemy13 /DrawResult22 /Type315**
   fronts remain open. Native product/runtime and full inventory remain open.
@@ -114,7 +121,7 @@ these results do not establish unique original translation-unit ownership.
 | **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280/1,280 bytes**,376/376 instructions,57 original-bound fields,13 ordered calls,72 matching direct blocks; **29 differences** | Native indexed list reads, date/name-before-character evaluation, record-before-index acquisition and later timer snapshot recover1,180 more equal bytes. All1,251 matching positions and complete geometry/CFG are now protected. Remaining +185..+321 differences are selected-row ECX/EDX choices and two local-store order. `--owner replaymenu` cold-checks this isolated TU; still NON-EXACT. |
 | **TitleScreen::DrawReplaySave** | 0x004239F6 | **800/800 physical**, 245 instructions, 41 fields, 4 calls, 28/28 matching blocks; **96 linked differences** | Raw replay magic, genuine SDK subtraction/two scales/addition and two-byte character construction restore the full extent and nine more loop-counter/FILD home bytes. All **704** equal positions are SHA-bound and protected; no old matching byte regresses from the 105-residual source. Remaining vector/text homes, replay-pointer and keyboard schedules stay NON-EXACT. No enlarged buffer, extra storage or new target helper claim. |
 | **TitleScreen::DrawResult** | 0x00423D16 | **1,939/1,939**, 82 fields, 16 calls, 92 blocks; **22** differences | All 22 SHA-pinned linked differences are in the entry: 21 at `+0x0E..+0x24`, one at `+0x39` (bank-pointer store vs `currentScreen` prefetch). The entire remaining owner is byte-exact; the strengthened guard now pins **all 22 exact residual positions**, including preserving previously matching `+0x13` and `+0x18` inside the old entry window. The shared native GameManager field at+0x3F now has its actual COFF symbol/root/addend identity guarded; superseded mode/name-index aliases are rejected. `--owner title` protects the original full owner. |
-| **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 / 2,048**, 135 fields, 51 calls, 121 blocks | Uses genuine `AnmManager`/`AnmLoaded` and `SoundPlayer` receivers for29 fields, plus **eight native input array references**: two receivers at `g_ReplayInputStates[2]` and six16-bit word06 reads. Strict root/addend checking rejects fake standalone globals even at equal effective addresses. All2,048 linked candidate bytes and135 referents are preserved. The actual seven-byte read-only SetVol definition is now checked; three data-only corruptions are rejected with unchanged main code/COFF. The610 overlap differences+3 extra bytes remain NON-EXACT. Exact same-TU `PlayMenuSound`34/34 and `--owner title` protect this frontier. |
+| **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 / 2,048**, 135 fields, 51 calls, 121 blocks | Uses genuine `AnmManager`/`AnmLoaded` and `SoundPlayer` receivers for29 fields, plus **eight native input array references**: two receivers at `g_ReplayInputStates[2]` and six16-bit word06 reads. Strict root/addend checking rejects fake standalone globals even at equal effective addresses. All2,048 linked candidate bytes and135 referents are preserved. The actual seven-byte read-only SetVol definition is now checked; three data-only corruptions are rejected with unchanged main code/COFF. All1,435 matching positions are now protected by the original SHA and exact610-offset residual set. The610 overlap differences+3 extra bytes remain NON-EXACT. Exact same-TU `PlayMenuSound`34/34 and `--owner title` protect this frontier. |
 | **Title character cursors** | 0x00424EDD / 0x00424FB0 / 0x0042505F | Active target/candidate **211/215**; Reverse/Inactive **175/175** | Active reduced 217→215 in `69165b2`, but none is exact. Loop pre-check and VM register/sprite reload schedules; `--owner title`. |
 | **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15 maintained differences** | New private word-read plus real collision-forward model restores original middle-Z chronology and has **four differences** at +1B2,+1B7,+247,+249. These are previously equal bytes, so it is not adopted and the production guard stays unchanged. Reproduce with `probe-exattack-type3-word-order.py`; native/inline/reference joint controls retain four or lose 20 physical bytes. The component panel proves ordinary forwarding alone gives 27; the four-byte result depends on both experimental qualifications in the tested panel. New real pointer-body visibility preserves 15/four; partial X/Y visibility changes full extents and is rejected. The extended native-context producer checks the real 18-byte interrupt and both three-byte pointer aliases without origin credit. Real shared `AnmVm` and five canonical interrupts remain; `--owner type3` protects seven exact functions. |
 | **ExAttack Type14/22 draw** | 0x00444130 | **959 / 974**, 53 full PE/COFF fields, 20 direct + 12 indirect calls, 9 jumps, 905 overlapping differences and 15 extra source bytes | Twelve device fields use the genuine `Supervisor g_Supervisor +8`; the old fictitious global type is rejected. Original-bound bytes, fields and calls remain unchanged. `--owner exattack` protects all 54 equal original positions and the three exact Type14/22 initializer/update controls. Remaining draw register/loop schedule stays NON-EXACT. |

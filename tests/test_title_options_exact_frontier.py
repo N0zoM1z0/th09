@@ -113,6 +113,8 @@ class OptionsBossFrontierWiring(unittest.TestCase):
             'aligned_instructions': 540, 'paired_branch_conflicts': [],
             'unpaired_branch_destinations': 5,
             'overlap_differences': 610,
+            'target_sha256': check.TARGET_SHA256,
+            'difference_offsets': sorted(boss.TITLE_OPTIONS_RESIDUAL_OFFSETS),
             'extra_candidate_bytes': 3, 'missing_target_bytes': 0,
             'complete_bytes_equal': False,
         }
@@ -156,10 +158,44 @@ class OptionsBossFrontierWiring(unittest.TestCase):
                             'aligned_instructions': 551,
                             'unpaired_branch_destinations': 0,
                             'overlap_differences': 0,
+                            'difference_offsets': [],
                             'extra_candidate_bytes': 0,
                             'complete_bytes_equal': True}
         boss.guard_title_options(exact_diagnostic)
         self.assertEqual(exact_diagnostic['exactness_credit'], 'none')
+
+    def test_every_equal_options_position_is_protected_at_the_same_difference_count(self):
+        baseline = self.options_evidence()
+        known = baseline['difference_offsets']
+        equal = set(range(2045)) - set(known)
+        self.assertEqual(len(known), 610)
+        self.assertEqual(len(equal), 1435)
+        for offset in equal:
+            changed = sorted([*known[1:], offset])
+            self.assertEqual(len(changed), 610)
+            with self.subTest(offset=offset), self.assertRaises(RuntimeError):
+                boss.guard_title_options({**baseline, 'difference_offsets': changed})
+
+    def test_options_can_narrow_the_residual_set_without_exact_credit(self):
+        baseline = self.options_evidence()
+        closer = {**baseline, 'difference_offsets': baseline['difference_offsets'][1:],
+                  'overlap_differences': 609}
+        boss.guard_title_options(closer)
+        self.assertEqual(closer['exactness_credit'], 'none')
+
+    def test_options_rejects_missing_malformed_offsets_and_wrong_original_hash(self):
+        baseline = self.options_evidence()
+        known = baseline['difference_offsets']
+        missing = dict(baseline)
+        missing.pop('difference_offsets')
+        with self.assertRaises(RuntimeError):
+            boss.guard_title_options(missing)
+        for offsets in (None, tuple(known), [True], [1.0], [[]], [-1], [2045],
+                        list(reversed(known)), [*known, known[-1]], known[:-1]):
+            with self.subTest(offsets=offsets), self.assertRaises(RuntimeError):
+                boss.guard_title_options({**baseline, 'difference_offsets': offsets})
+        with self.assertRaises(RuntimeError):
+            boss.guard_title_options({**baseline, 'target_sha256': '0' * 64})
 
     def test_title_result_update_complete_frontier_rejects_byte_and_shape_regressions(self):
         baseline = self.result_evidence()

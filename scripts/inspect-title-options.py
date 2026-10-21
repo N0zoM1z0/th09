@@ -261,6 +261,8 @@ def diagnose(path: Path, *, require_native_input: bool = False) -> dict:
         'complete_differences': sum(a != b for a, b in zip(original, linked))
             if len(original) == len(linked) else None,
         'overlap_differences': sum(a != b for a, b in zip(original, linked)),
+        'difference_offsets': [offset for offset, (a, b) in
+                               enumerate(zip(original, linked)) if a != b],
         'missing_target_bytes': max(0, len(original) - len(linked)),
         'extra_candidate_bytes': max(0, len(linked) - len(original)),
         'first_overlapping_difference': next((n for n, (a, b) in
