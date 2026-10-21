@@ -15302,3 +15302,84 @@ whitespace. Verified cleanup removes414 owned archive duplicates, terminal OBJ/
 PDB and newly generated cache files,7115653 bytes (~6.79 MiB). The archive,
 manifest, cold recipes and cleanup/CI receipts remain; preexisting evidence,
 private original inputs, IDA state and tools are preserved.
+
+
+## October 21: ordinary accessors and complete collision return flow (gpt-6.1-sol)
+
+Recovery starts from clean pushed8e7e2fba24d0d45ff8fc010bc5d47762a7f701d7.
+Original Japanese v1.50a disk identity, direct IDA metadata and distributed mapped
+bytes pass. The preceding Options checker repair is retained; no game source,
+profile or ledger changes. All490 game inputs remain unchanged, so1003 exact
+source/profile proofs are reused. No new authored exact credit is claimed.
+
+The earlier ordinary draw-group helper outlined an extra Enemy call. A new
+ordinary `inline` version genuinely performs both consumed list mutations and
+now restores97 fields, but the full3900-byte Enemy owner remains13 differences;
+RunEcl stays15564/598/30 with its same-object native definitions. This is distinct
+from index-only accessors. The enum-backed opcode155 control changes only the
+actual timeout bitfield type and its assignment, retains the four-byte storage
+assertion and converts `wireValue & 1U`, avoiding boolean nonzero normalization
+or an out-of-range enum conversion. It emits15564/598,1938 ordinary differences,
+202 differing field bytes (including26 table bytes),144/148 shapes and14791 code
+bytes versus14792 target code bytes. The strict full-owner gate rejects it. All
+raw bytes/actual COFF and the66 actual include hashes survive the rejection.
+
+A fresh isolated DrawReplayMenu baseline repeats1280 bytes,376 instructions,57
+fields,13 calls,72 equal blocks and29 differences. Original+184 loads selected
+index into EDX, while maintained uses ECX; the original timer uses ECX instead
+of EDX. Original+19C stores the index at EBP-1C, then+19F stores the full record
+pointer at EBP-18; maintained reverses those stores. These are target observations,
+not permission to reorder declarations or add register hints. The old1258-byte
+accessor trials precede the accepted1280-byte source and are not reused as current
+proof. New free and member inline accessors compute the actual record, output the
+consumed index by reference, and return the record pointer. Both emit identical
+1271-byte raw owners with57 fields,860 overlapping differences,338 aligned
+instructions and9 missing bytes. Both fail the protected frontier and are not
+adopted. All16 actual baseline scalar/string definitions independently pass.
+
+A fresh Effect AddedCallback baseline repeats51/4/8. An ordinary inline residency
+query outputs both the actual ANM manager and loaded resource, returning their
+real residency predicate. The caller retains original GetAnm/PreloadAnm targets
+and final publication. Its full51/4 owner has11 differences: one old mismatch is
+restored, but four previously equal bytes are damaged. The guard rejects it.
+An ordinary inline void initializer delegates the same initialization operations
+with the original callback's return0 outside the helper; it is completely raw-
+byte-identical to maintained51/4/8. No fake return, clobber, opaque-helper address,
+assembly, declaration-order hint or compiler-profile change is introduced.
+
+The original PlayerLifecycleView::CheckBulletCollision at41DFF0 remains862 bytes,
+SHA256 `9dcfe1aca4ac06526072014ee6f956120d9c1d84cc1bba044638556b9b82445c`.
+A complete277-instruction decode plus normal-flow constant analysis reaches276
+instructions over a295-edge instruction CFG. The only unreachable instruction is
+alignment `LEA ESP,[ESP]` at+19. Start EAX is unknown; calls and every other write
+to EAX/AX/AH/AL become unknown. Only full `MOV EAX,imm` and `XOR EAX,EAX` establish
+known values, and merges retain unknown. Fixed-point normal-return sets are
+{2} at+333, {2} at+34D and{0} at+35B, all RET12. This checks incoming control flow,
+not merely the instructions before RET. It proves these normal full-EAX values,
+not a unique original return type, class ownership, exceptional behavior or exact
+source. Adjacent TH08/TH095 declarations are i32 hypothesis material only. No
+collision enum or normalized bool interface is invented from the observation.
+
+Evidence is40 members,923654 uncompressed bytes, compressed to136824 bytes in
+`.analysis/gpt-61sol-20261021-accessor-domain-context/evidence.zip`, SHA256
+`19ab5877103ba6bec18de4c51d5f12c6ea413fa825210b25b99a828b400f2562`.
+The manifest binds all490 actual game inputs, compiler/Oracle inputs, profiles,
+source parent and the reused Type19 baseline. `replay.py --list` enumerates eight
+selected cases. Source cases compare every frozen raw byte/actual COFF record;
+`--case collision-return-domain` reruns the original-only fixed point. Temporary
+sources/OBJ/PDB self-clean and source/tool drift fails closed. Six source controls
+plus two fresh baselines use eight serial nice10 compiles, with only selected
+cold recipes replayed. Current1003/1035 exact and244917/291883 bytes (83.9093%)
+remain unchanged; RunEcl30/Enemy13/DrawResult22/Type315 and the32372-byte95% gap
+remain open. Native product/runtime, semantic and port gates remain separate.
+
+
+Selected cold runs actually reproduce the51-byte/four-field residency query,
+the15564-byte/598-field enum control with its strict original-field rejection,
+and the complete original-only normal-return proof. Full target-independent CI
+passes883 tests/28 skips; target-required tracking, docs, progress and whitespace
+also pass. After all producers terminate, hash/CRC-verified cleanup removes432
+owned duplicate/compiler/new-cache files,8061403 bytes (~7.69 MiB). Compact
+archive, manifest, replay/cleanup recipes and terminal CI/checkpoint receipts
+remain. No original inputs, IDA state, toolchains or unclassified older evidence
+are removed. The source and exactness ledgers are unchanged.

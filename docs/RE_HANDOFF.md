@@ -8,34 +8,38 @@
 ## Current verified handoff checkpoint
 
 The operator requests continued exact reconstruction, serial low-priority
-compiles, focused affected replays and regular cleanup. Starting from pushed
-`09301a6`, this checkpoint fixes a concrete Options comparison gap and records
-six bounded source controls. **No game source or exact ledger changes; no new
-exact owner.** Latest exact code progress remains Type19's821/821 bytes/35 fields.
+compiles, focused affected replays and regular cleanup. This checkpoint starts
+from pushed `8e7e2fb` and bounds six new inline-accessor/flag-domain models.
+**No game source or exact ledger changes; no new exact owner.** Latest exact
+code progress remains Type19's821/821 bytes/35 fields.
 
-- Fresh Options remains **2048/2045 bytes**,135 original fields,51 calls and121
-  blocks. Target551 instructions versus candidate554;540 align. The11 unmatched
-  target instructions occupy13 alignment edit ranges, chiefly zero/constant6
-  allocation after right scrolling. Positional610 differences include shifts.
-- Explicit quiet confirmations, a normal counter-reset helper, genuine menu-sound
-  definition before the caller and shared volume-command pointer all produce the
-  same complete raw body. Two natural outer-state forms emit2049/2047 and worsen
-  alignment. None is adopted. Actual PlayMenuSound remains34/34 exact.
-- The old inspector accepted three candidate objects with unchanged main code and
-  actual COFF rows but a damaged SetVol byte, terminator or read-only attribute.
-  The new inspector reads the real initialized read-only seven-byte definition;
-  all three corruptions are rejected. Every preceding maintained observation
-  remains identical. The active Options gate requires the actual definition.
-- All490 game inputs and1003 exact source/profile proofs remain unchanged; only
-  this bounded Oracle is exercised. RunEcl/Enemy/DrawResult/Type3 stay
-  **30 /13 /22 /15**. The95% and native product/runtime gates remain open.
+- Enemy's ordinary-inline draw-group helper removes the old extra call but stays
+  **3900/97/13**, with RunEcl30 and its native definitions protected.
+- RunEcl's enum-backed timeout bitfield retains four-byte storage and masks the
+  actual wire low bit before converting. It emits15564/598 but has1938 ordinary,
+  202 field and26 table differences;144/148 shapes. The strict gate rejects it.
+- Current DrawReplayMenu cold baseline remains1280/57/29. Free/member accessors
+  returning the selected record and outputting its index both emit the same1271
+  raw bytes,860 overlapping differences and9 missing bytes. Neither is adopted.
+- Effect's residency-query helper remains51/4 but gives11 differences, restoring
+  one old mismatch and damaging four old matches. Delegating initialization to
+  an ordinary inline void helper is byte-identical to maintained51/4/8.
+- Original CheckBulletCollision's entire862-byte CFG has277 decoded instructions,
+  276 reachable and one unreachable alignment LEA. Conservative EAX reaching-value
+  analysis gives2/2/0 at the three normal RET12 sites. Calls and other complete/
+  partial EAX writes become unknown; no unique C++ return type is inferred and
+  no enum/boolean collision interface is introduced.
+- All490 game inputs and1003 exact source/profile proofs stay unchanged. The
+  primary RunEcl/Enemy/DrawResult/Type3 fronts remain **30 /13 /22 /15**;95%
+  and native product/runtime gates stay open. Eight source compiles cover the
+  six controls and two fresh small/large baselines; no broad exact replay.
 - Target-required tracking, docs, progress, whitespace and CI pass:883 tests/28
-  skips. CRC/SHA-verified cleanup removes414 owned files,7115653 bytes (~6.79 MiB).
-- Source/COFF captures, original-versus-strengthened mutation receipts and selected
-  self-cleaning cold recipes live in
-  `.analysis/gpt-61sol-20261021-options-source-flow/`.
-  The preceding native-contract counterexamples remain in
-  `.analysis/gpt-61sol-20261021-contract-context-checkpoint/`.
+  skips. Verified cleanup removes432 owned duplicate/compiler/new-cache files,
+  8061403 bytes (~7.69 MiB); original inputs and unclassified older evidence stay.
+- Hash/CRC-verified source/COFF captures and selected self-cleaning cold recipes:
+  `.analysis/gpt-61sol-20261021-accessor-domain-context/`.
+  Older Options and native-contract counterexamples remain in their preceding
+  `.analysis/gpt-61sol-20261021-*` checkpoint archives.
 - Use direct local IDA, serial `nice -n 10` compiles, English
   `gpt-6.1-sol: ...` commits, push and independent remote verification.
 
