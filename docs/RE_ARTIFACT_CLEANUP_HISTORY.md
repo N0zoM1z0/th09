@@ -4,6 +4,39 @@
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 
+### 2026-10-21: paused handoff and shared Timer field cleanup
+
+The operator pauses reconstruction after the tested shared-Supervisor Timer
+change based on pushed `b95e198`. All 17 affected canonical units remain exact
+(317 complete bytes /16 fields, including one noncredit alias); the other 987
+authored exact source/profile proofs are reused. CI completes with 913 tests /
+28 skips and exit zero. No further reconstruction experiment starts for handoff.
+
+Packet: `.analysis/gpt-61sol-20261021-enemy-typed-constructor-context/`.
+Its 109 archive members are CRC/SHA-verified before deletion; 4,578,595
+uncompressed bytes are retained as a 574,684-byte ZIP. The frozen manifest
+binds source, profiles and complete compiler observations from nine successful
+serial low-priority controls. A repository-scoped producer check finds no
+active compilers, replayers or CI before cleanup.
+
+| Actually removed | Files | Logical bytes |
+| --- | ---: | ---: |
+| Current-owned native outputs, verified duplicates and CI caches | 983 | 18,728,191 |
+
+The removed set comprises 18 OBJ/PDB files, 395 source-verified CI caches,
+569 archive duplicates and the redundant preview. `cleanup.json` retains each
+path, SHA256, size and classification. All 69 preexisting build files (including
+the Type11 PDB) and 35 old separate caches remain byte-identical. Original EXE,
+tools, IDA state and older unclassified research remain intact. No broad cleanup
+is applied to the old build or analysis trees.
+
+The post-clean `timer-shared` replay independently reproduces every complete
+canonical body and actual field, with only the object read path redirected in
+a private manifest. Its temporary source/OBJ/PDB tree self-cleans. The retained
+`inline` recipe has not been cold-tested after cleanup; its nine-control archive
+contains the actual earlier comparison. This grants no new authored exact credit
+or native product/runtime acceptance.
+
 ### 2026-10-21: Type3 joint visibility and bounded entry-census evidence
 
 From pushed `9c6f9a3`, 12 private successful full Type3 comparisons and three

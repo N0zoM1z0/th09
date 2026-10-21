@@ -2,10 +2,12 @@
 
 The project milestone is at least **95% of reviewed authored bytes exact**,
 using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
-The operator requests continued exact work across large functions and small
-leaves, with serial low-priority compiles and regular artifact cleanup. The
-RunEcl, EnemyManager::OnUpdate, Title DrawResult and ExAttack Type3 fronts and
-the milestone remain unfinished.
+The operator has paused reconstruction and requests a clean handoff: finish
+tested dirty work, organize documentation and clean reviewed generated artifacts.
+Further exact work across large functions and small leaves awaits an explicit
+resume. The RunEcl, EnemyManager::OnUpdate, Title DrawResult and ExAttack Type3
+fronts and the milestone remain unfinished. Compiles stay serial and at lowered
+priority; only affected proofs need replay.
 See [the current handoff](RE_HANDOFF.md) and refresh the ledgers for live totals;
 dated experiments and prior stop/resume records are historical.
 Exact code, the reviewed-authored denominator, the native Windows product and

@@ -16672,3 +16672,97 @@ old separate caches remain byte-identical. Post-clean typed-leaf cold-reproduces
 units,22463 bytes/990 fields,plus the unchanged complete Enemy13/RunEcl30
 reports. Both replay source trees and native outputs self-clean. Original EXE,
 tools,IDA and unrelated old unclassified research remain preserved.
+
+
+## October 21: Timer shared fields and ECL callee model exclusions (gpt-6.1-sol)
+
+Clean recovery at b95e198 verifies the original Japanese v1.50a executable,
+direct IDA metadata and mapped entry/distributed bytes. The preceding turn is
+progress:its typed local descriptor removes overlapping object projections and
+preserves80 affected exact functions. This turn tests that model's remaining
+constructor/primitive contexts before unifying the Timer's existing Supervisor
+field accesses. Nine primary native compiles run serially at lowered priority;
+all succeed. Profiles and public interfaces remain fixed in maintained source.
+
+ZunTimer.cpp removes ZunTimerSupervisorLayout and its reinterpret-cast pointer.
+Increment(float) now reads g_Supervisor.framerateMultiplier5B8 twice and
+flags5D4 once,using the already declared public members. Supervisor.hpp already
+pins0x5B8/0x5D4 and marks the flag volatile;no new volatile annotation is added.
+Every complete native body and actual relocation remains original-equal across
+all17 source units:317 physical bytes/16 fields. These comprise16 existing
+authored Timer functions and the four-byte current-value alias whose physical
+canonical TextHelper owner retains credit. There is no new authored function,
+return contract,data owner or original class-name claim. All existing unit
+records/profiles are unchanged;987 unaffected authored exact proofs are reused.
+
+With the actual typed descriptor,placing its real ordinary constructor body
+before or after Enemy produces the complete original28-byte40D500 callee and
+one actual same-object call. Both full callers remain Enemy3900/97/13 and
+RunEcl15564/598/30. A real class-inline definition emits an original-equal
+28-byte copy but eliminates the original constructor call inside Enemy. The
+caller still has3900 bytes,with96 rather than97 fields. This is rejected before
+caller scoring;component equality and equal aggregate size do not certify the
+complete original call structure. No force-inline,artificial reload or new
+assembly is introduced. Ordinary before/after visibility is measured as neutral
+for the current typed model; this measured class-inline form is rejected under
+the current profile.
+
+A fresh Type29 original-bound baseline confirms2205/2220 bytes,129 fields,
+1170 overlap differences and15 missing bytes. The13 polar/accumulation windows
+still have zero center and zero vertex reloads versus original six/zero. An
+explicit fastcall member declaration is a separate physical-ABI hypothesis:
+the actual callee remains exactly the original32 bytes at441890,and all13
+actual calls refer to its emitted definition. Only after these two checks does
+a private registry clone change that primitive's nominal symbol;every other
+unit property,target and field stays unchanged. The complete Type29 raw code
+is identical to baseline,with the same129 fields and1170+15 result. This proves
+neither a unique original nominal calling convention nor original class
+ownership. The maintained declaration stays unchanged. A real inline helper
+combining the six center polar placements and accumulations is also raw-neutral;
+its actual effects are consumed and its calls inline into the original trace.
+The existing primitive assembly body is unchanged in every control. Adjacent
+reconstruction assembly does not establish original handwritten provenance.
+
+The complete current Timer source,alone and with the real33-byte periodic
+predicate,can coexist with ECL and retains all17 native functions byte-exact.
+Both variants instead shrink RunEcl to15560 bytes/598 fields. The production
+native-run inventory and complete-input guards reject both. An independent
+source-symbol/COFF caller observation over all3900 Enemy bytes gives13 without
+the predicate and45 with it. This observation is diagnostic-only and does not
+waive the coupled guard or authorize a partial owner. The grouping is rejected;
+maintained Timer remains a separate TU. Getter/assignment return semantics,
+original TU partition and the95% milestone remain open.
+
+The local packet is
+.analysis/gpt-61sol-20261021-enemy-typed-constructor-context/.
+Its109 CRC/member-SHA-verified archive members compress4578595 bytes to574684
+bytes;archive SHA256 is
+61daa8f3b0da2282d3c319ec3cd55c1af2f414fef8932d87cfd6edab4f1d2482.
+It retains exact source/include blobs,the shared pinned profile and all nine actual compiler
+captures,complete raw/COFF,native callee/call proofs,the conditional ABI registry
+and unchanged production rejection. Current628 bindings differ only in
+ZunTimer.cpp;491 other game inputs,all1035 unit records and all profiles remain
+unchanged. The Timer's five recursive quoted inputs match maintained source.
+The selected self-cleaning cold recipe is replay.py --case timer-shared.
+The retained --case inline recipe has not been cold-tested after cleanup.
+The Timer replay uses the unchanged canonical comparator with
+only its object read path redirected in a temporary manifest;all17 definitions,
+full bytes,fields,addends and local-owner checks remain required.
+
+No new exact credit is claimed. Exact remains1003/1035 and244917/291883 authored
+bytes;95% still needs32372 complete bytes. RunEcl30,Enemy13,DrawResult22,
+Type315,full inventory and native product/runtime remain open.
+
+The operator then pauses reconstruction and requests a clean handoff. No new
+source experiments are started for that handoff. The completed CI passes 913
+tests with 28 skips (119.802 seconds). Its terminal exit is zero and its log
+SHA256 is bee15f4ffb5ffd7995098d715898a9440030f09f747d14435e8497231b5da8a8.
+After a repository-scoped producer check, reviewed cleanup removes 983 files /
+18,728,191 logical bytes: 18 current native outputs, 395 source-verified CI
+caches, 569 verified archive duplicates and the redundant preview. All 69 old
+build files, including the Type11 PDB, and 35 old separate caches remain
+byte-identical. The archive, source bindings, commands, CI log and per-path
+cleanup receipt remain. Post-clean timer-shared independently reproduces all
+17 complete canonical units /317 bytes /16 fields against the original target;
+its temporary source/OBJ/PDB tree self-cleans. Original EXE, tools, IDA state
+and older unclassified research remain preserved.

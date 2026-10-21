@@ -6,22 +6,6 @@
 typedef char ZunTimerCurrentAt08[
     (offsetof(ZunTimer, current) == 0x08) ? 1 : -1];
 
-namespace
-{
-struct ZunTimerSupervisorLayout
-{
-    unsigned char unknown000[0x5B8];
-    float gameSpeed5B8;
-    unsigned char unknown5BC[0x5D4 - 0x5BC];
-    unsigned int flags5D4;
-};
-
-typedef char ZunTimerSupervisorGameSpeedAt5B8[
-    (offsetof(ZunTimerSupervisorLayout, gameSpeed5B8) == 0x5B8) ? 1 : -1];
-typedef char ZunTimerSupervisorFlagsAt5D4[
-    (offsetof(ZunTimerSupervisorLayout, flags5D4) == 0x5D4) ? 1 : -1];
-}
-
 void ZunTimer::Initialize()
 {
     this->current = 0;
@@ -72,17 +56,14 @@ unsigned int ZunTimer::operator<=(int value)
 
 void ZunTimer::Increment(float value)
 {
-    ZunTimerSupervisorLayout *supervisor =
-        reinterpret_cast<ZunTimerSupervisorLayout *>(&g_Supervisor);
-
     this->previous = this->current;
-    if (supervisor->gameSpeed5B8 > 0.99f)
+    if (g_Supervisor.framerateMultiplier5B8 > 0.99f)
         this->subFrame += value;
     else
-        this->subFrame += supervisor->gameSpeed5B8 * value;
+        this->subFrame += g_Supervisor.framerateMultiplier5B8 * value;
 
     this->current = (int)this->subFrame;
-    if ((supervisor->flags5D4 & 0x20) != 0)
+    if ((g_Supervisor.flags5D4 & 0x20) != 0)
     {
         this->previous = -999999;
         this->subFrame += (float)this->current;

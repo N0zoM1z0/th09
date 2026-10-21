@@ -7,50 +7,39 @@
 
 ## Current verified handoff checkpoint
 
-The operator requests continued exact reconstruction,serial low-priority
-compiles,affected replays and cleanup. This checkpoint starts from pushed
-`c7c01fe`. Three game files replace the local descriptor overlay with a real
-BulletSpawnDescriptor member;two generated local labels and one existing test
-are synchronized. All80 affected canonical functions replay exact across the
-two existing ECL profiles plus the constructor:25243 complete bytes/1126 fields.
-The other923 exact source/profile proofs are reused;no new exact credit is added.
+The operator has paused reconstruction and requests a clean handoff. This
+checkpoint finishes the tested work left after pushed `b95e198`; further
+reconstruction awaits an explicit resume. The 95% milestone and all four
+RunEcl/Enemy/Title/Type3 fronts remain unfinished.
 
-- The28-byte constructor at40D500 now initializes the typed member at carrier
-  offset0,including transformSound at0x204. Size0x214,member offset0 and sound0x204
-  have compile-time checks. Enemy uses that same live object in the real Etama
-  call,removing both casts on its local temporary. Its existing persistent
-  byte-view copy stays separate;original class names and that lifetime model
-  remain unknown. Complete Enemy3900/97/13 and RunEcl15564/598/30 raw bytes stay
-  unchanged,and all3887 already matching Enemy bytes remain protected.
-- The first full comparison gives78/80 because the compiler renumbers two
-  private labels. Independent same-owner proofs cover all992/892 bytes and
-  actual table offsets0x3C8/0x34C. A fresh compile from the real repo path repeats
-  this renumbering. Only $L74134->$L74135 and $L73362->$L73363 change in their
-  existing unit records;field coordinates/types/targets/addends stay unchanged.
-  All80 canonical comparisons then pass;all1035 compiler profiles stay fixed.
-- Three genuine clamp contexts retain complete native127-byte clamp,33-byte
-  periodic predicate and188-byte motion bodies where present. Clamp alone
-  retains13;both periodic combinations restore those13 but damage45 old equal
-  bytes and remain rejected. Nine actual same-object Enemy calls are checked.
-  Eight primary native invocations include one documented C2061 failure from
-  deleting a descriptor view still used by the persistent copy;that view is
-  retained in the final source. No failed candidate receives exact credit.
-- `.analysis/gpt-61sol-20261021-enemy-clamp-context/` retains116 CRC/SHA-verified
-  members:5944769 uncompressed bytes become658265 bytes. It binds old/current
-  inputs,actual quoted include closures,complete raw/COFF for all80 units,
-  native callees,local-name proofs and the failed/successful controls. Selected
-  cold recipes are `python3 -B .../replay.py --case typed-ob1` and
-  `--case typed-leaf`. The leaf consumes seven quoted inputs;its60 spare staged
-  files are explicitly excluded from its current-source claim.
-- CI passes913 tests/28 skips. Scoped cleanup removes918 owned files/16619184
-  bytes (~15.85 MiB),including17 current native outputs and395 verified CI
-  caches. All69 old build files,including the old Type11 PDB,and35 old separate
-  caches remain byte-identical. Post-clean typed-leaf reproduces28/28;typed-ob1
-  reproduces all75 same-profile canonical units,22463 bytes/990 fields,and both
-  full unchanged main diagnostics. Temporary replay outputs are removed.
-- No new exact credit is claimed. Exact stays1003/1035 and244917/291883 bytes;
-  the32372-byte95% gap and main **RunEcl30 /Enemy13 /DrawResult22 /Type315**
-  fronts remain open. Native product/runtime and full inventory remain open.
+- `src/ZunTimer.cpp` now uses the existing shared Supervisor fields instead of
+  a duplicate layout view. The header already pins both offsets and declares
+  the flag volatile. All **17 affected canonical units /317 complete bytes /
+  16 fields** remain original-equal, including one noncredit getter alias.
+  The 16 authored Timer proofs are rechecked; 987 unaffected authored exact
+  proofs are reused. Unit definitions, profiles, interfaces and ledgers stay fixed.
+- Nine completed serial low-priority controls retain the typed constructor,
+  Type29 primitive and whole-Timer visibility evidence. The measured class-inline
+  constructor removes an original call; whole-Timer groupings shorten RunEcl.
+  Both fail the existing complete-owner guards. These results are diagnostics;
+  details and limits are in the final October 21 section of
+  [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md).
+- The local packet `.analysis/gpt-61sol-20261021-enemy-typed-constructor-context/`
+  retains 109 CRC/SHA-verified archive members, compressed from 4,578,595 to
+  574,684 bytes, plus source bindings and reproduction recipes. Its post-clean
+  `timer-shared` replay passes all 17 complete canonical comparisons and removes
+  its temporary source/OBJ/PDB tree. The retained `inline` replay recipe has not
+  been cold-tested after cleanup.
+- CI completes with **913 tests /28 skips**, exit zero. Reviewed cleanup removes
+  **983 files /18,728,191 logical bytes (~17.86 MiB)**. All 69 preexisting build
+  files and 35 old separate caches remain byte-identical. Detailed classifications
+  are in [artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md). Post-clean
+  target/tracking, docs, progress and whitespace checks pass; all 24 focused
+  documentation tests pass after the handoff edits.
+- No new exact credit is claimed. Exact remains **1003/1035**, with
+  **244917/291883 authored bytes**; the **32372-byte** 95% gap and main
+  **RunEcl30 /Enemy13 /DrawResult22 /Type315** fronts remain open. Native
+  product/runtime and full executable inventory are separate, unfinished gates.
 
 ## Live ledger snapshot
 
@@ -177,8 +166,8 @@ immutable source-commit bindings; they do not accept a later HEAD.
 
 Read [`AGENTS.md`](../AGENTS.md), [`RE_WORKFLOW.md`](RE_WORKFLOW.md), and
 [`ORACLES.md`](ORACLES.md). Inspect staged, unstaged and untracked work first.
-Call direct IDA Pro MCP `get_metadata` with exactly `{}`, then check mapped
-bytes; metadata hashes alone are insufficient.
+The reconstruction task is paused. The commands below are routing for a later
+explicit resume, not pending work needed to finish this handoff.
 
 ```bash
 git status --short --branch
@@ -187,45 +176,15 @@ git diff --cached
 python3 -B scripts/verify-target.py
 python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/report-reconstruction-status.py
+# Call direct IDA Pro MCP get_metadata with exactly {} before this check:
 python3 -B scripts/check-ida-mcp.py
-# Choose one affected owner; reuse unchanged source/profile-bound proofs.
-# Type3 ordinary Timer definition, one selected cold diagnostic:
-python3 -B scripts/probe-type3-native-context.py --case timer-plain
-# Add --variant forwarded-collision only to replay the rejected four-byte lead.
-# Genuine resolver visibility: one selected diagnostic compile, no source edits:
-python3 -B scripts/probe-runecl-resolver-context.py --case int-lvalue
-# Actual Timer context: one selected source/profile compile, no source edits:
-python3 -B scripts/probe-runecl-setter-context.py --case setter-before
-# --case pair-after reproduces the rejected 15560-byte caller.
-# Options alone: one compile, actual SetVol payload and the exact34-byte sibling:
-nice -n 10 python3 -B scripts/build-match-unit.py --unit title-screen-play-menu-sound
-python3 -B scripts/inspect-title-options.py build/matching/TitleScreenOptions.obj --require-native-input --json
-python3 -B scripts/compare-coff-function.py --unit title-screen-play-menu-sound
-# DrawResult alone, including all 15 actual literal definitions:
+# Choose one affected owner and reuse unchanged source/profile-bound proofs:
+nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner runecl
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner resultdraw
-nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner netmessage
-# One native Timer alias plus its 16 affected canonical siblings:
+nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner type3
+# Timer only: the shared alias plus its 16 authored exact siblings:
 python3 -B scripts/check-timer-current-view.py
-# Two logical aliases of one unknown-origin body; no authored credit:
-python3 -B scripts/check-vector-pointer-views.py --json
-# One separate Player logical getter; shared origin, no authored exact credit:
-python3 -B scripts/check-player-state-getter.py --json
-# Current damage scope (81 units); unchanged external proofs are reused:
-nice -n 10 python3 -B scripts/check-enemy-player-state.py --scope damage
-# After shared state declarations change, use the 104-unit default scope:
-# nice -n 10 python3 -B scripts/check-enemy-player-state.py
-# Constructor chain only by default; add --with-dependents after layout changes.
-nice -n 10 python3 -B scripts/check-replay-data-layout.py
-# Isolated component control; default all still builds only the old three:
-python3 -B scripts/probe-exattack-type3-word-order.py --case forwarding-only --output .analysis/type3-components
-# Native pointer visibility, two logical aliases of one unknown-origin body:
-python3 -B scripts/probe-type3-native-context.py --case pointer-views --variant forwarded-collision
-# One rejected Type3 joint context, plus the real 18-byte callee:
-python3 -B scripts/probe-type3-native-context.py --case interrupt --variant forwarded-collision
-# Complete Charge diagnostic with the maintained recorded profile:
-nice -n 10 scripts/compile-probe.sh src/PlayerChargeAttackUpdate.cpp build/diagnostics/charge.obj /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- /I src
-python3 -B scripts/inspect-player-charge-update.py build/diagnostics/charge.obj
-# Stage reviewed work before CI. Run validation before deleting artifacts.
+# Final checkpoint gates; CI precedes reviewed artifact cleanup:
 python3 -B scripts/validate-tracking.py
 python3 -B scripts/validate-docs.py
 python3 -B scripts/progress.py --check
@@ -234,107 +193,51 @@ git diff --check
 python3 -B scripts/clean-generated-artifacts.py
 ```
 
-The Charge CLI exits zero for a valid **nonexact diagnostic**; inspect
-`complete_bytes_equal`, differences and size deficits. It adds no exact credit.
-`inspect-player-charge-text.py` checks only seven regions.
-`check-boss-frontiers.py --owner player` checks collision, **not Charge**.
+Metadata hashes alone do not establish an unmodified IDA mapping. The check
+also compares the entry point and distributed mapped bytes against the verified
+private executable. Build a canonical unit afresh before comparing its COFF;
+missing OBJ/PDB files are expected after cleanup.
 
-Historical packet replayers verify their recorded provider/source hashes and
-may reject a later HEAD. Use the recorded commit for those historical controls.
-The current cleanup owner replays directly with its public canonical unit.
-
-The frozen controls replay with
-`python3 -B .analysis/gpt-61sol-20261020-charge-receiver-owner/replay.py
---case volatile-mode-local` or `--owner effect --case member-result`.
-Temporary sources/OBJ/PDB self-clean. These ignored packets are local evidence;
-public restart commands above use tracked maintained inputs. Rebuild a canonical
-match unit before asking for a fresh exact COFF comparison.
-
-The construction archive's selected 33-byte pair also cold-replays with
-`python3 -B .analysis/gpt-61sol-20261020-replay-construction/replay.py`.
-It stages all required frozen headers, verifies the original target and pinned
-providers, and self-cleans its temporary sources/objects. Byte equality gives
-no authored-origin credit; use the tracked public checker for maintained inputs.
-
-The earlier state-interface packet has a compact frozen replayer:
-`python3 -B .analysis/gpt-61sol-20261021-enemy-player-state/replay.py`
-checks the unchanged exact setter; `--case type3-sdk-three` checks the rejected
-SDK joint candidate. These selected archival replays give no new exact credit.
-
-The current damage packet cold-replays the frozen complete 996/55-byte pair:
-`python3 -B .analysis/gpt-61sol-20261021-enemy-damage-context/replay.py`.
-`--case effect-joint` reproduces the unadopted small 45-byte callback and its
-exact 20-byte query. These are diagnostic source/profile proofs, not receipts.
-
-The entry-census archive cold-replays 780 raw bytes /38 actual fields
-and its independently original-equal 18-byte native interrupt:
-`python3 -B .analysis/gpt-61sol-20261021-entry-census/replay.py`.
-It preserves all four differing offsets and the production guard rejection.
+For other large owners use the frontier table; for small leaves use
+[SMALL_FUNCTION_FRONTIER.md](SMALL_FUNCTION_FRONTIER.md). Historical experiment
+recipes and their exclusions remain in the knowledge base and Git history.
+A diagnostic command may exit zero with a nonexact result: inspect full-byte
+results, fields and deficits before making an exactness claim.
 
 ## Evidence and cleanup boundaries
 
 The current tree retains **491 game-source files, 1,035 comparison units and
-1,003 authored exact rows**. The pointer-interface/Replay constructor units
-remain unknown-origin byte evidence. The Timer alias adds no credit to its
-existing canonical TextHelper owner. The new Player getter adds a separate
-logical source alias of shared435EC0, retaining its unknown/review physical row.
-Of492 game inputs including the source README,489 are unchanged in this batch.
-The80 affected canonical functions are rechecked,and923 unchanged exact
-source/profile proofs are reused. The local descriptor has a typed member;
-all existing profiles,boundaries and authored exactness counts stay unchanged.
-Native product/runtime, complete
-inventory, semantic and port gates remain open.
+1,003 authored exact rows**. Of 492 game inputs including the source README,
+491 are unchanged in this batch. The 17 affected Timer units include 16 authored
+functions and one noncredit alias; 987 other authored exact proofs are reused.
+All profiles, boundaries and authored exact counts stay fixed. Pointer-interface
+and Replay constructor units remain unknown-origin byte evidence; shared Timer
+and Player getter aliases add no authored credit. Native product/runtime,
+complete inventory, semantic and port gates remain open.
 
-The current Type19 packet retains the original sources, actual COFF and
-minimal recorded compiler recipes alongside both canonical cold comparisons.
-It also records the two reviewed private-label changes and five actual-data
-counterexamples. The six Title predicate controls confer no new exact credit.
+The current packet retains `evidence.zip`, `frozen-manifest.json`, `replay.py`,
+`timer-shared-cold-receipt.json`, `ci.log`, `ci-completed.json` and `cleanup.json`.
+The archive binds the nine completed controls, exact source/include blobs,
+profiles, full raw/COFF captures and native callee/call proofs. Cleanup removes
+only verified duplicates, 18 current native outputs, 395 verified CI caches and
+one redundant preview. All 69 preexisting build files (including the Type11
+PDB) and 35 old separate caches are preserved by hash. The remaining build tree
+is intentionally retained evidence, not a fresh current-source Oracle.
 
-The current parser packet preserves the original 76-difference source, all
-new scanner controls and both canonical cold replays. Its frozen one-case
-recipe is `python3 -B .analysis/gpt-61sol-20261021-parser-scanner-context/replay.py`.
-The Enemy packet retains the five descriptor controls and real native-call
-coordinates; none is promoted to exactness.
-
-The current Type3 packet cold-replays the ordinary Timer, all-three transform
-and opaque-constructor controls with
-`python3 -B .analysis/gpt-61sol-20261021-type3-timer-comparison/replay.py`.
-ABI/prototype evidence and rejected source models do not grant exact credit.
-
-The setter-context packet cold-replays the retained setter-only case,
-rejected pair and small grouped queue with
-`python3 -B .analysis/gpt-61sol-20261021-runecl-setter-context/replay.py`.
-These are complete diagnostic comparisons, not new exact receipts.
-
-The Title packet cold-replays both renderers and all fifteen actual
-DrawResult definition mutations with
-`python3 -B .analysis/gpt-61sol-20261021-title-entry/replay.py`.
-Four private helper controls are retained with complete source/COFF evidence;
-they confer no exact credit or native product closure.
-
-The periodic-context packet cold-replays the frozen Timer 17-unit cohort and
-rejected 45-difference periodic caller with
-`python3 -B .analysis/gpt-61sol-20261021-enemy-periodic-context/replay.py`.
-`native-integer-getter` selects the private co-visible getter that fails the
-RunEcl definition inventory. Frozen controls are diagnostics, not new receipts.
-
-The KB holds bounded observations and unresolved hypotheses. Old packet numbers,
-source shapes and current-state claims are dated history, not acceptance.
-The charge-receiver-owner and effect-added-inline-owner packets under
-`.analysis/gpt-61sol-20261020-*` retain 28 compressed comparisons,36/18 unique
-shared inputs,profiles,tool hashes and selected cold replays. Duplicate staged
-copies and compiler output are removed only after verifying this frozen evidence.
+Ignored packets are local evidence and are not included in Git commits or
+pushes. Tracked source, scripts and durable observations provide the public
+restart path. Historical replayers may reject a later source tree; use their
+recorded source commit. Archival receipts do not accept a later HEAD.
 
 Never delete `resources/th09.exe`, toolchains, Wine prefixes, IDA databases,
 tracked source or unclassified evidence. Never bulk-delete `.analysis/` or run
 `git clean -X`. Around 1.6 GiB of older evidence remains pending individual
 producer/source/reference review; age alone does not make it disposable.
 
-`clean-generated-artifacts.py` previews by default. Once producers and CI finish,
-review its manifest before `--apply`; it clears ignored `build/` and unambiguous
-compiler caches in `.analysis/`. Its per-path history lives in
-`.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`; use the last
-`runs` entry, not the cumulative total. See
-[artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for actual deletions.
+`clean-generated-artifacts.py` previews by default and proposes a broader scope
+than this handoff's reviewed cleanup. Inspect every proposed path before using
+`--apply`, especially retained build evidence. The actual per-path deletion
+record is the current packet's `cleanup.json`; older removals are documented in
+[artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md).
 Post-clean checks use `PYTHONDONTWRITEBYTECODE=1 python3 -B`; rerunning CI would
-recreate caches. Missing OBJ/PDB is intentional and must be rebuilt.
+recreate caches. Compiler and replay carriers are terminal at this handoff.
