@@ -7,44 +7,42 @@
 
 ## Current verified handoff checkpoint
 
-Exact reconstruction is active after the explicit operator resume. This
-checkpoint follows pushed `ed214bd`; the 95% milestone and all four
-RunEcl/Enemy/Title/Type3 fronts remain unfinished. Continue bounded source and
-compiler work, push tested checkpoints and reuse unchanged exact proofs.
+Further reconstruction is paused under the operator's supplied instructions.
+This checkpoint finishes the dirty diagnostic batch recovered after pushed
+`dc6cc09`; it opens no new reconstruction experiment. The 95% milestone and
+RunEcl/Enemy/Title/Type3 fronts remain unfinished. Await an explicit resume.
 
-- Recovery finds a clean worktree. Original Japanese v1.50a disk identity,
-  direct IDA metadata, entry point and five distributed mapped samples pass.
-  The fresh complete Type3 baseline remains **780 bytes /38 fields /15 linked
-  differences**, with 240 instructions, 24 ordered calls and 17 direct blocks.
-- Two new selected cases in `scripts/probe-type3-native-context.py` reproduce
-  actual three-sample array and four-object query-container hypotheses. Both
-  retain 780/38/240/24/17 but have **34 differences** and fail the unchanged
-  fixed-home/byte guard. The previous actual staged inputs remain identical
-  for all existing cases and both source variants. No losing source is adopted.
-- Private natural storage/forwarding controls give 15/27/34/46 differences.
-  Negated collision branches and a source-index history loop are raw-neutral;
-  other control changes fail the full extent, call order or original callee set.
-  No register/variable-order hint, forced inlining, added volatility or
-  compiler-profile change is used. The older four-byte lead still depends on experimental qualifications
-  and damages four previously equal positions; it is not an adoption route.
-- Real placement-constructor bodies independently equal all three physical
-  bytes at 0x4343D0. Opaque ordinary callers introduce an absent EH handler
-  (851 bytes /44 fields); visible or throw() callers remain 783/38, nonexact.
-  Callee equality does not establish the original constructor/conversion role,
-  validate a caller or grant new authored credit.
-- Local evidence is `.analysis/gpt-61sol-20261022-type3-samples/`. Public baseline
-  and both new cases cold-replay independently and self-clean compiler carriers;
-  all 13 focused producer tests pass. CI passes **923 tests /28 skips**, exit zero.
-  Target-required tracking, docs, progress and whitespace pass. The 168-member
-  archive retains 2,635,460 unique source/report bytes in 394,292 bytes; one
-  archive-only constructor replay matches all 783 raw caller bytes /38 actual
-  COFF rows and the real 3-byte callee. Reviewed cleanup removes **480 files /
-  3,532,527 logical bytes**; existing build files and unrelated caches stay intact.
-- All 492 game-source inputs, canonical manifests/profiles and 1,003 authored
-  exact proofs are unchanged. No new exact credit is claimed: **1003/1035** and
-  **244917/291883 bytes** remain exact; the **32372-byte** 95% gap and main
-  **RunEcl30 /Enemy13 /DrawResult22 /Type315** fronts remain open. Full inventory,
-  native product/runtime and later gates remain unfinished.
+- Original Japanese v1.50a disk identity, direct IDA metadata, entry point and
+  five distributed mapped samples pass. The fresh complete Enemy baseline is
+  **3900 bytes /97 fields /13 differences**, 1026 instructions, 69 calls and
+  170 blocks. Reinspection through the standard full-ECL path is unchanged.
+- The recovered public `probe-enemy-native-spawn-context.py --case standalone`
+  compiles the real Enemy source without the RunEcl implementation. Both cold
+  captures reproduce all 3900 raw bytes and the 97 effective field identities
+  of the canonical baseline. Five real native helper definitions independently
+  match their complete original 514 bytes /8 fields /10 actual references.
+- Standalone inspection explicitly records a genuine external RunEcl call at
+  +0x397, with callee codegen uninspected and no exactness credit. The normal
+  inspector still requires the complete same-object 15564-byte /598-field
+  RunEcl definition. Existing full-ECL recipes preserve their source rendering.
+- Eighteen pre-review source models are retained as bounded negative evidence.
+  Standalone/vector, equivalent position-copy and shared flag-view models
+  retain 13; real periodic Timer visibility gives 45. Shared position-pointer
+  and explicit real copy-operation families fail extent, referent or exact
+  helper checks. No losing source or register/variable-order hint is adopted.
+- Evidence is `.analysis/gpt-61sol-20261022-enemy-spawn/`. The verified
+  `trials.zip` retains 1311 exact source/report files (8683769 logical bytes)
+  as 126 unique blobs in 317674 bytes. Restore paths and hashes are in its index;
+  archive replay and per-file cleanup receipts remain alongside the recipes.
+  Archive-only cold replay reproduces all 3900 raw bytes /97 actual COFF rows
+  and the five native helpers. Cleanup removes the 1311 verified copies.
+  Existing build files and unrelated caches are outside this cleanup scope.
+- CI passes **926 tests /28 skips**, exit zero. Target-required tracking,
+  documentation, generated progress and whitespace checks pass.
+- All 492 game-source inputs, canonical profiles and 1003 authored exact proofs
+  are unchanged and reused. Exact remains **1003/1035 functions** and
+  **244917/291883 bytes (83.9093%)**; 95% still needs **32372 complete bytes**.
+  Full inventory, native product/runtime and later phase gates remain open.
 
 ## Live ledger snapshot
 
@@ -171,9 +169,9 @@ immutable source-commit bindings; they do not accept a later HEAD.
 
 Read [`AGENTS.md`](../AGENTS.md), [`RE_WORKFLOW.md`](RE_WORKFLOW.md), and
 [`ORACLES.md`](ORACLES.md). Inspect staged, unstaged and untracked work first.
-The reconstruction task is active. Use one affected owner at a time and
-reuse unchanged proofs; historical countermodels are bounded negative evidence,
-not a reason to assume that an entire source family is exhausted.
+Further reconstruction is paused. After an explicit resume, use one affected
+owner at a time and reuse unchanged proofs. Historical countermodels are bounded
+negative evidence, not a reason to assume an entire source family is exhausted.
 
 ```bash
 git status --short --branch
@@ -223,12 +221,12 @@ and Replay constructor units remain unknown-origin byte evidence; shared Timer
 and Player getter aliases add no authored credit. Native product/runtime,
 complete inventory, semantic and port gates remain open.
 
-The current packet retains the natural Type3 storage/control recipes, full
-raw callers and actual COFF rows, native constructor comparisons, source/profile
-bindings and the selected public cold reports. Its reviewed archive/cleanup
-record is the current packet's `manifest.json` and `cleanup.json`. Earlier
-Replay counterchecks remain scoped to the ed214bd source checkpoint; Timer
-proofs and earlier cleanup records remain in the knowledge base and
+The current Enemy packet retains the source-model recipes, full raw callback
+and actual COFF rows, five native helper comparisons, source/profile bindings
+and both public cold reports. Its reviewed archive/cleanup records are
+`archive.json`, `archive-replay.json`, `manifest.json` and `cleanup.json`.
+The preceding Type3 and Replay evidence remains scoped to dc6cc09 and ed214bd;
+Timer proofs and earlier cleanup records remain in the knowledge base and
 [artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md). No previous build
 file or unrelated cache is classified for deletion by this batch.
 

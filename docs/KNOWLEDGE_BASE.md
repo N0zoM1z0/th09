@@ -16912,3 +16912,64 @@ verified files/3532527 logical bytes: archived duplicates plus reproducible
 compiler binaries. Public reports, actual literal audit, frozen recipes and
 per-path deletion hashes remain; no existing build file or unrelated cache is
 removed. Local commit and independently verified remote push remain separate.
+
+
+## October 22: Enemy standalone compiler context and dirty-work handoff (gpt-6.1-sol)
+
+Recovery starts at pushed dc6cc09. The verified original Japanese v1.50a target,
+direct IDA metadata, entry point and five mapped byte samples pass. A fresh
+canonical EnemyManager::OnUpdate baseline remains 3900 bytes, 97 actual COFF
+fields, 1026 instructions, 69 calls, 170 blocks and 13 differing bytes. No game
+source, canonical profile or exact ledger row changes in this batch.
+
+Eighteen private natural-source models were already produced before the progress
+review. Standalone Enemy, real Float3 core and full-vector contexts each preserve
+the baseline. Exposing the real periodic Timer body instead gives 45 differences.
+Equivalent memcpy, value and reference position copies and six shared flag-view
+models retain 13. Sharing the effect/descriptor position pointer emits 3884 bytes
+and is rejected. Explicit real Float3 copy constructor/assignment families introduce
+an unbound descriptor-assignment call, leave the reviewed owner extent or change
+an exact helper. None is adopted; these results bound only the tested shapes.
+
+The recovered public producer adds one selected standalone diagnostic:
+`python3 -B scripts/probe-enemy-native-spawn-context.py --case standalone`.
+Its carrier includes the real EclManager.hpp, EclRunState.inl and
+EnemyManagerCore.inl, without compiling the RunEcl implementation. All five real
+same-object helpers independently equal their complete original extents: attached
+effects 151, Float3 divide 56, Player collision append 205, Enemy collision append
+82 and Timer greater 20 bytes (514 bytes, eight fields, ten actual references).
+The callback's full raw stream and all 97 effective field identities equal the
+fresh canonical baseline. Raw SHA-256 is
+5e0b14168853e07552206bb24065e19f6047cc6108103fb948193c1107b268fb.
+
+Only the explicitly named standalone inspector accepts the genuine undefined
+RunEcl symbol at original call field +0x397 and destination 0x4086C0. It reports
+callee codegen as uninspected and grants no exactness credit. The standard
+inspector still requires the actual complete 15564-byte, 598-field same-object
+RunEcl definition; reinspection of the fresh canonical object reproduces the
+original baseline report. Mutation tests reject moved/fake calls, addends,
+definition coordinates and target corruption. Existing full-ECL recipes keep
+their original source rendering and strict inspection path.
+
+Local source-bound evidence is .analysis/gpt-61sol-20261022-enemy-spawn/:
+the 18 recipes/results, canonical baseline, two public standalone cold captures
+and final-comparison.json. The reviewed content-addressed trials.zip preserves
+1311 trial files (8683769 logical bytes) as 126 unique blobs in 317674 bytes;
+every member passes CRC and SHA-256 checks. Its index restores every exact path
+and source byte. Archive replay and per-file cleanup receipts remain in the
+packet. Original executable, existing build files and unrelated caches are
+outside this cleanup scope.
+
+The operator's supplied pause instruction applies to the handoff: finish the
+existing dirty diagnostic batch and start no new reconstruction experiments.
+Exact stays 1003/1035 functions and 244917/291883 bytes (83.9093%); the current
+95% gap remains 32372 bytes. RunEcl30, Enemy13, DrawResult22 and Type315 remain
+open, as do complete inventory, native product/runtime and later phase gates.
+
+Final CI passes 926 tests /28 skips, exit zero; focused Enemy binding/context
+tests, target-required tracking, docs, progress and whitespace checks pass.
+Archive-only cold replay restores the standalone source entirely from trials.zip
+and reproduces all 3900 raw bytes /97 actual COFF rows plus the five original-
+equal helper bodies. After all producers terminate, cleanup removes exactly
+1311 hash-verified archived copies /8683769 logical bytes. The compact archive,
+recipes, public reports, final comparison and per-file deletion hashes remain.

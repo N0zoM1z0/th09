@@ -22,6 +22,9 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[1]
 TARGET_SHA256 = '10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822'
 CASE_OWNERS = {
+    'standalone': ('enemy-collision-append-box', 'float3-divide',
+                   'player-collision-append-box', 'enemy-attached-effect-update',
+                   'zun-timer-greater'),
     'spawn': ('effect-manager-spawn-effect',),
     'spawn-periodic': ('effect-manager-spawn-effect', 'zun-timer-has-ticked-every'),
     'constructor-periodic': ('bullet-spawn-descriptor-constructor',
@@ -32,6 +35,14 @@ CASE_OWNERS = {
 }
 CASES = tuple(CASE_OWNERS)
 NATIVE_OWNERS = {
+    'enemy-collision-append-box': (
+        0x410250, 82, '?AppendPlayerCollisionBox@EnemyAppendCollisionView@@QAEXPBUFloat3@@0@Z', 2),
+    'float3-divide': (0x40F5A0, 56, '??KFloat3@@QBE?AU0@M@Z', 2),
+    'player-collision-append-box': (
+        0x40F8E0, 205, '?AppendBoxRecord@PlayerCollisionQueryStateView@@QAEXPBUPlayerPositionView@@0H@Z', 1),
+    'enemy-attached-effect-update': (
+        0x40F4C0, 151, '?EnemyCoreUpdateAttachedEffects@@YIXPAUEnemyCoreView@@@Z', 1),
+    'zun-timer-greater': (0x403DE0, 20, '??OZunTimer@@QAEIH@Z', 4),
     'effect-manager-spawn-effect': (
         0x40CC00, 184, '?SpawnEffect@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@HI@Z', 4),
     'zun-timer-has-ticked-every': (
@@ -147,9 +158,14 @@ def run(case, output):
         for include in re.findall(rb'^\s*#\s*include\s*"([^"]+)"', data, re.M):
             collect((Path(name).parent/include.decode()).as_posix())
 
-    collect('EclManager.cpp')
+    if case == 'standalone':
+        for name in ('EclManager.hpp', 'EclRunState.inl', 'EnemyManagerCore.inl'):
+            collect(name)
+    else:
+        collect('EclManager.cpp')
     observed = {ROOT/'src'/n: data for n, data in inputs.items()}
-    native_sources = ['EffectManager.cpp', 'ZunTimerHasTickedEvery.cpp']
+    native_sources = ([] if case == 'standalone' else
+                      ['EffectManager.cpp', 'ZunTimerHasTickedEvery.cpp'])
     if 'bullet-spawn-descriptor-constructor' in CASE_OWNERS[case]:
         native_sources.append('BulletSpawnDescriptorCtor.cpp')
     for name in native_sources:
@@ -164,12 +180,17 @@ def run(case, output):
     observed[units_path] = units_bytes
     observed[coff.TARGET_MANIFEST] = coff.TARGET_MANIFEST.read_bytes()
     hashes = {p.relative_to(ROOT).as_posix(): digest(b) for p, b in observed.items()}
-    source = inputs['EclManager.cpp'].decode().replace('\r\n', '\n')
-    bodies = native_bodies(case, {n: observed[ROOT/'src'/n] for n in native_sources})
-    anchor = '#include "EnemyManagerCore.inl"'
-    if source.count(anchor) != 1:
-        raise ValueError('reviewed Enemy lexical include changed')
-    generated = source.replace(anchor, bodies+'\n'+anchor, 1)
+    if case == 'standalone':
+        generated = ('#include "EclManager.hpp"\n'
+                     '#include "EclRunState.inl"\n'
+                     '#include "EnemyManagerCore.inl"\n')
+    else:
+        source = inputs['EclManager.cpp'].decode().replace('\r\n', '\n')
+        bodies = native_bodies(case, {n: observed[ROOT/'src'/n] for n in native_sources})
+        anchor = '#include "EnemyManagerCore.inl"'
+        if source.count(anchor) != 1:
+            raise ValueError('reviewed Enemy lexical include changed')
+        generated = source.replace(anchor, bodies+'\n'+anchor, 1)
     report = dict(state='incomplete', diagnostic_only=True, exactness_credit='none',
                   case=case, profile=profile, source_inputs_sha256=hashes,
                   target_sha256=digest(image), native_definitions={})
@@ -184,6 +205,7 @@ def run(case, output):
                 (root/name).write_bytes(data)
             (root/'EclManager.cpp').write_text(generated)
             staged = {n: digest((root/n).read_bytes()) for n in inputs}
+            staged['EclManager.cpp'] = digest((root/'EclManager.cpp').read_bytes())
             obj = root/'unit.obj'
             build = subprocess.run(['nice', '-n', '10', str(ROOT/'scripts/compile-probe.sh'),
                                     str(root/'EclManager.cpp'), str(obj), *profile],
@@ -204,21 +226,32 @@ def run(case, output):
                 native = dict(raw_hex=body.hex(), coff=fields,
                               **compare_native_definition(body, fields, unit,
                                                           coff.pe_bytes_at(image, address, size)))
-                native['caller_definition'] = require_caller_definition(rows, symbol, count)
+                caller_rows = rows
+                if case == 'standalone' and name in ('float3-divide', 'player-collision-append-box'):
+                    collision_rows = report['native_definitions'][
+                        'enemy-collision-append-box']['coff']
+                    caller_rows = (rows+collision_rows if name == 'float3-divide'
+                                   else collision_rows)
+                native['caller_definition'] = require_caller_definition(caller_rows, symbol, count)
                 if fields and any(r['owner_section'] != native['caller_definition']['section']
                                   or r['owner_value'] != 0 for r in fields):
                     raise ValueError('native body and actual caller refer to different definitions')
                 report['native_definitions'][name] = native
-            report['enemy'] = enemy.diagnose(obj)
-            ecl = module('native_spawn_ecl', 'inspect-ecl-complete.py')
-            report['runecl'] = ecl.report(obj)
+            if case == 'standalone':
+                report['enemy'] = enemy.diagnose_standalone(obj)
+                report['runecl'] = None
+                report['runecl_compilation_skipped'] = True
+            else:
+                report['enemy'] = enemy.diagnose(obj)
+                ecl = module('native_spawn_ecl', 'inspect-ecl-complete.py')
+                report['runecl'] = ecl.report(obj)
             frontier = module('native_spawn_frontier', 'check-boss-frontiers.py')
             try:
                 report['frontier'] = frontier.guard_enemy_update(report['enemy'])
                 report['frontier_guard_passed'] = True
             except RuntimeError as error:
                 report.update(frontier_guard_passed=False, frontier_error=str(error))
-            if staged != {n: digest((root/n).read_bytes()) for n in inputs}:
+            if staged != {n: digest((root/n).read_bytes()) for n in staged}:
                 raise ValueError('staged source changed during compilation')
         if any(p.read_bytes() != data for p, data in observed.items()):
             raise ValueError('live source/provider changed during native experiment')
@@ -251,9 +284,12 @@ def main():
     except (OSError, ValueError, KeyError, RuntimeError) as error:
         print('Enemy native context rejected:', error, file=sys.stderr)
         return 2
+    runecl_status = (str(report['runecl']['different_bytes'])+' RunEcl differences'
+                    if report['runecl'] is not None else
+                    'RunEcl not compiled; external original-call identity only')
     print(args.case, report['enemy']['candidate_bytes'], 'bytes;',
           report['enemy']['complete_differences'], 'Enemy differences;',
-          report['runecl']['different_bytes'], 'RunEcl differences;',
+          runecl_status, ';',
           'native definitions exact; frontier', report['frontier_guard_passed'],
           '; diagnostic only')
     return 0

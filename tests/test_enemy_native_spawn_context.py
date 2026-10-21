@@ -49,6 +49,22 @@ class EnemyNativeSpawnContext(unittest.TestCase):
             probe.native_bodies('spawn', inputs)
         # Unselected source is not silently inserted or required to be valid.
         self.assertNotIn('spawn_body', probe.native_bodies('constructor-periodic', inputs))
+        self.assertEqual(probe.native_bodies('standalone', {}), '')
+
+    def test_standalone_keeps_all_five_real_native_contracts(self):
+        expected = {
+            'enemy-collision-append-box': (0x410250, 82, 2),
+            'float3-divide': (0x40F5A0, 56, 2),
+            'player-collision-append-box': (0x40F8E0, 205, 1),
+            'enemy-attached-effect-update': (0x40F4C0, 151, 1),
+            'zun-timer-greater': (0x403DE0, 20, 4),
+        }
+        self.assertEqual(set(probe.CASE_OWNERS['standalone']), set(expected))
+        for name, (address, size, references) in expected.items():
+            with self.subTest(name=name):
+                actual = probe.NATIVE_OWNERS[name]
+                self.assertEqual((actual[0], actual[1], actual[3]),
+                                 (address, size, references))
 
     def test_complete_native_code_and_all_actual_fields_required(self):
         raw, fields, unit, target = definition()

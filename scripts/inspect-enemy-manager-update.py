@@ -203,6 +203,32 @@ def require_runecl_definition(caller_fields, callee_raw, callee_fields):
                 definition_fields=len(callee_fields))
 
 
+def require_external_runecl_call(caller_fields, target):
+    """Check only a genuine external call for the explicit standalone probe.
+
+    This proves no callee visibility or codegen. The normal inspector still
+    requires the complete same-object RunEcl definition.
+    """
+    observed = [row for row in caller_fields
+                if row['symbol'] == RUNECL_SYMBOL or row['offset'] == 0x397]
+    if len(observed) != 1:
+        raise ValueError('standalone Enemy RunEcl call inventory differs')
+    row = observed[0]
+    if (type(row['offset']) is not int or row['offset'] != 0x397
+            or row['symbol'] != RUNECL_SYMBOL
+            or row['type'] != 'REL32' or row['addend'] != 0
+            or type(row['addend']) is not int
+            or type(row.get('symbol_section')) is not int or row['symbol_section'] != 0
+            or type(row.get('symbol_value')) is not int or row['symbol_value'] != 0
+            or type(row.get('owner_section')) is not int or row['owner_section'] <= 0
+            or len(target) != OWNER_SIZE or target[0x396] != 0xE8
+            or BASE+0x397+4+struct.unpack_from('<i', target, 0x397)[0] != 0x4086C0):
+        raise ValueError('standalone Enemy lost its true external RunEcl call')
+    return dict(symbol=RUNECL_SYMBOL, call_offset=0x397,
+                same_object_definition=False, callee_codegen='not inspected',
+                original_call_destination=0x4086C0, exactness_credit='none')
+
+
 def external_destination(row, units, functions, registry):
     symbol = row['symbol']
     if symbol in semantic_aliases:
@@ -250,6 +276,15 @@ def bind_field(row, units, functions, registry, compare, target):
 
 
 def diagnose(path, *, explain=False):
+    return _diagnose(path, explain=explain, external_runecl=False)
+
+
+def diagnose_standalone(path, *, explain=False):
+    """Explicit bounded diagnostic; never claim a same-object RunEcl proof."""
+    return _diagnose(path, explain=explain, external_runecl=True)
+
+
+def _diagnose(path, *, explain, external_runecl):
     compare = load_compare()
     units, functions, registry = reference_index()
     target_file = compare.verified_target()
@@ -258,9 +293,12 @@ def diagnose(path, *, explain=False):
         raise ValueError("original EnemyManager full-owner SHA changed")
     source, relocations = compare.object_function(
         path, SYMBOL, include_symbol_locations=True)
-    callee_raw, callee_fields = compare.object_function(
-        path, RUNECL_SYMBOL, include_symbol_locations=True)
-    native_run_owner = require_runecl_definition(relocations, callee_raw, callee_fields)
+    if external_runecl:
+        native_run_owner = require_external_runecl_call(relocations, target)
+    else:
+        callee_raw, callee_fields = compare.object_function(
+            path, RUNECL_SYMBOL, include_symbol_locations=True)
+        native_run_owner = require_runecl_definition(relocations, callee_raw, callee_fields)
     native_player_state = require_player_state_calls(relocations, units, target)
     native_player_damage = require_player_damage_calls(relocations, units, target)
     greater_raw, greater_fields = compare.object_function(path, TIMER_GREATER_SYMBOL)

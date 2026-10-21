@@ -24,6 +24,43 @@ class TargetPayload:
 
 
 class EnemyUpdateBindingTests(TestCase):
+    def test_external_runecl_mode_checks_real_call_without_claiming_visibility(self):
+        call = self.row(symbol=inspector.RUNECL_SYMBOL, offset=0x397)
+        target = bytearray(inspector.OWNER_SIZE)
+        target[0x396] = 0xE8
+        struct.pack_into('<i', target, 0x397, 0x4086C0-(inspector.BASE+0x397+4))
+        result = inspector.require_external_runecl_call([call], target)
+        self.assertFalse(result['same_object_definition'])
+        self.assertEqual(result['callee_codegen'], 'not inspected')
+        self.assertEqual(result['exactness_credit'], 'none')
+        for change in ({'offset': 0x399}, {'symbol': '?FakeRunEcl@@YGHH@Z'},
+                       {'type': 'DIR32'}, {'addend': 4}, {'addend': False},
+                       {'symbol_section': 7}, {'symbol_section': False},
+                       {'symbol_value': 1}, {'symbol_value': False},
+                       {'owner_section': 0}, {'owner_section': True}):
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                inspector.require_external_runecl_call([dict(call, **change)], target)
+        for rows in ([], [call, call]):
+            with self.subTest(rows=rows), self.assertRaises(ValueError):
+                inspector.require_external_runecl_call(rows, target)
+        for corrupted in (target[:-1], bytearray(target)):
+            if len(corrupted) == inspector.OWNER_SIZE:
+                corrupted[0x397] ^= 1
+            with self.assertRaises(ValueError):
+                inspector.require_external_runecl_call([call], corrupted)
+
+    def test_standalone_entry_does_not_change_the_standard_definition_gate(self):
+        with patch.object(inspector, '_diagnose', return_value='fixture') as run:
+            self.assertEqual(inspector.diagnose('fixture.obj'), 'fixture')
+            run.assert_called_once_with('fixture.obj', explain=False, external_runecl=False)
+        with patch.object(inspector, '_diagnose', return_value='fixture') as run:
+            inspector.diagnose_standalone('fixture.obj')
+            run.assert_called_once_with('fixture.obj', explain=False, external_runecl=True)
+        call = self.row(symbol=inspector.RUNECL_SYMBOL, offset=0x397)
+        fields = [dict(owner_section=8, owner_value=0) for _ in range(598)]
+        with self.assertRaisesRegex(ValueError, 'does not resolve'):
+            inspector.require_runecl_definition([call], bytes(15564), fields)
+
     def row(self, **edits):
         base = {
             'symbol': 'checked_external', 'symbol_section': 0,
