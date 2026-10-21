@@ -7,44 +7,40 @@
 
 ## Current verified handoff checkpoint
 
-The operator requests continued exact reconstruction, serial low-priority
-compiles, affected replays and cleanup. This checkpoint starts from pushed
-`3c1039e`. All492 game inputs, all1035 units and exact ledgers remain unchanged;
-all1003 authored exact source/profile proofs are reused. The two Options Oracle
-providers and their tests change; no game source or compiler profile is adopted.
+The operator requests continued exact reconstruction,serial low-priority
+compiles,affected replays and cleanup. This checkpoint starts from pushed
+`4f9878b`. The188-byte IntegrateMotion owner remains exact and now uses the
+shared Supervisor declaration. One game CPP and three symbols in its existing
+unit change;491 game inputs,1034 other units and every profile remain unchanged.
+The one affected canonical unit is replayed;1002 unchanged exact proofs are reused.
 
-- Fresh proper-profile Options repeats2048/2045 bytes,135 fields,51 calls,
-  121 blocks and610 overlap differences plus3 extra. Actual full comparison
-  now reports all610 residual offsets; the guard pins the original full SHA
-  and protects all1435 already equal positions. Same-count mismatch moves,
-  malformed offsets and changed original hashes reject; convergence remains
-  noncrediting. The three new tests cover every protected position.
-- Nine private source controls test confirmation normalization,branch structures,
-  genuine selection getters and a width-preserving menu enum. Normalized switch
-  and its genuine getter emit2050/135/343,550 aligned instructions,seven damaged
-  old matches. Normalized reverse-if emits2047/135/330 but damages five old
-  matches and changes the directed graph. Both remain rejected,despite lower
-  overlap counts. The original baseline stays maintained.
-- Other source forms preserve2048/610 or fail original field identity/order;
-  full physical size alone is not exactness. Older index/exit controls are read
-  and distinguished from the new explicit normalization combinations. An initial
-  wrong-profile shell command and Python import setup error are recorded as
-  producer mistakes,corrected before scoring; profiles are never varied to fit.
-- The separately exact PlayMenuSound passes34/34 with all three canonical fields
-  using this turn's fresh unchanged source/profile-bound object. Options has
-  one canonical sibling; unrelated Title/ECL/Player proofs are reused.
-- `.analysis/gpt-61sol-20261021-options-loop-structure/` retains47 CRC/SHA-verified
-  archive members:1250241 uncompressed bytes become247644 bytes. Selected nice10
-  recipes `python3 -B .../replay.py --case baseline` and
-  `--case normalized-if-reverse` compare every actual raw byte/COFF row, the
-  strengthened full guard and the actual34-byte native menu-sound body. Inputs
-  distinguish the original capture providers from the two reviewed updates.
-- CI passes911 tests/28 skips. Scoped cleanup removes545 files/9688412 bytes
-  (~9.24 MiB),including11 private OBJ/PDB pairs and the fresh canonical object
-  copy. Of395 current CI caches,392 reuse identical verified source/cache bytes;
-  three changed-source caches are independently code-object verified. All69
-  old build files and35 old separate caches remain byte-identical. Both selected
-  post-clean cold replays pass; original EXE,tools,IDA and old evidence stay.
+- EnemyIntegrateMotion.cpp removes its separate EnemyMotionSupervisorView global
+  and reads shared Supervisor::framerateMultiplier5B8. All188 raw bytes,four
+  fields,field offsets/kinds/addends and original values remain unchanged. Three
+  DIR32 symbols become the real shared g_Supervisor,with base4B3100/addend5B8.
+  No caller ABI,arithmetic,read ordering,exact row or new authored credit changes.
+- Four real Greater declaration leaves,bool/int and const uint/int,all reproduce
+  complete original20-byte403DE0 bodies. Integer/const callers retain full
+  Enemy3900/97/13 and every maintained raw byte; bool gives17,damaging the four
+  old EAX-test positions A5/27A/925/ECA with AL tests. No declaration is adopted;
+  the old nominal unsigned-return target claim is corrected to full EAX0/1.
+- Genuine co-visible motion alone retains13; motion plus the actual33-byte
+  periodic predicate gives45 and stays rejected. Both actual188-byte motion
+  bodies,four fields,54-byte subtraction and26-byte constructor chains match
+  original completely. All six full carriers retain RunEcl15564/598/30.
+  The visible grouping stays private; maintained motion stays a separate TU.
+- `.analysis/gpt-61sol-20261021-enemy-greater-declarations/` retains102 CRC/SHA-
+  verified archive members:2473335 uncompressed bytes become369035 bytes.
+  Selected nice10 recipes `python3 -B .../replay.py --case motion-shared` and
+  `--case context-motion-periodic` reproduce every actual raw/COFF row,full native
+  bodies and unchanged acceptance/rejection. Current628 bindings distinguish
+  the two reviewed source/config changes from their initial capture epoch.
+- CI passes911 tests/28 skips. Scoped cleanup removes873 files/15202421 bytes
+  (~14.50 MiB),including13 current OBJ/PDB pairs and395 source-verified CI
+  caches. All69 old build files and35 old separate caches remain byte-identical.
+  Both selected post-clean cold recipes pass;original EXE,tools,IDA and old
+  unclassified research are preserved. Nondebug motion sections also remain
+  identical (`.text` 188 bytes and `.drectve` 44 bytes);whole-product closure stays open.
 - No new exact credit is claimed. Exact stays1003/1035 and244917/291883 bytes;
   the32372-byte95% gap and main **RunEcl30 /Enemy13 /DrawResult22 /Type315**
   fronts remain open. Native product/runtime and full inventory remain open.

@@ -1,14 +1,8 @@
 #include "EnemyManager.hpp"
 #include "AsciiManager.hpp"
+#include "Supervisor.hpp"
 
 #include <stddef.h>
-
-struct EnemyMotionSupervisorView
-{
-    unsigned char unknown000[0x5B8];
-    float frameRateMultiplier5B8;
-};
-extern EnemyMotionSupervisorView g_Supervisor;
 
 namespace
 {
@@ -43,23 +37,23 @@ void EnemyView::IntegrateMotion()
     if ((view->flags3380 & 0x1000U) != 0)
     {
         view->position2D74.x +=
-            g_Supervisor.frameRateMultiplier5B8 *
+            g_Supervisor.framerateMultiplier5B8 *
             view->alternateVelocity2D98.x;
         view->position2D74.y +=
-            g_Supervisor.frameRateMultiplier5B8 *
+            g_Supervisor.framerateMultiplier5B8 *
             view->alternateVelocity2D98.y;
     }
     else
     {
         if ((view->flags337C & 0x8000U) == 0)
             view->position2D74.x +=
-                g_Supervisor.frameRateMultiplier5B8 *
+                g_Supervisor.framerateMultiplier5B8 *
                 view->velocity2D8C.x;
         else
             view->position2D74.x -=
-                g_Supervisor.frameRateMultiplier5B8 *
+                g_Supervisor.framerateMultiplier5B8 *
                 view->velocity2D8C.x;
         view->position2D74.y +=
-            g_Supervisor.frameRateMultiplier5B8 * view->velocity2D8C.y;
+            g_Supervisor.framerateMultiplier5B8 * view->velocity2D8C.y;
     }
 }

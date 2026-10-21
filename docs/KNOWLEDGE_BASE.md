@@ -12009,7 +12009,7 @@ attest historical producer execution.
   none is integrated and none proves a compiler limitation or gameplay equality.
 - Original41DA88 forms Player+1B74 and41DA8E calls403DE0. That complete20-byte
   callee reads receiver+8, performs signed greater-than against its int argument,
-  returns unsigned0/1 and cleans four stack bytes; it is the existing canonical
+  returns full EAX0/1 and cleans four stack bytes; it is the existing canonical
   ZunTimer::operator>. FindCollisionAtPlayer now uses that declaration instead
   of the source-only PlayerCollisionTimerView2::IsAfter alias. Its actual COFF
   field at+1F changes spelling to ??OZunTimer@@QAEIH@Z, with the same REL32
@@ -16386,3 +16386,106 @@ lead stays rejected. Temporary outputs self-clean. All628 final provider/source
 bindings remain stable,with the two deliberate Oracle updates distinguished
 from their original captured versions. Exact reconstruction and the active
 campaign remain incomplete.
+
+## October 21: native Enemy motion global and Greater declaration counterchecks (gpt-6.1-sol)
+
+Recovery starts at independently pushed4f9878b with a clean tree. Original
+Japanese v1.50a disk,direct IDA metadata,entry and distributed mapped bytes pass.
+Prior native SpawnEffect,descriptor constructors,SDK and periodic controls are
+read before selecting work;those already covered contexts are not rebuilt.
+
+**Maintained source correction:** EnemyIntegrateMotion.cpp formerly redeclared
+`g_Supervisor` using EnemyMotionSupervisorView. Its separate compiler-decorated
+global was numerically mapped to the native4B3100 root. The shared Supervisor.hpp
+already independently fixes the actual float member at+5B8 and the common
+Supervisor global declaration. The motion source now includes that header and
+uses `g_Supervisor.framerateMultiplier5B8`,removing the distinct private global.
+This repairs a C++ data-reference identity,not a unique original class/name or
+complete Supervisor storage/layout claim.
+
+Fresh private before/after compiles preserve all188 raw code bytes. Complete
+original binding passes all four fields:Float3 subtraction at+1F and three
+DIR32 frame-multiplier fields at+56/+69/+A0. Only those three actual symbols
+change from the private struct identity to `?g_Supervisor@@3VSupervisor@@A`.
+Offsets,kinds,addends5B8,base4B3100,effective4B36B8 and the original encoded
+values stay fixed. The five ordinary source reads still emit three such fields;
+no store,qualifier,arithmetic,calling convention or profile is changed.
+
+The maintained source path is rebuilt afresh after editing. Canonical
+`enemy-integrate-motion` comparison passes188/188 and all four fields. Its
+profile,size,target,address fields and method symbol remain unchanged;only
+three global spellings in this one existing unit change. The other1034 units
+are identical. Of492 game inputs,only this one CPP changes. Its source is not
+included by another maintained TU,so1002 unchanged exact source/profile proofs
+are reused. No header or caller is changed. This reconnects one shared native
+data reference;Windows product/link/runtime closure remains independently open.
+
+**Timer source hypothesis:** the real ZunTimer::operator> body is tested with
+four actual consistent header/definition declarations under the existing ECL
+profile:bool,int,const unsigned-int member and const int member. Every complete
+native body is the same20 original403DE0 bytes with zero fields. The earlier
+wording that target code proves an unsigned return is corrected:it observes
+full EAX0/1,not unique C++ nominal signedness,return type or const qualification.
+Actual decorated names are discovered by bounded COFF symbol-table parsing.
+
+All four whole ECL/Enemy carriers retain3900 bytes,97 fields,1026 instructions,
+69 ordered calls,170 blocks and full RunEcl15564/598/30. Three dword-result
+contexts repeat every maintained raw Enemy byte and13 differences. Bool gives17
+with no restored old mismatch and four damaged old-equal positions:+A5,+27A,
++925,+ECA. Each changes an EAX result test to AL. No declaration is adopted.
+The diagnostic alias/source-unit projection exists only after the complete
+20-byte native body and four actual positive same-object REL32/addend0/value0
+call coordinates pass;production symbols,headers and guards are unchanged.
+Callee equality does not validate a changed caller or determine original source.
+
+Two new current native-body contexts expose genuine IntegrateMotion alone or
+with genuine HasTickedEvery. The full actual188-byte motion/four-field body
+matches in both,as do its actual54-byte subtraction/one field and26-byte
+constructor/zero fields. The joint periodic body remains33/33 with no fields.
+Motion alone leaves Enemy13;the joint caller gives45,restoring the old13 but
+damaging45 equal positions. Both retain full RunEcl30. Neither grouping is
+adopted;the canonical motion implementation remains in its separate source.
+Other co-emitted functions are not claimed exact in these private contexts.
+
+Thirteen primary C++ compiles succeed serially at nice10:four declaration
+leaves,four full callers,two standalone motion controls,two full motion contexts
+and the maintained canonical motion build. A source-use preflight assertion is
+corrected to five before compiling;it is not a rejected source model. Packaging
+uses the observed lowercase canonical PDB filename rather than assuming a
+case-sensitive stem;no compiler result is rerun to repair packaging metadata.
+
+Evidence is .analysis/gpt-61sol-20261021-enemy-greater-declarations/:102
+CRC/member-SHA-verified archive members,2473335 uncompressed bytes in369035 bytes,
+SHA256 df238eba39fa1010c1b96ee94d83e1a5c6f80d58ea8570f8d6f9a1837dfd15f2.
+Selected temporary serial recipes are `python3 -B .../replay.py --case
+motion-shared` and `--case context-motion-periodic`;they repeat actual raw/COFF,
+full original bodies and the unchanged exact/rejected outcomes. Initial and
+current source/config bindings remain distinct. No Factory receipt,new authored
+owner or new exact row is claimed. Canonical totals stay1003/1035 and
+244917/291883 bytes (83.9093%);95% still needs32372 whole authored bytes.
+RunEcl30,Enemy13,DrawResult22 andType315,full inventory,native product/runtime
+and later semantic/port gates remain unfinished.
+
+Final CI passes911 tests/28 skips,with target-required tracking,documentation,
+open build-graph,generated progress and whitespace checks. The two before/after
+motion objects also have identical raw nondebug sections,flags and order:
+`.text` (188 bytes) and `.drectve` (44 bytes). The retained motion-runtime-sections.json binds this
+observation to both complete object hashes and the real profile. Relocation
+symbol identities differ as reviewed;debug/full-object equality,native link
+and runtime closure are not inferred.
+
+After producer termination,archive CRC/member SHA and source/cache checks permit
+removing873 current-owned files/15202421 bytes (~14.50 MiB): archived source/
+report duplicates,13 fresh OBJ/PDB pairs,395 CI caches and a redundant preview.
+All395 cache bytes and exact repository/runtime source hashes equal earlier
+independently verified code-object proofs;unchanged proofs are reused. All69 old
+build files and35 old separate caches remain byte-identical. Original source/
+runtime,EXE,toolchain,IDA and unclassified older research remain untouched.
+
+Both selected post-clean cold recipes pass again. The shared motion body repeats
+all188 original bytes/four fields;the joint context repeats native188/33 and the
+54/26-byte chain,full Enemy45 rejection and RunEcl30. Temporary native outputs
+self-clean. All628 final source/config/provider bindings remain stable,with the
+one CPP and one unit's three deliberate symbol updates separated from the
+initial capture epoch. Exact totals and the active reconstruction goal remain
+incomplete;no new source-commit acceptance receipt is claimed.
