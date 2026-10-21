@@ -7,40 +7,44 @@
 
 ## Current verified handoff checkpoint
 
-The operator has explicitly resumed exact reconstruction after the clean pushed
-`7e178d8` handoff. The 95% milestone and all four RunEcl/Enemy/Title/Type3
-fronts remain unfinished. Continue bounded source/target/compiler work, commit
-and push tested checkpoints, and reuse unchanged source/profile-bound proofs.
+Exact reconstruction is active after the explicit operator resume. This
+checkpoint follows pushed `ed214bd`; the 95% milestone and all four
+RunEcl/Enemy/Title/Type3 fronts remain unfinished. Continue bounded source and
+compiler work, push tested checkpoints and reuse unchanged exact proofs.
 
 - Recovery finds a clean worktree. Original Japanese v1.50a disk identity,
-  direct IDA metadata, entry point and all five distributed mapped samples pass.
-  Fresh maintained-path diagnostics repeat RunEcl **15,564 bytes /598 fields /
-  30 ordinary differences** and SaveReplay **1,238 bytes /53 fields /3 differences**.
-- `scripts/probe-replay-seed-context.py` tests eight real Replay source contexts:
-  baseline, actual setter before/after, complete runtime leaves before/after,
-  typed `GameConfiguration` copy and its two native-definition combinations.
-  All repeat BeginPlaybackStage **538/540 bytes /32 fields /39 differences**,
-  its complete raw body and twelve-block graph. The actual 14-byte setter,
-  and all four native leaves in full contexts (39 bytes total), remain
-  original-equal. A same-object call is independently required before calling
-  a definition visible. No context improves or becomes maintained game source.
-- The public producer freezes the actual quoted include graph, binds source,
-  profile, target and diagnostic inputs, and removes its temporary source/OBJ/PDB
-  after each single serial nice10 compile. Eight focused pure tests reject
-  incorrect complete bodies, target extents, callee identities/definitions,
-  source boundaries, project includes and output destinations.
-- All game source, original ABI, profiles and exact ledgers remain unchanged.
-  The previous Timer proof is source-commit-bound to `7e178d8`; no broad exact
-  cohort replay is needed for these isolated diagnostics. Native product/runtime
-  and full executable inventory remain separate unfinished gates.
-- Local evidence is `.analysis/gpt-61sol-20261021-resumed-runecl/`. CI passes
-  **921 tests /28 skips**, exit zero; target-required tracking, docs, progress
-  and whitespace pass. Reviewed cleanup removes **88 files /1,444,083 logical
-  bytes** of owned prototype source/OBJ/PDB copies; complete reports and recipes
-  remain. No existing build file or unrelated cache is removed.
-- No new exact credit is claimed. Exact remains **1003/1035**, with
-  **244917/291883 authored bytes**; the **32372-byte** 95% gap and main
-  **RunEcl30 /Enemy13 /DrawResult22 /Type315** fronts remain open.
+  direct IDA metadata, entry point and five distributed mapped samples pass.
+  The fresh complete Type3 baseline remains **780 bytes /38 fields /15 linked
+  differences**, with 240 instructions, 24 ordered calls and 17 direct blocks.
+- Two new selected cases in `scripts/probe-type3-native-context.py` reproduce
+  actual three-sample array and four-object query-container hypotheses. Both
+  retain 780/38/240/24/17 but have **34 differences** and fail the unchanged
+  fixed-home/byte guard. The previous actual staged inputs remain identical
+  for all existing cases and both source variants. No losing source is adopted.
+- Private natural storage/forwarding controls give 15/27/34/46 differences.
+  Negated collision branches and a source-index history loop are raw-neutral;
+  other control changes fail the full extent, call order or original callee set.
+  No register/variable-order hint, forced inlining, added volatility or
+  compiler-profile change is used. The older four-byte lead still depends on experimental qualifications
+  and damages four previously equal positions; it is not an adoption route.
+- Real placement-constructor bodies independently equal all three physical
+  bytes at 0x4343D0. Opaque ordinary callers introduce an absent EH handler
+  (851 bytes /44 fields); visible or throw() callers remain 783/38, nonexact.
+  Callee equality does not establish the original constructor/conversion role,
+  validate a caller or grant new authored credit.
+- Local evidence is `.analysis/gpt-61sol-20261022-type3-samples/`. Public baseline
+  and both new cases cold-replay independently and self-clean compiler carriers;
+  all 13 focused producer tests pass. CI passes **923 tests /28 skips**, exit zero.
+  Target-required tracking, docs, progress and whitespace pass. The 168-member
+  archive retains 2,635,460 unique source/report bytes in 394,292 bytes; one
+  archive-only constructor replay matches all 783 raw caller bytes /38 actual
+  COFF rows and the real 3-byte callee. Reviewed cleanup removes **480 files /
+  3,532,527 logical bytes**; existing build files and unrelated caches stay intact.
+- All 492 game-source inputs, canonical manifests/profiles and 1,003 authored
+  exact proofs are unchanged. No new exact credit is claimed: **1003/1035** and
+  **244917/291883 bytes** remain exact; the **32372-byte** 95% gap and main
+  **RunEcl30 /Enemy13 /DrawResult22 /Type315** fronts remain open. Full inventory,
+  native product/runtime and later gates remain unfinished.
 
 ## Live ledger snapshot
 
@@ -219,15 +223,14 @@ and Replay constructor units remain unknown-origin byte evidence; shared Timer
 and Player getter aliases add no authored credit. Native product/runtime,
 complete inventory, semantic and port gates remain open.
 
-The current packet retains fresh RunEcl/SaveReplay baseline logs, the eight
-Replay context source bindings and full caller/native reports, and the private
-prototype's compact reproduction source. The tracked public producer is the
-current replay entrypoint; each invocation self-cleans its temporary source and
-compiler output. Old Timer packet details and reviewed deletion records remain
-in [artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) and the final
-October 21 Timer section of the knowledge base. Its 69 preexisting build files
-and 35 separate caches were retained deliberately; no broad cleanup is authorized
-by their age or by this restart.
+The current packet retains the natural Type3 storage/control recipes, full
+raw callers and actual COFF rows, native constructor comparisons, source/profile
+bindings and the selected public cold reports. Its reviewed archive/cleanup
+record is the current packet's `manifest.json` and `cleanup.json`. Earlier
+Replay counterchecks remain scoped to the ed214bd source checkpoint; Timer
+proofs and earlier cleanup records remain in the knowledge base and
+[artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md). No previous build
+file or unrelated cache is classified for deletion by this batch.
 
 Ignored packets are local evidence and are not included in Git commits or
 pushes. Tracked source, scripts and durable observations provide the public
@@ -245,4 +248,5 @@ than this handoff's reviewed cleanup. Inspect every proposed path before using
 record is the current packet's `cleanup.json`; older removals are documented in
 [artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md).
 Post-clean checks use `PYTHONDONTWRITEBYTECODE=1 python3 -B`; rerunning CI would
-recreate caches. Check all compiler and replay handles are terminal before cleaning their outputs.
+recreate caches. Check all compiler and replay handles are terminal before
+cleaning their outputs.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cold Type3 callee-visibility controls; no source adoption or exact credit.
+"""Cold Type3 source/context controls; no source adoption or exact credit.
 
 Run one case on the maintained source or the rejected four-byte word model.
 Reports retain source/tool hashes, actual COFF and complete-owner comparisons.
@@ -30,6 +30,8 @@ CASES = {
     'interrupt': ('AnmManagerRuntime.cpp',),
     'pointer-views': ('VectorPointerViews.cpp',),
     'timer-plain': (),
+    'sample-array': (),
+    'sample-query': (),
 }
 VARIANTS = ('baseline', 'forwarded-collision')
 INTERRUPT_SYMBOL = '?SetInterrupt@AnmVm@@QAEXF@Z'
@@ -73,6 +75,37 @@ def report_name(case, variant):
     return 'type3-context-' + case + suffix + '.json.gz'
 
 
+def sample_container(source, case):
+    """Group actual query objects, preserving computations and short-circuiting.
+
+    This is a source representation hypothesis, not a recovered stack layout.
+    No callee, field type, qualification or inlining attribute is introduced.
+    """
+    if case not in ('sample-array', 'sample-query'):
+        raise ValueError('unknown Type3 sample container')
+    names = (('collisionSize', 'current', 'middle', 'tail')
+             if case == 'sample-query' else ('current', 'middle', 'tail'))
+    for name in names:
+        declaration = '    PlayerPositionView ' + name + ';'
+        if source.count(declaration) != 1:
+            raise ValueError('actual Type3 query declaration changed: ' + name)
+        source = source.replace(declaration, '', 1)
+    if case == 'sample-array':
+        storage = '    PlayerPositionView samples[3];\n'
+        replacements = {name: 'samples[%d]' % n for n, name in enumerate(names)}
+    else:
+        storage = ('    struct CollisionSamples\n    {\n' +
+                   ''.join('        PlayerPositionView ' + name + ';\n' for name in names) +
+                   '    } samples;\n')
+        replacements = {name: 'samples.' + name for name in names}
+    for name, replacement in replacements.items():
+        source = re.sub(r'\b' + name + r'\b', replacement, source)
+    anchor = '    PlayerPositionView *collision ='
+    if source.count(anchor) != 1:
+        raise ValueError('actual Type3 collision-size pointer changed')
+    return source.replace(anchor, storage + anchor, 1)
+
+
 def render_source(inputs, case, variant):
     if case not in CASES or variant not in VARIANTS:
         raise ValueError('unknown Type3 source/context variant')
@@ -80,6 +113,8 @@ def render_source(inputs, case, variant):
     if variant != 'baseline':
         word = module('context_word_variant', 'probe-exattack-type3-word-order.py')
         source = dict(word.variants(source.decode()))[variant].encode()
+    if case in ('sample-array', 'sample-query'):
+        return sample_container(source.decode(), case).encode()
     if case != 'interrupt':
         prefix = ''.join('#include "' + name + '"\n' for name in CASES[case])
         return prefix.encode() + source

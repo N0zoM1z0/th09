@@ -16,6 +16,56 @@ spec.loader.exec_module(probe)
 
 
 class Type3NativeContextTests(unittest.TestCase):
+    def test_sample_containers_preserve_native_calls_and_reject_source_drift(self):
+        inputs, profile = probe.inputs_for('sample-array')
+        source = inputs[probe.SOURCE].decode()
+        for case in ('sample-array', 'sample-query'):
+            with self.subTest(case=case):
+                staged = probe.compiled_inputs(inputs, case, 'baseline')
+                self.assertEqual(set(staged), set(inputs))
+                self.assertEqual({name for name in staged if staged[name] != inputs[name]},
+                                 {probe.SOURCE})
+                transformed = staged[probe.SOURCE].decode()
+                self.assertEqual(transformed.count('->CheckBulletCollision('), 3)
+                self.assertEqual(transformed.count('InverseTransformPopupX('), 3)
+                self.assertEqual(transformed.count('InverseTransformPopupY('), 3)
+                self.assertNotIn('__forceinline', transformed)
+                self.assertNotIn('volatile', transformed)
+                for mutation in ('    PlayerPositionView current;',
+                                 '    PlayerPositionView *collision ='):
+                    with self.assertRaisesRegex(ValueError, 'actual Type3'):
+                        probe.sample_container(source.replace(mutation, 'changed source'), case)
+        with self.assertRaises(ValueError):
+            probe.sample_container(source, 'invented-container')
+
+    def test_sample_guard_failure_cannot_become_exactness_credit(self):
+        inputs, profile = probe.inputs_for('sample-array')
+        factory = self.modules()
+        def imports(name, filename):
+            result = factory(name, filename)
+            if filename == 'inspect-exattack-type3-schedule.py':
+                def reject(_):
+                    raise ValueError('fixed-home census changed')
+                result.analyze = reject
+            return result
+        def compiler(command, **kwargs):
+            Path(command[5]).write_bytes(b'fixture object')
+            return SimpleNamespace(returncode=0, stdout='', stderr='')
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            earlier = output/probe.report_name('baseline', 'baseline')
+            earlier.write_bytes(b'earlier maintained evidence')
+            with (patch.object(probe, 'module', side_effect=imports),
+                  patch.object(probe, 'inputs_for', return_value=(inputs, profile)),
+                  patch.object(probe.subprocess, 'run', side_effect=compiler),
+                  patch.object(probe.subprocess, 'check_output', return_value='fixture\n')):
+                report = probe.run(output, 'sample-array')
+            self.assertFalse(report['production_frontier']['passed'])
+            self.assertEqual(report['exactness_credit'], 'none')
+            self.assertIn('fixed-home census', report['production_frontier']['reason'])
+            self.assertFalse(report['compiler_artifacts_retained'])
+            self.assertEqual(list(output.iterdir()), [earlier])
+
     def test_plain_timer_context_pins_native_owner_and_actual_header(self):
         inputs, profile = probe.inputs_for('timer-plain')
         unit = tomllib.loads((ROOT/'config/match-units.toml').read_text())['units'][

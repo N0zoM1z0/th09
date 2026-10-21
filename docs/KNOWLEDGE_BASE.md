@@ -16829,3 +16829,86 @@ hashes remain; no existing build file or unrelated cache is deleted. The public
 one-case producer has itself cold-replayed all eight cases and removed each
 temporary carrier. Source commit and independently observed remote push remain
 separate checkpoint facts.
+
+
+## October 22: Type3 natural sample storage and constructor-role counterchecks (gpt-6.1-sol)
+
+Clean pushed ed214bd recovery passes original Japanese v1.50a disk identity,
+direct local IDA metadata, entry and five distributed mapped samples. The
+previous goal turn is progress: it checkpoints source-bound Replay evidence
+and corrects stale ledger prose. This batch investigates the complete Type3
+owner without adopting the prior four-byte lead's unsupported qualifications.
+All492 game-source inputs, canonical unit profiles and1003 exact rows remain
+unchanged. No register/variable-order hint, forced inlining, added volatility,
+target patch, ABI or compiler-profile change is used.
+
+Eight natural storage/query models compile under the unchanged profile. Baseline
+is780/38/15; an ordinary inline collision-query forward is780/38/27. Grouping
+current/middle/tail in one native three-element array, in a named aggregate,
+or with the real collision size in a four-member query object gives780/38/34.
+Each forward combination gives46. All preserve240 instructions,24 ordered
+original calls and17 direct blocks, yet change existing original-equal bytes
+and fixed stack homes. Equal extents/graphs do not authorize these candidates.
+
+Six further natural control-flow models separate the effects. Negating the
+three collision predicates with the corresponding branch exchange and using
+the source index for the history shift are raw-byte-neutral15. A consumed
+sequential collision result and a consumed boolean each emit781/38/303 with
+changed physical call/block order. A genuine five-VM interrupt loop emits739 bytes/34
+fields and fails complete coverage. The motion early-return form remains780/38
+but calls the actual ZunTimer less-than overload rather than the original
+>= callee; the strict original referent set correctly rejects it. No different
+Timer method is aliased to the original address, and no rejected model is adopted.
+
+The physical3-byte4343D0 receiver identity also admits an ordinary empty C++
+constructor body. Four placement-construction models use only the original
+12 bytes of float-aligned scratch storage and explicitly consume the newly
+constructed object, with pointer/reference and opaque/visible contexts. Actual
+constructors are separately compiled and compare all3 bytes/zero fields before
+any private caller interpretation. Opaque ordinary construction yields851
+bytes/44 fields including a real __ehhandler, absent from the780-byte original;
+its caller binding is rejected before scoring. Visible ordinary construction
+emits783/38/241 instructions with459 overlapping differences plus3 extra bytes.
+Four corresponding truthful throw() declaration/definition models remove the
+EH contradiction but repeat783/38/459. The complete real constructor body still
+matches. These observations bound the tested construction mechanisms; they do
+not distinguish original source class/constructor/conversion ownership. The
+three-byte physical identity remains unknown-origin and receives no credit.
+
+Thirty private native compiler invocations succeed:22 caller models and eight
+separate actual constructor objects. Two preparer failures occur before C++
+compilation (container/forward composition, then Python string quoting); both
+are corrected and are not counted as compiler or target observations. Public
+probe-type3-native-context.py adds only sample-array and sample-query selected
+cases, leaving every previous actual staged input identical for both existing
+source variants. Three public cold builds reproduce baseline780/38/15 and both
+new780/38/34 cases, with complete raw/COFF captures, original/actual field and
+literal checks, graph comparison and explicit unchanged production rejection.
+Temporary carriers self-clean. Two focused tests reject changed recipe source
+and ensure a fixed-home failure cannot become an exactness claim or replace
+an earlier independent report. All13 focused producer tests pass.
+
+The packet is .analysis/gpt-61sol-20261022-type3-samples/. Its recipes and
+complete raw/COFF/native results preserve the evidence; the public command
+`python3 -B scripts/probe-type3-native-context.py --case sample-array --output .analysis/type3-sample-array`
+reproduces one affected caller. No broad unchanged exact cohort is recompiled.
+The ledger now explicitly separates the physical identity from unknown original
+constructor/conversion ownership and routes these rejected source models.
+Authored exact remains1003/1035 and244917/291883 bytes;95% still needs32372
+complete bytes. RunEcl30,Enemy13,DrawResult22,Type315, full inventory and native
+product/runtime remain unfinished; later phases stay closed.
+
+All eight placement objects additionally pass their three actual read-only
+float-definition checks against the original PE before cleanup. Final CI passes
+923 tests/28 skips, exit zero; target-required tracking, documentation, progress
+and whitespace pass. The archive's168 members retain2635460 unique source,
+provider and report bytes in394292 bytes, with CRC and per-member SHA checks.
+An archive-only selected nothrow constructor replay recompiles the real callee
+and caller, matches all783 raw caller bytes and38 actual COFF rows, independently
+checks the3-byte callee, and self-removes source/OBJ/PDB. It is a reproduction
+of a rejected compiler capture, not original ownership or exactness credit.
+After all producer/CI/replay handles terminate, cleanup removes480 individually
+verified files/3532527 logical bytes: archived duplicates plus reproducible
+compiler binaries. Public reports, actual literal audit, frozen recipes and
+per-path deletion hashes remain; no existing build file or unrelated cache is
+removed. Local commit and independently verified remote push remain separate.

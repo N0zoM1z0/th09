@@ -656,3 +656,26 @@ file, old separate cache, private target, toolchain, IDA database or unclassifie
 artifact was removed. This packet's cleanup does not classify the older1.6GiB
 of retained evidence. Final CI is921 tests/28 skips, exit zero; post-clean checks
 use `PYTHONDONTWRITEBYTECODE=1 python3 -B` to avoid creating caches.
+
+
+## October 22: Type3 natural sample and constructor experiment cleanup
+
+After terminal native compiler, diagnostic, public producer, CI and archive-only
+replay handles, removed480 individually reviewed files/3532527 logical bytes
+below .analysis/gpt-61sol-20261022-type3-samples/trials/. The168-member ZIP binds
+all actual project inputs,22 caller sources,constructor source/header variants,
+raw callers,actual COFF rows,compile logs,complete reports and recipes. CRC and
+per-member SHA checks preserve2635460 unique bytes in394292 archive bytes.
+The selected archive-only nothrow replay cold-checks the complete783-byte caller,
+38 actual COFF rows and real3-byte native constructor before self-cleaning.
+All eight placement objects' actual read-only literal definitions are separately
+verified against the original target. None is exact reconstruction credit.
+
+All480 paths are size/hash checked before deletion; archived duplicates are
+read back byte-for-byte. The60 OBJ/PDB files are reproducible generated outputs;
+all sources,reports and native results remain archived. cleanup.json records
+every path,hash,classification and reproduction route. Public compressed reports,
+source/provider hashes,recipes,CI log and actual-literal audit remain outside
+the archive. Existing canonical build files,unrelated caches,original EXE,IDA,
+toolchains and unclassified older evidence are untouched. CI passes923 tests /
+28 skips,exit zero; post-clean checks avoid creating Python bytecode.
