@@ -8,42 +8,40 @@
 ## Current verified handoff checkpoint
 
 The operator requests continued exact reconstruction, serial low-priority
-compiles, affected replays and scoped cleanup. This checkpoint starts from
-pushed `c08d4cf`. Four GameplaySetupThread calls now share the real opponent-
-selection declaration with its existing799-byte exact implementation.
-**No new exact owner; the worker remains1689/171/904 differences.**
+compiles, affected replays and cleanup. This checkpoint starts from pushed
+`528a9b3`; no game source changes or new exact owner. All491 game inputs and
+1003 exact source/profile proofs remain unchanged.
 
-- Original calls+1C7/+1F6/+26C/+293 all invoke415910 with the actual GameManager
-  receiver. The shared header moves existing declarations/assertions unchanged;
-  four private UpdateProgress aliases disappear without a forwarding adapter.
-- Maintained worker raw code is identical to the fresh parent baseline. Only
-  four actual COFF symbol identities change, at+1C8/+1F7/+269/+28D; all other
-  fields and all eleven main-profile owner snapshots remain unchanged.
-- All12 affected existing exact units pass across three genuine profiles:
-  eleven GameManagerSetup functions plus native opponent selection,3790 physical
-  bytes/275 fields. The other991 exact source/profile proofs are reused.
-- The worker inspector/frontier requires all four native call identities and
-  rejects the superseded alias. Full gamemgr routing now checks the real799-byte
-  callee; selected affected replay avoids unchanged Replay/Front carriers.
-- Front's weight helper leaves681 raw bytes unchanged; a genuine two-bound window
-  object stays681/15 but regresses to575 differences/42 blocks. Type3's returned
-  position emits834/38 and fails extent; its ordinary bool predicate stays780/38
-  but regresses15->27. None is adopted.
-- A104960-byte aligned-data scout leaves121 numerical outside-catalog candidates.
-  Within the declared400000..44C800 interval, the sole address44455A comes from
-  five ASCII error-string suffixes. This is not complete executable inventory.
-- Game inputs are491 including the new header:488 retained, two existing sources
-  changed. Exact stays1003/1035 and244917/291883 bytes. Primary fronts remain
-  **RunEcl30 /Enemy13 /DrawResult22 /Type315**;95% and later gates stay open.
-- Full current/parent raw/COFF, original call observations and source recipes:
-  `.analysis/gpt-61sol-20261021-opponent-interface-checkpoint/`.
-  Its input-bound replay selects `--case worker` or `--case opponent` and
-  self-cleans. Worker cold replay and post-clean799/32 canonical replay pass.
-- Tracking, docs, progress, whitespace and CI pass:884 tests/28 skips. Scoped
-  cleanup removes429 files/7742193 bytes (~7.38 MiB). Four old canonical cache
-  paths are rebuilt/replaced deliberately; all other69 old build files remain.
-- Use direct local IDA, serial `nice -n 10` compiles, English
-  `gpt-6.1-sol: ...` commits, push and independently verify the remote ref.
+- New `probe-enemy-native-spawn-context.py` builds one selected current ECL
+  context, verifies complete184-byte SpawnEffect/two fields and optionally the
+  real33-byte periodic body before scoring the3900-byte Enemy caller. All four
+  spawn calls/one periodic call must resolve to actual same-object definitions.
+- Actual SpawnEffect visibility stays **Enemy13 /RunEcl30**. Combined native
+  periodic visibility stays45: it fixes all old13 but damages45 old matching
+  positions. Both real native bodies remain byte-exact; joint frontier is false.
+  Exit0 is a complete noncrediting diagnostic, not acceptance of that caller.
+- The archival standalone source used a private EnemyCoreTimerView::HasTicked;
+  adding a ZunTimer::HasTickedEvery body did not establish the same declaration.
+  Current controls require real positive COFF definition bindings; old source
+  observations are not retroactively retagged as current evidence.
+- Three actual-native fault controls (truncation, changed return byte, opaque
+  call metadata) are rejected while caller raw bytes remain unchanged. Five
+  target-independent regressions also cover body/field corruption and stale
+  success invalidation after target/source rejection.
+- Title OnUpdateResult's full navigation char/slot helpers give483/224 or484/218.
+  A char-formal declaration plus its actual callee body gives488/228 and176/98;
+  original callee+6F reads a dword, char-model+6F reads a byte. None is adopted.
+  IDA's stale483-byte comment is corrected/read back; mapped bytes stay intact.
+- Exact remains1003/1035 and244917/291883 bytes; primary fronts stay
+  **RunEcl30 /Enemy13 /DrawResult22 /Type315**. The95% and later gates remain open.
+- Source/COFF, selected recipes and receipts are retained in
+  `.analysis/gpt-61sol-20261021-native-definition-checkpoint/`:23 CRC/SHA-checked
+  archive members,159541 bytes. After loose-file cleanup, the selected spawn
+  cold replay reproduces complete raw/COFF/native bodies and both diagnostics.
+  CI passes889 tests/28 skips. Scoped cleanup removes413 owned files/7627524
+  bytes (~7.27 MiB); all69 preexisting build paths retain their hashes.
+- One case only: `python3 -B scripts/probe-enemy-native-spawn-context.py --case spawn`.
+  Use `--case spawn-periodic` to reproduce the rejected45-difference context.
 
 ## Live ledger snapshot
 
@@ -265,10 +263,10 @@ It preserves all four differing offsets and the production guard rejection.
 The current tree retains **490 game-source files, 1,034 comparison units and
 1,003 authored exact rows**. The pointer-interface/Replay constructor units
 remain unknown-origin byte evidence. The Timer alias adds no credit to its
-existing canonical TextHelper owner. Of491 inputs including the source README,
-this batch changes two existing sources and adds the opponent-selection header.
-All12 affected setup/opponent source/profile units are checked;991 unaffected
-exact proofs are reused. Native product/runtime, complete
+existing canonical TextHelper owner. All491 inputs including the source README
+are unchanged in this batch, and all1003 exact source/profile proofs are reused.
+The native bodies are added only to isolated experiment inputs; no game header,
+profile, boundary or authored exactness claim changes. Native product/runtime, complete
 inventory, semantic and port gates remain open.
 
 The current Type19 packet retains the original sources, actual COFF and

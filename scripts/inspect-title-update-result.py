@@ -4,7 +4,7 @@
 Validates the original 485-byte owner SHA, all 34 independently reviewed
 original external address operands and nine calls, the candidate COFF field
 order, full decoded instruction streams, and graph/return semantics.  Reports
-but never credits the current 483-byte non-exact source or any isolated trial.
+but never credits a non-exact maintained source or any isolated trial.
 """
 
 from __future__ import annotations

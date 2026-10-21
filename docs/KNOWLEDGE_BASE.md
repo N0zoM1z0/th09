@@ -15569,3 +15569,88 @@ archived expectation, cold-compiles the maintained source, repeats all799 raw
 bytes/32 actual fields and the unchanged canonical manifest, and self-cleans.
 The source checkpoint and independent remote push verification are separate
 from any Factory receipt or whole-product claim.
+
+
+## October 21: actual Enemy native-definition contracts and Title parameter width
+
+Recovery starts from clean pushed528a9b3807935ff22fdfc9a8680d3e900281cb97.
+Original Japanese v1.50a disk hash, direct local IDA metadata and entry/mapped
+samples pass. No game source/profile, canonical match unit or exact row changes.
+All491 game inputs retain their hashes, so all1003 exact source/profile proofs
+are reused. This batch supplies compiler/target evidence, not a new exact owner.
+
+An old visibility exclusion needs a source-contract qualification. The archival
+driver includes ZunTimerHasTickedEvery.cpp alongside standalone EnemyManagerCore.
+The reviewed historical source4030b96 declares EnemyCoreTimerView::HasTicked
+and uses that private member for the special-attack interval. These are distinct
+C++ symbols from ZunTimer::HasTickedEvery; placing the latter body in that TU
+does not establish visibility of the former call. This is a historical source
+observation, not retroactive attestation of every old trial's live inputs.
+The current ECL carrier genuinely uses the canonical ZunTimer declaration.
+
+Two current native contexts copy the unchanged complete EffectManager::SpawnEffect
+body into the real ECL carrier, alone or with unchanged HasTickedEvery. Both
+retain Enemy3900 bytes/97 fields/1026 instructions/69 calls/170 blocks and full
+RunEcl15564/598/30, with zero differing field/table bytes. Spawn alone retains13
+ordinary Enemy differences. Joint exposure restores every old13 mismatch but
+creates45 formerly equal mismatches; it fails the unchanged full-byte frontier.
+Neither is adopted. A native callee's equality is independent of caller equality
+and supplies no unique original TU or C++ spelling claim.
+
+Under the actual ECL profile, the complete native SpawnEffect independently
+reproduces184 bytes/two fields at40CC00, including constructor4010B0 and
+InitializeEffect40CA60 operands at+24/+64. Its four actual caller references
+resolve to the same positive COFF section/value0. Joint HasTickedEvery matches
+all33 bytes/no fields at404920, with its real same-object call. No declaration-
+only fake callee, caller clobber hint, qualifier, forced inline or profile search
+is used. Real captured native-body truncation/return-byte mutation and opaque
+reference metadata all fail while the original caller raw bytes remain fixed.
+
+The new public producer probe-enemy-native-spawn-context.py selects exactly one
+case, attests the fixed original target, hashes actual source/provider inputs,
+uses the pinned current ECL profile and serial nice10 compiler, and self-cleans
+its temporary CPP/OBJ/PDB. It independently verifies complete native code/COFF
+fields and same-object reference identity before the Enemy and RunEcl audits.
+Its source/target failures invalidate old successful reports. Five no-target
+regressions exercise changed native extents/bytes/fields, wrong original encoded
+operands, opaque/inconsistent definitions and stale-success rejection. Exit0
+means complete diagnostic coverage; native joint45 remains explicitly rejected.
+
+The small Title investigation compiles the maintained484-byte baseline and
+three genuine models. Whole-navigation helpers return the actual chosen char
+or table-slot pointer, preserving live index updates and pre-callback snapshot.
+They give483/34/146/40/224 and484/34/147/40/218 respectively
+(bytes/fields/instructions/blocks/overlap differences). Both remain nonexact.
+Changing the actual Inactive declaration and its complete definition together
+to a char first formal gives caller488/34/150/40/228 and actual callee176/2/55/4/98,
+versus original485/34/147/40 and175/2/55/5. At callee+6F, original MOV ESI,dword
+[EBP+8] becomes MOVSX ESI,byte[EBP+8]. This complete narrow-formal model is not
+adopted; no caller-only ABI fiction or unique original source type is inferred.
+
+The original485-byte updater SHA remains
+526beca1d1f7fe3e410002739257bcf486d0c93e6246fae21f6f7902945e1d48.
+Its stale IDA483-byte/two-byte-gap comment is replaced by the current484/147/
+34/9/40 and218-overlap/one-missing facts, then read back exactly. EDI/ST0
+pseudocode parameters stay explicitly unproven; no prototype or target byte is
+changed. A post-comment mapped-byte attestation passes again. Full source,
+actual raw/COFF, old declaration evidence, fault cases and readback remain in
+the compact native-definition checkpoint below; the loose duplicate groups
+have been removed after member-by-member verification.
+
+The compact checkpoint is
+`.analysis/gpt-61sol-20261021-native-definition-checkpoint/`. Its23-member
+archive compresses1056304 bytes to159541, SHA256
+2a7a7bcc188bcdd6def6d5d979494b2fafd68b994abda73dc1aca28cc4713fca.
+After CRC/SHA-checked loose-file cleanup, the selected public spawn case is
+cold-compiled once with the final producer. All3900 raw caller bytes/97 actual
+COFF fields, complete184-byte native body/two fields/four positive definition
+bindings, full Enemy13 diagnostic and full15564-byte RunEcl30 diagnostic
+reproduce the archived expectation. CI passes889 tests/28 skips. Scoped cleanup
+removes413 owned files/7627524 bytes (~7.27 MiB), preserving all69 preexisting
+build files byte-for-byte. Temporary compiler inputs/outputs self-clean; no
+unclassified older evidence, original target, IDA database or toolchain is
+removed. This is diagnostic evidence, not a new accepted exact receipt.
+
+Exact stays1003/1035 and244917/291883 authored bytes (83.9093%), with32372
+complete exact bytes still needed for95%. RunEcl30/Enemy13/DrawResult22/Type315,
+whole Windows i386 product/runtime, semantic and port gates remain unfinished.
