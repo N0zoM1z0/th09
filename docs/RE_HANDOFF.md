@@ -9,38 +9,42 @@
 
 The operator requests continued exact reconstruction,serial low-priority
 compiles,affected replays and cleanup. This checkpoint starts from pushed
-`4f9878b`. The188-byte IntegrateMotion owner remains exact and now uses the
-shared Supervisor declaration. One game CPP and three symbols in its existing
-unit change;491 game inputs,1034 other units and every profile remain unchanged.
-The one affected canonical unit is replayed;1002 unchanged exact proofs are reused.
+`f2b2de0`. The Title batch changes one diagnostic helper and two tests;all492
+game inputs,1035 units and every profile stay unchanged. All1003 unchanged
+canonical exact source/profile proofs are reused.
 
-- EnemyIntegrateMotion.cpp removes its separate EnemyMotionSupervisorView global
-  and reads shared Supervisor::framerateMultiplier5B8. All188 raw bytes,four
-  fields,field offsets/kinds/addends and original values remain unchanged. Three
-  DIR32 symbols become the real shared g_Supervisor,with base4B3100/addend5B8.
-  No caller ABI,arithmetic,read ordering,exact row or new authored credit changes.
-- Four real Greater declaration leaves,bool/int and const uint/int,all reproduce
-  complete original20-byte403DE0 bodies. Integer/const callers retain full
-  Enemy3900/97/13 and every maintained raw byte; bool gives17,damaging the four
-  old EAX-test positions A5/27A/925/ECA with AL tests. No declaration is adopted;
-  the old nominal unsigned-return target claim is corrected to full EAX0/1.
-- Genuine co-visible motion alone retains13; motion plus the actual33-byte
-  periodic predicate gives45 and stays rejected. Both actual188-byte motion
-  bodies,four fields,54-byte subtraction and26-byte constructor chains match
-  original completely. All six full carriers retain RunEcl15564/598/30.
-  The visible grouping stays private; maintained motion stays a separate TU.
-- `.analysis/gpt-61sol-20261021-enemy-greater-declarations/` retains102 CRC/SHA-
-  verified archive members:2473335 uncompressed bytes become369035 bytes.
-  Selected nice10 recipes `python3 -B .../replay.py --case motion-shared` and
-  `--case context-motion-periodic` reproduce every actual raw/COFF row,full native
-  bodies and unchanged acceptance/rejection. Current628 bindings distinguish
-  the two reviewed source/config changes from their initial capture epoch.
-- CI passes911 tests/28 skips. Scoped cleanup removes873 files/15202421 bytes
-  (~14.50 MiB),including13 current OBJ/PDB pairs and395 source-verified CI
+- Options native-input identity now checks the actual positive candidate extent
+  and all eight ordered array/member operands. A shorter source with valid
+  input fields is diagnosed correctly;the complete-owner guard independently
+  rejects missing bytes and preserves its2045..2048-byte range and1435 matched
+  original positions. Two new tests first fail on the old conflation and then
+  pass. The focused suite passes24 tests,with two Capstone skips under Python-S
+  and none with the normal interpreter. No exact acceptance rule changes.
+- Eight serial nice10 native compiles cover two real cursor setters,two actual
+  screen-body contexts,their unsigned-normalization combination,a signed
+  ordinal,and maintained/const DrawResult. Setters retain2048/135/610;
+  DrawResult retains1939/82/22 and all1917 old equal positions. The const
+  hypothesis is neutral and not adopted. All six Options menu-sound siblings
+  remain34/34 with three original fields;three real screen callees remain46/46.
+- Native screen-body visibility alone gives2044/135/608 overlap differences
+  plus one missing byte. The normalization combination gives2046/135/82 plus
+  one excess byte,but damages four old equal offsets6AE/6AF/75A/7F0 and fails
+  the complete graph/position guard. It stays private. Signed normalization
+  repeats the earlier2050/343 control's complete raw bytes. No losing game
+  source or compiler-profile change is promoted.
+- `.analysis/gpt-61sol-20261021-title-member-context/` retains54 CRC/SHA-verified
+  archive members:1069994 uncompressed bytes become228839 bytes. It binds
+  source/include blobs,profiles,actual raw/COFF,native callees,old/new provider
+  epochs and failing/passing tests. Selected nice10 cold recipes are
+  `python3 -B .../replay.py --case options-native-screen-normalized` and
+  `--case options-native-screen-before`;both must remain rejected. Current628 inputs
+  and two changed test files have separate explicit hash bindings.
+- CI passes913 tests/28 skips. Scoped cleanup removes516 owned files/8790207
+  bytes (~8.38 MiB),including eight current OBJ/PDB pairs and395 verified CI
   caches. All69 old build files and35 old separate caches remain byte-identical.
-  Both selected post-clean cold recipes pass;original EXE,tools,IDA and old
-  unclassified research are preserved. Nondebug motion sections also remain
-  identical (`.text` 188 bytes and `.drectve` 44 bytes);whole-product closure stays open.
+  Both selected post-clean cold recipes reproduce every raw/COFF row,native
+  34/46-byte callee,and unchanged rejection. Their temporary outputs are removed;
+  original EXE,tools,IDA and old unclassified research stay preserved.
 - No new exact credit is claimed. Exact stays1003/1035 and244917/291883 bytes;
   the32372-byte95% gap and main **RunEcl30 /Enemy13 /DrawResult22 /Type315**
   fronts remain open. Native product/runtime and full inventory remain open.

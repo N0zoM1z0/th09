@@ -28,6 +28,19 @@ class NativeInputArray(unittest.TestCase):
         # Source positions may converge to the original full extent later.
         audit.require_native_input_references(rows, 2045)
 
+    def test_native_fields_are_checked_against_the_actual_candidate_extent(self):
+        # The genuine visible ChangeCurrentScreen context emits 2,044 bytes.
+        # Its last two native-input operands move three bytes forward, and
+        # all eight fields still belong to the same array and member slots.
+        rows = native_references()
+        for row in rows[-2:]:
+            row['candidate_offset'] += 3
+        audit.require_native_input_references(rows, 2044)
+        last_field_end = rows[-1]['candidate_offset'] + 4
+        audit.require_native_input_references(rows, last_field_end)
+        with self.assertRaises(ValueError):
+            audit.require_native_input_references(rows, last_field_end - 1)
+
     def test_same_numeric_address_does_not_validate_old_subobject_aliases(self):
         for index, row in enumerate(native_references()):
             rows = native_references()
@@ -60,7 +73,7 @@ class NativeInputArray(unittest.TestCase):
             rows[index]['candidate_offset'] = offset
             with self.subTest(index=index, offset=offset), self.assertRaises(ValueError):
                 audit.require_native_input_references(rows, 2048)
-        for size in (None, True, 2044):
+        for size in (None, True, 0, -1, 2044.0):
             with self.subTest(size=size), self.assertRaises(ValueError):
                 audit.require_native_input_references(copy.deepcopy(native_references()), size)
 

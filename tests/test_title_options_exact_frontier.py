@@ -164,6 +164,19 @@ class OptionsBossFrontierWiring(unittest.TestCase):
         boss.guard_title_options(exact_diagnostic)
         self.assertEqual(exact_diagnostic['exactness_credit'], 'none')
 
+    def test_native_input_identity_does_not_accept_a_shorter_original_owner(self):
+        rows = [dict(original_offset=offset, candidate_offset=offset,
+                     original_target=destination, type='DIR32',
+                     symbol=check.NATIVE_INPUT_SYMBOL, root=check.NATIVE_INPUT_ROOT,
+                     addend=destination - check.NATIVE_INPUT_ROOT)
+                for offset, destination in check.ORIGINAL_INPUT_FIELDS]
+        check.require_native_input_references(rows, 2044)
+        shorter = {**self.options_evidence(), 'candidate_bytes': 2044,
+                   'missing_target_bytes': 1, 'extra_candidate_bytes': 0,
+                   'native_input_array_references_verified': True}
+        with self.assertRaisesRegex(RuntimeError, 'frontier drifted'):
+            boss.guard_title_options(shorter)
+
     def test_every_equal_options_position_is_protected_at_the_same_difference_count(self):
         baseline = self.options_evidence()
         known = baseline['difference_offsets']

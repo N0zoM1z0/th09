@@ -16489,3 +16489,93 @@ self-clean. All628 final source/config/provider bindings remain stable,with the
 one CPP and one unit's three deliberate symbol updates separated from the
 initial capture epoch. Exact totals and the active reconstruction goal remain
 incomplete;no new source-commit acceptance receipt is claimed.
+
+
+## October 21: Title member contexts and independent input identity (gpt-6.1-sol)
+
+Clean recovery at f2b2de0 verifies the original Japanese v1.50a target and direct
+IDA metadata plus mapped entry/distributed bytes. This bounded Title batch uses
+eight serial nice10 native compiles under the unchanged real Title O1 profile,
+without Oi. No maintained game source,unit,profile or exact ledger row changes.
+The unchanged1003 canonical source/profile proofs are reused.
+
+Two genuine inline cursor setters,covering only the exit assignment or all
+three real assignments,retain the complete2048-byte Options owner,135 fields,
+554 instructions,51 calls,121 blocks and610 differences. All1435 previously
+matching target positions remain equal. Raw bytes and operand identities match
+the inherited baseline; the extra uncalled setter changes COFF section numbers,
+which is separately recorded rather than called a machine-code difference.
+
+A distinct real-callee context puts the complete maintained ChangeCurrentScreen
+body before or after Options,exposing the genuine previousScreen field at84
+and mapping the already equivalent phaseTimer name to stateTimer2. Both actual
+46-byte emitted callees match original422F39 completely,with zero fields.
+Both complete Options callers instead become2044 bytes/135 fields/552
+instructions/51 calls/121 blocks,with608 overlapping differences and one missing
+original byte. They restore six old mismatches but damage five old matching
+positions. Neither shorter owner is accepted.
+
+Combining that real body with the previously tested unsigned confirmation
+ordinal gives a new2046-byte/135-field/551-instruction caller,with51 calls and
+121 blocks. It restores532 old mismatches but damages four old equal bytes:
+6AE,6AF,75A,7F0. All2045 original positions are compared:82 overlap differences
+remain,with one excess candidate byte. Alignment is548/551; the complete direct
+graph check is false. The decoded causes are an extra SUB EAX,EBX,an extra XOR
+EBX,EBX,immediate PUSH0 instead of PUSH EBX,and two omitted MOV ECX,ESI reloads
+after the compiler sees the native callee. The smaller aggregate score is a
+rejected diagnostic lead,not an adopted frontier. A separate signed-ordinal
+control gives2050/135/343 and exactly the same complete raw bytes/operand
+identities as the archived unsigned opaque-callee control. It does not explain
+the extra subtraction. No additional type,volatile,register or profile hint is
+introduced. All six Options objects independently retain the native34-byte
+menu-sound sibling and its three exact original fields; the three actual
+screen-body contexts each retain the complete46-byte native callee.
+
+DrawResult is independently built with its maintained declaration and as a real
+const method. The renderer only reads its own fields; both declarations are
+valid source hypotheses. Both keep all1939 raw bytes,82 operands,577
+instructions,16 calls,92 blocks and the same22 target differences. The const
+symbol is QBE rather than QAE,but physical thiscall behavior is unchanged.
+The target does not distinguish nominal constness here; no public declaration
+or caller binding changes. All1917 old matching positions remain protected.
+
+The2044-byte contexts expose a diagnostic conflation: the native-input helper
+required a candidate at least as large as the original2045-byte owner,despite
+all eight real array/member fields fitting the actual source extent. It now
+checks a positive integer candidate extent and every ordered native identity
+and field bound against that actual extent. The complete-owner guard retains
+its independent2045..2048-byte range,missing-byte rejection,135 operands,51
+calls,graph and1435 preserved matching positions. Two new regression tests
+fail before this fix and pass after it: actual shorter field coordinates are
+valid,but a shorter owner with valid native inputs still fails the complete
+frontier. Exact-last-field bounds,one-byte overrun,invalid sizes and historical
+same-address subobject aliases remain tested. Focused tests pass24 with normal
+Capstone and24/two intentional Capstone skips under Python-S.
+
+The local packet is .analysis/gpt-61sol-20261021-title-member-context/.
+Its54 CRC/member-SHA-verified archive members compress1069994 bytes to228839
+bytes; archive SHA256 is
+670c60b4f8ed32abbba8a1a42d0ea751cac7d7e86917b8b7605470033cf308af.
+It preserves exact source/include blobs,profiles,complete raw/COFF captures,
+all native callee captures,both diagnostic-provider epochs and the two failing
+then passing regression receipts. The inherited Options baseline is reused
+only after actual recursive includes,provider hashes and profile equality;
+the unrelated whole-repository epoch difference is not hidden. Current628
+bindings distinguish the one reviewed Python-provider change; two changed test
+files are separately bound. Selected cold recipes are replay.py --case
+options-native-screen-normalized and --case options-native-screen-before. Their private symbol
+and acceptance/rejection handling cannot promote a partial owner.
+
+No new exact credit is claimed. Canonical exact remains1003/1035 and
+244917/291883 authored bytes;95% still needs32372 whole bytes. RunEcl30,
+Enemy13,DrawResult22,Type315,native product/runtime and full inventory remain
+unfinished. Final CI passes913 tests/28 skips in119.556 test seconds. Scoped
+cleanup removes516 owned files/8790207 bytes (~8.38 MiB):eight current OBJ/PDB
+pairs,395 source-verified CI caches,104 verified archive duplicates and one
+redundant preview. Of the395 cache proofs,392 reuse equal source/cache hashes;
+three changed sources receive fresh magic/header/marshal/code-object proofs
+against compilation without execution. All69 old build files and35 old
+separate caches remain byte-identical. Both selected post-clean cold recipes
+reproduce every actual raw/COFF row,the complete34/46-byte native bodies and
+the unchanged full-frontier rejection. Their temporary outputs are removed.
+The original EXE,tools,IDA and unrelated unclassified research remain preserved.

@@ -80,8 +80,12 @@ DESTINATIONS = {
 
 
 def require_native_input_references(references: list[dict], candidate_bytes: int) -> None:
-    """Reject old subobject globals even when their numeric addresses agree."""
-    if (type(candidate_bytes) is not int or candidate_bytes < SIZE or
+    """Check native identities and field bounds within the actual candidate.
+
+    The complete-owner frontier independently checks the target extent. A
+    shorter candidate can retain every real input operand and still fail it.
+    """
+    if (type(candidate_bytes) is not int or candidate_bytes <= 0 or
             not isinstance(references, list) or len(references) != 8):
         raise ValueError('Options native input reference inventory changed')
     previous_end = 0
