@@ -9,36 +9,35 @@
 
 The operator requests continued exact reconstruction, serial low-priority
 compiles, affected replays and cleanup. This checkpoint starts from pushed
-`84cd036`. All492 game inputs, all1035 comparison-unit definitions and exact
+`0250a91`. All492 game inputs, all1035 comparison-unit definitions and exact
 ledgers remain unchanged; all1003 authored exact source/profile proofs are reused.
 
-- The actual HasTickedEvery body at404920 is33 bytes/zero fields. Five private
-  return declarations (bool,long,unsigned int,unsigned long,enum), plus an int
-  const-member declaration, each reproduce every original callee byte. Callee
-  equality therefore does not determine the original nominal return type.
-- Eight complete ECL/Enemy caller controls preserve3900/97/69 calls/170 blocks
-  and full RunEcl15564/598/30. Direct bool calls with the genuine body visible
-  give46 Enemy differences; the other five declarations give45. They restore
-  the old13 positions but damage46/45 already equal bytes and remain rejected.
-  The bool test consumes AL at+24D, whereas the original consumes EAX.
-- A genuine used member-function pointer, with the int body either opaque or
-  visible, preserves every maintained raw Enemy byte and the same13 differences.
-  Actual calls remain REL32; the visible callee and its positive same-object
-  definition coordinates are separately verified. This is compiler-context
-  evidence, not original source/TU ownership. No public interface is changed.
-- `.analysis/gpt-61sol-20261021-periodic-return-types/` retains100 CRC/SHA-verified
-  archive members:2975847 uncompressed bytes become389611 bytes. Selected nice10
-  recipes are `python3 -B .../replay.py --case caller-pmf-visible` and
-  `--case caller-bool`; both cold-repeat every actual raw byte/COFF row, the
-  original33-byte callee and complete maintained/rejected frontier outcomes.
-  All628 source/provider inputs and the original target fail closed on drift.
-- CI passes908 tests/28 skips. Scoped, hash-verified cleanup removes996 files/
-  17507265 bytes (~16.70 MiB), including14 private OBJ/PDB pairs and395 current
-  CI caches. All69 preexisting build files and35 old separate caches stay
-  byte-identical; original EXE, tools, IDA and older evidence are preserved.
-- Earlier SDK value copies remain neutral13; genuine SDK constructors remain
-  rejected3916-byte owners. Their independent frozen packet and weak836-word
-  routing scan are documented in the KB; neither supplies new exact credit.
+- The Type29 center-polar member-pointer control still emits2205 bytes/129
+  fields/72 calls/41 blocks,1170 overlap differences plus15 missing bytes.
+  It repeats every maintained raw byte; older same-family controls were found
+  and read before expanding the context panel. No receiver reload is recovered.
+- A private class-body relocation of the unchanged existing32-byte polar method
+  gives2239 bytes/129 fields/676 instructions/37 blocks. It reloads all6 center
+  and7 vertex receivers, versus original6/0. Calling vertices through a genuine
+  member pointer changes no raw byte. Both contexts damage840 previously equal
+  positions and fail the complete frontier; no assembly instruction is authored
+  or changed, and no private header/body is adopted.
+- Four small Effect AddedCallback carriers (baseline,GetAnm,PreloadAnm or both
+  actual member-pointer calls with opaque callees) repeat every51 raw bytes and
+  the same4 fields/eight differences. With the original20-byte GetAnm body
+  visible, global-Get member dispatch emits49 bytes; cached-manager dispatch
+  emits45. Both stay strict physical-extent rejections despite exact callees.
+- `.analysis/gpt-61sol-20261021-effect29-member-calls/` retains92 CRC/SHA-verified
+  archive members:1341833 uncompressed bytes become255836 bytes. Selected nice10
+  recipes are `python3 -B .../replay.py --case class-vertex` and
+  `--case effect-get-visible`; both reproduce full actual raw/COFF, original
+  native callees and unchanged complete rejection. All628 source/provider
+  inputs and the original target fail closed on drift. Compiles remain serial.
+- CI passes908 tests/28 skips. Scoped cleanup removes721 files/11817255 bytes
+  (~11.27 MiB), including10 private OBJ/PDB pairs,395 current CI caches and
+  three independently source/code-object-verified local import caches. All69
+  old build files and35 old separate caches remain byte-identical; original
+  EXE,tools,IDA and unclassified older evidence are preserved.
 - No new exact credit is claimed. Exact stays1003/1035 and244917/291883 bytes;
   the32372-byte95% gap and main **RunEcl30 /Enemy13 /DrawResult22 /Type315**
   fronts remain open. Native product/runtime and full inventory remain open.

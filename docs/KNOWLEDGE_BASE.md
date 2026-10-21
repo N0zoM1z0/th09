@@ -16214,3 +16214,89 @@ Both selected post-clean cold recipes pass again using only archived variant
 sources and verified providers. The member-pointer case repeats13, the bool
 case repeats46 and strict rejection; both repeat RunEcl30 and the full33-byte
 native body. Temporary outputs self-clean and all628 fingerprints stay stable.
+
+## October 21: large/small Effect member-call context counterchecks (gpt-6.1-sol)
+
+Clean independently pushed0250a91 recovery passes original Japanese v1.50a disk,
+direct IDA metadata, entry and distributed mapped-byte checks. Previous native
+periodic experiments make genuine member-call form a testable compiler-context
+hypothesis, rather than permission to infer callee clobbers from identical bytes.
+The Type29 source-order packet already tested four member-pointer forms; these
+historical controls are found/read and are not represented as new discoveries.
+Current co-visible Greater/Player source context is separately source-bound.
+
+Three full current ECL carriers test Type29 at448750. The center-only polar
+member pointer repeats all2205 maintained raw bytes and129 fields,670 candidate
+instructions,72 calls,41 blocks,1170 overlap differences plus15 missing. The
+actual native polar body remains all32 original bytes at441890,zero fields,
+with13 positive same-object REL32/addend0 references. This repeat adds no new
+source correction. Initial diagnostic wrapper metadata is repaired and the
+existing object rescored against the unchanged full production guard; no
+compiler failure or source rejection is invented from that wrapper error.
+
+The meaningful new combination relocates the *unchanged existing* polar method
+body into its genuine class and calls the seven vertex operations through a
+used native member pointer. The earlier direct class-body case is its control.
+No assembly instruction is authored, modified or used to fill a caller gap.
+Both variants reproduce the actual32-byte/zero-field original callee. Both
+whole draw owners are identical2239-byte/129-field outputs:676 physical
+instructions,72 calls,37 candidate blocks versus675/41 original,1990 overlap
+differences plus19 extra bytes. Both restore20 old mismatch positions but damage
+840 old equal positions and remain rejected. Class-body call form recovers all
+six center reloads but also adds seven unwanted vertex reloads. Member-pointer
+vertex dispatch does not separate the two groups. This is independent evidence
+that matching six receiver reloads alone cannot establish the whole draw owner.
+All three large contexts retain the complete Enemy3900/97/13 and RunEcl
+15564/598/30 comparisons; their other co-emitted functions are not claimed exact
+under private class-body headers. The maintained sources stay unchanged.
+
+Seven complete Effect AddedCallback carriers test the small51-byte owner at
+40D1C0 with its genuine AnmManager,GetAnm and PreloadAnm interfaces. No fake
+receiver class, return type, assembly, clobber or profile is introduced.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| EFFECT-MEMBER-CALL-001 | compiler observation | Baseline and opaque GetAnm,PreloadAnm or paired native member-pointer calls all retain51/4/eight differences. | Every actual raw callback byte is baseline-identical; complete original physical extent,19 instructions,ordered calls and frontier guard pass as nonexact. |
+| EFFECT-MEMBER-CALL-002 | compiler observation | Global GetAnm member dispatch with the genuine body visible emits49 bytes/four fields,with or without PreloadAnm member dispatch. | Actual GetAnm remains20/20 original401660 bytes,zero fields and a positive independent same-object definition. Complete51-byte owner inspector rejects. |
+| EFFECT-MEMBER-CALL-003 | compiler observation | The analogous cached-manager GetAnm member call with that same exact body emits45 bytes/four fields. | The complete native callee and actual caller coordinates pass; the callback's original physical extent does not. No overlap-only score substitutes for strict rejection. |
+
+The49-byte form carries the ANM manager in EDX across the native getter and
+omits EDI's push/pop. The51-byte maintained callback saves the manager in EDI.
+These are actual compiler/target observations; they do not recover original
+source, callback ownership or a unique original translation unit. No losing
+private variant or strengthened register-preservation ABI is promoted.
+
+Ten primary native compiles (three large,seven small) succeed serially at nice10.
+All628 src/scripts/config inputs and492 game inputs remain unchanged, including
+all1035 units and1003 exact rows. Only affected diagnostic carriers are rebuilt;
+unchanged canonical source/profile proofs are reused. The frozen packet is
+.analysis/gpt-61sol-20261021-effect29-member-calls/:92 deduplicated archive
+members,1341833 uncompressed bytes in255836 bytes, SHA256
+03dce5f5afcdd1097b23ce7f51af47f92665b9d65a803e1575e8cadc32e56088.
+It preserves complete actual raw/COFF, native callee proofs, variant sources,
+compiler output and source/provider/profile hashes. Selected temporary nice10
+replays `python3 -B .../replay.py --case class-vertex` and
+`--case effect-get-visible` independently repeat all actual raw bytes,COFF,
+native bodies and strict complete rejection; temporary native outputs self-clean.
+
+Canonical exact remains1003/1035 and244917/291883 authored bytes (83.9093%);
+95% still needs32372 whole bytes. RunEcl30,Enemy13,DrawResult22 andType315
+remain unfinished. Full executable inventory,native product/runtime,semantic
+and port gates stay open. No new Factory receipt or exact owner is claimed.
+
+Final CI passes908 tests/28 skips, plus target-required tracking,documentation,
+open build-graph,generated progress and whitespace checks. After producer
+termination,archive CRC/member SHA checks and source/cache proofs permit
+removing721 current-owned files/11817255 bytes (~11.27 MiB): verified archived
+source/report duplicates,10 private OBJ/PDB pairs,395 CI caches,three new local
+import caches and a redundant cleanup preview. Current CI cache bytes and exact
+source hashes reuse the earlier independent code-object proof only after full
+equality. Each of the three new local caches independently matches its current
+source compilation without execution. All69 old build files and35 old separate
+caches remain byte-identical. Original source/runtime,EXE,tools,IDA and older
+unclassified evidence are preserved. Only the two routing/knowledge documents
+are tracked changes; native reconstruction and the active goal remain incomplete.
+Both selected post-clean cold recipes pass again using only frozen variant
+sources and verified live providers. Full actual raw/COFF and native callees
+repeat; the2239-byte Type29 and49-byte callback remain strictly rejected.
+Temporary outputs self-clean and all628 maintained fingerprints remain stable.
