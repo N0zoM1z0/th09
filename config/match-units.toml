@@ -24133,6 +24133,18 @@ target_address = 0x00435F00
 size = 4
 relocations = []
 
+# Logical alias byte evidence for shared/folded 0x435EC0. Original origin and
+# unique class ownership remain unknown; no config/matches.csv credit.
+[units.player-get-update-state-alias]
+source = "src/PlayerGetUpdateState.cpp"
+object = "build/matching/PlayerGetUpdateState.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerLifecycleView::GetUpdateState"]
+symbol = "?GetUpdateState@PlayerLifecycleView@@QAEHXZ"
+target_address = 0x00435EC0
+size = 3
+relocations = []
+
 [units.supervisor-network-config-parser]
 source = "src/SupervisorNetworkConfig.cpp"
 object = "build/matching/SupervisorNetworkConfig.obj"

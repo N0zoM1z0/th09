@@ -15731,3 +15731,69 @@ unchanged exact cohort is rebuilt. CI passes 894 tests/28 skips; tracking,
 documentation, progress and whitespace gates pass. Scoped cleanup removes
 431 owned files/9035728 bytes (~8.62 MiB) while all 69 preexisting build files
 retain their hashes. Original EXE/IDA/tools and unclassified evidence remain.
+
+
+## October 21: maintained Player state getter alias and native Enemy combinations
+
+Recovery starts from clean pushed ea3c58240ec4b5242ee365ed056ee7ad13c9a327.
+Original Japanese v1.50a disk identity, direct local IDA metadata and mapped
+bytes pass. Prior turn is progress through actual imported-call rejection and
+bounded source/CFG evidence; it did not finish Pause or the four main fronts.
+
+The existing PlayerLifecycleView declares GetUpdateState but had no maintained
+definition. New PlayerGetUpdateState.cpp implements the actual offset-zero
+integer read with the existing declaration and layout assertion. Its complete
+actual object body is three bytes/no fields, independently equal to original
+435EC0 SHA256
+19d200194d49b34530548575f37a1bb4203ee60f18d42f0084e86b7a8c899faa.
+The physical entry also has unrelated SoundManager/TextHelper aliases; IDA
+still calls its origin/shared ownership unresolved. No unique original Player
+class, original source spelling, linker-folding mechanism or authored origin is
+inferred. The physical ledger row gains a source alias but keeps blank proposed
+name/module/owner, unclassified/0.00 status, unknown/review origin and no match.
+
+The noncrediting player-get-update-state-alias unit uses the existing native
+Player setter profile. Its public checker cold-builds only the new source,
+requires the full extracted body rather than a requested-size slice, compares
+the canonical original-bound unit, and rejects any origin/exact-credit promotion.
+Four no-target tests cover source/symbol/profile/extent/field corruption and
+invented authorship/unique class/duplicate match credit. Existing declarations,
+callers and all old source/profile proofs remain unchanged. The earlier private
+getter-visible Enemy experiment's 852 differences remain rejected; this new
+source stays in its separate translation unit. No whole native product closure.
+
+Two new serial nice10 ECL contexts expose the unchanged complete real descriptor
+constructor with HasTickedEvery, alone or with SpawnEffect. Both retain full
+Enemy3900/97/1026 instructions/69 calls/170 blocks and RunEcl15564/598/30, with
+zero differing field/table bytes. Enemy45 restores all current13 mismatches but
+damages45 previously equal positions and fails the existing frontier. The full
+28-byte constructor/zero fields at40D500, 33-byte periodic/zero fields at404920,
+and optional184-byte SpawnEffect/two fields at40CC00 independently match under
+the actual ECL profile. Real 1/1/4 caller references resolve to their positive
+same-object definitions. No callee's equality is counted as caller equality.
+
+The selected-case public producer now supports constructor-periodic and
+spawn-constructor-periodic. Original spawn/spawn-periodic generated source stays
+identical; one new pure test covers preserved recipes, selected exposure and
+changed function boundaries. Native bodies remain unannotated complete sources,
+with original ABI/profile and no fake clobber, forced inline or byte patch.
+
+All491 previous game inputs and all1034 old unit definitions remain unchanged;
+one source and one noncrediting unit bring current inputs to492 and units1035.
+All1003 authored exact proofs are reused. Authored exact stays1003/1035 and
+244917/291883 bytes (83.9093%); the32372-byte95% gap and30/13/22/15 main fronts
+remain open. Source/raw/COFF, canonical getter proof, both real-body contexts,
+old/current input transitions and selected replay are retained in
+.analysis/gpt-61sol-20261021-player-getter-checkpoint/.
+
+Its 12-member evidence archive compresses255490 to65154 bytes, SHA256
+18a018f4ea585b138e5d04169dcbbc3456b9a92e4293a251ac15d4579f9cfe81.
+After member CRC/SHA verification and loose cleanup, selected cold replays
+reproduce the getter's complete raw/COFF/canonical comparison and the Enemy
+combination's complete staged inputs/raw/COFF/native definitions/diagnostics.
+The Enemy replay attests current metadata, without retagging the two primary
+controls' pre-getter-unit manifest hashes. CI passes899 tests/28 skips. Scoped
+cleanup removes407 owned files/6918581 bytes (~6.60 MiB), including this source's
+two canonical compiler outputs and own terminal CI caches. All69 preexisting
+build files remain byte-identical; original EXE/IDA/tools and unclassified older
+evidence are untouched. Replay temporary binaries self-clean.

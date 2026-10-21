@@ -21,17 +21,49 @@ import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 TARGET_SHA256 = '10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822'
-CASES = ('spawn', 'spawn-periodic')
+CASE_OWNERS = {
+    'spawn': ('effect-manager-spawn-effect',),
+    'spawn-periodic': ('effect-manager-spawn-effect', 'zun-timer-has-ticked-every'),
+    'constructor-periodic': ('bullet-spawn-descriptor-constructor',
+                             'zun-timer-has-ticked-every'),
+    'spawn-constructor-periodic': ('effect-manager-spawn-effect',
+                                   'bullet-spawn-descriptor-constructor',
+                                   'zun-timer-has-ticked-every'),
+}
+CASES = tuple(CASE_OWNERS)
 NATIVE_OWNERS = {
     'effect-manager-spawn-effect': (
         0x40CC00, 184, '?SpawnEffect@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@HI@Z', 4),
     'zun-timer-has-ticked-every': (
         0x404920, 33, '?HasTickedEvery@ZunTimer@@QAEHH@Z', 1),
+    'bullet-spawn-descriptor-constructor': (
+        0x40D500, 28, '??0BulletSpawnDescriptorCtorView@@QAE@XZ', 1),
 }
 
 
 def digest(data):
     return hashlib.sha256(data).hexdigest()
+
+
+def native_bodies(case, sources):
+    """Expose only selected real definitions, preserving the old two recipes."""
+    selected = CASE_OWNERS[case]
+    bodies = ''
+    if 'zun-timer-has-ticked-every' in selected:
+        bodies += sources['ZunTimerHasTickedEvery.cpp'].decode() + '\n'
+    if 'bullet-spawn-descriptor-constructor' in selected:
+        bodies += sources['BulletSpawnDescriptorCtor.cpp'].decode() + '\n'
+    if 'effect-manager-spawn-effect' in selected:
+        source = sources['EffectManager.cpp'].decode().replace('\r\n', '\n')
+        entry = 'Effect *EffectManager::SpawnEffect('
+        following = 'Effect *EffectManager::SpawnEffectWithVelocity('
+        if source.count(entry) != 1 or source.count(following) != 1:
+            raise ValueError('native SpawnEffect source boundaries changed')
+        start, end = source.index(entry), source.index(following)
+        if end <= start:
+            raise ValueError('native SpawnEffect source boundaries reversed')
+        bodies += '#include "EffectManager.hpp"\n' + source[start:end]
+    return bodies
 
 
 def compare_native_definition(raw, fields, unit, target):
@@ -117,7 +149,10 @@ def run(case, output):
 
     collect('EclManager.cpp')
     observed = {ROOT/'src'/n: data for n, data in inputs.items()}
-    for name in ('EffectManager.cpp', 'ZunTimerHasTickedEvery.cpp'):
+    native_sources = ['EffectManager.cpp', 'ZunTimerHasTickedEvery.cpp']
+    if 'bullet-spawn-descriptor-constructor' in CASE_OWNERS[case]:
+        native_sources.append('BulletSpawnDescriptorCtor.cpp')
+    for name in native_sources:
         path = ROOT/'src'/name
         observed[path] = path.read_bytes()
     for name in ('config/tools.lock.toml', 'config/functions.csv',
@@ -130,12 +165,7 @@ def run(case, output):
     observed[coff.TARGET_MANIFEST] = coff.TARGET_MANIFEST.read_bytes()
     hashes = {p.relative_to(ROOT).as_posix(): digest(b) for p, b in observed.items()}
     source = inputs['EclManager.cpp'].decode().replace('\r\n', '\n')
-    native_source = observed[ROOT/'src/EffectManager.cpp'].decode().replace('\r\n', '\n')
-    start = native_source.index('Effect *EffectManager::SpawnEffect(')
-    end = native_source.index('Effect *EffectManager::SpawnEffectWithVelocity(', start)
-    bodies = '#include "EffectManager.hpp"\n' + native_source[start:end]
-    if case == 'spawn-periodic':
-        bodies = observed[ROOT/'src/ZunTimerHasTickedEvery.cpp'].decode() + '\n' + bodies
+    bodies = native_bodies(case, {n: observed[ROOT/'src'/n] for n in native_sources})
     anchor = '#include "EnemyManagerCore.inl"'
     if source.count(anchor) != 1:
         raise ValueError('reviewed Enemy lexical include changed')
@@ -165,10 +195,7 @@ def run(case, output):
             enemy = module('native_spawn_enemy', 'inspect-enemy-manager-update.py')
             raw, rows = coff.object_function(obj, enemy.SYMBOL, include_symbol_locations=True)
             report.update(raw_hex=raw.hex(), coff=rows)
-            selected = ['effect-manager-spawn-effect']
-            if case == 'spawn-periodic':
-                selected.append('zun-timer-has-ticked-every')
-            for name in selected:
+            for name in CASE_OWNERS[case]:
                 unit = units[name]
                 address, size, symbol, count = NATIVE_OWNERS[name]
                 if (unit['target_address'], unit['size'], unit['symbol']) != (address, size, symbol):

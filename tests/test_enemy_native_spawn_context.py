@@ -28,6 +28,28 @@ def definition():
 
 
 class EnemyNativeSpawnContext(unittest.TestCase):
+    def test_selected_definition_recipes_preserve_original_two_contexts(self):
+        # Distinct synthetic bodies make accidental exposure observable.
+        spawn = 'Effect *EffectManager::SpawnEffect() { spawn_body; }\n'
+        source = (spawn+'Effect *EffectManager::SpawnEffectWithVelocity() {}\n').encode()
+        periodic = b'periodic_body\n'
+        constructor = b'constructor_body\n'
+        inputs = {'EffectManager.cpp':source, 'ZunTimerHasTickedEvery.cpp':periodic,
+                  'BulletSpawnDescriptorCtor.cpp':constructor}
+        old_spawn = '#include "EffectManager.hpp"\n'+spawn
+        self.assertEqual(probe.native_bodies('spawn', inputs), old_spawn)
+        self.assertEqual(probe.native_bodies('spawn-periodic', inputs),
+                         periodic.decode()+'\n'+old_spawn)
+        self.assertEqual(probe.native_bodies('constructor-periodic', inputs),
+                         periodic.decode()+'\n'+constructor.decode()+'\n')
+        self.assertEqual(probe.native_bodies('spawn-constructor-periodic', inputs),
+                         periodic.decode()+'\n'+constructor.decode()+'\n'+old_spawn)
+        inputs['EffectManager.cpp'] = source+source
+        with self.assertRaises(ValueError):
+            probe.native_bodies('spawn', inputs)
+        # Unselected source is not silently inserted or required to be valid.
+        self.assertNotIn('spawn_body', probe.native_bodies('constructor-periodic', inputs))
+
     def test_complete_native_code_and_all_actual_fields_required(self):
         raw, fields, unit, target = definition()
         result = probe.compare_native_definition(raw, fields, unit, target)

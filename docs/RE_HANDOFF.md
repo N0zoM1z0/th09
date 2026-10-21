@@ -9,36 +9,37 @@
 
 The operator requests continued exact reconstruction, serial low-priority
 compiles, affected replays and cleanup. This checkpoint starts from pushed
-`bcde726`; all 491 game inputs, 1,034 canonical unit definitions and 1,003 exact
-source/profile proofs are unchanged. No new exact owner or game source change.
+`ea3c582`. All 491 previous game inputs and 1,034 old unit definitions remain
+unchanged; one separate getter source and noncrediting comparison unit are added.
+All 1,003 existing authored exact source/profile proofs are reused.
 
-- `inspect-pause-menu.py` now checks every actual indirect call as a dword
-  memory call through timeGetTime IAT `0x48E238`, and reports decoded CFG
-  reachability from each original/source switch case. This is syntactic
-  reachability, not path feasibility or runtime call multiplicity.
-- Original states 3/8/ordinary9 share timestamp site `+0x3C1`; the result arm
-  uses `+0x6B2`. Current state3 uses `+0x3FB`, states8/ordinary9 `+0x65D`, and
-  the result arm `+0x688`. Three actual candidate-object IAT corruptions retain
-  all 46 direct calls/107 fields but are now rejected before scoring.
-- Real input-body and Float3-constructor visibility, alone/together, preserve
-  Pause's full 1732/107/1453/44-missing baseline. Native callees independently
-  match all 18/26 bytes and have 14/8 positive same-object caller references.
-- Explicitly sharing the timestamp in current source still yields three
-  machine callsites and identical complete raw/linked code. Nine private
-  label spellings change at unchanged actual COFF coordinates. Opaque helper
-  contexts with/without both real bodies give 1788 bytes/1608 differences and
-  remain rejected. Static callsite sharing does not uniquely identify source.
-- Two small cursor traversal records, plain or with ordinary methods, give
-  179 bytes/171 differences per Reverse/Inactive owner, damaging 133 previously
-  equal positions. Existing 175/38 guards reject them; no ABI/qualifier change.
-- All source/raw/COFF, old/final providers, fault evidence and selected replay
-  are retained in `.analysis/gpt-61sol-20261021-pause-call-path-checkpoint/`.
-  The 40-member CRC/SHA-checked archive is 264310 bytes. After loose cleanup,
-  one cold replay reproduces all raw/COFF, full diagnostics and three actual
-  IAT rejections. CI passes 894 tests/28 skips. Scoped cleanup removes 431 owned
-  files/9035728 bytes (~8.62 MiB); all 69 preexisting build files retain hashes.
-- Exact remains 1003/1035 and 244917/291883 bytes; primary fronts remain
-  **RunEcl30 /Enemy13 /DrawResult22 /Type315**. The 95% and later gates are open.
+- `PlayerLifecycleView::GetUpdateState` now has its missing natural definition
+  in `PlayerGetUpdateState.cpp`, reading the existing offset-zero state field.
+  The canonical alias reproduces the complete three-byte/no-field body at
+  `0x435EC0`. Shared/folded physical origin and unique class ownership remain
+  unknown; the physical row stays unclassified/review, with no matches.csv row.
+- `python3 -B scripts/check-player-state-getter.py --json` cold-builds only
+  that source, requires complete actual-body equality and conservative ledgers,
+  and binds current source/provider hashes. Four policy regressions reject
+  changed ABI/profile/extent and fabricated origin or duplicate exact credit.
+- The new definition is separately compiled; existing declarations and caller
+  sources stay unchanged. It is not exposed inside ECL/Enemy. The earlier
+  getter-visible 852-difference experiment remains rejected history.
+- `probe-enemy-native-spawn-context.py` now selects real constructor+periodic
+  visibility, optionally with real SpawnEffect. Both new complete contexts give
+  Enemy3900/97/45 and RunEcl15564/598/30, restoring the old13 but damaging45 equal
+  positions. Native 28/33/184-byte bodies and actual 1/1/4 same-object call
+  bindings pass independently. Neither context is adopted.
+- Existing spawn/spawn-periodic source recipes remain byte-identical; a new
+  pure test checks selected exposure, preserved ordering and source boundaries.
+- Evidence, selected recipes and checks are retained in
+  `.analysis/gpt-61sol-20261021-player-getter-checkpoint/`: 12 CRC/SHA-checked
+  members, 65154 compressed bytes. Selected post-clean cold replays reproduce
+  the complete getter and Enemy combination under current metadata. CI passes
+  899 tests/28 skips. Scoped cleanup removes 407 owned files/6918581 bytes
+  (~6.60 MiB); all 69 preexisting build files retain their hashes.
+- Exact stays 1003/1035 and 244917/291883 bytes; primary fronts remain
+  **RunEcl30 /Enemy13 /DrawResult22 /Type315**. The 95% and later gates stay open.
 
 ## Live ledger snapshot
 
@@ -194,6 +195,8 @@ nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner netmessage
 python3 -B scripts/check-timer-current-view.py
 # Two logical aliases of one unknown-origin body; no authored credit:
 python3 -B scripts/check-vector-pointer-views.py --json
+# One separate Player logical getter; shared origin, no authored exact credit:
+python3 -B scripts/check-player-state-getter.py --json
 # Current damage scope (81 units); unchanged external proofs are reused:
 nice -n 10 python3 -B scripts/check-enemy-player-state.py --scope damage
 # After shared state declarations change, use the 104-unit default scope:
@@ -257,13 +260,14 @@ It preserves all four differing offsets and the production guard rejection.
 
 ## Evidence and cleanup boundaries
 
-The current tree retains **490 game-source files, 1,034 comparison units and
+The current tree retains **491 game-source files, 1,035 comparison units and
 1,003 authored exact rows**. The pointer-interface/Replay constructor units
 remain unknown-origin byte evidence. The Timer alias adds no credit to its
-existing canonical TextHelper owner. All491 inputs including the source README
-are unchanged in this batch, and all1003 exact source/profile proofs are reused.
-Native bodies and traversal records are added only to isolated experiment
-inputs; no game header, profile, boundary or authored exactness claim changes.
+existing canonical TextHelper owner. The new Player getter adds a separate
+logical source alias of shared435EC0, retaining its unknown/review physical row.
+All491 previous inputs including the source README are unchanged; there are
+492 current inputs. All1003 exact source/profile proofs are reused. No game
+header, existing caller/profile, boundary or authored exactness claim changes.
 Native product/runtime, complete
 inventory, semantic and port gates remain open.
 
