@@ -9,42 +9,38 @@
 
 The operator requests continued exact reconstruction, serial low-priority
 compiles, affected replays and cleanup. This checkpoint starts from pushed
-`c427874`. All492 game inputs, all1035 comparison-unit definitions and exact
+`19b9eb7`. All492 game inputs, all1035 comparison-unit definitions and exact
 ledgers remain unchanged; all1003 authored exact source/profile proofs are reused.
 
-- Packet706's full-EclOperands include failure is historical:current
-  ExAttackType8GameManagerView is an alias of the existing AsciiGameManagerView,
-  so the unchanged genuine resolver TU now compiles in the real ECL carrier.
-- Both complete before/after contexts independently match all5718 native
-  physical bytes/374 fields, including1320 bytes beyond logical code extents.
-  All272 actual resolver calls resolve to those positive same-object definitions.
-  Native local destinations remain independently original-bound; only291 private
-  label field-row names and six generated anonymous-namespace field names differ.
-- Full RunEcl remains15564/598 but grows30->42 ordinary differences, damaging
-  twelve previously equal positions and restoring none. The public before
-  context has145/148 handler shapes, with opcodes4/7/155 differing. It is rejected.
-- The component panel isolates real ResolveIntLValue:alone it gives42; actual
-  ResolveInt,ResolveFloat,ResolveFloatLValue alone preserve every baseline raw
-  caller byte and30 differences. All four native bodies remain original-equal.
-  Genuine41-byte AnmLoaded script-index loader visibility is also raw-neutral,
-  with its five actual same-object caller references. Enemy stays3900/97/13.
-- New `scripts/probe-runecl-resolver-context.py` compiles one selected genuine
-  context at nice10, verifies complete native code/tables and actual caller/body
-  coordinates, then self-cleans temporary sources/OBJ/PDB. Seven pure tests cover
-  tail corruption, actual labels, namespace/type identity, opaque/wrong definitions,
-  wrong target and stale-report/compiler-failure boundaries. No guard is loosened.
-- `.analysis/gpt-61sol-20261021-ecl-resolver-visibility/` retains97 CRC/SHA-checked
-  archive members:4285106 loose bytes become511786 bytes. It retains the first
-  public provider separately; the final provider also hashes transitive helpers.
-  Its selected current-provider recipe is `python3 -B .../replay.py`.
-  That post-clean cold replay passes complete raw/COFF/native proofs, with
-  only six reviewed generated namespace names changing. CI passes908/28 skips.
-  Scoped cleanup removes899 files/17267259 bytes (~16.47 MiB), including395
-  source-verified CI caches under build/pycache;393 predate this turn. All69
-  older OBJ/PDB and35 separate old cache files remain byte-identical.
-- No maintained game C++, header, ABI, profile, unit or exact-credit change is
-  adopted. Exact stays1003/1035 and244917/291883 bytes; the32372-byte95% gap and
-  main **RunEcl30 /Enemy13 /DrawResult22 /Type315** fronts remain open.
+- Four private Enemy SDK descriptor-position controls preserve the real0x214
+  carrier, its position+4 and all native field-offset assertions. D3DXVECTOR3
+  or D3DVECTOR value assignment preserves every3900 raw caller byte,97 fields,
+  69 actual calls,170 blocks and the same13 differences. No position is restored.
+- The genuine SDK float-pointer and D3DVECTOR-reference constructors each emit
+  3916 bytes/97 fields/69 actual calls. Their same-object RunEcl reference moves
+  from original+397 to+3A7 and is strictly rejected; no partial score is substituted.
+  RunEcl stays15564/598/30 with identical full raw and original-linked bytes in
+  every case. No maintained source, ABI, profile or guard is changed.
+- Actual d3d8/d3d8types/d3dx8math header/inline fingerprints are retained. SDK
+  type names and original vector class remain hypotheses, not recovered owners.
+  The old Float3 scalar/visibility/trail controls were read before this new
+  descriptor-only SDK panel; no private qualifier or register constraint is added.
+- Fresh read-only routing repeats the earlier aligned data-word result:836
+  pointer-shaped words, with known string/data false positives and no new game
+  entry. The PE has no base-relocation directory; this weak data scan cannot
+  establish full inventory. Existing authored/origin/boundary ledgers stay intact.
+- `.analysis/gpt-61sol-20261021-enemy-sdk-position/` retains80 CRC/SHA-verified
+  archive members:2079212 loose bytes become319450 bytes. Selected temporary
+  nice10 recipes are `python3 -B .../replay.py --case sdk-value` and
+  `--case sdk-base-construction`; all source/provider/SDK hashes fail closed.
+  Both post-clean cold replays pass full actual raw/COFF checks, preserving the
+  neutral13 and expanded3916-byte rejection. CI passes908 tests/28 skips.
+  Scoped cleanup removes677 files/11999113 bytes (~11.44 MiB), preserving69
+  preexisting build files and35 old caches. The395 current CI caches reuse
+  their independently source-verified classification only after byte/hash equality.
+- No new exact credit is claimed. Exact stays1003/1035 and244917/291883 bytes;
+  the32372-byte95% gap and main **RunEcl30 /Enemy13 /DrawResult22 /Type315**
+  fronts remain open. Native product/runtime and full inventory remain open.
 
 ## Live ledger snapshot
 

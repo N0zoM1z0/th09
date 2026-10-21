@@ -16048,3 +16048,91 @@ files are gone. The older cleanup preview is discarded after every row appears
 unchanged in the final inventory. Original EXE, tools, IDA and unclassified old
 analysis stay untouched. No full cohort replay, new exact owner or Factory
 receipt is claimed; the exact goal remains active/incomplete.
+
+
+## October 21: SDK Enemy descriptor-position copy controls (gpt-6.1-sol)
+
+Recovery starts at pushed19b9eb7 with clean Git, verified original Japanese
+v1.50a PE, direct IDA metadata and mapped-byte attestation. The compiler3077
+core audit, Front loop/RNG controls, Supervisor transition/subthread contexts
+and ReplayMenu shared-layout/SDK controls are read before avoiding repeats.
+Current maintained Float3 is its own flat12-byte type; the new tests concern
+only the Enemy descriptor's12-byte position field, not the older trail-copy
+or shared-Effect vector contexts. Adjacent TH08 is inspected only as hypothesis
+material and supplies no TH09 address, ownership or byte claim.
+
+Every private source keeps the actual0x214 BulletSpawnDescriptorCtorView carrier,
+projects the descriptor payload over it and preserves all existing target-backed
+size/field-offset assertions against BulletSpawnDescriptor. Only the projected
+position field type and its one real value-copy expression change. Actual SDK
+D3DXVECTOR3/D3DVECTOR or existing constructor bodies perform that copy; no
+invented helper, return, register hint, qualifier, padding or compiler flag is
+introduced. C++ object lifetime and original vector-class identity stay unknown.
+
+| ID | Recorded state | Fact | Evidence / limits |
+| --- | --- | --- | --- |
+| ENEMY-SDK-POSITION-001 | compiler observation | A real D3DXVECTOR3 descriptor field assigned from the same twelve source bytes emits the complete baseline3900-byte Enemy owner. | All97 actual fields,69 E8 call operands and every raw byte remain baseline-equal; full original comparison stays13 differences,170 blocks. No restored or damaged position and no code adoption. |
+| ENEMY-SDK-POSITION-002 | compiler observation | The analogous real D3DVECTOR field/value assignment is also fully raw-neutral3900/97/13. | Existing geometry, actual constructor, native Timer greater definition and native RunEcl call remain guarded; this does not identify the original SDK/plain vector class. |
+| ENEMY-SDK-POSITION-003 | compiler observation | Genuine D3DXVECTOR3 construction from the actual const float pointer emits3916 bytes/97 fields/69 actual calls. | The one positive same-object RunEcl field moves+397 to+3A7. Complete original-offset guard rejects before similarity scoring. Entire actual raw/COFF is retained. |
+| ENEMY-SDK-POSITION-004 | compiler observation | Genuine D3DXVECTOR3 construction from a const D3DVECTOR reference produces the same3916-byte/97-field/69-call inventory. | Also rejected at the moved+3A7 native RunEcl call. No shortened-head/full-owner substitution or relaxed residual set is used. |
+
+All four full ECL carriers reproduce all15564 raw RunEcl bytes,598 actual fields
+and its original-linked baseline30 ordinary differences,zero field/table
+mismatches. Every call to RunEcl refers to the actual15564/598 same-object body;
+the two neutral cases keep original field+397. The other two remain rejected,
+even though their independent callee is unchanged. All492 maintained game inputs
+and1035 comparison-unit definitions stay unchanged; all1003 unchanged exact
+source/profile proofs are reused. Four primary C++ compiles succeed serially
+at nice10. No maintained C++, header, canonical source identity, profile, exact
+row or guard change is adopted. Main fronts remain30/13/22/15.
+
+Actual provider d3d8.h,d3d8types.h,d3dx8math.h and d3dx8math.inl hashes are retained
+with the selected cold recipe, rather than inferring SDK source from a mangled
+name. The SDK pointer/reference constructors explicitly copy their three real
+components; current-header code is hypothesis material, not original source.
+The known private original-bound baseline is reused only after every one of
+its492 game input hashes equals current inputs. Whole object/PDB bytes are not
+claimed stable across temporary paths; complete function raw/actual COFF is the
+replay surface. No new Factory acceptance or native runtime claim follows.
+
+Read-only routing independently repeats the earlier data-pointer census:
+Within the recorded value filter[0x00401000,0x0048CADB),836 aligned
+code-range-shaped words comprise578 catalogued entries,210 interior
+addresses and48 references to34 uncovered values. In the bounded game range,
+44455A is the known DSERR text false positive;44CB60/44D5A0 are the already
+recorded data in.text, not new functions. The target has no base-relocation
+directory, so the initial relocation-directory route stops before scanning;
+its failure is not a compiler/source rejection. Pointer-shaped data cannot prove
+executable inventory or origin. No candidate/denominator/boundary row is added.
+
+Evidence packet .analysis/gpt-61sol-20261021-enemy-sdk-position/ deduplicates
+80 archive members,2079212 loose bytes into319450 bytes, SHA256
+8a915433d831c6049320b19ed1c59db0a75cd84d53e63c9949f48cc2cf2e0853.
+It preserves actual sources, raw/COFF, complete neutral/rejected comparisons,
+baseline/source/SDK hashes and the selected temporary recipes:
+`python3 -B .../replay.py --case sdk-value` and `--case sdk-base-construction`.
+Canonical exact remains1003/1035 and244917/291883 bytes,83.9093%;95% still needs
+32372 whole authored bytes. Native product, inventory, semantic and port gates
+remain open; no source/ownership/exactness claim is promoted from these controls.
+
+Final CI passes908 tests/28 skips, with tracking, docs, open build-graph,
+progress and whitespace checks. The only tracked changes are these two routing/
+knowledge documents; maintained game/compiler/Oracle inputs remain unchanged.
+After producers are terminal, archive CRC/member SHA proof permits removing
+677 current-owned files/11999113 bytes (~11.44 MiB):verified archived source/
+evidence duplicates, four private OBJ/PDB pairs and395 CI caches. Each current
+CI cache byte and exact repository/runtime source hash equals the previous
+independently rebuilt code-object classification; its SHA-bound proof is reused
+without recompiling unchanged Python. Original source/runtime files are preserved.
+All69 preexisting build files and35 old separate caches remain byte-identical.
+
+Both selected post-clean cold recipes pass full raw/actual COFF equality and
+before/after source/provider/SDK hashes. The neutral case repeats complete
+Enemy3900/97/13 and RunEcl15564/598/30 plus both full frontier guards; the expanded
+case repeats3916/97 and the strict moved-call rejection. Temporary compiler
+outputs self-clean. The weak routing scan also replays exactly under its stated
+value filter and three data-section scopes; it grants no new code-entry credit.
+A redundant cleanup preview is removed only after its per-path rows equal the
+retained final receipt. Original EXE, toolchain, IDA and unclassified old evidence
+stay untouched. No exact-owner, native product/runtime, original class, full
+inventory or later semantic/port gate is promoted; the goal stays active/incomplete.
