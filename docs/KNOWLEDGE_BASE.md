@@ -14821,3 +14821,81 @@ CRC and SHA256 verified in 651924 bytes. Removing only verified duplicates and
 389 owned compiler/bytecode caches/6697461 bytes reclaims 10278755 bytes
 (~9.80 MiB). The two fresh Title OBJ/PDB pairs and terminal CI caches are gone;
 original target, tools, IDA and older unique/unclassified evidence remain.
+
+## October 21: isolated real Timer contexts and queue containers (gpt-6.1-sol)
+
+Recovery starts at clean pushed bbf92ac. Original Japanese v1.50a disk identity,
+direct IDA metadata and entry/distributed mapped bytes pass. The previous
+handoff called the SetCurrent/assignment direction untested too broadly:
+related noinline, class-inline and all-method experiments already exist above.
+This batch isolates ordinary real definitions, without annotations or profile
+changes, in the current 66-input ECL carrier with its genuine Greater body.
+
+Four primary ECL compiles: baseline and SetCurrent-only-before both reproduce
+all 15564 raw bytes and the same complete 30 ordinary/zero field/zero table
+differences, with all 598 source-linked fields. Enemy still has 13. The real
+setter independently reproduces its complete 25 original bytes. Adding its
+real nine-byte void assignment wrapper, before or after RunEcl, emits identical
+15560-byte/598-field callers. Both genuine callees independently match all 34
+original bytes and the real wrapper-to-setter relocation. The complete RunEcl
+inspector rejects the 14788-code/772-table split; the original is 14792/772.
+Enemy's native RunEcl definition inventory also rejects it. These are compiler
+observations, not a unique original TU/source-partition inference.
+
+Raw opcode4 argument/call bytes at +277..288 remain identical to baseline even
+in the shortened callers; the original seven ordinary mismatches are not
+recovered. Independent normalized instruction correspondence first diverges
+at +220F in a later indexed-owner region. Two decoded instructions and four
+physical bytes disappear overall (4387 versus 4385 before the final tables).
+Branch normalization here locates a difference only; it cannot substitute for
+the rejected complete physical comparison or establish runtime equivalence.
+
+Four small received-frame compiles compare baseline, a 2x10 record array, two
+side-owned 10-record containers and a typed last-record shift receiver. Layout
+assertions retain 0x0C records, 0x78 side ranges and 0x584 total storage. The scan
+does not read beyond its ten-element range; final writes retain the old byte
+projection, without adding an index 10 typed-record dereference. All four emit
+identical 213 raw bytes, 67 instructions, zero fields, nine blocks and the same 35
+differences. All 178 equal positions and the void/four-stack-slot/RET16 interface
+remain. No container view, field type, native ABI or profile is promoted.
+
+The public `probe-runecl-setter-context.py` stages the entire first-include
+closure and compiles one selected case at nice10. It extracts genuine bodies
+from maintained ZunTimer.cpp and verifies their native source/profile/ABI,
+complete original bytes and same-object setter definition. It records complete
+RunEcl/Enemy comparisons or explicit strict rejections, plus actual raw/COFF
+evidence, never partial exact credit. Source/provider/profile hashes and actual
+staged bytes are checked before/after use; temporary sources/OBJ/PDB self-clean.
+Wrong target identity preserves older evidence before creating output; compiler
+failure or changed project/staged input cannot leave a stale successful proof.
+Five pure tests cover these failures and native-contract corruption.
+
+Three primary public compiles repeat the retained setter-only and rejected
+pair contexts. Their provider versions before contract checks, after contract
+checks and after the source-observation pin are retained separately with exact
+SHA bindings; the final producer additionally checks actual staged contents.
+A queue driver initially used a wrong unit key and stopped before compiling;
+that scaffolding error is separate from all 11 successful primary C++ runs.
+
+All 490 game inputs, all 1032 unit definitions and all ledger bytes are unchanged.
+All 1001 canonical source/profile proofs are reused. Authored exact stays
+1001/1035 and 243853/291883 bytes (83.5448%); the 33436-byte 95% gap and the four
+30/13/22/15 fronts remain open. No Factory receipt or native product/runtime
+claim. Full sources, actual object/negative evidence and selected frozen replay:
+.analysis/gpt-61sol-20261021-runecl-setter-context/.
+
+CI passes 876 tests/28 skips with target-required tracking, documentation,
+progress and both whitespace checks. Final frozen replay repeats the complete
+setter-only30, strict15560-byte rejection and small grouped213/35 cases using
+the final producer's actual staged-file checks. Older provider epochs remain
+separate immutable evidence; they are not silently relabeled as this producer.
+
+After producers terminate, 138 evidence members/7947574 loose bytes are ZIP CRC
+and SHA256 verified in 1091849 bytes. Removing verified duplicates and 387
+terminal CI bytecode caches/6524049 bytes reclaims 13379774 bytes (~12.76 MiB).
+All compiler carriers self-clean; no unrelated root object, original target,
+toolchain, IDA state or older unique/unclassified evidence is removed. The
+first pack preflight mistook preserved frozen-epoch files for live directories
+and stopped before creating the archive or deleting caches. Its corrected
+directory-only guard and per-selection replay reports are recorded separately;
+the final three-case capture is repeated before successful archive creation.

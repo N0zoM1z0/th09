@@ -930,3 +930,44 @@ alias**. No unique original class or linker-folding mechanism is inferred.
   `.analysis/gpt-61sol-20261021-enemy-periodic-context/`.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
+
+## Title actual-definition checkpoint at bbf92ac (October 21)
+
+## Current verified handoff checkpoint
+
+The operator requests continued exact reconstruction across **large functions
+and small leaves**, serial low-priority compiles, focused affected replays and
+regular cleanup. Starting from pushed `d2637e8`, this checkpoint independently
+validates the **actual local literal definitions** used by Title DrawResult
+and its shared-inspector DrawReplaySave sibling. **No game source or existing
+unit definition changes; no new exact owner.** RunEcl/Enemy/Title/Type3 stay
+**30 /13 /22 /15**. The 95% and native product/runtime gates remain open.
+
+- DrawResult still has **1939 bytes /577 instructions /82 fields /16 calls /
+  92 blocks /22 differences**. All **15** local definitions (seven scalar
+  floats, eight C strings) now require actual initialized read-only COFF data,
+  valid section/value bounds and complete original PE payload equality.
+- Fifteen actual definition mutations keep all main bytes and actual COFF
+  relocation records identical. The old name/address-only inspector accepts
+  all fifteen; the current producer rejects all fifteen. Symbol spelling and
+  a correctly linked operand cannot substitute for actual source data.
+- Shared-inspector DrawReplaySave also passes all **18** local definitions
+  (13 floats, five strings), retaining **800/245 instructions/41 fields /
+  four calls/28 blocks/96 differences**. All current equal bytes remain guarded.
+- Four successful natural entry/accessor controls give one unchanged1939/22,
+  two1941-byte callers and one1910/83 caller with an unreviewed helper call.
+  None is adopted; no forced-inline, variable-order or compiler-flag controls.
+- New **`--owner resultdraw`** compiles and guards just the complete DrawResult
+  owner under its recorded profile. Full Title/all routes reuse the same guard.
+  All **1001** unchanged canonical source/profile proofs are reused.
+- CI passes **871 tests /28 skips**, with target-required tracking,
+  documentation, generated progress and both whitespace checks. Frozen replay
+  repeats the two complete owners and all fifteen actual definition rejections.
+- **56** evidence members /4233218 loose bytes become a **651924-byte ZIP**.
+  CRC/hash verification precedes duplicate removal. Removing **389** owned
+  compiler/bytecode caches reclaims **10278755 bytes (~9.80 MiB)** in total;
+  only the two fresh OBJ/PDB pairs and terminal CI caches are removed.
+- Complete controls, actual COFF metadata, frozen providers/sources and selected
+  serial cold replays: `.analysis/gpt-61sol-20261021-title-entry/`.
+- Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
+  English `gpt-6.1-sol: ...` commits, push and independent remote verification.

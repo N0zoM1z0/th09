@@ -9,38 +9,42 @@
 
 The operator requests continued exact reconstruction across **large functions
 and small leaves**, serial low-priority compiles, focused affected replays and
-regular cleanup. Starting from pushed `d2637e8`, this checkpoint independently
-validates the **actual local literal definitions** used by Title DrawResult
-and its shared-inspector DrawReplaySave sibling. **No game source or existing
-unit definition changes; no new exact owner.** RunEcl/Enemy/Title/Type3 stay
-**30 /13 /22 /15**. The 95% and native product/runtime gates remain open.
+regular cleanup. Starting from pushed `bbf92ac`, this checkpoint tests the
+**actual Timer setter/assignment context around RunEcl**, plus three genuine
+two-side queue container views. **No game source, unit definition or ledger
+changes; no new exact owner.** RunEcl/Enemy/Title/Type3 stay **30 /13 /22 /15**.
+The 95% and native product/runtime gates remain open.
 
-- DrawResult still has **1939 bytes /577 instructions /82 fields /16 calls /
-  92 blocks /22 differences**. All **15** local definitions (seven scalar
-  floats, eight C strings) now require actual initialized read-only COFF data,
-  valid section/value bounds and complete original PE payload equality.
-- Fifteen actual definition mutations keep all main bytes and actual COFF
-  relocation records identical. The old name/address-only inspector accepts
-  all fifteen; the current producer rejects all fifteen. Symbol spelling and
-  a correctly linked operand cannot substitute for actual source data.
-- Shared-inspector DrawReplaySave also passes all **18** local definitions
-  (13 floats, five strings), retaining **800/245 instructions/41 fields /
-  four calls/28 blocks/96 differences**. All current equal bytes remain guarded.
-- Four successful natural entry/accessor controls give one unchanged1939/22,
-  two1941-byte callers and one1910/83 caller with an unreviewed helper call.
-  None is adopted; no forced-inline, variable-order or compiler-flag controls.
-- New **`--owner resultdraw`** compiles and guards just the complete DrawResult
-  owner under its recorded profile. Full Title/all routes reuse the same guard.
-  All **1001** unchanged canonical source/profile proofs are reused.
-- CI passes **871 tests /28 skips**, with target-required tracking,
-  documentation, generated progress and both whitespace checks. Frozen replay
-  repeats the two complete owners and all fifteen actual definition rejections.
-- **56** evidence members /4233218 loose bytes become a **651924-byte ZIP**.
-  CRC/hash verification precedes duplicate removal. Removing **389** owned
-  compiler/bytecode caches reclaims **10278755 bytes (~9.80 MiB)** in total;
-  only the two fresh OBJ/PDB pairs and terminal CI caches are removed.
-- Complete controls, actual COFF metadata, frozen providers/sources and selected
-  serial cold replays: `.analysis/gpt-61sol-20261021-title-entry/`.
+- The fresh ECL baseline and genuine **25-byte SetCurrent-only** context
+  reproduce all **15564 raw bytes /598 fields /30 ordinary differences**,
+  zero field/table differences and Enemy13. The callee is independently exact.
+- Adding its actual **nine-byte void assignment wrapper**, before or after
+  RunEcl, gives identical **15560-byte /598-field** callers. Both real callees
+  remain exact. Complete RunEcl and native Enemy inventory checks reject both;
+  a correct callee does not establish a correct caller or original TU ownership.
+- The opcode4 argument/call raw window remains unchanged. Broader normalized
+  instruction correspondence first diverges at +220F; two instructions and
+  four physical bytes disappear overall. No relocated/graph-aligned substitute
+  is accepted for the original full extent.
+- The small received-frame baseline and 2D-array/grouped-container/typed-shift
+  controls all emit identical **213 bytes /67 instructions /zero fields /
+  nine blocks /35 differences**. No field, ABI, profile or source is adopted.
+- New `probe-runecl-setter-context.py` compiles **one selected case** at nice10,
+  pins project/provider/profile inputs and actual staged files, proves complete
+  native callees and records both complete caller results or strict rejections.
+  Temporary sources/OBJ/PDB self-clean. Five tests cover real ABI/extent,
+  wrong-target preservation, failed compiler and changed project/staged inputs.
+- All **490** game inputs, **1032** units and canonical ledgers remain unchanged;
+  all **1001** existing exact source/profile proofs are reused.
+- CI passes **876 tests /28 skips**, plus target-required tracking,
+  documentation, generated progress and both whitespace checks. Final frozen
+  replay repeats setter-only30, rejected15560 and small grouped213/35 cases.
+- **138** evidence members /7947574 loose bytes become a **1091849-byte ZIP**.
+  CRC/hash verification precedes duplicate removal. Removing **387** terminal
+  CI bytecode caches reclaims **13379774 bytes (~12.76 MiB)** in total. All
+  compiler carriers self-clean; older unique/unclassified evidence stays.
+- Complete sources, actual COFF rows, separate public-provider epochs and
+  selected cold recipes: `.analysis/gpt-61sol-20261021-runecl-setter-context/`.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
 
@@ -94,11 +98,11 @@ draw whose maintained candidate remains nonexact.
 For the complete <=256-byte cohort see
 [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md).
 
-Next ECL hypothesis: expose the real 25-byte ZunTimer::SetCurrent together
-with its nine-byte assignment wrapper, then compare all 15564 RunEcl bytes.
-The previous Enemy assignment control exposed only the wrapper and recorded
-RunEcl size/field inventory; it did not establish complete RunEcl byte neutrality.
-This is an untested source-context lead, not a new exactness claim.
+The isolated SetCurrent/assignment context lead has now been cold-tested:
+setter-only retains30; both real bodies before/after RunEcl shorten the caller
+to15560 and fail the complete owner. Do not reopen it as an untested hypothesis.
+Earlier related noinline/all-method controls were already recorded in the KB;
+these results do not establish unique original translation-unit ownership.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
@@ -179,6 +183,9 @@ python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/report-reconstruction-status.py
 python3 -B scripts/check-ida-mcp.py
 # Choose one affected owner; reuse unchanged source/profile-bound proofs.
+# Actual Timer context: one selected source/profile compile, no source edits:
+python3 -B scripts/probe-runecl-setter-context.py --case setter-before
+# --case pair-after reproduces the rejected 15560-byte caller.
 # DrawResult alone, including all 15 actual literal definitions:
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner resultdraw
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner netmessage
@@ -255,10 +262,15 @@ constructor units remain unknown-origin byte evidence. The new Timer alias adds
 no physical credit to its existing canonical TextHelper owner. All 490 game
 inputs including the source README and all 1032 comparison-unit definitions
 remain unchanged in this checkpoint. All 1001 canonical source/profile proofs
-are reused; only the two affected nonexact Title renderers are cold-replayed. Native product/runtime, complete
+are reused; only the selected ECL/Enemy and small queue contexts are cold-replayed. Native product/runtime, complete
 inventory, semantic and port gates remain open.
 
-The current Title packet cold-replays both renderers and all fifteen actual
+The current setter-context packet cold-replays the retained setter-only case,
+rejected pair and small grouped queue with
+`python3 -B .analysis/gpt-61sol-20261021-runecl-setter-context/replay.py`.
+These are complete diagnostic comparisons, not new exact receipts.
+
+The Title packet cold-replays both renderers and all fifteen actual
 DrawResult definition mutations with
 `python3 -B .analysis/gpt-61sol-20261021-title-entry/replay.py`.
 Four private helper controls are retained with complete source/COFF evidence;
