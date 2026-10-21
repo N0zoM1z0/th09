@@ -177,6 +177,15 @@ def bind_candidate(raw: bytes, rows: list[dict], original: list[tuple],
     return bytes(result)
 
 
+def check_local_definitions(data, rows, image, coff):
+    """Check actual read-only COFF payloads independently of symbol names."""
+    spec = importlib.util.spec_from_file_location(
+        'options_literal_definitions', ROOT / 'scripts/coff_literal_definitions.py')
+    literals = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(literals)
+    return literals.check_literal_definitions(data, rows, image, coff, DESTINATIONS)
+
+
 def diagnose(path: Path, *, require_native_input: bool = False) -> dict:
     import capstone
     from diagnostic_branch_alignment import aligned_branch_conflicts, direct_control_flow
@@ -185,7 +194,8 @@ def diagnose(path: Path, *, require_native_input: bool = False) -> dict:
         'th09_options_complete_coff', ROOT / 'scripts/compare-coff-function.py')
     coff = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(coff)
-    original = coff.pe_bytes_at(coff.verified_target(), BASE, SIZE)
+    image = coff.verified_target()
+    original = coff.pe_bytes_at(image, BASE, SIZE)
     require_original_identity(original)
     target_ins = full_instructions(original)
     target_fields, target_calls = absolute_operands(target_ins)
@@ -193,7 +203,8 @@ def diagnose(path: Path, *, require_native_input: bool = False) -> dict:
             ORIGINAL_INSTRUCTIONS, ORIGINAL_FIELDS, ORIGINAL_CALLS):
         raise ValueError('original TH09 Options instruction/address/call census changed')
 
-    raw, rows = coff.object_function(path, SYMBOL)
+    raw, rows = coff.object_function(path, SYMBOL, include_symbol_locations=True)
+    literal_definitions = check_local_definitions(path.read_bytes(), rows, image, coff)
     linked = bind_candidate(raw, rows, target_fields)
     candidate_ins = full_instructions(linked)
     candidate_fields, candidate_calls = absolute_operands(candidate_ins)
@@ -239,6 +250,8 @@ def diagnose(path: Path, *, require_native_input: bool = False) -> dict:
         'target_instructions': len(target_ins),
         'candidate_instructions': len(candidate_ins),
         'original_fields': len(target_fields), 'bound_fields': len(rows),
+        'literal_definitions_checked': len(literal_definitions),
+        'literal_definitions': literal_definitions,
         'ordered_calls': len(target_calls), 'ordered_calls_agree': candidate_calls == target_calls,
         'original_blocks': len(target_graph), 'candidate_blocks': len(candidate_graph),
         'direct_graphs_agree': target_graph == candidate_graph,
@@ -284,6 +297,7 @@ def main() -> int:
         print('ordered calls agree:', report['ordered_calls_agree'],
               'alignment:', report['aligned_instructions'], '/',
               report['target_instructions'])
+        print('actual read-only literal definitions:', report['literal_definitions_checked'])
         print('paired CFG conflicts:', report['paired_branch_conflicts'],
               'unpaired:', report['unpaired_branch_destinations'])
         print('complete direct block graphs:', report['original_blocks'],

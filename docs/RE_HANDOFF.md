@@ -8,36 +8,34 @@
 ## Current verified handoff checkpoint
 
 The operator requests continued exact reconstruction, serial low-priority
-compiles, focused affected replays and regular cleanup. This checkpoint starts
-from pushed `4f05528` and records bounded native-contract counterexamples.
-**No game source or exact ledger changes; no new exact owner.** The latest
-exact code progress remains Type19's **821/821 bytes /35 fields**.
+compiles, focused affected replays and regular cleanup. Starting from pushed
+`09301a6`, this checkpoint fixes a concrete Options comparison gap and records
+six bounded source controls. **No game source or exact ledger changes; no new
+exact owner.** Latest exact code progress remains Type19's821/821 bytes/35 fields.
 
-- RunEcl's fresh maintained baseline remains **15564/598/30**. Removing both
-  existing operand qualifications, or directly passing both raw operands,
-  emits15560/598 and fails the complete-owner gate. Old single-operand,
-  wire-view, return and64-bit flag controls are read before avoiding repeats.
-- Type3 double-return and explicit-owner static-fastcall inverse transforms
-  each compile both real46-byte callees exactly, including both fields and
-  the actual float definition. Both callers are byte-identical to maintained
-  **780/38/15**. Compatible native bodies do not establish unique original
-  declarations or fix the scheduling residual.
-- Enemy memcpy retains **3900/97/13**. A normal draw-group helper adds a98th
-  field and is rejected. Two direct full-descriptor construction controls
-  independently preserve the real28-byte constructor, Enemy13 and RunEcl30.
-  These differ from the earlier storage-projection controls; none is adopted.
-- SaveReplay's genuine41-byte RNG range body proves the tested narrowed return
-  interface; declaration-only and actual-body-visible callers stay byte-identical
-  at **1238/53/3**. Earlier typed-frame/checksum controls are not repeated.
-- All490 game inputs are unchanged. Existing **1003 exact** source/profile
-  proofs are reused; no broad exact replay is needed. Title's unchanged22-byte
-  residual is reused from its bound preceding checkpoint. The four primary
-  owners remain **30 /13 /22 /15**, and the95%/native product/runtime gates stay open.
-- Hash/CRC-verified evidence and one-case cold recipes live in
+- Fresh Options remains **2048/2045 bytes**,135 original fields,51 calls and121
+  blocks. Target551 instructions versus candidate554;540 align. The11 unmatched
+  target instructions occupy13 alignment edit ranges, chiefly zero/constant6
+  allocation after right scrolling. Positional610 differences include shifts.
+- Explicit quiet confirmations, a normal counter-reset helper, genuine menu-sound
+  definition before the caller and shared volume-command pointer all produce the
+  same complete raw body. Two natural outer-state forms emit2049/2047 and worsen
+  alignment. None is adopted. Actual PlayMenuSound remains34/34 exact.
+- The old inspector accepted three candidate objects with unchanged main code and
+  actual COFF rows but a damaged SetVol byte, terminator or read-only attribute.
+  The new inspector reads the real initialized read-only seven-byte definition;
+  all three corruptions are rejected. Every preceding maintained observation
+  remains identical. The active Options gate requires the actual definition.
+- All490 game inputs and1003 exact source/profile proofs remain unchanged; only
+  this bounded Oracle is exercised. RunEcl/Enemy/DrawResult/Type3 stay
+  **30 /13 /22 /15**. The95% and native product/runtime gates remain open.
+- Target-required tracking, docs, progress, whitespace and CI pass:883 tests/28
+  skips. CRC/SHA-verified cleanup removes414 owned files,7115653 bytes (~6.79 MiB).
+- Source/COFF captures, original-versus-strengthened mutation receipts and selected
+  self-cleaning cold recipes live in
+  `.analysis/gpt-61sol-20261021-options-source-flow/`.
+  The preceding native-contract counterexamples remain in
   `.analysis/gpt-61sol-20261021-contract-context-checkpoint/`.
-  Retain the archive, manifest and replayer; cleanup removes only verified
-  duplicate captures, this batch's objects and newly generated CI caches.
-  Cleanup reclaims10073524 bytes (~9.61 MiB),452 files; CI passes881 tests/28 skips.
 - Use direct local IDA, serial `nice -n 10` compiles, English
   `gpt-6.1-sol: ...` commits, push and independent remote verification.
 
@@ -113,7 +111,7 @@ these results do not establish unique original translation-unit ownership.
 | **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280/1,280 bytes**,376/376 instructions,57 original-bound fields,13 ordered calls,72 matching direct blocks; **29 differences** | Native indexed list reads, date/name-before-character evaluation, record-before-index acquisition and later timer snapshot recover1,180 more equal bytes. All1,251 matching positions and complete geometry/CFG are now protected. Remaining +185..+321 differences are selected-row ECX/EDX choices and two local-store order. `--owner replaymenu` cold-checks this isolated TU; still NON-EXACT. |
 | **TitleScreen::DrawReplaySave** | 0x004239F6 | **800/800 physical**, 245 instructions, 41 fields, 4 calls, 28/28 matching blocks; **96 linked differences** | Raw replay magic, genuine SDK subtraction/two scales/addition and two-byte character construction restore the full extent and nine more loop-counter/FILD home bytes. All **704** equal positions are SHA-bound and protected; no old matching byte regresses from the 105-residual source. Remaining vector/text homes, replay-pointer and keyboard schedules stay NON-EXACT. No enlarged buffer, extra storage or new target helper claim. |
 | **TitleScreen::DrawResult** | 0x00423D16 | **1,939/1,939**, 82 fields, 16 calls, 92 blocks; **22** differences | All 22 SHA-pinned linked differences are in the entry: 21 at `+0x0E..+0x24`, one at `+0x39` (bank-pointer store vs `currentScreen` prefetch). The entire remaining owner is byte-exact; the strengthened guard now pins **all 22 exact residual positions**, including preserving previously matching `+0x13` and `+0x18` inside the old entry window. The shared native GameManager field at+0x3F now has its actual COFF symbol/root/addend identity guarded; superseded mode/name-index aliases are rejected. `--owner title` protects the original full owner. |
-| **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 / 2,048**, 135 fields, 51 calls, 121 blocks | Uses genuine `AnmManager`/`AnmLoaded` and `SoundPlayer` receivers for29 fields, plus **eight native input array references**: two receivers at `g_ReplayInputStates[2]` and six16-bit word06 reads. Strict root/addend checking rejects fake standalone globals even at equal effective addresses. All2,048 linked candidate bytes and 135 referents are preserved; 610 overlap differences+3 extra bytes remain NON-EXACT. Exact same-TU `PlayMenuSound`34/34 and `--owner title` protect this frontier. |
+| **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 / 2,048**, 135 fields, 51 calls, 121 blocks | Uses genuine `AnmManager`/`AnmLoaded` and `SoundPlayer` receivers for29 fields, plus **eight native input array references**: two receivers at `g_ReplayInputStates[2]` and six16-bit word06 reads. Strict root/addend checking rejects fake standalone globals even at equal effective addresses. All2,048 linked candidate bytes and135 referents are preserved. The actual seven-byte read-only SetVol definition is now checked; three data-only corruptions are rejected with unchanged main code/COFF. The610 overlap differences+3 extra bytes remain NON-EXACT. Exact same-TU `PlayMenuSound`34/34 and `--owner title` protect this frontier. |
 | **Title character cursors** | 0x00424EDD / 0x00424FB0 / 0x0042505F | Active target/candidate **211/215**; Reverse/Inactive **175/175** | Active reduced 217→215 in `69165b2`, but none is exact. Loop pre-check and VM register/sprite reload schedules; `--owner title`. |
 | **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15 maintained differences** | New private word-read plus real collision-forward model restores original middle-Z chronology and has **four differences** at +1B2,+1B7,+247,+249. These are previously equal bytes, so it is not adopted and the production guard stays unchanged. Reproduce with `probe-exattack-type3-word-order.py`; native/inline/reference joint controls retain four or lose 20 physical bytes. The component panel proves ordinary forwarding alone gives 27; the four-byte result depends on both experimental qualifications in the tested panel. New real pointer-body visibility preserves 15/four; partial X/Y visibility changes full extents and is rejected. The extended native-context producer checks the real 18-byte interrupt and both three-byte pointer aliases without origin credit. Real shared `AnmVm` and five canonical interrupts remain; `--owner type3` protects seven exact functions. |
 | **ExAttack Type14/22 draw** | 0x00444130 | **959 / 974**, 53 full PE/COFF fields, 20 direct + 12 indirect calls, 9 jumps, 905 overlapping differences and 15 extra source bytes | Twelve device fields use the genuine `Supervisor g_Supervisor +8`; the old fictitious global type is rejected. Original-bound bytes, fields and calls remain unchanged. `--owner exattack` protects all 54 equal original positions and the three exact Type14/22 initializer/update controls. Remaining draw register/loop schedule stays NON-EXACT. |
@@ -184,6 +182,10 @@ python3 -B scripts/probe-type3-native-context.py --case timer-plain
 # Actual Timer context: one selected source/profile compile, no source edits:
 python3 -B scripts/probe-runecl-setter-context.py --case setter-before
 # --case pair-after reproduces the rejected 15560-byte caller.
+# Options alone: one compile, actual SetVol payload and the exact34-byte sibling:
+nice -n 10 python3 -B scripts/build-match-unit.py --unit title-screen-play-menu-sound
+python3 -B scripts/inspect-title-options.py build/matching/TitleScreenOptions.obj --require-native-input --json
+python3 -B scripts/compare-coff-function.py --unit title-screen-play-menu-sound
 # DrawResult alone, including all 15 actual literal definitions:
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner resultdraw
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner netmessage

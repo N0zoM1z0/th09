@@ -15238,3 +15238,67 @@ CI pass:881 tests/28 skips. Verified cleanup removes452 owned duplicate/compiler
 new-cache files,10073524 bytes (~9.61 MiB). It deliberately supersedes the initial
 pre-review archive after preserving its hash/reason and unchanged caller pairs.
 Older unclassified evidence, original inputs, toolchains and IDA state remain.
+
+
+## October 21: Options actual string proof and bounded control flow (gpt-6.1-sol)
+
+This batch starts at independently pushed09301a6. All490 game inputs remain
+unchanged from the preceding original-v1.50a disk/IDA-attested epoch. A new serial
+nice10 canonical compile reproduces OnUpdateOptions2048/2045 bytes,554/551
+instructions,135 original fields,51 ordered calls and121 direct blocks. The540
+aligned instructions leave11 unmatched original instructions across13 alignment
+edit ranges. Most concern the original EBX zero live interval after right-scroll
+input versus the candidate's later6 reuse; the610 positional differences include
+shifted equal instructions. These observations do not identify original source
+spelling or justify register/local-order hints.
+
+Six ordinary source controls preserve actual calls and state effects. Explicit
+quiet confirmation cases0..5, an ordinary inline counter reset, the genuine
+PlayMenuSound definition before Options, and one shared volume-command pointer
+are completely raw-byte-identical to maintained2048/135. The actual menu-sound
+body also reproduces the separately exact34-byte/three-field original at422F17;
+the unchanged canonical comparison passes. Two outer-state if forms preserve135
+referents but emit2049/2047 bytes,1932/1674 positional differences and534/535 aligned
+instructions, versus540 maintained. Neither is adopted or scored as progress
+merely because one is one byte shorter.
+
+The existing Options inspector bound SetVol references by reviewed symbol/address
+without reading the actual local definition. Three original-object controls
+change only its first byte, NUL terminator or section write permission. Their
+complete main instruction bytes and every actual COFF row remain identical.
+The legacy producer accepts all three at the same610-byte residual. The new
+producer reads actual COFF section/value/extent and initialized read-only flags,
+then verifies the whole seven-byte payload against the independently verified PE.
+All three now fail. The actual maintained definition passes; it has one emitted
+reference despite eight source QueueCommand uses. Every old maintained diagnostic
+key/value remains identical; only actual-definition evidence is added.
+
+The active Options frontier now requires one checked local definition. Missing,
+zero, boolean or extra-count evidence is rejected, including otherwise converged
+noncrediting reports. Two target-independent tests exercise unchanged-field string,
+terminator and provenance corruption and repeated source references; the focused
+Options suite passes19 tests/two skips under Python-S. No accepted matches or
+original bytes are modified. Existing1003 exact source/profile proofs are reused;
+there is no unrelated Title/ECL/Player replay. Current source/header closure,
+pinned compiler profile, full raw/COFF captures, actual native-menu body and frozen
+legacy producer are bound in the evidence packet.
+
+`.analysis/gpt-61sol-20261021-options-source-flow/evidence.zip` retains24 members,
+453223 uncompressed bytes in61470 bytes, SHA256
+`a674f6aa3e822d602f593fdd9501fb890227fcfdb7f2b397ea722ad33e912403`.
+`replay.py --case literal-mutations` cold-compiles the complete maintained source,
+checks all raw bytes/actual COFF rows, and reproduces all three legacy acceptances
+and strengthened rejections. A named source case recompiles only that one control
+and verifies its full raw/COFF capture. Temporary sources, OBJ and PDB self-clean;
+source/tool drift fails closed. No Factory receipt, byte-exact Options owner or
+native product/runtime proof is inferred. RunEcl30/Enemy13/DrawResult22/Type315
+and the32372-byte95% gap remain open; canonical coverage stays83.9093%.
+
+
+Both selected cold replayers pass after the public checker change: the three
+mutation pairs and the native-menu-sound-before complete raw/COFF capture. Full
+CI passes883 tests/28 skips, plus target-required tracking, docs, progress and
+whitespace. Verified cleanup removes414 owned archive duplicates, terminal OBJ/
+PDB and newly generated cache files,7115653 bytes (~6.79 MiB). The archive,
+manifest, cold recipes and cleanup/CI receipts remain; preexisting evidence,
+private original inputs, IDA state and tools are preserved.

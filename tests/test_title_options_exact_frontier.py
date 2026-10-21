@@ -105,6 +105,7 @@ class OptionsBossFrontierWiring(unittest.TestCase):
             'diagnostic_only': True, 'exactness_credit': 'none',
             'target_bytes': 2045, 'candidate_bytes': 2048,
             'target_instructions': 551, 'candidate_instructions': 554,
+            'literal_definitions_checked': 1,
             'original_fields': 135, 'bound_fields': 135,
             'ordered_calls': 51, 'ordered_calls_agree': True,
             'original_blocks': 121, 'candidate_blocks': 121,
@@ -135,6 +136,8 @@ class OptionsBossFrontierWiring(unittest.TestCase):
         boss.guard_title_options(baseline)
         for changed in (
                 {'candidate_bytes': 2049}, {'candidate_bytes': 2044},
+                {'literal_definitions_checked': None}, {'literal_definitions_checked': 0},
+                {'literal_definitions_checked': True}, {'literal_definitions_checked': 2},
                 {'target_instructions': 550}, {'candidate_instructions': 555},
                 {'original_fields': 134}, {'bound_fields': 134},
                 {'ordered_calls': 50}, {'ordered_calls_agree': False},

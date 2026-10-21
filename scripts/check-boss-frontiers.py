@@ -3746,6 +3746,9 @@ def guard_title_options(result: dict) -> None:
     complete exact candidate is allowed through, without awarding exact credit.
     """
     noncrediting(result, name='Title OnUpdateOptions', target_size=2045, fields=135)
+    if (type(result.get('literal_definitions_checked')) is not int or
+            result['literal_definitions_checked'] != 1):
+        raise RuntimeError('Title OnUpdateOptions lost its actual read-only SetVol definition')
     source_size = result.get('candidate_bytes')
     mismatch = result.get('overlap_differences')
     aligned = result.get('aligned_instructions')
@@ -4064,6 +4067,7 @@ def run_title_open() -> dict:
     guard_title_options(options)
     cursor_reports['title_update_options'] = {
         'target_bytes': 2045, 'candidate_bytes': options['candidate_bytes'],
+        'literal_definitions_checked': options['literal_definitions_checked'],
         'bound_fields': options['bound_fields'],
         'ordered_calls': options['ordered_calls'],
         'target_instructions': options['target_instructions'],
