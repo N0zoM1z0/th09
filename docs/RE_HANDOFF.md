@@ -7,45 +7,37 @@
 
 ## Current verified handoff checkpoint
 
-The operator requests continued exact reconstruction across large functions
-and small leaves, serial low-priority compiles, focused affected replays and
-regular cleanup. Starting from pushed `8c781dc`, this checkpoint makes
-**ExAttack Type19 update completely exact: 821 bytes /35 fields**.
-RunEcl/Enemy/Title/Type3 remain **30 /13 /22 /15**; the95% and native product
-/runtime gates remain open.
+The operator requests continued exact reconstruction, serial low-priority
+compiles, focused affected replays and regular cleanup. This checkpoint starts
+from pushed `4f05528` and records bounded native-contract counterexamples.
+**No game source or exact ledger changes; no new exact owner.** The latest
+exact code progress remains Type19's **821/821 bytes /35 fields**.
 
-- Four ordinary33-vertex indexed UV loops replace manual three-vertex
-  expansion. VC7.1 produces the original unrolling and register allocation:
-  **44 ->0** differences,254 instructions,11 calls and30 identical direct blocks.
-  No ABI, compiler-profile or data-layout change; original source spelling is
-  still unknown.
-- Two identical cold canonical comparisons verify the new821-byte owner.
-  All **79 ECL units /25215 physical bytes /1126 fields** pass across both
-  actual profiles, including all78 previously exact owners. Two private label
-  spellings change; independently checked original destinations remain
- 408548/407A4C. No target address or extent is changed.
-- The inspector verifies all five actual COFF float definitions. Five mutations
-  leave main code/relocations byte-identical: the old producer reports exact
-  code, the strengthened producer rejects each changed literal. The active
-  Type19 gate now requires zero differences, including when sibling replay is
-  skipped; no partial exactness credit is inferred from diagnostics.
-- Twelve Type19 controls and six Title controls preserve the rejected cases.
-  Timer less-than visibility and static-member forms stay44; member form gives57;
-  outlining/pointer loops fail the complete owner. Title predicates/selection
-  helpers remain1939/82/22. No negative hypothesis is promoted.
-- Only ExAttackUpdateType19.inl changes among490 game inputs. The78 existing
-  affected ECL proofs are revalidated;924 other exact source/profile proofs are
-  reused. There are **1034 comparison units and1003 canonical exact owners**.
-- CI passes **881 tests /28 skips**, plus target-required tracking, docs,
-  progress and whitespace. Player state/damage inventories are104/81 with
-  their existing six/three profiles; unchanged Player bodies are not rebuilt.
-- Other affected ECL frontiers keep their exact prior bounds, including
-  Effect29/34 and biased movement. CRC/hash-verified archives retain138 members;
-  cleaning verified duplicates and389 own generated files reclaims9128451 bytes
-  (~8.71 MiB). Older unclassified evidence, tools and private inputs remain.
-- Evidence and minimal compiler recipes:
-  `.analysis/gpt-61sol-20261021-type19-comparison-context/` and
-  `.analysis/gpt-61sol-20261021-title-predicate-context/`.
+- RunEcl's fresh maintained baseline remains **15564/598/30**. Removing both
+  existing operand qualifications, or directly passing both raw operands,
+  emits15560/598 and fails the complete-owner gate. Old single-operand,
+  wire-view, return and64-bit flag controls are read before avoiding repeats.
+- Type3 double-return and explicit-owner static-fastcall inverse transforms
+  each compile both real46-byte callees exactly, including both fields and
+  the actual float definition. Both callers are byte-identical to maintained
+  **780/38/15**. Compatible native bodies do not establish unique original
+  declarations or fix the scheduling residual.
+- Enemy memcpy retains **3900/97/13**. A normal draw-group helper adds a98th
+  field and is rejected. Two direct full-descriptor construction controls
+  independently preserve the real28-byte constructor, Enemy13 and RunEcl30.
+  These differ from the earlier storage-projection controls; none is adopted.
+- SaveReplay's genuine41-byte RNG range body proves the tested narrowed return
+  interface; declaration-only and actual-body-visible callers stay byte-identical
+  at **1238/53/3**. Earlier typed-frame/checksum controls are not repeated.
+- All490 game inputs are unchanged. Existing **1003 exact** source/profile
+  proofs are reused; no broad exact replay is needed. Title's unchanged22-byte
+  residual is reused from its bound preceding checkpoint. The four primary
+  owners remain **30 /13 /22 /15**, and the95%/native product/runtime gates stay open.
+- Hash/CRC-verified evidence and one-case cold recipes live in
+  `.analysis/gpt-61sol-20261021-contract-context-checkpoint/`.
+  Retain the archive, manifest and replayer; cleanup removes only verified
+  duplicate captures, this batch's objects and newly generated CI caches.
+  Cleanup reclaims10073524 bytes (~9.61 MiB),452 files; CI passes881 tests/28 skips.
 - Use direct local IDA, serial `nice -n 10` compiles, English
   `gpt-6.1-sol: ...` commits, push and independent remote verification.
 
@@ -199,9 +191,9 @@ nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner netmessage
 python3 -B scripts/check-timer-current-view.py
 # Two logical aliases of one unknown-origin body; no authored credit:
 python3 -B scripts/check-vector-pointer-views.py --json
-# Current damage scope (80 units); unchanged external proofs are reused:
+# Current damage scope (81 units); unchanged external proofs are reused:
 nice -n 10 python3 -B scripts/check-enemy-player-state.py --scope damage
-# After shared state declarations change, use the 103-unit default scope:
+# After shared state declarations change, use the 104-unit default scope:
 # nice -n 10 python3 -B scripts/check-enemy-player-state.py
 # Constructor chain only by default; add --with-dependents after layout changes.
 nice -n 10 python3 -B scripts/check-replay-data-layout.py

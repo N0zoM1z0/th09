@@ -15148,3 +15148,93 @@ bytes (~8.71 MiB) in total. Minimal recipes and complete comparison receipts
 remain; no elaborate new public replay framework, original executable, game
 archive, toolchain, prefix, IDA database or older unclassified evidence is
 added or removed. No new Factory receipt or native runtime claim is made.
+
+
+## October 21: bounded native contracts leave primary residuals open (gpt-6.1-sol)
+
+Recovery starts from clean pushed4f0552880d95668a631da0b88daaa2e5f7a6c675.
+Original Japanese v1.50a disk identity, direct IDA metadata and distributed mapped
+bytes pass. No IDA metadata or target bytes change. All490 maintained game inputs
+remain unchanged; no exact ledger or compiler profile changes. Existing1003 exact
+proofs retain their source/profile bindings, rather than being broadly replayed.
+
+A fresh main ECL object repeats RunEcl15564/598/30. Two joint operand controls
+remove the existing opcode4/155 qualifications together, or pass both raw operands
+directly into the existing genuine interfaces. Both emit15560/598 and fail the
+full-owner shape/coverage gate. Complete raw/COFF captures are retained even
+though the strict producer rejects their shortened owners. No local similarity
+score is substituted for complete coverage. Old one-sided qualifiers, typed wire
+views, returned flag words, real Timer visibility and64-bit flag banks were read
+before avoiding repeated full-carrier experiments. One redundant64-bit toy object
+is recorded as diagnostic only, without repeating the old full-ECL flag-bank panel.
+
+Independent original decoding confirms Timer assignment401500 is a9-byte jump
+wrapper into the25-byte SetCurrent4014D0. The latter stores the supplied integer
+at+8, its floating conversion at+4 and the previous-time sentinel at+0. It leaves
+the integer in EAX, but RunEcl's opcode4 successor kills EAX before reading it.
+This does not identify a unique C++ return declaration or justify a fake return.
+
+Type3's original collision-center arguments address EBP-10, EBP-1C and EBP-34;
+collisionSize occupies EBP-28. This is not the contiguous three-element array
+suggested by source-level similarity. Prior aggregate/array controls are not
+recompiled. Two new ordinary interface hypotheses change actual inverse-coordinate
+returns to double, or express the existing meaningful owner explicitly in static
+fastcall methods. Before binding either alternative symbol, both real46-byte
+functions at442420/442450 reproduce every original byte, both original fields and
+the actual read-only2^32 float definition. The unchanged Type3 body then reproduces
+780 bytes/38 fields/240 instructions/24 calls/17 blocks and exactly the same15
+residual offsets; both complete raw bodies equal maintained SHA256
+`e6a940a0e75b2dad895f8ba72f5533441502586ae8dd74c02397edcebebe1c2a`.
+The native inverse bodies use EAX for the origin pointer and return through x87;
+an absolute-field offset alone does not identify its destination register.
+Original declaration spelling, ownership and return precision remain unknown.
+
+Enemy's new descriptor memcpy form retains3900/97/13 with RunEcl30. A normal
+append-to-draw-group helper emits3900/98, introducing a call; the original97-field
+manifest rejects it. A separate direct full-object experiment adds a genuine
+BulletSpawnDescriptor constructor declaration and uses the existing native field
+layout, instead of projecting it over BulletSpawnDescriptorCtorView storage.
+Opaque and same-TU definitions each independently compile the complete original
+28-byte40D500 constructor with zero fields. The visible case also verifies that
+body in the actual caller object. Both callers retain3900/97/13 and
+RunEcl15564/598/30. These are distinct from earlier native-field projection and
+scalar-copy experiments. No constructor/class/TU hypothesis is promoted.
+
+SaveReplay's old archive already covers typed frame copying and byte-first
+checksum addition. Its new native RNG return hypothesis compiles the actual
+range expression, `maximum != 0 ? NextU16() % maximum : 0`, under the unchanged
+Replay profile. The complete41-byte4048B0 body and actual call to42AE20 match
+original before binding the unsigned-short-return declaration. The visible case also checks the actual41-byte/one-field body in the caller
+object against that independently proven body. Declaration-only
+and body-visible callers each retain1238 bytes/53 fields and the same three
+residual offsets B7/BB/3F6. Both raw bodies equal the maintained capture:
+`109c8005dd14dd60fd5ba56ddee0ebcecfd5e39618e5191ec7783a3ac113b839`.
+The original range body returns a fully extended nonnegative remainder in EAX;
+this evidence does not prove the previous int declaration was physically wrong.
+No public RNG interface or source is changed merely to relabel an equivalent ABI.
+
+Evidence is55 source/report members,1626191 uncompressed bytes, in
+`.analysis/gpt-61sol-20261021-contract-context-checkpoint/evidence.zip`
+(272984 bytes, SHA256
+`8727585077d7e073e29cec6bb84ae54f5a49006cabdabefbf67b69481337061f`).
+The manifest binds all490 actual game inputs, the compiler/Oracle inputs and the
+reused Type19 baseline archive. `replay.py --list` lists10 selected cold cases;
+`--case runecl-plain-both` checks the intentional complete-owner rejection and
+then compares every frozen raw byte and actual COFF record. Native-contract
+recipes prove their real callees before binding experimental caller identities.
+The replayer fails closed on later source/tool drift and self-cleans temporary
+sources/objects. This is reproducible negative evidence, not accepted exactness.
+RunEcl30/Enemy13/Title22/Type315, the32372-byte95% gap and native product/runtime
+remain open; canonical coverage stays244917/291883 (83.9093%).
+
+
+Cold replayers actually reproduce the rejected RunEcl joint control (15560/598)
+and the static-owner Type3 control (780/38), including complete raw bytes and
+actual COFF records. The RunEcl capture is unchanged between the initial archive
+and the strengthened final archive; the latter also retains independently decoded
+original collision-call stack windows. Source-parent bindings remain4f05528.
+Target-required tracking, docs, progress, whitespace and full target-independent
+CI pass:881 tests/28 skips. Verified cleanup removes452 owned duplicate/compiler/
+new-cache files,10073524 bytes (~9.61 MiB). It deliberately supersedes the initial
+pre-review archive after preserving its hash/reason and unchanged caller pairs.
+Older unclassified evidence, original inputs, toolchains and IDA state remain.
