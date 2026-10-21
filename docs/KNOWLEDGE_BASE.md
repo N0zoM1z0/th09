@@ -15958,3 +15958,93 @@ cache files remain byte-identical. The original EXE, tools, IDA and unclassified
 older analysis stay untouched. A redundant cleanup preview is removed only
 after its full per-path inventory equals the retained final cleanup receipt.
 No game code or exact-credit ledger changes; the goal remains active/incomplete.
+
+
+## October 21: complete native ECL resolver visibility after shared GameManager declarations (gpt-6.1-sol)
+
+Recovery starts at pushed c427874 with clean Git, original Japanese v1.50a disk
+identity, direct IDA metadata and distributed mapped-byte attestation. Type3's
+old aggregate/center-array controls and Front's full recent loop/RNG controls
+are read before avoiding unsupported repeats. No target or IDA metadata changes.
+
+Packet706's old whole-EclOperands compile failure is no longer a current blocker:
+ExAttackType8GameManagerView.hpp now typedefs the actual AsciiGameManagerView
+and includes its single g_GameManager declaration. EclOperands.cpp uses the same
+header. This batch changes neither declaration nor game source; it directly
+includes the unchanged real TU, without fake globals, ABI adapters or byte patches.
+The four canonical resolver profiles equal the maintained ECL carrier profile.
+
+| ID | Recorded state | Fact | Evidence / limits |
+| --- | --- | --- | --- |
+| ECL-RESOLVER-VISIBILITY-001 | compiler observation | Real complete EclOperands before RunEcl independently matches all1980/726/968/2044 physical native bytes and165/39/49/121 fields. | Total5718 bytes/374 fields includes1320 owned table/alignment bytes beyond the logical4398 bytes. Positive same-object references are131 ResolveInt,17 ResolveIntLValue,24 ResolveFloatLValue and100 ResolveFloat; every actual body coordinate is checked. No new credit or original TU claim. |
+| ECL-RESOLVER-VISIBILITY-002 | compiler observation | Complete actual resolver definitions after RunEcl reproduce the same full native equality. | Both full contexts give RunEcl15564/598/42 ordinary differences,zero field/table differences. Neither restores any old mismatch; both damage the same twelve original-equal physical positions. |
+| ECL-RESOLVER-VISIBILITY-003 | compiler observation | Actual ResolveInt alone is original-equal across1980 bytes/165 fields and131 same-object calls. | All15564 raw RunEcl bytes equal the maintained baseline; complete comparison remains30 differences. |
+| ECL-RESOLVER-VISIBILITY-004 | compiler observation | Actual ResolveFloat alone is original-equal across2044 bytes/121 fields and100 same-object calls. | Entire raw RunEcl owner stays baseline-neutral30. Full physical tables are compared, not only1633 logical bytes. |
+| ECL-RESOLVER-VISIBILITY-005 | compiler observation | Actual ResolveIntLValue alone matches726 bytes/39 fields with17 same-object calls. | Caller gives42 ordinary differences and the same twelve damaged original-equal positions. This isolates the changing component in the tested panel; it does not prove unique original TU partition. |
+| ECL-RESOLVER-VISIBILITY-006 | compiler observation | Actual ResolveFloatLValue alone matches968 bytes/49 fields with24 same-object calls. | Whole raw caller stays baseline-neutral30. The old bounded neutral result remains corroborated; other original contexts stay unknown. |
+| ECL-ANM-LOADER-VISIBILITY-001 | compiler observation | Genuine AnmLoadedExecute.cpp before RunEcl independently emits the original41-byte script-index loader with its one native field. | All five actual RunEcl references resolve to that same-object definition. Every caller raw byte remains baseline-neutral30. This is a real called small leaf, with no invented helper. |
+| ECL-RESOLVER-PROVIDER-001 | source and test observation | The public producer compiles one selected context serially at nice10, binds all first-include source plus transitive Oracle helpers, and removes temporary outputs. | Seven pure regressions reject tail-only changes, wrong actual local destinations, changed decorated type/ABI/addend, opaque or unrelated definitions, wrong target and stale compiler-failure reports. A successful diagnostic still grants no exact credit. |
+
+All291 changed private-label field rows derive their actual destinations from
+COFF symbol minus owner coordinates, then independently equal original manifest
+targets. Six external field names differ only in VC7.1's eight-hex-digit anonymous
+namespace component; their complete remaining decorated class/method/parameter
+identities match. The first private comparison stopped on this generated hash
+until that exact distinction was inspected. No arbitrary alias substitution,
+canonical manifest edit or target-offset fitting is used. The original helper
+source, actual generated names and complete raw/COFF are retained. Wrong class,
+method or calling convention remains a rejection in the new pure tests.
+
+The complete public first cold run reproduces145/148 handler shapes; mismatches
+are4,7,155. The twelve added physical mismatches are+2B6,+2B8,+2C9,+2CC,+2D2,
++2D5,+2D9,+2DA,+2DB,+2DC,+2DD,+2DE in opcode7. Every original opcode4/155 residual
+remains. The unchanged production guard rejects42; it is not widened. Enemy
+continues3900/97/13 throughout all seven private contexts. No maintained C++,
+header, source/profile unit, match row, origin or ABI changes are adopted.
+
+Seven private primary compiles and the first public cold compile all succeed.
+The first public provider hashes direct entrypoints; the final source additionally
+binds every transitive Python/shell/config helper. Its exact earlier provider is
+recovered by its recorded SHA and retained separately, never relabeled current.
+Seven target-independent tests pass. Unchanged1003 source/profile proofs are
+reused; none is claimed freshly replayed. All492 game inputs,1035 unit definitions
+and canonical244917/291883 bytes remain unchanged,83.9093%;95% still needs32372
+whole authored bytes. RunEcl30,Enemy13,DrawResult22,Type315 stay unfinished.
+
+Packet .analysis/gpt-61sol-20261021-ecl-resolver-visibility/ retains97 archive
+members,4285106 uncompressed bytes in511786 bytes, SHA256
+c20aed6e404846c026140b71c6678b5c054d7dd63543de48887fc1da9465e0bc.
+It keeps deduplicated actual source blobs, all raw/COFF and full native proofs,
+both provider revisions, original-bound baseline and the selected current-provider
+recipe `python3 -B .../replay.py`. The public current-source command is
+`python3 -B scripts/probe-runecl-resolver-context.py --case all-before`;
+`--case int-lvalue` selects the isolated changing component and still builds
+only once. Native product/runtime, semantic, port and full inventory gates remain
+open. Original class/source ownership is not inferred from native byte equality.
+
+Final CI passes908 tests/28 skips in109.584 seconds, with target-required
+tracking, documentation, generated progress, open product graph and whitespace
+checks. The final-provider selected cold replay runs after cleanup and passes:
+all main/native raw bytes and actual COFF rows repeat, with exactly six reviewed
+compiler anonymous-namespace hash field names changing. Complete native5718/374
+and272 real definition references remain original-equal; RunEcl42/Enemy13 and
+145/148 shapes repeat. The production guard still rejects; no acceptance follows.
+The full final-provider report is retained in SHA-bound gzip, separately from
+the earlier narrower provider and its original report in the archive.
+
+Storage recovery corrects an earlier cleanup blind spot:CI sets
+PYTHONPYCACHEPREFIX=build/pycache at scripts/ci.py:28. The initial build snapshot
+contains462 files, of which393 are older reproducible Python caches. After this
+CI there are395 such caches. Every file is checked for Python magic/header,
+current source timestamp/size/hash and code-object equality with a fresh compile
+of its exact repository or host-runtime source; no code is executed by that
+classification. Original Python runtime sources are read only and preserved.
+All producers are terminal before899 reviewed files/17267259 bytes (~16.47 MiB)
+are removed:archived case sources/evidence, seven private OBJ/PDB pairs and the
+395 verified CI caches. Source classification and per-path hashes are retained.
+All69 preexisting non-cache build files and35 separate preexisting caches remain
+byte-identical; empty cache directories are removed only after their verified
+files are gone. The older cleanup preview is discarded after every row appears
+unchanged in the final inventory. Original EXE, tools, IDA and unclassified old
+analysis stay untouched. No full cohort replay, new exact owner or Factory
+receipt is claimed; the exact goal remains active/incomplete.

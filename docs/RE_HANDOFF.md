@@ -9,37 +9,39 @@
 
 The operator requests continued exact reconstruction, serial low-priority
 compiles, affected replays and cleanup. This checkpoint starts from pushed
-`c91cdd3`. All492 game inputs, all1035 comparison-unit definitions and exact
+`c427874`. All492 game inputs, all1035 comparison-unit definitions and exact
 ledgers remain unchanged; all1003 authored exact source/profile proofs are reused.
 
-- The Enemy Player-state guard now collects both the three original field
-  positions and every occurrence of the actual getter/setter symbols. An extra
-  native call outside those positions is rejected. Moved fields, wrong native
-  identities and unreviewed same-object definitions have distinct failures;
-  the original offsets, external provenance and E8 destinations remain required.
-- Three genuine Player getter contexts (alone, with the actual33-byte periodic
-  Timer body, or with the actual12-byte Player setter) retain3900 physical
-  bytes/97 fields/69 ordered calls, but emit3881 code bytes plus three alignment
-  bytes and16 table bytes, versus original3883+1+16. Their native3/20/33/12-byte
-  definitions independently match their complete original bodies. Full linked
-  comparisons give836/868/836 differences and stay rejected. Equal physical
-  length and exact leaves do not establish caller equality or original TU origin.
-- Small received-frame controls retain213/0/67 instructions/nine blocks/35
-  differences with an actual aggregate record or ordinary record constructor;
-  every raw byte equals baseline. An inline three-field publication emits211
-  bytes and fails the complete213-byte owner. No queue source or ABI is adopted.
-- A fresh maintained ECL carrier passes both complete frontier guards:
-  RunEcl15564/598/30 and Enemy3900/97/13. This is one focused compile; unrelated
-  exact proofs are reused. The native getter selected cold replay reproduces
-  all raw/COFF and the strict rejection while RunEcl stays30.
-- Sources, all actual raw/COFF, full physical comparisons and setup/driver-error
-  distinctions are retained in `.analysis/gpt-61sol-20261021-enemy-state-visibility/`.
-  Its97-member CRC/SHA-checked archive is294242 bytes. Selected replay recipes
-  are `python3 -B .../replay.py --case player-getter` and
-  `--case queue-inline-publication`; they use temporary serial nice10 builds.
-  Both selected cold replays pass; the queue recipe runs after cleanup. CI
-  passes901 tests/28 skips. Cleanup removes253 owned files/4993023 bytes
-  (~4.76 MiB), preserving all69 old build files and35 old cache files.
+- Packet706's full-EclOperands include failure is historical:current
+  ExAttackType8GameManagerView is an alias of the existing AsciiGameManagerView,
+  so the unchanged genuine resolver TU now compiles in the real ECL carrier.
+- Both complete before/after contexts independently match all5718 native
+  physical bytes/374 fields, including1320 bytes beyond logical code extents.
+  All272 actual resolver calls resolve to those positive same-object definitions.
+  Native local destinations remain independently original-bound; only291 private
+  label field-row names and six generated anonymous-namespace field names differ.
+- Full RunEcl remains15564/598 but grows30->42 ordinary differences, damaging
+  twelve previously equal positions and restoring none. The public before
+  context has145/148 handler shapes, with opcodes4/7/155 differing. It is rejected.
+- The component panel isolates real ResolveIntLValue:alone it gives42; actual
+  ResolveInt,ResolveFloat,ResolveFloatLValue alone preserve every baseline raw
+  caller byte and30 differences. All four native bodies remain original-equal.
+  Genuine41-byte AnmLoaded script-index loader visibility is also raw-neutral,
+  with its five actual same-object caller references. Enemy stays3900/97/13.
+- New `scripts/probe-runecl-resolver-context.py` compiles one selected genuine
+  context at nice10, verifies complete native code/tables and actual caller/body
+  coordinates, then self-cleans temporary sources/OBJ/PDB. Seven pure tests cover
+  tail corruption, actual labels, namespace/type identity, opaque/wrong definitions,
+  wrong target and stale-report/compiler-failure boundaries. No guard is loosened.
+- `.analysis/gpt-61sol-20261021-ecl-resolver-visibility/` retains97 CRC/SHA-checked
+  archive members:4285106 loose bytes become511786 bytes. It retains the first
+  public provider separately; the final provider also hashes transitive helpers.
+  Its selected current-provider recipe is `python3 -B .../replay.py`.
+  That post-clean cold replay passes complete raw/COFF/native proofs, with
+  only six reviewed generated namespace names changing. CI passes908/28 skips.
+  Scoped cleanup removes899 files/17267259 bytes (~16.47 MiB), including395
+  source-verified CI caches under build/pycache;393 predate this turn. All69
+  older OBJ/PDB and35 separate old cache files remain byte-identical.
 - No maintained game C++, header, ABI, profile, unit or exact-credit change is
   adopted. Exact stays1003/1035 and244917/291883 bytes; the32372-byte95% gap and
   main **RunEcl30 /Enemy13 /DrawResult22 /Type315** fronts remain open.
@@ -184,6 +186,8 @@ python3 -B scripts/check-ida-mcp.py
 # Type3 ordinary Timer definition, one selected cold diagnostic:
 python3 -B scripts/probe-type3-native-context.py --case timer-plain
 # Add --variant forwarded-collision only to replay the rejected four-byte lead.
+# Genuine resolver visibility: one selected diagnostic compile, no source edits:
+python3 -B scripts/probe-runecl-resolver-context.py --case int-lvalue
 # Actual Timer context: one selected source/profile compile, no source edits:
 python3 -B scripts/probe-runecl-setter-context.py --case setter-before
 # --case pair-after reproduces the rejected 15560-byte caller.
