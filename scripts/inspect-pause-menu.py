@@ -43,6 +43,35 @@ DESTINATIONS = {
 }
 
 
+def timestamp_call(offset, kind, base, index, width, destination):
+    if (type(offset) is not int or offset < 0 or kind != 'memory'
+            or base != 0 or index != 0 or width != 4
+            or destination != DESTINATIONS['__imp__timeGetTime@0']):
+        raise ValueError('unreviewed PauseMenu indirect call identity')
+    return dict(offset=offset, iat=destination, symbol='__imp__timeGetTime@0')
+
+
+def reachable_calls(successors, entries, calls):
+    """Static reachability only: no condition feasibility or runtime counts."""
+    if (any(type(node) is not int for node in successors)
+            or any(type(node) is not int or node not in successors
+                   for edges in successors.values() for node in edges)
+            or any(type(node) is not int or node not in successors
+                   for node in [*entries, *calls])):
+        raise ValueError('call reachability references a non-instruction boundary')
+    result = []
+    for entry in entries:
+        seen, pending = set(), [entry]
+        while pending:
+            node = pending.pop()
+            if node in seen:
+                continue
+            seen.add(node)
+            pending.extend(successors[node])
+        result.append(sorted(seen.intersection(calls)))
+    return result
+
+
 def report(object_path):
     import capstone
 
@@ -105,8 +134,19 @@ def report(object_path):
         if not all(x in boundaries for x in table):
             raise ValueError('switch destination is not a code instruction boundary')
         fields, calls, branches, dispatches = [], [], [], []
+        imported_calls, successors = [], {}
         for i in instructions:
             off = i.address - BASE
+            next_offset = off + i.size
+            if i.mnemonic == 'ret':
+                successors[off] = []
+            elif i.mnemonic == 'jmp':
+                successors[off] = ([i.operands[0].imm - BASE]
+                                   if i.operands[0].type == imm else [])
+            elif i.mnemonic.startswith('j'):
+                successors[off] = [i.operands[0].imm - BASE, next_offset]
+            else:
+                successors[off] = [next_offset]
             if i.mnemonic.startswith('j') and i.operands[0].type == imm:
                 if i.operands[0].imm not in boundaries:
                     raise ValueError('branch destination outside code boundaries')
@@ -116,6 +156,12 @@ def report(object_path):
                     raise ValueError('unexpected relative call width')
                 fields.append([off + i.imm_offset, 'REL32'])
                 calls.append(i.operands[0].imm)
+            elif i.mnemonic == 'call':
+                operand = i.operands[0]
+                imported_calls.append(timestamp_call(
+                    off, 'memory' if operand.type == mem else 'other',
+                    operand.mem.base, operand.mem.index, operand.size,
+                    operand.mem.disp))
             for operand in i.operands:
                 if operand.type == mem and 0x400000 <= operand.mem.disp < 0x4E7000:
                     if i.disp_size != 4:
@@ -137,6 +183,8 @@ def report(object_path):
         if len(dispatches) != 1:
             raise ValueError('expected one ten-entry switch dispatch')
         fields.extend([table_offset + 4 * i, 'DIR32'] for i in range(10))
+        call_paths = reachable_calls(successors, [x - BASE for x in table],
+                                     [x['offset'] for x in imported_calls])
         return {
             'code_bytes': code_size, 'alignment_hex': alignment.hex(),
             'table_offset': table_offset,
@@ -144,6 +192,10 @@ def report(object_path):
             'instructions': len(instructions), 'fields': fields,
             'ordered_direct_calls': [hex(x) for x in calls],
             'internal_branches': branches,
+            'imported_calls': imported_calls,
+            'imported_call_offsets_by_state': call_paths,
+            'reachability_basis': 'decoded direct CFG; conditions unconstrained; '
+                                  'no runtime multiplicity or feasibility claim',
         }
 
     local_tables = [r for r in rows if r['offset'] == len(raw) - 40]
@@ -191,7 +243,10 @@ def main():
     print('PauseMenu diagnostic:', result['physical_bytes'], 'physical bytes,',
           len(result['fields']), 'fields,', result['overlap_differences'],
           'overlap differences,', result['missing_bytes'], 'missing,',
-          result['excess_bytes'], 'excess; no exactness credit')
+          result['excess_bytes'], 'excess;',
+          len(result['target']['imported_calls']), 'original /',
+          len(result['candidate']['imported_calls']),
+          'candidate timestamp callsites; no exactness credit')
 
 
 if __name__ == '__main__':

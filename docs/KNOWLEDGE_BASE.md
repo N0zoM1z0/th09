@@ -15654,3 +15654,80 @@ removed. This is diagnostic evidence, not a new accepted exact receipt.
 Exact stays1003/1035 and244917/291883 authored bytes (83.9093%), with32372
 complete exact bytes still needed for95%. RunEcl30/Enemy13/DrawResult22/Type315,
 whole Windows i386 product/runtime, semantic and port gates remain unfinished.
+
+
+## October 21: Pause timestamp call sharing and cursor traversal records
+
+Recovery starts at clean pushed bcde726158aaba4be15943eb0e92ea3ca3553566.
+The fixed original Japanese v1.50a target, direct IDA metadata and distributed
+mapped bytes pass. All 491 game inputs, canonical profiles/1,034 units and
+1,003 exact source/profile proofs remain unchanged. No new exact credit.
+
+Fresh complete PauseMenu baseline remains 1,732 physical bytes/107 fields/
+454 instructions/46 direct calls, versus original 1,776/106/449/46. Its 1,453
+overlap differences plus 44 missing bytes remain. The original full-owner SHA
+is a4cee1fd2b347628d97a2786ccc238b87e21489ab440c9d0b2f0e27d41f7f9b7.
+
+The inspector now independently recognizes every actual indirect call as a
+four-byte memory call through timeGetTime IAT 0x48E238. It also computes call
+reachability from each decoded switch-table entry, following actual direct
+branches and fallthroughs. This is syntactic CFG reachability with unconstrained
+conditions, not feasible-path or runtime-call-count validation. Original states
+3 and 8 reach +0x3C1; state9 reaches that shared site and result-only +0x6B2.
+The candidate instead has state3 at +0x3FB and state8 at +0x65D; state9 reaches
++0x65D and result-only +0x688. Direct IDA agrees on original calls 434B01/434DF2
+and the two backward jumps into the common timestamp. Three actual candidate
+COFF copies independently change each IAT addend from 0 to 4. All retain the
+46 direct calls and 107 field records; the old supplied-object diagnostic
+finishes, while the new inspector rejects the wrong indirect destination.
+This is not a claim that the old production frontier or exact Oracle accepted
+those objects. No original target byte is changed.
+
+Three genuine definition contexts insert the unchanged complete 26-byte Float3
+constructor, 18-byte AsciiInputView::WasPressed, or both. Actual native bodies
+independently match the original under the Pause profile, with eight/fourteen
+positive same-object caller references. All retain the complete Pause baseline.
+The canonical ReplayInput WasPressed at 415CD0 is a distinct target and is not
+substituted for this 40E2D0 input method.
+
+An explicit current-source timestamp/animation label shares the source call
+between completed closing and both ordinary action paths. Despite only two
+source timeGetTime expressions in the full callback, VC7.1 still emits three
+static callsites and identical complete raw/linked bytes. Nine compiler-private
+labels change spelling only at unchanged real COFF coordinates. This bounds
+the source inference: differing machine callsite sharing need not mean extra
+source-level calls. Current whole-carrier contexts removing the actual three
+small helper definitions, alone or with both real native callees, emit 1,788
+bytes/107 fields/454 instructions/1,608 overlap differences and 12 extra bytes.
+They retain three timestamp sites and are not adopted. These current controls
+do not retroactively attest earlier 1,772-byte partial/isolated source epochs.
+
+For the small Reverse/Inactive cursors, ordinary local traversal records group
+the genuine index/end/VM-offset/VM-stride state. Direct members and ordinary
+BeforeEnd/Advance methods both emit identical 179-byte owners/171 differences/
+four blocks, versus maintained 175/38/four and original 175/five blocks. Each
+damages 133 previously equal positions and restores none. Existing guards
+reject both. The four scalar arguments, public declarations, game object layout
+and /O1 profile remain unchanged; no qualifier, register hint or forced inline
+is used.
+
+Five target-independent tests cover wrong import operand/address/width,
+shared versus duplicated footer sites, loops and invalid instruction-boundary
+references. Eleven primary serial nice10 compiles cover eight Pause and three
+Title carriers; no rejected experiment is copied into maintained game source.
+Source/raw/COFF, old/final provider epochs, original IDA windows and selected
+replay are retained in .analysis/gpt-61sol-20261021-pause-call-path-checkpoint/.
+Exact remains 1003/1035 and 244917/291883 bytes (83.9093%); another 32372
+complete exact bytes are needed for 95%. The four 30/13/22/15 fronts and later
+product/runtime/semantic/port gates stay open.
+
+The 40-member evidence archive is CRC/SHA-verified: 2455917 loose bytes become
+264310 compressed bytes, SHA256
+1c5393491fa7775e47d8e9163a2016346c0949be90968272a27a414574f72598.
+After loose-file removal, one selected cold compile reproduces the complete
+1732-byte raw/107-record COFF and full original-bound diagnostic, including all
+per-state timestamp reachability and the three actual IAT rejections. No
+unchanged exact cohort is rebuilt. CI passes 894 tests/28 skips; tracking,
+documentation, progress and whitespace gates pass. Scoped cleanup removes
+431 owned files/9035728 bytes (~8.62 MiB) while all 69 preexisting build files
+retain their hashes. Original EXE/IDA/tools and unclassified evidence remain.

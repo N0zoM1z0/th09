@@ -9,39 +9,36 @@
 
 The operator requests continued exact reconstruction, serial low-priority
 compiles, affected replays and cleanup. This checkpoint starts from pushed
-`528a9b3`; no game source changes or new exact owner. All491 game inputs and
-1003 exact source/profile proofs remain unchanged.
+`bcde726`; all 491 game inputs, 1,034 canonical unit definitions and 1,003 exact
+source/profile proofs are unchanged. No new exact owner or game source change.
 
-- New `probe-enemy-native-spawn-context.py` builds one selected current ECL
-  context, verifies complete184-byte SpawnEffect/two fields and optionally the
-  real33-byte periodic body before scoring the3900-byte Enemy caller. All four
-  spawn calls/one periodic call must resolve to actual same-object definitions.
-- Actual SpawnEffect visibility stays **Enemy13 /RunEcl30**. Combined native
-  periodic visibility stays45: it fixes all old13 but damages45 old matching
-  positions. Both real native bodies remain byte-exact; joint frontier is false.
-  Exit0 is a complete noncrediting diagnostic, not acceptance of that caller.
-- The archival standalone source used a private EnemyCoreTimerView::HasTicked;
-  adding a ZunTimer::HasTickedEvery body did not establish the same declaration.
-  Current controls require real positive COFF definition bindings; old source
-  observations are not retroactively retagged as current evidence.
-- Three actual-native fault controls (truncation, changed return byte, opaque
-  call metadata) are rejected while caller raw bytes remain unchanged. Five
-  target-independent regressions also cover body/field corruption and stale
-  success invalidation after target/source rejection.
-- Title OnUpdateResult's full navigation char/slot helpers give483/224 or484/218.
-  A char-formal declaration plus its actual callee body gives488/228 and176/98;
-  original callee+6F reads a dword, char-model+6F reads a byte. None is adopted.
-  IDA's stale483-byte comment is corrected/read back; mapped bytes stay intact.
-- Exact remains1003/1035 and244917/291883 bytes; primary fronts stay
-  **RunEcl30 /Enemy13 /DrawResult22 /Type315**. The95% and later gates remain open.
-- Source/COFF, selected recipes and receipts are retained in
-  `.analysis/gpt-61sol-20261021-native-definition-checkpoint/`:23 CRC/SHA-checked
-  archive members,159541 bytes. After loose-file cleanup, the selected spawn
-  cold replay reproduces complete raw/COFF/native bodies and both diagnostics.
-  CI passes889 tests/28 skips. Scoped cleanup removes413 owned files/7627524
-  bytes (~7.27 MiB); all69 preexisting build paths retain their hashes.
-- One case only: `python3 -B scripts/probe-enemy-native-spawn-context.py --case spawn`.
-  Use `--case spawn-periodic` to reproduce the rejected45-difference context.
+- `inspect-pause-menu.py` now checks every actual indirect call as a dword
+  memory call through timeGetTime IAT `0x48E238`, and reports decoded CFG
+  reachability from each original/source switch case. This is syntactic
+  reachability, not path feasibility or runtime call multiplicity.
+- Original states 3/8/ordinary9 share timestamp site `+0x3C1`; the result arm
+  uses `+0x6B2`. Current state3 uses `+0x3FB`, states8/ordinary9 `+0x65D`, and
+  the result arm `+0x688`. Three actual candidate-object IAT corruptions retain
+  all 46 direct calls/107 fields but are now rejected before scoring.
+- Real input-body and Float3-constructor visibility, alone/together, preserve
+  Pause's full 1732/107/1453/44-missing baseline. Native callees independently
+  match all 18/26 bytes and have 14/8 positive same-object caller references.
+- Explicitly sharing the timestamp in current source still yields three
+  machine callsites and identical complete raw/linked code. Nine private
+  label spellings change at unchanged actual COFF coordinates. Opaque helper
+  contexts with/without both real bodies give 1788 bytes/1608 differences and
+  remain rejected. Static callsite sharing does not uniquely identify source.
+- Two small cursor traversal records, plain or with ordinary methods, give
+  179 bytes/171 differences per Reverse/Inactive owner, damaging 133 previously
+  equal positions. Existing 175/38 guards reject them; no ABI/qualifier change.
+- All source/raw/COFF, old/final providers, fault evidence and selected replay
+  are retained in `.analysis/gpt-61sol-20261021-pause-call-path-checkpoint/`.
+  The 40-member CRC/SHA-checked archive is 264310 bytes. After loose cleanup,
+  one cold replay reproduces all raw/COFF, full diagnostics and three actual
+  IAT rejections. CI passes 894 tests/28 skips. Scoped cleanup removes 431 owned
+  files/9035728 bytes (~8.62 MiB); all 69 preexisting build files retain hashes.
+- Exact remains 1003/1035 and 244917/291883 bytes; primary fronts remain
+  **RunEcl30 /Enemy13 /DrawResult22 /Type315**. The 95% and later gates are open.
 
 ## Live ledger snapshot
 
@@ -106,7 +103,7 @@ these results do not establish unique original translation-unit ownership.
 | **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Maintained src/EffectDrawType29.inl preserves flag-scoped main plus six satellite fans. The inspector also records all 13 polar/accumulation receiver windows and the independently differing ordinal graph. Bounded original/native-helper emulator comparison covers all672 reachable original instructions across26 cases; it is not byte-exact or whole-product validation. The full-byte guard protects1035 equal positions. Source presence is independent of exactness; `--owner effect29` protects77 shared exact functions across two profiles. |
 | **Effect 34 draw** | 0x00444AF0 | **946/959 physical**, 53 source-linked original referents, 20 direct +12 COM calls, target/candidate 16/15 blocks; **593 overlap differences +13 extra bytes** | Exact native initialization (178) and update (208) protect the original 0xEF8 buffer: fan33 at +0x54, four line32 groups at +0x2E8, four random33 rows at +0xCE8. The genuine ECL/math context removes two redundant receiver reload bytes from the 961-byte standalone candidate. All four actual scalar definitions and all 53 decoded candidate address fields are now checked against real COFF sections and original values; a wrong-definition object with unchanged code/relocations is rejected. All 353 equal original bytes and exact D3D arguments remain protected by `--owner effect34`; byte-register alpha/cursor homes and loop layout stay open. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor ESI still open. The final original call is now typed as `EffectManager::DrawBulletLayerEffects` with its separately **169/169 exact** real-member source at `0x0040D110` and side owner at `+0x0C`; all original linked bytes remain unchanged. Complete SHA/offset guard preserves the 332 equal bytes; `--owner etama` protects **both exact same-carrier helpers plus the separately exact OnUpdate (3 checks)**. |
-| **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 calls; 10-way switch; **1,453** overlapping differences + 44 missing | First seven-VM cursor improvement committed in `7f1d56e`; remaining branch/VM scheduling. `--owner pause` independently checks 11 already-exact Ascii/ANM functions and real original table/ABI. |
+| **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 direct calls plus 2/3 original/candidate timestamp calls; 10-way switch; **1,453** overlapping differences + 44 missing | Original states3/8/ordinary9 share one timestamp site; current state3 stays separate. Explicit source sharing remains complete-byte-neutral under the current profile. First seven-VM cursor improvement committed in `7f1d56e`; remaining branch/VM scheduling. `--owner pause` independently checks 11 already-exact Ascii/ANM functions and real original table/ABI. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Now uses genuine shared `g_Supervisor.framerateMultiplier5B8 @0x004B36B8` and the four **real `GameManagerResetView::coordinate360/364/368/36C` fields** (original `0x004A80F0..FC`), not fake external playfield globals. The independent **79-byte exact GameManager coordinate initializer** physically writes those fields; 1,900-byte linked movement boss and 66 operand identities stay unchanged, with 129 ordinary differences still open. All 129 genuine current original-bound mismatch offsets are now pinned, protecting the other **1,771** already matching bytes (including both switch tables and after-return alignment); future improvements must not introduce mismatches elsewhere. `--owner movement` protects exact 522-byte caller. |
 | **Player charge update** | 0x0041F810 | **1,210 target /1,197 candidate bytes**, 70 fields, 58 calls, 350/342 instructions; **1,160 overlap differences +13 missing** | Complete diagnostic `scripts/inspect-player-charge-update.py` checks all original bytes, actual COFF operands, literal definitions and direct graph. Seven older region checks pass despite this whole-owner mismatch. A private 1,210-byte mode-local candidate still differs at 561 positions, damages 20 previously equal positions and fails five regions; it is not adopted. |
 | **Front weighted message RNG** | 0x004162D0 | **693 target / 681 candidate**, 15 fields, 6 calls, **569** overlap + 12 missing | Primary-first table selection refined in `09bb2a6`; target/candidate CFG 40/41 blocks. `--owner front` protects exact FrontCalc and siblings. |
@@ -265,8 +262,9 @@ The current tree retains **490 game-source files, 1,034 comparison units and
 remain unknown-origin byte evidence. The Timer alias adds no credit to its
 existing canonical TextHelper owner. All491 inputs including the source README
 are unchanged in this batch, and all1003 exact source/profile proofs are reused.
-The native bodies are added only to isolated experiment inputs; no game header,
-profile, boundary or authored exactness claim changes. Native product/runtime, complete
+Native bodies and traversal records are added only to isolated experiment
+inputs; no game header, profile, boundary or authored exactness claim changes.
+Native product/runtime, complete
 inventory, semantic and port gates remain open.
 
 The current Type19 packet retains the original sources, actual COFF and
