@@ -971,3 +971,48 @@ unit definition changes; no new exact owner.** RunEcl/Enemy/Title/Type3 stay
   serial cold replays: `.analysis/gpt-61sol-20261021-title-entry/`.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
+
+## Native Timer/queue context checkpoint at a97f9e6 (October 21)
+
+## Current verified handoff checkpoint
+
+The operator requests continued exact reconstruction across **large functions
+and small leaves**, serial low-priority compiles, focused affected replays and
+regular cleanup. Starting from pushed `bbf92ac`, this checkpoint tests the
+**actual Timer setter/assignment context around RunEcl**, plus three genuine
+two-side queue container views. **No game source, unit definition or ledger
+changes; no new exact owner.** RunEcl/Enemy/Title/Type3 stay **30 /13 /22 /15**.
+The 95% and native product/runtime gates remain open.
+
+- The fresh ECL baseline and genuine **25-byte SetCurrent-only** context
+  reproduce all **15564 raw bytes /598 fields /30 ordinary differences**,
+  zero field/table differences and Enemy13. The callee is independently exact.
+- Adding its actual **nine-byte void assignment wrapper**, before or after
+  RunEcl, gives identical **15560-byte /598-field** callers. Both real callees
+  remain exact. Complete RunEcl and native Enemy inventory checks reject both;
+  a correct callee does not establish a correct caller or original TU ownership.
+- The opcode4 argument/call raw window remains unchanged. Broader normalized
+  instruction correspondence first diverges at +220F; two instructions and
+  four physical bytes disappear overall. No relocated/graph-aligned substitute
+  is accepted for the original full extent.
+- The small received-frame baseline and 2D-array/grouped-container/typed-shift
+  controls all emit identical **213 bytes /67 instructions /zero fields /
+  nine blocks /35 differences**. No field, ABI, profile or source is adopted.
+- New `probe-runecl-setter-context.py` compiles **one selected case** at nice10,
+  pins project/provider/profile inputs and actual staged files, proves complete
+  native callees and records both complete caller results or strict rejections.
+  Temporary sources/OBJ/PDB self-clean. Five tests cover real ABI/extent,
+  wrong-target preservation, failed compiler and changed project/staged inputs.
+- All **490** game inputs, **1032** units and canonical ledgers remain unchanged;
+  all **1001** existing exact source/profile proofs are reused.
+- CI passes **876 tests /28 skips**, plus target-required tracking,
+  documentation, generated progress and both whitespace checks. Final frozen
+  replay repeats setter-only30, rejected15560 and small grouped213/35 cases.
+- **138** evidence members /7947574 loose bytes become a **1091849-byte ZIP**.
+  CRC/hash verification precedes duplicate removal. Removing **387** terminal
+  CI bytecode caches reclaims **13379774 bytes (~12.76 MiB)** in total. All
+  compiler carriers self-clean; older unique/unclassified evidence stays.
+- Complete sources, actual COFF rows, separate public-provider epochs and
+  selected cold recipes: `.analysis/gpt-61sol-20261021-runecl-setter-context/`.
+- Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
+  English `gpt-6.1-sol: ...` commits, push and independent remote verification.

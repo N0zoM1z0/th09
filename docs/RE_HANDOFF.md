@@ -9,42 +9,44 @@
 
 The operator requests continued exact reconstruction across **large functions
 and small leaves**, serial low-priority compiles, focused affected replays and
-regular cleanup. Starting from pushed `bbf92ac`, this checkpoint tests the
-**actual Timer setter/assignment context around RunEcl**, plus three genuine
-two-side queue container views. **No game source, unit definition or ledger
+regular cleanup. Starting from pushed `a97f9e6`, this checkpoint challenges
+Type3's comparison, transform and collision-object source models and corrects
+a stale IDA callback prototype. **No game source, unit definition or ledger
 changes; no new exact owner.** RunEcl/Enemy/Title/Type3 stay **30 /13 /22 /15**.
 The 95% and native product/runtime gates remain open.
 
-- The fresh ECL baseline and genuine **25-byte SetCurrent-only** context
-  reproduce all **15564 raw bytes /598 fields /30 ordinary differences**,
-  zero field/table differences and Enemy13. The callee is independently exact.
-- Adding its actual **nine-byte void assignment wrapper**, before or after
-  RunEcl, gives identical **15560-byte /598-field** callers. Both real callees
-  remain exact. Complete RunEcl and native Enemy inventory checks reject both;
-  a correct callee does not establish a correct caller or original TU ownership.
-- The opcode4 argument/call raw window remains unchanged. Broader normalized
-  instruction correspondence first diverges at +220F; two instructions and
-  four physical bytes disappear overall. No relocated/graph-aligned substitute
-  is accepted for the original full extent.
-- The small received-frame baseline and 2D-array/grouped-container/typed-shift
-  controls all emit identical **213 bytes /67 instructions /zero fields /
-  nine blocks /35 differences**. No field, ABI, profile or source is adopted.
-- New `probe-runecl-setter-context.py` compiles **one selected case** at nice10,
-  pins project/provider/profile inputs and actual staged files, proves complete
-  native callees and records both complete caller results or strict rejections.
-  Temporary sources/OBJ/PDB self-clean. Five tests cover real ABI/extent,
-  wrong-target preservation, failed compiler and changed project/staged inputs.
+- The current header already exposes the genuine **20-byte Timer >=** body.
+  Ordinary definitions, without its reconstruction annotations, before or after
+  the caller retain complete **780/38/15**, or the rejected four differences.
+  Every callee remains exact. No annotation or original TU identity is inferred.
+- Six natural transform helpers use output references, pointers or returned
+  vectors. Middle-only reference/pointer forms retain15; all-three forms retain
+  780/38/240 instructions/24 calls/17 blocks but differ at53 bytes. Returned
+  vectors emit798/834 bytes. No qualification, forced-inline or ABI workaround.
+- Four natural collision-object constructor models independently emit the
+  original **three-byte receiver identity**, yet callers become781/38 or773/37.
+  The physical identity still has **unknown original class/origin**; constructor
+  compatibility does not establish original role, inheritance or new credit.
+- Original dispatcher **4153A9/4153AB** supplies the record in ECX and tests EAX.
+  The full Type3 owner reads no positive EBP arguments and ends plain RET.
+  IDA's stale int/double signature is replaced by the maintained-compatible
+  `int __fastcall sub_442750(void *record)` and read back. Unique original C++
+  spelling/unused register parameters remain unknown; mapped bytes stay intact.
+- Existing native-context probe adds **`--case timer-plain`** and hashes every
+  actual compiled input, including its privately changed header. Three new
+  tests reject owner/profile/body drift and changed staged input. Default cases
+  retain their previous generated sources and scope.
 - All **490** game inputs, **1032** units and canonical ledgers remain unchanged;
   all **1001** existing exact source/profile proofs are reused.
-- CI passes **876 tests /28 skips**, plus target-required tracking,
-  documentation, generated progress and both whitespace checks. Final frozen
-  replay repeats setter-only30, rejected15560 and small grouped213/35 cases.
-- **138** evidence members /7947574 loose bytes become a **1091849-byte ZIP**.
+- CI passes **879 tests /28 skips**, plus target-required tracking,
+  documentation, generated progress and both whitespace checks. Frozen replay
+  repeats ordinary15, full transform53 and opaque-constructor781/449 cases.
+- **81** evidence members /4429883 loose bytes become a **718761-byte ZIP**.
   CRC/hash verification precedes duplicate removal. Removing **387** terminal
-  CI bytecode caches reclaims **13379774 bytes (~12.76 MiB)** in total. All
+  CI bytecode caches reclaims **10245899 bytes (~9.77 MiB)** in total. All
   compiler carriers self-clean; older unique/unclassified evidence stays.
-- Complete sources, actual COFF rows, separate public-provider epochs and
-  selected cold recipes: `.analysis/gpt-61sol-20261021-runecl-setter-context/`.
+- Full controls, actual COFF, prototype readback and selected cold recipes:
+  `.analysis/gpt-61sol-20261021-type3-timer-comparison/`.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
 
@@ -183,6 +185,9 @@ python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/report-reconstruction-status.py
 python3 -B scripts/check-ida-mcp.py
 # Choose one affected owner; reuse unchanged source/profile-bound proofs.
+# Type3 ordinary Timer definition, one selected cold diagnostic:
+python3 -B scripts/probe-type3-native-context.py --case timer-plain
+# Add --variant forwarded-collision only to replay the rejected four-byte lead.
 # Actual Timer context: one selected source/profile compile, no source edits:
 python3 -B scripts/probe-runecl-setter-context.py --case setter-before
 # --case pair-after reproduces the rejected 15560-byte caller.
@@ -262,10 +267,15 @@ constructor units remain unknown-origin byte evidence. The new Timer alias adds
 no physical credit to its existing canonical TextHelper owner. All 490 game
 inputs including the source README and all 1032 comparison-unit definitions
 remain unchanged in this checkpoint. All 1001 canonical source/profile proofs
-are reused; only the selected ECL/Enemy and small queue contexts are cold-replayed. Native product/runtime, complete
+are reused; only the selected Type3 contexts are cold-replayed. Native product/runtime, complete
 inventory, semantic and port gates remain open.
 
-The current setter-context packet cold-replays the retained setter-only case,
+The current Type3 packet cold-replays the ordinary Timer, all-three transform
+and opaque-constructor controls with
+`python3 -B .analysis/gpt-61sol-20261021-type3-timer-comparison/replay.py`.
+ABI/prototype evidence and rejected source models do not grant exact credit.
+
+The setter-context packet cold-replays the retained setter-only case,
 rejected pair and small grouped queue with
 `python3 -B .analysis/gpt-61sol-20261021-runecl-setter-context/replay.py`.
 These are complete diagnostic comparisons, not new exact receipts.

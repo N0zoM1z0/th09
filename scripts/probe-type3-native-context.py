@@ -29,6 +29,7 @@ CASES = {
     'float-ops': ('Float3Core.inl', 'Float3.cpp'),
     'interrupt': ('AnmManagerRuntime.cpp',),
     'pointer-views': ('VectorPointerViews.cpp',),
+    'timer-plain': (),
 }
 VARIANTS = ('baseline', 'forwarded-collision')
 INTERRUPT_SYMBOL = '?SetInterrupt@AnmVm@@QAEXF@Z'
@@ -36,6 +37,7 @@ POINTER_VIEW_UNITS = (
     ('float3-pointer-identity-view', '??BFloat3@@QAEPAMXZ'),
     ('player-position-pointer-identity-view', '??BPlayerPositionView@@QAEPAMXZ'),
 )
+TIMER_COMPARE_SYMBOL = '??PZunTimer@@QAEIH@Z'
 
 
 def module(name, filename):
@@ -108,6 +110,32 @@ def require_pointer_view_units(units, profile):
             raise ValueError('native pointer-view alias extent/profile changed: ' + name)
 
 
+def require_timer_compare_unit(unit, profile):
+    if profile.count('/Ob1') != 1 or '/Ob0' in profile:
+        raise ValueError('Type3 comparison context lost its existing Ob1 profile')
+    canonical_profile = ['/Ob0' if flag == '/Ob1' else flag for flag in profile]
+    if (unit['source'], unit['object'], unit['symbol'], unit['target_address'],
+            unit['size'], unit['profile'], unit.get('relocations', [])) != (
+            'src/BackgroundStageScript.cpp', 'build/matching/BackgroundStageScript.obj',
+            TIMER_COMPARE_SYMBOL, 0x401520, 20, canonical_profile, []):
+        raise ValueError('canonical Timer comparison source/profile/ABI changed')
+
+
+def compiled_inputs(inputs, case, variant):
+    staged = dict(inputs)
+    staged[SOURCE] = render_source(inputs, case, variant)
+    if case == 'timer-plain':
+        name = 'ZunTimerGreaterEqual.inl'
+        annotated = b'__declspec(noinline) inline unsigned int ZunTimer::operator>=(int value)'
+        plain = b'unsigned int ZunTimer::operator>=(int value)'
+        if staged[name].count(annotated) != 1:
+            raise ValueError('actual Timer comparison definition changed')
+        # The shared body and native signature are unchanged. This is only
+        # an isolated ordinary out-of-line definition, not a header adoption.
+        staged[name] = plain + staged[name].split(annotated, 1)[1]
+    return staged
+
+
 def run(output, case, variant='baseline'):
     if case not in CASES or variant not in VARIANTS:
         raise ValueError('unknown Type3 native context')
@@ -130,6 +158,8 @@ def run(output, case, variant='baseline'):
         require_interrupt_unit(units['anm-vm-set-interrupt'], profile)
     if case == 'pointer-views':
         require_pointer_view_units(units, profile)
+    if case == 'timer-plain':
+        require_timer_compare_unit(units['zun-timer-greater-equal'], profile)
     tool_names = (
         'config/tools.lock.toml', 'config/target.toml', 'scripts/compile-probe.sh',
         'scripts/compare-coff-function.py', 'scripts/inspect-exattack-type3-schedule.py',
@@ -142,12 +172,12 @@ def run(output, case, variant='baseline'):
     with (tempfile.TemporaryDirectory(prefix='type3-' + case + '-', dir=output) as scratch,
           tempfile.TemporaryDirectory(prefix='type3-context-', dir=build_root) as binary):
         source_root = Path(scratch)
-        for filename, content in inputs.items():
+        staged = compiled_inputs(inputs, case, variant)
+        for filename, content in staged.items():
             path = source_root / filename
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(content)
         source = source_root / SOURCE
-        source.write_bytes(render_source(inputs, case, variant))
         source_digest = hashlib.sha256(source.read_bytes()).hexdigest()
         obj = Path(binary) / 'unit.obj'
         compiled = subprocess.run(
@@ -156,6 +186,8 @@ def run(output, case, variant='baseline'):
         if compiled.returncode or not obj.is_file():
             raise RuntimeError('Type3 context compiler failed: ' +
                                (compiled.stdout + compiled.stderr)[-1600:])
+        if any((source_root/name).read_bytes() != data for name, data in staged.items()):
+            raise ValueError('actual compiled Type3 project inputs changed')
         diagnostic = audit.context_report(obj)
         raw, rows = coff.object_function(obj, audit.SYMBOL, include_symbol_locations=True)
         try:
@@ -168,6 +200,7 @@ def run(output, case, variant='baseline'):
             raise ValueError('maintained Type3 source no longer passes its frontier')
         native_interrupt = None
         native_pointer_views = None
+        native_timer_compare = None
         if case == 'interrupt':
             body, fields = coff.object_function(
                 obj, INTERRUPT_SYMBOL, include_symbol_locations=True)
@@ -188,16 +221,33 @@ def run(output, case, variant='baseline'):
             native_pointer_views = dict(aliases=aliases, physical_bodies=1,
                                         physical_bytes=3, original_origin='unknown',
                                         authored_exact_credit=0)
+        if case == 'timer-plain':
+            body, fields = coff.object_function(obj, TIMER_COMPARE_SYMBOL,
+                                                include_symbol_locations=True)
+            if fields or body != coff.pe_bytes_at(target, 0x401520, 20):
+                raise ValueError('plain native Timer comparison lost complete original equality')
+            calls = [row for row in rows if row['symbol'] == TIMER_COMPARE_SYMBOL]
+            if (len(calls) != 2 or any(row.get('symbol_section', 0) <= 0
+                                      or row.get('symbol_value') != 0
+                                      or row['type'] != 'REL32' or row['addend'] != 0
+                                      for row in calls)):
+                raise ValueError('Type3 lost its actual same-object Timer comparison calls')
+            native_timer_compare = dict(unit='zun-timer-greater-equal', bytes=20,
+                                        fields=0, complete_original_equal=True,
+                                        raw_hex=body.hex(), call_fields=calls)
         report = {
             'diagnostic_only': True, 'exactness_credit': 'none', 'case': case,
             'source_variant': variant, 'native_interrupt': native_interrupt,
             'native_pointer_views': native_pointer_views,
+            'native_timer_compare': native_timer_compare,
             'source_commit': subprocess.check_output(
                 ['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
             'target_sha256': hashlib.sha256(target).hexdigest(), 'profile': profile,
             'source_inputs': {name: hashlib.sha256(data).hexdigest()
                               for name, data in inputs.items()},
             'compiled_source_sha256': source_digest,
+            'compiled_input_sha256': {name: hashlib.sha256(data).hexdigest()
+                                      for name, data in staged.items()},
             'manifest_sha256': hashlib.sha256(manifest).hexdigest(),
             'tool_hashes': {name: hashlib.sha256(data).hexdigest()
                             for name, data in tools.items()},

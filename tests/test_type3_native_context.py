@@ -16,6 +16,69 @@ spec.loader.exec_module(probe)
 
 
 class Type3NativeContextTests(unittest.TestCase):
+    def test_plain_timer_context_pins_native_owner_and_actual_header(self):
+        inputs, profile = probe.inputs_for('timer-plain')
+        unit = tomllib.loads((ROOT/'config/match-units.toml').read_text())['units'][
+            'zun-timer-greater-equal']
+        probe.require_timer_compare_unit(unit, profile)
+        staged = probe.compiled_inputs(inputs, 'timer-plain', 'baseline')
+        self.assertEqual(staged[probe.SOURCE], inputs[probe.SOURCE])
+        self.assertEqual({name for name in staged if staged[name] != inputs[name]},
+                         {'ZunTimerGreaterEqual.inl'})
+        self.assertNotIn(b'__declspec', staged['ZunTimerGreaterEqual.inl'])
+        self.assertNotIn(b'inline', staged['ZunTimerGreaterEqual.inl'])
+        for change in ({'source': 'src/unrelated.cpp'}, {'object': 'build/fake.obj'},
+                       {'profile': profile}, {'symbol': '?FakeCompare@@QAEIH@Z'},
+                       {'size': 19}, {'target_address': 0x401521},
+                       {'relocations': [{'offset': 0, 'type': 'DIR32'}]}):
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                probe.require_timer_compare_unit({**unit, **change}, profile)
+
+    def test_wrong_plain_timer_body_preserves_other_reports_and_cleans(self):
+        inputs, profile = probe.inputs_for('timer-plain')
+        factory = self.modules()
+        def modules(name, filename):
+            value = factory(name, filename)
+            if filename == 'compare-coff-function.py':
+                value.pe_bytes_at = lambda *args: bytes(20)
+                value.object_function = lambda obj, symbol, **kw: (
+                    (bytes([1])*20, []) if symbol == probe.TIMER_COMPARE_SYMBOL
+                    else (bytes(780), []))
+            return value
+        def compiler(command, **kwargs):
+            Path(command[5]).write_bytes(b'fixture object')
+            return SimpleNamespace(returncode=0, stdout='', stderr='')
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            other = output/probe.report_name('baseline', 'baseline')
+            other.write_bytes(b'other evidence')
+            stale = output/probe.report_name('timer-plain', 'baseline')
+            stale.write_bytes(b'stale success')
+            with (patch.object(probe, 'module', side_effect=modules),
+                  patch.object(probe, 'inputs_for', return_value=(inputs, profile)),
+                  patch.object(probe.subprocess, 'run', side_effect=compiler)):
+                with self.assertRaisesRegex(ValueError, 'Timer comparison lost'):
+                    probe.run(output, 'timer-plain')
+            self.assertEqual(other.read_bytes(), b'other evidence')
+            self.assertEqual(list(output.iterdir()), [other])
+
+    def test_changed_actual_staged_header_cannot_leave_a_success(self):
+        inputs, profile = probe.inputs_for('timer-plain')
+        def compiler(command, **kwargs):
+            Path(command[5]).write_bytes(b'fixture object')
+            (Path(command[4]).parent/'ZunTimerGreaterEqual.inl').write_bytes(b'changed header')
+            return SimpleNamespace(returncode=0, stdout='', stderr='')
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            stale = output/probe.report_name('timer-plain', 'baseline')
+            stale.write_bytes(b'stale success')
+            with (patch.object(probe, 'module', side_effect=self.modules()),
+                  patch.object(probe, 'inputs_for', return_value=(inputs, profile)),
+                  patch.object(probe.subprocess, 'run', side_effect=compiler)):
+                with self.assertRaisesRegex(ValueError, 'actual compiled.*inputs changed'):
+                    probe.run(output, 'timer-plain')
+            self.assertEqual(list(output.iterdir()), [])
+
     def test_pointer_context_requires_both_real_alias_units_without_extent_drift(self):
         inputs, profile = probe.inputs_for('pointer-views')
         units = tomllib.loads((ROOT/'config/match-units.toml').read_text())['units']

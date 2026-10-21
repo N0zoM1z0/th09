@@ -14899,3 +14899,82 @@ first pack preflight mistook preserved frozen-epoch files for live directories
 and stopped before creating the archive or deleting caches. Its corrected
 directory-only guard and per-selection replay reports are recorded separately;
 the final three-case capture is repeated before successful archive creation.
+
+## October 21: Type3 comparison forms, transform objects and callback ABI (gpt-6.1-sol)
+
+Recovery starts at clean pushed a97f9e6. Original Japanese v1.50a disk/IDA
+metadata and distributed mapped bytes pass. Fresh maintained Type3 repeats
+780 bytes/240 instructions/38 original operands/24 calls/17 blocks and 15
+ordinary differences. The older four-byte lead is not a source adoption path:
+it depends on experimental word qualifications and damages four previously
+equal positions. All original residual/protected-byte guards stay unchanged.
+
+The original Timer >= body is already shared through ZunTimer.hpp. Four
+ordinary-definition controls remove the existing reconstruction-only noinline/
+inline annotations privately, before or after maintained/rejected callers.
+All 20 callee bytes and zero fields match original 401520. Full callers retain
+780/38/15 or 780/38/four with identical raw bytes to their respective baselines.
+This bounds the annotation hypothesis; no unique original header/TU ownership
+or original annotation follows. Canonical comparison remains the independently
+exact Background Ob0 unit; the actual Type3 profile remains unchanged Ob1.
+
+Six transform controls use natural reference/pointer outputs or returned
+PlayerPositionView values, without qualifications or forced-inline attributes.
+Middle-only reference/pointer forms retain 780/38/15. All-three forms retain 780,
+240 instructions, 38 fields,24 ordered calls and the original17-block graph but
+have 53 physical differences. The strict schedule inspector rejects their
+unreviewed fixed-home census; two extra current-context compiles retain the
+complete broader context reports and all literal checks, without weakening the
+production producer. Returned middle/all values emit 798/834 bytes and are rejected.
+
+Four collision-size construction controls use a real 12-byte member container
+or derived position type, each with an ordinary empty default constructor.
+The opaque versions compile the actual constructor separately; visible forms
+define it in the caller TU. Every real constructor independently equals the
+original three-byte/zero-field receiver identity at 4343D0, without explicit
+returns, assembly or fake clobbers. Opaque callers become 781/38 with 449 overlap
+differences plus one extra byte; visible callers 773/37 with 479 differences plus
+seven absent. Neither the constructor role, original class/inheritance nor its
+authored/compiler/library origin is established. No new alias unit or ledger
+credit is added. Current pointer-interface source evidence remains separate.
+
+Original target ABI observation: exact controller dispatcher 4153A9 MOV ECX,ESI
+then 4153AB CALL [ESI+40] supplies the record and tests EAX. Independently decoding
+all 780 Type3 bytes confirms 240 instructions, entry MOV ESI,ECX, no positive EBP
+argument memory operands and a plain RET. IDA still had int/double parameters;
+the local analysis prototype becomes maintained-compatible
+`int __fastcall sub_442750(void *record)`, with an explicit bounded-ABI comment.
+Both disassembly and decompiler read back one void-pointer argument/fastcall.
+Unused register parameters and unique original C++ convention spelling remain
+unknown. Metadata alone is not exactness evidence; post-write mapped-byte
+attestation passes and no target byte is modified. No database is committed.
+
+Public probe-type3-native-context.py adds timer-plain as one selected cold
+compile. It validates the canonical 20-byte source/profile/ABI separately from
+the caller's existing Ob1 profile, compares the complete emitted body and both
+same-object calls, and preserves full caller diagnostics/guard failure. New
+compiled_input_sha256 records all actual staged inputs: the main source hash
+alone cannot describe this privately changed header. Actual staged bytes are
+read back after compiling; changed input cannot leave a stale success. Three
+tests reject metadata/body drift and changed actual staged content; unrelated
+earlier reports survive. Public baseline/timer-plain/rejected-word runs reproduce
+the private raw bodies and all residual positions. Earlier provider evidence
+is kept under its original source SHA.
+
+All 490 game inputs, all 1032 unit definitions and all canonical ledger bytes are
+unchanged. All 1001 existing exact source/profile proofs are reused. Coverage
+remains 1001/1035 and 243853/291883 bytes (83.5448%); the 33436-byte 95% gap and all
+four 30/13/22/15 fronts stay open. Sources, actual COFF, broader negative reports,
+prototype readback and frozen recipe:
+.analysis/gpt-61sol-20261021-type3-timer-comparison/.
+
+CI passes 879 tests/28 skips with target-required tracking, documentation,
+progress and both whitespace checks. Frozen replay repeats ordinary Timer15,
+the complete53-difference transform and the781-byte opaque-constructor case,
+including its actual separate three-byte callee. No exact credit is added.
+
+All producers terminate before 81 evidence members/4429883 loose bytes are ZIP
+CRC and SHA256 verified in 718761 bytes. Removing verified loose duplicates and
+387 terminal CI bytecode caches/6534777 bytes reclaims 10245899 bytes (~9.77 MiB).
+Compiler carriers self-clean; no unrelated root object, original target,
+toolchain, IDA state or older unique/unclassified evidence is removed.
