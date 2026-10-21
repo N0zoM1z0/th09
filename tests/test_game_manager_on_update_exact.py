@@ -104,6 +104,9 @@ class GameManagerColdRegression(unittest.TestCase):
                      target=0x421670, count=2),
                 dict(symbol='?DispatchReplayStage@@YIXPAUReplayStageDispatchView@@H@Z',
                      target=0x4217E0, count=2)],
+            'native_opponent_selection_calls': dict(
+                symbol='?SelectOpponentConfiguration@GameManagerOpponentSelectionView@@QAEXXZ',
+                target=0x415910, count=4),
             'original_blocks': 78, 'candidate_blocks': 77,
             'direct_graphs_agree': False,
             'aligned_field_identities': 164,
@@ -199,7 +202,7 @@ class GameManagerColdRegression(unittest.TestCase):
             with self.subTest(stale=stale), self.assertRaises(RuntimeError):
                 boss.guard_game_manager_cleanup({**row, **stale})
 
-    def test_all_fourteen_original_bound_functions_replayed_across_five_builds(self):
+    def test_all_sixteen_original_bound_functions_replayed_across_seven_builds(self):
         with patch.object(boss, 'build') as build, patch.object(
                 boss, 'parsed', side_effect=[self.evidence(), self.cleanup_evidence()]), patch.object(
                 boss, 'canonical', side_effect=lambda unit: {'unit':unit}) as canonical:
@@ -207,22 +210,22 @@ class GameManagerColdRegression(unittest.TestCase):
         self.assertEqual(owners['gameplay_setup_thread']['bound_fields'],171)
         self.assertEqual(owners['game_manager_cleanup']['candidate_bytes'],425)
         self.assertFalse(owners['gameplay_setup_thread']['direct_graphs_agree'])
-        self.assertEqual(len(exact),15)
+        self.assertEqual(len(exact),16)
         self.assertEqual(exact[0]['unit'],'game-manager-on-update')
         self.assertIn('front-message-initialize-runtime', [a['unit'] for a in exact])
-        self.assertEqual([row['unit'] for row in exact[-5:]],
+        self.assertEqual([row['unit'] for row in exact[-6:]],
                          ['supervisor-setup-loading-vms-and-capture',
                           'front-message-initialize-runtime',
                           'replay-manager-release', 'replay-manager-create',
-                          'replay-stage-dispatch'])
-        self.assertEqual(build.call_count,6)
+                          'replay-stage-dispatch', 'game-manager-select-opponent'])
+        self.assertEqual(build.call_count,7)
         self.assertEqual([args[0][0] for args in build.call_args_list],
                          ['game-manager-on-update',
                           'supervisor-setup-loading-vms-and-capture',
                           'front-message-initialize-runtime',
                           'replay-manager-release', 'replay-manager-create',
-                          'replay-stage-dispatch'])
-        self.assertEqual(canonical.call_count,15)
+                          'replay-stage-dispatch', 'game-manager-select-opponent'])
+        self.assertEqual(canonical.call_count,16)
 
     def test_full_all_mode_does_not_double_count_either_replay_callee(self):
         # The full suite now runs both original ReplayInput VC7.1 profiles
@@ -235,15 +238,16 @@ class GameManagerColdRegression(unittest.TestCase):
             owners, exact = boss.run_game_manager(
                 protect_exact=True, replay_callees_prechecked=True)
         self.assertEqual(owners['gameplay_setup_thread']['ordinary_differences'], 904)
-        self.assertEqual(len(exact), 12)
-        self.assertEqual(exact[-1]['unit'], 'replay-stage-dispatch')
+        self.assertEqual(len(exact), 13)
+        self.assertEqual(exact[-1]['unit'], 'game-manager-select-opponent')
         self.assertNotIn('replay-manager-create', [r['unit'] for r in exact])
         self.assertNotIn('replay-manager-release', [r['unit'] for r in exact])
         self.assertNotIn('front-message-initialize-runtime', [r['unit'] for r in exact])
         self.assertEqual([a[0][0] for a in build.call_args_list], [
             'game-manager-on-update',
-            'supervisor-setup-loading-vms-and-capture', 'replay-stage-dispatch'])
-        self.assertEqual(canonical.call_count, 12)
+            'supervisor-setup-loading-vms-and-capture', 'replay-stage-dispatch',
+            'game-manager-select-opponent'])
+        self.assertEqual(canonical.call_count, 13)
 
     def test_skip_siblings_never_drops_the_new_large_boss_or_nonexact_worker(self):
         with patch.object(boss, 'build') as build, patch.object(

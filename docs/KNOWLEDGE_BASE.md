@@ -15467,3 +15467,105 @@ A post-clean selected replay extracts only the archived live-slot-reference
 recipe, reproduces all849 raw bytes/26 actual COFF fields and its full diagnostic,
 and removes temporary outputs. This independently checks archive usability after
 the28 loose files are gone; it adds no exact credit or broad replay requirement.
+
+
+## October 21: gameplay worker shares its actual opponent-selection interface
+
+Recovery starts from clean pushed c08d4cfbfb141660bb42bd3db67f7ffc5d9589e6.
+Original Japanese v1.50a disk identity, direct local IDA metadata and mapped
+entry/distributed bytes pass. A fresh pinned /O2 /Os GameManagerSetup compile
+repeats1689 bytes/171 fields/416 instructions/35 calls/77 blocks/904 differences.
+The existing full residual mask,172/171 field multiset gap and164 aligned field
+identities remain independent of source names.
+
+Independent original-PE decoding sees calls415910 at worker+1C7/+1F6/+26C/+293;
+the associated preceding instructions establish ECX=4A7D90. IDA independently
+reports415910 with a799-byte extent. The existing canonical owner is
+GameManagerOpponentSelectionView::SelectOpponentConfiguration, with void
+thiscall transport. The worker's four unimplemented UpdateProgress aliases
+refer to this same routine, not a generic progress update. Old visibility
+experiments already found byte-neutral controls; they are not presented here
+as new hypothesis coverage.
+
+GameManagerOpponentSelectionView.hpp now contains the exact former native
+selection declarations and all five offset assertions, with no invented
+layout or helper body. Its 38-byte side and16-byte entry assertions also move
+unchanged. Both existing CPP consumers use that same declaration; the setup
+class drops UpdateProgress, and four receiver-preserving casts call the actual
+method. No forwarding adapter, fake return, native global definition, original
+class/TU ownership claim or semantic-phase closure is introduced.
+
+A current-source main carrier exactly repeats the parent's complete worker
+raw bytes. Actual COFF offsets+1C8/+1F7/+269/+28D change only from the private
+UpdateProgress symbol to the real native method; every offset/type/addend and
+all other symbol/section records stay equal. All eleven same-profile emitted
+owner snapshots retain every byte and field, including the alternate-profile
+owner's diagnostic main-profile body. Ten canonical /Os siblings pass2777
+physical bytes. A separate genuine no-/Os capture compile passes214 bytes;
+the native opponent source, with only declaration extraction, passes799 bytes/
+32 fields. Thus12 affected existing exact owners/3790 bytes/275 fields pass
+across three actual profiles, and991 unchanged exact proofs are reused. No
+private-label manifest refresh or compiler-profile change is needed.
+
+The full setup inspector accepts only the real selection symbol and reports
+four zero-addend REL32 fields. The frontier requires that contract, and full
+focused gamemgr routing adds the799-byte canonical callee. One new regression
+rejects absent/legacy/wrong-target/wrong-count evidence; existing scope tests
+now require the extra native replay. This is an interface connection to an
+existing exact routine, not new authored/exact credit. The worker stays904
+physical differences, all785 old matching positions protected. Canonical units,
+function extent/origin/status and the95% denominator are unchanged.
+
+Bounded controls are retained separately. Front's ordinary weight-consumption
+helper generates identical681 raw main bytes/15 fields/201 instructions/41
+blocks/569 differences, while actual COFF section coordinates change. Its
+real two-bound shot-window object gives681/15/201/42/575. Type3's ordinary
+by-value collision-position helper fully retains38 fields but emits834 bytes
+and fails the strict780-byte extent. The ordinary bool collision predicate
+keeps780/38/240/17 but gives27 differences instead of15; it is not adopted.
+These models add neither qualifiers, forced inlining, profile switches nor
+invented external callee contracts.
+
+The initialized-data scout reads104960 physical RawSize bytes from.rdata,
+.data and.data1, including file-alignment padding and excluding virtual zero
+fill. It considers only aligned dwords whose values fall in a PE executable
+section. Catalog span_end is inclusive: the initial half-open scout
+incorrectly flags final RET bytes and is explicitly superseded. The corrected
+121 uncovered numerical values are not121 callable functions. In the declared
+400000..44C800 interval, only44455A remains, at five positions inside actual
+DSERR/DDERR/CO_E error strings ending in ZED. The38-row Effect prefix is followed
+by string pointers and scalar arrays, not additional demonstrated callback
+records. No extent, origin or denominator changes follow; complete executable
+inventory and unaligned/dynamic references remain open.
+
+Only two existing game sources change and one header is added:488 of the old490
+input hashes remain; current game inputs are491. Exact remains1003/1035 and
+244917/291883 authored bytes (83.9093%), with32372 complete exact bytes needed
+for95%. RunEcl30/Enemy13/DrawResult22/Type315 and native product/runtime,
+semantic and port gates remain unfinished. Raw/COFF, current/parent source
+bindings, original call observations and bounded recipes are retained in the
+setup-opponent-interface, front-weight-consumption, type3-position-result and
+callback-adjacency packets under.analysis/gpt-61sol-20261021-.
+
+The four local groups are frozen in
+.analysis/gpt-61sol-20261021-opponent-interface-checkpoint/evidence.zip:
+34 members/482941 bytes become91715 bytes, SHA256
+c9384fd859ec33172a9466210c327dea505b7f6d5af4f8406aaa6a3a29c0c019.
+The selected worker replay independently reproduces1689 complete raw bytes,
+all171 actual COFF records, every diagnostic field and the native four-call guard.
+It checks all491 current game hashes, Oracle/config hashes and the private target;
+temporary compiler outputs self-clean. Old baseline code with its old private
+symbol is separately rejected by the current inspector instead of being retagged.
+
+Final CI passes884 tests/28 skips, plus target-required tracking, documentation,
+generated progress and whitespace. After every producer terminates, SHA/CRC-
+verified cleanup removes429 owned files/7742193 bytes (~7.38 MiB). This includes
+34 archived duplicates, current compiler outputs and own new/rebuilt Python
+caches. Four old canonical cache paths were deliberately rebuilt under the
+actual profiles and then removed; all other69 pre-session build files retain
+their hashes. Original EXE/IDA/toolchains and unclassified older evidence remain.
+After loose-file removal, the selected native opponent replay extracts the
+archived expectation, cold-compiles the maintained source, repeats all799 raw
+bytes/32 actual fields and the unchanged canonical manifest, and self-cleans.
+The source checkpoint and independent remote push verification are separate
+from any Factory receipt or whole-product claim.

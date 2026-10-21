@@ -14,6 +14,7 @@
 #include "AnmManager.hpp"
 #include "Chain.hpp"
 #include "GameConfiguration.hpp"
+#include "GameManagerOpponentSelectionView.hpp"
 #include "ScreenEffect.hpp"
 #include "ReplayInputState.hpp"
 #include "ReplayManagerRuntimeView.hpp"
@@ -189,7 +190,6 @@ struct GameManagerSetupLayout
     unsigned char unknown_378[0x14];
     int stageStartupMode;
 
-    void UpdateProgress();
     void AdvanceTimedState();
     static int OnUpdate(GameManagerSetupLayout *gameManager);
     static int OnDraw(GameManagerSetupLayout *gameManager);
@@ -913,14 +913,16 @@ mode_ready:
         if ((manager->flags & 8) == 0)
         {
             manager->seedCopy346 = g_SetupSeedSource;
-            g_GameManager.UpdateProgress();
+            reinterpret_cast<GameManagerOpponentSelectionView *>(&g_GameManager)
+                ->SelectOpponentConfiguration();
             manager->stageObject = ReplayManagerView::Create(0, NULL);
         }
         else
         {
             manager->stageObject = ReplayManagerView::Create(
                 1, reinterpret_cast<const char *>(&manager->modeByte145));
-            g_GameManager.UpdateProgress();
+            reinterpret_cast<GameManagerOpponentSelectionView *>(&g_GameManager)
+                ->SelectOpponentConfiguration();
         }
     }
     else
@@ -943,7 +945,8 @@ mode_ready:
         if ((manager->flags & 8) == 0)
         {
             manager->seedCopy346 = g_SetupSeedSource;
-            g_GameManager.UpdateProgress();
+            reinterpret_cast<GameManagerOpponentSelectionView *>(&g_GameManager)
+                ->SelectOpponentConfiguration();
             DispatchReplayStage(
                 static_cast<ReplayStageDispatchView *>(manager->stageObject), 0);
         }
@@ -951,7 +954,8 @@ mode_ready:
         {
             DispatchReplayStage(
                 static_cast<ReplayStageDispatchView *>(manager->stageObject), 1);
-            g_GameManager.UpdateProgress();
+            reinterpret_cast<GameManagerOpponentSelectionView *>(&g_GameManager)
+                ->SelectOpponentConfiguration();
         }
 
         if (manager->gameMode == 0 || manager->gameMode == 1)

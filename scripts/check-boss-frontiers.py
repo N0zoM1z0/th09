@@ -2272,6 +2272,10 @@ def guard_gameplay_setup_thread(result: dict) -> None:
             dict(symbol='?DispatchReplayStage@@YIXPAUReplayStageDispatchView@@H@Z',
                  target=0x4217E0, count=2)]:
         raise RuntimeError('GameplaySetupThread native Replay Create/Dispatch identities drifted')
+    if result.get('native_opponent_selection_calls') != dict(
+            symbol='?SelectOpponentConfiguration@GameManagerOpponentSelectionView@@QAEXXZ',
+            target=0x415910, count=4):
+        raise RuntimeError('GameplaySetupThread native opponent-selection identity drifted')
     guard_gameplay_setup_field_referents(result)
 
 
@@ -2333,6 +2337,7 @@ def run_game_manager(*, protect_exact: bool,
         'original_fields': gameplay['original_fields'],
         'bound_fields': gameplay['bound_fields'],
         'ordered_calls': gameplay['ordered_calls'],
+        'native_opponent_selection_calls': gameplay['native_opponent_selection_calls'],
         'original_blocks': gameplay['original_blocks'],
         'candidate_blocks': gameplay['candidate_blocks'],
         'field_change_spans': gameplay['field_change_spans'],
@@ -2384,6 +2389,10 @@ def run_game_manager(*, protect_exact: bool,
         # Dispatch is a separate 21-byte owner, outside the ReplayInput sweep.
         build('replay-stage-dispatch')
         owners.append(canonical('replay-stage-dispatch'))
+        # The four worker calls share the declaration with this existing
+        # exact 799-byte implementation; no UpdateProgress adapter exists.
+        build('game-manager-select-opponent')
+        owners.append(canonical('game-manager-select-opponent'))
     return diagnostics, owners
 
 

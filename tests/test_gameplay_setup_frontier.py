@@ -31,6 +31,9 @@ def baseline():
                      target=0x421670, count=2),
                 dict(symbol='?DispatchReplayStage@@YIXPAUReplayStageDispatchView@@H@Z',
                      target=0x4217E0, count=2)],
+        'native_opponent_selection_calls': dict(
+                symbol='?SelectOpponentConfiguration@GameManagerOpponentSelectionView@@QAEXXZ',
+                target=0x415910, count=4),
         'original_blocks': 78, 'candidate_blocks': 77,
         'direct_graphs_agree': False,
         'aligned_field_identities': 164, 'field_change_spans': 15,
@@ -120,6 +123,18 @@ class GameplaySetupOriginalBoundFrontier(TestCase):
         for change in invalid:
             with self.subTest(change=str(change)[:60]), self.assertRaises(RuntimeError):
                 front.guard_gameplay_setup_thread({**report, **change})
+
+    def test_reject_missing_or_surrogate_opponent_selection_contract(self):
+        report = baseline()
+        call = report['native_opponent_selection_calls']
+        invalid = (None, {},
+                   {**call, 'symbol': '?UpdateProgress@GameManagerSetupLayout@@QAEXXZ'},
+                   {**call, 'target': 0x4159A0},
+                   {**call, 'count': 3}, {**call, 'count': 5})
+        for value in invalid:
+            with self.subTest(value=value), self.assertRaises(RuntimeError):
+                front.guard_gameplay_setup_thread({**report,
+                    'native_opponent_selection_calls': value})
 
     def test_reject_original_target_and_field_call_graph_regressions(self):
         report = baseline()
