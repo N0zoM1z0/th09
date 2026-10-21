@@ -9,35 +9,36 @@
 
 The operator requests continued exact reconstruction, serial low-priority
 compiles, affected replays and cleanup. This checkpoint starts from pushed
-`19b9eb7`. All492 game inputs, all1035 comparison-unit definitions and exact
+`84cd036`. All492 game inputs, all1035 comparison-unit definitions and exact
 ledgers remain unchanged; all1003 authored exact source/profile proofs are reused.
 
-- Four private Enemy SDK descriptor-position controls preserve the real0x214
-  carrier, its position+4 and all native field-offset assertions. D3DXVECTOR3
-  or D3DVECTOR value assignment preserves every3900 raw caller byte,97 fields,
-  69 actual calls,170 blocks and the same13 differences. No position is restored.
-- The genuine SDK float-pointer and D3DVECTOR-reference constructors each emit
-  3916 bytes/97 fields/69 actual calls. Their same-object RunEcl reference moves
-  from original+397 to+3A7 and is strictly rejected; no partial score is substituted.
-  RunEcl stays15564/598/30 with identical full raw and original-linked bytes in
-  every case. No maintained source, ABI, profile or guard is changed.
-- Actual d3d8/d3d8types/d3dx8math header/inline fingerprints are retained. SDK
-  type names and original vector class remain hypotheses, not recovered owners.
-  The old Float3 scalar/visibility/trail controls were read before this new
-  descriptor-only SDK panel; no private qualifier or register constraint is added.
-- Fresh read-only routing repeats the earlier aligned data-word result:836
-  pointer-shaped words, with known string/data false positives and no new game
-  entry. The PE has no base-relocation directory; this weak data scan cannot
-  establish full inventory. Existing authored/origin/boundary ledgers stay intact.
-- `.analysis/gpt-61sol-20261021-enemy-sdk-position/` retains80 CRC/SHA-verified
-  archive members:2079212 loose bytes become319450 bytes. Selected temporary
-  nice10 recipes are `python3 -B .../replay.py --case sdk-value` and
-  `--case sdk-base-construction`; all source/provider/SDK hashes fail closed.
-  Both post-clean cold replays pass full actual raw/COFF checks, preserving the
-  neutral13 and expanded3916-byte rejection. CI passes908 tests/28 skips.
-  Scoped cleanup removes677 files/11999113 bytes (~11.44 MiB), preserving69
-  preexisting build files and35 old caches. The395 current CI caches reuse
-  their independently source-verified classification only after byte/hash equality.
+- The actual HasTickedEvery body at404920 is33 bytes/zero fields. Five private
+  return declarations (bool,long,unsigned int,unsigned long,enum), plus an int
+  const-member declaration, each reproduce every original callee byte. Callee
+  equality therefore does not determine the original nominal return type.
+- Eight complete ECL/Enemy caller controls preserve3900/97/69 calls/170 blocks
+  and full RunEcl15564/598/30. Direct bool calls with the genuine body visible
+  give46 Enemy differences; the other five declarations give45. They restore
+  the old13 positions but damage46/45 already equal bytes and remain rejected.
+  The bool test consumes AL at+24D, whereas the original consumes EAX.
+- A genuine used member-function pointer, with the int body either opaque or
+  visible, preserves every maintained raw Enemy byte and the same13 differences.
+  Actual calls remain REL32; the visible callee and its positive same-object
+  definition coordinates are separately verified. This is compiler-context
+  evidence, not original source/TU ownership. No public interface is changed.
+- `.analysis/gpt-61sol-20261021-periodic-return-types/` retains100 CRC/SHA-verified
+  archive members:2975847 uncompressed bytes become389611 bytes. Selected nice10
+  recipes are `python3 -B .../replay.py --case caller-pmf-visible` and
+  `--case caller-bool`; both cold-repeat every actual raw byte/COFF row, the
+  original33-byte callee and complete maintained/rejected frontier outcomes.
+  All628 source/provider inputs and the original target fail closed on drift.
+- CI passes908 tests/28 skips. Scoped, hash-verified cleanup removes996 files/
+  17507265 bytes (~16.70 MiB), including14 private OBJ/PDB pairs and395 current
+  CI caches. All69 preexisting build files and35 old separate caches stay
+  byte-identical; original EXE, tools, IDA and older evidence are preserved.
+- Earlier SDK value copies remain neutral13; genuine SDK constructors remain
+  rejected3916-byte owners. Their independent frozen packet and weak836-word
+  routing scan are documented in the KB; neither supplies new exact credit.
 - No new exact credit is claimed. Exact stays1003/1035 and244917/291883 bytes;
   the32372-byte95% gap and main **RunEcl30 /Enemy13 /DrawResult22 /Type315**
   fronts remain open. Native product/runtime and full inventory remain open.

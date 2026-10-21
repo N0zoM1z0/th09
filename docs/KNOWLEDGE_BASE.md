@@ -16136,3 +16136,81 @@ A redundant cleanup preview is removed only after its per-path rows equal the
 retained final receipt. Original EXE, toolchain, IDA and unclassified old evidence
 stay untouched. No exact-owner, native product/runtime, original class, full
 inventory or later semantic/port gate is promoted; the goal stays active/incomplete.
+
+## October 21: native periodic return declarations and member calls (gpt-6.1-sol)
+
+Recovery starts from independently pushed84cd036 with a clean tree. Original
+Japanese v1.50a disk, direct IDA metadata, entry and distributed mapped-byte
+checks pass. The existing periodic forwarding/visibility and Float3 controls
+are read before this batch. Those older bool/int *forwarders* did not change
+the actual native HasTickedEvery declaration; this panel tests that distinction.
+No maintained game source, header, compiler profile, unit, exact row or guard
+is changed. All628 src/scripts/config fingerprints remain unchanged.
+
+Target observation: original404920..404940 reads the current/previous Timer
+fields, evaluates the signed remainder and returns full EAX0/1 with RET4.
+It preserves ECX. This proves observed bytes and register behavior, not a unique
+C++ nominal return type. IDA's provisional BOOL is not original source evidence.
+
+Six independent private native compilations use the genuine predicate body:
+bool,long,unsigned int,unsigned long,an explicit two-value enum, and int with
+const-member qualification. All produce the complete original33 bytes and zero
+fields. Actual decorated callee names are discovered from bounded COFF symbols;
+the enum mangling is not guessed. These are alternative declarations of the
+existing predicate, not new authored owners or new exact credit. Every full
+caller is scored only after its actual same-object callee repeats these bytes.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| TIMER-PERIODIC-TYPE-001 | compiler observation | Direct bool native return, with its genuine body visible, gives Enemy3900/97/46. | All13 old mismatches are restored but46 equal positions are damaged. Original EAX test becomes AL at+24D; that is one extra mismatch relative to the45-byte dword-result contexts. |
+| TIMER-PERIODIC-TYPE-002 | compiler observation | Direct long,uint,ulong,enum and const-int member calls each give3900/97/45. | Every original33-byte callee remains equal; each whole caller restores13 and damages45. Existing production frontier rejects every case. |
+| TIMER-PERIODIC-TYPE-003 | compiler observation | An actually used int member-function pointer preserves every baseline raw Enemy byte, whether the genuine callee is opaque or visible. | Both remain3900/97/13, with69 actual calls and170 blocks. Actual emitted call is still REL32; the visible native body and positive same-object coordinates are independently checked. |
+
+All eight complete carriers retain1026 Enemy instructions,3883 code bytes,
+the full alignment/table extent,97 bound fields,69 ordered calls,170 blocks
+and original switch targets. All reproduce full RunEcl15564/598/30 with zero
+field/table differences. No matching byte is sacrificed in maintained source.
+The member-call result shows that co-visibility alone does not predict caller
+allocation independently of call form; it does not establish original source
+partition, unique C++ types or native product/runtime fidelity.
+
+Private changed native symbols receive a diagnostic destination binding only
+after all33 actual callee bytes, zero fields, REL32/addend0 and independent
+positive callee section/value coordinates pass. Actual COFF names and rows
+remain in the packet. Production inspectors/ABI/guards are unchanged. The
+other real users of HasTickedEvery are not rebuilt or claimed exact under these
+private declarations; the canonical header and their source/profile proofs
+remain unchanged.
+
+Fourteen primary C++ compiles (six leaves,eight full callers) succeed serially
+at nice10. Evidence packet
+.analysis/gpt-61sol-20261021-periodic-return-types/ retains100 deduplicated
+archive members,2975847 uncompressed bytes in389611 bytes, SHA256
+494704610326bcdef9390b8c68f2fa69fb0f59370ab6a15dd54383fd6df60589.
+It preserves exact native source variants, all actual raw/COFF records, complete
+comparisons, compiler output, profiles,628 input hashes and frozen recipes.
+Selected temporary cold replays `python3 -B .../replay.py --case
+caller-pmf-visible` and `--case caller-bool` independently repeat all raw bytes,
+actual COFF, original33-byte callee and unchanged complete frontier acceptance/
+rejection; temporary native outputs self-clean. No full1003-owner replay is
+needed after an unchanged maintained source/profile tree.
+
+Canonical exact remains1003/1035 and244917/291883 bytes (83.9093%);95% still
+needs32372 complete authored bytes. Main fronts remain RunEcl30,Enemy13,
+DrawResult22,Type315. Original nominal Timer return type, full inventory,
+native product/runtime, semantic and portability gates remain open.
+
+Final CI passes908 tests/28 skips with target-required tracking, documentation,
+open build-graph, generated progress and whitespace checks. Only the two
+knowledge/routing documents are tracked changes. After producer termination,
+CRC/member SHA and source/cache proofs permit deleting996 current-owned files/
+17507265 bytes (~16.70 MiB): archived source/report duplicates,14 private OBJ/PDB
+pairs,395 current CI caches and one redundant cleanup preview. Every current
+cache byte and exact repository/runtime source hash equals the previous
+independently verified code-object proof; original source/runtime is preserved.
+All69 preexisting build files and35 old separate caches remain byte-identical.
+Original EXE, toolchain, IDA and unclassified older evidence stay untouched.
+Both selected post-clean cold recipes pass again using only archived variant
+sources and verified providers. The member-pointer case repeats13, the bool
+case repeats46 and strict rejection; both repeat RunEcl30 and the full33-byte
+native body. Temporary outputs self-clean and all628 fingerprints stay stable.
