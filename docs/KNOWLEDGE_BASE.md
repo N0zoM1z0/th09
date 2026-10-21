@@ -16579,3 +16579,96 @@ separate caches remain byte-identical. Both selected post-clean cold recipes
 reproduce every actual raw/COFF row,the complete34/46-byte native bodies and
 the unchanged full-frontier rejection. Their temporary outputs are removed.
 The original EXE,tools,IDA and unrelated unclassified research remain preserved.
+
+
+## October 21: Enemy descriptor object and real clamp contexts (gpt-6.1-sol)
+
+Clean recovery at c7c01fe verifies the original Japanese v1.50a target,direct
+IDA metadata and mapped entry/distributed bytes. The preceding turn is progress:
+it changes the authoritative Options diagnostic and preserves a reproducible
+rejected82-difference lead. This turn returns to the full3900-byte Enemy owner.
+
+The real127-byte ClampPositionToMovementBounds body is co-visible alone,with
+the33-byte HasTickedEvery body,and with both that predicate and188-byte motion.
+All native bodies and every original relocation remain exact. Nine actual
+same-object Enemy call fields resolve to these emitted definitions. Clamp
+alone retains13;both periodic combinations restore all13 but damage45 old
+matching bytes. RunEcl retains its complete15564-byte/598-field/30-difference
+owner in all three. These grouping hypotheses stay private;no original TU
+partition is inferred from byte-neutral or losing visibility controls.
+
+The special-attack local previously constructed a 0x214-byte sparse carrier,
+projected an unrelated EnemyCoreBulletSpawnDescriptorView lvalue over it,and
+cast that lvalue again for the real Etama method. The carrier now contains an
+actual BulletSpawnDescriptor member. Its constructor keeps memset of the same
+0x214 bytes and writes descriptor.transformSound=-1 at0x204;the independently
+compiled28-byte40D500 body remains original-equal with zero fields. Static
+assertions pin the carrier size,the payload at0,and the sound offset. Enemy
+binds a reference to that live member and passes its address directly to the
+already real Etama method. No constructor is added to the public descriptor
+class or other existing descriptor objects. The separate persistent byte-view
+copy retains its existing observed0x214-byte view and field-equivalence checks.
+Its original ownership/lifetime,and unique original class spelling,remain open.
+
+The first candidate erroneously deleted that persistent-copy view and hits
+C2061 in the later copy. Its failed source,log and noncredit status are retained;
+the corrected source keeps that view. Eight primary native invocations comprise
+seven successes and that one documented compiler failure. Native compiles stay
+serial at lowered priority and use only the two existing ECL O2 profiles,
+Ob1 and Ob0. The small constructor and both complete ECL carriers are independently
+compiled. A real-root Ob1 build follows to resolve the two generated labels.
+
+Both maintained full owners retain every raw byte:Enemy raw SHA256 remains
+5e0b14168853e07552206bb24065e19f6047cc6108103fb948193c1107b268fb;
+complete original-linked comparisons remain Enemy3900/97/13 and
+RunEcl15564/598/30. The13 Enemy residual offsets and all3887 matched positions
+stay unchanged. No smaller similarity score,ABI adjustment or register hint is
+used to justify the source change.
+
+The first standard canonical pass is78/80:UpdateMovement's private table label
+at+0x139 changes $L74134->$L74135,and CompareOperands at+0x14 changes
+$L73362->$L73363. Actual COFF proves each DIR32 label belongs to its own code
+section,has zero addend,and addresses the original owner-relative0x3C8/0x34C table
+at0x408548/0x407A4C. Complete992/892-byte independent binding is zero-difference.
+Compiling from the actual repository source path repeats those same names,so
+they are not dismissed as staging-only drift. Only these two actual symbol
+spellings change in the existing manifest;every other unit property,field
+coordinate/kind/target and compiler profile remains fixed. The complete standard
+canonical comparison then passes80/80 functions,25243 physical bytes and1126
+fields. All80 distinct authored exact rows are covered;the other923 unchanged
+source/profile proofs are reused. Constructor and Ob0 objects reuse their
+already source-cold objects at canonical destinations. The source/include bytes
+and profile are explicitly bound;the old Type11 PDB is preserved,not overwritten.
+
+The existing no-target binding test now requires the actual descriptor member
+and direct local object and continues rejecting fake constructor/Etama aliases.
+The focused Enemy suite passes45 tests/three Python-S Capstone skips. The local
+packet .analysis/gpt-61sol-20261021-enemy-clamp-context/ preserves116 CRC/member-
+SHA-verified members:5944769 bytes compress to658265 bytes;archive SHA256 is
+39d4300f81a30d20aac61e1e5c563ff13693f64ec35f87d1c5385f203fc4e2eb.
+It retains actual source blobs,profiles,all80 raw/COFF captures,native call
+proofs,the initial compiler failure,before/after label comparisons and real-root
+build evidence. The leaf's seven recursive quoted includes match current source;
+its60 unused staged files do not enter that consumed-source claim. Both full
+ECL carriers bind their66 quoted includes. This prevents an unused earlier
+Core draft from being mistaken for leaf compiler input;no redundant native
+compile is used to hide that distinction. Selected self-cleaning cold recipes
+are replay.py --case typed-ob1 and --case typed-leaf. Their temporary canonical
+manifests change only the object read path;all original unit definitions and
+full byte/relocation/local-owner checks remain in force.
+
+No new exact owner or byte is claimed. Exact remains1003/1035 and
+244917/291883 authored bytes;95% still needs32372 complete bytes. RunEcl30,
+Enemy13,DrawResult22,Type315 and the complete inventory,native product/runtime,
+semantic and portability gates remain open. CI passes913 tests/28 skips in
+131.731 test seconds. After all producers stop,scoped cleanup removes918 owned
+files/16619184 bytes (~15.85 MiB):17 native outputs,395 source-verified CI caches,
+505 verified archive duplicates and one redundant preview. Of the395 cache
+proofs,394 reuse equal source/cache hashes;the changed binding test receives a
+fresh magic/header/marshal/code-object comparison against source compilation
+without execution. All69 old build files,including the old Type11 PDB,and35
+old separate caches remain byte-identical. Post-clean typed-leaf cold-reproduces
+28/28 original bytes;typed-ob1 reproduces all75 whole same-profile canonical
+units,22463 bytes/990 fields,plus the unchanged complete Enemy13/RunEcl30
+reports. Both replay source trees and native outputs self-clean. Original EXE,
+tools,IDA and unrelated old unclassified research remain preserved.

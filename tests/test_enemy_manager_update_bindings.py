@@ -60,7 +60,11 @@ class EnemyUpdateBindingTests(TestCase):
         self.assertIn('EtamaController *etama08;', text)
         self.assertIn('EnemyCoreBulletDescriptorMatchesEtamaFields', text)
         self.assertIn('sizeof(EnemyCoreBulletSpawnDescriptorView) == sizeof(BulletSpawnDescriptor)', text)
-        self.assertIn('reinterpret_cast<BulletSpawnDescriptor *>(&descriptor)', text)
+        self.assertIn('BulletSpawnDescriptor &descriptor = storage.descriptor;', text)
+        carrier = (SOURCE.parents[1] / 'src/BulletSpawnDescriptorCtorView.hpp').read_text()
+        self.assertIn('BulletSpawnDescriptor descriptor;', carrier)
+        self.assertIn('offsetof(BulletSpawnDescriptorCtorView, descriptor) == 0', carrier)
+        self.assertNotIn('reinterpret_cast<EnemyCoreBulletSpawnDescriptorView *>(&storage)', text)
         self.assertNotIn('EnemyCoreEtamaControllerView', text)
         unit_name = 'bullet-pattern-primary'
         units, functions, registry = inspector.reference_index()

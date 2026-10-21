@@ -4,5 +4,5 @@
 BulletSpawnDescriptorCtorView::BulletSpawnDescriptorCtorView()
 {
     memset(this, 0, sizeof(*this));
-    transformSound204 = -1;
+    descriptor.transformSound = -1;
 }

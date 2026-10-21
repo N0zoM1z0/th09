@@ -233,9 +233,10 @@ typedef char EnemyCoreBulletSpawnDescriptorSizeIs214[
 // The ECL/Enemy temporary is constructed by the original 0x0040D500
 // 0x214-byte descriptor constructor. The real Etama callee at 0x004130F0
 // consumes precisely the same physical fields as BulletSpawnDescriptor.
-// Construct through the single shared native carrier and project this payload
-// view over its storage. The real EtamaController method consumes these fields;
-// original C++ type names and the complete lifetime model remain unknown.
+// This view remains for copying the observed descriptor inside the persistent
+// byte-view state below. The local constructor carrier instead owns a live
+// BulletSpawnDescriptor member, passed directly to the real Etama method.
+// Original C++ names and persistent-state ownership remain unknown.
 typedef char EnemyCoreBulletDescriptorMatchesEtamaFields[
     (sizeof(EnemyCoreBulletSpawnDescriptorView) == sizeof(BulletSpawnDescriptor) &&
      offsetof(EnemyCoreBulletSpawnDescriptorView, bulletType00) ==
@@ -587,26 +588,25 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                         manager->specialAttackThreshold2AC44C)
                 {
                     BulletSpawnDescriptorCtorView storage;
-                    EnemyCoreBulletSpawnDescriptorView &descriptor =
-                        *reinterpret_cast<EnemyCoreBulletSpawnDescriptorView *>(&storage);
-                    descriptor.position04 = enemy->position2D74;
+                    BulletSpawnDescriptor &descriptor = storage.descriptor;
+                    descriptor.position = enemy->position2D74;
                     EnemyCoreSideStateView *spawnSide = manager->sideState320;
-                    descriptor.bulletType00 = 1;
-                    descriptor.aimMode1F8 = 0;
-                    descriptor.count1_1F4 =
+                    descriptor.bulletType = 1;
+                    descriptor.aimMode = 0;
+                    descriptor.count1 =
                         static_cast<short>(spawnSide->characterIndex20 == 13 ? 1 : 3);
-                    descriptor.speed118 =
+                    descriptor.speed1 =
                         static_cast<float>(g_EnemyCoreGameManager.valueB4) * 0.1f +
                         1.0f;
-                    descriptor.count2_1F6 = 1;
-                    descriptor.angle10 = 0.0f;
-                    descriptor.angleStep14 = 0.15707964f;
-                    descriptor.speed21C = 0.0f;
+                    descriptor.count2 = 1;
+                    descriptor.angle = 0.0f;
+                    descriptor.angleStep = 0.15707964f;
+                    descriptor.speed2 = 0.0f;
                     descriptor.unknown1FA = 0;
-                    descriptor.transformFlags1FC = 4;
-                    descriptor.color02 = 2;
+                    descriptor.transformFlags = 4;
+                    descriptor.color = 2;
                     spawnSide->etama08->SpawnBulletPatternPrimary(
-                        reinterpret_cast<BulletSpawnDescriptor *>(&descriptor));
+                        &descriptor);
                     enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
                     reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();
                     continue;

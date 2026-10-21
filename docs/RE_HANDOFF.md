@@ -9,42 +9,45 @@
 
 The operator requests continued exact reconstruction,serial low-priority
 compiles,affected replays and cleanup. This checkpoint starts from pushed
-`f2b2de0`. The Title batch changes one diagnostic helper and two tests;all492
-game inputs,1035 units and every profile stay unchanged. All1003 unchanged
-canonical exact source/profile proofs are reused.
+`c7c01fe`. Three game files replace the local descriptor overlay with a real
+BulletSpawnDescriptor member;two generated local labels and one existing test
+are synchronized. All80 affected canonical functions replay exact across the
+two existing ECL profiles plus the constructor:25243 complete bytes/1126 fields.
+The other923 exact source/profile proofs are reused;no new exact credit is added.
 
-- Options native-input identity now checks the actual positive candidate extent
-  and all eight ordered array/member operands. A shorter source with valid
-  input fields is diagnosed correctly;the complete-owner guard independently
-  rejects missing bytes and preserves its2045..2048-byte range and1435 matched
-  original positions. Two new tests first fail on the old conflation and then
-  pass. The focused suite passes24 tests,with two Capstone skips under Python-S
-  and none with the normal interpreter. No exact acceptance rule changes.
-- Eight serial nice10 native compiles cover two real cursor setters,two actual
-  screen-body contexts,their unsigned-normalization combination,a signed
-  ordinal,and maintained/const DrawResult. Setters retain2048/135/610;
-  DrawResult retains1939/82/22 and all1917 old equal positions. The const
-  hypothesis is neutral and not adopted. All six Options menu-sound siblings
-  remain34/34 with three original fields;three real screen callees remain46/46.
-- Native screen-body visibility alone gives2044/135/608 overlap differences
-  plus one missing byte. The normalization combination gives2046/135/82 plus
-  one excess byte,but damages four old equal offsets6AE/6AF/75A/7F0 and fails
-  the complete graph/position guard. It stays private. Signed normalization
-  repeats the earlier2050/343 control's complete raw bytes. No losing game
-  source or compiler-profile change is promoted.
-- `.analysis/gpt-61sol-20261021-title-member-context/` retains54 CRC/SHA-verified
-  archive members:1069994 uncompressed bytes become228839 bytes. It binds
-  source/include blobs,profiles,actual raw/COFF,native callees,old/new provider
-  epochs and failing/passing tests. Selected nice10 cold recipes are
-  `python3 -B .../replay.py --case options-native-screen-normalized` and
-  `--case options-native-screen-before`;both must remain rejected. Current628 inputs
-  and two changed test files have separate explicit hash bindings.
-- CI passes913 tests/28 skips. Scoped cleanup removes516 owned files/8790207
-  bytes (~8.38 MiB),including eight current OBJ/PDB pairs and395 verified CI
-  caches. All69 old build files and35 old separate caches remain byte-identical.
-  Both selected post-clean cold recipes reproduce every raw/COFF row,native
-  34/46-byte callee,and unchanged rejection. Their temporary outputs are removed;
-  original EXE,tools,IDA and old unclassified research stay preserved.
+- The28-byte constructor at40D500 now initializes the typed member at carrier
+  offset0,including transformSound at0x204. Size0x214,member offset0 and sound0x204
+  have compile-time checks. Enemy uses that same live object in the real Etama
+  call,removing both casts on its local temporary. Its existing persistent
+  byte-view copy stays separate;original class names and that lifetime model
+  remain unknown. Complete Enemy3900/97/13 and RunEcl15564/598/30 raw bytes stay
+  unchanged,and all3887 already matching Enemy bytes remain protected.
+- The first full comparison gives78/80 because the compiler renumbers two
+  private labels. Independent same-owner proofs cover all992/892 bytes and
+  actual table offsets0x3C8/0x34C. A fresh compile from the real repo path repeats
+  this renumbering. Only $L74134->$L74135 and $L73362->$L73363 change in their
+  existing unit records;field coordinates/types/targets/addends stay unchanged.
+  All80 canonical comparisons then pass;all1035 compiler profiles stay fixed.
+- Three genuine clamp contexts retain complete native127-byte clamp,33-byte
+  periodic predicate and188-byte motion bodies where present. Clamp alone
+  retains13;both periodic combinations restore those13 but damage45 old equal
+  bytes and remain rejected. Nine actual same-object Enemy calls are checked.
+  Eight primary native invocations include one documented C2061 failure from
+  deleting a descriptor view still used by the persistent copy;that view is
+  retained in the final source. No failed candidate receives exact credit.
+- `.analysis/gpt-61sol-20261021-enemy-clamp-context/` retains116 CRC/SHA-verified
+  members:5944769 uncompressed bytes become658265 bytes. It binds old/current
+  inputs,actual quoted include closures,complete raw/COFF for all80 units,
+  native callees,local-name proofs and the failed/successful controls. Selected
+  cold recipes are `python3 -B .../replay.py --case typed-ob1` and
+  `--case typed-leaf`. The leaf consumes seven quoted inputs;its60 spare staged
+  files are explicitly excluded from its current-source claim.
+- CI passes913 tests/28 skips. Scoped cleanup removes918 owned files/16619184
+  bytes (~15.85 MiB),including17 current native outputs and395 verified CI
+  caches. All69 old build files,including the old Type11 PDB,and35 old separate
+  caches remain byte-identical. Post-clean typed-leaf reproduces28/28;typed-ob1
+  reproduces all75 same-profile canonical units,22463 bytes/990 fields,and both
+  full unchanged main diagnostics. Temporary replay outputs are removed.
 - No new exact credit is claimed. Exact stays1003/1035 and244917/291883 bytes;
   the32372-byte95% gap and main **RunEcl30 /Enemy13 /DrawResult22 /Type315**
   fronts remain open. Native product/runtime and full inventory remain open.
@@ -275,9 +278,10 @@ The current tree retains **491 game-source files, 1,035 comparison units and
 remain unknown-origin byte evidence. The Timer alias adds no credit to its
 existing canonical TextHelper owner. The new Player getter adds a separate
 logical source alias of shared435EC0, retaining its unknown/review physical row.
-All492 current inputs including the source README are unchanged in this batch.
-All1003 exact source/profile proofs are reused. No game
-header, existing caller/profile, boundary or authored exactness claim changes.
+Of492 game inputs including the source README,489 are unchanged in this batch.
+The80 affected canonical functions are rechecked,and923 unchanged exact
+source/profile proofs are reused. The local descriptor has a typed member;
+all existing profiles,boundaries and authored exactness counts stay unchanged.
 Native product/runtime, complete
 inventory, semantic and port gates remain open.
 
