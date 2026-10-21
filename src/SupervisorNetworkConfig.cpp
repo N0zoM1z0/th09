@@ -5,6 +5,25 @@
 #include <stdlib.h>
 #include <string.h>
 
+static inline bool SkipNetworkValueWhitespace(const char *&cursor, int *remaining, char *out)
+{
+    while (*cursor == ' ' || *cursor == '\t')
+    {
+        if (*remaining <= 0)
+            return false;
+
+        if (*cursor == '\n')
+        {
+            *out = 0;
+            return false;
+        }
+
+        ++cursor;
+        --*remaining;
+    }
+    return true;
+}
+
 static const char *ParseNetworkConfigValue(
     const char *cursor, int *remaining, const char *key, char *out)
 {
@@ -27,33 +46,21 @@ static const char *ParseNetworkConfigValue(
             ++cursor;
             --*remaining;
 
-            while (*cursor == ' ' || *cursor == '\t')
+            if (SkipNetworkValueWhitespace(cursor, remaining, out))
             {
-                if (*remaining <= 0)
-                    return cursor;
-
-                if (*cursor == '\n')
+                if (*remaining > 0 && *cursor != ';')
                 {
-                    *out = 0;
-                    return cursor;
-                }
-
-                ++cursor;
-                --*remaining;
-            }
-
-            if (*remaining > 0 && *cursor != ';')
-            {
-                int outIndex = 0;
-                while (*cursor != ' ' && *cursor != '\t' &&
-                       *cursor != '\n' && *cursor != '\r' &&
-                       *cursor != ';' && *remaining > 0 &&
-                       outIndex < 255)
-                {
-                    out[outIndex] = *cursor;
-                    ++cursor;
-                    --*remaining;
-                    ++outIndex;
+                    int outIndex = 0;
+                    while (*cursor != ' ' && *cursor != '\t' &&
+                           *cursor != '\n' && *cursor != '\r' &&
+                           *cursor != ';' && *remaining > 0 &&
+                           outIndex < 255)
+                    {
+                        out[outIndex] = *cursor;
+                        ++cursor;
+                        --*remaining;
+                        ++outIndex;
+                    }
                 }
             }
         }

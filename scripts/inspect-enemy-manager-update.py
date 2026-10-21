@@ -184,10 +184,12 @@ def require_runecl_definition(caller_fields, callee_raw, callee_fields):
     if len(coordinates) != 1:
         raise ValueError('inconsistent native RunEcl owner coordinates')
     section, value = next(iter(coordinates))
-    if (section <= 0 or call['offset'] != 0x397 or call['type'] != 'REL32'
+    if (section <= 0 or call['type'] != 'REL32'
             or call['addend'] != 0 or call['symbol_section'] != section
             or call['symbol_value'] != value or call['owner_section'] == section):
         raise ValueError('Enemy RunEcl call does not resolve to its native definition')
+    if call['offset'] != 0x397:
+        raise ValueError('Enemy native RunEcl call moved from original offset 0x397')
     return dict(symbol=RUNECL_SYMBOL, call_offset=call['offset'],
                 same_object_definition=True, definition_bytes=len(callee_raw),
                 definition_fields=len(callee_fields))

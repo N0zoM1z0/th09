@@ -964,17 +964,27 @@ class BossFrontierChecks(TestCase):
         }
 
     def test_network_parser_uses_true_679_byte_exact_caller_carrier(self):
+        complete = {**self.network_parser_evidence(), 'overlap_differences': 0,
+                    'difference_offsets': [], 'complete_bytes_equal': True,
+                    'candidate_blocks': 33, 'direct_graphs_agree': True}
         with patch.object(frontiers, 'build') as build, patch.object(
-                frontiers, 'parsed', return_value=self.network_parser_evidence()) as read, patch.object(
+                frontiers, 'parsed', return_value=complete) as read, patch.object(
                 frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
             owners, exact = frontiers.run_network_config_parser(protect_exact=True)
         build.assert_called_once_with('supervisor-network-config')
         read.assert_called_once_with(['scripts/inspect-network-config-parser.py',
                                      'build/matching/SupervisorNetworkConfig.obj', '--json'])
-        self.assertEqual(owners['network_config_parser']['overlap_differences'], 76)
+        self.assertEqual(owners['network_config_parser']['overlap_differences'], 0)
         self.assertEqual(owners['network_config_parser']['target_blocks'], 33)
-        self.assertEqual(owners['network_config_parser']['candidate_blocks'], 34)
-        self.assertEqual([item['unit'] for item in exact], ['supervisor-network-config'])
+        self.assertEqual(owners['network_config_parser']['candidate_blocks'], 33)
+        self.assertEqual([item['unit'] for item in exact], [
+            'supervisor-network-config-parser', 'supervisor-network-config'])
+
+    def test_network_parser_active_gate_rejects_the_old_near_match(self):
+        with patch.object(frontiers, 'build'), patch.object(
+                frontiers, 'parsed', return_value=self.network_parser_evidence()), \
+                self.assertRaisesRegex(RuntimeError, 'canonical 243-byte'):
+            frontiers.run_network_config_parser(protect_exact=False)
 
     def test_network_parser_rejects_wrong_extent_operand_graph_or_false_exact(self):
         for bad in ({'target_bytes': 242}, {'candidate_bytes': 244},

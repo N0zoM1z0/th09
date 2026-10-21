@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """SHA-pinned, original-operand-bound TH09 ParseNetworkConfigValue audit.
 
-Complete 243-byte callback from Japanese v1.50a, not an exactness award.
+Complete 243-byte parser from Japanese v1.50a; this inspector awards no credit.
+The separately configured supervisor-network-config-parser unit is exact.
 The 679-byte PrepareTitleMode4Network exact owner uses the same actual TU.
 """
 from __future__ import annotations

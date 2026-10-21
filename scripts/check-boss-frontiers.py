@@ -1308,8 +1308,8 @@ def run_decrypt_table(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     }}, exact
 
 
-# All unmatched original-linked physical positions in the current 243-byte
-# Japanese TH09 v1.50a parser. Every other physical byte already matches.
+# Historical unmatched positions of the 76-difference parser. Retained for
+# frozen diagnostic controls; the active parser gate below now requires zero.
 # The source-cold inspector independently SHA-checks original instructions and
 # the sole CRT strncmp call, and publishes ALL observed difference offsets.
 NETWORK_PARSER_ORIGINAL_SHA = 'b47499422bdbe8fb915ffa4009afae9f1cf923dc04c3668e100cc2d3afad647e'
@@ -1352,12 +1352,16 @@ def guard_network_parser_original(result: dict) -> dict:
 
 
 def run_network_config_parser(*, protect_exact: bool) -> tuple[dict, list[dict]]:
-    """One original-bound nonexact parser plus its true exact caller carrier."""
+    """Protect the complete exact parser and its true same-TU caller."""
     build('supervisor-network-config')
     result = guard_network_parser_original(parsed(
         ['scripts/inspect-network-config-parser.py',
          'build/matching/SupervisorNetworkConfig.obj', '--json']))
-    siblings = [canonical('supervisor-network-config')] if protect_exact else []
+    if result['complete_bytes_equal'] is not True:
+        raise RuntimeError('canonical 243-byte network config parser regressed')
+    siblings = [canonical(name) for name in (
+        'supervisor-network-config-parser', 'supervisor-network-config',
+    )] if protect_exact else []
     return {'network_config_parser': {
         'target_bytes': 243, 'candidate_bytes': result['candidate_bytes'],
         'original_fields': result['original_fields'],

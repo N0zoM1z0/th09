@@ -24132,3 +24132,15 @@ symbol = "??BZunTimer@@QAEHXZ"
 target_address = 0x00435F00
 size = 4
 relocations = []
+
+[units.supervisor-network-config-parser]
+source = "src/SupervisorNetworkConfig.cpp"
+object = "build/matching/SupervisorNetworkConfig.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ParseNetworkConfigValue"]
+symbol = "?ParseNetworkConfigValue@@YIPBDPBDPAH0PAD@Z"
+target_address = 0x00432240
+size = 0xF3
+relocations = [
+  { offset = 0x2D, type = "REL32", symbol = "_strncmp", target = 0x0047CC30 },
+]

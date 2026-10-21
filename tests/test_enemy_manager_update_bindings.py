@@ -152,6 +152,17 @@ class EnemyUpdateBindingTests(TestCase):
             with self.subTest(fields=fields[:1], size=len(raw)), self.assertRaises(ValueError):
                 inspector.require_runecl_definition(fields, raw, defined)
 
+    def test_native_runecl_link_and_original_call_position_are_distinct(self):
+        call = self.row(symbol=inspector.RUNECL_SYMBOL, offset=0x399,
+                        owner_section=5, symbol_section=8, symbol_value=0x10)
+        definitions = [{'owner_section': 8, 'owner_value': 0x10} for _ in range(598)]
+        with self.assertRaisesRegex(ValueError, 'moved from original offset 0x397'):
+            inspector.require_runecl_definition([call], bytes(15564), definitions)
+        # A moved field with an unresolved definition must still fail identity first.
+        call['symbol_section'] = 0
+        with self.assertRaisesRegex(ValueError, 'does not resolve to its native definition'):
+            inspector.require_runecl_definition([call], bytes(15564), definitions)
+
     def test_literal_payload_is_verified_against_pe_bytes(self):
         row = self.row(symbol='__real@3f000000', type='DIR32')
         refs = {'__real@3f000000': [{'target': 0x490F54}]}

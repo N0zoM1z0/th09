@@ -9,44 +9,37 @@
 
 The operator requests continued exact reconstruction across **large functions
 and small leaves**, serial low-priority compiles, focused affected replays and
-regular cleanup. Starting from pushed `a97f9e6`, this checkpoint challenges
-Type3's comparison, transform and collision-object source models and corrects
-a stale IDA callback prototype. **No game source, unit definition or ledger
-changes; no new exact owner.** RunEcl/Enemy/Title/Type3 stay **30 /13 /22 /15**.
-The 95% and native product/runtime gates remain open.
+regular cleanup. Starting from pushed `b0be490`, this checkpoint makes the
+**243-byte network-config parser completely exact**, while preserving its
+**679-byte exact caller**. RunEcl/Enemy/Title/Type3 stay **30 /13 /22 /15**;
+the 95% and native product/runtime gates remain open.
 
-- The current header already exposes the genuine **20-byte Timer >=** body.
-  Ordinary definitions, without its reconstruction annotations, before or after
-  the caller retain complete **780/38/15**, or the rejected four differences.
-  Every callee remains exact. No annotation or original TU identity is inferred.
-- Six natural transform helpers use output references, pointers or returned
-  vectors. Middle-only reference/pointer forms retain15; all-three forms retain
-  780/38/240 instructions/24 calls/17 blocks but differ at53 bytes. Returned
-  vectors emit798/834 bytes. No qualification, forced-inline or ABI workaround.
-- Four natural collision-object constructor models independently emit the
-  original **three-byte receiver identity**, yet callers become781/38 or773/37.
-  The physical identity still has **unknown original class/origin**; constructor
-  compatibility does not establish original role, inheritance or new credit.
-- Original dispatcher **4153A9/4153AB** supplies the record in ECX and tests EAX.
-  The full Type3 owner reads no positive EBP arguments and ends plain RET.
-  IDA's stale int/double signature is replaced by the maintained-compatible
-  `int __fastcall sub_442750(void *record)` and read back. Unique original C++
-  spelling/unused register parameters remain unknown; mapped bytes stay intact.
-- Existing native-context probe adds **`--case timer-plain`** and hashes every
-  actual compiled input, including its privately changed header. Three new
-  tests reject owner/profile/body drift and changed staged input. Default cases
-  retain their previous generated sources and scope.
-- All **490** game inputs, **1032** units and canonical ledgers remain unchanged;
-  all **1001** existing exact source/profile proofs are reused.
-- CI passes **879 tests /28 skips**, plus target-required tracking,
-  documentation, generated progress and both whitespace checks. Frozen replay
-  repeats ordinary15, full transform53 and opaque-constructor781/449 cases.
-- **81** evidence members /4429883 loose bytes become a **718761-byte ZIP**.
-  CRC/hash verification precedes duplicate removal. Removing **387** terminal
-  CI bytecode caches reclaims **10245899 bytes (~9.77 MiB)** in total. All
-  compiler carriers self-clean; older unique/unclassified evidence stays.
-- Full controls, actual COFF, prototype readback and selected cold recipes:
-  `.analysis/gpt-61sol-20261021-type3-timer-comparison/`.
+- Ordinary inline whitespace scanning, followed by a positive caller branch,
+  restores the original newline-clear/return layout. Complete **243 bytes,
+  116 instructions, one strncmp field and 33 direct blocks** match. The original
+  private EAX/EBX/RET8 calling transport and all four caller sites stay intact.
+  Exact codegen does not identify the unique original helper extraction.
+- Two byte-identical canonical cold compiles verify both complete owners:
+  **922 bytes and 23 fields**. `--owner parser` now requires zero differences
+  and replays both units from their single shared source/profile carrier.
+- Ten private scanner forms include three zero-difference alternatives;
+  the first reference-helper lead has one different branch destination.
+  Failed extent/field candidates remain ignored, with full actual COFF evidence.
+- Five Enemy descriptor controls preserve RunEcl15564/598/30. Scalar copies move
+  its native call field from+397 to+399, despite valid same-object linkage.
+  The inspector now distinguishes moved original position from failed native
+  identity; both conditions still reject. No Enemy game source is adopted.
+- One of **490** game inputs changes. The affected existing caller is revalidated;
+  the other **1000** exact source/profile proofs are reused. There are now
+  **1033 comparison units and 1002 canonical exact functions**.
+- CI passes **881 tests /28 skips**, plus target-required tracking, docs,
+  progress and both whitespace checks. Two frozen one-case replays pass.
+- **140** CRC/hash-verified evidence members compress from6216191 to925132
+  bytes. Removing388 owned generated files reclaims **11835014 bytes
+  (~11.29 MiB)** in total; archive-only recipe readers verify every member.
+- Full controls and local cold reports:
+  `.analysis/gpt-61sol-20261021-parser-scanner-context/` and
+  `.analysis/gpt-61sol-20261021-enemy-descriptor-context/`.
 - Use direct local IDA Pro MCP and Bash, serial `nice -n 10` compiles,
   English `gpt-6.1-sol: ...` commits, push and independent remote verification.
 
@@ -57,7 +50,7 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current restart summary is
-**1035 source-present / 1001 exact / 34 non-exact**; earlier operator notes
+**1035 source-present / 1002 exact / 33 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
@@ -68,14 +61,14 @@ mentioning 979/876/103 are obsolete for this checkout.
 | Confirmed authored | 1,035 |
 | Classified exclusions | 1,176 |
 | Source-present authored mappings | 1,035 |
-| Canonical exact functions | 1,001 |
-| Source-present non-exact functions | 34 |
-| Source-present non-exact bytes | 48,030 |
+| Canonical exact functions | 1,002 |
+| Source-present non-exact functions | 33 |
+| Source-present non-exact bytes | 47,787 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 243,853 |
+| Canonical exact authored bytes | 244,096 |
 
-**243,853 / 291,883 reviewed-authored bytes = 83.5448% exact**. To reach
-95% of the *currently classified* denominator, another **33,436 bytes**
+**244,096 / 291,883 reviewed-authored bytes = 83.6280% exact**. To reach
+95% of the *currently classified* denominator, another **33,193 bytes**
 must become complete original-bound exact owners. The 37 origin-unresolved
 functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
@@ -95,7 +88,7 @@ Prioritize **large bosses as well as small leaves**. Each row refers to a
 maintained, authored, **non-exact** function in `config/functions.csv`.
 Comparisons are current-source/original PE cold baselines; lengths are logical
 unless explicitly marked physical. The ledger, not this selected table, lists
-all34 maintained nonexact functions, including the2,220-byte authored Type29
+all33 maintained nonexact functions, including the2,220-byte authored Type29
 draw whose maintained candidate remains nonexact.
 For the complete <=256-byte cohort see
 [`SMALL_FUNCTION_FRONTIER.md`](SMALL_FUNCTION_FRONTIER.md).
@@ -139,15 +132,16 @@ these results do not establish unique original translation-unit ownership.
 | **ECL MoveRandomBiased leaf** | 0x00407E30 | **516 / 517**, 28 fields, 14 calls, 24 blocks; 148 overlap + 1 extra | Genuine shared RNG method/global owner symbols now independently original-bound; Y-pointer target `LEA [EAX+4]` versus candidate `MOV EAX` remains unresolved. `--owner runecl`. |
 | **Effect AddedCallback leaf** | 0x0040D1C0 | **51/51**, 4 fields, 2 calls; **8** differences | Uses genuine `AnmManager`/`AnmLoaded*` types. The SHA-pinned full-owner guard permits narrowing only the target-proven `+0x03..0x09,+0x0D` residuals, protecting the other 43 matching bytes and three same-TU exact sibling checks; `--owner effect`. |
 | **Supervisor received-frame leaf** | 0x0042E9E0 | **213/213**, 67 instructions, 9 blocks; **35** differences | Target packed-input/seed 16-bit store register order. All **178** equal physical positions are protected; `--owner queue` (alias of the existing network scope) also checks the two exact queue members. |
-| **Network-config parser leaf** | 0x00432240 | **243/243**, 116 instructions, one strncmp call; **76** differences, 167 equal bytes | Original newline-clear block occurs before token scanning; candidate puts it after. Full original SHA/76-residual-offset guard now protects all 167 matching bytes, one call/field, 33/34 blocks; `--owner parser` protects the exact 679-byte caller. |
 
 
 ## Exact landmarks and evidence routing
 
-The manifests govern **1001 exact** functions. Historical Factory receipts
+The manifests govern **1002 exact** functions. Historical Factory receipts
 remain in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md), with
 immutable source-commit bindings; they do not accept a later HEAD.
 
+- Network-config parser is **243/243 exact**, with its complete **679-byte**
+  caller protected by `--owner parser` from one shared source/profile carrier.
 - The native Timer integer conversion has a complete four-byte source alias
   at 0x435F00; existing TextHelper::GetHeight keeps canonical authored credit.
 - Two pointer conversion interfaces now have complete three-byte source aliases
@@ -261,14 +255,20 @@ It preserves all four differing offsets and the production guard rejection.
 
 ## Evidence and cleanup boundaries
 
-The current tree retains **489 game-source files, 1,032 comparison units and
-1,001 authored exact rows**. The two pointer-interface units and two Replay
-constructor units remain unknown-origin byte evidence. The new Timer alias adds
-no physical credit to its existing canonical TextHelper owner. All 490 game
-inputs including the source README and all 1032 comparison-unit definitions
-remain unchanged in this checkpoint. All 1001 canonical source/profile proofs
-are reused; only the selected Type3 contexts are cold-replayed. Native product/runtime, complete
-inventory, semantic and port gates remain open.
+The current tree retains **489 game-source files, 1,033 comparison units and
+1,002 authored exact rows**. The two pointer-interface units and two Replay
+constructor units remain unknown-origin byte evidence. The Timer alias adds
+no physical credit to its existing canonical TextHelper owner. Of 490 game
+inputs including the source README, only SupervisorNetworkConfig.cpp changes.
+Its existing 679-byte caller and new 243-byte parser are cold-replayed; the
+other 1000 exact source/profile proofs are reused. Native product/runtime,
+complete inventory, semantic and port gates remain open.
+
+The current parser packet preserves the original 76-difference source, all
+new scanner controls and both canonical cold replays. Its frozen one-case
+recipe is `python3 -B .analysis/gpt-61sol-20261021-parser-scanner-context/replay.py`.
+The Enemy packet retains the five descriptor controls and real native-call
+coordinates; none is promoted to exactness.
 
 The current Type3 packet cold-replays the ordinary Timer, all-three transform
 and opaque-constructor controls with

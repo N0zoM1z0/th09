@@ -14978,3 +14978,94 @@ CRC and SHA256 verified in 718761 bytes. Removing verified loose duplicates and
 387 terminal CI bytecode caches/6534777 bytes reclaims 10245899 bytes (~9.77 MiB).
 Compiler carriers self-clean; no unrelated root object, original target,
 toolchain, IDA state or older unique/unclassified evidence is removed.
+
+## 2026-10-21 — Complete network-config parser through ordinary inline scanning
+
+Starting from b0be490, original-target verification, direct local IDA metadata
+and distributed mapped-byte attestation pass. Reviewed origin, boundaries and
+the physical private ABI of ParseNetworkConfigValue432240 remain unchanged.
+Its sole original caller4324C0 provides cursor in EAX, remaining pointer in
+EBX, key/output on the stack and observes RET8 at all four calls. This compiler
+private transport is not an external fastcall declaration or unique nominal
+C++ convention.
+
+The maintained parser's original243-byte SHA is
+b47499422bdbe8fb915ffa4009afae9f1cf923dc04c3668e100cc2d3afad647e. It has116
+instructions, one strncmp operand at+2D to47CC30 and33 direct blocks. Previous
+source emits243/116/34 with76 linked differences. Historical newline, return,
+interface and caller-context matrices are reviewed before selecting a new
+ordinary-inline whitespace scanner model. Neither adjacent game supplies an
+analogue found by the bounded IPAddress/strncmp source search.
+
+Eleven serial nice10 full-TU compiles cover baseline and ten new scanner forms.
+The initial reference helper with early negative caller returns emits243/116/34
+with only one difference at+8C: the exhausted-count JLE targets the nearby
+newline epilogue, whereas the original targets the final common epilogue.
+Breaking on exhaustion and using a counted whitespace condition each retain
+one difference, now targeting the intermediate token-count block; equal block
+counts do not establish equal graph destinations. These one-byte candidates
+damage the previously equal+8C byte and are not adopted as partial progress.
+
+Three natural forms reach complete zero: an inline whitespace-step helper,
+an inline scanner returning meaningful stop statuses, and a boolean scanner
+with positive caller continuation. Adopt the last, SkipNetworkValueWhitespace:
+it advances the actual cursor/reference and remaining count, retains the
+existing newline-clear/false result, and encloses token copying in its true
+branch. No forced-inline annotation, register ordering, dummy data, byte patch,
+fake return or profile change is used. Other full-token/copy helpers do not
+inline into the required owner; the pointer/count-result forms change coverage
+and remain rejected. Exact codegen does not prove unique original extraction,
+helper name, or translation-unit authorship.
+
+Two fresh canonical compiles of the formatted maintained source produce
+byte-identical complete comparisons for new supervisor-network-config-parser
+(243 bytes/one field) and existing supervisor-network-config (679/22). Both
+physical owners and all23 fields are exact, with original parser33-block CFG.
+The focused parser gate now requires zero even when exact-sibling replay is
+disabled; normally it checks both canonical units after one shared compile.
+Its historical76-offset diagnostic guard remains available for frozen controls.
+A new test rejects the former near match at this active exact gate. IDA's
+stale nonexact comment is replaced and read back; a subsequent mapped-byte
+attestation confirms unchanged target bytes. No new Factory receipt is claimed.
+
+The accompanying large-owner investigation compiles five Enemy descriptor
+models: baseline, scalar XYZ, scalar member helper, real constructor visible,
+and visible constructor plus scalar XYZ. All retain full RunEcl15564/598/30.
+Opaque/baseline and constructor-visible Enemy stay3900/97/13. Scalar forms
+retain3900/97 but move the native RunEcl field+397 to+399, with a valid positive
+same-object definition. The inspector previously described this as unresolved
+native linkage; identity and original-offset failures now have separate errors,
+with identity checked first. Both still reject. The moved visible-ctor case
+is cold-repeated after this repair; its real constructor independently matches
+all28 original40D500 bytes with no fields. No Enemy source is adopted. The old
+typed-carrier experiments are read and not repeated without new evidence.
+
+Of490 game inputs, only SupervisorNetworkConfig.cpp changes. Its one existing
+exact caller is revalidated; the other1000 source/profile proofs are reused.
+The new unit raises configured units1032->1033 and canonical exact owners
+1001->1002. Reviewed-authored coverage becomes244096/291883 (83.6280%), with33
+nonexact owners/47787 bytes and33193 bytes still needed for95%. The four
+RunEcl/Enemy/Title/Type3 fronts remain30/13/22/15. Native product/runtime,
+semantic and port gates remain open. Current counts are generated from ledgers.
+
+Complete actual COFF, sources, inputs, compiler profiles and frozen recipes:
+.analysis/gpt-61sol-20261021-parser-scanner-context/ and
+.analysis/gpt-61sol-20261021-enemy-descriptor-context/.
+
+
+Final focused --owner parser passes both exact owners; CI passes881 tests with
+28 skips, alongside target-required tracking, docs, generated progress and both
+whitespace checks. Frozen current-parser and visible-ctor/scalar Enemy recipes
+pass independently using frozen source/profile/provider/config inputs and the
+same verified private executable. The latter still rejects the moved field,
+retains full ECL30 and proves the separate real28-byte constructor.
+
+After every producer terminates,140 evidence members/6216191 loose bytes are
+CRC/SHA256 verified in two archives totalling925132 bytes. Their retained
+recipes' actual archive-only readers verify every member without repeating
+unchanged compiler proofs. Removing387 terminal CI bytecode caches plus the
+owned replayable network-config object (388 generated files/6543955 bytes)
+reclaims11835014 bytes (~11.29 MiB) in total. All temporary compiler roots
+self-clean; the original executable, toolchain/prefix, IDA database and older
+unclassified evidence remain untouched. Cleanup manifests preserve member and
+removed-file hashes; missing objects are rebuilt from canonical commands.
