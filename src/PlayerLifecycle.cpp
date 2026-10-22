@@ -1,4 +1,5 @@
 #include "PlayerLifecycleView.hpp"
+#include "PlayerRegisterChain.hpp"
 #include "ZunMemory.hpp"
 
 #include <stdlib.h>

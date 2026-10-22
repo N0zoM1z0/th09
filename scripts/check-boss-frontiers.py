@@ -2256,7 +2256,10 @@ def guard_gameplay_setup_thread(result: dict) -> None:
             type(result.get('field_change_spans')) is not int or
             not 0 <= result['field_change_spans'] <= 15 or
             type(result.get('aligned_instructions')) is not int or
-            result['aligned_instructions'] < 394 or
+            # The genuine byte player-type parameter emits XOR CL,CL in an
+            # already unlike physical position. The full785-byte match guard
+            # above stays unchanged; instruction correspondence is diagnostic.
+            result['aligned_instructions'] < 393 or
             type(count) is not int or not 0 <= count <= 904 or
             result.get('complete_bytes_equal') is not (count == 0) or
             not isinstance(differences, list) or len(differences) != count or
@@ -2276,6 +2279,18 @@ def guard_gameplay_setup_thread(result: dict) -> None:
             symbol='?SelectOpponentConfiguration@GameManagerOpponentSelectionView@@QAEXXZ',
             target=0x415910, count=4):
         raise RuntimeError('GameplaySetupThread native opponent-selection identity drifted')
+    creators = result.get('native_creator_calls')
+    if (not isinstance(creators, list) or
+            any(not isinstance(row, dict) or type(row.get('count')) is not int
+                for row in creators) or creators != [
+            dict(unit=unit, symbol=symbol, target=target, count=count)
+            for unit, symbol, target, count in (
+                ('player-register-chain', '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z', 0x41F170, 1),
+                ('etama-controller-register', '?Register@EtamaController@@SIPAU1@H@Z', 0x4150D0, 1),
+                ('effect-manager-create', '?Create@EffectManager@@SIPAU1@HHH@Z', 0x40D320, 2),
+                ('enemy-manager-create', '?Create@EnemyManagerView@@SIPAU1@H@Z', 0x412240, 1),
+                ('exattack-register', '?Register@ExAttackController@@SIPAU1@XZ', 0x4157D0, 1))]):
+        raise RuntimeError('GameplaySetupThread native creator identities drifted')
     guard_gameplay_setup_field_referents(result)
 
 

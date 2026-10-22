@@ -107,6 +107,14 @@ class GameManagerColdRegression(unittest.TestCase):
             'native_opponent_selection_calls': dict(
                 symbol='?SelectOpponentConfiguration@GameManagerOpponentSelectionView@@QAEXXZ',
                 target=0x415910, count=4),
+            'native_creator_calls': [
+                dict(unit=unit, symbol=symbol, target=target, count=count)
+                for unit, symbol, target, count in (
+                    ('player-register-chain', '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z', 0x41F170, 1),
+                    ('etama-controller-register', '?Register@EtamaController@@SIPAU1@H@Z', 0x4150D0, 1),
+                    ('effect-manager-create', '?Create@EffectManager@@SIPAU1@HHH@Z', 0x40D320, 2),
+                    ('enemy-manager-create', '?Create@EnemyManagerView@@SIPAU1@H@Z', 0x412240, 1),
+                    ('exattack-register', '?Register@ExAttackController@@SIPAU1@XZ', 0x4157D0, 1))],
             'original_blocks': 78, 'candidate_blocks': 77,
             'direct_graphs_agree': False,
             'aligned_field_identities': 164,
@@ -115,7 +123,7 @@ class GameManagerColdRegression(unittest.TestCase):
                 for t,a,n in boss.GAMEPLAY_SETUP_TARGET_ONLY_REFERENTS],
             'source_only_field_referents': [dict(type=t, address=a, count=n)
                 for t,a,n in boss.GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS],
-            'aligned_instructions': 394,
+            'aligned_instructions': 393,
             'target_sha256': boss.GAMEPLAY_SETUP_TARGET_SHA,
             'difference_offsets': [i for i in range(1689) if
                 boss.GAMEPLAY_SETUP_RESIDUAL_MASK[i // 8] & (1 << (i % 8))],

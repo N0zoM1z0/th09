@@ -758,3 +758,24 @@ source/provider hashes,recipes,CI log and actual-literal audit remain outside
 the archive. Existing canonical build files,unrelated caches,original EXE,IDA,
 toolchains and unclassified older evidence are untouched. CI passes923 tests /
 28 skips,exit zero; post-clean checks avoid creating Python bytecode.
+
+
+## October 22: gameplay setup creator controls
+
+After the affected canonical replay, two archive-only cold callers and final
+CI all terminate successfully, remove55 verified loose archive duplicates and
+one completed documentation renderer below
+.analysis/gpt-61sol-20261022-setup-native-creators/:56 files,1010757 logical bytes.
+Every archive member passes CRC/SHA and byte equality before unlink; cleanup.json
+retains each path, size, hash, classification and reproduction route. The55-file
+archive preserves1000400 logical bytes in215370 bytes, SHA256
+8d8e9d529adac3c70107f92073eb80811cc53b995ff7b720d02b602dea66ee49.
+
+The archive retains old/current source and header inputs, five caller controls,
+the full rejected AnmVm-header compile source/log, complete raw/actual COFF and
+14 canonical exact receipts. Independent old-interface and available-native
+archive-only replays reproduce the complete1689-byte callers and171 fields.
+Temporary source/OBJ/PDB directories self-clean. Final CI is942 tests/28 skips,
+exit zero. No new CI cache paths are created; all127 preexisting cache paths,
+canonical matching objects, target, tools, IDA and unclassified older evidence
+remain. The one-shot renderer's final outputs are maintained in tracked docs.

@@ -4,6 +4,7 @@
 #include "BulletManager.hpp"
 #include "ExAttackController.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "PlayerRegisterChain.hpp"
 // Partial target-facing reconstruction of the TH09 gameplay setup thread.
 // The local layout views name only fields exercised by this bounded packet;
 // they do not claim the complete original GameManager or Supervisor layouts.
@@ -281,14 +282,8 @@ extern void __fastcall FinishLoading(Supervisor *supervisor);
 extern void *__fastcall CreateGameSubsystem();
 extern int __fastcall PreloadPlayerAnmResources();
 extern void *__fastcall RegisterSubsystem0(int side);
-extern void *__fastcall RegisterSubsystem1(int unused, int side, int selector);
-extern void *__fastcall RegisterSubsystem2(int side);
-extern void *__fastcall RegisterSubsystem3(int side, int size, int kind);
-extern void *__fastcall RegisterSubsystem4(int side);
 extern void *__fastcall RegisterSubsystem5(int side);
 extern void *__fastcall RegisterSubsystem6(int side);
-extern void *__fastcall RegisterSharedSubsystem(int side, int size, int kind);
-extern void *__fastcall RegisterSecondarySubsystem();
 extern void __fastcall SupervisorCalculateFps(int shouldDraw);
 extern void __fastcall GameplaySetupThread(void *unused);
 int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
@@ -981,16 +976,16 @@ mode_ready:
         side->subsystem0 = RegisterSubsystem0(sideIndex);
         if (side->subsystem0 == NULL)
             goto setup_failed;
-        side->subsystem1 = RegisterSubsystem1(0, sideIndex, side->selector);
+        side->subsystem1 = PlayerRegisterChain(0, sideIndex, side->selector);
         if (side->subsystem1 == NULL)
             goto setup_failed;
-        side->subsystem2 = RegisterSubsystem2(sideIndex);
+        side->subsystem2 = EtamaController::Register(sideIndex);
         if (side->subsystem2 == NULL)
             goto setup_failed;
-        side->subsystem3 = RegisterSubsystem3(sideIndex, 0x100, 7);
+        side->subsystem3 = EffectManager::Create(sideIndex, 0x100, 7);
         if (side->subsystem3 == NULL)
             goto setup_failed;
-        side->subsystem4 = RegisterSubsystem4(sideIndex);
+        side->subsystem4 = EnemyManagerView::Create(sideIndex);
         if (side->subsystem4 == NULL)
             goto setup_failed;
         side->subsystem5 = RegisterSubsystem5(sideIndex);
@@ -1001,11 +996,11 @@ mode_ready:
             goto setup_failed;
     }
 
-    manager->sharedSubsystem = RegisterSharedSubsystem(2, 0x320, 1);
+    manager->sharedSubsystem = EffectManager::Create(2, 0x320, 1);
     if (manager->sharedSubsystem == NULL)
         goto setup_failed;
 
-    manager->secondarySubsystem = RegisterSecondarySubsystem();
+    manager->secondarySubsystem = ExAttackController::Register();
     if (manager->secondarySubsystem == NULL)
         goto setup_failed;
 

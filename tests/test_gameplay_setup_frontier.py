@@ -34,6 +34,14 @@ def baseline():
         'native_opponent_selection_calls': dict(
                 symbol='?SelectOpponentConfiguration@GameManagerOpponentSelectionView@@QAEXXZ',
                 target=0x415910, count=4),
+        'native_creator_calls': [
+            dict(unit=unit, symbol=symbol, target=target, count=count)
+            for unit, symbol, target, count in (
+                ('player-register-chain', '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z', 0x41F170, 1),
+                ('etama-controller-register', '?Register@EtamaController@@SIPAU1@H@Z', 0x4150D0, 1),
+                ('effect-manager-create', '?Create@EffectManager@@SIPAU1@HHH@Z', 0x40D320, 2),
+                ('enemy-manager-create', '?Create@EnemyManagerView@@SIPAU1@H@Z', 0x412240, 1),
+                ('exattack-register', '?Register@ExAttackController@@SIPAU1@XZ', 0x4157D0, 1))],
         'original_blocks': 78, 'candidate_blocks': 77,
         'direct_graphs_agree': False,
         'aligned_field_identities': 164, 'field_change_spans': 15,
@@ -45,7 +53,7 @@ def baseline():
         'source_only_field_referents': [
             dict(type=t, address=address, count=count)
             for t, address, count in front.GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS],
-        'aligned_instructions': 394,
+        'aligned_instructions': 393,
         'overlap_differences': len(differences),
         'difference_offsets': differences, 'complete_bytes_equal': False,
     }
@@ -93,6 +101,17 @@ class GameplaySetupOriginalBoundFrontier(TestCase):
         for value in invalid:
             with self.subTest(value=value), self.assertRaises(RuntimeError):
                 front.guard_gameplay_setup_thread({**report, 'native_replay_calls': value})
+
+    def test_native_creator_contracts_are_required_even_with_identical_bytes(self):
+        report = baseline()
+        creators = report['native_creator_calls']
+        invalid = [None, [], creators[::-1], creators[:-1]]
+        for key, value in [('symbol', '?RegisterSubsystem1@@YIPAXHHH@Z'),
+                           ('target', 0x420C10), ('count', 2), ('count', True), ('unit', 'invented')]:
+            invalid.append([{**creators[0], key: value}, *creators[1:]])
+        for value in invalid:
+            with self.subTest(value=value), self.assertRaises(RuntimeError):
+                front.guard_gameplay_setup_thread({**report, 'native_creator_calls': value})
 
     def test_reject_malformed_byte_inventory_and_forged_acceptance(self):
         report = baseline()
@@ -149,7 +168,7 @@ class GameplaySetupOriginalBoundFrontier(TestCase):
             {'direct_graphs_agree': True},
             {'aligned_field_identities': 163},
             {'field_change_spans': 16},
-            {'aligned_instructions': 393},
+            {'aligned_instructions': 392},
         )
         for change in invalid:
             with self.subTest(change=change), self.assertRaises(RuntimeError):

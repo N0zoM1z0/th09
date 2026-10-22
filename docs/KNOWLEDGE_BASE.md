@@ -53,6 +53,7 @@ and fresh codegen replays before copying a number into the live handoff.
 
 | ID | Recorded state | Fact | Evidence |
 | --- | --- | --- | --- |
+| SETUP-NATIVE-001 | source interface correction / nonexact frontier | GameplaySetupThread @0x0041AF2D now uses canonical Player, Etama, Effect (twice), Enemy and ExAttack creators; six real references replace six aliases. The byte Player parameter changes only candidate+0x304 from XOR ECX to XOR CL, already unlike the original; all785 equal physical bytes and904 residual offsets survive. Background/CardAttack/FrontSide complete headers collide on AnmVm and remain unresolved. | Independent original PE call census and actual COFF checks;14 affected complete canonical units /3480 bytes /four profiles replay exact; new creator/guard rejection tests; source-scoped controls and full failed-header evidence in the October22 setup packet. No additional exact credit. |
 | TARGET-001 | observed / corroborated | The supported executable is original Japanese TH09 v1.50a, size 685,056, SHA-256 `10350095...fce6822`. | Direct hash/PE inspection plus pinned thcrap version database |
 | PE-001 | observed | The target is relocation-stripped PE32 i386 at image base `0x00400000`, entry `0x0047D45F`, with five sections. | `scripts/verify-target.py`; `config/target.toml` |
 | TOOLCHAIN-001 | observed / corroborated | The target belongs to the VC7.1 build-3077 family. | PE linker 7.10 and Rich-header product/build records; TH095 provider-family comparison |
@@ -17462,3 +17463,83 @@ then removes46 verified loose duplicates and272 new CI caches,318 files and
 remain, along with original target/tools/SDK/Wine/IDA and unclassified research.
 `cleanup.json` retains per-file size/hash/classification; accepted receipts remain
 source/profile scoped and no rejected replay receives exactness credit.
+
+
+## October 22: gameplay setup native creators and complete affected closure
+
+Starting source28353f531a8cb31649d7a314094588c74470a6ec. Original-bound worker
+41AF2D..41B5C5 remains1689 bytes, target SHA256
+8dc5dd11495f34c6b1998653e0094195d6d891fff374d403750141e9936f0d6a.
+Under its pinned /O2 /Os /Ob1 profile, the candidate stays416 instructions,
+171 fields,35 calls,77 blocks,904 differences and164 aligned field identities.
+The independent target has413 instructions,172 fields and78 blocks.
+
+The six calls now use existing canonical PlayerRegisterChain(byte,int,int),
+EtamaController::Register(int), EffectManager::Create(int,int,int) twice,
+EnemyManagerView::Create(int) and ExAttackController::Register(). Independent
+original PE REL32 counts are1/1/2/1/1; actual COFF must use their exact canonical
+symbols, zero addends and existing unit identities. The Player factory's shared
+forward declaration also compiles against its actual328-byte exact definition.
+This checks the maintained source ABI without proving unique original C++ types
+or translation-unit ownership. Three remaining aliases correspond to Background,
+CardAttack and FrontSide: their complete native headers bring a second AnmVm
+definition incompatible with the rendering header already included here. The
+full attempted source and C2011 log are preserved; the initial recipe did not
+persist a numeric nonzero compiler exit, and no numeric value is invented.
+
+The true byte Player parameter changes exactly one linked position,+0x304,
+from33 to32 (XOR ECX,ECX versus XOR CL,CL). That physical position lies inside
+the original JE displacement, not at its zeroing instruction; no semantic
+instruction equality is inferred from coincident offsets. All904 unlike offsets
+and785 equal physical positions stay identical. Raw SHA256 changes from
+1769902440ed823e61ea512e0c17b983d24657e7b0c5872d96c41732e922c4a5 to
+0310dbdd6b79da37ca68ece597b0faaf3562d1314b21dbc08320398091e7614c.
+Normalized aligned instructions become393 instead of394. The diagnostic bound
+is changed openly; the full exact byte residual mask and all matching positions
+are unchanged. No fake wide parameter or zeroing hint is added to regain a score.
+
+Five private controls use frozen inputs: available native creators; typed
+pointer slots; worker-only old interfaces; worker-only native interfaces; and
+original mode0 low-score skip expressed as a goto. All remain1689/171/904.
+Typed slots, worker-only native visibility and the mode gate reproduce the entire
+available-native raw body; old-interface worker-only reproduces the entire
+old baseline. Thus those tested forms do not close the loop cursor/shared
+publication mismatch. No untested register/source-layout inference is promoted.
+
+All14 canonical owners affected by the two CPP/header include graphs replay
+exact from four fresh serial lowered-priority compilations: eleven GameManager
+units2991 bytes and three Player units489 bytes,3480 total. The loading-VM
+profile is compared before the /Os profile overwrites its shared object path;
+the worker object finishes in its genuine /Os profile. Every unit uses the
+unchanged generic complete target/relocation comparer. No private labels or
+manifest targets change.989 unaffected authored proofs are reused, including
+unchanged external creator definitions; they are not claimed freshly replayed.
+
+Public reproduction: build supervisor-setup-loading-vms-and-capture and compare
+it immediately, then build game-manager-on-update and compare all ten /Os
+GameManager siblings; build player-register-chain for that unit and player-release;
+build player-release-owned-resources for its separate profile. Run
+inspect-gameplay-setup.py on the /Os object and its unchanged full-byte guard,
+plus inspect-gameplay-cleanup.py. The new twelve focused tests reject legacy
+aliases, wrong canonical identities/counts, noncall fields, nonzero/bool addends
+and byte-mask regressions. Full native product/runtime remains open.
+
+Local evidence packet .analysis/gpt-61sol-20261022-setup-native-creators/ binds
+the original/current quoted include graphs, profiles/providers, all493 current
+game inputs (492 source files plus README), complete raw/actual COFF,14 exact
+receipts, private source controls and failure source/log. The55-member trials
+archive preserves1000400 logical bytes in215370 bytes, SHA256
+8d8e9d529adac3c70107f92073eb80811cc53b995ff7b720d02b602dea66ee49.
+No whole-owner exact credit is added:1003/1035,244917/291883 (83.9093%),
+with32372 bytes still needed for95%. RunEcl30/Enemy13/DrawResult22/Type315
+and later phase gates remain unfinished.
+
+The final integration fixtures include the required six-call native census.
+CI passes942 tests/28 skips, exit zero; target-required tracking, docs, generated
+progress and whitespace pass. Both archive-only cold callers reproduce their
+complete1689-byte raw bodies and171 actual COFF rows without loose trial inputs.
+After repository-local producers terminate,55 byte-verified archived duplicates
+and one completed documentation renderer are removed:56 files,1010757 logical
+bytes. The215370-byte archive, independent cold receipts and per-path cleanup
+hashes remain. All127 preexisting build-cache paths, current canonical objects
+and older unclassified research are retained. No new CI cache paths are removed.

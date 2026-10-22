@@ -2,13 +2,13 @@
 """Read-only complete gameplay setup replay; diagnostic only, no match credit."""
 import argparse
 from collections import Counter
-import capstone
 import difflib
 import hashlib
 import importlib.util
 import json
 from pathlib import Path
 import struct
+import tomllib
 
 from diagnostic_branch_alignment import aligned_branch_conflicts, direct_control_flow
 
@@ -34,15 +34,14 @@ DESTINATIONS = {
     '?FormatCurrentDateString@@YIXPAD@Z': 0x41A796,
     '?Initialize@GameConfiguration@@QAEXXZ': 0x41A8A2,
     '?InitializeGameSubsystems@@YIXXZ': 0x41CDE0,
-    '?RegisterSecondarySubsystem@@YIPAXXZ': 0x4157D0,
-    '?RegisterSharedSubsystem@@YIPAXHHH@Z': 0x40D320,
     '?RegisterSubsystem0@@YIPAXH@Z': 0x403AE0,
-    '?RegisterSubsystem1@@YIPAXHHH@Z': 0x41F170,
-    '?RegisterSubsystem2@@YIPAXH@Z': 0x4150D0,
-    '?RegisterSubsystem3@@YIPAXHHH@Z': 0x40D320,
-    '?RegisterSubsystem4@@YIPAXH@Z': 0x412240,
     '?RegisterSubsystem5@@YIPAXH@Z': 0x404600,
     '?RegisterSubsystem6@@YIPAXH@Z': 0x41A5D0,
+    '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z': 0x41F170,
+    '?Register@EtamaController@@SIPAU1@H@Z': 0x4150D0,
+    '?Create@EffectManager@@SIPAU1@HHH@Z': 0x40D320,
+    '?Create@EnemyManagerView@@SIPAU1@H@Z': 0x412240,
+    '?Register@ExAttackController@@SIPAU1@XZ': 0x4157D0,
     '?ReleaseStageObject@@YIXPAX@Z': 0x420C10,
     '?ResetGameManager@@YIXPAUGameManagerSetupLayout@@@Z': 0x41A7C3,
     '?SetStageObjectMode@@YIXPAXH@Z': 0x4217E0,
@@ -65,7 +64,36 @@ DESTINATIONS = {
 }
 
 
+NATIVE_CREATORS = (
+    ('player-register-chain', '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z', 0x41F170, 328, 1),
+    ('etama-controller-register', '?Register@EtamaController@@SIPAU1@H@Z', 0x4150D0, 283, 1),
+    ('effect-manager-create', '?Create@EffectManager@@SIPAU1@HHH@Z', 0x40D320, 327, 2),
+    ('enemy-manager-create', '?Create@EnemyManagerView@@SIPAU1@H@Z', 0x412240, 328, 1),
+    ('exattack-register', '?Register@ExAttackController@@SIPAU1@XZ', 0x4157D0, 264, 1),
+)
+
+
+def require_native_creators(rows, original_fields, units):
+    """Six actual caller references must use independently canonical interfaces."""
+    result = []
+    for name, symbol, address, size, count in NATIVE_CREATORS:
+        unit = units.get(name)
+        if (not isinstance(unit, dict) or unit.get('symbol') != symbol or
+                unit.get('target_address') != address or unit.get('size') != size):
+            raise ValueError('gameplay native creator canonical identity changed: '+name)
+        original = [(off, kind, va) for off, kind, va in original_fields
+                    if kind == 'REL32' and va == address]
+        actual = [row for row in rows if row['symbol'] == symbol]
+        if (len(original) != count or len(actual) != count or
+                any(row['type'] != 'REL32' or type(row['addend']) is not int
+                    or row['addend'] != 0 for row in actual)):
+            raise ValueError('gameplay native creator original/source calls differ: '+name)
+        result.append(dict(unit=name, symbol=symbol, target=address, count=count))
+    return result
+
+
 def call_signature(ins):
+    import capstone
     if len(ins.operands) != 1:
         raise ValueError('unreviewed call operand count')
     operand = ins.operands[0]
@@ -83,6 +111,7 @@ def call_signature(ins):
 
 def address_fields(instructions):
     """Decode actual address operands independently of candidate COFF fields."""
+    import capstone
     fields = []
     for ins in instructions:
         offset = ins.address - BASE
@@ -118,6 +147,7 @@ def unmatched_field_census(original: list, compiled: list) -> tuple[list, list]:
 
 
 def main():
+    import capstone
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('object', type=Path)
     parser.add_argument('--json', action='store_true', help='full original-bound noncrediting diagnostic')
@@ -163,6 +193,9 @@ def main():
         raise ValueError('COFF fields do not cover actual candidate address operands')
     if len(t) != TARGET_INSTRUCTIONS or len(target_fields) != TARGET_FIELDS:
         raise ValueError('TH09 original GameplaySetupThread instruction/field inventory drifted')
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        units = tomllib.load(stream)['units']
+    native_creators = require_native_creators(rows, target_fields, units)
     if t[-1].mnemonic != 'ret' or c[-1].mnemonic != 'ret' or t[-1].op_str or c[-1].op_str:
         raise ValueError('TH09 GameplaySetupThread return ABI drifted')
 
@@ -197,6 +230,7 @@ def main():
             'original_fields': len(target_fields), 'bound_fields': len(candidate_fields),
             'ordered_calls': len(tc), 'candidate_calls': len(cc),
             'ordered_calls_agree': tc == cc,
+            'native_creator_calls': native_creators,
             'native_replay_calls': [
                 dict(symbol=symbol, target=DESTINATIONS[symbol], count=sum(
                     r['symbol'] == symbol and r['type'] == 'REL32' and r['addend'] == 0
