@@ -28,6 +28,31 @@ def definition():
 
 
 class EnemyNativeSpawnContext(unittest.TestCase):
+    def test_scalar_copies_keep_real_widths_and_later_draw_read(self):
+        source = (ROOT/'src/EnemyManagerCore.inl').read_text()
+        result = probe.scalar_copy_context(source, 'standalone-scalar-all')
+        for declaration in ('unsigned char drawGroup;', 'int specialAttackThreshold;',
+                            'EnemyCoreSideStateView *spawnSide;', 'int characterIndex;'):
+            self.assertIn(declaration, result)
+        self.assertEqual(result.count('memcpy(')-source.count('memcpy('), 4)
+        self.assertEqual(result.count('&manager->drawGroupHeads2AC410[enemy->drawGroup3387]'), 1)
+        self.assertNotIn('volatile', result)
+        self.assertIn('SpawnBulletPatternPrimary(', result)
+        for case in probe.SCALAR_COPY_CASES:
+            self.assertEqual(probe.CASE_OWNERS[case], probe.CASE_OWNERS['standalone'])
+            self.assertEqual(probe.standalone_source(case, ''),
+                             probe.standalone_source('standalone', ''))
+            with self.assertRaises(ValueError):
+                probe.standalone_source(case, 'unexpected_definition')
+
+    def test_scalar_source_drift_or_duplicate_read_is_rejected(self):
+        source = (ROOT/'src/EnemyManagerCore.inl').read_text()
+        for changed in (source+source, source.replace('specialAttackThreshold2AC44C', 'changedField')):
+            with self.assertRaises(ValueError):
+                probe.scalar_copy_context(changed, 'standalone-scalar-threshold')
+        with self.assertRaises(ValueError):
+            probe.scalar_copy_context(source, 'unknown')
+
     def test_primary_body_requires_complete_unique_source_boundaries(self):
         source = (ROOT/'src/BulletManager.cpp').read_bytes().replace(b'\r\n', b'\n')
         selected = probe.bullet_primary_body(source)

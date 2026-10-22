@@ -51,6 +51,11 @@ CASE_OWNERS['standalone-bullet-primary'] = (
     CASE_OWNERS['standalone'] + ('bullet-pattern-primary',))
 CASE_OWNERS['standalone-bullet-primary-periodic'] = (
     CASE_OWNERS['standalone-periodic-first'] + ('bullet-pattern-primary',))
+SCALAR_COPY_CASES = frozenset('standalone-scalar-'+name for name in
+                              ('draw', 'threshold', 'side', 'character', 'all'))
+STANDALONE_CASES = STANDALONE_CASES | SCALAR_COPY_CASES
+for _case in sorted(SCALAR_COPY_CASES):
+    CASE_OWNERS[_case] = CASE_OWNERS['standalone']
 CASES = tuple(CASE_OWNERS)
 NATIVE_OWNERS = {
     'bullet-pattern-primary': (0x4130F0, 203,
@@ -143,7 +148,7 @@ def standalone_source(case, bodies):
     """Keep the declaration-first carrier and expose the actual selected body."""
     if case not in STANDALONE_CASES:
         raise ValueError('not a reviewed standalone Enemy case')
-    if (case in ('standalone', 'standalone-vm-packed-color')) != (not bodies):
+    if (case in ({'standalone', 'standalone-vm-packed-color'} | SCALAR_COPY_CASES)) != (not bodies):
         raise ValueError('standalone native-body selection is incomplete')
     generated = ('#include "EclManager.hpp"\n'
                  '#include "EclRunState.inl"\n')
@@ -153,6 +158,46 @@ def standalone_source(case, bodies):
     if case == 'standalone-periodic-last':
         generated += bodies+'\n'
     return generated
+
+
+def replace_scalar_once(text, old, new):
+    if text.count(old) != 1:
+        raise ValueError('reviewed scalar read changed: '+old.splitlines()[0])
+    return text.replace(old, new, 1)
+
+
+def scalar_copy_context(text, case):
+    if case not in SCALAR_COPY_CASES:
+        raise ValueError('unknown Enemy scalar-copy context')
+    case = case.removeprefix('standalone-scalar-')
+    if case in ('draw', 'all'):
+        old = '''                drawHead =
+                    &manager->drawGroupHeads2AC410[enemy->drawGroup3387];'''
+        new = '''                unsigned char drawGroup;
+                memcpy(&drawGroup, &enemy->drawGroup3387, sizeof(drawGroup));
+                drawHead = &manager->drawGroupHeads2AC410[drawGroup];'''
+        text = replace_scalar_once(text, old, new)
+    if case in ('threshold', 'all'):
+        old = '''                if (enemy->specialAttackTimer5424 >
+                        manager->specialAttackThreshold2AC44C)'''
+        new = '''                int specialAttackThreshold;
+                memcpy(&specialAttackThreshold, &manager->specialAttackThreshold2AC44C,
+                       sizeof(specialAttackThreshold));
+                if (enemy->specialAttackTimer5424 > specialAttackThreshold)'''
+        text = replace_scalar_once(text, old, new)
+    if case in ('side', 'all'):
+        old = '                    EnemyCoreSideStateView *spawnSide = manager->sideState320;'
+        new = '''                    EnemyCoreSideStateView *spawnSide;
+                    memcpy(&spawnSide, &manager->sideState320, sizeof(spawnSide));'''
+        text = replace_scalar_once(text, old, new)
+    if case in ('character', 'all'):
+        old = '''                    descriptor.count1 =
+                        static_cast<short>(spawnSide->characterIndex20 == 13 ? 1 : 3);'''
+        new = '''                    int characterIndex;
+                    memcpy(&characterIndex, &spawnSide->characterIndex20, sizeof(characterIndex));
+                    descriptor.count1 = static_cast<short>(characterIndex == 13 ? 1 : 3);'''
+        text = replace_scalar_once(text, old, new)
+    return text
 
 
 def packed_vm_color(source):
@@ -318,6 +363,9 @@ def run(case, output):
             if case == 'standalone-vm-packed-color':
                 (root/'EnemyManagerCore.inl').write_text(
                     packed_vm_color(inputs['EnemyManagerCore.inl'].decode()))
+            if case in SCALAR_COPY_CASES:
+                (root/'EnemyManagerCore.inl').write_text(
+                    scalar_copy_context(inputs['EnemyManagerCore.inl'].decode(), case))
             (root/'EclManager.cpp').write_text(generated)
             staged = {n: digest((root/n).read_bytes()) for n in inputs}
             staged['EclManager.cpp'] = digest((root/'EclManager.cpp').read_bytes())

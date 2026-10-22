@@ -7,21 +7,20 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after independently pushed `f0d4f21`.
+Reconstruction remains active after independently pushed `6f3992d`.
 Continue95% and all four fronts; use `gpt-6-astra-medium:` for new commits.
 
-- Original disk/direct IDA mapped bytes pass. Opcode4/155 now read their real
-  four-byte/one-byte operands by scalar memcpy,removing both explicit volatile
-  reads while retaining all15564 raw RunEcl bytes and30 ordinary differences.
-- All79 exact ECL functions across two profiles retain25215 physical bytes and
-  1126 fields. Eight compiler-local label names are updated only after proving
-  unchanged actual coordinates,original destinations and complete bytes.
-- Full RunEcl,Enemy13,collision,Effect26,biased movement and bounded Timer/
-  timeout guards pass on the fresh canonical object. Title/Type3 inputs are
-  unchanged; their existing proofs are reused.
+- Original disk/direct IDA mapped bytes pass. Five genuine Enemy scalar-copy
+  controls preserve all3900 caller bytes and13 differences; no game-source
+  change is adopted. Five native helpers independently retain514 exact bytes.
+- Public `probe-enemy-native-spawn-context.py --case standalone-scalar-all`
+  reproduces the private combined raw/actual COFF/native proof. Other scalar
+  cases isolate draw byte,threshold,side pointer and character reads.
+- ECL's previous scalar wire copies remain maintained,with their79-function
+  exact replay bound to6f3992d. All1003 unchanged proofs are reused this turn.
 - No exact ledger promotion. Coverage244917/291883 (83.9093%);95% needs32372
   whole exact bytes. RunEcl30,Enemy13,DrawResult22,Type315 and product gates
-  remain unfinished. CI980 tests/29 skips and tracking/docs/progress checks
+  remain unfinished. CI982 tests/29 skips and tracking/docs/progress checks
   pass. Latest KB entry routes the source-bound evidence.
 
 ## Live ledger snapshot
@@ -190,13 +189,13 @@ results, fields and deficits before making an exactness claim.
 
 ## Evidence and cleanup boundaries
 
-Game source changes only in the two bounded ECL operand reads. The packet is
-`.analysis/gpt-6-astra-medium-20261022-ecl-wire-copy/`,with frozen raw inputs,
-private trial recipes,canonical before/after evidence and full guards. Compiler
-probe temporaries self-clean. Seventeen trial/source/canonical reports are archived
-after CRC/member-byte checks; only verified loose duplicates are removed.
-Fresh canonical objects remain available; original
-inputs and older unclassified evidence remain untouched.
+Game source remains at6f3992d. The current packet is
+`.analysis/gpt-6-astra-medium-20261022-enemy-scalar-copy/`,with44 frozen raw
+inputs,the private recipe,complete reports and public comparison. Compiler
+probe temporaries self-clean. Twelve source/report copies are CRC/member-byte
+verified into trials.zip before removing only their loose duplicates.
+Fresh canonical objects from the preceding
+checkpoint,original inputs and older unclassified evidence remain untouched.
 
 Ignored packets are local evidence and are not pushed. Tracked source,scripts
 and durable observations provide the restart path. Historical replayers may

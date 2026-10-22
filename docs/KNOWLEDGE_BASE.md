@@ -18943,3 +18943,57 @@ trial/source/canonical-report files are CRC/member-byte verified into trials.zip
 Only the verified loose duplicates are removed. Recipes,frozen raw inputs,
 current complete-owner report,guards and CI log remain directly readable;
 fresh canonical objects and all older evidence remain untouched.
+
+
+## October 22: Enemy scalar-copy contexts preserve the thirteen-byte frontier
+
+Recovery starts at clean independently pushed6f3992d. Original disk, direct
+IDA metadata,entry and five mapped samples pass. Direct original disassembly
+and complete PE decoding independently confirm the remaining effects-side,
+threshold and descriptor-position register choices: EAX/EDX differ from current
+EDX/EAX,while actual manager+320,side+0C,threshold+2AC44C and enemy+2D74 reads
+remain bound. The draw-byte residual is EAX versus ECX at+19C/+1A3. No target
+bytes,IDA prototype or game source is changed.
+
+The bounded panel changes only real scalar acquisition: copy the early draw
+byte into unsigned char,the special-attack threshold into int,the existing
+spawn-side pointer into its actual pointer type,or characterIndex20 into int;
+then combine all four. Each uses sizeof of its genuine destination and consumes
+the copied value at the existing operation. The later draw-byte read remains
+live and unchanged. No new qualification,inline hint,ABI,profile or variable
+ordering directive is introduced. These are hypotheses,not original C++ claims.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-SCALAR-COPY-001 | compiler observation | Baseline plus five controls retain3900 bytes/97 fields/69 calls/170 blocks and13 differences. | Complete original-bound caller guards preserve all3887 equal bytes. |
+| ENEMY-SCALAR-COPY-002 | native codegen observation | All five actual helper bodies remain original-exact514 bytes/eight fields with genuine same-object references and actual literals. | Native proofs precede caller scoring; the external RunEcl call identity is checked without compiling RunEcl. |
+| ENEMY-SCALAR-COPY-003 | bounded negative evidence | Every control reproduces all baseline raw bytes; four cases rename five owner-local COFF labels only. | Every actual offset,kind,addend,section,value and owner-relative destination stays equal. Side-pointer-only also retains literal COFF rows. |
+| ENEMY-SCALAR-COPY-004 | independent reproduction | Public standalone-scalar-all reproduces the private combined caller raw/actual COFF and all native proofs. | Separate serial nice10 compile,complete original comparison and frontier guard. |
+
+`scripts/probe-enemy-native-spawn-context.py` now exposes
+standalone-scalar-draw,standalone-scalar-threshold,standalone-scalar-side,
+standalone-scalar-character and standalone-scalar-all. Each requires its exact
+source anchors and unchanged actual input/profile hashes. Fourteen focused
+tests pass,including real scalar widths,preserved later draw read,missing or
+duplicated source rejection and no unexpected extra native definition.
+An initial comparison asserted literal COFF equality and stopped on renamed
+local labels; the corrected comparison records five label changes and verifies
+all actual coordinates rather than suppressing them. No manifest relabel is
+needed because no game source is adopted.
+
+Packet `.analysis/gpt-6-astra-medium-20261022-enemy-scalar-copy/` preserves44
+hash-verified raw inputs,private recipe,all six complete reports,full public
+result and explicit comparison. Private reproduction uses the frozen6f3992d
+provider; public reproduction uses the maintained command above with a fresh
+output directory. Temporary compiler trees self-clean. All1003 unchanged
+source/profile proofs are reused; exact coverage244917/291883 (83.9093%),the
+32372-byte95% gap and RunEcl30/Enemy13/DrawResult22/Type315 remain open.
+
+Full CI passes982 tests/29 skips,exit zero; tracking,documentation,generated
+progress and whitespace checks pass. After terminal producers,12 trial reports
+and source copies are CRC/member-byte verified into trials.zip:708584 logical
+bytes in118362 bytes,SHA256
+6a3060139a91500dfe30f76651e0e6f9513b096d637771389e6707a72b5b99b3.
+Only verified loose duplicates are removed. The current public proof,comparison,
+frozen input archive,recipe and CI log remain readable. Canonical objects and
+older evidence are untouched.
