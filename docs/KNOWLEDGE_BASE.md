@@ -19477,3 +19477,78 @@ needed for the 98% goal. No broad Enemy or AnmVm header proposal was adopted.
 Full target-independent CI passes 994 tests with 29 intentional skips; target,
 tracking, documentation, build-graph, progress-artifact and whitespace gates pass.
 The durable CI log/exit are `player-owner-ci.{log,exit}` in the campaign directory.
+
+
+## October 22: Second bounded large-owner investigation wave
+
+Recorded against `767099d75867753fdff4e4a04e14ae8844181c52`, after the separate
+GameManager ownership correction above. This wave changes no maintained source,
+profile, target or exact ledger: **244917/291883 (83.9093%)**, with **41129** more
+whole exact bytes needed for 98%. Every candidate below is rejected; matching
+baseline bytes, callee proofs and normalized diagnostics add no exact credit.
+Original target SHA-256 remains
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+
+Private roots below are under `.analysis/`: E=`th09-effect29-investigation-20261022-v01`,
+R=`th09-runecl-investigation-20261022-v01/native-sibling-idioms`,
+C=`th09-charge-investigation-20261022-v01`,
+P1/P2/P3 share prefix `th09-replay-input-investigation-20261022-`
+with suffixes `v01`, `v02`, `v03`, respectively;
+N=`th09-network-investigation-20261022-v01`.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| WAVE2-EFFECT29-20261022-001 | rejected visibility hypothesis | With identical real Float3 declarations/core and callback, visible polar body reproduces every maintained 2205-byte baseline byte / 129 fields; center/vertex reloads are 0/0. Opaque emits 2239/129 with 6/7 reloads, 1990 overlap differences plus 19 extra bytes, exactly the historical class-body raw owner. Neither produces the original 6/0 asymmetry. | E/visibility-result.json, visibility-pair-manifest.json and compiled-{visible,opaque}/actual-raw-coff.json. Raw SHA-256 prefixes: visible dd4b7e5d8d70d4a1, opaque df9613c01f92604af. Both retain 72 ordered calls and three actual scalar definitions; visible native polar 32 and scalar constructor 26 also match. |
+| WAVE2-EFFECT29-20261022-002 | bounded dataflow observation | After removing only independently guarded reload/alignment scaffolding, all 662 remaining instruction/operand shapes and normalized branch destinations agree; 89 explicit frame reads have matching reaching definitions despite 119 frame-operand differences. | E/inspect-aligned-flow.py and README.md. This explains the measured physical graph mismatch, not whole semantics: arbitrary callee memory effects are not modeled. No physical byte is waived in the real comparison. |
+| WAVE2-ECL-20261022-001 | native capability observation | Current exact opcode 156 already demonstrates the old-word-preserving bitfield family under RunEcl's pinned profile. Existing BackgroundStageScript object replays fully exact at 2652 bytes / 133 fields and demonstrates ECX argument push before direct-member timer setup. | R/README.md, manifest.json and background-canonical-proof.json. New ANM byte-input analogue at 0x00438DC9 is target/source corroboration only: its canonical /Ob0 object was pruned, so no fresh ANM replay is claimed. Neither analogue proves RunEcl's different receiver/continuation context or justifies another syntax/profile matrix. |
+| WAVE2-CHARGE-20261022-001 | rejected lifetime hypothesis | Mode-dependent held-input predicates taking const u8 reference or value both compile to the same 1194-byte / 70-field / 58-call root, without the original EBP-1 mode home. Baseline is 1197/70, 1160 overlap differences plus 13 missing; candidates have 1142 plus 16 missing, damage 29 old equal positions and fail four of seven region checks. | C/OUTCOME.md, capture-summary.json and each case's captured-full-object.json/command.json. Candidate raw SHA-256 starts 369995aa813cad3e. The real use inlines; uncalled 47/41-byte helper bodies remain unowned. Strict rejection is changed field/block order, not compile failure. All five literals and the exact 20-byte Timer comparator remain checked. |
+| WAVE2-REPLAY-20261022-001 | rejected ownership/chronology hypothesis | Real GameManager members and GameConfiguration pointers, without the maintained volatile alias, yield 538 bytes / 32 fields / 49 overlap differences plus two missing, versus baseline 39. V3's ordinary u8 E8 capture and one-use state0 pointer snapshot produce all 14 emitted functions / 5869 function bytes and every actual COFF row identically to v2. | P2/outcome.json and emitted-owner-audit.json; P3/outcome.json. Both restore six but damage 16 old equal positions; raw playback SHA-256 starts 23788c67cf7e3e64. Other 13 functions are unchanged from baseline. Two no-EH canonical owners pass; ten /EHsc canonical owners were not candidate-recompiled. |
+| WAVE2-NETWORK-20261022-001 | rejected native type hypothesis | Baseline service 1632/108 retains 1395 overlap differences plus one missing. Paired actual input/return u16 with real visible leaf emits 1634/108,1434 plus one extra; grouping the real two-side seed outputs as ushort[2] emits 1634/108,1435 plus one extra. | N/findings.md, final-manifest.json, narrow-input-proof.json and narrow-seed-pairs-proof.json. Raw prefixes: baseline 379e6bd3886b0df9, narrow 599d72216e867bfb, seeds 825d09dd7b28cdc7. Both independently prove the genuine 131-byte/one-field callee and its three actual caller references before binding. All 51 call identities/multiplicities agree, not physical call order. |
+
+Replay v1 genuinely failed to compile because CaptureFrameSyncState retained an
+incompatible local pointer; its error/source remain in P1. V2 fixes that actual
+type use without a cast. In v2/v3, first state0 pointer field moves from +349 to
++333 decimal (-16 bytes), before the required publication chronology. Public
+field_offset_deltas zips physical order and is misleading after reordering;
+use outcome.json's kind/destination/duplicate-occurrence identity pairs. The
+original operands, actual COFF, full bytes and order remain compared. Separately,
+the unchanged maintained-tree `check-boss-frontiers.py --owner replay` gate passes:
+`.analysis/th09-campaign-20261022-v01/replay-cold.{log,exit}` lists 12 canonical
+Replay owners across their real profiles plus three exact memory callees.
+That current-source gate does not validate the rejected candidate's other profile.
+
+Network seed grouping changes only 13 raw stack-related bytes from the narrow
+control. It packs the real two 16-bit outputs, but frame 0x14 becomes 0x10 while
+the original has an independent status home at [-4]; neither candidate has that
+home. No dummy storage, qualifier or padding is justified. The extra current
+post-host state 1 read/test is a structural mismatch, not a demonstrated runtime
+bug: state 2 is published under the shared lock, and the callback's only relevant
+transition is 1 to 3. Unsupported clock-hook state mutation is not game evidence.
+
+Reproduction/binding: use the frozen source and actual command.json files, not
+later HEAD assumptions. Effect's 12-input pair was frozen at 24b8f07; charge,
+Replay and network manifests bind their inputs at 767099d. Their /O2 /Ob1 /Oy-
+/Oi /Gr codegen options are unchanged; Replay uses its real no-/EHsc profile.
+Root's commands redirect /I to the appropriate frozen closure where recorded.
+Preparation-time “not compiled” metadata is superseded only by terminal logs
+and captured objects, not edited history. Object-inspection replays include
+`python3 -B E/inspect-aligned-flow.py`, `python3 -B R/scan_target.py`,
+`python3 -B C/capture.py`, `python3 -B P2/analyze.py`, and N/audit.py /
+inspect-narrow.py, with narrow-input or narrow-seed-pairs as its argument
+(substitute the exact roots above; run from repository root). The Effect flow
+reader requires the matching current EclManager.obj. These may regenerate
+ignored reports but never replace the strict canonical gates. No further
+variants follow from this bounded wave; new experiments need new evidence.
+
+The read-only 17:38 UTC artifact census observed 1509011150 logical bytes
+(approximately 1.405GiB), 114829 files and 26 PDBs / 3350528 bytes. The separate
+17:39 group snapshot records inherited gpt-* at 1451565729 logical bytes with
+zero loose PDBs, and current excluded packets at 27 PDBs / 3444736 bytes. These
+are live, non-atomic observations, not one stable snapshot or reclaimable-space
+claim. No cleanup candidate was approved; no deletion or compression occurred.
+Most legacy volume is source/JSON evidence already explicitly preserved; age is not a
+purge criterion. `.analysis/th09-artifact-inventory-20261022-v01/report.json` preserves
+the command-backed census and its review limitations. Full target-independent CI
+passes 994 tests with 29 skips; target, tracking, documentation, build-graph,
+progress-artifact and whitespace gates pass. The durable log/exit are
+`.analysis/th09-campaign-20261022-v01/wave2-ci.{log,exit}`.

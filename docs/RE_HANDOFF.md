@@ -39,7 +39,7 @@ October 22 handoff followed independently pushed
 - The resumed goal/routing checkpoint `24b8f07` passed **990 tests / 29 skips**;
   tracking, documentation, progress, open build-graph and whitespace checks passed.
   Completed negative probes and corrected current premises are recorded in the
-  final October 22 knowledge-base section; none adds exact credit. Earlier reviewed cleanup
+  dated October 22 knowledge-base sections; none adds exact credit. Earlier reviewed cleanup
   removed 657 build cache files; archive compression plus cache removal reclaimed about
   **18.27MiB** of logical data before audit metadata overhead.
 - Cleanup scope and audit routing are in
@@ -212,27 +212,36 @@ results, fields and deficits before making an exactness claim.
 
 ## Evidence and cleanup boundaries
 
-The latest GameManager owner correction is documented in the final knowledge-base
-section, with full source SHA-256 and both-profile evidence. The earlier resumed
-campaign packets are routed in the
-final October 22 knowledge-base section; preserve their completed negative
-probes separately from pending structural investigations. Prior private packets are
+The GameManager owner-correction section in the knowledge base records its
+source SHA-256 and both-profile evidence. The dated resumed-campaign and second
+bounded-wave sections route completed negative probes, native idiom checks and
+source/profile limits. This second wave adopts no source or ledger change. Its
+fresh maintained-tree Replay gate passes; rejected candidate proofs remain
+separate from that current-source result. Prior private packets are
 `.analysis/gpt-6-astra-medium-20261022-player-cancel-cursor/` and the earlier
 `ecl-wire-return/`, `front-weight-member/`, `service-rng/`, `options-confirm/`
 packets with the same dated prefix. Frozen inputs, recipes and complete trial
 reports remain available. Player and Options loose case files are verified
 against trials.zip before removal; extract locally before replay.
-The handoff audit and CI log live in
-`.analysis/gpt-6-astra-medium-20261022-handoff/`. Reviewed build files contain
-only OBJ/PDB/Python caches and are removed after CI terminates. No game source,
-tracked diagnostic or unresolved analysis evidence is discarded.
+The earlier handoff audit and CI log live in
+`.analysis/gpt-6-astra-medium-20261022-handoff/`; its reviewed cache cleanup is
+historical. The second-wave artifact inventory is read-only: no deletion,
+compression or cleanup was performed. This documentation checkpoint passes
+994 tests with 29 skips; its full CI log/exit are `wave2-ci.{log,exit}` in
+`.analysis/th09-campaign-20261022-v01/`.
 
 Ignored packets are local evidence and are not pushed. Tracked source,scripts
 and durable observations provide the restart path. Historical replayers may
 reject later sources; use their recorded commit. Archival receipts do not
 accept a later HEAD. Never delete original resources/th09.exe,toolchains,
 Wine prefixes,IDA databases,tracked source or unclassified evidence. Never
-bulk-delete .analysis/ or run git clean -X. Around1.7GiB of older evidence
-still needs individual producer/source/reference review; age is insufficient.
+bulk-delete .analysis/ or run git clean -X. The October 22 17:38 UTC census
+observed about 1.405GiB / 114829 files; the separate 17:39 group snapshot has
+1451565729 logical bytes and zero loose PDBs in inherited gpt-* packets. Every
+observed PDB is in current excluded packets, and no safe legacy PDB cleanup
+candidate was found. See `.analysis/th09-artifact-inventory-20261022-v01/report.json`
+for timestamps and scope; live snapshot counts are not reclaimable-space claims.
+Legacy source/JSON evidence still needs individual producer/source/reference
+review; age is insufficient.
 The generated-artifact cleaner previews by default and proposes a broader
 scope than this bounded checkpoint. Inspect every proposed path before apply.
