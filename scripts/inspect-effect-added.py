@@ -29,7 +29,7 @@ TARGET_FIELDS = (
     (0x024, 'REL32', 0x0043C7A0),
 )
 TARGET_BLOCKS = 3
-SYMBOL = '?AddedCallback@EffectManager@@SIHPAU1@@Z'
+SYMBOL = '?AddedCallback@EffectManager@@SIHPAX@Z'
 DESTINATIONS = {
     '?g_AnmManager@@3PAVAnmManager@@A': 0x004DC550,
     '?GetAnm@AnmManager@@QAEPAVAnmLoaded@@H@Z': 0x00401660,

@@ -362,9 +362,9 @@ int EffectManager::OnDrawShared(EffectManager *effectManager)
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 
-int EffectManager::AddedCallback(EffectManager *effectManager)
+int EffectManager::AddedCallback(void *context)
 {
-    EffectManager *manager = effectManager;
+    EffectManager *manager = static_cast<EffectManager *>(context);
     AnmManager *anmManager = g_AnmManager;
     // The first lookup uses the actual global ANM manager. VC7.1 keeps the
     // callback owner in ESI and ANM resource in EDI with one global load,
@@ -445,7 +445,7 @@ EffectManager *EffectManager::Create(int sideIndex, int primaryCount, int second
 
     effectManager->calcChain = g_Chain.CreateElem(reinterpret_cast<ChainCallback>(EffectManager::OnUpdate));
     effectManager->calcChain->arg = effectManager;
-    effectManager->calcChain->addedCallback = reinterpret_cast<ChainLifetimeCallback>(EffectManager::AddedCallback);
+    effectManager->calcChain->addedCallback = EffectManager::AddedCallback;
     if (g_Chain.AddToCalcChain(effectManager->calcChain, sideIndex + 19) != 0)
         return NULL;
 

@@ -96,7 +96,7 @@ struct EffectManager
     static int OnDraw(EffectManager *effectManager);
     static int OnDrawShared(EffectManager *effectManager);
     int DrawBulletLayerEffects();
-    static int AddedCallback(EffectManager *effectManager);
+    static int AddedCallback(void *context);
     static void Release(EffectManager *effectManager);
     static EffectManager *Create(int sideIndex, int primaryCount, int secondaryCount);
 
