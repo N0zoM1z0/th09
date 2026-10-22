@@ -7,25 +7,23 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after independently pushed `e5e9b4e`.
-Continue95% and RunEcl/Enemy/Title/Type3; historical pauses are superseded.
+Reconstruction remains active after independently pushed `86ceb52`.
+Continue95% and all four fronts; historical pauses remain superseded.
 New commits use `gpt-6-astra-medium:`.
 
-- Disk and direct IDA mapped-byte checks pass. Fresh DrawResult baseline retains
-  1939 bytes,82 fields and22 differences.
-- Implicit default Float3 construction, ordinary value-constructor visibility,
-  and explicit zero-initialized positions all reproduce the complete baseline
-  raw bytes and all82 field identities. Section numbering changes in two
-  contexts; actual local literal definitions remain independently verified.
-  No game-source change is justified.
-- Public `probe-title-score-context.py` now offers three vector construction
-  contexts. The initialized-position public replay reproduces the private run.
-  Five focused tests and full CI pass (966 tests/28 skips, exit zero).
-  Tracking, documentation, generated progress and whitespace checks pass.
-- Game source and all1003 existing exact source/profile proofs are unchanged.
-  Coverage remains244917/291883 (83.9093%);95% needs32372 whole exact bytes.
-  RunEcl30,Enemy13,DrawResult22,Type315 and product gates remain unfinished.
-- Latest knowledge-base entry contains the bounded observations and replay route.
+- Disk/direct IDA mapped-byte checks pass. Fresh Type3 baseline remains
+  780 bytes/38 fields/15 differences.
+- History sample cursor/root/reference models retain original calls and graph,
+  but produce797/794/780 bytes with751/753/51 overlap differences. The reference
+  model restores none of the old15 and damages36 equal positions. None is adopted.
+- `probe-type3-native-context.py` now reproduces these three source contexts;
+  the public reference run independently reproduces the private report.
+- All1003 exact game-source/profile proofs remain unchanged. Coverage stays
+  244917/291883 (83.9093%);95% needs32372 whole exact bytes. RunEcl30,Enemy13,
+  DrawResult22,Type315 and product gates remain open.
+- Focused tests16 and full CI967 tests/28 skips pass, exit zero. Tracking,
+  docs, progress and whitespace checks pass.
+- Latest knowledge-base entry records source, evidence and replay boundaries.
 
 ## Live ledger snapshot
 
@@ -194,13 +192,13 @@ results, fields and deficits before making an exactness claim.
 ## Evidence and cleanup boundaries
 
 Game source is unchanged from f4a7b61. The current packet is
-`.analysis/gpt-6-astra-medium-20261022-title-vector/`. Frozen quoted inputs,
-recipe, source hashes and public report remain. Twelve duplicate private source
-and report files were archived only after CRC/member-byte verification:
-181952 logical bytes in31457 bytes, SHA256
-`ff14328615425e47f46a2bdc4dec0dddfecd05b5078efe749159bccc9a6ee638`.
-Compiler temporaries self-clean after capture. Canonical objects/PDBs, earlier
-packets, original input and preexisting caches are preserved.
+`.analysis/gpt-6-astra-medium-20261022-type3-history/`. Frozen quoted inputs,
+both private recipe versions and compressed public report remain. Twelve
+private source/report files are archived after CRC/member-byte verification:
+121230 logical bytes in27923 bytes, SHA256
+`14ae6dfaa28e2f092f2b1c1c27d9257a99af21f5624e5f26a077b90345439ff7`.
+Only those verified duplicates are removed. Compiler temporaries self-clean;
+canonical objects/PDBs, older evidence and private original inputs are preserved.
 
 Ignored packets are local evidence and are not pushed. Tracked source,scripts
 and durable observations provide the restart path. Historical replayers may

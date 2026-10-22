@@ -35,6 +35,9 @@ CASES = {
     'timer-all': ('ZunTimer.cpp',),
     'sample-array': (),
     'sample-query': (),
+    'sample-cursor': (),
+    'history-root': (),
+    'sample-references': (),
 }
 VARIANTS = ('baseline', 'forwarded-collision')
 INTERRUPT_SYMBOL = '?SetInterrupt@AnmVm@@QAEXF@Z'
@@ -122,6 +125,38 @@ def sample_container(source, case):
     return source.replace(anchor, storage + anchor, 1)
 
 
+HISTORY_CASES = ('sample-cursor', 'history-root', 'sample-references')
+
+
+def history_access(source, case):
+    """Change actual history traversal, keeping the original sample indices."""
+    if case not in HISTORY_CASES:
+        raise ValueError('unreviewed Type3 history context')
+    word = module('history_source_anchors', 'probe-exattack-type3-word-order.py')
+    replace = word.replace_once
+    if case == 'history-root':
+        source = replace(source, '    switch (extra->state00)',
+            '    Float3 *history = extra->history10;\n\n    switch (extra->state00)')
+        return source.replace('extra->history10[', 'history[')
+    if case == 'sample-cursor':
+        source = replace(source, '    PlayerPositionView middle;',
+            '    const Float3 *sample = &extra->history10[12];\n    PlayerPositionView middle;')
+        source = replace(source, '    PlayerPositionView tail;',
+            '    sample += 12;\n    PlayerPositionView tail;')
+        names = ((12, 'sample->'), (24, 'sample->'))
+    else:
+        names = ((12, 'middleHistory.'), (24, 'tailHistory.'))
+        for index, name in ((12, 'middle'), (24, 'tail')):
+            source = replace(source, '    PlayerPositionView '+name+';',
+                '    const Float3 &'+name+'History = extra->history10['+str(index)+'];\n'
+                '    PlayerPositionView '+name+';')
+    for index, prefix in names:
+        for axis in ('x', 'y'):
+            source = replace(source, 'extra->history10['+str(index)+'].'+axis,
+                             prefix+axis)
+    return source
+
+
 def render_source(inputs, case, variant):
     if case not in CASES or variant not in VARIANTS:
         raise ValueError('unknown Type3 source/context variant')
@@ -129,6 +164,8 @@ def render_source(inputs, case, variant):
     if variant != 'baseline':
         word = module('context_word_variant', 'probe-exattack-type3-word-order.py')
         source = dict(word.variants(source.decode()))[variant].encode()
+    if case in HISTORY_CASES:
+        return history_access(source.decode(), case).encode()
     if case in ('sample-array', 'sample-query'):
         return sample_container(source.decode(), case).encode()
     if case in TIMER_BODY_CASES:

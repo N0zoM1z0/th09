@@ -18604,3 +18604,47 @@ Five focused tests and full CI966 tests/28 skips pass, exit zero. Tracking,
 documentation, progress and whitespace pass. Twelve private duplicate files
 are CRC/member-byte verified into a31457-byte archive before removal, preserving
 181952 logical bytes; canonical objects and older evidence remain untouched.
+
+
+## 2026-10-22: Type3 history access controls
+
+Source86ceb52, verified original disk and direct IDA mapped samples. Fresh
+IDA confirms middle.z zero store at4428E6 before tail-X read at4428ED.
+Current source delays the store. The cold baseline remains780 bytes/38 fields,
+240 instructions/24 calls/17 blocks and15 differences; raw SHA256
+`e6a940a0e75b2dad895f8ba72f5533441502586ae8dd74c02397edcebebe1c2a`.
+
+Three natural access hypotheses keep actual sample indices12/24, all scalar
+conversions and collision calls, with no new qualifier, inline hint or ABI:
+
+- One const sample cursor, advanced12 elements between middle and tail:
+  797 bytes/247 instructions,751 overlap differences plus17 excess bytes.
+- One actual history-array root used throughout the owner:
+  794 bytes/245 instructions,753 overlap differences plus14 excess bytes.
+- Separate const references to the actual middle/tail history samples:
+  780 bytes/240 instructions,51 differences. It restores none of the old15
+  and damages36 previously equal positions.
+
+All retain38 bound fields,the original ordered calls/direct graph and three
+checked scalar definitions. All fail the full frontier. Equal graph and call
+identities alone do not prove exactness. No game source or exact ledger changes.
+These results reject these bounded access models, not all source shapes.
+
+Reproduce via scripts/probe-type3-native-context.py --case sample-cursor,
+history-root,or sample-references. The selected source is staged from the
+hash-checked maintained baseline, compiled serially at nice10 with the pinned
+profile, and completely compared before compiler temporary cleanup. A fresh
+public sample-references run reproduces its private full raw/COFF evidence.
+The initial private driver called run() but failed to persist its returned
+full report; those four successful compiler invocations supply no retained
+whole-byte claim. The corrected driver repeats all four and retains complete
+reports, frozen inputs and both recipe versions below
+.analysis/gpt-6-astra-medium-20261022-type3-history/.
+All1003 exact source/profile proofs remain unchanged and reused. Coverage stays
+244917/291883;95% and RunEcl30/Enemy13/DrawResult22/Type315 remain unfinished.
+
+Focused tests16 and full CI967 tests/28 skips pass, exit zero. Tracking, docs,
+progress and whitespace pass. Twelve verified duplicate source/report files
+(121230 logical bytes) become a27923-byte archive before removal; compiler
+temporaries self-clean. Frozen inputs, recipes, public report, canonical objects
+and all unclassified previous evidence remain.

@@ -16,6 +16,22 @@ spec.loader.exec_module(probe)
 
 
 class Type3NativeContextTests(unittest.TestCase):
+    def test_history_samples_reject_changed_indices_and_preserve_native_queries(self):
+        inputs, _ = probe.inputs_for('sample-cursor')
+        source = inputs[probe.SOURCE].decode()
+        for case in probe.HISTORY_CASES:
+            result = probe.history_access(source, case)
+            self.assertEqual(result.count('->CheckBulletCollision('), 3)
+            self.assertEqual(result.count('InverseTransformPopupX('), 3)
+            self.assertEqual(result.count('InverseTransformPopupY('), 3)
+            self.assertNotIn('volatile', result)
+            self.assertNotIn('__forceinline', result)
+        for case in ('sample-cursor', 'sample-references'):
+            with self.subTest(case=case), self.assertRaises(ValueError):
+                probe.history_access(source.replace('history10[24].x', 'history10[25].x'), case)
+        with self.assertRaises(ValueError):
+            probe.history_access(source, 'unknown-history')
+
     def test_sample_containers_preserve_native_calls_and_reject_source_drift(self):
         inputs, profile = probe.inputs_for('sample-array')
         source = inputs[probe.SOURCE].decode()
