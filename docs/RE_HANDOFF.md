@@ -7,19 +7,20 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after independently pushed `c1c8ead`.
+Reconstruction remains active after independently pushed `759c093`.
 Continue95% and all four fronts; use `gpt-6-astra-medium:` for new commits.
 
-- Original disk/direct IDA mapped bytes pass. Eight Front weighted-entry
-  member/count-reference/direct-default controls retain the primary-only
-  baseline or regress the complete caller; none is adopted.
-- Front remains681/693 bytes,15 fields,569 overlap differences plus12 missing
-  bytes,41/40 blocks. Every trial retains the six original ordered calls.
+- Original disk/direct IDA mapped bytes pass. Six RunEcl scalar-return contexts
+  reproduce baseline30; jump-only regresses to42 and byte/both contexts move
+  actual fields/tables. None is adopted; all original positions are compared.
+- Public probe-runecl-raw-context.py --case wire-template-byte independently
+  reproduces private full raw/COFF/input hashes and strict rejection. Eight
+  focused source-drift/producer tests pass.
 - No game-source or exact ledger change. All1003 unchanged source/profile
   proofs are reused; game source remains atc1c8ead.
 - Coverage244917/291883 (83.9093%);95% needs32372 whole exact bytes.
   RunEcl30,Enemy13,DrawResult22,Type315 and product gates remain unfinished.
-  CI984 tests/29 skips and tracking/docs/progress checks pass. Latest KB entry
+  CI986 tests/29 skips and tracking/docs/progress checks pass. Latest KB entry
   routes the complete source-bound trial evidence.
 
 ## Live ledger snapshot
@@ -189,12 +190,12 @@ results, fields and deficits before making an exactness claim.
 ## Evidence and cleanup boundaries
 
 Game source remains atc1c8ead. Current packet is
-`.analysis/gpt-6-astra-medium-20261022-front-weight-member/`,with frozen raw
-inputs,three private recipes,eight full source/COFF reports and whole-owner
-comparison. Twenty-four trial files are byte-verified into trials.zip; only
-their loose duplicates and two identical input archives are removed. Compiler
-probe temporaries self-clean. Original inputs,canonical
-evidence and older unclassified artifacts remain untouched.
+`.analysis/gpt-6-astra-medium-20261022-ecl-wire-return/`,with frozen raw
+inputs,private recipe,six full fragment/raw/COFF reports and public reproduction.
+Trial fragments/reports are byte-verified into trials.zip; the public report
+is losslessly gzip-verified. Only their loose duplicates are removed. Compiler
+probe temporaries self-clean. Original inputs,canonical evidence and
+older unclassified artifacts remain untouched.
 
 Ignored packets are local evidence and are not pushed. Tracked source,scripts
 and durable observations provide the restart path. Historical replayers may

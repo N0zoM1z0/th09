@@ -14,7 +14,9 @@ import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 CASES = ('baseline', 'jump-native-time', 'jump-typed-wire',
-         'raw-int-macro', 'raw-byte-macro', 'raw-family-macros')
+         'raw-int-macro', 'raw-byte-macro', 'raw-family-macros',
+         'wire-template-jump', 'wire-template-byte', 'wire-template-both',
+         'wire-fixed-both', 'wire-reference-both')
 RAW_INT = '''inline int &RawInt(
     Th09EclRawInstructionHeaderView *instruction,
     int operandIndex)
@@ -61,12 +63,62 @@ def replace_once(text, before, after):
     return text.replace(before, after, 1)
 
 
+def render_wire_return(case, inputs):
+ """Copy actual-width operands through ordinary scalar-return helpers."""
+ control=inputs['EclRunControl.inl'].decode().replace('\r\n','\n');state=inputs['EclRunState.inl'].decode().replace('\r\n','\n');changed={}
+ if case=='fixed-both':
+  helper='''inline int ReadWireInt(const void *address)
+{
+    int value;
+    memcpy(&value, address, sizeof(value));
+    return value;
+}
+inline unsigned char ReadWireByte(const void *address)
+{
+    unsigned char value;
+    memcpy(&value, address, sizeof(value));
+    return value;
+}
+'''
+ else:
+  helper='''template<class T>
+inline T ReadWireScalar(const void *address)
+{
+    T value;
+    memcpy(&value, address, sizeof(value));
+    return value;
+}
+'''
+  if case=='reference-both':helper=helper.replace('const void *address','const T &wireValue').replace('address, sizeof(value)','&wireValue, sizeof(value)')
+ anchor='} // namespace Th09EclRunControl'
+ control=replace_once(control, anchor, helper+'\n'+anchor)
+ control=replace_once(control, '#include <math.h>', '#include <math.h>\n#include <string.h>')
+ for kind,file,typename,ns,rawfun,readfun in [('jump','EclRunControl.inl','int','Th09EclRunControl','RawInt','ReadWireInt'),('byte','EclRunState.inl','unsigned char','Th09EclRunState','RawByte','ReadWireByte')]:
+  if case not in ('template-'+kind,'template-both','fixed-both','reference-both'):continue
+  old=typename+' value;\n        memcpy(&value, &'+ns+'::'+rawfun+'(instruction, 0), sizeof(value));'
+  method=readfun if case=='fixed-both' else 'ReadWireScalar<'+typename+'>'
+  arg=('' if case=='reference-both' else '&')+ns+'::'+rawfun+'(instruction, 0)'
+  new=typename+' value = Th09EclRunControl::'+method+'('+arg+');'
+  text=control if kind=='jump' else state
+  accessor=RAW_INT if kind=='jump' else RAW_BYTE
+  if text.count(accessor)!=1:
+   raise ValueError('reviewed scalar accessor width/address changed')
+  text=replace_once(text, old, new)
+  if kind=='jump':control=text
+  else:state=text
+ changed['EclRunControl.inl']=control.encode()
+ if state!=inputs['EclRunState.inl'].decode().replace('\r\n','\n'):changed['EclRunState.inl']=state.encode()
+ return changed
+
+
 def render(case, inputs):
     """Return only changed files; preserve argument evaluation and lvalue types."""
     if case not in CASES:
         raise ValueError('unknown RunEcl context')
     if case == 'baseline':
         return {}
+    if case.startswith('wire-'):
+        return render_wire_return(case[5:], inputs)
     if case.startswith('jump-'):
         name = 'EclRunControl.inl'
         source = replace_once(inputs[name].decode(), TIMER, DIRECT_TIMER)

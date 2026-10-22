@@ -19233,3 +19233,62 @@ are removed. Retained inputs.zip,three recipes,full review,frozen/archive
 manifests and CI log preserve this unresolved evidence. Extract trials.zip
 before inspecting individual case reports. Older evidence and canonical
 objects are untouched.
+
+
+## October 22: RunEcl actual-width scalar-return contexts
+
+Recovery starts at clean independently pushed759c093. Original disk,direct IDA
+metadata,entry and distributed mapped bytes pass. Fresh original disassembly
+still loads jump time intoECX then pushes it at408937/40893A; the current
+source loadsEAX and acquires the Timer receiver before pushingEAX. Opcode155
+starts at40B770 with byte-toECX extension,then the full flag word and masked XOR.
+These are observations,not instructions to steer registers in source.
+
+Six serial nice10 complete ECL compiles compare baseline and five ordinary
+inline scalar-copy return contexts. Each copies the actual four-byte integer or
+one-byte operand with sizeof its real scalar type. Template/const-void-pointer,
+fixed int/byte functions and template/const-reference inputs are tested without
+new qualifications,forced inline,ABI,profile,extra state or fabricated effects.
+The actual Timer assignment and timeout masked XOR consumers remain unchanged.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-WIRE-RETURN-20261022-001 | compiler observation | Baseline retains15564 physical bytes/598 fields,30 ordinary differences,zero field/table drift and146/148 handler shapes. | Complete current-source/original cold replay. |
+| ECL-WIRE-RETURN-20261022-002 | rejected source hypothesis | Jump-only template retains15564/598 but gives42 ordinary differences,zero field/table drift and145/148 shapes. | Original30 remain;12 old equal bytes are damaged in opcode7. The entire actual opcode4 argument/call window stays raw-identical. |
+| ECL-WIRE-RETURN-20261022-003 | rejected source hypothesis | Byte-only template retains15564/598 but gives2048 ordinary and242 field-byte differences,including26 table bytes;146/148 shapes. | Complete2290-byte mismatch count and strict field-position rejection. Local handler-shape agreement is insufficient. |
+| ECL-WIRE-RETURN-20261022-004 | rejected source hypothesis | Template-both,fixed-both and const-reference-both emit identical full raw callers with2060 ordinary plus242 field differences,including26 table bytes;145/148 shapes. | Complete2302-byte mismatch count; all three strict field-position checks reject. |
+| ECL-WIRE-RETURN-20261022-005 | independent reproduction | Public wire-template-byte cold replay reproduces private raw bytes,all actual COFF rows,compiled-input hashes and complete mismatch list. | Explicit rejected state and exit2; the public inspector is not relaxed. |
+
+Jump-only changes actual raw offsets+2B6,+2B8,+2C9,+2CC,+2D2,+2D5 and+2D9..2DE,
+inside original opcode7 starting40896F. This confirms a nonlocal code-generation
+effect from the tested expression context; it neither identifies the original
+source nor repairs opcode4. The byte-only source changes later field/table
+positions despite unchanged physical length. All positions remain compared.
+
+Public probe-runecl-raw-context.py now offers wire-template-jump,
+wire-template-byte,wire-template-both,wire-fixed-both and wire-reference-both.
+Source guards require unchanged actual RawInt/RawByte widths and addresses,
+scalar-copy widths and unique anchors. Eight focused tests pass,including
+changed accessor width/offset,wrong copy size,duplicated copy and unchanged
+nonselected operand/Timer checks. No extra exact credit or game-source change.
+
+Packet `.analysis/gpt-6-astra-medium-20261022-ecl-wire-return/` retains frozen
+source/provider inputs,the private recipe,six full raw/COFF/complete reports,
+changed fragment copies and the separately reproduced public rejection.
+Public reproduction is `nice -n 10 python3 -B scripts/probe-runecl-raw-context.py
+--case wire-template-byte --output .analysis/new-wire-return`; exit2 is expected.
+The baseline/private provider is source-bound to759c093; public-provider.zip
+freezes the added diagnostic and tests. All temporary compiler outputs self-clean.
+All1003 unchanged game-source/profile exact proofs are reused. Coverage remains
+244917/291883 (83.9093%);32372 whole exact bytes remain to95%. The four fronts
+RunEcl30,Enemy13,DrawResult22,Type315 and native product/runtime remain open.
+
+Full CI passes986 tests/29 skips,exit zero; tracking,documentation,generated
+progress,open build-graph and whitespace checks pass. After all producers end,
+15 trial fragment/report copies are CRC/member-byte verified into trials.zip:
+2564666 logical bytes become223812 bytes,SHA256
+1b17fe580bd10b17be7b8451f15ec326623a2e89ae8e5a4754567f3ef2680a8b.
+Only verified loose duplicates are removed. The separately reproduced public
+report is losslessly gzip-verified before deleting its loose duplicate. Frozen
+inputs,public provider snapshot,private recipe,comparison,archive manifests and
+CI log remain. Existing canonical objects and older evidence are untouched.

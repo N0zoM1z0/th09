@@ -74,6 +74,42 @@ class RunEclRawContextTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             probe.render('jump-native-time', inputs)
 
+    def test_scalar_return_contexts_preserve_width_and_unselected_copy(self):
+        inputs = probe.collect_inputs()
+        before = dict(inputs)
+        for case in ('wire-template-jump', 'wire-template-byte',
+                     'wire-template-both', 'wire-fixed-both', 'wire-reference-both'):
+            changed = probe.render(case, inputs)
+            with self.subTest(case=case):
+                self.assertEqual(inputs, before)
+                self.assertEqual(set(changed), {'EclRunControl.inl'} if
+                                 case == 'wire-template-jump' else
+                                 {'EclRunControl.inl', 'EclRunState.inl'})
+                self.assertIn(probe.TIMER, changed['EclRunControl.inl'].decode())
+                self.assertIn('memcpy(&value, ', changed['EclRunControl.inl'].decode())
+                self.assertIn('sizeof(value)', changed['EclRunControl.inl'].decode())
+        byte_only = probe.render('wire-template-byte', inputs)
+        self.assertIn('memcpy(&value, &Th09EclRunControl::RawInt(instruction, 0), sizeof(value));',
+                      byte_only['EclRunControl.inl'].decode())
+        self.assertIn('ReadWireScalar<unsigned char>(&Th09EclRunState::RawByte(instruction, 0))',
+                      byte_only['EclRunState.inl'].decode())
+
+    def test_scalar_return_context_rejects_changed_width_size_and_duplicate_copy(self):
+        for filename, old, new in (
+                ('EclRunControl.inl', 'reinterpret_cast<int *>', 'reinterpret_cast<short *>'),
+                ('EclRunState.inl', '0x0C + byteOffset', '0x10 + byteOffset'),
+                ('EclRunState.inl', 'sizeof(value));', 'sizeof(int));')):
+            inputs = probe.collect_inputs()
+            self.assertIn(old.encode(), inputs[filename])
+            inputs[filename] = inputs[filename].replace(old.encode(), new.encode())
+            with self.subTest(filename=filename, old=old), self.assertRaises(ValueError):
+                probe.render('wire-template-both', inputs)
+        inputs = probe.collect_inputs()
+        inputs['EclRunControl.inl'] += (b'int value;\n        memcpy(&value, '
+            b'&Th09EclRunControl::RawInt(instruction, 0), sizeof(value));')
+        with self.assertRaises(ValueError):
+            probe.render('wire-template-jump', inputs)
+
     def test_project_include_escape_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
