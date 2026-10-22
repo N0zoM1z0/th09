@@ -34,9 +34,11 @@ CASE_OWNERS = {
                                    'zun-timer-has-ticked-every'),
 }
 STANDALONE_CASES = frozenset(('standalone', 'standalone-periodic-first',
-                              'standalone-periodic-last'))
+                              'standalone-periodic-last', 'standalone-pointer-view'))
 for _case in ('standalone-periodic-first', 'standalone-periodic-last'):
     CASE_OWNERS[_case] = CASE_OWNERS['standalone'] + ('zun-timer-has-ticked-every',)
+CASE_OWNERS['standalone-pointer-view'] = (
+    CASE_OWNERS['standalone'] + ('float3-pointer-identity-view',))
 CASES = tuple(CASE_OWNERS)
 NATIVE_OWNERS = {
     'enemy-collision-append-box': (
@@ -53,6 +55,8 @@ NATIVE_OWNERS = {
         0x404920, 33, '?HasTickedEvery@ZunTimer@@QAEHH@Z', 1),
     'bullet-spawn-descriptor-constructor': (
         0x40D500, 28, '??0BulletSpawnDescriptorCtorView@@QAE@XZ', 1),
+    'float3-pointer-identity-view': (
+        0x4343D0, 3, '??BFloat3@@QAEPAMXZ', 1),
 }
 
 
@@ -64,6 +68,8 @@ def native_bodies(case, sources):
     """Expose only selected real definitions, preserving the old two recipes."""
     selected = CASE_OWNERS[case]
     bodies = ''
+    if 'float3-pointer-identity-view' in selected:
+        bodies += sources['VectorPointerViews.cpp'].decode() + '\n'
     if 'zun-timer-has-ticked-every' in selected:
         bodies += sources['ZunTimerHasTickedEvery.cpp'].decode() + '\n'
     if 'bullet-spawn-descriptor-constructor' in selected:
@@ -89,7 +95,7 @@ def standalone_source(case, bodies):
         raise ValueError('standalone native-body selection is incomplete')
     generated = ('#include "EclManager.hpp"\n'
                  '#include "EclRunState.inl"\n')
-    if case == 'standalone-periodic-first':
+    if case in ('standalone-periodic-first', 'standalone-pointer-view'):
         generated += bodies+'\n'
     generated += '#include "EnemyManagerCore.inl"\n'
     if case == 'standalone-periodic-last':
@@ -185,8 +191,12 @@ def run(case, output):
             collect(name)
     else:
         collect('EclManager.cpp')
+    if 'float3-pointer-identity-view' in CASE_OWNERS[case]:
+        collect('VectorPointerViews.cpp')
     observed = {ROOT/'src'/n: data for n, data in inputs.items()}
     native_sources = []
+    if 'float3-pointer-identity-view' in CASE_OWNERS[case]:
+        native_sources.append('VectorPointerViews.cpp')
     if 'effect-manager-spawn-effect' in CASE_OWNERS[case]:
         native_sources.append('EffectManager.cpp')
     if 'zun-timer-has-ticked-every' in CASE_OWNERS[case]:
@@ -263,6 +273,10 @@ def run(case, output):
                 native['literal_definitions'] = literals.check_literal_definitions(
                     obj.read_bytes(), fields, image, coff,
                     {r['symbol']: r['target'] for r in unit.get('relocations', [])})
+                if name == 'float3-pointer-identity-view':
+                    if unit['source'] != 'src/VectorPointerViews.cpp' or unit['profile'] != profile:
+                        raise ValueError('folded pointer-view source/profile changed')
+                    native.update(original_origin='unknown', authored_exact_credit=0)
                 report['native_definitions'][name] = native
             if standalone:
                 report['enemy'] = enemy.diagnose_standalone(obj)

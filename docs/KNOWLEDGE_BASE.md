@@ -17714,3 +17714,70 @@ CI bytecode. Its count/hashes were not persisted and are not reconstructed.
 Independent recovery rechecks every archive member and the127 retained paths;
 cleanup.json records that limitation and the retained refreshed cache. Original
 target/tools/IDA, canonical objects and older unclassified evidence remain.
+
+
+## October 22: Enemy draw control flow and folded vector visibility
+
+Recovery at72065b6192f6e13266939104e44fb7186db2a190 passes original Japanese
+v1.50a disk and direct IDA entry/five mapped samples. The preceding checkpoint
+made progress by recording source-bound Type3 controls; no prior negative
+result is treated as a complete source-family exclusion. Native source, target
+observations and inference remain separate. No target/IDA bytes are changed.
+
+Eight private source-cold controls run serially at nice10 under the canonical
+Enemy /O2 /Ob1 profile. Each compares the real baseline native five helpers,
+514 bytes/eight fields, actual same-object references and three float payloads
+before scoring the full caller. The real external RunEcl contract stays fixed;
+these standalone probes do not compile or attest RunEcl's body.
+
+| ID | Recorded state | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-FLOW-CONTEXT-001 | compiler-observed / noncrediting | Direct indexed or local-pointer duplication of early/final draw prepends produces3912/97/69. | Both real RunEcl call fields move+397 to+39F; full original-offset guard rejects. Source computations/stores are preserved; no source adoption. |
+| ENEMY-FLOW-CONTEXT-002 | compiler-observed / noncrediting | Ordinary members returning the actual group-slot pointer or reference preserve every3900 maintained raw byte and13 differences. | Both consume the real Enemy draw byte and four-slot manager array, with existing layout assertions intact. No extra native callee or forced-inline hint. |
+| ENEMY-FLOW-CONTEXT-003 | compiler-observed / noncrediting | Co-visible real vector conversion gives3876 bytes/96 fields/68 static calls. | Original has3900/97/69. Actual cleanup-call fields decrease2 to1; RunEcl moves+397 to+38C. The three-byte4343D0 alias and its positive same-object call pass first. |
+| ENEMY-FLOW-CONTEXT-004 | compiler-observed / noncrediting | Actual four-byte Timer-current conversion is fully raw-neutral13; joint periodic visibility retains45. | Native6/7 units518/551 bytes pass, including the noncrediting getter alias and, jointly, the33-byte periodic body. All45 residuals remain outside the maintained13 set. |
+
+The new folded context exposes the existing VectorPointerViews.cpp definitions,
+not an invented clobber function or guessed original class. Private compilation
+proves both existing logical three-byte aliases. Public reproduction checks the
+one actually referenced Float3 alias, plus all five baseline native helpers:
+six units517 bytes/eight fields. Folded physical origin and unique original
+C++ ownership stay unknown; zero authored exact credit is added. The observed
+static cleanup-call count is not a runtime call-count or semantic validation.
+Other external referents retain their multiplicities; private switch labels are
+compared in their own object scopes, not equated by their generated spelling.
+
+The existing probe-enemy-native-spawn-context.py gains only the selected
+--case standalone-pointer-view. It retains real source/header staging, complete
+native bytes/fields/literals, same-object call checks and all original caller
+gates. Its expected exit2/rejected report preserves all3876 actual raw bytes,
+96 COFF rows, six native proofs and the strict external-RunEcl rejection. Fresh
+public baseline and folded runs reproduce private raw callers byte-for-byte.
+One new regression covers actual body selection and refuses missing definitions;
+existing negative tests reject changed native bytes, fields and opaque references.
+The focused native-context tests pass10.
+
+A fresh canonical main-carrier build independently passes full Enemy3900/97/13
+and the original82-byte collision guard. Complete canonical collision comparison
+passes82/82 and both actual operands. All493 game input hashes,1035 unit
+settings/profiles and1003 exact rows remain unchanged; unaffected source/profile
+proofs are reused. Starting/current native-producer versions are retained:
+only selected-case routing changes, while native comparison/reference/literal
+checks used by private controls remain unchanged. No new exact owner is claimed.
+Evidence is .analysis/gpt-61sol-20261022-enemy-descriptor-member/.
+
+Exact remains1003/1035 and244917/291883 bytes (83.9093%);95% still needs32372
+whole accepted bytes. RunEcl30,Enemy13,DrawResult22,Type315, complete inventory,
+native product/runtime and later gates remain unfinished.
+
+Final CI passes948 tests/28 skips, exit zero. Target-required tracking, docs,
+generated progress and whitespace pass. After all known compiler/replay/CI
+handles terminate, the69-member archive preserves1700943 logical bytes in490201
+bytes, SHA256
+fb81532dba45010062078ddac4c6369b243afa27f59414c204ff484cae41b1f8.
+CRC, every member SHA and loose-byte equality pass. The complete per-path plan
+is persisted before removing63 archived duplicates and275 new CI caches:
+338 files/6377073 logical bytes. All127 old cache paths remain, including one
+refreshed by the changed producer. Canonical objects, original target/tools/IDA
+and older unclassified evidence are retained. No archive-only compilation or
+new exact acceptance is claimed from the packaging verification.

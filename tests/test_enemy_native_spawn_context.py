@@ -92,6 +92,24 @@ class EnemyNativeSpawnContext(unittest.TestCase):
             with self.subTest(case=case, body=body), self.assertRaises(ValueError):
                 probe.standalone_source(case, body)
 
+    def test_pointer_context_requires_the_actual_folded_definition(self):
+        case = 'standalone-pointer-view'
+        name = 'float3-pointer-identity-view'
+        self.assertEqual(probe.CASE_OWNERS[case],
+                         probe.CASE_OWNERS['standalone']+(name,))
+        self.assertEqual(probe.NATIVE_OWNERS[name],
+                         (0x4343D0, 3, '??BFloat3@@QAEPAMXZ', 1))
+        actual = (ROOT/'src/VectorPointerViews.cpp').read_bytes()
+        bodies = probe.native_bodies(case, {'VectorPointerViews.cpp': actual})
+        self.assertEqual(bodies, actual.decode()+'\n')
+        carrier = probe.standalone_source(case, bodies)
+        self.assertLess(carrier.index('Float3::operator float *()'),
+                        carrier.index('#include "EnemyManagerCore.inl"'))
+        with self.assertRaises(KeyError):
+            probe.native_bodies(case, {})
+        with self.assertRaises(ValueError):
+            probe.standalone_source(case, '')
+
     def test_complete_native_code_and_all_actual_fields_required(self):
         raw, fields, unit, target = definition()
         result = probe.compare_native_definition(raw, fields, unit, target)
