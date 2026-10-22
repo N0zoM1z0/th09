@@ -3429,18 +3429,15 @@ def run_exattack_type3(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 
 EXATTACK_1422_DRAW_SHA256 = 'af3c06ea2c9f68861067f5feb784206035dd67ea3eb07ef3994ed4ec17df74f4'
-# Full cold original SHA+53-field PE/COFF prefix comparison of the 959-byte
-# original Type14/22 Draw owner against its 974-byte current real TU source.
-# One bit per original physical byte: 905 still differ and 54 already match.
-# A truly improved candidate may CLEAR these positions, never poison an
-# original-matching position, regardless of codegen reordering or length.
+# Full original-SHA/53-field comparison of the959-byte native ECL caller.
+# The reviewed shared-layer replacement restores402 old mismatches and changes
+# 22 former byte coincidences. Pin525 residuals and protect434 equal bytes;
+# subsequent unreviewed same-count exchanges still fail closed.
 EXATTACK_1422_DRAW_ORIGINAL_RESIDUAL_MASK = bytes.fromhex(
-    'a04bfffffffffffffffffffffffffffbfeffffff'
-    'ffbfffffdffffcffffff1ffff7ffffffffffffff'
-    'ffff3fffffffeffffffffeffefffdffcffcdffdf'
-    'ffffff7fffbefffff6ffffffffbfdfffff77feff'
-    'ffffff7ffffffffffffffffffbffffffffffffff'
-    'ffffffffffffffffffdffb7fbffef7fb7fbfbf7f'
+    '2000ffffffffffffffeffdffffffffffffffffff5fcdffffff7fffffffffcfff'
+    'fffffffffffffffffdffffffffffffffbffffdfedfaffffdfedfafffbfffffff'
+    'ff3ffdff24010400044800000002000000002400024020000040000000480204'
+    '100049000000000000000000000000000000000000000000'
 )
 
 EXATTACK_1422_DRAW_EXACT_FAMILY = (
@@ -3473,20 +3470,33 @@ def guard_exattack_type1422_draw(result: dict) -> dict:
     candidate_jumps = result.get('candidate_direct_jumps')
     first = result.get('first_differences')
     if (result.get('target_sha256') != EXATTACK_1422_DRAW_SHA256 or
-            type(size) is not int or not 959 <= size <= 974 or
+            type(size) is not int or size != 959 or
             result.get('target_instructions') != 290 or
             type(result.get('candidate_instructions')) is not int or
-            not 290 <= result['candidate_instructions'] <= 297 or
+            not 290 <= result['candidate_instructions'] <= 291 or
             result.get('target_fields') != 53 or
+            result.get('literal_definitions_checked') != 4 or
+            result.get('literal_definitions_original_equal') is not True or
+            result.get('native_polar_bytes') != 32 or
+            result.get('native_polar_original_equal') is not True or
+            result.get('native_polar_same_object_calls') != 2 or
+            result.get('reachable_successors_and_calls_equal') is not True or
+            result.get('target_reachable_blocks') != 17 or
+            result.get('candidate_reachable_blocks') != 17 or
+            result.get('target_unreachable_padding_bytes') != 0 or
+            result.get('candidate_unreachable_padding_bytes') not in (0, 8) or
+            result.get('target_layout_jumps') != 0 or
+            result.get('candidate_layout_jumps') not in (0, 1) or
+            result.get('candidate_unreachable_padding_bytes') != 8 * result.get('candidate_layout_jumps', -1) or
             result.get('direct_calls') != 20 or
             result.get('indirect_calls') != 12 or
             result.get('field_order_and_destinations_equal') is not True or
             result.get('ordered_direct_calls_equal') is not True or
             result.get('target_direct_jumps') != 9 or
-            type(candidate_jumps) is not int or candidate_jumps != 9 or
-            type(count) is not int or not 0 <= count <= 905 or
+            type(candidate_jumps) is not int or candidate_jumps != 9 + result.get('candidate_layout_jumps', -1) or
+            type(count) is not int or not 0 <= count <= 525 or
             len(EXATTACK_1422_DRAW_ORIGINAL_RESIDUAL_MASK) != 120 or
-            sum(x.bit_count() for x in EXATTACK_1422_DRAW_ORIGINAL_RESIDUAL_MASK) != 905 or
+            sum(x.bit_count() for x in EXATTACK_1422_DRAW_ORIGINAL_RESIDUAL_MASK) != 525 or
             result.get('absent_target_bytes') != 0 or
             result.get('extra_candidate_bytes') != size - 959 or
             result.get('complete_bytes_equal') is not (size == 959 and count == 0) or
@@ -3508,6 +3518,14 @@ def guard_exattack_type1422_draw(result: dict) -> dict:
             any(not (EXATTACK_1422_DRAW_ORIGINAL_RESIDUAL_MASK[i // 8] &
                      (1 << (i % 8))) for i in actual)):
         raise RuntimeError('ExAttack Type14/22 changed an already matching original physical byte')
+    if count == 0 and (result.get('resolved_sha256') != EXATTACK_1422_DRAW_SHA256 or
+                       result.get('field_positions_equal') is not True or
+                       result.get('address_graphs_agree') is not True or
+                       result.get('candidate_instructions') != 290 or
+                       result.get('candidate_layout_jumps') != 0 or
+                       result.get('candidate_unreachable_padding_bytes') != 0 or
+                       candidate_jumps != 9):
+        raise RuntimeError('ExAttack Type14/22 incomplete full-equality evidence')
     return {'target_bytes': 959, 'candidate_bytes': size,
             'target_instructions': 290, 'candidate_instructions': result['candidate_instructions'],
             'bound_fields': 53, 'ordered_direct_calls': 20,
@@ -3516,17 +3534,23 @@ def guard_exattack_type1422_draw(result: dict) -> dict:
             'overlap_differences': count, 'extra_candidate_bytes': size - 959}
 
 
-def run_exattack_type1422_draw(*, protect_exact: bool) -> tuple[dict, list[dict]]:
-    # Was previously inspected manually but missing from BOTH the EXATTACK
-    # owner and ALL cold suites. Rebuild the real draw carrier on each run.
-    obj = 'build/matching/ExAttackDrawType14Type22.obj'
-    build_nonexact('src/ExAttackDrawType14Type22.cpp', obj,
-                   reference_unit='exattack-type14-init')
+def run_exattack_type1422_draw(*, protect_exact: bool,
+                              already_built: tuple[str, ...] = ()) -> tuple[dict, list[dict]]:
+    # The real polar body is required in this source context; it stays singly
+    # defined in the ECL carrier rather than copied into a second game TU.
+    obj = 'build/matching/EclManager.obj'
+    if any(item not in ECL_EXACT_CARRIERS for item in already_built):
+        raise RuntimeError('unreviewed ExAttack draw prebuilt ECL carrier')
+    if obj not in already_built:
+        build('ecl-pop-context')
     result = parsed(['scripts/inspect-exattack-type14-22-draw.py', obj, '--json'],
                     diagnostic=True)
     draw = guard_exattack_type1422_draw(result)
     exact = []
     if protect_exact:
+        exact.extend(cold_replay_exact_source(
+            'src/EclManager.cpp', ECL_EXACT_CARRIERS,
+            already_built=tuple(dict.fromkeys((obj, *already_built)))))
         for unit in EXATTACK_1422_DRAW_EXACT_FAMILY:
             build(unit)
             exact.append(canonical(unit))

@@ -601,8 +601,8 @@ class BossFrontierChecks(TestCase):
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',
             'target_sha256': frontiers.EXATTACK_1422_DRAW_SHA256,
-            'target_bytes': 959, 'candidate_bytes': 974,
-            'target_instructions': 290, 'candidate_instructions': 297,
+            'target_bytes': 959, 'candidate_bytes': 959,
+            'target_instructions': 290, 'candidate_instructions': 291,
             'target_fields': 53, 'candidate_fields': 53,
             'target_COM_calls': [dict(slot=slot, reverse_arguments=list(args),
                                      receiver_address=0x004B3108) for slot, args in (
@@ -621,19 +621,22 @@ class BossFrontierChecks(TestCase):
                 (0xFC, (4, 4, 0)), (0xFC, (4, 1, 0)),
                 (0xFC, (2, 5, 0)), (0xFC, (2, 2, 0)))],
             'direct_calls': 20, 'indirect_calls': 12,
-            'target_direct_jumps': 9, 'candidate_direct_jumps': 9,
+            'target_direct_jumps': 9, 'candidate_direct_jumps': 10,
             'field_order_and_destinations_equal': True,
             'ordered_direct_calls_equal': True,
-            'overlapping_differences': 905,
+            'literal_definitions_checked': 4, 'literal_definitions_original_equal': True,
+            'native_polar_bytes': 32, 'native_polar_original_equal': True,
+            'native_polar_same_object_calls': 2,
+            'reachable_successors_and_calls_equal': True,
+            'target_reachable_blocks': 17, 'candidate_reachable_blocks': 17,
+            'target_unreachable_padding_bytes': 0, 'candidate_unreachable_padding_bytes': 8,
+            'target_layout_jumps': 0, 'candidate_layout_jumps': 1,
+            'overlapping_differences': 525,
             'difference_offsets': [i for i in range(959) if
                 frontiers.EXATTACK_1422_DRAW_ORIGINAL_RESIDUAL_MASK[i // 8] &
                 (1 << (i % 8))],
-            'absent_target_bytes': 0, 'extra_candidate_bytes': 15,
-            'first_differences': [hex(x) for x in
-                                  (0x5, 0x7, 0x8, 0x9, 0xB, 0xE, 0x10, 0x11,
-                                   0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
-                                   0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D,
-                                   0x1E, 0x1F, 0x20, 0x21)],
+            'absent_target_bytes': 0, 'extra_candidate_bytes': 0,
+            'first_differences': ['0x5', '0x10', '0x11', '0x12', '0x13', '0x14', '0x15', '0x16', '0x17', '0x18', '0x19', '0x1a', '0x1b', '0x1c', '0x1d', '0x1e', '0x1f', '0x20', '0x21', '0x22', '0x23', '0x24', '0x25', '0x26'],
             'complete_bytes_equal': False,
         }
 
@@ -642,40 +645,46 @@ class BossFrontierChecks(TestCase):
         with patch.object(frontiers, 'build_nonexact') as compile_source, \
              patch.object(frontiers, 'parsed', return_value=evidence) as read, \
              patch.object(frontiers, 'build') as build, \
+             patch.object(frontiers, 'cold_replay_exact_source',
+                          return_value=[{'unit': 'existing-ecl-owner'}]) as shared, \
              patch.object(frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
             owners, siblings = frontiers.run_exattack_type1422_draw(protect_exact=True)
-        compile_source.assert_called_once_with(
-            'src/ExAttackDrawType14Type22.cpp',
-            'build/matching/ExAttackDrawType14Type22.obj',
-            reference_unit='exattack-type14-init')
+        compile_source.assert_not_called()
+        shared.assert_called_once_with('src/EclManager.cpp', frontiers.ECL_EXACT_CARRIERS,
+                                       already_built=('build/matching/EclManager.obj',))
         read.assert_called_once_with(
             ['scripts/inspect-exattack-type14-22-draw.py',
-             'build/matching/ExAttackDrawType14Type22.obj', '--json'], diagnostic=True)
+             'build/matching/EclManager.obj', '--json'], diagnostic=True)
         self.assertEqual(owners['exattack_type14_22_draw']['target_bytes'], 959)
-        self.assertEqual(owners['exattack_type14_22_draw']['extra_candidate_bytes'], 15)
-        self.assertEqual(build.call_count, 3)
+        self.assertEqual(owners['exattack_type14_22_draw']['extra_candidate_bytes'], 0)
+        self.assertEqual(build.call_count, 4)
         self.assertEqual([x['unit'] for x in siblings],
-                         list(frontiers.EXATTACK_1422_DRAW_EXACT_FAMILY))
+                         ['existing-ecl-owner', *frontiers.EXATTACK_1422_DRAW_EXACT_FAMILY])
 
     def test_exattack_1422_draw_wrong_extent_fields_calls_graph_or_credit_fails(self):
         baseline = self.exattack_1422_draw_evidence()
         bad = (
-            {'target_sha256': '0'*64}, {'candidate_bytes': 975},
-            {'target_instructions': 289}, {'candidate_instructions': 298},
+            {'target_sha256': '0'*64}, {'candidate_bytes': 960},
+            {'target_instructions': 289}, {'candidate_instructions': 292},
             {'target_fields': 52}, {'candidate_fields': 52},
             {'target_COM_calls': None}, {'candidate_COM_calls': []},
             {'direct_calls': 19}, {'indirect_calls': 11},
-            {'target_direct_jumps': 8}, {'candidate_direct_jumps': 10},
+            {'target_direct_jumps': 8}, {'candidate_direct_jumps': 11},
             {'field_order_and_destinations_equal': False},
             {'ordered_direct_calls_equal': False},
-            {'overlapping_differences': 906},
-            {'absent_target_bytes': 1}, {'extra_candidate_bytes': 14},
+            {'literal_definitions_checked': 3}, {'literal_definitions_original_equal': False},
+            {'native_polar_bytes': 31}, {'native_polar_original_equal': False},
+            {'native_polar_same_object_calls': 1},
+            {'reachable_successors_and_calls_equal': False},
+            {'candidate_reachable_blocks': 18}, {'candidate_unreachable_padding_bytes': 9},
+            {'overlapping_differences': 526},
+            {'absent_target_bytes': 1}, {'extra_candidate_bytes': 1},
             {'complete_bytes_equal': True},
             {'first_differences': ['0x3'] + baseline['first_differences'][:-1]},
             {'difference_offsets': baseline['difference_offsets'][1:] + [1000]},
             {'difference_offsets': baseline['difference_offsets'][:-1]},
             {'difference_offsets': list(reversed(baseline['difference_offsets']))},
-            {'difference_offsets': baseline['difference_offsets'][:1] * 905},
+            {'difference_offsets': baseline['difference_offsets'][:1] * 525},
             {'first_differences': baseline['first_differences'][:-1]},
             {'first_differences': baseline['first_differences'][::-1]},
             {'first_differences': baseline['first_differences'][:-1] + ['0x3c1']},
@@ -705,15 +714,15 @@ class BossFrontierChecks(TestCase):
     def test_exattack_1422_draw_cannot_exchange_a_real_difference_for_a_matching_byte(self):
         baseline = self.exattack_1422_draw_evidence()
         known = set(baseline['difference_offsets'])
-        self.assertEqual(len(known), 905)
-        self.assertEqual(959 - len(known), 54)
+        self.assertEqual(len(known), 525)
+        self.assertEqual(959 - len(known), 434)
         first = baseline['first_differences']
         self.assertTrue(first)
         self.assertEqual([int(x, 16) for x in first], baseline['difference_offsets'][:24])
         # Every inserted mismatch was *already equal* in the original owner.
-        # The 905 count, all 53 COFF fields, both call kinds and jump count
+        # The 525 count, all 53 COFF fields, both call kinds and jump count
         # stay unchanged. A count-only guard would incorrectly accept these.
-        for bad in (3, 0x6, 0xA, 0x7A, 0xC5, 0x157, 0x208, 0x3B6):
+        for bad in (3, 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0x3B6):
             self.assertNotIn(bad, known)
             moved = sorted((known - {0x5}) | {bad})
             changed = {**baseline, 'difference_offsets': moved,
@@ -724,11 +733,11 @@ class BossFrontierChecks(TestCase):
         # A genuine reduction of one old difference is permitted as a
         # noncrediting diagnostic, not accepted source exactness.
         narrowed = sorted(known - {0x5})
-        improved = {**baseline, 'overlapping_differences': 904,
+        improved = {**baseline, 'overlapping_differences': 524,
                     'difference_offsets': narrowed,
                     'first_differences': [hex(x) for x in narrowed[:24]]}
         self.assertEqual(frontiers.guard_exattack_type1422_draw(improved)[
-            'overlap_differences'], 904)
+            'overlap_differences'], 524)
         self.assertEqual(improved['exactness_credit'], 'none')
 
     def test_exattack_1422_draw_future_full_size_convergence_remains_noncrediting(self):
@@ -737,7 +746,11 @@ class BossFrontierChecks(TestCase):
                       'candidate_instructions': 290,
                       'overlapping_differences': 0, 'difference_offsets': [],
                       'first_differences': [],
-                      'extra_candidate_bytes': 0, 'complete_bytes_equal': True}
+                      'extra_candidate_bytes': 0, 'complete_bytes_equal': True,
+                      'resolved_sha256': frontiers.EXATTACK_1422_DRAW_SHA256,
+                      'field_positions_equal': True, 'address_graphs_agree': True,
+                      'candidate_direct_jumps': 9, 'candidate_layout_jumps': 0,
+                      'candidate_unreachable_padding_bytes': 0}
         report = frontiers.guard_exattack_type1422_draw(true_shape)
         self.assertEqual(report['overlap_differences'], 0)
         self.assertEqual(true_shape['exactness_credit'], 'none')

@@ -8,8 +8,10 @@ actual PE/COFF comparison, never by these deterministic binder tests.
 import importlib.util
 from pathlib import Path
 import struct
+import sys
 from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location(
@@ -18,6 +20,45 @@ spec = importlib.util.spec_from_file_location(
 )
 INSPECT = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(INSPECT)
+
+
+class Type1422ReachableGraphTests(unittest.TestCase):
+    def test_only_next_unconditional_edges_normalize_and_calls_stay_ordered(self):
+        calls = [('direct', 0x441890), ('indirect-slot', 0xFC)]
+        fallthrough = [('fallthrough', [1], calls), ('ret', [], [])]
+        jump = [('jmp', [1], calls), ('ret', [], [])]
+        self.assertEqual(INSPECT.normalize_next_edges(fallthrough),
+                         INSPECT.normalize_next_edges(jump))
+        for changed in ([('jne', [1], calls), ('ret', [], [])],
+                        [('jmp', [0], calls), ('ret', [], [])],
+                        [('jmp', [1], list(reversed(calls))), ('ret', [], [])]):
+            self.assertNotEqual(INSPECT.normalize_next_edges(fallthrough),
+                                INSPECT.normalize_next_edges(changed))
+
+    @staticmethod
+    def alignment_stream(last=b'\x90', mnemonic='nop'):
+        def ins(address, code, name, operands=()):
+            return SimpleNamespace(address=address, size=len(code), bytes=code,
+                                   mnemonic=name, operands=operands)
+        return [ins(0x1000, b'\xeb\x08', 'jmp',
+                    [SimpleNamespace(type=2, imm=0x100A)]),
+                ins(0x1002, b'\x8d\xa4\x24\0\0\0\0', 'lea'),
+                ins(0x1009, last, mnemonic), ins(0x100A, b'\xc3', 'ret')]
+
+    def test_unreachable_alignment_is_counted_and_only_graph_nodes_are_removed(self):
+        fake = SimpleNamespace(x86=SimpleNamespace(X86_OP_IMM=2, X86_OP_MEM=3))
+        with patch.dict(sys.modules, {'capstone': fake}):
+            starts, graph, count, padding, jumps = INSPECT.reachable_owner_graph(self.alignment_stream())
+        self.assertEqual(starts, [0, 10])
+        self.assertEqual((count, padding, jumps), (2, 8, 1))
+        self.assertEqual(graph, [('next', [1], []), ('ret', [], [])])
+        self.assertEqual(sum(i.size for i in self.alignment_stream()), 11)
+
+    def test_arbitrary_dead_instructions_do_not_inherit_alignment_proof(self):
+        fake = SimpleNamespace(x86=SimpleNamespace(X86_OP_IMM=2, X86_OP_MEM=3))
+        with patch.dict(sys.modules, {'capstone': fake}):
+            with self.assertRaisesRegex(ValueError, 'unreviewed unreachable'):
+                INSPECT.reachable_owner_graph(self.alignment_stream(b'\x40', 'inc'))
 
 
 class Type1422DrawBindingTests(unittest.TestCase):

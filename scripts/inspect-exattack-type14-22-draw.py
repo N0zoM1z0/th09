@@ -314,13 +314,108 @@ def aligned_shape_changes(candidate_stream, target_stream):
     return module.changed_instructions(candidate_stream, target_stream)
 
 
+def owner_graph(instructions):
+    """Keep block edges and per-block calls independent of physical scheduling."""
+    import capstone
+    if not instructions:
+        raise ValueError('empty ExAttack draw control-flow owner')
+    base = instructions[0].address
+    addresses = {i.address for i in instructions}
+    starts = {base}
+    for ins in instructions:
+        if ins.mnemonic.startswith(('j', 'ret')):
+            if ins.address + ins.size in addresses:
+                starts.add(ins.address + ins.size)
+            if ins.mnemonic.startswith('j'):
+                if ins.operands[0].type != capstone.x86.X86_OP_IMM:
+                    raise ValueError('unreviewed indirect ExAttack draw branch')
+                starts.add(ins.operands[0].imm)
+    ordered = sorted(starts)
+    if not starts <= addresses:
+        raise ValueError('ExAttack draw branch leaves decoded owner')
+    indices = {address: n for n, address in enumerate(ordered)}
+    graph = []
+    for n, start in enumerate(ordered):
+        end = ordered[n+1] if n+1 < len(ordered) else instructions[-1].address + instructions[-1].size
+        body = [i for i in instructions if start <= i.address < end]
+        tail = body[-1]
+        edges = []
+        if tail.mnemonic.startswith('j'):
+            edges.append(indices[tail.operands[0].imm])
+        if tail.mnemonic != 'jmp' and not tail.mnemonic.startswith('ret') and end in indices:
+            edges.append(indices[end])
+        calls = []
+        for ins in body:
+            if ins.mnemonic != 'call':
+                continue
+            op = ins.operands[0]
+            if op.type == capstone.x86.X86_OP_IMM:
+                calls.append(('direct', op.imm))
+            elif op.type == capstone.x86.X86_OP_MEM:
+                calls.append(('indirect-slot', op.mem.disp))
+            else:
+                raise ValueError('unreviewed ExAttack draw call operand')
+        kind = tail.mnemonic if tail.mnemonic.startswith(('j', 'ret')) else 'fallthrough'
+        graph.append((kind, edges, calls))
+    return [x-base for x in ordered], graph
+
+
+def normalize_next_edges(graph):
+    """An unconditional edge to the next block has the same successor as falling through."""
+    return [('next' if kind in ('jmp', 'fallthrough') and edges == [n+1] else kind,
+             edges, calls) for n, (kind, edges, calls) in enumerate(graph)]
+
+
+def reachable_owner_graph(instructions):
+    import capstone
+    by_address = {i.address: i for i in instructions}
+    pending = [instructions[0].address]
+    seen = set()
+    while pending:
+        address = pending.pop()
+        if address in seen:
+            continue
+        if address not in by_address:
+            raise ValueError('ExAttack draw reachable edge leaves owner')
+        seen.add(address)
+        ins = by_address[address]
+        if ins.mnemonic.startswith('ret'):
+            continue
+        if ins.mnemonic.startswith('j'):
+            if ins.operands[0].type != capstone.x86.X86_OP_IMM:
+                raise ValueError('unreviewed ExAttack draw reachable branch')
+            pending.append(ins.operands[0].imm)
+        if ins.mnemonic != 'jmp':
+            pending.append(ins.address + ins.size)
+    unreachable = [i for i in instructions if i.address not in seen]
+    # These observed compiler alignment bytes stay in the complete comparison.
+    # Only their graph nodes are unreachable; arbitrary dead code is rejected.
+    for ins in unreachable:
+        if bytes(ins.bytes) not in (b'\x90', b'\x8d\xa4\x24\x00\x00\x00\x00'):
+            raise ValueError('unreviewed unreachable ExAttack draw instruction')
+    reachable = [i for i in instructions if i.address in seen]
+    starts, graph = owner_graph(reachable)
+    layout_jumps = 0
+    for ins in reachable:
+        if ins.mnemonic != 'jmp':
+            continue
+        end = ins.address + ins.size
+        destination = ins.operands[0].imm
+        gap = [i for i in unreachable if end <= i.address < destination]
+        if gap and sum(i.size for i in gap) == destination-end:
+            layout_jumps += 1
+    return (starts, normalize_next_edges(graph), len(reachable),
+            sum(i.size for i in unreachable), layout_jumps)
+
+
 def inspect(path: Path, *, explain: bool = False) -> dict:
     spec = importlib.util.spec_from_file_location('exattack14_coff', ROOT/'scripts/compare-coff-function.py')
     if spec is None or spec.loader is None:
         raise ValueError('target-bound COFF parser unavailable')
     coff = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(coff)
-    target = coff.pe_bytes_at(coff.verified_target(), BASE, SIZE)
+    image = coff.verified_target()
+    target = coff.pe_bytes_at(image, BASE, SIZE)
     if hashlib.sha256(target).hexdigest() != TARGET_OWNER_SHA256:
         raise ValueError('verified original Type14/22 draw owner identity drifted')
     t_ins, t_fields, t_calls, t_ind = decode_owner(target)
@@ -331,7 +426,19 @@ def inspect(path: Path, *, explain: bool = False) -> dict:
             expected = struct.pack('<I', int(symbol[7:], 16))
             if coff.pe_bytes_at(coff.verified_target(), dest, 4) != expected:
                 raise ValueError('ExAttack draw literal does not match actual target float')
-    raw, rows = coff.object_function(path, SYMBOL)
+    raw, rows = coff.object_function(path, SYMBOL, include_symbol_locations=True)
+    literal_spec = importlib.util.spec_from_file_location(
+        'exattack1422_literal_definitions', ROOT/'scripts/coff_literal_definitions.py')
+    literals = importlib.util.module_from_spec(literal_spec)
+    literal_spec.loader.exec_module(literals)
+    definitions = literals.check_literal_definitions(path.read_bytes(), rows, image, coff, DESTINATIONS)
+    polar_symbol = '?FromAngleMagnitude@Float3@@QAEXMM@Z'
+    polar, polar_fields = coff.object_function(path, polar_symbol, include_symbol_locations=True)
+    if polar != coff.pe_bytes_at(image, 0x00441890, 32) or polar_fields:
+        raise ValueError('ExAttack draw actual native polar definition differs')
+    polar_calls = [row for row in rows if row['symbol'] == polar_symbol]
+    if len(polar_calls) != 2 or any(row['symbol_section'] <= 0 for row in polar_calls):
+        raise ValueError('ExAttack draw requires both actual same-object polar calls')
     candidate, candidate_fields = bind_candidate(raw, rows)
     c_ins, c_fields, c_calls, c_ind = decode_owner(candidate)
     if c_fields != candidate_fields:
@@ -345,6 +452,10 @@ def inspect(path: Path, *, explain: bool = False) -> dict:
     candidate_stream, candidate_jumps = normalized_owner_shape(c_ins, c_fields)
     target_com = trace_com_events(com_call_events(t_ins))
     candidate_com = trace_com_events(com_call_events(c_ins))
+    target_starts, target_graph = owner_graph(t_ins)
+    candidate_starts, candidate_graph = owner_graph(c_ins)
+    _, target_reachable, t_reachable_count, t_padding, t_layout = reachable_owner_graph(t_ins)
+    _, candidate_reachable, c_reachable_count, c_padding, c_layout = reachable_owner_graph(c_ins)
     differences = [i for i, (x, y) in enumerate(zip(target, candidate)) if x != y]
     result = {
         'diagnostic_only': True, 'exactness_credit': 'none',
@@ -356,6 +467,25 @@ def inspect(path: Path, *, explain: bool = False) -> dict:
         'candidate_direct_jumps': len(candidate_jumps),
         'field_order_and_destinations_equal': True,
         'ordered_direct_calls_equal': True,
+        'field_positions_equal': t_fields == c_fields,
+        'literal_definitions_checked': len(definitions),
+        'literal_definitions_original_equal': True,
+        'literal_definitions': definitions,
+        'native_polar_bytes': len(polar),
+        'native_polar_original_equal': True,
+        'native_polar_same_object_calls': len(polar_calls),
+        'native_polar_raw_sha256': hashlib.sha256(polar).hexdigest(),
+        'target_blocks': len(target_graph), 'candidate_blocks': len(candidate_graph),
+        'ordinal_graphs_agree': target_graph == candidate_graph,
+        'address_graphs_agree': (target_starts, target_graph) == (candidate_starts, candidate_graph),
+        'reachable_successors_and_calls_equal': target_reachable == candidate_reachable,
+        'target_reachable_blocks': len(target_reachable),
+        'candidate_reachable_blocks': len(candidate_reachable),
+        'target_reachable_instructions': t_reachable_count,
+        'candidate_reachable_instructions': c_reachable_count,
+        'target_unreachable_padding_bytes': t_padding,
+        'candidate_unreachable_padding_bytes': c_padding,
+        'target_layout_jumps': t_layout, 'candidate_layout_jumps': c_layout,
         'target_COM_calls': target_com, 'candidate_COM_calls': candidate_com,
         'overlapping_differences': len(differences),
         'absent_target_bytes': max(0, SIZE-len(candidate)),

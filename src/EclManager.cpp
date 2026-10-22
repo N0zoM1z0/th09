@@ -846,3 +846,5 @@ th09_ecl_select_next_context:
 #include "EffectFanFinalCallbacks.inl"
 
 #include "EffectDrawType29.inl"
+
+#include "ExAttackDrawType14Type22.inl"

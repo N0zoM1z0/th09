@@ -17995,3 +17995,137 @@ refreshed frontier/inspector caches. Current canonical objects/PDBs,target/tools
 IDA and older unclassified evidence remain. Current maintained/exact/focused/
 emulator receipts remain readable;superseded summaries and projected manifests
 are hash-verified archive members. No archive-only compiler replay is claimed.
+
+
+## October 22: ExAttack14/22 shared rows and the real polar context
+
+Recovery atb118b7a9d6a98b45739ddfb51f92044cb7e10254 passes original Japanese
+v1.50a disk,direct IDA metadata,entry and five mapped samples. Four full ECL
+Effect34 controls test a named radius sum,two compound-radius values and direct
+center XYZ copies. The first three reproduce946/53/78 completely;the field
+copies give432 differences and damage366 equal positions. None is adopted;
+current Effect34 source and its78-residual guard remain unchanged.
+
+The independent ExAttack14/22 draw444130..4444EE is959 bytes,SHA256
+af3c06ea2c9f68861067f5feb784206035dd67ea3eb07ef3994ed4ec17df74f4.
+Its0xF48 extra has a33-vertex center fan+54,four33-vertex rows+2E8 and four
+33-float random rows+D38. Exactly32 vertices per line row are generated and
+submitted. The state>=2 gate,half-alpha center,30-tick fade,post-draw state1
+break,+4C clearing and original SDK restoration are preserved. These are
+TH09-local facts;Effect34's distinct32-vertex rows/0xEF8 size are not imported.
+
+Fresh standalone baseline repeats974 bytes/297 instructions/53 referents/
+905 linked overlap differences+15 extra bytes. A shared groupIndex for both
+arrays emits961/291/821+2 extra. Co-visible actual polar definition32 bytes
+removes the two remaining excess bytes:959/291/525. A selected unchanged
+ExAttackInitType8.inl context and complete current ECL context independently
+emit the identical full caller. Both actual native definitions equal441890/32
+with zero fields,and both caller operands reference that defined COFF symbol.
+No source assembly,register/variable-order hint,profile search or fake ABI is
+introduced;the existing native primitive remains unchanged and singly defined.
+
+The renderer is maintained once as ExAttackDrawType14Type22.inl,lexically
+included after the native definitions by EclManager.cpp. The former standalone
+CPP is removed. Real AnmVm.color1 and its1F0 offset assertion replace the private
+one-field VM view;the whole caller remains byte-identical. Current raw SHA256
+6972c007474fd2c4fd74ee052e0b8b80e1c19749d38263cf1aa47b081ee4abbf.
+Both source routes use the same preexisting pinned /O2 /Ob1 profile. The new
+source is a viable maintained context,not unique original class/TU spelling.
+
+This is a reviewed nonexact frontier replacement. It restores402 old mismatches,
+changes22 former physical-byte coincidences,and removes15 excess bytes. The
+new full525-offset mask protects434 equal original bytes. The source retains
+frame1C versus original20 and291 physical instructions versus290. Its10 physical
+jumps include one next-block jump over8 unreachable compiler alignment bytes
+(seven-byte self-LEA ESP plus NOP);original has9 jumps and no unreachable bytes.
+Original/candidate physical blocks are17/18. Complete byte comparison still
+includes every padding byte and every jump:zero partial exact credit.
+
+Static reachability and per-block native/COM call identities independently give
+17 reachable blocks on each side. Conditional mnemonics and edge order remain
+significant. Only a next-block unconditional transfer is normalized to the same
+successor as fallthrough,after proving its skipped instructions unreachable and
+restricted to the observed benign alignment encodings. Those successor/call
+graphs agree;physical ordinal and address graphs remain different. The guard
+requires525 or fewer pinned residuals,959 bytes,290..291 instructions,53 fields,
+the original20 direct/12 COM calls and12 actual SDK/device traces. Physical
+jump excess must equal the independently counted layout jump,and8 padding
+bytes must correspond to that one jump. Full equality additionally requires the
+original linked digest,all field positions,full address graph,290 instructions,
+zero layout padding and9 jumps. Arbitrary dead code cannot inherit this proof.
+Three new pure tests cover next-edge/call-order preservation,explicit alignment
+accounting and rejection of nonpadding dead instructions without site packages.
+
+A bounded original/candidate Unicorn1.0.2 countercheck executes actual original
+timer,polar,angle,vector-add and coordinate machine code. ANM/COM hooks capture
+all draw buffers/arguments,apply actual stack cleanup and clobber volatile
+registers. The114 finite fixtures cover inactive0/1,active2/3/4,timer edges
+-1/0/1/15/29/30/31,three radius/jitter pairs,nonzero XYZ/render origins and a
+state1 transition after the first line. Full0xF48 buffers,VM/record/fixture RAM,
+draws,EAX return,stack balance and saved registers agree. Coverage equals all
+290 statically reachable original instructions and289 candidate instructions;
+the two unexecuted candidate alignment instructions remain physically compared.
+FPCW037F masked extended precision is fixed. This is finite synthetic evidence,
+not universal runtime equivalence,Windows product closure or a semantic gate.
+Fresh maintained raw bytes/relocation identities bind the reused fixture result.
+
+Other bounded models remain negative. Keeping only the group pointer gives
+972/899;keeping only the random-row pointer gives959/529. Shared vertex/count
+workspace,record reference and direct line-alpha producer retain525. Packing
+half-alpha through the full channel gives518 differences but293 instructions,
+farther from the original290;it is not adopted merely for the lower byte score.
+The eleven source controls retain their actual32-byte native proofs and separate
+source/profile hashes. No historical negative matrix excludes untested models.
+
+The previous inspector checked target float bits and operand identities but not
+candidate scalar payloads or the actual visible polar body. The strengthened
+producer reads all four actual read-only scalar definitions and the complete
+32-byte/two-call native definition. Five disposable COFF counterexamples flip
+one byte in each scalar or that native body while retaining all959 root bytes
+and all53 actual root rows. The old inspector still reports525 for every copy;
+the new one rejects all five. This is an inspector counterexample,not an old
+production-frontier pass. Canonical object,target and IDA are never modified.
+Existing frontier corruption tests now require actual-data/native/layout proof,
+protect newly matched positions and reject incomplete full-equality claims.
+
+Only EclManager.cpp changes,and the old standalone CPP is replaced by one inl;
+491 other game inputs are unchanged,493 inputs remain in total. All79 affected
+existing exact units pass25215 physical bytes/1126 fields across the same two
+fixed profiles. Movement+139 changes$L74122->$L74362 at unchanged408548;
+comparison+14 changes$L73351->$L73543 at unchanged407A4C. Actual owner-local
+sections/values/addends and complete owners pass before updating only those
+manifest strings;both full comparison receipts are reused in the79-unit census.
+No size,profile,target,external identity or exact ledger row changes. The924
+unaffected exact proofs,including three independent Type14/22 initializer/update
+owners,are reused. Shared fresh RunEcl30,Enemy13,Effect34 78,Type29,biased,
+and existing Type19/Type26 exact diagnostics remain unchanged. TitleDrawResult22
+and Type315 keep their unchanged source/profile proofs.
+
+Current evidence is .analysis/gpt-61sol-20261022-exattack1422-shared-layer/ and
+.analysis/gpt-61sol-20261022-effect34-value-shape/. Inputs,all source controls,
+actual raw/COFF,data/native counterexamples and complete fixture/coverage records
+remain source-scoped. Exact stays1003/1035 functions,244917/291883 bytes
+(83.9093%);95% still needs32372 whole accepted bytes. The four named fronts,
+complete inventory,native product/runtime and later gates remain unfinished.
+Initial CI runs954 tests/28 skips with one error:the routing edit accidentally
+removed the adjacent EXATTACK_CTOR_CODEGEN_EVIDENCE constant. The exact parent
+constant is restored;seven constructor and60 frontier tests pass. No native
+compiler input changes,so the79 native proofs remain valid. Final complete CI
+rerun passes954 tests/28 skips,exit zero. Both logs and the implementation-failure
+receipt remain distinct from source-model counterevidence. Target-required
+tracking,documentation,generated progress and whitespace pass.
+
+After all TH09 producers terminate,the29/109-member archives preserve635261/
+5568122 logical bytes in210009/813423 bytes,SHA256
+423866513e2bf597e23c248e9cb5a4a139af2da76da8e7883156c0094d47c008 and
+5ffc16f946e67ddd8d76f1fa117588090d57bf6d9f3458e6a024564c941a700b.
+CRC,every member SHA and loose-byte equality pass before cleanup. Per-path
+plans precede removing100 archive duplicates and275 new terminal-CI caches,
+375 files/10119080 logical bytes. All127 old cache paths remain,including the
+two refreshed checkers. Current canonical objects,target/tools/IDA and older
+unclassified evidence remain. Current proof receipts,recipes and both CI logs
+stay readable;superseded control aggregates,producer snapshots and manifests
+restore from hash-verified archives. An initial packaging check matched another
+repository's live CI;it made no archive/removal. The corrected check uses exact
+process CWD and leaves that unrelated job untouched. No archive-only cold replay
+or new exact owner is claimed.

@@ -1,3 +1,6 @@
+// Lexical member of the real ECL/native-polar carrier. Still nonexact.
+#pragma once
+
 #include "AnmManager.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "AsciiManager.hpp"
@@ -10,11 +13,9 @@
 #include <stddef.h>
 
 
-struct ExAttackType1422DrawVmView
-{
-    unsigned char unknown000[0x1F0];
-    int field1F0;
-};
+
+typedef char ExAttackDrawVmColorAt1F0[
+    (offsetof(AnmVm, color1) == 0x1F0) ? 1 : -1];
 
 struct ExAttackType1422DrawSupervisorView
 {
@@ -96,8 +97,7 @@ int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)
         }
         while (--remaining != 0);
 
-        reinterpret_cast<ExAttackType1422DrawVmView *>(
-            record->dynamicData1C)->field1F0 = -1;
+        record->dynamicData1C->color1 = 0xFFFFFFFFUL;
         g_AnmManager->DrawTriangleFan(
             record->dynamicData1C,
             reinterpret_cast<VertexDiffuseXyzrhw *>(
@@ -120,15 +120,12 @@ int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)
         unsigned long lineColor =
             alphaBits | 0x00FFFFFFUL;
 
-        ExAttackType1422DrawVertex (*group)[33] =
-            extra->fanGroups2E8;
-        float (*random)[33] = extra->randomD38;
         int groupIndex = 0;
 
         do
         {
-            ExAttackType1422DrawVertex *lineVertex = *group;
-            float *randomValue = *random;
+            ExAttackType1422DrawVertex *lineVertex = extra->fanGroups2E8[groupIndex];
+            float *randomValue = extra->randomD38[groupIndex];
             int lineRemaining = 32;
             do
             {
@@ -160,7 +157,7 @@ int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)
             ExAttackDrawDevice()->DrawPrimitiveUP(
                 D3DPT_LINESTRIP,
                 31,
-                *group,
+                extra->fanGroups2E8[groupIndex],
                 sizeof(ExAttackType1422DrawVertex));
 
             if (extra->state00 == 1)
@@ -168,8 +165,6 @@ int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)
 
             angle += 0.050670851f;
             ++groupIndex;
-            ++random;
-            ++group;
         }
         while (groupIndex < 4);
 
