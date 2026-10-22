@@ -19661,3 +19661,133 @@ remains 244917/291883 (83.9093%), with 41129 bytes still needed for the 98% goal
 Full target-independent CI passes 1005 tests with 29 skips; all target, tracking,
 documentation, build-graph, progress-artifact and whitespace gates pass. The
 durable log/exit are supervisor-owner-ci.{log,exit} in the campaign directory.
+
+## October 22: Native Enemy/context ownership and adjacent RunEcl audit
+
+Two bounded read-only audits find no new justified compiler probe. TH09 disk
+verification and tracking pass; the native ownership audit additionally uses
+Factory-attested th09-ida reads for the original JP1.50a target. Neither audit
+compiles, changes source or IDA metadata, or grants exactness credit. The existing
+RunEcl 15564/598/30 and Enemy OnUpdate 3900/97/13 frontiers are inherited verified
+baselines, not fresh replays by these audits.
+
+Native Create/constructor/spawn paths establish one 2AC450-byte manager with
+188-byte ECL managers at +0/+188, an Enemy template at +328, and 129 constructed
+5430-byte Enemy records at +5758; spawn/update scan 128 records. Enemy constructor
+412100 constructs the main 22C context at +7F4 and sixteen at +A20. Context
+constructor 4120D0 constructs timers at +8/+94 and eight 30-byte interpolation
+slots at +A0. RunEcl publishes the main pointer at Enemy+2CE0, switches it to
+child+8, then restores it. These independently support the existing offsets and
+shared storage behind the partial State/Core/Movement/Operand views, not a full
+original C++ Enemy layout or proof that arbitrary overlay unification is neutral.
+
+A genuine source-owner debt remains unresolved: InitializeSubroutine at406850
+stores its receiver into context+0 at40688E. SpawnEnemy calls it on both manager+0
+and manager+188 at40F3D2/40F419; CallSubroutine obtains that receiver from context+0
+at407ACC. Thus the context header owns the selected EnemyEclManagerView pointer,
+not necessarily an EnemyManager root. Current ManagerStateView and the two
+private spawn declarations still conflate that owner, while context+0 is opaque.
+The October20 RunEcl linkage correction explicitly left these aliases open.
+A narrow genuine-owner correction is likely byte-neutral if operations, layouts
+and definition visibility stay unchanged; that is an untested prediction, not
+an adopted repair or matching gain. Its conservative public-header review surface
+is 140 canonical units across 29 source files, plus the affected complete
+nonexact owners. It supplies no evidence-based explanation for opcode4/155 or
+the remaining Enemy draw/special-attack register choices, so no probe follows.
+
+Opcode155 input-bitfield syntax is not a new lead. Original40B770 establishes a
+BYTE read at instruction+0C and low-bit semantics, not a packed C++ declaration.
+The retained October19 `probe_wire_bitfield.py` and `wire-bitfield-results.json`
+under `.analysis/gpt-61sol-20261019-ecl-timer-context/` already test correctly
+qualified one-byte signed/unsigned input bitfields independently of output-only
+controls. Unsigned/native retains15564/598 but has1938 ordinary and202 field-byte
+differences, including26 table bytes; unsigned/helper fails code/alignment and
+both signed forms expand to15576. No native serialization producer establishes
+another input allocation. The earlier shared-primary-cell trial remains bounded
+to its65 redirects; it does not rule out all Enemy/context owner hypotheses.
+
+Adjacent sources likewise supply no new TH09 relationship. TH08 opcode4 writes
+timer.current directly; TH095 exposes assignment/setter bodies under /Od /Ob1.
+The retained TH095 table-selected arm at409153..4091AB is89 bytes and performs
+inline timer stores, with no assignment call. Neither models TH09's genuine
+out-of-line timer call and receiver/argument schedule. TH08 timeout assignment
+is the already-tested native bitfield family plus an unrelated score store.
+TH095 must be read through EclRunTargetHigh.inl: the other fragment's numeric155
+is a photo laser operation, not TH09 timeout. Its flag macros are ordinary typed
+lvalues, and the int/float operand-union family was already neutral-tested in
+TH09. Adjacent layouts, names, profiles and exactness claims remain hypotheses,
+never TH09 evidence or credit. This bounded negative result does not establish
+that every possible source context has been exhausted.
+
+Native evidence and the exact potential collateral list are in
+`.analysis/th09-enemy-context-owner-20261022-v01/README.md`,
+`ida-native-producers.json`, `native-consumer-windows.json` and
+`potential-owner-repair-collateral.json` in that directory. Adjacent source/HEAD
+hashes and the boundary-grounded PE decode are in
+`.analysis/th09-runecl-adjacent-context-20261022-v01/README.md`, `manifest.json`
+and `th095-opcode4.json`. The October13 historical source snapshots remain
+losslessly archived as documented by
+`.analysis/gpt-web-runecl-20261013/ARCHIVE_README.md`; missing loose snapshots
+are not evidence that earlier controls were never attempted. No source,
+profile, exact ledger, native-product or runtime state changes follow.
+
+
+## October 22: Front table-selector and Type3 in-place sample controls
+
+Two new coherent source models were compiled serially with the pinned original
+profiles, isolated frozen include closures and no tracked source changes.
+Both are rejected, with zero exact-byte credit.
+
+- Front's second weighted scan was expressed as an ordinary inline const
+  table member returning its selected index. First-window logic, second RNG
+  timing, signed weights, null-before-count tests and default210 were retained.
+  Fresh baseline is681/693 bytes,15 fields,201 instructions,41 blocks and569
+  overlap differences plus12 missing. The compiler instead outlines a210-byte
+  selector with92 instructions and five RET4 exits; the caller becomes502
+  bytes/133 instructions/16 fields/seven calls. Its new actual REL32 at+A6
+  targets the defined selector, not an unknown binding to normalize away.
+  All six old external calls remain ordered; the unchanged six-byte accessor,
+  44-byte directives and actual two-byte blank string are separately checked.
+  All13 prebound maintained input hashes and both eight-file closures survive.
+  The runner itself was not prebound; its later recorded hash is not falsely
+  claimed as pre/post verification. Packet and runnable audit:
+  `.analysis/gpt-dots-front-table-selector-20261022/`. The independent cold
+  `front-cold.log` in `.analysis/th09-campaign-20261022-v01/` also passes the
+  four existing1491/357/405/133-byte exact siblings. An initial unsupported
+  --json option failed before compilation and is retained separately.
+- Type3's current/middle/tail workspaces first copied the actual XYZ sample,
+  then transformed their own X/Y and projected Z to zero. This is consumed
+  sample dataflow, not a manufactured scheduling dependency. Fresh baseline
+  repeats780 bytes/38 fields/15 differences and passes its whole frontier.
+  The proposal emits831 bytes/255 instructions,439 overlap differences and51
+  extra bytes; it restores zero old mismatches and damages424 old-equal bytes.
+  All three copied Y values spill before X and reload afterward; copied X/Z
+  stores also remain. Fifteen instructions are added, the frame stays64 hex,
+  but tail/collision homes swap. Middle Z still follows tail-X loading, directly
+  falsifying the hoped-for chronology change. All38 original referents,
+  24 ordered calls, three actual scalar
+  definitions and the direct graph agree, but the complete780-byte boundary
+  check rejects it. Raw SHA-256 is
+  693da0ee1b5a4d9ec3d1fdda12221b38a1be4de4f22bf7e2bfd4f023c2a8fb1d.
+  Fourteen quoted inputs per case, tools, target, profile, runner and1367
+  compiler/header identities are verified before and after. Full frozen sources,
+  logs, actual COFF/raw streams and separate exploratory/strict results remain
+  in `.analysis/resume-type3-inplace-20261022/`; objects are retained in its
+  named build directory. No rejected candidate enters the exact ledger.
+
+A separate ReplayMenu read-only audit freshly binds the source-compatible
+historical compiler output to the original PE:1280 bytes/376 instructions/57
+fields/29 differing bytes across27 instructions. All six archived input hashes
+match current files. Native producer and consumers support signed selectedReplay,
+whole-record1EC indexing and the scalar timer. ECX/EDX differences converge to
+ECX at+31F, so a blanket register permutation is not the full explanation.
+Prior real-context/type/accessor/lifetime recipes already cover the obvious
+alternatives; no duplicate compile follows. Evidence and runnable audit:
+`.analysis/gpt-dots-20261022-replaymenu-audit/`. This is explicitly reused
+source-bound compiler output, not a fresh compilation or an exact receipt.
+
+The combined evidence checkpoint passes1005 tests with29 skips and the tracking,
+documentation, open build-graph, generated-progress and whitespace gates.
+Receipt: `.analysis/th09-campaign-20261022-v01/context-front-type3-ci.log`
+and its zero exit record. Only documentation changes; all canonical source,
+profiles, exact ledgers and the83.9093% generated progress remain unchanged.

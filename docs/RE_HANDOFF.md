@@ -46,6 +46,10 @@ October 22 handoff followed independently pushed
   [the cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md). Private evidence is
   ignored local state and is not delivered by a Git push.
 
+Recent bounded Front table-selector and Type3 in-place sample trials were
+rejected without source adoption; the complete results and ReplayMenu audit
+are in the final dated knowledge-base entries. Exact coverage is unchanged.
+
 ## Live ledger snapshot
 
 
@@ -101,6 +105,14 @@ setter-only retains30; both real bodies before/after RunEcl shorten the caller
 to15560 and fail the complete owner. Do not reopen it as an untested hypothesis.
 Earlier related noinline/all-method controls were already recorded in the KB;
 these results do not establish unique original translation-unit ownership.
+
+The completed native Enemy/context and adjacent TH08/TH095 audits justify no
+new compiler probe. Context+0's genuine ECL-manager ownership remains unresolved
+source debt with a likely byte-neutral repair, not adopted progress. Full Enemy
+unification is not ruled out by the prior shared-cell trial. See the dated KB
+entry and `.analysis/th09-enemy-context-owner-20261022-v01/README.md` plus
+`.analysis/th09-runecl-adjacent-context-20261022-v01/README.md` for evidence,
+prior input-bitfield exclusions and the potential 140-unit collateral scope.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
