@@ -17261,3 +17261,116 @@ objects remain; source/target/tools/IDA and unclassified prior evidence stay
 untouched. Compiler/replay/CI handles are terminal. `cleanup.json` records each
 removed path, classification, size and SHA256. Current receipts retain their
 source/profile scope; no outstanding replay is described as accepted.
+
+## October 22: Enemy draw storage and genuine periodic-definition contexts (gpt-6.1-sol)
+
+Clean recovery starts at pushed e987e13cfd1f89b9b48a645dbb27c9062ca1ddab.
+The preceding turn is progress: Replay's compression calls now use its actual
+shared interface. The original Japanese v1.50a disk, direct IDA metadata and
+entry/five distributed mapped-byte checks pass. Original disassembly independently
+confirms the remaining draw-index EAX/ECX and special-attack descriptor register
+chronology. Neither target bytes nor IDA metadata is written in this batch.
+
+Fresh standalone baseline and the retained canonical ECL carrier agree in every
+Enemy raw byte. Current raw SHA256 is
+1fbfc13ab72202c08e489d7922d1d5ca9c4d35bf8d77b3be57560f73f3167b86,
+also identical to the prior shared-GameManager checkpoint's public standalone
+receipt. Historical5e0b1416 raw captures precede that native global/addend
+unification and are not current raw receipts. The complete original-linked
+comparison remains3900 bytes/97 fields/1026 instructions/69 calls/170 blocks,
+with13 residual offsets and all3887 matching physical positions protected.
+
+Nine private complete source controls compile serially at nice10 under the same
+canonical Enemy profile. Their five actual baseline helpers independently pass
+514 bytes/eight fields/ten real references before the caller is scored; periodic
+cases additionally prove the original33-byte/zero-field HasTickedEvery body and
+its actual positive same-object call reference. The real constructors, native
+GameManager fields, Player interfaces and external original RunEcl call remain.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-DRAW-CONTEXT-001 | compiler observation | Four actual four-byte group records and an ordinary inline Prepend method each retain3900/97/13. | Full raw baseline equality; no new storage or outlined helper; no adoption or original-class claim. |
+| ENEMY-DRAW-CONTEXT-002 | compiler observation | Real periodic definition before or after Enemy produces the same complete3900/97/45 caller. | Both restore all13 old mismatches but damage45 other physical positions; original production guard rejects. |
+| ENEMY-DRAW-CONTEXT-003 | compiler observation | Moving the genuine Timer greater definition after Enemy retains3900/97/13. | Its20-byte original body remains exact with four positive same-object references; all five helpers remain original-equal. |
+| ENEMY-DRAW-CONTEXT-004 | compiler observation | Periodic context plus actual memcpy or Float3 value-copy of descriptor position remains3900/97/45. | Entire raw streams equal the periodic-only control; none improves the protected frontier. |
+| ENEMY-DRAW-CONTEXT-005 | compiler observation | Periodic context plus genuinely consumed count/speed parameter snapshots gives3900/97 but moves the Player state call+36B to+367. | Native bodies pass first; strict original-offset diagnostic rejects before similarity scoring. Full raw/actual COFF remains retained. |
+
+The changed draw-group representation has precisely one head pointer at0,
+four-byte records and the same four physical slots at manager+2AC410; all existing
+manager/Enemy extent assertions remain. The proposed inline method performs
+the same two actual prepend stores; no fake native helper address is assigned.
+These natural ownership models are byte-neutral and not adopted. The periodic
+first/last result bounds source-position dependence for these exact consumed
+bodies, not all possible original TU contexts. TH08/TH095 sources are inspected
+only as hypotheses; no address, bytes, layout or reconstruction hint is imported.
+
+The existing `probe-enemy-native-spawn-context.py` gains two selected cases:
+`--case standalone-periodic-first` and `--case standalone-periodic-last`.
+Each preserves the real EclManager.hpp/EclRunState.inl/EnemyManagerCore.inl
+declaration chain, exposes only the selected genuine periodic body, and proves
+all six native definitions547 bytes/eight fields/11 actual references. The
+caller is fully decoded and bound. Reports explicitly mark RunEcl uncompiled;
+its native E8/+397/external symbol and original4086C0 destination are checked,
+without claiming any callee codegen. The normal diagnostic remains unchanged
+and still requires full15564-byte/598-field co-visible RunEcl. No extent, field,
+callee, literal, switch, call-offset or3887-byte guard is relaxed.
+
+All three native actual float payloads are now checked through their real COFF
+sections against the original PE: Float3 divide's1.0, Player collision append's
+0.5 and attached-effect update's0.3. Three real-object data-only negatives alter
+one bit in one four-byte payload at a time. Each keeps all3900 main raw bytes,
+all97 actual fields and every byte/field of all five native bodies514 bytes.
+The independent literal check nevertheless rejects all three. Original EXE and
+canonical object hashes remain unchanged; temporary mutated objects self-clean.
+Constant spelling or complete instruction equality does not prove its payload.
+
+Four public source-cold recipes pass their diagnostic gates: standalone baseline,
+periodic first, periodic last and the preexisting full spawn-periodic carrier.
+Baseline remains13; all periodic carriers share raw SHA256
+ac5bfd16c08ab39c9b405331db8dab4df6ddcaa6f173bf9fd2385e1d684da4a5
+and45 differences. Every actual field offset/kind/addend and all97 linked
+referents agree across those carriers; section numbers/private names retain
+their own actual object scope. The full carrier independently retains RunEcl
+15564/598/30 ordinary, zero field/table differences; its real33-byte periodic
+and184-byte SpawnEffect definitions pass217 bytes/two fields/five references.
+Both new standalone candidates correctly fail the maintained frontier.
+
+All491 maintained game-source files and canonical unit/ledger/profile inputs
+are unchanged. All1003 authored exact source/profile proofs are reused. Exact
+stays1003/1035 functions and244917/291883 bytes (83.9093%); the95% gap remains
+32372. RunEcl30,Enemy13,DrawResult22,Type315, full inventory, native product/
+runtime, semantic and port gates stay open. There is no exact credit from these
+diagnostics or a smaller changed subregion. The next source investigation must
+address the actual field/store dataflow rather than assume definition position
+alone closes the periodic context.
+
+Evidence is .analysis/gpt-61sol-20261022-enemy-draw-groups/: frozen source and
+provider hashes, nine complete source/raw/COFF controls, the actual native bodies,
+canonical baseline, selected public receipts, direct IDA windows and independent
+data-only rejection proof. Two new pure tests enforce selected-body completeness
+and the real include/body positions; existing negative tests protect actual native
+definitions and reject fabricated call/field/extent evidence. All51 focused Enemy
+tests pass. Historical private controls are source-bound to e987e13 and its Oracle
+scripts; later HEADs must not be treated as earlier acceptance.
+
+Final CI passes937 tests/28 skips, exit zero, plus the51 focused Enemy tests.
+Target-required tracking, docs, generated progress and whitespace checks pass.
+The54-member trials.zip preserves964575 logical bytes in180115 archived bytes,
+SHA256 d052144b04f0ed38b4d64f1f24d5f40a4fe91def9603365f98c3107452d325be.
+All members pass CRC/SHA and byte equality before loose cleanup. The selected
+archive-only group-prepend replay restores the complete frozen source/carrier,
+all3900 raw bytes/97 literal actual COFF rows, five native bodies514 bytes/eight
+fields/ten references and all three actual literal definitions. Its complete
+13-difference diagnostic and production guard reproduce without source edits.
+The first replay preparer stopped on a missing tomllib import before compilation;
+that distinct failed attempt is retained and does not claim a cold proof.
+
+After every compiler/replay/CI handle is terminal and a repository-scoped
+producer check finds none active, cleanup removes54 verified archive duplicates
+and272 new CI caches:326 files/5820539 logical bytes. All127 preexisting build
+cache paths and canonical objects stay. Original target/tools/SDK/Wine/IDA state,
+tracked source and older unclassified evidence remain untouched. `cleanup.json`
+retains each removed path, size, SHA and classification. To repeat the data-only
+negative after a clean build tree, first compile the canonical
+enemy-attached-effect-update unit; never treat a missing generated object as
+lost original evidence. Accepted exact counts and receipts remain source-scoped.

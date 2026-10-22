@@ -4,6 +4,34 @@
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 
+### 2026-10-22: Enemy native periodic contexts and independent literal definitions
+
+From pushed e987e13, nine complete Enemy source controls retain the original
+3900/97/13 frontier or fail the unchanged complete guard. Selected standalone
+periodic cases independently prove six native definitions547 bytes/eight fields/
+11 references and remain nonexact at45 differences. Three data-only negatives
+retain every main/native code byte and field but fail actual literal validation.
+All1003 unchanged authored exact source/profile proofs are reused.
+
+Packet `.analysis/gpt-61sol-20261022-enemy-draw-groups/` keeps frozen sources,
+all actual raw/COFF/native comparisons, direct IDA windows, current canonical
+baseline, selected public results and literal-negative receipts. Its54-member
+archive compresses964575 bytes to180115, SHA256
+d052144b04f0ed38b4d64f1f24d5f40a4fe91def9603365f98c3107452d325be.
+Every member passes CRC/SHA and byte equality. An archive-only group-prepend
+cold compile reproduces3900 full raw bytes/97 actual COFF rows, all514 native
+bytes/eight fields/ten references, three actual literal definitions and the
+unchanged complete13-difference diagnostic/guard.
+
+CI passes937 tests/28 skips and all51 focused Enemy tests pass. After all
+compiler/replay/CI handles terminate and a repository-scoped producer audit
+finds none active, cleanup removes54 verified loose duplicates plus272 new CI
+Python caches:326 files/5820539 logical bytes. Each removed file is regular,
+ignored, confined to this packet or build/pycache and rehashed before deletion.
+All127 preexisting build-cache paths and canonical objects remain. Original
+target/toolchain/SDK/Wine/IDA state and unclassified prior research are untouched;
+per-path deletion evidence remains in `cleanup.json`.
+
 ### 2026-10-22: shared Replay compression calls and bounded offset controls
 
 From pushed1f592ea, Replay uses the existing native Lzss interface. All12

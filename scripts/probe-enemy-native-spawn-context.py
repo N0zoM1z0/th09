@@ -33,6 +33,10 @@ CASE_OWNERS = {
                                    'bullet-spawn-descriptor-constructor',
                                    'zun-timer-has-ticked-every'),
 }
+STANDALONE_CASES = frozenset(('standalone', 'standalone-periodic-first',
+                              'standalone-periodic-last'))
+for _case in ('standalone-periodic-first', 'standalone-periodic-last'):
+    CASE_OWNERS[_case] = CASE_OWNERS['standalone'] + ('zun-timer-has-ticked-every',)
 CASES = tuple(CASE_OWNERS)
 NATIVE_OWNERS = {
     'enemy-collision-append-box': (
@@ -75,6 +79,22 @@ def native_bodies(case, sources):
             raise ValueError('native SpawnEffect source boundaries reversed')
         bodies += '#include "EffectManager.hpp"\n' + source[start:end]
     return bodies
+
+
+def standalone_source(case, bodies):
+    """Keep the declaration-first carrier and expose the actual selected body."""
+    if case not in STANDALONE_CASES:
+        raise ValueError('not a reviewed standalone Enemy case')
+    if (case == 'standalone') != (not bodies):
+        raise ValueError('standalone native-body selection is incomplete')
+    generated = ('#include "EclManager.hpp"\n'
+                 '#include "EclRunState.inl"\n')
+    if case == 'standalone-periodic-first':
+        generated += bodies+'\n'
+    generated += '#include "EnemyManagerCore.inl"\n'
+    if case == 'standalone-periodic-last':
+        generated += bodies+'\n'
+    return generated
 
 
 def compare_native_definition(raw, fields, unit, target):
@@ -135,6 +155,7 @@ def module(name, filename):
 def run(case, output):
     sys.path.insert(0, str(ROOT/'scripts'))
     coff = module('native_spawn_coff', 'compare-coff-function.py')
+    literals = module('native_spawn_literals', 'coff_literal_definitions.py')
     image = coff.verified_target()
     if digest(image) != TARGET_SHA256:
         raise ValueError('original Japanese TH09 v1.50a target required')
@@ -158,14 +179,18 @@ def run(case, output):
         for include in re.findall(rb'^\s*#\s*include\s*"([^"]+)"', data, re.M):
             collect((Path(name).parent/include.decode()).as_posix())
 
-    if case == 'standalone':
+    standalone = case in STANDALONE_CASES
+    if standalone:
         for name in ('EclManager.hpp', 'EclRunState.inl', 'EnemyManagerCore.inl'):
             collect(name)
     else:
         collect('EclManager.cpp')
     observed = {ROOT/'src'/n: data for n, data in inputs.items()}
-    native_sources = ([] if case == 'standalone' else
-                      ['EffectManager.cpp', 'ZunTimerHasTickedEvery.cpp'])
+    native_sources = []
+    if 'effect-manager-spawn-effect' in CASE_OWNERS[case]:
+        native_sources.append('EffectManager.cpp')
+    if 'zun-timer-has-ticked-every' in CASE_OWNERS[case]:
+        native_sources.append('ZunTimerHasTickedEvery.cpp')
     if 'bullet-spawn-descriptor-constructor' in CASE_OWNERS[case]:
         native_sources.append('BulletSpawnDescriptorCtor.cpp')
     for name in native_sources:
@@ -174,19 +199,18 @@ def run(case, output):
     for name in ('config/tools.lock.toml', 'config/functions.csv',
                  'scripts/compile-probe.sh', 'scripts/compare-coff-function.py',
                  'scripts/inspect-enemy-manager-update.py', 'scripts/inspect-ecl-complete.py',
-                 'scripts/check-boss-frontiers.py', 'scripts/probe-enemy-native-spawn-context.py'):
+                 'scripts/check-boss-frontiers.py', 'scripts/probe-enemy-native-spawn-context.py',
+                 'scripts/coff_literal_definitions.py'):
         path = ROOT/name
         observed[path] = path.read_bytes()
     observed[units_path] = units_bytes
     observed[coff.TARGET_MANIFEST] = coff.TARGET_MANIFEST.read_bytes()
     hashes = {p.relative_to(ROOT).as_posix(): digest(b) for p, b in observed.items()}
-    if case == 'standalone':
-        generated = ('#include "EclManager.hpp"\n'
-                     '#include "EclRunState.inl"\n'
-                     '#include "EnemyManagerCore.inl"\n')
+    bodies = native_bodies(case, {n: observed[ROOT/'src'/n] for n in native_sources})
+    if standalone:
+        generated = standalone_source(case, bodies)
     else:
         source = inputs['EclManager.cpp'].decode().replace('\r\n', '\n')
-        bodies = native_bodies(case, {n: observed[ROOT/'src'/n] for n in native_sources})
         anchor = '#include "EnemyManagerCore.inl"'
         if source.count(anchor) != 1:
             raise ValueError('reviewed Enemy lexical include changed')
@@ -227,7 +251,7 @@ def run(case, output):
                               **compare_native_definition(body, fields, unit,
                                                           coff.pe_bytes_at(image, address, size)))
                 caller_rows = rows
-                if case == 'standalone' and name in ('float3-divide', 'player-collision-append-box'):
+                if standalone and name in ('float3-divide', 'player-collision-append-box'):
                     collision_rows = report['native_definitions'][
                         'enemy-collision-append-box']['coff']
                     caller_rows = (rows+collision_rows if name == 'float3-divide'
@@ -236,8 +260,11 @@ def run(case, output):
                 if fields and any(r['owner_section'] != native['caller_definition']['section']
                                   or r['owner_value'] != 0 for r in fields):
                     raise ValueError('native body and actual caller refer to different definitions')
+                native['literal_definitions'] = literals.check_literal_definitions(
+                    obj.read_bytes(), fields, image, coff,
+                    {r['symbol']: r['target'] for r in unit.get('relocations', [])})
                 report['native_definitions'][name] = native
-            if case == 'standalone':
+            if standalone:
                 report['enemy'] = enemy.diagnose_standalone(obj)
                 report['runecl'] = None
                 report['runecl_compilation_skipped'] = True

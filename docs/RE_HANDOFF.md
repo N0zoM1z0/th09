@@ -7,47 +7,48 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after pushed `1f592ea`. Continue toward 95% and
+Reconstruction remains active after pushed `e987e13`. Continue toward 95% and
 RunEcl/Enemy/Title/Type3; historical pauses remain superseded. This checkpoint
-unifies Replay's compression calls with the existing native source interface
-and records bounded offset/ABI controls, without new exact credit.
+checks Enemy draw storage and native Timer definition contexts. No gameplay
+source, profile, exact ledger, main inspector or residual guard changes.
 
 - Original Japanese v1.50a disk identity, direct IDA metadata, entry and five
-  distributed mapped samples pass. Direct original encoder/decoder entry and
-  return instructions independently confirm the existing fastcall transports.
-- `ReplayInput.cpp` includes `Lzss.hpp` and uses `Lzss::Encode/Decode`; the private
-  duplicate `LzssReplayView` declarations are removed. Original C++ spelling and
-  TU ownership remain unproven. Only the load caller's actual +C9 decoder symbol
-  changes in the exact manifest; its original destination is still 0x00433AA0.
-- All **12 affected authored exact units /4093 physical bytes /232 fields**
-  cold-pass across both actual Replay profiles. Every raw body equals the
-  preceding carrier. No private-label, extent, compiler-profile or target-VA
-  change is needed. The separate third-party decoder cold-passes470/470 with
-  four fields; this grants no authored credit. Other991 authored proofs are
-  unchanged and reused.
-- SaveReplay remains1238/1238 bytes,380 instructions,53 fields,23 call operands,
-  49 direct blocks and **three** residuals B7/BB/3F6. Its entire raw body is
-  unchanged. The strict inspector accepts the shared encoder symbol and rejects
-  the old Replay-only alias. BeginPlayback remains538/540 with39 overlap
-  differences and two missing bytes.
-- Nine complete private controls cover payload-relative addressing, unsigned
-  offsets, a shared checksum cursor, matching fastcall member transport, a
-  read-only manager and output-offset initialization before allocation. None
-  improves the maintained frontier. Cursor cases lose eight physical bytes and
-  damage242 overlapping matches; earlier initialization adds29 mismatches and
-  moves one address field. No experimental ABI, qualifier or lifetime is adopted.
-- Evidence is `.analysis/gpt-61sol-20261022-replay-offsets/`: frozen inputs,
-  complete raw/COFF diagnostics, before/after canonical streams and decoder
-  receipt. Compiler temporaries self-clean; reusable canonical objects and
-  older unclassified evidence remain. Prior ECL/Enemy proofs and controls stay
-  source-bound to their recorded checkpoints in the knowledge base.
-- CI passes **935 tests /28 skips**, exit zero, plus six focused SaveReplay
-  tests. Tracking, docs, generated progress and whitespace gates pass. The
-  101317-byte archive preserves47 trial files/495046 logical bytes with CRC/SHA
-  checks; a selected archive-only cold compile reproduces the entire rejected
-  1230-byte/53-field caller and all diagnostics. Cleanup removes319 owned
-  duplicates/new CI caches,5348630 bytes;127 preexisting cache paths and all
-  canonical objects remain. `cleanup.json` records every removed path/hash.
+  distributed mapped samples pass. Current canonical and standalone Enemy raw
+  bodies agree with the earlier shared-GameManager checkpoint. Enemy stays
+  **3900/97/13**, with1026 instructions,69 calls and170 direct blocks.
+- Nine private controls cover actual four-byte draw-group records, an ordinary
+  inlined prepend operation, real Timer definition position and joint descriptor
+  copies/parameter values. Draw records/operations and moving Timer greater
+  after the caller are neutral. Periodic first/last both restore13 old differences
+  but damage45 equal positions; its two copy combinations are neutral at45.
+  Parameter snapshots move the native Player call+36B to+367 and are rejected.
+- The existing selected producer now supports `standalone-periodic-first` and
+  `standalone-periodic-last`. Each checks the entire3900-byte owner and97 fields,
+  plus **six real same-object definitions /547 bytes /eight fields /11 references**.
+  It explicitly reports RunEcl uncompiled, with only its original external-call
+  identity checked. The normal inspector still requires the complete native
+  RunEcl definition. Both new candidates are nonexact and fail the production
+  frontier; baseline standalone remains13.
+- All three actual native float definitions now have COFF payload/PE validation.
+  Three data-only corruptions preserve all3900 caller bytes/97 fields and all
+  five native bodies/514 bytes, yet are independently rejected. A matching
+  instruction stream or constant name cannot substitute for actual definitions.
+- An unchanged full `spawn-periodic` recipe independently reproduces the same
+  complete Enemy45 stream while retaining RunEcl15564/598/30, zero field/table
+  differences. All three periodic carriers agree in every raw byte and actual
+  field position/kind/addend/linked referent; the baseline separately equals the
+  current canonical13 stream.
+- Evidence is `.analysis/gpt-61sol-20261022-enemy-draw-groups/`. Frozen source,
+  complete raw/COFF, native-definition and data-only negative receipts remain.
+  Compiler temporaries self-clean; canonical objects and older evidence remain.
+  All1003 unchanged authored source/profile proofs are reused.
+- CI passes **937 tests /28 skips**, exit zero, and all51 focused Enemy tests
+  pass. Tracking, docs, generated progress and whitespace gates pass. The
+  180115-byte archive preserves54 trial files/964575 logical bytes, verified by
+  CRC/SHA. An archive-only cold replay repeats all3900 raw bytes/97 actual COFF
+  rows,514 native bytes and three actual literal definitions. After producers
+  terminate, cleanup removes326 owned duplicates/new caches,5820539 bytes;
+  all127 preexisting cache paths and canonical objects remain.
 - Exact remains **1003/1035 functions**, **244917/291883 bytes (83.9093%)**;
   the 95% gap is **32372 bytes**. RunEcl30, Enemy13, DrawResult22 and Type315,
   complete inventory, native product/runtime and later phase gates stay open.
@@ -219,9 +220,10 @@ results, fields and deficits before making an exactness claim.
 ## Evidence and cleanup boundaries
 
 The current tree retains **491 game-source files, 1,035 comparison units and
-1,003 authored exact rows**. One game-source file changes in this batch. All12 affected canonical exact
-source/profile proofs are replayed; unaffected proofs retain their source/profile
-bindings and are reused.
+1,003 authored exact rows**. No game-source file changes in this batch. All1003
+authored exact source/profile proofs retain their unchanged bindings and are
+reused. Native experimental definitions are independently byte-checked without
+authored exact credit.
 Diagnostic source models do not grant exact credit.
 The previous `7e178d8` Timer checkpoint replayed 17 units including 16 authored
 functions and one noncredit alias. All profiles, boundaries and authored exact
@@ -230,9 +232,9 @@ and Replay constructor units remain unknown-origin byte evidence; shared Timer
 and Player getter aliases add no authored credit. Native product/runtime,
 complete inventory, semantic and port gates remain open.
 
-The current Replay packet retains frozen inputs, complete raw/actual COFF
-streams, nine source controls,12 canonical unit comparisons and the separate
-decoder receipt. The manifest records the source checkpoint and cleanup scope.
+The current Enemy packet retains frozen inputs, complete raw/actual COFF
+streams, nine source controls, selected public comparisons and three data-only
+native literal rejections. The manifest records the source checkpoint and cleanup scope.
 Compiler source/OBJ/PDB temporaries self-clean; canonical objects remain for
 focused reuse. The prior ECL, GameManager, standalone Enemy, Type3, Replay and
 Timer packets retain their own source-commit scope in

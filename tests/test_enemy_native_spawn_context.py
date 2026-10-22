@@ -66,6 +66,32 @@ class EnemyNativeSpawnContext(unittest.TestCase):
                 self.assertEqual((actual[0], actual[1], actual[3]),
                                  (address, size, references))
 
+    def test_periodic_standalone_requires_the_extra_actual_definition(self):
+        base = probe.CASE_OWNERS['standalone']
+        periodic = 'zun-timer-has-ticked-every'
+        for case in ('standalone-periodic-first', 'standalone-periodic-last'):
+            self.assertEqual(probe.CASE_OWNERS[case], base+(periodic,))
+            self.assertEqual(probe.native_bodies(case, {
+                'ZunTimerHasTickedEvery.cpp': b'actual_periodic_body\n'}),
+                'actual_periodic_body\n\n')
+            with self.assertRaises(KeyError):
+                probe.native_bodies(case, {})
+        self.assertEqual(probe.NATIVE_OWNERS[periodic],
+                         (0x404920, 33, '?HasTickedEvery@ZunTimer@@QAEHH@Z', 1))
+
+    def test_standalone_body_position_keeps_the_real_declaration_chain(self):
+        prefix = '#include "EclManager.hpp"\n#include "EclRunState.inl"\n'
+        owner = '#include "EnemyManagerCore.inl"\n'
+        self.assertEqual(probe.standalone_source('standalone', ''), prefix+owner)
+        self.assertEqual(probe.standalone_source('standalone-periodic-first', 'actual_body'),
+                         prefix+'actual_body\n'+owner)
+        self.assertEqual(probe.standalone_source('standalone-periodic-last', 'actual_body'),
+                         prefix+owner+'actual_body\n')
+        for case, body in (('spawn', 'actual_body'), ('standalone', 'unexpected'),
+                           ('standalone-periodic-first', ''), ('standalone-periodic-last', '')):
+            with self.subTest(case=case, body=body), self.assertRaises(ValueError):
+                probe.standalone_source(case, body)
+
     def test_complete_native_code_and_all_actual_fields_required(self):
         raw, fields, unit, target = definition()
         result = probe.compare_native_definition(raw, fields, unit, target)
