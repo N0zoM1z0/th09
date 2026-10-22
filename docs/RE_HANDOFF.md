@@ -7,49 +7,47 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after pushed `de6d597`. Continue toward 95% and
+Reconstruction remains active after pushed `1f592ea`. Continue toward 95% and
 RunEcl/Enemy/Title/Type3; historical pauses remain superseded. This checkpoint
-removes one unnecessary compiler hint and records complete source controls,
-without claiming new exact functions or bytes.
+unifies Replay's compression calls with the existing native source interface
+and records bounded offset/ABI controls, without new exact credit.
 
-- Recovery is clean. Original Japanese v1.50a disk identity, direct IDA metadata,
-  entry and five distributed mapped samples pass.
-- `EclRunState.inl` now computes the timeout flag as a pure returned word and
-  the caller writes it back. Ordinary `inline` suffices under the pinned profile;
-  the old forced-inline marker is removed. The complete 15564-byte raw RunEcl
-  stream is identical to the preceding baseline, with 598 bound fields and 30
-  ordinary differences, zero field/table differences. Enemy remains 3900/97/13.
-- All 83 state-header-dependent canonical exact units pass across five carrier/
-  profile/object groups, including the 79 shared ECL units and four independent
-  consumers. The just-built main object is source-bound reused. Twenty private
-  label names in two units change only after their actual COFF positions,
-  original referents and complete linked byte equality are checked.
-- Fifteen private source controls include native flag assignment, returned
-  aggregates/scalars, ordinary helpers, byte-bit wire reads and raw-accessor
-  contexts. Native field forms give 1938/202/26 or 2019/239/26 ordinary/field/table
-  differences; outlined helpers add an absent call or change complete extent.
-  No losing model, new qualifier or register/variable-order hint is adopted.
-- All five native-timer/typed-wire/raw-macro access models preserve every raw
-  caller byte. The selected public `probe-runecl-raw-context.py` reuses the
-  strict existing first-include/replay framework and compiles one case only.
-  The combined-macro and typed-jump cases cold-replay on the adopted source.
-  The updated existing native timeout control still fails the complete field
-  gate, with its diagnostic evidence retained.
-- Original dispatcher geometry is six selector entries plus 187 main opcode
-  entries (193 total), not 193 main cases. Opcode 155 is main slot 154. Private
-  subregion receipts now derive its 45-byte original extent from the real COFF
-  table pointer; complete-owner metrics always govern acceptance.
-- Evidence is `.analysis/gpt-61sol-20261022-runecl-timeout/`. Frozen source,
-  raw/COFF results, selected public reports and canonical receipts remain.
-  Temporary compiler trees self-clean; reusable canonical objects and older
-  unclassified evidence are retained.
-- CI passes **934 tests /28 skips**, exit zero. Target-required tracking,
-  documentation, generated progress and whitespace checks pass. The verified
-  517044-byte trial archive preserves 115 files/7113180 logical bytes as 73 unique
-  blobs; those uncompressed duplicates are removed. An archive-only frozen
-  aggregate replay reproduces all 15564 raw bytes/598 actual COFF rows and its
-  unchanged strict rejection. Baseline, recipes, current public reports and
-  canonical objects remain; per-path hashes are in `cleanup.json`.
+- Original Japanese v1.50a disk identity, direct IDA metadata, entry and five
+  distributed mapped samples pass. Direct original encoder/decoder entry and
+  return instructions independently confirm the existing fastcall transports.
+- `ReplayInput.cpp` includes `Lzss.hpp` and uses `Lzss::Encode/Decode`; the private
+  duplicate `LzssReplayView` declarations are removed. Original C++ spelling and
+  TU ownership remain unproven. Only the load caller's actual +C9 decoder symbol
+  changes in the exact manifest; its original destination is still 0x00433AA0.
+- All **12 affected authored exact units /4093 physical bytes /232 fields**
+  cold-pass across both actual Replay profiles. Every raw body equals the
+  preceding carrier. No private-label, extent, compiler-profile or target-VA
+  change is needed. The separate third-party decoder cold-passes470/470 with
+  four fields; this grants no authored credit. Other991 authored proofs are
+  unchanged and reused.
+- SaveReplay remains1238/1238 bytes,380 instructions,53 fields,23 call operands,
+  49 direct blocks and **three** residuals B7/BB/3F6. Its entire raw body is
+  unchanged. The strict inspector accepts the shared encoder symbol and rejects
+  the old Replay-only alias. BeginPlayback remains538/540 with39 overlap
+  differences and two missing bytes.
+- Nine complete private controls cover payload-relative addressing, unsigned
+  offsets, a shared checksum cursor, matching fastcall member transport, a
+  read-only manager and output-offset initialization before allocation. None
+  improves the maintained frontier. Cursor cases lose eight physical bytes and
+  damage242 overlapping matches; earlier initialization adds29 mismatches and
+  moves one address field. No experimental ABI, qualifier or lifetime is adopted.
+- Evidence is `.analysis/gpt-61sol-20261022-replay-offsets/`: frozen inputs,
+  complete raw/COFF diagnostics, before/after canonical streams and decoder
+  receipt. Compiler temporaries self-clean; reusable canonical objects and
+  older unclassified evidence remain. Prior ECL/Enemy proofs and controls stay
+  source-bound to their recorded checkpoints in the knowledge base.
+- CI passes **935 tests /28 skips**, exit zero, plus six focused SaveReplay
+  tests. Tracking, docs, generated progress and whitespace gates pass. The
+  101317-byte archive preserves47 trial files/495046 logical bytes with CRC/SHA
+  checks; a selected archive-only cold compile reproduces the entire rejected
+  1230-byte/53-field caller and all diagnostics. Cleanup removes319 owned
+  duplicates/new CI caches,5348630 bytes;127 preexisting cache paths and all
+  canonical objects remain. `cleanup.json` records every removed path/hash.
 - Exact remains **1003/1035 functions**, **244917/291883 bytes (83.9093%)**;
   the 95% gap is **32372 bytes**. RunEcl30, Enemy13, DrawResult22 and Type315,
   complete inventory, native product/runtime and later phase gates stay open.
@@ -221,7 +219,7 @@ results, fields and deficits before making an exactness claim.
 ## Evidence and cleanup boundaries
 
 The current tree retains **491 game-source files, 1,035 comparison units and
-1,003 authored exact rows**. One game-source file changes in this batch. All83 affected canonical exact
+1,003 authored exact rows**. One game-source file changes in this batch. All12 affected canonical exact
 source/profile proofs are replayed; unaffected proofs retain their source/profile
 bindings and are reused.
 Diagnostic source models do not grant exact credit.
@@ -232,12 +230,12 @@ and Replay constructor units remain unknown-origin byte evidence; shared Timer
 and Player getter aliases add no authored credit. Native product/runtime,
 complete inventory, semantic and port gates remain open.
 
-The current RunEcl packet retains frozen inputs, changed context sources,
-whole-owner raw/actual COFF streams, selected public reports and83 canonical
-unit comparisons. The manifest records the source checkpoint, corrected table
-geometry and cleanup scope. Compiler source/OBJ/PDB temporaries self-clean;
-canonical objects remain for focused reuse. The prior GameManager, standalone
-Enemy, Type3, Replay and Timer packets retain their own source-commit scope in
+The current Replay packet retains frozen inputs, complete raw/actual COFF
+streams, nine source controls,12 canonical unit comparisons and the separate
+decoder receipt. The manifest records the source checkpoint and cleanup scope.
+Compiler source/OBJ/PDB temporaries self-clean; canonical objects remain for
+focused reuse. The prior ECL, GameManager, standalone Enemy, Type3, Replay and
+Timer packets retain their own source-commit scope in
 Git history, the knowledge base and
 [artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md).
 

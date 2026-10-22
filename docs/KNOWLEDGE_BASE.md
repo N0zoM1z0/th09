@@ -17155,3 +17155,109 @@ caller bytes and 598 actual COFF rows, and repeats 1938/202/26 with no credit.
 Baseline/current public receipts, source recipes, canonical objects and per-path
 cleanup hashes remain. The original execution logs retain the superseded
 subregion-size fields; the manifest explicitly records their corrected derivation.
+
+## October 22: shared Replay compression interface and offset/ABI controls (gpt-6.1-sol)
+
+Recovery starts at clean pushed1f592ea9e45b8ffcaf05233810abd431145d5839.
+Original Japanese v1.50a disk identity, direct IDA metadata and mapped entry/five
+distributed samples pass. All original-bound ledgers retain1003/1035 authored
+exact functions and244917/291883 exact bytes (83.9093%); these observations add
+no exact credit. Historical pauses remain superseded by the operator's resume.
+
+ReplayInput now includes the existing `Lzss.hpp` and calls `Lzss::Encode/Decode`
+instead of declaring a second `LzssReplayView`. TH09-local target disassembly,
+caller fields and existing native source fix the physical interface: Decode
+@433AA0 takes input/size in ECX/EDX and returns through RET8 with output/size
+stack arguments; Encode @434020 takes input/size in ECX/EDX and RET4 consumes
+the output-size pointer. The decoder's original470 bytes/four fields cold-pass
+again through the canonical unit. The encoder remains the existing nonexact
+third-party source; this interface change does not accept its body. Naming and
+original TU/object ownership remain unknown.
+
+All12 authored exact ReplayInput units cold-pass across the two distinct real
+profiles (two no-EH, ten EHsc),4093 physical bytes and232 fields. Their complete
+raw streams equal the prior carrier. The sole exact-manifest field-symbol
+change is LoadReplayData+0xC9, from the Replay-only Decode declaration to
+`?Decode@Lzss@@SIPAEPAEH0H@Z`; kind/addend/original destination433AA0 are fixed.
+No local label renaming, extent or profile update is needed. SaveReplay's
+encoder field+0x3A2 likewise binds only `?Encode@Lzss@@SIPAEPAEHPAH@Z` at434020.
+A negative test rejects the old alias even though it previously represented
+that same address. All991 unaffected authored source/profile proofs are reused;
+the separately replayed third-party decoder grants no authored credit.
+
+The complete SaveReplay carrier remains1238 bytes/380 instructions/53 fields/
+23 calls/49 direct blocks, with precisely B7/BB/3F6 unlike bytes. Its full raw
+SHA256 stays109c8005dd14dd60fd5ba56ddee0ebcecfd5e39618e5191ec7783a3ac113b839;
+the actual rep-tmp string and0.5f definitions pass independently. BeginPlayback
+remains538/540 bytes,32 fields,39 overlapping differences and two missing bytes.
+No partial credit or native-product/runtime acceptance follows.
+
+Before adoption, nine selected controls compile serially at nice10 from a
+frozen original source graph under the unchanged no-EH Replay profile:
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| REPLAY-OFFSET-001 | compiler observation | Baseline1238 bytes/380 instructions/49 blocks;3 differences,0 moved fields. | Complete baseline source/raw/53 COFF fields. |
+| REPLAY-OFFSET-002 | compiler observation | buffer+(fileOffset-sizeof header) retains1238/380/49 and3 differences. | Complete raw baseline equality. |
+| REPLAY-OFFSET-003 | compiler observation | Unsigned currentOffset retains1238/380/49 and3 differences. | Complete raw baseline equality. |
+| REPLAY-OFFSET-004 | compiler observation | Shared checksumCursor gives1230/378/48,245 differences,4 moved fields and242 new overlap mismatches. | Complete raw/53 actual COFF fields; frontier guard rejects. |
+| REPLAY-OFFSET-005 | compiler observation | Payload-relative address plus shared cursor repeats1230/378/48 and245 differences. | Same complete rejected raw stream. |
+| REPLAY-OFFSET-006 | compiler observation | Unsigned offset plus shared cursor repeats1230/378/48 and245 differences. | Same complete rejected raw stream. |
+| REPLAY-OFFSET-007 | compiler observation | Native fastcall member retains1238/380/49 and3 differences. | Complete raw baseline equality; actual member symbol recorded. |
+| REPLAY-OFFSET-008 | compiler observation | Read-only manager/links retain1238/380/49 and3 differences. | Complete raw baseline equality; actual const-pointer symbol recorded. |
+| REPLAY-OFFSET-009 | compiler observation | Begin offset before allocation gives1238/380/49,32 differences,1 moved field and29 new mismatches. | Complete raw/53 actual COFF fields; frontier guard rejects. |
+
+All neutral cases reproduce the complete raw baseline. The three cursor cases
+also lose eight final target bytes, in addition to the242 damaged overlapping
+matches. None restores an old residual. The member variant has the genuine
+same ECX-manager/EDX-path/name-on-stack/RET4 transport, not an ABI fiction, but
+its equal bytes cannot identify original static/member spelling. The const
+variant genuinely reads the manager and links without modifying them. Neither
+experimental declaration is adopted. Earlier offset initialization is a real
+consumed value lifetime; the already exact ScoreData writer suggested checking
+this hypothesis, but the TH09 Replay result rejects it. TH08's checksum-cursor
+source is only hypothesis material; its reconstruction-specific ordering
+pragmas are not copied. No new volatile, forced inline, register/variable-order
+hint, padding or compiler-profile change is introduced.
+
+Packet `.analysis/gpt-61sol-20261022-replay-offsets/` binds the original source
+commit, full source graph, pinned compiler/Oracle hashes, source recipes,
+complete actual COFF/raw streams and every residual. `before-canonical.json`
+and `after-canonical.json` retain all12 full streams and the one reviewed symbol
+change; `focused.log` is the complete current owner/protected-sibling receipt,
+and `decoder-exact.json` records the separate470-byte proof. The first private
+before-capture attempt stopped on an incorrect report-key lookup before any
+source edit; the corrected capture requires the generic `result == exact`.
+The first native IDA decoder lookup used434260 (the neighboring Ascii callback);
+the actual ABI conclusion uses the corrected433AA0 query and independent PE
+comparison. Neither failed lookup supplies a decoder claim.
+
+Reproduction of the private controls uses the recorded1f592ea Oracle scripts
+and frozen source, not the later shared-interface symbol map. The transformations
+are bounded to SaveReplay: regroup its three destination expressions; change
+only currentOffset to unsigned; reuse checksumCursor with `i++, cursor++`;
+replace the static declaration with an explicit fastcall member and the manager
+reads with this; make the existing manager/link pointers const; or initialize
+the real currentOffset immediately before Alloc. The combined cases compose
+only the named transformations. SaveReplay retains its original constructor,
+uninitialized pre-copy frame-table scan, data-copy ordering and error handling.
+
+Final CI passes935 tests/28 skips, exit zero; all six focused SaveReplay tests,
+target-required tracking, documentation, generated progress and whitespace
+checks pass. The first documentation check rejected the new six-column table
+because knowledge rows require four cells; the table is corrected to durable
+ID/state/fact/evidence rows before successful validation and CI.
+
+The47-member trial archive retains495046 uncompressed bytes in101317 bytes,
+SHA256 e89c66b9dc5e45558352a9cac2919ce233644aa691a26f3159d46e0723343500.
+Every member passes CRC/SHA and byte equality before its loose duplicate is
+removed. `replay_archived.py` loads the exact1f592ea inspector blob in memory
+and compiles the frozen rejected shared-cursor source without changing HEAD
+or relaxing the production map. All1230 raw bytes,53 actual COFF records,
+complete diagnostics and strict rejection reproduce. The subsequent cleanup
+removes47 archived duplicates plus272 newly generated CI caches,319 files and
+5348630 logical bytes total. All127 preexisting build-cache paths and canonical
+objects remain; source/target/tools/IDA and unclassified prior evidence stay
+untouched. Compiler/replay/CI handles are terminal. `cleanup.json` records each
+removed path, classification, size and SHA256. Current receipts retain their
+source/profile scope; no outstanding replay is described as accepted.

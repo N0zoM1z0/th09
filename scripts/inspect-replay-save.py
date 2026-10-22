@@ -105,7 +105,7 @@ REFERENTS = {
     '?g_ReplayInfoVersionFormat@@3QBDB': 0x0048F0D0,
     '?g_ReplayRng@@3UReplayRngView@@A': 0x004ACE0C,
     '?GetRandomU16InRange@ReplayRngView@@QAEHG@Z': 0x004048B0,
-    '?Encode@LzssReplayView@@SIPAEPAEHPAH@Z': 0x00434020,
+    '?Encode@Lzss@@SIPAEPAEHPAH@Z': 0x00434020,
     '?Free@ZunMemory@@QAEXPAX@Z': 0x00401360,
     '__imp__CreateFileA@28': 0x0048E068,
     '__imp__WriteFile@20': 0x0048E064,

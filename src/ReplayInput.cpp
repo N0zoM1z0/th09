@@ -9,6 +9,7 @@
 #include <windows.h>
 #include "Chain.hpp"
 #include "ZunMemory.hpp"
+#include "Lzss.hpp"
 #include "ReplayRuntimeLeaves.hpp"
 #include "ReplayInputState.hpp"
 
@@ -68,12 +69,6 @@ struct GameManagerReplayView
 typedef char GameManagerInputGateAtE8[(offsetof(GameManagerReplayView, inputGate) == 0xE8) ? 1 : -1];
 typedef char GameManagerReplayPauseAt130[(offsetof(GameManagerReplayView, replayPauseRecorded) == 0x130) ? 1 : -1];
 typedef char GameManagerReplayFlagsAt134[(offsetof(GameManagerReplayView, flags) == 0x134) ? 1 : -1];
-
-struct LzssReplayView
-{
-    static u8 *Decode(u8 *in, i32 inSize, u8 *out, i32 outSize);
-    static u8 *Encode(u8 *in, i32 inSize, i32 *outSize);
-};
 
 struct ReplayUserDataHeaderView
 {
@@ -225,7 +220,7 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
         decompressedSize - replayData->fileSize + fileSize + 0xC0,
         "./system\\global.h");
     memcpy(decodedReplay, replayData, 0xC0);
-    LzssReplayView::Decode(
+    Lzss::Decode(
         (u8 *)replayData + 0xC0, replayData->compressedSize,
         (u8 *)decodedReplay + 0xC0, replayData->decompressedSize);
     memcpy(
@@ -823,7 +818,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     memcpy(tempBuffer, (u8 *)&replayCopy + 0xC0, sizeof(ReplayDataView) - 0xC0);
 
     replayCopy.decompressedSize = currentOffset - 0xC0;
-    u8 *compressedData = LzssReplayView::Encode(tempBuffer, replayCopy.decompressedSize, &replayCopy.compressedSize);
+    u8 *compressedData = Lzss::Encode(tempBuffer, replayCopy.decompressedSize, &replayCopy.compressedSize);
     g_ZunMemory.Free(tempBuffer);
     int compressedSize = replayCopy.compressedSize;
 

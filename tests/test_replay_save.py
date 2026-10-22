@@ -89,6 +89,15 @@ class ReplaySaveTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             audit.check_literals(data, rows, b'image', coff)
 
+    def test_replay_only_encoder_alias_is_rejected(self):
+        rows = binding_rows()
+        encode = next(row for row in rows if row['offset'] == 0x3A2)
+        self.assertEqual(encode['symbol'], '?Encode@Lzss@@SIPAEPAEHPAH@Z')
+        audit.bind_candidate(bytes(audit.SIZE), rows)
+        encode['symbol'] = '?Encode@LzssReplayView@@SIPAEPAEHPAH@Z'
+        with self.assertRaisesRegex(ValueError, 'symbol/root/addend/order'):
+            audit.bind_candidate(bytes(audit.SIZE), rows)
+
     def test_target_extent_and_hash_are_both_mandatory(self):
         for data in (b'', bytes(audit.SIZE-1), bytes(audit.SIZE), bytes(audit.SIZE+1)):
             with self.assertRaises(ValueError):

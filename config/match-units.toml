@@ -2203,7 +2203,7 @@ relocations = [
   { offset = 0x097, type = "DIR32", symbol = "??_C@_0BC@BLCFCAKG@?4?1system?2global?4h?$AA@", target = 0x0048E474 },
   { offset = 0x09D, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
   { offset = 0x0A2, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
-  { offset = 0x0C9, type = "REL32", symbol = "?Decode@LzssReplayView@@SIPAEPAEH0H@Z", target = 0x00433AA0 },
+  { offset = 0x0C9, type = "REL32", symbol = "?Decode@Lzss@@SIPAEPAEH0H@Z", target = 0x00433AA0 },
   { offset = 0x106, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorReplayView@@A", target = 0x004B3100 },
   { offset = 0x10B, type = "REL32", symbol = "?CheckVersion@SupervisorReplayView@@QAEHPADHH@Z", target = 0x00430150 },
   { offset = 0x118, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },

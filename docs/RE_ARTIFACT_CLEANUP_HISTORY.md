@@ -4,6 +4,30 @@
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 
+### 2026-10-22: shared Replay compression calls and bounded offset controls
+
+From pushed1f592ea, Replay uses the existing native Lzss interface. All12
+affected authored exact functions cold-pass4093 physical bytes/232 fields in
+two profiles; the separate third-party decoder passes470/470. SaveReplay keeps
+its full1238-byte/53-field/three-difference frontier. CI passes935 tests/28 skips.
+The other991 authored proofs are unchanged and reused; no exact credit is added.
+
+Packet `.analysis/gpt-61sol-20261022-replay-offsets/` keeps frozen source,
+full before/after raw/actual COFF receipts, nine source controls, the one reviewed
+decoder-symbol change and direct IDA ABI observations. Its47-member archive
+compresses495046 bytes to101317, SHA256
+e89c66b9dc5e45558352a9cac2919ce233644aa691a26f3159d46e0723343500. Every member
+passes CRC/SHA and byte equality. An archive-only cold compile reproduces the
+rejected1230-byte/53-field cursor body, all actual fields, diagnostics and guard
+rejection using the exact historical inspector blob in memory.
+
+After compiler/replay/CI handles are terminal, cleanup removes47 archived loose
+duplicates and272 new CI Python caches:319 files/5348630 logical bytes. Each
+path is confined to this packet or build/pycache, ignored, regular and rehashed
+before removal. All127 preexisting build-cache paths and canonical objects
+remain. Original EXE, toolchain/SDK/Wine/IDA state, tracked source and older
+unclassified evidence are untouched; `cleanup.json` records every deletion.
+
 ### 2026-10-21: paused handoff and shared Timer field cleanup
 
 The operator pauses reconstruction after the tested shared-Supervisor Timer
