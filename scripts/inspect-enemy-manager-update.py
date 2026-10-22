@@ -62,7 +62,9 @@ def require_timer_greater_definition(fields, units, body, body_fields, target):
     coordinates = set()
     for row, offset in zip(observed, TIMER_GREATER_FIELDS):
         section = row.get('symbol_section')
-        if (row['offset'] != offset or row['symbol'] != TIMER_GREATER_SYMBOL
+        if row['offset'] != offset:
+            raise ValueError('Enemy Timer greater original call offset changed')
+        if (row['symbol'] != TIMER_GREATER_SYMBOL
                 or row['type'] != 'REL32' or row['addend'] != 0
                 or type(section) is not int or section <= 0
                 or section == row.get('owner_section')

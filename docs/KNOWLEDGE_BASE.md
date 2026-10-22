@@ -18240,3 +18240,122 @@ cleanup is304 files/7661435 logical bytes. All127 prior build-cache paths and
 38 pre-CI script/test-cache paths remain,including two refreshed build paths.
 No unchanged old-cache hash claim is made. Current canonical objects/PDBs,
 original target/tools/IDA and older unclassified evidence remain untouched.
+
+
+## October 22: Enemy shared VM and native descriptor source closure
+
+Clean recovery starts at independently pusheda1141eaa77bad73814498d2ae67a38fb4f7391ec.
+The preceding turn is progress: it fixes original UnPause data and checks actual
+COFF definitions. Original Japanese v1.50a disk,direct IDA metadata,entry/five
+mapped samples and live tracking/status pass again. No IDA metadata or target
+byte is changed. A retained main object is reused only after its immutable
+2a5c244 receipt/object hash and current source dependencies agree; complete
+RunEcl repeats15564/598/30 before any source edit.
+
+RunEcl's existing byte-read/bitfield/helper panels are reviewed rather than
+repeated. Routing selects a new Enemy nominal-type/alias hypothesis,not a
+claim that tested source families are exhausted. TH08's live Enemy header
+contains VM/secondary-VM and bullet-descriptor members; TH095 also embeds a
+VM/descriptor but its secondary representation differs. These are hypothesis
+observations only. Every accepted TH09 offset,call and code fact below is
+independently TH09-local; adjacent-game layouts/names/exactness are not imported.
+
+The target Enemy owner remains410730..41166B,3900 physical bytes,original SHA
+ a7f01c2ff0bda79d1fd17ac9170dc3560d4089457455d7928776df8556f1bc75.
+Original/candidate field count97,calls69,instructions1026 and direct blocks170
+remain fixed. Four real Timer greater calls are+0xA1,+0x276,+0x921,+0xEC6.
+Five serial nice10 private complete standalone compiles test the old baseline,
+shared VM slots,shared persistent descriptor,both,and a whole-word color model.
+VM-only,descriptor-only and joint sources retain all3900 raw bytes,13 linked
+differences and all original operand coordinates. Only generated local label
+spellings differ; their actual section/value/addend destinations do not move.
+All five co-visible native bodies remain original-equal514 bytes/eight fields.
+
+The maintained EnemyCoreView now embeds the existing shared AnmVm at primary
++8 and the two existing secondary slots. It removes EnemyCoreAnmVmView and its
+private color-byte struct,uses native color1/flagsWord/scriptIndex members,and
+passes the actual VM pointers directly to ExecuteScript. Size2A4 and reviewed
+color1/2,flags,script and loaded-sprite offsets remain explicitly asserted.
+Red/green/blue/alpha writes retain the existing2/1/0/3 byte order through unsigned
+char access to the actual color2 object representation. The loaded-sprite +30/
++34 extent view stays a separate bounded view; no unknown shared sprite field
+is promoted to a named float or claimed complete native class layout.
+
+The reset copy uses the existing BulletSpawnDescriptor on both sides. The
+private duplicate descriptor/transform classes are removed,while all thirteen
+reviewed native field offsets and214-byte size remain asserted. Existing local
+construction and native Etama interface are unchanged. No extra constructor,
+helper call or storage is added; the remaining unknown214..23F bytes of the
+persistent240-byte region are not copied. These are shared maintained types,
+not proof of unique original C++ class spelling,object lifetime or TU partition.
+
+The packed-color control consumes the actual color1 alpha and constant RGB
+using one native word assignment. It emits3892 bytes/97 fields with the same
+five original native bodies. All four greater references remain positive and
+same-definition,but the final actual field moves from+EC6 to+EBD. The strict
+original coordinate check rejects before whole-owner scoring. The old diagnostic
+message incorrectly described that as a missing native definition; it now
+separately reports an original-call-offset change. No extent/call/body/field
+protection is relaxed. One synthetic regression preserves a complete native
+body and positive definition references while moving a call,requiring this
+precise distinction; public --case standalone-vm-packed-color independently
+reproduces the actual3892-byte rejection with514 native bytes/eight fields and
+ten same-object references already proven. The retained byte stores are not
+replaced simply because a source expression is shorter.
+
+Fresh canonical main and alternate /Ob0 builds use the two existing fixed
+profiles,not a flag search. The initial canonical edit accidentally removes
+adjacent EnemyCoreEffectView while deleting the duplicate descriptor block.
+Its exact original declaration is restored before successful compilation;
+failed source/log remain. A private post-build collector first calls a nonexistent
+guard_enemy name; correcting it to guard_enemy_update needs no recompilation.
+Neither preparation error supplies target-negative or accepted replay evidence.
+The maintained full RunEcl body is raw-identical to the retained baseline and
+keeps30 ordinary/zero field/table differences. Complete Enemy raw remains
+identical and its strict13-offset guardian protects all3887 old equal positions.
+
+All79 existing exact ECL units cold-pass25215 physical bytes/1126 fields across
+75 main and four alternate-profile units. Before canonical metadata adoption,
+actual same-owner section/value coordinates independently fix two label bases:
+ecl-post-update-movement+139: $L74362->$L74285 remains408548; and
+ecl-compare-operands+14: $L73543->$L73466 remains407A4C. Both complete owners
+pass using a temporary comparison manifest first; only those two symbol strings
+then change canonically. No field offset,kind,addend,original address,extent or
+profile changes. All77 other already-proved owners are reused after metadata
+adoption;924 unaffected exact source/profile proofs are not rebuilt.
+
+The fresh main object also passes Type14/22,Effect34,Effect29 and biased-movement
+guards without additional compilation. Public standalone source-cold replay
+independently repeats3900/97/13 and all five native bodies514/eight/ten actual
+references,including three real scalar definitions. Its external original
+RunEcl call is bound; this standalone recipe explicitly does not compile or
+attest the RunEcl body. The separate canonical full-owner receipt does.
+Targeted Enemy tests pass53/three optional decoder skips under Python-S.
+
+The493-file source-root snapshot includes README metadata and492 actual code
+files. Only EnemyManagerCore.inl changes; shared headers and public signatures
+remain unchanged. No new authored exact row/function/byte is added. Exact is
+still1003/1035 and244917/291883 bytes (83.9093%);95% needs32372 more whole exact
+bytes. RunEcl30,Enemy13,DrawResult22,Type315,complete inventory,native product/
+runtime and semantic/port gates remain unfinished. Evidence and frozen inputs:
+.analysis/gpt-61sol-20261022-enemy-native-vm/.
+
+Full CI passes960 tests/28 skips,exit zero; target-required tracking,
+documentation,generated progress and whitespace gates pass. The22-member
+archive preserves2574196 logical bytes in280725 compressed bytes, SHA256
+9fcecd884ee5790592467505722ded2141992f27a3d8f70d714e8285c151d9e0.
+CRC,every member SHA and loose-byte equality pass before removal. An actual
+archive-only cold replay of the predecessor native-vm-descriptor control repeats
+all3900 raw bytes,all97 complete actual COFF rows,all five native bodies514
+authentic bytes/eight fields and their actual scalar definitions; the strict
+original-bound guardian retains13 differences. This is a source-hypothesis
+reproduction,not new exact credit or whole-product/runtime validation.
+
+Persisted plans precede removing20 verified archive duplicates and277 new
+terminal-CI bytecode caches:297 files/7493441 logical bytes. All127 pre-CI
+build-cache paths remain,including two refreshed entries; no unchanged old-cache
+hash claim is made. Current main/alternate canonical objects/PDBs,both frozen
+source graphs and readable current receipts remain. Original target/tools/IDA
+and older unclassified evidence remain untouched. Public-receipt epoch review
+finds only the later Enemy evidence/notes CSV wording changed; all compiler
+inputs,profiles,target fields and provider hashes remain identical.

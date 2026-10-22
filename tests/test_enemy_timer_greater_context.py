@@ -78,6 +78,12 @@ class EnemyTimerGreaterContextTests(unittest.TestCase):
             with self.subTest(offset=offset), self.assertRaises(ValueError):
                 self.check(target=target)
 
+    def test_shifted_positive_call_is_not_a_missing_native_definition(self):
+        rows = copy.deepcopy(self.rows)
+        rows[-1]['offset'] -= 8
+        with self.assertRaisesRegex(ValueError, 'original call offset changed'):
+            self.check(rows=rows)
+
 
 if __name__ == '__main__':
     unittest.main()

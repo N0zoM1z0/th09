@@ -42,17 +42,18 @@ class EnemyUpdateSharedRealOwner(unittest.TestCase):
                          (0x0043E380, 0x99,
                           '?PlaySoundPositionedByIdx@SoundPlayer@@QAEXHM@Z'))
 
-    def test_true_anm_manager_and_vm_receiver_shim(self):
+    def test_true_anm_manager_and_native_vm_slots(self):
         self.assertEqual(self.enemy.count('#include "AnmManager.hpp"'), 1)
         self.assertEqual(self.enemy.count('g_AnmManager->ExecuteScript('), 2)
         self.assertNotIn('EnemyCoreAnmManagerView', self.enemy)
         self.assertNotIn('g_EnemyCoreAnmManager', self.enemy)
         self.assertIn('extern AnmManager *g_AnmManager;', self.anm_header)
         self.assertIn('int ExecuteScript(AnmVm *vm);', self.anm_header)
-        self.assertIn('reinterpret_cast<AnmVm *>(&enemy->primaryVm008)',self.enemy)
-        self.assertIn('reinterpret_cast<AnmVm *>(&enemy->secondaryVms2AC[vmIndex])',
-                      self.enemy)
-        self.assertIn('sizeof(EnemyCoreAnmVmView) == 0x2A4', self.enemy)
+        self.assertIn('AnmVm primaryVm008;', self.enemy)
+        self.assertIn('AnmVm secondaryVms2AC[2];', self.enemy)
+        self.assertNotIn('struct EnemyCoreAnmVmView', self.enemy)
+        self.assertNotIn('reinterpret_cast<AnmVm *>(&enemy->', self.enemy)
+        self.assertIn('sizeof(AnmVm) == 0x2A4', self.enemy)
         unit = self.units['anm-manager-execute-script']
         self.assertEqual((unit['target_address'], unit['symbol']),
                          (0x00436F30,

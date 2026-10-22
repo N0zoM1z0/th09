@@ -105,30 +105,14 @@ struct EnemyCoreLoadedSpriteView
     float extent34;
 };
 
-struct EnemyCoreColorBytes
-{
-    unsigned char b;
-    unsigned char g;
-    unsigned char r;
-    unsigned char a;
-};
-
-struct EnemyCoreAnmVmView
-{
-    unsigned char unknown000[0x1F0];
-    unsigned int color1_1F0;
-    EnemyCoreColorBytes color2_1F4;
-    unsigned int flags1F8;
-    short type1FC;
-    short pendingInterrupt1FE;
-    unsigned char unknown200[0x21A - 0x200];
-    short scriptIndex21A;
-    unsigned char unknown21C[0x224 - 0x21C];
-    EnemyCoreLoadedSpriteView *loadedSprite224;
-    unsigned char unknown228[0x2A4 - 0x228];
-};
-typedef char EnemyCoreAnmVmSizeIs2A4[
-    (sizeof(EnemyCoreAnmVmView) == 0x2A4) ? 1 : -1];
+// Shared maintained ANM layout at the three target-observed VM slots.
+// Nominal original class identity and complete product ownership remain open.
+typedef char EnemyCoreNativeVmSize[sizeof(AnmVm) == 0x2A4 ? 1 : -1];
+typedef char EnemyCoreNativeVmColor1[offsetof(AnmVm, color1) == 0x1F0 ? 1 : -1];
+typedef char EnemyCoreNativeVmColor2[offsetof(AnmVm, color2) == 0x1F4 ? 1 : -1];
+typedef char EnemyCoreNativeVmFlags[offsetof(AnmVm, flagsWord) == 0x1F8 ? 1 : -1];
+typedef char EnemyCoreNativeVmScript[offsetof(AnmVm, scriptIndex) == 0x21A ? 1 : -1];
+typedef char EnemyCoreNativeVmSprite[offsetof(AnmVm, loadedSprite) == 0x224 ? 1 : -1];
 
 struct EnemyCoreTrailSampleView
 {
@@ -193,80 +177,23 @@ typedef char EnemyCorePlayerPositionAt1B88[
 typedef char EnemyCorePlayerHomingAt3037C[
     (offsetof(EnemyCorePlayerView, homingTarget3037C) == 0x3037C) ? 1 : -1];
 
-struct EnemyCoreBulletTransformRecordView
-{
-    unsigned char storage00[0x18];
-};
-
-struct EnemyCoreBulletSpawnDescriptorView
-{
-    short bulletType00;
-    short color02;
-    Float3 position04;
-    float angle10;
-    float angleStep14;
-    float speed118;
-    float speed21C;
-    EnemyCoreBulletTransformRecordView transforms20[18];
-    float laserStartOffset1D0;
-    float laserEndOffset1D4;
-    float laserStartLength1D8;
-    float laserWidth1DC;
-    int laserStartTime1E0;
-    int laserDuration1E4;
-    int laserDespawnDuration1E8;
-    int laserHitboxStartTime1EC;
-    int laserHitboxEndDelay1F0;
-    short count1_1F4;
-    short count2_1F6;
-    unsigned short aimMode1F8;
-    unsigned short unknown1FA;
-    unsigned int transformFlags1FC;
-    int spawnSound200;
-    int transformSound204;
-    int transformStartIndex208;
-    unsigned char extraAttribute20C;
-    unsigned char unknown20D[3];
-    void *templateSprites210;
-};
-typedef char EnemyCoreBulletSpawnDescriptorSizeIs214[
-    (sizeof(EnemyCoreBulletSpawnDescriptorView) == 0x214) ? 1 : -1];
-// The ECL/Enemy temporary is constructed by the original 0x0040D500
-// 0x214-byte descriptor constructor. The real Etama callee at 0x004130F0
-// consumes precisely the same physical fields as BulletSpawnDescriptor.
-// This view remains for copying the observed descriptor inside the persistent
-// byte-view state below. The local constructor carrier instead owns a live
-// BulletSpawnDescriptor member, passed directly to the real Etama method.
-// Original C++ names and persistent-state ownership remain unknown.
+// The reset copy and the native Etama call use the same 0x214-byte payload.
+// Keep the independently reviewed offsets without a second descriptor class.
 typedef char EnemyCoreBulletDescriptorMatchesEtamaFields[
-    (sizeof(EnemyCoreBulletSpawnDescriptorView) == sizeof(BulletSpawnDescriptor) &&
-     offsetof(EnemyCoreBulletSpawnDescriptorView, bulletType00) ==
-         offsetof(BulletSpawnDescriptor, bulletType) &&
-     offsetof(EnemyCoreBulletSpawnDescriptorView, color02) ==
-         offsetof(BulletSpawnDescriptor, color) &&
-     offsetof(EnemyCoreBulletSpawnDescriptorView, position04) ==
-         offsetof(BulletSpawnDescriptor, position) &&
-     offsetof(EnemyCoreBulletSpawnDescriptorView, angle10) ==
-         offsetof(BulletSpawnDescriptor, angle) &&
-     offsetof(EnemyCoreBulletSpawnDescriptorView, angleStep14) ==
-         offsetof(BulletSpawnDescriptor, angleStep) &&
-     offsetof(EnemyCoreBulletSpawnDescriptorView, speed118) ==
-         offsetof(BulletSpawnDescriptor, speed1) &&
-     offsetof(EnemyCoreBulletSpawnDescriptorView, speed21C) ==
-         offsetof(BulletSpawnDescriptor, speed2) &&
-     offsetof(EnemyCoreBulletSpawnDescriptorView, count1_1F4) ==
-         offsetof(BulletSpawnDescriptor, count1) &&
-     offsetof(EnemyCoreBulletSpawnDescriptorView, count2_1F6) ==
-         offsetof(BulletSpawnDescriptor, count2) &&
-     offsetof(EnemyCoreBulletSpawnDescriptorView, aimMode1F8) ==
-         offsetof(BulletSpawnDescriptor, aimMode) &&
-     offsetof(EnemyCoreBulletSpawnDescriptorView, unknown1FA) ==
-         offsetof(BulletSpawnDescriptor, unknown1FA) &&
-     offsetof(EnemyCoreBulletSpawnDescriptorView, transformFlags1FC) ==
-         offsetof(BulletSpawnDescriptor, transformFlags) &&
-     offsetof(EnemyCoreBulletSpawnDescriptorView, templateSprites210) ==
-         offsetof(BulletSpawnDescriptor, templateSprites)) ? 1 : -1];
-
+    (sizeof(BulletSpawnDescriptor) == 0x214 &&
+     offsetof(BulletSpawnDescriptor, bulletType) == 0x00 &&
+     offsetof(BulletSpawnDescriptor, color) == 0x02 &&
+     offsetof(BulletSpawnDescriptor, position) == 0x04 &&
+     offsetof(BulletSpawnDescriptor, angle) == 0x10 &&
+     offsetof(BulletSpawnDescriptor, angleStep) == 0x14 &&
+     offsetof(BulletSpawnDescriptor, speed1) == 0x18 &&
+     offsetof(BulletSpawnDescriptor, speed2) == 0x1C &&
+     offsetof(BulletSpawnDescriptor, count1) == 0x1F4 &&
+     offsetof(BulletSpawnDescriptor, count2) == 0x1F6 &&
+     offsetof(BulletSpawnDescriptor, aimMode) == 0x1F8 &&
+     offsetof(BulletSpawnDescriptor, unknown1FA) == 0x1FA &&
+     offsetof(BulletSpawnDescriptor, transformFlags) == 0x1FC &&
+     offsetof(BulletSpawnDescriptor, templateSprites) == 0x210) ? 1 : -1];
 
 struct EnemyCoreEffectView
 {
@@ -279,8 +206,8 @@ struct EnemyCoreView
 {
     EnemyManagerView *manager00;
     EnemyCoreView *nextInDrawGroup04;
-    EnemyCoreAnmVmView primaryVm008;
-    EnemyCoreAnmVmView secondaryVms2AC[2];
+    AnmVm primaryVm008;
+    AnmVm secondaryVms2AC[2];
     unsigned char eclStorage7F4[0x2D2A - 0x7F4];
     short eclCallStackDepth2D2A;
     unsigned char unknown2D2C[0x02];
@@ -654,7 +581,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             }
 
             EnemyCoreLoadedSpriteView *loadedSprite =
-                enemy->primaryVm008.loadedSprite224;
+                reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite);
             if (loadedSprite == 0)
                 enemy->flags337C |= ENEMY_CORE_NO_SPRITE;
 
@@ -678,21 +605,21 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                      !g_GameManager.IsWithinPlayfield(
                          enemy->worldPosition2DD4.x,
                          enemy->worldPosition2DD4.y,
-                        enemy->primaryVm008.loadedSprite224->extent34,
-                        enemy->primaryVm008.loadedSprite224->extent30)) ||
+                        reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite)->extent34,
+                        reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite)->extent30)) ||
                     (enemy->trailFlags53A0 != 0 &&
                      !g_GameManager.IsWithinPlayfield(
                          enemy->worldPosition2DD4.x,
                          enemy->worldPosition2DD4.y,
-                        enemy->primaryVm008.loadedSprite224->extent34,
-                        enemy->primaryVm008.loadedSprite224->extent30) &&
+                        reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite)->extent34,
+                        reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite)->extent30) &&
                      !g_GameManager.IsWithinPlayfield(
                         enemy->trailSamples33E8[
                             enemy->trailHistoryLength53A2 - 1].position00.x,
                         enemy->trailSamples33E8[
                             enemy->trailHistoryLength53A2 - 1].position00.y,
-                        enemy->primaryVm008.loadedSprite224->extent34,
-                        enemy->primaryVm008.loadedSprite224->extent30)))
+                        reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite)->extent34,
+                        reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite)->extent30)))
                 {
                     enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
                     reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();
@@ -706,16 +633,16 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 EnemyCoreRunTimerCallback(enemy))
                 goto run_enemy_ecl;
 
-            enemy->primaryVm008.color1_1F0 = enemy->displayColor2E70;
-            g_AnmManager->ExecuteScript(reinterpret_cast<AnmVm *>(&enemy->primaryVm008));
-            enemy->displayColor2E70 = enemy->primaryVm008.color1_1F0;
+            enemy->primaryVm008.color1 = enemy->displayColor2E70;
+            g_AnmManager->ExecuteScript(&enemy->primaryVm008);
+            enemy->displayColor2E70 = enemy->primaryVm008.color1;
             for (int vmIndex = 0; vmIndex < 2; ++vmIndex)
             {
-                if (enemy->secondaryVms2AC[vmIndex].scriptIndex21A >= 0 &&
+                if (enemy->secondaryVms2AC[vmIndex].scriptIndex >= 0 &&
                     g_AnmManager->ExecuteScript(
-                        reinterpret_cast<AnmVm *>(&enemy->secondaryVms2AC[vmIndex])))
+                        &enemy->secondaryVms2AC[vmIndex]))
                 {
-                    enemy->secondaryVms2AC[vmIndex].scriptIndex21A = -1;
+                    enemy->secondaryVms2AC[vmIndex].scriptIndex = -1;
                 }
             }
 
@@ -945,9 +872,9 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                     reinterpret_cast<EnemyManagerCoreView *>(enemy->manager00);
                 // Copy only the target-observed 0x214 descriptor, not the
                 // remaining unknown bytes in the 0x240 bullet-state region.
-                *reinterpret_cast<EnemyCoreBulletSpawnDescriptorView *>(
+                *reinterpret_cast<BulletSpawnDescriptor *>(
                     enemy->bulletState2E74) =
-                    *reinterpret_cast<const EnemyCoreBulletSpawnDescriptorView *>(
+                    *reinterpret_cast<const BulletSpawnDescriptor *>(
                         owner->spawnTemplate328.bulletState2E74);
                 enemy->shootInterval30B4 = 0;
                 reinterpret_cast<Th09EclRunState::ManagerStateView *>(enemyManager)
@@ -962,7 +889,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             if (enemy->damageFlashTimer336C != 0)
             {
                 --enemy->damageFlashTimer336C;
-                enemy->primaryVm008.flags1F8 &= ~0x20000u;
+                enemy->primaryVm008.flagsWord &= ~0x20000u;
             }
             else if (damageOccurred)
             {
@@ -971,18 +898,18 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 else
                     g_SoundPlayer.PlaySoundPositionedByIdx(37, enemy->worldPosition2DD4.x);
 
-                enemy->primaryVm008.color2_1F4.r = 0xFF;
-                enemy->primaryVm008.color2_1F4.g = 0x60;
-                enemy->primaryVm008.color2_1F4.b = 0x80;
-                enemy->primaryVm008.color2_1F4.a =
+                reinterpret_cast<unsigned char *>(&enemy->primaryVm008.color2)[2] = 0xFF;
+                reinterpret_cast<unsigned char *>(&enemy->primaryVm008.color2)[1] = 0x60;
+                reinterpret_cast<unsigned char *>(&enemy->primaryVm008.color2)[0] = 0x80;
+                reinterpret_cast<unsigned char *>(&enemy->primaryVm008.color2)[3] =
                     static_cast<unsigned char>(
-                        enemy->primaryVm008.color1_1F0 >> 24);
-                enemy->primaryVm008.flags1F8 |= 0x20000;
+                        enemy->primaryVm008.color1 >> 24);
+                enemy->primaryVm008.flagsWord |= 0x20000;
                 enemy->damageFlashTimer336C = 1;
             }
             else
             {
-                enemy->primaryVm008.flags1F8 &= ~0x20000u;
+                enemy->primaryVm008.flagsWord &= ~0x20000u;
             }
 
             // The target retains this boss-kind limit even though the observed
@@ -1002,7 +929,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 int markerState = (enemy->flags3380 >> 1) & 3;
                 if (markerState == 0)
                     g_AsciiManager.SetBossMarkerState(enemy->bossSlot336B,
-                        (enemy->primaryVm008.flags1F8 >> 17) & 1);
+                        (enemy->primaryVm008.flagsWord >> 17) & 1);
                 else
                     g_AsciiManager.SetBossMarkerState(enemy->bossSlot336B,
                                                     markerState + 1);

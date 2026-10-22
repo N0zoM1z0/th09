@@ -34,7 +34,9 @@ CASE_OWNERS = {
                                    'zun-timer-has-ticked-every'),
 }
 STANDALONE_CASES = frozenset(('standalone', 'standalone-periodic-first',
-                              'standalone-periodic-last', 'standalone-pointer-view'))
+                              'standalone-periodic-last', 'standalone-pointer-view',
+                              'standalone-vm-packed-color'))
+CASE_OWNERS['standalone-vm-packed-color'] = CASE_OWNERS['standalone']
 for _case in ('standalone-periodic-first', 'standalone-periodic-last'):
     CASE_OWNERS[_case] = CASE_OWNERS['standalone'] + ('zun-timer-has-ticked-every',)
 CASE_OWNERS['standalone-pointer-view'] = (
@@ -91,7 +93,7 @@ def standalone_source(case, bodies):
     """Keep the declaration-first carrier and expose the actual selected body."""
     if case not in STANDALONE_CASES:
         raise ValueError('not a reviewed standalone Enemy case')
-    if (case == 'standalone') != (not bodies):
+    if (case in ('standalone', 'standalone-vm-packed-color')) != (not bodies):
         raise ValueError('standalone native-body selection is incomplete')
     generated = ('#include "EclManager.hpp"\n'
                  '#include "EclRunState.inl"\n')
@@ -101,6 +103,28 @@ def standalone_source(case, bodies):
     if case == 'standalone-periodic-last':
         generated += bodies+'\n'
     return generated
+
+
+def packed_vm_color(source):
+    """A consumed whole-word color model, retaining native VM ownership."""
+    first = '                reinterpret_cast<unsigned char *>(&enemy->primaryVm008.color2)[2] = 0xFF;'
+    after = '                enemy->primaryVm008.flagsWord |= 0x20000;'
+    if source.count(first) != 1 or source.count(after) != 1:
+        raise ValueError('native VM color source contract changed')
+    start, end = source.index(first), source.index(after)
+    expected = '''                reinterpret_cast<unsigned char *>(&enemy->primaryVm008.color2)[2] = 0xFF;
+                reinterpret_cast<unsigned char *>(&enemy->primaryVm008.color2)[1] = 0x60;
+                reinterpret_cast<unsigned char *>(&enemy->primaryVm008.color2)[0] = 0x80;
+                reinterpret_cast<unsigned char *>(&enemy->primaryVm008.color2)[3] =
+                    static_cast<unsigned char>(
+                        enemy->primaryVm008.color1 >> 24);
+'''
+    if source[start:end] != expected:
+        raise ValueError('native VM byte values/order changed')
+    replacement = '''                enemy->primaryVm008.color2 =
+                    (enemy->primaryVm008.color1 & 0xFF000000UL) | 0x00FF6080UL;
+'''
+    return source[:start]+replacement+source[end:]
 
 
 def compare_native_definition(raw, fields, unit, target):
@@ -237,6 +261,9 @@ def run(case, output):
             root = Path(temporary)
             for name, data in inputs.items():
                 (root/name).write_bytes(data)
+            if case == 'standalone-vm-packed-color':
+                (root/'EnemyManagerCore.inl').write_text(
+                    packed_vm_color(inputs['EnemyManagerCore.inl'].decode()))
             (root/'EclManager.cpp').write_text(generated)
             staged = {n: digest((root/n).read_bytes()) for n in inputs}
             staged['EclManager.cpp'] = digest((root/'EclManager.cpp').read_bytes())
