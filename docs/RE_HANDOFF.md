@@ -7,23 +7,21 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after independently pushed `0f81d3e`.
+Reconstruction remains active after independently pushed `f87ca80a`.
 Continue95% and all four fronts; use `gpt-6-astra-medium:` for new commits.
 
-- Original disk/direct IDA mapped bytes pass. A real stored-current integer
-  return implementation reproduces the native Timer pair25+9 bytes/one field.
-  This is machine compatibility, not original C++ return-type recovery.
-- Its opaque full RunEcl caller remains15564/598/30; exposing actual pair bodies
-  before or after yields15560/598 and fails complete coverage. The private
-  hypothesis gives no reason to change maintained void declarations.
-- `probe-timer-value-contract.py` independently replays the native pair and
-  explicitly keeps original return declaration unknown and exactness credit none.
+- Original disk/direct IDA mapped bytes pass. Fresh SaveReplay baseline and
+  actual Alloc/Free definitions before/after its carrier all retain1238 bytes,
+  53 fields,380 instructions,49 blocks and the same3 differences.
+- Both visible native memory bodies independently equal original19+19 bytes,
+  including their malloc/free fields and actual same-object caller references.
+  This bounded visibility hypothesis does not resolve the Replay frontier.
+- Reproduce with `probe-replay-memory-context.py --case before --output
+  .analysis/replay-memory-new.json`; baseline/after are separate controls.
 - No game source,profile,unit or ledger changes;1003 exact proofs are reused.
   Coverage244917/291883 (83.9093%);95% needs32372 whole exact bytes. RunEcl30,
   Enemy13,DrawResult22,Type315 and product gates remain unfinished.
-- Focused tests2 and full CI977 tests/29 skips pass, exit zero. Tracking, docs,
-  progress and whitespace checks pass.
-- Latest knowledge-base entry records native proofs and bounded caller results.
+- Latest knowledge-base entry records the complete diagnostic and validation.
 
 ## Live ledger snapshot
 
@@ -192,12 +190,10 @@ results, fields and deficits before making an exactness claim.
 ## Evidence and cleanup boundaries
 
 Game source is unchanged from f4a7b61. The current packet is
-`.analysis/gpt-6-astra-medium-20261022-timer-value-contract/`. Frozen inputs,
-private recipes/native sources and proofs remain. Three complete caller reports
-are archived after CRC/member-byte verification:608818 logical bytes in57098
-bytes, SHA256336b1775d5bd3bc545b4dd9061cb4c71926e029b74547c2a25854a004fd99aa0.
-Only their loose duplicates are removed. Compiler temporaries self-clean;
-canonical objects/PDBs, older evidence and original inputs remain untouched.
+`.analysis/gpt-6-astra-medium-20261022-replay-memory/`. Three compact full
+raw/COFF/native-proof reports remain with input hashes and the CI log. The
+tracked reproducer and this source commit provide their replay path. Temporary
+compiler trees self-clean; no older evidence or canonical objects were deleted.
 
 Ignored packets are local evidence and are not pushed. Tracked source,scripts
 and durable observations provide the restart path. Historical replayers may

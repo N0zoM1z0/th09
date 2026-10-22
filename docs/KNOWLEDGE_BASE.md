@@ -18851,3 +18851,35 @@ Two focused source-contract tests and full CI977 tests/29 skips pass, exit zero.
 Tracking, documentation, generated progress and whitespace pass. Final public
 proof also binds its own recipe before compilation and verifies it unchanged;
 canonical-reference symbols and hypothesis symbols are reported separately.
+
+
+## October 22: real Replay allocator definition visibility
+
+Recovery starts at clean, independently pushed f87ca80a. Original disk hash,
+direct IDA metadata, entry and all five mapped-byte samples pass. The live
+ledger remains1003 exact/1035 authored,244917/291883 bytes (83.9093%).
+
+`scripts/probe-replay-memory-context.py` tests baseline and actual maintained
+ZunMemory Alloc/Free definitions before or after the whole ReplayInput carrier.
+It copies the genuine malloc/free implementations from ZunMemoryRelease.cpp;
+no signature, ABI, forced inline, local ordering hint or compiler profile changes.
+Each case uses the existing no-EH Replay profile serially at nice10. Recursive
+project inputs and Oracle/profile hashes are checked unchanged after production.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| REPLAY-MEMORY-001 | compiler observation | Baseline and both visibility contexts retain1238 bytes/53 fields/380 instructions/23 calls/49 blocks and3 differences. | Complete original-bound caller and actual string/float definitions. |
+| REPLAY-MEMORY-002 | native codegen observation | Both visible Alloc/Free bodies equal original19+19 bytes with their real malloc/free fields. | Complete relocated native comparison and positive caller symbol-section references. |
+| REPLAY-MEMORY-003 | bounded negative result | Before/after visibility preserves every raw caller byte and the existing B7/BB/3F6 residual set. | Raw SHA256109c8005dd14dd60fd5ba56ddee0ebcecfd5e39618e5191ec7783a3ac113b839. |
+
+This rules out only these actual visibility contexts as an improvement; original
+translation-unit ownership remains unknown. No game source,unit,profile or
+exact ledger changes. Unchanged1003 source/profile-bound proofs are reused.
+Reproduce each case using `--case baseline`, `--case before` or `--case after`
+and a fresh `--output .analysis/<name>.json`. The reports retain complete raw
+bytes,actual COFF rows,native proofs and input hashes. Compiler temporaries
+self-clean; current canonical objects and older evidence remain untouched.
+The packet is `.analysis/gpt-6-astra-medium-20261022-replay-memory/`.
+Two focused source-contract tests pass, including duplicate/missing boundary
+rejection. Full CI passes979 tests/29 skips, exit zero; tracking, documentation,
+generated progress and whitespace checks pass.
