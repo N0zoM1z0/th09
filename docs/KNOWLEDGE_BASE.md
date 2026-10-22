@@ -19172,3 +19172,64 @@ and this batch's two reproducible service-packet-current OBJ/PDB outputs are
 removed. Frozen inputs,recipes,maintained source/proof,CI and archive manifests
 remain. Extract trials.zip before directly inspecting a historical case report.
 Existing canonical objects and older evidence are untouched.
+
+
+## October 22: Front weighted-entry member and failure-exit controls
+
+Recovery starts at clean independently pushed c1c8ead. Original disk,direct
+IDA metadata,entry and distributed mapped bytes pass. This batch tests a source
+family not established by earlier loop/word-pointer/RNG controls: ordinary
+inline methods on the actual eight-byte weighted entry consume the real random
+value by reference and return selection success. The primary-window helper
+checks the instruction pointer and weight; the fallback helper additionally
+checks the actual index against the table count. No new data fields,forced
+inline,volatile,register hints,compiler profile or ABI are introduced.
+
+Eight complete serial nice10 builds use the canonical front-message-setup
+profile and independently bind all15 original references before comparing.
+Every case retains the six original ordered calls; helper methods add no actual
+caller callsite. No emitted unused helper receives target ownership or credit.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| FRONT-WEIGHT-MEMBER-20261022-001 | compiler observation | Baseline and primary-only helper retain681 bytes,201 instructions,41 blocks and569 overlap differences,with12 missing bytes. | Every primary-only raw byte equals baseline; complete original has693 bytes,206 instructions,40 blocks. |
+| FRONT-WEIGHT-MEMBER-20261022-002 | rejected source hypothesis | Fallback-only and combined helpers emit696 bytes,206 instructions,42 blocks and631 overlap differences,with3 extra bytes. | Each restores13 old mismatches but damages63 old equal positions. Original direct graph remains unequal. |
+| FRONT-WEIGHT-MEMBER-20261022-003 | rejected source hypothesis | Passing the actual table count by const reference instead of value reproduces those696-byte fallback/combined raw callers. | Reading count inside the short-circuit helper does not recover the original graph or full bytes. |
+| FRONT-WEIGHT-MEMBER-20261022-004 | rejected source hypothesis | Direct default on complete fallback exhaustion emits686 bytes/202 instructions/42 blocks/579 overlap differences,with7 missing bytes. | Restores40 old mismatches but damages45 old matches. |
+| FRONT-WEIGHT-MEMBER-20261022-005 | rejected source hypothesis | Combining fallback helper and direct default emits701 bytes/207 instructions/42 blocks/626 overlap differences,with8 extra bytes. | Restores15 old mismatches but damages60 old matches. No candidate is adopted. |
+
+Fresh direct IDA confirms exhausted original groups jump from416425 directly
+to416446,which assigns210; success paths join416437 and retain the bounds
+checks. The direct-default control explicitly expresses that source behavior,
+but its lowered physical graph still has42 blocks rather than40. Matching one
+observed successor is insufficient to accept the complete caller. The existing
+unrolled loop behavior and source remain unchanged. A bounded search for the
+same named setup/group-loop form in TH08/TH095 source finds no direct analogue;
+no adjacent-game evidence is promoted.
+
+Packet `.analysis/gpt-6-astra-medium-20261022-front-weight-member/` freezes the
+current quote-include closure,profile,compiler pins and comparison providers.
+probe.py generates baseline,primary,fallback,both; reference-probe.py tests
+count references; exit-probe.py tests the two direct-default cases. Run these
+serially from a fresh packet directory under .analysis on c1c8ead; existing case
+directories reject overwrite. Every report retains full source/raw/actual COFF
+and complete diagnostic; review.json records exact mismatch sets and compares
+old mismatches/equal positions only over the original681-byte candidate extent.
+Missing/extra bytes are accounted separately; no local match or normalized
+instruction score is exactness credit. Private compiler temporaries self-clean.
+
+No game source,profile,inspector,exact ledger or canonical proof input changes.
+All1003 unchanged exact source/profile proofs are reused. Coverage remains
+244917/291883 (83.9093%);95% needs32372 whole exact bytes. RunEcl30,Enemy13,
+DrawResult22,Type315 and native product/runtime gates remain unfinished.
+
+Full CI passes984 tests/29 skips,exit zero; tracking,documentation,generated
+progress,open build-graph and whitespace checks pass. After all producers end,
+24 trial source/report/log copies are CRC/member-byte verified into trials.zip:
+108676 logical bytes become31142 bytes,SHA256
+09af28e61f10ee98b435248997fca783831955d5c0bf3dfa1a6c54bab73283d2.
+Only verified loose duplicates and two member-identical frozen-input archives
+are removed. Retained inputs.zip,three recipes,full review,frozen/archive
+manifests and CI log preserve this unresolved evidence. Extract trials.zip
+before inspecting individual case reports. Older evidence and canonical
+objects are untouched.

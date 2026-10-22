@@ -7,20 +7,20 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after independently pushed `95a116a`.
+Reconstruction remains active after independently pushed `c1c8ead`.
 Continue95% and all four fronts; use `gpt-6-astra-medium:` for new commits.
 
-- Original disk/direct IDA mapped bytes pass. Five Supervisor service RNG
-  contexts either preserve1632/108/1395 or regress to1639/105/1474; actual
-  native helper bodies pass independently,without granting caller credit.
-- Adopted an explicitly laid-out packet word union in SupervisorNetwork.cpp.
-  It removes short-pointer casts while preserving all1632 raw bytes and108
-  actual COFF references. The complete service remains nonexact.
-- No exact ledger change. All1003 unchanged source/profile proofs are reused.
+- Original disk/direct IDA mapped bytes pass. Eight Front weighted-entry
+  member/count-reference/direct-default controls retain the primary-only
+  baseline or regress the complete caller; none is adopted.
+- Front remains681/693 bytes,15 fields,569 overlap differences plus12 missing
+  bytes,41/40 blocks. Every trial retains the six original ordered calls.
+- No game-source or exact ledger change. All1003 unchanged source/profile
+  proofs are reused; game source remains atc1c8ead.
 - Coverage244917/291883 (83.9093%);95% needs32372 whole exact bytes.
   RunEcl30,Enemy13,DrawResult22,Type315 and product gates remain unfinished.
   CI984 tests/29 skips and tracking/docs/progress checks pass. Latest KB entry
-  routes the source-bound diagnostic and maintained proof.
+  routes the complete source-bound trial evidence.
 
 ## Live ledger snapshot
 
@@ -188,13 +188,13 @@ results, fields and deficits before making an exactness claim.
 
 ## Evidence and cleanup boundaries
 
-Current source change is limited to SupervisorNetwork.cpp's packet word view.
-The current packet is `.analysis/gpt-6-astra-medium-20261022-service-rng/`,
-with frozen raw inputs,private recipes,complete trial/native reports and the
-fresh maintained proof. Eighteen trial files are byte-verified into trials.zip;
-only their loose duplicates,the duplicated input archive and this batch's two
-reproducible OBJ/PDB files are removed. Compiler temporaries self-clean. Original
-inputs,canonical evidence and older unclassified artifacts remain untouched.
+Game source remains atc1c8ead. Current packet is
+`.analysis/gpt-6-astra-medium-20261022-front-weight-member/`,with frozen raw
+inputs,three private recipes,eight full source/COFF reports and whole-owner
+comparison. Twenty-four trial files are byte-verified into trials.zip; only
+their loose duplicates and two identical input archives are removed. Compiler
+probe temporaries self-clean. Original inputs,canonical
+evidence and older unclassified artifacts remain untouched.
 
 Ignored packets are local evidence and are not pushed. Tracked source,scripts
 and durable observations provide the restart path. Historical replayers may
