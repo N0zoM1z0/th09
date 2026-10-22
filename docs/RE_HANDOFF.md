@@ -7,44 +7,38 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after pushed `c13a6ac`. Continue toward 95% and
+Reconstruction remains active after pushed `af7144f`. Continue toward 95% and
 RunEcl/Enemy/Title/Type3; historical pauses remain superseded. This checkpoint
-reviews a real compiler-emitted post-return alignment form in RunEcl diagnostics.
+constrains Type3 native interfaces and genuine callee visibility.
 
 - Original Japanese v1.50a disk identity, direct IDA metadata, entry and five
-  distributed mapped samples pass. Fresh complete RunEcl remains15564/598/30,
-  with zero field/table differences and146/148 matching handler shapes.
-- All eight raw-byte consumers are reads. A const byte-lvalue accessor is
-  completely raw-neutral. Three byte/wide value-flow controls emit identical
-  raw callers with14790 code bytes and2 alignment bytes; opcode155 becomes43
-  bytes versus45 original. Three joint native-bitfield/value controls instead
-  produce44-byte handlers,1938 ordinary/202 field differences (26 table bytes).
-  No game source, profile or exact ledger change is adopted.
-- The14790-byte controls emit exact `8B FF` (MOV EDI,EDI) between RET4 and
-  switch tables. Both independent extent classifiers previously rejected it.
-  They now recognize that exact observed no-op alongside their existing forms.
-  The bytes remain included in every complete original-owner comparison.
-  Bounds, direct-branch checks, all598 fields and original exact gates stay fixed.
-- The selected full replay preserves every compiled raw byte and actual COFF
-  record. It now completes the identity audit and reports2048 ordinary/242
-  field differences, including26 table bytes. The unchanged production frontier
-  rejects it. Current baseline JSON remains identical before/after both fixes.
-- All75 existing exact units in the fresh main object replay22463 physical
-  bytes. Other928 authored exact proofs retain unchanged bindings and are reused.
-  Normal Capstone regression tests pass12, including non-self/16-bit moves,
-  branches into either alignment byte, truncation and excessive padding rejection.
-- Local packet `.analysis/gpt-61sol-20261022-ecl-wire-update/` retains frozen
-  inputs, seven controls, old/new provider bindings, the failed intermediate
-  collector and full current rejection. Its72-member archive preserves2940527
-  logical bytes in376710 bytes. No unqualified archive-only compile is claimed;
-  the completed selected replay uses staged fragments and hash-bound headers.
-- CI passes **945 tests /28 skips**, exit zero; target-required tracking,
-  docs, generated progress and whitespace pass. After all repository producers
-  terminate,72 byte-verified archive duplicates and one new CI cache are removed:
-  73 files /2951966 logical bytes. The archive and127 preexisting cache paths,
-  canonical objects and older unclassified evidence remain.
+  distributed mapped samples pass. Fresh complete Type3 remains780/38/15,
+  with24 ordered calls and17 blocks. Its765 equal bytes remain protected.
+- Four native Float3 += interfaces, three X/Y member-convention
+  controls, explicit-receiver transforms, native point types and two callback
+  member forms preserve their respective full callers. Native helpers are
+  independently compared before using a private symbol identity.
+- Eight unqualified natural word/setter/result controls produce15,19 or67
+  differences. None improves the maintained frontier. The older four-byte
+  comparison still changes four previously equal bytes and is not adopted.
+- Genuine Timer assignment/reset/full-body visibility preserves all780 caller
+  bytes. The public native-context producer now reproduces these three cases,
+  checks1/2/17 complete native units (9/34/317 bytes), actual operands, scalar
+  data and the real same-object assignment call. Three cold public replays
+  reproduce private raw callers exactly. No profile, ABI or game-source change.
+- Fresh `--owner type3` protects seven exact siblings /1024 physical bytes.
+  Unchanged source/profile-bound proofs are reused. All493 game input hashes,
+  1035 canonical units and exact ledgers retain their bindings.
+- Two added regression tests reject changed native extents, code, operand
+  identities/addends, scalar definitions and altered source bodies/profiles.
+  Focused native-context tests pass15; final CI passes947 tests/28 skips,
+  exit zero. Target-required tracking, docs, progress and whitespace pass.
+- Local packet `.analysis/gpt-61sol-20261022-type3-operator-returns/` retains
+  frozen inputs, complete raw/actual-COFF controls, native proofs and three
+  failed source-preparation records. These are bounded negative observations;
+  they do not recover unique original C++ declarations or TU ownership.
 - Exact remains **1003/1035 functions**, **244917/291883 bytes (83.9093%)**;
-  the 95% gap is **32372 bytes**. RunEcl30, Enemy13, DrawResult22 and Type315,
+  the95% gap is **32372 bytes**. RunEcl30, Enemy13, DrawResult22 and Type315,
   complete inventory, native product/runtime and later phase gates stay open.
 
 ## Live ledger snapshot
@@ -121,7 +115,7 @@ these results do not establish unique original translation-unit ownership.
 | **TitleScreen::DrawResult** | 0x00423D16 | **1,939/1,939**, 82 fields, 16 calls, 92 blocks; **22** differences | All 22 SHA-pinned linked differences are in the entry: 21 at `+0x0E..+0x24`, one at `+0x39` (bank-pointer store vs `currentScreen` prefetch). The entire remaining owner is byte-exact; the strengthened guard now pins **all 22 exact residual positions**, including preserving previously matching `+0x13` and `+0x18` inside the old entry window. The shared native GameManager field at+0x3F now has its actual COFF symbol/root/addend identity guarded; superseded mode/name-index aliases are rejected. Actual score construction/storage visibility is raw-neutral; `probe-title-score-context.py` independently reports the nonmatching20-byte /O1 constructor rather than claiming native18-byte equality. `--owner title` protects the original full owner. |
 | **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 / 2,048**, 135 fields, 51 calls, 121 blocks | Uses genuine `AnmManager`/`AnmLoaded` and `SoundPlayer` receivers for29 fields, plus **eight native input array references**: two receivers at `g_ReplayInputStates[2]` and six16-bit word06 reads. Strict root/addend checking rejects fake standalone globals even at equal effective addresses. All2,048 linked candidate bytes and135 referents are preserved. The actual seven-byte read-only SetVol definition is now checked; three data-only corruptions are rejected with unchanged main code/COFF. All1,435 matching positions are now protected by the original SHA and exact610-offset residual set. The610 overlap differences+3 extra bytes remain NON-EXACT. Exact same-TU `PlayMenuSound`34/34 and `--owner title` protect this frontier. |
 | **Title character cursors** | 0x00424EDD / 0x00424FB0 / 0x0042505F | Active target/candidate **211/215**; Reverse/Inactive **175/175** | Active reduced 217→215 in `69165b2`, but none is exact. Loop pre-check and VM register/sprite reload schedules; `--owner title`. |
-| **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15 maintained differences** | New private word-read plus real collision-forward model restores original middle-Z chronology and has **four differences** at +1B2,+1B7,+247,+249. These are previously equal bytes, so it is not adopted and the production guard stays unchanged. Reproduce with `probe-exattack-type3-word-order.py`; native/inline/reference joint controls retain four or lose 20 physical bytes. The component panel proves ordinary forwarding alone gives 27; the four-byte result depends on both experimental qualifications in the tested panel. New real pointer-body visibility preserves 15/four; partial X/Y visibility changes full extents and is rejected. The extended native-context producer checks the real 18-byte interrupt and both three-byte pointer aliases without origin credit. Real shared `AnmVm` and five canonical interrupts remain; `--owner type3` protects seven exact functions. |
+| **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15 maintained differences** | Middle-Z chronology stays open; all765 equal bytes are protected. The earlier word/query four-byte model still damages +1B2,+1B7,+247,+249 and is rejected. Native Float3 interface, coordinate receiver, point-type and callback member controls preserve their respective full callers; eight unqualified dataflow models do not improve15. Actual Timer assignment/reset/full-body visibility preserves15, with1/2/17 complete native proofs (9/34/317 bytes), actual scalar data and same-object assignment-call identity. Reproduce with `probe-type3-native-context.py --case timer-all`; `--owner type3` protects seven exact functions. Original nominal types/conventions/TU ownership remain unknown. |
 | **ExAttack Type14/22 draw** | 0x00444130 | **959 / 974**, 53 full PE/COFF fields, 20 direct + 12 indirect calls, 9 jumps, 905 overlapping differences and 15 extra source bytes | Twelve device fields use the genuine `Supervisor g_Supervisor +8`; the old fictitious global type is rejected. Original-bound bytes, fields and calls remain unchanged. `--owner exattack` protects all 54 equal original positions and the three exact Type14/22 initializer/update controls. Remaining draw register/loop schedule stays NON-EXACT. |
 | **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **904 differing bytes** (911→904, no damaged matches) | Real case-1 C4 publication before the counter-derived limit restores seven bytes; alignment is 164 field identities. Create, stage dispatch and all four opponent-selection calls now use their actual canonical symbols. The remaining referent multiset gap is unchanged: original-only root (3), +0x34 (1), +0xA4 (1); candidate-only +0x28 (1), +0x98 (1), +0xB4 (2). Six creator references now use five genuine canonical APIs; the byte Player argument changes only one already unlike byte, preserving the full785-byte match mask. Background/CardAttack/FrontSide header integration, the side-registration cursor and shared final limit/rate publications remain unresolved. The B4 multiplicity gap is different static branch sharing, not proof of extra runtime writes. Complete residual/referent/native-call guards and eleven same-TU exact siblings remain required. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | **862 / 849**, 26 fields, 12 calls; **804** overlap + 13 missing | Three return exits, gameplay/state collision branches; `--owner player` protects seven exact helpers. |
@@ -213,20 +207,22 @@ results, fields and deficits before making an exactness claim.
 
 ## Evidence and cleanup boundaries
 
-The current tree retains **492 game-source files, 1,035 comparison units and
-1,003 authored exact rows**. All493 game input hashes retain their bindings.
-No game source, canonical profile or ledger changes. The current main object
-replays75 existing exact units /22463 physical bytes;928 unaffected authored
-proofs are reused. Diagnostic alignment recognition grants no byte credit.
-Native product/runtime, complete inventory, semantic and port gates stay open.
+All493 game input hashes,1035 comparison units and1003 authored exact rows
+retain unchanged bindings. The current focused Type3 replay protects seven
+existing exact siblings /1024 physical bytes; genuine co-visible Timer proofs
+cover17 units /317 bytes including the noncrediting four-byte alias. Unaffected
+source/profile proofs are reused. No game-source, profile or ledger adoption.
 
-The current ECL packet preserves frozen inputs, seven full raw/actual-COFF
-controls, original/current extent providers, failed collector evidence, complete
-rejection and75 canonical receipts. The72-member376710-byte archive is CRC/SHA
-and byte verified before loose cleanup. Compiler temporaries self-clean;
-canonical objects remain for focused reuse. Prior packets retain their own
-source-commit scope in Git history, the knowledge base and
-[artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md).
+The current Type3 packet preserves frozen headers/sources, native and caller
+proofs, failed preparation recipes and selected public reproduction. Its290-member
+archive retains1249638 logical bytes in407641 bytes. CRC/SHA and byte equality
+precede removal of283 loose duplicates /1152893 bytes. Canonical objects and
+all127 preexisting cache paths remain, including one refreshed by the modified
+producer. New CI bytecode was removed; its count/hashes were not persisted
+before an overly strict post-check assertion, so no cache-removal total is
+claimed. cleanup.json records the independent recovery and sealed archive.
+Prior packet scopes remain in Git history and the knowledge base. Native
+product/runtime, complete inventory, semantic and port gates stay open.
 
 Ignored packets are local evidence and are not included in Git commits or
 pushes. Tracked source, scripts and durable observations provide the public

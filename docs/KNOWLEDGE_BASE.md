@@ -17650,3 +17650,67 @@ preexisting cache paths, current canonical objects, original target/tools/IDA
 and unclassified older evidence remain. cleanup.json preserves every removed
 path, hash, classification and reproduction route. Archive verification does
 not claim another compilation or a new exact receipt.
+
+
+## October 22: Type3 native interfaces and Timer body visibility
+
+Recovery at af7144fbfce0e9b552eef5dbea7a78ab6b576f08 passes original Japanese
+v1.50a disk and direct IDA entry/distributed mapped-byte checks. Maintained
+442750..442A5B remains780 bytes /38 fields /24 calls /17 blocks /15 differences;
+all765 equal positions remain protected. No game source, ABI, profile or exact
+ledger change is adopted. These controls constrain selected hypotheses only.
+
+Private source controls use the pinned Type3 /O2 /Ob1 profile, serial nice10
+compilation and complete original-bound PE/actual-COFF diagnostics:
+
+| ID | Recorded state | Fact | Evidence |
+| --- | --- | --- | --- |
+| TYPE3-CONTEXT-001 | compiler-observed / noncrediting | Float3 += reference, pointer return, const-reference return, pointer argument: Eight callers preserve respective15/four differences. | Each actual36-byte helper equals405730 before private symbol binding. |
+| TYPE3-CONTEXT-002 | compiler-observed / noncrediting | Inverse-transform X, Y or both as fastcall members: Six callers preserve15/four. | Each X/Y46-byte body, two real fields and scalar definition equal original. |
+| TYPE3-CONTEXT-003 | compiler-observed / noncrediting | Explicit GameManager receiver for both inverse transforms: Two callers preserve15/four. | Both46-byte bodies, actual receiver fields and scalar definitions equal original. |
+| TYPE3-CONTEXT-004 | compiler-observed / noncrediting | Float3 middle, centers or all four points: Six callers preserve15/four. | Both actual3-byte pointer aliases equal4343D0; origin/unique ownership remain unknown. |
+| TYPE3-CONTEXT-005 | compiler-observed / noncrediting | Nonvirtual thiscall/fastcall Type3 member callback: Four callers preserve15/four; nominal original class/convention unknown. | Original caller supplies ECX and observes EAX; root selector changes only. |
+| TYPE3-CONTEXT-006 | compiler-observed / noncrediting | Unqualified word read plus real ordinary middle-Z setter/result utility, with optional collision forwarding: Setter/result alone15; word alone67; word+forward19; no improvement. | No volatile or forced-inline qualifier in these eight sources. |
+| TYPE3-CONTEXT-007 | compiler-observed / noncrediting | Genuine Timer assignment, reset pair or complete current implementation: Six callers preserve15/four. | Complete native1/2/17 units,9/34/317 bytes equal original. |
+
+The four-byte comparison strips the earlier forced-inline attributes but retains
+its two old experimental qualifications. Its residuals +1B2,+1B7,+247,+249
+change previously equal bytes; it remains rejected and grants no source or
+exactness credit. None of the interface controls establishes a unique original
+return type, callback spelling, aliasing intent or translation-unit partition.
+The inverse transforms genuinely consume manager coordinate-offset fields;
+receiver extraction must preserve those reads. Two failed extraction recipes
+and one point-cast replacement failure remain with sources/logs. They are
+preparation/compiler failures, not negative target observations.
+
+Public reproduction adds --case timer-assignment, timer-reset and timer-all
+to scripts/probe-type3-native-context.py. Each stages the real quoted-header
+closure, proves actual helper bytes, field identities/addends and local scalar
+data before reporting the caller, and verifies its same-object assignment call.
+Three fresh public runs reproduce private raw callers exactly. The complete
+Timer context includes the four-byte noncrediting integer-conversion alias;
+317 compared bytes are not317 new authored bytes. Two new regression tests
+reject native code/extent, field identity/addend, literal data and source/profile
+drift. Native-context tests pass15. Fresh --owner type3 passes the maintained
+frontier and seven existing exact sibling units /1024 physical bytes.
+
+All493 game input hashes and canonical1035 unit definitions remain unchanged;
+unaffected source/profile proofs are reused. Local evidence lives below
+.analysis/gpt-61sol-20261022-type3-operator-returns/. Frozen input archives,
+all successful controls, failed preparation records and public proof reports
+retain their source/provider bindings. They are not pushed as generated data.
+Exact remains1003/1035 and244917/291883 bytes (83.9093%);95% still needs32372
+whole accepted bytes. RunEcl30,Enemy13,DrawResult22,Type315, inventory and native
+product/runtime remain open.
+
+Final CI passes947 tests/28 skips, exit zero; target-required tracking, docs,
+generated progress and whitespace pass. The290-member archive preserves1249638
+logical bytes in407641 bytes, SHA256
+eb9d98d34e42e789867b9b6b09d36ddb98409cec51744cccd3e0525d847739b5.
+All283 removed loose duplicates /1152893 bytes were byte-verified in that
+archive. All127 old cache paths remain; CI refreshed the modified producer's
+cache. An overly strict unchanged-cache post-check failed after removing new
+CI bytecode. Its count/hashes were not persisted and are not reconstructed.
+Independent recovery rechecks every archive member and the127 retained paths;
+cleanup.json records that limitation and the retained refreshed cache. Original
+target/tools/IDA, canonical objects and older unclassified evidence remain.

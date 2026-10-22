@@ -66,6 +66,71 @@ class Type3NativeContextTests(unittest.TestCase):
             self.assertFalse(report['compiler_artifacts_retained'])
             self.assertEqual(list(output.iterdir()), [earlier])
 
+    def test_timer_reset_context_keeps_real_bodies_and_manifest_profiles(self):
+        inputs, profile = probe.inputs_for('timer-all')
+        units = tomllib.loads((ROOT/'config/match-units.toml').read_text())['units']
+        for case, count in zip(probe.TIMER_BODY_CASES, (1, 2, 17)):
+            with self.subTest(case=case):
+                selected = probe.timer_body_units(case, units, profile)
+                self.assertEqual(len(selected), count)
+                source = probe.render_source(inputs, case, 'baseline')
+                self.assertTrue(source.endswith(inputs[probe.SOURCE]))
+                self.assertEqual(source.count(probe.TIMER_ASSIGNMENT.encode()), 1)
+                self.assertEqual(source.count(probe.TIMER_SETTER.encode()), int(count > 1))
+                self.assertNotIn(b'__forceinline', source)
+                self.assertNotIn(b'volatile', source)
+                changed = dict(inputs)
+                changed['ZunTimer.cpp'] = changed['ZunTimer.cpp'].replace(
+                    b'this->SetCurrent(value);', b'this->SetCurrent(0);')
+                with self.assertRaisesRegex(ValueError, 'reset definitions changed'):
+                    probe.render_source(changed, case, 'baseline')
+                bad = copy.deepcopy(units)
+                bad['zun-timer-assign-int']['profile'] = ['/Ob2']
+                with self.assertRaisesRegex(ValueError, 'source/profile changed'):
+                    probe.timer_body_units(case, bad, profile)
+
+    def test_native_timer_proof_rejects_code_field_and_literal_corruption(self):
+        # A real read-only scalar section, with a separate four-byte code body.
+        import struct
+        data = bytearray(64)
+        struct.pack_into('<HH', data, 0, 0x14c, 1)
+        struct.pack_into('<II', data, 36, 4, 60)
+        struct.pack_into('<I', data, 56, 0x40000040)
+        struct.pack_into('<I', data, 60, 0x3f800000)
+        unit = dict(symbol='fixture', target_address=0x401000, size=4,
+                    relocations=[dict(offset=0, type='DIR32',
+                                      symbol='__real@3f800000', target=0x402000)])
+        row = dict(offset=0, type='DIR32', symbol='__real@3f800000', addend=0,
+                   symbol_section=1, symbol_value=0)
+        original = (0x402000).to_bytes(4, 'little')
+        coff = SimpleNamespace(object_function=lambda *a, **k: (bytes(4), [row]),
+                               pe_bytes_at=lambda _, address, size:
+                               original if address == 0x401000 else bytes(data[60:64]))
+        with tempfile.TemporaryDirectory() as temporary:
+            obj = Path(temporary)/'fixture.obj'
+            obj.write_bytes(data)
+            self.assertTrue(probe.prove_timer_bodies(obj, {'fixture': unit}, b'', coff)[0][
+                'complete_original_equal'])
+            for raw, rows in ((bytes(3), [row]), (bytes(5), [row]), (bytes(4), []),
+                              (bytes(4), [{**row, 'addend': 1}]),
+                              (bytes(4), [{**row, 'symbol': 'fake'}]),
+                              (bytes(4), [{**row, 'offset': 1}]),
+                              (bytes(4), [{**row, 'type': 'REL32'}])):
+                with self.subTest(raw=raw, rows=rows):
+                    coff.object_function = lambda *a, raw=raw, rows=rows, **k: (raw, rows)
+                    with self.assertRaises(ValueError):
+                        probe.prove_timer_bodies(obj, {'fixture': unit}, b'', coff)
+            coff.object_function = lambda *a, **k: (bytes(4), [row])
+            coff.pe_bytes_at = lambda _, address, size: bytes(4)
+            with self.assertRaisesRegex(ValueError, 'complete original equality'):
+                probe.prove_timer_bodies(obj, {'fixture': unit}, b'', coff)
+            coff.pe_bytes_at = lambda _, address, size: (
+                original if address == 0x401000 else struct.pack('<I', 0x3f800000))
+            data[60] ^= 1
+            obj.write_bytes(data)
+            with self.assertRaisesRegex(ValueError, 'literal definition differs'):
+                probe.prove_timer_bodies(obj, {'fixture': unit}, b'', coff)
+
     def test_plain_timer_context_pins_native_owner_and_actual_header(self):
         inputs, profile = probe.inputs_for('timer-plain')
         unit = tomllib.loads((ROOT/'config/match-units.toml').read_text())['units'][

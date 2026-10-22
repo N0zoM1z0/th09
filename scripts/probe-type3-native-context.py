@@ -30,6 +30,9 @@ CASES = {
     'interrupt': ('AnmManagerRuntime.cpp',),
     'pointer-views': ('VectorPointerViews.cpp',),
     'timer-plain': (),
+    'timer-assignment': ('ZunTimer.cpp',),
+    'timer-reset': ('ZunTimer.cpp',),
+    'timer-all': ('ZunTimer.cpp',),
     'sample-array': (),
     'sample-query': (),
 }
@@ -40,6 +43,19 @@ POINTER_VIEW_UNITS = (
     ('player-position-pointer-identity-view', '??BPlayerPositionView@@QAEPAMXZ'),
 )
 TIMER_COMPARE_SYMBOL = '??PZunTimer@@QAEIH@Z'
+TIMER_BODY_CASES = ('timer-assignment', 'timer-reset', 'timer-all')
+TIMER_ASSIGNMENT = '''void ZunTimer::operator=(int value)
+{
+    this->SetCurrent(value);
+}
+'''
+TIMER_SETTER = '''void ZunTimer::SetCurrent(int value)
+{
+    this->current = value;
+    this->subFrame = (float)value;
+    this->previous = -999999;
+}
+'''
 
 
 def module(name, filename):
@@ -115,6 +131,18 @@ def render_source(inputs, case, variant):
         source = dict(word.variants(source.decode()))[variant].encode()
     if case in ('sample-array', 'sample-query'):
         return sample_container(source.decode(), case).encode()
+    if case in TIMER_BODY_CASES:
+        timer = inputs['ZunTimer.cpp'].decode().replace('\r\n', '\n')
+        if timer.count(TIMER_ASSIGNMENT) != 1 or timer.count(TIMER_SETTER) != 1:
+            raise ValueError('actual Timer reset definitions changed')
+        if case == 'timer-all':
+            prefix = timer
+        else:
+            prefix = '#include "ZunTimer.hpp"\n'
+            if case == 'timer-reset':
+                prefix += TIMER_SETTER
+            prefix += TIMER_ASSIGNMENT
+        return prefix.encode() + b'\n' + source
     if case != 'interrupt':
         prefix = ''.join('#include "' + name + '"\n' for name in CASES[case])
         return prefix.encode() + source
@@ -156,6 +184,56 @@ def require_timer_compare_unit(unit, profile):
         raise ValueError('canonical Timer comparison source/profile/ABI changed')
 
 
+def timer_body_units(case, units, profile):
+    names = ['zun-timer-assign-int']
+    if case == 'timer-reset':
+        names.append('zun-timer-set-current')
+    elif case == 'timer-all':
+        names = [name for name, unit in units.items()
+                 if unit['source'] == 'src/ZunTimer.cpp']
+        if len(names) != 17:
+            raise ValueError('reviewed complete Timer unit inventory changed')
+    elif case != 'timer-assignment':
+        raise ValueError('unknown Timer body context')
+    selected = {name: units[name] for name in names}
+    if any(unit['source'] != 'src/ZunTimer.cpp' or unit['profile'] != profile
+           for unit in selected.values()):
+        raise ValueError('native Timer body source/profile changed')
+    return selected
+
+
+def prove_timer_bodies(obj, selected, target, coff):
+    """Check actual code, operands and local data before reporting visibility."""
+    literals = module('context_timer_literals', 'coff_literal_definitions.py')
+    proofs = []
+    for name, unit in selected.items():
+        raw, rows = coff.object_function(obj, unit['symbol'],
+                                        include_symbol_locations=True)
+        expected = unit.get('relocations', [])
+        if len(raw) != unit['size'] or len(rows) != len(expected):
+            raise ValueError('native Timer extent/field count changed: ' + name)
+        linked = bytearray(raw)
+        for actual, known in zip(rows, expected):
+            if (actual['offset'], actual['type'], actual['symbol'], actual['addend']) != (
+                    known['offset'], known['type'], known['symbol'], known.get('addend', 0)):
+                raise ValueError('native Timer operand identity changed: ' + name)
+            value = known['target'] + actual['addend']
+            if actual['type'] == 'REL32':
+                value -= unit['target_address'] + actual['offset'] + 4
+            elif actual['type'] != 'DIR32':
+                raise ValueError('unreviewed native Timer relocation type')
+            linked[actual['offset']:actual['offset'] + 4] = (value & 0xffffffff).to_bytes(4, 'little')
+        if linked != coff.pe_bytes_at(target, unit['target_address'], unit['size']):
+            raise ValueError('visible native Timer lost complete original equality: ' + name)
+        definitions = literals.check_literal_definitions(
+            obj.read_bytes(), rows, target, coff,
+            {row['symbol']: row['target'] for row in expected})
+        proofs.append(dict(unit=name, symbol=unit['symbol'], bytes=len(raw),
+                           complete_original_equal=True, raw_hex=raw.hex(),
+                           coff=rows, literal_definitions=definitions))
+    return proofs
+
+
 def compiled_inputs(inputs, case, variant):
     staged = dict(inputs)
     staged[SOURCE] = render_source(inputs, case, variant)
@@ -195,11 +273,13 @@ def run(output, case, variant='baseline'):
         require_pointer_view_units(units, profile)
     if case == 'timer-plain':
         require_timer_compare_unit(units['zun-timer-greater-equal'], profile)
+    timer_units = timer_body_units(case, units, profile) if case in TIMER_BODY_CASES else {}
     tool_names = (
         'config/tools.lock.toml', 'config/target.toml', 'scripts/compile-probe.sh',
         'scripts/compare-coff-function.py', 'scripts/inspect-exattack-type3-schedule.py',
         'scripts/inspect-exattack-type3.py', 'scripts/inspect-exattack-type01.py',
         'scripts/diagnostic_branch_alignment.py', 'scripts/check-boss-frontiers.py',
+        'scripts/coff_literal_definitions.py',
         'scripts/probe-exattack-type3-word-order.py', 'scripts/probe-type3-native-context.py')
     tools = {name: (ROOT / name).read_bytes() for name in tool_names}
     build_root = ROOT / 'build' / 'diagnostics'
@@ -223,8 +303,16 @@ def run(output, case, variant='baseline'):
                                (compiled.stdout + compiled.stderr)[-1600:])
         if any((source_root/name).read_bytes() != data for name, data in staged.items()):
             raise ValueError('actual compiled Type3 project inputs changed')
+        native_timer_bodies = (prove_timer_bodies(obj, timer_units, target, coff)
+                               if timer_units else None)
         diagnostic = audit.context_report(obj)
         raw, rows = coff.object_function(obj, audit.SYMBOL, include_symbol_locations=True)
+        if timer_units:
+            calls = [row for row in rows if row['symbol'] == '??4ZunTimer@@QAEXH@Z']
+            if (len(calls) != 1 or calls[0].get('symbol_section', 0) <= 0
+                    or calls[0].get('symbol_value') != 0
+                    or calls[0]['type'] != 'REL32' or calls[0]['addend'] != 0):
+                raise ValueError('Type3 lost its actual same-object Timer reset call')
         try:
             strict = audit.analyze(obj)
             guard.guard_exattack_type3_update(strict)
@@ -275,6 +363,7 @@ def run(output, case, variant='baseline'):
             'source_variant': variant, 'native_interrupt': native_interrupt,
             'native_pointer_views': native_pointer_views,
             'native_timer_compare': native_timer_compare,
+            'native_timer_bodies': native_timer_bodies,
             'source_commit': subprocess.check_output(
                 ['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
             'target_sha256': hashlib.sha256(target).hexdigest(), 'profile': profile,
