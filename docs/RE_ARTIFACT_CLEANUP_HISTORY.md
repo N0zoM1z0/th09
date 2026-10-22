@@ -799,3 +799,24 @@ source/OBJ/PDB directories self-clean. CI passes945 tests/28 skips, exit zero.
 All127 preexisting cache paths, canonical matching objects, target, tools, IDA
 and unclassified older evidence remain. cleanup.json records every removed
 path, hash, classification and reproduction route; no new exact credit results.
+
+
+## October 22: ECL raw-byte and self-move alignment controls
+
+After compiler, full-replay, focused-test and final-CI producers terminate,
+remove72 individually byte-verified archive duplicates and one new CI cache
+from .analysis/gpt-61sol-20261022-ecl-wire-update/ and build/pycache/:73 files,
+2951966 logical bytes. Every archive member passes CRC/SHA and byte equality
+before unlink. The376710-byte archive preserves2940527 logical bytes, SHA256
+31a539a917b4ebf03a25d2e9db58a76c46b92f8a8a601a6218d7232c00651e61.
+
+Frozen inputs, seven complete source/raw/COFF controls, original/current provider
+bindings, failed intermediate collector evidence, full selected rejection and
+75 canonical receipts remain archived. The selected source-bound replay
+reproduces actual raw/COFF and remains rejected after the diagnostic padding
+repair; no extra archive-only compilation is claimed. Compiler temporary
+source/OBJ/PDB directories self-clean. CI passes945 tests/28 skips, exit zero,
+and normal decoder tests pass12. All127 preexisting cache paths, canonical
+objects, original target/tools/IDA and older unclassified evidence remain.
+cleanup.json records every removed path, hash, classification and reproduction
+route. The diagnostic change adds no authored exact credit.

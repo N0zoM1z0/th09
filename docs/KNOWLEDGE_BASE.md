@@ -53,6 +53,7 @@ and fresh codegen replays before copying a number into the live handoff.
 
 | ID | Recorded state | Fact | Evidence |
 | --- | --- | --- | --- |
+| ECL-ALIGNMENT-SELF-MOV-001 | compiler observation / diagnostic boundary | Pinned VC7.1 read-by-value ECL controls emit14790 code bytes plus exact8B FF post-RET alignment before the two tables. Both independent extent classifiers now recognize this observed MOV EDI,EDI without excluding any owner byte from comparison. The unchanged production guard still requires14792 code bytes and zero field/table differences. | Actual full compiler raw/COFF and selected identical-raw replay; new full diagnostic yields2048 ordinary/242 field differences, including26 table bytes, and fails the production frontier. Normal decoder regression assertions reject non-self/16-bit moves and branches into padding. Maintained15564/598/30 and75 exact units remain unchanged. |
 | TITLE-SCORE-CONTEXT-001 | source-context counterevidence / nonexact | Actual score-table storage and the genuine zeroing constructor source, separately or together, preserve all1939 DrawResult caller bytes and its22 residuals. Under the unchanged Title /O1 profile that constructor emits20 bytes /one memset field, so it is not the original18-byte /zero-field native body. | Public probe-title-score-context.py checks the complete original caller, actual local definitions and separate constructor raw/COFF; independent canonical /O2 constructor replay is18/18, with its24-byte sibling exact. Class/TU/storage ownership remain unproven. |
 | SETUP-NATIVE-001 | source interface correction / nonexact frontier | GameplaySetupThread @0x0041AF2D now uses canonical Player, Etama, Effect (twice), Enemy and ExAttack creators; six real references replace six aliases. The byte Player parameter changes only candidate+0x304 from XOR ECX to XOR CL, already unlike the original; all785 equal physical bytes and904 residual offsets survive. Background/CardAttack/FrontSide complete headers collide on AnmVm and remain unresolved. | Independent original PE call census and actual COFF checks;14 affected complete canonical units /3480 bytes /four profiles replay exact; new creator/guard rejection tests; source-scoped controls and full failed-header evidence in the October22 setup packet. No additional exact credit. |
 | TARGET-001 | observed / corroborated | The supported executable is original Japanese TH09 v1.50a, size 685,056, SHA-256 `10350095...fce6822`. | Direct hash/PE inspection plus pinned thcrap version database |
@@ -17593,3 +17594,59 @@ producers terminate,47 byte-verified archive duplicates and one new CI cache
 are removed:48 files /384830 logical bytes. All127 preexisting cache paths,
 canonical objects, target/tools/IDA and unclassified older evidence remain.
 cleanup.json retains per-path hashes/classifications and the reproduction route.
+
+
+## October 22: ECL raw-byte contracts and emitted self-move alignment
+
+Recovery at c13a6ac verifies the original v1.50a disk and direct IDA mapped
+bytes. Fresh RunEcl is15564/598/30, raw SHA256
+bc9a1a71fbc3010338ef7f3de66ca3e0f3c3ee3bb9eb51f1588c6e53dea8c01b.
+All eight RawByte consumers only read. A const lvalue getter preserves the
+entire raw body. Byte-value, wide-read/byte-helper and full wide-value-flow
+controls produce identical raw e155ec54bbc0ebc12c07c0b01ce486f95910faa410078c6e512141313912a14d,
+with14790 code bytes plus2 alignment bytes and a43-byte opcode155. Underlying
+wire reads remain unsigned BYTE, not DWORD. Three joint native-bitfield/value
+controls produce the same raw82e081e31c21f83618c00f795d43f4191fe1be1d73dd444e1152eb1dd7e41ea3,
+with14791 code bytes plus1 NOP,44-byte handler and1938 ordinary/202 field
+differences including26 table bytes. All seven are noncrediting countermodels.
+
+Actual byte-value compiler output ends RET4 then8B FF before the tables.
+Both report-ecl-codegen.py and audit-ecl-callsite-identities.py independently
+recognized NOP/self-LEA padding but rejected this observed MOV EDI,EDI. Both
+now recognize only its exact two-byte encoding. All owner bytes remain in the
+complete comparison; maximum padding/logical ranges and branch/field/table
+checks stay fixed. Regression assertions fail before the change and pass after;
+non-self MOV,16-bit self MOV, either padding-byte branch target, truncation and
+excessive padding remain rejected. Twelve normal decoder tests pass.
+
+The initial codegen-only repair leaves the independent identity auditor's
+rejection intact; its collector assumed complete.json existed and failed. The
+source/failure record and old providers are retained; no replay was accepted
+there. After both fixes, selected independent replay reproduces all raw bytes
+and actual COFF for wide-value-flow and finishes the complete identity audit.
+It reports2048 ordinary plus242 field bytes (26 table bytes are a subset),
+2290 total differences,146/148 shapes and14790 code bytes. The unchanged
+production frontier rejects code/field/table drift. Maintained baseline JSON
+is identical before/after both provider changes, including its30 residuals.
+
+All75 existing canonical main-carrier units compare exact over22463 physical
+bytes from the same fresh object;928 unaffected authored proofs are reused.
+All493 game inputs and1035 unit definitions remain unchanged. No source model,
+compiler profile, ABI or exact ledger is promoted. Evidence packet
+.analysis/gpt-61sol-20261022-ecl-wire-update/ freezes source inputs, seven full
+controls, provider versions, failures and selected complete rejection. The
+72-member archive preserves2940527 logical bytes in376710 bytes, SHA256
+31a539a917b4ebf03a25d2e9db58a76c46b92f8a8a601a6218d7232c00651e61.
+The selected compilation stages the complete eight-fragment path and hashes
+canonical quoted headers; it is not described as an archive-only compile.
+Current1003/1035 and244917/291883 authored bytes remain unchanged (83.9093%).
+The32372-byte95% gap, named fronts and later phase gates remain unfinished.
+
+Final CI passes945 tests/28 skips, exit zero; normal Capstone focused tests
+pass12. Tracking with target, docs, generated progress and whitespace pass.
+After all repository producers terminate,72 byte-verified archive duplicates
+and one new CI cache are removed:73 files /2951966 logical bytes. All127
+preexisting cache paths, current canonical objects, original target/tools/IDA
+and unclassified older evidence remain. cleanup.json preserves every removed
+path, hash, classification and reproduction route. Archive verification does
+not claim another compilation or a new exact receipt.

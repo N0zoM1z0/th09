@@ -90,6 +90,8 @@ class CodeExtentTests(unittest.TestCase):
     def test_return_with_and_without_alignment(self):
         self.assertEqual(self.extent('c2 04 00'), (3, 0))
         self.assertEqual(self.extent('c2 04 00 90'), (3, 1))
+        # Observed after the terminal RET in a pinned VC7.1 wire-value probe.
+        self.assertEqual(self.extent('c2 04 00 8b ff'), (3, 2))
 
     def test_return_bytes_inside_immediate_are_not_a_boundary(self):
         self.assertEqual(self.extent('b8 c2 04 00 90 c2 04 00 90'), (8, 1))
@@ -100,22 +102,27 @@ class CodeExtentTests(unittest.TestCase):
             self.extent('c2 04 00 8d 51 00')
 
     def test_real_tail_instruction_is_rejected(self):
-        with self.assertRaisesRegex(ValueError, 'unreviewed instruction'):
-            self.extent('c2 04 00 b8 01 00 00 00')
+        for tail in ('b8 01 00 00 00', '8b f8', '66 8b ff'):
+            with self.subTest(tail=tail), self.assertRaisesRegex(ValueError, 'unreviewed instruction'):
+                self.extent('c2 04 00 '+tail)
 
     def test_truncated_tail_is_rejected(self):
         with self.assertRaisesRegex(ValueError, 'incomplete'):
             self.extent('c2 04 00 8d 49')
 
     def test_branch_into_alignment_is_rejected(self):
-        with self.assertRaisesRegex(ValueError, 'direct branch'):
-            self.extent('eb 03 c2 04 00 90')
+        for code in ('eb 03 c2 04 00 90', 'eb 03 c2 04 00 8b ff',
+                     'eb 04 c2 04 00 8b ff'):
+            with self.subTest(code=code), self.assertRaisesRegex(ValueError, 'direct branch'):
+                self.extent(code)
 
     def test_missing_return_and_excessive_alignment_are_rejected(self):
         with self.assertRaisesRegex(ValueError, 'no terminal return'):
             self.extent('90 90')
         with self.assertRaisesRegex(ValueError, 'exceeds'):
             self.extent('c2 04 00 ' + '90 ' * 16)
+        with self.assertRaisesRegex(ValueError, 'exceeds'):
+            self.extent('c2 04 00 ' + '8b ff ' * 8)
 
 
 if __name__ == "__main__":

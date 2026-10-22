@@ -101,6 +101,10 @@ def code_and_alignment_sizes(code: bytes) -> tuple[int, int]:
     for instruction in instructions[final_return + 1:]:
         operands = instruction.operands
         plain_nop = instruction.mnemonic == "nop"
+        # Pinned VC7.1 emits this exact two-byte self-move after RET when
+        # aligning the switch tables in a read-by-value source control.
+        # These bytes remain part of the complete owner comparison.
+        self_mov = instruction.mnemonic == "mov" and instruction.bytes == b"\x8b\xff"
         self_lea = (
             instruction.mnemonic == "lea" and len(operands) == 2
             and operands[0].type == capstone.x86.X86_OP_REG
@@ -108,7 +112,7 @@ def code_and_alignment_sizes(code: bytes) -> tuple[int, int]:
             and operands[1].mem.base == operands[0].reg
             and operands[1].mem.index == 0 and operands[1].mem.disp == 0
         )
-        if not (plain_nop or self_lea):
+        if not (plain_nop or self_lea or self_mov):
             raise ValueError("unreviewed instruction after RunEcl terminal return")
     for instruction in instructions[:final_return + 1]:
         if (instruction.mnemonic.startswith("j") and instruction.operands

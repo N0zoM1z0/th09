@@ -293,6 +293,9 @@ def audit(object_path):
     trailing = probe_ins[final_ret + 1:]
     for i in trailing:
         is_plain_nop = i.mnemonic == 'nop'
+        # Actual pinned VC7.1 post-RET alignment in a wire-value control.
+        # Recognize only the observed encoding; all owner bytes remain bound.
+        is_self_mov = i.mnemonic == 'mov' and i.bytes == b'\x8b\xff'
         is_self_lea = (
             i.mnemonic == 'lea' and len(i.operands) == 2
             and i.operands[0].type == capstone.x86.X86_OP_REG
@@ -301,7 +304,7 @@ def audit(object_path):
             and i.operands[1].mem.index == 0
             and i.operands[1].mem.disp == 0
         )
-        require(is_plain_nop or is_self_lea,
+        require(is_plain_nop or is_self_lea or is_self_mov,
                 'unreviewed RunEcl code/alignment split')
     logical = probe_ins[final_ret].address + probe_ins[final_ret].size - BASE
     require(14784 <= logical <= 14792,
