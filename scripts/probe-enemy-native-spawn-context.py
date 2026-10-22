@@ -36,7 +36,8 @@ CASE_OWNERS = {
 STANDALONE_CASES = frozenset(('standalone', 'standalone-periodic-first',
                               'standalone-periodic-last', 'standalone-pointer-view',
                               'standalone-vm-packed-color', 'standalone-periodic-add',
-                              'standalone-periodic-add-constructor'))
+                              'standalone-periodic-add-constructor',
+                              'standalone-bullet-primary', 'standalone-bullet-primary-periodic'))
 CASE_OWNERS['standalone-vm-packed-color'] = CASE_OWNERS['standalone']
 for _case in ('standalone-periodic-first', 'standalone-periodic-last'):
     CASE_OWNERS[_case] = CASE_OWNERS['standalone'] + ('zun-timer-has-ticked-every',)
@@ -46,8 +47,14 @@ CASE_OWNERS['standalone-periodic-add'] = (
     CASE_OWNERS['standalone-periodic-first'] + ('float3-add',))
 CASE_OWNERS['standalone-periodic-add-constructor'] = (
     CASE_OWNERS['standalone-periodic-first'] + ('float3-constructor', 'float3-add'))
+CASE_OWNERS['standalone-bullet-primary'] = (
+    CASE_OWNERS['standalone'] + ('bullet-pattern-primary',))
+CASE_OWNERS['standalone-bullet-primary-periodic'] = (
+    CASE_OWNERS['standalone-periodic-first'] + ('bullet-pattern-primary',))
 CASES = tuple(CASE_OWNERS)
 NATIVE_OWNERS = {
+    'bullet-pattern-primary': (0x4130F0, 203,
+        '?SpawnBulletPatternPrimary@EtamaController@@QAEPAUBullet@@PAUBulletSpawnDescriptor@@@Z', 1),
     'enemy-collision-append-box': (
         0x410250, 82, '?AppendPlayerCollisionBox@EnemyAppendCollisionView@@QAEXPBUFloat3@@0@Z', 2),
     'float3-divide': (0x40F5A0, 56, '??KFloat3@@QBE?AU0@M@Z', 2),
@@ -73,10 +80,34 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def bullet_primary_body(data):
+    """Use the real declaration dependencies and complete canonical method."""
+    source = data.decode().replace('\r\n', '\n')
+    selected = []
+    boundaries = (
+        ('struct BulletCancelCollisionView', 'struct BulletTimerCurrentView'),
+        ('struct BulletPlayerView\n', 'struct BulletGameManagerView'),
+        ('enum BulletTransformFlags', None),
+        ('Bullet *EtamaController::SpawnBulletPatternPrimary(',
+         'Bullet *EtamaController::SpawnBulletPatternSecondary('),
+    )
+    for begin, end in boundaries:
+        if source.count(begin) != 1 or (end and source.count(end) != 1):
+            raise ValueError('native bullet primary source boundary changed')
+        first = source.index(begin)
+        last = source.index(end) if end else source.index('};', first)+2
+        if last <= first:
+            raise ValueError('native bullet primary boundaries reversed')
+        selected.append(source[first:last].strip())
+    return '#include "BulletManager.hpp"\n#include "SoundPlayer.hpp"\n'+'\n'.join(selected)+'\n'
+
+
 def native_bodies(case, sources):
     """Expose only selected real definitions, preserving the old two recipes."""
     selected = CASE_OWNERS[case]
     bodies = ''
+    if 'bullet-pattern-primary' in selected:
+        bodies += bullet_primary_body(sources['BulletManager.cpp'])
     if 'float3-pointer-identity-view' in selected:
         bodies += sources['VectorPointerViews.cpp'].decode() + '\n'
     if 'zun-timer-has-ticked-every' in selected:
@@ -238,6 +269,8 @@ def run(case, output):
         collect('VectorPointerViews.cpp')
     observed = {ROOT/'src'/n: data for n, data in inputs.items()}
     native_sources = []
+    if 'bullet-pattern-primary' in CASE_OWNERS[case]:
+        native_sources.append('BulletManager.cpp')
     if 'float3-pointer-identity-view' in CASE_OWNERS[case]:
         native_sources.append('VectorPointerViews.cpp')
     if 'float3-add' in CASE_OWNERS[case]:

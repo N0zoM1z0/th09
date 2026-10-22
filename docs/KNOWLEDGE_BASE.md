@@ -18693,3 +18693,49 @@ progress and whitespace checks pass. Sixteen duplicate source/report files
 (1896349 logical bytes) are CRC/member-byte verified into a170279-byte archive
 before removal. Frozen inputs, private recipes, public rejected report, canonical
 objects and previous unclassified evidence remain.
+
+
+## 2026-10-22: Enemy native primary bullet-pattern visibility
+
+Recovery at a5b3cd4 passes original disk/direct IDA mapped-byte attestation.
+Fresh IDA4130F0 confirms the native AngleToPoint,SpawnSingleBullet and positioned
+sound calls,with RET4. The actual canonical BulletManager.cpp method and its
+real declaration dependencies are exposed before Enemy without importing the
+rest of that translation unit or its conflicting unrelated global views.
+
+Both selected native contexts prove the complete203-byte primary-pattern body,
+all four original fields,the actual same-object Enemy call and local definition
+provenance before caller scoring. With the existing five native bodies this
+is six bodies/717 bytes/12 fields; adding the genuine33-byte periodic timer
+gives seven/750/12. These are existing exact-body replays, not new authored
+credit or an inference about original translation-unit ownership.
+
+The primary-only caller retains every3900 raw byte,97 fields and13 differences,
+raw SHA2561fbfc13ab72202c08e489d7922d1d5ca9c4d35bf8d77b3be57560f73f3167b86.
+The periodic combination retains3900/97/45 and raw SHA256
+ac5bfd16c08ab39c9b405331db8dab4df6ddcaa6f173bf9fd2385e1d684da4a5.
+The latter still fails the maintained3887-equal-position frontier. Each raw
+stream independently equals its prior context after checking current source
+hashes and profile equality:33/35 source inputs respectively. This bounds the
+203-byte native callee visibility hypothesis; no descriptor source change follows.
+
+Reproduce scripts/probe-enemy-native-spawn-context.py with --case
+standalone-bullet-primary or standalone-bullet-primary-periodic. The native
+extractor requires unique ordered declaration/method boundaries and excludes
+the secondary method. Tests reject missing/duplicate boundaries. The original
+callee body,actual fields and same-object reference remain separate fail-closed
+checks. Each run is serial nice10 and self-cleans its temporary compiler files.
+RunEcl is not compiled; only its actual original external-call identity is
+checked, with its unchanged source/profile proof reused. All1003 exact game
+proofs remain unchanged. Packet .analysis/gpt-6-astra-medium-20261022-enemy-primary/
+retains the two complete reports and source-bound baseline comparison. Coverage
+244917/291883 and all four named fronts/95% remain unfinished.
+
+Focused tests12 and final CI969 tests/28 skips pass, exit zero; tracking, docs,
+progress and whitespace pass. The first test fixture appended a marker without
+the required newline, so it did not actually duplicate the selected boundary.
+Its focused failure and already-loaded CI failure are retained; the corrected
+fixture normalizes newlines and duplicates the full marker. Final CI is rerun
+only after the earlier process terminates. No repeated game compilation follows.
+The two reports occupy80390/81596 bytes; compiler temporaries self-clean and
+no duplicate source trees or canonical objects are removed.

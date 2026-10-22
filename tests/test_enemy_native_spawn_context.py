@@ -28,6 +28,21 @@ def definition():
 
 
 class EnemyNativeSpawnContext(unittest.TestCase):
+    def test_primary_body_requires_complete_unique_source_boundaries(self):
+        source = (ROOT/'src/BulletManager.cpp').read_bytes().replace(b'\r\n', b'\n')
+        selected = probe.bullet_primary_body(source)
+        self.assertIn('Bullet *EtamaController::SpawnBulletPatternPrimary(', selected)
+        self.assertNotIn('Bullet *EtamaController::SpawnBulletPatternSecondary(', selected)
+        self.assertIn('struct BulletCancelCollisionView', selected)
+        self.assertIn('struct BulletPlayerView', selected)
+        for marker in (b'struct BulletPlayerView\n',
+                       b'Bullet *EtamaController::SpawnBulletPatternSecondary('):
+            for changed in (source.replace(marker, b'changed marker'), source+marker):
+                with self.subTest(marker=marker), self.assertRaises(ValueError):
+                    probe.bullet_primary_body(changed)
+        owners = probe.CASE_OWNERS['standalone-bullet-primary']
+        self.assertEqual(owners, probe.CASE_OWNERS['standalone']+('bullet-pattern-primary',))
+
     def test_selected_definition_recipes_preserve_original_two_contexts(self):
         # Distinct synthetic bodies make accidental exposure observable.
         spawn = 'Effect *EffectManager::SpawnEffect() { spawn_body; }\n'
