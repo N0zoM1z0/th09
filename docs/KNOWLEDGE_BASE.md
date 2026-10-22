@@ -19617,3 +19617,47 @@ renumberings are independently resolved by actual owner coordinates and complete
 original bytes, without changing manifests. RunEcl, Enemy, Type29 and ExAttack14/22
 bodies remain unchanged. README.md and final manifest in that packet preserve
 all caller/callee and collateral evidence; no new syntax/profile matrix follows.
+
+
+## October 22: Bind Supervisor registration and version data to real definitions
+
+Supervisor::OnUpdate now calls the maintained RegisterTitleScreen and
+Ending::RegisterChain symbols instead of numeric-only free aliases. The undefined
+g_VersionString becomes the actual original six-byte "0150a\0" literal at
+0x48F1C4, already used by exact version/replay/score owners. Source SHA-256 is
+`359207988da834facd5f10439a9cabb2f27266d45549fd55e8b31a371ebc2145`.
+GameManager_RegisterChain remains explicit nominal linkage debt to the private
+GameManagerSetupLayout member; no dummy class or complete-link claim is added.
+
+A frozen 14-input trial and fresh maintained-tree rebuild preserve every one of
+952 raw/linked owner bytes, all 92 actual fields after precisely these three
+reviewed identity changes, all 27 calls, four tables and the full residual set.
+The complete emitted inventory preserves the sole 952-byte code section and
+90-byte directives, adding only the real six-byte read-only string COMDAT.
+No collateral function is emitted. The 844 authored /996 physical target remains
+nonexact with 791 overlap differences and 44 missing physical bytes.
+
+The maintained inspector now requires the actual referenced i386 COFF literal
+definition: correct section/value, zero addend and relocations, bounded six-byte
+source and original payloads, initialized readable data, and no write/execute/
+code/uninitialized-data flags. Obsolete undefined Title/Ending/version aliases
+are rejected, not normalized. Five new stdlib tests cover missing definitions,
+wrong payloads/attributes/extents and data-only corruption with unchanged code;
+all sixteen focused Supervisor tests pass under Python -S. Six actual-object
+data/attribute mutations also fail without changing owner code or COFF rows.
+
+The focused Supervisor gate now permanently preserves nine actual dependencies:
+1158 bytes /95 fields, including Title's distinct reviewed /O1 profile and the
+real Ending body. Source/symbol/address/extent/profile substitutions are tested.
+The earlier seven-owner replay and separate Title/Ending checks remain recorded;
+the fresh expanded gate passes in supervisor-nine-canonical.{log,exit}, alongside
+supervisor-owner-canonical.{log,exit} and supervisor-native-callees.json in the
+campaign directory.
+Detailed source/actual object/section/field/mutation evidence is in
+`.analysis/th09-supervisor-update-investigation-20261022-v01/`.
+The old delayed-result lifetime/control-flow variants remain negative; this
+repair improves real call/data ownership, not byte coverage. The exact ledger
+remains 244917/291883 (83.9093%), with 41129 bytes still needed for the 98% goal.
+Full target-independent CI passes 1005 tests with 29 skips; all target, tracking,
+documentation, build-graph, progress-artifact and whitespace gates pass. The
+durable log/exit are supervisor-owner-ci.{log,exit} in the campaign directory.

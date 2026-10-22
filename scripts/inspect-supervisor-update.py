@@ -25,14 +25,15 @@ OWNED_SHA256 = "c3ccfdefb056e202f64d3f31a313e200b1494fa49184d0fcd5ea3c6de248327c
 
 # TH09-local identities reviewed through callback registration, target operands
 # and callee/global evidence. Source aliases and view names remain provisional.
-# In particular, RegisterStateObject is the genuine int/ECX title registrar;
-# RegisterState9Object is Ending registration. Neither is a fabricated helper.
+# Title and Ending references use their maintained native owner symbols.
+# GameManager_RegisterChain remains an explicit unresolved nominal alias for
+# the private GameManagerSetupLayout member; this map is not link-closure proof.
 DESTINATIONS = {
     "?CheckVersion@SupervisorVersionView@@QAEHPBDHH@Z": 0x00430150,
     "?GameManager_CutChain@@YIXXZ": 0x0041A827,
     "?GameManager_RegisterChain@@YIHXZ": 0x0041B9D0,
-    "?RegisterState9Object@@YIHXZ": 0x0040F080,
-    "?RegisterStateObject@@YIHH@Z": 0x0042AB13,
+    "?RegisterChain@Ending@@SIHXZ": 0x0040F080,
+    "?RegisterTitleScreen@@YIHH@Z": 0x0042AB13,
     "?ResetForSupervisorFrame@AnmManager@@QAEXXZ": 0x0042F770,
     "?ResetSession@SupervisorNetworkState@@QAEHXZ": 0x00432F70,
     "?ResetSupervisorServiceChannels@@YIXXZ": 0x0042E9C0,
@@ -48,13 +49,50 @@ DESTINATIONS = {
     "?g_Supervisor@@3VSupervisor@@A": 0x004B3100,
     "?g_SupervisorLoadingVms@@3PAUAnmVm@@A": 0x004B38B0,
     "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A": 0x004B42D0,
-    "?g_VersionString@@3PADA": 0x0048F1C4,
+    "??_C@_05EJHOHPCC@0150a?$AA@": 0x0048F1C4,
 }
 
 
 def require(condition, message):
     if not condition:
         raise ValueError(message)
+
+
+VERSION_LITERAL_SYMBOL = "??_C@_05EJHOHPCC@0150a?$AA@"
+VERSION_LITERAL_BYTES = b"0150a\0"
+VERSION_LITERAL_TARGET = 0x0048F1C4
+
+
+def check_version_literal(data, relocations, original):
+    """Verify the actual referenced COFF definition, not merely its name/address."""
+    rows = [row for row in relocations if row["symbol"] == VERSION_LITERAL_SYMBOL]
+    require(len(rows) == 1, "expected one native version literal reference")
+    row = rows[0]
+    require(row["type"] == "DIR32" and row["addend"] == 0,
+            "version literal reference type/addend differs")
+    require(len(data) >= 20, "truncated version literal COFF header")
+    machine, count = struct.unpack_from("<HH", data)
+    optional = struct.unpack_from("<H", data, 16)[0]
+    section, value = row.get("symbol_section"), row.get("symbol_value")
+    require(machine == 0x14C and optional == 0 and type(section) is int and
+            1 <= section <= count and type(value) is int and value >= 0,
+            "version literal lacks an actual i386 COFF definition")
+    header = 20 + (section - 1) * 40
+    require(header + 40 <= len(data), "truncated version literal section header")
+    length, start = struct.unpack_from("<II", data, header + 16)
+    relocations_count = struct.unpack_from("<H", data, header + 32)[0]
+    flags = struct.unpack_from("<I", data, header + 36)[0]
+    require((flags & 0x40000040) == 0x40000040 and
+            not flags & (0x80000000 | 0x20000000 | 0x20 | 0x80) and relocations_count == 0,
+            "version literal is not relocation-free read-only initialized data")
+    require(start >= 20 + count * 40 and value + len(VERSION_LITERAL_BYTES) <= length and
+            start + length <= len(data), "version literal exceeds actual section")
+    payload = data[start + value:start + value + len(VERSION_LITERAL_BYTES)]
+    require(payload == VERSION_LITERAL_BYTES and original == VERSION_LITERAL_BYTES,
+            "actual source/original version literal payload differs")
+    return dict(symbol=row["symbol"], target=VERSION_LITERAL_TARGET, size=len(payload),
+                symbol_section=section, symbol_value=value, addend=row["addend"],
+                payload_hex=payload.hex(), payload_sha256=hashlib.sha256(payload).hexdigest())
 
 
 def normalize(symbol):
@@ -190,6 +228,8 @@ def inspect(path, symbol=SYMBOL):
     target = coff.pe_bytes_at(image, BASE, OWNED_SIZE)
     require(hashlib.sha256(target).hexdigest() == OWNED_SHA256, "wrong complete Supervisor owner")
     raw, relocations = coff.object_function(Path(path), symbol, include_symbol_locations=True)
+    version_literal = check_version_literal(Path(path).read_bytes(), relocations,
+        coff.pe_bytes_at(image, VERSION_LITERAL_TARGET, len(VERSION_LITERAL_BYTES)))
     linked, bindings, table_start = bind(raw, relocations)
     md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
     md.detail = True
@@ -239,6 +279,7 @@ def inspect(path, symbol=SYMBOL):
         candidate_table_counts=[len(t["entries"]) for t in candidate["tables"]],
         target_table_counts=[len(t["entries"]) for t in wanted["tables"]],
         case_index_alignment_equal=candidate["case_index_alignment"] == wanted["case_index_alignment"],
+        version_literal_definition=version_literal,
         bindings=bindings, candidate=candidate, target=wanted,
     )
     return report

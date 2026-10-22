@@ -1419,6 +1419,10 @@ SUPERVISOR_UPDATE_CALLEES = (
      '?UpdateFades@SoundPlayer@@QAEXXZ', 0x0042FBE0, 54),
     ('supervisor-register-chain', 'src/SupervisorRegisterChain.cpp',
      '?SupervisorRegisterChain@@YIHXZ', 0x00432180, 182),
+    ('title-screen-register', 'src/TitleScreenRegister.cpp',
+     '?RegisterTitleScreen@@YIHH@Z', 0x0042AB13, 201),
+    ('ending-register-chain', 'src/Ending.cpp',
+     '?RegisterChain@Ending@@SIHXZ', 0x0040F080, 223),
 )
 
 
@@ -1472,8 +1476,11 @@ def run_supervisor_update(*, protect_exact: bool) -> tuple[dict, list[dict]]:
         for name, source, symbol, address, size in SUPERVISOR_UPDATE_CALLEES:
             unit = units[name]
             profile = list(_SCREEN_EFFECT_BASE_PROFILE)
-            if name == 'supervisor-check-version':
+            if name in ('supervisor-check-version', 'title-screen-register'):
                 profile.remove('/Oi')
+            if name == 'title-screen-register':
+                # The actual Title registrar retains its separately proven /O1 profile.
+                profile[profile.index('/O2')] = '/O1'
             if (unit['source'] != source or unit['symbol'] != symbol or
                     unit['target_address'] != address or unit['size'] != size or
                     unit['profile'] != profile):

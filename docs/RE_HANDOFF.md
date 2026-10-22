@@ -130,7 +130,7 @@ these results do not establish unique original translation-unit ownership.
 | **Controller input** | 0x0042B410 | **808 / 796**, 32 fields; **102** overlap differences /12 missing bytes | First **674 complete instruction bytes** match. Uses shared native ReplayInputState/Supervisor declarations; all **nine actual COFF global identities/addends/provenance** are now guarded, with every original-linked byte unchanged. WinMM midpoint/range CSE and register chronology remain open; a private98-difference snapshot damages one old match and is rejected. Use `scripts/inspect-controller-input.py`. |
 | **Supervisor network HandleMessage** | 0x00432B70 | **768 authored /808 physical bytes**, 46 fields, 17 direct +2 virtual calls, 34 matching blocks; **105 differences** (125→111→105) | Earlier ordinal/case completion recovers 14 bytes; real frame/input snapshots recover six more with no newly differing byte. All six switch targets and 16 map bytes enter the full guard; 234/235 instructions remain nonexact. `--owner netmessage` compiles only this standalone TU and protects all 703 equal bytes; unrelated exact proofs are reused. |
 | **Supervisor network service** | 0x00430AA0 | **1,633 / 1,632**, 108 source fields | Real queue ownership and 1,395 overlap differences still open; `--owner network`. |
-| **Supervisor::OnUpdate** | 0x00431110 | **844 authored / 996 target physical**, 952 candidate physical | 92 external fields, 27 calls but 44 missing physical bytes; `--owner network`. |
+| **Supervisor::OnUpdate** | 0x00431110 | **844 authored / 996 target physical**, 952 candidate physical | 92 external fields, 27 calls but 44 missing physical bytes. Real Title/Ending symbols and the actual six-byte version literal now replace undefined aliases without changing code. Literal data/COFF corruption is rejected; the private GameManager registration alias remains explicit debt. Focused `--owner supervisor` now protects nine actual callees /1158 bytes /95 fields with their reviewed profiles. |
 | **ECL MoveRandomBiased leaf** | 0x00407E30 | **516 / 517**, 28 fields, 14 calls, 24 blocks; 148 overlap + 1 extra | Genuine shared RNG method/global owner symbols now independently original-bound; Y-pointer target `LEA [EAX+4]` versus candidate `MOV EAX` remains unresolved. `--owner runecl`. |
 | **Effect AddedCallback leaf** | 0x0040D1C0 | **51/51**, 4 fields, 2 calls; **8** differences | Uses genuine `AnmManager`/`AnmLoaded*` types and the shared Chain lifetime `void*` interface with direct factory registration. Original nominal C++ type remains unknown. Actual GetAnm visibility gives45 bytes and fails; selected actual PreloadAnm90/4 visibility preserves51/eight. The SHA-pinned full-owner guard protects43 equal bytes and the existing `+0x03..0x09,+0x0D` residual set; `--owner effect`. All203 header-affected existing exact units replay after adoption, including all15 same-TU units. |
 | **Supervisor received-frame leaf** | 0x0042E9E0 | **213/213**, 67 instructions, 9 blocks; **35** differences | Target packed-input/seed 16-bit store register order. All **178** equal physical positions are protected; `--owner queue` (alias of the existing network scope) also checks the two exact queue members. |
@@ -241,7 +241,15 @@ observed about 1.405GiB / 114829 files; the separate 17:39 group snapshot has
 observed PDB is in current excluded packets, and no safe legacy PDB cleanup
 candidate was found. See `.analysis/th09-artifact-inventory-20261022-v01/report.json`
 for timestamps and scope; live snapshot counts are not reclaimable-space claims.
-Legacy source/JSON evidence still needs individual producer/source/reference
-review; age is insufficient.
+A later bounded archive preserves all 10587 files of
+`.analysis/gpt-web-runecl-20261013/` in the verified PAX tar.xz under
+`.analysis/th09-legacy-archive-review-20261022-v01/`. Its three producer scripts
+remain loose; 10584 snapshot copies were recoverably unlinked only after full
+byte comparison and clean extraction. Read the original root's ARCHIVE_README
+and the final cleanup-history section before replay; do not regenerate frozen
+inputs by rerunning old producers. Net logical reduction including review overhead
+is about 45.3 MiB. The earlier census is historical, not the post-archive size.
+All other legacy source/JSON evidence still needs individual producer/source/
+reference review; age is insufficient.
 The generated-artifact cleaner previews by default and proposes a broader
 scope than this bounded checkpoint. Inspect every proposed path before apply.

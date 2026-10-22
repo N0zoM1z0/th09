@@ -5,6 +5,7 @@
 #include "SupervisorFrameQueueStorageView.hpp"
 #include "SupervisorVersionView.hpp"
 #include "SoundPlayer.hpp"
+#include "Ending.hpp"
 
 #include <d3d8.h>
 
@@ -90,7 +91,6 @@ typedef char SupervisorUpdateFrameStateAt794[
 
 extern AnmVm g_SupervisorLoadingVms[3];
 extern int g_ScreenEffectCounter;
-extern char g_VersionString[];
 
 extern void __fastcall ResetSupervisorServiceChannels();
 extern void __fastcall SupervisorNetworkMarkInactive(void *state);
@@ -98,8 +98,7 @@ extern int __fastcall SupervisorSubthreadIsRunning(Supervisor *supervisor);
 extern int __fastcall SupervisorServiceUpdate(Supervisor *supervisor);
 extern void __fastcall GameManager_CutChain();
 extern int __fastcall GameManager_RegisterChain();
-extern int __fastcall RegisterStateObject(int mode);
-extern int __fastcall RegisterState9Object();
+extern int __fastcall RegisterTitleScreen(int mode);
 
 int Supervisor::OnUpdate(Supervisor *supervisor)
 {
@@ -298,7 +297,7 @@ TRANSITION_DONE:
     s->calcCount++;
     if (s->calcCount % 4000 == 3999 &&
         reinterpret_cast<SupervisorVersionView *>(globalSupervisor)->CheckVersion(
-            g_VersionString, globalSupervisor->exeSize,
+            "0150a", globalSupervisor->exeSize,
             globalSupervisor->exeChecksum) != 0)
     {
         return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
@@ -319,12 +318,12 @@ REGISTER_MODE1_B:
     globalSupervisor->d3dDevice->ResourceManagerDiscardBytes(0);
     registrationContext = 1;
 REGISTER_TITLE_MODE:
-    if (RegisterStateObject(registrationContext) != 0)
+    if (RegisterTitleScreen(registrationContext) != 0)
         return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
     goto TRANSITION_DONE;
 
 REGISTER_STATE9:
-    if (RegisterState9Object() != 0)
+    if (Ending::RegisterChain() != 0)
         return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
     goto TRANSITION_DONE;
 }

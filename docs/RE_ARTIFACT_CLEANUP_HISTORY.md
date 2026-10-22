@@ -851,3 +851,53 @@ all paths and counts. Build plus archive compression reclaim19158235 logical
 bytes (about18.27MiB), before small archive audit metadata overhead. Build is
 absent at handoff; source-bound proof reuse does not imply cached objects exist.
 Tracking, documentation, progress, open build-graph and whitespace gates pass.
+
+
+## October 22 resumed campaign: one verified lossless legacy source archive
+
+The 98% TH09 campaign remains active. This is bounded storage maintenance, not
+a handoff or pause. The earlier read-only census did not authorize broad deletion;
+this later action individually reviewed exactly `.analysis/gpt-web-runecl-20261013/`.
+It contained 10587 regular files /51567465 logical bytes, with 24 complete
+441-file source snapshots and three producer scripts. There were no symlinks,
+special files or PDBs. Historical producer-commit/compiler equivalence was not
+established, so every original byte/path is retained rather than regenerated.
+
+All 10636 file/directory entries are in a 379612-byte PAX tar.xz archive at
+`.analysis/th09-legacy-archive-review-20261022-v01/gpt-web-runecl-20261013.tar.xz`.
+Archive SHA-256: `cba279fcb9532bf489eab26196fa03a49fa15ecccc86a2929b822856f4f1fd13`.
+Independent member-manifest SHA-256:
+`6e6a0a107fc659015305e7f2c755c49be609175b284b0c709e90614479b6897c`.
+The archive records modes, uid/gid and nanosecond PAX mtime. Every member was
+compared byte-for-byte with its loose original, then a clean extraction verified
+all paths, hashes, modes and mtimes before any original snapshot was unlinked.
+Extraction uses the current account, with no privileged ownership change.
+
+A fresh process cwd/fd/cmdline audit found no active consumer or unreadable PID.
+Root individually rehashed and recoverably unlinked exactly 10584 archived
+snapshot files, retaining probe.py, probe155.py and probe_inline_timer.py with
+unchanged content/mode/mtime. The 10587 temporary verification-copy files were
+also individually verified before removal. No recursive deletion was used.
+The archive was reverified afterward, and an independent review confirms the
+complete archive, exact 21171-entry journal and all retained scripts.
+
+members.jsonl binds every original path/hash. recoverable-unlink-journal.jsonl
+records unique manifest indexes for both exact removal sets. The review directory
+also preserves archive-verification.json, pre-unlink-activity.json,
+cleanup-state.json, cleanup-receipt.json and the standard-library archive_tool.py.
+The original root's ARCHIVE_README.md points to verified extraction into a NEW
+scratch directory. Do not run the retained producers as restoration: they read
+current src/config and overwrite historical variants. Read the review README
+for separate frozen-source replay requirements; byte restoration is not a claim
+that historical compiler observations were rerun. Before merging back into the
+original path, preserve existing files and handle the new archive pointer as
+explicit metadata, not part of the old source manifest.
+
+The final 18:28:53 UTC scoped accounting, including the archive, full manifest,
+review, journals, receipts and completion banner, reduces logical file bytes by
+47536911 (about 45.3 MiB) and allocated-file bytes by 74682368 (about 71.2 MiB).
+These are selected-file accounting, not a whole-filesystem free-space guarantee;
+new tracked documentation overhead is excluded. All unrelated campaigns,
+current probes, canonical build objects, target, toolchain, Wine/IDA state and
+tracked source are untouched. Nothing is accepted as exact by this archive.
+The archive is ignored local evidence, not pushed; preserve it when moving work.
