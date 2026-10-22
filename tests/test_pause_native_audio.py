@@ -13,6 +13,17 @@ SPEC.loader.exec_module(PROBE)
 
 
 class PauseNativeAudioTests(unittest.TestCase):
+    def test_control_context_rejects_changed_animation_count(self):
+        source = (ROOT/'src/AsciiManagerMenu.cpp').read_text()
+        changed = source.replace(
+            'for (i = 0; i < 7; i++) {\n        g_AnmManager->ExecuteScript',
+            'for (i = 0; i < 8; i++) {\n        g_AnmManager->ExecuteScript')
+        for case in ('embedded-footer', 'animate-cursor'):
+            with self.subTest(case=case), self.assertRaises(ValueError):
+                PROBE.control_context(changed, case)
+        with self.assertRaises(ValueError):
+            PROBE.control_context(source, 'unknown-control')
+
     def setUp(self):
         self.raw = b'\xe8\0\0\0\0\xc3'
         self.unit = dict(size=6, target_address=0x420000, relocations=[

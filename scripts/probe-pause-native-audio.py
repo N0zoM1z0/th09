@@ -28,6 +28,8 @@ NATIVE = {
 }
 CASES = {
     'baseline': (),
+    'embedded-footer': (),
+    'animate-cursor': (),
     'resume': ('soundplayer-resume-after-pause',),
     'stop': ('supervisor-stop-audio',),
     'audio': ('soundplayer-resume-after-pause', 'supervisor-stop-audio'),
@@ -56,9 +58,42 @@ def definition(text, marker):
     return text[start:end]
 
 
+def control_context(source, case):
+    """Move the real common exit or traverse the same seven native VMs."""
+    body = definition(source, 'int PauseMenu::OnUpdate()')
+    if digest(body.encode()) != '95f6eeaa91e3d6ac8a8dda6e313d1c019e0206584f6031c96be96a4d12442790':
+        raise ValueError('reviewed Pause control-flow source changed')
+    original = body
+    loop = ('    for (i = 0; i < 7; i++) {\n'
+            '        g_AnmManager->ExecuteScript(&this->menuSprites[i]);\n    }')
+    if body.count(loop) != 1:
+        raise ValueError('reviewed Pause animation loop changed')
+    if case == 'animate-cursor':
+        body = body.replace(loop,
+            '    AnmVm *end = &this->menuSprites[7];\n'
+            '    for (AnmVm *vm = &this->menuSprites[0]; vm != end; ++vm) {\n'
+            '        g_AnmManager->ExecuteScript(vm);\n    }')
+    elif case == 'embedded-footer':
+        start = body.index('\n'+loop)
+        footer = body[start:body.rfind('\n}')]
+        body = body[:start]+'\n}'
+        # Every break in this reviewed body exits the outer state switch.
+        body = body.replace('break;', 'goto animatePause;')
+        marker = '    case PAUSE_MENU_STATE_CONFIRM_A_YES:'
+        if body.count(marker) != 1:
+            raise ValueError('reviewed Pause confirmation arm changed')
+        body = body.replace(marker,
+            '    default:\n    animatePause:\n'+footer+'\n\n'+marker)
+    else:
+        raise ValueError('unreviewed Pause control context')
+    return source.replace(original, body)
+
+
 def source_context(case, sources):
     if case not in CASES:
         raise ValueError('unreviewed Pause audio context')
+    if case in ('embedded-footer', 'animate-cursor'):
+        return control_context(sources['AsciiManagerMenu.cpp'], case)
     selected = CASES[case]
     prefix = []
     if 'soundplayer-queue-command' in selected:
@@ -224,7 +259,8 @@ def main():
     result = dict(diagnostic_only=True, exactness_credit='none', case=args.case,
                   target_sha256=digest(image), profile=profile,
                   input_sha256={name: digest(data) for name, data in inputs.items()},
-                  source_sha256=digest(source.encode()), native={})
+                  source_sha256=digest(source.encode()), native={},
+                  recipe_sha256=digest(Path(__file__).read_bytes()))
     (ROOT/'build/diagnostics').mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='pause-native-audio-',
                                      dir=ROOT/'build/diagnostics') as tmp:
@@ -270,12 +306,17 @@ def main():
                 references, units[name]['symbol'], count)
         result['caller'] = inspect.report(obj)
         # A valid native definition cannot waive any complete-caller requirement.
-        frontier.guard_pause_menu(result['caller'])
-        result['caller_frontier_passed'] = True
+        try:
+            frontier.guard_pause_menu(result['caller'])
+            result['caller_frontier_passed'] = True
+        except RuntimeError as error:
+            result.update(caller_frontier_passed=False, caller_frontier_error=str(error))
     for name, data in inputs.items():
         if (ROOT/'src'/name).read_bytes() != data:
             raise ValueError('source changed during probe: '+name)
     emit(result, output)
+    if not result['caller_frontier_passed']:
+        raise RuntimeError(result['caller_frontier_error'])
 
 
 if __name__ == '__main__':

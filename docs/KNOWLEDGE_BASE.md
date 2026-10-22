@@ -18648,3 +18648,48 @@ progress and whitespace pass. Twelve verified duplicate source/report files
 (121230 logical bytes) become a27923-byte archive before removal; compiler
 temporaries self-clean. Frozen inputs, recipes, public report, canonical objects
 and all unclassified previous evidence remain.
+
+
+## 2026-10-22: Pause common-exit placement and remaining VM cursors
+
+Source7d0cc4d, original disk/direct IDA mapped checks pass. Fresh original
+434ACC closing arm reaches434B01 timeGetTime, then434B0C common animation
+footer before the confirmation arms. This motivates a source common exit inside
+the switch, distinct from the previously tested shared timestamp outside it.
+The cold maintained baseline remains1732 bytes/107 fields/454 instructions,
+1453 overlap differences and44 missing bytes against1776 original bytes.
+
+Moving the real animation footer into a default arm after closing, routing all
+state-switch exits there, preserves every baseline raw byte. Sharing the first
+three source timestamp expressions at that embedded exit retains1732/107 but
+emits455 instructions and1454 overlap differences; removing actual IsVisible,
+SetInvisible and HasFlagBit0 definitions in that context gives1804/107/457,
+1604 overlap differences plus28 excess. All three still emit three imported
+timestamp calls rather than the original two. Their state3 call stays separate
+from shared state8/ordinary9. Source placement alone does not recover original
+machine tail sharing. The result-only state9 timestamp and early return remain.
+
+Four additional natural pointer traversal controls preserve the seven actual VM
+objects and their order: second-input hide gives1732/1486 overlap; close-hide
+1748/1479; animation1716/1445; all three1732/1493. All retain107 fields and fail
+the complete production frontier. The animation variant's lower overlap count
+comes with60 missing original bytes, worse than44; it is not an improvement.
+No game source, exact unit, ABI, compiler profile or match row changes.
+
+Public probe-pause-native-audio.py adds embedded-footer and animate-cursor.
+The source transformation is bound to the reviewed complete Pause body and
+rejects changed control flow. A fresh animate-cursor public run reproduces its
+private full raw and COFF result. The producer now preserves the complete report
+before raising a failed frontier: exit failure and caller_frontier_passed=false
+remain explicit, and exactness_credit remains none. Native-body checks remain
+independent and unchanged. No guard threshold is relaxed.
+Packet .analysis/gpt-6-astra-medium-20261022-pause-footer/ keeps frozen inputs,
+recipes and all eight complete private comparisons. All1003 unchanged exact
+source/profile proofs are reused; coverage244917/291883,95% and all four named
+fronts remain open.
+
+Focused tests5 and full CI968 tests/28 skips pass, exit zero; tracking, docs,
+progress and whitespace checks pass. Sixteen duplicate source/report files
+(1896349 logical bytes) are CRC/member-byte verified into a170279-byte archive
+before removal. Frozen inputs, private recipes, public rejected report, canonical
+objects and previous unclassified evidence remain.

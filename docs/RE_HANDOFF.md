@@ -7,23 +7,23 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after independently pushed `86ceb52`.
-Continue95% and all four fronts; historical pauses remain superseded.
-New commits use `gpt-6-astra-medium:`.
+Reconstruction remains active after independently pushed `7d0cc4d`.
+Continue95% and all four fronts; use `gpt-6-astra-medium:` for new commits.
 
-- Disk/direct IDA mapped-byte checks pass. Fresh Type3 baseline remains
-  780 bytes/38 fields/15 differences.
-- History sample cursor/root/reference models retain original calls and graph,
-  but produce797/794/780 bytes with751/753/51 overlap differences. The reference
-  model restores none of the old15 and damages36 equal positions. None is adopted.
-- `probe-type3-native-context.py` now reproduces these three source contexts;
-  the public reference run independently reproduces the private report.
-- All1003 exact game-source/profile proofs remain unchanged. Coverage stays
-  244917/291883 (83.9093%);95% needs32372 whole exact bytes. RunEcl30,Enemy13,
-  DrawResult22,Type315 and product gates remain open.
-- Focused tests16 and full CI967 tests/28 skips pass, exit zero. Tracking,
-  docs, progress and whitespace checks pass.
-- Latest knowledge-base entry records source, evidence and replay boundaries.
+- Disk/direct IDA mapped-byte checks pass. Pause baseline is1732/107 fields,
+  1453 overlap differences and44 missing bytes against1776 original bytes.
+- Embedded common-exit/timestamp and VM-pointer traversal controls do not
+  improve the full owner. The animation cursor lowers overlap to1445 but
+  increases missing bytes to60; no source is adopted.
+- `probe-pause-native-audio.py` reproduces embedded-footer and animate-cursor.
+  Failed complete-frontier runs now save raw/COFF/report evidence before failing.
+  All exactness and native-body gates remain unchanged.
+- All1003 exact game-source/profile proofs remain valid and reused. Coverage
+  stays244917/291883 (83.9093%);95% needs32372 whole exact bytes. RunEcl30,
+  Enemy13,DrawResult22,Type315 and product gates remain unfinished.
+- Focused tests5 and full CI968 tests/28 skips pass, exit zero. Tracking, docs,
+  progress and whitespace checks pass.
+- Latest knowledge-base entry records the bounded results and replay route.
 
 ## Live ledger snapshot
 
@@ -192,13 +192,13 @@ results, fields and deficits before making an exactness claim.
 ## Evidence and cleanup boundaries
 
 Game source is unchanged from f4a7b61. The current packet is
-`.analysis/gpt-6-astra-medium-20261022-type3-history/`. Frozen quoted inputs,
-both private recipe versions and compressed public report remain. Twelve
-private source/report files are archived after CRC/member-byte verification:
-121230 logical bytes in27923 bytes, SHA256
-`14ae6dfaa28e2f092f2b1c1c27d9257a99af21f5624e5f26a077b90345439ff7`.
-Only those verified duplicates are removed. Compiler temporaries self-clean;
-canonical objects/PDBs, older evidence and private original inputs are preserved.
+`.analysis/gpt-6-astra-medium-20261022-pause-footer/`. Frozen inputs, two private
+recipes and the rejected public full report remain. Sixteen private source/report
+files are CRC/member-byte verified into an archive before duplicate removal:
+1896349 logical bytes in170279 bytes; SHA256
+`6b784aa84311b0889d5759de08697e446857ac37f36ea7d3072282570547be00`.
+Compiler temporaries self-clean. Canonical objects/PDBs, previous evidence and
+private original inputs remain untouched.
 
 Ignored packets are local evidence and are not pushed. Tracked source,scripts
 and durable observations provide the restart path. Historical replayers may
