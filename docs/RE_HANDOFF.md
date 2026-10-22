@@ -7,49 +7,42 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after pushed `28353f5`. Continue toward 95% and
+Reconstruction remains active after pushed `aa67f19`. Continue toward 95% and
 RunEcl/Enemy/Title/Type3; historical pauses remain superseded. This checkpoint
-repairs six gameplay-setup creator references using five existing native APIs.
-No new whole-owner exactness is claimed.
+checks score-record construction/storage visibility in the complete DrawResult.
 
-- Verified original v1.50a disk identity, direct IDA metadata, entry and five
-  distributed mapped samples pass. The worker stays **1689/171/904**, with
-  416 instructions,35 calls,77 direct blocks and164 aligned field identities.
-- Player, Etama, both Effect calls, Enemy and ExAttack now name their actual
-  canonical interfaces. The independent original PE census and actual COFF
-  require these six calls; legacy aliases, nonzero addends and wrong canonical
-  metadata are rejected. A shared Player declaration checks its genuine byte
-  player-type parameter against the existing factory implementation.
-- Only one linked byte changes, at candidate+0x304: `33 C9` becomes `32 C9`
-  (ECX versus CL zeroing). This position was already unlike the original.
-  All785 previously equal physical bytes and all904 residual offsets remain
-  protected. Normalized instruction correspondence is393 rather than394;
-  that diagnostic bound changes explicitly without changing the byte mask.
-- Background/CardAttack/FrontSide aliases remain: including their complete
-  native headers exposes a real lifecycle/rendering `AnmVm` redefinition.
-  The failed source/log is retained. No replacement class ABI is invented.
-- Five bounded private controls preserve the same904-byte frontier. Typed
-  pointer slots and the target-observed mode0 skip are raw-neutral; removing
-  unrelated same-object definitions is neutral within each interface context.
-  Those models are counterevidence, not new exact credit.
-- All **14 affected canonical exact units /3480 physical bytes**, across four
-  source/profile carriers, are freshly compiled serially at lowered priority
-  and pass the unchanged complete comparer. This includes all11 setup siblings
-  and three Player lifecycle entries. No manifest private-label changes are
-  needed;989 unaffected authored exact proofs retain their source/profile scope.
-- Evidence is `.analysis/gpt-61sol-20261022-setup-native-creators/`: frozen
-  old/current inputs, complete caller raw/actual COFF,14 exact receipts, five
-  private controls and the rejected full-header source. Archive-only replays
-  verify the complete old-interface and available-native-interface callers.
-- Final CI passes **942 tests /28 skips**, exit zero; target-required tracking,
-  documentation, generated progress and whitespace pass. After this repository's
-  producers terminate,55 byte-verified archive duplicates and one completed
-  documentation renderer are removed:56 files /1010757 logical bytes. The
-  215370-byte archive and cold replay receipts remain;127 preexisting CI cache
-  paths, canonical objects and older unclassified evidence are retained.
+- Original Japanese v1.50a disk identity, direct IDA metadata, entry and five
+  distributed mapped samples pass. Fresh DrawResult remains1939 bytes /82
+  fields /577 instructions /16 calls /92 blocks /22 differences. All1917
+  already equal physical bytes and all15 actual local definitions stay guarded.
+- Three source controls test actual table storage, the existing natural score
+  constructor body visible before the renderer, and both together. Private
+  and public runs retain every raw caller byte and the original-bound frontier.
+  The constructor name and storage owner are hypotheses, not promoted facts.
+- The constructor source is genuine but its co-visible body is not native exact:
+  Title's unchanged /O1 profile emits20 bytes and one actual `_memset` field,
+  versus the original18 bytes /zero fields. No field is assigned a false
+  original target. Independent canonical /O2 compilation replays both existing
+  constructors exact:24+18=42 bytes. No original TU/profile is inferred.
+- `scripts/probe-title-score-context.py` reproduces all three controls without
+  modifying game source. Constructor full bytes/fields are reported separately
+  from the caller guard; tests reject false native-body claims. No compiler
+  profile, canonical unit, game-source file or exact ledger changes.
+- Local evidence is `.analysis/gpt-61sol-20261022-result-native-score/`:
+  frozen inputs, three private/public controls, the initial failed native-body
+  premise, full raw/actual COFF and canonical constructor receipts. A selected
+  archive-only replay checks the entire caller,20-byte constructor and report.
+- All493 game input hashes and all1035 unit definitions retain their bindings.
+  Two canonical owners are freshly replayed;1001 unaffected authored exact
+  proofs are reused. Native product/runtime and storage ownership stay open.
+- CI passes **945 tests /28 skips**, exit zero; target-required tracking,
+  documentation, generated progress and whitespace pass. After all repository
+  producers terminate,47 byte-verified archive duplicates and one new CI cache
+  are removed:48 files /384830 logical bytes. All127 preexisting cache paths,
+  canonical objects and older unclassified evidence remain.
 - Exact remains **1003/1035 functions**, **244917/291883 bytes (83.9093%)**;
   the 95% gap is **32372 bytes**. RunEcl30, Enemy13, DrawResult22 and Type315,
-  complete inventory, native product/runtime and later phase gates stay open.
+  complete inventory and later phase gates stay open.
 
 ## Live ledger snapshot
 
@@ -122,7 +115,7 @@ these results do not establish unique original translation-unit ownership.
 | **TitleScreen::OnUpdateResult** | 0x004266B5 | **485 / 484**, 147/147 instructions, 34 fields, 9 calls; **218** overlap + 1 missing | Pointer-backed character snapshot in `4fe7cb0`; original CL/EAX codegen still differs. Protect all 37 existing exact `TitleScreen.cpp` units, including privately relabeled StartMenu. |
 | **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280/1,280 bytes**,376/376 instructions,57 original-bound fields,13 ordered calls,72 matching direct blocks; **29 differences** | Native indexed list reads, date/name-before-character evaluation, record-before-index acquisition and later timer snapshot recover1,180 more equal bytes. All1,251 matching positions and complete geometry/CFG are now protected. Remaining +185..+321 differences are selected-row ECX/EDX choices and two local-store order. `--owner replaymenu` cold-checks this isolated TU; still NON-EXACT. |
 | **TitleScreen::DrawReplaySave** | 0x004239F6 | **800/800 physical**, 245 instructions, 41 fields, 4 calls, 28/28 matching blocks; **96 linked differences** | Raw replay magic, genuine SDK subtraction/two scales/addition and two-byte character construction restore the full extent and nine more loop-counter/FILD home bytes. All **704** equal positions are SHA-bound and protected; no old matching byte regresses from the 105-residual source. Remaining vector/text homes, replay-pointer and keyboard schedules stay NON-EXACT. No enlarged buffer, extra storage or new target helper claim. |
-| **TitleScreen::DrawResult** | 0x00423D16 | **1,939/1,939**, 82 fields, 16 calls, 92 blocks; **22** differences | All 22 SHA-pinned linked differences are in the entry: 21 at `+0x0E..+0x24`, one at `+0x39` (bank-pointer store vs `currentScreen` prefetch). The entire remaining owner is byte-exact; the strengthened guard now pins **all 22 exact residual positions**, including preserving previously matching `+0x13` and `+0x18` inside the old entry window. The shared native GameManager field at+0x3F now has its actual COFF symbol/root/addend identity guarded; superseded mode/name-index aliases are rejected. `--owner title` protects the original full owner. |
+| **TitleScreen::DrawResult** | 0x00423D16 | **1,939/1,939**, 82 fields, 16 calls, 92 blocks; **22** differences | All 22 SHA-pinned linked differences are in the entry: 21 at `+0x0E..+0x24`, one at `+0x39` (bank-pointer store vs `currentScreen` prefetch). The entire remaining owner is byte-exact; the strengthened guard now pins **all 22 exact residual positions**, including preserving previously matching `+0x13` and `+0x18` inside the old entry window. The shared native GameManager field at+0x3F now has its actual COFF symbol/root/addend identity guarded; superseded mode/name-index aliases are rejected. Actual score construction/storage visibility is raw-neutral; `probe-title-score-context.py` independently reports the nonmatching20-byte /O1 constructor rather than claiming native18-byte equality. `--owner title` protects the original full owner. |
 | **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 / 2,048**, 135 fields, 51 calls, 121 blocks | Uses genuine `AnmManager`/`AnmLoaded` and `SoundPlayer` receivers for29 fields, plus **eight native input array references**: two receivers at `g_ReplayInputStates[2]` and six16-bit word06 reads. Strict root/addend checking rejects fake standalone globals even at equal effective addresses. All2,048 linked candidate bytes and135 referents are preserved. The actual seven-byte read-only SetVol definition is now checked; three data-only corruptions are rejected with unchanged main code/COFF. All1,435 matching positions are now protected by the original SHA and exact610-offset residual set. The610 overlap differences+3 extra bytes remain NON-EXACT. Exact same-TU `PlayMenuSound`34/34 and `--owner title` protect this frontier. |
 | **Title character cursors** | 0x00424EDD / 0x00424FB0 / 0x0042505F | Active target/candidate **211/215**; Reverse/Inactive **175/175** | Active reduced 217→215 in `69165b2`, but none is exact. Loop pre-check and VM register/sprite reload schedules; `--owner title`. |
 | **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15 maintained differences** | New private word-read plus real collision-forward model restores original middle-Z chronology and has **four differences** at +1B2,+1B7,+247,+249. These are previously equal bytes, so it is not adopted and the production guard stays unchanged. Reproduce with `probe-exattack-type3-word-order.py`; native/inline/reference joint controls retain four or lose 20 physical bytes. The component panel proves ordinary forwarding alone gives 27; the four-byte result depends on both experimental qualifications in the tested panel. New real pointer-body visibility preserves 15/four; partial X/Y visibility changes full extents and is rejected. The extended native-context producer checks the real 18-byte interrupt and both three-byte pointer aliases without origin credit. Real shared `AnmVm` and five canonical interrupts remain; `--owner type3` protects seven exact functions. |
@@ -218,23 +211,20 @@ results, fields and deficits before making an exactness claim.
 ## Evidence and cleanup boundaries
 
 The current tree retains **492 game-source files, 1,035 comparison units and
-1,003 authored exact rows**. This batch changes GameManagerSetup.cpp and
-PlayerLifecycle.cpp and adds PlayerRegisterChain.hpp. Four affected compiler
-carriers replay14 exact units;989 unaffected authored proofs are reused.
-All canonical profiles, boundaries and authored exact counts stay fixed.
-Diagnostic source models do not grant exact credit. Pointer-interface and
-Replay constructor units remain unknown-origin byte evidence; shared Timer
-and Player getter aliases add no authored credit. Native product/runtime,
-complete inventory, semantic and port gates remain open.
+1,003 authored exact rows**. This batch changes no game source or canonical
+profile/ledger. Two canonical constructors replay42 physical bytes;1001
+unaffected authored proofs are reused. Diagnostic contexts and native aliases
+do not grant authored exact credit. Native product/runtime, complete inventory,
+semantic and port gates remain open.
 
-The current setup packet retains frozen original/current inputs, complete
-raw/actual COFF streams, five controls, the failed complete-header compile,
-14 exact receipts and selected archive-only cold comparisons. Its manifest
-records source/profile/provider bindings; cleanup.json records reviewed paths.
-Compiler source/OBJ/PDB temporaries self-clean; canonical objects remain for
-focused reuse. Earlier packets retain their own source-commit scope in Git
-history, the knowledge base and
-[artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md).
+The current Title packet retains frozen inputs, full caller/constructor raw
+and actual COFF, three complete private/public source controls, the initial
+failed native-body premise and a selected archive-only cold comparison.
+The47-member archive preserves373391 logical bytes in90423 bytes; member
+CRC/SHA checks and per-path cleanup are recorded locally. Compiler temporary
+source/OBJ/PDB directories self-clean; canonical objects remain for reuse.
+Earlier packets retain their source-commit scope in Git history, the knowledge
+base and [artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md).
 
 Ignored packets are local evidence and are not included in Git commits or
 pushes. Tracked source, scripts and durable observations provide the public

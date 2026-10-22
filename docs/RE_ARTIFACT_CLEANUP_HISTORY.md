@@ -779,3 +779,23 @@ Temporary source/OBJ/PDB directories self-clean. Final CI is942 tests/28 skips,
 exit zero. No new CI cache paths are created; all127 preexisting cache paths,
 canonical matching objects, target, tools, IDA and unclassified older evidence
 remain. The one-shot renderer's final outputs are maintained in tracked docs.
+
+
+## October 22: Title score construction context
+
+After canonical constructor, public producer, archive-only replay and CI
+handles terminate, remove47 byte-verified archive duplicates and one newly
+created workflow bytecode cache:48 files /384830 logical bytes below the current
+.analysis/gpt-61sol-20261022-result-native-score/ packet and build/pycache/.
+Every archive member passes CRC/SHA and byte equality before deletion.
+The90423-byte archive preserves373391 logical bytes, SHA256
+2c3057b56b6a4dd9e63ee59fffb688697cde836e29836b81e7cdce88a178bb75.
+
+Frozen inputs, three private/public controls, the initial failed native-body
+premise, full raw/COFF and canonical constructor receipts stay archived. The
+selected archive-only cold reproduces the full1939-byte/82-field caller, complete
+diagnostic report and20-byte/one-field nonmatching constructor. Temporary
+source/OBJ/PDB directories self-clean. CI passes945 tests/28 skips, exit zero.
+All127 preexisting cache paths, canonical matching objects, target, tools, IDA
+and unclassified older evidence remain. cleanup.json records every removed
+path, hash, classification and reproduction route; no new exact credit results.

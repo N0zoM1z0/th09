@@ -53,6 +53,7 @@ and fresh codegen replays before copying a number into the live handoff.
 
 | ID | Recorded state | Fact | Evidence |
 | --- | --- | --- | --- |
+| TITLE-SCORE-CONTEXT-001 | source-context counterevidence / nonexact | Actual score-table storage and the genuine zeroing constructor source, separately or together, preserve all1939 DrawResult caller bytes and its22 residuals. Under the unchanged Title /O1 profile that constructor emits20 bytes /one memset field, so it is not the original18-byte /zero-field native body. | Public probe-title-score-context.py checks the complete original caller, actual local definitions and separate constructor raw/COFF; independent canonical /O2 constructor replay is18/18, with its24-byte sibling exact. Class/TU/storage ownership remain unproven. |
 | SETUP-NATIVE-001 | source interface correction / nonexact frontier | GameplaySetupThread @0x0041AF2D now uses canonical Player, Etama, Effect (twice), Enemy and ExAttack creators; six real references replace six aliases. The byte Player parameter changes only candidate+0x304 from XOR ECX to XOR CL, already unlike the original; all785 equal physical bytes and904 residual offsets survive. Background/CardAttack/FrontSide complete headers collide on AnmVm and remain unresolved. | Independent original PE call census and actual COFF checks;14 affected complete canonical units /3480 bytes /four profiles replay exact; new creator/guard rejection tests; source-scoped controls and full failed-header evidence in the October22 setup packet. No additional exact credit. |
 | TARGET-001 | observed / corroborated | The supported executable is original Japanese TH09 v1.50a, size 685,056, SHA-256 `10350095...fce6822`. | Direct hash/PE inspection plus pinned thcrap version database |
 | PE-001 | observed | The target is relocation-stripped PE32 i386 at image base `0x00400000`, entry `0x0047D45F`, with five sections. | `scripts/verify-target.py`; `config/target.toml` |
@@ -17543,3 +17544,52 @@ and one completed documentation renderer are removed:56 files,1010757 logical
 bytes. The215370-byte archive, independent cold receipts and per-path cleanup
 hashes remain. All127 preexisting build-cache paths, current canonical objects
 and older unclassified research are retained. No new CI cache paths are removed.
+
+
+## October 22: score construction/storage visibility in DrawResult
+
+Starting source aa67f191807a163d7e05bac6b5b462bce85c1d08, original Japanese
+v1.50a disk and direct IDA mapped-byte attestation pass. Fresh DrawResult
+423D16..4244A8 remains1939/82/577/16/92 with22 differences. Its entire raw
+SHA256 is449827f92c3a23f3427b71b12f44719aa62c4a459a5b91734085a08c834e447a.
+All1917 original matching positions,82 independently decoded fields and15
+actual local literal definitions retain their unchanged guard.
+
+Three source controls add the actual16x5x5 table storage, expose the existing
+natural constructor body before the renderer, or combine both. Private and
+public runs reproduce the same full caller bytes. The co-visible constructor
+is20 bytes /one actual REL32 to _memset under Title's pinned /O1 profile;
+its raw SHA256 isbf35c49ba003ca64361b67242dcb2a8ab456127fed4b03338cd89555237be270.
+It is not assigned the original18-byte constructor's VA as a matching helper.
+The initial helper's assumption that this source automatically emitted18 bytes
+failed after successful compilation; its source, raw/COFF and failure record
+are retained. Fresh canonical /O2 compilation separately proves the existing
+score-record18 and score-file24 constructors,42 complete bytes /zero fields.
+These observations distinguish source visibility from exact native visibility;
+they do not identify unique original class spelling, TU, profile or data owner.
+
+Public reproduction: run scripts/probe-title-score-context.py with --variant
+table-storage, ctor-visible or ctor-table. The producer retains the Title
+reference profile, stages only frozen quoted includes and self-cleans compiler
+temporaries. It reports constructor complete bytes/fields independently of the
+caller guard, grants no exact credit and refuses to replace existing output.
+Three regression tests cover changed/truncated/extended native bytes, a hidden
+memset field, changed constructor semantics and unreviewed source contexts.
+
+All493 game input hashes and1035 canonical unit definitions remain unchanged;
+two existing exact owners are freshly replayed and1001 unaffected proofs reused.
+Local packet .analysis/gpt-61sol-20261022-result-native-score/ retains frozen
+inputs, initial failed premise and full private/public observations. Its47-file
+archive preserves373391 logical bytes in90423 bytes, SHA256
+2c3057b56b6a4dd9e63ee59fffb688697cde836e29836b81e7cdce88a178bb75.
+Exact remains1003/1035 and244917/291883 bytes (83.9093%); no new original-bound
+whole owner is accepted, and the95% gap and all four named fronts remain open.
+
+The selected archive-only cold replay reproduces the full1939-byte caller,
+all82 actual COFF rows, entire diagnostic report and20-byte/one-field nonmatching
+constructor. CI passes945 tests/28 skips, exit zero; target-required tracking,
+documentation, generated progress and whitespace gates pass. After repository
+producers terminate,47 byte-verified archive duplicates and one new CI cache
+are removed:48 files /384830 logical bytes. All127 preexisting cache paths,
+canonical objects, target/tools/IDA and unclassified older evidence remain.
+cleanup.json retains per-path hashes/classifications and the reproduction route.
