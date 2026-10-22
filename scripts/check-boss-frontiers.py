@@ -4737,54 +4737,13 @@ def run_player_type11(*, protect_exact: bool,
 
 
 EFFECT34_DRAW_SHA256 = 'd32652c2e08ffbd02a103e379724cde773716f964bbb962e9e4cbd12f58c88a2'
+# Indexed layer access restores the original946-byte/0x1C-frame geometry.
+# It restores517 old mismatches and changes two old coincidental byte matches
+# in the displaced entry. Pin the reviewed78 residuals; protect868 equal bytes.
 EFFECT34_DRAW_RESIDUAL_RUNS = (
-    (0x005, 0x006),
-    (0x00A, 0x00B),
-    (0x00C, 0x00D),
-    (0x01C, 0x01E),
-    (0x020, 0x021),
-    (0x02D, 0x02E),
-    (0x02F, 0x03C),
-    (0x03D, 0x049),
-    (0x04A, 0x0A9),
-    (0x0AA, 0x0C0),
-    (0x0C1, 0x0C5),
-    (0x0C6, 0x0D0),
-    (0x0D2, 0x0D3),
-    (0x0E2, 0x0E3),
-    (0x0EB, 0x0EC),
-    (0x0EE, 0x0EF),
-    (0x0F7, 0x0F8),
-    (0x104, 0x105),
-    (0x12D, 0x12E),
-    (0x130, 0x131),
-    (0x13C, 0x13D),
-    (0x149, 0x14A),
-    (0x14D, 0x14E),
-    (0x152, 0x153),
-    (0x15F, 0x160),
-    (0x1E8, 0x1E9),
-    (0x1EE, 0x1EF),
-    (0x1F4, 0x1F5),
-    (0x1F9, 0x209),
-    (0x211, 0x213),
-    (0x214, 0x215),
-    (0x216, 0x245),
-    (0x246, 0x25B),
-    (0x25C, 0x25F),
-    (0x261, 0x295),
-    (0x296, 0x2B6),
-    (0x2B7, 0x306),
-    (0x307, 0x360),
-    (0x361, 0x36F),
-    (0x370, 0x374),
-    (0x375, 0x383),
-    (0x384, 0x388),
-    (0x389, 0x397),
-    (0x398, 0x39C),
-    (0x39D, 0x3A4),
-    (0x3A5, 0x3AA),
-    (0x3AC, 0x3B2),
+    (0x00A, 0x00B), (0x00C, 0x00D), (0x01C, 0x01D),
+    (0x02F, 0x06D), (0x1F9, 0x1FF), (0x200, 0x203),
+    (0x247, 0x24B),
 )
 
 def guard_effect_type34_draw(result: dict) -> dict:
@@ -4796,13 +4755,15 @@ def guard_effect_type34_draw(result: dict) -> dict:
             result.get('candidate_address_field_count') != 53 or
             result.get('candidate_fields_cover_instructions') is not True or
             result.get('target_blocks') != 16 or
-            result.get('candidate_blocks') not in (15, 16) or
-            not 946 <= result.get('candidate_bytes', -1) <= 959 or
+            result.get('candidate_blocks') != 16 or
+            result.get('candidate_instructions') != 286 or
+            result.get('candidate_bytes') != 946 or
+            result.get('ordinal_graphs_agree') is not True or
             result.get('ordered_calls_agree') is not True or
             result.get('field_referent_order_agrees') is not True or
             result.get('COM_immediate_arguments_agree') is not True or
             result.get('missing_bytes') != 0 or
-            not 0 <= result.get('extra_bytes', -1) <= 13):
+            result.get('extra_bytes') != 0):
         raise RuntimeError('Effect 34 original extent/fields/calls/SDK arguments changed')
     calls = result.get('target_calls', [])
     if (len(calls) != 32 or
@@ -4815,8 +4776,16 @@ def guard_effect_type34_draw(result: dict) -> dict:
     known = {i for a, b in EFFECT34_DRAW_RESIDUAL_RUNS for i in range(a, b)}
     if (not isinstance(offsets, list) or len(offsets) != len(set(offsets)) or
             any(not isinstance(i, int) or i not in known for i in offsets) or
-            result.get('overlapping_differences') != len(offsets) or len(offsets) > 593):
+            offsets != sorted(offsets) or
+            result.get('overlapping_differences') != len(offsets) or len(offsets) > 78):
         raise RuntimeError('Effect 34 changed an already equal original byte')
+    equal = not offsets
+    if result.get('complete_bytes_agree') is not equal:
+        raise RuntimeError('Effect 34 contradictory complete-byte equality')
+    if equal and (result.get('resolved_sha256') != EFFECT34_DRAW_SHA256 or
+                  result.get('all_original_fields_agree') is not True or
+                  result.get('direct_graphs_agree') is not True):
+        raise RuntimeError('Effect 34 incomplete full-equality evidence')
     return {'target_bytes': 946, 'candidate_bytes': result['candidate_bytes'],
             'fields': 53, 'ordinary_differences': len(offsets),
             'extra_bytes': result['extra_bytes']}

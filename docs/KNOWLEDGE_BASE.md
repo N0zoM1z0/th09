@@ -17885,3 +17885,113 @@ generated progress and whitespace pass. Exact remains1003/1035 functions,
 244917/291883 bytes (83.9093%);95% still requires32372 whole accepted bytes.
 RunEcl30,Enemy13,DrawResult22,Type315, complete inventory, native product/runtime,
 semantic and port gates remain open. Reconstruction continues.
+
+
+## October 22: Effect34 shared-layer indexing restores original caller geometry
+
+Recovery atd5943dec155ed2dd42ac50d82fab1fc5e796bf70 passes original Japanese
+v1.50a disk and direct IDA metadata/entry/five mapped samples. Fresh Title
+DrawResult stays1939/82/22; previously neutral type/member/TU matrices are
+reviewed rather than repeated. Routing then selects the complete original
+Effect34 draw444AF0..444EA1,946 bytes,SHA256
+d32652c2e08ffbd02a103e379724cde773716f964bbb962e9e4cbd12f58c88a2.
+IDA still has no function object there; verified PE decoding and complete
+original control flow supply this bounded extent. No mapped byte is changed.
+
+The prior959-byte source advances separate line32 and jitter33 row pointers.
+The maintained replacement indexes both actual member arrays by one layer;
+inner vertex/jitter cursors and every original computation/call remain. This
+natural correlation recovers the original0x1C frame,946 physical bytes,
+286 instructions and16 blocks. All53 original referents remain in order,
+including20 direct and12 COM calls,all SDK immediate arguments and four actual
+scalar definitions. Raw SHA256 is
+7014799014bae34574b596536950168c414151fa6cf22647207d9271450dfb2c.
+The fresh maintained-path compiler object repeats every private raw byte and
+all53 complete bindings; emulator evidence is reused only after this check.
+
+This is a reviewed replacement of the old nonexact frontier, not a monotone
+preservation of every old physical-byte coincidence. It restores517 of593 old
+mismatches, changes two formerly equal entry positions(+3C,+49), and removes
+13 excess bytes:78 linked differences remain,868 original bytes now agree.
+At+3C the new instruction is CALL while the target is inside its timer-address
+LEA; at+49 the new instruction is MOV while the target is inside the preceding
+IMUL. These are displaced instruction schedules, not evidence that either
+source performs a different timer operation. The same actual timer call field
+is+3D instead of target+40;all other52 original field positions agree.
+Remaining residuals are65 entry bytes,9 layer/color-store bytes and4 radius
+operand bytes. Source spelling and unique original TU/nominal types stay unknown.
+
+The original SHA and new78-offset set now protect all868 equal bytes. The
+frontier additionally requires946 bytes,286 instructions,16 blocks,no missing/
+extra bytes,53 referents,actual literals and the original ordered32-call trace.
+The inspector independently compares ordinal branch edges and per-block call
+sequences; both agree. Address-based CFG still differs at the entry and remains
+reported separately. Claimed zero differences additionally require the full
+original linked digest,exact field positions and full address CFG. Three new
+pure regressions reject damage to newly recovered frame/loop bytes,old physical
+geometry or absent/changed ordinal proof,and incomplete full-equality claims.
+The targeted Effect34 tests pass14;no new exact function is declared.
+
+A bounded Unicorn1.0.2 countercheck maps the verified PE read-only and links the
+candidate into a separate guest region. Actual original timer conversion,angle,
+polar,vector-add and coordinate helpers execute. ANM and COM calls are explicit
+synthetic intercepts that capture full vertices/arguments,apply real stack
+cleanup and clobber volatile registers. Seventy-two fixtures cover state0/1/2,
+timer-1/0/1/10/25/49/50/51,three radius/jitter pairs,nonzero XYZ positions and
+signed render origins/offsets. All full0xEF8 buffers,fixture RAM,draw traces,EAX
+return,stack balance and saved nonvolatile registers agree. Under recorded
+masked extended-precision FPCW037F,all285 statically reachable original and
+candidate instructions execute. Each has286 physical instructions;the sole
+unreachable instruction at+CD is retained alignment. Finite synthetic fixtures
+do not establish universal runtime equivalence,Windows renderer/link closure,
+byte exactness or entry to the later semantic phase.
+
+Twelve fully diagnosed source controls retain explicit source/profile scopes.
+Real coordinate definitions before/after the old caller prove184 native bytes/
+eight fields,including positive same-object calls,but produce956/51/768 and
+remove two of six original GameManager receiver reloads. Both are rejected.
+Indexed points produce959/589 with one old matching position changed;deriving
+line color from fan color produces958/755 with209 changed old matches. Neither
+is adopted. Five ordinary indexed-row follow-ups(for loop,width operand order,
+both,fade helper,position reference) repeat the same whole78-residual raw body.
+Real vector-add context also preserves78 and independently proves four native
+helpers162 bytes/two fields. Joint real angle/add context proves273/eight but
+removes the original ignored angle call,giving930/52/850 and failing the full
+owner. No native visibility,forced qualifier,register/local-order hint or profile
+search is adopted. An earlier angle-only collection assumed a positive remaining
+call and failed after successful compilation;its actual raw/COFF/source remain,
+but its unpersisted native receipt is not claimed. CLI/schema and exclusive-ZIP
+resume preparation failures are separately recorded and corrected.
+
+Only EffectType34Family.inl changes among493 game inputs;492 are unchanged.
+Both fixed ECL profiles are freshly built once. All79 existing exact units pass
+25215 physical bytes/1126 fields;924 unaffected authored exact proofs are reused,
+including the detached208-byte Type34 update. Main-profile20 already passed
+receipts are reused after two generated names are independently reviewed:
+movement+139 changes$L74125->$L74122 but still targets408548;comparison+14
+changes$L73353->$L73351 but still targets407A4C. Both actual definitions remain
+in their owning COFF section at the original local value/addend,and their full
+owners pass before updating only those manifest strings. No size,profile,target,
+field offset,external identity or exact ledger credit changes. Shared complete
+RunEcl30,Enemy13,Type29 and biased guards pass from the fresh main object;
+the existing Type19 and Type26 exact diagnostics also remain zero.
+
+Evidence is .analysis/gpt-61sol-20261022-effect34-loop-structure/ with frozen
+inputs,all source models,failed collectors,native body/COFF proofs,old/new full
+residuals and complete emulator fixtures/coverage. Exact stays1003/1035 functions,
+244917/291883 bytes (83.9093%);95% still needs32372 whole accepted bytes.
+RunEcl30,Enemy13,DrawResult22,Type315,complete inventory,native product/runtime,
+semantic and port gates remain open.
+
+Final CI passes951 tests/28 skips,exit zero;target-required tracking,docs,generated
+progress and whitespace pass. After all TH09 producers terminate,the121-member
+archive preserves5938374 logical bytes in877298 bytes,SHA256
+31b5c323f48b5e06723e12dbdea75cb62ae2aa19fe4d1661a38129e870996d26.
+CRC,every member SHA and loose-byte equality pass before cleanup. Persisted
+per-path plans precede removing85 archive duplicates and275 new completed-CI
+caches,360 files/10108802 logical bytes. One earlier reviewed empty failed-CLI
+redirect is separately recorded. All127 old cache paths remain,including two
+refreshed frontier/inspector caches. Current canonical objects/PDBs,target/tools/
+IDA and older unclassified evidence remain. Current maintained/exact/focused/
+emulator receipts remain readable;superseded summaries and projected manifests
+are hash-verified archive members. No archive-only compiler replay is claimed.

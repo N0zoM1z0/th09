@@ -7,44 +7,47 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after pushed `73194e6`. Continue toward95% and
+Reconstruction remains active after pushed `d5943de`. Continue toward95% and
 RunEcl/Enemy/Title/Type3; historical pauses remain superseded. This checkpoint
-aligns Effect's maintained added callback with the shared Chain interface.
+recovers Effect34's indexed layer loop and original physical geometry.
 
 - Original Japanese v1.50a disk, direct IDA metadata, entry and five mapped
-  samples pass. `EffectManager::AddedCallback(void*)` now registers directly
-  as ChainLifetimeCallback; the body converts its actual context to the manager.
-  Physical ECX input, zero EAX result and all51 callback bytes are unchanged.
-  It remains nonexact:51/4/19 instructions/two calls/three blocks/eight differences.
-  This establishes maintained interface compatibility, not original nominal
-  C++ parameter type, unique static/member spelling or a runtime repair.
-- Fresh pinned, serial nice10 builds replay all203 affected existing exact
-  units:60547 physical bytes/2883 fields,58 actual source/profile configurations
-  at57 output paths. The800 unaffected authored exact proofs are reused.
-  Both canonical GameManagerSetup profiles are distinguished before reuse.
-- Create remains327/327 with27 fields; its actual callback DIR32 at+0xC9 now
-  binds the compatible decorated symbol. Six renumbered owner-local reward
-  labels have unchanged definitions/values/addends/targets; the full reward
-  owner passes1540/1540 with91 fields. Only these two unit records change.
-- All11 affected nonexact owners pass their existing full-owner guards after
-  current-source reinspection. Nine reuse just-built canonical objects;
-  movement and charge need two additional source builds. RunEcl30,Enemy13,
-  EffectAdded8 and the other affected frontiers stay unchanged. Title and
-  Type3 do not depend on this header; their unchanged proofs are reused.
-- Actual20-byte GetAnm visibility again gives a45-byte callback, rejected by
-  its unchanged physical extent. Selected actual90-byte PreloadAnm and four
-  real fields pass under the Effect profile and preserve51/eight; joint
-  visibility gives45. Whole-loader inclusion hits conflicting AnmVm definitions,
-  which is a preparation failure, not a successful codegen exclusion.
-- Six pre-adoption RunEcl DWORD controls preserve30 for the ordinary helper;
-  all four tested native spellings repeat the same rejected raw caller.
-  No RunEcl source/model/profile change is adopted or exact credit added.
-- Only EffectManager.cpp/.hpp change among493 game inputs;491 are unchanged.
-  Local evidence is `.analysis/gpt-61sol-20261022-effect-native-callback/`
-  and `.analysis/gpt-61sol-20261022-ecl-timeout-semantics/`. Initial collector
-  failures and corrected staged-source metadata remain explicitly scoped.
-  Complete CI passes948 tests/28 skips; final target-required tracking,
-  docs, generated progress and whitespace pass.
+  samples pass. A fresh TitleDrawResult baseline preserves1939/82/22 before
+  rotating to the independently reviewed Effect34 loop; old Title type matrices
+  are not repeated without a new lead.
+- Effect34 now indexes both real line32 and jitter33 rows by the same layer.
+  The full caller improves959->946 bytes,291->286 instructions,15->16 blocks,
+  and restores the original0x1C frame. All53 original referents,20 direct plus
+  12 COM calls, SDK arguments and four actual scalar definitions remain bound.
+  Ordinal branch edges and per-block call sequences agree; address CFG does not.
+- Full linked differences fall593->78, with no missing/extra bytes. This is a
+  reviewed source/frontier replacement:517 old mismatches recover, while two
+  formerly equal positions(+0x3C,+0x49) change in the displaced entry schedule.
+  The new guard pins all78 residuals and protects868 equal original bytes.
+  It additionally requires946 bytes,286 instructions,16 blocks and the ordinal
+  call/branch graph, and rejects incomplete full-equality claims.
+- Remaining differences are65 entry bytes,9 layer/color-store bytes and4 radius
+  operand bytes. Only the Timer call field moves+0x40 to+0x3D; the other52
+  original field positions agree. The function remains explicitly nonexact.
+- A bounded72-fixture Unicorn original/candidate countercheck agrees on all
+  vertex/fixture RAM, draw arguments, EAX return, stack balance and nonvolatile
+  registers, covering285 reachable instructions on each side. Actual original
+  arithmetic helpers execute; ANM/COM calls use explicit synthetic hooks.
+  This is finite evidence, not whole Windows product/runtime validation.
+- All79 affected existing exact owners pass25215 physical bytes/1126 fields
+  across two fixed canonical profiles. Two generated labels are refreshed only
+  after their actual owner-local coordinates and complete owners pass. The20
+  earlier unchanged receipts are reused, as are924 unaffected exact proofs.
+  Shared full RunEcl30,Enemy13,Type29 and biased frontiers remain unchanged.
+- Native-coordinate visibility independently proves184 helper bytes/eight
+  fields but removes two original receiver reloads; its956/51/768 caller is
+  rejected. Genuine vector-add context preserves78. Joint real angle/add context
+  retains native bodies but removes the original ignored angle call, so its
+  930/52 caller is rejected. No native visibility context is adopted.
+- Local evidence is `.analysis/gpt-61sol-20261022-effect34-loop-structure/`.
+  Only one of493 game inputs changes;492 remain unchanged. Complete CI passes
+  951 tests/28 skips,exit zero;target-required tracking,docs,progress and whitespace
+  pass. Reviewed archive/cleanup accounting is below.
 - Exact remains **1003/1035 functions**, **244917/291883 bytes (83.9093%)**;
   the95% gap is **32372 bytes**. RunEcl30, Enemy13, DrawResult22, Type315,
   complete inventory, native product/runtime and later gates stay open.
@@ -110,7 +113,7 @@ these results do not establish unique original translation-unit ownership.
 | **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes; opcode 155: 23 bytes, 146/148 handler shapes. The diagnostic extent recognizers now handle the observed post-RET `8B FF` alignment; complete byte/field/table and production frontier checks remain unchanged. The timeout update uses an ordinary inline pure-value helper with unchanged complete codegen. Opcode 4 now directly calls the separately exact real `ZunTimer::operator=(int) @0x00401500` on the proven 12-byte context timer, rather than fake second-class timer ABI; existing genuine `RngRuntimeView`/global `g_Rng` remains. **15,564 complete instruction/table bytes and 598 source-linked original fields are unchanged**, with all **79 exact ECL/Enemy/position/math functions across two profiles** (25,215 physical bytes) protected. `--owner runecl`; exact credit remains open. |
 | **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**,97 fields, 69 calls,170 blocks; **13 differing bytes** (29->13) | Genuine co-visible **ZunTimer::operator>(int)** restores all 16 tracking/homing bytes with no damaged match. The sole 20-byte definition now lives in ZunTimerGreater.inl through EclManager.cpp; four same-object call identities and its complete body are required. All **3887 equal bytes** are protected. The six native GameManager fields and four real 116-byte playfield-member calls are now independently guarded; all3900 linked bytes are preserved. Remaining draw index2 and special-attack/descriptor11 stay open. Duplicated draw paths expand to3912; genuine folded vector-body visibility shrinks to3876/96/68 and reduces static cleanup calls2 to1. Both fail the full frontier; actual slot accessors and Timer-current visibility are raw-neutral. Reproduce the folded case with `probe-enemy-native-spawn-context.py --case standalone-pointer-view` (expected rejection). All79 exact shared-ECL owners pass across two profiles; unchanged separate Timer proofs are reused. Current state/damage scopes include104/81 units; unchanged external Player proofs are reused. Original source partition and native product/runtime remain open. |
 | **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Maintained src/EffectDrawType29.inl preserves flag-scoped main plus six satellite fans. The inspector also records all 13 polar/accumulation receiver windows and the independently differing ordinal graph. Bounded original/native-helper emulator comparison covers all672 reachable original instructions across26 cases; it is not byte-exact or whole-product validation. The full-byte guard protects1035 equal positions. Source presence is independent of exactness; `--owner effect29` protects77 shared exact functions across two profiles. |
-| **Effect 34 draw** | 0x00444AF0 | **946/959 physical**, 53 source-linked original referents, 20 direct +12 COM calls, target/candidate 16/15 blocks; **593 overlap differences +13 extra bytes** | Exact native initialization (178) and update (208) protect the original 0xEF8 buffer: fan33 at +0x54, four line32 groups at +0x2E8, four random33 rows at +0xCE8. The genuine ECL/math context removes two redundant receiver reload bytes from the 961-byte standalone candidate. All four actual scalar definitions and all 53 decoded candidate address fields are now checked against real COFF sections and original values; a wrong-definition object with unchanged code/relocations is rejected. All 353 equal original bytes and exact D3D arguments remain protected by `--owner effect34`; byte-register alpha/cursor homes and loop layout stay open. |
+| **Effect 34 draw** | 0x00444AF0 | **946/946 physical**,53 original referents,20 direct +12 COM calls,286 instructions,16 blocks; **78 linked differences** | Common-layer indexing of the actual line32/jitter33 arrays restores the original0x1C frame and removes13 excess bytes. The reviewed replacement restores517 old mismatches and changes two old coincidental entry matches; the new SHA/78-offset guard protects868 equal bytes, complete geometry and ordinal per-block call/branch structure. All four actual scalar definitions and all53 decoded fields remain checked. Only the Timer call field is shifted+0x40->+0x3D;52 field positions agree. Remaining65 entry,9 store-order and4 radius-operand bytes stay nonexact. Bounded72-fixture native-arithmetic/synthetic-renderer comparison passes; no whole-product/runtime claim. `--owner effect34` replays79 affected existing exact owners across two profiles; the detached208-byte update proof is unchanged. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor ESI still open. The final original call is now typed as `EffectManager::DrawBulletLayerEffects` with its separately **169/169 exact** real-member source at `0x0040D110` and side owner at `+0x0C`; all original linked bytes remain unchanged. Complete SHA/offset guard preserves the 332 equal bytes; `--owner etama` protects **both exact same-carrier helpers plus the separately exact OnUpdate (3 checks)**. |
 | **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 direct calls plus 2/3 original/candidate timestamp calls; 10-way switch; **1,453** overlapping differences + 44 missing | Original states3/8/ordinary9 share one timestamp site; current state3 stays separate. Explicit source sharing remains complete-byte-neutral under the current profile. First seven-VM cursor improvement committed in `7f1d56e`; remaining branch/VM scheduling. `--owner pause` independently checks 11 already-exact Ascii/ANM functions and real original table/ABI. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Now uses genuine shared `g_Supervisor.framerateMultiplier5B8 @0x004B36B8` and the four **real `GameManagerResetView::coordinate360/364/368/36C` fields** (original `0x004A80F0..FC`), not fake external playfield globals. The independent **79-byte exact GameManager coordinate initializer** physically writes those fields; 1,900-byte linked movement boss and 66 operand identities stay unchanged, with 129 ordinary differences still open. All 129 genuine current original-bound mismatch offsets are now pinned, protecting the other **1,771** already matching bytes (including both switch tables and after-return alignment); future improvements must not introduce mismatches elsewhere. `--owner movement` protects exact 522-byte caller. |
@@ -215,22 +218,25 @@ results, fields and deficits before making an exactness claim.
 
 ## Evidence and cleanup boundaries
 
-Only two of493 game inputs change, with two reviewed canonical unit bindings
-updated and no exact ledger promotion. Fresh203-unit replay compares60547
-physical bytes/2883 fields across58 fixed source/profile configurations.
-The800 unaffected authored exact proofs are reused. All11 affected nonexact
-owners retain their complete guarded frontiers; native product/runtime stays open.
+Only EffectType34Family.inl changes among493 game inputs;492 are unchanged.
+Two owner-local generated names change in two canonical unit records, with no
+profile/extent/target/addend/external identity change. All79 affected existing
+exact owners pass25215 physical bytes/1126 fields;924 unaffected authored exact
+proofs, including the detached Type34 update, are reused. Shared nonexact
+frontiers retain their independent complete guards.
 
-The current two packets preserve old/current source scopes, frozen inputs,
-actual raw/COFF, all successful controls, failed preparations and corrected
-collector receipts. Their44/151-member archives retain2322812/6112308 logical
-bytes in327178/870991 bytes. Every member passes CRC/SHA and loose-byte equality.
-The per-path removal plan is persisted first:152 verified loose duplicates and
-275 new completed-CI caches are removed,427 files/7257051 logical bytes.
-All127 old cache paths remain, including the refreshed Effect inspector cache.
-Canonical objects/PDBs, original target/tools/IDA and older unclassified research
-remain. cleanup.json records every removed path/hash/classification. Packaging
-verification does not claim archive-only compilation or a new accepted owner.
+The current packet preserves frozen inputs,every source control,actual raw/
+COFF,reviewed former/new residual sets,native body proofs,full fixture parameters
+and all failed preparations/collectors. Its121-member archive retains5938374
+logical bytes in877298 bytes;CRC,every SHA and loose-byte equality pass before
+cleanup. Persisted per-path plans precede removing85 verified archive duplicates
+and275 new completed-CI caches:360 files/10108802 logical bytes. One earlier
+reviewed empty rejected-CLI redirect has its own receipt. All127 old cache paths
+remain,including the two refreshed inspector/frontier caches. Current canonical
+objects/PDBs,original target/tools/IDA and older unclassified evidence remain.
+Current maintained/exact/focused/emulator receipts stay readable; superseded
+summaries and projected manifests are restored from their verified archive.
+Packaging verification does not claim archive-only compilation or new exactness.
 
 Ignored packets are local evidence and are not included in Git commits or
 pushes. Tracked source, scripts and durable observations provide the public

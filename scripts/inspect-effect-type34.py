@@ -104,8 +104,16 @@ def inspect(obj,role,*,owners=None):
    if tail.mnemonic!='jmp' and not tail.mnemonic.startswith('ret') and tail.address+tail.size in ends:out.append(tail.address+tail.size-base)
    result.append((start-base,tail.mnemonic if tail.mnemonic.startswith(('j','ret')) else 'fallthrough',out))
   return result
+ def ordinal_graph(ii):
+  blocks=graph(ii);indices={start:n for n,(start,_,_) in enumerate(blocks)};result=[]
+  for n,(start,kind,edges) in enumerate(blocks):
+   end=blocks[n+1][0] if n+1<len(blocks) else ii[-1].address+ii[-1].size-base
+   body=[i for i in ii if start<=i.address-base<end]
+   result.append((kind,[indices[e] for e in edges],calls(body)))
+  return result
  original_fields.sort(key=lambda r:r['offset']);actual=[{'offset':r['offset'],'type':r['type'],'destination':r['effective_target']} for r in bindings];diff=[n for n,(a,b) in enumerate(zip(target,linked)) if a!=b]
  report={'role':role,'diagnostic_only':True,'exactness_credit':'none; complete non-crediting original/COFF diagnostic','target_address':base,'target_bytes':size,'candidate_bytes':len(raw),'target_sha256':expected,'raw_sha256':hashlib.sha256(raw).hexdigest(),'resolved_sha256':hashlib.sha256(linked).hexdigest(),'target_instructions':len(ti),'candidate_instructions':len(ci),'fields':len(bindings),'candidate_address_field_count':len(candidate_address_fields),'candidate_fields_cover_instructions':True,'literal_definitions_checked':len(definitions),'bindings':bindings,'original_fields':original_fields,'all_original_fields_agree':actual==original_fields,'field_referent_order_agrees':[(r['type'],r['destination']) for r in actual]==[(r['type'],r['destination']) for r in original_fields],'target_calls':calls(ti),'candidate_calls':calls(ci),'ordered_calls_agree':calls(ti)==calls(ci),'target_blocks':len(graph(ti)),'candidate_blocks':len(graph(ci)),'direct_graphs_agree':graph(ti)==graph(ci),'target_COM_arguments':com_args(ti),'candidate_COM_arguments':com_args(ci),'COM_immediate_arguments_agree':com_args(ti)==com_args(ci),'overlapping_differences':len(diff),'difference_offsets':diff,'missing_bytes':max(0,size-len(raw)),'extra_bytes':max(0,len(raw)-size),'complete_bytes_agree':bytes(linked)==target}
+ report['ordinal_graphs_agree']=ordinal_graph(ti)==ordinal_graph(ci)
  return report,ti,ci
 def main():
  import argparse

@@ -101,13 +101,11 @@ int __fastcall EffectDrawCallbackType34(Effect *effect)
     supervisor->device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
     supervisor->device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
     const unsigned long lineColor = (static_cast<unsigned long>(alpha) << 24) | 0x00FFFFFF;
-    VertexDiffuseXyzrhw (*line)[32] = vertices->lines2E8;
-    float (*row)[33] = vertices->jitterCE8;
     int layer = 0;
     do
     {
-        vertex = *line;
-        float *offset = *row;
+        vertex = vertices->lines2E8[layer];
+        float *offset = vertices->jitterCE8[layer];
         for (int i = 0; i < 32; ++i)
         {
             if (angle >= 3.1415927f)
@@ -124,12 +122,10 @@ int __fastcall EffectDrawCallbackType34(Effect *effect)
             ++offset;
         }
         supervisor->device->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
-        supervisor->device->DrawPrimitiveUP(D3DPT_LINESTRIP, 31, *line, sizeof(VertexDiffuseXyzrhw));
+        supervisor->device->DrawPrimitiveUP(D3DPT_LINESTRIP, 31, vertices->lines2E8[layer], sizeof(VertexDiffuseXyzrhw));
         if (vertices->state00 == 0)
             break;
         angle += 0.05067085f;
-        ++row;
-        ++line;
         ++layer;
     } while (layer < 4);
     g_AnmManager->ClearVertexShader();

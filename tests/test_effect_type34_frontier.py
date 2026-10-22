@@ -16,9 +16,9 @@ BASE = {'role': 'draw',
  'exactness_credit': 'none; complete non-crediting original/COFF diagnostic',
  'target_sha256': 'd32652c2e08ffbd02a103e379724cde773716f964bbb962e9e4cbd12f58c88a2',
  'target_bytes': 946,
- 'candidate_bytes': 959,
+ 'candidate_bytes': 946,
  'target_instructions': 286,
- 'candidate_instructions': 291,
+ 'candidate_instructions': 286,
  'fields': 53,
  'candidate_address_field_count': 53,
  'candidate_fields_cover_instructions': True,
@@ -27,10 +27,12 @@ BASE = {'role': 'draw',
  'field_referent_order_agrees': True,
  'COM_immediate_arguments_agree': True,
  'target_blocks': 16,
- 'candidate_blocks': 15,
+ 'candidate_blocks': 16,
  'missing_bytes': 0,
- 'extra_bytes': 13,
- 'overlapping_differences': 593,
+ 'extra_bytes': 0,
+ 'overlapping_differences': 78,
+ 'ordinal_graphs_agree': True,
+ 'complete_bytes_agree': False,
  'target_calls': [['direct', 4370128],
                   ['direct', 4415232],
                   ['direct', 4200064],
@@ -100,6 +102,38 @@ class Effect34FrontierTests(TestCase):
         result['difference_offsets'][-1] = next(i for i in range(946) if i not in old)
         with self.assertRaisesRegex(RuntimeError, 'already equal'):
             boss.guard_effect_type34_draw(result)
+
+    def test_recovered_frame_and_loop_bytes_are_now_protected(self):
+        for offset in (0x005, 0x01D, 0x020, 0x14D, 0x21B, 0x3B1):
+            with self.subTest(offset=hex(offset)):
+                result = baseline()
+                self.assertNotIn(offset, result['difference_offsets'])
+                result['difference_offsets'][-1] = offset
+                result['difference_offsets'].sort()
+                with self.assertRaisesRegex(RuntimeError, 'already equal'):
+                    boss.guard_effect_type34_draw(result)
+
+    def test_old_extent_or_changed_block_graph_cannot_inherit_new_frontier(self):
+        for change in ({'candidate_bytes': 959}, {'candidate_instructions': 291},
+                       {'candidate_blocks': 15}, {'extra_bytes': 13},
+                       {'ordinal_graphs_agree': False}, {'ordinal_graphs_agree': None}):
+            with self.subTest(change=change), self.assertRaises(RuntimeError):
+                boss.guard_effect_type34_draw({**baseline(), **change})
+
+    def test_full_equality_requires_whole_bytes_fields_and_graph(self):
+        result = baseline()
+        result.update(difference_offsets=[], overlapping_differences=0)
+        with self.assertRaisesRegex(RuntimeError, 'contradictory'):
+            boss.guard_effect_type34_draw(result)
+        result.update(complete_bytes_agree=True,
+                      resolved_sha256=boss.EFFECT34_DRAW_SHA256,
+                      all_original_fields_agree=True, direct_graphs_agree=True)
+        boss.guard_effect_type34_draw(result)
+        for change in ({'resolved_sha256': '0'*64},
+                       {'all_original_fields_agree': False},
+                       {'direct_graphs_agree': False}):
+            with self.subTest(change=change), self.assertRaisesRegex(RuntimeError, 'full-equality'):
+                boss.guard_effect_type34_draw({**result, **change})
 
     def test_reordered_native_calls_are_rejected_with_unchanged_counts(self):
         result = baseline()
