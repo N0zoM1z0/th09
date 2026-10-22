@@ -108,8 +108,9 @@ these results do not establish unique original translation-unit ownership.
 
 The completed native Enemy/context and adjacent TH08/TH095 audits justify no
 new compiler probe. Context+0's genuine ECL-manager ownership remains unresolved
-source debt with a likely byte-neutral repair, not adopted progress. Full Enemy
-unification is not ruled out by the prior shared-cell trial. See the dated KB
+source debt with a likely byte-neutral repair, not adopted progress. The subsequent coherent public/State/Core Enemy
+storage model is now compiled and wholly byte-neutral across139 emitted functions;
+it is not adopted. This does not rule out all possible original source models. See the dated KB
 entry and `.analysis/th09-enemy-context-owner-20261022-v01/README.md` plus
 `.analysis/th09-runecl-adjacent-context-20261022-v01/README.md` for evidence,
 prior input-bitfield exclusions and the potential 140-unit collateral scope.

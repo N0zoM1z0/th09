@@ -19791,3 +19791,86 @@ documentation, open build-graph, generated-progress and whitespace gates.
 Receipt: `.analysis/th09-campaign-20261022-v01/context-front-type3-ci.log`
 and its zero exit record. Only documentation changes; all canonical source,
 profiles, exact ledgers and the83.9093% generated progress remain unchanged.
+
+
+## October 22: Whole Enemy storage model remains byte-neutral
+
+A single isolated source model unifies public EnemyView, State and Core using
+only their existing typed intervals. All known offsets/widths and0x5430 extent
+survive; unknown gaps remain unknown. The first death byte retains its signed
+read, all three ECL writes retain byte width, and no new union is invented.
+Eleven changed files are frozen in a116-input closure, with142 potential
+canonical units across31 sources. Movement/Bullet/Operand layouts are not
+unified; three existing Bullet death-byte stores only follow the renamed fields.
+The selected-ECL-manager/context+0 ownership debt is deliberately not repaired.
+
+Fresh baseline and proposal compile serially under the unchanged ecl-pop-context
+profile. Both emit405 sections/2078 symbols/139 function spans. All139 function
+payloads and all203 nondebug sections/50452 payload bytes are identical. Actual
+COFF comparison explicitly reviews seven named identities (including the two
+State/Late identity helper return types) and149 compiler-local labels at unchanged
+section/value coordinates. No new Enemy constructor/copy/destructor is emitted;
+the public constructor is only declared, and its native constructor closure is
+not claimed complete by this intentionally partial storage model.
+
+RunEcl remains15564 bytes/598 fields/30 ordinary differences, with no field or
+table differences. Both raw SHA-256 values are
+bc9a1a71fbc3010338ef7f3de66ca3e0f3c3ee3bb9eb51f1588c6e53dea8c01b.
+Enemy remains3900 bytes/97 fields/13 differences, linked SHA-256
+ddf419ae5bfb1793dc37e0e1af8668f013fd9017e35ce41e0d99ed123b454440.
+The candidate's maintained Enemy inspector rejects newly named callback fields;
+that rejection is preserved, not waived. Separate reviewed original-identity
+binding proves unchanged linked bytes without mutating the maintained inspector
+or issuing exact credit. This substantial model therefore does not explain the
+residuals; no tracked adoption or142-unit canonical rebuild follows.
+
+Full field/symbol maps, frozen source, commands, pre/post maintained-source,
+tool/compiler/target/profile hashes, OBJ/PDB, every actual COFF section/function,
+strict rejected reports and independent post-review remain under
+`.analysis/th09-enemy-context-owner-20261022-v01/shared-enemy-storage/`.
+See post-review.json, post-review-symbol-map.json and README.md. This is a bounded
+negative compiler observation, not proof that all original source models fail.
+
+Two other bounded read-only audits produce no new compiler proposal. Controller
+native WinMM tail independently computes midpoint twice per axis, with unsigned
+CMP/SBB masks and0x194 JOYCAPSA stride; prior real recipes already cover the
+natural helper/mask/snapshot conversions. Its796/808-byte102-difference compiler
+result is explicitly historical, not a new replay. Etama's native constructor
+and producer confirm embedded VMs at+0/+2A4, world position+548, body position+208
+and stride59C; existing full Laser layout already matches those identities.
+Prior cursor/packed-color/native-math-visibility trials cover the reviewed leads.
+Evidence: `.analysis/th09-controller-input-audit-20261022-v01/` and
+`.analysis/th09-etama-producer-audit-20261022-v01/`. Neither changes exact coverage.
+
+Network HandleMessage's bounded ownership audit freshly binds the original
+808-byte extent and46 archived actual COFF fields to the unchanged source;
+105 differences remain and every byte from+12A through+327 agrees. This is
+source-compatible historical compiler evidence, not a fresh build. Preserve the
+native distinction between frame-side lookup through global network state at
+4B42D0 and handshake lookup through this+AC. The receiver never consumes the
+packed checksum/input DWORD; a protocol-union declaration alone does not explain
+its remaining word-read schedule. Prior zeroed-local union, ordinary snapshots
+and forwarding recipes were read directly. No new trial is justified; existing
+volatile casts remain unsupported source hypotheses, not established concurrency.
+Evidence: `.analysis/gpt-dots-network-ownership-audit-20261022/`.
+
+The whole-dispatch instruction-storage audit likewise identifies no new bounded
+model to compile. The retained October7 ScalarOperandStorage union includes
+int,float,unsigned char and short and redirects all four raw-accessor families,
+not merely an int/float pair. October9 whole-wire.patch also redirects all four
+through a shared header/trailing-byte owner; its retained audit reports no
+changed owners after private-label normalization. Those15564-byte/598-field
+results are historical, not a current-source replay. Fresh attested Load405660
+observations establish buffer acquisition and in-place pointer-table rebasing,
+not typed instruction construction or fixed operand extents. A new fixed union
+array would add unsupported storage assumptions; a cursor-only wrapper would
+repeat already-tested address expressions. No broader impossibility is inferred.
+Evidence: `.analysis/th09-runecl-instruction-storage-20261022-v01/README.md`
+and audit.json. All explored structural leads in this checkpoint are closed as
+bounded negative findings; the98% goal and32 nonexact owners remain unresolved.
+
+This checkpoint passes1005 tests/29 skips and all tracking, documentation,
+open build-graph, generated-progress and whitespace checks. Receipt:
+`.analysis/th09-campaign-20261022-v01/shared-enemy-audits-ci.log` and its zero
+exit record. There is no outstanding compiler operation or staged source
+candidate for these explored leads; complete retained proposals remain ignored.
