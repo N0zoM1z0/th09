@@ -55,7 +55,7 @@ class TruePauseAudio(unittest.TestCase):
         self.assertEqual(wrapper['functions'],['SoundPlayer::ResumeAfterPause'])
         self.assertEqual(wrapper['symbol'],frontier.PAUSE_REAL_SOUND_RESUME)
         self.assertEqual([(v['offset'],v['symbol']) for v in wrapper['relocations']],
-                         [(1,'??_C@_07BIEIMCKD@unpause?$AA@'),(10,frontier.PAUSE_REAL_SOUND_QUEUE)])
+                         [(1,'??_C@_07OGJCKFMD@UnPause?$AA@'),(10,frontier.PAUSE_REAL_SOUND_QUEUE)])
         self.assertNotIn('AsciiSoundPlayerView',(ROOT/'scripts/inspect-pause-menu.py').read_text())
 
     def test_shared_cpp_owner_has_one_exact_source_ledger_name(self):
@@ -93,11 +93,29 @@ class TruePauseAudio(unittest.TestCase):
 
     def test_focus_rebuilds_true_big_callback_and_both_exact_sound_leaves(self):
         with (patch.object(frontier,'build') as build,
-              patch.object(frontier,'canonical',side_effect=lambda name:{'unit':name}) as exact):
+              patch.object(frontier,'canonical',side_effect=lambda name:{'unit':name}) as exact,
+              patch.object(frontier,'parsed', return_value={
+                  'diagnostic_only': True, 'exactness_credit': 'none',
+                  'native_resume': {'complete_equal': True, 'bytes': 15, 'fields': 2},
+                  'resume_literal_bytes': 8}) as data):
             result=frontier.replay_pause_real_sound_exact()
         self.assertEqual([x['unit'] for x in result],
                          [r[0] for r in frontier.PAUSE_REAL_SOUND_CARRIERS])
         self.assertEqual(build.call_args_list,[call(r[0]) for r in frontier.PAUSE_REAL_SOUND_CARRIERS])
         self.assertEqual(exact.call_args_list,[call(r[0]) for r in frontier.PAUSE_REAL_SOUND_CARRIERS])
+        data.assert_called_once_with(['scripts/probe-pause-native-audio.py',
+                                      '--check-resume-object',
+                                      'build/matching/SoundPlayerPause.obj'])
+
+    def test_instruction_equality_does_not_waive_resume_data(self):
+        for proof in ({}, {'native_resume': {'complete_equal': True}},
+                      {'diagnostic_only': True, 'exactness_credit': 'none',
+                       'native_resume': {'complete_equal': True, 'bytes': 15, 'fields': 2},
+                       'resume_literal_bytes': 7}):
+            with (self.subTest(proof=proof), patch.object(frontier,'build'),
+                  patch.object(frontier,'canonical',return_value={}),
+                  patch.object(frontier,'parsed',return_value=proof),
+                  self.assertRaisesRegex(RuntimeError,'actual UnPause')):
+                frontier.replay_pause_real_sound_exact()
 
 if __name__=='__main__':unittest.main()

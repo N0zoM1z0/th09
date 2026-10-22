@@ -69,16 +69,20 @@ class PauseMenuFrontierTests(unittest.TestCase):
         e = self.baseline()
         with (patch.object(frontier, 'build_nonexact') as compile_owner,
               patch.object(frontier, 'build') as build_sound,
-              patch.object(frontier, 'parsed', return_value=e) as inspect,
+              patch.object(frontier, 'parsed', side_effect=[e, {
+                  'diagnostic_only': True, 'exactness_credit': 'none',
+                  'native_resume': {'complete_equal': True, 'bytes': 15, 'fields': 2},
+                  'resume_literal_bytes': 8}]) as inspect,
               patch.object(frontier, 'canonical', side_effect=lambda name: {
                   'unit': name, 'result': 'exact'}) as canonical):
             owners, exact = frontier.run_pause(protect_exact=True)
         compile_owner.assert_called_once_with(
             'src/AsciiManagerMenu.cpp', 'build/matching/AsciiManagerMenu.obj',
             reference_unit='ascii-manager-on-update')
-        inspect.assert_called_once_with([
+        self.assertEqual(inspect.call_args_list[0].args[0], [
             'scripts/inspect-pause-menu.py', '--json',
             'build/matching/AsciiManagerMenu.obj'])
+        self.assertEqual(inspect.call_count, 2)
         self.assertEqual([x['unit'] for x in exact],
                          list(frontier.PAUSE_EXACT_SIBLINGS)+
                          [r[0] for r in frontier.PAUSE_REAL_SOUND_CARRIERS])

@@ -11931,7 +11931,7 @@ symbol = "?ResumeAfterPause@SoundPlayer@@QAEXXZ"
 target_address = 0x00423498
 size = 0x0F
 relocations = [
-  { offset = 0x01, type = "DIR32", symbol = "??_C@_07BIEIMCKD@unpause?$AA@", target = 0x0048F510 },
+  { offset = 0x01, type = "DIR32", symbol = "??_C@_07OGJCKFMD@UnPause?$AA@", target = 0x0048F510 },
   { offset = 0x0A, type = "REL32", symbol = "?QueueCommand@SoundPlayer@@QAEXHHPAD@Z", target = 0x0043EE40 },
 ]
 

@@ -7,52 +7,40 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after pushed `b118b7a`. Continue toward95% and
-RunEcl/Enemy/Title/Type3; historical pauses remain superseded. This checkpoint
-recovers correlated Type14/22 draw rows with the actual native polar context.
+Reconstruction remains active after independently pushed `2a5c244`. Continue
+95% and RunEcl/Enemy/Title/Type3; historical pauses remain superseded. This
+checkpoint corrects the real Pause audio string and checks its actual storage.
 
-- Original Japanese v1.50a disk,direct IDA metadata,entry and five mapped samples
-  pass. Three new Effect34 radius-value models preserve946/53/78;direct center
-  field copies give432 differences and are rejected. No Effect34 source changes.
-- The independent959-byte ExAttack14/22 owner retains its own0xF48 allocation,
-  four33-vertex/33-float rows and32 processed vertices per row. Shared-layer
-  indexing gives961 bytes;actual32-byte polar visibility gives959. Selected
-  polar and whole ECL contexts reproduce identical complete root bytes.
-- The maintained renderer now lives once in ExAttackDrawType14Type22.inl,
-  included by EclManager.cpp with that already-existing native definition.
-  The standalone duplicate is removed. Native AnmVm.color1 replaces the private
-  +1F0 VM view with unchanged whole code. No ABI/profile or assembly is added.
-- The reviewed replacement restores402 old mismatches and changes22 former
-  coincidences:974->959 bytes,297->291 instructions,905->525 linked differences.
-  All53 referents,20 direct/12 COM calls and12 SDK/device traces remain bound.
-  The frame remains1C versus original20;this is explicitly still nonexact.
-- Original/candidate physical jumps are9/10 and blocks17/18. The extra jump
-  skips8 compiler alignment bytes;all remain in the complete959-byte comparison.
-  After verifying only unreachable self-LEA/NOP bytes and normalizing that
-  next-block edge,the17 reachable successor/per-block-call graphs agree.
-  Physical/address graphs remain different. The new guard protects434 equal
-  bytes and requires those precise layout,actual-data and native-body proofs.
-- All114 bounded original/candidate fixtures agree on complete0xF48 buffer,
-  VM/record/fixture RAM,draws,return,stack and saved registers,including a state1
-  transition after the first line. Actual original arithmetic helpers execute;
-  ANM/COM calls are synthetic intercepts. Coverage is290 original/289 candidate
-  reachable instructions. This is finite evidence,not Windows product/runtime.
-- Five actual COFF counterexamples change four scalar definitions or the native
-  polar body while preserving every959 root byte and all53 root rows. The old
-  inspector still reports525;the strengthened producer rejects every copy.
-  No canonical object,target or IDA byte is patched.
-- All79 affected existing exact units pass25215 physical bytes/1126 fields
-  across two fixed profiles. Two generated names are refreshed only after actual
-  local coordinates and full owners pass;924 unaffected proofs are reused.
-  Shared RunEcl30,Enemy13,Effect34 78,Type29 and biased guards remain unchanged.
-- Current local evidence is `.analysis/gpt-61sol-20261022-exattack1422-shared-layer/`
-  and `.analysis/gpt-61sol-20261022-effect34-value-shape/`. Complete CI passes
-  954 tests/28 skips,exit zero. An initial constructor-constant routing regression
-  is restored from the parent and separately retested;its failed log remains.
-  Target-required tracking,docs,progress and whitespace pass.
-- Exact remains **1003/1035 functions**, **244917/291883 bytes (83.9093%)**;
-  the95% gap is **32372 bytes**. RunEcl30, Enemy13, DrawResult22, Type315,
-  complete inventory,native product/runtime and later gates stay open.
+- Original Japanese v1.50a disk, direct IDA metadata, entry and five mapped
+  samples pass. The complete Pause owner remains1776 original/1732 candidate
+  bytes,107 actual fields,46 direct calls and1453 overlap differences/44 missing.
+- Four genuine audio definitions, separately and jointly visible, preserve
+  every maintained Pause raw byte. The corrected joint context independently
+  proves214 complete native bytes/11 fields, six same-object call references
+  and both actual strings14 bytes; no original TU ownership is inferred.
+- Reading actual COFF data catches a maintained error: the resume source used
+  lowercase `unpause`, while original48F510 is `UnPause` plus NUL. Only
+  SoundPlayerPause.cpp changes among493 game inputs;492 keep their hashes.
+  Its complete15-byte/two-field canonical replay passes after the correction.
+  Only the literal symbol at+1 changes in one unit; all original addresses,
+  extents, ABI and profiles stay fixed. The existing1003 exact count is unchanged.
+- Two actual data-only object corruptions preserve all15 function bytes and
+  both COFF rows. The generic instruction comparator still reports exact;
+  the new actual-definition check rejects each. Formal --owner pause now
+  requires that check alongside the canonical resume replay.
+- The ordinary inline animation helper alone is raw-neutral. Early inline
+  return forms outline an original-absent helper and are rejected. Direct
+  footer duplication gives1796 bytes/110 fields; hiding the actual VM bodies
+  gives1748/1788-byte callers. Shared source timestamp stays machine-neutral.
+  No Pause source/control-flow experiment or new helper address is adopted.
+- Local evidence: `.analysis/gpt-61sol-20261022-pause-native-audio/`. Focused
+  callback, canonical resume instructions/actual data and19 Pause tests pass.
+  Full CI passes959 tests/28 skips,exit zero; tracking/docs/progress/whitespace pass.
+- The stale IDA resume-entry comment is corrected and read back exactly; all
+  returned instruction/address pairs remain unchanged. No target bytes are patched.
+- Exact remains1003/1035 functions and244917/291883 bytes (83.9093%);95%
+  still needs32372 whole exact bytes. RunEcl30, Enemy13, DrawResult22, Type315,
+  complete inventory, native product/runtime and later gates remain open.
 
 ## Live ledger snapshot
 
@@ -117,7 +105,7 @@ these results do not establish unique original translation-unit ownership.
 | **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Maintained src/EffectDrawType29.inl preserves flag-scoped main plus six satellite fans. The inspector also records all 13 polar/accumulation receiver windows and the independently differing ordinal graph. Bounded original/native-helper emulator comparison covers all672 reachable original instructions across26 cases; it is not byte-exact or whole-product validation. The full-byte guard protects1035 equal positions. Source presence is independent of exactness; `--owner effect29` protects79 shared exact functions across two profiles. |
 | **Effect 34 draw** | 0x00444AF0 | **946/946 physical**,53 original referents,20 direct +12 COM calls,286 instructions,16 blocks; **78 linked differences** | Common-layer indexing of the actual line32/jitter33 arrays restores the original0x1C frame and removes13 excess bytes. The reviewed replacement restores517 old mismatches and changes two old coincidental entry matches; the new SHA/78-offset guard protects868 equal bytes, complete geometry and ordinal per-block call/branch structure. All four actual scalar definitions and all53 decoded fields remain checked. Only the Timer call field is shifted+0x40->+0x3D;52 field positions agree. Remaining65 entry,9 store-order and4 radius-operand bytes stay nonexact. Bounded72-fixture native-arithmetic/synthetic-renderer comparison passes; no whole-product/runtime claim. `--owner effect34` replays79 affected existing exact owners across two profiles; the detached208-byte update proof is unchanged. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor ESI still open. The final original call is now typed as `EffectManager::DrawBulletLayerEffects` with its separately **169/169 exact** real-member source at `0x0040D110` and side owner at `+0x0C`; all original linked bytes remain unchanged. Complete SHA/offset guard preserves the 332 equal bytes; `--owner etama` protects **both exact same-carrier helpers plus the separately exact OnUpdate (3 checks)**. |
-| **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 direct calls plus 2/3 original/candidate timestamp calls; 10-way switch; **1,453** overlapping differences + 44 missing | Original states3/8/ordinary9 share one timestamp site; current state3 stays separate. Explicit source sharing remains complete-byte-neutral under the current profile. First seven-VM cursor improvement committed in `7f1d56e`; remaining branch/VM scheduling. `--owner pause` independently checks 11 already-exact Ascii/ANM functions and real original table/ABI. |
+| **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 direct calls plus 2/3 original/candidate timestamp calls; 10-way switch; **1,453** overlapping differences + 44 missing | Original states3/8/ordinary9 share one timestamp site; current state3 stays separate. Actual native audio visibility and explicit source sharing remain complete-byte-neutral. The exact resume carrier now uses original UnPause and formally checks its actual eight-byte COFF definition. First seven-VM cursor improvement committed in `7f1d56e`; remaining branch/VM scheduling. `--owner pause` independently checks 11 already-exact Ascii/ANM functions and real original table/ABI. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Now uses genuine shared `g_Supervisor.framerateMultiplier5B8 @0x004B36B8` and the four **real `GameManagerResetView::coordinate360/364/368/36C` fields** (original `0x004A80F0..FC`), not fake external playfield globals. The independent **79-byte exact GameManager coordinate initializer** physically writes those fields; 1,900-byte linked movement boss and 66 operand identities stay unchanged, with 129 ordinary differences still open. All 129 genuine current original-bound mismatch offsets are now pinned, protecting the other **1,771** already matching bytes (including both switch tables and after-return alignment); future improvements must not introduce mismatches elsewhere. `--owner movement` protects exact 522-byte caller. |
 | **Player charge update** | 0x0041F810 | **1,210 target /1,197 candidate bytes**, 70 fields, 58 calls, 350/342 instructions; **1,160 overlap differences +13 missing** | Complete diagnostic `scripts/inspect-player-charge-update.py` checks all original bytes, actual COFF operands, literal definitions and direct graph. Seven older region checks pass despite this whole-owner mismatch. A private 1,210-byte mode-local candidate still differs at 561 positions, damages 20 previously equal positions and fails five regions; it is not adopted. |
 | **Front weighted message RNG** | 0x004162D0 | **693 target / 681 candidate**, 15 fields, 6 calls, **569** overlap + 12 missing | Primary-first table selection refined in `09bb2a6`; target/candidate CFG 40/41 blocks. `--owner front` protects exact FrontCalc and siblings. |
@@ -220,40 +208,37 @@ results, fields and deficits before making an exactness claim.
 
 ## Evidence and cleanup boundaries
 
-EclManager.cpp changes and the standalone draw source is replaced by one
-lexical inl;all other491 game inputs keep their hashes. Two generated names
-change in two canonical unit records after actual owner-local and full-byte
-proofs. The79 affected exact owners pass25215 physical bytes/1126 fields across
-two fixed profiles;924 unaffected exact proofs are reused. No exact ledger
-promotion or native Windows product/runtime closure is claimed.
+Only SoundPlayerPause.cpp changes among493 game inputs. Its existing15-byte
+exact owner and actual eight-byte original-bound literal pass after correcting
+UnPause. One canonical field symbol changes; no new function/byte credit,
+profile, ABI or shared header changes. All1002 unaffected exact source/profile
+proofs are reused. The unchanged complete Pause callback is also freshly built.
 
-Current packets preserve frozen inputs,all source controls,full raw/COFF and
-old/new residuals,native/data counterexamples,114 fixtures and static coverage.
-Their29/109-member archives retain635261/5568122 logical bytes in210009/813423
-bytes. CRC,every member SHA and loose equality pass before removal. Persisted
-per-path plans precede removing100 verified archive duplicates and275 new
-terminal-CI caches:375 files/10119080 logical bytes. All127 old cache paths
-remain,including the two refreshed checker caches. Current canonical objects,
-target/tools/IDA and unclassified older evidence remain. Current proof receipts,
-recipes and both initial/final CI logs remain readable;superseded control/data
-snapshots and projected manifests restore from the verified archives. Packaging
-verification does not claim archive-only compilation or new exact credit.
+The current packet preserves frozen pre-fix inputs,13 private source controls,
+complete raw/actual COFF and rejection reports, the initial actual-data failure,
+corrected public native/caller proofs, canonical instruction/data replay and
+two actual data-only counterexamples. The initial test-route failure is separate:
+an old mock supplied a callback report to the new resume-data check; its fixture
+is updated and all19 focused tests pass. Compiler temporaries self-clean.
+The31-member CRC/SHA/loose-equality-verified archive retains2742545 logical
+bytes in228432 bytes. After removal, an archive-only cold replay of the opaque
+visibility/shared-timestamp control repeats all1788 raw bytes,107 actual COFF
+rows and the entire original-bound report. Its1601 differences/12 excess stay
+rejected; this is no new exact credit. Persisted per-path plans precede removing
+27 archive duplicates and277 source/format-validated reproducible CI caches:
+304 files/7661435 logical bytes. All127 previous-checkpoint build-cache paths
+and38 pre-CI script/test-cache paths remain,including two refreshed build paths.
+Canonical objects/PDBs,target/tools/IDA and older unclassified evidence remain.
 
-Ignored packets are local evidence and are not included in Git commits or
-pushes. Tracked source, scripts and durable observations provide the public
-restart path. Historical replayers may reject a later source tree; use their
-recorded source commit. Archival receipts do not accept a later HEAD.
+Ignored packets are local evidence and are not pushed. Tracked source, public
+scripts and durable observations provide the restart path. Historical replayers
+may reject later sources; use their recorded commit. Archival receipts do not
+accept a later HEAD. Current canonical objects, original executable, tools,
+IDA and older unclassified evidence are retained.
 
-Never delete `resources/th09.exe`, toolchains, Wine prefixes, IDA databases,
-tracked source or unclassified evidence. Never bulk-delete `.analysis/` or run
-`git clean -X`. Around 1.6 GiB of older evidence remains pending individual
-producer/source/reference review; age alone does not make it disposable.
-
-`clean-generated-artifacts.py` previews by default and proposes a broader scope
-than this handoff's reviewed cleanup. Inspect every proposed path before using
-`--apply`, especially retained build evidence. The actual per-path deletion
-record is the current packet's `cleanup.json`; older removals are documented in
-[artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md).
-Post-clean checks use `PYTHONDONTWRITEBYTECODE=1 python3 -B`; rerunning CI would
-recreate caches. Check all compiler and replay handles are terminal before
-cleaning their outputs.
+Never delete resources/th09.exe, toolchains, Wine prefixes, IDA databases,
+tracked source or unclassified evidence. Never bulk-delete .analysis/ or run
+git clean -X. Around1.6GiB of older evidence remains pending individual review;
+age alone does not make it disposable. clean-generated-artifacts.py previews
+by default and proposes a broader scope than this checkpoint's reviewed work.
+Check actual producers and per-path evidence before any --apply operation.

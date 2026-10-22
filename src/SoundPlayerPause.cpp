@@ -2,5 +2,5 @@
 
 void SoundPlayer::ResumeAfterPause()
 {
-    QueueCommand(7, 0, "unpause");
+    QueueCommand(7, 0, "UnPause");
 }

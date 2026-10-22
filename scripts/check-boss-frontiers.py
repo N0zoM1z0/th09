@@ -4512,7 +4512,7 @@ def validate_pause_real_sound(units: dict) -> None:
     if (len(wrapper)!=2 or
             [(r.get('offset'),r.get('symbol'),r.get('type'),
               r.get('target'),r.get('addend',0)) for r in wrapper] != [
-                (0x01,'??_C@_07BIEIMCKD@unpause?$AA@','DIR32',0x0048F510,0),
+                (0x01,'??_C@_07OGJCKFMD@UnPause?$AA@','DIR32',0x0048F510,0),
                 (0x0A,PAUSE_REAL_SOUND_QUEUE,'REL32',0x0043EE40,0)]):
         raise RuntimeError('Pause resume wrapper not bound to real QueueCommand')
     inspector=(ROOT/'scripts/inspect-pause-menu.py').read_text()
@@ -4529,7 +4529,17 @@ def replay_pause_real_sound_exact() -> list[dict]:
     build('soundplayer-resume-after-pause')
     build('soundplayer-play-sound-by-idx')
     build('soundplayer-queue-command')
-    return [canonical(name) for name,_,_,_,_,_,_ in PAUSE_REAL_SOUND_CARRIERS]
+    results = [canonical(name) for name,_,_,_,_,_,_ in PAUSE_REAL_SOUND_CARRIERS]
+    data = parsed(['scripts/probe-pause-native-audio.py', '--check-resume-object',
+                   'build/matching/SoundPlayerPause.obj'])
+    if (data.get('diagnostic_only') is not True or data.get('exactness_credit') != 'none'
+            or data.get('native_resume', {}).get('complete_equal') is not True
+            or data.get('native_resume', {}).get('bytes') != 15
+            or data.get('native_resume', {}).get('fields') != 2
+            or data.get('resume_literal_bytes') != 8):
+        raise RuntimeError('Pause resume actual UnPause definition proof absent')
+    results[1]['literal_definitions_checked'] = 1
+    return results
 
 
 def run_pause(*, protect_exact: bool) -> tuple[dict, list[dict]]:

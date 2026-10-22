@@ -18129,3 +18129,114 @@ restore from hash-verified archives. An initial packaging check matched another
 repository's live CI;it made no archive/removal. The corrected check uses exact
 process CWD and leaves that unrelated job untouched. No archive-only cold replay
 or new exact owner is claimed.
+
+
+## October 22: Pause native audio context exposes incorrect resume string data
+
+Recovery starts at clean independently pushed2a5c244dc06d2af1fe216f45da9841a484b9f04f.
+The preceding status turn adds no reconstruction result; the next safe action
+is a new bounded compiler/target investigation. Original Japanese v1.50a disk,
+direct IDA metadata, entry and five distributed mapped samples pass. Complete
+original Pause434740..434E2F remains1776 physical bytes:1734 code, two alignment
+bytes and the40-byte ten-entry table, original SHA256
+a4cee1fd2b347628d97a2786ccc238b87e21489ab440c9d0b2f0e27d41f7f9b7.
+Direct IDA independently confirms the shared434B01 timestamp, backward action
+jumps, and result-only434DF2 call. Only the stale resume-entry comment is later
+corrected and read back exactly; all returned instruction/address pairs stay
+identical. No target bytes or prototypes are patched.
+
+Thirteen private source controls compile serially at nice10 using the existing
+full Pause profile and frozen recursive quoted includes. Natural source models
+are hypotheses only; no register/variable-order hint, forced inline, profile or
+ABI change, padding or fake helper binding is introduced.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| PAUSE-AUDIO-001 | compiler observation | Baseline and resume, stop, both audio, and audio/queue/preload contexts retain1732 bytes/107 fields/1453 overlap differences/44 missing. | Complete root raw equality, three timestamp sites; native bodies are independently checked below. |
+| PAUSE-AUDIO-002 | compiler observation | Ordinary inline animation footer alone is fully raw-neutral. | Actual original ANM/Supervisor operations are consumed; no outlined helper is bound to target code. |
+| PAUSE-AUDIO-003 | rejected source hypothesis | Early completed-close and whole-close inline footer forms emit1748 bytes/108 fields and an original-absent AdvancePauseMenu reference. | The strict original referent map rejects both; these are not scored as complete original-bound owners. |
+| PAUSE-AUDIO-004 | rejected source hypothesis | Duplicating the real footer at completed closing emits1796 bytes/110 fields/1477 overlap differences/20 excess. | Full physical report; no shortened-owner or call-count waiver. |
+| PAUSE-AUDIO-005 | compiler observation | Opaque IsVisible alone emits1788/107/1601+12 excess; opaque SetInvisible emits1748/107/1470+28 missing; opaque pair emits1788/107/1608+12 excess. | Current full carriers, distinct from historical1772-byte source epochs. |
+| PAUSE-AUDIO-006 | compiler observation | Source-shared timestamp with opaque IsVisible remains completely raw-neutral1788/107/1601. | Original three-way machine sharing is not explained by these precise source/visibility models. |
+
+The public native-context probe reads actual COFF literal definitions, rather
+than trusting their symbol names/target-address bindings. Its initial successful
+compile then fails that independent data check: SoundPlayerPause.cpp supplied
+`unpause`, whereas hash-attested original48F510 contains exactly `UnPause\0`
+(55 6E 50 61 75 73 65 00). The15-byte original ResumeAfterPause pushes this
+address, zero and opcode7 before calling actual QueueCommand43EE40. The exact
+105-byte QueueCommand source copies the supplied path into a free queue record.
+The correction preserves those instructions, arguments and target addresses;
+no observed runtime defect or whole-product validation is claimed.
+
+Maintained source now uses `UnPause`. The sole canonical unit change is its
++1 DIR32 literal symbol, from ??_C@_07BIEIMCKD@unpause?$AA@ to
+??_C@_07OGJCKFMD@UnPause?$AA@ at the same48F510. The real QueueCommand member
+and +A REL32 remain fixed. Fresh canonical compilation compares all15 bytes/
+two actual fields and independently verifies all8 actual string bytes including
+NUL. This is a correction to source/data fidelity of an existing exact code
+extent, not15 new authored exact bytes. Only one of493 game inputs changes;
+492 remain source-hash identical and1002 unaffected exact proofs are reused.
+No shared header, original extent, compiler profile or exact ledger row changes.
+
+Two actual canonical-object counterexamples each lowercase one original U/P
+byte in its defined COFF string section. All15 function raw bytes and both real
+COFF rows stay identical; the existing generic complete function comparator
+still reports exact. The new actual-definition proof rejects both copies.
+The temporary comparison manifests change only the object path; all original
+field addresses/symbols and the verified target stay fixed. Mutated objects
+self-clean; the canonical object hash is unchanged. This demonstrates a bounded
+data-definition gap, not rejection of the original instruction comparison.
+
+Corrected public --case all cold compilation separately proves real resume15,
+StopAudio81, QueueCommand105 and IsMusicPreloaded13:214 complete bytes/11 fields.
+All six relevant same-object references are positive and definition-consistent;
+actual UnPause8 and dummy6 definitions match the original. Only the generated
+anonymous-namespace token may differ in the reviewed MIDI StopPlayback symbol;
+function/class/convention, offsets, kinds, addends and original target remain
+checked. The entire maintained Pause root remains raw-identical and nonexact.
+Original TU/native storage ownership and external-callee product closure are
+not inferred from these selected bodies.
+
+Public reproduction is scripts/probe-pause-native-audio.py --case all (or
+baseline/resume/stop/audio). --check-resume-object performs the complete15-byte,
+two-field and actual8-byte definition check without recompilation, explicitly
+without supplied-object source/profile attestation. Formal --owner pause now
+requires this check after canonical resume replay. Four new native tests reject
+changed code/extent, changed/missing fields, redirected original operands,
+foreign private types and opaque/inconsistent definitions. A fifth regression
+rejects a good instruction receipt without the actual resume-data proof.
+An old aggregate route mock initially returned the callback report for this new
+step; its fixture is corrected. All19 Pause tests then pass under Python-S.
+
+Evidence is .analysis/gpt-61sol-20261022-pause-native-audio/: frozen pre-fix
+inputs, all successful compiler outputs/raw/actual COFF, source controls,
+initial actual-data and route-test failures, corrected native/data receipts,
+canonical source/profile comparison and two actual corruption counterexamples.
+Only the literal correction is adopted. Pause control-flow/source experiments
+remain private rejected hypotheses. The complete current callback is freshly
+built and its existing1776/1732/107/1453+44 guardian passes.
+
+Exact remains1003/1035 functions and244917/291883 authored bytes (83.9093%);
+95% still needs32372 whole accepted bytes. RunEcl30, Enemy13, DrawResult22,
+Type315, complete inventory, native product/runtime and later gates stay open.
+Full CI passes959 tests/28 skips,exit zero; target-required tracking,
+documentation, generated progress and whitespace gates pass. The31-member
+archive preserves2742545 logical bytes in228432 compressed bytes, SHA256
+43bb93100281c272c7e64abea906a111245633f940f7ccf0d4dbff086f05f11d.
+CRC,every member hash and loose-byte equality pass before removals. An actual
+archive-only cold replay after removal repeats the complete1788-byte raw owner,
+all107 actual COFF rows and the full report for opaque-visible-shared-timestamp,
+including1601 overlap differences/12 excess. The recipe reads its frozen pre-fix
+input archive and exact control source; it does not claim new original exactness.
+
+Persisted plans precede removing27 verified archive duplicates/2736101 bytes.
+The first narrow cache scan covers scripts/tests and finds no new paths there;
+the actual CI producer sets build/pycache. A separate audit uses the previous
+pushed checkpoint's127 retained paths, validates current CPython magic/marshal,
+source path, timestamp/hash header and actual source for all277 added build
+cache files, then removes4925334 bytes of reproducible bytecode. Combined
+cleanup is304 files/7661435 logical bytes. All127 prior build-cache paths and
+38 pre-CI script/test-cache paths remain,including two refreshed build paths.
+No unchanged old-cache hash claim is made. Current canonical objects/PDBs,
+original target/tools/IDA and older unclassified evidence remain untouched.
