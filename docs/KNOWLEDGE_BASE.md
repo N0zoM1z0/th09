@@ -19057,3 +19057,59 @@ d86a393fa72d1f4e5d3dbb1ca1a4824397f3a0b147f1541540e8346a774e8283.
 Only verified loose duplicates are removed. Both public compressed proofs,
 frozen raw inputs,recipes and CI log remain. Existing canonical objects and
 older evidence are untouched.
+
+
+## October 22: Title Options confirmation structure rechecked on current source
+
+Recovery starts at clean independently pushed a0815ec. Disk target,direct IDA
+metadata,entry and distributed mapped bytes pass. Six serial nice10 VC7.1
+compiles use the unchanged title-screen-play-menu-sound profile. Historical
+native-callee evidence is treated as a hypothesis and reproduced from current
+source,not replayed against obsolete tool hashes.
+
+The native controls expose the actual previousScreen field at+0x84 and the
+real ChangeCurrentScreen implementation before OnUpdateOptions. Its complete
+46-byte body is original-equal with no relocations; both actual caller fields
+refer to that defined symbol. Every case independently protects the actual
+34-byte/three-field PlayMenuSound definition against the original executable.
+The ordinal control switches on unsigned keyboardSelection minus6 with cases
+0/1/2. The if/else control uses that same meaningful ordinal and preserves the
+reset-defaults,screen-change and leave-options actions.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| OPTIONS-CONFIRM-20261022-001 | compiler observation | Maintained opaque baseline:2048 bytes,135 fields,610 overlap differences,3 extra bytes. | Complete current-source cold comparison. |
+| OPTIONS-CONFIRM-20261022-002 | rejected source hypothesis | Opaque unsigned ordinal switch:2050 bytes,135 fields,343 overlap differences,5 extra bytes. | Complete caller and actual COFF. |
+| OPTIONS-CONFIRM-20261022-003 | rejected source hypothesis | Opaque ordinal if/else:2045 bytes,135 fields,305 overlap differences,no extent defect. | Independent symbol binding; production operand-order check rejects. |
+| OPTIONS-CONFIRM-20261022-004 | rejected source hypothesis | Native screen body,original switch:2044 bytes,135 fields,608 overlap differences,1 missing byte. | Complete caller and actual native helper proof. |
+| OPTIONS-CONFIRM-20261022-005 | reproduced compiler observation | Native screen body,ordinal switch:2046 bytes,135 fields,82 overlap differences,1 extra byte. | Current-source reproduction; production equal-byte guard rejects. |
+| OPTIONS-CONFIRM-20261022-006 | rejected source hypothesis | Native screen body,ordinal if/else:2041 bytes,135 fields,343 overlap differences,4 missing bytes. | Independent symbol binding; production operand-order check rejects. |
+
+The two if/else cases reorder physical reference sites: the reset-defaults
+Supervisor stores precede the screen-change call. The production inspector
+rejects original operand identity/order before returning a difference count.
+A separate diagnostic links every actual COFF row by its known symbol address
+and addend,checking field bounds and types; this yields the table's305/343
+counts without relaxing the production checker. The same independent binding
+reproduces all four accepted-shape inspector counts. It grants no exactness
+or runtime-equivalence credit. Equal length is insufficient: opaque if/else
+restores312 old mismatch positions but damages seven old matches. Native
+ordinal restores532 but damages four,and retains the changed direct graph.
+No candidate is adopted; the maintained1435 equal positions remain protected.
+
+Packet `.analysis/gpt-6-astra-medium-20261022-options-confirm/` contains the
+six complete candidate sources,raw bytes,actual COFF rows,helper proofs and
+production verdicts; probe.py generates the six named cases and review.py
+performs independent named-symbol binding. Run each case once in a fresh
+packet directory under .analysis using `nice -n 10 python3 -B probe.py CASE`;
+its source root is resolved from that directory's repository parent. Existing
+case directories deliberately reject overwrite. inputs.zip freezes raw source
+includes,profile,compiler pins and providers; frozen-manifest.json binds input
+and packet hashes to a0815ec. Compiler temporary objects self-clean; no older
+artifacts are removed. No game-source/profile/ledger changes; all1003 unchanged
+exact proofs are reused. Coverage remains83.9093%; all four fronts remain open.
+
+Full CI passes984 tests/29 skips,exit zero; tracking,documentation,generated
+progress,open build-graph and whitespace checks pass. The initial documentation
+table violated the four-column knowledge schema and reused historical IDs; both
+were corrected before the successful final documentation and CI checks.

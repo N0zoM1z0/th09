@@ -7,21 +7,21 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after independently pushed `ab075c8`.
+Reconstruction remains active after independently pushed `a0815ec`.
 Continue95% and all four fronts; use `gpt-6-astra-medium:` for new commits.
 
-- Original disk/direct IDA mapped bytes pass. Eight Type3 coordinate-helper,
-  template,member and constructor controls retain780 bytes/38 fields but give
-  105(all samples) or47(middle only) differences. None restores an original
-  residual; no game-source change is adopted.
-- Public `probe-type3-native-context.py --case coordinate-middle` independently
-  reproduces the private full raw/COFF/diagnostic and rejects production credit.
-- Game source remains at6f3992d; all1003 unchanged source/profile proofs are
-  reused. The ECL scalar-copy change retains its79-function scoped exact proof.
-- No exact ledger promotion. Coverage244917/291883 (83.9093%);95% needs32372
-  whole exact bytes. RunEcl30,Enemy13,DrawResult22,Type315 and product gates
-  remain unfinished. CI984 tests/29 skips and tracking/docs/progress checks
-  pass. Latest KB entry routes the source-bound evidence.
+- Original disk/direct IDA mapped bytes pass. Six current-source Title Options
+  confirmation controls reproduce the historical82-difference native/ordinal
+  candidate,still one byte too long and damaging four existing matches.
+- A new opaque-callee if/else control reaches2045 bytes but independently
+  bound full bytes differ at305 positions and damage seven baseline matches.
+  Its physical reference order changes; the production inspector rejects it.
+- No game source or exact ledger change. All1003 unchanged source/profile
+  proofs are reused; game source remains at6f3992d.
+- Coverage244917/291883 (83.9093%);95% needs32372 whole exact bytes.
+  RunEcl30,Enemy13,DrawResult22,Type315 and product gates remain unfinished.
+  CI984 tests/29 skips and tracking/docs/progress checks pass. Latest KB entry
+  routes the reproducible source-bound diagnostic evidence.
 
 ## Live ledger snapshot
 
