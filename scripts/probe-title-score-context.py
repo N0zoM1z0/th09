@@ -51,9 +51,36 @@ def source_context(source, header, constructor_source, variant):
     return source, header
 
 
+VECTOR_CASES = ('vector-implicit-default', 'vector-value-constructor',
+                'vector-initialized-positions')
+
+
+def vector_context(source, header, variant):
+    """Probe natural coordinate construction; keep layout and call ABI intact."""
+    if variant not in VECTOR_CASES:
+        raise ValueError('unreviewed vector context')
+    original = '    Float3() {}\n    Float3(float x, float y, float z);\n'
+    if header.count(original) != 1:
+        raise ValueError('reviewed Float3 constructors changed')
+    if source.count('int TitleScreenView::DrawResult()') != 1:
+        raise ValueError('DrawResult definition changed')
+    if variant == 'vector-implicit-default':
+        header = header.replace(original, '')
+    else:
+        header = header.replace('    Float3(float x, float y, float z);',
+            '    Float3(float x, float y, float z) : x(x), y(y), z(z) {}')
+    if variant == 'vector-initialized-positions':
+        for name in ('position', 'characterPosition'):
+            declaration = 'Float3 '+name+';'
+            if source.count(declaration) != 1:
+                raise ValueError('reviewed coordinate local changed: '+name)
+            source = source.replace(declaration, 'Float3 '+name+'(0.0f, 0.0f, 0.0f);')
+    return source, header
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--variant', choices=('table-storage', 'ctor-visible', 'ctor-table'),
+    parser.add_argument('--variant', choices=('table-storage', 'ctor-visible', 'ctor-table')+VECTOR_CASES,
                         default='ctor-table')
     parser.add_argument('--output', type=Path)
     args = parser.parse_args()
@@ -95,15 +122,24 @@ def main():
     collect('TitleScreenResultDraw.cpp')
     collect('ScoreGlobalConstructors.cpp')
     text = lambda name: inputs[name].decode().replace('\r\n', '\n')
-    source, header = source_context(text('TitleScreenResultDraw.cpp'),
-                                    text('TitleScoreRecordView.hpp'),
-                                    text('ScoreGlobalConstructors.cpp'), args.variant)
+    vector_variant = args.variant in VECTOR_CASES
+    ascii_header = text('AsciiManager.hpp')
+    if vector_variant:
+        source, ascii_header = vector_context(text('TitleScreenResultDraw.cpp'),
+                                             ascii_header, args.variant)
+        header = text('TitleScoreRecordView.hpp')
+    else:
+        source, header = source_context(text('TitleScreenResultDraw.cpp'),
+                                        text('TitleScoreRecordView.hpp'),
+                                        text('ScoreGlobalConstructors.cpp'), args.variant)
     digest = lambda data: hashlib.sha256(data).hexdigest()
     result = {
         'diagnostic_only': True, 'exactness_credit': 'none', 'variant': args.variant,
         'target_sha256': digest(image), 'profile': profile,
         'input_sha256': {name: digest(data) for name, data in inputs.items()},
         'source_sha256': digest(source.encode()), 'header_sha256': digest(header.encode()),
+        'ascii_header_sha256': digest(ascii_header.encode()),
+        'recipe_sha256': digest(Path(__file__).read_bytes()),
         'original_constructor_reference': native,
         'ownership': 'constructor spelling, original TU and storage owner remain unproven',
     }
@@ -115,6 +151,7 @@ def main():
             (stage/name).write_bytes(data)
         (stage/'TitleScreenResultDraw.cpp').write_text(source)
         (stage/'TitleScoreRecordView.hpp').write_text(header)
+        (stage/'AsciiManager.hpp').write_text(ascii_header)
         obj = stage/'TitleResultDraw.obj'
         run = subprocess.run(['nice', '-n', '10', str(ROOT/'scripts/compile-probe.sh'),
                               str(stage/'TitleScreenResultDraw.cpp'), str(obj), *profile],
@@ -124,7 +161,7 @@ def main():
             raise RuntimeError(result['compile_log'])
         raw, rows = coff.object_function(obj, inspect.SYMBOL, include_symbol_locations=True)
         result.update(raw_sha256=digest(raw), raw_hex=raw.hex(), coff=rows)
-        if args.variant != 'table-storage':
+        if not vector_variant and args.variant != 'table-storage':
             ctor, fields = coff.object_function(obj, CONSTRUCTOR_SYMBOL, include_symbol_locations=True)
             result['constructor'] = constructor_observation(ctor, fields, original_ctor)
         captured = io.StringIO()

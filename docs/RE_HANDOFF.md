@@ -7,25 +7,25 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after independently pushed `75d4a8c`.
+Reconstruction remains active after independently pushed `e5e9b4e`.
 Continue95% and RunEcl/Enemy/Title/Type3; historical pauses are superseded.
 New commits use `gpt-6-astra-medium:`.
 
-- Current disk/IDA mapped-byte checks pass. Full canonical RunEcl replay
-  retains15564 bytes,598 fields,30 ordinary differences and zero field/table drift.
-- Ordinary-inline controls for integer/float reads, writes and laser accessors
-  outline real calls and change the owner. The simple ResolveFloat forwarding
-  helper alone is byte-neutral; it is not adopted without sibling closure.
-- Current operand-expression expansion and three paired opcode4/155 controls
-  all regress complete comparison. All314 calls (including36 unqualified calls)
-  are covered. Public `scripts/probe-runecl-operand-context.py` reproduces the
-  baseline regression and rejects unreviewed arguments or changed wrapper bodies.
-- No game source or exact ledger changes. All1003 prior exact source/profile
-  proofs are unchanged and reused. Coverage remains244917/291883 (83.9093%);
- 95% needs32372 whole exact bytes. All four fronts and product gates remain open.
-- Full CI passes964 tests/28 skips, exit zero. Tracking, documentation,
-  generated progress and whitespace checks pass.
-- Details and reproduction commands are in the latest knowledge-base entry.
+- Disk and direct IDA mapped-byte checks pass. Fresh DrawResult baseline retains
+  1939 bytes,82 fields and22 differences.
+- Implicit default Float3 construction, ordinary value-constructor visibility,
+  and explicit zero-initialized positions all reproduce the complete baseline
+  raw bytes and all82 field identities. Section numbering changes in two
+  contexts; actual local literal definitions remain independently verified.
+  No game-source change is justified.
+- Public `probe-title-score-context.py` now offers three vector construction
+  contexts. The initialized-position public replay reproduces the private run.
+  Five focused tests and full CI pass (966 tests/28 skips, exit zero).
+  Tracking, documentation, generated progress and whitespace checks pass.
+- Game source and all1003 existing exact source/profile proofs are unchanged.
+  Coverage remains244917/291883 (83.9093%);95% needs32372 whole exact bytes.
+  RunEcl30,Enemy13,DrawResult22,Type315 and product gates remain unfinished.
+- Latest knowledge-base entry contains the bounded observations and replay route.
 
 ## Live ledger snapshot
 
@@ -194,14 +194,13 @@ results, fields and deficits before making an exactness claim.
 ## Evidence and cleanup boundaries
 
 Game source is unchanged from f4a7b61. The current packet is
-`.analysis/gpt-6-astra-medium-20261022-ecl-inline-contracts/`. It retains frozen
-inputs, both private expression recipes (including the failed first attempt),
-inline recipes, original-bound IDA observations and complete raw/COFF reports.
-Compiler temporary objects self-clean after capture. A51-member archive retains
-3947842 logical bytes in422473 bytes; CRC, member SHA and loose-file equality
-were verified before removing only those51 duplicates. Archive SHA256 is
-`1847502c78bb422f69c8468f5376f87e5ed096a6cffc6d34da923608bd7c8f53`.
-Preexisting caches, canonical objects/PDBs and earlier packets are preserved.
+`.analysis/gpt-6-astra-medium-20261022-title-vector/`. Frozen quoted inputs,
+recipe, source hashes and public report remain. Twelve duplicate private source
+and report files were archived only after CRC/member-byte verification:
+181952 logical bytes in31457 bytes, SHA256
+`ff14328615425e47f46a2bdc4dec0dddfecd05b5078efe749159bccc9a6ee638`.
+Compiler temporaries self-clean after capture. Canonical objects/PDBs, earlier
+packets, original input and preexisting caches are preserved.
 
 Ignored packets are local evidence and are not pushed. Tracked source,scripts
 and durable observations provide the restart path. Historical replayers may

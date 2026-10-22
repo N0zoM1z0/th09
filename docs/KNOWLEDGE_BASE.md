@@ -18564,3 +18564,43 @@ generated progress and whitespace checks pass. Verified archive cleanup removes
 51 duplicate trial files (3947842 logical bytes,422473-byte archive). After CI
 terminates, only 0 newly generated source-backed Python caches (0 bytes)
 are removed; all 165 preexisting cache paths and canonical objects remain.
+
+
+## 2026-10-22: DrawResult coordinate construction controls
+
+Source e5e9b4e, original disk and direct IDA mapped samples pass. Fresh IDA
+entry still forms/stores the score bank before loading currentScreen. The
+maintained candidate hoists that screen read. A new cold baseline reproduces
+1939 bytes,82 fields and22 linked differences; complete raw SHA256 is
+449827f92c3a23f3427b71b12f44719aa62c4a459a5b91734085a08c834e447a.
+
+Three natural coordinate-construction hypotheses are independently compiled:
+remove the two declared constructors to permit implicit default construction;
+expose the ordinary three-scalar member initializer constructor; or use that
+constructor to zero-initialize both actual local positions. All three reproduce
+every baseline raw byte and all82 field offsets/types/symbols/addends.
+Implicit-default and initialized-position objects renumber the owner/literal
+sections; actual literal definitions are independently checked, not assumed
+from section numbers. Their existing whole-owner
+guard passes with22 differences; this is not exact acceptance. Dead initial
+stores disappear in this context. These observations reject these precise
+construction explanations for entry scheduling, not all possible vector types.
+No actual original nominal type or constructor ownership is inferred.
+
+Reproduce with scripts/probe-title-score-context.py --variant followed by
+vector-implicit-default,vector-value-constructor,or vector-initialized-positions.
+Each stages frozen recursive includes, keeps the canonical Title profile,
+compiles once at nice10 and self-cleans its compiler temporary. The score-record
+constructor is not emitted or claimed by these vector-only contexts. A fresh
+public initialized-position run agrees with the private baseline. Guard tests
+reject changed default-constructor semantics and missing initialization sites.
+Packet .analysis/gpt-6-astra-medium-20261022-title-vector/ retains frozen inputs,
+source hashes,recipe and full original-bound raw/COFF observations. No game source,
+profile,canonical unit or match-ledger changes; all1003 existing exact proofs
+remain source/profile-valid. Coverage remains244917/291883; all four fronts and
+the95% milestone remain open.
+
+Five focused tests and full CI966 tests/28 skips pass, exit zero. Tracking,
+documentation, progress and whitespace pass. Twelve private duplicate files
+are CRC/member-byte verified into a31457-byte archive before removal, preserving
+181952 logical bytes; canonical objects and older evidence remain untouched.

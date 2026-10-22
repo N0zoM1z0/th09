@@ -34,3 +34,20 @@ class ScoreConstructorEvidence(unittest.TestCase):
         for source, variant in [('', 'table-storage'), ('', 'invented')]:
             with self.subTest(variant=variant), self.assertRaises(ValueError):
                 probe.source_context(source, '', '', variant)
+
+
+class VectorContextEvidence(unittest.TestCase):
+    def test_changed_default_constructor_is_not_silently_removed(self):
+        source = (ROOT/'src/TitleScreenResultDraw.cpp').read_text()
+        header = (ROOT/'src/AsciiManager.hpp').read_text().replace(
+            'Float3() {}', 'Float3() { x = 1.0f; }')
+        for case in probe.VECTOR_CASES:
+            with self.subTest(case=case), self.assertRaises(ValueError):
+                probe.vector_context(source, header, case)
+
+    def test_missing_coordinate_initialization_site_is_rejected(self):
+        source = (ROOT/'src/TitleScreenResultDraw.cpp').read_text().replace(
+            'Float3 characterPosition;', 'Float3 renamedPosition;')
+        with self.assertRaises(ValueError):
+            probe.vector_context(source, (ROOT/'src/AsciiManager.hpp').read_text(),
+                                 'vector-initialized-positions')
