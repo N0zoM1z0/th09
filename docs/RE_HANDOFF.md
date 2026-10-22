@@ -7,24 +7,23 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after independently pushed `de0313f`.
+Reconstruction remains active after independently pushed `0f81d3e`.
 Continue95% and all four fronts; use `gpt-6-astra-medium:` for new commits.
 
-- Original disk/direct IDA mapped bytes pass. The current203 captured Timer
-  assignment transfers are original-encoded and inside catalogued instruction
-  boundaries; complete executable inventory remains unproven.
-- Direct-CFG EAX tracking now confirms96 full-overwrite-only sites versus69
-  in the old single-block scan. No explicit EAX read occurs before the remaining
-  unknown call/return/revisit boundaries. This does not prove a C++ return type;
-  maintained void Timer declarations remain unchanged.
-- `audit-timer-result-cfg.py` retains owner hashes and instruction-path witnesses.
-  No game source,profile,unit or ledger changes; all1003 exact proofs are reused.
-- Coverage244917/291883 (83.9093%);95% needs32372 whole exact bytes. RunEcl30,
+- Original disk/direct IDA mapped bytes pass. A real stored-current integer
+  return implementation reproduces the native Timer pair25+9 bytes/one field.
+  This is machine compatibility, not original C++ return-type recovery.
+- Its opaque full RunEcl caller remains15564/598/30; exposing actual pair bodies
+  before or after yields15560/598 and fails complete coverage. The private
+  hypothesis gives no reason to change maintained void declarations.
+- `probe-timer-value-contract.py` independently replays the native pair and
+  explicitly keeps original return declaration unknown and exactness credit none.
+- No game source,profile,unit or ledger changes;1003 exact proofs are reused.
+  Coverage244917/291883 (83.9093%);95% needs32372 whole exact bytes. RunEcl30,
   Enemy13,DrawResult22,Type315 and product gates remain unfinished.
-- Focused tests6 and full CI975 tests/29 skips pass, exit zero. The added
-  skip is the optional Capstone decoder test under Python-S. Tracking, docs,
-  progress and whitespace pass.
-- Latest knowledge-base entry records the full partition and reproduction route.
+- Focused tests2 and full CI977 tests/29 skips pass, exit zero. Tracking, docs,
+  progress and whitespace checks pass.
+- Latest knowledge-base entry records native proofs and bounded caller results.
 
 ## Live ledger snapshot
 
@@ -193,10 +192,12 @@ results, fields and deficits before making an exactness claim.
 ## Evidence and cleanup boundaries
 
 Game source is unchanged from f4a7b61. The current packet is
-`.analysis/gpt-6-astra-medium-20261022-timer-cfg/`. It retains the fresh203-site
-IDA capture,complete CFG outcomes and comparison to the prior single-block
-report. This read-only audit creates no compiler objects or duplicate source
-trees. Existing canonical objects/PDBs, older evidence and original inputs remain.
+`.analysis/gpt-6-astra-medium-20261022-timer-value-contract/`. Frozen inputs,
+private recipes/native sources and proofs remain. Three complete caller reports
+are archived after CRC/member-byte verification:608818 logical bytes in57098
+bytes, SHA256336b1775d5bd3bc545b4dd9061cb4c71926e029b74547c2a25854a004fd99aa0.
+Only their loose duplicates are removed. Compiler temporaries self-clean;
+canonical objects/PDBs, older evidence and original inputs remain untouched.
 
 Ignored packets are local evidence and are not pushed. Tracked source,scripts
 and durable observations provide the restart path. Historical replayers may

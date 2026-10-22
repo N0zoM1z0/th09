@@ -18796,3 +18796,58 @@ exit zero; the extra skip is the optional Capstone decoder under Python-S.
 Tracking, documentation, generated progress and whitespace checks pass. This
 read-only batch creates no compiler artifacts or duplicate source trees; original
 inputs, canonical objects and previous evidence remain untouched.
+
+
+## 2026-10-22: machine-compatible real Timer stored-value return model
+
+Recovery at0f81d3e passes original disk/direct IDA mapped bytes. The preceding
+203-site direct-CFG audit found no explicit EAX consumption before its declared
+boundaries; that remains insufficient to infer a unique C++ return type.
+This batch separately tests actual implementations, not declaration-only return
+changes: SetCurrent performs the existing three writes then returns current;
+operator=(int) returns the real SetCurrent result. No dummy value, fake clobber,
+new qualifier, ABI-address fiction or compiler-profile change is introduced.
+
+The independently compiled real pair equals original25+9 bytes and the one
+actual wrapper-to-setter field, including its same-object definition. The
+private integer-return symbols are QAEHH instead of maintained QAEXH. Only
+after both complete native bodies match are these names privately bound to
+4014D0/401500 for caller diagnostics. This proves machine compatibility for the
+selected bodies, not historical C++ declarations, authorship or source adoption.
+The maintained void pair remains unchanged and separately exact.
+
+Three complete interpreter contexts then test the hypothesis:
+
+- Opaque separately compiled pair:15564 bytes/598 fields,30 ordinary differences,
+  zero field/table differences; entire raw SHA256 remains
+  bc9a1a71fbc3010338ef7f3de66ca3e0f3c3ee3bb9eb51f1588c6e53dea8c01b.
+- Actual pair bodies before or after RunEcl:both15560 bytes/598 fields, rejected
+  complete original coverage. Both native pairs still independently pass25+9;
+  caller raw SHA256 is0661100db5c5c71277c7d04a228c20f1e486d42e3fb602ba7b4698b9a8ddbb6e.
+
+Thus this genuine value-return interface does not repair opcode4 and does not
+justify changing the maintained signature. The results bound this model only;
+no unresolved call/return path is promoted to an original ABI proof.
+
+Public scripts/probe-timer-value-contract.py --output .analysis/timer-value.json
+replays only the native pair and explicitly reports original_return_declaration
+unknown and exactness_credit none. It requires the current canonical void
+reference/profile before creating private unit copies with the actual changed
+symbols. Complete target bytes,extent,field identity/addend and same-object
+setter definition are checked. Source/declaration ambiguity and missing state
+writes are rejected; its own recipe is included in the unchanged-input guard.
+The final public raw/COFF pair independently equals the private native proof.
+
+Packet .analysis/gpt-6-astra-medium-20261022-timer-value-contract/ retains frozen
+68 quoted inputs,private native/caller recipes and native sources/proofs. Three
+full caller reports are CRC/member-byte verified into callers.zip before removing
+only their loose copies:608818 logical bytes in57098 bytes, SHA256
+336b1775d5bd3bc545b4dd9061cb4c71926e029b74547c2a25854a004fd99aa0.
+Compiler temporaries self-clean; canonical objects and all previous evidence
+remain. No game source,profile,unit or ledger changes; all1003 exact proofs are
+reused. Coverage244917/291883 and95% plus the four named fronts remain open.
+
+Two focused source-contract tests and full CI977 tests/29 skips pass, exit zero.
+Tracking, documentation, generated progress and whitespace pass. Final public
+proof also binds its own recipe before compilation and verifies it unchanged;
+canonical-reference symbols and hypothesis symbols are reported separately.
