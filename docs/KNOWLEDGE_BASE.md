@@ -18495,3 +18495,72 @@ pass. After all six compiler runs and CI terminate, per-path plans remove24
 verified archive duplicates and277 new CI caches:301 files/5369542 logical
 bytes. All127 preexisting cache paths remain; existing canonical objects/PDBs,
 older packets and original/IDA/toolchain inputs are preserved.
+
+
+## 2026-10-22: current RunEcl inline and operand-expression controls
+
+Source epoch75d4a8c, unchanged game source from f4a7b61. Disk SHA verification,
+direct IDA metadata, entry/distributed mapping checks and fresh opcode4/155 byte
+windows agree with the original private executable. The timer assignment remains
+a real call through401500; provisional IDA return types do not authorize an ABI
+change. All compiler probes use the fixed canonical VC7.1 profile, serial nice10.
+
+Fresh full baseline:15564 bytes,598 actual COFF fields,30 ordinary differences,
+zero field/table differences; raw SHA256
+`bc9a1a71fbc3010338ef7f3de66ca3e0f3c3ee3bb9eb51f1588c6e53dea8c01b`.
+Removing existing forced-inline annotations from ReadInt,ReadFloat,the write
+pair,and laser readers respectively produces13836/593,13856/596,15288/600,
+15484/598 byte/field totals. New actual call references include123 ReadInt,
+85 ReadFloat,18 WriteInt/24 WriteFloat,and6 ReadLaserFloat/3 ReadLaserInt.
+These contexts fail complete layout. Only the simple ResolveFloat forwarding
+helper becomes ordinary inline without changing any RunEcl raw byte. This is
+bounded compiler evidence, not proof of all sibling owners; no source is adopted.
+The control-family/all-adapters cases were not run.
+
+A first expression probe missed unqualified calls and failed compilation. It is
+invalid evidence against expression expansion. The initially reported278 source
+calls omitted36 unqualified calls; the corrected census is314:157 ReadInt,
+116 ReadFloat,16 WriteInt,25 WriteFloat. The old314 census remains consistent.
+Corrected expression macros preserve selected-branch evaluation and actual resolver
+interfaces; every expanded argument is stable enemy,instruction,and literal0..7.
+Raw accessors remain unchanged. Full results:
+
+- Operand expressions:1925 ordinary,228 field,24 table-subset differences;
+  145/148 handler shapes agree.
+- Plus unqualified jump time:1937 ordinary,228 field,24 table-subset;
+  144/148 shapes agree.
+- Plus native timeout bitfield:2019 ordinary,239 field,26 table-subset;
+  144/148 shapes agree.
+- Both handler controls:2031 ordinary,239 field,26 table-subset;
+  143/148 shapes agree.
+
+All retain physical15564 bytes and598 fields, yet fail whole-owner comparison.
+The jump control removes existing volatile from the raw integer reference; the
+timeout control uses the existing unsigned-int bit24 field and retains the
+qualified byte read. No new qualifier, inline hint, ABI fiction or profile change
+is introduced. This rejects these concrete current contexts, not all natural
+expression forms. Local handler resemblance grants no partial exact credit.
+
+The tracked probe preserves the recipe and rejects changed wrapper semantics,
+incomplete rewrites or nonreviewed arguments. Reproduce, expecting exit2 with a
+rejected diagnostic, not acceptance:
+
+```bash
+nice -n 10 python3 -B scripts/probe-runecl-operand-context.py --case operand-macros --output .analysis/ecl-operand-context
+```
+
+Other choices are operand-macros-plain-jump,operand-macros-native-timeout,
+operand-macros-native-plain. A fresh public baseline independently reproduces the
+private raw stream and complete COFF rows. Three focused guard tests pass.
+Packet `.analysis/gpt-6-astra-medium-20261022-ecl-inline-contracts/` retains68
+frozen input files, immutable recipes, original-bound IDA windows and complete
+raw/COFF diagnostics, including the failed first probe. Private evidence remains
+local; the tracked public recipe supplies the repeatable restart path.
+No game source changes or accepted credit. All1003 exact source/profile proofs
+remain reusable; coverage83.9093%, RunEcl30,Enemy13,DrawResult22,Type315 remain.
+
+Full local CI passes964 tests/28 skips, exit zero; tracking, documentation,
+generated progress and whitespace checks pass. Verified archive cleanup removes
+51 duplicate trial files (3947842 logical bytes,422473-byte archive). After CI
+terminates, only 0 newly generated source-backed Python caches (0 bytes)
+are removed; all 165 preexisting cache paths and canonical objects remain.

@@ -7,30 +7,25 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after independently pushed `3846fef`. Continue
-95% and RunEcl/Enemy/Title/Type3; historical pauses remain superseded.
-The operator now requires `gpt-6-astra-medium:` for every new English commit.
+Reconstruction remains active after independently pushed `75d4a8c`.
+Continue95% and RunEcl/Enemy/Title/Type3; historical pauses are superseded.
+New commits use `gpt-6-astra-medium:`.
 
-- Disk target, direct IDA metadata, shell entry/five mapped samples and ledgers
-  pass. The worktree starts clean; no game source or canonical unit changes.
-- Enemy's real periodic context again restores13 but damages45. Adding the
-  actual54-byte Float3 addition and26-byte constructor, separately or jointly,
-  preserves every3900 caller raw byte and all45 residuals. All selected native
-  bodies independently match original before the caller is scored.
-- Public `probe-enemy-native-spawn-context.py` now offers
-  `standalone-periodic-add` and `standalone-periodic-add-constructor`. Fresh
-  selected runs prove7/8 native bodies,601/627 bytes,nine fields and14/15 audited
-  positive references. Both full callers fail the maintained3887-match frontier;
-  these completed diagnostics grant no exact credit. RunEcl is uncompiled in
-  this standalone context; its original external-call identity remains checked.
-- Packet `.analysis/gpt-61sol-20261022-enemy-periodic-addition/` retains source
-  recipes, frozen inputs, actual native/COFF/raw proofs and public receipts.
-  All1003 existing exact game-source/profile proofs are unchanged and reused.
-- Focused tests pass11/11; full local CI passes961 tests/28 skips with exit zero.
-  Tracking, docs, generated progress and whitespace pass.
-- Exact remains1003/1035 functions,244917/291883 bytes (83.9093%);95% still
-  needs32372 whole exact bytes. RunEcl30,Enemy13,DrawResult22,Type315,complete
-  inventory,native product/runtime and later gates stay unfinished.
+- Current disk/IDA mapped-byte checks pass. Full canonical RunEcl replay
+  retains15564 bytes,598 fields,30 ordinary differences and zero field/table drift.
+- Ordinary-inline controls for integer/float reads, writes and laser accessors
+  outline real calls and change the owner. The simple ResolveFloat forwarding
+  helper alone is byte-neutral; it is not adopted without sibling closure.
+- Current operand-expression expansion and three paired opcode4/155 controls
+  all regress complete comparison. All314 calls (including36 unqualified calls)
+  are covered. Public `scripts/probe-runecl-operand-context.py` reproduces the
+  baseline regression and rejects unreviewed arguments or changed wrapper bodies.
+- No game source or exact ledger changes. All1003 prior exact source/profile
+  proofs are unchanged and reused. Coverage remains244917/291883 (83.9093%);
+ 95% needs32372 whole exact bytes. All four fronts and product gates remain open.
+- Full CI passes964 tests/28 skips, exit zero. Tracking, documentation,
+  generated progress and whitespace checks pass.
+- Details and reproduction commands are in the latest knowledge-base entry.
 
 ## Live ledger snapshot
 
@@ -198,16 +193,15 @@ results, fields and deficits before making an exactness claim.
 
 ## Evidence and cleanup boundaries
 
-Game source is unchanged from f4a7b61. The current diagnostic packet contains
-four private compiler cases and two fresh public runs. Compiler temporary
-objects self-clean after complete capture. Its24-member archive preserves441345
-logical bytes in81535 bytes after CRC/member-SHA/loose-equality checks. Frozen
-inputs, recipes, complete actual native/COFF/raw evidence and current public
-receipts remain. Per-path cleanup plans cover only this packet's verified
-archive duplicates and new terminal-CI caches. After all producers terminate,
-24 duplicates and277 new caches are removed:301 files/5369542 logical bytes.
-All127 old cache paths, existing objects/PDBs, earlier packets, private inputs
-and unclassified evidence remain.
+Game source is unchanged from f4a7b61. The current packet is
+`.analysis/gpt-6-astra-medium-20261022-ecl-inline-contracts/`. It retains frozen
+inputs, both private expression recipes (including the failed first attempt),
+inline recipes, original-bound IDA observations and complete raw/COFF reports.
+Compiler temporary objects self-clean after capture. A51-member archive retains
+3947842 logical bytes in422473 bytes; CRC, member SHA and loose-file equality
+were verified before removing only those51 duplicates. Archive SHA256 is
+`1847502c78bb422f69c8468f5376f87e5ed096a6cffc6d34da923608bd7c8f53`.
+Preexisting caches, canonical objects/PDBs and earlier packets are preserved.
 
 Ignored packets are local evidence and are not pushed. Tracked source,scripts
 and durable observations provide the restart path. Historical replayers may
