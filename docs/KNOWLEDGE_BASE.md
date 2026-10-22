@@ -19552,3 +19552,68 @@ the command-backed census and its review limitations. Full target-independent CI
 passes 994 tests with 29 skips; target, tracking, documentation, build-graph,
 progress-artifact and whitespace gates pass. The durable log/exit are
 `.analysis/th09-campaign-20261022-v01/wave2-ci.{log,exit}`.
+
+
+## October 22: Share the native collision-region producer and consumer types
+
+CheckBulletCollision now includes PlayerCollisionRegionCreate.hpp instead of
+redeclaring private region and pointer-pool overlays. The existing native allocator
+publishes its real 0x44-byte record into Player+0xB100, and the consumer uses that
+same active pool and nine reviewed fields. No shared header, field offset, source
+operation, ABI or compiler profile changes. The maintained source SHA-256 is
+`78cf06891630b0ca8409c17de0e501f9ad53b32709f0034f88d5a9a67ea40f4f`.
+
+The frozen 16-input trial retains all six emitted code owners /2069 bytes and
+all thirteen runtime sections with actual relocation identities unchanged. Two
+unreferenced private labels renumber at the same section/value/type/storage;
+no binding is accepted from the new label spelling. Five current same-TU exact
+owners replay against the actual trial object: 1220 complete bytes /32 fields.
+The separate CalcItemBox and FindCollision owners are not members of this TU.
+After integration, a fresh maintained-tree `check-boss-frontiers.py --owner player`
+passes; its log/exit are `collision-owner-canonical.{log,exit}` in
+`.analysis/th09-campaign-20261022-v01/`.
+
+Main remains 849/862 bytes,26 fields,12 calls,804 overlap differences plus13
+missing: this is an honest producer/consumer type repair, not exact progress.
+The original physical33-block count contains an unreachable alignment-only
+LEA ESP,[ESP] at0x41E009; both original and candidate have32 reachable blocks.
+That corrects a graph premise but proves neither whole behavioral equivalence
+nor permission to omit the alignment bytes from the physical comparison.
+
+Six source-only regression/mutation tests compute i386 record/pool offsets,
+verify the real allocator publication and Reset identity, and reject the old
+private overlays, wrong pool, shifted fields or mistyped fields. They pass under
+Python -S and do not replace original-bound replay. Frozen source, original
+bytes, full actual COFF/section captures, native producer evidence and tests are
+in `.analysis/th09-collision-investigation-20261022-v01/`, notably
+shared-region-verification.json, runtime-baseline.json and verify-trial.py.
+Coverage remains 244917/291883 (83.9093%); no exact ledger changes.
+Full target-independent CI passes 1000 tests with 29 skips; target, tracking,
+documentation, build-graph, generated-progress and whitespace gates pass. Logs
+and exit status are `collision-owner-ci.{log,exit}` in the campaign directory.
+
+## October 22: Bounded Type34 fixed-center role control remains rejected
+
+The owner at0x444AF0 is EffectDrawCallbackType34 (946 bytes), not Type26;
+Type26 draw at0x444700 is already602-byte exact. Original callback-table rows
+and complete current COFF establish this independently. The private packet is
+named `.analysis/th09-effect26-investigation-20261022-v01/` for its initial
+question, but all owner proofs bind Type34's actual address/hash.
+
+Its baseline946-byte/53-field body retains78 differences. A reproducible relation
+accounts for all286 instructions using bounded entry register lifetimes, one
+center LEA move, two independent stores and exchanged radius operands; exceptional
+floating-point equivalence is not claimed. A single natural fixed-center lvalue
+versus advancing-perimeter cursor control, compiled in the full68-input ECL
+closure with unchanged profile, remains946 bytes but has459 differences: six
+restored and387 newly damaged equal positions. Frame1C grows to20 and alpha
+spills. All53 referents, four actual scalar definitions,32 ordered calls and12
+COM traces remain verified; the lost physical block is the skip-padding jump,
+not evidence of a new loop algorithm. No source change is adopted.
+
+All75 same-profile canonical ECL owners retain22463 raw bytes /990 actual field
+identities. Seventy-three replay untouched manifests; two compiler-private label
+renumberings are independently resolved by actual owner coordinates and complete
+original bytes, without changing manifests. RunEcl, Enemy, Type29 and ExAttack14/22
+bodies remain unchanged. README.md and final manifest in that packet preserve
+all caller/callee and collateral evidence; no new syntax/profile matrix follows.

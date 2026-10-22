@@ -7,42 +7,13 @@
 #include "EffectManager.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "ZunTimer.hpp"
+#include "PlayerCollisionRegionCreate.hpp"
 
 void RotatePlayerCollisionVector(
     PlayerPositionView *outVector,
     PlayerPositionView *point,
     float angle);
 
-
-struct PlayerCancelRegionView
-{
-    float centerX00;
-    float centerY04;
-    float radius08;
-    unsigned char unknown0C[0x04];
-    float halfWidth10;
-    float halfHeight14;
-    unsigned char unknown18[0x08];
-    float angle20;
-    unsigned char unknown24[0x08];
-    int hitCount2C;
-    unsigned char unknown30[0x08];
-    int type38;
-    unsigned char unknown3C[0x04];
-    int delay40;
-};
-
-typedef char PlayerCancelRegionSizeIs44[
-    (sizeof(PlayerCancelRegionView) == 0x44) ? 1 : -1];
-
-struct PlayerCancelRuntimeView
-{
-    unsigned char unknown0000[0xB100];
-    PlayerCancelRegionView *activeRegionsB100[514];
-};
-
-typedef char PlayerCancelActiveAtB100[
-    (offsetof(PlayerCancelRuntimeView, activeRegionsB100) == 0xB100) ? 1 : -1];
 
 struct PlayerCancelEffectView
 {
@@ -94,8 +65,8 @@ int PlayerLifecycleView::CheckBulletCollision(
 
     PlayerLifecycleView *player = this;
     Bullet *currentBullet = bullet;
-    PlayerCancelRegionView **slot =
-        reinterpret_cast<PlayerCancelRuntimeView *>(player)->activeRegionsB100;
+    PlayerCollisionRegionCreateRegionView **slot =
+        reinterpret_cast<PlayerCollisionRegionCreateView *>(player)->activeB100;
 
     while (*slot != NULL)
     {
