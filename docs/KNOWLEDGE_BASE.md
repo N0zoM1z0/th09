@@ -17374,3 +17374,91 @@ retains each removed path, size, SHA and classification. To repeat the data-only
 negative after a clean build tree, first compile the canonical
 enemy-attached-effect-update unit; never treat a missing generated object as
 lost original evidence. Accepted exact counts and receipts remain source-scoped.
+
+## October 22: Enemy descriptor lifetimes and actual constructor counterchecks (gpt-6.1-sol)
+
+Recovery starts at clean independently pushed0de50638e042d1f420e2ded06728f2eab521747b.
+Original Japanese v1.50a disk, direct IDA metadata and mapped entry/five samples
+pass. The preceding turn made progress by adding complete standalone periodic
+and actual literal checks; this turn challenges descriptor construction and
+consumed value lifetimes under that now-reproducible context. All prior baseline
+source/provider hashes are checked against current files before the canonical13
+and experimental45 receipts are reused. No current-source exact count changes.
+
+All seven candidates compile serially at nice10 with the existing complete
+Enemy profile. The real33-byte periodic body is present; the five other native
+helpers and actual float definitions remain independently checked. Compound,
+inherited and direct descriptor models additionally expose a natural constructor
+that zeros0x214 bytes and writes transformSound=-1 at204. Each actual constructor
+matches the complete original28-byte40D500 body before its one positive native
+call is bound; together seven native definitions pass575 bytes/eight fields/
+12 references. Other cases prove six definitions547/eight/11. Target identity,
+actual callee bytes, fields, definition sections and call links all fail closed.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-DESCRIPTOR-VALUE-001 | compiler observation | Compound payload, inherited214-byte storage and directly constructed public descriptor each emit3900/97/45. | All three raw callers equal the same periodic baseline;575 native bytes pass first. No nominal original-class or ownership conclusion follows. |
+| ENEMY-DESCRIPTOR-VALUE-002 | compiler observation | A genuinely consumed float speed local is also completely raw-neutral3900/97/45. | All actual fields and the six original native bodies remain; production3887-match frontier rejects45 new mismatches. |
+| ENEMY-DESCRIPTOR-VALUE-003 | compiler observation | A consumed short count local retains3900/97 but moves Player+36B to+36D. | Strict original call-offset guard rejects before whole-owner similarity is reported; full raw/actual COFF is retained. |
+| ENEMY-DESCRIPTOR-VALUE-004 | compiler observation | Naming the actual force-death vector-add result retains3900/97 but moves Player+36B to+36C. | Same independent original-offset rejection; no new Float3 copy method, qualification or field layout. |
+| ENEMY-DESCRIPTOR-VALUE-005 | compiler observation | Ordinary inline configuration outlines a135-byte/three-field actual source helper. | Main3724/94 introduces the native helper call+297 and shifts RunEcl+397 to+307; original external-call identity gate rejects. No missing target callee is invented. |
+
+The inherited carrier uses the existing BulletSpawnDescriptor as its offset-zero
+base, with size/sound-offset assertions and the actual native constructor body.
+The direct model privately declares that constructor on BulletSpawnDescriptor,
+constructs its real local directly and removes only the wrapping local/reference.
+Its new actual decorated constructor name is diagnostic-bound to40D500 only
+after all28 original bytes, zero fields and a unique positive same-object call
+are proven. Production headers, canonical unit and inspector remain unchanged.
+This does not infer that other descriptor users originally default-constructed
+objects or permit new calls in their already exact code. Adjacent TH08's same
+constructor source family is only a hypothesis; TH09 supplies every byte/layout.
+
+The value controls preserve actual values: count is the existing short13?1:3
+conditional; speed is the existing signed-B4 float conversion times0.1 plus1.0;
+the named force-death value consumes the existing Float3 addition result. No
+unused scalar, fake return, new volatile, compiler/register/variable-order hint,
+padding, profile change or target byte is introduced. Neutral/lost forms are
+not adopted simply because they are natural. Byte equality still governs.
+
+The actual configure helper performs the existing position/count/speed/flag
+writes after construction. Its complete actual raw/COFF is separately retained,
+with one positive same-object reference. Its own three fields are the real
+GameManager root+B4,0.1f and1.0f. The main field multiset loses those three plus
+one Float3 addition call, while gaining the actual helper call. This explains
+97 to94 as an observed inventory change; no original callee for that additional
+call is established or assigned a guessed address. All other native
+bodies remain original-equal despite the rejected main owner.
+
+Frozen evidence is .analysis/gpt-61sol-20261022-enemy-descriptor-values/.
+inputs.zip binds the original0de5063 source graph; trials.zip retains all seven
+sources/carriers, complete main raw/actual COFF, native bodies, literal proofs,
+compile output and strict rejection. Reused source-bound baseline receipts and
+their checked hashes remain separate. Two archive-only nice10 cold replays of
+constructor-direct and parameter-configure reproduce every main byte and literal
+COFF row, every native body/actual definition/reference and the exact rejection.
+The first proves575 native bytes/eight fields/12 references with45 main differences;
+the second proves547/eight/11 and the unchanged moved-RunEcl rejection, then
+captures the unbound135-byte helper without claiming original codegen for it.
+
+All491 game-source files, canonical units/profiles/ledgers and all1003 authored
+exact source/profile proofs are unchanged and reused. Maintained Enemy stays
+3900/97/13 with3887 matched physical bytes protected. RunEcl30,DrawResult22,
+Type315, the current32372-byte95% gap, full inventory, native product/runtime,
+semantic and port gates remain open. Source classes and value names tested here
+do not resolve the remaining register/store frontier; continue with a different
+bounded control-flow front rather than repeat these seven exact models.
+
+Final CI passes937 tests/28 skips, exit zero. Target-required tracking,
+documentation, generated progress and whitespace gates pass. Nine actual native
+compilations (seven primary cases and two archive-only cold controls) finish
+serially at lowered priority; no canonical gameplay source is modified.
+The46-member trials archive preserves700502 logical bytes in138843 bytes,
+SHA256 6e00ddbd5980e9092d2fd781080a46ebc4acc37e7ba6b7ab3656c74383f2b84e.
+Every member passes CRC/SHA and byte equality before loose cleanup. All handles
+are terminal and a repository-scoped producer audit finds none active. Cleanup
+then removes46 verified loose duplicates and272 new CI caches,318 files and
+5556466 logical bytes. All127 preexisting build-cache paths and canonical objects
+remain, along with original target/tools/SDK/Wine/IDA and unclassified research.
+`cleanup.json` retains per-file size/hash/classification; accepted receipts remain
+source/profile scoped and no rejected replay receives exactness credit.

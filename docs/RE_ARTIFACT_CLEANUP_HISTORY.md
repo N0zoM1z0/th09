@@ -4,6 +4,33 @@
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 
+### 2026-10-22: Enemy descriptor constructor and consumed-value counterevidence
+
+From pushed0de5063, seven complete descriptor/source controls and two selected
+archive-only cold replays retain the current nonexact frontier or are rejected.
+Compound, inherited and direct construction each first proves seven actual
+native bodies575 bytes/eight fields/12 references; their complete main owners
+remain3900/97/45. The outlined configure case keeps its actual135-byte helper
+without assigning it an invented original callee. Maintained Enemy stays13.
+All1003 unchanged authored exact source/profile proofs are reused.
+
+Packet `.analysis/gpt-61sol-20261022-enemy-descriptor-values/` retains frozen
+inputs, reused source/provider-bound baselines, all actual raw/COFF/native
+observations and both complete cold receipts. Its46-member archive compresses
+700502 bytes to138843, SHA256
+6e00ddbd5980e9092d2fd781080a46ebc4acc37e7ba6b7ab3656c74383f2b84e.
+All members pass CRC/SHA and byte equality. Both cold controls reproduce every
+main raw byte/literal COFF row, all native definitions and their precise rejection.
+
+CI passes937 tests/28 skips and the target-bound tracking/docs/progress/whitespace
+checks pass. All compiler/replay/CI handles terminate and a repository-scoped
+producer audit finds none active before cleanup. Exactly46 verified loose
+duplicates plus272 new CI Python caches are removed:318 files/5556466 logical
+bytes. Files are regular, ignored, confined to this packet or build/pycache and
+rehashed before unlink. All127 preexisting build-cache paths and canonical
+objects remain; original target/toolchain/SDK/Wine/IDA, tracked source and older
+unclassified evidence are untouched. Each deletion is recorded in cleanup.json.
+
 ### 2026-10-22: Enemy native periodic contexts and independent literal definitions
 
 From pushed e987e13, nine complete Enemy source controls retain the original
