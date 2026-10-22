@@ -7,20 +7,20 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after independently pushed `6f3992d`.
+Reconstruction remains active after independently pushed `ab075c8`.
 Continue95% and all four fronts; use `gpt-6-astra-medium:` for new commits.
 
-- Original disk/direct IDA mapped bytes pass. Five genuine Enemy scalar-copy
-  controls preserve all3900 caller bytes and13 differences; no game-source
-  change is adopted. Five native helpers independently retain514 exact bytes.
-- Public `probe-enemy-native-spawn-context.py --case standalone-scalar-all`
-  reproduces the private combined raw/actual COFF/native proof. Other scalar
-  cases isolate draw byte,threshold,side pointer and character reads.
-- ECL's previous scalar wire copies remain maintained,with their79-function
-  exact replay bound to6f3992d. All1003 unchanged proofs are reused this turn.
+- Original disk/direct IDA mapped bytes pass. Eight Type3 coordinate-helper,
+  template,member and constructor controls retain780 bytes/38 fields but give
+  105(all samples) or47(middle only) differences. None restores an original
+  residual; no game-source change is adopted.
+- Public `probe-type3-native-context.py --case coordinate-middle` independently
+  reproduces the private full raw/COFF/diagnostic and rejects production credit.
+- Game source remains at6f3992d; all1003 unchanged source/profile proofs are
+  reused. The ECL scalar-copy change retains its79-function scoped exact proof.
 - No exact ledger promotion. Coverage244917/291883 (83.9093%);95% needs32372
   whole exact bytes. RunEcl30,Enemy13,DrawResult22,Type315 and product gates
-  remain unfinished. CI982 tests/29 skips and tracking/docs/progress checks
+  remain unfinished. CI984 tests/29 skips and tracking/docs/progress checks
   pass. Latest KB entry routes the source-bound evidence.
 
 ## Live ledger snapshot
@@ -190,12 +190,12 @@ results, fields and deficits before making an exactness claim.
 ## Evidence and cleanup boundaries
 
 Game source remains at6f3992d. The current packet is
-`.analysis/gpt-6-astra-medium-20261022-enemy-scalar-copy/`,with44 frozen raw
-inputs,the private recipe,complete reports and public comparison. Compiler
-probe temporaries self-clean. Twelve source/report copies are CRC/member-byte
-verified into trials.zip before removing only their loose duplicates.
-Fresh canonical objects from the preceding
-checkpoint,original inputs and older unclassified evidence remain untouched.
+`.analysis/gpt-6-astra-medium-20261022-type3-coordinate-context/`,with27 frozen
+raw inputs,private recipes,complete reports and public reproduction. Compiler
+probe temporaries self-clean. Eighteen trial source/report copies are verified
+into trials.zip before removing only their loose duplicates.
+Canonical objects from the preceding checkpoint,
+original inputs and older unclassified evidence remain untouched.
 
 Ignored packets are local evidence and are not pushed. Tracked source,scripts
 and durable observations provide the restart path. Historical replayers may

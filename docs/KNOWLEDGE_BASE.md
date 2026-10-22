@@ -18997,3 +18997,63 @@ bytes in118362 bytes,SHA256
 Only verified loose duplicates are removed. The current public proof,comparison,
 frozen input archive,recipe and CI log remain readable. Canonical objects and
 older evidence are untouched.
+
+
+## October 22: Type3 indexed coordinate-helper and construction contexts
+
+Recovery starts at clean independently pushed ab075c8. Original disk,direct
+IDA metadata,entry and all five mapped samples pass. Direct IDA again shows
+middle-Y call4428DE,result store4428E3,Z-zero4428E6,then tail-X load4428ED.
+The maintained original-bound source remains780 bytes/38 fields/15 differences;
+no historical smaller residual is accepted without the actual chronology.
+
+Nine private serial nice10 compiles compare baseline and eight complete-caller
+models. An ordinary inline output helper takes the actual Float3 history pointer
+and index,performs X then Y inverse transforms and sets output Z to zero. A
+function template uses that same meaningful index in its history reads. Two
+further forms place the same operations in a real twelve-byte derived sample
+object's member or constructor,with no new fields. Each form is tested on all
+three current/middle/tail samples or only middle. Current uses index0 at the
+actual position pointer,middle/tail use12/24 at the history root. The real lazy
+three-query chain and collision-size object remain unchanged.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| TYPE3-COORDINATE-001 | compiler observation | Baseline retains780 bytes/240 instructions/38 fields/24 ordered calls/17 blocks and15 differences. | Complete target-bound original/actual-COFF comparison. |
+| TYPE3-COORDINATE-002 | rejected source hypothesis | All-sample helper,template,member and constructor contexts emit identical780-byte raw callers with105 differences. | No original residual restored;90 original-equal positions damaged; production chronology census rejects. |
+| TYPE3-COORDINATE-003 | rejected source hypothesis | Middle-only versions emit identical780-byte raw callers with47 differences. | No original residual restored;32 original-equal positions damaged; full residual guard rejects. |
+| TYPE3-COORDINATE-004 | independent reproduction | Public coordinate-middle matches private indexed-middle raw bytes,all actual COFF rows and the entire diagnostic. | Separate original-bound cold build retains explicit production_frontier false. |
+
+All eight controls retain the original ordered calls and direct graph. Template
+objects renumber owner/literal sections; their complete actual COFF rows are
+retained rather than claimed literally identical. The member/constructor forms
+are raw/COFF-equal to their ordinary indexed counterparts. No new volatile,
+forced inline,register/variable-order hint,ABI or compiler profile is introduced.
+Equal runtime-shaped computations and graph counts do not establish full
+original-byte equality. No game-source change or exact credit is adopted.
+
+Public probe-type3-native-context.py adds coordinate-indexed and
+coordinate-middle. They require the unqualified baseline source; the historical
+qualified word/forwarding variant is deliberately rejected before compilation.
+Source guards pin the real input coordinates,indices,operation count and sample
+boundaries. Eighteen focused tests pass,including changed history index,changed
+Z value,duplicate source and unexpected qualified-variant rejection.
+
+Packet `.analysis/gpt-6-astra-medium-20261022-type3-coordinate-context/`
+retains27 hash-verified frozen input files,the private recipes,nine full source/
+raw/COFF reports and the separately reproduced public result. The private panel
+uses ab075c8 providers with frozen source; the public maintained command is
+`probe-type3-native-context.py --case coordinate-middle --output .analysis/new`.
+Compiler temporaries self-clean. All1003 unchanged exact source/profile proofs
+are reused. Coverage244917/291883 (83.9093%),the32372-byte95% gap and the
+four fronts30/13/22/15 remain unfinished.
+
+Full CI passes984 tests/29 skips,exit zero; tracking,documentation,generated
+progress and whitespace checks pass. Final public replay matches the private
+raw/COFF/diagnostic and current tool hashes. After terminal producers,18 trial
+source/report copies are CRC/member-byte verified into trials.zip:194029 logical
+bytes become43069 bytes,SHA256
+d86a393fa72d1f4e5d3dbb1ca1a4824397f3a0b147f1541540e8346a774e8283.
+Only verified loose duplicates are removed. Both public compressed proofs,
+frozen raw inputs,recipes and CI log remain. Existing canonical objects and
+older evidence are untouched.

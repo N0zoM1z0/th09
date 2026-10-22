@@ -3,7 +3,8 @@
 
 Run one case on the maintained source or the rejected four-byte word model.
 Reports retain source/tool hashes, actual COFF and complete-owner comparisons.
-Temporary sources and compiler objects clean themselves on failure.
+Temporary sources and compiler objects clean themselves on failure. Coordinate
+helper cases accept only the unqualified baseline source.
 """
 from __future__ import annotations
 
@@ -38,6 +39,8 @@ CASES = {
     'sample-cursor': (),
     'history-root': (),
     'sample-references': (),
+    'coordinate-indexed': (),
+    'coordinate-middle': (),
 }
 VARIANTS = ('baseline', 'forwarded-collision')
 INTERRUPT_SYMBOL = '?SetInterrupt@AnmVm@@QAEXF@Z'
@@ -157,13 +160,57 @@ def history_access(source, case):
     return source
 
 
+def coordinate_samples(source, case):
+    """Convert actual samples by index through an ordinary inline output helper."""
+    if case not in ('coordinate-indexed', 'coordinate-middle'):
+        raise ValueError('unreviewed Type3 coordinate context')
+    starts = ['    PlayerPositionView '+name+';' for name in ('current', 'middle', 'tail')]
+    end_marker = '    if (reinterpret_cast<PlayerLifecycleView *>'
+    callback = 'int __fastcall ExAttackUpdateCallbackType3('
+    if any(source.count(marker) != 1 for marker in starts+[end_marker, callback]):
+        raise ValueError('Type3 sample/callback boundaries changed')
+    begin, end = source.index(starts[0]), source.index(end_marker)
+    positions = [source.index(marker) for marker in starts]+[end]
+    if positions != sorted(positions):
+        raise ValueError('Type3 sample order changed')
+    blocks = []
+    for i, (name, index, root) in enumerate((('current', 0, 'position'),
+                                            ('middle', 12, 'extra->history10'),
+                                            ('tail', 24, 'extra->history10'))):
+        block = source[positions[i]:positions[i+1]]
+        x = 'position->x' if name == 'current' else root+'['+str(index)+'].x'
+        y = 'record->position20.y' if name == 'current' else root+'['+str(index)+'].y'
+        if (block.count('InverseTransformPopupX('+x+')') != 1 or
+                block.count('InverseTransformPopupY('+y+')') != 1):
+            raise ValueError('Type3 actual coordinate source changed')
+        if (block.count('InverseTransformPopupX(') != 1 or
+                block.count('InverseTransformPopupY(') != 1 or
+                block.count(name+'.z = 0.0f;') != 1):
+            raise ValueError('Type3 original sample operations changed')
+        if case == 'coordinate-middle' and name != 'middle':
+            blocks.append(block)
+        else:
+            blocks.append('    PlayerPositionView '+name+';\n    ConvertType3Sample('
+                          +name+', '+root+', '+str(index)+');\n\n')
+    helper = ("inline void ConvertType3Sample(PlayerPositionView &out, const Float3 *history, int index)\n"
+              "{\n    out.x = g_GameManager.InverseTransformPopupX(history[index].x);\n"
+              "    out.y = g_GameManager.InverseTransformPopupY(history[index].y);\n"
+              "    out.z = 0.0f;\n}\n\n")
+    source = source[:begin]+''.join(blocks)+source[end:]
+    return source.replace(callback, helper+callback, 1)
+
+
 def render_source(inputs, case, variant):
     if case not in CASES or variant not in VARIANTS:
         raise ValueError('unknown Type3 source/context variant')
     source = inputs[SOURCE]
+    if case in ('coordinate-indexed', 'coordinate-middle') and variant != 'baseline':
+        raise ValueError('coordinate contexts require the unqualified baseline source')
     if variant != 'baseline':
         word = module('context_word_variant', 'probe-exattack-type3-word-order.py')
         source = dict(word.variants(source.decode()))[variant].encode()
+    if case in ('coordinate-indexed', 'coordinate-middle'):
+        return coordinate_samples(source.decode(), case).encode()
     if case in HISTORY_CASES:
         return history_access(source.decode(), case).encode()
     if case in ('sample-array', 'sample-query'):

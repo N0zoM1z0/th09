@@ -16,6 +16,31 @@ spec.loader.exec_module(probe)
 
 
 class Type3NativeContextTests(unittest.TestCase):
+    def test_coordinate_helpers_preserve_sample_indices_and_lazy_queries(self):
+        inputs, _ = probe.inputs_for('baseline')
+        source = inputs[probe.SOURCE].decode()
+        for case, count in (('coordinate-indexed', 3), ('coordinate-middle', 1)):
+            result = probe.coordinate_samples(source, case)
+            self.assertEqual(result.count('    ConvertType3Sample('), count)
+            self.assertIn('ConvertType3Sample(middle, extra->history10, 12);', result)
+            self.assertEqual(result.count('CheckBulletCollision('), 3)
+            self.assertEqual(result.count(' == 2 ||'), 2)
+            self.assertNotIn('__forceinline', result)
+            self.assertNotIn('volatile', result)
+            self.assertIn('out.z = 0.0f;', result)
+            if count == 1:
+                self.assertIn('InverseTransformPopupX(extra->history10[24].x)', result)
+            with self.assertRaisesRegex(ValueError, 'unqualified baseline'):
+                probe.render_source(inputs, case, 'forwarded-collision')
+
+    def test_coordinate_source_drift_fails_before_compilation(self):
+        inputs, _ = probe.inputs_for('baseline')
+        source = inputs[probe.SOURCE].decode()
+        for bad in (source+source, source.replace('history10[12].y', 'history10[13].y'),
+                    source.replace('middle.z = 0.0f;', 'middle.z = 1.0f;')):
+            with self.assertRaises(ValueError):
+                probe.coordinate_samples(bad, 'coordinate-indexed')
+
     def test_history_samples_reject_changed_indices_and_preserve_native_queries(self):
         inputs, _ = probe.inputs_for('sample-cursor')
         source = inputs[probe.SOURCE].decode()
