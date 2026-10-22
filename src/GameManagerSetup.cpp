@@ -65,9 +65,16 @@ struct SetupStateBuffer
     int phase10;
     unsigned char value14;
     unsigned char unknown_15[0x8B];
-    int valueA0;
-    int valueA4;
 };
+
+typedef char SetupStateBufferSizeIsA0[
+    (sizeof(SetupStateBuffer) == 0xA0) ? 1 : -1];
+typedef char SetupPlayerCounterA0[
+    (offsetof(PlayerLifecycleView, header24) +
+     offsetof(PlayerHeaderStateView, state7C) == 0xA0) ? 1 : -1];
+typedef char SetupPlayerCounterA4[
+    (offsetof(PlayerLifecycleView, header24) +
+     offsetof(PlayerHeaderStateView, state80) == 0xA4) ? 1 : -1];
 
 struct SetupLoadingPosition
 {
@@ -392,14 +399,14 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         // the separate state buffer is allocated as 0xA0 bytes.
         if (g_GameManager.valueB0 % 3600u == 3599u)
         {
-            if (reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].subsystem1)->valueA0 < 16)
-                reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].subsystem1)->valueA0++;
-            if (reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].subsystem1)->valueA4 < 16)
-                reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].subsystem1)->valueA4++;
-            if (reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[1].subsystem1)->valueA0 < 16)
-                reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[1].subsystem1)->valueA0++;
-            if (reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[1].subsystem1)->valueA4 < 16)
-                reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[1].subsystem1)->valueA4++;
+            if (static_cast<PlayerLifecycleView *>(g_GameManager.sides[0].subsystem1)->header24.state7C < 16)
+                static_cast<PlayerLifecycleView *>(g_GameManager.sides[0].subsystem1)->header24.state7C++;
+            if (static_cast<PlayerLifecycleView *>(g_GameManager.sides[0].subsystem1)->header24.state80 < 16)
+                static_cast<PlayerLifecycleView *>(g_GameManager.sides[0].subsystem1)->header24.state80++;
+            if (static_cast<PlayerLifecycleView *>(g_GameManager.sides[1].subsystem1)->header24.state7C < 16)
+                static_cast<PlayerLifecycleView *>(g_GameManager.sides[1].subsystem1)->header24.state7C++;
+            if (static_cast<PlayerLifecycleView *>(g_GameManager.sides[1].subsystem1)->header24.state80 < 16)
+                static_cast<PlayerLifecycleView *>(g_GameManager.sides[1].subsystem1)->header24.state80++;
         }
 
         if (g_GameManager.valueB8 < 6 &&
@@ -1008,20 +1015,20 @@ mode_ready:
     {
     case 4:
         manager->limitB4 = 18;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[0].subsystem1)->valueA0 = 10;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[0].subsystem1)->valueA4 = 10;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[1].subsystem1)->valueA0 = 10;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[1].subsystem1)->valueA4 = 10;
+        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state7C = 10;
+        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state80 = 10;
+        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state7C = 10;
+        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state80 = 10;
         manager->valueC4 = 600;
         manager->valueC8 = 22;
         break;
 
     case 3:
         manager->limitB4 = 8;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[0].subsystem1)->valueA0 = 8;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[0].subsystem1)->valueA4 = 8;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[1].subsystem1)->valueA0 = 8;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[1].subsystem1)->valueA4 = 8;
+        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state7C = 8;
+        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state80 = 8;
+        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state7C = 8;
+        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state80 = 8;
         if (manager->gameMode == 2)
         {
             manager->valueC4 = 900;
@@ -1037,10 +1044,10 @@ mode_ready:
 
     case 2:
         manager->limitB4 = 6;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[0].subsystem1)->valueA0 = 4;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[0].subsystem1)->valueA4 = 4;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[1].subsystem1)->valueA0 = 4;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[1].subsystem1)->valueA4 = 4;
+        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state7C = 4;
+        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state80 = 4;
+        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state7C = 4;
+        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state80 = 4;
         if (manager->gameMode == 2)
         {
             manager->valueC4 = 720;
@@ -1056,10 +1063,10 @@ mode_ready:
 
     case 1:
         manager->limitB4 = 1;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[0].subsystem1)->valueA0 = 1;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[0].subsystem1)->valueA4 = 1;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[1].subsystem1)->valueA0 = 1;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[1].subsystem1)->valueA4 = 1;
+        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state7C = 1;
+        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state80 = 1;
+        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state7C = 1;
+        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state80 = 1;
         if (manager->gameMode == 2)
         {
             manager->valueC4 = 900;
@@ -1075,10 +1082,10 @@ mode_ready:
 
     case 0:
         manager->limitB4 = 1;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[0].subsystem1)->valueA0 = 1;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[0].subsystem1)->valueA4 = 1;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[1].subsystem1)->valueA0 = 1;
-        reinterpret_cast<SetupStateBuffer *>(manager->sides[1].subsystem1)->valueA4 = 1;
+        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state7C = 1;
+        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state80 = 1;
+        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state7C = 1;
+        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state80 = 1;
         manager->valueC4 = 1800;
         // For every gameMode other than 2, keep the counter-derived limits
         // and leave this switch immediately. The fixed mode-2 rate follows

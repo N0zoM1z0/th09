@@ -19434,3 +19434,46 @@ those private packets; no public cold-source receipt is claimed by an existing-
 object diagnostic. Unchanged exact proofs are reused, not newly accepted for
 this HEAD. The separate GameManager ownership evaluation still awaits cross-owner
 checks; it is not adopted or reported as a completed result in this checkpoint.
+
+
+## 2026-10-22: Separate Player counters from the gameplay state buffer
+
+The diagnostic checkpoint 4f593aa left this ownership evaluation pending.
+The original setup worker independently loads side +0x04/+0x3C Player pointers
+for the counters at Player +0xA0/+0xA4, not the side +0x1C/+0x54 state pointers.
+The latter allocation and clearing are exactly 0xA0 bytes. Existing
+PlayerLifecycleView::header24.state7C/state80 already represent the real Player
+fields, with the native Player producer using those members.
+
+Remove the unrelated valueA0/valueA4 tail from SetupStateBuffer and route all
+28 Player accesses through that existing native Player type: twenty setup
+stores and four guards plus four increments in exact OnUpdate. Compile-time
+checks establish the 0xA0 buffer size and both Player offsets. No receiver,
+operation, value, compiler profile, canonical unit or exact ledger is changed.
+The maintained source retains its original CRLF endings; its complete SHA-256 is
+`b40443792592b999644e124132381c968f2683bff2ebd81e9e41ae21f9f77b44`.
+
+The isolated /Os object retains all twelve emitted functions, 4616 raw bytes
+and 408 complete COFF records, exactly equal to the fresh pre-change object.
+Ten /Os canonical units remain original-bound exact (2777 bytes / 226 fields);
+the separate no-/Os loading-VM owner remains 214/214 bytes and 17 fields exact.
+After integration, a fresh canonical `check-boss-frontiers.py --owner gamemgr`
+rebuilds both real profiles and passes all eleven same-TU owners plus five
+unchanged native callees. GameplaySetup remains 1689 bytes / 171 fields /
+35 calls / 77 blocks / 904 differences against the 172-field, 78-block original.
+This is an honest object-model correction, not an exactness increase.
+
+Four source regression tests reject the old conflation and wrong receiver,
+state-extent or Player-offset forms. The existing fourteen relevant source
+tests also pass. The target-independent tests do not replace executable replay.
+Private evidence is `.analysis/th09-gameplay-setup-investigation-20261022-v01/`:
+proposal-manifest.json, player-owner-audit.json, all-owner-complete-captures.json,
+canonical-player-owner-replays.json, canonical-player-owner-no-os-replay.json,
+audit-player-owner.py and the frozen compiled-player-owner source closure.
+The actual maintained-tree gate log/exit are in
+`.analysis/th09-campaign-20261022-v01/player-owner-canonical.{log,exit}`.
+Coverage remains 244917/291883 (83.9093%), with 41129 more complete exact bytes
+needed for the 98% goal. No broad Enemy or AnmVm header proposal was adopted.
+Full target-independent CI passes 994 tests with 29 intentional skips; target,
+tracking, documentation, build-graph, progress-artifact and whitespace gates pass.
+The durable CI log/exit are `player-owner-ci.{log,exit}` in the campaign directory.
