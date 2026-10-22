@@ -37,7 +37,17 @@ struct NetworkFramePacket
     signed char side;
     unsigned short seed;
     int frame;
-    unsigned int packedInput;
+    // The checksum reads the complete word pair, including the previous high
+    // word. Publishing input replaces the low word; checksum replaces the high.
+    union
+    {
+        unsigned int packedInput;
+        struct
+        {
+            unsigned short input;
+            unsigned short checksum;
+        } words;
+    };
 };
 
 struct SupervisorNetworkView
@@ -64,6 +74,12 @@ typedef char NetworkHandshakePacketSizeIs0C[
     (sizeof(NetworkHandshakePacket) == 0x0C) ? 1 : -1];
 typedef char NetworkFramePacketSizeIs0C[
     (sizeof(NetworkFramePacket) == 0x0C) ? 1 : -1];
+typedef char NetworkFramePacketInputAt08[
+    (offsetof(NetworkFramePacket, words.input) == 0x08) ? 1 : -1];
+typedef char NetworkFramePacketChecksumAt0A[
+    (offsetof(NetworkFramePacket, words.checksum) == 0x0A) ? 1 : -1];
+typedef char NetworkFramePacketPackedInputAt08[
+    (offsetof(NetworkFramePacket, packedInput) == 0x08) ? 1 : -1];
 typedef char SupervisorNetworkFrameAt458[
     (offsetof(SupervisorNetworkView, frameCounter) == 0x458) ? 1 : -1];
 typedef char SupervisorNetworkQueuesAt47C[
@@ -246,8 +262,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                 return result;
 
             HAVE_PACKET:
-                reinterpret_cast<unsigned short *>(
-                    &g_NetworkFramePacket.packedInput)[0] =
+                g_NetworkFramePacket.words.input =
                     (unsigned short)Controller::GetInput(g_SupervisorNetworkState->localSide);
                 s->frameCounter++;
                 s->frameStartTime = timeGetTime();
@@ -267,8 +282,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                 g_NetworkFramePacket.seed +
                 g_NetworkFramePacket.frame +
                 g_NetworkFramePacket.side;
-            reinterpret_cast<unsigned short *>(
-                &g_NetworkFramePacket.packedInput)[1] =
+            g_NetworkFramePacket.words.checksum =
                 (unsigned short)checksum;
 
             g_SupervisorNetworkState->SendPacket(
@@ -277,7 +291,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             frameQueues->InsertReceivedFrame(
                 g_SupervisorNetworkState->localSide,
                 g_NetworkFramePacket.frame,
-                (unsigned short)g_NetworkFramePacket.packedInput,
+                g_NetworkFramePacket.words.input,
                 (short)g_NetworkFramePacket.seed);
         }
     }

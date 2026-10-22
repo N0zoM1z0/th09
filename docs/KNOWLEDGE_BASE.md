@@ -19113,3 +19113,62 @@ Full CI passes984 tests/29 skips,exit zero; tracking,documentation,generated
 progress,open build-graph and whitespace checks pass. The initial documentation
 table violated the four-column knowledge schema and reused historical IDs; both
 were corrected before the successful final documentation and CI checks.
+
+
+## October 22: Supervisor service native RNG controls and typed packet words
+
+Recovery starts at clean independently pushed95a116a. Disk target,direct IDA
+metadata,entry and distributed mapped bytes pass. This batch investigates the
+1633-byte service owner,not a small leaf substitution for the byte milestone.
+Five serial nice10 builds compare the current opaque baseline with real GetSeed,
+real GetRandomU32InRange,both,and the complete GetRandomU32/NextU16 dependency
+chain. Definitions are extracted from maintained ReplayRuntimeLeaves.cpp and
+RngRuntimeLeaves.cpp,using the existing local receiver view only in the private
+experiment. No shared class,ABI,profile or game RNG implementation is changed.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| SERVICE-RNG-20261022-001 | compiler observation | Baseline remains1632 bytes,108 fields,418 instructions,1395 overlap differences and one missing byte. | Complete original-bound inspect-supervisor-service.py result. |
+| SERVICE-RNG-20261022-002 | rejected source hypothesis | Actual range-method visibility preserves every raw caller byte. | Its34-byte/one-field definition independently equals original4048E0; actual service calls refer to that positive same-object definition. |
+| SERVICE-RNG-20261022-003 | rejected source hypothesis | Seed-only,seed-plus-range and full RNG-chain visibility each produce1639 bytes,105 fields and1474 overlap differences,six extra bytes. | All native bodies are independently original-bound:seed4/0,range34/1,U32 generator24/2,next-U16 39/0. Same-object references are checked. No caller exactness follows. |
+| SERVICE-PACKET-20261022-001 | source and compiler observation | A named two-word view shares the packet's existing32-bit packedInput storage; low-word input and high-word checksum accesses no longer use short-pointer casts. | Private control and fresh maintained TU preserve every1632 raw byte and all108 actual COFF rows modulo anonymous-namespace spelling. |
+
+The last change adopts an earlier source-family hypothesis only after current
+complete reproduction. Compile-time assertions pin the packet size0x0C,input
+at+8,checksum at+0xA and dword at+8. The sum still reads the complete dword,
+including its prior high word; current input replaces only the low word and
+checksum publication replaces only the high. Queue insertion reads the actual
+low-word member. No extra field,storage,operation or invented native helper is
+introduced. Direct IDA confirms the original dword read at430F4C and word store
+at430F64; all original bytes remain the independent authority. Signed side and
+seed/frame behavior are preserved. This is source-layout cleanup under the
+pinned Windows i386 compiler,not a portability or runtime gate claim.
+
+Only src/SupervisorNetwork.cpp changes game code; it contains no canonical exact
+unit or included exact body. All1003 unchanged source/profile proofs are reused.
+The complete service remains nonexact with1395 overlap differences/one missing
+byte and a differing ordered call sequence. No ledger promotion,partial credit
+or helper-based caller acceptance is made. Coverage244917/291883 (83.9093%)
+and the four30/13/22/15 fronts remain open.
+
+Packet `.analysis/gpt-6-astra-medium-20261022-service-rng/` retains frozen source
+includes,profile/compiler pins,private probe.py and packet-probe.py,the six full
+trial sources/raw/actual-COFF/native proofs,and current maintained proof. The
+private recipes use the95a116a source snapshot and deliberately reject existing
+case directories. Current reproduction is a serial nice10 compile of
+src/SupervisorNetwork.cpp with `/MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2
+/Ob1 /Oy- /I src`,followed by `scripts/inspect-supervisor-service.py OBJECT`.
+The inspector binds every actual reference before comparing the complete owner;
+it does not accept a diagnostic exit-zero as exact. No older artifacts are
+removed; private compiler temporaries self-clean.
+
+Full CI passes984 tests/29 skips,exit zero; tracking,documentation,generated
+progress,open build-graph and whitespace checks pass. After terminal producers,
+18 trial source/report/log copies are CRC/member-byte verified into trials.zip;
+464459 logical bytes become45642 bytes,SHA256
+9fb9606085be9288e54ce90148293911dbed8036d46f60f71bd0d292f8ee8a8d.
+Only those verified loose copies,the member-identical packet-inputs.zip duplicate
+and this batch's two reproducible service-packet-current OBJ/PDB outputs are
+removed. Frozen inputs,recipes,maintained source/proof,CI and archive manifests
+remain. Extract trials.zip before directly inspecting a historical case report.
+Existing canonical objects and older evidence are untouched.
