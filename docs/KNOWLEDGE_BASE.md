@@ -19329,3 +19329,108 @@ f6f31c9b4bda009d3d236afa2075e29ee243f9290d504253b9b81580be83290b.
 This is bounded negative evidence, not proof that all natural cursor contexts
 are exhausted. Maintained game code, ledger totals and product gates stay
 unchanged. Current handoff routing supersedes earlier continuous-work wording.
+
+
+## October 22: Resumed 98% campaign, negative probes and corrected premises
+
+This resumed campaign started at `92bb4f055b1791b04b97db6ab9212cc93fa7a9a7`.
+Its first local goal/routing checkpoint is
+`24b8f07ea04e064347821c74aa85e83e8a745009` (990 tests / 29 skips, PASS).
+Game source remains at `c1c8eadfab28540a40ef5ecc10783311c35d0bc4`;
+no game source, compiler profile or exact ledger was adopted by these trials.
+The original target remains SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+Coverage is unchanged at **244917/291883 (83.9093%)**; **41129** more whole
+exact bytes are needed for 98%. Diagnostics and local handler agreement earn
+no exactness credit. Historical snapshots above are not rewritten.
+
+Private evidence below uses these packet roots, all under `.analysis/` and
+all suffixed `-20261022-v01`: C=`th09-campaign`, R=`th09-runecl-investigation`,
+E=`th09-enemy-investigation`, P=`th09-player-movement-investigation`,
+O=`th09-options-investigation`, T=`th09-toolchain-audit`,
+Q=`th09-pause-timestamp-owner`.
+Fresh C baseline logs reproduce RunEcl 15564/598/30 with 79 exact siblings,
+DrawResult 1939/82/22, Player movement 1900/66/129 with two exact sibling/callee
+checks (522 and 18 bytes), and Pause 1732/107/1453 overlap differences plus
+44 missing bytes with 15 listed exact sibling/callee checks. These summary
+logs do not contain complete raw owners. Byte-level evidence is in R's
+object-derived result packets (including shared-primary-flag-cell/raw-result/
+baseline-owner.raw and baseline-coff.json), P/review.json, C/pause-full-baseline.json and
+O/compiled/; the cold DrawResult object is `build/matching/TitleResultDraw.obj`,
+not an invented raw capture in its summary log. Build objects remain disposable.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| RESUME-ECL-20261022-001 | rejected source hypothesis | Snapshot the real RawInt before the mask branch in ReadInt, preserving the selected resolver call. The owner becomes 15200 bytes / 595 fields; opcode 4 retains the wrong argument schedule and opcode 155 its old lowering. | R/read-int-snapshot.patch and read-int-result/. The lost static fields are mask-branch tail merges in opcodes 2, 136 and 146, not missing runtime operations. Raw SHA-256 starts aa944065d0b6b475. |
+| RESUME-ECL-20261022-002 | rejected source hypothesis | Opcode 155: zero-initialize an unsigned int, memcpy exactly one wire byte into it, then use the unchanged unsigned-char XOR helper. Owner 15564/598; 2048 ordinary plus 242 field-byte differences, including 26 table bytes; 146/148 shapes. | R/timeout-zero-extended-copy/ and timeout-zero-copy-result/. The 43-byte handler exactly equals eleven retained October 17 windows, not a new codegen class; no whole-owner/source equivalence to those old trials is inferred. Raw SHA-256 starts e155ec54bbc0ebc1. |
+| RESUME-ECL-20261022-003 | rejected source hypothesis | Feed that zeroed-uint one-byte copy directly to the existing timeoutSpell24 bitfield. Owner 15576/598; opcode 155 grows to 57 bytes. Native arithmetic has ECX input / ESI old flags / EAX result, but zero-init, byte store and DWORD reload materialize on the stack instead of MOVZX. | R/timeout-zeroed-uint-native-bitfield/ and timeout-native-bitfield-result/. Opcode 157 also changes; the complete geometry gate rejects. Raw SHA-256 starts 9da25b716994ffeb7. |
+| RESUME-ECL-20261022-004 | rejected source hypothesis | Add only static_cast<unsigned char>(value) at that bitfield consumer. Stack materialization disappears, but the 44-byte handler and complete raw owner collapse to the retained native-current case. Owner 15564/598; 1938 ordinary plus 202 field-byte differences, including 26 table bytes; 144/148 shapes. | R/timeout-zeroed-uint-native-byte-consumer/ and timeout-byte-consumer-result/. Raw SHA-256 starts 82e081e31c21f836; actual COFF row identity is not asserted by this raw equivalence. Opcode 4 remains unchanged. |
+| RESUME-ECL-20261022-005 | rejected structural hypothesis | One shared raw/bits primary-flag cell replaces 65 accesses to the genuine four-byte Enemy+0x337C field across seven source overrides, with size/offset assertions. All 15564 raw bytes and 598 binding identities equal the fresh canonical baseline; still 30 ordinary and zero field/table differences. | R/shared-primary-flag-cell/ freezes 68 files, proposal.patch and commands.json; raw SHA-256 starts bc9a1a71fbc301033. raw-result/binding-equivalence.json checks all 138 extractable emitted ranges, including nine edited helpers and 79 canonical symbols in this same-profile object. 194 private labels rename but resolve to identical owner-relative offsets; one aux-less construction helper has no invented extent. No other profile is rebuilt. |
+| RESUME-ENEMY-20261022-001 | compiler observation | Fresh real HasTickedEvery visibility reproduces the prior 3900/97/69-call/170-block periodic owner: all maintained 13 mismatches are repaired but 45 new positions differ. The genuine 33-byte body preserves ECX; this does not prove original TU visibility. | E/staged/baseline-periodic/ captures full raw/COFF and six independently exact native bodies (547 bytes / 8 fields / 11 caller references), plus three literals. Raw SHA-256 starts ac5bfd16c08ab39c. |
+| RESUME-ENEMY-20261022-002 | rejected source hypothesis | In that periodic context, chain actual descriptor equal-value writes (bulletType=count2=1, aimMode=unknown1FA=0, angle=speed2=0). Owner shrinks to 3860/96: ordinary-motion arms share one Float3 addition instead of two. | E/staged/periodic-chain-fields/interpretation.json. The real RunEcl call moves +397 to +39D; the strict error is not proof the call disappeared. Raw SHA-256 starts e397902b15f18d8c. |
+| RESUME-ENEMY-20261022-003 | rejected source hypothesis | Express count1 as short(1+2*(characterIndex20!=13)). Every raw owner byte equals the 45-difference periodic baseline. | E/staged/periodic-fan-count-arithmetic/; source conditional-PHI versus arithmetic distinction is erased in this context. |
+| RESUME-ENEMY-20261022-004 | rejected source hypothesis | Consolidate the actual world-position add/Z-clear in an ordinary member at all three sites. Owner becomes 3804/96; force-death inlines, while the two motion paths share a new 68-byte out-of-line helper and the frame shrinks 0x2A8 to 0x290. | E/staged/periodic-world-member/interpretation.json. The helper has no independent original destination or ownership. Raw SHA-256 starts 39d7f9677a806370. The combined chain-world proposal was not compiled. |
+| RESUME-ENEMY-20261022-005 | rejected source hypothesis | Bind only the force-death addition temporary to const Float3&, then perform the existing copy/Z-clear. Owner 3900/97 retains 69 ordered calls, but Player-state field shifts +36B to +36C; independently linked bytes equal the older force-position-value trial (2180 target differences). | E/staged/periodic-force-const-ref/interpretation.json and compare_force_const_ref.py. Raw SHA-256 starts e9631df3a45fc09b; old/new COFF metadata differs in helper sections/private labels. Lifetime semantics do not imply distinct codegen. |
+| RESUME-OPTIONS-20261022-001 | rejected source hypothesis | After keyboardSelection=8, replace both late VM17 expressions by vms[keyboardSelection+9]. Fresh baseline/variant are identical in all 2048 raw and linked bytes, 135 actual COFF rows, full diagnostic and emitted functions. Still 610 overlap differences plus three extra bytes. | O/selected-option-read.patch, root_probe.py and compiled-verification.json. Raw SHA-256 starts f9c000f336b254f9; linked starts e19753a3dcaed8d9. Actual seven-byte SetVol, native input identities, and same-TU PlayMenuSound 34/34 with six real local calls pass. |
+| RESUME-OPTIONS-20261022-002 | rejected structural hypothesis | Replace Options storage projections with real AnmVm, preserving byte/word operations and the opaque DrawTitleHelpText ABI boundary. Independently proven signed-short baseSpriteIndex at +218 replaces exactly two opaque bytes in the shared owner. All 2048 raw/linked bytes, 135 actual COFF rows, full diagnostics and emitted definitions remain identical to the frozen baseline. | O/ownership-proposal/native-vm.patch, REVIEW.md and equivalence-verification.json; O/native-vm-field-evidence.json proves the producer and signed consumer. Same raw/linked hashes as RESUME-OPTIONS-20261022-001. Exactly two emitted functions, no implicit constructor; PlayMenuSound 34/34 and SetVol seven-byte definition remain verified. No header adoption or dependent-cohort revalidation. |
+| RESUME-PAUSE-20261022-001 | rejected source hypothesis | An ordinary in-class RefreshSystemTime helper wraps exactly the four existing timeGetTime stores. The complete caller retains 1732/107/1453 overlap differences plus 44 missing bytes; all raw and linked bytes equal the fresh baseline. | Q/probe.py, source.patch, inputs.json, raw.bin, coff.json and analysis.json; C/pause-full-baseline.json. Raw SHA-256 starts 06b73068a5b14caf, linked starts 7a7cfdb473a37a06. The source grouping does not recover the original shared timestamp site. |
+| RESUME-PLAYER-20261022-001 | corrected current-source observation | Both target and current movement owner already establish ECX position cursor at +50D. The 56 lower-clamp differences are lower-bound EAX/EDX transport and encoding-length cascade, not a wrong cursor or 56 wrong arithmetic operations. | P/REPORT.md and review.json bind current source SHA-256 8b38e64c68dca748 and object 95c222ccd1c4dd77. At +534, target minX uses five-byte EAX moffs; candidate uses six-byte EDX ModRM. Length recovers at +56E; upper-Y agrees again at +573. |
+| RESUME-TOOLS-20261022-001 | static compiler observation | Installed cl/c1/c1xx/c2/link hashes match config/tools.lock.toml and provider commit 2932d76fe417b0bc49010b26d4be2e5b743cc4be. Core FileVersion is 13.10.3077.0; link is 7.10.3077.0. Target Rich also contains build-4035 inputs, so aggregate build-3077-family evidence is not an original optimizer hash or per-function provenance. | T/REPORT.md, static_audit.py and static_audit.json retain full component hashes/resource versions/Rich tuples and a bounded library census. No 4035 @comp.id was found in successfully parsed standard i386 library members; import/nonstandard skips, one non-archive and one parser failure limit that result. No justified compiler/profile change follows. |
+
+The ECL inspector partitions total mismatches into ordinary and relocation-field
+bytes; table count is a separate positional subset, not an additional sum. In
+both timeout cases above, all 26 table differences lie within relocation fields:
+2048+242=2290 and 1938+202=2140 total differing bytes.
+
+Player's full current residual partition is 8 configuration-load, 7 first-spawn,
+41 SHT/transition/publication, 56 lower-clamp and 17 first-bounds-copy bytes.
+Both sides read sideIndex first, but only the target pushes color/side before
+acquiring the first spawn receiver. Current SHT snapshots preserve memory order,
+not the target's cyclic carriers; the old direct-SHT control still has 259
+complete differences. No new Player variant was justified or compiled here.
+
+Reproduction and binding: RunEcl uses unchanged `ecl-pop-context`; Enemy uses
+`enemy-attached-effect-update` (both `/MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr
+/O2 /Ob1 /Oy- /I src`). Options uses `title-screen-setup-thread` (`/O1`, no `/Oi`,
+otherwise that profile), asserted equal to menu-sound's profile. RunEcl's eight
+first-include files are staged by `scripts/probe-ecl-variant.py`, with other
+headers read from unchanged `src/`; this is not a self-contained frozen closure.
+The script SHA-256 is
+`0bd9c91a11e9ad0ea6635700b8d874ca05e1bccd3c28f8d74fd87f1d3cc412f3`.
+Use `nice -n 10 python3 -B scripts/probe-ecl-variant.py --control
+<R/read-int-snapshot/EclRunControl.inl> --output <new .analysis directory>`;
+for the other three cases use `--state` with their named R variant file.
+All four recorded runs compile successfully but end in diagnostic rejection;
+missing complete.json in the two altered-geometry cases is not compile failure.
+Their original objects are in `.analysis/th09-runecl-{read-int-snapshot,
+timeout-zero-copy,timeout-native-bitfield,timeout-byte-consumer}-20261022-v01/`.
+R's `*-result/owner.raw`, coff.json and summary.json preserve independent actual
+object extraction even when the strict inspector rejects. The separate shared-cell
+trial freezes the complete 68-file closure and redirects only /I to that source
+tree; codegen flags are unchanged. Its commands.json and verify_staging.py bind
+that distinct route rather than the eight-file trial route. Same-object equivalence
+is not a fresh canonical proof for four symbols whose reviewed carrier uses the
+separate Type11 profile. Header reachability of 140 canonical units / 29 sources
+is only an impact inventory, not a revalidation result.
+
+Enemy's `stage_only.py --case <name>` generates the actual 35-file closure and
+pinned `compile-command.sh`; per-case stage.json hashes the inputs. Existing
+case directories reject overwrite. `analyze_only.py --case <name>` performs the
+noncompiling inspection; compare_force_const_ref.py rechecks the old equivalence.
+Options root_probe.py records complete quoted includes/profile/command before
+each serial compile; verify_compiled.py independently reparses both objects.
+The separate native-VM trial uses its own 11-file closure and unchanged Title
+profile with /I redirected to that closure; executed-command.json records the
+actual call and O/verify_native_vm.py rechecks every definition. Its conservative
+434-unit / 121-source header-impact set is not a revalidation report. Neutral
+codegen in either structural trial does not justify broad header adoption.
+Pause uses ascii-manager-on-update with unchanged /O2 /Oi options; Q/inputs.json
+records its 12-file quoted closure, source preimage and actual compiler command.
+P/review.py and T/static_audit.py are read-only reproducers. Preparation-time
+`compiled:false`/`fresh_compiler_run:false` fields in initial manifests are not
+terminal outcomes; the later object hashes, compile exits and reports above are
+the completed evidence. Exact hashes, source patches and commands remain in
+those private packets; no public cold-source receipt is claimed by an existing-
+object diagnostic. Unchanged exact proofs are reused, not newly accepted for
+this HEAD. The separate GameManager ownership evaluation still awaits cross-owner
+checks; it is not adopted or reported as a completed result in this checkpoint.
