@@ -976,7 +976,7 @@ EnemyView::CleanupAfterDeactivation,0x00410110,function
 FrontMessageOwnerView::InitializeMessageRuntime,0x004181E0,function
 PlayerCheckState2,0x0044AB20,function
 ApplyNetworkInput,0x0042ACE0,function
-GameManagerPlayfieldView::IsWithinPlayfield,0x0041A6EB,function
+AsciiGameManagerView::IsWithinPlayfield,0x0041A6EB,function
 EffectPolarScaleView::SetFromAngleAxes,0x0040D4D0,function
 PlayerOwnerRewardCallbackType0,0x004412E0,function
 EffectInitializeCallbackType1Type2,0x0040D520,function

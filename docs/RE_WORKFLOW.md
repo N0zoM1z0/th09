@@ -2,9 +2,9 @@
 
 The project milestone is at least **95% of reviewed authored bytes exact**,
 using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
-The operator has paused further reconstruction for a clean handoff. Finish
-tested dirty work and preserve reproducible evidence; do not start new
-reconstruction experiments until the operator resumes the task.
+The operator has explicitly resumed reconstruction and requests continuous
+progress. Historical pause notes do not override this resume. Recover dirty
+work, challenge past hypotheses and checkpoint substantive tested progress.
 The RunEcl, EnemyManager::OnUpdate, Title DrawResult and ExAttack Type3 fronts
 and the milestone remain unfinished. Compiles stay serial and at lowered
 priority; only affected proofs need replay. Clean only reviewed, reproducible

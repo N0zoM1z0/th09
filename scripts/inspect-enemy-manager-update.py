@@ -152,7 +152,6 @@ def reference_index():
 
 unit_aliases={
  '?SetSideEnemyIndicatorPosition@EnemyCoreFrontView@@QAEXHPAUFloat3@@@Z':'front-enemy-indicator',
- '?IsWithinPlayfield@EnemyCoreGameManagerPlayfieldView@@QAEHMMMM@Z':'game-manager-is-within-playfield',
  '?EnemyCoreRunLifeCallback@@YIHPAUEnemyCoreView@@@Z':'player-check-state2',
  '?EnemyCoreRunTimerCallback@@YIHPAUEnemyCoreView@@@Z':'player-check-state2',
  '?ExecuteScript@EnemyCoreAnmManagerView@@QAEHPAUEnemyCoreAnmVmView@@@Z':'anm-manager-execute-script',
@@ -163,11 +162,8 @@ unit_aliases={
  '?SetBossMarkerState@EnemyCoreUiView@@QAEXHH@Z':'ascii-manager-set-boss-marker-state',
 }
 symbol_aliases={
- '?g_EnemyCoreRuntimeFlags@@3IA':'?g_PlayerUpdateGateFlags@@3IA',
  '?g_EnemyCoreFront@@3PAUEnemyCoreFrontView@@A':'?g_PlayerSharedRuntime@@3PAUPlayerSharedRuntimeView@@A',
  '?g_EnemyCoreSchedule@@3PAEA':'?g_EnemySubroutineSchedule@@3PAEA',
- '?g_EnemyCoreDifficultyValue@@3HA':'?g_PlayerRewardBaseValue@@3HA',
- '?g_EnemyCoreGameManager@@3UEnemyCoreGameManagerPlayfieldView@@A':'?g_GameManager@@3UGameManagerSetupLayout@@A',
  '?g_EnemyCoreAnmManager@@3PAUEnemyCoreAnmManagerView@@A':'?g_AnmManager@@3PAVAnmManager@@A',
  '?g_EnemyCoreSoundPlayer@@3UEnemyCoreSoundPlayerView@@A':'?g_SoundPlayer@@3VSoundPlayer@@A',
  '?g_EnemyCoreUi@@3UEnemyCoreUiView@@A':'?g_AsciiManager@@3VAsciiManager@@A',
@@ -227,6 +223,49 @@ def require_external_runecl_call(caller_fields, target):
     return dict(symbol=RUNECL_SYMBOL, call_offset=0x397,
                 same_object_definition=False, callee_codegen='not inspected',
                 original_call_destination=0x4086C0, exactness_credit='none')
+
+
+GAME_MANAGER_SYMBOL = '?g_GameManager@@3UAsciiGameManagerView@@A'
+PLAYFIELD_SYMBOL = '?IsWithinPlayfield@AsciiGameManagerView@@QAEHMMMM@Z'
+GAME_MANAGER_FIELDS = {0x0A: 0x134, 0x28F: 0xB4,
+                       0x60E: 0, 0x669: 0, 0x69D: 0, 0x6D4: 0}
+PLAYFIELD_CALLS = (0x613, 0x66E, 0x6A2, 0x6D9)
+
+
+def require_game_manager_fields(rows, units, target):
+    """Require the shared native global and member, including real COFF addends."""
+    unit = units['game-manager-is-within-playfield']
+    if (unit['symbol'], unit['target_address'], unit['size']) != (
+            PLAYFIELD_SYMBOL, 0x41A6EB, 116):
+        raise ValueError('canonical GameManager playfield contract changed')
+    globals_ = [r for r in rows if r['symbol'] == GAME_MANAGER_SYMBOL
+                or r['offset'] in GAME_MANAGER_FIELDS]
+    calls = [r for r in rows if r['symbol'] == PLAYFIELD_SYMBOL
+             or r['offset'] in PLAYFIELD_CALLS]
+    if (len(target) != OWNER_SIZE or len(globals_) != 6 or len(calls) != 4
+            or {r['offset'] for r in globals_} != set(GAME_MANAGER_FIELDS)
+            or {r['offset'] for r in calls} != set(PLAYFIELD_CALLS)):
+        raise ValueError('native GameManager field/call inventory differs')
+    for row in globals_ + calls:
+        offset = row['offset']
+        is_global = offset in GAME_MANAGER_FIELDS
+        addend = GAME_MANAGER_FIELDS[offset] if is_global else 0
+        if (type(offset) is not int or type(row['addend']) is not int
+                or row['addend'] != addend
+                or row['type'] != ('DIR32' if is_global else 'REL32')
+                or row['symbol'] != (GAME_MANAGER_SYMBOL if is_global else PLAYFIELD_SYMBOL)
+                or type(row.get('symbol_section')) is not int or row['symbol_section'] != 0
+                or type(row.get('symbol_value')) is not int or row['symbol_value'] != 0):
+            raise ValueError('native GameManager root/member identity differs')
+        actual = struct.unpack_from('<I', target, offset)[0]
+        expected = (0x4A7D90 + addend if is_global else
+                    (0x41A6EB - (BASE + offset + 4)) & 0xFFFFFFFF)
+        if actual != expected or (not is_global and target[offset-1] != 0xE8):
+            raise ValueError('original GameManager field/call target differs')
+    return dict(global_symbol=GAME_MANAGER_SYMBOL, fields=6, calls=4,
+                valueB4_addend=0xB4, flags_addend=0x134,
+                playfield_unit='game-manager-is-within-playfield',
+                playfield_bytes=116, same_object_definition=False)
 
 
 def external_destination(row, units, functions, registry):
@@ -301,6 +340,7 @@ def _diagnose(path, *, explain, external_runecl):
         native_run_owner = require_runecl_definition(relocations, callee_raw, callee_fields)
     native_player_state = require_player_state_calls(relocations, units, target)
     native_player_damage = require_player_damage_calls(relocations, units, target)
+    native_game_manager = require_game_manager_fields(relocations, units, target)
     greater_raw, greater_fields = compare.object_function(path, TIMER_GREATER_SYMBOL)
     native_timer_greater = require_timer_greater_definition(
         relocations, units, greater_raw, greater_fields, target)
@@ -363,6 +403,7 @@ def _diagnose(path, *, explain, external_runecl):
         'native_run_owner': native_run_owner,
         'native_player_state': native_player_state,
         'native_player_damage': native_player_damage,
+        'native_game_manager': native_game_manager,
         'native_timer_greater': native_timer_greater,
         'target_sha256': hashlib.sha256(target).hexdigest(),
         'target_bytes': OWNER_SIZE,

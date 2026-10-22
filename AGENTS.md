@@ -2,13 +2,14 @@
 
 ## Current operator status
 
-The operator has paused further **TH09 original v1.50a** reconstruction and
-requests a clean handoff. Finish tested dirty work, organize current documentation,
-and remove only reviewed, reproducible generated artifacts. Do not start new
-reconstruction experiments until the operator resumes the task. The 95% milestone
-and RunEcl/Enemy/Title/Type3 fronts remain unfinished. Work from the real Git tree
-and live ledgers. Limit CPU/memory, compile serially at lowered priority, and
-reuse unchanged source/profile-bound proofs.
+The operator has explicitly resumed **TH09 original v1.50a** reconstruction and
+requests continuous progress toward the 95% reviewed-authored-byte milestone.
+Do not pause on the basis of historical handoff wording. The RunEcl, Enemy,
+Title and Type3 fronts remain unfinished. Recover dirty work, challenge old
+hypotheses with current evidence, and checkpoint substantive tested progress
+frequently. Work from the real Git tree and live ledgers. Limit CPU/memory,
+compile serially at lowered priority, reuse unchanged source/profile-bound
+proofs, and remove only reviewed, reproducible generated artifacts.
 **Use `gpt-6.1-sol: ...` for every new English commit and push the checkpoint.**
 Verify the remote ref independently; distinguish local commit from remote push.
 Commit tested substantive progress, including reproducible diagnostic evidence.

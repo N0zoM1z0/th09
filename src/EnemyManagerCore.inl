@@ -1,3 +1,4 @@
+#include "AsciiGameManagerView.hpp"
 #include "PlayerDamageView.hpp"
 #include "PlayerState4OpsView.hpp"
 #include "BulletSpawnDescriptorCtorView.hpp"
@@ -413,7 +414,6 @@ typedef char EnemyCoreFrontFreezeAt1095C[
 
 extern AsciiManager g_AsciiManager;
 extern EnemyCoreFrontView *g_EnemyCoreFront;
-extern unsigned int g_EnemyCoreRuntimeFlags;
 extern unsigned char g_EnemyCoreSchedule[];
 
 // Reconstruction aliases for the shared physical leaf at 0x0044AB20.
@@ -428,17 +428,6 @@ int EnemyCoreRunTimerCallback(EnemyCoreView *enemy)
 {
     return 0;
 }
-struct EnemyCoreGameManagerPlayfieldView
-{
-    unsigned char unknown000[0xB4];
-    int valueB4;
-
-    int IsWithinPlayfield(float x, float y, float width, float height);
-};
-typedef char EnemyCoreGameManagerValueAtB4[
-    (offsetof(EnemyCoreGameManagerPlayfieldView, valueB4) == 0xB4) ? 1 : -1];
-
-extern EnemyCoreGameManagerPlayfieldView g_EnemyCoreGameManager;
 extern void EnemyCoreReleaseChildEclBlocks(EnemyCoreView *enemy);
 extern void EnemyCoreReleaseAttachedEffects(EnemyCoreView *enemy);
 static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy);
@@ -486,7 +475,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
     int hitKind;
     int enemyIndex;
 
-    if ((g_EnemyCoreRuntimeFlags & 0x1800) != 0)
+    if ((g_GameManager.flags & 0x1800) != 0)
         return 1;
 
     g_EnemyCoreFront->SetSideEnemyIndicatorPosition(
@@ -596,7 +585,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                     descriptor.count1 =
                         static_cast<short>(spawnSide->characterIndex20 == 13 ? 1 : 3);
                     descriptor.speed1 =
-                        static_cast<float>(g_EnemyCoreGameManager.valueB4) * 0.1f +
+                        static_cast<float>(g_GameManager.valueB4) * 0.1f +
                         1.0f;
                     descriptor.count2 = 1;
                     descriptor.angle = 0.0f;
@@ -674,7 +663,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 (enemy->flags337C & ENEMY_CORE_HAS_BEEN_IN_BOUNDS) == 0 &&
                 (worldPosition = reinterpret_cast<const Float3 *>(
                      enemy->worldPosition2DD4.operator float *()),
-                 g_EnemyCoreGameManager.IsWithinPlayfield(
+                 g_GameManager.IsWithinPlayfield(
                     worldPosition->x,
                     worldPosition->y,
                     loadedSprite->extent34,
@@ -686,18 +675,18 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                      (enemy->flags337C & ENEMY_CORE_ALLOW_OFFSCREEN) == 0)
             {
                 if ((enemy->trailFlags53A0 == 0 &&
-                     !g_EnemyCoreGameManager.IsWithinPlayfield(
+                     !g_GameManager.IsWithinPlayfield(
                          enemy->worldPosition2DD4.x,
                          enemy->worldPosition2DD4.y,
                         enemy->primaryVm008.loadedSprite224->extent34,
                         enemy->primaryVm008.loadedSprite224->extent30)) ||
                     (enemy->trailFlags53A0 != 0 &&
-                     !g_EnemyCoreGameManager.IsWithinPlayfield(
+                     !g_GameManager.IsWithinPlayfield(
                          enemy->worldPosition2DD4.x,
                          enemy->worldPosition2DD4.y,
                         enemy->primaryVm008.loadedSprite224->extent34,
                         enemy->primaryVm008.loadedSprite224->extent30) &&
-                     !g_EnemyCoreGameManager.IsWithinPlayfield(
+                     !g_GameManager.IsWithinPlayfield(
                         enemy->trailSamples33E8[
                             enemy->trailHistoryLength53A2 - 1].position00.x,
                         enemy->trailSamples33E8[

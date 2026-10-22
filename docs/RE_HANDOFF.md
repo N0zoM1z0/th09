@@ -7,42 +7,49 @@
 
 ## Current verified handoff checkpoint
 
-Further reconstruction is paused under the operator's supplied instructions.
-This checkpoint finishes the dirty diagnostic batch recovered after pushed
-`dc6cc09`; it opens no new reconstruction experiment. The 95% milestone and
-RunEcl/Enemy/Title/Type3 fronts remain unfinished. Await an explicit resume.
+Reconstruction is active after the operator's explicit resume following pushed
+`f2b0bef`. Historical pause wording is superseded; continue toward 95% and the
+RunEcl/Enemy/Title/Type3 fronts, checkpoint tested progress and reuse unchanged
+proofs. No new exact function or byte credit is claimed by this batch.
 
-- Original Japanese v1.50a disk identity, direct IDA metadata, entry point and
-  five distributed mapped samples pass. The fresh complete Enemy baseline is
-  **3900 bytes /97 fields /13 differences**, 1026 instructions, 69 calls and
-  170 blocks. Reinspection through the standard full-ECL path is unchanged.
-- The recovered public `probe-enemy-native-spawn-context.py --case standalone`
-  compiles the real Enemy source without the RunEcl implementation. Both cold
-  captures reproduce all 3900 raw bytes and the 97 effective field identities
-  of the canonical baseline. Five real native helper definitions independently
-  match their complete original 514 bytes /8 fields /10 actual references.
-- Standalone inspection explicitly records a genuine external RunEcl call at
-  +0x397, with callee codegen uninspected and no exactness credit. The normal
-  inspector still requires the complete same-object 15564-byte /598-field
-  RunEcl definition. Existing full-ECL recipes preserve their source rendering.
-- Eighteen pre-review source models are retained as bounded negative evidence.
-  Standalone/vector, equivalent position-copy and shared flag-view models
-  retain 13; real periodic Timer visibility gives 45. Shared position-pointer
-  and explicit real copy-operation families fail extent, referent or exact
-  helper checks. No losing source or register/variable-order hint is adopted.
-- Evidence is `.analysis/gpt-61sol-20261022-enemy-spawn/`. The verified
-  `trials.zip` retains 1311 exact source/report files (8683769 logical bytes)
-  as 126 unique blobs in 317674 bytes. Restore paths and hashes are in its index;
-  archive replay and per-file cleanup receipts remain alongside the recipes.
-  Archive-only cold replay reproduces all 3900 raw bytes /97 actual COFF rows
-  and the five native helpers. Cleanup removes the 1311 verified copies.
-  Existing build files and unrelated caches are outside this cleanup scope.
-- CI passes **926 tests /28 skips**, exit zero. Target-required tracking,
-  documentation, generated progress and whitespace checks pass.
-- All 492 game-source inputs, canonical profiles and 1003 authored exact proofs
-  are unchanged and reused. Exact remains **1003/1035 functions** and
-  **244917/291883 bytes (83.9093%)**; 95% still needs **32372 complete bytes**.
-  Full inventory, native product/runtime and later phase gates remain open.
+- Recovery is clean. Original Japanese v1.50a disk identity, direct local IDA
+  metadata, entry point and five distributed mapped samples pass.
+- Enemy's gate, signed +0xB4 speed input and four boundary calls now use the
+  existing shared `g_GameManager` declaration and its real
+  `AsciiGameManagerView::IsWithinPlayfield` member. Two private global
+  declarations and the private method declaration are removed. The real
+  116-byte callee keeps its unit/address/profile and all six original fields;
+  all five actual scalar definitions are independently checked.
+- Five natural private source models each retain **3900/97/13** and the five
+  exact native helpers. The adopted source preserves **all 3900 linked Enemy
+  bytes** of the previous canonical baseline. The full inspector now checks
+  six actual native root/addend identities and four real member-call symbols;
+  equivalent-address surrogate globals/methods fail closed.
+- The changed shared-header closure cold-replays **192 authored exact units /
+  58633 bytes** across **47 canonical carrier/profile/object groups**, serially
+  at nice10. The first two already compiled carriers are source/profile-bound
+  reused. All units remain completely exact. **349 private label names in
+  11 units** are refreshed only after actual COFF owner coordinates, unchanged
+  original referents and complete linked byte equality are verified. The
+  generic comparator is unchanged and remains strict.
+- The full RunEcl raw stream and all **598 effective field identities** are
+  unchanged; its 30 differences remain. Fresh affected Title DrawResult and
+  Type3 diagnostics pass their unchanged full guards, retaining 22 and 15.
+  The public standalone Enemy cold check again reproduces 3900/97/13, all five
+  native helpers and the genuine external RunEcl call without callee credit.
+- Evidence is `.analysis/gpt-61sol-20261022-enemy-game-root/`: compact frozen
+  inputs, five changed source models, actual raw/COFF captures, label reviews,
+  affected-unit comparisons, native literals and final frontier reports.
+  Temporary compiler carriers self-clean; current canonical objects are kept
+  for reuse. Older packets and unclassified evidence are outside this batch.
+- CI passes **927 tests /28 skips**, exit zero; focused Oracles, target-required
+  tracking, documentation, generated progress and whitespace checks pass.
+  Three hash-verified baseline snapshots (1905630 bytes) are compacted into
+  `baseline-inputs.zip` (164345 bytes), preserving every byte and all 598 RunEcl
+  field identities. The per-path cleanup receipt is `cleanup.json`.
+- Exact remains **1003/1035 functions**, **244917/291883 bytes (83.9093%)**;
+  95% still needs **32372 complete bytes**. All four fronts, complete inventory,
+  native product/runtime and later phase gates remain unfinished.
 
 ## Live ledger snapshot
 
@@ -103,7 +110,7 @@ these results do not establish unique original translation-unit ownership.
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes; opcode 155: 23 bytes, 146/148 handler shapes. Opcode 4 now directly calls the separately exact real `ZunTimer::operator=(int) @0x00401500` on the proven 12-byte context timer, rather than fake second-class timer ABI; existing genuine `RngRuntimeView`/global `g_Rng` remains. **15,564 complete instruction/table bytes and 598 source-linked original fields are unchanged**, with all **79 exact ECL/Enemy/position/math functions across two profiles** (25,215 physical bytes) protected. `--owner runecl`; exact credit remains open. |
-| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**,97 fields, 69 calls,170 blocks; **13 differing bytes** (29->13) | Genuine co-visible **ZunTimer::operator>(int)** restores all 16 tracking/homing bytes with no damaged match. The sole 20-byte definition now lives in ZunTimerGreater.inl through EclManager.cpp; four same-object call identities and its complete body are required. All **3887 equal bytes** are protected. Remaining draw index2 and special-attack/descriptor11 stay open. All79 exact shared-ECL owners pass across two profiles; unchanged separate Timer proofs are reused. Current state/damage scopes include104/81 units; unchanged external Player proofs are reused. Original source partition and native product/runtime remain open. |
+| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**,97 fields, 69 calls,170 blocks; **13 differing bytes** (29->13) | Genuine co-visible **ZunTimer::operator>(int)** restores all 16 tracking/homing bytes with no damaged match. The sole 20-byte definition now lives in ZunTimerGreater.inl through EclManager.cpp; four same-object call identities and its complete body are required. All **3887 equal bytes** are protected. The six native GameManager fields and four real 116-byte playfield-member calls are now independently guarded; all3900 linked bytes are preserved. Remaining draw index2 and special-attack/descriptor11 stay open. All79 exact shared-ECL owners pass across two profiles; unchanged separate Timer proofs are reused. Current state/damage scopes include104/81 units; unchanged external Player proofs are reused. Original source partition and native product/runtime remain open. |
 | **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Maintained src/EffectDrawType29.inl preserves flag-scoped main plus six satellite fans. The inspector also records all 13 polar/accumulation receiver windows and the independently differing ordinal graph. Bounded original/native-helper emulator comparison covers all672 reachable original instructions across26 cases; it is not byte-exact or whole-product validation. The full-byte guard protects1035 equal positions. Source presence is independent of exactness; `--owner effect29` protects77 shared exact functions across two profiles. |
 | **Effect 34 draw** | 0x00444AF0 | **946/959 physical**, 53 source-linked original referents, 20 direct +12 COM calls, target/candidate 16/15 blocks; **593 overlap differences +13 extra bytes** | Exact native initialization (178) and update (208) protect the original 0xEF8 buffer: fan33 at +0x54, four line32 groups at +0x2E8, four random33 rows at +0xCE8. The genuine ECL/math context removes two redundant receiver reload bytes from the 961-byte standalone candidate. All four actual scalar definitions and all 53 decoded candidate address fields are now checked against real COFF sections and original values; a wrong-definition object with unchanged code/relocations is rejected. All 353 equal original bytes and exact D3D arguments remain protected by `--owner effect34`; byte-register alpha/cursor homes and loop layout stay open. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor ESI still open. The final original call is now typed as `EffectManager::DrawBulletLayerEffects` with its separately **169/169 exact** real-member source at `0x0040D110` and side owner at `+0x0C`; all original linked bytes remain unchanged. Complete SHA/offset guard preserves the 332 equal bytes; `--owner etama` protects **both exact same-carrier helpers plus the separately exact OnUpdate (3 checks)**. |
@@ -169,8 +176,8 @@ immutable source-commit bindings; they do not accept a later HEAD.
 
 Read [`AGENTS.md`](../AGENTS.md), [`RE_WORKFLOW.md`](RE_WORKFLOW.md), and
 [`ORACLES.md`](ORACLES.md). Inspect staged, unstaged and untracked work first.
-Further reconstruction is paused. After an explicit resume, use one affected
-owner at a time and reuse unchanged proofs. Historical countermodels are bounded
+Reconstruction is active. Use one affected owner at a time and reuse unchanged
+proofs. Historical countermodels are bounded
 negative evidence, not a reason to assume an entire source family is exhausted.
 
 ```bash
@@ -211,9 +218,10 @@ results, fields and deficits before making an exactness claim.
 ## Evidence and cleanup boundaries
 
 The current tree retains **491 game-source files, 1,035 comparison units and
-1,003 authored exact rows**. All 492 game inputs including the source README
-are unchanged in this diagnostic batch. All 1,003 authored exact source/profile
-proofs are reused; isolated compiler contexts do not reaccept those claims.
+1,003 authored exact rows**. Three game-source files change in this batch.
+All 192 affected authored exact source/profile proofs are replayed, including
+the renamed physical playfield method; the other 811 unchanged proofs are reused.
+Diagnostic source models do not grant exact credit.
 The previous `7e178d8` Timer checkpoint replayed 17 units including 16 authored
 functions and one noncredit alias. All profiles, boundaries and authored exact
 counts stay fixed. Pointer-interface
@@ -221,14 +229,18 @@ and Replay constructor units remain unknown-origin byte evidence; shared Timer
 and Player getter aliases add no authored credit. Native product/runtime,
 complete inventory, semantic and port gates remain open.
 
-The current Enemy packet retains the source-model recipes, full raw callback
-and actual COFF rows, five native helper comparisons, source/profile bindings
-and both public cold reports. Its reviewed archive/cleanup records are
-`archive.json`, `archive-replay.json`, `manifest.json` and `cleanup.json`.
-The preceding Type3 and Replay evidence remains scoped to dc6cc09 and ed214bd;
-Timer proofs and earlier cleanup records remain in the knowledge base and
-[artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md). No previous build
-file or unrelated cache is classified for deletion by this batch.
+The current Enemy GameManager packet retains frozen source inputs, changed
+source models, full callback raw/COFF streams, canonical unit comparisons,
+private-label coordinate reviews and native literal definitions. The manifest
+binds it to its source checkpoint and records retained generated files. All
+private temporary source/OBJ/PDB carriers self-clean. Canonical objects remain
+available for focused reuse; older/unclassified build and analysis files are
+not classified for deletion by this batch. Three baseline snapshots are retained
+verbatim in `baseline-inputs.zip`; its index and `cleanup.json` record their
+hashes and paths. The frozen replayer reads the archive directly. The f2b0bef standalone
+packet,
+preceding Type3/Replay packets and older Timer receipts remain in Git history,
+the knowledge base and [artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md).
 
 Ignored packets are local evidence and are not included in Git commits or
 pushes. Tracked source, scripts and durable observations provide the public

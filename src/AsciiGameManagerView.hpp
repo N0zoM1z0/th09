@@ -47,7 +47,9 @@ typedef char AsciiGameManagerSideViewSizeIs38[
 struct AsciiGameManagerView
 {
     AsciiGameManagerSideView sides[2];
-    unsigned char unknown070[0x7C];
+    unsigned char unknown070[0x44];
+    int valueB4;
+    unsigned char unknown0B8[0x34];
     float speedEC;
     unsigned char unknown0F0[0x0C];
     int field0FC;
@@ -71,6 +73,7 @@ struct AsciiGameManagerView
     float coordinateOffsetX;
     float coordinateOffsetY;
 
+    int IsWithinPlayfield(float x, float y, float width, float height);
     float TransformPopupX(float value);
     float TransformPopupY(float value);
     float InverseTransformPopupX(float value);
@@ -90,6 +93,8 @@ typedef char AsciiGameManagerSideAnmOwnerAt0C[
     (offsetof(AsciiGameManagerSideView, anmOwner0C) == 0x0C) ? 1 : -1];
 typedef char AsciiGameManagerField0FC[
     (offsetof(AsciiGameManagerView, field0FC) == 0x0FC) ? 1 : -1];
+typedef char AsciiGameManagerValueAtB4[
+    (offsetof(AsciiGameManagerView, valueB4) == 0xB4) ? 1 : -1];
 typedef char AsciiGameManagerSpeedAtEC[
     (offsetof(AsciiGameManagerView, speedEC) == 0xEC) ? 1 : -1];
 typedef char AsciiGameManagerGameModeAt118[

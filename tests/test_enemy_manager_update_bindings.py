@@ -24,6 +24,49 @@ class TargetPayload:
 
 
 class EnemyUpdateBindingTests(TestCase):
+    def test_shared_game_manager_requires_real_root_member_and_call_identities(self):
+        units, _, _ = inspector.reference_index()
+        target = bytearray(inspector.OWNER_SIZE)
+        rows = []
+        for offset, addend in inspector.GAME_MANAGER_FIELDS.items():
+            rows.append(self.row(symbol=inspector.GAME_MANAGER_SYMBOL, offset=offset,
+                                 type='DIR32', addend=addend))
+            struct.pack_into('<I', target, offset, 0x4A7D90+addend)
+        for offset in inspector.PLAYFIELD_CALLS:
+            rows.append(self.row(symbol=inspector.PLAYFIELD_SYMBOL, offset=offset))
+            target[offset-1] = 0xE8
+            struct.pack_into('<i', target, offset,
+                             0x41A6EB-(inspector.BASE+offset+4))
+        report = inspector.require_game_manager_fields(rows, units, target)
+        self.assertEqual((report['fields'], report['calls']), (6, 4))
+        self.assertFalse(report['same_object_definition'])
+        for index, edits in (
+                (0, dict(symbol='?g_EnemyCoreRuntimeFlags@@3IA', addend=0)),
+                (0, dict(addend=0)), (1, dict(addend=0x11C)),
+                (1, dict(symbol='?g_EnemyCoreDifficultyValue@@3HA', addend=0)),
+                (2, dict(symbol='?g_EnemyCoreGameManager@@3UEnemyCoreGameManagerPlayfieldView@@A')),
+                (2, dict(addend=False)), (2, dict(symbol_value=False)),
+                (2, dict(symbol_section=False)), (2, dict(symbol_section=7)),
+                (6, dict(symbol='?IsWithinPlayfield@EnemyCoreGameManagerPlayfieldView@@QAEHMMMM@Z')),
+                (6, dict(type='DIR32')), (6, dict(offset=0x614))):
+            changed = list(rows)
+            changed[index] = dict(rows[index], **edits)
+            with self.subTest(index=index, edits=edits), self.assertRaises(ValueError):
+                inspector.require_game_manager_fields(changed, units, target)
+        for changed in (rows[:-1], rows+rows[:1]):
+            with self.assertRaises(ValueError):
+                inspector.require_game_manager_fields(changed, units, target)
+        for offset in (0x0A, 0x28F, 0x60E, 0x613-1, 0x613):
+            bad = bytearray(target)
+            bad[offset] ^= 1
+            with self.subTest(offset=offset), self.assertRaises(ValueError):
+                inspector.require_game_manager_fields(rows, units, bad)
+        bad_units = dict(units)
+        bad_units['game-manager-is-within-playfield'] = dict(
+            units['game-manager-is-within-playfield'], size=115)
+        with self.assertRaises(ValueError):
+            inspector.require_game_manager_fields(rows, bad_units, target)
+
     def test_external_runecl_mode_checks_real_call_without_claiming_visibility(self):
         call = self.row(symbol=inspector.RUNECL_SYMBOL, offset=0x397)
         target = bytearray(inspector.OWNER_SIZE)

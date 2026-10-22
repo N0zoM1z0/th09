@@ -16973,3 +16973,91 @@ and reproduces all 3900 raw bytes /97 actual COFF rows plus the five original-
 equal helper bodies. After all producers terminate, cleanup removes exactly
 1311 hash-verified archived copies /8683769 logical bytes. The compact archive,
 recipes, public reports, final comparison and per-file deletion hashes remain.
+
+
+## October 22: resumed Enemy GameManager root and native member unification (gpt-6.1-sol)
+
+The operator explicitly resumes continuous reconstruction after f2b0bef and
+rejects further pauses based on historical handoff wording. AGENTS, workflow
+and current routing now reflect that instruction. Recovery is clean; original
+Japanese v1.50a disk identity, direct local IDA metadata, entry point and five
+distributed mapped samples pass. This supersedes the preceding pause record.
+
+Target 0x4109BD performs the signed i32 load at 0x4A7E44. GameManager update
+0x41AC86/8C/94 increments, compares and caps that same slot; setup and cleanup
+also access it. Relative to the independently established 0x4A7D90 root it is
++0xB4, distinct from the difficulty selector +0x11C. The original Enemy gate
+reads +0x134. Four original boundary-check callers place that same root in ECX
+and call the separately exact 116-byte thiscall body at 0x41A6EB. These are
+TH09-local address, operand and ABI observations; original C++ class names and
+full native data ownership remain unproven.
+
+Five private source models compile serially with the unchanged Enemy profile:
+baseline, native gate only, native value only, existing canonical playfield-view
+receiver and one shared GameManager member declaration. All retain 3900 bytes,
+97 fields and 13 differences, and all five real native helpers remain exact.
+The last model separately compiles the actual playfield body with its existing
+/O2 /Os profile; all 116 bytes and six original-bound fields match. No compiler
+profile search, register/variable-order hint or changed behavior is introduced.
+One initial baseline scoring error passed an owner slice where the existing
+literal binder requires the full PE; it is corrected before any result is
+accepted and is not a compiler/target observation.
+
+The adopted source adds the observed signed valueB4 in the existing opaque
++0x70..+0xEB prefix of AsciiGameManagerView, preserving every later offset.
+The real IsWithinPlayfield definition moves to that same shared declaration.
+Enemy now uses the existing g_GameManager for its flags, valueB4 and all four
+boundary calls, replacing two private global declarations and a separate private
+method declaration. The actual 116-byte unit, function/source ledgers and
+reccmp name follow its real C++ member symbol; unit identity, original address,
+profile, extent, six referents, authored classification and exact totals stay
+fixed. Other subsystem views and full product ownership remain separate work.
+
+The complete Enemy inspector now requires all six actual native global fields
+and four actual member calls. The gate's COFF addend is +0x134, the speed load's
+is +0xB4 and each receiver's is zero. Original field/call positions and original
+values are checked independently. Obsolete Enemy root, difficulty-slot and
+private-method aliases are removed. Mutation tests reject equivalent-address
+surrogates, wrong addends, shifted calls, false definition coordinates, duplicate
+or missing fields and changed original operands; no numeric alias grants credit.
+
+Evidence is .analysis/gpt-61sol-20261022-enemy-game-root/. The compact frozen
+inputs and changed trial sources, complete raw/COFF captures, strict reports,
+true playfield literal checks and affected-header replay recipes remain local.
+Shared-header declaration changes renumber compiler-private labels. Each renamed
+field must retain its actual same-owner COFF destination, existing original
+referent, zero addend and complete original-equal linked owner before only the
+manifest label name is updated. The generic comparator stays strict. Per-owner
+review receipts preserve old/new names and the unchanged actual coordinates.
+
+All 192 affected authored exact units (58633 bytes) pass across 47 canonical
+source/profile/object carriers; the other 811 unchanged authored proofs are
+reused. Two existing just-built carriers are reused after source/profile hash
+checks rather than recompiled. All 349 renamed private label references in 11
+units retain their independently checked owner-relative destinations and
+complete original-equal linked bytes. Review of the entire manifest diff
+confirms that profiles, source paths, extents and every target referent stay
+fixed; only the real playfield member identity and these names change.
+
+All 3900 linked Enemy bytes equal the preceding canonical baseline; the raw
+COFF gate addend now correctly expresses root+0x134. The RunEcl raw stream and
+all 598 effective field identities also remain unchanged after private-label
+renumbering. Fresh affected DrawResult and Type3 full guards pass with 22 and 15
+remaining differences. The new public standalone Enemy cold build again checks
+all five exact native helpers and the true external RunEcl call. It reports
+callee codegen as uninspected and grants no exactness credit.
+
+CI passes 927 tests /28 skips, exit zero; focused mutation tests, target-required
+tracking, docs, generated progress and whitespace pass. Once every producer
+terminates, three individually verified baseline snapshots (1905630 logical
+bytes) are preserved verbatim in baseline-inputs.zip (164345 bytes), checked
+by CRC/per-member SHA-256 and archive-only comparison of the complete RunEcl
+raw stream and 598 field identities, then removed as uncompressed duplicates.
+The replayer reads the archive directly. Canonical objects remain for focused
+reuse; temporary compiler source/OBJ/PDB trees self-clean. Original inputs,
+older caches and unclassified artifacts are untouched.
+
+Authored exact remains 1003/1035 and 244917/291883 bytes; the 95% gap remains 32372.
+This checkpoint repairs real source/ABI/global identity and protects prior code,
+without closing any near-match frontier. Reconstruction stays active; all four
+fronts, whole-product/runtime closure and later phases remain unfinished.

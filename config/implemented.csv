@@ -975,7 +975,7 @@ EnemyView::CleanupAfterDeactivation
 FrontMessageOwnerView::InitializeMessageRuntime
 PlayerCheckState2
 ApplyNetworkInput
-GameManagerPlayfieldView::IsWithinPlayfield
+AsciiGameManagerView::IsWithinPlayfield
 EffectPolarScaleView::SetFromAngleAxes
 PlayerOwnerRewardCallbackType0
 EffectInitializeCallbackType1Type2

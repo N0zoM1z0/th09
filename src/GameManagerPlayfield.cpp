@@ -1,9 +1,6 @@
-struct GameManagerPlayfieldView
-{
-    int IsWithinPlayfield(float x, float y, float width, float height);
-};
+#include "AsciiGameManagerView.hpp"
 
-int GameManagerPlayfieldView::IsWithinPlayfield(
+int AsciiGameManagerView::IsWithinPlayfield(
     float x, float y, float width, float height)
 {
     if (width / 2.0f + x < -144.0f)
