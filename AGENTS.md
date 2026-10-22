@@ -2,20 +2,22 @@
 
 ## Current operator status
 
-The operator requests a clean handoff of **TH09 original v1.50a** reconstruction.
-Do not start new reconstruction experiments until explicitly resumed. Finish
-existing tested work, organize current documentation, and remove only reviewed,
-reproducible generated artifacts. The 95% milestone and RunEcl, Enemy, Title and
-Type3 fronts remain unfinished. Recover dirty work and use the real Git tree
-and live ledgers. Limit CPU/memory, compile serially at lowered priority and
-reuse unchanged source/profile-bound proofs.
-**Use `gpt-6-astra-medium: ...` for every new English commit and push the checkpoint.**
-Verify the remote ref independently; distinguish local commit from remote push.
-Commit tested substantive progress, including reproducible diagnostic evidence.
-Never skip, hide, discard or avoid existing dirty work: examine and finish it.
-Use direct local IDA Pro MCP and Bash, with the pinned VC7.1 compiler/comparison
-Oracles. Do not route this local campaign through Factory MCP. Compile serially
-at lowered priority, and reuse unchanged source/profile-bound proofs. See
+The operator explicitly resumed **TH09 original v1.50a** reconstruction on
+October 22, 2026, targeting **98% exact reviewed-authored code bytes** through
+Factory MCP (`repository_id: th09`). Prioritize the key large functions,
+including RunEcl, Enemy, Title and Type3. Revisit old documentation and source
+hypotheses against fresh TH09 evidence rather than assuming them correct.
+The milestone and those fronts remain unfinished. Recover dirty work and use
+the real Git tree and live ledgers. Limit CPU/memory, compile serially at
+lowered priority, and reuse unchanged source/profile-bound proofs.
+**Use `gpt-dots: ...` for every new English commit.** Preserve Git author
+`N0zoM1z0 <1705004398@qq.com>` and the trailer
+`Co-authored-by: gensokyo-dev <342580529+gensokyo-dev@users.noreply.github.com>`.
+Create tested local checkpoints; Factory provides no network or Git push.
+Never describe a local commit as pushed. Commit substantive progress, including
+reproducible diagnostic evidence. Never skip, hide, discard or avoid existing
+dirty work: examine and finish it. Use Factory repository Bash and the attested
+`th09-ida` provider with the pinned VC7.1 compiler/comparison Oracles. See
 `docs/RE_HANDOFF.md` for the current ledger and verified frontiers.
 
 This repository targets only the original Japanese TH09 version 1.50a
@@ -44,12 +46,12 @@ Before changing anything:
 3. In the repository shell, run `python3 scripts/verify-target.py`,
    `python3 scripts/validate-tracking.py --require-target`, and
    `python3 scripts/report-reconstruction-status.py` before target-dependent
-   work. For this local session, call direct IDA Pro MCP `get_metadata` with
-   exactly `{}` and run `python3 scripts/check-ida-mcp.py` to check the entry
-   point and distributed mapped bytes against the verified private target.
-   Metadata hashes alone do not prove the mapped database is unmodified.
-   When using Factory/Web, call `th09-ida` `get_metadata` with `{}` via the
-   attested provider; its passed target identity is not an exactness Oracle.
+   work. For this Factory/Web campaign, call `th09-ida` `get_metadata` with
+   exactly `{}` via the attested provider. Check its target attestation before
+   analysis; metadata hashes alone do not prove an unmodified mapped database.
+   Its passed target identity is not an exactness Oracle. A separately requested
+   local session may instead use direct IDA Pro MCP plus
+   `python3 scripts/check-ida-mcp.py` for mapped-byte attestation.
 4. Work on one bounded unit or one coherent infrastructure batch and leave a
    reviewable local checkpoint.
 
@@ -115,9 +117,9 @@ analysis database is working state; mirror durable conclusions into the repo.
 
 ## Checkpoints and artifacts
 
-- For the current local campaign, use concise, coherent commits prefixed
-  **`gpt-6-astra-medium: ...`**, push, and independently verify the remote ref.
-  Historical Factory transport limits do not describe this local shell.
+- For the current Factory campaign, use concise, coherent local commits
+  prefixed **`gpt-dots: ...`**, with the author and co-author trailer above.
+  Factory has no Git push; report local checkpoints without a remote claim.
 - Route current work through `docs/RE_HANDOFF.md`; original-bound
   accepted receipts now live in `docs/RE_ACCEPTED_RECEIPTS.md` with
   immutable source commit bindings. Superseded long-form checkpoint details

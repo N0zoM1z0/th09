@@ -7,26 +7,36 @@
 
 ## Current verified handoff checkpoint
 
-The operator requested handoff on October 22 after independently pushed
-`d499c319eba6880ad3c22c41967cce1553818e8a`. Do not start new reconstruction
-experiments until explicitly resumed. New commits use `gpt-6-astra-medium:`.
+The operator explicitly resumed reconstruction on October 22, 2026, through
+Factory MCP with a **98% reviewed-authored-byte exact** goal and priority on
+key large functions. Fresh TH09 evidence must test old notes and hypotheses.
+New English commits use `gpt-dots:` and the identity/trailer in `AGENTS.md`.
+Factory checkpoints are local only; Git push is unavailable here. The earlier
+October 22 handoff followed independently pushed
+`d499c319eba6880ad3c22c41967cce1553818e8a`; that remote checkpoint is historical.
 
-- Original disk and direct IDA mapped-byte checks pass. Latest completed
+- Fresh resumed checks verify the original disk target, live ledger, and
+  attested `th09-ida` mapping (entry point plus six distributed byte samples).
+  Cold RunEcl replay retains 30 ordinary differences with all 598 fields and
+  tables matching, and protects 79 canonical exact sibling owners. Cold
+  DrawResult replay retains 22 ordinary differences across 1939 bytes and
+  82 fields. No exact credit is added by these baseline diagnostics.
+- Previous handoff disk and direct IDA mapped-byte checks passed. Its latest
   Player cancellation-cursor controls remain nonexact; no candidate is adopted.
   See the final October 22 entry in [the knowledge base](KNOWLEDGE_BASE.md).
-- No game source or exact ledger changes in this handoff. Last game source
-  change is `c1c8eadfab28540a40ef5ecc10783311c35d0bc4`; unchanged source/profile
+- No game source or exact ledger changes in the resume metadata. Last game
+  source change is `c1c8eadfab28540a40ef5ecc10783311c35d0bc4`; unchanged source/profile
   exact proofs are reused. RunEcl scalar-return controls from d499c31 remain
   rejected, with their frozen evidence retained.
-- Coverage is **244917/291883 (83.9093%)**; 95% needs **32372** more whole exact
+- Coverage is **244917/291883 (83.9093%)**; 98% needs **41129** more whole exact
   bytes. RunEcl30, Enemy13, DrawResult22, Type315 and product gates remain open.
 - Current Player/Options trial files are losslessly archived with member hashes.
   Build caches are disposable; `build/` may be absent after handoff. Rebuild
   the affected unit before any comparison. Historical unresolved evidence,
   original input, toolchains and IDA state remain preserved.
-- Final CI passes **986 tests / 29 skips**; tracking, documentation, progress,
-  open build-graph and whitespace checks pass. Reviewed cleanup removes657
-  build cache files; archive compression plus cache removal reclaims about
+- Previous handoff CI passed **986 tests / 29 skips**; tracking, documentation,
+  progress, open build-graph and whitespace checks passed then. Reviewed cleanup
+  removed 657 build cache files; archive compression plus cache removal reclaimed about
   **18.27MiB** of logical data before audit metadata overhead.
 - Cleanup scope and audit routing are in
   [the cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md). Private evidence is
@@ -57,9 +67,9 @@ mentioning 979/876/103 are obsolete for this checkout.
 | Canonical exact authored bytes | 244,917 |
 
 **244,917 / 291,883 reviewed-authored bytes = 83.9093% exact**. To reach
-95% of the *currently classified* denominator, another **32,372 bytes**
-must become complete original-bound exact owners. The 37 origin-unresolved
-functions are excluded and could change the denominator. Similarity fractions
+98% of the *currently classified* denominator, another **41,129 bytes**
+must become complete original-bound exact owners, reaching at least **286,046
+exact authored bytes**. The 37 origin-unresolved functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
 
 The catalog is not proof of complete executable-code inventory. The formerly
@@ -73,8 +83,8 @@ Do not silently treat uncatalogued code as excluded.
 ## Active frontiers
 
 
-Prioritize **large bosses as well as small leaves**. Each row refers to a
-maintained, authored, **non-exact** function in `config/functions.csv`.
+Prioritize **key large functions**; small leaves remain in scope. Each row
+refers to a maintained, authored, **non-exact** function in `config/functions.csv`.
 Comparisons are current-source/original PE cold baselines; lengths are logical
 unless explicitly marked physical. The ledger, not this selected table, lists
 all32 maintained nonexact functions, including the2,220-byte authored Type29
@@ -157,8 +167,8 @@ immutable source-commit bindings; they do not accept a later HEAD.
 
 Read [`AGENTS.md`](../AGENTS.md), [`RE_WORKFLOW.md`](RE_WORKFLOW.md), and
 [`ORACLES.md`](ORACLES.md). Inspect staged, unstaged and untracked work first.
-After an explicit resume, use one affected owner at a time and reuse unchanged
-proofs. Historical countermodels are bounded
+For the resumed Factory campaign, use one affected owner at a time and reuse
+unchanged proofs. Historical countermodels are bounded
 negative evidence, not a reason to assume an entire source family is exhausted.
 
 ```bash
@@ -168,8 +178,8 @@ git diff --cached
 python3 -B scripts/verify-target.py
 python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/report-reconstruction-status.py
-# Call direct IDA Pro MCP get_metadata with exactly {} before this check:
-python3 -B scripts/check-ida-mcp.py
+# Via Factory, call attested th09-ida get_metadata with exactly {}.
+# Check the provider's target attestation before target-dependent analysis.
 # Choose one affected owner and reuse unchanged source/profile-bound proofs:
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner runecl
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner resultdraw
@@ -185,10 +195,10 @@ git diff --check
 python3 -B scripts/clean-generated-artifacts.py
 ```
 
-Metadata hashes alone do not establish an unmodified IDA mapping. The check
-also compares the entry point and distributed mapped bytes against the verified
-private executable. Build a canonical unit afresh before comparing its COFF;
-missing OBJ/PDB files are expected after cleanup.
+Metadata hashes alone do not establish an unmodified IDA mapping. Use the
+Factory provider's target attestation, including its mapped-byte checks, before
+analysis; target identity is not exactness credit. Build a canonical unit
+afresh before comparing its COFF; missing OBJ/PDB files are expected after cleanup.
 
 For other large owners use the frontier table; for small leaves use
 [SMALL_FUNCTION_FRONTIER.md](SMALL_FUNCTION_FRONTIER.md). Historical experiment

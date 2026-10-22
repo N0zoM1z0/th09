@@ -42,7 +42,7 @@ class HandoffDerivedSummaryTests(unittest.TestCase):
     }
     SUMMARY = (
         "**224,124 / 275,770 reviewed-authored bytes = 81.2721% exact**.\n"
-        "To reach 95%, another **37,858\nbytes** must be exact.\n"
+        "To reach 98%, another **46,131\nbytes** must be exact.\n"
         "counts are the verified **980 source-present / 935 exact / "
         "45 non-exact**.\n"
     )
@@ -55,10 +55,52 @@ class HandoffDerivedSummaryTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "percentage"):
             VALIDATE_DOCS.validate_handoff_derived_summary(stale, self.ACTUAL)
 
-    def test_old_95_percent_gap_is_rejected(self) -> None:
-        stale = self.SUMMARY.replace("37,858", "38,263")
-        with self.assertRaisesRegex(ValueError, "95% gap"):
+    def test_resumed_campaign_goal_is_98_percent(self) -> None:
+        self.assertEqual(VALIDATE_DOCS.AUTHORED_EXACT_GOAL_PERCENT, 98)
+
+    def test_old_95_percent_goal_is_rejected_even_with_current_gap(self) -> None:
+        stale = self.SUMMARY.replace("To reach 98%", "To reach 95%")
+        with self.assertRaisesRegex(ValueError, "authored-byte goal"):
             VALIDATE_DOCS.validate_handoff_derived_summary(stale, self.ACTUAL)
+
+    def test_old_95_percent_gap_is_rejected(self) -> None:
+        stale = self.SUMMARY.replace("46,131", "37,858")
+        with self.assertRaisesRegex(ValueError, "98% gap"):
+            VALIDATE_DOCS.validate_handoff_derived_summary(stale, self.ACTUAL)
+
+    def test_fractional_threshold_rounds_up_and_gap_stops_at_zero(self) -> None:
+        # ceil(98% of 101) is 99, not 98. Exactness credit remains whole-byte.
+        for exact, remaining in ((98, 1), (99, 0), (100, 0), (101, 0)):
+            with self.subTest(exact=exact):
+                actual = {**self.ACTUAL, "authored_bytes": 101, "exact_bytes": exact}
+                summary = (
+                    f"**{exact} / 101 reviewed-authored bytes = "
+                    f"{100 * exact / 101:.4f}% exact**.\n"
+                    f"To reach 98%, another **{remaining} bytes** must be exact.\n"
+                    "**980 source-present / 935 exact / 45 non-exact**\n"
+                )
+                VALIDATE_DOCS.validate_handoff_derived_summary(summary, actual)
+                stale = summary.replace(
+                    f"another **{remaining} bytes**", f"another **{remaining + 1} bytes**"
+                )
+                with self.assertRaisesRegex(ValueError, "98% gap"):
+                    VALIDATE_DOCS.validate_handoff_derived_summary(stale, actual)
+
+    def test_resumed_live_denominator_requires_41129_more_bytes(self) -> None:
+        actual = {
+            "authored_bytes": 291883, "exact_bytes": 244917,
+            "implemented": 1035, "matches": 1003, "source_nonexact": 32,
+        }
+        summary = (
+            "**244,917 / 291,883 reviewed-authored bytes = 83.9093% exact**.\n"
+            "To reach\n98%, another **41,129 bytes** must be exact.\n"
+            "**1035 source-present / 1003 exact / 32 non-exact**\n"
+        )
+        VALIDATE_DOCS.validate_handoff_derived_summary(summary, actual)
+        with self.assertRaisesRegex(ValueError, "98% gap"):
+            VALIDATE_DOCS.validate_handoff_derived_summary(
+                summary.replace("41,129", "32,372"), actual
+            )
 
     def test_old_restart_summary_is_rejected(self) -> None:
         stale = self.SUMMARY.replace("935 exact / 45", "934 exact / 46")

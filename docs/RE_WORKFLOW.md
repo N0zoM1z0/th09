@@ -1,10 +1,10 @@
 # Reconstruction workflow
 
-The project milestone is at least **95% of reviewed authored bytes exact**,
+The project milestone is at least **98% of reviewed authored bytes exact**,
 using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
-The operator now requests a clean handoff. Finish existing work and organize
-its evidence; do not start new reconstruction experiments until explicitly
-resumed. This current request supersedes earlier continuous-progress wording.
+The operator explicitly resumed reconstruction through Factory MCP on
+October 22, 2026. Prioritize key large functions and test fresh source/type/
+lifetime hypotheses against TH09 evidence; old notes are not conclusive.
 The RunEcl, EnemyManager::OnUpdate, Title DrawResult and ExAttack Type3 fronts
 and the milestone remain unfinished. Compiles stay serial and at lowered
 priority; only affected proofs need replay. Clean only reviewed, reproducible
@@ -53,10 +53,9 @@ disk target, IDA target, ledgers, and live status using the commands in
    the whole historical cohort or repeat cold builds after every edit. Each new
    exact owner still needs complete byte/relocation/source proof and a
    reproducible canonical local build/replay. Historical Factory receipts remain
-   scoped historical evidence. Factory/Web uses the attested `th09-ida` provider;
-   local Codex may use direct IDA plus mapped-byte attestation. Both routes use
-   target-bound pinned compiler Oracles. This focused replay scope supersedes
-   older broad replay wording.
+   scoped historical evidence. The resumed Factory/Web campaign uses the
+   attested `th09-ida` provider and target-bound pinned compiler Oracles. This
+   focused replay scope supersedes older broad replay wording.
 
 ### What to read at a fresh handoff
 
@@ -79,9 +78,8 @@ prepared local machine cannot hide undeclared third-party import dependencies.
 Optional decoders belong inside private diagnostic entrypoints. This local gate
 uses the same command as GitHub Actions; a local pass does not prove a remote
 workflow run. **Commit verified local checkpoints** using the current operator
-prefix in `AGENTS.md`, then push from the local shell and independently check
-the remote ref. A local commit is never evidence of a successful remote push;
-historical Factory transport limits apply only to that environment.
+prefix and identity in `AGENTS.md`. This Factory campaign has no network or
+Git push. A local commit is never evidence of a successful remote push.
 
 ### Current-state documentation hygiene
 

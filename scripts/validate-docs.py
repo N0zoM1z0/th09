@@ -12,6 +12,7 @@ from progress import measures, rows
 
 
 ROOT = Path(__file__).resolve().parents[1]
+AUTHORED_EXACT_GOAL_PERCENT = 98
 DOCS = ROOT / "docs"
 KNOWLEDGE = DOCS / "KNOWLEDGE_BASE.md"
 HANDOFF = DOCS / "RE_HANDOFF.md"
@@ -241,7 +242,7 @@ def validate_handoff_derived_summary(text: str, actual: dict[str, int]) -> None:
     """Do not let prose silently retain yesterday's exactness snapshot.
 
     The live totals table is checked separately; this checks the percentage,
-    remaining 95% gap, and restart-summary copy of those same numbers.
+    current campaign goal/gap, and restart-summary copy of those same numbers.
     Historical packet counters belong only in KNOWLEDGE_BASE/Git history.
     """
     reviewed_bytes = actual["authored_bytes"]
@@ -256,12 +257,17 @@ def validate_handoff_derived_summary(text: str, actual: dict[str, int]) -> None:
     if text.count(ratio) != 1:
         raise ValueError("handoff exact-byte percentage differs from live ledgers")
 
-    # Integer ceil(0.95 * reviewed_bytes), without floating-point rounding.
-    target_95 = (95 * reviewed_bytes + 99) // 100
-    remaining = max(0, target_95 - exact_bytes)
+    # Integer ceiling of the current goal share, without floating-point rounding.
+    target_bytes = (AUTHORED_EXACT_GOAL_PERCENT * reviewed_bytes + 99) // 100
+    remaining = max(0, target_bytes - exact_bytes)
+    goal = re.search(r"To reach\s+(\d+)%", text)
+    if goal is None or int(goal.group(1)) != AUTHORED_EXACT_GOAL_PERCENT:
+        raise ValueError("handoff authored-byte goal differs from current campaign")
     gap = re.search(r"(?:another|remaining) \*\*([\d,]+)\s+bytes\*\*", text)
     if gap is None or int(gap.group(1).replace(",", "")) != remaining:
-        raise ValueError("handoff 95% gap differs from live ledgers")
+        raise ValueError(
+            f"handoff {AUTHORED_EXACT_GOAL_PERCENT}% gap differs from live ledgers"
+        )
 
     snapshot = (
         f"**{actual['implemented']} source-present / "

@@ -55,11 +55,12 @@ downloaded tools are private and never committed.
 
 ## Current status
 
-The current operator targets **95% exact reviewed-authored code bytes**, with
-both large functions (especially RunEcl, Enemy/Etama, TitleScreen and ExAttack)
-and small leaves in scope. Factory/Web and local Codex use their respective
-attested IDA routes and the pinned VC7.1 compiler Oracles. The ledger-derived
-counts are in [`docs/PROGRESS.md`](docs/PROGRESS.md); the replace-in-place
+The operator resumed reconstruction through Factory MCP on October 22, 2026,
+targeting **98% exact reviewed-authored code bytes**. Prioritize key large
+functions (especially RunEcl, Enemy/Etama, TitleScreen and ExAttack), while
+keeping small leaves in scope and testing old hypotheses against fresh TH09
+evidence. This Factory/Web campaign uses the attested `th09-ida` route and
+pinned VC7.1 compiler Oracles. The ledger-derived counts are in [`docs/PROGRESS.md`](docs/PROGRESS.md); the replace-in-place
 [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) is the live routing and restart guide.
 Historical experiments in the knowledge base are not current codegen status.
 This measures confirmed authored bytes, not whole-image or runnable-product
@@ -79,7 +80,7 @@ instead of pretending the project is buildable.
 
 Run `python3 scripts/progress.py` to regenerate the status card,
 `python3 scripts/validate-docs.py` to catch stale handoff totals, percentage,
-95% gap, non-exact routing and accepted-owner manifest/receipt entries, and
+98% gap, non-exact routing and accepted-owner manifest/receipt entries, and
 `python3 scripts/ci.py` for the target-independent validation set. The ignored
 `build/` directory is deliberately cleared before handoff; replay a function
 by running `python3 scripts/build-match-unit.py --unit NAME` before its
