@@ -18359,3 +18359,68 @@ source graphs and readable current receipts remain. Original target/tools/IDA
 and older unclassified evidence remain untouched. Public-receipt epoch review
 finds only the later Enemy evidence/notes CSV wording changed; all compiler
 inputs,profiles,target fields and provider hashes remain identical.
+
+## October 22: independent Replay checksum traversal controls (gpt-6.1-sol)
+
+Recovery starts at clean, pushed f4a7b61f6d800e8fd32d3ef5c93a958298df6625.
+Disk identity and live ledgers pass. The first shell IDA attestation ends with
+WSL accept4 timeout/connection closed; its retry passes entry and all five
+mapped samples. Direct MCP independently returns the same entry and five byte
+windows. The transient transport failure is not a target mismatch.
+
+The earlier shared-checksumCursor rejection did not distinguish cursor reuse
+from pointer traversal itself. This bounded panel changes only the compressed
+payload summation in SaveReplay, leaving the preceding header summation and
+subsequent obfuscation intact. Each alternative introduces an ordinary consumed
+`const u8 *payloadCursor = compressedData` immediately before that loop:
+
+- `local-checksum-cursor`: keep `i = 0; i < compressedSize; i++`, also advance
+  payloadCursor in the increment clause and add `*payloadCursor`.
+- `countdown-checksum`: use `remaining = compressedSize; remaining > 0;
+  remaining--` and add `*payloadCursor++`.
+- `postincrement-checksum`: retain the original increasing integer loop and
+  add `*payloadCursor++` in its body.
+
+These are ordinary byte traversal models, with no new volatile, ABI, profile,
+forced inline, variable-order hint or artificial register use. No other
+SaveReplay expression, constructor, frame scan or error handling changes.
+The same existing no-EH ReplayInput VC7.1 profile compiles all four cases
+serially at nice10 from a frozen full quote-include closure.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| REPLAY-TRAVERSAL-001 | compiler observation | Fresh baseline repeats1238 bytes/380 instructions/49 blocks,53 fields and3 differences; complete frontier passes. | Full original-bound byte/COFF/literal/graph audit. |
+| REPLAY-TRAVERSAL-002 | rejected source hypothesis | Independent cursor emits1230/378/48,245 overlap differences and8 missing bytes. | No restored residual,242 newly differing positions; four fields move minus8. |
+| REPLAY-TRAVERSAL-003 | rejected source hypothesis | Countdown emits the identical1230-byte raw stream. | Complete raw and53 actual COFF rows retained; strict frontier rejects. |
+| REPLAY-TRAVERSAL-004 | rejected source hypothesis | Postincrement emits the same1230-byte raw stream. | Complete raw and53 actual COFF rows retained; strict frontier rejects. |
+
+All three controls lower to a decrementing pointer loop (`MOVZX [EAX]`, add,
+`INC EAX`, `DEC ESI`, `JNE`) in this complete caller. Their common raw SHA256 is
+`9d9bfdec0dc5f875c5af6e1d4d5db40cd11c2d7f52e3a1e50e697e2a54a0a73c`.
+The baseline remains
+`109c8005dd14dd60fd5ba56ddee0ebcecfd5e39618e5191ec7783a3ac113b839`.
+The retained older shared-cursor raw stream independently has that same hash.
+Both actual literal definitions pass in all four objects. Separating the two
+cursors therefore does not restore the target's indexed sum or its three
+residuals; do not repeat these exact traversal forms unchanged. This is a
+bounded compiler result, not proof of unique original source/TU ownership.
+
+Packet `.analysis/gpt-61sol-20261022-replay-checksum-traversal/` binds source
+commit, unchanged pinned profile/Oracle hashes, frozen inputs, transformations,
+all four complete raw/actual COFF streams and diagnostics. Reproduce on the
+recorded commit with `probe.py --case` and one of the four names above
+(`baseline` for the maintained source); its output directories must be fresh.
+The20-member trials archive passes CRC, per-member SHA and equality against
+all loose inputs:225371 logical bytes,46014 compressed bytes, SHA256
+`f74771869f707c8ae2c911f87bb3565c35b682cd2e9af12435f52c95efd47e80`.
+Game source, canonical units and ledger rows remain unchanged. Existing1003
+exact source/profile proofs are reused; no new exact credit or product/runtime
+claim follows. Continue other target-supported fronts instead of repeating this
+pointer-traversal panel.
+
+Full local CI passes960 tests/28 skips with exit zero; target-required tracking,
+documentation, generated progress and whitespace pass. After all four compiler
+processes and CI terminate, persisted per-path plans remove20 SHA/CRC-verified
+archive duplicates and277 new CI caches:297 files/5151755 logical bytes. All127
+preexisting cache paths remain. Current objects/PDBs and older packets remain;
+this cleanup does not remove unreproduced evidence or private game inputs.

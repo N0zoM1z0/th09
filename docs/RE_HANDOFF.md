@@ -7,44 +7,28 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after independently pushed `a1141ea`. Continue
-95% and RunEcl/Enemy/Title/Type3; historical pauses remain superseded. This
-checkpoint unifies Enemy's VM slots and reset descriptor with existing APIs.
+Reconstruction remains active after independently pushed `f4a7b61`. Continue
+95% and RunEcl/Enemy/Title/Type3; historical pauses remain superseded.
 
-- Original Japanese v1.50a disk,direct IDA metadata,entry and five mapped samples
-  pass. The retained source/profile-bound main object is rechecked before reuse:
-  full RunEcl15564/598/30 and Enemy3900/97/13 remain the starting frontiers.
-- Primary and two secondary VM slots now use shared AnmVm directly. The private
-  duplicate VM/color classes and three API casts are removed. Four color bytes
-  are edited through the actual unsigned-char object representation; the bounded
-  loaded-sprite extent view remains,without assigning meaning to unknown bytes.
-- Reset copies use the existing214-byte BulletSpawnDescriptor. Duplicate payload
-  classes are removed while all reviewed offsets remain asserted; no constructor
-  is added and unknown bytes214..23F of the persistent region are untouched.
-- Five private controls and fresh public/native/canonical checks keep every3900
-  maintained Enemy raw byte. All97 referents,13 residuals and3887 equal positions
-  remain protected. The full RunEcl raw body stays identical with30 differences.
-  Native five-body proofs pass514 bytes/eight fields/ten actual same-object calls
-  and three scalar definitions. Original nominal classes/TU ownership stay open.
-- The packed-color model produces3892 bytes/97 fields. All five native bodies
-  still pass,but the last greater call moves+EC6 to+EBD; strict original-call
-  coordinates reject it. The diagnostic now distinguishes moved calls from a
-  missing native definition. Public --case standalone-vm-packed-color reproduces
-  this rejection; the maintained individual-byte color writes remain.
-- All79 affected existing exact units pass25215 physical bytes/1126 fields across
-  two fixed profiles. Two generated symbol strings change only after independent
-  owner-local coordinates and complete original-owner proof;924 unaffected proofs
-  are reused. The493-file source-root snapshot includes README metadata; only
-  EnemyManagerCore.inl changes. No header,profile,ABI or exact-credit row changes.
-- Type14/22 draw,Effect34,Effect29 and biased-movement guards pass from the fresh
-  main object without recompilation. Title22/Type315 have no changed dependency.
-- Initial integration accidentally removes an adjacent still-used effect-view
-  declaration; its exact original block is restored and both canonical builds
-  pass. A private collector's wrong guard name is corrected without recompiling.
-  Failures remain distinct from target/source-hypothesis conclusions.
-- Evidence is `.analysis/gpt-61sol-20261022-enemy-native-vm/`. Targeted Enemy
-  tests pass53/three optional decoder skips. Full CI passes960 tests/28 skips,
-  exit zero; tracking/docs/progress/whitespace pass.
+- Disk target and live ledgers pass. The first shell IDA check has a transient
+  WSL connection timeout; the retry passes entry/five mapped samples. Direct
+  MCP independently repeats those same target-bound windows.
+- Fresh SaveReplay baseline is1238 bytes/53 fields/380 instructions/49 blocks,
+  with only B7/BB/3F6 different. Its complete strict frontier passes.
+- Three independent compressed-payload cursor forms all compile to the same
+  1230-byte decrementing loop:245 overlap differences plus8 missing bytes,
+  242 damaged equal positions and no restored residual. Four fields move minus8.
+  Splitting header/payload cursor lifetimes does not repair the indexed sum.
+  None is adopted; formulas and full reproduction route are in the latest KB.
+- All game source,profiles,canonical unit metadata and ledgers remain unchanged;
+  all1003 existing exact source/profile proofs are reused. The preceding Enemy
+  native VM/descriptor checkpoint and its79 exact replays remain current.
+- Current diagnostic packet:
+  `.analysis/gpt-61sol-20261022-replay-checksum-traversal/`.
+  Previous native Enemy proofs remain in
+  `.analysis/gpt-61sol-20261022-enemy-native-vm/`.
+- Full local CI passes960 tests/28 skips, exit zero; tracking, documentation,
+  generated progress and whitespace checks pass.
 - Exact remains1003/1035 functions,244917/291883 bytes (83.9093%);95% still
   needs32372 whole exact bytes. RunEcl30,Enemy13,DrawResult22,Type315,complete
   inventory,native product/runtime and later gates stay unfinished.
@@ -215,26 +199,15 @@ results, fields and deficits before making an exactness claim.
 
 ## Evidence and cleanup boundaries
 
-Only EnemyManagerCore.inl changes in the493-file source-root snapshot (492 code
-files plus README metadata). Shared headers,public ABIs and profiles remain
-fixed. All79 affected exact units pass25215 bytes/1126 fields;924 unchanged
-source/profile proofs are reused. One nonexact ledger note changes and two
-canonical local symbol spellings refresh after complete owner-local proof.
-No exact function/byte or native Windows product/runtime credit is added.
-
-Current evidence preserves the frozen pre-edit standalone graph,full current
-quote-include graph,five source controls,all raw/actual COFF/native/data proofs,
-retained before/new canonical captures and79 exact receipts,public positive/
-rejected recipes,original call coordinates and both initial preparation errors.
-Compiler temporaries self-clean. Current canonical objects/PDBs and existing
-old evidence remain. The22-member archive preserves2574196 logical bytes in
-280725 bytes after CRC/member-SHA/loose-equality checks. An actual archive-only
-cold predecessor-control replay repeats3900 raw bytes,97 complete actual COFF
-rows,514 native bytes/eight fields and the13-difference original-bound guard.
-Persisted per-path plans precede removing20 verified archive duplicates and277
-new terminal-CI caches:297 files/7493441 logical bytes. All127 old build-cache
-paths remain,including two refreshed entries; current canonical objects/PDBs,
-source inputs,target/tools/IDA and unclassified older evidence remain untouched.
+Current source is unchanged from f4a7b61. The new diagnostic packet retains
+frozen quote-include inputs, source/Oracle/profile hashes, four actual compiler
+results and complete original-bound diagnostics. Compiler temporary objects
+self-clean only after capture. The20-member archive retains225371 logical bytes
+in46014 bytes after CRC/member-SHA/loose-equality checks. Current canonical
+objects/PDBs, previous packets, private inputs and unclassified evidence remain.
+After terminal CI, per-path plans remove20 verified archive duplicates and277
+new caches:297 files/5151755 logical bytes. All127 old cache paths remain;
+current canonical objects/PDBs and older evidence are untouched.
 
 Ignored packets are local evidence and are not pushed. Tracked source,scripts
 and durable observations provide the restart path. Historical replayers may
