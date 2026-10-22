@@ -20,13 +20,24 @@ class RealTimerOpcode4Binding(TestCase):
         start = text.index('case TH09_ECL_OPCODE_JUMP:')
         end = text.index('case TH09_ECL_OPCODE_SET_INT:', start)
         opcode = text[start:end]
-        self.assertIn('const volatile int &rawTime =', opcode)
-        self.assertIn('int value = rawTime;', opcode)
+        self.assertNotIn('volatile', opcode)
+        self.assertIn('int value;', opcode)
+        self.assertIn('memcpy(&value, &Th09EclRunControl::RawInt(instruction, 0), sizeof(value));', opcode)
         self.assertIn('ZunTimer &timer = *reinterpret_cast<ZunTimer *>(&context->time008);', opcode)
         self.assertIn('timer = value;', opcode)
         self.assertNotIn('context->time008 = value;', opcode)
         self.assertIn('th09_ecl_redispatch_instruction', opcode)
         self.assertIn('TH09_ECL_OPCODE_SET_TIMEOUT_SPELL', (ROOT/'src/EclRunState.inl').read_text())
+
+    def test_timeout_reads_one_wire_byte_without_qualified_access(self):
+        text = (ROOT/'src/EclRunState.inl').read_text()
+        start = text.index('case TH09_ECL_OPCODE_SET_TIMEOUT_SPELL:')
+        end = text.index('case TH09_ECL_OPCODE_SET_SPECIAL_INTERACTION:', start)
+        opcode = text[start:end]
+        self.assertNotIn('volatile', opcode)
+        self.assertIn('unsigned char value;', opcode)
+        self.assertIn('memcpy(&value, &Th09EclRunState::RawByte(instruction, 0), sizeof(value));', opcode)
+        self.assertIn('AssignTimeoutSpellBit(state.primaryFlags337C, value)', opcode)
 
     def test_independent_exact_leaf_matches_original_address_and_method(self):
         with (ROOT / 'config/match-units.toml').open('rb') as f:

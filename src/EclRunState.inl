@@ -617,8 +617,8 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
             *Th09EclRunState::View(enemy);
         // Read the existing wire byte once. The target's masked XOR leaves
         // all other flag bits intact, rather than clearing and OR-ing them.
-        const volatile unsigned char &value =
-            Th09EclRunState::RawByte(instruction, 0);
+        unsigned char value;
+        memcpy(&value, &Th09EclRunState::RawByte(instruction, 0), sizeof(value));
         state.primaryFlags337C = Th09EclRunState::AssignTimeoutSpellBit(state.primaryFlags337C, value);
         break;
     }

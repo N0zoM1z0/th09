@@ -29,8 +29,8 @@ def native_state(source):
     start = source.index('    case TH09_ECL_OPCODE_SET_TIMEOUT_SPELL:')
     end = source.index('    case TH09_ECL_OPCODE_SET_SPECIAL_INTERACTION:', start)
     block = source[start:end]
-    old_read = ('        const volatile unsigned char &value =\n'
-                '            Th09EclRunState::RawByte(instruction, 0);')
+    old_read = ('        unsigned char value;\n'
+                '        memcpy(&value, &Th09EclRunState::RawByte(instruction, 0), sizeof(value));')
     old_call = ('        state.primaryFlags337C = Th09EclRunState::AssignTimeoutSpellBit('
                 'state.primaryFlags337C, value);')
     if block.count(old_read) != 1 or block.count(old_call) != 1:

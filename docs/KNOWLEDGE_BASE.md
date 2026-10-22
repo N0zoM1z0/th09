@@ -18883,3 +18883,63 @@ The packet is `.analysis/gpt-6-astra-medium-20261022-replay-memory/`.
 Two focused source-contract tests pass, including duplicate/missing boundary
 rejection. Full CI passes979 tests/29 skips, exit zero; tracking, documentation,
 generated progress and whitespace checks pass.
+
+
+## October 22: ECL scalar wire copies remove two qualified reads
+
+Recovery starts at clean independently pushed f0d4f21. Original disk, direct
+IDA metadata,entry and five distributed mapped samples pass. The previous
+Replay allocator turn supplied bounded negative evidence; this turn returns
+to the two unfinished RunEcl handlers with a different source representation.
+
+Opcode4 now copies its actual four-byte raw time operand into an int through
+memcpy before the genuine ZunTimer assignment. Opcode155 copies its actual
+one-byte wire operand into an unsigned char before the existing masked-XOR
+helper. Both explicit volatile-reference reads are removed. No widened wire
+read,new qualifier,forced inline,ABI change,profile change or register hint is
+introduced. This is machine-code-preserving source reconstruction,not evidence
+of original C++ spelling,portable loaded-object lifetime or whole-product runtime.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-WIRE-COPY-001 | compiler observation | Separate time/byte copies and their combined form preserve all15564 raw RunEcl bytes,598 fields and30 ordinary differences. | Full original-bound owner; no field/table differences;146/148 handler shapes. |
+| ECL-WIRE-COPY-002 | rejected source hypothesis | Copying the flags DWORD to the real native bitfield type,updating bit24 and copying back gives2048 ordinary/242 field differences including26 table bytes. | Complete15564-byte owner rejects changed field positions. |
+| ECL-WIRE-COPY-003 | rejected source hypothesis | Byte-copy plus flags-copy gives1938 ordinary/202 field differences including26 table bytes; adding time-copy also fails identically on these counts. | Complete field/handler guards reject; no adoption. |
+| ECL-WIRE-COPY-004 | exact-regression observation | All79 existing exact same-carrier functions across two pinned profiles retain25215 complete physical bytes and1126 fields. | Independent original comparison before/after; all raw bodies identical. |
+| ECL-WIRE-COPY-005 | source provenance | Eight canonical local-label rows in two units are renumbered; every actual section,value,addend,offset,kind and original destination remains identical. | Only label names updated after complete relocated native equality. |
+
+The maintained RunEcl raw SHA remains
+bc9a1a71fbc3010338ef7f3de66ca3e0f3c3ee3bb9eb51f1588c6e53dea8c01b.
+Its171 changed actual COFF rows differ only in local label spelling. The
+complete maintained guard still protects all original matching bytes. Enemy13,
+collision,Effect26,biased movement and bounded Timer/timeout transition guards
+pass on the same fresh canonical object. Type3 and Title inputs are unchanged;
+their existing source/profile proofs are reused,as are924 unaffected exact units.
+No source-presence or exactness credit changes:1003/1035,244917/291883 bytes,
+83.9093%;95% still requires32372 whole exact bytes.
+
+Current raw/typed-wire,operand-expression and native-timeout diagnostic recipes
+now use the maintained scalar-copy anchors and fail on source drift. Historical
+reports remain bound to their recorded source,not silently reaccepted. Focused
+source/first-include tests cover the updated copies and real Timer ABI.
+
+The packet `.analysis/gpt-6-astra-medium-20261022-ecl-wire-copy/` preserves the
+private panel,canonical before/after proofs,full guards and79 hash-verified
+frozen input files. Private panel reproduction uses the f0d4f21 providers and
+frozen inputs; canonical.py/guards.py describe the accepted scoped replay.
+An initial combined-case selector also applied flags-copy; it is preserved as
+all-copies and not described as the scalar-only result. The corrected scalar
+case independently reproduces the unchanged complete owner. Initial freezing
+from Git text rejected a CRLF-normalized header hash; final inputs.zip uses
+verified raw live bytes for unchanged inputs and verified parent blobs for
+changed files. Every archived input now matches its captured precompile hash.
+
+Full CI passes980 tests/29 skips,exit zero; tracking,documentation,generated
+progress and whitespace checks pass. All updated diagnostic transformations
+also pass their current source anchors. After producer termination,the17
+trial/source/canonical-report files are CRC/member-byte verified into trials.zip:
+3238287 logical bytes become278668 bytes,SHA256
+703de2a5c22c9d6ff02a3fcaf5f595ce95dfe338e7f3584bc719ae24f7477e32.
+Only the verified loose duplicates are removed. Recipes,frozen raw inputs,
+current complete-owner report,guards and CI log remain directly readable;
+fresh canonical objects and all older evidence remain untouched.

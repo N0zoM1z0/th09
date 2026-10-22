@@ -206,14 +206,13 @@ __forceinline float *WriteFloat(
             goto th09_ecl_advance_instruction;
     }
 
-    // Acquire the actual raw timer operand once through a qualified read.
-    // The local's bounded lifetime also recovers the original adjacent
-    // SET_FLOAT handler scheduling without changing the ZunTimer call ABI.
+    // Copy the raw four-byte timer operand into its actual scalar type.
+    // This preserves the complete caller codegen without a volatile wire read;
+    // the genuine ZunTimer assignment ABI remains unchanged.
     case TH09_ECL_OPCODE_JUMP:
     {
-        const volatile int &rawTime =
-            Th09EclRunControl::RawInt(instruction, 0);
-        int value = rawTime;
+        int value;
+        memcpy(&value, &Th09EclRunControl::RawInt(instruction, 0), sizeof(value));
         // The real timer at context +0x08 has ZunTimer's exact 12-byte ABI.
         // Use the already-exact operator=(int) target at 0x00401500 rather
         // than any source-only timer method symbol. The shared timer context

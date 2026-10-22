@@ -43,8 +43,10 @@ def render(case, source):
     assert count==1,(name,function,count)
   changed[name]=text.encode()
  if case in ('operand-macros-plain-jump','operand-macros-native-plain'):
-  name='EclRunControl.inl';text=changed[name].decode();old='const volatile int &rawTime =';assert text.count(old)==1
-  changed[name]=text.replace(old,'const int &rawTime =').encode()
+  name='EclRunControl.inl';text=changed[name].decode()
+  old='int value;\n        memcpy(&value, &Th09EclRunControl::RawInt(instruction, 0), sizeof(value));'
+  assert text.count(old)==1
+  changed[name]=text.replace(old,'int value = Th09EclRunControl::RawInt(instruction, 0);').encode()
  if case in ('operand-macros-native-timeout','operand-macros-native-plain'):
   name='EclRunState.inl';text=changed[name].decode()
   old='state.primaryFlags337C = Th09EclRunState::AssignTimeoutSpellBit(state.primaryFlags337C, value);';assert text.count(old)==1

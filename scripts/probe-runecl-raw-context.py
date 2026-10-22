@@ -74,12 +74,12 @@ def render(case, inputs):
             begin = source.index('    case TH09_ECL_OPCODE_JUMP:\n')
             end = source.index('    case TH09_ECL_OPCODE_SET_INT:\n', begin)
             jump = source[begin:end]
-            jump = replace_once(jump, '        const volatile int &rawTime =',
+            jump = replace_once(jump, '        int value;',
                                 '        const Th09EclRunControl::RelativeJumpWireView &wire =\n'
                                 '            *reinterpret_cast<const Th09EclRunControl::RelativeJumpWireView *>(instruction);\n'
-                                '        const volatile int &rawTime =')
-            jump = replace_once(jump, 'Th09EclRunControl::RawInt(instruction, 0);',
-                                'wire.time0C;')
+                                '        int value;')
+            jump = replace_once(jump, '&Th09EclRunControl::RawInt(instruction, 0),',
+                                '&wire.time0C,')
             jump = replace_once(jump, 'Th09EclRunControl::RawInt(instruction, 1));',
                                 'reinterpret_cast<const Th09EclRunControl::RelativeJumpWireView *>(instruction)->displacement10);')
             source = source[:begin]+jump+source[end:]

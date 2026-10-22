@@ -7,21 +7,22 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after independently pushed `f87ca80a`.
+Reconstruction remains active after independently pushed `f0d4f21`.
 Continue95% and all four fronts; use `gpt-6-astra-medium:` for new commits.
 
-- Original disk/direct IDA mapped bytes pass. Fresh SaveReplay baseline and
-  actual Alloc/Free definitions before/after its carrier all retain1238 bytes,
-  53 fields,380 instructions,49 blocks and the same3 differences.
-- Both visible native memory bodies independently equal original19+19 bytes,
-  including their malloc/free fields and actual same-object caller references.
-  This bounded visibility hypothesis does not resolve the Replay frontier.
-- Reproduce with `probe-replay-memory-context.py --case before --output
-  .analysis/replay-memory-new.json`; baseline/after are separate controls.
-- No game source,profile,unit or ledger changes;1003 exact proofs are reused.
-  Coverage244917/291883 (83.9093%);95% needs32372 whole exact bytes. RunEcl30,
-  Enemy13,DrawResult22,Type315 and product gates remain unfinished.
-- Latest knowledge-base entry records the complete diagnostic and validation.
+- Original disk/direct IDA mapped bytes pass. Opcode4/155 now read their real
+  four-byte/one-byte operands by scalar memcpy,removing both explicit volatile
+  reads while retaining all15564 raw RunEcl bytes and30 ordinary differences.
+- All79 exact ECL functions across two profiles retain25215 physical bytes and
+  1126 fields. Eight compiler-local label names are updated only after proving
+  unchanged actual coordinates,original destinations and complete bytes.
+- Full RunEcl,Enemy13,collision,Effect26,biased movement and bounded Timer/
+  timeout guards pass on the fresh canonical object. Title/Type3 inputs are
+  unchanged; their existing proofs are reused.
+- No exact ledger promotion. Coverage244917/291883 (83.9093%);95% needs32372
+  whole exact bytes. RunEcl30,Enemy13,DrawResult22,Type315 and product gates
+  remain unfinished. CI980 tests/29 skips and tracking/docs/progress checks
+  pass. Latest KB entry routes the source-bound evidence.
 
 ## Live ledger snapshot
 
@@ -81,7 +82,7 @@ these results do not establish unique original translation-unit ownership.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes; opcode 155: 23 bytes, 146/148 handler shapes. The diagnostic extent recognizers now handle the observed post-RET `8B FF` alignment; complete byte/field/table and production frontier checks remain unchanged. The timeout update uses an ordinary inline pure-value helper with unchanged complete codegen. Opcode 4 now directly calls the separately exact real `ZunTimer::operator=(int) @0x00401500` on the proven 12-byte context timer, rather than fake second-class timer ABI; existing genuine `RngRuntimeView`/global `g_Rng` remains. **15,564 complete instruction/table bytes and 598 source-linked original fields are unchanged**, with all **79 exact ECL/Enemy/position/math functions across two profiles** (25,215 physical bytes) protected. `--owner runecl`; exact credit remains open. |
+| **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes; opcode 155: 23 bytes, 146/148 handler shapes. The diagnostic extent recognizers now handle the observed post-RET `8B FF` alignment; complete byte/field/table and production frontier checks remain unchanged. The timeout update uses an ordinary inline pure-value helper with unchanged complete codegen. Opcodes4/155 now copy their actual-width wire scalars without volatile references; complete codegen is unchanged. Opcode 4 directly calls the separately exact real `ZunTimer::operator=(int) @0x00401500` on the proven 12-byte context timer, rather than fake second-class timer ABI; existing genuine `RngRuntimeView`/global `g_Rng` remains. **15,564 complete instruction/table bytes and 598 source-linked original fields are unchanged**, with all **79 exact ECL/Enemy/position/math functions across two profiles** (25,215 physical bytes) protected. `--owner runecl`; exact credit remains open. |
 | **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**,97 fields, 69 calls,170 blocks; **13 differing bytes** (29->13) | Genuine co-visible **ZunTimer::operator>(int)** restores all 16 tracking/homing bytes with no damaged match. The sole 20-byte definition now lives in ZunTimerGreater.inl through EclManager.cpp; four same-object call identities and its complete body are required. All **3887 equal bytes** are protected. The six native GameManager fields and four real 116-byte playfield-member calls are now independently guarded; all3900 linked bytes are preserved. Primary/secondary VMs now use shared AnmVm directly and reset copies use the existing214-byte BulletSpawnDescriptor; all3900 raw bytes stay identical. Remaining draw index2 and special-attack/descriptor11 stay open. Duplicated draw paths expand to3912; genuine folded vector-body visibility shrinks to3876/96/68 and reduces static cleanup calls2 to1. Both fail the full frontier; actual slot accessors and Timer-current visibility are raw-neutral. Reproduce the folded case with `probe-enemy-native-spawn-context.py --case standalone-pointer-view` (expected rejection). All79 exact shared-ECL owners pass across two profiles; unchanged separate Timer proofs are reused. Current state/damage scopes include104/81 units; unchanged external Player proofs are reused. Original source partition and native product/runtime remain open. |
 | **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Maintained src/EffectDrawType29.inl preserves flag-scoped main plus six satellite fans. The inspector also records all 13 polar/accumulation receiver windows and the independently differing ordinal graph. Bounded original/native-helper emulator comparison covers all672 reachable original instructions across26 cases; it is not byte-exact or whole-product validation. The full-byte guard protects1035 equal positions. Source presence is independent of exactness; `--owner effect29` protects79 shared exact functions across two profiles. |
 | **Effect 34 draw** | 0x00444AF0 | **946/946 physical**,53 original referents,20 direct +12 COM calls,286 instructions,16 blocks; **78 linked differences** | Common-layer indexing of the actual line32/jitter33 arrays restores the original0x1C frame and removes13 excess bytes. The reviewed replacement restores517 old mismatches and changes two old coincidental entry matches; the new SHA/78-offset guard protects868 equal bytes, complete geometry and ordinal per-block call/branch structure. All four actual scalar definitions and all53 decoded fields remain checked. Only the Timer call field is shifted+0x40->+0x3D;52 field positions agree. Remaining65 entry,9 store-order and4 radius-operand bytes stay nonexact. Bounded72-fixture native-arithmetic/synthetic-renderer comparison passes; no whole-product/runtime claim. `--owner effect34` replays79 affected existing exact owners across two profiles; the detached208-byte update proof is unchanged. |
@@ -189,11 +190,13 @@ results, fields and deficits before making an exactness claim.
 
 ## Evidence and cleanup boundaries
 
-Game source is unchanged from f4a7b61. The current packet is
-`.analysis/gpt-6-astra-medium-20261022-replay-memory/`. Three compact full
-raw/COFF/native-proof reports remain with input hashes and the CI log. The
-tracked reproducer and this source commit provide their replay path. Temporary
-compiler trees self-clean; no older evidence or canonical objects were deleted.
+Game source changes only in the two bounded ECL operand reads. The packet is
+`.analysis/gpt-6-astra-medium-20261022-ecl-wire-copy/`,with frozen raw inputs,
+private trial recipes,canonical before/after evidence and full guards. Compiler
+probe temporaries self-clean. Seventeen trial/source/canonical reports are archived
+after CRC/member-byte checks; only verified loose duplicates are removed.
+Fresh canonical objects remain available; original
+inputs and older unclassified evidence remain untouched.
 
 Ignored packets are local evidence and are not pushed. Tracked source,scripts
 and durable observations provide the restart path. Historical replayers may

@@ -18,9 +18,8 @@ spec.loader.exec_module(probe)
 def sources():
     control = ('namespace Th09EclRunControl\n{\n'+probe.RAW_INT+
                '    case TH09_ECL_OPCODE_JUMP:\n'
-               '    {\n        const volatile int &rawTime =\n'
-               '            Th09EclRunControl::RawInt(instruction, 0);\n'
-               '        int value = rawTime;\n        '+probe.TIMER+'\n'
+               '    {\n        int value;\n'
+               '        memcpy(&value, &Th09EclRunControl::RawInt(instruction, 0), sizeof(value));\n        '+probe.TIMER+'\n'
                '        timer = value;\n    }\n'
                '        instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(\n'
                '            reinterpret_cast<unsigned char *>(instruction) +\n'
@@ -64,11 +63,11 @@ class RunEclRawContextTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             probe.render('raw-int-macro', inputs)
 
-    def test_typed_jump_keeps_the_existing_qualified_read_and_native_timer(self):
+    def test_typed_jump_keeps_scalar_copy_and_native_timer(self):
         inputs = sources()
         text = probe.render('jump-typed-wire', inputs)['EclRunControl.inl'].decode()
-        self.assertIn('const volatile int &rawTime', text)
-        self.assertIn('wire.time0C;', text)
+        self.assertNotIn('volatile', text)
+        self.assertIn('memcpy(&value, &wire.time0C, sizeof(value));', text)
         self.assertIn(probe.DIRECT_TIMER, text)
         self.assertNotIn(probe.TIMER, text)
         inputs['EclRunControl.inl'] += probe.TIMER.encode()
