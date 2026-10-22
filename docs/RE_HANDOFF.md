@@ -7,24 +7,24 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after independently pushed `a5b3cd4`.
+Reconstruction remains active after independently pushed `de0313f`.
 Continue95% and all four fronts; use `gpt-6-astra-medium:` for new commits.
 
-- Disk/direct IDA mapped-byte checks pass. The real203-byte primary bullet
-  pattern body and all four fields now have two Enemy visibility controls.
-- Primary-only proves six native bodies/717 bytes/12 fields and preserves the
-  full3900/97/13 caller. Adding actual periodic timer proves seven/750/12 and
-  preserves the rejected45-difference caller. Both raw streams independently
-  equal source/profile-checked prior contexts; no game source is changed.
-- Reproduce `probe-enemy-native-spawn-context.py` with standalone-bullet-primary
-  or standalone-bullet-primary-periodic. Actual same-object native calls and
-  all complete original fields remain mandatory before caller scoring.
-- All1003 exact source/profile proofs remain unchanged. Coverage244917/291883
-  (83.9093%);95% needs32372 whole exact bytes. RunEcl30,Enemy13,DrawResult22,
-  Type315 and product gates remain unfinished.
-- Focused tests12 and final CI969 tests/28 skips pass, exit zero. Tracking,
-  docs, progress and whitespace pass.
-- Latest knowledge-base entry contains the bounded observations and replay route.
+- Original disk/direct IDA mapped bytes pass. The current203 captured Timer
+  assignment transfers are original-encoded and inside catalogued instruction
+  boundaries; complete executable inventory remains unproven.
+- Direct-CFG EAX tracking now confirms96 full-overwrite-only sites versus69
+  in the old single-block scan. No explicit EAX read occurs before the remaining
+  unknown call/return/revisit boundaries. This does not prove a C++ return type;
+  maintained void Timer declarations remain unchanged.
+- `audit-timer-result-cfg.py` retains owner hashes and instruction-path witnesses.
+  No game source,profile,unit or ledger changes; all1003 exact proofs are reused.
+- Coverage244917/291883 (83.9093%);95% needs32372 whole exact bytes. RunEcl30,
+  Enemy13,DrawResult22,Type315 and product gates remain unfinished.
+- Focused tests6 and full CI975 tests/29 skips pass, exit zero. The added
+  skip is the optional Capstone decoder test under Python-S. Tracking, docs,
+  progress and whitespace pass.
+- Latest knowledge-base entry records the full partition and reproduction route.
 
 ## Live ledger snapshot
 
@@ -193,11 +193,10 @@ results, fields and deficits before making an exactness claim.
 ## Evidence and cleanup boundaries
 
 Game source is unchanged from f4a7b61. The current packet is
-`.analysis/gpt-6-astra-medium-20261022-enemy-primary/`. It retains two compact
-complete reports with source/profile/tool hashes, actual native definitions,
-caller raw/COFF and verified historical-baseline comparisons. No duplicate
-source trees are retained; compiler temporaries self-clean after capture.
-Canonical objects/PDBs, previous evidence and private original inputs remain.
+`.analysis/gpt-6-astra-medium-20261022-timer-cfg/`. It retains the fresh203-site
+IDA capture,complete CFG outcomes and comparison to the prior single-block
+report. This read-only audit creates no compiler objects or duplicate source
+trees. Existing canonical objects/PDBs, older evidence and original inputs remain.
 
 Ignored packets are local evidence and are not pushed. Tracked source,scripts
 and durable observations provide the restart path. Historical replayers may

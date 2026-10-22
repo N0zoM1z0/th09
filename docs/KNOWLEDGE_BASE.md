@@ -18739,3 +18739,60 @@ fixture normalizes newlines and duplicates the full marker. Final CI is rerun
 only after the earlier process terminates. No repeated game compilation follows.
 The two reports occupy80390/81596 bytes; compiler temporaries self-clean and
 no duplicate source trees or canonical objects are removed.
+
+
+## 2026-10-22: Timer result consumption across direct CFG branches
+
+Recovery at de0313f verifies original disk and direct IDA mapped bytes. Fresh
+IDA4014D0 still loads the input integer into EAX and stores it at current+8;
+this register postcondition does not establish a C++ return declaration.
+A fresh direct IDA xref capture contains203 assignment transfers. Every transfer
+is independently checked against original E8/E9 encoding and401500 destination,
+and against an instruction boundary inside its live catalogued owner.
+
+New scripts/audit-timer-result-cfg.py follows both successors of direct branches
+within each original owner, tracking which EAX/AX/AL/AH bits still originate at
+the call. A possible explicit register/address read stops that path before any
+write; full overwrite stops it without reporting a use. Unknown calls, indirect
+transfers, returns, revisits, decode gaps and owner/budget boundaries stay
+explicit. Same-register XOR/SUB kills are recognized; no callee prototype is
+inferred. This is syntactic reachability with unconstrained branch conditions,
+not runtime feasibility, interprocedural analysis or original return-type proof.
+
+The203 captured sites partition as follows:
+
+- 96: every explored path reaches a full EAX overwrite before a possible read.
+- 15: forwarded-register return only; no original return ABI is inferred.
+- 73: an intervening callee with unknown implicit ABI only.
+- 18: mixed full-overwrite and intervening-callee outcomes.
+- 1: mixed overwrite,forwarded return and revisit; owner408560 at call4085B0.
+
+There are zero possible explicit EAX reads before these boundaries. Independent
+comparison with the old single-block audit confirms the identical203 callsites
+and all69 old overwrite cases are included among the new96, resolving27 more.
+Calls and returns remain open; no nonvoid Timer declaration or fake value is
+introduced to affect opcode4 register allocation. RunEcl30 and all other live
+frontiers remain unchanged. No compiler replay is needed because no game source,
+profile,unit or ledger changes; all1003 exact source/profile proofs are reused.
+
+Reproduce by capturing direct IDA get_xrefs_to at0x401500 as a JSON object with
+a result array, then run:
+
+```bash
+python3 -B scripts/audit-timer-result-cfg.py --xrefs .analysis/timer-xrefs.json --output .analysis/timer-cfg-result.json
+```
+
+The output binds the target,ledger,recipe,capture and every original owner SHA,
+and retains each stopping path's instructions. The capture is not a claim of
+complete executable inventory. Synthetic tests distinguish both branch arms,
+partial writes/read-modify-write,explicit address reads,unknown calls/returns,
+cycles,decode gaps and bounds; optional Capstone tests check decoder bit masks.
+Local packet .analysis/gpt-6-astra-medium-20261022-timer-cfg/ retains the fresh
+capture,result and comparison to the old203-site audit. Coverage remains
+244917/291883;95% and the four named fronts remain unfinished.
+
+Focused tests6 pass with the local decoder. Full CI975 tests/29 skips passes,
+exit zero; the extra skip is the optional Capstone decoder under Python-S.
+Tracking, documentation, generated progress and whitespace checks pass. This
+read-only batch creates no compiler artifacts or duplicate source trees; original
+inputs, canonical objects and previous evidence remain untouched.
