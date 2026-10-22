@@ -302,11 +302,10 @@ __forceinline void AssignFlagField(
 // TH09's physical target uses a masked XOR of the previous word with the
 // shifted wire byte. Only bit 24 changes, for every possible wire byte.
 // This is a TU-inline implementation detail, not a separate target boundary.
-__forceinline void AssignTimeoutSpellBit(unsigned int &flags,
-                                         unsigned char value)
+inline unsigned int AssignTimeoutSpellBit(unsigned int old,
+                                                 unsigned char value)
 {
-    unsigned int old = flags;
-    flags = old ^ ((old ^ (static_cast<unsigned int>(value) << 24)) &
+    return old ^ ((old ^ (static_cast<unsigned int>(value) << 24)) &
                    ENEMY_STATE_TIMEOUT_SPELL);
 }
 
@@ -620,7 +619,7 @@ __forceinline void AssignTimeoutSpellBit(unsigned int &flags,
         // all other flag bits intact, rather than clearing and OR-ing them.
         const volatile unsigned char &value =
             Th09EclRunState::RawByte(instruction, 0);
-        Th09EclRunState::AssignTimeoutSpellBit(state.primaryFlags337C, value);
+        state.primaryFlags337C = Th09EclRunState::AssignTimeoutSpellBit(state.primaryFlags337C, value);
         break;
     }
 

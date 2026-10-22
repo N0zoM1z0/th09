@@ -17061,3 +17061,97 @@ Authored exact remains 1003/1035 and 244917/291883 bytes; the 95% gap remains 32
 This checkpoint repairs real source/ABI/global identity and protects prior code,
 without closing any near-match frontier. Reconstruction stays active; all four
 fronts, whole-product/runtime closure and later phases remain unfinished.
+
+
+## October 22: natural timeout value helper and complete raw-operand controls (gpt-6.1-sol)
+
+Clean pushed de6d597 recovery passes original Japanese v1.50a disk identity,
+direct IDA metadata, entry and five mapped samples. The prior turn is progress:
+it repairs Enemy's real GameManager/member linkage and preserves 192 accepted
+units. This batch returns to the complete RunEcl owner and adopts no weaker
+exactness boundary. Exact remains 1003/1035 and 244917/291883 bytes.
+
+The original main wire dispatcher decrements the opcode and accepts 187 table
+entries at 0x40C0A0. The preceding six-entry selector table is at 0x40C088; together
+they occupy the 193 entries/772 owned bytes following 14792 code bytes. Opcode 155
+is main slot 154, original 0x40B770..0x40B79C (45 bytes), followed by opcode156.
+Subregions must be derived from the actual dispatch COFF pointer, not by treating
+all 193 owned entries as the main opcode table. Complete-owner comparisons and
+actual local destinations remain authoritative. An initial private subregion
+extractor confused these tables; all derived captures/summaries are corrected
+before any opcode-specific conclusion. Its original logs are retained as such.
+
+Fifteen original-source controls compile serially at nice10 under the unchanged
+ECL profile. The qualified direct native bitfield, one-bit byte-wire view and
+returned flag aggregate each retain 15564/598 but give 1938/202/26 or 2019/239/26
+ordinary/field/table differences. Their 44-byte opcode155 moves later fields and
+fails the whole owner. Ordinary reference-helper and ordinary native-member
+forms outline genuine extra helpers, yielding 15544/599 and 15548/599 with 28/27-
+byte local handlers; neither absent call is assigned a target. The byte-bit
+helper gives 15568 bytes/46-byte handler; wide scalar return gives 15560/42.
+All are rejected. No new qualifiers, register hints or compiler-profile search
+are used; the existing single qualified byte read is retained where specified.
+
+The returned-word helpers with byte inputs retain 15564/598/30, including an ordinary
+inline pure value helper. Its complete 15564-byte raw caller equals the previous
+canonical baseline. The adopted EclRunState.inl now returns the actual updated
+word and the caller publishes it, removing the historical __forceinline on
+AssignTimeoutSpellBit without adding a physical helper call or changing the
+masked XOR, wire read, other flags, ABI or bytecode advance. Original source
+spelling remains unknown. Ordinary inline sufficiency is a measured property
+of this source/profile, not a claim that every legacy forced helper can change.
+
+Among these, five controls remove the redundant cast around the true ZunTimer,
+use an offset-asserted relative-jump wire view, or replace the actual raw integer,
+byte or combined accessors with single-evaluation lvalue macros. All five emit
+exactly the same complete raw caller as baseline, retain 598 original referents,
+zero field/table differences, 146/148 handler shapes and 30 ordinary differences.
+These accessor shapes do not explain the residual in this measured context.
+TH08/TH095 bitfield source is hypothesis material only; TH09 fixes bit 24,
+original accesses and complete comparison results.
+
+The public selected-case producer is scripts/probe-runecl-raw-context.py, e.g.
+`python3 -B scripts/probe-runecl-raw-context.py --case raw-family-macros`.
+It reuses probe-ecl-variant.py's attested eight-file first-include chain and
+complete original-bound replay/shape gate. Multi-fragment byte overrides are
+restricted to that chain, reject conflicts and are staged before compilation.
+The other quoted project inputs are observed and hash-checked. Both ordinary
+and macro accessors evaluate each operand once and retain the original lvalue
+width; source-anchor drift fails before compilation. Failed jobs invalidate old
+success while preserving their current captures. Temporary compiler trees live
+under build/diagnostics and self-clean. Generic ECL compiler calls now explicitly
+run at nice10. Source/profile-bound public and frozen recipes grant no credit.
+
+All 83 affected canonical exact units pass across five source/profile/object
+carriers: the 79 shared ECL units plus four independent consumers of the state
+header. The just-built main carrier is reused; only the four other affected
+carriers are built. Twenty compiler-private labels in two units are refreshed
+only after actual same-owner destinations, existing original referents and
+complete linked owner bytes are independently equal. Every target/profile/
+extent remains fixed. RunEcl retains 30 and Enemy 13; the four-front milestone,
+native product/runtime and later phase gates remain unfinished.
+
+Local evidence is .analysis/gpt-61sol-20261022-runecl-timeout/: frozen original
+inputs, fifteen source recipes/results, full raw/actual COFF streams, canonical
+83-unit receipt, old/current public captures and the updated existing native
+control. That control still records 1938 ordinary/202 field/26 table differences
+and its explicit rejection after the pure-helper API change. Frozen recipes
+select one source-commit-bound case and write new replays separately. They do
+not overwrite earlier captures or treat a later HEAD as original acceptance.
+
+Final CI passes 934 tests/28 skips, exit zero, plus 93 focused ECL tests and six
+new raw-context tests. Target-required tracking, documentation, generated
+progress and whitespace pass. All 83 affected units cover 25867 authored bytes;
+the other 920 accepted authored proofs are unchanged. Review of the complete
+manifest diff permits only 20 actual-coordinate-proven private label names;
+all original targets, profiles, source paths and extents remain fixed.
+
+After every compiler and CI handle is terminal, trials.zip preserves 115 owned
+trial files/7113180 logical bytes as 73 unique content-addressed blobs in 517044
+bytes. Every member passes CRC and SHA-256 before its uncompressed duplicate
+is removed. An archive-only frozen aggregate recipe then recompiles from the
+retained original input snapshot, reproduces the exact source, all 15564 raw
+caller bytes and 598 actual COFF rows, and repeats 1938/202/26 with no credit.
+Baseline/current public receipts, source recipes, canonical objects and per-path
+cleanup hashes remain. The original execution logs retain the superseded
+subregion-size fields; the manifest explicitly records their corrected derivation.

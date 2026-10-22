@@ -48,8 +48,8 @@ class EclVariantFirstIncludeTests(unittest.TestCase):
 
     def test_changed_state_declaration_not_just_changed_late_body(self):
         before = (ROOT/'src/EclRunState.inl').read_text()
-        probe = before.replace('__forceinline void AssignTimeoutSpellBit(',
-                               '__forceinline unsigned int AssignTimeoutSpellBit(', 1)
+        probe = before.replace('inline unsigned int AssignTimeoutSpellBit(',
+                               'inline unsigned long AssignTimeoutSpellBit(', 1)
         self.assertNotEqual(probe, before)
         with tempfile.TemporaryDirectory() as folder:
             base = Path(folder)
@@ -78,6 +78,28 @@ class EclVariantFirstIncludeTests(unittest.TestCase):
                                  'EclRunBullet.inl', 'EclRunRemote.inl',
                                  'EclRunMovement.inl'):
                 self.assertTrue((tmp/'carrier'/intermediate).is_file())
+
+    def test_multiple_fragment_overrides_reach_the_actual_first_include_chain(self):
+        names = ('EclManager.cpp', 'EclRunBullet.inl', 'EclRunRemote.inl')
+        changed = {name: b'// reviewed context\n'+(ROOT/'src'/name).read_bytes()
+                   for name in names}
+        with tempfile.TemporaryDirectory() as folder:
+            dst = Path(folder)/'carrier'
+            manifest = variant.stage_variants(dst, overrides=changed)
+            for name, data in changed.items():
+                self.assertEqual((dst/name).read_bytes(), data)
+                self.assertEqual(manifest[name], hashlib.sha256(data).hexdigest())
+        with tempfile.TemporaryDirectory() as folder:
+            dst = Path(folder)/'carrier'
+            with self.assertRaisesRegex(ValueError, 'leaves'):
+                variant.stage_variants(dst, overrides={'../outside.cpp':b''})
+            self.assertFalse(dst.exists())
+            with self.assertRaisesRegex(ValueError, 'conflicting'):
+                variant.stage_variants(dst, state=ROOT/'src/EclRunState.inl',
+                                       overrides={'EclRunState.inl':b''})
+            with self.assertRaisesRegex(ValueError, 'non-byte'):
+                variant.stage_variants(dst, overrides={'EclRunState.inl':'not bytes'})
+            self.assertFalse(dst.exists())
 
     def test_first_include_chain_drift_fails_without_compilation(self):
         source = {name: (ROOT/'src'/name).read_bytes().replace(b'\r\n', b'\n')

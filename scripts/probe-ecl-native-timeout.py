@@ -31,7 +31,7 @@ def native_state(source):
     block = source[start:end]
     old_read = ('        const volatile unsigned char &value =\n'
                 '            Th09EclRunState::RawByte(instruction, 0);')
-    old_call = ('        Th09EclRunState::AssignTimeoutSpellBit('
+    old_call = ('        state.primaryFlags337C = Th09EclRunState::AssignTimeoutSpellBit('
                 'state.primaryFlags337C, value);')
     if block.count(old_read) != 1 or block.count(old_call) != 1:
         raise ValueError('maintained opcode 155 source changed; review the control')
@@ -43,7 +43,7 @@ def native_state(source):
                           'Th09EclRunState::UpdatedTimeoutWord(\n'
                           '            state.primaryFlags337C, value);')
     source = source[:start] + block + source[end:]
-    anchor = '__forceinline void AssignTimeoutSpellBit('
+    anchor = 'inline unsigned int AssignTimeoutSpellBit('
     if source.count(anchor) != 1:
         raise ValueError('maintained timeout helper declaration changed')
     helper = '''union TimeoutWordValue

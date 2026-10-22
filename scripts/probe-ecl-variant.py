@@ -60,7 +60,8 @@ def attested_include_chain(data: dict[str, bytes]) -> None:
 
 def stage_variants(destination: Path, *, state: Path | None = None,
                    control: Path | None = None,
-                   primary_flags: Path | None = None) -> dict[str, str]:
+                   primary_flags: Path | None = None,
+                   overrides: dict[str, bytes] | None = None) -> dict[str, str]:
     """Copy the entire first-include path, even when only a helper body changes."""
     sources = {name: SRC / name for name in FRAGMENTS}
     if state is not None:
@@ -72,6 +73,15 @@ def stage_variants(destination: Path, *, state: Path | None = None,
     if any(path.is_symlink() for path in sources.values()):
         raise ValueError('refusing symlinked ECL variant source input')
     data = {name: path.read_bytes() for name, path in sources.items()}
+    if overrides:
+        if set(overrides) - set(FRAGMENTS):
+            raise ValueError('ECL override leaves the reviewed first-include chain')
+        selected = {name for name, path in (
+            ('EclRunState.inl', state), ('EclRunControl.inl', control),
+            ('EclEnemyPrimaryFlags.hpp', primary_flags)) if path is not None}
+        if selected & set(overrides) or any(not isinstance(b, bytes) for b in overrides.values()):
+            raise ValueError('conflicting or non-byte ECL fragment override')
+        data.update(overrides)
     attested_include_chain(data)
     destination.mkdir(parents=True, exist_ok=True)
     manifest = {}
@@ -103,6 +113,8 @@ def pinned_profile() -> list[str]:
 
 
 def command(args: list[str], *, acceptable: tuple[int, ...] = (0,)) -> str:
+    if args[0] == str(ROOT/'scripts/compile-probe.sh'):
+        args = ['nice', '-n', '10', *args]
     out = subprocess.run(args, cwd=ROOT, text=True, capture_output=True)
     if out.returncode not in acceptable:
         raise RuntimeError(f'{args[0]} exit={out.returncode}: '
