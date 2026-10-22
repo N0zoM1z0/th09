@@ -7,28 +7,27 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after independently pushed `f4a7b61`. Continue
+Reconstruction remains active after independently pushed `3846fef`. Continue
 95% and RunEcl/Enemy/Title/Type3; historical pauses remain superseded.
+The operator now requires `gpt-6-astra-medium:` for every new English commit.
 
-- Disk target and live ledgers pass. The first shell IDA check has a transient
-  WSL connection timeout; the retry passes entry/five mapped samples. Direct
-  MCP independently repeats those same target-bound windows.
-- Fresh SaveReplay baseline is1238 bytes/53 fields/380 instructions/49 blocks,
-  with only B7/BB/3F6 different. Its complete strict frontier passes.
-- Three independent compressed-payload cursor forms all compile to the same
-  1230-byte decrementing loop:245 overlap differences plus8 missing bytes,
-  242 damaged equal positions and no restored residual. Four fields move minus8.
-  Splitting header/payload cursor lifetimes does not repair the indexed sum.
-  None is adopted; formulas and full reproduction route are in the latest KB.
-- All game source,profiles,canonical unit metadata and ledgers remain unchanged;
-  all1003 existing exact source/profile proofs are reused. The preceding Enemy
-  native VM/descriptor checkpoint and its79 exact replays remain current.
-- Current diagnostic packet:
-  `.analysis/gpt-61sol-20261022-replay-checksum-traversal/`.
-  Previous native Enemy proofs remain in
-  `.analysis/gpt-61sol-20261022-enemy-native-vm/`.
-- Full local CI passes960 tests/28 skips, exit zero; tracking, documentation,
-  generated progress and whitespace checks pass.
+- Disk target, direct IDA metadata, shell entry/five mapped samples and ledgers
+  pass. The worktree starts clean; no game source or canonical unit changes.
+- Enemy's real periodic context again restores13 but damages45. Adding the
+  actual54-byte Float3 addition and26-byte constructor, separately or jointly,
+  preserves every3900 caller raw byte and all45 residuals. All selected native
+  bodies independently match original before the caller is scored.
+- Public `probe-enemy-native-spawn-context.py` now offers
+  `standalone-periodic-add` and `standalone-periodic-add-constructor`. Fresh
+  selected runs prove7/8 native bodies,601/627 bytes,nine fields and14/15 audited
+  positive references. Both full callers fail the maintained3887-match frontier;
+  these completed diagnostics grant no exact credit. RunEcl is uncompiled in
+  this standalone context; its original external-call identity remains checked.
+- Packet `.analysis/gpt-61sol-20261022-enemy-periodic-addition/` retains source
+  recipes, frozen inputs, actual native/COFF/raw proofs and public receipts.
+  All1003 existing exact game-source/profile proofs are unchanged and reused.
+- Focused tests pass11/11; full local CI passes961 tests/28 skips with exit zero.
+  Tracking, docs, generated progress and whitespace pass.
 - Exact remains1003/1035 functions,244917/291883 bytes (83.9093%);95% still
   needs32372 whole exact bytes. RunEcl30,Enemy13,DrawResult22,Type315,complete
   inventory,native product/runtime and later gates stay unfinished.
@@ -199,15 +198,16 @@ results, fields and deficits before making an exactness claim.
 
 ## Evidence and cleanup boundaries
 
-Current source is unchanged from f4a7b61. The new diagnostic packet retains
-frozen quote-include inputs, source/Oracle/profile hashes, four actual compiler
-results and complete original-bound diagnostics. Compiler temporary objects
-self-clean only after capture. The20-member archive retains225371 logical bytes
-in46014 bytes after CRC/member-SHA/loose-equality checks. Current canonical
-objects/PDBs, previous packets, private inputs and unclassified evidence remain.
-After terminal CI, per-path plans remove20 verified archive duplicates and277
-new caches:297 files/5151755 logical bytes. All127 old cache paths remain;
-current canonical objects/PDBs and older evidence are untouched.
+Game source is unchanged from f4a7b61. The current diagnostic packet contains
+four private compiler cases and two fresh public runs. Compiler temporary
+objects self-clean after complete capture. Its24-member archive preserves441345
+logical bytes in81535 bytes after CRC/member-SHA/loose-equality checks. Frozen
+inputs, recipes, complete actual native/COFF/raw evidence and current public
+receipts remain. Per-path cleanup plans cover only this packet's verified
+archive duplicates and new terminal-CI caches. After all producers terminate,
+24 duplicates and277 new caches are removed:301 files/5369542 logical bytes.
+All127 old cache paths, existing objects/PDBs, earlier packets, private inputs
+and unclassified evidence remain.
 
 Ignored packets are local evidence and are not pushed. Tracked source,scripts
 and durable observations provide the restart path. Historical replayers may

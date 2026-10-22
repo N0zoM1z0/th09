@@ -110,6 +110,25 @@ class EnemyNativeSpawnContext(unittest.TestCase):
         with self.assertRaises(ValueError):
             probe.standalone_source(case, '')
 
+    def test_float3_selection_rejects_ambiguous_or_reversed_boundaries(self):
+        constructor = 'Float3::Float3(float x) { constructor_body; }\n'
+        addition = 'Float3 Float3::operator+(int x) { addition_body; }\n'
+        subtraction = 'Float3 Float3::operator-(int x) { unselected_body; }\n'
+        inputs = {'ZunTimerHasTickedEvery.cpp': b'periodic_body\n',
+                  'Float3Core.inl': (constructor+addition+subtraction).encode()}
+        for case in ('standalone-periodic-add', 'standalone-periodic-add-constructor'):
+            body = probe.native_bodies(case, inputs)
+            self.assertIn('addition_body', body)
+            self.assertNotIn('unselected_body', body)
+            self.assertEqual('constructor_body' in body, case.endswith('-constructor'))
+            carrier = probe.standalone_source(case, body)
+            self.assertLess(carrier.index('addition_body'),
+                            carrier.index('#include "EnemyManagerCore.inl"'))
+            for bad in (addition+subtraction, constructor+addition+addition+subtraction,
+                        constructor+subtraction+addition):
+                with self.subTest(case=case, bad=bad), self.assertRaises(ValueError):
+                    probe.native_bodies(case, dict(inputs, **{'Float3Core.inl': bad.encode()}))
+
     def test_complete_native_code_and_all_actual_fields_required(self):
         raw, fields, unit, target = definition()
         result = probe.compare_native_definition(raw, fields, unit, target)

@@ -35,17 +35,24 @@ CASE_OWNERS = {
 }
 STANDALONE_CASES = frozenset(('standalone', 'standalone-periodic-first',
                               'standalone-periodic-last', 'standalone-pointer-view',
-                              'standalone-vm-packed-color'))
+                              'standalone-vm-packed-color', 'standalone-periodic-add',
+                              'standalone-periodic-add-constructor'))
 CASE_OWNERS['standalone-vm-packed-color'] = CASE_OWNERS['standalone']
 for _case in ('standalone-periodic-first', 'standalone-periodic-last'):
     CASE_OWNERS[_case] = CASE_OWNERS['standalone'] + ('zun-timer-has-ticked-every',)
 CASE_OWNERS['standalone-pointer-view'] = (
     CASE_OWNERS['standalone'] + ('float3-pointer-identity-view',))
+CASE_OWNERS['standalone-periodic-add'] = (
+    CASE_OWNERS['standalone-periodic-first'] + ('float3-add',))
+CASE_OWNERS['standalone-periodic-add-constructor'] = (
+    CASE_OWNERS['standalone-periodic-first'] + ('float3-constructor', 'float3-add'))
 CASES = tuple(CASE_OWNERS)
 NATIVE_OWNERS = {
     'enemy-collision-append-box': (
         0x410250, 82, '?AppendPlayerCollisionBox@EnemyAppendCollisionView@@QAEXPBUFloat3@@0@Z', 2),
     'float3-divide': (0x40F5A0, 56, '??KFloat3@@QBE?AU0@M@Z', 2),
+    'float3-constructor': (0x4010B0, 26, '??0Float3@@QAE@MMM@Z', 1),
+    'float3-add': (0x401100, 54, '??HFloat3@@QBE?AU0@ABU0@@Z', 3),
     'player-collision-append-box': (
         0x40F8E0, 205, '?AppendBoxRecord@PlayerCollisionQueryStateView@@QAEXPBUPlayerPositionView@@0H@Z', 1),
     'enemy-attached-effect-update': (
@@ -74,6 +81,18 @@ def native_bodies(case, sources):
         bodies += sources['VectorPointerViews.cpp'].decode() + '\n'
     if 'zun-timer-has-ticked-every' in selected:
         bodies += sources['ZunTimerHasTickedEvery.cpp'].decode() + '\n'
+    if 'float3-add' in selected:
+        source = sources['Float3Core.inl'].decode().replace('\r\n', '\n')
+        boundaries = ('Float3::Float3(', 'Float3 Float3::operator+',
+                      'Float3 Float3::operator-')
+        if any(source.count(anchor) != 1 for anchor in boundaries):
+            raise ValueError('native Float3 source boundaries changed')
+        constructor, addition, following = (source.index(anchor) for anchor in boundaries)
+        if not constructor < addition < following:
+            raise ValueError('native Float3 source boundaries reversed')
+        if 'float3-constructor' in selected:
+            bodies += source[constructor:addition] + '\n'
+        bodies += source[addition:following] + '\n'
     if 'bullet-spawn-descriptor-constructor' in selected:
         bodies += sources['BulletSpawnDescriptorCtor.cpp'].decode() + '\n'
     if 'effect-manager-spawn-effect' in selected:
@@ -97,7 +116,7 @@ def standalone_source(case, bodies):
         raise ValueError('standalone native-body selection is incomplete')
     generated = ('#include "EclManager.hpp"\n'
                  '#include "EclRunState.inl"\n')
-    if case in ('standalone-periodic-first', 'standalone-pointer-view'):
+    if bodies and case != 'standalone-periodic-last':
         generated += bodies+'\n'
     generated += '#include "EnemyManagerCore.inl"\n'
     if case == 'standalone-periodic-last':
@@ -221,6 +240,8 @@ def run(case, output):
     native_sources = []
     if 'float3-pointer-identity-view' in CASE_OWNERS[case]:
         native_sources.append('VectorPointerViews.cpp')
+    if 'float3-add' in CASE_OWNERS[case]:
+        native_sources.append('Float3Core.inl')
     if 'effect-manager-spawn-effect' in CASE_OWNERS[case]:
         native_sources.append('EffectManager.cpp')
     if 'zun-timer-has-ticked-every' in CASE_OWNERS[case]:

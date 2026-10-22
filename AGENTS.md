@@ -10,7 +10,7 @@ hypotheses with current evidence, and checkpoint substantive tested progress
 frequently. Work from the real Git tree and live ledgers. Limit CPU/memory,
 compile serially at lowered priority, reuse unchanged source/profile-bound
 proofs, and remove only reviewed, reproducible generated artifacts.
-**Use `gpt-6.1-sol: ...` for every new English commit and push the checkpoint.**
+**Use `gpt-6-astra-medium: ...` for every new English commit and push the checkpoint.**
 Verify the remote ref independently; distinguish local commit from remote push.
 Commit tested substantive progress, including reproducible diagnostic evidence.
 Never skip, hide, discard or avoid existing dirty work: examine and finish it.
@@ -117,7 +117,7 @@ analysis database is working state; mirror durable conclusions into the repo.
 ## Checkpoints and artifacts
 
 - For the current local campaign, use concise, coherent commits prefixed
-  **`gpt-6.1-sol: ...`**, push, and independently verify the remote ref.
+  **`gpt-6-astra-medium: ...`**, push, and independently verify the remote ref.
   Historical Factory transport limits do not describe this local shell.
 - Route current work through `docs/RE_HANDOFF.md`; original-bound
   accepted receipts now live in `docs/RE_ACCEPTED_RECEIPTS.md` with

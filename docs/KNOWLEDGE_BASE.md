@@ -18424,3 +18424,74 @@ processes and CI terminate, persisted per-path plans remove20 SHA/CRC-verified
 archive duplicates and277 new CI caches:297 files/5151755 logical bytes. All127
 preexisting cache paths remain. Current objects/PDBs and older packets remain;
 this cleanup does not remove unreproduced evidence or private game inputs.
+
+## October 22: Enemy periodic and Float3 definition interaction (gpt-6-astra-medium)
+
+Recovery starts at clean, independently pushed3846fefa293f5a83b247399937e923092f22d04c.
+Original Japanese v1.50a disk, direct IDA metadata and shell entry/five mapped
+samples pass. The prior checksum traversal panel is complete negative evidence;
+this panel returns to the requested Enemy frontier. No game source changes.
+
+The earlier native periodic context restores all13 maintained Enemy mismatches
+but introduces45 others. Those lie in the force-death vector-add argument
+preparation and descriptor field initialization. The current native Float3
+addition and three-float constructor are therefore tested separately and jointly
+with the actual periodic body. This tests genuine definition interaction, not
+new register hints, source variable ordering, alternate profiles or fake ABI.
+The constructor and addition bodies are selected verbatim from Float3Core.inl;
+subtraction is not included. Every selected body must match its complete native
+original before the caller is scored.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-PERIODIC-ADD-001 | compiler observation | Fresh periodic baseline repeats3900 bytes/97 fields/45 differences. | Six original-equal native bodies547 bytes/eight fields/11 actual references. |
+| ENEMY-PERIODIC-ADD-002 | compiler observation | Adding the actual54-byte addition preserves all3900 caller raw bytes and all45 residuals. | Seven complete native bodies601 bytes/nine fields/14 audited positive references, including three real addition calls. |
+| ENEMY-PERIODIC-ADD-003 | compiler observation | Adding only the actual26-byte constructor is also fully caller-raw-neutral. | Seven complete native bodies573 bytes/eight fields/12 audited positive references. |
+| ENEMY-PERIODIC-ADD-004 | compiler observation | Joint addition and constructor visibility remains byte-identical to periodic baseline. | Eight complete native bodies627 bytes/nine fields/15 audited positive references. |
+
+All four complete callers share raw SHA256
+`ac5bfd16c08ab39c9b405331db8dab4df6ddcaa6f173bf9fd2385e1d684da4a5`.
+Each retains1026 instructions,69 ordered calls,170 direct blocks,97 original
+field positions and the original table. All restore the old13 but damage45
+previously equal positions; production's3887-position frontier rejects them.
+Neither addition nor constructor co-visibility repairs those45 differences.
+This bounds these precise contexts, not all source partitions or nominal types.
+No candidate is integrated and no partial exact credit follows.
+
+Two selected public recipes now reproduce the actual interaction:
+
+```bash
+python3 -B scripts/probe-enemy-native-spawn-context.py --case standalone-periodic-add --output .analysis/enemy-add-context
+python3 -B scripts/probe-enemy-native-spawn-context.py --case standalone-periodic-add-constructor --output .analysis/enemy-add-context
+```
+
+Fresh public runs independently reproduce the private full raw streams and
+complete native proofs. They return a completed diagnostic with
+`frontier_guard_passed: false`, never acceptance. RunEcl is not compiled; its
+original external call identity is checked, and its unchanged source/profile
+proof is reused. Each command performs one serial nice10 build and removes
+its compiler temporary after recording evidence. Float3 source boundaries must
+be unique and ordered; a regression test rejects missing, duplicate or reversed
+boundaries and checks that the unselected subtraction does not enter the carrier.
+Existing standalone, periodic first/last and other recipes remain unchanged.
+
+Packet `.analysis/gpt-61sol-20261022-enemy-periodic-addition/` retains frozen
+inputs, immutable source commit/profile/Oracle hashes, four private complete
+source/raw/actual COFF/native diagnostics, and both fresh public receipts.
+Private recipes bind the original3846fef provider epoch; restore that recorded
+epoch for historical replay. The public recipes use the current provider.
+The24-member trial archive preserves441345 logical bytes in81535 compressed
+bytes, with CRC/member-SHA/loose-equality checks and archive SHA256
+`6b62d48c6116ab4ef6b118e90b20552ed3e27c7e9da76d5bef2255321e4df7c7`.
+All1003 exact game-source/profile proofs are unchanged and reused. Coverage
+stays244917/291883 bytes (83.9093%);95% still needs32372 complete exact bytes.
+RunEcl30,Enemy13,DrawResult22,Type315 and native product/runtime gates remain open.
+
+The operator changes the commit prefix to `gpt-6-astra-medium:` during this
+batch; AGENTS.md now records that rule for this and future checkpoints.
+Focused native-context tests pass11/11. Full local CI passes961 tests/28 skips,
+exit zero; target-required tracking, docs, generated progress and whitespace
+pass. After all six compiler runs and CI terminate, per-path plans remove24
+verified archive duplicates and277 new CI caches:301 files/5369542 logical
+bytes. All127 preexisting cache paths remain; existing canonical objects/PDBs,
+older packets and original/IDA/toolchain inputs are preserved.
