@@ -820,3 +820,34 @@ and normal decoder tests pass12. All127 preexisting cache paths, canonical
 objects, original target/tools/IDA and older unclassified evidence remain.
 cleanup.json records every removed path, hash, classification and reproduction
 route. The diagnostic change adds no authored exact credit.
+
+
+## October 22: operator-requested handoff
+
+The current handoff supersedes earlier continuous-progress instructions.
+Player cancellation-cursor and Options-confirm trial sources, compile logs and
+full reports are archived losslessly. Each ZIP passes CRC and every member is
+byte-equal to its loose source before unlink. Recipes and frozen inputs remain
+beside the archives; extract trials.zip in its original packet before replay.
+
+| Packet suffix under .analysis/gpt-6-astra-medium-20261022- | Loose logical bytes | ZIP bytes | ZIP SHA256 |
+| --- | ---: | ---: | --- |
+| player-cancel-cursor | 281918 | 56613 | f6f31c9b4bda009d3d236afa2075e29ee243f9290d504253b9b81580be83290b |
+| options-confirm | 394755 | 49999 | 0d9b99a4c70fc41916b1548fd0d0838cf9259e586f0f10eaa1ba20286b4afe2d |
+
+Member paths, sizes and hashes are retained in each archive-manifest.json.
+These archives save570061 logical bytes before small audit metadata overhead.
+No exact credit is created. The current handoff packet contains the packaging
+recipe, final CI log and generated-cache deletion audit. Original executable,
+toolchains, IDA databases, tracked code and roughly1.7GiB of older unresolved
+analysis evidence are retained; age or size alone does not justify deletion.
+
+After full CI terminates successfully (986 tests,29 skips), the reviewed
+build/ inventory contains412 Python bytecode files,122 OBJ files and123 PDB
+files only. The existing generated-artifact cleaner removes all657 files,
+18588174 logical bytes; no .analysis compiler files are present or removed.
+The preview and generated-cache-manifest.json in the handoff packet retain
+all paths and counts. Build plus archive compression reclaim19158235 logical
+bytes (about18.27MiB), before small archive audit metadata overhead. Build is
+absent at handoff; source-bound proof reuse does not imply cached objects exist.
+Tracking, documentation, progress, open build-graph and whitespace gates pass.

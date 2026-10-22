@@ -7,21 +7,30 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction remains active after independently pushed `759c093`.
-Continue95% and all four fronts; use `gpt-6-astra-medium:` for new commits.
+The operator requested handoff on October 22 after independently pushed
+`d499c319eba6880ad3c22c41967cce1553818e8a`. Do not start new reconstruction
+experiments until explicitly resumed. New commits use `gpt-6-astra-medium:`.
 
-- Original disk/direct IDA mapped bytes pass. Six RunEcl scalar-return contexts
-  reproduce baseline30; jump-only regresses to42 and byte/both contexts move
-  actual fields/tables. None is adopted; all original positions are compared.
-- Public probe-runecl-raw-context.py --case wire-template-byte independently
-  reproduces private full raw/COFF/input hashes and strict rejection. Eight
-  focused source-drift/producer tests pass.
-- No game-source or exact ledger change. All1003 unchanged source/profile
-  proofs are reused; game source remains atc1c8ead.
-- Coverage244917/291883 (83.9093%);95% needs32372 whole exact bytes.
-  RunEcl30,Enemy13,DrawResult22,Type315 and product gates remain unfinished.
-  CI986 tests/29 skips and tracking/docs/progress checks pass. Latest KB entry
-  routes the complete source-bound trial evidence.
+- Original disk and direct IDA mapped-byte checks pass. Latest completed
+  Player cancellation-cursor controls remain nonexact; no candidate is adopted.
+  See the final October 22 entry in [the knowledge base](KNOWLEDGE_BASE.md).
+- No game source or exact ledger changes in this handoff. Last game source
+  change is `c1c8eadfab28540a40ef5ecc10783311c35d0bc4`; unchanged source/profile
+  exact proofs are reused. RunEcl scalar-return controls from d499c31 remain
+  rejected, with their frozen evidence retained.
+- Coverage is **244917/291883 (83.9093%)**; 95% needs **32372** more whole exact
+  bytes. RunEcl30, Enemy13, DrawResult22, Type315 and product gates remain open.
+- Current Player/Options trial files are losslessly archived with member hashes.
+  Build caches are disposable; `build/` may be absent after handoff. Rebuild
+  the affected unit before any comparison. Historical unresolved evidence,
+  original input, toolchains and IDA state remain preserved.
+- Final CI passes **986 tests / 29 skips**; tracking, documentation, progress,
+  open build-graph and whitespace checks pass. Reviewed cleanup removes657
+  build cache files; archive compression plus cache removal reclaims about
+  **18.27MiB** of logical data before audit metadata overhead.
+- Cleanup scope and audit routing are in
+  [the cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md). Private evidence is
+  ignored local state and is not delivered by a Git push.
 
 ## Live ledger snapshot
 
@@ -148,7 +157,7 @@ immutable source-commit bindings; they do not accept a later HEAD.
 
 Read [`AGENTS.md`](../AGENTS.md), [`RE_WORKFLOW.md`](RE_WORKFLOW.md), and
 [`ORACLES.md`](ORACLES.md). Inspect staged, unstaged and untracked work first.
-Reconstruction is active. Use one affected owner at a time and reuse unchanged
+After an explicit resume, use one affected owner at a time and reuse unchanged
 proofs. Historical countermodels are bounded
 negative evidence, not a reason to assume an entire source family is exhausted.
 
@@ -189,20 +198,23 @@ results, fields and deficits before making an exactness claim.
 
 ## Evidence and cleanup boundaries
 
-Game source remains atc1c8ead. Current packet is
-`.analysis/gpt-6-astra-medium-20261022-ecl-wire-return/`,with frozen raw
-inputs,private recipe,six full fragment/raw/COFF reports and public reproduction.
-Trial fragments/reports are byte-verified into trials.zip; the public report
-is losslessly gzip-verified. Only their loose duplicates are removed. Compiler
-probe temporaries self-clean. Original inputs,canonical evidence and
-older unclassified artifacts remain untouched.
+Game source remains at c1c8ead. Latest private packets are
+`.analysis/gpt-6-astra-medium-20261022-player-cancel-cursor/` and the earlier
+`ecl-wire-return/`, `front-weight-member/`, `service-rng/`, `options-confirm/`
+packets with the same dated prefix. Frozen inputs, recipes and complete trial
+reports remain available. Player and Options loose case files are verified
+against trials.zip before removal; extract locally before replay.
+The handoff audit and CI log live in
+`.analysis/gpt-6-astra-medium-20261022-handoff/`. Reviewed build files contain
+only OBJ/PDB/Python caches and are removed after CI terminates. No game source,
+tracked diagnostic or unresolved analysis evidence is discarded.
 
 Ignored packets are local evidence and are not pushed. Tracked source,scripts
 and durable observations provide the restart path. Historical replayers may
 reject later sources; use their recorded commit. Archival receipts do not
 accept a later HEAD. Never delete original resources/th09.exe,toolchains,
 Wine prefixes,IDA databases,tracked source or unclassified evidence. Never
-bulk-delete .analysis/ or run git clean -X. Around1.6GiB of older evidence
+bulk-delete .analysis/ or run git clean -X. Around1.7GiB of older evidence
 still needs individual producer/source/reference review; age is insufficient.
 The generated-artifact cleaner previews by default and proposes a broader
 scope than this bounded checkpoint. Inspect every proposed path before apply.

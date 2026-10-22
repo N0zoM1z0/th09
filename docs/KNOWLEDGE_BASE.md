@@ -19292,3 +19292,40 @@ Only verified loose duplicates are removed. The separately reproduced public
 report is losslessly gzip-verified before deleting its loose duplicate. Frozen
 inputs,public provider snapshot,private recipe,comparison,archive manifests and
 CI log remain. Existing canonical objects and older evidence are untouched.
+
+
+## October 22: Player cancellation cursor and clean handoff
+
+The operator requests handoff after these eight completed serial nice10 trials;
+no new reconstruction experiments are started. Frozen inputs and reports bind
+to d499c319eba6880ad3c22c41967cce1553818e8a and the original target SHA.
+The actual one-pointer cursor addresses Player+B100 and rereads the slot after
+callbacks. Aggregate, ordinary value/reference member access, constructor and
+separate axis-miss increment/continue contexts are tested without extra state,
+qualifiers, ABI changes or compiler hints. Original IDA shows separate loop
+exits at41E194/41E19E and cursor spill/reloads around the reward/return paths;
+this does not establish an original cursor class.
+
+Baseline, aggregate, member-reference, aggregate-continue and
+member-reference-continue produce849 bytes/26 fields/266 instructions/32 blocks,
+with804 overlapping differences and13 missing bytes. Member-value, constructor
+and member-value-continue produce853/26/269/32, with810 overlapping differences
+and9 missing bytes. Target is862 bytes/277 instructions/33 blocks. All twelve
+ordered calls and actual field identities remain checked. None closes the
+complete owner, so no candidate is adopted and no exact credit is added.
+
+Every fresh object protects the five CURRENT same-TU exact siblings, totaling
+1220 bytes: graze, laser-hitbox, item-collection, circle and collision-at-player.
+The initial recipe expected the historical six-member scope and stopped before
+compiling; the live manifest establishes five. CalcItemBox and external
+FindCollision now have separate source routing. Do not reuse the historical
+six-member/1341-byte scope as the current same-TU set.
+
+Private packet `.analysis/gpt-6-astra-medium-20261022-player-cancel-cursor/`
+retains both recipes, frozen inputs and full eight-case raw/COFF/diagnostic/
+sibling receipts in trials.zip. Its archive-manifest.json records every member
+hash; extract the archive in that packet before replay. Archive SHA256 is
+f6f31c9b4bda009d3d236afa2075e29ee243f9290d504253b9b81580be83290b.
+This is bounded negative evidence, not proof that all natural cursor contexts
+are exhausted. Maintained game code, ledger totals and product gates stay
+unchanged. Current handoff routing supersedes earlier continuous-work wording.
