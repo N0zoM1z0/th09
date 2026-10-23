@@ -19874,3 +19874,68 @@ open build-graph, generated-progress and whitespace checks. Receipt:
 `.analysis/th09-campaign-20261022-v01/shared-enemy-audits-ci.log` and its zero
 exit record. There is no outstanding compiler operation or staged source
 candidate for these explored leads; complete retained proposals remain ignored.
+
+
+## October 23: Focused RunEcl and Enemy compiler campaign resumed
+
+Operator explicitly requests more attempts until the two complete large owners
+are exact; unrelated reconstruction fronts are not active. Recovery at9809df8
+is clean and aligned with local origin/main tracking, not evidence of a push by
+this session. Disk/ledger verification and Factory th09-ida metadata attestation
+with six mapped samples pass. Exact coverage remains244917/291883 (83.9093%).
+
+RunEcl ordinary command-consumer panel:12 full68-input compiles, including the
+baseline, actual Context jump and EnemyState timeout consumers, independent and
+combined forms, real-width direct reads, explicit ordinary inline, and a current-
+source retest of a true redispatch loop with baseline/native bitfield consumers.
+Baseline retains15564/598/30. Consumer methods outline: jump15560/598, timeout
+15544/599, combined15532/599. Removing memcpy or adding ordinary inline leaves
+those complete callers unchanged; the timeout bitfield callee is independently
+identical39 bytes with no COFF fields. No force-inline or profile experiment.
+True loops emit14008/601 and add three actual callsites. The actual main-table
+jump relocation, not an assumed table ordinal, establishes their187 entries;
+these objects reverse the main/easing table order. Opcode4 remains wrong, and
+native-bitfield opcode155 uses EAX input/ESI old/ECX result, not the target roles.
+Every whole owner, actual COFF/table, emitted helper and local difference is
+retained in `.analysis/th09-runecl-command-consumers-20261023-v01/`.
+
+A distinct whole-control-family lifetime model narrows five genuinely independent
+scalars into eight actual case scopes, retaining source names/evaluation order.
+The shared lhsInt remains outer-scoped because a remote store label consumes it.
+Fresh baseline passes; candidate15564/598 has1925 ordinary/228 field/24 table
+differences. Opcodes4/155 remain exactly baseline; opcode157 drops one real
+operand-result move, shrinking160 to158 bytes and shifting later fields/tables.
+The provider's strict rejection raised after compilation, but complete raw bytes,
+COFF and diagnostics had already been saved. No repeat compile was needed; the
+ignored wrapper was improved to retain objects before any future guard failure.
+Evidence: `.analysis/th09-runecl-operand-lifetimes-20261023-v01/`.
+
+Enemy's first12 cases distinguish shared draw-head computation, combined early
+eligibility guards, each guard separately, and the genuine visible periodic
+Timer context. Baselines repeat3900/97/13 and3900/97/45. Shared append emits3888;
+combined guards3884/3876 (opaque/periodic), combined append/guards3868/3852.
+Each separate guard is completely raw-neutral to its own baseline. Actual fields
+prove RunEcl4086C0 is still present at shifted offsets: the maintained inspector's
+'lost external call' error is fixed-position rejection, not actual call removal.
+Combined guards move descriptor initialization to the tail and merge one real
+Float3-add call, giving68 rather than69 calls. Shared append merges two blocks
+without losing a call. All native bodies and actual scalar definitions pass.
+Follow-on full-expression force-position and descriptor-domain cases have also
+compiled and are undergoing independent diagnosis; no source is adopted.
+Sources, complete raw/COFF, strict rejections and exploratory original-identity
+comparisons are in `.analysis/th09-enemy-controlflow-20261023-v01/`.
+
+A supporting fresh canonical ANM interpreter replay passes9358 authored/9776
+physical bytes and368 fields. Actual byte-bitfield and int-bitfield windows show
+EDX/EBX/EAX and ECX/EBX/EAX; its timer assignment loads/pushes ECX before receiver
+setup. These demonstrate natural source capabilities, not RunEcl's ECX/ESI/EAX
+allocation. The source already has the shared lexical advance tail; this is not
+a new untested loop lead. Receipt:
+`.analysis/th09-targeted-campaign-20261023-v01/anm-witness-compare.json`.
+No target, exact ledger, compiler profile, or accepted progress is changed.
+
+First focused checkpoint passes1005 tests/29 skips and all tracking, docs,
+open-build, progress and whitespace checks. The Factory response timed out, but
+subsequent readback verified the completed log and zero exit; no duplicate CI
+was launched. Receipt: `.analysis/th09-targeted-campaign-20261023-v01/first-panel-ci.log`
+and first-panel-ci.exit. Research remains active on these two owners.

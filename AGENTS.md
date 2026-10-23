@@ -2,6 +2,11 @@
 
 ## Current operator status
 
+On October 23 the operator explicitly renewed the task: focus on making the
+complete **RunEcl and EnemyManager::OnUpdate exact**, with more actual trials.
+Do not divert to unrelated nonexact owners. Supporting exact callees/interpreter
+witnesses are in scope; bounded failed experiments do not close this task.
+
 The operator explicitly resumed **TH09 original v1.50a** reconstruction on
 October 22, 2026, targeting **98% exact reviewed-authored code bytes** through
 Factory MCP (`repository_id: th09`). Prioritize the key large functions,

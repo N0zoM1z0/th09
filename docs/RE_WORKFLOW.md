@@ -14,6 +14,11 @@ dated experiments and prior stop/resume records are historical.
 Exact code, the reviewed-authored denominator, the native Windows product and
 later runtime/port phases are independent gates.
 
+The October 23 renewed instruction narrows active work to full RunEcl and
+EnemyManager::OnUpdate exactness. Continue substantive bounded compiler trials
+and diagnose changed code rather than only repeat historical conclusions.
+Other owners are supporting evidence only, not parallel reconstruction targets.
+
 ## Session entry
 
 First recover the current worktree instead of assuming it is clean. Read the

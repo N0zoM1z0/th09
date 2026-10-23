@@ -7,6 +7,11 @@
 
 ## Current verified handoff checkpoint
 
+October 23 renewal: active reconstruction is focused on complete RunEcl and
+EnemyManager::OnUpdate exactness. New consumer/control-flow/lifetime panels are
+being compiled and independently diagnosed; no new exact credit is claimed.
+See the latest knowledge-base entry for frozen evidence and rejected outcomes.
+
 The operator explicitly resumed reconstruction on October 22, 2026, through
 Factory MCP with a **98% reviewed-authored-byte exact** goal and priority on
 key large functions. Fresh TH09 evidence must test old notes and hypotheses.
