@@ -157,7 +157,6 @@ unit_aliases={
  '?EnemyCoreRunLifeCallback@@YIHPAUEnemyCoreView@@@Z':'player-check-state2',
  '?EnemyCoreRunTimerCallback@@YIHPAUEnemyCoreView@@@Z':'player-check-state2',
  '?ExecuteScript@EnemyCoreAnmManagerView@@QAEHPAUEnemyCoreAnmVmView@@@Z':'anm-manager-execute-script',
- '?AddScore@EnemyCoreSideStateView@@QAEXH@Z':'game-manager-side-add-score',
  '?EnemyCoreReleaseAttachedEffects@@YIXPAUEnemyCoreView@@@Z':'enemy-ecl-release-attached-effects',
  '?PlaySoundPositionedByIdx@EnemyCoreSoundPlayerView@@QAEXHM@Z':'soundplayer-play-positioned-sound-by-idx',
  '?SetBossMarkerPosition@EnemyCoreUiView@@QAEXHPAUFloat3@@@Z':'ascii-boss-marker-set-position',

@@ -27,21 +27,21 @@ The 98% goal and both main owners remain unfinished.
   canonical/group-00.obj through group-33.obj and their sidecars and proofs.
   These are source-bound evidence. Archival accepted receipts do not accept a
   later HEAD, and exact functions do not close native product/runtime gates.
-- Current Float3 cleanup removes two duplicate vector facades from
-  EnemyExAttackMoreLeaves.cpp and PlayerDeath.cpp. Five complete canonical
-  caller proofs stay exact; seven symbol spellings now bind the existing
-  shared methods with unchanged offsets, addends and original destinations.
-  The canonical polar helper and its assembly remain unchanged. Original EAX
-  receiver residue does not prove a source-level return type; an old KB claim
-  that the helper never writes EAX is corrected.
-  Type29 geometry-context and origin-holder controls both remain2205 bytes
-  versus2220 original, with1184/1170 overlap differences plus15 missing. Both
-  retain the72-call order/129 fields but miss the six original center receiver
-  reloads. RunEcl15564/598/30 and Enemy3900/97/13 remain unchanged in both.
-  Packet: `.analysis/gpt-61sol-20261023-effect29-geometry/`.
-  Its415-member verified archive retains both source/provider epochs and all
-  compiled objects; archive-only replay passes after reviewed cache removal.
-  See cleanup history for its SHA256 and recovery scope.
+- Current Enemy score calls use the existing GameManagerSideStateView method
+  through a shared score-prefix header. The duplicate Enemy method declaration
+  and numeric alias are removed. Declaration-only and actual native33-byte
+  visibility controls both retain Enemy3900/97/13 and RunEcl15564/598/30.
+  Canonical source-cold replay passes all79 ECL units across two profiles plus
+  the score leaf:80 units,25248 physical bytes/1126 fields. Two private label
+  spellings change with independently unchanged owner-local destinations.
+  Packet: `.analysis/gpt-61sol-20261023-enemy-descriptor-operations/`.
+  This is source-interface repair and negative codegen evidence, with no new
+  exact-byte credit. Retain the packet's original/adopted provider epochs.
+- Prior Float3 cleanup removes two duplicate vector facades and retains nine
+  exact proofs,1349 bytes/58 fields. Type29 geometric models fail whole-byte
+  comparison; the original EAX receiver residue does not identify a return
+  contract. The415-member verified archive and cleanup recovery are in
+  `.analysis/gpt-61sol-20261023-effect29-geometry/` and cleanup history.
 - Prior RunEcl timeout controls distinguish raw flag equality from one-bit
   enum read-back. Under VC7.1 an enum field declared0/1 reads its set bit as-1;
   a representable0/-1 model reads back correctly but does not match codegen.
@@ -95,10 +95,11 @@ The 98% goal and both main owners remain unfinished.
   archive recovery. Ignored evidence is local and is not part of Git commits.
 - Final current checkpoint CI passes **1016 tests / 29 skips** (exit0);
   target-required tracking, documentation, build graph, progress and whitespace
-  pass. The current Type29 packet retains the adopted nine canonical proofs,
-  complete negative models and both original/adopted provider epochs. The
-  RunEcl packet retains its compiled controls, complete comparisons and signed
-  enum fixtures. Earlier Title and SaveReplay packets retain their recorded source
+  pass. The current Enemy score packet retains80 canonical proofs, both complete
+  controls and original/adopted provider epochs. The Type29 packet retains its
+  nine canonical proofs and complete negative models. The RunEcl packet retains
+  its compiled controls, complete comparisons and signed enum fixtures.
+  Earlier Title and SaveReplay packets retain their recorded source
   and provider epochs (d9245532 and9161c560 respectively).
   Earlier source epochs, reviewed cache removal and Git compaction remain in
   cleanup history. Reconstruction remains active.

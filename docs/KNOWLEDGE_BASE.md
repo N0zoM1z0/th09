@@ -21242,3 +21242,69 @@ Historical scripts require their recorded provider epoch after the seven
 shared-symbol updates. Only the shared Float3 source repair is adopted; the
 geometric models remain private rejected controls. Coverage stays1003 exact
 functions and244917/291883 (83.9093%);98% still needs41129 whole exact bytes.
+
+
+### 2026-10-23: Enemy side-score interface and native-body ownership controls
+
+Recovery atf5bb052f7a8d71a55deca4c9d7c8820d3ed44ae6 is clean. The previous
+shared-Float3 batch changed authoritative source and retained reproducible
+negative Type29 evidence. Original Japanese1.50a disk, direct IDA metadata,
+entry and distributed mapped bytes pass. A source/profile/hash-verified copy
+of its full ECL baseline is reused; no unchanged baseline is recompiled.
+
+Fresh complete Enemy replay retains3900 bytes/97 fields,1026 instructions,
+69 ordered calls and170 blocks. The13 ordinary residuals remain exactly two
+draw-index bytes and11 special-attack/descriptor bytes. Direct IDA observes the
+canonical score helper40F860:33 bytes, signed division by10 and a write through
+receiver+1C to state+08. The two original Enemy call fields at+C27/+C53 target
+that helper. This does not identify a unique original C++ class spelling.
+
+EnemyManagerCore.inl still declared a second AddScore on EnemyCoreSideStateView.
+GameManagerSideScore.cpp already supplied the separately exact real method.
+Its unchanged prefix declarations/assertions now live in the new shared
+GameManagerSideScoreView.hpp; the implementation includes that header. Enemy
+removes its duplicate member declaration and calls the existing real method at
+both sites through the proven score prefix. The old numeric alias is removed
+from the Enemy inspector. No field, argument, return contract or method body
+changes, and other provisional side layouts are not promoted to complete types.
+
+Two full EclManager.cpp controls compile serially on one CPU at nice10 under
+the unchanged pinned /O2/Ob1 profile. Declaration-only changes precisely that
+interface. Native-score visibility additionally includes the actual maintained
+method body with its unchanged ordinary definition. Both retain every Enemy
+raw byte, SHA256
+1fbfc13ab72202c08e489d7922d1d5ca9c4d35bf8d77b3be57560f73f3167b86,
+and all97 effective fields. Both retain complete RunEcl15564/598/30, zero
+field/table drift, raw
+bc9a1a71fbc3010338ef7f3de66ca3e0f3c3ee3bb9eb51f1588c6e53dea8c01b.
+The actual native score body independently matches all33 bytes with no fields;
+its two positive same-object call coordinates are verified before binding.
+Neither visibility model repairs a residual. Only the shared declaration is
+adopted; no new definition is made visible in the maintained ECL source.
+
+Each private object also retains all75 canonical same-profile ECL functions,
+22463 physical bytes/990 fields, with actual literal payload checks. The reused
+baseline passes the same75 whole-function checks. Renamed private labels are
+accepted only after their actual positive COFF owner-relative positions match
+the already pinned original destinations; they are never rebased to fit bytes.
+Native-score visibility renumbers its private identifiers independently.
+
+Separate canonical source-cold compiles cover all79 ECL units under their two
+existing profiles and the score method under its own unchanged profile:
+80 complete exact comparisons,25248 physical bytes/1126 fields. The only
+canonical manifest changes are post-movement's+0x139 label $L74286->$L74313 at
+unchanged0x00408548 and CompareOperands'+0x14 label $L73467->$L73494 at unchanged
+0x00407A4C. Complete old/new manifest comparison retains every other byte.
+Manifest source paths, profiles, extents, offsets, kinds and addends stay fixed.
+The full original-bound
+Enemy13 and RunEcl30 production guards both pass without widening. These are
+retained existing exact units, not new exact functions or accepted receipts.
+
+Packet .analysis/gpt-61sol-20261023-enemy-descriptor-operations/ retains baseline
+provenance, both frozen compiler controls, original/adopted source/provider
+epochs, actual COFF/literal/callee reports, canonical commands/receipts and
+archive replay recipes. Historical packets need their recorded source/provider
+epochs after this shared declaration, inspector and private-label update.
+Unique selected-manager proof objects remain untouched. Coverage stays1003
+exact functions,244917/291883 (83.9093%);98% remains unfinished, needing41129
+additional whole exact bytes. Native product/runtime and later gates stay open.

@@ -1316,3 +1316,47 @@ loose; post-cleanup archive replay passes again. Original executable, SDK,
 compiler, Wine/IDA state and other unique evidence are untouched. No bulk
 cleaner, pruning or history rewrite is used. Coverage stays83.9093%;98% remains
 unfinished and needs41129 whole exact bytes.
+
+
+### 2026-10-23: Enemy side-score owner and shared declaration
+
+From localf5bb052f, Enemy's two score calls now use the existing real
+GameManagerSideStateView::AddScore through a shared, offset-asserted header.
+Its implementation body remains unchanged; the duplicate Enemy declaration
+and numeric inspector alias are removed. Two actual COFF owner-local positions
+independently justify the only two canonical private-label spelling updates.
+No original address, extent, field offset/kind/addend or compiler profile changes.
+
+Declaration-only and actual native-score visibility controls both retain the
+complete Enemy3900/97/13 and RunEcl15564/598/30 frontiers. Each also retains75
+same-profile exact ECL functions,22463 physical bytes/990 fields. The native
+score body matches all33 original bytes with two positive caller references.
+Separate canonical cold compiles pass all79 ECL units across two profiles and
+the score method:80 exact functions,25248 physical bytes/1126 fields. Existing
+exact credit remains unchanged; only the shared source interface is adopted.
+
+Packet .analysis/gpt-61sol-20261023-enemy-descriptor-operations/ preserves both
+compiled controls, the verified reused baseline, original/adopted source and
+provider epochs, canonical commands and receipts, raw/COFF/literal evidence,
+direct IDA observations and recovery recipes. Its368-member captures.zip
+preserves17862206 logical bytes in2652525 compressed bytes, SHA256
+4328c1baaff884e45789284be0b3f4f6b71a0d0d2b97b6cc11f23d164966fb9f.
+CRC/member SHA/full loose equality pass. Independent temporary archive-only
+extraction replays150 private and75 baseline exact comparisons, all80 canonical
+proofs, four complete Enemy comparisons and three complete RunEcl comparisons.
+The actual native33-byte score body and both positive COFF references pass;
+no compiler is invoked by this replay. The only report normalization is the
+extracted object pathname. Cold reconstruction uses the captured complete
+sources/commands in a new directory; frozen captures are never overwritten.
+
+CI passes1016 tests/29 skips in122.796 wrapper seconds, observed exit zero.
+After all compiler/replayer/CI handles terminate, reviewed cleanup removes764
+regular ignored, rehashed files/23009049 logical bytes:341 verified archive
+duplicates14961513 bytes, six archived canonical caches1061749 bytes and417
+reproducible Python bytecode files6985787 bytes. All14 older unclassified build
+files and the unique selected-owner reference remain byte-identical. Root
+recipes, epoch manifests, complete comparison receipts, cleanup.json and the
+verified archive remain loose; post-cleanup replay passes again. Original EXE,
+SDK/compiler/Wine/IDA state and other unique evidence are untouched. No bulk
+cleaner, object pruning or history rewrite is used. Coverage remains83.9093%;
+98% is unfinished and still needs41129 whole exact bytes.

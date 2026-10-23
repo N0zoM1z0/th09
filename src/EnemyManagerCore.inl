@@ -1,3 +1,4 @@
+#include "GameManagerSideScoreView.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "PlayerDamageView.hpp"
 #include "PlayerState4OpsView.hpp"
@@ -151,7 +152,6 @@ struct EnemyCoreSideStateView
     unsigned char unknown24[0x10];
     unsigned int flags34;
 
-    void AddScore(int value);
 };
 typedef char EnemyCoreSideStateSizeIs38[
     (sizeof(EnemyCoreSideStateView) == 0x38) ? 1 : -1];
@@ -835,14 +835,16 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             }
 
             case 1:
-                manager->sideState320->AddScore(enemy->score2E54);
+                reinterpret_cast<GameManagerSideStateView *>(
+                    manager->sideState320)->AddScore(enemy->score2E54);
                 enemy->flags337C =
                     (enemy->flags337C & 0xFFEFFFB3) |
                     ENEMY_CORE_PERSIST_AFTER_DEATH;
                 goto release_death_effects;
 
             case 0:
-                manager->sideState320->AddScore(enemy->score2E54);
+                reinterpret_cast<GameManagerSideStateView *>(
+                    manager->sideState320)->AddScore(enemy->score2E54);
                 enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
             release_death_effects:
                 if ((enemy->flags337C & ENEMY_CORE_BOSS) != 0)
