@@ -23,18 +23,19 @@ verified. The 98% goal and the principal large owners remain unfinished.
   canonical/group-00.obj through group-33.obj and their sidecars/proofs.
   Archival receipts do not accept a later HEAD; exact functions do not close
   native product/runtime gates. Reuse unchanged source/profile-bound proofs.
-- Current native entry-leaf controls leave GetSubroutine/SelectSide callers
-  unchanged. Visible ResetBulletRankInfluence removes the original receiver
-  reload at+CC3: code shrinks3883->3881, alignment grows1->3, while physical3900
-  hides616 differences. All13 residuals persist and603 old matches regress;
-  the unchanged guard rejects the moved last Timer field. Eight objects protect
-  600 existing bodies and11 extra native proofs. No source/profile/guard/ledger
-  is adopted. Packet `.analysis/gpt-61sol-20261024-enemy-entry-leaves/` retains
-  72 staged source bindings, the729-member archive, cold replay and the distinct
-  failed manual-D3DX declaration epoch. Actual SDK declaration control is neutral.
-- Earlier schedule and word-writeback controls remain in dated KB notes and
-  their source-bound local packets; the word-writeback resource exception is
-  preserved. Current evidence supports keeping the rank-reset definition opaque.
+- Current primitive-return timeout controls retain30 or reproduce the known
+  raw82e081e3 regression:1938 ordinary/202 field-byte/26 table-byte differences.
+  A typed memcpy helper outlines19 bytes; its15560/599 caller and dependent
+  Enemy inventory are rejected. A local result permits ordinary inlining but
+  repeats the union's full rejected class. Six objects protect450 existing
+  canonical bodies;4096 native-helper fixtures pass without a target binding.
+  No source/profile/guard/ledger is adopted. Packet
+  `.analysis/gpt-61sol-20261024-ecl-value-return/` retains70 source bindings,
+  the475-member archive, frozen inputs and the selected cold replay.
+- Prior Enemy entry-leaf evidence supports keeping rank reset opaque: visible
+  real51-byte reset removes the original+CC3 receiver reload and gives616 full
+  differences despite physical3900. Earlier schedule/word controls remain in
+  dated KB notes and source-bound packets, including the resource exception.
 - Earlier SaveReplay, gameplay setup, Enemy routing/position/count, Player,
   Title and declaration experiments remain in their dated knowledge-base notes
   and local packets. Consult those source-bound observations before repeating
@@ -51,8 +52,8 @@ verified. The 98% goal and the principal large owners remain unfinished.
   or rewriting history; full Git integrity verification passed. See
   [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for exact cache scopes and
   archive recovery. Ignored evidence is local and is not part of Git commits.
-- Current CI passes1016 tests/29 skips, exit0. Reviewed cleanup removes863
-  duplicate/cache paths (17220786 logical bytes), preserving all14 preexisting
+- Current CI passes1016 tests/29 skips, exit0. Reviewed cleanup removes609
+  duplicate/cache paths (13664886 logical bytes), preserving all14 preexisting
   build files,34 canonical objects and the original input. The packet and
   cleanup history retain exact recovery/deletion records. All1003 unchanged
   source/profile proofs are reused; native product/runtime, semantic and

@@ -1805,3 +1805,50 @@ cleanup: all729 members,600 canonical comparisons and11 extra native proofs,
 without compiling. All863 removed paths remain absent. Keep this ignored packet
 with the worktree.
 Coverage stays244917/291883 (83.9093%);98% and all later phase gates remain open.
+
+### 2026-10-24: primitive timeout return representations and local-copy follow-up
+
+From local14ccb7aa, four source models retain the existing ordinary inline
+u32,u8 -> u32 helper interface, one-byte wire capture and real Timer ABI. Mutating
+the word parameter retains the complete15564/598/30 baseline. Typed union and
+local-result copies inline to the known raw82e081e3 class,1938 ordinary/202 field-
+byte/26 table-byte differences;26 is included in202. Parameter-address memcpy
+copies outline a real19-byte/zero-field helper with no original binding. The
+15560/599 caller and dependent Enemy inventory rejections remain explicit;
+no incomplete full-owner score is invented for the new call at30BA. A selected
+independent cold copy compile reproduces every input, byte, COFF and observation.
+No canonical source/profile/guard/unit/ledger changes or new exact credit.
+
+Packet `.analysis/gpt-61sol-20261024-ecl-value-return/` retains70 source bindings/
+21 providers, all current/historical context distinctions and the final renderer.
+Six objects include the reused hash-bound baseline,450 complete existing-body
+comparisons,134778 repeated physical bytes/5940 fields. Four complete RunEcl and
+linked Enemy13 reports remain; two copies retain the strict rejections and the
+same actual19-byte helper. Opcode4 is baseline-identical throughout. All1003
+unchanged canonical source/profile proofs are reused. All five compiler intervals
+are positive, locked, disjoint and pinned to one CPU at nice10 with fixed profile.
+
+The actual unique helper body passes4096 Unicorn1.0.2 arithmetic cases: eight old
+words x256 byte inputs x2 upper-EDX patterns. Its returned word takes only bit24
+from the input low bit, preserves other bits and preserves ABI callee-saved
+registers. This neither binds an original helper nor validates whole-game/runtime
+or semantic gates. The475-member archive compresses11645561 logical bytes to
+2205676 bytes, SHA256
+1bd69360ac03bcb39950714e9a68a47898aa36482ceecb4f57f4f7057bac030d.
+CRC, per-member SHA and loose-byte equality pass before deletion. verify.py
+extracts and replays all complete observations, table-derived handler intervals,
+cold payloads, serial receipts and4096 helper fixtures without compiling.
+
+CI passes1016 tests/29 skips, exit0, in199.747 wrapper seconds on one CPU at
+nice10. All known compiler/replay/CI handles terminate before cleanup; the scoped
+process audit finds no producer. Cleanup removes475 verified archived duplicates
+(11645561 bytes) and134 reproducible Python caches (2019325 bytes):609 files/
+13664886 logical bytes. Every ignored regular path is rehashed immediately before
+unlink, confined to the packet or reviewed cache roots and recorded in
+cleanup.json. All14 preexisting build files,34 unique canonical objects and the
+original executable retain before/after hashes; unrelated unique evidence,
+source, tools/SDK/Wine/IDA state remain intact. Archive-only replay passes after
+cleanup: all475 members,450 canonical comparisons and4096 native-helper cases,
+without compiling. All609 removed paths remain absent. Keep this ignored packet
+with the worktree.
+Coverage stays244917/291883 (83.9093%);98% and all later phase gates remain open.

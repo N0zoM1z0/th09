@@ -22086,3 +22086,70 @@ intervals and failed renderer without compiling. Selected cold reproduction:
 `PYTHONDONTWRITEBYTECODE=1 python3 -B .analysis/gpt-61sol-20261024-enemy-entry-leaves/probe.py --case native-rank-only --output .analysis/enemy-entry-rank-cold`.
 No new exact credit:244917/291883 (83.9093%), needing41129 whole bytes for98%.
 Native product/runtime, semantic and portability gates remain open.
+
+### 2026-10-24: primitive-return timeout helper and address-taken parameter context
+
+Recovery at14ccb7aa6c748b87210385e2d4d8a3d262d25664 is clean. Previous work is
+progress through the cold-proven Enemy receiver-reload constraint. Original
+Japanese1.50a disk, direct IDA metadata and mapped bytes pass. Fresh RunEcl
+opcode4/155 still has the original29/45-byte handlers. Historical timer-forwarding,
+convention and aggregate-return carrier recipes are inspected, not rerun. Those
+older side-effect/aggregate interfaces are distinct from the current ordinary
+inline helper's unchanged primitive u32 return and u32/u8 inputs.
+
+Only AssignTimeoutSpellBit changes in these models. The original one-byte memcpy
+capture, actual state field337C, shared native bitfield layout, low-bit semantics,
+read/publication timing, Timer ABI and carrier profile remain. No new qualifier,
+forced inline, register/variable-order hint, inert storage, assembly, padding or
+target patch is added. Each local carries real representation data to the result.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-VALUE-RETURN-001 | byte-neutral source control | Mutate the by-value old word with masked XOR and return that word. | parameter-word-update/: complete rawbc9a1a71 baseline,15564/598/30. |
+| ECL-VALUE-RETURN-002 | rejected source boundary | memcpy the parameter into native bits, update timeoutSpell24 and copy back before returning u32. | typed-bitfield-copy/: real19-byte/zero-field helper outlines; caller15560/599. |
+| ECL-VALUE-RETURN-003 | rejected inlined representation | Put native word/bits in a consumed union value and return its word. | typed-bitfield-union/: whole raw82e081e3,1938 ordinary/202 field-byte/26 table-byte differences. |
+| ECL-VALUE-RETURN-004 | rejected adaptive follow-up | Confine both representation copies to a genuine local result, leaving the parameter unaddressed. | typed-bitfield-local/: actually inlines, but every complete RunEcl byte equals the union's same known rejected class. |
+
+The two memcpy variants preserve the same primitive interface. Addressing the
+parameter versus copying through a local result distinguishes outlining in this
+bounded context; this is not a universal inliner rule or original-source proof.
+The inlined union/local155 handlers are44 versus original45 bytes. Their physical
+15564 total includes shifted fields/tables;26 table-byte differences are included
+in202 field-byte differences. This reproduces the existing native-bitfield class,
+not a newly improved frontier. Opcode4 stays baseline-identical in every model.
+
+The outlined copy version has one actual positive REL32 at relative30BA to the
+uniquely extracted19-byte definition, with zero fields and no original address
+assigned. Its opcode155 caller is34 bytes; the following opcode156 is51 versus
+baseline52. The full15560/599 owner retains the explicit input-shape/coverage
+rejection and dependent Enemy inventory rejection. No partial full-owner score
+is fabricated for the unknown extra call. Enemy raw bytes remain identical, but
+complete linked Enemy acceptance is not claimed for those two captures.
+
+The actual native helper is independently run under Unicorn1.0.2 for4096 cases:
+eight old words x256 byte inputs x2 upper-EDX patterns. The observed VC7.1 /Gr
+interface receives old in ECX and the actual byte in DL; EAX returns the word.
+In every case the returned word takes bit24 from the input low bit and preserves
+all other bits; execution returns through the sentinel and preserves ABI
+callee-saved registers. Actual
+helper SHA256 is9482cddeb490af0bad77d40dee6e54e07210e96436f5685c7a81076e29f75c1a.
+This is native-helper arithmetic evidence, not an original helper binding,
+original/native whole-game runtime comparison, exact credit or a semantic gate.
+
+Four source models, one selected independent copy cold replay and one reused
+hash-bound baseline give six objects. Each protects75 existing canonical bodies,
+22463 physical bytes/990 fields:450 complete comparisons,134778 repeated physical
+bytes/5940 fields. Four complete ECL reports and linked Enemy13 reports remain;
+two outlined captures retain strict rejections and the same actual19-byte helper. The cold
+run reproduces all staged inputs, bytes, COFF, literals and observations. All five
+compiler intervals are locked, disjoint, one CPU/nice10 with unchanged profile.
+No canonical source/profile/guard/unit/ledger changes; all1003 unchanged proofs
+are reused. Coverage stays244917/291883 (83.9093%),41129 whole bytes short of98%.
+
+Packet .analysis/gpt-61sol-20261024-ecl-value-return/ retains70 source bindings/
+21 providers, the475-member archive, current/historical scope, final renderer,
+actual observations and native-fixture producer. verify.py replays all complete
+comparisons, intervals, actual table-derived handlers and4096 helper fixtures
+without compiling. Fresh selected reproduction:
+`PYTHONDONTWRITEBYTECODE=1 python3 -B .analysis/gpt-61sol-20261024-ecl-value-return/probe.py --case typed-bitfield-copy --output .analysis/ecl-value-return-cold`.
+Native product/runtime, semantic and portability gates remain open.
