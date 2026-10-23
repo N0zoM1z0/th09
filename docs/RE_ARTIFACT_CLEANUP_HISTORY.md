@@ -1512,3 +1512,46 @@ before unlink. cleanup.json retains per-path evidence. All 14 existing build
 files and 34 unique selected-manager objects pass before/after hashes. Other
 unique evidence, original executable, source and tools/SDK/Wine/IDA state remain
 intact. Ignored packets must accompany the worktree for local handoff.
+
+### 2026-10-23: RunEcl command prefixes and byte-promotion controls
+
+From local 8889ea9c, nine source models and two independent cold compiles test
+actual timer assignment syntax, observed jump/timeout prefixes and promotion of
+one loaded wire byte. No model improves the full owner without regression.
+Opcode 4's seven and opcode 155's 23 baseline differences remain open; jump forms
+add 12 differences entirely in opcode 7. The actual 26-byte native bitfield setter
+is outlined, with one positive native reference but no original callee binding;
+production ECL and dependent Enemy inventory rejections remain explicit.
+No game source, compiler profile, production guard, manifest or ledger is
+adopted. All 1003 unchanged canonical source/profile proofs are reused.
+
+Packet `.analysis/gpt-61sol-20261023-ecl-command-prefixes/` retains 70 source
+bindings, 21 provider bindings, two additional machine-audit suppliers, complete
+raw/COFF/literal/body observations and fresh original IDA windows. Twelve
+objects pass 900 complete existing-body comparisons (269556 physical comparison
+bytes/11880 fields); ten have production full-owner reports and two retain the
+unbound-helper rejections. Two cold replays reproduce their complete reports.
+The focused unchanged baseline passes all 598 field identities, eight real
+angle identities, 90 timer-jump cases and 3072 flag-transition cases. These
+repeated existing proofs carry no new authored exact-byte credit.
+
+The 941-member archive compresses 21796073 logical bytes to 4057156 bytes,
+SHA256 4faf81ff762a47d829f46c626d8a0c45afb58a1f70ac0d9d9534806f5c39b5ac.
+All members pass CRC/SHA and loose-byte equality before deletion. verify.py
+extracts and replays every complete observation without compiling, and probe.py
+retains a source/provider-bound selected cold recipe. The two superseded
+producer scaffolds remain archived; the final renderer reproduces every actual
+compiled input. Setup and initial JSON-key verification failures are labeled
+separately from successful compiler receipts, with no codegen failure inferred.
+
+CI completes 1016 tests with 29 skips and exit 0 in 143.031 wrapper seconds on one
+CPU at nice10. Target-required tracking, docs, progress, open build graph and
+whitespace pass. Every compiler/CI/replay handle terminates before cleanup; a
+repository-scoped process audit finds no active producer. Cleanup removes 941
+verified archive duplicates totaling 21796073 bytes plus 429 reproducible Python
+caches totaling 7449049 bytes: 1370 files/29245122 logical bytes. Every deletion
+is ignored, regular, rehashed before unlink and confined to this packet or
+reviewed Python cache roots. cleanup.json retains per-path evidence. All 14
+preexisting build files, 34 unique canonical objects and the original executable
+pass before/after hashes. Other unique evidence and tools/SDK/Wine/IDA state
+remain intact. Ignored packets must accompany the worktree for local handoff.

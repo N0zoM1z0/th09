@@ -23,18 +23,25 @@ verified. The 98% goal and the principal large owners remain unfinished.
   canonical/group-00.obj through group-33.obj and their sidecars/proofs.
   Archival receipts do not accept a later HEAD; exact functions do not close
   native product/runtime gates. Reuse unchanged source/profile-bound proofs.
-- Current Enemy position/comparison controls test six source models plus two
-  independent cold compiles. All nine objects, including the reused baseline,
-  retain every Enemy raw byte and all 97 resolved field identities: 3900/97/13.
-  RunEcl stays 15564/598/30 with no field/table drift. The 675 complete body
-  comparisons include 21 explicitly reviewed comparison-interface views;
-  production symbols and guards remain unchanged. Both 20-byte alternative
-  comparison definitions are original-equal, but their C++ declarations are
-  not established as original. No game source or ledger is adopted. Packet:
-  `.analysis/gpt-61sol-20261023-enemy-position-boundaries/`. Its 695-member
-  verified archive retains all observations. Cleanup removes 1113 reviewed
-  duplicates/caches totaling 20532568 logical bytes; all 14 preexisting build
-  files and 34 unique canonical objects remain intact.
+- Current RunEcl controls test nine command-prefix, assignment-syntax and
+  byte-promotion models, plus two independent cold compiles. The twelve objects
+  pass 900 complete existing-body comparisons. Three models repeat 30 ordinary
+  differences; jump/direct-wire forms retain all 30 and add 12 in opcode 7.
+  Timeout prefix/word-capture forms drift fields/tables; an actual 26-byte
+  outlined setter has no original binding and is rejected. No source, profile,
+  guard or ledger is adopted. Packet
+  `.analysis/gpt-61sol-20261023-ecl-command-prefixes/` retains its 941-member
+  archive, source recipes, actual COFF and production rejections. Focused
+  baseline guards retain 90 timer-jump and 3072 flag-transition machine cases.
+  CI passes 1016 tests/29 skips; cleanup removes 1370 verified duplicates/caches
+  (29245122 logical bytes), retaining the 4.1 MB archive, all 14 preexisting build
+  files and 34 unique canonical objects. See cleanup history for recovery.
+- Prior Enemy position/comparison controls retain 3900/97/13 across nine
+  objects. Their 675 body comparisons include 21 reviewed interface views;
+  original comparison signedness/constness remain unknown. Packet
+  `.analysis/gpt-61sol-20261023-enemy-position-boundaries/` retains the 695-member
+  archive. Production declarations/guards remain unchanged; cleanup history
+  records exact deletion scopes and preservation audits.
 - Prior Enemy count/list controls partition the residual into draw index 2,
   side/threshold transport 4 and position copying 7. The 121-byte constants/
   count/spawn window already agrees. Branch-return count forms merge an
@@ -44,7 +51,7 @@ verified. The 98% goal and the principal large owners remain unfinished.
 - Prior Player movement models retain1900/66/129, regress to131, or outline an
   unbound helper. The verified219-member archive and two cold replays remain in
   `.analysis/gpt-61sol-20261023-player-clamp-owner/`. Its637 reviewed duplicate
-  and Python cache files were removed; all14 build files/34 canonical objects
+  and Python cache files were removed; all 14 build files/34 canonical objects
   remained intact. See cleanup history for exact scope and recovery.
 - Prior Title Options tests cover full owner declarations and actual method
   visibility. Five source models and one cold producer replay retain2048/610,

@@ -21617,3 +21617,77 @@ For a selected source/provider-bound replay into a fresh directory, use
 No model is adopted. All 1003 unchanged game source/profile proofs are reused;
 coverage stays 244917/291883 (83.9093%). The 98% goal still needs 41129 whole
 exact bytes. Native product/runtime, semantic and portability gates remain open.
+
+### 2026-10-23: RunEcl command prefixes, assignment syntax and byte promotion
+
+Recovery at 8889ea9ccf264e91b13d1319a662d2e791bc50bd is clean. Disk target,
+direct IDA metadata, entry and distributed mapped-byte checks pass. The reused
+baseline still matches all 70 source and 21 provider bindings. Fresh original
+RunEcl and nine-byte 0x401500 wrapper disassemblies are retained. Existing Timer
+return-consumer audits do not establish a nonvoid source contract; IDA's
+provisional int declaration and incidental EAX contents do not change that.
+No return ABI, compiler profile, declaration order or register hint is changed.
+
+The current time008 member is already the real ZunTimer through a typedef.
+Opcode 4 consumes a signed dword at instruction+0C and reads the relative dword
+at+10 after the real timer assignment. Opcode 155 consumes exactly one byte
+at+0C and updates only bit 24; promoting that loaded byte does not widen the
+wire read. Prefix assertions establish these observed offsets/widths, without
+claiming ownership of unobserved trailing bytes or original nominal C++ types.
+
+| ID | State | Model | Complete observation |
+| --- | --- | --- | --- |
+| ECL-PREFIX-001 | diagnostic control | Direct actual timer member, retaining the bytewise int capture. | Identical full RunEcl raw bytes; 15564/598/30, zero field/table drift. |
+| ECL-PREFIX-002 | diagnostic control | Typed jump prefix; displacement remains read after assignment. | 15564/598/42; all 30 baseline differences remain and 12 previously equal opcode 7 bytes regress. |
+| ECL-PREFIX-003 | diagnostic control | Typed one-byte timeout prefix with the existing masked-XOR operation. | 15564/598; 2048 ordinary, 242 field-byte and 26 table-byte differences. |
+| ECL-PREFIX-004 | diagnostic control | Combined jump and timeout prefixes. | 2060 ordinary differences with the same 242 field-byte/26 table-byte drift. |
+| ECL-PREFIX-005 | diagnostic control | Explicit operator=(value) call on the real timer member. | Same raw bytes and 30 residuals as direct assignment; same actual ABI/callee. |
+| ECL-PREFIX-006 | diagnostic control | Explicit operator=(RawInt(...)) without the scalar copy. | Same full raw bytes as the 42-difference jump-prefix class. |
+| ECL-PREFIX-007 | diagnostic control | Widen only the pure masked helper's value parameter to unsigned int; retain the byte capture. | Identical baseline raw bytes and 30 differences. |
+| ECL-PREFIX-008 | diagnostic control | Ordinary in-place native-bitfield setter taking the promoted byte. | Actual 26-byte/zero-field helper is outlined; RunEcl becomes 15544/599 with one real new REL32 and no reviewed original callee. |
+| ECL-PREFIX-009 | diagnostic control | Capture RawByte into unsigned int and pass it to the widened pure helper. | Same full raw bytes as the timeout-prefix class, including all field/table drift. |
+
+Opcode 4 stays 29 bytes and all seven of its baseline unlike positions persist.
+The jump-prefix's twelve new differences are entirely inside opcode 7 SetFloat,
++0x2AF..+0x2FA: source capture, operand-flag transport and argument scheduling
+change despite identical field destinations. Opcode 4 itself does not improve.
+This is a whole-owner compiler observation, not proof that the typed prefix is
+semantically wrong or that the original source used bytewise copies.
+
+The timeout-prefix and word-capture handlers shrink from 45 to 43 bytes. Their
+input becomes one MOVZX, but old/result allocation still differs from original
+ESI/EAX; the complete owner has extensive field/table drift. All physical bytes
+and actual owner-local destinations are compared; table entries are never
+rebound to target positions. Local improvements or coincidentally recovered
+baseline offsets do not support adoption when old matches regress.
+
+The native setter is an actual 26-byte definition with one positive same-object
+RunEcl reference. Its original identity is unknown. Its caller's timeout
+handler is 25 bytes rather than 45; production full-ECL inspection rejects the
+changed input shape, and the production Enemy inspector rejects the incomplete
+native RunEcl inventory. Both rejections are preserved. Enemy raw bytes remain
+identical, but no complete linked Enemy acceptance is claimed for these two
+objects. No target address is invented for the helper and it is not forced
+inline. No production guard, symbol map or exact ledger is widened.
+
+Nine source models, two cold compiles and one reused baseline give 12 objects.
+Each passes the 75 existing same-profile exact bodies: 900 complete original-byte
+comparisons, 269556 physical comparison bytes and 11880 fields in total. These
+are repeated existing proofs, not new authored bytes. Ten objects also pass
+the complete production Enemy inventory/field guards at 3900/97/13 and produce
+original-bound full RunEcl reports; the two outlined-setter objects retain the
+explicit production rejections. The cold jump-prefix and outlined-setter runs
+reproduce every raw byte, actual COFF row, body/literal proof and report.
+All new compiles run serially on one CPU at nice10 under the existing /O2/Ob1.
+
+Focused production guards recheck the unchanged original-bound baseline:
+30 ordinary differences partition 7/23 between opcodes 4/155; all 598 fields,
+eight real angle identities, 90 timer-jump cases and 3072 bit-transition cases
+pass. All 1003 unchanged canonical source/profile proofs remain reusable.
+Packet .analysis/gpt-61sol-20261023-ecl-command-prefixes/ retains the producer,
+source bindings, focused receipts and 941-member CRC/SHA-verified archive.
+verify.py replays all complete observations from that archive without compiling.
+For a selected cold model into a fresh directory, use
+`python3 -B .analysis/gpt-61sol-20261023-ecl-command-prefixes/probe.py --case jump-prefix --output .analysis/ecl-prefix-cold`.
+Coverage stays 244917/291883 (83.9093%), with 41129 whole exact bytes still needed
+for 98%. Native product/runtime, semantic and portability gates remain open.
