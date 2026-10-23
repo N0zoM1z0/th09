@@ -20314,3 +20314,30 @@ regressions. Tracking, docs, open-build graph, progress SVG and whitespace also
 pass. The transport response timed out but retained adoption-ci.log and
 adoption-ci.exit were read back to verify complete success and exit zero; no
 duplicate CI was launched. Exact coverage remains 244917/291883 (83.9093%).
+
+## 2026-10-23 corrected-owner context retests and bounded archival
+
+Fresh f595786 source/provider closures repeat three bounded integrations. Native
+timeout syntax retains the complete 82e081e3 class (15564/598, 1938 ordinary,
+202 field and 26 table differences); all actual fields agree after the proven
+initializer identity correction. Genuine initializer co-visibility preserves
+RunEcl baseline bc9a and Enemy baseline 1fbf, all effective bindings, and the
+149-byte CallSubroutine. The actual emitted initializer independently matches
+73 bytes/two Timer fields; callers bind to that real same-object definition.
+Enemy's corrected-owner periodic manager-prepend integration reproduces old
+case43's 39fbe36c class: 3900/97, 69 calls, 170 blocks, six native proofs and the
+same 41 descriptor differences. Its initializer at +0xD08 is correctly external
+in that standalone object, not falsely claimed same-object. No source adoption
+or exact credit follows. Evidence packets: th09-runecl-corrected-owner-native-timeout,
+th09-runecl-corrected-owner-init-visible and th09-enemy-selected-owner-prepend,
+all under .analysis/ with suffix -20261023-v01; each retains complete captures
+and independent closure/verification reports.
+
+A separately reviewed archive now preserves 748 source snapshots from eleven
+completed non-baseline command-consumer cases. Every root file, baseline/ and
+frozen/ dependency, and every object/PDB/result/log remains loose. Byte hashes,
+modes and nanosecond timestamps were verified against originals and a clean
+independent extraction before recoverable unlink. See the new cleanup-history
+entry and packet ARCHIVE_README before historical replay. Net logical savings
+including all review/journal/archive overhead are 4393227 bytes (~4.19 MiB); this
+is not a claim about other .analysis packets or accepted exact coverage.

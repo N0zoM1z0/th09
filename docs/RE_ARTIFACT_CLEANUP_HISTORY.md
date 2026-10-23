@@ -901,3 +901,40 @@ new tracked documentation overhead is excluded. All unrelated campaigns,
 current probes, canonical build objects, target, toolchain, Wine/IDA state and
 tracked source are untouched. Nothing is accepted as exact by this archive.
 The archive is ignored local evidence, not pushed; preserve it when moving work.
+
+## October 23: completed command-consumer source snapshots
+
+Only 748 manifest-listed source files from eleven non-baseline cases in
+.analysis/th09-runecl-command-consumers-20261023-v01/ were recoverably unlinked.
+All 245 prior retained files remain unchanged, including the entire baseline/
+and frozen/ trees, root scripts/manifests and every OBJ/PDB/result/log. Later
+producers/diagnostics directly reference baseline/EclManager.obj, baseline/result.json,
+manifest.json and frozen/src/, so those paths remain intact.
+
+Archive: .analysis/th09-command-consumer-source-archive-review-20261023-v01/reviewed-case-sources.tar.xz
+Archive bytes: 73552. SHA-256:
+92520472465664c6bf6e86b2ed39b0c75b8df604575685a489c92f092babd55e
+External review-manifest.json SHA-256:
+3c6964a51634196538ccbb001923a5085786d10dd04f6ec41ecdccfd70def17d
+
+The manifest pins every member's hash, path, size, mode, nanosecond mtime and
+allocation, plus all retained dependency hashes. Creation and a separate verify
+pass check archive membership/metadata/bytes and independently extracted copies.
+Root then rechecked all originals, journaled each recoverable unlink, and reran
+archive-only verification and retained-file checks. The archive script itself
+does not unlink originals; recoverable-unlink.jsonl records the actual 748 removals.
+Its output original_files_unlinked=0 refers only to that verifier operation.
+
+Gross source sizes were 4925106 logical and 6713344 allocated file bytes. All
+review files, journal, archive and the added packet ARCHIVE_README count as
+overhead: 531879 logical / 544768 allocated bytes. Net savings are 4393227
+logical bytes (~4.19 MiB) and 6168576 allocated file bytes (~5.88 MiB), excluding
+directory blocks. cleanup-receipt.json retains that accounting. No other packet,
+original target, toolchain, Wine prefix, IDA state or canonical build was removed.
+
+Read the packet ARCHIVE_README to restore source files before historical replay.
+Do not rerun prepare.py to recover them: it overwrites frozen evidence, and
+current providers differ from historical pins. Existing objects intentionally
+prevent an in-place rerun; use a separate restored historical working copy.
+This ignored archive and manifest must accompany any handoff requiring those
+source snapshots. Age alone never authorizes another cleanup batch.

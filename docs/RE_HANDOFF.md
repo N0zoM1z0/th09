@@ -285,3 +285,8 @@ All other legacy source/JSON evidence still needs individual producer/source/
 reference review; age is insufficient.
 The generated-artifact cleaner previews by default and proposes a broader
 scope than this bounded checkpoint. Inspect every proposed path before apply.
+
+October 23 bounded cleanup additionally archives only 748 completed command-consumer
+case-source files, retaining all baseline/frozen dependencies and compiled/result
+evidence. The original packet's ARCHIVE_README and cleanup history contain the
+verified recovery path and hashes. Net logical savings are about 4.19 MiB.
