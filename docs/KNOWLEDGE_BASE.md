@@ -20138,3 +20138,102 @@ by readback after its response failed. Receipts are second-panel-ci.log and
 second-panel-ci.exit in .analysis/th09-targeted-campaign-20261023-v01/.
 The accepted SVG and 83.9093% coverage remain unchanged. Further independent
 integer-result ownership exploration is active; this is not task completion.
+
+## 2026-10-23 independent result and callback ownership
+
+Two full-owner experiments, root compiled under unchanged pinned profile/single CPU/nice10. No
+tracked source or ledger adoption and no exactness credit. Both preserve all frozen
+input/provider hashes, original target, complete raw COFF and the actual opcode table despite
+strict original geometry rejection. Opcode4 and155 remain jointly unresolved.
+
+### Independent results
+
+Packet .analysis/th09-runecl-independent-results-20261023-v01.
+Root command78ad6a5d3d0c42e29ba14eff3397d3f6,04:00:59–04:01:12.
+15596 physical bytes/599 actual fields, rawa7c31066165dcd523ed74a98f94c337d7f2a5ea202dc1aa0dad991d5c8dae32c.
+
+Removed shared global lhsInt/goto and gave op6/op86 two independently consumed case-local
+results. All RHS-before-destination order, remote raw/slot reads, existing qualifiers and call
+semantics preserved. This differs from actual Oct4 duplicate-store-only recipe, which retained
+global lhsInt; bounded witness audit found no earlier combined model.
+
+Compiler does not recover the original shared store: op6 has its own58-byte handler and op86 its
+own86-byte handler. Exactly one additional call to the existing ResolveIntLValue is emitted;
+direct REL32 count375→376, DIR32 remains223. No unknown external identity appears.183 opcode
+destinations move+31 while four early entries remain; opcode table14816→14848, physical+32. Op4
+unchanged29-byte wrong EAX schedule; op155 at+0x30CF remains wrong45-byte split CL/MOVZX body.
+
+598/599 relocation lists are NOT positionally zipped as equivalent fields. Complete actual
+added-call identity and switch binding are retained; original whole-owner field correspondence
+is unproven under changed geometry, not claimed exact.
+
+### Callback action ownership
+
+Packet .analysis/th09-runecl-callback-install-owner-20261023-v01.
+Root command82528564c3e3438ab4dbc115d78b3ab4,04:05:43–04:05:54.
+15592 physical bytes/600 actual fields, rawb91d6bc53f0c8d7e966b008b27a48b3959445cff5a9018445686c97909c29020.
+
+Actual original op134 publishes threshold before resolving callback ID; both ID branches join
+op153's tail at+0x308F. Op153 first sign-extends deathCallback16. Tail stores DWORD
+timerCallback ID then calls genuine ZunTimer::operator=(0). Thus narrowing callback type or
+delaying threshold publication would be wrong.
+
+One ordinary in-class InstallTimerCallback(int) models exactly this real two-consumer action; no
+forced inline/layout change/new qualifier. Op133's callback-array temporary unchanged. It
+outlines as29 bytes with a single actual genuine assignment REL32 at+21. The caller has three
+physical helper calls (op134 raw/resolved branches, op153) replacing the original one shared
+setter site: direct-call count375→377, fields598→600. Op134 grows56→90, op153 shrinks40→29. Op4
+unchanged; op155 moves to+0x30C7 but keeps the wrong45-byte body. No residual gain.
+
+New helper symbol is explicitly retained and not aliased to any original native address. Its own
+genuine setter binding is recorded, but no original function boundary exists for this new
+helper. No original whole-owner field correspondence or normalized score is claimed. No inline
+coercion or callback/declaration permutation follows from this result.
+
+### Enemy regular-phase scope
+
+The normal update phase is placed in a real else scope instead of force-death's
+forward goto; force-death recomputation remains distinct. All regular backedges
+stay inside, pause/alive branches leave for the same flash join, continue targets
+are unchanged, and no nontrivial destructor is introduced. Damage/hit variables
+retain their real outer lifetime and forced-death guard. Both opaque/periodic
+current-context cases reproduce their entire baseline raw streams (3900 bytes,
+97 fields, 13/45 differences). Five private labels rename, but all effective
+offset/kind/addend/target bindings and all native proofs agree. This is the
+forty-first capture, not exact credit. Evidence: regular-phase-safety.md and
+regular-phase-pairs.json in .analysis/th09-enemy-controlflow-20261023-v01/.
+Same-game exact aggregate-copy and branch-owned descriptor examples support
+current ordinary construction semantics, not an invented copy parameter model.
+
+### Whole primary-flag value workspace
+
+One coherent four-byte union workspace snapshots, updates and publishes each of
+the forty actual primary-word RMW chains: Movement 29, Bullet 2, State 7, Late 2.
+Every original conditional write keeps its own guarded reload/publication; no
+value crosses calls, no intermediate write is coalesced, and op79 preserves
+secondary-before-primary snapshots and primary-before-secondary publication.
+Timeout retains its existing masked helper. Independent inversion of all forty
+replacements reconstructs original family sources exactly, and all 68 frozen
+source hashes plus branch/call ordering pass. Whole 15564-byte raw output is
+baseline-identical, with all 598 field positions/types/addends/values/sections
+equal; only 195 private labels rename. RunEcl remains 30 ordinary differences.
+Evidence: .analysis/th09-runecl-whole-primary-workspace-20261023-v01/, especially
+independent-source-verification.json and baseline-comparison.json.
+
+### Enemy manager-owned draw insertion
+
+An ordinary manager operation owns both group-head selection and null-headed
+singly-linked insertion, unlike earlier caller-indexed bucket/reference helpers.
+Both original selection/insertion windows have no intervening observable action.
+Opaque context emits 3912 bytes/97 fields/69 calls/169 blocks, with 1992 overlap
+differences and twelve excess bytes. Genuine periodic context emits 3900 bytes,
+97 fields, 69 calls and the original 170-block physical graph; all native proofs
+pass. It repairs precisely +0x1BA/+0x1BF/+0x1C1/+0x1C3 versus the 45-difference
+periodic control, with no new differences. These are force-death vector-add
+argument/address setup bytes, not the subsequent component copies. Remaining
+41 differences are solely descriptor +0x2B4..+0x312, with zero/one register roles
+and store scheduling reversed. This is not better than canonical 13, so no
+source is adopted. A subsequent direct native descriptor-constructor ownership
+integration reproduces the complete same raw stream and 41 differences.
+Evidence: manager-prepend-audit.md, manager-prepend-pair-delta.json and
+staged/periodic-manager-direct-constructor/ in the ongoing Enemy packet.
