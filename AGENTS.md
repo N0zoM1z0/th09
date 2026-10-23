@@ -2,10 +2,12 @@
 
 ## Current operator status
 
-On October 23 the operator explicitly renewed the task: focus on making the
-complete **RunEcl and EnemyManager::OnUpdate exact**, with more actual trials.
-Do not divert to unrelated nonexact owners. Supporting exact callees/interpreter
-witnesses are in scope; bounded failed experiments do not close this task.
+On October 23 the operator requested cleanup and a Codex handoff, superseding
+this session's active probing. No new exploratory trials are pending. Preserve
+the tested source baseline and evidence; the successor may resume when tasked.
+The unfinished priority remains complete **RunEcl and EnemyManager::OnUpdate
+exactness**, within the 98% authored-byte goal. Read the current handoff before
+repeating historical experiments.
 
 The operator explicitly resumed **TH09 original v1.50a** reconstruction on
 October 22, 2026, targeting **98% exact reviewed-authored code bytes** through

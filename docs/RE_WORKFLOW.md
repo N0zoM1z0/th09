@@ -14,10 +14,12 @@ dated experiments and prior stop/resume records are historical.
 Exact code, the reviewed-authored denominator, the native Windows product and
 later runtime/port phases are independent gates.
 
-The October 23 renewed instruction narrows active work to full RunEcl and
-EnemyManager::OnUpdate exactness. Continue substantive bounded compiler trials
-and diagnose changed code rather than only repeat historical conclusions.
-Other owners are supporting evidence only, not parallel reconstruction targets.
+The latest October 23 instruction is cleanup and handoff to Codex, not another
+compiler panel. The current source baseline is preserved; no exploratory job or
+uncompiled candidate remains. On authorized continuation, prioritize complete
+RunEcl and EnemyManager::OnUpdate exactness. Other owners are supporting evidence
+rather than parallel reconstruction targets. Historical negative results are
+bounded measurements, not proof that all natural source models are exhausted.
 
 ## Session entry
 

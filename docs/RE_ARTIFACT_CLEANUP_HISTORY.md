@@ -938,3 +938,22 @@ current providers differ from historical pins. Existing objects intentionally
 prevent an in-place rerun; use a separate restored historical working copy.
 This ignored archive and manifest must accompany any handoff requiring those
 source snapshots. Age alone never authorizes another cleanup batch.
+
+
+## October 23 Codex handoff cache cleanup
+
+After the final 1012-test / 29-skip CI passed, removed 144 independently
+reviewed source-backed Python bytecode files: 133 beneath build/pycache and
+11 explicitly named .analysis caches. The exact path/source/hash inventory and
+completion receipt are in .analysis/th09-codex-handoff-20261023-v01/.
+Gross reclaimed file data: 2083630 logical bytes and 2379776 allocated file
+bytes, before the small audit-record overhead; directory blocks are excluded.
+These caches can be regenerated from their retained Python sources.
+
+The generic cleaner preview was not applied: it also selects protected
+.analysis compiler evidence. No OBJ/PDB, target, toolchain, Wine, IDA, frozen
+source, archive or result was removed. The two command-consumer bytecode files
+included in the earlier 245-file retention manifest were deliberately kept.
+The 748-member source archive and all 245 retained files were reverified during
+handoff; the review README now describes the completed archival rather than
+its obsolete pre-execution stage. No new reconstruction trial was started.

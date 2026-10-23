@@ -7,74 +7,66 @@
 
 ## Current verified handoff checkpoint
 
-Latest bounded models and retained-byte corpus audits are documented in the
-final knowledge-base section. There is no pending compiler job or staged
-uncompiled candidate; neither RunEcl nor Enemy is exact. The unknown source
-distinction behind their remaining allocation differences is still unresolved,
-not proven impossible. Keep the user goal open and require a concrete new
-hypothesis before another trial rather than repeating already measured forms.
+The operator requested cleanup and handoff to Codex on October 23, 2026.
+Exploratory work is stopped for this handoff: no compiler job or uncompiled
+candidate remains. The goal is unfinished, not abandoned; a successor can resume
+against the current tree when tasked. Start here rather than replaying old panels.
 
-The October 23 selected-ECL-manager ownership correction is now in the working
-source: context+0 names the actual selected 0x188-byte manager, while all deliberate
-outer-primary and opposing spawn receivers stay unchanged. Fresh collateral
-validation passes all 140 canonical units across 34 source/profile groups.
-Adoption CI passes 1012 tests with 29 skips. RunEcl remains 30 differences and
-Enemy remains 13; this semantic repair adds no exact coverage. See the latest knowledge-base section for full evidence and tests.
-
-October 23 renewal: active reconstruction is focused on complete RunEcl and
-EnemyManager::OnUpdate exactness. New consumer/control-flow/lifetime panels are
-being compiled and independently diagnosed; no new exact credit is claimed.
-See the latest knowledge-base entry for frozen evidence and rejected outcomes.
-The continued current-context panels preserve complete raw/COFF records: fourteen
-RunEcl cases plus the macro control, and thirty-nine Enemy captures through the
-value-assignment and common-recomputation pairs. No source/profile or exact ledger is changed.
-Whole genuine timer visibility has been replayed with all nineteen emitted timer
-owners independently exact; its real register-preservation effects do not repair
-RunEcl's two residual handlers. Further copy-ownership and control-flow trials
-remain active. The SVG is unchanged because accepted exact coverage is unchanged.
-
-The operator explicitly resumed reconstruction on October 22, 2026, through
-Factory MCP with a **98% reviewed-authored-byte exact** goal and priority on
-key large functions. Fresh TH09 evidence must test old notes and hypotheses.
-New English commits use `gpt-dots:` and the identity/trailer in `AGENTS.md`.
-Factory checkpoints are local only; Git push is unavailable here. The earlier
-October 22 handoff followed independently pushed
-`d499c319eba6880ad3c22c41967cce1553818e8a`; that remote checkpoint is historical.
-
-- Fresh resumed checks verify the original disk target, live ledger, and
-  attested `th09-ida` mapping (entry point plus six distributed byte samples).
-  Cold RunEcl replay retains 30 ordinary differences with all 598 fields and
-  tables matching, and protects 79 canonical exact sibling owners. Cold
-  DrawResult replay retains 22 ordinary differences across 1939 bytes and
-  82 fields. No exact credit is added by these baseline diagnostics.
-- Previous handoff disk and direct IDA mapped-byte checks passed. Its latest
-  Player cancellation-cursor controls remain nonexact; no candidate is adopted.
-  See the final October 22 entry in [the knowledge base](KNOWLEDGE_BASE.md).
-- Current GameManager source now separates the actual Player counters from
-  the unrelated 0xA0 state-buffer type. Both reviewed profiles preserve all
-  11 same-TU canonical owners (2991 bytes / 243 fields); the full GameManager
-  gate also passes five native callee checks. No exact ledger or machine-code
-  gain is claimed; other unchanged source/profile proofs are reused. RunEcl scalar-return controls from d499c31 remain
-  rejected, with their frozen evidence retained.
-- Coverage is **244917/291883 (83.9093%)**; 98% needs **41129** more whole exact
-  bytes. RunEcl30, Enemy13, DrawResult22, Type315 and product gates remain open.
-- Current Player/Options trial files are losslessly archived with member hashes.
-  Build caches are disposable; `build/` may be absent after handoff. Rebuild
-  the affected unit before any comparison. Historical unresolved evidence,
-  original input, toolchains and IDA state remain preserved.
-- The resumed goal/routing checkpoint `24b8f07` passed **990 tests / 29 skips**;
-  tracking, documentation, progress, open build-graph and whitespace checks passed.
-  Completed negative probes and corrected current premises are recorded in the
-  dated October 22 knowledge-base sections; none adds exact credit. Earlier reviewed cleanup
-  removed 657 build cache files; archive compression plus cache removal reclaimed about
-  **18.27MiB** of logical data before audit metadata overhead.
-- Cleanup scope and audit routing are in
-  [the cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md). Private evidence is
-  ignored local state and is not delivered by a Git push.
-
-Recent bounded Front table-selector and Type3 in-place sample trials were
-rejected without source adoption; the complete results and ReplayMenu audit
-are in the final dated knowledge-base entries. Exact coverage is unchanged.
+- Current coverage is **244917/291883 (83.9093%)**. The 98% milestone needs
+  **41129** additional whole exact bytes. Neither main owner is exact:
+  RunEcl has **30** ordinary differences (opcode 4: 7; opcode 155: 23),
+  15564 physical bytes and 598 matching fields/tables. EnemyManager::OnUpdate
+  has **13** ordinary differences across 3900 physical bytes and 97 fields,
+  with 69 ordered calls and 170 physical blocks.
+- Adopted source checkpoint **f595786** repairs selected ECL-manager ownership:
+  context+0 names the actual 0x188-byte EnemyEclManagerView. Deliberate
+  outer-primary and opposing receivers remain unchanged. All **140 canonical
+  units across 34 source/profile groups** passed; adoption CI passed **1012
+  tests / 29 skips**. This semantic repair preserves both complete main-owner
+  byte streams and adds no exact coverage. Do not undo it based on older notes.
+- Source and canonical identities are already committed. No cosmetic source
+  rewrite is needed: existing proofs bind exact source contents. The latest
+  research checkpoint before handoff is **7ef7e85**. Subsequent handoff edits
+  only clarify documentation and remove reviewed reproducible caches.
+- Essential adoption evidence is
+  `.analysis/th09-selected-ecl-manager-owner-20261023-v01/`: ADOPTION.md,
+  boundary-proof.json, owners-proof.json, private-label-proof.json,
+  canonical/group-00.obj through group-33.obj and their sidecars,
+  canonical-verified/summary.json, and maintained-runecl/enemy.json.
+  Private-label spelling refreshes were individually proven, not comparator
+  relaxation. Retain these objects rather than treating them as build caches.
+- Latest closed models are routed through the final sections of
+  [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md): explicit operand capture banks,
+  ordinary aggregate return, whole-dispatch operand base, and corrected-owner
+  Enemy descriptor/layout experiments. None repaired the two owners. Their
+  complete source/objects/results remain in named local evidence packets.
+  Exact-prefix corpus searches are bounded negative evidence, not impossibility.
+- Preserve selected-manager publication only for nonnegative subroutine IDs,
+  CallSubroutine's post-initialization selected-manager reload, and the original
+  primary/opposing receiver split. Target evidence does not support keeping
+  opcode 155's old flags live across the shared instruction join.
+- The verified original target SHA-256 is
+  `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+  Re-attest disk and mapped IDA state in the successor session. Historical
+  attestation and CI are evidence, not substitutes for current checks.
+- Reviewed source archives are recoverable. The 748 command-consumer source
+  copies have a verified archive; baseline/, frozen/, root producers, objects,
+  PDBs and results remain intact. Read that packet's ARCHIVE_README before
+  historical replay. Do not rerun prepare.py over frozen evidence.
+- [Cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) records exact scopes.
+  Ignored evidence and archives are local and **not included in Git commits**.
+  Preserve the same worktree when switching to Codex. Build caches may be
+  absent; rebuild a canonical unit before comparing it. Do not apply the
+  generic cleaner's extension-wide .analysis deletion preview.
+- Final handoff CI passed **1012 tests / 29 skips** (exit 0); tracking,
+  documentation, build-graph, progress and whitespace gates passed. Logs are in
+  `.analysis/th09-codex-handoff-20261023-v01/`. Reviewed cleanup removed only
+  144 reproducible Python bytecode files (2,083,630 logical bytes). All compiler
+  objects, PDBs, archives and frozen source evidence remain preserved.
+- The progress SVG remains unchanged because accepted exact coverage has not
+  changed. Use `scripts/progress.py --check`, not a cosmetic percentage update.
+  New English commits retain `gpt-dots:` and the identity/trailer in AGENTS.md.
+  Factory commits are local only; no push was performed here.
 
 ## Live ledger snapshot
 
@@ -132,14 +124,12 @@ to15560 and fail the complete owner. Do not reopen it as an untested hypothesis.
 Earlier related noinline/all-method controls were already recorded in the KB;
 these results do not establish unique original translation-unit ownership.
 
-The completed native Enemy/context and adjacent TH08/TH095 audits justify no
-new compiler probe. Context+0's genuine ECL-manager ownership remains unresolved
-source debt with a likely byte-neutral repair, not adopted progress. The subsequent coherent public/State/Core Enemy
-storage model is now compiled and wholly byte-neutral across139 emitted functions;
-it is not adopted. This does not rule out all possible original source models. See the dated KB
-entry and `.analysis/th09-enemy-context-owner-20261022-v01/README.md` plus
-`.analysis/th09-runecl-adjacent-context-20261022-v01/README.md` for evidence,
-prior input-bitfield exclusions and the potential 140-unit collateral scope.
+The earlier whole public/State/Core Enemy-storage model was byte-neutral
+across 139 emitted functions and remains unadopted. The distinct narrow
+selected-ECL-manager correction was adopted in f595786, with all 140 canonical
+collateral units verified. RunEcl30 and Enemy13 remain unresolved. Earlier
+context/adjacent-game audit links are historical evidence, not pending ownership
+work. See the current checkpoint above and the dated knowledge-base entries.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
@@ -225,8 +215,7 @@ python3 -B scripts/report-reconstruction-status.py
 # Check the provider's target attestation before target-dependent analysis.
 # Choose one affected owner and reuse unchanged source/profile-bound proofs:
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner runecl
-nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner resultdraw
-nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner type3
+nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner enemy
 # Timer only: the shared alias plus its 16 authored exact siblings:
 python3 -B scripts/check-timer-current-view.py
 # Final checkpoint gates; CI precedes reviewed artifact cleanup:
@@ -235,7 +224,7 @@ python3 -B scripts/validate-docs.py
 python3 -B scripts/progress.py --check
 python3 -B scripts/ci.py
 git diff --check
-python3 -B scripts/clean-generated-artifacts.py
+python3 -B scripts/clean-generated-artifacts.py  # Preview only; do not apply wholesale.
 ```
 
 Metadata hashes alone do not establish an unmodified IDA mapping. Use the
