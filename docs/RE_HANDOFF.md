@@ -12,22 +12,23 @@ on large owners. This local session uses direct IDA Pro MCP and Bash without
 Factory routing. New English commits use gpt-6.1-sol: with the preserved author
 and co-author trailer in AGENTS.md. No new exact coverage is claimed.
 
-- Latest complete RunEcl context-cursor experiment grows15564 to15572 bytes
-  and retains both wrong residual handler shapes. All403 external and195 local
-  fields are bound at actual emitted positions; full comparison rejects14540
-  overlap differences plus8 excess bytes. No source or exact ledger change.
-  See the final knowledge-base entry and
-  .analysis/gpt-61sol-20261023-runecl-value-liveness/ for exact source-bound
-  reproduction and retained actual objects. Final CI passes1012 tests/29 skips;
-  tracking/docs/progress/whitespace and open-build graph checks pass. Extract
-  captures.zip in that packet before diagnosis/replay.
-- Current disk and direct IDA entry/five mapped samples pass. Twenty-one actual
-  same-object called bodies and complete Enemy output remain baseline-equal.
-  Last game source remains the tested f595786 adoption. Unchanged source/profile
-  exact proofs are reused; historical accepted receipts remain source-scoped.
-- The preceding Enemy state/side controls are complete in
-  .analysis/gpt-61sol-20261023-enemy-state-side/captures.zip. Extract it in its
-  packet before verification/replay. Its1012-test/29-skip CI is historical.
+- Latest whole Enemy primary-bit operations preserve all3900 baseline bytes,
+  97 effective fields,69 calls and170 blocks. Both the single-bit model and its
+  complete three-compound-update integration remain13 differences; five real
+  native helper bodies/literals pass. No source or exact ledger change.
+  Current packet: .analysis/gpt-61sol-20261023-enemy-primary-bits/. Extract
+  captures.zip there before verification/replay. Final CI reports1012 tests/
+  29 skips and all tracking/docs/build-graph/progress/whitespace success; its
+  original process was tracked to completion after loss of the PTY handle.
+- The preceding tested RunEcl checkpoint3a3eb4a rejects its context-cursor model:
+  15572 bytes,14540 overlap differences and8 excess. All403 external/195 local
+  fields use actual emitted positions. Extract captures.zip in
+  .analysis/gpt-61sol-20261023-runecl-value-liveness/ before diagnosis/replay.
+  Its1012-test/29-skip CI and earlier Enemy callee controls remain source-scoped
+  evidence. See the final knowledge-base entries for exact reproduction routes.
+- Current disk/direct IDA entry and mapped checks pass. Last game source remains
+  the tested f595786 adoption. All unchanged source/profile exact proofs are
+  reused. Historical accepted receipts do not accept a later HEAD.
 
 - Current coverage is **244917/291883 (83.9093%)**. The 98% milestone needs
   **41129** additional whole exact bytes. Neither main owner is exact:

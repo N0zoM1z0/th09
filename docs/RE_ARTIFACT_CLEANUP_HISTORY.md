@@ -991,3 +991,19 @@ remain archived. Extract in the packet before diagnosis, link_actual.py or
 historical replay. Root recipes, actual-linked proof, manifests and CI log remain
 loose. No older canonical or unclassified evidence, original input, toolchain,
 Wine or IDA state is removed. This negative source model adds no exact credit.
+
+
+## October 23: complete Enemy primary-bit operations
+
+After all three serial compiler jobs and the original CI process terminate,
+archive only312 current staged/frozen files in
+.analysis/gpt-61sol-20261023-enemy-primary-bits/captures.zip. CRC and every member's
+exact bytes are checked before loose unlink. The6755386-byte input becomes
+1423708 archive bytes, saving5331678 logical bytes before audit overhead.
+ZIP SHA256:26cd15ce430d3916664111500c818deb9027a56f4d4fea202f84b659c9abec32.
+
+Complete sources/provider snapshots, native objects/PDBs and full raw/COFF/
+CFG/literal proofs remain archived. Extract there before verify.py or historical
+replay. Root producers, inverse operations, verification/archive manifests and
+CI evidence remain loose. No existing canonical/unclassified analysis, target,
+toolchain, Wine or IDA input is removed. No exact coverage is added.

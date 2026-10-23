@@ -20597,3 +20597,79 @@ source/provider snapshots, OBJ/PDBs and complete raw/COFF results stay archived;
 only verified loose duplicates are removed. Root recipes, full linked proof,
 archive manifest and CI log remain. All older canonical and unclassified
 analysis, target, tools, Wine and IDA inputs remain preserved.
+
+
+## October 23: complete Enemy primary-bit operations (gpt-6.1-sol)
+
+After the tested RunEcl checkpoint3a3eb4a, a distinct whole-owner source model
+uses the already established four-byte Enemy primary flag representation in
+OnUpdate. The October19 retained producer actually covered only three early
+active/no-sprite/force-death tests and removed its word snapshot. It did not
+establish this complete model's outcome. All current33 source dependencies,
+provider inputs, fixed profile and original target are frozen before compiling.
+
+The first model replaces every single-bit test/update plus the death-mode and
+boss selectors throughout the whole owner, retaining the early four-byte value
+snapshot at its original read point. Only independently known bits are split
+from opaque ranges; unchanged4-byte layout/field offsets are compiler-asserted.
+The three compound masks initially remain verbatim, at their original read/write
+boundaries. Thirty-four concrete replacements independently invert to every
+original normalized source, with all calls/control transfers unchanged.
+
+A coherent completion expresses those final three compound updates as actual
+four-byte value snapshots, ordinary bitfield operations and single whole-word
+publications at the same boundaries. The case1 snapshot stays after AddScore;
+no value is cached across that call. Death clears damageable/deathMode, pause
+reset clears bit27 and only the low bit of opaque bits28..31, and persistent
+reset clears collision/damageable/acceptsDamage while setting persistence.
+Per-bit maps reproduce FFF1FFF7,E7FFFFFF and (old&FFEFFFB3)|00100000 for arbitrary
+words;66 basis/complement/zero/ones checks support the algebra without assuming
+a flag-value domain. Other unknown bits remain untouched. No additional
+publication, effect, destructor, qualification, forced inline, ABI/register
+contract, profile or declaration-order sweep is introduced.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-PRIMARY-BITS-20261023-001 | compiler observation | Fresh baseline repeats3900 physical/3883 code bytes,97 fields,1026 instructions,69 calls,170 blocks and13 differences. | Complete original-bound cold replay. |
+| ENEMY-PRIMARY-BITS-20261023-002 | rejected exactness hypothesis | Whole single-bit operations retain every baseline raw byte and all97 effective fields. | Five native definitions and actual literals/call/CFG guards pass; all13 residuals remain. |
+| ENEMY-PRIMARY-BITS-20261023-003 | rejected exactness hypothesis | Completing all three compound operations also retains the entire baseline caller and effective fields. | Independently compiled third object, full original comparison and raw equality. |
+
+All three serial single-CPU/nice10 compiles have raw SHA256
+1fbfc13ab72202c08e489d7922d1d5ca9c4d35bf8d77b3be57560f73f3167b86.
+The same five current native helpers independently pass514 complete bytes/eight
+fields and ten actual caller references. No candidate is adopted: a neutral
+representation is not a missing exactness fix, and original nominal class
+ownership remains unknown. Existing game source/profiles, ledger credit and
+all1003 exact source-bound proofs remain unchanged.
+
+The initial in-memory preparer wrongly assumed a repeated no-sprite read was
+unique. It asserted before any staged source write or compilation; it is not
+a negative compiler result. The maintained private producer records occurrence
+counts and verifies its full inverse. Evidence is
+.analysis/gpt-61sol-20261023-enemy-primary-bits/, especially prepare.py,
+complete_compound.py, operations.json, compound-operations.json and
+verification.json. run.py --case NAME compiles a preserved case serially and
+refuses existing objects; analyze.py/explore.py retain full raw/COFF/native/
+original-literal/CFG proofs. All live/staged/provider hashes are checked after
+compilation. Complete3-object verification passes, not partial-region scoring.
+Coverage remains244917/291883 (83.9093%);41129 whole exact bytes remain to98%.
+RunEcl30,Enemy13,complete inventory and native product/runtime stay unfinished.
+
+The independent verifier initially expected addend in derived semantic bindings,
+where that key is absent. It now checks addends in the actual COFF rows and
+separately checks all bound destinations. Existing complete captures pass both
+checks; no recompile or maintained-comparator relaxation is used.
+Final CI reports1012 tests/29 skips in306.742 seconds and all subsequent tracking,
+docs, build-graph, progress and whitespace success. Its original PTY handle
+became unavailable while PIDs3839714/3839755 were confirmed live; the same
+processes were observed through completion, final success log and disappearance.
+No replacement CI was started; the transport exit status was unavailable and
+is not fabricated. ci-terminal.json records that distinction.
+After all producers end,312 frozen/staged files are CRC/member-byte verified
+into captures.zip:6755386 logical bytes become1423708 bytes, SHA256
+26cd15ce430d3916664111500c818deb9027a56f4d4fea202f84b659c9abec32.
+Extract in the packet before verification/replay. Native OBJ/PDBs, full source/
+provider snapshots and raw/COFF/CFG/native reports remain recoverable; root
+recipes, verification, operations, archive manifest and CI log remain loose.
+Only verified loose duplicates are removed. Older canonical/unclassified
+analysis, original input, tools, Wine and IDA are preserved.
