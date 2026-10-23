@@ -23,16 +23,18 @@ verified. The 98% goal and the principal large owners remain unfinished.
   canonical/group-00.obj through group-33.obj and their sidecars/proofs.
   Archival receipts do not accept a later HEAD; exact functions do not close
   native product/runtime gates. Reuse unchanged source/profile-bound proofs.
-- Current native schedule contexts preserve Enemy3900/97/13. The actual
-  scheduler and equality can both remain original-equal at1048/42 and20/0 in
-  the ECL carrier, but equality visibility regresses RunEcl to1933 ordinary/
-  228 field-byte/24 table-byte differences. Putting full source after the
-  carrier gives the same result. Six objects protect450 existing canonical
-  bodies and seven native-definition proofs; no source/profile/guard/ledger
-  is adopted. Packet `.analysis/gpt-61sol-20261023-enemy-schedule-context/`
-  retains73 staged source bindings, the496-member archive and cold replay.
-- Prior word-writeback controls and their resource exception remain in the
-  dated KB note and `.analysis/gpt-61sol-20261023-ecl-word-writeback/`.
+- Current native entry-leaf controls leave GetSubroutine/SelectSide callers
+  unchanged. Visible ResetBulletRankInfluence removes the original receiver
+  reload at+CC3: code shrinks3883->3881, alignment grows1->3, while physical3900
+  hides616 differences. All13 residuals persist and603 old matches regress;
+  the unchanged guard rejects the moved last Timer field. Eight objects protect
+  600 existing bodies and11 extra native proofs. No source/profile/guard/ledger
+  is adopted. Packet `.analysis/gpt-61sol-20261024-enemy-entry-leaves/` retains
+  72 staged source bindings, the729-member archive, cold replay and the distinct
+  failed manual-D3DX declaration epoch. Actual SDK declaration control is neutral.
+- Earlier schedule and word-writeback controls remain in dated KB notes and
+  their source-bound local packets; the word-writeback resource exception is
+  preserved. Current evidence supports keeping the rank-reset definition opaque.
 - Earlier SaveReplay, gameplay setup, Enemy routing/position/count, Player,
   Title and declaration experiments remain in their dated knowledge-base notes
   and local packets. Consult those source-bound observations before repeating
@@ -49,9 +51,9 @@ verified. The 98% goal and the principal large owners remain unfinished.
   or rewriting history; full Git integrity verification passed. See
   [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for exact cache scopes and
   archive recovery. Ignored evidence is local and is not part of Git commits.
-- Current CI passes1016 tests/29 skips, exit0. Reviewed cleanup removes630
-  duplicate/cache files (16771693 logical bytes), preserving all14 preexisting
-  build files,34 canonical objects and the original executable. The packet and
+- Current CI passes1016 tests/29 skips, exit0. Reviewed cleanup removes863
+  duplicate/cache paths (17220786 logical bytes), preserving all14 preexisting
+  build files,34 canonical objects and the original input. The packet and
   cleanup history retain exact recovery/deletion records. All1003 unchanged
   source/profile proofs are reused; native product/runtime, semantic and
   portability gates remain open.

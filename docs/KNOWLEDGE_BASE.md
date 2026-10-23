@@ -22017,3 +22017,72 @@ Fresh reproduction:
 `PYTHONDONTWRITEBYTECODE=1 python3 -B .analysis/gpt-61sol-20261023-enemy-schedule-context/probe.py --case schedule-full --output .analysis/enemy-schedule-cold`.
 Coverage stays244917/291883 (83.9093%), needing41129 whole exact bytes for98%.
 Native product/runtime, semantic and portability gates remain open.
+
+### 2026-10-24: native Enemy entry leaves and receiver-reload boundary
+
+Recovery at b2ddca8bc3471c13c7840e584ed7e8a8ccb9ccbf is clean. The previous
+scheduler panel is progress through a bounded native-context exclusion, not new
+exact credit. Original Japanese 1.50a disk identity, direct IDA metadata and
+entry/distributed mapped bytes pass. Fresh Enemy disassembly and the actual
+16-byte GetSubroutine, 26-byte SelectSide and 51-byte rank-reset bodies are read
+before testing their real source definitions in the unchanged ECL carrier.
+Existing SDK/memcpy/destination-reference copy controls are reviewed first.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-ENTRY-LEAF-001 | byte-neutral native context | Only the actual GetSubroutine definition is visible. | native-getter/: all 3900 Enemy raw bytes/97 fields and RunEcl15564/598/30 remain; real16/0 body and its positive reference pass. |
+| ENEMY-ENTRY-LEAF-002 | rejected native context | Include the complete current EnemySmallLeaves.cpp. | native-small-leaves/: actual7/16/51-byte bodies pass, but Enemy has616 complete linked differences. |
+| ENEMY-ENTRY-LEAF-003 | byte-neutral declaration control | Use actual SDK types for the viewport prefix, without a new method definition. | sdk-declarations/: complete Enemy13 and RunEcl30 remain unchanged. |
+| ENEMY-ENTRY-LEAF-004 | byte-neutral native context | Add only the real SelectSide body through that prefix. | native-select-side-sdk/: complete26/0 body/positive call proof, unchanged full callers. |
+| ENEMY-ENTRY-LEAF-005 | rejected joint context | Combine the real SelectSide and whole small-leaf source. | native-joint-sdk/: identical full Enemy raw bytes to the small-leaf regression; no repair. |
+| ENEMY-ENTRY-LEAF-006 | isolated source-boundary counterevidence | Only the actual ResetBulletRankInfluence definition becomes visible. | native-rank-only/ and cold-rank-only/: reproduce the whole616-difference class and exact51-byte native body. |
+
+Original Enemy reloads its receiver with MOV ECX,EBX at 4113F3, relative CC3,
+after the rank-reset call and before child-ECL release. The visible native reset
+body preserves ECX in this compilation; VC7.1 eliminates that one two-byte
+reload. The baseline and candidate instruction lists otherwise have identical
+mnemonics/nonbranch operands, with branch operands abstracted only for this
+explanation. Complete original-linked comparison still checks every physical
+byte, field, table and actual edge: all13 old mismatches persist and603 formerly
+equal positions differ. The current-context result is evidence to retain the
+opaque reset boundary, not a unique original TU or private register-ABI claim.
+
+The physical3900 total hides code3883->3881 and alignment1->3: target NOP is
+replaced by LEA ECX,[ECX]. No direct branch or actual COFF destination enters
+that alignment; all of it is still compared. The last greater call field moves
+EC6->EC4, and the unchanged production inspector rejects its original offset.
+The independent exploratory comparison resolves all97 actual fields, retains
+all69 ordered calls and the170-block graph, and reports616 rather than accepting
+a partial score. Native-body equality and matching graph/call counts do not
+close the complete Enemy owner.
+
+One initial viewport declaration context fails before an object is produced:
+manual D3DXVECTOR3/D3DXMATRIX definitions and function linkage declarations in
+the old viewport source conflict with the real SDK already consumed by ECL.
+The actual compile wrapper exit is1. Its complete source graph, old renderer,
+receipt and C2011/C2732 diagnostics remain separate from successful codegen.
+Corrected private contexts replace only that manual D3DX declaration block
+with d3dx8math.h; actual viewport fields, layout assertions and SelectSide body
+remain. This is compatibility counterevidence, not an adopted original-type or
+public viewport repair. No canonical game source/profile/guard/unit changes.
+
+Six successful source models, one selected independent cold compile and the
+reused hash-bound baseline give eight objects. Each protects75 canonical bodies,
+22463 physical bytes/990 fields:600 complete existing-body comparisons,179704
+repeated physical comparison bytes/7920 fields. Eleven extra native proofs
+cover318 repeated bytes. The seven-byte count getter has no outer call; its
+emission does not invent one. Four Enemy production reports retain13; four keep
+the strict offset rejection. All eight complete RunEcl owners retain rawbc9a1a71,
+15564/598/30 with zero field/table drift. All1003 unchanged source/profile proofs
+are reused. Seven successful and one failed compiler intervals are locked,
+disjoint, single-CPU/nice10 under the unchanged profile; no new forced inline,
+assembly, register/variable-order hint, padding, target patch or ABI is added.
+
+Packet .analysis/gpt-61sol-20261024-enemy-entry-leaves/ retains72 staged source
+bindings/21 providers, the729-member archive, native/source/receiver evidence,
+actual first failed epoch and final renderer. verify.py replays the600 canonical
+comparisons,11 extra definitions, complete exploratory comparisons, serial
+intervals and failed renderer without compiling. Selected cold reproduction:
+`PYTHONDONTWRITEBYTECODE=1 python3 -B .analysis/gpt-61sol-20261024-enemy-entry-leaves/probe.py --case native-rank-only --output .analysis/enemy-entry-rank-cold`.
+No new exact credit:244917/291883 (83.9093%), needing41129 whole bytes for98%.
+Native product/runtime, semantic and portability gates remain open.

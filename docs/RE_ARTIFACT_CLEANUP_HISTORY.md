@@ -1753,3 +1753,55 @@ cleanup: all496 members,450 existing-body comparisons and seven extra native
 proofs, without compiling. All630 removed paths remain absent. Coverage stays
 244917/291883 (83.9093%),
 with41129 whole exact bytes still needed for98%; later phase gates remain open.
+
+### 2026-10-24: Enemy rank-reset visibility and actual entry-leaf controls
+
+From local b2ddca8b, six successful source contexts compare actual GetSubroutine,
+small-leaf family, SDK viewport declarations, SelectSide, joint visibility and
+rank-reset visibility alone. Getter/declaration/side contexts are raw-neutral.
+The actual51-byte reset body removes the original two-byte receiver reload at
++CC3, giving code3881/alignment3 versus original3883/alignment1. Physical3900,
+all69 ordered calls and170 blocks hide616 full linked differences: all13 old
+residuals persist and603 old matches regress. The last greater field moves
+EC6->EC4; its production rejection is retained. The independent comparator binds
+all97 actual fields, compares every alignment/table byte and proves no branch
+or actual COFF destination enters alignment. No partial or new exact credit.
+
+Packet `.analysis/gpt-61sol-20261024-enemy-entry-leaves/` retains72 staged source
+bindings/21 providers, actual raw/native/COFF/literal/source/receiver observations
+and the original failed manual-D3DX epoch. That compiler wrapper exits1 before
+producing an object; its sources/renderer/C2011/C2732 log are preserved. Actual
+SDK declarations fix the private source conflict; no public viewport or type
+repair is adopted. Seven successful plus one failed compiler intervals are
+locked, disjoint, single-CPU/nice10 with no profile change. The chosen rank-only
+cold replay reproduces all inputs, bytes, fields, native proofs and rejections.
+
+Eight objects include the reused hash-bound baseline. They pass600 complete
+existing-body comparisons,179704 repeated physical comparison bytes/7920 fields;
+eleven extra complete native proofs cover318 repeated bytes. The uncalled count
+getter is recorded without an invented call. Four Enemy reports pass13 and four
+keep the strict rejection. All eight complete RunEcl owners remain15564/598/30,
+rawbc9a1a71 with zero field/table drift. All1003 unchanged canonical proofs are
+reused. No canonical source/profile/guard/unit/ledger changes or new exact bytes.
+
+The729-member archive compresses15201461 logical bytes to2992095 bytes, SHA256
+405774c41c302f4cbb9fa405a8242a88208f24f1cccacbe1570ab13c0cc4a199.
+CRC, per-member SHA and loose-byte equality pass before deletion. verify.py
+extracts and replays all complete observations, actual receiver elimination,
+failed-renderer graph and all eight serial receipts without compilation. Initial
+analysis-only exit-expectation and Python-tuple/JSON-array corrections retain
+their failed logs; neither is an additional compiler attempt or target mismatch.
+
+CI passes1016 tests/29 skips, exit0, in190.305 wrapper seconds on one CPU at
+nice10. All known compiler/replay/CI handles terminate before cleanup; the scoped
+process audit finds no producer. Cleanup removes729 verified archived duplicates
+(15201461 bytes) and134 reproducible Python caches (2019325 bytes):863 files/
+17220786 logical bytes. Every ignored regular path is rehashed immediately before
+unlink, confined to the packet or reviewed cache roots and recorded in
+cleanup.json. All14 preexisting build files,34 unique canonical objects and the
+original executable retain before/after hashes; unrelated unique evidence,
+source, tools/SDK/Wine/IDA state remain intact. Archive-only replay passes after
+cleanup: all729 members,600 canonical comparisons and11 extra native proofs,
+without compiling. All863 removed paths remain absent. Keep this ignored packet
+with the worktree.
+Coverage stays244917/291883 (83.9093%);98% and all later phase gates remain open.
