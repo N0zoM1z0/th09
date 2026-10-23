@@ -7,101 +7,70 @@
 
 ## Current verified handoff checkpoint
 
-Reconstruction is active after the October 23 handoff. Use direct local IDA Pro
-MCP and repository Bash, without Factory routing; compile serially at lowered
-priority. New English commits use `gpt-6.1-sol: ...` with the author and trailer
-in AGENTS.md. Checkpoints are local unless a push is independently verified.
-The 98% goal and both main owners remain unfinished.
+Reconstruction remains active after the October 23 handoff. Use direct local
+IDA Pro MCP and repository Bash, without Factory routing; compile serially at
+lowered priority. New English commits use `gpt-6.1-sol: ...` with the author and
+trailer in AGENTS.md. Checkpoints are local unless publication is independently
+verified. The 98% goal and the principal large owners remain unfinished.
 
-- The live ledger below remains **244917/291883 (83.9093%)**, needing **41129**
-  more whole exact bytes. RunEcl remains15564 physical bytes/598 fields/30
-  ordinary differences; Enemy remains3900/97/13 with69 calls and170 blocks.
+- The live ledger remains **244917/291883 (83.9093%)**, needing **41129** more
+  whole exact bytes. RunEcl remains15564 physical bytes/598 fields/30 ordinary
+  differences; Enemy remains3900/97/13 with69 calls and170 blocks.
 - The large-owner source baseline remains **f595786**, the selected ECL-manager
   ownership repair. All140 canonical units across34 source/profile groups
-  passed at adoption. Subsequent shared-declaration repairs retain fresh exact
-  canonical proofs: Enemy cleanup184 bytes/two fields, Front indicator213
-  bytes/ten fields, and the shared Float3 callers1187 bytes/56 fields. The four
-  Float3.cpp operations also pass162 bytes/two fields. Other unchanged
-  source/profile proofs are reused.
-  Retain `.analysis/th09-selected-ecl-manager-owner-20261023-v01/`, including
-  canonical/group-00.obj through group-33.obj and their sidecars and proofs.
-  These are source-bound evidence. Archival accepted receipts do not accept a
-  later HEAD, and exact functions do not close native product/runtime gates.
-- Current Title Options tests complete owner declarations and actual Title
-  method visibility. Five source models and one cold producer replay retain
-  2048/610,2044/608 or2046/82 frontiers; none is adopted. Actual called bodies
-  pass first; adding the screen body breaks three existing exact Title callers.
-  Use scripts/probe-title-options-owner-context.py and the dated KB note.
-  Packet: `.analysis/gpt-61sol-20261023-title-options-owner/`.
-- Prior Enemy score repair uses the shared real method and removes its numeric
+  passed at adoption. Retain
+  `.analysis/th09-selected-ecl-manager-owner-20261023-v01/`, including
+  canonical/group-00.obj through group-33.obj and their sidecars/proofs.
+  Archival receipts do not accept a later HEAD; exact functions do not close
+  native product/runtime gates. Reuse unchanged source/profile-bound proofs.
+- Current Player movement controls test actual axis operations, rectangular
+  constraints, paired boundary storage and native pointer-conversion visibility.
+  Seven complete caller objects retain1900/66/129, regress to131 differences,
+  or outline an original-unbound107-byte helper with a1804-byte caller. The
+  initial full-vector include fails on existing AnmVm declarations and is a
+  setup error, not a codegen result. Two independent cold replays reproduce
+  the corrected pointer model and the separately profiled79-byte initializer.
+  No game source, profile, guard or ledger is adopted. Packet:
+  `.analysis/gpt-61sol-20261023-player-clamp-owner/`; see the dated KB note.
+  Its219-member verified archive retains all source graphs and objects;637
+  archived duplicates/Python caches totaling11053231 logical bytes are removed.
+  All14 preexisting build files and34 unique canonical objects remain intact.
+- Prior Title Options tests cover full owner declarations and actual method
+  visibility. Five source models and one cold producer replay retain2048/610,
+  2044/608 or2046/82 frontiers; none is adopted. Adding the exact screen body
+  breaks three existing exact Title callers. Use
+  scripts/probe-title-options-owner-context.py and the dated KB note. Packet:
+  `.analysis/gpt-61sol-20261023-title-options-owner/`.
+- The Enemy score repair uses the shared real method and removes its numeric
   alias. All79 ECL units and the score leaf retain80 canonical proofs,25248
-  physical bytes/1126 fields; two private labels preserve their destinations.
-  Both complete controls retain Enemy13 and RunEcl30. Packet:
+  physical bytes/1126 fields. Two private labels preserve their destinations;
+  complete controls retain Enemy13 and RunEcl30. Packet:
   `.analysis/gpt-61sol-20261023-enemy-descriptor-operations/`.
-- Prior Float3 cleanup removes two duplicate vector facades and retains nine
-  exact proofs,1349 bytes/58 fields. Type29 geometric models fail whole-byte
-  comparison; the original EAX receiver residue does not identify a return
-  contract. The415-member verified archive and cleanup recovery are in
-  `.analysis/gpt-61sol-20261023-effect29-geometry/` and cleanup history.
-- Prior RunEcl timeout controls distinguish raw flag equality from one-bit
-  enum read-back. Under VC7.1 an enum field declared0/1 reads its set bit as-1;
-  a representable0/-1 model reads back correctly but does not match codegen.
-  Five full-owner controls retain the baseline or fail complete comparison;
-  all105 same-object callee comparisons pass. Bounded opcode155 fixtures agree
-  on raw flags/successors; they do not accept the whole function. No source,
-  profile or ledger is changed. Packet:
-  `.analysis/gpt-61sol-20261023-ecl-timeout-enum/`.
-- Prior Enemy/Front work removes the indicator TU's duplicate GameManager,
-  side and player declarations in favor of the existing shared header. The
-  fresh canonical213/10 replay is exact; three symbol identities now use the
-  shared global/coordinate method with unchanged offsets, addends and targets.
-  Full Front storage/body controls retain Enemy3900/97/13; the joint periodic
-  control retains45 and is rejected. All actual native helpers pass first.
-  Packet: `.analysis/gpt-61sol-20261023-enemy-front-interface/`.
-- Prior Title replay-menu controls leave1280/57/29 unchanged. Complete text
-  visibility gives1273 bytes/449 overlap differences+7 missing and is rejected;
-  the native text chain is not exact. Consult the dated KB evidence before
-  repeating const-receiver, plain-vector or text-visibility models.
-  Packet: `.analysis/gpt-61sol-20261023-title-replay-row/`.
-- SaveReplay controls leave1238/53/3 unchanged. Three field accumulators give
-  1270 bytes/304 overlap differences+32 excess and are rejected. Native
-  constructor closure remains open; all16 collateral comparisons pass. Packet:
-  `.analysis/gpt-61sol-20261023-replay-save-owner/`.
-- Enemy controls and its adopted shared cleanup declaration remain in
-  `.analysis/gpt-61sol-20261023-enemy-descriptor-dataflow/`. The cleanup's184-byte
-  exact proof is retained; the main3900/97/13 frontier is unchanged.
-- Prior GameManager540-fixture mode-dispatch evidence and rejected1673-byte
-  control remain in `.analysis/gpt-61sol-20261023-setup-dataflow/`; its source
-  remains the maintained1689/171/904 frontier. See the dated KB section.
-- Pause checkpoint **c1fe650** retains the1776/1732 nonexact frontier. Current
-  clock-deferral controls fail whole comparison despite restoring two-site
-  static sharing. The inspector compares the observed post-RET8D4900 alignment
-  without masking bytes. Public deferred-time reproduces the rejected cold
-  output;24 focused tests and1016-test/29-skip CI passed at that checkpoint.
-- RunEcl cursor **3a3eb4a** and Enemy primary-bit **37725d5** are negative,
-  source-bound controls. Their packets and the Pause packet retain verified
-  captures.zip archives; extract before replay. Consult the dated final KB
-  sections before repeating a model. Historical negative results are bounded
-  observations, not proof that all natural source models are exhausted.
+- Other recent shared-declaration repairs retain exact canonical proofs:
+  Enemy cleanup184 bytes/two fields, Front indicator213 bytes/ten fields, and
+  nine Float3 operations/callers1349 bytes/58 fields. Type29 geometric models
+  fail whole-byte comparison; original EAX residue does not identify a return
+  contract. Their source-bound packets and cleanup records remain local.
+- Prior RunEcl enum, Enemy descriptor/Front, Title replay, SaveReplay, Pause
+  and GameManager source controls remain bounded negative evidence. Consult
+  their dated KB notes before repeating them; historical failure does not
+  exhaust all natural source models. Maintained complete frontiers below,
+  rather than older packet similarity scores, govern new source adoption.
 - Target SHA-256 remains
   `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
   Disk and direct IDA metadata/mapped-byte checks pass in the current packet;
   re-attest in the successor session.
-- README, workflow and tool routing now agree on direct local work and on
-  retaining unique proof objects. Git storage was repacked with one worker and
-  bounded delta memory: all18404 object IDs/types/sizes, refs and reflogs agree
-  before/after. Object storage falls from about950.01MiB to15.94MiB without
-  pruning objects or rewriting history; full Git integrity verification passes.
-  See [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for cache scopes and
+- Git storage was previously repacked with one worker and bounded delta
+  memory: all18404 object IDs/types/sizes, refs and reflogs agree before/after.
+  Object storage fell from about950.01MiB to15.94MiB without pruning objects
+  or rewriting history; full Git integrity verification passed. See
+  [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for exact cache scopes and
   archive recovery. Ignored evidence is local and is not part of Git commits.
-- Final current checkpoint CI passes **1016 tests / 29 skips** (exit0);
-  target-required tracking, documentation, build graph, progress and whitespace
-  pass. The current Title packet retains five source models, the independently
-  reproduced producer and actual native-body proofs. All unchanged1003 game
-  source/profile proofs are reused. Earlier Enemy, Type29, RunEcl, Title replay
-  and SaveReplay packets retain their own recorded source/provider epochs.
-  Earlier source epochs, reviewed cache removal and Git compaction remain in
-  cleanup history. Reconstruction remains active.
+- Current checkpoint CI passes **1016 tests / 29 skips** (exit0); tracking,
+  documentation, progress, build graph and whitespace pass. All1003 unchanged game
+  source/profile proofs are reused. The Player packet retains its frozen
+  source/provider epochs, complete observations and archive replay recipes.
+  Native product/runtime, semantic and portability gates remain open.
 
 ## Live ledger snapshot
 

@@ -21382,3 +21382,87 @@ receipts. The earlier producer revision is retained separately from the final
 producer. All1003 unchanged game source/profile proofs are reused. Coverage
 stays244917/291883 (83.9093%);98% still needs41129 whole exact bytes. Native
 product/runtime, semantic and portability gates remain open.
+
+
+### 2026-10-23: Player movement clamp operations and native pointer visibility
+
+Recovery at2bf0e92bef09c3dba833b56f847beeac0c62c58e is clean. Disk identity,
+direct IDA metadata, entry and distributed mapped bytes pass. The complete
+movement target at41C170 remains1900 physical bytes:1835 code, one alignment
+byte and64 table bytes. Current source SHA256 is
+8b38e64c68dca7488ea29d7eccf9db4705fd1e0992d7f20f57624d78712e2125.
+A fresh baseline reproduces66 fields,23 ordered calls,489 instructions and129
+ordinary differences; its raw SHA256 is
+0e568638931abec68e63e65a9d2e178b9681c72a0355ac59808646db793c651b.
+No game source, compiler profile, unit, guard or ledger changes in this batch.
+
+Fresh TH09 target review confirms lower-X at41C6A4 transports minX through a
+five-byte EAX moffs load; lower-Y at41C6D8 uses a six-byte EDX ModRM load.
+Both target and current source output already use the ECX position cursor.
+The dated EDX-cursor observation belongs to its earlier source epoch. These
+are transport/encoding differences, not evidence of incorrect clamp arithmetic.
+The readonly TH08 Player source suggests paired two-component regions, only
+as a hypothesis; TH09's own79-byte coordinate initializer supplies the eight
+actual field writes at350..36C. Original aggregate class ownership remains
+unknown. Older pointer/reference/raw-copy clamp probes and43 bounding-copy
+controls were inspected before selecting the new source operations below.
+
+All movement caller compiles use the pinned /O2/Ob1 profile with /Oi and /Oy-,
+one CPU, serially at nice10. Ordinary inline operations preserve lazy lower/upper
+comparison order and calculate minimum+extent only on the upper path. There
+is no forced inline, profile search, declaration-order hint or new assembly.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| PLAYER-CLAMP-001 | compiler observation | Baseline1900/66/129. | baseline/: complete bytes, both tables and field identities. |
+| PLAYER-CLAMP-002 | rejected source hypothesis | A real per-axis reference operation retains every baseline raw byte and resolved field identity. | axis-operation/:1900/66/129. |
+| PLAYER-CLAMP-003 | rejected source hypothesis | A whole-position operation outlines a107-byte/zero-field helper; caller1804/60. | rectangle-operation/: actual positive call at+52B; strict inspector rejects the unbound callee. |
+| PLAYER-CLAMP-004 | rejected source hypothesis | Actual PlayerPositionView conversion body visibility gives1900/66/131; eight raw bytes change. | native-position-pointer/: exact3-byte body and one actual same-object caller reference. |
+| PLAYER-CLAMP-005 | rejected source hypothesis | Paired minimum/extent records with actual coordinate initializer visibility retain every baseline raw byte and resolved field identity. | paired-region-owner/:1900/66/129. |
+| PLAYER-CLAMP-006 | rejected source hypothesis | The same paired storage without initializer visibility is also raw-identical to baseline. | paired-region-data-only/:1900/66/129. |
+| PLAYER-CLAMP-007 | rejected source hypothesis | Combining the axis operation and actual pointer body repeats131 differences. | axis-and-native-pointer/: exact3-byte body and one actual reference. |
+
+The raw-neutral cases preserve every resolved offset/type/destination. Their
+actual COFF section coordinates and private label spellings need not be equal;
+the retained reports compare actual owner-relative destinations independently.
+
+The original uncorrected native-pointer setup includes VectorPointerViews.cpp
+and fails C2011: AsciiManager.hpp and AnmVmLifecycle.hpp contain different
+existing global AnmVm declarations. This is a compile setup failure, not a
+negative codegen experiment or proof about the original program. The corrected
+models project only the unchanged actual PlayerPositionView method definition
+from VectorPointerViews.cpp through the existing PlayerLifecycleView header.
+Both complete same-object three-byte bodies match4343D0. Its folded identity
+and original class/origin remain unknown; no authored-byte credit is assigned.
+
+Pointer visibility swaps horizontal/vertical publication homes around+4D1..4DE,
+restoring two old mismatches but losing four formerly equal bytes, for131 total.
+It changes no clamp bytes and fails the unchanged complete129-offset guard.
+The whole-position helper has no reviewed original binding; its emitted body,
+actual COFF coordinates and call are retained without inventing a whole-caller
+linked score. Smaller caller size is not exactness evidence.
+
+The paired model uses two real16-byte region records, each with eight-byte
+minimum and extent pairs, replacing the existing350..36C scalars without
+adding storage. Sizes, nested offsets and outer390-byte extent are asserted.
+Its coordinate initializer emits81 bytes under the movement caller's /O2
+profile: the zero field uses an immediate store. A separate fresh build uses
+that initializer unit's already-reviewed /O1 profile and reproduces all79
+original bytes at41A9B8, including FLDZ/FSTP and all eight writes, with zero
+fields. This preserves an existing exact helper under the hypothetical layout;
+it does not accept the caller or prove a shared original translation unit.
+
+Packet .analysis/gpt-61sol-20261023-player-clamp-owner/ retains15 frozen game
+inputs, eight provider bindings, seven successful caller objects, one setup
+failure, the separate canonical-profile initializer and two independent cold
+replays. All actual zero-literal definitions are checked from COFF payloads.
+The pointer cold replay reproduces every raw byte, actual field and complete
+rejection; the separate initializer replay reproduces all79 bytes. collect.py,
+verify.py and replay.py retain complete recipes. For example, after checking
+out this source/provider epoch, run
+`python3 -B .analysis/gpt-61sol-20261023-player-clamp-owner/replay.py --case native-position-pointer --output .analysis/player-pointer-cold`.
+The output must be fresh and below.analysis. verify.py checks the archive,
+frozen inputs, complete raw/COFF/diagnostic reports, actual callee definitions
+and both cold receipts without recompiling. All1003 unchanged source/profile
+proofs are reused. Coverage stays244917/291883 (83.9093%);98% still needs41129
+whole exact bytes. Native product/runtime and later phase gates remain open.
