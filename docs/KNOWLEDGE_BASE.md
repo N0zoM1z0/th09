@@ -20341,3 +20341,53 @@ independent extraction before recoverable unlink. See the new cleanup-history
 entry and packet ARCHIVE_README before historical replay. Net logical savings
 including all review/journal/archive overhead are 4393227 bytes (~4.19 MiB); this
 is not a claim about other .analysis packets or accepted exact coverage.
+
+## 2026-10-23 explicit operand-capture bank and join liveness
+
+A new complete bank gives 26 existing non-const payload/result captures distinct
+members across all six RunEcl families, retaining selectors, algorithm temporaries
+and persistent interpreter state outside. No live values are folded into one
+slot, no direct expression is preloaded, and original four-byte/one-byte memcpy
+captures remain. Independent saved-source inversion, member-consumer inventory
+and read/call/control ordering pass. This differs from the actual October 19
+merged rhsInt accumulator, which covered only Control/State/Late plus op4/155.
+
+Masked bank emits 15576 physical bytes/598 fields, raw SHA-256
+6dd1068394f0691d6f48e7c90b4c72e67fd84b38909334ab7d26cacf2b963a41.
+Logical code grows 14792 to 14803 bytes, followed by one NOP and 772 table bytes.
+Thirty-nine unique dispatch intervals (forty opcodes) change structurally, beyond
+branch-offset shifts. Op4 retains its wrong 29-byte sequence. Op155 shrinks to
+43 bytes and gains direct MOVZX ECX input, but retains EAX-old/ECX-result rather
+than target ESI-old/EAX-result. One coherent native-bitfield integration, keeping
+the same bank/capture and other 25 members, emits the same 15576/598 extent with
+raw c048db789badeef052a3ac94b48cd2c7bb924cbaefdf89ae5b89825af1bf5f7f.
+It changes op155 to the wrong 44-byte EAX-input/ESI-old/ECX-result form and affects
+forty intervals (forty-one opcodes). It does not combine the favorable roles.
+
+Both variants preserve the 403 ordered external identities and 195 actual local
+fields, 375 direct plus four indirect calls, and all 21 actual same-object called
+bodies. Table coordinates are retained as emitted, not rebased to fit. Enemy
+remains its baseline 3900/97/13. No bank source is adopted and no exact credit is
+claimed. No declaration-order, partial-bank or slot-folding sweep follows.
+Evidence: .analysis/th09-runecl-explicit-capture-bank-20261023-v01/CLOSURE.md,
+inventory.json, verify_source.py and complete structural/COFF captures.
+
+A separate original-target normal-flow liveness audit rules out a surviving
+old-flags carrier: opcode155's last ESI value use is MOV EAX,ESI at 40B785.
+Both residual exits reach 408750 unconditionally, where incoming EDX/ECX/EAX are
+killed, then ESI is overwritten at 40876B before its next semantic use at40877F.
+Intervening exact Float3::operator+ only saves/restores incoming ESI; its working
+ESI and branch-free 26-byte constructor do not consume that value. Opcode4's
+argument ECX likewise dies after PUSH and receiver setup. Real join state is
+EBX successor instruction, EDI Enemy base and the frame, not either temporary.
+This is target liveness evidence, not an invented source register/clobber contract.
+Full instructions and verified target hash: target-join-liveness.md in that packet.
+
+Enemy constructor audit separately establishes that the 28-byte constructor's
+volatile exit facts are overwritten before the descriptor constant divergence;
+EDI is only preserved there. Archived ordinary in-class definition already
+inlined away the required call, whereas out-of-class visibility/direct ownership
+were neutral. Exact recipes and target windows are retained in
+.analysis/th09-enemy-selected-owner-prepend-20261023-v01/constructor-exit-audit.md
+and constructor-placement-history.json. No unsupported register-return contract
+or equivalent placement trial is introduced.
