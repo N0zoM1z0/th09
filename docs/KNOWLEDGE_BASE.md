@@ -16520,7 +16520,8 @@ positions. Neither shorter owner is accepted.
 
 Combining that real body with the previously tested unsigned confirmation
 ordinal gives a new2046-byte/135-field/551-instruction caller,with51 calls and
-121 blocks. It restores532 old mismatches but damages four old equal bytes:
+122 candidate blocks versus121 original blocks (count corrected October23).
+It restores532 old mismatches but damages four old equal bytes:
 6AE,6AF,75A,7F0. All2045 original positions are compared:82 overlap differences
 remain,with one excess candidate byte. Alignment is548/551; the complete direct
 graph check is false. The decoded causes are an extra SUB EAX,EBX,an extra XOR
@@ -21308,3 +21309,76 @@ epochs after this shared declaration, inspector and private-label update.
 Unique selected-manager proof objects remain untouched. Coverage stays1003
 exact functions,244917/291883 (83.9093%);98% remains unfinished, needing41129
 additional whole exact bytes. Native product/runtime and later gates stay open.
+
+
+### 2026-10-23: complete Title Options owner and native-family contexts
+
+Recovery at683adcc05658138612a1ccadb6ce3ccee6fd7517 is clean. The prior Enemy
+score batch repaired an actual interface and supplied complete negative
+codegen evidence, without authored-byte growth. Current disk, direct IDA
+metadata, entry and distributed mapped bytes pass. No game source, header,
+compiler profile, unit or ledger is changed in this batch.
+
+The complete2045-byte Options target remains551 instructions,135 fields,
+51 ordered calls and121 direct blocks. Historical82-difference native-ordinal
+reports are source/profile-bound leads, not accepted frontiers. All their
+actual source inputs still match current files. Fresh complete replay confirms
+their122 candidate blocks versus121 original; the old KB sentence that called
+both121 is corrected in place. The extra SUB EAX,EBX, extra XOR EBX,EBX,
+immediate PUSH0 and two omitted receiver reloads remain physical differences;
+none is masked, patched or attributed to padding.
+
+Five natural source contexts test the actual complete Title owner and method
+family under the unchanged pinned /O1/Ob1 profile, without Oi. All compiles are
+serial, single-CPU and nice10. The complete class comes from TitleScreen.cpp;
+the already-observed eight-byte input prefix and0xCC snapshot fields bridge its
+partial declarations, preserving actual offsets. The original AnmLoaded call
+interface is retained by explicit pointer projection. Whole-owner size1B388,
+input size8, snapshot sizeCC and AD/B1 offsets are asserted. No invented constructor,
+register/variable-order hint, fake ABI, new assembly, padding or profile search.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| TITLE-OPTIONS-OWNER-001 | compiler observation | Baseline:2048 bytes/135 fields/610 overlap differences+3 excess;121 blocks. | baseline/: exact34-byte PlayMenuSound. |
+| TITLE-OPTIONS-OWNER-002 | rejected source hypothesis | Full owner declaration retains every baseline raw byte/field identity. | full-declaration/: exact34-byte PlayMenuSound. |
+| TITLE-OPTIONS-OWNER-003 | rejected source hypothesis | Full existing Title methods retain every baseline raw byte/field identity. | full-native-main/: all37 same-profile Title units plus menu sound pass;18229 physical bytes/941 fields. |
+| TITLE-OPTIONS-OWNER-004 | rejected source hypothesis | Full methods plus real ChangeCurrentScreen give2044/135/608+1 missing;121 blocks. | full-native-family/:36 body comparisons pass;three existing exact callers fail extent. |
+| TITLE-OPTIONS-OWNER-005 | rejected source hypothesis | Same family plus unsigned confirmation ordinal gives2046/135/82+1 excess;122 blocks. | full-native-ordinal/:same36 body passes and three extent failures. |
+
+All five retain the51 ordered original calls, eight native input references
+and actual seven-byte SetVol literal. The two full-screen contexts contain the
+actual46-byte native body and two positive same-object references. All called
+same-object Title methods are independently exact before their caller target
+bindings are used:6/6/17/19/19 references in the five models above. Across the
+five objects,112 complete native-body comparisons pass with actual literal
+checks. Private label spelling changes are accepted only after actual COFF
+owner-relative destinations independently agree with the original manifest.
+
+The whole-methods control without the screen body preserves all37 canonical
+same-profile Title functions. Making the actual screen body visible also
+changes three callers that Options does not invoke: mode select506->502,
+UpdateScreen8Mode123:2153->2151 and UpdateScreen8Mode0:2241->2239 bytes. Field counts
+remain32/89/116 respectively. Complete raw/COFF failures are retained, without
+inventing a score for their shorter bodies. This rejects these concrete shared
+source contexts; it does not prove a unique original class or TU partition.
+It also distinguishes exact called bodies from closure of an entire carrier.
+
+The new public scripts/probe-title-options-owner-context.py renders all five
+models from current source, refuses existing/output-outside-analysis paths,
+attests the target and pins source/provider/profile inputs. It verifies every
+actual positive call definition, actual literal payload, full caller operands,
+byte deficits and unchanged production frontier before reporting diagnostic
+acceptance/rejection. A separate cold run of the final producer's ordinal case
+repeats every raw byte, actual COFF record and complete report of the private
+ordinal control. It is a producer check, not a sixth source hypothesis.
+
+Reproduce a selected control into a fresh directory:
+`python3 -B scripts/probe-title-options-owner-context.py --case full-native-main --output .analysis/title-options-main-context`
+Other choices are baseline,full-declaration,full-native-family,full-native-ordinal.
+No losing C++ model is adopted and no frontier guard is widened. Packet
+.analysis/gpt-61sol-20261023-title-options-owner/ preserves all six compiled
+objects,20 frozen game inputs, actual call/body/literal evidence and provider
+receipts. The earlier producer revision is retained separately from the final
+producer. All1003 unchanged game source/profile proofs are reused. Coverage
+stays244917/291883 (83.9093%);98% still needs41129 whole exact bytes. Native
+product/runtime, semantic and portability gates remain open.

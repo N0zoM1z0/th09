@@ -27,16 +27,17 @@ The 98% goal and both main owners remain unfinished.
   canonical/group-00.obj through group-33.obj and their sidecars and proofs.
   These are source-bound evidence. Archival accepted receipts do not accept a
   later HEAD, and exact functions do not close native product/runtime gates.
-- Current Enemy score calls use the existing GameManagerSideStateView method
-  through a shared score-prefix header. The duplicate Enemy method declaration
-  and numeric alias are removed. Declaration-only and actual native33-byte
-  visibility controls both retain Enemy3900/97/13 and RunEcl15564/598/30.
-  Canonical source-cold replay passes all79 ECL units across two profiles plus
-  the score leaf:80 units,25248 physical bytes/1126 fields. Two private label
-  spellings change with independently unchanged owner-local destinations.
-  Packet: `.analysis/gpt-61sol-20261023-enemy-descriptor-operations/`.
-  This is source-interface repair and negative codegen evidence, with no new
-  exact-byte credit. Retain the packet's original/adopted provider epochs.
+- Current Title Options tests complete owner declarations and actual Title
+  method visibility. Five source models and one cold producer replay retain
+  2048/610,2044/608 or2046/82 frontiers; none is adopted. Actual called bodies
+  pass first; adding the screen body breaks three existing exact Title callers.
+  Use scripts/probe-title-options-owner-context.py and the dated KB note.
+  Packet: `.analysis/gpt-61sol-20261023-title-options-owner/`.
+- Prior Enemy score repair uses the shared real method and removes its numeric
+  alias. All79 ECL units and the score leaf retain80 canonical proofs,25248
+  physical bytes/1126 fields; two private labels preserve their destinations.
+  Both complete controls retain Enemy13 and RunEcl30. Packet:
+  `.analysis/gpt-61sol-20261023-enemy-descriptor-operations/`.
 - Prior Float3 cleanup removes two duplicate vector facades and retains nine
   exact proofs,1349 bytes/58 fields. Type29 geometric models fail whole-byte
   comparison; the original EAX receiver residue does not identify a return
@@ -95,12 +96,10 @@ The 98% goal and both main owners remain unfinished.
   archive recovery. Ignored evidence is local and is not part of Git commits.
 - Final current checkpoint CI passes **1016 tests / 29 skips** (exit0);
   target-required tracking, documentation, build graph, progress and whitespace
-  pass. The current Enemy score packet retains80 canonical proofs, both complete
-  controls and original/adopted provider epochs. The Type29 packet retains its
-  nine canonical proofs and complete negative models. The RunEcl packet retains
-  its compiled controls, complete comparisons and signed enum fixtures.
-  Earlier Title and SaveReplay packets retain their recorded source
-  and provider epochs (d9245532 and9161c560 respectively).
+  pass. The current Title packet retains five source models, the independently
+  reproduced producer and actual native-body proofs. All unchanged1003 game
+  source/profile proofs are reused. Earlier Enemy, Type29, RunEcl, Title replay
+  and SaveReplay packets retain their own recorded source/provider epochs.
   Earlier source epochs, reviewed cache removal and Git compaction remain in
   cleanup history. Reconstruction remains active.
 

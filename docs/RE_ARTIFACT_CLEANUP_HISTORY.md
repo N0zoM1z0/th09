@@ -1360,3 +1360,48 @@ verified archive remain loose; post-cleanup replay passes again. Original EXE,
 SDK/compiler/Wine/IDA state and other unique evidence are untouched. No bulk
 cleaner, object pruning or history rewrite is used. Coverage remains83.9093%;
 98% is unfinished and still needs41129 whole exact bytes.
+
+
+### 2026-10-23: Title Options complete owner and native-family probes
+
+From local683adcc0, five natural source models test complete Title ownership
+and method co-visibility under the unchanged O1/Ob1 profile. Baseline, complete
+declaration and the existing Main Title methods retain2048/135/610+3 excess.
+Adding the real46-byte screen helper gives2044/135/608+1 missing; adding the
+unsigned confirmation ordinal gives2046/135/82+1 excess and122 candidate blocks
+versus121 original. The old KB121/121 statement is corrected. No C++ model,
+profile, match unit, ledger row or frontier widening is adopted.
+
+The existing Main methods control retains37 exact Title units plus menu sound,
+18229 physical bytes/941 fields. Native screen visibility retains36 body
+comparisons but shortens three other previously exact callers by4/2/2 bytes.
+All112 successful native-body comparisons across the five objects and67 actual
+positive caller references are independently replayed, with actual literal
+payloads. Failures retain complete raw/COFF; they are not masked or scored as
+accepted. The new public source-bound producer checks actual called definitions
+before caller binding. Its independent cold ordinal run repeats all raw bytes,
+actual COFF and complete diagnostics. All1003 unchanged game source/profile
+proofs are reused; exact coverage stays83.9093% and98% remains unfinished.
+
+Packet .analysis/gpt-61sol-20261023-title-options-owner/ retains all six compiled
+objects,20 original source inputs, source renderings, compiler commands,
+full caller/native reports, direct IDA observations, producer revisions and
+archive replay recipes. Its206-member captures.zip preserves6179284 logical
+bytes in1037728 compressed bytes, SHA256
+f679570a43f2d7e18f7430b3e545b1fb13d6a3fff18a93f376c27937149f14e6.
+CRC/member SHA/full loose equality pass. Independent temporary archive-only
+extraction renders all five source models and exactly repeats six complete
+Options diagnostics,112 native-body comparisons,67 actual call coordinates and
+the public producer's helper reports. It invokes no compiler; original and
+final producer revisions retain separate bindings.
+
+CI passes1016 tests/29 skips in133.075 wrapper seconds, observed exit zero.
+After all compiler/replayer/CI handles terminate, reviewed cleanup removes609
+regular ignored, rehashed files/12968697 logical bytes:191 archive duplicates
+5961831 bytes and418 reproducible Python bytecode files7006866 bytes. No new
+canonical build caches were produced. All14 older unclassified build files
+and the unique selected-manager reference remain byte-identical. Root source/
+provider manifests, recipes, complete comparison summaries, cleanup.json and
+the verified archive remain loose; post-cleanup archive replay passes again.
+Original executable, SDK/compiler/Wine/IDA state and other unique evidence are
+untouched. No bulk cleaner, object pruning or history rewrite is used.
