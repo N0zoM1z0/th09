@@ -80,6 +80,8 @@ struct EnemyEclTimelineStateView
 typedef char EnemyEclTimelineStateViewSizeIs180[
     (sizeof(EnemyEclTimelineStateView) == 0x180) ? 1 : -1];
 
+struct Th09EclContextView;
+
 struct EnemyEclManagerView
 {
     void *rawFile00;
@@ -91,6 +93,7 @@ struct EnemyEclManagerView
     int GetSubroutineCount();
     void *GetSubroutine(int index);
     int RunEcl(EnemyView *enemy);
+    int InitializeSubroutine(Th09EclContextView *context, short subroutineId);
     void ReleaseRawFile();
 };
 typedef char EnemyEclManagerViewSizeIs188[

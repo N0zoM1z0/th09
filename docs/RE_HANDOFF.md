@@ -7,6 +7,13 @@
 
 ## Current verified handoff checkpoint
 
+The October 23 selected-ECL-manager ownership correction is now in the working
+source: context+0 names the actual selected 0x188-byte manager, while all deliberate
+outer-primary and opposing spawn receivers stay unchanged. Fresh collateral
+validation passes all 140 canonical units across 34 source/profile groups.
+Adoption CI passes 1012 tests with 29 skips. RunEcl remains 30 differences and
+Enemy remains 13; this semantic repair adds no exact coverage. See the latest knowledge-base section for full evidence and tests.
+
 October 23 renewal: active reconstruction is focused on complete RunEcl and
 EnemyManager::OnUpdate exactness. New consumer/control-flow/lifetime panels are
 being compiled and independently diagnosed; no new exact credit is claimed.

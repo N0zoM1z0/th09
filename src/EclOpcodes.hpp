@@ -3,6 +3,8 @@
 #include <stddef.h>
 #include "ZunTimer.hpp"
 
+struct EnemyEclManagerView;
+
 // TH09 v1.50a ECL wire protocol recovered from EclManager::RunEcl at
 // 0x004086C0.  Identifiers are maintained role names, not claimed original
 // symbols.  The twenty UNHANDLED slots all dispatch to the target's common
@@ -282,7 +284,7 @@ typedef char Th09EclInterpolationVariableAt2C[
 // The callback and interpolation role names describe target-observed use.
 struct Th09EclContextView
 {
-    unsigned char unknown000[0x04];
+    EnemyEclManagerView *selectedManager000;
     Th09EclRawInstructionHeaderView *currentInstruction004;
     Th09EclTimerStorageView time008;
     void *perFrameCallback014;
@@ -328,3 +330,6 @@ typedef char Th09EclMainStackEndsAtActiveContext[
     (TH09_ECL_ENEMY_MAIN_CALL_STACK +
          sizeof(Th09EclContextView) * TH09_ECL_MAIN_CALL_STACK_CAPACITY ==
      TH09_ECL_ENEMY_ACTIVE_CONTEXT) ? 1 : -1];
+
+typedef char Th09EclSelectedManagerAt000[
+    offsetof(Th09EclContextView, selectedManager000) == 0 ? 1 : -1];

@@ -62,10 +62,10 @@ typedef char Th09EclStateSideEffectAt0C[
 
 struct ManagerStateView
 {
-    unsigned char unknown000[0x0320];
+    EnemyEclManagerView primaryEcl000;
+    EnemyEclManagerView opposingEcl188;
+    unsigned char unknown310[0x0320 - 0x0310];
     SideStateView *sideState320;
-
-    int InitializeSubroutine(Th09EclContextView *context, short subroutineId);
 };
 typedef char Th09EclStateManagerSideAt320[
     (offsetof(ManagerStateView, sideState320) == 0x0320) ? 1 : -1];
@@ -451,7 +451,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
             Th09EclRunState::View(enemy)->
                 childEclBlocks33D8[stateIndex])->subroutineId00 =
                     Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        Th09EclRunState::View(enemy)->manager0000->InitializeSubroutine(
+        Th09EclRunState::View(enemy)->manager0000->primaryEcl000.InitializeSubroutine(
             &reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
                 Th09EclRunState::View(enemy)->childEclBlocks33D8[stateIndex])->
                     context08,

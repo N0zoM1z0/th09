@@ -512,16 +512,13 @@ static void CallSubroutine(
         view->activeCallStack2CE4[view->activeCallDepth2D2A] =
             *view->activeContext2CE0;
 
-    (*reinterpret_cast<Th09EclRunState::ManagerStateView **>(
-        view->activeContext2CE0))
-        ->InitializeSubroutine(
+    view->activeContext2CE0->selectedManager000->InitializeSubroutine(
             view->activeContext2CE0,
             static_cast<short>(rawSubroutineId));
 
     memcpy(view->activeContext2CE0->unknown01C + (0x74 - 0x1C),
-           reinterpret_cast<unsigned char *>(*reinterpret_cast<
-               Th09EclRunState::ManagerStateView **>(
-                   view->activeContext2CE0)) + 0x168,
+           reinterpret_cast<unsigned char *>(
+               view->activeContext2CE0->selectedManager000) + 0x168,
            0x20);
 
     if ((view->primaryFlags337C &
@@ -586,7 +583,7 @@ th09_ecl_enter_pending_subroutine:
             sizeof(Th09EclContextView));
     }
 
-    enemyState->manager0000->InitializeSubroutine(
+    enemyState->manager0000->primaryEcl000.InitializeSubroutine(
         savedMainContext,
         enemyState->subroutineSlots2D30[
             enemyState->pendingSubroutineId2D70]);

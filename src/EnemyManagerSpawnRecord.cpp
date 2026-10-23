@@ -1,16 +1,6 @@
 #include "EnemyManagerCardAttackSpawn.hpp"
 #include "EnemyManager.hpp"
 
-struct EnemySpawnRecordEclManagerBoundary
-{
-    unsigned char storage[0x188];
-
-    int InitializeSubroutine(void *context, short subroutineId);
-
-};
-typedef char EnemySpawnRecordEclManagerBoundarySizeIs188[
-    (sizeof(EnemySpawnRecordEclManagerBoundary) == 0x188) ? 1 : -1];
-
 struct EnemySpawnRecordFlagBits
 {
     unsigned int active : 1;
@@ -47,8 +37,8 @@ typedef char EnemySpawnRecordViewSizeIs5430[
 
 struct EnemySpawnRecordManagerView
 {
-    EnemySpawnRecordEclManagerBoundary primaryEcl000;
-    EnemySpawnRecordEclManagerBoundary opposingEcl188;
+    EnemyEclManagerView primaryEcl000;
+    EnemyEclManagerView opposingEcl188;
     unsigned char unknown310[0x328 - 0x310];
     EnemySpawnRecordView spawnTemplate328;
     EnemySpawnRecordView enemies5758[129];
@@ -91,9 +81,9 @@ void *EnemyManagerCardAttackSpawnView::SpawnEnemyRecord(
         if (useOpposingEclManager == 0)
         {
             manager->primaryEcl000.InitializeSubroutine(
-                enemy->mainContext7F4,
+                reinterpret_cast<Th09EclContextView *>(enemy->mainContext7F4),
                 subroutine);
-            if (reinterpret_cast<EnemyEclManagerView *>(&manager->primaryEcl000)->RunEcl(
+            if (manager->primaryEcl000.RunEcl(
                     reinterpret_cast<EnemyView *>(enemy)) == -1)
             {
                 enemy->flags337C &= ~1U;
@@ -104,9 +94,9 @@ void *EnemyManagerCardAttackSpawnView::SpawnEnemyRecord(
         else
         {
             manager->opposingEcl188.InitializeSubroutine(
-                enemy->mainContext7F4,
+                reinterpret_cast<Th09EclContextView *>(enemy->mainContext7F4),
                 subroutine);
-            if (reinterpret_cast<EnemyEclManagerView *>(&manager->opposingEcl188)->RunEcl(
+            if (manager->opposingEcl188.RunEcl(
                     reinterpret_cast<EnemyView *>(enemy)) == -1)
             {
                 enemy->flags337C &= ~1U;

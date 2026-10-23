@@ -20237,3 +20237,80 @@ source is adopted. A subsequent direct native descriptor-constructor ownership
 integration reproduces the complete same raw stream and 41 differences.
 Evidence: manager-prepend-audit.md, manager-prepend-pair-delta.json and
 staged/periodic-manager-direct-constructor/ in the ongoing Enemy packet.
+
+### Final bounded integrations after b5ba9db
+
+The full forty-chain native-timeout integration changes only the actual timeout
+update from the masked helper to the existing one-bit member, keeping the byte
+read, all other 39 chains and snapshot/publication points fixed. All 256 byte
+inputs satisfy the same bit algebra. Complete output equals native-direct class
+82e081e3: 15564 bytes/598 fields, 1938 ordinary, 202 field and 26 table differences.
+All effective bindings agree; 195 private labels rename. Op4 remains wrong;
+op155 is still the wrong 44-byte EAX/ESI/ECX arm. Native-class comparison and
+source inverse proof remain in the whole-primary-workspace packet.
+
+Enemy case 45 combines manager-owned prepend with the previously defined direct
+configuration domains, not another field permutation. It emits 3860 bytes,
+96 fields, 68 calls, 169 blocks and 1009 instructions. Every field and native
+proof binds; actual RunEcl remains at +0x39D. One repeated Float3 add is merged,
+and descriptor stores become X,Z,Y rather than target X,Y,Z. There are 3010
+linked overlap differences and forty missing bytes. Relative to earlier periodic
+direct-domains, only the same four force-address bytes improve; the known
+configuration regression remains. Compact evidence and replay paths are in
+.analysis/th09-enemy-controlflow-20261023-v01/ownership-checkpoint-addendum.md.
+No further field-order or flag-workspace variants follow from these outcomes.
+Selected ECL manager/context ownership is now being independently re-audited;
+its prior documented debt is not treated as already repaired or exact credit.
+
+## 2026-10-23 selected ECL manager ownership correction
+
+The previously documented selected-manager debt is now repaired in nine source
+files. The existing 0x188-byte EnemyEclManagerView owns InitializeSubroutine;
+Th09EclContextView+0 holds its selectedManager000 pointer. The outer State manager
+view contains actual primary+0 and opposing+0x188 subobjects rather than claiming
+the initializer itself. Two private spawn-only method declarations are removed.
+This changes source ownership, not behavior, target layout, ABI or exact counts.
+
+Original PE census establishes nine initializer calls and five RunEcl calls.
+Only CallSubroutine uses the selected context+0 receiver and reloads it after the
+call for the manager+0x168 copy. Pending/child/clear/death calls deliberately keep
+outer-primary+0; both spawn owners explicitly retain +0/+0x188. Nonnegative-ID
+initialization alone publishes context+0; negative IDs leave it untouched.
+Independent review verifies all 73 staged source hashes, unchanged include
+visibility, layouts and call/copy order. The adopted source omits one accidental
+trailing blank line from the staged EclRunState.inl, with no token change.
+
+Fresh initializer matches all 73 bytes and two genuine Timer fields. SpawnEnemy
+373/4, SpawnRecord 364/4, Clear 392/6 and CallSubroutine 149/1 also remain complete
+exact under the proven real initializer identity. Both main owners remain fully
+raw-neutral: RunEcl 15564/598 with 30 ordinary differences; Enemy 3900/97 with
+13 ordinary differences, 69 ordered calls, 170 blocks and original switch edges.
+No part of either nonexact owner earns exact credit.
+
+The conservative collateral closure was freshly compiled in all 34 distinct
+source/profile/object groups across 29 sources. Every one of 140 canonical units
+passes the unchanged maintained comparator after an explicit manifest refresh:
+330 private label spellings in seven units changed, but each field offset/type,
+original addend, actual same-owner destination and complete linked byte span was
+independently proved. No wildcard, new alias fallback or comparator weakening was
+introduced. All 34 numbered objects are preserved with SHA-256 and profile
+sidecars; the final canonical replay rechecked those hashes and all 140 units.
+
+Five identity catalogs/manifests now use the actual initializer owner; addresses,
+extents, authored denominator and exact counts do not change. Seven focused
+stdlib tests guard conditional publication, selected-owner reload, primary and
+opposing receiver provenance, variable-copy timing, layouts and canonical
+identities. Independent negative mutations are rejected. Tests are source and
+identity safeguards, not substitutes for the actual byte comparison.
+
+Evidence: .analysis/th09-selected-ecl-manager-owner-20261023-v01/, including
+boundary-proof.json, owners-proof.json, private-label-proof.json, canonical/
+and canonical-verified/summary.json, maintained-runecl.json and
+maintained-enemy.json. Local ignored artifacts must accompany a handoff if their
+exact captured objects are needed. The two-owner exactness task remains active.
+
+The adoption CI passes 1012 tests with 29 skips, including the seven new focused
+regressions. Tracking, docs, open-build graph, progress SVG and whitespace also
+pass. The transport response timed out but retained adoption-ci.log and
+adoption-ci.exit were read back to verify complete success and exit zero; no
+duplicate CI was launched. Exact coverage remains 244917/291883 (83.9093%).

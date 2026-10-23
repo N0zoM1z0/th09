@@ -2,16 +2,6 @@
 
 #include <string.h>
 
-struct EnemySpawnEclManagerBoundary
-{
-    unsigned char storage[0x188];
-
-    int InitializeSubroutine(void *context, short subroutineId);
-
-};
-typedef char EnemySpawnEclManagerBoundarySizeIs188[
-    (sizeof(EnemySpawnEclManagerBoundary) == 0x188) ? 1 : -1];
-
 struct EnemySpawnRecordView
 {
     EnemyManagerView *manager00;
@@ -40,8 +30,8 @@ typedef char EnemySpawnRecordSizeIs5430[
 
 struct EnemySpawnManagerView
 {
-    EnemySpawnEclManagerBoundary primaryEcl000;
-    EnemySpawnEclManagerBoundary opposingEcl188;
+    EnemyEclManagerView primaryEcl000;
+    EnemyEclManagerView opposingEcl188;
     unsigned char unknown310[0x328 - 0x310];
     EnemySpawnRecordView spawnTemplate328;
     EnemySpawnRecordView enemies5758[129];
@@ -79,13 +69,13 @@ EnemyView *EnemyManagerView::SpawnEnemy(
         if (useOpposingEclManager == 0)
         {
             manager->primaryEcl000.InitializeSubroutine(
-                enemy->mainContext7F4,
+                reinterpret_cast<Th09EclContextView *>(enemy->mainContext7F4),
                 eclSubroutineId);
             memcpy(
                 enemy->mainContext7F4 + 0x1C,
                 initialVariables,
                 0x78);
-            if (reinterpret_cast<EnemyEclManagerView *>(&manager->primaryEcl000)->RunEcl(
+            if (manager->primaryEcl000.RunEcl(
                     reinterpret_cast<EnemyView *>(enemy)) == -1)
             {
                 enemy->flags337C &= ~1U;
@@ -96,13 +86,13 @@ EnemyView *EnemyManagerView::SpawnEnemy(
         else
         {
             manager->opposingEcl188.InitializeSubroutine(
-                enemy->mainContext7F4,
+                reinterpret_cast<Th09EclContextView *>(enemy->mainContext7F4),
                 eclSubroutineId);
             memcpy(
                 enemy->mainContext7F4 + 0x1C,
                 initialVariables,
                 0x78);
-            if (reinterpret_cast<EnemyEclManagerView *>(&manager->opposingEcl188)->RunEcl(
+            if (manager->opposingEcl188.RunEcl(
                     reinterpret_cast<EnemyView *>(enemy)) == -1)
             {
                 enemy->flags337C &= ~1U;

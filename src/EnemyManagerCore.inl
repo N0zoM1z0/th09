@@ -877,8 +877,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                     *reinterpret_cast<const BulletSpawnDescriptor *>(
                         owner->spawnTemplate328.bulletState2E74);
                 enemy->shootInterval30B4 = 0;
-                reinterpret_cast<Th09EclRunState::ManagerStateView *>(enemyManager)
-                    ->InitializeSubroutine(
+                enemyManager->primaryEclManager000.InitializeSubroutine(
                         reinterpret_cast<Th09EclContextView *>(
                             enemy->eclStorage7F4),
                         enemy->deathCallbackSubId2D2E);
