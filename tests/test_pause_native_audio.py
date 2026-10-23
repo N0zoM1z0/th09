@@ -18,11 +18,42 @@ class PauseNativeAudioTests(unittest.TestCase):
         changed = source.replace(
             'for (i = 0; i < 7; i++) {\n        g_AnmManager->ExecuteScript',
             'for (i = 0; i < 8; i++) {\n        g_AnmManager->ExecuteScript')
-        for case in ('embedded-footer', 'animate-cursor'):
+        for case in ('embedded-footer', 'animate-cursor',
+                     'deferred-time', 'deferred-time-opaque'):
             with self.subTest(case=case), self.assertRaises(ValueError):
                 PROBE.control_context(changed, case)
         with self.assertRaises(ValueError):
             PROBE.control_context(source, 'unknown-control')
+
+    def test_deferred_clock_preserves_result_return_and_common_footer(self):
+        source = (ROOT/'src/AsciiManagerMenu.cpp').read_text()
+        rendered = PROBE.control_context(source, 'deferred-time')
+        body = PROBE.definition(rendered, 'int PauseMenu::OnUpdate()')
+        clock = 'AsciiSupervisor()->systemTime79C = timeGetTime();'
+        self.assertEqual(body.count(clock), 2)
+        self.assertEqual(body.count('refreshTimestamp = true;'), 3)
+        self.assertIn('g_Supervisor.StopAudio();\n'
+                      '            AsciiSupervisor()->state590 = 11;\n'
+                      '            g_GameManager.inGameMenu = 0;\n'
+                      '            '+clock+'\n            return 0;', body)
+        self.assertIn('if (refreshTimestamp) {\n        '+clock+'\n    }\n\n'
+                      '    for (i = 0; i < 7; i++) {\n'
+                      '        g_AnmManager->ExecuteScript', body)
+        original = PROBE.definition(source, 'int PauseMenu::OnUpdate()')
+        self.assertEqual(rendered.replace(body, original), source)
+
+    def test_opaque_context_removes_only_the_three_real_definitions(self):
+        source = (ROOT/'src/AsciiManagerMenu.cpp').read_text()
+        visible = PROBE.control_context(source, 'deferred-time')
+        expected = visible
+        for marker in ('int AnmVm::IsVisible()', 'void AnmVm::SetInvisible()',
+                       'int AsciiGameManagerView::HasFlagBit0()'):
+            expected = expected.replace(PROBE.definition(expected, marker), '', 1)
+        self.assertEqual(PROBE.control_context(source, 'deferred-time-opaque'), expected)
+        with self.assertRaises(ValueError):
+            PROBE.control_context(source.replace('int AnmVm::IsVisible()',
+                                                'int AnmVm::OtherMethod()'),
+                                  'deferred-time-opaque')
 
     def setUp(self):
         self.raw = b'\xe8\0\0\0\0\xc3'

@@ -11,6 +11,23 @@ spec.loader.exec_module(audit)
 
 
 class PauseCallPaths(unittest.TestCase):
+    def test_reviewed_three_byte_alignment_stays_in_the_input(self):
+        data = b'\x33\xc0\xc3\x8d\x49\x00'+b'\x00'*40
+        self.assertEqual(audit.trailing_alignment(data, 3, 6), b'\x8d\x49\x00')
+        self.assertEqual(len(data), 46)
+        self.assertEqual(audit.trailing_alignment(b'\xc3', 1, 1), b'')
+
+    def test_alignment_cannot_hide_code_or_forge_the_return_boundary(self):
+        for padding in (b'\x8d\x49\x01', b'\x83\xc1\x00', b'\xcc',
+                        b'\x90'*3, b'\x8d\x49\x00\x90'):
+            with self.subTest(padding=padding), self.assertRaises(ValueError):
+                audit.trailing_alignment(b'\xc3'+padding, 1, 1+len(padding))
+        for code_size, table_offset in ((0, 1), (True, 1), (1, False),
+                                        (2, 1), (1, 4), (2, 3)):
+            with self.subTest(code=code_size, table=table_offset), \
+                    self.assertRaises(ValueError):
+                audit.trailing_alignment(b'\xc3\x90\x90', code_size, table_offset)
+
     def test_wrong_import_slot_register_index_or_operand_width_is_rejected(self):
         args = [7, 'memory', 0, 0, 4, 0x48e238]
         self.assertEqual(audit.timestamp_call(*args),

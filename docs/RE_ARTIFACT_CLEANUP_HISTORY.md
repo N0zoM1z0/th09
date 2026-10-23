@@ -1007,3 +1007,22 @@ CFG/literal proofs remain archived. Extract there before verify.py or historical
 replay. Root producers, inverse operations, verification/archive manifests and
 CI evidence remain loose. No existing canonical/unclassified analysis, target,
 toolchain, Wine or IDA input is removed. No exact coverage is added.
+
+
+## October 23: current Pause clock deferral and alignment diagnosis
+
+After all four primary native compiles, one public reproduction and full CI
+terminate, archive only230 current frozen/staged/provider files under
+.analysis/gpt-61sol-20261023-pause-deferred-time/. captures.zip retains6362281
+logical bytes in1232732 bytes, saving5129549 bytes before audit overhead.
+ZIP SHA256:92b2b02229b9ef85e24ed170aa0515e216f1c7e6882c4c67cbdb53100885fdb6.
+Every member passes CRC and exact byte equality before loose removal.
+
+All four full native objects/PDBs, quoted-source/provider snapshots and complete
+native/COFF/CFG/literal reports remain archived. Clean independent extraction
+reproduces the entire verification, including all sibling original bytes and
+both provider epochs, without compiling. Temporary recovery then self-cleans.
+Extract there before verify.py or replay; root recipes, full verification,
+public reproduction/provider ZIP, field/provider-transition proofs and CI log
+remain loose. No older canonical/unclassified analysis, original executable,
+toolchain, Wine or IDA state is removed. Coverage is unchanged.

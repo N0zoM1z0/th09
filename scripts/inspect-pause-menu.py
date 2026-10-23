@@ -43,6 +43,19 @@ DESTINATIONS = {
 }
 
 
+def trailing_alignment(data, code_size, table_offset):
+    """Recognize reviewed bytes after the last RET without removing them."""
+    if (type(code_size) is not int or type(table_offset) is not int
+            or not 0 < code_size <= table_offset <= len(data)
+            or data[code_size - 1] != 0xC3):
+        raise ValueError('unreviewed return/alignment boundary')
+    alignment = bytes(data[code_size:table_offset])
+    if alignment not in (b'', b'\x8b\xff', b'\x90', b'\x90\x90',
+                         b'\x8d\x49\x00'):
+        raise ValueError('unreviewed trailing alignment')
+    return alignment
+
+
 def timestamp_call(offset, kind, base, index, width, destination):
     if (type(offset) is not int or offset < 0 or kind != 'memory'
             or base != 0 or index != 0 or width != 4
@@ -125,9 +138,7 @@ def report(object_path):
         code_size = max(returns)
         if target_code_size is not None and code_size != target_code_size:
             raise ValueError('target return boundary changed')
-        alignment = bytes(data[code_size:table_offset])
-        if alignment not in (b'', b'\x8b\xff', b'\x90', b'\x90\x90'):
-            raise ValueError('unreviewed trailing alignment')
+        alignment = trailing_alignment(data, code_size, table_offset)
         instructions = [i for i in decoded if i.address < BASE + code_size]
         boundaries = {i.address for i in instructions}
         table = struct.unpack('<10I', bytes(data[table_offset:]))

@@ -12,23 +12,24 @@ on large owners. This local session uses direct IDA Pro MCP and Bash without
 Factory routing. New English commits use gpt-6.1-sol: with the preserved author
 and co-author trailer in AGENTS.md. No new exact coverage is claimed.
 
-- Latest whole Enemy primary-bit operations preserve all3900 baseline bytes,
-  97 effective fields,69 calls and170 blocks. Both the single-bit model and its
-  complete three-compound-update integration remain13 differences; five real
-  native helper bodies/literals pass. No source or exact ledger change.
-  Current packet: .analysis/gpt-61sol-20261023-enemy-primary-bits/. Extract
-  captures.zip there before verification/replay. Final CI reports1012 tests/
-  29 skips and all tracking/docs/build-graph/progress/whitespace success; its
-  original process was tracked to completion after loss of the PTY handle.
-- The preceding tested RunEcl checkpoint3a3eb4a rejects its context-cursor model:
-  15572 bytes,14540 overlap differences and8 excess. All403 external/195 local
-  fields use actual emitted positions. Extract captures.zip in
-  .analysis/gpt-61sol-20261023-runecl-value-liveness/ before diagnosis/replay.
-  Its1012-test/29-skip CI and earlier Enemy callee controls remain source-scoped
-  evidence. See the final knowledge-base entries for exact reproduction routes.
-- Current disk/direct IDA entry and mapped checks pass. Last game source remains
-  the tested f595786 adoption. All unchanged source/profile exact proofs are
-  reused. Historical accepted receipts do not accept a later HEAD.
+- Current Pause clock-deferral controls recover the original two-site static
+  sharing but fail complete comparison: visible1720 bytes/1442 overlap+56
+  missing; opaque1788/1580+12 excess. Embedding the Boolean footer is neutral.
+  No game source or exact ledger changes. Current packet:
+  .analysis/gpt-61sol-20261023-pause-deferred-time/.
+- The Pause inspector now recognizes observed post-RET8D4900 alignment while
+  comparing every byte. Full field/IAT/branch/table checks and production
+  frontier stay strict. Public deferred-time reproduces the full private cold
+  output and exits rejected. All11 emitted exact siblings pass, or8 where
+  three helpers are intentionally opaque. All24 focused tests and1016-test/
+  29-skip full CI pass; tracking/docs/build-graph/progress/whitespace pass.
+  Extract captures.zip in that packet before verification/replay; independent
+  archive-only verification reproduces all proofs without compiling.
+- Prior Enemy primary-bit checkpoint37725d5 and RunEcl cursor checkpoint3a3eb4a
+  remain negative, source-bound evidence. Extract each packet's captures.zip
+  before verification/replay. The current maintained game baseline is still
+  f595786; unchanged exact source/profile proofs are reused. Historical accepted
+  receipts do not accept a later HEAD. Reconstruction remains active.
 
 - Current coverage is **244917/291883 (83.9093%)**. The 98% milestone needs
   **41129** additional whole exact bytes. Neither main owner is exact:

@@ -20673,3 +20673,94 @@ provider snapshots and raw/COFF/CFG/native reports remain recoverable; root
 recipes, verification, operations, archive manifest and CI log remain loose.
 Only verified loose duplicates are removed. Older canonical/unclassified
 analysis, original input, tools, Wine and IDA are preserved.
+
+
+## October 23: current Pause clock deferral and complete alignment diagnosis
+
+After tested local checkpoint37725d5, source/profile and target recovery remain
+unchanged. Direct IDA metadata and the original owner confirm timeGetTime at
+434B01/434DF2. The old October3/6 deferred model's1772-byte/816-difference result
+predates the current seven-VM loop, GameManager/input/VM/audio corrections.
+Its actual Boolean recipe is recovered, not assumed equivalent to today's
+source. Current cases freeze12 quoted-source dependencies, provider/configuration
+bytes, original target and the established O2/Ob1 profile. No profile search.
+
+Three ordinary completion branches set a consumed Boolean, then refresh time
+before the common animation footer. The result-only branch keeps its immediate
+clock and early return; nothing observable crosses a call. Exact inverse restores
+the current method. Visible and historical opaque-three-helper contexts are
+preselected; a final targeted integration embeds the same clock/animation footer
+after closing, before the confirmation arms, following the original layout.
+No qualifier, forced inline, register contract, padding or fake target API is
+introduced. Four serial single-CPU/nice10 native captures are complete.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| PAUSE-DEFER-CURRENT-20261023-001 | compiler observation | Baseline1732 physical/1692 code bytes,107 fields,1453 overlap differences plus44 missing. | Complete unchanged maintained caller; all11 same-TU exact units pass2448 physical bytes/158 fields. |
+| PAUSE-DEFER-CURRENT-20261023-002 | rejected source hypothesis | Deferred-visible emits1720 physical/1677 code,three alignment bytes,105 fields;1442 overlap differences plus56 missing. | Entire original span remains compared;54 old mismatches restore while55 old matches are damaged in the common span. |
+| PAUSE-DEFER-CURRENT-20261023-003 | rejected source hypothesis | Deferred-opaque emits1788 physical/1746 code,two alignment bytes,105 fields;1580 overlap differences plus12 excess. | All8 still-emitted canonical siblings pass2420 physical bytes/158 fields; three opaque definitions are not claimed emitted. |
+| PAUSE-DEFER-CURRENT-20261023-004 | compiler observation | Joint deferred decision plus embedded footer preserves the full raw caller and all effective COFF destinations of deferred-visible. | All11 canonical sibling proofs pass;9 renamed private labels retain independently checked owner-relative coordinates. |
+| PAUSE-DEFER-CURRENT-20261023-005 | independent reproduction | Public deferred-time cold reproduces private full raw/COFF and complete diagnostic, then exits1 on the production frontier. | public-visible.json/log/exit; supplied-object/full-caller rejection stays explicit. |
+
+Each candidate retains46 direct calls. Both deferred contexts recover exactly
+two IAT sites and original static sharing: states3/8 reach the shared site,
+state9 reaches it and the separate result site. Other states reach neither.
+This is unconstrained decoded-CFG reachability, not runtime feasibility/counts.
+Baseline instead has three sites and an extra system-time publication. All
+candidates still have one fewer external GameManager menu-byte reference at
+4A7ECC than the original; baseline already has that gap. This count describes
+static sharing, not a demonstrated missing runtime write. Complete comparison
+still rejects all candidates; no game-source improvement or exact credit is
+claimed from fixing only timestamp sharing.
+
+The visible object's actual trailing8D4900 is LEA ECX,[ECX] after the final RET,
+before the ten-entry table. The old inspector rejected that observed compiler
+alignment before reporting a full comparison. inspect-pause-menu.py now accepts
+only this additional exact sequence with a valid plain-RET/window boundary.
+All alignment bytes remain in full-byte comparison. Existing branch/table
+boundary, operand, IAT and field census checks remain intact; the production
+frontier and canonical comparator are unchanged. Alignment tests cover the observed bytes and reject changed displacement,
+arithmetic instructions, extra padding and forged return/window bounds. Baseline/opaque complete reports stay identical after the
+provider update; the previously rejected visible object is diagnosed without
+recompilation. Old and new provider hashes and raw objects remain separate.
+
+Public probe-pause-native-audio.py adds deferred-time and deferred-time-opaque,
+with source-body/shape guards and diagnostic-provider hashes. Two source tests
+protect the result early return, common clock-before-animation order and exact
+three-definition removal; changed original control flow fails closed. Both
+public transformations equal their private cold inputs. Only deferred-time is
+additionally public-cold-compiled; opaque's source-equivalence proof remains
+separate from its private cold result. Fourteen focused tests pass.
+
+The private collateral checker initially confused authored1144 with full1172
+bytes for state4 update, then assumed every manifest explicitly fixed addend0.
+Existing canonical policy uses compare_size and the actual object addend atop an
+independent symbol base. Corrected checks prove every original operand/full byte,
+real literal and local coordinate; no maintained comparator changes. Already
+completed objects are reused after saved raw/COFF/profile/input verification;
+these were analysis failures, not new compiler or source-family failures.
+
+Evidence: .analysis/gpt-61sol-20261023-pause-deferred-time/, especially prepare.py,
+prepare_embedded.py, run.py, analyze_fields.py, external-field-deltas.json,
+diagnostic-provider-transition.json, public-provider.zip and complete staged/
+frozen captures. Actual native objects, data literals and source/provider hashes
+remain retained. No losing source or new target-byte match is promoted. All1003
+unchanged exact game-source/profile proofs are reused; coverage stays244917/
+291883 (83.9093%),41129 whole exact bytes remain to98%. RunEcl30,Enemy13,Title22,
+Type315,complete inventory and native product/runtime gates remain open.
+
+All24 focused Pause tests pass. Full CI passes1016 tests/29 skips in113.734
+seconds, observed exit0; tracking, docs, open-build graph, progress and whitespace
+also pass. No public/game source changed after these tests except documentation.
+After all five compiles and CI are terminal, only current frozen/staged/current-
+provider loose duplicates are archived and byte-verified before removal:
+230 files/6362281 logical bytes become1232732 bytes, SHA256
+92b2b02229b9ef85e24ed170aa0515e216f1c7e6882c4c67cbdb53100885fdb6.
+Extract captures.zip in the packet before verify.py or historical replay.
+An independent clean archive extraction rechecks every raw/COFF/native/literal
+proof, source/provider epoch and public reproduction without compiling again;
+its complete verification equals the pre-archive result. Recovery temporaries
+self-clean. Root recipes, verification, provider-transition/field-delta proofs,
+public report/provider ZIP, bounded direct-IDA windows and CI log remain loose.
+All older canonical/unclassified evidence, original input, toolchains, Wine and
+IDA database remain preserved. Exact ledger and game baseline stay unchanged.

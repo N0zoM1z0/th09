@@ -30,6 +30,8 @@ CASES = {
     'baseline': (),
     'embedded-footer': (),
     'animate-cursor': (),
+    'deferred-time': (),
+    'deferred-time-opaque': (),
     'resume': ('soundplayer-resume-after-pause',),
     'stop': ('supervisor-stop-audio',),
     'audio': ('soundplayer-resume-after-pause', 'supervisor-stop-audio'),
@@ -84,15 +86,33 @@ def control_context(source, case):
             raise ValueError('reviewed Pause confirmation arm changed')
         body = body.replace(marker,
             '    default:\n    animatePause:\n'+footer+'\n\n'+marker)
+    elif case in ('deferred-time', 'deferred-time-opaque'):
+        clock = 'AsciiSupervisor()->systemTime79C = timeGetTime();'
+        anchor = '    const int stateAtDispatch = this->state;'
+        if (body.count(clock) != 4 or body.count(anchor) != 1
+                or 'refreshTimestamp' in body):
+            raise ValueError('reviewed Pause timestamp decisions changed')
+        body = body.replace(anchor, anchor+'\n    bool refreshTimestamp = false;', 1)
+        body = body.replace(clock, 'refreshTimestamp = true;', 3)
+        body = body.replace(loop,
+            '    if (refreshTimestamp) {\n        '+clock+'\n    }\n\n'+loop, 1)
+        if body.count(clock) != 2 or body.count('refreshTimestamp = true;') != 3:
+            raise ValueError('Pause timestamp deferral is incomplete')
     else:
         raise ValueError('unreviewed Pause control context')
-    return source.replace(original, body)
+    result = source.replace(original, body)
+    if case == 'deferred-time-opaque':
+        for marker in ('int AnmVm::IsVisible()', 'void AnmVm::SetInvisible()',
+                       'int AsciiGameManagerView::HasFlagBit0()'):
+            result = result.replace(definition(result, marker), '', 1)
+    return result
 
 
 def source_context(case, sources):
     if case not in CASES:
         raise ValueError('unreviewed Pause audio context')
-    if case in ('embedded-footer', 'animate-cursor'):
+    if case in ('embedded-footer', 'animate-cursor',
+                'deferred-time', 'deferred-time-opaque'):
         return control_context(sources['AsciiManagerMenu.cpp'], case)
     selected = CASES[case]
     prefix = []
@@ -260,7 +280,10 @@ def main():
                   target_sha256=digest(image), profile=profile,
                   input_sha256={name: digest(data) for name, data in inputs.items()},
                   source_sha256=digest(source.encode()), native={},
-                  recipe_sha256=digest(Path(__file__).read_bytes()))
+                  recipe_sha256=digest(Path(__file__).read_bytes()),
+                  diagnostic_provider_sha256={
+                      name: digest((ROOT/'scripts'/name).read_bytes())
+                      for name in ('inspect-pause-menu.py', 'check-boss-frontiers.py')})
     (ROOT/'build/diagnostics').mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='pause-native-audio-',
                                      dir=ROOT/'build/diagnostics') as tmp:
