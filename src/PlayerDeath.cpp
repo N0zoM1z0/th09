@@ -1,3 +1,4 @@
+#include "AsciiManager.hpp"
 #include "PlayerLifecycleView.hpp"
 
 #include <stddef.h>
@@ -77,17 +78,6 @@ struct PlayerDeathReplayRngView
 {
     float GetRandomF32InRange(float max);
 };
-
-struct PlayerDeathVectorView
-{
-    float x;
-    float y;
-    float z;
-
-    PlayerDeathVectorView *FromAngleMagnitude(float angle, float magnitude);
-};
-
-typedef char PlayerDeathVectorSizeIsC[(sizeof(PlayerDeathVectorView) == 0x0C) ? 1 : -1];
 
 struct PlayerDeathVmHandleView
 {
@@ -216,7 +206,7 @@ void PlayerLifecycleView::EnterDeathState()
 
     float angle = g_PlayerDeathReplayRng.GetRandomF32InRange(3.1415927f);
     *reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(this) + 0x1CD8) = angle;
-    reinterpret_cast<PlayerDeathVectorView *>(
+    reinterpret_cast<Float3 *>(
         reinterpret_cast<unsigned char *>(this) + 0x1CCC)->FromAngleMagnitude(angle, 1.0f);
 
     g_PlayerDeathShared->transitionFramesE93C[sideIndex] = 60;

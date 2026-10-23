@@ -1,3 +1,4 @@
+#include "AsciiManager.hpp"
 #include "EnemyManager.hpp"
 #include "ExAttackController.hpp"
 #include <stddef.h>
@@ -9,16 +10,6 @@ struct EnemyExAttackContextValuesView
     unsigned char unknown40[0x2C];
     float value6C;
     float value70;
-};
-
-struct EnemyExAttackLocalVec3
-{
-    float x;
-    float y;
-    float z;
-
-    EnemyExAttackLocalVec3 *FromAngleMagnitude(float angle, float magnitude);
-    EnemyExAttackLocalVec3 &operator+=(const EnemyExAttackLocalVec3 &other);
 };
 
 struct EnemyExAttackMoreView
@@ -44,57 +35,57 @@ extern ExAttackController *g_ExAttackController;
 
 void EnemyExAttackMoreView::SpawnExAttackType10()
 {
-    EnemyExAttackLocalVec3 position;
+    Float3 position;
     position.x = activeContext2CE0->value6C;
     position.y = activeContext2CE0->value70;
     position.z = 0.0f;
     g_ExAttackController->Spawn(
-        10, reinterpret_cast<const Float3 *>(&position),
+        10, &position,
         1 - manager00->sideIndex31C, 0);
 }
 
 void EnemyExAttackMoreView::SpawnExAttackType11()
 {
-    EnemyExAttackLocalVec3 position;
+    Float3 position;
     position.x = activeContext2CE0->value6C;
     position.y = activeContext2CE0->value70;
     position.z = activeContext2CE0->value3C;
     g_ExAttackController->Spawn(
-        11, reinterpret_cast<const Float3 *>(&position),
+        11, &position,
         1 - manager00->sideIndex31C, 0);
 }
 
 void EnemyExAttackMoreView::SpawnExAttackType12()
 {
-    EnemyExAttackLocalVec3 position;
+    Float3 position;
     position.x = activeContext2CE0->value6C;
     position.y = activeContext2CE0->value70;
     position.z = activeContext2CE0->value3C;
     g_ExAttackController->Spawn(
-        12, reinterpret_cast<const Float3 *>(&position),
+        12, &position,
         1 - manager00->sideIndex31C, 0);
 }
 
 void EnemyExAttackMoreView::SpawnExAttackType22Burst()
 {
-    EnemyExAttackLocalVec3 parameter;
+    Float3 parameter;
 
     parameter.FromAngleMagnitude(1.5707964f, 64.0f);
-    parameter += *reinterpret_cast<const EnemyExAttackLocalVec3 *>(&position2D74);
+    parameter += position2D74;
     parameter.z = 1.5707964f;
     g_ExAttackController->Spawn(
         22, &position2D74, 1 - manager00->sideIndex31C,
         reinterpret_cast<int>(&parameter));
 
     parameter.FromAngleMagnitude(1.2566371f, 64.0f);
-    parameter += *reinterpret_cast<const EnemyExAttackLocalVec3 *>(&position2D74);
+    parameter += position2D74;
     parameter.z = 1.2566371f;
     g_ExAttackController->Spawn(
         22, &position2D74, 1 - manager00->sideIndex31C,
         reinterpret_cast<int>(&parameter));
 
     parameter.FromAngleMagnitude(1.8849556f, 64.0f);
-    parameter += *reinterpret_cast<const EnemyExAttackLocalVec3 *>(&position2D74);
+    parameter += position2D74;
     parameter.z = 1.8849556f;
     g_ExAttackController->Spawn(
         22, &position2D74, 1 - manager00->sideIndex31C,

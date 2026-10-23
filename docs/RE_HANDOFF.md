@@ -19,13 +19,30 @@ The 98% goal and both main owners remain unfinished.
 - The large-owner source baseline remains **f595786**, the selected ECL-manager
   ownership repair. All140 canonical units across34 source/profile groups
   passed at adoption. Subsequent shared-declaration repairs retain fresh exact
-  canonical proofs: Enemy cleanup184 bytes/two fields, and Front indicator213
-  bytes/ten fields. Other unchanged source/profile proofs are reused.
+  canonical proofs: Enemy cleanup184 bytes/two fields, Front indicator213
+  bytes/ten fields, and the shared Float3 callers1187 bytes/56 fields. The four
+  Float3.cpp operations also pass162 bytes/two fields. Other unchanged
+  source/profile proofs are reused.
   Retain `.analysis/th09-selected-ecl-manager-owner-20261023-v01/`, including
   canonical/group-00.obj through group-33.obj and their sidecars and proofs.
   These are source-bound evidence. Archival accepted receipts do not accept a
   later HEAD, and exact functions do not close native product/runtime gates.
-- Current RunEcl timeout controls distinguish raw flag equality from one-bit
+- Current Float3 cleanup removes two duplicate vector facades from
+  EnemyExAttackMoreLeaves.cpp and PlayerDeath.cpp. Five complete canonical
+  caller proofs stay exact; seven symbol spellings now bind the existing
+  shared methods with unchanged offsets, addends and original destinations.
+  The canonical polar helper and its assembly remain unchanged. Original EAX
+  receiver residue does not prove a source-level return type; an old KB claim
+  that the helper never writes EAX is corrected.
+  Type29 geometry-context and origin-holder controls both remain2205 bytes
+  versus2220 original, with1184/1170 overlap differences plus15 missing. Both
+  retain the72-call order/129 fields but miss the six original center receiver
+  reloads. RunEcl15564/598/30 and Enemy3900/97/13 remain unchanged in both.
+  Packet: `.analysis/gpt-61sol-20261023-effect29-geometry/`.
+  Its415-member verified archive retains both source/provider epochs and all
+  compiled objects; archive-only replay passes after reviewed cache removal.
+  See cleanup history for its SHA256 and recovery scope.
+- Prior RunEcl timeout controls distinguish raw flag equality from one-bit
   enum read-back. Under VC7.1 an enum field declared0/1 reads its set bit as-1;
   a representable0/-1 model reads back correctly but does not match codegen.
   Five full-owner controls retain the baseline or fail complete comparison;
@@ -40,20 +57,14 @@ The 98% goal and both main owners remain unfinished.
   Full Front storage/body controls retain Enemy3900/97/13; the joint periodic
   control retains45 and is rejected. All actual native helpers pass first.
   Packet: `.analysis/gpt-61sol-20261023-enemy-front-interface/`.
-- Prior Title replay-menu controls test a const receiver, plain three-float
-  storage and actual text-body visibility. Five contexts retain1280 bytes/57
-  fields/29 differences. With both text bodies visible, a repeated coordinate
-  store disappears:1273 bytes/449 overlap differences+7 missing, rejected.
-  Actual text bodies in the menu profile are51/111 versus55/130 original bytes;
-  their native chain is not exact. Those controls changed no game source,
-  profile or ledger.
+- Prior Title replay-menu controls leave1280/57/29 unchanged. Complete text
+  visibility gives1273 bytes/449 overlap differences+7 missing and is rejected;
+  the native text chain is not exact. Consult the dated KB evidence before
+  repeating const-receiver, plain-vector or text-visibility models.
   Packet: `.analysis/gpt-61sol-20261023-title-replay-row/`.
-- SaveReplay controls test checksum field ownership, complete native
-  construction/encoding and two wire-type models. Five contexts retain1238/53/3;
-  three field accumulators give1270 bytes/304 overlap differences+32 excess and
-  are rejected. All16 same-profile collateral comparisons pass. Configuration
-  initialization in that caller profile is444 versus233 original bytes; the
-  full constructor chain is not exact. Packet:
+- SaveReplay controls leave1238/53/3 unchanged. Three field accumulators give
+  1270 bytes/304 overlap differences+32 excess and are rejected. Native
+  constructor closure remains open; all16 collateral comparisons pass. Packet:
   `.analysis/gpt-61sol-20261023-replay-save-owner/`.
 - Enemy controls and its adopted shared cleanup declaration remain in
   `.analysis/gpt-61sol-20261023-enemy-descriptor-dataflow/`. The cleanup's184-byte
@@ -84,9 +95,10 @@ The 98% goal and both main owners remain unfinished.
   archive recovery. Ignored evidence is local and is not part of Git commits.
 - Final current checkpoint CI passes **1016 tests / 29 skips** (exit0);
   target-required tracking, documentation, build graph, progress and whitespace
-  pass. The current RunEcl packet retains all compiled controls, complete
-  comparisons and signed-enum fixtures. The Enemy/Front packet retains the
-  adopted213-byte proof. Earlier Title and SaveReplay packets retain their recorded source
+  pass. The current Type29 packet retains the adopted nine canonical proofs,
+  complete negative models and both original/adopted provider epochs. The
+  RunEcl packet retains its compiled controls, complete comparisons and signed
+  enum fixtures. Earlier Title and SaveReplay packets retain their recorded source
   and provider epochs (d9245532 and9161c560 respectively).
   Earlier source epochs, reviewed cache removal and Git compaction remain in
   cleanup history. Reconstruction remains active.

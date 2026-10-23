@@ -1271,3 +1271,48 @@ reference remain byte-identical. Root recipes, complete binding receipts,
 fixtures and cleanup.json stay loose. Original executable, SDK/compiler/Wine/
 IDA state, other proof objects and unclassified evidence are untouched; no
 bulk cleaner or history expiry is used.
+
+
+### 2026-10-23: shared Float3 callers and Type29 geometric ownership controls
+
+From local956bfb42, EnemyExAttackMoreLeaves.cpp and PlayerDeath.cpp now use
+the existing shared Float3 instead of two duplicate pointer-returning facades.
+Seven manifest symbol spellings change; offsets, addends, targets and pinned
+profiles stay fixed. Private and canonical source-cold compiles retain all five
+callers,1187 bytes/56 fields. Four fresh Float3.cpp operations retain162/two;
+nine canonical proofs total1349 bytes/58 fields. Existing exactness credit is
+unchanged. The original polar helper and its assembly are unchanged, and EAX
+receiver residue does not prove the original C++ return contract. The old KB
+claim that it never writes EAX is corrected.
+
+Two complete Type29 geometric object controls retain2205 bytes/129 fields
+versus2220 original. Geometry-context has1184 overlap differences plus15 missing;
+origin-holder repeats the1170-plus15 baseline. Neither reproduces the original
+six center receiver reloads. All three objects retain RunEcl15564/598/30 and
+Enemy3900/97/13. Six actual same-object vector helper comparisons and57 positive
+caller references pass before whole-callback scoring. Only the shared source
+cleanup is adopted; no new exact bytes, accepted receipt or native runtime claim.
+
+Packet .analysis/gpt-61sol-20261023-effect29-geometry/ retains both source/provider
+epochs, source recipes and commands, direct IDA observations, full comparisons
+and canonical receipts. Its415-member captures.zip preserves11449550 logical
+bytes in1975110 compressed bytes, SHA256
+903599a0a9cb978f679b3e6f1a122357bbcf39129f7dc0d1476bad525aed4989.
+CRC/member SHA/full loose equality pass. An independent temporary archive-only
+extraction replays all three Type29, RunEcl and Enemy comparisons, six actual
+helper bodies, five private exact callers and nine canonical exact functions
+without compiling. The original/adopted manifest epochs are checked separately;
+the only result normalization is the extracted object's pathname.
+
+CI passes1016 tests/29 skips; wrapper141.522 seconds, observed exit zero.
+After all compiler/replayer/CI handles terminate, reviewed cleanup removes888
+regular ignored, rehashed files/20278879 logical bytes:389 archive duplicates
+11280234 bytes, six archived canonical caches191703 bytes and493 reproducible
+Python bytecode files8806942 bytes. The latter include416 CI-prefix caches and
+77 source-backed scripts/tests caches. All14 older unclassified build files
+and the original unique selected-owner reference remain byte-identical. Root
+recipes, complete binding receipts, cleanup.json and the verified archive stay
+loose; post-cleanup archive replay passes again. Original executable, SDK,
+compiler, Wine/IDA state and other unique evidence are untouched. No bulk
+cleaner, pruning or history rewrite is used. Coverage stays83.9093%;98% remains
+unfinished and needs41129 whole exact bytes.

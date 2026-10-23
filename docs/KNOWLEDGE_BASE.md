@@ -2549,7 +2549,7 @@ name into a TH09 fact without target-local evidence.
 - The same descriptor then becomes the mirrored second pattern by setting bulletType=0, aimMode=3 and angle=AddNormalizeAngle(pi,-angle0C); color/count/transforms remain shared. Target field-store order confirms aimMode is written before the Player count calculation and color follows count2.
 - After emission, opponent Player collision is checked with a 24x24 box. A hit enters state2, resets the timer, interrupts the VM, stores extra angle08 into record rotation +0x3C and returns zero. Otherwise motion14 is rebuilt from angle08 at speed 1.5, record position advances, and state1 completes if y >=480, y <=-32, x >=176 or x <=-176. The rotation field receives angle08 on every surviving state1 frame.
 - The natural pinned VC7.1 source reproduces the exact 0x224 frame and is stable at 783 bytes versus the 799-byte target. The remaining 16-byte family is not missing gameplay: target shares the early state2 return-one epilogue at 0x004464EC with all four bounds checks, producing four six-byte backward near branches; ordinary repeated C++ returns produce local two-byte short branches. An explicit shared-label probe is itself block-reordered by VC7.1 and emits 778 bytes, so it is rejected rather than used as layout steering.
-- A second corroborating ABI clue comes from adjacent committed generations: TH08, TH095 and TH10 all declare Float3::FromAngleMagnitude as void, and TH09 target 0x00441890 likewise never writes EAX. The row7 target therefore reuses ECX immediately after the call when forwarding motion14 to Float3::operator+=. The current TH09 reconstruction-wide declaration returns Float3*, causing stock source to reload motion14. Changing that shared declaration here would perturb established exact/source units, so no TU-local symbol/ABI trick is retained. Exactness remains false without var_order, volatile, padding, assembly, forced registers or profile roulette.
+- Historical ABI hypothesis, corrected October 23: adjacent committed generations declare Float3::FromAngleMagnitude as void, but that is not TH09 evidence. The old assertion that TH09 target 0x00441890 never writes EAX was wrong: its complete32-byte body loads the receiver into EAX and stores through EAX, while preserving ECX. Neither that incidental EAX value nor the observed caller reuse identifies the original C++ return type. The shared TH09 declaration has since become void; see the later void-correction and October23 shared-Float3 notes. No TU-local return/ABI trick is justified by this historical observation. This packet's nonexact source result and remaining control-flow frontier are unchanged.
 
 
 ## Packet 433 ExAttack shared type-18/type-24 trail update source closure
@@ -21166,3 +21166,79 @@ seven compiled controls, the verified reused baseline, complete source/COFF/
 literal/callee comparisons, target observations, signed-state fixtures and
 source/provider recipes. The original unique selected-owner reference object
 remains untouched; the packet archives only a verified copy for replay.
+
+
+### 2026-10-23: shared Float3 caller cleanup and Type29 geometric object controls
+
+Recovery at956bfb42c2c9eb1dafecdb008b659cea4e26acae examines the live clean
+ledger before returning to the third-largest nonexact owner, Effect draw29.
+Original Japanese1.50a disk and direct IDA metadata/distributed mapped bytes
+pass. IDA recognizes the two vector helpers but currently has no function at
+448750; this is an analysis-database gap. The original callback table slot
+4A0E14, complete2220-byte hash and direct reachable extent independently pass
+the maintained target-bound inspector. No IDA metadata or target byte changes.
+
+The complete32-byte polar helper441890 loads the receiver into EAX, computes
+one FSINCOS, writes x/y and preserves ECX. The old Packet432 claim that it never
+writes EAX is corrected in place. Its incidental receiver value does not
+identify the original C++ return contract. The current shared void declaration
+and existing genuine helper assembly are unchanged. Fresh IDA's float-pointer
+return annotation remains provisional; adjacent games cannot settle it.
+
+EnemyExAttackMoreLeaves.cpp and PlayerDeath.cpp each duplicated the existing
+three-float type and declared a pointer-returning polar facade whose value was
+unused. Both now include AsciiManager.hpp and use the real shared Float3;
+Enemy's three position-pointer casts and three vector-addition casts disappear.
+No layout, field store, call argument or initialization is added. Adopted source
+SHA256 values are
+a5aaccbff76e5f64418fe8a4baa924fe08e49c6981bb5e4ae0f156849671029c and
+842f13f7965c11df632055cfbcd4ccd83432493a305899ce65a125e8bd54f994 respectively.
+The canonical manifest changes exactly seven symbol spellings: three polar
+calls and three additions in the226-byte burst, plus one polar call in the
+753-byte death-state owner. Offsets, relocation kinds, addends, destinations,
+source profiles and all other manifest bytes stay fixed.
+
+Private source-cold and separate canonical source-cold compiles both retain
+complete original equality for the70/69/69-byte spawn leaves,226-byte burst
+and753-byte death-state function:1187 bytes/56 fields. A further fresh canonical
+Float3.cpp compile retains all four operations,162 bytes/two fields, including
+the actual36-byte accumulator405730. The adopted nine canonical units therefore
+retain1349 bytes/58 fields. These were already exact; no new authored-byte
+credit or accepted receipt is claimed. Unchanged source/profile proofs are reused.
+
+Two full EclManager.cpp controls test ordinary geometric object ownership in
+the six satellite fans. Geometry-context groups the existing step, angle and
+Float3 origin in that order, with a real constructor and size0x14. Origin-holder
+wraps only the real initialized Float3, size0x0C. Neither adds dummy storage,
+return promises, forced inline, declaration-order hints, new assembly or a
+profile change. Both compile serially on one CPU at nice10 under pinned /O2/Ob1.
+The68 source inputs and14 original provider hashes remain frozen separately
+from the later shared-caller manifest epoch; neither adopted CPP is in this
+ECL source graph.
+
+The maintained Type29 baseline is2205 bytes/129 fields,1170 overlap differences
+plus15 missing; rawdd4b7e5d8d70d4a1eb8dba7a7bc32fc3d95bd3b89126abdfd186dfad4844c8e4.
+Geometry-context remains2205/129 but gives1184 overlap differences plus15 missing,
+rawfd6ea2026b4f88afaafecafd66468d6d65f253011851df48a5dc5ce55e370cdd:
+it restores four old positions and damages18 previously equal positions.
+Origin-holder repeats the baseline bytes. Both retain72 ordered calls, all129
+field referent identities,675/670 original/candidate instructions and41 blocks;
+complete graphs differ. All13 polar/accumulator pairs still lack an intervening
+ECX reload, while the original has six local-center LEAs and none in the seven
+vertex pairs. A favorable partial window does not accept either full callback.
+
+The baseline and both controls independently retain the actual26-byte Float3
+constructor and32-byte polar body at positive same-object COFF coordinates;
+six complete helper comparisons and57 positive caller references pass. Actual
+literal payloads and every complete Type29 field are checked. All three objects
+also retain complete RunEcl15564/598/30 with zero field/table drift and
+Enemy3900/97/13. Equal raw bytes, fields or call order alone do not close any of
+these nonexact owners, native product/runtime gates or the semantic gate.
+
+Packet .analysis/gpt-61sol-20261023-effect29-geometry/ preserves original and
+adopted sources/providers, private/canonical objects and commands, fresh IDA
+observations, whole-owner and helper reports, and archive recovery recipes.
+Historical scripts require their recorded provider epoch after the seven
+shared-symbol updates. Only the shared Float3 source repair is adopted; the
+geometric models remain private rejected controls. Coverage stays1003 exact
+functions and244917/291883 (83.9093%);98% still needs41129 whole exact bytes.
