@@ -16,22 +16,25 @@ The 98% goal and both main owners remain unfinished.
 - The live ledger below remains **244917/291883 (83.9093%)**, needing **41129**
   more whole exact bytes. RunEcl remains15564 physical bytes/598 fields/30
   ordinary differences; Enemy remains3900/97/13 with69 calls and170 blocks.
-- The last maintained game-source change is **f595786**, the selected ECL-manager
+- The large-owner source baseline remains **f595786**, the selected ECL-manager
   ownership repair. All140 canonical units across34 source/profile groups
-  passed at adoption; later diagnostic checkpoints do not change those inputs.
+  passed at adoption; the current cleanup-source correction does not change
+  their inputs. EnemyCleanupAfterDeactivation.cpp now uses the shared EnemyView
+  declaration; its separate fresh canonical184-byte/two-field replay is exact.
   Retain `.analysis/th09-selected-ecl-manager-owner-20261023-v01/`, including
   canonical/group-00.obj through group-33.obj and their sidecars and proofs.
   These are source-bound evidence. Archival accepted receipts do not accept a
   later HEAD, and exact functions do not close native product/runtime gates.
-- Fresh GameManager mode-dispatch controls reproduce the maintained1689/171/904
-  frontier. An outer mode-0 split is rejected:1673 bytes,1087 overlap differences
-  plus16 missing,224 old matching positions damaged. Its B4 static-reference
-  excess disappears without removing required writes. A540-fixture bounded
-  original/native dispatch Oracle agrees on final fields and per-field writes;
-  the split restores global write order, whereas baseline differs on96 cases.
-  This is dispatch-only evidence. All11 same-source exact siblings pass across
-  their two pinned profiles. Packet:
-  `.analysis/gpt-61sol-20261023-setup-dataflow/`.
+- Current Enemy controls cover the complete second status word and the real
+  cleanup method's visibility. Both remain raw-neutral3900/97/13 with69 calls
+  and170 blocks; five private labels per candidate are individually bound.
+  The adopted shared EnemyView declaration removes one inconsistent class
+  definition without changing the cleanup method body. Other1002 exact authored
+  source proofs are unchanged and reused. Packet:
+  `.analysis/gpt-61sol-20261023-enemy-descriptor-dataflow/`.
+- Prior GameManager540-fixture mode-dispatch evidence and rejected1673-byte
+  control remain in `.analysis/gpt-61sol-20261023-setup-dataflow/`; its source
+  remains the maintained1689/171/904 frontier. See the dated KB section.
 - Pause checkpoint **c1fe650** retains the1776/1732 nonexact frontier. Current
   clock-deferral controls fail whole comparison despite restoring two-site
   static sharing. The inspector compares the observed post-RET8D4900 alignment
@@ -55,11 +58,11 @@ The 98% goal and both main owners remain unfinished.
   archive recovery. Ignored evidence is local and is not part of Git commits.
 - Final current checkpoint CI passes **1016 tests / 29 skips** (exit0);
   target-required tracking, documentation, build graph, progress and whitespace
-  pass. The focused worker controls protect all11 same-source exact units.
-  Cleanup removes134 mapped build caches,416 bytecode files and111 verified
-  archive duplicates, preserving14 unclassified build objects/PDBs. Evidence and
-  logs are in the current setup-dataflow packet; extract captures.zip before
-  run.py/verify.py replay. Reconstruction remains active.
+  pass. The current Enemy packet retains the canonical cleanup receipt, both
+  frozen source epochs and complete diagnostic object proofs. Extract captures.zip
+  before verify.py; historical cold producers require their recorded162fb36
+  source. Earlier reviewed cache removal and Git compaction are recorded in
+  cleanup history. Reconstruction remains active.
 
 ## Live ledger snapshot
 
@@ -236,8 +239,9 @@ results, fields and deficits before making an exactness claim.
 Use [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for exact scopes, hashes
 and recovery instructions. Original-bound accepted receipts are archived in
 [RE_ACCEPTED_RECEIPTS.md](RE_ACCEPTED_RECEIPTS.md) with immutable source commits.
-The current diagnostic packet retains its frozen inputs, complete original/COFF
-comparisons, bounded dispatch Oracle, direct IDA evidence and Git storage audit.
+The current Enemy packet retains its frozen inputs, complete original/COFF
+comparisons, native definitions and canonical cleanup adoption proof. The prior
+setup-dataflow packet retains the bounded dispatch Oracle and Git storage audit.
 
 Earlier source-copy archives remain recoverable: read the original packet's
 ARCHIVE_README before replay, especially for the October13 RunEcl archive and

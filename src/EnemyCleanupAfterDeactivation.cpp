@@ -1,3 +1,5 @@
+#include "EnemyManager.hpp"
+
 #include <stddef.h>
 
 struct EnemyView;
@@ -55,13 +57,6 @@ void __fastcall ReleaseAttachedEffects(EnemyView *enemy);
 
 struct EnemyCoreView;
 void __fastcall EnemyCoreReleaseChildEclBlocks(EnemyCoreView *enemy);
-
-struct EnemyView
-{
-    unsigned char storage[0x5430];
-
-    void CleanupAfterDeactivation();
-};
 
 void EnemyView::CleanupAfterDeactivation()
 {

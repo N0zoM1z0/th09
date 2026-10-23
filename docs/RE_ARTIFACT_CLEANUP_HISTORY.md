@@ -1079,3 +1079,44 @@ experimental build objects/PDBs remain byte-identical. Per-path audits are
 cleanup.json, pdb-cleanup.json and cleanup-summary.json. Original EXE, SDK,
 toolchain, Wine/IDA state, adopted selected-manager proof objects and all older
 unclassified evidence remain intact. No generic extension-wide cleaner is applied.
+
+### 2026-10-23: Enemy secondary status and shared cleanup declaration
+
+From local162fb36, two new serial lowered-priority single-CPU Enemy contexts
+(the complete secondary-status bitfield and actual cleanup-body visibility)
+retain3900 physical bytes/97 fields/13 differences. A source/profile/compiler-
+bound archived baseline is reused, not recompiled. Ten private-label renames
+are individually checked at unchanged owned destinations; no comparator changes.
+Only EnemyCleanupAfterDeactivation.cpp adopts a source change: use the shared
+EnemyView declaration and remove its separate storage-only class definition.
+Its method body is unchanged and a third fresh canonical compile passes all184
+original bytes/two call fields. Other1002 authored exact proofs are reused.
+Coverage stays244917/291883 (83.9093%); the98% goal remains active.
+
+Packet .analysis/gpt-61sol-20261023-enemy-descriptor-dataflow/ retains both source
+epochs, exact inverse transformations,262144 mask-predicate checks, direct IDA
+observations, complete raw/COFF/native comparisons, baseline provenance,
+canonical receipt and CI log/exit. Baseline/secondary prove five native bodies
+514 bytes/eight fields; the cleanup context proves six698/ten with two positive
+calls to the actual184-byte method. No large-owner exact credit is added.
+
+Its184-member captures.zip preserves4289823 logical bytes in757643 bytes,
+SHA256 4fbb352c659e97bb07e0787e0c52921dbd6f9e29dba28b19219adaa48dff315d.
+All members pass CRC/SHA/byte equality. A clean temporary extraction independently
+reproduces all three complete Enemy diagnostics, every native definition and the
+adopted canonical receipt without compiling; the temporary inputs are removed.
+The verifier rebinds only the diagnostic object-path metadata for extraction,
+with every byte/field/native/graph result still checked literally. Historical
+cold producers retain pre-adoption source162fb36 guards; current canonical
+replay uses the adopted shared-header source. Do not overwrite either epoch or
+rerun a producer over frozen evidence. Extract the archive before verify.py.
+
+CI passes1016 tests/29 skips in120.573 seconds, observed exit zero. After all
+compiler/replayer/CI producers terminate, reviewed cleanup removes602 regular,
+ignored, rehashed files/11330904 logical bytes:184 verified archive duplicates,
+two archived canonical build caches64063 bytes, and416 Python bytecode files
+6977018 bytes. Fourteen older unmapped/experimental build files remain byte-
+identical. Per-path classification and hashes are retained in cleanup.json.
+The original executable, compiler/SDK/Wine/IDA state, selected-ECL-manager proof
+objects and all unclassified prior evidence remain untouched. No bulk cleaner
+or history expiry is used.

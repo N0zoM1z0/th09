@@ -20821,3 +20821,61 @@ captures.zip before replay; run.py --reuse-object verifies the source-bound
 compiled results, while dispatch_oracle.py replays the bounded native traces.
 Source/profile drift must fail rather than silently regenerate old evidence.
 Coverage remains244917/291883 (83.9093%); the98% goal needs41129 more exact bytes.
+
+## 2026-10-23 Enemy secondary status and shared cleanup receiver
+
+From local162fb36, fresh direct IDA metadata/mapped bytes and disk target pass.
+Original update remains3900 physical bytes,3883 code/one alignment/16 table,
+97 fields,69 calls,170 blocks,13 ordinary differences. Read-only TH08/TH095
+analogues are inspected as hypotheses only; no adjacent layout, address, byte
+or exactness claim is imported. Earlier constructor, SDK copy and draw-accessor
+controls are checked before choosing this distinct whole-secondary-word model.
+
+A source/profile/compiler-bound standalone baseline is reused from37725d5's
+retained primary-bit archive. All compiled inputs and relevant providers agree;
+it is not called a new compile. The new secondary-status model replaces all
+word-mask/selector uses in EnemyManagerCore with fields of one4-byte union at
+3380:22 source edits, unchanged size/control exits/call expressions, exact
+inverse transform and262144 predicate checks over all low16-bit values. Only
+observed bit positions are named; remaining ranges stay opaque. It produces
+all3900 baseline raw bytes,97 effective fields,1026 instructions,69 calls,
+170 blocks and the same13 residuals. This bounded representation does not
+repair the draw-index/effect/threshold/descriptor register schedules.
+
+The native cleanup control exposes the real184-byte EnemyView method before
+Enemy's body. Its own current source had a second EnemyView definition with
+only a5430-byte storage member, separate from the shared EnemyManager.hpp type.
+The private control first replaces that declaration with the actual header;
+it then proves the full184-byte/two-field method and both positive same-object
+calls. Its main Enemy body is also entirely raw-neutral3900/97/13. Baseline and
+secondary controls prove five native definitions514 bytes/eight fields/ten
+references; the cleanup context proves six698/ten/twelve. No return/clobber
+contract, forced inline, register hint, padding or profile change is introduced.
+
+All three standalone raw owners share SHA256
+1fbfc13ab72202c08e489d7922d1d5ca9c4d35bf8d77b3be57560f73f3167b86.
+Literal COFF spelling is not identical: each candidate renames five compiler
+labels. All ten rows are individually checked at the same physical field and
+actual owner-relative destinations3884/3138/3094/3182/2907. Full original-linked
+bytes, switch data, decoded fields and geometry remain independently checked;
+no comparator or manifest label is changed to accommodate a diagnostic object.
+
+Adopt only the cleanup declaration correction: EnemyCleanupAfterDeactivation.cpp
+now includes EnemyManager.hpp and removes its duplicate EnemyView definition.
+The entire method source body is unchanged. A separate fresh canonical build
+matches184/184 original bytes and both original calls to ReleaseAttachedEffects
+and child-ECL release. Original high-level class identity and full-product type
+closure remain unproven; this removes one known inconsistent reconstructed
+class declaration. The large-owner sources/profiles and the other1002 exact
+source proofs remain unchanged and are reused. There is no new exact credit.
+
+Evidence: .analysis/gpt-61sol-20261023-enemy-descriptor-dataflow/ retains original
+and adopted source epochs, complete raw/actual COFF/native proofs, exact inverse
+operations, native IDA observations, old baseline provenance, canonical receipt
+and independently verified private-label bindings. Extract captures.zip before
+verify.py; its complete object/original replay does not compile. Historical
+producers bind pre-adoption source162fb36 and must use that immutable source
+for a new cold replay. The initial inverse verifier rejected overlapping output
+text before any source staging/compile; exact recorded replacement spans fix
+that bookkeeping, with no game-source or compiler change. Source-bound evidence
+must not silently adopt a later source hash.
