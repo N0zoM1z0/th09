@@ -21012,3 +21012,75 @@ require the recorded source/provider inputs; do not overwrite frozen captures.
 No source adoption, register/variable-order hint, invented return/ABI, forced
 inline, padding or profile search is introduced. Coverage remains83.9093%;
 the98% goal still needs41129 whole exact bytes and remains active.
+
+
+### 2026-10-23: shared Front indicator GameManager interface and Enemy native context
+
+Recovery at d9fe39541ddb7a3771bb953d3ca58a2003a52fdb is clean. The preceding
+Title turn is progress: source-bound negative evidence changes the next action.
+Original Japanese1.50a disk, direct IDA metadata and distributed mapped-byte
+attestation pass. Fresh IDA independently confirms both Enemy indicator calls
+and the signed periodic predicate; nominal source types remain hypotheses.
+
+FrontEnemyIndicator.cpp previously declared separate GameManager/side/player
+views and a second nominal TransformPopupX member despite using the same
+original global4A7D90 and member401680 as the shared AsciiGameManagerView.
+The maintained source now includes AsciiGameManagerView.hpp, reads the existing
+side.player->position.x prefix and calls its real TransformPopupX declaration.
+The three redundant local types are removed. Shared header assertions retain
+side stride0x38 and player pointer+0x04; the compiled prefix read stays at0x1B88.
+Original indicator
+class/input ABI, arithmetic, writes, ordering and compiler profile stay intact.
+
+A private source-cold compile and a separate canonical source-cold compile each
+match all213 original bytes and all10 fields of416080..416154. The adopted
+source SHA256 is5e96410baaddff4df0d5b7c83825fd1ab319f31f38e009f225fe8164350ac60a;
+its raw body SHA256 is9734bc1d281a79bb00cd2abe0f8d1a8db0eae522f5ce9dac990f05d3b58628cd.
+The canonical manifest changes exactly three symbols: two GameManager DIR32
+fields at0x46/0x96 (addends4/0) and the coordinate member REL32 at0x9B. All offsets,
+kinds, addends, original destinations, extent and literal payloads are unchanged.
+A complete old/new manifest comparison proves no other change. This is a local
+VC7.1 proof, not a new accepted Factory receipt or new authored-byte credit.
+No other maintained source/profile input changes; their existing exact proofs
+are reused. The unchanged coordinate method's46-byte source proof is reused.
+
+Three full Enemy controls use35 live source bindings and nine provider hashes,
+compile serially on one CPU at nice10 under the unchanged /O2 /Ob1 profile,
+and preserve the entire original3900-byte owner. The baseline object is reused
+from the CRC/SHA-attested descriptor-dataflow archive after checking every
+source/profile binding; the only provider delta is the three reviewed Front
+symbols above. Every actual raw/COFF record survives before strict scoring.
+
+The first control adds only the real indicator VM storage to the existing
+Front prefix, preserving scriptedUpdateFreeze1095C and indicator123F4. The
+second also exposes the real indicator body through the current Enemy front
+method declaration. Both retain all3900 baseline raw bytes,97 fields,1026
+instructions,69 ordered calls,170 blocks and the same13 residuals. Their raw
+SHA256 remains1fbfc13ab72202c08e489d7922d1d5ca9c4d35bf8d77b3be57560f73f3167b86.
+The projected body changes only nominal view/input spellings to the existing
+caller interface; complete213/10 equality and both positive same-object call
+coordinates are independently proved before it supplies a target binding.
+No original class spelling, constness or object-lifetime claim is adopted.
+
+Actual baseline helpers pass514 bytes/eight fields/ten positive references.
+The visible Front case passes727 bytes/18 fields/12 references across six
+bodies; joint real periodic visibility passes760/18/13 across seven bodies.
+All actual native literals are verified against PE payloads. The periodic
+caller repeats rawac5bfd16c08ab39c9b405331db8dab4df6ddcaa6f173bf9fd2385e1d684da4a5:
+3900/97/1026/69/170 with45 ordinary differences, restoring the old13 while
+changing45 previously equal positions. The unchanged maintained frontier
+rejects it. No new private-label refresh, byte masking, fake ABI, forced inline,
+register/variable-order hint, padding or profile change is introduced.
+
+Only the shared GameManager source/manifest repair is adopted. The full Front
+storage and body projections remain private controls. They neither close the
+Enemy13 frontier nor establish a whole native product/runtime claim. Current
+1003 exact authored functions and244917/291883 (83.9093%) are unchanged; the98%
+goal remains active and needs41129 additional whole exact bytes.
+
+Packet .analysis/gpt-61sol-20261023-enemy-front-interface/ retains original and
+adopted source/provider epochs, canonical and private objects/commands, direct
+IDA observations, all source projections, complete caller/native proofs and
+an archive-only verifier. Replay requires its recorded source/provider inputs;
+older Title/Replay packets retain their own provider epochs after the Front
+manifest symbol update. Unclassified older evidence is preserved.

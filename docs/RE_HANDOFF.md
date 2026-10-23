@@ -18,19 +18,27 @@ The 98% goal and both main owners remain unfinished.
   ordinary differences; Enemy remains3900/97/13 with69 calls and170 blocks.
 - The large-owner source baseline remains **f595786**, the selected ECL-manager
   ownership repair. All140 canonical units across34 source/profile groups
-  passed at adoption; the current cleanup-source correction does not change
-  their inputs. EnemyCleanupAfterDeactivation.cpp now uses the shared EnemyView
-  declaration; its separate fresh canonical184-byte/two-field replay is exact.
+  passed at adoption. Subsequent shared-declaration repairs retain fresh exact
+  canonical proofs: Enemy cleanup184 bytes/two fields, and Front indicator213
+  bytes/ten fields. Other unchanged source/profile proofs are reused.
   Retain `.analysis/th09-selected-ecl-manager-owner-20261023-v01/`, including
   canonical/group-00.obj through group-33.obj and their sidecars and proofs.
   These are source-bound evidence. Archival accepted receipts do not accept a
   later HEAD, and exact functions do not close native product/runtime gates.
-- Current Title replay-menu controls test a const receiver, plain three-float
+- Current Enemy/Front work removes the indicator TU's duplicate GameManager,
+  side and player declarations in favor of the existing shared header. The
+  fresh canonical213/10 replay is exact; three symbol identities now use the
+  shared global/coordinate method with unchanged offsets, addends and targets.
+  Full Front storage/body controls retain Enemy3900/97/13; the joint periodic
+  control retains45 and is rejected. All actual native helpers pass first.
+  Packet: `.analysis/gpt-61sol-20261023-enemy-front-interface/`.
+- Prior Title replay-menu controls test a const receiver, plain three-float
   storage and actual text-body visibility. Five contexts retain1280 bytes/57
   fields/29 differences. With both text bodies visible, a repeated coordinate
   store disappears:1273 bytes/449 overlap differences+7 missing, rejected.
   Actual text bodies in the menu profile are51/111 versus55/130 original bytes;
-  their native chain is not exact. No game source/profile/ledger is changed.
+  their native chain is not exact. Those controls changed no game source,
+  profile or ledger.
   Packet: `.analysis/gpt-61sol-20261023-title-replay-row/`.
 - SaveReplay controls test checksum field ownership, complete native
   construction/encoding and two wire-type models. Five contexts retain1238/53/3;
@@ -68,10 +76,10 @@ The 98% goal and both main owners remain unfinished.
   archive recovery. Ignored evidence is local and is not part of Git commits.
 - Final current checkpoint CI passes **1016 tests / 29 skips** (exit0);
   target-required tracking, documentation, build graph, progress and whitespace
-  pass. The current Title packet retains all six compiled contexts and complete
-  caller/native failures in a verified archive. Its verify.py reads the archive
-  directly and replays without compiling; historical cold producers bind
-  d9245532 inputs. The earlier SaveReplay packet's producers bind9161c560.
+  pass. The current Enemy/Front packet retains all compiled contexts and the
+  adopted213-byte proof; verify.py reads its archive and replays without
+  compiling. Earlier Title and SaveReplay packets retain their recorded source
+  and provider epochs (d9245532 and9161c560 respectively).
   Earlier source epochs, reviewed cache removal and Git compaction remain in
   cleanup history. Reconstruction remains active.
 

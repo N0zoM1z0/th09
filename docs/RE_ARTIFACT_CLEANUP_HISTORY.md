@@ -1188,3 +1188,44 @@ All14 preexisting unclassified build files remain byte-identical. Root recipes,
 summaries, direct IDA evidence, archive verifier and cleanup.json stay loose;
 the original executable, SDK/compiler/Wine/IDA state, older unique proofs and
 unclassified analysis remain untouched. No bulk cleanup or history expiry is used.
+
+### 2026-10-23: shared Front indicator interface and complete Enemy contexts
+
+From local d9fe3954, FrontEnemyIndicator.cpp adopts the existing shared
+GameManager header and removes three duplicate local types. Private and
+canonical cold compiles both retain213 exact bytes/ten fields. Exactly three
+canonical field symbols change to the existing shared global/coordinate type;
+positions, addends and original destinations remain fixed. Only this source
+repair is adopted; no new exact-byte credit or native product claim follows.
+All compiles are serial, single-CPU and nice10.
+
+Three full Enemy contexts test the real indicator storage, real body and joint
+periodic visibility. Two retain3900/97/13; the third repeats45 differences and
+is rejected. Eighteen actual native-body comparisons independently pass,
+including two213-byte indicator bodies with their positive caller links.
+All1003 maintained authored proofs remain valid: the changed indicator is
+freshly rebuilt, unchanged source/profile proofs are reused. Coverage stays
+244917/291883 (83.9093%);98% still needs41129 whole exact bytes.
+
+Packet .analysis/gpt-61sol-20261023-enemy-front-interface/ retains direct IDA,
+immutable parent/compiled-source/provider bindings, original/adopted source
+epochs, commands, canonical receipts, complete caller/native reports and
+reproduction recipes. Its256-member captures.zip preserves6640358 logical
+bytes in1044744 compressed bytes, SHA256
+627f436c8e517f00d4277cc681d2312b9025335bc428158fe6f71735a088a61e.
+Every member passes CRC/SHA/full byte equality. The archive-only verifier
+re-renders the adopted source and all three private source sets, reproduces
+three complete Enemy diagnostics and18 native-body checks, and independently
+replays private and canonical213-byte proofs without compiling. Its only
+analysis path normalization is the extracted object's recorded pathname.
+
+CI passes1016 tests/29 skips in154.511 seconds with observed exit zero.
+After all compiler/replayer/CI handles terminate, reviewed cleanup removes674
+regular ignored, rehashed files/13674090 logical bytes:256 verified archive
+duplicates6640358 bytes, two archived canonical caches56714 bytes, and416
+reproducible Python bytecode files6977018 bytes. All14 older unclassified
+build files remain byte-identical. Root recipes, source hashes, canonical
+receipts, IDA observations and per-path cleanup.json stay loose. Original
+EXE, SDK/compiler/Wine/IDA state and unique prior evidence remain untouched.
+Older packets keep their own source/provider epochs after this manifest
+symbol update. No bulk cleaner or history expiry is used.

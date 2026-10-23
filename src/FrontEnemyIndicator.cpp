@@ -1,4 +1,5 @@
 #include "EnemyManager.hpp"
+#include "AsciiGameManagerView.hpp"
 #include "Supervisor.hpp"
 
 #include <stddef.h>
@@ -35,28 +36,7 @@ struct FrontEnemyIndicatorView
         int sideIndex, const EnemyFloat3 *enemyPosition);
 };
 
-struct FrontEnemyIndicatorPlayerView
-{
-    unsigned char unknown0000[0x1B88];
-    EnemyFloat3 position1B88;
-};
-
-struct FrontEnemyIndicatorGameSideView
-{
-    unsigned char unknown00[0x04];
-    FrontEnemyIndicatorPlayerView *player04;
-    unsigned char unknown08[0x38 - 0x08];
-};
-typedef char FrontEnemyIndicatorSideSize38[
-    (sizeof(FrontEnemyIndicatorGameSideView) == 0x38) ? 1 : -1];
-
-struct FrontEnemyIndicatorGameManagerView
-{
-    FrontEnemyIndicatorGameSideView sides[2];
-    float TransformPopupX(float value);
-};
-
-extern FrontEnemyIndicatorGameManagerView g_GameManager;
+extern AsciiGameManagerView g_GameManager;
 extern Supervisor g_Supervisor;
 
 void FrontEnemyIndicatorView::SetSideEnemyIndicatorPosition(
@@ -71,7 +51,7 @@ void FrontEnemyIndicatorView::SetSideEnemyIndicatorPosition(
     }
 
     float distance =
-        g_GameManager.sides[sideIndex].player04->position1B88.x -
+        g_GameManager.sides[sideIndex].player->position.x -
         enemyPosition->x;
     if (distance < 0.0f)
         distance = -distance;
