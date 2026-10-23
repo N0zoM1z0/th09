@@ -23,71 +23,22 @@ verified. The 98% goal and the principal large owners remain unfinished.
   canonical/group-00.obj through group-33.obj and their sidecars/proofs.
   Archival receipts do not accept a later HEAD; exact functions do not close
   native product/runtime gates. Reuse unchanged source/profile-bound proofs.
-- Current SaveReplay reference interfaces test three source hypotheses and a
-  cold replay. Frame-owned byte copying and a const-reference byte subscript
-  preserve 1238/53/3. A reference to the existing frame slot swaps two entry
-  spill stores, adding four mismatches: 1238/53/7. All fields, 23 call operands
-  and 49 graph blocks remain checked; the maintained guard rejects that model.
-  Five objects protect ten existing canonical bodies. No source/profile/guard
-  or ledger is adopted. Packet
-  `.analysis/gpt-61sol-20261023-replay-reference-views/` retains its 95-member
-  archive, source bindings, complete observations and original-linked windows.
-  CI passes 1016 tests/29 skips; cleanup removes 229 verified duplicates/caches,
-  6374173 logical bytes. All 14 preexisting build files and 34 unique canonical
-  objects remain preserved; cleanup history records exact scope and recovery.
-- Prior gameplay-setup publication controls retain 1689/171/904 or outline an
-  unbound 34-byte helper. Five objects pass 50 existing-body comparisons; the
-  201-member archive, cold replay and failed-source epoch remain in
-  `.analysis/gpt-61sol-20261023-setup-publication/`. Production guards and
-  canonical source remain unchanged. Cleanup history records preservation.
-- Prior Enemy routing predicates retain 3900/97/13 or regress to 511 differences.
-  Seven objects pass 525 existing-body comparisons. The 550-member archive and
-  full original-bound seam audit remain in
-  `.analysis/gpt-61sol-20261023-enemy-routing-predicates/`; production declarations
-  and guards remain unchanged. See cleanup history for preservation/recovery.
-- Prior RunEcl command-prefix/byte-promotion controls retain 30, regress, or
-  outline an unbound helper. The 12 objects pass 900 existing-body comparisons;
-  the 941-member archive and source recipes remain in
-  `.analysis/gpt-61sol-20261023-ecl-command-prefixes/`. Production guards and
-  canonical source remain unchanged. Cleanup history records preservation.
-- Prior Enemy position/comparison controls retain 3900/97/13 across nine
-  objects. Their 675 body comparisons include 21 reviewed interface views;
-  original comparison signedness/constness remain unknown. Packet
-  `.analysis/gpt-61sol-20261023-enemy-position-boundaries/` retains the 695-member
-  archive. Production declarations/guards remain unchanged; cleanup history
-  records exact deletion scopes and preservation audits.
-- Prior Enemy count/list controls partition the residual into draw index 2,
-  side/threshold transport 4 and position copying 7. The 121-byte constants/
-  count/spawn window already agrees. Branch-return count forms merge an
-  original Float3 call and fail at 3852/96/68; conditional/list forms preserve
-  the baseline. Packet `.analysis/gpt-61sol-20261023-enemy-spawn-selection/`
-  retains its 544-member archive, source recipes and 525 body comparisons.
-- Prior Player movement models retain1900/66/129, regress to131, or outline an
-  unbound helper. The verified219-member archive and two cold replays remain in
-  `.analysis/gpt-61sol-20261023-player-clamp-owner/`. Its637 reviewed duplicate
-  and Python cache files were removed; all 14 build files/34 canonical objects
-  remained intact. See cleanup history for exact scope and recovery.
-- Prior Title Options tests cover full owner declarations and actual method
-  visibility. Five source models and one cold producer replay retain2048/610,
-  2044/608 or2046/82 frontiers; none is adopted. Adding the exact screen body
-  breaks three existing exact Title callers. Use
-  scripts/probe-title-options-owner-context.py and the dated KB note. Packet:
-  `.analysis/gpt-61sol-20261023-title-options-owner/`.
-- The Enemy score repair uses the shared real method and removes its numeric
-  alias. All79 ECL units and the score leaf retain80 canonical proofs,25248
-  physical bytes/1126 fields. Two private labels preserve their destinations;
-  complete controls retain Enemy13 and RunEcl30. Packet:
-  `.analysis/gpt-61sol-20261023-enemy-descriptor-operations/`.
-- Other recent shared-declaration repairs retain exact canonical proofs:
-  Enemy cleanup184 bytes/two fields, Front indicator213 bytes/ten fields, and
-  nine Float3 operations/callers1349 bytes/58 fields. Type29 geometric models
-  fail whole-byte comparison; original EAX residue does not identify a return
-  contract. Their source-bound packets and cleanup records remain local.
-- Prior RunEcl enum, Enemy descriptor/Front, Title replay, SaveReplay, Pause
-  and GameManager source controls remain bounded negative evidence. Consult
-  their dated KB notes before repeating them; historical failure does not
-  exhaust all natural source models. Maintained complete frontiers below,
-  rather than older packet similarity scores, govern new source adoption.
+- Current RunEcl word-writeback retests preserve the ordinary one-byte capture
+  and corrected owner. Direct/compound word forms retain 15564/598/30. A field
+  reference leaves opcodes 4/155 unchanged but shortens opcode 157, giving 1925 ordinary,
+  228 field-byte/24 table-byte differences. Two ordinary in-place helpers
+  outline 21/18-byte bodies without original bindings; 15548/599 is rejected.
+  Nine objects pass 675 existing-body comparisons. Packet
+  `.analysis/gpt-61sol-20261023-ecl-word-writeback/` retains its 701-member archive,
+  every actual observation and the explicit resource incident: two early
+  attempts overlapped on one CPU; an exclusive compiler lock and two verified
+  serial cold replays follow. No source/profile/guard/ledger is adopted.
+- Earlier SaveReplay, gameplay setup, Enemy routing/position/count, Player,
+  Title and declaration experiments remain in their dated knowledge-base notes
+  and local packets. Consult those source-bound observations before repeating
+  models; none exhausts the natural source families. Use the maintained full
+  frontiers below for adoption. Exact deletion scopes and packet recovery are
+  recorded in [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md).
 - Target SHA-256 remains
   `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
   Disk and direct IDA metadata/mapped-byte checks pass in the current packet;
@@ -98,8 +49,10 @@ verified. The 98% goal and the principal large owners remain unfinished.
   or rewriting history; full Git integrity verification passed. See
   [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for exact cache scopes and
   archive recovery. Ignored evidence is local and is not part of Git commits.
-- Current checkpoint CI completes **1016 tests / 29 skips** with exit 0; tracking,
-  documentation, progress, build graph and whitespace pass. All 1003 unchanged
+- Current checkpoint CI passes **1016 tests / 29 skips**, exit 0. Cleanup
+  removes 836 verified duplicate/cache files (17918948 logical bytes), preserving
+  all 14 preexisting build files, 34 canonical objects and the original input.
+  Archive replay and deletion details belong to the word-writeback packet. All 1003 unchanged
   game source/profile proofs are reused. Current packets retain frozen
   source/provider epochs, complete observations and archive replay recipes.
   Native product/runtime, semantic and portability gates remain open.

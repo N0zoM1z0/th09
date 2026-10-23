@@ -1662,3 +1662,50 @@ original executable pass before/after hashes; unrelated unique evidence,
 source and tools/SDK/Wine/IDA state remain intact. Keep ignored packets with
 the worktree for local handoff. All 1003 unchanged source/profile proofs remain
 reusable and the 98% goal stays active at 244917/291883 (83.9093%).
+
+### 2026-10-23: RunEcl current-capture word-writeback controls
+
+From local e39cea13, five contextual source models retain the current one-byte
+capture and corrected ECL owner. Direct/compound field updates reproduce
+15564/598/30. A local word reference leaves opcodes 4/155 unchanged but shortens
+opcode 157 and causes field/table drift. Two ordinary reference-writing helpers
+outline actual 21/18-byte bodies, one positive caller reference each, without
+original bindings; the production extent and dependent inventory reject them.
+No canonical source, profile, guard, unit or ledger changes. Coverage remains
+244917/291883 (83.9093%); the 98% goal and product/runtime gates remain open.
+
+Packet `.analysis/gpt-61sol-20261023-ecl-word-writeback/` retains 70 source/21
+provider bindings, actual raw/COFF/literal reports, direct original IDA windows,
+and current/historical recipe boundaries. Five models, three cold replays and
+one reused hash-bound baseline give nine objects and 675 complete existing-body
+comparisons, 202167 physical comparison bytes/8910 fields total. Six complete
+RunEcl reports retain Enemy 3900/97/13; three explicit unknown-helper rejections
+are not promoted to complete linked Enemy acceptance. No new exact credit.
+
+Two initial attempts overlapped on one CPU at nice10; resource-note.json keeps
+that exception and the original receipts. The producer now holds a compiler
+lock. Two subsequent cold captures have recorded, disjoint lock-held compiler
+intervals and reproduce their first executable/COFF observations. Do not call
+all original attempts serial. The 701-member archive compresses 15890777 logical
+bytes to 3066837 bytes, SHA256
+fdd081f6039cabc08600d654734a73a560845661fbb374e939b507cc0916ab59.
+CRC, per-member SHA and loose-byte equality pass before deletion. verify.py
+extracts and replays every complete observation and serial interval without
+compiling; frozen source and the final renderer retain reproducible models.
+
+Initial CI fails the active-handoff length guard; its actual log/receipt remain
+as ci-before-handoff-compaction.*. Historical summaries are removed from the
+active restart section, retaining the knowledge-base and cleanup-history routes;
+the validator is unchanged. Final CI passes 1016 tests/29 skips, exit 0, in
+136.287 wrapper seconds on one CPU at nice10. All known compiler/replay/CI
+handles terminate before cleanup; the scoped process audit finds no producer.
+
+Cleanup removes 701 verified archive duplicates (15890777 bytes) and 135
+reproducible Python caches (2028171 bytes): 836 files/17918948 logical bytes.
+Each ignored regular path is rehashed immediately before unlink, confined to
+this packet or reviewed cache roots, and recorded in cleanup.json. All 14
+preexisting build files, 34 unique canonical objects and the original executable
+pass before/after hashes; unrelated unique evidence, source and toolchain/SDK/
+Wine/IDA state remain intact. Keep ignored packets with the worktree for local
+handoff. Archive-only replay passes after deletion: all 701 members and 675
+existing-body comparisons, without compiling. All 836 removed paths remain absent.

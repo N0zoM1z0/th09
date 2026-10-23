@@ -21883,3 +21883,71 @@ compiling. A selected fresh model is reproducible with
 No new authored exact bytes are credited: 244917/291883 (83.9093%), with 41129
 whole exact bytes still needed for 98%. Native product/runtime, semantic and
 portability gates remain open.
+
+### 2026-10-23: RunEcl raw-word writeback in the current capture context
+
+Recovery at e39cea1368860204344703e7dc24d5fe19ec6113 is clean. Original Japanese
+1.50a disk identity, direct IDA metadata and mapped-byte attestation pass. Fresh
+original opcode 155 retains MOVZX ECX, old flags in ESI and final word in EAX.
+The original opcodes 4/155 lengths stay 29/45; full baseline remains 15564/598/30.
+Its compiled object is reused only after all 70 source and 21 provider hashes
+still match current files; it is not claimed freshly compiled.
+
+The actual October 15 recipe had a force-inline reference helper plus several
+qualified/direct wire reads. October 12's native compound delta instead updated
+the bitfield, once reading a volatile byte. Their algebra is not new. This
+bounded retest retains the current unqualified one-byte memcpy, corrected owner,
+ordinary inline and full 70-file caller. No volatile, force-inline, register/
+variable-order hint, padding, assembly, target patch or profile sweep is added.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-WORD-WRITE-001 | byte-neutral context retest | Inline direct whole-word masked XOR at the original callsite. | direct-word-xor/: identical full RunEcl raw bytes; 30 ordinary/0 field/0 table differences. |
+| ECL-WORD-WRITE-002 | byte-neutral context retest | Compound XOR directly updates the actual flags field. | compound-word-xor/: same 15564/598/30 baseline. |
+| ECL-WORD-WRITE-003 | rejected context retest | Bind that field to an actual unsigned-int reference and update it. | reference-word-xor/: 15564/598; 1925 ordinary, 228 field bytes, 24 table bytes included in those fields. |
+| ECL-WORD-WRITE-004 | rejected source boundary | Ordinary in-place helper takes the actual word reference and captured byte. | in-place-word-helper/: real 21-byte/zero-field helper; caller 15548/599. |
+| ECL-WORD-WRITE-005 | rejected source boundary | Promote only that helper's input parameter to unsigned int; wire read remains one byte. | in-place-promoted-helper/: real 18-byte/zero-field helper still outlines; caller 15548/599. |
+
+Both direct forms reproduce all 598 actual field identities/destinations and
+all 30 residuals. The field-reference form leaves both original problem handlers
+byte-for-byte baseline-identical, while opcode 157 shrinks 160 to 158 bytes. Actual
+COFF table entries locate every interval; labels are not moved to target
+positions. Whole-owner field/table drift prevents adoption even though the
+physical 15564-byte total remains. The table 24 count is a subset of 228 field-byte
+mismatches, not additional credit or a third disjoint mismatch category.
+
+Each outlined helper has one positive native REL32 reference and a uniquely
+extracted actual body, with no original address assigned. The byte argument
+uses DL and extends inside its 21-byte body; the word variant moves promotion
+to the caller and has 18 bytes. Neither is automatically inlined here. Opcode155
+becomes 28/29 caller bytes rather than 45. Production full-ECL inspection rejects
+both 15548/599 shapes; dependent Enemy inventory rejection remains explicit.
+Enemy raw bytes stay identical, but full linked Enemy acceptance is not claimed
+for those three captures. No incomplete caller score becomes exact credit.
+
+One resource error is preserved: the initial promoted-helper and first
+reference cold attempts were launched with overlapping lifetimes, each pinned
+to CPU 0 at nice10. They are not described as serial. The producer now holds an
+exclusive compiler lock; two subsequent selected cold runs execute sequentially,
+record positive lock-held monotonic intervals and prove end<=next start. Both
+reproduce every executable byte, actual COFF row, helper/literal proof and
+rejection of their first captures. Earlier attempts and timestamps are retained
+in resource-note.json, not discarded or relabeled.
+
+Five contextual source models, three cold replays and the reused baseline give
+nine complete objects. Each passes 75 existing canonical bodies, 22463 physical
+bytes/990 fields: 675 full original-byte comparisons, 202167 comparison bytes/
+8910 fields total. Six objects produce complete original-bound RunEcl reports
+and retain the production Enemy 3900/97/13 guard; three keep the unbound-helper
+rejections. These are repeated existing proofs, with no new authored bytes.
+All 1003 unchanged canonical source/profile proofs remain reusable.
+
+Packet .analysis/gpt-61sol-20261023-ecl-word-writeback/ retains 70 source/21
+provider bindings, the 701-member verified archive, final renderer and current/
+historical context boundaries. verify.py extracts and replays every complete
+observation without compiling, including the two serial receipt intervals.
+A selected fresh model can be built with
+`python3 -B .analysis/gpt-61sol-20261023-ecl-word-writeback/probe.py --case direct-word-xor --output .analysis/ecl-word-cold`.
+No source/profile/guard/ledger is adopted. Coverage stays 244917/291883 (83.9093%),
+with 41129 whole exact bytes still needed for 98%. Native product/runtime,
+semantic and portability gates remain open.
