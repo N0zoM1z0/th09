@@ -1905,3 +1905,74 @@ passing canonical comparisons and all six failed callback captures, without
 compiling. All618 removed paths remain absent. Keep this ignored packet with
 the worktree; its ARCHIVE_README.md documents replay and fresh selected compile.
 Coverage stays244917/291883 (83.9093%);98% and later phase gates remain open.
+
+
+### 2026-10-24: successor handoff and historical source snapshot compaction
+
+The operator cleared the persistent reconstruction goal and requested cleanup
+for another agent. Entry at77e0b2c2 is clean. AGENTS, README and workflow now
+record that request; the active handoff is shortened while retaining all30 live
+frontier rows. ARCHITECTURE maps the maintained source entries to verification
+commands. The earlier complete handoff wording remains in77e0b2c2 and the KB.
+No gameplay source, profile, unit, ledger or test code changes: all802 tracked
+non-documentation input hashes match before/after. The98% milestone remains
+unfinished at244917/291883 (83.9093%), another41129 whole exact bytes needed.
+
+The explicitly reviewed five October13 experiment roots contained historical
+source-copy trees, not current canonical build inputs. Their14 top-level
+recipes/results stay in place. All32812 nested files retain exact bytes, paths
+and modes inside per-root source-snapshots.tar.xz archives. Individual hashes
+are in each archive's .source-snapshots-manifest.json; archive hashes and original
+top-level-file hashes are in the cleanup packet's snapshot-archives.json.
+No tracked live consumer refers to those nested snapshots; dated KB references
+continue to resolve to the retained packet roots and their recovery READMEs.
+
+| Packet under .analysis/ | Archived files | Logical bytes | Archive bytes | SHA-256 |
+| --- | ---: | ---: | ---: | --- |
+| gpt-web-exattack-draw1422-20261013 | 8391 | 40891360 | 412044 | 1e880a20444fcd8093fad09b6bbcacbb30c46f4aea6fd4084e4289dbb84cdaaa |
+| gpt-web-runecl-bitfield-native-20261013 | 7152 | 34405749 | 394072 | 5bc95ec3f289c80ec1a7379cfcfd20334a5806c677ae6244d548bd52fcadc4fa |
+| gpt-web-runecl-op4-eval-20261013 | 6244 | 30074674 | 377572 | a3d21ede6cac5cf3eec81ad4d7358fd49ee8c918a95e74f369d27c07229b70c0 |
+| gpt-web-runecl-argcolor-20261013 | 5733 | 27928073 | 367580 | 0e4a1cbb80d37bc714b94efd539e5efeb3c8f80a5e73736e5d4cfafd7384929b |
+| gpt-web-effect-added-20261013 | 5292 | 25775170 | 358900 | d157a3d5db5d25124c0afdb1dedfb36526e074cb9126f1930e325388b580b5f1 |
+
+These159075026 logical source bytes occupy243261440 allocated file bytes before
+compaction. The five archives occupy1910168 logical/1921024 allocated bytes.
+All members are read back and compared to loose originals before deletion.
+An actual5292-file restore also matches every original byte and mode, then its
+verified temporary copy is removed. After all producer handles terminate,
+only those32812 verified loose duplicates are removed; archive-only replay
+rechecks every member and the absence of every removed path. A first stream
+iterator check failed before deletion; the corrected verifier fully validates
+the already-written first archive before resuming. Its failed log is retained.
+Historical storage preservation does not accept any old compiler result for
+current source or establish new exact authored credit.
+
+Incremental Git repacking uses one CPU/nice10, one compression worker and32MiB
+delta-window memory. All18558 object IDs/types/sizes, refs and reflog hashes
+agree before/after; preexisting pack files stay byte-identical and full Git
+integrity verification passes. Object-file allocation drops53854208->18448384
+bytes, reclaiming35405824 bytes without removing a unique object or rewriting
+history. The subsequent handoff commit naturally adds its own objects/ref log.
+The source-archive and Git file scopes together reclaim276746240 allocated
+bytes (~263.93MiB), excluding directory savings and temporary CI caches.
+
+CI passes1016 tests/29 skips, exit0, in132.105 wrapper seconds, one CPU/nice10.
+Focused archive replay of the unchanged math-boundary packet passes378 attempts,
+366 full existing-body comparisons and its explicit absence/regression cases.
+Original disk/direct IDA entry/five mapped samples pass. After all jobs are
+terminal,134 reproducible Python bytecode caches (2019325 bytes) are removed.
+The old extension-wide generic cleaner is previewed only; its unreviewed scope
+is not applied. All14 preexisting build files,34 adopted canonical objects and
+the original executable remain hash-identical; other unique analysis, toolchain,
+SDK/Wine/IDA state and historical receipts remain. Unclassified older evidence
+is retained rather than inferred disposable from age or filename.
+
+Audit/recovery packet: .analysis/gpt-61sol-20261024-clean-handoff/.
+It retains preservation bindings, compiler-free focused replay, CI and Git
+receipts, the final snapshot helper and exact cache cleanup records. Each old
+root has ARCHIVE_README_20261024.md. To verify all compacted snapshots, run
+`PYTHONDONTWRITEBYTECODE=1 python3 -B .analysis/gpt-61sol-20261024-clean-handoff/snapshots.py --verify`.
+For a selected root, use the helper's --restore PACKET --output NEW_PATH below
+.analysis; restore to a fresh directory and inspect the old producer before
+rerunning it. Ignored archives and the helper must accompany the worktree;
+they are not published by the tracked handoff commit. No remote push is made.

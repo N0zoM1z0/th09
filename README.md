@@ -55,19 +55,19 @@ downloaded tools are private and never committed.
 
 ## Current status
 
-The operator resumed reconstruction after the October 23 handoff, targeting
-**98% exact reviewed-authored code bytes**. The current local campaign uses
-direct IDA Pro MCP, repository Bash and pinned VC7.1 compiler Oracles, without
-Factory routing. Prioritize complete RunEcl and EnemyManager::OnUpdate,
-followed by the other large functions, and test old hypotheses against fresh
-TH09 evidence. Compile serially at lowered priority and reuse unchanged
-source/profile-bound proofs. New English commits use `gpt-6.1-sol: ...` with
-the identity and trailer in AGENTS.md.
-The ledger-derived counts are in [`docs/PROGRESS.md`](docs/PROGRESS.md); the replace-in-place
-[`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) is the live routing and restart guide.
-Historical experiments in the knowledge base are not current codegen status.
-This measures confirmed authored bytes, not whole-image or runnable-product
-coverage.
+The October 24 request is a clean handoff to a successor agent. The persistent
+automatic reconstruction goal was cleared; the **98% exact reviewed-authored
+byte** milestone remains unfinished. Use [the handoff](docs/RE_HANDOFF.md) for the
+current code map, remaining large functions, restart commands and retained
+local evidence. [PROGRESS.md](docs/PROGRESS.md) is generated from the live ledgers;
+historical knowledge-base measurements do not replace them. Exact authored-byte
+coverage does not establish a complete executable or runnable product.
+
+When reconstruction resumes, prioritize complete RunEcl and EnemyManager,
+followed by other large functions. Use direct IDA Pro MCP, repository Bash and
+the pinned VC7.1 compiler, compile serially at lowered priority, and reuse
+unchanged source/profile-bound proofs. New English commits use `gpt-6.1-sol: ...`
+with the identity/trailer in [AGENTS.md](AGENTS.md).
 
 Every new session must attest the target and live IDA database. Current
 exact/non-exact state comes from `config/functions.csv`,
@@ -117,6 +117,7 @@ not an acceptable shortcut around the native-product stage.
 - [`docs/RE_WORKFLOW.md`](docs/RE_WORKFLOW.md) — bounded reconstruction loop and stage gates.
 - [`docs/ORACLES.md`](docs/ORACLES.md) — what can falsify or accept each claim.
 - [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) — current state, retained evidence, and restart checks.
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — target facts and maintained source/verification map.
 - [`docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md`](docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md) — frozen historical checkpoints; use the active handoff, not this archive, for current facts.
 - [`docs/KNOWLEDGE_BASE.md`](docs/KNOWLEDGE_BASE.md) — durable TH09-only facts.
 - [`docs/TOOLS.md`](docs/TOOLS.md) — local and Factory tool routing.

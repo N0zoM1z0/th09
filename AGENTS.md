@@ -2,33 +2,26 @@
 
 ## Current operator status
 
-On October 23 the operator resumed reconstruction after the clean handoff.
-Concentrate on large functions, especially complete RunEcl and
-EnemyManager::OnUpdate exactness, within the unfinished 98% authored-byte goal.
-Use fresh TH09 evidence and the tested source baseline; historical models are
-bounded observations. Limit CPU/memory, compile serially at lowered priority
-and reuse unchanged source/profile-bound proofs.
+On October 24 the operator cleared the persistent reconstruction goal and
+requested code/documentation cleanup for handoff to a successor agent. The
+current task is handoff preparation; the **98% exact reviewed-authored byte**
+milestone and the large-function fronts remain unfinished. When reconstruction
+resumes, prioritize complete RunEcl and EnemyManager::OnUpdate, followed by Title
+and Type3, using fresh TH09 evidence and the tested source baseline. Historical
+models are bounded observations, not proof that a source family is exhausted.
 
-The operator explicitly resumed **TH09 original v1.50a** reconstruction on
-October 22, 2026, targeting **98% exact reviewed-authored code bytes**. The
-current local session uses direct IDA Pro MCP and repository Bash at the
-operator's explicit request. Prioritize the key large functions,
-including RunEcl, Enemy, Title and Type3. Revisit old documentation and source
-hypotheses against fresh TH09 evidence rather than assuming them correct.
-The milestone and those fronts remain unfinished. Recover dirty work and use
-the real Git tree and live ledgers. Limit CPU/memory, compile serially at
-lowered priority, and reuse unchanged source/profile-bound proofs.
+Use direct local IDA Pro MCP and repository Bash with the pinned VC7.1 Oracles;
+do not route this local work through Factory MCP. Limit CPU/memory, compile
+serially at lowered priority, and reuse unchanged source/profile-bound proofs.
+Recover and finish relevant dirty work rather than discarding or hiding it.
+See `docs/RE_HANDOFF.md` for the current ledger, code map and restart instructions.
+
 **Use `gpt-6.1-sol: ...` for every new English commit.** Preserve Git author
 `N0zoM1z0 <1705004398@qq.com>` and the trailer
 `Co-authored-by: gensokyo-dev <342580529+gensokyo-dev@users.noreply.github.com>`.
-Create tested local checkpoints. Distinguish local commits from remote pushes;
-never describe a local commit as pushed without independent remote verification.
-Commit substantive progress, including reproducible diagnostic evidence.
-Never skip, hide, discard or avoid existing
-dirty work: examine and finish it. Use direct local IDA Pro MCP and repository
-Bash with the pinned VC7.1 compiler/comparison Oracles; do not route this local
-session through Factory MCP. See `docs/RE_HANDOFF.md` for the current ledger
-and verified frontiers.
+Create tested local checkpoints, including reproducible diagnostic evidence.
+A local commit is not a push; independently verify remote publication before
+claiming it. No remote publication is part of the current handoff request.
 
 This repository targets only the original Japanese TH09 version 1.50a
 executable identified by SHA-256

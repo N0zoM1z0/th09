@@ -49,3 +49,24 @@ special-member generation or cannot assign a unique owner to a shared/folded
 physical body. Its current count and identity belong to the ledgers rather than
 this architecture summary.
 Boundary review still does not imply source presence or exact code generation.
+
+## Maintained source map
+
+Start with [the handoff](RE_HANDOFF.md) and the live manifests. These paths
+describe the current reconstruction organization, not a proven original
+translation-unit or class partition.
+
+| Work area | Maintained entry | Verification route |
+| --- | --- | --- |
+| ECL interpreter | [EclManager.cpp](../src/EclManager.cpp), with the EclRun lexical fragments | `check-boss-frontiers.py --owner runecl`; full code, tables and actual fields |
+| Enemy update | [EnemyManagerCore.inl](../src/EnemyManagerCore.inl), included by EclManager.cpp | `check-boss-frontiers.py --owner enemy`; retain the shared native helper context |
+| Title result drawing | [TitleScreenResultDraw.cpp](../src/TitleScreenResultDraw.cpp) | `check-boss-frontiers.py --owner title` |
+| ExAttack Type3 update | [ExAttackUpdateType3.cpp](../src/ExAttackUpdateType3.cpp) | `check-boss-frontiers.py --owner type3` |
+| Canonical exact units | [match-units.toml](../config/match-units.toml), including source and compiler profile | `build-match-unit.py --unit NAME`, then the corresponding full comparison |
+| Native product closure | [build.toml](../config/build.toml) | Explicitly open; function-level proofs do not establish a runnable product |
+
+Do not split lexical fragments into independent compiler inputs during cleanup:
+definition visibility changes existing exact codegen. Historical experiments
+and their source-bound negative results remain in the knowledge base and local
+archives. Rebuild missing caches from the configured unit/profile, and retain
+the adopted selected-ECL-manager proof objects described in the handoff.

@@ -2,25 +2,21 @@
 
 The project milestone is at least **98% of reviewed authored bytes exact**,
 using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
-The operator resumed reconstruction after the October 23 handoff and requests
-direct local IDA Pro MCP plus repository Bash, without Factory routing. New
-English commits use gpt-6.1-sol: with the identity/trailer in AGENTS.md. Prioritize
-key large functions and test fresh source/type/lifetime hypotheses against TH09
-evidence; old notes are not conclusive.
-The RunEcl, EnemyManager::OnUpdate, Title DrawResult and ExAttack Type3 fronts
-and the milestone remain unfinished. Compiles stay serial and at lowered
-priority; only affected proofs need replay. Clean only reviewed, reproducible
-artifacts after their producers terminate.
-See [the current handoff](RE_HANDOFF.md) and refresh the ledgers for live totals;
-dated experiments and prior stop/resume records are historical.
-Exact code, the reviewed-authored denominator, the native Windows product and
-later runtime/port phases are independent gates.
+The October 24 operator request is cleanup and handoff after clearing the
+persistent reconstruction goal. The milestone and the RunEcl, EnemyManager,
+Title DrawResult and ExAttack Type3 fronts remain unfinished. The successor
+starts from the clean source baseline and live ledgers; handoff does not imply
+completion of exact reconstruction or later product/runtime stages.
 
-The active October 23 instruction is continued large-function reconstruction.
-The earlier cleanup/handoff instruction is historical. Preserve the tested
-baseline while prioritizing complete RunEcl and EnemyManager::OnUpdate exactness.
+Use direct local IDA Pro MCP, repository Bash and pinned VC7.1 compiler Oracles,
+without Factory routing. New English commits use `gpt-6.1-sol: ...` and the
+identity/trailer in [AGENTS.md](../AGENTS.md). Compile serially at lowered priority,
+reuse unchanged source/profile-bound proofs, and clean reviewed artifacts only
+after their producers terminate. See [RE_HANDOFF.md](RE_HANDOFF.md) for the current
+code map, verified frontiers, retained local evidence and restart commands.
 Historical negative results are bounded measurements, not proof that all natural
-source models are exhausted.
+source models are exhausted. Exact code, the authored denominator, the Windows
+i386 product and later runtime/port phases remain independent gates.
 
 ## Session entry
 
