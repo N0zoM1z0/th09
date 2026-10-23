@@ -12,21 +12,22 @@ on large owners. This local session uses direct IDA Pro MCP and Bash without
 Factory routing. New English commits use gpt-6.1-sol: with the preserved author
 and co-author trailer in AGENTS.md. No new exact coverage is claimed.
 
-- Latest bounded Enemy callee-context controls independently reproduce the
-  13-byte baseline. Genuine Supervisor selection and Player setter visibility
-  are raw-neutral; genuine Player getter visibility shortens the tail by two
-  bytes and regresses to836 differences. All97 actual fields,69 ordered calls,
-  170 blocks and complete emitted native bodies are checked. No candidate is
-  adopted. See the final knowledge-base entry for five terminal compiles.
-- Local direct IDA entry/five mapped samples pass, after one terminal connection
-  failure and a successful retry. The original disk hash and live ledgers pass.
-  The current packet is .analysis/gpt-61sol-20261023-enemy-state-side/.
-  Final CI passes1012 tests/29 skips; all tracking/docs/progress/whitespace
-  and open-build graph gates pass. Extract captures.zip there before
-  verification/replay; source, object and complete report evidence is retained.
-- Earlier handoff facts below remain source-scoped history. Current source is
-  still the tested f595786 adoption; 6fd68c7 is the recovered clean checkpoint.
-  Earlier canonical object evidence is preserved. No compiler job is pending.
+- Latest complete RunEcl context-cursor experiment grows15564 to15572 bytes
+  and retains both wrong residual handler shapes. All403 external and195 local
+  fields are bound at actual emitted positions; full comparison rejects14540
+  overlap differences plus8 excess bytes. No source or exact ledger change.
+  See the final knowledge-base entry and
+  .analysis/gpt-61sol-20261023-runecl-value-liveness/ for exact source-bound
+  reproduction and retained actual objects. Final CI passes1012 tests/29 skips;
+  tracking/docs/progress/whitespace and open-build graph checks pass. Extract
+  captures.zip in that packet before diagnosis/replay.
+- Current disk and direct IDA entry/five mapped samples pass. Twenty-one actual
+  same-object called bodies and complete Enemy output remain baseline-equal.
+  Last game source remains the tested f595786 adoption. Unchanged source/profile
+  exact proofs are reused; historical accepted receipts remain source-scoped.
+- The preceding Enemy state/side controls are complete in
+  .analysis/gpt-61sol-20261023-enemy-state-side/captures.zip. Extract it in its
+  packet before verification/replay. Its1012-test/29-skip CI is historical.
 
 - Current coverage is **244917/291883 (83.9093%)**. The 98% milestone needs
   **41129** additional whole exact bytes. Neither main owner is exact:

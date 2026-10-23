@@ -16,12 +16,11 @@ dated experiments and prior stop/resume records are historical.
 Exact code, the reviewed-authored denominator, the native Windows product and
 later runtime/port phases are independent gates.
 
-The latest October 23 instruction is cleanup and handoff to Codex, not another
-compiler panel. The current source baseline is preserved; no exploratory job or
-uncompiled candidate remains. On authorized continuation, prioritize complete
-RunEcl and EnemyManager::OnUpdate exactness. Other owners are supporting evidence
-rather than parallel reconstruction targets. Historical negative results are
-bounded measurements, not proof that all natural source models are exhausted.
+The active October 23 instruction is continued large-function reconstruction.
+The earlier cleanup/handoff instruction is historical. Preserve the tested
+baseline while prioritizing complete RunEcl and EnemyManager::OnUpdate exactness.
+Historical negative results are bounded measurements, not proof that all natural
+source models are exhausted.
 
 ## Session entry
 

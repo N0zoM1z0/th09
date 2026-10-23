@@ -20534,3 +20534,66 @@ PDBs, sources and reports remain recoverable; older canonical evidence, original
 input, tools, Wine and unclassified analysis are untouched. Root recipes,
 verification, archive manifest and CI log remain loose. This is an active,
 incomplete research checkpoint, not a new cleanup/pause request.
+
+
+## October 23: RunEcl context-selection cursor model (gpt-6.1-sol)
+
+The preceding goal turn made progress by isolating actual Player getter effects
+and retaining complete negative evidence. Recovery at clean local d71e129
+re-attests original disk, direct IDA metadata{}, entry and five mapped samples;
+tracking remains1035 source-present/1003 exact. Two fresh complete ECL compiles
+run serially with one CPU/nice10 and the unchanged pinned profile. Both bind
+68 frozen source inputs and ten original provider/configuration hashes.
+
+A distinct interpreter-control model groups the existing saved main context,
+saved main call stack, current instruction and child index into one ordinary
+local aggregate. Original PE spills these actual per-invocation values at
+EBP-24,-100,-8,-20 respectively; that proves their roles, not an original
+contiguous struct. The model changes no initialization/read/call/publication
+order, transfer, operand type or ABI. Member order follows existing declaration
+order; no order sweep, new effect, guard, destructor, address escape, inline
+annotation or register hint is introduced. All six lexical handler families use
+the same actual instruction pointer member. Independent inverse reconstruction
+returns every normalized source exactly; call/control token sequences agree.
+This differs from the previous26-member scalar payload/result capture bank,
+which deliberately left interpreter-control state outside.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-CONTEXT-CURSOR-20261023-001 | compiler observation | Fresh baseline repeats15564 physical/14792 code bytes,598 fields,30 ordinary differences and zero field/table drift. | Complete maintained original-bound audit. |
+| ECL-CONTEXT-CURSOR-20261023-002 | rejected source hypothesis | Cursor aggregate emits15572 physical/14800 code bytes,598 fields and a16C frame instead of168. | Strict original-shape gate rejects. Both outputs end at RET with zero table-alignment bytes. |
+| ECL-CONTEXT-CURSOR-20261023-003 | independent diagnosis | All403 ordered external identities and195 actual owner-local fields are accounted for;375 direct/four indirect calls remain. | Actual403 destinations derive from the independent baseline identity audit; all local destinations use emitted COFF positions, without target-table rebasing. |
+| ECL-CONTEXT-CURSOR-20261023-004 | rejected full-owner comparison | Full relocated candidate has14540 overlapping differing bytes and8 excess bytes against the original. | Every byte/field/table is compared; matching subsets receive no credit. Actual literal definitions pass. |
+| ECL-CONTEXT-CURSOR-20261023-005 | compiler observation | All21 actual same-object called bodies and complete3900-byte Enemy output stay baseline-equal. | Full raw bytes and effective fields checked against the selected-manager source-bound evidence. |
+
+The cursor's instruction spill moves toEBP-20, main context/stack to-28/-24 and
+child index to-1C. Frame homes change broadly; only opcodes1,39,166,186 change
+handler lengths (-3,+9,+9,+9), with many other apparent interval differences
+coming from actual frame operands. Entry/loop alignment and the later context
+completion tail also change. Opcode4 remains the wrong29-byte EAX argument /
+receiver-before-PUSH schedule. Opcode155 remains the wrong45-byte split byte
+load and EAX-old/ECX-result masked update; its spill home changes, without fixing
+the actual input/result allocation. Original opcode155 instead uses fused ECX
+input, ESI old word and EAX result. No losing source is adopted.
+
+Packet .analysis/gpt-61sol-20261023-runecl-value-liveness/ retains prepare.py,
+run_one.py, diagnose.py, structural.py, verify_callees.py, link_actual.py,
+source diff/inverse proof, source/provider snapshots and both complete objects,
+raw/COFF/shape reports. link_actual.py separately reconstructs actual emitted
+candidate addresses; it does not relax the maintained comparator's rejection.
+Original-context roles were freshly checked through direct IDA and target PE;
+this model does not identify an original cursor class or prove impossibility.
+All1003 unchanged source/profile exact proofs are reused. Coverage remains
+244917/291883 (83.9093%);41129 further whole exact bytes are needed for98%.
+RunEcl30,Enemy13 and native product/runtime/full-inventory gates remain open.
+
+Final CI passes1012 tests/29 skips, exit zero; tracking, documentation, open-build
+graph, generated progress and whitespace gates pass. After all producers end,
+224 current frozen/case files are CRC/member-byte verified into captures.zip:
+5869892 logical bytes become1061602 bytes, SHA256
+04510594efc4e071154dd6b1458e0e6142413a26da3a2d34809a239cd265ae66.
+Extract this archive in its packet before diagnosis or replay. All original
+source/provider snapshots, OBJ/PDBs and complete raw/COFF results stay archived;
+only verified loose duplicates are removed. Root recipes, full linked proof,
+archive manifest and CI log remain. All older canonical and unclassified
+analysis, target, tools, Wine and IDA inputs remain preserved.

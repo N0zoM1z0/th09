@@ -975,3 +975,19 @@ archive-manifest.json and CI log remain loose. Extract captures.zip in that
 packet before verify.py or historical replay. Older canonical objects and all
 unrelated evidence/resources/toolchains/IDA/Wine remain unchanged. This scoped
 compression adds no exact credit; the reconstruction goal remains active.
+
+
+## October 23: local RunEcl context-selection cursor
+
+After both compiler jobs and final1012-test/29-skip CI terminate, losslessly
+archive all224 current case/frozen files below
+.analysis/gpt-61sol-20261023-runecl-value-liveness/. captures.zip preserves
+5869892 logical bytes in1061602 bytes (4808290 bytes saved before audit overhead),
+SHA25604510594efc4e071154dd6b1458e0e6142413a26da3a2d34809a239cd265ae66.
+Every member passes CRC and exact byte equality before loose removal.
+
+Both full objects/PDBs, source/provider snapshots and raw/COFF/shape reports
+remain archived. Extract in the packet before diagnosis, link_actual.py or
+historical replay. Root recipes, actual-linked proof, manifests and CI log remain
+loose. No older canonical or unclassified evidence, original input, toolchain,
+Wine or IDA state is removed. This negative source model adds no exact credit.
