@@ -20391,3 +20391,74 @@ were neutral. Exact recipes and target windows are retained in
 .analysis/th09-enemy-selected-owner-prepend-20261023-v01/constructor-exit-audit.md
 and constructor-placement-history.json. No unsupported register-return contract
 or equivalent placement trial is introduced.
+
+## 2026-10-23 retained evidence mining and final bounded source models
+
+Read-only RunEcl mining derives exact original prefixes for op4 (13 pre-call
+bytes) and op155 (31 update bytes), not old scores. Selected coverage includes
+2788 relevant JSON indexes (199119335 bytes), 102 loose OBJ/raw/bin captures
+(13293663 bytes), and 21 selected archived raw members (218202 bytes), plus
+initial named-packet screens. Only embedded original155/target_hex fields hit;
+no candidate prefix did. Hash/graph-only reports, pruned objects, unscanned gzip
+carriers and other schemas remain unassessed, not rejected. No independently
+justified missing-byte recovery was found in inspected metadata. Exact criteria,
+budgets, archive members and an unexecuted reproduction script are retained in
+.analysis/th09-runecl-retained-prefix-mining-20261023-v01/. This is bounded
+negative evidence, not compiler impossibility or exhaustive source coverage.
+
+Enemy mining reads 350 payloads / 21107130 bytes, examining 199 captures. The
+175 full descriptor-window screens find no hit. Twenty constants-window hits
+are known opaque-baseline families; 24 further draw/group captures yield no
+draw-plus-constants combination. Masks cover only actual four-byte COFF fields,
+with field offset/type and later instruction-boundary checks. Malformed input
+was skipped explicitly. Full scopes, target windows, masks and saved (unexecuted)
+replay procedure are in .analysis/th09-enemy-payload-mining-20261023-v01/.
+No archived screening hit is promoted without source/owner identity proof.
+
+Actual old producers also cover native compound-field delta updates and raw
+bool object representations, producing the known baseline/native mismatch
+classes. Their historical volatile reads and unproven bool validity/domain
+remain explicit; no 0/1 wire-domain assumption is adopted. Actual recipe/full
+carrier hashes are retained in th09-runecl-native-field-delta-audit and
+th09-runecl-raw-bool-wire-audit, under .analysis/ with suffix -20261023-v01.
+
+One complete descriptor-layout-order configuration was newly compiled in the
+corrected-owner periodic manager-prepend context. Constructor/call placement and
+all twelve field values stay fixed; only independent speed/side reads reorder.
+It emits 3860/96, 68 calls, 169 blocks, with all actual bindings and six native
+proofs passing, but 3011 overlap differences and forty missing bytes. It differs
+from the prior domain grouping at 55 bytes in +0x2BF..+0x2FE; zero/one roles stay
+wrong and position stores become X,Z,Y. The removed motion-add call is actual
+tail sharing: both distinct return-buffer homes (EBP-0x94 and EBP-0x58) remain,
+each branch selects its address into EDX before a common call/copy tail. The
+descriptor ends at EBP-0x94 exclusive, so no overlap or lifetime coalescing is
+evidenced. See layout-order-audit.md in the corrected-owner Enemy packet.
+
+An ordinary-inline functional update takes and returns the genuine four-byte
+primary bitfield struct by value. Unlike the historical forced-inline recipe,
+it emits a real 26-byte helper with no fields: old struct on stack, byte in CL,
+returned struct in EAX, RET4. No hidden return pointer or invented ABI is used.
+RunEcl emits 15560/599 (14787 code + one NOP + 772 table bytes), 376 direct plus
+four indirect calls. The sole new field is that genuine helper, with no original
+binding. Op155 is 35 bytes with a call rather than target inline update; op4 is
+baseline-identical but target-nonexact. All 21 original callees and Enemy remain
+unchanged. Full capture: .analysis/th09-runecl-ordinary-aggregate-return-20261023-v01/.
+
+A distinct full caller operand-base model binds one byte pointer after dispatch
+gates, covering 250 caller wrapper sites, 23 direct raw reads and two payload
+views while retaining 64 wrappers in separate helper bodies. All five cursor
+rebind paths and existing live-read/selector/call ordering are preserved; 277
+edits invert exactly. It emits 16276/599, raw SHA-256
+fa850aa44d89a834ac930f8263dc31d283310ce68041e27a3a0dc1541e448f92.
+All 148 dispatch intervals change. The pointer is materialized in EDI and spilled,
+Enemy moves to EBX, instruction to a stack slot, and frame grows 0x168 to 0x16C.
+Op4 grows to 33 bytes and op155 to 47; neither becomes exact. A shared spawn tail
+splits into two actual SpawnEnemy calls, yielding 376 direct plus four indirect
+calls, 404 external and 195 local fields. All 21 original same-object callees and
+Enemy remain baseline-equal. Full proof and inverse checks are in
+.analysis/th09-runecl-dispatch-operand-base-20261023-v01/CLOSURE.md.
+
+No source is adopted from these final models, and no exact credit is added.
+There is currently no staged uncompiled candidate. The two-owner task remains
+unfinished at RunEcl30/Enemy13; a new trial needs a concrete source/target
+hypothesis, not repeated register, declaration-order or field-order tuning.

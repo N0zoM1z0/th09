@@ -7,6 +7,13 @@
 
 ## Current verified handoff checkpoint
 
+Latest bounded models and retained-byte corpus audits are documented in the
+final knowledge-base section. There is no pending compiler job or staged
+uncompiled candidate; neither RunEcl nor Enemy is exact. The unknown source
+distinction behind their remaining allocation differences is still unresolved,
+not proven impossible. Keep the user goal open and require a concrete new
+hypothesis before another trial rather than repeating already measured forms.
+
 The October 23 selected-ECL-manager ownership correction is now in the working
 source: context+0 names the actual selected 0x188-byte manager, while all deliberate
 outer-primary and opposing spawn receivers stay unchanged. Fresh collateral
