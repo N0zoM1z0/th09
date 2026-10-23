@@ -25,13 +25,16 @@ The 98% goal and both main owners remain unfinished.
   canonical/group-00.obj through group-33.obj and their sidecars and proofs.
   These are source-bound evidence. Archival accepted receipts do not accept a
   later HEAD, and exact functions do not close native product/runtime gates.
-- Current Enemy controls cover the complete second status word and the real
-  cleanup method's visibility. Both remain raw-neutral3900/97/13 with69 calls
-  and170 blocks; five private labels per candidate are individually bound.
-  The adopted shared EnemyView declaration removes one inconsistent class
-  definition without changing the cleanup method body. Other1002 exact authored
-  source proofs are unchanged and reused. Packet:
-  `.analysis/gpt-61sol-20261023-enemy-descriptor-dataflow/`.
+- Current SaveReplay controls test checksum field ownership, complete native
+  construction/encoding and two wire-type models. Five contexts retain1238/53/3;
+  three field accumulators give1270 bytes/304 overlap differences+32 excess and
+  are rejected. All16 same-profile collateral comparisons pass. Configuration
+  initialization in that caller profile is444 versus233 original bytes; the
+  full constructor chain is not exact. Packet:
+  `.analysis/gpt-61sol-20261023-replay-save-owner/`.
+- Enemy controls and its adopted shared cleanup declaration remain in
+  `.analysis/gpt-61sol-20261023-enemy-descriptor-dataflow/`. The cleanup's184-byte
+  exact proof is retained; the main3900/97/13 frontier is unchanged.
 - Prior GameManager540-fixture mode-dispatch evidence and rejected1673-byte
   control remain in `.analysis/gpt-61sol-20261023-setup-dataflow/`; its source
   remains the maintained1689/171/904 frontier. See the dated KB section.
@@ -58,10 +61,10 @@ The 98% goal and both main owners remain unfinished.
   archive recovery. Ignored evidence is local and is not part of Git commits.
 - Final current checkpoint CI passes **1016 tests / 29 skips** (exit0);
   target-required tracking, documentation, build graph, progress and whitespace
-  pass. The current Enemy packet retains the canonical cleanup receipt, both
-  frozen source epochs and complete diagnostic object proofs. Extract captures.zip
-  before verify.py; historical cold producers require their recorded162fb36
-  source. Earlier reviewed cache removal and Git compaction are recorded in
+  pass. The current Replay packet retains all eight compiled contexts and their
+  complete caller/native proofs. Extract captures.zip before verification;
+  historical cold producers require recorded9161c560 source/provider inputs.
+  Earlier source epochs, reviewed cache removal and Git compaction remain in
   cleanup history. Reconstruction remains active.
 
 ## Live ledger snapshot
@@ -239,9 +242,9 @@ results, fields and deficits before making an exactness claim.
 Use [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for exact scopes, hashes
 and recovery instructions. Original-bound accepted receipts are archived in
 [RE_ACCEPTED_RECEIPTS.md](RE_ACCEPTED_RECEIPTS.md) with immutable source commits.
-The current Enemy packet retains its frozen inputs, complete original/COFF
-comparisons, native definitions and canonical cleanup adoption proof. The prior
-setup-dataflow packet retains the bounded dispatch Oracle and Git storage audit.
+The current Replay packet retains frozen inputs and complete original/COFF/native
+comparisons. The Enemy packet retains its cleanup adoption proof; setup-dataflow
+retains the bounded dispatch Oracle and Git storage audit.
 
 Earlier source-copy archives remain recoverable: read the original packet's
 ARCHIVE_README before replay, especially for the October13 RunEcl archive and

@@ -20879,3 +20879,62 @@ for a new cold replay. The initial inverse verifier rejected overlapping output
 text before any source staging/compile; exact recorded replacement spans fix
 that bookkeeping, with no game-source or compiler change. Source-bound evidence
 must not silently adopt a later source hash.
+
+## 2026-10-23 SaveReplay: checksum storage, wire views and complete native contexts
+
+From clean local9161c560, original disk, direct IDA metadata and mapped-byte
+attestations pass. Eight serial single-CPU nice-10 compiles use only the existing
+no-EH ReplayInput profile. No source, profile, manifest or exact ledger changes.
+The fresh baseline reproduces1238 bytes/380 instructions/53 fields/23 calls/
+49 blocks and exactly B7/BB/3F6 residuals. Complete raw SHA256 remains
+109c8005dd14dd60fd5ba56ddee0ebcecfd5e39618e5191ec7783a3ac113b839.
+
+Five contexts are wholly raw-neutral: baseline; the full configuration/payload/
+record constructor source chain; that chain plus actual Lzss::Encode; explicit
+4-byte runtime-pointer/file-offset union publications for both frame and FPS
+slots; and packed byte-aligned replay wire types. The packed case independently
+asserts alignment1 while retaining all existing size/offset assertions. Neither
+neutral type experiment identifies the original nominal types or alignment.
+No helper/body visibility, packing or declaration is adopted from these controls.
+
+Three checksum-field contexts instead accumulate directly in the existing wire
+checksum field, removing the separate scalar and final publication: field alone,
+field plus full construction, and field plus construction/encoder. All repeat
+1270 bytes/383 instructions/53 fields/50 blocks,304 overlap differences and32
+excess bytes. They restore no residual and damage301 previously equal positions;
+five original field positions move. Their common raw SHA256 is
+c25991468976ea4a4cb3963f1d97f5829bec5cb977a06d2759f8ee3e8dbcd400.
+The maintained complete guard rejects them unchanged. Actual decoded code has
+five direct checksum-stack write instructions versus baseline's one, excluding
+bulk packet copies. Header summation starts at15 and excludes checksum10..13;
+Lzss receives the address of compressedSize18. Alias effects are an inference
+from this source/compiled dataflow, not a proven unique optimizer explanation
+or a whole-game runtime claim. Keep the tested local accumulator baseline.
+
+The complete chain is actually defined and all four positive COFF call links
+are independently checked. Record/payload/configuration constructors match
+18/15/12 original bytes and their three fields. Configuration::Initialize
+under this caller profile is444 bytes/30 fields, versus original233/six under
+its separately recorded profile:209 overlap differences plus211 excess bytes.
+Thus the full native chain is not exact even though its first45 bytes match.
+No per-function profile override is added. The real co-visible Lzss encoder
+is570 versus571 bytes, with538 linked overlap differences and one missing byte;
+its original third-party/nonexact status remains unchanged. All actual native
+fields are independently decoded and bound, including GlobalAlloc from the
+verified PE import table. Source visibility is not native codegen equality.
+
+All16 complete same-profile collateral comparisons pass: the existing1323-byte
+BeginRecordingStage and361-byte Create in each of eight objects. Other Replay
+profile siblings and all1003 maintained authored proofs are unchanged/reused;
+none is claimed freshly compiled here. No private-label refresh is required.
+The initial native comparison stopped at the initializer's field-count guard;
+retained-object reanalysis captures the complete444-byte/30-field failure and
+positive links without recompiling. Full actual objects and raw/COFF survive.
+
+Packet .analysis/gpt-61sol-20261023-replay-save-owner/ retains frozen inputs,
+all source variants/commands, exact-caller/native failures, semantic IDA evidence,
+PE-bound supplemental audits and recovery instructions. Extract captures.zip
+before verification/replay. Historical producers bind source9161c560 and fail
+on source/provider drift. No forced registers, variable ordering, inert storage,
+false return/ABI, target byte patch or compiler-profile search is introduced.
+Coverage stays244917/291883 (83.9093%);98% still requires41129 whole exact bytes.

@@ -1120,3 +1120,40 @@ identical. Per-path classification and hashes are retained in cleanup.json.
 The original executable, compiler/SDK/Wine/IDA state, selected-ECL-manager proof
 objects and all unclassified prior evidence remain untouched. No bulk cleaner
 or history expiry is used.
+
+### 2026-10-23: Replay checksum ownership and native-profile controls
+
+From local9161c560, eight serial single-CPU nice-10 SaveReplay compiles use the
+unchanged no-EH profile. No maintained source/profile/unit/ledger is changed.
+Five source contexts reproduce1238 bytes/53 fields/three differences. Three
+checksum-field contexts repeat1270 bytes/304 overlap differences+32 excess,
+restoring none and damaging301 matches. All16 same-profile sibling comparisons
+pass; all1003 unchanged authored source/profile proofs are reused. No whole-owner
+or runtime claim is promoted, and the98% goal remains active at83.9093%.
+
+Packet .analysis/gpt-61sol-20261023-replay-save-owner/ retains source-model/diff
+recipes, compiler commands/logs, complete caller raw/COFF/literal/graph reports,
+positive constructor/encoder links, native successes and native profile failures.
+Only the first three constructor bodies match45 original bytes; the actual
+initializer is444/233 and the actual encoder570/571. Supplemental field binding
+uses current canonical roots and the verified original PE import map. Each
+complete nonexact native body remains retained, with no masked-byte acceptance.
+
+Its160-member captures.zip preserves3898441 logical bytes in632087 bytes,
+SHA256 ef98ceceb3aae6a7fb8782d17e678a3c821d130e21149b7f0fb997ff10a16e36.
+Every member passes CRC/SHA/full byte equality. The completed renderer exactly
+reproduces all eight originally compiled source sets. A clean extraction replays
+eight complete diagnostics, sixteen canonical comparisons and all native/profile
+failures without compiling. Only verified compiler/source/output/include host
+paths may move; source hashes, flags, input bytes and complete reports stay bound.
+Extract captures.zip before verify.py; never rerun prepare.py over frozen inputs.
+Historical cold replay uses the recorded9161c560 source/provider versions.
+
+CI passes1016 tests/29 skips in115.059 seconds, observed exit zero. After all
+compiler/replayer/CI handles terminate, cleanup removes576 regular ignored and
+rehashed files/10875459 logical bytes:160 verified archive duplicates3898441
+bytes and416 reproducible Python bytecode files6977018 bytes. All14 preexisting
+unclassified build files remain byte-identical. Root recipes, compact summaries,
+archive-only proof and per-path cleanup.json remain loose. Original executable,
+SDK/compiler/Wine/IDA state, prior proof objects and unclassified older evidence
+are untouched. No bulk cleanup or history expiry occurs.
