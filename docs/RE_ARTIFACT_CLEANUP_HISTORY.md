@@ -1229,3 +1229,45 @@ receipts, IDA observations and per-path cleanup.json stay loose. Original
 EXE, SDK/compiler/Wine/IDA state and unique prior evidence remain untouched.
 Older packets keep their own source/provider epochs after this manifest
 symbol update. No bulk cleaner or history expiry is used.
+
+### 2026-10-23: RunEcl signed timeout-enum and one-byte wire controls
+
+From local5def10d4, five full RunEcl and two standalone layout controls compile
+serially on one CPU at nice10 under the unchanged pinned profile. No game
+source/profile/unit/ledger changes. Unused enum storage retains15564/598/30;
+unsigned and0/1 enum native stores repeat2140 complete differences. Two valid
+0/-1 signed models grow to15576 bytes with2606/2607 overlap differences plus12
+excess and are rejected. All105 actual same-object callee comparisons retain
+the reference5420 bytes/200 fields per object. All1003 authored proofs remain
+unchanged/reused, and the98% goal stays open at83.9093%.
+
+Pinned VC7.1 read-back exposes the one-bit enum's signed representation:0/1
+enumerator names do not make the set field read as+1. The representable0/-1
+model passes its numeric round-trip but still fails complete byte comparison.
+Original and five native opcode155 streams agree on the three tested flag/
+successor observables in156672 bounded fragment fixtures. Two standalone
+controls add17408 write/read-back fixtures. No whole-function runtime, product,
+semantic or partial exactness claim follows. See the dated KB section.
+
+Packet .analysis/gpt-61sol-20261023-ecl-timeout-enum/ retains all seven compiled
+controls, verified baseline and a copy of the selected-owner reference, frozen
+source/providers, direct IDA, full comparisons, signed-state evidence and
+recipes. Its533-member captures.zip preserves11541714 logical bytes in2259125
+compressed bytes, SHA256
+e6594edebe61df45b21c28828a52433d4e7c7fc58946f273ba55915a45c148d2.
+CRC/member SHA/full loose equality pass. A temporary archive-only extraction
+independently renders five source graphs, replays five complete owner and105
+callee comparisons and exactly reproduces all bounded CPU observations without
+compiling. Post-cleanup --objects-only repeats source/object recovery while
+omitting the already bound CPU fixtures. Source/provider epochs stay explicit.
+
+CI passes1016 tests/29 skips in147.361 seconds, observed exit zero. After all
+compiler/replayer/CI handles terminate, reviewed cleanup removes951 regular,
+ignored, rehashed files/18526035 logical bytes:533 verified archive duplicates
+11541714 bytes,416 reproducible Python bytecode files6977018 bytes and two
+unused copied historical recipes7303 bytes, each equal to its retained source.
+All14 unclassified older build files and the original unique selected-owner
+reference remain byte-identical. Root recipes, complete binding receipts,
+fixtures and cleanup.json stay loose. Original executable, SDK/compiler/Wine/
+IDA state, other proof objects and unclassified evidence are untouched; no
+bulk cleaner or history expiry is used.

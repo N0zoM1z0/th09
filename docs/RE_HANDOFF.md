@@ -25,7 +25,15 @@ The 98% goal and both main owners remain unfinished.
   canonical/group-00.obj through group-33.obj and their sidecars and proofs.
   These are source-bound evidence. Archival accepted receipts do not accept a
   later HEAD, and exact functions do not close native product/runtime gates.
-- Current Enemy/Front work removes the indicator TU's duplicate GameManager,
+- Current RunEcl timeout controls distinguish raw flag equality from one-bit
+  enum read-back. Under VC7.1 an enum field declared0/1 reads its set bit as-1;
+  a representable0/-1 model reads back correctly but does not match codegen.
+  Five full-owner controls retain the baseline or fail complete comparison;
+  all105 same-object callee comparisons pass. Bounded opcode155 fixtures agree
+  on raw flags/successors; they do not accept the whole function. No source,
+  profile or ledger is changed. Packet:
+  `.analysis/gpt-61sol-20261023-ecl-timeout-enum/`.
+- Prior Enemy/Front work removes the indicator TU's duplicate GameManager,
   side and player declarations in favor of the existing shared header. The
   fresh canonical213/10 replay is exact; three symbol identities now use the
   shared global/coordinate method with unchanged offsets, addends and targets.
@@ -76,9 +84,9 @@ The 98% goal and both main owners remain unfinished.
   archive recovery. Ignored evidence is local and is not part of Git commits.
 - Final current checkpoint CI passes **1016 tests / 29 skips** (exit0);
   target-required tracking, documentation, build graph, progress and whitespace
-  pass. The current Enemy/Front packet retains all compiled contexts and the
-  adopted213-byte proof; verify.py reads its archive and replays without
-  compiling. Earlier Title and SaveReplay packets retain their recorded source
+  pass. The current RunEcl packet retains all compiled controls, complete
+  comparisons and signed-enum fixtures. The Enemy/Front packet retains the
+  adopted213-byte proof. Earlier Title and SaveReplay packets retain their recorded source
   and provider epochs (d9245532 and9161c560 respectively).
   Earlier source epochs, reviewed cache removal and Git compaction remain in
   cleanup history. Reconstruction remains active.

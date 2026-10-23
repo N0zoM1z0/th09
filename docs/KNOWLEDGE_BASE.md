@@ -21084,3 +21084,85 @@ IDA observations, all source projections, complete caller/native proofs and
 an archive-only verifier. Replay requires its recorded source/provider inputs;
 older Title/Replay packets retain their own provider epochs after the Front
 manifest symbol update. Unclassified older evidence is preserved.
+
+
+### 2026-10-23: RunEcl timeout enum storage, signed read-back and wire-bit controls
+
+Recovery at5def10d46ddde44b45b620aed20f673829c7db3b is clean. The prior turn
+is progress: Front now uses the shared native GameManager interface while
+retaining its complete213-byte exact proof. This turn returns to RunEcl4/155.
+Original disk, direct IDA metadata and distributed mapped bytes pass. Fresh
+IDA confirms opcode4 pushes the raw time before loading the timer receiver;
+opcode155 reads one byte, shifts24 and masks01000000, preserving other bits.
+No IDA metadata or original target byte is changed.
+
+The current68 source inputs are byte-identical to the retained value-liveness
+baseline. Its object is reused from the SHA/CRC-verified archive. The only
+provider delta is the separately exact Front manifest's three shared-symbol
+names; their offsets/addends/targets stay fixed. Ten current provider hashes,
+the complete original15564-byte owner and actual emitted coordinates remain
+bound. All compiles are serial, single-CPU and nice10 under the unchanged
+/O2 /Ob1 profile. No maintained source/profile/unit/ledger changes.
+
+A one-bit enum tests a genuine nominal-state hypothesis rather than new
+register promises. The first model changes only the existing timeout bit's
+base type to a four-byte enum OFF=0/ON=1 and retains the masked helper. It keeps
+all15564 raw bytes/598 fields and30 ordinary differences, zero field/table
+drift; rawbc9a1a71fbc3010338ef7f3de66ca3e0f3c3ee3bb9eb51f1588c6e53dea8c01b.
+Two native bitfield-store controls, unsigned and enum, explicitly restrict the
+wire byte to its low bit before assignment/cast. Both repeat15564/598 with
+1938 ordinary and202 field differences (26 table bytes included in those202),
+2140 complete overlap differences;14791 logical code bytes plus one NOP and
+772 table bytes. Their raw SHA256 is
+82e081e31c21f83618c00f795d43f4191fe1be1d73dd444e1152eb1dd7e41ea3.
+Neither repairs opcode4; unchanged complete guards reject their regressions.
+
+The separate original-free layout control exposes an important source-level
+limit. In the pinned compiler, the set one-bit enum field reads back as-1,
+including when the declared ON enumerator is+1. All8704 tested writes retain
+the correct raw word, but the declared0/1 numeric round-trip fails. This does
+not prove the original nominal type; code using only nonzero tests could have
+a different contract. It does rule out adopting this control as a faithful
+0/1 enum-state API merely because raw flag writes agree. The control has no
+original address/ownership identity and supplies no authored exact credit.
+
+An evidence-driven follow-up uses representable enum states OFF=0/ON=-1 and
+converts the wire LSB to0/-1 before the cast. Read-back then matches both
+states in all8704 controls. Its full RunEcl grows to15576/598,14803 logical
+bytes plus one NOP/772 tables, raw
+d0792787bdeecc351270d0ad6e1880817cffc71f85f47c01978a47ff5a00dada.
+Complete actual-coordinate replay gives2606 overlap differences plus12 excess.
+A second valid signed model gives the existing one-byte wire capture a signed
+one-bit member and directly assigns that0/-1 value to the enum field. Its
+size/fields remain15576/598; raw
+46839a76b965dc1dbca10e1be623dcafdfb64a6150b3b76698f78bf0253e22e5,
+2607 overlap differences plus12 excess. Byte/DWORD layout assertions pass;
+there is no widened wire read, new storage, order sweep or forced register.
+The maintained extent guard rejects both before a favorable partial score.
+
+All five variants independently retain21 actual same-object called bodies,
+5420 bytes/200 fields per object:105 body comparisons preserve every raw byte
+and effective binding against the retained canonical reference. Complete
+caller replay independently binds403 ordered external identities and195
+actual local fields, decodes375 direct/four indirect calls and checks real
+literal payloads. Emitted table coordinates are used as emitted, never rebased
+to original labels. Entire signed failures remain captured after strict
+geometry rejection. No missing object is treated as lost canonical evidence.
+
+A bounded Unicorn diagnostic executes original opcode155 and each of five
+native handlers through the first shared-dispatch join:34 old flag basis/
+all-zero/all-one words,256 byte values and three signed next offsets(-24,0,32),
+26112 fixtures per stream,156672 total. The raw flags, next instruction and
+saved next pointer agree for every tested input. Two separate layout controls
+cover17408 writes/read-backs. Original observation digest:
+a81e03ec48bb451084aac7b4e1f4f8258b16ffa2e7e99a6760f8c8fc8a6223a1.
+Only this fragment and these observables are exercised; this is not a whole
+RunEcl runtime proof, product closure, semantic gate or exactness credit.
+
+No model is adopted. All1003 unchanged authored source/profile proofs are
+reused; coverage remains244917/291883 (83.9093%), and98% still needs41129 whole
+exact bytes. Packet .analysis/gpt-61sol-20261023-ecl-timeout-enum/ retains all
+seven compiled controls, the verified reused baseline, complete source/COFF/
+literal/callee comparisons, target observations, signed-state fixtures and
+source/provider recipes. The original unique selected-owner reference object
+remains untouched; the packet archives only a verified copy for replay.
