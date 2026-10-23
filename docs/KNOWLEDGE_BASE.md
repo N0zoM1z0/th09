@@ -21466,3 +21466,75 @@ frozen inputs, complete raw/COFF/diagnostic reports, actual callee definitions
 and both cold receipts without recompiling. All1003 unchanged source/profile
 proofs are reused. Coverage stays244917/291883 (83.9093%);98% still needs41129
 whole exact bytes. Native product/runtime and later phase gates remain open.
+
+
+### 2026-10-23: Enemy count operations, branch folding and residual census
+
+Recovery at40d7738646ace6d534c07f7ba620bb9ed1fd2ba8 is clean. The preceding
+Player packet produced bounded negative evidence and completed reviewed
+cleanup. Current original Japanese1.50a disk identity, direct IDA metadata,
+entry and distributed mapped-byte checks pass. The current-source canonical
+ECL object from the683adcc0 packet is reused only after all70 source inputs and
+21 provider hashes match current files. Its whole Enemy replay stays3900
+physical bytes/3883 code/97 fields/1026 instructions/69 calls/170 blocks/13
+differences. No unchanged baseline is recompiled.
+
+Fresh whole-target IDA and PE/COFF review partitions the actual13 offsets:
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-OPERATION-001 | target/compiler observation | Two draw-index differences: +19C MOVZX uses EAX versus ECX; +1A3 selects that register in the following SIB. | residual-review.json: full original-bound field replay and both actual instructions. |
+| ENEMY-OPERATION-002 | target/compiler observation | Four differences transport the side pointer and timer threshold: +252,+263,+26D,+272. | Original uses EAX for the effect-side load and EDX for the threshold; candidate uses EDX and EAX respectively. |
+| ENEMY-OPERATION-003 | target/compiler observation | Seven differences transport/copy the three position dwords: +294,+29A,+29C,+2A5,+2A9,+2B7,+2BD. | Original source loads use ECX/EDX/EAX and stores XYZ; candidate uses EDX/EAX/ECX and stores ZXY. |
+| ENEMY-OPERATION-004 | target/compiler observation | The entire121-byte +2C1..339 constants/count/spawn window is already equal. | All bytes, actual operands and referenced literal payloads agree after independent binding; this is not a remaining wrong-constant claim. |
+
+This census distinguishes earlier source epochs and broad descriptor-window
+labels from current actual mismatches. It proves neither original C++ spelling
+nor a uniquely owned aggregate/class. Every existing matched physical byte
+remains protected by the unchanged production guard.
+
+Five full-ECL source models test ordinary operations without field/layout,
+profile, ABI, register-order, assembly or target changes. The count operation
+reads the real side+20 and returns1 for character13, otherwise3. The list
+operation performs the existing next/head writes once at the shared footer;
+it does not duplicate the two draw branches or change their index loads.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-OPERATION-005 | rejected source hypothesis | An ordinary inline short count operation with two branch returns emits3852 bytes/3835 code/96 fields/1013 instructions/68 calls. | count-operation/: strict Player field+BE5 moves to+BB5 and is rejected before whole-owner scoring. |
+| ENEMY-OPERATION-006 | rejected source hypothesis | A reference-based intrusive-list prepend operation retains every3900 baseline raw byte and all97 resolved field identities. | draw-prepend-operation/:13 differences; unchanged production guard passes. |
+| ENEMY-OPERATION-007 | rejected source hypothesis | Combining the count and list operations repeats every raw byte of3852/96. | combined-operations/: same original-offset rejection. |
+| ENEMY-OPERATION-008 | rejected source hypothesis | Returning int from the same branch operation, then narrowing at the original short store, repeats the same3852 raw bytes. | count-wide-operation/: narrow return width alone does not explain this observed source-context change. |
+| ENEMY-OPERATION-009 | rejected source hypothesis | Returning the existing conditional expression from the short count operation restores every3900 baseline raw byte and original resolved field identity. | count-conditional-operation/:13 differences; unchanged production guard passes. |
+
+All operations actually inline: no new helper call occurs. The3852 models
+remove precisely one external identity, Float3::operator+, without adding an
+external call. Baseline fields at+1CB,+3D7,+407 become+1CB,+3DC; the latter
+combines the two existing movement arms. Full original69-call inventory is
+therefore not preserved. A smaller object or favorable local stores are not
+exactness evidence. No invented original callee, shifted field acceptance or
+new complete-byte score is assigned to those rejected extents. Raw-neutral
+cases may renumber actual COFF private labels; their owner-relative destinations
+are checked independently, without changing the production manifest.
+
+All compiles use the existing /O2/Ob1 Enemy/ECL carrier profile at nice10,
+serially on one CPU. Each of the five models, one independent count cold replay
+and the reused baseline retain all75 same-profile canonical bodies:525 complete
+comparisons,22463 physical bytes/990 fields per object. Actual scalar payloads
+are checked even when a candidate fails the original call-offset gate; each
+caller references five reviewed scalar definitions. All seven RunEcl replays
+retain15564/598/30, identical raw bytes, zero field drift and zero table drift.
+The count cold compile reproduces every raw byte, actual COFF row, native body,
+literal proof and exact strict rejection. No game source, guard, profile, unit
+or ledger is adopted; all1003 unchanged game source/profile proofs are reused.
+
+Packet .analysis/gpt-61sol-20261023-enemy-spawn-selection/ keeps the frozen
+70-input/21-provider epoch, final producer, complete raw/COFF/structural/body
+reports, original residual instructions and verified archive. verify.py replays
+all seven complete observations and actual body proofs from the archive without
+compiling. Reproduce a selected case from this source/provider epoch with
+`python3 -B .analysis/gpt-61sol-20261023-enemy-spawn-selection/probe.py --case count-conditional-operation --output .analysis/enemy-conditional-count-cold`.
+The output must be fresh and below.analysis. The evidence bounds these source
+models; it does not exhaust natural original source or close native product,
+runtime, semantic or portability gates. Coverage stays244917/291883 (83.9093%);
+98% remains unfinished, needing41129 whole exact bytes.

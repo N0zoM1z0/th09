@@ -23,18 +23,23 @@ verified. The 98% goal and the principal large owners remain unfinished.
   canonical/group-00.obj through group-33.obj and their sidecars/proofs.
   Archival receipts do not accept a later HEAD; exact functions do not close
   native product/runtime gates. Reuse unchanged source/profile-bound proofs.
-- Current Player movement controls test actual axis operations, rectangular
-  constraints, paired boundary storage and native pointer-conversion visibility.
-  Seven complete caller objects retain1900/66/129, regress to131 differences,
-  or outline an original-unbound107-byte helper with a1804-byte caller. The
-  initial full-vector include fails on existing AnmVm declarations and is a
-  setup error, not a codegen result. Two independent cold replays reproduce
-  the corrected pointer model and the separately profiled79-byte initializer.
-  No game source, profile, guard or ledger is adopted. Packet:
-  `.analysis/gpt-61sol-20261023-player-clamp-owner/`; see the dated KB note.
-  Its219-member verified archive retains all source graphs and objects;637
-  archived duplicates/Python caches totaling11053231 logical bytes are removed.
-  All14 preexisting build files and34 unique canonical objects remain intact.
+- Current Enemy operation controls isolate branch returns from conditional
+  expressions and draw-list prepending. Five models plus one cold replay keep
+  the baseline or emit 3852/96/68; the latter merges an original Float3 call and
+  fails strict original call offsets. All 525 same-profile exact comparisons
+  pass across seven objects, including the reused source-bound baseline.
+  Residuals are now independently partitioned into draw index2, side/threshold
+  transport4 and position-copy transport7. The121-byte constants/count/spawn
+  window already agrees. No game source or guard is adopted. Packet:
+  `.analysis/gpt-61sol-20261023-enemy-spawn-selection/`; see the dated KB note.
+  Its544-member archive passes CRC/SHA and complete report replay. Cleanup
+  removes962 archived duplicates/Python caches totaling18081452 logical bytes;
+  all14 preexisting build files and34 unique canonical objects remain intact.
+- Prior Player movement models retain1900/66/129, regress to131, or outline an
+  unbound helper. The verified219-member archive and two cold replays remain in
+  `.analysis/gpt-61sol-20261023-player-clamp-owner/`. Its637 reviewed duplicate
+  and Python cache files were removed; all14 build files/34 canonical objects
+  remained intact. See cleanup history for exact scope and recovery.
 - Prior Title Options tests cover full owner declarations and actual method
   visibility. Five source models and one cold producer replay retain2048/610,
   2044/608 or2046/82 frontiers; none is adopted. Adding the exact screen body
@@ -67,8 +72,8 @@ verified. The 98% goal and the principal large owners remain unfinished.
   [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for exact cache scopes and
   archive recovery. Ignored evidence is local and is not part of Git commits.
 - Current checkpoint CI passes **1016 tests / 29 skips** (exit0); tracking,
-  documentation, progress, build graph and whitespace pass. All1003 unchanged game
-  source/profile proofs are reused. The Player packet retains its frozen
+  documentation, progress, build graph and whitespace pass. All1003 unchanged
+  game source/profile proofs are reused. The Enemy packet retains frozen
   source/provider epochs, complete observations and archive replay recipes.
   Native product/runtime, semantic and portability gates remain open.
 
@@ -138,7 +143,7 @@ work. See the current checkpoint above and the dated knowledge-base entries.
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode 4: 7 bytes; opcode 155: 23 bytes, 146/148 handler shapes. The diagnostic extent recognizers now handle the observed post-RET `8B FF` alignment; complete byte/field/table and production frontier checks remain unchanged. The timeout update uses an ordinary inline pure-value helper with unchanged complete codegen. Opcodes4/155 now copy their actual-width wire scalars without volatile references; complete codegen is unchanged. Opcode 4 directly calls the separately exact real `ZunTimer::operator=(int) @0x00401500` on the proven 12-byte context timer, rather than fake second-class timer ABI; existing genuine `RngRuntimeView`/global `g_Rng` remains. **15,564 complete instruction/table bytes and 598 source-linked original fields are unchanged**, with all **79 exact ECL/Enemy/position/math functions across two profiles** (25,215 physical bytes) protected. `--owner runecl`; exact credit remains open. |
-| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**,97 fields, 69 calls,170 blocks; **13 differing bytes** (29->13) | Genuine co-visible **ZunTimer::operator>(int)** restores all 16 tracking/homing bytes with no damaged match. The sole 20-byte definition now lives in ZunTimerGreater.inl through EclManager.cpp; four same-object call identities and its complete body are required. All **3887 equal bytes** are protected. The six native GameManager fields and four real 116-byte playfield-member calls are now independently guarded; all3900 linked bytes are preserved. Primary/secondary VMs now use shared AnmVm directly and reset copies use the existing214-byte BulletSpawnDescriptor; all3900 raw bytes stay identical. Remaining draw index2 and special-attack/descriptor11 stay open. Duplicated draw paths expand to3912; genuine folded vector-body visibility shrinks to3876/96/68 and reduces static cleanup calls2 to1. Both fail the full frontier; actual slot accessors and Timer-current visibility are raw-neutral. Reproduce the folded case with `probe-enemy-native-spawn-context.py --case standalone-pointer-view` (expected rejection). All79 exact shared-ECL owners pass across two profiles; unchanged separate Timer proofs are reused. Current state/damage scopes include104/81 units; unchanged external Player proofs are reused. Original source partition and native product/runtime remain open. |
+| **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**,97 fields, 69 calls,170 blocks; **13 differing bytes** (29->13) | Genuine co-visible **ZunTimer::operator>(int)** restores all 16 tracking/homing bytes with no damaged match. The sole 20-byte definition now lives in ZunTimerGreater.inl through EclManager.cpp; four same-object call identities and its complete body are required. All **3887 equal bytes** are protected. The six native GameManager fields and four real 116-byte playfield-member calls are now independently guarded; all3900 linked bytes are preserved. Primary/secondary VMs now use shared AnmVm directly and reset copies use the existing214-byte BulletSpawnDescriptor; all3900 raw bytes stay identical. Remaining draw index2, side/threshold transport4 and position-copy transport7 stay open; the constants/count/spawn window +2C1..339 already agrees. Duplicated draw paths expand to3912; genuine folded vector-body visibility shrinks to3876/96/68 and reduces static cleanup calls2 to1. Both fail the full frontier; actual slot accessors and Timer-current visibility are raw-neutral. Reproduce the folded case with `probe-enemy-native-spawn-context.py --case standalone-pointer-view` (expected rejection). All79 exact shared-ECL owners pass across two profiles; unchanged separate Timer proofs are reused. Current state/damage scopes include104/81 units; unchanged external Player proofs are reused. Original source partition and native product/runtime remain open. |
 | **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Maintained src/EffectDrawType29.inl preserves flag-scoped main plus six satellite fans. The inspector also records all 13 polar/accumulation receiver windows and the independently differing ordinal graph. Bounded original/native-helper emulator comparison covers all672 reachable original instructions across26 cases; it is not byte-exact or whole-product validation. The full-byte guard protects1035 equal positions. Source presence is independent of exactness; `--owner effect29` protects79 shared exact functions across two profiles. |
 | **Effect 34 draw** | 0x00444AF0 | **946/946 physical**,53 original referents,20 direct +12 COM calls,286 instructions,16 blocks; **78 linked differences** | Common-layer indexing of the actual line32/jitter33 arrays restores the original0x1C frame and removes13 excess bytes. The reviewed replacement restores517 old mismatches and changes two old coincidental entry matches; the new SHA/78-offset guard protects868 equal bytes, complete geometry and ordinal per-block call/branch structure. All four actual scalar definitions and all53 decoded fields remain checked. Only the Timer call field is shifted+0x40->+0x3D;52 field positions agree. Remaining65 entry,9 store-order and4 radius-operand bytes stay nonexact. Bounded72-fixture native-arithmetic/synthetic-renderer comparison passes; no whole-product/runtime claim. `--owner effect34` replays79 affected existing exact owners across two profiles; the detached208-byte update proof is unchanged. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor ESI still open. The final original call is now typed as `EffectManager::DrawBulletLayerEffects` with its separately **169/169 exact** real-member source at `0x0040D110` and side owner at `+0x0C`; all original linked bytes remain unchanged. Complete SHA/offset guard preserves the 332 equal bytes; `--owner etama` protects **both exact same-carrier helpers plus the separately exact OnUpdate (3 checks)**. |

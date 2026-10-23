@@ -1438,3 +1438,38 @@ packet or reviewed Python cache roots, and rehashed before unlink. Per-path
 records remain in cleanup.json. All14 preexisting build files and34 unique
 selected-manager canonical objects pass before/after hashes; other evidence,
 source, original target, toolchain, SDK, Wine and IDA state remain intact.
+
+
+### 2026-10-23: Enemy count-operation control flow and residual census
+
+From local40d77386, five natural count/list source models and one independent
+cold count compile leave the maintained3900/97/13 frontier unchanged or fail
+original call offsets at3852/96. The latter merges the two movement Float3
+calls and leaves68 instead of69 direct calls. Short/int branch returns give
+the same bytes; conditional-expression and list operations retain the baseline.
+The source-bound canonical baseline is reused, not recompiled. Across seven
+objects, all525 same-profile canonical comparisons pass; all RunEcl bodies
+stay15564/598/30 with zero field/table drift. No game source/profile/guard/unit
+or ledger changes, and the98% authored-byte milestone remains active.
+
+Packet `.analysis/gpt-61sol-20261023-enemy-spawn-selection/` preserves70 frozen
+source inputs,21 providers, complete raw/actual COFF/structure/literal reports,
+original residual instructions, actual native-body proofs and the cold receipt.
+The544-member archive compresses11074586 logical bytes to2328217 bytes, SHA256
+ee0a86197e8ef40c4e4d20c9bc246c2fab6d03e6809f9fd17733eb44e52d18e9.
+All members pass CRC/SHA and loose-byte equality before cleanup. verify.py
+extracts the archive and reproduces every complete observation without invoking
+a compiler, including the525 body comparisons and independent residual census.
+probe.py retains source-bound selected cold build recipes. Manifests, scripts,
+structure/residual observations and cleanup evidence remain loose.
+
+CI passes1016 tests/29 skips, exit0, in129.659 wrapper seconds, serially on
+one CPU at nice10. Target-required tracking, docs, progress, open build graph
+and whitespace pass. After all compiler/replay/CI handles terminate, a repository-
+scoped audit finds no active producer. Cleanup removes544 verified archive
+duplicates11074586 bytes and418 reproducible Python cache files7006866 bytes:
+962 files/18081452 logical bytes. Every deletion is ignored, regular, confined
+to this packet or reviewed cache roots, and rehashed before unlink; per-path
+records remain in cleanup.json. All14 preexisting build files and34 unique
+selected-manager canonical objects pass before/after hashes. Original target,
+other unique evidence, source and toolchain/SDK/Wine/IDA state remain intact.
