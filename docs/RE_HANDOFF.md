@@ -17,47 +17,47 @@ verified. The 98% goal and the principal large owners remain unfinished.
   whole exact bytes. RunEcl remains15564 physical bytes/598 fields/30 ordinary
   differences; Enemy remains3900/97/13 with69 calls and170 blocks.
 - The large-owner source baseline remains **f595786**, the selected ECL-manager
-  ownership repair. All 140 canonical units across34 source/profile groups
+  ownership repair. All140 canonical units across34 source/profile groups
   passed at adoption. Retain
   `.analysis/th09-selected-ecl-manager-owner-20261023-v01/`, including
   canonical/group-00.obj through group-33.obj and their sidecars/proofs.
   Archival receipts do not accept a later HEAD; exact functions do not close
   native product/runtime gates. Reuse unchanged source/profile-bound proofs.
-- Current primitive-return timeout controls retain30 or reproduce the known
-  raw82e081e3 regression:1938 ordinary/202 field-byte/26 table-byte differences.
-  A typed memcpy helper outlines19 bytes; its15560/599 caller and dependent
-  Enemy inventory are rejected. A local result permits ordinary inlining but
-  repeats the union's full rejected class. Six objects protect450 existing
-  canonical bodies;4096 native-helper fixtures pass without a target binding.
-  No source/profile/guard/ledger is adopted. Packet
-  `.analysis/gpt-61sol-20261024-ecl-value-return/` retains70 source bindings,
-  the475-member archive, frozen inputs and the selected cold replay.
-- Prior Enemy entry-leaf evidence supports keeping rank reset opaque: visible
-  real51-byte reset removes the original+CC3 receiver reload and gives616 full
-  differences despite physical3900. Earlier schedule/word controls remain in
-  dated KB notes and source-bound packets, including the resource exception.
-- Earlier SaveReplay, gameplay setup, Enemy routing/position/count, Player,
-  Title and declaration experiments remain in their dated knowledge-base notes
-  and local packets. Consult those source-bound observations before repeating
-  models; none exhausts the natural source families. Use the maintained full
+- Current Float3 visibility controls preserve the full RunEcl30/Enemy13 owners.
+  Hiding only add leaves74 existing bodies exact plus its separately exact
+  native54-byte body. Hiding all three definitions or only the constructor
+  damages the already exact Type4/8 position callbacks by55 or36 bytes each;
+  constructor-only cold reproduction confirms36. Math26/54/54 bodies remain
+  independently exact. Preserve current routing; no source/profile/guard/ledger
+  change is adopted. Packet
+  `.analysis/gpt-61sol-20261024-ecl-math-boundary/` retains frozen70-source/
+  21-provider inputs and full diagnostics:378 attempts,366 passed body
+  comparisons,6 expected moved-definition absences and6 real regressed captures.
+- Original register audit bounds the opcode155 successor: incoming ESI is only
+  saved/restored by the exact add/constructor path before caller40876B replaces
+  it. This slice justifies no invented old-flags use or Timer return contract.
+  Prior primitive-return controls retain30 or the rejected raw82e081e3 class;
+  real rank-reset visibility removes the original Enemy+CC3 receiver reload.
+  Keep those source-bound constraints and distinguish their exact contexts.
+- Earlier schedule/word, SaveReplay, gameplay setup, Enemy routing/position/count,
+  Player, Title and declaration experiments remain in dated KB notes and local
+  packets. They do not exhaust natural source families. Use the maintained full
   frontiers below for adoption. Exact deletion scopes and packet recovery are
   recorded in [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md).
 - Target SHA-256 remains
   `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
   Disk and direct IDA metadata/mapped-byte checks pass in the current packet;
   re-attest in the successor session.
-- Git storage was previously repacked with one worker and bounded delta
-  memory: all18404 object IDs/types/sizes, refs and reflogs agree before/after.
-  Object storage fell from about950.01MiB to15.94MiB without pruning objects
-  or rewriting history; full Git integrity verification passed. See
-  [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for exact cache scopes and
-  archive recovery. Ignored evidence is local and is not part of Git commits.
-- Current CI passes1016 tests/29 skips, exit0. Reviewed cleanup removes609
-  duplicate/cache paths (13664886 logical bytes), preserving all14 preexisting
-  build files,34 canonical objects and the original input. The packet and
-  cleanup history retain exact recovery/deletion records. All1003 unchanged
-  source/profile proofs are reused; native product/runtime, semantic and
-  portability gates remain open.
+- Git storage was previously repacked with one worker and bounded delta memory:
+  all18404 object IDs/types/sizes, refs and reflogs agree before/after. Historical
+  object storage fell from about950.01MiB to15.94MiB without pruning objects or
+  rewriting history; full Git integrity verification passed. See cleanup history
+  for exact scopes. Ignored evidence is local and must accompany the worktree.
+- All1003 unchanged canonical source/profile proofs are reused; native product/
+  runtime, semantic and portability gates remain open. CI passes1016 tests/29
+  skips, exit0; reviewed cleanup removes618 duplicate/cache paths (12475042
+  logical bytes), preserving14 build files,34 canonical objects and original
+  input. See cleanup history and packet receipts for recovery and exact scopes.
 
 ## Live ledger snapshot
 

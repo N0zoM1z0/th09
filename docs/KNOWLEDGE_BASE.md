@@ -22153,3 +22153,68 @@ comparisons, intervals, actual table-derived handlers and4096 helper fixtures
 without compiling. Fresh selected reproduction:
 `PYTHONDONTWRITEBYTECODE=1 python3 -B .analysis/gpt-61sol-20261024-ecl-value-return/probe.py --case typed-bitfield-copy --output .analysis/ecl-value-return-cold`.
 Native product/runtime, semantic and portability gates remain open.
+
+
+### 2026-10-24: Float3 source visibility and opcode155 successor dependencies
+
+Recovery at3d6bb1f0780b20a3a25baf40772cf0fd556ca65a is clean. Original Japanese
+1.50a disk, direct IDA metadata and distributed mapped bytes pass. Historical
+Float3 co-location observations are bounded source contexts, not proof of a
+unique original source partition. TH08 ZunMath.hpp declarations suggest only an
+out-of-line source family; its hash/path commit and limited hypothesis scope are
+retained. No adjacent-game addresses, bytes, layouts or exactness are imported.
+
+Fresh original RunEcl successor review starts after opcode155 publication at
+40B789 and its advance/jump back to408750. The complete33-byte prefix overwrites
+ECX at408756 and EAX at40875A before their first read, calls native Float3 add
+at408761, then overwrites ESI with the active context at40876B. The exact54-byte
+add at401100 reads incoming ESI only to save it at401109, defines its own ESI at
+40110D, calls the26-byte constructor at40112A and restores ESI at401131. The
+constructor at4010B0 neither accesses ESI nor calls another function. No later
+add instruction reads restored ESI before return. This explicit register slice
+supports no added old-flags arithmetic consumer or assignment-return contract.
+It is not all-memory liveness, original nominal-type or whole-runtime proof.
+
+Private models remove only the actual definitions from Float3Core.inl; genuine
+declarations, bodies, ABI and the pinned /O2/Ob1 profile remain unchanged. No
+new forced inline, register/variable-order hint, assembly, padding or target
+patch is used. A separate private math carrier emits the unchanged constructor,
+add and subtract:26/54/54 bytes,134 total with2 original fields, all completely
+original-bound exact. This is not a product link or original-TU ownership proof.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-MATH-BOUNDARY-001 | byte-neutral add opacity | Hide only add;74 remaining canonical bodies pass and the missing54-byte definition is independently exact in the math carrier. | opaque-add/: RunEcl15564/598/30 and Enemy3900/97/13,6 of11 main math references genuinely undefined. |
+| ECL-MATH-BOUNDARY-002 | rejected complete-core split | Hide constructor/add/subtract;70 bodies pass,3 expected definitions move, and Type4/8 callbacks each regress55 bytes. | opaque-core/: both complete callbacks remain249 bytes/8 fields with all field coordinates and identities preserved. |
+| ECL-MATH-BOUNDARY-003 | rejected constructor-only split | Hide only constructor;72 bodies pass,1 expected definition moves, and Type4/8 each regress36 bytes. | opaque-constructor/ and selected cold capture: all inputs, raw bytes, COFF, full reports and collateral diagnostics reproduce. |
+
+The constructor-only callback changes reorder returned-vector spills, component
+loads and final floating-point/epilogue scheduling. The full-core and constructor
+captures differ; do not merge55 and36 into one class. All original249 physical
+bytes and all8 actual fields are compared; equal size does not imply equality.
+The diagnostic binds actual fields to the existing canonical symbol identities,
+coordinates and original destinations and validates actual scalar definitions.
+No production recognition, relocation acceptance or frontier guard is widened.
+The first private reviewer incorrectly expected55 in both classes, fails closed,
+and is corrected to36 from the complete report. Its failed log is retained;
+this changes neither a compiler result nor a production guard.
+
+Three source models, one selected cold compile, one independent math object and
+one reused source-hash-bound baseline give six objects. There are378 canonical
+body attempts:366 complete passing comparisons,110715 repeated physical bytes/
+4901 fields;6 expected moved-definition absences and6 actual regressed callback
+captures are separate. The three math proofs are included in366. All five full
+RunEcl and Enemy reports retain baseline rawbc9a1a71/1fbfc13a and30/13 residuals
+with zero ECL field/table drift. No source/profile/guard/unit/ledger is adopted;
+all1003 unchanged canonical proofs are reused. All five compiler intervals are
+locked, disjoint, one CPU at nice10 under the unchanged profile.
+
+Packet .analysis/gpt-61sol-20261024-ecl-math-boundary/ retains70 source bindings/
+21 providers, frozen inputs, actual objects and observations, register audit,
+final renderer and failed first review. verify.py extracts the archive and
+replays all378 attempts,366 passing comparisons, six failed callback captures,
+math bodies, selected cold payload and serial receipts without compiling.
+Fresh selected reproduction:
+`PYTHONDONTWRITEBYTECODE=1 python3 -B .analysis/gpt-61sol-20261024-ecl-math-boundary/probe.py --case opaque-constructor --output .analysis/ecl-math-constructor-cold`.
+Coverage remains244917/291883 (83.9093%),41129 whole bytes short of98%. Native
+product/runtime, semantic and portability gates remain open.

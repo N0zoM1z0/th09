@@ -1852,3 +1852,56 @@ cleanup: all475 members,450 canonical comparisons and4096 native-helper cases,
 without compiling. All609 removed paths remain absent. Keep this ignored packet
 with the worktree.
 Coverage stays244917/291883 (83.9093%);98% and all later phase gates remain open.
+
+
+### 2026-10-24: Float3 opacity, callback collateral and successor audit
+
+From local3d6bb1f0, fresh original register dataflow bounds the opcode155
+successor and actual add/constructor callees. Incoming ESI is saved/restored,
+then overwritten at40876B; the bounded slice supports no fabricated old-flags
+consumer or Timer return contract. Private source models hide actual definitions
+only, retaining genuine ABI/declarations and the fixed /O2/Ob1 carrier profile.
+Add-only opacity preserves the remaining74 existing exact bodies. Complete-core
+and constructor-only opacity each regress already exact249-byte/8-field Type4/8
+callbacks by55 or36 bytes respectively, retaining all actual field coordinates
+and identities. Independent constructor cold reproduction confirms36; it is
+not the same code class as55. No canonical source/profile/guard/unit/ledger is
+adopted and no new exact authored bytes are credited.
+
+Packet `.analysis/gpt-61sol-20261024-ecl-math-boundary/` retains70 source bindings/
+21 providers, frozen actual source inputs, final producer and full observations.
+Six objects include the reused hash-bound baseline and independent actual math
+carrier. Constructor/add/subtract are complete26/54/54-byte exact bodies with2
+fields total. Of378 canonical attempts,366 pass full original comparison,
+110715 repeated physical bytes/4901 fields;6 expected moved-definition absences
+and6 real regressed callback captures remain explicit. Math's three native
+proofs are included in366; no actual product link is claimed. All five complete
+RunEcl/Enemy reports retain rawbc9a1a71/1fbfc13a and30/13 differences, with zero
+ECL field/table drift. All1003 unchanged canonical source/profile proofs are
+reused. All five compiler intervals are locked, disjoint, one CPU/nice10.
+
+The484-member archive compresses10455717 logical bytes to2022186 bytes, SHA256
+c18b587b43a9a9a2ed351adb300c665c83c68c265e1040f09fac93790bb69782.
+CRC, per-member SHA and loose-byte equality pass before deletion. verify.py
+extracts the objects and frozen inputs to replay all378 attempts,366 passing
+bodies, six regressed callback captures, native math, successor audit and serial
+receipts without compiling. The initial private review's incorrect55-byte
+expectation for constructor-only is retained with its failed log; correction to
+actual36 affects no compiler result or production guard.
+
+CI passes1016 tests/29 skips, exit0, in134.858 wrapper seconds on one CPU at
+nice10. The handoff direct IDA metadata/entry/five mapped samples agree with the
+verified disk target. All known compiler/replay/CI/IDA-check handles terminate
+before cleanup; the scoped process audit finds no producer. Cleanup removes484
+verified archive duplicates (10455717 bytes) and134 reproducible Python caches
+(2019325 bytes):618 paths/12475042 logical bytes. Every ignored regular path is
+rehashed immediately before unlink and confined to the packet/reviewed cache
+roots, with records in cleanup.json. All14 preexisting build files and34 unique
+canonical objects retain before/after hashes. Original resources/th09.exe matches
+the pinned target SHA before archive and after cleanup, independently of the
+canonical proof-reference hash. Unrelated unique evidence, tracked source and
+tools/SDK/Wine/IDA state remain. Archive-only replay passes after cleanup: all484 members,378 attempts,366
+passing canonical comparisons and all six failed callback captures, without
+compiling. All618 removed paths remain absent. Keep this ignored packet with
+the worktree; its ARCHIVE_README.md documents replay and fresh selected compile.
+Coverage stays244917/291883 (83.9093%);98% and later phase gates remain open.
