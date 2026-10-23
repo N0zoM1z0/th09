@@ -1157,3 +1157,34 @@ unclassified build files remain byte-identical. Root recipes, compact summaries,
 archive-only proof and per-path cleanup.json remain loose. Original executable,
 SDK/compiler/Wine/IDA state, prior proof objects and unclassified older evidence
 are untouched. No bulk cleanup or history expiry occurs.
+
+### 2026-10-23: Title replay-menu source and native text controls
+
+From local d9245532, six serial single-CPU nice-10 menu compiles retain the
+existing /O1 /Ob1 profile. Five contexts reproduce1280/57/29; actual complete
+text-body visibility gives1273 bytes/449 overlap differences+7 missing and is
+rejected. The native text bodies in that caller profile also fail complete
+original comparison. No maintained game source/profile/unit/ledger changes;
+all1003 existing authored proofs remain unchanged/reused and the98% goal stays
+active at83.9093%. See the dated KB section for independent native-body checks.
+
+Packet .analysis/gpt-61sol-20261023-title-replay-row/ retains source recipes,
+direct IDA observations, compile commands, complete caller/native raw/COFF,
+literal/graph checks and source/provider bindings. Its98-member captures.zip
+preserves6350719 logical bytes in679583 bytes, SHA256
+b2314e7a34f1fd630b56b4b28166bc8d20423bcbb7df0e47bc68dac6467e531e.
+Every member passes CRC/SHA/full byte equality. Archive-only verify.py creates
+a temporary extraction, re-renders all six source sets and exactly reproduces
+six complete diagnostics and all native-profile failures without compiling.
+It distinguishes immutable Git LF blobs from the actual CRLF compiled inputs,
+binding both hashes and allowing only their recorded line-ending relationship.
+Historical cold producers require recorded d9245532 source/provider inputs.
+
+CI passes1016 tests/29 skips in126.424 seconds with observed exit zero.
+After compiler, replayer and CI processes finish, reviewed cleanup removes514
+regular ignored and rehashed files/13327737 logical bytes:98 verified archive
+duplicates6350719 bytes and416 reproducible Python bytecode files6977018 bytes.
+All14 preexisting unclassified build files remain byte-identical. Root recipes,
+summaries, direct IDA evidence, archive verifier and cleanup.json stay loose;
+the original executable, SDK/compiler/Wine/IDA state, older unique proofs and
+unclassified analysis remain untouched. No bulk cleanup or history expiry is used.

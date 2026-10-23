@@ -20938,3 +20938,77 @@ before verification/replay. Historical producers bind source9161c560 and fail
 on source/provider drift. No forced registers, variable ordering, inert storage,
 false return/ABI, target byte patch or compiler-profile search is introduced.
 Coverage stays244917/291883 (83.9093%);98% still requires41129 whole exact bytes.
+
+### 2026-10-23: Title replay-menu receiver, coordinate storage and actual text visibility
+
+Direct local IDA metadata/mapped-byte and disk checks pass against the pinned
+original. From source-parent d924553236d47fb8895b9284833662dc9e8c9d14, six
+serial single-CPU nice-10 compiles keep the existing Title /O1 /Ob1 profile.
+No production source, compiler profile, match unit or ledger is changed; all1003
+unchanged authored source/profile proofs are reused, not claimed freshly built.
+The isolated menu TU has no collateral canonical exact unit.
+
+Original DrawReplayMenu at4234F6 has1280 bytes/376 instructions/57 fields,
+13 calls and72 blocks, SHA256
+d0201b3aae3727f7aa773187ac9ac6d21727c86342b657c780cb9353cdc39ed0.
+Baseline and four neutral controls repeat the same complete raw SHA256
+d83b9d48e715d95fde6fd6729b9f6630b5a88befd4bbf422edcc003ac77caca9:
+1280/376/57,29 ordinary differences, no missing/excess bytes or field drift.
+All16 actually emitted literal definitions, complete address-field coverage,
+ordered13 calls and the unchanged maintained frontier guard pass.
+
+The neutral controls are (1) const method receiver with const record pointers,
+(2) an ordinary constructor-free three-float local point, (3) both, and
+(4) the real AddFormatText definition visible before the menu. Const changes
+the actual C++ decoration QAEHXZ to QBEHXZ; the private comparison uses that
+actual symbol and independently retains ECX/no-stack-argument/RET transport.
+This is not a claim that the original declaration was const. The point has
+size/member-offset assertions and explicit Float3 pointer conversion only at
+the unchanged external text interface; it does not establish an original
+nominal type, lifetime model or portable aliasing contract.
+
+Auxiliary emitted-code inventory matters: baseline has three definitions,
+37 bytes/two fields, consisting of two17-byte selectors and a3-byte empty
+Float3 constructor. Const selectors have different decorations but identical
+raw bodies; plain-point contexts omit the unused constructor and retain34
+auxiliary bytes/two fields. No called helper is silently replaced by a stub.
+
+With both genuine AddString and AddFormatText bodies visible, the menu instead
+has1273 bytes/375 instructions/57 fields/13 calls/72 blocks. All fields and
+actual literal definitions bind, and ordered calls/direct graphs agree, but
+the complete comparison has449 overlap differences plus7 missing bytes,
+restores no baseline residual and damages420 previously equal positions;
+30 field positions move. The raw SHA256 is
+f249eb200c82a9910411d23f7518df4797a7184e3fa96db622e7092c3df9a4cc.
+An instruction alignment identifies the removed store at baseline+347:
+position.x =221.0f, encoded as a7-byte MOV to EBP-14. The adjacent y=240.0f
+store moves. Read-only coordinate flow through the visible text chain is a
+plausible explanation for this elimination, not a unique optimizer proof or
+evidence of the original TU boundary. The unchanged maintained guard rejects
+this candidate; it is not adopted.
+
+Native body equality is checked separately. In the unchanged menu profile,
+actual AddFormatText is51 bytes/two fields versus original55,39 linked overlap
+differences+4 missing; actual AddString is111 bytes/one field versus original
+130,106 differences+19 missing. The latter calls real strcpy at47C4E0, unlike
+the original intrinsic loop. Supplemental destinations come from unique
+canonical roots, and complete decoded actual fields/returns are checked.
+Canonical native replay independently rejects all three emitted text-body
+instances on their full extent. Their separate recorded /O2 /Oi profile is
+not substituted into the caller. Seven actual menu-to-format links and, in
+the complete chain, one format-to-string link are positively verified against
+defined COFF sections/values; this does not make any native chain exact.
+
+Packet .analysis/gpt-61sol-20261023-title-replay-row/ retains seven source
+inputs, nine provider hashes, all six objects/commands/source sets, full
+raw/COFF/literal/graph and native-profile failures, direct IDA observations,
+rendering recipes and archive-only verify.py. Working-tree compiled-byte
+hashes and immutable Git blob hashes are recorded separately: two inputs have
+CRLF materialization while their Git blobs use LF. Verification permits only
+this recorded line-ending correspondence and keeps actual compiled bytes bound.
+It reconstructs every source set and reproduces every complete report directly
+from captures.zip without invoking the compiler. Historical cold producers
+require the recorded source/provider inputs; do not overwrite frozen captures.
+No source adoption, register/variable-order hint, invented return/ABI, forced
+inline, padding or profile search is introduced. Coverage remains83.9093%;
+the98% goal still needs41129 whole exact bytes and remains active.

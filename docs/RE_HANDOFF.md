@@ -25,7 +25,14 @@ The 98% goal and both main owners remain unfinished.
   canonical/group-00.obj through group-33.obj and their sidecars and proofs.
   These are source-bound evidence. Archival accepted receipts do not accept a
   later HEAD, and exact functions do not close native product/runtime gates.
-- Current SaveReplay controls test checksum field ownership, complete native
+- Current Title replay-menu controls test a const receiver, plain three-float
+  storage and actual text-body visibility. Five contexts retain1280 bytes/57
+  fields/29 differences. With both text bodies visible, a repeated coordinate
+  store disappears:1273 bytes/449 overlap differences+7 missing, rejected.
+  Actual text bodies in the menu profile are51/111 versus55/130 original bytes;
+  their native chain is not exact. No game source/profile/ledger is changed.
+  Packet: `.analysis/gpt-61sol-20261023-title-replay-row/`.
+- SaveReplay controls test checksum field ownership, complete native
   construction/encoding and two wire-type models. Five contexts retain1238/53/3;
   three field accumulators give1270 bytes/304 overlap differences+32 excess and
   are rejected. All16 same-profile collateral comparisons pass. Configuration
@@ -61,9 +68,10 @@ The 98% goal and both main owners remain unfinished.
   archive recovery. Ignored evidence is local and is not part of Git commits.
 - Final current checkpoint CI passes **1016 tests / 29 skips** (exit0);
   target-required tracking, documentation, build graph, progress and whitespace
-  pass. The current Replay packet retains all eight compiled contexts and their
-  complete caller/native proofs. Extract captures.zip before verification;
-  historical cold producers require recorded9161c560 source/provider inputs.
+  pass. The current Title packet retains all six compiled contexts and complete
+  caller/native failures in a verified archive. Its verify.py reads the archive
+  directly and replays without compiling; historical cold producers bind
+  d9245532 inputs. The earlier SaveReplay packet's producers bind9161c560.
   Earlier source epochs, reviewed cache removal and Git compaction remain in
   cleanup history. Reconstruction remains active.
 
