@@ -1590,3 +1590,40 @@ unlink and confined to this packet or reviewed Python cache roots. All 14
 preexisting build files, 34 unique canonical objects and the original executable
 pass before/after hashes. Other unique evidence, source and tools/SDK/Wine/IDA
 state remain intact. Keep ignored packets with the worktree for local handoff.
+
+### 2026-10-23: Gameplay setup checked publication and side preparation
+
+From local 06ef79bd, three source hypotheses test checked subsystem publication
+and a side-preparation member. Two models preserve the full 1689/171/904 worker;
+the member outlines a real 34-byte helper with one field/positive reference and
+no original binding. The 1661-byte caller keeps its private unbound-symbol and
+public extent rejections. Raw 416-instruction/171-field counts hide 35 versus 36
+calls, so no incomplete score or census is accepted. One cold member compile
+reproduces its complete object and rejection. A failed initial compiler exit 2
+is retained as declaration visibility error, separate from successful codegen.
+No canonical game source, compiler profile, guard, manifest or ledger changes.
+
+Packet `.analysis/gpt-61sol-20261023-setup-publication/` retains 22 source/11
+provider bindings, the failed-renderer source epoch, actual compiler receipts,
+objects, raw/COFF/helper/literal observations and direct original IDA windows.
+Five successful objects pass 50 complete existing-body comparisons, 13885
+physical comparison bytes/1130 fields total. Unchanged canonical no-/Os and
+external callee proofs are reused. The 201-member archive compresses 6263712
+logical bytes to 1098528 bytes, SHA256
+d88153c35301ec210550afd3603e5bff9c39e456b80c622520b38c003e1c8545.
+CRC, per-member SHA and loose-byte equality pass before deletion. verify.py
+extracts and replays all complete observations without compiling; its old
+failed-renderer graph is independently reproduced by the preserved renderer.
+audit-raw-calls.py decodes the captured actual CALL/COFF inventory without
+inventing a target for the new helper.
+
+CI passes 1016 tests/29 skips, exit 0, in 141.810 wrapper seconds on one CPU at
+nice10. All compiler/replay/CI handles are terminal before cleanup; the scoped
+process audit finds no active producer. Cleanup removes 201 verified archive
+duplicates (6263712 bytes) and 135 reproducible Python caches (2028171 bytes):
+336 files/8291883 logical bytes. Each ignored regular path is rehashed before
+unlink, confined to this packet or reviewed cache roots, and recorded in
+cleanup.json. The two superseded producer/scaffold files remain archived. All 14
+preexisting build files, 34 unique canonical objects and the original executable
+pass before/after hashes; other unique evidence, source and tools/SDK/Wine/IDA
+state remain intact. Keep ignored packets with the worktree for local handoff.

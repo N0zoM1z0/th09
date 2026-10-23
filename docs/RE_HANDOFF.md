@@ -23,18 +23,22 @@ verified. The 98% goal and the principal large owners remain unfinished.
   canonical/group-00.obj through group-33.obj and their sidecars/proofs.
   Archival receipts do not accept a later HEAD; exact functions do not close
   native product/runtime gates. Reuse unchanged source/profile-bound proofs.
-- Current Enemy routing predicates test five source models and one cold replay.
-  Seven objects pass 525 complete existing-body comparisons. Manager/Enemy
-  timeout queries, the side-suppression query and explicit comparison retain
-  3900/97/13, identical raw bytes and field identities. Category switch dispatch
-  has 511 full linked differences and damages 498 old matches; nine actual calls
-  move by -3 bytes. Its production rejection remains explicit. No source,
-  profile, guard or ledger is adopted. Packet
-  `.analysis/gpt-61sol-20261023-enemy-routing-predicates/` retains the 550-member
-  archive, renderer, COFF and full exploratory original-bound comparison.
-  CI passes 1016 tests/29 skips; cleanup removes 685 verified duplicates/caches,
-  14661097 logical bytes. All 14 preexisting build files and 34 unique canonical
-  objects remain preserved; cleanup history contains the exact recovery scope.
+- Current gameplay-setup publication controls test three source hypotheses.
+  Two checked-assignment forms reproduce 1689/171/904. A side-preparation member
+  outlines a real 34-byte helper, leaving 1661/171 and 36 calls; its original
+  binding is unknown and both private binding/public extent rejection remain
+  explicit. Five successful objects pass 50 existing-body comparisons. No source,
+  guard, profile or ledger is adopted. Packet
+  `.analysis/gpt-61sol-20261023-setup-publication/` retains the 201-member archive,
+  complete observations, failed-scope source epoch and an independent cold run.
+  CI passes 1016 tests/29 skips. Cleanup removes 336 verified duplicates/caches,
+  8291883 logical bytes, while retaining all 14 preexisting build files and 34
+  unique canonical objects. See cleanup history for exact scope and recovery.
+- Prior Enemy routing predicates retain 3900/97/13 or regress to 511 differences.
+  Seven objects pass 525 existing-body comparisons. The 550-member archive and
+  full original-bound seam audit remain in
+  `.analysis/gpt-61sol-20261023-enemy-routing-predicates/`; production declarations
+  and guards remain unchanged. See cleanup history for preservation/recovery.
 - Prior RunEcl command-prefix/byte-promotion controls retain 30, regress, or
   outline an unbound helper. The 12 objects pass 900 existing-body comparisons;
   the 941-member archive and source recipes remain in

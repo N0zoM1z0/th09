@@ -21758,3 +21758,69 @@ model can be rebuilt into a fresh directory with
 These repeated existing proofs add no exact authored bytes. Coverage remains
 244917/291883 (83.9093%); 41129 whole exact bytes are still needed for 98%.
 Native product/runtime, semantic and portability gates remain open.
+
+### 2026-10-23: Gameplay setup checked publication and side preparation
+
+Recovery at 06ef79bdb1e39197b971a2e7dc1b8a93d365d243 is clean. Original Japanese
+1.50a disk identity, direct IDA metadata and mapped-byte attestation pass.
+Fresh original GameplaySetupThread disassembly retains 1689 bytes/413
+instructions/172 address operands/35 calls/78 blocks. The subsystem loop starts
+its flags cursor at manager+0x34, reads selector at -0x0C and ends at manager+0xA4.
+Historical global-alias removal and flags-centered cursor trials are reviewed
+rather than repeated. The current producer freezes 22 quoted-include inputs and
+11 provider bindings under the unchanged /O2/Os/Ob1 profile.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| SETUP-PUBLICATION-001 | original-bound baseline | Current source retains 1689/171/416 instructions/35 calls/77 blocks and 904 unlike bytes. | baseline/: raw SHA256 0310dbdd6b79da37ca68ece597b0faaf3562d1314b21dbc08320398091e7614c. |
+| SETUP-PUBLICATION-002 | byte-neutral experiment | Put all seven side-slot assignments inside their existing null-test conditions; retain publication before failure. | side-slot-conditions/: every raw byte, COFF record and complete report equals baseline. |
+| SETUP-PUBLICATION-003 | byte-neutral experiment | Extend checked assignment to the game/shared/secondary subsystem publications. | all-create-conditions/: same full baseline and 904 residual offsets. |
+| SETUP-PUBLICATION-004 | rejected source boundary | A real side-preparation member owns the existing selector-dependent focus reset and flags clear. | side-prepare-member/: 1661/171, new 34-byte helper with one field and one positive caller reference. |
+
+The original seven creator windows compare the returned pointer, publish it and
+then branch on null. The two natural condition-assignment models preserve every
+field effect and failure path but compile identically to separate source
+statements. Neither repairs cursor anchoring or the mode-publication frontier.
+No declaration-order/register hint, padding, forced inline or profile search is
+introduced. Canonical source retains its CRLF bytes unchanged.
+
+The first side-member recipe fails compiler exit 2: its in-class body precedes
+the existing global configuration declaration. This is a source visibility
+error, not negative codegen evidence. The failed 22-input graph, numeric receipt,
+log and old renderer are retained. Declaring the member in-class and defining
+it after the global becomes visible corrects the model without changing any
+field, operation or ABI. The ordinary inline definition nevertheless outlines.
+Its actual 34-byte body has one configuration DIR32 field and a positive same-
+object REL32 caller reference; no original address is invented for that helper.
+The private linker refuses the new identity before scoring; the unchanged
+production inspector independently rejects 1661 rather than 1689 physical bytes.
+No full linked worker score is claimed for this unbound model.
+
+Raw instruction decoding plus actual COFF proves 416 instructions and 171 fields
+in both caller forms, but 35 baseline versus 36 member-model calls. All 35 retained
+call-symbol identities stay ordered. The caller loses one configuration read
+and manager+0x28/+0x98 cursor fields, replacing them with the new helper call and
+manager+0x04/+0x74 cursor fields. Actual COFF MOV/CMP immediates establish those new
+loop roots. The helper owns the relocated configuration read. These counts do
+not establish dynamic equivalence or original source ownership; fields are
+never silently dropped to improve a census.
+
+Three source hypotheses, one independent cold compile and the fresh baseline
+give five successful complete objects. Each passes ten existing same-/Os
+canonical bodies, 2777 physical bytes/226 fields: 50 full original-byte
+comparisons, 13885 comparison bytes/1130 fields total. The cold side member
+reproduces every compiled input, raw byte, actual COFF row, helper and rejection.
+The initial failed compile is kept separately; no fake body comparison covers
+it. All compiles use one CPU at nice10. Unchanged no-/Os loading-owner and
+external callee source/profile proofs are reused. No canonical game source,
+profile, manifest, production guard or ledger is adopted.
+
+Packet .analysis/gpt-61sol-20261023-setup-publication/ retains the 201-member
+verified archive, final renderer, failed source epoch, compiler receipts and
+raw-call audit. verify.py replays every complete body/worker observation from
+that archive without compiling; audit-raw-calls.py independently checks captured
+instruction/COFF calls while leaving the new helper unbound. A fresh selected
+model can be built with
+`python3 -B .analysis/gpt-61sol-20261023-setup-publication/probe.py --case side-slot-conditions --output .analysis/setup-publication-cold`.
+Coverage remains 244917/291883 (83.9093%); 41129 whole exact bytes are still needed
+for 98%. Native product/runtime, semantic and portability gates remain open.
