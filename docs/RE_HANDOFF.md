@@ -23,18 +23,24 @@ verified. The 98% goal and the principal large owners remain unfinished.
   canonical/group-00.obj through group-33.obj and their sidecars/proofs.
   Archival receipts do not accept a later HEAD; exact functions do not close
   native product/runtime gates. Reuse unchanged source/profile-bound proofs.
-- Current Enemy operation controls isolate branch returns from conditional
-  expressions and draw-list prepending. Five models plus one cold replay keep
-  the baseline or emit 3852/96/68; the latter merges an original Float3 call and
-  fails strict original call offsets. All 525 same-profile exact comparisons
-  pass across seven objects, including the reused source-bound baseline.
-  Residuals are now independently partitioned into draw index2, side/threshold
-  transport4 and position-copy transport7. The121-byte constants/count/spawn
-  window already agrees. No game source or guard is adopted. Packet:
-  `.analysis/gpt-61sol-20261023-enemy-spawn-selection/`; see the dated KB note.
-  Its544-member archive passes CRC/SHA and complete report replay. Cleanup
-  removes962 archived duplicates/Python caches totaling18081452 logical bytes;
-  all14 preexisting build files and34 unique canonical objects remain intact.
+- Current Enemy position/comparison controls test six source models plus two
+  independent cold compiles. All nine objects, including the reused baseline,
+  retain every Enemy raw byte and all 97 resolved field identities: 3900/97/13.
+  RunEcl stays 15564/598/30 with no field/table drift. The 675 complete body
+  comparisons include 21 explicitly reviewed comparison-interface views;
+  production symbols and guards remain unchanged. Both 20-byte alternative
+  comparison definitions are original-equal, but their C++ declarations are
+  not established as original. No game source or ledger is adopted. Packet:
+  `.analysis/gpt-61sol-20261023-enemy-position-boundaries/`. Its 695-member
+  verified archive retains all observations. Cleanup removes 1113 reviewed
+  duplicates/caches totaling 20532568 logical bytes; all 14 preexisting build
+  files and 34 unique canonical objects remain intact.
+- Prior Enemy count/list controls partition the residual into draw index 2,
+  side/threshold transport 4 and position copying 7. The 121-byte constants/
+  count/spawn window already agrees. Branch-return count forms merge an
+  original Float3 call and fail at 3852/96/68; conditional/list forms preserve
+  the baseline. Packet `.analysis/gpt-61sol-20261023-enemy-spawn-selection/`
+  retains its 544-member archive, source recipes and 525 body comparisons.
 - Prior Player movement models retain1900/66/129, regress to131, or outline an
   unbound helper. The verified219-member archive and two cold replays remain in
   `.analysis/gpt-61sol-20261023-player-clamp-owner/`. Its637 reviewed duplicate
@@ -71,8 +77,8 @@ verified. The 98% goal and the principal large owners remain unfinished.
   or rewriting history; full Git integrity verification passed. See
   [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for exact cache scopes and
   archive recovery. Ignored evidence is local and is not part of Git commits.
-- Current checkpoint CI passes **1016 tests / 29 skips** (exit0); tracking,
-  documentation, progress, build graph and whitespace pass. All1003 unchanged
+- Current checkpoint CI completes **1016 tests / 29 skips** with exit 0; tracking,
+  documentation, progress, build graph and whitespace pass. All 1003 unchanged
   game source/profile proofs are reused. The Enemy packet retains frozen
   source/provider epochs, complete observations and archive replay recipes.
   Native product/runtime, semantic and portability gates remain open.

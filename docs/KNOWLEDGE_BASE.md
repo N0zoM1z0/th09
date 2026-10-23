@@ -1552,7 +1552,7 @@ name into a TH09 fact without target-local evidence.
 ## Packet 300 CardAttack timer update callback
 
 - `CardAttackUpdateAfter192 @ 0x00441BC0-0x00441BD6` is repository-canonical exact at 23 bytes. TH09 CardAttack callback table `0x004A00C0` is consumed in begin/update/draw/end columns; rows 0, 1, 3, 4, 6 and 7 all use this physical body in the update column under the public `int(CardAttack*)` callback ABI.
-- The target adds `CardAttack::timer98 @ +0x98`, calls exact `ZunTimer::operator>(192) @ 0x00403DE0`, then executes `neg eax; sbb eax,eax; neg eax` to normalize any nonzero unsigned result to integer 1. A direct source return of the overloaded operator emits only 17 bytes; natural `(timer98 > 192) != 0` source reproduces the complete 23-byte target with the single relocation solved.
+- The target adds `CardAttack::timer98 @ +0x98`, calls exact `ZunTimer::operator>(192) @ 0x00403DE0`, then executes `neg eax; sbb eax,eax; neg eax` to normalize a nonzero 32-bit result to integer 1. A direct source return of the overloaded operator emits only 17 bytes; natural `(timer98 > 192) != 0` source reproduces the complete 23-byte target with the single relocation solved.
 - The exact boolean-normalization sequence is source-semantic evidence rather than register steering. The maintained behavior name intentionally avoids identifying the original card/spell rows 0/1/3/4/6/7.
 
 ## Packet 301 CardAttack end callbacks
@@ -21538,3 +21538,82 @@ The output must be fresh and below.analysis. The evidence bounds these source
 models; it does not exhaust natural original source or close native product,
 runtime, semantic or portability gates. Coverage stays244917/291883 (83.9093%);
 98% remains unfinished, needing41129 whole exact bytes.
+
+
+### 2026-10-23: Enemy position boundaries and comparison-interface ambiguity
+
+Recovery at 57101ee581e754409fcec98b937644b4d7fd8103 is clean. The preceding
+count/list experiments supplied a precise residual census and bounded branch-
+folding evidence. Original Japanese 1.50a disk identity, direct IDA metadata,
+entry and distributed mapped-byte checks pass again. The previously compiled
+canonical baseline is reused only after all 70 frozen source files and 21
+provider bindings still match current files. No baseline is recompiled.
+
+Fresh complete Enemy disassembly and original-bound replay retain 3900 bytes,
+97 fields, 1026 instructions, 69 calls, 170 blocks and 13 differences. Four
+ordinary interface models address the existing side/threshold transport and
+position-copy windows. Prior scalar SetPosition, full trajectory configuration,
+SDK-position and native SpawnEffect visibility controls were inspected first.
+The earlier scalar member is distinct from this whole-object assignment;
+trajectory configuration had produced a separate unbound native call.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-POSBOUND-001 | byte-neutral experiment | A real storage SetSpawnPosition method performs the existing whole Float3 assignment. All Enemy raw bytes and resolved field identities remain unchanged. | aggregate-position-member/: 3900/97/13. |
+| ENEMY-POSBOUND-002 | byte-neutral experiment | An ordinary inline SpawnEffect overload projects a const Float3 reference to the existing pointer API; only the special-attack call uses it. | effect-reference-overload/: every raw byte/field identity remains; both vector widths/component offsets are asserted. |
+| ENEMY-POSBOUND-003 | byte-neutral experiment | Combining the position member and effect overload repeats the complete baseline. | combined-boundaries/: 3900/97/13; independent cold compile reproduces it. |
+| ENEMY-POSBOUND-004 | byte-neutral experiment | Passing a consumed position value to the storage member also repeats the baseline. | owned-position-member/: no new call or persistent storage. |
+| ENEMY-POSBOUND-005 | native-interface hypothesis | An int comparison result emits the same actual 20-byte Timer body and the same complete caller bytes. | signed-comparison-result/: new symbol ??OZunTimer@@QAEHH@Z; all four positive same-object references checked first. |
+| ENEMY-POSBOUND-006 | native-interface hypothesis | A const comparison receiver likewise emits the same actual body/caller bytes. | const-comparison-receiver/: new symbol ??OZunTimer@@QBEIH@Z; all four positive references checked first. |
+
+Every position operation actually inlines: no new SetSpawnPosition or reference-
+overload call occurs. Assignment stays at its original source statement; no
+component permutation, unused scalar, extra persistent storage, forced inline, register/
+variable-order hint, assembly, profile search or target patch is introduced.
+The existing BulletSpawnDescriptor carrier remains 0x214 bytes. The actual
+EffectFloat3/Float3 widths and x/y/z offsets agree, without inferring a unique
+original nominal vector type or member-function interface.
+
+The current comparison declaration returns unsigned int and is nonconst.
+The original 403DE0 body reads receiver+8, performs a signed 32-bit comparison,
+clears EAX, sets AL to the comparison result and returns with RET4. Its physical
+result is therefore EAX 0/1. The signed-result and const-receiver experiments
+retain all 20 original bytes with zero fields and four actual caller references
+to one same-object definition. These are ordinary declarations of the same current>value body,
+not altered return values, register contracts or fabricated target callees.
+They do not identify the original C++ result signedness or receiver qualifier.
+The older Packet 300 unsigned-result wording is narrowed to the observable
+32-bit normalization. Current maintained declarations remain unchanged.
+
+The production Enemy inspector correctly rejects both new decorated symbols:
+its existing canonical symbol is absent. That rejection is retained. Separate
+private diagnostic views substitute only the already-proven native comparison
+identity, after full actual-body and positive-reference proof. Every original
+RVA, field offset/type/addend and full physical guard stays fixed. The binding
+provenance explicitly says current native definition rather than canonical
+symbol acceptance. No production script, manifest, alias table or ledger is
+widened. Each alternative needs the explicit same-address symbol view in seven
+of the 75 same-profile units; full payload/literal comparison still applies.
+
+Six source models, two independent cold compiles and the reused baseline give
+nine complete objects. All retain the original-bound Enemy 13-byte frontier
+and RunEcl 15564/598/30, identical RunEcl raw bytes, zero field/table drift.
+Across those objects, 675 complete body comparisons pass: 654 use canonical
+symbol identities and 21 use the explicitly reviewed interface views. Each
+object covers 22463 physical bytes/990 fields in its 75-unit cohort; these are
+repeated existing bodies, not new authored exact bytes. Five actual caller
+scalar definitions are checked per object. The three alternative-interface
+objects independently prove 12 positive native comparison references.
+
+All compiles use the unchanged /O2/Ob1 carrier profile at nice10, serially on
+one CPU. The combined-position and signed-result cold runs reproduce every
+raw byte, actual COFF row, complete report, literal and callee proof of their
+respective first captures. Packet
+.analysis/gpt-61sol-20261023-enemy-position-boundaries/ retains the final producer,
+frozen inputs, actual observations, original IDA windows and verified archive.
+verify.py replays every complete observation from that archive without compiling.
+For a selected source/provider-bound replay into a fresh directory, use
+`python3 -B .analysis/gpt-61sol-20261023-enemy-position-boundaries/probe.py --case combined-boundaries --output .analysis/enemy-position-boundary-cold`.
+No model is adopted. All 1003 unchanged game source/profile proofs are reused;
+coverage stays 244917/291883 (83.9093%). The 98% goal still needs 41129 whole
+exact bytes. Native product/runtime, semantic and portability gates remain open.

@@ -1473,3 +1473,42 @@ to this packet or reviewed cache roots, and rehashed before unlink; per-path
 records remain in cleanup.json. All14 preexisting build files and34 unique
 selected-manager canonical objects pass before/after hashes. Original target,
 other unique evidence, source and toolchain/SDK/Wine/IDA state remain intact.
+
+
+### 2026-10-23: Enemy position boundaries and native comparison declarations
+
+From local 57101ee5, six source models and two independent cold compiles retain
+every Enemy raw byte and resolved field identity: 3900/97/13. Four position
+interfaces actually inline. Two native comparison declarations preserve the
+original 20-byte body and actual caller references; original C++ signedness/
+receiver qualification stay unknown. Production symbol rejection is retained;
+only private diagnostic symbol views change after full native-body proof.
+No game source, profile, production guard, unit or ledger is adopted. All 1003
+unchanged exact source/profile proofs are reused and the 98% goal stays active.
+
+Packet `.analysis/gpt-61sol-20261023-enemy-position-boundaries/` retains 70 frozen
+source files, 21 provider bindings, complete raw/COFF/field/literal reports,
+original IDA windows, the final producer and both cold receipts. Its nine
+objects pass 675 full original-byte body comparisons: 654 with canonical
+symbols, 21 with explicitly reviewed comparison-interface views. These views
+carry no new canonical credit. All RunEcl bodies retain 15564/598/30 and zero
+field/table drift. The 695-member archive compresses 13525702 logical bytes to
+2880362 bytes, SHA256
+7ca4c566851a293f5f401c84073d4b69118b826bcd62e8625c72cd51ebb3b56d.
+All members pass CRC/SHA and loose-byte equality before removal. verify.py
+extracts and replays every complete observation without invoking a compiler;
+probe.py retains source-bound selected cold build recipes.
+
+CI completes 1016 tests with 29 skips and exit 0 in 134.796 wrapper seconds,
+serially on one CPU at nice10. Target-required tracking, docs, progress, open
+build graph and whitespace pass. After every compiler/replay/CI handle
+terminates, a repository-scoped producer audit finds none active. Cleanup
+removes 695 verified archived duplicates totaling 13525702 bytes and 418
+reproducible Python caches totaling 7006866 bytes: 1113 files/20532568 logical
+bytes. The archived duplicates include three superseded producer scaffolds;
+the final producer reproduces all actual source graphs. Every path is ignored,
+regular, confined to this packet or reviewed Python cache roots, and rehashed
+before unlink. cleanup.json retains per-path evidence. All 14 existing build
+files and 34 unique selected-manager objects pass before/after hashes. Other
+unique evidence, original executable, source and tools/SDK/Wine/IDA state remain
+intact. Ignored packets must accompany the worktree for local handoff.
