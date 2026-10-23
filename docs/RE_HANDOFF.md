@@ -23,16 +23,16 @@ verified. The 98% goal and the principal large owners remain unfinished.
   canonical/group-00.obj through group-33.obj and their sidecars/proofs.
   Archival receipts do not accept a later HEAD; exact functions do not close
   native product/runtime gates. Reuse unchanged source/profile-bound proofs.
-- Current RunEcl word-writeback retests preserve the ordinary one-byte capture
-  and corrected owner. Direct/compound word forms retain 15564/598/30. A field
-  reference leaves opcodes 4/155 unchanged but shortens opcode 157, giving 1925 ordinary,
-  228 field-byte/24 table-byte differences. Two ordinary in-place helpers
-  outline 21/18-byte bodies without original bindings; 15548/599 is rejected.
-  Nine objects pass 675 existing-body comparisons. Packet
-  `.analysis/gpt-61sol-20261023-ecl-word-writeback/` retains its 701-member archive,
-  every actual observation and the explicit resource incident: two early
-  attempts overlapped on one CPU; an exclusive compiler lock and two verified
-  serial cold replays follow. No source/profile/guard/ledger is adopted.
+- Current native schedule contexts preserve Enemy3900/97/13. The actual
+  scheduler and equality can both remain original-equal at1048/42 and20/0 in
+  the ECL carrier, but equality visibility regresses RunEcl to1933 ordinary/
+  228 field-byte/24 table-byte differences. Putting full source after the
+  carrier gives the same result. Six objects protect450 existing canonical
+  bodies and seven native-definition proofs; no source/profile/guard/ledger
+  is adopted. Packet `.analysis/gpt-61sol-20261023-enemy-schedule-context/`
+  retains73 staged source bindings, the496-member archive and cold replay.
+- Prior word-writeback controls and their resource exception remain in the
+  dated KB note and `.analysis/gpt-61sol-20261023-ecl-word-writeback/`.
 - Earlier SaveReplay, gameplay setup, Enemy routing/position/count, Player,
   Title and declaration experiments remain in their dated knowledge-base notes
   and local packets. Consult those source-bound observations before repeating
@@ -49,13 +49,12 @@ verified. The 98% goal and the principal large owners remain unfinished.
   or rewriting history; full Git integrity verification passed. See
   [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for exact cache scopes and
   archive recovery. Ignored evidence is local and is not part of Git commits.
-- Current checkpoint CI passes **1016 tests / 29 skips**, exit 0. Cleanup
-  removes 836 verified duplicate/cache files (17918948 logical bytes), preserving
-  all 14 preexisting build files, 34 canonical objects and the original input.
-  Archive replay and deletion details belong to the word-writeback packet. All 1003 unchanged
-  game source/profile proofs are reused. Current packets retain frozen
-  source/provider epochs, complete observations and archive replay recipes.
-  Native product/runtime, semantic and portability gates remain open.
+- Current CI passes1016 tests/29 skips, exit0. Reviewed cleanup removes630
+  duplicate/cache files (16771693 logical bytes), preserving all14 preexisting
+  build files,34 canonical objects and the original executable. The packet and
+  cleanup history retain exact recovery/deletion records. All1003 unchanged
+  source/profile proofs are reused; native product/runtime, semantic and
+  portability gates remain open.
 
 ## Live ledger snapshot
 

@@ -21951,3 +21951,69 @@ A selected fresh model can be built with
 No source/profile/guard/ledger is adopted. Coverage stays 244917/291883 (83.9093%),
 with 41129 whole exact bytes still needed for 98%. Native product/runtime,
 semantic and portability gates remain open.
+
+### 2026-10-24: exact native schedule context fails to close Enemy or RunEcl
+
+Recovery at ba76a17a1f1e5e8a95acd7b082ad1571cf1f8d9f is clean. The prior turn
+is progress through source-bound diagnostic evidence and reviewed cleanup, not
+new exact credit. Original Japanese1.50a disk identity, direct IDA metadata and
+entry/distributed mapped bytes pass. Fresh original Enemy calls 40FCC0 at
+relative 8A, operand 8B; its scheduler's reviewed complete physical extent is
+1048 bytes including tables. Actual current source/ledger and old native-context
+panels are inspected before the following distinct scheduler experiment.
+
+The unchanged scheduler source has its real ZunTimer equality definition.
+Moving the actual source into the shared ECL carrier tests compiler knowledge
+of that callee, rather than a new inferred clobber contract. A separate equality-
+only control distinguishes the effect of that actual20-byte leaf. No forced
+inline, volatile/register/variable-order hint, assembly, fake return, target
+patch or compiler profile variation is introduced.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-SCHEDULE-CONTEXT-001 | rejected native context | Real schedule body, its equality definition left opaque. | schedule-opaque-equality/: Enemy3900/97/13 and RunEcl15564/598/30; actual schedule1052/42 fails the original1048 extent. |
+| ENEMY-SCHEDULE-CONTEXT-002 | rejected caller context | Only actual Timer equality becomes visible. | equality-only/: exact20-byte/zero-field equality; Enemy13 persists, RunEcl1933 ordinary/228 field-byte/24 table-byte differences. |
+| ENEMY-SCHEDULE-CONTEXT-003 | exact callees, rejected caller context | Full unmodified native scheduler source before the ECL carrier. | schedule-full/: complete1048/42 scheduler plus20/0 equality both original-equal; Enemy13 and the same RunEcl regression. |
+| ENEMY-SCHEDULE-CONTEXT-004 | rejected source partition | Put that full native source after the carrier. | schedule-after/: same exact native definitions and complete RunEcl output; no repair. |
+
+Each visible scheduler has one actual positive REL32 Enemy reference at 8B to
+its extracted definition, not an external alias. Full-source contexts also
+have two positive equality references, from the scheduler and RunEcl, to the
+same native leaf. All native code, literal contents, fields, owner-local table
+labels and destinations are independently compared before claiming equality.
+The1052-byte control remains rejected despite its unchanged outer callers.
+Canonical scheduler/equality proofs under their existing separate source/profile
+remain unchanged; this does not establish unique original TU ownership.
+
+All six objects retain the complete Enemy3900 bytes,97 fields,1026 instructions,
+69 calls,170 blocks and13 residuals. Full RunEcl comparisons retain15564 physical
+bytes/598 fields; equality visibility changes opcode157 from160 to158 bytes,
+with subsequent field/table drift, while opcodes4/155 remain baseline-identical.
+The24 table-byte differences are included in228 field-byte differences.
+The regressing raw class5fadbb28 differs at only eight prefix bytes, +1A7..+1AF,
+from the prior word-reference class10f346ed; it adds no opcode4/155 repair.
+Actual equality-call setup changes from receiver-load/PUSH/LEA to PUSH/receiver-
+load/ADD, without changing the call field. Decoding begins at the function entry;
+unlinked COFF calls are annotated by symbol rather than zero-displacement RVAs.
+
+Four actual-source contexts, one independent full-source cold replay and the
+reused hash-bound baseline give six objects. Each protects75 existing canonical
+bodies,22463 physical bytes/990 fields:450 complete original-bound comparisons,
+134778 repeated physical comparison bytes/5940 fields. Seven additional complete
+native-definition proofs cover3224 repeated bytes; they are existing functions,
+not new authored exact credit. All five compiler intervals are positive, locked,
+disjoint and pinned to one CPU at nice10 under the unchanged carrier profile.
+The cold run reproduces every staged input, executable byte, actual COFF,
+literal/native proof and full diagnostic. No source/profile/guard/unit/ledger
+is adopted; all1003 unchanged canonical source/profile proofs are reused.
+
+Packet .analysis/gpt-61sol-20261023-enemy-schedule-context/ started before the
+date rollover. It retains73 staged source bindings/21 providers, a496-member
+archive, original windows, final renderer and all first/final observations.
+The first four reports predate the added scheduler-to-equality reference census;
+these remain alongside the expanded final observations of the same objects.
+verify.py extracts and replays all complete observations without compilation.
+Fresh reproduction:
+`PYTHONDONTWRITEBYTECODE=1 python3 -B .analysis/gpt-61sol-20261023-enemy-schedule-context/probe.py --case schedule-full --output .analysis/enemy-schedule-cold`.
+Coverage stays244917/291883 (83.9093%), needing41129 whole exact bytes for98%.
+Native product/runtime, semantic and portability gates remain open.

@@ -1709,3 +1709,47 @@ pass before/after hashes; unrelated unique evidence, source and toolchain/SDK/
 Wine/IDA state remain intact. Keep ignored packets with the worktree for local
 handoff. Archive-only replay passes after deletion: all 701 members and 675
 existing-body comparisons, without compiling. All 836 removed paths remain absent.
+
+### 2026-10-24: native scheduler visibility in the two large owners
+
+From local ba76a17a, four actual-source contexts test scheduler-body visibility,
+its native equality definition, their combination and the full source after the
+ECL carrier. A scheduler1052/42 control stays rejected; full source preserves
+all1048/42 original scheduler bytes/fields and the20-byte equality leaf. Enemy
+remains3900/97/13 in every capture. Equality visibility changes RunEcl opcode157
+160 to158 and gives1933 ordinary/228 field-byte/24 table-byte differences; the
+24 table bytes are included in the228 fields. Opcodes4/155 remain baseline-
+identical. No canonical source/profile/guard/unit/ledger adoption or new credit.
+
+Packet `.analysis/gpt-61sol-20261023-enemy-schedule-context/` starts before the
+date rollover and retains73 staged source bindings/21 providers. Four models,
+one independent cold replay and one reused hash-bound baseline give six objects,
+450 existing canonical body comparisons,134778 repeated physical comparison
+bytes/5940 fields. Seven additional complete native proofs cover3224 repeated
+bytes; all actual positive caller->definition coordinates, literals and table
+labels are checked. First observations remain alongside the final expanded
+scheduler-to-equality reference census. All five actual compiler intervals are
+positive, locked, disjoint and constrained to one CPU at nice10 with the same
+carrier profile. No source-order result establishes unique original TU ownership.
+
+The496-member archive compresses14752368 logical bytes to2467682 bytes, SHA256
+5aeeffac205ae824a95eeda5d2f03427fa9341b55c60da04c0cc9f97f815beb5.
+CRC, per-member SHA and loose-byte equality pass before deletion. verify.py
+extracts/replays all complete observations without compiling, including actual
+native definitions, cold payloads, serial intervals, correctly bounded prefix
+decoding and the eight-byte delta from the prior archived word-reference model.
+Keep this ignored packet and its referenced predecessor archive with the worktree.
+
+CI passes1016 tests/29 skips, exit0, in164.443 wrapper seconds on one CPU at
+nice10. All known compiler/replay/CI handles terminate before cleanup; the scoped
+process audit finds no producer. Cleanup removes496 verified archive duplicates
+(14752368 bytes) and134 reproducible Python caches (2019325 bytes):630 files/
+16771693 logical bytes. Every ignored regular path is rehashed immediately before
+unlink, confined to the packet or reviewed cache roots and recorded in
+cleanup.json. All14 preexisting build files,34 unique canonical objects and the
+original executable retain their before/after hashes; unrelated unique evidence,
+source, tools/SDK/Wine/IDA state remain intact. Archive-only replay passes after
+cleanup: all496 members,450 existing-body comparisons and seven extra native
+proofs, without compiling. All630 removed paths remain absent. Coverage stays
+244917/291883 (83.9093%),
+with41129 whole exact bytes still needed for98%; later phase gates remain open.
