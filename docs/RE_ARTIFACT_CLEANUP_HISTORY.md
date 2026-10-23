@@ -1627,3 +1627,38 @@ cleanup.json. The two superseded producer/scaffold files remain archived. All 14
 preexisting build files, 34 unique canonical objects and the original executable
 pass before/after hashes; other unique evidence, source and tools/SDK/Wine/IDA
 state remain intact. Keep ignored packets with the worktree for local handoff.
+
+### 2026-10-23: SaveReplay byte-copy and reference interfaces
+
+From local 3594ef33, three source hypotheses test frame-owned byte copying,
+const-reference byte subscripting and a reference to the existing frame slot.
+Two retain the full 1238/53/3 baseline. The slot reference plus its independent
+cold replay retain 1238/380 instructions/53 fields/23 call operands/49 blocks,
+but reverse two loop-entry stack stores, adding four new mismatches while
+preserving the old three. The unchanged production frontier rejects them.
+No canonical source, compiler profile, guard, unit or ledger is adopted.
+
+Packet `.analysis/gpt-61sol-20261023-replay-reference-views/` pins nine quoted-
+include inputs/nine providers and preserves all source/model/actual COFF/literal
+reports and direct original IDA windows. Five objects pass ten complete existing
+canonical body comparisons, 8420 physical comparison bytes/550 fields total.
+The cold run preserves all executable/COFF payloads; complete per-object SHA
+remains recorded separately for timestamp/debug-path provenance. No native
+source identity, runtime validation or new authored exact credit is inferred.
+The 95-member archive compresses 4354848 logical bytes to 714082 bytes, SHA256
+5bfd56ab24ede58e3ba9dcf23372cc660833ce786331d18d89be1966eb4db212.
+CRC, per-member SHA and loose-byte equality pass before deletion. verify.py
+extracts and replays every complete observation plus independently decoded,
+original-linked machine windows without invoking a compiler.
+
+CI passes 1016 tests/29 skips, exit 0, in 149.591 wrapper seconds on one CPU at
+nice10. All compiler/replay/CI handles terminate before cleanup; the scoped
+process audit finds no active producer. Cleanup removes 95 verified archived
+duplicates (4354848 bytes) and 134 reproducible Python caches (2019325 bytes):
+229 files/6374173 logical bytes. Each ignored regular path is rehashed before
+unlink, confined to this packet or reviewed cache roots, and recorded in
+cleanup.json. All 14 preexisting build files, 34 unique canonical objects and the
+original executable pass before/after hashes; unrelated unique evidence,
+source and tools/SDK/Wine/IDA state remain intact. Keep ignored packets with
+the worktree for local handoff. All 1003 unchanged source/profile proofs remain
+reusable and the 98% goal stays active at 244917/291883 (83.9093%).

@@ -23,17 +23,23 @@ verified. The 98% goal and the principal large owners remain unfinished.
   canonical/group-00.obj through group-33.obj and their sidecars/proofs.
   Archival receipts do not accept a later HEAD; exact functions do not close
   native product/runtime gates. Reuse unchanged source/profile-bound proofs.
-- Current gameplay-setup publication controls test three source hypotheses.
-  Two checked-assignment forms reproduce 1689/171/904. A side-preparation member
-  outlines a real 34-byte helper, leaving 1661/171 and 36 calls; its original
-  binding is unknown and both private binding/public extent rejection remain
-  explicit. Five successful objects pass 50 existing-body comparisons. No source,
-  guard, profile or ledger is adopted. Packet
-  `.analysis/gpt-61sol-20261023-setup-publication/` retains the 201-member archive,
-  complete observations, failed-scope source epoch and an independent cold run.
-  CI passes 1016 tests/29 skips. Cleanup removes 336 verified duplicates/caches,
-  8291883 logical bytes, while retaining all 14 preexisting build files and 34
-  unique canonical objects. See cleanup history for exact scope and recovery.
+- Current SaveReplay reference interfaces test three source hypotheses and a
+  cold replay. Frame-owned byte copying and a const-reference byte subscript
+  preserve 1238/53/3. A reference to the existing frame slot swaps two entry
+  spill stores, adding four mismatches: 1238/53/7. All fields, 23 call operands
+  and 49 graph blocks remain checked; the maintained guard rejects that model.
+  Five objects protect ten existing canonical bodies. No source/profile/guard
+  or ledger is adopted. Packet
+  `.analysis/gpt-61sol-20261023-replay-reference-views/` retains its 95-member
+  archive, source bindings, complete observations and original-linked windows.
+  CI passes 1016 tests/29 skips; cleanup removes 229 verified duplicates/caches,
+  6374173 logical bytes. All 14 preexisting build files and 34 unique canonical
+  objects remain preserved; cleanup history records exact scope and recovery.
+- Prior gameplay-setup publication controls retain 1689/171/904 or outline an
+  unbound 34-byte helper. Five objects pass 50 existing-body comparisons; the
+  201-member archive, cold replay and failed-source epoch remain in
+  `.analysis/gpt-61sol-20261023-setup-publication/`. Production guards and
+  canonical source remain unchanged. Cleanup history records preservation.
 - Prior Enemy routing predicates retain 3900/97/13 or regress to 511 differences.
   Seven objects pass 525 existing-body comparisons. The 550-member archive and
   full original-bound seam audit remain in
@@ -94,7 +100,7 @@ verified. The 98% goal and the principal large owners remain unfinished.
   archive recovery. Ignored evidence is local and is not part of Git commits.
 - Current checkpoint CI completes **1016 tests / 29 skips** with exit 0; tracking,
   documentation, progress, build graph and whitespace pass. All 1003 unchanged
-  game source/profile proofs are reused. The Enemy packet retains frozen
+  game source/profile proofs are reused. Current packets retain frozen
   source/provider epochs, complete observations and archive replay recipes.
   Native product/runtime, semantic and portability gates remain open.
 
