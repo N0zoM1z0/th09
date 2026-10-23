@@ -2,9 +2,11 @@
 
 The project milestone is at least **98% of reviewed authored bytes exact**,
 using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
-The operator explicitly resumed reconstruction through Factory MCP on
-October 22, 2026. Prioritize key large functions and test fresh source/type/
-lifetime hypotheses against TH09 evidence; old notes are not conclusive.
+The operator resumed reconstruction after the October 23 handoff and requests
+direct local IDA Pro MCP plus repository Bash, without Factory routing. New
+English commits use gpt-6.1-sol: with the identity/trailer in AGENTS.md. Prioritize
+key large functions and test fresh source/type/lifetime hypotheses against TH09
+evidence; old notes are not conclusive.
 The RunEcl, EnemyManager::OnUpdate, Title DrawResult and ExAttack Type3 fronts
 and the milestone remain unfinished. Compiles stay serial and at lowered
 priority; only affected proofs need replay. Clean only reviewed, reproducible
@@ -60,8 +62,8 @@ disk target, IDA target, ledgers, and live status using the commands in
    the whole historical cohort or repeat cold builds after every edit. Each new
    exact owner still needs complete byte/relocation/source proof and a
    reproducible canonical local build/replay. Historical Factory receipts remain
-   scoped historical evidence. The resumed Factory/Web campaign uses the
-   attested `th09-ida` provider and target-bound pinned compiler Oracles. This
+   scoped historical evidence. The resumed local campaign uses direct IDA MCP
+   with mapped-byte attestation and target-bound pinned compiler Oracles. This
    focused replay scope supersedes older broad replay wording.
 
 ### What to read at a fresh handoff
@@ -85,8 +87,8 @@ prepared local machine cannot hide undeclared third-party import dependencies.
 Optional decoders belong inside private diagnostic entrypoints. This local gate
 uses the same command as GitHub Actions; a local pass does not prove a remote
 workflow run. **Commit verified local checkpoints** using the current operator
-prefix and identity in `AGENTS.md`. This Factory campaign has no network or
-Git push. A local commit is never evidence of a successful remote push.
+prefix and identity in `AGENTS.md`. A local commit is never evidence of a
+successful remote push; verify publication independently when performed.
 
 ### Current-state documentation hygiene
 

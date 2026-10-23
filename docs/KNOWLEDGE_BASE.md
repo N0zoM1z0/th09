@@ -20462,3 +20462,75 @@ No source is adopted from these final models, and no exact credit is added.
 There is currently no staged uncompiled candidate. The two-owner task remains
 unfinished at RunEcl30/Enemy13; a new trial needs a concrete source/target
 hypothesis, not repeated register, declaration-order or field-order tuning.
+
+
+## October 23: resumed local Enemy state and side callee contexts (gpt-6.1-sol)
+
+Recovery at clean6fd68c7 verifies original disk/ledgers and Factory metadata with
+six mapped samples. The operator then explicitly requests direct local calls;
+all subsequent work uses Bash/direct IDA. Direct metadata{}, entry and five
+mapped samples pass. One independently launched local check terminates with
+Connection closed/WSL transport failure; the recorded retry passes. No failed
+check is counted as an attestation and no live producer is restarted.
+
+Five serial nice10, single-CPU compiles use the unchanged Enemy profile and a
+fresh36-source closure bound to6fd68c7. They expose genuine existing Player
+state getter/setter or Supervisor side-selection definitions, preserving real
+signatures, types, layouts and bodies. Supervisor's exact declaration/layout
+prefix and method are extracted from the maintained viewport source. No new
+qualifier, inline annotation, ABI/preservation contract or profile is introduced.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-STATE-SIDE-20261023-001 | compiler observation | Baseline3900 physical/3883 code/1 alignment bytes has13 linked differences. | Complete fresh baseline. |
+| ENEMY-STATE-SIDE-20261023-002 | compiler observation | Supervisor selection retains3900/3883/1 and13 differences. | Entire raw caller equals baseline. |
+| ENEMY-STATE-SIDE-20261023-003 | compiler observation | Player setter retains3900/3883/1 and13 differences. | Entire raw caller equals baseline. |
+| ENEMY-STATE-SIDE-20261023-004 | rejected source hypothesis | Both real Player state operations visible emit3900/3881/3 and836 differences. | Full byte/field/CFG capture. |
+| ENEMY-STATE-SIDE-20261023-005 | rejected source hypothesis | Getter alone emits3900/3881/3 and836 differences. | Entire raw caller equals paired-state case. |
+
+Every case retains97 independently bound fields,69 ordered original calls and
+170 physical blocks, with the original switch graph. All original thirteen
+residual raw positions remain unchanged. The getter-only case isolates the new
+tail change: original+0xBDF loads Player intoEDI and copies it intoECX; candidate
+loads directly intoECX, and later uses ADD ECX,303C8 instead of LEA fromEDI.
+Code loses two bytes and post-return alignment grows to three. This shifts later
+physical bytes despite an unchanged3900-byte total; equal extent is insufficient.
+All positions, actual data literals and local branch/table destinations remain
+compared. No candidate is adopted and no part receives exactness credit.
+
+Each object independently protects the current five real native helpers:
+collision82, vector divide56, Player append205, attached effects151 and Timer
+comparison20 (514 bytes/eight fields). Added actual getter3 bytes/two references,
+setter12/one and side selector26/one each match their complete original bytes
+with zero fields; their positive same-object call coordinates are checked. The
+folded getter's origin/unique class ownership remain unknown, and it earns no
+new authored credit. The strict maintained inspector rejects unreviewed
+same-object state definitions; independent native and full-field diagnosis are
+retained separately, without relaxing that guard or inventing call destinations.
+
+Evidence: .analysis/gpt-61sol-20261023-enemy-state-side/, with prepare.py, run.py,
+analyze.py, explore.py, frozen source/provider/profile inputs and full five-case
+raw/COFF/native/CFG reports. verification.json records both byte-equality groups,
+all original residual positions and pre/post live/staged/provider hashes. Recipes
+refuse overwriting existing object evidence. The two state-only controls follow
+the paired failure to isolate causality, rather than combining neutral contexts.
+The RNG source-visibility route is not recompiled: bounded history review finds
+prior seven-method genuine RNG controls; no distinct new source hypothesis was
+established. These outcomes do not prove unique original translation units or
+exhaust all natural source models. RunEcl30 and Enemy13 remain unfinished;
+coverage stays244917/291883 (83.9093%), with41129 bytes to98%. Native Windows
+product/runtime, complete inventory, semantic and port gates remain open.
+
+Final CI passes1012 tests/29 skips (130.350 test seconds), plus tracking,
+documentation, open-build graph, generated progress and whitespace gates.
+The stale IDA entry comment claiming29 differences is corrected to13 using the
+fresh complete baseline, then read back. No IDA target byte is modified.
+After all producers terminate, all429 current frozen/staged files are CRC and
+member-byte verified into captures.zip before loose removal:8096494 logical
+bytes become1753862 archive bytes, SHA256
+4a471244adb5b87ea6e373a484b69a25b43c1db00714529f8bf145093f8256de.
+Extract this archive in its packet before verify.py/replay. Full native objects,
+PDBs, sources and reports remain recoverable; older canonical evidence, original
+input, tools, Wine and unclassified analysis are untouched. Root recipes,
+verification, archive manifest and CI log remain loose. This is an active,
+incomplete research checkpoint, not a new cleanup/pause request.

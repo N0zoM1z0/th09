@@ -957,3 +957,21 @@ included in the earlier 245-file retention manifest were deliberately kept.
 The 748-member source archive and all 245 retained files were reverified during
 handoff; the review README now describes the completed archival rather than
 its obsolete pre-execution stage. No new reconstruction trial was started.
+
+
+## October 23: local Enemy state and side contexts
+
+After five serial native compiles and full CI terminate, preserve all429
+current-session frozen/staged files in
+.analysis/gpt-61sol-20261023-enemy-state-side/captures.zip. Each archive member
+passes CRC and exact byte equality before its loose copy is removed. The
+8096494-byte input becomes1753862 bytes, saving6342632 logical bytes before
+manifest overhead. ZIP SHA256:
+4a471244adb5b87ea6e373a484b69a25b43c1db00714529f8bf145093f8256de.
+
+Every source/provider snapshot, trial object/PDB, raw/COFF capture and full
+native/CFG diagnosis remains archived. Root recipes, verification.json,
+archive-manifest.json and CI log remain loose. Extract captures.zip in that
+packet before verify.py or historical replay. Older canonical objects and all
+unrelated evidence/resources/toolchains/IDA/Wine remain unchanged. This scoped
+compression adds no exact credit; the reconstruction goal remains active.

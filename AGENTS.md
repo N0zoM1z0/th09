@@ -2,30 +2,33 @@
 
 ## Current operator status
 
-On October 23 the operator requested cleanup and a Codex handoff, superseding
-this session's active probing. No new exploratory trials are pending. Preserve
-the tested source baseline and evidence; the successor may resume when tasked.
-The unfinished priority remains complete **RunEcl and EnemyManager::OnUpdate
-exactness**, within the 98% authored-byte goal. Read the current handoff before
-repeating historical experiments.
+On October 23 the operator resumed reconstruction after the clean handoff.
+Concentrate on large functions, especially complete RunEcl and
+EnemyManager::OnUpdate exactness, within the unfinished 98% authored-byte goal.
+Use fresh TH09 evidence and the tested source baseline; historical models are
+bounded observations. Limit CPU/memory, compile serially at lowered priority
+and reuse unchanged source/profile-bound proofs.
 
 The operator explicitly resumed **TH09 original v1.50a** reconstruction on
-October 22, 2026, targeting **98% exact reviewed-authored code bytes** through
-Factory MCP (`repository_id: th09`). Prioritize the key large functions,
+October 22, 2026, targeting **98% exact reviewed-authored code bytes**. The
+current local session uses direct IDA Pro MCP and repository Bash at the
+operator's explicit request. Prioritize the key large functions,
 including RunEcl, Enemy, Title and Type3. Revisit old documentation and source
 hypotheses against fresh TH09 evidence rather than assuming them correct.
 The milestone and those fronts remain unfinished. Recover dirty work and use
 the real Git tree and live ledgers. Limit CPU/memory, compile serially at
 lowered priority, and reuse unchanged source/profile-bound proofs.
-**Use `gpt-dots: ...` for every new English commit.** Preserve Git author
+**Use `gpt-6.1-sol: ...` for every new English commit.** Preserve Git author
 `N0zoM1z0 <1705004398@qq.com>` and the trailer
 `Co-authored-by: gensokyo-dev <342580529+gensokyo-dev@users.noreply.github.com>`.
-Create tested local checkpoints; Factory provides no network or Git push.
-Never describe a local commit as pushed. Commit substantive progress, including
-reproducible diagnostic evidence. Never skip, hide, discard or avoid existing
-dirty work: examine and finish it. Use Factory repository Bash and the attested
-`th09-ida` provider with the pinned VC7.1 compiler/comparison Oracles. See
-`docs/RE_HANDOFF.md` for the current ledger and verified frontiers.
+Create tested local checkpoints. Distinguish local commits from remote pushes;
+never describe a local commit as pushed without independent remote verification.
+Commit substantive progress, including reproducible diagnostic evidence.
+Never skip, hide, discard or avoid existing
+dirty work: examine and finish it. Use direct local IDA Pro MCP and repository
+Bash with the pinned VC7.1 compiler/comparison Oracles; do not route this local
+session through Factory MCP. See `docs/RE_HANDOFF.md` for the current ledger
+and verified frontiers.
 
 This repository targets only the original Japanese TH09 version 1.50a
 executable identified by SHA-256
@@ -53,12 +56,10 @@ Before changing anything:
 3. In the repository shell, run `python3 scripts/verify-target.py`,
    `python3 scripts/validate-tracking.py --require-target`, and
    `python3 scripts/report-reconstruction-status.py` before target-dependent
-   work. For this Factory/Web campaign, call `th09-ida` `get_metadata` with
-   exactly `{}` via the attested provider. Check its target attestation before
-   analysis; metadata hashes alone do not prove an unmodified mapped database.
-   Its passed target identity is not an exactness Oracle. A separately requested
-   local session may instead use direct IDA Pro MCP plus
-   `python3 scripts/check-ida-mcp.py` for mapped-byte attestation.
+   work. For this local campaign, call direct IDA Pro MCP `get_metadata` with
+   exactly `{}` and run `python3 scripts/check-ida-mcp.py` to compare entry and
+   distributed mapped bytes with the verified target. Metadata hashes alone
+   do not prove an unmodified mapped database. IDA is not an exactness Oracle.
 4. Work on one bounded unit or one coherent infrastructure batch and leave a
    reviewable local checkpoint.
 
@@ -124,9 +125,9 @@ analysis database is working state; mirror durable conclusions into the repo.
 
 ## Checkpoints and artifacts
 
-- For the current Factory campaign, use concise, coherent local commits
-  prefixed **`gpt-dots: ...`**, with the author and co-author trailer above.
-  Factory has no Git push; report local checkpoints without a remote claim.
+- For the current local campaign, use concise, coherent local commits
+  prefixed **`gpt-6.1-sol: ...`**, with the author and co-author trailer above.
+  Report local checkpoints separately from independently verified remote state.
 - Route current work through `docs/RE_HANDOFF.md`; original-bound
   accepted receipts now live in `docs/RE_ACCEPTED_RECEIPTS.md` with
   immutable source commit bindings. Superseded long-form checkpoint details

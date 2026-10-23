@@ -7,10 +7,26 @@
 
 ## Current verified handoff checkpoint
 
-The operator requested cleanup and handoff to Codex on October 23, 2026.
-Exploratory work is stopped for this handoff: no compiler job or uncompiled
-candidate remains. The goal is unfinished, not abandoned; a successor can resume
-against the current tree when tasked. Start here rather than replaying old panels.
+The operator has resumed reconstruction after the October 23 handoff, focusing
+on large owners. This local session uses direct IDA Pro MCP and Bash without
+Factory routing. New English commits use gpt-6.1-sol: with the preserved author
+and co-author trailer in AGENTS.md. No new exact coverage is claimed.
+
+- Latest bounded Enemy callee-context controls independently reproduce the
+  13-byte baseline. Genuine Supervisor selection and Player setter visibility
+  are raw-neutral; genuine Player getter visibility shortens the tail by two
+  bytes and regresses to836 differences. All97 actual fields,69 ordered calls,
+  170 blocks and complete emitted native bodies are checked. No candidate is
+  adopted. See the final knowledge-base entry for five terminal compiles.
+- Local direct IDA entry/five mapped samples pass, after one terminal connection
+  failure and a successful retry. The original disk hash and live ledgers pass.
+  The current packet is .analysis/gpt-61sol-20261023-enemy-state-side/.
+  Final CI passes1012 tests/29 skips; all tracking/docs/progress/whitespace
+  and open-build graph gates pass. Extract captures.zip there before
+  verification/replay; source, object and complete report evidence is retained.
+- Earlier handoff facts below remain source-scoped history. Current source is
+  still the tested f595786 adoption; 6fd68c7 is the recovered clean checkpoint.
+  Earlier canonical object evidence is preserved. No compiler job is pending.
 
 - Current coverage is **244917/291883 (83.9093%)**. The 98% milestone needs
   **41129** additional whole exact bytes. Neither main owner is exact:
@@ -65,8 +81,8 @@ against the current tree when tasked. Start here rather than replaying old panel
   objects, PDBs, archives and frozen source evidence remain preserved.
 - The progress SVG remains unchanged because accepted exact coverage has not
   changed. Use `scripts/progress.py --check`, not a cosmetic percentage update.
-  New English commits retain `gpt-dots:` and the identity/trailer in AGENTS.md.
-  Factory commits are local only; no push was performed here.
+  Historical Factory commits used gpt-dots: and were local only.
+  Current local checkpoint publication must be reported separately from a push.
 
 ## Live ledger snapshot
 
@@ -200,7 +216,7 @@ immutable source-commit bindings; they do not accept a later HEAD.
 
 Read [`AGENTS.md`](../AGENTS.md), [`RE_WORKFLOW.md`](RE_WORKFLOW.md), and
 [`ORACLES.md`](ORACLES.md). Inspect staged, unstaged and untracked work first.
-For the resumed Factory campaign, use one affected owner at a time and reuse
+For the resumed local campaign, use one affected owner at a time and reuse
 unchanged proofs. Historical countermodels are bounded
 negative evidence, not a reason to assume an entire source family is exhausted.
 
@@ -211,8 +227,8 @@ git diff --cached
 python3 -B scripts/verify-target.py
 python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/report-reconstruction-status.py
-# Via Factory, call attested th09-ida get_metadata with exactly {}.
-# Check the provider's target attestation before target-dependent analysis.
+# Call direct IDA Pro MCP get_metadata with exactly {} before this check:
+python3 -B scripts/check-ida-mcp.py
 # Choose one affected owner and reuse unchanged source/profile-bound proofs:
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner runecl
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner enemy
@@ -227,8 +243,8 @@ git diff --check
 python3 -B scripts/clean-generated-artifacts.py  # Preview only; do not apply wholesale.
 ```
 
-Metadata hashes alone do not establish an unmodified IDA mapping. Use the
-Factory provider's target attestation, including its mapped-byte checks, before
+Metadata hashes alone do not establish an unmodified IDA mapping. Compare the
+entry and distributed mapped bytes with the verified disk target before
 analysis; target identity is not exactness credit. Build a canonical unit
 afresh before comparing its COFF; missing OBJ/PDB files are expected after cleanup.
 
