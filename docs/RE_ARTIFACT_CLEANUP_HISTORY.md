@@ -1026,3 +1026,56 @@ Extract there before verify.py or replay; root recipes, full verification,
 public reproduction/provider ZIP, field/provider-transition proofs and CI log
 remain loose. No older canonical/unclassified analysis, original executable,
 toolchain, Wine or IDA state is removed. Coverage is unchanged.
+
+### 2026-10-23: direct-local routing, mode-dispatch evidence and Git storage
+
+From local c1fe650, the active campaign remains direct IDA Pro MCP plus Bash.
+README's obsolete active Factory route is corrected. The handoff is rewritten
+as current routing, with historical packet details left in the KB/history.
+Workflow/tool guidance now distinguishes unique source-bound proof objects from
+rebuildable caches. No game source, compiler profile or exact ledger changes;
+the98% goal remains active at244917/291883 exact bytes (83.9093%).
+
+A fresh GameManager baseline repeats1689 bytes/171 fields/904 differences.
+The outer mode-zero source split is rejected at1673 bytes/169 fields/1087 overlap
+plus16 missing, despite restoring bounded dispatch write order. All11 exact
+same-source units pass in their two actual profiles (21 complete comparisons
+across three serial low-priority single-CPU compiles). A540-fixture original/
+native dispatch Oracle checks final fields and dynamic per-field writes; this
+is neither whole-owner exactness nor game-runtime validation. CI passes1016
+tests/29 skips in110.701 seconds, with observed exit zero.
+
+Packet .analysis/gpt-61sol-20261023-setup-dataflow/ retains root producers,
+manifest, compact summaries, direct IDA observations, strict extent rejection,
+CI log/exit and archive recovery proof. Its111-member captures.zip retains
+5308168 logical bytes in1537429 bytes, SHA256
+45bd46c6bc036f23dd14ad84b98c806ee97bc92c35d52dc81e7d8dee4d5e895d.
+Every member passes CRC/SHA/full byte equality. A clean temporary extraction
+replays all21 canonical comparisons and540 bounded fixtures without compiling,
+then removes its temporary inputs. Original compiler commands remain immutable;
+replay validates only the frozen source/output/include path relocation, keeping
+compiler, flags, input hashes and complete object proofs checked. For recovery,
+extract captures.zip into the packet and run python3 -B verify.py there. Historical
+provider/source drift fails closed; do not rerun prepare.py over frozen evidence.
+
+Git storage is repacked serially at nice10 with one pack worker,32MiB window
+memory and16MiB delta cache, using --keep-unreachable and no expiry operation.
+All18404 object IDs/types/sizes match before/after (inventory SHA256
+c747529381c4ff94ba91ed2b09dac208b2833a02c17a9eb96d9e28a6393f0c38);
+refs and all three reflog files are unchanged at that pre-commit boundary.
+Full git fsck passes. Reported object storage falls from about950.01MiB to
+15.94MiB, saving about934MiB without dropping history or recoverable objects.
+The storage command, inventories and integrity log are preserved in the archive;
+git-storage-proof.json is kept loose for quick review. This is a local storage
+change and establishes no remote publication.
+
+After compiler/replayer/CI processes terminate, reviewed cleanup deletes exactly
+661 regular ignored files/19108256 logical bytes:134 mapped canonical OBJ/PDB
+caches (6823070 bytes),416 Python bytecode caches (6977018 bytes), and111 verified
+archive duplicates (5308168 bytes). Wine's lower-case PDB names are identified
+in a separate explicitly recorded second pass, checked against their prior
+preserved hashes and canonical build-unit mappings. Fourteen unmapped or
+experimental build objects/PDBs remain byte-identical. Per-path audits are
+cleanup.json, pdb-cleanup.json and cleanup-summary.json. Original EXE, SDK,
+toolchain, Wine/IDA state, adopted selected-manager proof objects and all older
+unclassified evidence remain intact. No generic extension-wide cleaner is applied.

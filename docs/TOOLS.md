@@ -1,5 +1,8 @@
 # Tool routing
 
+The active local campaign uses direct IDA Pro MCP and repository Bash, without
+Factory routing. The Factory/Web row below describes a separate client setup.
+
 | Need | Command or provider | Claim established |
 | --- | --- | --- |
 | Verify private target | `python3 scripts/verify-target.py` | exact identity and PE structure |
@@ -16,7 +19,7 @@
 | Audit runtime origins | `python3 scripts/audit-runtime-origins.py` | pinned archive/import evidence |
 | Check product graph | `python3 scripts/build.py --check` | explicit open/closed graph state |
 | Run public checks | `python3 scripts/ci.py` | target-independent repository consistency |
-| Preview/generated-cache cleanup | `python3 scripts/clean-generated-artifacts.py` (preview), `python3 scripts/clean-generated-artifacts.py --apply` (delete caches) | no exactness claim; removes ignored `build/` and `.analysis/` compiler binaries only |
+| Preview generated-cache cleanup | `python3 scripts/clean-generated-artifacts.py` | no exactness claim; review proposed paths before deletion, including any source-bound objects under `.analysis/` |
 
 The local IDA plugin is operator-managed and reached through the registered
 stdio provider. Always compare its metadata with `config/target.toml` before

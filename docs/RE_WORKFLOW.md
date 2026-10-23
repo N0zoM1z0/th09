@@ -123,11 +123,12 @@ dual-Oracle semantic baseline, in a distinct product configuration.
 
 ## Artifact lifecycle
 
-`.analysis/` is non-authoritative working state, not a journal. Keep only compact
-manifests, commands, disassembly snippets, and comparison outputs that are still
-the sole useful record of unresolved evidence. Once a result is accepted, move
-the durable fact to tracked source/ledgers/docs and delete its probe copy,
-compiler object, PDB, duplicate header, decompilation dump, and stale log.
+`.analysis/` contains local working state and retained evidence. Promote durable
+facts into tracked source/ledgers/docs, and keep the smallest source-bound packet
+needed to reproduce an unresolved or accepted claim. Verified archives may
+replace loose duplicates. Remove compiler objects, PDBs and copied inputs only
+after checking that the retained recipe and evidence reproduce their useful
+claims; the adopted selected-ECL-manager objects are retained proof, not caches.
 
 Clear generated object/PDB/bytecode caches routinely, but distinguish them
 from unique, still-reproducible experimental C++ sources, analysis tables and

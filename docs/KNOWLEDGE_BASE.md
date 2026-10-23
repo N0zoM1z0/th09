@@ -20764,3 +20764,60 @@ self-clean. Root recipes, verification, provider-transition/field-delta proofs,
 public report/provider ZIP, bounded direct-IDA windows and CI log remain loose.
 All older canonical/unclassified evidence, original input, toolchains, Wine and
 IDA database remain preserved. Exact ledger and game baseline stay unchanged.
+
+## 2026-10-23 Gameplay setup: outer mode-zero split and bounded write traces
+
+From local c1fe650, the game source remains the adopted f595786 baseline.
+Disk identity, direct IDA metadata and mapped bytes agree with original TH09.
+The fresh serial single-CPU nice-10 /O2 /Os /Ob1 baseline reproduces all1689
+physical bytes/171 fields/416 instructions/35 calls/77 blocks and904 original-
+linked differences. Raw SHA256 remains
+0310dbdd6b79da37ca68ece597b0faaf3562d1314b21dbc08320398091e7614c.
+The initial shared build cache fails the required1689-byte profile check; no
+cache is reinterpreted as current evidence. The cold source-bound build is used.
+
+Fresh original disassembly has a mode-zero dispatch before modes1..4. A bounded
+source control separates case0 into an actual outer if/else, retaining the
+other switch and every required field effect. It changes only that worker's
+mode dispatch. The candidate is1673 bytes/169 fields/414 instructions/35 calls/
+78 blocks, raw SHA256
+76031c096622c1195067ee0e5db0f144bf8b4a1c6d249c9b2a8b159a543bceaa.
+The whole comparison has1087 overlap differences and16 missing bytes:41 old
+mismatches recover,224 old matches are damaged, and the full ordinal graph
+still differs. Matching the original block count does not establish equivalence.
+The maintained inspector rejects the extent; its strict guard is unchanged.
+
+Both complete native bodies retain all35 ordered call identities, all actual
+COFF/address operands and the existing six-call canonical creator contracts.
+The split removes the two excess static B4 references, leaving candidate-only
++28/+98 and original-only root x3/+34/+A4. This is new cold evidence that B4's
+static multiplicity alone cannot prove extra runtime writes. No field effect
+is deleted to make its census match.
+
+A separate Unicorn Oracle executes actual original/candidate dispatch machine
+code from the unique setupMode load to before SupervisorCalculateFps, with no
+calls or helper stubs. All three full prefixes independently establish the
+observed EBX=0/ESI=1/EDI=2 live-ins; their producer instructions are checked.
+Synthetic manager/two-player storage and540 mode/gameMode/counter fixtures
+include unknown modes and signed boundary values. Every final output and every
+per-field dynamic write sequence agrees in both candidates. The maintained
+baseline differs from original global write order in96 fixtures; the explicit
+split agrees in all540. Original/baseline/split exercise120/122/120 distinct
+instructions. This bounds dispatch arithmetic/control/write observations only;
+it proves neither the complete worker nor threaded game-runtime equivalence.
+Byte exactness still rejects the split, and no game-source change is adopted.
+
+All11 unchanged same-source exact siblings pass across their actual two profiles:
+ten /Os owners2777 physical bytes in both baseline and split objects, plus the
+separate no-/Os214-byte loading owner. There are21 complete comparisons across
+three serial lowered-priority compilations; no private-label spelling refresh
+is needed. Unchanged external creator proofs are reused. The IDA entry comment
+is refreshed and read back; durable conclusions are recorded here.
+
+Evidence: .analysis/gpt-61sol-20261023-setup-dataflow/ contains frozen source
+inputs, profiles/provider hashes, actual objects/COFF, all-byte comparisons,
+strict rejection receipts, bounded Oracle and direct IDA observations. Extract
+captures.zip before replay; run.py --reuse-object verifies the source-bound
+compiled results, while dispatch_oracle.py replays the bounded native traces.
+Source/profile drift must fail rather than silently regenerate old evidence.
+Coverage remains244917/291883 (83.9093%); the98% goal needs41129 more exact bytes.

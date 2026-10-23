@@ -21,7 +21,7 @@ closure, runtime semantics, and portability as separate facts.
 Place your own legal copy at the ignored canonical path
 `resources/th09.exe`. Repository tools use that path by default. An explicit
 path or `TH09_TARGET_PATH` is supported only for deliberate local overrides;
-normal Factory work must use the canonical path.
+normal reconstruction work uses the canonical path.
 
 | Property | Required value |
 | --- | --- |
@@ -44,23 +44,26 @@ python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
 ```
 
-IDA attestation is environment-specific: local Codex calls `get_metadata` with
-`{}` through the direct provider and runs `scripts/check-ida-mcp.py` for mapped-byte
-attestation, while Factory/Web must call
-`get_metadata` with `{}` through the attested `th09-ida` provider. See
+The current local session calls `get_metadata` with exactly `{}` through the
+direct IDA Pro MCP provider, then runs `scripts/check-ida-mcp.py` to compare
+entry and distributed mapped bytes with the verified executable. See
 [`AGENTS.md`](AGENTS.md) and [`docs/TOOLS.md`](docs/TOOLS.md) before analysis.
+The separate Factory/Web client uses the attested `th09-ida` provider.
 
 Original executables, game data, IDA databases, decompiler output, and
 downloaded tools are private and never committed.
 
 ## Current status
 
-The operator resumed reconstruction through Factory MCP on October 22, 2026,
-targeting **98% exact reviewed-authored code bytes**. Prioritize key large
-functions (especially RunEcl, Enemy/Etama, TitleScreen and ExAttack), while
-keeping small leaves in scope and testing old hypotheses against fresh TH09
-evidence. This Factory/Web campaign uses the attested `th09-ida` route and
-pinned VC7.1 compiler Oracles. The ledger-derived counts are in [`docs/PROGRESS.md`](docs/PROGRESS.md); the replace-in-place
+The operator resumed reconstruction after the October 23 handoff, targeting
+**98% exact reviewed-authored code bytes**. The current local campaign uses
+direct IDA Pro MCP, repository Bash and pinned VC7.1 compiler Oracles, without
+Factory routing. Prioritize complete RunEcl and EnemyManager::OnUpdate,
+followed by the other large functions, and test old hypotheses against fresh
+TH09 evidence. Compile serially at lowered priority and reuse unchanged
+source/profile-bound proofs. New English commits use `gpt-6.1-sol: ...` with
+the identity and trailer in AGENTS.md.
+The ledger-derived counts are in [`docs/PROGRESS.md`](docs/PROGRESS.md); the replace-in-place
 [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) is the live routing and restart guide.
 Historical experiments in the knowledge base are not current codegen status.
 This measures confirmed authored bytes, not whole-image or runnable-product
@@ -81,13 +84,15 @@ instead of pretending the project is buildable.
 Run `python3 scripts/progress.py` to regenerate the status card,
 `python3 scripts/validate-docs.py` to catch stale handoff totals, percentage,
 98% gap, non-exact routing and accepted-owner manifest/receipt entries, and
-`python3 scripts/ci.py` for the target-independent validation set. The ignored
-`build/` directory is deliberately cleared before handoff; replay a function
-by running `python3 scripts/build-match-unit.py --unit NAME` before its
+`python3 scripts/ci.py` for the target-independent validation set. Canonical
+build caches may be absent after reviewed cleanup; replay a function by
+running `python3 scripts/build-match-unit.py --unit NAME` before its
 corresponding comparison or non-crediting inspector. Preview disposable-cache
-cleanup with `python3 scripts/clean-generated-artifacts.py` and explicitly
-apply it using `--apply`; original game data and historical probe source are
-not cleanup targets.
+cleanup with `python3 scripts/clean-generated-artifacts.py`. Its `--apply`
+scope also includes compiler objects throughout `.analysis/`, which may be
+essential source-bound evidence; review each path and retain unique proofs.
+Use [`docs/RE_ARTIFACT_CLEANUP_HISTORY.md`](docs/RE_ARTIFACT_CLEANUP_HISTORY.md)
+for the actual cleaned scopes and archive recovery instructions.
 
 ## Required phase order
 

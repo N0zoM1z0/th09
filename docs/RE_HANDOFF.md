@@ -7,85 +7,59 @@
 
 ## Current verified handoff checkpoint
 
-The operator has resumed reconstruction after the October 23 handoff, focusing
-on large owners. This local session uses direct IDA Pro MCP and Bash without
-Factory routing. New English commits use gpt-6.1-sol: with the preserved author
-and co-author trailer in AGENTS.md. No new exact coverage is claimed.
+Reconstruction is active after the October 23 handoff. Use direct local IDA Pro
+MCP and repository Bash, without Factory routing; compile serially at lowered
+priority. New English commits use `gpt-6.1-sol: ...` with the author and trailer
+in AGENTS.md. Checkpoints are local unless a push is independently verified.
+The 98% goal and both main owners remain unfinished.
 
-- Current Pause clock-deferral controls recover the original two-site static
-  sharing but fail complete comparison: visible1720 bytes/1442 overlap+56
-  missing; opaque1788/1580+12 excess. Embedding the Boolean footer is neutral.
-  No game source or exact ledger changes. Current packet:
-  .analysis/gpt-61sol-20261023-pause-deferred-time/.
-- The Pause inspector now recognizes observed post-RET8D4900 alignment while
-  comparing every byte. Full field/IAT/branch/table checks and production
-  frontier stay strict. Public deferred-time reproduces the full private cold
-  output and exits rejected. All11 emitted exact siblings pass, or8 where
-  three helpers are intentionally opaque. All24 focused tests and1016-test/
-  29-skip full CI pass; tracking/docs/build-graph/progress/whitespace pass.
-  Extract captures.zip in that packet before verification/replay; independent
-  archive-only verification reproduces all proofs without compiling.
-- Prior Enemy primary-bit checkpoint37725d5 and RunEcl cursor checkpoint3a3eb4a
-  remain negative, source-bound evidence. Extract each packet's captures.zip
-  before verification/replay. The current maintained game baseline is still
-  f595786; unchanged exact source/profile proofs are reused. Historical accepted
-  receipts do not accept a later HEAD. Reconstruction remains active.
-
-- Current coverage is **244917/291883 (83.9093%)**. The 98% milestone needs
-  **41129** additional whole exact bytes. Neither main owner is exact:
-  RunEcl has **30** ordinary differences (opcode 4: 7; opcode 155: 23),
-  15564 physical bytes and 598 matching fields/tables. EnemyManager::OnUpdate
-  has **13** ordinary differences across 3900 physical bytes and 97 fields,
-  with 69 ordered calls and 170 physical blocks.
-- Adopted source checkpoint **f595786** repairs selected ECL-manager ownership:
-  context+0 names the actual 0x188-byte EnemyEclManagerView. Deliberate
-  outer-primary and opposing receivers remain unchanged. All **140 canonical
-  units across 34 source/profile groups** passed; adoption CI passed **1012
-  tests / 29 skips**. This semantic repair preserves both complete main-owner
-  byte streams and adds no exact coverage. Do not undo it based on older notes.
-- Source and canonical identities are already committed. No cosmetic source
-  rewrite is needed: existing proofs bind exact source contents. The latest
-  research checkpoint before handoff is **7ef7e85**. Subsequent handoff edits
-  only clarify documentation and remove reviewed reproducible caches.
-- Essential adoption evidence is
-  `.analysis/th09-selected-ecl-manager-owner-20261023-v01/`: ADOPTION.md,
-  boundary-proof.json, owners-proof.json, private-label-proof.json,
-  canonical/group-00.obj through group-33.obj and their sidecars,
-  canonical-verified/summary.json, and maintained-runecl/enemy.json.
-  Private-label spelling refreshes were individually proven, not comparator
-  relaxation. Retain these objects rather than treating them as build caches.
-- Latest closed models are routed through the final sections of
-  [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md): explicit operand capture banks,
-  ordinary aggregate return, whole-dispatch operand base, and corrected-owner
-  Enemy descriptor/layout experiments. None repaired the two owners. Their
-  complete source/objects/results remain in named local evidence packets.
-  Exact-prefix corpus searches are bounded negative evidence, not impossibility.
-- Preserve selected-manager publication only for nonnegative subroutine IDs,
-  CallSubroutine's post-initialization selected-manager reload, and the original
-  primary/opposing receiver split. Target evidence does not support keeping
-  opcode 155's old flags live across the shared instruction join.
-- The verified original target SHA-256 is
+- The live ledger below remains **244917/291883 (83.9093%)**, needing **41129**
+  more whole exact bytes. RunEcl remains15564 physical bytes/598 fields/30
+  ordinary differences; Enemy remains3900/97/13 with69 calls and170 blocks.
+- The last maintained game-source change is **f595786**, the selected ECL-manager
+  ownership repair. All140 canonical units across34 source/profile groups
+  passed at adoption; later diagnostic checkpoints do not change those inputs.
+  Retain `.analysis/th09-selected-ecl-manager-owner-20261023-v01/`, including
+  canonical/group-00.obj through group-33.obj and their sidecars and proofs.
+  These are source-bound evidence. Archival accepted receipts do not accept a
+  later HEAD, and exact functions do not close native product/runtime gates.
+- Fresh GameManager mode-dispatch controls reproduce the maintained1689/171/904
+  frontier. An outer mode-0 split is rejected:1673 bytes,1087 overlap differences
+  plus16 missing,224 old matching positions damaged. Its B4 static-reference
+  excess disappears without removing required writes. A540-fixture bounded
+  original/native dispatch Oracle agrees on final fields and per-field writes;
+  the split restores global write order, whereas baseline differs on96 cases.
+  This is dispatch-only evidence. All11 same-source exact siblings pass across
+  their two pinned profiles. Packet:
+  `.analysis/gpt-61sol-20261023-setup-dataflow/`.
+- Pause checkpoint **c1fe650** retains the1776/1732 nonexact frontier. Current
+  clock-deferral controls fail whole comparison despite restoring two-site
+  static sharing. The inspector compares the observed post-RET8D4900 alignment
+  without masking bytes. Public deferred-time reproduces the rejected cold
+  output;24 focused tests and1016-test/29-skip CI passed at that checkpoint.
+- RunEcl cursor **3a3eb4a** and Enemy primary-bit **37725d5** are negative,
+  source-bound controls. Their packets and the Pause packet retain verified
+  captures.zip archives; extract before replay. Consult the dated final KB
+  sections before repeating a model. Historical negative results are bounded
+  observations, not proof that all natural source models are exhausted.
+- Target SHA-256 remains
   `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-  Re-attest disk and mapped IDA state in the successor session. Historical
-  attestation and CI are evidence, not substitutes for current checks.
-- Reviewed source archives are recoverable. The 748 command-consumer source
-  copies have a verified archive; baseline/, frozen/, root producers, objects,
-  PDBs and results remain intact. Read that packet's ARCHIVE_README before
-  historical replay. Do not rerun prepare.py over frozen evidence.
-- [Cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) records exact scopes.
-  Ignored evidence and archives are local and **not included in Git commits**.
-  Preserve the same worktree when switching to Codex. Build caches may be
-  absent; rebuild a canonical unit before comparing it. Do not apply the
-  generic cleaner's extension-wide .analysis deletion preview.
-- Final handoff CI passed **1012 tests / 29 skips** (exit 0); tracking,
-  documentation, build-graph, progress and whitespace gates passed. Logs are in
-  `.analysis/th09-codex-handoff-20261023-v01/`. Reviewed cleanup removed only
-  144 reproducible Python bytecode files (2,083,630 logical bytes). All compiler
-  objects, PDBs, archives and frozen source evidence remain preserved.
-- The progress SVG remains unchanged because accepted exact coverage has not
-  changed. Use `scripts/progress.py --check`, not a cosmetic percentage update.
-  Historical Factory commits used gpt-dots: and were local only.
-  Current local checkpoint publication must be reported separately from a push.
+  Disk and direct IDA metadata/mapped-byte checks pass in the current packet;
+  re-attest in the successor session.
+- README, workflow and tool routing now agree on direct local work and on
+  retaining unique proof objects. Git storage was repacked with one worker and
+  bounded delta memory: all18404 object IDs/types/sizes, refs and reflogs agree
+  before/after. Object storage falls from about950.01MiB to15.94MiB without
+  pruning objects or rewriting history; full Git integrity verification passes.
+  See [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for cache scopes and
+  archive recovery. Ignored evidence is local and is not part of Git commits.
+- Final current checkpoint CI passes **1016 tests / 29 skips** (exit0);
+  target-required tracking, documentation, build graph, progress and whitespace
+  pass. The focused worker controls protect all11 same-source exact units.
+  Cleanup removes134 mapped build caches,416 bytecode files and111 verified
+  archive duplicates, preserving14 unclassified build objects/PDBs. Evidence and
+  logs are in the current setup-dataflow packet; extract captures.zip before
+  run.py/verify.py replay. Reconstruction remains active.
 
 ## Live ledger snapshot
 
@@ -259,49 +233,21 @@ results, fields and deficits before making an exactness claim.
 
 ## Evidence and cleanup boundaries
 
-The GameManager owner-correction section in the knowledge base records its
-source SHA-256 and both-profile evidence. The dated resumed-campaign and second
-bounded-wave sections route completed negative probes, native idiom checks and
-source/profile limits. This second wave adopts no source or ledger change. Its
-fresh maintained-tree Replay gate passes; rejected candidate proofs remain
-separate from that current-source result. Prior private packets are
-`.analysis/gpt-6-astra-medium-20261022-player-cancel-cursor/` and the earlier
-`ecl-wire-return/`, `front-weight-member/`, `service-rng/`, `options-confirm/`
-packets with the same dated prefix. Frozen inputs, recipes and complete trial
-reports remain available. Player and Options loose case files are verified
-against trials.zip before removal; extract locally before replay.
-The earlier handoff audit and CI log live in
-`.analysis/gpt-6-astra-medium-20261022-handoff/`; its reviewed cache cleanup is
-historical. The second-wave artifact inventory is read-only: no deletion,
-compression or cleanup was performed. This documentation checkpoint passes
-994 tests with 29 skips; its full CI log/exit are `wave2-ci.{log,exit}` in
-`.analysis/th09-campaign-20261022-v01/`.
+Use [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for exact scopes, hashes
+and recovery instructions. Original-bound accepted receipts are archived in
+[RE_ACCEPTED_RECEIPTS.md](RE_ACCEPTED_RECEIPTS.md) with immutable source commits.
+The current diagnostic packet retains its frozen inputs, complete original/COFF
+comparisons, bounded dispatch Oracle, direct IDA evidence and Git storage audit.
 
-Ignored packets are local evidence and are not pushed. Tracked source,scripts
-and durable observations provide the restart path. Historical replayers may
-reject later sources; use their recorded commit. Archival receipts do not
-accept a later HEAD. Never delete original resources/th09.exe,toolchains,
-Wine prefixes,IDA databases,tracked source or unclassified evidence. Never
-bulk-delete .analysis/ or run git clean -X. The October 22 17:38 UTC census
-observed about 1.405GiB / 114829 files; the separate 17:39 group snapshot has
-1451565729 logical bytes and zero loose PDBs in inherited gpt-* packets. Every
-observed PDB is in current excluded packets, and no safe legacy PDB cleanup
-candidate was found. See `.analysis/th09-artifact-inventory-20261022-v01/report.json`
-for timestamps and scope; live snapshot counts are not reclaimable-space claims.
-A later bounded archive preserves all 10587 files of
-`.analysis/gpt-web-runecl-20261013/` in the verified PAX tar.xz under
-`.analysis/th09-legacy-archive-review-20261022-v01/`. Its three producer scripts
-remain loose; 10584 snapshot copies were recoverably unlinked only after full
-byte comparison and clean extraction. Read the original root's ARCHIVE_README
-and the final cleanup-history section before replay; do not regenerate frozen
-inputs by rerunning old producers. Net logical reduction including review overhead
-is about 45.3 MiB. The earlier census is historical, not the post-archive size.
-All other legacy source/JSON evidence still needs individual producer/source/
-reference review; age is insufficient.
-The generated-artifact cleaner previews by default and proposes a broader
-scope than this bounded checkpoint. Inspect every proposed path before apply.
+Earlier source-copy archives remain recoverable: read the original packet's
+ARCHIVE_README before replay, especially for the October13 RunEcl archive and
+October23 command-consumer snapshots. Do not rerun producers over frozen inputs.
+Ignored packets must accompany the worktree when handing local evidence over;
+tracked source, scripts and KB observations provide the committed restart path.
 
-October 23 bounded cleanup additionally archives only 748 completed command-consumer
-case-source files, retaining all baseline/frozen dependencies and compiled/result
-evidence. The original packet's ARCHIVE_README and cleanup history contain the
-verified recovery path and hashes. Net logical savings are about 4.19 MiB.
+Keep resources/th09.exe, toolchains, SDKs, Wine prefixes, IDA databases, adopted
+source-bound proof objects and unclassified experiments. Build caches may be
+absent; rebuild the configured unit/profile before comparison. The generic
+cleaner previews a broader scope than the reviewed cleanup: do not apply its
+extension-wide .analysis deletion or run git clean -X. No cleanup implies that
+a nonexact owner became exact or that reconstruction was paused.
