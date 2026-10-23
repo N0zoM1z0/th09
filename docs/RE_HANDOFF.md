@@ -11,6 +11,13 @@ October 23 renewal: active reconstruction is focused on complete RunEcl and
 EnemyManager::OnUpdate exactness. New consumer/control-flow/lifetime panels are
 being compiled and independently diagnosed; no new exact credit is claimed.
 See the latest knowledge-base entry for frozen evidence and rejected outcomes.
+The continued current-context panels preserve complete raw/COFF records: fourteen
+RunEcl cases plus the macro control, and thirty-nine Enemy captures through the
+value-assignment and common-recomputation pairs. No source/profile or exact ledger is changed.
+Whole genuine timer visibility has been replayed with all nineteen emitted timer
+owners independently exact; its real register-preservation effects do not repair
+RunEcl's two residual handlers. Further copy-ownership and control-flow trials
+remain active. The SVG is unchanged because accepted exact coverage is unchanged.
 
 The operator explicitly resumed reconstruction on October 22, 2026, through
 Factory MCP with a **98% reviewed-authored-byte exact** goal and priority on

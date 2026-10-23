@@ -19920,8 +19920,8 @@ prove RunEcl4086C0 is still present at shifted offsets: the maintained inspector
 Combined guards move descriptor initialization to the tail and merge one real
 Float3-add call, giving68 rather than69 calls. Shared append merges two blocks
 without losing a call. All native bodies and actual scalar definitions pass.
-Follow-on full-expression force-position and descriptor-domain cases have also
-compiled and are undergoing independent diagnosis; no source is adopted.
+Follow-on full-expression force-position and descriptor-domain cases were
+subsequently diagnosed in the continued-experiments entry below; no source is adopted.
 Sources, complete raw/COFF, strict rejections and exploratory original-identity
 comparisons are in `.analysis/th09-enemy-controlflow-20261023-v01/`.
 
@@ -19939,3 +19939,202 @@ open-build, progress and whitespace checks. The Factory response timed out, but
 subsequent readback verified the completed log and zero exit; no duplicate CI
 was launched. Receipt: `.analysis/th09-targeted-campaign-20261023-v01/first-panel-ci.log`
 and first-panel-ci.exit. Research remains active on these two owners.
+
+## 2026-10-23 continued two-owner source-model experiments
+
+The renewed exclusive RunEcl/Enemy task remains active. None of the following
+experiments is adopted or earns exact credit. Full-owner failures are recorded
+for diagnosis, not dismissed merely because their extent changes.
+
+### Enemy continued findings
+
+Scope: continued Enemy OnUpdate work after checkpoint13f2f7a (2026-10-23 03:06:42 UTC), plus
+final diagnosis of its five pending captures. Target physical3900 bytes; baseline97 fields,69
+calls,170 blocks,13 differences. Periodic baseline has45 differences. No exactness gain or
+tracked source/profile change. All35 compiled captures remain in this ignored packet.
+
+- Pending force-position/full-expression pair: whole raw-neutral to opaque/periodic baselines.
+  Pending descriptor domains:3804/97 opaque and3796/97 periodic; the combined force-position
+  variant equals periodic domains. Actual75-byte pattern helper has no original binding;96 known
+  original fields plus one helper, no fabricated full linked score. Source:stage_lifetimes.py.
+  Results:staged/{force-full-expression,periodic-force-full-expression,descriptor-domains,periodic-descriptor-domains,periodic-domains-full-expression}/{analysis.json,domain-analysis.json
+  where applicable}.
+- Four native cleanup/update-family cases: all whole raw-neutral13/45. Real
+  cleanup184,clamp127,motion188 definitions and actual positive references independently pass.
+  Source:stage_native_family.py. Results:staged/*native-{cleanup,update-family}/analysis.json.
+- Four128-record traversal models: indexed3912/97, sentinel3896/97, periodic indexed3896/97,
+  periodic sentinel3896/97. All69 calls and original destinations survive. Indexed repairs draw
+  operand roles but adds per-iteration IMUL; periodic indexed repairs special-copy roles but
+  changes graph and retains new register inversions. Sentinel adds a preheader exit and changes
+  stack/loop geometry. Not merely four bytes of padding. Source:stage_pool_iteration.py. Full
+  bindings/graphs/instruction hunks:staged/*pool-*/exploratory.json and instruction-hunks.json.
+- Two full iteration-local scalar models: raw-neutral3900/97/13 or45. The persistent
+  pointer/index loop, actual128 bound, constructor timing and initialized bombHit lifetime
+  remain intact. Source:stage_iteration_workspace.py. Proof:iteration-workspace-pairs.json;
+  staged/*iteration-workspace/exploratory.json.
+- Two direct trajectory/pattern blocks remove the prior artificial call boundary while retaining
+  the same real groups: opaque3908/97/69calls/169blocks,1742 overlap differences plus8 excess;
+  periodic3860/96/68/169,3014 overlap differences plus40 missing. Periodic merges one
+  normal-motion Float3 add. Real RunEcl stays+39F/+39D. Actual descriptor loads match target
+  roles only in periodic, but store order becomes X,Z,Y. Source:stage_direct_domains.py.
+  Results:staged/*direct-domains/exploratory.json.
+- Four real Float3 bit-copy special-member models: memcpy copy constructors are entirely
+  raw-neutral13/45. Self-assignment-safe memcpy assignment emits4008/98 and4020/98, grows native
+  collision82→89 and attached effects151→156, and introduces a429-byte actual
+  descriptor-assignment section with no original target identity. Independently rechecked
+  divide56,Player205,greater20,periodic33 remain exact; initial dependent 'coff' errors were not
+  native-byte failures. Source:stage_bitcopy.py. Full raw/COFF/native section
+  evidence:bitcopy-summary.json and staged/*bitcopy-*/bitcopy-analysis.json.
+- Two actual SpawnEffect context cases: old joint periodic tests were real but predated shared
+  native AnmVm/persistent descriptor source. Current opaque/periodic pair is entirely
+  raw-neutral13/45. Native SpawnEffect184 bytes/two fields/four actual same-object references
+  passes in both, together with all existing helpers. Source:stage_spawn_context.py and
+  spawn-context-prior-source.patch. Proof:spawn-context-pairs.json;
+  staged/*native-spawn-context/exploratory.json.
+
+Reproduction:run.py --case NAME, serial one CPU/nice10, fixed profile, immutable sources,
+pre/post hash checks, refuses existing objects. Root retains all compiler commands/logs.
+analyze.py preserves complete main raw/COFF before strict guards. explore.py binds actual
+independent destinations and records whole extent/call/CFG outcomes, without treating shifted
+fixedoffset RunEcl errors as call removal. Unknown outlined helpers are explicitly unbound, not
+patched into the target. Each stage.json pins source/provider/target and each source.patch
+records exact modifications.
+
+Avoid repeats: actual early/nested/negated-remainder periodic bodies are audited in
+periodic-body-prior-review.json; direct descriptor native constructor is already tested by the
+older descriptor-values producer. Real primary bullet spawn203-byte opaque/periodic visibility
+already has current native-header proof. D3DVECTOR cast/inheritance is not justified by adjacent
+probe code and was not staged.
+
+### RunEcl continued findings
+
+Checkpoint is 13f2f7a5d82a06456747a3c45519b79ab647c7a3 (03:06:42 UTC). Root performed all
+compilation under pinned profile, single CPU and nice10; worker only staged ignored sources and
+diagnosed retained objects. No tracked source adoption or exactness credit. Original target SHA
+remains 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822. All packets pin
+source/tool hashes and preserve actual raw bytes plus COFF, even when the strict original
+geometry inspector rejects.
+
+#### Whole-owner classes
+
+The following 14 root-compiled trials are covered here; the independently verified current
+macro-only trial is a supporting control managed by the operand worker.
+
+- Baseline class bc9a1a71: 15564 bytes /598 fields /30 ordinary /0 field /0 table differences.
+  Reproduced by dispatch-borrowed-slot, shared-native-flagword, state-case-locals and
+  operand-array-owner. Current macro-only also belongs here.
+- Native bitfield class 82e081e3: 15564/598, 1938 ordinary/202 field/26 table differences.
+  Reproduced by native-direct, native-macros, native-case-locals, native-state-case-locals and
+  native-macro-array-owner.
+- Native combined class 86ec8d5d: 15564/598, 2019 ordinary/239 field/26 table differences.
+  Reproduced by native-macros-case-locals and the independent state-flags-workspace.
+- Live pointer-slot class21840f8a: 15564/598,65 ordinary/0 field/0 table differences. All
+  original30 persist;35 new register-byte differences are18 initial setup and17
+  world-position/secondary-timer prefix positions.
+- Execution-slot class4b3e7b55:15564/598,47 ordinary/0 field/0 table differences. Isolates
+  precisely the17 prefix differences, still no residual repair.
+- Whole genuine timer recovery b55512c2:15560/598. Strict comparison rejects altered geometry.
+  Actual raw/COFF and all handler bindings retained; no scalar difference count is asserted for
+  this changed layout.
+
+#### Residual behavior
+
+None repairs opcode4. Baseline and native classes keep its29-byte EAX operand load and receiver
+load before PUSH; original requires ECX input/PUSH before receiver. Whole timer visibility moves
+it from+0x277 to+0x271 but retains that body.
+
+None repairs opcode155. Baseline-derived classes retain the45-byte split CL load/MOVZX ECX and
+EAX-old/ECX-result masked XOR. Native classes use44 bytes, fused MOVZX EAX, ESI-old and
+ECX-result, whereas original requires ECX-input/ESI-old/EAX-result and45 bytes. Native opcode156
+acquires that latter coloring, but at the wrong handler. Thirteen old physical mismatching
+positions become equal in native trials while broad new differences and shifted original
+fields/tables appear; these are not claimed as whole-owner gains. Combined native/workspace
+class shortens opcode157's stride-result path160→158 bytes and still does not repair either
+residual. Actual call multisets remain unchanged in these classes.
+
+#### Semantic panels and history
+
+Live context slot: genuine mutable reference to activeContext2CE0, not a cached context pointer.
+Whole reference and two meaningful execution/dispatch use groups were tested. Old helper/timer
+references and const/volatile pointer-slot recipes are distinct. Branch closed after isolated
+regressions; no permutation matrix.
+
+Shared flag word: coherent unsigned-long native word/bitfield backing across18 maintained
+same-cell owners,78 frozen inputs. RunEcl neutral. Independently extracted
+EnemyManager::OnUpdate also preserves all3900 raw bytes,97 actual bindings and13 original
+differences; five private labels rename without target changes. No new type variants.
+
+Integration: direct native timeout assignment plus actual four-wrapper macro expansion and eight
+genuine Control-local lifetimes. Scope and macro transforms commute but are distinct AST
+structures. Three cells collapse to native-direct; combined cell becomes86ec8d5d. All ordinary
+resolver evaluation order preserved; no new forceinline or outlines.
+
+State lifetimes: eight actual per-case stateInt/stateIndex/childEcl scopes, shared stateCallback
+retained because of real goto transfer. Both controls neutral.59 private label names differ but
+actual binding offsets/values/addends/sections agree.
+
+Operand array owner: one separate header+union-of-int/float/byte/short-arrays view for all four
+raw access families, baseline/native-macro pair neutral. Eight is only max observed accessor
+window, NOT uniform allocation extent. No sizeof/stride/copy/new read was introduced; legacy
+variable-record portability caveat explicit. Audited314 wrapper sites and all narrow offsets.195
+private labels rename with otherwise exact bindings. Distinct from Oct7 per-address scalar union
+and Oct9 byte-only wire prefix. No extent sweep.
+
+State flags workspace: one consumed trivial4-byte bitfield value across all seven State-family
+primary-word RMWs, five byte setters and both boss branches. Each actual input precedes
+snapshot; copy/modify/publish contains no call/branch; every definition consumed. Full raw
+equals combined integration class. COFF owner395 vs387 and every changed positive section index
+differ systematically by8; offsets/types/addends/symbol values/external identities agree,
+private labels preserve owner-relative binding. Explicit section mapping recorded, not silently
+treated as identical object records.
+
+Whole timer recovery: historical Oct19 all-actual-timer-before recipe, not new source syntax.
+Old15560/598 raw0661100d retained no object or raw field evidence. Current complete genuine
+ZunTimer.cpp closure has69 frozen inputs and produces different b55512c2. Current diagnosis
+proves19 emitted registered timer owners fully exact, including25-byte SetCurrent and9-byte
+assignment. All598 ordered field types/addends/external identities and call multiset remain.
+Main187 table bindings move by−5/−6/−10/−11. Actual visibility lets compiler retain ECX through
+current-value getter and reuse EDX active-context value for equality, eliminating baseline ESI
+secondary-timer save/reload. Opcode121 retains laser index in EDX across assignment, removing a
+branch/move; other handler registers recolor. Residual bodies remain wrong. Do not infer
+historical0661100d's exact differing bytes without its missing object.
+
+#### Evidence
+
+Packets share .analysis/th09-runecl-<name>-20261023-v01:
+live-context-slot, shared-flagword (including enemy-comparison.json),
+native-dispatch-integration, state-lifetimes, operand-array-owner, state-flags-workspace,
+whole-timer-recovery.
+Each has manifest and root-run/compile results; diagnosis/comparison files contain actual field
+and handler evidence. Timer structural.json uses branch operands abstracted only for explanatory
+instruction diffs, not exactness scoring. Root should retain raw result.json, callee-proof.json
+and original switch table resolution.
+
+### Four further Enemy copy and common-update controls
+
+Ordinary by-value Float3 assignment with bit-copy construction gives 3888 bytes
+and 98 fields in both opaque/periodic cases. Actual Player and RunEcl calls
+survive at +0x36C/+0x397. A real 427-byte descriptor-assignment section appears
+with no original identity; collision grows 82 to 83 bytes and attached effects
+151 to 166. Divide, Player, greater and periodic native bodies remain exact.
+No synthetic binding or source adoption. Cases: bitcopy-value-assignment and
+periodic-bitcopy-value-assignment in the same Enemy packet.
+
+The known common post-movement position recomputation recipe was replayed with
+current native source, separately from copy assignment. Both cases emit 3840
+bytes: 3822 code, two alignment bytes, and sixteen table bytes; 96 fields,
+68 calls and 168 blocks. All native helpers pass. One real Float3-add call is
+removed; RunEcl survives at +0x398. Opaque/periodic linked overlap differences
+are 3245/3239 with sixty missing bytes, and the graphs differ. The exploratory
+decoder now recognizes the observed two-byte MOV EDI,EDI alignment, without
+changing full-byte comparison or a production guard. Cases: common-world-recompute
+and periodic-common-world-recompute. All thirty-nine captures remain retained.
+
+Second checkpoint CI passes 1005 tests with 29 skips in 125.284 seconds, plus
+tracking, docs, open-build graph, generated progress and whitespace checks.
+The first attempt was killed by the sixty-second Factory timeout; its partial
+log is retained separately. The longer attempt completed with exit zero, verified
+by readback after its response failed. Receipts are second-panel-ci.log and
+second-panel-ci.exit in .analysis/th09-targeted-campaign-20261023-v01/.
+The accepted SVG and 83.9093% coverage remain unchanged. Further independent
+integer-result ownership exploration is active; this is not task completion.
