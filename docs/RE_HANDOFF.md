@@ -17,25 +17,29 @@ verified. The 98% goal and the principal large owners remain unfinished.
   whole exact bytes. RunEcl remains15564 physical bytes/598 fields/30 ordinary
   differences; Enemy remains3900/97/13 with69 calls and170 blocks.
 - The large-owner source baseline remains **f595786**, the selected ECL-manager
-  ownership repair. All140 canonical units across34 source/profile groups
+  ownership repair. All 140 canonical units across34 source/profile groups
   passed at adoption. Retain
   `.analysis/th09-selected-ecl-manager-owner-20261023-v01/`, including
   canonical/group-00.obj through group-33.obj and their sidecars/proofs.
   Archival receipts do not accept a later HEAD; exact functions do not close
   native product/runtime gates. Reuse unchanged source/profile-bound proofs.
-- Current RunEcl controls test nine command-prefix, assignment-syntax and
-  byte-promotion models, plus two independent cold compiles. The twelve objects
-  pass 900 complete existing-body comparisons. Three models repeat 30 ordinary
-  differences; jump/direct-wire forms retain all 30 and add 12 in opcode 7.
-  Timeout prefix/word-capture forms drift fields/tables; an actual 26-byte
-  outlined setter has no original binding and is rejected. No source, profile,
-  guard or ledger is adopted. Packet
-  `.analysis/gpt-61sol-20261023-ecl-command-prefixes/` retains its 941-member
-  archive, source recipes, actual COFF and production rejections. Focused
-  baseline guards retain 90 timer-jump and 3072 flag-transition machine cases.
-  CI passes 1016 tests/29 skips; cleanup removes 1370 verified duplicates/caches
-  (29245122 logical bytes), retaining the 4.1 MB archive, all 14 preexisting build
-  files and 34 unique canonical objects. See cleanup history for recovery.
+- Current Enemy routing predicates test five source models and one cold replay.
+  Seven objects pass 525 complete existing-body comparisons. Manager/Enemy
+  timeout queries, the side-suppression query and explicit comparison retain
+  3900/97/13, identical raw bytes and field identities. Category switch dispatch
+  has 511 full linked differences and damages 498 old matches; nine actual calls
+  move by -3 bytes. Its production rejection remains explicit. No source,
+  profile, guard or ledger is adopted. Packet
+  `.analysis/gpt-61sol-20261023-enemy-routing-predicates/` retains the 550-member
+  archive, renderer, COFF and full exploratory original-bound comparison.
+  CI passes 1016 tests/29 skips; cleanup removes 685 verified duplicates/caches,
+  14661097 logical bytes. All 14 preexisting build files and 34 unique canonical
+  objects remain preserved; cleanup history contains the exact recovery scope.
+- Prior RunEcl command-prefix/byte-promotion controls retain 30, regress, or
+  outline an unbound helper. The 12 objects pass 900 existing-body comparisons;
+  the 941-member archive and source recipes remain in
+  `.analysis/gpt-61sol-20261023-ecl-command-prefixes/`. Production guards and
+  canonical source remain unchanged. Cleanup history records preservation.
 - Prior Enemy position/comparison controls retain 3900/97/13 across nine
   objects. Their 675 body comparisons include 21 reviewed interface views;
   original comparison signedness/constness remain unknown. Packet

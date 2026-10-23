@@ -21691,3 +21691,70 @@ For a selected cold model into a fresh directory, use
 `python3 -B .analysis/gpt-61sol-20261023-ecl-command-prefixes/probe.py --case jump-prefix --output .analysis/ecl-prefix-cold`.
 Coverage stays 244917/291883 (83.9093%), with 41129 whole exact bytes still needed
 for 98%. Native product/runtime, semantic and portability gates remain open.
+
+### 2026-10-23: Enemy routing predicates and category switch dispatch
+
+Recovery at 29992a34209226ec57555a47eb7ca74f872c775b is clean. Original Japanese
+1.50a disk identity, direct IDA metadata, entry and five mapped-byte samples pass.
+Fresh original Enemy windows retain the 13-byte frontier: draw-index 2,
+side/threshold 4 and position-copy 7. The original side gate consumes bit 0 of
+side+34 and the two-bit category at Enemy+3380 bits 10..11, accepting categories 1
+and 2 for ordinary processing. No other category validity assumption is added.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-ROUTING-001 | byte-neutral experiment | Manager-owned SpecialAttackExpired takes the actual timer reference and compares against the existing manager threshold. | manager-timeout-predicate/: 3900/97/13; all raw bytes and field identities unchanged. |
+| ENEMY-ROUTING-002 | byte-neutral experiment | Enemy-owned SpecialAttackExpired takes the actual manager reference and performs the same comparison. | enemy-timeout-predicate/: same full baseline. |
+| ENEMY-ROUTING-003 | byte-neutral experiment | A const Enemy query reads the existing side gate and category predicates. | side-suppression-predicate/: same full baseline; independent cold compile agrees. |
+| ENEMY-ROUTING-004 | byte-neutral experiment | Explicit operator>(threshold) syntax retains the genuine comparison ABI and symbol. | explicit-timeout-comparison/: same full baseline. |
+| ENEMY-ROUTING-005 | rejected source hypothesis | A side-gated switch handles categories 1/2 explicitly and all other values in default. | side-category-dispatch/: 3900/97, 511 complete linked differences. |
+
+The three domain queries actually inline at their callsites; no new helper call
+is emitted or assigned an original identity. Existing comparisons, source reads,
+member offsets, wire widths and persistent storage remain unchanged. These are
+ordinary source boundaries, with no forced inline, declaration/field permutation,
+register hint, manufactured result contract, assembly or profile search.
+The byte-neutral outcomes do not identify unique original interfaces or exhaust
+other natural source models.
+
+The switch uses a different flags/range branch sequence and shortens the early
+window by 3 bytes. Nine original call instructions move by -3, including the
+Player state call whose field moves +36B to +368. The later actual RunEcl field
+is still +397. Production inspection correctly rejects the shifted native state
+call. No guard is bypassed or relaxed. A separate exploratory full comparison
+binds all 97 fields through their independently reviewed identities and actual
+COFF owner-local positions, never relocating a local label to a target position.
+All 3900 physical bytes remain compared. The 69 ordered call destinations still
+agree and both code prefixes decode 1026 instructions, but 511 bytes differ:
+463 ordinary and 48 field bytes. All 13 old mismatch positions remain unlike,
+with 498 newly damaged matches; no source is adopted.
+
+Full-function decoding also explains the restored later offset: before the
+shared +390 block, the original post-transfer seam is two bytes (MOV EDI,EDI);
+the switch emits five bytes (JMP then LEA), absorbing the earlier three-byte
+reduction. No decoded direct branch or switch-table entry targets either seam.
+This bounded graph observation does not infer external reachability or waive
+any physical byte. audit-alignment.py checks the original owner hash and the
+archived complete linked candidate before decoding these boundaries. No filler
+or assembly is inserted into source to reproduce the original seam.
+
+Five source models, one independent cold replay and one source/profile-bound
+reused baseline give seven objects. Each protects 75 existing canonical bodies,
+22463 physical bytes/990 fields: 525 full original-byte comparisons, 157241
+comparison bytes/6930 fields total. Six objects pass the production Enemy
+3900/97/13 guard; the switch keeps its production rejection. Every RunEcl raw
+body is unchanged at 15564/598/30 with zero field/table drift. Actual scalar
+literal definitions remain checked. All compiles are serial, single-CPU, nice10
+under the unchanged /O2/Ob1 profile. No production symbol, source, profile,
+manifest or exact ledger changes; all 1003 unchanged canonical source/profile
+proofs remain reusable.
+
+Packet .analysis/gpt-61sol-20261023-enemy-routing-predicates/ retains the final
+renderer, 70 frozen source files, 21 provider bindings and 550-member verified
+archive. verify.py extracts and replays all full observations without compiling;
+its bytecode suppression propagates to supplier subprocesses. A selected cold
+model can be rebuilt into a fresh directory with
+`python3 -B .analysis/gpt-61sol-20261023-enemy-routing-predicates/probe.py --case side-suppression-predicate --output .analysis/enemy-routing-cold`.
+These repeated existing proofs add no exact authored bytes. Coverage remains
+244917/291883 (83.9093%); 41129 whole exact bytes are still needed for 98%.
+Native product/runtime, semantic and portability gates remain open.
