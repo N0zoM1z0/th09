@@ -345,13 +345,70 @@ fresh whole-owner models or evidence relevant to shared helpers. No adoption or
 new trial is implied by a historical frontier label.
 
 - [ ] Type3 middle-Z store chronology: derive a current-source model if supported.
-- [ ] Title DrawResult record/bank/screen lifetimes: inspect real source and calls.
+- [x] Title DrawResult fresh cold gate and original entry audit:1939/82/22,
+      differences limited to+0x0E..+0x24 and+0x39; +0x51 onward identical.
+      Actual native-score recipe inputs match current source/header hashes and
+      its three relevant models remain22. No new supported model from this pass.
 - [ ] Effect Type29 main/satellite chronology: third-largest remaining owner,
       shared carrier; preserve complete field/call/ordinal evidence.
 
+## H08: shared player/vector API, not just local point aliases
+
+Status: scoped current-source candidate compiled and independently verified;
+Type3, RunEcl and Enemy bytes remain unchanged. No adoption.
+
+Current PlayerPositionView is three floats with a subset of Float3 methods.
+Independent target uses the same arithmetic/conversion bodies. Historical
+all-point tests changed local variables but retained old collision parameter
+types and casts; they do not establish this full API outcome.
+
+- [x] Check layout, method return/reference forms and original body destinations.
+- [x] Check current aggregate/default-construction uses. Float3 has an empty
+      user constructor; no observed explicit value/new/brace construction in
+      current PlayerPositionView uses, but universal type equivalence is unproven.
+- [x] Close two forward declarations and duplicate conversion definition.
+- [x] Compile Type3 and EclManager plus pointer/collision/rotation boundaries
+      under their existing profiles (rotation uses /Ob0, not /Ob1).
+- [x] Privately prove the selected nominal identities and preserve full main
+      owners and compiled boundaries; global49-TU adoption remains unproved.
+
+Original Type3 residual is one middle-Y/Z/tail-X scheduling island, not15
+independent logical faults. Actual prior all-three coordinate builders produce
+105 overlap differences; middle-only forms47. Preserve their exact source-root
+differences, particularly current Y from record rather than cached position.
+
+H08 receipt:133 inputs,49 affected TUs/222 configured units inventoried.
+Type3 remains780 bytes/38 fields/15 differences; Ecl carrier139 emitted bodies
+unchanged,75 canonical equivalents pass after3 explicit nominal maps.
+RunEcl30 and Enemy13 remain. Boundaries preserve6 collision bodies and3 rotation
+bodies; two logical pointer identities merge to one3-byte physical body.
+Eight canonical boundary units pass. CheckBulletCollision remains849/862 and
+NONEXACT; its preservation is not new exactness credit.
+One unused3-byte empty Float3 constructor appears without calls in collision TU.
+ApplyReward and CalcItemBoxCollision dependency bodies are not recompiled,
+so no complete49-TU/global-type equivalence claim follows. The first verifier
+import error is preserved in VERIFIER_FIX.md; corrected verifiers replayed
+successfully, independently rerun by root. Packet:
+.analysis/th09-type3-shared-vector-contract-20261024-v01/.
+
+### Effect Type29 cross-owner evidence
+
+Fresh inspection remains2205/2220,129 referents and72 calls,1170 overlap
+differences plus15 missing. Target has6 local-center ECX reloads and7 vertex
+windows without reload; native-visible candidate has0, declaration-only has13.
+Independent exact-owner samples corroborate these categories but confound
+storage with TU visibility. No second original folded polar identity is proven.
+Actual constructor-opacity retained object is also byte-identical to current
+Type29 (dd4b7e5d8d70d4a1eb8dba7a7bc32fc3d95bd3b89126abdfd186dfad4844c8e4),
+so it supplies no focused-TU improvement. Do not invent per-site aliases to force
+the desired6 reloads. The source/type/dataflow cause remains unknown.
+
 ## Results and next queue
 
-No new exact owner or byte credit has been established by this checklist.
+Eleven concrete source-model candidates have been compiled in this batch,
+plus cold controls and bounded ABI/collateral builds. No new exact owner or
+byte credit has been established. All candidates remain isolated; no gameplay
+source, compiler profile, production comparator or exact ledger was adopted.
 Items may be added, split or rejected when fresh evidence warrants it. Each
 completed trial must retain source/provider hashes, exact compile command,
 object and complete comparisons, plus a concise conclusion here.
@@ -362,3 +419,32 @@ build graph, progress SVG and whitespace gates passed. Receipt:
 
 H03 and H05 each have an executed verify_no_compile.py:479 checks, fresh
 complete COFF/target observations and75 canonical proofs reproduce saved results.
+
+
+### Outstanding research questions, not unrun candidates
+
+- RunEcl: the genuine source distinction producing op4 ECX materialization and
+  op155 ESI-old/ECX-mask allocation remains unknown. Whole views, direct access,
+  wire addressing, API aliases and tested loop topology did not establish it.
+- Enemy: actual register lifetimes show no missing persistent manager/side/index;
+  constants already agree after+0x2C1. Copy and early-draw allocation remain open.
+- Type3: unchanged middle-Y/Z/tail-X ordering after full player/vector alias.
+- Title: entry bank/currentScreen scheduling unknown, exact tail preserved.
+- Effect29: center-only receiver reloads remain unexplained by observed helpers.
+
+There is no pending compiler run or staged uncompiled model from this batch.
+Do not claim impossibility or recycle a measured spelling merely to fill a
+queue. A subsequent trial needs a concrete source-semantic distinction and
+complete falsifiable comparison, with actual prior recipes checked.
+
+
+### Batch validation checkpoint
+
+Final full CI retry passes1016 tests with29 skips (171.865 seconds, exit0).
+The first final run reached its165-second timeout during tests (exit124);
+both logs remain in .analysis/gpt-dots-20261024-resume/batch-ci*.
+The earlier checkpoint run also passed. Final tracking, documentation, open
+build-graph, generated SVG and whitespace checks pass. Gameplay source, tools,
+tests, compiler profiles, production comparison guards and exact ledgers remain
+unchanged from95300f57. This is a tested research checkpoint, not completion of
+the98% goal or any outstanding boss function.
