@@ -22,6 +22,7 @@ for current routing and commit identity. Historical handoff cleanup is complete.
   profile or exactness ledger. Native product/runtime and later gates remain open.
 - Current maintained source is **1bccbf2a9376ba929cdaa71bc488c5e6b02bfdde**,
   the minimal H53 real Effect vector API checkpoint (local, not pushed);
+  Documentation checkpoint **e3f3b9d6** adds no source/profile/ledger change.
   **22baf4e7** is its predecessor. It preserves the selected-ECL-manager ownership repair from **f595786** and adds
   the independently verified SDK resolver and effect-release API corrections.
   Preserve `.analysis/th09-selected-ecl-manager-owner-20261023-v01/`, especially
@@ -186,19 +187,31 @@ verified-source-state receipt will bind the commit after creation.
   139 owners / 50104 bytes / 2097 fields, with 75 canonical witnesses passing.
   The transform index and initial callback test are intentionally direct; later
   fresh callback capture and repeated sampleStride remain. RunEcl 30 / Enemy 13.
-- Masked-boolean coverage is audited without staging: actual local forms were
-  measured, including a historical raw full-body collision. A complete four-
-  setter family is not proved covered by the bounded 960-producer search, but
-  lacks affirmative same-author publication evidence. Historical field identity
-  is not inferred from raw equality. No global exhaustion or new credit claimed.
-- Active work investigates the op5-to-op4 predecessor dataflow and real owner/
-  capture contracts. One low-confidence, complete four-State masked-boolean
-  family is being staged as a coherent falsification test, not inferred original
-  syntax. No compiled result or arbitrary register perturbation is claimed.
+- H62 four-State low-bit publication pair is complete. Both arms pass 75
+  canonical witnesses and are identical across 138 owners / 50088 bytes / 2097
+  effective fields. Both inherit the native-timeout regression: 2140 linked
+  differences = 1938 ordinary + 202 field bytes; the 26 table bytes are a subset,
+  not additional. The unused 16-byte timeout helper is the only missing owner.
+  The boolean RHS family adds no further change; maintained stays 30 / 13.
+- H63 guarded shared jump body is fully neutral across all 139 owners and
+  effective fields, with 75 canonical witnesses passing. The original op5
+  prefix's full 50 bytes and two call fields match; direct case4 bypass, positive
+  fallthrough, nonpositive advance and time/call/displacement chronology are
+  preserved. No original source-style inference or exactness credit follows.
+- H64 complete signed-role jump capture is rejected: 2165 shifted differences
+  versus H60's2153 and maintained30, with 75 witnesses and138 other owners neutral.
+  Exactly12 bytes differ from H60, all in opcode7; its full75-byte slice/two fields
+  equal actual H14 output. All598 H60-relative effective fields agree. Actual
+  four-byte copy lowers without escaping scratch address or memcpy call, and
+  direct4/positive5 timer/displacement chronology remains. Neither boss improves.
+- Active next is the staged Replay native-mode API investigation, not yet
+  compiled; no outcome, adoption or score gain is claimed. H62–H64 are completed
+  bounded results, not pending boss tests. Further boss work requires evidenced
+  source/capture contracts, not role/declaration permutations from these results.
 - Lossless archival of116 compiler PDBs passed full restores;1046 non-PDB files
   stayed unchanged, net allocated saving8548352 bytes. Postarchive strict53/208
   replay passes. See cleanup history; no fresh CI claim for this docs-only batch.
-- The fresh checklist records H01-H61 and source-bound packets. Earlier provider
+- The fresh checklist records H01-H64 and source-bound packets. Earlier provider
   hashes are intentionally historical; never update them blindly to current HEAD.
   Earlier source-bound CI1017/29 and documentation CI1017/29 (130.450 seconds)
   remain historical receipts, superseded for current validation by H53's1020/29.

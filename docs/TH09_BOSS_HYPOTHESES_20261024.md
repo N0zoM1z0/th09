@@ -65,15 +65,16 @@ RunEcl has 30 ordinary differences and Enemy has 13.
       75 canonical witnesses pass; RunEcl 30 / Enemy 13 remain.
 - [x] Audit masked-boolean coverage: local forms were measured; a full four-setter
       family is not proved covered, but lacks affirmative author evidence.
-- [ ] Stage one low-confidence complete four-State masked-boolean interaction,
-      preserving capture contracts. This is bounded falsification of a coherent
-      unmeasured interaction, not local novelty, author-style proof or register
-      hints. No compilation or outcome is claimed yet.
+- [x] Close H62 four-State masked-boolean pair: all 138 owners pair-neutral;
+      inherited native-timeout differences remain, no adoption.
+- [x] Close H63 guarded shared jump body: all 139 owners maintained-neutral.
+- [x] Close H64 complete signed-role jump capture: H60 regression plus the
+      actual H14 opcode7 byte/reference class; no boss improvement.
 - [ ] Seek an independently evidenced owner/capture or consumer contract;
       the bounded Effect29 chronology audit below identifies no new model.
 
 These are research checkpoints, not exactness progress. The dated baseline and
-H01-H61 records below preserve chronology and their own immutable inputs.
+H01-H64 records below preserve chronology and their own immutable inputs.
 Audit completion alone is not a compiler result or an exactness gain.
 
 ## Rules and baseline
@@ -1824,7 +1825,8 @@ exhausted by this neutral, narrowly proven substitution rule.
 ### Bounded masked-boolean coverage audit
 
 Packet: .analysis/th09-masked-bool-coverage-20261024-v01/ (README.md).
-No candidate or compilation follows from this audit. Masking before comparison,
+This audit itself staged or compiled nothing; the later bounded H62 pair below
+measures the complete family. Masking before comparison,
 ((byte & 1) != 0), preserves the unsigned one-bit field's result for all 256
 byte values; plain bool(byte) does not. A clean State family would cover only
 145/151/155/156, excluding the three-bit death mode and packed script bytes,
@@ -1874,8 +1876,9 @@ without available canonical objects for fresh exact proof. They do not resolve
 Type29's mixed local-versus-vertex context. A genuine same-author mixed-receiver
 boundary or fully proved native declaration/definition distinction remains a
 meaningful discriminator; no inserted reload, artificial clobber or new layout
-panel follows. The separate low-confidence four-State masked-boolean family is
-being staged as bounded falsification, with no compiled result yet.
+panel follows. The separate low-confidence four-State masked-boolean family
+subsequently completed as H62 below; its paired result does not resolve this
+Effect29 receiver question.
 
 ### H60-H61 checkpoint validation
 
@@ -1884,3 +1887,141 @@ passes 1020 tests / 29 skips in 113.776 seconds, durable exit 0 at
 .analysis/gpt-dots-20261024-continuation/ci-h60-h61.log and .exit. Tracking,
 documentation, open build graph, generated progress and whitespace gates pass.
 Source, profiles and exactness ledgers remain unchanged at 1bccbf2a.
+
+## H62: complete four-State low-bit publication pair
+
+Packet: .analysis/th09-state-lowbit-publication-family-20261024-v01/.
+Read RESULT.md, both verification.json reports and audit_pair.py. Root independently
+replayed the pair audit and both arm verifiers at 13:42–13:43 UTC. Both arms retain
+native unsigned fields and the same capture contracts; the candidate publishes
+explicit low-bit bool values in 145/151/155/156. Three-bit opcode129 and packed
+script bytes are excluded. This is a measured whole-family interaction, not a
+novel local timeout syntax claim or evidence of original bool wire storage.
+
+All 138 emitted owners, 50088 bytes and 2097 effective fields are identical
+between arms; each passes 75/75 canonical witnesses. Against maintained source,
+all 137 non-RunEcl common owners and both Float3 constructors are unchanged.
+The unused 16-byte AssignTimeoutSpellBit is the sole absent owner in both arms;
+its source definition remains, with no surviving reference or forced emission.
+
+Both RunEcl owners retain 15564 physical bytes / 598 fields but have 2140 linked
+original differences: 1938 ordinary + 202 field bytes. The 26 table bytes are
+included in the field count, not added again. This is the inherited common
+native-timeout regression, not an effect of the four boolean publications.
+The new pair proves current effective field identities directly; historical raw
+class collisions do not silently equate older API bindings. Opcode4 stays 29
+bytes and unresolved; opcode155 stays 44 versus original45. Enemy stays 13.
+
+Full graph/root/reference audits preserve 943 blocks, 375 ordered direct plus
+four indirect calls and all 598 fields. All 15 original/control/candidate setter
+checks pass: one BYTE input, one DWORD flags read/write, no call and jump408750.
+Timeout's byte memcpy and publication sequence remain unchanged. No adoption,
+exactness gain or universal exclusion of other natural source models.
+
+## H63: positive guarded shared jump body
+
+Packet: .analysis/th09-guarded-shared-jump-body-20261024-v01/.
+CONCLUSION.md, jump-audit.json and verification-seal.json bind the result. Root
+compiled once, exit0 at 13:40:55 UTC, and independently replayed verify.py at
+13:42–13:43 UTC. The corrected runner uses bounded TERM/KILL timeout and explicit
+headless UTC environment; its previous staging seal and correction are retained.
+
+A single positive guard owns the shared case4 entry and existing timer/cursor
+body. Direct case4 bypasses the case5 decrement and condition; positive case5
+falls into that body, while nonpositive case5 advances. No initialized lifetime
+is bypassed and no tail is duplicated. This differs from H23's duplicated,
+compiler-merged tails and the inspected Oct4 reordered-label recipe. Low
+confidence topology was tested without claiming it was the author's style.
+
+All 139 emitted owners and 2097 effective fields are maintained-identical;
+75/75 canonical witnesses pass. RunEcl remains 15564 / 598 / 30 ordinary
+residuals (7 in opcode4, 23 in opcode155), with zero field/table differences.
+Enemy remains 3900 / 97 / 13. Complete CFG/root/call audits retain 943 blocks,
+375 direct and four indirect calls, with no new boundary or region length.
+
+The full original op5 prefix408905..408937 is 50 bytes with two independently
+bound call fields: resolver405F20, decrement, fresh mask/read or405760, then
+TEST EAX,EAX and JLE40B410. Direct case4 entry408937 bypasses this prefix.
+The taken jump reads DWORD time, calls Timer401500 once, then reads DWORD
+relative displacement, publishes the cursor and jumps408750. All five State
+BYTE/DWORD gates and opcode155 no-fallthrough checks pass. This is bounded
+complete neutrality, not a solved owner or exhaustion of predecessor models.
+
+H63 no-compile replay commands, from repository root (existing bound object):
+
+```sh
+python3 .analysis/th09-guarded-shared-jump-body-20261024-v01/verify.py
+python3 .analysis/th09-guarded-shared-jump-body-20261024-v01/inspect_regions.py
+python3 .analysis/th09-guarded-shared-jump-body-20261024-v01/audit_jump.py
+python3 .analysis/th09-guarded-shared-jump-body-20261024-v01/audit_wire_widths.py
+python3 .analysis/th09-guarded-shared-jump-body-20261024-v01/audit_timeout_contract.py
+```
+
+inspect_regions.py also regenerates structure-audit.json through the pure
+inspect_structure.py decoder. audit_jump.py independently binds the original
+op5 fields and checks both branch paths and opcode4 chronology. Width/timeout
+scripts regenerate their separate reports. None invokes run.py or a compiler;
+provider/source bindings and whole-owner acceptance rules are unchanged.
+
+### Current source and next bounded test
+
+Maintained gameplay/API source remains 1bccbf2a; documentation checkpoint
+e3f3b9d6 changes no source, profile or ledger. H62's four-State pair is neutral
+between arms, H63 is maintained-neutral, and H64 adds the verified H14 opcode7
+regression to H60's already regressive class. Root replayed H64's complete slice
+and field audit at 13:50 UTC. None is adopted or earns exactness credit;
+maintained RunEcl30 / Enemy13 and the authored-byte score remain unchanged.
+
+The Replay native-mode API investigation is staged, not compiled. No outcome,
+adoption or score gain is claimed. Further boss hypotheses still require real
+source/consumer evidence and full original-bound comparison, not artificial
+consumers or register/declaration permutations.
+
+## H64: complete signed scalar role including raw jump capture
+
+Packet: .analysis/th09-complete-signed-role-jump-20261024-v01/.
+RESULT.md, verification.json, structural.json, jump-audit.json and result-seal.json
+bind the isolated H60-relative factor. Root compiled once; independent replay
+and root's 13:48 verify.py replay agree. No compilation was performed by the
+investigator. The maintained 1bccbf2a carrier remains the adoption baseline,
+not regressive H60.
+
+Only opcode4's local int is merged into H60's existing rhsInt: the same-position
+four-byte memcpy, actual timer assignment, and late displacement read remain.
+The source proof has 32 definition contexts. Direct4 and positive5 reach the
+unconditional full-width overwrite before consuming rhsInt; nonpositive5 skips
+it. Unlike H60's original roles, this definition takes an address, solely as a
+transient standard-memcpy destination with discarded result. The source no-
+retention contract is not silently equated to machine intrinsic lowering.
+
+Actual opcode4 proves one DWORD load from instruction+C, scalar PUSH to the real
+bound ZunTimer assignment, then the fresh displacement read at+10. No scratch
+address is materialized/passed and no memcpy reference is emitted. Opcode5 and
+opcode4 complete slices are H60-identical; no early capture or escaping scratch
+is introduced. The original opcode4 register/scheduling mismatch remains.
+
+All 139 owners survive, 138 non-RunEcl owners remain maintained-identical and
+75 canonical witnesses pass; Enemy remains3900/97/13. RunEcl15564/598 has2165
+shifted-coordinate differences:1937 ordinary plus228 field bytes, including24
+table bytes. H60 has2153, maintained30. Complete598-field identities,943-block
+root/edge correspondence,375 direct/four indirect calls and six literals pass,
+but complete bytes do not. H60's opcode157 regression persists;155 stays wrong.
+
+Exactly12 raw bytes differ from H60, all within opcode7's75-byte slice at+2AF;
+all598 effective fields are identical. The complete75-byte slice AND its two
+actual effective fields equal the hash-bound H14 object. This is an actual
+comparison, not a count-based classification; full H14 owner equality is not
+claimed. This bounded complete-role interaction reproduces known opcode7 damage
+on H60's regressive carrier. No adoption, credit, source-family exhaustion or
+new variants follow merely from this result; independent contract evidence is
+still needed for a meaningful next hypothesis.
+
+### H62-H64 checkpoint validation
+
+The maintained source, profiles and exactness ledgers are unchanged. Root
+independently replayed the matched family, guarded-jump complete owner and
+chronology gates, and H64 full-owner/structure/jump/H14-slice comparisons.
+Fresh CI passes 1020 tests / 29 skips in 125.501 seconds, durable exit 0:
+.analysis/gpt-dots-20261024-continuation/ci-h62-h64.log and .exit. The RPC timed
+out while the command continued; the final receipt was read, not rerun.
+Documentation, tracking, open build graph, progress and whitespace gates pass.
