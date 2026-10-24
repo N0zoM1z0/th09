@@ -1,5 +1,9 @@
 #include "EclRunControl.inl"
 #include "AsciiGameManagerView.hpp"
+#include "AsciiManager.hpp"
+
+struct D3DXVECTOR3;
+float __fastcall D3DXVec3Length(const D3DXVECTOR3 *value);
 
 #include <stddef.h>
 
@@ -29,15 +33,7 @@ typedef char EclOperandContextInt74[
 typedef char EclOperandContextFloat84[
     (offsetof(EclOperandContextView, floatVariables84) == 0x84) ? 1 : -1];
 
-struct EclOperandFloat3View
-{
-    float x;
-    float y;
-    float z;
-
-    EclOperandFloat3View operator-(const EclOperandFloat3View &other) const;
-    float Length() const;
-};
+typedef Float3 EclOperandFloat3View;
 typedef char EclOperandFloat3SizeIs0C[
     (sizeof(EclOperandFloat3View) == 0x0C) ? 1 : -1];
 
@@ -279,7 +275,7 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
     case 0x2742:
     {
         EclOperandFloat3View delta = TH09_ECL_OPERAND_PLAYER(enemy)->position1B88 - TH09_ECL_OPERAND_ENEMY(enemy)->worldPosition2DD4;
-        return static_cast<int>(delta.Length());
+        return static_cast<int>(D3DXVec3Length(reinterpret_cast<const D3DXVECTOR3 *>(&delta)));
     }
 
     default: return rawValue;
@@ -548,7 +544,7 @@ float EnemyView::ResolveFloat(float rawValue)
     case 0x2742:
     {
         EclOperandFloat3View delta = TH09_ECL_OPERAND_PLAYER(this)->position1B88 - TH09_ECL_OPERAND_ENEMY(this)->worldPosition2DD4;
-        return delta.Length();
+        return D3DXVec3Length(reinterpret_cast<const D3DXVECTOR3 *>(&delta));
     }
 
     default: return rawValue;

@@ -48,6 +48,20 @@ for current routing and commit identity. Historical handoff cleanup is complete.
   build files,34 adopted objects and original target remain unchanged. CI passes
   1016 tests/29 skips; archive-only integrity and an actual restore both pass.
 
+## Current source-interface correction
+
+The October24 continued campaign replaces the isolated ECL resolver's private
+vector Length member view with the actual SDK D3DXVec3Length API and existing
+Float3 subtraction. Four resolvers remain original-exact:5718 physical bytes and
+374 fields. Canonical-path replay refreshes only6 external symbol identities and
+291 proved same-coordinate private labels, never target bytes or destinations.
+The synthetic co-visible resolver model is rejected; EclManager.cpp is unchanged.
+Evidence and current validation state are in H20 of the independent checklist
+and .analysis/th09-ecl-sdk-vector-interface-20261024-v01/live-adoption/.
+No exactness gain is claimed; RunEcl30 and Enemy13 remain active frontiers.
+Earlier experiment packets are source/provider-scoped historical evidence and
+may correctly reject current providers after this narrow manifest update.
+
 ## Live ledger snapshot
 
 

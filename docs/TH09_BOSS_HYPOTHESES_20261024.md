@@ -638,4 +638,76 @@ All seven State narrow-wire consumers (five bytes,two shorts) use existing
 stateInt after lossless promotion; no new local/order change or Control change.
 Timeout keeps its actual1-byte memcpy before promotion, never partial int
 initialization. One file/69 frozen inputs. Compiled:1925 ordinary differences,
-Enemy13,75 canonical passes. Full source/body attribution pending; no adoption.
+Enemy13,75 canonical passes. Root replayed139 bodies/2097 fields,138 unchanged.
+145/148 shapes: opcode4 AND155 remain byte-identical baseline; only opcode157
+shrinks160 to158. Whole raw10f346ed output equals an actual older case-local
+Control trial, but two historical InitializeSubroutine identities differ among
+598 fields and remain disclosed. No adoption.
+
+### H19: whole Title ranking and keyboard scratch roles
+
+Packet: .analysis/th09-title-shared-ranking-scratch-20261024-v01/.
+One-file model with six frozen source inputs reuses actual active/row/entry
+values across all five ranking blocks and row in keyboard. No added consumers,
+changed bounds or reordered evaluations. Original iteration slots are shared
+in the first four ranking loops but differ in the fifth; this does not prove
+a unique source-local architecture.
+
+Fresh paired control/candidate:both1939 bytes,82 fields,577 instructions,
+16 ordered calls,92 direct blocks and15 actual literals. Baseline22 differences
+becomes124:all22 retained plus102 new stack-operand differences. Root reran
+verify.py; rejected, no adopted code or exact credit.
+
+### H20: actual shared vector and SDK length interface
+
+Packet: .analysis/th09-ecl-sdk-vector-interface-20261024-v01/.
+The resolver's private vector declares a member Length even though target401290
+is independently SDK-classified40-byte D3DXVec3Length,using ECX input,ST0 return,
+RET0 and actual sqrtf401080. Shared Float3 subtraction401140 has independent
+54-byte/one-field original proof. The new source uses the genuine free SDK API
+and shared Float3 instead of that private interface; AngleToPoint stack/receiver
+ABI remains bounded evidence, not unique original C++ class spelling.
+
+Root compiled isolated baseline/candidate resolvers and a co-visible candidate.
+The co-visible control is byte-identical to H17's actual inputs and reused, not
+recompiled. Visible RunEcl retains15564/598/42,Enemy13,75 canonical proofs.
+Narrow isolated source correction is now applied: all4 native resolvers pass
+unchanged production comparator5718 physical bytes/374 fields after canonical-path
+cold compile. Exactly6 verified external names and291 same-coordinate local label
+names are updated; no addresses, offsets, addends, sizes or profiles change.
+Actual Angle boundary101B/5 fields and both same-object caller refs pass.
+Cold canonical Angle,Float3 subtraction and pointer identity pass; fresh RunEcl
+frontier replays95 canonical siblings including75 main-carrier units, preserving
+30/0/0 differences. Fresh Enemy from same object remains3900/97/13.
+
+Co-visible candidate is NOT adopted:2 rvalue resolvers grow16B and lose1 field
+each, and SDK length becomes33B/FSQRT instead of original40B/sqrtf call. Actual
+include chain through EffectInitializeOrientedOffset and AnmCameraProjectionViews
+exposes SDK inline body only in synthetic main carrier. Main TU is unchanged.
+Full CI on adopted source passes1016 tests/29 skips (140.426 seconds,exit0).
+The RPC timeout did not cancel execution; durable ci.exit/log were verified.
+Tracking,docs,open build graph,SVG and whitespace pass. Exactness totals unchanged.
+Evidence:live-adoption/ci.log and source/config snapshot plus canonical receipts.
+
+### H21: signed raw-byte wire accessor
+
+.analysis/th09-signed-byte-wire-contract-20261024-v01/ changes only common
+RawByte reference/pointer signedness, preserving all8 consumers and1024 finite
+conversion/low-bit checks. Root replayed139 functions/2097 fields; sole accessor
+name change has complete body proof. Four native flag consumers change MOVZX to
+MOVSX at9753/10939/12178/12510; RunEcl34/0/0,142/148 shapes. Opcode4/155 unchanged,
+Enemy13,75 canonical passes. Rejected; no adoption.
+
+### H22: direct descriptor constructor and fifth Enemy view
+
+.analysis/th09-descriptor-owner-contract-20261024-v01/ extends H01b with actual
+Bullet view, two descriptor members and the real descriptor constructor instead
+of wrapper/reference locals. Original Enemy ctor412100 calls40D500 at+2E74 and
++30C4; its whole207-byte body is evidence, not an adopted reconstruction.
+Type21's separate wrapper is also removed to avoid duplicate construction.
+Eight files,141 inputs/52 TUs/192 units inventoried, not whole closure replayed.
+
+Root compiled main and independent28-byte descriptor ctor/775-byte random-axis
+Effect. All139 main bodies/refs unchanged vsH01b;75 canonical equivalents pass.
+Type21's two actual constructor refs at+1A6/+2E6 bind40D500 through real28B proof.
+Complete RunEcl30 andEnemy13 unchanged. Root reran verify.py, no adoption.
