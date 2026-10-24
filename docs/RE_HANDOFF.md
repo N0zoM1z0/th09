@@ -178,12 +178,27 @@ verified-source-state receipt will bind the commit after creation.
   uncalled5-byte free accessors become uncalled14-byte members, zero references
   to them. Both75-witness passes and full RunEcl30/Enemy13 remain unchanged.
   Five-TU header closure is uncompiled, not needed for an unpromoted neutral model.
-- Active next work is same-role scratch dataflow and actual older40-chain coverage
-  audit only; no new model result or adoption is claimed.
+- H60 shared signed role is complete: 138 other owners remain neutral and 75
+  witnesses pass, but RunEcl regresses to the already verified H18 class. Full
+  raw bytes and all 598 effective references agree with H18; opcode 157 changes,
+  while opcode 4/155 do not improve. This is not a new emitted solution.
+- H61 direct single-use signed consumers is complete and fully neutral across
+  139 owners / 50104 bytes / 2097 fields, with 75 canonical witnesses passing.
+  The transform index and initial callback test are intentionally direct; later
+  fresh callback capture and repeated sampleStride remain. RunEcl 30 / Enemy 13.
+- Masked-boolean coverage is audited without staging: actual local forms were
+  measured, including a historical raw full-body collision. A complete four-
+  setter family is not proved covered by the bounded 960-producer search, but
+  lacks affirmative same-author publication evidence. Historical field identity
+  is not inferred from raw equality. No global exhaustion or new credit claimed.
+- Active work investigates the op5-to-op4 predecessor dataflow and real owner/
+  capture contracts. One low-confidence, complete four-State masked-boolean
+  family is being staged as a coherent falsification test, not inferred original
+  syntax. No compiled result or arbitrary register perturbation is claimed.
 - Lossless archival of116 compiler PDBs passed full restores;1046 non-PDB files
   stayed unchanged, net allocated saving8548352 bytes. Postarchive strict53/208
   replay passes. See cleanup history; no fresh CI claim for this docs-only batch.
-- The fresh checklist records H01-H59 and source-bound packets. Earlier provider
+- The fresh checklist records H01-H61 and source-bound packets. Earlier provider
   hashes are intentionally historical; never update them blindly to current HEAD.
   Earlier source-bound CI1017/29 and documentation CI1017/29 (130.450 seconds)
   remain historical receipts, superseded for current validation by H53's1020/29.

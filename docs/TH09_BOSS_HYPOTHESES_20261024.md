@@ -59,11 +59,21 @@ RunEcl has 30 ordinary differences and Enemy has 13.
       all138 emitted owners are pair-neutral,75 witnesses pass per case.
 - [x] Close H59 direct raw-member ownership:135 common owners unchanged,
       four uncalled accessor bodies differ; RunEcl30/Enemy13 remain.
-- [ ] Audit same-role scratch dataflow and actual older40-chain coverage.
-      No new source-model outcome is claimed.
+- [x] Complete H60 shared signed-role trial: regression to the fully verified
+      H18 emitted class, not a new solution; no adoption.
+- [x] Complete H61 direct single-use signed consumers: all 139 owners neutral,
+      75 canonical witnesses pass; RunEcl 30 / Enemy 13 remain.
+- [x] Audit masked-boolean coverage: local forms were measured; a full four-setter
+      family is not proved covered, but lacks affirmative author evidence.
+- [ ] Stage one low-confidence complete four-State masked-boolean interaction,
+      preserving capture contracts. This is bounded falsification of a coherent
+      unmeasured interaction, not local novelty, author-style proof or register
+      hints. No compilation or outcome is claimed yet.
+- [ ] Seek an independently evidenced owner/capture or consumer contract;
+      the bounded Effect29 chronology audit below identifies no new model.
 
 These are research checkpoints, not exactness progress. The dated baseline and
-H01-H59 records below preserve chronology and their own immutable inputs.
+H01-H61 records below preserve chronology and their own immutable inputs.
 Audit completion alone is not a compiler result or an exactness gain.
 
 ## Rules and baseline
@@ -1754,3 +1764,123 @@ Tracking, generated progress, documentation, open build graph and whitespace
 checks pass. No new exact credit; current source remains RunEcl30/Enemy13.
 Next investigation is a bounded same-role decoded-scalar dataflow/coverage audit;
 ANM does not establish universal shared decoded scratch and no result is assumed.
+
+
+## H60: shared signed decoded-value role across six families
+
+Packet: .analysis/th09-six-family-signed-value-role-20261024-v01/.
+README.md, verification.json, structural.json and compare_h18.py bind the result.
+From maintained 1bccbf2a, seven existing signed-int roles are merged into rhsInt
+across Control, Movement, Remote, Bullet, State and Late. All 31 ReadInt
+assignments stay at their original sequence points. Dominance, handler exits,
+no address escape, actual by-value callees and unchanged repeated consumers are
+checked; no operand evaluation is inlined. This extends an actually inspected
+Control/State/Late producer, not an unprecedented shared-scratch claim.
+
+All 139 emitted owners are accounted for; 138 non-RunEcl owners remain identical
+and all 75 canonical witnesses pass. Enemy remains 13 differences. RunEcl is
+15564 bytes / 598 fields, but differs at 2153 coordinates: 1925 ordinary plus
+228 field bytes, including 24 table bytes. Opcode 4 and 155 remain baseline-
+identical and wrong. The added shape mismatch is opcode 157, shrinking 160 to
+158 bytes as a result stays in EAX rather than ECX. The unchanged twice-used
+sampleStride capture is not evidence for a compensating local rewrite.
+
+Independent comparison proves complete raw RunEcl identity and all 598 effective
+reference identities with the retained H18 object. Its 195 differently spelled
+private labels resolve to equal actual same-owner destinations, not nominal
+aliases. The initial historical-symbol extraction failure was corrected to the
+actual owner name, without adding an alias. This is an already observed emitted
+class, not merely equal mismatch counts. No adoption, exactness credit or global
+source-family exclusion follows; whole-function allocation sensitivity alone
+does not justify register hints or unrelated compensating changes.
+
+## H61: direct single-use signed consumers, isolated from shared storage
+
+Packet: .analysis/th09-direct-signed-consumers-20261024-v01/.
+RESULT.md, verification.json, structural.json and result-seal.json retain the
+outcome. Root independently replayed verify.py and inspect_regions.py at 13:30
+UTC, both exit 0. The maintained carrier, not H60, is the baseline.
+
+The factor removes 13 signed-int definitions in 12 handler bodies, preserving
+all declarations and effectful operand order. Each selected reaching definition
+has one consumer; source inverse and actual argument/reference contracts are
+checked. The single-use transform index and initial repeating-callback negative
+test are intentionally direct. The later fresh stateIndex read and callback
+lookup capture remain, as do sampleStride and its two uses. Repeated captures,
+floats, RNG values, address escapes and competing mutable lookups are excluded.
+No resolver-purity or widened-read assumption is introduced. This is bounded
+retained-producer coverage, not an exhaustive historical absence claim.
+
+All 139 emitted owners, 50104 bytes and 2097 effective fields are maintained-
+identical; no owner is added or removed. Both Float3 constructors are unchanged.
+All 75 canonical witnesses pass. Full RunEcl stays 15564 physical / 14792 code
+bytes, 598 fields, 30 ordinary differences and zero field/table differences;
+375 ordered direct calls, four indirect calls, 943 blocks and six literals are
+unchanged. Opcode 4/155/157 slices remain baseline-identical at 29/45/160 bytes.
+Enemy stays 3900 bytes / 97 fields, 69 calls, 170 blocks and 13 differences.
+No adoption or exactness credit; direct operand representations are not globally
+exhausted by this neutral, narrowly proven substitution rule.
+
+### Bounded masked-boolean coverage audit
+
+Packet: .analysis/th09-masked-bool-coverage-20261024-v01/ (README.md).
+No candidate or compilation follows from this audit. Masking before comparison,
+((byte & 1) != 0), preserves the unsigned one-bit field's result for all 256
+byte values; plain bool(byte) does not. A clean State family would cover only
+145/151/155/156, excluding the three-bit death mode and packed script bytes,
+and must preserve each capture and publication sequence point.
+
+Actual Oct12/17/20 producers already test masked-boolean timeout forms with
+mandatory breaks; captured low-bit bool variants also exist. The entire retained
+Oct20 masked-bool raw RunEcl equals current native-byte control, not only its
+handler/count. Historical 598 field identities are NOT asserted equivalent to
+the corrected current API baseline. Oct17's stock rejection remains a rejection.
+A bounded search of 960 top-level producers found no complete four-setter family;
+archives and alternative spellings prevent a universal absence claim.
+
+The exact ANM byte witness uses direct unsigned byte assignment, not masked-bool
+publication. Branch predicates are not equivalent author-style witnesses for
+wire-to-bitfield stores. A full family remains an unproved coverage distinction,
+but weak source evidence and measured local/full-body collisions do not justify
+prioritizing it solely for register perturbation. Meaningful next questions are
+which real owner/capture or consumer contract has independent evidence, whether
+that contract is absent from actual retained producers, and whether a complete
+owner comparison distinguishes it. These results do not establish original
+syntax, compiler causality or exhaustion of natural whole-function models.
+
+
+### Effect29 chronology audit: bounded, no new exactness
+
+Packet: .analysis/th09-effect29-chronology-audit-20261024-v01/;
+CONCLUSION.md and evidence.json. Root independently replayed audit.py at 13:32
+UTC. Current owner remains 2205 versus 2220 original bytes. All 103 ordered
+observable events in the bounded census agree: 31 direct Effect-relative field
+accesses/address formations and 72 calls. Radius follows construction, position
+address follows polar, satellite angles are recaptured and draws use live VM
+pointers. This does not model arbitrary indirect-callee memory effects.
+
+Original has six local-center LEA ECX receiver reloads, absent in candidate;
+seven vertex windows do not reload that receiver. The 15-byte physical deficit
+also includes alignment and is not a semantic missing-byte count. Seventeen
+canonical witness proofs pass. The ring callback fails this object's size/field
+count gate and is explicitly excluded, not forced through a guessed length or
+credited from its observed original window.
+
+Actual older producers cover numerous lifetime, storage, helper, dispatch and
+visibility variants. The real-SDK receiver producer used /Ob0; its negatives do
+not exclude a canonical /Ob1 SDK model, but that gap alone does not justify a
+guessed bridge. Other original/source callers exhibit local receiver reloads,
+without available canonical objects for fresh exact proof. They do not resolve
+Type29's mixed local-versus-vertex context. A genuine same-author mixed-receiver
+boundary or fully proved native declaration/definition distinction remains a
+meaningful discriminator; no inserted reload, artificial clobber or new layout
+panel follows. The separate low-confidence four-State masked-boolean family is
+being staged as bounded falsification, with no compiled result yet.
+
+### H60-H61 checkpoint validation
+
+Only the two routing/checklist documents change. Full target-independent CI
+passes 1020 tests / 29 skips in 113.776 seconds, durable exit 0 at
+.analysis/gpt-dots-20261024-continuation/ci-h60-h61.log and .exit. Tracking,
+documentation, open build graph, generated progress and whitespace gates pass.
+Source, profiles and exactness ledgers remain unchanged at 1bccbf2a.
