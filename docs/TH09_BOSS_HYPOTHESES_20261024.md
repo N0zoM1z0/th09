@@ -132,17 +132,25 @@ this scoped proof. No production adoption.
 
 ### H01d: direct access on the unified public owner
 
-Status: bounded actual adapter audit; no candidate yet.
+Status: compiled and independently verified; complete remaining emitted code
+is unchanged. No adoption.
 
 Hypothesis: after genuine owner unification, reconstruction-only identity View
 adapters can be removed consistently rather than changing one opcode expression.
 Any test must prove each argument already has the actual public owner type,
 preserve evaluation count/timing and avoid arbitrary register/declaration hints.
 
-- [ ] Audit all relevant adapter definitions and real argument types.
-- [ ] Inspect actual prior whole-adapter transformations.
-- [ ] Stage only a coherent distinct source model, preserving prior candidates.
-- [ ] Compile and fully compare if justified.
+- [x] Audit all relevant adapter definitions and real argument types.
+- [x] Inspect actual prior whole-adapter transformations.
+- [x] Stage a coherent distinct source model, preserving prior candidates.
+- [x] Compile and fully compare.
+
+H01d removes182 once-evaluated projections (92 qualified,11 local,79 macro).
+All136 remaining bodies preserve50095 raw bytes and2097 actual fields; three
+unused3-byte adapters disappear. RunEcl30, Enemy13,75 canonical equivalents pass.
+Unchanged boundary-source bindings allow reuse of H01b48/64-byte proofs, not a
+claim of new sibling builds. Root independently reran verify.py successfully.
+Packet: .analysis/th09-runecl-direct-shared-owner-20261024-v01/.
 
 ## H02: genuine Timer predicate definitions and caller context
 
@@ -254,7 +262,8 @@ forms. This supports rejecting that concrete guard form, not unique syntax.
 
 ## H06: shared Float3 copy-assignment contract
 
-Status: auditing actual prior source recipes; not yet a new trial.
+Status: known global assignment model reproduced on coherent H01b source;
+full RunEcl/Enemy guards reject and many canonical bodies regress. No adoption.
 
 Fresh Enemy lifetime review finds the descriptor constants already match from
 owner+0x2C1 onward. The residual copy region is register/store permutation, not
@@ -268,10 +277,77 @@ without forced inlining, register hints, declaration reordering or fake uses.
 
 - [x] Actual global ordinary-inline Float3 assignment found in Oct22
       probe_copy_family.py, not merely descriptor-local helpers. Historical
-      source binding/results are being checked before any duplicate trial.
+      source/result archive verified: trial compiled, attached-effect body151
+      became154 and an unbound descriptor assignment appeared. That scope
+      predates current shared VM/manager/descriptor ownership.
 - [ ] Check original copy patterns and current class ABI across several owners.
 - [ ] Stage only if a distinct, semantic model is justified.
 - [ ] If compiled, compare the complete carrier and all affected exact functions.
+
+H06 current-scope justification: H01b changed formerly-POD public/Movement
+geometry into the shared Float3 owner. That changes the set of copies affected
+by a global assignment operator. Reproduce exactly the previously tested natural
+operator once on this coherent current model; do not call it a novel idea or
+sweep further spellings. Historical failure remains evidence, not an exclusion.
+
+H06 current-source compile completed. Initial unchanged production observer:
+37 canonical passes /38 actual failures after resolving the nominal helper:
+attached-effect body154 bytes versus original151. Enemy3804/97, missing96
+bytes and retaining69 calls, with a new unbound descriptor assignment replacing
+one Float3-add call. RunEcl15576/598,12 extra bytes,375 calls. Full production
+guards reject both owners. Unknown destination fields are excluded from partial
+overlap metrics, not assigned guessed addresses. Final diagnosis links all598
+RunEcl fields with independently verified identities:9749 overlapping differences
+plus12 excess. Enemy has3187 known-bound overlap differences with4 bytes
+explicitly unknown, plus96 missing. Root reran verify.py successfully. No
+comparator relaxation or selective local success claim. Packet:
+.analysis/th09-four-view-float3-assignment-20261024-v01/.
+
+## H07: signed instruction displacement at its source declaration
+
+Status: compiled and independently replayed, byte-neutral.
+
+Original MOVSX at instruction+6 and all three current consuming casts establish
+signed16-bit displacement semantics. No typed writer was found in current code.
+A bounded71-producer audit found no precise signed-declaration/removal test.
+The candidate changes only unsigned short to short and removes the three casts.
+
+- [x] Preserve representation and enumerate all65536 signed interpretations.
+- [x] Compile unchanged full carrier profile.
+- [x] Replay actual complete owners and75 canonical proofs.
+- [x] Record scope: redundant-cast normalization, not original-type proof.
+
+Result: RunEcl15564/598/30 with raw bc9a1a71..., Enemy13,75 canonical passes.
+verify_no_compile.py executes483 checks. Packet:
+.analysis/th09-signed-instruction-offset-20261024-v01/.
+The inherited manifest's old descriptive labels were identified; its precise
+hypothesis/input hashes and actual compile/result receipts establish this test.
+README/CONCLUSION disclose that metadata issue rather than treating it as proof.
+
+### H04 additional source-bound checks
+
+Actual TH08/TH095 source files were read and hashed independently (9 inputs,
+H04-adjacent-source-bindings.json in the global-source-boundary packet).
+Direct context projection, lexical switches and redispatch match tested
+hypothesis families; game-specific timer assignment and timeout side effects
+differ. Reconstruction var_order scaffolding is not original-author evidence.
+No new supported variant follows merely from adjacent-game resemblance.
+
+Actual SDK-vector inheritance was already tested using genuine d3dx8math.h,
+not a fake base. Its measured historical source context was neutral for RunEcl;
+direct SDK aliasing does not preserve the current method surface/ABI.
+
+## Further large-owner evidence queue
+
+RunEcl and Enemy remain the primary unresolved objectives. In parallel, inspect
+Type3/Title DrawResult and same-carrier Effect Type29 source/target dataflow for
+fresh whole-owner models or evidence relevant to shared helpers. No adoption or
+new trial is implied by a historical frontier label.
+
+- [ ] Type3 middle-Z store chronology: derive a current-source model if supported.
+- [ ] Title DrawResult record/bank/screen lifetimes: inspect real source and calls.
+- [ ] Effect Type29 main/satellite chronology: third-largest remaining owner,
+      shared carrier; preserve complete field/call/ordinal evidence.
 
 ## Results and next queue
 
