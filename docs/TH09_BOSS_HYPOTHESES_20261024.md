@@ -711,3 +711,70 @@ Root compiled main and independent28-byte descriptor ctor/775-byte random-axis
 Effect. All139 main bodies/refs unchanged vsH01b;75 canonical equivalents pass.
 Type21's two actual constructor refs at+1A6/+2E6 bind40D500 through real28B proof.
 Complete RunEcl30 andEnemy13 unchanged. Root reran verify.py, no adoption.
+
+### H23: independent conditional/unconditional jump source tails
+
+Packet: .analysis/th09-runecl-independent-jump-tails-20261024-v01/.
+New0ecc74d0 source/provider baseline,69 inputs. Exact same-game ANM source uses
+separate jump bodies; test separate ECL opcode5 positive branch and opcode4
+bodies instead of assuming original shared binary tail proves source fallthrough.
+Keep actual decrement/resolver order and timer-call-before-displacement chronology.
+
+Root compiled once and replayed139 emitted bodies/2097 fields:all unchanged,
+75 canonical proofs pass,RunEcl30/Enemy13. Actual opcode5 JLE at408931 selects
+advance and positive path falls into408937 after compiler tail merging. This
+refutes source-fallthrough uniqueness but does not resolve opcode4. No adoption.
+
+Related cursor audit: original opcode155 stores flags40B789 before reading signed
+nextOffset40B78F; opcode4 calls401500 before reading displacement408949. Ordinary
+ECL cursor stays local until40BF23 after post-dispatch callbacks; pending-call
+successor publishes40BFD8 before context copying/initialization. ANM's separate
+nextInstruction is an interrupt-search candidate, not its normal next cursor.
+No unsupported early cursor publication or dummy second cursor is introduced.
+
+### H24: actual Enemy death/reward implementation visibility
+
+Packet: .analysis/th09-enemy-reward-owner-context-20261024-v01/.
+One include-only model on0ecc74d0,71 inputs, exposes the existing actual
+HandleDeathRewards implementation before Core. Original4102B0 is adjacent to
+OnUpdate410730 and called from it; adjacency suggests, not proves, source TU.
+No caller statement/prototype/profile changes.
+
+Root compiled once and independently replayed139 prior bodies/fields unchanged.
+The sole new helper1142B/39fields is fully original-exact;76 proofs pass including
+75 main units and the reward helper. Actual Enemy REL32 at+C8A reaches that
+proved same-object definition. RunEcl30/Enemy13 unchanged. No adoption.
+
+### H25: genuine boss-marker API family visibility
+
+.analysis/th09-boss-marker-context-20261024-v01/ includes actual marker source
+files, not clobber attributes. Original20-byte SetBossMarkerState preserves ECX;
+its42-byte position companion writes all volatile GPRs. This is a concrete
+visibility hypothesis, not proof of original source TU partition.
+
+Root compiled and replayed139 prior bodies/fields unchanged. Three new original
+helpers32/42/20B pass,78 canonical proofs in total. Two actual Enemy same-object
+calls at+DFC/+E34 reach the proved position/state definitions. RunEcl30/Enemy13
+unchanged. No adoption.
+
+### H26: genuine zero-return callbacks in a separate TU
+
+.analysis/th09-enemy-callback-boundary-20261024-v01/ moves two existing real
+return-zero definitions to a separate source with shared declarations, preserving
+actual effective fastcall ABI. Root compiled main plus boundary. Both3-byte
+functions exactly match original44AB20, no relocations; their two caller targets
+are independently established. No artificial clobber or behavior is introduced.
+
+Enemy regresses13 to84 differences, repairing none of the original13. Adds71
+only in+6FD..767: receiver ECX reload before the second callback, three actual
+field positions shifted by2, VM-loop ESI/EDI allocation, alignment absorbed by
++740. Still3900 physical bytes/97 fields,69 ordered calls,170 reviewed blocks;
+84 differences comprise72 ordinary plus12 field bytes. Main137 retained bodies
+include only changed Enemy;75 canonical proofs pass,RunEcl30. Root reran verify.py.
+This supports available ECX preservation in the original caller, not a unique
+source-name/ICF interpretation. No unsupported merge of the two aliases.
+
+Current source remains0ecc74d0; these four post-adoption trials are isolated.
+The verified140.426-second full CI result remains applicable to unchanged
+source/config/scripts/tests. New checkpoint rechecks docs/tracking/SVG/whitespace.
+The campaign continues; no new exact byte credit from H23-H26.
