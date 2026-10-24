@@ -2,26 +2,23 @@
 
 ## Current operator status
 
-On October 24 the operator cleared the persistent reconstruction goal and
-requested code/documentation cleanup for handoff to a successor agent. The
-current task is handoff preparation; the **98% exact reviewed-authored byte**
-milestone and the large-function fronts remain unfinished. When reconstruction
-resumes, prioritize complete RunEcl and EnemyManager::OnUpdate, followed by Title
-and Type3, using fresh TH09 evidence and the tested source baseline. Historical
-models are bounded observations, not proof that a source family is exhausted.
+On October 24 the operator resumed reconstruction through Factory MCP after
+the successor handoff. Prioritize complete RunEcl and EnemyManager::OnUpdate
+exactness toward the unfinished 98% reviewed-authored-byte milestone. Explore
+whole-function dataflow, shared types and real translation-unit boundaries as
+well as local source models; historical assumptions are not conclusive.
+Preserve existing exact matches and validate complete owners and affected callees.
 
-Use direct local IDA Pro MCP and repository Bash with the pinned VC7.1 Oracles;
-do not route this local work through Factory MCP. Limit CPU/memory, compile
-serially at lowered priority, and reuse unchanged source/profile-bound proofs.
-Recover and finish relevant dirty work rather than discarding or hiding it.
-See `docs/RE_HANDOFF.md` for the current ledger, code map and restart instructions.
-
-**Use `gpt-6.1-sol: ...` for every new English commit.** Preserve Git author
-`N0zoM1z0 <1705004398@qq.com>` and the trailer
+This resumed Web session uses Factory repository Bash (repository_id: th09)
+and the target-attested th09-ida provider with pinned VC7.1 Oracles. The previous
+direct-local-only routing described the predecessor's session, not this one.
+Compile serially at lowered priority, bound resources and reuse unchanged proofs.
+Recover dirty work rather than discarding or hiding it.
+Use English commits prefixed `gpt-dots:`, author
+`N0zoM1z0 <1705004398@qq.com>`, and trailer
 `Co-authored-by: gensokyo-dev <342580529+gensokyo-dev@users.noreply.github.com>`.
-Create tested local checkpoints, including reproducible diagnostic evidence.
-A local commit is not a push; independently verify remote publication before
-claiming it. No remote publication is part of the current handoff request.
+Factory checkpoints are local; no Git push is available here.
+Read docs/RE_HANDOFF.md for source and evidence routing.
 
 This repository targets only the original Japanese TH09 version 1.50a
 executable identified by SHA-256
@@ -49,9 +46,8 @@ Before changing anything:
 3. In the repository shell, run `python3 scripts/verify-target.py`,
    `python3 scripts/validate-tracking.py --require-target`, and
    `python3 scripts/report-reconstruction-status.py` before target-dependent
-   work. For this local campaign, call direct IDA Pro MCP `get_metadata` with
-   exactly `{}` and run `python3 scripts/check-ida-mcp.py` to compare entry and
-   distributed mapped bytes with the verified target. Metadata hashes alone
+   work. For this Factory campaign, call th09-ida `get_metadata` with exactly `{}`
+   and require its target attestation, entry and distributed mapped-byte checks. Metadata hashes alone
    do not prove an unmodified mapped database. IDA is not an exactness Oracle.
 4. Work on one bounded unit or one coherent infrastructure batch and leave a
    reviewable local checkpoint.

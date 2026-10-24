@@ -7,11 +7,13 @@
 
 ## Current verified handoff checkpoint
 
-The operator cleared the persistent reconstruction goal and requested cleanup
-for a successor agent on October 24. This is a clean handoff; **98% remains
-unfinished**. Use direct local IDA Pro MCP and Bash, without Factory routing.
-Compile serially at lowered priority. Commit identity/prefix are in AGENTS.md;
-local checkpoints are separate from independently verified remote publication.
+The operator resumed reconstruction through Factory MCP on October 24 after
+the clean successor checkpoint95300f57. Focus on RunEcl and Enemy, including
+whole-function/shared-type/translation-unit hypotheses rather than only local
+residuals. Disk target and six-sample mapped IDA attestation passed on this
+resumption. The following predecessor measurements remain the starting baseline;
+new attempts must be independently compiled and fully compared. Use AGENTS.md
+for current routing and commit identity. Historical handoff cleanup is complete.
 
 - Live exact credit is **244917/291883 (83.9093%)**, another **41129** whole
   exact bytes short of98%. No gameplay source, compiler profile or ledger is

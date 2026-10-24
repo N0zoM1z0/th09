@@ -2,18 +2,14 @@
 
 The project milestone is at least **98% of reviewed authored bytes exact**,
 using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
-The October 24 operator request is cleanup and handoff after clearing the
-persistent reconstruction goal. The milestone and the RunEcl, EnemyManager,
-Title DrawResult and ExAttack Type3 fronts remain unfinished. The successor
-starts from the clean source baseline and live ledgers; handoff does not imply
-completion of exact reconstruction or later product/runtime stages.
+The latest October 24 request resumes the unfinished RunEcl and Enemy exactness
+campaign through Factory MCP, including whole-owner and global source models.
+Use repository Bash and the attested th09-ida provider with pinned VC7.1 tools.
+New English commits use `gpt-dots:` and the AGENTS.md identity/trailer. Compile
+serially at lowered priority and preserve complete affected-owner/callee proofs.
+The predecessor's direct-local-only handoff routing is historical.
+See RE_HANDOFF.md for current source map, preserved archives and baseline.
 
-Use direct local IDA Pro MCP, repository Bash and pinned VC7.1 compiler Oracles,
-without Factory routing. New English commits use `gpt-6.1-sol: ...` and the
-identity/trailer in [AGENTS.md](../AGENTS.md). Compile serially at lowered priority,
-reuse unchanged source/profile-bound proofs, and clean reviewed artifacts only
-after their producers terminate. See [RE_HANDOFF.md](RE_HANDOFF.md) for the current
-code map, verified frontiers, retained local evidence and restart commands.
 Historical negative results are bounded measurements, not proof that all natural
 source models are exhausted. Exact code, the authored denominator, the Windows
 i386 product and later runtime/port phases remain independent gates.
