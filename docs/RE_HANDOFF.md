@@ -12,7 +12,9 @@ the clean successor checkpoint95300f57. Focus on RunEcl and Enemy, including
 whole-function/shared-type/translation-unit hypotheses rather than only local
 residuals. Disk target and six-sample mapped IDA attestation passed on this
 resumption. The following predecessor measurements remain the starting baseline;
-new attempts must be independently compiled and fully compared. Use AGENTS.md
+new attempts must be independently compiled and fully compared. Current work
+is tracked independently in [the fresh hypothesis checklist](TH09_BOSS_HYPOTHESES_20261024.md),
+not inferred from historical conclusions. Use AGENTS.md
 for current routing and commit identity. Historical handoff cleanup is complete.
 
 - Live exact credit is **244917/291883 (83.9093%)**, another **41129** whole
@@ -197,8 +199,8 @@ git diff --cached
 python3 -B scripts/verify-target.py
 python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/report-reconstruction-status.py
-# Call direct IDA Pro MCP get_metadata with exactly {} before this check:
-python3 -B scripts/check-ida-mcp.py
+# Via Factory: call attested th09-ida get_metadata with exactly {}.
+# Require original target, entry and distributed mapped-byte attestation.
 # Choose one affected owner and reuse unchanged source/profile-bound proofs:
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner runecl
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner enemy
