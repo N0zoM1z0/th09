@@ -62,6 +62,13 @@ No exactness gain is claimed; RunEcl30 and Enemy13 remain active frontiers.
 Earlier experiment packets are source/provider-scoped historical evidence and
 may correctly reject current providers after this narrow manifest update.
 
+The subsequent API-only correction directs Enemy attached-effect cleanup to the
+existing64-byte Th09EclRunState::ReleaseAttachedEffects implementation instead
+of an undefined Core facade. Definition visibility is unchanged. Two individually
+proved private COFF label names are refreshed; target addresses/profiles and
+comparison rules remain unchanged. Cold Enemy gate passes87 canonical siblings,
+RunEcl30/Enemy13 remain. H30 records the current full-CI/checkpoint state.
+
 ## Live ledger snapshot
 
 

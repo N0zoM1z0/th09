@@ -778,3 +778,63 @@ Current source remains0ecc74d0; these four post-adoption trials are isolated.
 The verified140.426-second full CI result remains applicable to unchanged
 source/config/scripts/tests. New checkpoint rechecks docs/tracking/SVG/whitespace.
 The campaign continues; no new exact byte credit from H23-H26.
+
+### H27: witnessed descending clear loop and shared outer index
+
+.analysis/th09-enemy-shared-clear-index-20261024-v01/ replaces four actual
+explicit stores with a descending3..0 loop using existing enemyIndex, then the
+unchanged128-iteration loop resets it to0. Same-game exact ANM constructor uses
+descending initialization loops, and Enemy Initialize reuses sequential indices.
+No claim that physical unrolling proves original source spelling. Root compiled
+and replayed139 bodies/fields unchanged,75 proofs,RunEcl30/Enemy13. Compiler emits
+identical descending stores at+56/+5C/+62/+68, no residual loop/index. No adoption.
+
+### H28: structured whole main/child context traversal
+
+.analysis/th09-runecl-structured-context-walk-20261024-v01/ wraps the genuine
+context repetition in a loop, preserving inner dispatch and all callback/depth/
+cursor/time publication.80 selection cases and exact inverse source prove the
+bounded transformation. Root compiled and replayed139 bodies:138 other functions,
+including full Enemy3900/97, unchanged;75 canonical pass.
+RunEcl grows15564 to15580 (14808 code+772 tables),598 fields,4387 to4391 instructions,
+701 to702 branches,375 direct+4 indirect calls unchanged. All187 opcode roots and
+internal branch targets validate. External403-field multiset agrees but order
+differs; no per-occurrence full original binding or normalized score claimed.
+Opcode4/155 remain wrong and cursor home shifts from EBP-8 to EBP-10. Stock
+coverage/caller-inventory guards remain rejected, not weakened. No adoption.
+
+### H29: one genuine context iterator for scan and selection
+
+.analysis/th09-runecl-unified-context-iterator-20261024-v01/ removes separate next
+from H28, using actual unescaped childIndex to scan. No callbacks occur while
+skipping slots; the index is dead after restore.80 cases preserve selected slot
+and access sequence. Root compiled/replayed139 bodies,138 unchanged,75 canonical.
+RunEcl15592 bytes/14820 code,598 fields,4394 instructions,702 branches,unchanged
+375 direct+4 indirect calls. All187 roots/internal destinations validate.
+Compared with H28,+12B is a3-byte index-home publication,7-byte alignment LEA and
+2-byte MOV EDI,EDI alignment; op4/op155 are unchanged from H28. No full normalized
+score under reordered external bindings. Stock guards reject; no adoption.
+
+### H30: canonical attached-effect release API, with paired visibility control
+
+API-only .analysis/th09-enemy-effects-api-only-20261024-v01/ replaces the undefined
+Core facade with existing Th09EclRunState::ReleaseAttachedEffects on the same
+Enemy address. The separate .analysis/th09-enemy-effects-api-context-20261024-v01/
+also exposes its actual definition. Root compiled both:139 prior bodies/refs
+unchanged,75 canonical proofs,RunEcl30/Enemy13. Visible helper64B/0fields exactly
+matches original40F560; both real caller targets are proved.
+
+Only API-only source is now applied, not definition visibility. A source/ledger
+regression test passes with the five existing shared-owner tests. First cold
+production gate correctly rejected2 changed private labels; after full original
+proof and baseline raw/offset/type/addend comparison, exactly2 label strings in
+ecl-post-update-movement/ecl-compare-operands are refreshed. No target,offset,
+addend,profile or comparator changes. The proposal helper's initial mistaken
+assumption that omitted addend means0 was corrected against actual baseline
+fields before any proposal write; its correction is retained, not hidden.
+Cold production Enemy gate then passes87 canonical siblings. Fresh complete main
+replay passes75 proofs withRunEcl30/0/0 andEnemy13. Full CI passes1017 tests/29
+skips (118.498 seconds,exit0), including the new source-API regression test.
+The RPC timeout did not cancel execution; durable exit/log were checked. Source/config
+snapshots, initial failure, corrected proof and retry logs are in API-only
+live-adoption/. No new exact byte credit.

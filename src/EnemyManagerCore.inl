@@ -356,7 +356,7 @@ int EnemyCoreRunTimerCallback(EnemyCoreView *enemy)
     return 0;
 }
 extern void EnemyCoreReleaseChildEclBlocks(EnemyCoreView *enemy);
-extern void EnemyCoreReleaseAttachedEffects(EnemyCoreView *enemy);
+// Use the actual Th09EclRunState release API declared by EclRunState.inl.
 static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy);
 
 struct EnemyAttachedEffectUpdateView
@@ -848,7 +848,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
             release_death_effects:
                 if ((enemy->flags337C & ENEMY_CORE_BOSS) != 0)
-                    EnemyCoreReleaseAttachedEffects(enemy);
+                    Th09EclRunState::ReleaseAttachedEffects(
+                        reinterpret_cast<EnemyView *>(enemy));
             case 2:
                 enemy->life2E48 = 0;
                 break;

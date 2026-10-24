@@ -95,6 +95,22 @@ class EnemyUpdateSharedRealOwner(unittest.TestCase):
                             '?g_AsciiManager@@3VAsciiManager@@A'):
             self.assertIn(real_symbol, self.inspector)
 
+    def test_attached_effect_release_uses_the_existing_native_api(self):
+        self.assertNotIn('EnemyCoreReleaseAttachedEffects', self.enemy)
+        self.assertEqual(
+            self.enemy.count('Th09EclRunState::ReleaseAttachedEffects('), 1)
+        state = (ROOT/'src/EclRunState.inl').read_text()
+        cleanup = (ROOT/'src/EnemyCleanupAfterDeactivation.cpp').read_text()
+        carrier = (ROOT/'src/EclManager.cpp').read_text()
+        self.assertIn('ReleaseAttachedEffects(EnemyView *enemy)', state)
+        self.assertIn('Th09EclRunState::ReleaseAttachedEffects(', cleanup)
+        self.assertNotIn('#include "EnemyEclStateEffects.cpp"', carrier)
+        unit = self.units['enemy-ecl-release-attached-effects']
+        self.assertEqual(
+            (unit['target_address'], unit['size'], unit['symbol']),
+            (0x0040F560, 64,
+             '?ReleaseAttachedEffects@Th09EclRunState@@YIXPAUEnemyView@@@Z'))
+
     def test_boss_remains_nonexact_and_source_present_only(self):
         row = self.functions['0x00410730']
         self.assertEqual((row['owner'],row['status'],row['source_file'],int(row['size'])),
