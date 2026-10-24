@@ -115,7 +115,7 @@ analysis database is working state; mirror durable conclusions into the repo.
 ## Checkpoints and artifacts
 
 - For the current local campaign, use concise, coherent local commits
-  prefixed **`gpt-6.1-sol: ...`**, with the author and co-author trailer above.
+  prefixed **`gpt-dots: ...`**, with the author and co-author trailer above.
   Report local checkpoints separately from independently verified remote state.
 - Route current work through `docs/RE_HANDOFF.md`; original-bound
   accepted receipts now live in `docs/RE_ACCEPTED_RECEIPTS.md` with

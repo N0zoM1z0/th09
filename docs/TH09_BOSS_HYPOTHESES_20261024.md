@@ -111,8 +111,8 @@ an independent native masked-RMW precedent, but does not prove source identity.
 - [x] Replace only opcode155's synthetic pure-value update with assignment to
       the actual shared one-bit field; preserve the full wire-byte read and
       low-bit truncation, never Boolean-normalize.
-- [ ] Compile and compare the complete owner and affected native identities.
-- [ ] Compare actual output with current H01b and retained fragmented-model
+- [x] Compile and compare the complete owner and affected native identities.
+- [x] Compare actual output with current H01b and retained fragmented-model
       observations; reject damage even if the local handler looks closer.
 
 Actual H01c output:15564 physical bytes /598 fields, but1938 ordinary and202
@@ -448,3 +448,81 @@ build-graph, generated SVG and whitespace checks pass. Gameplay source, tools,
 tests, compiler profiles, production comparison guards and exact ledgers remain
 unchanged from95300f57. This is a tested research checkpoint, not completion of
 the98% goal or any outstanding boss function.
+
+
+## Continued campaign after checkpoint12ae23a8
+
+The operator explicitly requested continued exploration at06:31 UTC. The earlier
+batch is complete, not the campaign. Current source is still95300f57-equivalent;
+HEAD12ae23a8 was clean before this continuation. Disk target, tracking and six
+mapped IDA samples were re-attested at06:33 UTC; ledger remains1003/1035 exact.
+
+Current research lanes, not yet accepted claims:
+
+- [ ] Audit original same-game author patterns around op4/op155 and stage a
+      source-semantic distinction not covered by actual prior recipes.
+- [ ] Reconcile the remaining manager and side-state views beyond H01b's
+      shared Enemy object, including the128/129-element extent discrepancy.
+- [ ] Audit whole-interpreter operand interfaces and lexical expansion semantics
+      against same-game bytes and bounded adjacent-game corroboration.
+
+These are research questions, not matching progress. Each concrete model needs
+its own immutable inputs, compiler result, full-owner and affected-callee proof.
+No historical negative result establishes that a whole source family is exhausted.
+
+### H09: complete manager / side / reward-player shared identities
+
+Compiled once and independently replayed. Packet:
+.analysis/th09-manager-side-owner-20261024-v01/.
+On H01b's shared Enemy model, alias public/Core/State manager and side types,
+and merge the actual Core player fields into the public reward-player view.
+Four-file delta,117 frozen inputs,69 field mappings checked. Physical129-record
+storage and128-iteration update remain distinct and unchanged. No statement
+ordering changes; two same-offset member spellings are normalized.
+
+Result: all139 emitted bodies and actual relocation identities match H01b;
+RunEcl30 / Enemy13;75 canonical equivalents pass. Root reran check_layout.py
+and verify.py. Existing48/64-byte boundary proofs are inherited H01b evidence,
+not new builds under this changed header. Exposed Float3/ZunTimer members alter
+potential implicit construction; no full-product or constructor equivalence
+claim. No adoption.
+
+### H10: shared typed callback storage and execution contract
+
+Compiled once and independently replayed. Packet:
+.analysis/th09-ecl-shared-callback-contract-20261024-v01/.
+Move the actual existing fastcall callback typedefs into the common context
+header; type interpolation/per-frame callback and instruction storage and remove
+redundant casts. Three-file delta,70 frozen inputs. No call/return use changes.
+Original table4A0AF4 and bodies407450/4074A0 prove ECX Enemy,EDX slot,stack float,
+RET4 transport; per-frame/immediate call windows preserve ECX/EDX and no return
+consumption. This does not prove a uniquely original void signature for ignored
+parameters/returns.
+
+Result: all139 emitted bodies /50104 bytes /2097 fields unchanged against fresh
+baseline,75 canonical passes,RunEcl30 / Enemy13. Root reran verify.py. Full
+transitive5-TU/87-unit scope is inventoried, not fully rebuilt or adopted.
+
+### H11: consistent native primary-bitfield API
+
+Compiled once; whole RunEcl regresses to1938 ordinary differences,Enemy remains13
+and75 canonical bodies pass. Packet:
+.analysis/th09-native-primary-field-api-20261024-v01/.
+Six-file delta with37 guarded changes extends native field access across actual
+Movement mode/bank/clamp, Bullet deferral, Late flags and dispatcher/helper tests,
+including native timeout. Multi-field snapshots remain single word expressions.
+The semantic audit executes29200 finite checks and records25 original handler
+windows, all observed field accesses DWORD-wide. Root independently replayed all138 emitted bodies /2097 fields against actual
+H01c with eight proven nominal mappings: every body/field is identical to that
+previous native class. Other137 bodies match maintained baseline; unused timeout
+helper disappears. Full result has202 field-byte and26 table-byte differences,
+144/148 matching handler shapes. No adoption or exact credit.
+
+
+Continuation checkpoint CI passes1016 tests /29 skips (165.778 seconds, exit0);
+.analysis/gpt-dots-20261024-continuation/checkpoint-ci.log and.exit retain proof.
+The MCP request timed out while execution continued; durable exit/log were read
+back, not rerun. Source/config/scripts/tests remain95300f57-equivalent.
+Next isolated models are in preparation/execution: public EnemyFloat3 API,
+shared typed ECL variable banks and coherent scalar-operand scratch roles.
+These are not conclusions or exact progress. The campaign remains active.
