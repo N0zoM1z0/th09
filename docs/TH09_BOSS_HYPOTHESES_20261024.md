@@ -6,7 +6,15 @@ from the truth of historical repository conclusions. Historical notes may point
 to an artifact, but only its actual source, inputs and results establish what
 was tested. A failed concrete model never rules out an entire source family.
 
-## Latest maintained source and active work
+## Operator stop and maintained source
+
+At 14:09 UTC the operator stopped TH09 and requested only cleanup/commit.
+The research queue is paused; do not resume on the older continuation request.
+The final source remains 1bccbf2a, with no new exact credit. Replay's unadopted
+source edit was preserved and restored. Historical next-step language below
+is dated experiment context, not authorization to continue.
+
+## Maintained source and completed work
 
 Current maintained source is **1bccbf2a9376ba929cdaa71bc488c5e6b02bfdde**, the H53 Effect vector API checkpoint,
 local and not pushed; **22baf4e7** is its predecessor. The isolated SDK resolver
@@ -2025,3 +2033,68 @@ Fresh CI passes 1020 tests / 29 skips in 125.501 seconds, durable exit 0:
 .analysis/gpt-dots-20261024-continuation/ci-h62-h64.log and .exit. The RPC timed
 out while the command continued; the final receipt was read, not rerun.
 Documentation, tracking, open build graph, progress and whitespace gates pass.
+
+## H65: real Replay GameManager mode APIs — neutral, not adopted
+
+Packet: .analysis/th09-replay-native-mode-api-20261024-v01/. Root compiled
+five isolated jobs serially: native leaves plus control/candidate EH/no-EH.
+All four native bodies (14/15/13/15 bytes), 24 canonical Replay comparisons,
+and all 18 EH / 14 no-EH paired emitted owners pass. Every non-debug section
+and effective relocation destination is preserved. SaveReplay remains 1238
+bytes / 53 fields with offsets B7, BB, 3F6 different. BeginPlayback remains
+538 versus 540 bytes, 32 fields / five calls and the same 39 overlap differences.
+Root replayed replay_result.py before closeout; no whole-owner exact gain.
+
+The initial inventory failure is retained. Two compiler funclet and four EH
+metadata names were proved through finite per-site section/value identities;
+no wildcard acceptance or original-exact EH claim was introduced. The staged
+source replaces four private undefined method facades with existing actual
+GameManagerModeView APIs, while preserving the replay data overlay. This does
+not establish complete storage ownership or portable object lifetime.
+
+Root applied only the reviewed ReplayInput.cpp bytes, preserving LF, and built
+two canonical profiles. The canonical verifier failed on section21 .sxdata
+raw symbol-index words before producing any manifest proposal. The observed
+indices 126/309 versus 120/303 resolve to the same two handler identities, but
+no corrected acceptance verifier was completed before the operator stopped.
+No config/inspector/test proposal was applied. The edited source and patch are
+preserved in canonical-adoption/paused-unadopted-*; pause-restoration.json
+binds its byte-for-byte restoration to HEAD. No recompile or source adoption
+followed the stop request. Existing staged replay stays source-bound.
+
+## H66: persistent trailing operand-record pair — neutral, not adopted
+
+Packet: .analysis/th09-persistent-operand-record-pair-20261024-v01/.
+Both arms distinguish a genuine 12-byte fixed prefix from the existing nominal
+instruction view. The candidate adds one trailing four-byte scalar union at
++C and honestly asserts a 16-byte record type; four raw roots access the owned
+payload with unchanged word-versus-byte index units. No new inline attributes,
+resolver ABI, allocation, instruction stride or record copy are introduced.
+Adjacent source supplies a trailing-one-element convention, not TH09 proof of
+record extent, alignment or portable array/object lifetime.
+
+Root compiled each arm once and independently replayed both full main verifiers.
+Each preserves all 139 emitted owners / 2097 effective fields and passes 75
+canonical witnesses. RunEcl remains 15564 bytes / 598 fields / 30 differences;
+Enemy remains 13. Complete CFG has 943 blocks, 4387 instructions, 375 direct
+and four indirect calls; original roots, call chronology and five State BYTE/
+DWORD gates are unchanged. No adoption or exactness credit.
+
+The actual deferred-shot copy was inspected before the stop: ECX=11 at40A18C,
+REP MOVSD at40A191, signed WORD nextOffset at40A193, immediate callee408040.
+No dedicated deferred-shot script or separate original post-runtime audit was
+completed. The five-TU/87-unit header-adoption closure was not compiled. These
+limits remain explicit in CONCLUSION.md and verification-seal.json. Further
+member-attribute research was stopped, with no new candidate.
+
+## Final pause/cleanup state
+
+All new research and adoption are stopped. Maintained source and ledgers remain
+unchanged; 244917/291883 authored bytes are exact (83.9093%), not the 98% goal.
+Unadopted source, objects, failed verifier and all unique experiment evidence
+are preserved. Only reviewed documentation/routing changes enter the closeout
+commit; no target, compiler artifact or private binary is committed.
+
+Final closeout CI: 1020 tests / 29 skips, 124.831 seconds, durable exit 0.
+Evidence: .analysis/gpt-dots-20261024-continuation/ci-final-pause.log and .exit.
+The timed-out RPC was reconciled from its final receipt, not rerun.

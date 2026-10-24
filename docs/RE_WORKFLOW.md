@@ -2,8 +2,10 @@
 
 The project milestone is at least **98% of reviewed authored bytes exact**,
 using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
-The latest October 24 request resumes the unfinished RunEcl and Enemy exactness
-campaign through Factory MCP, including whole-owner and global source models.
+The earlier October 24 request resumed the unfinished RunEcl and Enemy exactness
+campaign. At 14:09 UTC the operator stopped TH09 and requested cleanup/commit
+only. Do not resume research or adoption without a new explicit request. The
+following workflow remains reference material for an authorized future restart.
 Use repository Bash and the attested th09-ida provider with pinned VC7.1 tools.
 New English commits use `gpt-dots:` and the AGENTS.md identity/trailer. Compile
 serially at lowered priority and preserve complete affected-owner/callee proofs.

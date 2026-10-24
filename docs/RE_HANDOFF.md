@@ -5,7 +5,30 @@
 > [the historical checkpoint archive](RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md),
 > [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md) and Git history.
 
-## Current verified handoff checkpoint
+## Operator stop checkpoint — October 24, 14:09 UTC
+
+TH09 research is paused at the operator's explicit request. Only cleanup and
+a local commit were requested; the old autonomous continuation instructions
+are superseded. Do not start new experiments, adoption or monitoring without a
+new request. The 98% goal remains unfinished.
+
+The only pending tracked source edit, ReplayInput.cpp, was preserved with its
+patch and hashes under .analysis/th09-replay-native-mode-api-20261024-v01/
+canonical-adoption/ and restored byte-for-byte to HEAD. No manifest, inspector
+or test proposal was applied. Its two canonical captures compiled, but adoption
+verification stopped at .sxdata raw symbol indices. A read-only observation
+resolved those indices to matching handlers; no corrected acceptance verifier
+was completed. This remains an unadopted experiment, not a source checkpoint.
+
+Maintained gameplay/API source remains 1bccbf2a; source and exactness credit are
+unchanged. H65/H66 below record the final isolated results. All workers stopped.
+Original target/toolchains, unique objects, logs, failed gates and proposal
+artifacts are retained; no blanket .analysis cleanup or proof deletion occurred.
+Final closeout CI passes 1020 tests / 29 skips in 124.831 seconds, durable
+exit 0 (.analysis/gpt-dots-20261024-continuation/ci-final-pause.log and .exit).
+Tracking, documentation, open build graph, progress and whitespace checks pass.
+
+## Current verified source checkpoint
 
 The operator resumed reconstruction through Factory MCP on October 24 after
 the clean successor checkpoint95300f57. Focus on RunEcl and Enemy, including
@@ -72,10 +95,10 @@ proved private COFF label names are refreshed; target addresses/profiles and
 comparison rules remain unchanged. Cold Enemy gate passes87 canonical siblings,
 RunEcl30/Enemy13 remain. H30 records the current full-CI/checkpoint state.
 
-## Active continuation queue
+## Historical continuation results — paused
 
-The operator explicitly requested continued work, not a stop at a negative
-experiment. Current exactness remains RunEcl 30 / Enemy 13 differences; no new
+Earlier continuation authorization is superseded by the explicit stop above.
+Current exactness remains RunEcl 30 / Enemy 13 differences; no new
 whole-owner credit was gained by the two API corrections. Latest source CI
 passes1020 tests with29 skips in133.873 seconds, durable exit0. Strict H53
 current-manifest replay passes53 jobs/208 proofs with zero symbol overrides or
@@ -204,14 +227,19 @@ verified-source-state receipt will bind the commit after creation.
   equal actual H14 output. All598 H60-relative effective fields agree. Actual
   four-byte copy lowers without escaping scratch address or memcpy call, and
   direct4/positive5 timer/displacement chronology remains. Neither boss improves.
-- Active next is the staged Replay native-mode API investigation, not yet
-  compiled; no outcome, adoption or score gain is claimed. H62–H64 are completed
-  bounded results, not pending boss tests. Further boss work requires evidenced
-  source/capture contracts, not role/declaration permutations from these results.
+- H65 Replay native-mode API experiment is neutral: all 32 emitted-owner pairs,
+  24 canonical comparisons and four native callees pass. SaveReplay retains
+  three differences; BeginPlayback retains its full prior mismatch boundary.
+  Canonical adoption was not completed; the source edit is restored as above.
+- H66 persistent trailing operand-record pair is neutral across 139 owners /
+  2097 fields per arm, 75 witnesses each. RunEcl30/Enemy13 remain. The legacy
+  extent/lifetime hypothesis and uncompiled five-TU/87-unit closure are not
+  promoted. The independent deferred-shot audit was not completed.
+- There is no active next task. Resume only on a new explicit operator request.
 - Lossless archival of116 compiler PDBs passed full restores;1046 non-PDB files
   stayed unchanged, net allocated saving8548352 bytes. Postarchive strict53/208
   replay passes. See cleanup history; no fresh CI claim for this docs-only batch.
-- The fresh checklist records H01-H64 and source-bound packets. Earlier provider
+- The fresh checklist records H01-H66 and source-bound packets. Earlier provider
   hashes are intentionally historical; never update them blindly to current HEAD.
   Earlier source-bound CI1017/29 and documentation CI1017/29 (130.450 seconds)
   remain historical receipts, superseded for current validation by H53's1020/29.

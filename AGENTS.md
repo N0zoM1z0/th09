@@ -2,6 +2,12 @@
 
 ## Current operator status
 
+On October 24 at 14:09 UTC the operator stopped TH09 work and requested only
+cleanup and a commit. Research, new experiments and source adoption are paused.
+Do not resume the earlier continuation queue without a new explicit request.
+The unadopted Replay source change was preserved and restored; use the latest
+RE_HANDOFF.md stop checkpoint, not the earlier resume paragraph below.
+
 On October 24 the operator resumed reconstruction through Factory MCP after
 the successor handoff. Prioritize complete RunEcl and EnemyManager::OnUpdate
 exactness toward the unfinished 98% reviewed-authored-byte milestone. Explore
